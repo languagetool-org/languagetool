@@ -29,17 +29,12 @@ import org.languagetool.tagging.BaseTagger;
 public class TamilTagger extends BaseTagger {
 
   @Override
-  public final String getFileName() {
-    return "/ta/tamil.dict";
-  }
-
-  @Override
   public String getManualAdditionsFileName() {
     return "/ta/added.txt";
   }
 
   public TamilTagger() {
-    super();
+    super("/ta/tamil.dict");
   }
 
 }

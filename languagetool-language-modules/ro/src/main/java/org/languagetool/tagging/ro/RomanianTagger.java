@@ -45,7 +45,6 @@ public class RomanianTagger extends BaseTagger {
   private static final String DEFAULT_PLAINTEXT_DICT = "/ro/added.txt";
   private static final Locale RO_LOCALE = new Locale("ro");
 
-  private final String binaryDictPath;
   private final String plaintextDictPath;
 
   private ManualTagger manualTagger;
@@ -55,14 +54,8 @@ public class RomanianTagger extends BaseTagger {
   }
 
   public RomanianTagger(final String dictFileName, final String userDictFileName) {
-    binaryDictPath = dictFileName;
+    super(dictFileName, RO_LOCALE);
     plaintextDictPath = userDictFileName;
-    setLocale(RO_LOCALE);
-  }
-
-  @Override
-  public final String getFileName() {
-    return binaryDictPath;
   }
 
   @Override

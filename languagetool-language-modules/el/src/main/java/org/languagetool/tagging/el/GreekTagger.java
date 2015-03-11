@@ -29,17 +29,11 @@ import org.languagetool.tagging.BaseTagger;
 public class GreekTagger extends BaseTagger {
 
   @Override
-  public final String getFileName() {
-    return "/el/greek.dict";
-  }
-
-  @Override
   public String getManualAdditionsFileName() {
     return "/el/added.txt";
   }
 
   public GreekTagger() {
-    super();
-    setLocale(new Locale("el"));
+    super("/el/greek.dict",  new Locale("el"));
   }
 }

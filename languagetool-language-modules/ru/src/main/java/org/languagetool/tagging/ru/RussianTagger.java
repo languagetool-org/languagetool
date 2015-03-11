@@ -29,17 +29,11 @@ import org.languagetool.tagging.BaseTagger;
 public class RussianTagger extends BaseTagger {
 
   @Override
-  public final String getFileName() {
-    return "/ru/russian.dict";    
-  }
-
-  @Override
   public String getManualAdditionsFileName() {
     return "/ru/added.txt";
   }
 
   public RussianTagger() {
-    super();
-    setLocale(new Locale("ru"));
+    super("/ru/russian.dict", new Locale("ru"));
   }
 }

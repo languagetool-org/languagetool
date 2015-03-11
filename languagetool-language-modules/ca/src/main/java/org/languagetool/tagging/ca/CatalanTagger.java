@@ -51,19 +51,12 @@ public class CatalanTagger extends BaseTagger {
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto)(.+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   @Override
-  public final String getFileName() {
-    return "/ca/catalan.dict";
-  }
-
-  @Override
   public String getManualAdditionsFileName() {
     return "/ca/manual-tagger.txt";
   }
 
   public CatalanTagger() {
-    super();
-    setLocale(new Locale("ca"));
-    dontTagLowercaseWithUppercase();
+    super("/ca/catalan.dict",  new Locale("ca"), false);
   }
   
   @Override
@@ -129,12 +122,7 @@ public class CatalanTagger extends BaseTagger {
 
   @Nullable
   protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
-    final IStemmer dictLookup;
-    try {
-      dictLookup = new DictionaryLookup(getDictionary());
-    } catch (IOException e) {
-      throw new RuntimeException("Could not load Catalan dictionary from " + getFileName(), e);
-    }
+    final IStemmer dictLookup = new DictionaryLookup(getDictionary());
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
     //Any well-formed adverb with suffix -ment is tagged as an adverb (RG)
     //Adjectiu femení singular o participi femení singular + -ment

@@ -32,17 +32,11 @@ import org.languagetool.tagging.BaseTagger;
 public class PortugueseTagger extends BaseTagger {
 
   @Override
-  public final String getFileName() {
-    return "/pt/portuguese.dict";    
-  }
-
-  @Override
   public String getManualAdditionsFileName() {
     return "/pt/added.txt";
   }
 
   public PortugueseTagger() {
-    super();
-    setLocale(new Locale("pt"));
+    super("/pt/portuguese.dict", new Locale("pt"));
   }
 }

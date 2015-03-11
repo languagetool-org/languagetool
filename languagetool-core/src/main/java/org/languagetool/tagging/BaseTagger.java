@@ -41,16 +41,12 @@ import org.languagetool.tools.StringTools;
  */
 public abstract class BaseTagger implements Tagger {
 
-  protected WordTagger wordTagger;
-  protected Locale conversionLocale = Locale.getDefault();
+  protected final WordTagger wordTagger;
+  protected final Locale conversionLocale;
 
-  private boolean tagLowercaseWithUppercase = true;
-  private volatile Dictionary dictionary;
-
-  /**
-   * Get the filename, e.g., {@code /en/english.dict}.
-   */
-  public abstract String getFileName();
+  private final boolean tagLowercaseWithUppercase;
+  private final String dictionaryPath;
+  private final Dictionary dictionary;
 
   /**
    * Get the filename for manual additions, e.g., {@code /en/added.txt}, or {@code null}.
@@ -58,7 +54,38 @@ public abstract class BaseTagger implements Tagger {
    */
   @Nullable
   public abstract String getManualAdditionsFileName();
-  
+
+  /** @since 2.9 */
+  public BaseTagger(String filename) {
+    this(filename, Locale.getDefault(), true);
+  }
+
+  /** @since 2.9 */
+  public BaseTagger(String filename, Locale conversionLocale) {
+    this(filename, conversionLocale, true);
+  }
+
+  /** @since 2.9 */
+  public BaseTagger(String filename, Locale locale, boolean tagLowercaseWithUppercase) {
+    this.dictionaryPath = filename;
+    this.conversionLocale = locale;
+    this.tagLowercaseWithUppercase = tagLowercaseWithUppercase;
+    this.wordTagger = initWordTagger(filename);
+    try {
+      URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(filename);
+      this.dictionary = Dictionary.read(url);
+    } catch (IOException e) {
+      throw new RuntimeException("Could not load dictionary from " + filename, e);
+    }
+  }
+
+  /**
+   * @since 2.9
+   */
+  public String getDictionaryPath() {
+    return dictionaryPath;
+  }
+
   /**
    * If true, tags from the binary dictionary (*.dict) will be overwritten by manual tags
    * from the plain text dictionary.
@@ -68,41 +95,28 @@ public abstract class BaseTagger implements Tagger {
     return false;
   }
 
-  public void setLocale(Locale locale) {
-    conversionLocale = locale;
-  }
-
   protected WordTagger getWordTagger() {
-    if (wordTagger == null) {
-      MorfologikTagger morfologikTagger = new MorfologikTagger(getFileName());
-      try {
-        String manualFileName = getManualAdditionsFileName();
-        if (manualFileName != null) {
-          InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(manualFileName);
-          ManualTagger manualTagger = new ManualTagger(stream);
-          wordTagger = new CombiningTagger(morfologikTagger, manualTagger, overwriteWithManualTagger());
-        } else {
-          wordTagger = morfologikTagger;
-        }
-      } catch (IOException e) {
-        throw new RuntimeException("Could not load manual tagger data from " + getManualAdditionsFileName(), e);
-      }
-    }
     return wordTagger;
   }
 
-  protected Dictionary getDictionary() throws IOException {
-    Dictionary dict = dictionary;
-    if (dict == null) {
-      synchronized (this) {
-        dict = dictionary;
-        if (dict == null) {
-          final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getFileName());
-          dictionary = dict = Dictionary.read(url);
-        }
+  private WordTagger initWordTagger(String filename) {
+    MorfologikTagger morfologikTagger = new MorfologikTagger(filename);
+    try {
+      String manualFileName = getManualAdditionsFileName();
+      if (manualFileName != null) {
+        InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(manualFileName);
+        ManualTagger manualTagger = new ManualTagger(stream);
+        return new CombiningTagger(morfologikTagger, manualTagger, overwriteWithManualTagger());
+      } else {
+        return morfologikTagger;
       }
+    } catch (IOException e) {
+      throw new RuntimeException("Could not load manual tagger data from " + getManualAdditionsFileName(), e);
     }
-    return dict;
+  }
+
+  protected Dictionary getDictionary() {
+    return dictionary;
   }
 
   @Override
@@ -211,10 +225,6 @@ public abstract class BaseTagger implements Tagger {
   @Override
   public AnalyzedToken createToken(String token, String posTag) {
     return new AnalyzedToken(token, posTag, null);
-  }
-
-  public void dontTagLowercaseWithUppercase() {
-    tagLowercaseWithUppercase = false;
   }
 
   /**

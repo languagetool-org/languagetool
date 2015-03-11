@@ -30,18 +30,12 @@ import org.languagetool.tagging.BaseTagger;
 public class ItalianTagger extends BaseTagger {
 
   @Override
-  public final String getFileName() {
-    return "/it/italian.dict";
-  }
-
-  @Override
   public String getManualAdditionsFileName() {
     return "/it/added.txt";
   }
 
   public ItalianTagger() {
-    super();
-    setLocale(Locale.ITALIAN);
-  }  
+    super("/it/italian.dict", Locale.ITALIAN);
+  }
   
 }

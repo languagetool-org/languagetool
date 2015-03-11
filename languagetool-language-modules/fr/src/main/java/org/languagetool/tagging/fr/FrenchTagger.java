@@ -31,18 +31,11 @@ import org.languagetool.tagging.BaseTagger;
 public class FrenchTagger extends BaseTagger {
 
   @Override
-  public final String getFileName() {
-    return "/fr/french.dict";    
-  }
-
-  @Override
   public String getManualAdditionsFileName() {
     return "/fr/added.txt";
   }
 
   public FrenchTagger() {
-    super();
-    setLocale(Locale.FRENCH);
-    dontTagLowercaseWithUppercase();
+    super("/fr/french.dict", Locale.FRENCH, false);
   }
 }

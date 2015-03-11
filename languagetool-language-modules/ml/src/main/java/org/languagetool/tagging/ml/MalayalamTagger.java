@@ -30,18 +30,12 @@ import org.languagetool.tagging.BaseTagger;
 public class MalayalamTagger extends BaseTagger {
 
   @Override
-  public final String getFileName() {
-    return "/ml/malayalam.dict";    
-  }
-
-  @Override
   public String getManualAdditionsFileName() {
     return "/ml/added.txt";
   }
 
   public MalayalamTagger() {
-    super();
-    setLocale(new Locale("ml"));
+    super("/ml/malayalam.dict", new Locale("ml"));
   }
 }
 

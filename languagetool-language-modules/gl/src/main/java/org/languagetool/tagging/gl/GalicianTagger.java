@@ -31,17 +31,11 @@ import org.languagetool.tagging.BaseTagger;
 public class GalicianTagger extends BaseTagger {
 
   @Override
-  public final String getFileName() {
-    return "/gl/galician.dict";    
-  }
-
-  @Override
   public String getManualAdditionsFileName() {
     return "/gl/added.txt";
   }
 
   public GalicianTagger() {
-    super();
-    setLocale(new Locale("gl"));
+    super("/gl/galician.dict", new Locale("gl"));
   }
 }

@@ -31,17 +31,11 @@ import org.languagetool.tagging.BaseTagger;
 public class SpanishTagger extends BaseTagger {
 
   @Override
-  public final String getFileName() {
-    return "/es/spanish.dict";    
-  }
-
-  @Override
   public String getManualAdditionsFileName() {
     return "/es/added.txt";
   }
 
   public SpanishTagger() {
-    super();
-    setLocale(new Locale("es"));
+    super("/es/spanish.dict", new Locale("es"));
   }
 }

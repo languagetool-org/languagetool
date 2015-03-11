@@ -143,20 +143,12 @@ public class UkrainianTagger extends BaseTagger {
   }
 
   @Override
-  public final String getFileName() {
-    return "/uk/ukrainian.dict";
-  }
-
-  @Override
   public String getManualAdditionsFileName() {
     return "/uk/added.txt";
   }
 
   public UkrainianTagger() {
-    super();
-    setLocale(new Locale("uk", "UA"));
-    dontTagLowercaseWithUppercase();
-    
+    super("/uk/ukrainian.dict", new Locale("uk", "UA"), false);
     if( Boolean.valueOf( System.getProperty(DEBUG_COMPOUNDS_PROPERTY) ) ) {
       debugCompounds();
     }
