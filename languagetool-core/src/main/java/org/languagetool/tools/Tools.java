@@ -242,16 +242,16 @@ public final class Tools {
 
   /**
    * Load a file from the classpath using {@link Class#getResourceAsStream(String)}.
-   * 
+   *
    * @return the stream of the file
    */
-  public static InputStream getStream(final String filename) throws IOException {
+  public static InputStream getStream(final String path) throws IOException {
     // the other ways to load the stream like
     // "Tools.class.getClass().getResourceAsStream(filename)"
     // don't work in a web context (using Grails):
-    final InputStream is = Tools.class.getResourceAsStream(filename);
+    final InputStream is = Tools.class.getResourceAsStream(path);
     if (is == null) {
-      throw new IOException("Could not load file from classpath : " + filename);
+      throw new IOException("Could not load file from classpath: '" + path + "'");
     }
     return is;
   }

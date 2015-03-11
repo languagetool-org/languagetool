@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
  */
 class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
 
-  List<Boolean> elementsMatched;
+  private final List<Boolean> elementsMatched;
 
   public DisambiguationPatternRuleReplacer(DisambiguationPatternRule rule) {
     super(rule, rule.getLanguage().getDisambiguationUnifier());

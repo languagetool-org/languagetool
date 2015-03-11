@@ -19,7 +19,10 @@
 package org.languagetool.tagging.disambiguation.rules;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -46,8 +49,8 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
   private final DisambiguatorAction disAction;
 
   private AnalyzedToken[] newTokenReadings;
-  private List<DisambiguatedExample> examples;
-  private List<String> untouchedExamples;
+  private List<DisambiguatedExample> examples = new ArrayList<>();
+  private List<String> untouchedExamples = new ArrayList<>();
 
   /**
    * @param id Id of the Rule
@@ -106,35 +109,35 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
    * @param examples the examples to set
    */
   public void setExamples(final List<DisambiguatedExample> examples) {
-    this.examples = examples;
+    this.examples = Objects.requireNonNull(examples);
   }
 
   /**
    * @return the examples
    */
   public List<DisambiguatedExample> getExamples() {
-    return examples;
+    return Collections.unmodifiableList(examples);
   }
 
   /**
    * @param untouchedExamples the untouchedExamples to set
    */
   public void setUntouchedExamples(final List<String> untouchedExamples) {
-    this.untouchedExamples = untouchedExamples;
+    this.untouchedExamples = Objects.requireNonNull(untouchedExamples);
   }
 
   /**
    * @return the untouchedExamples
    */
   public List<String> getUntouchedExamples() {
-    return untouchedExamples;
+    return Collections.unmodifiableList(untouchedExamples);
   }
 
   /**
    * For testing only.
    */
   public final List<Element> getElements() {
-    return patternElements;
+    return Collections.unmodifiableList(patternElements);
   }
 
   /**

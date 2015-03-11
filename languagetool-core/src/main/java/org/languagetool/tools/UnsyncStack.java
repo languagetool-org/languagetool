@@ -27,6 +27,7 @@ import java.util.EmptyStackException;
  * this one is based on ArrayList). Usage is the same as the java.util.Stack.
  * 
  * @author Marcin Miłkowski.
+ * @deprecated will be made non-public in the future (deprecated since 2.9)
  */
 public class UnsyncStack<E> extends ArrayList<E> {
   

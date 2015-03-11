@@ -69,6 +69,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
   private static final String ACTION = "action";
   private static final String DISAMBIG = "disambig";
 
+  private boolean inDisambiguation;
   private int subId;
   private String name;
   private String ruleGroupId;

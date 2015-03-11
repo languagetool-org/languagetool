@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.languagetool.rules.patterns.XMLRuleHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 /**
  * XML rule handler that loads disambiguation rules from XML and throws
@@ -35,20 +33,8 @@ class DisambXMLRuleHandler extends XMLRuleHandler {
 
   final List<DisambiguationPatternRule> rules = new ArrayList<>();
 
-  boolean inDisambiguation;
-  
   List<DisambiguationPatternRule> getDisambRules() {
     return rules;
   }
   
-  @Override
-  public void warning(final SAXParseException e) throws SAXException {
-    throw e;
-  }
-  
-  @Override
-  public void error(final SAXParseException e) throws SAXException {
-    throw e;
-  }
-
 }

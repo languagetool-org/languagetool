@@ -23,14 +23,13 @@ import org.languagetool.TestTools;
 
 public class SimpleSentenceTokenizerTest {
 
-  private static final SimpleSentenceTokenizer tokenizer = new SimpleSentenceTokenizer();
-
   @Test
   public void testTokenize() throws Exception {
     testSplit("Hi! ", "This is a test. ", "Here's more. ", "And even more?? ", "Yes.");
   }
 
   private void testSplit(String... sentences) {
+    SimpleSentenceTokenizer tokenizer = new SimpleSentenceTokenizer();
     TestTools.testSplit(sentences, tokenizer);
   }
 

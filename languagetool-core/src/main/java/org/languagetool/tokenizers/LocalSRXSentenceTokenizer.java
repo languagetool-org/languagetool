@@ -20,7 +20,9 @@ package org.languagetool.tokenizers;
 
 import net.sourceforge.segment.srx.SrxDocument;
 import org.languagetool.Language;
+import org.languagetool.tools.Tools;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Objects;
@@ -44,11 +46,12 @@ public class LocalSRXSentenceTokenizer implements SentenceTokenizer {
    */
   public LocalSRXSentenceTokenizer(Language language, String srxInClassPath) {
     this.language = Objects.requireNonNull(language);
-    InputStream stream = this.getClass().getResourceAsStream(srxInClassPath);
-    if (stream == null) {
-      throw new RuntimeException("Could not find SRX file in classpath: " + srxInClassPath);
+    try {
+      InputStream stream = Tools.getStream(srxInClassPath);
+      this.srxDocument = SrxTools.createSrxDocument(stream);  // will close the stream on its own
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
-    this.srxDocument = SrxTools.createSrxDocument(stream);  // will close the stream on its own
     setSingleLineBreaksMarksParagraph(false);
   }
 

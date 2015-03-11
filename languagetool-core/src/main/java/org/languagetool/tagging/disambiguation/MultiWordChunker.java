@@ -39,32 +39,26 @@ import java.util.*;
 public class MultiWordChunker implements Disambiguator {
 
   private final String filename;
+  private final boolean allowFirstCapitalized;
 
   private Map<String, Integer> mStartSpace;
   private Map<String, Integer> mStartNoSpace;
   private Map<String, String> mFull;
-  
-  private boolean bAllowFirstCapitalized=false;
-  
+
   /**
-   * @param filename
-   *          file text with multiwords and tags
+   * @param filename file text with multiwords and tags
    */
   public MultiWordChunker(final String filename) {
-    super();
-    this.filename = filename;
+    this(filename, false);
   }
   
   /**
-   * @param filename
-   *          file text with multiwords and tags
-   * @param bAllowFirstUpperCase
-   *          if set to {@code true}, first word of the multiword can be capitalized
+   * @param filename file text with multiwords and tags
+   * @param allowFirstCapitalized if set to {@code true}, first word of the multiword can be capitalized
    */
   public MultiWordChunker(final String filename, boolean allowFirstCapitalized) {
-    super();
     this.filename = filename;
-    bAllowFirstCapitalized = allowFirstCapitalized;
+    this.allowFirstCapitalized = allowFirstCapitalized;
   }
   
   /*
@@ -144,7 +138,7 @@ public class MultiWordChunker implements Disambiguator {
       }
       // If the second token is not whitespace, concatenate it
       if (i + 1 < anTokens.length && !anTokens[i+1].isWhitespace()) {
-        tok=tok.concat(output[i+1].getToken());
+        tok = tok.concat(output[i+1].getToken());
       }
       // If it is a capitalized word, the second time try with lowercase word.
       int myCount = 0;
@@ -169,7 +163,7 @@ public class MultiWordChunker implements Disambiguator {
                     anTokens[finalLen].getToken(), output[finalLen], true);
               }
             } else {
-              if (j>1 && !anTokens[j-1].isWhitespace()) { //avoid multiple whitespaces
+              if (j > 1 && !anTokens[j-1].isWhitespace()) { //avoid multiple whitespaces
                 tokens.append(' ');
                 lenCounter++;
               }
@@ -202,7 +196,7 @@ public class MultiWordChunker implements Disambiguator {
         }
         // If it is a capitalized word, try with lowercase word.
         myCount++;
-        if (bAllowFirstCapitalized && StringTools.isCapitalizedWord(tok) 
+        if (allowFirstCapitalized && StringTools.isCapitalizedWord(tok)
             && myCount == 1) {
             tok = tok.toLowerCase();
         } else {
