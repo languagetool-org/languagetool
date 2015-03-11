@@ -47,10 +47,9 @@ public class CaseGovernmentRuleTest {
   public void testCheckCasesTEMP() throws IOException {
     //GermanChunker.setDebug(true);
     //rule.setDebug(true);
-    //assertGood("Gibt es hier in der Nähe eine Jugendherberge?");  // "in der Nähe eine Jugendherberge" -> PP, which is wrong
-    //assertGood("Ich gebe dir mein Wort.");
-    //assertGood("Wenn es keine Lösung gibt, dann gibt es kein Probleme.");
+    //assertGood("Eine grobe Untersuchung seiner Zähne gab das zu erkennen.");
     //assertGood("Eine grobe Untersuchung seiner Zähne gab zu erkennen, das alles gut war.");
+    //assertGood("Gibt es hier in der Nähe eine Jugendherberge?");  // "in der Nähe eine Jugendherberge" -> PP, which is wrong
   }
 
   @Test
@@ -81,6 +80,7 @@ public class CaseGovernmentRuleTest {
     assertOkay("AKK,NOM AKK GEN", "AKK NOM GEN");
     assertOkay("AKK,NOM AKK GEN", "GEN AKK NOM");
     assertOkay("AKK,NOM AKK GEN", "GEN AKK NOM GEN?");
+    assertOkay("NOM,AKK NOM,AKK", "NOM AKK DAT? GEN?");
 
     assertMissing("NOM", "");
     assertMissing("NOM", "AKK");
@@ -88,6 +88,11 @@ public class CaseGovernmentRuleTest {
     assertMissing("AKK,NOM AKK", "NOM GEN");
     assertMissing("AKK,NOM AKK", "NOM AKK GEN");
     assertMissing("AKK,NOM AKK", "NOM AKK GEN");
+
+    assertOkay("NOM,AKK NOM,AKK", "NOM AKK DAT? GEN?");
+    assertOkay("NOM,AKK GEN NOM,AKK", "NOM AKK GEN? DAT?");
+    assertOkay("NOM,AKK GEN NOM,AKK", "NOM AKK DAT? GEN?");
+    assertOkay("NOM AKK GEN", "NOM AKK DAT? GEN?");
   }
 
   private void assertOkay(String sentencesCases, String expectedCases) {
@@ -169,7 +174,7 @@ public class CaseGovernmentRuleTest {
     assertGood("Dem Freund ihres Mannes gibt die Frau ihr Geld.");
 
     assertBad("Die Frau gibt ihr Geld einen Obdachlosen.");
-    assertBad("Die Frau gibt ihr Geld eines Obdachlosen.");
+    //assertBad("Die Frau gibt ihr Geld eines Obdachlosen.");
     assertBad("Die Frau gibt ihr Geld ein Obdachlosen.");
     assertBad("Die Frau gibt ihres Geldes.");
     assertBad("Der Frau gibt ihres Geldes.");
@@ -219,6 +224,14 @@ public class CaseGovernmentRuleTest {
     assertGood("Gib mir Zeit, dir alles zu geben, was ich habe!");
 
     assertGood("Es gibt da ein Problem, das du nicht siehst.");  // we stop searching chunks at the comma
+
+    assertGood("Ich gebe dir mein Wort.");
+    assertGood("Wenn es keine Lösung gibt, dann gibt es kein Probleme.");
+
+    assertBad("Wenn es gibt, dann gibt es keine Probleme.");
+
+    assertGood("Eine grobe Untersuchung gab das Problem zu erkennen.");
+    assertGood("Eine grobe Untersuchung seiner Zähne gab das Problem zu erkennen.");
   }
 
   @Test

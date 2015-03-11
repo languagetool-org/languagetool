@@ -322,14 +322,18 @@ public class CaseGovernmentRule extends Rule {
     } else if (sentenceCasesList.size() == 0 || expectedCases.size() == 0) {
       return false;
     }
-    Case searchedCase = expectedCases.get(0).aCase;
     int i = 0;
     for (AnalyzedChunk chunk : sentenceCasesList) {
-      if (chunk.cases.contains(searchedCase)) {
-        List<AnalyzedChunk> remaining = new ArrayList<>(sentenceCasesList);
-        remaining.remove(i);
-        if (checkCases(remaining, expectedCases.subList(1, expectedCases.size()))) {
-          return true;
+      for (ValencyData valData : expectedCases) {
+        Case searchedCase = valData.aCase;
+        if (chunk.cases.contains(searchedCase)) {
+          List<AnalyzedChunk> remainingSentenceCases = new ArrayList<>(sentenceCasesList);
+          remainingSentenceCases.remove(i);
+          List<ValencyData> remainingExpectedCases = new ArrayList<>(expectedCases);
+          remainingExpectedCases.remove(valData);
+          if (checkCases(remainingSentenceCases, remainingExpectedCases)) {
+            return true;
+          }
         }
       }
       i++;
