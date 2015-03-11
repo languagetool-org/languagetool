@@ -168,16 +168,16 @@ public class HTTPServerConfig {
     this.maxTextLength = maxTextLength;
   }
 
+  int getMaxTextLength() {
+    return maxTextLength;
+  }
+
   int getRequestLimit() {
     return requestLimit;
   }
 
   int getRequestLimitPeriodInSeconds() {
     return requestLimitPeriodInSeconds;
-  }
-
-  int getMaxTextLength() {
-    return maxTextLength;
   }
 
   /**
