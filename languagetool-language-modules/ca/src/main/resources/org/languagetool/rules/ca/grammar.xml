@@ -8273,7 +8273,6 @@ $Id$
                 </pattern>
                 <message>Falta un guionet.</message>
                 <suggestion><match no="2"></match>-<match no="3"></match></suggestion>
-                <short>Falta un guionet</short>
                 <example correction="trenta-dues"><marker>trenta dues</marker>.</example>
                 <example>als anys cinquanta una especial dedicació</example>
             </rule>
@@ -8286,7 +8285,6 @@ $Id$
                 </pattern>
                 <message>Falta un guionet.</message>
                 <suggestion><match no="1"/>-i-<match no="4"/></suggestion>
-                <short>Falta un guionet</short>
                 <example correction="Vint-i-u"><marker>Vint-i u</marker>.</example>
             </rule>
             <rule>
@@ -8298,7 +8296,6 @@ $Id$
                 </pattern>
                 <message>Falta un guionet.</message>
                 <suggestion><match no="1"/>-i-<match no="4"/></suggestion>
-                <short>Falta un guionet</short>
                 <example correction="Vint-i-u"><marker>Vint i-u</marker>.</example>
             </rule>
             <rule>
@@ -8312,7 +8309,6 @@ $Id$
                 </pattern>
                 <message>Falten els guionets.</message>
                 <suggestion><match no="2"></match>-<match no="3"></match>-<match no="4"></match></suggestion>
-                <short>Falta un guionet</short>
                 <example correction="Vint-i-u"><marker>Vint i u</marker>.</example>
                 <example>un interès pel disseny dels anys vint i un allunyament de les convencions</example>
             </rule>
@@ -8326,7 +8322,6 @@ $Id$
                 </pattern>
                 <message>Falta un guionet.</message>
                 <suggestion><match no="1"></match>-<match no="2"></match></suggestion>
-                <short>Falta un guionet</short>
                 <example correction="Tres-cents"><marker>Tres cents</marker>.</example>
                 <example>Tres-cents.</example>
             </rule>
@@ -8338,7 +8333,6 @@ $Id$
                 </pattern>
                 <message>Sobra un guionet.</message>
                 <suggestion><match no="1"/> <match no="3"/></suggestion>
-                <short>Sobra un guionet</short>
                 <example correction="Tres mil"><marker>Tres-mil</marker>.</example>
                 <example>Tres mil.</example>
             </rule>
@@ -8350,9 +8344,85 @@ $Id$
                 </pattern>
                 <message>Sobra un guionet.</message>
                 <suggestion><match no="1"/> <match no="3"/></suggestion>
-                <short>Sobra un guionet</short>
                 <example correction="Cent trenta"><marker>Cent-trenta</marker>.</example>
                 <example>Cent trenta.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token>un</token>
+                        <token postag="_GN_MS"/>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>una</token>
+                        <token postag="_GN_FS"/>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token><exception>anys</exception></token>
+                    <marker>
+                        <token regexp="yes">trenta|quaranta|cinquanta|seixanta|setanta|vuitanta|huitanta|noranta</token>
+                        <token regexp="yes">un|una</token>
+                    </marker>
+                </pattern>
+                <message>Falta un guionet.</message>
+                <suggestion><match no="2"></match>-<match no="3"></match></suggestion>
+                <example correction="Trenta-un"><marker>Trenta un</marker> anys.</example>
+                <example correction="trenta-un">en tinc <marker>trenta un</marker>.</example>
+                <example correction="trenta-una"><marker>trenta una</marker> vegades.</example>
+                <example>En els anys cinquanta una especial dedicació</example>
+                <example>En va agafar trenta una vesprada de primavera.</example>
+                <example>En va pescar cinquanta un dia d'estiu.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>vint</token>
+                    <token spacebefore="yes">-</token>
+                    <token>i</token>
+                    <token>-</token>
+                    <token regexp="yes">u|un|una|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
+                </pattern>
+                <message>Sobra un espai.</message>
+                <suggestion>vint-i-<match no="5"/></suggestion>
+                <example correction="Vint-i-u"><marker>Vint -i-u</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>vint</token>
+                    <token>-</token>
+                    <token spacebefore="yes">i</token>
+                    <token>-</token>
+                    <token regexp="yes">u|un|una|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
+                </pattern>
+                <message>Sobra un espai.</message>
+                <suggestion>vint-i-<match no="5"/></suggestion>
+                <example correction="Vint-i-u"><marker>Vint- i-u</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>vint</token>
+                    <token>-</token>
+                    <token>i</token>
+                    <token spacebefore="yes">-</token>
+                    <token regexp="yes">u|un|una|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
+                </pattern>
+                <message>Sobra un espai.</message>
+                <suggestion>vint-i-<match no="5"/></suggestion>
+                <example correction="Vint-i-u"><marker>Vint-i -u</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>vint</token>
+                    <token>-</token>
+                    <token>i</token>
+                    <token>-</token>
+                    <token spacebefore="yes" regexp="yes">u|un|una|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
+                </pattern>
+                <message>Sobra un espai.</message>
+                <suggestion>vint-i-<match no="5"/></suggestion>
+                <example correction="Vint-i-u"><marker>Vint-i- u</marker>.</example>
             </rule>
         </rulegroup>
     </category>
