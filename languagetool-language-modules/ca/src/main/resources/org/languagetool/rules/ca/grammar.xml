@@ -8419,6 +8419,30 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="VENTA_VENDA" name="venta/venda">
+            <pattern>
+                <token>venta<exception postag="_possible_nompropi|&lt;NP.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">em|et|li|ens|us|vos|els|les|el|hi|'n|ho|hom|ella?|vostè|vosté</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>venda</suggestion>? Una "venta" pot ser un hostal al País Valencià. Correcte si és del v. ventar.</message>
+            <example correction="Venda"><marker>Venta</marker> de cotxes.</example>
+            <example correction="venda">Prohibida la <marker>venta</marker> de begudes alcohòliques.</example>
+            <example correction="venda">Cases en <marker>venta</marker>.</example>
+            <example>Li'n venta quatre.</example>
+            <example>La Venta de don Quixot.</example>
+            <example>Venta del Moro</example>
+        </rule>
+        <rule id="VENTES_VENDES" name="ventes/vendes">
+            <pattern>
+                <token>ventes<exception postag="_possible_nompropi"/><exception scope="previous" regexp="yes">em|li|ens|els|el|la|hi|'n|ho|tu|si|quan</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>vendes</suggestion>? Una "venta" pot ser un hostal al País Valencià. Correcte si és del v. ventar.</message>
+            <example correction="Vendes"><marker>Ventes</marker> de cotxes.</example>
+            <example correction="vendes">Les <marker>ventes</marker> han pujat.</example>
+            <example correction="vendes">Líders en <marker>ventes</marker>.</example>
+            <example>Li'n ventes quatre.</example>
+            <example>Si els ventes un poc, millor.</example>
+            <example>Va passar a les Ventes.</example>
+        </rule>
         <rule id="DESORBITANT" name="desorbitant/desorbitat">
             <pattern>
                 <token>desorbitant<exception scope="previous" inflected="yes">estar</exception></token>
