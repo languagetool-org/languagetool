@@ -172,7 +172,11 @@ public class HTTPServerTest {
         System.out.println("=== Testing timeout now, please ignore the following exception ===");
         check(new GermanyGerman(), "Einq Tesz miit fieln Fehlan, desshalb sehee laagnsam bee dr Rechtschriebpürfung");
         fail("Check was expected to be stopped because it took too long");
-      } catch (IOException expected) {}
+      } catch (IOException expected) {
+        if (!expected.toString().contains(" 503 ")) {
+          fail("Expected exception with error 503, got: " + expected);
+        }
+      }
     } finally {
       server.stop();
     }
@@ -187,7 +191,11 @@ public class HTTPServerTest {
         System.out.println("=== Testing 'access denied' check now, please ignore the following exception ===");
         check(new German(), "no ip address allowed, so this cannot work");
         fail();
-      } catch (IOException expected) {}
+      } catch (IOException expected) {
+        if (!expected.toString().contains(" 403 ")) {
+          fail("Expected exception with error 403, got: " + expected);
+        }
+      }
     } finally {
       server.stop();
     }
@@ -203,7 +211,11 @@ public class HTTPServerTest {
         final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/?text=foo&language=en-US&disabled=EN_A_VS_AN&enabledOnly=yes");
         HTTPTools.checkAtUrl(url);
         fail();
-      } catch (IOException expected) {}
+      } catch (IOException expected) {
+        if (!expected.toString().contains(" 500 ")) {
+          fail("Expected exception with error 500, got: " + expected);
+        }
+      }
     } finally {
       server.stop();
     }
@@ -219,7 +231,11 @@ public class HTTPServerTest {
         final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/?text=foo");
         HTTPTools.checkAtUrl(url);
         fail();
-      } catch (IOException expected) {}
+      } catch (IOException expected) {
+        if (!expected.toString().contains(" 500 ")) {
+          fail("Expected exception with error 500, got: " + expected);
+        }
+      }
     } finally {
       server.stop();
     }

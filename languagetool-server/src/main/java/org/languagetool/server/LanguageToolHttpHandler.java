@@ -208,15 +208,19 @@ class LanguageToolHttpHandler implements HttpHandler {
       //noinspection CallToPrintStackTrace
       e.printStackTrace();
       String response;
+      int errorCode;
       if (e instanceof TextTooLongException) {
+        errorCode = HttpURLConnection.HTTP_ENTITY_TOO_LARGE;
         response = e.getMessage();
       } else if (e.getCause() != null && e.getCause() instanceof TimeoutException) {
+        errorCode = HttpURLConnection.HTTP_UNAVAILABLE;
         response = "Checking took longer than " + maxCheckTimeMillis/1000 + " seconds, which is this server's limit. " +
                    "Please make sure you have selected the proper language or consider submitting a shorter text.";
       } else {
         response = Tools.getFullStackTrace(e);
+        errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
       }
-      sendError(httpExchange, HttpURLConnection.HTTP_INTERNAL_ERROR, "Error: " + response);
+      sendError(httpExchange, errorCode, "Error: " + response);
     } finally {
       synchronized (this) {
         handleCount--;

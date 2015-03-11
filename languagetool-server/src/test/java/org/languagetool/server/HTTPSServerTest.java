@@ -98,12 +98,16 @@ public class HTTPSServerTest {
     assertTrue("Got " + result2, !result2.contains("UPPERCASE_SENTENCE_START"));
     assertTrue("Got " + result2, result2.contains("PHRASE_REPETITION"));
 
-    final String overlyLongText = longText.toString() + " and some more to get over the limit of 500";
+    final String overlyLongText = longText + " and some more to get over the limit of 500";
     try {
       System.out.println("=== Now checking text that is too long, please ignore the following exception ===");
       HTTPTools.checkAtUrl(new URL(httpsPrefix + "?text=" + encode(overlyLongText) + "&language=en"));
       fail();
-    } catch (IOException expected) {}
+    } catch (IOException expected) {
+      if (!expected.toString().contains(" 413 ")) {
+        fail("Expected exception with error 413, got: " + expected);
+      }
+    }
   }
 
   private String check(Language lang, String text) throws IOException {
