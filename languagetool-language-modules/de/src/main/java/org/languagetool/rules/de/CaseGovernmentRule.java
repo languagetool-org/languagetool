@@ -169,7 +169,7 @@ public class CaseGovernmentRule extends Rule {
       return null;
     }
     String verbLemma = verbPosition.token.getLemma();
-    List<Chunk> chunks = getChunks(sentence);
+    List<Chunk> chunks = getChunks(sentence, verbPosition);
     List<AnalyzedChunk> cases = getAnalyzedChunks(chunks);
     if (debug) {
       System.out.println("\nText   : " + sentence.getText());
@@ -194,7 +194,7 @@ public class CaseGovernmentRule extends Rule {
   }
 
   @Nullable
-  private VerbPosition getVerb(AnalyzedSentence analyzedSentence) {
+  VerbPosition getVerb(AnalyzedSentence analyzedSentence) {
     for (AnalyzedTokenReadings tokenReadings : analyzedSentence.getTokensWithoutWhitespace()) {
       for (AnalyzedToken tokenReading : tokenReadings) {
         String posTag = tokenReading.getPOSTag();
@@ -206,13 +206,18 @@ public class CaseGovernmentRule extends Rule {
     return null;
   }
 
-  List<Chunk> getChunks(AnalyzedSentence analyzedSentence) throws IOException {
+  List<Chunk> getChunks(AnalyzedSentence analyzedSentence, VerbPosition verbPosition) throws IOException {
     List<Chunk> result = new ArrayList<>();
     StringBuilder currentChunk = new StringBuilder();
     boolean currentChunkPrecededByComma = false;
     boolean inChunk = false;
     boolean prevIsComma = false;
     for (AnalyzedTokenReadings tokenReadings : analyzedSentence.getTokensWithoutWhitespace()) {
+      if (tokenReadings.getEndPos() > verbPosition.endPos && tokenReadings.getToken().equals(",")) {
+        // only the sentence part with the verb is relevant, otherwise there are
+        // false alarms for e.g. "Es gibt da ein Problem, das du nicht siehst.":
+        break;
+      }
       List<ChunkTag> chunks = tokenReadings.getChunkTags();
       //System.out.println(chunks + " " + tokenReadings.getToken());
       if (chunks.contains(B_NP) && !chunks.contains(PP)) {

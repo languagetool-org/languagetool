@@ -20,6 +20,7 @@ package org.languagetool.rules.de;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
@@ -45,10 +46,9 @@ public class CaseGovernmentRuleTest {
   @Test
   public void testCheckCasesTEMP() throws IOException {
     //GermanChunker.setDebug(true);
-    rule.setDebug(true);
-    //assertGood("Es gibt da ein Problem, das du nicht siehst.");  // we need to stop at the comma?
-    //assertGood("Gibt es hier in der Nähe eine Jugendherberge?");  // "in der Nähe eine Jugendherberge" -> PP, which is wrong
+    //rule.setDebug(true);
     //assertGood("Gib mir Zeit, dir alles zu geben, was ich habe!");
+    //assertGood("Gibt es hier in der Nähe eine Jugendherberge?");  // "in der Nähe eine Jugendherberge" -> PP, which is wrong
     //assertGood("Ich gebe dir mein Wort.");
     //assertGood("Wenn es keine Lösung gibt, dann gibt es kein Probleme.");
     //assertGood("Eine grobe Untersuchung seiner Zähne gab zu erkennen, das alles gut war.");
@@ -147,7 +147,9 @@ public class CaseGovernmentRuleTest {
   }
 
   private void show(String text) throws IOException {
-    System.out.println(text + " -> " + rule.getChunks(lt.getAnalyzedSentence(text)));
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(text);
+    CaseGovernmentRule.VerbPosition verb = rule.getVerb(analyzedSentence);
+    System.out.println(text + " -> " + rule.getChunks(analyzedSentence, verb));
   }
 
   @Test
@@ -214,6 +216,8 @@ public class CaseGovernmentRuleTest {
 
     assertGood("Gib mir ein Taschentuch.");  // Imperativ wird ignoriert
     //assertBad("Gib mich ein Taschentuch.");
+
+    assertGood("Es gibt da ein Problem, das du nicht siehst.");  // we stop searching chunks at the comma
   }
 
   @Test
