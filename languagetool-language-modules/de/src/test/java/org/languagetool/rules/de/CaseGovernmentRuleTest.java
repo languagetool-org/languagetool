@@ -47,10 +47,13 @@ public class CaseGovernmentRuleTest {
   public void testCheckCasesTEMP() throws IOException {
     //GermanChunker.setDebug(true);
     //rule.setDebug(true);
+    //assertGood("Er gab auf.");  // 'aufgeben', nicht 'geben'
+    //assertGood("Sie gibt vor zu schlafen.");  // Verb ist 'vorgeben', nicht 'geben' und "zu schlafen" nicht erkannt?
     //assertGood("Es gibt viel zu tun.");
     //assertGood("Eine grobe Untersuchung seiner Zähne gab das zu erkennen.");
     //assertGood("Eine grobe Untersuchung seiner Zähne gab zu erkennen, das alles gut war.");
     //assertGood("Gibt es hier in der Nähe eine Jugendherberge?");  // "in der Nähe eine Jugendherberge" -> PP, which is wrong
+    //assertGood("Aber in der Praxis gibt es einen.");  // "In der Theorie gibt es keinen Unterschied zwischen Theorie und Praxis." -> Ellipse
   }
 
   @Test
@@ -235,6 +238,8 @@ public class CaseGovernmentRuleTest {
     assertGood("Eine grobe Untersuchung seiner Zähne gab das Problem zu erkennen.");
     assertGood("Wenn man ihm den kleinen Finger gibt...");
     assertGood("Sein Aufsatz gab nur eine oberflächliche Analyse des Problems.");
+    assertGood("Es gibt niemanden.");
+    assertGood("Es gibt da jemanden, der das kann.");
   }
 
   @Test
