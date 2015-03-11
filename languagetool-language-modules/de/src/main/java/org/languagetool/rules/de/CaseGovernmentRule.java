@@ -198,7 +198,7 @@ public class CaseGovernmentRule extends Rule {
     for (AnalyzedTokenReadings tokenReadings : analyzedSentence.getTokensWithoutWhitespace()) {
       for (AnalyzedToken tokenReading : tokenReadings) {
         String posTag = tokenReading.getPOSTag();
-        if (posTag != null && posTag.startsWith("VER:") && !posTag.startsWith("VER:AUX") && !posTag.startsWith("VER:MOD")) {
+        if (posTag != null && posTag.startsWith("VER:") && !posTag.matches("VER:(AUX|MOD|IMP).*")) {
           return new VerbPosition(tokenReading, tokenReadings.getStartPos(), tokenReadings.getEndPos());
         }
       }
