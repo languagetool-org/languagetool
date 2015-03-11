@@ -275,10 +275,11 @@ public class CaseGovernmentRule extends Rule {
           i++;
           continue;
         }
-        if (i == 0 && lookup == null) {
-          lookup = tagger.lookup(word.toLowerCase());  // try lowercase at sentence start
-        }
         Set<String> tokenFeatures = getTokenFeatures(lookup);
+        if (i == 0 && StringTools.startsWithUppercase(word)) {
+          AnalyzedTokenReadings lcLookup = tagger.lookup(word.toLowerCase()); // try lowercase at sentence start, e.g. "Sein"
+          tokenFeatures.addAll(getTokenFeatures(lcLookup));
+        }
         if (tokenFeatures.size() > 0 ) {  // e.g. for adverbs (ADV) there are no features
           if (commonFeatures == null) {
             commonFeatures = new HashSet<>();

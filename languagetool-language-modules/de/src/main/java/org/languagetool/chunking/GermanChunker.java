@@ -111,7 +111,7 @@ public class GermanChunker implements Chunker {
 
       build("<der>", NP),  // simulate OpenNLP?!
 
-      build("<ich|du|er|sie|es|mir|mich|dir|dich|ihm|ihn|uns|euch|ihnen>", NP)   // mark vor CaseGovRule - TODO: 'ihr' is ambiguous
+      build("<man|ich|du|er|sie|es|mir|mich|dir|dich|ihm|ihn|uns|euch|ihnen>", NP)   // mark vor CaseGovRule - TODO: 'ihr' is ambiguous
   );
 
   private static final List<RegularExpressionWithPhraseType> REGEXES2 = Arrays.asList(

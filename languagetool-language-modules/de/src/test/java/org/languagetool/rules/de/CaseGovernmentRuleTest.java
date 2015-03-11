@@ -47,6 +47,7 @@ public class CaseGovernmentRuleTest {
   public void testCheckCasesTEMP() throws IOException {
     //GermanChunker.setDebug(true);
     //rule.setDebug(true);
+    //assertGood("Es gibt viel zu tun.");
     //assertGood("Eine grobe Untersuchung seiner Zähne gab das zu erkennen.");
     //assertGood("Eine grobe Untersuchung seiner Zähne gab zu erkennen, das alles gut war.");
     //assertGood("Gibt es hier in der Nähe eine Jugendherberge?");  // "in der Nähe eine Jugendherberge" -> PP, which is wrong
@@ -232,6 +233,8 @@ public class CaseGovernmentRuleTest {
 
     assertGood("Eine grobe Untersuchung gab das Problem zu erkennen.");
     assertGood("Eine grobe Untersuchung seiner Zähne gab das Problem zu erkennen.");
+    assertGood("Wenn man ihm den kleinen Finger gibt...");
+    assertGood("Sein Aufsatz gab nur eine oberflächliche Analyse des Problems.");
   }
 
   @Test
