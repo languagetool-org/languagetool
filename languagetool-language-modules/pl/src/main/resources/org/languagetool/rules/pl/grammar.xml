@@ -4763,6 +4763,19 @@ $Id$
 				</rule>
 		</category>
 		<category name="Błędy składniowe" type="grammar">
+            <rule id="ZEBY_AGLT" name="Zła forma w zdaniu po „żeby”">
+                <pattern>
+                    <marker>
+                        <token regexp='yes'>a?by[śm]?|żeby[śm]?</token>
+                        <token postag='verb:praet:.*:(pri|sec).*' postag_regexp='yes'></token>
+                    </marker>
+                </pattern>
+                <message>W tym fragmencie zdania jest literówka lub błąd gramatyczny. Czy chodziło o <suggestion>żeby<match no="2" regexp_match="(.*[^e])e?(ś|m)" regexp_replace="$2"/> <match no="2" regexp_match="(.*[^e])e?(ś|m)" regexp_replace="$1"/></suggestion>?</message>
+                <short>Błąd gramatyczny lub literówka</short>
+                <example correction='żebym przyznał'>Radził, <marker>żeby przyznałem</marker> się do winy.</example>
+                <example>Radził, żebym przyznał się do winy.</example>
+                <example correction='żebyś przyznała'>Radził, <marker>żeby przyznałaś</marker> się do winy.</example>
+            </rule>
             <rule id="PCON_VERB" name="Brak orzeczenia po imiesłowie na -ąc">
                 <antipattern>
                     <token regexp="yes">krótko|ściślej?|szczerze</token>
