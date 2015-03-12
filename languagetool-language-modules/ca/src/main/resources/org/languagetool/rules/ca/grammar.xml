@@ -8490,6 +8490,12 @@ $Id$
     </category>
     <category name="Z1) Confusions" type="grammar">
         <rule id="VENTA_VENDA" name="venta/venda">
+            <antipattern>
+                <marker>
+                    <token>venta</token>
+                    <token postag="P.*" postag_regexp="yes" spacebefore="no"/>
+                </marker>
+            </antipattern>
             <pattern>
                 <token>venta<exception postag="_possible_nompropi|&lt;NP.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">em|et|li|ens|us|vos|els|les|el|hi|'n|ho|hom|ella?|vostè|vosté</exception></token>
             </pattern>
@@ -8497,9 +8503,11 @@ $Id$
             <example correction="Venda"><marker>Venta</marker> de cotxes.</example>
             <example correction="venda">Prohibida la <marker>venta</marker> de begudes alcohòliques.</example>
             <example correction="venda">Cases en <marker>venta</marker>.</example>
+            <example correction="venda">Quan isca a la <marker>venta</marker> li ho diré.</example>
             <example>Li'n venta quatre.</example>
             <example>La Venta de don Quixot.</example>
             <example>Venta del Moro</example>
+            <example>Venta-li una castanya</example>
         </rule>
         <rule id="VENTES_VENDES" name="ventes/vendes">
             <pattern>
@@ -20202,6 +20210,18 @@ $Id$
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="BON_DE_MATI" name="bon de matí/bon matí">
+            <pattern>
+                <marker>
+                    <token>bon</token>
+                    <token>de</token>
+                    <token>matí</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>bon matí</suggestion>
+            <example correction="bon matí">De <marker>bon de matí</marker></example>
+        </rule>
         <rule id="OLORAR_MALAMENT" name="olorar malament">
             <pattern>
                 <token postag="(V.[SI].*)" postag_regexp="yes" inflected="yes" regexp="yes">olorar|oldre</token>
