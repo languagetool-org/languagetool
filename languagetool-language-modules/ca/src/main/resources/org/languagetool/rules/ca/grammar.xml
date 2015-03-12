@@ -39,7 +39,7 @@ $Id$
     <!ENTITY unitats_temps "segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|decenni|segle|mil·lenni|mil·lenari">
     <!ENTITY expressions_temps "ara|avui|hui|demà|despús-demà|ahir|despús-ahir|endemà|enguany">
     <!ENTITY noms_collectius "majoria|parell|gent|grup|colla|família|part|nombre">
-    <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim">
+    <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|templer|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim">
     <!ENTITY ordes_invariable "conventual|mendicant|militar|major|menor|marista|jesuïta|regular">
     <!ENTITY precedits_per_TAN "bo|prompte|savi|espectacular|alt|ample|estret|complex|comú|divers|eficaç|efectiu|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer|exagerat">
     <!ENTITY precedits_per_TANT "no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
@@ -26503,17 +26503,32 @@ $Id$
                 <example>Freqüenta Sitges.</example>
             </rule>
         </rulegroup>
-        <rule id="ESCOLTAR_DIR" name="escoltar/dir">
-            <pattern>
-                <token inflected="yes">escoltar</token>
-                <token regexp="yes">dir|parlar</token>
-            </pattern>
-            <message>Ús incorrecte.</message>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match> \2</suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match> a \2</suggestion>
-            <example correction="Sentia dir|Sentia a dir"><marker>Escoltava dir</marker> coses.</example>
-            <example>Sentia a dir coses.</example>
-        </rule>
+        <rulegroup id="ESCOLTAR_DIR" name="escoltar/dir">
+            <url>http://esadir.cat/entrades/fitxa/node/escoltar</url>
+            <rule>
+                <pattern>
+                    <token inflected="yes">escoltar</token>
+                    <token regexp="yes">dir|parlar</token>
+                </pattern>
+                <message>Ús incorrecte.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match> \2</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match> a \2</suggestion>
+                <example correction="Sentia dir|Sentia a dir"><marker>Escoltava dir</marker> coses.</example>
+                <example>Sentia a dir coses.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">escoltar</token>
+                    <token>que</token>
+                </pattern>
+                <message>Ús probablement incorrecte.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match> que</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match> a dir que</suggestion>
+                <example correction="sentia que|sentia a dir que">Sovint <marker>escoltava que</marker> deien coses.</example>
+                <example correction="Sentim que|Sentim a dir que"><marker>Escoltem que</marker>.</example>
+                <example>Escolta què diuen.</example>
+            </rule>
+        </rulegroup>
         <rule id="TOTA_VEGADA_QUE" name="tota vegada que">
             <pattern>
                 <token>tota</token>
