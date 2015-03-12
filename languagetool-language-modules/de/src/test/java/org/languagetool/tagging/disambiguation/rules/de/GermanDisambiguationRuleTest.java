@@ -22,8 +22,5 @@ import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
 
 public class GermanDisambiguationRuleTest extends DisambiguationRuleTest {
 
-  public void testRules() throws Exception {
-    testDisambiguationRulesFromXML();
-  }
-
+  // testDisambiguationRulesFromXML() is inherited from parent class
 }

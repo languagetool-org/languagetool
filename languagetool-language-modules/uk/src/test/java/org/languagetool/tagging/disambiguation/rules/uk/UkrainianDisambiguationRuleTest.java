@@ -53,10 +53,6 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
     chunker = new MultiWordChunker("/uk/multiwords.txt", true);
   }
 
-  public void testRules() throws Exception {
-    testDisambiguationRulesFromXML();
-  }
-
   public void testDisambiguator() throws IOException {
 
     TestTools.myAssert("Танцювати до впаду", 
