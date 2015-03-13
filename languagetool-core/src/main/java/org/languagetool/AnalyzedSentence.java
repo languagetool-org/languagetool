@@ -27,26 +27,65 @@ import java.util.*;
  * 
  * @author Daniel Naber
  */
-public class AnalyzedSentence {
+public final class AnalyzedSentence {
 
   private final AnalyzedTokenReadings[] tokens;
-
-  private AnalyzedTokenReadings[] nonBlankTokens;
-  private volatile Set<String> tokenSet;
-  private volatile Set<String> lemmaSet;
-  private int[] whPositions;
+  private final AnalyzedTokenReadings[] nonBlankTokens;
+  private final int[] whPositions;
+  private final Set<String> tokenSet;
+  private final Set<String> lemmaSet;
 
   /**
    * Creates an AnalyzedSentence from the given {@link AnalyzedTokenReadings}. Whitespace is also a token.
    */
-  public AnalyzedSentence(final AnalyzedTokenReadings[] tokens) {
+  public AnalyzedSentence(AnalyzedTokenReadings[] tokens) {
     this.tokens = tokens;
+    int whCounter = 0;
+    int nonWhCounter = 0;
+    final int[] mapping = new int[tokens.length + 1];
+    final List<AnalyzedTokenReadings> l = new ArrayList<>();
+    for (final AnalyzedTokenReadings token : tokens) {
+      if (!token.isWhitespace() || token.isSentenceStart() || token.isSentenceEnd() || token.isParagraphEnd()) {
+        l.add(token);
+        mapping[nonWhCounter] = whCounter;
+        nonWhCounter++;
+      }
+      whCounter++;
+    }
+    this.whPositions = mapping;
+    this.nonBlankTokens = l.toArray(new AnalyzedTokenReadings[l.size()]);
+    this.tokenSet = getTokenSet(tokens);
+    this.lemmaSet = getLemmaSet(tokens);
   }
 
-  public AnalyzedSentence(final AnalyzedTokenReadings[] tokens, final int[] whPositions) {
+  private AnalyzedSentence(AnalyzedTokenReadings[] tokens, int[] mapping, AnalyzedTokenReadings[] nonBlankTokens) {
     this.tokens = tokens;
-    this.setWhPositions(Objects.requireNonNull(whPositions));
-    getTokensWithoutWhitespace();
+    this.whPositions = mapping;
+    this.nonBlankTokens = nonBlankTokens;
+    this.tokenSet = getTokenSet(tokens);
+    this.lemmaSet = getLemmaSet(tokens);
+  }
+
+  private Set<String> getTokenSet(AnalyzedTokenReadings[] tokens) {
+    Set<String> tokenSet = new HashSet<>();
+    for (AnalyzedTokenReadings token : tokens) {
+      tokenSet.add(token.getToken().toLowerCase());
+    }
+    return Collections.unmodifiableSet(tokenSet);
+  }
+
+  private Set<String> getLemmaSet(AnalyzedTokenReadings[] tokens) {
+    Set<String> lemmaSet = new HashSet<>();
+    for (AnalyzedTokenReadings token : tokens) {
+      for (AnalyzedToken lemmaTok : token.getReadings()) {
+        if (lemmaTok.getLemma() != null) {
+          lemmaSet.add(lemmaTok.getLemma().toLowerCase());
+        } else {
+          lemmaSet.add(lemmaTok.getToken().toLowerCase());
+        }
+      }
+    }
+    return Collections.unmodifiableSet(lemmaSet);
   }
 
   /**
@@ -57,25 +96,22 @@ public class AnalyzedSentence {
    * @return a new object which is a copy
    * @since  2.5
    */
-  public AnalyzedSentence copy(final AnalyzedSentence sentence) {
+  public AnalyzedSentence copy(AnalyzedSentence sentence) {
     AnalyzedTokenReadings[] copyTokens = new AnalyzedTokenReadings[sentence.getTokens().length];
     for (int i = 0; i < copyTokens.length; i++) {
-      copyTokens[i] = new AnalyzedTokenReadings(sentence.getTokens()[i].getReadings(),
-          sentence.getTokens()[i].getStartPos());
-      copyTokens[i].setHistoricalAnnotations(sentence.getTokens()[i].getHistoricalAnnotations());
-      copyTokens[i].setChunkTags(sentence.getTokens()[i].getChunkTags());
-      if (sentence.getTokens()[i].isImmunized()) {
+      AnalyzedTokenReadings analyzedTokens = sentence.getTokens()[i];
+      copyTokens[i] = new AnalyzedTokenReadings(analyzedTokens.getReadings(), analyzedTokens.getStartPos());
+      copyTokens[i].setHistoricalAnnotations(analyzedTokens.getHistoricalAnnotations());
+      copyTokens[i].setChunkTags(analyzedTokens.getChunkTags());
+      if (analyzedTokens.isImmunized()) {
         copyTokens[i].immunize();
       }
-      if (sentence.getTokens()[i].isIgnoredBySpeller()) {
+      if (analyzedTokens.isIgnoredBySpeller()) {
         copyTokens[i].ignoreSpelling();
       }
       copyTokens[i].setWhitespaceBefore(sentence.getTokens()[i].isWhitespaceBefore());
     }
-    AnalyzedSentence copy = new AnalyzedSentence(copyTokens);
-    copy.setNonBlankTokens(sentence.getTokensWithoutWhitespace());
-    copy.setWhPositions(sentence.getWhPositions());
-    return copy;
+    return new AnalyzedSentence(copyTokens, sentence.whPositions, sentence.getTokensWithoutWhitespace());
   }
 
   /**
@@ -92,25 +128,6 @@ public class AnalyzedSentence {
    * token included.
    */
   public final AnalyzedTokenReadings[] getTokensWithoutWhitespace() {
-    synchronized (this) {
-      if (nonBlankTokens == null) {
-        int whCounter = 0;
-        int nonWhCounter = 0;
-        final int[] mapping = new int[tokens.length + 1];
-        final List<AnalyzedTokenReadings> l = new ArrayList<>();
-        for (final AnalyzedTokenReadings token : tokens) {
-          if (!token.isWhitespace() || token.isSentenceStart() || token.isSentenceEnd()
-                  || token.isParagraphEnd()) {
-            l.add(token);
-            mapping[nonWhCounter] = whCounter;
-            nonWhCounter++;
-          }
-          whCounter++;
-        }
-        setNonBlankTokens(l.toArray(new AnalyzedTokenReadings[l.size()]));
-        setWhPositions(mapping.clone());
-      }
-    }
     return nonBlankTokens.clone();
   }
 
@@ -122,10 +139,7 @@ public class AnalyzedSentence {
    * @return position in the original sentence.
    */
   public final int getOriginalPosition(final int nonWhPosition) {
-    if (nonBlankTokens == null) {
-      getTokensWithoutWhitespace();
-    }
-    return getWhPositions()[nonWhPosition];
+    return whPositions[nonWhPosition];
   }
 
   @Override
@@ -230,39 +244,11 @@ public class AnalyzedSentence {
   }
 
   /**
-   * @param whPositions the whPositions to set, see {@link #getWhPositions()}
-   */
-  public void setWhPositions(int[] whPositions) {
-    this.whPositions = Objects.requireNonNull(whPositions);
-  }
-
-  /**
-   * Array mapping positions of tokens as returned with
-   * {@link #getTokensWithoutWhitespace()} to the internal tokens array.
-   */
-  public int[] getWhPositions() {
-    return whPositions;
-  }
-
-  /**
-   * @param nonBlankTokens the nonBlankTokens to set
-   */
-  public void setNonBlankTokens(AnalyzedTokenReadings[] nonBlankTokens) {
-    this.nonBlankTokens = nonBlankTokens;
-  }
-
-  /**
    * Get the lowercase tokens of this sentence in a set.
    * Used internally for performance optimization.
    * @since 2.4
    */
-  public synchronized Set<String> getTokenSet() {
-    if (tokenSet == null) {
-      tokenSet = new HashSet<>();
-      for (AnalyzedTokenReadings token : tokens) {
-        tokenSet.add(token.getToken().toLowerCase());
-      }
-    }
+  public Set<String> getTokenSet() {
     return tokenSet;
   }
 
@@ -271,19 +257,7 @@ public class AnalyzedSentence {
    * Used internally for performance optimization.
    * @since 2.5
    */
-  public synchronized Set<String> getLemmaSet() {
-    if (lemmaSet == null) {
-      lemmaSet = new HashSet<>();
-      for (AnalyzedTokenReadings token : tokens) {
-        for (AnalyzedToken lemmaTok : token.getReadings()) {
-          if (lemmaTok.getLemma() != null) {
-            lemmaSet.add(lemmaTok.getLemma().toLowerCase());
-          } else {
-            lemmaSet.add(lemmaTok.getToken().toLowerCase());
-          }
-        }
-      }
-    }
+  public Set<String> getLemmaSet() {
     return lemmaSet;
   }
 

@@ -136,7 +136,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       i++;
     }
     if (changed) {
-      return new AnalyzedSentence(whTokens, sentence.getWhPositions());
+      return new AnalyzedSentence(whTokens);
     }
     return sentence;
   }
