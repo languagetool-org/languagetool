@@ -20035,8 +20035,8 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token>a</token>
-                    <token>les</token>
+                    <token regexp="yes">a|de</token>
+                    <token min="0">les</token>
                     <marker>
                         <token regexp="yes">[012]?\d</token>
                         <token regexp="yes" spacebefore="no">[,:]</token>
@@ -20047,6 +20047,8 @@ $Id$
                 <suggestion>\3.\5</suggestion>
                 <short>Preferència tipogràfica</short>
                 <example correction="10.00">A les <marker>10:00</marker>.</example>
+                <example correction="10.00">De <marker>10:00</marker> a ... </example>
+                <example correction="10.50">De ... a <marker>10:50</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -32410,6 +32412,17 @@ $Id$
         </rule>
     </category>
     <category name="C8) Redundàncies" type="style">
+        <rule id="POT_SER_POSSIBLE" name="pot ser possible/és possible">
+            <pattern>
+                <token inflected="yes">poder</token>
+                <token regexp="yes">ser|ésser|esser</token>
+                <token>possible</token>
+            </pattern>
+            <message>Redacció redundant</message>
+            <suggestion><match no="1" postag="V.(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> possible</suggestion>
+            <example correction="És possible"><marker>Pot ser possible</marker>.</example>
+            <example correction="Fóra possible|Seria possible"><marker>Podria ser possible</marker>.</example>
+        </rule>
         <rule id="TORNAR_A_REFER" name="*tornar a refer/tornar a fer/refer">
             <pattern>
                 <token inflected="yes">tornar</token>

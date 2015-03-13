@@ -325,6 +325,8 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("l'illa", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("portas"));
         assertEquals("portes", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("mantenir'me"));
+        assertEquals("mantenir-me", matches[0].getSuggestedReplacements().get(0));
 
     }
     
