@@ -19168,6 +19168,17 @@ $Id$
                 <example correction="25°&#8239;29′"><marker>25º29'</marker>.</example>
                 <example>25° 29′</example>
             </rule>
+            <rule> <!-- només minuts i segons -->
+                <pattern>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">["'′`]</token>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">["'′`]</token>
+                </pattern>
+                <message>Useu els símbols de minuts i segons</message>
+                <suggestion>\1′&#160;\3″</suggestion>
+                <example correction="2′&#160;15″"><marker>2'15"</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SIMBOL_GRAU_ORDINAL" name="ordinals no estàndards (ºª); símbol de grau (°)">
             <rule>
@@ -30614,6 +30625,16 @@ $Id$
         </rule>
     </category>
     <category name="C8) Formes secundàries" default="on" type="style">
+        <rule id="VEHICULITZACIO" name="vehiculització">
+            <pattern>
+                <marker>
+                    <token inflected="yes">vehiculització</token>
+                </marker>
+            </pattern>
+            <message>Variant secundària.</message>
+            <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">vehiculació</match></suggestion>
+            <example correction="vehiculació">La <marker>vehiculització</marker>.</example>
+        </rule>
         <rule id="AGUTZIL" name="agutzil">
             <pattern>
                 <marker>
@@ -33225,11 +33246,19 @@ $Id$
         </rule>
         <rule id="SECAR" name="secar">
             <pattern>
-                <token inflected="yes">secar</token>
+                <token postag="(V.+)" postag_regexp="yes" inflected="yes">secar</token>
             </pattern>
             <message>Paraula admesa només en alguns diccionaris.</message>
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">assecar</match></suggestion>
             <example correction="Assecava"><marker>Secava</marker> els pernils.</example>
+            <example>i només el secà</example>
+            <example>ferides en sec</example>
+            <example>les terres litorals més seques</example>
+            <example>per a convertir-lo en pols seca abans</example>
+            <example>i relativament sec durant els mesos d'estiu</example>
+            <example>en aliment sec cada dia</example>
+            <example>de terra seca que comprenen</example>
+            <example>és secant a una circumferència</example>
         </rule>
         <rule id="RALENTITZAR" name="ralentitzar">
             <pattern>
