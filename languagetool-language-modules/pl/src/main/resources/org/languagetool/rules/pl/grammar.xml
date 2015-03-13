@@ -4763,18 +4763,32 @@ $Id$
 				</rule>
 		</category>
 		<category name="Błędy składniowe" type="grammar">
+            <rule id="NIM_IMPERF" name="Czasownik niedokonany po spójniku nim i zanim">
+                <pattern>
+                    <token regexp='yes' postag='comp' skip='-1'>(:?za)?nim<exception regexp='yes' scope='next'>[,;–\(\)]</exception><exception postag='verb:.*:perf.*|verb:bedzie.*' postag_regexp='yes' scope='next'></exception><exception postag='SENT_START|conj|interp.*' postag_regexp='yes' negate_pos='yes' scope='previous'></exception></token>
+                    <marker>
+                        <token postag='verb:.*:imperf.*|verb:impt.*' postag_regexp='yes'><exception postag='verb:.*[:\.]perf.*|verb:inf.*' postag_regexp='yes'></exception></token>
+                    </marker>
+                </pattern>
+                <message>Po spójniku <match no="1"/> nie używa się czasownika niedokonanego ani trybu rozkazującego.</message>
+                <short>Błąd gramatyczny</short>
+                <example correction=''>Wyszłam, zanim <marker>jedzono</marker> tort.</example>
+                <example>Wyszłam, zanim podano tort.</example>
+            </rule>
             <rule id="ZEBY_AGLT" name="Zła forma w zdaniu po „żeby”">
+                <!-- akomodacja aglutynacyjności -->
                 <pattern>
                     <marker>
-                        <token regexp='yes'>a?by[śm]?|żeby[śm]?</token>
+                        <token regexp='yes'>a?by[śm]?|żeby[śm]?|gdyby[śm]?|jeśliby[śm]?</token>
                         <token postag='verb:praet:.*:(pri|sec).*' postag_regexp='yes'></token>
                     </marker>
                 </pattern>
-                <message>W tym fragmencie zdania jest literówka lub błąd gramatyczny. Czy chodziło o <suggestion>żeby<match no="2" regexp_match="(.*[^e])e?(ś|m)" regexp_replace="$2"/> <match no="2" regexp_match="(.*[^e])e?(ś|m)" regexp_replace="$1"/></suggestion>?</message>
+                <message>W tym fragmencie zdania jest literówka lub błąd gramatyczny. Czy chodziło o <suggestion><match no="1" regexp_match="(.*)y.*" regexp_replace="$1y"/><match no="2" regexp_match="(.*[^e])e?(ś|m)" regexp_replace="$2"/> <match no="2" regexp_match="(.*[^e])e?(ś|m)" regexp_replace="$1"/></suggestion>?</message>
                 <short>Błąd gramatyczny lub literówka</short>
                 <example correction='żebym przyznał'>Radził, <marker>żeby przyznałem</marker> się do winy.</example>
                 <example>Radził, żebym przyznał się do winy.</example>
                 <example correction='żebyś przyznała'>Radził, <marker>żeby przyznałaś</marker> się do winy.</example>
+                <example correction="Gdybyś zrobił"><marker>Gdybyś zrobiłeś</marker> błąd, popraw go.</example>
             </rule>
             <rule id="PCON_VERB" name="Brak orzeczenia po imiesłowie na -ąc">
                 <antipattern>
