@@ -4763,6 +4763,32 @@ $Id$
 				</rule>
 		</category>
 		<category name="Błędy składniowe" type="grammar">
+            <rulegroup id="NIGDY_NIE" name="Brak negacji w zdaniu z „nigdy”, „nic” itd.">
+                <rule>
+                <pattern>
+                    <token postag='SENT_START' skip='-1'><exception scope='next'>nie</exception></token>
+                    <token regexp='yes' skip='-1'>nikt|nigdy|nic|ani|bynajmniej<exception scope='next'>nie</exception><exception case_sensitive="yes">Ani</exception></token>
+                    <token postag='verb:.*' postag_regexp='yes' skip='-1'><exception scope='next'>nie</exception></token>
+                    <token postag='SENT_END'></token>
+                </pattern>
+                <message>W tym fragmencie zdaniu brak słowa „nie”.</message>
+                <short>Błąd składniowy</short>
+                <example correction=''><marker>Nigdy tego zrobiłam.</marker></example>
+                <example>Nigdy tego nie zrobiłam.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token postag='SENT_START' skip='-1'><exception scope='next'>nie</exception></token>
+                        <token postag='verb:.*' postag_regexp='yes' skip='-1'><exception scope='next'>nie</exception></token>
+                        <token case_sensitive="yes" regexp='yes' skip='-1'>nikt|nigdy|nic|ani|bynajmniej<exception scope='next'>nie</exception><exception>Ani</exception></token>
+                        <token postag='SENT_END'></token>
+                    </pattern>
+                    <message>W tym fragmencie zdaniu brak słowa „nie”.</message>
+                    <short>Błąd składniowy</short>
+                    <example correction=''><marker>Zrobiłem ani tego, ani tamtego.</marker></example>
+                    <example>Nigdy tego nie zrobiłam.</example>
+                </rule>
+            </rulegroup>
             <rule id="NIM_IMPERF" name="Czasownik niedokonany po spójniku nim i zanim">
                 <pattern>
                     <token regexp='yes' postag='comp' skip='-1'>(:?za)?nim<exception regexp='yes' scope='next'>[,;–\(\)]</exception><exception postag='verb:.*:perf.*|verb:bedzie.*' postag_regexp='yes' scope='next'></exception><exception postag='SENT_START|conj|interp.*' postag_regexp='yes' negate_pos='yes' scope='previous'></exception></token>
