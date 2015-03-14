@@ -22,7 +22,6 @@ package org.languagetool;
 import static org.junit.Assert.assertNotEquals;
 import junit.framework.TestCase;
 
-
 public class AnalyzedSentenceTest extends TestCase {
 
   public void testToString() {

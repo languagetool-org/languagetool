@@ -31,7 +31,7 @@ public final class AnalyzedSentence {
 
   private final AnalyzedTokenReadings[] tokens;
   private final AnalyzedTokenReadings[] nonBlankTokens;
-  private final int[] whPositions;
+  private final int[] whPositions;  // maps positions without whitespace to positions that include whitespaces
   private final Set<String> tokenSet;
   private final Set<String> lemmaSet;
 
@@ -118,7 +118,9 @@ public final class AnalyzedSentence {
    * Returns the {@link AnalyzedTokenReadings} of the analyzed text. Whitespace
    * is also a token.
    */
-  public final AnalyzedTokenReadings[] getTokens() {
+  public AnalyzedTokenReadings[] getTokens() {
+    // It would be better to return a clone here to make this object immutable,
+    // but this would be bad for performance:
     return tokens;
   }
 
@@ -127,7 +129,7 @@ public final class AnalyzedSentence {
    * whitespace tokens removed but with the artificial <code>SENT_START</code>
    * token included.
    */
-  public final AnalyzedTokenReadings[] getTokensWithoutWhitespace() {
+  public AnalyzedTokenReadings[] getTokensWithoutWhitespace() {
     return nonBlankTokens.clone();
   }
 
@@ -138,12 +140,12 @@ public final class AnalyzedSentence {
    * @param nonWhPosition position of a non-whitespace token
    * @return position in the original sentence.
    */
-  public final int getOriginalPosition(final int nonWhPosition) {
+  public int getOriginalPosition(int nonWhPosition) {
     return whPositions[nonWhPosition];
   }
 
   @Override
-  public final String toString() {
+  public String toString() {
     return toString(",");
   }
 
@@ -151,7 +153,7 @@ public final class AnalyzedSentence {
    * Return string representation without chunk information.
    * @since 2.3
    */
-  public final String toShortString(String readingDelimiter) {
+  public String toShortString(String readingDelimiter) {
     return toString(readingDelimiter, false);
   }
 
@@ -171,20 +173,20 @@ public final class AnalyzedSentence {
    * Return string representation without any analysis information, just the original text.
    * @since 2.6
    */
-  final String toTextString() {
+  String toTextString() {
     return getText();
   }
 
   /**
    * Return string representation with chunk information.
    */
-  public final String toString(String readingDelimiter) {
+  public String toString(String readingDelimiter) {
     return toString(readingDelimiter, true);
   }
 
   private String toString(String readingDelimiter, boolean includeChunks) {
     final StringBuilder sb = new StringBuilder();
-    for (final AnalyzedTokenReadings element : tokens) {
+    for (AnalyzedTokenReadings element : tokens) {
       if (!element.isWhitespace()) {
         sb.append(element.getToken());
         sb.append('[');
@@ -230,10 +232,10 @@ public final class AnalyzedSentence {
   /**
    * Get disambiguator actions log.
    */
-  public final String getAnnotations() {
+  public String getAnnotations() {
     final StringBuilder sb = new StringBuilder(40);
     sb.append("Disambiguator log: \n");
-    for (final AnalyzedTokenReadings element : tokens) {
+    for (AnalyzedTokenReadings element : tokens) {
       if (!element.isWhitespace() &&
               !"".equals(element.getHistoricalAnnotations())) {
         sb.append(element.getHistoricalAnnotations());
@@ -263,7 +265,7 @@ public final class AnalyzedSentence {
 
   @SuppressWarnings("ControlFlowStatementWithoutBraces")
   @Override
-  public synchronized boolean equals(Object obj) {
+  public boolean equals(Object obj) {
     if (this == obj)
       return true;
     if (obj == null)
@@ -277,22 +279,18 @@ public final class AnalyzedSentence {
       return false;
     if (!Arrays.equals(whPositions, other.whPositions))
       return false;
-    if (tokenSet != null && !tokenSet.equals(other.tokenSet))
-      return false;
-    if (lemmaSet != null && !lemmaSet.equals(other.lemmaSet))
-      return false;
+    // tokenSet and lemmaSet are a subset of tokens and don't need to be included
     return true;
   }
 
   @Override
-  public synchronized int hashCode() {
+  public int hashCode() {
     final int prime = 31;
     int result = 1;
     result = prime * result + Arrays.hashCode(nonBlankTokens);
     result = prime * result + Arrays.hashCode(tokens);
     result = prime * result + Arrays.hashCode(whPositions);
-    result = prime * result + tokenSet.hashCode();
-    result = prime * result + lemmaSet.hashCode();
+    // tokenSet and lemmaSet are a subset of tokens and don't need to be included
     return result;
   }
 
