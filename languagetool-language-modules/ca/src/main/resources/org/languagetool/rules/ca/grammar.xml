@@ -32673,7 +32673,7 @@ $Id$
             <url>http://esadir.cat/entrades/fitxa/node/xulo</url>
             <example correction="bonic|vistós|maco|fatxenda|provocador|proxeneta|macarró">Era molt <marker>xulo</marker>!</example>
         </rule>
-        <rule id="XULISSIM" name="xulÍSSIM">
+        <rule id="XULISSIM" name="xulíssim">
             <pattern>
                 <token inflected="yes">xulíssim</token>
             </pattern>
@@ -32684,6 +32684,74 @@ $Id$
             <suggestion><match no="1" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQA$1">maquíssim</match></suggestion>
             <url>http://esadir.cat/entrades/fitxa/node/xulo</url>
             <example correction="molt boniques|molt vistoses|molt maques|maquíssimes">Eren <marker>xulíssimes</marker>!</example>
+        </rule>
+        <rule id="MONISSIM" name="moníssim">
+            <pattern>
+                <token inflected="yes">moníssim</token>
+            </pattern>
+            <message>Lleguatge col·loquial</message>
+            <suggestion>molt <match no="1" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">bonic</match></suggestion>
+            <suggestion>molt <match no="1" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">bufó</match></suggestion>
+            <suggestion>molt <match no="1" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">graciós</match></suggestion>
+            <suggestion>molt <match no="1" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">delicat</match></suggestion>
+            <suggestion>molt <match no="1" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">atractiu</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/mono</url>
+            <example correction="molt boniques|molt bufones|molt gracioses|molt delicades|molt atractives">Eren <marker>moníssimes</marker>!</example>
+        </rule>
+        <rule id="MONO" name="mono (bonic, mico, granota, monofònic síndrome)">
+            <pattern>
+                <token>mono</token>
+            </pattern>
+            <message>Lleguatge col·loquial.</message>
+            <suggestion>bufó</suggestion>
+            <suggestion>bonic</suggestion>
+            <suggestion>graciós</suggestion>
+            <suggestion>granota</suggestion>
+            <suggestion>mona</suggestion>
+            <suggestion>mico</suggestion>
+            <suggestion>simi</suggestion>
+            <suggestion>síndrome d'abstinència</suggestion>
+            <suggestion>monofònic</suggestion>
+            <suggestion>monofònica</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/mono</url>
+            <example correction="bufó|bonic|graciós|granota|mona|mico|simi|síndrome d'abstinència|monofònic|monofònica">Que <marker>mono</marker>!</example>
+        </rule>
+        <rule id="MONOS" name="monos (bonic, mico, granota, monofònic síndrome)">
+            <pattern>
+                <token>monos</token>
+            </pattern>
+            <message>Lleguatge col·loquial.</message>
+            <suggestion>bufons</suggestion>
+            <suggestion>bonics</suggestion>
+            <suggestion>graciosos</suggestion>
+            <suggestion>granotes</suggestion>
+            <suggestion>mones</suggestion>
+            <suggestion>micos</suggestion>
+            <suggestion>simis</suggestion>
+            <suggestion>síndromes d'abstinència</suggestion>
+            <suggestion>monofònics</suggestion>
+            <suggestion>monofòniques</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/mono</url>
+            <example correction="bufons|bonics|graciosos|granotes|mones|micos|simis|síndromes d'abstinència|monofònics|monofòniques">Que <marker>monos</marker>!</example>
+        </rule>
+        <rule id="MONA" name="mona (adj): bonica, graciosa">
+            <pattern>
+                <marker>
+                    <token postag="AQ.F.*" postag_regexp="yes" regexp="yes">mona|mones<exception postag="NC.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Lleguatge col·loquial. Correcte si equival a "mico, simi".</message>
+            <suggestion><match no="2" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">bonic</match></suggestion>
+            <suggestion><match no="2" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">bufó</match></suggestion>
+            <suggestion><match no="2" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">graciós</match></suggestion>
+            <suggestion><match no="2" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">delicat</match></suggestion>
+            <suggestion><match no="2" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">atractiu</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/mono</url>
+            <example correction="boniques|bufones|gracioses|delicades|atractives">Eren tan <marker>mones</marker>!</example>
+            <example correction="boniques|bufones|gracioses|delicades|atractives">Eren cases <marker>mones</marker>!</example>
+            <example correction="bonica|bufona|graciosa|delicada|atractiva">És molt <marker>mona</marker>!</example>
+            <example>És una mona negra.</example>
+            <example>Són mones albines.</example>
         </rule>
         <rule id="FARRAGOS" name="farragós">
             <pattern>

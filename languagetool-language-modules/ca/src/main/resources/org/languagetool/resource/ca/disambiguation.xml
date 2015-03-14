@@ -3923,6 +3923,36 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove"><wd lemma="crear"/></disambig>
     </rule>
+    <rulegroup id="MONA" name="mona (nom o adjectiu)">
+        <rule> 
+            <pattern>
+                <token postag="RG_anteposat"/>
+                <marker>
+                <and>
+                    <token inflected="yes">mona</token>
+                    <token inflected="yes">mono2</token>
+                </and>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd lemma="mona"/></disambig>
+        </rule>
+        <rule> 
+            <pattern>
+                <unify>
+                <feature id="genere"/>
+                <feature id="nombre"/>
+                <token postag="NC.*" postag_regexp="yes"/>
+                <marker>
+                <and>
+                    <token inflected="yes">mona</token>
+                    <token inflected="yes">mono2</token>
+                </and>
+                </marker>
+                </unify>
+            </pattern>
+            <disambig action="remove"><wd lemma="mona"/></disambig>
+        </rule>
+    </rulegroup>
     <rule id="SENS" name="sens + nom"> 
         <pattern>
                 <token>sens</token>
