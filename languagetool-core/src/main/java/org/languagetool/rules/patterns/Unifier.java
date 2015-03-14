@@ -19,11 +19,7 @@
 
 package org.languagetool.rules.patterns;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.jetbrains.annotations.Nullable;
@@ -483,40 +479,19 @@ class EquivalenceTypeLocator {
 
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + (feature == null ? 0 : feature.hashCode());
-    result = prime * result + (type == null ? 0 : type.hashCode());
-    return result;
+    return Objects.hash(feature, type);
   }
 
   @Override
   public boolean equals(final Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
+    if (this == obj) { return true; }
+    if (obj == null) { return false; }
     if (getClass() != obj.getClass()) {
       return false;
     }
     final EquivalenceTypeLocator other = (EquivalenceTypeLocator) obj;
-    if (feature == null) {
-      if (other.feature != null) {
-        return false;
-      }
-    } else if (!feature.equals(other.feature)) {
-      return false;
-    }
-    if (type == null) {
-      if (other.type != null) {
-        return false;
-      }
-    } else if (!type.equals(other.type)) {
-      return false;
-    }
-    return true;
+    return Objects.equals(feature, other.feature) &&
+           Objects.equals(type, other.type);
   }
 
 }

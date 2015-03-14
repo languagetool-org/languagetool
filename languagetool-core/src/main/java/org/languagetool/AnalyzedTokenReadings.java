@@ -23,6 +23,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tools.StringTools;
 
@@ -502,62 +503,33 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
 
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + Arrays.hashCode(anTokReadings);
-    result = prime * result + (isLinebreak ? 1231 : 1237);
-    result = prime * result + (isParaEnd ? 1231 : 1237);
-    result = prime * result + (isSentEnd ? 1231 : 1237);
-    result = prime * result + (isSentStart ? 1231 : 1237);
-    result = prime * result + (isWhitespace ? 1231 : 1237);
-    result = prime * result + (isWhitespaceBefore ? 1231 : 1237);
-    result = prime * result + chunkTags.hashCode();
-    result = prime * result + startPos;
-    result = prime * result + (token == null ? 0 : token.hashCode());
-    return result;
+    return Arrays.hashCode(anTokReadings) +
+           Objects.hash(isLinebreak, isParaEnd, isSentEnd, isSentStart, isWhitespace, isWhitespaceBefore, chunkTags, startPos, token);
   }
 
-  @SuppressWarnings("ControlFlowStatementWithoutBraces")
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    final AnalyzedTokenReadings other = (AnalyzedTokenReadings) obj;
-    if (!Arrays.equals(anTokReadings, other.anTokReadings))
-      return false;
-    if (isLinebreak != other.isLinebreak)
-      return false;
-    if (isParaEnd != other.isParaEnd)
-      return false;
-    if (isSentEnd != other.isSentEnd)
-      return false;
-    if (isSentStart != other.isSentStart)
-      return false;
-    if (isWhitespace != other.isWhitespace)
-      return false;
-    if (isWhitespaceBefore != other.isWhitespaceBefore)
-      return false;
-    if (isImmunized != other.isImmunized)
-      return false;
-    if (startPos != other.startPos)
-      return false;
-    if (!chunkTags.equals(other.chunkTags))
-      return false;
-    if (hasSameLemmas != other.hasSameLemmas)
-      return false;
-    if (isIgnoredBySpeller != other.isIgnoredBySpeller)
-      return false;
-    if (token == null) {
-      if (other.token != null)
-        return false;
-    } else if (!token.equals(other.token)) {
+    if (this == obj) { return true; }
+    if (obj == null) { return false; }
+    if (getClass() != obj.getClass()) {
       return false;
     }
-    return true;
+    final AnalyzedTokenReadings other = (AnalyzedTokenReadings) obj;
+    return new EqualsBuilder()
+      .append(anTokReadings, other.anTokReadings)
+      .append(isLinebreak, other.isLinebreak)
+      .append(isParaEnd, other.isParaEnd)
+      .append(isSentEnd, other.isSentEnd)
+      .append(isSentStart, other.isSentStart)
+      .append(isWhitespace, other.isWhitespace)
+      .append(isWhitespaceBefore, other.isWhitespaceBefore)
+      .append(isImmunized, other.isImmunized)
+      .append(startPos, other.startPos)
+      .append(chunkTags, other.chunkTags)
+      .append(hasSameLemmas, other.hasSameLemmas)
+      .append(isIgnoredBySpeller, other.isIgnoredBySpeller)
+      .append(token, other.token)
+      .isEquals();
   }
 
   /**
