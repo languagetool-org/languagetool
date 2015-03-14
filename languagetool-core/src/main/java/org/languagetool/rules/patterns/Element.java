@@ -83,8 +83,8 @@ public class Element implements Cloneable {
   private int minOccurrence = 1;
   private int maxOccurrence = 1;
 
-  private Pattern p;
-  private Pattern pPos;
+  private Pattern pattern;
+  private Pattern posPattern;
 
   /** The reference to another element in the pattern. **/
   private Match tokenReference;
@@ -109,9 +109,7 @@ public class Element implements Cloneable {
   private Map<String, List<String>> unificationFeatures;
   private boolean posUnknown;
 
-  /**
-   * Set to true on tokens that close the unification block.
-   */
+  /** Set to true on tokens that close the unification block. */
   private boolean isLastUnified;
 
   /**
@@ -145,11 +143,11 @@ public class Element implements Cloneable {
     }
     final boolean matched;
     if (testString) {
-      matched = isStringTokenMatched(token) ^ negation
-          && isPosTokenMatched(token) ^ posNegation;
+      matched = isStringTokenMatched(token) ^ negation &&
+                isPosTokenMatched(token) ^ posNegation;
     } else {
-      matched = !negation
-          && isPosTokenMatched(token) ^ posNegation;
+      matched = !negation &&
+                isPosTokenMatched(token) ^ posNegation;
     }
     return matched;
   }
@@ -329,21 +327,19 @@ public class Element implements Cloneable {
     this.posNegation = negation;
     posRegExp = regExp;
     if (posRegExp) {
-      pPos = Pattern.compile(posToken);
-      final Matcher mPos = pPos.matcher(UNKNOWN_TAG);
-      posUnknown = mPos.matches();
+      posPattern = Pattern.compile(posToken);
+      posUnknown = posPattern.matcher(UNKNOWN_TAG).matches();
     } else {
       posUnknown = UNKNOWN_TAG.equals(posToken);
     }
   }
 
-  /**
-   * @since 2.3
-   */
+  /** @since 2.3 */
   public final void setChunkElement(final ChunkTag chunkTag) {
     this.chunkToken = chunkTag;
   }
 
+  @Nullable
   public final String getString() {
     return stringToken;
   }
@@ -361,7 +357,7 @@ public class Element implements Cloneable {
         regToken = CASE_INSENSITIVE + stringToken;
       }
       if (!"\\0".equals(token)) {
-        p = Pattern.compile(regToken);
+        pattern = Pattern.compile(regToken);
       }
     }
   }
@@ -385,7 +381,6 @@ public class Element implements Cloneable {
           final String token, final boolean regExp, final boolean inflected,
           final boolean negation, final boolean scopeNext, final boolean scopePrevious,
           final String posToken, final boolean posRegExp, final boolean posNegation, final Boolean caseSensitivity) {
-
     final Element exception = new Element(token, caseSensitivity == null ? caseSensitive : caseSensitivity, regExp, inflected);
     exception.setNegation(negation);
     exception.setPosElement(posToken, posRegExp, posNegation);
@@ -412,7 +407,6 @@ public class Element implements Cloneable {
       final String posToken, final boolean posRegExp, final boolean posNegation, final boolean caseSensitivity) {
     setStringPosException(token, regExp, inflected, negation, scopeNext, scopePrevious, posToken, posRegExp, posNegation, Boolean.valueOf(caseSensitivity));
   }
-
 
   private void setException(final Element elem, final boolean scopePrevious) {
     exceptionValidPrevious |= scopePrevious;
@@ -471,7 +465,7 @@ public class Element implements Cloneable {
     }
     boolean match;
     if (posRegExp) {
-      final Matcher mPos = pPos.matcher(token.getPOSTag());
+      final Matcher mPos = posPattern.matcher(token.getPOSTag());
       match = mPos.matches();
     } else {
       match = posToken.equals(token.getPOSTag());
@@ -490,7 +484,7 @@ public class Element implements Cloneable {
   boolean isStringTokenMatched(final AnalyzedToken token) {
     final String testToken = getTestToken(token);
     if (stringRegExp) {
-      final Matcher m = p.matcher(testToken);
+      final Matcher m = pattern.matcher(testToken);
       return m.matches();
     }
     if (caseSensitive) {
@@ -631,7 +625,7 @@ public class Element implements Cloneable {
   }
 
   void doCompile(final AnalyzedTokenReadings token, final Synthesizer synth) throws IOException {
-    p = null;
+    pattern = null;
     final MatchState matchState = tokenReference.createState(synth, token);
 
     if (StringTools.isEmpty(referenceString)) {
@@ -652,10 +646,10 @@ public class Element implements Cloneable {
 
   /**
    * Sets the phrase the element is in.
-   * @param s ID of the phrase.
+   * @param id ID of the phrase.
    */
-  public final void setPhraseName(final String s) {
-    phraseName = s;
+  public final void setPhraseName(final String id) {
+    phraseName = id;
   }
 
   /**
@@ -736,8 +730,6 @@ public class Element implements Cloneable {
     return unified;
   }
 
-
-
   public final void setUnification(final Map<String, List<String>> uniFeatures) {
     unificationFeatures = uniFeatures;
     unified = true;
@@ -745,7 +737,7 @@ public class Element implements Cloneable {
 
   /**
    * Get unification features and types.
-   * @return A map from features to a list of types.
+   * @return A map from features to a list of types or {@code null}
    * @since 1.0.1
    */
   @Nullable
@@ -774,7 +766,7 @@ public class Element implements Cloneable {
    * and simply added.
    * @return True when the element is not included in unifying.
    * @since 2.5
-   **/
+   */
   public boolean isUnificationNeutral() {
     return unificationNeutral;
   }
