@@ -35,16 +35,15 @@ import org.languagetool.tools.StringTools;
  */
 public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
 
-  protected AnalyzedToken[] anTokReadings;
+  private final boolean isWhitespace;
+  private final boolean isLinebreak;
+  private final boolean isSentStart;
 
+  private AnalyzedToken[] anTokReadings;
   private int startPos;
   private String token;
   private List<ChunkTag> chunkTags = new ArrayList<>();
-
-  private boolean isWhitespace;
-  private boolean isLinebreak;
   private boolean isSentEnd;
-  private boolean isSentStart;
   private boolean isParaEnd;
   private boolean isWhitespaceBefore;
 
@@ -76,31 +75,13 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    */
   private boolean hasSameLemmas;
 
-  public AnalyzedTokenReadings(final AnalyzedToken[] token, final int startPos) {
-    anTokReadings = token.clone();
-    this.startPos = startPos;
-    init();
+  public AnalyzedTokenReadings(final AnalyzedToken[] tokens, final int startPos) {
+    this(Arrays.asList(tokens), startPos);
   }
 
   public AnalyzedTokenReadings(final List<AnalyzedToken> tokens, final int startPos) {
     anTokReadings = tokens.toArray(new AnalyzedToken[tokens.size()]);
     this.startPos = startPos;
-    init();
-  }
-
-  public AnalyzedTokenReadings(final AnalyzedToken token, final int startPos) {
-    this(token);
-    this.startPos = startPos;
-  }
-
-  AnalyzedTokenReadings(final AnalyzedToken token) {
-    anTokReadings = new AnalyzedToken[1];
-    anTokReadings[0] = token;
-    isWhitespaceBefore = token.isWhitespaceBefore();
-    init();
-  }
-
-  private void init() {
     token = anTokReadings[0].getToken();
     isWhitespace = StringTools.isWhitespace(token);
     isLinebreak = "\n".equals(token) || "\r\n".equals(token)
@@ -111,6 +92,14 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     isSentEnd = hasPosTag(JLanguageTool.SENTENCE_END_TAGNAME);
     setNoRealPOStag();
     hasSameLemmas = areLemmasSame();
+  }
+
+  public AnalyzedTokenReadings(final AnalyzedToken token, final int startPos) {
+    this(Collections.singletonList(token), startPos);
+  }
+
+  AnalyzedTokenReadings(final AnalyzedToken token) {
+    this(Collections.singletonList(token), 0);
   }
 
   public final List<AnalyzedToken> getReadings() {
