@@ -2583,13 +2583,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="filterall"/>
     </rule>
 
-    <rule id="NAPOJ" name="napój + przymiotnik -> rzeczownik">
+    <rule id="NAPOJ_WYROB" name="napój/wyrób + przymiotnik -> rzeczownik">
         <pattern>
             <marker>
             <unify>
                 <feature id="number"><type id="sg"/></feature>
                 <feature id="gender"><type id="m3"/></feature><feature id="case"/>
-                    <token>napój</token>
+                    <token regexp="yes">napój|wyrób</token>
                      <token postag="(adj|pact).*" postag_regexp="yes"/>
             </unify>
             </marker>
@@ -2598,6 +2598,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Napój swojego konia!</example>
         <example type="ambiguous" inputform="Napój[napoić/verb:impt:sg:sec:perf:refl.nonrefl,napój/subst:sg:acc:m3,napój/subst:sg:nom:m3]" outputform="Napój[napój/subst:sg:acc:m3,napój/subst:sg:nom:m3]"><marker>Napój</marker> miłosny</example>
     </rule>
+
 
     <rule id="na_tyle" name="na tyle + adj|adv -> adv">
         <pattern>

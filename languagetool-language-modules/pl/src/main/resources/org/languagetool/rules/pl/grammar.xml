@@ -4765,28 +4765,47 @@ $Id$
 		<category name="Błędy składniowe" type="grammar">
             <rulegroup id="NIGDY_NIE" name="Brak negacji w zdaniu z „nigdy”, „nic” itd.">
                 <rule>
+                    <antipattern>
+                        <token inflected="yes">panna</token>
+                        <marker><token case_sensitive="yes">Nikt</token></marker>
+                    </antipattern>
+                    <antipattern>
+                        <marker><token>nic</token></marker>
+                        <token>,</token>
+                        <token>tylko</token>
+                    </antipattern>
+                    <antipattern>
+                        <marker><token>nic</token></marker>
+                        <token>tylko</token>
+                    </antipattern>
+                    <antipattern>
+                        <marker><token>nic</token></marker>
+                        <token postag="adj:sg:gen:m1.m2.m3.n1.n2:pos"/>
+                    </antipattern>
                 <pattern>
-                    <token postag='SENT_START' skip='-1'><exception scope='next'>nie</exception></token>
-                    <token regexp='yes' skip='-1'>nikt|nigdy|nic|ani|bynajmniej<exception scope='next'>nie</exception><exception case_sensitive="yes">Ani</exception></token>
-                    <token postag='verb:.*' postag_regexp='yes' skip='-1'><exception scope='next'>nie</exception></token>
+                    <token postag='SENT_START' skip='-1'><exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
+                    <token regexp='yes' skip='-1'>nikt|nigdy|nic|ani|bynajmniej<exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/><exception case_sensitive="yes">Ani</exception></token>
+                    <token postag='verb:.*' postag_regexp='yes' skip='-1'><exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
                     <token postag='SENT_END'></token>
                 </pattern>
                 <message>W tym zdaniu brak słowa „nie”.</message>
                 <short>Błąd składniowy</short>
                 <example correction=''><marker>Nigdy tego zrobiłam.</marker></example>
                 <example>Nigdy tego nie zrobiłam.</example>
+                    <example>Nic dziwnego, że chrapał.</example>
                 </rule>
                 <rule>
                     <pattern>
-                        <token postag='SENT_START' skip='-1'><exception scope='next'>nie</exception></token>
-                        <token postag='verb:.*' postag_regexp='yes' skip='-1'><exception scope='next'>nie</exception></token>
-                        <token case_sensitive="yes" regexp='yes' skip='-1'>nikt|nigdy|nic|ani|bynajmniej<exception scope='next'>nie</exception><exception>Ani</exception></token>
+                        <token postag='SENT_START' skip='-1'><exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
+                        <token postag='verb:.*' postag_regexp='yes' skip='-1'><exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
+                        <token case_sensitive="yes" regexp='yes' skip='-1'>nikt|nigdy|nic|ani|bynajmniej<exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/><exception>Ani</exception></token>
                         <token postag='SENT_END'></token>
                     </pattern>
                     <message>W tym zdaniu brak słowa „nie”.</message>
                     <short>Błąd składniowy</short>
                     <example correction=''><marker>Zrobiłem ani tego, ani tamtego.</marker></example>
                     <example>Nigdy tego nie zrobiłam.</example>
+                    <example>W 1996 roku stworzył Pannę Nikt w oparciu o powieść Tomka Tryzny o dorastającej dziewczynie, która przeżywa kryzys wartości.</example>
                 </rule>
             </rulegroup>
             <rule id="NIM_IMPERF" name="Czasownik niedokonany po spójniku nim i zanim">
