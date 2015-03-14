@@ -48,32 +48,22 @@ public class Match {
   private final String posTagReplace;
   private final CaseConversion caseConversionType;
   private final IncludeRange includeSkipped;
-
-  private boolean postagRegexp;
-
-  // True if this match element formats a statically defined lemma which is
-  // enclosed by the element, e.g., <match...>word</match>:
-  private boolean staticLemma;
-
-  private String lemma;
-
+  // Pattern used to define parts of the matched token:
+  private final Pattern pRegexMatch;
   // True if this match element is used for formatting POS token:
   private final boolean setPos;
 
+  private boolean postagRegexp;
+  // True if this match element formats a statically defined lemma which is
+  // enclosed by the element, e.g., <match...>word</match>:
+  private boolean staticLemma;
+  private String lemma;
   private int tokenRef;
-
-  /** Word form generator for POS tags. **/
+  // Word form generator for POS tags:
   private Synthesizer synthesizer;
-
-  /** Pattern used to define parts of the matched token. **/
-  private Pattern pRegexMatch;
-
-  /** Pattern used to define parts of the matched POS token. **/
+  // Pattern used to define parts of the matched POS token:
   private Pattern pPosRegexMatch;
-
-  /**
-   * True when the match is not in the suggestion.
-   */
+  // True when the match is not in the suggestion:
   private boolean inMessageOnly;
 
   public Match(final String posTag, final String posTagReplace,
@@ -85,14 +75,10 @@ public class Match {
     this.posTag = posTag;
     this.postagRegexp = postagRegexp;
     this.caseConversionType = caseConversionType;
-
-    if (regexMatch != null) {
-      pRegexMatch = Pattern.compile(regexMatch);
-    }
+    pRegexMatch = regexMatch != null ? Pattern.compile(regexMatch) : null;
     if (postagRegexp && posTag != null) {
       pPosRegexMatch = Pattern.compile(posTag);
     }
-
     this.regexReplace = regexReplace;
     this.posTagReplace = posTagReplace;
     this.setPos = setPOS;
