@@ -361,11 +361,12 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   private void setNoRealPOStag() {
     boolean hasNoPOStag = !isLinebreak();
     for (AnalyzedToken an: anTokReadings) {
-      if (PARAGRAPH_END_TAGNAME.equals(an.getPOSTag()) ||
-          SENTENCE_END_TAGNAME.equals(an.getPOSTag())) {
+      String posTag = an.getPOSTag();
+      if (PARAGRAPH_END_TAGNAME.equals(posTag) ||
+          SENTENCE_END_TAGNAME.equals(posTag)) {
         continue;
       }
-      if (an.getPOSTag() != null) {
+      if (posTag != null) {
         hasNoPOStag = false;
       }
     }

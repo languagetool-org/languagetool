@@ -26,12 +26,13 @@ import org.languagetool.tools.StringTools;
 
 /**
  * A {@link Match} is the configuration of an algorithm used to match {@link AnalyzedTokenReadings}s.
+ * In XML, it's the {@code <match/>} element.
  * Use {@link #createState(Synthesizer, AnalyzedTokenReadings)} and {@link #createState(Synthesizer, AnalyzedTokenReadings[], int, int)}
  * to create a {@link MatchState} used to actually match {@link AnalyzedTokenReadings}.
  *
  * @author Marcin Miłkowski
  */
-public class Match {
+public final class Match {
 
   /** Possible string case conversions. **/
   public enum CaseConversion {
@@ -59,8 +60,6 @@ public class Match {
   private boolean staticLemma;
   private String lemma;
   private int tokenRef;
-  // Word form generator for POS tags:
-  private Synthesizer synthesizer;
   // Pattern used to define parts of the matched POS token:
   private Pattern pPosRegexMatch;
   // True when the match is not in the suggestion:
@@ -111,7 +110,7 @@ public class Match {
    *
    * @return True if Match sets POS.
    */
-  public final boolean setsPos() {
+  public boolean setsPos() {
     return setPos;
   }
 
@@ -120,7 +119,7 @@ public class Match {
    *
    * @return True if regexp is used in POS.
    */
-  public final boolean posRegExp() {
+  public boolean posRegExp() {
     return postagRegexp;
   }
 
@@ -130,7 +129,7 @@ public class Match {
    *
    * @param lemmaString String that specifies the base form.
    */
-  public final void setLemmaString(final String lemmaString) {
+  public void setLemmaString(final String lemmaString) {
     if (!StringTools.isEmpty(lemmaString)) {
       lemma = lemmaString;
       staticLemma = true;
@@ -156,28 +155,11 @@ public class Match {
   }
 
   /**
-   * Sets a synthesizer used for grammatical synthesis of forms based on
-   * formatted POS values.
-   *
-   * @param synth Synthesizer class.
-   */
-  public final void setSynthesizer(final Synthesizer synth) {
-    synthesizer = synth;
-  }
-
-  /**
-   * @since 2.3
-   */
-  public Synthesizer getSynthesizer() {
-    return synthesizer;
-  }
-
-  /**
    * Used to tell whether the Match class will spell-check the result so
    * that misspelled suggestions are suppressed.
    * @return True if this is so.
    */
-  public final boolean checksSpelling() {
+  public boolean checksSpelling() {
     return suppressMisspelled;
   }
 
@@ -186,7 +168,7 @@ public class Match {
    *
    * @param i Token number.
    */
-  public final void setTokenRef(final int i) {
+  public void setTokenRef(int i) {
     tokenRef = i;
   }
 
@@ -195,7 +177,7 @@ public class Match {
    *
    * @return int - token number.
    */
-  public final int getTokenRef() {
+  public int getTokenRef() {
     return tokenRef;
   }
 
@@ -204,14 +186,14 @@ public class Match {
    *
    * @return true if match converts the case of the token.
    */
-  public final boolean convertsCase() {
+  public boolean convertsCase() {
     return !caseConversionType.equals(CaseConversion.NONE);
   }
 
   /**
    * @param inMessageOnly the inMessageOnly to set
    */
-  public void setInMessageOnly(final boolean inMessageOnly) {
+  public void setInMessageOnly(boolean inMessageOnly) {
     this.inMessageOnly = inMessageOnly;
   }
 
@@ -221,7 +203,6 @@ public class Match {
   public boolean isInMessageOnly() {
     return inMessageOnly;
   }
-
 
   /**
    * @since 2.3

@@ -44,15 +44,15 @@ public class MatchTest extends TestCase {
 
   private static final String TEST_DATA =
           "# some test data\n" +
-                  "inflectedform11\tlemma1\tPOS1\n" +
-                  "inflectedform121\tlemma1\tPOS2\n" +
-                  "inflectedform122\tlemma1\tPOS2\n" +
-                  "inflectedform123\tlemma1\tPOS3\n" +
-                  "inflectedform2\tlemma2\tPOS1\n";
+          "inflectedform11\tlemma1\tPOS1\n" +
+          "inflectedform121\tlemma1\tPOS2\n" +
+          "inflectedform122\tlemma1\tPOS2\n" +
+          "inflectedform123\tlemma1\tPOS3\n" +
+          "inflectedform2\tlemma2\tPOS1\n";
 
-  protected JLanguageTool languageTool;
-  protected Synthesizer synthesizer;
-  protected Tagger tagger;
+  private JLanguageTool languageTool;
+  private Synthesizer synthesizer;
+  private Tagger tagger;
 
   //-- helper methods
 
@@ -65,15 +65,11 @@ public class MatchTest extends TestCase {
   }
 
   private Match getMatch(String posTag, String posTagReplace, CaseConversion caseConversion) {
-    final Match match = new Match(posTag, posTagReplace, true, null, null, caseConversion, false, false, IncludeRange.NONE);
-    match.setSynthesizer(synthesizer);
-    return match;
+    return new Match(posTag, posTagReplace, true, null, null, caseConversion, false, false, IncludeRange.NONE);
   }
 
   private Match getMatch(String posTag, String posTagReplace, IncludeRange includeRange) {
-    final Match match = new Match(posTag, posTagReplace, true, null, null, CaseConversion.NONE, false, false, includeRange);
-    match.setSynthesizer(synthesizer);
-    return match;
+    return  new Match(posTag, posTagReplace, true, null, null, CaseConversion.NONE, false, false, includeRange);
   }
 
   //-- setup
