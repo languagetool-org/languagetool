@@ -466,32 +466,3 @@ public class Unifier {
     return null;
   }
 }
-
-class EquivalenceTypeLocator {
-
-  private final String feature;
-  private final String type;
-
-  EquivalenceTypeLocator(final String feature, final String type) {
-    this.feature = feature;
-    this.type = type;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(feature, type);
-  }
-
-  @Override
-  public boolean equals(final Object obj) {
-    if (this == obj) { return true; }
-    if (obj == null) { return false; }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    final EquivalenceTypeLocator other = (EquivalenceTypeLocator) obj;
-    return Objects.equals(feature, other.feature) &&
-           Objects.equals(type, other.type);
-  }
-
-}
