@@ -33,7 +33,7 @@ import org.languagetool.tools.StringTools;
  * 
  * @author Marcin Milkowski
  */
-public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
+public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
 
   private final boolean isWhitespace;
   private final boolean isLinebreak;
@@ -47,32 +47,20 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   private boolean isParaEnd;
   private boolean isWhitespaceBefore;
 
-  /**
-   * If true, then the token is marked up as immune against tests:
-   * it should never be matched by any rule. Used to have generalized
-   * mechanism for exceptions in rules.
-   */
+  // If true, then the token is marked up as immune against tests:
+  // it should never be matched by any rule. Used to have generalized
+  // mechanism for exceptions in rules.
   private boolean isImmunized;
 
-  /**
-   * If true, then the token is marked up as ignored in all spelling rules:
-   * other rules can freely match it.
-   */
+  // If true, then the token is marked up as ignored in all spelling rules:
+  // other rules can freely match it.
   private boolean isIgnoredBySpeller;
 
-  /**
-   * Used to hold the string representation of the disambiguator actions on a token.
-   */
+  // Used to hold the string representation of the disambiguator actions on a token.
   private String historicalAnnotations = "";
 
-  /**
-   * True if the token has the same lemma value for all token.
-   * 
-   * Can be used internally to optimize matching.
-   * 
-   * @since 2.5
-   * 
-   */
+  // True if the token has the same lemma value for all tokens.
+  // Can be used internally to optimize matching.
   private boolean hasSameLemmas;
 
   public AnalyzedTokenReadings(final AnalyzedToken[] tokens, final int startPos) {
@@ -84,10 +72,8 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     this.startPos = startPos;
     token = anTokReadings[0].getToken();
     isWhitespace = StringTools.isWhitespace(token);
-    isLinebreak = "\n".equals(token) || "\r\n".equals(token)
-        || "\r".equals(token) || "\n\r".equals(token);
-    isSentStart = JLanguageTool.SENTENCE_START_TAGNAME.equals(anTokReadings[0]
-        .getPOSTag());
+    isLinebreak = "\n".equals(token) || "\r\n".equals(token) || "\r".equals(token) || "\n\r".equals(token);
+    isSentStart = JLanguageTool.SENTENCE_START_TAGNAME.equals(anTokReadings[0].getPOSTag());
     isParaEnd = hasPosTag(JLanguageTool.PARAGRAPH_END_TAGNAME);
     isSentEnd = hasPosTag(JLanguageTool.SENTENCE_END_TAGNAME);
     setNoRealPOStag();
@@ -102,7 +88,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     this(Collections.singletonList(token), 0);
   }
 
-  public final List<AnalyzedToken> getReadings() {
+  public List<AnalyzedToken> getReadings() {
     return Arrays.asList(anTokReadings);
   }
 
@@ -110,7 +96,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * Get a token reading.
    * @see #getReadingsLength() getReadingsLength() for how many token readings there are
    */
-  public final AnalyzedToken getAnalyzedToken(final int idx) {
+  public AnalyzedToken getAnalyzedToken(final int idx) {
     return anTokReadings[idx];
   }
 
@@ -119,7 +105,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * 
    * @param posTag POS tag to look for
    */
-  public final boolean hasPosTag(final String posTag) {
+  public boolean hasPosTag(final String posTag) {
     boolean found = false;
     for (final AnalyzedToken reading : anTokReadings) {
       if (reading.getPOSTag() != null) {
@@ -137,7 +123,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    *
    * @param lemma lemma POS tag to look for
    */
-  public final boolean hasLemma(final String lemma) {
+  public boolean hasLemma(final String lemma) {
     boolean found = false;
     for (final AnalyzedToken reading : anTokReadings) {
       if (reading.getLemma() != null) {
@@ -151,14 +137,14 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   }
 
   /**
-   * Checks if the token has a particular POS tag, whereas a part of the given POS tag needs to match.
+   * Checks if the token has a particular POS tag, whereas only a part of the given POS tag needs to match.
    *
    * @param posTag POS tag substring to look for
    * @since 1.8
    */
-  public final boolean hasPartialPosTag(final String posTag) {
+  public boolean hasPartialPosTag(final String posTag) {
     boolean found = false;
-    for (final AnalyzedToken reading : anTokReadings) {
+    for (AnalyzedToken reading : anTokReadings) {
       if (reading.getPOSTag() != null) {
         found = reading.getPOSTag().contains(posTag);
         if (found) {
@@ -173,7 +159,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * Add a new reading.
    * @param token new reading, given as {@link AnalyzedToken}
    */
-  public final void addReading(final AnalyzedToken token) {
+  public void addReading(final AnalyzedToken token) {
     final List<AnalyzedToken> l = new ArrayList<>();
     l.addAll(Arrays.asList(anTokReadings).subList(0, anTokReadings.length - 1));
     if (anTokReadings[anTokReadings.length - 1].getPOSTag() != null) {
@@ -198,7 +184,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * and an empty lemma is created.
    * @param token reading to be removed
    */
-  public final void removeReading(final AnalyzedToken token) {
+  public void removeReading(final AnalyzedToken token) {
     final List<AnalyzedToken> l = new ArrayList<>();
     final AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token.getPOSTag(), token.getLemma());
     tmpTok.setWhitespaceBefore(isWhitespaceBefore);
@@ -221,7 +207,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @param token Token to be matched
    * @since 1.5
    */
-  public final void leaveReading(final AnalyzedToken token) {
+  public void leaveReading(final AnalyzedToken token) {
     final List<AnalyzedToken> l = new ArrayList<>();
     final AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token.getPOSTag(), token.getLemma());
     tmpTok.setWhitespaceBefore(isWhitespaceBefore);
@@ -242,25 +228,25 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   /**
    * Number of readings.
    */
-  public final int getReadingsLength() {
+  public int getReadingsLength() {
     return anTokReadings.length;
   }
 
-  public final boolean isWhitespace() {
+  public boolean isWhitespace() {
     return isWhitespace;
   }
 
   /**
    * Returns true if the token equals {@code \n}, {@code \r}, {@code \n\r}, or {@code \r\n}.
    */
-  public final boolean isLinebreak() {
+  public boolean isLinebreak() {
     return isLinebreak;
   }
 
   /**
    * @since 2.3
    */
-  public final boolean isSentenceStart() {
+  public boolean isSentenceStart() {
     return isSentStart;
   }
 
@@ -268,7 +254,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @return true when the token is a last token in a paragraph.
    * @since 2.3
    */
-  public final boolean isParagraphEnd() {
+  public boolean isParagraphEnd() {
     return isParaEnd;
   }
 
@@ -296,14 +282,14 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @return true if the token is LibreOffice/OpenOffice field code.
    * @since 0.9.9
    */
-  public final boolean isFieldCode() {
+  public boolean isFieldCode() {
     return "\u0001".equals(token) || "\u0002".equals(token);
   }
 
   /**
    * Add a SENT_END tag.
    */
-  public final void setSentEnd() {
+  public void setSentEnd() {
     if (!isSentenceEnd()) {
       final AnalyzedToken sentenceEnd = new AnalyzedToken(getToken(),
           JLanguageTool.SENTENCE_END_TAGNAME, getAnalyzedToken(0).getLemma());
@@ -311,39 +297,39 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     }
   }
 
-  public final int getStartPos() {
+  public int getStartPos() {
     return startPos;
   }
 
   /** @since 2.9 */
-  public final int getEndPos() {
+  public int getEndPos() {
     return startPos + token.length();
   }
 
-  public final void setStartPos(final int position) {
+  public void setStartPos(final int position) {
     startPos = position;
   }
 
-  public final String getToken() {
+  public String getToken() {
     return token;
   }
 
-  public final void setWhitespaceBefore(final boolean isWhiteSpaceBefore) {
+  public void setWhitespaceBefore(final boolean isWhiteSpaceBefore) {
     isWhitespaceBefore = isWhiteSpaceBefore;
-    for (final AnalyzedToken aTok : anTokReadings) {
+    for (AnalyzedToken aTok : anTokReadings) {
       aTok.setWhitespaceBefore(isWhiteSpaceBefore);
     }
   }
 
-  public final boolean isWhitespaceBefore() {
+  public boolean isWhitespaceBefore() {
     return isWhitespaceBefore;
   }
 
-  public final void immunize() {
+  public void immunize() {
     isImmunized = true;
   }
 
-  public final boolean isImmunized() {
+  public boolean isImmunized() {
     return isImmunized;
   }
 
@@ -351,7 +337,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * Make the token ignored by all spelling rules.
    * @since 2.5
    */
-  public final void ignoreSpelling() {
+  public void ignoreSpelling() {
     isIgnoredBySpeller = true;
   }
 
@@ -360,7 +346,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @return true if the token should be ignored.
    * @since 2.5
    */
-  public final boolean isIgnoredBySpeller() {
+  public boolean isIgnoredBySpeller() {
     return isIgnoredBySpeller;
   }
 
@@ -420,7 +406,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     final StringBuilder sb = new StringBuilder();
     sb.append(token);
     sb.append('[');
-    for (final AnalyzedToken element : anTokReadings) {
+    for (AnalyzedToken element : anTokReadings) {
       sb.append(element);
       if (!element.isWhitespaceBefore()) {
         sb.append('*');
@@ -452,16 +438,10 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     return false;
   }
 
-
-
   /**
-   * 
-   * @return true if all {@link AnalyzedToken} lemmas are the same.
-   * 
    * Used to configure the internal variable for lemma equality.
-   *
+   * @return true if all {@link AnalyzedToken} lemmas are the same.
    * @since 2.5
-   * 
    */
   private boolean areLemmasSame() {
     String previousLemma = anTokReadings[0].getLemma();
