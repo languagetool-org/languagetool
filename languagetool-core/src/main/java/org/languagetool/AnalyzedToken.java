@@ -29,19 +29,14 @@ import org.jetbrains.annotations.Nullable;
  * 
  * @author Daniel Naber
  */
-public class AnalyzedToken {
+public final class AnalyzedToken {
 
   private final String token;
   private final String posTag;
   private final String lemma;
-
-  /**
-   * used only for matching with Elements
-   */
-  private final String tokenInflected;
+  private final String tokenInflected;  // used only for matching with Elements
 
   private boolean isWhitespaceBefore;
-  
   private boolean hasNoPOSTag;
 
   public AnalyzedToken(final String token, final String posTag, final String lemma) {
@@ -58,12 +53,15 @@ public class AnalyzedToken {
         || JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posTag));
   }
 
-  public final String getToken() {
+  public String getToken() {
     return token;
   }
 
+  /**
+   * @return the token's part-of-speech tag {@code null}
+   */
   @Nullable
-  public final String getPOSTag() {
+  public String getPOSTag() {
     return posTag;
   }
 
@@ -71,33 +69,31 @@ public class AnalyzedToken {
    * @return the token's lemma or {@code null}
    */
   @Nullable
-  public final String getLemma() {
+  public String getLemma() {
     return lemma;
   }
 
   /**
    * Like {@link #getLemma()}, but returns the token if the lemma is {@code null}
    */
-  @Nullable
-  public final String getTokenInflected() {
+  public String getTokenInflected() {
     return tokenInflected;
   }
   
-  public final void setWhitespaceBefore(final boolean isWhite) {
-    isWhitespaceBefore = isWhite;
+  public void setWhitespaceBefore(boolean whitespaceBefore) {
+    isWhitespaceBefore = whitespaceBefore;
   }
 
-  public final boolean isWhitespaceBefore() {
+  public boolean isWhitespaceBefore() {
     return isWhitespaceBefore;
   }
-
   
   /**
    * @param an AnalyzedToken to test
    * @return true if all of the non-null values (lemma, POS, token) of AnalyzedToken match this token
    * @since 1.5
    */
-  public final boolean matches(final AnalyzedToken an) {
+  public boolean matches(final AnalyzedToken an) {
     if (this.equals(an)) {
       return true;
     }
@@ -123,7 +119,7 @@ public class AnalyzedToken {
    * @return true if the AnalyzedToken has no real POS tag (= is not null or a special tag)
    * @since 1.5
    */
-  public final boolean hasNoTag() {
+  public boolean hasNoTag() {
     return hasNoPOSTag;
   }
   
@@ -134,7 +130,7 @@ public class AnalyzedToken {
    * cases. 
    * @since 1.5
    */
-  public final void setNoPOSTag(final boolean noTag) {
+  public void setNoPOSTag(boolean noTag) {
     hasNoPOSTag = noTag;
   }
   
@@ -144,12 +140,12 @@ public class AnalyzedToken {
   }
 
   @Override
-  public final int hashCode() {
+  public int hashCode() {
     return new HashCodeBuilder().append(isWhitespaceBefore).append(lemma).append(posTag).append(token).toHashCode();
   }
 
   @Override
-  public final boolean equals(final Object obj) {
+  public boolean equals(final Object obj) {
     if (obj == null) { return false; }
     if (obj == this) { return true; }
     if (obj.getClass() != getClass()) {
