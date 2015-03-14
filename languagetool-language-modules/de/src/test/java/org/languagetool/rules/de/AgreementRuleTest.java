@@ -47,14 +47,6 @@ public class AgreementRuleTest extends TestCase {
   }
   
   public void testDetNounRule() throws IOException {
-
-    /* debugging:
-    RuleMatch[] rm = rule.match(langTool.getAnalyzedSentence("Wer für die Kosten"));
-    System.err.println(rm[0]);
-    if (true)
-      return;
-    */
-
     // correct sentences:
     assertGood("So ist es in den USA.");
     assertGood("Das ist der Tisch.");

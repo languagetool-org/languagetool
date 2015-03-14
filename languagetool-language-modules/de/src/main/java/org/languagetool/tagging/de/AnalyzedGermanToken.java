@@ -31,68 +31,70 @@ import org.languagetool.tagging.de.GermanToken.POSType;
  * 
  * @author Daniel Naber
  */
-public class AnalyzedGermanToken extends AnalyzedToken {
+public class AnalyzedGermanToken {
 
-  private POSType type;
-  private Kasus casus;
-  private Numerus numerus;
-  private Genus genus;
+  private final POSType type;
+  private final Kasus casus;
+  private final Numerus numerus;
+  private final Genus genus;
 
   public AnalyzedGermanToken(AnalyzedToken token) {
-    super(token.getToken(), token.getPOSTag(), token.getLemma());
-    init();
-  }
-
-  private void init() {
-    if (getPOSTag() == null) {
+    String posTag = token.getPOSTag();
+    if (posTag == null || posTag.split(":").length < 3) {
+      type = null;
+      casus = null;
+      numerus = null;
+      genus = null;
       return;
     }
-    final String[] parts = getPOSTag().split(":");
-    if (parts.length < 3) {
-      return;
-    }
-    
-    //System.err.println(fullform + " " + posTagString);
+    final String[] parts = posTag.split(":");
+    POSType tempType = null;
+    Kasus tempCasus = null;
+    Numerus tempNumerus = null;
+    Genus tempGenus = null;
     for (String part : parts) {
       if (part.equals("EIG")) {
-        type = POSType.PROPER_NOUN;
-      } else if (part.equals("SUB") && type == null) {
-        type = POSType.NOMEN;
+        tempType = POSType.PROPER_NOUN;
+      } else if (part.equals("SUB") && tempType == null) {
+        tempType = POSType.NOMEN;
       } else if (part.equals("PA1") || part.equals("PA2")) {
-        type = POSType.PARTIZIP;
-      } else if (part.equals("VER") && type == null) {
-        type = POSType.VERB;
-      } else if (part.equals("ADJ") && type == null) {
-        type = POSType.ADJEKTIV;
-      } else if (part.equals("PRO") && type == null) {
-        type = POSType.PRONOMEN;
-      } else if (part.equals("ART") && type == null) {
-        type = POSType.DETERMINER;
+        tempType = POSType.PARTIZIP;
+      } else if (part.equals("VER") && tempType == null) {
+        tempType = POSType.VERB;
+      } else if (part.equals("ADJ") && tempType == null) {
+        tempType = POSType.ADJEKTIV;
+      } else if (part.equals("PRO") && tempType == null) {
+        tempType = POSType.PRONOMEN;
+      } else if (part.equals("ART") && tempType == null) {
+        tempType = POSType.DETERMINER;
       } else if (part.equals("AKK")) {
-        casus = Kasus.AKKUSATIV;
+        tempCasus = Kasus.AKKUSATIV;
       } else if (part.equals("GEN")) {
-        casus = Kasus.GENITIV;
+        tempCasus = Kasus.GENITIV;
       } else if (part.equals("NOM")) {
-        casus = Kasus.NOMINATIV;
+        tempCasus = Kasus.NOMINATIV;
       } else if (part.equals("DAT")) {
-        casus = Kasus.DATIV;
+        tempCasus = Kasus.DATIV;
       } else if (part.equals("PLU")) {
-        numerus = Numerus.PLURAL;
+        tempNumerus = Numerus.PLURAL;
       } else if (part.equals("SIN")) {
-        numerus = Numerus.SINGULAR;
+        tempNumerus = Numerus.SINGULAR;
       } else if (part.equals("MAS")) {
-        genus = Genus.MASKULINUM;
+        tempGenus = Genus.MASKULINUM;
       } else if (part.equals("FEM")) {
-        genus = Genus.FEMININUM;
+        tempGenus = Genus.FEMININUM;
       } else if (part.equals("NEU")) {
-        genus = Genus.NEUTRUM;
+        tempGenus = Genus.NEUTRUM;
       } else if (part.equals("NOG")) {
-        genus = Genus.FEMININUM;    // NOG = no genus because only used as plural
+        tempGenus = Genus.FEMININUM;    // NOG = no genus because only used as plural
       } else if (part.equals("ALG")) {
-        genus = Genus.ALLGEMEIN;
+        tempGenus = Genus.ALLGEMEIN;
       }
     }
-    
+    type = tempType != null ? tempType : null;
+    casus = tempCasus != null ? tempCasus : null;
+    numerus = tempNumerus != null ? tempNumerus : null;
+    genus = tempGenus != null ? tempGenus : null;
   }
 
   public POSType getType() {
