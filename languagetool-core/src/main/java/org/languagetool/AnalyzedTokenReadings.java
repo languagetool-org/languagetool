@@ -27,6 +27,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tools.StringTools;
 
+import static org.languagetool.JLanguageTool.*;
+
 /**
  * An array of {@link AnalyzedToken}s used to store multiple POS tags and lemmas
  * for a given single token.
@@ -67,21 +69,22 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     this(Arrays.asList(tokens), startPos);
   }
 
+  public AnalyzedTokenReadings(final AnalyzedToken token, final int startPos) {
+    this(Collections.singletonList(token), startPos);
+  }
+
   public AnalyzedTokenReadings(final List<AnalyzedToken> tokens, final int startPos) {
     anTokReadings = tokens.toArray(new AnalyzedToken[tokens.size()]);
     this.startPos = startPos;
     token = anTokReadings[0].getToken();
     isWhitespace = StringTools.isWhitespace(token);
+    isWhitespaceBefore = anTokReadings[0].isWhitespaceBefore();
     isLinebreak = "\n".equals(token) || "\r\n".equals(token) || "\r".equals(token) || "\n\r".equals(token);
-    isSentStart = JLanguageTool.SENTENCE_START_TAGNAME.equals(anTokReadings[0].getPOSTag());
-    isParaEnd = hasPosTag(JLanguageTool.PARAGRAPH_END_TAGNAME);
-    isSentEnd = hasPosTag(JLanguageTool.SENTENCE_END_TAGNAME);
+    isSentStart = SENTENCE_START_TAGNAME.equals(anTokReadings[0].getPOSTag());
+    isParaEnd = hasPosTag(PARAGRAPH_END_TAGNAME);
+    isSentEnd = hasPosTag(SENTENCE_END_TAGNAME);
     setNoRealPOStag();
     hasSameLemmas = areLemmasSame();
-  }
-
-  public AnalyzedTokenReadings(final AnalyzedToken token, final int startPos) {
-    this(Collections.singletonList(token), startPos);
   }
 
   AnalyzedTokenReadings(final AnalyzedToken token) {
@@ -172,8 +175,8 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
       this.token = token.getToken();
     }
     anTokReadings[anTokReadings.length - 1].setWhitespaceBefore(isWhitespaceBefore);
-    isParaEnd = hasPosTag(JLanguageTool.PARAGRAPH_END_TAGNAME);
-    isSentEnd = hasPosTag(JLanguageTool.SENTENCE_END_TAGNAME);
+    isParaEnd = hasPosTag(PARAGRAPH_END_TAGNAME);
+    isSentEnd = hasPosTag(SENTENCE_END_TAGNAME);
     setNoRealPOStag();
     hasSameLemmas = areLemmasSame();
   }
@@ -265,7 +268,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   public void setParagraphEnd() {
     if (!isParagraphEnd()) {
       final AnalyzedToken paragraphEnd = new AnalyzedToken(getToken(),
-          JLanguageTool.PARAGRAPH_END_TAGNAME, getAnalyzedToken(0).getLemma());
+          PARAGRAPH_END_TAGNAME, getAnalyzedToken(0).getLemma());
       addReading(paragraphEnd);
     }
   }
@@ -292,7 +295,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   public void setSentEnd() {
     if (!isSentenceEnd()) {
       final AnalyzedToken sentenceEnd = new AnalyzedToken(getToken(),
-          JLanguageTool.SENTENCE_END_TAGNAME, getAnalyzedToken(0).getLemma());
+          SENTENCE_END_TAGNAME, getAnalyzedToken(0).getLemma());
       addReading(sentenceEnd);
     }
   }
@@ -358,8 +361,8 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   private void setNoRealPOStag() {
     boolean hasNoPOStag = !isLinebreak();
     for (AnalyzedToken an: anTokReadings) {
-      if (JLanguageTool.PARAGRAPH_END_TAGNAME.equals(an.getPOSTag())
-          || JLanguageTool.SENTENCE_END_TAGNAME.equals(an.getPOSTag())) {
+      if (PARAGRAPH_END_TAGNAME.equals(an.getPOSTag()) ||
+          SENTENCE_END_TAGNAME.equals(an.getPOSTag())) {
         continue;
       }
       if (an.getPOSTag() != null) {
