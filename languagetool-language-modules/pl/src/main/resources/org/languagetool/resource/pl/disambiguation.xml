@@ -797,6 +797,15 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<disambig postag="prep:gen"/>
     </rule>
 
+    <rule name="nic lub coś dziwnego" id="COS_NIC_ADJ_GEN">
+        <pattern>
+            <marker><token regexp="yes" postag_regexp="yes" postag="subst:sg:(acc|nom):n2">nic|coś</token>
+            <token postag="adj:sg:gen:m1.m2.m3.n1.n2:pos"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rule id="apost_u" name="u jako końcówka po apostrofie">
         <pattern>
             <token regexp="yes">[\p{L}\-]+</token>
@@ -3315,7 +3324,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="swoją[swój/adj:sg:acc:f:pos]">Mam tu <marker>swoją</marker> teorię.</example>
     </rule>
 
-    <rulegroup name="rzadkie rzeczowniki" id="subst">
+    <rulegroup name="rzadkie rzeczowniki" id="subst_rarum">
         <rule>
             <pattern>
                 <token regexp="yes">taka|taką</token>
