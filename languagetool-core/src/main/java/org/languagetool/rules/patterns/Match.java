@@ -107,7 +107,6 @@ public final class Match {
 
   /**
    * Checks if the Match element is used for setting the part of speech Element.
-   *
    * @return True if Match sets POS.
    */
   public boolean setsPos() {
@@ -116,7 +115,6 @@ public final class Match {
 
   /**
    * Checks if the Match element uses regexp-based form of the POS tag.
-   *
    * @return True if regexp is used in POS.
    */
   public boolean posRegExp() {
@@ -126,7 +124,6 @@ public final class Match {
   /**
    * Sets a base form (lemma) that will be formatted, or synthesized, using the
    * specified POS regular expressions.
-   *
    * @param lemmaString String that specifies the base form.
    */
   public void setLemmaString(final String lemmaString) {
@@ -140,16 +137,12 @@ public final class Match {
     }
   }
 
-  /**
-   * @since 2.3
-   */
+  /** @since 2.3 */
   public String getLemma() {
     return lemma;
   }
 
-  /**
-   * @since 2.3
-   */
+  /** @since 2.3 */
   public boolean isStaticLemma() {
     return staticLemma;
   }
@@ -165,7 +158,6 @@ public final class Match {
 
   /**
    * Sets the token number referenced by the match.
-   *
    * @param i Token number.
    */
   public void setTokenRef(int i) {
@@ -174,8 +166,7 @@ public final class Match {
 
   /**
    * Gets the token number referenced by the match.
-   *
-   * @return int - token number.
+   * @return token number.
    */
   public int getTokenRef() {
     return tokenRef;
@@ -183,79 +174,56 @@ public final class Match {
 
   /**
    * Used to let LT know that it should change the case of the match.
-   *
    * @return true if match converts the case of the token.
    */
   public boolean convertsCase() {
     return !caseConversionType.equals(CaseConversion.NONE);
   }
 
-  /**
-   * @param inMessageOnly the inMessageOnly to set
-   */
-  public void setInMessageOnly(boolean inMessageOnly) {
-    this.inMessageOnly = inMessageOnly;
-  }
-
-  /**
-   * @return the inMessageOnly
-   */
-  public boolean isInMessageOnly() {
-    return inMessageOnly;
-  }
-
-  /**
-   * @since 2.3
-   */
-  public String getPosTag() {
-    return posTag;
-  }
-
-  /**
-   * @since 2.3
-   */
-  public Pattern getRegexMatch() {
-    return pRegexMatch;
-  }
-
-  /**
-   * @since 2.3
-   */
-  public String getRegexReplace() {
-    return regexReplace;
-  }
-
-  /**
-   * @since 2.3
-   */
+  /** @since 2.3 */
   public CaseConversion getCaseConversionType() {
     return caseConversionType;
   }
 
-  /**
-   * @since 2.3
-   */
+  public void setInMessageOnly(boolean inMessageOnly) {
+    this.inMessageOnly = inMessageOnly;
+  }
+
+  public boolean isInMessageOnly() {
+    return inMessageOnly;
+  }
+
+  /** @since 2.3 */
+  public String getPosTag() {
+    return posTag;
+  }
+
+  /** @since 2.3 */
+  public Pattern getRegexMatch() {
+    return pRegexMatch;
+  }
+
+  /** @since 2.3 */
+  public String getRegexReplace() {
+    return regexReplace;
+  }
+
+  /** @since 2.3 */
   public Pattern getPosRegexMatch() {
     return pPosRegexMatch;
   }
 
-  /**
-   * @since 2.3
-   */
+  /** @since 2.3 */
   public boolean isPostagRegexp() {
     return postagRegexp;
   }
 
-  /**
-   * @since 2.3
-   */
+  /** @since 2.3 */
   public String getPosTagReplace() {
     return posTagReplace;
   }
 
-  /**
-   * @since 2.3
-   */
+  /** @since 2.3 */
   public IncludeRange getIncludeSkipped() {
     return includeSkipped;
   }
