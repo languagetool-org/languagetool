@@ -266,6 +266,10 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("contable"));
         assertEquals("comptable", matches[0].getSuggestedReplacements().get(0));
         
+        matches = rule.match(langTool.getAnalyzedSentence("España"));
+        assertEquals("Espanya", matches[0].getSuggestedReplacements().get(0));
+        //assertEquals(1, matches[0].getSuggestedReplacements().size());
+        
         /*  change in Speller necessary: words of length = 4
         matches = rule.match(langTool.getAnalyzedSentence("nula"));
         assertEquals("nul·la", matches[0].getSuggestedReplacements().get(0));*/

@@ -33145,20 +33145,35 @@ $Id$
 	         <example correction="matí">al <marker>dematí</marker></example>
 	         <example>al matí</example>
 	     </rule>
-         <!-- <rule id="MUSIC" name="music">
-            <pattern>
-                <marker>
-                    <token postag="NC.*" postag_regexp="yes" regexp="yes">music|musica|musics|musiques</token>
-                </marker>
-                <token><exception regexp="yes">awards|and|hall</exception></token>
-            </pattern>
-            <message>Variant informal de <suggestion><match no="1" regexp_match="[Mm]u(.+)" regexp_replace="mú$1" /></suggestion>.</message>
-            <short>Llenguatge col·loquial</short>
-            <example correction="Músics">Unió de <marker>Musics</marker> Russos</example>
-            <example>si tu musiques aquesta cançó</example>
-            <example>universal music awards</example>
-            <example>music and dance</example>
-         </rule>  -->
+         <rulegroup id="MUSIC" name="music/músic, musica/música">
+            <rule>
+                <antipattern>
+                    <token>music</token>
+                    <token regexp="yes">awards|and|hall</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag_regexp="yes" regexp="yes">music|musica|musiques</token> <!-- musics -->
+                    </marker>
+                </pattern>
+                <message>Variant informal. Correcte si és del verb "musicar".</message>
+                <suggestion><match no="1" regexp_match="[Mm][Uu](.+)" regexp_replace="mú$1" /></suggestion>
+                <example correction="Música"><marker>Musica</marker> de cambra</example>
+                <!-- <example>si tu musiques aquesta cançó</example> -->
+                <example>universal music awards</example>
+                <example>music and dance</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>musics</token>
+                    </marker>
+                </pattern>
+                <message>Variant informal.</message>
+                <suggestion>Músics</suggestion>
+                <example correction="Músics">Unió de <marker>Musics</marker> Russos</example>
+            </rule>
+        </rulegroup>
 		<rule id="NINGUN_CAP" name="ningun -a">
 		    <pattern>
 		        <token regexp="yes">ninguna?|ningune?s</token>
