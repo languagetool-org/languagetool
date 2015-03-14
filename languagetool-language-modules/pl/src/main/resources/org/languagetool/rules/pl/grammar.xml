@@ -4784,7 +4784,7 @@ $Id$
                     </antipattern>
                 <pattern>
                     <token postag='SENT_START' skip='-1'><exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
-                    <token regexp='yes' skip='-1'>nikt|nigdy|nic|ani|bynajmniej<exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/><exception case_sensitive="yes">Ani</exception></token>
+                    <token regexp='yes' skip='-1'>nikt|nigdy|nic|bynajmniej<exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
                     <token postag='verb:.*' postag_regexp='yes' skip='-1'><exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
                     <token postag='SENT_END'></token>
                 </pattern>
@@ -4798,12 +4798,12 @@ $Id$
                     <pattern>
                         <token postag='SENT_START' skip='-1'><exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
                         <token postag='verb:.*' postag_regexp='yes' skip='-1'><exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
-                        <token case_sensitive="yes" regexp='yes' skip='-1'>nikt|nigdy|nic|ani|bynajmniej<exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/><exception>Ani</exception></token>
+                        <token case_sensitive="yes" regexp='yes' skip='-1'>nikt|nigdy|nic|bynajmniej<exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
                         <token postag='SENT_END'></token>
                     </pattern>
                     <message>W tym zdaniu brak słowa „nie”.</message>
                     <short>Błąd składniowy</short>
-                    <example correction=''><marker>Zrobiłem ani tego, ani tamtego.</marker></example>
+                    <example correction=''><marker>Zrobiłem bynajmniej wiele.</marker></example>
                     <example>Nigdy tego nie zrobiłam.</example>
                     <example>W 1996 roku stworzył Pannę Nikt w oparciu o powieść Tomka Tryzny o dorastającej dziewczynie, która przeżywa kryzys wartości.</example>
                 </rule>
