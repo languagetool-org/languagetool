@@ -267,7 +267,6 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("comptable", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("desició"));
         assertEquals("decisió", matches[0].getSuggestedReplacements().get(0));
-        
         matches = rule.match(langTool.getAnalyzedSentence("España"));
         assertEquals("Espanya", matches[0].getSuggestedReplacements().get(0));
         //assertEquals(1, matches[0].getSuggestedReplacements().size());
