@@ -50,7 +50,7 @@ $Id$
     <!ENTITY adjectius_TE_INFUSIO "descafeïnat|mòlt|jove|conegut|preparat|empaquetat|xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
     <!ENTITY exceptions_MES "solar|sideral|marià|hivernal|hebreu|jueu|musulmà|islàmic|sinòdic|draconític|lunar|mitjà|tròpic|anomalístic|dedicat|consagrat|vinent|entrant|propvinent|passat|proppassat|intercalar|anterior|següent|posterior|previ">
-    <!ENTITY mots_HAC_ASPIRADA "Haarlem|Habermas|Harlem|Haifa|haikus?|haima|haimes|halal|halar|hall.*|Halloweens?|Hamada|Hamas|Hamàs|hamilton.*|Hamlet.*|Hammond|Hampton|handicaps?|Hannover|Hanoi|Hans|Hansa|hardware|harolds?|Harrison|harrods?|harry|Hartmann?|Haruki|Harvard|Harz|Havilland|hawai.*|hawk.*|Haydn|Hayworth|Heard|hearst|Heathrow|heav.*|hegel.*|Heidelberg|Heide[gn].*|Heilig.*|hein.*|Heisen.*|Heitz|Helen|Heming.*|henna|hennes|Henry|Hepburn|herbert.*|Herder|Hereford|Hesse|Hessen|Hezboll.+|high.*|hilbert.*|Hilda|hinden.*|hinterlands?|Hitch.*|hitler.*|hobby|hobbies|Hohen.*|holdings?|hollywood.*|Holmes.*|Holstein|Hong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hoover.*|hopkins|Hork.*|horst|H[ou]f.*|Houston|Howard|Hubble|humbold.*|Hume|hunting.*|husseinit.+">
+    <!ENTITY mots_HAC_ASPIRADA "Haarlem|Habermas|hack.*|Harlem|Haifa|haikus?|haima|haimes|halal|halar|hall.*|Halloweens?|Hamada|Hamas|Hamàs|hamilton.*|Hamlet.*|Hammond|Hampton|handicaps?|Hannover|Hanoi|Hans|Hansa|hardware|harolds?|Harrison|harrods?|harry|Hartmann?|Haruki|Harvard|Harz|Havilland|hawai.*|hawk.*|Haydn|Hayworth|Heard|hearst|Heathrow|heav.*|hegel.*|Heidelberg|Heide[gn].*|Heilig.*|hein.*|Heisen.*|Heitz|Helen|Heming.*|henna|hennes|Henry|Hepburn|herbert.*|Herder|Hereford|Hesse|Hessen|Hezboll.+|high.*|hilbert.*|Hilda|hinden.*|hinterlands?|Hitch.*|hitler.*|hobby|hobbies|Hohen.*|holdings?|hollywood.*|Holmes.*|Holstein|Hong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hoover.*|hopkins|Hork.*|horst|H[ou]f.*|Houston|Howard|Hubble|humbold.*|Hume|hunting.*|husseinit.+">
     <!ENTITY mots_HAC_ASPIRADA2 "Higgs|high|Hildesheim|Hill|Himmler|hip-hop|hippies|hippy|Hirado|His|Hubei|Hudson|Hunter|Husserl|Utah">
     <!ENTITY exceptions_A_MANS_DE "anar|sotmetre|submissió|desapoderar|desapoderament|sofrir|vèncer|pallissa|apallissar|desgastar|parar|passar|arribar|tornar|perdre|morir|pèrdua|matança|mort1|patir|vexació|vexar|tortura|torturar|derrota|derrotar|fi2|assassinar|assassinat|saqueig|saquejar">
     <!ENTITY exceptions_A_L_ANY "tornar|arribar|equivaler|equivalent|portar|atribuir|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir|proper|pròxim|pertànyer|remetre|previ|referència|referent|prèviament">
@@ -25628,9 +25628,9 @@ $Id$
             </pattern>
             <message>Expressió incorrecta</message>
             <suggestion>la tercera és la bona</suggestion>
+            <suggestion>a la tercera vegada te'n sortiràs</suggestion>
             <url>http://esadir.cat/entrades/fitxa/node/alaterceravalavencuda</url>
-            <example correction="la tercera és la bona"><marker>a la tercera va la vençuda</marker></example>
-            <example>la tercera és la bona</example>
+            <example correction="la tercera és la bona|a la tercera vegada te'n sortiràs"><marker>a la tercera va la vençuda</marker></example>
         </rule>
         <rule id="A_TOPE" name="*a tope">
             <pattern>
@@ -25768,7 +25768,7 @@ $Id$
             <example>És obligatori.</example>
         </rule>
     </category>
-    <category name="C5) Formes normatives discutides: coresponsable, ressituar" type="style">
+    <category name="C5) Formes normatives discutides: coresponsable, ressituar, termostable" type="style">
         <rulegroup id="FORMES_NORMATIVES" name="Usa formes normatives (AVL, IEC): coresponsable, ressituar" default="on">
             <rule id="CORRESPONSABLE" name="Exigeix 'coresponsable' (i derivats)">
                 <pattern>
@@ -25796,15 +25796,27 @@ $Id$
                 <example correction="ressituats"><marker>resituats</marker></example>
                 <example>ressituats.</example>
             </rule>
+            <rule id="TERMOESTABLE" name="Exigeix 'termostable'">
+                <pattern>
+                    <marker>
+                        <token inflected="yes">termoestable</token>
+                    </marker>
+                </pattern>
+                <message>Normativament (IEC, AVL) s'escriu <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">termostable</match></suggestion>, però l'ortografia és discutida.</message>                
+                <short>Ortografia discutida</short>
+                <example correction="termostables"><marker>termoestables</marker></example>
+                <example>resituats.</example>
+            </rule>
         </rulegroup>
-        <rulegroup id="FORMES_NO_NORMATIVES" name="Usa formes no normatives: corresponsable, resituar" default="on">
+        <rulegroup id="FORMES_NO_NORMATIVES" name="Usa formes no normatives: corresponsable, resituar, termostable" default="on">
             <rule id="CORESPONSABLE" name="Exigeix 'corresponsable' (i derivats)">
                 <pattern>
                     <marker>
                         <token regexp="yes" inflected="yes">coresponsable|coresponsabilitat|coresponsabilitzar|coresponsabilització</token>
                     </marker>
                 </pattern>
-                <message>Normativament (IEC, AVL) s'escriu amb una r, però l'ortografia és discutida.</message>                <suggestion><match no="1" regexp_match="(..)([Rr])(.+)" regexp_replace="$1$2$2$3"/></suggestion>
+                <message>Normativament (IEC, AVL) s'escriu amb una r, però l'ortografia és discutida.</message>
+                <suggestion><match no="1" regexp_match="(..)([Rr])(.+)" regexp_replace="$1$2$2$3"/></suggestion>
                 <url>http://esadir.cat/entrades/fitxa/node/coresponsable</url>
                 <short>Ortografia discutida</short>
                 <example correction="corresponsabilitzà"><marker>coresponsabilitzà</marker></example>
@@ -25817,9 +25829,22 @@ $Id$
                         <token inflected="yes">ressituar</token>
                     </marker>
                 </pattern>
-                <message>Normativament (IEC, AVL) s'escriu amb dues s, però l'ortografia és discutida.</message>                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">resituar</match></suggestion>
+                <message>Normativament (IEC, AVL) s'escriu amb dues s, però l'ortografia és discutida.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">resituar</match></suggestion>
                 <short>Ortografia discutida</short>
                 <example correction="resituats"><marker>ressituats</marker></example>
+                <example>resituats.</example>
+            </rule>
+            <rule id="TERMOSTABLE" name="Exigeix 'termoestable'">
+                <pattern>
+                    <marker>
+                        <token inflected="yes">termostable</token>
+                    </marker>
+                </pattern>
+                <message>Normativament (IEC, AVL) s'escriu així, però l'ortografia és discutida.</message>                
+                <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">termoestable</match></suggestion>
+                <short>Ortografia discutida</short>
+                <example correction="termoestables"><marker>termostables</marker></example>
                 <example>resituats.</example>
             </rule>
         </rulegroup>
