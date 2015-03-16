@@ -8489,6 +8489,19 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="EN_PORTAT" name="en portat/en porta">
+            <pattern>
+                <token>en</token>
+                <token postag="V.P..SM." postag_regexp="yes"><exception postag="_GN_MS|NC.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Possible confusió</message>
+            <suggestion>han \2</suggestion>
+            <suggestion>hem \2</suggestion>
+            <suggestion>en <match no="2" postag_regexp="yes" postag="V.P.*" postag_replace="VMIP3S00"/></suggestion>
+            <suggestion>en <match no="2" postag_regexp="yes" postag="V.P.*" postag_replace="VMIS3S00"/></suggestion>
+            <example correction="han portat|hem portat|en porta|en portà"><marker>en portat</marker>.</example>
+            <example>En determinat dia.</example>
+        </rule>
         <rule id="VENTA_VENDA" name="venta/venda">
             <antipattern>
                 <marker>
