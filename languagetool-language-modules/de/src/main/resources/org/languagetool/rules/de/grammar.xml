@@ -11435,18 +11435,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://www.korrekturen.de/beliebte_fehler/auf_halbmast.shtml</url>
             <example correction="halbmast">Die Flagge weht auf <marker>Halbmast</marker>.</example>
         </rule>
-        <rule id="ZUM_EINEN" name="Groß-/Kleinschreibung: zum Einen (einen)">
-            <!-- Wird von DE_CASE wg. Ausnahme nicht erkannt -->
-            <pattern>
-                <token>zum</token>
-                <marker>
-                    <token case_sensitive='yes'>Einen</token>
-                </marker>
-            </pattern>
-            <message>Auch in der Wendung 'zum einen..., zum anderen' wird <suggestion><match case_conversion="startlower" no="2"/></suggestion> kleingeschrieben.</message>
+        <rulegroup id="ZUM_EINEN" name="Groß-/Kleinschreibung: zum Einen (einen), zum Anderen (anderen)">
             <url>http://www.korrekturen.de/beliebte_fehler/zum_einen_zum_anderen.shtml</url>
-            <example correction="einen">Zum <marker>Einen</marker> ja, zum anderen nein.</example>
-        </rule>
+            <rule>
+                <!-- Wird von DE_CASE wg. Ausnahme nicht erkannt -->
+                <pattern>
+                    <token>zum</token>
+                    <marker>
+                        <token case_sensitive='yes'>Einen</token>
+                    </marker>
+                </pattern>
+                <message>Auch in der Wendung 'zum einen..., zum anderen' wird <suggestion><match case_conversion="startlower" no="2"/></suggestion> kleingeschrieben.</message>
+                <example correction="einen">Zum <marker>Einen</marker> ja, zum anderen nein.</example>
+            </rule>
+            <rule id="ZUM_EINEN2" name="Groß-/Kleinschreibung: zum Einen (einen)">
+                <pattern>
+                    <token skip="-1">einen</token>
+                    <token>zum</token>
+                    <marker>
+                        <token case_sensitive='yes'>Anderen</token>
+                    </marker>
+                </pattern>
+                <message>Auch in der Wendung 'zum einen..., zum anderen' wird <suggestion><match case_conversion="startlower" no="3"/></suggestion> kleingeschrieben.</message>
+                <example correction="anderen">Zum einen ja, zum <marker>Anderen</marker> nein.</example>
+                <example correction="anderen">Zum Einen ja, zum <marker>Anderen</marker> nein.</example>
+            </rule>
+        </rulegroup>
         <rule id="DES_OEFTEREN" name="Groß-/Kleinschreibung: des öfteren (Öfteren)">
             <pattern case_sensitive="yes">
                 <token>des</token>
