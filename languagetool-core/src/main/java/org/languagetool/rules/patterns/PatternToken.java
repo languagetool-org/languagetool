@@ -38,7 +38,7 @@ import org.languagetool.tools.StringTools;
  * 
  * @author Daniel Naber
  */
-public class Element implements Cloneable {
+public class PatternToken implements Cloneable {
 
   /** Matches only tokens without any POS tag. **/
   public static final String UNKNOWN_TAG = "UNKNOWN";
@@ -61,7 +61,7 @@ public class Element implements Cloneable {
   private boolean isInsideMarker = true;
 
   /**  List of exceptions that are valid for the current token and / or some next tokens. */
-  private List<Element> exceptionList;
+  private List<PatternToken> exceptionList;
 
   /** True if scope=="next". */
   private boolean exceptionValidNext;
@@ -73,10 +73,10 @@ public class Element implements Cloneable {
   private boolean exceptionValidPrevious;
 
   /** List of exceptions that are valid for a previous token. */
-  private List<Element> previousExceptionList;
-  private List<Element> andGroupList;
+  private List<PatternToken> previousExceptionList;
+  private List<PatternToken> andGroupList;
   private boolean andGroupSet;
-  private List<Element> orGroupList;
+  private List<PatternToken> orGroupList;
   private boolean orGroupSet;
 
   private int skip;
@@ -119,7 +119,7 @@ public class Element implements Cloneable {
    * @param regExp True if the check uses regular expressions.
    * @param inflected True if the check refers to base forms (lemmas).
    */
-  public Element(final String token, final boolean caseSensitive, final boolean regExp,
+  public PatternToken(final String token, final boolean caseSensitive, final boolean regExp,
       final boolean inflected) {
     this.caseSensitive = caseSensitive;
     this.stringRegExp = regExp;
@@ -159,7 +159,7 @@ public class Element implements Cloneable {
    */
   public final boolean isExceptionMatched(final AnalyzedToken token) {
     if (exceptionSet) {
-      for (final Element testException : exceptionList) {
+      for (final PatternToken testException : exceptionList) {
         if (!testException.exceptionValidNext) {
           if (testException.isMatched(token)) {
             return true;
@@ -178,7 +178,7 @@ public class Element implements Cloneable {
    */
   public final boolean isAndExceptionGroupMatched(final AnalyzedToken token) {
     if (andGroupSet) {
-      for (final Element testAndGroup : andGroupList) {
+      for (final PatternToken testAndGroup : andGroupList) {
         if (testAndGroup.isExceptionMatched(token)) {
           return true;
         }
@@ -197,7 +197,7 @@ public class Element implements Cloneable {
     return isExceptionMatched(token) || isAndExceptionGroupMatched(token);
   }
 
-  public final void setAndGroupElement(final Element andToken) {
+  public final void setAndGroupElement(final PatternToken andToken) {
     if (andToken != null) {
       if (andGroupList == null) {
         andGroupList = new ArrayList<>();
@@ -221,14 +221,14 @@ public class Element implements Cloneable {
    * Returns the group of elements linked with AND operator.
    * @return List of Elements.
    */
-  public final List<Element> getAndGroup() {
+  public final List<PatternToken> getAndGroup() {
     return andGroupList;
   }
 
   /**
    * @since 2.3
    */
-  public final void setOrGroupElement(final Element orToken) {
+  public final void setOrGroupElement(final PatternToken orToken) {
     if (orToken != null) {
       if (orGroupList == null) {
         orGroupList = new ArrayList<>();
@@ -254,7 +254,7 @@ public class Element implements Cloneable {
    * @return List of Elements.
    * @since 2.3
    */
-  public final List<Element> getOrGroup() {
+  public final List<PatternToken> getOrGroup() {
     return orGroupList;
   }
 
@@ -266,7 +266,7 @@ public class Element implements Cloneable {
    */
   public final boolean isMatchedByScopeNextException(final AnalyzedToken token) {
     if (exceptionSet) {
-      for (final Element testException : exceptionList) {
+      for (final PatternToken testException : exceptionList) {
         if (testException.exceptionValidNext) {
           if (testException.isMatched(token)) {
             return true;
@@ -286,7 +286,7 @@ public class Element implements Cloneable {
    */
   public final boolean isMatchedByPreviousException(final AnalyzedToken token) {
     if (exceptionValidPrevious) {
-      for (final Element testException : previousExceptionList) {
+      for (final PatternToken testException : previousExceptionList) {
         if (!testException.exceptionValidNext) {
           if (testException.isMatched(token)) {
             return true;
@@ -381,7 +381,7 @@ public class Element implements Cloneable {
           final String token, final boolean regExp, final boolean inflected,
           final boolean negation, final boolean scopeNext, final boolean scopePrevious,
           final String posToken, final boolean posRegExp, final boolean posNegation, final Boolean caseSensitivity) {
-    final Element exception = new Element(token, caseSensitivity == null ? caseSensitive : caseSensitivity, regExp, inflected);
+    final PatternToken exception = new PatternToken(token, caseSensitivity == null ? caseSensitive : caseSensitivity, regExp, inflected);
     exception.setNegation(negation);
     exception.setPosElement(posToken, posRegExp, posNegation);
     exception.exceptionValidNext = scopeNext;
@@ -408,7 +408,7 @@ public class Element implements Cloneable {
     setStringPosException(token, regExp, inflected, negation, scopeNext, scopePrevious, posToken, posRegExp, posNegation, Boolean.valueOf(caseSensitivity));
   }
 
-  private void setException(final Element elem, final boolean scopePrevious) {
+  private void setException(final PatternToken elem, final boolean scopePrevious) {
     exceptionValidPrevious |= scopePrevious;
     if (exceptionList == null && !scopePrevious) {
       exceptionList = new ArrayList<>();
@@ -443,7 +443,7 @@ public class Element implements Cloneable {
       final boolean negation, final String posToken,
       final boolean posRegExp, final boolean posNegation) {
 
-    final Element exception = new Element(token, caseSensitive, regExp, inflected);
+    final PatternToken exception = new PatternToken(token, caseSensitive, regExp, inflected);
     exception.setNegation(negation);
     exception.setPosElement(posToken, posRegExp, posNegation);
     setException(exception, false);
@@ -612,16 +612,16 @@ public class Element implements Cloneable {
    * @param token the token specified as {@link AnalyzedTokenReadings}
    * @param synth the language synthesizer ({@link Synthesizer})
    */
-  public final Element compile(final AnalyzedTokenReadings token, final Synthesizer synth)
+  public final PatternToken compile(final AnalyzedTokenReadings token, final Synthesizer synth)
       throws IOException {
-    final Element compiledElement;
+    final PatternToken compiledPatternToken;
     try {
-      compiledElement = (Element) clone();
+      compiledPatternToken = (PatternToken) clone();
     } catch (CloneNotSupportedException e) {
       throw new IllegalStateException("Could not clone element", e);
     }
-    compiledElement.doCompile(token, synth);
-    return compiledElement;
+    compiledPatternToken.doCompile(token, synth);
+    return compiledPatternToken;
   }
 
   void doCompile(final AnalyzedTokenReadings token, final Synthesizer synth) throws IOException {
@@ -819,14 +819,14 @@ public class Element implements Cloneable {
    * @return A List of Exceptions. Used for testing.
    * @since 1.0.0
    */
-  public final List<Element> getExceptionList() {
+  public final List<PatternToken> getExceptionList() {
     return exceptionList;
   }
 
   /**
    * @return List of previous exceptions. Used for testing.
    */
-  public final List<Element> getPreviousExceptionList() {
+  public final List<PatternToken> getPreviousExceptionList() {
     return previousExceptionList;
   }
 

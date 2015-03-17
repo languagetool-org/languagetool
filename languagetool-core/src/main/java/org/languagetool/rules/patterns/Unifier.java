@@ -49,7 +49,7 @@ public class Unifier {
    * specified as Strings, and map into types defined as maps from Strings to
    * Elements.
    */
-  private final Map<EquivalenceTypeLocator, Element> equivalenceTypes;
+  private final Map<EquivalenceTypeLocator, PatternToken> equivalenceTypes;
 
   /**
    * A Map that stores all possible equivalence types listed for features.
@@ -84,7 +84,7 @@ public class Unifier {
   /**
    * Instantiates the unifier.
    */
-  public Unifier(Map<EquivalenceTypeLocator, Element> equivalenceTypes, Map<String, List<String>> equivalenceFeatures) {
+  public Unifier(Map<EquivalenceTypeLocator, PatternToken> equivalenceTypes, Map<String, List<String>> equivalenceFeatures) {
     tokCnt = 0;
     readingsCounter = 1;
     equivalencesMatched = new ArrayList<>();
@@ -128,7 +128,7 @@ public class Unifier {
           types = equivalenceFeatures.get(feat.getKey());
         }
         for (final String typeName : types) {
-          final Element testElem = equivalenceTypes
+          final PatternToken testElem = equivalenceTypes
               .get(new EquivalenceTypeLocator(feat.getKey(), typeName));
           if (testElem == null) {
             return false;
@@ -182,7 +182,7 @@ public class Unifier {
           for (final String typeName : types) {
             if (equivalencesMatched.get(i).containsKey(feat.getKey())
                 && equivalencesMatched.get(i).get(feat.getKey()).contains(typeName)) {
-              final Element testElem = equivalenceTypes.get(new EquivalenceTypeLocator(feat.getKey(), typeName));
+              final PatternToken testElem = equivalenceTypes.get(new EquivalenceTypeLocator(feat.getKey(), typeName));
               boolean matched = testElem.isMatched(aToken);
               featUnified = featUnified || matched;
               //Stores equivalences to be kept
@@ -393,7 +393,7 @@ public class Unifier {
    * 
    * To make it work in XML rules, the Elements built based on {@code <token>}s inside
    * the unify block have to be processed in a special way: namely the last Element has to be
-   * marked as the last one (by using {@link Element#setLastInUnification}).
+   * marked as the last one (by using {@link PatternToken#setLastInUnification}).
    * 
    * @param matchToken {@link AnalyzedToken} token to unify
    * @param lastReading true when the matchToken is the last reading in the {@link AnalyzedTokenReadings}

@@ -28,7 +28,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
 import org.languagetool.rules.patterns.AbstractPatternRule;
-import org.languagetool.rules.patterns.Element;
+import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.Match;
 
 /**
@@ -55,17 +55,16 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
   /**
    * @param id Id of the Rule
    * @param language Language of the Rule
-   * @param elements Element (token) list
    * @param description Description to be shown (name)
    * @param disambAction the action to be executed on found token(s), one of the
    *          following: add, filter, filterall, ignore_spelling, immunize, remove, replace, unify.
    * @since public since 2.5
    */
   public DisambiguationPatternRule(final String id, final String description,
-                                   final Language language, final List<Element> elements,
+                                   final Language language, final List<PatternToken> patternTokens,
                                    final String disamb, final Match posSelect,
                                    final DisambiguatorAction disambAction) {
-    super(id, description, language, elements, true);
+    super(id, description, language, patternTokens, true);
     if (disamb == null && posSelect == null
         && disambAction != DisambiguatorAction.UNIFY
         && disambAction != DisambiguatorAction.ADD
@@ -136,8 +135,8 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
   /**
    * For testing only.
    */
-  public final List<Element> getElements() {
-    return Collections.unmodifiableList(patternElements);
+  public final List<PatternToken> getElements() {
+    return Collections.unmodifiableList(patternTokens);
   }
 
   /**

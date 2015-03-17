@@ -23,7 +23,7 @@ import org.languagetool.Languages;
 import org.languagetool.bitext.StringPair;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.bitext.IncorrectBitextExample;
-import org.languagetool.rules.patterns.Element;
+import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.Match;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleHandler;
@@ -96,7 +96,7 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
           for (final Match m : suggestionMatches) {
             trgRule.addSuggestionMatch(m);
           }
-          if (phraseElementList.size() <= 1) {
+          if (phrasePatternTokens.size() <= 1) {
             suggestionMatches.clear();
           }
         }
@@ -161,27 +161,27 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
   private PatternRule finalizeRule() {
     PatternRule rule = null;
     phraseElementInit();
-    if (phraseElementList.isEmpty()) {
-      rule = new PatternRule(id, language, elementList,
+    if (phrasePatternTokens.isEmpty()) {
+      rule = new PatternRule(id, language, patternTokens,
           name, "", shortMessage.toString());
       prepareRule(rule);
     } else {
-      if (!elementList.isEmpty()) {
-        for (List<Element> ph : phraseElementList) {
-          ph.addAll(new ArrayList<>(elementList));
+      if (!patternTokens.isEmpty()) {
+        for (List<PatternToken> ph : phrasePatternTokens) {
+          ph.addAll(new ArrayList<>(patternTokens));
         }
       }
-      for (List<Element> phraseElement : phraseElementList) {
-        processElement(phraseElement);
-        rule = new PatternRule(id, language, phraseElement,
+      for (List<PatternToken> phrasePatternToken : phrasePatternTokens) {
+        processElement(phrasePatternToken);
+        rule = new PatternRule(id, language, phrasePatternToken,
             name, message.toString(), shortMessage.toString(), "",
-            phraseElementList.size() > 1);
+            phrasePatternTokens.size() > 1);
         prepareRule(rule);
       }
     }
-    elementList.clear();
-    if (phraseElementList != null) {
-      phraseElementList.clear();
+    patternTokens.clear();
+    if (phrasePatternTokens != null) {
+      phrasePatternTokens.clear();
     }
     startPositionCorrection = 0;
     endPositionCorrection = 0;

@@ -37,15 +37,15 @@ public class DemoPatternRuleTest extends PatternRuleTest {
   }
 
   public void testGrammarRulesFromXML2() throws IOException {
-    new PatternRule("-1", language, Collections.<Element>emptyList(), "", "", "");
+    new PatternRule("-1", language, Collections.<PatternToken>emptyList(), "", "", "");
   }
 
   public void testMakeSuggestionUppercase() throws IOException {
     final JLanguageTool langTool = new JLanguageTool(language);
 
-    final Element element = new Element("Were", false, false, false);
+    final PatternToken patternToken = new PatternToken("Were", false, false, false);
     final String message = "Did you mean: <suggestion>where</suggestion> or <suggestion>we</suggestion>?";
-    final PatternRule rule = new PatternRule("MY_ID", language, Collections.singletonList(element), "desc", message, "msg");
+    final PatternRule rule = new PatternRule("MY_ID", language, Collections.singletonList(patternToken), "desc", message, "msg");
     final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Were are in the process of ..."));
 
     assertEquals(1, matches.length);

@@ -130,13 +130,13 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
                 && translationLanguage.equalsConsiderVariantsIfSpecified(motherTongue) && language != motherTongue
                 && !translations.isEmpty()) {
           formatter.applyPattern(messages.getString("false_friend_hint"));
-          final String tokensAsString = StringUtils.join(elementList, " ").replace('|', '/');
+          final String tokensAsString = StringUtils.join(patternTokens, " ").replace('|', '/');
           final Object[] messageArguments = {tokensAsString,
                   messages.getString(textLanguage.getShortName()),
                   formatTranslations(translations),
                   messages.getString(motherTongue.getShortName())};
           final String description = formatter.format(messageArguments);
-          final PatternRule rule = new FalseFriendPatternRule(id, language, elementList,
+          final PatternRule rule = new FalseFriendPatternRule(id, language, patternTokens,
                   messages.getString("false_friend_desc") + " "
                           + tokensAsString, description, messages
                   .getString("false_friend"));
@@ -150,8 +150,8 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
           rules.add(rule);
         }
 
-        if (elementList != null) {
-          elementList.clear();
+        if (patternTokens != null) {
+          patternTokens.clear();
         }
 
         break;

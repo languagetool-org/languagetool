@@ -68,15 +68,14 @@ public class PatternRule extends AbstractPatternRule {
    * @param id Id of the Rule. Used in configuration. Should not contain special characters and should
    *        be stable over time, unless the rule changes completely.
    * @param language Language of the Rule
-   * @param elements Element (token) list
    * @param description Description to be shown (name)
    * @param message Message to be displayed to the user
    * @param shortMessage Message to be displayed to the user in the context menu in OpenOffice.org/LibreOffice
    */
   public PatternRule(final String id, final Language language,
-      final List<Element> elements, final String description,
+      final List<PatternToken> patternTokens, final String description,
       final String message, final String shortMessage) {
-    super(id, description, language, elements, false);
+    super(id, description, language, patternTokens, false);
     this.message = message;
     this.shortMessage = shortMessage;
     this.elementNo = new ArrayList<>();
@@ -85,7 +84,7 @@ public class PatternRule extends AbstractPatternRule {
     String curName;
     int cnt = 0;
     int loopCnt = 0;
-    for (final Element e : patternElements) {
+    for (final PatternToken e : this.patternTokens) {
       if (e.isPartOfPhrase()) {
         curName = e.getPhraseName();
         if (prevName.equals(curName) || StringTools.isEmpty(prevName)) {
@@ -98,7 +97,7 @@ public class PatternRule extends AbstractPatternRule {
         }
         prevName = curName;
         loopCnt++;
-        if (loopCnt == patternElements.size() && !StringTools.isEmpty(prevName)) {
+        if (loopCnt == this.patternTokens.size() && !StringTools.isEmpty(prevName)) {
           elementNo.add(cnt);
         }
       } else {
@@ -116,17 +115,17 @@ public class PatternRule extends AbstractPatternRule {
   }  
   
   public PatternRule(final String id, final Language language,
-      final List<Element> elements, final String description,
+      final List<PatternToken> patternTokens, final String description,
       final String message, final String shortMessage, final String suggestionsOutMsg) {
-    this(id, language, elements, description, message, shortMessage);
+    this(id, language, patternTokens, description, message, shortMessage);
     this.suggestionsOutMsg = suggestionsOutMsg;
   }
 
   public PatternRule(final String id, final Language language,
-      final List<Element> elements, final String description,
+      final List<PatternToken> patternTokens, final String description,
       final String message, final String shortMessage, final String suggestionsOutMsg,
       final boolean isMember) {
-    this(id, language, elements, description, message, shortMessage, suggestionsOutMsg);
+    this(id, language, patternTokens, description, message, shortMessage, suggestionsOutMsg);
     this.isMemberOfDisjunctiveSet = isMember;
   }
 
@@ -170,8 +169,8 @@ public class PatternRule extends AbstractPatternRule {
    */
   public final String toPatternString() {
     final List<String> strList = new ArrayList<>();
-    for (Element patternElement : patternElements) {
-      strList.add(patternElement.toString());
+    for (PatternToken patternPatternToken : patternTokens) {
+      strList.add(patternPatternToken.toString());
     }
     return StringTools.listToString(strList, ", ");
   }
@@ -216,8 +215,8 @@ public class PatternRule extends AbstractPatternRule {
   /**
    * For testing only.
    */
-  public final List<Element> getElements() {
-    return patternElements;
+  public final List<PatternToken> getElements() {
+    return patternTokens;
   }
 
   /**
@@ -241,10 +240,10 @@ public class PatternRule extends AbstractPatternRule {
   private synchronized Set<String> getSimpleTokens() {
     if (tokenSet == null) {
       tokenSet = new HashSet<>();
-      for (Element element : patternElements) {
-        if (!element.getNegation() && !element.isRegularExpression() 
-                && !element.isReferenceElement() && !element.isInflected() && element.getMinOccurrence() > 0) {
-          String str = element.getString();
+      for (PatternToken patternToken : patternTokens) {
+        if (!patternToken.getNegation() && !patternToken.isRegularExpression()
+                && !patternToken.isReferenceElement() && !patternToken.isInflected() && patternToken.getMinOccurrence() > 0) {
+          String str = patternToken.getString();
           if (!StringTools.isEmpty(str)) {
             tokenSet.add(str.toLowerCase());
           }
@@ -258,10 +257,10 @@ public class PatternRule extends AbstractPatternRule {
   private synchronized Set<String> getInflectedTokens() {
     if (lemmaSet == null) {
       lemmaSet = new HashSet<>();
-      for (Element element : patternElements) {
-        if (!element.getNegation() && !element.isRegularExpression()
-                && !element.isReferenceElement() && element.isInflected() && element.getMinOccurrence() > 0) {
-          String str = element.getString();
+      for (PatternToken patternToken : patternTokens) {
+        if (!patternToken.getNegation() && !patternToken.isRegularExpression()
+                && !patternToken.isReferenceElement() && patternToken.isInflected() && patternToken.getMinOccurrence() > 0) {
+          String str = patternToken.getString();
           if (!StringTools.isEmpty(str)) {
             lemmaSet.add(str.toLowerCase());
           }

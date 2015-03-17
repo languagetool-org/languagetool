@@ -20,7 +20,7 @@ package org.languagetool.tagging.disambiguation.rules;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Languages;
-import org.languagetool.rules.patterns.Element;
+import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.Match;
 import org.languagetool.rules.patterns.XMLRuleHandler;
 import org.xml.sax.Attributes;
@@ -234,7 +234,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   }
 
   private void refNumberSanityCheck(int refNumber) throws SAXException {
-    if (refNumber > elementList.size()) {
+    if (refNumber > patternTokens.size()) {
       throw new SAXException("Only backward references in match elements are possible, tried to specify token "
               + refNumber + "\n Line: " + pLocator.getLineNumber()
               + ", column: " + pLocator.getColumnNumber() + ".");
@@ -247,7 +247,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     switch (qName) {
       case RULE:
         final DisambiguationPatternRule rule = new DisambiguationPatternRule(id,
-                name, language, elementList, disambiguatedPOS, posSelector,
+                name, language, patternTokens, disambiguatedPOS, posSelector,
                 disambigAction);
 
         endPositionCorrection = endPos - tokenCountForMarker;
@@ -300,7 +300,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
                           + "\n Line: " + pLocator.getLineNumber() + ", column: "
                           + pLocator.getColumnNumber() + ".");
         }
-        elementList.clear();
+        patternTokens.clear();
         posSelector = null;
         disambExamples = null;
         untouchedExamples = null;
@@ -316,45 +316,45 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         tokenCounter++;
         break;
       case TOKEN:
-        if (!exceptionSet || tokenElement == null) {
+        if (!exceptionSet || patternToken == null) {
           boolean tokenCase = caseSensitive;
           if (tokenLevelCaseSet) {
             tokenCase = tokenLevelCaseSensitive;
           }
-          tokenElement = new Element(elements.toString(), tokenCase,
+          patternToken = new PatternToken(elements.toString(), tokenCase,
                   regExpression, tokenInflected);
-          tokenElement.setNegation(tokenNegated);
+          patternToken.setNegation(tokenNegated);
         } else {
-          tokenElement.setStringElement(elements.toString());
+          patternToken.setStringElement(elements.toString());
         }
         if (skipPos != 0) {
-          tokenElement.setSkipNext(skipPos);
+          patternToken.setSkipNext(skipPos);
           skipPos = 0;
         }
         if (minOccurrence == 0) {
-          tokenElement.setMinOccurrence(0);
+          patternToken.setMinOccurrence(0);
         }
         if (maxOccurrence != 1) {
-          tokenElement.setMaxOccurrence(maxOccurrence);
+          patternToken.setMaxOccurrence(maxOccurrence);
           maxOccurrence = 1;
         }
         if (posToken != null) {
-          tokenElement.setPosElement(posToken, posRegExp, posNegation);
+          patternToken.setPosElement(posToken, posRegExp, posNegation);
           posToken = null;
         }
 
         if (chunkTag != null) {
-          tokenElement.setChunkElement(chunkTag);
+          patternToken.setChunkElement(chunkTag);
           chunkTag = null;
         }
 
         if (tokenReference != null) {
-          tokenElement.setMatch(tokenReference);
+          patternToken.setMatch(tokenReference);
         }
 
         if (inAndGroup && andGroupCounter > 0) {
-          elementList.get(elementList.size() - 1)
-                  .setAndGroupElement(tokenElement);
+          patternTokens.get(patternTokens.size() - 1)
+                  .setAndGroupElement(patternToken);
           if (minOccurrence != 1 || maxOccurrence != 1) {
             throw new SAXException("Please set min and max attributes on the " +
                     "first token in the AND group.\n You attempted to set these " +
@@ -364,10 +364,10 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
           }
         } else {
           if (minOccurrence < 1) {
-            elementList.add(tokenElement);
+            patternTokens.add(patternToken);
           }
           for (int i = 1; i <= minOccurrence; i++) {
-            elementList.add(tokenElement);
+            patternTokens.add(patternToken);
           }
           minOccurrence = 1;
         }
@@ -375,23 +375,23 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
           andGroupCounter++;
         }
         if (inUnification) {
-          tokenElement.setUnification(equivalenceFeatures);
+          patternToken.setUnification(equivalenceFeatures);
           if (!inAndGroup) {
             uniCounter++;
           }
           if (inUnificationNeutral) {
-            tokenElement.setUnificationNeutral();
+            patternToken.setUnificationNeutral();
           }
         }
         if (inUnificationDef) {
-          language.getDisambiguationUnifierConfiguration().setEquivalence(uFeature, uType, tokenElement);
-          elementList.clear();
+          language.getDisambiguationUnifierConfiguration().setEquivalence(uFeature, uType, patternToken);
+          patternTokens.clear();
         }
 
-        tokenElement.setInsideMarker(inMarker);
+        patternToken.setInsideMarker(inMarker);
 
         if (tokenSpaceBeforeSet) {
-          tokenElement.setWhitespaceBefore(tokenSpaceBefore);
+          patternToken.setWhitespaceBefore(tokenSpaceBefore);
         }
         resetToken();
         break;
@@ -427,10 +427,10 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         inUnification = false;
         equivalenceFeatures = new HashMap<>();
         //set negation on the last token only!
-        final int lastElement = elementList.size() - 1;
-        elementList.get(lastElement).setLastInUnification();
+        final int lastElement = patternTokens.size() - 1;
+        patternTokens.get(lastElement).setLastInUnification();
         if (uniNegation) {
-          elementList.get(lastElement).setUniNegation();
+          patternTokens.get(lastElement).setUniNegation();
         }
         break;
       case UNIFY_IGNORE:

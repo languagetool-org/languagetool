@@ -40,7 +40,7 @@ import org.languagetool.rules.RuleMatch;
 public abstract class AbstractPatternRule extends Rule {
 
   protected final Language language;
-  protected final List<Element> patternElements;
+  protected final List<PatternToken> patternTokens;
   protected final boolean testUnification;
   protected final boolean sentStart;
 
@@ -56,18 +56,18 @@ public abstract class AbstractPatternRule extends Rule {
   public AbstractPatternRule(final String id, 
       final String description,
       final Language language,
-      final List<Element> elements,
+      final List<PatternToken> patternTokens,
       final boolean getUnified) {
     this.id = Objects.requireNonNull(id, "id cannot be null");
     this.description = Objects.requireNonNull(description, "description cannot be null");
-    this.patternElements = new ArrayList<>(Objects.requireNonNull(elements, "elements cannot be null")); // copy elements
+    this.patternTokens = new ArrayList<>(Objects.requireNonNull(patternTokens, "patternTokens cannot be null")); // copy elements
     this.language = Objects.requireNonNull(language, "language cannot be null");
     this.getUnified = getUnified;
     testUnification = initUnifier();
-    sentStart = patternElements.size() > 0 && patternElements.get(0).isSentenceStart();    
+    sentStart = this.patternTokens.size() > 0 && this.patternTokens.get(0).isSentenceStart();
     if (!testUnification) {
       boolean found = false;
-      for (Element elem : patternElements) {
+      for (PatternToken elem : this.patternTokens) {
         if (elem.hasAndGroup()) {
           found = true;
           break;
@@ -85,8 +85,8 @@ public abstract class AbstractPatternRule extends Rule {
   }
 
   private boolean initUnifier() {
-    for (final Element elem : patternElements) {
-      if (elem.isUnified()) {
+    for (final PatternToken pToken : patternTokens) {
+      if (pToken.isUnified()) {
         return true;
       }
     }
@@ -95,7 +95,7 @@ public abstract class AbstractPatternRule extends Rule {
 
   @Override
   public String toString() {
-    return id + "[" + subId + "]:" + patternElements + ":" + description;
+    return id + "[" + subId + "]:" + patternTokens + ":" + description;
   }
 
   @Override
@@ -179,7 +179,7 @@ public abstract class AbstractPatternRule extends Rule {
   /**
    * @since 2.3
    */
-  public List<Element> getPatternElements() {
-    return patternElements;
+  public List<PatternToken> getPatternTokens() {
+    return patternTokens;
   }
 }

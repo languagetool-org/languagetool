@@ -27,8 +27,8 @@ import java.util.List;
  */
 public class FalseFriendPatternRule extends PatternRule {
 
-  public FalseFriendPatternRule(String id, Language language, List<Element> elements, String description, String message, String shortMessage) {
-    super(id, language, elements, description, message, shortMessage);
+  public FalseFriendPatternRule(String id, Language language, List<PatternToken> patternTokens, String description, String message, String shortMessage) {
+    super(id, language, patternTokens, description, message, shortMessage);
   }
 
 }

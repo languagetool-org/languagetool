@@ -25,7 +25,7 @@ import org.languagetool.language.German;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.Element;
+import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.tools.StringTools;
 
@@ -53,11 +53,11 @@ public class MissingVerbRule extends GermanRule {
   public MissingVerbRule(ResourceBundle messages, German language) {
     this.language = language;
     rule1 = new PatternRule("internal", language, Arrays.asList(
-            new Element("Vielen", true, false, false),
-            new Element("Dank", true, false, false)), "", "", "");
+            new PatternToken("Vielen", true, false, false),
+            new PatternToken("Dank", true, false, false)), "", "", "");
     rule2 = new PatternRule("internal", language, Arrays.asList(
-            new Element("Herzlichen", true, false, false),
-            new Element("Glückwunsch", true, false, false)), "", "", "");
+            new PatternToken("Herzlichen", true, false, false),
+            new PatternToken("Glückwunsch", true, false, false)), "", "", "");
     super.setCategory(new Category(messages.getString("category_grammar")));
     setDefaultOff();
     addExamplePair(Example.wrong("<marker>In diesem Satz kein Wort.</marker>"),

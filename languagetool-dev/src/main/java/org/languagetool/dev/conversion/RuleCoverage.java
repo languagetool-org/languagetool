@@ -43,7 +43,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.English;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.Element;
+import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 
@@ -188,16 +188,16 @@ public class RuleCoverage {
      */
     public String generateIncorrectExample(PatternRule patternrule) {
         ArrayList<String> examples = new ArrayList<>();
-        List<Element> elements = patternrule.getElements();
-        for (int i=0;i<elements.size();i++) {
-          List<Element> prevExceptions;
-          if (i == elements.size()-1) {
+        List<PatternToken> patternTokens = patternrule.getElements();
+        for (int i=0;i< patternTokens.size();i++) {
+          List<PatternToken> prevExceptions;
+          if (i == patternTokens.size()-1) {
             prevExceptions = new ArrayList<>();
           } else {
-            prevExceptions = elements.get(i+1).getPreviousExceptionList();
+            prevExceptions = patternTokens.get(i+1).getPreviousExceptionList();
             if (prevExceptions == null) prevExceptions = new ArrayList<>();
           }
-            examples.add(getSpecificExample(elements.get(i),prevExceptions,elements,examples));
+            examples.add(getSpecificExample(patternTokens.get(i),prevExceptions, patternTokens,examples));
         }
         // it's okay to not deal with apostrophes as long as we turn off the unpaired brackets rule, for English at least
         StringBuilder sb = new StringBuilder();
@@ -257,13 +257,13 @@ public class RuleCoverage {
      */
     //TODO: doesn't deal with skipped tokens
     @SuppressWarnings("unchecked")
-  public String getSpecificExample(Element e, List<Element> prevExceptions, List<Element> elements, ArrayList<String> examples) {
+  public String getSpecificExample(PatternToken e, List<PatternToken> prevExceptions, List<PatternToken> patternTokens, ArrayList<String> examples) {
         // if this is part of (the first of) a list of and-ed tokens
       if (e.hasAndGroup()) {
-          List<Element> andGroup = e.getAndGroup();
+          List<PatternToken> andGroup = e.getAndGroup();
           andGroup.add(e); // add the token itself to the and group, so we can process them together
           // still, if one of the tokens in the and group is just a (non-regexp) token, we can return that as the example
-          for (Element and : andGroup) {
+          for (PatternToken and : andGroup) {
             if (isJustToken(and)) {
               return and.getString();
             }
@@ -275,16 +275,16 @@ public class RuleCoverage {
           List<Pattern> tokenPatterns = new ArrayList<>(andGroup.size());
           List<Pattern> posPatterns = new ArrayList<>(andGroup.size());
           // get all the exceptions and attributes
-          List<Element> allExceptions = new ArrayList<>();
+          List<PatternToken> allExceptions = new ArrayList<>();
           allExceptions.addAll(prevExceptions);  // add all the exceptions from the next token with scope="previous"
           for (int a=0;a<andGroup.size();a++) {
-            Element and = andGroup.get(a);
-            List<Element> ex = and.getExceptionList();
+            PatternToken and = andGroup.get(a);
+            List<PatternToken> ex = and.getExceptionList();
             if (ex != null) {
               allExceptions.addAll(and.getExceptionList());
             }
             if (and.isReferenceElement()) {
-              and = getReferenceElement(and,elements,examples);  // gets the string for the element if it's a match token
+              and = getReferenceElement(and, patternTokens,examples);  // gets the string for the element if it's a match token
             }
             String andPostag = and.getPOStag();
             String andToken = and.getString();
@@ -330,11 +330,11 @@ public class RuleCoverage {
       // just a single (non-and-ed) token
       else {
         if (e.isReferenceElement()) {
-          e = getReferenceElement(e, elements, examples);
+          e = getReferenceElement(e, patternTokens, examples);
         }
           String token = e.getString();
           String postag = e.getPOStag();
-            List<Element> exceptions = e.getExceptionList();
+            List<PatternToken> exceptions = e.getExceptionList();
             if (exceptions == null) {
               exceptions = new ArrayList<>();
             }
@@ -397,11 +397,11 @@ public class RuleCoverage {
     /**
      * Returns an element with the string set as the previously matched element
      */
-    private Element getReferenceElement(Element e, List<Element> elements, ArrayList<String> examples) {
+    private PatternToken getReferenceElement(PatternToken e, List<PatternToken> patternTokens, ArrayList<String> examples) {
       int r = e.getMatch().getTokenRef();
-      Element newElement = new Element(examples.get(r), elements.get(r).isCaseSensitive(), false, false);
-      newElement.setNegation(e.getNegation());
-      return newElement;
+      PatternToken newPatternToken = new PatternToken(examples.get(r), patternTokens.get(r).isCaseSensitive(), false, false);
+      newPatternToken.setNegation(e.getNegation());
+      return newPatternToken;
       
     }
     
@@ -410,7 +410,7 @@ public class RuleCoverage {
      * which wastes a lot of time
      */
     @SuppressWarnings("unchecked")
-  private List<List<Pattern>> getExceptionAttributes(List<Element> exceptions) {
+  private List<List<Pattern>> getExceptionAttributes(List<PatternToken> exceptions) {
       if (exceptions.size() == 0) {
         return new ArrayList<>();
       } 
@@ -418,7 +418,7 @@ public class RuleCoverage {
       List<List<Pattern>> ret = new ArrayList<>(6);
       List<Pattern> tokenPatterns = new ArrayList<>(size);
       List<Pattern> posPatterns = new ArrayList<>(size);
-      for (Element e : exceptions) {
+      for (PatternToken e : exceptions) {
         String token = e.getString();
         String postag = e.getPOStag();
         Pattern tokenPattern = Pattern.compile(token);
@@ -442,7 +442,7 @@ public class RuleCoverage {
      * Returns a random one of the or-ed elements. Random seems like the right thing to do here.
      * Only applied to simple or-ed lists of words, e.g. this|that|those
      */
-    private String randomOredElement(Element e) {
+    private String randomOredElement(PatternToken e) {
       String[] split = e.getString().split("\\|");
       Random rng = new Random();
       int index = rng.nextInt(split.length);
@@ -453,7 +453,7 @@ public class RuleCoverage {
      * Faster version of inExceptionList, because we don't have to re-compile the Patterns for the exception elements
      */
     @SuppressWarnings("unchecked")
-  private boolean inExceptionList(String word, List<List<Pattern>> exceptionAttributes, List<Element> exceptions) {
+  private boolean inExceptionList(String word, List<List<Pattern>> exceptionAttributes, List<PatternToken> exceptions) {
       if (exceptions.size() == 0) {
         return false;
       }
@@ -461,7 +461,7 @@ public class RuleCoverage {
       List<Pattern> posPatterns = exceptionAttributes.get(1);
       
       for (int i=0;i<exceptions.size();i++) {
-        Element curException = exceptions.get(i);
+        PatternToken curException = exceptions.get(i);
         if (isExampleOf(word,tokenPatterns.get(i),
             posPatterns.get(i),
             curException)) {
@@ -475,7 +475,7 @@ public class RuleCoverage {
     /**
      * Faster version of isExampleOf, since you don't have to recompile the Patterns every time
      */
-    public boolean isExampleOf(String word, Pattern tokenPattern, Pattern posPattern, Element e) {
+    public boolean isExampleOf(String word, Pattern tokenPattern, Pattern posPattern, PatternToken e) {
       if (tokenPattern.pattern().isEmpty() && posPattern == null) {
           return true;
         }
@@ -537,7 +537,7 @@ public class RuleCoverage {
         return (tokenMatches && postagMatches);
     }
     
-    private boolean isInflectedStringMatch(String word, Element e) {
+    private boolean isInflectedStringMatch(String word, PatternToken e) {
       Matcher m;
       Pattern lemmaPattern = Pattern.compile(RuleConverter.glueWords(getLemmas(e)));
     List<String> wordLemmas = getLemmas(word);
@@ -577,7 +577,7 @@ public class RuleCoverage {
     
     // returns the lemmas of an element; 
     // the point of this method is that so we can get the lemmas of a bunch of or-ed words
-    private ArrayList<String> getLemmas(Element e) {
+    private ArrayList<String> getLemmas(PatternToken e) {
       if (!e.isRegularExpression()) {
         return getLemmas(e.getString());
       } else {
@@ -597,7 +597,7 @@ public class RuleCoverage {
     /**
      * Returns true if the element has a (non-regexp, non-negated) token and no exception list
      */
-    private static boolean isJustToken(Element e) {
+    private static boolean isJustToken(PatternToken e) {
       return (!e.getString().isEmpty() && !e.isRegularExpression() && !e.getNegation() && e.getExceptionList() == null);
     }
     
@@ -605,7 +605,7 @@ public class RuleCoverage {
      * Returns true if the given element's string is a regex set of punctuation.
      * e.g. ['"] or [.,;:?!]
      */
-    public static boolean isPunctuation(Element e) {
+    public static boolean isPunctuation(PatternToken e) {
       if (regexSet.matcher(e.getString()).matches() && !e.getNegation() && e.getPOStag() == null) {
         return true;
       }
@@ -615,7 +615,7 @@ public class RuleCoverage {
     /**
      * Grabs the first element of a punctuation set matched by the above method.
      */
-    public String getOnePunc(Element e) {
+    public String getOnePunc(PatternToken e) {
       String set = e.getString();
       Matcher m = regexSet.matcher(set);
       m.find();
@@ -626,7 +626,7 @@ public class RuleCoverage {
      * Returns true if the element is an or-ed list of words, without a specified pos-tag.
      * e.g. can|could|would|should
      */
-    private static boolean isSimpleOrRegex(Element e) {
+    private static boolean isSimpleOrRegex(PatternToken e) {
       // any number of conditions that could halt this check
       if (e.getString().isEmpty()) return false;
       if (e.getPOStag() != null) return false;
@@ -647,7 +647,7 @@ public class RuleCoverage {
       return true;
     }
     
-    private static boolean isOrRegex(Element e) {
+    private static boolean isOrRegex(PatternToken e) {
       if (e.getString().isEmpty()) return false;
       String token = e.getString();
       String[] ors = token.split("\\|");

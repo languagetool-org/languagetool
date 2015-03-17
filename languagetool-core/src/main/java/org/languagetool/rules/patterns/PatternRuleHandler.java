@@ -314,30 +314,30 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (relaxedMode && name == null) {
           name = "";
         }
-        if (phraseElementList.isEmpty()) {
+        if (phrasePatternTokens.isEmpty()) {
           // Elements contain information whether they are inside a <marker>...</marker>,
           // but for phraserefs this depends on the position where the phraseref is used
           // not where it's defined. Thus we have to copy the elements so each use of
           // the phraseref can carry their own information:
 
-          final List<Element> tmpElements = new ArrayList<>();
-          createRules(new ArrayList<>(elementList), tmpElements, 0);
+          final List<PatternToken> tmpPatternTokens = new ArrayList<>();
+          createRules(new ArrayList<>(patternTokens), tmpPatternTokens, 0);
 
         } else {
-          if (!elementList.isEmpty()) {
-            for (List<Element> ph : phraseElementList) {
-              ph.addAll(new ArrayList<>(elementList));
+          if (!patternTokens.isEmpty()) {
+            for (List<PatternToken> ph : phrasePatternTokens) {
+              ph.addAll(new ArrayList<>(patternTokens));
             }
           }
-          for (List<Element> phraseElement : phraseElementList) {
-            processElement(phraseElement);
-            final List<Element> tmpElements = new ArrayList<>();
-            createRules(phraseElement, tmpElements, 0);
+          for (List<PatternToken> phrasePatternToken : phrasePatternTokens) {
+            processElement(phrasePatternToken);
+            final List<PatternToken> tmpPatternTokens = new ArrayList<>();
+            createRules(phrasePatternToken, tmpPatternTokens, 0);
           }
         }
-        elementList.clear();
-        if (phraseElementList != null) {
-          phraseElementList.clear();
+        patternTokens.clear();
+        if (phrasePatternTokens != null) {
+          phrasePatternTokens.clear();
         }
         ruleIssueType = null;
         inRule = false;
@@ -363,7 +363,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       case PATTERN:
         inPattern = false;
         if (lastPhrase) {
-          elementList.clear();
+          patternTokens.clear();
         }
         tokenCounter = 0;
         break;
@@ -378,7 +378,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         }
         final DisambiguationPatternRule rule = new DisambiguationPatternRule(
             antiId + "_antipattern:" + antiPatternCounter,
-            "antipattern", language, elementList, null, null,
+            "antipattern", language, patternTokens, null, null,
             DisambiguationPatternRule.DisambiguatorAction.IMMUNIZE);
         if (startPos != -1 && endPos != -1) {
           rule.setStartPositionCorrection(startPos);
@@ -386,11 +386,11 @@ public class PatternRuleHandler extends XMLRuleHandler {
         } else {
           // No '<marker>'? Then add artificial <marker>s around all tokens to work
           // around issue https://github.com/languagetool-org/languagetool/issues/189:
-          for (Element element : elementList) {
-            element.setInsideMarker(true);
+          for (PatternToken patternToken : patternTokens) {
+            patternToken.setInsideMarker(true);
           }
         }
-        elementList.clear();
+        patternTokens.clear();
         if (inRule) {
           if (ruleAntiPatterns == null) {
             ruleAntiPatterns = new ArrayList<>();
@@ -489,7 +489,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         }
         break;
       case "includephrases":
-        elementList.clear();
+        patternTokens.clear();
         break;
       case PHRASES:
         if (inPhrases) {
@@ -508,10 +508,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
         //clear the features...
         equivalenceFeatures = new HashMap<>();
         //set negation on the last token only!
-        final int lastElement = elementList.size() - 1;
-        elementList.get(lastElement).setLastInUnification();
+        final int lastElement = patternTokens.size() - 1;
+        patternTokens.get(lastElement).setLastInUnification();
         if (uniNegation) {
-          elementList.get(lastElement).setUniNegation();
+          patternTokens.get(lastElement).setUniNegation();
         }
         break;
       case UNIFY_IGNORE:
@@ -526,11 +526,11 @@ public class PatternRuleHandler extends XMLRuleHandler {
    * @since 2.3
    * 
    * @param elemList The complete original Element list
-   * @param tmpElements Temporary Element list being created
+   * @param tmpPatternTokens Temporary list being created
    * @param numElement Index of elemList being analyzed
    */
-  private void createRules(List<Element> elemList,
-      List<Element> tmpElements, int numElement) {
+  private void createRules(List<PatternToken> elemList,
+      List<PatternToken> tmpPatternTokens, int numElement) {
     String shortMessage = "";
     if (this.shortMessage != null && this.shortMessage.length() > 0) {
       shortMessage = this.shortMessage.toString();
@@ -538,9 +538,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
       shortMessage = this.shortMessageForRuleGroup.toString();
     }
     if (numElement >= elemList.size()) {
-      final PatternRule rule = new PatternRule(id, language, tmpElements, name,
+      final PatternRule rule = new PatternRule(id, language, tmpPatternTokens, name,
           message.toString(), shortMessage,
-          suggestionsOutMsg.toString(), phraseElementList.size() > 1);
+          suggestionsOutMsg.toString(), phrasePatternTokens.size() > 1);
       if (filterClassName != null && filterArgs != null) {
         RuleFilterCreator creator = new RuleFilterCreator();
         RuleFilter filter = creator.getFilter(filterClassName);
@@ -550,17 +550,17 @@ public class PatternRuleHandler extends XMLRuleHandler {
       prepareRule(rule);
       rules.add(rule);
     } else {
-      Element element = elemList.get(numElement);
-      if (element.hasOrGroup()) {
-        for (Element elementOfOrGroup : element.getOrGroup()) {
-          final List<Element> tmpElements2 = new ArrayList<>();
-          tmpElements2.addAll(tmpElements);
-          tmpElements2.add((Element) ObjectUtils.clone(elementOfOrGroup));
+      PatternToken patternToken = elemList.get(numElement);
+      if (patternToken.hasOrGroup()) {
+        for (PatternToken patternTokenOfOrGroup : patternToken.getOrGroup()) {
+          final List<PatternToken> tmpElements2 = new ArrayList<>();
+          tmpElements2.addAll(tmpPatternTokens);
+          tmpElements2.add((PatternToken) ObjectUtils.clone(patternTokenOfOrGroup));
           createRules(elemList, tmpElements2, numElement + 1);
         }
       }
-      tmpElements.add((Element) ObjectUtils.clone(element));
-      createRules(elemList, tmpElements, numElement + 1);
+      tmpPatternTokens.add((PatternToken) ObjectUtils.clone(patternToken));
+      createRules(elemList, tmpPatternTokens, numElement + 1);
     }
   }
 
@@ -591,7 +591,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       for (final Match m : suggestionMatches) {
         rule.addSuggestionMatch(m);
       }
-      if (phraseElementList.size() <= 1) {
+      if (phrasePatternTokens.size() <= 1) {
         suggestionMatches.clear();
       }
     }
