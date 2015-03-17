@@ -133,13 +133,6 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
   }
 
   /**
-   * For testing only.
-   */
-  public final List<PatternToken> getElements() {
-    return Collections.unmodifiableList(patternTokens);
-  }
-
-  /**
    * @since 2.3
    */
   public DisambiguatorAction getAction() {

@@ -215,13 +215,6 @@ public class PatternRule extends AbstractPatternRule {
   /**
    * For testing only.
    */
-  public final List<PatternToken> getElements() {
-    return patternTokens;
-  }
-
-  /**
-   * For testing only.
-   */
   final List<DisambiguationPatternRule> getAntiPatterns() {
     return antiPatterns;
   }

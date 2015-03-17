@@ -188,7 +188,7 @@ public class RuleCoverage {
      */
     public String generateIncorrectExample(PatternRule patternrule) {
         ArrayList<String> examples = new ArrayList<>();
-        List<PatternToken> patternTokens = patternrule.getElements();
+        List<PatternToken> patternTokens = patternrule.getPatternTokens();
         for (int i=0;i< patternTokens.size();i++) {
           List<PatternToken> prevExceptions;
           if (i == patternTokens.size()-1) {

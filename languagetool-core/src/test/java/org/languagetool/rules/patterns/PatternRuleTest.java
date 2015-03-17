@@ -160,13 +160,13 @@ public class PatternRuleTest extends TestCase {
     }
     for (PatternRule rule : rules) {
       // Test the rule pattern.
-      PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getElements(),
+      PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getPatternTokens(),
               rule.getId(), rule.getSubId(), lang);
 
       // Test the rule antipatterns.
       List<DisambiguationPatternRule> antiPatterns = rule.getAntiPatterns();
       for (DisambiguationPatternRule antiPattern : antiPatterns) {
-        PatternTestTools.warnIfRegexpSyntaxNotKosher(antiPattern.getElements(),
+        PatternTestTools.warnIfRegexpSyntaxNotKosher(antiPattern.getPatternTokens(),
             antiPattern.getId(), antiPattern.getSubId(), lang);
       }
       if (rule.getCorrectExamples().size() == 0) {

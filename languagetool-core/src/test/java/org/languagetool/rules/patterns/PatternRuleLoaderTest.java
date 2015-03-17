@@ -67,7 +67,7 @@ public class PatternRuleLoaderTest extends TestCase {
     assertTrue(categories.contains("Test tokens with min and max attributes"));
 
     final PatternRule demoRuleWithChunk = (PatternRule) getRuleById("DEMO_CHUNK_RULE", rules);
-    final List<PatternToken> patternTokens = demoRuleWithChunk.getElements();
+    final List<PatternToken> patternTokens = demoRuleWithChunk.getPatternTokens();
     assertEquals(2, patternTokens.size());
     assertEquals(null, patternTokens.get(1).getPOStag());
     assertEquals(new ChunkTag("B-NP-singular"), patternTokens.get(1).getChunkTag());

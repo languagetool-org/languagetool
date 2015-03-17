@@ -68,7 +68,7 @@ public class PatternRuleQueryBuilder {
    */
   public Query buildRelaxedQuery(PatternRule rule) throws UnsupportedPatternRuleException {
     final BooleanQuery booleanQuery = new BooleanQuery();
-    for (PatternToken patternToken : rule.getElements()) {
+    for (PatternToken patternToken : rule.getPatternTokens()) {
       try {
         final BooleanClause clause = makeQuery(patternToken);
         booleanQuery.add(clause);

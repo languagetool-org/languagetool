@@ -61,7 +61,7 @@ public class DisambiguationRuleTest extends TestCase {
         final List<DisambiguationPatternRule> rules = ruleLoader
             .getRules(ruleLoader.getClass().getResourceAsStream(name));
         for (DisambiguationPatternRule rule : rules) {
-          PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getElements(),
+          PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getPatternTokens(),
               rule.getId(), rule.getSubId(), lang);
         }
         testDisambiguationRulesFromXML(rules, languageTool, lang);
