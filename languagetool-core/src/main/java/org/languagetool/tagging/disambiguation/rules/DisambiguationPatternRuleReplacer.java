@@ -57,20 +57,20 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     boolean changed = false;
 
     pTokensMatched.clear();
-    for (PatternTokenMatcher patternTokenMatcher : patternTokenMatchers) { //the list has exactly the same number
-                                                          // of elements as the list of ElementMatchers
+    // the list has exactly the same number of elements as the list of ElementMatchers:
+    for (PatternTokenMatcher patternTokenMatcher : patternTokenMatchers) {
       pTokensMatched.add(false);
     }
 
     int i = 0;
     int minOccurCorrection = getMinOccurrenceCorrection();
     while (i < limit + minOccurCorrection && !(rule.isSentStart() && i > 0)) {
+      int skipShiftTotal = 0;
       boolean allElementsMatch = false;
       unifiedTokens = null;
       int matchingTokens = 0;
-      int skipShiftTotal = 0;
       int firstMatchToken = -1;
-      int lastMatchToken;
+      int lastMatchToken = -1;
       int firstMarkerMatchToken = -1;
       int lastMarkerMatchToken = -1;
       int prevSkipNext = 0;
@@ -79,7 +79,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       }
       int minOccurSkip = 0;
       for (int k = 0; k < patternSize; k++) {
-        final PatternTokenMatcher prevElement = pTokenMatcher;
+        final PatternTokenMatcher prevTokenMatcher = pTokenMatcher;
         pTokenMatcher = patternTokenMatchers.get(k);
         pTokenMatcher.resolveReference(firstMatchToken, tokens, rule.getLanguage());
         final int nextPos = i + k + skipShiftTotal - minOccurSkip;
@@ -89,7 +89,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         }
         final int maxTok = Math.min(nextPos + prevSkipNext, tokens.length - (patternSize - k) + minOccurCorrection);
         for (int m = nextPos; m <= maxTok; m++) {
-          allElementsMatch = testAllReadings(tokens, pTokenMatcher, prevElement, m, firstMatchToken, prevSkipNext);
+          allElementsMatch = testAllReadings(tokens, pTokenMatcher, prevTokenMatcher, m, firstMatchToken, prevSkipNext);
 
           if (pTokenMatcher.getPatternToken().getMinOccurrence() == 0) {
             final PatternTokenMatcher nextElement = patternTokenMatchers.get(k + 1);
@@ -106,7 +106,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
           if (allElementsMatch) {
             pTokensMatched.set(k, true);
             int skipForMax = skipMaxTokens(tokens, pTokenMatcher, firstMatchToken, prevSkipNext,
-                prevElement, m, patternSize - k -1);
+                prevTokenMatcher, m, patternSize - k -1);
             lastMatchToken = m + skipForMax;
             final int skipShift = lastMatchToken - nextPos;
             tokenPositions[matchingTokens] = skipShift + 1;
