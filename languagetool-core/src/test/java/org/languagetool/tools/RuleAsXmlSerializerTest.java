@@ -41,6 +41,7 @@ import java.util.regex.Pattern;
 
 import static junit.framework.TestCase.assertTrue;
 
+@SuppressWarnings("MagicNumber")
 public class RuleAsXmlSerializerTest {
   
   private static final RuleAsXmlSerializer SERIALIZER = new RuleAsXmlSerializer();

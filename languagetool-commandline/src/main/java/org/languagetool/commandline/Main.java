@@ -337,7 +337,6 @@ class Main {
         System.out.println("<!--");
       }
       if (profileRules) {
-        //TODO: run 10 times, line in runOnce mode, and use median
         System.out.printf(Locale.ENGLISH,
             "%s\t%d\t%d\t%d\t%.1f", rules.get(ruleIndex).getId(),
             time, sentences, matches, sentencesPerSecond);

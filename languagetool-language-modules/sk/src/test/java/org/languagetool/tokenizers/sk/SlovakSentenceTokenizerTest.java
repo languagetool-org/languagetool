@@ -28,8 +28,8 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class SlovakSentenceTokenizerTest extends TestCase {
 
-  // accept \n as paragraph:
   private final Language lang = new Slovak();
+  // accept \n as paragraph:
   private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(lang);
   // accept only \n\n as paragraph:
   private final SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer(lang);
@@ -61,7 +61,6 @@ public class SlovakSentenceTokenizerTest extends TestCase {
     testSplit("Das hier ist ein(???) Satz.");
     testSplit("Das hier ist ein(???) Satz.");
 
-    // TODO: derzeit unterscheiden wir nicht, ob nach dem Doppelpunkt ein
     // ganzer Satz kommt oder nicht:
     testSplit("Das war es: gar nichts.");
     testSplit("Das war es: Dies ist ein neuer Satz.");
@@ -87,13 +86,13 @@ public class SlovakSentenceTokenizerTest extends TestCase {
     testSplit("Aké príplatky zamestnancovi (napr. za nadčas) stanovuje Zákonník práce?");
     testSplit("Počas neprítomnosti zastupuje MUDr. Marianna Krupšová.");
     testSplit("Staroveký Egypt vznikol okolo r. 3150 p.n.l. (tzn. 3150 pred Kr.). ",
-            "A zanikol v r. 31 pr. Kr.");
+              "A zanikol v r. 31 pr. Kr.");
 
     // from user bug reports:
     testSplit("Temperatura wody w systemie wynosi 30°C.",
-            "W skład obiegu otwartego wchodzi zbiornik i armatura.");
+              "W skład obiegu otwartego wchodzi zbiornik i armatura.");
     testSplit("Zabudowano kolumny o długości 45 m. ",
-            "Woda z ujęcia jest dostarczana do zakładu.");
+              "Woda z ujęcia jest dostarczana do zakładu.");
 
     // two-letter initials:
     testSplit("Najlepszym polskim reżyserem był St. Różewicz. ", "Chodzi o brata wielkiego poety.");
@@ -113,14 +112,14 @@ public class SlovakSentenceTokenizerTest extends TestCase {
     testSplit("Don't split strings like U. S. A. either.");
     testSplit("Don't split strings like U.S.A. either.");
     testSplit("Don't split... ", "Well you know. ",
-            "Here comes more text.");
+              "Here comes more text.");
     testSplit("Don't split... well you know. ",
-            "Here comes more text.");
+              "Here comes more text.");
     testSplit("The \".\" should not be a delimiter in quotes.");
     testSplit("\"Here he comes!\" she said.");
     testSplit("\"Here he comes!\", she said.");
     testSplit("\"Here he comes.\" ",
-            "But this is another sentence.");
+              "But this is another sentence.");
     testSplit("\"Here he comes!\". ", "That's what he said.");
     testSplit("The sentence ends here. ", "(Another sentence.)");
     // known to fail:
@@ -135,7 +134,7 @@ public class SlovakSentenceTokenizerTest extends TestCase {
     TestTools.testSplit(new String[] { "He won't\nReally." }, stokenizer2);
     // Missing space after sentence end:
     testSplit("James is from the Ireland!",
-            "He lives in Spain now.");
+              "He lives in Spain now.");
   }
 
   private void testSplit(final String... sentences) {

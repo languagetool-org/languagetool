@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("MagicNumber")
 public class RuleWithMaxFilterTest extends TestCase {
 
   private static final Language language = TestTools.getDemoLanguage();
@@ -39,11 +40,11 @@ public class RuleWithMaxFilterTest extends TestCase {
     final RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
     final RuleMatch match2 = new RuleMatch(rule2, 15, 25, "Match2");
     final RuleWithMaxFilter filter = new RuleWithMaxFilter();
-    List<RuleMatch> filteredMatches = filter.filter(Arrays.asList(match1, match2));
-    assertEquals(2, filteredMatches.size());
+    List<RuleMatch> filteredMatches1 = filter.filter(Arrays.asList(match1, match2));
+    assertEquals(2, filteredMatches1.size());
     final RuleMatch match3 = new RuleMatch(rule2, 11, 19, "Match3");
-    filteredMatches = filter.filter(Arrays.asList(match1, match3));
-    assertEquals(1, filteredMatches.size());
+    List<RuleMatch> filteredMatches2 = filter.filter(Arrays.asList(match1, match3));
+    assertEquals(1, filteredMatches2.size());
   }
 
   public void testNoFilteringIfNotOverlapping() {
@@ -64,11 +65,11 @@ public class RuleWithMaxFilterTest extends TestCase {
     final RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
     final RuleMatch match2 = new RuleMatch(rule2, 15, 25, "Match2");
     final RuleWithMaxFilter filter = new RuleWithMaxFilter();
-    List<RuleMatch> filteredMatches = filter.filter(Arrays.asList(match1, match2));
-    assertEquals(2, filteredMatches.size());
+    List<RuleMatch> filteredMatches1 = filter.filter(Arrays.asList(match1, match2));
+    assertEquals(2, filteredMatches1.size());
     final RuleMatch match3 = new RuleMatch(rule2, 11, 19, "Match3");
-    filteredMatches = filter.filter(Arrays.asList(match1, match3));
-    assertEquals(2, filteredMatches.size());
+    List<RuleMatch> filteredMatches2 = filter.filter(Arrays.asList(match1, match3));
+    assertEquals(2, filteredMatches2.size());
   }
 
   public void testOverlaps() {

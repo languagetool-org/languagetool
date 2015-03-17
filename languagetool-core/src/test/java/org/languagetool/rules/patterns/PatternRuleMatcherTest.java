@@ -36,12 +36,13 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.Match.CaseConversion;
 import org.languagetool.rules.patterns.Match.IncludeRange;
 
+@SuppressWarnings("MagicNumber")
 public class PatternRuleMatcherTest {
 
   private static JLanguageTool langTool;
 
   @BeforeClass
-  public static void setup() throws IOException {
+  public static void setup() {
     langTool = new JLanguageTool(new Demo());
   }
 

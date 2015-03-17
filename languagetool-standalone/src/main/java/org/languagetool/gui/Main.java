@@ -216,7 +216,6 @@ public final class Main {
     frame.setIconImage(new ImageIcon(iconUrl).getImage());
 
     textArea = new JTextArea();
-    // TODO: wrong line number is displayed for lines that are wrapped automatically:
     textArea.setLineWrap(true);
     textArea.setWrapStyleWord(true);
     textArea.addKeyListener(new ControlReturnTextCheckingListener());

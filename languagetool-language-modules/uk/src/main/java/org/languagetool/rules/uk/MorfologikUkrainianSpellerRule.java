@@ -36,7 +36,6 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
   public MorfologikUkrainianSpellerRule(ResourceBundle messages,
                                         Language language) throws IOException {
     super(messages, language);
-    
     setCheckCompound(true);
   }
 

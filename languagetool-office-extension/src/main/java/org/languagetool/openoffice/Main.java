@@ -763,7 +763,7 @@ public class Main extends WeakBase implements XJobExecutor,
 
     @Override
     public void run() {
-      // TODO: null can cause the dialog to appear on the wrong screen in a
+      // Note: null can cause the dialog to appear on the wrong screen in a
       // multi-monitor setup, but we just don't have a proper java.awt.Component
       // here which we could use instead:
       final AboutDialog about = new AboutDialog(messages, null);

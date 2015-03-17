@@ -322,7 +322,7 @@ public class MatchState {
     // TODO should case conversion happen before or after including skipped tokens?
     IncludeRange includeSkipped = match.getIncludeSkipped();
     if (includeSkipped != IncludeRange.NONE && skippedTokens != null
-        && !"".equals(skippedTokens)) {
+        && !skippedTokens.isEmpty()) {
       final String[] helper = new String[formattedString.length];
       for (int i = 0; i < formattedString.length; i++) {
         if (formattedString[i] == null) {
@@ -333,16 +333,13 @@ public class MatchState {
       formattedString = helper;
     }
     if (match.checksSpelling() && lang != null) {
-      final List<String> formattedStringElements = Arrays
-          .asList(formattedString);
+      final List<String> formattedStringElements = Arrays.asList(formattedString);
       // tagger-based speller
       final List<AnalyzedTokenReadings> analyzed = lang.getTagger().tag(
           formattedStringElements);
       for (int i = 0; i < formattedString.length; i++) {
-        final AnalyzedToken analyzedToken = analyzed.get(i)
-            .getAnalyzedToken(0);
-        if (analyzedToken.getLemma() == null
-            && analyzedToken.hasNoTag()) {
+        final AnalyzedToken analyzedToken = analyzed.get(i).getAnalyzedToken(0);
+        if (analyzedToken.getLemma() == null && analyzedToken.hasNoTag()) {
           formattedString[i] = "";
         }
       }

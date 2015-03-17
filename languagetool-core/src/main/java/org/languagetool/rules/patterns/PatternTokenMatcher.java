@@ -57,7 +57,6 @@ public class PatternTokenMatcher {
     }
   }
 
-  // TODO: add .compile for all exceptions of the element?
   public void resolveReference(final int firstMatchToken,
       final AnalyzedTokenReadings[] tokens, Language language)
           throws IOException {

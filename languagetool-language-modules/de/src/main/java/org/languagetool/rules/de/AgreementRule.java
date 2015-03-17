@@ -176,7 +176,6 @@ public class AgreementRule extends GermanRule {
     for (int i = 0; i < tokens.length; i++) {
       //defaulting to the first reading
       //TODO: check for all readings
-      //and replace GermanTokenReading
       final String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
       if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME)) {
         continue;

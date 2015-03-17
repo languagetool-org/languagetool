@@ -29,6 +29,7 @@ import org.languagetool.TestTools;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternRule;
 
+@SuppressWarnings("MagicNumber")
 public class SameRuleGroupFilterTest extends TestCase {
 
   private static final Language language = TestTools.getDemoLanguage();

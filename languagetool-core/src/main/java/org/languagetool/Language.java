@@ -75,7 +75,7 @@ public abstract class Language {
    */
   public static Language[] LANGUAGES = getLanguages();
 
-  // TODO: remove once LANGUAGES is removed
+  // TODO: remove once LANGUAGES is removed (after 2.9)
   private static Language[] getLanguages() {
     final List<Language> languages = new ArrayList<>();
     final Set<String> languageClassNames = new HashSet<>();

@@ -55,7 +55,6 @@ public class JLanguageToolTest extends TestCase {
     final List<RuleMatch> matches = tool.check("Stundenkilometer");
     assertEquals(1, matches.size());
     final RuleMatch match = matches.get(0);
-    // TODO: values should be either 0-based or 1-based, it should not be mixed up!
     assertEquals(0, match.getLine());
     assertEquals(1, match.getColumn());
   }
