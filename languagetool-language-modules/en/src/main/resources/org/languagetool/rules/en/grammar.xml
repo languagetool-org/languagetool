@@ -7491,7 +7491,7 @@ USA
                 <pattern>
                     <token><exception regexp="yes">’|'|division|class|category|zone|formula|type|influenza|hepatitis|series</exception><exception postag="CD"></exception></token>
                     <token regexp="yes">a|an</token>
-                    <token postag="JJ"><exception regexp="yes">few|dozen|time</exception><exception postag="CD"></exception></token>
+                    <token max="2" postag="JJ"><exception regexp="yes">few|dozen|time</exception><exception postag="CD"></exception></token>
                     <marker>
                         <token postag="NNS|NNPS" postag_regexp="yes"><exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"/><exception regexp="yes">sometimes|savings|headquarters</exception></token>
                     </marker>
@@ -7500,10 +7500,12 @@ USA
                 <message>Don't use indefinite articles with plural words. Did you mean <suggestion><match no="4" postag="NN(:UN?)?" postag_regexp="yes"/></suggestion>?</message>
                 <short>Possible agreement error</short>
                 <example correction="milestone">The Syria resolution was a major <marker>milestones</marker> for the United Nations.</example>
+                <example correction="milestone">The Syria resolution was an early major <marker>milestones</marker> for the United Nations.</example>
+                <example correction="woman">The average figure of a Korean <marker>women</marker> in her twenties</example>
+                <example correction="desk">I made a simple wooden <marker>desks</marker>. </example>
                 <example>Only half a dozen asteroids are larger than 87 Sylvia.</example>
                 <example>It's a ten minutes walk to the bus stop.</example>
                 <example>The only exception to this is that if a defendant appeals a conviction for a crime.</example>
-                <example correction="woman">The average figure of a Korean <marker>women</marker> in her twenties</example>
             </rule>
         </rulegroup>
         <rule id="ONE_PLURAL" name="Agreement: 'one' + plural word">
