@@ -310,8 +310,6 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
               !pTokensMatched.get(i + startPositionCorrection + k)) {
             k++;
           }
-         //FIXME: this is left to see whether this fails anywhere
-         assert(i + k + startPositionCorrection < rule.getPatternTokens().size());
          pToken = rule.getPatternTokens().get(i + k + startPositionCorrection);
         }
         final Match tmpMatchToken = new Match(pToken.getPOStag(), null,
