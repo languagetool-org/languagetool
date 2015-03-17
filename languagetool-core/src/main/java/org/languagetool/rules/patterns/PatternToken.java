@@ -331,8 +331,16 @@ public class PatternToken implements Cloneable {
     this.posToken = new PosToken(posToken, regExp, negation);
   }
 
-  /** @since 2.3 */
+  /**
+   * @deprecated use {@link #setChunkTag(ChunkTag)} instead (deprecated since 2.9)
+   * @since 2.3
+   */
   public final void setChunkElement(final ChunkTag chunkTag) {
+    this.chunkTag = chunkTag;
+  }
+
+  /** @since 2.9 */
+  public final void setChunkTag(final ChunkTag chunkTag) {
     this.chunkTag = chunkTag;
   }
 

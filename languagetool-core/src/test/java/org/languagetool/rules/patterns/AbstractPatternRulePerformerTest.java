@@ -48,7 +48,7 @@ public class AbstractPatternRulePerformerTest {
   @Test
   public void testTestAllReadingsWithChunks() throws Exception {
     PatternToken chunkPatternToken = new PatternToken(null, false, false, false);
-    chunkPatternToken.setChunkElement(new ChunkTag("myChunk"));
+    chunkPatternToken.setChunkTag(new ChunkTag("myChunk"));
     PatternRule simpleRule = new PatternRule("FAKE", new Demo(), Collections.singletonList(chunkPatternToken), "descr", "message", "short");
     PatternTokenMatcher elemMatcher = new PatternTokenMatcher(chunkPatternToken);
 

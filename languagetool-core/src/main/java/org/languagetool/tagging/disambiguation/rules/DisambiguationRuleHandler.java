@@ -344,7 +344,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         }
 
         if (chunkTag != null) {
-          patternToken.setChunkElement(chunkTag);
+          patternToken.setChunkTag(chunkTag);
           chunkTag = null;
         }
 

@@ -578,7 +578,7 @@ public class XMLRuleHandler extends DefaultHandler {
       posToken = null;
     }
     if (chunkTag != null) {
-      patternToken.setChunkElement(chunkTag);
+      patternToken.setChunkTag(chunkTag);
       chunkTag = null;
     }
 
