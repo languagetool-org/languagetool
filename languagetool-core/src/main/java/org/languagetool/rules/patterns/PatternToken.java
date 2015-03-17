@@ -50,11 +50,9 @@ public class PatternToken implements Cloneable {
   private final boolean stringRegExp;
 
   private String stringToken;
-  private String posToken;
-  private ChunkTag chunkToken;
-  private boolean posRegExp;
+  private PosToken posToken;
+  private ChunkTag chunkTag;
   private boolean negation;
-  private boolean posNegation;
   private boolean inflected;
   private boolean testWhitespace;
   private boolean whitespaceBefore;
@@ -84,7 +82,6 @@ public class PatternToken implements Cloneable {
   private int maxOccurrence = 1;
 
   private Pattern pattern;
-  private Pattern posPattern;
 
   /** The reference to another element in the pattern. **/
   private Match tokenReference;
@@ -107,7 +104,6 @@ public class PatternToken implements Cloneable {
 
   private boolean uniNegation;
   private Map<String, List<String>> unificationFeatures;
-  private boolean posUnknown;
 
   /** Set to true on tokens that close the unification block. */
   private boolean isLastUnified;
@@ -142,6 +138,7 @@ public class PatternToken implements Cloneable {
       return false;
     }
     final boolean matched;
+    boolean posNegation = posToken != null && posToken.negation;
     if (testString) {
       matched = isStringTokenMatched(token) ^ negation &&
                 isPosTokenMatched(token) ^ posNegation;
@@ -318,25 +315,25 @@ public class PatternToken implements Cloneable {
    * @return True if the element starts the sentence and the element hasn't been set to have negated POS token.
    */
   public final boolean isSentenceStart() {
-    return JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) && !posNegation;
+    return posToken != null && JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken.posTag) && !posToken.negation;
   }
 
+  /** @since 2.9 */
+  public final void setPosToken(PosToken posToken) {
+    this.posToken = posToken;
+  }
+
+  /**
+   * @deprecated use {@link #setPosToken(PosToken)} instead (deprecated since 2.9)
+   */
   public final void setPosElement(final String posToken, final boolean regExp,
       final boolean negation) {
-    this.posToken = posToken;
-    this.posNegation = negation;
-    posRegExp = regExp;
-    if (posRegExp) {
-      posPattern = Pattern.compile(posToken);
-      posUnknown = posPattern.matcher(UNKNOWN_TAG).matches();
-    } else {
-      posUnknown = UNKNOWN_TAG.equals(posToken);
-    }
+    this.posToken = new PosToken(posToken, regExp, negation);
   }
 
   /** @since 2.3 */
   public final void setChunkElement(final ChunkTag chunkTag) {
-    this.chunkToken = chunkTag;
+    this.chunkTag = chunkTag;
   }
 
   @Nullable
@@ -383,7 +380,7 @@ public class PatternToken implements Cloneable {
           final String posToken, final boolean posRegExp, final boolean posNegation, final Boolean caseSensitivity) {
     final PatternToken exception = new PatternToken(token, caseSensitivity == null ? caseSensitive : caseSensitivity, regExp, inflected);
     exception.setNegation(negation);
-    exception.setPosElement(posToken, posRegExp, posNegation);
+    exception.setPosToken(new PosToken(posToken, posRegExp, posNegation));
     exception.exceptionValidNext = scopeNext;
     setException(exception, scopePrevious);
   }
@@ -445,7 +442,7 @@ public class PatternToken implements Cloneable {
 
     final PatternToken exception = new PatternToken(token, caseSensitive, regExp, inflected);
     exception.setNegation(negation);
-    exception.setPosElement(posToken, posRegExp, posNegation);
+    exception.setPosToken(new PosToken(posToken, posRegExp, posNegation));
     setException(exception, false);
   }
 
@@ -456,21 +453,21 @@ public class PatternToken implements Cloneable {
    * @return true if matches
    */
   private boolean isPosTokenMatched(final AnalyzedToken token) {
-    if (posToken == null) {
+    if (posToken == null || posToken.posTag == null) {
       // if no POS set defaulting to true
       return true;
     }
     if (token.getPOSTag() == null) {
-      return posUnknown && token.hasNoTag();
+      return posToken.posUnknown && token.hasNoTag();
     }
     boolean match;
-    if (posRegExp) {
-      final Matcher mPos = posPattern.matcher(token.getPOSTag());
+    if (posToken.regExp) {
+      final Matcher mPos = posToken.posPattern.matcher(token.getPOSTag());
       match = mPos.matches();
     } else {
-      match = posToken.equals(token.getPOSTag());
+      match = posToken.posTag.equals(token.getPOSTag());
     }
-    if (!match && posUnknown) { // ignore helper tags
+    if (!match && posToken.posUnknown) { // ignore helper tags
       match = token.hasNoTag();
     }
     return match;
@@ -634,7 +631,7 @@ public class PatternToken implements Cloneable {
     if (tokenReference.setsPos()) {
       final String posReference = matchState.getTargetPosTag();
       if (posReference != null) {
-        setPosElement(posReference, tokenReference.posRegExp(), negation);
+        setPosToken(new PosToken(posReference, tokenReference.posRegExp(), negation));
       }
       setStringElement(referenceString.replace("\\" + tokenReference.getTokenRef(), ""));
       inflected = true;
@@ -681,7 +678,7 @@ public class PatternToken implements Cloneable {
    * @since 1.3.0
    */
   public final boolean isPOStagRegularExpression() {
-    return posRegExp;
+    return posToken != null && posToken.regExp;
   }
 
   /**
@@ -690,7 +687,7 @@ public class PatternToken implements Cloneable {
    */
   @Nullable
   public final String getPOStag() {
-    return posToken;
+    return posToken != null ? posToken.posTag : null;
   }
 
   /**
@@ -699,14 +696,14 @@ public class PatternToken implements Cloneable {
    */
   @Nullable
   public final ChunkTag getChunkTag() {
-    return chunkToken;
+    return chunkTag;
   }
 
   /**
    * @return true if the POS is negated.
    */
   public final boolean getPOSNegation() {
-    return posNegation;
+    return posToken != null && posToken.negation;
   }
 
   /**
@@ -854,9 +851,9 @@ public class PatternToken implements Cloneable {
       sb.append('/');
       sb.append(posToken);
     }
-    if (chunkToken != null) {
+    if (chunkTag != null) {
       sb.append('/');
-      sb.append(chunkToken);
+      sb.append(chunkTag);
     }
     if (exceptionList != null) {
       sb.append("/exceptions=");
@@ -865,4 +862,30 @@ public class PatternToken implements Cloneable {
     return sb.toString();
   }
 
+  public static class PosToken {
+
+    private final String posTag;
+    private final boolean regExp;
+    private final boolean negation;
+    private final Pattern posPattern;
+    private final boolean posUnknown;
+
+    public PosToken(String posTag, boolean regExp, boolean negation) {
+      this.posTag = posTag;
+      this.regExp = regExp;
+      this.negation = negation;
+      if (regExp) {
+        posPattern = Pattern.compile(posTag);
+        posUnknown = posPattern.matcher(UNKNOWN_TAG).matches();
+      } else {
+        posPattern = null;
+        posUnknown = UNKNOWN_TAG.equals(posTag);
+      }
+    }
+
+    @Override
+    public String toString() {
+      return posTag;
+    }
+  }
 }

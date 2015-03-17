@@ -495,7 +495,7 @@ public class PatternRuleTest extends TestCase {
         pToken = new PatternToken("", caseSensitive, regex, false);
       }
       if (pos) {
-        pToken.setPosElement(element, false, false);
+        pToken.setPosToken(new PatternToken.PosToken(element, false, false));
       }
       patternTokens.add(pToken);
       pos = false;

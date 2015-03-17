@@ -185,18 +185,18 @@ public class UnifierTest extends TestCase {
     final UnifierConfiguration unifierConfig = new UnifierConfiguration();
 
     final PatternToken sgPatternToken = new PatternToken("", false, false, false);
-    sgPatternToken.setPosElement(".*[\\.:]sg:.*", true, false);
+    sgPatternToken.setPosToken(new PatternToken.PosToken(".*[\\.:]sg:.*", true, false));
     unifierConfig.setEquivalence("number", "singular", sgPatternToken);
     final PatternToken plPatternToken = new PatternToken("", false, false, false);
-    plPatternToken.setPosElement(".*[\\.:]pl:.*", true, false);
+    plPatternToken.setPosToken(new PatternToken.PosToken(".*[\\.:]pl:.*", true, false));
     unifierConfig.setEquivalence("number", "plural", plPatternToken);
 
     final PatternToken femPatternToken = new PatternToken("", false, false, false);
-    femPatternToken.setPosElement(".*[\\.:]f", true, false);
+    femPatternToken.setPosToken(new PatternToken.PosToken(".*[\\.:]f", true, false));
     unifierConfig.setEquivalence("gender", "feminine", femPatternToken);
 
     final PatternToken mascPatternToken = new PatternToken("", false, false, false);
-    mascPatternToken.setPosElement(".*[\\.:]m", true, false);
+    mascPatternToken.setPosToken(new PatternToken.PosToken(".*[\\.:]m", true, false));
     unifierConfig.setEquivalence("gender", "masculine", mascPatternToken);
 
     final Unifier uni = unifierConfig.createUnifier();
@@ -428,9 +428,9 @@ public class UnifierTest extends TestCase {
 
 
   private PatternToken preparePOSElement(final String posString) {
-    final PatternToken el = new PatternToken("", false, false, false);
-    el.setPosElement(posString, true, false);
-    return el;
+    final PatternToken pToken = new PatternToken("", false, false, false);
+    pToken.setPosToken(new PatternToken.PosToken(posString, true, false));
+    return pToken;
   }
 
   public void testNegation() {

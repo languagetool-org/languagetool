@@ -21,42 +21,45 @@ package org.languagetool.rules.patterns;
 
 import junit.framework.TestCase;
 import org.languagetool.AnalyzedToken;
-import org.languagetool.JLanguageTool;
+
+import static org.languagetool.JLanguageTool.PARAGRAPH_END_TAGNAME;
+import static org.languagetool.JLanguageTool.SENTENCE_END_TAGNAME;
+import static org.languagetool.JLanguageTool.SENTENCE_START_TAGNAME;
+import static org.languagetool.rules.patterns.PatternToken.UNKNOWN_TAG;
 
 public class PatternTokenTest extends TestCase {
 
   public void testSentenceStart() {
     final PatternToken patternToken = new PatternToken("", false, false, false);
-    patternToken.setPosElement(JLanguageTool.SENTENCE_START_TAGNAME, false, false);
+    patternToken.setPosToken(new PatternToken.PosToken(SENTENCE_START_TAGNAME, false, false));
     assertTrue(patternToken.isSentenceStart());
-    patternToken.setPosElement(JLanguageTool.SENTENCE_START_TAGNAME, false, true);
+    patternToken.setPosToken(new PatternToken.PosToken(SENTENCE_START_TAGNAME, false, true));
     assertFalse(patternToken.isSentenceStart());
-    patternToken.setPosElement(JLanguageTool.SENTENCE_START_TAGNAME, true, false);
+    patternToken.setPosToken(new PatternToken.PosToken(SENTENCE_START_TAGNAME, true, false));
     assertTrue(patternToken.isSentenceStart());
-    patternToken.setPosElement(JLanguageTool.SENTENCE_START_TAGNAME, true, true);
+    patternToken.setPosToken(new PatternToken.PosToken(SENTENCE_START_TAGNAME, true, true));
     assertFalse(patternToken.isSentenceStart());
 
-    //this should be false:
     final PatternToken patternToken2 = new PatternToken("bla|blah", false, true, false);
-    patternToken2.setPosElement("foo", true, true);
+    patternToken2.setPosToken(new PatternToken.PosToken("foo", true, true));
     assertFalse(patternToken2.isSentenceStart());
   }
   
   public void testUnknownTag() {
     final PatternToken patternToken = new PatternToken("", false, false, false);
-    patternToken.setPosElement(PatternToken.UNKNOWN_TAG, false, false);
+    patternToken.setPosToken(new PatternToken.PosToken(UNKNOWN_TAG, false, false));
     
     final PatternToken patternToken2 = new PatternToken("", false, false, false);
-    patternToken2.setPosElement(PatternToken.UNKNOWN_TAG, false, true);
+    patternToken2.setPosToken(new PatternToken.PosToken(UNKNOWN_TAG, false, true));
 
     final PatternToken patternToken3 = new PatternToken("", false, false, false);
-    patternToken3.setPosElement(PatternToken.UNKNOWN_TAG+"|VBG", true, false);
+    patternToken3.setPosToken(new PatternToken.PosToken(UNKNOWN_TAG + "|VBG", true, false));
     
     final PatternToken patternToken4 = new PatternToken("", false, false, false);
-    patternToken4.setPosElement(PatternToken.UNKNOWN_TAG+"|VBG", true, true);
+    patternToken4.setPosToken(new PatternToken.PosToken(UNKNOWN_TAG + "|VBG", true, true));
     
     final PatternToken patternToken5 = new PatternToken("\\p{Ll}+", false, true, false);
-    patternToken5.setPosElement(PatternToken.UNKNOWN_TAG, false, false);
+    patternToken5.setPosToken(new PatternToken.PosToken(UNKNOWN_TAG, false, false));
     
     final AnalyzedToken an = new AnalyzedToken("schword", null, null);
     assertTrue(patternToken.isMatched(an));
@@ -74,7 +77,7 @@ public class PatternTokenTest extends TestCase {
     assertTrue(patternToken4.isMatched(an));
     assertFalse(patternToken5.isMatched(an));
     
-    final AnalyzedToken anSentEnd = new AnalyzedToken("schword", JLanguageTool.SENTENCE_END_TAGNAME, null);
+    final AnalyzedToken anSentEnd = new AnalyzedToken("schword", SENTENCE_END_TAGNAME, null);
     assertTrue(patternToken.isMatched(anSentEnd));
     assertFalse(patternToken2.isMatched(anSentEnd));
     assertTrue(patternToken3.isMatched(anSentEnd));
@@ -82,11 +85,11 @@ public class PatternTokenTest extends TestCase {
     assertTrue(patternToken5.isMatched(anSentEnd));
     
     final PatternToken patternToken6 = new PatternToken("\\p{Ll}+", false, true, false);
-    patternToken6.setPosElement(JLanguageTool.SENTENCE_END_TAGNAME, false, false);
+    patternToken6.setPosToken(new PatternToken.PosToken(SENTENCE_END_TAGNAME, false, false));
     assertTrue(patternToken6.isMatched(anSentEnd));
     
     final PatternToken patternToken7 = new PatternToken("\\p{Ll}+", false, true, false);
-    patternToken7.setPosElement(JLanguageTool.SENTENCE_END_TAGNAME+"|BLABLA", true, false);
+    patternToken7.setPosToken(new PatternToken.PosToken(SENTENCE_END_TAGNAME + "|BLABLA", true, false));
     assertTrue(patternToken7.isMatched(anSentEnd));
     
     // if the AnalyzedToken is in the set of readings that have
@@ -98,7 +101,7 @@ public class PatternTokenTest extends TestCase {
     assertTrue(patternToken4.isMatched(anSentEnd));
     assertFalse(patternToken5.isMatched(anSentEnd));
     
-    final AnalyzedToken anParaEnd = new AnalyzedToken("schword", JLanguageTool.PARAGRAPH_END_TAGNAME, null);
+    final AnalyzedToken anParaEnd = new AnalyzedToken("schword", PARAGRAPH_END_TAGNAME, null);
     assertTrue(patternToken.isMatched(anParaEnd));
     assertFalse(patternToken2.isMatched(anParaEnd));
     assertTrue(patternToken3.isMatched(anParaEnd));

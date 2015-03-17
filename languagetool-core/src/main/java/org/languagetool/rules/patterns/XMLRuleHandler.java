@@ -574,7 +574,7 @@ public class XMLRuleHandler extends DefaultHandler {
       maxOccurrence = 1;
     }
     if (posToken != null) {
-      patternToken.setPosElement(posToken, posRegExp, posNegation);
+      patternToken.setPosToken(new PatternToken.PosToken(posToken, posRegExp, posNegation));
       posToken = null;
     }
     if (chunkTag != null) {
