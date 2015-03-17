@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,6 +49,8 @@ public class PatternToken implements Cloneable {
 
   private final boolean caseSensitive;
   private final boolean stringRegExp;
+  private final List<PatternToken> andGroupList = new ArrayList<>();
+  private final List<PatternToken> orGroupList = new ArrayList<>();
 
   private String stringToken;
   private PosToken posToken;
@@ -72,10 +75,6 @@ public class PatternToken implements Cloneable {
 
   /** List of exceptions that are valid for a previous token. */
   private List<PatternToken> previousExceptionList;
-  private List<PatternToken> andGroupList;
-  private boolean andGroupSet;
-  private List<PatternToken> orGroupList;
-  private boolean orGroupSet;
 
   private int skip;
   private int minOccurrence = 1;
@@ -86,7 +85,6 @@ public class PatternToken implements Cloneable {
   /** The reference to another element in the pattern. **/
   private Match tokenReference;
   /** True when the element stores a formatted reference to another element of the pattern. */
-  private boolean containsMatches;
   private String referenceString;
   /** String ID of the phrase the element is in. **/
   private String phraseName;
@@ -96,8 +94,6 @@ public class PatternToken implements Cloneable {
    * takes most time so it's best to reduce the number of its calls.
    */
   private boolean testString;
-  /** Tells if the element is inside the unification, so that {@link Unifier} tests it.  */
-  private boolean unified;
 
   /** Determines whether the element should be ignored when doing unification **/
   private boolean unificationNeutral;
@@ -174,11 +170,9 @@ public class PatternToken implements Cloneable {
    * @return true if all conditions are met, false otherwise.
    */
   public final boolean isAndExceptionGroupMatched(final AnalyzedToken token) {
-    if (andGroupSet) {
-      for (final PatternToken testAndGroup : andGroupList) {
-        if (testAndGroup.isExceptionMatched(token)) {
-          return true;
-        }
+    for (final PatternToken testAndGroup : andGroupList) {
+      if (testAndGroup.isExceptionMatched(token)) {
+        return true;
       }
     }
     return false;
@@ -194,16 +188,8 @@ public class PatternToken implements Cloneable {
     return isExceptionMatched(token) || isAndExceptionGroupMatched(token);
   }
 
-  public final void setAndGroupElement(final PatternToken andToken) {
-    if (andToken != null) {
-      if (andGroupList == null) {
-        andGroupList = new ArrayList<>();
-      }
-      if (!andGroupSet) {
-        andGroupSet = true;
-      }
-      andGroupList.add(andToken);
-    }
+  public final void setAndGroupElement(PatternToken andToken) {
+    andGroupList.add(Objects.requireNonNull(andToken));
   }
 
   /**
@@ -211,12 +197,11 @@ public class PatternToken implements Cloneable {
    * @return true if the element has a group of elements that all should match.
    */
   public final boolean hasAndGroup() {
-    return andGroupSet;
+    return andGroupList.size() > 0;
   }
 
   /**
    * Returns the group of elements linked with AND operator.
-   * @return List of Elements.
    */
   public final List<PatternToken> getAndGroup() {
     return andGroupList;
@@ -225,16 +210,8 @@ public class PatternToken implements Cloneable {
   /**
    * @since 2.3
    */
-  public final void setOrGroupElement(final PatternToken orToken) {
-    if (orToken != null) {
-      if (orGroupList == null) {
-        orGroupList = new ArrayList<>();
-      }
-      if (!orGroupSet) {
-        orGroupSet = true;
-      }
-      orGroupList.add(orToken);
-    }
+  public final void setOrGroupElement(PatternToken orToken) {
+    orGroupList.add(Objects.requireNonNull(orToken));
   }
 
   /**
@@ -243,12 +220,11 @@ public class PatternToken implements Cloneable {
    * @since 2.3
    */
   public final boolean hasOrGroup() {
-    return orGroupSet;
+    return orGroupList.size() > 0;
   }
 
   /**
    * Returns the group of elements linked with OR operator.
-   * @return List of Elements.
    * @since 2.3
    */
   public final List<PatternToken> getOrGroup() {
@@ -413,7 +389,7 @@ public class PatternToken implements Cloneable {
     setStringPosException(token, regExp, inflected, negation, scopeNext, scopePrevious, posToken, posRegExp, posNegation, Boolean.valueOf(caseSensitivity));
   }
 
-  private void setException(final PatternToken elem, final boolean scopePrevious) {
+  private void setException(final PatternToken pToken, final boolean scopePrevious) {
     exceptionValidPrevious |= scopePrevious;
     if (exceptionList == null && !scopePrevious) {
       exceptionList = new ArrayList<>();
@@ -422,12 +398,12 @@ public class PatternToken implements Cloneable {
       previousExceptionList = new ArrayList<>();
     }
     if (scopePrevious) {
-      previousExceptionList.add(elem);
+      previousExceptionList.add(pToken);
     } else {
       if (!exceptionSet) {
         exceptionSet = true;
       }
-      exceptionList.add(elem);
+      exceptionList.add(pToken);
     }
   }
 
@@ -594,7 +570,7 @@ public class PatternToken implements Cloneable {
    * @return true when this element refers to another token.
    */
   public final boolean isReferenceElement() {
-    return containsMatches;
+    return tokenReference != null;
   }
 
   /**
@@ -602,8 +578,7 @@ public class PatternToken implements Cloneable {
    * @param match Formatting object for the token reference.
    */
   public final void setMatch(final Match match) {
-    tokenReference = match;
-    containsMatches = true;
+    tokenReference = Objects.requireNonNull(match);
   }
 
   public final Match getMatch() {
@@ -732,12 +707,11 @@ public class PatternToken implements Cloneable {
   }
 
   public final boolean isUnified() {
-    return unified;
+    return unificationFeatures != null;
   }
 
   public final void setUnification(final Map<String, List<String>> uniFeatures) {
-    unificationFeatures = uniFeatures;
-    unified = true;
+    unificationFeatures = Objects.requireNonNull(uniFeatures);
   }
 
   /**
