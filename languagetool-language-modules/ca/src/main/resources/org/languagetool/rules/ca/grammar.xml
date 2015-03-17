@@ -26298,6 +26298,22 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="VALORITZAR" name="valoritzar/valorar">
+            <pattern>
+                <token inflected="yes">valoritzar</token>
+            </pattern>
+            <message>¿Volíeu dir '<suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">valorar</match></suggestion>'? 'Valoritzar' s'usa només en alguns àmbits especialitzats.</message>
+            <short>Forma preferible</short>
+            <example correction="valorà">es <marker>valoritzà</marker></example>
+        </rule>
+        <rule id="REVALORITZAR" name="revaloritzar/revalorar">
+            <pattern>
+                <token inflected="yes">revaloritzar</token>
+            </pattern>
+            <message>Forma preferible</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">revalorar</match></suggestion>
+            <example correction="revalorà">es <marker>revaloritzà</marker></example>
+        </rule>
         <rule id="LLINDA_AMB" name="*llinda/confronta amb">
             <antipattern>
                 <marker>
