@@ -2621,6 +2621,25 @@ $Id$
 						<example correction="Otóż"><marker>Otóż,</marker> poniżej zamieszczam przepis dodania strony do wyszukiwarki Google.</example>
 						<example>Otóż poniżej zamieszczam przepis dodania strony do wyszukiwarki Google.</example>
 				</rule>
+                <rule id="PRZECINEK_SIE" name="Zbędny przecinek przed „się”">
+                    <antipattern>
+                        <marker>
+                            <token>,</token>
+                            <token>się</token>
+                        </marker>
+                        <token postag='verb:.*:refl' postag_regexp='yes'></token>
+                    </antipattern>
+                    <pattern>
+                        <token postag='verb:.*:refl' postag_regexp='yes'></token>
+                        <token>,</token>
+                        <token>się</token>
+                    </pattern>
+                    <message>Prawdopodobnie zbędny przecinek: <suggestion><match no="1"/> <match no="3"/></suggestion></message>
+                    <short>Zbędny przecinek</short>
+                    <example correction='odzywał się'>Cały czas <marker>odzywał, się</marker> krótki, przerywany sygnał.</example>
+                    <example>Cały czas odzywał się krótki, przerywany sygnał.</example>
+                    <example>Tak to się kończy, się zaczyna.</example>
+                </rule>
 				<rule id="TYM_BARDZIEJ_ZE" name="Zbędny przecinek w „tym bardziej że”">
 						<pattern>
 								<token>tym</token>
