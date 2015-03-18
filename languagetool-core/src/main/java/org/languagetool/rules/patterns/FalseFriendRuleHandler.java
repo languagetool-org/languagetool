@@ -37,21 +37,17 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 
   private final ResourceBundle messages;
   private final MessageFormat formatter;
-
   private final Language textLanguage;
   private final Language motherTongue;
+  private final Map<String, List<String>> suggestionMap = new HashMap<>();  // rule ID -> list of translations
+  private final List<String> suggestions = new ArrayList<>();
+  private final List<StringBuilder> translations = new ArrayList<>();
 
   private boolean defaultOff;
-
   private Language language;
   private Language translationLanguage;
   private Language currentTranslationLanguage;
-  private List<StringBuilder> translations = new ArrayList<>();
   private StringBuilder translation = new StringBuilder();
-  private final List<String> suggestions = new ArrayList<>();
-  // rule ID -> list of translations:
-  private final Map<String, List<String>> suggestionMap = new HashMap<>();
-
   private boolean inTranslation;
 
   public FalseFriendRuleHandler(final Language textLanguage, final Language motherTongue) {
@@ -75,7 +71,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   public void startElement(final String namespaceURI, final String lName,
       final String qName, final Attributes attrs) throws SAXException {
     if (qName.equals(RULE)) {
-      translations = new ArrayList<>();
+      translations.clear();
       id = attrs.getValue("id");
       if (!(inRuleGroup && defaultOff)) {
         defaultOff = "off".equals(attrs.getValue("default"));
@@ -138,12 +134,10 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
           final String description = formatter.format(messageArguments);
           final PatternRule rule = new FalseFriendPatternRule(id, language, patternTokens,
                   messages.getString("false_friend_desc") + " "
-                          + tokensAsString, description, messages
-                  .getString("false_friend"));
+                          + tokensAsString, description, messages.getString("false_friend"));
           rule.setCorrectExamples(correctExamples);
           rule.setIncorrectExamples(incorrectExamples);
-          rule.setCategory(new Category(messages
-                  .getString("category_false_friend")));
+          rule.setCategory(new Category(messages.getString("category_false_friend")));
           if (defaultOff) {
             rule.setDefaultOff();
           }
