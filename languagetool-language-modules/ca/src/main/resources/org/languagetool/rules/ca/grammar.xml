@@ -167,13 +167,6 @@ $Id$
     <category name="A2) Variants regionals: accentuació, possessius, demostratius, pronoms" default="on"  type="locale-violation">
         <rulegroup id="DEMOSTRATIUS" name="demostratius 'este' i 'eixe'" >
              <rule id="EVITA_DEMOSTRATIUS_ESTE" name="Evita els demostratius 'este'">
-                <antipattern>
-                    <marker> <!-- unnecessary when tag dictionary is updated -->
-                        <token>Àustria</token>
-                        <token>-</token>
-                        <token>Este</token>
-                    </marker>
-                </antipattern>
                 <pattern>
                     <token postag="DD.*" postag_regexp="yes" inflected="yes">este<exception postag="_possible_nompropi"/></token>
                 </pattern>
@@ -182,6 +175,7 @@ $Id$
                 <example correction="Aquest"><marker>Este</marker> home</example>
                 <example correction="Aquestes"><marker>Estes</marker> dones</example>
                 <example correction="Aquest"><marker>Este</marker> nou nom fou considerat més adient</example>
+                <example correction="aquesta">d'<marker>esta</marker></example>
                 <example>Carles de Borbó i d'Àustria-Este</example>
             </rule>
             <rule id="EVITA_DEMOSTRATIUS_EIXE" name="Evita els demostratius 'eixe'">
