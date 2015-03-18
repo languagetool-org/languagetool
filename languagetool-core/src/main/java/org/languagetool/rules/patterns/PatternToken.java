@@ -133,16 +133,14 @@ public class PatternToken implements Cloneable {
     if (testWhitespace && !isWhitespaceBefore(token)) {
       return false;
     }
-    final boolean matched;
     boolean posNegation = posToken != null && posToken.negation;
     if (testString) {
-      matched = isStringTokenMatched(token) ^ negation &&
-                isPosTokenMatched(token) ^ posNegation;
+      return isStringTokenMatched(token) ^ negation &&
+             isPosTokenMatched(token) ^ posNegation;
     } else {
-      matched = !negation &&
-                isPosTokenMatched(token) ^ posNegation;
+      return !negation &&
+             isPosTokenMatched(token) ^ posNegation;
     }
-    return matched;
   }
 
   /**
@@ -207,9 +205,7 @@ public class PatternToken implements Cloneable {
     return andGroupList;
   }
 
-  /**
-   * @since 2.3
-   */
+  /** @since 2.3 */
   public final void setOrGroupElement(PatternToken orToken) {
     orGroupList.add(Objects.requireNonNull(orToken));
   }
@@ -233,7 +229,6 @@ public class PatternToken implements Cloneable {
 
   /**
    * Checks whether a previously set exception matches (in case the exception had scope == "next").
-   * 
    * @param token {@link AnalyzedToken} to check matching against.
    * @return True if any of the exceptions matches.
    */
@@ -253,7 +248,6 @@ public class PatternToken implements Cloneable {
   /**
    * Checks whether an exception for a previous token matches (in case the exception had scope ==
    * "previous").
-   * 
    * @param token {@link AnalyzedToken} to check matching against.
    * @return True if any of the exceptions matches.
    */
@@ -273,7 +267,6 @@ public class PatternToken implements Cloneable {
   /**
    * Checks whether an exception for a previous token matches all readings of a given token (in case
    * the exception had scope == "previous").
-   * 
    * @param prevToken {@link AnalyzedTokenReadings} to check matching against.
    * @return true if any of the exceptions matches.
    */
@@ -345,7 +338,6 @@ public class PatternToken implements Cloneable {
 
   /**
    * Sets a string and/or pos exception for matching tokens.
-   *
    * @param token The string in the exception.
    * @param regExp True if the string is specified as a regular expression.
    * @param inflected True if the string is a base form (lemma).
@@ -409,7 +401,6 @@ public class PatternToken implements Cloneable {
 
   /**
    * Sets an exception for matching Optional tokens.
-   * 
    * @param token The string in the exception.
    * @param regExp True if the string is specified as a regular expression.
    * @param inflected True if the string is a base form (lemma).
@@ -586,14 +577,12 @@ public class PatternToken implements Cloneable {
   }
 
   /**
-   * Prepare Element for matching by formatting its string token and POS (if the Element is supposed
+   * Prepare PatternToken for matching by formatting its string token and POS (if the Element is supposed
    * to refer to some other token).
-   * 
    * @param token the token specified as {@link AnalyzedTokenReadings}
    * @param synth the language synthesizer ({@link Synthesizer})
    */
-  public final PatternToken compile(final AnalyzedTokenReadings token, final Synthesizer synth)
-      throws IOException {
+  public final PatternToken compile(final AnalyzedTokenReadings token, final Synthesizer synth) throws IOException {
     final PatternToken compiledPatternToken;
     try {
       compiledPatternToken = (PatternToken) clone();
@@ -607,20 +596,19 @@ public class PatternToken implements Cloneable {
   void doCompile(final AnalyzedTokenReadings token, final Synthesizer synth) throws IOException {
     pattern = null;
     final MatchState matchState = tokenReference.createState(synth, token);
-
     if (StringTools.isEmpty(referenceString)) {
       referenceString = stringToken;
     }
+    String reference = "\\" + tokenReference.getTokenRef();
     if (tokenReference.setsPos()) {
       final String posReference = matchState.getTargetPosTag();
       if (posReference != null) {
         setPosToken(new PosToken(posReference, tokenReference.posRegExp(), negation));
       }
-      setStringElement(referenceString.replace("\\" + tokenReference.getTokenRef(), ""));
+      setStringElement(referenceString.replace(reference, ""));
       inflected = true;
     } else {
-      setStringElement(referenceString.replace("\\" + tokenReference.getTokenRef(),
-          matchState.toTokenString()));
+      setStringElement(referenceString.replace(reference, matchState.toTokenString()));
     }
   }
 

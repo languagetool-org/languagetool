@@ -106,7 +106,7 @@ public final class Match {
   }
 
   /**
-   * Checks if the Match element is used for setting the part of speech Element.
+   * Checks if the Match element is used for setting the part of speech: {@code setpos="yes"} in XML.
    * @return True if Match sets POS.
    */
   public boolean setsPos() {
