@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
-# upravi lemma-form-tag pre format vhodny na languagetool
+# this will convert Slovak langauge tags as used in the Slovak
+# National Corpus into slightly simpler ones
 
 import sys, re
 
