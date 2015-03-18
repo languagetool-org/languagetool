@@ -150,11 +150,14 @@ public final class CommandLineTools {
     final ContextTools contextTools = new ContextTools();
     contextTools.setContextSize(contextSize);
     for (final RuleMatch match : ruleMatches) {
+      Rule rule = match.getRule();
       String output = i + prevMatches + ".) Line " + (match.getLine() + 1) + ", column "
-              + match.getColumn() + ", Rule ID: " + match.getRule().getId();
-      if (match.getRule() instanceof PatternRule) {
-        final PatternRule pRule = (PatternRule) match.getRule();
-        output += "[" + pRule.getSubId() + "]";
+              + match.getColumn() + ", Rule ID: " + rule.getId();
+      if (rule instanceof PatternRule) {
+        final PatternRule pRule = (PatternRule) rule;
+        if (pRule.getSubId() != null) {
+          output += "[" + pRule.getSubId() + "]";
+        }
       }
       System.out.println(output);
       String msg = match.getMessage();
@@ -167,9 +170,8 @@ public final class CommandLineTools {
                 + StringTools.listToString(replacements, "; "));
       }
       System.out.println(contextTools.getPlainTextContext(match.getFromPos(), match.getToPos(), contents));
-      if (match.getRule().getUrl() != null) {
-        System.out.println("More info: " +
-                match.getRule().getUrl().toString());
+      if (rule.getUrl() != null) {
+        System.out.println("More info: " + rule.getUrl().toString());
       }
       if (i < ruleMatches.size()) {
         System.out.println();
