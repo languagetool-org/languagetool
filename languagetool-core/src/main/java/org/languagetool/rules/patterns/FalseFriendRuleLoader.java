@@ -61,8 +61,7 @@ public class FalseFriendRuleLoader extends DefaultHandler {
         textLanguage, motherTongue);
     final SAXParserFactory factory = SAXParserFactory.newInstance();
     final SAXParser saxParser = factory.newSAXParser();
-    saxParser.getXMLReader()
-        .setFeature(
+    saxParser.getXMLReader().setFeature(
             "http://apache.org/xml/features/nonvalidating/load-external-dtd",
             false);
     saxParser.parse(stream, handler);
@@ -70,12 +69,11 @@ public class FalseFriendRuleLoader extends DefaultHandler {
     // Add suggestions to each rule:
     final ResourceBundle messages = ResourceBundle.getBundle(
             JLanguageTool.MESSAGE_BUNDLE, motherTongue.getLocale());
+    final MessageFormat msgFormat = new MessageFormat(messages.getString("false_friend_suggestion"));
     for (final PatternRule rule : rules) {
-      final List<String> suggestionMap = handler.getSuggestionMap().get(rule.getId());
-      if (suggestionMap != null) {
-        final MessageFormat msgFormat = new MessageFormat(messages
-            .getString("false_friend_suggestion"));
-        final Object[] msg = { formatSuggestions(suggestionMap) };
+      final List<String> suggestions = handler.getSuggestionMap().get(rule.getId());
+      if (suggestions != null) {
+        final String[] msg = { formatSuggestions(suggestions) };
         rule.setMessage(rule.getMessage() + " " + msgFormat.format(msg));
       }
     }
