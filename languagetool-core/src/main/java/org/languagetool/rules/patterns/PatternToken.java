@@ -51,12 +51,12 @@ public class PatternToken implements Cloneable {
   private final boolean stringRegExp;
   private final List<PatternToken> andGroupList = new ArrayList<>();
   private final List<PatternToken> orGroupList = new ArrayList<>();
+  private final boolean inflected;
 
   private String stringToken;
   private PosToken posToken;
   private ChunkTag chunkTag;
   private boolean negation;
-  private boolean inflected;
   private boolean testWhitespace;
   private boolean whitespaceBefore;
   private boolean isInsideMarker = true;
@@ -594,7 +594,6 @@ public class PatternToken implements Cloneable {
   }
 
   void doCompile(final AnalyzedTokenReadings token, final Synthesizer synth) throws IOException {
-    pattern = null;
     final MatchState matchState = tokenReference.createState(synth, token);
     if (StringTools.isEmpty(referenceString)) {
       referenceString = stringToken;
@@ -606,7 +605,6 @@ public class PatternToken implements Cloneable {
         setPosToken(new PosToken(posReference, tokenReference.posRegExp(), negation));
       }
       setStringElement(referenceString.replace(reference, ""));
-      inflected = true;
     } else {
       setStringElement(referenceString.replace(reference, matchState.toTokenString()));
     }
