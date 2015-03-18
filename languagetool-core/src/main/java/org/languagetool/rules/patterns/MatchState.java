@@ -30,11 +30,14 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.patterns.Match.IncludeRange;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
+
+import static org.languagetool.JLanguageTool.PARAGRAPH_END_TAGNAME;
+import static org.languagetool.JLanguageTool.SENTENCE_END_TAGNAME;
+import static org.languagetool.JLanguageTool.SENTENCE_START_TAGNAME;
 
 /**
  * The state of a matching process. This state is <strong>NOT</strong> thread-safe.
@@ -106,8 +109,8 @@ public class MatchState {
     final List<AnalyzedToken> l = new ArrayList<>();
     if (formattedToken != null) {
       if (match.isStaticLemma()) {
-        matchedToken.leaveReading(new AnalyzedToken(matchedToken
-            .getToken(), match.getPosTag(), formattedToken.getToken()));
+        matchedToken.leaveReading(new AnalyzedToken(matchedToken.getToken(),
+                match.getPosTag(), formattedToken.getToken()));
         formattedToken = matchedToken;
       }
       String token = formattedToken.getToken();
@@ -127,9 +130,9 @@ public class MatchState {
           String posTagReplace = match.getPosTagReplace();
           String targetPosTag;
           for (int i = 0; i < numRead; i++) {
-            final String tst = formattedToken.getAnalyzedToken(i).getPOSTag();
-            if (tst != null && pPosRegexMatch.matcher(tst).matches()) {
-              targetPosTag = formattedToken.getAnalyzedToken(i).getPOSTag();
+            final String testTag = formattedToken.getAnalyzedToken(i).getPOSTag();
+            if (testTag != null && pPosRegexMatch.matcher(testTag).matches()) {
+              targetPosTag = testTag;
               if (posTagReplace != null) {
                 targetPosTag = pPosRegexMatch.matcher(targetPosTag).replaceAll(posTagReplace);
               }
@@ -144,13 +147,12 @@ public class MatchState {
         } else {
           l.addAll(getNewToken(numRead, token));
         }
+        String lemma = formattedToken.getAnalyzedToken(0).getLemma();
         if (formattedToken.isSentenceEnd()) {
-          l.add(new AnalyzedToken(formattedToken.getToken(),
-              JLanguageTool.SENTENCE_END_TAGNAME, formattedToken.getAnalyzedToken(0).getLemma()));
+          l.add(new AnalyzedToken(formattedToken.getToken(), SENTENCE_END_TAGNAME, lemma));
         }
         if (formattedToken.isParagraphEnd()) {
-          l.add(new AnalyzedToken(formattedToken.getToken(),
-              JLanguageTool.PARAGRAPH_END_TAGNAME, formattedToken.getAnalyzedToken(0).getLemma()));
+          l.add(new AnalyzedToken(formattedToken.getToken(), PARAGRAPH_END_TAGNAME, lemma));
         }
 
       }
@@ -218,9 +220,9 @@ public class MatchState {
     final List<AnalyzedToken> list = new ArrayList<>();
     String lemma = "";
     for (int j = 0; j < numRead; j++) {
-      if (formattedToken.getAnalyzedToken(j).getPOSTag() != null) {
-        if (formattedToken.getAnalyzedToken(j).getPOSTag().equals(posTag)
-            && formattedToken.getAnalyzedToken(j).getLemma() != null) {
+      String tempPosTag = formattedToken.getAnalyzedToken(j).getPOSTag();
+      if (tempPosTag != null) {
+        if (tempPosTag.equals(posTag) && formattedToken.getAnalyzedToken(j).getLemma() != null) {
           lemma = formattedToken.getAnalyzedToken(j).getLemma();
         }
         if (StringTools.isEmpty(lemma)) {
@@ -259,15 +261,14 @@ public class MatchState {
           boolean oneForm = false;
           for (int k = 0; k < readingCount; k++) {
             if (formattedToken.getAnalyzedToken(k).getLemma() == null) {
-              final String posUnique = formattedToken
-                  .getAnalyzedToken(k).getPOSTag();
+              final String posUnique = formattedToken.getAnalyzedToken(k).getPOSTag();
               if (posUnique == null) {
                 wordForms.add(formattedToken.getToken());
                 oneForm = true;
               } else {
-                if (JLanguageTool.SENTENCE_START_TAGNAME.equals(posUnique)
-                    || JLanguageTool.SENTENCE_END_TAGNAME.equals(posUnique)
-                    || JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posUnique)) {
+                if (SENTENCE_START_TAGNAME.equals(posUnique)
+                    || SENTENCE_END_TAGNAME.equals(posUnique)
+                    || PARAGRAPH_END_TAGNAME.equals(posUnique)) {
                   if (!oneForm) {
                     wordForms.add(formattedToken.getToken());
                   }
@@ -300,8 +301,7 @@ public class MatchState {
         } else {
           final TreeSet<String> wordForms = new TreeSet<>();
           for (int i = 0; i < readingCount; i++) {
-            final String[] possibleWordForms = synthesizer
-                .synthesize(formattedToken.getAnalyzedToken(i), posTag);
+            final String[] possibleWordForms = synthesizer.synthesize(formattedToken.getAnalyzedToken(i), posTag);
             if (possibleWordForms != null) {
               wordForms.addAll(Arrays.asList(possibleWordForms));
             }
