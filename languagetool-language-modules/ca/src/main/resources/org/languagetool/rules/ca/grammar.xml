@@ -7881,9 +7881,9 @@ $Id$
             <suggestion>a fer que</suggestion>
             <suggestion>a dir que</suggestion>
             <url>http://esadir.cat/entrades/fitxa/id/1492</url>
-            <example correction="en el fet que|que|a fer que|a dir que">Això consisteix fonamentalment <marker>en què</marker></example>
-            <example correction="en el fet que|que|a fer que|a dir que">Això consisteix, fonamentalment, <marker>en què</marker></example>
-            <example correction="en el fet que|que|a fer que|a dir que">Això consisteix <marker>en què</marker></example>
+            <example correction="en el fet que|que|a fer que|a dir que">Això consisteix fonamentalment <marker>en què</marker> ho farà</example>
+            <example correction="en el fet que|que|a fer que|a dir que">Això consisteix, fonamentalment, <marker>en què</marker> ho farà</example>
+            <example correction="en el fet que|que|a fer que|a dir que">Això consisteix <marker>en què</marker> ho farà</example>
             <example>consisteix que</example>
         </rule>
         <rule id="ESTAR_DACORD_EN_QUE" name="estar d'acord *en què">
@@ -20356,6 +20356,22 @@ $Id$
             <example correction="per acabar-ho d'adobar|per si no n'hi hagués prou|per a postres|a sobre|damunt"><marker>per si això fos poc</marker></example>
             <example>per acabar-ho d'adobar</example>
         </rule>
+        <rule id="LA_CABRA_TIRA" name="la cabra tira al mont">
+            <pattern>
+                <token>la</token>
+                <token>cabra</token>
+                <token min="0">sempre</token>
+                <token>tira</token>
+                <token>a</token>
+                <token>l</token>
+                <token regexp="yes">monte?</token>
+            </pattern>
+            <message>Castellanisme</message>
+            <suggestion>l'aigua sempre corre cap avall</suggestion>
+            <suggestion>el que és de mena, mai no s'esmena</suggestion>
+            <suggestion>la cabra avesada a saltar, salta i saltarà</suggestion>
+            <example correction="l'aigua sempre corre cap avall|el que és de mena, mai no s'esmena|la cabra avesada a saltar, salta i saltarà">Perquè <marker>la cabra tira al monte</marker>.</example>
+        </rule>
         <rule id="TINGUEM_FESTA_PAU" name="tinguem la festa en pau">
             <pattern>
                 <token>Tinguem</token>
@@ -31989,7 +32005,7 @@ $Id$
                         <token>la</token>
                         <token>propera</token>
                     </marker>
-                    <token><exception postag="_GN_FS"/></token>
+                    <token><exception postag="_GN_FS"/><exception  regexp="yes">a|de|i</exception></token>
                 </pattern>
                 <message>Val més usar una altra expressió.</message>
                 <suggestion>la següent</suggestion>
