@@ -19,6 +19,6 @@ for l in sys.stdin:
             # neda sa urcit rod
             ntag = re.sub('[hmifno]', 'o', ntag)
         ntag = re.sub('[abc]', 'o', tag)
-    ntag = ntag.replace('+', 'P')
-    ntag = ntag.replace('-', 'N')
+#    ntag = ntag.replace('+', 'P')
+#    ntag = ntag.replace('-', 'N')
     print (form, lemma, ntag, sep='\t')
