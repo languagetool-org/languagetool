@@ -293,7 +293,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(terratrémol|ségol|pésol|trévol|cércol)s?|(térbol|grévol)(s|a|es)?|estéreos?</token>
+                    <token regexp="yes">(terratrémol|ségol|pésol|trévol|cércol)s?|(térbol|grévol)(s|a|es)?|estéreos?|trémens</token>
                 </pattern>
                 <message>Useu accentuació general.</message>
                 <suggestion><match no="1" regexp_match="^(.+)é(.+)" regexp_replace="$1è$2"></match></suggestion>
@@ -345,7 +345,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(terratrèmol|sègol|pèsol|trèvol|cèrcol)s?|(tèrbol|grèvol)(s|a|es)?|estèreos?</token>
+                    <token regexp="yes">(terratrèmol|sègol|pèsol|trèvol|cèrcol)s?|(tèrbol|grèvol)(s|a|es)?|estèreos?|trèmens</token>
                 </pattern>
                 <message>Useu accentuació valenciana.</message>
                 <suggestion><match no="1" regexp_match="^(.+)è(.+)" regexp_replace="$1é$2"></match></suggestion>
@@ -7873,6 +7873,7 @@ $Id$
                     <token>en</token>
                     <token>què</token>
                 </marker>
+                <token><exception>?</exception></token>
             </pattern>
             <message>Construcció incorrecta</message>
             <suggestion>en el fet que</suggestion>
@@ -7893,6 +7894,7 @@ $Id$
                     <token>en</token>
                     <token>què</token>
                 </marker>
+                <token><exception>?</exception></token>
             </pattern>
             <message>Construcció incorrecta</message>
             <suggestion>en el fet que</suggestion>
@@ -7940,7 +7942,7 @@ $Id$
         <rule id="INFORMAR_DE_QUE" name="informar *de què/que">
             <pattern>
                 <marker>
-                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">adonar|informar|dubtar|advertir</token>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">adonar|informar|dubtar|advertir|pensar|dir</token>
                     <token>de</token>
                     <token>què</token>
                 </marker>
@@ -20230,6 +20232,15 @@ $Id$
             <suggestion>telèfon</suggestion>
             <example correction="tel.|telèfon">Truqueu al <marker>telf.</marker> 666666.</example>
         </rule>
+        <rule id="NO_NUM" name="abreviatura de número: núm.">
+            <pattern>
+                <token regexp="yes">n[ºª]\d+</token>
+            </pattern>
+            <message>Abreviatura de número.</message>
+            <suggestion>núm.&#160;<match no="1" regexp_match="..(\d+)" regexp_replace="$1"/></suggestion>
+            <example correction="núm.&#160;1">Va ser el <marker>nº1</marker>.</example>
+        </rule>
+        
     </category>
     <category name="Expressions incorrectes" type="grammar">
         <rule id="ENTRE_PITOS_I_FLAUTES" name="entre pitos i flautes">
@@ -26292,6 +26303,15 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="ESCAPARATA" name="escaparata/aparador">
+            <pattern>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes">escaparata</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir '<suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCM$1">aparador</match></suggestion>'? "Escaparata" té un sentit més restringit.</message>
+            <example correction="aparadors">Les <marker>escaparates</marker>.</example>
+        </rule>
         <rule id="CARI" name="cari/reina/rei">
             <pattern>
                 <token>cari</token>
@@ -26405,7 +26425,7 @@ $Id$
                     <token inflected="yes" skip="1">ficar</token>
                 </marker>
                 <token>en</token>
-                <token regexp="yes">dubte|qüestió</token>
+                <token regexp="yes">dubte|qüestió|pràctica|valor</token>
             </pattern>
             <message>Verb inadequat.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">posar</match></suggestion>
@@ -33398,6 +33418,14 @@ $Id$
     </category>
     <category name="C6) Evita paraules incloses només en alguns diccionaris" default="on" type="style">
         <!--  verbs valencians: caquejar -->
+        <rule id="COLORINS" name="colorins">
+            <pattern>
+                <token>colorins</token>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message>
+            <suggestion>coloraines</suggestion>
+            <example correction="coloraines">Tenia <marker>colorins</marker>.</example>
+        </rule>
         <rule id="DE_REPENT" name="de repent">
             <pattern>
                 <token>de</token>
