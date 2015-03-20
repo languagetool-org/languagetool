@@ -88,6 +88,10 @@ public class Main extends WeakBase implements XJobExecutor,
   // e.g. language ="qlt" country="ES" variant="ca-ES-valencia":
   private static final String LIBREOFFICE_SPECIAL_LANGUAGE_TAG = "qlt";
 
+  private static boolean testMode;
+
+  private final List<XLinguServiceEventListener> xEventListeners;
+
   private Configuration config;
   private JLanguageTool langTool;
   private Language docLanguage;
@@ -97,8 +101,6 @@ public class Main extends WeakBase implements XJobExecutor,
   // or the context menu.
   private Set<String> disabledRules;
   private Set<String> disabledRulesUI;
-
-  private List<XLinguServiceEventListener> xEventListeners;
 
   // Make another instance of JLanguageTool and assign it to langTool if true.
   private boolean recheck;
@@ -719,6 +721,9 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   static void showError(final Throwable e) {
+    if (testMode) {
+      throw new RuntimeException(e);
+    }
     String msg = "An error has occurred in LanguageTool "
         + JLanguageTool.VERSION + ":\n" + e.toString() + "\nStacktrace:\n";
     msg += Tools.getFullStackTrace(e);
@@ -728,18 +733,24 @@ public class Main extends WeakBase implements XJobExecutor,
         + System.getProperty("java.vm.vendor");
     msg += metaInfo;
     final DialogThread dt = new DialogThread(msg);
-    e.printStackTrace();  // without this, we see no exception if a test case fails
+    e.printStackTrace();
     dt.start();
   }
 
   private File getHomeDir() {
     final String homeDir = System.getProperty("user.home");
     if (homeDir == null) {
-      @SuppressWarnings("ThrowableInstanceNeverThrown")
-      final RuntimeException ex = new RuntimeException("Could not get home directory");
-      showError(ex);
+      showError(new RuntimeException("Could not get home directory"));
     }
     return new File(homeDir);
+  }
+
+  /**
+   * Will throw exception instead of showing errors as dialogs - use only for test cases.
+   * @since 2.9
+   */
+  static void setTestMode(boolean mode) {
+    testMode = mode;
   }
 
   private class AboutDialogThread extends Thread {
@@ -752,7 +763,7 @@ public class Main extends WeakBase implements XJobExecutor,
 
     @Override
     public void run() {
-      // TODO: null can cause the dialog to appear on the wrong screen in a
+      // Note: null can cause the dialog to appear on the wrong screen in a
       // multi-monitor setup, but we just don't have a proper java.awt.Component
       // here which we could use instead:
       final AboutDialog about = new AboutDialog(messages, null);
@@ -824,8 +835,7 @@ class ErrorPositionComparator implements Comparator<SingleProofreadingError> {
     } else {
       if (match1.aSuggestions.length != 0 && match2.aSuggestions.length != 0
           && match1.aSuggestions.length != match2.aSuggestions.length) {
-        return ((Integer) (match1.aSuggestions.length))
-            .compareTo(match2.aSuggestions.length);
+        return Integer.compare(match1.aSuggestions.length, match2.aSuggestions.length);
       }
     }
     return match1.aRuleIdentifier.compareTo(match2.aRuleIdentifier);

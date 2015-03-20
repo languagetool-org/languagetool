@@ -38,7 +38,7 @@ public class FalseFriendRuleTest extends TestCase {
   public void testHintsForGermanSpeakers() throws IOException, ParserConfigurationException, SAXException {
     final JLanguageTool langTool = new JLanguageTool(new English(), new German());
     final List<RuleMatch> matches = assertErrors(1, "We will berate you.", langTool);
-    assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[to provide advice, to give advice]");
+    assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[provide advice, give advice]");
     assertErrors(0, "We will give you advice.", langTool);
     assertErrors(1, "I go to high school in Foocity.", langTool);
     final List<RuleMatch> matches2 = assertErrors(1, "The chef", langTool);
@@ -48,7 +48,7 @@ public class FalseFriendRuleTest extends TestCase {
   public void testHintsForGermanSpeakersWithVariant() throws IOException, ParserConfigurationException, SAXException {
     final JLanguageTool langTool = new JLanguageTool(new BritishEnglish(), new SwissGerman());
     final List<RuleMatch> matches = assertErrors(1, "We will berate you.", langTool);
-    assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[to provide advice, to give advice]");
+    assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[provide advice, give advice]");
     assertErrors(0, "We will give you advice.", langTool);
     assertErrors(1, "I go to high school in Berlin.", langTool);
     final List<RuleMatch> matches2 = assertErrors(1, "The chef", langTool);

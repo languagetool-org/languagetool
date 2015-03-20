@@ -31,48 +31,47 @@ import org.languagetool.Language;
 /**
  * @since 2.3
  */
-public class ElementMatcher {
+public class PatternTokenMatcher {
 
-  private final Element baseElement;
+  private final PatternToken basePatternToken;
 
-  private Element element;
-  private List<ElementMatcher> andGroup;
+  private PatternToken patternToken;
+  private List<PatternTokenMatcher> andGroup;
   private boolean[] andGroupCheck;
 
-  public ElementMatcher(Element element) {
-    baseElement = element;
-    this.element = baseElement;
+  public PatternTokenMatcher(PatternToken patternToken) {
+    basePatternToken = patternToken;
+    this.patternToken = basePatternToken;
     resolveGroup();
   }
 
   private void resolveGroup() {
-    if (baseElement.hasAndGroup()) {
-      List<Element> elementAndGroup = baseElement.getAndGroup();
-      andGroup = new ArrayList<>(elementAndGroup.size());
+    if (basePatternToken.hasAndGroup()) {
+      List<PatternToken> patternTokenAndGroup = basePatternToken.getAndGroup();
+      andGroup = new ArrayList<>(patternTokenAndGroup.size());
 
-      for (Element el : elementAndGroup) {
-        ElementMatcher matcher = new ElementMatcher(el);
+      for (PatternToken el : patternTokenAndGroup) {
+        PatternTokenMatcher matcher = new PatternTokenMatcher(el);
         andGroup.add(matcher);
       }
     }
   }
 
-  // TODO: add .compile for all exceptions of the element?
   public void resolveReference(final int firstMatchToken,
       final AnalyzedTokenReadings[] tokens, Language language)
           throws IOException {
-    if (baseElement.isReferenceElement()) {
+    if (basePatternToken.isReferenceElement()) {
       final int refPos = firstMatchToken
-          + baseElement.getMatch().getTokenRef();
+          + basePatternToken.getMatch().getTokenRef();
       if (refPos < tokens.length) {
-        element = baseElement.compile(tokens[refPos],
+        patternToken = basePatternToken.compile(tokens[refPos],
             language.getSynthesizer());
       }
     }
   }
 
-  public Element getElement() {
-    return baseElement;
+  public PatternToken getPatternToken() {
+    return basePatternToken;
   }
 
   /**
@@ -82,19 +81,19 @@ public class ElementMatcher {
    * @return True if token matches, false otherwise.
    */
   public final boolean isMatched(final AnalyzedToken token) {
-    boolean matched = element.isMatched(token);
-    if (element.hasAndGroup()) {
+    boolean matched = patternToken.isMatched(token);
+    if (patternToken.hasAndGroup()) {
       andGroupCheck[0] |= matched;
     }
     return matched;
   }
 
   void prepareAndGroup(int firstMatchToken, AnalyzedTokenReadings[] tokens, Language language) throws IOException {
-    if (baseElement.hasAndGroup()) {
-      for (ElementMatcher andMatcher : andGroup) {
+    if (basePatternToken.hasAndGroup()) {
+      for (PatternTokenMatcher andMatcher : andGroup) {
         andMatcher.resolveReference(firstMatchToken, tokens, language);
       }
-      andGroupCheck = new boolean[element.getAndGroup().size() + 1];
+      andGroupCheck = new boolean[patternToken.getAndGroup().size() + 1];
       Arrays.fill(andGroupCheck, false);
     }
   }
@@ -109,11 +108,11 @@ public class ElementMatcher {
    * @param token the token checked.
    */
   public final void addMemberAndGroup(final AnalyzedToken token) {
-    if (element.hasAndGroup()) {
-      List<ElementMatcher> andGroupList = andGroup;
+    if (patternToken.hasAndGroup()) {
+      List<PatternTokenMatcher> andGroupList = andGroup;
       for (int i = 0; i < andGroupList.size(); i++) {
         if (!andGroupCheck[i + 1]) {
-          final ElementMatcher testAndGroup = andGroupList.get(i);
+          final PatternTokenMatcher testAndGroup = andGroupList.get(i);
           if (testAndGroup.isMatched(token)) {
             andGroupCheck[i + 1] = true;
           }
@@ -123,7 +122,7 @@ public class ElementMatcher {
   }
 
   public final boolean checkAndGroup(final boolean previousValue) {
-    if (element.hasAndGroup()) {
+    if (patternToken.hasAndGroup()) {
       boolean allConditionsMatch = true;
       for (final boolean testValue : andGroupCheck) {
         allConditionsMatch &= testValue;
@@ -134,23 +133,23 @@ public class ElementMatcher {
   }
 
   public final boolean isMatchedByScopeNextException(final AnalyzedToken token) {
-    return element.isMatchedByScopeNextException(token);
+    return patternToken.isMatchedByScopeNextException(token);
   }
 
   public final boolean isExceptionMatchedCompletely(final AnalyzedToken token) {
-    return element.isExceptionMatchedCompletely(token);
+    return patternToken.isExceptionMatchedCompletely(token);
   }
 
   public boolean hasPreviousException() {
-    return element.hasPreviousException();
+    return patternToken.hasPreviousException();
   }
 
   public boolean isMatchedByPreviousException(AnalyzedTokenReadings token) {
-    return element.isMatchedByPreviousException(token);
+    return patternToken.isMatchedByPreviousException(token);
   }
 
   @Override
   public String toString() {
-    return "ElementMatcher for " + baseElement;
+    return "PatternTokenMatcher for " + basePatternToken;
   }
 }

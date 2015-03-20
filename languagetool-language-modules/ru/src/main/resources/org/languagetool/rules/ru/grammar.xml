@@ -356,27 +356,26 @@ $Id$
                 <example>меньшая часть</example>
             </rule>
         </rulegroup>
-           <rulegroup id="SPUSKATSJA_VNIZ" name="Словосочетание «спускаться вниз»">
+           <rulegroup id="SPUSKATSJA_VNIZ" name="Тавтология «спускаться вниз»">
             <rule> 
                 <pattern>
                     <token regexp="yes" inflected="yes" >спускаться|подниматься</token>
                     <token regexp="yes" >вниз|вверх</token>
                 </pattern>
-                <message>Имелось в виду <suggestion>\1</suggestion>?</message>
-          
-                <short>Логическая ошибка.</short>
+                <message>Языковая избыточность: <suggestion>\1</suggestion>?</message>         
+                <short>Языковая избыточность.</short>
                 <example correction="спускался">Он <marker>спускался вниз</marker> по лестнице.</example>
                 <example>Он спускался по лестнице.</example>
             </rule>
         </rulegroup>    
-        <rulegroup id="PROGNOZ_NA_BUDUSHEE" name="Словосочетание «прогноз на будущее»">
+        <rulegroup id="PROGNOZ_NA_BUDUSHEE" name="Тавтология «прогноз на будущее»">
             <rule> 
                 <pattern>
                     <token inflected="yes" >прогноз</token>
                     <token>на</token>
                     <token>будущее</token>                  
                 </pattern>
-                <message>Имелось в виду <suggestion>\1</suggestion>?</message>
+                <message>Языковая избыточность: <suggestion>\1</suggestion>?</message>
                 <short>Тавтология.</short>
                 <example correction="прогноз">Метеоагенство составило <marker>прогноз на будущее</marker>.</example>
                 <example>Метеоагенство составило прогноз.</example>
@@ -409,7 +408,7 @@ $Id$
         </rulegroup>
         
                   
-        <rulegroup id="Stolko_mnogo" name="Словосочетания «столько много»">
+        <rulegroup id="Stolko_mnogo" name="Словосочетание «столько много»">
             <rule> 
                 <pattern>
                     <token>столько</token>
@@ -567,13 +566,25 @@ $Id$
             <example>Они соседствовали на фотографии.</example>
         </rule>
         
+              
+        <rule id="Tavtology_mestnij_aborigen" name="Тавтология «местный абориген»">
+            <pattern>
+                <token inflected="yes">местный</token>
+                <token inflected="yes">абориген</token>
+            </pattern>
+            <message>Языковая избыточность: <suggestion><match no="2" /></suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+            <short>Тавтология.</short>         
+            <example correction="аборигены">Нас окружили <marker>местные аборигены</marker>.</example>
+            <example>Нас окружили аборигены.</example>           
+        </rule>   
         
           <rule id="Tavtology_nebolshaja_gorstka" name="Тавтология «небольшая горстка»">
             <pattern>
                 <token inflected="yes">небольшой</token>
                 <token inflected="yes">горстка</token>
             </pattern>
-            <message>Языковая избыточность: <suggestion>\2</suggestion>?</message>
+            <message><suggestion>\2</suggestion>?</message>
             <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
             <short>Тавтология.</short>
             <example correction="горстка"><marker>небольшая горстка</marker></example>
@@ -948,42 +959,46 @@ $Id$
     </category>
     
     <category name="Пунктуация">
-        <rulegroup default="off" id="Prep_i" name="Пропущена запятая перед предлгом «и» в сложном предложении">
+        <rulegroup default="on" id="Prep_i" name="Пропущена запятая перед предлогом «и» в сложном предложении">
             <rule>     
                 <pattern>
                     <!--           NN:.*   VB:.*    и      NN:.*   VB:.*       TODO: Need improve    -->
                     <marker>
-                        <token postag="VB:.*" postag_regexp="yes" ><exception scope="previous" regexp="yes">[\p{Punct}]</exception></token>           
-                        <token postag="NN:.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="next">,|-</exception></token>
-                        <token skip="-1">и</token>
-                        <token postag="VB:.*" postag_regexp="yes" ></token>           
-                        <token postag="NN:.*" postag_regexp="yes"  skip="-1"  ><exception regexp="yes" scope="next">[\p{Punct}]|-</exception></token>
+                        <token postag="VB:.*" postag_regexp="yes" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*:.*:Nom" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]</exception><exception scope="previous" regexp="yes">я|он|она|мы|вы|ты</exception></token>           
+                        <token postag="NN:.*:.*:Nom" postag_regexp="yes" skip="-1"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="next">,|-</exception></token>
+                        <token skip="-1">и<exception regexp="yes" scope="next">[,;-]</exception></token>
+                        <token postag="VB:.*" postag_regexp="yes" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception></token>           
+                        <token postag="NN:.*:.*:Nom" postag_regexp="yes"  skip="-1"  ><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="next">[,;-]</exception></token>
                     </marker>
-                    <token>.</token>
+                    <token regexp="yes">[\p{Punct}]<exception>:</exception></token>
                 </pattern>
-                <message>Пропущена запятая перед предлгом и: <suggestion>\1 \2, \3 \4 \5</suggestion></message>
+                <message>Пропущена запятая перед предлогом «и»: <suggestion><match no="1"/> <match no="2" include_skipped="all"/>, <match no="3" include_skipped="all"/> <match no="4"/> <match no="5" include_skipped="none"/></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D0%BE%D1%87%D0%B8%D0%BD%D1%91%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5</url>
                 <short>Пропущена запятая в сложном предложении.</short>
                 <example>Пролетели года, и настало время.</example>
+                <example>Могу ли я уточнить время и место нашей встречи?</example>
+                <example>Мой отец и мой брат.</example>
                 <example correction="Пролетели года, и настало время"><marker>Пролетели года и настало время</marker>.</example>
             </rule>        
             <rule>
                 <pattern>
                     <!--             VB:.*   NN:.*   и      VB:.*   NN:.*     -->
                     <marker>
-                        <token postag="NN:.*" postag_regexp="yes"><exception scope="previous" regexp="yes">[\p{Punct}]</exception></token>           
+                        <token postag="NN:.*:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]</exception></token>           
                         <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception  regexp="yes" scope="next">,|-</exception></token>
-                        <token skip="-1">и</token>
-                        <token postag="NN:.*" postag_regexp="yes"></token>           
-                        <token postag="VB:.*" postag_regexp="yes"  skip="-1" ><exception regexp="yes" scope="next">[\p{Punct}]|-</exception></token>
+                        <token skip="-1">и<exception regexp="yes" scope="next">[,;-]</exception></token>
+                        <token postag="NN:.*:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception></token>           
+                        <token postag="VB:.*" postag_regexp="yes"  skip="-1" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="next">[,;-]</exception></token>
                     </marker>
-                    <token>.</token>
+                    <token regexp="yes">[\p{Punct}]<exception>:</exception></token>
                 </pattern>
-                <message>Пропущена запятая перед предлгом и: <suggestion>\1 \2, \3 \4 \5</suggestion></message>
+                <message>Пропущена запятая перед предлогом «и»: <suggestion><match no="1"/> <match no="2" include_skipped="all"/>, <match no="3" include_skipped="all"/> <match no="4"/> <match no="5" include_skipped="none"/></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D0%BE%D1%87%D0%B8%D0%BD%D1%91%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5</url>
                 <short>Пропущена запятая в сложном предложении.</short>
                 <example>Года пролетели, и время настало.</example>
+                <example>Его тропы создавали русла рек и ручьёв, и, в конце концов, вода залила всю землю.</example>
                 <example correction="Года пролетели, и время настало"><marker>Года пролетели и время настало</marker>.</example>
+                <example correction="Мама мыла раму, и дочка готовила"><marker>Мама мыла раму и дочка готовила</marker> обед.</example>
             </rule>        
         </rulegroup>        
         
@@ -1015,7 +1030,7 @@ $Id$
             <example type="incorrect">Стоимость работ составила 10 <marker>млн</marker> рублей.</example>
         </rule>
         -->
-         <rule default="on" id="postscriptum" name="P.S.">
+         <rule default="on" id="postscriptum" name="«P.S.»">
              <pattern case_sensitive="no">
                 <marker>
                     <token>P</token>
@@ -1024,8 +1039,8 @@ $Id$
                     <token>.</token>
                 </marker>
              </pattern>
-            <message>P.S. пробелом не разделяется: <suggestion>P.S.</suggestion></message>
-            <short>P.S. пробелом не разделяется</short>
+            <message>«P.S.» пробелом не разделяется: <suggestion>P.S.</suggestion></message>
+            <short>«P.S.» пробелом не разделяется</short>
             <example>P.S.</example>
             <example correction="P.S."><marker>P. S.</marker></example>
         </rule>
@@ -1175,7 +1190,7 @@ $Id$
                 <example correction="мало, но">Она говорила <marker>мало но</marker> толково.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="CHAS_PIK" name="Час пик">
+        <rulegroup default="on" id="CHAS_PIK" name="«Час пик»">
             <rule>
                 <pattern case_sensitive="yes">
                     <token>час-пик</token>       
@@ -1961,7 +1976,7 @@ $Id$
     </category>
     <category name="Грамматика">
         
-        <rule id="grammar_bolee_interesnee" name="Грамматические ошибки «более(менее) интереснее, ...»">
+        <rule id="grammar_bolee_interesnee" name="Грамматические ошибки «более (менее) интереснее, ...»">
             <pattern>
                 <token regexp="yes">более|менее</token>
                 <token postag="ADJ_Sup"><exception  postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception>уже</exception></token>
@@ -2010,7 +2025,7 @@ $Id$
             <example>Оплачивать проезд.</example>
             <example>Счёт должен быть оплачен к первому числу следующего месяца.</example>           
         </rule>
-        
+      
          <rulegroup id="rugat_rugatsja" name="Грамматические ошибки «ругать/ругаться + ...»">
            <rule>
              <pattern>
@@ -2809,7 +2824,7 @@ $Id$
         </rulegroup>
         
         
-        <rulegroup default="on" id="Ne_pril_prich" name="Не с прилагательными/причастиями">
+        <rulegroup default="on" id="Ne_pril_prich" name="«Не» с прилагательными/причастиями">
             <rule>
                 <pattern>
                     <token regexp="yes">очень|весьма|крайне|совершенно|вполне|почти|отчасти|совсем|чрезвычайно</token>
@@ -2819,7 +2834,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Пишется слитно: <suggestion>\2\3</suggestion>.</message>
-                <short>Слитно с не</short>
+                <short>Слитно с «не»</short>
                 <example>Этот поступок был крайне неосторожным.</example>
                 <example correction="неосторожным">Этот поступок был крайне <marker>не осторожным</marker>.</example>
             </rule>
@@ -2832,7 +2847,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Пишется слитно: <suggestion>\2\3</suggestion>.</message>
-                <short>Слитно с не</short>
+                <short>Слитно с «не»</short>
                 <example>Это совсем непродуманное решение.</example>
                 <example correction="непродуманное">Это совсем <marker>не продуманное</marker> решение.</example>
             </rule>
@@ -2847,8 +2862,8 @@ $Id$
                         <token postag="(ADJ:.*)|(PT:.*)" postag_regexp="yes" regexp="yes">(не)(.*)</token>
                     </marker>
                 </pattern>
-                <message>Пишется раздельно с не: <suggestion><match no="1"></match> <match no="2" regexp_match="(не)(.*)" regexp_replace="$1 $2"></match></suggestion>.</message>
-                <short>Раздельно с не</short>
+                <message>Пишется раздельно с «не»: <suggestion><match no="1"></match> <match no="2" regexp_match="(не)(.*)" regexp_replace="$1 $2"></match></suggestion>.</message>
+                <short>Раздельно с «не»</short>
                 <example>Эта книга вовсе не интересная.</example>
                 <example correction="вовсе не интересная">Эта книга вовсе <marker>неинтересная</marker>.</example>
             </rule>
@@ -2863,8 +2878,8 @@ $Id$
                         <token postag="(ADJ:.*)|(PT:.*)" postag_regexp="yes" regexp="yes">(не)(.*)<exception regexp="yes">(необходим)(.*)|(немецк)(.*)</exception></token>
                     </marker>
                 </pattern>
-                <message>Пишется раздельно с не: <suggestion><match no="1"></match> <match no="2" regexp_match="(не)(.*)" regexp_replace="$1 $2"></match></suggestion>.</message>
-                <short>Раздельно с не</short>
+                <message>Пишется раздельно с «не»: <suggestion><match no="1"></match> <match no="2" regexp_match="(не)(.*)" regexp_replace="$1 $2"></match></suggestion>.</message>
+                <short>Раздельно с «не»</short>
                 <example>На полке лежит никому не нужная коробка.</example>
                 <example>На корабль доставили контейнеры с погруженными в них немецкими автомобилями.</example>
                 <example correction="никому не нужная">На полке лежит никому <marker>ненужная</marker> коробка.</example>
@@ -3716,7 +3731,7 @@ $Id$
             <!--  |для|до|от|в|за|из|к|на|но|о|по|под|перед|при|про|с|у|через|возле|вокруг|впереди|мимо|напротив|около|после|посереди   -->
             <token>его</token>
             </pattern>
-            <message>Нормативная форма - него: <suggestion>\1 него</suggestion>.</message>
+            <message>Нормативная форма - «него»: <suggestion>\1 него</suggestion>.</message>
             <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D1%8F</url>
             <short>Нормативная форма - него</short>
             <example>сзади него</example>
@@ -3924,7 +3939,7 @@ $Id$
         </rule>
         
         
-        <rule default="off" id="upravlauchij_NN" name="Словосочетания «управляющий», ... + существительное">
+        <rule default="off" id="upravlauchij_NN" name="Словосочетание «управляющий», ... + существительное">
             <pattern case_sensitive="no">
                 <!--    Управляющий предприятием    NN:.*:.*:T       -->
                 <token regexp="yes" inflected="yes">управляющий|командующий|заведующий</token>
@@ -4254,7 +4269,7 @@ $Id$
                 <example correction="представляет собой">Летопись <marker>представляет из себя</marker> запись событий.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="nagnat_strahu" name="Устойчивые выражения «нагнать страху, натерпеться страху»">
+        <rulegroup default="on" id="nagnat_strahu" name="Устойчивые выражения «нагнать страху», «натерпеться страху»">
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">нагнать|натерпеться</token>
@@ -4574,7 +4589,7 @@ $Id$
         
     </category>
    
-    <category name="Дополнительно">
+    <category name="Дополнительные правила">
         
          <!--    -->        
         <rulegroup id="Rod_suschestvitelnykh_Neut" name="Несклоняемые существительные иноязычного происхождения среднего рода">

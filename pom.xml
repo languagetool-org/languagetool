@@ -47,7 +47,7 @@
                   <version>2.18.1</version>
                   <configuration>
                       <trimStackTrace>false</trimStackTrace>
-                      <argLine>-Xms256m -Xmx512m</argLine>
+                      <argLine>-Xms256m -Xmx700m</argLine>
                       <runOrder>failedfirst</runOrder>
                       <excludes>
                           <exclude>**/*ConcurrencyTest.java</exclude>
@@ -68,6 +68,17 @@
           </plugins>
       </pluginManagement>
   </build>
+
+  <distributionManagement>
+    <repository>
+      <id>community-release</id>
+      <url>dav:https://repository-languagetool.forge.cloudbees.com/release/</url>
+    </repository>
+    <snapshotRepository>
+      <id>community-snapshot</id>
+      <url>dav:https://repository-languagetool.forge.cloudbees.com/snapshot/</url>
+    </snapshotRepository>
+  </distributionManagement>
 
   <profiles>
     <!-- taken from https://docs.sonatype.org/display/Repository/How+To+Generate+PGP+Signatures+With+Maven -->

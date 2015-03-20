@@ -797,6 +797,15 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<disambig postag="prep:gen"/>
     </rule>
 
+    <rule name="nic lub coś dziwnego" id="COS_NIC_ADJ_GEN">
+        <pattern>
+            <marker><token regexp="yes" postag_regexp="yes" postag="subst:sg:(acc|nom):n2">nic|coś</token>
+            <token postag="adj:sg:gen:m1.m2.m3.n1.n2:pos"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rule id="apost_u" name="u jako końcówka po apostrofie">
         <pattern>
             <token regexp="yes">[\p{L}\-]+</token>
@@ -2502,18 +2511,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="filterall"/>
     </rule>
 
-    <rule id="NUM_SUBST_GEN" name="gen po num">
-        <pattern>
-            <marker>
-                <token postag="(?:num|subst):.*" postag_regexp="yes" regexp="yes">dużo|mało|mnóstwo|parę|trochę|część|niewiele|wiele|kilka|ćwierć|para</token>
-                <token postag="(?:adj|ger|subst).*gen.*" postag_regexp="yes"/>
-            </marker>
-        </pattern>
-        <disambig action="filterall"/>
-        <example type="untouched">Mam wiele do zrobienia.</example>
-        <example type="ambiguous" inputform="ludzi[człowiek/subst:pl:acc:m1,człowiek/subst:pl:gen:m1,ludzie/subst:pl:acc:p1,ludzie/subst:pl:gen:p1]" outputform="ludzi[człowiek/subst:pl:gen:m1,ludzie/subst:pl:gen:p1]">Tu było mnóstwo <marker>ludzi</marker>.</example>
-    </rule>
-
     <rulegroup id="NUM_CONGR" name="liczebnik ze związkiem zgody">
         <rule>
             <pattern>
@@ -2559,6 +2556,32 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
 </rulegroup>
 
+    <rule id="NUM_SUBST_GEN" name="gen, też sg po num:rec">
+        <pattern>
+            <marker>
+                <token postag="num.*:rec|subst:.*" postag_regexp="yes" regexp="yes">dużo|mało|mnóstwo|parę|trochę|część|niewiele|wiele|kilka|ćwierć|para</token>
+                <token postag="(?:adj|ger|subst).*gen.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Mam wiele do zrobienia.</example>
+        <example type="ambiguous" inputform="ludzi[człowiek/subst:pl:acc:m1,człowiek/subst:pl:gen:m1,ludzie/subst:pl:acc:p1,ludzie/subst:pl:gen:p1]" outputform="ludzi[człowiek/subst:pl:gen:m1,ludzie/subst:pl:gen:p1]">Tu było mnóstwo <marker>ludzi</marker>.</example>
+    </rule>
+
+    <rule id="NUM_REC" name="gen pl po liczebniku bez związku zgody">
+        <pattern>
+            <marker>
+                <token postag="num.*:rec" postag_regexp="yes"/>
+                <token postag="(?:adj|ger|subst):pl.*gen.*" postag_regexp="yes">
+                        <exception regexp="yes">wat|gram|amper|kilowat|kilogram|kiloamper|wolt|kilowolt|złoty|kilometr|metr|centymetr</exception>
+                </token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Mam wiele do zrobienia.</example>
+        <example type="ambiguous" inputform="ludzi[człowiek/subst:pl:acc:m1,człowiek/subst:pl:gen:m1,ludzie/subst:pl:acc:p1,ludzie/subst:pl:gen:p1]" outputform="ludzi[człowiek/subst:pl:gen:m1,ludzie/subst:pl:gen:p1]">Tu było tysiąc <marker>ludzi</marker>.</example>
+    </rule>
+
     <rule id="SPORO_NUM_GEN" name="gen po sporo/num">
         <pattern>
             <marker>
@@ -2567,18 +2590,15 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             </marker>
         </pattern>
         <disambig action="filterall"/>
-        <example type="untouched">Mam wiele do zrobienia.</example>
-        <example type="ambiguous" inputform="ludzi[człowiek/subst:pl:acc:m1,człowiek/subst:pl:gen:m1,ludzie/subst:pl:acc:p1,ludzie/subst:pl:gen:p1]" outputform="ludzi[człowiek/subst:pl:gen:m1,ludzie/subst:pl:gen:p1]">Tu było sporo <marker>ludzi</marker>.</example>
     </rule>
 
-
-    <rule id="NAPOJ" name="napój + przymiotnik -> rzeczownik">
+    <rule id="NAPOJ_WYROB" name="napój/wyrób + przymiotnik -> rzeczownik">
         <pattern>
             <marker>
             <unify>
                 <feature id="number"><type id="sg"/></feature>
                 <feature id="gender"><type id="m3"/></feature><feature id="case"/>
-                    <token>napój</token>
+                    <token regexp="yes">napój|wyrób</token>
                      <token postag="(adj|pact).*" postag_regexp="yes"/>
             </unify>
             </marker>
@@ -2588,6 +2608,43 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="Napój[napoić/verb:impt:sg:sec:perf:refl.nonrefl,napój/subst:sg:acc:m3,napój/subst:sg:nom:m3]" outputform="Napój[napój/subst:sg:acc:m3,napój/subst:sg:nom:m3]"><marker>Napój</marker> miłosny</example>
     </rule>
 
+
+    <rule id="na_tyle" name="na tyle + adj|adv -> adv">
+        <pattern>
+            <token>na</token>
+            <marker><token postag="adv">tyle</token></marker>
+            <token postag="ad[jv].*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="adv"/>
+        <example type="ambiguous" inputform="tyle[tyle/adv,tyle/num:pl:nom.acc.voc:m2.m3.f.n1.n2.p1.p2:rec,tyle/num:pl:nom.acc:m1.m2.m3.f.n1.n2.p1.p2:rec,tyli/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,tyli/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,tyli/adj:sg:acc:n1.n2:pos,tyli/adj:sg:nom.voc:n1.n2:pos,tył/subst:sg:loc:m3,tył/subst:sg:voc:m3]"
+                 outputform="tyle[tyle/adv]">Gdy Mowgli był już na <marker>tyle</marker> silny, by móc znosić szorstką nieco musztrę...</example>
+    </rule>
+
+    <rule id="na_tyle_tyli" name="tyle to nie tyli">
+        <pattern>
+            <token postag="prep:acc">na</token>
+            <token postag="adv|num.*" postag_regexp="yes">tyle</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <!--
+    <rule id="na_tyle_num" name="na tyle + subst -> num">
+        <pattern>
+            <token>na</token>
+            <unify>
+                <feature id="gender"/><feature id="number"/>
+                <marker>
+                    <token>tyle</token>
+                    <token postag="subst:pl.*gen.*" postag_regexp="yes"></token>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="tyle[tyle/adv,tyle/num:pl:nom.acc.voc:m2.m3.f.n1.n2.p1.p2:rec,tyle/num:pl:nom.acc:m1.m2.m3.f.n1.n2.p1.p2:rec]"
+                 outputform="tyle[tyle/num:pl:nom.acc.voc:m2.m3.f.n1.n2.p1.p2:rec,tyle/num:pl:nom.acc:m1.m2.m3.f.n1.n2.p1.p2:rec]">Kleks radzi sobie z gotowaniem na <marker>tyle</marker> osób.</example>
+    </rule>
+    -->
 
     <rule id="prep_gen_co" name="co to nie genetiwus po przyimku">
         <pattern>
@@ -2629,6 +2686,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                      outputform="jego[on/ppron3:sg:gen:m1.m2.m3:ter:akc:npraep,on/ppron3:sg:gen:n1.n2:ter:akc:npraep]">Patrzę na <marker>jego</marker> samoloty.</example>
         </rule>
     </rulegroup>
+
 
     <rulegroup name="prep + czasownik -> ~ czasownik" id="prep_verb">
         <!--  przyimki zawsze z tym samym przypadkiem --> 
@@ -3046,17 +3104,19 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
-    <rule id="ZA_POMOCA_M3_NIE_M1" name="za pomocą z rzeczownikiem nieożywionym">
+    <rule id="ZA_POMOCA_M1_M2" name="za pomocą + m1/m2/m3 -> m2/m3">
         <pattern>
             <token>za</token>
             <token>pomocą</token>
             <marker>
-                <and><token postag="subst:sg:gen:m[12]" postag_regexp="yes"></token>
-                     <token postag="subst:sg:gen:m3"/>
+                <and>
+                    <token postag="subst:sg:gen:m1"/>
+                    <token postag="subst:sg:gen:(m[23]|f|n[12])" postag_regexp="yes"/>
                 </and>
             </marker>
         </pattern>
-        <disambig postag="subst:sg:gen:m3"/>
+        <disambig action="remove"><wd pos="subst:sg:gen:m1"/></disambig>
+        <example type="ambiguous" inputform="bambusa[bambus/subst:sg:gen:m1,bambus/subst:sg:gen:m2]" outputform="bambusa[bambus/subst:sg:gen:m2]">Kali przedstawił im za pomocą <marker>bambusa</marker> całą niewłaściwość ich postępku.</example>
         <example type="ambiguous" inputform="edytora[edytor/subst:sg:gen:m1,edytor/subst:sg:gen:m3]"
                  outputform="edytora[edytor/subst:sg:gen:m3]">Redaguję tekst za pomocą <marker>edytora</marker> tekstów.</example>
     </rule>
@@ -3264,7 +3324,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="swoją[swój/adj:sg:acc:f:pos]">Mam tu <marker>swoją</marker> teorię.</example>
     </rule>
 
-    <rulegroup name="rzadkie rzeczowniki" id="subst">
+    <rulegroup name="rzadkie rzeczowniki" id="subst_rarum">
         <rule>
             <pattern>
                 <token regexp="yes">taka|taką</token>
@@ -4216,6 +4276,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="bogaci[bogacić/verb:fin:sg:ter:imperf:refl.nonrefl,bogaty/adj:pl:nom.voc:m1.p1:pos,bogaty/subst:pl:nom:m1,bogaty/subst:pl:voc:m1]"
                  outputform="bogaci[bogaty/adj:pl:nom.voc:m1.p1:pos]">Tylko <marker>bogaci</marker> mieszczanie kupują lody.</example>
         <example type="untouched">Cały kraj się bogaci.</example>
+    </rule>
+
+    <rule id="TONA_STALI" name="tona stali -> subst">
+        <pattern>
+            <token inflected="yes" regexp="yes">szczęk|tona</token>
+            <marker><token>stali</token></marker>
+        </pattern>
+        <disambig postag="subst:sg:gen:f"/>
     </rule>
 
     <rule id="WIDMO" name="widmo światła -> nie widma">
@@ -7926,6 +7994,27 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="immunize"/>
     </rule>
 
+    <rule id="JAK_SIE_PATRZY" name="jak się patrzy - bez przecinka">
+        <pattern>
+            <marker>
+                <token>jak</token>
+                <token>się</token>
+                <token>patrzy</token>
+            </marker>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="ANI_CHYBI" name="ani chybi - bez przecinka">
+        <pattern>
+            <token>ani</token>
+            <marker>
+            <token>chybi</token>
+            </marker>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
     <rule id="PREP_CO_BADZ" name="wyrażenie przyimkowe z co + bądź - bez przecinków">
         <pattern>
             <marker>
@@ -7965,6 +8054,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token>z</token>
             <token>głupia</token>
             <token>frant</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="PUNKT_NUM" name="1)">
+        <pattern>
+            <token regexp="yes">\d<exception scope="previous">(</exception></token>
+            <marker>
+                <token spacebefore="no">)</token>
+            </marker>
+            <token/>
         </pattern>
         <disambig action="immunize"/>
     </rule>

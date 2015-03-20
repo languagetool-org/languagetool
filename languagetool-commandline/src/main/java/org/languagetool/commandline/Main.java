@@ -27,6 +27,7 @@ import org.languagetool.language.English;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.bitext.BitextRule;
+import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.tools.JnaTools;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
@@ -65,31 +66,25 @@ class Main {
   private List<BitextRule> bRules;
   private Rule currentRule;
 
-  Main(final boolean verbose, final boolean taggerOnly,
-      final Language language, final Language motherTongue,
-      final String[] disabledRules, final String[] enabledRules, 
-      final boolean enabledOnly,
-      final boolean apiFormat, boolean applySuggestions, 
-      boolean autoDetect, boolean singleLineBreakMarksParagraph, File languageModelIndexDir) throws IOException,
-      SAXException, ParserConfigurationException {
-    this.verbose = verbose;
-    this.apiFormat = apiFormat;
-    this.taggerOnly = taggerOnly;
-    this.applySuggestions = applySuggestions;
-    this.autoDetect = autoDetect;
-    this.enabledRules = enabledRules;
-    this.disabledRules = disabledRules;
-    this.motherTongue = motherTongue;
-    this.singleLineBreakMarksParagraph = singleLineBreakMarksParagraph;
+  Main(CommandLineOptions options) throws IOException {
+    this.verbose = options.isVerbose();
+    this.apiFormat = options.isApiFormat();
+    this.taggerOnly = options.isTaggerOnly();
+    this.applySuggestions = options.isApplySuggestions();
+    this.autoDetect = options.isAutoDetect();
+    this.enabledRules = options.getEnabledRules();
+    this.disabledRules = options.getDisabledRules();
+    this.motherTongue = options.getMotherTongue();
+    this.singleLineBreakMarksParagraph = options.isSingleLineBreakMarksParagraph();
     profileRules = false;
     bitextMode = false;
     srcLt = null;
     bRules = null;
-    lt = new MultiThreadedJLanguageTool(language, motherTongue);
-    if (languageModelIndexDir != null) {
-      lt.activateLanguageModelRules(languageModelIndexDir);
+    lt = new MultiThreadedJLanguageTool(options.getLanguage(), motherTongue);
+    if (options.getLanguageModel() != null) {
+      lt.activateLanguageModelRules(options.getLanguageModel());
     }
-    Tools.selectRules(lt, disabledRules, enabledRules, enabledOnly);
+    Tools.selectRules(lt, disabledRules, enabledRules, options.isUseEnabledOnly());
   }
 
   boolean isSpellCheckingActive() {
@@ -119,14 +114,14 @@ class Main {
   }
 
   private void setBitextMode(final Language sourceLang,
-      final String[] disabledRules, final String[] enabledRules) throws IOException, ParserConfigurationException, SAXException {
+      final String[] disabledRules, final String[] enabledRules, final File bitextRuleFile) throws IOException, ParserConfigurationException, SAXException {
     bitextMode = true;
     final Language target = lt.getLanguage();
     lt = new MultiThreadedJLanguageTool(target, null);
     srcLt = new MultiThreadedJLanguageTool(sourceLang);
     Tools.selectRules(lt, disabledRules, enabledRules);
     Tools.selectRules(srcLt, disabledRules, enabledRules);
-    bRules = Tools.getBitextRules(sourceLang, lt.getLanguage());
+    bRules = Tools.getBitextRules(sourceLang, lt.getLanguage(), bitextRuleFile);
 
     List<BitextRule> bRuleList = new ArrayList<>(bRules);
     for (final BitextRule bitextRule : bRules) {
@@ -342,7 +337,6 @@ class Main {
         System.out.println("<!--");
       }
       if (profileRules) {
-        //TODO: run 10 times, line in runOnce mode, and use median
         System.out.printf(Locale.ENGLISH,
             "%s\t%d\t%d\t%d\t%.1f", rules.get(ruleIndex).getId(),
             time, sentences, matches, sentencesPerSecond);
@@ -503,9 +497,13 @@ class Main {
       options.getLanguage().addExternalRuleFile(options.getRuleFile());
     }
 
-    final Main prg = new Main(options.isVerbose(), options.isTaggerOnly(), options.getLanguage(), options.getMotherTongue(),
-            options.getDisabledRules(), options.getEnabledRules(),  options.getUseEnabledOnly(), options.isApiFormat(), options.isApplySuggestions(),
-            options.isAutoDetect(), options.isSingleLineBreakMarksParagraph(), options.getLanguageModel());
+    final Main prg = new Main(options);
+    if (options.getFalseFriendFile() != null) {
+      List<PatternRule> ffRules = prg.lt.loadFalseFriendRules(options.getFalseFriendFile());
+      for (PatternRule ffRule : ffRules) {
+        prg.lt.addRule(ffRule);
+      }
+    }
     if (prg.lt.getAllActiveRules().size() == 0) {
       throw new RuntimeException("WARNING: No rules are active. Please make sure your rule ids are correct: " +
               Arrays.toString(options.getEnabledRules()));
@@ -523,7 +521,8 @@ class Main {
       if (options.getMotherTongue() == null) {
         throw new IllegalArgumentException("You have to set the source language (as mother tongue) in bitext mode");
       }
-      prg.setBitextMode(options.getMotherTongue(), options.getDisabledRules(), options.getEnabledRules());
+      File bitextRuleFile = options.getBitextRuleFile() != null ? new File(options.getBitextRuleFile()) : null;
+      prg.setBitextMode(options.getMotherTongue(), options.getDisabledRules(), options.getEnabledRules(), bitextRuleFile);
     }
     if (options.isRecursive()) {
       prg.runRecursive(options.getFilename(), options.getEncoding(), options.isListUnknown(), options.isXmlFiltering());

@@ -75,7 +75,7 @@ public abstract class Language {
    */
   public static Language[] LANGUAGES = getLanguages();
 
-  // TODO: remove once LANGUAGES is removed
+  // TODO: remove once LANGUAGES is removed (after 2.9)
   private static Language[] getLanguages() {
     final List<Language> languages = new ArrayList<>();
     final Set<String> languageClassNames = new HashSet<>();
@@ -302,17 +302,14 @@ public abstract class Language {
   }
 
   /**
-   * Adds an external rule file to the language. After running this method,
-   * one has to run JLanguageTool.activateDefaultPatternRules() to make sure
-   * that all external rules are activated.
-   *
+   * Adds an external rule file to the language. Call this method before
+   * the language is given to the {@link JLanguageTool} constructor.
    * @param externalRuleFile Absolute file path to rules.
    * @since 2.6
    */
   public void addExternalRuleFile(String externalRuleFile) {
     externalRuleFiles.add(externalRuleFile);
   }
-
 
   /**
    * Languages that have country variants need to overwrite this to select their most common variant.

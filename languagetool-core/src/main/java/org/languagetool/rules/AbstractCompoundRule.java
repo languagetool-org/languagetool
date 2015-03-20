@@ -258,9 +258,9 @@ public abstract class AbstractCompoundRule extends Rule {
           line = removeLastCharacter(line);
           onlyDashSuggestion.add(line.toLowerCase());
         }
-        //if (incorrectCompounds.contains(line.toLowerCase())) {
-        //  throw new RuntimeException("Duplicated word in file " + fileName + ": " + line);
-        //}
+        if (incorrectCompounds.contains(line.toLowerCase())) {
+          throw new RuntimeException("Duplicated word in file " + fileName + ": " + line);
+        }
         incorrectCompounds.add(line.toLowerCase());
       }
     }

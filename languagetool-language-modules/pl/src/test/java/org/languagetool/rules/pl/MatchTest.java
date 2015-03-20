@@ -69,7 +69,6 @@ public class MatchTest extends TestCase {
 
     //and now pure text changes        
     match = getTextMatch("^(.*)$", "$0-u", true);
-    match.setSynthesizer(polish.getSynthesizer());
     match.setLemmaString("AON");
     matchState = new MatchState(match, polish.getSynthesizer());
     assertEquals("[AON-u]", Arrays.toString(matchState.toFinalString(polish)));

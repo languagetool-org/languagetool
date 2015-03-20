@@ -63,7 +63,7 @@ public class CommandLineParser {
         }
         options.setUseEnabledOnly();
       } else if (args[i].equals("-d") || args[i].equals("--disable")) {
-        if (options.getUseEnabledOnly()) {
+        if (options.isUseEnabledOnly()) {
           throw new IllegalArgumentException("You cannot specify both disabled rules and enabledonly");
         }
         checkArguments("-d/--disable", i, args);
@@ -85,6 +85,12 @@ public class CommandLineParser {
       } else if (args[i].equals("--rulefile")) {
         checkArguments("--rulefile", i, args);
         options.setRuleFile(args[++i]);
+      } else if (args[i].equals("--falsefriends")) {
+        checkArguments("--falsefriends", i, args);
+        options.setFalseFriendFile(args[++i]);
+      } else if (args[i].equals("--bitextrules")) {
+        checkArguments("--bitextrules", i, args);
+        options.setBitextRuleFile(args[++i]);
       } else if (args[i].equals("-c") || args[i].equals("--encoding")) {
         checkArguments("-c/--encoding", i, args);
         options.setEncoding(args[++i]);
@@ -161,8 +167,10 @@ public class CommandLineParser {
             + "  -v, --verbose            print text analysis (sentences, part-of-speech tags) to STDERR\n"
             + "  --version                print LanguageTool version number and exit\n"
             + "  -a, --apply              automatically apply suggestions if available, printing result to STDOUT\n"
-            + "  --rulefile FILE          use an additional grammar file; if the filename contains a known language code,\n" +
-            "                             it is used in addition of standard rules\n"
+            + "  --rulefile FILE          use an additional grammar file; if the filename contains a known language code,\n"
+            + "                             it is used in addition of standard rules\n"
+            + "  --falsefriends FILE      use external false friend file to be used along with the built-in rules\n"
+            + "  --bitextrules  FILE      use external bitext XML rule file (useful only in bitext mode)\n"
             + "  --languagemodel DIR      a directory with a '3grams' sub directory with a Lucene index that\n"
             + "                           contains ngram occurrence counts; activates the confusion rule if supported\n"
             + "  --xmlfilter              remove XML/HTML elements from input before checking (this is deprecated)");

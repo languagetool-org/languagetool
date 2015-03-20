@@ -47,10 +47,6 @@ public class EnglishDisambiguationRuleTest extends DisambiguationRuleTest {
     disamb2 = new DemoDisambiguator(); 
   }
 
-  public void testRules() throws Exception {
-    testDisambiguationRulesFromXML();
-  }
-
   public void testChunker() throws IOException {
     TestTools.myAssert("I cannot have it.",
         "/[null]SENT_START I/[I]PRP  /[null]null cannot/[can]MD  /[null]null have/[have]VB  /[null]null it/[it]PRP ./[null]null", 

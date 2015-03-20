@@ -53,18 +53,12 @@ public class BretonTagger extends BaseTagger {
   private final Locale conversionLocale = Locale.getDefault();
 
   @Override
-  public final String getFileName() {
-    return "/br/breton.dict";
-  }
-
-  @Override
   public String getManualAdditionsFileName() {
     return "/br/added.txt";
   }
 
   public BretonTagger() {
-    super();
-    setLocale(new Locale("br"));
+    super("/br/breton.dict", new Locale("br"));
   }
 
   // This method is almost the same as the 'tag' method in

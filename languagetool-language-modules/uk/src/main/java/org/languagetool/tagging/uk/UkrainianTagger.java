@@ -124,35 +124,22 @@ public class UkrainianTagger extends BaseTagger {
     rightPartsWithLeftTagMap.put("то", "(.*pron|noun|adv|part|conj).*"); 
     rightPartsWithLeftTagMap.put("таки", "(verb(:rev)?:(futr|past|pres)|.*pron|noun|part|predic|insert).*"); 
     
-    try {
-      InputStream is = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/uk/dash_prefixes.txt");
-      Scanner scanner = new Scanner(is,"UTF-8");
-      String text = scanner.useDelimiter("\\A").next();
-      scanner.close();
-      dashPrefixes = new HashSet<>( java.util.Arrays.asList(text.split("\n")) );
-      
-      is = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/uk/dash_left_master.txt");
-      scanner = new Scanner(is,"UTF-8");
-      text = scanner.useDelimiter("\\A").next();
-      scanner.close();
-      leftMasterSet = new HashSet<>( java.util.Arrays.asList(text.split("\n")) );
-
-      is = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/uk/dash_slaves.txt");
-      scanner = new Scanner(is,"UTF-8");
-      text = scanner.useDelimiter("\\A").next();
-      scanner.close();
-      slaveSet = new HashSet<>( java.util.Arrays.asList(text.split("\n")) );
-      // TODO: "бабуся", "лялька", "рятівник" - not quite slaves, could be masters too
-
-    }
-    catch(Exception e) {
-      throw new RuntimeException(e);
-    }
+    dashPrefixes = loadSet("/uk/dash_prefixes.txt");
+    leftMasterSet = loadSet("/uk/dash_left_master.txt");
+    slaveSet = loadSet("/uk/dash_slaves.txt");
+    // TODO: "бабуся", "лялька", "рятівник" - not quite slaves, could be masters too
   }
-  
-  @Override
-  public final String getFileName() {
-    return "/uk/ukrainian.dict";
+
+  private static Set<String> loadSet(String path) {
+    InputStream is = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
+    Set<String> result = new HashSet<>();
+    try (Scanner scanner = new Scanner(is,"UTF-8")) {
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        result.add(line);
+      }
+      return result;
+    }
   }
 
   @Override
@@ -161,10 +148,7 @@ public class UkrainianTagger extends BaseTagger {
   }
 
   public UkrainianTagger() {
-    super();
-    setLocale(new Locale("uk", "UA"));
-    dontTagLowercaseWithUppercase();
-    
+    super("/uk/ukrainian.dict", new Locale("uk", "UA"), false);
     if( Boolean.valueOf( System.getProperty(DEBUG_COMPOUNDS_PROPERTY) ) ) {
       debugCompounds();
     }

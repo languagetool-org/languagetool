@@ -184,7 +184,7 @@ public class RuleCreator {
     }
     float minErrorProb = args.length >= 2 ? Float.parseFloat(args[1]) : 0.0f;
     RuleCreator creator = new RuleCreator(minErrorProb);
-    creator.run(new File(args[0]), "/en/homophones-subset.txt");  //TODO
+    creator.run(new File(args[0]), "/en/homophones-subset.txt");
   }
 
 }

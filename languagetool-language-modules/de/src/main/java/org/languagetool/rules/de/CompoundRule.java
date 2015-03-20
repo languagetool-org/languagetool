@@ -34,10 +34,10 @@ import org.languagetool.rules.Example;
  */
 public class CompoundRule extends AbstractCompoundRule {
 
-  private static final List<String> FILE_NAME = Arrays.asList("/de/compounds.txt", "/de/compound-cities.txt");
+  private static final List<String> FILE_NAMES = Arrays.asList("/de/compounds.txt", "/de/compound-cities.txt");
  
   public CompoundRule(final ResourceBundle messages) throws IOException {
-    super(messages, FILE_NAME,
+    super(messages, FILE_NAMES,
             "Dieses Wort wird mit Bindestrich geschrieben.",
             "Dieses Wort wird zusammengeschrieben.",
             "Dieses Wort wird zusammen oder mit Bindestrich geschrieben.");

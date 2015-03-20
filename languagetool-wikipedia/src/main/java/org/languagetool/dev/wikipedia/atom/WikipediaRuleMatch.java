@@ -31,7 +31,7 @@ import java.util.Objects;
  * list of errors without getting confused by changes in character position.
  * @since 2.4
  */
-class WikipediaRuleMatch extends RuleMatch {
+final class WikipediaRuleMatch extends RuleMatch {
 
   private final Language language;
   private final String errorContext;
@@ -61,7 +61,7 @@ class WikipediaRuleMatch extends RuleMatch {
   }
 
   Date getEditDate() {
-    return editDate;
+    return new Date(editDate.getTime());
   }
 
   long getDiffId() {
@@ -81,7 +81,7 @@ class WikipediaRuleMatch extends RuleMatch {
   @Override
   public boolean equals(Object other) {
     if (other instanceof WikipediaRuleMatch) {
-      return new EqualsBuilder().append(getRule().getId(), ((WikipediaRuleMatch) other).getRule().getId()).isEquals();
+      return new EqualsBuilder().append(getRule().getId(), ((RuleMatch) other).getRule().getId()).isEquals();
     }
     return false;
   }

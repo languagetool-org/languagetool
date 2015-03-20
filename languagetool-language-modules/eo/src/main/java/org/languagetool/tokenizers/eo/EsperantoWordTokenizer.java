@@ -64,7 +64,7 @@ public class EsperantoWordTokenizer extends WordTokenizer {
         itr.next(); // Skip the next spurious white space.
       }
       word = word.replace("\u0001\u0001EO_APOS1\u0001\u0001", "'")
-          .replace("\u0001\u0001EO_APOS2\u0001\u0001", "'");
+                 .replace("\u0001\u0001EO_APOS2\u0001\u0001", "'");
       tokens.add(word);
     }
     return tokens;

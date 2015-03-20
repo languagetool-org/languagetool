@@ -170,7 +170,7 @@ public final class TestTools {
   }
 
   public static void testDictionary(BaseTagger tagger, Language language) throws IOException {
-    final Dictionary dictionary = Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(tagger.getFileName()));
+    final Dictionary dictionary = Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(tagger.getDictionaryPath()));
     final DictionaryLookup lookup = new DictionaryLookup(dictionary);
     for (WordData wordData : lookup) {
       if (wordData.getTag() == null || wordData.getTag().length() == 0) {

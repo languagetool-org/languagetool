@@ -35,9 +35,9 @@ public class UnifierTest extends TestCase {
   // trivial unification = test if the character case is the same
   public void testUnificationCase() {
     final UnifierConfiguration unifierConfig = new UnifierConfiguration();
-    final Element elLower = new Element("\\p{Ll}+", true, true, false);
-    final Element elUpper = new Element("\\p{Lu}\\p{Ll}+", true, true, false);
-    final Element elAllUpper = new Element("\\p{Lu}+$", true, true, false);
+    final PatternToken elLower = new PatternToken("\\p{Ll}+", true, true, false);
+    final PatternToken elUpper = new PatternToken("\\p{Lu}\\p{Ll}+", true, true, false);
+    final PatternToken elAllUpper = new PatternToken("\\p{Lu}+$", true, true, false);
     unifierConfig.setEquivalence("case-sensitivity", "lowercase", elLower);
     unifierConfig.setEquivalence("case-sensitivity", "uppercase", elUpper);
     unifierConfig.setEquivalence("case-sensitivity", "alluppercase", elAllUpper);
@@ -184,20 +184,20 @@ public class UnifierTest extends TestCase {
   public void testUnificationNumberGender() {
     final UnifierConfiguration unifierConfig = new UnifierConfiguration();
 
-    final Element sgElement = new Element("", false, false, false);
-    sgElement.setPosElement(".*[\\.:]sg:.*", true, false);
-    unifierConfig.setEquivalence("number", "singular", sgElement);
-    final Element plElement = new Element("", false, false, false);
-    plElement.setPosElement(".*[\\.:]pl:.*", true, false);
-    unifierConfig.setEquivalence("number", "plural", plElement);
+    final PatternToken sgPatternToken = new PatternToken("", false, false, false);
+    sgPatternToken.setPosToken(new PatternToken.PosToken(".*[\\.:]sg:.*", true, false));
+    unifierConfig.setEquivalence("number", "singular", sgPatternToken);
+    final PatternToken plPatternToken = new PatternToken("", false, false, false);
+    plPatternToken.setPosToken(new PatternToken.PosToken(".*[\\.:]pl:.*", true, false));
+    unifierConfig.setEquivalence("number", "plural", plPatternToken);
 
-    final Element femElement = new Element("", false, false, false);
-    femElement.setPosElement(".*[\\.:]f", true, false);
-    unifierConfig.setEquivalence("gender", "feminine", femElement);
+    final PatternToken femPatternToken = new PatternToken("", false, false, false);
+    femPatternToken.setPosToken(new PatternToken.PosToken(".*[\\.:]f", true, false));
+    unifierConfig.setEquivalence("gender", "feminine", femPatternToken);
 
-    final Element mascElement = new Element("", false, false, false);
-    mascElement.setPosElement(".*[\\.:]m", true, false);
-    unifierConfig.setEquivalence("gender", "masculine", mascElement);
+    final PatternToken mascPatternToken = new PatternToken("", false, false, false);
+    mascPatternToken.setPosToken(new PatternToken.PosToken(".*[\\.:]m", true, false));
+    unifierConfig.setEquivalence("gender", "masculine", mascPatternToken);
 
     final Unifier uni = unifierConfig.createUnifier();
 
@@ -424,14 +424,13 @@ public class UnifierTest extends TestCase {
     assertEquals("[niezgorsze[niezgorszy/adj:sg:acc:n1.n2:pos*,niezgorszy/adj:sg:nom.voc:n1.n2:pos*], " +
         "lekarstwo[lekarstwo/subst:sg:nom:n2*,lekarstwo/subst:sg:voc:n2*,lekarstwo/subst:sg:acc:n2*]]", Arrays.toString(uni.getUnifiedTokens()));
     uni.reset();
-
   }
 
 
-  private Element preparePOSElement(final String posString) {
-    final Element el = new Element("", false, false, false);
-    el.setPosElement(posString, true, false);
-    return el;
+  private PatternToken preparePOSElement(final String posString) {
+    final PatternToken pToken = new PatternToken("", false, false, false);
+    pToken.setPosToken(new PatternToken.PosToken(posString, true, false));
+    return pToken;
   }
 
   public void testNegation() {
@@ -593,7 +592,6 @@ public class UnifierTest extends TestCase {
     assertEquals("[osobiste[osobisty/adj:sg:nom.acc.voc:n:pos:aff*], ,[,/comma*], godło[godło/subst:sg:nom.acc.voc:n*]]",
         Arrays.toString(uni.getFinalUnified()));
     uni.reset();
-
   }
 
-  }
+}

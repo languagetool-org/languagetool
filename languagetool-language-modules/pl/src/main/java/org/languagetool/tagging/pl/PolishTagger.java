@@ -18,15 +18,14 @@
  */
 package org.languagetool.tagging.pl;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Polish POS tagger based on FSA morphological dictionaries.
@@ -35,13 +34,10 @@ import org.languagetool.tools.StringTools;
  */
 public class PolishTagger extends BaseTagger {
 
-  private static final String RESOURCE_FILENAME = "/pl/polish.dict";
-  
   private final Locale plLocale = new Locale("pl");
 
-  @Override
-  public final String getFileName() {
-    return RESOURCE_FILENAME;
+  public PolishTagger() {
+    super("/pl/polish.dict");
   }
 
   @Override
@@ -50,8 +46,7 @@ public class PolishTagger extends BaseTagger {
   }
 
   @Override
-  public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
-  throws IOException {
+  public final List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) {
     List<AnalyzedToken> taggerTokens;
     List<AnalyzedToken> lowerTaggerTokens;
     List<AnalyzedToken> upperTaggerTokens;    

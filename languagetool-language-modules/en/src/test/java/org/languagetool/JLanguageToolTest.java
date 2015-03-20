@@ -32,7 +32,7 @@ import org.languagetool.language.English;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.Element;
+import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternRule;
 
 public class JLanguageToolTest extends TestCase {
@@ -180,12 +180,12 @@ public class JLanguageToolTest extends TestCase {
 
   public void testOverlapFilter() throws IOException {
     final Category category = new Category("test category");
-    final List<Element> elements1 = Arrays.asList(new Element("one", true, false, false));
+    final List<PatternToken> elements1 = Arrays.asList(new PatternToken("one", true, false, false));
     final PatternRule rule1 = new PatternRule("id1", new English(), elements1, "desc1", "msg1", "shortMsg1");
     rule1.setSubId("1");
     rule1.setCategory(category);
 
-    final List<Element> elements2 = Arrays.asList(new Element("one", true, false, false), new Element("two", true, false, false));
+    final List<PatternToken> elements2 = Arrays.asList(new PatternToken("one", true, false, false), new PatternToken("two", true, false, false));
     final PatternRule rule2 = new PatternRule("id1", new English(), elements2, "desc2", "msg2", "shortMsg2");
     rule2.setSubId("2");
     rule2.setCategory(category);

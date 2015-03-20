@@ -106,6 +106,10 @@ public final class Main {
     if (file == null) {  // user clicked cancel
       return;
     }
+    loadFile(file);
+  }
+
+  private void loadFile(File file) {
     try (FileInputStream inputStream = new FileInputStream(file)) {
       final String fileContents = StringTools.readStream(inputStream, null);
       textArea.setText(fileContents);
@@ -212,7 +216,6 @@ public final class Main {
     frame.setIconImage(new ImageIcon(iconUrl).getImage());
 
     textArea = new JTextArea();
-    // TODO: wrong line number is displayed for lines that are wrapped automatically:
     textArea.setLineWrap(true);
     textArea.setWrapStyleWord(true);
     textArea.addKeyListener(new ControlReturnTextCheckingListener());
@@ -696,11 +699,7 @@ public final class Main {
         s = "";
       }
     } catch (Exception ex) {
-      if (data != null) {
-        s = data.toString();
-      } else {
-        s = "";
-      }
+      s = data.toString();
     }
     return s;
   }
@@ -828,7 +827,7 @@ public final class Main {
           ((Language) languageBox.getSelectedItem()).getLocale()));
         
         taggerDialog.setVisible(true);
-        taggerArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
+        taggerArea.setText(HTML_FONT_START + sb + HTML_FONT_END);
       }
     });
   }
@@ -857,21 +856,27 @@ public final class Main {
           }
         }
       });
-    } else if (args.length >= 1) {
-      System.out.println("Usage: java org.languagetool.gui.Main [-t|--tray]");
-      System.out.println("  -t, --tray: dock LanguageTool to system tray on startup");
-    } else {
+    } else if (args.length == 0 || args.length == 1) {
       javax.swing.SwingUtilities.invokeLater(new Runnable() {
         @Override
         public void run() {
           try {
             prg.createGUI();
             prg.showGUI();
+            if (args.length == 1) {
+              prg.loadFile(new File(args[0]));
+            }
           } catch (Exception e) {
             Tools.showError(e);
           }
         }
       });
+    } else {
+      System.out.println("Usage: java org.languagetool.gui.Main [-t|--tray]");
+      System.out.println("    or java org.languagetool.gui.Main [file]");
+      System.out.println("Parameters:");
+      System.out.println("    -t, --tray: dock LanguageTool to system tray on startup");
+      System.out.println("    file:       a plain text file to load on startup");
     }
   }
 

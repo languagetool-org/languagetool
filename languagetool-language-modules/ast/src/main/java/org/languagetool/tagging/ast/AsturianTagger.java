@@ -30,17 +30,11 @@ import org.languagetool.tagging.BaseTagger;
 public class AsturianTagger extends BaseTagger {
 
   @Override
-  public final String getFileName() {
-    return "/ast/asturian.dict";    
-  }
-
-  @Override
   public String getManualAdditionsFileName() {
     return "/ast/added.txt";
   }
 
   public AsturianTagger() {
-    super();
-    setLocale(new Locale("ast"));
+    super("/ast/asturian.dict", new Locale("ast"));
   }
 }

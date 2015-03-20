@@ -30,17 +30,11 @@ import org.languagetool.tagging.BaseTagger;
 public class DanishTagger extends BaseTagger {
 
   @Override
-  public final String getFileName() {
-    return "/da/danish.dict";
-  }
-
-  @Override
   public String getManualAdditionsFileName() {
     return "/da/added.txt";
   }
 
   public DanishTagger() {
-    super();
-    setLocale(new Locale("da"));
+    super("/da/danish.dict", new Locale("da"));
   }
 }

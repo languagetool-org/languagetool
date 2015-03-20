@@ -49,6 +49,13 @@ public class CatalanWrongWordInContextRuleTest extends TestCase {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("És un terreny abonat per als problemes.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("No li va cosir bé les betes.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Sempre li seguia la beta.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("un any en el qual la reina Victoria encara era al tro britànic")).length);
+    
+    //pali, pal·li
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Sota els palis.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Els pal·lis.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("El pal·li i el sànscrit.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("El pali i el sànscrit.")).length);
   }
   
 }

@@ -43,15 +43,25 @@ public class CommandLineOptions {
   private boolean bitext = false;
   private boolean autoDetect = false;
   private boolean xmlFiltering = false;
+  @Nullable
   private Language language = null;
+  @Nullable
   private Language motherTongue = null;
+  @Nullable
   private File languageModel = null;
+  @Nullable
   private String encoding = null;
+  @Nullable
   private String filename = null;
   private String[] disabledRules = {};
   private String[] enabledRules = {};
   private boolean useEnabledOnly = false;
+  @Nullable
   private String ruleFile = null;
+  @Nullable
+  private String falseFriendFile = null;
+  @Nullable
+  private String bitextRuleFile = null;
 
   public boolean isPrintUsage() {
     return printUsage;
@@ -234,8 +244,16 @@ public class CommandLineOptions {
     this.enabledRules = Objects.requireNonNull(enabledRules);
   }
 
-  /** @since 2.7 */
+  /**
+   * @deprecated use {@link #isUseEnabledOnly()} instead
+   * @since 2.7
+   */
   public boolean getUseEnabledOnly() {
+    return isUseEnabledOnly();
+  }
+
+  /** @since 2.9 */
+  public boolean isUseEnabledOnly() {
     return useEnabledOnly;
   }
 
@@ -259,4 +277,40 @@ public class CommandLineOptions {
   public void setPrintLanguages(boolean printLanguages) {
     this.printLanguages = printLanguages;
   }
+
+  /**
+   * @param arg False friends filename
+   * @since 2.9
+   */
+  public void setFalseFriendFile(String arg) {
+    falseFriendFile = arg;
+  }
+
+  /**
+   * @return False friends file name or {@code null}
+   * @since 2.9
+   */
+  @Nullable
+  public String getFalseFriendFile() {
+    return falseFriendFile;
+  }
+
+  /**
+   * @return the bitext rule file name or {@code null}
+   * @since 2.9
+   */
+  @Nullable
+  public String getBitextRuleFile() {
+    return bitextRuleFile;
+  }
+
+  /**
+   * @param bitextRuleFile the bitext rule file name
+   * @since 2.9
+   */
+  public void setBitextRuleFile(String bitextRuleFile) {
+    this.bitextRuleFile = bitextRuleFile;
+  }
+
 }
+

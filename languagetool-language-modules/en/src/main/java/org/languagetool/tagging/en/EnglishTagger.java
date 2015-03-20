@@ -32,17 +32,11 @@ import org.languagetool.tagging.BaseTagger;
 public class EnglishTagger extends BaseTagger {
 
   @Override
-  public final String getFileName() {
-    return "/en/english.dict";    
-  }
-
-  @Override
   public String getManualAdditionsFileName() {
     return "/en/added.txt";
   }
 
   public EnglishTagger() {
-    super();
-    setLocale(Locale.ENGLISH);
+    super("/en/english.dict", Locale.ENGLISH);
   }
 }

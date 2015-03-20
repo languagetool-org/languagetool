@@ -37,6 +37,8 @@ public class MainTest extends AbstractSecurityTestCase {
 
   private final File enTestFile;
   private final File xxRuleFile;
+  private final File xxFalseFriendFile;
+  private final File bitextFile;
 
   private ByteArrayOutputStream out;
   private ByteArrayOutputStream err;
@@ -57,6 +59,49 @@ public class MainTest extends AbstractSecurityTestCase {
             "<message>This is wrong!</message>\n" +
             "<example correction=\"\">language tool</example>\n" +
             "</rule></category></rules>");
+
+    xxFalseFriendFile = writeToTempXMLFile("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+        "<!DOCTYPE rules SYSTEM \"false-friends.dtd\">\n" +
+        "<rules>\n" +
+        "<rulegroup id=\"LASKA_SK_PL\">\n" +
+        "        <rule>\n" +
+        "            <pattern lang=\"sk\">\n" +
+        "                <token>láska</token>\n" +
+        "            </pattern>\n" +
+        "            <translation lang=\"pl\">miłość</translation>\n" +
+        "        </rule>\n" +
+        "        <rule>\n" +
+        "            <pattern lang=\"pl\">\n" +
+        "                <token inflected=\"yes\">miłość</token>\n" +
+        "            </pattern>\n" +
+        "            <translation lang=\"sk\">laska</translation>\n" +
+        "        </rule>\n" +
+        "    </rulegroup>\n</rules>\n" +
+        "    ");
+    bitextFile = writeToTempXMLFile("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+        "<rules targetLang=\"pl\" xsi:noNamespaceSchemaLocation=\"../bitext.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">\n" +
+        "<category name=\"idioms\">\n" +
+        "<rule lang=\"pl\" id=\"red_herring\" name=\"Red herring -> odwraca uwagę\">\n" +
+        "<pattern>\n" +
+        "\t<source lang=\"en\">\n" +
+        "\t\t<token>is</token>\n" +
+        "\t\t<token>a</token>\n" +
+        "\t\t<token>red</token>\n" +
+        "\t\t<token>herring</token>\n" +
+        "\t</source>\n" +
+        "\t<target>\n" +
+        "\t\t<token>jest</token>\n" +
+        "\t\t<token>czerwony</token>\n" +
+        "\t\t<token>śledź</token>\n" +
+        "\t</target>\n" +
+        "</pattern>\n" +
+        "<message>Czy chodziło o <suggestion>odwraca uwagę</suggestion>?</message>\n" +
+        "<example type=\"correct\"><srcExample>This is a red herring.</srcExample>\n" +
+        "\t\t\t\t\t<trgExample>To odwraca uwagę.</trgExample></example>\n" +
+        "<example type=\"incorrect\" correction=\"odwraca uwagę\"><srcExample>This <marker>is a red herring</marker>.</srcExample>\n" +
+        "<trgExample>To <marker>jest czerwony śledź</marker>.</trgExample></example>\n" +
+        "</rule></category></rules>\n");
+
   }
 
   @Override
@@ -141,6 +186,19 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.indexOf("Working on STDIN...") == 0);
     assertTrue(output.contains("Language used is: English"));
     assertTrue(output.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
+  }
+
+  public void testStdInWithExternalFalseFriends() throws Exception {
+    final String test = "Láska!\n";
+    final byte[] b = test.getBytes();
+    System.setIn(new ByteArrayInputStream(b));
+    final String[] args = {"-l", "sk", "--falsefriends", getExternalFalseFriends(), "-m", "pl", "-"};
+
+    Main.main(args);
+    final String output = new String(this.out.toByteArray());
+    assertTrue(output.contains("Expected text language: Slovak"));
+    assertTrue(output.contains("Working on STDIN..."));
+    assertTrue(output.contains("Rule ID: LASKA"));
   }
 
   public void testEnglishFileVerbose() throws Exception {
@@ -372,7 +430,7 @@ public class MainTest extends AbstractSecurityTestCase {
             "Test\tTest\n" +
         "ab\tVery strange data indeed, much longer than input");
 
-    final String[] args = {"-l", "pl", "--bitext", "-m", "en", input.getAbsolutePath()};
+    final String[] args = {"-l", "pl", "-c", "UTF-8", "--bitext", "-m", "en", input.getAbsolutePath()};
     Main.main(args);
     final String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
@@ -418,6 +476,16 @@ public class MainTest extends AbstractSecurityTestCase {
     final String output = new String(this.out.toByteArray());
     assertTrue(output.startsWith("Istnieje psa."));
   }
+
+  public void testBitextWithExternalRule() throws Exception {
+    final File input = writeToTempFile("This is a red herring.\tTo jest czerwony śledź.");
+    final String[] args = {"-l", "pl", "-c", "UTF-8", "--bitext", "-m", "en", "--bitextrules",
+        bitextFile.getAbsolutePath(), input.getAbsolutePath()};
+    Main.main(args);
+    final String output = new String(this.out.toByteArray());
+    assertTrue("red_herring rule should be in the output" + output, output.contains("Rule ID: red_herring"));
+  }
+
 
   public void testListUnknown() throws Exception {
     final String[] args = {"-l", "pl", "-u", getTestFilePath()};
@@ -521,6 +589,10 @@ public class MainTest extends AbstractSecurityTestCase {
 
   private String getRuleFilePath() {
     return xxRuleFile.getAbsolutePath();
+  }
+
+  private String getExternalFalseFriends() {
+    return xxFalseFriendFile.getAbsolutePath();
   }
 
 }

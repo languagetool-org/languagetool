@@ -70,14 +70,10 @@ public class RomanianTaggerTest extends AbstractRomanianTaggerTest {
    * the big picture: test is tagger performs well with a sentence
    */
   public void testTagger() throws IOException {
-    TestTools
-            .myAssert(
+    TestTools.myAssert(
                     "Cartea este frumoasă.",
                     "Cartea/[carte]Sfs3aac000 -- este/[fi]V0s3000izb -- frumoasă/[frumos]Afs3an0000",
                     getTokenizer(), getTagger());
   }
 
-  public static void main(String[] args) {
-    junit.textui.TestRunner.run(RomanianTaggerTest.class);
-  }
 }

@@ -30,17 +30,11 @@ import org.languagetool.tagging.BaseTagger;
 public class TagalogTagger extends BaseTagger {
 
   @Override
-  public final String getFileName() {
-    return "/tl/tagalog.dict";
-  }
-
-  @Override
   public String getManualAdditionsFileName() {
     return "/tl/added.txt";
   }
 
   public TagalogTagger() {
-    super();
-    setLocale(Locale.ENGLISH);
+    super("/tl/tagalog.dict", Locale.ENGLISH);
   }
 }

@@ -73,8 +73,8 @@ public abstract class AbstractRomanianTaggerTest extends TestCase {
         final String crtLemma = token.getLemma();
         final String crtPOSTag = token.getPOSTag();
         allTags.append(String.format("[%s/%s]", crtLemma, crtPOSTag));
-        found = ((null == lemma) || (lemma.equals(crtLemma)))
-                && ((null == posTag) || (posTag.equals(crtPOSTag)));
+        found = (lemma == null || lemma.equals(crtLemma))
+                && (posTag == null || posTag.equals(crtPOSTag));
         if (found) {
           break;
         }

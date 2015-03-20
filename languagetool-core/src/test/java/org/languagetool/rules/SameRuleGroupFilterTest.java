@@ -26,17 +26,18 @@ import junit.framework.TestCase;
 
 import org.languagetool.Language;
 import org.languagetool.TestTools;
-import org.languagetool.rules.patterns.Element;
+import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternRule;
 
+@SuppressWarnings("MagicNumber")
 public class SameRuleGroupFilterTest extends TestCase {
 
   private static final Language language = TestTools.getDemoLanguage();
 
   public void testFilter() {
-    final List<Element> fakeElements = new ArrayList<>();
-    final PatternRule rule1 = new PatternRule("id1", language, fakeElements, "desc1", "msg1", "shortMsg1");
-    final PatternRule rule2 = new PatternRule("id1", language, fakeElements, "desc2", "msg2", "shortMsg2");
+    final List<PatternToken> fakePatternTokens = new ArrayList<>();
+    final PatternRule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
+    final PatternRule rule2 = new PatternRule("id1", language, fakePatternTokens, "desc2", "msg2", "shortMsg2");
     final RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
     final RuleMatch match2 = new RuleMatch(rule2, 15, 25, "Match2");
     final SameRuleGroupFilter filter = new SameRuleGroupFilter();
@@ -46,9 +47,9 @@ public class SameRuleGroupFilterTest extends TestCase {
   }
 
   public void testNoFilteringIfNotOverlapping() {
-    final List<Element> fakeElements = new ArrayList<>();
-    final PatternRule rule1 = new PatternRule("id1", language, fakeElements, "desc1", "msg1", "shortMsg1");
-    final PatternRule rule2 = new PatternRule("id1", language, fakeElements, "desc2", "msg2", "shortMsg2");
+    final List<PatternToken> fakePatternTokens = new ArrayList<>();
+    final PatternRule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
+    final PatternRule rule2 = new PatternRule("id1", language, fakePatternTokens, "desc2", "msg2", "shortMsg2");
     final RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
     final RuleMatch match2 = new RuleMatch(rule2, 21, 25, "Match2");
     final SameRuleGroupFilter filter = new SameRuleGroupFilter();
@@ -57,9 +58,9 @@ public class SameRuleGroupFilterTest extends TestCase {
   }
 
   public void testNoFilteringIfDifferentRulegroups() {
-    final List<Element> fakeElements = new ArrayList<>();
-    final Rule rule1 = new PatternRule("id1", language, fakeElements, "desc1", "msg1", "shortMsg1");
-    final Rule rule2 = new PatternRule("id2", language, fakeElements, "desc2", "msg2", "shortMsg2");
+    final List<PatternToken> fakePatternTokens = new ArrayList<>();
+    final Rule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
+    final Rule rule2 = new PatternRule("id2", language, fakePatternTokens, "desc2", "msg2", "shortMsg2");
     final RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
     final RuleMatch match2 = new RuleMatch(rule2, 15, 25, "Match2");
     final SameRuleGroupFilter filter = new SameRuleGroupFilter();

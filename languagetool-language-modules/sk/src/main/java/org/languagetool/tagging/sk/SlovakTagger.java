@@ -28,17 +28,11 @@ import org.languagetool.tagging.BaseTagger;
 public class SlovakTagger extends BaseTagger {
 
   @Override
-  public final String getFileName() {
-    return "/sk/slovak.dict";
-  }
-
-  @Override
   public String getManualAdditionsFileName() {
     return "/sk/added.txt";
   }
 
   public SlovakTagger() {
-    super();
-    setLocale(new Locale("sk"));
+    super("/sk/slovak.dict", new Locale("sk"));
   }
 }

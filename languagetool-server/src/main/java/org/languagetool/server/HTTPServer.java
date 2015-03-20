@@ -128,8 +128,6 @@ public class HTTPServer extends Server {
     if (args.length > 5 || usageRequested(args)) {
       System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [--config propertyFile] [--port|-p port] [--public]");
       System.out.println("  --config file  a Java property file (one key=value entry per line) with values for:");
-      System.out.println("                 'mode' - 'LanguageTool' or 'AfterTheDeadline' for emulation of After the Deadline output (optional, experimental)");
-      System.out.println("                 'afterTheDeadlineLanguage' - language code like 'en' or 'en-GB' (required if mode is 'AfterTheDeadline')");
       printCommonConfigFileOptions();
       printCommonOptions();
       System.exit(1);

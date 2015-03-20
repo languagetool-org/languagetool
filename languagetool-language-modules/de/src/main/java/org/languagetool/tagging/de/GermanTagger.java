@@ -43,11 +43,7 @@ public class GermanTagger extends BaseTagger {
   private GermanCompoundTokenizer compoundTokenizer;
 
   public GermanTagger() {
-  }
-
-  @Override
-  public String getFileName() {
-    return "/de/german.dict";
+    super("/de/german.dict");
   }
 
   @Override

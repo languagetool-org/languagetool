@@ -28,17 +28,11 @@ import org.languagetool.tagging.BaseTagger;
 public class SwedishTagger extends BaseTagger {
 
   @Override
-  public final String getFileName() {
-    return "/sv/swedish.dict";    
-  }
-
-  @Override
   public String getManualAdditionsFileName() {
     return "/sv/added.txt";
   }
 
   public SwedishTagger() {
-    super();
-    setLocale(new Locale("sv"));
+    super("/sv/swedish.dict", new Locale("sv"));
   }
 } 

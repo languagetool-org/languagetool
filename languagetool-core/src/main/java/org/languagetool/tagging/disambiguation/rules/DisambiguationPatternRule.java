@@ -19,13 +19,16 @@
 package org.languagetool.tagging.disambiguation.rules;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
 import org.languagetool.rules.patterns.AbstractPatternRule;
-import org.languagetool.rules.patterns.Element;
+import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.Match;
 
 /**
@@ -46,23 +49,22 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
   private final DisambiguatorAction disAction;
 
   private AnalyzedToken[] newTokenReadings;
-  private List<DisambiguatedExample> examples;
-  private List<String> untouchedExamples;
+  private List<DisambiguatedExample> examples = new ArrayList<>();
+  private List<String> untouchedExamples = new ArrayList<>();
 
   /**
    * @param id Id of the Rule
    * @param language Language of the Rule
-   * @param elements Element (token) list
    * @param description Description to be shown (name)
    * @param disambAction the action to be executed on found token(s), one of the
    *          following: add, filter, filterall, ignore_spelling, immunize, remove, replace, unify.
    * @since public since 2.5
    */
   public DisambiguationPatternRule(final String id, final String description,
-                                   final Language language, final List<Element> elements,
+                                   final Language language, final List<PatternToken> patternTokens,
                                    final String disamb, final Match posSelect,
                                    final DisambiguatorAction disambAction) {
-    super(id, description, language, elements, true);
+    super(id, description, language, patternTokens, true);
     if (disamb == null && posSelect == null
         && disambAction != DisambiguatorAction.UNIFY
         && disambAction != DisambiguatorAction.ADD
@@ -106,35 +108,28 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
    * @param examples the examples to set
    */
   public void setExamples(final List<DisambiguatedExample> examples) {
-    this.examples = examples;
+    this.examples = Objects.requireNonNull(examples);
   }
 
   /**
    * @return the examples
    */
   public List<DisambiguatedExample> getExamples() {
-    return examples;
+    return Collections.unmodifiableList(examples);
   }
 
   /**
    * @param untouchedExamples the untouchedExamples to set
    */
   public void setUntouchedExamples(final List<String> untouchedExamples) {
-    this.untouchedExamples = untouchedExamples;
+    this.untouchedExamples = Objects.requireNonNull(untouchedExamples);
   }
 
   /**
    * @return the untouchedExamples
    */
   public List<String> getUntouchedExamples() {
-    return untouchedExamples;
-  }
-
-  /**
-   * For testing only.
-   */
-  public final List<Element> getElements() {
-    return patternElements;
+    return Collections.unmodifiableList(untouchedExamples);
   }
 
   /**

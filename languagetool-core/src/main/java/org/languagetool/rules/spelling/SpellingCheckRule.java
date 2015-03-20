@@ -118,7 +118,7 @@ public abstract class SpellingCheckRule extends Rule {
    * Get additional suggestions added before other suggestions (note the rule may choose to
    * re-order the suggestions anyway).
    */
-  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) {
+  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     List<String> moreSuggestions = new ArrayList<>();
     if ("Languagetool".equals(word) && !suggestions.contains(LANGUAGETOOL)) {
       moreSuggestions.add(LANGUAGETOOL);

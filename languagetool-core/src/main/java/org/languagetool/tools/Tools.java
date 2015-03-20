@@ -30,10 +30,7 @@ import org.languagetool.rules.patterns.bitext.FalseFriendsAsBitextLoader;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.util.*;
 
@@ -87,20 +84,37 @@ public final class Tools {
 
   /** 
    * Gets default bitext rules for a given pair of languages
-   *
    * @param source  Source language.
    * @param target  Target language.
    * @return  List of Bitext rules
    */
-  public static List<BitextRule> getBitextRules(final Language source, 
+  public static List<BitextRule> getBitextRules(final Language source,
       final Language target) throws IOException, ParserConfigurationException, SAXException {
+    return getBitextRules(source, target, null);
+  }
+
+  /**
+   * Gets default bitext rules for a given pair of languages
+   * @param source  Source language.
+   * @param target  Target language.
+   * @param externalBitextRuleFile external file with bitext rules
+   * @return  List of Bitext rules
+   * @since 2.9
+   */
+  public static List<BitextRule> getBitextRules(final Language source,
+      final Language target, final File externalBitextRuleFile) throws IOException, ParserConfigurationException, SAXException {
     final List<BitextRule> bRules = new ArrayList<>();
     //try to load the bitext pattern rules for the language...
     final BitextPatternRuleLoader ruleLoader = new BitextPatternRuleLoader();          
     final String name = "/" + target.getShortName() + "/bitext.xml";
-    final InputStream is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(name);
-    if (is != null) {
-      bRules.addAll(ruleLoader.getRules(is, name));
+    if (JLanguageTool.getDataBroker().ruleFileExists(name)) {
+      final InputStream is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(name);
+      if (is != null) {
+        bRules.addAll(ruleLoader.getRules(is, name));
+      }
+    }
+    if (externalBitextRuleFile != null) {
+      bRules.addAll(ruleLoader.getRules(new FileInputStream(externalBitextRuleFile), externalBitextRuleFile.getAbsolutePath()));
     }
     
     //load the false friend rules in the bitext mode:
@@ -228,16 +242,16 @@ public final class Tools {
 
   /**
    * Load a file from the classpath using {@link Class#getResourceAsStream(String)}.
-   * 
+   *
    * @return the stream of the file
    */
-  public static InputStream getStream(final String filename) throws IOException {
+  public static InputStream getStream(final String path) throws IOException {
     // the other ways to load the stream like
     // "Tools.class.getClass().getResourceAsStream(filename)"
     // don't work in a web context (using Grails):
-    final InputStream is = Tools.class.getResourceAsStream(filename);
+    final InputStream is = Tools.class.getResourceAsStream(path);
     if (is == null) {
-      throw new IOException("Could not load file from classpath : " + filename);
+      throw new IOException("Could not load file from classpath: '" + path + "'");
     }
     return is;
   }

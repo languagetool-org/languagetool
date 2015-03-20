@@ -33,9 +33,9 @@ public class AbstractPatternRulePerformerTest {
 
   @Test
   public void testTestAllReadings() throws Exception {
-    Element element1 = new Element("foo", false, false, false);
-    PatternRule simpleRule = new PatternRule("FAKE", new Demo(), Collections.singletonList(element1), "descr", "message", "short");
-    ElementMatcher elemMatcher = new ElementMatcher(element1);
+    PatternToken patternToken1 = new PatternToken("foo", false, false, false);
+    PatternRule simpleRule = new PatternRule("FAKE", new Demo(), Collections.singletonList(patternToken1), "descr", "message", "short");
+    PatternTokenMatcher elemMatcher = new PatternTokenMatcher(patternToken1);
 
     AbstractPatternRulePerformer p = new MockAbstractPatternRulePerformer(simpleRule, null);
 
@@ -47,10 +47,10 @@ public class AbstractPatternRulePerformerTest {
 
   @Test
   public void testTestAllReadingsWithChunks() throws Exception {
-    Element chunkElement = new Element(null, false, false, false);
-    chunkElement.setChunkElement(new ChunkTag("myChunk"));
-    PatternRule simpleRule = new PatternRule("FAKE", new Demo(), Collections.singletonList(chunkElement), "descr", "message", "short");
-    ElementMatcher elemMatcher = new ElementMatcher(chunkElement);
+    PatternToken chunkPatternToken = new PatternToken(null, false, false, false);
+    chunkPatternToken.setChunkTag(new ChunkTag("myChunk"));
+    PatternRule simpleRule = new PatternRule("FAKE", new Demo(), Collections.singletonList(chunkPatternToken), "descr", "message", "short");
+    PatternTokenMatcher elemMatcher = new PatternTokenMatcher(chunkPatternToken);
 
     AbstractPatternRulePerformer p = new MockAbstractPatternRulePerformer(simpleRule, null);
 

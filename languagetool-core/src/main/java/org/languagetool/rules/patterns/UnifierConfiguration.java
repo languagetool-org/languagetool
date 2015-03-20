@@ -35,7 +35,7 @@ public class UnifierConfiguration {
    * specified as Strings, and map into types defined as maps from Strings to
    * Elements.
    */
-  private final Map<EquivalenceTypeLocator, Element> equivalenceTypes;
+  private final Map<EquivalenceTypeLocator, PatternToken> equivalenceTypes;
 
   /**
    * A Map that stores all possible equivalence types listed for features.
@@ -50,7 +50,7 @@ public class UnifierConfiguration {
 
   /**
    * Prepares equivalence types for features to be tested. All equivalence
-   * types are given as {@link Element}s. They create an equivalence set (with
+   * types are given as {@link PatternToken}s. They create an equivalence set (with
    * abstraction).
    *
    * @param feature Feature to be tested, like gender, grammatical case or number.
@@ -58,7 +58,7 @@ public class UnifierConfiguration {
    * @param elem Element specifying the equivalence.
    */
   public final void setEquivalence(final String feature, final String type,
-                                   final Element elem) {
+                                   final PatternToken elem) {
 
     EquivalenceTypeLocator typeKey = new EquivalenceTypeLocator(feature, type);
     if (equivalenceTypes.containsKey(typeKey)) {
@@ -77,7 +77,7 @@ public class UnifierConfiguration {
     lTypes.add(type);
   }
 
-  public Map<EquivalenceTypeLocator, Element> getEquivalenceTypes() {
+  public Map<EquivalenceTypeLocator, PatternToken> getEquivalenceTypes() {
     return Collections.unmodifiableMap(equivalenceTypes);
   }
 

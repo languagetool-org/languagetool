@@ -27,7 +27,7 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.FakeLanguage;
-import org.languagetool.rules.patterns.Element;
+import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternRule;
 
 import java.io.IOException;
@@ -41,6 +41,7 @@ import java.util.regex.Pattern;
 
 import static junit.framework.TestCase.assertTrue;
 
+@SuppressWarnings("MagicNumber")
 public class RuleAsXmlSerializerTest {
   
   private static final RuleAsXmlSerializer SERIALIZER = new RuleAsXmlSerializer();
@@ -86,8 +87,8 @@ public class RuleAsXmlSerializerTest {
   public void testRuleMatchesToXMLWithCategory() throws IOException {
     final List<RuleMatch> matches = new ArrayList<>();
     final String text = "This is a test sentence.";
-    final List<Element> elements = Collections.emptyList();
-    final Rule patternRule = new PatternRule("MY_ID", language, elements, "my description", "my message", "short message");
+    final List<PatternToken> patternTokens = Collections.emptyList();
+    final Rule patternRule = new PatternRule("MY_ID", language, patternTokens, "my description", "my message", "short message");
     patternRule.setCategory(new Category("MyCategory"));
     final RuleMatch match = new RuleMatch(patternRule, 8, 10, "myMessage");
     match.setColumn(99);
@@ -150,7 +151,7 @@ public class RuleAsXmlSerializerTest {
 
   private class FakeRule extends PatternRule {
     public FakeRule() {
-      super("FAKE_ID", TestTools.getDemoLanguage(), Collections.singletonList(new Element("foo", true, false, false)),
+      super("FAKE_ID", TestTools.getDemoLanguage(), Collections.singletonList(new PatternToken("foo", true, false, false)),
               "My fake description", "Fake message", "Fake short message");
     }
     @Override

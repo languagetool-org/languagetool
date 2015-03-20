@@ -41,22 +41,22 @@ public abstract class AbstractPatternRulePerformer {
     this.unifier = unifier;
   }
 
-  protected List<ElementMatcher> createElementMatchers() {
-    final List<ElementMatcher> elementMatchers = new ArrayList<>(rule.patternElements.size());
-    for (Element el : rule.patternElements) {
-      final ElementMatcher matcher = new ElementMatcher(el);
-      elementMatchers.add(matcher);
+  protected List<PatternTokenMatcher> createElementMatchers() {
+    final List<PatternTokenMatcher> patternTokenMatchers = new ArrayList<>(rule.patternTokens.size());
+    for (PatternToken pToken : rule.patternTokens) {
+      final PatternTokenMatcher matcher = new PatternTokenMatcher(pToken);
+      patternTokenMatchers.add(matcher);
     }
-    return elementMatchers;
+    return patternTokenMatchers;
   }
 
   protected boolean testAllReadings(final AnalyzedTokenReadings[] tokens,
-      final ElementMatcher elem, final ElementMatcher prevElement,
+      final PatternTokenMatcher matcher, final PatternTokenMatcher prevElement,
       final int tokenNo, final int firstMatchToken, final int prevSkipNext)
           throws IOException {
     boolean thisMatched = false;
     final int numberOfReadings = tokens[tokenNo].getReadingsLength();
-    elem.prepareAndGroup(firstMatchToken, tokens, rule.getLanguage());
+    matcher.prepareAndGroup(firstMatchToken, tokens, rule.getLanguage());
 
     for (int l = 0; l < numberOfReadings; l++) {
       final AnalyzedToken matchToken = tokens[tokenNo]
@@ -70,55 +70,55 @@ public abstract class AbstractPatternRulePerformer {
       }
 
       if (!thisMatched) {
-        thisMatched = elem.isMatched(matchToken);
+        thisMatched = matcher.isMatched(matchToken);
         tested = true;
       }
 
       //short-circuit when the search cannot possibly match
       if (!thisMatched && (prevElement == null ||
-          prevElement.getElement().getExceptionList() == null)) {
-        if (elem.getElement().getPOStag() == null) {
-          if (elem.getElement().isInflected()) {
+          prevElement.getPatternToken().getExceptionList() == null)) {
+        if (matcher.getPatternToken().getPOStag() == null) {
+          if (matcher.getPatternToken().isInflected()) {
             if (tokens[tokenNo].hasSameLemmas()) {
               return false; // same lemmas everywhere
             }
           } else {
             return false; // the token is the same, we will not get a match
           }
-        } else if (!elem.getElement().getPOSNegation() // postag =! null
+        } else if (!matcher.getPatternToken().getPOSNegation() // postag =! null
             && !tokens[tokenNo].isTagged()) {
           return false; // we won't find any postag here anyway
         }
       }
       if (rule.isGroupsOrUnification()) {
-        if (!elem.getElement().isUnificationNeutral()) {
+        if (!matcher.getPatternToken().isUnificationNeutral()) {
         thisMatched &= testUnificationAndGroups(thisMatched,
-            l + 1 == numberOfReadings, matchToken, elem, tested);
+            l + 1 == numberOfReadings, matchToken, matcher, tested);
         }
       }
     }
     if (thisMatched) {
       for (int l = 0; l < numberOfReadings; l++) {
-        if (elem.isExceptionMatchedCompletely(tokens[tokenNo].getAnalyzedToken(l))) {
+        if (matcher.isExceptionMatchedCompletely(tokens[tokenNo].getAnalyzedToken(l))) {
           return false;
         }
       }
-      if (tokenNo > 0 && elem.hasPreviousException()) {
-        if (elem.isMatchedByPreviousException(tokens[tokenNo - 1])) {
+      if (tokenNo > 0 && matcher.hasPreviousException()) {
+        if (matcher.isMatchedByPreviousException(tokens[tokenNo - 1])) {
           return false;
         }
       }
-      if (elem.getElement().isUnificationNeutral()) {
+      if (matcher.getPatternToken().isUnificationNeutral()) {
         unifier.addNeutralElement(tokens[tokenNo]);
       }
     }
-    if (elem.getElement().getChunkTag() != null) {
+    if (matcher.getPatternToken().getChunkTag() != null) {
       thisMatched &=
-          tokens[tokenNo].getChunkTags().contains(elem.getElement().getChunkTag())
-          ^ elem.getElement().getNegation();
+          tokens[tokenNo].getChunkTags().contains(matcher.getPatternToken().getChunkTag())
+          ^ matcher.getPatternToken().getNegation();
     }
-    if (elem.getElement().hasAndGroup()) {
-      for (Element e : elem.getElement().getAndGroup()) {
+    if (matcher.getPatternToken().hasAndGroup()) {
+      for (PatternToken e : matcher.getPatternToken().getAndGroup()) {
         if (e.getChunkTag() != null) {
           thisMatched &= tokens[tokenNo].getChunkTags().contains(e.getChunkTag())
               ^ e.getNegation();
@@ -131,10 +131,10 @@ public abstract class AbstractPatternRulePerformer {
 
   protected boolean testUnificationAndGroups(final boolean matched, final boolean lastReading,
                                              final AnalyzedToken matchToken,
-                                             final ElementMatcher elemMatcher, boolean alreadyTested) {
+                                             final PatternTokenMatcher elemMatcher, boolean alreadyTested) {
     boolean thisMatched = matched;
     final boolean elemIsMatched = alreadyTested || elemMatcher.isMatched(matchToken);
-    final Element elem = elemMatcher.getElement();
+    final PatternToken elem = elemMatcher.getPatternToken();
 
     if (rule.testUnification) {
       if (matched && elem.isUnified()) {
@@ -173,8 +173,8 @@ public abstract class AbstractPatternRulePerformer {
    */
   protected int getMinOccurrenceCorrection() {
     int minOccurCorrection = 0;
-    for (Element element : rule.getPatternElements()) {
-      if (element.getMinOccurrence() == 0) {
+    for (PatternToken patternToken : rule.getPatternTokens()) {
+      if (patternToken.getMinOccurrence() == 0) {
         minOccurCorrection++;
       }
     }
@@ -184,9 +184,9 @@ public abstract class AbstractPatternRulePerformer {
   /**
    * @since 2.5
    */
-  protected int skipMaxTokens(AnalyzedTokenReadings[] tokens, ElementMatcher elem, int firstMatchToken, int prevSkipNext, ElementMatcher prevElement, int m, int remainingElems) throws IOException {
+  protected int skipMaxTokens(AnalyzedTokenReadings[] tokens, PatternTokenMatcher elem, int firstMatchToken, int prevSkipNext, PatternTokenMatcher prevElement, int m, int remainingElems) throws IOException {
     int maxSkip = 0;
-    int maxOccurrences = elem.getElement().getMaxOccurrence() == -1 ? Integer.MAX_VALUE : elem.getElement().getMaxOccurrence();
+    int maxOccurrences = elem.getPatternToken().getMaxOccurrence() == -1 ? Integer.MAX_VALUE : elem.getPatternToken().getMaxOccurrence();
     for (int j = 1; j < maxOccurrences && m+j < tokens.length - remainingElems; j++) {
       boolean nextAllElementsMatch = !tokens[m+j].isImmunized() &&
           testAllReadings(tokens, elem, prevElement, m+j, firstMatchToken, prevSkipNext);

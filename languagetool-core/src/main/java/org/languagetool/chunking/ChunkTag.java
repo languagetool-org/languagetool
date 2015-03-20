@@ -28,7 +28,7 @@ public class ChunkTag {
 
   public ChunkTag(String chunkTag) {
     if (chunkTag == null || chunkTag.trim().isEmpty()) {
-      throw new NullPointerException("chunkTag cannot be null or empty: " + chunkTag);
+      throw new NullPointerException("chunkTag cannot be null or empty: '" + chunkTag + "'");
     }
     this.chunkTag = chunkTag;
   }

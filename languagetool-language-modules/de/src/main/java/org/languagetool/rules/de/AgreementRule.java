@@ -176,7 +176,6 @@ public class AgreementRule extends GermanRule {
     for (int i = 0; i < tokens.length; i++) {
       //defaulting to the first reading
       //TODO: check for all readings
-      //and replace GermanTokenReading
       final String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
       if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME)) {
         continue;
@@ -207,7 +206,8 @@ public class AgreementRule extends GermanRule {
       // avoid false alarm on "Art. 1" and "bisherigen Art. 1" (Art. = Artikel):
       boolean detAbbrev = i < tokens.length-2 && tokens[i+1].getToken().equals("Art") && tokens[i+2].getToken().equals(".");
       boolean detAdjAbbrev = i < tokens.length-3 && tokens[i+2].getToken().equals("Art") && tokens[i+3].getToken().equals(".");
-      boolean followingParticiple = i < tokens.length-3 && tokens[i+2].hasPartialPosTag("PA1"); //  "einen Hochwasser führenden Fluss"
+      // "einen Hochwasser führenden Fluss", "die Gott zugeschriebenen Eigenschaften":
+      boolean followingParticiple = i < tokens.length-3 && (tokens[i+2].hasPartialPosTag("PA1") || tokens[i+2].getToken().matches("zugeschriebenen?|genannten?"));
       if (detAbbrev || detAdjAbbrev || followingParticiple) {
         ignore = true;
       }
@@ -252,8 +252,8 @@ public class AgreementRule extends GermanRule {
 
   private boolean isNonPredicativeAdjective(AnalyzedTokenReadings tokensReadings) {
     for (AnalyzedToken reading : tokensReadings.getReadings()) {
-      AnalyzedGermanToken germanReading = new AnalyzedGermanToken(reading);
-      if (germanReading.getType() == POSType.ADJEKTIV && !germanReading.getPOSTag().contains("PRD")) {
+      String posTag = reading.getPOSTag();
+      if (posTag != null && posTag.startsWith("ADJ:") && !posTag.contains("PRD")) {
         return true;
       }
     }
@@ -261,13 +261,7 @@ public class AgreementRule extends GermanRule {
   }
 
   private boolean isParticiple(AnalyzedTokenReadings tokensReadings) {
-    for (AnalyzedToken reading : tokensReadings.getReadings()) {
-      AnalyzedGermanToken germanReading = new AnalyzedGermanToken(reading);
-      if (germanReading.getType() == POSType.PARTIZIP) {
-        return true;
-      }
-    }
-    return false;
+    return tokensReadings.hasPartialPosTag("PA1") || tokensReadings.hasPartialPosTag("PA2");
   }
 
   private boolean isRelevantPronoun(AnalyzedTokenReadings[] tokens, int pos) {
@@ -436,7 +430,7 @@ public class AgreementRule extends GermanRule {
         continue;
       }
       if (reading.getGenus() == GermanToken.Genus.ALLGEMEIN && 
-              reading.getPOSTag() != null && !reading.getPOSTag().endsWith(":STV")) {  // STV: stellvertretend (!= begleitend)
+          tmpReading.getPOSTag() != null && !tmpReading.getPOSTag().endsWith(":STV")) {  // STV: stellvertretend (!= begleitend)
         // genus=ALG in the original data. Not sure if this is allowed, but expand this so
         // e.g. "Ich Arbeiter" doesn't get flagged as incorrect:
         set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.MASKULINUM, omit));

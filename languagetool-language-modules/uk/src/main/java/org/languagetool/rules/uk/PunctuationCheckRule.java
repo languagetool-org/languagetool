@@ -49,9 +49,8 @@ public class PunctuationCheckRule extends AbstractPunctuationCheckRule {
   @Override
   protected final boolean isPunctsJoinOk(final String tokens) {
     return // we ignore duplicated spaces - too many errors
-    tokens.matches("([,:] | *- |,- | ) *") // internal puctuation
-        || tokens
-            .matches("([.!?]|!!!|\\?\\?\\?|\\?!!|!\\.\\.|\\?\\.\\.|\\.\\.\\.) *");
+           tokens.matches("([,:] | *- |,- | ) *") // internal punctuation
+        || tokens.matches("([.!?]|!!!|\\?\\?\\?|\\?!!|!\\.\\.|\\?\\.\\.|\\.\\.\\.) *");
   }
 
   /*

@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -16,39 +16,34 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.tagging.disambiguation.rules;
+package org.languagetool.rules.patterns;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
 
-import org.languagetool.rules.patterns.XMLRuleHandler;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
+final class EquivalenceTypeLocator {
 
-/**
- * XML rule handler that loads disambiguation rules from XML and throws
- * exceptions on errors and warnings.
- * 
- * @author Daniel Naber
- */
-class DisambXMLRuleHandler extends XMLRuleHandler {
+  private final String feature;
+  private final String type;
 
-  final List<DisambiguationPatternRule> rules = new ArrayList<>();
-
-  boolean inDisambiguation;
-  
-  List<DisambiguationPatternRule> getDisambRules() {
-    return rules;
+  EquivalenceTypeLocator(final String feature, final String type) {
+    this.feature = feature;
+    this.type = type;
   }
-  
+
   @Override
-  public void warning(final SAXParseException e) throws SAXException {
-    throw e;
-  }
-  
-  @Override
-  public void error(final SAXParseException e) throws SAXException {
-    throw e;
+  public int hashCode() {
+    return Objects.hash(feature, type);
   }
 
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) { return true; }
+    if (obj == null) { return false; }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final EquivalenceTypeLocator other = (EquivalenceTypeLocator) obj;
+    return Objects.equals(feature, other.feature) &&
+            Objects.equals(type, other.type);
+  }
 }

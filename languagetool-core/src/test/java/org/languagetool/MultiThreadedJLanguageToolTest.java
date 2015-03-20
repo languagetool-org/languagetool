@@ -97,4 +97,14 @@ public class MultiThreadedJLanguageToolTest {
     });
     assertThat(langTool.check("my test  text").size(), is(2));
   }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testIllegalThreadPoolSize1() throws IOException {
+    new MultiThreadedJLanguageTool(new Demo(), 0);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testIllegalThreadPoolSize2() throws IOException {
+    new MultiThreadedJLanguageTool(new Demo(), null, 0);
+  }
 }

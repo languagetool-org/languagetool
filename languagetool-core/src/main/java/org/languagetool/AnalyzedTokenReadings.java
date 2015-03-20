@@ -19,16 +19,15 @@
 
 package org.languagetool;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tools.StringTools;
+
+import static org.languagetool.JLanguageTool.*;
 
 /**
  * An array of {@link AnalyzedToken}s used to store multiple POS tags and lemmas
@@ -36,87 +35,63 @@ import org.languagetool.tools.StringTools;
  * 
  * @author Marcin Milkowski
  */
-public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
+public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
 
-  protected AnalyzedToken[] anTokReadings;
+  private final boolean isWhitespace;
+  private final boolean isLinebreak;
+  private final boolean isSentStart;
 
+  private AnalyzedToken[] anTokReadings;
   private int startPos;
   private String token;
   private List<ChunkTag> chunkTags = new ArrayList<>();
-
-  private boolean isWhitespace;
-  private boolean isLinebreak;
   private boolean isSentEnd;
-  private boolean isSentStart;
   private boolean isParaEnd;
   private boolean isWhitespaceBefore;
 
-  /**
-   * If true, then the token is marked up as immune against tests:
-   * it should never be matched by any rule. Used to have generalized
-   * mechanism for exceptions in rules.
-   */
+  // If true, then the token is marked up as immune against tests:
+  // it should never be matched by any rule. Used to have generalized
+  // mechanism for exceptions in rules.
   private boolean isImmunized;
 
-  /**
-   * If true, then the token is marked up as ignored in all spelling rules:
-   * other rules can freely match it.
-   */
+  // If true, then the token is marked up as ignored in all spelling rules:
+  // other rules can freely match it.
   private boolean isIgnoredBySpeller;
 
-  /**
-   * Used to hold the string representation of the disambiguator actions on a token.
-   */
+  // Used to hold the string representation of the disambiguator actions on a token.
   private String historicalAnnotations = "";
 
-  /**
-   * True if the token has the same lemma value for all token.
-   * 
-   * Can be used internally to optimize matching.
-   * 
-   * @since 2.5
-   * 
-   */
+  // True if the token has the same lemma value for all tokens.
+  // Can be used internally to optimize matching.
   private boolean hasSameLemmas;
 
-  public AnalyzedTokenReadings(final AnalyzedToken[] token, final int startPos) {
-    anTokReadings = token.clone();
-    this.startPos = startPos;
-    init();
+  public AnalyzedTokenReadings(final AnalyzedToken[] tokens, final int startPos) {
+    this(Arrays.asList(tokens), startPos);
+  }
+
+  public AnalyzedTokenReadings(final AnalyzedToken token, final int startPos) {
+    this(Collections.singletonList(token), startPos);
   }
 
   public AnalyzedTokenReadings(final List<AnalyzedToken> tokens, final int startPos) {
     anTokReadings = tokens.toArray(new AnalyzedToken[tokens.size()]);
     this.startPos = startPos;
-    init();
-  }
-
-  public AnalyzedTokenReadings(final AnalyzedToken token, final int startPos) {
-    this(token);
-    this.startPos = startPos;
-  }
-
-  AnalyzedTokenReadings(final AnalyzedToken token) {
-    anTokReadings = new AnalyzedToken[1];
-    anTokReadings[0] = token;
-    isWhitespaceBefore = token.isWhitespaceBefore();
-    init();
-  }
-
-  private void init() {
     token = anTokReadings[0].getToken();
     isWhitespace = StringTools.isWhitespace(token);
-    isLinebreak = "\n".equals(token) || "\r\n".equals(token)
-        || "\r".equals(token) || "\n\r".equals(token);
-    isSentStart = JLanguageTool.SENTENCE_START_TAGNAME.equals(anTokReadings[0]
-        .getPOSTag());
-    isParaEnd = hasPosTag(JLanguageTool.PARAGRAPH_END_TAGNAME);
-    isSentEnd = hasPosTag(JLanguageTool.SENTENCE_END_TAGNAME);
+    isWhitespaceBefore = anTokReadings[0].isWhitespaceBefore();
+    isLinebreak = "\n".equals(token) || "\r\n".equals(token) || "\r".equals(token) || "\n\r".equals(token);
+    isSentStart = SENTENCE_START_TAGNAME.equals(anTokReadings[0].getPOSTag());
+    isParaEnd = hasPosTag(PARAGRAPH_END_TAGNAME);
+    isSentEnd = hasPosTag(SENTENCE_END_TAGNAME);
     setNoRealPOStag();
     hasSameLemmas = areLemmasSame();
   }
 
-  public final List<AnalyzedToken> getReadings() {
+  AnalyzedTokenReadings(final AnalyzedToken token) {
+    this(Collections.singletonList(token), 0);
+  }
+
+  public List<AnalyzedToken> getReadings() {
     return Arrays.asList(anTokReadings);
   }
 
@@ -124,7 +99,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * Get a token reading.
    * @see #getReadingsLength() getReadingsLength() for how many token readings there are
    */
-  public final AnalyzedToken getAnalyzedToken(final int idx) {
+  public AnalyzedToken getAnalyzedToken(final int idx) {
     return anTokReadings[idx];
   }
 
@@ -133,7 +108,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * 
    * @param posTag POS tag to look for
    */
-  public final boolean hasPosTag(final String posTag) {
+  public boolean hasPosTag(final String posTag) {
     boolean found = false;
     for (final AnalyzedToken reading : anTokReadings) {
       if (reading.getPOSTag() != null) {
@@ -151,7 +126,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    *
    * @param lemma lemma POS tag to look for
    */
-  public final boolean hasLemma(final String lemma) {
+  public boolean hasLemma(final String lemma) {
     boolean found = false;
     for (final AnalyzedToken reading : anTokReadings) {
       if (reading.getLemma() != null) {
@@ -165,14 +140,14 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   }
 
   /**
-   * Checks if the token has a particular POS tag, whereas a part of the given POS tag needs to match.
+   * Checks if the token has a particular POS tag, whereas only a part of the given POS tag needs to match.
    *
    * @param posTag POS tag substring to look for
    * @since 1.8
    */
-  public final boolean hasPartialPosTag(final String posTag) {
+  public boolean hasPartialPosTag(final String posTag) {
     boolean found = false;
-    for (final AnalyzedToken reading : anTokReadings) {
+    for (AnalyzedToken reading : anTokReadings) {
       if (reading.getPOSTag() != null) {
         found = reading.getPOSTag().contains(posTag);
         if (found) {
@@ -187,7 +162,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * Add a new reading.
    * @param token new reading, given as {@link AnalyzedToken}
    */
-  public final void addReading(final AnalyzedToken token) {
+  public void addReading(final AnalyzedToken token) {
     final List<AnalyzedToken> l = new ArrayList<>();
     l.addAll(Arrays.asList(anTokReadings).subList(0, anTokReadings.length - 1));
     if (anTokReadings[anTokReadings.length - 1].getPOSTag() != null) {
@@ -200,8 +175,8 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
       this.token = token.getToken();
     }
     anTokReadings[anTokReadings.length - 1].setWhitespaceBefore(isWhitespaceBefore);
-    isParaEnd = hasPosTag(JLanguageTool.PARAGRAPH_END_TAGNAME);
-    isSentEnd = hasPosTag(JLanguageTool.SENTENCE_END_TAGNAME);
+    isParaEnd = hasPosTag(PARAGRAPH_END_TAGNAME);
+    isSentEnd = hasPosTag(SENTENCE_END_TAGNAME);
     setNoRealPOStag();
     hasSameLemmas = areLemmasSame();
   }
@@ -212,7 +187,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * and an empty lemma is created.
    * @param token reading to be removed
    */
-  public final void removeReading(final AnalyzedToken token) {
+  public void removeReading(final AnalyzedToken token) {
     final List<AnalyzedToken> l = new ArrayList<>();
     final AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token.getPOSTag(), token.getLemma());
     tmpTok.setWhitespaceBefore(isWhitespaceBefore);
@@ -235,7 +210,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @param token Token to be matched
    * @since 1.5
    */
-  public final void leaveReading(final AnalyzedToken token) {
+  public void leaveReading(final AnalyzedToken token) {
     final List<AnalyzedToken> l = new ArrayList<>();
     final AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token.getPOSTag(), token.getLemma());
     tmpTok.setWhitespaceBefore(isWhitespaceBefore);
@@ -256,25 +231,25 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   /**
    * Number of readings.
    */
-  public final int getReadingsLength() {
+  public int getReadingsLength() {
     return anTokReadings.length;
   }
 
-  public final boolean isWhitespace() {
+  public boolean isWhitespace() {
     return isWhitespace;
   }
 
   /**
    * Returns true if the token equals {@code \n}, {@code \r}, {@code \n\r}, or {@code \r\n}.
    */
-  public final boolean isLinebreak() {
+  public boolean isLinebreak() {
     return isLinebreak;
   }
 
   /**
    * @since 2.3
    */
-  public final boolean isSentenceStart() {
+  public boolean isSentenceStart() {
     return isSentStart;
   }
 
@@ -282,7 +257,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @return true when the token is a last token in a paragraph.
    * @since 2.3
    */
-  public final boolean isParagraphEnd() {
+  public boolean isParagraphEnd() {
     return isParaEnd;
   }
 
@@ -293,7 +268,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   public void setParagraphEnd() {
     if (!isParagraphEnd()) {
       final AnalyzedToken paragraphEnd = new AnalyzedToken(getToken(),
-          JLanguageTool.PARAGRAPH_END_TAGNAME, getAnalyzedToken(0).getLemma());
+          PARAGRAPH_END_TAGNAME, getAnalyzedToken(0).getLemma());
       addReading(paragraphEnd);
     }
   }
@@ -310,54 +285,54 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @return true if the token is LibreOffice/OpenOffice field code.
    * @since 0.9.9
    */
-  public final boolean isFieldCode() {
+  public boolean isFieldCode() {
     return "\u0001".equals(token) || "\u0002".equals(token);
   }
 
   /**
    * Add a SENT_END tag.
    */
-  public final void setSentEnd() {
+  public void setSentEnd() {
     if (!isSentenceEnd()) {
       final AnalyzedToken sentenceEnd = new AnalyzedToken(getToken(),
-          JLanguageTool.SENTENCE_END_TAGNAME, getAnalyzedToken(0).getLemma());
+          SENTENCE_END_TAGNAME, getAnalyzedToken(0).getLemma());
       addReading(sentenceEnd);
     }
   }
 
-  public final int getStartPos() {
+  public int getStartPos() {
     return startPos;
   }
 
   /** @since 2.9 */
-  public final int getEndPos() {
+  public int getEndPos() {
     return startPos + token.length();
   }
 
-  public final void setStartPos(final int position) {
+  public void setStartPos(final int position) {
     startPos = position;
   }
 
-  public final String getToken() {
+  public String getToken() {
     return token;
   }
 
-  public final void setWhitespaceBefore(final boolean isWhiteSpaceBefore) {
+  public void setWhitespaceBefore(final boolean isWhiteSpaceBefore) {
     isWhitespaceBefore = isWhiteSpaceBefore;
-    for (final AnalyzedToken aTok : anTokReadings) {
+    for (AnalyzedToken aTok : anTokReadings) {
       aTok.setWhitespaceBefore(isWhiteSpaceBefore);
     }
   }
 
-  public final boolean isWhitespaceBefore() {
+  public boolean isWhitespaceBefore() {
     return isWhitespaceBefore;
   }
 
-  public final void immunize() {
+  public void immunize() {
     isImmunized = true;
   }
 
-  public final boolean isImmunized() {
+  public boolean isImmunized() {
     return isImmunized;
   }
 
@@ -365,7 +340,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * Make the token ignored by all spelling rules.
    * @since 2.5
    */
-  public final void ignoreSpelling() {
+  public void ignoreSpelling() {
     isIgnoredBySpeller = true;
   }
 
@@ -374,7 +349,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @return true if the token should be ignored.
    * @since 2.5
    */
-  public final boolean isIgnoredBySpeller() {
+  public boolean isIgnoredBySpeller() {
     return isIgnoredBySpeller;
   }
 
@@ -386,11 +361,12 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   private void setNoRealPOStag() {
     boolean hasNoPOStag = !isLinebreak();
     for (AnalyzedToken an: anTokReadings) {
-      if (JLanguageTool.PARAGRAPH_END_TAGNAME.equals(an.getPOSTag())
-          || JLanguageTool.SENTENCE_END_TAGNAME.equals(an.getPOSTag())) {
+      String posTag = an.getPOSTag();
+      if (PARAGRAPH_END_TAGNAME.equals(posTag) ||
+          SENTENCE_END_TAGNAME.equals(posTag)) {
         continue;
       }
-      if (an.getPOSTag() != null) {
+      if (posTag != null) {
         hasNoPOStag = false;
       }
     }
@@ -419,7 +395,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @since 2.3
    */
   public void setChunkTags(List<ChunkTag> chunkTags) {
-    this.chunkTags = chunkTags;
+    this.chunkTags = Objects.requireNonNull(chunkTags);
   }
 
   /**
@@ -434,7 +410,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     final StringBuilder sb = new StringBuilder();
     sb.append(token);
     sb.append('[');
-    for (final AnalyzedToken element : anTokReadings) {
+    for (AnalyzedToken element : anTokReadings) {
       sb.append(element);
       if (!element.isWhitespaceBefore()) {
         sb.append('*');
@@ -466,16 +442,10 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     return false;
   }
 
-
-
   /**
-   * 
-   * @return true if all {@link AnalyzedToken} lemmas are the same.
-   * 
    * Used to configure the internal variable for lemma equality.
-   *
+   * @return true if all {@link AnalyzedToken} lemmas are the same.
    * @since 2.5
-   * 
    */
   private boolean areLemmasSame() {
     String previousLemma = anTokReadings[0].getLemma();
@@ -506,62 +476,33 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
 
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + Arrays.hashCode(anTokReadings);
-    result = prime * result + (isLinebreak ? 1231 : 1237);
-    result = prime * result + (isParaEnd ? 1231 : 1237);
-    result = prime * result + (isSentEnd ? 1231 : 1237);
-    result = prime * result + (isSentStart ? 1231 : 1237);
-    result = prime * result + (isWhitespace ? 1231 : 1237);
-    result = prime * result + (isWhitespaceBefore ? 1231 : 1237);
-    result = prime * result + chunkTags.hashCode();
-    result = prime * result + startPos;
-    result = prime * result + (token == null ? 0 : token.hashCode());
-    return result;
+    return Arrays.hashCode(anTokReadings) +
+           Objects.hash(isLinebreak, isParaEnd, isSentEnd, isSentStart, isWhitespace, isWhitespaceBefore, chunkTags, startPos, token);
   }
 
-  @SuppressWarnings("ControlFlowStatementWithoutBraces")
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
-    final AnalyzedTokenReadings other = (AnalyzedTokenReadings) obj;
-    if (!Arrays.equals(anTokReadings, other.anTokReadings))
-      return false;
-    if (isLinebreak != other.isLinebreak)
-      return false;
-    if (isParaEnd != other.isParaEnd)
-      return false;
-    if (isSentEnd != other.isSentEnd)
-      return false;
-    if (isSentStart != other.isSentStart)
-      return false;
-    if (isWhitespace != other.isWhitespace)
-      return false;
-    if (isWhitespaceBefore != other.isWhitespaceBefore)
-      return false;
-    if (isImmunized != other.isImmunized)
-      return false;
-    if (startPos != other.startPos)
-      return false;
-    if (!chunkTags.equals(other.chunkTags))
-      return false;
-    if (hasSameLemmas != other.hasSameLemmas)
-      return false;
-    if (isIgnoredBySpeller != other.isIgnoredBySpeller)
-      return false;
-    if (token == null) {
-      if (other.token != null)
-        return false;
-    } else if (!token.equals(other.token)) {
+    if (this == obj) { return true; }
+    if (obj == null) { return false; }
+    if (getClass() != obj.getClass()) {
       return false;
     }
-    return true;
+    final AnalyzedTokenReadings other = (AnalyzedTokenReadings) obj;
+    return new EqualsBuilder()
+      .append(anTokReadings, other.anTokReadings)
+      .append(isLinebreak, other.isLinebreak)
+      .append(isParaEnd, other.isParaEnd)
+      .append(isSentEnd, other.isSentEnd)
+      .append(isSentStart, other.isSentStart)
+      .append(isWhitespace, other.isWhitespace)
+      .append(isWhitespaceBefore, other.isWhitespaceBefore)
+      .append(isImmunized, other.isImmunized)
+      .append(startPos, other.startPos)
+      .append(chunkTags, other.chunkTags)
+      .append(hasSameLemmas, other.hasSameLemmas)
+      .append(isIgnoredBySpeller, other.isIgnoredBySpeller)
+      .append(token, other.token)
+      .isEquals();
   }
 
   /**

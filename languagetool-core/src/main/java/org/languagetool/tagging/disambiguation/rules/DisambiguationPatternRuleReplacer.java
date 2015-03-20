@@ -37,40 +37,40 @@ import java.util.regex.Pattern;
  */
 class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
 
-  List<Boolean> elementsMatched;
+  private final List<Boolean> pTokensMatched;
 
   public DisambiguationPatternRuleReplacer(DisambiguationPatternRule rule) {
     super(rule, rule.getLanguage().getDisambiguationUnifier());
-    elementsMatched = new ArrayList<>(rule.getPatternElements().size());
+    pTokensMatched = new ArrayList<>(rule.getPatternTokens().size());
   }
 
   public final AnalyzedSentence replace(final AnalyzedSentence sentence)
       throws IOException {
-    List<ElementMatcher> elementMatchers = createElementMatchers();
+    List<PatternTokenMatcher> patternTokenMatchers = createElementMatchers();
 
     final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     AnalyzedTokenReadings[] whTokens = sentence.getTokens();
     final int[] tokenPositions = new int[tokens.length + 1];
-    final int patternSize = elementMatchers.size();
+    final int patternSize = patternTokenMatchers.size();
     final int limit = Math.max(0, tokens.length - patternSize + 1);
-    ElementMatcher elem = null;
+    PatternTokenMatcher pTokenMatcher = null;
     boolean changed = false;
 
-    elementsMatched.clear();
-    for (ElementMatcher elementMatcher : elementMatchers) { //the list has exactly the same number
-                                                          // of elements as the list of ElementMatchers
-      elementsMatched.add(false);
+    pTokensMatched.clear();
+    // the list has exactly the same number of elements as the list of ElementMatchers:
+    for (PatternTokenMatcher patternTokenMatcher : patternTokenMatchers) {
+      pTokensMatched.add(false);
     }
 
     int i = 0;
     int minOccurCorrection = getMinOccurrenceCorrection();
     while (i < limit + minOccurCorrection && !(rule.isSentStart() && i > 0)) {
+      int skipShiftTotal = 0;
       boolean allElementsMatch = false;
       unifiedTokens = null;
       int matchingTokens = 0;
-      int skipShiftTotal = 0;
       int firstMatchToken = -1;
-      int lastMatchToken;
+      int lastMatchToken = -1;
       int firstMarkerMatchToken = -1;
       int lastMarkerMatchToken = -1;
       int prevSkipNext = 0;
@@ -79,9 +79,9 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       }
       int minOccurSkip = 0;
       for (int k = 0; k < patternSize; k++) {
-        final ElementMatcher prevElement = elem;
-        elem = elementMatchers.get(k);
-        elem.resolveReference(firstMatchToken, tokens, rule.getLanguage());
+        final PatternTokenMatcher prevTokenMatcher = pTokenMatcher;
+        pTokenMatcher = patternTokenMatchers.get(k);
+        pTokenMatcher.resolveReference(firstMatchToken, tokens, rule.getLanguage());
         final int nextPos = i + k + skipShiftTotal - minOccurSkip;
         prevMatched = false;
         if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
@@ -89,37 +89,37 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         }
         final int maxTok = Math.min(nextPos + prevSkipNext, tokens.length - (patternSize - k) + minOccurCorrection);
         for (int m = nextPos; m <= maxTok; m++) {
-          allElementsMatch = testAllReadings(tokens, elem, prevElement, m, firstMatchToken, prevSkipNext);
+          allElementsMatch = testAllReadings(tokens, pTokenMatcher, prevTokenMatcher, m, firstMatchToken, prevSkipNext);
 
-          if (elem.getElement().getMinOccurrence() == 0) {
-            final ElementMatcher nextElement = elementMatchers.get(k + 1);
-            final boolean nextElementMatch = testAllReadings(tokens, nextElement, elem, m,
+          if (pTokenMatcher.getPatternToken().getMinOccurrence() == 0) {
+            final PatternTokenMatcher nextElement = patternTokenMatchers.get(k + 1);
+            final boolean nextElementMatch = testAllReadings(tokens, nextElement, pTokenMatcher, m,
                 firstMatchToken, prevSkipNext);
             if (nextElementMatch) {
               // this element doesn't match, but it's optional so accept this and continue
               allElementsMatch = true;
               minOccurSkip++;
-              elementsMatched.set(k, false);
+              pTokensMatched.set(k, false);
               break;
             }
           }
           if (allElementsMatch) {
-            elementsMatched.set(k, true);
-            int skipForMax = skipMaxTokens(tokens, elem, firstMatchToken, prevSkipNext,
-                prevElement, m, patternSize - k -1);
+            pTokensMatched.set(k, true);
+            int skipForMax = skipMaxTokens(tokens, pTokenMatcher, firstMatchToken, prevSkipNext,
+                prevTokenMatcher, m, patternSize - k -1);
             lastMatchToken = m + skipForMax;
             final int skipShift = lastMatchToken - nextPos;
             tokenPositions[matchingTokens] = skipShift + 1;
-            prevSkipNext = elem.getElement().getSkipNext();
+            prevSkipNext = pTokenMatcher.getPatternToken().getSkipNext();
             matchingTokens++;
             skipShiftTotal += skipShift;
             if (firstMatchToken == -1) {
               firstMatchToken = lastMatchToken - skipForMax;
             }
-            if (firstMarkerMatchToken == -1 && elem.getElement().isInsideMarker()) {
+            if (firstMarkerMatchToken == -1 && pTokenMatcher.getPatternToken().isInsideMarker()) {
               firstMarkerMatchToken = lastMatchToken - skipForMax;
             }
-            if (elem.getElement().isInsideMarker()) {
+            if (pTokenMatcher.getPatternToken().isInsideMarker()) {
               lastMarkerMatchToken = lastMatchToken;
             }
             break;
@@ -136,17 +136,17 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       i++;
     }
     if (changed) {
-      return new AnalyzedSentence(whTokens, sentence.getWhPositions());
+      return new AnalyzedSentence(whTokens);
     }
     return sentence;
   }
 
   @Override
-  protected int skipMaxTokens(AnalyzedTokenReadings[] tokens, ElementMatcher elem, int firstMatchToken, int prevSkipNext, ElementMatcher prevElement, int m, int remainingElems) throws IOException {
+  protected int skipMaxTokens(AnalyzedTokenReadings[] tokens, PatternTokenMatcher matcher, int firstMatchToken, int prevSkipNext, PatternTokenMatcher prevElement, int m, int remainingElems) throws IOException {
     int maxSkip = 0;
-    int maxOccurrences = elem.getElement().getMaxOccurrence() == -1 ? Integer.MAX_VALUE : elem.getElement().getMaxOccurrence();
+    int maxOccurrences = matcher.getPatternToken().getMaxOccurrence() == -1 ? Integer.MAX_VALUE : matcher.getPatternToken().getMaxOccurrence();
     for (int j = 1; j < maxOccurrences && m+j < tokens.length - remainingElems; j++) {
-      boolean nextAllElementsMatch = testAllReadings(tokens, elem, prevElement, m+j, firstMatchToken, prevSkipNext);
+      boolean nextAllElementsMatch = testAllReadings(tokens, matcher, prevElement, m+j, firstMatchToken, prevSkipNext);
       if (nextAllElementsMatch) {
         maxSkip++;
       } else {
@@ -178,8 +178,8 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
 
     if (startPositionCorrection > 0) {
       correctedStPos--; //token positions are shifted by 1
-      for (int j = 0; j < elementsMatched.size(); j++) {
-        if (!elementsMatched.get(j)) {
+      for (int j = 0; j < pTokensMatched.size(); j++) {
+        if (!pTokensMatched.get(j)) {
           tokenPositionList.add(j, 0);    // add zero-length token corresponding to the non-matching pattern element so that position count is fine
         }
       }
@@ -190,15 +190,15 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
 
       int w = startPositionCorrection; // adjust to make sure the token count is fine as it's checked later
       for (int j = 0; j <= w; j++) {
-        if (j < elementsMatched.size() && !elementsMatched.get(j)) {
+        if (j < pTokensMatched.size() && !pTokensMatched.get(j)) {
           startPositionCorrection--;
         }
       }
     }
 
     if (endPositionCorrection < 0) { // adjust the end position correction if one of the elements has not been matched
-      for (int d = startPositionCorrection; d < elementsMatched.size(); d++) {
-        if (!elementsMatched.get(d)) {
+      for (int d = startPositionCorrection; d < pTokensMatched.size(); d++) {
+        if (!pTokensMatched.get(d)) {
           endPositionCorrection++;
         }
       }
@@ -301,22 +301,20 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     case FILTERALL:
       for (int i = 0; i < matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection; i++) {
         final int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
-        Element myEl;
-        if (elementsMatched.get(i + startPositionCorrection)) {
-          myEl = rule.getPatternElements().get(i + startPositionCorrection);
+        PatternToken pToken;
+        if (pTokensMatched.get(i + startPositionCorrection)) {
+          pToken = rule.getPatternTokens().get(i + startPositionCorrection);
         } else {
           int k = 1;
-          while (i + startPositionCorrection + k < rule.getPatternElements().size() + endPositionCorrection &&
-              !elementsMatched.get(i + startPositionCorrection + k)) {
+          while (i + startPositionCorrection + k < rule.getPatternTokens().size() + endPositionCorrection &&
+              !pTokensMatched.get(i + startPositionCorrection + k)) {
             k++;
           }
-         //FIXME: this is left to see whether this fails anywhere
-         assert(i + k + startPositionCorrection < rule.getPatternElements().size());
-         myEl = rule.getPatternElements().get(i + k + startPositionCorrection);
+         pToken = rule.getPatternTokens().get(i + k + startPositionCorrection);
         }
-        final Match tmpMatchToken = new Match(myEl.getPOStag(), null,
+        final Match tmpMatchToken = new Match(pToken.getPOStag(), null,
             true,
-            myEl.getPOStag(),
+            pToken.getPOStag(),
             null, Match.CaseConversion.NONE, false, false,
             Match.IncludeRange.NONE);
 

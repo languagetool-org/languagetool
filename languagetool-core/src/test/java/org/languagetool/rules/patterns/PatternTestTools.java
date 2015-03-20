@@ -48,46 +48,46 @@ public class PatternTestTools {
   // TODO: probably this would be more useful for exceptions
   // instead of adding next methods to PatternRule
   // we can probably validate using XSD and specify regexes straight there
-  public static void warnIfRegexpSyntaxNotKosher(final List<Element> elements,
-          final String ruleId,final String ruleSubId, final Language lang) {
+  public static void warnIfRegexpSyntaxNotKosher(final List<PatternToken> patternTokens,
+          final String ruleId, final String ruleSubId, final Language lang) {
     int i = 0;
-    for (final Element element : elements) {
+    for (final PatternToken pToken : patternTokens) {
       i++;
 
-      if (element.isReferenceElement()) {
+      if (pToken.isReferenceElement()) {
         continue;
       }
 
       // Check whether token value is consistent with regexp="..."
       warnIfElementNotKosher(
-              element.getString(),
-              element.isRegularExpression(),
-              element.isCaseSensitive(),
-              element.getNegation(),
-              element.isInflected(),
+              pToken.getString(),
+              pToken.isRegularExpression(),
+              pToken.isCaseSensitive(),
+              pToken.getNegation(),
+              pToken.isInflected(),
               false,  // not a POS
-              lang, ruleId + ":" + ruleSubId,
+              lang, ruleId + "[" + ruleSubId + "]",
               i);
 
       // Check postag="..." is consistent with postag_regexp="..."
       warnIfElementNotKosher(
-              element.getPOStag() == null ? "" : element.getPOStag(),
-              element.isPOStagRegularExpression(),
-              element.isCaseSensitive(),
-              element.getPOSNegation(),
+              pToken.getPOStag() == null ? "" : pToken.getPOStag(),
+              pToken.isPOStagRegularExpression(),
+              pToken.isCaseSensitive(),
+              pToken.getPOSNegation(),
               false,
               true,   // a POS.
-              lang, ruleId + ":" + ruleSubId + " (POS tag)",
+              lang, ruleId + "[" + ruleSubId + "] (POS tag)",
               i);
 
-      final List<Element> exceptionElements = new ArrayList<>();
-      if (element.getExceptionList() != null) {
-        for (final Element exception: element.getExceptionList()) {
+      final List<PatternToken> exceptionPatternTokens = new ArrayList<>();
+      if (pToken.getExceptionList() != null) {
+        for (final PatternToken exception: pToken.getExceptionList()) {
           // Detect useless exception or missing skip="...". I.e. things like this:
           // <token postag="..."><exception scope="next">foo</exception</token>
-          if (exception.hasNextException() && element.getSkipNext() == 0) {
+          if (exception.hasNextException() && pToken.getSkipNext() == 0) {
             System.err.println("The " + lang.toString() + " rule: "
-                    + ruleId + ":" + ruleSubId
+                    + ruleId + "[" + ruleSubId + "]"
                     + " (exception in token [" + i + "])"
                     + " has no skip=\"...\" and yet contains scope=\"next\""
                     + " so the exception never applies. "
@@ -95,17 +95,17 @@ public class PatternTestTools {
           }
 
           // Detect exception that can't possibly be matched.
-          if ( !element.getString().isEmpty()
+          if ( !pToken.getString().isEmpty()
                   && !exception.getString().isEmpty()
-                  && !element.getNegation()
-                  && !element.isInflected()
+                  && !pToken.getNegation()
+                  && !pToken.isInflected()
                   && !exception.getNegation()
                   && !exception.isInflected()
-                  && element.getSkipNext() == 0
-                  && element.isCaseSensitive() == exception.isCaseSensitive()) {
+                  && pToken.getSkipNext() == 0
+                  && pToken.isCaseSensitive() == exception.isCaseSensitive()) {
 
             if (exception.isRegularExpression()) {
-              if (element.isRegularExpression()) {
+              if (pToken.isRegularExpression()) {
                 // Both exception and token are regexp.  In that case, we only
                 // check sanity when exception regexp is a simple disjunction as
                 // in this example:
@@ -121,14 +121,14 @@ public class PatternTestTools {
                       break;
                     }
                     if (part.matches("[^.*?{}\\[\\]]+")) {
-                      if (!part.matches("(?i)" + element.getString())) {
+                      if (!part.matches("(?i)" + pToken.getString())) {
                         System.err.println("The " + lang.toString() + " rule: "
-                                + ruleId + ":" + ruleSubId
+                                + ruleId + "[" + ruleSubId + "]"
                                 + " has exception regexp [" + exception.getString()
                                 + "] which contains disjunction part [" + part
                                 + "] which seems useless since it does not match "
                                 + "the regexp of token word [" + i + "] "
-                                + "[" + element.getString()
+                                + "[" + pToken.getString()
                                 + "], or did you forget skip=\"...\" or scope=\"previous\"?");
                       }
                     }
@@ -139,23 +139,23 @@ public class PatternTestTools {
                 // with a token which is not a regexp!?
                 // Example <token>foo<exception regexp="xxx|yyy"/></token>
                 System.err.println("The " + lang.toString() + " rule: "
-                        + ruleId + ":" + ruleSubId
+                        + ruleId + "[" + ruleSubId + "]"
                         + " has exception regexp [" + exception.getString()
-                        + "] in token word [" + i +"] [" + element.getString()
+                        + "] in token word [" + i +"] [" + pToken.getString()
                         + "] which seems useless, or "
                         + "did you forget skip=\"...\" or scope=\"previous\"?");
               }
             } else {
-              if (element.isRegularExpression()) {
+              if (pToken.isRegularExpression()) {
                 // An exception that cannot match a token regexp is useless.
                 // Example: <token regexp="yes">foo|bar<exception>xxx</exception></token>
                 // Here exception word xxx cannot possibly match the regexp "foo|bar".
                 if (!exception.getString().matches(
-                        (exception.isCaseSensitive() ? "" : "(?i)") +  element.getString())) {
+                        (exception.isCaseSensitive() ? "" : "(?i)") +  pToken.getString())) {
                   System.err.println("The " + lang.toString() + " rule: "
-                          + ruleId + ":" + ruleSubId + " has exception word ["
+                          + ruleId + "[" + ruleSubId + "] has exception word ["
                           +  exception.getString() + "] which cannot match the"
-                          + "regexp token [" + i + "] [" + element.getString()
+                          + "regexp token [" + i + "] [" + pToken.getString()
                           + "] so exception seems useless, "
                           + "or did you forget skip=\"...\" or scope=\"previous\"?");
                 }
@@ -163,9 +163,9 @@ public class PatternTestTools {
                 // An exception that cannot match a token string is useless,
                 // Example: <token>foo<exception>bar</exception></token>
                 System.err.println("The " + lang.toString() + " rule: "
-                        + ruleId + ":" + ruleSubId + " has exception word ["
+                        + ruleId + "[" + ruleSubId + "] has exception word ["
                         + exception.getString() + "] in token word [" + i
-                        + "] [" + element.getString() + "] which seems useless, "
+                        + "] [" + pToken.getString() + "] which seems useless, "
                         + "or did you forget skip=\"...\" or scope=\"previous\"?");
               }
             }
@@ -183,7 +183,7 @@ public class PatternTestTools {
                     exception.isInflected(),
                     false,  // not a POS
                     lang,
-                    ruleId + ":" + ruleSubId+ " (exception in token [" + i + "])",
+                    ruleId + "[" + ruleSubId+ "] (exception in token [" + i + "])",
                     i);
           }
           // Check postag="..." of exception is consistent with postag_regexp="..."
@@ -195,7 +195,7 @@ public class PatternTestTools {
                   false,
                   true,  // a POS
                   lang,
-                  ruleId + ":" + ruleSubId + " (exception in POS tag of token [" + i + "])",
+                  ruleId + "[" + ruleSubId + "] (exception in POS tag of token [" + i + "])",
                   i);
 
           // Search for duplicate exceptions (which are useless).
@@ -203,10 +203,10 @@ public class PatternTestTools {
           // this has thus a O(n^2) complexity, where n is the number
           // of exceptions in a token. But n is small and it is also
           // for testing only so that's OK.
-          for (final Element otherException: exceptionElements) {
+          for (final PatternToken otherException: exceptionPatternTokens) {
             if (equalException(exception, otherException)) {
               System.err.println("The " + lang.toString() + " rule: "
-                      + ruleId + ":" + ruleSubId
+                      + ruleId + "[" + ruleSubId + "]"
                       + " in token [" + i + "]"
                       + " contains duplicate exceptions with"
                       + " string=[" + exception.getString() + "]"
@@ -216,7 +216,7 @@ public class PatternTestTools {
               break;
             }
           }
-          exceptionElements.add(exception);
+          exceptionPatternTokens.add(exception);
         }
       }
     }
@@ -233,8 +233,8 @@ public class PatternTestTools {
    * Example #2, first exception implies the second exception:
    * <exception>xx</exception><exception postag="A">xx</exception>
    */
-  private static boolean equalException(final Element exception1,
-                                        final Element exception2)
+  private static boolean equalException(final PatternToken exception1,
+                                        final PatternToken exception2)
   {
     String string1 = exception1.getString() == null ? "" : exception1.getString();
     String string2 = exception2.getString() == null ? "" : exception2.getString();

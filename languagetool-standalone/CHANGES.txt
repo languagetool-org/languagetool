@@ -2,6 +2,11 @@ LanguageTool Change Log
 
 2.9 (release planned for 2015-03-30)
 
+-Catalan:
+    -updated POS tag dictionary
+    -added new rules
+    -fixed false alarms
+
 -English:
     -Added many new style rules contributed by Heikki Lehvaslaiho. As these
      may cause false alarms, they are not activated by default. You can
@@ -28,11 +33,11 @@ LanguageTool Change Log
      (https://github.com/languagetool-org/languagetool/issues/233)
 
 -Polish:
-    -added a few new rules
+    -added several new rules
 
 -Portuguese:
     -added/improved several rules
-    -added many dozens of compound words
+    -3695 compound words (pre-reform) - the largest free database
 
 -Russian:
     -added and improved rules
@@ -40,6 +45,10 @@ LanguageTool Change Log
 -Bitext rules:
     -added a simple rule for checking whether translations end with the same punctuation
      mark as the original (this includes only .?! characters).
+    -it is now possible to add external bitext rule files on the command line, by using
+     --bitextrule <FILE> option. The file path has to be absolute. Note: this allows
+     using bitext rules also for languages that have no bitext rules included by
+     default.
 
 -Spelling:
     -The new files at <languageCode>/hunspell/spelling.txt can be used to add
@@ -67,6 +76,9 @@ LanguageTool Change Log
      as these can be set with the constructor
     -Cleaned up up class Contributor, e.g. removing getRemark()
     -Category.setDefaultOff() has been removed, this can be set via constructor now
+    -Renamed classes:
+     o.lt.rules.patterns.Element => o.lt.rules.patterns.PatternToken
+     o.lt.rules.patterns.ElementMatcher => o.lt.rules.patterns.PatternTokenMatcher
     -Other small API cleanups that shouldn't affect the common use cases,
      e.g. IncorrectExample.getCorrections() returns and unmodifiable list now,
      removal of deprecated methods.
@@ -77,12 +89,23 @@ LanguageTool Change Log
     -new config file option 'maxWorkQueueSize' that lets you set the maximum
      size of the request queue - if it gets larger than this, requests will
      be rejected (503 Service unavailable)
+    -The server now responds with more specific HTTP status codes to these
+     error conditions:
+     413 Request Entity Too Large - if text exceeds maximum text size
+     503 Service Unavailable - if check exceeds maximum check time
+
+-GUI:
+    -The stand-alone GUI can now take a plain text file as an argument, this
+     file will then be loaded on startup (Github issue #232).
 
 -Command-line:
     -It is now possible to add an external rule file when calling LanguageTool from the
      command line. Use --rulefile <file> to add a file. If the file name has a format
      that contains a language name, it will be used alongside other rules; otherwise,
-     it will replace the rules. This fixes github issue #192.
+     it will replace the rules. You can also load external file with false friends by
+     using the option --falsefriends <file>. The file name should be an absolute file
+     path, and false friend files are always added to the ones that are loaded for the
+     language. This fixes github issue #192.
 
 -Rule syntax:
     -A rule may now have a single example sentence as long as it has a 'correction'

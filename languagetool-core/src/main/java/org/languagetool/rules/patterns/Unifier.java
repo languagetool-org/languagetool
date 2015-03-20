@@ -19,11 +19,7 @@
 
 package org.languagetool.rules.patterns;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.jetbrains.annotations.Nullable;
@@ -53,7 +49,7 @@ public class Unifier {
    * specified as Strings, and map into types defined as maps from Strings to
    * Elements.
    */
-  private final Map<EquivalenceTypeLocator, Element> equivalenceTypes;
+  private final Map<EquivalenceTypeLocator, PatternToken> equivalenceTypes;
 
   /**
    * A Map that stores all possible equivalence types listed for features.
@@ -88,7 +84,7 @@ public class Unifier {
   /**
    * Instantiates the unifier.
    */
-  public Unifier(Map<EquivalenceTypeLocator, Element> equivalenceTypes, Map<String, List<String>> equivalenceFeatures) {
+  public Unifier(Map<EquivalenceTypeLocator, PatternToken> equivalenceTypes, Map<String, List<String>> equivalenceFeatures) {
     tokCnt = 0;
     readingsCounter = 1;
     equivalencesMatched = new ArrayList<>();
@@ -114,14 +110,12 @@ public class Unifier {
     if (allFeatsIn && equivalencesMatched.isEmpty()) {
       return false;
     }
-    // Error: no feature given!
     if (uFeatures == null) {
-      return false; // throw exception??
+      throw new RuntimeException("isSatisfied called without features being set");
     }
     unificationFeats = uFeatures;
 
     boolean unified = true;
-    List<String> types;
     if (allFeatsIn) {
       unified = checkNext(aToken, uFeatures);
     } else {
@@ -129,12 +123,12 @@ public class Unifier {
         equivalencesMatched.add(new ConcurrentHashMap<String, Set<String>>());
       }
       for (final Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
-        types = feat.getValue();
+        List<String> types = feat.getValue();
         if (types == null || types.isEmpty()) {
           types = equivalenceFeatures.get(feat.getKey());
         }
         for (final String typeName : types) {
-          final Element testElem = equivalenceTypes
+          final PatternToken testElem = equivalenceTypes
               .get(new EquivalenceTypeLocator(feat.getKey(), typeName));
           if (testElem == null) {
             return false;
@@ -151,6 +145,7 @@ public class Unifier {
         }
         unified = equivalencesMatched.get(tokCnt).containsKey(feat.getKey());
         if (!unified) {
+          equivalencesMatched.remove(tokCnt);
           break;
         }
       }
@@ -173,7 +168,6 @@ public class Unifier {
   private boolean checkNext(final AnalyzedToken aToken,
                             final Map<String, List<String>> uFeatures) {
     boolean anyFeatUnified = false;
-    List<String> types;
     final List<Boolean> tokenFeaturesFound = new ArrayList<>(tmpFeaturesFound);
     final Map<String, Set<String>> equivalencesMatchedHere = new ConcurrentHashMap<>();
     if (allFeatsIn) {
@@ -181,14 +175,14 @@ public class Unifier {
         boolean allFeatsUnified = true;
         for (Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
           boolean featUnified = false;
-          types = feat.getValue();
+          List<String> types = feat.getValue();
           if (types == null || types.isEmpty()) {
             types = equivalenceFeatures.get(feat.getKey());
           }
           for (final String typeName : types) {
             if (equivalencesMatched.get(i).containsKey(feat.getKey())
                 && equivalencesMatched.get(i).get(feat.getKey()).contains(typeName)) {
-              final Element testElem = equivalenceTypes.get(new EquivalenceTypeLocator(feat.getKey(), typeName));
+              final PatternToken testElem = equivalenceTypes.get(new EquivalenceTypeLocator(feat.getKey(), typeName));
               boolean matched = testElem.isMatched(aToken);
               featUnified = featUnified || matched;
               //Stores equivalences to be kept
@@ -252,9 +246,9 @@ public class Unifier {
               } else {
                 tokSequenceEquivalences.get(j).get(i).remove(feat.getKey());
               }
+            } else {
+              tokSequenceEquivalences.get(j).get(i).remove(feat.getKey());
             }
-          } else {
-            tokSequenceEquivalences.get(j).get(i).remove(feat.getKey());
           }
         }
       }
@@ -307,12 +301,13 @@ public class Unifier {
             }
           }
         }
-        if (tokUnified == tokSequence.size()) {
-          return true;
-        }
+
       }
       if (!unifiedTokensFound)
         return false;
+    }
+    if (tokUnified == tokSequence.size()) {
+      return true;
     }
     return false;
   }
@@ -398,7 +393,7 @@ public class Unifier {
    * 
    * To make it work in XML rules, the Elements built based on {@code <token>}s inside
    * the unify block have to be processed in a special way: namely the last Element has to be
-   * marked as the last one (by using {@link Element#setLastInUnification}).
+   * marked as the last one (by using {@link PatternToken#setLastInUnification}).
    * 
    * @param matchToken {@link AnalyzedToken} token to unify
    * @param lastReading true when the matchToken is the last reading in the {@link AnalyzedTokenReadings}
@@ -470,54 +465,4 @@ public class Unifier {
     }
     return null;
   }
-}
-
-class EquivalenceTypeLocator {
-
-  private final String feature;
-  private final String type;
-
-  EquivalenceTypeLocator(final String feature, final String type) {
-    this.feature = feature;
-    this.type = type;
-  }
-
-  @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + (feature == null ? 0 : feature.hashCode());
-    result = prime * result + (type == null ? 0 : type.hashCode());
-    return result;
-  }
-
-  @Override
-  public boolean equals(final Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    final EquivalenceTypeLocator other = (EquivalenceTypeLocator) obj;
-    if (feature == null) {
-      if (other.feature != null) {
-        return false;
-      }
-    } else if (!feature.equals(other.feature)) {
-      return false;
-    }
-    if (type == null) {
-      if (other.type != null) {
-        return false;
-      }
-    } else if (!type.equals(other.type)) {
-      return false;
-    }
-    return true;
-  }
-
 }

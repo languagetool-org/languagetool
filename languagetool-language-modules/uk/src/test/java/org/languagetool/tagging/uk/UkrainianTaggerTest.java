@@ -100,7 +100,7 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("годі-бо", "годі-бо/[годі]predic", tokenizer, tagger);
     TestTools.myAssert("гей-но", "гей-но/[гей]excl", tokenizer, tagger);
     TestTools.myAssert("цить-но", "цить-но/[цить]excl", tokenizer, tagger);
-    
+
     TestTools.myAssert("екс-партнер", "екс-партнер/[екс-партнер]noun:m:v_naz:anim", tokenizer, tagger);
 
     // TODO: старий -> старший

@@ -52,12 +52,12 @@ public class PatternRuleTest extends TestCase {
   public void testSupportsLanguage() {
     FakeLanguage fakeLanguage1 = new FakeLanguage("yy");
     FakeLanguage fakeLanguage2 = new FakeLanguage("zz");
-    PatternRule patternRule1 = new PatternRule("ID", fakeLanguage1, Collections.<Element>emptyList(), "", "", "");
+    PatternRule patternRule1 = new PatternRule("ID", fakeLanguage1, Collections.<PatternToken>emptyList(), "", "", "");
     assertTrue(patternRule1.supportsLanguage(fakeLanguage1)); 
     assertFalse(patternRule1.supportsLanguage(fakeLanguage2));
     FakeLanguage fakeLanguage1WithVariant1 = new FakeLanguage("zz", "VAR1");
     FakeLanguage fakeLanguage1WithVariant2 = new FakeLanguage("zz", "VAR2");
-    PatternRule patternRuleVariant1 = new PatternRule("ID", fakeLanguage1WithVariant1, Collections.<Element>emptyList(), "", "", "");
+    PatternRule patternRuleVariant1 = new PatternRule("ID", fakeLanguage1WithVariant1, Collections.<PatternToken>emptyList(), "", "", "");
     assertTrue(patternRuleVariant1.supportsLanguage(fakeLanguage1WithVariant1));    
     assertFalse(patternRuleVariant1.supportsLanguage(fakeLanguage1));
     assertFalse(patternRuleVariant1.supportsLanguage(fakeLanguage2));
@@ -160,13 +160,13 @@ public class PatternRuleTest extends TestCase {
     }
     for (PatternRule rule : rules) {
       // Test the rule pattern.
-      PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getElements(),
+      PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getPatternTokens(),
               rule.getId(), rule.getSubId(), lang);
 
       // Test the rule antipatterns.
       List<DisambiguationPatternRule> antiPatterns = rule.getAntiPatterns();
       for (DisambiguationPatternRule antiPattern : antiPatterns) {
-        PatternTestTools.warnIfRegexpSyntaxNotKosher(antiPattern.getElements(),
+        PatternTestTools.warnIfRegexpSyntaxNotKosher(antiPattern.getPatternTokens(),
             antiPattern.getId(), antiPattern.getSubId(), lang);
       }
       if (rule.getCorrectExamples().size() == 0) {
@@ -481,26 +481,26 @@ public class PatternRuleTest extends TestCase {
   }
 
   protected PatternRule makePatternRule(final String s, final boolean caseSensitive, final boolean regex) {
-    final List<Element> elements = new ArrayList<>();
+    final List<PatternToken> patternTokens = new ArrayList<>();
     final String[] parts = s.split(" ");
     boolean pos = false;
-    Element se;
+    PatternToken pToken;
     for (final String element : parts) {
       if (element.equals(JLanguageTool.SENTENCE_START_TAGNAME)) {
         pos = true;
       }
       if (!pos) {
-        se = new Element(element, caseSensitive, regex, false);
+        pToken = new PatternToken(element, caseSensitive, regex, false);
       } else {
-        se = new Element("", caseSensitive, regex, false);
+        pToken = new PatternToken("", caseSensitive, regex, false);
       }
       if (pos) {
-        se.setPosElement(element, false, false);
+        pToken.setPosToken(new PatternToken.PosToken(element, false, false));
       }
-      elements.add(se);
+      patternTokens.add(pToken);
       pos = false;
     }
-    final PatternRule rule = new PatternRule("ID1", TestTools.getDemoLanguage(), elements,
+    final PatternRule rule = new PatternRule("ID1", TestTools.getDemoLanguage(), patternTokens,
         "test rule", "user visible message", "short comment");
     return rule;
   }

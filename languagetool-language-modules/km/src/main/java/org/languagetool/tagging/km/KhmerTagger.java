@@ -31,17 +31,11 @@ import org.languagetool.tagging.BaseTagger;
 public class KhmerTagger extends BaseTagger {
 
   @Override
-  public final String getFileName() {
-    return "/km/khmer.dict";    
-  }
-
-  @Override
   public String getManualAdditionsFileName() {
     return "/km/added.txt";
   }
 
   public KhmerTagger() {
-    super();
-    setLocale(new Locale("km"));
+    super("/km/khmer.dict",  new Locale("km"));
   }
 }

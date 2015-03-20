@@ -63,6 +63,9 @@ public class TabBitextReader implements BitextReader {
       return null;
     }
     final String[] fields = line.split("\t");
+    if (fields.length < 2) {
+      throw new RuntimeException("Unexpected format, expected two tab-separated columns: " + line);
+    }
     return new StringPair(fields[0], fields[1]);
   }
 

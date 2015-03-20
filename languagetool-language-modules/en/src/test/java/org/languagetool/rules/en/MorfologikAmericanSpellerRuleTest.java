@@ -97,6 +97,15 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
   }
 
   @Test
+  public void testIgnoredChars() throws IOException {
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("software")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("soft\u00ADware")).length);
+
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("A software")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("A soft\u00ADware")).length);
+  }  
+  
+  @Test
   public void testSuggestionForIrregularWords() throws IOException {
     // verbs:
     assertSuggestion("He teached us.", "taught");

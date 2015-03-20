@@ -50,7 +50,7 @@ public class RomanianTaggerDiacriticsTest extends AbstractRomanianTaggerTest {
    */
   @Override
   protected RomanianTagger createTagger() {
-    return new RomanianTagger("/ro/test_diacritics.dict", null);
+    return new RomanianTagger("/ro/test_diacritics.dict");
   }
 
   /**

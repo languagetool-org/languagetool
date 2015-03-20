@@ -56,7 +56,7 @@ public class CatalanSentenceTokenizerTest extends TestCase {
     testSplit(" n. 3");
     testSplit("n. 3");
     testSplit("(\"n. 3\".");
-
+    
     // Initials
     testSplit("A l'atenció d'A. Comes.");
     testSplit("A l'atenció d'À. Comes.");
@@ -90,6 +90,8 @@ public class CatalanSentenceTokenizerTest extends TestCase {
     testSplit("1 500 m/s. ", "Neix a");
     testSplit("Són d'1 g. ", "Han estat condicionades.");
     testSplit("Són d'1 m. ", "Han estat condicionades.");
+    testSplit("Hi vivien 50 h. ", "Després el poble va créixer.");
+    testSplit("L'acte serà a les 15.30 h. de la vesprada.");
     
     //Error: missing space. It is not split in order to trigger other errors. 
     testSplit("s'hi enfrontà quan G.Oueddei n'esdevingué líder");

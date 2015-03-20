@@ -47,14 +47,6 @@ public class AgreementRuleTest extends TestCase {
   }
   
   public void testDetNounRule() throws IOException {
-
-    /* debugging:
-    RuleMatch[] rm = rule.match(langTool.getAnalyzedSentence("Wer für die Kosten"));
-    System.err.println(rm[0]);
-    if (true)
-      return;
-    */
-
     // correct sentences:
     assertGood("So ist es in den USA.");
     assertGood("Das ist der Tisch.");
@@ -183,6 +175,9 @@ public class AgreementRuleTest extends TestCase {
     assertBad("Aber der Haus ist groß", "das Haus", "dem Haus", "der Häuser");
     
     assertBad("Ich habe einen Feder gefunden.", "eine Feder", "einer Feder");
+
+    assertGood("Wenn die Gott zugeschriebenen Eigenschaften stimmen, dann...");
+    assertGood("Dieses Grünkern genannte Getreide ist aber nicht backbar.");
 
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
