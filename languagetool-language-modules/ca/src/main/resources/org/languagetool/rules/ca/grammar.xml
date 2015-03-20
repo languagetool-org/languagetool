@@ -30644,66 +30644,6 @@ $Id$
         </rule>
     </category>
     <category name="C8) Formes secundàries" default="on" type="style">
-        <rulegroup id="LIDERAT_LIDERATGE" name="liderat/lideratge, filtrat/filtratge...">
-            <rule>
-                <pattern>
-                    <!-- <token><exception postag="RG_anteposat|N.*|AQ.*|CC|_PUNCT.*|SENT_START|.*LOC_ADV.*" postag_regexp="yes"/></token> -->
-                    <token postag="D[^R].*|PX.*|SPS00" postag_regexp="yes"><exception>molt</exception><exception postag="_loc_unavegada|RN" postag_regexp="yes"/></token>
-                    <marker>
-                        <token regexp="yes">etiquetats?|liderats?|filtrats?|empaquetats?|equilibrats?|embotellats?|buidats?<exception postag="_GV_" /></token>
-                    </marker>
-                    <token><exception inflected="yes" regexp="yes">per|com</exception><exception postag="N.*" postag_regexp="yes"/></token>
-                    <!-- <token><exception regexp="yes">per|pe|des|després</exception><exception postag="N.*" postag_regexp="yes"/></token> -->
-                </pattern>
-                <message>Forma preferible</message>
-                <suggestion><match no="2" regexp_match="(.+)t(s?)" regexp_replace="$1tge$2"/></suggestion>
-                <example correction="lideratge">amb el seu <marker>liderat</marker>.</example>
-                <example correction="lideratge">Cal un <marker>liderat</marker> fort.</example>
-                <example correction="filtratge">Cal vigilar el <marker>filtrat</marker> del vi.</example>
-                <example correction="empaquetatge">El procés d'<marker>empaquetat</marker>.</example>
-                <example correction="equilibratges">Els <marker>equilibrats</marker> de les rodes.</example>
-                <example>el llibre empaquetat</example>
-                <example>un resultat equilibrat</example>
-                <example>el nostre equip era bastant equilibrat</example>
-                <example>un llibre ben empaquetat</example>
-                <example>l'informe filtrat pel ministre</example>
-                <example>L'informe filtrat és terrible</example>
-                <example>ha liderat la batalla</example>
-                <example>L'equip, liderat pel capità, aconseguí la victòria.</example>
-                <example>L'equip, ben liderat, podria arribar lluny.</example>
-                <example>Els tinc empaquetats</example>
-                <example>amb tractament unitari i equilibrat</example>
-                <example>Processat després de la mort de Carles II</example>
-                <example>Processat diverses vegades</example>
-                <example>moltes vegades empaquetat amb pressa</example>
-                <example>és llavors embotellat i llançat al mercat</example>
-                <example>la comercialització de vi embotellat amb les firmes comercials</example>
-                <example>eixia al mercat el vi blanc embotellat amb la marca</example>
-                <example>que arribi a un equilibrat matrimoni</example>
-                <example>el liderat per Kerensky</example>
-                <example>sector enfrontat al liderat pel qui havia estat secretari general</example>
-                <example>en dos grups, un liderat per</example>
-                <example>liderats per Ria Beckers</example>
-                <example>És un cafè amb molt de cos i molt equilibrat.</example>
-                <example>i per tant etiquetat com a observat</example>
-                <example>Molt equilibrat en les seves característiques</example>
-                <example>filtrat per Wikileaks</example>
-                <example>una vegada filtrat</example>
-                <example>no equilibrat</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="RG_anteposat|N.*|CC|_PUNCT.*|_loc_unavegada|RN" postag_regexp="yes"/><exception inflected="yes">tenir</exception></token>
-                    <marker>
-                        <token regexp="yes">emmotll?at<exception postag="_GV_|_GN_MS" postag_regexp="yes"/></token>
-                    </marker>
-                </pattern>
-                <message>Forma preferible</message>
-                <suggestion><match no="2" regexp_match="(.+)t(s?)" regexp_replace="$1ment$2"/></suggestion>
-                <example correction="emmotllament">El procés d'<marker>emmotllat</marker>.</example>
-                <!-- <example correction="emmotllament">per a l'<marker>emmotllat</marker> de peces industrials</example> -->
-            </rule>
-        </rulegroup>
         <rule id="VEHICULITZACIO" name="vehiculització">
             <pattern>
                 <marker>
