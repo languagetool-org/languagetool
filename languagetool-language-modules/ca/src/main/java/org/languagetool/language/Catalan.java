@@ -34,6 +34,7 @@ import org.languagetool.rules.ca.CatalanWrongWordInContextRule;
 import org.languagetool.rules.ca.ComplexAdjectiveConcordanceRule;
 import org.languagetool.rules.ca.MorfologikCatalanSpellerRule;
 import org.languagetool.rules.ca.ReflexiveVerbsRule;
+import org.languagetool.rules.ca.ReplaceOperationNamesRule;
 import org.languagetool.rules.ca.SimpleReplaceRule;
 import org.languagetool.rules.ca.SimpleReplaceVerbsRule;
 import org.languagetool.synthesis.Synthesizer;
@@ -107,9 +108,8 @@ public class Catalan extends Language {
             new CatalanWrongWordInContextRule(messages),
             new ReflexiveVerbsRule(messages),
             new SimpleReplaceVerbsRule(messages),
-            new SimpleReplaceRule(messages)
-            //new CastellanismesReplaceRule(messages),
-            //new AccentuacioReplaceRule(messages)
+            new SimpleReplaceRule(messages),
+            new ReplaceOperationNamesRule(messages)
     );
   }
 
