@@ -150,16 +150,15 @@ public class ReplaceOperationNamesRule extends Rule {
         List<String> possibleReplacements = new ArrayList<>();
         String[] synthesized = null;
 
-        if (!token.endsWith("s")) {
+        if (!tokens[i].getToken().toLowerCase().endsWith("s")) {
           possibleReplacements.addAll(replacementLemmas);
         } else { 
           //synthesize plural
           for (String replacementLemma : replacementLemmas) {
             synthesized = synth.synthesize(new AnalyzedToken (replacementLemma,"NCMS000", replacementLemma), "NC.P.*");
+            possibleReplacements.addAll(Arrays.asList(synthesized));
           }
-          possibleReplacements.addAll(Arrays.asList(synthesized));
         }
-
         if (possibleReplacements.size() > 0) {
             RuleMatch potentialRuleMatch = createRuleMatch(tokens[i],possibleReplacements);
             ruleMatches.add(potentialRuleMatch);

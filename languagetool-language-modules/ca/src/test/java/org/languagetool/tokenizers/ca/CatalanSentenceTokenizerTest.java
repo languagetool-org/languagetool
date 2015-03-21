@@ -82,10 +82,13 @@ public class CatalanSentenceTokenizerTest extends TestCase {
     testSplit("Va ser el 5è. classificat.");
     testSplit("Va ser el 5è. ", "I l'altre el 4t.");
     testSplit("Art. 2.1: Són obligats els...");
+    testSplit("Arriba fins a les pp. 50-52.");
+    testSplit("Arriba fins a les pp. XI-XII.");
 
     // Exception to abbreviations
     testSplit("Ell és el número u. ", "Jo el dos.");
     testSplit("Té un trau al cap. ", "Cal portar-lo a l'hospital.");
+    testSplit("Això passa en el PP. ", "Però, per altra banda,");
     // Units
     testSplit("1 500 m/s. ", "Neix a");
     testSplit("Són d'1 g. ", "Han estat condicionades.");

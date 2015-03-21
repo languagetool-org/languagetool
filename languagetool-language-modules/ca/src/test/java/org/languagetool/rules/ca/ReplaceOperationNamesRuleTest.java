@@ -91,6 +91,12 @@ public class ReplaceOperationNamesRuleTest extends TestCase {
     assertEquals ("relligament", matches[0].getSuggestedReplacements().get(1));
     assertEquals ("relligada", matches[0].getSuggestedReplacements().get(2));
     
+    matches = rule.match(langTool.getAnalyzedSentence("Els rentats de cervell."));
+    assertEquals(1, matches.length);
+    assertEquals ("rentades", matches[0].getSuggestedReplacements().get(0));
+    assertEquals ("rentatges", matches[0].getSuggestedReplacements().get(1));
+    assertEquals ("rentaments", matches[0].getSuggestedReplacements().get(2));
+    
     
   }
 
