@@ -269,6 +269,9 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("decisió", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("España"));
         assertEquals("Espanya", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("concenciosament"));
+        assertEquals("conscienciosament", matches[0].getSuggestedReplacements().get(0));
+
         //assertEquals(1, matches[0].getSuggestedReplacements().size());
         
         /*  change in Speller necessary: words of length = 4
