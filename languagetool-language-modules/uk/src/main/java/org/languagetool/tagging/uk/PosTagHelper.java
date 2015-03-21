@@ -7,7 +7,11 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 
+/**
+ * @since 2.9
+ */
 public abstract class PosTagHelper {
+
   private static final Pattern GENDER_REGEX = Pattern.compile("(noun|adjp?|numr):(.):v_.*");
   private static final Pattern GENDER_CONJ_REGEX = Pattern.compile("(noun|adjp?|numr):(.:v_...).*");
 

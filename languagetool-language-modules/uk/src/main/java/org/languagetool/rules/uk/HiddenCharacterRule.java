@@ -34,6 +34,7 @@ import org.languagetool.rules.RuleMatch;
  * A rule that matches words Latin and Cyrillic characters in them
  * 
  * @author Andriy Rysin
+ * @since 2.9
  */
 public class HiddenCharacterRule extends Rule {
 

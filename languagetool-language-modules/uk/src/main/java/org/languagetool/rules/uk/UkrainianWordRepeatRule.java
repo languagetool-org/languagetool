@@ -12,6 +12,9 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.WordRepeatRule;
 import org.languagetool.tagging.uk.IPOSTag;
 
+/**
+ * @since 2.9
+ */
 public class UkrainianWordRepeatRule extends WordRepeatRule {
   private static final HashSet<String> REPEAT_ALLOWED_SET = new HashSet<String>(
       Arrays.asList("що", "ні", "одне", "ось")
@@ -39,7 +42,6 @@ public class UkrainianWordRepeatRule extends WordRepeatRule {
 
     if( REPEAT_ALLOWED_CAPS_SET.contains(token) )
       return true;
-
     
     for(AnalyzedToken analyzedToken: analyzedTokenReadings.getReadings()) {
       String posTag = analyzedToken.getPOSTag();
