@@ -33,7 +33,7 @@ import org.languagetool.tokenizers.Tokenizer;
  * @author Andriy Rysin
  */
 public class UkrainianWordTokenizer implements Tokenizer {
-  private static final String SPLIT_CHARS = "\u0020\u115f\u1160\u1680" 
+  private static final String SPLIT_CHARS = "\u0020\u00A0\u115f\u1160\u1680" 
         + "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007" 
         + "\u2008\u2009\u200A\u200B\u200c\u200d\u200e\u200f"
         + "\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
@@ -43,14 +43,14 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
   // decimal comma between digits
   private static final Pattern DECIMAL_COMMA_PATTERN = Pattern.compile("([\\d]),([\\d])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final char DECIMAL_COMMA_SUBST = '\u0001'; // some unused character to hide comma in decimal number temporary for tokenizer run
+  private static final char DECIMAL_COMMA_SUBST = '\uE001'; // some unused character to hide comma in decimal number temporary for tokenizer run
   // dates
-  private static final Pattern DATE_PATTERN = Pattern.compile("([\\d]{2})\\.([\\d]{2})\\.([\\d]{4})", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final char DATE_DOT_SUBST = '\u0002'; // some unused character to hide dot in date temporary for tokenizer run
+  private static final Pattern DATE_PATTERN = Pattern.compile("([\\d]{2})\\.([\\d]{2})\\.([\\d]{4})|([\\d]{4})\\.([\\d]{2})\\.([\\d]{2})|([\\d]{4})-([\\d]{2})-([\\d]{2})", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final char DATE_DOT_SUBST = '\uE002'; // some unused character to hide dot in date temporary for tokenizer run
   // braces in words
   private static final Pattern BRACE_IN_WORD_PATTERN = Pattern.compile("([а-яіїєґ'])\\(([а-яіїєґ']+)\\)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final char LEFT_BRACE_SUBST = '\u0003';
-  private static final char RIGHT_BRACE_SUBST = '\u0004';
+  private static final char LEFT_BRACE_SUBST = '\uE003';
+  private static final char RIGHT_BRACE_SUBST = '\uE004';
 
 
   public UkrainianWordTokenizer() {

@@ -59,7 +59,9 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«АаІій]<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«АаІій]
+                      <exception postag="SENT_START"/>
+                    </token>
                     <token regexp="yes">мабуть|щоправда|о?крім того|втім</token>
                 </pattern>
                 <message>Відсутня ліва кома: <suggestion>\1, \2</suggestion>.</message>
@@ -69,12 +71,16 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«АаІі]|[Цц]е<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«АаІі]|[Цц]е
+                      <exception postag="SENT_START"/>
+                      <exception>Ну</exception>
+                    </token>
                     <token regexp="yes">по-перше|по-друге|по-третє</token>
                     <token negate="yes">ж</token>
                 </pattern>
                 <message>Відсутня ліва кома: <suggestion>\1, \2</suggestion>.</message>
                 <example>Це по-перше.</example>
+                <example>Ну по-перше, треба зробити оце.</example>
                 <example correction="нашпигувати, по-друге">По-перше, треба його <marker>нашпигувати по-друге,</marker> запекти.</example>
             </rule>
         </rulegroup>
@@ -82,15 +88,18 @@ $Id$
         <rulegroup name="Відсутня кома перед «але», «однак», ..." id="COMMA_BEFORE_BUT">
             <rule>
                 <pattern case_sensitive="yes">
-                    <marker>
-                    <token regexp="yes" negate="yes">[\p{Punct}…–—«\(„]|[нН]у|[АаІіЙй]|але<exception postag="SENT_START"></exception></token>
+                  <marker>
+                    <token regexp="yes" negate="yes">[\p{Punct}…«\(„–—]|[нН]у|[АаІіЙй]|але
+                      <exception postag="SENT_START"></exception>
+                    </token>
                     <token regexp="yes">а|але|однак|проте|зате</token>
-                    </marker>
-                    <token regexp="yes" negate="yes">[\p{Punct}–—«\(]|ля</token>
+                  </marker>
+                  <token regexp="yes" negate="yes">[\p{Punct}«\(–—]|ля</token>
                 </pattern>
                 <message>Відсутня кома перед сполучником: <suggestion>\1, \2</suggestion></message>
-                <example>Вгадав всі літери, але не зміг прочитати слово.</example>
+                <example>Вгадав всі літери — але не зміг прочитати слово.</example>
                 <example>почалося щось а ля комедія</example>
+                <example>Всесвіт припинить своє існування, а це неможливо!</example>
                 <example correction="літери, але">Вгадав всі <marker>літери але</marker> не зміг прочитати слово.</example>
             </rule>
         </rulegroup>

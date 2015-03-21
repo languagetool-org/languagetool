@@ -32,6 +32,7 @@ public enum IPOSTag {
   advp("advp"),
   predic("predic"),
   insert("insert"),
+  abbr("abbr"),
   bad("bad"),
   unknown("unknown");
 

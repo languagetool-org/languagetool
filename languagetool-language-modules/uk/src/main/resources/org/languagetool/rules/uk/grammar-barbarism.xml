@@ -59,7 +59,7 @@ $Id$
           <marker>
            <token inflected="yes" regexp="yes">приймати|прийняти|приймавший|прийнятий</token>
           </marker>
-           <token postag_regexp="yes" postag="(pron|adv).*" min="0" max="2"/>
+           <token postag_regexp="yes" postag="(adv|.*&amp;pron:dem).*" min="0" max="2"/>
            <token>до</token>
            <token regexp="yes">уваги|відома|серця</token>
           </pattern>
@@ -1460,6 +1460,17 @@ $Id$
 
        <rule>
          <pattern>
+              <token>від</token>
+              <token>мала</token>
+              <token>до</token>
+              <token>велика</token>
+         </pattern>
+         <message>Правильно: <suggestion>від малого до великого (до старого)</suggestion>, <suggestion>мале й велике</suggestion>, <suggestion>мале й старе</suggestion>, <suggestion>малі й старі</suggestion></message>
+         <example correction="від малого до великого (до старого)|мале й велике|мале й старе|малі й старі">Всі <marker>від мала до велика</marker>.</example>
+       </rule>
+
+       <rule>
+         <pattern>
            <marker>
               <token inflected="yes">цвях</token>
            </marker>
@@ -1574,6 +1585,31 @@ $Id$
          <message>Правильно: <suggestion>так званий</suggestion></message>
          <example correction="так званий">В <marker>так називаний</marker> парадоксальний ефект.</example>
        </rule>
+
+       <rule>
+         <pattern>
+           <marker>
+             <token inflected="yes">глупий
+             <!-- 
+               <exception scope="previous" inflected="yes">ніч</exception>
+               <exception scope="next" inflected="yes">ніч</exception>
+              -->
+             </token>
+           </marker>
+           <token postag_regexp="yes" postag="adj.*" min="0"/>
+           <token><exception inflected="yes">ніч</exception></token>
+         </pattern>
+         <message>Правильно: <suggestion>нерозумний</suggestion>, <suggestion>дурний</suggestion>, <suggestion>дурноголовий</suggestion>, <suggestion>безголовий</suggestion></message>
+         <example correction="нерозумний|дурний|дурноголовий|безголовий">У нас не такі <marker>глупі</marker> люди.</example>
+         <example correction="нерозумний|дурний|дурноголовий|безголовий">У нас не <marker>глупіші</marker> люди.</example>
+         <example correction="нерозумний|дурний|дурноголовий|безголовий">Отакий він був <marker>глупий</marker>.</example>
+         <example correction="Нерозумний|Дурний|Дурноголовий|Безголовий"><marker>Глупої</marker> новорічної ночі.</example>
+         <example>Стояла глупа ніч.</example>
+         <example>співи тривали до глупої ночі</example>
+         <!--  TODO
+         <example>Позавчорашньої ночі — глупої й морозної</example>
+          -->
+       </rule>
     </rulegroup>
 
     <rulegroup id="NON_LEXEM_BORROWING_PREP" name="Кальки: прийменники">
@@ -1622,7 +1658,7 @@ $Id$
        <rule>
            <pattern>
               <token>за
-                <exception scope="previous" regexp="yes" inflected="yes">черга|наглядати</exception>
+                <exception scope="previous" regexp="yes" inflected="yes">черга|наглядати|пропасти</exception>
               </token>
               <token postag_regexp="yes" postag="adj.*" min="0"/>
               <token regexp="yes">грибами|ягодами|брусницею|журавлиною|суницею|ожиною|хлібом</token>
@@ -2500,12 +2536,15 @@ $Id$
        <rule>
          <pattern>
            <token>по</token>
-           <token postag_regexp="yes" postag="(adj|pron).*"/>
+           <token postag_regexp="yes" postag="(adj|pron).*">
+             <exception regexp="yes">тих|цих</exception>
+           </token>
            <token>словах</token>
          </pattern>
          <message>Правильно: <suggestion>з таких слів</suggestion>, <suggestion>як (хтось) сказав</suggestion></message>
          <example correction="з таких слів|як (хтось) сказав"><marker>по його словах</marker></example>
          <example>як він сказав</example>
+         <example>По тих словах він пішов додому</example>
        </rule>
        <rule>
          <pattern>

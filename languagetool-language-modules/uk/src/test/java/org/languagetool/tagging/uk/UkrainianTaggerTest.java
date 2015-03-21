@@ -41,16 +41,6 @@ public class UkrainianTaggerTest extends TestCase {
   }
   
   public void testTagger() throws IOException {
-    TestTools.myAssert("300 р. до н. е.", 
-      "300/[300]number -- р/[р]unknown:abbr -- до/[до]noun:n:v_dav:nv|до/[до]noun:n:v_mis:nv|до/[до]noun:n:v_naz:nv|до/[до]noun:n:v_oru:nv|до/[до]noun:n:v_rod:nv|до/[до]noun:n:v_zna:nv|до/[до]noun:p:v_dav:nv|до/[до]noun:p:v_mis:nv|до/[до]noun:p:v_naz:nv|до/[до]noun:p:v_oru:nv|до/[до]noun:p:v_rod:nv|до/[до]noun:p:v_zna:nv|до/[до]prep:rv_rod -- н/[null]null -- е/[е]excl",
-       tokenizer, tagger);
-
-    TestTools.myAssert("101,234", "101,234/[101,234]number", tokenizer, tagger);
-    TestTools.myAssert("3,5-5,6% 7° 7,4°С", "3,5-5,6%/[3,5-5,6%]number -- 7°/[7°]number -- 7,4°С/[7,4°С]number", tokenizer, tagger);
-    TestTools.myAssert("XIX", "XIX/[XIX]number", tokenizer, tagger);
-
-    TestTools.myAssert("14.07.2001", "14.07.2001/[14.07.2001]date", tokenizer, tagger);
-//    TestTools.myAssert("Ульянченко", "", tokenizer, tagger);
 
     // one-way case sensitivity
     TestTools.myAssert("києві", "києві/[кий]noun:m:v_dav", tokenizer, tagger);
@@ -59,7 +49,7 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("Віл", "Віл/[віл]noun:m:v_naz:anim", tokenizer, tagger);
     TestTools.myAssert("ВІЛ", "ВІЛ/[ВІЛ]noun:m:v_dav:nv:np:abbr|ВІЛ/[ВІЛ]noun:m:v_mis:nv:np:abbr|ВІЛ/[ВІЛ]noun:m:v_naz:nv:np:abbr|ВІЛ/[ВІЛ]noun:m:v_oru:nv:np:abbr|ВІЛ/[ВІЛ]noun:m:v_rod:nv:np:abbr|ВІЛ/[ВІЛ]noun:m:v_zna:nv:np:abbr|ВІЛ/[віл]noun:m:v_naz:anim", tokenizer, tagger);
     TestTools.myAssert("далі", "далі/[далі]adv", tokenizer, tagger);
-    TestTools.myAssert("Далі", "Далі/[Даль]noun:m:v_mis:anim:lname|Далі/[Далі]noun:m:v_dav:nv:np|Далі/[Далі]noun:m:v_mis:nv:np|Далі/[Далі]noun:m:v_naz:nv:np|Далі/[Далі]noun:m:v_oru:nv:np|Далі/[Далі]noun:m:v_rod:nv:np|Далі/[Далі]noun:m:v_zna:nv:np|Далі/[далі]adv", tokenizer, tagger);
+    TestTools.myAssert("Далі", "Далі/[Даль]noun:m:v_mis:anim:lname|Далі/[Далі]noun:m:v_dav:nv:np:anim:lname|Далі/[Далі]noun:m:v_mis:nv:np:anim:lname|Далі/[Далі]noun:m:v_naz:nv:np:anim:lname|Далі/[Далі]noun:m:v_oru:nv:np:anim:lname|Далі/[Далі]noun:m:v_rod:nv:np:anim:lname|Далі/[Далі]noun:m:v_zna:nv:np:anim:lname|Далі/[далі]adv", tokenizer, tagger);
     TestTools.myAssert("Бен", "Бен/[Бен]noun:m:v_naz:anim:fname|Бен/[бен]unknown", tokenizer, tagger);
     TestTools.myAssert("бен", "бен/[бен]unknown", tokenizer, tagger);
 
@@ -70,14 +60,32 @@ public class UkrainianTaggerTest extends TestCase {
        
     String expected = 
       "Майже/[майже]adv -- два/[два]numr:m:v_naz|два/[два]numr:m:v_zna|два/[два]numr:n:v_naz|два/[два]numr:n:v_zna -- роки/[рік]noun:p:v_naz|роки/[рік]noun:p:v_zna"
-    + " -- тому/[той]pron:m:v_dav|тому/[той]pron:m:v_mis|тому/[той]pron:n:v_dav|тому/[той]pron:n:v_mis|тому/[том]noun:m:v_dav|тому/[том]noun:m:v_mis|тому/[том]noun:m:v_rod|тому/[тому]adv|тому/[тому]conj:subord"
+    + " -- тому/[той]adj:m:v_dav:&pron:dem|тому/[той]adj:m:v_mis:&pron:dem|тому/[той]adj:n:v_dav:&pron:dem|тому/[той]adj:n:v_mis:&pron:dem|тому/[том]noun:m:v_dav|тому/[том]noun:m:v_mis|тому/[том]noun:m:v_rod|тому/[тому]adv|тому/[тому]conj:subord"
     + " -- Люба/[Люба]noun:f:v_naz:anim:fname|Люба/[любий]adj:f:v_naz -- разом/[раз]noun:m:v_oru|разом/[разом]adv -- із/[із]prep:rv_rod:rv_zna:rv_oru"
-    + " -- чоловіком/[чоловік]noun:m:v_oru:anim -- Степаном/[Степан]noun:m:v_oru:anim:fname -- виїхали/[виїхати]verb:past:m:perf -- туди/[туди]adv"
+    + " -- чоловіком/[чоловік]noun:m:v_oru:anim -- Степаном/[Степан]noun:m:v_oru:anim:fname -- виїхали/[виїхати]verb:past:m:perf -- туди/[туди]adv:&pron:dem"
     + " -- на/[на]excl|на/[на]part|на/[на]prep:rv_zna:rv_mis -- "
     + "проживання/[проживання]noun:n:v_naz|проживання/[проживання]noun:n:v_rod|проживання/[проживання]noun:n:v_zna|проживання/[проживання]noun:p:v_naz|проживання/[проживання]noun:p:v_zna";
   
     TestTools.myAssert("Майже два роки тому Люба разом із чоловіком Степаном виїхали туди на проживання.",
         expected, tokenizer, tagger);
+  }
+
+  public void testNumberTagging() throws IOException {
+    TestTools.myAssert("101,234", "101,234/[101,234]number", tokenizer, tagger);
+    TestTools.myAssert("3,5-5,6% 7° 7,4°С", "3,5-5,6%/[3,5-5,6%]number -- 7°/[7°]number -- 7,4°С/[7,4°С]number", tokenizer, tagger);
+    TestTools.myAssert("XIX", "XIX/[XIX]number", tokenizer, tagger);
+
+    TestTools.myAssert("14.07.2001", "14.07.2001/[14.07.2001]date", tokenizer, tagger);
+  }
+  
+  public void testTaggingWithDots() throws IOException {
+    TestTools.myAssert("300 р. до н. е.", 
+      "300/[300]number -- р/[р]unknown:abbr -- до/[до]noun:n:v_dav:nv|до/[до]noun:n:v_mis:nv|до/[до]noun:n:v_naz:nv|до/[до]noun:n:v_oru:nv|до/[до]noun:n:v_rod:nv|до/[до]noun:n:v_zna:nv|до/[до]noun:p:v_dav:nv|до/[до]noun:p:v_mis:nv|до/[до]noun:p:v_naz:nv|до/[до]noun:p:v_oru:nv|до/[до]noun:p:v_rod:nv|до/[до]noun:p:v_zna:nv|до/[до]prep:rv_rod -- н/[null]null -- е/[е]excl",
+       tokenizer, tagger);
+  
+//    TestTools.myAssert("Є.Бакуліна.",
+//      "Є.Бакуліна[Бакулін]noun:m:v_rod:anim:lname|Є.Бакуліна[Бакулін]noun:m:v_zna:anim:lname",
+//       tokenizer, tagger);
   }
   
   public void testDynamicTagging() throws IOException {
@@ -91,10 +99,10 @@ public class UkrainianTaggerTest extends TestCase {
 
     TestTools.myAssert("давай-но", "давай-но/[давати]verb:impr:s:2:imperf", tokenizer, tagger);
     TestTools.myAssert("дивіться-но", "дивіться-но/[дивитися]verb:rev:impr:p:2:imperf", tokenizer, tagger);
-    TestTools.myAssert("той-таки", "той-таки/[той-таки]pron:m:v_naz|той-таки/[той-таки]pron:m:v_zna", tokenizer, tagger);
+    TestTools.myAssert("той-таки", "той-таки/[той-таки]adj:m:v_naz:&pron:dem|той-таки/[той-таки]adj:m:v_zna:&pron:dem", tokenizer, tagger);
     TestTools.myAssert("буде-таки", "буде-таки/[бути]verb:futr:s:3:imperf", tokenizer, tagger);
-    TestTools.myAssert("оцей-от", "оцей-от/[оцей]pron:m:v_naz|оцей-от/[оцей]pron:m:v_zna", tokenizer, tagger);
-    TestTools.myAssert("оттакий-то", "оттакий-то/[оттакий]adj:m:v_naz:&pron:rare|оттакий-то/[оттакий]adj:m:v_zna:&pron:rare", tokenizer, tagger);
+    TestTools.myAssert("оцей-от", "оцей-от/[оцей]adj:m:v_naz:&pron:dem|оцей-от/[оцей]adj:m:v_zna:&pron:dem", tokenizer, tagger);
+    TestTools.myAssert("оттакий-то", "оттакий-то/[оттакий]adj:m:v_naz:&pron:dem:rare|оттакий-то/[оттакий]adj:m:v_zna:&pron:dem:rare", tokenizer, tagger);
     TestTools.myAssert("геть-то", "геть-то/[геть]adv|геть-то/[геть]part", tokenizer, tagger);
     TestTools.myAssert("ану-бо", "ану-бо/[ану]excl|ану-бо/[ану]part", tokenizer, tagger);
     TestTools.myAssert("годі-бо", "годі-бо/[годі]predic", tokenizer, tagger);
@@ -112,7 +120,7 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("вгору-вниз", "вгору-вниз/[вгору-вниз]adv:v-u", tokenizer, tagger);
 
     TestTools.myAssert("низенько-низенько", "низенько-низенько/[низенько-низенько]adv", tokenizer, tagger);
-    TestTools.myAssert("такого-сякого", "такого-сякого/[такий-сякий]adj:m:v_rod:&pron|такого-сякого/[такий-сякий]adj:m:v_zna:&pron|такого-сякого/[такий-сякий]adj:n:v_rod:&pron", tokenizer, tagger);
+    TestTools.myAssert("такого-сякого", "такого-сякого/[такий-сякий]adj:m:v_rod:&pron:def|такого-сякого/[такий-сякий]adj:m:v_zna:&pron:def|такого-сякого/[такий-сякий]adj:n:v_rod:&pron:def", tokenizer, tagger);
     TestTools.myAssert("великий-превеликий", "великий-превеликий/[великий-превеликий]adj:m:v_naz|великий-превеликий/[великий-превеликий]adj:m:v_zna", tokenizer, tagger);
     TestTools.myAssert("чорній-чорній", "чорній-чорній/[чорний-чорний]adj:f:v_dav|чорній-чорній/[чорний-чорний]adj:f:v_mis|чорній-чорній/[чорніти-чорніти]verb:impr:s:2:imperf", tokenizer, tagger);
 
@@ -150,6 +158,8 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("три-чотири", "три-чотири/[три-чотири]numr:p:v_naz|три-чотири/[три-чотири]numr:p:v_zna", tokenizer, tagger);
     TestTools.myAssert("два-чотири", "два-чотири/[два-чотири]numr:m:v_naz|два-чотири/[два-чотири]numr:m:v_zna|два-чотири/[два-чотири]numr:n:v_naz|два-чотири/[два-чотири]numr:n:v_zna", tokenizer, tagger);
     TestTools.myAssert("одному-двох", "одному-двох/[один-два]numr:m:v_mis|одному-двох/[один-два]numr:n:v_mis|одному-двох/[один-двоє]numr:m:v_mis|одному-двох/[один-двоє]numr:n:v_mis", tokenizer, tagger);
+    // u2013
+    TestTools.myAssert("три–чотири", "три–чотири/[три–чотири]numr:p:v_naz|три–чотири/[три–чотири]numr:p:v_zna", tokenizer, tagger);
     
 //    "однією-єдиною"
 //    TestTools.myAssert("капуджі-ага", "два-чотири/[два-чотири]numr:v_naz|два-чотири/[два-чотири]numr:v_naz", tokenizer, tagger);

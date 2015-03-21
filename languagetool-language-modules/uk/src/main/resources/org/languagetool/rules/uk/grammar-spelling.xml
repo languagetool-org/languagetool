@@ -45,11 +45,11 @@ $Id$
     <rulegroup id="SLOVA_Z_RAZOM" name="Слова з префіксами разом">
       <rule>   
         <pattern>
-          <token case_sensitive="yes" regexp="yes">([Аа]нти|[Гг]іпер|[Ее]кстра|[Кк]вазі|[Кк]онтр|[Пп]севдо|[Пп]ост|[Тт]ранс|[Уу]льтра)-[а-яіїєґ].*
-            <exception regexp="yes">[Кк]онтр-адмір.*</exception>
+          <token case_sensitive="yes" regexp="yes">([Аа]нти|[Гг]іпер|[Ее]кстра|[Кк]вазі|[Кк]онтр|[Пп]севдо|[Пп]ост|[Тт]ранс|[Уу]льтра)[-–][а-яіїєґ].*
+            <exception regexp="yes">[Кк]онтр[-–]адмір.*</exception>
           </token>
         </pattern>
-        <message>Пишеться разом <suggestion><match no="1" regexp_match="(.*)-(.*)" regexp_replace="$1$2"/></suggestion></message>
+        <message>Пишеться разом <suggestion><match no="1" regexp_match="(.*)[-–](.*)" regexp_replace="$1$2"/></suggestion></message>
         <url>http://www.pravopys.net/#search=25-33</url>
         <short>Правильно писати разом</short>
         <example correction="ультрагіркий">У цього овоча <marker>ультра-гіркий</marker> присмак.</example>
@@ -61,9 +61,9 @@ $Id$
     <rulegroup id="PRYKM_Z_RAZOM" name="Прикметники з префіксами разом">
       <rule>   
         <pattern>
-          <token regexp="yes" postag_regexp="yes" postag="adj.*">(багато|мульти)-.*</token>
+          <token regexp="yes" postag_regexp="yes" postag="adj.*">(багато|мульти)[-–].*</token>
         </pattern>
-        <message>Пишеться разом <suggestion><match no="1" regexp_match="(.*)-(.*)" regexp_replace="$1$2"/></suggestion></message>
+        <message>Пишеться разом <suggestion><match no="1" regexp_match="(.*)[-–](.*)" regexp_replace="$1$2"/></suggestion></message>
         <short>Правильно писати разом</short>
         <example correction="Багатоповерховий"><marker>Багато-поверховий</marker> будинок.</example>
         <!--
@@ -78,12 +78,13 @@ $Id$
         <pattern>
          <marker>
           <token>пів</token>
-           <token regexp="yes">Європи|Києва|України|Польщі|Росії|Харкова|Америки|Австралії|Туреччини|Австрії|Відня|Китаю|Кореї|Франції|Іспанії|Італії|Угорщини|Москви|Казані|Швейцарії</token>
+          <token regexp="yes">Європи|Києва|України|Польщі|Росії|Харкова|Америки|Австралії|Туреччини|Австрії|Відня|Китаю|Кореї|Франції|Іспанії|Італії|Угорщини|Москви|Казані|Швейцарії</token>
          </marker>
         </pattern>
-        <message>«пів» з усіма власними назвами пишемо через дефіс</message>
+        <message>«пів» з усіма власними назвами пишемо через дефіс: <suggestion><match no="1"/>-<match no="2"/></suggestion></message>
         <short>Правильно писати через дефіс</short>
-        <example correction="">Снігопади паралізували <marker>пів Європи</marker>.</example>
+        <example correction="пів-Європи">Снігопади паралізували <marker>пів Європи</marker>.</example>
+        <example correction="пів-Євро́пи">Снігопади паралізували <marker>пів Євро́пи</marker>.</example>
         <example>Снігопади паралізували пів-Європи.</example>
       </rule>
 
@@ -120,6 +121,18 @@ $Id$
       <example correction=""><marker>хе́мі</marker>я</example>
       <example>хоче прорости</example>
       <example>проекту</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="DASH" name="DASH">
+      <rule>
+        <pattern>
+          <token regexp="yes">[а-яіїєґ]+[—–][а-яіїєґ]+</token>
+        </pattern>
+        <message>Риска всередині слова. Всередині слова вживайте дефіс: <suggestion><match no="1" regexp_match="([а-яіїєґ]+)[—–]([а-яіїєґ]+)" regexp_replace="$1-$2"/></suggestion
+        >, між словами виокремлюйте риску пробілами: <suggestion><match no="1" regexp_match="([а-яіїєґ]+)[—–]([а-яіїєґ]+)" regexp_replace="$1 — $2"/></suggestion></message>
+        <example correction="січень-лютий|січень — лютий"><marker>січень—лютий</marker></example>
+        <example correction="яскраво-рожевий|яскраво — рожевий"><marker>яскраво–рожевий</marker></example>
       </rule>
     </rulegroup>
 

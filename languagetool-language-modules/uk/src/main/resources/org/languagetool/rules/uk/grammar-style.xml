@@ -46,7 +46,7 @@ $Id$
                   </unify>
                 </pattern>
                 <message>Замість «самий» + прикметник треба вживати найвищу ступінь з <suggestion><match no="2" postag_regexp="yes"
-                                         postag="(adj.*:)comp[br](.*)" postag_replace="$1super$2"/></suggestion></message>
+                                         postag="(adj.*:)comp[br](.*?)(:&amp;adjp.*)?" postag_replace="$1super$2"/></suggestion></message>
                 <example>Сама прийшла</example>
                 <example>Саме такий</example>
                 <example>Саме кращий</example>
@@ -64,13 +64,14 @@ $Id$
                     </token>
                 </pattern>
                 <message>Замість «самий» + прикметник треба вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
-                                         postag="(adj.*:)comp[br](.*)" postag_replace="$1super$2"/></suggestion></message>
+                                         postag="(adj.*:)comp[br](.*?)(:&amp;adjp.*)?" postag_replace="$1super$2"/></suggestion></message>
                 <example>Самий цвіт</example>
                 <example>Саме такий</example>
                 <example>той самий страшний сон</example>
                 <example>лише самих економічних санкцій</example>
                 <example correction="Найкращий|Найкращого|Щонайкращий|Щонайкращого|Якнайкращий|Якнайкращого"><marker>Самий кращий</marker>.</example>
                 <example correction="найсильніший|найсильнішого">Він — <marker>самий сильний</marker>.</example>
+                <example correction="найзадоволеніший|найзадоволенішого">Він — <marker>самий задоволений</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -92,7 +93,7 @@ $Id$
                     <token regexp="yes">[—–-]</token>
                 </pattern>
                 <message>Замість «самий» + прикметник треба вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
-                                         postag="(adj.*:)comp[br](.*)" postag_replace="$1super$2"/></suggestion></message>
+                                         postag="(adj.*:)comp[br](.*?)(:&amp;adjp.*)?" postag_replace="$1super$2"/></suggestion></message>
                 <example>Самий цвіт</example>
                 <example>Сама прийшла</example>
                 <example>Саме такий</example>
@@ -122,7 +123,7 @@ $Id$
                     <token regexp="yes">що|який</token>
                 </pattern>
                 <message>Замість «самий» + прикметник треба вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
-                                         postag="(adj.*:)comp[br](.*)" postag_replace="$1super$2"/></suggestion></message>
+                                         postag="(adj.*:)comp[br](.*?)(:&amp;adjp.*)?" postag_replace="$1super$2"/></suggestion></message>
                 <example>Самий цвіт</example>
                 <example>Сама прийшла до нього</example>
                 <example>Саме такий</example>
@@ -159,8 +160,8 @@ $Id$
                     <token>більш</token>
                     <token postag_regexp="yes" postag="adj.*:compr.*"/>
                 </pattern>
-                <message>Замість «більш» + вищий ступінь прикметника треба вживати «більш» + нульова форма прикметника</message>
-                <example correction=""><marker>Більш світліший</marker>.</example>
+                <message>Замість «більш» + вищий ступінь прикметника треба вживати «більш» + нульова форма прикметника: <suggestion><match no="2"/></suggestion></message>
+                <example correction="Світліший"><marker>Більш світліший</marker>.</example>
                 <example>Більш світлий.</example>
             </rule>
         </rulegroup>
@@ -209,6 +210,9 @@ $Id$
                 <example correction="понад 500|більш як 500|більш ніж 500"><marker>більше 500</marker>.</example>
                 <example correction="понад 2,000|більш як 2,000|більш ніж 2,000"><marker>більшими 2,000</marker> слів.</example>
                 <example correction="Понад 10%|Більш як 10%|Більш ніж 10%">«<marker>Більше 10%</marker> людей</example>
+                <!-- 
+                <example correction="вище ніж 39"><marker>вище 39</marker> градусів.</example>
+                -->
                 <example>Не більше 40</example>
                 <example>Щонайбільше 40</example>
             </rule>

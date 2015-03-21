@@ -8,6 +8,7 @@ BASE="../../../../../../../../../.."
 #cd $BASE
 #./build.sh uk package -DskipTests
 #./build.sh uk test
+#export PATH=/usr/java/jdk1.7.0_75/bin:$PATH
 cd $BASE/languagetool-language-modules/uk
 mvn compile test
 cd $PWD

@@ -191,8 +191,8 @@ for line in sys.stdin:
 
    if "verb" in line2:
      tag = re_sub("(verb(?::rev)?)(.*)(:(im)?perf)(.*)", "\\1\\3\\2\\5", tag)
-   elif "noun" in line2:
-     tag = re_sub("(noun)(.*)(:(in)?anim)(.*)", "\\1\\3\\2\\5", tag)
+   elif "noun" in line2 or "pron" in line2:
+     tag = re_sub("(noun|pron)(.*)(:(in)?anim)(.*)", "\\1\\3\\2\\5", tag)
    elif "adj" in line2 and ("comp" in line2 or "super" in line2):
      tag = re_sub("(adjp?)(.*):(comp[br]|super)(.*)", "\\1:\\3\\2\\4", tag)
 

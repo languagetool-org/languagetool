@@ -5,8 +5,27 @@
 -->
 <rules lang="uk"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
-<!--
-    <rule name="На" id="NA">
+
+    <rule name="Рідкі слова" id="DIS_RARE_WORDS">
+        <pattern>
+          <and>
+            <token postag_regexp="yes" postag=".*:rare.*">можна
+             <!-- трапляється як займенник в сучасних текстах -->
+            <!-- 
+              <exception>сій</exception>
+             -->
+            </token>
+            <token negate_pos="yes" postag_regexp="yes" postag=".*:rare.*"/>
+          </and>
+        </pattern>
+        <disambig action="remove" postag=".*:rare.*"/>
+        <example type="ambiguous" 
+            inputform="Можна[можна/predic,можний/adj:f:v_naz:rare]" 
+            outputform="Можна[можна/predic]"><marker>Можна</marker> поломати ногу.</example>
+        <example type="untouched">Можний дядько.</example>
+    </rule>
+
+    <rule name="На" id="DIS_PREP_NA">
         <pattern>
             <token>на</token>
             <token postag_regexp="yes" postag="(adj|noun|pron).*">
@@ -21,9 +40,36 @@
         <example type="untouched">На тобі портфель.</example>
         <example type="untouched">На портфель, Василю.</example>
     </rule>
--->
+
+    <rule name="Згідно" id="DIS_PREP_ZGIDNO_Z1">
+        <pattern>
+          <marker>
+            <token>згідно</token>
+          </marker>
+          <token>з</token>
+        </pattern>
+        <disambig action="remove" postag="adv"></disambig>
+        <example type="ambiguous" 
+            inputform="Згідно[згідно/adv]"
+            outputform="Згідно[Згідно]"><marker>Згідно</marker> з правилом.</example>
+        <example type="untouched">Вони жили згідно.</example>
+    </rule>
+    <rule name="Згідно" id="DIS_PREP_ZGIDNO_Z2">
+        <pattern>
+          <token>згідно</token>
+          <marker>
+            <token>з</token>
+          </marker>
+        </pattern>
+        <disambig action="remove" postag="prep:rv_rod:rv_zna:rv_oru"></disambig>
+        <example type="ambiguous" 
+            inputform="з[з/prep:rv_rod:rv_zna:rv_oru]"
+            outputform="з[з]">Згідно <marker>з</marker> правилом.</example>
+        <example type="untouched">Вони жили згідно.</example>
+    </rule>
+
     <!-- TODO: взяти до уваги прикметники, напр. Друга Світова тощо -->
-    <rule name="Люба великої літери в середині речення - ім'я" id="LUBA_INSIDE_SENTENCE">
+    <rule name="Люба великої літери в середині речення - ім'я" id="DIS_LUBA_INSIDE_SENTENCE">
         <pattern case_sensitive="yes">
           <and>
             <token inflected="yes" postag_regexp="yes" postag="noun.*">Люба
@@ -44,7 +90,7 @@
         <example type="untouched">«Люба формула.</example>
     </rule>
 
-    <rule name="Едгар По" id="EDGAR_PO">
+    <rule name="Едгар По" id="DIS_EDGAR_PO">
         <pattern case_sensitive="yes">
           <token inflected="yes">Едгар</token>
           <marker>
@@ -58,7 +104,7 @@
         <example type="untouched">Едгара по полю.</example>
     </rule>
     
-    <rule name="Слова з великої літери в середині речення - це іменники або прикметники" id="PROPER_NOUN_INSIDE_SENTENCE">
+    <rule name="Слова з великої літери в середині речення - це іменники або прикметники" id="DIS_PROPER_NOUN_INSIDE_SENTENCE">
         <pattern case_sensitive="yes">
           <and>
             <token regexp="yes" postag_regexp="yes" postag="(noun|adj).*">[А-ЯІЇЄҐ][а-яіїєґ'-]+
@@ -79,7 +125,7 @@
     </rule>
     
     <!-- тимчасовий манівець для невідомих власних імен після прийменника, що збігаються з дієсловом -->
-    <rule name="Слова після прийменника з великої літери в середині речення - це іменники" id="PREP_PROPER_NOUN_INSIDE_SENTENCE">
+    <rule name="Слова після прийменника з великої літери в середині речення - це іменники" id="DIS_PREP_PROPER_NOUN_INSIDE_SENTENCE">
         <pattern case_sensitive="yes">
           <token postag_regexp="yes" postag="prep.*"/>
           <marker>
@@ -136,7 +182,7 @@
         <example type="untouched">великий вибух</example>
     </rule>
 
-    <rule name="Вставні слова виділяються комами" id="INSERTS">
+    <rule name="Вставні слова виділяються комами" id="DIS_INSERTS">
         <pattern>
             <token><exception>,</exception><exception postag="SENT_START"/></token>
             <marker>
@@ -158,15 +204,35 @@
             outputform="сподіваюся[сподіватися/verb:rev:pres:s:1:imperf]">тому варто <marker>сподіваюся</marker>, що так буде</example>
         <example type="untouched">велике, бачиш, цабе</example>
     </rule>
-
-    <rule name="Прийменник до і іменник до" id="PREP_OR_NOUN_DO">
+<!-- 
+    <rule name="Вставні слова виділяються комами 2" id="DIS_INSERTS_2">
+        <pattern>
+            <token>
+              <exception>,</exception>
+              <exception postag="SENT_START"/>
+            </token>
+            <marker>
+              <token postag_regexp="yes" postag="pron.*">чого</token>
+              <token postag_regexp="yes" postag="adj.*">доброго</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" 
+            inputform="чого[що/pron:v:v_rod] доброго[добрий/adj:m:v_rod:compb,добрий/adj:m:v_zna:compb,добрий/adj:n:v_rod:compb]" 
+            outputform="чого[чого доброго/pron:v:v_rod]/&lt;insert&gt; доброго[чого доброго]/&lt;/insert&gt;">Ні до <marker>чого доброго</marker> не приведе.</example>
+        <example type="untouched">Отримає, чого доброго, в лоба.</example>
+    </rule>
+ -->
+    <rule name="Прийменник до і іменник до" id="DIS_PREP_OR_NOUN_DO">
         <pattern>
           <marker>
             <token>до</token>
           </marker>
-            <token><exception inflected="yes" regexp="yes">ре|мажор|мінор|дієз|бемоль</exception></token>
+            <token>
+              <exception inflected="yes" regexp="yes">ре|мажор|мінор|дієз|бемоль</exception>
+            </token>
         </pattern>
-        <disambig><match no="1" postag="prep.*|.*adv.*" postag_regexp="yes"/></disambig>
+        <disambig><match no="1" postag="prep.*|.*adv.*|&lt;.*" postag_regexp="yes"/></disambig>
         <example type="ambiguous" 
             inputform="до[до/noun:n:v_dav:nv,до/noun:n:v_mis:nv,до/noun:n:v_naz:nv,до/noun:n:v_oru:nv,до/noun:n:v_rod:nv,до/noun:n:v_zna:nv,до/noun:p:v_dav:nv,до/noun:p:v_mis:nv,до/noun:p:v_naz:nv,до/noun:p:v_oru:nv,до/noun:p:v_rod:nv,до/noun:p:v_zna:nv,до/prep:rv_rod]"
             outputform="до[до/prep:rv_rod]"><marker>до</marker> паркану</example>
@@ -183,7 +249,7 @@
         </pattern>
         <disambig><match no="1" postag="conj.*|part.*" postag_regexp="yes"/></disambig>
         <example type="ambiguous" 
-            inputform="та[та/conj:coord,та/part,той/pron:f:v_naz]"
+            inputform="та[та/conj:coord,та/part,той/adj:f:v_naz:&amp;pron:dem]"
             outputform="та[та/conj:coord,та/part]">садки <marker>та</marker> ясла</example>
         <example type="untouched">та жінка</example>
         <!-- TODO:
@@ -192,7 +258,7 @@
          -->
     </rule>
 
-    <rule name="Іменник та числівник сорока" id="NOUN_AND_NUMR_40">
+    <rule name="Іменник та числівник сорока" id="DIS_NOUN_AND_NUMR_40">
         <pattern>
           <token regexp="yes">до|мінус|плюс|приблизно</token>
           <marker>
@@ -211,7 +277,7 @@
          -->
     </rule>
 
-    <rulegroup name="Прийменник та вигук о" id="PREP_AND_EXCL_O">
+    <rulegroup name="Прийменник та вигук о" id="DIS_PREP_AND_EXCL_O">
       <rule>
         <pattern>
           <marker>
@@ -289,7 +355,7 @@
     </rulegroup>
 
 <!--
-    <rule name="Прийменник/прислівник перед дієсловом — прислівник" id="PREP_ADV_BEFORE_VERB">
+    <rule name="Прийменник/прислівник перед дієсловом — прислівник" id="DIS_PREP_ADV_BEFORE_VERB">
         <pattern>
           <and>
             <token postag_regexp="yes" postag="adv.*"/>
@@ -303,7 +369,7 @@
             outputform="попереду[попереду/adv]"><marker>попереду</marker> поїхав</example>
         <example type="untouched">попереду поїзда</example>
     </rule>
-    <rule name="Прийменник/прислівник перед іменником — прийменник" id="PREP_ADV_BEFORE_NOUN">
+    <rule name="Прийменник/прислівник перед іменником — прийменник" id="DIS_PREP_ADV_BEFORE_NOUN">
         <pattern>
           <and>
             <token postag_regexp="yes" postag="adv.*"/>
