@@ -45,6 +45,11 @@ public class MorfologikUkrainianSpellerRuleTest {
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("До нас приїде The Beatles!")).length);
 
+    // soft hyphen
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("піс\u00ADні")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("піс\u00ADні піс\u00ADні")).length);
+    
+    
     //incorrect sentences:
 
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("атакуючий"));
@@ -70,6 +75,10 @@ public class MorfologikUkrainianSpellerRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Він багато сидів на інтернет-форумах")).length);
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Він багато сидів на інтермет-форумах")).length);
+
+    // dynamic tagging
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("екс-креветка")).length);
+
 
     // abbreviations
 

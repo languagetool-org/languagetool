@@ -23,9 +23,12 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
+import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.tagging.uk.IPOSTag;
 
 public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule {
 
@@ -36,7 +39,7 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
   public MorfologikUkrainianSpellerRule(ResourceBundle messages,
                                         Language language) throws IOException {
     super(messages, language);
-    setCheckCompound(true);
+//    setCheckCompound(true);
   }
 
   @Override
@@ -68,7 +71,23 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
         return true;
       }
     }
+    
+    if( word.contains("-") ) {
+      return hasGoodTag(tokens[idx]);
+    }
 
+    return false;
+  }
+
+  private boolean hasGoodTag(AnalyzedTokenReadings tokens) {
+    for (AnalyzedToken analyzedToken : tokens) {
+      String posTag = analyzedToken.getPOSTag();
+      if( posTag != null 
+            && ! posTag.equals(JLanguageTool.SENTENCE_START_TAGNAME) 
+            && ! posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME) 
+            && ! posTag.contains(IPOSTag.bad.getText()) )
+        return true;
+    }
     return false;
   }
 
