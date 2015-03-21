@@ -30660,6 +30660,29 @@ $Id$
         </rule>
     </category>
     <category name="C8) Formes secundàries" default="on" type="style">
+        <rule id="LIDERAT_LIDERATGE" name="liderat/lideratge">
+            <pattern>
+                <token postag="D[^R].*|PX.*|SPS00|SENT_START" postag_regexp="yes"><exception postag="RG_anteposat|N.*|CC|_PUNCT.*|_loc_unavegada|RN" postag_regexp="yes"/></token>
+                <marker>
+                    <token regexp="yes">liderats?<exception postag="_GV_"/></token>
+                </marker>
+                <token><exception inflected="yes" regexp="yes">per|com|des</exception><exception postag="N.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Forma secundària</message>
+            <suggestion><match no="2" regexp_match="(.+)t(s?)" regexp_replace="$1tge$2"/></suggestion>
+            <suggestion><match no="2" regexp_match=".+t(s?)" regexp_replace="líder$1"/></suggestion>
+            <suggestion>primera posició</suggestion>
+            <example correction="lideratge|líder|primera posició">amb el seu <marker>liderat</marker>.</example>
+            <example correction="lideratge|líder|primera posició">Cal un <marker>liderat</marker> fort.</example>
+            <example correction="lideratge|líder|primera posició">A un punt del <marker>liderat</marker>.</example>
+            <example>ha liderat la batalla</example>
+            <example>L'equip, liderat pel capità, aconseguí la victòria.</example>
+            <example>L'equip, ben liderat, podria arribar lluny.</example>
+            <example>el liderat per Kerensky</example>
+            <example>sector enfrontat al liderat pel qui havia estat secretari general</example>
+            <example>en dos grups, un liderat per</example>
+            <example>liderats per Ria Beckers</example>
+        </rule>
         <rule id="VEHICULITZACIO" name="vehiculització">
             <pattern>
                 <marker>
