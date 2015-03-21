@@ -31,6 +31,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -491,6 +492,7 @@ public class TokenAgreementRule extends Rule {
     return potentialRuleMatch;
   }
 
+  @Nullable
   private static AnalyzedToken getMultiwordToken(AnalyzedTokenReadings analyzedTokenReadings) {
       for(AnalyzedToken analyzedToken: analyzedTokenReadings) {
         String posTag = analyzedToken.getPOSTag();
