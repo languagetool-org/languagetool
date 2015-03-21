@@ -20243,6 +20243,22 @@ $Id$
         
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="MONITORITZAR" name="monitoritzar"> <!-- Unnecessary when dictionary is updated -->
+            <pattern> 
+                <token inflected="yes">monitoritzar</token>
+            </pattern>
+            <message>Paraula incorrecta.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">monitorar</match></suggestion>
+            <example correction="monitorà">Els <marker>monitoritzà</marker>.</example>
+        </rule>
+        <rule id="MONITORITZACIO" name="monitorització">
+            <pattern>
+                <token inflected="yes">monitorització</token>
+            </pattern>
+            <message>Paraula incorrecta.</message>
+            <suggestion><match no="1" postag="NCF(.+)" postag_regexp="yes" postag_replace="NCM$1">monitoratge</match></suggestion>
+            <example correction="monitoratge"><marker>monitorització</marker>.</example>
+        </rule>
         <rule id="ENTRE_PITOS_I_FLAUTES" name="entre pitos i flautes">
             <pattern>
                 <token>entre</token>
