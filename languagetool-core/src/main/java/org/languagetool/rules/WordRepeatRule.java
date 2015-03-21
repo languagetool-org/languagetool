@@ -77,14 +77,18 @@ public class WordRepeatRule extends Rule {
         final String msg = messages.getString("repetition");
         final int prevPos = tokens[i - 1].getStartPos();
         final int pos = tokens[i].getStartPos();
-        final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg, 
-            messages.getString("desc_repetition_short"));
-        ruleMatch.setSuggestedReplacement(prevToken);
+        final RuleMatch ruleMatch = createRuleMatch(prevToken, token, prevPos, pos, msg);
         ruleMatches.add(ruleMatch);
       }
       prevToken = token;
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  protected RuleMatch createRuleMatch(String prevToken, String token, final int prevPos, final int pos, final String msg) {
+    RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg, messages.getString("desc_repetition_short"));
+    ruleMatch.setSuggestedReplacement(prevToken);
+    return ruleMatch;
   }
 
   // avoid "..." etc. to be matched:
