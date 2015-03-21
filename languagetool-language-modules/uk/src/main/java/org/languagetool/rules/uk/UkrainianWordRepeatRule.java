@@ -28,6 +28,11 @@ public class UkrainianWordRepeatRule extends WordRepeatRule {
   }
 
   @Override
+  public String getId() {
+    return "UKRAINIAN_WORD_REPEAT_RULE";
+  }
+
+  @Override
   public boolean ignore(AnalyzedTokenReadings[] tokens, int position) {
     AnalyzedTokenReadings analyzedTokenReadings = tokens[position];
     String token = analyzedTokenReadings.getToken();
