@@ -67,6 +67,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   }
 
   @SuppressWarnings({"ReuseOfLocalVariable", "ControlFlowStatementWithoutBraces"})
+  @Nullable
   private IrregularForms getIrregularFormsOrNull(String word) {
     IrregularForms irregularFormsOrNull = getIrregularFormsOrNull(word, "ed", Arrays.asList("ed"), "VBD", "verb", "past tense");
     if (irregularFormsOrNull != null) return irregularFormsOrNull;
