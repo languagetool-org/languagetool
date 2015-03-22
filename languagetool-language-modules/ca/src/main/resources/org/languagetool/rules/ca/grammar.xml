@@ -4820,13 +4820,15 @@ $Id$
         <rule id="MASSES" name="massa (adj., adv. invariable)">
             <pattern>
                 <token>masses</token>
-                <token postag="NC.[NP].*" postag_regexp="yes"><exception postag="AQ..[NP]." postag_regexp="yes"/></token>
+                <token postag="NC.[NP].*" postag_regexp="yes"><exception postag="AQ..[NP].|V.P..PF." postag_regexp="yes"/><exception regexp="yes">flequeres|forneres</exception></token>
             </pattern>
             <message>"Massa" és invariable com a adverbi i adjectiu.</message>
             <suggestion>massa \2</suggestion>
             <example correction="Massa coses"><marker>Masses coses</marker>.</example>
             <example>Són de masses semblants.</example>
             <example>En unitats de masses solars.</example>
+            <example>masses flequeres o masses forneres</example>
+            <example>Tenen el nom de masses suspeses.</example>
         </rule>
         <rule id="NO_MAI" name="no mai">
             <pattern>
@@ -20788,6 +20790,7 @@ $Id$
                 <example>Es va dirigir a mitjans especialitzats.</example>
                 <example>Es va dirigir a mitjans especials.</example>
                 <example>un ús de mitjans indirectes</example>
+                <example>per manca de mitjans físics i materials</example>
             </rule>
             <rule>
                 <pattern>
@@ -29928,13 +29931,12 @@ $Id$
         <rulegroup id="METGE_MEDIC" name="*metge/mèdic">
             <rule>
                 <pattern>
-                    <token postag="NC.*" postag_regexp="yes"><exception postag="NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">déu|ciutadà</exception></token>
+                    <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">revisió|centre|tractament|material|procediment|coneixement|diagnòstic|problema|maletí|interrogatori|consultori|document|instrumental|dispositiu|ús|institut</token>
                     <marker>
-                        <token regexp="yes">metges?<exception postag="_possible_nompropi"/></token>
+                        <token regexp="yes">metges?</token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" postag="NC(..).*" postag_regexp="yes" postag_replace="AQ0$10">mèdic</match></suggestion>?</message>
-                <example correction="mèdic">certificat <marker>metge</marker></example>
                 <example correction="mèdiques">unes revisions <marker>metges</marker></example>
                 <example>un certificat mèdic</example>
                 <example>de la col·lecció "Bernat Metge"</example>
