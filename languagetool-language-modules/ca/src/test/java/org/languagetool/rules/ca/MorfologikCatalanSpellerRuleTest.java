@@ -348,6 +348,10 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("uns homes", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("pelsseus"));
         assertEquals("pels seus", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("daquesta"));
+        assertEquals("d'aquesta", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("daquelles"));
+        assertEquals("d'aquelles", matches[0].getSuggestedReplacements().get(0));
 
     }
     

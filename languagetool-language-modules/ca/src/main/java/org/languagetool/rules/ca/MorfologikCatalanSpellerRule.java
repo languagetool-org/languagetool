@@ -46,8 +46,8 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern APOSTROF_FINAL = Pattern.compile("^(.+[aei])(l|ls|m|n|ns|s|t)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern GUIONET_FINAL = Pattern.compile("^([\\p{L}·]+)[’']?(hi|ho|la|les|li|lo|los|me|ne|nos|se|te|vos)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern VERB_INDSUBJ = Pattern.compile("V.[SI].*");
-  private static final Pattern NOM_SING = Pattern.compile("V.[NG].*|V.P..S..|N..[SN].*|A...[SN].|PX..S...");
-  private static final Pattern NOM_PLURAL = Pattern.compile("V.P..P..|N..[PN].*|A...[PN].|PX..P...");
+  private static final Pattern NOM_SING = Pattern.compile("V.[NG].*|V.P..S..|N..[SN].*|A...[SN].|PX..S...|DD..S.");
+  private static final Pattern NOM_PLURAL = Pattern.compile("V.P..P..|N..[PN].*|A...[PN].|PX..P...|DD..P.");
   private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
   private static final CatalanTagger tagger=new CatalanTagger();
 
