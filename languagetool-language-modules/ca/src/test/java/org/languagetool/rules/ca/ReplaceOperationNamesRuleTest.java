@@ -43,9 +43,9 @@ public class ReplaceOperationNamesRuleTest extends TestCase {
 
     // correct sentences:
     //assertCorrect("els etiquetadors sobre els etiquetats.");
+    assertCorrect("tot tenyit amb llum de nostàlgia");
     assertCorrect("Ho van fer per duplicat.");
     assertCorrect("Assecat el braç del riu");
-    assertCorrect("Va aconseguir el liderat de primera divisió.");
     assertCorrect("el llibre empaquetat");
     assertCorrect("un resultat equilibrat");
     assertCorrect("el nostre equip era bastant equilibrat");
@@ -53,8 +53,6 @@ public class ReplaceOperationNamesRuleTest extends TestCase {
     assertCorrect("l'informe filtrat pel ministre");
     assertCorrect("L'informe filtrat és terrible");
     assertCorrect("ha liderat la batalla");
-    assertCorrect("L'equip, liderat pel capità, aconseguí la victòria.");
-    assertCorrect("L'equip, ben liderat, podria arribar lluny.");
     assertCorrect("Els tinc empaquetats");
     assertCorrect("amb tractament unitari i equilibrat");
     assertCorrect("Processat després de la mort de Carles II");
@@ -64,10 +62,6 @@ public class ReplaceOperationNamesRuleTest extends TestCase {
     assertCorrect("la comercialització de vi embotellat amb les firmes comercials");
     assertCorrect("eixia al mercat el vi blanc embotellat amb la marca");
     assertCorrect("que arribi a un equilibrat matrimoni");
-    assertCorrect("el liderat per Kerensky");
-    assertCorrect("sector enfrontat al liderat pel qui havia estat secretari general");
-    assertCorrect("en dos grups, un liderat per");
-    assertCorrect("liderats per Ria Beckers");
     assertCorrect("És un cafè amb molt de cos i molt equilibrat.");
     assertCorrect("i per tant etiquetat com a observat");
     assertCorrect("Molt equilibrat en les seves característiques");
