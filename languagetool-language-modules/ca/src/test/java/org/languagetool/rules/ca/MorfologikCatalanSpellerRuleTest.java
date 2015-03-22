@@ -316,13 +316,16 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("dacontentar"));
         assertEquals("d'acontentar", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("devidents"));
-        assertEquals("d'evidents", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("de vidents", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("d'evidents", matches[0].getSuggestedReplacements().get(1));
         matches = rule.match(langTool.getAnalyzedSentence("lacomplexat"));
-        assertEquals("l'acomplexat", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("la complexat", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("l'acomplexat", matches[0].getSuggestedReplacements().get(1));
         matches = rule.match(langTool.getAnalyzedSentence("dacomplexats"));
         assertEquals("d'acomplexats", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("lacomplexats"));
-        assertEquals("acomplexats", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("la complexats", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("acomplexats", matches[0].getSuggestedReplacements().get(1));
         matches = rule.match(langTool.getAnalyzedSentence("veurehi"));
         assertEquals("veure-hi", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("veurels"));
@@ -335,6 +338,16 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("portes", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("mantenir'me"));
         assertEquals("mantenir-me", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("elcap"));
+        assertEquals("el cap", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("almeu"));
+        assertEquals("al meu", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("delteu"));
+        assertEquals("del teu", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("unshomes"));
+        assertEquals("uns homes", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("pelsseus"));
+        assertEquals("pels seus", matches[0].getSuggestedReplacements().get(0));
 
     }
     

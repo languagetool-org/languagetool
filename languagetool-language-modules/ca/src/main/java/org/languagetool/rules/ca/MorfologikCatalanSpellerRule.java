@@ -38,14 +38,16 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final String RESOURCE_FILENAME = "/ca/catalan.dict";
   private static final String SPELLING_FILE = "/ca/spelling.txt";
   
+  private static final Pattern PARTICULA_INICIAL = Pattern.compile("^(els?|als?|pels?|dels?|de|per|uns?|una|unes|la|les|[tms]eus?) (.+)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  
   private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnmts])(h?[aeiouàéèíòóú].+)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_INICI_NOM_SING = Pattern.compile("^([ld])(h?[aeiouàéèíòóú].+)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_INICI_NOM_PLURAL = Pattern.compile("^(d)(h?[aeiouàéèíòóú].+)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_FINAL = Pattern.compile("^(.+[aei])(l|ls|m|n|ns|s|t)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern GUIONET_FINAL = Pattern.compile("^([\\p{L}·]+)[’']?(hi|ho|la|les|li|lo|los|me|ne|nos|se|te|vos)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern VERB_INDSUBJ = Pattern.compile("V.[SI].*");
-  private static final Pattern NOM_SING = Pattern.compile("V.[NG].*|V.P..S..|N..[SN].*|A...[SN].");
-  private static final Pattern NOM_PLURAL = Pattern.compile("V.P..P..|N..[PN].*|A...[PN].");
+  private static final Pattern NOM_SING = Pattern.compile("V.[NG].*|V.P..S..|N..[SN].*|A...[SN].|PX..S...");
+  private static final Pattern NOM_PLURAL = Pattern.compile("V.P..P..|N..[PN].*|A...[PN].|PX..P...");
   private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
   private static final CatalanTagger tagger=new CatalanTagger();
 
@@ -77,17 +79,35 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   }
   
   @Override
+  protected List<String> orderSuggestions(List<String> suggestions, String word) {
+    //move some run-on-words suggesions to the top 
+    if (suggestions.size() < 3) {
+      return suggestions;
+    }
+    for (String suggestion : suggestions) {
+      if (PARTICULA_INICIAL.matcher(suggestion).matches()) {
+        int index = suggestions.indexOf(suggestion);
+        suggestions.remove(index);
+        suggestions.add(0, suggestion);
+      }
+    }
+    return suggestions;
+  }
+  
+  @Override
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions,
       String word) throws IOException {
     //TODO try other combinations. Ex. daconseguirlos
-    if (word.length() < 5 || word.endsWith("as")) {
+    if (word.length() < 5) {
       return Collections.emptyList();
     }
     String suggestion = "";
     suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'");
     suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_SING, NOM_SING, 2, "'");
     suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_PLURAL, NOM_PLURAL, 2, "'");
-    suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL, VERB_INFGERIMP, 1, "'");
+    if (!word.endsWith("as") && !word.endsWith("et")) { 
+      suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL, VERB_INFGERIMP, 1, "'");
+    }
     suggestion = findSuggestion(suggestion, word, GUIONET_FINAL, VERB_INFGERIMP, 1, "-");
     if (!suggestion.isEmpty()) {
       return Collections.singletonList(suggestion);
