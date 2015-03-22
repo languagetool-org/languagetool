@@ -23305,10 +23305,10 @@ $Id$
         </rule>
         <rule id="A_DIARI" name="a diari"> <!-- per a diari? -->
             <pattern>
-                <token><exception regexp="yes">com|per</exception></token>
+                <token><exception regexp="yes">com|per|setmanari</exception></token>
                 <marker>
                     <token>a</token>
-                    <token>diari</token>
+                    <token>diari<exception postag="_possible_nompropi"/></token>
                 </marker>
             </pattern>
             <message>Expressió incorrecta.</message>
@@ -23316,6 +23316,8 @@ $Id$
             <suggestion>diàriament</suggestion>
             <example correction="cada dia|diàriament">em llevo d'hora <marker>a diari</marker>.</example>
             <example>Va funcionar sempre com a diari de notícies.</example>
+            <example>Va passar de setmanari a diari.</example>
+            <example>Va escriure a Diari de Girona.</example>
         </rule>
         <rulegroup id="ESQUENES" name="a esquenes de">
             <rule>
@@ -35171,6 +35173,12 @@ $Id$
                     <token>lloc</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">major|gran|bona</token>
+                    <token>part</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -35201,6 +35209,7 @@ $Id$
                 <example>El que m'havia dit la primera era veritat.</example>
                 <example>Tenien lloc celebracions.</example>
                 <example>A mi que em costa tant trobar arguments.</example>
+                <example>en la seva major part gent senzilla</example>
             </rule>
         </rulegroup>
         <rulegroup id="FALTA_ELEMENT_ENTRE_GN" name="Falta un element entre grups nominals" default="off">
