@@ -63,6 +63,9 @@ public class ReplaceOperationNamesRule extends Rule {
   private static final Pattern PrevToken_POS = Pattern.compile("D[^R].*|PX.*|SPS00|SENT_START");
   private static final Pattern PrevToken_POS_Excep = Pattern.compile("RG_anteposat|N.*|CC|_PUNCT.*|_loc_unavegada|RN");
   private static final Pattern NextToken_POS_Excep = Pattern.compile("N.*");
+  
+  private static final Pattern PUNTUACIO = Pattern.compile("PUNCT.*|SENT_START");
+  private static final Pattern DETERMINANT = Pattern.compile("D[^R].M.*");
 
   public final String getFileName() {
     return FILE_NAME;
@@ -124,6 +127,17 @@ public class ReplaceOperationNamesRule extends Rule {
         continue loop;
       }
       
+      // exceptions
+      if (token.equals("duplicat") && tokens[i-1].getToken().equalsIgnoreCase("per")) {
+        continue loop;
+      }
+      // Assecat el braç del riu
+      if (matchPostagRegexp(tokens[i - 1], PUNTUACIO) &&
+          matchPostagRegexp(tokens[i + 1], DETERMINANT)) {
+        continue loop;
+      }
+      
+      
       // relevant token
       if (tokens[i].hasPosTag("_GV_")) {
         continue loop;
@@ -132,8 +146,8 @@ public class ReplaceOperationNamesRule extends Rule {
       // next token
       if (i + 1 < tokens.length
           && (tokens[i + 1].hasLemma("per") || tokens[i + 1].hasLemma("com")
-              || tokens[i + 1].hasLemma("des") || matchPostagRegexp(
-                tokens[i + 1], NextToken_POS_Excep))) {
+              || tokens[i + 1].hasLemma("des") || tokens[i + 1].hasLemma("amb") 
+              || matchPostagRegexp(tokens[i + 1], NextToken_POS_Excep))) {
         continue loop;
       }
       

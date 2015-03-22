@@ -42,6 +42,9 @@ public class ReplaceOperationNamesRuleTest extends TestCase {
   public void testRule() throws IOException {
 
     // correct sentences:
+    //assertCorrect("els etiquetadors sobre els etiquetats.");
+    assertCorrect("Ho van fer per duplicat.");
+    assertCorrect("Assecat el braç del riu");
     assertCorrect("Va aconseguir el liderat de primera divisió.");
     assertCorrect("el llibre empaquetat");
     assertCorrect("un resultat equilibrat");
@@ -73,6 +76,7 @@ public class ReplaceOperationNamesRuleTest extends TestCase {
     assertCorrect("no equilibrat");
     
     // errors:
+    assertIncorrect("Assecat del braç del riu");
     assertIncorrect("Cal vigilar el filtrat del vi");
     assertIncorrect("El procés d'empaquetat");
     assertIncorrect("Els equilibrats de les rodes");
