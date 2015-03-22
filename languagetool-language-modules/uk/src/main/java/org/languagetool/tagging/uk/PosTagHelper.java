@@ -10,11 +10,13 @@ import org.languagetool.AnalyzedTokenReadings;
 /**
  * @since 2.9
  */
-public abstract class PosTagHelper {
-
+public class PosTagHelper {
   private static final Pattern GENDER_REGEX = Pattern.compile("(noun|adjp?|numr):(.):v_.*");
   private static final Pattern GENDER_CONJ_REGEX = Pattern.compile("(noun|adjp?|numr):(.:v_...).*");
 
+  private PosTagHelper() {
+  }
+  
   @Nullable
   public static String getGender(String posTag) {
     Matcher pos4matcher = GENDER_REGEX.matcher(posTag);
