@@ -1178,6 +1178,7 @@ $Id$
                 <example>И растёт ребёнок там не по дням, а по часам.</example>
                 <example correction="дням, а">И растёт ребёнок там не по <marker>дням а</marker> по часам.</example>
             </rule>
+         <!--  а + (что|точнее|то|следовательно|ну-ка|ну|например|наоборот|может|лучше|между|иначе|как|именно|значит|и|ещё|еще|всё-таки|все-таки|если|главное|впрочем|вернее|ведь|вдруг) -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—|…|«<exception postag="SENT_START"></exception></token>
@@ -2017,13 +2018,14 @@ $Id$
          <rule id="oplachivat_prep" name="Грамматические ошибки «оплачивать за ... »">
             <pattern>
                 <token inflected="yes" regexp="yes">оплатить|оплачивать<exception postag_regexp="yes" postag="PT:.*"></exception></token>
-                <token postag="PREP"></token>
+                <token postag="PREP">за</token>      <!--     <token postag="PREP"></token>  -->
             </pattern>
             <message>Предлог не нужен.</message>         
             <short>Предлог не нужен.</short>
             <example correction=""><marker>Оплатить за</marker> проезд.</example>
             <example>Оплачивать проезд.</example>
-            <example>Счёт должен быть оплачен к первому числу следующего месяца.</example>           
+            <example>Счёт должен быть оплачен к первому числу следующего месяца.</example>
+            <example>Покупатель оплачивает товар  на условиях, предусмотренных настоящим договором.</example>           
         </rule>
       
          <rulegroup id="rugat_rugatsja" name="Грамматические ошибки «ругать/ругаться + ...»">
@@ -2930,12 +2932,13 @@ $Id$
                     <token regexp="yes" >встречу|счёт|счет</token>  <!--<exception scope="next" postag_regexp="yes" postag="*.:R"></exception>  в-->
                     </marker>
                     <token>
-                        <exception  postag="PREP"></exception>
+                        <exception  postag="PREP"></exception><exception  regexp="yes" inflected="yes">поставщик|заказчик|контрагент</exception>
                     </token>
                 </pattern>
                 <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
                 <short>Пишется слитно.</short>
                 <example>Деньги переведены <marker>на счёт</marker> в банке.</example>
+                  <example>Деньги переведены <marker>на счёт</marker> поставщика.</example>
                 <example>Я иду <marker>на встречу</marker> с другом.</example>
                 <example correction="навстречу">Они шли <marker>на встречу</marker> друг другу.</example>
                 <example correction="насчёт">Тебе следует быть осторожным <marker>на счёт</marker> того, чтобы пойти в поход.</example>
