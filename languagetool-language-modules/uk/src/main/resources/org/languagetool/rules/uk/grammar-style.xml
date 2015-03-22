@@ -191,10 +191,10 @@ $Id$
                 </pattern>
                 <message>З числівником замість «більше» краще вживати «понад», або «більше ніж/як»: <suggestion>понад <match no="2" postag="numr:p:v_zna"/></suggestion></message>
                 <suggestion>більш як <match no="2" postag="numr:p:v_zna"/></suggestion>
-                <suggestion>більш ніж <match no="2" postag="numr:p:v_zna"/></suggestion>
+                <suggestion>більше ніж <match no="2" postag="numr:p:v_zna"/></suggestion>
                 <example>Більше одного</example>
                 <example>цюпка не більше шести кроків вдовж</example>
-                <example correction="понад сто|більш як сто|більш ніж сто"><marker>більше ста</marker>.</example>
+                <example correction="понад сто|більш як сто|більше ніж сто"><marker>більше ста</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -205,32 +205,17 @@ $Id$
                 </pattern>
                 <message>З числівником замість «більше» краще вживати «понад», або «більше ніж/як»: <suggestion>понад <match no="2"/></suggestion></message>
                 <suggestion>більш як <match no="2"/></suggestion>
-                <suggestion>більш ніж <match no="2"/></suggestion>
+                <suggestion>більше ніж <match no="2"/></suggestion>
                 <example>Більш як 40</example>
-                <example correction="понад 500|більш як 500|більш ніж 500"><marker>більше 500</marker>.</example>
-                <example correction="понад 2,000|більш як 2,000|більш ніж 2,000"><marker>більшими 2,000</marker> слів.</example>
-                <example correction="Понад 10%|Більш як 10%|Більш ніж 10%">«<marker>Більше 10%</marker> людей</example>
+                <example correction="понад 500|більш як 500|більше ніж 500"><marker>більше 500</marker>.</example>
+                <example correction="понад 2,000|більш як 2,000|більше ніж 2,000"><marker>більшими 2,000</marker> слів.</example>
+                <example correction="Понад 10%|Більш як 10%|Більше ніж 10%">«<marker>Більше 10%</marker> людей</example>
                 <!-- 
                 <example correction="вище ніж 39"><marker>вище 39</marker> градусів.</example>
                 -->
                 <example>Не більше 40</example>
                 <example>Щонайбільше 40</example>
             </rule>
-            <rule>
-                <pattern>
-                  <token>не</token>
-                  <marker>
-                    <token regexp="yes" inflected="yes" postag_regexp="yes" postag="(adv|adj).*compr.*">багато|великий</token>
-                    <token postag_regexp="yes" postag="numr:.*v_rod|number"/>
-                  </marker>
-                </pattern>
-                <message>З числівником замість «не більше» краще вживати «не більше ніж/як»: <suggestion><match no="2"/> як <match no="3"/></suggestion></message>
-                <suggestion>більш ніж <match no="3"/></suggestion>
-                <example>не більш як 40</example>
-                <example correction="більшими як п'яти|більш ніж п'яти">не <marker>більшими п'яти</marker> слів</example> <!-- TODO: -->
-                <example correction="більшими як 2,000|більш ніж 2,000">не <marker>більшими 2,000</marker> слів</example>
-            </rule>
-
             <rule>
                 <pattern>
                     <token regexp="yes">більше?</token>
@@ -248,25 +233,58 @@ $Id$
                 <example correction="понад рік|більше як рік"><marker>більше року</marker>.</example>
                 -->
             </rule>
-    </rulegroup>
+	    </rulegroup>
 
-<!--
-    <rulegroup name="Через понад, за понад" id="CHERZ_ZA_PONAD">
+        <rulegroup name="Менше з числівниками та іменниками часу" id="MENSHE_WITH_TIME_NOUNS">
             <rule>
                 <pattern>
-                    <token regexp="yes">через|за</token>
-                    <marker>
-                    <token>понад</token>
-                    </marker>
+                    <token regexp="yes" inflected="yes" postag_regexp="yes" postag="(adv|adj).*compr.*">мало|малий
+                      <exception scope="previous">не</exception>
+                    </token>
+                    <token postag_regexp="yes" postag="numr:.*v_rod">
+                        <exception inflected="yes">один</exception>
+                    </token>
                 </pattern>
-                <message>Правильно: <suggestion>більш ніж</suggestion>, <suggestion>більш як</suggestion></message>
-                <example>Понад сто років</example>
-                <example>Через сто років</example>
-                <example correction="більш ніж|більш як">Через <marker>понад</marker> сто років.</example>
-                <example correction="більш ніж|більш як">За <marker>понад</marker> сто років.</example>
+                <message>З числівником замість «менше» краще вживати «менше ніж/як»: <suggestion>менш як <match no="2" postag="numr:p:v_zna"/></suggestion></message>
+                <suggestion>менш ніж <match no="2" postag="numr:p:v_zna"/></suggestion>
+                <example>Менше одного</example>
+                <example>цюпка не менше шести кроків вдовж</example>
+                <example correction="менш як сто|менш ніж сто"><marker>менше ста</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes" postag_regexp="yes" postag="(adv|adj).*compr.*">мало|малий
+                      <exception scope="previous">не</exception>
+                    </token>
+                    <token postag="number"/>
+                </pattern>
+                <message>З числівником замість «менше» краще вживати «менше ніж/як»: <suggestion>менш як <match no="2"/></suggestion></message>
+                <suggestion>менше ніж <match no="2"/></suggestion>
+                <example>Менш як 40</example>
+                <example correction="менш як 500|менше ніж 500"><marker>менше 500</marker>.</example>
+                <example correction="менш як 2,000|менше ніж 2,000"><marker>меншими 2,000</marker> слів.</example>
+                <example correction="Менш як 10%|Менше ніж 10%">«<marker>Менше 10%</marker> людей</example>
+                <example>Не менше 40</example>
+                <example>Щонайменше 40</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">менше?</token>
+                    <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:[mf]:v_rod">хвилина|година|день|доба|тиждень|місяць|рік</token>
+                </pattern>
+                <message>З іменником часу замість «менше» краще вживати «менше ніж/як»: <suggestion>менш як <match no="2" postag_regexp="yes" postag="(noun:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion></message>
+                <suggestion>менше ніж <match no="2" postag_regexp="yes" postag="(noun:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion>
+                <example>Менше галасу</example>
+                <example>Менше одного</example>
+                <example correction="менш як тиждень|менше ніж тиждень"><marker>менше тижня</marker>.</example>
+                <example correction="менш як хвилину|менше ніж хвилину"><marker>менше хвилини</marker>.</example>
+                <example correction="менш як добу|менше ніж добу"><marker>менше доби</marker>.</example>
+                <!-- 
+                <example correction="менш як рік|менше ніж рік"><marker>менше року</marker>.</example>
+                 -->
             </rule>
     </rulegroup>
--->
+
 <!--
     <rulegroup name="Канцелярзми" id="KANZ">
        <rule>   
