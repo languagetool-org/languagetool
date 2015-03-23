@@ -41,9 +41,7 @@ public class HiddenCharacterRule extends Rule {
   private static final Character HIDDEN_CHAR = '\u00AD'; // soft hyphen
   
   public HiddenCharacterRule(final ResourceBundle messages) throws IOException {
-    if (messages != null) {
-      super.setCategory(new Category(messages.getString("category_misc")));
-    }
+    super.setCategory(new Category(messages.getString("category_misc")));
   }
 
   @Override

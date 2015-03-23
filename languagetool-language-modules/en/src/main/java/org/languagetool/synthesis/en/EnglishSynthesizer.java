@@ -28,6 +28,8 @@ import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
 
 import org.languagetool.AnalyzedToken;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.rules.en.AvsAnRule;
 import org.languagetool.synthesis.BaseSynthesizer;
 
@@ -56,6 +58,8 @@ public class EnglishSynthesizer extends BaseSynthesizer {
   // A special tag to add only indefinite articles.
   private static final String ADD_IND_DETERMINER = "+INDT";
 
+  private final AvsAnRule aVsAnRule = new AvsAnRule(JLanguageTool.getMessageBundle(Languages.getLanguageForShortName("en")));
+
   public EnglishSynthesizer() {
     super(RESOURCE_FILENAME, TAGS_FILE_NAME);
   }
@@ -72,12 +76,10 @@ public class EnglishSynthesizer extends BaseSynthesizer {
   public String[] synthesize(final AnalyzedToken token, final String posTag)
       throws IOException {
     if (ADD_DETERMINER.equals(posTag)) {
-      final AvsAnRule rule = new AvsAnRule(null);
-      return new String[] { rule.suggestAorAn(token.getToken()),
+      return new String[] { aVsAnRule.suggestAorAn(token.getToken()),
           "the " + token.getToken() };
     } else if (ADD_IND_DETERMINER.equals(posTag)) {
-      final AvsAnRule rule = new AvsAnRule(null);
-      return new String[] { rule.suggestAorAn(token.getToken()) };
+      return new String[] { aVsAnRule.suggestAorAn(token.getToken()) };
     }
 
     final IStemmer synthesizer = createStemmer();
@@ -104,8 +106,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
       String det = "";
       if (posTag.endsWith(ADD_IND_DETERMINER)) {
         myPosTag = myPosTag.substring(0, myPosTag.indexOf(ADD_IND_DETERMINER) - "\\".length());
-        final AvsAnRule rule = new AvsAnRule(null);
-        det = rule.suggestAorAn(token.getLemma());
+        det = aVsAnRule.suggestAorAn(token.getLemma());
         det = det.substring(0, det.indexOf(' ') + " ".length());
       } else if (posTag.endsWith(ADD_DETERMINER)) {
         myPosTag = myPosTag.substring(0, myPosTag.indexOf(ADD_DETERMINER) - "\\".length());

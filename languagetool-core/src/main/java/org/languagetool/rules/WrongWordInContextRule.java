@@ -53,9 +53,7 @@ public abstract class WrongWordInContextRule extends Rule {
   private final List<ContextWords> contextWordsSet;
 
   public WrongWordInContextRule(final ResourceBundle messages) {
-    if (messages != null) {
-      super.setCategory(new Category(getCategoryString()));
-    }
+    super.setCategory(new Category(getCategoryString()));
     contextWordsSet = loadContextWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(getFilename()));
     setLocQualityIssueType(ITSIssueType.Misspelling);
   }

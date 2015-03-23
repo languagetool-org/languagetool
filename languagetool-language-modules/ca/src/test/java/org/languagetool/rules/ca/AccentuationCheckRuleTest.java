@@ -20,6 +20,7 @@ package org.languagetool.rules.ca;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
 
@@ -35,7 +36,7 @@ public class AccentuationCheckRuleTest extends TestCase {
 
   @Override
   public void setUp() throws IOException {
-    rule = new AccentuationCheckRule(null);
+    rule = new AccentuationCheckRule(TestTools.getEnglishMessages());
     langTool = new JLanguageTool(new Catalan());
   }
 
@@ -131,7 +132,7 @@ public class AccentuationCheckRuleTest extends TestCase {
   }
 
   public void testPositions() throws IOException {
-    final AccentuationCheckRule rule = new AccentuationCheckRule(null);
+    final AccentuationCheckRule rule = new AccentuationCheckRule(TestTools.getEnglishMessages());
     final RuleMatch[] matches;
     final JLanguageTool langTool = new JLanguageTool(new Catalan());
 

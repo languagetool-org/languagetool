@@ -21,6 +21,7 @@ package org.languagetool.rules.pl;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
 import org.languagetool.rules.RuleMatch;
 
@@ -28,11 +29,8 @@ import java.io.IOException;
 
 public class PolishWordRepeatRuleTest extends TestCase {
 
-  /*
-   * Test method for 'org.languagetool.rules.pl.PolishWordRepeatRule.match(AnalyzedSentence)'
-   */
   public void testRule() throws IOException {
-    final PolishWordRepeatRule rule = new PolishWordRepeatRule(null);
+    final PolishWordRepeatRule rule = new PolishWordRepeatRule(TestTools.getEnglishMessages());
     RuleMatch[] matches;
     JLanguageTool langTool = new JLanguageTool(new Polish());
     //correct

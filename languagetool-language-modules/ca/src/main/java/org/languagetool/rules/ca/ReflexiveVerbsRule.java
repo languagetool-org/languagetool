@@ -165,9 +165,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
   
    
   public ReflexiveVerbsRule(ResourceBundle messages) throws IOException {
-    if (messages != null) {
-      super.setCategory(new Category("Verbs"));
-    }
+    super.setCategory(new Category("Verbs"));
     setLocQualityIssueType(ITSIssueType.Grammar);
   }
 

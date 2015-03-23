@@ -77,9 +77,7 @@ public class ReplaceOperationNamesRule extends Rule {
   
   public ReplaceOperationNamesRule(final ResourceBundle messages) throws IOException {
     super.setLocQualityIssueType(ITSIssueType.Style);
-    if (messages != null) {
-      super.setCategory(new Category("C8) Formes secundàries"));
-    }
+    super.setCategory(new Category("C8) Formes secundàries"));
     possibleWrongWords = loadWords(JLanguageTool.getDataBroker()
         .getFromRulesDirAsStream(getFileName()));
     synth = new CatalanSynthesizer();

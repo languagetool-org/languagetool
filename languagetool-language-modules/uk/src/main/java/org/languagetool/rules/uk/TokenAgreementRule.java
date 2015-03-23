@@ -64,9 +64,7 @@ public class TokenAgreementRule extends Rule {
       ));
 
   public TokenAgreementRule(final ResourceBundle messages) throws IOException {
-    if (messages != null) {
-      super.setCategory(new Category(messages.getString("category_misc")));
-    }
+    super.setCategory(new Category(messages.getString("category_misc")));
   }
 
   @Override

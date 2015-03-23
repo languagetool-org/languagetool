@@ -119,9 +119,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
 
   public ComplexAdjectiveConcordanceRule(ResourceBundle messages)
       throws IOException {
-    if (messages != null) {
-      super.setCategory(new Category("Z) Concordances en grups nominals"));
-    }
+    super.setCategory(new Category("Z) Concordances en grups nominals"));
     setLocQualityIssueType(ITSIssueType.Grammar);
   }
 

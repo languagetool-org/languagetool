@@ -91,9 +91,7 @@ public class AccentuationCheckRule extends CatalanRule {
   private final Map<String, AnalyzedTokenReadings> relevantWords2;
 
   public AccentuationCheckRule(ResourceBundle messages) throws IOException {
-    if (messages != null) {
-      super.setCategory(new Category(messages.getString("category_misc")));
-    }
+    super.setCategory(new Category(messages.getString("category_misc")));
     setLocQualityIssueType(ITSIssueType.Grammar);
     relevantWords = loadWords(FILE_NAME);
     relevantWords2 = loadWords(FILE_NAME2);

@@ -54,9 +54,7 @@ public class AvsAnRule extends EnglishRule {
   private final Set<String> requiresAn;
 
   public AvsAnRule(final ResourceBundle messages) {
-    if (messages != null) {
-      super.setCategory(new Category(messages.getString("category_misc")));
-    }
+    super.setCategory(new Category(messages.getString("category_misc")));
     requiresA = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILENAME_A));
     requiresAn = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILENAME_AN));
     setLocQualityIssueType(ITSIssueType.Misspelling);

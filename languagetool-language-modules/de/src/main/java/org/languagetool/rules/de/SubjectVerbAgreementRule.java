@@ -61,9 +61,7 @@ public class SubjectVerbAgreementRule extends GermanRule {
   private final GermanTagger tagger = (GermanTagger)new German().getTagger();
 
   public SubjectVerbAgreementRule(ResourceBundle messages) {
-    if (messages != null) {
-      super.setCategory(new Category(messages.getString("category_grammar")));
-    }
+    super.setCategory(new Category(messages.getString("category_grammar")));
   }
 
   @Override

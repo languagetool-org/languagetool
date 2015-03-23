@@ -59,9 +59,7 @@ public abstract class AbstractWordCoherencyRule extends Rule {
   private final Map<String, RuleMatch> shouldNotAppearWord = new HashMap<>();  // e.g. aufwändig -> RuleMatch of aufwendig
 
   public AbstractWordCoherencyRule(ResourceBundle messages) throws IOException {
-    if (messages != null) {
-      super.setCategory(new Category(messages.getString("category_misc")));
-    }
+    super.setCategory(new Category(messages.getString("category_misc")));
     relevantWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(getFilePath()));
   }
   

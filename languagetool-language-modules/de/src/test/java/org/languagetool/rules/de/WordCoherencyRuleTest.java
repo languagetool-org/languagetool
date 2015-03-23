@@ -20,16 +20,15 @@ package org.languagetool.rules.de;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.German;
-import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-import java.util.List;
 
 public class WordCoherencyRuleTest extends TestCase {
 
   public void testRule() throws IOException {
-    final WordCoherencyRule rule = new WordCoherencyRule(null);
+    final WordCoherencyRule rule = new WordCoherencyRule(TestTools.getEnglishMessages());
     final JLanguageTool langTool = new JLanguageTool(new German());
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist aufwendig, aber nicht zu aufwendig.")).length);
@@ -91,12 +90,12 @@ public class WordCoherencyRuleTest extends TestCase {
   }
 
   private void assertError(String s, JLanguageTool langTool) throws IOException {
-    final WordCoherencyRule rule = new WordCoherencyRule(null);
+    final WordCoherencyRule rule = new WordCoherencyRule(TestTools.getEnglishMessages());
     assertEquals(1, rule.match(langTool.getAnalyzedSentence(s)).length);
   }
 
   private void assertGood(String s, JLanguageTool langTool) throws IOException {
-    final WordCoherencyRule rule = new WordCoherencyRule(null);
+    final WordCoherencyRule rule = new WordCoherencyRule(TestTools.getEnglishMessages());
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(s)).length);
   }
 

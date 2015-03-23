@@ -20,6 +20,7 @@ package org.languagetool.rules.ca;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
 
@@ -31,11 +32,11 @@ import java.io.IOException;
 public class ReplaceOperationNamesRuleTest extends TestCase {
 
   private ReplaceOperationNamesRule rule;
-  private JLanguageTool         langTool;
+  private JLanguageTool langTool;
 
   @Override
   public void setUp() throws IOException {
-    rule = new ReplaceOperationNamesRule(null);
+    rule = new ReplaceOperationNamesRule(TestTools.getEnglishMessages());
     langTool = new JLanguageTool(new Catalan());
   }
 
@@ -78,8 +79,6 @@ public class ReplaceOperationNamesRuleTest extends TestCase {
     assertIncorrect("El procés d'etiquetat de les ampolles");
     assertIncorrect("El rentat de cotes");
 
-    
-
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("El repicat i el rejuntat."));
     assertEquals(2, matches.length);
     
@@ -94,8 +93,6 @@ public class ReplaceOperationNamesRuleTest extends TestCase {
     assertEquals ("rentades", matches[0].getSuggestedReplacements().get(0));
     assertEquals ("rentatges", matches[0].getSuggestedReplacements().get(1));
     assertEquals ("rentaments", matches[0].getSuggestedReplacements().get(2));
-    
-    
   }
 
   private void assertCorrect(String sentence) throws IOException {
@@ -111,7 +108,7 @@ public class ReplaceOperationNamesRuleTest extends TestCase {
   }
 
   public void testPositions() throws IOException {
-    final AccentuationCheckRule rule = new AccentuationCheckRule(null);
+    final AccentuationCheckRule rule = new AccentuationCheckRule(TestTools.getEnglishMessages());
     final RuleMatch[] matches;
     final JLanguageTool langTool = new JLanguageTool(new Catalan());
 

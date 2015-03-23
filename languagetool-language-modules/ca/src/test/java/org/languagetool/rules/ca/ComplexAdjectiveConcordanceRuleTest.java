@@ -20,6 +20,7 @@ package org.languagetool.rules.ca;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
 import org.languagetool.rules.RuleMatch;
 
@@ -35,7 +36,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 
   @Override
   public void setUp() throws IOException {
-    rule = new ComplexAdjectiveConcordanceRule(null);
+    rule = new ComplexAdjectiveConcordanceRule(TestTools.getEnglishMessages());
     langTool = new JLanguageTool(new Catalan());
   }
 

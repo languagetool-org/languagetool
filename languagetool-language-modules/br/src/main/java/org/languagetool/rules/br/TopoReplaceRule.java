@@ -66,9 +66,7 @@ public class TopoReplaceRule extends Rule {
 
   public TopoReplaceRule(final ResourceBundle messages) throws IOException {
     super(messages);
-    if (messages != null) {
-      super.setCategory(new Category(messages.getString("category_misc")));
-    }
+    super.setCategory(new Category(messages.getString("category_misc")));
     wrongWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(getFileName()));
   }
 

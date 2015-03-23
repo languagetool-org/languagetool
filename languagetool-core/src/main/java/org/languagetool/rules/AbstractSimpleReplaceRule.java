@@ -87,9 +87,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
   public AbstractSimpleReplaceRule(final ResourceBundle messages)
       throws IOException {
-    if (messages != null) {
-      super.setCategory(new Category(messages.getString("category_misc")));
-    }
+    super.setCategory(new Category(messages.getString("category_misc")));
     wrongWords = loadWords(JLanguageTool.getDataBroker()
         .getFromRulesDirAsStream(getFileName()));
   }

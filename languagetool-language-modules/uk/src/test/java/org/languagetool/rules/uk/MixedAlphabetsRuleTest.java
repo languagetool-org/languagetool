@@ -34,7 +34,6 @@ public class MixedAlphabetsRuleTest {
   @Test
   public void testRule() throws IOException {
     final MixedAlphabetsRule rule = new MixedAlphabetsRule(TestTools.getMessages("uk"));
-
     final JLanguageTool langTool = new JLanguageTool(new Ukrainian());
 
     // correct sentences:
@@ -68,7 +67,6 @@ public class MixedAlphabetsRuleTest {
 
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("XI"), matches[0].getSuggestedReplacements());
-
   }
 
 }

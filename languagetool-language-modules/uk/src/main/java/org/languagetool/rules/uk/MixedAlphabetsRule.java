@@ -47,9 +47,7 @@ public class MixedAlphabetsRule extends Rule {
   private static final Pattern LATIN_ONLY = Pattern.compile(".*[bdfghjlqrsvzDFGLNQRSUVZ].*");
 
   public MixedAlphabetsRule(final ResourceBundle messages) throws IOException {
-    if (messages != null) {
-      super.setCategory(new Category(messages.getString("category_misc")));
-    }
+    super.setCategory(new Category(messages.getString("category_misc")));
   }
 
   @Override

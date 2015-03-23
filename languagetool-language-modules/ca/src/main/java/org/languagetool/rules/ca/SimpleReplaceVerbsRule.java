@@ -76,9 +76,7 @@ public class SimpleReplaceVerbsRule extends Rule {
   
   public SimpleReplaceVerbsRule(final ResourceBundle messages) throws IOException {
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
-    if (messages != null) {
-      super.setCategory(new Category("Errors ortogràfics"));
-    }
+    super.setCategory(new Category("Errors ortogràfics"));
     wrongWords = loadWords(JLanguageTool.getDataBroker()
         .getFromRulesDirAsStream(getFileName()));
     tagger = new CatalanTagger();

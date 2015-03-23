@@ -20,6 +20,7 @@ package org.languagetool.rules.br;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.Breton;
 
 import java.io.IOException;
@@ -30,7 +31,7 @@ import java.io.IOException;
 public class TopoReplaceRuleTest extends TestCase {
 
   public void testRule() throws IOException {
-    TopoReplaceRule rule = new TopoReplaceRule(null);
+    TopoReplaceRule rule = new TopoReplaceRule(TestTools.getEnglishMessages());
     JLanguageTool langTool = new JLanguageTool(new Breton());
 
     // Wrong sentences.
