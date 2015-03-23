@@ -169,6 +169,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   /**
    * Set the character offset at which the match occurs (zero-based).
+   * @deprecated use {@link #getFromPos()} instead (deprecated since 2.9)
    */
   public void setOffset(final int offset) {
     this.offset = offset;
@@ -176,6 +177,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   /**
    * Get the character offset at which the match occurs (zero-based).
+   * @deprecated use {@link #getFromPos()} instead (deprecated since 2.9)
    */
   public int getOffset() {
     return offset;
