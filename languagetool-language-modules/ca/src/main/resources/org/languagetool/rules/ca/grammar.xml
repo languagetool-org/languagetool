@@ -8487,6 +8487,20 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="DAIXO" name="daixò/d'això">
+            <pattern>
+                <token>daixò</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>d'això</suggestion>? "Daixò" és sinònim de "daixonses" (col·loquial).</message>
+            <example correction="D'això"><marker>Daixò</marker> no es parla.</example>
+        </rule>
+        <rule id="DALLO" name="dallò/d'allò">
+            <pattern>
+                <token>dallò</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>d'allò</suggestion>? "Dallò" és sinònim de "daixonses" (col·loquial).</message>
+            <example correction="D'allò"><marker>Dallò</marker> no es parla.</example>
+        </rule>
         <rule id="EN_PORTAT" name="en portat/en porta">
             <pattern>
                 <token>en</token>
@@ -26342,6 +26356,16 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="SOBAT" name="sobat"> <!-- remove "sobatre" from dictionary? -->
+            <pattern>
+                <token>sobat</token>
+            </pattern>
+            <message>Correcte si és del verb "sobatre".</message>
+            <suggestion>suat</suggestion>
+            <suggestion>gastat</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/esclar</url>
+            <example correction="suat|gastat">molt <marker>sobat</marker>.</example>
+        </rule>
         <rule id="ESCAPARATA" name="escaparata/aparador">
             <pattern>
                 <marker>
@@ -33125,6 +33149,19 @@ $Id$
             <suggestion>esclat</suggestion>
             <url>http://esadir.cat/entrades/fitxa/node/esclar</url>
             <example correction="És clar|Asclar|Esclat"><marker>Esclar</marker> que sí.</example>
+            <example>És clar que sí!</example>
+        </rule>
+        <rule id="SISPLAU" name="sisplau">
+            <pattern>
+                <token>sisplau</token>
+            </pattern>
+            <message>Acceptat per alguns llibres d'estil com a lexicalització de <suggestion>si us plau</suggestion>.</message>
+            <suggestion>si et plau</suggestion>
+            <suggestion>si li plau</suggestion>
+            <suggestion>si els plau</suggestion>
+            <suggestion>per favor</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/sisplau</url>
+            <example correction="Si us plau|Si et plau|Si li plau|Si els plau|Per favor"><marker>Sisplau</marker>, veniu.</example>
             <example>És clar que sí!</example>
         </rule>
         <rule id="ENRECORDAR" name="enrecordar">

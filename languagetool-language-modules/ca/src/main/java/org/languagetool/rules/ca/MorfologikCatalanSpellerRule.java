@@ -20,6 +20,7 @@
 package org.languagetool.rules.ca;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +39,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final String RESOURCE_FILENAME = "/ca/catalan.dict";
   private static final String SPELLING_FILE = "/ca/spelling.txt";
   
-  private static final Pattern PARTICULA_INICIAL = Pattern.compile("^(els?|als?|pels?|dels?|de|per|uns?|una|unes|la|les|[tms]eus?) (.+)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern PARTICULA_INICIAL = Pattern.compile("^(els?|als?|pels?|dels?|de|per|uns?|una|unes|la|les|[tms]eus?) (..+)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
   private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnmts])(h?[aeiouàéèíòóú].+)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_INICI_NOM_SING = Pattern.compile("^([ld])(h?[aeiouàéèíòóú].+)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
@@ -80,24 +81,23 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   
   @Override
   protected List<String> orderSuggestions(List<String> suggestions, String word) {
-    //move some run-on-words suggesions to the top 
-    if (suggestions.size() < 3) {
-      return suggestions;
-    }
+    //move some run-on-words suggestions to the top
+    List<String> newSuggestions = new ArrayList<String>();
     for (String suggestion : suggestions) {
       if (PARTICULA_INICIAL.matcher(suggestion).matches()) {
-        int index = suggestions.indexOf(suggestion);
-        suggestions.remove(index);
-        suggestions.add(0, suggestion);
+        newSuggestions.add(0, suggestion);
+      } else {
+        newSuggestions.add(suggestion);
       }
     }
-    return suggestions;
+    return newSuggestions;
   }
   
   @Override
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions,
       String word) throws IOException {
-    //TODO try other combinations. Ex. daconseguirlos
+    //TODO Try other combinations. Ex. daconseguirlos, 
+    //TODO Including errors (Hunspell can do it). Ex. sescontaminarla > descontaminar-la
     if (word.length() < 5) {
       return Collections.emptyList();
     }
