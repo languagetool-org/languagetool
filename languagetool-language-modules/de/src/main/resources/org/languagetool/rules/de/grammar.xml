@@ -11417,11 +11417,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp='yes'>\d+-Jährige[srnm]?</token>
                     </marker>
-                    <token regexp='yes'>[A-ZÖÄÜ].+<exception>Geld</exception></token> <!-- wir erkennen nicht alle Nomen, also so... -->
+                    <token regexp='yes'>[A-ZÖÄÜ].+<exception regexp="yes">Geld|Unterricht|Privatunterricht</exception></token> <!-- wir erkennen nicht alle Nomen, also so... -->
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="Jähr" regexp_replace="jähr"/></suggestion>?</message>
                 <example correction="13-jährige">Das <marker>13-Jährige</marker> Mädchen gewann den Vorlesewettbewerb.</example>
                 <example>Die Zeitschrift wurde zum <marker>25-jährigen</marker> Bestehen veröffentlicht.</example>
+                <example>Dort erhielt er als <marker>13-Jähriger</marker> Privatunterricht.</example>
             </rule>
         </rulegroup>
         <rule id="HALBMAST" name="Groß-/Kleinschreibung: auf Halbmast (halbmast)">
