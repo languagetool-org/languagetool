@@ -25,12 +25,14 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.language.Demo;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.Match.CaseConversion;
@@ -418,6 +420,18 @@ public class PatternRuleMatcherTest {
     final RuleMatch[] matches2 = getMatches("xx a b x x x b a", matcher);
     assertThat(matches2.length , is(1));
     assertPosition(matches2[0], 3, 16);
+  }
+
+  @Test
+  public void testEquals() throws Exception {
+    PatternRule patternRule1 = new PatternRule("id1", Languages.getLanguageForShortName("xx"),
+            Collections.<PatternToken>emptyList(), "desc1", "msg1", "short1");
+    RuleMatch ruleMatch1 = new RuleMatch(patternRule1, 0, 1, "message");
+    RuleMatch ruleMatch2 = new RuleMatch(patternRule1, 0, 1, "message");
+    assertTrue(ruleMatch1.equals(ruleMatch2));
+    RuleMatch ruleMatch3 = new RuleMatch(patternRule1, 0, 9, "message");
+    assertFalse(ruleMatch1.equals(ruleMatch3));
+    assertFalse(ruleMatch2.equals(ruleMatch3));
   }
 
   private RuleMatch[] getMatches(String input, PatternRuleMatcher matcher) throws IOException {

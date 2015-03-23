@@ -24,6 +24,8 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -251,4 +253,26 @@ public class RuleMatch implements Comparable<RuleMatch> {
     return Integer.compare(getFromPos(), other.getFromPos());
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    RuleMatch other = (RuleMatch) o;
+    return new EqualsBuilder()
+            .append(rule.getId(), other.rule.getId())
+            .append(fromPos, other.fromPos)
+            .append(toPos, other.toPos)
+            .append(message, other.message)
+            .append(suggestedReplacements, other.suggestedReplacements)
+            .isEquals();
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder()
+            .append(rule.getId())
+            .append(fromPos).append(toPos)
+            .append(message)
+            .append(suggestedReplacements).toHashCode();
+  }
 }
