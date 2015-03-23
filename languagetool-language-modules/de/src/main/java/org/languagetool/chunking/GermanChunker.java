@@ -193,6 +193,10 @@ public class GermanChunker implements Chunker {
       build("<chunk=NPS>+ <und> <chunk=NP[SP] & pos=GEN>+", NPS, true),
       // "Teil der dort ausgestellten Bestände":
       build("<chunk=NPS>+ <der> <pos=ADV> <pos=PA2> <NP>", NPS, true),
+      // "Autor der ersten beiden Bücher":
+      build("<chunk=NPS>+ <der> (<pos=ADJ>|<pos=ZAL>) <NP>", NPS, true),
+      // "Autor der beiden Bücher":
+      build("<chunk=NPS>+ <der> <NP>", NPS, true),
       // "Teil der umfangreichen dort ausgestellten Bestände":
       build("<chunk=NPS>+ <der> <pos=ADJ> <pos=ADV> <pos=PA2> <NP>", NPS, true),
       // "die Krankheit unserer heutigen Städte und Siedlungen":

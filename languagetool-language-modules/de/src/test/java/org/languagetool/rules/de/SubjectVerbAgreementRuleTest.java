@@ -277,7 +277,10 @@ public class SubjectVerbAgreementRuleTest {
         "Der als Befestigung gedachte östliche Teil der Burg ist weitgehend verfallen.",
         "Das Kopieren und Einfügen ist sehr nützlich.",
         "Der letzte der vier großen Flüsse ist die Kolyma.",
-        "In christlichen, islamischen und jüdischen Traditionen ist das höchste Ziel der meditativen Praxis."
+        "In christlichen, islamischen und jüdischen Traditionen ist das höchste Ziel der meditativen Praxis.",
+        "Der Autor der beiden Spielbücher war Markus Heitz selbst.",
+        "Der Autor der ersten beiden Spielbücher war Markus Heitz selbst.",
+        "Das Ziel der elf neuen Vorstandmitglieder ist klar definiert."
     );
     for (String sentence : sentences) {
       assertGood(sentence);
