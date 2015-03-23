@@ -312,8 +312,10 @@ public class VerbAgreementRule extends GermanRule {
    */
   private boolean verbDoesMatchPersonAndNumber(final AnalyzedTokenReadings token1, final AnalyzedTokenReadings token2,
                                                final String person, final String number) {
-    if (token1.getToken().equals(",") || token1.getToken().equals("und") ||
-        token2.getToken().equals(",") || token2.getToken().equals("und")) {
+    String token1Str = token1.getToken();
+    String token2Str = token2.getToken();
+    if (token1Str.equals(",") || token1Str.equals("und") || token1Str.equals("sowie") ||
+        token2Str.equals(",") || token2Str.equals("und") || token2Str.equals("sowie")) {
       return true;
     }
    

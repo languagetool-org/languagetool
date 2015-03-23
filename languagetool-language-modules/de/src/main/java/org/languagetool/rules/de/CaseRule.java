@@ -433,6 +433,7 @@ public class CaseRule extends GermanRule {
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
   static {
+    substVerbenExceptions.add("helfen");
     substVerbenExceptions.add("lassen");
     substVerbenExceptions.add("passieren");  // "das Schlimmste, das passieren könnte"
     substVerbenExceptions.add("machen");  // "Du kannst das machen."

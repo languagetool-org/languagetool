@@ -85,7 +85,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY seitewoerter ".*Buchs?|.*Lektüre|umblätter\w\w?|umgeblättert|umzublättern|(ge)?lesen|las(en)?|geschrieben|schreiben?">
     <!ENTITY saitewoerter "aufziehen|.*ontrabass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?|Klavier">
     <!ENTITY leidwoerter "Angst|Armut|Bevölkerung|Blut(vergießens?)?|Einsamkeit|Elend|Entbehrung(en)?|Entsagung|Flüchtling(en?)?|Gewalt|Krankheit(en?)?|Mitleid|Not|Ohnmacht|Qual(en?)?|Schadens?|Schrecken|Unterdrückung|Vertreibung|Verzweiflung|Zerstörung(en?)?|Zivilbevölkerung|bitteres|endloses|ertragen|geschieht|geteiltes|psychisches|unendliches|unermessliches|unerträgliches|ungeheures|unsagbares|unsägliches|unvorstellbares|vermeidbares|verursacht|zugefügt">
-    <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|genau|laut|maximal|reichlich|täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich|voraussichtlich|gleichzeitig">
+    <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|genau|laut|maximal|reichlich|täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich|voraussichtlich|gleichzeitig|häufig">
     <!ENTITY meindein "&lsqb;mds&rsqb;ein|unser|euer|ihr">
     <!ENTITY verbendirekterede "befehlen|behaupten|denken|fragen|rufen|sagen|versichern|flüstern">
     <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt|empört|entrüstet|erbost">
@@ -195,7 +195,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token postag="VER:[123]:.*" postag_regexp="yes">
                     <exception postag="VER:.*" postag_regexp="yes" negate_pos="yes"/>
-                    <exception regexp="yes">siebten|achten|wachen|trauten|ehelichen</exception>
+                    <exception regexp="yes">prallen|siebten|achten|wachen|trauten|ehelichen</exception>
                 </token>
             </pattern>
             <message>Möglicher Tippfehler: Meinten Sie <suggestion>ihm</suggestion>?</message>
@@ -22177,7 +22177,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="VER:INF.*" postag_regexp="yes" regexp="yes">[a-zäöü].+
                             <exception postag_regexp="yes" postag="ADJ:.*"/>
-                            <exception regexp="yes">stumpfen|schrägen|ehelichen|öden|regen|rauen|apologetischen|wachen|achten|.*genetischen|einen|.*romantischen|.+haften|.*dramatischen|starren|sieben|.+werten</exception>
+                            <exception regexp="yes">prallen|stumpfen|schrägen|ehelichen|öden|regen|rauen|apologetischen|wachen|achten|.*genetischen|einen|.*romantischen|.+haften|.*dramatischen|starren|sieben|.+werten</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -23469,7 +23469,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <marker>
                         <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider|um</token>
-                        <token regexp="yes">der|dem|ihr|allem|dir|mir</token>
+                        <token regexp="yes">der|dem|allem|dir|mir</token>
                     </marker>
                     <token postag="SENT_END"/>
                 </pattern>
@@ -23478,6 +23478,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>'\1' erfordert den Akkusativ</short>
                 <example>Döner <marker>mit allem</marker>.</example>
                 <example>Döner <marker>ohne alles</marker>.</example>
+                <example>Sie gewann den Käthe-Leichter-Preis für ihr Lebenswerk.</example>
                 <example correction="ohne alles">Döner <marker>ohne allem</marker>?</example>
             </rule>
             <!-- Please note that 'um' is omitted intentionally because it generates false positives. -->
@@ -23519,7 +23520,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- MAS|NEU SIN -->
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
+                    <token regexp="yes">betreffend|durch|für|gegen|kontra|via|wider</token>
                     <marker>
                         <token regexp="yes">dem(selben)?|[Ddsm]?einem|(eu|ih|Ih|unse)rem|(jede|jene|diese|alle)m</token>
                         <token postag="(ADJ|SUB):DAT:SIN:(MAS|NEU)" postag_regexp="yes"/>
@@ -23532,6 +23533,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das ist für <marker>das Bild</marker>.</example>
                 <example correction="">Das ist für <marker>dem Bild</marker>.</example>
                 <example correction="">Das ist für <marker>deinem Mann</marker>.</example>
+                <example>Und das, ohne dem Leser eine bestimmte Lösung aufzudrängen.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
