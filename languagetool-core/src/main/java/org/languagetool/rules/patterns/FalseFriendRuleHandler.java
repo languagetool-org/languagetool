@@ -50,7 +50,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   private StringBuilder translation = new StringBuilder();
   private boolean inTranslation;
 
-  public FalseFriendRuleHandler(final Language textLanguage, final Language motherTongue) {
+  FalseFriendRuleHandler(final Language textLanguage, final Language motherTongue) {
     messages = ResourceBundle.getBundle(
         JLanguageTool.MESSAGE_BUNDLE, motherTongue.getLocale());
     formatter = new MessageFormat("");
@@ -199,7 +199,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
     for (final Iterator<StringBuilder> iter = translations.iterator(); iter.hasNext();) {
       final StringBuilder trans = iter.next();
       sb.append('"');
-      sb.append(trans.toString());
+      sb.append(trans);
       sb.append('"');
       if (iter.hasNext()) {
         sb.append(", ");

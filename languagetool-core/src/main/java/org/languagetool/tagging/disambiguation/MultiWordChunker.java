@@ -151,7 +151,7 @@ public class MultiWordChunker implements Disambiguator {
           int lenCounter = 0;
           while (j < anTokens.length) {
             if (!anTokens[j].isWhitespace()) {
-              if ((j == i) && (myCount == 1)) {
+              if (j == i && myCount == 1) {
                 tokens.append(anTokens[j].getToken().toLowerCase());
               } else {
                 tokens.append(anTokens[j].getToken());
@@ -179,7 +179,7 @@ public class MultiWordChunker implements Disambiguator {
         if (mStartNoSpace.containsKey(tok.substring(0, 1))) {
           int j = i;
           while (j < anTokens.length && !anTokens[j].isWhitespace()) {
-            if ((j == i) && (myCount == 1)) {
+            if (j == i && myCount == 1) {
               tokens.append(anTokens[j].getToken().toLowerCase());
             } else {
               tokens.append(anTokens[j].getToken());

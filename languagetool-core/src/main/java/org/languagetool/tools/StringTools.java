@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 
 import java.io.*;
+import java.lang.Character;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
@@ -39,7 +40,7 @@ public final class StringTools {
   /**
    * Constants for printing XML rule matches.
    */
-  public static enum XmlPrintMode {
+  public enum XmlPrintMode {
     /**
      * Normally output the rule matches by starting and
      * ending the XML output on every call.
@@ -334,12 +335,12 @@ public final class StringTools {
    * for a single space in a word (for example, if the language supports numbers
    * formatted with spaces as single tokens, as Catalan in LanguageTool).
    * 
-   * @param string String to be filtered.
-   * @return Filtered string.
+   * @param s String to be filtered.
+   * @return Filtered s.
    */
-  public static String trimWhitespace(final String string) {
+  public static String trimWhitespace(final String s) {
     final StringBuilder filter = new StringBuilder();
-    String str = string.trim();
+    String str = s.trim();
     for (int i = 0; i < str.length(); i++) {
       while (str.charAt(i) <= ' ' && i < str.length() &&
           (str.charAt(i + 1) <= ' ' || i > 1 && str.charAt(i - 1) <= ' ')) {
@@ -403,7 +404,7 @@ public final class StringTools {
         // We need u200B​​ to be detected as whitespace for Khmer, as it was the case before Java 7.
         return true;
       }
-      return java.lang.Character.isWhitespace(trimStr.charAt(0));
+      return Character.isWhitespace(trimStr.charAt(0));
     }
     return false;
   }

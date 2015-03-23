@@ -297,7 +297,7 @@ public class PatternRuleTest extends TestCase {
           final AnalyzedSentence analyzedSentence = languageTool.getAnalyzedSentence(badSentence);
           final StringBuilder sb = new StringBuilder("Analyzed token readings:");
           for (AnalyzedTokenReadings atr : analyzedSentence.getTokens()) {
-            sb.append(" ").append(atr.toString());
+            sb.append(" ").append(atr);
           }
           fail(lang + " rule " + rule + ":\n\"" + badSentence + "\"\n"
                   + "Errors expected: 1\n"
@@ -389,12 +389,12 @@ public class PatternRuleTest extends TestCase {
       if (realSuggestions.size() == 0) {
         boolean expectedEmptyCorrection = expectedCorrections.size() == 1 && expectedCorrections.get(0).length() == 0;
         assertTrue(lang + ": Incorrect suggestions: "
-                        + expectedCorrections.toString() + " != "
+                        + expectedCorrections + " != "
                         + " <no suggestion> for rule " + rule + " on input: " + sentence,
                 expectedEmptyCorrection);
       } else {
         assertEquals(lang + ": Incorrect suggestions: "
-                        + expectedCorrections.toString() + " != "
+                        + expectedCorrections + " != "
                         + realSuggestions + " for rule " + rule + " on input: " + sentence,
                 expectedCorrections, realSuggestions);
       }

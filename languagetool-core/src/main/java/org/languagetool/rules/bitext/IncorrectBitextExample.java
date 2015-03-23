@@ -41,7 +41,7 @@ public class IncorrectBitextExample {
   }
 
   /**
-   * @deprecated use {@link #IncorrectBitextExample(org.languagetool.bitext.StringPair, List<String>)} instead (deprecated since 2.9)
+   * @deprecated use {@link #IncorrectBitextExample(org.languagetool.bitext.StringPair, List)} instead (deprecated since 2.9)
    */
   public IncorrectBitextExample(final StringPair example, final String[] corrections) {
     this.example = example;

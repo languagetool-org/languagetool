@@ -205,7 +205,7 @@ public final class AnalyzedSentence {
           sb.append(token.getToken());
         } else {
           if (!element.isWhitespace()) {
-            sb.append(token.toString());
+            sb.append(token);
             if (iterator.hasNext()) {
               sb.append(readingDelimiter);
             }

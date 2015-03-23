@@ -177,7 +177,7 @@ public final class Match {
    * @return true if match converts the case of the token.
    */
   public boolean convertsCase() {
-    return !caseConversionType.equals(CaseConversion.NONE);
+    return caseConversionType != CaseConversion.NONE;
   }
 
   /** @since 2.3 */

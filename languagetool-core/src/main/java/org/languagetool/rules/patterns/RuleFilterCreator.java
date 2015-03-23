@@ -44,7 +44,7 @@ class RuleFilterCreator {
         }
         Object filter = constructor.newInstance();
         if (filter instanceof RuleFilter) {
-          return ((RuleFilter) filter);
+          return (RuleFilter) filter;
         } else {
           throw new RuntimeException("Filter class '" + className + "' must implement interface " + RuleFilter.class.getSimpleName());
         }

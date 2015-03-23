@@ -129,7 +129,7 @@ public class JLanguageTool {
    * <li>ONLYPARA - only paragraph-level rules</li>
    * <li>ONLYNONPARA - only sentence-level rules</li></ul>
    */
-  public static enum ParagraphHandling {
+  public enum ParagraphHandling {
     /**
      * Handle normally - all kinds of rules run.
      */

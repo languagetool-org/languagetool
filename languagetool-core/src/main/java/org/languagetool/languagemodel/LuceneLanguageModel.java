@@ -121,7 +121,7 @@ public class LuceneLanguageModel implements LanguageModel {
     return indexes.toString();
   }
 
-  protected class LuceneSearcher {
+  protected static class LuceneSearcher {
     final FSDirectory directory;
     final IndexReader reader;
     final IndexSearcher searcher;

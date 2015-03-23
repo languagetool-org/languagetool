@@ -89,7 +89,7 @@ public final class ManualSynthesizer {
     return result;
   }
 
-  class MappingAndTags {
+  static class MappingAndTags {
     Map<String, List<String>> mapping = new HashMap<>();
     Set<String> tags = new HashSet<>();
   }

@@ -29,6 +29,9 @@ public final class Languages {
 
   private static final List<Language> LANGUAGES = getAllLanguages();
 
+  private Languages() {
+  }
+
   /**
    * Language classes are detected at runtime by searching the classpath for files named
    * {@code META-INF/org/languagetool/language-module.properties}. Those file(s)

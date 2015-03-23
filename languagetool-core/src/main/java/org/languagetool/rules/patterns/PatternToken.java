@@ -520,7 +520,7 @@ public class PatternToken implements Cloneable {
    */
   public final void setMaxOccurrence(final int i) {
     if (i == 0) {
-      throw new IllegalArgumentException("maxOccurrences may not be 0: " + i);
+      throw new IllegalArgumentException("maxOccurrences may not be 0");
     }
     maxOccurrence = i;
   }

@@ -109,7 +109,7 @@ public final class Category {
    * by default by the category author.
    * @return True if the category is turned off by default.
    */
-  public final boolean isDefaultOff() {
+  public boolean isDefaultOff() {
     return defaultOff;
   }
 

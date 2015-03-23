@@ -87,8 +87,8 @@ public final class TestTools {
     final StringBuilder inputString = new StringBuilder();
     final List<String> input = new ArrayList<>();
     Collections.addAll(input, sentences);
-    for (final String string : input) {
-      inputString.append(string);
+    for (final String s : input) {
+      inputString.append(s);
     }
     assertEquals(input, sTokenizer.tokenize(inputString.toString()));
   }

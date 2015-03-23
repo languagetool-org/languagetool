@@ -29,7 +29,7 @@ import morfologik.stemming.WordData;
  *  Adapter from {@link ManualSynthesizer} to {@link Synthesizer}. <br/> 
  *  Note: It resides in "test" package because for now it is only used on unit testing.
  */
-public class ManualSynthesizerAdapter extends BaseSynthesizer implements Synthesizer  {
+public class ManualSynthesizerAdapter extends BaseSynthesizer {
 
   private final ManualSynthesizer manualSynthesizer;
 

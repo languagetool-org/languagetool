@@ -108,7 +108,7 @@ public class BitextPatternRuleTest extends TestCase {
               rule.getMessage().contains("<suggestion>")
       );
       assertTrue(lang + ": Incorrect suggestions: "
-              + suggestedCorrection.toString() + " != "
+              + suggestedCorrection + " != "
               + matches[0].getSuggestedReplacements() + " for rule " + rule,
               suggestedCorrection.equals(matches[0]
                       .getSuggestedReplacements()));

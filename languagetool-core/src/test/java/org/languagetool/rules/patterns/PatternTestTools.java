@@ -19,6 +19,7 @@
 package org.languagetool.rules.patterns;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,7 +33,7 @@ import org.languagetool.Language;
  *
  * @author Marcin Miłkowski
  */
-public class PatternTestTools {
+public final class PatternTestTools {
 
   // These characters should not be present in token values as they split tokens in all languages.
   private static final Pattern TOKEN_SEPARATOR_PATTERN = Pattern.compile("[ 	.,:;…!?(){}<>«»\"]");
@@ -44,6 +45,9 @@ public class PatternTestTools {
   private static final Pattern PROBABLE_PATTERN_PL_POS = Pattern.compile(".*([^*]\\*|[+?{}()|\\[\\]].*|\\\\d).*");
 
   private static final Pattern CHAR_SET_PATTERN = Pattern.compile("(\\(\\?-i\\))?.*(?<!\\\\)\\[^?([^\\]]+)\\]");
+
+  private PatternTestTools() {
+  }
 
   // TODO: probably this would be more useful for exceptions
   // instead of adding next methods to PatternRule
@@ -86,7 +90,7 @@ public class PatternTestTools {
           // Detect useless exception or missing skip="...". I.e. things like this:
           // <token postag="..."><exception scope="next">foo</exception</token>
           if (exception.hasNextException() && pToken.getSkipNext() == 0) {
-            System.err.println("The " + lang.toString() + " rule: "
+            System.err.println("The " + lang + " rule: "
                     + ruleId + "[" + ruleSubId + "]"
                     + " (exception in token [" + i + "])"
                     + " has no skip=\"...\" and yet contains scope=\"next\""
@@ -122,7 +126,7 @@ public class PatternTestTools {
                     }
                     if (part.matches("[^.*?{}\\[\\]]+")) {
                       if (!part.matches("(?i)" + pToken.getString())) {
-                        System.err.println("The " + lang.toString() + " rule: "
+                        System.err.println("The " + lang + " rule: "
                                 + ruleId + "[" + ruleSubId + "]"
                                 + " has exception regexp [" + exception.getString()
                                 + "] which contains disjunction part [" + part
@@ -138,7 +142,7 @@ public class PatternTestTools {
                 // It does not make sense to to have a regexp exception
                 // with a token which is not a regexp!?
                 // Example <token>foo<exception regexp="xxx|yyy"/></token>
-                System.err.println("The " + lang.toString() + " rule: "
+                System.err.println("The " + lang + " rule: "
                         + ruleId + "[" + ruleSubId + "]"
                         + " has exception regexp [" + exception.getString()
                         + "] in token word [" + i +"] [" + pToken.getString()
@@ -152,7 +156,7 @@ public class PatternTestTools {
                 // Here exception word xxx cannot possibly match the regexp "foo|bar".
                 if (!exception.getString().matches(
                         (exception.isCaseSensitive() ? "" : "(?i)") +  pToken.getString())) {
-                  System.err.println("The " + lang.toString() + " rule: "
+                  System.err.println("The " + lang + " rule: "
                           + ruleId + "[" + ruleSubId + "] has exception word ["
                           +  exception.getString() + "] which cannot match the"
                           + "regexp token [" + i + "] [" + pToken.getString()
@@ -162,7 +166,7 @@ public class PatternTestTools {
               } else {
                 // An exception that cannot match a token string is useless,
                 // Example: <token>foo<exception>bar</exception></token>
-                System.err.println("The " + lang.toString() + " rule: "
+                System.err.println("The " + lang + " rule: "
                         + ruleId + "[" + ruleSubId + "] has exception word ["
                         + exception.getString() + "] in token word [" + i
                         + "] [" + pToken.getString() + "] which seems useless, "
@@ -205,7 +209,7 @@ public class PatternTestTools {
           // for testing only so that's OK.
           for (final PatternToken otherException: exceptionPatternTokens) {
             if (equalException(exception, otherException)) {
-              System.err.println("The " + lang.toString() + " rule: "
+              System.err.println("The " + lang + " rule: "
                       + ruleId + "[" + ruleSubId + "]"
                       + " in token [" + i + "]"
                       + " contains duplicate exceptions with"
@@ -295,7 +299,7 @@ public class PatternTestTools {
       // Example: <token>foo bar</token> can't be valid because
       // token value contains a space which is a token separator.
       if (TOKEN_SEPARATOR_PATTERN.matcher(stringValue).find()) {
-        System.err.println("The " + lang.toString() + " rule: "
+        System.err.println("The " + lang + " rule: "
                 + ruleId + ", token [" + tokenIndex + "], contains " + "\"" + stringValue
                 + "\" that contains token separators, so can't possibly be matched.");
       }
@@ -310,35 +314,35 @@ public class PatternTestTools {
 
     if (!isRegularExpression && stringValue.length() > 1
             && regexPattern.matcher(stringValue).find()) {
-      System.err.println("The " + lang.toString() + " rule: "
+      System.err.println("The " + lang + " rule: "
               + ruleId + ", token [" + tokenIndex + "], contains " + "\"" + stringValue
               + "\" that is not marked as regular expression but probably is one.");
     }
 
     if (isRegularExpression && stringValue.isEmpty()) {
-      System.err.println("The " + lang.toString() + " rule: "
+      System.err.println("The " + lang + " rule: "
               + ruleId + ", token [" + tokenIndex + "], contains an empty string " + "\""
               + stringValue + "\" that is marked as regular expression.");
     } else if (isRegularExpression && stringValue.length() > 1
             && !regexPattern.matcher(stringValue).find()) {
-      System.err.println("The " + lang.toString() + " rule: "
+      System.err.println("The " + lang + " rule: "
               + ruleId + ", token [" + tokenIndex + "], contains " + "\"" + stringValue
               + "\" that is marked as regular expression but probably is not one.");
     }
 
     if (isNegated && stringValue.isEmpty()) {
-      System.err.println("The " + lang.toString() + " rule: "
+      System.err.println("The " + lang + " rule: "
               + ruleId + ", token [" + tokenIndex + "], marked as negated but is "
               + "empty so the negation is useless. Did you mix up "
               + "negate=\"yes\" and negate_pos=\"yes\"?");
     }
     if (isInflected && stringValue.isEmpty()) {
-      System.err.println("The " + lang.toString() + " rule: "
+      System.err.println("The " + lang + " rule: "
               + ruleId + ", token [" + tokenIndex + "], contains " + "\"" + stringValue
               + "\" that is marked as inflected but is empty, so the attribute is redundant.");
     }
     if (isRegularExpression && ".*".equals(stringValue)) {
-      System.err.println("The " + lang.toString() + " rule: "
+      System.err.println("The " + lang + " rule: "
               + ruleId + ", token [" + tokenIndex + "], marked as regular expression contains "
               + "regular expression \".*\" which is useless: "
               + "(use an empty string without regexp=\"yes\" such as <token/>)");
@@ -351,7 +355,7 @@ public class PatternTestTools {
         final String s = matcher.group(2).replaceAll("\\\\p\\{[^}]*\\}", "");
         // case sensitive if pattern contains (?-i).
         if (s.indexOf('|') >= 0) {
-          System.err.println("The " + lang.toString() + " rule: "
+          System.err.println("The " + lang + " rule: "
                   + ruleId + ", token [" + tokenIndex + "], contains | (pipe) in "
                   + " regexp bracket expression [" + matcher.group(2)
                   + "] which is unlikely to be correct.");
@@ -367,11 +371,11 @@ public class PatternTestTools {
         final char[] sorted = s.toCharArray();
         // Sort characters in string, so finding duplicate characters can be done by
         // looking for identical adjacent characters.
-        java.util.Arrays.sort(sorted);
+        Arrays.sort(sorted);
         for (int i = 1; i < sorted.length; ++i) {
           final char c = sorted[i];
           if ("&\\-|".indexOf(c) < 0 && sorted[i - 1] == c) {
-            System.err.println("The " + lang.toString() + " rule: "
+            System.err.println("The " + lang + " rule: "
                     + ruleId + ", token [" + tokenIndex + "], contains "
                     + " regexp part [" + matcher.group(2)
                     + "] which contains duplicated char [" + c + "].");
@@ -379,12 +383,12 @@ public class PatternTestTools {
           }
         }
       }
-      if (stringValue.indexOf('|') >= 0) {
-        if (stringValue.indexOf("||") >= 0
+      if (stringValue.contains("|")) {
+        if (stringValue.contains("||")
                 || stringValue.charAt(0) == '|'
                 || stringValue.charAt(stringValue.length() - 1) == '|') {
           // Empty disjunctions in regular expression are most likely not intended.
-          System.err.println("The " + lang.toString() + " rule: "
+          System.err.println("The " + lang + " rule: "
                   + ruleId + ", token [" + tokenIndex + "], contains empty "
                   + "disjunction | within " + "\"" + stringValue + "\".");
         }
@@ -411,13 +415,13 @@ public class PatternTestTools {
             if (partSetNoCase.contains(partNoCase)) {
               if (partSet.contains(part)) {
                 // Duplicate disjunction parts "foo|foo".
-                System.err.println("The " + lang.toString() + " rule: "
+                System.err.println("The " + lang + " rule: "
                         + ruleId + ", token [" + tokenIndex + "], contains "
                         + "duplicated disjunction part ("
                         + part + ") within " + "\"" + stringValue + "\".");
               } else {
                 // Duplicate disjunction parts "Foo|foo" since element ignores case.
-                System.err.println("The " + lang.toString() + " rule: "
+                System.err.println("The " + lang + " rule: "
                         + ruleId + ", token [" + tokenIndex + "], contains duplicated "
                         + "non case sensitive disjunction part ("
                         + part + ") within " + "\"" + stringValue + "\". Did you "
@@ -431,7 +435,7 @@ public class PatternTestTools {
             // This finds errors like this <token regexp="yes">.|;|:</token>
             // which should be <token regexp="yes">\.|;|:</token> or
             // even better <token regexp="yes">[.;:]</token>
-            System.err.println("The " + lang.toString() + " rule: "
+            System.err.println("The " + lang + " rule: "
                     + ruleId + ", token [" + tokenIndex + "], contains a single dot (matching any char) "
                     + "so other single char disjunction are useless within " + "\"" + stringValue
                     + "\". Did you forget forget a backslash before the dot?");

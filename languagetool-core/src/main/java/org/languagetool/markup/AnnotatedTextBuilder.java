@@ -81,10 +81,10 @@ public class AnnotatedTextBuilder {
     Map<Integer,Integer> mapping = new HashMap<>();
     mapping.put(0, 0);
     for (TextPart part : parts) {
-      if (part.getType().equals(TextPart.Type.TEXT)) {
+      if (part.getType() == TextPart.Type.TEXT) {
         plainTextPosition += part.getPart().length();
         totalPosition += part.getPart().length();
-      } else if (part.getType().equals(TextPart.Type.MARKUP)) {
+      } else if (part.getType() == TextPart.Type.MARKUP) {
         totalPosition += part.getPart().length();
       }
       mapping.put(plainTextPosition, totalPosition);

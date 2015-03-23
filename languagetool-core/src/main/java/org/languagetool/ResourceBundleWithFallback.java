@@ -37,11 +37,11 @@ public class ResourceBundleWithFallback extends ResourceBundle {
 
   @Override
   public Object handleGetObject(String key) {
-    final String string = bundle.getString(key);
-    if (string.trim().isEmpty()) {
+    final String s = bundle.getString(key);
+    if (s.trim().isEmpty()) {
       return fallbackBundle.getString(key);
     }
-    return string;
+    return s;
   }
 
   @Override

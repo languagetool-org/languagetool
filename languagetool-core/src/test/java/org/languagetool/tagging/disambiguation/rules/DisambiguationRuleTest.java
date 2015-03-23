@@ -171,7 +171,7 @@ public class DisambiguationRuleTest extends TestCase {
             }
           }
           assertEquals("The input form for the rule " + id + " in the example: "
-              + example.toString() + " is different than expected (expected "
+              + example + " is different than expected (expected "
               + inputForms + " but got " + sortForms(reading) + "). The token has been changed by the disambiguator: " + annotations,
               inputForms, sortForms(reading));
           for (final AnalyzedTokenReadings readings : disambiguatedSent.getTokens()) {
@@ -187,7 +187,7 @@ public class DisambiguationRuleTest extends TestCase {
             }
           }
           assertEquals("The output form for the rule " + id + " in the example: "
-              + example.toString() + " is different than expected (expected "
+              + example + " is different than expected (expected "
               + outputForms + " but got " + sortForms(reading) + "). The token has been changed by the disambiguator: " + annotations,
               outputForms, sortForms(reading));
         }

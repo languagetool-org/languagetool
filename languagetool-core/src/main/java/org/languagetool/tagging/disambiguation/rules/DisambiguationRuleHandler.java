@@ -54,7 +54,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
 
   private int startPos = -1;
   private int endPos = -1;
-  private int tokenCountForMarker = 0;
+  private int tokenCountForMarker;
 
   private Match posSelector;
 

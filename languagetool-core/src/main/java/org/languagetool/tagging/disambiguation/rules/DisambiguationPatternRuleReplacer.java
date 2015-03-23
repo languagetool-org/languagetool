@@ -39,7 +39,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
 
   private final List<Boolean> pTokensMatched;
 
-  public DisambiguationPatternRuleReplacer(DisambiguationPatternRule rule) {
+  DisambiguationPatternRuleReplacer(DisambiguationPatternRule rule) {
     super(rule, rule.getLanguage().getDisambiguationUnifier());
     pTokensMatched = new ArrayList<>(rule.getPatternTokens().size());
   }
@@ -420,7 +420,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
   private void annotateChange(AnalyzedTokenReadings atr,
       final String prevValue, String prevAnot) {
     atr.setHistoricalAnnotations(prevAnot + "\n" + rule.getId() + ":"
-        + rule.getSubId() + " " + prevValue + " -> " + atr.toString());
+        + rule.getSubId() + " " + prevValue + " -> " + atr);
   }
 
   private AnalyzedTokenReadings replaceTokens(AnalyzedTokenReadings oldAtr,

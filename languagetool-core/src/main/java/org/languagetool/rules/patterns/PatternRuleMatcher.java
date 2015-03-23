@@ -50,7 +50,7 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer {
     this.patternTokenMatchers = createElementMatchers();
   }
 
-  final RuleMatch[] match(final AnalyzedSentence sentence) throws IOException {
+  RuleMatch[] match(final AnalyzedSentence sentence) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
 
     final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();

@@ -88,8 +88,7 @@ public abstract class AbstractDateCheckFilter implements RuleFilter {
       String message = match.getMessage()
               .replace("{realDay}", getDayOfWeek(dateFromDate))
               .replace("{day}", getDayOfWeek(calFromDateString));
-      RuleMatch newMatch = new RuleMatch(match.getRule(), match.getFromPos(), match.getToPos(), message, match.getShortMessage());
-      return newMatch;
+      return new RuleMatch(match.getRule(), match.getFromPos(), match.getToPos(), message, match.getShortMessage());
     } else {
       return null;
     }

@@ -149,8 +149,8 @@ public class RuleAsXmlSerializerTest {
             "</matches>\n"));
   }
 
-  private class FakeRule extends PatternRule {
-    public FakeRule() {
+  private static class FakeRule extends PatternRule {
+    FakeRule() {
       super("FAKE_ID", TestTools.getDemoLanguage(), Collections.singletonList(new PatternToken("foo", true, false, false)),
               "My fake description", "Fake message", "Fake short message");
     }

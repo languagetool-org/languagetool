@@ -60,9 +60,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private String ruleGroupDescription;
   private int startPos = -1;
   private int endPos = -1;
-  private int tokenCountForMarker = 0;
+  private int tokenCountForMarker;
 
-  private int antiPatternCounter = 0;
+  private int antiPatternCounter;
 
   private boolean inRule;
 

@@ -58,9 +58,8 @@ public abstract class AbstractPatternRulePerformer {
     final int numberOfReadings = tokens[tokenNo].getReadingsLength();
     matcher.prepareAndGroup(firstMatchToken, tokens, rule.getLanguage());
 
-    for (int l = 0; l < numberOfReadings; l++) {
-      final AnalyzedToken matchToken = tokens[tokenNo]
-          .getAnalyzedToken(l);
+    for (int i = 0; i < numberOfReadings; i++) {
+      final AnalyzedToken matchToken = tokens[tokenNo].getAnalyzedToken(i);
       boolean tested = false;
       prevMatched = prevMatched || prevSkipNext > 0
           && prevElement != null
@@ -93,13 +92,13 @@ public abstract class AbstractPatternRulePerformer {
       if (rule.isGroupsOrUnification()) {
         if (!matcher.getPatternToken().isUnificationNeutral()) {
         thisMatched &= testUnificationAndGroups(thisMatched,
-            l + 1 == numberOfReadings, matchToken, matcher, tested);
+            i + 1 == numberOfReadings, matchToken, matcher, tested);
         }
       }
     }
     if (thisMatched) {
-      for (int l = 0; l < numberOfReadings; l++) {
-        if (matcher.isExceptionMatchedCompletely(tokens[tokenNo].getAnalyzedToken(l))) {
+      for (int i = 0; i < numberOfReadings; i++) {
+        if (matcher.isExceptionMatchedCompletely(tokens[tokenNo].getAnalyzedToken(i))) {
           return false;
         }
       }

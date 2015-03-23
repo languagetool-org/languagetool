@@ -68,8 +68,8 @@ public class DifferentLengthRule extends BitextRule {
   }
   
   private boolean isLengthDifferent(final String src, final String trg) {
-    final double skew = (((double) src.length() / (double) trg.length()) * 100.00);
-    return (skew > MAX_SKEW || skew < MIN_SKEW);
+    final double skew = ((double) src.length() / (double) trg.length()) * 100.00;
+    return skew > MAX_SKEW || skew < MIN_SKEW;
   }
   
   @Override
