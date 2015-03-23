@@ -113,6 +113,8 @@ public class GermanChunker implements Chunker {
 
   private static final List<RegularExpressionWithPhraseType> REGEXES2 = Arrays.asList(
       // ===== plural and singular noun phrases, based on OpenNLP chunker output ===============
+      // "In christlichen, islamischen und jüdischen Traditionen":
+      build("<pos=ADJ> <,> <chunk=B-NP> <chunk=I-NP>* <und|sowie> <NP>", NPP),
       // "ein Hund und eine Katze":
       build("<chunk=B-NP & !regex=jede[rs]?> <chunk=I-NP>* <und|sowie> <NP>", NPP),
       // "größte und erfolgreichste Erfindung" (fixes mistagging introduced above):

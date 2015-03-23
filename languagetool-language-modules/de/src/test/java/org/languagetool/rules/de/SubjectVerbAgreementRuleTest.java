@@ -276,7 +276,8 @@ public class SubjectVerbAgreementRuleTest {
         "Ja, die Milch ist sehr gut.",
         "Der als Befestigung gedachte östliche Teil der Burg ist weitgehend verfallen.",
         "Das Kopieren und Einfügen ist sehr nützlich.",
-        "Der letzte der vier großen Flüsse ist die Kolyma."
+        "Der letzte der vier großen Flüsse ist die Kolyma.",
+        "In christlichen, islamischen und jüdischen Traditionen ist das höchste Ziel der meditativen Praxis."
     );
     for (String sentence : sentences) {
       assertGood(sentence);
