@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
+        title="Easy editing stylesheet" ?>
+<!--
+English Grammar and Typo Rules for LanguageTool
+See tagset.txt for the meaning of the POS tags
+Copyright (C) 2001-2014 Daniel Naber (http://www.danielnaber.de),
+Marcin Miłkowski and the LanguageTool contributors
+
+Portions of rules are converted from After The Deadline grammar checker, 
+available at http://open.afterthedeadline.com/, licensed under
+GNU GPL.
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+USA
+
+-->
+
+<!--suppress CheckTagEmptyBody -->
+<!DOCTYPE rules [
+    <!ENTITY weekdays "Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday">
+    <!ENTITY abbrevWeekdays "Mon|Mo|Tue|Tu|Wed|We|Thu|Th|Fri|Fr|Sat|Sa|Sun|Su">
+    <!ENTITY months "January|February|March|April|May|June|July|August|September|October|November|December">
+    <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec">
+]>
+
+<rules lang="hi" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <!-- ====================================================================== -->
+    <!-- Possible typos -->
+    <!-- ====================================================================== -->
+    <category name="संभव मुद्रण गलती" type="misspelling">
+      <rule id="ki" name="कि कुंजि  (की कुंजी)">
+            <pattern>
+                <token >कि</token>
+                <token >कुंजि</token>
+            </pattern>
+            <message>क्या आपका तात्पर्य <suggestion><match no="1"/>की कुंजी </suggestion>से हैं ?</message>
+            <example type="correct">समय, सफलता  <marker>की कुंजी </marker>है।</example>
+            <example type="incorrect" correction="की कुंजी">समय, सफलता <marker>कि कुंजि</marker>है।</example>
+      </rule>
+      <rule id="‌jarasa" name="बस थोड़ा‌सा (बस जरा सा)">
+            <pattern>
+                <token>बस </token>
+                <token >जरासा</token>
+            </pattern>
+            <message>क्या आपका तात्पर्य <suggestion>बस जरा सा</suggestion> से हैं ? क्योँकि जरासा एक गलत शब्द है।</message>
+            <example type="incorrect">मेरा<marker>बस जरा सा</marker>काम बचा है।</example>
+            <example type="correct">मेरा<marker>बस जरासा</marker>काम बचा है।</example>
+      </rule>
+
+    </category> 
+    <!-- ====================================================================== -->
+    <!-- Grammar -->
+    <!-- ====================================================================== -->
+
+
+    <!-- ====================================================================== -->
+    <!-- Miscellaneous -->
+    <!-- ====================================================================== -->
+</rules>
