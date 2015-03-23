@@ -97,7 +97,7 @@ public class VerbAgreementRule extends GermanRule {
     "\"", "„"
   ));
   
-  private final Language language;
+  private final German language;
 
   private AnalyzedTokenReadings finiteVerb;
 
@@ -272,7 +272,7 @@ public class VerbAgreementRule extends GermanRule {
    */
   private boolean hasUnambiguouslyPersonAndNumber(final AnalyzedTokenReadings tokenReadings, final String person, final String number) {
     if (tokenReadings.getToken().length() == 0
-        || (Character.isUpperCase(tokenReadings.getToken().charAt(0)) && !(tokenReadings.getStartPos() == 0) )
+        || (Character.isUpperCase(tokenReadings.getToken().charAt(0)) && tokenReadings.getStartPos() != 0)
         || !tokenReadings.hasPartialPosTag("VER")) {
       return false;
     }
@@ -303,7 +303,7 @@ public class VerbAgreementRule extends GermanRule {
         || "einst".equals(token.getToken())) {
       return false;
     }
-    return (token.hasPartialPosTag(":1:") || token.hasPartialPosTag(":2:") || token.hasPartialPosTag(":3:"));
+    return token.hasPartialPosTag(":1:") || token.hasPartialPosTag(":2:") || token.hasPartialPosTag(":3:");
   }
   
   /**

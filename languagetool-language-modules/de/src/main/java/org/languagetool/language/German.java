@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 
 import de.abelssoft.wordtools.jwordsplitter.AbstractWordSplitter;
 import de.abelssoft.wordtools.jwordsplitter.impl.GermanWordSplitter;
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.GermanChunker;
@@ -117,6 +118,7 @@ public class German extends Language {
   }
 
   @Override
+  @NotNull
   public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
       synthesizer = new GermanSynthesizer();
