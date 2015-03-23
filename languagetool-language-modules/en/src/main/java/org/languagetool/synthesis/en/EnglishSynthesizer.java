@@ -75,13 +75,12 @@ public class EnglishSynthesizer extends BaseSynthesizer {
   @Override
   public String[] synthesize(final AnalyzedToken token, final String posTag)
       throws IOException {
+    String aOrAn = aVsAnRule.suggestAorAn(token.getToken());
     if (ADD_DETERMINER.equals(posTag)) {
-      return new String[] { aVsAnRule.suggestAorAn(token.getToken()),
-          "the " + token.getToken() };
+      return new String[] { aOrAn, "the " + token.getToken() };
     } else if (ADD_IND_DETERMINER.equals(posTag)) {
-      return new String[] { aVsAnRule.suggestAorAn(token.getToken()) };
+      return new String[] { aOrAn};
     }
-
     final IStemmer synthesizer = createStemmer();
     final List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
     final List<String> wordForms = new ArrayList<>();

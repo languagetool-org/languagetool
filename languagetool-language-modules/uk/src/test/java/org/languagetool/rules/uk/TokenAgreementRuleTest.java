@@ -35,7 +35,8 @@ import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.RuleMatch;
 
 public class TokenAgreementRuleTest {
-  private static final ArrayList<RuleMatch> EMPTY_MATCH_LIST = new ArrayList<RuleMatch>();
+
+  private static final List<RuleMatch> EMPTY_MATCH_LIST = new ArrayList<>();
   
   private JLanguageTool langTool;
   private TokenAgreementRule rule;

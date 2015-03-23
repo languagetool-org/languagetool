@@ -19,12 +19,7 @@
 package org.languagetool.rules.en;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
@@ -55,8 +50,8 @@ public class AvsAnRule extends EnglishRule {
 
   public AvsAnRule(final ResourceBundle messages) {
     super.setCategory(new Category(messages.getString("category_misc")));
-    requiresA = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILENAME_A));
-    requiresAn = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILENAME_AN));
+    requiresA = loadWords(FILENAME_A);
+    requiresAn = loadWords(FILENAME_AN);
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("The train arrived <marker>a hour</marker> ago."),
                    Example.fixed("The train arrived <marker>an hour</marker> ago."));
@@ -214,11 +209,12 @@ public class AvsAnRule extends EnglishRule {
   /**
    * Load words, normalized to lowercase unless starting with '*'.
    */
-  private Set<String> loadWords(final InputStream stream) {
-    final Set<String> set = new TreeSet<>();
+  private Set<String> loadWords(String path) {
+    InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
+    Set<String> set = new TreeSet<>();
     try (Scanner scanner = new Scanner(stream, "utf-8")) {
       while (scanner.hasNextLine()) {
-        final String line = scanner.nextLine().trim();
+        String line = scanner.nextLine().trim();
         if (line.length() < 1 || line.charAt(0) == '#') {
           continue;
         }
@@ -229,7 +225,7 @@ public class AvsAnRule extends EnglishRule {
         }
       }
     }
-    return set;
+    return Collections.unmodifiableSet(set);
   }
 
   @Override
