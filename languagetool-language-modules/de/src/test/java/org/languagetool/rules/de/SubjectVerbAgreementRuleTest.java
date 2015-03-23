@@ -280,7 +280,8 @@ public class SubjectVerbAgreementRuleTest {
         "In christlichen, islamischen und jüdischen Traditionen ist das höchste Ziel der meditativen Praxis.",
         "Der Autor der beiden Spielbücher war Markus Heitz selbst.",
         "Der Autor der ersten beiden Spielbücher war Markus Heitz selbst.",
-        "Das Ziel der elf neuen Vorstandmitglieder ist klar definiert."
+        "Das Ziel der elf neuen Vorstandmitglieder ist klar definiert.",
+        "Laut den meisten Quellen ist das Seitenverhältnis der Nationalflagge..."
     );
     for (String sentence : sentences) {
       assertGood(sentence);

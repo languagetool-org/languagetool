@@ -211,6 +211,8 @@ public class GermanChunker implements Chunker {
 
       // ===== prepositional phrases ===========================================================
 
+      // "laut den meisten Quellen":
+      build("<laut> <regex=.*>{0,3} <Quellen>", PP, true),
       // "bei den sehr niedrigen Oberflächentemperaturen" (OpenNLP doesn't find this)
       build("<pos=PRP> <pos=ART:> <pos=ADV>* <pos=ADJ> <NP>", PP, true),
       // "in den alten Religionen, Mythen und Sagen":
