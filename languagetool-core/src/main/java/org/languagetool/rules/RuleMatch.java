@@ -39,17 +39,13 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private static final Pattern SUGGESTION_PATTERN = Pattern.compile("<suggestion>(.*?)</suggestion>");
 
   private final Rule rule;
-  private final int fromPos;
-  private final int toPos;
+  private final OffsetPosition offsetPosition;
   private final String message;
   private final String shortMessage;   // used e.g. for OOo/LO context menu
 
-  private int fromLine = -1;
-  private int column = -1;
+  private LinePosition linePosition = new LinePosition(-1, -1);
+  private ColumnPosition columnPosition = new ColumnPosition(-1, -1);
   private int offset = -1;
-  private int endLine = -1;
-  private int endColumn = -1;
-
   private List<String> suggestedReplacements = new ArrayList<>();
 
   /**
@@ -90,8 +86,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     if (toPos <= fromPos) {
       throw new RuntimeException("fromPos (" + fromPos + ") must be less than toPos (" + toPos + ")");
     }
-    this.fromPos = fromPos;
-    this.toPos = toPos;
+    this.offsetPosition = new OffsetPosition(fromPos, toPos);
     this.message = message;
     this.shortMessage = shortMessage;
     // extract suggestion from <suggestion>...</suggestion> in message:
@@ -115,56 +110,56 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * Set the line number in which the match occurs (zero-based).
    */
   public void setLine(final int fromLine) {
-    this.fromLine = fromLine;
+    linePosition = new LinePosition(fromLine, linePosition.getEnd());
   }
 
   /**
    * Get the line number in which the match occurs (zero-based).
    */
   public int getLine() {
-    return fromLine;
+    return linePosition.getStart();
   }
 
   /**
    * Set the line number in which the match ends (zero-based).
    */
   public void setEndLine(final int endLine) {
-    this.endLine = endLine;
+    linePosition = new LinePosition(linePosition.getStart(), endLine);
   }
 
   /**
    * Get the line number in which the match ends (zero-based).
    */
   public int getEndLine() {
-    return endLine;
+    return linePosition.getEnd();
   }
 
   /**
    * Set the column number in which the match occurs (zero-based).
    */
   public void setColumn(final int column) {
-    this.column = column;
+    this.columnPosition = new ColumnPosition(column, columnPosition.getEnd());
   }
 
   /**
    * Get the column number in which the match occurs (zero-based).
    */
   public int getColumn() {
-    return column;
+    return columnPosition.getStart();
   }
 
   /**
    * Set the column number in which the match ends (zero-based).
    */
   public void setEndColumn(final int endColumn) {
-    this.endColumn = endColumn;
+    this.columnPosition = new ColumnPosition(columnPosition.getStart(), endColumn);
   }
 
   /**
    * Get the column number in which the match ends (zero-based).
    */
   public int getEndColumn() {
-    return endColumn;
+    return columnPosition.getEnd();
   }
 
   /**
@@ -187,14 +182,14 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * Position of the start of the error (in characters, zero-based).
    */
   public int getFromPos() {
-    return fromPos;
+    return offsetPosition.getStart();
   }
 
   /**
    * Position of the end of the error (in characters, zero-based).
    */
   public int getToPos() {
-    return toPos;
+    return offsetPosition.getEnd();
   }
 
   /**
@@ -245,7 +240,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   @Override
   public String toString() {
-    return rule.getId() + ":" + fromPos + "-" + toPos + ":" + message;
+    return rule.getId() + ":" + offsetPosition + ":" + message;
   }
 
   /** Compare by start position. */
@@ -262,8 +257,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     RuleMatch other = (RuleMatch) o;
     return new EqualsBuilder()
             .append(rule.getId(), other.rule.getId())
-            .append(fromPos, other.fromPos)
-            .append(toPos, other.toPos)
+            .append(offsetPosition, other.offsetPosition)
             .append(message, other.message)
             .append(suggestedReplacements, other.suggestedReplacements)
             .isEquals();
@@ -273,8 +267,26 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public int hashCode() {
     return new HashCodeBuilder()
             .append(rule.getId())
-            .append(fromPos).append(toPos)
+            .append(offsetPosition)
             .append(message)
             .append(suggestedReplacements).toHashCode();
+  }
+
+  static class OffsetPosition extends MatchPosition {
+    OffsetPosition(int start, int end) {
+      super(start, end);
+    }
+  }
+
+  static class LinePosition extends MatchPosition {
+    LinePosition(int start, int end) {
+      super(start, end);
+    }
+  }
+
+  static class ColumnPosition extends MatchPosition {
+    ColumnPosition(int start, int end) {
+      super(start, end);
+    }
   }
 }
