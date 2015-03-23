@@ -8487,6 +8487,25 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="OCASIONES" name="ocasiones/ocasions">
+            <pattern>
+                <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN|RG|.*LOC.*" postag_regexp="yes"/><exception regexp="yes">tu|que</exception></token>
+                <marker>
+                    <token>ocasiones</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>ocasions</suggestion>?</message>
+            <example correction="ocasions">en comptades <marker>ocasiones</marker>.</example>
+            <example correction="ocasions">en 23 <marker>ocasiones</marker>.</example>
+            <example correction="ocasions">en vint <marker>ocasiones</marker>.</example>
+            <example correction="ocasions">en algunes <marker>ocasiones</marker>.</example>
+            <example correction="ocasions">en diverses <marker>ocasiones</marker>.</example>
+            <example correction="ocasions">per a les grans <marker>ocasiones</marker>.</example>
+            <example>Tu ocasiones sempre problemes.</example>
+            <example>Sabem que ocasiones sempre problemes.</example>
+            <example>Sabem que sovint ocasiones sempre problemes.</example>
+            <example>Sabem que a vegades ocasiones sempre problemes.</example>
+        </rule>
         <rule id="DAIXO" name="daixò/d'això">
             <pattern>
                 <token>daixò</token>
@@ -26356,6 +26375,24 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="ARXIU_ARXIVAMENT" name="arxiu/arxivament">
+            <pattern>
+                <marker>
+                    <token inflected="yes">arxiu</token>
+                </marker>
+                <token min="0" max="4" postag="RG|A.*|.*LOC_ADV.*" postag_regexp="yes"/>
+                <token inflected="yes">de</token>
+                <token min="0" max="2" postag="D.*|A.*" postag_regexp="yes"/>
+                <token inflected="yes" regexp="yes">causa|cas|instrucció|investigació|querella|denúncia|diligència|expedient|procés<exception postag=".*LOC.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>En el sentit de "acció d'arxivar" cal dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">arxivament</match></suggestion>.</message>
+            <url>http://esadir.cat/entrades/fitxa/node/arxiu</url>
+            <example correction="arxivament">Va demanar l'<marker>arxiu</marker> urgent de la causa.</example>
+            <example correction="arxivament">Va decretar l'<marker>arxiu</marker> de les diligències.</example>
+            <example correction="arxivaments">Els <marker>arxius</marker> de tots els expedients.</example>
+            <example>van tancar l'arxiu a causa de les obres.</example>
+            <example>aneu a l'arxiu en cas de necessitat</example>
+        </rule>
         <rule id="SOBAT" name="sobat"> <!-- remove "sobatre" from dictionary? -->
             <pattern>
                 <token>sobat</token>
