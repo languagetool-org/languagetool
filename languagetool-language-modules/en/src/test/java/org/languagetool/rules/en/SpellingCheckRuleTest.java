@@ -18,16 +18,24 @@
  */
 package org.languagetool.rules.en;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 
 import java.io.IOException;
 import java.util.List;
 
-public class SpellingCheckRuleTest extends TestCase {
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
+public class SpellingCheckRuleTest {
+
+  @Test
   public void testIgnoreSuggestionsWithMorfologik() throws IOException {
     final JLanguageTool langTool = new JLanguageTool(new AmericanEnglish());
 
@@ -43,4 +51,28 @@ public class SpellingCheckRuleTest extends TestCase {
     assertEquals("[anotherArtificialTestWordForLanguageTool]", matches3.get(0).getSuggestedReplacements().toString());
   }
 
+  @Test
+  public void testIsUrl() throws IOException {
+    MySpellCheckingRule rule = new MySpellCheckingRule();
+    rule.test();
+  }
+
+  static class MySpellCheckingRule extends SpellingCheckRule {
+    MySpellCheckingRule() {
+      super(TestTools.getEnglishMessages(), new AmericanEnglish());
+    }
+    @Override public String getId() { return null; }
+    @Override public String getDescription() { return null; }
+    @Override public RuleMatch[] match(AnalyzedSentence sentence) throws IOException { return null; }
+    void test() throws IOException {
+      assertTrue(isUrl("http://www.test.de"));
+      assertTrue(isUrl("http://www.test-dash.com"));
+      assertTrue(isUrl("https://www.test-dash.com"));
+      assertTrue(isUrl("ftp://www.test-dash.com"));
+      assertTrue(isUrl("http://www.test-dash.com/foo/path-dash"));
+      assertTrue(isUrl("http://www.test-dash.com/foo/öäü-dash"));
+      assertTrue(isUrl("http://www.test-dash.com/foo/%C3%B-dash"));
+      assertFalse(isUrl("www.languagetool.org"));  // currently not detected
+    }
+  }
 }
