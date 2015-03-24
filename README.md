@@ -11,6 +11,7 @@ For more information, please see our homepage at http://languagetool.org and [th
 Clone this repository on your system. In your command prompt/Terminal, go to the folder where the repo has been cloned and follow the following instructions 
 
 `ankita@Vhagar~/languagetool$ cd languagetool-standalone/target/LanguageTool-2.9-SNAPSHOT/LanguageTool-2.9-SNAPSHOT`
+
 `ankita@Vhagar~/languagetool/languagetool-standalone/target/LanguageTool-2.9-SNAPSHOT/LanguageTool-2.9-SNAPSHOT$ java -cp languagetool-server.jar org.languagetool.server.HTTPServer --port 8081` 
 
 Host the files available in the folder `languagetool-query` on a server. Edit the address of the file `proxy.php` in `index.html.en`. Open the `index.html.en` in a browser. 
