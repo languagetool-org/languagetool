@@ -271,7 +271,12 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("Espanya", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("concenciosament"));
         assertEquals("conscienciosament", matches[0].getSuggestedReplacements().get(0));
-
+        
+        matches = rule.match(langTool.getAnalyzedSentence("excelent"));
+        assertEquals("excel·lent", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("exceleixquen"));
+        assertEquals("excel·lisquen", matches[0].getSuggestedReplacements().get(0));
+        
         //assertEquals(1, matches[0].getSuggestedReplacements().size());
         
         /*  change in Speller necessary: words of length = 4
