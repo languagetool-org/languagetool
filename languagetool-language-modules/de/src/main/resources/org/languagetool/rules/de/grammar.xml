@@ -1822,7 +1822,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="WENIGSTEN_VS_WENIGSTENS" name="Möglicher Tippfehler: 'wenigsten (wenigstens)'">
             <pattern>
-                <token regexp="yes" negate="yes">am|den|die|des</token>
+                <token regexp="yes" negate="yes">am|den|die|des|der</token>
                 <marker>
                     <token>wenigsten</token>
                 </marker>
@@ -1831,6 +1831,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Möglicher Tippfehler</short>
             <example correction="wenigstens|zumindest">Wir sollten <marker>wenigsten</marker> einen Versuch machen.</example>
             <example>Wir sollten <marker>wenigstens</marker> zwei Versuche machen.</example>
+            <example>...so dass Portugal als Dritter trotz der <marker>wenigsten</marker> Gegentore die Teilnahme verpasste.</example>
         </rule>
         <rulegroup id="CHAMPAGNE_VS_CHAMPAGNER" name="Möglicher Tippfehler: 'Champagne (Champagner)'">
             <rule>
@@ -7932,7 +7933,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>über</token>
                 <token>zu</token>
-                <token regexp="yes">sehen|beobachten|finden</token>
+                <token regexp="yes">sehen|beobachten|finden|besichtigen</token>
             </antipattern>
             <antipattern>
                 <token>bei</token>
@@ -9173,7 +9174,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">kleine[ns]?</token>
                     <token regexp="yes" postag="SUB:[A-Z]{3}:SIN:NEU" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüß]+chen
                         <exception postag="(SUB:.+:NEU)|NPP|NPP-E" postag_regexp="yes" negate_pos="yes"/>
-                        <exception regexp="yes">Mädchen|Veilchen|München|Brötchen|Zeichen|Anzeichen|Kaninchen</exception>
+                        <exception regexp="yes">Mädchen|Veilchen|München|Brötchen|Zeichen|Anzeichen|Kaninchen|Kennzeichen</exception>
                     </token>
                 </pattern>
                 <message>Die Endung '-chen' beinhaltet bereits das Merkmal 'klein'. In manchen Kontexten kann diese Formulierung deswegen redundant (oder übermäßig verniedlichend) erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
@@ -11071,7 +11072,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Bb]itte</token>
-                    <token postag="VER:.*" postag_regexp="yes"/>
+                    <token postag="VER:INF:.*" postag_regexp="yes"/>
                     <marker>
                         <token>sie</token>
                     </marker>
@@ -11268,7 +11269,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>als</token>
                 <token regexp="yes" case_sensitive="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes|zehntes|elftes|zwölftes</token>
-                <token>von</token>
+                <token regexp="yes">von|bzw</token>
             </antipattern>
             <antipattern>
                 <token>als</token>
@@ -11283,7 +11284,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                          z.B. bei "Amerikanische Küchen sind größer als japanische." -->
                     <token regexp="yes" case_sensitive="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes|zehntes|elftes|zwölftes</token>
                 </marker>
-                <token regexp="yes" case_sensitive="yes">[a-zöäü]+<exception postag="ADJ:.*" postag_regexp="yes" /><exception postag="UNKNOWN"/></token>
+                <token regexp="yes" case_sensitive="yes">[a-zöäü]+<exception postag="ADJ:.*" postag_regexp="yes" /><exception postag="PA2:.*" postag_regexp="yes" /><exception postag="UNKNOWN"/></token>
             </pattern>
             <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier ein Nomen zu sein und muss dann großgeschrieben werden.</message>
             <url>http://www.duden.de/rechtschreibung/zuerst</url>
