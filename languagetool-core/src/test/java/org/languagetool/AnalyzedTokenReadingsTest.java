@@ -103,6 +103,16 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     assertFalse(tokenReadings.hasPartialPosTag("xaz"));
   }
   
+  public void testMatchesPosTagRegex() {
+    final AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS:FOO:BAR", "lemma"));
+    assertTrue(tokenReadings.matchesPosTagRegex("POS:FOO:BAR"));
+    assertTrue(tokenReadings.matchesPosTagRegex("POS:...:BAR"));
+    assertTrue(tokenReadings.matchesPosTagRegex("POS:[A-Z]+:BAR"));
+
+    assertFalse(tokenReadings.matchesPosTagRegex("POS:[AB]OO:BAR"));
+    assertFalse(tokenReadings.matchesPosTagRegex("POS:FOO:BARX"));
+  }
+
   public void testIteration() {
     final AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(Arrays.asList(
               new AnalyzedToken("word1", null, null),

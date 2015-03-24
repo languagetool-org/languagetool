@@ -79,6 +79,7 @@ public class CaseRuleTest extends TestCase {
     assertGood("Aber sein aufgewühltes Inneres erzählte von den Geschehnissen.");
     // assertGood("Sein aufgewühltes Inneres erzählte von den Geschehnissen."); TODO: 'Sein' is mistagged
     assertGood("Aber sein Inneres erzählte von den Geschehnissen.");
+    assertGood("Ein Kaninchen, das zaubern kann.");
 
     assertBad("Tom ist etwas über Dreißig.");
     assertBad("Unser warten wird sich lohnen.");

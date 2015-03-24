@@ -21,6 +21,7 @@ package org.languagetool;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -150,6 +151,26 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     for (AnalyzedToken reading : anTokReadings) {
       if (reading.getPOSTag() != null) {
         found = reading.getPOSTag().contains(posTag);
+        if (found) {
+          break;
+        }
+      }
+    }
+    return found;
+  }
+
+  /**
+   * Checks if at least one of the readings matches a given POS tag regex.
+   *
+   * @param posTagRegex POS tag regular expression to look for
+   * @since 2.9
+   */
+  public boolean matchesPosTagRegex(final String posTagRegex) {
+    Pattern pattern = Pattern.compile(posTagRegex);
+    boolean found = false;
+    for (AnalyzedToken reading : anTokReadings) {
+      if (reading.getPOSTag() != null) {
+        found = pattern.matcher(reading.getPOSTag()).matches();
         if (found) {
           break;
         }

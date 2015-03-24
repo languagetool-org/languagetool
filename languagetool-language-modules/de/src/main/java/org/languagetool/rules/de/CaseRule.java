@@ -530,6 +530,9 @@ public class CaseRule extends GermanRule {
             continue;
           }
         }
+        if (isPrevProbablyRelativePronoun(tokens, i)) {
+          continue;
+        }
         potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token, nextTokenIsPersonalPronoun);
       }
       prevTokenIsDas = nounIndicators.contains(tokens[i].getToken().toLowerCase());
@@ -547,6 +550,22 @@ public class CaseRule extends GermanRule {
       potentiallyAddUppercaseMatch(ruleMatches, tokens, i, analyzedToken, token);
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  // e.g. "Ein Kaninchen, das zaubern kann" - avoid false alarm here
+  //                          ^^^^^^^
+  private boolean isPrevProbablyRelativePronoun(AnalyzedTokenReadings[] tokens, int i) {
+    if (i >= 3) {
+      AnalyzedTokenReadings prev1 = tokens[i-1];
+      AnalyzedTokenReadings prev2 = tokens[i-2];
+      AnalyzedTokenReadings prev3 = tokens[i-3];
+      if (prev1.getToken().equals("das") &&
+          prev2.getToken().equals(",") &&
+          prev3.matchesPosTagRegex("SUB:...:SIN:NEU")) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private boolean isSalutation(String token) {
