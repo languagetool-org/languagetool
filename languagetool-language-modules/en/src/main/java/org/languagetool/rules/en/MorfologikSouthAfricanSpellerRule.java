@@ -39,7 +39,7 @@ public final class MorfologikSouthAfricanSpellerRule extends AbstractEnglishSpel
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return "MORFOLOGIK_RULE_EN_ZA";
   }
 

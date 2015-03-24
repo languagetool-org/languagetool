@@ -41,7 +41,7 @@ public final class MorfologikRussianSpellerRule extends MorfologikSpellerRule {
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return RULE_ID;
   }
 

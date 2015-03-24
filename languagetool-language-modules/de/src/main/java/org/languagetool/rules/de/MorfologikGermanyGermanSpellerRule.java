@@ -47,7 +47,7 @@ public final class MorfologikGermanyGermanSpellerRule extends MorfologikSpellerR
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return "MORFOLOGIK_RULE_DE_DE";
   }
 

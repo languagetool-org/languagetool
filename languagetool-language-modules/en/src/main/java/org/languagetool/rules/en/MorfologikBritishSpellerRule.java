@@ -40,7 +40,7 @@ public final class MorfologikBritishSpellerRule extends AbstractEnglishSpellerRu
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return RULE_ID;
   }
 

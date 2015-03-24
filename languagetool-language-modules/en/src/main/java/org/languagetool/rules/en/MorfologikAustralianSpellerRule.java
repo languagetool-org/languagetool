@@ -39,7 +39,7 @@ public final class MorfologikAustralianSpellerRule extends AbstractEnglishSpelle
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return "MORFOLOGIK_RULE_EN_AU";
   }
 

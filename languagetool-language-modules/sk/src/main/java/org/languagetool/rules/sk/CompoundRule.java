@@ -42,12 +42,12 @@ public final class CompoundRule extends AbstractCompoundRule {
   }
   
   @Override
-  public final String getId() {
+  public String getId() {
     return "SK_COMPOUNDS";
   }
 
   @Override
-  public final String getDescription() {
+  public String getDescription() {
     return "Slová so spojovníkom napr. použite „česko-slovenský” namiesto „česko slovenský”";
   }    
 

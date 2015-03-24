@@ -44,12 +44,12 @@ public final class CompoundRule extends AbstractCompoundRule {
   }
   
   @Override
-  public final String getId() {
+  public String getId() {
     return "PL_COMPOUNDS";
   }
 
   @Override
-  public final String getDescription() {
+  public String getDescription() {
     return "Sprawdza wyrazy z łącznikiem, np. „łapu capu” zamiast „łapu-capu”";
   }    
 
