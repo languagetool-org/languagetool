@@ -132,7 +132,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
     synchronized (this) { // the stemmer is not thread-safe
       final List<WordData> wordForms = getStemmer().lookup(lemma + "|" + posTag);
       for (WordData wd : wordForms) {
-        results.add(determiner + wd.getStem().toString());
+        results.add(determiner + wd.getStem());
       }
     }
   }

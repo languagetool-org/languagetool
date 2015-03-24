@@ -60,25 +60,24 @@ public class MorfologikNewZealandSpellerRuleTest extends AbstractEnglishSpellerR
 
     //incorrect sentences:
 
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("behavior"));
+    RuleMatch[] matches1 = rule.match(langTool.getAnalyzedSentence("behavior"));
     // check match positions:
-    assertEquals(1, matches.length);
-    assertEquals(0, matches[0].getFromPos());
-    assertEquals(8, matches[0].getToPos());
-    assertEquals("behaviour", matches[0].getSuggestedReplacements().get(0));
+    assertEquals(1, matches1.length);
+    assertEquals(0, matches1[0].getFromPos());
+    assertEquals(8, matches1[0].getToPos());
+    assertEquals("behaviour", matches1[0].getSuggestedReplacements().get(0));
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);
            
     //based on replacement pairs:
-        
-    matches = rule.match(langTool.getAnalyzedSentence("He teached us."));
+
+    RuleMatch[] matches2 = rule.match(langTool.getAnalyzedSentence("He teached us."));
     // check match positions:
-    assertEquals(1, matches.length);
-    assertEquals(3, matches[0].getFromPos());
-    assertEquals(10, matches[0].getToPos());
-    assertEquals("taught", matches[0].getSuggestedReplacements().get(0));    
-    
+    assertEquals(1, matches2.length);
+    assertEquals(3, matches2[0].getFromPos());
+    assertEquals(10, matches2[0].getToPos());
+    assertEquals("taught", matches2[0].getSuggestedReplacements().get(0));
   }
 
 }

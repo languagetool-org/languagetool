@@ -68,24 +68,24 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
 
     //incorrect sentences:
 
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("behaviour"));
+    RuleMatch[] matches1 = rule.match(langTool.getAnalyzedSentence("behaviour"));
     // check match positions:
-    assertEquals(1, matches.length);
-    assertEquals(0, matches[0].getFromPos());
-    assertEquals(9, matches[0].getToPos());
-    assertEquals("behavior", matches[0].getSuggestedReplacements().get(0));
+    assertEquals(1, matches1.length);
+    assertEquals(0, matches1[0].getFromPos());
+    assertEquals(9, matches1[0].getToPos());
+    assertEquals("behavior", matches1[0].getSuggestedReplacements().get(0));
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);
     
     //based on replacement pairs:
-    
-    matches = rule.match(langTool.getAnalyzedSentence("He teached us."));
+
+    RuleMatch[] matches2 = rule.match(langTool.getAnalyzedSentence("He teached us."));
     // check match positions:
-    assertEquals(1, matches.length);
-    assertEquals(3, matches[0].getFromPos());
-    assertEquals(10, matches[0].getToPos());
-    assertEquals("taught", matches[0].getSuggestedReplacements().get(0));
+    assertEquals(1, matches2.length);
+    assertEquals(3, matches2[0].getFromPos());
+    assertEquals(10, matches2[0].getToPos());
+    assertEquals("taught", matches2[0].getSuggestedReplacements().get(0));
     
     // hyphens - accept words if all their parts are okay:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("A web-based software.")).length);

@@ -40,8 +40,7 @@ public class JLanguageToolTest extends TestCase {
   // used on http://languagetool.org/java-api/
   public void demoCodeForHomepage() throws IOException {
     JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
-    List<RuleMatch> matches = langTool.check("A sentence " +
-        "with a error in the Hitchhiker's Guide tot he Galaxy");
+    List<RuleMatch> matches = langTool.check("A sentence with a error in the Hitchhiker's Guide tot he Galaxy");
     for (RuleMatch match : matches) {
       System.out.println("Potential error at line " +
           match.getLine() + ", column " +
@@ -139,26 +138,26 @@ public class JLanguageToolTest extends TestCase {
     final JLanguageTool tool = new JLanguageTool(new English());
 
     //run normally
-    List<RuleMatch> matches = tool.check("(This is an quote.\n It ends in the second sentence.");
-    assertEquals(2, matches.size());
+    List<RuleMatch> matches1 = tool.check("(This is an quote.\n It ends in the second sentence.");
+    assertEquals(2, matches1.size());
     assertEquals(2, tool.getSentenceCount());
 
     //run in a sentence-only mode
-    matches = tool.check("(This is an quote.\n It ends in the second sentence.", false, ParagraphHandling.ONLYNONPARA);
-    assertEquals(1, matches.size());
-    assertEquals("EN_A_VS_AN", matches.get(0).getRule().getId());
+    List<RuleMatch> matches2 = tool.check("(This is an quote.\n It ends in the second sentence.", false, ParagraphHandling.ONLYNONPARA);
+    assertEquals(1, matches2.size());
+    assertEquals("EN_A_VS_AN", matches2.get(0).getRule().getId());
     assertEquals(1, tool.getSentenceCount());
 
     //run in a paragraph mode - single sentence
-    matches = tool.check("(This is an quote.\n It ends in the second sentence.", false, ParagraphHandling.ONLYPARA);
-    assertEquals(1, matches.size());
-    assertEquals("EN_UNPAIRED_BRACKETS", matches.get(0).getRule().getId());
+    List<RuleMatch> matches3 = tool.check("(This is an quote.\n It ends in the second sentence.", false, ParagraphHandling.ONLYPARA);
+    assertEquals(1, matches3.size());
+    assertEquals("EN_UNPAIRED_BRACKETS", matches3.get(0).getRule().getId());
     assertEquals(1, tool.getSentenceCount());
 
     //run in a paragraph mode - many sentences
-    matches = tool.check("(This is an quote.\n It ends in the second sentence.", true, ParagraphHandling.ONLYPARA);
-    assertEquals(1, matches.size());
-    assertEquals("EN_UNPAIRED_BRACKETS", matches.get(0).getRule().getId());
+    List<RuleMatch> matches4 = tool.check("(This is an quote.\n It ends in the second sentence.", true, ParagraphHandling.ONLYPARA);
+    assertEquals(1, matches4.size());
+    assertEquals("EN_UNPAIRED_BRACKETS", matches4.get(0).getRule().getId());
     assertEquals(2, tool.getSentenceCount());
   }
 

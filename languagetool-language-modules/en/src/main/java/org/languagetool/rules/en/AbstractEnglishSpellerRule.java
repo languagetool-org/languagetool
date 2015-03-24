@@ -133,10 +133,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   }
 
   private static class IrregularForms {
-    String baseform;
-    String posName;
-    String formName;
-    List<String> forms;
+    final String baseform;
+    final String posName;
+    final String formName;
+    final List<String> forms;
     private IrregularForms(String baseform, String posName, String formName, List<String> forms) {
       this.baseform = baseform;
       this.posName = posName;
