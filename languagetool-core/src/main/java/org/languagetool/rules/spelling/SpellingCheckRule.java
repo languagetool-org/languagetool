@@ -269,19 +269,22 @@ public abstract class SpellingCheckRule extends Rule {
             continue;
           }
           failOnSpace(ignoreFile, line);
-          if (language.getShortNameWithCountryAndVariant().equals("de-CH")) {
-            // hack: Swiss German doesn't use "ß" but always "ss" - replace this, otherwise
-            // misspellings (from Swiss point-of-view) like "äußere" wouldn't be found:
-            wordsToBeIgnored.add(line.replace("ß", "ss"));
-          } else {
-            wordsToBeIgnored.add(line);
-          }
+          addIgnoreWords(line, wordsToBeIgnored);
           if (line.endsWith(".")) {
             wordsWithDotsPresent = true;
           }
         }
       }
     }
+  }
+
+  /**
+   * @param line the line as read from {@code spelling.txt}.
+   * @param wordsToBeIgnored the set of words to be ignored
+   * @since 2.9
+   */
+  protected void addIgnoreWords(String line, Set<String> wordsToBeIgnored) {
+    wordsToBeIgnored.add(line);
   }
 
   private void loadWordsToBeProhibited(String prohibitFile) throws IOException {

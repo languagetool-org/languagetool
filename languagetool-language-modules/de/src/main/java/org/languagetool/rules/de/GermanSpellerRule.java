@@ -86,6 +86,17 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return RULE_ID;
   }
 
+  @Override
+  protected void addIgnoreWords(String line, Set<String> wordsToBeIgnored) {
+    if (language.getShortNameWithCountryAndVariant().equals("de-CH")) {
+      // hack: Swiss German doesn't use "ß" but always "ss" - replace this, otherwise
+      // misspellings (from Swiss point-of-view) like "äußere" wouldn't be found:
+      wordsToBeIgnored.add(line.replace("ß", "ss"));
+    } else {
+      wordsToBeIgnored.add(line);
+    }
+  }
+
   @Nullable
   private static MorfologikMultiSpeller getSpeller(Language language) {
     if (!language.getShortName().equals(Locale.GERMAN.getLanguage())) {
