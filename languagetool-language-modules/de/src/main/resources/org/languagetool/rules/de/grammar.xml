@@ -85,7 +85,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY seitewoerter ".*Buchs?|.*Lektüre|umblätter\w\w?|umgeblättert|umzublättern|(ge)?lesen|las(en)?|geschrieben|schreiben?">
     <!ENTITY saitewoerter "aufziehen|.*ontrabass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?|Klavier">
     <!ENTITY leidwoerter "Angst|Armut|Bevölkerung|Blut(vergießens?)?|Einsamkeit|Elend|Entbehrung(en)?|Entsagung|Flüchtling(en?)?|Gewalt|Krankheit(en?)?|Mitleid|Not|Ohnmacht|Qual(en?)?|Schadens?|Schrecken|Unterdrückung|Vertreibung|Verzweiflung|Zerstörung(en?)?|Zivilbevölkerung|bitteres|endloses|ertragen|geschieht|geteiltes|psychisches|unendliches|unermessliches|unerträgliches|ungeheures|unsagbares|unsägliches|unvorstellbares|vermeidbares|verursacht|zugefügt">
-    <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|genau|laut|maximal|reichlich|täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich|voraussichtlich|gleichzeitig|häufig">
+    <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|genau|laut|maximal|reichlich|täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich|voraussichtlich|gleichzeitig|zeitgleich|häufig">
     <!ENTITY meindein "&lsqb;mds&rsqb;ein|unser|euer|ihr">
     <!ENTITY verbendirekterede "befehlen|behaupten|denken|fragen|rufen|sagen|versichern|flüstern">
     <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt|empört|entrüstet|erbost">
@@ -195,7 +195,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token postag="VER:[123]:.*" postag_regexp="yes">
                     <exception postag="VER:.*" postag_regexp="yes" negate_pos="yes"/>
-                    <exception regexp="yes">prallen|siebten|achten|wachen|trauten|ehelichen</exception>
+                    <exception regexp="yes">regen|prallen|siebten|achten|wachen|trauten|ehelichen</exception>
                 </token>
             </pattern>
             <message>Möglicher Tippfehler: Meinten Sie <suggestion>ihm</suggestion>?</message>
@@ -1096,7 +1096,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token>hätte</token>
+                    <token regexp="yes">hätte|hatte</token>
                     <token>werden</token>
                     <token postag="VER:MOD:.*" postag_regexp="yes"/>
                 </antipattern>
@@ -6887,6 +6887,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="NACHDEM_NACH_DEM" name="Zusammen-/Getrenntschreibung: 'nachdem (nach dem) Essen etc.'">
+            <antipattern>
+                <token>kann</token>
+                <token>außerdem</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -11266,6 +11270,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" case_sensitive="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes|zehntes|elftes|zwölftes</token>
                 <token>von</token>
             </antipattern>
+            <antipattern>
+                <token>als</token>
+                <token regexp="yes" case_sensitive="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes|zehntes|elftes|zwölftes</token>
+                <token>und</token>
+                <token regexp="yes" case_sensitive="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes|zehntes|elftes|zwölftes</token>
+            </antipattern>
             <pattern>
                 <token>als</token>
                 <marker>
@@ -11282,24 +11292,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Als <marker>Erstes</marker> prüfen wir die Stromzufuhr.</example>
             <example>Gegründet 1899 als <marker>erstes</marker> japanisches Joint Venture...</example>
             <example>Sie gilt zum Beispiel als <marker>erstes</marker> neugotisches Kunstwerk.</example>
+            <example>Bis nach Schweich als <marker>drittes</marker> und viertes Gleis entlang der bestehenden Moselstrecke.</example>
         </rule>
         <rule id="ANS_KLEINES_NOMEN" name="ans/fürs/... + kleingeschr. Nomen">
             <antipattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
-                <token postag="ADJ:.*" postag_regexp="yes"></token>
+                <token postag="ADJ:.*" postag_regexp="yes"/>
                 <token regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
-                <token postag="ADJ:.*" postag_regexp="yes"></token>
+                <token postag="ADJ:.*" postag_regexp="yes"/>
                 <token regexp="yes">und|oder</token>
-                <token postag="ADJ:.*" postag_regexp="yes"></token>
+                <token postag="ADJ:.*" postag_regexp="yes"/>
                 <token regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
-                <token postag="ADJ:.*" postag_regexp="yes"></token>
-                <token postag="ADJ:.*" postag_regexp="yes"></token>
+                <token postag="ADJ:.*" postag_regexp="yes"/>
+                <token postag="ADJ:.*" postag_regexp="yes"/>
                 <token regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</token>
             </antipattern>
             <antipattern>
@@ -11519,7 +11530,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Dd]as|[Dd]em</token>
                     <marker>
-                        <token postag="VER:INF:.+" postag_regexp="yes" regexp="yes">[a-zäöüß]+<exception postag="ADJ:GEN:SIN:.+" postag_regexp="yes"/><exception regexp="yes">einen|einigen|sieben</exception></token>
+                        <token postag="VER:INF:.+" postag_regexp="yes" regexp="yes">[a-zäöüß]+<exception postag="ADJ:GEN:SIN:.+" postag_regexp="yes"/><exception regexp="yes">einen|einigen|sieben|achten</exception></token>
                     </marker>
                     <token>von</token>
                 </pattern>
@@ -18609,7 +18620,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>wegen</token>
                     </marker>
-                    <token postag="SENT_END"><exception postag_regexp="yes" postag="SUB.*"></exception></token>
+                    <token postag="SENT_END"><exception postag_regexp="yes" postag="SUB.*"/></token>
                 </pattern>
                 <message>&subanfang;<suggestion>Wegen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -21514,7 +21525,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token case_sensitive="yes">weiteren</token>
                 </marker>
-                <token postag="VER:.*" postag_regexp="yes"><exception postag="SUB:.*" postag_regexp="yes"></exception></token>
+                <token postag="VER:.*" postag_regexp="yes"><exception postag="SUB:.*" postag_regexp="yes"/></token>
             </pattern>
             <message>&inwend;'\1 Weiteren' wird <suggestion>Weiteren</suggestion> großgeschrieben.</message>
             <short>&prgk;.</short>
@@ -21805,7 +21816,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>aufs</token>
                 <marker>
-                    <token postag='VER:INF:SFT'></token>
+                    <token postag='VER:INF:SFT'/>
                 </marker>
             </pattern>
             <message>Wenn '<match no="2"/>' hier als Nomen genutzt wird, muss es großgeschrieben werden.</message>
@@ -21818,7 +21829,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token case_sensitive="yes">gleiche</token>
                 </marker>
-                <token negate_pos="yes" postag="SUB:.*" postag_regexp="yes"></token>
+                <token negate_pos="yes" postag="SUB:.*" postag_regexp="yes"/>
             </pattern>
             <message>In der Wendung 'aufs Gleiche rauskommen' wird <suggestion>Gleiche</suggestion> großgeschrieben.</message>
             <example correction="Gleiche">Das kommt aufs <marker>gleiche</marker> raus.</example>
@@ -22177,7 +22188,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="VER:INF.*" postag_regexp="yes" regexp="yes">[a-zäöü].+
                             <exception postag_regexp="yes" postag="ADJ:.*"/>
-                            <exception regexp="yes">prallen|stumpfen|schrägen|ehelichen|öden|regen|rauen|apologetischen|wachen|achten|.*genetischen|einen|.*romantischen|.+haften|.*dramatischen|starren|sieben|.+werten</exception>
+                            <exception regexp="yes">spielentscheidenden|diskussionswürdigen|prallen|stumpfen|schrägen|ehelichen|öden|regen|rauen|apologetischen|wachen|achten|.*genetischen|einen|.*romantischen|.+haften|.*dramatischen|starren|sieben|.+werten</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -23145,6 +23156,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="meiner">Entsprechend <marker>meine</marker> Laune.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes">suchen</token>
+                    <token>bei</token>
+                    <token>ihr</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">bei|entsprechend</token>
                     <marker>
@@ -23159,6 +23175,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Bei meinem Haus.</example>
                 <example>Bei meinem schönen Haus.</example>
                 <example>Dosis entsprechend meinem Zustand angepasst.</example>
+                <example>Er sucht bei ihr Rat wegen der Abendgarderobe.</example>
                 <example correction="meinem">Bei <marker>mein</marker> Haus.</example>
                 <example correction="meinem">Bei <marker>mein</marker> schönes Haus.</example>
                 <example correction="meinem">Dosis entsprechend <marker>mein</marker> Zustand angepasst.</example>
@@ -23585,6 +23602,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Das ist für <marker>den schönen Männern</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>was</token>
+                    <token>für</token>
+                    <token>ein</token>
+                </antipattern>
                 <antipattern case_sensitive="yes">
                     <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
                     <marker>
@@ -23610,6 +23632,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das ist für <marker>meine Frau</marker>.</example>
                 <example>Im November 2013 begann er für <marker>ein Gehalt</marker> von einem US-Dollar pro Jahr.</example>
                 <example>Er führte einen Markenrechtsstreit für <marker>ein Berliner</marker> Verkehrsunternehmen.</example>
+                <example>Was für <marker>ein Auftritt</marker>!</example>
                 <example correction="">Das ist für <marker>mein Mann</marker>.</example>
             </rule>
             <rule>
@@ -23690,7 +23713,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[mdsMDS]ich</token>
                     <marker>
-                        <token postag="ADJ:.*:(SOL|DEF|IND)" postag_regexp="yes"><exception postag="ADJ:PRD:.*" postag_regexp="yes"/><exception postag="ADJ:.*" negate_pos="yes" postag_regexp="yes"/><exception regexp="yes">teilweise|einig.*|andere.*|diverse|weitere</exception></token>
+                        <token postag="ADJ:.*:(SOL|DEF|IND)" postag_regexp="yes"><exception postag="ADJ:PRD:.*" postag_regexp="yes"/><exception postag="ADJ:.*" negate_pos="yes" postag_regexp="yes"/><exception regexp="yes">teilweise|einig.*|andere.*|diverse|weitere|zahlreiche</exception></token>
                     </marker>
                     <token postag="VER:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäöü].*<exception postag_regexp="yes" postag="ADJ:.*"/></token>
                 </pattern>
@@ -24315,6 +24338,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
+                    <token>Mitte</token>
+                    <token>der</token>
+                </antipattern>
+                <antipattern>
                     <token>Runde</token>
                     <token postag="ZAL"/>
                 </antipattern>
@@ -24344,6 +24371,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es war schon in Runde eins Endstation.</example>
                 <example>In zwei Anfang 2009 veröffentlichten Studien...</example>
                 <example>In zwei 2009 veröffentlichten Studien...</example>
+                <example>Es zeigte auch zwei Mitte der 1960er im Boden gefundene Platten.</example>
             </rule>
             <rule>
                 <pattern>
