@@ -102,7 +102,7 @@ public class GermanSpellerRuleTest {
     assertFalse(ruleSwiss.doIgnoreWord("Ligafußball"));  // 'ß' never accepted for Swiss
   }
 
-  private class MyGermanSpellerRule extends GermanSpellerRule {
+  private static class MyGermanSpellerRule extends GermanSpellerRule {
     MyGermanSpellerRule(ResourceBundle messages, German language) throws IOException {
       super(messages, language);
       init();

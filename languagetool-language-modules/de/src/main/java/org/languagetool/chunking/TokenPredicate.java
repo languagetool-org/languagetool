@@ -18,12 +18,13 @@
  */
 package org.languagetool.chunking;
 
+import edu.washington.cs.knowitall.logic.Expression;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 
 import java.util.regex.Pattern;
 
-final class TokenPredicate extends edu.washington.cs.knowitall.logic.Expression.Arg.Pred<ChunkTaggedToken> {
+final class TokenPredicate extends Expression.Arg.Pred<ChunkTaggedToken> {
 
   private final boolean caseSensitive;
 

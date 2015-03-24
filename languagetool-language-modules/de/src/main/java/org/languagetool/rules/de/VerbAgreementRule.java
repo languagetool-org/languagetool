@@ -29,7 +29,6 @@ import java.util.Set;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Language;
 import org.languagetool.language.German;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.Example;

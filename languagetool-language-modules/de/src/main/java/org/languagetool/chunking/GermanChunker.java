@@ -303,7 +303,7 @@ public class GermanChunker implements Chunker {
     return chunkTaggedTokens;
   }
 
-  private List<ChunkTaggedToken> apply(RegularExpressionWithPhraseType regex, List<ChunkTaggedToken> tokens) {
+  private void apply(RegularExpressionWithPhraseType regex, List<ChunkTaggedToken> tokens) {
     String prevDebug = getDebugString(tokens);
     try {
       AffectedSpans affectedSpans = doApplyRegex(regex, tokens);
@@ -314,7 +314,6 @@ public class GermanChunker implements Chunker {
     } catch (Exception e) {
       throw new RuntimeException("Could not apply chunk regexp '" + regex + "' to tokens: " + tokens, e);
     }
-    return tokens;
   }
 
   private void assignChunksToReadings(List<ChunkTaggedToken> chunkTaggedTokens) {
@@ -400,7 +399,7 @@ public class GermanChunker implements Chunker {
     return sb.toString();
   }
 
-  private class Span {
+  private static class Span {
     final int startIndex;
     final int endIndex;
     Span(int startIndex, int endIndex) {
@@ -409,7 +408,7 @@ public class GermanChunker implements Chunker {
     }
   }
 
-  private class AffectedSpans {
+  private static class AffectedSpans {
     final List<Span> spans;
     AffectedSpans(List<Span> spans) {
       this.spans = spans;

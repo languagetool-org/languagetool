@@ -30,6 +30,7 @@ import org.languagetool.tools.StringTools;
 import java.io.IOException;
 import java.util.*;
 
+@SuppressWarnings("ConstantConditions")
 public class GermanTaggerTest extends TestCase {
 
   public void testTagger() throws IOException {
@@ -40,67 +41,67 @@ public class GermanTaggerTest extends TestCase {
     assertEquals("Haus", aToken.getReadings().get(0).getLemma());
     assertEquals("Haus", aToken.getReadings().get(1).getLemma());
     assertEquals("Haus", aToken.getReadings().get(2).getLemma());
-    
-    aToken = tagger.lookup("Hauses");
-    assertEquals("Hauses[Haus/SUB:GEN:SIN:NEU]", toSortedString(aToken));
-    assertEquals("Haus", aToken.getReadings().get(0).getLemma());
+
+    AnalyzedTokenReadings aToken2 = tagger.lookup("Hauses");
+    assertEquals("Hauses[Haus/SUB:GEN:SIN:NEU]", toSortedString(aToken2));
+    assertEquals("Haus", aToken2.getReadings().get(0).getLemma());
     
     assertNull(tagger.lookup("hauses"));
     assertNull(tagger.lookup("Groß"));
 
     assertEquals("Lieblingsbuchstabe[Lieblingsbuchstabe/SUB:NOM:SIN:MAS]", toSortedString(tagger.lookup("Lieblingsbuchstabe")));
 
-    aToken = tagger.lookup("großer");
+    AnalyzedTokenReadings aToken3 = tagger.lookup("großer");
     assertEquals("großer[groß/ADJ:DAT:SIN:FEM:GRU:SOL, groß/ADJ:GEN:PLU:FEM:GRU:SOL, groß/ADJ:GEN:PLU:MAS:GRU:SOL, " +
             "groß/ADJ:GEN:PLU:NEU:GRU:SOL, groß/ADJ:GEN:SIN:FEM:GRU:SOL, groß/ADJ:NOM:SIN:MAS:GRU:IND, " +
             "groß/ADJ:NOM:SIN:MAS:GRU:SOL]", toSortedString(tagger.lookup("großer")));
-    assertEquals("groß", aToken.getReadings().get(0).getLemma());
+    assertEquals("groß", aToken3.getReadings().get(0).getLemma());
     
     // from both german.dict and added.txt:
-    aToken = tagger.lookup("Interessen");
+    AnalyzedTokenReadings aToken4 = tagger.lookup("Interessen");
     assertEquals("Interessen[Interesse/SUB:AKK:PLU:NEU, Interesse/SUB:DAT:PLU:NEU, " +
             "Interesse/SUB:GEN:PLU:NEU, Interesse/SUB:NOM:PLU:NEU]",
-        toSortedString(aToken));
-    assertEquals("Interesse", aToken.getReadings().get(0).getLemma());
-    assertEquals("Interesse", aToken.getReadings().get(1).getLemma());
-    assertEquals("Interesse", aToken.getReadings().get(2).getLemma());
-    assertEquals("Interesse", aToken.getReadings().get(3).getLemma());
+        toSortedString(aToken4));
+    assertEquals("Interesse", aToken4.getReadings().get(0).getLemma());
+    assertEquals("Interesse", aToken4.getReadings().get(1).getLemma());
+    assertEquals("Interesse", aToken4.getReadings().get(2).getLemma());
+    assertEquals("Interesse", aToken4.getReadings().get(3).getLemma());
     
     // words that are not in the dictionary but that are recognized thanks to noun splitting:
-    aToken = tagger.lookup("Donaudampfschiff");
+    AnalyzedTokenReadings aToken5 = tagger.lookup("Donaudampfschiff");
     assertEquals("Donaudampfschiff[Donaudampfschiff/SUB:AKK:SIN:NEU, Donaudampfschiff/SUB:DAT:SIN:NEU, " +
-            "Donaudampfschiff/SUB:NOM:SIN:NEU]", toSortedString(aToken));
-    assertEquals("Donaudampfschiff", aToken.getReadings().get(0).getLemma());
-    assertEquals("Donaudampfschiff", aToken.getReadings().get(1).getLemma());
-    
-    aToken = tagger.lookup("Häuserkämpfe");
+            "Donaudampfschiff/SUB:NOM:SIN:NEU]", toSortedString(aToken5));
+    assertEquals("Donaudampfschiff", aToken5.getReadings().get(0).getLemma());
+    assertEquals("Donaudampfschiff", aToken5.getReadings().get(1).getLemma());
+
+    AnalyzedTokenReadings aToken6 = tagger.lookup("Häuserkämpfe");
     assertEquals("Häuserkämpfe[Häuserkampf/SUB:AKK:PLU:MAS, Häuserkampf/SUB:GEN:PLU:MAS, Häuserkampf/SUB:NOM:PLU:MAS]",
-        toSortedString(aToken));
-    assertEquals("Häuserkampf", aToken.getReadings().get(0).getLemma());
-    assertEquals("Häuserkampf", aToken.getReadings().get(1).getLemma());
-    assertEquals("Häuserkampf", aToken.getReadings().get(2).getLemma());
-    
-    aToken = tagger.lookup("Häuserkampfes");
-    assertEquals("Häuserkampfes[Häuserkampf/SUB:GEN:SIN:MAS]", toSortedString(aToken));
-    assertEquals("Häuserkampf", aToken.getReadings().get(0).getLemma());
-    
-    aToken = tagger.lookup("Häuserkampfs");
-    assertEquals("Häuserkampfs[Häuserkampf/SUB:GEN:SIN:MAS]", toSortedString(aToken));
-    assertEquals("Häuserkampf", aToken.getReadings().get(0).getLemma());
+        toSortedString(aToken6));
+    assertEquals("Häuserkampf", aToken6.getReadings().get(0).getLemma());
+    assertEquals("Häuserkampf", aToken6.getReadings().get(1).getLemma());
+    assertEquals("Häuserkampf", aToken6.getReadings().get(2).getLemma());
 
-    aToken = tagger.lookup("Lieblingsfarben");
+    AnalyzedTokenReadings aToken7 = tagger.lookup("Häuserkampfes");
+    assertEquals("Häuserkampfes[Häuserkampf/SUB:GEN:SIN:MAS]", toSortedString(aToken7));
+    assertEquals("Häuserkampf", aToken7.getReadings().get(0).getLemma());
+
+    AnalyzedTokenReadings aToken8 = tagger.lookup("Häuserkampfs");
+    assertEquals("Häuserkampfs[Häuserkampf/SUB:GEN:SIN:MAS]", toSortedString(aToken8));
+    assertEquals("Häuserkampf", aToken8.getReadings().get(0).getLemma());
+
+    AnalyzedTokenReadings aToken9 = tagger.lookup("Lieblingsfarben");
     assertEquals("Lieblingsfarben[Lieblingsfarbe/SUB:AKK:PLU:FEM, Lieblingsfarbe/SUB:DAT:PLU:FEM, " +
-            "Lieblingsfarbe/SUB:GEN:PLU:FEM, Lieblingsfarbe/SUB:NOM:PLU:FEM]", toSortedString(aToken));
-    assertEquals("Lieblingsfarbe", aToken.getReadings().get(0).getLemma());
+            "Lieblingsfarbe/SUB:GEN:PLU:FEM, Lieblingsfarbe/SUB:NOM:PLU:FEM]", toSortedString(aToken9));
+    assertEquals("Lieblingsfarbe", aToken9.getReadings().get(0).getLemma());
 
-    aToken = tagger.lookup("Autolieblingsfarben");
+    AnalyzedTokenReadings aToken10 = tagger.lookup("Autolieblingsfarben");
     assertEquals("Autolieblingsfarben[Autolieblingsfarbe/SUB:AKK:PLU:FEM, Autolieblingsfarbe/SUB:DAT:PLU:FEM, " +
-            "Autolieblingsfarbe/SUB:GEN:PLU:FEM, Autolieblingsfarbe/SUB:NOM:PLU:FEM]", toSortedString(aToken));
-    assertEquals("Autolieblingsfarbe", aToken.getReadings().get(0).getLemma());
+            "Autolieblingsfarbe/SUB:GEN:PLU:FEM, Autolieblingsfarbe/SUB:NOM:PLU:FEM]", toSortedString(aToken10));
+    assertEquals("Autolieblingsfarbe", aToken10.getReadings().get(0).getLemma());
 
-    aToken = tagger.lookup("übrigbleibst");
-    assertEquals("übrigbleibst[übrigbleiben/VER:2:SIN:PRÄ:NON:NEB]", toSortedString(aToken));
-    assertEquals("übrigbleiben", aToken.getReadings().get(0).getLemma());
+    AnalyzedTokenReadings aToken11 = tagger.lookup("übrigbleibst");
+    assertEquals("übrigbleibst[übrigbleiben/VER:2:SIN:PRÄ:NON:NEB]", toSortedString(aToken11));
+    assertEquals("übrigbleiben", aToken11.getReadings().get(0).getLemma());
   }
 
   // make sure we use the version of the POS data that was extended with post spelling reform data
@@ -120,21 +121,21 @@ public class GermanTaggerTest extends TestCase {
   public void testTaggerBaseforms() throws IOException {
     final GermanTagger tagger = new GermanTagger();
     
-    List<AnalyzedToken> readings = tagger.lookup("übrigbleibst").getReadings();
-    assertEquals(1, readings.size());
-    assertEquals("übrigbleiben", readings.get(0).getLemma());
+    List<AnalyzedToken> readings1 = tagger.lookup("übrigbleibst").getReadings();
+    assertEquals(1, readings1.size());
+    assertEquals("übrigbleiben", readings1.get(0).getLemma());
 
-    readings = tagger.lookup("Haus").getReadings();
-    assertEquals(3, readings.size());
-    assertEquals("Haus", readings.get(0).getLemma());
-    assertEquals("Haus", readings.get(1).getLemma());
-    assertEquals("Haus", readings.get(2).getLemma());
+    List<AnalyzedToken> readings2 = tagger.lookup("Haus").getReadings();
+    assertEquals(3, readings2.size());
+    assertEquals("Haus", readings2.get(0).getLemma());
+    assertEquals("Haus", readings2.get(1).getLemma());
+    assertEquals("Haus", readings2.get(2).getLemma());
 
-    readings = tagger.lookup("Häuser").getReadings();
-    assertEquals(3, readings.size());
-    assertEquals("Haus", readings.get(0).getLemma());
-    assertEquals("Haus", readings.get(1).getLemma());
-    assertEquals("Haus", readings.get(2).getLemma());
+    List<AnalyzedToken> readings3 = tagger.lookup("Häuser").getReadings();
+    assertEquals(3, readings3.size());
+    assertEquals("Haus", readings3.get(0).getLemma());
+    assertEquals("Haus", readings3.get(1).getLemma());
+    assertEquals("Haus", readings3.get(2).getLemma());
   }
 
   public void testTag() throws IOException {

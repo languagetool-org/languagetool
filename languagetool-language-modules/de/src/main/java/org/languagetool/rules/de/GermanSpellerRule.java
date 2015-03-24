@@ -232,8 +232,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   private static class Replacement {
-    String key;
-    String value;
+    final String key;
+    final String value;
     private Replacement(String key, String value) {
       this.key = key;
       this.value = value;

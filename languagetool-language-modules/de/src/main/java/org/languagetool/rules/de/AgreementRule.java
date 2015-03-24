@@ -60,7 +60,7 @@ public class AgreementRule extends GermanRule {
     NUMERUS("Numerus (Einzahl, Mehrzahl - Beispiel: 'das Fahrräder' statt 'die Fahrräder')");
     
     private final String displayName;
-    private GrammarCategory(String displayName) {
+    GrammarCategory(String displayName) {
       this.displayName = displayName;
     }
   }

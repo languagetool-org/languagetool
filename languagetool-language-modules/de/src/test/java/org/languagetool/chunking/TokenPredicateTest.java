@@ -52,7 +52,9 @@ public class TokenPredicateTest {
     try {
       assertNoMatch("invalid=token", chunkTaggedToken);
       fail();
-    } catch (RuntimeException expected) {}
+    } catch (RuntimeException expected) {
+      //expected
+    }
   }
 
   private void assertMatch(String expr, ChunkTaggedToken chunkTaggedToken) {
