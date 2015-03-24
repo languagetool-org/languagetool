@@ -8,7 +8,7 @@ For more information, please see our homepage at http://languagetool.org and [th
 [![Build Status](https://travis-ci.org/languagetool-org/languagetool.svg?branch=master)](https://travis-ci.org/languagetool-org/languagetool)
 
 ## Running the HTTP Server
-Clone this repository on your system.In your command prompt/Terminal, go to the folder where the repo has been cloned and follow the following instructions 
+Clone this repository on your system. In your command prompt/Terminal, go to the folder where the repo has been cloned and follow the following instructions 
 
 `cd languagetool-standalone/target/LanguageTool-2.9-SNAPSHOT/LanguageTool-2.9-SNAPSHOT`
 `java -cp languagetool-server.jar org.languagetool.server.HTTPServer --port 8081` 
