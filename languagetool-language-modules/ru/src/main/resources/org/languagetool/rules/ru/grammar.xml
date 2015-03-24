@@ -1576,13 +1576,14 @@ $Id$
             <!--TODO: Detect 2 comma.-->
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|бы<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|бы|возникши(.*)<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">кроме|помимо|вместо</token>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\1, \2</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%BF%D1%8F%D1%82%D0%B0%D1%8F</url>
                 <short>Пропущена запятая.</short>
                 <example>Около костра, кроме Ивана, грелось ещё пять человек.</example>
+                <example>Обстоятельства, возникшие помимо воли и желания сторон.</example>
                 <example correction="костра, кроме">Около <marker>костра кроме</marker> Ивана грелось ещё пять человек.</example>
             </rule>
             <rule>
