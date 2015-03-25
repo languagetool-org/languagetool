@@ -20287,9 +20287,20 @@ $Id$
             <suggestion>núm.&#160;<match no="1" regexp_match="..(\d+)" regexp_replace="$1"/></suggestion>
             <example correction="núm.&#160;1">Va ser el <marker>nº1</marker>.</example>
         </rule>
-        
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="LOW_COST" name="low cost/baix cost">
+            <pattern>
+                <token>low</token>
+                <token min="0">-</token>
+                <token>cost</token>
+            </pattern>
+            <message>Anglicisme innecessari.</message>
+            <suggestion>baix cost</suggestion>
+            <suggestion>de baix cost</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/baix_cost</url>
+            <example correction="baix cost|de baix cost">Una companyia <marker>low-cost</marker>.</example>
+        </rule>
         <rule id="MONITORITZAR" name="monitoritzar"> <!-- Unnecessary when dictionary is updated -->
             <pattern> 
                 <token inflected="yes">monitoritzar</token>
@@ -26492,16 +26503,16 @@ $Id$
                 <token>tuït</token>
             </pattern>
             <message>¿Volíeu dir '<suggestion>piulada</suggestion>'? 'Tuït' és el nom d'un ocell</message>
-            <suggestion>tweet</suggestion>
-            <example correction="piulada|tweet">Ha fet un <marker>tuït</marker>.</example>
+            <suggestion>tuit</suggestion>
+            <example correction="piulada|tuit">Ha fet un <marker>tuït</marker>.</example>
         </rule>
         <rule id="TUITS" name="tuïts/tweets">
             <pattern>
                 <token>tuïts</token>
             </pattern>
             <message>¿Volíeu dir '<suggestion>piulades</suggestion>'? 'Tuït' és el nom d'un ocell</message>
-            <suggestion>tweets</suggestion>
-            <example correction="piulades|tweets">Ha fet molts <marker>tuïts</marker>.</example>
+            <suggestion>tuits</suggestion>
+            <example correction="piulades|tuits">Ha fet molts <marker>tuïts</marker>.</example>
         </rule>
         <rulegroup id="ROTAR_GIRAR" name="rotar/girar">
             <rule>
