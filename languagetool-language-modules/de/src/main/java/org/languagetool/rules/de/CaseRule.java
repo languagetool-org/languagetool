@@ -80,6 +80,8 @@ public class CaseRule extends GermanRule {
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final Set<String> exceptions = new HashSet<>(Arrays.asList(
+    "Verletzte",
+    "Vermisste",
     "Äußeres",
     "Abseits",
     "Beschäftigter",
@@ -429,6 +431,48 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("Roten Riesen");
     myExceptionPhrases.add("als Erstes");  // aber: als erstes Kind...
     myExceptionPhrases.add("Als Erstes");
+    myExceptionPhrases.add("Pazifische Ozean");
+    myExceptionPhrases.add("Pazifischer Ozean");
+    myExceptionPhrases.add("Pazifischen Ozeans");
+    myExceptionPhrases.add("Pazifischen Ozean");
+    myExceptionPhrases.add("Atlantische Ozean");
+    myExceptionPhrases.add("Atlantischer Ozean");
+    myExceptionPhrases.add("Atlantischen Ozeans");
+    myExceptionPhrases.add("Atlantischen Ozean");
+    myExceptionPhrases.add("Indische Ozean");
+    myExceptionPhrases.add("Indischer Ozean");
+    myExceptionPhrases.add("Indischen Ozeans");
+    myExceptionPhrases.add("Indischen Ozean");
+    myExceptionPhrases.add("Oberster Gerichtshof");
+    myExceptionPhrases.add("Oberste Gerichtshof");
+    myExceptionPhrases.add("Obersten Gerichtshofs");
+    myExceptionPhrases.add("Rote Karte");
+    myExceptionPhrases.add("Roten Karte");
+    myExceptionPhrases.add("Roten Karten");
+    myExceptionPhrases.add("Gelbe Karte");
+    myExceptionPhrases.add("Gelben Karte");
+    myExceptionPhrases.add("Gelben Karten");
+    myExceptionPhrases.add("Rote Kreuz");
+    myExceptionPhrases.add("Roten Kreuz");
+    myExceptionPhrases.add("Roten Kreuzes");
+    myExceptionPhrases.add("Kalte Krieg");
+    myExceptionPhrases.add("Kalter Krieg");
+    myExceptionPhrases.add("Kalten Krieg");
+    myExceptionPhrases.add("Kalten Krieges");
+    myExceptionPhrases.add("Vereinigtes Königreich");
+    myExceptionPhrases.add("Vereinigte Königreich");
+    myExceptionPhrases.add("Vereinigten Königreich");
+    myExceptionPhrases.add("Vereinigten Königreichs");
+    myExceptionPhrases.add("Vereinigten Königreiches");
+    myExceptionPhrases.add("Olympische Spiele");
+    myExceptionPhrases.add("Olympischen Spiele");
+    myExceptionPhrases.add("Olympischen Spielen");
+    myExceptionPhrases.add("Sächsischer Schweiz");
+    myExceptionPhrases.add("Sächsische Schweiz");
+    myExceptionPhrases.add("Sächsischen Schweiz");
+    myExceptionPhrases.add("Europäische Gemeinschaft");
+    myExceptionPhrases.add("Europäischer Gemeinschaft");
+    myExceptionPhrases.add("Europäischen Gemeinschaft");
   }
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
