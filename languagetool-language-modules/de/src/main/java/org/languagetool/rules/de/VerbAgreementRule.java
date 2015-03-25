@@ -59,6 +59,7 @@ public class VerbAgreementRule extends GermanRule {
   
   // Words that prevent a rule match when they occur directly before "bin":
   private static final Set<String> BIN_IGNORE = new HashSet<>(Arrays.asList(
+    "Suleiman",
     "Mohamed",
     "Muhammad",
     "Muhammed",

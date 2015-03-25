@@ -1137,7 +1137,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><exception>auch</exception></token>
                 <token>so</token>
                 <marker>
-                    <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:GRU"/><exception>lange</exception></token>
+                    <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">lange|berühmte</exception></token>
                 </marker>
                 <token>wie</token>
                 <token><exception postag_regexp="yes" postag="ADJ.[NGDA].*"/></token>
@@ -2518,6 +2518,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Jahren">Seit 10 <marker>Jahre</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>nach</token>
+                    <token>wie</token>
+                    <token>vor</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">vor|seit</token>
                     <token postag="ZAL"/>
@@ -2527,6 +2532,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie <suggestion>\3n</suggestion>?</message>
                 <example>Der Roman ist analog zu den sieben Posaunen der biblischen Apokalypse in sieben <marker>Tage</marker> unterteilt.</example>
+                <example>Der Roman ist analog zu den sieben Posaunen der biblischen Apokalypse in sieben <marker>Tage</marker> unterteilt.</example>
+                <example>Schweden war dem Gregorianischen Kalender nach wie vor zehn Tage hinterher.</example>
                 <example correction="Jahren">Seit dreißig <marker>Jahre</marker>.</example>
             </rule>
         </rulegroup>
@@ -11294,6 +11301,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Gegründet 1899 als <marker>erstes</marker> japanisches Joint Venture...</example>
             <example>Sie gilt zum Beispiel als <marker>erstes</marker> neugotisches Kunstwerk.</example>
             <example>Bis nach Schweich als <marker>drittes</marker> und viertes Gleis entlang der bestehenden Moselstrecke.</example>
+            <example type="triggers_error">Der Borgward Hansa 1500, der 1949 als erstes nach dem Krieg neu konstruiertes deutsches Auto eingeführt worden war.</example>
         </rule>
         <rule id="ANS_KLEINES_NOMEN" name="ans/fürs/... + kleingeschr. Nomen">
             <antipattern>
@@ -23604,6 +23612,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
+                    <token>ohne</token>
+                    <token/>
+                    <token/>
+                    <token>zu</token>
+                    <token>sein</token>
+                </antipattern>
+                <antipattern>
                     <token>was</token>
                     <token>für</token>
                     <token>ein</token>
@@ -23634,6 +23649,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Im November 2013 begann er für <marker>ein Gehalt</marker> von einem US-Dollar pro Jahr.</example>
                 <example>Er führte einen Markenrechtsstreit für <marker>ein Berliner</marker> Verkehrsunternehmen.</example>
                 <example>Was für <marker>ein Auftritt</marker>!</example>
+                <example>Die Unterscheidung war allgemein gebräuchlich, ohne ein Titel zu sein.</example>
                 <example correction="">Das ist für <marker>mein Mann</marker>.</example>
             </rule>
             <rule>
@@ -24339,6 +24355,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
+                    <token postag="ZAL"/>
+                    <token>Aufsehen</token>
+                    <token regexp="yes">erregende[nrs]?</token>
+                </antipattern>
+                <antipattern>
                     <token>Mitte</token>
                     <token>der</token>
                 </antipattern>
@@ -24374,6 +24395,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>In zwei 2009 veröffentlichten Studien...</example>
                 <example>Es zeigte auch zwei Mitte der 1960er im Boden gefundene Platten.</example>
                 <example>Daraus wurde ein drei Stunden langer Kinofilm.</example>
+                <example>Er hatte in zwei Aufsehen erregenden Nature-Veröffentlichungen drüber berichtet.</example>
             </rule>
             <rule>
                 <pattern>
