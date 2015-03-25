@@ -504,7 +504,7 @@ public class CaseRule extends GermanRule {
         continue;
       }
       if (i == 1) {   // don't care about first word, UppercaseSentenceStartRule does this already
-        if (nounIndicators.contains(tokens[i].getToken().toLowerCase())) {
+        if (nounIndicators.contains(tokens[1].getToken().toLowerCase())) {
           prevTokenIsDas = true;
         }
         continue;
@@ -612,8 +612,8 @@ public class CaseRule extends GermanRule {
         token.length() > 1 &&     // length limit = ignore abbreviations
         !tokens[i].isIgnoredBySpeller() &&
         !sentenceStartExceptions.contains(tokens[i - 1].getToken()) &&
-        !StringTools.isAllUppercase(token) &&
         !exceptions.contains(token) &&
+        !StringTools.isAllUppercase(token) &&
         !isLanguage(i, tokens) &&
         !isProbablyCity(i, tokens) &&
         !GermanHelper.hasReadingOfType(analyzedToken, POSType.PROPER_NOUN) &&
@@ -638,13 +638,13 @@ public class CaseRule extends GermanRule {
   // e.g. "a) bla bla"
   private boolean isNumbering(int i, AnalyzedTokenReadings[] tokens) {
     return i >= 2
-            && (tokens[i-1].getToken().equals(")") || (tokens[i-1].getToken().equals("]")))
+            && (tokens[i-1].getToken().equals(")") || tokens[i-1].getToken().equals("]"))
             && NUMERALS_EN.matcher(tokens[i-2].getToken()).matches();
   }
 
   private boolean isEllipsis(int i, AnalyzedTokenReadings[] tokens) {
-    return ( (tokens[i-1].getToken().equals("]") || tokens[i-1].getToken().equals(")")) && // sentence starts with […]
-       ( (i == 4 && tokens[i-2].getToken().equals("…")) || (i == 6 && tokens[i-2].getToken().equals(".")) ) );
+    return (tokens[i-1].getToken().equals("]") || tokens[i-1].getToken().equals(")")) && // sentence starts with […]
+           ((i == 4 && tokens[i-2].getToken().equals("…")) || (i == 6 && tokens[i-2].getToken().equals(".")));
   }
 
   private boolean isNominalization(int i, AnalyzedTokenReadings[] tokens) {
