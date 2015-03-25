@@ -11129,6 +11129,12 @@ $Id$
         </rule>
         <rulegroup id="LA_INFINITIU" name="la + infinitiu*/nom: la necessitar/necessitat">
             <rule>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">d'|com</token>
+                        <token postag="D[ID]0FS.*" postag_regexp="yes"/>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="D[ID]0FS.*" postag_regexp="yes"/>
@@ -11146,7 +11152,8 @@ $Id$
                 <example>aquesta mort</example>
                 <example>una Ser</example>
                 <example>i aquesta incloure-la en la categoria mitologia</example>
-                 <!-- i per sota d'aquesta tenir categories -->
+                <example>i per sota d'aquesta tenir categories</example>
+                <example>En una situació com aquesta parlar de quelcom</example>
             </rule>
             <rule>
                 <pattern>

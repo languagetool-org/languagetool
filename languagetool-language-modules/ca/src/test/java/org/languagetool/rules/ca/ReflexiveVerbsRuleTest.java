@@ -51,6 +51,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     //assertCorrect("Una equivocació tan gran no es pot callar.");
     //assertCorrect(" és del tot necessari si no es vol caure en una religió alienant");
 
+    assertCorrect("No em plantejo anar a un altre partit");
     assertCorrect("-Deixa't caure al canal i prou");
     assertCorrect("Deixa't caure al canal i prou");
     assertCorrect("Durant el 2010 s'ha crescut molt");
