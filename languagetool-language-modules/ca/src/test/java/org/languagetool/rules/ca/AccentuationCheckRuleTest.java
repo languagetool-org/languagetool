@@ -88,6 +88,8 @@ public class AccentuationCheckRuleTest extends TestCase {
     assertCorrect("La magnífica conservació del palau.");
 
     // errors:
+    assertIncorrect("Com s'ha dit les primaries autonòmiques s'han ajornat");
+    assertIncorrect("Com sabeu les primaries s'han ajornat");
     assertIncorrect("Les continues al·lusions a la victòria.");
     assertIncorrect("De positiva influencia en ell.");
     assertIncorrect("tren de llarga distancia");
