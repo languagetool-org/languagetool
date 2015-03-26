@@ -64,6 +64,8 @@ $Id$
     <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
     <!ENTITY verbs_no_apostrofen "halar|ioditzar|iotitzar|iodurar|iodar">
     <!ENTITY llibres_biblia "Gn|Ex|Lv|Nm|Dt|Jos|Jt|Rt|1Sa|2Sa|1Re|2Re|1Cr|2Cr|Esd|Ne|Est|Jb|Sl|Pr|Coh|Ct|Is|Jr|Lm|Ez|Dn|Os|Jl|Am|Ab|Jon|Mi|Na|Ha|So|Ag|Za|Ml|Mt|Mc|Lc|Jn|Ac|Rm|1Co|2Co|Ga|Ef|Fl|Col|1Te|2Te|1Tm|2Tm|Tt|Flm|He|Jm|1Pe|2Pe|1Jn|2Jn|3Jn|Jud|Ap|Estgr|Jdt|Tb|1Ma|2Ma|Sv|Sir|Ba|EpJr|Dngr|Dngr3|Dngr13|Dngr14|Man|3Esr|4Esr|Sl151|Lao|SIH">
+    <!ENTITY sigles_apostrofen "(?-i)FM|FBI|FMI|NBA|NBC">
+    
 ]>
 
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -8487,6 +8489,23 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="SEN" name="sen/se'n">
+            <antipattern>
+                <marker>
+                    <token>el</token>
+                    <token>sen</token>
+                    <token postag="_possible_nompropi"/>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token>sen<exception postag="_possible_nompropi"/></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>se'n</suggestion>? "Sen" és un tractament usat a Mallorca.</message>
+            <suggestion>seny</suggestion>
+            <example correction="se'n|seny">Ell <marker>sen</marker> va aviat.</example>
+            <example correction="Se'n|Seny"><marker>Sen</marker> va aviat.</example>
+            <example>El sen Joan va cada matí al camp.</example>
+        </rule>
         <rule id="OCASIONES" name="ocasiones/ocasions">
             <pattern>
                 <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN|RG|.*LOC.*" postag_regexp="yes"/><exception regexp="yes">tu|que</exception></token>
@@ -13011,11 +13030,78 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Cal apostrofar.</message>
-                <suggestion><match no="1" regexp_match=".?([dl]).?" regexp_replace="$1'"/>R+D</suggestion>
+                <suggestion><match no="1" regexp_match=".?([dlDL]).?" regexp_replace="$1'"/>R+D</suggestion>
                 <url>http://esadir.cat/Nomspropis/Entitats/Societat/RD</url>
-                <short>Apostrofació</short>
                 <example correction="l'R+D">La necessitat de <marker>la R+D</marker>+I</example>
                 <example>d'R+D+I</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token/>
+                        <token spacebefore="no">l</token>
+                        <token>R</token>
+                        <token>+</token>
+                        <token>D</token>
+                    </marker>
+                </pattern>
+                <message>Cal apostrofar.</message>
+                <suggestion>\1 l'R+D</suggestion>
+                <url>http://esadir.cat/Nomspropis/Entitats/Societat/RD</url>
+                <example correction="de l'R+D">La necessitat <marker>del R+D</marker>+I</example>
+                <example>d'R+D+I</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">de|el|la</token>
+                        <token regexp="yes">&sigles_apostrofen;</token>
+                    </marker>
+                </pattern>
+                <message>Cal apostrofar.</message>
+                <suggestion><match no="1" regexp_match=".?([dlDL]).?" regexp_replace="$1'"/>\2</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/sigles#apostrofacio</url>
+                <example correction="l'FBI"><marker>el FBI</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token/>
+                        <token spacebefore="no">l</token>
+                        <token regexp="yes">&sigles_apostrofen;</token>
+                    </marker>
+                </pattern>
+                <message>Cal apostrofar.</message>
+                <suggestion>\1 l'\3</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/sigles#apostrofacio</url>
+                <example correction="de l'FBI"><marker>del FBI</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>la</token>
+                        <token regexp="yes">(?-i)AP|N</token>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no"></token>
+                    </marker>
+                </pattern>
+                <message>Cal apostrofar.</message>
+                <suggestion>l'\2\3\4</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/sigles#apostrofacio</url>
+                <example correction="l'N-II">A <marker>la N-II</marker></example>
+                <example correction="l'AP-7">A <marker>la AP-7</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>la</token>
+                        <token regexp="yes">(?-i)[LR]1?\d</token>
+                    </marker>
+                </pattern>
+                <message>Cal apostrofar.</message>
+                <suggestion>l'\2</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/sigles#apostrofacio</url>
+                <example correction="l'L9">A <marker>la L9</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="DE_EL_S_APOSTROFEN" name="apostrofació: de, el">
@@ -17349,12 +17435,14 @@ $Id$
                         <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-(se|te|me)</token>
                     	<token postag="P.*" postag_regexp="yes" regexp="yes">-(el|els|te|et|me|em|en|ne)</token>
                     </marker>
-                    <token postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes" negate_pos="yes"></token>
+                    <!-- <token postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes" negate_pos="yes"></token> -->
+                    <token><exception postag="P.*" postag_regexp="yes" spacebefore="no"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion><match no="2" regexp_match="-[e]?([^e])e?" regexp_replace="-$1e"></match><match no="3" regexp_match="-e?([^e]{1,2})e?" regexp_replace="'$1"></match></suggestion>
                 <example correction="-te'l">Emporta<marker>-te-el</marker>.</example>
                 <example>Emporta-te'l.</example>
+                <example>Menjar-se-te-la</example>
             </rule>
             <rule>
                 <pattern>
@@ -17363,7 +17451,6 @@ $Id$
                     <marker>
                         <token postag="P.*" postag_regexp="yes" regexp="yes">-(lo|los)</token>
                     </marker>
-                    <token postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes" negate_pos="yes"></token>
                 </pattern>
                 <message>Forma de pronom feble incorrecta.</message>
                 <suggestion><match no="3" regexp_match="-lo(.)?" regexp_replace="-el$1"></match></suggestion>
@@ -17378,7 +17465,6 @@ $Id$
                     <marker>
                         <token postag="P.*" postag_regexp="yes">-ne</token>
                     </marker>
-                    <token postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes" negate_pos="yes"></token>
                 </pattern>
                 <message>Forma de pronom feble incorrecta.</message>
                 <suggestion>-en</suggestion>
@@ -17403,9 +17489,9 @@ $Id$
                     <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-.+</token>
                 </pattern>
                 <message>Apostrofació incorrecta.</message>
-                <short>Apostrofació incorrecta</short>
-                <example correction="">Afegir<marker>-s-hi</marker>.</example>
-                <example correction="">Afegir<marker>-n-hi</marker>.</example>
+                <suggestion>\1<match no="3" regexp_match="-(.+)" regexp_replace="'$1"></match></suggestion>
+                <example correction="-s'hi">Afegir<marker>-s-hi</marker>.</example>
+                <example correction="-n'hi">Afegir<marker>-n-hi</marker>.</example>
                 <example>Afegir-s'hi.</example>
                 <example>separar-l'en.</example>
             </rule>
@@ -17415,8 +17501,8 @@ $Id$
                     <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-.+</token>
                 </pattern>
                 <message>Apostrofació incorrecta.</message>
-                <short>Apostrofació incorrecta</short>
-                <example correction="">Afegir<marker>-l-hi</marker>.</example>
+                <suggestion>\1<match no="3" regexp_match="-(.+)" regexp_replace="'$1"></match></suggestion>
+                <example correction="-l'hi">Afegir<marker>-l-hi</marker>.</example>
                 <example>separar-l'en.</example>
                 <example>l'en nomenà governador</example>
             </rule>
@@ -19750,6 +19836,13 @@ $Id$
             <example>Benvinguts a www.softcatala.org</example>
         </rule>
         <rule id="PUNT_EN_ABREVIATURES" name="Comprova que hi ha punt en abreviatures: pàg., núm., etc.">
+            <antipattern case_sensitive="yes">
+                    <marker>
+                        <token>AP</token>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">\d+</token>
+                    </marker>
+                </antipattern>
             <pattern case_sensitive="no">
                 <marker> <!-- Eliminades les abreviatures d'una sola lletra. spacebefore="yes" -->
                     <token regexp="yes">(abr|abs|acad|add|adj|adm|admdor|admdora|admtiu|admtiva|adv|ag|agl|agr|agron|agròn|aj|alim|ampl|ap|apmt|apnt|apr|aprox|apt|arq|arqueol|arquit|atm|aut|aux|batx|bda|bibl|bl|bnc|butll|bxs|calef|cartogr|catedr|catol|cf|cin|climat|col·l|constr|contr|conv|corp|corr|cpl|cpt|cra|cró|ct|cte|ctra|cts|dc|dept|desp|dg|dip|disp|distr|div|dj|Dr|Dra|drec|ds|dt|dta|dte|dupl|dv|econ|ed|Emm|entl|esp|espf|esq|etc|exc|Excm|Excma|exp|exped|ext|fac|fca|febr|gov|gr|gral|hab|Hble|Il·lm|Il·lma|Il·ltre|Im|Ima|imp|impr|impt|inc|insp|int|inv|jul|jurispr|leg|llic|loc|ltda|làm|Mgfc|Mgfca|mil·l|Mn|màx|mín|nov|nre|núm|oct|op|paq|pda|pg|pl|ppda|ppt|pral|prev|prof|progr|pta|ptes|ptge|pvt|pàg|rbla|ref|rev|secr|sgt|sotsp|Sr|Sra|Sres|Srs|St|Sta|subsp|supl|supt|telegr|trad|trans|transcr|transf|tripl|trv|tt|tèc|univ|urb|veg|vid|vig|vocab|vs|àt|íd)<exception postag="NP.*" postag_regexp="yes"/><exception regexp="yes">(?-i)dC</exception></token>
@@ -19762,6 +19855,7 @@ $Id$
             <example correction="núm.">Viu al <marker>núm</marker> 25 del carrer Nou.</example>
             <example>Viu al núm. 25 del carrer Nou.</example>
             <example>Va ser l'any 453 dC, oi?</example>
+            <example>En l'AP-7.</example>
         </rule>
         <rule id="SEGLE" name="abreviatura de 'segle' amb punt">
             <pattern>
@@ -19778,27 +19872,6 @@ $Id$
             <example>En el segle XVIII.</example>
             <example>Va tardar 50,4 s a arribar-hi.</example>
         </rule>
-        <!--  <rulegroup id="apostrof_cometes" name="Apòstrof i cometes">
-<rule>
-<pattern>
-<token spacebefore="yes" regexp="yes">'.+</token>
-</pattern>
-<message>Cal substituir l'apòstrof per cometes. <suggestion><match no="1" regexp_match=".(.+)" regexp_replace="⭜$1"/></suggestion>.</message>
-<short>Substitueix l'apòstrof per cometes</short>
-<example correction="">Vine <marker>'</marker> digué</example>
-<example>Vine <marker>⭜</marker> digué</example>
-</rule>
-<rule>
-<pattern>
-<token regexp="yes">.+'</token>
-<token spacebefore="yes"></token>
-</pattern>
-<message>Cal substituir l'apòstrof per cometes. <suggestion><match no="1" regexp_match="(.+)." regexp_replace="$1⪢"/></suggestion>.</message>
-<short>Substitueix l'apòstrof per cometes</short>
-<example correction="">digué<marker>'</marker> vine.</example>
-<example>digué<marker>⪢</marker> vine</example>
-</rule>
-</rulegroup> -->
         <rulegroup id="CARACTERS_INCORRECTES" name="caràcters incorrectes">
             <rule id="COMETES_INCORRECTES" name="Detecta cometes en posició incorrecta">
                 <pattern>
@@ -21352,7 +21425,6 @@ $Id$
                 <message>Sigles de "Recerca i desenvolupament".</message>
                 <suggestion>R+D</suggestion>
                 <url>http://esadir.cat/tipografia/abreviacions/sigles</url>
-                <short>Sigles incorrectes</short>
                 <example correction="R+D">La inversió en <marker>I+D</marker>.</example>
                 <example>R+D</example>
             </rule>
@@ -21363,7 +21435,6 @@ $Id$
                 <message>Sigles de "Recerca i desenvolupament".</message>
                 <suggestion>R+D</suggestion>
                 <url>http://esadir.cat/tipografia/abreviacions/sigles</url>
-                <short>Sigles incorrectes</short>
                 <example correction="R+D">La inversió en <marker>R&amp;D</marker>.</example>
                 <example>R+D</example>
             </rule>
