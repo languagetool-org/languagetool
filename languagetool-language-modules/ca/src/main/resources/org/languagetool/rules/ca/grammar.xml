@@ -23765,23 +23765,39 @@ $Id$
                 <example>Tallava rel de valeriana</example>
             </rule>
         </rulegroup>
-        <rule id="ATEMPTAT_A" name="atemptat a">
-            <pattern>
-                <marker>
-                    <token>atemptat</token>
-                    <token>a</token>
-                </marker>
-                <token><exception postag="NP..G00" postag_regexp="yes"/></token>
-                <token><exception postag="NP..G00" postag_regexp="yes"/></token>
-            </pattern>
-            <message>Cal dir <suggestion>atemptat contra</suggestion>.</message>
-            <short>Expressió incorrecta</short>
-            <example correction="atemptat contra"><marker>atemptat a</marker> la reina</example>
-            <example correction="atemptat contra">Un altre <marker>atemptat a</marker> l'autogovern</example>
-            <example>atemptat contra la reina</example>
-            <example>atemptat a Londres</example>
-            <example>atemptat a Nova York</example>
-        </rule>
+        <rulegroup id="ATEMPTAT_A" name="atemptat a">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>atemptat</token>
+                        <token>a</token>
+                    </marker>
+                    <token spacebefore="yes"><exception postag="NP..G00" postag_regexp="yes"/></token>
+                    <token><exception postag="NP..G00" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Cal dir <suggestion>atemptat contra</suggestion>.</message>
+                <short>Expressió incorrecta</short>
+                <example correction="atemptat contra"><marker>atemptat a</marker> la reina</example>
+                <example correction="atemptat contra">Un altre <marker>atemptat a</marker> l'autogovern</example>
+                <example>atemptat contra la reina</example>
+                <example>atemptat a Londres</example>
+                <example>atemptat a Nova York</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>atemptat</token>
+                        <token>a</token>
+                        <token regexp="yes" spacebefore="no">ls?</token>
+                    </marker>
+                    <token><exception postag="NP..G00" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Cal dir <suggestion>atemptat contra e\3</suggestion>.</message>
+                <short>Expressió incorrecta</short>
+                <example correction="atemptat contra els"><marker>atemptat als</marker> valors democràtics</example>
+                <example>atemptat als Balcans</example>
+            </rule>
+        </rulegroup>
         <rule id="AVUI_PER_AVUI" name="avui per avui">
             <pattern>
                 <token regexp="yes">avui|hui</token>
