@@ -64,8 +64,8 @@ $Id$
     <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
     <!ENTITY verbs_no_apostrofen "halar|ioditzar|iotitzar|iodurar|iodar">
     <!ENTITY llibres_biblia "Gn|Ex|Lv|Nm|Dt|Jos|Jt|Rt|1Sa|2Sa|1Re|2Re|1Cr|2Cr|Esd|Ne|Est|Jb|Sl|Pr|Coh|Ct|Is|Jr|Lm|Ez|Dn|Os|Jl|Am|Ab|Jon|Mi|Na|Ha|So|Ag|Za|Ml|Mt|Mc|Lc|Jn|Ac|Rm|1Co|2Co|Ga|Ef|Fl|Col|1Te|2Te|1Tm|2Tm|Tt|Flm|He|Jm|1Pe|2Pe|1Jn|2Jn|3Jn|Jud|Ap|Estgr|Jdt|Tb|1Ma|2Ma|Sv|Sir|Ba|EpJr|Dngr|Dngr3|Dngr13|Dngr14|Man|3Esr|4Esr|Sl151|Lao|SIH">
-    <!ENTITY sigles_apostrofen "(?-i)FM|FBI|FMI|NBA|NBC">
-    
+    <!ENTITY sigles_apostrofen "(?-i)FM|FBI|FMI|NBA|NBC|SPD">
+    <!ENTITY sigles_no_apostrofen "(?-i)SGAE">
 ]>
 
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -13102,6 +13102,17 @@ $Id$
                 <suggestion>l'\2</suggestion>
                 <url>http://esadir.cat/entrades/fitxa/node/sigles#apostrofacio</url>
                 <example correction="l'L9">A <marker>la L9</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[ld]'</token>
+                        <token regexp="yes">&sigles_no_apostrofen;</token>
+                    </marker>
+                </pattern>
+                <message>No s'apostrofa.</message>
+                <url>http://esadir.cat/entrades/fitxa/node/sigles#apostrofacio</url>
+                <example correction=""><marker>l'SGAE</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="DE_EL_S_APOSTROFEN" name="apostrofació: de, el">
