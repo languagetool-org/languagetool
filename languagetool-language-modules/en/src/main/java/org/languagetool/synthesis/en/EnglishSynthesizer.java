@@ -79,7 +79,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
     if (ADD_DETERMINER.equals(posTag)) {
       return new String[] { aOrAn, "the " + token.getToken() };
     } else if (ADD_IND_DETERMINER.equals(posTag)) {
-      return new String[] { aOrAn};
+      return new String[] { aOrAn };
     }
     final IStemmer synthesizer = createStemmer();
     final List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
