@@ -443,8 +443,13 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("Indischer Ozean");
     myExceptionPhrases.add("Indischen Ozeans");
     myExceptionPhrases.add("Indischen Ozean");
+    myExceptionPhrases.add("Arktische Ozean");
+    myExceptionPhrases.add("Arktischer Ozean");
+    myExceptionPhrases.add("Arktische Ozeans");
+    myExceptionPhrases.add("Arktischen Ozean");
     myExceptionPhrases.add("Oberster Gerichtshof");
     myExceptionPhrases.add("Oberste Gerichtshof");
+    myExceptionPhrases.add("Obersten Gerichtshof");
     myExceptionPhrases.add("Obersten Gerichtshofs");
     myExceptionPhrases.add("Rote Karte");
     myExceptionPhrases.add("Roten Karte");
@@ -453,6 +458,7 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("Gelben Karte");
     myExceptionPhrases.add("Gelben Karten");
     myExceptionPhrases.add("Rote Kreuz");
+    myExceptionPhrases.add("Rotes Kreuz");
     myExceptionPhrases.add("Roten Kreuz");
     myExceptionPhrases.add("Roten Kreuzes");
     myExceptionPhrases.add("Kalte Krieg");
@@ -473,6 +479,12 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("Europäische Gemeinschaft");
     myExceptionPhrases.add("Europäischer Gemeinschaft");
     myExceptionPhrases.add("Europäischen Gemeinschaft");
+    myExceptionPhrases.add("Dritte Welt");
+    myExceptionPhrases.add("Dritten Welt");
+    myExceptionPhrases.add("Römisches Reich");
+    myExceptionPhrases.add("Römischen Reich");
+    myExceptionPhrases.add("Römischen Reichs");
+    myExceptionPhrases.add("Römischen Reiches");
   }
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
