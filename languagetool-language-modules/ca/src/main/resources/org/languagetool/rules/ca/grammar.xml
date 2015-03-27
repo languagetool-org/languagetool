@@ -18212,6 +18212,38 @@ $Id$
                 <example>Sempre la hi ha hagut de portar ell.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="PRONOMS_FEBLES_EL_LI" name="confusions el/li"> 
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">el|la</token>
+                    </marker>
+                    <token min="0" postag="VA.*" postag_regexp="yes"></token>
+                    <token inflected="yes">impedir</token>
+                    <token min="0" max="4" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
+                    <token postag="V.N.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Probablement cal usar un pronom de complement indirecte.</message>
+                <suggestion>li</suggestion>
+                <example correction="li">Això <marker>el</marker> va impedir parlar.</example>
+                <example correction="li">Això <marker>el</marker> va impedir a vegades parlar.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>l'</token>
+                    </marker>
+                    <token min="0" postag="VA.*" postag_regexp="yes"></token>
+                    <token inflected="yes">impedir</token>
+                    <token min="0" max="4" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
+                    <token postag="V.N.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Probablement cal usar un pronom de complement indirecte.</message>
+                <suggestion>li </suggestion>
+                <example correction="li ">Això <marker>l'</marker>impedí parlar-ne.</example>
+                <example correction="li ">Això <marker>l'</marker>hauria impedit parlar-ne.</example>
+            </rule>
+        </rulegroup>
     </category>
     <category name="«lo» neutre" type="grammar">
         <!-- es podria fer una llista molt més completa de solucions-->
@@ -26520,6 +26552,32 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rulegroup id="PART_COMUNICAT" name="part/comunicat">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">parts?</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">mèdic|urgent</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1000">comunicat</match></suggestion>?</message>
+                <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1000">informe</match></suggestion>
+                <example correction="comunicat|informe">Tenia un <marker>part</marker> mèdic de baixa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">parts?</token>
+                    </marker>
+                    <token inflected="yes">de</token>
+                    <token regexp="yes">accident|baixa|guerra</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1000">comunicat</match></suggestion>?</message>
+                <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1000">informe</match></suggestion>
+                <example correction="comunicat|informe">Tenia un <marker>part</marker> de baixa.</example>
+                <example correction="comunicats|informes">Els <marker>parts</marker> d'accident.</example>
+            </rule>
+        </rulegroup>
         <rule id="VELAR_VETLLAR" name="velar/vetllar">
             <pattern>
                 <marker>
