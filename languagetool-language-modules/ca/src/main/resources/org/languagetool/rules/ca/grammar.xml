@@ -26520,6 +26520,19 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="VELAR_VETLLAR" name="velar/vetllar">
+            <pattern>
+                <marker>
+                    <token postag="(V.*)" postag_regexp="yes" inflected="yes">velar<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </marker>
+                <token min="0" max="4" postag="RG|.*LOC.*" postag_regexp="yes"/>
+                <token inflected="yes">per</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">vetllar</match></suggestion>? "Velar" és correcte en altres sentits</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">vetlar</match></suggestion>
+            <example correction="vetllar|vetlar">Volen <marker>velar</marker> sempre per la seguretat.</example>
+            <example correction="vetllessin|vetlessin">que <marker>velessin</marker> pel bon funcionament.</example>            <example>Una vela per superfície</example>
+        </rule>
         <rule id="ARXIU_ARXIVAMENT" name="arxiu/arxivament">
             <pattern>
                 <marker>
