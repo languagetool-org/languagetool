@@ -26552,6 +26552,15 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="FAROLA" name="farola/fanal">
+            <pattern>
+                <marker>
+                    <token inflected="yes">farola</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1000">fanal</match></suggestion>? "Farola" és sinònim de "far".</message>
+            <example correction="fanals">Les <marker>faroles</marker>.</example>
+        </rule>
         <rulegroup id="PART_COMUNICAT" name="part/comunicat">
             <rule>
                 <pattern>
@@ -33713,6 +33722,21 @@ $Id$
     </category>
     <category name="C6) Evita paraules incloses només en alguns diccionaris" default="on" type="style">
         <!--  verbs valencians: caquejar -->
+        <rule id="FAROL" name="farol/catxa/fanfarronada">
+            <pattern>
+                <marker>
+                    <token inflected="yes">farol</token>
+                </marker>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris. Incorrecte en el sentit de <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1000">fanal</match></suggestion>.</message>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1000">catxa</match></suggestion> 
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1000">bluf</match></suggestion>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1000">fanfarronada</match></suggestion>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1000">enganyifa</match></suggestion>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1000">bola</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/farol</url>
+            <example correction="fanals|catxes|blufs|fanfarronades|enganyifes|boles"><marker>farols</marker>.</example>
+        </rule>
         <rule id="COLORINS" name="colorins">
             <pattern>
                 <token>colorins</token>
