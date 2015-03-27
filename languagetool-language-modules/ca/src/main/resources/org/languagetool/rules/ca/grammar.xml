@@ -14792,21 +14792,30 @@ $Id$
         </rulegroup>
         <rulegroup id="VENEN" name="*venen/vénen a dir">
             <rule>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">més|menys</token>
+                        <token regexp="yes">de|d'</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token><exception regexp="yes">es|se|'n</exception></token>
                     <marker>
                         <token>venen</token>
                     </marker>
+                    <token postag='RG|.*LOC_ADV.*' postag_regexp="yes" min='0' max="4"/>
                     <token regexp="yes">de|des|d'<exception postag=".*LOC.*" postag_regexp="yes"/></token>
                     <token><exception postag="PI0MS000">tot</exception><exception>nou</exception></token>
                 </pattern>
                 <message>Si és del verb "venir", cal escriure <suggestion>vénen</suggestion>. Correcte si és del verb "vendre".</message>
                 <example correction="vénen">Ells <marker>venen</marker> del comunisme.</example>
+                <example correction="vénen">Ells <marker>venen</marker> directament del comunisme.</example>
                 <example correction="Vénen"><marker>Venen</marker> de tot el món.</example>
                 <example>Una botiga d'aquestes que hi venen de tot.</example>
                 <example>els principals aliments que es venen d'aquesta manera.</example>
                 <example>tot i que també se'n vénen de ja usades</example>
                 <example>les plomes es venen d’una en una</example>
+                <example>músics que venen més de 50.000 còpies</example>
             </rule>
             <rule>
                 <pattern>
@@ -26552,6 +26561,17 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="DUPLICAT" name="duplicat/duplicació">
+            <pattern>
+                <marker>
+                    <token>duplicat</token>
+                </marker>
+                <token>de</token>
+                <token regexp="yes">claus|comandaments|controls</token>
+            </pattern>
+            <message>Si és una operació tècnica cal dir <suggestion>duplicació</suggestion></message>
+            <example correction="duplicació">Una botiga que fa <marker>duplicat</marker> de claus.</example>
+        </rule>
         <rule id="FAROLA" name="farola/fanal">
             <pattern>
                 <marker>

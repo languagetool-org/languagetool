@@ -75,7 +75,7 @@ public class ReplaceOperationNamesRuleTest extends TestCase {
     assertIncorrect("Cal vigilar el filtrat del vi");
     assertIncorrect("El procés d'empaquetat");
     assertIncorrect("Els equilibrats de les rodes");
-    assertIncorrect("Duplicat de claus");
+    //assertIncorrect("Duplicat de claus");
     assertIncorrect("El procés d'etiquetat de les ampolles");
     assertIncorrect("El rentat de cotes");
 
