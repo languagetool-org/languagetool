@@ -67,6 +67,7 @@ public class UkrainianTagger extends BaseTagger {
   private static final Pattern NOUN_SING_V_ROD_REGEX = Pattern.compile("noun:[mfn]:v_rod.*");
   private static final Pattern NOUN_V_NAZ_REGEX = Pattern.compile("noun:.:v_naz.*");
   private static final Pattern SING_REGEX_F = Pattern.compile(":[mfn]:");
+  private static final Pattern O_ADJ_PATTERN = Pattern.compile(".*(о|[чшщ]е)");
   
 //  private static final String VERB_TAG_FOR_REV_IMPR = IPOSTag.verb.getText()+":rev:impr";
 //  private static final String VERB_TAG_FOR_IMPR = IPOSTag.verb.getText()+":impr";
@@ -75,6 +76,7 @@ public class UkrainianTagger extends BaseTagger {
   // full latin number regex: M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})
   private static final Pattern NUMBER = Pattern.compile("[+-±]?[€₴\\$]?[0-9]+(,[0-9]+)?([-–—][0-9]+(,[0-9]+)?)?(%|°С?)?|(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})");
   private static final Pattern DATE = Pattern.compile("[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}");
+  private static final Pattern TIME = Pattern.compile("([01]?[0-9]|2[0-3])[.:][0-5][0-9]");
   private static final String stdNounTag = IPOSTag.noun.getText() + ":.:v_";
   private static final int stdNounTagLen = stdNounTag.length();
   private static final Pattern stdNounTagRegex = Pattern.compile(stdNounTag + ".*");
@@ -82,7 +84,7 @@ public class UkrainianTagger extends BaseTagger {
   private static final Set<String> dashPrefixes;
   private static final Set<String> leftMasterSet;
   private static final Set<String> cityAvenue = new HashSet<>(Arrays.asList("сіті", "авеню", "стріт", "штрассе"));
-  private static final Map<String, String> rightPartsWithLeftTagMap = new HashMap<>();
+  private static final Map<String, Pattern> rightPartsWithLeftTagMap = new HashMap<>();
   private static final Set<String> slaveSet;
   
   public static final Map<String, String> VIDMINKY_MAP;
@@ -120,11 +122,11 @@ public class UkrainianTagger extends BaseTagger {
 //    map2.put("тих", Arrays.asList(":p:v_rod", ":p:v_zna"));
     NUMR_ENDING_MAP = Collections.unmodifiableMap(map2);
     
-    rightPartsWithLeftTagMap.put("бо", "(verb(:rev)?:impr|.*pron|noun|adv|excl|part|predic).*");
-    rightPartsWithLeftTagMap.put("но", "(verb(:rev)?:(impr|futr)|excl).*"); 
-    rightPartsWithLeftTagMap.put("от", "(.*pron|adv|part).*"); 
-    rightPartsWithLeftTagMap.put("то", "(.*pron|noun|adv|part|conj).*"); 
-    rightPartsWithLeftTagMap.put("таки", "(verb(:rev)?:(futr|past|pres)|.*pron|noun|part|predic|insert).*"); 
+    rightPartsWithLeftTagMap.put("бо", Pattern.compile("(verb(:rev)?:impr|.*pron|noun|adv|excl|part|predic).*"));
+    rightPartsWithLeftTagMap.put("но", Pattern.compile("(verb(:rev)?:(impr|futr)|excl).*")); 
+    rightPartsWithLeftTagMap.put("от", Pattern.compile("(.*pron|adv|part).*"));
+    rightPartsWithLeftTagMap.put("то", Pattern.compile("(.*pron|noun|adv|part|conj).*"));
+    rightPartsWithLeftTagMap.put("таки", Pattern.compile("(verb(:rev)?:(futr|past|pres)|.*pron|noun|part|predic|insert).*")); 
     
     dashPrefixes = loadSet("/uk/dash_prefixes.txt");
     leftMasterSet = loadSet("/uk/dash_left_master.txt");
@@ -159,13 +161,19 @@ public class UkrainianTagger extends BaseTagger {
   @Override
   public List<AnalyzedToken> additionalTags(String word, WordTagger wordTagger) {
     if ( NUMBER.matcher(word).matches() ) {
-      List<AnalyzedToken> additionalTaggedTokens  = new ArrayList<>();
+      List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
       additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.number.getText(), word));
       return additionalTaggedTokens;
     }
 
+    if ( TIME.matcher(word).matches() ) {
+      List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
+      additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.time.getText(), word));
+      return additionalTaggedTokens;
+    }
+
     if ( DATE.matcher(word).matches() ) {
-      List<AnalyzedToken> additionalTaggedTokens  = new ArrayList<>();
+      List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
       additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.date.getText(), word));
       return additionalTaggedTokens;
     }
@@ -203,13 +211,13 @@ public class UkrainianTagger extends BaseTagger {
       if( leftWdList.isEmpty() )
         return null;
 
-      String leftTagRegex = rightPartsWithLeftTagMap.get(rightWord);
+      Pattern leftTagRegex = rightPartsWithLeftTagMap.get(rightWord);
       
       List<AnalyzedToken> leftAnalyzedTokens = asAnalyzedTokenListForTaggedWords(leftWord, leftWdList);
       List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(leftAnalyzedTokens.size());
       for (AnalyzedToken analyzedToken : leftAnalyzedTokens) {
         String posTag = analyzedToken.getPOSTag();
-        if( posTag.matches(leftTagRegex) ) {
+        if( posTag != null && leftTagRegex.matcher(posTag).matches() ) {
           newAnalyzedTokens.add(new AnalyzedToken(word, posTag, analyzedToken.getLemma()));
         }
       }
@@ -301,7 +309,7 @@ public class UkrainianTagger extends BaseTagger {
       }
     }
 
-    if( leftWord.endsWith("о") ) {
+    if( O_ADJ_PATTERN.matcher(leftWord).matches() ) {
       return oAdjMatch(word, rightAnalyzedTokens, leftWord);
     }
 

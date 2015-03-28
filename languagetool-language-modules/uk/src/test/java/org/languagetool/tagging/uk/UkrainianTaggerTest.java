@@ -76,11 +76,14 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("XIX", "XIX/[XIX]number", tokenizer, tagger);
 
     TestTools.myAssert("14.07.2001", "14.07.2001/[14.07.2001]date", tokenizer, tagger);
+
+    TestTools.myAssert("о 15.33", "о/[о]excl|о/[о]prep:rv_zna:rv_mis -- 15.33/[15.33]time", tokenizer, tagger);
+    TestTools.myAssert("О 1:05", "О/[о]excl|О/[о]prep:rv_zna:rv_mis -- 1:05/[1:05]time", tokenizer, tagger);
   }
   
   public void testTaggingWithDots() throws IOException {
     TestTools.myAssert("300 р. до н. е.", 
-      "300/[300]number -- р/[р]unknown:abbr -- до/[до]noun:n:v_dav:nv|до/[до]noun:n:v_mis:nv|до/[до]noun:n:v_naz:nv|до/[до]noun:n:v_oru:nv|до/[до]noun:n:v_rod:nv|до/[до]noun:n:v_zna:nv|до/[до]noun:p:v_dav:nv|до/[до]noun:p:v_mis:nv|до/[до]noun:p:v_naz:nv|до/[до]noun:p:v_oru:nv|до/[до]noun:p:v_rod:nv|до/[до]noun:p:v_zna:nv|до/[до]prep:rv_rod -- н/[null]null -- е/[е]excl",
+      "300/[300]number -- р./[null]null -- до/[до]noun:n:v_dav:nv|до/[до]noun:n:v_mis:nv|до/[до]noun:n:v_naz:nv|до/[до]noun:n:v_oru:nv|до/[до]noun:n:v_rod:nv|до/[до]noun:n:v_zna:nv|до/[до]noun:p:v_dav:nv|до/[до]noun:p:v_mis:nv|до/[до]noun:p:v_naz:nv|до/[до]noun:p:v_oru:nv|до/[до]noun:p:v_rod:nv|до/[до]noun:p:v_zna:nv|до/[до]prep:rv_rod -- н./[null]null -- е/[е]excl",
        tokenizer, tagger);
   
 //    TestTools.myAssert("Є.Бакуліна.",
@@ -185,6 +188,7 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("паталого-голова", "паталого-голова/[null]null", tokenizer, tagger);
     TestTools.myAssert("паталога-анатомічний", "паталога-анатомічний/[null]null", tokenizer, tagger);
     TestTools.myAssert("бірмюково-блакитний", "бірмюково-блакитний/[бірмюково-блакитний]adj:m:v_naz|бірмюково-блакитний/[бірмюково-блакитний]adj:m:v_zna", tokenizer, tagger);
+    TestTools.myAssert("сліпляче-яскравого", "сліпляче-яскравого/[сліпляче-яскравий]adj:m:v_rod:compb|сліпляче-яскравого/[сліпляче-яскравий]adj:m:v_zna:compb|сліпляче-яскравого/[сліпляче-яскравий]adj:n:v_rod:compb", tokenizer, tagger);
 
 //    TestTools.myAssert("американо-блакитний", "бірмюково-блакитний/[бірмюково-блакитний]adj:m:v_naz|бірмюково-блакитний/[бірмюково-блакитний]adj:m:v_zna", tokenizer, tagger);
 

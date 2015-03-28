@@ -52,14 +52,26 @@ public class UkrainianWordTokenizerTest extends TestCase {
     testList = w.tokenize("надійшло 84,46 мільйона");
     assertEquals(Arrays.asList("надійшло", " ", "84,46", " ", "мільйона"), testList);
 
+//    testList = w.tokenize("надійшло 2 000 тон");
+//    assertEquals(Arrays.asList("надійшло", " ", "2 000", " ", "тон"), testList);
+
     testList = w.tokenize("сталося 14.07.2001 вночі");
     assertEquals(Arrays.asList("сталося", " ", "14.07.2001", " ", "вночі"), testList);
+
+    testList = w.tokenize("вчора о 7.30 ранку");
+    assertEquals(Arrays.asList("вчора", " ", "о", " ", "7.30", " ", "ранку"), testList);
 
     testList = w.tokenize("я українець(сміється");
     assertEquals(Arrays.asList("я", " ", "українець", "(", "сміється"), testList);
         
     testList = w.tokenize("ОУН(б) та КП(б)У");
     assertEquals(Arrays.asList("ОУН(б)", " ", "та", " ", "КП(б)У"), testList);
+
+    testList = w.tokenize("Негода є... заступником");
+    assertEquals(Arrays.asList("Негода", " ", "є", "...", " ", "заступником"), testList);
+
+    testList = w.tokenize("140 тис. працівників");
+    assertEquals(Arrays.asList("140", " ", "тис.", " ", "працівників"), testList);
   }
 
 }

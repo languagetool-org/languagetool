@@ -47,6 +47,7 @@ public class UkrainianWordRepeatRuleTest extends PatternRuleTest {
     assertEmptyMatch("без повного розрахунку");
     assertEmptyMatch("без бугіма бугіма");
     assertEmptyMatch("без 100 100");
+    assertEmptyMatch("1.30 3.20 3.20");
     assertEmptyMatch("ще в В.Кандинського");
     assertEmptyMatch("Від добра добра не шукають.");
     assertEmptyMatch("Що що, а кіно в Україні...");

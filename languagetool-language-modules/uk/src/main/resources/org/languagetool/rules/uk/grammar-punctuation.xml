@@ -30,14 +30,16 @@ $Id$
                 <pattern>
                     <token>будь</token>
                     <token>ласка</token>
-                    <token negate="yes" regexp="yes">[,\.!?:»]</token>
+                    <token negate="yes" regexp="yes">[,\.!?:»]|[.!?]{3}</token>
                 </pattern>
                 <message>Відсутня права кома: <suggestion>\1 \2, \3</suggestion>.</message>
                 <example correction="будь ласка, у">Запитайте, <marker>будь ласка у</marker> водія.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«]<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«]|[!?.]{3}
+                      <exception postag="SENT_START"/>
+                    </token>
                     <token>будь</token>
                     <token>ласка</token>
                 </pattern>
@@ -51,7 +53,7 @@ $Id$
             <rule>
                 <pattern>
                     <token regexp="yes">мабуть|по-перше|по-друге|по-третє|щоправда|о?крім того|а втім</token>
-                    <token negate="yes" regexp="yes">[\p{Punct}–—»]</token>
+                    <token negate="yes" regexp="yes">[\p{Punct}–—»]|[!?.]{3}</token>
                 </pattern>
                 <message>Відсутня права кома: <suggestion>\1, \2</suggestion>.</message>
                 <example>Це, мабуть, його водій.</example>
@@ -59,7 +61,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«АаІій]
+                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«АаІій]|[!?.]{3}
                       <exception postag="SENT_START"/>
                     </token>
                     <token regexp="yes">мабуть|щоправда|о?крім того|втім</token>
@@ -67,11 +69,12 @@ $Id$
                 <message>Відсутня ліва кома: <suggestion>\1, \2</suggestion>.</message>
                 <example>Мабуть, це водій.</example>
                 <example>Це, мабуть, водій.</example>
+                <example>Але це... мабуть, водій.</example>
                 <example correction="Це, мабуть"><marker>Це мабуть</marker>, водій.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«АаІі]|[Цц]е
+                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«АаІі]|[!?.]{3}|[Цц]е
                       <exception postag="SENT_START"/>
                       <exception>Ну</exception>
                     </token>
@@ -89,7 +92,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                   <marker>
-                    <token regexp="yes" negate="yes">[\p{Punct}…«\(„–—]|[нН]у|[АаІіЙй]|але
+                    <token regexp="yes" negate="yes">[\p{Punct}…«\(„–—]|[!?.]{3}|[нН]у|[АаІіЙй]|але
                       <exception postag="SENT_START"></exception>
                     </token>
                     <token regexp="yes">а|але|однак|проте|зате</token>

@@ -39,18 +39,34 @@ public class UkrainianWordTokenizer implements Tokenizer {
         + "\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
         + "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
         + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb" 
-        + ",.;()[]{}<>!?:/|\\\"«»„”“`´‘‛′…¿¡\t\n\r";
+        + ",.;()[]{}<>!?:/|\\\"«»„”“`´‘‛′…¿¡\t\n\r\uE100";
 
   // decimal comma between digits
   private static final Pattern DECIMAL_COMMA_PATTERN = Pattern.compile("([\\d]),([\\d])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final char DECIMAL_COMMA_SUBST = '\uE001'; // some unused character to hide comma in decimal number temporary for tokenizer run
+  // space between digits
+//  private static final Pattern DECIMAL_SPACE_PATTERN = Pattern.compile("([\\d]{1,3})( ([\\d]{3}))+", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+//  private static final char DECIMAL_SPACE_SUBST = '\uE008';
+  // dots in numbers
+  private static final Pattern DOTTED_NUMBERS_PATTERN = Pattern.compile("([\\d])\\.([\\d])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final char NUMBER_DOT_SUBST = '\uE002';
+  // colon in numbers
+  private static final Pattern COLON_NUMBERS_PATTERN = Pattern.compile("([\\d]):([\\d])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final char COLON_DOT_SUBST = '\uE003';
   // dates
   private static final Pattern DATE_PATTERN = Pattern.compile("([\\d]{2})\\.([\\d]{2})\\.([\\d]{4})|([\\d]{4})\\.([\\d]{2})\\.([\\d]{2})|([\\d]{4})-([\\d]{2})-([\\d]{2})", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final char DATE_DOT_SUBST = '\uE002'; // some unused character to hide dot in date temporary for tokenizer run
+  private static final char DATE_DOT_SUBST = '\uE004'; // some unused character to hide dot in date temporary for tokenizer run
   // braces in words
   private static final Pattern BRACE_IN_WORD_PATTERN = Pattern.compile("([а-яіїєґ'])\\(([а-яіїєґ']+)\\)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final char LEFT_BRACE_SUBST = '\uE003';
-  private static final char RIGHT_BRACE_SUBST = '\uE004';
+  private static final char LEFT_BRACE_SUBST = '\uE005';
+  private static final char RIGHT_BRACE_SUBST = '\uE006';
+  // abbreviation dot
+  //TODO: also use abbreviation list to allow next letter to be capital
+  private static final Pattern ABBR_DOT_PATTERN = Pattern.compile("([а-яіїєґ])\\. ([а-яіїєґ])");
+  private static final char ABBR_DOT_SUBST = '\uE007';
+  // ellipsis
+  private static final String ELLIPSIS = "...";
+  private static final String ELLIPSIS_SUBST = "\uE100";
 
 
   public UkrainianWordTokenizer() {
@@ -66,10 +82,24 @@ public class UkrainianWordTokenizer implements Tokenizer {
     
     if( text.contains(".") ) {
       text = DATE_PATTERN.matcher(text).replaceAll("$1" + DATE_DOT_SUBST + "$2" + DATE_DOT_SUBST + "$3");
+      text = DOTTED_NUMBERS_PATTERN.matcher(text).replaceAll("$1" + NUMBER_DOT_SUBST + "$2");
+      text = ABBR_DOT_PATTERN.matcher(text).replaceAll("$1" + ABBR_DOT_SUBST + " $2");
+    }
+
+    if( text.contains(":") ) {
+      text = COLON_NUMBERS_PATTERN.matcher(text).replaceAll("$1" + COLON_DOT_SUBST + "$2");
     }
 
     if( text.contains("(") ) {
       text = BRACE_IN_WORD_PATTERN.matcher(text).replaceAll("$1" + LEFT_BRACE_SUBST + "$2" + RIGHT_BRACE_SUBST);
+    }
+
+//    if( text.contains(" ") ) {
+//      text = DECIMAL_SPACE_PATTERN.matcher(text).replaceAll("$1" + DECIMAL_SPACE_SUBST + "$2");
+//    }
+    
+    if( text.contains(ELLIPSIS) ) {
+      text = text.replace(ELLIPSIS, ELLIPSIS_SUBST);
     }
     
     List<String> tokenList = new ArrayList<>();
@@ -79,9 +109,16 @@ public class UkrainianWordTokenizer implements Tokenizer {
       String token = st.nextToken();
       
       token = token.replace(DECIMAL_COMMA_SUBST, ',');
+      
+      //TODO: merge all dots to speed things up ???
       token = token.replace(DATE_DOT_SUBST, '.');
+      token = token.replace(NUMBER_DOT_SUBST, '.');
+      token = token.replace(ABBR_DOT_SUBST, '.');
+      
+      token = token.replace(COLON_DOT_SUBST, ':');
       token = token.replace(LEFT_BRACE_SUBST, '(');
       token = token.replace(RIGHT_BRACE_SUBST, ')');
+      token = token.replaceAll(ELLIPSIS_SUBST, ELLIPSIS);
 
       tokenList.add( token );
     }

@@ -11,6 +11,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.WordRepeatRule;
 import org.languagetool.tagging.uk.IPOSTag;
+import org.languagetool.tagging.uk.PosTagHelper;
 
 /**
  * @since 2.9
@@ -48,11 +49,13 @@ public class UkrainianWordRepeatRule extends WordRepeatRule {
     if( REPEAT_ALLOWED_CAPS_SET.contains(token) )
       return true;
     
+    if( PosTagHelper.hasPosTag(analyzedTokenReadings, "date|time|number") )
+      return true;
+    
     for(AnalyzedToken analyzedToken: analyzedTokenReadings.getReadings()) {
       String posTag = analyzedToken.getPOSTag();
       if( posTag != null ) {
-        if (! posTag.equals(IPOSTag.number.getText())
-            && ! isInitial(analyzedToken, tokens, position)
+        if ( ! isInitial(analyzedToken, tokens, position)
 //            && ! posTag.equals(JLanguageTool.SENTENCE_START_TAGNAME)
             && ! posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME) )
           return false;

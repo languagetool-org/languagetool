@@ -905,6 +905,27 @@ $Id$
          <example>рахуючись місцями</example>
        </rule>
 -->
+       <rule>
+         <pattern>
+             <token regexp="yes" inflected="yes">стикатися|зіткнутися|стикнутися|зіткнення</token>
+             <token>з</token>
+             <token postag_regexp="yes" postag="adv.*" min="0"/>
+             <token>труднощами</token>
+         </pattern>
+         <message>Правильно: <suggestion>натрапляти на труднощі</suggestion>, <suggestion>поставати перед труднощами</suggestion></message>
+         <example correction="натрапляти на труднощі|поставати перед труднощами">ми <marker>зіткнулися з труднощами</marker></example>
+       </rule>
+
+       <rule>
+         <pattern>
+             <token regexp="yes" inflected="yes">стикатися|зіткнутися|стикнутися|зіткнення</token>
+             <token>з</token>
+             <token postag_regexp="yes" postag="adv.*" min="0"/>
+             <token regexp="yes">фактом|фактами</token>
+         </pattern>
+         <message>Правильно: <suggestion>подибувати факт</suggestion>, <suggestion>натрапляти на факт</suggestion></message>
+         <example correction="подибувати факт|натрапляти на факт">ми знову <marker>зіткнулися з фактом</marker></example>
+       </rule>
     </rulegroup>
     
     <rulegroup id="NON_LEXEM_BORROWING_ADJ" name="Кальки: прикметники">
