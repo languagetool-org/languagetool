@@ -46,11 +46,26 @@ public class MorfologikMultiSpeller {
    * @param maxEditDistance maximum edit distance for accepting suggestions
    */
   public MorfologikMultiSpeller(String binaryDictPath, String plainTextPath, int maxEditDistance) throws IOException {
+    this(binaryDictPath,
+         new BufferedReader(new InputStreamReader(JLanguageTool.getDataBroker().getFromResourceDirAsStream(plainTextPath), "utf-8")),
+         maxEditDistance);
+    if (!plainTextPath.endsWith(".txt")) {
+      throw new RuntimeException("Unsupported dictionary, plain text file needs to have suffix .txt: " + plainTextPath);
+    }
+  }
+
+  /**
+   * @param binaryDictPath path in classpath to a {@code .dict} binary Morfologik file
+   * @param plainTextReader reader with to a plain text {@code .txt} file (like from spelling.txt)
+   * @param maxEditDistance maximum edit distance for accepting suggestions
+   * @since 3.0
+   */
+  public MorfologikMultiSpeller(String binaryDictPath, BufferedReader plainTextReader, int maxEditDistance) throws IOException {
     MorfologikSpeller speller = getBinaryDict(binaryDictPath, maxEditDistance);
     spellers.add(speller);
     convertsCase = speller.convertsCase();
     String infoFile = binaryDictPath.replace(".dict", ".info");
-    MorfologikSpeller plainTextDict = getPlainTextDictOrNull(plainTextPath, infoFile, maxEditDistance);
+    MorfologikSpeller plainTextDict = getPlainTextDictOrNull(plainTextReader, infoFile, maxEditDistance);
     if (plainTextDict != null) {
       spellers.add(plainTextDict);
     }
@@ -65,20 +80,13 @@ public class MorfologikMultiSpeller {
   }
 
   @Nullable
-  private MorfologikSpeller getPlainTextDictOrNull(String plainTextPath, String infoFile, int maxEditDistance) throws IOException {
-    if (plainTextPath.endsWith(".txt")) {
-      InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(plainTextPath);
-      try (BufferedReader br = new BufferedReader(new InputStreamReader(stream, "utf-8"))) {
-        List<byte[]> lines = getLines(br);
-        if (lines.size() == 0) {
-          return null;
-        }
-        Dictionary dictionary = getDictionary(lines, infoFile);
-        return new MorfologikSpeller(dictionary, maxEditDistance);
-      }
-    } else {
-      throw new RuntimeException("Unsupported dictionary, plain text file needs to have suffix .txt: " + plainTextPath);
+  private MorfologikSpeller getPlainTextDictOrNull(BufferedReader plainTextReader, String infoFile, int maxEditDistance) throws IOException {
+    List<byte[]> lines = getLines(plainTextReader);
+    if (lines.size() == 0) {
+      return null;
     }
+    Dictionary dictionary = getDictionary(lines, infoFile);
+    return new MorfologikSpeller(dictionary, maxEditDistance);
   }
 
   private List<byte[]> getLines(BufferedReader br) throws IOException {

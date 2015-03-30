@@ -28,7 +28,7 @@ import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class GermanSpellerRule extends CompoundAwareHunspellRule {
@@ -96,30 +96,36 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else {
       line = origLine;
     }
-    if (line.contains("/")) {
+    wordsToBeIgnored.addAll(expandLine(line));
+  }
+
+  private static List<String> expandLine(String line) {
+    List<String> result = new ArrayList<>();
+    if (!line.startsWith("#") && line.contains("/")) {
       String[] parts = line.split("/");
       if (parts.length != 2) {
         throw new RuntimeException("Unexpected line format, expected at most one slash: " + line);
       }
       String word = parts[0];
       String suffix = parts[1];
-      wordsToBeIgnored.add(word);
+      result.add(word);
       if (suffix.equals("S")) {
-        wordsToBeIgnored.add(word + "s");
+        result.add(word + "s");
       } else if (suffix.equals("N")) {
-        wordsToBeIgnored.add(word + "n");
+        result.add(word + "n");
       } else if (suffix.equals("A")) {  // Adjektiv
-        wordsToBeIgnored.add(word + "e");
-        wordsToBeIgnored.add(word + "er");
-        wordsToBeIgnored.add(word + "es");
-        wordsToBeIgnored.add(word + "en");
-        wordsToBeIgnored.add(word + "em");
+        result.add(word + "e");
+        result.add(word + "er");
+        result.add(word + "es");
+        result.add(word + "en");
+        result.add(word + "em");
       } else {
         throw new RuntimeException("Unknown suffix: " + suffix + " in line: " + line);
       }
     } else {
-      wordsToBeIgnored.add(line);
+      result.add(line);
     }
+    return result;
   }
 
   @Nullable
@@ -131,7 +137,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       final String morfoFile = "/de/hunspell/de_" + language.getCountries()[0] + ".dict";
       if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {
         // spell data will not exist in LibreOffice/OpenOffice context
-        return new MorfologikMultiSpeller(morfoFile, "/de/hunspell/spelling.txt", MAX_EDIT_DISTANCE);
+        final InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/de/hunspell/spelling.txt");
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(stream, "utf-8"))) {
+          return new MorfologikMultiSpeller(morfoFile, new ExpandingReader(br), MAX_EDIT_DISTANCE);
+        }
       } else {
         return null;
       }
@@ -275,4 +284,28 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       this.value = value;
     }
   }
+
+  static class ExpandingReader extends BufferedReader {
+
+    private final List<String> buffer = new ArrayList<>();
+
+    ExpandingReader(Reader in) {
+      super(in);
+    }
+
+    @Override
+    public String readLine() throws IOException {
+      if (buffer.size() > 0) {
+        return buffer.remove(0);
+      } else {
+        String line = super.readLine();
+        if (line == null) {
+          return null;
+        }
+        buffer.addAll(expandLine(line));
+        return buffer.remove(0);
+      }
+    }
+  }
+
 }
