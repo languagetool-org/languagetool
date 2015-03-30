@@ -27,435 +27,134 @@ $Id$
 
     <!--  ======================================== -->
 
-    <category name="Typografia">
-        <!--  ======================================== -->
-
-        <rulegroup id="POCITACOVE_UVODZOVKY" name="Zameňte počítačové úvodzovky (&quot;) za slovenské">
-            <rule>
-                <pattern>
-                    <token regexp="yes" spacebefore="yes">[\[\(]</token>
-
-                    <marker>
-                        <token spacebefore="no">"</token>
-                    </marker>
-                </pattern>
-
-                <message>Na tomto mieste by mali byť dolné (uvádzacie) úvodzovky:
-                    <suggestion>„</suggestion>.</message>
-
-                <short>Typografická chyba. Zameňte počítačové úvodzovky za slovenské</short>
-
-                <example correction="„">Toto je
-                    (<marker>"</marker>test").</example>
-
-                <example>Toto je („test“).</example>
-            </rule>
-
-            <rule>
-                <pattern>
-                    <token regexp="yes">.*\p{L}</token>
-
-                    <marker>
-                        <token spacebefore="no">"</token>
-                    </marker>
-
-                    <token regexp="yes" spacebefore="no">[,:;\)\]\}]</token>
-                </pattern>
-
-                <message>Na tomto mieste by mali byť horné (ukončovacie) úvodzovky:
-                    <suggestion>“</suggestion>.</message>
-
-                <short>Typografická chyba. Zameňte počítačové úvodzovky za slovenské</short>
-
-                <example correction="“">Toto
-                    je("test<marker>"</marker>).</example>
-
-                <example>Toto je („test“).</example>
-            </rule>
-
-            <rule>
-                <pattern>
-                    <token regexp="yes">.*\p{L}</token>
-
-                    <marker>
-                        <token spacebefore="no">"</token>
-                    </marker>
-
-                    <token spacebefore="yes"></token>
-                </pattern>
-
-                <message>Na tomto mieste by mali byť horné (ukončovacie) úvodzovky:
-                    <suggestion>“</suggestion>.</message>
-
-                <short>Typografická chyba. Zameňte počítačové úvodzovky za slovenské</short>
-
-                <example correction="“">Toto
-                    je("test<marker>"</marker> 1).</example>
-
-                <example>Toto je („test“).</example>
-            </rule>
-
-            <rule>
-                <pattern>
-                    <token spacebefore="yes">"</token>
-                </pattern>
-
-                <message>Na tomto mieste by mali byť dolné (uvádzacie) úvodzovky:
-                    <suggestion>„</suggestion>.</message>
-
-                <short>Typografická chyba. Zameňte počítačové úvodzovky za slovenské</short>
-
-                <example correction="„">Toto je
-                    <marker>"</marker>test".</example>
-
-                <example>To jest „test“.</example>
-            </rule>
-        </rulegroup>
-
-        <!--TODO  pred/za spojovníkom nemá byť medzera, reg exp mi nefunguje...-->
-
-        <!--  ======================================== -->
-
-        <rulegroup id="POMLCKA_SPOJOVNIK_1" name="Zameňte spojovník pomlčkou 1">
-            <rule>
-                <pattern>
-                    <token>-</token>
-                </pattern>
-
-                <message>Podľa pravidiel slovenského pravopisu spojovník nemá byť
-                    oddelený medzerou. Použite namiesto neho pomlčku
-                    (<suggestion>–</suggestion>), alebo odstráňte medzery.</message>
-
-                <short>Typografická chyba.</short>
-
-                <example correction="–">Toto je test
-                    <marker>-</marker> alebo aj nie.</example>
-
-                <example>Toto je test – alebo aj nie.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="POMLCKA_SPOJOVNIK_2" name="Zameňte spojovník pomlčkou 2">
-            <rule>
-                <pattern>
-                    <token regexp="yes">(-)(\D.*)</token>
-
-                    <!-- pozor na záporné čísla -->
-                </pattern>
-
-                <message>Podľa pravidiel slovenského pravopisu spojovník nemá byť
-                    oddelený medzerou. Použite namiesto neho pomlčku a medzeru
-                    (<suggestion><match no="1" regexp_match="(-)(\D.*)" regexp_replace="– $2"></match></suggestion>), alebo odstráňte úvodnú
-                    medzeru.</message>
-
-                <short>Typografická chyba.Zameňte spojovník pomlčkou</short>
-
-                <example correction="– alebo">Toto je test <marker>-alebo</marker> aj
-                    nie.</example>
-
-                <example>Toto je test – alebo aj nie.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="POMLCKA_SPOJOVNIK_3" name="Zameňte spojovník pomlčkou 3">
-            <rule>
-                <pattern>
-                    <token regexp="yes">(.*\S)(-)</token>
-
-                    <!-- napr. povedal- nepovedal; -->
-                </pattern>
-
-                <message>Podľa pravidiel slovenského pravopisu spojovník nemá byť
-                    oddelený medzerou. Použite namiesto neho medzeru a pomlčku
-                    (<suggestion><match no="1" regexp_match="(.*\S)(-)" regexp_replace="$1 –"></match></suggestion>) alebo odstráňte medzeru
-                    po spojovníku.</message>
-
-                <short>Typografická chyba.Zameňte spojovník pomlčkou</short>
-
-                <example correction="test –">Toto je <marker>test-</marker> alebo aj
-                    nie.</example>
-
-                <example>Toto je test – alebo aj nie.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="SPOJOVNIK_POMLCKA" name="Zameňte pomlčku spojovníkom">
-            <rule>
-                <pattern>
-                    <token regexp="yes">(.*\S)([–—])(\S*)</token>
-                </pattern>
-
-                <message>Nahraďte pomlčku spojovníkom: <match no="1" regexp_match="(.*)([–—])(.*)" regexp_replace="$1-$3"></match></message>
-
-                <short>Typografická chyba.Zameňte pomlčku spojovníkom</short>
-
-                <example correction=""><marker>Rakúsko–uhorská</marker> monarchia
-                    zanikla 11. novembra 1918.</example>
-
-                <example>Rakúsko-uhorská monarchia zanikla 11. novembra
-                    1918 podpísaním abdikácie cisára Karola I.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="TRIBODKY" name="Zameňte tribodky trojbodkou">
-            <rule>
-                <pattern>
-                    <token>.</token>
-
-                    <token>.</token>
-
-                    <token>.</token>
-                </pattern>
-
-                <message>Na tomto mieste by mal byť znak trojbodky:
-                    <suggestion>…</suggestion>.</message>
-
-                <short>Typografická chyba.Zameňte tribodky trojbodkou</short>
-
-                <example correction="…">Toto je
-                    test<marker>...</marker></example>
-
-                <example>Toto je test…</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="CIARKA_CITOSLOVCE" name="Dajte čiarku za citoslovce">
-            <rule>
-                <pattern>
-                    <token postag="J.*" postag_regexp="yes"><exception postag="(S.*|A.*|P.*|C.*|V.*|D.*|E.*|O.*|T.*)" postag_regexp="yes"></exception></token>
-
-                    <token><exception>,</exception></token>
-                </pattern>
-
-                <message>Oddeľte citoslovce čiarkou. Dajte čiarku za citoslovce
-                    <suggestion><match no="1"></match>,</suggestion></message>
-
-                <short>Interpunčná chyba.Dajte čiarku za citoslovce</short>
-
-                <example correction="Joj,"><marker>Joj
-                    vyhrali</marker> sme.</example>
-
-                <example>Joj, vyhrali sme.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="ZNAK_NASOBENIA" name="Zmeňte x na znak násobenia × ">
-            <rule id="nasobenie" name="Znak násobenia „x” (×)">
-                <pattern>
-                    <token regexp="yes">\d+x\d+</token>
-                </pattern>
-
-                <message>Zmente znak &quot;x&quot; na znak násobenia: <suggestion><match no="1" postag_replace="" regexp_match="(\d+)x(\d+)" regexp_replace="$1×$2"></match></suggestion>.</message>
-
-                <short>Typografická chyba.Zmeňte x na znak násobenia ×</short>
-
-                <example correction="800×600">Rozlíšenie obrazovky
-                    <marker>800x600</marker></example>
-
-                <example>Rozlíšenie obrazovky 800×600</example>
-            </rule>
-
-            <rule id="ZNAK_NASOBENIA_2" name="Zmeňte x na znak násobenia × ">
-                <pattern>
-                    <token regexp="yes">\d+x\d+x\d+</token>
-                </pattern>
-
-                <message>Zmente znak &quot;x&quot; na znak násobenia: <suggestion><match no="1" postag_replace="" regexp_match="(\d+)x(\d+)x(\d+)" regexp_replace="$1×$2×$3"></match></suggestion>.</message>
-
-                <short>Typografická chyba.Zmeňte x na znak násobenia ×</short>
-
-                <example correction="800×600×400">Rozlíšenie
-                    obrazovky <marker>800x600x400</marker></example>
-
-                <example>Rozlíšenie obrazovky 800×600×400</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="UVODZOVKY_PO_TZV" name="Odstráňťe úvodzovky po skratke tzv.">
-            <rule id="tzv" name="Úvodzovky po tzv.">
-                <pattern>
-                    <token>tzv</token>
-
-                    <token>.</token>
-
-                    <marker>
-                        <token regexp="yes">[„&quot;]</token>
-
-                        <token skip="-1"></token>
-
-                        <token regexp="yes">[“&quot;]</token>
-                    </marker>
-                </pattern>
-
-                <message>Odstránte úvodzovky po skratke tzv. <suggestion><match no="4"></match></suggestion>.</message>
-
-                <short>Interpunčná chyba.Odstráňťe úvodzovky po skratke tzv.</short>
-
-                <example correction="testík">Toto je tzv.
-                    <marker>„testík“</marker> slova pomoc.</example>
-
-                <example>Toto je tzv. testík slova pomoc.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="CITIT_SA_1_PAD" name="Cítiť sa sa spája s 1. pádom">
-            <rule>
-                <pattern>
-                    <token regexp="yes">Cítiť|Cítim|cítia|cítime|cítiš|cíti|cítite</token>
-
-                    <token>sa</token>
-
-                    <token postag="A...7." postag_regexp="yes"></token>
-
-                    <token></token>
-                </pattern>
-
-                <message>Zmeňte pád prídavného mena na nominatív: <suggestion><match no="1"></match> sa <match no="3" postag="A...1x" postag_regexp="yes"></match></suggestion></message>
-
-                <short>Gramatická chyba. Cítiť sa sa spája s 1. pádom</short>
-
-                <example correction="Cítim sa užitočná|Cítim sa užitočné|Cítim sa užitoční|Cítim sa užitočný"><marker>Cítim sa užitočným.</marker></example>
-
-                <example>Cítim sa užitočný.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  pravidlo funguje, ale sposobuje privela falosnych poplachov
-        <rulegroup id="DVOJBODKA_PRIAMA_REC" name="Dajte dvojbodku pred priamu reč">
-        <rule>
-            <pattern>
-            <token postag_regexp="yes" postag="(S.*|A.*|P.*|C.*|V.*|D.*|E.*|O.*|T.*|I.*)"></token>
-            <token><exception regexp="yes">:|,|;</exception> </token>
-            <token>„</token>
-            </pattern>
-            <message>Dajte pred priamu reč dvojbodku. <suggestion><match no="1"></match><match no="2"></match>: <match no="3"></match></suggestion></message>
-            <short>Typografická chyba.Dajte dvojbodku pred priamu reč</short>
-            <example correction="mu: ">Povedali <marker>mu </marker>„Vyhrali sme.“</example>
-            <example>Povedali mu: „Vyhrali sme.“</example>
-        </rule>
-        </rulegroup>
-
-        -->
-
-        <!--  pravidlo funguje, ale sposobuje privela falosnych poplachov
-        <rulegroup id="BODKA_ZA_UVODZOVKAMI" name="Presunte bodku (?|!) pred koncové úvodzovky">
-        <rule>
-            <pattern>
-            <token postag_regexp="yes" postag="(S.*|A.*|P.*|C.*|V.*|D.*|E.*|O.*|T.*|I.*)"><exception regexp="yes">:|,|;</exception></token>
-            <token>“</token>
-            <token regexp="yes">.|!</token>
-            </pattern>
-            <message>Presunte bodku (?|!) pred koncové úvodzovky. <suggestion><match no="1"></match><match no="3"></match>“</suggestion></message>
-            <short>Typografická chyba.Presunte bodku (?|!) pred koncové úvodzovky</short>
-            <example correction="sme.“">Povedali mu: „Vyhrali <marker>sme“.</marker></example>
-            <example>Povedali mu: „Vyhrali sme.“</example>
-        </rule>
-        </rulegroup>
-
-        -->
-    </category>
-
-    <!--  ======================================== -->
-
-    <!--  ======================================== -->
 
     <category name="Kapitalizácia">
         <!--  ======================================== -->
 
         <rulegroup id="PAMATNY_DEN" name="Pamätný deň začína veľkým písmenom">
-            <rule id="matiek_zeme" name="Deň matiek/zeme">
+
+            <rule name="Medzinárodný deň">
                 <pattern case_sensitive="yes">
-                    <token><exception postag="SENT_START"></exception></token>
-
                     <marker>
-                        <token regexp="yes">deň|dňa|dňu|dni|dňom|dní|dňoch|dňami</token>
-
-                        <token regexp="yes">matiek|zeme|Zeme</token>
+		    	<!--POZN: regulárny výraz nájde všetky tvary slova medzinárodný s malým m -->
+                    	<token regexp="yes">medzinárod(ný|ného|nému|nom|né|ných|ným|nými)</token>
+			<!-- nájde všetky tvary, aj s veľkým písmenom -->
+                        <token inflected="yes">deň</token>
+                        <token regexp="yes">Žien|žien|Detí|detí</token>
                     </marker>
                 </pattern>
 
                 <message>Pri pamätných dňoch použite veľké začiatočné písmeno:
-                    <suggestion><match no="1"></match> <match case_conversion="startupper" no="2"></match> <match no="3"></match></suggestion>.</message>
+			<suggestion><match case_conversion="startupper" no="1"/> <match case_conversion="startlower" no="2"/> <match case_conversion="startlower" no="3"/></suggestion>.
+		</message>
 
-                <short>Chyba písanie veľkých/malých písmen.Pamätný deň začína veľkým písmenom.</short>
+                <short>Názov pamätného dňa začína veľkým písmenom.</short>
+	    	<example correction="Medzinárodného dňa detí" type="incorrect">
+		    Pri príležitosti <marker>medzinárodného dňa detí</marker>.
+	    	</example>
+	    	<example correction="Medzinárodného dňa detí" type="incorrect">
+		    Pri príležitosti <marker>medzinárodného Dňa detí</marker>.
+	    	</example>
+	    	<example correction="Medzinárodného dňa detí" type="incorrect">
+		    Pri príležitosti <marker>medzinárodného Dňa Detí</marker>.
+	    	</example>
+            	<example type="correct">Pri príležitosti Medzinárodného dňa detí.</example>
+            </rule>
 
-                <example correction="príležitosti Dňa matiek">Pri
-                    príležitosti <marker>dňa matiek</marker>.</example>
+	    <rule name="Pamätný deň">
+                <pattern case_sensitive="yes">
+		    <!--POZN: regulárny výraz nájde všetky tvary slova Medzinárodný s veľký M -->
+                    <token><exception regexp="yes">Medzinárod(ný|ného|nému|nom|ným|né|ných|nými)</exception></token>
+                    <marker>
+			    <!-- POZN: Ak sa tu použije skloňovanie pomocou atribútu inflected="yes", 
+				 ignoruje sa case_sensitive="yes" -->
+                        <token regexp="yes">deň|dňa|dňu|dni|dňom|dní|dňoch|dňami</token>
+                        <!--token inflected="yes">deň</token-->
+                        <token regexp="yes">matiek|žien|zeme|Zeme|otcov|detí|učiteľov|narcisov|veteránov|OSN|železničiarov</token>
+                    </marker>
+                </pattern>
 
-                <example>Pri príležitosti Dňa matiek.</example>
+                <message>Pri pamätných dňoch použite veľké začiatočné písmeno:
+    		    <!-- POZN: <match no="2"/> možno použiť namiesto <match no="2"/> -->
+		    <suggestion><match case_conversion="startupper" no="2"/> \3</suggestion>.
+	    	</message>
+
+                <short>Názov pamätného dňa začína veľkým písmenom.</short>
+                <example correction="Dňa matiek" type="incorrect">Pri príležitosti <marker>dňa matiek</marker>.</example>
+                <example type="correct">Pri príležitosti Dňa matiek.</example>
+                <example type="correct">Pri príležitosti Medzinárodného dňa detí.</example>
+            </rule>
+
+            <rule id="den_slobody_softveru" name="Deň slobody softvéru">
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">deň|dňa|dňu|dni|dní|dňom|dňoch|dňami</token>
+                        <token regexp="yes">slobody|slobodného</token>
+                        <token>softvéru</token>
+                    </marker>
+                </pattern>
+
+		<message>
+		    Pri pamätných dňoch použite veľké začiatočné písmeno:
+		    <!-- POZN: <suggestion> musí byť na jednom riadku -->
+		    <suggestion><match case_conversion="startupper" no="1"/> \2 \3</suggestion>.
+	        </message>
+
+                <short>Pamätný deň začína veľkým písmenom.</short>
+		<example correction="Dňom slobody softvéru" type="incorrect">
+			Pred <marker>dňom slobody softvéru</marker> pršalo.
+		</example>
+                <example type="correct">Pred Dňom slobody softvéru pršalo.</example>
             </rule>
 
             <rule id="víťazstva_nad_fašizmom" name="Deň víťazstva nad fašizmom">
                 <pattern case_sensitive="yes">
-                    <token><exception postag="SENT_START"></exception></token>
-
                     <marker>
-                        <token regexp="yes">deň|dňa|dňu|dni|dňom|dní|dňoch|dňami</token>
-
+                        <token regexp="yes">deň|dňa|dňu|dni|dní|dňom|dňoch|dňami</token>
                         <token>víťazstva</token>
-
                         <token>nad</token>
-
                         <token>fašizmom</token>
                     </marker>
                 </pattern>
 
-                <message>Pri pamätných dňoch použite veľké začiatočné písmeno:
-                    <suggestion><match no="1"></match> <match case_conversion="startupper" no="2"></match> <match no="3"></match> <match no="4"></match> <match no="5"></match></suggestion>.</message>
+		<message>
+		    Pri pamätných dňoch použite veľké začiatočné písmeno:
+		    <!-- POZN: <suggestion> musí byť na jednom riadku -->
+		    <suggestion><match case_conversion="startupper" no="1"/> <match no="2"/> <match no="3"/> <match no="4"/></suggestion>.
+	        </message>
 
-                <short>Chyba písanie veľkých/malých písmen.Pamätný deň začína veľkým písmenom.</short>
-
-                <example correction="príležitosti Dňa víťazstva nad fašizmom">Pri príležitosti <marker>dňa víťazstva nad
-                    fašizmom</marker>.</example>
-
-                <example>Pri príležitosti Dňa víťazstva nad
-                    fašizmom.</example>
+                <short>Pamätný deň začína veľkým písmenom.</short>
+		<example correction="Dňa víťazstva nad fašizmom" type="incorrect">
+			Pri príležitosti <marker>dňa víťazstva nad fašizmom</marker>.
+		</example>
+                <example type="correct">Pri príležitosti Dňa víťazstva nad fašizmom.</example>
             </rule>
 
             <rule id="vzniku_Slovenskej_republiky" name="Deň vzniku Slovenskej republiky">
                 <pattern case_sensitive="yes">
-                    <token><exception postag="SENT_START"></exception></token>
-
                     <marker>
-                        <token regexp="yes">deň|dňa|dňu|dni|dňom|dní|dňoch|dňami</token>
-
+                        <token regexp="yes">deň|dňa|dňu|dni|dní|dňom|dňoch|dňami</token>
                         <token>vzniku</token>
-
                         <token>Slovenskej</token>
-
                         <token>republiky</token>
                     </marker>
                 </pattern>
 
-                <message>Pri pamätných dňoch použite veľké začiatočné písmeno:
-                    <suggestion><match no="1"></match> <match case_conversion="startupper" no="2"></match> <match no="3"></match> <match no="4"></match> <match no="5"></match></suggestion>.</message>
+		<message>
+		    Pri pamätných dňoch použite veľké začiatočné písmeno:
+		    <!-- POZN: <suggestion> musí byť na jednom riadku -->
+		    <suggestion><match case_conversion="startupper" no="1"/> <match no="2"/> <match no="3"/> <match no="4"/></suggestion>.
+	        </message>
 
-                <short>Chyba písanie veľkých/malých písmen. Pamätný deň začína veľkým písmenom.</short>
-
-                <example correction="príležitosti Dňa vzniku Slovenskej republiky">Pri príležitosti <marker>dňa vzniku Slovenskej
-                    republiky</marker> .</example>
-
-                <example>Pri príležitosti Dňa vzniku Slovenskej
-                    republiky.</example>
+                <short>Pamätný deň začína veľkým písmenom.</short>
+		<example correction="Dňa vzniku Slovenskej republiky" type="incorrect">
+			Pri príležitosti <marker>dňa vzniku Slovenskej republiky</marker>.
+		</example>
+                <example type="correct">Pri príležitosti Dňa vzniku Slovenskej republiky.</example>
             </rule>
         </rulegroup>
     </category>
+
 
     <!--  ======================================== -->
 
@@ -464,907 +163,63 @@ $Id$
     <category name="Rôzne">
         <!--  ======================================== -->
 
-        <rulegroup id="KOHO_CI" name="Zámeno koho nahraďte zámenom čí">
+        <rulegroup id="KOHO_CI" name="Zámeno 'koho' nahraďte zámenom 'čí'">
+
+	    <!-- Základné pravidlo: 'koho + podstatné meno' -->
             <rule>
                 <pattern>
                     <token>koho</token>
-
-                    <token postag="S.(m|i).1" postag_regexp="yes"></token>
+                    <token postag="S...." postag_regexp="yes"></token>
                 </pattern>
+		<!-- POZN:regulárny výraz (.) na mieste morfologickej značky v atribúte postag a následne premenná $1 (číslo podľa poradia) v atribúte postag_replace umožní prebratie vybranej morfologickej značky tokenu. V tomto prípade sa 'čí' vyskloňuje podľa podstatného mena -->
+                <message>
+			Zámeno 'koho' nahraďte zámenom 'čí': 
+			<suggestion><match no="2" postag="S.(.+)(.+)(.+)" postag_replace="PA$1$2$3">čí</match> <match no="2"/></suggestion>.
+                </message>
 
-                <message>Nahraďte výraz „koho“ výrazom <suggestion>čí <match no="2" postag="S.(m|i).1" postag_regexp="yes"></match></suggestion>.</message>
-
-                <short>Gramatická chyba. Zámeno &quot;koho&quot; nahraďte zámenom &quot;čí&quot;</short>
-
-                <example correction="čí dom">Nevedel <marker>koho
-                    dom</marker> kúpil.</example>
-
-                <example>Nevedel čí dom kúpil.</example>
+                <short>Možná gramatická chyba. Zámeno 'koho' možno treba nahradiť zámenom 'čí'</short>
+                <example correction="čí dom" type="incorrect"> Nevedel, <marker>koho dom</marker> kúpil.  </example>
+                <example type="correct"> Nevedel, čí dom kúpil.  </example>
             </rule>
 
-            <rule id="KOHO_CI_2" name="Zámeno 'koho' nahraďte zámenom 'čia'">
-                <pattern>
-                    <token skip="-1">koho</token>
-
-                    <token postag="S.f.1" postag_regexp="yes"></token>
-                </pattern>
-
-                <message>Nahraďte výraz „koho“ výrazom <suggestion>čia <match no="2" postag="S.f.1" postag_regexp="yes"></match></suggestion>.</message>
-
-                <short>Gramatická chyba. Zámeno 'koho' nahraďte zámenom 'čia'</short>
-
-                <example correction="čia noha">Nevedel <marker>koho
-                    je tá noha</marker>.</example>
-
-                <example>Nevedel čia je tá noha.</example>
-            </rule>
-
-            <rule id="KOHO_CI_3" name="Zámeno koho nahraďte zámenom čie">
+	    <!-- Rozšírené pravidlo: 'koho + prídavné meno + ... + podstatné meno' -->
+            <rule>
                 <pattern>
                     <token>koho</token>
-
-                    <token postag="S.n.1" postag_regexp="yes"></token>
+		    <token skip="-1" postag="A....." postag_regexp="yes"/>
+		    <!--token skip="-1" postag="A....." postag_regexp="yes"><exception scope="next">a</exception></token-->
+                    <token postag="S...." postag_regexp="yes"></token>
                 </pattern>
+                <message>
+			Zámeno 'koho' nahraďte zámenom 'čí': 
+			<suggestion><match no="3" postag="S.(.+)(.+)(.+)" postag_replace="PA$1$2$3">čí</match> <match no="2" include_skipped="all"/> <match no="3"/></suggestion>.
+                </message>
 
-                <message>Nahraďte výraz „koho“ výrazom <suggestion>čie <match no="2"></match></suggestion>.</message>
-
-                <short>Chybné zámeno. Zámeno „koho“ nahraďte zámenom „čie“.</short>
-
-                <example correction="čie auto">Nevedel <marker>koho
-                    auto</marker> si požičal.</example>
-
-                <example>Nevedel čie auto si požičal.</example>
+                <short>Možná gramatická chyba. Zámeno 'koho' možno treba nahradiť zámenom 'čí'</short>
+                <example correction="čí nový vysoký dom" type="incorrect"> Nevedel, <marker>koho nový vysoký dom</marker> kúpil.  </example>
+                <example type="correct"> Nevedel, čí nový vysoký dom kúpil.  </example>
             </rule>
-        </rulegroup>
 
-        <!--  ======================================== -->
-
-        <rulegroup id="Kvôli" name="Kvôli je nespisovný výraz">
+	    <!-- Rozšírené pravidlo: 'koho + byť (skloňované) + ... + podstatné meno' -->
             <rule>
                 <pattern>
-                    <token>kvôli</token>
-
-                    <token postag="S...3" postag_regexp="yes"></token>
+                    <token>koho</token>
+		    <token skip="-1" inflected="yes">byť</token>
+                    <token postag="S...." postag_regexp="yes"></token>
                 </pattern>
+                <message>
+			Zámeno 'koho' nahraďte zámenom 'čí': 
+			<suggestion><match no="3" postag="S.(.)(.)(.)" postag_replace="PA$1$2$3">čí</match> <match no="2" include_skipped="all"/> <match no="3"/></suggestion>.
+                </message>
 
-                <message>Slovo „kvôli“ nahraďte slovom: <suggestion>pre <match no="2" postag="S...4" postag_regexp="yes"></match></suggestion>.</message>
-
-                <short>Chybný výraz. „Kvôli“ je nespisovný výraz.</short>
-
-                <example correction="pre chorobu|pre choroby">Neprišiel <marker>kvôli chorobe</marker>.</example>
-
-                <example>Neprišiel pre chorobu.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="Vymenovať" name="Vymenovať niekoho za">
-            <rule>
-                <pattern>
-                    <token postag="V(I|L).*" postag_regexp="yes" regexp="yes">menovať|menoval|menovala|menovali</token>
-
-                    <token postag="S...7" postag_regexp="yes"></token>
-                </pattern>
-
-                <message>Nahraďte výrazom <suggestion>vy<match no="1"></match> za
-                    <match no="2" postag="S...4" postag_regexp="yes"></match></suggestion>.</message>
-
-                <short>Chybný výraz. Použite výraz „vymenovať niekoho za“.</short>
-
-                <example correction="">Prezident <marker>menoval profesorom</marker> Jána
-                    Petrika.</example>
-
-                <example>Prezident vymenoval za profesora Jána
-                    Petrika.</example>
+                <short>Možná gramatická chyba. Zámeno 'koho' možno treba nahradiť zámenom 'čí'</short>
+                <example correction="čí bol ten vysoký dom" type="incorrect"> Nevedel, <marker>koho bol ten vysoký dom</marker>.  </example>
+                <example type="correct"> Nevedel, čí bol ten vysoký dom.  </example>
             </rule>
         </rulegroup>
     </category>
 
-    <!--  ======================================== -->
-
-    <!--  ======================================== -->
-
-    <category name="Predložky">
         <!--  ======================================== -->
+	<!--XXXXXXXXXXXXXXXXXXXXXXXXXX -->
 
-        <rulegroup id="Namiesto_niečoho_1" name="Namiesto niečoho 1">
-            <rule>
-                <pattern>
-                    <token>miesto</token>
-
-                    <token postag="SS..2" postag_regexp="yes"></token>
-                </pattern>
-
-                <message>Nahraďte výrazom <suggestion>namiesto <match no="2" postag="S...2" postag_regexp="yes"></match></suggestion>.</message>
-
-                <short>Chybný výraz. Použite výraz „namiesto“.</short>
-
-                <example correction="namiesto ceruzky">Pero dostali
-                    <marker>miesto ceruzky</marker>.</example>
-
-                <example>Pero dostali namiesto ceruzky.</example>
-            </rule>
-
-            <rule id="Namiesto_niečoho_2" name="Namiesto niečoho 2">
-                <pattern>
-                    <token skip="-1">miesto</token>
-
-                    <token regexp="yes">niekoho|niečoho</token>
-                </pattern>
-
-                <message>Nahraďte výrazom <suggestion>namiesto <match no="2"></match></suggestion>.</message>
-
-                <short>Chyba predložky. Použite výraz „namiesto“.</short>
-
-                <example correction="namiesto niekoho">Peter prišiel
-                    <marker>miesto niekoho</marker> iného.</example>
-
-                <example>Peter prišiel namiesto niekoho
-                    iného.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="Miesto_na" name="Miesto na">
-            <rule>
-                <pattern>
-                    <token>miesto</token>
-
-                    <token regexp="yes" skip="-1">k|ku</token>
-
-                    <token postag="S...3" postag_regexp="yes"></token>
-                </pattern>
-
-                <message>Nahraďte výrazom miesto <suggestion>miesto na <match no="3" postag="S...4" postag_regexp="yes"></match></suggestion>.</message>
-
-                <short>Chybná predložka. Použite výraz miesto „na“.</short>
-
-                <example correction="miesto na stavbu|miesto na stavby">Kúpil pozemok ako <marker>miesto k stavbe</marker>
-                    domu.</example>
-
-                <example>Kúpil pozemok ako miesto na stavbu
-                    domu.</example>
-            </rule>
-
-            <!-- Neobsahuje chybu ??? v example
-                <rule id="Miesto_na_2" name="Miesto na_2">
-                    <pattern >
-                        <token >miesto</token>
-                        <token postag_regexp="yes" postag="S...3" >
-                            <exception regexp="yes">k|ku|na</exception>
-                        </token>
-                    </pattern>
-                    <message>Nahraďte výrazom miesto
-                        <suggestion>miesto na <match no="2" postag_regexp="yes" postag="S...4"/></suggestion>.
-                    </message>
-                    <short>Chyba predložky. Použite výraz miesto na</short>
-                    <example correction="miesto na stavbu"> Kúpil pozemok ako <marker>miesto k stavbe</marker> domu.</example>
-                    <example>Kúpil pozemok ako miesto na stavbu domu.</example>
-                </rule>
-            -->
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="Mimo_2_pád" name="Mimo sa viaže s 2. pádom">
-            <rule>
-                <pattern>
-                    <token>mimo</token>
-
-                    <token postag="S(S|F|U)..4" postag_regexp="yes"><exception postag="S(S|F|U)..2" postag_regexp="yes"></exception></token>
-                </pattern>
-
-                <message>Predložka „mimo“ sa viaže s 2. pádom: <suggestion>mimo <match no="2" postag="S(S|F|U)..2" postag_regexp="yes"></match></suggestion>.</message>
-
-                <short>Chybná predložka. „Mimo“ sa viaže s 2. pádom.</short>
-
-                <example correction="mimo prevádzky|mimo prevádzok">Prístroj bol dočasne <marker>mimo
-                    prevádzku</marker>.</example>
-
-                <example>Prístroj bol dočasne mimo prevádzky.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="Mimo_okrem" name="Zameňte mimo na okrem">
-            <rule>
-                <pattern>
-                    <token skip="-1">mimo</token>
-
-                    <token postag="A...4." postag_regexp="yes"></token>
-                </pattern>
-
-                <message>Predložku „mimo“ nahraďte výrazom <suggestion>okrem <match include_skipped="all" no="2" postag="A...4." postag_regexp="yes"></match></suggestion>.</message>
-
-                <short>Chybná predložka. Zameňte „mimo“ za „okrem“.</short>
-
-                <example correction="okrem nového">Mal <marker>mimo
-                    nového</marker> aj tento dom.</example>
-
-                <example>Mal okrem nového aj tento dom.</example>
-            </rule>
-
-            <rule id="Mimo_okrem_2" name="Zameňte mimo na okrem_2">
-                <pattern>
-                    <token skip="-1">mimo</token>
-
-                    <token postag="P...4" postag_regexp="yes"></token>
-                </pattern>
-
-                <message>Predložku „mimo“ nahraďte výrazom <suggestion>okrem <match include_skipped="all" no="2" postag="P...4" postag_regexp="yes"></match></suggestion>.</message>
-
-                <short>Chybná predložka. Zameňte mimo za okmer</short>
-
-                <example correction="okrem iného">Mal <marker>mimo
-                    iného</marker> aj tento dôvod.</example>
-
-                <example>Mal okrem iného aj tento dôvod.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="OD_A_PO_Z" name="OD A PO Z">
-            <rule>
-                <pattern>
-                    <token>od</token>
-
-                    <token postag="(S.*)" postag_regexp="yes"></token>
-
-                    <marker>
-                        <token>do</token>
-
-                        <token postag="(S...2)" postag_regexp="yes"></token>
-                    </marker>
-                </pattern>
-
-                <message>Chybný výraz. Zmeňte &quot;do&quot; na &quot;po&quot;. <suggestion>po <match no="4" postag="S..s4" postag_regexp="yes"></match></suggestion></message>
-
-                <short>Chybný výraz. Zmeňte do na po</short>
-
-                <example correction="po koniec">Prešli to od začiatku
-                    <marker>do konca</marker>.</example>
-
-                <example>Prešli to od začiatku po koniec.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="DO_a_2_pád" name="DO + 2. pád">
-            <rule>
-                <pattern>
-                    <token skip="2">do</token>
-
-                    <token postag="SS.*" postag_regexp="yes"><exception postag="SS..2" postag_regexp="yes"></exception></token>
-                </pattern>
-
-                <message>Predložka do sa viaže s 2. pádom: <suggestion>do <match no="2" postag="SS..2" postag_regexp="yes"></match></suggestion>.</message>
-
-                <short>Chybná predložka. Do sa viaže s 2. pádom</short>
-
-                <example correction="do konca|do koncov">Prešli to od
-                    začiatku <marker>do koniec</marker>.</example>
-
-                <example>Prešli to od začiatku do konca.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="po_a_4_alebo_6_pád" name="Po + 4. alebo 6. pád">
-            <rule>
-                <pattern>
-                    <token>po</token>
-
-                    <token postag="S.*" postag_regexp="yes"><exception postag="SS..(4|6)" postag_regexp="yes"></exception></token>
-                </pattern>
-
-                <message>Predložka po sa viaže s 2. alebo 4. pádom: <suggestion>po
-                    <match no="2" postag="SS..(4|6)" postag_regexp="yes"></match></suggestion>.</message>
-
-                <short>Chybná predložka. Po sa viaže s 2. alebo 4. pádom</short>
-
-                <example correction="">Prešli to od začiatku <marker>po
-                    konca</marker>.</example>
-
-                <example>Prešli to od začiatku po koniec.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="S_SO" name="Zameňte „s“ za „so“">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>s</token>
-                    </marker>
-
-                    <token regexp="yes"><exception regexp="yes">.</exception>(s.*)|(š.*)|(z.*)|(ž.*)|(vč.*)|(vs.*)|(vš.*)|(vz.*)|(vž.*)</token>
-                </pattern>
-
-                <message>Na tomto mieste by mala byť predložka
-                    „<suggestion>so</suggestion>“.</message>
-
-                <short>Chybná predložka. Zameňte „s“ za „so“</short>
-
-                <example correction="so">Toto je test
-                    <marker>s</marker> štýlom.</example>
-
-                <example>Toto je test so štýlom.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="SO_S" name="Zameňte „so“ za „s“">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>so</token>
-                    </marker>
-
-                    <token negate="yes" regexp="yes"><exception>mnou</exception>(s.*)|(š.*)|(z.*)|(ž.*)|(vč.*)|(vs.*)|(vš.*)|(vz.*)|(vž.*)</token>
-                </pattern>
-
-                <message>Na tomto mieste by mala byť predložka
-                    „<suggestion>s</suggestion>“.</message>
-
-                <short>Chybná predložka. Zameňte Zameňte „so“ za „s“</short>
-
-                <example correction="s">Toto je test
-                    <marker>so</marker> ohľadom na štýl.</example>
-
-                <example>Toto je test s ohľadom na štýl.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="Z_ZO" name="Zameňte „z“ za „zo“">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>z</token>
-                    </marker>
-
-                    <token regexp="yes">(s.*)|(š.*)|(z.*)|(ž.*)|(vč.*)|(vs.*)|(vš.*)|(vz.*)|(vž.*)</token>
-                </pattern>
-
-                <message>Na tomto mieste by mala byť predložka
-                    „<suggestion>zo</suggestion>“.</message>
-
-                <short>Chybná predložka. Zameňte „z“ za „zo“</short>
-
-                <example correction="zo">Pomaly prechádza
-                    <marker>z</marker> štýlu do štýlu.</example>
-
-                <example>Pomaly prechádza zo štýlu do štýlu.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="ZO_Z" name="Zameňte „zo“ za „z“">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>zo</token>
-                    </marker>
-
-                    <token negate="yes" regexp="yes"><exception>mňa</exception>(s.*)|(š.*)|(z.*)|(ž.*)|(vč.*)|(vs.*)|(vš.*)|(vz.*)|(vž.*)</token>
-                </pattern>
-
-                <message>Na tomto mieste by mala byť predložka
-                    „<suggestion>z</suggestion>“.</message>
-
-                <short>Chybná predložka. Zameňte „zo“ za „z“</short>
-
-                <example correction="z">Čo <marker>zo</marker> teba
-                    zostalo?</example>
-
-                <example>Čo z teba zostalo?</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="K_TOMU" name="Zameňte „k tomu“ za „na to“">
-            <!-- http://www.civil.gov.sk/archiv/casopis/2005/6/0621ho.htm -->
-
-            <rule>
-                <pattern>
-                    <token>vzhľadom</token>
-
-                    <marker>
-                        <token>k</token>
-
-                        <token>tomu</token>
-                    </marker>
-                </pattern>
-
-                <message>Správne má byť „<suggestion>na to</suggestion>“.</message>
-
-                <short>Štylistická chyba. Zameňte „k tomu“ za „na to“</short>
-
-                <example correction="na to">Vzhľadom <marker>k
-                    tomu</marker>, že…</example>
-
-                <example>Vzhľadom na to, že…</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="ZA_A_PROTI" name="Zameňte „PRE a proti“ za „ZA a proti“">
-            <!-- http://www.civil.gov.sk/archiv/casopis/2005/6/0621ho.htm -->
-
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>pre</token>
-                    </marker>
-
-                    <token regexp="yes">a|i|alebo</token>
-
-                    <token>proti</token>
-                </pattern>
-
-                <message>Správne má byť „<suggestion>za</suggestion>“.</message>
-
-                <short>Gramatická chyba. Zameňte „pre a proti“ za „za a proti“</short>
-
-                <example correction="za">Musíme zvážiť všetky
-                    <marker>pre</marker> a proti…</example>
-
-                <example>Musíme zvážiť všetky za a proti…</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="IST_PO_LEKARA" name="Ísť po lekára">
-            <!-- Funguje len pre niektoré tvary slova ísť.-->
-
-            <rule>
-                <pattern>
-                    <token regexp="yes">ísť|idem|ideš|ide|ideme|idete|idú|išiel|išla|išli|odísť|odídem|odídeš|odíde|odídeme|odídete|odídu|odišiel|odišli</token>
-
-                    <token>pre</token>
-
-                    <token postag="S...4" postag_regexp="yes"></token>
-                </pattern>
-
-                <message>Po slove „ísť“ a jeho tvaroch sa so 4. pádom viaže predložka
-                    „<suggestion><match no="1"></match> po <match no="3" postag="S...4" postag_regexp="yes"></match></suggestion>“, nie „pre“.</message>
-
-                <short>Chybná predložka. Použite predložku „po“.</short>
-
-                <example correction="Odišli po chlieb"><marker>Odišli
-                    pre chlieb</marker>.</example>
-
-                <example>Odišli po chlieb.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="JEST_S_NIECIM" name="Jesť s niečím">
-            <rule>
-                <pattern>
-                    <token>jesť</token>
-
-                    <marker>
-                        <token regexp="yes" skip="-1">s|so</token>
-
-                        <token postag="S...7" postag_regexp="yes"></token>
-                    </marker>
-                </pattern>
-
-                <message>Slovo „jesť“ v 7. páde sa viaže s podstatným menom bez
-                    predložky <suggestion> <match no="3"></match></suggestion>.</message>
-
-                <short>Chybná predložka. Odstráňte ju.</short>
-
-                <example correction=" paličkami">Nevedel jesť
-                    <marker>s paličkami</marker>.</example>
-
-                <example>Nevedel jesť paličkami.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="NA_AKY_UCEL" name="Na aký účel">
-            <rule>
-                <pattern>
-                    <token>k</token>
-
-                    <token postag="A...3." postag_regexp="yes"></token>
-
-                    <token>účelu</token>
-                </pattern>
-
-                <message>Fráza „k … účelu “ je nesprávna. Nahraďte ju: <suggestion>na
-                    <match no="2" postag="A.ms1." postag_regexp="yes"></match>
-                    účel</suggestion>.</message>
-
-                <short>Chybná predložka. Použite výraz „na účel“.</short>
-
-                <example correction=""><marker>K netradičnému účelu</marker> poslúžilo
-                    kladivo.</example>
-
-                <example>Na netradičný účel poslúžilo
-                    kladivo.</example>
-            </rule>
-        </rulegroup>
-    </category>
-
-    <!--  ======================================== -->
-
-    <!--  ======================================== -->
-
-    <category name="Gramatika">
-        <!--  ======================================== -->
-
-        <rulegroup id="PRIDAVNE_MENO_MP1" name="Zameňte „dobrý chlapi“ za „dobrí chlapi“">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token postag="AA.*" postag_regexp="yes"><exception postag="AAmp1." postag_regexp="yes"></exception></token>
-                    </marker>
-
-                    <token postag="S(S|A|F)mp1" postag_regexp="yes"><exception regexp="yes">korektori|prehliadači</exception></token>
-                </pattern>
-
-                <message>Pravdepodobne nesprávny tvar (\1) prídavného mena pred
-                    podstatným menom. Správne by malo byť <suggestion><match no="1" postag="AA.*" postag_regexp="yes" postag_replace="AAmp1x"></match></suggestion>.</message>
-
-                <short>Gramatická chyba. Nominatív množného čísla mužského rodu.</short>
-
-                <example correction="Dobrí"><marker>Dobrý</marker>
-                    chlapi ešte nevymreli…</example>
-
-                <example>Dobrí chlapi ešte nevymreli…</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="A_TO_A_TAK" name="Čiarka pred „a to“, „a tak“">
-            <rule>
-                <pattern>
-                    <token><exception>,</exception></token>
-
-                    <marker>
-                        <token spacebefore="yes">a</token>
-
-                        <token regexp="yes" spacebefore="yes">tak|to|preto|teda|predsa|jednako|pritom</token>
-                    </marker>
-                </pattern>
-
-                <message>Dajte čiarku pre „a to“ „a tak“: <suggestion>, <match no="2"></match> <match no="3"></match></suggestion>.</message>
-
-                <short>Gramatická chyba. Dajte čiarku pred „a to“ „a tak“.</short>
-
-                <example correction=", a tak">Neprišli<marker> a
-                    tak</marker> odišiel.</example>
-
-                <example>Neprišli, a tak odišiel.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <!-- pravidlo nerozlišuje jednotné/množné číslo!-->
-
-        <rulegroup id="Delegácia" name="Delegácia">
-            <rule>
-                <pattern>
-                    <token>delegácii</token>
-                </pattern>
-
-                <message>Zmeňte koncovku slova na delegácií alebo delegácie
-                    <suggestion><match no="1">delegácií</match></suggestion>
-                    <suggestion><match no="1">delegácie</match></suggestion></message>
-
-                <short>Gramatická chyba. Zlý tvar slova delegácia.</short>
-
-                <example correction="delegácií|delegácie">Dostali od
-                    zahraničnej <marker>delegácii</marker>.</example>
-
-                <example correction="delegácií|delegácie">Snažili sa
-                    dostať do vládnych <marker>delegácii</marker>.</example>
-
-                <example>Rozhovor s predsedom delegácie dopadol
-                    výborne.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="Diel" name="Diel">
-            <rule>
-                <pattern>
-                    <token>dieli</token>
-                </pattern>
-
-                <message>Pravdepodobná chyba, zameňte slovo dieli za diele.
-                    <suggestion>diele</suggestion></message>
-
-                <short>Gramatická chyba. Zlá koncovka slova diel.</short>
-
-                <example correction="diele">V treťom
-                    <marker>dieli</marker> sme spoznali nového hrdinu.</example>
-
-                <example>V treťom diele sme spoznali nového
-                    hrdinu.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="DRUHYM_ROKOM_STUDOVAT" name="Druhým rokom študovať je nespisovné">
-            <rule>
-                <pattern>
-                    <token postag="N.ms7" postag_regexp="yes" skip="1"></token>
-
-                    <token postag="S...7" postag_regexp="yes"></token>
-
-                    <token postag="V.*" postag_regexp="yes"></token>
-                </pattern>
-
-                <message>Pravdepodobná chyba. Zmeňte pád na 4.: <suggestion> <match no="1" postag="N.ms1" postag_regexp="yes"></match> <match no="2" postag="S..s4" postag_regexp="yes"></match> <match no="3"></match></suggestion>.</message>
-
-                <short>Gramatická chyba. Druhým rokom študovať je nespisovné.</short>
-
-                <example correction=" druhý rok študovať">Chcel už
-                    <marker>druhým rokom študovať</marker> politológiu.</example>
-
-                <example>Chcel už druhý rok študovať
-                    politológiu.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="JEDNY_POMNOZNE" name="Jedny + pomnožné pod. mená">
-            <rule>
-                <pattern>
-                    <token>jedni</token>
-
-                    <token postag="S.(i|f|n)(p|o)." postag_regexp="yes"></token>
-                </pattern>
-
-                <message>Slovo „jedni“ má v spojení s podstatnými menami tvar
-                    <suggestion>jedny <match no="2" postag="S.(i|f|n)(p|o)." postag_regexp="yes"></match></suggestion>.</message>
-
-                <short>Gramatická chyba. Spisovný tvar je jedny.</short>
-
-                <example correction="jedny nohavice">Kúpil si
-                    <marker>jedni nohavice</marker>.</example>
-
-                <example>Kúpil si jedny nohavice.</example>
-            </rule>
-        </rulegroup>
-
-        <!--============================= -->
-
-        <rulegroup id="CHAPAT_TOMU" name="Nesprávna väzba „chápať tomu“">
-            <rule>
-                <pattern>
-                    <token regexp="yes">chápať|chápem|chápeš|chápe|chápeme|chápete|chápu|
-                        nechápať|nechápem|nechápeš|nechápe|nechápeme|nechápete|nechápu|
-                        chápal|chápala|chápalo|chápali|
-                        nechápal|nechápala|nechápalo|nechápali|
-                        nepochopiť|nepochopím|nepochopíš|nepochopí|nepochopíme|nepochopíte|nepochopia|
-                        pochopiť|pochopím|pochopíš|pochopí|pochopíme|pochopíte|pochopia|
-                        pochopil|pochopila|pochopilo|pochopili</token>
-
-                    <token>tomu</token>
-                </pattern>
-
-                <message>Chápať sa viaže s „to“: <suggestion><match no="1"></match>
-                    to</suggestion>.</message>
-
-                <short>„Chápať“ sa viaže s „to“.</short>
-
-                <example correction=""><marker>Chápem
-                    tomu</marker>, keď…</example>
-
-                <example>Chápem to, keď…</example>
-            </rule>
-
-            <rule>
-                <pattern>
-                    <token>tomu</token>
-
-                    <token regexp="yes">chápať|chápem|chápeš|chápe|chápeme|chápete|chápu|
-                        nechápať|nechápem|nechápeš|nechápe|nechápeme|nechápete|nechápu|
-                        chápal|chápala|chápalo|chápali|
-                        nechápal|nechápala|nechápalo|nechápali|
-                        nepochopiť|nepochopím|nepochopíš|nepochopí|nepochopíme|nepochopíte|nepochopia|
-                        pochopiť|pochopím|pochopíš|pochopí|pochopíme|pochopíte|pochopia|
-                        pochopil|pochopila|pochopilo|pochopili</token>
-                </pattern>
-
-                <message>„Chápať“ sa viaže s „to“: <suggestion>to <match no="2"></match></suggestion>.</message>
-
-                <example correction="to pochopiť">Dokážem
-                    <marker>tomu pochopiť</marker>, keď…</example>
-
-                <example>Dokážem to pochopiť, keď…</example>
-            </rule>
-
-            <rule>
-                <pattern>
-                    <token regexp="yes">chápal|chápala|chápalo|chápali|
-                        nechápal|nechápala|nechápalo|nechápali|
-                        pochopil|pochopila|pochopilo|pochopili|
-                        nepochopil|nepochopila|nepochopilo|nepochopili</token>
-
-                    <token regexp="yes">som|si|sme|ste</token>
-
-                    <token>tomu</token>
-                </pattern>
-
-                <message>„Chápať“ sa viaže s „to“: <suggestion><match no="1"></match>
-                    <match no="2"></match> to</suggestion>.</message>
-
-                <example correction=""><marker>Chápal
-                    som tomu</marker>, keď…</example>
-
-                <example>Chápal som to, keď…</example>
-            </rule>
-        </rulegroup>
-
-        <!--============================= -->
-
-        <rulegroup id="ROZUMIET_TO" name="Nesprávna väzba „rozumieť to“">
-            <rule>
-                <pattern>
-                    <token regexp="yes">rozumieť|rozumiem|rozumieš|rozumie|rozumieme|rozumiete|rozumejú|
-                        nerozumieť|nerozumiem|nerozumieš|nerozumie|nerozumieme|nerozumiete|nerozumejú|
-                        rozumel|rozumela|rozumelo|rozumeli|
-                        nerozumel|nerozumela|nerozumelo|nerozumeli|
-                        porozumieť|porozumiem|porozumieš|porozumie|porozumejú|
-                        porozumieme|porozumiete|
-                        neporozumieť|neporozumiem|neporozumieš|neporozumie|
-                        neporozumieme|neporozumiete|neporozumejú|
-                        porozumel|porozumela|porozumelo|porozumeli</token>
-
-                    <token>to</token>
-                </pattern>
-
-                <message>Rozumieť sa viaže s „tomu“: <suggestion><match no="1"></match> tomu</suggestion>.</message>
-
-                <short>„Rozumieť“ sa viaže s „tomu“.</short>
-
-                <example correction="Porozumiem tomu"><marker>Porozumiem to</marker>, keď…</example>
-
-                <example>Porozumiem tomu, keď…</example>
-            </rule>
-
-            <rule>
-                <pattern>
-                    <token>to</token>
-
-                    <token regexp="yes">rozumieť|rozumiem|rozumieš|rozumie|rozumieme|rozumiete|rozumejú|
-                        nerozumieť|nerozumiem|nerozumieš|nerozumie|nerozumieme|nerozumiete|nerozumejú|
-                        rozumel|rozumela|rozumelo|rozumeli|
-                        nerozumel|nerozumela|nerozumelo|nerozumeli|
-                        porozumieť|porozumiem|porozumieš|porozumie|porozumejú|
-                        porozumieme|porozumiete|
-                        neporozumieť|neporozumiem|neporozumieš|neporozumie|
-                        neporozumieme|neporozumiete|neporozumejú|
-                        porozumel|porozumela|porozumelo|porozumeli</token>
-                </pattern>
-
-                <message>„Rozumieť“ sa viaže s „tomu“: <suggestion>tomu <match no="2"></match></suggestion>.</message>
-
-                <example correction="tomu porozumieť">Dokázal by som
-                    <marker>to porozumieť</marker>, ak…</example>
-
-                <example>Dokázal by som tomu porozumieť, ak…</example>
-            </rule>
-
-            <rule>
-                <pattern>
-                    <token regexp="yes">rozumel|rozumela|rozumelo|rozumeli|
-                        nerozumel|nerozumela|nerozumelo|nerozumeli|
-                        porozumel|porozumela|porozumelo|porozumeli|
-                        neporozumel|neporozumela|neporozumelo|neporozumeli</token>
-
-                    <token regexp="yes">som|si|sme|ste</token>
-
-                    <token>to</token>
-                </pattern>
-
-                <message>„Rozumieť“ sa viaže s „tomu“: <suggestion><match no="1"></match> <match no="2"></match> tomu</suggestion>.</message>
-
-                <example correction="Rozumel som tomu"><marker>Rozumel som to</marker>, keď…</example>
-
-                <example>Rozumel som tomu, keď…</example>
-            </rule>
-        </rulegroup>
-    </category>
-
-    <!--  ======================================== -->
-
-    <!--  ======================================== -->
-
-    <category name="Číslovky">
-        <!--  ======================================== -->
-
-        <rulegroup id="DVE_DECI" name="Dve deci">
-            <rule>
-                <pattern>
-                    <token>dva</token>
-
-                    <token postag="S.np." postag_regexp="yes"><exception>krát</exception></token>
-                </pattern>
-
-                <message>Čislovka dva má s pod. menami stredného rodu tvar
-                    <suggestion>dve <match no="2" postag="S.np." postag_regexp="yes"></match></suggestion>.</message>
-
-                <short>Chybná číslovka. Spisovný tvar je dve.</short>
-
-                <example correction="dve mestá">Navštívili
-                    <marker>dva mestá</marker>.</example>
-
-                <example>Navštívili dve mestá.</example>
-            </rule>
-        </rulegroup>
-
-        <!--  ======================================== -->
-
-        <rulegroup id="CISLOVKA_KRAT" name="Číslovka + krát">
-            <rule>
-                <pattern>
-                    <token postag="N.*" postag_regexp="yes"></token>
-
-                    <token spacebefore="yes">krát</token>
-                </pattern>
-
-                <message>Číslovky a slovo krát sa píšu spolu: <suggestion><match no="1"></match>krát</suggestion>.</message>
-
-                <short>Chybná číslovka. Použite xxxkrát.</short>
-
-                <example correction="sedemkrát">Ten film som už videl
-                    <marker>sedem krát</marker>.</example>
-
-                <example>Ten film som už videl sedemkrát.</example>
-            </rule>
-        </rulegroup>
-    </category>
-
-    <!--  ======================================== -->
-
-    <!--  ======================================== -->
-
-    <category name="Nespisovné">
-        <!--  ======================================== -->
-
-        <rulegroup id="ODSTAVEC" name="Odstavec -&gt; odsek">
-            <rule>
-                <pattern>
-                    <token regexp="yes">odstavec|odstavca|odstavcu|odstavci|odstavcom|odstavce|odstavcoch|odstavcami</token>
-                </pattern>
-
-                <message>Namiesto slova odstavec použite slovo
-                    <suggestion>odsek</suggestion>.</message>
-
-                <short>Nespisovné slovo.</short>
-
-                <example correction="odsek">Tabulátorom odsaďte
-                    <marker>odstavec</marker>.</example>
-
-                <example>Tabulátorom odsaďte odsek.</example>
-            </rule>
-        </rulegroup>
-    </category>
 </rules>

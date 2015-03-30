@@ -23,7 +23,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.languagetool.JLanguageTool; //MSMS
 import org.languagetool.Language;
+import org.languagetool.databroker.ResourceDataBroker; //MSMS
 import org.languagetool.rules.*;
 import org.languagetool.rules.sk.CompoundRule;
 import org.languagetool.rules.sk.MorfologikSlovakSpellerRule;
@@ -35,6 +37,12 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class Slovak extends Language {
+
+//MSMS
+  private static final List<String> RULE_FILES = Arrays.asList(
+      "grammar-typography.xml"
+      );
+
 
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
@@ -108,6 +116,20 @@ public class Slovak extends Language {
             new MorfologikSlovakSpellerRule(messages, this)
             //new SlovakVesRule(messages)
     );
+  }
+
+//MSMS
+  @Override
+  public List<String> getRuleFileNames() {
+    List<String> ruleFileNames = super.getRuleFileNames();
+    ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+    String dirBase = dataBroker.getRulesDir() + "/" + getShortName() + "/";
+
+    for(String ruleFile: RULE_FILES) {
+      ruleFileNames.add(dirBase + ruleFile);
+    }
+
+    return ruleFileNames;
   }
 
 }
