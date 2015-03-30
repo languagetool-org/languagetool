@@ -55,21 +55,18 @@ import java.util.regex.Pattern;
  */
 public abstract class Language {
 
-  private final List<String> externalRuleFiles = new ArrayList<>();
-
-  private boolean isExternalLanguage = false;
-  private Pattern ignoredCharactersRegex = Pattern.compile("[\u00AD]");  // soft hyphen
-  private List<PatternRule> patternRules;
-
   private static final Disambiguator DEMO_DISAMBIGUATOR = new DemoDisambiguator();
   private static final Tagger DEMO_TAGGER = new DemoTagger();
   private static final SentenceTokenizer SENTENCE_TOKENIZER = new SimpleSentenceTokenizer();
   private static final WordTokenizer WORD_TOKENIZER = new WordTokenizer();
-  
-  private final UnifierConfiguration unifierConfiguration = new UnifierConfiguration();
-  private final UnifierConfiguration disambiguationUnifierConfiguration = new UnifierConfiguration();
 
-  // -------------------------------------------------------------------------
+  private final List<String> externalRuleFiles = new ArrayList<>();
+  private final UnifierConfiguration unifierConfig = new UnifierConfiguration();
+  private final UnifierConfiguration disambiguationUnifierConfig = new UnifierConfiguration();
+
+  private boolean isExternalLanguage = false;
+  private Pattern ignoredCharactersRegex = Pattern.compile("[\u00AD]");  // soft hyphen
+  private List<PatternRule> patternRules;
 
   /**
    * Get this language's two character code, e.g. <code>en</code> for English.
@@ -293,7 +290,7 @@ public abstract class Language {
    * @return Feature unifier for analyzed tokens.
    */
   public Unifier getUnifier() {
-    return unifierConfiguration.createUnifier();
+    return unifierConfig.createUnifier();
   }
   
   /**
@@ -302,21 +299,21 @@ public abstract class Language {
    * @return Feature unifier for analyzed tokens.
    */
   public Unifier getDisambiguationUnifier() {
-    return disambiguationUnifierConfiguration.createUnifier();
+    return disambiguationUnifierConfig.createUnifier();
   }
 
   /**
    * @since 2.3
    */
   public UnifierConfiguration getUnifierConfiguration() {
-    return unifierConfiguration;
+    return unifierConfig;
   }
 
   /**
    * @since 2.3
    */
   public UnifierConfiguration getDisambiguationUnifierConfiguration() {
-    return disambiguationUnifierConfiguration;
+    return disambiguationUnifierConfig;
   }
   
   /**
