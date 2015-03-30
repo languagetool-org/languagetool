@@ -63,11 +63,11 @@ public class LanguagesTest {
     try {
       Languages.getLanguageForShortName("xy");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException ignored) {}
     try {
       Languages.getLanguageForShortName("YY-KK");
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException ignored) {}
   }
 
   @Test
@@ -132,7 +132,7 @@ public class LanguagesTest {
     assertFalse(Languages.getLanguageForShortName("ast").hasVariant());
     assertFalse(Languages.getLanguageForShortName("pl").hasVariant());
 
-    for (Language language : Language.LANGUAGES) {
+    for (Language language : Languages.getWithDemoLanguage()) {
       if (language.hasVariant()) {
         assertNotNull("Language " + language + " needs a default variant", language.getDefaultLanguageVariant());
       }

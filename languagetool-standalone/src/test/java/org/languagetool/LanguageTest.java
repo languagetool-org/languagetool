@@ -18,28 +18,12 @@
  */
 package org.languagetool;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.Locale;
-
 import org.junit.Test;
-import org.languagetool.language.AmericanEnglish;
-import org.languagetool.language.BritishEnglish;
-import org.languagetool.language.English;
-import org.languagetool.language.German;
-import org.languagetool.language.GermanyGerman;
-import org.languagetool.language.SwissGerman;
+import org.languagetool.language.*;
+
+import static org.junit.Assert.*;
 
 public class LanguageTest {
-
-  @Test
-  public void testGetAllLanguages() {
-    assertTrue(Language.getAllLanguages().size() > 35);  // includes variants like en-GB
-  }
 
   @Test
   public void testRuleFileName() {
@@ -64,105 +48,6 @@ public class LanguageTest {
   public void testGetShortNameWithVariant() {
     assertEquals("en-US", new AmericanEnglish().getShortNameWithCountryAndVariant());
     assertEquals("de", new German().getShortNameWithCountryAndVariant());
-  }
-
-  @Test
-  public void testGetLanguageForShortName() {
-    assertEquals("en-US", Language.getLanguageForShortName("en-us").getShortNameWithCountryAndVariant());
-    assertEquals("en-US", Language.getLanguageForShortName("EN-US").getShortNameWithCountryAndVariant());
-    assertEquals("en-US", Language.getLanguageForShortName("en-US").getShortNameWithCountryAndVariant());
-    assertEquals("de", Language.getLanguageForShortName("de").getShortNameWithCountryAndVariant());
-    try {
-      Language.getLanguageForShortName("xy");
-      fail();
-    } catch (IllegalArgumentException expected) {}
-    try {
-      Language.getLanguageForShortName("YY-KK");
-      fail();
-    } catch (IllegalArgumentException expected) {}
-  }
-
-  @Test
-  public void testIsLanguageSupported() {
-    assertTrue(Language.isLanguageSupported("xx"));
-    assertTrue(Language.isLanguageSupported("XX"));
-    assertTrue(Language.isLanguageSupported("en-US"));
-    assertTrue(Language.isLanguageSupported("en-us"));
-    assertTrue(Language.isLanguageSupported("EN-US"));
-    assertTrue(Language.isLanguageSupported("de"));
-    assertTrue(Language.isLanguageSupported("de-DE"));
-    assertTrue(Language.isLanguageSupported("de-DE-x-simple-language"));
-    assertTrue(Language.isLanguageSupported("de-DE-x-simple-LANGUAGE"));
-    assertFalse(Language.isLanguageSupported("yy-ZZ"));
-    assertFalse(Language.isLanguageSupported("somthing totally invalid"));
-  }
-
-  @Test(expected=IllegalArgumentException.class)
-  public void testIsLanguageSupportedInvalidCode() {
-    Language.isLanguageSupported("somthing-totally-inv-alid");
-  }
-
-  @Test(expected=IllegalArgumentException.class)
-  public void testInvalidShortName1() {
-    Language.getLanguageForShortName("de-");
-  }
-
-  @Test(expected=IllegalArgumentException.class)
-  public void testInvalidShortName2() {
-    Language.getLanguageForShortName("dexx");
-  }
-
-  @Test(expected=IllegalArgumentException.class)
-  public void testInvalidShortName3() {
-    Language.getLanguageForShortName("xyz-xx");
-  }
-
-  @Test
-  public void testGetLanguageForName() {
-    assertEquals("en-US", Language.getLanguageForName("English (US)").getShortNameWithCountryAndVariant());
-    assertEquals("de", Language.getLanguageForName("German").getShortNameWithCountryAndVariant());
-    assertEquals(null, Language.getLanguageForName("Foobar"));
-  }
-
-  @Test
-  public void testIsVariant() {
-    assertTrue(Language.getLanguageForShortName("en-US").isVariant());
-    assertTrue(Language.getLanguageForShortName("de-CH").isVariant());
-
-    assertFalse(Language.getLanguageForShortName("en").isVariant());
-    assertFalse(Language.getLanguageForShortName("de").isVariant());
-  }
-
-  @Test
-  public void testHasVariant() {
-    assertTrue(Language.getLanguageForShortName("en").hasVariant());
-    assertTrue(Language.getLanguageForShortName("de").hasVariant());
-
-    assertFalse(Language.getLanguageForShortName("en-US").hasVariant());
-    assertFalse(Language.getLanguageForShortName("de-CH").hasVariant());
-    assertFalse(Language.getLanguageForShortName("ast").hasVariant());
-    assertFalse(Language.getLanguageForShortName("pl").hasVariant());
-
-    for (Language language : Language.LANGUAGES) {
-      if (language.hasVariant()) {
-        assertNotNull("Language " + language + " needs a default variant", language.getDefaultLanguageVariant());
-      }
-    }
-  }
-
-  @Test
-  public void testGetLanguageForLocale() {
-    assertEquals("de-DE", Language.getLanguageForLocale(new Locale("de", "DE")).getShortNameWithCountryAndVariant());
-    assertEquals("de-AT", Language.getLanguageForLocale(new Locale("de", "AT")).getShortNameWithCountryAndVariant());
-    assertEquals("en-US", Language.getLanguageForLocale(new Locale("en", "US")).getShortNameWithCountryAndVariant());
-    assertEquals("en-GB", Language.getLanguageForLocale(new Locale("en", "GB")).getShortNameWithCountryAndVariant());
-    // fallback to the language's default variant if not specified:
-    assertEquals("en-US", Language.getLanguageForLocale(new Locale("en")).getShortNameWithCountryAndVariant());
-    assertEquals("de-DE", Language.getLanguageForLocale(new Locale("de")).getShortNameWithCountryAndVariant());
-    assertEquals("pl-PL", Language.getLanguageForLocale(new Locale("pl")).getShortNameWithCountryAndVariant());
-    // final fallback is everything else fails:
-    assertEquals("en-US", Language.getLanguageForLocale(Locale.KOREAN).getShortNameWithCountryAndVariant());
-    assertEquals("en-US", Language.getLanguageForLocale(new Locale("zz")).getShortNameWithCountryAndVariant());
   }
 
   @Test
