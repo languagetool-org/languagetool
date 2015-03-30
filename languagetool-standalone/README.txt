@@ -5,7 +5,7 @@ Polish, Chinese, French, Russian, Italian, Dutch and more languages
 Copyright (C) 2005-2015 the LanguageTool community and
   Daniel Naber (www.danielnaber.de)
 
-Version 2.9, 2015-03-30
+Version x.y, 2015-xx-yy
 Homepage: http://www.languagetool.org
 
 Requirements:
