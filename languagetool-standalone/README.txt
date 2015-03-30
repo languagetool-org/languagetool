@@ -2,10 +2,10 @@ LanguageTool, a proof-reading tool for English, Spanish, German,
 Polish, Chinese, French, Russian, Italian, Dutch and more languages
 (see http://www.languagetool.org/languages/ for a list)
 
-Copyright (C) 2005-2014 the LanguageTool community and
+Copyright (C) 2005-2015 the LanguageTool community and
   Daniel Naber (www.danielnaber.de)
 
-Version 2.9-SNAPSHOT, 2015-xx-yy
+Version 2.9, 2015-03-30
 Homepage: http://www.languagetool.org
 
 Requirements:
@@ -18,12 +18,12 @@ Usage:
  -To integrate LanguageTool into OpenOffice.org or LibreOffice, you
   can use two methods:
  
- 1. Double-click LanguageTool-2.8.oxt. The extension should
+ 1. Double-click LanguageTool-2.9.oxt. The extension should
   start installing. Follow the on-screen instructions.
  
  2. If the above method doesn't work, call Tools > Extension 
   Manager > Add... in OpenOffice.org/LibreOffice and browse for the
-  LanguageTool-2.8.oxt file.
+  LanguageTool-2.9.oxt file.
   
   Close and restart OpenOffice.org/LibreOffice Writer. Remember to close
   the QuickStarter as well if you use it. Type text with
