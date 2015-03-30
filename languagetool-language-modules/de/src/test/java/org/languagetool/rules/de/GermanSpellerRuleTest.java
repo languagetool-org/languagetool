@@ -96,10 +96,14 @@ public class GermanSpellerRuleTest {
   public void testIgnoreWord() throws Exception {
     MyGermanSpellerRule ruleGermany = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertTrue(ruleGermany.doIgnoreWord("einPseudoWortFürLanguageToolTests"));  // from ignore.txt
-    assertTrue(ruleGermany.doIgnoreWord("Ligafußball"));  // from spelling.txt
+    assertTrue(ruleGermany.doIgnoreWord("Ligafußball"));       // from spelling.txt
+    assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchen"));   // from spelling.txt
+    assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchens"));  // from spelling.txt with suffix
+    assertTrue(ruleGermany.doIgnoreWord("vorgehängt"));        // from spelling.txt
+    assertTrue(ruleGermany.doIgnoreWord("vorgehängten"));      // from spelling.txt with suffix
     MyGermanSpellerRule ruleSwiss = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
     assertTrue(ruleSwiss.doIgnoreWord("einPseudoWortFürLanguageToolTests"));
-    assertFalse(ruleSwiss.doIgnoreWord("Ligafußball"));  // 'ß' never accepted for Swiss
+    assertFalse(ruleSwiss.doIgnoreWord("Ligafußball"));        // 'ß' never accepted for Swiss
   }
 
   private static class MyGermanSpellerRule extends GermanSpellerRule {

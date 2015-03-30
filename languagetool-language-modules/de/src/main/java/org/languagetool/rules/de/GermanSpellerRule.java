@@ -87,11 +87,36 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   @Override
-  protected void addIgnoreWords(String line, Set<String> wordsToBeIgnored) {
+  protected void addIgnoreWords(String origLine, Set<String> wordsToBeIgnored) {
+    String line;
     if (language.getShortNameWithCountryAndVariant().equals("de-CH")) {
       // hack: Swiss German doesn't use "ß" but always "ss" - replace this, otherwise
       // misspellings (from Swiss point-of-view) like "äußere" wouldn't be found:
-      wordsToBeIgnored.add(line.replace("ß", "ss"));
+      line = origLine.replace("ß", "ss");
+    } else {
+      line = origLine;
+    }
+    if (line.contains("/")) {
+      String[] parts = line.split("/");
+      if (parts.length != 2) {
+        throw new RuntimeException("Unexpected line format, expected at most one slash: " + line);
+      }
+      String word = parts[0];
+      String suffix = parts[1];
+      wordsToBeIgnored.add(word);
+      if (suffix.equals("S")) {
+        wordsToBeIgnored.add(word + "s");
+      } else if (suffix.equals("N")) {
+        wordsToBeIgnored.add(word + "n");
+      } else if (suffix.equals("A")) {  // Adjektiv
+        wordsToBeIgnored.add(word + "e");
+        wordsToBeIgnored.add(word + "er");
+        wordsToBeIgnored.add(word + "es");
+        wordsToBeIgnored.add(word + "en");
+        wordsToBeIgnored.add(word + "em");
+      } else {
+        throw new RuntimeException("Unknown suffix: " + suffix + " in line: " + line);
+      }
     } else {
       wordsToBeIgnored.add(line);
     }
