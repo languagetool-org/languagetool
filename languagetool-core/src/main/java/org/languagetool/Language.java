@@ -69,7 +69,7 @@ public abstract class Language {
   private List<PatternRule> patternRules;
 
   /**
-   * Get this language's two character code, e.g. <code>en</code> for English.
+   * Get this language's character code, e.g. <code>en</code> for English.
    * The country parameter (e.g. "US"), if any, is not returned.
    * @return language code
    */

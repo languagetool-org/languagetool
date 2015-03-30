@@ -224,8 +224,7 @@ public final class Languages {
             break;
           }
         }
-      }
-      else {
+      } else {
         throw new IllegalArgumentException("'" + langCode + "' isn't a valid language code");
       }
     } else {
