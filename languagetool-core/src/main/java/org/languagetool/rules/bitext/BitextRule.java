@@ -77,26 +77,12 @@ public abstract class BitextRule extends Rule {
   }
 
   /**
-   * @deprecated use {@link #setSourceLanguage(Language)} instead (deprecated since 2.9)
-   */
-  public final void setSourceLang(final Language lang) {
-    sourceLanguage = lang;
-  }
-
-  /**
    * Set the source language. If the language is not supported
    * by LT, you need to use the default tokenizers etc.
    * @param lang Source Language
    */
   public final void setSourceLanguage(final Language lang) {
     sourceLanguage = lang;
-  }
-
-  /**
-   * @deprecated use {@link #getSourceLanguage()} instead (deprecated since 2.9)
-   */
-  public final Language getSourceLang() {
-    return sourceLanguage;
   }
 
   public final Language getSourceLanguage() {

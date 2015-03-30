@@ -17,7 +17,7 @@
  * USA
  */
 
-package org.languagetool.tools;
+package org.languagetool.rules;
 
 import junit.framework.TestCase;
 
@@ -35,9 +35,9 @@ public class UnsyncStackTest extends TestCase {
     assertTrue(stack.empty());
     try {
       stack.pop();
-    } catch (EmptyStackException expected) {}
+    } catch (EmptyStackException ignored) {}
     try {
       stack.peek();
-    } catch (EmptyStackException expected) {}
+    } catch (EmptyStackException ignored) {}
   }
 }

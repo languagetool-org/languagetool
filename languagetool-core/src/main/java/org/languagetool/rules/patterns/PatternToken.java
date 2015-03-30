@@ -292,22 +292,6 @@ public class PatternToken implements Cloneable {
     this.posToken = posToken;
   }
 
-  /**
-   * @deprecated use {@link #setPosToken(PosToken)} instead (deprecated since 2.9)
-   */
-  public final void setPosElement(final String posToken, final boolean regExp,
-      final boolean negation) {
-    this.posToken = new PosToken(posToken, regExp, negation);
-  }
-
-  /**
-   * @deprecated use {@link #setChunkTag(ChunkTag)} instead (deprecated since 2.9)
-   * @since 2.3
-   */
-  public final void setChunkElement(final ChunkTag chunkTag) {
-    this.chunkTag = chunkTag;
-  }
-
   /** @since 2.9 */
   public final void setChunkTag(final ChunkTag chunkTag) {
     this.chunkTag = chunkTag;
@@ -359,26 +343,6 @@ public class PatternToken implements Cloneable {
     exception.setPosToken(new PosToken(posToken, posRegExp, posNegation));
     exception.exceptionValidNext = scopeNext;
     setException(exception, scopePrevious);
-  }
-
-  /**
-   * @deprecated use {@link #setStringPosException(String, boolean, boolean, boolean, boolean, boolean, String, boolean, boolean, Boolean)} instead (deprecated since 2.9)
-   */
-  public final void setStringPosException(
-      final String token, final boolean regExp, final boolean inflected,
-      final boolean negation, final boolean scopeNext, final boolean scopePrevious,
-      final String posToken, final boolean posRegExp, final boolean posNegation) {
-    setStringPosException(token, regExp, inflected, negation, scopeNext, scopePrevious, posToken, posRegExp, posNegation, Boolean.valueOf(caseSensitive));
-  }
-
-  /**
-   * @deprecated use {@link #setStringPosException(String, boolean, boolean, boolean, boolean, boolean, String, boolean, boolean, Boolean)} instead (deprecated since 2.9)
-   */
-  public final void setStringPosException(
-      final String token, final boolean regExp, final boolean inflected,
-      final boolean negation, final boolean scopeNext, final boolean scopePrevious,
-      final String posToken, final boolean posRegExp, final boolean posNegation, final boolean caseSensitivity) {
-    setStringPosException(token, regExp, inflected, negation, scopeNext, scopePrevious, posToken, posRegExp, posNegation, Boolean.valueOf(caseSensitivity));
   }
 
   private void setException(final PatternToken pToken, final boolean scopePrevious) {

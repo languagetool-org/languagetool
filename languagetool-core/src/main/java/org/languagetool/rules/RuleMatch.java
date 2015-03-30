@@ -45,7 +45,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   private LinePosition linePosition = new LinePosition(-1, -1);
   private ColumnPosition columnPosition = new ColumnPosition(-1, -1);
-  private int offset = -1;
   private List<String> suggestedReplacements = new ArrayList<>();
 
   /**
@@ -160,22 +159,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
    */
   public int getEndColumn() {
     return columnPosition.getEnd();
-  }
-
-  /**
-   * Set the character offset at which the match occurs (zero-based).
-   * @deprecated use {@link #getFromPos()} instead (deprecated since 2.9)
-   */
-  public void setOffset(final int offset) {
-    this.offset = offset;
-  }
-
-  /**
-   * Get the character offset at which the match occurs (zero-based).
-   * @deprecated use {@link #getFromPos()} instead (deprecated since 2.9)
-   */
-  public int getOffset() {
-    return offset;
   }
 
   /**

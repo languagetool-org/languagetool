@@ -19,7 +19,6 @@
 package org.languagetool.rules;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,14 +35,6 @@ public final class IncorrectExample {
 
   public IncorrectExample(final String example) {
     this(example, Collections.<String>emptyList());
-  }
-
-  /**
-   * @deprecated deprecated since 2.9
-   */
-  public IncorrectExample(final String example, final String[] corrections) {
-    this.example = example;
-    this.corrections = Arrays.asList(corrections);
   }
 
   /**

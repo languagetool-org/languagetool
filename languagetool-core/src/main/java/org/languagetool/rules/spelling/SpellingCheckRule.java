@@ -102,19 +102,6 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   /**
-   * Reset the list of words to be ignored, by re-loading it from the "ignore.txt" file.
-   * @deprecated deprecated since 2.9
-   */
-  public void resetIgnoreTokens() {
-    wordsToBeIgnored.clear();
-    try {
-      init();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  /**
    * Get additional suggestions added before other suggestions (note the rule may choose to
    * re-order the suggestions anyway).
    */

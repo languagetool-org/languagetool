@@ -26,8 +26,6 @@ import java.util.regex.Pattern;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Language;
-import org.languagetool.tools.UnsyncStack;
 
 /**
  * Rule that finds unpaired quotes, brackets etc.

@@ -17,7 +17,7 @@
  * USA
  */
 
-package org.languagetool.tools;
+package org.languagetool.rules;
 
 import java.util.ArrayList;
 import java.util.EmptyStackException;
@@ -27,14 +27,13 @@ import java.util.EmptyStackException;
  * this one is based on ArrayList). Usage is the same as the java.util.Stack.
  * 
  * @author Marcin Miłkowski.
- * @deprecated will be made non-public in the future (deprecated since 2.9)
  */
 public class UnsyncStack<E> extends ArrayList<E> {
   
   /** Generated automatically. */
   private static final long serialVersionUID = -4984830372178073605L;
 
-  public UnsyncStack() {
+  UnsyncStack() {
   }
 
   /**

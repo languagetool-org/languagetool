@@ -632,7 +632,6 @@ public class JLanguageTool {
     thisMatch.setEndLine(lineCount + lineBreaksToEndOfError);
     thisMatch.setColumn(column);
     thisMatch.setEndColumn(endColumn);
-    thisMatch.setOffset(match.getFromPos() + charCount);
     return thisMatch;
   }
 
