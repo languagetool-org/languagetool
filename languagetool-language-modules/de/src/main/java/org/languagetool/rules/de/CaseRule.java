@@ -178,14 +178,12 @@ public class CaseRule extends GermanRule {
     "Jugendlicher",
     "Jünger",
     "Klaue",
-    "Kleine",    // der Kleine Bär
     "Konditional",
     "Krähe",
     "Kurzem",
     "Landwirtschaft",
     "Langem",
     "Längerem",
-    "Las",   // Las Vegas, nicht "lesen"
     "Le",    // "Le Monde" etc
     "Letzt",
     "Letzt",      // "zu guter Letzt"
