@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.en;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Category;
@@ -79,7 +80,7 @@ public class AvsAnRule extends EnglishRule {
       if (parts.length >= 1 && !parts[0].equalsIgnoreCase("a")) {  // avoid false alarm on "A-levels are..."
         token = parts[0];
       }
-      if (tokens[i].isWhitespaceBefore() || !"-".equals(token)) { //e.g., 'a- or anti- are prefixes'
+      if (tokens[i].isWhitespaceBefore() || !"-".equals(token)) { // e.g., 'a- or anti- are prefixes'
         token = token.replaceAll("[^αa-zA-Z0-9\\.;,:']", "");         // e.g. >>an "industry party"<<
         if (StringTools.isEmpty(token)) {
           continue;
@@ -114,25 +115,9 @@ public class AvsAnRule extends EnglishRule {
           doesRequireA = true;
         }
       }
-      String msg = null;
-      if (prevToken.equalsIgnoreCase("a") && doesRequireAn) {
-        String replacement = "an";
-        if (prevToken.equals("A")) {
-          replacement = "An";
-        }
-        msg = "Use <suggestion>" + replacement + "</suggestion> instead of '" + prevToken + "' if the following "+
-            "word starts with a vowel sound, e.g. 'an article', 'an hour'";
-      } else if (prevToken.equalsIgnoreCase("an") && doesRequireA) {
-        String replacement = "a";
-        if (prevToken.equals("An")) {
-          replacement = "A";
-        }
-        msg = "Use <suggestion>" + replacement + "</suggestion> instead of '" + prevToken + "' if the following "+
-            "word doesn't start with a vowel sound, e.g. 'a sentence', 'a university'";
-      }
-      if (msg != null) {
-        final RuleMatch ruleMatch = new RuleMatch(this, prevPos, prevPos + prevToken.length(), msg, "Wrong article");
-        ruleMatches.add(ruleMatch);
+      RuleMatch match = getRuleMatch(prevToken, prevPos, doesRequireA, doesRequireAn);
+      if (match != null) {
+        ruleMatches.add(match);
       }
       if (tokens[i].hasPosTag("DT")) {
         prevToken = token;
@@ -142,6 +127,30 @@ public class AvsAnRule extends EnglishRule {
       }
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  @Nullable
+  private RuleMatch getRuleMatch(String prevToken, int prevPos, boolean doesRequireA, boolean doesRequireAn) {
+    String msg = null;
+    if (prevToken.equalsIgnoreCase("a") && doesRequireAn) {
+      String replacement = "an";
+      if (prevToken.equals("A")) {
+        replacement = "An";
+      }
+      msg = "Use <suggestion>" + replacement + "</suggestion> instead of '" + prevToken + "' if the following "+
+            "word starts with a vowel sound, e.g. 'an article', 'an hour'";
+    } else if (prevToken.equalsIgnoreCase("an") && doesRequireA) {
+      String replacement = "a";
+      if (prevToken.equals("An")) {
+        replacement = "A";
+      }
+      msg = "Use <suggestion>" + replacement + "</suggestion> instead of '" + prevToken + "' if the following "+
+            "word doesn't start with a vowel sound, e.g. 'a sentence', 'a university'";
+    }
+    if (msg != null) {
+      return new RuleMatch(this, prevPos, prevPos + prevToken.length(), msg, "Wrong article");
+    }
+    return null;
   }
 
   /**
