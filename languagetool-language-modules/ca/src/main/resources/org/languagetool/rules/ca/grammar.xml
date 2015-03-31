@@ -22078,11 +22078,11 @@ $Id$
                 <message>Expressió incorrecta.</message>
                 <suggestion>només faltaria</suggestion>
                 <suggestion>només caldria</suggestion>
-                <short>Expressió incorrecta</short>
-                <example correction="Només faltaria|Només caldria"><marker>Faltaria més</marker>!</example>
+                <suggestion>no caldria sinó</suggestion>
+                <example correction="Només faltaria|Només caldria|No caldria sinó"><marker>Faltaria més</marker>!</example>
                 <example>Només caldria</example>
             </rule>
-            <rule>
+            <!-- <rule>
                 <pattern>
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                     <marker>
@@ -22095,10 +22095,11 @@ $Id$
                 <message>Expressió incorrecta.</message>
                 <suggestion>només faltaria</suggestion>
                 <suggestion>només caldria</suggestion>
+                 <suggestion>no caldria sinó</suggestion>
                 <short>Expressió incorrecta</short>
-                <example correction="Només faltaria|Només caldria"><marker>No faltaria més</marker>!</example>
+                <example correction="Només faltaria|Només caldria|No caldria sinó"><marker>No faltaria més</marker>!</example>
                 <example>Només caldria</example>
-            </rule>
+            </rule> -->
         </rulegroup>
         <rule id="COLZE_AMB_COLZE" name="colze amb colze">
 		    <pattern>
@@ -27761,16 +27762,17 @@ $Id$
         </rule>
         <rule id="CLOACA" name="cloaca/claveguera">
             <pattern>
-                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">intestí|excretar|digestiu|urinari|excretor|reproductor|orifici|rèptil|ocell|amfibi|musell|obertura|ou|aparellar</exception></token>
+                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">intestí|excretar|digestiu|urinari|excretor|reproductor|orifici|rèptil|ocell|amfibi|musell|obertura|ou|aparellar|cua|mascle|femella|protuberància|còpula</exception></token>
                 <marker>
-                    <token skip="-1" inflected="yes">cloaca<exception scope="next" regexp="yes" inflected="yes">maxima|màxima|intestí|excretar|digestiu|urinari|excretor|reproductor|orifici|rèptil|ocell|amfibi|musell|obertura|ou|aparellar</exception></token>
+                    <token skip="-1" inflected="yes">cloaca<exception scope="next" regexp="yes" inflected="yes">maxima|màxima|intestí|excretar|digestiu|urinari|excretor|reproductor|orifici|rèptil|ocell|amfibi|musell|obertura|ou|aparellar|cua|mascle|femella|protuberància|còpula</exception></token>
                 </marker>
                 <token postag="SENT_END"/>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="2" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">claveguera</match></suggestion>? Correcte com a terme de zoologia.</message>
+            <message>¿Volíeu dir <suggestion><match no="2" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">claveguera</match></suggestion>? Cloaca existeix com a terme de zoologia.</message>
             <short>Possible confusió</short>
             <example correction="clavegueres">Les <marker>cloaques</marker> de la ciutat.</example>
             <example>En la cloaca desemboquen l'aparell digestiu, l'excretor i el reproductor.</example>
+            <example>Es diferencia del mascle per la cloaca.</example>
         </rule>
         <rule id="RETRAS_RETARD" name="*retràs/retard">
             <pattern>
@@ -33756,6 +33758,31 @@ $Id$
     </category>
     <category name="C6) Evita paraules incloses només en alguns diccionaris" default="on" type="style">
         <!--  verbs valencians: caquejar -->
+        <rule id="APRECI" name="apreci">
+            <pattern>
+                <marker>
+                    <token inflected="yes">apreci</token>
+                </marker>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1000">afecte</match></suggestion> 
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1000">estimació</match></suggestion>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1000">estima</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/apreci</url>
+            <example correction="afecte|estimació|estima">El seu <marker>apreci</marker>.</example>
+        </rule>
+        <rule id="TRATGE" name="tratge, trajo">
+            <pattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">tratge|trajo</token>
+                </marker>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1000">vestit</match></suggestion>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1000">vestit</match> d'home</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/2349</url>
+            <example correction="vestits|vestits d'home">Els <marker>tratges</marker>.</example>
+        </rule>
         <rule id="FAROL" name="farol/catxa/fanfarronada">
             <pattern>
                 <marker>
