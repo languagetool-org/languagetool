@@ -32,6 +32,8 @@ import org.languagetool.tagging.de.GermanToken.POSType;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -540,6 +542,15 @@ public class CaseRule extends GermanRule {
   @Override
   public String getId() {
     return "DE_CASE";
+  }
+
+  @Override
+  public URL getUrl() {
+    try {
+      return new URL("http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/index.html");
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
