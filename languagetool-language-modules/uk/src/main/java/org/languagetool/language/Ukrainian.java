@@ -23,6 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -30,7 +31,6 @@ import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.WordRepeatRule;
 import org.languagetool.rules.uk.HiddenCharacterRule;
 import org.languagetool.rules.uk.MixedAlphabetsRule;
 import org.languagetool.rules.uk.MorfologikUkrainianSpellerRule;
@@ -66,7 +66,11 @@ public class Ukrainian extends Language {
   private String name = "Ukrainian";
 
   public Ukrainian() {
-    setIgnoredCharactersRegex("[\u00AD\u0301]");
+  }
+
+  @Override
+  public Pattern getIgnoredCharactersRegex() {
+    return Pattern.compile("[\u00AD\u0301]");
   }
 
   @Override

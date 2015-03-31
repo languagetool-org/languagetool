@@ -451,6 +451,7 @@ public abstract class Language {
    * Sets the regular expression (usually set of chars) to ignore inside tokens.
    * By default only soft hyphen ({@code \u00AD}) is ignored.
    * @since 2.9
+   * @deprecated overwrite {@link #getIgnoredCharactersRegex()} instead (deprecated since 3.0)
    */
   public void setIgnoredCharactersRegex(String ignoredCharactersRegex) {
     this.ignoredCharactersRegex = Pattern.compile(ignoredCharactersRegex);
