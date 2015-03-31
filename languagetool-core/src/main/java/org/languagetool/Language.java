@@ -96,6 +96,20 @@ public abstract class Language {
   public abstract String[] getCountries();
 
   /**
+   * Get the name(s) of the maintainer(s) for this language or <code>null</code>.
+   */
+  @Nullable
+  public abstract Contributor[] getMaintainers();
+
+  /**
+   * Get the rules classes that should run for texts in this language.
+   * @since 1.4 (signature modified in 2.7)
+   */
+  public abstract List<Rule> getRelevantRules(ResourceBundle messages) throws IOException;
+
+  // -------------------------------------------------------------------------
+
+  /**
    * Get this language's variant, e.g. <code>valencia</code> (as in <code>ca-ES-valencia</code>)
    * or <code>null</code>.
    * Attention: not to be confused with "country" option
@@ -126,19 +140,6 @@ public abstract class Language {
   public List<String> getDefaultDisabledRulesForVariant() {
     return new ArrayList<>();
   }
-  /**
-   * Get the name(s) of the maintainer(s) for this language or <code>null</code>.
-   */
-  @Nullable
-  public abstract Contributor[] getMaintainers();
-
-  /**
-   * Get the rules classes that should run for texts in this language.
-   * @since 1.4 (signature modified in 2.7)
-   */
-  public abstract List<Rule> getRelevantRules(ResourceBundle messages) throws IOException;
-
-  // -------------------------------------------------------------------------
 
   /**
    * @param indexDir directory with a '3grams' sub directory which contains a Lucene index with 3gram occurrence counts
