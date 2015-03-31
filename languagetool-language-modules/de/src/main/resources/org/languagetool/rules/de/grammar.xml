@@ -22865,6 +22865,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         </rulegroup>
         <rulegroup id="LEID_TUN" name="Groß-/Kleinschreibung: 'tut mir Leid (leid)'">
+            <url>http://www.duden.de/rechtschreibung/leidtun</url>
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes">tun</token>
@@ -22874,7 +22875,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>&inwend;'jemandem leidtun' wird <suggestion><match case_conversion="alllower" no="3"/></suggestion> kleingeschrieben.</message>
-                <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-49575</url>
                 <short>&prgk;.</short>
                 <example correction="leid">Das tut mir <marker>Leid</marker>.</example>
             </rule>
@@ -22888,7 +22888,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>&inwend;'jemandem leidtun' wird <suggestion><match case_conversion="alllower" no="4"/></suggestion> kleingeschrieben.</message>
-                <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-49575</url>
                 <short>&prgk;.</short>
                 <example correction="leid">Das tut mir sehr <marker>Leid</marker>.</example>
                 <example correction="leid">Das tut mir wirklich <marker>Leid</marker>.</example>
@@ -22903,10 +22902,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>&inwend;'jemandem leidtun' wird <suggestion><match case_conversion="alllower" no="3"/><match case_conversion="alllower" no="4"/></suggestion> klein und zusammen geschrieben.</message>
-                <url>http://www.duden.de/rechtschreibung/leidtun</url>
                 <short>'leidtun' wird klein und zusammen geschrieben.</short>
                 <example correction="leidtun">Das wird mir noch <marker>Leid tun</marker>.</example>
                 <example>Ich fürchte, das wird mir noch <marker>leidtun</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token negate="yes" regexp="yes">das|dieses|jenes|ein</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">Leidtun</token>
+                    </marker>
+                </pattern>
+                <message>&inwend;'jemandem leidtun' wird <suggestion><match case_conversion="alllower" no="2"/></suggestion> kleingeschrieben.</message>
+                <short>'leidtun' wird kleingeschrieben.</short>
+                <example correction="leidtun">Das wird mir noch <marker>Leidtun</marker>.</example>
+                <example>Worin äußert sich dieses Leidtun?</example>
             </rule>
         </rulegroup>
         <rulegroup id="SOMMERS_WIE_WINTERS" name="Groß-/Kleinschreibung: 'sommers wie winters'" default="on">
