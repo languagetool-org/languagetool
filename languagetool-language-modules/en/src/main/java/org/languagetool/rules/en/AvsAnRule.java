@@ -18,17 +18,20 @@
  */
 package org.languagetool.rules.en;
 
-import java.io.InputStream;
-import java.util.*;
-
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import static org.languagetool.rules.en.AvsAnData.getWordsRequiringA;
+import static org.languagetool.rules.en.AvsAnData.getWordsRequiringAn;
 
 /**
  * Check if the determiner (if any) preceding a word is:
@@ -42,16 +45,8 @@ import org.languagetool.tools.StringTools;
  */
 public class AvsAnRule extends EnglishRule {
 
-  private static final String FILENAME_A = "/en/det_a.txt";
-  private static final String FILENAME_AN = "/en/det_an.txt";
-
-  private final Set<String> requiresA;
-  private final Set<String> requiresAn;
-
   public AvsAnRule(final ResourceBundle messages) {
     super.setCategory(new Category(messages.getString("category_misc")));
-    requiresA = loadWords(FILENAME_A);
-    requiresAn = loadWords(FILENAME_AN);
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("The train arrived <marker>a hour</marker> ago."),
                    Example.fixed("The train arrived <marker>an hour</marker> ago."));
@@ -91,11 +86,11 @@ public class AvsAnRule extends EnglishRule {
         }
       }
       final char tokenFirstChar = token.charAt(0);
-      if (requiresA.contains(token.toLowerCase()) || requiresA.contains(token)) {
+      if (getWordsRequiringA().contains(token.toLowerCase()) || getWordsRequiringA().contains(token)) {
         isException = true;
         doesRequireA = true;
       }
-      if (requiresAn.contains(token.toLowerCase()) || requiresAn.contains(token)) {
+      if (getWordsRequiringAn().contains(token.toLowerCase()) || getWordsRequiringAn().contains(token)) {
         if (isException) {
           // some words allow both 'a' and 'an', e.g. 'historical':
           isException = true;
@@ -169,11 +164,11 @@ public class AvsAnRule extends EnglishRule {
       return word;
     }
     final char tokenFirstChar = word.charAt(0);
-    if (requiresA.contains(word.toLowerCase()) || requiresA.contains(word)) {
+    if (getWordsRequiringA().contains(word.toLowerCase()) || getWordsRequiringA().contains(word)) {
       isException = true;
       doesRequireA = true;
     }
-    if (requiresAn.contains(word.toLowerCase()) || requiresAn.contains(word)) {
+    if (getWordsRequiringAn().contains(word.toLowerCase()) || getWordsRequiringAn().contains(word)) {
       if (isException) {
         throw new IllegalStateException(word + " is listed in both det_a.txt and det_an.txt");
       }
@@ -204,28 +199,6 @@ public class AvsAnRule extends EnglishRule {
   private static boolean isVowel(char c) {
     char lc = Character.toLowerCase(c);
     return lc == 'a' || lc == 'e' || lc == 'i' || lc == 'o' || lc == 'u';
-  }
-
-  /**
-   * Load words, normalized to lowercase unless starting with '*'.
-   */
-  private Set<String> loadWords(String path) {
-    InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
-    Set<String> set = new TreeSet<>();
-    try (Scanner scanner = new Scanner(stream, "utf-8")) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine().trim();
-        if (line.length() < 1 || line.charAt(0) == '#') {
-          continue;
-        }
-        if (line.charAt(0) == '*') {
-          set.add(line.substring(1));
-        } else {
-          set.add(line.toLowerCase());
-        }
-      }
-    }
-    return Collections.unmodifiableSet(set);
   }
 
   @Override
