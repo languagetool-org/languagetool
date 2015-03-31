@@ -28,7 +28,7 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.WordRepeatBeginningRule;
 
 /**
- * List of English adverbs for WordRepeatBeginningRule
+ * Adds a list English adverbs to {@link WordRepeatBeginningRule}.
  * 
  * @author Markus Brenneis
  */

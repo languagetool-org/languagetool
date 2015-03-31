@@ -84,21 +84,11 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     //lazy init
     if (speller1 == null) {
       String binaryDict = null;
-      String plainTextDict = null;
       if (JLanguageTool.getDataBroker().resourceExists(getFileName())) {
         binaryDict = getFileName();
       }
-      if (JLanguageTool.getDataBroker().resourceExists(getSpellingFileName())) {
-        plainTextDict = getSpellingFileName();
-      }
       if (binaryDict != null) {
-        if (plainTextDict != null) {
-          speller1 = new MorfologikMultiSpeller(binaryDict, plainTextDict, 1);
-          speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDict, 2);
-          setConvertsCase(speller1.convertsCase());
-        } else {
-          throw new RuntimeException("Could not find ignore spell file in path: " + getSpellingFileName());
-        }
+        initSpeller(binaryDict);
       } else {
         // should not happen, as we only configure this rule (or rather its subclasses)
         // when we have the resources:
@@ -108,16 +98,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     int idx = -1;
     for (AnalyzedTokenReadings token : tokens) {
       idx++;
-      if (token.isSentenceStart()) {
-        continue;
-      }
-      if (isUrl(token.getToken())) {
-        continue;
-      }
-      if (ignoreToken(tokens, idx) || token.isImmunized() || token.isIgnoredBySpeller()) {
-        continue;
-      }
-      if (ignoreTaggedWords && token.isTagged()) {
+      if (canBeIgnored(tokens, idx, token)) {
         continue;
       }
       // if we use token.getToken() we'll get ignored characters inside and speller will choke
@@ -141,6 +122,29 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       }
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private void initSpeller(String binaryDict) throws IOException {
+    String plainTextDict = null;
+    if (JLanguageTool.getDataBroker().resourceExists(getSpellingFileName())) {
+      plainTextDict = getSpellingFileName();
+    }
+    if (plainTextDict != null) {
+      speller1 = new MorfologikMultiSpeller(binaryDict, plainTextDict, 1);
+      speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDict, 2);
+      setConvertsCase(speller1.convertsCase());
+    } else {
+      throw new RuntimeException("Could not find ignore spell file in path: " + getSpellingFileName());
+    }
+  }
+
+  private boolean canBeIgnored(AnalyzedTokenReadings[] tokens, int idx, AnalyzedTokenReadings token) throws IOException {
+    return token.isSentenceStart() ||
+           token.isImmunized() ||
+           token.isIgnoredBySpeller() ||
+           isUrl(token.getToken()) ||
+           (ignoreTaggedWords && token.isTagged()) ||
+           ignoreToken(tokens, idx);
   }
 
 

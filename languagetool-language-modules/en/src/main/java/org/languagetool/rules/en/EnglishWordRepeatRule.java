@@ -77,7 +77,6 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
           return true;
         }
       }
-
     }
     return false;
   }
