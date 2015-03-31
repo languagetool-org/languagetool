@@ -22,10 +22,14 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
 import org.languagetool.rules.RuleMatch;
+
+import static org.languagetool.rules.en.AvsAnRule.*;
 
 public class AvsAnRuleTest extends TestCase {
 
@@ -59,7 +63,6 @@ public class AvsAnRuleTest extends TestCase {
     assertCorrect("The Qur'an was translated into Polish.");
     assertCorrect("See an:Grammatica");
     assertCorrect("See http://www.an.com");
-    assertCorrect("Entscheidungsproblem was unsolvable by use of his \"a- [automatic-] machine\"");
 
     // errors:
     assertIncorrect("It was a hour ago.");
@@ -116,6 +119,33 @@ public class AvsAnRuleTest extends TestCase {
     assertEquals("an hour", rule.suggestAorAn("hour"));
     assertEquals("an all-terrain", rule.suggestAorAn("all-terrain"));
     assertEquals("a UNESCO", rule.suggestAorAn("UNESCO"));
+    assertEquals("a historical", rule.suggestAorAn("historical"));
+  }
+
+  public void testGetCorrectDeterminerFor() throws IOException {
+    assertEquals(Determiner.A, getDeterminerFor("string"));
+    assertEquals(Determiner.A, getDeterminerFor("university"));
+    assertEquals(Determiner.A, getDeterminerFor("UNESCO"));
+    assertEquals(Determiner.A, getDeterminerFor("one-way"));
+    assertEquals(Determiner.AN, getDeterminerFor("interesting"));
+    assertEquals(Determiner.AN, getDeterminerFor("hour"));
+    assertEquals(Determiner.AN, getDeterminerFor("all-terrain"));
+    assertEquals(Determiner.A_OR_AN, getDeterminerFor("historical"));
+    assertEquals(Determiner.UNKNOWN, getDeterminerFor(""));
+    assertEquals(Determiner.UNKNOWN, getDeterminerFor("-way"));
+    assertEquals(Determiner.UNKNOWN, getDeterminerFor("camelCase"));
+  }
+
+  private Determiner getDeterminerFor(String word) {
+    AnalyzedTokenReadings token = new AnalyzedTokenReadings(new AnalyzedToken(word, "fake-postag", "fake-lemma"), 0);
+    return rule.getCorrectDeterminerFor(token);
+  }
+
+  public void testGetCorrectDeterminerForException() throws IOException {
+    try {
+      rule.getCorrectDeterminerFor(null);
+      fail();
+    } catch (NullPointerException ignored) {}
   }
 
   public void testPositions() throws IOException {
@@ -130,7 +160,6 @@ public class AvsAnRuleTest extends TestCase {
     matches = rule.match(langTool.getAnalyzedSentence("a \"industry standard\"."));
     assertEquals(0, matches[0].getFromPos());
     assertEquals(1, matches[0].getToPos());
-
 
     matches = rule.match(langTool.getAnalyzedSentence("a - industry standard\"."));
     assertEquals(0, matches[0].getFromPos());
