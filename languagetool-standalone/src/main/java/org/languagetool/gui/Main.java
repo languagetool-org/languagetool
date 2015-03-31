@@ -1100,8 +1100,8 @@ public final class Main {
     public void actionPerformed(ActionEvent e) {
       try {
         addLanguage();
-      } catch (InstantiationException | IllegalAccessException ex) {
-        throw new RuntimeException(ex);
+      } catch (Exception ex) {
+        Tools.showError(ex);
       }
     }
   }
