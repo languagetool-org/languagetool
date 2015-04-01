@@ -18,17 +18,17 @@
  */
 package org.languagetool.rules.uk;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.tagging.uk.IPOSTag;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * A rule that matches words which should not be used and suggests correct ones
@@ -41,11 +41,11 @@ import org.languagetool.tagging.uk.IPOSTag;
  */
 public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
-  private static final String FILE_NAME = "/uk/replace.txt";
+  private static final Map<String, List<String>> wrongWords = load("/uk/replace.txt");
 
   @Override
-  public final String getFileName() {
-    return FILE_NAME;
+  protected Map<String, List<String>> getWrongWords() {
+    return wrongWords;
   }
 
   public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
@@ -87,9 +87,9 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   
   private boolean isGoodPosTag(String posTag) {
     return posTag != null
-        && ! JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posTag)
-        && ! JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)
-        && ! posTag.contains(IPOSTag.bad.getText());
+        && !JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posTag)
+        && !JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)
+        && !posTag.contains(IPOSTag.bad.getText());
   }
 
   @Override
@@ -97,8 +97,4 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     return false;
   }
 
-  @Override
-  public Locale getLocale() {
-    return Locale.getDefault();
-  }
 }

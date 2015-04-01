@@ -27,6 +27,7 @@ import org.languagetool.rules.ITSIssueType;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -34,7 +35,7 @@ import java.util.ResourceBundle;
  */
 public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
-  private static final String FILE_NAME = "/fa/replace.txt";
+  private static final Map<String, List<String>> wrongWords = load("/fa/replace.txt");
 
   public SimpleReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
@@ -45,8 +46,8 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   }
 
   @Override
-  public String getFileName() {
-    return FILE_NAME;
+  protected Map<String, List<String>> getWrongWords() {
+    return wrongWords;
   }
 
   @Override

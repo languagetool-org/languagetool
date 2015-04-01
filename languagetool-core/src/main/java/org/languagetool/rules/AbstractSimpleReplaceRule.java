@@ -18,24 +18,16 @@
  */
 package org.languagetool.rules;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Scanner;
-
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.tools.StringTools;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * A rule that matches words which should not be used and suggests
@@ -48,13 +40,19 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
   private static final String FILE_ENCODING = "utf-8";
 
-  private final Map<String, List<String>> wrongWords;
-
   private boolean ignoreTaggedWords = false;
   private boolean checkLemmas = true;
 
-  public abstract String getFileName();
+  protected abstract Map<String, List<String>> getWrongWords();
 
+  protected static Map<String, List<String>> load(String path) {
+    InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
+    return new SimpleReplaceDataLoader().loadWords(stream);
+  }
+
+  /**
+   * @deprecated will be removed, it was always "utf-8" anyway (deprecated since 3.0)
+   */
   public String getEncoding() {
     return FILE_ENCODING;
   }
@@ -88,8 +86,6 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   public AbstractSimpleReplaceRule(final ResourceBundle messages)
       throws IOException {
     super.setCategory(new Category(messages.getString("category_misc")));
-    wrongWords = loadWords(JLanguageTool.getDataBroker()
-        .getFromRulesDirAsStream(getFileName()));
   }
 
   @Override
@@ -134,12 +130,12 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
       }
       String tokenString = cleanup(originalTokenStr);
 
-      if (!wrongWords.containsKey(tokenString) && checkLemmas) {
+      if (!getWrongWords().containsKey(tokenString) && checkLemmas) {
         for (AnalyzedToken analyzedToken : tokenReadings.getReadings()) {
           String lemma = analyzedToken.getLemma();
           if (lemma != null) {
             lemma = cleanup(lemma);
-            if (wrongWords.containsKey(lemma)) {
+            if (getWrongWords().containsKey(lemma)) {
               tokenString = lemma;
               break;
             }
@@ -148,9 +144,9 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
       }
 
       // try first with the original word, then with the all lower-case version
-      List<String> possibleReplacements = wrongWords.get(originalTokenStr);
+      List<String> possibleReplacements = getWrongWords().get(originalTokenStr);
       if (possibleReplacements == null) {
-        possibleReplacements = wrongWords.get(tokenString);
+        possibleReplacements = getWrongWords().get(tokenString);
       }
 
       if (possibleReplacements != null && possibleReplacements.size() > 0) {
@@ -194,34 +190,6 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     potentialRuleMatch.setSuggestedReplacements(replacements);
 
     return potentialRuleMatch;
-  }
-
-  private Map<String, List<String>> loadWords(final InputStream stream)
-      throws IOException {
-    Map<String, List<String>> map = new HashMap<>();
-
-    try (Scanner scanner = new Scanner(stream, getEncoding())) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-        if (line.length() < 1 || line.charAt(0) == '#') { // # = comment
-          continue;
-        }
-        String[] parts = line.split("=");
-        if (parts.length != 2) {
-          URL filename = JLanguageTool.getDataBroker().getFromRulesDirAsUrl(getFileName());
-          throw new IOException("Format error in file " + filename + ", line: " + line);
-        }
-
-        String[] replacements = parts[1].split("\\|");
-
-        // multiple incorrect forms
-        final String[] wrongForms = parts[0].split("\\|");
-        for (String wrongForm : wrongForms) {
-          map.put(wrongForm, Arrays.asList(replacements));
-        }
-      }
-    }
-    return map;
   }
 
   /**

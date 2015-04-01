@@ -18,14 +18,15 @@
  */
 package org.languagetool.rules.ca;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.ITSIssueType;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * A rule that matches words which should not be used and suggests
@@ -38,13 +39,12 @@ import org.languagetool.rules.ITSIssueType;
  */
 public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
-  private static final String FILE_NAME = "/ca/replace.txt";
-  // locale used on case-conversion
+  private static final Map<String, List<String>> wrongWords = load("/ca/replace.txt");
   private static final Locale CA_LOCALE = new Locale("CA");
 
   @Override
-  public final String getFileName() {
-    return FILE_NAME;
+  protected Map<String, List<String>> getWrongWords() {
+    return wrongWords;
   }
   
   public SimpleReplaceRule(final ResourceBundle messages) throws IOException {

@@ -18,15 +18,16 @@
  */
 package org.languagetool.rules.en;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
@@ -38,13 +39,12 @@ public class NewZealandReplaceRule extends AbstractSimpleReplaceRule {
 
   public static final String NEW_ZEALAND_SIMPLE_REPLACE_RULE = "EN_NZ_SIMPLE_REPLACE";
 
-  private static final String FILE_NAME = "/en/en-NZ/replace.txt";
-  // locale used on case-conversion
+  private static final Map<String, List<String>> wrongWords = load("/en/en-NZ/replace.txt");
   private static final Locale EN_NZ_LOCALE = new Locale("en-NZ");
 
   @Override
-  public final String getFileName() {
-    return FILE_NAME;
+  protected Map<String, List<String>> getWrongWords() {
+    return wrongWords;
   }
 
   public NewZealandReplaceRule(final ResourceBundle messages) throws IOException {
@@ -75,17 +75,11 @@ public class NewZealandReplaceRule extends AbstractSimpleReplaceRule {
         + StringUtils.join(replacements, ", ") + ".";
   }
 
-  /**
-   * use case-insensitive matching.
-   */
   @Override
   public boolean isCaseSensitive() {
     return false;
   }
 
-  /**
-   * locale used on case-conversion
-   */
   @Override
   public Locale getLocale() {
     return EN_NZ_LOCALE;

@@ -18,13 +18,13 @@
  */
 package org.languagetool.rules.uk;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * A rule that matches words for which better alternatives exist and suggests them instead.
@@ -35,16 +35,15 @@ import org.languagetool.rules.AbstractSimpleReplaceRule;
  */
 public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
 
-  private static final String FILE_NAME = "/uk/replace_soft.txt";
+  private static final Map<String, List<String>> wrongWords = load("/uk/replace_soft.txt");
 
   @Override
-  public final String getFileName() {
-    return FILE_NAME;
+  protected Map<String, List<String>> getWrongWords() {
+    return wrongWords;
   }
 
   public SimpleReplaceSoftRule(final ResourceBundle messages) throws IOException {
     super(messages);
-//    setIgnoreTaggedWords();
   }
 
   @Override
@@ -73,8 +72,4 @@ public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
     return false;
   }
 
-  @Override
-  public Locale getLocale() {
-    return Locale.getDefault();
-  }
 }

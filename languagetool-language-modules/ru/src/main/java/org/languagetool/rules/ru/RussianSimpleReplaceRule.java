@@ -18,13 +18,14 @@
  */
 package org.languagetool.rules.ru;
 
+import org.apache.commons.lang.StringUtils;
+import org.languagetool.rules.AbstractSimpleReplaceRule;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
-
-import org.apache.commons.lang.StringUtils;
-import org.languagetool.rules.AbstractSimpleReplaceRule;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
@@ -37,13 +38,12 @@ import org.languagetool.rules.AbstractSimpleReplaceRule;
  */
 public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule {
 
-  private static final String FILE_NAME = "/ru/replace.txt";
-  // locale used on case-conversion:
+  private static final Map<String, List<String>> wrongWords = load("/ru/replace.txt");
   private static final Locale RU_LOCALE = new Locale("ru");
 
   @Override
-  public final String getFileName() {
-    return FILE_NAME;
+  protected Map<String, List<String>> getWrongWords() {
+    return wrongWords;
   }
 
   public RussianSimpleReplaceRule(final ResourceBundle messages) throws IOException {

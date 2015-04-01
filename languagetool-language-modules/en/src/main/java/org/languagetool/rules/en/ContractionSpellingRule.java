@@ -21,12 +21,10 @@ package org.languagetool.rules.en;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.languagetool.rules.AbstractSimpleReplaceRule;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.Example;
-import org.languagetool.rules.ITSIssueType;
+import org.languagetool.rules.*;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
@@ -39,13 +37,12 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
 
   public static final String CONTRACTION_SPELLING_RULE = "EN_CONTRACTION_SPELLING";
 
-  private static final String FILE_NAME = "/en/contractions.txt";
-  // locale used on case-conversion
+  private static final Map<String, List<String>> wrongWords = load("/en/contractions.txt");
   private static final Locale EN_LOCALE = new Locale("en");
 
   @Override
-  public final String getFileName() {
-    return FILE_NAME;
+  protected Map<String, List<String>> getWrongWords() {
+    return wrongWords;
   }
 
   public ContractionSpellingRule(final ResourceBundle messages) throws IOException {
@@ -81,17 +78,11 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
     return "Possible spelling mistake found";
   }
 
-  /**
-   * use case-sensitive matching.
-   */
   @Override
   public boolean isCaseSensitive() {
     return true;
   }
 
-  /**
-   * locale used on case-conversion
-   */
   @Override
   public Locale getLocale() {
     return EN_LOCALE;

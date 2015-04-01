@@ -21,6 +21,7 @@ package org.languagetool.rules.gl;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang.StringUtils;
@@ -41,13 +42,12 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   public static final String GL_SIMPLE_REPLACE_RULE = "GL_SIMPLE_REPLACE";
 
-  private static final String FILE_NAME = "/gl/words.txt";
-  // locale used on case-conversion
+  private static final Map<String, List<String>> wrongWords = load("/gl/words.txt");
   private static final Locale GL_LOCALE = new Locale("gl");
 
   @Override
-  public final String getFileName() {
-    return FILE_NAME;
+  protected Map<String, List<String>> getWrongWords() {
+    return wrongWords;
   }
 
   public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
