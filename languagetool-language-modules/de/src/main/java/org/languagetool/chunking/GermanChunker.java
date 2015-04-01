@@ -184,7 +184,7 @@ public class GermanChunker implements Chunker {
       // ===== genitive phrases and similar ====================================================
 
       // "die ältere der beiden Töchter":
-      build("<der|die|das> <pos=ADJ & !pos=PLU> <der> <pos=PRO>? <pos=SUB>", NPS),
+      build("<der|die|das> <pos=ADJ> <der> <pos=PRO>? <pos=SUB>", NPS),
       // "Synthese organischer Verbindungen", "die Anordnung der vier Achsen", aber nicht "Einige der Inhaltsstoffe":
       build("<chunk=NPS & !einige> <chunk=NPP & (pos=GEN |pos=ZAL)>+", NPS, true),
       // "die Kenntnisse der Sprache":
@@ -192,7 +192,7 @@ public class GermanChunker implements Chunker {
       // "die Pyramide des Friedens und der Eintracht":
       build("<chunk=NPS>+ <und> <chunk=NP[SP] & pos=GEN>+", NPS, true),
       // "Teil der dort ausgestellten Bestände":
-      build("<chunk=NPS>+ <der> <pos=ADV> <pos=PA2> <NP>", NPS, true),
+      build("<chunk=NPS>+ <der> <pos=ADV> <pos=PA2> <chunk=I-NP>", NPS, true),
       // "Autor der ersten beiden Bücher":
       build("<chunk=NPS>+ <der> (<pos=ADJ>|<pos=ZAL>) <NP>", NPS, true),
       // "Autor der beiden Bücher":
@@ -206,7 +206,8 @@ public class GermanChunker implements Chunker {
       // "Elemente eines axiomatischen Systems":  -- führt zu Fehlalarm anderswo
       //build("<chunk=B-NP & pos=PLU> <chunk=I-NP>* <chunk=B-NP & pos=GEN> <chunk=I-NP>*", NPP),
 
-      // "eine Menge englischer Wörter":
+      // "eine Menge englischer Wörter [sind aus dem Lateinischen abgeleitet]":
+      // NPP stimmt aber nicht für Mathematik, dort NPS: "Eine Menge ist ein Konzept der Mathematik."
       build("<eine> <menge> <NP>+", NPP, true),
 
       // ===== prepositional phrases ===========================================================
@@ -244,8 +245,6 @@ public class GermanChunker implements Chunker {
       build("<pos=PRP> <NP> <NP> (<und|oder>) <NP>", PP),
       // "bei sehr guten Beobachtungsbedingungen":
       build("<pos=PRP> <pos=ADV> <pos=ADJ> <NP>", PP),
-      // "die Beziehungen zwischen Kanada und dem Iran":
-      build("<chunk=NPP> <zwischen> <pos=EIG> <und|sowie> <NP>", NPP),
 
       // "die darauffolgenden Jahre" -> eigentlich "in den darauffolgenden Jahren":
       build("<die> <pos=ADJ> <Sekunden|Minuten|Stunden|Tage|Wochen|Monate|Jahre|Jahrzehnte|Jahrhunderte> (<NP>)?", PP),
@@ -253,6 +252,9 @@ public class GermanChunker implements Chunker {
       build("<die> <pos=ADJ> <pos=ZAL> <Sekunden|Minuten|Stunden|Tage|Wochen|Monate|Jahre|Jahrzehnte|Jahrhunderte> (<NP>)?", PP),
       // "letztes Jahr":
       build("<regex=(vor)?letzte[sn]?> <Woche|Monat|Jahr|Jahrzehnt|Jahrhundert>", PP),
+
+      // "die Beziehungen zwischen Kanada und dem Iran":
+      build("<chunk=NPP> <zwischen> <pos=EIG> <und|sowie> <NP>", NPP),
       // ", die die hauptsächliche Beute der Eisbären", ", welche der Urstoff aller Körper":
       build("<,> <die|welche> <NP> <chunk=NPS & pos=GEN>+", NPP),
       // "Kommentare, Korrekturen, Kritik":

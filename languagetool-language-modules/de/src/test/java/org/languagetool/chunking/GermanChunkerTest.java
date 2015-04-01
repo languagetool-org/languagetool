@@ -64,7 +64,45 @@ public class GermanChunkerTest {
     assertFullChunks("Er will die/NPP Arbeitsplätze/NPP so umgestalten , dass/NPP sie/NPP wie/NPP ein/NPP Spiel/NPP sind.");
     assertFullChunks("So dass Knochenbrüche/NPP und/NPP Platzwunden/NPP die/NPP Regel/NPP sind");
     assertFullChunks("Eine/NPS Veranstaltung/NPS ,/NPP die/NPP immer/NPP wieder/NPP ein/NPP kultureller/NPP Höhepunkt/NPP war");  // warum NPP?
-    // TODO: add more tests
+
+    assertFullChunks("Und die/NPS ältere/NPS der/NPS beiden/NPS Töchter/NPS ist 20.");
+    assertFullChunks("Der/NPS Synthese/NPS organischer/NPS Verbindungen/NPS steht nichts im/PP Weg/NPS");
+    assertFullChunks("Aber die/NPP Kenntnisse/NPP der/NPP Sprache/NPP sind nötig.");
+    assertFullChunks("Dort steht die/NPS Pyramide/NPS des/NPS Friedens/NPS und/NPS der/NPS Eintracht/NPS");
+    assertFullChunks("Und Teil/B der/NPS dort/NPS ausgestellten/NPS Bestände/NPS wurde privat finanziert.");
+    assertFullChunks("Autor/NPS der/NPS ersten/NPS beiden/NPS Bücher/NPS ist Stephen King/NPS");
+    assertFullChunks("Autor/NPS der/NPS beiden/NPS Bücher/NPS ist Stephen King/NPS");
+    assertFullChunks("Teil/NPS der/NPS umfangreichen/NPS dort/NPS ausgestellten/NPS Bestände/NPS stammt von privat");
+    assertFullChunks("Ein/NPS Teil/NPS der/NPS umfangreichen/NPS dort/NPS ausgestellten/NPS Bestände/NPS stammt von privat");
+    assertFullChunks("Die/NPS Krankheit/NPS unserer/NPS heutigen/NPS Städte/NPS und/NPS Siedlungen/NPS ist der/NPS Verkehr/NPS");
+    assertFullChunks("Der/B Nil/I ist der/NPS letzte/NPS der/NPS vier/NPS großen/NPS Flüsse/NPS");
+    assertFullChunks("Der/NPS letzte/NPS der/NPS vier/NPS großen/NPS Flüsse/NPS ist der/B Nil/I");
+    assertFullChunks("Sie kennt eine/NPP Menge/NPP englischer/NPP Wörter/NPP");
+    assertFullChunks("Eine/NPP Menge/NPP englischer/NPP Wörter/NPP sind aus/PP dem/NPS Lateinischen/NPS abgeleitet.");
+    assertFullChunks("Laut/PP den/PP meisten/PP Quellen/PP ist er 35 Jahre/B alt.");
+    assertFullChunks("Bei/PP den/PP sehr/PP niedrigen/PP Oberflächentemperaturen/PP verbrennt nichts");
+    assertFullChunks("In/PP den/PP alten/PP Religionen/PP ,/PP Mythen/PP und/PP Sagen/PP tauchen Geister/B auf.");
+    assertFullChunks("Die/B Straße/I ist wichtig für/PP die/PP Stadtteile/PP und/PP selbständigen/PP Ortsteile/PP");
+    assertFullChunks("Es herrscht gute/NPS Laune/NPS in/PP chemischen/PP Komplexverbindungen/PP");
+    assertFullChunks("Funktionen/NPP des/NPP Körpers/NPP einschließlich/PP der/PP biologischen/PP und/PP sozialen/PP Grundlagen/PP");
+    assertFullChunks("Das/NPS Dokument/NPS umfasst das für/PP Ärzte/PP und/PP Ärztinnen/PP festgestellte/PP Risikoprofil/PP");
+    assertFullChunks("In/PP den/PP darauf/PP folgenden/PP Wochen/PP ging es los.");
+    assertFullChunks("In/PP nur/PP zwei/PP Wochen/PP geht es los.");
+    assertFullChunks("Programme/B , in/PP deren/PP deutschen/PP Installationen/PP nichts funktioniert.");
+    assertFullChunks("Nach/PP sachlichen/PP und/PP militärischen/PP Kriterien/PP war das unnötig.");
+    assertFullChunks("Mit/PP über/PP 1000/PP Handschriften/PP ist es die/NPS größte/NPS Sammlung/NPS");
+    assertFullChunks("Es gab Beschwerden/NPP über/PP laufende/PP Sanierungsmaßnahmen/PP");
+    assertFullChunks("Gesteigerte/NPS Effizienz/NPS durch/PP Einsatz/PP größerer/PP Maschinen/PP und/PP bessere/PP Kapazitätsplanung/PP");
+    assertFullChunks("Bei/PP sehr/PP guten/PP Beobachtungsbedingungen/PP bin ich dabei");
+    assertFullChunks("Die/NPP Beziehungen/NPP zwischen/NPP Kanada/NPP und/NPP dem/NPP Iran/NPP sind unterkühlt");
+    assertFullChunks("Die/PP darauffolgenden/PP Jahre/PP war es kalt");
+    assertFullChunks("Die/NPP darauffolgenden/NPP Jahre/NPP waren kalt");
+    assertFullChunks("Die/PP letzten/PP zwei/PP Monate/PP war es kalt");
+    //assertFullChunks("Die/NPP letzten/NPP zwei/NPP Monate/NPP waren kalt");
+    assertFullChunks("Letztes/PP Jahr/PP war kalt");
+    assertFullChunks("Letztes/PP Jahr/PP war es kalt");
+    assertFullChunks("Es sind Atome/NPP ,/NPP welche/NPP der/NPP Urstoff/NPP aller/NPP Körper/NPP sind");
+    assertFullChunks("Kommentare/NPP ,/NPP Korrekturen/NPP ,/NPP Kritik/NPP bitte nach /dev/null");
   }
 
   // B = begin, will be expanded to B-NP, I = inner, will be expanded to I-NP
@@ -166,6 +204,8 @@ public class GermanChunkerTest {
           expectedChunks.add("NPP");
         } else if (chunk.equals("NPS")) {
           expectedChunks.add("NPS");
+        } else if (chunk.equals("PP")) {
+          expectedChunks.add("PP");
         } else {
           throw new RuntimeException("Unknown chunk type: '" + chunk + "'");
         }
@@ -181,7 +221,7 @@ public class GermanChunkerTest {
     for (String expectedChunk : expectedChunks) {
       ChunkTaggedToken outputChunksHere = chunks.get(i);
       if (!outputChunksHere.getChunkTags().contains(new ChunkTag(expectedChunk))) {
-        fail("Expected " + expectedChunk + " but got " + outputChunksHere + " at position " + i + " for input:\n  " + input +
+        fail("Expected '" + expectedChunk + "' but got '" + outputChunksHere + "' at position " + i + " for input:\n  " + input +
              "\nPlain input:\n  " + plainInput +
              "\nChunks:\n  " + chunks +
              "\nExpected:\n  " + expectedChunks);
