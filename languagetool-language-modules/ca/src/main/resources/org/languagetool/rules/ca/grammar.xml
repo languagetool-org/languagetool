@@ -120,41 +120,29 @@ $Id$
                 <pattern>
                     <!-- "Dilluns, 7 d'octubre de 2014" -->
                     <token regexp="yes">&dies_setmana;|&dies_setmana_abrev;</token>
-                    <token>,</token>
+                    <token min="0">,</token>
                     <token regexp="yes">\d\d?</token>
-                    <token regexp="yes">de|d'</token>
+                    <token min="0" regexp="yes">de|d'</token>
                     <token regexp="yes">&mesos_any;|&mesos_any_abrev;</token>
-                    <token>de</token>
-                    <token regexp="yes">\d\d\d\d</token>
-                </pattern>
-                <filter class="org.languagetool.rules.ca.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
-                <message>Aquesta data no és un <match no="1" case_conversion="alllower"/> sinó un {realDay}.</message>
-                <example correction=""><marker>Dilluns, 7 d'octubre de 2014</marker></example>
-                <example><marker>Dimarts, 7 d'octubre de 2014</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <!-- "Dilluns, 7 d'octubre del 2014" -->
-                    <token regexp="yes">&dies_setmana;|&dies_setmana_abrev;</token>
-                    <token>,</token>
-                    <token regexp="yes">\d\d?</token>
-                    <token regexp="yes">de|d'</token>
-                    <token regexp="yes">&mesos_any;|&mesos_any_abrev;</token>
-                    <token>de</token>
-                    <token spacebefore="no">l</token>
+                    <token> de</token>
+                    <token spacebefore="no" min="0">l</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
                 <filter class="org.languagetool.rules.ca.DateCheckFilter" args="year:\8 month:\5 day:\3 weekDay:\1"/>
                 <message>Aquesta data no és un <match no="1" case_conversion="alllower"/> sinó un {realDay}.</message>
+                <example correction=""><marker>Dilluns, 7 d'octubre de 2014</marker></example>
+                <example correction=""><marker>Dilluns 7 d'octubre de 2014</marker></example>
+                <example><marker>Dimarts, 7 d'octubre de 2014</marker></example>
                 <example correction=""><marker>Dilluns, 7 d'octubre del 2014</marker></example>
+                <example correction=""><marker>Dilluns 7 d'octubre del 2014</marker></example>
                 <example><marker>Dimarts, 7 d'octubre del 2014</marker></example>
                 <example><marker>Washington DC, 7 d'octubre del 2014</marker></example>
             </rule>
+            <!-- "Dilluns, 7 oct 2014" -->
             <rule>
                 <pattern>
-                    <!-- "Dilluns, 7 oct 2014" -->
                     <token regexp="yes">&dies_setmana;|&dies_setmana_abrev;</token>
-                    <token>,</token>
+                    <token min="0">,</token>
                     <token regexp="yes">\d\d?</token>
                     <token regexp="yes">&mesos_any;|&mesos_any_abrev;</token>
                     <token regexp="yes">\d\d\d\d</token>
@@ -162,6 +150,7 @@ $Id$
                 <filter class="org.languagetool.rules.ca.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
                 <message>Aquesta data no és un <match no="1" case_conversion="alllower"/> sinó un {realDay}.</message>
                 <example correction=""><marker>Dilluns, 7 oct 2014</marker></example>
+                <example correction=""><marker>Dilluns 7 oct 2014</marker></example>
                 <example><marker>Dimarts, 7 oct 2014</marker></example>
             </rule>
         </rulegroup>
