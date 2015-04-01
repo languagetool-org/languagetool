@@ -19,10 +19,7 @@
 package org.languagetool.rules.patterns;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -202,7 +199,7 @@ public class PatternToken implements Cloneable {
    * Returns the group of elements linked with AND operator.
    */
   public final List<PatternToken> getAndGroup() {
-    return andGroupList;
+    return Collections.unmodifiableList(andGroupList);
   }
 
   /** @since 2.3 */
@@ -224,7 +221,7 @@ public class PatternToken implements Cloneable {
    * @since 2.3
    */
   public final List<PatternToken> getOrGroup() {
-    return orGroupList;
+    return Collections.unmodifiableList(orGroupList);
   }
 
   /**
