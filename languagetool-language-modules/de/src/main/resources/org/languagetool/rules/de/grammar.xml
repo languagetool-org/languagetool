@@ -4064,18 +4064,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es ist über den Stuhl <marker>gehängt</marker> worden.</example>
             </rule>
         </rulegroup>
-        <rule id="PER_NACHNAME" name="Mögliche Wortverwechslung: 'per Nachname (Nachnahme)'">
-            <pattern case_sensitive="yes">
-                <token>per</token>
-                <marker>
-                    <token>Nachname</token>
-                </marker>
-            </pattern>
-            <message>Meinten Sie <suggestion>Nachnahme</suggestion> ('Nachnahme' = Versandart, 'Nachname' = Familienname)?</message>
+        <rulegroup id="MIT_VORNAHMEN" name="Mögliche Wortverwechslung: Nachnahme/Nachname">
             <short>Mögliche Wortverwechslung</short>
-            <example correction="Nachnahme">Warum liefern Firmen lieber per <marker>Nachname</marker>?</example>
-        </rule>
-        <rulegroup id="MIT_VORNAHMEN" name="Mögliche Wortverwechslung: 'heißt ... mit Nachnahmen (Nachnamen)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>per</token>
+                    <marker>
+                        <token>Nachname</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>Nachnahme</suggestion> ('Nachnahme' = Versandart, 'Nachname' = Familienname)?</message>
+                <example correction="Nachnahme">Warum liefern Firmen lieber per <marker>Nachname</marker>?</example>
+            </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token skip="1" regexp="yes">hieß(en)?|heißt|heißen?</token>
@@ -4085,7 +4085,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="3" regexp_match="nahm" regexp_replace="nam"/></suggestion> ('Nachnahme' = Versandart, 'Nachname' = Familienname)?</message>
-                <short>Mögliche Wortverwechslung</short>
                 <example correction="Nachnamen">Wie heißt Claudia mit <marker>Nachnahmen</marker>?</example>
                 <example correction="Nachnamen">Wie heißen Sie mit <marker>Nachnahmen</marker>?</example>
                 <example correction="Vornamen">Wie heißen Sie mit <marker>Vornahmen</marker>?</example>
@@ -4101,9 +4100,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="1" regexp="yes">hieß(en)?|heißt|(ge)?heißen?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2" regexp_match="nahm" regexp_replace="nam"/></suggestion> ('Nachnahme' = Versandart, 'Nachname' = Familienname)?</message>
-                <short>Mögliche Wortverwechslung</short>
                 <example correction="Nachnamen">Wie kann man nur Müller mit <marker>Nachnahmen</marker> heißen?</example>
                 <example>Wie hat Wittgenstein mit <marker>Vornamen</marker> geheißen?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">mein|meinen?|dein|deinen?|unser|unseren?|sein|seinen?|ihr|ihren|euer|euren?</token>
+                    <marker>
+                        <token regexp="yes">(Vor|Nach)nahmen?</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" regexp_match="nahm" regexp_replace="nam"/></suggestion> ('Nachnahme' = Versandart, 'Nachname' = Familienname)?</message>
+                <example correction="Nachname">Sein <marker>Nachnahme</marker> ist Müller-Lüdenscheidt.</example>
+                <example correction="Vorname">Sein <marker>Vornahme</marker> ist Jürgen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GEWOHNT_GEWOEHNT" name="Mögliche Wortverwechslung: gewöhnt/gewohnt">
@@ -22910,7 +22919,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token negate="yes" regexp="yes">das|dieses|jenes|ein</token>
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">Leidtun</token>
+                        <token case_sensitive="yes">Leidtun</token>
                     </marker>
                 </pattern>
                 <message>&inwend;'jemandem leidtun' wird <suggestion><match case_conversion="alllower" no="2"/></suggestion> kleingeschrieben.</message>
