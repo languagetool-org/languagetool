@@ -4,7 +4,7 @@ It finds many errors that a simple spell checker cannot detect.
 
 LanguageTool is freely available under the LGPL 2.1 or later.
 
-For more information, please see our homepage at http://languagetool.org and [this README](https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-standalone/README.md).
+For more information, please see our homepage at http://languagetool.org and [this README](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/README.md).
 
 #### Contributions
 
@@ -12,4 +12,3 @@ For technical details, see [our wiki](http://wiki.languagetool.org).
 
 [The development overview](http://wiki.languagetool.org/development-overview) describes
 how you can contribute error detection rules.
-
