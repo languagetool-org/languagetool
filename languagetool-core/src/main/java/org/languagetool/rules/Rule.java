@@ -20,10 +20,7 @@ package org.languagetool.rules;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
@@ -149,14 +146,13 @@ public abstract class Rule {
    * Get example sentences that are correct and thus will not match this rule.
    */
   public final List<String> getCorrectExamples() {
-    return correctExamples;
+    return Collections.unmodifiableList(correctExamples);
   }
 
   /**
    * Set the examples that are incorrect and thus do trigger the rule.
    */
-  public final void setIncorrectExamples(
-      final List<IncorrectExample> incorrectExamples) {
+  public final void setIncorrectExamples(final List<IncorrectExample> incorrectExamples) {
     this.incorrectExamples = Objects.requireNonNull(incorrectExamples);
   }
 
@@ -164,7 +160,7 @@ public abstract class Rule {
    * Get example sentences that are incorrect and thus will match this rule.
    */
   public final List<IncorrectExample> getIncorrectExamples() {
-    return incorrectExamples;
+    return Collections.unmodifiableList(incorrectExamples);
   }
 
   public final Category getCategory() {
