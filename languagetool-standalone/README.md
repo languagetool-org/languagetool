@@ -2,13 +2,13 @@
 
 **A proof-reading tool for English, Spanish, German,
 Polish, Chinese, French, Russian, Italian, Dutch
-and [more languages](http://www.languagetool.org/languages/)**
+and [more languages](https://www.languagetool.org/languages/)**
 
 Version x.y, 2015-xx-yy
 
 Copyright (C) 2005-2015 the LanguageTool community and Daniel Naber (www.danielnaber.de)
 
-Homepage: http://www.languagetool.org
+Homepage: https://www.languagetool.org
 
 
 ## Requirements
@@ -42,7 +42,7 @@ To integrate LanguageTool into LibreOffice or OpenOffice.org, you can use two me
    offers you a short description of the error and a correction ("free").
 
    If you are using LibreOffice and you want to check English or Russian texts:
-   Use Options -> Language Settings -> Writing Aids -> Edit...in the
+   Use `Options -> Language Settings -> Writing Aids -> Edit...` in the
    'Tools' menu to disable LightProof and enable LanguageTool for English.
   
    Note that there will also be a new menu item "LanguageTool"
@@ -52,25 +52,25 @@ To integrate LanguageTool into LibreOffice or OpenOffice.org, you can use two me
    (if the window closes because of no mistakes in the document,
    simply make any spelling mistake to make it open for a longer
    time, and check the box). Check also if LanguageTool is visible
-   under "Grammar" in Tools > Options > Language Settings > Spelling
+   under "Grammar" in `Tools > Options > Language Settings > Spelling`
    for your language. Note: you can disable the grammar check without
    uninstalling LanguageTool simply by clearing the check box next to
    LanguageTool in the same dialog.
   
-Please see http://www.languagetool.org/issues/ if you experience problems.
+Please see https://www.languagetool.org/issues/ if you experience problems.
 
 ### Stand-alone version
 
 To use the stand-alone version, double click on the `languagetool.jar` file
-  or call `java -jar languagetool.jar`
+or call `java -jar languagetool.jar` from the command line.
 
-### Command-line
+### Command-line version
 
-To check plain text files from the command line, use:
+To check plain text files from the command line, use
 
     java -jar languagetool-commandline.jar -l xx <filename>
 
-(with xx being the code for your language, e.g. 'en' for English)
+with `xx` being the code for your language, e.g. `en` for English.
 
 
 ## Source code history
@@ -83,7 +83,7 @@ history has been preserved. History is lost for:
 * branches and tags
 
 If you need this history, the old subversion repository is still available
-at http://svn.code.sf.net/p/languagetool/code/trunk/languagetool/
+at http://svn.code.sf.net/p/languagetool/code/trunk/languagetool/.
 
 
 ## License
@@ -92,6 +92,8 @@ Unless otherwise noted, this software is distributed under
 the LGPL, see file [COPYING.txt](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/COPYING.txt)
 
 See [third-party-licenses/README.txt](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/src/main/resources/third-party-licenses/README.txt) for the copyright of the external libraries.
+
+#### Frequency data
 
 Some language's spelling dictionaries contain frequency data. This is taken
 from the Mozilla-B2G Gaia project (https://github.com/mozilla-b2g/gaia/) which
@@ -137,7 +139,7 @@ The Chinese data and code for part-of-speech tagging is based on ictclas4j proje
 #### Danish
 
 The Danish tagger is based upon data from Stavekontrolden - Danish dictionary
-for Hunspell. © 2012 Foreningen for frit tilgængelige sprogværktøjer
+for Hunspell. © 2012 Foreningen for frit tilgængelige sprogværktøjer.
 These files are published under the following open source licenses:
 GNU GPL version 2.0, GNU LGPL version 2.1, Mozilla MPL version 1.1
 http://www.stavekontrolden.dk
@@ -219,11 +221,11 @@ public domain:
 
 The part-of-speech.txt file contains is a combination of
 "Moby (tm) Part-of-Speech II" and the WordNet database (see above and
-pos-readme.txt).
+[pos-readme.txt](https://github.com/languagetool-org/languagetool/blob/master/languagetool-language-modules/en/src/main/resources/org/languagetool/resource/en/pos-readme.txt)).
 
 ##### 2of12inf wordlist
 
-Released to public domain, see 12dicts-readme.html.
+Released to public domain, see `resource/en/12dicts-readme.html`.
 
 ##### Public domain Moby wordlists
 
@@ -238,7 +240,7 @@ For more information, see the scripts in the source directory
 The French data for part-of-speech tagging are from the Dicollecte project.
 They are made available here under the terms of the Mozilla Public
 License 2.0 (http://mozilla.org/MPL/2.0/). See also detailed information
-in [README_lexique.txt](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/src/main/resources/third-party-licenses/README.txtt).
+in [README_lexique.txt](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/src/main/resources/third-party-licenses/README.txt).
 
 #### Galician
 
@@ -249,7 +251,7 @@ Docio based on Freeling and Apertium dictionaries. Both are licensed under GPL.
 
 The German data for part-of-speech tagging is taken from Morphy
 (http://www.wolfganglezius.de/doku.php?id=cl:morphy)
-under Creative Commons Attribution-Share Alike 4.0
+under Creative Commons Attribution-Share Alike 4.0.
 
 #### Greek
 
@@ -299,10 +301,10 @@ The Romanian data for part-of-speech tagging is developed by Ionuț Păduraru
 
 Russian dictionary originally developed by www.aot.ru and licensed under LGPL.
 http://www.aot.ru/download.php file rus-src-morph.tar.gz
-or http://sourceforge.net/p/seman/svn/HEAD/tree/trunk/Dicts/SrcMorph/RusSrc/    file  morphs.mrd
+or http://sourceforge.net/p/seman/svn/HEAD/tree/trunk/Dicts/SrcMorph/RusSrc/ file morphs.mrd.
 It was partially converted to fsa format in 2008-2011, 2014 by Yakov Reztsov.
-Frequency information for spell-checking dictionary from www.aot.ru
-Source frequency information http://sourceforge.net/p/seman/svn/HEAD/tree/trunk/Dicts/SrcBinDict/ file WordData.txt
+Frequency information for spell-checking dictionary from www.aot.ru.
+Source frequency information http://sourceforge.net/p/seman/svn/HEAD/tree/trunk/Dicts/SrcBinDict/ file WordData.txt.
 It was converted to use with spell-checking dictionary in 2014 by Yakov Reztsov.
 
 #### Slovak

@@ -1,5 +1,5 @@
 LanguageTool is published under the GNU Lesser General Public License (LGPL).
-For more detailed license information, see COPYING.txt and README.txt.
+For more detailed license information, see COPYING.txt and README.md.
 
 This is the list of libraries used by LanguageTool and their licenses:
 
