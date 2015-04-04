@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.rules.AbstractCompoundRule;
+import org.languagetool.rules.CompoundRuleData;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -34,14 +35,13 @@ import org.languagetool.rules.AbstractCompoundRule;
  */
 public class RussianCompoundRule extends AbstractCompoundRule {
 
-  private static final String FILE_NAME = "/ru/compounds.txt";
+  private static final CompoundRuleData compoundData = new CompoundRuleData("/ru/compounds.txt");
 
   public RussianCompoundRule(final ResourceBundle messages) throws IOException {
-    super(messages, FILE_NAME,
+    super(messages,
             "Эти слова должны быть написаны через дефис.",
             "Эти слова должны быть написаны слитно.",
             "Эти слова могут быть написаны через дефис или слитно.");
-
   }
   
   @Override
@@ -53,5 +53,10 @@ public class RussianCompoundRule extends AbstractCompoundRule {
   public String getDescription() {
     return "Правописание через дефис";
   }
-  
+
+  @Override
+  protected CompoundRuleData getCompoundRuleData() {
+    return compoundData;
+  }
+
 }

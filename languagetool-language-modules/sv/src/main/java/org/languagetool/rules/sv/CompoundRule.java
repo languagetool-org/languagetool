@@ -22,18 +22,17 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.rules.AbstractCompoundRule;
+import org.languagetool.rules.CompoundRuleData;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
- * 
- * @author Daniel Naber
  */
 public class CompoundRule extends AbstractCompoundRule {
-  
-  private static final String FILE_NAME = "/sv/compounds.txt";
+
+  private static final CompoundRuleData compoundData = new CompoundRuleData("/sv/compounds.txt");
 
   public CompoundRule(final ResourceBundle messages) throws IOException {
-    super(messages, FILE_NAME,
+    super(messages,
             "Dessa ord skrivs samman med bindestreck.",
             "Dessa ord skrivs samman.",
             "Dessa ord skrivs samman med eller utan bindestreck.");
@@ -47,6 +46,11 @@ public class CompoundRule extends AbstractCompoundRule {
   @Override
   public String getDescription() {
     return "Särskrivningar, t.ex. 'e mail' bör skrivas 'e-mail'";
+  }
+
+  @Override
+  protected CompoundRuleData getCompoundRuleData() {
+    return compoundData;
   }
 
 }

@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.rules.AbstractCompoundRule;
+import org.languagetool.rules.CompoundRuleData;
 import org.languagetool.rules.Example;
 
 /**
@@ -31,10 +32,10 @@ import org.languagetool.rules.Example;
  */
 public final class CompoundRule extends AbstractCompoundRule {
 
-  private static final String FILE_NAME = "/pl/compounds.txt";
+  private static final CompoundRuleData compoundData = new CompoundRuleData("/pl/compounds.txt");
 
   public CompoundRule(final ResourceBundle messages) throws IOException {
-    super(messages, FILE_NAME,
+    super(messages,
             "Ten wyraz pisze się z łącznikiem.",
             "Ten wyraz pisze się razem (bez spacji ani łącznika).",
             "Ten wyraz pisze się z łącznikiem lub bez niego.");
@@ -51,6 +52,11 @@ public final class CompoundRule extends AbstractCompoundRule {
   @Override
   public String getDescription() {
     return "Sprawdza wyrazy z łącznikiem, np. „łapu capu” zamiast „łapu-capu”";
-  }    
+  }
+
+  @Override
+  protected CompoundRuleData getCompoundRuleData() {
+    return compoundData;
+  }
 
 }

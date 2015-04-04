@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.rules.AbstractCompoundRule;
+import org.languagetool.rules.CompoundRuleData;
 import org.languagetool.rules.Example;
 
 /**
@@ -29,10 +30,11 @@ import org.languagetool.rules.Example;
  */
 public class CompoundRule extends AbstractCompoundRule {
 
-  private static final String FILE_NAME = "/en/compounds.txt";
-    
+  // static to make sure this gets loaded only once:
+  private static final CompoundRuleData compoundData = new CompoundRuleData("/en/compounds.txt");
+
   public CompoundRule(final ResourceBundle messages) throws IOException {    
-    super(messages, FILE_NAME,
+    super(messages,
             "This word is normally spelled with hyphen.", 
             "This word is normally spelled as one.", 
             "This expression is normally spelled as one or with hyphen.");
@@ -40,7 +42,7 @@ public class CompoundRule extends AbstractCompoundRule {
     addExamplePair(Example.wrong("I now have a <marker>part time</marker> job."),
                    Example.fixed("I now have a <marker>part-time</marker> job."));
   }
-  
+
   @Override
   public String getId() {
     return "EN_COMPOUNDS";
@@ -49,6 +51,11 @@ public class CompoundRule extends AbstractCompoundRule {
   @Override
   public String getDescription() {
     return "Hyphenated words, e.g., 'case-sensitive' instead of 'case sensitive'";
-  }    
+  }
+
+  @Override
+  protected CompoundRuleData getCompoundRuleData() {
+    return compoundData;
+  }
 
 }

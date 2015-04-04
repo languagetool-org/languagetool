@@ -22,25 +22,25 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.rules.AbstractCompoundRule;
+import org.languagetool.rules.CompoundRuleData;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
  * 
  * @author Zdenko Podobný based on code by Marcin Miłkowski, Daniel Naber
  */
-
 public final class CompoundRule extends AbstractCompoundRule {
 
-  private static final String FILE_NAME = "/sk/compounds.txt";
+  private static final CompoundRuleData compoundData = new CompoundRuleData("/sk/compounds.txt");
 
   public CompoundRule(final ResourceBundle messages) throws IOException {
-    super(messages, FILE_NAME,
+    super(messages,
             "Toto slovo sa zvyčajne píše so spojovníkom.",
             "Toto slovo sa obvykle píše bez spojovníka.",
             "Tento výraz sa bežne píše s alebo bez spojovníka.");
     super.setShort("Problém spájania slov");
   }
-  
+
   @Override
   public String getId() {
     return "SK_COMPOUNDS";
@@ -49,7 +49,11 @@ public final class CompoundRule extends AbstractCompoundRule {
   @Override
   public String getDescription() {
     return "Slová so spojovníkom napr. použite „česko-slovenský” namiesto „česko slovenský”";
-  }    
+  }
 
-  
+  @Override
+  protected CompoundRuleData getCompoundRuleData() {
+    return compoundData;
+  }
+
 }

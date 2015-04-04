@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.rules.AbstractCompoundRule;
+import org.languagetool.rules.CompoundRuleData;
 import org.languagetool.rules.Example;
 
 /**
@@ -29,10 +30,10 @@ import org.languagetool.rules.Example;
  */
 public class CompoundRule extends AbstractCompoundRule {
 
-  private static final String FILE_NAME = "/fr/compounds.txt";
+  private static final CompoundRuleData compoundData = new CompoundRuleData("/fr/compounds.txt");
 
   public CompoundRule(final ResourceBundle messages) throws IOException {
-    super(messages, FILE_NAME,
+    super(messages,
             "Écrivez avec un trait d’union.",
             "Écrivez avec un mot seul sans espace ni trait d’union.",
             "Écrivez avec un mot seul ou avec trait d’union.");
@@ -49,6 +50,11 @@ public class CompoundRule extends AbstractCompoundRule {
   @Override
   public String getDescription() {
     return "Mots avec trait d’union";
+  }
+
+  @Override
+  protected CompoundRuleData getCompoundRuleData() {
+    return compoundData;
   }
 
 }

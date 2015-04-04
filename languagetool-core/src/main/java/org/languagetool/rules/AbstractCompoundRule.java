@@ -21,13 +21,9 @@ package org.languagetool.rules;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.tools.StringTools;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -38,11 +34,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  */
 public abstract class AbstractCompoundRule extends Rule {
 
-  private static final int MAX_TERMS = 5;
-
-  private final Set<String> incorrectCompounds = new HashSet<>();
-  private final Set<String> noDashSuggestion = new HashSet<>();
-  private final Set<String> onlyDashSuggestion = new HashSet<>();
+  static final int MAX_TERMS = 5;
 
   private final String withHyphenMessage;
   private final String withoutHyphenMessage;
@@ -56,26 +48,21 @@ public abstract class AbstractCompoundRule extends Rule {
   @Override
   public abstract String getDescription();
 
+  /** @since 3.0 */
+  protected abstract CompoundRuleData getCompoundRuleData();
+
   /**
-   * @since 2.8
+   * @since 3.0
    */
-  public AbstractCompoundRule(ResourceBundle messages, List<String> fileNames,
+  public AbstractCompoundRule(ResourceBundle messages,
                               String withHyphenMessage, String withoutHyphenMessage, String withOrWithoutHyphenMessage) throws IOException {
     super.setCategory(new Category(messages.getString("category_misc")));
-    for (String fileName : fileNames) {
-      loadCompoundFile(fileName, "UTF-8");
-    }
     this.withHyphenMessage = withHyphenMessage;
     this.withoutHyphenMessage = withoutHyphenMessage;
     this.withOrWithoutHyphenMessage = withOrWithoutHyphenMessage;
     setLocQualityIssueType(ITSIssueType.Misspelling);
   }
   
-  public AbstractCompoundRule(final ResourceBundle messages, final String fileName,
-      final String withHyphenMessage, final String withoutHyphenMessage, final String withOrWithoutHyphenMessage) throws IOException {
-    this(messages, Collections.singletonList(fileName), withHyphenMessage, withoutHyphenMessage, withOrWithoutHyphenMessage);
-  }
-
   public void setShort(final String shortDescription) {
     shortDesc = shortDescription;
   }
@@ -124,15 +111,15 @@ public abstract class AbstractCompoundRule extends Rule {
       for (int k = stringsToCheck.size()-1; k >= 0; k--) {
         final String stringToCheck = stringsToCheck.get(k);
         final String origStringToCheck = origStringsToCheck.get(k);
-        if (incorrectCompounds.contains(stringToCheck)) {
+        if (getCompoundRuleData().getIncorrectCompounds().contains(stringToCheck)) {
           final AnalyzedTokenReadings atr = stringToToken.get(stringToCheck);
           String msg = null;
           final List<String> replacement = new ArrayList<>();
-          if (!noDashSuggestion.contains(stringToCheck)) {
+          if (!getCompoundRuleData().getNoDashSuggestion().contains(stringToCheck)) {
             replacement.add(origStringToCheck.replace(' ', '-'));
             msg = withHyphenMessage;
           }
-          if (isNotAllUppercase(origStringToCheck) && !onlyDashSuggestion.contains(stringToCheck)) {
+          if (isNotAllUppercase(origStringToCheck) && !getCompoundRuleData().getOnlyDashSuggestion().contains(stringToCheck)) {
             replacement.add(mergeCompound(origStringToCheck));
             msg = withoutHyphenMessage;
           }
@@ -229,45 +216,6 @@ public abstract class AbstractCompoundRule extends Rule {
       prevTokens.poll();
       prevTokens.offer(token);
     }
-  }
-
-  private void loadCompoundFile(final String fileName, final String encoding) throws IOException {
-    InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(fileName);
-    try (
-      InputStreamReader reader = new InputStreamReader(stream, encoding);
-      BufferedReader br = new BufferedReader(reader)
-    ) {
-      String line;
-      while ((line = br.readLine()) != null) {
-        if (line.length() < 1 || line.charAt(0) == '#') {
-          continue;     // ignore comments
-        }
-        // the set contains the incorrect spellings, i.e. the ones without hyphen
-        line = line.replace('-', ' ');
-        final String[] parts = line.split(" ");
-        if (parts.length > MAX_TERMS) {
-          throw new IOException("Too many compound parts in file " + fileName + ": " + line + ", maximum allowed: " + MAX_TERMS);
-        }
-        if (parts.length == 1) {
-          throw new IOException("Not a compound in file " + fileName + ": " + line);
-        }
-        if (line.endsWith("+")) {
-          line = removeLastCharacter(line);
-          noDashSuggestion.add(line.toLowerCase());
-        } else if (line.endsWith("*")) {
-          line = removeLastCharacter(line);
-          onlyDashSuggestion.add(line.toLowerCase());
-        }
-        if (incorrectCompounds.contains(line.toLowerCase())) {
-          throw new RuntimeException("Duplicated word in file " + fileName + ": " + line);
-        }
-        incorrectCompounds.add(line.toLowerCase());
-      }
-    }
-  }
-
-  private String removeLastCharacter(String str) {
-    return str.substring(0, str.length() - 1);
   }
 
   @Override

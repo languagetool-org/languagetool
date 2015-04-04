@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.rules.AbstractCompoundRule;
+import org.languagetool.rules.CompoundRuleData;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -30,10 +31,10 @@ import org.languagetool.rules.AbstractCompoundRule;
  */
 public class CompoundRule extends AbstractCompoundRule {
 
-  private static final String FILE_NAME = "/ro/compounds.txt";
+  private static final CompoundRuleData compoundData = new CompoundRuleData("/ro/compounds.txt");
 
   public CompoundRule(final ResourceBundle messages) throws IOException {
-    super(messages, FILE_NAME,
+    super(messages,
             "Cuvântul se scrie cu cratimă.",
             "Cuvântul se scrie legat.",
             "Cuvântul se scrie legat sau cu cratimă.");
@@ -54,6 +55,11 @@ public class CompoundRule extends AbstractCompoundRule {
   @Override
   public String getDescription() {
     return "Greșeală de scriere (cuvinte scrise legat sau cu cratimă)";
+  }
+
+  @Override
+  protected CompoundRuleData getCompoundRuleData() {
+    return compoundData;
   }
 
 }
