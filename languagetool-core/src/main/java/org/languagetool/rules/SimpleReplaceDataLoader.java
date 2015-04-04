@@ -22,6 +22,10 @@ import java.io.InputStream;
 import java.util.*;
 
 /**
+ * Load replacement data from a UTF-8 stream. One replacement per line,
+ * word and its replacements separated by an equals sign. Both the
+ * word and the replacements can have more than one form if separated
+ * by pipe symbols.
  * @since 3.0
  */
 public final class SimpleReplaceDataLoader {
@@ -42,13 +46,12 @@ public final class SimpleReplaceDataLoader {
         }
         String[] parts = line.split("=");
         if (parts.length != 2) {
-          throw new RuntimeException("Could not load simple replace data. Error in line '" + line + "', expected format '...=...'");
+          throw new RuntimeException("Could not load simple replacement data. Error in line '" + line + "', expected format 'word=replacement'");
         }
-        String[] replacements = parts[1].split("\\|");
-        // multiple incorrect forms
         String[] wrongForms = parts[0].split("\\|");
+        List<String> replacements = Arrays.asList(parts[1].split("\\|"));
         for (String wrongForm : wrongForms) {
-          map.put(wrongForm, Arrays.asList(replacements));
+          map.put(wrongForm, replacements);
         }
       }
     }
