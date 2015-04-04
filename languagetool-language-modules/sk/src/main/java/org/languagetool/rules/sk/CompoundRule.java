@@ -37,8 +37,8 @@ public final class CompoundRule extends AbstractCompoundRule {
     super(messages,
             "Toto slovo sa zvyčajne píše so spojovníkom.",
             "Toto slovo sa obvykle píše bez spojovníka.",
-            "Tento výraz sa bežne píše s alebo bez spojovníka.");
-    super.setShort("Problém spájania slov");
+            "Tento výraz sa bežne píše s alebo bez spojovníka.",
+            "Problém spájania slov");
   }
 
   @Override

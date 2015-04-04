@@ -39,8 +39,8 @@ public class CompoundRule extends AbstractCompoundRule {
     super(messages,
             "Dieses Wort wird mit Bindestrich geschrieben.",
             "Dieses Wort wird zusammengeschrieben.",
-            "Dieses Wort wird zusammen oder mit Bindestrich geschrieben.");
-    super.setShort("Zusammenschreibung von Wörtern");
+            "Dieses Wort wird zusammen oder mit Bindestrich geschrieben.",
+            "Zusammenschreibung von Wörtern");
     addExamplePair(Example.wrong("Wenn es schlimmer wird, solltest Du zum <marker>HNO Arzt</marker> gehen."),
                    Example.fixed("Wenn es schlimmer wird, solltest Du zum <marker>HNO-Arzt</marker> gehen."));
   }

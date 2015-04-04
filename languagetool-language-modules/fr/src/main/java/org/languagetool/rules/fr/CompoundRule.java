@@ -36,8 +36,8 @@ public class CompoundRule extends AbstractCompoundRule {
     super(messages,
             "Écrivez avec un trait d’union.",
             "Écrivez avec un mot seul sans espace ni trait d’union.",
-            "Écrivez avec un mot seul ou avec trait d’union.");
-    super.setShort("Erreur de trait d’union");
+            "Écrivez avec un mot seul ou avec trait d’union.",
+            "Erreur de trait d’union");
     addExamplePair(Example.wrong("Le <marker>Haut Rhin</marker>."),
                    Example.fixed("Le <marker>Haut-Rhin</marker>."));
   }

@@ -36,8 +36,8 @@ public class PostReformPortugueseCompoundRule extends AbstractCompoundRule {
     super(messages,
             "Esta palavra é hifenizada.",
             "Esta palavra é escrita em conjunto.",
-            "Esta palavra é uma palavra ou com um hífen.");
-    super.setShort("Juntos grafias de palavras");
+            "Esta palavra é uma palavra ou com um hífen.",
+            "Juntos grafias de palavras");
   }
 
   @Override

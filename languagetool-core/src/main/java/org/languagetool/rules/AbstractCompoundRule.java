@@ -39,8 +39,7 @@ public abstract class AbstractCompoundRule extends Rule {
   private final String withHyphenMessage;
   private final String withoutHyphenMessage;
   private final String withOrWithoutHyphenMessage;
-
-  private String shortDesc;
+  private final String shortDesc;
 
   @Override
   public abstract String getId();
@@ -56,15 +55,21 @@ public abstract class AbstractCompoundRule extends Rule {
    */
   public AbstractCompoundRule(ResourceBundle messages,
                               String withHyphenMessage, String withoutHyphenMessage, String withOrWithoutHyphenMessage) throws IOException {
+    this(messages, withHyphenMessage, withoutHyphenMessage, withOrWithoutHyphenMessage, null);
+  }
+
+  /**
+   * @since 3.0
+   */
+  public AbstractCompoundRule(ResourceBundle messages,
+                              String withHyphenMessage, String withoutHyphenMessage, String withOrWithoutHyphenMessage,
+                              String shortMessage) throws IOException {
     super.setCategory(new Category(messages.getString("category_misc")));
     this.withHyphenMessage = withHyphenMessage;
     this.withoutHyphenMessage = withoutHyphenMessage;
     this.withOrWithoutHyphenMessage = withOrWithoutHyphenMessage;
+    this.shortDesc = shortMessage;
     setLocQualityIssueType(ITSIssueType.Misspelling);
-  }
-  
-  public void setShort(final String shortDescription) {
-    shortDesc = shortDescription;
   }
 
   /**

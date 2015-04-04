@@ -75,7 +75,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * This message is scanned for &lt;suggestion&gt;...&lt;/suggestion&gt;
    * to get suggested fixes for the problem detected by this rule. 
    * 
-   * @param shortMessage used for example in OpenOffice/LibreOffice's context menu
+   * @param shortMessage used for example in OpenOffice/LibreOffice's context menu (may be null)
    * @param startWithUppercase whether the original text at the position
    *    of the match starts with an uppercase character
    */

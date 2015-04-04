@@ -38,8 +38,8 @@ public final class CompoundRule extends AbstractCompoundRule {
     super(messages,
             "Ten wyraz pisze się z łącznikiem.",
             "Ten wyraz pisze się razem (bez spacji ani łącznika).",
-            "Ten wyraz pisze się z łącznikiem lub bez niego.");
-    super.setShort("Brak łącznika lub zbędny łącznik");
+            "Ten wyraz pisze się z łącznikiem lub bez niego.",
+            "Brak łącznika lub zbędny łącznik");
     addExamplePair(Example.wrong("Witamy w <marker>Rabce Zdroju</marker>."),
                    Example.fixed("Witamy w <marker>Rabce-Zdroju</marker>."));
   }

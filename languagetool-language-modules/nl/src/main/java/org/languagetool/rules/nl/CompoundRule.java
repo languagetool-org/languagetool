@@ -35,8 +35,8 @@ public class CompoundRule extends AbstractCompoundRule {
     super(messages,
             "Hier wordt een koppelteken verwacht.",
             "Dit woord hoort waarschijnlijk aaneengeschreven.",
-            "Deze uitdrukking hoort mogelijk aan elkaar, eventueel met een koppelteken.");
-    super.setShort("Koppeltekenprobleem");
+            "Deze uitdrukking hoort mogelijk aan elkaar, eventueel met een koppelteken.",
+            "Koppeltekenprobleem");
   }
 
   @Override

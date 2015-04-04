@@ -22,5 +22,7 @@
     now itself responsible for loading its data
   * Sub classes of `AbstractCompoundRule` are now responsible for loading the
     compound data themselves using `CompoundRuleData`
+  * `AbstractCompoundRule.setShort(String)` has been removed and added as
+    a constructor parameter instead.
 
 See [CHANGES.txt](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.txt) for all changes before 3.0

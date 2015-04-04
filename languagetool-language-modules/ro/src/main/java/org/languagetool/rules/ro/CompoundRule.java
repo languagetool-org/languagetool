@@ -37,9 +37,8 @@ public class CompoundRule extends AbstractCompoundRule {
     super(messages,
             "Cuvântul se scrie cu cratimă.",
             "Cuvântul se scrie legat.",
-            "Cuvântul se scrie legat sau cu cratimă.");
-    super.setShort("Problemă de scriere (cratimă, spațiu, etc.)");
-    // there are words that should not be written with hyphen but as one word
+            "Cuvântul se scrie legat sau cu cratimă.",
+            "Problemă de scriere (cratimă, spațiu, etc.)");
   }
 
   @Override
