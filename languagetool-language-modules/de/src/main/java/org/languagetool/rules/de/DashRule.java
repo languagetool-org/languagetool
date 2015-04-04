@@ -57,7 +57,6 @@ public class DashRule extends GermanRule {
     for (int i = 0; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
       if (tokens[i].isWhitespace()) {
-        // ignore
         continue;
       } 
       if (prevToken != null && !prevToken.equals("-") && !prevToken.contains("--") 
@@ -66,7 +65,7 @@ public class DashRule extends GermanRule {
         final char firstChar = token.charAt(0);
         if (Character.isUpperCase(firstChar)) {
           final String msg = "Möglicherweise fehlt ein 'und' oder ein Komma, oder es wurde nach dem Wort " +
-          "ein überflüssiges Leerzeichen eingefügt. Eventuell haben Sie auch versehentlich einen Bindestrich statt eines Punktes eingefügt.";
+            "ein überflüssiges Leerzeichen eingefügt. Eventuell haben Sie auch versehentlich einen Bindestrich statt eines Punktes eingefügt.";
           final RuleMatch ruleMatch = new RuleMatch(this, tokens[i-1].getStartPos(),
               tokens[i-1].getStartPos()+prevToken.length()+1, msg);
           String prevTokenStr = tokens[i-1].getToken();
@@ -81,7 +80,6 @@ public class DashRule extends GermanRule {
 
   @Override
   public void reset() {
-    // nothing
   }
 
 }

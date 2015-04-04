@@ -163,7 +163,7 @@ public abstract class WrongWordInContextRule extends Rule {
   protected abstract String getLongMessageString();
   
   private String getMessage(String wrongWord, String suggestion, String explanationSuggestion, String explanationWrongWord) {
-    if (explanationSuggestion.equals("") || explanationWrongWord.equals("")) {
+    if (explanationSuggestion.isEmpty() || explanationWrongWord.isEmpty()) {
       return getMessageString().replaceFirst("\\$SUGGESTION", suggestion).replaceFirst("\\$WRONGWORD", wrongWord);
     } else {
       return getLongMessageString().replaceFirst("\\$SUGGESTION", suggestion).replaceFirst("\\$WRONGWORD", wrongWord)
@@ -204,7 +204,7 @@ public abstract class WrongWordInContextRule extends Rule {
     return set;
   }
   
-  class ContextWords {
+  static class ContextWords {
     
     String[] matches = {"", ""};
     String[] explanations = {"", ""};
@@ -237,7 +237,6 @@ public abstract class WrongWordInContextRule extends Rule {
 
   @Override
   public void reset() {
-    // nothing
   }
 
 }

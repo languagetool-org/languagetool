@@ -113,5 +113,4 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     return true;
   }
 
-
 }

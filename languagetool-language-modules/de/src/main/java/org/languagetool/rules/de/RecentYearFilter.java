@@ -42,4 +42,5 @@ public class RecentYearFilter implements RuleFilter {
     }
     return null;
   }
+
 }

@@ -29,15 +29,12 @@ import java.util.Set;
  */
 final class CaseRuleExceptions {
 
-  private static Set<String> exceptions;
+  private static final Set<String> exceptions = loadExceptions("/de/case_rule_exceptions.txt");
 
   private CaseRuleExceptions() {
   }
 
   public static Set<String> getExceptions() {
-    if (exceptions == null) {
-      exceptions = loadExceptions("/de/case_rule_exceptions.txt");
-    }
     return exceptions;
   }
 
@@ -50,7 +47,7 @@ final class CaseRuleExceptions {
     ) {
       String line;
       while ((line = br.readLine()) != null) {
-        if (line.length() == 0 || line.startsWith("#")) {
+        if (line.isEmpty() || line.startsWith("#")) {
           continue;
         }
         if (line.matches("^\\s.*") || line.matches(".*\\s$")) {
