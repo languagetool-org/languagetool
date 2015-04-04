@@ -240,7 +240,7 @@ For more information, see the scripts in the source directory
 The French data for part-of-speech tagging are from the Dicollecte project.
 They are made available here under the terms of the Mozilla Public
 License 2.0 (http://mozilla.org/MPL/2.0/). See also detailed information
-in [README_lexique.txt](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/src/main/resources/third-party-licenses/README.txt).
+in [README_lexique.txt](https://github.com/languagetool-org/languagetool/blob/master/languagetool-language-modules/fr/src/main/resources/org/languagetool/resource/fr/README_lexique.txt).
 
 #### Galician
 
