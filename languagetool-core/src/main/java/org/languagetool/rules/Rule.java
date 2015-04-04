@@ -34,6 +34,13 @@ import org.languagetool.Language;
  * Abstract rule class. A Rule describes a language error and can test whether a
  * given pre-analyzed text contains that error using the {@link Rule#match(org.languagetool.AnalyzedSentence)}
  * method.
+ *
+ * <p>Rules are created whenever a {@link org.languagetool.JLanguageTool} or
+ * a {@link org.languagetool.MultiThreadedJLanguageTool} object is created.
+ * As these objects are not thread-safe, this can happen often. Rules should thus
+ * make sure that their initialization works fast. For example, if a rule needs
+ * to load data from disk, it should store it in a static variable to make sure
+ * the loading happens only once.
  * 
  * @author Daniel Naber
  */
