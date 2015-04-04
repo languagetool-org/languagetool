@@ -48,7 +48,7 @@ public class GermanWordRepeatBeginningRule extends WordRepeatBeginningRule {
   }
   
   private static final Set<String> ADVERBS = new HashSet<>(Arrays.asList(
-          "Auch", "Anschließend", "Außerdem", "Danach", "Darüberhinaus", "Ferner",
+          "Auch", "Anschließend", "Außerdem", "Danach", "Ferner",
           "Nebenher", "Nebenbei", "Überdies", "Weiterführend", "Zudem", "Zusätzlich"
   ));
   
