@@ -46,8 +46,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   protected abstract Map<String, List<String>> getWrongWords();
 
   protected static Map<String, List<String>> load(String path) {
-    InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
-    return new SimpleReplaceDataLoader().loadWords(stream);
+    return new SimpleReplaceDataLoader().loadWords(path);
   }
 
   /**

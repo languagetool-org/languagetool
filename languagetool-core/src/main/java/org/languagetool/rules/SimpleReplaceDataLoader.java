@@ -18,12 +18,14 @@
  */
 package org.languagetool.rules;
 
+import org.languagetool.JLanguageTool;
+
 import java.io.InputStream;
 import java.util.*;
 
 /**
- * Load replacement data from a UTF-8 stream. One replacement per line,
- * word and its replacements separated by an equals sign. Both the
+ * Load replacement data from a UTF-8 file. One replacement per line,
+ * word and its replacement(s) separated by an equals sign. Both the
  * word and the replacements can have more than one form if separated
  * by pipe symbols.
  * @since 3.0
@@ -31,9 +33,10 @@ import java.util.*;
 public final class SimpleReplaceDataLoader {
 
   /**
-   * Load replacement rules from a utf-8 stream.
+   * Load replacement rules from a utf-8 file in the classpath.
    */
-  public Map<String, List<String>> loadWords(InputStream stream) {
+  public Map<String, List<String>> loadWords(String path) {
+    InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
     Map<String, List<String>> map = new HashMap<>();
     try (Scanner scanner = new Scanner(stream, "utf-8")) {
       while (scanner.hasNextLine()) {
@@ -43,7 +46,8 @@ public final class SimpleReplaceDataLoader {
         }
         String[] parts = line.split("=");
         if (parts.length != 2) {
-          throw new RuntimeException("Could not load simple replacement data. Error in line '" + line + "', expected format 'word=replacement'");
+          throw new RuntimeException("Could not load simple replacement data from: " + path + ". " +
+                  "Error in line '" + line + "', expected format 'word=replacement'");
         }
         String[] wrongForms = parts[0].split("\\|");
         List<String> replacements = Arrays.asList(parts[1].split("\\|"));
