@@ -27,4 +27,6 @@
   * `AbstractCompoundRule.setShort(String)` has been removed and added as
     a constructor parameter instead.
 
-See [CHANGES.txt](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.txt) for all changes before 3.0
+## Older versions
+
+See [CHANGES.txt](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.txt) for changes before 3.0.
