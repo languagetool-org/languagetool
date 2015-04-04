@@ -30,9 +30,6 @@ import java.util.*;
  */
 public final class SimpleReplaceDataLoader {
 
-  public SimpleReplaceDataLoader() {
-  }
-
   /**
    * Load replacement rules from a utf-8 stream.
    */

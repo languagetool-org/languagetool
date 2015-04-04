@@ -73,18 +73,11 @@ public class CompoundRuleData {
     ) {
       String line;
       while ((line = br.readLine()) != null) {
-        if (line.length() < 1 || line.charAt(0) == '#') {
+        if (line.isEmpty() || line.charAt(0) == '#') {
           continue;     // ignore comments
         }
-        // the set contains the incorrect spellings, i.e. the ones without hyphen
-        line = line.replace('-', ' ');
-        final String[] parts = line.split(" ");
-        if (parts.length > AbstractCompoundRule.MAX_TERMS) {
-          throw new IOException("Too many compound parts in file " + path + ": " + line + ", maximum allowed: " + AbstractCompoundRule.MAX_TERMS);
-        }
-        if (parts.length == 1) {
-          throw new IOException("Not a compound in file " + path + ": " + line);
-        }
+        line = line.replace('-', ' ');  // the set contains the incorrect spellings, i.e. the ones without hyphen
+        validateLine(path, line);
         if (line.endsWith("+")) {
           line = removeLastCharacter(line);
           noDashSuggestion.add(line.toLowerCase());
@@ -92,11 +85,21 @@ public class CompoundRuleData {
           line = removeLastCharacter(line);
           onlyDashSuggestion.add(line.toLowerCase());
         }
-        if (incorrectCompounds.contains(line.toLowerCase())) {
-          throw new RuntimeException("Duplicated word in file " + path + ": " + line);
-        }
         incorrectCompounds.add(line.toLowerCase());
       }
+    }
+  }
+
+  private void validateLine(String path, String line) throws IOException {
+    final String[] parts = line.split(" ");
+    if (parts.length == 1) {
+      throw new RuntimeException("Not a compound in file " + path + ": " + line);
+    }
+    if (parts.length > AbstractCompoundRule.MAX_TERMS) {
+      throw new RuntimeException("Too many compound parts in file " + path + ": " + line + ", maximum allowed: " + AbstractCompoundRule.MAX_TERMS);
+    }
+    if (incorrectCompounds.contains(line.toLowerCase())) {
+      throw new RuntimeException("Duplicated word in file " + path + ": " + line);
     }
   }
 
