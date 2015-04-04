@@ -20,8 +20,10 @@ package org.languagetool.rules.de;
 
 import org.languagetool.rules.AbstractWordCoherencyRule;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.WordCoherencyDataLoader;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
@@ -31,6 +33,8 @@ import java.util.ResourceBundle;
  */
 public class WordCoherencyRule extends AbstractWordCoherencyRule {
 
+  private static final Map<String, String> wordMap = new WordCoherencyDataLoader().loadWords("/de/coherency.txt");
+
   public WordCoherencyRule(ResourceBundle messages) throws IOException {
     super(messages);
     addExamplePair(Example.wrong("Die Delfine gehören zu den Zahnwalen. <marker>Delphine</marker> sind in allen Meeren verbreitet."),
@@ -38,8 +42,8 @@ public class WordCoherencyRule extends AbstractWordCoherencyRule {
   }
 
   @Override
-  protected String getFilePath() {
-    return "/de/coherency.txt";
+  protected Map<String, String> getWordMap() {
+    return wordMap;
   }
 
   @Override

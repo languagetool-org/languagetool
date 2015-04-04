@@ -18,8 +18,10 @@
        want to use `Languages.get()`
   * Other static methods from class Language have also been moved to Languages
   * `PatternToken.getOrGroup()` and `.getAndGroup()` now return an unmodifiable list
-  * `AbstractSimpleReplaceRule.getFileName()` has been removed, the class is
-    now itself responsible for loading its data
+  * `AbstractSimpleReplaceRule.getFileName()` has been removed, the sub class are
+    now themselves responsible for loading their data
+  * `AbstractWordCoherencyRule.getFileName()` has been removed, the sub class are
+    now themselves responsible for loading their data
   * Sub classes of `AbstractCompoundRule` are now responsible for loading the
     compound data themselves using `CompoundRuleData`
   * `AbstractCompoundRule.setShort(String)` has been removed and added as
