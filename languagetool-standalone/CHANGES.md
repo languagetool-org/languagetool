@@ -2,6 +2,9 @@
 
 ## 3.0 (release planned for 2015-06-29)
 
+#### German
+  * fixed some false alarms
+
 #### Slovak
   * dictionary update and several new rules
 
@@ -25,6 +28,7 @@
     compound data themselves using `CompoundRuleData`
   * `AbstractCompoundRule.setShort(String)` has been removed and added as
     a constructor parameter instead.
+
 
 ## Older versions
 
