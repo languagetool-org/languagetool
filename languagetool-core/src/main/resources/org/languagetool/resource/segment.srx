@@ -5,7 +5,9 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="no"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes"></okpsrx:options>
-<okpsrx:sample language="pl_two" useMappedRules="no">Ingevolge paragraaf 4.7.4. van het SGR is ...
+<okpsrx:sample language="pl_two" useMappedRules="no">The next sentence is not OK. this sentence should start with an uppercase letter.
+
+Ingevolge paragraaf 4.7.4. van het SGR is ...
 12) Make sure that the lamp is on.
 12) Make sure that the lamp is on.
 He also offers a conversion table (see Cohen, 1988, p. 123).
@@ -28,7 +30,9 @@ Ik vind dat R. Baars een slechte (!) programmeur is. Als voetballer wordt hij no
 gebroken regels.En soms vergeet je het begin gewoon. "Ik ben gek" zei hij "op voetbal." Of je dat wil horen is niet duidelijk.
 
 U.S. Dist. Judge William G. Bush and Gen. J. Nugent Jr. Dumont, as well as William B. Hartslef Jr. are here. Dr. Jekyll and Mr. Hyde welcome you.
-It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is another sentence. Leave me alone!, he yelled. I am in the U.S. Army. Charles (Ind.) said he. Let's go to the U. S. A. He won't. Really. On p. 6 there's nothing. Sentence ends here. (Another one). Let's meet at 5 p.m. It was Thursday. I met her at 5 p.m. and went to the movies. There are dogs, cats etc. and you should know it. Others are Drs. and Mmes. Alfred Robbins. Student Prince Lounge on Atlantic Blvd. plotting a month-long festival throughout October. Men from Madison Ave. would jump at the chance. Thick and 1'' dia. fitted on a 1/8'' dia. mandrel. 59-cents per 8-oz. glass. 3000 times a second with short 400-kc. bursts. 9 sec. of viewing time for each poster subject. This is Gov. Marshall. Scam Ltd. is a venture company.</okpsrx:sample>
+It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is another sentence. Leave me alone!, he yelled. I am in the U.S. Army. Charles (Ind.) said he. Let's go to the U. S. A. He won't. Really. On p. 6 there's nothing. Sentence ends here. (Another one). Let's meet at 5 p.m. It was Thursday. I met her at 5 p.m. and went to the movies. There are dogs, cats etc. and you should know it. Others are Drs. and Mmes. Alfred Robbins. Student Prince Lounge on Atlantic Blvd. plotting a month-long festival throughout October. Men from Madison Ave. would jump at the chance. Thick and 1'' dia. fitted on a 1/8'' dia. mandrel. 59-cents per 8-oz. glass. 3000 times a second with short 400-kc. bursts. 9 sec. of viewing time for each poster subject. This is Gov. Marshall. Scam Ltd. is a venture company. 
+
+</okpsrx:sample>
 <okpsrx:rangeRule></okpsrx:rangeRule>
 </header>
 <body>
@@ -1281,6 +1285,10 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <rule break="yes">
 <beforebreak>[^,][\s]\p{L}{2}\.\s</beforebreak>
 <afterbreak>\p{N}+\)\s</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\bOK\.\s</beforebreak>
+<afterbreak>\p{Ll}+</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>[\.\s]\p{L}{1,2}\.\s</beforebreak>
@@ -4363,7 +4371,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </rule>
 </languagerule>
 <languagerule languagerulename="Catalan">
-<rule break="yes"> <!--exception to next rules-->
+<rule break="yes">
 <beforebreak>\w['’][nN]\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
