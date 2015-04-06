@@ -18,14 +18,13 @@
  */
 package org.languagetool.language;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
 import java.util.Objects;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 public class LanguageIdentifierTest {
 
@@ -73,6 +72,10 @@ public class LanguageIdentifierTest {
     // not activated because it impairs detection of Spanish, so ast and gl may be mis-detected:
     langAssert("es", "L'Iberorrománicu o Iberromance ye un subgrupu de llingües romances que posiblemente ...");  // ast
     langAssert(null, "Dodro é un concello da provincia da Coruña pertencente á comarca do Sar ...");  // gl
+    // Somali, known by language-detector, but not by LT, so we get back something else:
+    langAssert("tl", "Dhammaan garoomada caalamka ayaa loo isticmaalaa. Ururku waxa uu qabtaa ama uu ku shaqaleeyahay " +
+            "isusocodka diyaaradaha aduunka ee iskaga gooshaya xuduudaha iyo ka hortagga wixii qalad ah iyo baaritaanka " +
+            "marka ay dhacdo dhibaato la xiriirta dulimaad.");
   }
 
   private void langAssert(String expectedLangCode, String text) {
