@@ -70,11 +70,12 @@ public abstract class ConfusionProbabilityRule extends Rule {
     super(messages);
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     String prefix = "/" + language.getShortName() + "/";
-    InputStream homophonesInfoStream = dataBroker.getFromResourceDirAsStream(prefix + HOMOPHONES_INFO);
-    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(homophonesInfoStream, MIN_SENTENCES, MAX_ERROR_RATE);
-    InputStream homophonesStream = dataBroker.getFromResourceDirAsStream(prefix + HOMOPHONES);
-    this.wordToSet = confusionSetLoader.loadConfusionSet(homophonesStream);
-    this.languageModel = languageModel;
+    try (InputStream homophonesInfoStream = dataBroker.getFromResourceDirAsStream(prefix + HOMOPHONES_INFO);
+         InputStream homophonesStream = dataBroker.getFromResourceDirAsStream(prefix + HOMOPHONES)) {
+      ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(homophonesInfoStream, MIN_SENTENCES, MAX_ERROR_RATE);
+      this.wordToSet = confusionSetLoader.loadConfusionSet(homophonesStream);
+      this.languageModel = languageModel;
+    }
   }
 
   @Override

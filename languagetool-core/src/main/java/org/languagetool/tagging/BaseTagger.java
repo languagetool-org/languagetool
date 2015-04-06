@@ -104,9 +104,10 @@ public abstract class BaseTagger implements Tagger {
     try {
       String manualFileName = getManualAdditionsFileName();
       if (manualFileName != null) {
-        InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(manualFileName);
-        ManualTagger manualTagger = new ManualTagger(stream);
-        return new CombiningTagger(morfologikTagger, manualTagger, overwriteWithManualTagger());
+        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(manualFileName)) {
+          ManualTagger manualTagger = new ManualTagger(stream);
+          return new CombiningTagger(morfologikTagger, manualTagger, overwriteWithManualTagger());
+        }
       } else {
         return morfologikTagger;
       }

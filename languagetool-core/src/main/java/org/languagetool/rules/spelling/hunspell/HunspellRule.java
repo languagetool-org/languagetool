@@ -216,12 +216,14 @@ public class HunspellRule extends SpellingCheckRule {
       final File tempDir = new File(System.getProperty("java.io.tmpdir"));
       File tempDicFile = new File(tempDir, dicName + ".dic");
       JLanguageTool.addTemporaryFile(tempDicFile);
-      fileCopy(JLanguageTool.getDataBroker().
-          getFromResourceDirAsStream(originalPath), tempDicFile);
+      try (InputStream dicStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(originalPath)) {
+        fileCopy(dicStream, tempDicFile);
+      }
       File tempAffFile = new File(tempDir, dicName + ".aff");
       JLanguageTool.addTemporaryFile(tempAffFile);
-      fileCopy(JLanguageTool.getDataBroker().
-          getFromResourceDirAsStream(originalPath.replaceFirst(".dic$", ".aff")), tempAffFile);
+      try (InputStream affStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(originalPath.replaceFirst(".dic$", ".aff"))) {
+        fileCopy(affStream, tempAffFile);
+      }
 
       dictionaryPath = tempDir.getAbsolutePath() + "/" + dicName;
     } else {

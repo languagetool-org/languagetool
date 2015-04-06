@@ -106,7 +106,9 @@ public class EsperantoTagger implements Tagger {
     // limited set of words in Esperanto which have no standard ending, as
     // opposed to open words which are unlimited in numbers and which follow
     // strict rules for their suffixes.
-    manualTagger = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream("/eo/manual-tagger.txt"));
+    try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/eo/manual-tagger.txt")) {
+      manualTagger = new ManualTagger(stream);
+    }
 
     // Load set of transitive and intransitive verbs.  Files don't contain
     // verbs with suffix -iĝ or -ig since transitivity is obvious for those verbs.

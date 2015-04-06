@@ -97,8 +97,9 @@ public class LanguageIdentifier {
     for (String externalLangCode : externalLangCodes) {
       String profilePath = "/" + externalLangCode + "/" + externalLangCode + ".profile";
       if (JLanguageTool.getDataBroker().resourceExists(profilePath)) {  // not all languages are always available
-        InputStream profile = JLanguageTool.getDataBroker().getFromResourceDirAsStream(profilePath);
-        profiles.add(new LanguageProfileReader().read(profile));
+        try (InputStream profile = JLanguageTool.getDataBroker().getFromResourceDirAsStream(profilePath)) {
+          profiles.add(new LanguageProfileReader().read(profile));
+        }
       }
     }
     return profiles;

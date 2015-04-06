@@ -40,8 +40,8 @@ final class CaseRuleExceptions {
 
   private static Set<String> loadExceptions(String path) {
     Set<String> result = new HashSet<>();
-    InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
     try (
+      InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
       InputStreamReader reader = new InputStreamReader(stream, "utf-8");
       BufferedReader br = new BufferedReader(reader)
     ) {

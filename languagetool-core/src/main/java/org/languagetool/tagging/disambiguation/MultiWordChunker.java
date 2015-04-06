@@ -74,43 +74,47 @@ public class MultiWordChunker implements Disambiguator {
     Map<String, Integer> mStartNoSpace = new HashMap<>();
     Map<String, String> mFull = new HashMap<>();
 
-    final List<String> posTokens = loadWords(JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename));
-    for (String posToken : posTokens) {
-      final String[] tokenAndTag = posToken.split("\t");
-      if (tokenAndTag.length != 2) {
-        throw new RuntimeException("Invalid format in " + filename + ": '" + posToken + "', expected two tab-separated parts");
-      }
-      final boolean containsSpace = tokenAndTag[0].indexOf(' ') > 0;
-      String firstToken;
-      final String[] firstTokens;
-      if (!containsSpace) {
-        firstTokens = new String[tokenAndTag[0].length()];
-        firstToken = tokenAndTag[0].substring(0, 1);
-        for (int i = 1; i < tokenAndTag[0].length(); i++) {
-          firstTokens[i] = tokenAndTag[0].substring(i - 1, i);
+    try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename)) {
+      final List<String> posTokens = loadWords(stream);
+      for (String posToken : posTokens) {
+        final String[] tokenAndTag = posToken.split("\t");
+        if (tokenAndTag.length != 2) {
+          throw new RuntimeException("Invalid format in " + filename + ": '" + posToken + "', expected two tab-separated parts");
         }
-        if (mStartNoSpace.containsKey(firstToken)) {
-          if (mStartNoSpace.get(firstToken) < firstTokens.length) {
+        final boolean containsSpace = tokenAndTag[0].indexOf(' ') > 0;
+        String firstToken;
+        final String[] firstTokens;
+        if (!containsSpace) {
+          firstTokens = new String[tokenAndTag[0].length()];
+          firstToken = tokenAndTag[0].substring(0, 1);
+          for (int i = 1; i < tokenAndTag[0].length(); i++) {
+            firstTokens[i] = tokenAndTag[0].substring(i - 1, i);
+          }
+          if (mStartNoSpace.containsKey(firstToken)) {
+            if (mStartNoSpace.get(firstToken) < firstTokens.length) {
+              mStartNoSpace.put(firstToken, firstTokens.length);
+            }
+          } else {
             mStartNoSpace.put(firstToken, firstTokens.length);
           }
         } else {
-          mStartNoSpace.put(firstToken, firstTokens.length);
-        }
-      } else {
-        firstTokens = tokenAndTag[0].split(" ");
-        firstToken = firstTokens[0];
+          firstTokens = tokenAndTag[0].split(" ");
+          firstToken = firstTokens[0];
 
-        if (mStartSpace.containsKey(firstToken)) {
-          if (mStartSpace.get(firstToken) < firstTokens.length) {
+          if (mStartSpace.containsKey(firstToken)) {
+            if (mStartSpace.get(firstToken) < firstTokens.length) {
+              mStartSpace.put(firstToken, firstTokens.length);
+            }
+          } else {
             mStartSpace.put(firstToken, firstTokens.length);
           }
-        } else {
-          mStartSpace.put(firstToken, firstTokens.length);
         }
+        mFull.put(tokenAndTag[0], tokenAndTag[1]);
       }
-      mFull.put(tokenAndTag[0], tokenAndTag[1]);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
-    
+
     this.mStartSpace = mStartSpace;
     this.mStartNoSpace = mStartNoSpace;
     this.mFull = mFull;

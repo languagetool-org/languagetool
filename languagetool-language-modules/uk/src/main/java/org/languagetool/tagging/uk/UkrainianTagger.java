@@ -135,14 +135,16 @@ public class UkrainianTagger extends BaseTagger {
   }
 
   private static Set<String> loadSet(String path) {
-    InputStream is = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
     Set<String> result = new HashSet<>();
-    try (Scanner scanner = new Scanner(is,"UTF-8")) {
+    try (InputStream is = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
+         Scanner scanner = new Scanner(is,"UTF-8")) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
         result.add(line);
       }
       return result;
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 

@@ -66,8 +66,8 @@ public class CompoundRuleData {
   }
 
   private void loadCompoundFile(final String path) throws IOException {
-    InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
     try (
+      InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
       InputStreamReader reader = new InputStreamReader(stream, "utf-8");
       BufferedReader br = new BufferedReader(reader)
     ) {

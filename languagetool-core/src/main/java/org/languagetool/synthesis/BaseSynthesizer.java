@@ -19,6 +19,7 @@
 package org.languagetool.synthesis;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -152,7 +153,9 @@ public class BaseSynthesizer implements Synthesizer {
       synchronized (this) {
         tags = possibleTags;
         if (tags == null) {
-          possibleTags = SynthesizerTools.loadWords(JLanguageTool.getDataBroker().getFromResourceDirAsStream(tagFileName));
+          try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(tagFileName)) {
+            possibleTags = SynthesizerTools.loadWords(stream);
+          }
         }
       }
     }

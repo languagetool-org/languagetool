@@ -137,8 +137,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       final String morfoFile = "/de/hunspell/de_" + language.getCountries()[0] + ".dict";
       if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {
         // spell data will not exist in LibreOffice/OpenOffice context
-        final InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/de/hunspell/spelling.txt");
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(stream, "utf-8"))) {
+        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/de/hunspell/spelling.txt");
+             BufferedReader br = new BufferedReader(new InputStreamReader(stream, "utf-8"))) {
           return new MorfologikMultiSpeller(morfoFile, new ExpandingReader(br), MAX_EDIT_DISTANCE);
         }
       } else {

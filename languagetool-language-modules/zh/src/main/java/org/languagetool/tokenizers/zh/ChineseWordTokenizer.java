@@ -18,6 +18,7 @@
  */
 package org.languagetool.tokenizers.zh;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,18 +43,21 @@ public class ChineseWordTokenizer implements Tokenizer {
     }
     if (seg == null) {
       final ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-      final InputStream coreDictIn = dataBroker.getFromResourceDirAsStream("/zh/coreDict.dct");
-      final InputStream bigramDictIn = dataBroker.getFromResourceDirAsStream("/zh/BigramDict.dct");
-      final InputStream personTaggerDctIn = dataBroker.getFromResourceDirAsStream("/zh/nr.dct");
-      final InputStream personTaggerCtxIn = dataBroker.getFromResourceDirAsStream("/zh/nr.ctx");
-      final InputStream transPersonTaggerDctIn = dataBroker.getFromResourceDirAsStream("/zh/tr.dct");
-      final InputStream transPersonTaggerCtxIn = dataBroker.getFromResourceDirAsStream("/zh/tr.ctx");
-      final InputStream placeTaggerDctIn = dataBroker.getFromResourceDirAsStream("/zh/ns.dct");
-      final InputStream placeTaggerCtxIn = dataBroker.getFromResourceDirAsStream("/zh/ns.ctx");
-      final InputStream lexTaggerCtxIn = dataBroker.getFromResourceDirAsStream("/zh/lexical.ctx");
-      seg = new SegTag(1, coreDictIn, bigramDictIn, personTaggerDctIn, personTaggerCtxIn,
-          transPersonTaggerDctIn, transPersonTaggerCtxIn, placeTaggerDctIn, placeTaggerCtxIn,
-          lexTaggerCtxIn);
+      try (InputStream coreDictIn = dataBroker.getFromResourceDirAsStream("/zh/coreDict.dct");
+           InputStream bigramDictIn = dataBroker.getFromResourceDirAsStream("/zh/BigramDict.dct");
+           InputStream personTaggerDctIn = dataBroker.getFromResourceDirAsStream("/zh/nr.dct");
+           InputStream personTaggerCtxIn = dataBroker.getFromResourceDirAsStream("/zh/nr.ctx");
+           InputStream transPersonTaggerDctIn = dataBroker.getFromResourceDirAsStream("/zh/tr.dct");
+           InputStream transPersonTaggerCtxIn = dataBroker.getFromResourceDirAsStream("/zh/tr.ctx");
+           InputStream placeTaggerDctIn = dataBroker.getFromResourceDirAsStream("/zh/ns.dct");
+           InputStream placeTaggerCtxIn = dataBroker.getFromResourceDirAsStream("/zh/ns.ctx");
+           InputStream lexTaggerCtxIn = dataBroker.getFromResourceDirAsStream("/zh/lexical.ctx")) {
+        seg = new SegTag(1, coreDictIn, bigramDictIn, personTaggerDctIn, personTaggerCtxIn,
+                transPersonTaggerDctIn, transPersonTaggerCtxIn, placeTaggerDctIn, placeTaggerCtxIn,
+                lexTaggerCtxIn);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
     }
   }
 

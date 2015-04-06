@@ -19,6 +19,7 @@
 package org.languagetool.synthesis.pl;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -98,8 +99,9 @@ public class PolishSynthesizer implements Synthesizer {
     String posTag = pos;
     if (posTagRegExp) {
       if (possibleTags == null) {
-        possibleTags = SynthesizerTools.loadWords(JLanguageTool.getDataBroker().
-            getFromResourceDirAsStream(TAGS_FILE_NAME));
+        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(TAGS_FILE_NAME)) {
+          possibleTags = SynthesizerTools.loadWords(stream);
+        }
       }
       final IStemmer synthesizer = new DictionaryLookup(getDictionary());
       final List<String> results = new ArrayList<>();

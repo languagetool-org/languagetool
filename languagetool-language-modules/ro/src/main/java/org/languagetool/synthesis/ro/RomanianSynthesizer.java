@@ -19,6 +19,7 @@
 package org.languagetool.synthesis.ro;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import org.languagetool.JLanguageTool;
@@ -68,7 +69,9 @@ public class RomanianSynthesizer extends BaseSynthesizer {
   private void initSynth() {
     if (manualSynthesizer == null) {
       try {
-        manualSynthesizer = new ManualSynthesizer(JLanguageTool.getDataBroker().getFromResourceDirAsStream(USER_DICT_FILENAME));
+        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(USER_DICT_FILENAME)) {
+          manualSynthesizer = new ManualSynthesizer(stream);
+        }
       } catch (IOException e) {
         throw new RuntimeException(e);
       }

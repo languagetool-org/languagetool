@@ -248,18 +248,17 @@ public abstract class SpellingCheckRule extends Rule {
     if (!JLanguageTool.getDataBroker().resourceExists(ignoreFile)) {
       return;
     }
-    try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(ignoreFile)) {
-      try (Scanner scanner = new Scanner(inputStream, "utf-8")) {
-        while (scanner.hasNextLine()) {
-          final String line = scanner.nextLine();
-          if (isComment(line)) {
-            continue;
-          }
-          failOnSpace(ignoreFile, line);
-          addIgnoreWords(line, wordsToBeIgnored);
-          if (line.endsWith(".")) {
-            wordsWithDotsPresent = true;
-          }
+    try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(ignoreFile);
+         Scanner scanner = new Scanner(inputStream, "utf-8")) {
+      while (scanner.hasNextLine()) {
+        final String line = scanner.nextLine();
+        if (isComment(line)) {
+          continue;
+        }
+        failOnSpace(ignoreFile, line);
+        addIgnoreWords(line, wordsToBeIgnored);
+        if (line.endsWith(".")) {
+          wordsWithDotsPresent = true;
         }
       }
     }
@@ -278,16 +277,15 @@ public abstract class SpellingCheckRule extends Rule {
     if (!JLanguageTool.getDataBroker().resourceExists(prohibitFile)) {
       return;
     }
-    try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(prohibitFile)) {
-      try (Scanner scanner = new Scanner(inputStream, "utf-8")) {
-        while (scanner.hasNextLine()) {
-          String line = scanner.nextLine();
-          if (isComment(line)) {
-            continue;
-          }
-          failOnSpace(prohibitFile, line);
-          wordsToBeProhibited.add(line);
+    try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(prohibitFile);
+         Scanner scanner = new Scanner(inputStream, "utf-8")) {
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        if (isComment(line)) {
+          continue;
         }
+        failOnSpace(prohibitFile, line);
+        wordsToBeProhibited.add(line);
       }
     }
   }
