@@ -66,6 +66,7 @@ $Id$
     <!ENTITY llibres_biblia "Gn|Ex|Lv|Nm|Dt|Jos|Jt|Rt|1Sa|2Sa|1Re|2Re|1Cr|2Cr|Esd|Ne|Est|Jb|Sl|Pr|Coh|Ct|Is|Jr|Lm|Ez|Dn|Os|Jl|Am|Ab|Jon|Mi|Na|Ha|So|Ag|Za|Ml|Mt|Mc|Lc|Jn|Ac|Rm|1Co|2Co|Ga|Ef|Fl|Col|1Te|2Te|1Tm|2Tm|Tt|Flm|He|Jm|1Pe|2Pe|1Jn|2Jn|3Jn|Jud|Ap|Estgr|Jdt|Tb|1Ma|2Ma|Sv|Sir|Ba|EpJr|Dngr|Dngr3|Dngr13|Dngr14|Man|3Esr|4Esr|Sl151|Lao|SIH">
     <!ENTITY sigles_apostrofen "(?-i)FM|FBI|FMI|NBA|NBC|SPD">
     <!ENTITY sigles_no_apostrofen "(?-i)SGAE">
+    <!ENTITY context_PASTAR "aigua|bol|canyella|cera|coca|dit|farina|ingredient|llet|llevat|llimona|mà|mantega|massa|min|minuts|mona|oli|ou|panificadora|sucre">
 ]>
 
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -29230,7 +29231,6 @@ $Id$
                 <short>Possible confusió</short>
                 <example correction="pescava">L'embarcació <marker>feinejava</marker> en aigües del Marroc.</example>
                 <example correction="Pescaven"><marker>Feinejaven</marker> al Mediterrani.</example>
-                <example>Va amassar una gran fortuna</example>
             </rule>
             <rule>
                 <pattern>
@@ -29243,7 +29243,6 @@ $Id$
                 <url>http://esadir.cat/entrades/fitxa/id/2574</url>
                 <short>Possible confusió</short>
                 <example correction="pescava">L'embarcació <marker>faenejava</marker> en aigües marroquines.</example>
-                <example>Una gran fortuna, va amssar.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AMASSAR_PASTAR" name="amassar / pastar">
@@ -29253,7 +29252,7 @@ $Id$
                     <marker>
                         <token inflected="yes" skip="7">amassar</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">ingredient|farina|massa|cera|bol|sucre|ou|oli|mantega|canyella|llimona|aigua|llet|min|minuts|dit|mà|llevat|panificadora</token>
+                    <token inflected="yes" regexp="yes">&context_PASTAR;</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">pastar</match></suggestion>?</message>
                 <short>Possible confusió</short>
@@ -29262,7 +29261,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="7">ingredient|farina|massa|cera|bol|sucre|ou|oli|mantega|canyella|llimona|aigua|llet|min|minuts|dit|mà|llevat|panificadora</token>
+                    <token inflected="yes" regexp="yes" skip="7">&context_PASTAR;</token>
                     <marker>
                         <token inflected="yes">amassar</token>
                     </marker>
@@ -30545,7 +30544,7 @@ $Id$
                         <token postag="_GN_F." postag_regexp="yes">ordes</token>
                     </marker>
                     <token skip="1">de</token>
-                    <token regexp="yes">temple|sant|cavalleri(a|es)|Cartoixa|Cister|Malta|Canadà|Montesa</token>
+                    <token regexp="yes">temple|sant|cavalleri(a|es)|Cartoixa|Cister|Malta|Canadà|Montesa|Toisó</token>
                 </pattern>
                 <message>En el sentit de "societat de religiosos" o de "ritu cristià", "orde" és masculí.</message>
                 <url>http://esadir.cat/entrades/fitxa/id/2575</url>
@@ -30559,7 +30558,7 @@ $Id$
                         <token regexp="yes">ordres?</token>
                     </marker>
                     <token skip="1">de</token>
-                    <token regexp="yes">temple|sant|cavalleri(a|es)|Cartoixa|Cister|Malta|Canadà|Montesa</token>
+                    <token regexp="yes">temple|sant|cavalleri(a|es)|Cartoixa|Cister|Malta|Canadà|Montesa|Toisó</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="([Oo]rd)r(e.*)" regexp_replace="$1$2"/></suggestion>?</message>
                 <url>http://esadir.cat/entrades/fitxa/id/2575</url>
