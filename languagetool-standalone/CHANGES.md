@@ -29,6 +29,9 @@
   * `AbstractCompoundRule.setShort(String)` has been removed and added as
     a constructor parameter instead.
 
+#### Internal
+  * updated to language-detector 0.5
+
 
 ## Older versions
 

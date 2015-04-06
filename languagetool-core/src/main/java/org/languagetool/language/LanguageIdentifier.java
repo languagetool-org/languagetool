@@ -21,6 +21,7 @@ package org.languagetool.language;
 import com.google.common.base.Optional;
 import com.optimaize.langdetect.LanguageDetector;
 import com.optimaize.langdetect.LanguageDetectorBuilder;
+import com.optimaize.langdetect.i18n.LdLocale;
 import com.optimaize.langdetect.ngram.NgramExtractors;
 import com.optimaize.langdetect.profiles.LanguageProfile;
 import com.optimaize.langdetect.profiles.LanguageProfileReader;
@@ -54,7 +55,7 @@ public class LanguageIdentifier {
   private static final List<String> ignoreLangCodes = Arrays.asList("ast", "gl");
 
   // languages that we offer profiles for as they are not yet supported by language-detector:
-  private static final List<String> externalLangCodes = Arrays.asList("km", "eo");
+  private static final List<String> externalLangCodes = Arrays.asList("eo");
 
   private final LanguageDetector languageDetector;
   private final TextObjectFactory textObjectFactory;
@@ -81,8 +82,8 @@ public class LanguageIdentifier {
         continue;
       }
       if ("zh".equals(langCode)) {
-        langCodes.add("zh-cn");
-        langCodes.add("zh-tw");
+        langCodes.add("zh-CN");
+        langCodes.add("zh-TW");
       } else {
         langCodes.add(langCode);
       }
@@ -122,14 +123,11 @@ public class LanguageIdentifier {
   @Nullable
   private String detectLanguageCode(String text) {
     TextObject textObject = textObjectFactory.forText(text);
-    Optional<String> lang = languageDetector.detect(textObject);
+    Optional<LdLocale> lang = languageDetector.detect(textObject);
     // comment in for debugging:
     //System.out.println(languageDetector.getProbabilities(textObject));
     if (lang.isPresent()) {
-      if ("zh-cn".equals(lang.get()) || "zh-tw".equals(lang.get())) {
-        return "zh";
-      }
-      return lang.get();
+      return lang.get().getLanguage();
     } else {
       return null;
     }
