@@ -349,17 +349,25 @@ public abstract class Language {
    * Get the pattern rules as defined in the files returned by {@link #getRuleFileNames()}.
    * @since 2.7
    */
+  @SuppressWarnings("resource")
   @Experimental
   protected synchronized List<PatternRule> getPatternRules() throws IOException {
     if (patternRules == null) {
       patternRules = new ArrayList<>();
       PatternRuleLoader ruleLoader = new PatternRuleLoader();
       for (String fileName : getRuleFileNames()) {
-        InputStream is = this.getClass().getResourceAsStream(fileName);
-        if (is == null) {                     // files loaded via the dialog
-          is = new FileInputStream(fileName);
+        InputStream is = null;
+        try {
+          is = this.getClass().getResourceAsStream(fileName);
+          if (is == null) {                     // files loaded via the dialog
+            is = new FileInputStream(fileName);
+          }
+          patternRules.addAll(ruleLoader.getRules(is, fileName));
+        } finally {
+          if (is != null) {
+            is.close();
+          }
         }
-        patternRules.addAll(ruleLoader.getRules(is, fileName));
       }
     }
     return patternRules;
