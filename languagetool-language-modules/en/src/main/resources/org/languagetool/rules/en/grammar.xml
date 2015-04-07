@@ -6461,6 +6461,16 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+        <rule id="ARRIVE_NNP" name="'arrive' + proper noun ('arrive in' + proper noun)">
+            <pattern>
+                <marker>
+                    <token>arrive</token>
+                </marker>
+                <token postag='NNP'></token>
+            </pattern>
+            <message>Did you mean <suggestion>arrive in</suggestion> or <suggestion>arrive at</suggestion>?</message>
+            <example correction='arrive in|arrive at'>I would like to <marker>arrive</marker> Dallas next day.</example>
+        </rule>
         <rule id="NEEDS_FIXED" name="'Needs fixed' type construction">
             <pattern>
                 <token regexp='yes'>(needs|wants|requires|needed|wanted|required)</token>
