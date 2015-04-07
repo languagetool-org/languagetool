@@ -142,7 +142,7 @@ public class MultiWordChunker implements Disambiguator {
       }
       // If the second token is not whitespace, concatenate it
       if (i + 1 < anTokens.length && !anTokens[i+1].isWhitespace()) {
-        tok = tok.concat(output[i+1].getToken());
+        tok = tok + output[i + 1].getToken();
       }
       // If it is a capitalized word, the second time try with lowercase word.
       int myCount = 0;
@@ -246,10 +246,7 @@ public class MultiWordChunker implements Disambiguator {
       String line;
       while ((line = reader.readLine()) != null) {
         line = line.trim();
-        if (line.isEmpty()) {
-          continue;
-        }
-        if (line.charAt(0) == '#') { // ignore comments
+        if (line.isEmpty() || line.charAt(0) == '#') {  // ignore comments
           continue;
         }
         lines.add(line);

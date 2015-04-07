@@ -174,7 +174,7 @@ public class PolishSynthesizer implements Synthesizer {
           + posTag.replaceFirst(NEGATION_TAG, POTENTIAL_NEGATION_TAG));
       if (wordForms != null) {                      
         for (WordData wd : wordForms) {
-          forms.add("nie" + wd.getStem().toString());
+          forms.add("nie" + wd.getStem());
         }
       }
     } else {

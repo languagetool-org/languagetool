@@ -53,6 +53,9 @@ import org.languagetool.tagging.WordTagger;
  * @author Andriy Rysin
  */
 public class UkrainianTagger extends BaseTagger {
+
+  public static final Map<String, String> VIDMINKY_MAP;
+
   private static final String NV_TAG = ":nv";
   private static final String COMPB_TAG = ":compb";
 //  private static final String V_U_TAG = ":v-u";
@@ -87,7 +90,6 @@ public class UkrainianTagger extends BaseTagger {
   private static final Map<String, Pattern> rightPartsWithLeftTagMap = new HashMap<>();
   private static final Set<String> slaveSet;
   
-  public static final Map<String, String> VIDMINKY_MAP;
   private static final Map<String, List<String>> NUMR_ENDING_MAP;
   private BufferedWriter compoundUnknownDebugWriter;
   private BufferedWriter compoundTaggedDebugWriter;

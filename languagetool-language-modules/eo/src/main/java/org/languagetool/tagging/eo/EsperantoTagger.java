@@ -80,15 +80,12 @@ public class EsperantoTagger implements Tagger {
     final Set<String> words = new HashSet<>();
     try (
       InputStreamReader isr = new InputStreamReader(stream, "UTF-8");
-      BufferedReader br = new BufferedReader(isr)) 
-    {
+      BufferedReader br = new BufferedReader(isr)
+    ) {
       String line;
       while ((line = br.readLine()) != null) {
         line = line.trim();
-        if (line.length() < 1) {
-          continue;
-        }
-        if (line.charAt(0) == '#') { // ignore comments
+        if (line.isEmpty() || line.charAt(0) == '#') {  // ignore comments
           continue;
         }
         words.add(line);
