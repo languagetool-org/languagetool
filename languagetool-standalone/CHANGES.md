@@ -2,6 +2,9 @@
 
 ## 3.0 (release planned for 2015-06-29)
 
+#### English
+  * added a few new rules
+
 #### German
   * fixed some false alarms
 
