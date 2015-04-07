@@ -91,6 +91,17 @@ public class SimpleReplaceVerbsRuleTest extends TestCase {
     assertEquals("aclareixes", matches[0].getSuggestedReplacements().get(0));
     assertEquals("aclarisques", matches[0].getSuggestedReplacements().get(1));  
     assertEquals("aclaresques", matches[0].getSuggestedReplacements().get(2));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("atossigues"));
+    assertEquals(1, matches.length);
+    assertEquals("acuites", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("apresses", matches[0].getSuggestedReplacements().get(1));  
+    assertEquals("dónes pressa", matches[0].getSuggestedReplacements().get(2));
+    assertEquals("atabuixes", matches[0].getSuggestedReplacements().get(3));
+    assertEquals("aclapares", matches[0].getSuggestedReplacements().get(4));
+    assertEquals("afeixugues", matches[0].getSuggestedReplacements().get(5));
+    assertEquals("mareges", matches[0].getSuggestedReplacements().get(6));
+    assertEquals("afanyes", matches[0].getSuggestedReplacements().get(7));
   }
 
 }

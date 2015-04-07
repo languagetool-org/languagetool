@@ -137,6 +137,8 @@ public class SimpleReplaceVerbsRule extends Rule {
               lexeme = lexeme.substring(0, lexeme.length() - 1).concat("j");
             } else if (lexeme.endsWith("gü")) {
               lexeme = lexeme.substring(0, lexeme.length() - 2).concat("gu");
+            } else if (lexeme.endsWith("gu")) {
+              lexeme = lexeme.substring(0, lexeme.length() - 2).concat("g");
             }
           }
           infinitive = lexeme.concat("ar");
