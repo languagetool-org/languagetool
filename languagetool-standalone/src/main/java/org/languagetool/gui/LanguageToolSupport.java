@@ -329,9 +329,7 @@ class LanguageToolSupport {
     this.textComponent.getDocument().addDocumentListener(new DocumentListener() {
       @Override
       public void insertUpdate(DocumentEvent e) {
-        if (e.getDocument().getLength() == e.getLength() && config.getAutoDetect()) {
-          mustDetectLanguage = true;
-        }
+        mustDetectLanguage = config.getAutoDetect();
         recalculateSpans(e.getOffset(), e.getLength(), false);
         if (backgroundCheckEnabled) {
           checkDelayed(null);
@@ -340,9 +338,7 @@ class LanguageToolSupport {
 
       @Override
       public void removeUpdate(DocumentEvent e) {
-        if (e.getDocument().getLength() == 0 && config.getAutoDetect()) {
-          mustDetectLanguage = true;
-        }
+        mustDetectLanguage = config.getAutoDetect();
         recalculateSpans(e.getOffset(), e.getLength(), true);
         if (backgroundCheckEnabled) {
           checkDelayed(null);
@@ -351,9 +347,7 @@ class LanguageToolSupport {
 
       @Override
       public void changedUpdate(DocumentEvent e) {
-        if (e.getDocument().getLength() == e.getLength() && config.getAutoDetect()) {
-          mustDetectLanguage = true;
-        }
+        mustDetectLanguage = config.getAutoDetect();
         if (backgroundCheckEnabled) {
           checkDelayed(null);
         }

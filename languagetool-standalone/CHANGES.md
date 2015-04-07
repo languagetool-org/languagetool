@@ -8,6 +8,9 @@
 #### Slovak
   * dictionary update and several new rules
 
+#### GUI (stand-alone version)
+  * fixed auto-detection of text language, which didn't work after editing text
+
 #### Embedded server
   * performance improvements for checking small texts
     for the use case that creates a new `JLanguageTool` object
