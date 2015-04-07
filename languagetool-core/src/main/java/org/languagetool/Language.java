@@ -52,6 +52,9 @@ import java.util.regex.Pattern;
  * need to contain a key {@code languageClasses} which specifies the fully qualified
  * class name(s), e.g. {@code org.languagetool.language.English}. Use commas to specify 
  * more than one class.
+ *
+ * <p>Sub classes should typically use lazy init for anything that's costly to set up.
+ * This improves start up time for the LanguageTool stand-alone version.
  */
 public abstract class Language {
 
@@ -169,8 +172,7 @@ public abstract class Language {
     if (getCountries().length > 0) {
       if (getVariant() != null) {
         return new Locale(getShortName(), getCountries()[0], getVariant());
-      }
-      else {
+      } else {
         return new Locale(getShortName(), getCountries()[0]);
       }
     } else {
@@ -179,7 +181,8 @@ public abstract class Language {
   }
 
   /**
-   * Get the location of the rule file(s) in a form like {@code /org/languagetool/rules/de/grammar.xml}.
+   * Get the location of the rule file(s) in a form like {@code /org/languagetool/rules/de/grammar.xml},
+   * i.e. a path in the classpath.
    */
   public List<String> getRuleFileNames() {
     final List<String> ruleFiles = new ArrayList<>();
@@ -414,6 +417,7 @@ public abstract class Language {
    * Sets the language as external. Useful for
    * making a copy of an existing language.
    * @since 2.6
+   * @deprecated overwrite {@link #isExternal()} instead (deprecated since 3.0)
    */
   public void makeExternal() {
     isExternalLanguage = true;
