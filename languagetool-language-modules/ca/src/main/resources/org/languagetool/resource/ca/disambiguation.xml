@@ -3525,9 +3525,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token inflected="yes" skip="6">haver<exception scope="next" postag="V.[GN].*" postag_regexp="yes"/></token>
                 </marker>
-                <token postag="V.P.*" postag_regexp="yes"/>
+                <token postag="V.P.*" postag_regexp="yes"><exception scope="previous" postag="SPS00"/></token>
             </pattern>
             <disambig action="filter" postag="VA.*"></disambig>
+            <example type="untouched">Han de dit que sí.</example>
         </rule>
         <rule> <!--  no filtra les etiquetes de V.P. quan el participi està separat per a evitar falses alarmes  -->
             <pattern>
@@ -3566,18 +3567,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <!-- <exception scope="next" postag="_GV_|_PUNCT_CONT|P.*|R.*|.*LOC_ADV.*|V.*|SENT_END|[CNDAS].*|complement" postag_regexp="yes" negate_pos="yes"/> -->
                     <token inflected="yes" skip="6">haver<exception scope="next" postag="V.[GN].*|VA[^P].*" postag_regexp="yes"/></token>
                 </marker>
-                <token postag="V.P.*" postag_regexp="yes"><exception scope="previous" inflected="yes" regexp="yes">ser|estar|continuar|seguir|matenir|romandre</exception></token>
+                <token postag="V.P.*" postag_regexp="yes"><exception scope="previous" inflected="yes" regexp="yes">ser|estar|continuar|seguir|matenir|romandre</exception><exception scope="previous" postag="SPS00"/></token>
             </pattern>
             <disambig action="add"><wd pos="_GV_" lemma="haver"></wd></disambig>
+            <example type="untouched">Han de dit que sí.</example>
         </rule>
         <rule>
             <pattern>
                 <marker>
                     <token inflected="yes" skip="6">haver<exception scope="next" postag="V.G.*|VA[^P].*" postag_regexp="yes"/></token>
                 </marker>
-                <token postag="V.P.*" postag_regexp="yes"><exception inflected="yes">haver</exception><exception scope="previous" inflected="yes" regexp="yes">ser|estar|continuar|seguir|matenir|romandre</exception></token>
+                <token postag="V.P.*" postag_regexp="yes"><exception inflected="yes">haver</exception><exception scope="previous" inflected="yes" regexp="yes">ser|estar|continuar|seguir|matenir|romandre</exception><exception scope="previous" postag="SPS00"/></token>
             </pattern>
             <disambig action="add"><wd pos="_perfet" lemma="haver"></wd></disambig>
+            <example type="untouched">Han de dit que sí.</example>
         </rule>
         <rule>
             <pattern>
