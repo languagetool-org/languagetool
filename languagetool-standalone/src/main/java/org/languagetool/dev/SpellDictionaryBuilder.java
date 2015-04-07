@@ -42,7 +42,7 @@ import org.languagetool.tokenizers.Tokenizer;
  */
 final class SpellDictionaryBuilder extends DictionaryBuilder {
 
-  public SpellDictionaryBuilder(File infoFile) throws IOException {
+  SpellDictionaryBuilder(File infoFile) throws IOException {
     super(infoFile);
   }
 
@@ -58,8 +58,15 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
   }
   
   public static void main(String[] args) throws Exception {
-    CommandLine cmdLine = SpellDictionaryBuilder.parseArguments(args);
-    checkUsageOrExit(SpellDictionaryBuilder.class.getSimpleName(), cmdLine);
+    CommandLine cmdLine = null;
+    try {
+      cmdLine = SpellDictionaryBuilder.parseArguments(args);
+    } catch (ParseException e) {
+      System.err.println(e.getMessage());
+      printUsage();
+      System.exit(1);
+    }
+    checkUsageOrExit(cmdLine);
     
     String languageCode = args[0];
     String plainTextFile = args[1];
@@ -76,20 +83,24 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
     }
   }
 
-  private static void checkUsageOrExit(String className, CommandLine cmdLine) throws IOException {
+  private static void checkUsageOrExit(CommandLine cmdLine) throws IOException {
     String[] args = cmdLine.getArgs();
     if (args.length < 4 || ! cmdLine.hasOption("o")) {
-      System.out.println("Usage: " + className + " <languageCode> <dictionary> <infoFile> <frequencyList> -o <outputFile>");
-      System.out.println("   <languageCode> like 'en-US' or 'de-DE'");
-      System.out.println("   <dictionary> is a plain text dictionary file, e.g. created from a Hunspell dictionary by 'unmunch'");
-      System.out.println("   <infoFile> is the *.info properties file, see http://wiki.languagetool.org/developing-a-tagger-dictionary");
-      System.out.println("   <frequencyList> is the *.xml file with a frequency wordlist or '-' for no frequency list, see http://wiki.languagetool.org/developing-a-tagger-dictionary");
-      System.exit(1);
+      printUsage();
     }
     File dictFile = new File(args[2]);
     if (!dictFile.exists()) {
       throw new IOException("File does not exist: " + dictFile);
     }
+  }
+
+  private static void printUsage() {
+    System.out.println("Usage: " + SpellDictionaryBuilder.class.getSimpleName() + " <languageCode> <dictionary> <infoFile> <frequencyList> -o <outputFile>");
+    System.out.println("   <languageCode> like 'en-US' or 'de-DE'");
+    System.out.println("   <dictionary> is a plain text dictionary file, e.g. created from a Hunspell dictionary by 'unmunch'");
+    System.out.println("   <infoFile> is the *.info properties file, see http://wiki.languagetool.org/developing-a-tagger-dictionary");
+    System.out.println("   <frequencyList> is the *.xml file with a frequency wordlist or '-' for no frequency list, see http://wiki.languagetool.org/developing-a-tagger-dictionary");
+    System.exit(1);
   }
 
   File build(String languageCode, File plainTextDictFile) throws Exception {
