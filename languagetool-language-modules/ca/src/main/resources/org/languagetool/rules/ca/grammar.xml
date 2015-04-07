@@ -26995,6 +26995,19 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <marker>
+                        <token inflected="yes">escoltar</token>
+                    </marker>
+                    <token min="0" max="4" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Probablement cal usar el verb 'sentir'.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match></suggestion>
+                <example correction="Sentia"><marker>Escoltava</marker> ploure.</example>
+                <example correction="sentit">No li he <marker>escoltat</marker> mai alçar la veu.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token inflected="yes">escoltar</token>
                     <token>que</token>
                 </pattern>
