@@ -58,11 +58,6 @@ public class Demo extends Language {
   }
 
   @Override
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  @Override
   public String[] getCountries() {
     return new String[] {"XX"};
   }

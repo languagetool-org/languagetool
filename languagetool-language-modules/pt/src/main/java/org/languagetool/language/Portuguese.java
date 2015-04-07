@@ -39,16 +39,10 @@ public class Portuguese extends Language {
 
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
-  private String name = "Portuguese";
 
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "Portuguese";
   }
 
   @Override

@@ -47,16 +47,10 @@ public class Dutch extends Language {
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
   private Tokenizer wordTokenizer;
-  private String name= "Dutch";
 
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "Dutch";
   }
 
   @Override

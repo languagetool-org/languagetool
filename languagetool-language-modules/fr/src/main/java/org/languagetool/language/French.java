@@ -42,7 +42,6 @@ public class French extends Language {
   private Synthesizer synthesizer;
   private Tagger tagger;
   private Disambiguator disambiguator;
-  private String name = "French";
 
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
@@ -54,12 +53,7 @@ public class French extends Language {
 
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "French";
   }
 
   @Override

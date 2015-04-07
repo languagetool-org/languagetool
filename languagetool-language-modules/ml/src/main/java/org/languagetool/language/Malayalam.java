@@ -38,16 +38,10 @@ public class Malayalam extends Language {
   private SentenceTokenizer sentenceTokenizer;
   private Tagger tagger;
   private Tokenizer wordTokenizer;
-  private String name = "Malayalam";
 
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "Malayalam";
   }
 
   @Override

@@ -47,7 +47,6 @@ public class Greek extends Language {
   private SentenceTokenizer sentenceTokenizer;
   private Synthesizer synthesizer;
   private Tagger tagger;
-  private String name = "Greek";
 
   @Override
   public String getShortName() {
@@ -56,12 +55,7 @@ public class Greek extends Language {
 
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "Greek";
   }
 
   @Override

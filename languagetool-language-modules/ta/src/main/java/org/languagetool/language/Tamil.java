@@ -33,16 +33,10 @@ public class Tamil extends Language {
 
   private SentenceTokenizer sentenceTokenizer;
   private Tagger tagger;
-  private String name = "Tamil";
 
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "Tamil";
   }
 
   @Override

@@ -45,16 +45,10 @@ public class Khmer extends Language {
   private Tokenizer wordTokenizer;
   private SentenceTokenizer sentenceTokenizer;
   private Disambiguator disambiguator;
-  private String name = "Khmer";
 
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "Khmer";
   }
 
   @Override

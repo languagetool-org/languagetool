@@ -55,7 +55,6 @@ public class German extends Language {
   private SentenceTokenizer sentenceTokenizer;
   private Disambiguator disambiguator;
   private GermanChunker chunker;
-  private String name = "German";
   private CompoundWordTokenizer compoundTokenizer;
   private GermanCompoundTokenizer strictCompoundTokenizer;
 
@@ -85,12 +84,7 @@ public class German extends Language {
 
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "German";
   }
 
   @Override

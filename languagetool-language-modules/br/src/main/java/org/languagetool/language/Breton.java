@@ -46,7 +46,6 @@ public class Breton extends Language {
   private Tagger tagger;
   private Tokenizer wordTokenizer;
   private Disambiguator disambiguator;
-  private String name = "Breton";
 
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
@@ -66,12 +65,7 @@ public class Breton extends Language {
 
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "Breton";
   }
 
   @Override

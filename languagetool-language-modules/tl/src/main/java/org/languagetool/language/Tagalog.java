@@ -42,16 +42,10 @@ public class Tagalog extends Language {
   private SentenceTokenizer sentenceTokenizer;
   private WordTokenizer wordTokenizer;
   private Tagger tagger;
-  private String name = "Tagalog";
 
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "Tagalog";
   }
 
   @Override

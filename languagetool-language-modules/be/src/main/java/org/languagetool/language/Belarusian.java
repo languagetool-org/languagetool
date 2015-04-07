@@ -40,19 +40,13 @@ public class Belarusian extends Language {
 
     private Tagger tagger;
     private SentenceTokenizer sentenceTokenizer;
-    private String name ="Belarusian";
 
     @Override
     public String getName() {
-      return name;
+      return "Belarusian";
     }
 
-    @Override
-    public void setName(String name) {
-      this.name = name;
-    }
-
-    @Override
+  @Override
     public String getShortName() {
           return "be";
       }
@@ -70,7 +64,7 @@ public class Belarusian extends Language {
         return tagger;
     }
 
-    
+
       @Override
     public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {

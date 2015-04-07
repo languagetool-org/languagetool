@@ -63,7 +63,6 @@ public class Ukrainian extends Language {
   private Tokenizer wordTokenizer;
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
-  private String name = "Ukrainian";
 
   public Ukrainian() {
   }
@@ -80,12 +79,7 @@ public class Ukrainian extends Language {
 
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "Ukrainian";
   }
 
   @Override

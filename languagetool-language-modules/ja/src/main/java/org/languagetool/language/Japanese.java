@@ -37,7 +37,6 @@ public class Japanese extends Language {
 
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
-  private String name = "Japanese";
 
   @Override
   public String getShortName() {
@@ -46,12 +45,7 @@ public class Japanese extends Language {
 
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "Japanese";
   }
 
   @Override

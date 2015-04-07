@@ -32,16 +32,10 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 public class Slovenian extends Language {
   
   private SentenceTokenizer sentenceTokenizer;
-  private String name = "Slovenian";
 
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "Slovenian";
   }
 
   @Override

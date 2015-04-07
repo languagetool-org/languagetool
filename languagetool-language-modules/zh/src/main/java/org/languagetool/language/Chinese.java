@@ -38,7 +38,6 @@ public class Chinese extends Language {
   private Tagger tagger;
   private Tokenizer wordTokenizer;
   private SentenceTokenizer sentenceTokenizer;
-  private String name = "Chinese";
 
   @Override
   public String getShortName() {
@@ -47,12 +46,7 @@ public class Chinese extends Language {
 
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "Chinese";
   }
 
   @Override

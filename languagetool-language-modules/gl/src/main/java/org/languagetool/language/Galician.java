@@ -46,7 +46,6 @@ public class Galician extends Language {
   private SentenceTokenizer sentenceTokenizer;
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
-  private String name = "Galician";
 
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
@@ -58,12 +57,7 @@ public class Galician extends Language {
   
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "Galician";
   }
 
   @Override

@@ -19,11 +19,20 @@
 package org.languagetool.language;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.chunking.Chunker;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 
 /**
  * Create a language by specifying the language's XML rule file.
@@ -63,10 +72,8 @@ public final class LanguageBuilder {
 
     Language newLanguage;
     if (Languages.isLanguageSupported(parts[1])) {
-      newLanguage = Languages.getLanguageForShortName(parts[1]).getClass().newInstance();
-      newLanguage.addExternalRuleFile(file.getAbsolutePath());
-      newLanguage.setName(parts[2].replace(".xml", ""));
-      newLanguage.makeExternal();
+      Language baseLanguage = Languages.getLanguageForShortName(parts[1]).getClass().newInstance();
+      newLanguage = new ExtendedLanguage(baseLanguage, parts[2].replace(".xml", ""), file);
     } else {
       newLanguage = new Language() {
         @Override
@@ -101,11 +108,6 @@ public final class LanguageBuilder {
         }
 
         @Override
-        public void setName(final String name) {
-          //cannot be changed for this language
-        }
-
-        @Override
         public List<Rule> getRelevantRules(ResourceBundle messages) {
           return Collections.emptyList();
         }
@@ -125,5 +127,138 @@ public final class LanguageBuilder {
     }
     return newLanguage;
   }
-  
+
+  static class ExtendedLanguage extends Language {
+
+    private final Language baseLanguage;
+    private final String name;
+    private final File ruleFile;
+
+    ExtendedLanguage(Language baseLanguage, String name, File ruleFile) {
+      this.baseLanguage = baseLanguage;
+      this.name = name;
+      this.ruleFile = ruleFile;
+    }
+
+    @Override
+    public String getName() {
+      return name;
+    }
+
+    @Override
+    public List<String> getRuleFileNames() {
+      final List<String> ruleFiles = new ArrayList<>();
+      ruleFiles.addAll(baseLanguage.getRuleFileNames());
+      ruleFiles.add(ruleFile.getAbsolutePath());
+      return ruleFiles;
+    }
+
+    @Override
+    public boolean isExternal() {
+      return true;
+    }
+
+    @Override
+    public Locale getLocale() {
+      return baseLanguage.getLocale();
+    }
+
+    @Override
+    public Contributor[] getMaintainers() {
+      return baseLanguage.getMaintainers();
+    }
+
+    @Override
+    public String getShortName() {
+      return baseLanguage.getShortName();
+    }
+
+    @Override
+    public String[] getCountries() {
+      return baseLanguage.getCountries();
+    }
+
+    @Override
+    public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+      return baseLanguage.getRelevantRules(messages);
+    }
+
+    @Nullable @Override
+    public String getVariant() {
+      return baseLanguage.getVariant();
+    }
+
+    @Override
+    public List<String> getDefaultEnabledRulesForVariant() {
+      return baseLanguage.getDefaultEnabledRulesForVariant();
+    }
+
+    @Override
+    public List<String> getDefaultDisabledRulesForVariant() {
+      return baseLanguage.getDefaultDisabledRulesForVariant();
+    }
+
+    @Nullable
+    @Override
+    public LanguageModel getLanguageModel(File indexDir) throws IOException {
+      return baseLanguage.getLanguageModel(indexDir);
+    }
+
+    @Override
+    public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+      return baseLanguage.getRelevantLanguageModelRules(messages, languageModel);
+    }
+
+    @Override
+    public Locale getLocaleWithCountryAndVariant() {
+      return baseLanguage.getLocaleWithCountryAndVariant();
+    }
+
+    @Override
+    public List<String> getExternalRuleFiles() {
+      return baseLanguage.getExternalRuleFiles();
+    }
+
+    @Nullable
+    @Override
+    public Language getDefaultLanguageVariant() {
+      return baseLanguage.getDefaultLanguageVariant();
+    }
+
+    @Override
+    public Disambiguator getDisambiguator() {
+      return baseLanguage.getDisambiguator();
+    }
+
+    @Override
+    public Tagger getTagger() {
+      return baseLanguage.getTagger();
+    }
+
+    @Override
+    public SentenceTokenizer getSentenceTokenizer() {
+      return baseLanguage.getSentenceTokenizer();
+    }
+
+    @Override
+    public Tokenizer getWordTokenizer() {
+      return baseLanguage.getWordTokenizer();
+    }
+
+    @Nullable @Override
+    public Chunker getChunker() {
+      return baseLanguage.getChunker();
+    }
+
+    @Nullable @Override
+    public Chunker getPostDisambiguationChunker() {
+      return baseLanguage.getPostDisambiguationChunker();
+    }
+
+    @Nullable @Override
+    public Synthesizer getSynthesizer() {
+      return baseLanguage.getSynthesizer();
+    }
+
+  }
 }

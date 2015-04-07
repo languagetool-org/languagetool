@@ -59,7 +59,6 @@ public class English extends Language implements AutoCloseable {
   private Disambiguator disambiguator;
   private WordTokenizer wordTokenizer;
   private LuceneLanguageModel languageModel;
-  private String name = "English";
 
   @Override
   public Language getDefaultLanguageVariant() {
@@ -76,12 +75,7 @@ public class English extends Language implements AutoCloseable {
 
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "English";
   }
 
   @Override

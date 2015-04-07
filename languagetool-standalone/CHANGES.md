@@ -18,6 +18,8 @@
     LT users in general)
 
 #### API
+  * `Language.setName()` has been removed. If you need to set the name,
+    overwrite the `getName()` method instead.
   * several deprecated methods and classes have been removed, e.g.
     * `Language.REAL_LANGUAGES` is now `Languages.get()`
     * `Language.LANGUAGES` is now `Languages.getWithDemoLanguage()` - but you will probably

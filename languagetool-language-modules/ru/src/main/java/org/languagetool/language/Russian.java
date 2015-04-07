@@ -45,16 +45,10 @@ public class Russian extends Language {
   private Disambiguator disambiguator;
   private Synthesizer synthesizer;
   private SentenceTokenizer sentenceTokenizer;
-  private String name ="Russian";
 
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "Russian";
   }
 
   @Override

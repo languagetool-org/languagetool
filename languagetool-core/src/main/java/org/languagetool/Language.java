@@ -83,12 +83,6 @@ public abstract class Language {
   public abstract String getName();
 
   /**
-   * Set this language's name in English.
-   * @since 2.6
-   */
-  public abstract void setName(final String name);
-  
-  /**
    * Get this language's country options , e.g. <code>US</code> (as in <code>en-US</code>) or
    * <code>PL</code> (as in <code>pl-PL</code>).
    * @return String[] - array of country options for the language.

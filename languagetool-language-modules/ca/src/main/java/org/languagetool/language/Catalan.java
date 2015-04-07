@@ -55,18 +55,12 @@ public class Catalan extends Language {
   private Tokenizer wordTokenizer;
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
-  private String name = "Catalan";
 
   private static final Language GENERAL_CATALAN = new GeneralCatalan();
   
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "Catalan";
   }
 
   @Override

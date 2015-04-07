@@ -44,7 +44,6 @@ public class SimpleSentenceTokenizer extends LocalSRXSentenceTokenizer {
     @Override public String getName() {
       return "FakeLanguage";
     }
-    @Override public void setName(String name) {}
     @Override public String[] getCountries() {
       return new String[0];
     }

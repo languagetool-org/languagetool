@@ -39,16 +39,10 @@ public class Persian extends Language {
 
   private SentenceTokenizer sentenceTokenizer;
   private WordTokenizer wordTokenizer;
-  private String name = "Persian";
 
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "Persian";
   }
 
   @Override

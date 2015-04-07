@@ -52,16 +52,10 @@ public class Romanian extends Language {
   private Disambiguator disambiguator;
   private Tokenizer wordTokenizer;
   private SentenceTokenizer sentenceTokenizer;
-  private String name = "Romanian";
 
   @Override
   public String getName() {
-    return name;
-  }
-
-  @Override
-  public void setName(String name) {
-    this.name = name;
+    return "Romanian";
   }
 
   @Override
