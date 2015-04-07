@@ -6187,6 +6187,15 @@ $Id$
             <example>El llibre <marker>tracta</marker> aspectes importants de les matemàtiques</example>
             <example>El llibre <marker>tracta</marker> a més a més aspectes importants de les matemàtiques</example>
         </rule> -->
+        <rule id="A_ARRAN" name="*a arran/arran">
+            <pattern>
+                <token>a</token>
+                <token regexp="yes">arrel|arran</token>
+            </pattern>
+            <message>Sobra la preposció 'a'.</message>
+            <suggestion>\2</suggestion>
+            <example correction="arran">Va venir <marker>a arran</marker> de la polèmica.</example>
+        </rule>
         <rule id="DURANT_ALS" name="durant *als/els">
             <pattern>
                 <token>durant</token>
@@ -24896,6 +24905,12 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="JUNT_A" name="*junt a, *juntament a">
+            <antipattern>
+                <marker>
+                    <token>tot</token>
+                    <token>junt</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -24928,7 +24943,7 @@ $Id$
                 <suggestion>juntament amb e<match no="3"/></suggestion>
                 <suggestion>amb e<match no="3"/></suggestion>
                 <example correction="al costat del|tocant al|a prop del|junt amb el|juntament amb el|amb el"><marker>junt al</marker> partit</example>
-                <example>juntament amb el partit</example>
+                <example>Es cou tot junt al forn.</example>
             </rule>
         </rulegroup>
         <rule id="MATERIA_GRIS" name="matèria gris">
@@ -33163,7 +33178,7 @@ $Id$
                     <token postag="AQ.F.*" postag_regexp="yes" regexp="yes">mona|mones<exception postag="NC.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
-            <message>Lleguatge col·loquial. Correcte si equival a "mico, simi".</message>
+            <message>Lleguatge col·loquial. Correcte si equival a "mico, simi" o "tipus de coca o pastís".</message>
             <suggestion><match no="2" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">bonic</match></suggestion>
             <suggestion><match no="2" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">bufó</match></suggestion>
             <suggestion><match no="2" postag="AQ.(.*)" postag_regexp="yes" postag_replace="AQ0$1">graciós</match></suggestion>
@@ -33387,6 +33402,12 @@ $Id$
             <example>Quina baralla!</example>
         </rule>
         <rule id="BOVO" name="bobo">
+            <antipattern>
+                <marker>
+                    <token inflected="yes">coca</token>
+                    <token inflected="yes">bovo</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token inflected="yes">bovo</token>
             </pattern>
@@ -33399,7 +33420,7 @@ $Id$
             <short>Lleguatge col·loquial</short>
             <example correction="beneits|badocs|babaus|bajans|talossos">Pareixen <marker>bovos</marker>.</example>
             <example correction="beneita|badoca|babaua|bajana|talossa">Pareix <marker>bova</marker>.</example>
-            <example>Ets un simple.</example>
+            <example>La coca bova.</example>
         </rule>
         <!-- <rule id="NOVIO" name="nòvio">
             <pattern>
