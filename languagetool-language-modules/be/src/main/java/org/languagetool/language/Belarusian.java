@@ -33,60 +33,59 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 
 /**
  * Belarusian language declarations.
- * 
+ *
  * Copyright (C) 2010 Alex Buloichik (alex73mail@gmail.com)
  */
 public class Belarusian extends Language {
 
-    private Tagger tagger;
-    private SentenceTokenizer sentenceTokenizer;
-
-    @Override
-    public String getName() {
-      return "Belarusian";
-    }
+  private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
 
   @Override
-    public String getShortName() {
-          return "be";
-      }
+  public String getName() {
+    return "Belarusian";
+  }
 
-    @Override
-    public String[] getCountries() {
-        return new String[]{"BY"};
+  @Override
+  public String getShortName() {
+    return "be";
+  }
+
+  @Override
+  public String[] getCountries() {
+    return new String[]{"BY"};
+  }
+
+  @Override
+  public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new DemoTagger();
     }
+    return tagger;
+  }
 
-    @Override
-    public Tagger getTagger() {
-        if (tagger == null) {
-            tagger = new DemoTagger();
-        }
-        return tagger;
-    }
-
-
-      @Override
-    public SentenceTokenizer getSentenceTokenizer() {
+  @Override
+  public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
-       sentenceTokenizer = new SRXSentenceTokenizer(this);
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
     return sentenceTokenizer;
   }
-    
-    @Override
-    public Contributor[] getMaintainers() {
-        return new Contributor[] { new Contributor("Alex Buloichik") };
-    }
 
-    @Override
-    public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
-      return Arrays.asList(
-              new CommaWhitespaceRule(messages),
-              new DoublePunctuationRule(messages),
-              new MorfologikBelarusianSpellerRule(messages, this),
-              new UppercaseSentenceStartRule(messages, this),
-              new MultipleWhitespaceRule(messages, this)
-      );
-    }
+  @Override
+  public Contributor[] getMaintainers() {
+    return new Contributor[] { new Contributor("Alex Buloichik") };
+  }
+
+  @Override
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+    return Arrays.asList(
+            new CommaWhitespaceRule(messages),
+            new DoublePunctuationRule(messages),
+            new MorfologikBelarusianSpellerRule(messages, this),
+            new UppercaseSentenceStartRule(messages, this),
+            new MultipleWhitespaceRule(messages, this)
+    );
+  }
 
 }
