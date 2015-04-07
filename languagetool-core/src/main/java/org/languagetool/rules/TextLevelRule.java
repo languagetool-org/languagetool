@@ -46,7 +46,7 @@ public abstract class TextLevelRule extends Rule {
   }
 
   public RuleMatch[] match(List<AnalyzedSentence> sentence) throws IOException {
-    return new RuleMatch[0];  //To change body of implemented methods use File | Settings | File Templates.
+    return new RuleMatch[0];
   }
 
   @Override

@@ -20,7 +20,6 @@ package org.languagetool.rules.patterns;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Experimental;
 import org.languagetool.rules.RuleMatch;
 
 import java.util.Map;
@@ -30,7 +29,6 @@ import java.util.Map;
  * Can be used from the XML using the {@code filter} element.
  * @since 2.7
  */
-@Experimental
 public interface RuleFilter {
 
   /**

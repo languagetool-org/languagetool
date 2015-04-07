@@ -350,7 +350,6 @@ public abstract class Language {
    * @since 2.7
    */
   @SuppressWarnings("resource")
-  @Experimental
   protected synchronized List<PatternRule> getPatternRules() throws IOException {
     if (patternRules == null) {
       patternRules = new ArrayList<>();
