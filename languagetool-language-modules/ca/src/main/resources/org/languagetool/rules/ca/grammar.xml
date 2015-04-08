@@ -20443,11 +20443,12 @@ $Id$
             <pattern>
                 <token regexp="yes">[\d.]+</token>
                 <token min="0">.</token>
-                <token regexp="yes">[—–‒-]</token>
+                <token regexp="yes" min="1" max="3">[—–‒-]</token>
             </pattern>
             <message>El guió és innecessari en enumeracions</message>
             <suggestion>\1.</suggestion>
             <example correction="1."><marker>1.-</marker> Introducció</example>
+            <example correction="1."><marker>1.--</marker> Introducció</example>
             <example correction="1.3."><marker>1.3—</marker> Introducció</example>
         </rule>
     </category>
