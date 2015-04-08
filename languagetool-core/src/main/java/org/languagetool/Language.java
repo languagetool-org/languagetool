@@ -354,6 +354,7 @@ public abstract class Language {
    */
   @SuppressWarnings("resource")
   protected synchronized List<PatternRule> getPatternRules() throws IOException {
+    // use lazy loading to speed up start of stand-alone LT, where all the languages get initialized:
     if (patternRules == null) {
       patternRules = new ArrayList<>();
       PatternRuleLoader ruleLoader = new PatternRuleLoader();
