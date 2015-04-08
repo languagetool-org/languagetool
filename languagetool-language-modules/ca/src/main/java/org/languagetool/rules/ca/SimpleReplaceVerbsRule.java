@@ -212,7 +212,7 @@ public class SimpleReplaceVerbsRule extends Rule {
     try (Scanner scanner = new Scanner(stream, getEncoding())) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
-        if (line.length() < 1 || line.charAt(0) == '#') { // # = comment
+        if (line.isEmpty() || line.charAt(0) == '#') { // # = comment
           continue;
         }
         String[] parts = line.split("=");

@@ -145,7 +145,7 @@ public class KhmerSimpleReplaceRule extends Rule {
       String line;
       while ((line = br.readLine()) != null) {
         line = line.trim();
-        if (line.length() < 1 || line.charAt(0) == '#') { // ignore comments
+        if (line.isEmpty() || line.charAt(0) == '#') { // ignore comments
           continue;
         }
 

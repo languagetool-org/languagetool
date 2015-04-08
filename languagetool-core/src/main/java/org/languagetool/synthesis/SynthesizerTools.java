@@ -34,7 +34,7 @@ public final class SynthesizerTools {
     try (Scanner scanner = new Scanner(stream, "UTF-8")) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine().trim();
-        if (line.length() < 1 || line.charAt(0) == '#') {  // ignore empty lines and comments
+        if (line.isEmpty() || line.charAt(0) == '#') {  // ignore empty lines and comments
           continue;
         }
         result.add(line);

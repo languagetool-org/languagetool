@@ -385,10 +385,7 @@ public class AccentuationCheckRule extends CatalanRule {
     try (Scanner scanner = new Scanner(inputStream, FILE_ENCODING)) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine().trim();
-        if (line.length() < 1) {
-          continue;
-        }
-        if (line.charAt(0) == '#') { // ignore comments
+        if (line.isEmpty() || line.charAt(0) == '#') {  // ignore comments
           continue;
         }
         final String[] parts = line.split(";");

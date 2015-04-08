@@ -58,7 +58,7 @@ final class AvsAnData {
     try (Scanner scanner = new Scanner(stream, "utf-8")) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine().trim();
-        if (line.length() < 1 || line.charAt(0) == '#') {
+        if (line.isEmpty() || line.charAt(0) == '#') {
           continue;
         }
         if (line.charAt(0) == '*') {
