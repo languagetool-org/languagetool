@@ -7871,7 +7871,7 @@ $Id$
         </rule>
         <rule id="CONSISTIR_EN_QUE" name="consistir *en què">
             <pattern>
-                <token inflected="yes" regexp="yes">consistir|basar|insistir|fonamentar</token>
+                <token inflected="yes" regexp="yes">consistir|basar|insistir|fonamentar|coincidir</token>
                 <token min="0" max="4" postag="RG|_PUNCT_CONT|.*LOC_ADV.*" postag_regexp="yes"/>
                 <marker>
                     <token>en</token>
@@ -20439,6 +20439,17 @@ $Id$
             <suggestion>núm.&#160;<match no="1" regexp_match="..(\d+)" regexp_replace="$1"/></suggestion>
             <example correction="núm.&#160;1">Va ser el <marker>nº1</marker>.</example>
         </rule>
+        <rule id="GUIO_INNECESSARI_ENUMERACIONS" name="guió innecessari en enumeracions: 1.2.-">
+            <pattern>
+                <token regexp="yes">[\d.]+</token>
+                <token min="0">.</token>
+                <token regexp="yes">[—–‒-]</token>
+            </pattern>
+            <message>El guió és innecessari en enumeracions</message>
+            <suggestion>\1.</suggestion>
+            <example correction="1."><marker>1.-</marker> Introducció</example>
+            <example correction="1.3."><marker>1.3—</marker> Introducció</example>
+        </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
         <rule id="LOW_COST" name="low cost/baix cost">
@@ -22375,7 +22386,7 @@ $Id$
 	                    <token skip="2" inflected="yes">fer<exception scope="next" postag="AQ.*" postag_regexp="yes"/></token>
 	                    <token skip="7">amb<exception scope="next" regexp="yes">,|cap</exception></token>
                     </marker>
-                    <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">nombre|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit<exception scope="previous">a</exception></token>
+                    <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">alcaldia|presidència|nombre|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit<exception scope="previous">a</exception></token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion>(apoderar-se de)</suggestion>
@@ -22399,7 +22410,7 @@ $Id$
 	                    <token postag="P0.0.*" postag_regexp="yes" skip="2"/>
 	                    <token skip="7">amb</token>
                     </marker>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">nombre|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit<exception scope="previous">a</exception></token>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">alcaldia|presidència|nombre|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit<exception scope="previous">a</exception></token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion>(apoderar-se de)</suggestion>
@@ -22421,7 +22432,7 @@ $Id$
                         <token skip="2" inflected="yes">acabar</token>
                         <token skip="4">amb</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">discriminació|abús|frau|plaga|pesta|infecció|situació|vida</token>
+                    <token regexp="yes" inflected="yes">discriminació|abús|frau|plaga|pesta|infecció|situació|vida|exempció|excepció</token>
                 </pattern>
                 <message>Expressió incorrecta si vol dir <suggestion>(posar fi a)</suggestion></message>
                 <suggestion>(eliminar)</suggestion>
