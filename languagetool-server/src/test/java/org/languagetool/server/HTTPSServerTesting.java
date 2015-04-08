@@ -77,7 +77,7 @@ public class HTTPSServerTesting {
   private class TestRunnable implements Runnable {
     private final int threadNumber;
 
-    public TestRunnable(int threadNumber) {
+    TestRunnable(int threadNumber) {
       this.threadNumber = threadNumber;
     }
 

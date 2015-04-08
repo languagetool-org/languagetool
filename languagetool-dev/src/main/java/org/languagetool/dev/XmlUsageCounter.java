@@ -103,10 +103,10 @@ class XmlUsageCounter {
     counter.printResult();
   }
 
-  class ElemCount {
+  static class ElemCount {
     String elem;
     Integer count;
-    public ElemCount(String elem, Integer count) {
+    ElemCount(String elem, Integer count) {
       this.elem = elem;
       this.count = count;
     }

@@ -43,7 +43,7 @@ class LanguageDetectionEval {
   private int totalInputs = 0;
   private int totalFailures = 0;
 
-  public LanguageDetectionEval() {
+  LanguageDetectionEval() {
     languageIdentifier = new LanguageIdentifier();
   }
 
@@ -138,7 +138,7 @@ class LanguageDetectionEval {
   }
 
   class DetectionException extends RuntimeException {
-    public DetectionException(String s) {
+    DetectionException(String s) {
       super(s);
     }
   }

@@ -35,7 +35,7 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
    */
   private static final String POLISH_IGNORE_REGEX = ":neg|qub|depr";
 
-  public SynthDictionaryBuilder(File infoFile) throws IOException {
+  SynthDictionaryBuilder(File infoFile) throws IOException {
     super(infoFile);
   }
 

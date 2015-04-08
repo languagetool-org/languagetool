@@ -56,7 +56,7 @@ class AtDEvaluator implements Evaluator {
   /**
    * @param urlPrefix e.g. {@code http://de.service.afterthedeadline.com/checkDocument?key=test&data=}
    */
-  public AtDEvaluator(String urlPrefix) {
+  AtDEvaluator(String urlPrefix) {
     this.urlPrefix = urlPrefix;
   }
 

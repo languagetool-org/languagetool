@@ -102,7 +102,7 @@ class MyTransferable implements Transferable {
   private final String plainData;
   private final String htmlData;
 
-  public MyTransferable(String plainData, String htmlData) {
+  MyTransferable(String plainData, String htmlData) {
     this.plainData = plainData;
     this.htmlData = htmlData;
   }

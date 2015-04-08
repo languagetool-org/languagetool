@@ -281,11 +281,11 @@ public final class RuleOverview {
     return maintainerInfo;
   }
 
-  private class JavaFilter implements FileFilter {
+  private static class JavaFilter implements FileFilter {
 
     private final String langName;
 
-    public JavaFilter(String langName) {
+    JavaFilter(String langName) {
       this.langName = langName;
     }
 

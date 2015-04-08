@@ -20,7 +20,7 @@ package org.languagetool.server;
 
 class IllegalConfigurationException extends RuntimeException {
 
-  public IllegalConfigurationException(String message) {
+  IllegalConfigurationException(String message) {
     super(message);
   }
   

@@ -162,10 +162,10 @@ public class RuleCreator {
     }
   }
 
-  class OccurrenceInfo {
+  static class OccurrenceInfo {
     private final String ngram;
     private final long occurrence;
-    public OccurrenceInfo(String ngram, long occurrence) {
+    OccurrenceInfo(String ngram, long occurrence) {
       this.ngram = ngram;
       this.occurrence = occurrence;
     }

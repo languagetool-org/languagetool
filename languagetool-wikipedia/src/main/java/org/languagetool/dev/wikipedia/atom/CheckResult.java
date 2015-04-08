@@ -29,7 +29,7 @@ class CheckResult {
   private final List<ChangeAnalysis> checkResults;
   private final long latestDiffId;
 
-  public CheckResult(List<ChangeAnalysis> checkResults, long latestDiffId) {
+  CheckResult(List<ChangeAnalysis> checkResults, long latestDiffId) {
     this.checkResults = Objects.requireNonNull(checkResults);
     if (latestDiffId < 0) {
       throw new IllegalArgumentException("latestDiffId must be >= 0: " + latestDiffId);
