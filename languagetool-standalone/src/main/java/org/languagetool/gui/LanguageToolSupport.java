@@ -881,7 +881,7 @@ class LanguageToolSupport {
           ITSIssueType issueType = span.rule.getLocQualityIssueType();
           Color colorForIssueType = getConfig().getErrorColors().get(issueType);
           Color bgColor = colorForIssueType != null ? colorForIssueType : null;
-          Color underlineColor = ITSIssueType.Misspelling.equals(span.rule.getLocQualityIssueType()) ? Color.red : Color.blue;
+          Color underlineColor = ITSIssueType.Misspelling == span.rule.getLocQualityIssueType() ? Color.red : Color.blue;
           HighlightPainter painter = new HighlightPainter(bgColor, underlineColor);
           h.addHighlight(span.start, span.end, painter);
         }

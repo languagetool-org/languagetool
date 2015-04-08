@@ -215,7 +215,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
     try {
       errorSearcher.findRuleMatchesOnIndex(getFirstRule("Invalid Rule Id", language), language);
       fail("Exception should be thrown for invalid rule id.");
-    } catch (PatternRuleNotFoundException expected) {}
+    } catch (PatternRuleNotFoundException ignored) {}
   }
 
   private PatternRule getFirstRule(String ruleId, Language language) throws IOException {
@@ -333,7 +333,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
     try {
       errorSearcher.findRuleMatchesOnIndex(rule1, new English());
       fail();
-    } catch (UnsupportedPatternRuleException expected) {
+    } catch (UnsupportedPatternRuleException ignored) {
     }
   }
 

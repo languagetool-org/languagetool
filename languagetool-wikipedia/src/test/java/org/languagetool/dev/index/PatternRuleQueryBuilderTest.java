@@ -138,7 +138,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     try {
       patternRuleQueryBuilder.buildRelaxedQuery(makeRule("<token skip='-1'><exception>and</exception></token>", false));
       fail("Exception should be thrown for unsupported PatternRule");
-    } catch (UnsupportedPatternRuleException expected) {}
+    } catch (UnsupportedPatternRuleException ignored) {}
   }
 
   public void testUnsupportedBackReferencePatternRule() throws Exception {
@@ -146,7 +146,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     try {
       patternRuleQueryBuilder.buildRelaxedQuery(makeRule("<token>\\1</token>", false));
       fail("Exception should be thrown for unsupported PatternRule");
-    } catch (UnsupportedPatternRuleException expected) {}
+    } catch (UnsupportedPatternRuleException ignored) {}
   }
 
   public void testSpecialRegexSyntax() throws Exception {

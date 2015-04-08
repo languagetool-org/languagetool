@@ -19,7 +19,6 @@
 package org.languagetool.tokenizers;
 
 import net.sourceforge.segment.srx.SrxDocument;
-import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
 import java.util.List;
@@ -34,7 +33,7 @@ import java.util.List;
  */
 public class SRXSentenceTokenizer implements SentenceTokenizer {
 
-  private static final SrxDocument DOCUMENT = SrxTools.createSrxDocument(JLanguageTool.getDataBroker().getFromResourceDirAsStream("/segment.srx"));
+  private static final SrxDocument DOCUMENT = SrxTools.createSrxDocument("/segment.srx");
 
   private final String languageCode;
 

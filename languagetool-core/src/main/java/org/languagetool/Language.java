@@ -356,7 +356,7 @@ public abstract class Language {
   protected synchronized List<PatternRule> getPatternRules() throws IOException {
     // use lazy loading to speed up start of stand-alone LT, where all the languages get initialized:
     if (patternRules == null) {
-      patternRules = new ArrayList<>();
+      List<PatternRule> rules = new ArrayList<>();
       PatternRuleLoader ruleLoader = new PatternRuleLoader();
       for (String fileName : getRuleFileNames()) {
         InputStream is = null;
@@ -365,7 +365,8 @@ public abstract class Language {
           if (is == null) {                     // files loaded via the dialog
             is = new FileInputStream(fileName);
           }
-          patternRules.addAll(ruleLoader.getRules(is, fileName));
+          rules.addAll(ruleLoader.getRules(is, fileName));
+          patternRules = Collections.unmodifiableList(rules);
         } finally {
           if (is != null) {
             is.close();

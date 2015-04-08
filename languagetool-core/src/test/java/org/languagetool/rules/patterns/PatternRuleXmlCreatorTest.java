@@ -88,7 +88,7 @@ public class PatternRuleXmlCreatorTest extends TestCase {
     try {
       creator.toXML(fakeRuleId, new Demo());
       fail();
-    } catch(RuntimeException expected) {}
+    } catch(RuntimeException ignored) {}
   }
 
 }

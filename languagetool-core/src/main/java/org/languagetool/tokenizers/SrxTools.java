@@ -40,33 +40,19 @@ final class SrxTools {
   private SrxTools() {
   }
 
-  /**
-   * Note: will consume and close the stream
-   */
-  static SrxDocument createSrxDocument(InputStream inputStream) {
-    BufferedReader srxReader = null;
+  static SrxDocument createSrxDocument(String path) {
     try {
-      srxReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
-      Map<String, Object> parserParameters = new HashMap<>();
-      parserParameters.put(Srx2SaxParser.VALIDATE_PARAMETER, true);
-      SrxParser srxParser = new Srx2SaxParser(parserParameters);
-      return srxParser.parse(srxReader);
-    } catch (IOException e) {
-      throw new RuntimeException("Could not load rules from resource dir "
-              + JLanguageTool.getDataBroker().getResourceDir(), e);
-    } finally {
-      closeQuietly(srxReader);
-      closeQuietly(inputStream);
-    }
-  }
-
-  private static void closeQuietly(Closeable srxReader) {
-    if (srxReader != null) {
-      try {
-        srxReader.close();
-      } catch (IOException e) {
-        // can't do anything useful
+      try (
+        InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
+        BufferedReader srxReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"))
+      ) {
+        Map<String, Object> parserParameters = new HashMap<>();
+        parserParameters.put(Srx2SaxParser.VALIDATE_PARAMETER, true);
+        SrxParser srxParser = new Srx2SaxParser(parserParameters);
+        return srxParser.parse(srxReader);
       }
+    } catch (IOException e) {
+      throw new RuntimeException("Could not load SRX rules", e);
     }
   }
 

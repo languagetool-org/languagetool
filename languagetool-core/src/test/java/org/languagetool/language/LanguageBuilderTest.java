@@ -39,7 +39,7 @@ public class LanguageBuilderTest extends TestCase {
     try {
       LanguageBuilder.makeAdditionalLanguage(new File("foo"));
       fail();
-    } catch (RuleFilenameException expected) {}
+    } catch (RuleFilenameException ignored) {}
   }
   
 }

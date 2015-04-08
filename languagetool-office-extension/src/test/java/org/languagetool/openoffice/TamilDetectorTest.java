@@ -41,7 +41,7 @@ public class TamilDetectorTest {
     try {
       assertFalse(detector.isThisLanguage(null));
       fail();
-    } catch (NullPointerException expected) {}
+    } catch (NullPointerException ignored) {}
   }
 
 }

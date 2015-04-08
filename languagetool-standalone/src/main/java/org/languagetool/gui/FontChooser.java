@@ -361,7 +361,6 @@ class FontChooser extends JDialog implements ActionListener,
   }
 
   private void updateFont() {
-
     String fontName = this.fontNameTextField.getText();
     String styleName = this.fontStyleTextField.getText();
     Integer fontSize = null;
@@ -377,7 +376,6 @@ class FontChooser extends JDialog implements ActionListener,
     } else if (fontStylesArray[3].equals(styleName)) {
       style = Font.BOLD | Font.ITALIC;
     }
-
     if (fontName != null && fontSize != null) {
       Font newFont = new Font(fontName, style, fontSize);
       this.selectedFont = newFont;

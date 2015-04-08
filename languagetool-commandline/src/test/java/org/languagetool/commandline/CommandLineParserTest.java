@@ -27,7 +27,7 @@ public class CommandLineParserTest extends TestCase {
     try {
       parser.parseOptions(new String[]{});
       fail();
-    } catch (WrongParameterNumberException expected) {}
+    } catch (WrongParameterNumberException ignored) {}
 
     final CommandLineOptions commandLineOptions = parser.parseOptions(new String[]{"--help"});
     assertTrue(commandLineOptions.isPrintUsage());
@@ -38,7 +38,7 @@ public class CommandLineParserTest extends TestCase {
     try {
       parser.parseOptions(new String[]{"--apply", "--taggeronly"});
       fail();
-    } catch (IllegalArgumentException expected) {}
+    } catch (IllegalArgumentException ignored) {}
   }
 
   public void testSimple() throws Exception {
