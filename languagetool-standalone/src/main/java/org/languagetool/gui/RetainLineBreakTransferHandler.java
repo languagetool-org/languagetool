@@ -82,54 +82,54 @@ class RetainLineBreakTransferHandler extends TransferHandler {
     return COPY;
   }
 
-}
+  static class MyTransferable implements Transferable {
 
-class MyTransferable implements Transferable {
+    private static final DataFlavor[] supportedFlavors;
 
-  private static final DataFlavor[] supportedFlavors;
-
-  static {
-    try {
-      supportedFlavors = new DataFlavor[]{
-              new DataFlavor("text/html;class=java.lang.String"),
-              new DataFlavor("text/plain;class=java.lang.String")
-      };
-    } catch (ClassNotFoundException e) {
-      throw new ExceptionInInitializerError(e);
-    }
-  }
-
-  private final String plainData;
-  private final String htmlData;
-
-  MyTransferable(String plainData, String htmlData) {
-    this.plainData = plainData;
-    this.htmlData = htmlData;
-  }
-
-  @Override
-  public DataFlavor[] getTransferDataFlavors() {
-    return supportedFlavors;
-  }
-
-  @Override
-  public boolean isDataFlavorSupported(DataFlavor flavor) {
-    for (DataFlavor supportedFlavor : supportedFlavors) {
-      if (supportedFlavor == flavor) {
-        return true;
+    static {
+      try {
+        supportedFlavors = new DataFlavor[]{
+                new DataFlavor("text/html;class=java.lang.String"),
+                new DataFlavor("text/plain;class=java.lang.String")
+        };
+      } catch (ClassNotFoundException e) {
+        throw new ExceptionInInitializerError(e);
       }
     }
-    return false;
+
+    private final String plainData;
+    private final String htmlData;
+
+    MyTransferable(String plainData, String htmlData) {
+      this.plainData = plainData;
+      this.htmlData = htmlData;
+    }
+
+    @Override
+    public DataFlavor[] getTransferDataFlavors() {
+      return supportedFlavors;
+    }
+
+    @Override
+    public boolean isDataFlavorSupported(DataFlavor flavor) {
+      for (DataFlavor supportedFlavor : supportedFlavors) {
+        if (supportedFlavor == flavor) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    @Override
+    public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
+      if (flavor.equals(supportedFlavors[0])) {
+        return htmlData;
+      }
+      if (flavor.equals(supportedFlavors[1])) {
+        return plainData;
+      }
+      throw new UnsupportedFlavorException(flavor);
+    }
   }
 
-  @Override
-  public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
-    if (flavor.equals(supportedFlavors[0])) {
-      return htmlData;
-    }
-    if (flavor.equals(supportedFlavors[1])) {
-      return plainData;
-    }
-    throw new UnsupportedFlavorException(flavor);
-  }
 }
