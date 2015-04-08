@@ -693,8 +693,9 @@ public final class Main {
       if (data != null
           && data.isDataFlavorSupported(DataFlavor.getTextPlainUnicodeFlavor())) {
         final DataFlavor df = DataFlavor.getTextPlainUnicodeFlavor();
-        final Reader sr = df.getReaderForText(data);
-        s = StringTools.readerToString(sr);
+        try (Reader sr = df.getReaderForText(data)) {
+          s = StringTools.readerToString(sr);
+        }
       } else {
         s = "";
       }

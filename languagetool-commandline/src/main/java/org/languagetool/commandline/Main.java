@@ -217,8 +217,6 @@ class Main {
       System.out.println("Rule ID\tTime\tSentences\tMatches\tSentences per sec.");
       runCount = rules.size();
     }
-    InputStreamReader isr = null;
-    BufferedReader br = null;
     int lineOffset = 0;
     int tmpLineOffset = 0;
     final List<String> unknownWords = new ArrayList<>();
@@ -228,9 +226,10 @@ class Main {
       int matches = 0;
       long sentences = 0;
       final long startTime = System.currentTimeMillis();
-      try {
-        isr = getInputStreamReader(filename, encoding);
-        br = new BufferedReader(isr);
+      try (
+        InputStreamReader isr = getInputStreamReader(filename, encoding);
+        BufferedReader br = new BufferedReader(isr)
+      ) {
         String line;
         int lineCount = 0;
         while ((line = br.readLine()) != null) {
@@ -275,12 +274,6 @@ class Main {
           rememberUnknownWords(listUnknownWords, unknownWords);
         }
         printTimingInformation(listUnknownWords, rules, unknownWords, ruleIndex, matches, sentences, startTime);
-        if (br != null) {
-          br.close();
-        }
-        if (isr != null) {
-          isr.close();
-        }
       }
     }
   }

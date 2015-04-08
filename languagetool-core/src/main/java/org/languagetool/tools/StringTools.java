@@ -89,7 +89,6 @@ public final class StringTools {
    */
   public static String readStream(final InputStream stream, final String encoding) throws IOException {
     InputStreamReader isr = null;
-    BufferedReader br = null;
     final StringBuilder sb = new StringBuilder();
     try {
       if (encoding == null) {
@@ -97,16 +96,14 @@ public final class StringTools {
       } else {
         isr = new InputStreamReader(stream, encoding);
       }
-      br = new BufferedReader(isr);
-      String line;
-      while ((line = br.readLine()) != null) {
-        sb.append(line);
-        sb.append('\n');
+      try (BufferedReader br = new BufferedReader(isr)) {
+        String line;
+        while ((line = br.readLine()) != null) {
+          sb.append(line);
+          sb.append('\n');
+        }
       }
     } finally {
-      if (br != null) {
-        br.close();
-      }
       if (isr != null) {
         isr.close();
       }

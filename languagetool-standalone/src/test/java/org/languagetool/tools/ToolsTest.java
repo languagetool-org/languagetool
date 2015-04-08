@@ -34,7 +34,6 @@ import java.util.List;
 
 public class ToolsTest extends TestCase {
 
-  private ByteArrayOutputStream out;
   private PrintStream stdout;
   private PrintStream stderr;
 
@@ -43,9 +42,9 @@ public class ToolsTest extends TestCase {
     super.setUp();
     this.stdout = System.out;
     this.stderr = System.err;
-    this.out = new ByteArrayOutputStream();
-    final ByteArrayOutputStream err = new ByteArrayOutputStream();      
-    System.setOut(new PrintStream(this.out));
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    ByteArrayOutputStream err = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(out));
     System.setErr(new PrintStream(err));
   }
 

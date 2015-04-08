@@ -72,13 +72,10 @@ public class DisambiguationRuleTest extends TestCase {
 
   private void validateRuleFile(String filePath) throws IOException {
     final XMLValidator validator = new XMLValidator();
-    final InputStream stream = this.getClass().getResourceAsStream(filePath);
-    try {
+    try (InputStream stream = this.getClass().getResourceAsStream(filePath)) {
       if (stream != null) {
         validator.validateWithXmlSchema(filePath, JLanguageTool.getDataBroker().getResourceDir() + "/disambiguation.xsd");
       }
-    } finally {
-      if (stream != null) { stream.close(); }
     }
   }
 
