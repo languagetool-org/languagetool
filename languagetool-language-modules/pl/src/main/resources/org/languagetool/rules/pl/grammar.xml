@@ -14793,6 +14793,18 @@ $Id$
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="KLIKU" name="„Kliku osób” (kilku osób)">
+                <pattern>
+                    <marker>
+                        <token>kliku</token>
+                    </marker>
+                    <token postag='subst:pl:(gen|dat|inst|loc).*' postag_regexp='yes'></token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>kilku</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction='kilku'>Brakowało <marker>kliku</marker> dolców.</example>
+                <example>Brakowało kilku dolców.</example>
+            </rule>
             <rulegroup id="PADL_DESZCZ" name="„padł deszcz” (padał deszcz)">
                 <rule>
                 <pattern>
