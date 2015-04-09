@@ -10825,6 +10825,16 @@ $Id$
             </rulegroup>
 		</category>
 		<category name="Błędy ortograficzne" type="misspelling">
+            <rule id="CZUL_SIE" name="„Czół się” (czuł się)">
+                <pattern>
+                    <token>czół</token>
+                    <token regexp='yes'>się|on|instynktownie|podświadomie|wstręt</token>
+                </pattern>
+                <message>Prawdopodobny błąd ortograficzny; czy chodziło o <suggestion>czuł <match no="2"/></suggestion> (formę czasownika „czuć”)?</message>
+                <short>Błąd ortograficzny</short>
+                <example correction='czuł się'>On <marker>czół się</marker> strasznie.</example>
+                <example>On czuł się strasznie.</example>
+            </rule>
             <rule id="KROTKO_TRWALY" name="„krótko trwały” (krótkotrwały)">
                 <pattern>
                     <marker>
