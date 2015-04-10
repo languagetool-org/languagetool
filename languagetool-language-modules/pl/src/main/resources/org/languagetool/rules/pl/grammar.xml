@@ -14793,6 +14793,33 @@ $Id$
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="KLIKA" name="„Klika osób” (kilka osób)">
+                <pattern>
+                    <marker>
+                        <token>klika<exception postag='adj:sg:nom.voc:f:pos' scope='previous'></exception></token>
+                    </marker>
+                    <token postag='(?:adj|ger|subst):pl:.*gen.*' postag_regexp='yes'><exception postag='subst:pl:gen:m1'></exception></token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>kilka</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction='kilka'>Było tam <marker>klika</marker> osób.</example>
+                <example>Było tam kilka osób.</example>
+                <example>Obsiadła ją klika	nuworyszów i nieuków.</example>
+                <example>Rządząca klika sanacyjnych generałów rozsławiła Polskę.</example>
+            </rule>
+            <rule id="KLIKA_KILKANASCIE" name="„Klika, kilkanaście” (kilka, kilkanaście)">
+                <pattern>
+                    <marker>
+                        <token>klika</token>
+                    </marker>
+                    <token regexp='yes'>[-—–,]</token>
+                    <token regexp='yes'>kilka(?:naście|dziesiąt)</token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>kilka</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction='kilka'>Było tam <marker>klika</marker> – kilkanaście osób.</example>
+                <example>Było tam kilka – kilkanaście osób.</example>
+            </rule>
             <rule id="KLIKU" name="„Kliku osób” (kilku osób)">
                 <pattern>
                     <marker>
@@ -14804,6 +14831,19 @@ $Id$
                 <short>Prawdopodobna literówka</short>
                 <example correction='kilku'>Brakowało <marker>kliku</marker> dolców.</example>
                 <example>Brakowało kilku dolców.</example>
+            </rule>
+            <rule id="KLIKU_KILKUNASTU" name="„Kliku, kilkunastu” (kilku, kilkanastu)">
+                <pattern>
+                    <marker>
+                        <token>kliku</token>
+                    </marker>
+                    <token regexp='yes'>[-—–,]</token>
+                    <token regexp='yes'>kilku(?:nastu|dziesięciu)</token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>kilku</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction='kilku'>Było tam <marker>kliku</marker> – kilkunastu facetów.</example>
+                <example>Było tam kilku – kilkunastu facetów.</example>
             </rule>
             <rulegroup id="PADL_DESZCZ" name="„padł deszcz” (padał deszcz)">
                 <rule>
