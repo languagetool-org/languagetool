@@ -2320,6 +2320,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="A.*" /> 
         </rule>
+        <rule>
+            <pattern>
+                <token postag="(DD|PD).*|V.*|P[P0].*|NP.*|NC.*" postag_regexp="yes"><exception postag="C.*|R.*|DA.*|V.N.*|PT.*" postag_regexp="yes"/><exception regexp="yes">tu|e[mts]|[mts]e|ens|us|[mtsln]'|'[mtsln]|'ls|'ns|li|els?|la|les|en|hi|ho|any|dia</exception></token>
+                <marker>
+                    <and>
+                        <token postag="V.[IS].2S0." postag_regexp="yes" regexp="yes">noms|temes</token>
+                        <token postag="N.*|A.*|V.P.*" postag_regexp="yes" />
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.[IS].2S0." /> <!-- les ha vistes estenent la roba -->
+        </rule>
     </rulegroup>
     <rulegroup id="en_veu" name="en veu baixa">
         <rule>
