@@ -90,6 +90,10 @@ $Id$
 
         <rulegroup name="Відсутня кома перед «але», «однак», ..." id="COMMA_BEFORE_BUT">
             <rule>
+                <antipattern>
+                  <token>одне</token>
+                  <token>але</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                   <marker>
                     <token regexp="yes" negate="yes">[\p{Punct}…«\(„–—]|[!?.]{3}|[нН]у|[АаІіЙй]|але
@@ -102,6 +106,7 @@ $Id$
                 <message>Відсутня кома перед сполучником: <suggestion>\1, \2</suggestion></message>
                 <example>Вгадав всі літери — але не зміг прочитати слово.</example>
                 <example>почалося щось а ля комедія</example>
+                <example>Якби не одне але</example>
                 <example>Всесвіт припинить своє існування, а це неможливо!</example>
                 <example correction="літери, але">Вгадав всі <marker>літери але</marker> не зміг прочитати слово.</example>
             </rule>
