@@ -130,7 +130,8 @@ public class ReplaceOperationNamesRule extends Rule {
         continue loop;
       }
       // Assecat el braç del riu
-      if (matchPostagRegexp(tokens[i - 1], PUNTUACIO) &&
+      if (i + 1 < tokens.length &&
+          matchPostagRegexp(tokens[i - 1], PUNTUACIO) &&
           matchPostagRegexp(tokens[i + 1], DETERMINANT)) {
         continue loop;
       }
