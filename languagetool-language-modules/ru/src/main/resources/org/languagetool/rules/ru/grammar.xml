@@ -771,7 +771,7 @@ $Id$
                <short>Логическая ошибка.</short>
             <example correction="командировочное удостоверение"><marker>командированное удостоверение</marker></example>
             <example correction="командировочного удостоверения"><marker>командированного удостоверения</marker></example>            
-            <example>командировачное удостоверение</example>
+            <example>командировочное удостоверение</example>
         </rule>
           <rule>         
             <pattern>
@@ -1216,7 +1216,7 @@ $Id$
         <rulegroup default="on" id="VVODNOE_SLOVO" name="Вводные слова: «по-видимому», ...">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|как|который|которого|которому|
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|а|как|который|которого|которому|
                         котором|которая|которой|которую|которые|которых|
                     которыми|которое|которым<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">по-видимому|по-моему|по-твоему|впрочем</token>
@@ -1226,6 +1226,7 @@ $Id$
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Пропущена запятая.</short>
                 <example>Это показалось ему, по-видимому, странным.</example>
+                <example>Пахло странно, а впрочем, скорее приятно.</example>
                 <example correction="ему, по-видимому, странным">Это показалось <marker>ему по-видимому странным</marker>.</example>
             </rule>
             
@@ -1586,13 +1587,14 @@ $Id$
             <!--TODO: Detect 2 comma.-->
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|бы|возникши(.*)<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|бы|возникши(.*)<exception postag="SENT_START"></exception><exception postag_regexp="yes"  postag="VB:.*"></exception></token>
                     <token regexp="yes">кроме|помимо|вместо</token>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\1, \2</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%BF%D1%8F%D1%82%D0%B0%D1%8F</url>
                 <short>Пропущена запятая.</short>
                 <example>Около костра, кроме Ивана, грелось ещё пять человек.</example>
+                <example>Он ел вместо груш яблоки.</example>
                 <example>Обстоятельства, возникшие помимо воли и желания сторон.</example>
                 <example correction="костра, кроме">Около <marker>костра кроме</marker> Ивана грелось ещё пять человек.</example>
             </rule>
