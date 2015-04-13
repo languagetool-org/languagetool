@@ -18,6 +18,8 @@
  */
 package org.languagetool.commandline;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -27,6 +29,9 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * Tests the basic features of the command-line interface.
@@ -307,6 +312,17 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
     assertTrue(output.contains("Working on STDIN..."));
     assertTrue(output.contains("1.) Line 1, column 31, Rule ID: PL_WORD_REPEAT"));
+  }
+
+  public void testPolishApiStdInDefaultOff() throws Exception {
+    final String test = "To jest test, który zrobiłem, który mi się podoba.";
+    final byte[] b = test.getBytes();
+    System.setIn(new ByteArrayInputStream(b));
+    final String[] args = {"--api", "-l", "pl", "-e", "PL_WORD_REPEAT", "-"};
+    Main.main(args);
+    final String output = new String(this.out.toByteArray());
+    assertThat(StringUtils.countMatches(output, "<matches "), is(1));
+    assertThat(StringUtils.countMatches(output, "</matches>"), is(1));  // https://github.com/languagetool-org/languagetool/issues/251
   }
 
   public void testPolishSpelling() throws Exception {

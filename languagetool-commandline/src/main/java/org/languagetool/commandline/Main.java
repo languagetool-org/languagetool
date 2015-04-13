@@ -268,9 +268,6 @@ class Main {
           if (profileRules) {
             sentences += lt.sentenceTokenize(sb.toString()).size();
           }
-          if (apiFormat && !taggerOnly && !applySuggestions) {
-            System.out.println("</matches>");
-          }
           rememberUnknownWords(listUnknownWords, unknownWords);
         }
         printTimingInformation(listUnknownWords, rules, unknownWords, ruleIndex, matches, sentences, startTime);
