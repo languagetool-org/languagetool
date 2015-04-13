@@ -71,6 +71,8 @@ public class CatalanUnpairedBracketsRuleTest extends TestCase {
     assertCorrect("60° 50'");
     //assertCorrect("el grau en 60 parts iguals, tenim el minut (1'):");
     //assertCorrect("el minut en 60 parts iguals, tenim el segon (1\"):");
+    assertCorrect("El tràiler té una picada d'ullet quan diu que \"no es pot fer una pel·lícula 'slasher' com si fos una sèrie\".");
+    assertCorrect("El tràiler –que té una picada d'ullet quan diu que \"no es pot fer una pel·lícula 'slasher' com si fos una sèrie\"– ja ");
     
     //assertCorrect("The screen is 20\" wide.");
     assertCorrect("This is a [test] sentence...");
