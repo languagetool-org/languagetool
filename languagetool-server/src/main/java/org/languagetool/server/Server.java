@@ -45,7 +45,6 @@ abstract class Server {
             "0:0:0:0:0:0:0:1%0",   // some(?) Mac OS X
             "127.0.0.1"
     ));
-  static final int THREAD_POOL_SIZE = 10;
 
   protected int port;
   protected String host;
