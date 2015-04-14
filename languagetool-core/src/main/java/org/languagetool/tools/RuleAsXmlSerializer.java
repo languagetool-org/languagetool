@@ -149,6 +149,7 @@ public class RuleAsXmlSerializer {
 
   /**
    * Get an XML representation of the given rule matches.
+   *
    * @param text the original text that was checked, used to get the context of the matches
    * @param contextSize the desired context size in characters
    * @since 3.0

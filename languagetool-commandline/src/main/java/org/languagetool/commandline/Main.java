@@ -352,20 +352,15 @@ class Main {
   private int handleLine(final XmlPrintMode mode, final int lineOffset,
       final StringBuilder sb) throws IOException {
     int matches = 0;
-    String string = sb.toString();
-    string = filterXML(string);
-    
+    String s = filterXML(sb.toString());
     if (applySuggestions) {
-      System.out.print(Tools.correctText(string,
-          lt));
+      System.out.print(Tools.correctText(s, lt));
     } else if (profileRules) {
-      matches += Tools.profileRulesOnLine(string, 
-          lt, currentRule);
+      matches += Tools.profileRulesOnLine(s, lt, currentRule);
     } else if (!taggerOnly) {
-      matches += CommandLineTools.checkText(string, lt,
-          apiFormat, -1, lineOffset, matches, mode);
+      matches += CommandLineTools.checkText(s, lt, apiFormat, -1, lineOffset, matches, mode);
     } else {
-      CommandLineTools.tagText(string, lt);
+      CommandLineTools.tagText(s, lt);
     }
     return matches;
   }
