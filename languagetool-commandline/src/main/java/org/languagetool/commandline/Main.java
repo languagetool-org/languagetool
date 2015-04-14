@@ -157,7 +157,7 @@ class Main {
           language = new English();
         }
         changeLanguage(language, motherTongue, disabledRules, enabledRules);
-        System.out.println("Using " + language.getName() + " for file " + filename);
+        System.err.println("Using " + language.getName() + " for file " + filename);
       }
       final File file = new File(filename);
       // run once on file if the file size < MAX_FILE_SIZE or
@@ -203,9 +203,9 @@ class Main {
     }
     if (!apiFormat && !applySuggestions) {
       if (isStdIn(filename)) {
-        System.out.println("Working on STDIN...");
+        System.err.println("Working on STDIN...");
       } else {
-        System.out.println("Working on " + filename + "...");
+        System.err.println("Working on " + filename + "...");
       }
     }
     if (profileRules && isStdIn(filename)) {
@@ -244,7 +244,7 @@ class Main {
               System.err.println("Could not detect language well enough, using English");
               language = new English();
             }
-            System.out.println("Language used is: " + language.getName());
+            System.err.println("Language used is: " + language.getName());
             language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
                     singleLineBreakMarksParagraph);
             changeLanguage(language, motherTongue, disabledRules, enabledRules);
@@ -496,7 +496,7 @@ class Main {
     if (languageHint != null) {
       String spellHint = prg.isSpellCheckingActive() ?
               "" : " (no spell checking active, specify a language variant like 'en-GB' if available)";
-      System.out.println(languageHint + spellHint);
+      System.err.println(languageHint + spellHint);
     }
     prg.setListUnknownWords(options.isListUnknown());
     if (options.isProfile()) {

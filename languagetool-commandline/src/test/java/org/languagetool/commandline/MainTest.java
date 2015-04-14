@@ -157,27 +157,30 @@ public class MainTest extends AbstractSecurityTestCase {
     //note: we pretend this is Breton because the English language tool is already initialized
     final String[] args = {"-l", "br", "--rulefile", getRuleFilePath(), getTestFilePath()};
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: Breton") == 0);
-    assertTrue(output.contains("Rule ID: EXAMPLE_RULE"));
+    final String stdout = new String(this.out.toByteArray());
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: Breton") == 0);
+    assertTrue(stdout.contains("Rule ID: EXAMPLE_RULE"));
   }
 
   public void testEnglishFile() throws Exception {
     final String[] args = {"-l", "en", getTestFilePath()};
 
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: English") == 0);
-    assertTrue(output.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
+    final String stdout = new String(this.out.toByteArray());
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: English") == 0);
+    assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
 
   public void testEnglishFileAutoDetect() throws Exception {
     final String[] args = {"-adl", getTestFilePath()};
 
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Using English for file") == 0);
-    assertTrue(output.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
+    final String stdout = new String(this.out.toByteArray());
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Using English for file") == 0);
+    assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
 
   public void testEnglishStdInAutoDetect() throws Exception {
@@ -187,10 +190,11 @@ public class MainTest extends AbstractSecurityTestCase {
     final String[] args = {"-adl"};
 
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Working on STDIN...") == 0);
-    assertTrue(output.contains("Language used is: English"));
-    assertTrue(output.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
+    final String stdout = new String(this.out.toByteArray());
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Working on STDIN...") == 0);
+    assertTrue(stderr.contains("Language used is: English"));
+    assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
 
   public void testStdInWithExternalFalseFriends() throws Exception {
@@ -200,19 +204,21 @@ public class MainTest extends AbstractSecurityTestCase {
     final String[] args = {"-l", "sk", "--falsefriends", getExternalFalseFriends(), "-m", "pl", "-"};
 
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.contains("Expected text language: Slovak"));
-    assertTrue(output.contains("Working on STDIN..."));
-    assertTrue(output.contains("Rule ID: LASKA"));
+    final String stdout = new String(this.out.toByteArray());
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.contains("Expected text language: Slovak"));
+    assertTrue(stderr.contains("Working on STDIN..."));
+    assertTrue(stdout.contains("Rule ID: LASKA"));
   }
 
   public void testEnglishFileVerbose() throws Exception {
     final String[] args = {"-l", "en", "-v", getTestFilePath()};
 
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: English") == 0);
-    assertTrue(output.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
+    final String stdout = new String(this.out.toByteArray());
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: English") == 0);
+    assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
     final String tagText = new String(this.err.toByteArray());
     assertTrue("Got: " + tagText, tagText.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>,O]"));
   }
@@ -234,9 +240,10 @@ public class MainTest extends AbstractSecurityTestCase {
     final String[] args = {"-l", "en"};
 
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: English") == 0);
-    assertTrue(output.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
+    final String stdout = new String(this.out.toByteArray());
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: English") == 0);
+    assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
 
   public void testEnglishStdIn2() throws Exception {
@@ -246,9 +253,10 @@ public class MainTest extends AbstractSecurityTestCase {
     final String[] args = {"-l", "en", "-"};
 
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: English") == 0);
-    assertTrue(output.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
+    final String stdout = new String(this.out.toByteArray());
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: English") == 0);
+    assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
 
   public void testEnglishStdIn3() throws Exception {
@@ -308,10 +316,11 @@ public class MainTest extends AbstractSecurityTestCase {
     final String[] args = {"-l", "pl", "-e", "PL_WORD_REPEAT", "-"};
 
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: Polish") == 0);
-    assertTrue(output.contains("Working on STDIN..."));
-    assertTrue(output.contains("1.) Line 1, column 31, Rule ID: PL_WORD_REPEAT"));
+    final String stdout = new String(this.out.toByteArray());
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
+    assertTrue(stderr.contains("Working on STDIN..."));
+    assertTrue(stdout.contains("1.) Line 1, column 31, Rule ID: PL_WORD_REPEAT"));
   }
 
   public void testPolishApiStdInDefaultOff() throws Exception {
@@ -345,28 +354,31 @@ public class MainTest extends AbstractSecurityTestCase {
     final String[] args = {"-l", "pl", "-e", "MORFOLOGIK_RULE_PL_PL", "-"};
 
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: Polish") == 0);
-    assertTrue(output.contains("Working on STDIN..."));
-    assertTrue(output.contains("1.) Line 1, column 1, Rule ID: MORFOLOGIK_RULE_PL_PL"));
+    final String stdout = new String(this.out.toByteArray());
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
+    assertTrue(stderr.contains("Working on STDIN..."));
+    assertTrue(stdout.contains("1.) Line 1, column 1, Rule ID: MORFOLOGIK_RULE_PL_PL"));
   }
 
   public void testEnglishFileRuleDisabled() throws Exception {
     final String[] args = {"-l", "en", "-d", "EN_A_VS_AN", getTestFilePath()};
 
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: English") == 0);
-    assertTrue(!output.contains("Rule ID: EN_A_VS_AN"));
+    final String stdout = new String(this.out.toByteArray());
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: English") == 0);
+    assertTrue(!stdout.contains("Rule ID: EN_A_VS_AN"));
   }
 
   public void testEnglishFileRuleEnabled() throws Exception {
     final String[] args = {"-l", "en", "-e", "EN_A_VS_AN", getTestFilePath()};
 
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: English") == 0);
-    assertTrue(output.contains("Rule ID: EN_A_VS_AN"));
+    final String stdout = new String(this.out.toByteArray());
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: English") == 0);
+    assertTrue(stdout.contains("Rule ID: EN_A_VS_AN"));
   }
 
   public void testEnglishFileFakeRuleEnabled() throws Exception {
@@ -376,8 +388,8 @@ public class MainTest extends AbstractSecurityTestCase {
     final String[] args = {"-l", "en", "-e", "FOO_BAR_BLABLA", "-"};
 
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: English") == 0);
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: English") == 0);
   }
 
   public void testEnglishFileAPI() throws Exception {
@@ -440,17 +452,19 @@ public class MainTest extends AbstractSecurityTestCase {
     final String[] args = {"-l", "pl", "-c", "utf-8", input.getAbsolutePath()};
 
     Main.main(args);
-    final String output = new String(this.out.toByteArray(),"UTF-8");
-    assertTrue(output.indexOf("Expected text language: Polish") == 0);
-    assertTrue(output.contains("Line 8, column 1, Rule ID: BRAK_PRZECINKA_KTORY"));
+    final String stdout = new String(this.out.toByteArray(),"UTF-8");
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
+    assertTrue(stdout.contains("Line 8, column 1, Rule ID: BRAK_PRZECINKA_KTORY"));
   }
 
   public void testEnglishTagger() throws Exception {
     final String[] args = {"-l", "en", "--taggeronly", getTestFilePath()};
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: English") == 0);
-    assertTrue("Got: " + output, output.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>,O]"));
+    final String stdout = new String(this.out.toByteArray());
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: English") == 0);
+    assertTrue("Got: " + stdout, stdout.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>,O]"));
   }
 
   public void testBitextMode() throws Exception {
@@ -461,11 +475,12 @@ public class MainTest extends AbstractSecurityTestCase {
 
     final String[] args = {"-l", "pl", "-c", "UTF-8", "--bitext", "-m", "en", input.getAbsolutePath()};
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: Polish") == 0);
-    assertTrue(output.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?"));
-    assertTrue(output.contains("Line 1, column 32, Rule ID: ACTUAL"));
-    assertTrue(output.contains("Line 3, column 3, Rule ID: TRANSLATION_LENGTH"));
+    final String stdout = new String(this.out.toByteArray());
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
+    assertTrue(stdout.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?"));
+    assertTrue(stdout.contains("Line 1, column 32, Rule ID: ACTUAL"));
+    assertTrue(stdout.contains("Line 3, column 3, Rule ID: TRANSLATION_LENGTH"));
   }
 
   public void testBitextModeWithDisabledRule() throws Exception {
@@ -476,11 +491,12 @@ public class MainTest extends AbstractSecurityTestCase {
 
     final String[] args = {"-l", "pl", "--bitext", "-m", "en", "-d", "UPPERCASE_SENTENCE_START,TRANSLATION_LENGTH", input.getAbsolutePath()};
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: Polish") == 0);
-    assertTrue(output.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?"));
-    assertTrue(output.contains("Line 1, column 32, Rule ID: ACTUAL"));
-    assertFalse(output.contains("Rule ID: TRANSLATION_LENGTH"));
+    final String stdout = new String(this.out.toByteArray());
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
+    assertTrue(stdout.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?"));
+    assertTrue(stdout.contains("Line 1, column 32, Rule ID: ACTUAL"));
+    assertFalse(stdout.contains("Rule ID: TRANSLATION_LENGTH"));
   }
 
   public void testBitextModeWithEnabledRule() throws Exception {
@@ -491,11 +507,12 @@ public class MainTest extends AbstractSecurityTestCase {
 
     final String[] args = {"-l", "pl", "--bitext", "-m", "en", "-e", "TRANSLATION_LENGTH", input.getAbsolutePath()};
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: Polish") == 0);
-    assertFalse(output.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?"));
-    assertFalse(output.contains("Line 1, column 32, Rule ID: ACTUAL"));
-    assertTrue(output.contains("Rule ID: TRANSLATION_LENGTH"));
+    final String stdout = new String(this.out.toByteArray());
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
+    assertFalse(stdout.contains("Message: Hint: \"aktualny\" (Polish) means \"current\", \"(the) latest\", \"up-to-date\" (English). Did you mean 'rzeczywisty'?"));
+    assertFalse(stdout.contains("Line 1, column 32, Rule ID: ACTUAL"));
+    assertTrue(stdout.contains("Rule ID: TRANSLATION_LENGTH"));
   }
 
   public void testBitextModeApply() throws Exception {
@@ -519,53 +536,59 @@ public class MainTest extends AbstractSecurityTestCase {
   public void testListUnknown() throws Exception {
     final String[] args = {"-l", "pl", "-u", getTestFilePath()};
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: Polish") == 0);
-    assertTrue(output.contains("Unknown words: [., This, an, is, language, of, tool]"));
+    final String stdout = new String(this.out.toByteArray());
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
+    assertTrue(stdout.contains("Unknown words: [., This, an, is, language, of, tool]"));
   }
 
   public void testNoListUnknown() throws Exception {
     final String[] args = {"-l", "pl", getTestFilePath()};
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: Polish") == 0);
-    assertTrue(!output.contains("Unknown words: [This, an, is]"));
+    final String stdout = new String(this.out.toByteArray());
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: Polish") == 0);
+    assertTrue(!stdout.contains("Unknown words: [This, an, is]"));
   }
 
   public void testLangWithCountryVariant() throws Exception {
     final File input = writeToTempFile("This is modelling.");
     final String[] args = {"-l", "en-US", input.getAbsolutePath()};
     Main.main(args);
-    final String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: English (US)") == 0);
-    assertTrue(output.contains("MORFOLOGIK_RULE_EN_US"));
+    final String stdout = new String(this.out.toByteArray());
+    final String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: English (US)") == 0);
+    assertTrue(stdout.contains("MORFOLOGIK_RULE_EN_US"));
   }
 
   public void testValencianCatalan() throws Exception {
     File input = writeToTempFile("Que sigui així.");
     String[] args = {"-l", "ca-ES-valencia", input.getAbsolutePath()};
     Main.main(args);
-    String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: Catalan (Valencian)") == 0);
-    assertTrue(output.contains("EXIGEIX_VERBS_VALENCIANS"));
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: Catalan (Valencian)") == 0);
+    assertTrue(stdout.contains("EXIGEIX_VERBS_VALENCIANS"));
   }
 
   public void testCatalan() throws Exception {
     File input = writeToTempFile("Que siga així.");
     String[] args = {"-l", "ca-ES", input.getAbsolutePath()};
     Main.main(args);
-    String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: Catalan") == 0);
-    assertTrue(output.contains("EXIGEIX_VERBS_CENTRAL"));
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: Catalan") == 0);
+    assertTrue(stdout.contains("EXIGEIX_VERBS_CENTRAL"));
   }
 
   public void testCatalan2() throws Exception {
     File input = writeToTempFile("Que siga així.");
     String[] args = {"-l", "ca", input.getAbsolutePath()};
     Main.main(args);
-    String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Expected text language: Catalan") == 0);
-    assertTrue(output.contains("EXIGEIX_VERBS_CENTRAL"));
+    String stdout = new String(this.out.toByteArray());
+    String stderr = new String(this.err.toByteArray());
+    assertTrue(stderr.indexOf("Expected text language: Catalan") == 0);
+    assertTrue(stdout.contains("EXIGEIX_VERBS_CENTRAL"));
   }
 
   public void testNoXmlFilteringByDefault() throws Exception {

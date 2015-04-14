@@ -23,6 +23,8 @@
 #### Command-line
   * Fixed an error with the `--api` option that printed invalid XML
     for large documents or when the input was STDIN (Github issue #251)
+  * Print some information to STDERR instead of STDOUT so the `--api`
+    option makes more sense
 
 #### API
   * `Language.setName()` has been removed. If you need to set the name,
