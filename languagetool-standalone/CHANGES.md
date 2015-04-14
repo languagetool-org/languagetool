@@ -20,6 +20,10 @@
     for every check, as done by the embedded server (or multithreaded
     LT users in general)
 
+#### Command-line
+  * Fixed an error with the `--api` option that printed invalid XML
+    for large documents or when the input was STDIN (Github issue #251)
+
 #### API
   * `Language.setName()` has been removed. If you need to set the name,
     overwrite the `getName()` method instead.

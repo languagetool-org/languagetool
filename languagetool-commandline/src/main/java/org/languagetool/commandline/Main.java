@@ -29,7 +29,6 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.tools.JnaTools;
-import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 import org.xml.sax.SAXException;
 
@@ -38,6 +37,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
+
+import static org.languagetool.tools.StringTools.*;
 
 /**
  * The command line tool to check plain text files.
@@ -220,6 +221,7 @@ class Main {
     int lineOffset = 0;
     int tmpLineOffset = 0;
     final List<String> unknownWords = new ArrayList<>();
+    handleLine(XmlPrintMode.START_XML, 0, new StringBuilder());
     StringBuilder sb = new StringBuilder();
     for (int ruleIndex = 0; !rules.isEmpty() && ruleIndex < runCount; ruleIndex++) {
       currentRule = rules.get(ruleIndex);
@@ -251,7 +253,7 @@ class Main {
           tmpLineOffset++;
 
           if (isBreakPoint(sb, line)) {
-            matches = handleLine(matches, lineOffset, sb);
+            matches += handleLine(XmlPrintMode.CONTINUE_XML, lineOffset, sb);
             sentences += lt.getSentenceCount();
             if (profileRules) {
               sentences += lt.sentenceTokenize(sb.toString()).size();
@@ -262,8 +264,8 @@ class Main {
           }
         }
       } finally {
+        matches += handleLine(XmlPrintMode.END_XML, tmpLineOffset - 1, sb);
         if (sb.length() > 0) {
-          matches = handleLine(matches, tmpLineOffset - 1, sb);
           sentences += lt.getSentenceCount();
           if (profileRules) {
             sentences += lt.sentenceTokenize(sb.toString()).size();
@@ -347,11 +349,11 @@ class Main {
     }
   }
 
-  private int handleLine(final int matchNo, final int lineOffset,
+  private int handleLine(final XmlPrintMode mode, final int lineOffset,
       final StringBuilder sb) throws IOException {
-    int matches = matchNo;
+    int matches = 0;
     String string = sb.toString();
-    string = StringTools.filterXML(string);
+    string = filterXML(string);
     
     if (applySuggestions) {
       System.out.print(Tools.correctText(string,
@@ -360,15 +362,8 @@ class Main {
       matches += Tools.profileRulesOnLine(string, 
           lt, currentRule);
     } else if (!taggerOnly) {
-      if (matches == 0) {
-        matches += CommandLineTools.checkText(string, lt,
-            apiFormat, -1, lineOffset, matches,
-            StringTools.XmlPrintMode.START_XML);
-      } else {
-        matches += CommandLineTools.checkText(string, lt,
-            apiFormat, -1, lineOffset, matches,
-            StringTools.XmlPrintMode.CONTINUE_XML);
-      }
+      matches += CommandLineTools.checkText(string, lt,
+          apiFormat, -1, lineOffset, matches, mode);
     } else {
       CommandLineTools.tagText(string, lt);
     }
@@ -407,9 +402,9 @@ class Main {
       System.out.println("Working on " + filename + "...");
     }
     // don't use StringTools.readStream() as that might add newlines which aren't there:
-    final String fileContents = StringTools.streamToString(new FileInputStream(filename), encoding != null ? encoding : Charset.defaultCharset().name());
+    final String fileContents = streamToString(new FileInputStream(filename), encoding != null ? encoding : Charset.defaultCharset().name());
     if (xmlFiltering) {
-      return StringTools.filterXML(fileContents);
+      return filterXML(fileContents);
     } else {
       return fileContents;
     }
@@ -534,7 +529,7 @@ class Main {
   }
 
   private static Language detectLanguageOfFile(final String filename, final String encoding) throws IOException {
-    final String text = StringTools.readStream(new FileInputStream(filename), encoding);
+    final String text = readStream(new FileInputStream(filename), encoding);
     return detectLanguageOfString(text);
   }
 

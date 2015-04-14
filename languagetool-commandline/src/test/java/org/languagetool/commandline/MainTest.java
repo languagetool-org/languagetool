@@ -321,8 +321,21 @@ public class MainTest extends AbstractSecurityTestCase {
     final String[] args = {"--api", "-l", "pl", "-e", "PL_WORD_REPEAT", "-"};
     Main.main(args);
     final String output = new String(this.out.toByteArray());
+    assertThat(StringUtils.countMatches(output, "<error "), is(1));
     assertThat(StringUtils.countMatches(output, "<matches "), is(1));
     assertThat(StringUtils.countMatches(output, "</matches>"), is(1));  // https://github.com/languagetool-org/languagetool/issues/251
+  }
+
+  public void testPolishApiStdInDefaultOffNoErrors() throws Exception {
+    final String test = "To jest test.";
+    final byte[] b = test.getBytes();
+    System.setIn(new ByteArrayInputStream(b));
+    final String[] args = {"--api", "-l", "pl", "-e", "PL_WORD_REPEAT", "-"};
+    Main.main(args);
+    final String output = new String(this.out.toByteArray());
+    assertThat(StringUtils.countMatches(output, "<error "), is(0));
+    assertThat(StringUtils.countMatches(output, "<matches "), is(1));
+    assertThat(StringUtils.countMatches(output, "</matches>"), is(1));
   }
 
   public void testPolishSpelling() throws Exception {

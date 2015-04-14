@@ -102,7 +102,7 @@ public final class CommandLineTools {
     if (apiFormat) {
       final RuleAsXmlSerializer serializer = new RuleAsXmlSerializer();
       final String xml = serializer.ruleMatchesToXml(ruleMatches, contents,
-              contextSize, lt.getLanguage());
+              contextSize, xmlMode, lt.getLanguage());
       final PrintStream out = new PrintStream(System.out, true, "UTF-8");
       out.print(xml);
     } else {

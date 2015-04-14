@@ -27,6 +27,8 @@ import org.languagetool.rules.patterns.PatternRule;
 
 import java.util.List;
 
+import static org.languagetool.tools.StringTools.*;
+
 /**
  * Generate XML to represent matching rules.
  * 
@@ -100,13 +102,13 @@ public class RuleAsXmlSerializer {
       xml.append(subId);
       xml.append(" msg=\"").append(escapeXMLForAPIOutput(msg)).append('"');
       String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text);
-      xml.append(" replacements=\"").append(escapeXMLForAPIOutput(StringTools.listToString(
+      xml.append(" replacements=\"").append(escapeXMLForAPIOutput(listToString(
               match.getSuggestedReplacements(), "#"))).append('"');
       // get position of error in context and remove artificial marker again:
       int contextOffset = context.indexOf(startMarker);
       context = context.replaceFirst(startMarker, "");
       context = context.replaceAll("[\n\r]", " ");
-      xml.append(" context=\"").append(StringTools.escapeForXmlAttribute(context)).append('"')
+      xml.append(" context=\"").append(escapeForXmlAttribute(context)).append('"')
               .append(" contextoffset=\"").append(contextOffset).append('"')
               .append(" offset=\"").append(match.getFromPos()).append('"')
               .append(" errorlength=\"").append(match.getToPos() - match.getFromPos()).append('"');
@@ -138,7 +140,6 @@ public class RuleAsXmlSerializer {
 
   /**
    * Get an XML representation of the given rule matches.
-   *
    * @param text the original text that was checked, used to get the context of the matches
    * @param contextSize the desired context size in characters
    */
@@ -146,9 +147,30 @@ public class RuleAsXmlSerializer {
     return getXmlStart(lang, null) + ruleMatchesToXmlSnippet(ruleMatches, text, contextSize) + getXmlEnd();
   }
 
+  /**
+   * Get an XML representation of the given rule matches.
+   * @param text the original text that was checked, used to get the context of the matches
+   * @param contextSize the desired context size in characters
+   * @since 3.0
+   */
+  public String ruleMatchesToXml(List<RuleMatch> ruleMatches, String text, int contextSize, XmlPrintMode xmlMode, Language lang) {
+    String xmlSnippet = ruleMatchesToXmlSnippet(ruleMatches, text, contextSize);
+    switch (xmlMode) {
+      case START_XML:
+        return getXmlStart(lang, null) + xmlSnippet;
+      case CONTINUE_XML:
+        return xmlSnippet;
+      case END_XML:
+        return xmlSnippet + getXmlEnd();
+      case NORMAL_XML:
+        return getXmlStart(lang, null) + xmlSnippet + getXmlEnd();
+    }
+    throw new IllegalArgumentException("Unknown XML mode: " + xmlMode);
+  }
+
   private static String escapeXMLForAPIOutput(String s) {
     // this is simplified XML, i.e. put the "<error>" in one line:
-    return StringTools.escapeForXmlAttribute(s).replaceAll("[\n\r]", " ");
+    return escapeForXmlAttribute(s).replaceAll("[\n\r]", " ");
   }
 
 }

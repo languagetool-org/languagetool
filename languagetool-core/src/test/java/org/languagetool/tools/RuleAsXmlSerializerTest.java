@@ -18,6 +18,7 @@
  */
 package org.languagetool.tools;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -40,6 +41,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+import static org.languagetool.tools.StringTools.XmlPrintMode.*;
 
 @SuppressWarnings("MagicNumber")
 public class RuleAsXmlSerializerTest {
@@ -49,7 +53,7 @@ public class RuleAsXmlSerializerTest {
 
   @Test
   public void testLanguageAttributes() throws IOException {
-    final String xml1 = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, language);
+    final String xml1 = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, NORMAL_XML, language);
     assertTrue(xml1.contains("shortname=\"xx-XX\""));
     assertTrue(xml1.contains("name=\"Testlanguage\""));
     final String xml2 = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, language, new FakeLanguage());
@@ -57,6 +61,24 @@ public class RuleAsXmlSerializerTest {
     assertTrue(xml2.contains("name=\"Testlanguage\""));
     assertTrue(xml2.contains("shortname=\"yy\""));
     assertTrue(xml2.contains("name=\"FakeLanguage\""));
+    assertThat(StringUtils.countMatches(xml2, "<matches"), is(1));
+    assertThat(StringUtils.countMatches(xml2, "</matches>"), is(1));
+  }
+
+  @Test
+  public void testApiModes() throws IOException {
+    String xmlStart = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, START_XML, language);
+    assertThat(StringUtils.countMatches(xmlStart, "<matches"), is(1));
+    assertThat(StringUtils.countMatches(xmlStart, "</matches>"), is(0));
+    String xmlMiddle = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, CONTINUE_XML, language);
+    assertThat(StringUtils.countMatches(xmlMiddle, "<matches"), is(0));
+    assertThat(StringUtils.countMatches(xmlMiddle, "</matches>"), is(0));
+    String xmlEnd = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, END_XML, language);
+    assertThat(StringUtils.countMatches(xmlEnd, "<matches"), is(0));
+    assertThat(StringUtils.countMatches(xmlEnd, "</matches>"), is(1));
+    String xml = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, NORMAL_XML, language);
+    assertThat(StringUtils.countMatches(xml, "<matches"), is(1));
+    assertThat(StringUtils.countMatches(xml, "</matches>"), is(1));
   }
 
   @Test
@@ -70,7 +92,7 @@ public class RuleAsXmlSerializerTest {
     match.setLine(44);
     match.setEndLine(45);
     matches.add(match);
-    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, language);
+    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_XML, language);
     assertTrue(xml.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
     final Pattern matchesPattern =
             Pattern.compile(".*<matches software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\" buildDate=\".*?\">.*", Pattern.DOTALL);
@@ -123,7 +145,7 @@ public class RuleAsXmlSerializerTest {
     match.setLine(44);
     match.setEndLine(45);
     matches.add(match);
-    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, language);
+    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_XML, language);
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" url=\"http://server.org?id=1&amp;foo=bar\" " +
@@ -141,7 +163,7 @@ public class RuleAsXmlSerializerTest {
     match.setLine(44);
     match.setEndLine(45);
     matches.add(match);
-    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, language);
+    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_XML, language);
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"... is &quot;an test...\" contextoffset=\"8\" offset=\"9\" errorlength=\"2\" " +
