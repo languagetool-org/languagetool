@@ -196,7 +196,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("einzige");
     } else if (!StringTools.startsWithUppercase(word)) {
       String ucWord = StringTools.uppercaseFirstChar(word);
-      if (!hunspellDict.misspelled(ucWord)) {
+      if (!suggestions.contains(ucWord) && !hunspellDict.misspelled(ucWord)) {
         // Hunspell doesn't always automatically offer the most obvious suggestion for compounds:
         return Collections.singletonList(ucWord);
       }
