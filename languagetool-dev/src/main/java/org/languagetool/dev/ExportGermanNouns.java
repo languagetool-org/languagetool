@@ -18,17 +18,13 @@
  */
 package org.languagetool.dev;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.nio.ByteBuffer;
-import java.util.HashSet;
-import java.util.Set;
-
 import morfologik.fsa.FSA;
-
 import org.languagetool.JLanguageTool;
+import org.languagetool.tools.StringTools;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.*;
 
 /**
  * Export German nouns as a serialized Java HashSet, to be used
@@ -43,43 +39,45 @@ public class ExportGermanNouns {
   private ExportGermanNouns() {
   }
   
+  private List<String> getSortedWords() throws IOException {
+    Set<String> words = getWords();
+    List<String> sortedWords = new ArrayList<>(words);
+    Collections.sort(sortedWords);
+    return sortedWords;
+  }
+  
   private Set<String> getWords() throws IOException {
     final FSA fsa = FSA.read(JLanguageTool.getDataBroker().getFromResourceDirAsStream(DICT_FILENAME));
-    String lastTerm = null;
     final Set<String> set = new HashSet<>();
     for (ByteBuffer bb : fsa) {
       final byte [] sequence = new byte [bb.remaining()];
       bb.get(sequence);
       final String output = new String(sequence, "iso-8859-1");
-      if (output.contains("+SUB:") && !output.contains(":ADJ")) {
+      boolean isNoun = output.contains("+SUB:") || (output.contains("+EIG:") && output.contains("COU")); // COU = Country
+      if (isNoun && !output.contains(":ADJ") && !StringTools.isAllUppercase(output)) {
         final String[] parts = output.split("\\+");
         final String term = parts[0].toLowerCase();
-        if (lastTerm == null || !lastTerm.equals(parts[0])) {
-          //System.out.println(parts[0]);
-          set.add(term);
-        }
-        lastTerm = term;
+        set.add(term);
       }
     }
     return set;
   }
   
-  private void serialize(Set<String> words, File outputFile) throws IOException {
-    final FileOutputStream fos = new FileOutputStream(outputFile);
-    final ObjectOutputStream oos = new ObjectOutputStream(fos);
-    oos.writeObject(words);
-    oos.close();
-    fos.close();
-  }
-  
   public static void main(String[] args) throws IOException {
-    if (args.length != 1) {
-      System.out.println("Usage: ExportGermanNouns <outputFile>");
-      System.exit(1);
+    ExportGermanNouns prg = new ExportGermanNouns();
+    List<String> words = prg.getSortedWords();
+    System.out.println("# DO NOT MODIFY - automatically exported");
+    System.out.println("# Exporting class: " + ExportGermanNouns.class.getName());
+    System.out.println("# Export date: " + new Date());
+    System.out.println("# LanguageTool: " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
+    System.out.println("# Potential German compound parts.");
+    System.out.println("# Data from Morphy (http://www.wolfganglezius.de/doku.php?id=cl:morphy)");
+    System.out.println("# with extensions by LanguageTool (https://languagetool.org)");
+    System.out.println("# License: Creative Commons Attribution-Share Alike 4.0, http://creativecommons.org/licenses/by-sa/4.0/");
+    for (String word : words) {
+      System.out.println(word);
     }
-    final ExportGermanNouns prg = new ExportGermanNouns();
-    final Set<String> words = prg.getWords();
-    prg.serialize(words, new File(args[0]));
+    //System.err.println("Done. Printed " + words.size() + " words.");
   }
     
 }
