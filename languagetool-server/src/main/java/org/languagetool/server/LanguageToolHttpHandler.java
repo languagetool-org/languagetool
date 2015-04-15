@@ -57,7 +57,6 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final LinkedBlockingQueue<Runnable> workQueue;
   private final ExecutorService executorService;
   private final LanguageIdentifier identifier;
-  private final Set<String> ownIps;
 
   private long maxCheckTimeMillis = -1;
   private int maxTextLength = Integer.MAX_VALUE;
@@ -67,6 +66,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private File languageModelDir;
   private int maxWorkQueueSize;
   private boolean trustXForwardForHeader = false;
+  private Set<String> ownIps;
   
   /**
    * Create an instance. Call {@link #shutdown()} when done.
@@ -81,7 +81,6 @@ class LanguageToolHttpHandler implements HttpHandler {
     this.requestLimiter = requestLimiter;
     this.workQueue = workQueue;
     this.executorService = Executors.newCachedThreadPool();
-    this.ownIps = getServersOwnIps();
     this.identifier = new LanguageIdentifier();
   }
 
@@ -111,6 +110,9 @@ class LanguageToolHttpHandler implements HttpHandler {
    */
   void setTrustXForwardForHeader(boolean trustXForwardForHeader) {
     this.trustXForwardForHeader = trustXForwardForHeader;
+    if (trustXForwardForHeader) {
+      this.ownIps = getServersOwnIps();
+    }
   }
 
   /**
@@ -229,6 +231,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
   }
 
+  // Call only if really needed, seems to be slow on some Windows machines.
   private Set<String> getServersOwnIps() {
     Set<String> ownIps = new HashSet<>();
     try {
