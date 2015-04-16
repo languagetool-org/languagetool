@@ -6965,10 +6965,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">Nach|In</token>
                         <token>dem</token>
                     </marker>
-                    <token postag="PRO:PER:NOM:.+" postag_regexp="yes"/>
+                    <token postag="PRO:(PER|DEM):NOM:.+" postag_regexp="yes"><exception>selbst</exception><exception>selber</exception></token>
                 </pattern>
                 <message>Möglicherweise muss <suggestion>\2\3</suggestion> (als Konjunktion) zusammengeschrieben werden, sofern es sich hier nicht um einen elliptischen Satz handelt, z.B. "[Das Spiel] In dem er gewonnen hat".</message>
                 <example correction="Nachdem"><marker>Nach dem</marker> er gewonnen hatte, war er nicht zu bremsen.</example>
+                <example correction="Nachdem"><marker>Nach dem</marker> dieser gewonnen hatte, war er nicht zu bremsen.</example>
                 <example><marker>Nach dem</marker> Essen zwei Tabletten.</example>
             </rule>
         </rulegroup>
@@ -6998,19 +6999,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Man konnte traurig oder fröhlich werden, <marker>je nach dem</marker> vom Lehrer betrachteten Zustand.</example>
             <example>Man konnte traurig oder fröhlich werden, <marker>je nach dem</marker> Zustand.</example>
             <example correction="je nachdem">Man konnte traurig oder fröhlich werden, <marker>je nach dem</marker>.</example>
-        </rule>
-        <rule id="NACH_DEM_NACHDEM" name="Zusammen-/Getrenntschreibung: 'Nach dem (nachdem) er ...'">
-            <pattern case_sensitive="yes">
-                <token postag="SENT_START"/>
-                <marker>
-                    <token>Nach</token>
-                    <token>dem</token>
-                </marker>
-                <token regexp="yes">er|sie|es|ich|du|der|die|das|diese[rs]?</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>\2\3</suggestion>? Die Konjunktion 'nachdem' wird zusammengeschrieben.</message>
-            <short>&getrennt;.</short>
-            <example correction="Nachdem"><marker>Nach dem</marker> er gegessen hatte, fühlte er sich besser.</example>
         </rule>
         <rule id="DA_MIT_VS_DAMIT" name="Zusammen-/Getrenntschreibung: 'Da mit (damit) er ...'">
             <pattern case_sensitive="yes">
