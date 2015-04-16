@@ -194,6 +194,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Trance");
     } else if ("einzigste".equals(w)) {
       return Collections.singletonList("einzige");
+    } else if (word.endsWith("standart")) {
+      return Collections.singletonList(word.replaceFirst("standart$", "standard"));
+    } else if (word.endsWith("standarts")) {
+      return Collections.singletonList(word.replaceFirst("standarts$", "standards"));
     } else if (!StringTools.startsWithUppercase(word)) {
       String ucWord = StringTools.uppercaseFirstChar(word);
       if (!suggestions.contains(ucWord) && !hunspellDict.misspelled(ucWord)) {
