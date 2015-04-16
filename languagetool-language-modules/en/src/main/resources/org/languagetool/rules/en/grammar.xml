@@ -6461,6 +6461,65 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+        <rule id="BE_FOND_TO" name="Wrong preposition: 'be fond to' (be fond of)">
+            <pattern>
+                <token postag='VBP|VB' postag_regexp='yes'></token>
+                <token>fond</token>
+                <marker>
+                    <token postag='IN'><exception>of</exception></token>
+                </marker>
+                <token postag='VBG'></token>
+            </pattern>
+            <message>Did you mean <suggestion>of</suggestion>?</message>
+            <example correction='of'>Children are fond <marker>to</marker> skipping.</example>
+        </rule>
+        <rule id="A_GREAT_NUMBER_OF_NN" name="a great number of + singular (plural)">
+            <pattern>
+                <token>a</token>
+                <token>great</token>
+                <token>number</token>
+                <token>of</token>
+                <marker>
+                    <token postag='NN'><exception>cars</exception></token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="5" postag="NNS"/></suggestion>?</message>
+            <example correction='problems'>A great number of <marker>problem</marker> have arisen.</example>
+        </rule>
+        <rule id="MANY_KINDS_OF" name="many kinds of + singular noun">
+            <antipattern>
+                <token>many</token>
+                <token>kinds</token>
+                <token>of</token>
+                <token chunk="B-NP-plural"/>
+                <token chunk="E-NP-plural"/>
+            </antipattern>
+            <pattern>
+                <token>many</token>
+                <token>kinds</token>
+                <token>of</token>
+                <marker>
+                    <token postag='NN'/>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="4" postag="NNS" /></suggestion>?</message>
+            <example correction='books'>There are many kinds of <marker>book</marker> in the shop.</example>
+            <example type="correct">How Many Kinds Of Immigrant Visas Does It Take To Staff A Startup?</example>
+        </rule>
+        <rule id="THE_NN_AND_THE_NN" name="the ... and the ... is (are)">
+            <pattern>
+                <token>the</token>
+                <token postag='NN'/>
+                <token>and</token>
+                <token>the</token>
+                <token postag='NN'/>
+                <marker>
+                    <token>is</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>are</suggestion>?</message>
+            <example correction='are'>The plane and the train <marker>is</marker> fast.</example>
+        </rule>
         <rule id="ARRIVE_NNP" name="'arrive' + proper noun ('arrive in' + proper noun)">
             <pattern>
                 <marker>
@@ -11939,6 +11998,16 @@ USA
         </rulegroup>
     </category>
     <category name="Commonly Confused Words" type="misspelling">
+        <rule id="BUY_VBG" name="buy (by) + gerund verb">
+            <pattern>
+                <marker>
+                    <token>buy</token>
+                </marker>
+                <token postag='VBG'><exception>cooking</exception></token>
+            </pattern>
+            <message>Did you mean <suggestion>by</suggestion>?</message>
+            <example correction='by'>We exploit these two features <marker>buy</marker> using Named Entity recognition.</example>
+        </rule>
         <rule id="FURTHER_ADIEU" name="Further ado instead of further adieu">
             <pattern>
                 <token>further</token>
