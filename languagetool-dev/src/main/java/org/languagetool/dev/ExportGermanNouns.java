@@ -18,49 +18,72 @@
  */
 package org.languagetool.dev;
 
+import com.google.common.base.Charsets;
 import morfologik.fsa.FSA;
 import org.languagetool.JLanguageTool;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.util.*;
 
 /**
- * Export German nouns as a serialized Java HashSet, to be used
- * by jWordSplitter.  
+ * Export German nouns, to be used by jWordSplitter.  
  * 
  * @author Daniel Naber
  */
 public class ExportGermanNouns {
 
   private static final String DICT_FILENAME = "/de/german.dict";
+  private static final String ADDED_DICT_FILENAME = "languagetool-language-modules/de/src/main/resources/org/languagetool/resource/de/added.txt";
   
   private ExportGermanNouns() {
   }
   
   private List<String> getSortedWords() throws IOException {
-    Set<String> words = getWords();
-    List<String> sortedWords = new ArrayList<>(words);
+    Set<String> words1 = getBinaryDictWords();
+    Set<String> words2 = getAddedDictWords();
+    List<String> sortedWords = new ArrayList<>();
+    sortedWords.addAll(words1);
+    sortedWords.addAll(words2);
     Collections.sort(sortedWords);
     return sortedWords;
   }
-  
-  private Set<String> getWords() throws IOException {
+
+  private Set<String> getBinaryDictWords() throws IOException {
     final FSA fsa = FSA.read(JLanguageTool.getDataBroker().getFromResourceDirAsStream(DICT_FILENAME));
     final Set<String> set = new HashSet<>();
-    for (ByteBuffer bb : fsa) {
-      final byte [] sequence = new byte [bb.remaining()];
-      bb.get(sequence);
+    for (ByteBuffer buffer : fsa) {
+      final byte [] sequence = new byte [buffer.remaining()];
+      buffer.get(sequence);
       final String output = new String(sequence, "iso-8859-1");
-      boolean isNoun = output.contains("+SUB:") || (output.contains("+EIG:") && output.contains("COU")); // COU = Country
-      if (isNoun && !output.contains(":ADJ") && !StringTools.isAllUppercase(output)) {
+      if (isRelevantNoun(output)) {
         final String[] parts = output.split("\\+");
         final String term = parts[0].toLowerCase();
         set.add(term);
       }
     }
     return set;
+  }
+
+  private Set<String> getAddedDictWords() throws IOException {
+    final Set<String> set = new HashSet<>();
+    List<String> lines = Files.readAllLines(FileSystems.getDefault().getPath(ADDED_DICT_FILENAME), Charsets.UTF_8);
+    for (String line : lines) {
+      if (isRelevantNoun(line)) {
+        final String[] parts = line.split("\t");
+        final String term = parts[0].toLowerCase();
+        set.add(term);
+      }
+    }
+    return set;
+  }
+
+  private boolean isRelevantNoun(String output) {
+    boolean isNoun = output.contains("SUB:") || (output.contains("EIG:") && output.contains("COU"));
+    return isNoun && !output.contains(":ADJ") && !StringTools.isAllUppercase(output);
   }
   
   public static void main(String[] args) throws IOException {
