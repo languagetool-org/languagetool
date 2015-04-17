@@ -6509,16 +6509,17 @@ USA
         <rule id="THE_NN_AND_THE_NN" name="the ... and the ... is (are)">
             <pattern>
                 <token>the</token>
-                <token postag='NN'/>
+                <token postag='NN'><exception case_sensitive="yes" regexp="yes">[A-Z][a-z]+</exception></token>
                 <token>and</token>
                 <token>the</token>
-                <token postag='NN'/>
+                <token postag='NN'><exception case_sensitive="yes" regexp="yes">[A-Z][a-z]+</exception></token>
                 <marker>
                     <token>is</token>
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>are</suggestion>?</message>
             <example correction='are'>The plane and the train <marker>is</marker> fast.</example>
+            <example>The main character of the animated cartoon The Ant and the Aardvark is a blue aardvark voiced by John Byner.</example>
         </rule>
         <rule id="ARRIVE_NNP" name="'arrive' + proper noun ('arrive in' + proper noun)">
             <pattern>
