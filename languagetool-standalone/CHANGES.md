@@ -10,7 +10,10 @@
 
 #### Slovak
   * dictionary update and several new rules
-
+  
+#### Russian
+  * improve rules
+  
 #### GUI (stand-alone version)
   * fixed auto-detection of text language, which didn't work after editing text
 
