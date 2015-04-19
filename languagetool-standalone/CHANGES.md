@@ -2,6 +2,11 @@
 
 ## 3.0 (release planned for 2015-06-29)
 
+#### Catalan:
+  * added new rules
+  * fixed false alarms
+  * added words suggested by users
+
 #### English
   * added a few new rules
 

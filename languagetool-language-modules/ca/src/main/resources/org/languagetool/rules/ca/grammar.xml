@@ -20459,6 +20459,16 @@ $Id$
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="INALAMBRIC" name="*inalàmbric / sense fils">
+            <pattern>
+                <token regexp="yes">h?inh?al[·•.⋅\-]?l?h?[aáà][mn]bri(c|cs|ca|ques|cament)</token>
+            </pattern>
+            <message>Paraula incorrecta</message>
+            <suggestion>sense fils</suggestion>
+            <suggestion>sense fil</suggestion>
+            <suggestion>sense cables</suggestion>
+            <example correction="sense fils|sense fil|sense cables"><marker>inalàmbrica</marker></example>
+        </rule>
         <rule id="LOW_COST" name="low cost/baix cost">
             <pattern>
                 <token>low</token>
@@ -33835,6 +33845,22 @@ $Id$
     </category>
     <category name="C6) Evita paraules incloses només en alguns diccionaris" default="on" type="style">
         <!--  verbs valencians: caquejar -->
+        <rule id="TAMANY" name="tamany">
+            <pattern>
+                <marker>
+                    <token inflected="yes">tamany</token>
+                </marker>
+            </pattern>
+            <message>Paraula admesa només per alguns diccionaris.</message>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1000">mida</match></suggestion> 
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1000">grandària</match></suggestion>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1000">format</match></suggestion>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1000">dimensió</match></suggestion> 
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1000">proporció</match></suggestion>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1000">volum</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/2319</url>
+            <example correction="mides|grandàries|formats|dimensions|proporcions|volums">Els seus <marker>tamanys</marker>.</example>
+        </rule>
         <rule id="APRECI" name="apreci">
             <pattern>
                 <marker>
