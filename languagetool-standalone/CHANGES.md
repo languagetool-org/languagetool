@@ -41,7 +41,7 @@
     * `Language.REAL_LANGUAGES` is now `Languages.get()`
     * `Language.LANGUAGES` is now `Languages.getWithDemoLanguage()` - but you will probably
        want to use `Languages.get()`
-  * Other static methods from class Language have also been moved to Languages
+  * Other static methods from class `Language` have also been moved to `Languages`
   * `Rule.getCorrectExamples()/getIncorrectExamples()` and
     `PatternToken.getOrGroup()/getAndGroup()` now return an unmodifiable list
   * `AbstractSimpleReplaceRule.getFileName()` and `AbstractWordCoherencyRule.getFileName()`
