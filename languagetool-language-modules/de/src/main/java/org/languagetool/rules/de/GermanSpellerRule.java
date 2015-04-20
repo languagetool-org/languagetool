@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import de.danielnaber.jwordsplitter.GermanWordSplitter;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -73,17 +74,35 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   );
   
   private final GermanCompoundTokenizer compoundTokenizer;
+  private final GermanWordSplitter splitter;
 
   public GermanSpellerRule(ResourceBundle messages, German language) {
     super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language));
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
     compoundTokenizer = language.getStrictCompoundTokenizer();
+    try {
+      splitter = new GermanWordSplitter(false);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
   public String getId() {
     return RULE_ID;
+  }
+
+  @Override
+  public List<String> getCandidates(String word) {
+    List<String> suggestions = new ArrayList<>();
+    List<List<String>> partList = splitter.getAllSplits(word);
+    final List<String> candidates = new ArrayList<>();
+    for (List<String> parts : partList) {
+      candidates.addAll(super.getCandidates(parts));
+    }
+    suggestions.addAll(candidates);
+    return suggestions;
   }
 
   @Override

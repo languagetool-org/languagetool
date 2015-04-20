@@ -24,8 +24,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import de.abelssoft.wordtools.jwordsplitter.AbstractWordSplitter;
-import de.abelssoft.wordtools.jwordsplitter.impl.GermanWordSplitter;
+import de.danielnaber.jwordsplitter.AbstractWordSplitter;
+import de.danielnaber.jwordsplitter.GermanWordSplitter;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.chunking.Chunker;
@@ -172,7 +172,7 @@ public class German extends Language {
       try {
         final AbstractWordSplitter wordSplitter = new GermanWordSplitter(false);
         wordSplitter.setStrictMode(false); // there's a spelling mistake in (at least) one part, so strict mode wouldn't split the word
-        ((GermanWordSplitter)wordSplitter).setMinimumWordLength(3);
+        wordSplitter.setMinimumWordLength(3);
         compoundTokenizer = new CompoundWordTokenizer() {
           @Override
           public List<String> tokenize(String word) {

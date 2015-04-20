@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev.blogs;
 
-import de.abelssoft.tools.FileTools;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -26,7 +26,6 @@ import org.languagetool.Languages;
 import org.languagetool.commandline.CommandLineTools;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
@@ -41,11 +40,9 @@ class BlogChecker {
     lt.disableRule("UNPAIRED_BRACKETS");
     File[] files = dir.listFiles();
     for (File file : files) {
-      try (FileInputStream is = new FileInputStream(file)) {
-        System.out.println("\n=== " + file.getName() +  " ================================");
-        String content = cleanup(FileTools.loadFile(is, "utf-8"));
-        CommandLineTools.checkText(content, lt);
-      }
+      System.out.println("\n=== " + file.getName() +  " ================================");
+      String content = cleanup(FileUtils.readFileToString(file, "utf-8"));
+      CommandLineTools.checkText(content, lt);
     }
   }
 

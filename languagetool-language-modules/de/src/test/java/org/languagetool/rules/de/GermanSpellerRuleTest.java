@@ -175,8 +175,8 @@ public class GermanSpellerRuleTest {
 
     assertCorrection(rule, "Hauk", "Haus", "Haut");
     assertCorrection(rule, "Hauk", "Haus", "Haut");
-    assertCorrection(rule, "Eisnbahn", "Einbahn", "Eisbahn", "Eisenbahn");
-    //assertCorrection(rule, "Rechtschreipreform", "Rechtschreibreform");
+    assertCorrection(rule, "Eisnbahn", "Einbahn", "Eisbahn", "Eisenbahn"); 
+    assertCorrection(rule, "Rechtschreipreform", "Rechtschreibreform");
     assertCorrection(rule, "Theatrekasse", "Theaterkasse");
     assertCorrection(rule, "Traprennen", "Trabrennen");
     assertCorrection(rule, "Autuverkehr", "Autoverkehr");
@@ -186,8 +186,7 @@ public class GermanSpellerRuleTest {
     //TODO: requires morfologik-speller change (suggestions for known words):
     //assertCorrection(rule, "Arbeitamt", "Arbeitsamt");
 
-    // TODO: "Auto, verkehr, r"
-    //assertEquals("[Autoverkehr]", rule.getMorfologikSuggestions("Autoverkehrr").toString());
+    assertCorrection(rule, "Autoverkehrr", "Autoverkehr");
 
     assertCorrection(rule, "hasslich", "hässlich", "fasslich");
     assertCorrection(rule, "Struße", "Strauße", "Straße", "Sträuße");
@@ -216,15 +215,20 @@ public class GermanSpellerRuleTest {
     
     assertCorrection(rule, "barfuss", "barfuß");
     assertCorrection(rule, "Batallion", "Bataillon");
-    assertCorrection(rule, "Handselvertreter", "Handelsvertreter");
+    
+    // use to work with jwordsplitter 3.4: too many other suggestions with Levenshtein=2
+    //assertCorrection(rule, "Handselvertreter", "Handelsvertreter");
+    //assertCorrection(rule, "Handselvertretertreffen", "Handelsvertretertreffen");
     
     assertCorrection(rule, "aul", "auf");
     assertCorrection(rule, "Icj", "Ich");   // only "ich" (lowercase) is in the lexicon
     //assertCorrection(rule, "Ihj", "Ich");   // only "ich" (lowercase) is in the lexicon - does not work because of the limit
 
     // three part compounds:
-    assertCorrection(rule, "Handselvertretertreffen", "Handelsvertretertreffen");
     assertCorrection(rule, "Handelsvertretertrffen", "Handelsvertretertreffen");
+    assertCorrection(rule, "Handelsvartretertreffen", "Handelsvertretertreffen");
+    assertCorrection(rule, "Handelsvertretertriffen", "Handelsvertretertreffen");
+      
     // this won't work as jwordsplitter splits into Handelsvertrter + Treffen but
     // the Hunspell dict doesn't contain "Handelsvertreter", thus it's a known limitation
     // because jwordsplitter doesn't use the same dictionary as Hunspell:

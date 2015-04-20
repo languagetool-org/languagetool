@@ -21,9 +21,8 @@ package org.languagetool.tokenizers.de;
 import java.io.IOException;
 import java.util.List;
 
+import de.danielnaber.jwordsplitter.GermanWordSplitter;
 import org.languagetool.tokenizers.Tokenizer;
-
-import de.abelssoft.wordtools.jwordsplitter.impl.GermanWordSplitter;
 
 /**
  * Split German nouns using the jWordSplitter library.
@@ -42,7 +41,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
 
   @Override
   public List<String> tokenize(String word) {
-    return (List<String>) wordSplitter.splitWord(word);
+    return wordSplitter.splitWord(word);
   }
 
   public static void main(String[] args) throws IOException {

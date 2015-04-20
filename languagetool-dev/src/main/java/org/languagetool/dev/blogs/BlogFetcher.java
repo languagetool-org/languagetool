@@ -23,7 +23,7 @@ import com.sun.syndication.feed.synd.SyndEntryImpl;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
-import de.abelssoft.tools.FileTools;
+import org.apache.commons.io.FileUtils;
 import org.languagetool.tools.StringTools;
 
 import java.io.*;
@@ -113,7 +113,7 @@ class BlogFetcher {
       System.err.println("Usage: " + BlogFetcher.class.getSimpleName() + " <urlListFile> <outputDir>");
       System.exit(1);
     }
-    String secret = FileTools.loadFile(new FileInputStream(READABILITY_API_KEY_FILE), "utf-8").trim();
+    String secret = FileUtils.readFileToString(new File(READABILITY_API_KEY_FILE), "utf-8").trim();
     BlogFetcher fetcher = new BlogFetcher(secret);
     File outputDir = new File(args[1]);
     if (!outputDir.exists() || !outputDir.isDirectory()) {

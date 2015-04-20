@@ -116,7 +116,7 @@ public class HunspellRule extends SpellingCheckRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private boolean isMisspelled(String word) {
+  boolean isMisspelled(String word) {
     boolean isAlphabetic = true;
     if (word.length() == 1) { // hunspell dictionaries usually do not contain punctuation
       isAlphabetic = Character.isAlphabetic(word.charAt(0));

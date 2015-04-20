@@ -12,6 +12,7 @@
 
 #### German
   * fixed some false alarms
+  * updated to jwordsplitter 4.0 for better compound splitting
 
 #### Polish
   * added a few new rules

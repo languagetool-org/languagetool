@@ -57,29 +57,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     if (needsInit) {
       init();
     }
-    final List<String> candidates = new ArrayList<>();
-    final List<String> parts = wordSplitter.tokenize(word);
-    int partCount = 0;
-    for (String part : parts) {
-      if (hunspellDict.misspelled(part)) {
-        List<String> suggestions = morfoSpeller.getSuggestions(part);
-        if (suggestions.size() == 0) {
-          suggestions = morfoSpeller.getSuggestions(StringTools.uppercaseFirstChar(part));
-        }
-        for (String suggestion : suggestions) {
-          final List<String> partsCopy = new ArrayList<>(parts);
-          if (partCount > 0 && !parts.get(partCount-1).endsWith("-")) {
-            partsCopy.set(partCount, suggestion.toLowerCase());
-          } else {
-            partsCopy.set(partCount, suggestion);
-          }
-          candidates.add(StringTools.listToString(partsCopy, ""));
-        }
-      }
-      // TODO: what if there's no misspelled parts like for Arbeitamt = Arbeit+Amt ??
-      // -> morfologik must be extended to return similar words even for known words
-      partCount++;
-    }
+    final List<String> candidates = getCandidates(word);
     final List<String> suggestions = getCorrectWords(candidates);
 
     final List<String> noSplitSuggestions = morfoSpeller.getSuggestions(word);  // after getCorrectWords() so spelling.txt is considered
@@ -100,6 +78,43 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     filterForLanguage(suggestions);
     final List<String> sortedSuggestions = sortSuggestionByQuality(word, suggestions);
     return sortedSuggestions.subList(0, Math.min(MAX_SUGGESTIONS, sortedSuggestions.size()));
+  }
+
+  protected List<String> getCandidates(String word) {
+    return wordSplitter.tokenize(word);
+  }
+
+  protected List<String> getCandidates(List<String> parts) {
+    int partCount = 0;
+    final List<String> candidates = new ArrayList<>();
+    for (String part : parts) {
+      if (hunspellDict.misspelled(part)) {
+        // assume noun, so use uppercase:
+        boolean doUpperCase = partCount > 0 && !StringTools.startsWithUppercase(part);
+        List<String> suggestions = morfoSpeller.getSuggestions(doUpperCase ? StringTools.uppercaseFirstChar(part) : part);
+        if (suggestions.size() == 0) {
+          suggestions = morfoSpeller.getSuggestions(doUpperCase ? StringTools.lowercaseFirstChar(part) : part);
+        }
+        for (String suggestion : suggestions) {
+          final List<String> partsCopy = new ArrayList<>(parts);
+          if (partCount > 0 && parts.get(partCount).startsWith("-") && parts.get(partCount).length() > 1) {
+            partsCopy.set(partCount, "-" + StringTools.uppercaseFirstChar(suggestion.substring(1)));
+          } else if (partCount > 0 && !parts.get(partCount-1).endsWith("-")) {
+            partsCopy.set(partCount, suggestion.toLowerCase());
+          } else {
+            partsCopy.set(partCount, suggestion);
+          }
+          String candidate = StringTools.listToString(partsCopy, "");
+          if (!isMisspelled(candidate)) {
+            candidates.add(candidate);
+          }
+        }
+      }
+      // TODO: what if there's no misspelled parts like for Arbeitamt = Arbeit+Amt ??
+      // -> morfologik must be extended to return similar words even for known words
+      partCount++;
+    }
+    return candidates;
   }
 
   protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
