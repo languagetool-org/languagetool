@@ -13,11 +13,17 @@
 #### German
   * fixed some false alarms
 
+#### Polish
+  * added a few new rules
+
 #### Slovak
   * dictionary update and several new rules
   
 #### Russian
-  * improve rules
+  * improved rules
+  
+#### Ukrainian
+  * improved some rules
   
 #### GUI (stand-alone version)
   * fixed auto-detection of text language, which didn't work after editing text
