@@ -6461,6 +6461,34 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+        <rulegroup id="AFFORD_VB" name="'afford', 'choose', etc. used with base form instead of infinitive">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|strive|struggle|learn</token>
+                    <marker>
+                        <token postag="VB"><exception>reward</exception></token>
+                    </marker>
+                </pattern>
+                <message>This verb is used with the infinitive: <suggestion>to <match no="2" postag="VB"></match></suggestion></message>
+                <short>Grammatical problem</short>
+                <example>We cannot afford to spend the whole month in Alps.</example>
+                <example>He didn't deserve to lose his job.</example>
+                <example correction="to spend">We cannot afford <marker>spend</marker> the whole month in Alps.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|strive|struggle|learn</token>
+                    <token>not</token>
+                    <marker>
+                        <token postag="VB"></token>
+                    </marker>
+                </pattern>
+                <message>This verb is used with the infinitive: <suggestion>to <match no="3" postag="VB"></match></suggestion></message>
+                <short>Grammatical problem</short>
+                <example>We cannot afford not to spend the whole month in Alps.</example>
+                <example correction="to spend">We cannot afford not <marker>spend</marker> the whole month in Alps.</example>
+            </rule>
+        </rulegroup> 
         <rule id="BE_FOND_TO" name="Wrong preposition: 'be fond to' (be fond of)">
             <pattern>
                 <token postag='VBP|VB' postag_regexp='yes'></token>
