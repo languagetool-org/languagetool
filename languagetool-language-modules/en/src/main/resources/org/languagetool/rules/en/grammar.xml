@@ -6461,6 +6461,38 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+        <rule id="ESSENTIAL_ESSENTIALLY" name="essentially" >
+            <pattern>
+                <marker>
+                    <token>essential</token>
+                </marker>
+                <token postag='DT'><exception>that</exception></token>
+            </pattern>
+            <message>Did you mean <suggestion>essentially</suggestion>?</message>
+            <example correction="essentially">This is <marker>essential</marker> the same work</example>
+        </rule>
+        <rule id="GAVE_GIVE" name="verb before 'gave'" >
+            <pattern>
+                <token postag='VB|VBP' postag_regexp='yes'><exception postag='NNP|NN|NNS' postag_regexp='yes'></exception></token>
+                <marker>
+                    <token>gave</token>
+                </marker>
+                <token negate='yes'>in</token>
+            </pattern>
+            <message>Did you mean <suggestion>give</suggestion>?</message>
+            <example correction="give">The updates do <marker>gave</marker> the correct date.</example>
+        </rule>
+        <rule id="TO_WITHDRAWN" name="to/will before withdrawn" >
+            <pattern>
+                <token regexp="yes">to|will</token>
+                <marker>
+                    <token>withdrawn</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>withdraw</suggestion>?</message>
+            <example correction="withdraw">The team are to <marker>withdrawn</marker>.</example>
+            <example correction="withdraw">The team will <marker>withdrawn</marker>.</example>
+        </rule>
         <rulegroup id="AFFORD_VB" name="'afford', 'choose', etc. used with base form instead of infinitive">
             <rule>
                 <pattern>
@@ -12027,6 +12059,16 @@ USA
         </rulegroup>
     </category>
     <category name="Commonly Confused Words" type="misspelling">
+        <rule id="DEPENDENT" name="Dependent" >
+            <pattern>
+                <marker>
+                    <token>dependant</token>
+                </marker>
+                <token>on</token>
+            </pattern>
+            <message>Did you mean <suggestion>dependent</suggestion> on?</message>
+            <example correction="dependent">They are <marker>dependant</marker> on the results</example>
+        </rule>
         <rule id="BUY_VBG" name="buy (by) + gerund verb">
             <pattern>
                 <marker>
