@@ -13804,6 +13804,15 @@ $Id$
                 <example correction="boca-orella">Em va arribar pel <marker>boca a orella</marker>.</example>
                 <example>La notícia va córrer de boca a orella.</example>
             </rule>
+            <rule id="ESTIRAIARRONSA" name="estira-i-arronsa">
+                <pattern>
+                    <token regexp="yes">tira|estira</token>
+                    <token>i</token>
+                    <token regexp="yes">arronsa|amolla</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>estira-i-\3</suggestion>?</message>
+                <example correction="estira-i-arronsa">Aquest <marker>estira i arronsa</marker></example>
+            </rule>
         </rulegroup>
         <rulegroup id="MOTS_AMB_GUIONET" name="nomts amb guionet: no-violència">
             <rule>
@@ -24730,15 +24739,18 @@ $Id$
             <example correction="És a dir"><marker>És dir</marker>, ha tingut un paper dins els costums religiosos</example>
             <example>Mentir és dir que sí.</example>
         </rule>
-        <rule id="ESTIRAIARRONSA" name="estira-i-arronsa">
+        <rule id="ESTIRAIAFLUIXA" name="*estira i afluixa/estira-i-arronsa">
             <pattern>
                 <token regexp="yes">tira|estira</token>
+                <token min="0">-</token>
                 <token>i</token>
-                <token>arronsa</token>
+                <token min="0">-</token>
+                <token>afluixa</token>
             </pattern>
             <message>¿Volíeu dir <suggestion>estira-i-arronsa</suggestion>?</message>
-            <example correction="estira-i-arronsa">Aquest <marker>estira i arronsa</marker></example>
-            <example>Aquest estira-i-arronsa</example>
+            <suggestion>estira-i-amolla</suggestion>
+            <example correction="estira-i-arronsa|estira-i-amolla">Aquest <marker>estira i afluixa</marker></example>
+            <example correction="estira-i-arronsa|estira-i-amolla">Aquest <marker>estira-i-afluixa</marker></example>
         </rule>
         <rulegroup id="FI_DE_SETMANA" name="*fi de setmana/cap de setmana">
             <rule>
