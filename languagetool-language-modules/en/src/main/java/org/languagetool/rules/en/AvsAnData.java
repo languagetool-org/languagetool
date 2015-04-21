@@ -21,10 +21,7 @@ package org.languagetool.rules.en;
 import org.languagetool.JLanguageTool;
 
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Data for {@link org.languagetool.rules.en.AvsAnRule}.
@@ -53,7 +50,7 @@ final class AvsAnData {
    * Load words, normalized to lowercase unless starting with '*'.
    */
   private static Set<String> loadWords(String path) {
-    Set<String> set = new TreeSet<>();
+    Set<String> set = new HashSet<>();
     InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
     try (Scanner scanner = new Scanner(stream, "utf-8")) {
       while (scanner.hasNextLine()) {

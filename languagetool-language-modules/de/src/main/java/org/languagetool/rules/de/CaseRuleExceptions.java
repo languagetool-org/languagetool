@@ -21,6 +21,7 @@ package org.languagetool.rules.de;
 import org.languagetool.JLanguageTool;
 
 import java.io.*;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -58,7 +59,7 @@ final class CaseRuleExceptions {
     } catch (Exception e) {
       throw new RuntimeException("Could not load case rule exceptions from " + path, e);
     }
-    return result;
+    return Collections.unmodifiableSet(result);
   }
 
 }
