@@ -30,7 +30,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 /**
- * Check if a word is repeated twice in Khmer, e.g. the equivalent of "the the".
+ * Check if a word is repeated in Khmer, e.g. the equivalent of "the the".
  *   
  * @author Daniel Naber and Lee Nakamura
  */
@@ -42,10 +42,8 @@ public class KhmerWordRepeatRule extends Rule {
   }
 
   public boolean ignore(final AnalyzedSentence sentence, final AnalyzedTokenReadings[] tokensWithWhiteSpace, final int position) {
-    // Don't mark an error for cases like:
-    // LEN Rewrite for Khmer: ignore real space separating 2 repeated words
-    final int origPos = sentence.getOriginalPosition(position); // LEN get orig pos of current token
-    if (position >=1 && "\u0020".equals(tokensWithWhiteSpace[origPos-1].getToken())) {
+    final int origPos = sentence.getOriginalPosition(position);
+    if (position >= 1 && "\u0020".equals(tokensWithWhiteSpace[origPos-1].getToken())) {
       return true;
     }
     return false;
@@ -64,35 +62,25 @@ public class KhmerWordRepeatRule extends Rule {
   @Override
   public RuleMatch[] match(final AnalyzedSentence sentence) {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace(); // LEN original
-    final AnalyzedTokenReadings[] tokensWithWS = sentence.getTokens(); // LEN with whitespace!
+    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    final AnalyzedTokenReadings[] tokensWithWS = sentence.getTokens();
 
     String prevToken = "";
     // we start from token 1, token no. 0 is guaranteed to be SENT_START 
-    for (int i = 1; i < tokens.length; i++) {  // LEN i is a counter which runs from 1 to the number of tokens
+    for (int i = 1; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
-      // avoid "..." etc. to be matched:
-      boolean isWord = isWord(token);
-      final boolean isException = ignore(sentence, tokensWithWS, i); // LEN i represents the current token
-      // LEN if we have a word, and the previous token is the same (ignoring case) as the current token and we
-      //     do not have an exception, provide the rule in Khmer
-      if (isWord && prevToken.equalsIgnoreCase(token) && !isException) {
-        final String msg = messages.getString("repetition"); // LEN get the repetition message (long version)
-        final int prevPos = tokens[i - 1].getStartPos();     // LEN find the position of the previous token
-        final int pos = tokens[i].getStartPos();               // LEN find position of the current token
-        // LEN create a new RuleMatch object, passing in the rule itself, the pos of the previous token, the 
-        //     length of the prev token, the repetition msg, and the short version of the repetition msg
-        //     This results in the specific violation of the rule being shown in the popup
-        // LEN Note: not multiple rules, but multiple suggestions, therefore we need to
-        //     use RuleMatch.setSuggestedReplacements(final List<String> replacement)
+      if (isWord(token) && prevToken.equalsIgnoreCase(token) && !ignore(sentence, tokensWithWS, i)) {
+        final String msg = messages.getString("repetition");
+        final int prevPos = tokens[i - 1].getStartPos();
+        final int pos = tokens[i].getStartPos();
         final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg,
                 messages.getString("desc_repetition_short"));
-        final List<String> replacementSuggs = new ArrayList<>(); // LEN create empty list of suggestion strings
-        replacementSuggs.add(prevToken+" "+token);  // LEN case 1: replace zero-width space w/ real space 
-        replacementSuggs.add(prevToken);      // LEN case 2: remove repeated word - same as original suggestion 
-        replacementSuggs.add(prevToken+"ៗ");      // LEN case 3: same as case 2, just add "repetition character"
-        ruleMatch.setSuggestedReplacements(replacementSuggs); // LEN the suggestions to use
-        ruleMatches.add(ruleMatch); // LEN add rule to list of rules
+        final List<String> replacements = new ArrayList<>();
+        replacements.add(prevToken + " " + token); // case 1: replace zero-width space w/ real space 
+        replacements.add(prevToken);               // case 2: remove repeated word - same as original suggestion 
+        replacements.add(prevToken + "ៗ");        // case 3: same as case 2, just add "repetition character"
+        ruleMatch.setSuggestedReplacements(replacements);
+        ruleMatches.add(ruleMatch);
       }
       prevToken = token;
     }
@@ -100,6 +88,7 @@ public class KhmerWordRepeatRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  // avoid "..." etc. to be matched:
   private boolean isWord(String token) {
     boolean isWord = true;
     if (token.length() == 1) {
