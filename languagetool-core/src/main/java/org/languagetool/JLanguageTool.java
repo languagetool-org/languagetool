@@ -544,6 +544,9 @@ public class JLanguageTool {
     }
   }
 
+  /**
+   * @deprecated will be made non-public, please use one of the {@link #check(String)} methods instead (deprecated since 3.0)
+   */
   public List<RuleMatch> checkAnalyzedSentence(final ParagraphHandling paraMode,
       final List<Rule> allRules, int charCount, int lineCount, int columnCount,
       final String sentence, final AnalyzedSentence analyzedSentence) throws IOException {
@@ -551,6 +554,8 @@ public class JLanguageTool {
   }
   
   /**
+   * This is an internal method that's public only for technical reasons, please use one
+   * of the {@link #check(String)} methods instead. 
    * @since 2.3
    */
   public List<RuleMatch> checkAnalyzedSentence(final ParagraphHandling paraMode,

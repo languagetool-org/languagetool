@@ -370,12 +370,12 @@ public class PatternToken implements Cloneable {
    * @param posRegExp True if the POS is specified as a regular expression.
    * @param posNegation True if the POS exception is negated.
    * @since 2.5
+   * @deprecated will be removed as it hasn't been used (deprecated since 3.0)
    */
   public final void setOptionalException(
       final String token, final boolean regExp, final boolean inflected,
       final boolean negation, final String posToken,
       final boolean posRegExp, final boolean posNegation) {
-
     final PatternToken exception = new PatternToken(token, caseSensitive, regExp, inflected);
     exception.setNegation(negation);
     exception.setPosToken(new PosToken(posToken, posRegExp, posNegation));
