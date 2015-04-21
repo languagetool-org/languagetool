@@ -66,8 +66,9 @@ public class DashRule extends GermanRule {
         if (Character.isUpperCase(firstChar)) {
           final String msg = "Möglicherweise fehlt ein 'und' oder ein Komma, oder es wurde nach dem Wort " +
             "ein überflüssiges Leerzeichen eingefügt. Eventuell haben Sie auch versehentlich einen Bindestrich statt eines Punktes eingefügt.";
+          final String shortMsg = "Fehlendes 'und' oder Komma oder überflüssiges Leerzeichen?";
           final RuleMatch ruleMatch = new RuleMatch(this, tokens[i-1].getStartPos(),
-              tokens[i-1].getStartPos()+prevToken.length()+1, msg);
+              tokens[i-1].getStartPos()+prevToken.length()+1, msg, shortMsg);
           String prevTokenStr = tokens[i-1].getToken();
           ruleMatch.setSuggestedReplacements(Arrays.asList(prevTokenStr, prevTokenStr + ", "));
           ruleMatches.add(ruleMatch);
