@@ -264,12 +264,13 @@ public class JLanguageTool {
    */
   public List<PatternRule> loadPatternRules(final String filename) throws IOException {
     final PatternRuleLoader ruleLoader = new PatternRuleLoader();
-    final InputStream is = this.getClass().getResourceAsStream(filename);
-    if (is == null) {
-      // happens for external rules plugged in as an XML file:
-      return ruleLoader.getRules(new File(filename));
-    } else {
-      return ruleLoader.getRules(is, filename);
+    try (InputStream is = this.getClass().getResourceAsStream(filename)) {
+      if (is == null) {
+        // happens for external rules plugged in as an XML file:
+        return ruleLoader.getRules(new File(filename));
+      } else {
+        return ruleLoader.getRules(is, filename);
+      }
     }
   }
 
@@ -285,14 +286,15 @@ public class JLanguageTool {
   public List<PatternRule> loadFalseFriendRules(final String filename)
       throws ParserConfigurationException, SAXException, IOException {
     if (motherTongue == null) {
-      return new ArrayList<>();
+      return Collections.emptyList();
     }
     final FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader();
-    final InputStream is = this.getClass().getResourceAsStream(filename);
-    if (is == null) {
-      return ruleLoader.getRules(new File(filename), language, motherTongue);
-    } else {
-      return ruleLoader.getRules(is, language, motherTongue);
+    try (InputStream is = this.getClass().getResourceAsStream(filename)) {
+      if (is == null) {
+        return ruleLoader.getRules(new File(filename), language, motherTongue);
+      } else {
+        return ruleLoader.getRules(is, language, motherTongue);
+      }
     }
   }
 
@@ -338,9 +340,8 @@ public class JLanguageTool {
    */
   private void activateDefaultFalseFriendRules()
       throws ParserConfigurationException, SAXException, IOException {
-    final String falseFriendRulesFilename = JLanguageTool.getDataBroker().getRulesDir() + "/" + FALSE_FRIEND_FILE;
-    final List<PatternRule> patternRules = loadFalseFriendRules(falseFriendRulesFilename);
-    userRules.addAll(patternRules);
+    String falseFriendRulesFilename = JLanguageTool.getDataBroker().getRulesDir() + "/" + FALSE_FRIEND_FILE;
+    userRules.addAll(loadFalseFriendRules(falseFriendRulesFilename));
   }
 
   /**
@@ -490,9 +491,7 @@ public class JLanguageTool {
     
     List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText);
     ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
-
-//    Collections.sort(ruleMatches);  // SameRuleGroupFilter sorts rule matches already
-    
+    // no sorting: SameRuleGroupFilter sorts rule matches already
     return ruleMatches;
   }
   

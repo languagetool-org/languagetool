@@ -92,17 +92,16 @@ public final class XMLValidator {
    * Validate XML file in classpath with the given DTD. Throws exception on error.
    */
   public void validateWithDtd(String filename, String dtdPath, String docType) throws IOException {
-    InputStream xmlStream = this.getClass().getResourceAsStream(filename);
-    if (xmlStream == null) {
-      throw new IOException("Not found in classpath: " + filename);
-    }
-    try {
-      final String xml = StringTools.readStream(xmlStream, "utf-8");
-      validateInternal(xml, dtdPath, docType);
-    } catch (Exception e) {
-      throw new IOException("Cannot load or parse '" + filename + "'", e);
-    } finally {
-      xmlStream.close();
+    try (InputStream xmlStream = this.getClass().getResourceAsStream(filename)) {
+      if (xmlStream == null) {
+        throw new IOException("Not found in classpath: " + filename);
+      }
+      try {
+        final String xml = StringTools.readStream(xmlStream, "utf-8");
+        validateInternal(xml, dtdPath, docType);
+      } catch (Exception e) {
+        throw new IOException("Cannot load or parse '" + filename + "'", e);
+      }
     }
   }
 
@@ -112,20 +111,15 @@ public final class XMLValidator {
    * @param xmlSchemaPath XML schema file in classpath
    */
   public void validateWithXmlSchema(String filename, String xmlSchemaPath) throws IOException {
-    try {
-      final InputStream xmlStream = this.getClass().getResourceAsStream(filename);
+    try (InputStream xmlStream = this.getClass().getResourceAsStream(filename)) {
       if (xmlStream == null) {
         throw new IOException("File not found in classpath: " + filename);
       }
-      try {
-        final URL schemaUrl = this.getClass().getResource(xmlSchemaPath);
-        if (schemaUrl == null) {
-          throw new IOException("XML schema not found in classpath: " + xmlSchemaPath);
-        }
-        validateInternal(xmlStream, schemaUrl);
-      } finally {
-        xmlStream.close();
+      final URL schemaUrl = this.getClass().getResource(xmlSchemaPath);
+      if (schemaUrl == null) {
+        throw new IOException("XML schema not found in classpath: " + xmlSchemaPath);
       }
+      validateInternal(xmlStream, schemaUrl);
     } catch (Exception e) {
       throw new IOException("Cannot load or parse '" + filename + "'", e);
     }
@@ -138,21 +132,16 @@ public final class XMLValidator {
    * @param xmlSchemaPath XML schema file in classpath
    */
   public void validateWithXmlSchema(String baseFilename, String filename, String xmlSchemaPath) throws IOException {
-    try {
-      final InputStream xmlStream = this.getClass().getResourceAsStream(filename);
-      final InputStream baseXmlStream = this.getClass().getResourceAsStream(baseFilename);
+    try (InputStream xmlStream = this.getClass().getResourceAsStream(filename);
+         InputStream baseXmlStream = this.getClass().getResourceAsStream(baseFilename)) {
       if (xmlStream == null || baseXmlStream == null ) {
-        throw new IOException("File not found in classpath: " + filename);
+        throw new IOException("Files not found in classpath: " + filename + ", " + baseFilename);
       }
-      try {
-        final URL schemaUrl = this.getClass().getResource(xmlSchemaPath);
-        if (schemaUrl == null) {
-          throw new IOException("XML schema not found in classpath: " + xmlSchemaPath);
-        }
-        validateInternal(mergeIntoSource(baseXmlStream, xmlStream, this.getClass().getResource(xmlSchemaPath)), schemaUrl);
-      } finally {
-        xmlStream.close();
+      final URL schemaUrl = this.getClass().getResource(xmlSchemaPath);
+      if (schemaUrl == null) {
+        throw new IOException("XML schema not found in classpath: " + xmlSchemaPath);
       }
+      validateInternal(mergeIntoSource(baseXmlStream, xmlStream, this.getClass().getResource(xmlSchemaPath)), schemaUrl);
     } catch (Exception e) {
       throw new IOException("Cannot load or parse '" + filename + "'", e);
     }

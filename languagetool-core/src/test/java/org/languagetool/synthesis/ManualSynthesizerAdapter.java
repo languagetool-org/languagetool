@@ -20,6 +20,7 @@ package org.languagetool.synthesis;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import morfologik.stemming.IStemmer;
@@ -43,7 +44,7 @@ public class ManualSynthesizerAdapter extends BaseSynthesizer {
     return new IStemmer() { // null synthesiser 
       @Override
       public List<WordData> lookup(CharSequence word) {
-        return new ArrayList<>();
+        return Collections.emptyList();
       }
     };
   }
