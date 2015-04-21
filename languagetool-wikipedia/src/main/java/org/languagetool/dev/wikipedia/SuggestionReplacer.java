@@ -58,7 +58,7 @@ public class SuggestionReplacer {
    * text as before.
    */
   public List<RuleMatchApplication> applySuggestionsToOriginalText(RuleMatch match) {
-    final List<String> replacements = match.getSuggestedReplacements();
+    final List<String> replacements = new ArrayList<>(match.getSuggestedReplacements());
     boolean hasRealReplacements = replacements.size() > 0;
     if (!hasRealReplacements) {
       // create a pseudo replacement with the error text itself

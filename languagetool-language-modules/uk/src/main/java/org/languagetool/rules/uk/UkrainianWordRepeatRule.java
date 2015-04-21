@@ -1,8 +1,6 @@
 package org.languagetool.rules.uk;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -81,7 +79,9 @@ public class UkrainianWordRepeatRule extends WordRepeatRule {
     RuleMatch ruleMatch = super.createRuleMatch(prevToken, token, prevPos, pos, msg);
 
     if( doubleI ) {
-      ruleMatch.getSuggestedReplacements().add("I і");
+      List<String> replacements = new ArrayList<>(ruleMatch.getSuggestedReplacements());
+      replacements.add("I і");
+      ruleMatch.setSuggestedReplacements(replacements);
     }
     return ruleMatch;
   }

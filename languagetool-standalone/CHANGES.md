@@ -56,8 +56,8 @@
     methods is called. This shouldn't make a difference for all common use-cases.
   * `Language.setName()` has been removed. If you need to set the name,
     overwrite the `getName()` method instead.
-  * `Rule.getCorrectExamples()/getIncorrectExamples()` and
-    `PatternToken.getOrGroup()/getAndGroup()` now return an unmodifiable list
+  * `Rule.getCorrectExamples()/getIncorrectExamples()`, `PatternToken.getOrGroup()/getAndGroup()`
+    and `RuleMatch.getSuggestedReplacements()` now return an unmodifiable list
   * `AbstractSimpleReplaceRule.getFileName()` and `AbstractWordCoherencyRule.getFileName()`
     have been removed, the sub classes are now themselves responsible for loading their data
   * Sub classes of `AbstractCompoundRule` are now responsible for loading the

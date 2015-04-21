@@ -19,6 +19,7 @@
 package org.languagetool.rules;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -215,10 +216,10 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * The text fragments which might be an appropriate fix for the problem. One
    * of these fragments can be used to replace the old text between {@link #getFromPos()}
    * to {@link #getToPos()}.
-   * @return List of String objects or an empty List
+   * @return unmodifiable list of String objects or an empty List
    */
   public List<String> getSuggestedReplacements() {
-    return suggestedReplacements;
+    return Collections.unmodifiableList(suggestedReplacements);
   }
 
   @Override
