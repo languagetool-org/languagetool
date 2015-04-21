@@ -19,6 +19,7 @@
 package org.languagetool.language;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ValencianCatalan extends Catalan {
@@ -48,7 +49,7 @@ public class ValencianCatalan extends Catalan {
     List<String> rules = Arrays.asList("EXIGEIX_VERBS_VALENCIANS",
         "EXIGEIX_ACCENTUACIO_VALENCIANA", "EXIGEIX_POSSESSIUS_U",
         "EXIGEIX_VERBS_EIX", "EXIGEIX_VERBS_ISC", "SERVIR_PER_TALLAR");
-    return rules;
+    return Collections.unmodifiableList(rules);
   }
 
   @Override
@@ -56,7 +57,7 @@ public class ValencianCatalan extends Catalan {
     List<String> rules = Arrays.asList("EXIGEIX_VERBS_CENTRAL",
         "EXIGEIX_ACCENTUACIO_GENERAL", "EXIGEIX_POSSESSIUS_V",
         "EVITA_PRONOMS_VALENCIANS", "EVITA_DEMOSTRATIUS_EIXE", "VOCABULARI_VALENCIA");
-    return rules;
+    return Collections.unmodifiableList(rules);
   }
   
 }

@@ -125,7 +125,7 @@ public abstract class Language {
    * @since 2.4
    */
   public List<String> getDefaultEnabledRulesForVariant() {
-    return new ArrayList<>();
+    return Collections.emptyList();
   }
 
   /**
@@ -135,7 +135,7 @@ public abstract class Language {
    * @since 2.4
    */
   public List<String> getDefaultDisabledRulesForVariant() {
-    return new ArrayList<>();
+    return Collections.emptyList();
   }
 
   /**
