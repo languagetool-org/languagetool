@@ -47,6 +47,9 @@
     * `Language.LANGUAGES` is now `Languages.getWithDemoLanguage()` - but you will probably
        want to use `Languages.get()`
   * Other static methods from class `Language` have also been moved to `Languages`
+  * `Language.addExternalRuleFile()` and `Language.getExternalRuleFiles()`
+    have been removed. To add rules, load them with `PatternRuleLoader`
+    and call `JLanguageTool.addRule()`.
   * `getAllRules()`, `getAllActiveRules()`, and `getPatternRulesByIdAndSubId()` 
     in class `JLanguageTool` used to call `reset()` for all rules. This is
     not the case anymore. `reset()` is now called when one of the `check()`

@@ -28,6 +28,7 @@ import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.tools.JnaTools;
 import org.languagetool.tools.Tools;
 import org.xml.sax.SAXException;
@@ -82,10 +83,23 @@ class Main {
     srcLt = null;
     bRules = null;
     lt = new MultiThreadedJLanguageTool(options.getLanguage(), motherTongue);
+    if (options.getRuleFile() != null) {
+      addExternalRules(options.getRuleFile());
+    }
     if (options.getLanguageModel() != null) {
       lt.activateLanguageModelRules(options.getLanguageModel());
     }
     Tools.selectRules(lt, disabledRules, enabledRules, options.isUseEnabledOnly());
+  }
+
+  private void addExternalRules(String filename) throws IOException {
+    PatternRuleLoader ruleLoader = new PatternRuleLoader();
+    try (InputStream is = new FileInputStream(filename)) {
+      List<PatternRule> externalRules = ruleLoader.getRules(is, filename);
+      for (PatternRule externalRule : externalRules) {
+        lt.addRule(externalRule);
+      }
+    }
   }
 
   boolean isSpellCheckingActive() {
@@ -472,10 +486,6 @@ class Main {
 
     options.getLanguage().getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
             options.isSingleLineBreakMarksParagraph());
-
-    if (options.getRuleFile() != null) {
-      options.getLanguage().addExternalRuleFile(options.getRuleFile());
-    }
 
     final Main prg = new Main(options);
     if (options.getFalseFriendFile() != null) {

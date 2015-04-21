@@ -63,7 +63,6 @@ public abstract class Language {
   private static final SentenceTokenizer SENTENCE_TOKENIZER = new SimpleSentenceTokenizer();
   private static final WordTokenizer WORD_TOKENIZER = new WordTokenizer();
 
-  private final List<String> externalRuleFiles = new ArrayList<>();
   private final UnifierConfiguration unifierConfig = new UnifierConfiguration();
   private final UnifierConfiguration disambiguationUnifierConfig = new UnifierConfiguration();
 
@@ -186,7 +185,6 @@ public abstract class Language {
    */
   public List<String> getRuleFileNames() {
     final List<String> ruleFiles = new ArrayList<>();
-    ruleFiles.addAll(getExternalRuleFiles());
     final ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     ruleFiles.add(dataBroker.getRulesDir()
             + "/" + getShortName() + "/" + JLanguageTool.PATTERN_FILE);
@@ -199,23 +197,6 @@ public abstract class Language {
       }
     }
     return ruleFiles;
-  }
-
-  /**
-   * @since 2.6
-   */
-  public List<String> getExternalRuleFiles() {
-    return externalRuleFiles;
-  }
-
-  /**
-   * Adds an external rule file to the language. Call this method before
-   * the language is given to the {@link JLanguageTool} constructor.
-   * @param externalRuleFile Absolute file path to rules.
-   * @since 2.6
-   */
-  public void addExternalRuleFile(String externalRuleFile) {
-    externalRuleFiles.add(externalRuleFile);
   }
 
   /**

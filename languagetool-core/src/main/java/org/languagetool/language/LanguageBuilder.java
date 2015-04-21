@@ -214,11 +214,6 @@ public final class LanguageBuilder {
       return baseLanguage.getLocaleWithCountryAndVariant();
     }
 
-    @Override
-    public List<String> getExternalRuleFiles() {
-      return baseLanguage.getExternalRuleFiles();
-    }
-
     @Nullable
     @Override
     public Language getDefaultLanguageVariant() {
