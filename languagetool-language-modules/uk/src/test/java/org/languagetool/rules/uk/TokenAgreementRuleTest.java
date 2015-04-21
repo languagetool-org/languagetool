@@ -22,8 +22,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Before;
@@ -36,8 +36,6 @@ import org.languagetool.rules.RuleMatch;
 
 public class TokenAgreementRuleTest {
 
-  private static final List<RuleMatch> EMPTY_MATCH_LIST = new ArrayList<>();
-  
   private JLanguageTool langTool;
   private TokenAgreementRule rule;
 
@@ -177,7 +175,7 @@ public class TokenAgreementRuleTest {
   }
 
   private void assertEmptyMatch(String text) throws IOException {
-    assertEquals(EMPTY_MATCH_LIST, Arrays.asList(rule.match(langTool.getAnalyzedSentence(text))));
+    assertEquals(Collections.<RuleMatch>emptyList(), Arrays.asList(rule.match(langTool.getAnalyzedSentence(text))));
   }
   
   @Test
