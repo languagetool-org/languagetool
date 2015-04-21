@@ -476,6 +476,13 @@ public class JLanguageTool {
     }
     final List<Rule> allRules = getAllRules();
     printIfVerbose(allRules.size() + " rules activated for language " + language);
+    // Some rules have an internal state so they can do checks over sentence
+    // boundaries. These need to be reset so the checks don't suddenly
+    // work on different texts with the same data. However, it could be useful
+    // to keep the state information if we're checking a continuous text.    
+    for (final Rule rule : allRules) {
+      rule.reset();
+    }
 
     sentenceCount = sentences.size();
     unknownWords = new HashSet<>();
@@ -776,13 +783,6 @@ public class JLanguageTool {
     final List<Rule> rules = new ArrayList<>();
     rules.addAll(builtinRules);
     rules.addAll(userRules);
-    // Some rules have an internal state so they can do checks over sentence
-    // boundaries. These need to be reset so the checks don't suddenly
-    // work on different texts with the same data. However, it could be useful
-    // to keep the state information if we're checking a continuous text.    
-    for (final Rule rule : rules) {
-      rule.reset();
-    }
     return rules;
   }
   
@@ -801,7 +801,6 @@ public class JLanguageTool {
     // work on different texts with the same data. However, it could be useful
     // to keep the state information if we're checking a continuous text.    
     for (final Rule rule : rules) {
-      rule.reset();
       boolean isDisabled = disabledRules.contains(rule.getId()) || (rule.isDefaultOff() && !enabledRules.contains(rule.getId()));
       if (!isDisabled) {
         rulesActive.add(rule);
@@ -821,7 +820,6 @@ public class JLanguageTool {
     final List<Rule> rules = getAllRules();
     final List<PatternRule> rulesById = new ArrayList<>();   
     for (final Rule rule : rules) {
-      rule.reset();
       if (rule instanceof PatternRule) {
         if (rule.getId().equals(Id) && ((PatternRule)rule).getSubId().equals(subId)) {
           rulesById.add((PatternRule) rule);

@@ -42,13 +42,17 @@
     option makes more sense
 
 #### API
-  * `Language.setName()` has been removed. If you need to set the name,
-    overwrite the `getName()` method instead.
   * several deprecated methods and classes have been removed, e.g.
     * `Language.REAL_LANGUAGES` is now `Languages.get()`
     * `Language.LANGUAGES` is now `Languages.getWithDemoLanguage()` - but you will probably
        want to use `Languages.get()`
   * Other static methods from class `Language` have also been moved to `Languages`
+  * `getAllRules()`, `getAllActiveRules()`, and `getPatternRulesByIdAndSubId()` 
+    in class `JLanguageTool` used to call `reset()` for all rules. This is
+    not the case anymore. `reset()` is now called when one of the `check()`
+    methods is called. This shouldn't make a difference for all common use-cases.
+  * `Language.setName()` has been removed. If you need to set the name,
+    overwrite the `getName()` method instead.
   * `Rule.getCorrectExamples()/getIncorrectExamples()` and
     `PatternToken.getOrGroup()/getAndGroup()` now return an unmodifiable list
   * `AbstractSimpleReplaceRule.getFileName()` and `AbstractWordCoherencyRule.getFileName()`
