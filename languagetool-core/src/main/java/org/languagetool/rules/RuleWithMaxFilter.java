@@ -32,9 +32,6 @@ import java.util.List;
  */
 public class RuleWithMaxFilter implements RuleMatchFilter {
 
-  /**
-   * @param ruleMatches list of matches
-   */
   @Override
   public final List<RuleMatch> filter(final List<RuleMatch> ruleMatches) {
     Collections.sort(ruleMatches);

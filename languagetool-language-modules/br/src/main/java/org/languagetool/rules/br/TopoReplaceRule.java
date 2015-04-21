@@ -95,9 +95,6 @@ public class TopoReplaceRule extends Rule {
     return " pe ";
   }
 
-  /**
-   * use case-insensitive matching.
-   */
   public boolean isCaseSensitive() {
     return true;
   }
@@ -128,10 +125,9 @@ public class TopoReplaceRule extends Rule {
   }
 
   /**
-   * Load the list of words. <br/>
-   * Same as {@link AbstractSimpleReplaceRule#loadWords} but allows multiple words.   
+   * Load the list of words. Same as {@link AbstractSimpleReplaceRule#load} but allows multiple words.   
    * @param stream the stream to load.
-   * @return the list of maps containing the error-corrections pairs. <br/>The n-th map contains key strings of (n+1) words.
+   * @return the list of maps containing the error-corrections pairs. The n-th map contains key strings of (n+1) words.
    * @see #getWordTokenizer
    */
   private List<Map<String, String>> loadWords(final InputStream stream)

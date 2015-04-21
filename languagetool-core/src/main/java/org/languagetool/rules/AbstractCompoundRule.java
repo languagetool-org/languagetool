@@ -138,13 +138,13 @@ public abstract class AbstractCompoundRule extends Rule {
           }
           final RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(),
               atr.getStartPos() + atr.getToken().length(), msg, shortDesc);
+          ruleMatch.setSuggestedReplacements(replacement);
           // avoid duplicate matches:
           if (prevRuleMatch != null && prevRuleMatch.getFromPos() == ruleMatch.getFromPos()) {
             prevRuleMatch = ruleMatch;
             break;
           }
           prevRuleMatch = ruleMatch;
-          ruleMatch.setSuggestedReplacements(replacement);
           ruleMatches.add(ruleMatch);
           break;
         }

@@ -69,14 +69,14 @@ public class KhmerWordRepeatRule extends Rule {
     final AnalyzedTokenReadings[] tokensWithWS = sentence.getTokens();
 
     String prevToken = "";
-    // we start from token 1, token no. 0 is guaranteed to be SENT_START 
+    // we start from token 1, token 0 is SENT_START 
     for (int i = 1; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
       if (isWord(token) && prevToken.equalsIgnoreCase(token) && !ignore(sentence, tokensWithWS, i)) {
-        final String msg = messages.getString("repetition");
         final int prevPos = tokens[i - 1].getStartPos();
         final int pos = tokens[i].getStartPos();
-        final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg,
+        final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(),
+                messages.getString("repetition"),
                 messages.getString("desc_repetition_short"));
         final List<String> replacements = new ArrayList<>();
         replacements.add(prevToken + " " + token); // case 1: replace zero-width space w/ real space 
@@ -93,14 +93,13 @@ public class KhmerWordRepeatRule extends Rule {
 
   // avoid "..." etc. to be matched:
   private boolean isWord(String token) {
-    boolean isWord = true;
     if (token.length() == 1) {
       final char c = token.charAt(0);
       if (!Character.isLetter(c)) {
-        isWord = false;
+        return false;
       }
     }
-    return isWord;
+    return true;
   }
 
   @Override
