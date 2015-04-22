@@ -22,11 +22,9 @@ import org.apache.commons.lang.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.*;
 
 /**
