@@ -32737,6 +32737,16 @@ $Id$
                 <example>la mà enlairada vessant aigua sobre el cap</example>
             </rule>
         </rulegroup>
+        <rule id="URL" name="URL (masculí o femení)">
+            <pattern>
+                <marker>
+                    <token postag="_GN_FS">URL<exception postag="_GN_MS"/></token>
+                </marker>
+            </pattern>
+            <message>En el sentit d'adreça d'Internet és masculí. Femení si correspon a Universitat Ramon Llull.</message>
+            <example correction="">En la <marker>URL</marker>.</example>
+            <example>En l'URL.</example>
+        </rule>
         <rule id="POSAR_DE_RELLEU" name="posar de/en relleu">
             <pattern>
                 <token inflected="yes" skip="1">posar</token>
@@ -33236,6 +33246,17 @@ $Id$
             <suggestion>bonics</suggestion>
             <url>http://esadir.cat/entrades/fitxa/node/guai</url>
             <example correction="bonic|bonics">Era molt <marker>guai</marker>!</example>
+        </rule>
+        <rule id="XULERIA" name="xuleria">
+            <pattern>
+                <token inflected="yes">xuleria</token>
+            </pattern>
+            <message>Lleguatge col·loquial</message>
+            <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">fatxenderia</match></suggestion>
+            <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">fanfarroneria</match></suggestion>
+            <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">fanfarronada</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/xuleria</url>
+            <example correction="fatxenderia|fanfarroneria|fanfarronada">Quanta <marker>xuleria</marker>!</example>
         </rule>
         <rule id="XULO" name="xulo">
             <pattern>
