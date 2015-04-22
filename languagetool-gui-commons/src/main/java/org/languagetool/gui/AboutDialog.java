@@ -65,11 +65,16 @@ public class AboutDialog {
 
     aboutPane.setText(String.format("<html>"
             + "<p>LanguageTool %s (%s)<br>"
+            + "Java max memory: %s    Java total memory: %s   Java free memory: %s <br>"
             + "Copyright (C) 2005-2014 the LanguageTool community and Daniel Naber<br>"
             + "This software is licensed under the GNU Lesser General Public License.<br>"
             + "<a href=\"http://www.languagetool.org\">http://www.languagetool.org</a></p>"
             + "<p>Maintainers of the language modules:</p><br>"
-            + "</html>", JLanguageTool.VERSION, JLanguageTool.BUILD_DATE));
+            + "</html>", JLanguageTool.VERSION,
+             JLanguageTool.BUILD_DATE,
+             Runtime.getRuntime().maxMemory(),
+             Runtime.getRuntime().totalMemory(),
+             Runtime.getRuntime().freeMemory() ));
 
     aboutPane.addHyperlinkListener(new HyperlinkListener() {
       @Override
