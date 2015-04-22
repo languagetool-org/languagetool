@@ -63,6 +63,15 @@ public class GermanSpellerRuleTest {
     assertThat(matches2[0].getSuggestedReplacements().toString(), is("[Konservierungsstoffstatistik]"));
     RuleMatch[] matches3 = rule.match(langTool.getAnalyzedSentence("konservierungsstoffsasdsasda"));
     assertThat(matches3[0].getSuggestedReplacements().size(), is(0));
+    assertFirstSuggestion("denkte", "dachte", rule, langTool);
+    assertFirstSuggestion("schwimmte", "schwamm", rule, langTool);
+    assertFirstSuggestion("gehte", "ging", rule, langTool);
+    assertFirstSuggestion("greifte", "griff", rule, langTool);
+  }
+
+  private void assertFirstSuggestion(String input, String expected, GermanSpellerRule rule, JLanguageTool langTool) throws IOException {
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(input));
+    assertThat(matches[0].getSuggestedReplacements().get(0), is(expected));
   }
 
   @Test

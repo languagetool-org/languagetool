@@ -13,6 +13,9 @@
 #### German
   * fixed some false alarms
   * updated to jwordsplitter 4.0 for better compound splitting
+  * the spell checker offers correct suggestions now for
+    incorrect past tense forms like "gehte" -> ging (useful
+    mostly for non-native speakers)
 
 #### Polish
   * added a few new rules

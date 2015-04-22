@@ -20,12 +20,16 @@ package org.languagetool.rules.de;
 
 import de.danielnaber.jwordsplitter.GermanWordSplitter;
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.German;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.tagging.Tagger;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
 
@@ -75,12 +79,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   
   private final GermanCompoundTokenizer compoundTokenizer;
   private final GermanWordSplitter splitter;
+  private final Synthesizer synthesizer;
+  private final Tagger tagger;
 
   public GermanSpellerRule(ResourceBundle messages, German language) {
     super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language));
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
     compoundTokenizer = language.getStrictCompoundTokenizer();
+    tagger = language.getTagger();
+    synthesizer = language.getSynthesizer();
     try {
       splitter = new GermanWordSplitter(false);
     } catch (IOException e) {
@@ -224,7 +232,44 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         return Collections.singletonList(ucWord);
       }
     }
+    String verbSuggestion = getPastTenseVerbSuggestion(word);
+    if (verbSuggestion != null) {
+      return Collections.singletonList(verbSuggestion);
+    }
     return Collections.emptyList();
+  }
+
+  // Get a correct suggestion for invalid words like greifte, denkte, gehte: useful for
+  // non-native speakers and cannot be found by just looking for similar words.
+  @Nullable
+  private String getPastTenseVerbSuggestion(String word) {
+    if (word.endsWith("e")) {
+      String wordStem = word.replaceAll("e$", "");
+      try {
+        String lemma = baseForThirdPersonSingularVerb(wordStem);
+        if (lemma != null) {
+          AnalyzedToken token = new AnalyzedToken(lemma, null, lemma);
+          String[] forms = synthesizer.synthesize(token, "VER:3:SIN:PRT:.*", true);
+          if (forms.length > 0) {
+            return forms[0];
+          }
+        }
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    return null;
+  }
+
+  @Nullable
+  private String baseForThirdPersonSingularVerb(String word) throws IOException {
+    List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList(word));
+    for (AnalyzedTokenReadings reading : readings) {
+      if (reading.hasPartialPosTag("VER:3:SIN:")) {
+        return reading.getReadings().get(0).getLemma();
+      }
+    }
+    return null;
   }
 
   private boolean ignoreByHangingHyphen(List<String> words, int idx) {
