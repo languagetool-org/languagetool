@@ -179,8 +179,8 @@ public class SentenceSourceChecker {
           throw new RuntimeException("Check failed on sentence: " + StringUtils.abbreviate(sentence.getText(), 250), e);
         }
       }
-    } catch (ErrorLimitReachedException | DocumentLimitReachedException e) {
-      System.out.println(e);
+    } catch (DocumentLimitReachedException | ErrorLimitReachedException e) {
+      System.out.println(getClass().getSimpleName() + ": " + e);
     } finally {
       if (resultHandler != null) {
         final float matchesPerSentence = (float)ruleMatchCount / sentenceCount;
