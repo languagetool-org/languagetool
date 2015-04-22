@@ -8607,7 +8607,7 @@ $Id$
             <example correction="desorbitat|desorbitada|desmesurat|desmesurada|exagerat|exagerada">És un preu <marker>desorbitant</marker>.</example>
             <example>Estava desorbitant</example>
         </rule>
-        <rule id="cela" name="cela/cel·la, celo/cel·la">
+        <rule id="CELA" name="cela/cel·la, celo/cel·la">
             <pattern>
                 <token regexp="yes">celo|cela|celes<exception postag="_possible_nompropi">Cela</exception></token>
             </pattern>
@@ -31301,6 +31301,27 @@ $Id$
             <example correction="No hi ha temps|No (tenir) temps"><marker>No dóna temps</marker>.</example>
             <example correction="No hi ha temps|No (tenir) temps"><marker>No em dóna temps</marker> de fer-ho.</example>
         </rule> -->
+        <rule id="ACOLLONAR" name="acollonar/acollonir" >
+            <pattern>
+                <marker>
+                    <token inflected="yes">acollonar</token>
+                </marker>
+            </pattern>
+            <message>Variant secundària</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">acollonir</match></suggestion>
+            <example correction="acollonit">Estava <marker>acollonat</marker>.</example>
+            <example correction="acollonia">Ens <marker>acollonava</marker>.</example>
+        </rule>
+        <rule id="ACOLLONAMENT" name="acollonament/acolloniment" >
+            <pattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">acollonament|acollonador</token>
+                </marker>
+            </pattern>
+            <message>Variant secundària.</message>
+            <suggestion><match no="1" regexp_match=".*[nN][Aa](.*)" regexp_replace="acolloni$1" case_conversion="alllower"/></suggestion>
+            <example correction="acollonidora">Era <marker>acollonadora</marker>.</example>
+        </rule>
         <rule id="SENS_SENSE" name="sens / sense">
             <pattern>
                 <marker>
@@ -31327,12 +31348,12 @@ $Id$
             <pattern>
                 <token>a</token>
                 <token regexp="yes">aquestes|estes</token>
-                <token regexp="yes">alçades|altures</token>
+                <token>alçades</token> <!-- i altures? -->
             </pattern>
             <message>En sentit figurat val més fer servir una altra expressió.</message>
             <suggestion>a hores d'ara</suggestion>
             <suggestion>en aquests moments</suggestion>
-            <example correction="A hores d'ara|En aquests moments"><marker>A estes altures</marker> encara no ho sap.</example>
+            <example correction="A hores d'ara|En aquests moments"><marker>A estes alçades</marker> encara no ho sap.</example>
         </rule>
         <rule id="PER_SUPOSAT" name="per suposat">
             <antipattern>
@@ -33116,6 +33137,19 @@ $Id$
         </rule>
     </category>
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
+        <rule id="DESCOLLONAR" name="descollonar" >
+            <pattern>
+                <marker>
+                    <token inflected="yes">descollonar</token>
+                </marker>
+            </pattern>
+            <message>Col·loquialisme no admès per la majoria de diccionaris.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">petar</match> de riure</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">baquejar</match> de riure</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">caragolar</match> de riure</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">trencar</match> de riure</suggestion>
+            <example correction="petava de riure|baquejava de riure|caragolava de riure|trencava de riure">Em <marker>descollonava</marker>.</example>
+        </rule>
         <rule id="QUET" name="quet/quiet">
             <pattern>
                 <token postag="A.*" postag_regexp="yes" inflected="yes">quet</token>
