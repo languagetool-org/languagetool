@@ -16,17 +16,16 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
 package org.languagetool.openoffice;
 
-/** OpenOffice 3.x Integration
+/**
+ * LibreOffice/OpenOffice integration.
  * 
  * @author Marcin Miłkowski
  */
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -37,6 +36,9 @@ import javax.swing.UIManager;
 
 import com.sun.star.lang.*;
 import com.sun.star.lang.IllegalArgumentException;
+import com.sun.star.linguistic2.LinguServiceEvent;
+import com.sun.star.linguistic2.LinguServiceEventFlags;
+import com.sun.star.text.TextMarkupType;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -151,8 +153,7 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   /**
-   * Checks the language under the cursor. Used for opening the configuration
-   * dialog.
+   * Checks the language under the cursor. Used for opening the configuration dialog.
    * @return the language under the visible cursor
    */
   @Nullable
@@ -466,7 +467,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private SingleProofreadingError createOOoError(final RuleMatch ruleMatch,
       final int startIndex) {
     final SingleProofreadingError aError = new SingleProofreadingError();
-    aError.nErrorType = com.sun.star.text.TextMarkupType.PROOFREADING;
+    aError.nErrorType = TextMarkupType.PROOFREADING;
     // the API currently has no support for formatting text in comments
     aError.aFullComment = ruleMatch.getMessage()
         .replaceAll("<suggestion>", "\"").replaceAll("</suggestion>", "\"")
@@ -618,8 +619,8 @@ public class Main extends WeakBase implements XJobExecutor,
     if (!xEventListeners.isEmpty()) {
       for (final XLinguServiceEventListener xEvLis : xEventListeners) {
         if (xEvLis != null) {
-          final com.sun.star.linguistic2.LinguServiceEvent xEvent = new com.sun.star.linguistic2.LinguServiceEvent();
-          xEvent.nEvent = com.sun.star.linguistic2.LinguServiceEventFlags.PROOFREAD_AGAIN;
+          final LinguServiceEvent xEvent = new LinguServiceEvent();
+          xEvent.nEvent = LinguServiceEventFlags.PROOFREAD_AGAIN;
           xEvLis.processLinguServiceEvent(xEvent);
         }
       }
@@ -810,47 +811,17 @@ public class Main extends WeakBase implements XJobExecutor,
     return "LanguageTool";
   }
 
-}
+  static class DialogThread extends Thread {
+    private final String text;
 
-/**
- * A simple comparator for sorting errors by their position.
- */
-class ErrorPositionComparator implements Comparator<SingleProofreadingError> {
-
-  @Override
-  public int compare(final SingleProofreadingError match1,
-      final SingleProofreadingError match2) {
-    if (match1.aSuggestions.length == 0 && match2.aSuggestions.length > 0) {
-      return 1;
+    DialogThread(final String text) {
+      this.text = text;
     }
-    if (match2.aSuggestions.length == 0 && match1.aSuggestions.length > 0) {
-      return -1;
-    }
-    final int error1pos = match1.nErrorStart;
-    final int error2pos = match2.nErrorStart;
-    if (error1pos > error2pos) {
-      return 1;
-    } else if (error1pos < error2pos) {
-      return -1;
-    } else {
-      if (match1.aSuggestions.length != 0 && match2.aSuggestions.length != 0
-          && match1.aSuggestions.length != match2.aSuggestions.length) {
-        return Integer.compare(match1.aSuggestions.length, match2.aSuggestions.length);
-      }
-    }
-    return match1.aRuleIdentifier.compareTo(match2.aRuleIdentifier);
-  }
-}
 
-class DialogThread extends Thread {
-  private final String text;
-
-  DialogThread(final String text) {
-    this.text = text;
+    @Override
+    public void run() {
+      JOptionPane.showMessageDialog(null, text);
+    }
   }
 
-  @Override
-  public void run() {
-    JOptionPane.showMessageDialog(null, text);
-  }
 }
