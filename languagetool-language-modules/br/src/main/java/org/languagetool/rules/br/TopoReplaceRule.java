@@ -225,7 +225,7 @@ public class TopoReplaceRule extends Rule {
           }
           msg += "?";
           final int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
-          final int endPos = prevTokensList.get(len - 1).getStartPos() + prevTokensList.get(len - 1).getToken().length();
+          final int endPos = prevTokensList.get(len - 1).getEndPos();
           final RuleMatch potentialRuleMatch = new RuleMatch(this, startPos, endPos, msg, getShort());
 
           if (!isCaseSensitive() && StringTools.startsWithUppercase(crt)) {

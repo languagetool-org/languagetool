@@ -211,7 +211,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
         // the rule matches
         final String msg = "Expressió incorrecta si equival a 'adonar-se', correcta si vol dir 'retre compte'.";
         final RuleMatch ruleMatch = new RuleMatch(this,
-            tokens[i].getStartPos(), tokens[i].getStartPos() + token.length(), msg, "Possible error");
+            tokens[i].getStartPos(), tokens[i].getEndPos(), msg, "Possible error");
         ruleMatches.add(ruleMatch);
       }
       
@@ -243,8 +243,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
           else {suggestion= "en"+token; }
         final String msg="¿Volíeu dir <suggestion>"+suggestion+"</suggestion>?";
         final RuleMatch ruleMatch = new RuleMatch(this,
-            tokens[i].getStartPos(), tokens[i].getStartPos()
-                + token.length(), msg, "Possible error");
+            tokens[i].getStartPos(), tokens[i].getEndPos(), msg, "Possible error");
         ruleMatches.add(ruleMatch);    
         continue loop;
       }
@@ -282,8 +281,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
         // the rule matches
         final String msg = "Aquest verb és pronominal. Probablement falta un pronom.";
         final RuleMatch ruleMatch = new RuleMatch(this,
-            tokens[i].getStartPos(), tokens[i].getStartPos()
-                + token.length(), msg,
+            tokens[i].getStartPos(), tokens[i].getEndPos(), msg,
             "Verb pronominal: falta un pronom");
         ruleMatches.add(ruleMatch);
         continue loop;
@@ -320,7 +318,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
         // the rule matches
         final String msg = "Aquest verb no és pronominal. Probablement sobra un pronom.";
         final RuleMatch ruleMatch = new RuleMatch(this,
-            tokens[i].getStartPos(), tokens[i].getStartPos() + token.length(),
+            tokens[i].getStartPos(), tokens[i].getEndPos(),
             msg, "Verb no pronominal");
         if (tokens[i].hasLemma("créixer")) {
           ArrayList<String> replacements = new ArrayList<String>();
@@ -401,7 +399,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
           // the rule matches
           final String msg = "No useu com a pronominal aquest verb, o bé afegiu-hi el pronom 'en'."; //Cal canviar el missatge
           final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(), 
-              tokens[i].getStartPos() + token.length(), msg, "Falta el pronom 'en'");
+              tokens[i].getEndPos(), msg, "Falta el pronom 'en'");
           ruleMatches.add(ruleMatch);
         }
       }

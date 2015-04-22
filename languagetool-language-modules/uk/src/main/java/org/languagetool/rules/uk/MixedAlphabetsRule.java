@@ -113,12 +113,11 @@ public class MixedAlphabetsRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings, List<String> replacements) {
-    String tokenString = tokenReadings.getToken();
+  private RuleMatch createRuleMatch(AnalyzedTokenReadings readings, List<String> replacements) {
+    String tokenString = readings.getToken();
     String msg = tokenString + getSuggestion(tokenString) + StringUtils.join(replacements, ", ");
-    int pos = tokenReadings.getStartPos();
 
-    RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos + tokenString.length(), msg, getShort());
+    RuleMatch potentialRuleMatch = new RuleMatch(this, readings.getStartPos(), readings.getEndPos(), msg, getShort());
     potentialRuleMatch.setSuggestedReplacements(replacements);
 
     return potentialRuleMatch;

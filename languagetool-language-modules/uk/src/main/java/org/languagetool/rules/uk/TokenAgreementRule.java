@@ -481,9 +481,7 @@ public class TokenAgreementRule extends Rule {
       
     }
         
-    int pos = tokenReadings.getStartPos();
-
-    RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos + tokenString.length(), msg, getShort());
+    RuleMatch potentialRuleMatch = new RuleMatch(this, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
 
     potentialRuleMatch.setSuggestedReplacements(suggestions);
 

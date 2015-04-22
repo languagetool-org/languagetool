@@ -129,7 +129,7 @@ public class UppercaseSentenceStartRule extends Rule {
       if (!preventError && Character.isLowerCase(firstChar)) {
         final RuleMatch ruleMatch = new RuleMatch(this,
                 tokens[matchTokenPos].getStartPos(),
-                tokens[matchTokenPos].getStartPos() + tokens[matchTokenPos].getToken().length(),
+                tokens[matchTokenPos].getEndPos(),
                 messages.getString("incorrect_case"));
         ruleMatch.setSuggestedReplacement(StringTools.uppercaseFirstChar(checkToken));
         ruleMatches.add(ruleMatch);

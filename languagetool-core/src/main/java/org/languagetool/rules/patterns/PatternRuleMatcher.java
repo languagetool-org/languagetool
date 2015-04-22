@@ -185,7 +185,7 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer {
       lastMarkerMatchToken = lastMatchToken;
     }
     final AnalyzedTokenReadings token = tokens[Math.min(lastMarkerMatchToken, tokens.length-1)];
-    int toPos = token.getStartPos() + token.getToken().length();
+    int toPos = token.getEndPos();
     if (fromPos < toPos) { // this can happen with some skip="-1" when the last token is not matched
       //now do some spell-checking:
       if (!(errMessage.contains(PatternRuleHandler.PLEASE_SPELL_ME) && errMessage.contains(MISTAKE))) {

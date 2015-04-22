@@ -329,7 +329,7 @@ public class AgreementRule extends GermanRule {
             "bezüglich " + errorDetails + ".";
       final String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich " + errorDetails;
       ruleMatch = new RuleMatch(this, token1.getStartPos(),
-              token2.getStartPos() + token2.getToken().length(), msg, shortMsg);
+              token2.getEndPos(), msg, shortMsg);
       final AgreementSuggestor suggestor = new AgreementSuggestor(language.getSynthesizer(), token1, token2);
       final List<String> suggestions = suggestor.getSuggestions();
       ruleMatch.setSuggestedReplacements(suggestions);
@@ -363,8 +363,7 @@ public class AgreementRule extends GermanRule {
             "Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +
             "statt 'mein kleines Haus'";
       final String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich Kasus, Numerus oder Genus";
-      ruleMatch = new RuleMatch(this, token1.getStartPos(), 
-          token3.getStartPos()+token3.getToken().length(), msg, shortMsg);
+      ruleMatch = new RuleMatch(this, token1.getStartPos(), token3.getEndPos(), msg, shortMsg);
     }
     return ruleMatch;
   }

@@ -514,8 +514,7 @@ public class CaseRule extends GermanRule {
       if (Character.isLowerCase(token.charAt(0)) && !substVerbenExceptions.contains(token) && tokenReadings.hasPartialPosTag("VER:INF")
               && !tokenReadings.isIgnoredBySpeller()) {
         final String msg = "Substantivierte Verben werden großgeschrieben.";
-        final RuleMatch ruleMatch = new RuleMatch(this, tokenReadings.getStartPos(),
-            tokenReadings.getStartPos() + token.length(), msg);
+        final RuleMatch ruleMatch = new RuleMatch(this, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg);
         final String word = tokenReadings.getToken();
         final String fixedWord = StringTools.uppercaseFirstChar(word);
         ruleMatch.setSuggestedReplacement(fixedWord);
@@ -543,8 +542,7 @@ public class CaseRule extends GermanRule {
         !isAdjectiveAsNoun(i, tokens) &&
         !isExceptionPhrase(i, tokens)) {
       final String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen großgeschrieben";
-      final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(),
-          tokens[i].getStartPos() + token.length(), msg);
+      final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(), tokens[i].getEndPos(), msg);
       final String word = tokens[i].getToken();
       final String fixedWord = Character.toLowerCase(word.charAt(0)) + word.substring(1);
       ruleMatch.setSuggestedReplacement(fixedWord);

@@ -94,8 +94,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
       if (isEasilyConfused) {
         String betterAlternative = getBetterAlternativeOrNull(tokens, pos, confusionSet);
         if (betterAlternative != null) {
-          int endPos = token.getStartPos() + token.getToken().length();
-          RuleMatch match = new RuleMatch(this, token.getStartPos(), endPos, getMessage(betterAlternative));
+          RuleMatch match = new RuleMatch(this, token.getStartPos(), token.getEndPos(), getMessage(betterAlternative));
           match.setSuggestedReplacement(betterAlternative);
           matches.add(match);
         }

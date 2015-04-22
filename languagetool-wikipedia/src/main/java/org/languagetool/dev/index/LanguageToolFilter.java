@@ -131,8 +131,7 @@ public final class LanguageToolFilter extends TokenFilter {
       return this.incrementToken();
     }
 
-    final AnalyzedToken at = tr.getAnalyzedToken(0);
-    offsetAtt.setOffset(tr.getStartPos(), tr.getStartPos() + at.getToken().length());
+    offsetAtt.setOffset(tr.getStartPos(), tr.getEndPos());
 
     for (AnalyzedToken token : tr) {
       if (token.getPOSTag() != null) {

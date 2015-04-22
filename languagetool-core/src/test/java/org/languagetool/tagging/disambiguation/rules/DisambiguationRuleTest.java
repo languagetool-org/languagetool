@@ -158,8 +158,8 @@ public class DisambiguationRuleTest extends TestCase {
               final AnalyzedTokenReadings[] r = { readings };
               reading = new AnalyzedSentence(r).toShortString(",");
               annotations = readings.getHistoricalAnnotations();
-              int endPos = readings.getStartPos() + readings.getToken().length();
               int startPos = readings.getStartPos();
+              int endPos = readings.getEndPos();
               assertTrue(
                   "Wrong marker position in the example for the rule " + id +
                   ": got " + startPos + "-" + endPos + ", expected " + expectedMatchStart + "-" + expectedMatchEnd,
@@ -179,7 +179,7 @@ public class DisambiguationRuleTest extends TestCase {
               final AnalyzedTokenReadings[] r = { readings };
               reading = new AnalyzedSentence(r).toShortString(",");
               assertTrue(readings.getStartPos() == expectedMatchStart
-                  && readings.getStartPos() + readings.getToken().length() == expectedMatchEnd);
+                  && readings.getEndPos() == expectedMatchEnd);
               break;
             }
           }

@@ -411,7 +411,7 @@ public class VerbAgreementRule extends GermanRule {
     final String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Subjekt und Prädikat (" +
       token.getToken() + ") bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: " +
       "'Max bist' statt 'Max ist').";
-    return new RuleMatch(this, token.getStartPos(), token.getStartPos() + token.getToken().length(), msg);
+    return new RuleMatch(this, token.getStartPos(), token.getEndPos(), msg);
   }
   
   private RuleMatch ruleMatchWrongVerbSubject(final AnalyzedTokenReadings subject, final AnalyzedTokenReadings verb, final String expectedVerbPOS) {

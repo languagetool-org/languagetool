@@ -61,7 +61,6 @@ public abstract class AbstractWordCoherencyRule extends Rule {
     final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     for (AnalyzedTokenReadings tmpToken : tokens) {
       String token = tmpToken.getToken();
-      final String origToken = token;
       final List<AnalyzedToken> readings = tmpToken.getReadings();
       // TODO: in theory we need to care about the other readings, too (affects e.g. German "Schenke" as a noun):
       if (readings.size() > 0) {
@@ -74,12 +73,12 @@ public abstract class AbstractWordCoherencyRule extends Rule {
         final RuleMatch otherMatch = shouldNotAppearWord.get(token);
         final String otherSpelling = otherMatch.getMessage();
         final String msg = getMessage(token, otherSpelling);
-        final RuleMatch ruleMatch = new RuleMatch(this, tmpToken.getStartPos(), tmpToken.getStartPos() + origToken.length(), msg);
+        final RuleMatch ruleMatch = new RuleMatch(this, tmpToken.getStartPos(), tmpToken.getEndPos(), msg);
         ruleMatch.setSuggestedReplacement(otherSpelling);
         ruleMatches.add(ruleMatch);
       } else if (getWordMap().containsKey(token)) {
         final String shouldNotAppear = getWordMap().get(token);
-        final RuleMatch potentialRuleMatch = new RuleMatch(this, tmpToken.getStartPos(), tmpToken.getStartPos() + origToken.length(), token);
+        final RuleMatch potentialRuleMatch = new RuleMatch(this, tmpToken.getStartPos(), tmpToken.getEndPos(), token);
         shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
       }
     }

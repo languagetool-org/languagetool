@@ -136,8 +136,7 @@ public abstract class AbstractCompoundRule extends Rule {
           } else if (replacement.isEmpty() || replacement.size() == 2) {     // isEmpty shouldn't happen
             msg = withOrWithoutHyphenMessage;
           }
-          final RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(),
-              atr.getStartPos() + atr.getToken().length(), msg, shortDesc);
+          final RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(), atr.getEndPos(), msg, shortDesc);
           ruleMatch.setSuggestedReplacements(replacement);
           // avoid duplicate matches:
           if (prevRuleMatch != null && prevRuleMatch.getFromPos() == ruleMatch.getFromPos()) {
