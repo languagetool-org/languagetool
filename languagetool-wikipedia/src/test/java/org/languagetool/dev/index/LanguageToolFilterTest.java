@@ -62,7 +62,7 @@ public class LanguageToolFilterTest extends BaseTokenStreamTestCase {
         System.out.println();
         System.out.print(position + ": ");
       }
-      System.out.print("[" + term.toString() + ":" + offset.startOffset() + "->"
+      System.out.print("[" + term + ":" + offset.startOffset() + "->"
           + offset.endOffset() + ":" + type.type() + "] ");
     }
     System.out.println();

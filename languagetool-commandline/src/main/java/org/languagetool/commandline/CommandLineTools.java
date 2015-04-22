@@ -61,7 +61,7 @@ public final class CommandLineTools {
     final List<String> sentences = lt.sentenceTokenize(contents);
     for (final String sentence : sentences) {
       analyzedText = lt.getAnalyzedSentence(sentence);
-      System.out.println(analyzedText.toString());
+      System.out.println(analyzedText);
     }
   }
 
@@ -171,7 +171,7 @@ public final class CommandLineTools {
       }
       System.out.println(contextTools.getPlainTextContext(match.getFromPos(), match.getToPos(), contents));
       if (rule.getUrl() != null) {
-        System.out.println("More info: " + rule.getUrl().toString());
+        System.out.println("More info: " + rule.getUrl());
       }
       if (i < ruleMatches.size()) {
         System.out.println();

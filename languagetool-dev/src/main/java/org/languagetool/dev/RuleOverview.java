@@ -167,7 +167,7 @@ public final class RuleOverview {
       } else {
         maintainerText = "";
       }
-      System.out.print("<td valign=\"top\" align=\"left\">" + maintainerInfo.toString() + maintainerText + "</td>");
+      System.out.print("<td valign=\"top\" align=\"left\">" + maintainerInfo + maintainerText + "</td>");
       
       System.out.println("</tr>");    
     }

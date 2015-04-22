@@ -725,7 +725,7 @@ public class Main extends WeakBase implements XJobExecutor,
       throw new RuntimeException(e);
     }
     String msg = "An error has occurred in LanguageTool "
-        + JLanguageTool.VERSION + ":\n" + e.toString() + "\nStacktrace:\n";
+        + JLanguageTool.VERSION + ":\n" + e + "\nStacktrace:\n";
     msg += Tools.getFullStackTrace(e);
     final String metaInfo = "OS: " + System.getProperty("os.name") + " on "
         + System.getProperty("os.arch") + ", Java version "
@@ -753,7 +753,7 @@ public class Main extends WeakBase implements XJobExecutor,
     testMode = mode;
   }
 
-  private class AboutDialogThread extends Thread {
+  private static class AboutDialogThread extends Thread {
 
     private final ResourceBundle messages;
 

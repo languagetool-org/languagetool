@@ -194,13 +194,13 @@ class MatchDatabase {
     try (PreparedStatement prepSt = conn.prepareStatement("DROP TABLE " + tableName)) {
       prepSt.execute();
     } catch (SQLException e){
-      System.err.println("Note: could not drop table 'feed_matches' - this is okay on the first run: " + e.toString());
+      System.err.println("Note: could not drop table 'feed_matches' - this is okay on the first run: " + e);
     }
   }
 
   List<StoredWikipediaRuleMatch> list() throws SQLException {
-    try (PreparedStatement prepSt = conn.prepareStatement("SELECT * FROM feed_matches")) {
-      ResultSet resultSet = prepSt.executeQuery();
+    try (PreparedStatement prepSt = conn.prepareStatement("SELECT * FROM feed_matches");
+         ResultSet resultSet = prepSt.executeQuery()) {
       List<StoredWikipediaRuleMatch> result = new ArrayList<>();
       while (resultSet.next()) {
         String ruleId = resultSet.getString("rule_id");
@@ -222,15 +222,15 @@ class MatchDatabase {
   }
 
   Map<String,Date> getCheckDates() throws SQLException {
-    try (PreparedStatement prepSt = conn.prepareStatement("SELECT * FROM feed_checks")) {
-      Map<String,Date> result = new HashMap<>();
-      ResultSet resultSet = prepSt.executeQuery();
+    Map<String,Date> result = new HashMap<>();
+    try (PreparedStatement prepSt = conn.prepareStatement("SELECT * FROM feed_checks");
+         ResultSet resultSet = prepSt.executeQuery()) {
       while (resultSet.next()) {
         String langCode = resultSet.getString("language_code");
         Date checkDate = new Date(resultSet.getTimestamp("check_date").getTime());
         result.put(langCode, checkDate);
       }
-      return result;
     }
+    return result;
   }
 }

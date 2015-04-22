@@ -128,7 +128,7 @@ public class WikipediaQuickCheck {
         final List<RuleMatchApplication> ruleMatchApplications = replacer.applySuggestionsToOriginalText(match);
         appliedMatches.add(new AppliedRuleMatch(match, ruleMatchApplications));
       } catch (Exception e) {
-        System.err.println("Failed to apply suggestion for rule match '" + match + "' for URL " + url + ": " + e.toString());
+        System.err.println("Failed to apply suggestion for rule match '" + match + "' for URL " + url + ": " + e);
         internalErrors++;
       }
     }

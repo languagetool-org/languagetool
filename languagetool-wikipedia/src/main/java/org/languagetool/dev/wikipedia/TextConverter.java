@@ -415,7 +415,7 @@ public class TextConverter extends Visitor {
   }
 
   private void finishLine() {
-    sb.append(line.toString());
+    sb.append(line);
     line.setLength(0);
   }
 

@@ -149,12 +149,12 @@ class WikipediaSentenceSource extends SentenceSource {
         }
       }
     } catch (Exception e) {
-      System.err.println("Could not extract text, skipping document: " + e.toString() + ", full stacktrace follows:");
+      System.err.println("Could not extract text, skipping document: " + e + ", full stacktrace follows:");
       e.printStackTrace();
     }
   }
 
-  private class WikipediaSentence {
+  private static class WikipediaSentence {
     final String sentence;
     final String title;
     final int articleCount;
