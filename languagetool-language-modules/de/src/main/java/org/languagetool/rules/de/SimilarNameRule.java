@@ -1,0 +1,111 @@
+/* LanguageTool, a natural language style checker 
+ * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+package org.languagetool.rules.de;
+
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.rules.*;
+import org.languagetool.tools.StringTools;
+
+import java.util.*;
+
+/**
+ * Search for names similar to ones used before in the same text, as these
+ * might be typos. Note: this rule if off by default, as it only works on known
+ * names and the internal dictionary doesn't know that many names.
+ * 
+ * @author Daniel Naber
+ * @since 3.0
+ */
+public class SimilarNameRule extends Rule {
+
+  private static final int minLength = 4;
+  private static final int maxDiff = 1;
+  
+  private final Set<String> namesSoFar = new HashSet<>();
+
+  public SimilarNameRule(ResourceBundle messages) {
+    super(messages);
+    super.setCategory(new Category(messages.getString("category_typo")));
+    addExamplePair(Example.wrong("Angela Müller ist CEO. <marker>Miller</marker> wurde in Hamburg geboren."),
+                   Example.fixed("Angela Müller ist CEO. <marker>Müller</marker> wurde in Hamburg geboren."));
+    setDefaultOff();
+  }
+
+  @Override
+  public String getId() {
+    return "DE_SIMILAR_NAMES";
+  }
+
+  @Override
+  public String getDescription() {
+    return "Mögliche Tippfehler in Namen finden";
+  }
+
+  @Override
+  public RuleMatch[] match(AnalyzedSentence sentence) {
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
+    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    for (AnalyzedTokenReadings token : tokens) {
+      String word = token.getToken();
+      // not tagged = too many correct words are not known so we cannot use that:
+      //boolean isName = word.length() > minLength && (token.hasPartialPosTag("EIG:") || !token.isTagged());
+      boolean isName = word.length() >= minLength && token.hasPartialPosTag("EIG:") && !token.hasPartialPosTag(":COU");
+      if (isName && StringTools.startsWithUppercase(word)) {
+        String similarName = similarName(word);
+        if (similarName != null) {
+          String msg = "'" + word + "' ähnelt dem vorher benutzten '" + similarName + "', handelt es sich evtl. um einen Tippfehler?";
+          final RuleMatch ruleMatch = new RuleMatch(this, token.getStartPos(), token.getEndPos(), msg);
+          ruleMatch.setSuggestedReplacement(similarName);
+          ruleMatches.add(ruleMatch);
+        }
+        namesSoFar.add(word);
+      }
+    }
+    return toRuleMatchArray(ruleMatches);
+  }
+
+  @Nullable
+  private String similarName(String nameHere) {
+    for (String name : namesSoFar) {
+      if (name.equals(nameHere)) {
+        continue;
+      }
+      int lenDiff = Math.abs(name.length() - nameHere.length());
+      boolean nameEndsWithS = name.endsWith("s") && !nameHere.endsWith("s");
+      boolean otherNameEndsWithS = !name.endsWith("s") && nameHere.endsWith("s");
+      if (nameEndsWithS || otherNameEndsWithS) {
+        // we assume this is a genitive, e.g. "Angela Merkels Ehemann"
+        continue;
+      }
+      if (lenDiff <= maxDiff && StringUtils.getLevenshteinDistance(name, nameHere) <= maxDiff) {
+        return name;
+      }
+    }
+    return null;
+  }
+
+  @Override
+  public void reset() {
+    namesSoFar.clear();
+  }
+
+}

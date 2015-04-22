@@ -160,6 +160,7 @@ public class German extends Language {
             new VerbAgreementRule(messages, this),
             new SubjectVerbAgreementRule(messages),
             new WordCoherencyRule(messages),
+            new SimilarNameRule(messages),
             new WiederVsWiderRule(messages)
     );
   }
