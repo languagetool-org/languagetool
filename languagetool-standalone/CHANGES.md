@@ -19,6 +19,7 @@
 
 #### Polish
   * added a few new rules
+  * fixed some false alarms
 
 #### Slovak
   * dictionary update and several new rules
