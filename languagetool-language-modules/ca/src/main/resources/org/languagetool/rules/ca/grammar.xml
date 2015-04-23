@@ -19914,7 +19914,7 @@ $Id$
         	<antipattern>
         		<marker>
         			<token>.</token>
-        			<token spacebefore="no" postag="UNKNOWN"></token>
+                    <token spacebefore="no" postag="UNKNOWN" regexp="yes">\p{Ll}.+</token>
         		</marker>
         	</antipattern>
         	<antipattern>
@@ -19983,6 +19983,33 @@ $Id$
             <example>Va ser l'any 453 dC, oi?</example>
             <example>En l'AP-7.</example>
             <example>El DJ va punxar tota la nit.</example>
+        </rule>
+        <rule id="P_EX" name="Comprova la puntuació en: p. ex.">
+            <antipattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[Pp]</token>
+                        <token spacebefore="no">.</token>
+                        <token spacebefore="yes">ex</token>
+                        <token spacebefore="no">.</token>
+                    </marker>
+                </antipattern>
+            <pattern>
+                <marker>
+                    <token>p</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">ex?</token>
+                    <token>.</token>
+                </marker>
+            </pattern>
+            <message>Error de puntuació.</message>
+            <suggestion>p. ex.</suggestion>
+            <example correction="P. ex."><marker>P .ex.</marker> el camp.</example>
+            <example correction="P. ex."><marker>P.ex.</marker> el camp.</example>
+            <example correction="P. ex."><marker>P .ex .</marker> el camp.</example>
+            <example correction="P. ex."><marker>P ex .</marker> el camp.</example>
+            <example correction="p. ex.">(<marker>p .ex.</marker> el camp).</example>
+            <example correction="p. ex.">(<marker>p .e.</marker> el camp).</example>
+            <example>P. ex. el camp.</example>
         </rule>
         <rule id="SEGLE" name="abreviatura de 'segle' amb punt">
             <pattern>
