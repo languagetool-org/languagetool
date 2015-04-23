@@ -6975,7 +6975,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule id="moze_qub_fix" name="może po czasowniku wymagającym zwykle bezokolicznika">
         <pattern>
-            <token skip="-1" postag="verb:.*(?:sg|pl|imp[st]).*|pred" postag_regexp="yes" inflected="yes" regexp="yes">mieć|móc|musieć|potrafić|pozwolić|pozwalać|zdołać|umieć|ośmielić|powinien|gotów|ważyć|raczyć|usiłować|rozkazać|śmieć|zacząć|uczyć|dozwolić|(?:po)?móc|s?próbować|chcieć|da(?:wa)?ć|iść|pójść|ośmielić|umieć|kazać|mieć|zacząć|przestać|zaczynać|przestawać|pozwolić|pozwalać|starać|jechać|nauczyć|biec|położyć|zdążyć<exception scope="next" postag_regexp="yes" postag="interp:comma|comp:comma|conj"/><exception>może</exception></token>
+            <token skip="-1" postag="verb:.*(?:sg|pl|imp[st]).*|pred" postag_regexp="yes" inflected="yes" regexp="yes">mieć|móc|musieć|potrafić|pozwolić|pozwalać|zdołać|umieć|ośmielić|powinien|gotów|ważyć|raczyć|usiłować|rozkazać|śmieć|zacząć|uczyć|dozwolić|(?:po)?móc|s?próbować|chcieć|da(?:wa)?ć|iść|pójść|ośmielić|umieć|kazać|mieć|zacząć|przestać|zaczynać|przestawać|pozwolić|pozwalać|starać|jechać|nauczyć|biec|położyć|zdążyć<exception scope="next" postag_regexp="yes" postag="interp:comma|comp:comma|conj|verb:inf.*"/><exception>może</exception></token>
             <marker>
                 <token postag="verb:fin:sg:ter:imperf:nonrefl">może</token>
             </marker>
@@ -6983,6 +6983,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="replace"><wd pos="qub" lemma="może"/></disambig>
         <example type="ambiguous" inputform="może[może/qub,móc/verb:fin:sg:ter:imperf:nonrefl]"
                  outputform="może[może/qub]">Chyba cioci dałby się <marker>może</marker> namówić, co?</example>
+        <example type="untouched">Zaczynam się zastanawiać dokąd ta rozmowa może prowadzić.</example>
     </rule>
 
     <rule id="moze_inf" name="może + bezokolicznik -> czasownik">
