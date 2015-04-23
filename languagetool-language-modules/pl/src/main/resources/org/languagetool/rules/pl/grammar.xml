@@ -1029,7 +1029,7 @@ $Id$
 				<rulegroup id="BRAK_PRZECINKA_JESLI" name="Brak przecinka przed „jeśli”, „jeżeli”, „gdyby” itd.">
 						<rule>
 								<pattern>
-										<token inflected="yes" negate="yes" regexp="yes">&interp;<exception regexp="yes">który|jaki|zwłaszcza|szczególnie|nawet|niemniej|przecież|wówczas|może|otóż|przynajmniej|jednak(?:że)?</exception><exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
+										<token inflected="yes" negate="yes" regexp="yes">&interp;<exception regexp="yes">który|jaki|zwłaszcza|szczególnie|nawet|niemniej|przecież|wówczas|może|otóż|przynajmniej|jednak(?:że)?</exception><exception postag="SENT_START|conj|comp" postag_regexp="yes"/><exception>jak</exception></token>
 										<token regexp="yes">(jeśli|jeżeli|gdyby|jeżeliby|jeśliby)(ś|śmy|ście|m)*</token>
 								</pattern>
 								<message>Przed tym spójnikiem stawiamy przecinek:<suggestion>\1, \2</suggestion>.</message>
@@ -1044,7 +1044,7 @@ $Id$
 								<pattern>
 										<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
 										<token inflected="yes" regexp="yes">a|ale|lecz|który|jaki|zwłaszcza|jak|szczególnie|że|nawet|więc|jednak(:?że)?</token>
-										<token regexp="yes">(jeśli|jeżeli|jeżeliby|jeśliby|zanim)(ś|śmy|ście|m)*</token>
+										<token regexp="yes">(jeśli|jeżeli|jeżeliby|jeśliby|gdyby|zanim)(ś|śmy|ście|m)*</token>
 								</pattern>
 								<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>

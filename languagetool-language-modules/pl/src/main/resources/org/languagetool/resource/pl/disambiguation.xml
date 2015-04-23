@@ -5119,6 +5119,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
+    <rule id="stanie_sie_adj" name="stanie się jasne -> verb">
+        <pattern>
+            <marker>
+                <token postag="verb:fin:sg:ter:perf:refl">stanie</token>
+                <token postag="qub">się</token>
+                <token postag="adj:sg:nom.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
 
     <rulegroup id="BRATA_SUBST" name="„brata” itp. jako rzeczownik">
         <rule>
