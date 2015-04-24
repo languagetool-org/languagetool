@@ -22,6 +22,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 import javax.swing.BorderFactory;
@@ -44,8 +45,7 @@ import org.languagetool.language.Contributor;
  */
 public class AboutDialog {
 
-  protected final ResourceBundle messages;
-
+  private final ResourceBundle messages;
   private final Component parent;
 
   public AboutDialog(final ResourceBundle messages, Component parent) {
@@ -100,7 +100,7 @@ public class AboutDialog {
 
     maintainersPane.setText(getMaintainers());
 
-    int maxHeight = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height / 2;
+    int maxHeight = Toolkit.getDefaultToolkit().getScreenSize().height / 2;
     if(maintainersPane.getPreferredSize().height > maxHeight) {
       maintainersPane.setPreferredSize(
                 new Dimension(maintainersPane.getPreferredSize().width, maxHeight));
