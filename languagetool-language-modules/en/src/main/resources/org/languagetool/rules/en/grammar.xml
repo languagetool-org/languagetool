@@ -6461,6 +6461,18 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+        <rule id="LEARN_NNNNS_ON_DO" name="wrong preposition: 'learn sth on do' (to do)">
+            <pattern>
+                <token inflected='yes'>learn</token>
+                <token postag='NN|NNS' postag_regexp='yes'><exception>tool</exception></token>
+                <marker>
+                    <token postag='IN'><exception>to</exception></token>
+                </marker>
+                <token postag='VB'></token>
+            </pattern>
+            <message>Did you mean <suggestion>to</suggestion>?</message>
+            <example correction='to'>We can learn ways <marker>on</marker> manage complex relationships with colleagues.</example>
+        </rule> 
         <rule id="ESSENTIAL_ESSENTIALLY" name="essentially" >
             <pattern>
                 <marker>
