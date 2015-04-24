@@ -3625,6 +3625,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="mocnieć"/></disambig>
     </rule>
 
+    <rule id="MUSI" name="musi to nie muszy">
+        <pattern>
+            <marker><token>musi</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="muszy"/></disambig>
+    </rule>
+
     <rule id="NACZYN" name="naczyń to nie czasownik">
         <pattern>
             <token>naczyń</token>
@@ -6567,8 +6574,8 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule name="mam coś" id="mam_verb">
         <pattern>
-            <token postag="verb:fin:sg:pri:imperf:refl.nonrefl">mam</token>
-            <token postag="subst.*acc.*" postag_regexp="yes"/>
+            <token postag="verb:fin:sg:(pri|ter):imperf:refl.nonrefl" postag_regexp="yes" regexp="yes">mam?</token>
+            <token postag="(subst|adj|pact|ppas).*acc.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="Mam[mama/subst:pl:gen:f,mamić/verb:impt:sg:sec:imperf:refl.nonrefl,mieć/verb:fin:sg:pri:imperf:refl.nonrefl]"
