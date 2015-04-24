@@ -3009,6 +3009,7 @@ $Id$
                 <short>Error de concordança</short>
                 <example correction="Calien"><marker>Calia</marker> accions contundents.</example>
                 <example>calen accions</example>
+                <example>Cal massa temps per a carregar.</example>
             </rule>
 			<rule>
 			    <pattern>
@@ -11264,7 +11265,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception>que</exception></token>
+                    <token><exception regexp="yes">que|ho</exception></token>
                     <token inflected="yes" regexp="yes">no|voler|desitjar</token>
                     <token inflected="yes" regexp="yes">saber|entendre|comprendre</token>
                     <marker>
@@ -25937,15 +25938,21 @@ $Id$
             <example correction="tindrà efecte|produirà efecte|farà efecte|donarà resultat|esdevindrà efectiu|esdevindrà efectiva">la vacuna <marker>sortirà efecte</marker> al cap d'una setmana</example>
             <example>la vacuna <marker>farà efecte</marker> al cap d'una setmana</example>
         </rule>
-        <rule id="STATU_QUO" name="statu/*estatus quo">
+        <rule id="STATU_QUO" name="variants incorrectes de 'statu quo'">
+            <antipattern>
+                <marker>
+                    <token>statu</token>
+                    <token>quo</token>
+                </marker>
+            </antipattern>
             <pattern>
-                <token regexp="yes">estatus|estatu|status</token>
-                <token>quo</token>
+                <token regexp="yes">status|estatu|estatus|statu</token>
+                <token regexp="yes">quo|cuo</token>
             </pattern>
-            <message>Cal dir <suggestion>statu quo</suggestion>.</message>
-            <short>Expressió incorrecta</short>
-            <example correction="statu quo"><marker>estatus quo</marker></example>
-            <example>statu quo</example>
+            <message>Ortografia incorrecta</message>
+            <suggestion>statu quo</suggestion>
+            <example correction="statu quo">Volien canviar l'<marker>status quo</marker>.</example>
+            <example>Canviem l'statu quo.</example>
         </rule>
         <rulegroup id="UNA_VEGADA_I_UNA_ALTRA" name="una i altra vegada/una vegada i una altra">
             <rule>
@@ -31377,6 +31384,19 @@ $Id$
             <example correction="No hi ha temps|No (tenir) temps"><marker>No dóna temps</marker>.</example>
             <example correction="No hi ha temps|No (tenir) temps"><marker>No em dóna temps</marker> de fer-ho.</example>
         </rule> -->
+        <rule id="MIMAR" name="mimar">
+            <pattern>
+                <marker>
+                    <token postag="(V.*)" postag_regexp="yes" inflected="yes">mimar</token>
+                </marker>
+            </pattern>
+            <message>Val més usar una altra paraula. És correcte en el sentit de "imitar com fa un mim".</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">consentir</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">aviciar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">amanyagar</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/2047</url>
+            <example correction="consentit|aviciat|amanyagat">És un nen <marker>mimat</marker> sempre per la seguretat.</example>
+        </rule>
         <rule id="ACOLLONAR" name="acollonar/acollonir" >
             <pattern>
                 <marker>
