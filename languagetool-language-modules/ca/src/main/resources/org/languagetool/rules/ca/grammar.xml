@@ -9513,13 +9513,14 @@ $Id$
                 <pattern>
                     <token postag="SENT_START"/>
                     <token>l</token>
-                    <token><exception postag="[NA].*" postag_regexp="yes"/></token>
+                    <token><exception postag="[NA].*" postag_regexp="yes"/><exception>.</exception></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>El <match no="3" /></suggestion>?</message>
                 <suggestion>La <match no="3" /></suggestion>
                 <short>Possible confusió</short>
                 <example correction="El que|La que"><marker>L que</marker> m'interessa.</example>
                 <example>La L representa la inductància.</example>
+                <example>L. van Beethoven</example>
             </rule>
             <rule id="L_A_LA" name="l a/la">
                 <pattern>
@@ -19910,57 +19911,97 @@ $Id$
             <example correction="sol·licitud">La <marker>soŀlicitud</marker>.</example>
             <example>la sol·licitud</example>
         </rule>
-        <rule id="ESPAI_DESPRES_DE_PUNT" name="Comprova que hi ha espai deprés de punt.">
-        	<antipattern>
-        		<marker>
-        			<token>.</token>
-                    <token spacebefore="no" postag="UNKNOWN" regexp="yes">\p{Ll}.+</token>
-        		</marker>
-        	</antipattern>
-        	<antipattern>
-        		<marker>
-        			<token>www</token>
-        			<token spacebefore="no">.</token>
-        			<token spacebefore="no"/>
-        		</marker>
-        	</antipattern>
-        	<antipattern>
-        		<marker>
-        			<token spacebefore="no">.</token>
-        			<token spacebefore="no"/>
-        			<token spacebefore="no">.</token>
-        			<token spacebefore="no"/>
-        		</marker>
-        	</antipattern>
-            <pattern>
-                <marker>
-                    <token regexp="yes">[.!?…]<exception postag="SENT_END"/></token>
-                    <!-- Eliminats d'excepcions: li, la, ai, al, vi, ve, va, vg, us, si, se, bo, be, ca -->
-                    <token spacebefore="no" regexp="yes">([\p{L}·'-]{2,}|[¿¡])<exception postag="SENT_END"/><exception regexp="yes">zip|jpg|jpeg|exe|php|jar|java|css|html?|ini|xml|csv|png</exception><exception regexp="yes">(?-i)com|ac|ad|ae|aero|af|ag|am|an|ao|aq|ar|arpa|as|asia|at|au|aw|ax|az|ba|bb|bd|bf|bg|bh|bi|biz|bj|bm|bn|br|bs|bt|bv|bw|by|bz|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|coop|cr|cu|cv|cw|cx|cy|cz|de|dj|dk|dm|do|dz|ec|edu|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gov|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|info|int|io|iq|ir|is|it|je|jm|jo|jobs|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|lb|lc|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mil|mk|ml|mm|mn|mo|mobi|mp|mq|mr|ms|mt|mu|museum|mv|mw|mx|my|mz|na|name|nc|ne|net|nf|ng|ni|nl|no|np|nr|nu|nz|om|org|pa|pe|pf|pg|ph|pk|pl|pm|pn|post|pr|pro|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|sg|sh|sj|sk|sl|sm|sn|so|sr|st|su|sv|sx|sy|sz|tc|td|tel|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|travel|tt|tv|tw|tz|ua|ug|uk|uy|uz|vc|vn|vu|wf|ws|xn|xxx|ye|yt|za|zm|zw</exception></token>
-                </marker>
-            </pattern>
-            <message>Falta un espai després del punt.</message>
-            <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
-            <short>Error tipogràfic</short>
-            <example correction=". Sempre">És així<marker>.sempre</marker>.</example>
-            <example correction=". Com">Vine<marker>.Com</marker> t'agrada?</example>
-            <example correction=". ¿">Vine<marker>.¿</marker>Com t'agrada?</example>
-            <example correction="? Sempre">És així<marker>?Sempre</marker>.</example>
-            <example correction="… Sempre">És així<marker>…Sempre</marker>!</example>
-            <example>És així. Sempre.</example>
-            <example>És així.</example>
-            <example>És així...</example>
-            <example>(És així...)</example>
-            <example>És així. </example>
-            <example>És així.» </example>
-            <example>Estelrich, etc., no hi</example>
-            <example>ha expressat [...] la necessitat</example>
-            <example>ha expressat […] la necessitat</example>
-            <example>o simplement ornamental.[1]</example>
-            <example>Benvinguts a valencianisme.com</example>
-            <example>Benvinguts a www.softcatala.org</example>
-            <example>El document no conté «maindoc.xml2».</example>
-        </rule>
+        <rulegroup id="ESPAI_DESPRES_DE_PUNT" name="Comprova que hi ha espai deprés de punt.">
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token>.</token>
+                        <token spacebefore="no" postag="UNKNOWN" regexp="yes">\p{Ll}.+</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>www</token>
+                        <token spacebefore="no">.</token>
+                        <token spacebefore="no"/>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token spacebefore="no">.</token>
+                        <token spacebefore="no" regexp="yes">\p{Ll}.+</token>
+                        <token spacebefore="no">.</token>
+                        <token spacebefore="no" regexp="yes">\p{Ll}.+</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[.!?…]<exception postag="SENT_END"/></token>
+                        <!-- Eliminats d'excepcions: li, la, ai, al, vi, ve, va, vg, us, si, se, bo, be, ca -->
+                        <token spacebefore="no" regexp="yes">([\p{L}·'-]{2,}|[¿¡])<exception regexp="yes">zip|jpg|jpeg|exe|php|jar|java|css|html?|ini|xml|csv|png</exception><exception regexp="yes">(?-i)com|ac|ad|ae|aero|af|ag|am|an|ao|aq|ar|arpa|as|asia|at|au|aw|ax|az|ba|bb|bd|bf|bg|bh|bi|biz|bj|bm|bn|br|bs|bt|bv|bw|by|bz|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|coop|cr|cu|cv|cw|cx|cy|cz|de|dj|dk|dm|do|dz|ec|edu|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gov|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|info|int|io|iq|ir|is|it|je|jm|jo|jobs|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|lb|lc|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mil|mk|ml|mm|mn|mo|mobi|mp|mq|mr|ms|mt|mu|museum|mv|mw|mx|my|mz|na|name|nc|ne|net|nf|ng|ni|nl|no|np|nr|nu|nz|om|org|pa|pe|pf|pg|ph|pk|pl|pm|pn|post|pr|pro|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|sg|sh|sj|sk|sl|sm|sn|so|sr|st|su|sv|sx|sy|sz|tc|td|tel|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|travel|tt|tv|tw|tz|ua|ug|uk|uy|uz|vc|vn|vu|wf|ws|xn|xxx|ye|yt|za|zm|zw</exception></token>
+                    </marker>
+                </pattern>
+                <message>Falta un espai després del punt.</message>
+                <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>
+                <example correction=". Sempre">És així<marker>.sempre</marker>.</example>
+                <example correction=". Com">Vine<marker>.Com</marker> t'agrada?</example>
+                <example correction=". ¿">Vine<marker>.¿</marker>Com t'agrada?</example>
+                <example correction="? Sempre">És així<marker>?Sempre</marker>.</example>
+                <example correction="… Sempre">És així<marker>…Sempre</marker>!</example>
+                <example correction=". Čerenkov">amb P.A<marker>.Čerenkov</marker></example>
+                <example>És així. Sempre.</example>
+                <example>És així.</example>
+                <example>És així...</example>
+                <example>(És així...)</example>
+                <example>És així. </example>
+                <example>És així.» </example>
+                <example>Estelrich, etc., no hi</example>
+                <example>ha expressat [...] la necessitat</example>
+                <example>ha expressat […] la necessitat</example>
+                <example>o simplement ornamental.[1]</example>
+                <example>Benvinguts a valencianisme.com</example>
+                <example>Benvinguts a www.softcatala.org</example>
+                <example>El document no conté «maindoc.xml2».</example>
+            </rule>
+            <rule id="P_EX" name="Comprova la puntuació en: p. ex.">
+                <antipattern case_sensitive="yes">
+                        <marker>
+                            <token regexp="yes">[Pp]</token>
+                            <token spacebefore="no">.</token>
+                            <token spacebefore="yes">ex</token>
+                            <token spacebefore="no">.</token>
+                        </marker>
+                    </antipattern>
+                <pattern>
+                    <marker>
+                        <token>p</token>
+                        <token min="0">.</token>
+                        <token regexp="yes">ex?</token>
+                        <token>.</token>
+                    </marker>
+                </pattern>
+                <message>Error de puntuació.</message>
+                <suggestion>p. ex.</suggestion>
+                <example correction="P. ex."><marker>P .ex.</marker> el camp.</example>
+                <example correction="P. ex."><marker>P.ex.</marker> el camp.</example>
+                <example correction="P. ex."><marker>P .ex .</marker> el camp.</example>
+                <example correction="P. ex."><marker>P ex .</marker> el camp.</example>
+                <example correction="p. ex.">(<marker>p .ex.</marker> el camp).</example>
+                <example correction="p. ex.">(<marker>p .e.</marker> el camp).</example>
+                <example>P. ex. el camp.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>.</token>
+                        <token spacebefore="no">von</token>
+                    </marker>
+                </pattern>
+                <message>Falta un espai després del punt.</message>
+                <suggestion><match no="1"/> <match no="2"/></suggestion>
+                <example correction=". von">Deixeble de C<marker>.von</marker> Sternberg.</example>
+            </rule>
+        </rulegroup>
         <rule id="PUNT_EN_ABREVIATURES" name="Comprova que hi ha punt en abreviatures: pàg., núm., etc.">
             <antipattern case_sensitive="yes">
                     <marker>
@@ -19983,33 +20024,6 @@ $Id$
             <example>Va ser l'any 453 dC, oi?</example>
             <example>En l'AP-7.</example>
             <example>El DJ va punxar tota la nit.</example>
-        </rule>
-        <rule id="P_EX" name="Comprova la puntuació en: p. ex.">
-            <antipattern case_sensitive="yes">
-                    <marker>
-                        <token regexp="yes">[Pp]</token>
-                        <token spacebefore="no">.</token>
-                        <token spacebefore="yes">ex</token>
-                        <token spacebefore="no">.</token>
-                    </marker>
-                </antipattern>
-            <pattern>
-                <marker>
-                    <token>p</token>
-                    <token min="0">.</token>
-                    <token regexp="yes">ex?</token>
-                    <token>.</token>
-                </marker>
-            </pattern>
-            <message>Error de puntuació.</message>
-            <suggestion>p. ex.</suggestion>
-            <example correction="P. ex."><marker>P .ex.</marker> el camp.</example>
-            <example correction="P. ex."><marker>P.ex.</marker> el camp.</example>
-            <example correction="P. ex."><marker>P .ex .</marker> el camp.</example>
-            <example correction="P. ex."><marker>P ex .</marker> el camp.</example>
-            <example correction="p. ex.">(<marker>p .ex.</marker> el camp).</example>
-            <example correction="p. ex.">(<marker>p .e.</marker> el camp).</example>
-            <example>P. ex. el camp.</example>
         </rule>
         <rule id="SEGLE" name="abreviatura de 'segle' amb punt">
             <pattern>
