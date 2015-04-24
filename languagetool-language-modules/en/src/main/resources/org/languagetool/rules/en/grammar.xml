@@ -6461,6 +6461,17 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+        <rule id="ON_ADDITION" name="wrong preposition: 'On addition' (In addition)">
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token postag='IN'><exception>in</exception></token>
+                </marker>
+                <token>addition</token>
+            </pattern>
+            <message>Did you mean <suggestion>in</suggestion>?</message>
+            <example correction='In'><marker>On</marker> addition, ...</example>
+        </rule>
         <rule id="LEARN_NNNNS_ON_DO" name="wrong preposition: 'learn sth on do' (to do)">
             <pattern>
                 <token inflected='yes'>learn</token>
