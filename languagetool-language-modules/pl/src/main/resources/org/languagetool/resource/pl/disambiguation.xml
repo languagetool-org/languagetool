@@ -4243,6 +4243,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig postag="subst:sg:gen:f"></disambig>
     </rule>
 
+    <rule id='ZNAJDZIE_VERB' name="znajdzie się -> verb">
+        <pattern>
+            <marker>
+                <token postag="verb:fin:sg:ter:perf:refl.nonrefl">znajdzie</token>
+                <token postag="qub">się</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rule id="ZOLCI_SUBST" name="żółci jako genetiwus">
         <pattern>
             <token regexp="yes" inflected="yes">odcień|kropla|smak|wytwarzanie|wydzielanie</token>

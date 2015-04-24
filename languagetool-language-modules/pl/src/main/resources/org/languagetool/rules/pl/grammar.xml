@@ -1882,6 +1882,20 @@ $Id$
 						<example>Lubię zarówno Lecha, jak i Jarosława.</example>
 						<example correction="Lecha, jak i">Lubię zarówno <marker>Lecha jak i</marker> Jarosława.</example>
 				</rule>
+            <rule id="IM_TYM" name="Brak przecinka wewnątrz spójnika „im..., tym”">
+                <pattern>
+                        <token skip="-1">im</token>
+                        <token postag="(adj|adv).*:com" postag_regexp="yes" skip="-1"></token>
+                    <marker>
+                        <token>tym<exception scope="previous">,</exception></token>
+                    </marker>
+                        <token postag="(adj|adv).*:com" postag_regexp="yes"></token>
+                </pattern>
+                <message>Brak przecinka: <suggestion>, tym</suggestion>.</message>
+                <short>Błąd interpunkcyjna</short>
+                <example>Im większa, tym lepiej.</example>
+                <example correction=", tym">Im większa<marker> tym</marker> lepiej.</example>
+            </rule>
 				<rulegroup id="ROWNIE_JAK" name="Brak przecinka w porównaniach typu „równie... jak”">
 						<rule>
 								<pattern>
