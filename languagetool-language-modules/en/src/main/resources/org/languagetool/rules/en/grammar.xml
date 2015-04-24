@@ -12088,6 +12088,16 @@ USA
         </rulegroup>
     </category>
     <category name="Commonly Confused Words" type="misspelling">
+        <rule id="LAWSUIT" name="law suit (lawsuit)" >
+            <pattern>
+                <marker>
+                    <token>law</token>
+                    <token inflected='yes' regexp="yes">suit|suite</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>law<match no="2" regexp_match="suite" regexp_replace="suit" /></suggestion>?</message>
+            <example correction="lawsuit">The plaintiff brought a <marker>law suit</marker> against the defendant</example>
+        </rule>
         <rule id="DEPENDENT" name="Dependent" >
             <pattern>
                 <marker>
