@@ -44,6 +44,9 @@ public class AccentuationCheckRuleTest extends TestCase {
 
     // correct sentences:
     //assertCorrect("A ponent continua la serra de Fontpobra");
+    assertCorrect("com a base de la categoria faria que els enllaços");
+    assertCorrect("De jove faria amistat amb ells");
+    assertCorrect("De jove tenia admiració");
     assertCorrect("Per tant, espero ansiós.");
     assertCorrect("M'espero qualsevol cosa.");
     assertCorrect("Carrega de nou l'arxiu.");
@@ -94,7 +97,7 @@ public class AccentuationCheckRuleTest extends TestCase {
     assertIncorrect("De positiva influencia en ell.");
     assertIncorrect("tren de llarga distancia");
 //    assertIncorrect("com la nostra pròpia desgracia");
-//  assertIncorrect("la seva influencia");
+//    assertIncorrect("la seva influencia");
     assertIncorrect("Cal una nova formula que substitueixi el caduc Estat del benestar.");
     assertIncorrect("Porta-la i nosaltres fem la copia i la compulsem.");
     assertIncorrect("Carrega d'arxius.");

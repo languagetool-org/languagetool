@@ -159,6 +159,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
   private static final Pattern TRENCA_COMPTE2 = Pattern.compile("SENT_START|CC|_PUNCT.*|.*LOC_CONJ.*");
   
   private static final List<String> partsCos = Arrays.asList("pit", "galta", "cap", "cor", "cara", "ull", "front", "mà", "peu", "braç", "colze", "genoll", "cabell", "llavi");
+  private static final List<String> contextBaixar = Arrays.asList("fitxer", "arxiu", "paquet", "instal·lació", "versió", "programa", "programari", "software", "virus", "antivirus", "URL", "web", "pàgina", "instal·lar");
   
   private static final List<String> pronomJo = Arrays.asList("jo");
  // <token postag="P0.*|PP.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception><exception postag="allow_saxon_genitive">'s</exception></token>
@@ -293,6 +294,8 @@ public class ReflexiveVerbsRule extends CatalanRule {
           continue loop;        
         if (!isThereReflexivePronoun(tokens, i)) 
           continue loop;
+        if (tokens[i].hasLemma("baixar") && isThereNearLemma (tokens, i, contextBaixar))
+            continue loop;
         //impersonal obligació: s'ha de baixar
         if (matchLemmaList(tokens[i],verbsNoPronominalsImpersonals2)
             && isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
