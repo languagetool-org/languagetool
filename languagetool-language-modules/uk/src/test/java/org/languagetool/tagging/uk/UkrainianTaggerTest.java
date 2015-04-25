@@ -199,7 +199,6 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("сліпуче-яскравого", "сліпуче-яскравого/[сліпуче-яскравий]adj:m:v_rod:compb|сліпуче-яскравого/[сліпуче-яскравий]adj:m:v_zna:compb|сліпуче-яскравого/[сліпуче-яскравий]adj:n:v_rod:compb", tokenizer, tagger);
     TestTools.myAssert("дво-триметровий", "дво-триметровий/[дво-триметровий]adj:m:v_naz|дво-триметровий/[дво-триметровий]adj:m:v_zna", tokenizer, tagger);
     TestTools.myAssert("україно-болгарський", "україно-болгарський/[україно-болгарський]adj:m:v_naz|україно-болгарський/[україно-болгарський]adj:m:v_zna", tokenizer, tagger);
-    TestTools.myAssert("греко-уніятський", "", tokenizer, tagger);
 
 //    TestTools.myAssert("американо-блакитний", "бірмюково-блакитний/[бірмюково-блакитний]adj:m:v_naz|бірмюково-блакитний/[бірмюково-блакитний]adj:m:v_zna", tokenizer, tagger);
 
