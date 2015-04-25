@@ -45,6 +45,8 @@ public class UkrainianSRXSentenceTokenizerTest extends TestCase {
     testSplit("300 р. до н. е.");
     testSplit("Пролісок (рос. пролесок) — маленька квітка.");
     testSplit("Квітка Цісик (англ. Kvitka Cisyk також Kacey Cisyk від ініціалів К.С.); 4 квітня 1953р., Квінз, Нью-Йорк — 29 березня 1998 р., Мангеттен, Нью-Йорк) — американська співачка українського походження.");
+    testSplit("До Інституту ім. Глієра під'їжджає чорне авто."); 
+    testSplit("До табору «Артек».");
   }
 
   private void testSplit(final String... sentences) {

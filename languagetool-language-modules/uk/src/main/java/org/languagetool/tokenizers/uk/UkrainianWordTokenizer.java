@@ -63,6 +63,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   // abbreviation dot
   //TODO: also use abbreviation list to allow next letter to be capital
   private static final Pattern ABBR_DOT_PATTERN = Pattern.compile("([а-яіїєґ])\\. ([а-яіїєґ])");
+  private static final Pattern ABBR_DOT_PATTERN2 = Pattern.compile("([Аа]кад|[Пп]роф|[Дд]оц|[Аа]сист|с|м|вул|о|р|ім)\\.\\s([А-ЯІЇЄҐ])");
   private static final char ABBR_DOT_SUBST = '\uE007';
   // ellipsis
   private static final String ELLIPSIS = "...";
@@ -84,6 +85,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
       text = DATE_PATTERN.matcher(text).replaceAll("$1" + DATE_DOT_SUBST + "$2" + DATE_DOT_SUBST + "$3");
       text = DOTTED_NUMBERS_PATTERN.matcher(text).replaceAll("$1" + NUMBER_DOT_SUBST + "$2");
       text = ABBR_DOT_PATTERN.matcher(text).replaceAll("$1" + ABBR_DOT_SUBST + " $2");
+      text = ABBR_DOT_PATTERN2.matcher(text).replaceAll("$1" + ABBR_DOT_SUBST + " $2");
     }
 
     if( text.contains(":") ) {

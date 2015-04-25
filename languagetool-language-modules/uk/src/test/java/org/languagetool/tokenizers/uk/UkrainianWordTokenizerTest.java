@@ -46,6 +46,9 @@ public class UkrainianWordTokenizerTest extends TestCase {
     testList = w.tokenize("І.\u00A0Єрмолюк.");
     assertEquals(Arrays.asList("І", ".", "\u00A0", "Єрмолюк", "."), testList);
 
+    testList = w.tokenize("300 грн. на балансі");
+    assertEquals(Arrays.asList("300", " ", "грн.", " ", "на", " ", "балансі"), testList);
+
     testList = w.tokenize("надійшло 2,2 мільйона");
     assertEquals(Arrays.asList("надійшло", " ", "2,2", " ", "мільйона"), testList);
 
@@ -72,6 +75,9 @@ public class UkrainianWordTokenizerTest extends TestCase {
 
     testList = w.tokenize("140 тис. працівників");
     assertEquals(Arrays.asList("140", " ", "тис.", " ", "працівників"), testList);
+
+    testList = w.tokenize("проф. Артюхов");
+    assertEquals(Arrays.asList("проф.", " ", "Артюхов"), testList);
   }
 
 }
