@@ -179,8 +179,9 @@ for line in sys.stdin:
    if not ":anim" in line:
      line = line + ":inanim"
 
- if re.search(" (noun|adj|verb|pron)", line):
-   line = re_sub(":[mnf]:", ":s\g<0>", line)
+ # this breaks dynamic tagger which only expects [mnfp] not [mnf]:s
+# if re.search(" (noun|adj|verb|pron)", line):
+#   line = re_sub(":[mnf]:", ":s\g<0>", line)
 
 
  new_lines.append(line)
@@ -196,7 +197,8 @@ for line in sys.stdin:
    elif "adj" in line2 and ("comp" in line2 or "super" in line2):
      tag = re_sub("(adjp?)(.*):(comp[br]|super)(.*)", "\\1:\\3\\2\\4", tag)
 
-   line2 = parts[1] + ' ' + parts[0] + ' ' +  tag
+   if not "-lt" in sys.argv:
+     line2 = parts[1] + ' ' + parts[0] + ' ' +  tag
 
    lines.append(line2)
 
