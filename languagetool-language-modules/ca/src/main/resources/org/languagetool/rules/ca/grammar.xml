@@ -14207,6 +14207,28 @@ $Id$
                 <example correction="Centreamèrica">Ve de <marker>Centre-amèrica</marker>.</example>
                 <example>Vol posar al centre Amèrica.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>ex</token>
+                    <token postag="[NA].*|V.P.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*|primer(a|s|es)?|alts?|x.+</exception></token>
+                </pattern>
+                <message>Normalment s'escriu junt.</message>
+                <suggestion><match no="1"/><match no="3"/></suggestion>
+                <url>http://www.iecat.net/institucio/seccions/Filologica/llenguacatalana/documentsnormatius/docsf5.htm</url>
+                <example correction="exmarit">Del meu <marker>ex marit</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ex</token>
+                    <token postag="[NA].*|V.P.*|RG" postag_regexp="yes" regexp="yes">\p{Lu}.*|primer(a|s|es)?|alts?|x.+</token>
+                </pattern>
+                <message>Normalment s'escriu amb guionet o junt.</message>
+                <suggestion><match no="1"/>-<match no="3"/></suggestion>
+                <url>http://www.iecat.net/institucio/seccions/Filologica/llenguacatalana/documentsnormatius/docsf5.htm</url>
+                <example correction="ex-primer">És l'<marker>ex primer</marker> ministre.</example>
+                <example correction="ex-Iugoslàvia">És de l'<marker>ex Iugoslàvia</marker>.</example>
+                <example>És l'ex-xicot.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CONTRACCIONS" name="contraccions">
             <rule>
