@@ -90,6 +90,11 @@ public class UkrainianTagger extends BaseTagger {
   private static final Map<String, Pattern> rightPartsWithLeftTagMap = new HashMap<>();
   private static final Set<String> slaveSet;
   
+  private List<String> LEFT_O_ADJ = Arrays.asList(
+    "австро", "адиго", "американо", "англо", "афро", "еко", "етно", "індо", "іспано", "києво", 
+    "марокано", "угро"
+  ); 
+  
   private static final Map<String, List<String>> NUMR_ENDING_MAP;
   private BufferedWriter compoundUnknownDebugWriter;
   private BufferedWriter compoundTaggedDebugWriter;
@@ -121,7 +126,7 @@ public class UkrainianTagger extends BaseTagger {
 //    map2.put("тою", Arrays.asList(":f:v_oru"));
     map2.put("те", Arrays.asList(":n:v_naz", ":n:v_zna"));
     map2.put("ті", Arrays.asList(":p:v_naz", ":p:v_zna"));
-//    map2.put("тих", Arrays.asList(":p:v_rod", ":p:v_zna"));
+    map2.put("х", Arrays.asList(":p:v_rod", ":p:v_zna"));
     NUMR_ENDING_MAP = Collections.unmodifiableMap(map2);
     
     rightPartsWithLeftTagMap.put("бо", Pattern.compile("(verb(:rev)?:impr|.*pron|noun|adv|excl|part|predic).*"));
@@ -205,11 +210,7 @@ public class UkrainianTagger extends BaseTagger {
     String leftWord = word.substring(0, dashIdx);
     String rightWord = word.substring(dashIdx + 1);
 
-    List<TaggedWord> leftWdList = wordTagger.tag(leftWord);
-    String leftLowerCase = leftWord.toLowerCase(conversionLocale);
-    if( ! leftWord.equals(leftLowerCase)) {
-      leftWdList.addAll(wordTagger.tag(leftLowerCase));
-    }
+    List<TaggedWord> leftWdList = tagBothCases(leftWord);
 
     if( rightPartsWithLeftTagMap.containsKey(rightWord) ) {
       if( leftWdList.isEmpty() )
@@ -229,10 +230,37 @@ public class UkrainianTagger extends BaseTagger {
       return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;
     }
 
+    if( NUMBER.matcher(leftWord).matches() ) {
+      List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
+      // e.g. 101-го
+      if( NUMR_ENDING_MAP.containsKey(rightWord) ) {
+        List<String> tags = NUMR_ENDING_MAP.get(rightWord);
+        for (String tag: tags) {
+          // TODO: shall it be numr or adj?
+          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.adj.getText()+tag, leftWord + "-" + "й"));
+        }
+      }
+      else {
+        List<TaggedWord> rightWdList = wordTagger.tag(rightWord);
+        if( rightWdList.isEmpty() )
+          return null;
+
+        List<AnalyzedToken> rightAnalyzedTokens = asAnalyzedTokenListForTaggedWords(rightWord, rightWdList);
+
+        // e.g. 100-річному
+        for (AnalyzedToken analyzedToken : rightAnalyzedTokens) {
+          if( analyzedToken.getPOSTag().startsWith(IPOSTag.adj.getText()) ) {
+            newAnalyzedTokens.add(new AnalyzedToken(word, analyzedToken.getPOSTag(), leftWord + "-" + analyzedToken.getLemma()));
+          }
+        }
+      }
+      return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;
+    }
+
     if( leftWord.equalsIgnoreCase("по") && rightWord.endsWith("ськи") ) {
       rightWord += "й";
     }
-    
+
     List<TaggedWord> rightWdList = wordTagger.tag(rightWord);
     if( rightWdList.isEmpty() )
       return null;
@@ -247,27 +275,6 @@ public class UkrainianTagger extends BaseTagger {
         return poAdvMatch(word, rightAnalyzedTokens, ADJ_TAG_FOR_PO_ADV_NAZ);
       }
       return null;
-    }
-
-    if( NUMBER.matcher(leftWord).matches() ) {
-      List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(rightAnalyzedTokens.size());
-      // e.g. 101-го
-      if( NUMR_ENDING_MAP.containsKey(rightWord) ) {
-        List<String> tags = NUMR_ENDING_MAP.get(rightWord);
-        for (String tag: tags) {
-          // TODO: shall it be numr or adj?
-          newAnalyzedTokens.add(new AnalyzedToken(word, IPOSTag.adj.getText()+tag, leftWord + "-" + "й"));
-        }
-      }
-      else {
-        // e.g. 100-річному
-        for (AnalyzedToken analyzedToken : rightAnalyzedTokens) {
-          if( analyzedToken.getPOSTag().startsWith(IPOSTag.adj.getText()) ) {
-            newAnalyzedTokens.add(new AnalyzedToken(word, analyzedToken.getPOSTag(), leftWord + "-" + analyzedToken.getLemma()));
-          }
-        }
-      }
-      return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;
     }
 
     if( dashPrefixes.contains( leftWord ) || dashPrefixes.contains( leftWord.toLowerCase() ) ) {
@@ -320,6 +327,26 @@ public class UkrainianTagger extends BaseTagger {
     debug_compound_unknown_write(word);
     
     return null;
+  }
+
+  private List<TaggedWord> tagBothCases(String leftWord) {
+    List<TaggedWord> leftWdList = wordTagger.tag(leftWord);
+    String leftLowerCase = leftWord.toLowerCase(conversionLocale);
+    if( ! leftWord.equals(leftLowerCase)) {
+      leftWdList.addAll(wordTagger.tag(leftLowerCase));
+    }
+    else {
+      String leftUpperCase = capitalize(leftWord);
+      if( ! leftWord.equals(leftUpperCase)) {
+        leftWdList.addAll(wordTagger.tag(leftUpperCase));
+      }
+    }
+
+    return leftWdList;
+  }
+
+  private String capitalize(String word) {
+    return word.substring(0, 1).toUpperCase(conversionLocale) + word.substring(1, word.length());
   }
 
   private List<AnalyzedToken> cityAvenueMatch(String word, List<AnalyzedToken> leftAnalyzedTokens) {
@@ -581,6 +608,14 @@ public class UkrainianTagger extends BaseTagger {
 
   private List<AnalyzedToken> oAdjMatch(String word, List<AnalyzedToken> analyzedTokens, String leftWord) {
     List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(analyzedTokens.size());
+
+    String leftBase = leftWord.substring(0, leftWord.length()-1);
+    if( ! LEFT_O_ADJ.contains(leftWord.toLowerCase(conversionLocale))
+        && tagBothCases(leftWord).isEmpty()            // яскраво для яскраво-барвистий
+        && tagBothCases(oToYj(leftWord)).isEmpty()  // кричущий для кричуще-яскравий
+        && tagBothCases(leftBase).isEmpty()         // паталог для паталого-анатомічний
+        && tagBothCases(leftBase + "а").isEmpty() ) // два для дво-триметровий
+      return null;
     
     for (AnalyzedToken analyzedToken : analyzedTokens) {
       String posTag = analyzedToken.getPOSTag();
@@ -590,6 +625,12 @@ public class UkrainianTagger extends BaseTagger {
     }
     
     return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;
+  }
+
+  private static String oToYj(String leftWord) {
+    return leftWord.endsWith("ьо") 
+        ? leftWord.substring(0, leftWord.length()-2) + "ій" 
+        : leftWord.substring(0,  leftWord.length()-1) + "ий";
   }
 
   private List<AnalyzedToken> getNvPrefixNounMatch(String word, List<AnalyzedToken> analyzedTokens, String leftWord) {
