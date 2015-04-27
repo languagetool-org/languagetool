@@ -32,7 +32,7 @@ public class MachineLearningTest {
   
   @Test
   public void test() throws IOException {
-    MachineLearning ml = new MachineLearning();
+    MachineLearning ml = new MachineLearning(3);
     // XOR:
     ml.addData(0, 0, 0, 0);
     ml.addData(1, 1, 0, 0);

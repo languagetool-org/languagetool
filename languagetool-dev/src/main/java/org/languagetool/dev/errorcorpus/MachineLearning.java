@@ -44,7 +44,12 @@ class MachineLearning implements AutoCloseable {
   private static final double MAX_ITERATIONS = 10_000;
 
   private final MLDataSet trainingSet = new BasicMLDataSet();
+  private final int neurons;
   
+  MachineLearning(int neurons) {
+    this.neurons = neurons;
+  }
+
   void addData(double idealValue, double... input) {
     BasicMLData idealData = new BasicMLData(new double[] {idealValue});
     trainingSet.add(new BasicMLData(input), idealData);
@@ -52,7 +57,7 @@ class MachineLearning implements AutoCloseable {
   
   void train(File outputFile) throws IOException {
     BasicNetwork network = new BasicNetwork();
-    network.addLayer(new BasicLayer(null, true, 3));
+    network.addLayer(new BasicLayer(null, true, neurons));
     network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 4));
     network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 1));
     network.getStructure().finalizeStructure();

@@ -27,13 +27,11 @@ import org.languagetool.dev.eval.FMeasure;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
-import org.languagetool.tools.StringTools;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -50,9 +48,11 @@ class WikipediaTrainingDataGenerator {
   private static final String TOKEN = "there";
   private static final String TOKEN_HOMOPHONE = "their";
   private static final String NEURAL_NETWORK_OUTPUT = "/tmp/languagetool_network.net";
-  private static final int MAX_SENTENCES = 100;  // TODO
+  private static final int MAX_SENTENCES_CORRECT = 100;  // TODO
+  private static final int MAX_SENTENCES_ERROR = 100;  // use a higher number than for MAX_SENTENCES_CORRECT to tune for precision
   private static final int ITERATIONS = 1;
   private static final float TEST_SET_FACTOR = 0.2f;
+  private static final int FEATURES = 5;
   
   private final EnglishWordTokenizer tokenizer = new EnglishWordTokenizer();
   private final Language language;
@@ -65,25 +65,25 @@ class WikipediaTrainingDataGenerator {
 
   private void run(File corpusFile, String token, String homophoneToken) throws IOException {
 
-    List<Sentence> allSentences = getRelevantSentences(corpusFile, token, MAX_SENTENCES);
+    List<Sentence> allSentences = getRelevantSentences(corpusFile, token, MAX_SENTENCES_CORRECT);
     ListSplit<Sentence> split = split(allSentences, TEST_SET_FACTOR);
     List<Sentence> trainingSentences = split.trainingList;
     List<Sentence> testSentences = split.testList;
     System.out.println("Found " + trainingSentences.size() + " training sentences with '" + token + "'");
-    System.out.println("Found " + testSentences.size() + " with '" + token + "'");
+    System.out.println("Found " + testSentences.size() + " test sentences with '" + token + "'");
 
-    // Load the sentences with a homophone to 'token' and later replace it with 'token' so we get error sentences:
-    List<Sentence> allHomophoneSentences = getRelevantSentences(corpusFile, homophoneToken, MAX_SENTENCES);
+    // Load the sentences with a homophone to and later replace it so we get error sentences:
+    List<Sentence> allHomophoneSentences = getRelevantSentences(corpusFile, homophoneToken, MAX_SENTENCES_ERROR);
     ListSplit<Sentence> homophoneSplit = split(allHomophoneSentences, TEST_SET_FACTOR);
     List<Sentence> homophoneTrainingSentences = homophoneSplit.trainingList;
     List<Sentence> homophoneTestSentences = homophoneSplit.testList;    
     System.out.println("Found " + homophoneTrainingSentences.size() + " training sentences with '" + homophoneToken + "' (will be turned into errors)");
-    System.out.println("Found " + homophoneTestSentences.size() + " with '" + homophoneToken + "'");
+    System.out.println("Found " + homophoneTestSentences.size() + " test sentences with '" + homophoneToken + "'");
     
     for (int i = 0; i < ITERATIONS; i++) {
       System.out.println("===== Iteration " + i + " ===========================================================");
       //Collections.shuffle(sentences);  // TODO: shuffle all...
-      try (MachineLearning machineLearning = new MachineLearning()) {
+      try (MachineLearning machineLearning = new MachineLearning(FEATURES)) {
         trainSentences(token, token, trainingSentences, machineLearning, 1);  // correct sentences
         trainSentences(homophoneToken, token, homophoneTrainingSentences, machineLearning, 0); // incorrect sentences
         System.out.println("Training neural network (" + new Date() + ")...");
@@ -118,17 +118,21 @@ class WikipediaTrainingDataGenerator {
     int truePositives = 0;
     int falsePositives = 0;
     int falseNegatives = 0;
-    try (MachineLearning machineLearning = new MachineLearning()) {
+    try (MachineLearning machineLearning = new MachineLearning(FEATURES)) {
       BasicNetwork loadedNet = (BasicNetwork) machineLearning.load(new File(NEURAL_NETWORK_OUTPUT));
       for (ValidationSentence sentence : sentences) {
         boolean expectCorrect = sentence.isCorrect;
         String textToken = expectCorrect ? token : homophoneToken;
-        List<String> context = getContext(sentence.sentence, textToken, token);
-        double[] features = getFeatures(context);
+        //List<String> context = getContext(sentence.sentence, textToken, token);
+        //double[] features = getFeatures(context);
+        double[] features = getFeatures2(sentence.sentence, textToken, token);
         BasicMLData data = new BasicMLData(features);
-        boolean consideredCorrect = loadedNet.compute(data).getData(0) > 0.5f;
-        System.out.println("cross val " + asString(consideredCorrect) + ", expected "  + asString(expectCorrect) + ": " 
-                + sentence.sentence.toString().replaceFirst(textToken, "**" + token + "**"));
+        double result = loadedNet.compute(data).getData(0);
+        String resultStr = String.format("%.2f", result);
+        boolean consideredCorrect = result > 0.5f;
+        String sentenceStr = sentence.sentence.toString().replaceFirst(textToken, "**" + token + "**");
+        System.out.println("[" + featuresToString(features) + "] " + resultStr + " cross val " + asString(consideredCorrect) +
+                ", expected " + asString(expectCorrect) + ": " + sentenceStr);
         if (consideredCorrect && expectCorrect) {
           truePositives++;
         } else if (!consideredCorrect && expectCorrect) {
@@ -172,11 +176,17 @@ class WikipediaTrainingDataGenerator {
 
   private void trainSentences(String token, String newToken, List<Sentence> sentences, MachineLearning machineLearning, float targetValue) {
     for (Sentence sentence : sentences) {
-      List<String> context = getContext(sentence, token, newToken);
-      double[] features = getFeatures(context);
-      machineLearning.addData(targetValue, features);
-      String featuresStr = featuresToString(features);
-      System.out.printf(targetValue + " [" + featuresStr + "] " + StringTools.listToString(context, " ") + "\n");
+      try {
+        //List<String> context = getContext(sentence, token, newToken);
+        //double[] features = getFeatures(context);
+        double[] features = getFeatures2(sentence, token, newToken);
+        machineLearning.addData(targetValue, features);
+        String featuresStr = featuresToString(features);
+        //System.out.printf(targetValue + " [" + featuresStr + "] " + StringTools.listToString(context, " ") + "\n");
+        System.out.println(targetValue + " [" + featuresStr + "] " + sentence.getText().replaceFirst(token, "**" + newToken + "**"));
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
   }
 
@@ -186,9 +196,49 @@ class WikipediaTrainingDataGenerator {
       sb.append(String.format("%.3f", feature));
       sb.append(" ");
     }
-    return sb.toString();
+    return sb.toString().trim();
   }
 
+  private int getLastPosition(Sentence sentence, String token) {
+    String plainText = sentence.getText();
+    List<String> tokens = removeWhitespaceTokens(tokenizer.tokenize(plainText));
+    int i = 0;
+    int pos = -1;
+    for (String t : tokens) {
+      if (t.equals(token)) {
+        pos = i;
+      }
+      i++;
+    }
+    if (pos == -1) {
+      throw new RuntimeException("Not found: '" + token + "' in: '" +  plainText + "'");
+    }
+    return pos;
+  }
+
+  private List<String> getContext(Sentence sentence, int pos, String newToken, int toLeft, int toRight) {
+    String plainText = sentence.getText();
+    List<String> tokens = removeWhitespaceTokens(tokenizer.tokenize(plainText));
+    List<String> result = new ArrayList<>();
+    for (int i = 1; i > 0 && i <= toLeft; i++) {
+      if (pos-i < 0 ) {
+        result.add(LanguageModel.GOOGLE_SENTENCE_START);  // NOTE: only in v2 of the data!
+      } else {
+        result.add(tokens.get(pos-i));
+      }
+    }
+    result.add(newToken);
+    for (int i = 1; i <= toRight; i++) {
+      if (pos + i >= tokens.size() - 1) {
+        result.add(LanguageModel.GOOGLE_SENTENCE_END);  // NOTE: only in v2 of the data!
+      } else {
+        result.add(tokens.get(pos + i));
+      }
+    }
+    //System.out.println(pos + " l:" + toLeft + " r:" + toRight + " ==> " + result);
+    return result;
+  }
+  
   private List<String> getContext(Sentence sentence, String token, String newToken) {
     String plainText = sentence.getText();
     List<String> tokens = removeWhitespaceTokens(tokenizer.tokenize(plainText));
@@ -231,6 +281,40 @@ class WikipediaTrainingDataGenerator {
     // for testing:
     //return new double[] {ngram2LeftNorm, ngram2RightNorm, 1.0};
     //return new double[] {ngram2LeftNorm, 1.0, 1.0};
+  }
+
+  private double[] getFeatures2(Sentence sentence, String token, String newToken) {
+    long maxVal = 123200814; // TODO: find this automatically
+
+    int position = getLastPosition(sentence, token);
+
+    //System.out.println("==============");
+    //System.out.println(sentence.getText());
+    double ngram2Left = getCountForTuple(getContext(sentence, position, newToken, 1, 0), maxVal);
+    double ngram2Right = getCountForTuple(getContext(sentence, position, newToken, 0, 1), maxVal);
+
+    double ngram3Left = getCountForTriple(getContext(sentence, position, newToken, 0, 2), maxVal);
+    double ngram3Middle = getCountForTriple(getContext(sentence, position, newToken, 1, 1), maxVal);
+    double ngram3Right = getCountForTriple(getContext(sentence, position, newToken, 2, 0), maxVal);
+
+    //return new double[] {ngram2Left, ngram2Right, ngram3Middle};  // same as getFeatures()
+    return new double[] {ngram2Left, ngram2Right, ngram3Middle, ngram3Left, ngram3Right};
+  }
+
+  private double getCountForTuple(List<String> context, long maxVal) {
+    if (context.size() != 2) {
+      throw new IllegalArgumentException("Context size != 2: " + context.size());
+    }
+    long result = languageModel.getCount(context.get(0), context.get(1));
+    return (double)result / maxVal;
+  }
+
+  private double getCountForTriple(List<String> context, long maxVal) {
+    if (context.size() != 3) {
+      throw new IllegalArgumentException("Context size != 3: " + context.size());
+    }
+    long result = languageModel.getCount(context.get(0), context.get(1), context.get(2));
+    return (double)result / maxVal;
   }
 
   private List<String> removeWhitespaceTokens(List<String> tokens) {
