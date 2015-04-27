@@ -123,8 +123,6 @@ class WikipediaTrainingDataGenerator {
       for (ValidationSentence sentence : sentences) {
         boolean expectCorrect = sentence.isCorrect;
         String textToken = expectCorrect ? token : homophoneToken;
-        //List<String> context = getContext(sentence.sentence, textToken, token);
-        //double[] features = getFeatures(context);
         double[] features = getFeatures2(sentence.sentence, textToken, token);
         BasicMLData data = new BasicMLData(features);
         double result = loadedNet.compute(data).getData(0);
@@ -177,12 +175,9 @@ class WikipediaTrainingDataGenerator {
   private void trainSentences(String token, String newToken, List<Sentence> sentences, MachineLearning machineLearning, float targetValue) {
     for (Sentence sentence : sentences) {
       try {
-        //List<String> context = getContext(sentence, token, newToken);
-        //double[] features = getFeatures(context);
         double[] features = getFeatures2(sentence, token, newToken);
         machineLearning.addData(targetValue, features);
         String featuresStr = featuresToString(features);
-        //System.out.printf(targetValue + " [" + featuresStr + "] " + StringTools.listToString(context, " ") + "\n");
         System.out.println(targetValue + " [" + featuresStr + "] " + sentence.getText().replaceFirst(token, "**" + newToken + "**"));
       } catch (Exception e) {
         e.printStackTrace();
@@ -235,61 +230,14 @@ class WikipediaTrainingDataGenerator {
         result.add(tokens.get(pos + i));
       }
     }
-    //System.out.println(pos + " l:" + toLeft + " r:" + toRight + " ==> " + result);
     return result;
   }
   
-  private List<String> getContext(Sentence sentence, String token, String newToken) {
-    String plainText = sentence.getText();
-    List<String> tokens = removeWhitespaceTokens(tokenizer.tokenize(plainText));
-    int i = 0;
-    int tokenPos = -1;
-    for (String t : tokens) {
-      if (t.equals(token)) {
-        tokenPos = i;
-      }
-      i++;
-    }
-    List<String> contextTokens = new ArrayList<>();
-    if (tokenPos == -1) {
-      throw new RuntimeException("Not found: '" + token + "'");
-    } else if (tokenPos == 0) {
-      contextTokens.add(LanguageModel.GOOGLE_SENTENCE_START);
-      contextTokens.add(newToken);
-      contextTokens.add(tokens.get(tokenPos + 1));
-    } else if (tokenPos >= tokens.size() - 1) {
-      contextTokens.add(tokens.get(tokenPos - 1));
-      contextTokens.add(newToken);
-      contextTokens.add(LanguageModel.GOOGLE_SENTENCE_END);
-    } else {
-      contextTokens.add(tokens.get(tokenPos - 1));
-      contextTokens.add(newToken);
-      contextTokens.add(tokens.get(tokenPos + 1));
-    }
-    return contextTokens;
-  }
-
-  private double[] getFeatures(List<String> context) {
-    long maxVal = 123200814; // TODO: find this automatically
-    long ngram2Left = languageModel.getCount(context.get(0), context.get(1));
-    long ngram2Right = languageModel.getCount(context.get(1), context.get(2));
-    double ngram2LeftNorm = (double)ngram2Left / maxVal;
-    double ngram2RightNorm = (double)ngram2Right / maxVal;
-    long ngram3 = languageModel.getCount(context.get(0), context.get(1), context.get(2));
-    double ngram3Norm = (double)ngram3 / maxVal;
-    return new double[] {ngram2LeftNorm, ngram2RightNorm, ngram3Norm};
-    // for testing:
-    //return new double[] {ngram2LeftNorm, ngram2RightNorm, 1.0};
-    //return new double[] {ngram2LeftNorm, 1.0, 1.0};
-  }
-
   private double[] getFeatures2(Sentence sentence, String token, String newToken) {
     long maxVal = 123200814; // TODO: find this automatically
 
     int position = getLastPosition(sentence, token);
 
-    //System.out.println("==============");
-    //System.out.println(sentence.getText());
     double ngram2Left = getCountForTuple(getContext(sentence, position, newToken, 1, 0), maxVal);
     double ngram2Right = getCountForTuple(getContext(sentence, position, newToken, 0, 1), maxVal);
 
@@ -297,7 +245,6 @@ class WikipediaTrainingDataGenerator {
     double ngram3Middle = getCountForTriple(getContext(sentence, position, newToken, 1, 1), maxVal);
     double ngram3Right = getCountForTriple(getContext(sentence, position, newToken, 2, 0), maxVal);
 
-    //return new double[] {ngram2Left, ngram2Right, ngram3Middle};  // same as getFeatures()
     return new double[] {ngram2Left, ngram2Right, ngram3Middle, ngram3Left, ngram3Right};
   }
 
@@ -327,7 +274,7 @@ class WikipediaTrainingDataGenerator {
     return result;
   }
   
-  class ValidationSentence {
+  static class ValidationSentence {
     final Sentence sentence;
     final boolean isCorrect;
     ValidationSentence(Sentence sentence, boolean correct) {
@@ -336,7 +283,7 @@ class WikipediaTrainingDataGenerator {
     }
   }
   
-  class ListSplit<T> {
+  static class ListSplit<T> {
     final List<T> trainingList;
     final List<T> testList;
     ListSplit(List<T> trainingList, List<T> testList) {
