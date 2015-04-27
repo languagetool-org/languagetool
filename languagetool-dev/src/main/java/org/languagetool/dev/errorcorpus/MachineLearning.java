@@ -56,7 +56,7 @@ class MachineLearning implements AutoCloseable {
     network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 4));
     network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 1));
     network.getStructure().finalizeStructure();
-    network.reset();
+    network.reset(1234); // seed to force deterministic results
 
     ResilientPropagation train = new ResilientPropagation(network, trainingSet);
     int epoch = 1;
