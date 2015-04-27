@@ -127,7 +127,7 @@ class WikipediaTrainingDataGenerator {
         double[] features = getFeatures(context);
         BasicMLData data = new BasicMLData(features);
         boolean consideredCorrect = loadedNet.compute(data).getData(0) > 0.5f;
-        System.out.println("cross val: " + consideredCorrect + ", expected: "  + expectCorrect + ": " 
+        System.out.println("cross val " + asString(consideredCorrect) + ", expected "  + asString(expectCorrect) + ": " 
                 + sentence.sentence.toString().replaceFirst(textToken, "**" + token + "**"));
         if (consideredCorrect && expectCorrect) {
           truePositives++;
@@ -144,6 +144,10 @@ class WikipediaTrainingDataGenerator {
     float recall = (float)truePositives / (truePositives + falseNegatives);
     System.out.printf("  Recall: %.3f\n", recall);
     System.out.printf("  F-measure(beta=0.5): %.3f\n", FMeasure.getFMeasure(precision, recall));
+  }
+
+  private String asString(boolean b) {
+    return b ? "+" : "-";
   }
 
   private List<Sentence> getRelevantSentences(File corpusFile, String token, int maxSentences) throws IOException {
@@ -171,8 +175,18 @@ class WikipediaTrainingDataGenerator {
       List<String> context = getContext(sentence, token, newToken);
       double[] features = getFeatures(context);
       machineLearning.addData(targetValue, features);
-      System.out.printf(targetValue + " %s " + StringTools.listToString(context, " ") + "\n", Arrays.toString(features));
+      String featuresStr = featuresToString(features);
+      System.out.printf(targetValue + " [" + featuresStr + "] " + StringTools.listToString(context, " ") + "\n");
     }
+  }
+
+  private String featuresToString(double[] features) {
+    StringBuilder sb = new StringBuilder();
+    for (double feature : features) {
+      sb.append(String.format("%.3f", feature));
+      sb.append(" ");
+    }
+    return sb.toString();
   }
 
   private List<String> getContext(Sentence sentence, String token, String newToken) {
@@ -214,6 +228,9 @@ class WikipediaTrainingDataGenerator {
     long ngram3 = languageModel.getCount(context.get(0), context.get(1), context.get(2));
     double ngram3Norm = (double)ngram3 / maxVal;
     return new double[] {ngram2LeftNorm, ngram2RightNorm, ngram3Norm};
+    // for testing:
+    //return new double[] {ngram2LeftNorm, ngram2RightNorm, 1.0};
+    //return new double[] {ngram2LeftNorm, 1.0, 1.0};
   }
 
   private List<String> removeWhitespaceTokens(List<String> tokens) {
