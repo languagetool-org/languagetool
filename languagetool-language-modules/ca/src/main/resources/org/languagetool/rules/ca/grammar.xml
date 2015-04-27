@@ -8926,8 +8926,14 @@ $Id$
                     <token>por</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token>por</token>
+                    <token regexp="yes">escènica|cerval|insuperable</token>
+                </marker>
+            </antipattern>
             <pattern>
-                <token postag="V.P.*" postag_regexp="yes"></token>
+                <token postag="V.P.*" postag_regexp="yes"/>
                 <marker>
                     <token>por</token>
                 </marker>
@@ -8939,6 +8945,7 @@ $Id$
             <example>Ha causat por entre la població.</example>
             <example>M'ha fet por la seva veu.</example>
             <example>Havia tingut por que no arribés un llop</example>
+            <example>Ha provocat por escènica.</example>
         </rule>
         <rule id="RECONDIT" name="recondit/recòndit">
             <pattern>
@@ -34074,6 +34081,16 @@ $Id$
     </category>
     <category name="C6) Evita paraules incloses només en alguns diccionaris" default="on" type="style">
         <!--  verbs valencians: caquejar -->
+        <rule id="MEDRAR" name="medrar">
+            <pattern>
+                <token postag="(V.+)" postag_regexp="yes" inflected="yes">medrar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">surar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">progressar</match></suggestion>
+            <suggestion>(enfilar-se)</suggestion>
+            <example correction="surava|progressava|(enfilar-se)">Sempre <marker>medrava</marker>.</example>
+        </rule>
         <rule id="TAMANY" name="tamany">
             <pattern>
                 <marker>
