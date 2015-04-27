@@ -44,6 +44,10 @@ public class ConfusionSetLoader {
     this.maxErrorRate = maxErrorRate;
   }
 
+  public ConfusionSetLoader() {
+    this(0, Float.MAX_VALUE);
+  }
+
   public Map<String,ConfusionProbabilityRule.ConfusionSet> loadConfusionSet(InputStream stream, InputStream infoStream) throws IOException {
     Set<String> usefulHomophones = null;
     if (infoStream != null) {
