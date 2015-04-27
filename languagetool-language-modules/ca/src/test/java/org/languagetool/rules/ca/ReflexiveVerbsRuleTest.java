@@ -51,6 +51,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     //assertCorrect("Una equivocació tan gran no es pot callar.");
     //assertCorrect(" és del tot necessari si no es vol caure en una religió alienant");
 
+    assertCorrect("baixeu-vos l'Aspell des de http://aspell.net/win32/");
     assertCorrect("els fitxers de traducció es baixaran automàticament");
     assertCorrect("Baixeu-vos el programa de l'enllaç");
     assertCorrect("No em plantejo anar a un altre partit");
