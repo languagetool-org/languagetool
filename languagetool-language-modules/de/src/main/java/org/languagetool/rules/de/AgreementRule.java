@@ -238,7 +238,7 @@ public class AgreementRule extends GermanRule {
               ruleMatches.add(ruleMatch);
             }
           }
-        } else if (GermanHelper.hasReadingOfType(nextToken, POSType.NOMEN)) {
+        } else if (GermanHelper.hasReadingOfType(nextToken, POSType.NOMEN) && !"Herr".equals(nextToken.getToken())) {
           final RuleMatch ruleMatch = checkDetNounAgreement(tokens[i], tokens[i+1]);
           if (ruleMatch != null) {
             ruleMatches.add(ruleMatch);
