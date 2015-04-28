@@ -41,7 +41,7 @@ import java.util.NoSuchElementException;
  * {@code http://download.wikimedia.org/dewiki/latest/dewiki-latest-pages-articles.xml.bz2}.
  * @since 2.4
  */
-class WikipediaSentenceSource extends SentenceSource {
+public class WikipediaSentenceSource extends SentenceSource {
 
   private static final boolean ONLY_ARTICLES = false;
   private static final String ARTICLE_NAMESPACE = "0";
@@ -56,7 +56,7 @@ class WikipediaSentenceSource extends SentenceSource {
   private int namespaceSkipCount = 0;
   private int redirectSkipCount = 0;
 
-  WikipediaSentenceSource(InputStream xmlInput, Language language) {
+  public WikipediaSentenceSource(InputStream xmlInput, Language language) {
     super(language);
     textFilter.enableMapping(false);  // improves performance
     try {
