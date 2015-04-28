@@ -30,10 +30,12 @@ import org.languagetool.tokenizers.WordTokenizer;
  */
 public class EnglishWordTokenizer extends WordTokenizer {
 
-  private final String enTokenizing;
-
   public EnglishWordTokenizer() {
-    enTokenizing = super.getTokenizingCharacters() + "–";  // n-dash
+  }
+
+  @Override
+  public String getTokenizingCharacters() {
+    return super.getTokenizingCharacters() + "–";  // n-dash
   }
 
   /**
@@ -52,7 +54,7 @@ public class EnglishWordTokenizer extends WordTokenizer {
   public List<String> tokenize(final String text) {
     final List<String> l = new ArrayList<>();
     final StringTokenizer st = new StringTokenizer(text,
-        enTokenizing, true);
+        getTokenizingCharacters(), true);
     while (st.hasMoreElements()) {
       final String token = st.nextToken();
       if (token.length() > 1 && token.endsWith("-")) {
