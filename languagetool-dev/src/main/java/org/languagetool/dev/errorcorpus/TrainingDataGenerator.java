@@ -37,7 +37,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+
+import static java.util.Locale.*;
 
 /**
  * Loads sentences with a homophone (e.g. 'there') from Wikipedia or confusion set files
@@ -58,8 +59,14 @@ class TrainingDataGenerator {
   private static final int ITERATIONS = 1;
   private static final float TEST_SET_FACTOR = 0.2f;
   private static final int FEATURES = 5;
-  
-  private final EnglishWordTokenizer tokenizer = new EnglishWordTokenizer();
+  private static final boolean DEBUG = false;
+
+  private final EnglishWordTokenizer tokenizer = new EnglishWordTokenizer() {
+    @Override
+    public String getTokenizingCharacters() {
+      return super.getTokenizingCharacters() + "-";
+    }
+  };
   private final Language language;
   private final LanguageModel languageModel;
 
@@ -141,11 +148,11 @@ class TrainingDataGenerator {
         }
         BasicMLData data = new BasicMLData(features);
         double result = loadedNet.compute(data).getData(0);
-        String resultStr = String.format("%.2f", result);
         boolean consideredCorrect = result > 0.5f;
         String sentenceStr = sentence.sentence.toString().replaceFirst(textToken, "**" + token + "**");
-        System.out.println("[" + featuresToString(features) + "] " + resultStr + " cross val " + asString(consideredCorrect) +
-                ", expected " + asString(expectCorrect) + ": " + sentenceStr);
+        String marker = consideredCorrect == expectCorrect ? " " : "#";
+        System.out.println("[" + featuresToString(features) + "] " + String.format(ENGLISH, "%.2f", result) + " " + asString(consideredCorrect) + marker
+                + " " + sentenceStr);
         if (consideredCorrect && expectCorrect) {
           truePositives++;
         } else if (!consideredCorrect && expectCorrect) {
@@ -159,16 +166,16 @@ class TrainingDataGenerator {
     System.out.println("Cross validation results for " +  TOKEN + "/" + TOKEN_HOMOPHONE + ":");
     float recall = (float)truePositives / (truePositives + falseNegatives);
     double fMeasure = FMeasure.getWeightedFMeasure(precision, recall);
-    System.out.printf(Locale.ENGLISH, "%d;%d;%.3f;%.3f;%.3f;CSV\n", trainingSentences.size(), trainingSentences.size(), precision, recall, fMeasure);
-    System.out.printf(Locale.ENGLISH, "  Training sentences 1: %d\n", trainingSentences.size());
-    System.out.printf(Locale.ENGLISH, "  Training sentences 2: %d\n", homophoneTrainingSentences.size());
-    System.out.printf(Locale.ENGLISH, "  Precision: %.3f\n", precision);
-    System.out.printf(Locale.ENGLISH, "  Recall:    %.3f\n", recall);
-    System.out.printf(Locale.ENGLISH, "  F-measure: %.3f (beta=0.5)\n", fMeasure);
+    System.out.printf(ENGLISH, "CSV;%d;%d;%.3f;%.3f;%.3f;\n", trainingSentences.size(), trainingSentences.size(), precision, recall, fMeasure);
+    System.out.printf(ENGLISH, "  Training sentences 1: %d\n", trainingSentences.size());
+    System.out.printf(ENGLISH, "  Training sentences 2: %d\n", homophoneTrainingSentences.size());
+    System.out.printf(ENGLISH, "  Precision: %.3f\n", precision);
+    System.out.printf(ENGLISH, "  Recall:    %.3f\n", recall);
+    System.out.printf(ENGLISH, "  F-measure: %.3f (beta=0.5)\n", fMeasure);
   }
 
   private String asString(boolean b) {
-    return b ? "+" : "-";
+    return b ? "---" : "err";
   }
 
   private List<Sentence> getRelevantSentences(File corpusFileOrDir, String token, int maxSentences) throws IOException {
@@ -224,7 +231,7 @@ class TrainingDataGenerator {
   private String featuresToString(double[] features) {
     StringBuilder sb = new StringBuilder();
     for (double feature : features) {
-      sb.append(String.format("%.3f", feature));
+      sb.append(String.format(ENGLISH, "%.3f", feature));
       sb.append(" ");
     }
     return sb.toString().trim();
@@ -289,6 +296,9 @@ class TrainingDataGenerator {
       throw new IllegalArgumentException("Context size != 2: " + context.size());
     }
     long result = languageModel.getCount(context.get(0), context.get(1));
+    if (DEBUG) {
+      System.out.println("  " + context + " => " + result);
+    }
     return (double)result / maxVal;
   }
 
@@ -297,6 +307,9 @@ class TrainingDataGenerator {
       throw new IllegalArgumentException("Context size != 3: " + context.size());
     }
     long result = languageModel.getCount(context.get(0), context.get(1), context.get(2));
+    if (DEBUG) {
+      System.out.println("  " + context + " => " + result);
+    }
     return (double)result / maxVal;
   }
 
