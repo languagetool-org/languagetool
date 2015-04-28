@@ -51,15 +51,18 @@ import static java.util.Locale.*;
  */
 class TrainingDataGenerator {
 
+  private static final boolean TRAIN = true;
   private static final String TOKEN = "there";
   private static final String TOKEN_HOMOPHONE = "their";
-  private static final String NEURAL_NETWORK_OUTPUT = "/tmp/languagetool_network.net";
   private static final int MAX_SENTENCES_CORRECT = 100;  // TODO
   private static final int MAX_SENTENCES_ERROR = 100;  // use a higher number than for MAX_SENTENCES_CORRECT to tune for precision
+
+  private static final boolean DEBUG = false;
   private static final int ITERATIONS = 1;
   private static final float TEST_SET_FACTOR = 0.2f;
   private static final int FEATURES = 5;
-  private static final boolean DEBUG = false;
+  private static final float THRESHOLD = 0.5f; // can be used to tune precision vs. recall
+  private static final String NEURAL_NETWORK_OUTPUT = "/tmp/languagetool_network.net";
 
   private final EnglishWordTokenizer tokenizer = new EnglishWordTokenizer() {
     @Override
@@ -98,17 +101,24 @@ class TrainingDataGenerator {
     for (int i = 0; i < ITERATIONS; i++) {
       System.out.println("===== Iteration " + i + " ===========================================================");
       //Collections.shuffle(sentences);  // TODO: shuffle all...
-      try (MachineLearning machineLearning = new MachineLearning(FEATURES)) {
-        trainSentences(token, token, trainingSentences, machineLearning, 1);  // correct sentences
-        trainSentences(homophoneToken, token, homophoneTrainingSentences, machineLearning, 0); // incorrect sentences
-        System.out.println("Training neural network (" + new Date() + ")...");
-        machineLearning.train(new File(NEURAL_NETWORK_OUTPUT));
-        System.out.println("Saved neural network to " + NEURAL_NETWORK_OUTPUT + " (" + new Date() + ")");
-        List<ValidationSentence> validationSentences = new ArrayList<>();
-        validationSentences.addAll(getValidationSentences(testSentences, true));
-        validationSentences.addAll(getValidationSentences(homophoneTestSentences, false));
-        crossValidate(validationSentences, token, homophoneToken, trainingSentences, homophoneTrainingSentences);
+      if (TRAIN) {
+        try (MachineLearning machineLearning = new MachineLearning(FEATURES)) {
+          trainSentences(token, token, trainingSentences, machineLearning, 1);  // correct sentences
+          trainSentences(homophoneToken, token, homophoneTrainingSentences, machineLearning, 0); // incorrect sentences
+          System.out.println("Training neural network (" + new Date() + ")...");
+          machineLearning.train(new File(NEURAL_NETWORK_OUTPUT));
+          System.out.println("Saved neural network to " + NEURAL_NETWORK_OUTPUT + " (" + new Date() + ")");
+        }
+      } else {
+        System.err.println("-----------------------------------------------------------------------");
+        System.err.println("NOTE: no training, using old data");
+        System.err.println("-----------------------------------------------------------------------");
       }
+      List<ValidationSentence> validationSentences = new ArrayList<>();
+      validationSentences.addAll(getValidationSentences(testSentences, true));
+      validationSentences.addAll(getValidationSentences(homophoneTestSentences, false));
+      //validationSentences.add(new ValidationSentence(new Sentence("And they lowered their \"technical standards\"", null, null, null, 0), false));
+      crossValidate(validationSentences, token, homophoneToken, trainingSentences, homophoneTrainingSentences);
     }
   }
 
@@ -148,7 +158,7 @@ class TrainingDataGenerator {
         }
         BasicMLData data = new BasicMLData(features);
         double result = loadedNet.compute(data).getData(0);
-        boolean consideredCorrect = result > 0.5f;
+        boolean consideredCorrect = result > THRESHOLD;
         String sentenceStr = sentence.sentence.toString().replaceFirst(textToken, "**" + token + "**");
         String marker = consideredCorrect == expectCorrect ? " " : "#";
         System.out.println("[" + featuresToString(features) + "] " + String.format(ENGLISH, "%.2f", result) + " " + asString(consideredCorrect) + marker
@@ -204,7 +214,7 @@ class TrainingDataGenerator {
       Sentence sentence = sentenceSource.next();
       if (sentence.getText().matches(".*\\b" + token + "\\b.*")) {
         sentences.add(sentence);
-        if (sentences.size() % 25 == 0) {
+        if (sentences.size() % 100 == 0) {
           System.out.println("Loaded sentence " + sentences.size() + " with '" + token + "' from " + corpusFile.getName());
         }
         if (sentences.size() >= maxSentences) {
@@ -356,7 +366,7 @@ class TrainingDataGenerator {
     LanguageModel languageModel = new LuceneLanguageModel(indexTopDir);
     TrainingDataGenerator generator = new TrainingDataGenerator(lang, languageModel);
     generator.run(wikipediaFileOrDir, TOKEN, TOKEN_HOMOPHONE);
-    // comment in to test effect of training data on results:
+    // comment in to test effect of training data size on results:
     //for (int i = 100; i < 2500; i += 100) {
     //  generator.run(wikipediaFileOrDir, TOKEN, TOKEN_HOMOPHONE, i, i);
     //}
