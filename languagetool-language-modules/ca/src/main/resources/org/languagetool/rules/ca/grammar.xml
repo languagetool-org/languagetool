@@ -19975,6 +19975,13 @@ $Id$
                         <token spacebefore="no" regexp="yes">\p{Ll}.+</token>
                     </marker>
                 </antipattern>
+                <antipattern>
+                    <marker>
+                        <token inflected="yes" regexp="yes">format|fitxer|arxiu|paquet|extensió</token>
+                        <token spacebefore="yes">.</token>
+                        <token spacebefore="no" regexp="yes">(?-i)[a-z][a-z0-9]+|[A-Z][A-Z0-9]+</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">[.!?…]<exception postag="SENT_END"/></token>
@@ -20003,6 +20010,8 @@ $Id$
                 <example>Benvinguts a valencianisme.com</example>
                 <example>Benvinguts a www.softcatala.org</example>
                 <example>El document no conté «maindoc.xml2».</example>
+                <example>Un paquet .zip.</example>
+                <example>L'extensió .doc.</example>
             </rule>
             <rule id="P_EX" name="Comprova la puntuació en: p. ex.">
                 <antipattern case_sensitive="yes">
