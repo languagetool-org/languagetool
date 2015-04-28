@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Loads sentences with a homophone (e.g. 'there') from Wikipedia or confusion set files
@@ -68,8 +69,11 @@ class TrainingDataGenerator {
   }
 
   private void run(File corpusFileOrDir, String token, String homophoneToken) throws IOException {
+    run(corpusFileOrDir, token, homophoneToken, MAX_SENTENCES_CORRECT, MAX_SENTENCES_ERROR);
+  }
 
-    List<Sentence> allSentences = getRelevantSentences(corpusFileOrDir, token, MAX_SENTENCES_CORRECT);
+  private void run(File corpusFileOrDir, String token, String homophoneToken, int maxSentencesCorrect, int maxSentencesError) throws IOException {
+    List<Sentence> allSentences = getRelevantSentences(corpusFileOrDir, token, maxSentencesCorrect);
     ListSplit<Sentence> split = split(allSentences, TEST_SET_FACTOR);
     List<Sentence> trainingSentences = split.trainingList;
     List<Sentence> testSentences = split.testList;
@@ -77,7 +81,7 @@ class TrainingDataGenerator {
     System.out.println("Found " + testSentences.size() + " test sentences with '" + token + "'");
 
     // Load the sentences with a homophone to and later replace it so we get error sentences:
-    List<Sentence> allHomophoneSentences = getRelevantSentences(corpusFileOrDir, homophoneToken, MAX_SENTENCES_ERROR);
+    List<Sentence> allHomophoneSentences = getRelevantSentences(corpusFileOrDir, homophoneToken, maxSentencesError);
     ListSplit<Sentence> homophoneSplit = split(allHomophoneSentences, TEST_SET_FACTOR);
     List<Sentence> homophoneTrainingSentences = homophoneSplit.trainingList;
     List<Sentence> homophoneTestSentences = homophoneSplit.testList;    
@@ -96,7 +100,7 @@ class TrainingDataGenerator {
         List<ValidationSentence> validationSentences = new ArrayList<>();
         validationSentences.addAll(getValidationSentences(testSentences, true));
         validationSentences.addAll(getValidationSentences(homophoneTestSentences, false));
-        crossValidate(validationSentences, token, homophoneToken);
+        crossValidate(validationSentences, token, homophoneToken, trainingSentences, homophoneTrainingSentences);
       }
     }
   }
@@ -117,7 +121,8 @@ class TrainingDataGenerator {
   }
 
   @SuppressWarnings("ConstantConditions")
-  private void crossValidate(List<ValidationSentence> sentences, String token, String homophoneToken) throws IOException {
+  private void crossValidate(List<ValidationSentence> sentences, String token, String homophoneToken,
+                             List<Sentence> trainingSentences, List<Sentence> homophoneTrainingSentences) throws IOException {
     System.out.println("Starting cross validation on " + sentences.size() + " sentences");
     int truePositives = 0;
     int falsePositives = 0;
@@ -127,7 +132,13 @@ class TrainingDataGenerator {
       for (ValidationSentence sentence : sentences) {
         boolean expectCorrect = sentence.isCorrect;
         String textToken = expectCorrect ? token : homophoneToken;
-        double[] features = getFeatures(sentence.sentence, textToken, token);
+        double[] features;
+        try {
+          features = getFeatures(sentence.sentence, textToken, token);
+        } catch (Exception e) {
+          e.printStackTrace();
+          continue;
+        }
         BasicMLData data = new BasicMLData(features);
         double result = loadedNet.compute(data).getData(0);
         String resultStr = String.format("%.2f", result);
@@ -145,11 +156,15 @@ class TrainingDataGenerator {
       }
     }
     float precision = (float)truePositives / (truePositives + falsePositives);
-    System.out.println("Cross validation results:");
-    System.out.printf("  Precision: %.3f\n", precision);
+    System.out.println("Cross validation results for " +  TOKEN + "/" + TOKEN_HOMOPHONE + ":");
     float recall = (float)truePositives / (truePositives + falseNegatives);
-    System.out.printf("  Recall: %.3f\n", recall);
-    System.out.printf("  F-measure(beta=0.5): %.3f\n", FMeasure.getWeightedFMeasure(precision, recall));
+    double fMeasure = FMeasure.getWeightedFMeasure(precision, recall);
+    System.out.printf(Locale.ENGLISH, "%d;%d;%.3f;%.3f;%.3f;CSV\n", trainingSentences.size(), trainingSentences.size(), precision, recall, fMeasure);
+    System.out.printf(Locale.ENGLISH, "  Training sentences 1: %d\n", trainingSentences.size());
+    System.out.printf(Locale.ENGLISH, "  Training sentences 2: %d\n", homophoneTrainingSentences.size());
+    System.out.printf(Locale.ENGLISH, "  Precision: %.3f\n", precision);
+    System.out.printf(Locale.ENGLISH, "  Recall:    %.3f\n", recall);
+    System.out.printf(Locale.ENGLISH, "  F-measure: %.3f (beta=0.5)\n", fMeasure);
   }
 
   private String asString(boolean b) {
@@ -328,6 +343,10 @@ class TrainingDataGenerator {
     LanguageModel languageModel = new LuceneLanguageModel(indexTopDir);
     TrainingDataGenerator generator = new TrainingDataGenerator(lang, languageModel);
     generator.run(wikipediaFileOrDir, TOKEN, TOKEN_HOMOPHONE);
+    // comment in to test effect of training data on results:
+    //for (int i = 100; i < 2500; i += 100) {
+    //  generator.run(wikipediaFileOrDir, TOKEN, TOKEN_HOMOPHONE, i, i);
+    //}
   }
   
 }
