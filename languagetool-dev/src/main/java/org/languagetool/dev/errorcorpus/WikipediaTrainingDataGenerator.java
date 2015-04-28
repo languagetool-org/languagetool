@@ -22,7 +22,9 @@ import org.encog.ml.data.basic.BasicMLData;
 import org.encog.neural.networks.BasicNetwork;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.dev.dumpcheck.PlainTextSentenceSource;
 import org.languagetool.dev.dumpcheck.Sentence;
+import org.languagetool.dev.dumpcheck.SentenceSource;
 import org.languagetool.dev.dumpcheck.WikipediaSentenceSource;
 import org.languagetool.dev.eval.FMeasure;
 import org.languagetool.languagemodel.LanguageModel;
@@ -64,9 +66,9 @@ class WikipediaTrainingDataGenerator {
     this.languageModel = languageModel;
   }
 
-  private void run(File corpusFile, String token, String homophoneToken) throws IOException {
+  private void run(File corpusFileOrDir, String token, String homophoneToken) throws IOException {
 
-    List<Sentence> allSentences = getRelevantSentences(corpusFile, token, MAX_SENTENCES_CORRECT);
+    List<Sentence> allSentences = getRelevantSentences(corpusFileOrDir, token, MAX_SENTENCES_CORRECT);
     ListSplit<Sentence> split = split(allSentences, TEST_SET_FACTOR);
     List<Sentence> trainingSentences = split.trainingList;
     List<Sentence> testSentences = split.testList;
@@ -74,7 +76,7 @@ class WikipediaTrainingDataGenerator {
     System.out.println("Found " + testSentences.size() + " test sentences with '" + token + "'");
 
     // Load the sentences with a homophone to and later replace it so we get error sentences:
-    List<Sentence> allHomophoneSentences = getRelevantSentences(corpusFile, homophoneToken, MAX_SENTENCES_ERROR);
+    List<Sentence> allHomophoneSentences = getRelevantSentences(corpusFileOrDir, homophoneToken, MAX_SENTENCES_ERROR);
     ListSplit<Sentence> homophoneSplit = split(allHomophoneSentences, TEST_SET_FACTOR);
     List<Sentence> homophoneTrainingSentences = homophoneSplit.trainingList;
     List<Sentence> homophoneTestSentences = homophoneSplit.testList;    
@@ -153,20 +155,37 @@ class WikipediaTrainingDataGenerator {
     return b ? "+" : "-";
   }
 
-  private List<Sentence> getRelevantSentences(File corpusFile, String token, int maxSentences) throws IOException {
+  private List<Sentence> getRelevantSentences(File corpusFileOrDir, String token, int maxSentences) throws IOException {
+    List<Sentence> sentences;
+    if (corpusFileOrDir.isDirectory()) {
+      File file = new File(corpusFileOrDir, token + ".txt");
+      if (!file.exists()) {
+        throw new RuntimeException("File with example sentences not found: " + file);
+      }
+      try (FileInputStream fis = new FileInputStream(file)) {
+        SentenceSource sentenceSource = new PlainTextSentenceSource(fis, language);
+        sentences = getSentencesFromSource(corpusFileOrDir, token, maxSentences, sentenceSource);
+      }
+    } else {
+      try (FileInputStream fis = new FileInputStream(corpusFileOrDir)) {
+        SentenceSource sentenceSource = new WikipediaSentenceSource(fis, language);
+        sentences = getSentencesFromSource(corpusFileOrDir, token, maxSentences, sentenceSource);
+      }
+    }
+    return sentences;
+  }
+
+  private List<Sentence> getSentencesFromSource(File corpusFile, String token, int maxSentences, SentenceSource sentenceSource) {
     List<Sentence> sentences = new ArrayList<>();
-    try (FileInputStream fis = new FileInputStream(corpusFile)) {
-      WikipediaSentenceSource source = new WikipediaSentenceSource(fis, language);
-      while (source.hasNext()) {
-        Sentence sentence = source.next();
-        if (sentence.getText().matches(".*\\b" + token + "\\b.*")) { // TODO: use real tokenizer?
-          sentences.add(sentence);
-          if (sentences.size() % 25 == 0) {
-            System.out.println("Loaded sentence " + sentences.size() + " with '" + token + "' from " + corpusFile.getName());
-          }
-          if (sentences.size() >= maxSentences) {
-            break;
-          }
+    while (sentenceSource.hasNext()) {
+      Sentence sentence = sentenceSource.next();
+      if (sentence.getText().matches(".*\\b" + token + "\\b.*")) {
+        sentences.add(sentence);
+        if (sentences.size() % 25 == 0) {
+          System.out.println("Loaded sentence " + sentences.size() + " with '" + token + "' from " + corpusFile.getName());
+        }
+        if (sentences.size() >= maxSentences) {
+          break;
         }
       }
     }
@@ -296,8 +315,10 @@ class WikipediaTrainingDataGenerator {
   public static void main(String[] args) throws IOException {
     if (args.length != 3) {
       System.err.println("Usage: " + WikipediaTrainingDataGenerator.class.getSimpleName()
-              + " <langCode> <wikipediaXml> <languageModelTopDir>");
+              + " <langCode> <wikipediaXml|dir> <languageModelTopDir>");
       System.err.println("   <languageModelTopDir> is a directory with sub-directories '2grams' and/or '3grams' with Lucene indexes");
+      System.err.println("   <wikipediaXml|dir> either a Wikipedia XML dump or");
+      System.err.println("                      a directory with example sentences (where <word>.txt contains only the sentences for <word>)");
       System.exit(1);
     }
     Language lang = Languages.getLanguageForShortName(args[0]);

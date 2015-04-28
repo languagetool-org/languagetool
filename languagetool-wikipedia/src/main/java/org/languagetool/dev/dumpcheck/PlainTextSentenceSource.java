@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,22 +21,25 @@ package org.languagetool.dev.dumpcheck;
 import org.languagetool.Language;
 
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 /**
- * Provides access to the sentences of a Tatoeba (http://tatoeba.org) text
- * file (tab separated) that has already been filtered to contain only one language.
- * @since 2.4
+ * Provides access to the relevant sentences of a plain text file
+ * with one sentence per line.
+ * @since 3.0
  */
-class TatoebaSentenceSource extends SentenceSource {
+public class PlainTextSentenceSource extends SentenceSource {
 
   private final List<String> sentences;
   private final Scanner scanner;
 
   // Each sentence is one article, but count anyway so it's coherent with what the Wikipedia code does:
   private int articleCount = 0;
-  
-  TatoebaSentenceSource(InputStream textInput, Language language) {
+
+  public PlainTextSentenceSource(InputStream textInput, Language language) {
     super(language);
     scanner = new Scanner(textInput);
     sentences = new ArrayList<>();
@@ -54,12 +57,12 @@ class TatoebaSentenceSource extends SentenceSource {
     if (sentences.size() == 0) {
       throw new NoSuchElementException();
     }
-    return new Sentence(sentences.remove(0), getSource(), "<Tatoeba>", "http://tatoeba.org", ++articleCount);
+    return new Sentence(sentences.remove(0), getSource(), "<plaintext>", null, ++articleCount);
   }
 
   @Override
   public String getSource() {
-    return "tatoeba";
+    return "plaintext";
   }
 
   private void fillSentences() {
@@ -68,13 +71,8 @@ class TatoebaSentenceSource extends SentenceSource {
       if (line.isEmpty()) {
         continue;
       }
-      String[] parts = line.split("\t");
-      if (parts.length != 3) {
-        throw new RuntimeException("Unexpected line format: expected three tab-separated columns: '" + line  + "'");
-      }
-      String sentence = parts[2];  // actually it's sometimes two (short) sentences, but anyway...
-      if (acceptSentence(sentence)) {
-        sentences.add(sentence);
+      if (acceptSentence(line)) {
+        sentences.add(line);
       }
     }
   }

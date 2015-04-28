@@ -29,7 +29,7 @@ import java.util.List;
  * or plain text sources.
  * @since 2.4
  */
-abstract class SentenceSource implements Iterator<Sentence> {
+public abstract class SentenceSource implements Iterator<Sentence> {
 
   private static final int MIN_SENTENCE_SIZE = 10;
   private static final int MIN_SENTENCE_TOKEN_COUNT = 4;
