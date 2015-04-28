@@ -254,11 +254,10 @@ class TrainingDataGenerator {
     return pos;
   }
 
-  private List<String> getContext(Sentence sentence, int pos, String newToken, int toLeft, int toRight) {
-    String plainText = sentence.getText();
+  List<String> getContext(String plainText, int pos, String newToken, int toLeft, int toRight) {
     List<String> tokens = removeWhitespaceTokens(tokenizer.tokenize(plainText));
     List<String> result = new ArrayList<>();
-    for (int i = 1; i > 0 && i <= toLeft; i++) {
+    for (int i = toLeft; i > 0 && i <= toLeft; i--) {
       if (pos-i < 0 ) {
         result.add(LanguageModel.GOOGLE_SENTENCE_START);  // NOTE: only in v2 of the data!
       } else {
@@ -281,12 +280,13 @@ class TrainingDataGenerator {
 
     int position = getLastPosition(sentence, token);
 
-    double ngram2Left = getCountForTuple(getContext(sentence, position, newToken, 1, 0), maxVal);
-    double ngram2Right = getCountForTuple(getContext(sentence, position, newToken, 0, 1), maxVal);
+    String text = sentence.getText();
+    double ngram2Left = getCountForTuple(getContext(text, position, newToken, 1, 0), maxVal);
+    double ngram2Right = getCountForTuple(getContext(text, position, newToken, 0, 1), maxVal);
 
-    double ngram3Left = getCountForTriple(getContext(sentence, position, newToken, 0, 2), maxVal);
-    double ngram3Middle = getCountForTriple(getContext(sentence, position, newToken, 1, 1), maxVal);
-    double ngram3Right = getCountForTriple(getContext(sentence, position, newToken, 2, 0), maxVal);
+    double ngram3Left = getCountForTriple(getContext(text, position, newToken, 0, 2), maxVal);
+    double ngram3Middle = getCountForTriple(getContext(text, position, newToken, 1, 1), maxVal);
+    double ngram3Right = getCountForTriple(getContext(text, position, newToken, 2, 0), maxVal);
 
     return new double[] {ngram2Left, ngram2Right, ngram3Middle, ngram3Left, ngram3Right};
   }
