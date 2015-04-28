@@ -39,14 +39,15 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Loads sentences with a homophone (e.g. 'there') from Wikipedia and uses them for training, 
- * assuming they are correct. Loads sentences with a confusable homophone (e.g. 'their')
- * from Wikipedia, replacing them with the other homophone, assuming their are now wrong
- * and uses them for training, too. Finally, it runs a cross-validation.
+ * Loads sentences with a homophone (e.g. 'there') from Wikipedia or confusion set files
+ * and uses them for training, assuming they are correct.
+ * Loads sentences with a confusable homophone (e.g. 'their')
+ * from Wikipedia or file, replacing them with the other homophone, assuming their are 
+ * now wrong and uses them for training, too. Finally, it runs a cross-validation.
  * @since 2.7
  * @author Daniel Naber 
  */
-class WikipediaTrainingDataGenerator {
+class TrainingDataGenerator {
 
   private static final String TOKEN = "there";
   private static final String TOKEN_HOMOPHONE = "their";
@@ -61,7 +62,7 @@ class WikipediaTrainingDataGenerator {
   private final Language language;
   private final LanguageModel languageModel;
 
-  WikipediaTrainingDataGenerator(Language language, LanguageModel languageModel) {
+  TrainingDataGenerator(Language language, LanguageModel languageModel) {
     this.language = language;
     this.languageModel = languageModel;
   }
@@ -314,7 +315,7 @@ class WikipediaTrainingDataGenerator {
 
   public static void main(String[] args) throws IOException {
     if (args.length != 3) {
-      System.err.println("Usage: " + WikipediaTrainingDataGenerator.class.getSimpleName()
+      System.err.println("Usage: " + TrainingDataGenerator.class.getSimpleName()
               + " <langCode> <wikipediaXml|dir> <languageModelTopDir>");
       System.err.println("   <languageModelTopDir> is a directory with sub-directories '2grams' and/or '3grams' with Lucene indexes");
       System.err.println("   <wikipediaXml|dir> either a Wikipedia XML dump or");
@@ -322,11 +323,11 @@ class WikipediaTrainingDataGenerator {
       System.exit(1);
     }
     Language lang = Languages.getLanguageForShortName(args[0]);
-    File wikipediaFile = new File(args[1]);
+    File wikipediaFileOrDir = new File(args[1]);
     File indexTopDir = new File(args[2]);
     LanguageModel languageModel = new LuceneLanguageModel(indexTopDir);
-    WikipediaTrainingDataGenerator generator = new WikipediaTrainingDataGenerator(lang, languageModel);
-    generator.run(wikipediaFile, TOKEN, TOKEN_HOMOPHONE);
+    TrainingDataGenerator generator = new TrainingDataGenerator(lang, languageModel);
+    generator.run(wikipediaFileOrDir, TOKEN, TOKEN_HOMOPHONE);
   }
   
 }
