@@ -108,6 +108,11 @@ public class FrequencyIndexCreator {
       //noinspection NestedAssignment
       while ((line = buffered.readLine()) != null) {
         lineCount++;
+        // To create a smaller index just for testing, comment in this. For there/their
+        // with the v1 Google ngram data, the index will be 110MB (instead of 3.1GB with all words):
+        //if (!line.matches(".*\\b([Tt]here|[Tt]heir)\\b.*")) {
+        //  continue;
+        //}
         String[] parts = line.split("\t");
         String text = parts[0];
         if (isRealPosTag(text)) {
