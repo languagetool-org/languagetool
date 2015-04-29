@@ -279,6 +279,8 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("cal·ligrafia", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("calificaren"));
         assertEquals("qualificaren", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("Excelentissim"));
+        assertEquals("Excel·lentíssim", matches[0].getSuggestedReplacements().get(0));
         
         //assertEquals(1, matches[0].getSuggestedReplacements().size());
         
