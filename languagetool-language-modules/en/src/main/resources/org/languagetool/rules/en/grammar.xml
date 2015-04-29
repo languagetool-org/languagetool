@@ -6461,6 +6461,94 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+        <rule id="SHOULD_BE_DO" name="should be do (done)">
+            <pattern>
+                <token>should</token>
+                <token>be</token>
+                <marker>
+                    <token postag='VB|NN:UN' postag_regexp='yes'><exception postag='JJ'></exception><exception>president</exception></token>
+                </marker>
+            </pattern>
+            <message>Did you mean  <suggestion><match no = "3" postag ="VBN"/></suggestion>?</message>
+            <example correction='done'>If you have after-school activities, the homework should be <marker>do</marker> first.</example>
+        </rule>
+        <rulegroup id="NEEDNT_TO_DO_AND_DONT_NEED_DO" name="needn't to do(do)">
+            <rule>
+                <pattern>
+                    <token>need</token>
+                    <token>not</token>
+                    <marker>
+                        <token>to</token>
+                        <token postag='VB'></token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="4"/></suggestion>?</message>
+                <example correction='change'>They need not <marker>to change</marker> them.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>needn</token>
+                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token>t</token>
+                    <marker>
+                        <token>to</token>
+                        <token postag='VB'><exception>get</exception></token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="5"/></suggestion>?</message>
+                <example correction='change'>They needn't <marker>to change</marker> them.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>do</token>
+                    <token > not</token>
+                    <token>need</token>
+                    <marker>
+                        <token postag='VB'><exception regexp='yes'>proof|fake</exception></token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>to <match no="4"/></suggestion>?</message>
+                <example correction='to change'>They do not need <marker>change</marker> them.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>don</token>
+                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token>t</token>
+                    <token>need</token>
+                    <marker>
+                        <token postag='VB'><exception regexp='yes'>proof|fake</exception></token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>to <match no="5"/></suggestion>?</message>
+                <example correction='to change'>They don't need <marker>change</marker> them.</example>
+            </rule>
+        </rulegroup>
+        <rule id="IT_IS_JJ_TO_VBG" name="it is ... to doing (do)">
+            <pattern>
+                <token>it</token>
+                <token inflected='yes'>be</token>
+                <token min='0' max='1'>not</token>
+                <token postag='JJ'></token>
+                <token>to</token>
+                <marker>
+                    <token postag='VBG'></token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="6" postag="VB" /></suggestion>?</message>
+            <example correction='grasp'>They think that it is not easy to <marker>grasping</marker> skills.</example>
+        </rule>
+        <rule id="BE_USE_TO_DO" name="be use (used) to">
+            <pattern case_sensitive='yes'>
+                <token inflected='yes'>be</token>
+                <marker>
+                    <token>use</token>
+                </marker>
+                <token>to</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="2" postag="VBD"></match></suggestion>?</message>
+            <example correction='used'>He is <marker>use</marker> to a vegetarian diet.</example>
+        </rule>
         <rule id="ON_ADDITION" name="wrong preposition: 'On addition' (In addition)">
             <pattern>
                 <token postag="SENT_START"/>
