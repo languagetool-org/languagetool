@@ -16852,17 +16852,18 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes">hi</token>
+                    <token inflected="yes" regexp="yes">hi|en</token>
                     <token postag="V.[MSI].*" postag_regexp="yes"/>
                     <token min="0" postag="V.[NP].*" postag_regexp="yes"/>
                     <token inflected="yes">de</token>
                     <token postag="V.N.*" postag_regexp="yes"/>
-                    <token regexp="yes">[-']hi</token>
+                    <token regexp="yes">[-']hi|-ne|'n</token>
                 </pattern>
-                <message>Pronom feble duplicat.</message>
+                <message>Pronom feble duplicat o mal col·locat.</message>
                 <example correction=""><marker>Hi hem d'anar-hi</marker>.</example>
                 <example correction=""><marker>Hi vam haver d'anar-hi</marker>.</example>
                 <example correction=""><marker>Hi hem hagut d'anar-hi</marker>.</example>
+                <example correction=""><marker>N'ha d'haver-hi</marker>.</example>
                 <example>Vam haver d'anar-hi.</example>
             </rule>
         </rulegroup>
