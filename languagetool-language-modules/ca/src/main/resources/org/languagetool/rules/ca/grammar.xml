@@ -23960,14 +23960,24 @@ $Id$
         </rule>
         <rulegroup id="ARREL_DE" name="arrel de">
             <antipattern>
-                <token regexp="yes">arrel|rel|raïl</token>
-                <token skip="2" regexp="yes">de|d'</token>
-                <token regexp="yes" inflected="yes">polinomi|paraula|funció|índex|cua|unitat|pi</token>
+                <marker>
+                   <token regexp="yes">arrel|rel|raïl</token>
+                   <token skip="2" regexp="yes">de|d'</token>
+                   <token regexp="yes" inflected="yes">polinomi|paraula|funció|índex|cua|unitat|pi</token>
+                </marker>
             </antipattern>
             <antipattern>
-                <token regexp="yes">arrel|rel|raïl</token>
-                <token skip="2" regexp="yes">de|d'</token>
-                <token postag="DN.*" postag_regexp="yes"/>
+                <marker>
+                   <token regexp="yes">arrel|rel|raïl</token>
+                   <token skip="2" regexp="yes">de|d'</token>
+                   <token postag="DN.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">carpeta|directori|certificat</token>
+                    <token>arrel</token>
+                </marker>
             </antipattern>
             <rule>
                 <pattern>
@@ -23987,6 +23997,7 @@ $Id$
                 <example>Tallava arrel de valeriana</example>
                 <example>Arrel de quatre.</example>
                 <example>És arrel d'un polinomi.</example>
+                <example>Del directori arrel del sistema.</example>
             </rule>
             <rule>
                 <pattern>
@@ -32881,7 +32892,7 @@ $Id$
         <rule id="URL" name="URL (masculí o femení)">
             <antipattern>
                 <marker>
-                    <token inflected="yes">adreça</token>
+                    <token regexp="yes">adreça|adreces</token>
                     <token>URL</token>
                 </marker>
             </antipattern>
@@ -32893,6 +32904,7 @@ $Id$
             <message>En el sentit d'adreça d'Internet és masculí. Femení si correspon a Universitat Ramon Llull.</message>
             <example correction="">En la <marker>URL</marker>.</example>
             <example>En l'URL.</example>
+            <example>Adreça URL completa.</example>
             <example>En l'adreça URL introduïda abans.</example>
         </rule>
         <rule id="POSAR_DE_RELLEU" name="posar de/en relleu">
