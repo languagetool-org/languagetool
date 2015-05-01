@@ -12793,30 +12793,32 @@ $Id$
             <rule>
                 <pattern>
                     <token><exception>-ho</exception></token>
-                    <token>tot</token>
-                    <token>i</token>
                     <marker>
+                        <token>tot</token>
+                        <token>i</token>
                         <token postag="V.G.*" postag_regexp="yes"></token>
                     </marker>
                 </pattern>
-                <message>El verb ha d'anar en infinitiu: <suggestion><match no="4" postag="V.N.*" postag_regexp="yes"></match></suggestion>.</message>
-                <short>Falta un infinitiu</short>
-                <example correction="estar">Tot i <marker>estant</marker> així.</example>
+                <message>Construcció incorrecta.</message>
+                <suggestion>tot \4</suggestion>
+                <suggestion>\4</suggestion>
+                <suggestion>tot i <match no="4" postag="V.N.*" postag_regexp="yes"></match></suggestion>
+                <example correction="Tot estant|Estant|Tot i estar"><marker>Tot i estant</marker> així.</example>
             </rule>
             <rule>
                 <pattern>
                     <token><exception>-ho</exception></token>
-                    <token>tot</token>
-                    <token>i</token>
                     <marker>
+                        <token>tot</token>
+                        <token>i</token>
                         <token>havent</token>
                     </marker>
                 </pattern>
-                <message>El verb ha d'anar en infinitiu.</message>
-                <suggestion>haver</suggestion>
-                <short>Falta un infinitiu</short>
-                <example correction="haver">Tot i <marker>havent</marker> aparcant bé.</example>
-                <example>Tot i <marker>estar</marker> així.</example>
+                <message>Construcció incorrecta.</message>
+                <suggestion>tot i haver</suggestion>
+                <suggestion>tot \4</suggestion>
+                <suggestion>\4</suggestion>
+                <example correction="Tot i haver|Tot havent|Havent"><marker>Tot i havent</marker> aparcant bé.</example>
             </rule>
         </rulegroup>
     </category>
