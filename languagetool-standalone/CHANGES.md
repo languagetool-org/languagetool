@@ -21,6 +21,9 @@
   * added a few new rules
   * fixed some false alarms
 
+#### Portuguese
+  * added/improved a few rules
+
 #### Slovak
   * dictionary update and several new rules
   
