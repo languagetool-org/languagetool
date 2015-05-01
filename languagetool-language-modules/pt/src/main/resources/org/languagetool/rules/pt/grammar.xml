@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.108 2015-04-28 21:44:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.109 2015-05-01 08:54:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -318,7 +318,22 @@ $Id: grammar.xml,v 1.108 2015-04-28 21:44:00 marcoagpinto Exp $
       <message>Substituir «a preço por» por <suggestion>apreço por</suggestion>.</message>
       <example correction="apreço por">Tenho muito <marker>a preço por</marker> ele.</example>
     </rule>
+	
 
+	
+    <!-- A POUCO E POUCO aos poucos informal -->
+	<rule id="A_POUCO_E_POUCO" name="aos poucos (informal)">
+	  <pattern>
+		<token>a</token>
+		<token>pouco</token>
+		<token>e</token>
+		<token>pouco</token>
+      </pattern>
+      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
+      <example correction="">Vamos <marker>a pouco e pouco</marker> construindo o futuro.</example>	  
+	  <example>Vamos <marker>aos poucos</marker> construindo o futuro.</example>	
+	</rule>
+	
 
 
     <!-- A QUANDO aquando -->
@@ -1286,7 +1301,7 @@ $Id: grammar.xml,v 1.108 2015-04-28 21:44:00 marcoagpinto Exp $
 
 
     <!-- EQUIPES: NAS/EM/NUMAS/SUAS/NOSSAS/VOSSAS/TUAS EQUIPES -> equipas -->
-    <rule id="EQUIPEs" name="equipas">
+    <rule id="EQUIPES" name="equipas">
       <pattern>
         <token regexp="yes">nas|em|numas|suas|nossas|vossas|tuas</token>
         <marker>
@@ -1302,7 +1317,7 @@ $Id: grammar.xml,v 1.108 2015-04-28 21:44:00 marcoagpinto Exp $
     <!-- ENCRENCA/ENCRENCAS informal -->
 	<rule id="ENCRENCA_ENCRENCAS" name="encrenca(s) (informal)">
 	  <pattern>
-		<token regexp="yes">encrenca|encrencas</token>
+		<token regexp="yes">encrencas?</token>
       </pattern>
       <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
       <example correction="">Que grande <marker>encrenca</marker>.</example>
@@ -1483,7 +1498,21 @@ $Id: grammar.xml,v 1.108 2015-04-28 21:44:00 marcoagpinto Exp $
       <example correction="gosto que">Nem sempre <marker>gosto de que</marker> me ensinem.</example>
     </rule>
 
+	
 
+    <!-- HÁ n SEGUNDOS/MINUTOS/HORAS/DIAS/MESES/ANOS ATRÁS (remove "ATRÁS") -->
+    <rule id="HÁ-ATRÁS" name="há n tempo atrás">
+      <pattern>
+		<token>há</token>
+		<token></token>
+        <token regexp="yes">segundos?|minutos?|horas?|dias?|mês|meses|anos?</token>
+		<token>atrás</token>
+      </pattern>
+	  <message>Com o verbo haver não é necessário usar "atrás": <suggestion>\1 \2 \3</suggestion>.</message>
+	  <example correction="Há n segundos"><marker>Há n segundos atrás</marker>.</example>
+    </rule>
+
+	
 
     <!-- HÁS VEZES às vezes -->
     <rule id="HÁS_VEZES" name="às vezes">
