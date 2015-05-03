@@ -12790,9 +12790,14 @@ $Id$
     </category>
     <category name="Errors gramaticals" type="grammar">
         <rulegroup id="TOT_I_GERUNDI" name="tot i + *gerundi/infinitiu">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">-ho|de|que</token>
+                    <token>tot</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
-                    <token><exception>-ho</exception></token>
                     <marker>
                         <token>tot</token>
                         <token>i</token>
@@ -12800,14 +12805,13 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Construcció incorrecta.</message>
-                <suggestion>tot \4</suggestion>
-                <suggestion>\4</suggestion>
-                <suggestion>tot i <match no="4" postag="V.N.*" postag_regexp="yes"></match></suggestion>
+                <suggestion>tot \3</suggestion>
+                <suggestion>\3</suggestion>
+                <suggestion>tot i <match no="3" postag="V.N.*" postag_regexp="yes"></match></suggestion>
                 <example correction="Tot estant|Estant|Tot i estar"><marker>Tot i estant</marker> així.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token><exception>-ho</exception></token>
                     <marker>
                         <token>tot</token>
                         <token>i</token>
@@ -12816,8 +12820,8 @@ $Id$
                 </pattern>
                 <message>Construcció incorrecta.</message>
                 <suggestion>tot i haver</suggestion>
-                <suggestion>tot \4</suggestion>
-                <suggestion>\4</suggestion>
+                <suggestion>tot \3</suggestion>
+                <suggestion>\3</suggestion>
                 <example correction="Tot i haver|Tot havent|Havent"><marker>Tot i havent</marker> aparcant bé.</example>
             </rule>
         </rulegroup>
