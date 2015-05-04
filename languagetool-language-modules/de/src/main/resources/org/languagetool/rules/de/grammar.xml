@@ -1193,7 +1193,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception inflected="yes">einen</exception></token>
                     <marker>
-                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">gleicher|dehnbarer|andere|teilweise|lange|höher|einige|einigen|solche|erste</exception></token>
+                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">gleicher|dehnbarer|andere|teilweise|lange|höher|einige|einigen|solche|erste|Becker</exception></token>
                     </marker>
                     <token>als</token>
                 </pattern>
@@ -1206,7 +1206,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception inflected="yes">einen</exception></token>
                     <marker>
-                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">gleicher|dehnbarer|andere|teilweise|lange|höher|einige|einigen|solche|erste</exception></token>
+                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">gleicher|dehnbarer|andere|teilweise|lange|höher|einige|einigen|solche|erste|Becker</exception></token>
                     </marker>
                     <token>als</token>
                 </pattern>
@@ -23420,7 +23420,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="(ART:(IND|DEF)|PRO:(IND|POS)):NOM:SIN:MAS.*" postag_regexp="yes"/>
                         <token postag="ADJ:PRD:GRU"><exception postag="ADJ:NOM:SIN:MAS.*" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;</exception></token>
-                        <token postag="SUB:NOM:SIN:MAS"/>
+                        <token postag="SUB:NOM:SIN:MAS"><exception>Abhängige</exception></token>
                     </marker>
                 </pattern>
                 <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein klein Haus' statt 'mein kleines Haus'</message>
@@ -23557,13 +23557,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">der(selben)?|[Ddsm]?einer|(eu|ih|Ih|unse)rer|(jede|jene|diese|alle)r</token>
                         <token postag="(ADJ|SUB):DAT:(SIN|PLU):FEM.*" postag_regexp="yes"/>
                     </marker>
-                    <token><exception postag="ADJ:AKK:.+" postag_regexp="yes"/><exception>nach</exception></token>
+                    <token><exception postag="ADJ:AKK:.+|PA1:.+" postag_regexp="yes"/><exception>nach</exception></token>
                 </pattern>
                 <message>Die Präposition '\1' erfordert in der Regel den Akkusativ.</message>
                 <short>'\1' erfordert den Akkusativ</short>
                 <example>Das ist wider <marker>die Vernunft</marker>.</example>
                 <example>Das ist wider <marker>alle Vernunft</marker>.</example>
                 <example>Das ist für <marker>deine Frau</marker>.</example>
+                <example>Erzeugung von Fossilien durch der Natur innewohnende Formungskräfte</example>
                 <example correction="">Das ist wider <marker>der Vernunft</marker>.</example>
                 <example correction="">Das ist wider <marker>aller Vernunft</marker>.</example>
                 <example correction="">Das ist für <marker>deiner Frau</marker>.</example>
@@ -23740,7 +23741,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag="ADJ:.*:DEF" postag_regexp="yes"/>
                             <exception postag="ADJ:PRD.*" postag_regexp="yes"/>
                             <exception postag="ADV.*|ZUS.*" postag_regexp="yes"/>
-                            <exception regexp="yes">anderer|heutiger|weiterer</exception>
+                            <exception regexp="yes">anderer|heutiger|weiterer|teilweise</exception>
                         </token>
                     </marker>
                     <token/>
@@ -24420,7 +24421,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
-                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Pfennig|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr|Zoll|Bar|Promille|Barrel|Schilling</exception>
+                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Pfennig|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr|Zoll|Bar|Promille|Barrel|Schilling|Sigma</exception>
                         </token>
                     </marker>
                     <token><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/></token>
@@ -24446,7 +24447,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag="SUB:AKK:SIN:MAS"/>
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
-                            <exception regexp="yes">Bier|Wassers?|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Paar|Stück|Fuß|Grad|Gramm|Kilo.*|Milli.+|Mark|Reichsmark|Rentenmark|Zeit|Irritation|Pfund|Einwanderung|Auswanderung|Kritik|Literatur|Aufmerksamkeit|Verwirrung|Bar|Gold|Schlamms?|Schilling|Überredungskunst</exception>
+                            <exception regexp="yes">Bier|Wassers?|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Paar|Stück|Fuß|Grad|Gramm|Kilo.*|Milli.+|Mark|Reichsmark|Rentenmark|Zeit|Irritation|Pfund|Einwanderung|Auswanderung|Kritik|Literatur|Aufmerksamkeit|Verwirrung|Bar|Gold|Schlamms?|Schilling|Überredungskunst|Aufregung|Muße</exception>
                         </token>
                     </marker>
                     <token>
@@ -25349,6 +25350,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">'|’|`|´|‘</token>
                 <token>s</token>
                 <token>College</token>
+            </antipattern>
+            <antipattern>
+                <token>Queen</token>
+                <token regexp="yes">'|’|`|´|‘</token>
+                <token>s</token>
+                <token>University</token>
             </antipattern>
             <rule>
                 <!-- detected by GIRLS_DAY with better message -->
