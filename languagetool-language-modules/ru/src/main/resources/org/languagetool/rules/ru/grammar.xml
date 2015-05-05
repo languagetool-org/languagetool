@@ -166,6 +166,21 @@ $Id$
             </rule>                    
         </rulegroup>
         
+           
+        <rulegroup id="companija_campanija" name="Логические ошибки «компания/кампания»">
+                
+            <rule> 
+                <pattern>
+                   <token inflected="yes">начаться</token>
+                   <token regexp="yes">компания</token>
+                   <token>по</token>
+                </pattern>
+                <message>Имелось в виду: <suggestion><match no="1" /> кампания <match no="3" /></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="Началась кампания по"><marker>Началась компания по</marker> сбору урожая.</example>
+                <example>Кампания по сбору урожая.</example>
+            </rule>
+        </rulegroup>        
         
         <rulegroup id="urovnjat_uravnjat" name="Логические ошибки «уровнять/уравнять»">
                 
