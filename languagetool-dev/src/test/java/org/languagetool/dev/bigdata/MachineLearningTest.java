@@ -32,24 +32,25 @@ public class MachineLearningTest {
   
   @Test
   public void test() throws IOException {
-    MachineLearning ml = new MachineLearning(3);
-    // XOR:
-    ml.addData(0, 0, 0, 0);
-    ml.addData(1, 1, 0, 0);
-    ml.addData(1, 0, 1, 0);
-    ml.addData(0, 1, 1, 0);
-    File tempFile = File.createTempFile(MachineLearningTest.class.getSimpleName(), ".tmp");
-    try {
-      ml.train(tempFile);
-      assertTrue(tempFile.exists());
-      assertTrue(tempFile.length() > 200);
-      BasicNetwork loadedNet = (BasicNetwork) ml.load(tempFile);
-      assertTrue(compute(loadedNet, 0, 0).getData(0) < 0.5);
-      assertTrue(compute(loadedNet, 1, 0).getData(0) > 0.5);
-      assertTrue(compute(loadedNet, 0, 1).getData(0) > 0.5);
-      assertTrue(compute(loadedNet, 1, 1).getData(0) < 0.5);
-    } finally {
-      tempFile.delete();
+    try (MachineLearning ml = new MachineLearning(3)) {
+      // XOR:
+      ml.addData(0,  0, 0, 0);
+      ml.addData(1,  1, 0, 0);
+      ml.addData(1,  0, 1, 0);
+      ml.addData(0,  1, 1, 0);
+      File tempFile = File.createTempFile(MachineLearningTest.class.getSimpleName(), ".tmp");
+      try {
+        ml.train(tempFile);
+        assertTrue(tempFile.exists());
+        assertTrue(tempFile.length() > 200);
+        BasicNetwork loadedNet = (BasicNetwork) ml.load(tempFile);
+        assertTrue(compute(loadedNet, 0, 0).getData(0) < 0.5);
+        assertTrue(compute(loadedNet, 1, 0).getData(0) > 0.5);
+        assertTrue(compute(loadedNet, 0, 1).getData(0) > 0.5);
+        assertTrue(compute(loadedNet, 1, 1).getData(0) < 0.5);
+      } finally {
+        tempFile.delete();
+      }
     }
   }
 
