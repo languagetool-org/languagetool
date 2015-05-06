@@ -168,11 +168,20 @@ $Id$
         
            
         <rulegroup id="companija_campanija" name="Логические ошибки «компания/кампания»">
-                
+            <rule> 
+                <pattern>
+                   <token inflected="yes">производственный</token>
+                   <token>кампания</token>
+                </pattern>
+                <message>Имелось в виду: <suggestion><match no="1" /> компания</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="Производственная компания"><marker>Производственная кампания</marker>.</example>
+                <example>Производственная компания была основана в 1990 году.</example>
+            </rule> 
             <rule> 
                 <pattern>
                    <token inflected="yes">начаться</token>
-                   <token regexp="yes">компания</token>
+                   <token>компания</token>
                    <token>по</token>
                 </pattern>
                 <message>Имелось в виду: <suggestion><match no="1" /> кампания <match no="3" /></suggestion>?</message>
