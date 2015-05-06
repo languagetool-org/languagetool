@@ -3745,8 +3745,8 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Falta un participi o la preposició 'de'.</message>
-                <suggestion><match no="2"  postag="V.P.*SM.?" postag_regexp="yes"/></suggestion>
-                <suggestion>de <match no="2"  postag="V.N.*" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="2" postag="V.P.*SM.?" postag_regexp="yes"/></suggestion>
+                <suggestion>de <match no="2" postag="V.N.*" postag_regexp="yes"/></suggestion>
                 <short>Falta un participi</short>
                 <example correction="realitzat|de realitzar">No s'ha <marker>realitzar</marker>.</example>
                 <example correction="realitzat|de realitzar">Ells han <marker>realitzar</marker>.</example>
@@ -7260,7 +7260,7 @@ $Id$
                 <pattern>
                     <marker>
                         <token>malgrat<exception postag="_possible_nompropi"/></token>
-                    </marker> <!--  -->
+                    </marker>
                     <token skip="9"><exception regexp="yes">tot|això|que|com</exception><exception scope="next" regexp="yes">[;,–—\(\)\-]|que|quals?|què|com|perquè</exception></token>
                     <token postag="V.[IS].*" postag_regexp="yes"><exception postag="_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token> <!-- <exception postag="_GN.*|V.N.*" postag_regexp="yes"/>-->
                 </pattern>
@@ -23404,7 +23404,7 @@ $Id$
         </rule>
         <rule id="CARA_A" name="*cara a/de cara a">
             <pattern>
-                <token><exception inflected="yes" regexp="yes">plantar|fer|tenir|posar</exception><exception regexp="yes">de|la|tan|seva|seua|aquesta|aquella|aqueixa|esta|eixa|mateixa</exception></token>
+                <token><exception inflected="yes" regexp="yes">plantar|fer|tenir|posar</exception><exception regexp="yes">de|la|tan|[stm]e[uv]a|[nv]ostra|aquesta|aquella|aqueixa|esta|eixa|mateixa</exception></token>
                 <marker>
                     <token>cara</token>
                     <token>a</token>
@@ -32541,7 +32541,7 @@ $Id$
             <rule>
                 <pattern>
                     <token inflected="yes">proper</token>
-                    <token regexp="yes" inflected="yes">futur|passat|esdeveniment|temps|data</token>
+                    <token regexp="yes" inflected="yes">futur|passat|esdeveniment|temps|data|obertura|apertura</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message>
                 <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">pròxim</match> <match no="2"/></suggestion>
@@ -32553,7 +32553,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">futur|passat|esdeveniment|temps|data</token>
+                    <token regexp="yes" inflected="yes">futur|passat|esdeveniment|temps|data|obertura|apertura</token>
                     <token inflected="yes">proper</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message>
@@ -32643,7 +32643,7 @@ $Id$
                         <token>la</token>
                         <token>propera</token>
                     </marker>
-                    <token><exception postag="_GN_FS"/><exception  regexp="yes">a|de|i</exception></token>
+                    <token><exception postag="_GN_FS"/><exception regexp="yes">a|de|i</exception></token>
                 </pattern>
                 <message>Val més usar una altra expressió.</message>
                 <suggestion>la següent</suggestion>
@@ -35877,7 +35877,7 @@ $Id$
         </rule>
         <rulegroup id="COSES_QUE_FER" name="coses *que/a fer">
             <rule>
-                <pattern> <!--  però no adjectiu sol -->
+                <pattern> <!-- però no adjectiu sol -->
                     <token postag="N.*|_GN_.*|PI.*" postag_regexp="yes" skip="1"><exception postag="_GV_|V.*|complement" postag_regexp="yes"/><exception scope="next" regexp="yes" negate="yes">que|més</exception></token>
                     <marker>
                         <token>que<exception postag="comparatiu|relatiu|conjuncio" postag_regexp="yes"/></token>
