@@ -11,7 +11,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
     <!ENTITY masculi_inusual "policia|justícia|part[123]">
     <!ENTITY nom_o_verb "tinta|plaga|cometa2|cursa|país|domini|equilibri|termini|cap|dosi|tema|imperi|barri|sonda|porta|resta|ment|capa|demanda|esperança|manca|marca|marxa|mostra|obra|ou|orquestra|profeta|programa|terra">
-    <!ENTITY nom_seguitde_nompropi "imperi|profeta|balneari|projecte|corrent|estany|cometa2|mont|pare|premi|cas|cursa|concurs|quadre|taula|novel·la|obra|riu|estil|programa|orquestra|escola|registre|finca|sonda|rosa|tema">
+    <!ENTITY nom_seguitde_nompropi "adreça|imperi|profeta|balneari|projecte|corrent|estany|cometa2|mont|pare|premi|cas|cursa|concurs|quadre|taula|novel·la|obra|riu|estil|programa|orquestra|escola|registre|finca|sonda|rosa|tema">
     <!ENTITY unitats_temps "molt|poc|temps|temporada|jornada|estona|mil·lisegon|segon|minut|hora|dia|jorn|setmana|mes|any|lustre|dècada|decenni|segle|mil·lenni">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
 ]>
@@ -643,6 +643,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="add"><wd lemma="a fi de" pos="&lt;LOC_CONJ&gt;"/><wd lemma="a fi de" pos="&lt;LOC_ADV&gt;"/><wd lemma="a fi de" pos="&lt;/LOC_ADV&gt;"/></disambig>
+        </rule>
+        <rule id="entorn_de" name="a entorn de (locució prepositiva)">
+            <pattern>
+                <token><exception postag="D..[MC]S." postag_regexp="yes"/></token>
+                <marker>
+                    <token>entorn</token>
+                    <token regexp="yes">de|d'</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add"><wd lemma="entorn de" pos="&lt;LOC_PREP&gt;"/><wd lemma="entorn de" pos="&lt;/LOC_PREP&gt;"/></disambig>
         </rule>
         <rule>
             <pattern>
