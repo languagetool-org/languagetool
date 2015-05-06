@@ -6177,6 +6177,34 @@ $Id$
             <example>El llibre <marker>tracta</marker> aspectes importants de les matemàtiques</example>
             <example>El llibre <marker>tracta</marker> a més a més aspectes importants de les matemàtiques</example>
             </rule> -->
+        <rulegroup id="ENVERS_A" name="*envers a">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>envers</token>
+                        <token>a</token>
+                    </marker>
+                    <token><exception regexp="yes" spacebefore="no">ls?</exception></token>
+                </pattern>
+                <message>Combinació incorrecta de preposicions.</message>
+                <suggestion>envers</suggestion>
+                <suggestion>cap a</suggestion>
+                <example correction="envers|cap a">I <marker>envers a</marker> un futur.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>envers</token>
+                        <token>a</token>
+                        <token regexp="yes" spacebefore="no">ls?</token>
+                    </marker>
+                </pattern>
+                <message>Combinació incorrecta de preposicions.</message>
+                <suggestion>envers e\3</suggestion>
+                <suggestion>cap \2\3</suggestion>
+                <example correction="envers el|cap al">I <marker>envers al</marker> futur.</example>
+            </rule>
+        </rulegroup>
         <rule id="A_ARRAN" name="*a arran/arran">
             <pattern>
                 <token>a</token>
