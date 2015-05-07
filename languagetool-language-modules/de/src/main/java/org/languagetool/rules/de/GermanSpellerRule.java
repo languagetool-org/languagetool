@@ -136,18 +136,21 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       String word = parts[0];
       String suffix = parts[1];
       result.add(word);
-      if (suffix.equals("S")) {
-        result.add(word + "s");
-      } else if (suffix.equals("N")) {
-        result.add(word + "n");
-      } else if (suffix.equals("A")) {  // Adjektiv
-        result.add(word + "e");
-        result.add(word + "er");
-        result.add(word + "es");
-        result.add(word + "en");
-        result.add(word + "em");
-      } else {
-        throw new RuntimeException("Unknown suffix: " + suffix + " in line: " + line);
+      for (int i = 0; i < suffix.length(); i++) {
+        char c = suffix.charAt(i);
+        if (c == 'S') {
+          result.add(word + "s");
+        } else if (c == 'N') {
+          result.add(word + "n");
+        } else if (c == 'A') {  // Adjektiv
+          result.add(word + "e");
+          result.add(word + "er");
+          result.add(word + "es");
+          result.add(word + "en");
+          result.add(word + "em");
+        } else {
+          throw new RuntimeException("Unknown suffix: " + suffix + " in line: " + line);
+        }
       }
     } else {
       result.add(line);
