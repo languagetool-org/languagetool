@@ -88,7 +88,7 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer {
 
           if (pTokenMatcher.getPatternToken().getMinOccurrence() == 0) {
             boolean foundNext = false;
-            for (int k2=k+1; k2<patternSize; k2++) {
+            for (int k2 = k + 1; k2 < patternSize; k2++) {
               final PatternTokenMatcher nextElement = patternTokenMatchers.get(k2);
               final boolean nextElementMatch = !tokens[m].isImmunized() && testAllReadings(tokens, nextElement, pTokenMatcher, m,
                   firstMatchToken, prevSkipNext);
@@ -99,15 +99,14 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer {
                 tokenPositions.add(0);
                 foundNext = true;
                 break;
-              }
-              else if (nextElement.getPatternToken().getMinOccurrence() > 0) {
+              } else if (nextElement.getPatternToken().getMinOccurrence() > 0) {
                 break;
               }
             }
-            if (foundNext)
+            if (foundNext) {
               break;
+            }
           }
-          
           
           if (allElementsMatch) {
             int skipForMax = skipMaxTokens(tokens, pTokenMatcher, firstMatchToken, prevSkipNext,
