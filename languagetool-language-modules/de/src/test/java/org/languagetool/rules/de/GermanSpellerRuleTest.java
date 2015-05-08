@@ -29,9 +29,7 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.CoreMatchers.is;
@@ -69,6 +67,26 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("greifte", "griff", rule, langTool);
   }
 
+  @Test
+  public void testAddIgnoreWords() throws Exception {
+    MyGermanSpellerRule rule = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    Set<String> set = new HashSet<>();
+    rule.addIgnoreWords("Fußelmappse", set);
+    assertTrue(set.contains("Fußelmappse"));
+    rule.addIgnoreWords("Fußelmappse/N", set);
+    assertTrue(set.contains("Fußelmappse"));
+    assertTrue(set.contains("Fußelmappsen"));
+    rule.addIgnoreWords("Toggeltröt/NS", set);
+    assertTrue(set.contains("Toggeltröt"));
+    assertTrue(set.contains("Toggeltröts"));
+    assertTrue(set.contains("Toggeltrötn"));
+    rule.addIgnoreWords("Toggeltröt/NS", set);
+    MyGermanSpellerRule ruleCH = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
+    ruleCH.addIgnoreWords("Fußelmappse/N", set);
+    assertTrue(set.contains("Fusselmappse"));
+    assertTrue(set.contains("Fusselmappsen"));
+  }
+  
   private void assertFirstSuggestion(String input, String expected, GermanSpellerRule rule, JLanguageTool langTool) throws IOException {
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(input));
     assertThat(matches[0].getSuggestedReplacements().get(0), is(expected));
@@ -124,7 +142,7 @@ public class GermanSpellerRuleTest {
       init();
     }
     boolean doIgnoreWord(String word) throws IOException {
-      return super.ignoreWord(Arrays.asList(word), 0);
+      return super.ignoreWord(Collections.singletonList(word), 0);
     }
   }
 
