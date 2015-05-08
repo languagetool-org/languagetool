@@ -42,8 +42,9 @@ public class SubjectVerbAgreementRuleTest {
 
   @BeforeClass
   public static void setUp() {
-    rule = new SubjectVerbAgreementRule(TestTools.getMessages("de"));
-    langTool = new JLanguageTool(new German());
+    German german = new German();
+    rule = new SubjectVerbAgreementRule(TestTools.getMessages("de"), german);
+    langTool = new JLanguageTool(german);
   }
 
   @Test

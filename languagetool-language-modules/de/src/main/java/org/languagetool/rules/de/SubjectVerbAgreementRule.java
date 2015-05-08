@@ -58,10 +58,11 @@ public class SubjectVerbAgreementRule extends GermanRule {
   private static final List<String> QUESTION_PRONOUNS = Arrays.asList("wie");
   private static final List<String> CURRENCIES = Arrays.asList("Dollar", "Euro", "Yen");
 
-  private final GermanTagger tagger = (GermanTagger)new German().getTagger();
+  private final GermanTagger tagger;
 
-  public SubjectVerbAgreementRule(ResourceBundle messages) {
+  public SubjectVerbAgreementRule(ResourceBundle messages, German language) {
     super.setCategory(new Category(messages.getString("category_grammar")));
+    tagger = (GermanTagger) language.getTagger();
   }
 
   @Override

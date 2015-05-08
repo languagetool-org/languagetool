@@ -156,7 +156,7 @@ public class German extends Language {
             new CompoundRule(messages),
             new DashRule(messages),
             new VerbAgreementRule(messages, this),
-            new SubjectVerbAgreementRule(messages),
+            new SubjectVerbAgreementRule(messages, this),
             new WordCoherencyRule(messages),
             new SimilarNameRule(messages),
             new WiederVsWiderRule(messages)
