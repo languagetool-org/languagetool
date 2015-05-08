@@ -87,17 +87,28 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer {
           allElementsMatch = !tokens[m].isImmunized() && testAllReadings(tokens, pTokenMatcher, prevTokenMatcher, m, firstMatchToken, prevSkipNext);
 
           if (pTokenMatcher.getPatternToken().getMinOccurrence() == 0) {
-            final PatternTokenMatcher nextElement = patternTokenMatchers.get(k + 1);
-            final boolean nextElementMatch = !tokens[m].isImmunized() && testAllReadings(tokens, nextElement, pTokenMatcher, m,
-                firstMatchToken, prevSkipNext);
-            if (nextElementMatch) {
-              // this element doesn't match, but it's optional so accept this and continue
-              allElementsMatch = true;
-              minOccurSkip++;
-              tokenPositions.add(0);
-              break;
+            boolean foundNext = false;
+            for (int k2=k+1; k2<patternSize; k2++) {
+              final PatternTokenMatcher nextElement = patternTokenMatchers.get(k2);
+              final boolean nextElementMatch = !tokens[m].isImmunized() && testAllReadings(tokens, nextElement, pTokenMatcher, m,
+                  firstMatchToken, prevSkipNext);
+              if (nextElementMatch) {
+                // this element doesn't match, but it's optional so accept this and continue
+                allElementsMatch = true;
+                minOccurSkip++;
+                tokenPositions.add(0);
+                foundNext = true;
+                break;
+              }
+              else if (nextElement.getPatternToken().getMinOccurrence() > 0) {
+                break;
+              }
             }
+            if (foundNext)
+              break;
           }
+          
+          
           if (allElementsMatch) {
             int skipForMax = skipMaxTokens(tokens, pTokenMatcher, firstMatchToken, prevSkipNext,
                 prevTokenMatcher, m, patternSize - k -1);

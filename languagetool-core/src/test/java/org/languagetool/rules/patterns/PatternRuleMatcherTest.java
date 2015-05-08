@@ -20,7 +20,9 @@ package org.languagetool.rules.patterns;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -75,6 +77,34 @@ public class PatternRuleMatcherTest {
     assertPosition(matches[1], 10, 15);
     assertPosition(matches[2], 20, 23);
     assertPosition(matches[3], 24, 29);
+  }
+
+  @Test
+  public void testTwoZeroMinOccurrences() throws Exception {
+    PatternToken patternTokenB1 = makeElement("ba");
+    patternTokenB1.setMinOccurrence(0);
+    PatternToken patternTokenB2 = makeElement("bb");
+    patternTokenB2.setMinOccurrence(0);
+    PatternRuleMatcher matcher = getMatcher(makeElement("a"), patternTokenB1, patternTokenB2, makeElement("c"));  // regex syntax: a (ba)? (bb)? c
+    
+    assertNoMatch("ba a", matcher);
+    assertNoMatch("c a bb", matcher);
+    assertPartialMatch("z a c", matcher);
+    assertPartialMatch("a c z", matcher);
+    assertNoMatch("a ba ba c", matcher);
+    assertCompleteMatch("a ba bb c", matcher);
+    assertCompleteMatch("a ba c", matcher);
+    assertCompleteMatch("a bb c", matcher);
+    assertCompleteMatch("a c", matcher);
+    assertNoMatch("a X c", matcher);
+    
+    RuleMatch[] matches = getMatches("a ba c FOO a bb c FOO a c a ba bb c", matcher);
+    //......................................^^^^^.....^^^^^.....^^^.^^^^^
+    assertThat(matches.length, is(4));
+    assertPosition(matches[0], 0, 6);
+    assertPosition(matches[1], 11, 17);
+    assertPosition(matches[2], 22, 25);
+    assertPosition(matches[3], 26, 35);
   }
 
   @Test
