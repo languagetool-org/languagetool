@@ -24,8 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import de.danielnaber.jwordsplitter.AbstractWordSplitter;
-import de.danielnaber.jwordsplitter.GermanWordSplitter;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.chunking.Chunker;
@@ -171,13 +169,11 @@ public class German extends Language {
   public CompoundWordTokenizer getNonStrictCompoundSplitter() {
     if (compoundTokenizer == null) {
       try {
-        final AbstractWordSplitter wordSplitter = new GermanWordSplitter(false);
-        wordSplitter.setStrictMode(false); // there's a spelling mistake in (at least) one part, so strict mode wouldn't split the word
-        wordSplitter.setMinimumWordLength(3);
+        final GermanCompoundTokenizer tokenizer = new GermanCompoundTokenizer(false);  // there's a spelling mistake in (at least) one part, so strict mode wouldn't split the word
         compoundTokenizer = new CompoundWordTokenizer() {
           @Override
           public List<String> tokenize(String word) {
-            return new ArrayList<>(wordSplitter.splitWord(word));
+            return new ArrayList<>(tokenizer.tokenize(word));
           }
         };
       } catch (IOException e) {
