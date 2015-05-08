@@ -19,12 +19,7 @@
 package org.languagetool.tokenizers.pl;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.BaseTagger;
@@ -41,33 +36,31 @@ public class PolishWordTokenizer extends WordTokenizer {
 
   private Tagger tagger;
 
-  /**
-   * The set of prefixes that are not allowed to be split.
-   */
+  // The set of prefixes that are not allowed to be split.
   private static final Set<String> prefixes;
 
-  //Polish prefixes that should never be used to
-  //split parts of words
+  // Polish prefixes that should never be used to
+  // split parts of words
   static {
-    final Set<String> tempSet = new HashSet<>();
-    tempSet.add("arcy");  tempSet.add("neo");
-    tempSet.add("pre");   tempSet.add("anty");
-    tempSet.add("eks");   tempSet.add("bez");
-    tempSet.add("beze");  tempSet.add("ekstra");
-    tempSet.add("hiper"); tempSet.add("infra");
-    tempSet.add("kontr"); tempSet.add("maksi");
-    tempSet.add("midi");  tempSet.add("między");
-    tempSet.add("mini");  tempSet.add("nad");
-    tempSet.add("nade");  tempSet.add("około");
-    tempSet.add("ponad"); tempSet.add("post");
-    tempSet.add("pro");   tempSet.add("przeciw");
-    tempSet.add("pseudo"); tempSet.add("super");
-    tempSet.add("śród");  tempSet.add("ultra");
-    tempSet.add("wice");  tempSet.add("wokół");
-    tempSet.add("wokoło");
+    final Set<String> tempSet = new HashSet<>(Arrays.asList(
+      "arcy",  "neo",
+      "pre",   "anty",
+      "eks",   "bez",
+      "beze",  "ekstra",
+      "hiper", "infra",
+      "kontr", "maksi",
+      "midi",  "między",
+      "mini",  "nad",
+      "nade",  "około",
+      "ponad", "post",
+      "pro",   "przeciw",
+      "pseudo", "super",
+      "śród",  "ultra",
+      "wice",  "wokół",
+      "wokoło"
+    ));
     prefixes = Collections.unmodifiableSet(tempSet);
   }
-
 
   public PolishWordTokenizer() {
     plTokenizing = super.getTokenizingCharacters() + "–";   // n-dash
@@ -114,9 +107,7 @@ public class PolishWordTokenizer extends WordTokenizer {
             l.add(token);
           } else {
             List<String> testedTokens = new ArrayList<>(tokenParts.length + 1);
-            for (String tokenPart : tokenParts) {
-              testedTokens.add(tokenPart);
-            }
+            Collections.addAll(testedTokens, tokenParts);
             testedTokens.add(token);
             try {
               List<AnalyzedTokenReadings> taggedToks = tagger.tag(testedTokens);
@@ -124,7 +115,7 @@ public class PolishWordTokenizer extends WordTokenizer {
                   && !taggedToks.get(tokenParts.length).isTagged()){
                 boolean isCompound = false;
                 switch (tokenParts.length) {
-                  case 2: {
+                  case 2:
                     if ((taggedToks.get(0).hasPosTag("adja") // "niemiecko-indonezyjski"
                         && taggedToks.get(1).hasPartialPosTag("adj:"))
                         || (taggedToks.get(0).hasPartialPosTag("subst:") // "kobieta-wojownik"
@@ -134,15 +125,13 @@ public class PolishWordTokenizer extends WordTokenizer {
                       isCompound = true;
                     }
                     break;
-                  }
-                  case 3: {
+                  case 3:
                     if (taggedToks.get(0).hasPosTag("adja")
                         && taggedToks.get(1).hasPosTag("adja")
                         && taggedToks.get(2).hasPartialPosTag("adj:")) {
                       isCompound = true;
                     }
                     break;
-                  }
                 }
                 if (isCompound) {
                   for (int i = 0; i < tokenParts.length; i++) {
