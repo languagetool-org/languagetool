@@ -57,6 +57,8 @@ class Main {
   private final boolean applySuggestions;
   private final boolean autoDetect;
   private final boolean singleLineBreakMarksParagraph;
+  private final boolean listUnknownWords;
+  private final List<String> unknownWords;
   private final String[] enabledRules;
   private final String[] disabledRules;
   private final Language motherTongue;
@@ -78,6 +80,8 @@ class Main {
     this.disabledRules = options.getDisabledRules();
     this.motherTongue = options.getMotherTongue();
     this.singleLineBreakMarksParagraph = options.isSingleLineBreakMarksParagraph();
+    this.listUnknownWords = options.isListUnknown();
+    this.unknownWords = new ArrayList<>();
     profileRules = false;
     bitextMode = false;
     srcLt = null;
@@ -161,7 +165,7 @@ class Main {
   }
 
   private void runOnFile(final String filename, final String encoding,
-      final boolean listUnknownWords, final boolean xmlFiltering) throws IOException {
+      final boolean xmlFiltering) throws IOException {
     boolean oneTime = false;
     if (!isStdIn(filename)) {
       if (autoDetect) {
@@ -180,13 +184,13 @@ class Main {
       oneTime = file.length() < MAX_FILE_SIZE || bitextMode;
     }
     if (oneTime) {
-      runOnFileInOneGo(filename, encoding, listUnknownWords, xmlFiltering);
+      runOnFileInOneGo(filename, encoding, xmlFiltering);
     } else {
-      runOnFileLineByLine(filename, encoding, listUnknownWords);
+      runOnFileLineByLine(filename, encoding);
     }
   }
 
-  private void runOnFileInOneGo(String filename, String encoding, boolean listUnknownWords, boolean xmlFiltering) throws IOException {
+  private void runOnFileInOneGo(String filename, String encoding, boolean xmlFiltering) throws IOException {
     if (bitextMode) {
       final TabBitextReader reader = new TabBitextReader(filename, encoding);
       if (applySuggestions) {
@@ -201,23 +205,17 @@ class Main {
       } else if (profileRules) {
         CommandLineTools.profileRulesOnText(text, lt);
       } else if (!taggerOnly) {
-        CommandLineTools.checkText(text, lt, apiFormat, 0);
+        CommandLineTools.checkText(text, lt, apiFormat, 0, listUnknownWords);
       } else {
         CommandLineTools.tagText(text, lt);
       }
-      if (apiFormat) {
-        System.out.println("<!--");
-      }
-      if (listUnknownWords) {
+      if (listUnknownWords && !apiFormat) {
         System.out.println("Unknown words: " + lt.getUnknownWords());
-      }
-      if (apiFormat) {
-        System.out.println("-->");
       }
     }
   }
 
-  private void runOnFileLineByLine(String filename, String encoding, boolean listUnknownWords) throws IOException {
+  private void runOnFileLineByLine(String filename, String encoding) throws IOException {
     if (verbose) {
       lt.setOutput(System.err);
     }
@@ -240,7 +238,6 @@ class Main {
     }
     int lineOffset = 0;
     int tmpLineOffset = 0;
-    final List<String> unknownWords = new ArrayList<>();
     handleLine(XmlPrintMode.START_XML, 0, new StringBuilder());
     StringBuilder sb = new StringBuilder();
     for (int ruleIndex = 0; !rules.isEmpty() && ruleIndex < runCount; ruleIndex++) {
@@ -278,21 +275,21 @@ class Main {
             if (profileRules) {
               sentences += lt.sentenceTokenize(sb.toString()).size();
             }
-            rememberUnknownWords(listUnknownWords, unknownWords);
+            rememberUnknownWords();
             sb = new StringBuilder();
             lineOffset = tmpLineOffset;
           }
         }
       } finally {
-        matches += handleLine(XmlPrintMode.END_XML, tmpLineOffset - 1, sb);
         if (sb.length() > 0) {
           sentences += lt.getSentenceCount();
           if (profileRules) {
             sentences += lt.sentenceTokenize(sb.toString()).size();
           }
-          rememberUnknownWords(listUnknownWords, unknownWords);
+          rememberUnknownWords();
         }
-        printTimingInformation(listUnknownWords, rules, unknownWords, ruleIndex, matches, sentences, startTime);
+        matches += handleLine(XmlPrintMode.END_XML, tmpLineOffset - 1, sb);
+        printTimingInformation(rules, ruleIndex, matches, sentences, startTime);
       }
     }
   }
@@ -302,7 +299,7 @@ class Main {
         || "".equals(line) || sb.length() >= MAX_FILE_SIZE;
   }
 
-  private void rememberUnknownWords(boolean listUnknownWords, List<String> unknownWords) {
+  private void rememberUnknownWords() {
     if (listUnknownWords && !taggerOnly) {
       for (String word : lt.getUnknownWords()) {
         if (!unknownWords.contains(word)) {
@@ -338,8 +335,8 @@ class Main {
     return "-".equals(filename);
   }
 
-  private void printTimingInformation(final boolean listUnknownWords, final List<Rule> rules,
-      final List<String> unknownWords, final int ruleIndex, final int matches, final long sentences, final long startTime) {
+  private void printTimingInformation(final List<Rule> rules,
+      final int ruleIndex, final int matches, final long sentences, final long startTime) {
     if (!applySuggestions) {
       final long endTime = System.currentTimeMillis();
       final long time = endTime - startTime;
@@ -359,7 +356,7 @@ class Main {
             sentences, sentencesPerSecond);
         System.out.println();
       }
-      if (listUnknownWords) {
+      if (listUnknownWords && !apiFormat) {
         Collections.sort(unknownWords);
         System.out.println("Unknown words: " + unknownWords);
       }
@@ -378,7 +375,8 @@ class Main {
     } else if (profileRules) {
       matches += Tools.profileRulesOnLine(s, lt, currentRule);
     } else if (!taggerOnly) {
-      matches += CommandLineTools.checkText(s, lt, apiFormat, -1, lineOffset, matches, mode);
+      matches += CommandLineTools.checkText(s, lt, apiFormat, -1, lineOffset,
+          matches, mode, listUnknownWords, unknownWords);
     } else {
       CommandLineTools.tagText(s, lt);
     }
@@ -386,7 +384,7 @@ class Main {
   }
 
   private void runRecursive(final String filename, final String encoding,
-      final boolean listUnknown, final boolean xmlFiltering) {
+      final boolean xmlFiltering) {
     final File dir = new File(filename);
     final File[] files = dir.listFiles();
     if (files == null) {
@@ -395,9 +393,9 @@ class Main {
     for (final File file : files) {
       try {
         if (file.isDirectory()) {
-          runRecursive(file.getAbsolutePath(), encoding, listUnknown, xmlFiltering);
+          runRecursive(file.getAbsolutePath(), encoding, xmlFiltering);
         } else {
-          runOnFile(file.getAbsolutePath(), encoding, listUnknown, xmlFiltering);
+          runOnFile(file.getAbsolutePath(), encoding, xmlFiltering);
         }
       } catch (Exception e) {
         throw new RuntimeException("Could not check text in file " + file, e);
@@ -521,9 +519,9 @@ class Main {
       prg.setBitextMode(options.getMotherTongue(), options.getDisabledRules(), options.getEnabledRules(), bitextRuleFile);
     }
     if (options.isRecursive()) {
-      prg.runRecursive(options.getFilename(), options.getEncoding(), options.isListUnknown(), options.isXmlFiltering());
+      prg.runRecursive(options.getFilename(), options.getEncoding(), options.isXmlFiltering());
     } else {
-      prg.runOnFile(options.getFilename(), options.getEncoding(), options.isListUnknown(), options.isXmlFiltering());
+      prg.runOnFile(options.getFilename(), options.getEncoding(), options.isXmlFiltering());
     }
     prg.cleanUp();
   }

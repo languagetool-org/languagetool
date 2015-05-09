@@ -152,9 +152,10 @@ public class RuleAsXmlSerializer {
    *
    * @param text the original text that was checked, used to get the context of the matches
    * @param contextSize the desired context size in characters
+   * @param unknownWords unknown words to be printed in a separated list
    * @since 3.0
    */
-  public String ruleMatchesToXml(List<RuleMatch> ruleMatches, String text, int contextSize, XmlPrintMode xmlMode, Language lang) {
+  public String ruleMatchesToXml(List<RuleMatch> ruleMatches, String text, int contextSize, XmlPrintMode xmlMode, Language lang, List<String> unknownWords) {
     String xmlSnippet = ruleMatchesToXmlSnippet(ruleMatches, text, contextSize);
     switch (xmlMode) {
       case START_XML:
@@ -162,16 +163,30 @@ public class RuleAsXmlSerializer {
       case CONTINUE_XML:
         return xmlSnippet;
       case END_XML:
-        return xmlSnippet + getXmlEnd();
+        return xmlSnippet + getXmlUnknownWords(unknownWords) + getXmlEnd();
       case NORMAL_XML:
-        return getXmlStart(lang, null) + xmlSnippet + getXmlEnd();
+        return getXmlStart(lang, null) + xmlSnippet + getXmlUnknownWords(unknownWords) + getXmlEnd();
     }
     throw new IllegalArgumentException("Unknown XML mode: " + xmlMode);
+  }
+
+  private String getXmlUnknownWords(List<String> unknownWords) {
+    StringBuilder xml = new StringBuilder(CAPACITY);
+    if (!unknownWords.isEmpty()) {
+      xml.append("<unknown_words>\n");
+      for (String word : unknownWords) {
+        xml.append("    <word>");
+        xml.append(escapeForXmlAttribute(word));
+        xml.append("</word>\n");
+      }
+      xml.append("</unknown_words>\n");
+    }
+    return xml.toString();
   }
 
   private static String escapeXMLForAPIOutput(String s) {
     // this is simplified XML, i.e. put the "<error>" in one line:
     return escapeForXmlAttribute(s).replaceAll("[\n\r]", " ");
   }
-
+  
 }

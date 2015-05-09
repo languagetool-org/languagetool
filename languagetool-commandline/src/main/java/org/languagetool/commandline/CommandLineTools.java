@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -66,13 +67,18 @@ public final class CommandLineTools {
   }
 
   public static int checkText(final String contents, final JLanguageTool lt) throws IOException {
-    return checkText(contents, lt, false, -1, 0, 0, StringTools.XmlPrintMode.NORMAL_XML);
+    return checkText(contents, lt, false, -1, 0, 0, StringTools.XmlPrintMode.NORMAL_XML, false, Collections.<String>emptyList());
   }
 
   public static int checkText(final String contents, final JLanguageTool lt,
                               final boolean apiFormat, final int lineOffset) throws IOException {
-    return checkText(contents, lt, apiFormat, -1, lineOffset, 0, StringTools.XmlPrintMode.NORMAL_XML);
+    return checkText(contents, lt, apiFormat, -1, lineOffset, 0, StringTools.XmlPrintMode.NORMAL_XML, false, Collections.<String>emptyList());
   }
+  
+  public static int checkText(final String contents, final JLanguageTool lt,
+          final boolean apiFormat, final int lineOffset, final boolean listUnknownWords) throws IOException {
+    return checkText(contents, lt, apiFormat, -1, lineOffset, 0, StringTools.XmlPrintMode.NORMAL_XML, listUnknownWords, Collections.<String>emptyList());
+}
 
   /**
    * Check the given text and print results to System.out.
@@ -88,7 +94,8 @@ public final class CommandLineTools {
    */
   public static int checkText(final String contents, final JLanguageTool lt,
                               final boolean apiFormat, int contextSize, final int lineOffset,
-                              final int prevMatches, final StringTools.XmlPrintMode xmlMode) throws IOException {
+                              final int prevMatches, final StringTools.XmlPrintMode xmlMode,
+                              final boolean listUnknownWords, List<String> unknownWords) throws IOException {
     if (contextSize == -1) {
       contextSize = DEFAULT_CONTEXT_SIZE;
     }
@@ -100,9 +107,12 @@ public final class CommandLineTools {
       r.setEndLine(r.getEndLine() + lineOffset);
     }
     if (apiFormat) {
+      if (listUnknownWords && xmlMode == StringTools.XmlPrintMode.NORMAL_XML) {
+        unknownWords = lt.getUnknownWords();
+      }
       final RuleAsXmlSerializer serializer = new RuleAsXmlSerializer();
       final String xml = serializer.ruleMatchesToXml(ruleMatches, contents,
-              contextSize, xmlMode, lt.getLanguage());
+              contextSize, xmlMode, lt.getLanguage(), unknownWords);
       final PrintStream out = new PrintStream(System.out, true, "UTF-8");
       out.print(xml);
     } else {
