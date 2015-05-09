@@ -205,8 +205,14 @@ class Main {
       } else {
         CommandLineTools.tagText(text, lt);
       }
+      if (apiFormat) {
+        System.out.println("<!--");
+      }
       if (listUnknownWords) {
         System.out.println("Unknown words: " + lt.getUnknownWords());
+      }
+      if (apiFormat) {
+        System.out.println("-->");
       }
     }
   }
