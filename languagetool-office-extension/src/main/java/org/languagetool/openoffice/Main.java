@@ -41,7 +41,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.MultiThreadedJLanguageTool;
+// import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.gui.AboutDialog;
 import org.languagetool.gui.Configuration;
 import org.languagetool.markup.AnnotatedText;
@@ -378,7 +378,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private void initLanguageTool() {
     try {
       prepareConfig(docLanguage);
-      langTool = new MultiThreadedJLanguageTool(docLanguage, config.getMotherTongue());
+      langTool = new JLanguageTool(docLanguage, config.getMotherTongue());    //
       for (Rule rule : langTool.getAllActiveRules()) {
         if (rule.isDictionaryBasedSpellingRule()) {
           langTool.disableRule(rule.getId());
