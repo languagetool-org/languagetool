@@ -127,6 +127,8 @@ public class GermanChunker implements Chunker {
       build("<pos=ART> <pos=ADJ> <und|sowie> (<pos=ADJ>|<pos=PA2>) <chunk=I-NP & !pos=PLU>+", NPS, true),
       // "eine Masseeinheit und keine Gewichtseinheit":
       build("<chunk=B-NP & !pos=PLU> <chunk=I-NP>* <und|sowie> <keine> <chunk=I-NP>+", NPS, true),
+      // "Der See und das anliegende Marschland":
+      build("<NP> <und|sowie> <pos=ART> <pos=PA1> <pos=SUB>", NPP, true),
 
       // "eins ihrer drei Autos":
       build("(<eins>|<eines>) <chunk=B-NP> <chunk=I-NP>+", NPS),
@@ -170,6 +172,8 @@ public class GermanChunker implements Chunker {
       build("<regex=eine[rs]?> <der> <am> <pos=ADJ> <pos=PA2> <NP>", NPS),
       // "einer der beiden Höfe":
       build("<regex=eine[rs]?> <der> <beiden> <pos=ADJ>* <pos=SUB>", NPS),
+      // "Einer seiner bedeutendsten Kämpfe":
+      build("<regex=eine[rs]?> <seiner|ihrer> <pos=PA1> <pos=SUB>", NPS),
 
       // "xy Prozent" - beide Varianten okay (zumindest umgangssprachlich):
       // siehe http://www.canoo.net/services/OnlineGrammar/Wort/Verb/Numerus-Person/ProblemNum.html#Anchor-Mengenangabe-49575

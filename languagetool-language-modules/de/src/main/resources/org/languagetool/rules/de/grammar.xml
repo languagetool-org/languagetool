@@ -85,7 +85,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY seitewoerter ".*Buchs?|.*Lektüre|umblätter\w\w?|umgeblättert|umzublättern|(ge)?lesen|las(en)?|geschrieben|schreiben?">
     <!ENTITY saitewoerter "aufziehen|.*ontrabass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?|Klavier">
     <!ENTITY leidwoerter "Angst|Armut|Bevölkerung|Blut(vergießens?)?|Einsamkeit|Elend|Entbehrung(en)?|Entsagung|Flüchtling(en?)?|Gewalt|Krankheit(en?)?|Mitleid|Not|Ohnmacht|Qual(en?)?|Schadens?|Schrecken|Unterdrückung|Vertreibung|Verzweiflung|Zerstörung(en?)?|Zivilbevölkerung|bitteres|endloses|ertragen|geschieht|geteiltes|psychisches|unendliches|unermessliches|unerträgliches|ungeheures|unsagbares|unsägliches|unvorstellbares|vermeidbares|verursacht|zugefügt">
-    <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|genau|laut|maximal|reichlich|täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich|voraussichtlich|gleichzeitig|zeitgleich|häufig|mehrheitlich">
+    <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|genau|laut|maximal|reichlich|täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich|voraussichtlich|gleichzeitig|zeitgleich|häufig|mehrheitlich|ungefähr">
     <!ENTITY meindein "&lsqb;mds&rsqb;ein|unser|euer|ihr">
     <!ENTITY verbendirekterede "befehlen|behaupten|denken|fragen|rufen|sagen|versichern|flüstern">
     <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt|empört|entrüstet|erbost">
@@ -199,18 +199,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Gebrauchsspuren">Die Ware hat deutliche <marker>Gebrauchtspuren</marker>.</example>
         </rule>
         <rule id="IM_IHM" name="Möglicher Tippfehler: 'im (ihm)'">
-           <antipattern>
-               <token>im</token>
-               <token>sog</token>
-               <token>.</token>
-           </antipattern>
+            <antipattern>
+                <token>im</token>
+                <token>sog</token>
+                <token>.</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>im</token>
                 </marker>
                 <token postag="VER:[123]:.*" postag_regexp="yes">
                     <exception postag="VER:.*" postag_regexp="yes" negate_pos="yes"/>
-                    <exception regexp="yes">regen|prallen|siebten|achten|wachen|trauten|ehelichen</exception>
+                    <exception regexp="yes">regen|prallen|siebten|achten|wachen|trauten|ehelichen|stumpfen</exception>
                 </token>
             </pattern>
             <message>Möglicher Tippfehler: Meinten Sie <suggestion>ihm</suggestion>?</message>
@@ -1138,7 +1138,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception regexp="yes">dehnbarer|andere|lange|höher|einige|solche|weitere|folgende[rs]?</exception>
                     </token>
                 </marker>
-                <token postag="SENT_END"/>
+                <token postag="SENT_END" regexp="yes">[.!?]+</token>
             </pattern>
             <message>Meinten Sie die Form <suggestion><match no="2" regexp_match="(e|em|en|es|ere|eren|erem|erer|eres|ste|stem|ster|stes)$" regexp_replace=""/></suggestion>?</message>
             <short>Möglicher Tippfehler</short>
@@ -1146,6 +1146,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="schnell">Er war <marker>schnelle</marker>.</example>
             <example>Er war <marker>schneller</marker>.</example>
             <example>Sein Vater ist <marker>Japaner</marker>.</example>
+            <example>Die ersten Erdbändiger waren blinde Dachsmaulwürfe</example>
         </rule>
         <rule id="SO_SCHNELLE_WIE" name="Möglicher Tippfehler: 'so schnelle (schnell) wie' etc.">
             <pattern>
@@ -11350,7 +11351,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token case_sensitive="yes" postag="VER:INF:NON|ADJ:NOM:.*" postag_regexp="yes" regexp="yes">[a-zöäü].*<exception>andere</exception></token>
                 </marker>
-                <token><exception postag="SUB:NOM:SIN:NEU" /></token>
+                <token><exception postag="SUB:NOM:SIN:NEU" /><exception>,</exception></token>
             </pattern>
             <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier ein Nomen zu sein (\1 = <match no="1" regexp_match="s$" regexp_replace="" /> das) und muss dann großgeschrieben werden.</message>
             <example correction="Essen">Aber ans <marker>essen</marker> hat er nicht mehr gedacht.</example>
@@ -24440,7 +24441,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
-                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Pfennig|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr|Zoll|Bar|Promille|Barrel|Schilling|Sigma</exception>
+                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Pfennig|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr|Zoll|Bar|Promille|Barrel|Schilling|Sigma|Charisma</exception>
                         </token>
                     </marker>
                     <token><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/></token>

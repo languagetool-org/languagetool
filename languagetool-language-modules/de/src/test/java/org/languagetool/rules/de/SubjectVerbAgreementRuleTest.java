@@ -285,7 +285,8 @@ public class SubjectVerbAgreementRuleTest {
         "Laut den meisten Quellen ist das Seitenverhältnis der Nationalflagge...",
         "Seine Novelle, die eigentlich eine Glosse ist, war toll.",
         "Für in Österreich lebende Afrikaner und Afrikanerinnen ist dies nicht üblich.",
-        "Von ursprünglich drei Almhütten ist noch eine erhalten."
+        "Von ursprünglich drei Almhütten ist noch eine erhalten.",
+        "Einer seiner bedeutendsten Kämpfe war gegen den späteren Weltmeister."
     );
     for (String sentence : sentences) {
       assertGood(sentence);
@@ -392,7 +393,8 @@ public class SubjectVerbAgreementRuleTest {
         "Ursache waren die hohe Arbeitslosigkeit und die Wohnungsnot.",
         "Ursache waren unter anderem die hohe Arbeitslosigkeit und die Wohnungsnot.", 
         "Er ahnt nicht, dass sie und sein Sohn ein Paar sind.",
-        "Die Ursachen der vorliegenden Durchblutungsstörung sind noch unbekannt."
+        "Die Ursachen der vorliegenden Durchblutungsstörung sind noch unbekannt.",
+        "Der See und das Marschland sind ein Naturschutzgebiet"
     );
     for (String sentence : sentences) {
       assertGood(sentence);
