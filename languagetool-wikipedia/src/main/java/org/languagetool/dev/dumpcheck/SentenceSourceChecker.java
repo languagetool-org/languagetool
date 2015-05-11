@@ -34,7 +34,7 @@ import java.text.NumberFormat;
 import java.util.*;
 
 /**
- * Checks texts from one or more {@link org.languagetool.dev.dumpcheck.SentenceSource}s.
+ * Checks texts from one or more {@link SentenceSource}s.
  * @since 2.4
  */
 public class SentenceSourceChecker {
@@ -124,7 +124,7 @@ public class SentenceSourceChecker {
     try {
       CommandLineParser parser = new GnuParser();
       return parser.parse(options, args);
-    } catch (org.apache.commons.cli.ParseException e) {
+    } catch (ParseException e) {
       System.err.println("Error: " + e.getMessage());
       HelpFormatter formatter = new HelpFormatter();
       formatter.setWidth(80);
@@ -132,7 +132,7 @@ public class SentenceSourceChecker {
       formatter.printHelp(SentenceSourceChecker.class.getSimpleName() + " [OPTION]... --file <file> --language <code>", options);
       System.exit(1);
     }
-    return null;
+    throw new IllegalStateException();
   }
 
   private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds,

@@ -58,7 +58,8 @@ public class SubjectVerbAgreementRule extends GermanRule {
   private static final List<SingularPluralPair> PAIRS = Arrays.asList(
     new SingularPluralPair("ist", "sind"),
     new SingularPluralPair("war", "waren")
-    // add more pairs here to activate more cases step by step 
+    //new SingularPluralPair("geht", "gehen")  // false alarm: "Wohin möchtest du nächsten Sonntag gehen?"
+    // add more pairs here to activate more cases step by step
   );
   private final Set<String> singular = new HashSet<>();
   private final Set<String> plural = new HashSet<>();
