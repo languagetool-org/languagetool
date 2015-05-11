@@ -389,7 +389,8 @@ public class SubjectVerbAgreementRuleTest {
         "Jüngere sind oft davon überzeugt, im Recht zu sein.",
         "Verwandte sind selten mehr als Bekannte.",
         "Ursache waren die hohe Arbeitslosigkeit und die Wohnungsnot.",
-        "Ursache waren unter anderem die hohe Arbeitslosigkeit und die Wohnungsnot."
+        "Ursache waren unter anderem die hohe Arbeitslosigkeit und die Wohnungsnot.", 
+        "Er ahnt nicht, dass sie und sein Sohn ein Paar sind."
     );
     for (String sentence : sentences) {
       assertGood(sentence);

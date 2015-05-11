@@ -213,6 +213,8 @@ public class GermanChunker implements Chunker {
       // "eine Menge englischer Wörter [sind aus dem Lateinischen abgeleitet]":
       // NPP stimmt aber nicht für Mathematik, dort NPS: "Eine Menge ist ein Konzept der Mathematik."
       build("<eine> <menge> <NP>+", NPP, true),
+      // "dass [sie und sein Sohn ein Paar] sind":
+      build("<er|sie|es> <und> <NP> <NP>", NPP),
 
       // ===== prepositional phrases ===========================================================
 
