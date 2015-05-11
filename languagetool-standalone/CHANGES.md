@@ -29,12 +29,16 @@
   
 #### Russian
   * improved rules
+  * update spellcheker
   
 #### Ukrainian
   * improved some rules
   
 #### GUI (stand-alone version)
   * fixed auto-detection of text language, which didn't work after editing text
+
+#### LO/AOO Integration
+  *  fix "osl::Thread::Create failed" error message, see https://bugs.documentfoundation.org/show_bug.cgi?id=90740
 
 #### Embedded server
   * performance improvements for checking small texts
