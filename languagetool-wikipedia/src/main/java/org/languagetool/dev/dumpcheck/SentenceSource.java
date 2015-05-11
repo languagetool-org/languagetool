@@ -23,6 +23,7 @@ import org.languagetool.tokenizers.Tokenizer;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Source of sentences to be checked/indexed. Sub classes provide access to XML files
@@ -36,9 +37,16 @@ public abstract class SentenceSource implements Iterator<Sentence> {
   private static final int MAX_SENTENCE_LENGTH = 300;
 
   private final Tokenizer wordTokenizer;
+  private final Pattern acceptPattern;
 
   SentenceSource(Language language) {
+    this(language, null);
+  }
+
+  /** @since 3.0 */
+  SentenceSource(Language language, Pattern acceptPattern) {
     wordTokenizer = language.getWordTokenizer();
+    this.acceptPattern = acceptPattern;
   }
 
   @Override
@@ -64,6 +72,12 @@ public abstract class SentenceSource implements Iterator<Sentence> {
   }
 
   protected boolean acceptSentence(String sentence) {
+    if (acceptPattern != null) {
+      if (!acceptPattern.matcher(sentence).find()) {
+        // useful speedup: we don't consider sentences that cannot match anyway
+        return false;
+      }
+    }
     String trimSentence = sentence.trim();
     return trimSentence.length() >= MIN_SENTENCE_SIZE && trimSentence.length() <= MAX_SENTENCE_LENGTH
             && countTokens(trimSentence) >= MIN_SENTENCE_TOKEN_COUNT;

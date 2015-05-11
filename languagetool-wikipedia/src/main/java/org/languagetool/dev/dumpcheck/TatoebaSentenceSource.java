@@ -22,6 +22,7 @@ import org.languagetool.Language;
 
 import java.io.InputStream;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Provides access to the sentences of a Tatoeba (http://tatoeba.org) text
@@ -37,7 +38,12 @@ class TatoebaSentenceSource extends SentenceSource {
   private int articleCount = 0;
   
   TatoebaSentenceSource(InputStream textInput, Language language) {
-    super(language);
+    this(textInput, language, null);
+  }
+
+  /** @since 3.0 */
+  TatoebaSentenceSource(InputStream textInput, Language language, Pattern filter) {
+    super(language, filter);
     scanner = new Scanner(textInput);
     sentences = new ArrayList<>();
   }

@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.regex.Pattern;
 
 /**
  * Provides access to the sentences of a Wikipedia XML dump. Note that
@@ -57,7 +58,12 @@ public class WikipediaSentenceSource extends SentenceSource {
   private int redirectSkipCount = 0;
 
   public WikipediaSentenceSource(InputStream xmlInput, Language language) {
-    super(language);
+    this(xmlInput, language, null);
+  }
+
+  /** @since 3.0 */
+  public WikipediaSentenceSource(InputStream xmlInput, Language language, Pattern filter) {
+    super(language, filter);
     textFilter.enableMapping(false);  // improves performance
     try {
       XMLInputFactory factory = XMLInputFactory.newInstance();

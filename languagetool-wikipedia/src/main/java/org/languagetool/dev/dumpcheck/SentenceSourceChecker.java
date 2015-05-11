@@ -32,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Checks texts from one or more {@link SentenceSource}s.
@@ -75,7 +76,8 @@ public class SentenceSourceChecker {
     String[] fileNames = commandLine.getOptionValues('f');
     File languageModelDir = commandLine.hasOption("languagemodel") ?
                             new File(commandLine.getOptionValue("languagemodel")) : null;
-    prg.run(propFile, disabledRuleIds, languageCode, Arrays.asList(fileNames), ruleIds, categoryIds, maxArticles, maxErrors, languageModelDir);
+    Pattern filter = commandLine.hasOption("filter") ? Pattern.compile(commandLine.getOptionValue("filter")) : null;
+    prg.run(propFile, disabledRuleIds, languageCode, Arrays.asList(fileNames), ruleIds, categoryIds, maxArticles, maxErrors, languageModelDir, filter);
   }
 
   private static void addDisabledRules(String languageCode, Set<String> disabledRuleIds, Properties disabledRules) {
@@ -121,6 +123,9 @@ public class SentenceSourceChecker {
     options.addOption(OptionBuilder.withLongOpt("languagemodel").withArgName("indexDir").hasArg()
             .withDescription("directory with a '3grams' sub directory that contains an ngram index")
             .create());
+    options.addOption(OptionBuilder.withLongOpt("filter").withArgName("regex").hasArg()
+            .withDescription("Consider only sentences that contain this regular expression (for speed up)")
+            .create());
     try {
       CommandLineParser parser = new GnuParser();
       return parser.parse(options, args);
@@ -136,7 +141,7 @@ public class SentenceSourceChecker {
   }
 
   private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds,
-                   String[] additionalCategoryIds, int maxSentences, int maxErrors, File languageModelDir) throws IOException {
+                   String[] additionalCategoryIds, int maxSentences, int maxErrors, File languageModelDir, Pattern filter) throws IOException {
     final Language lang = Languages.getLanguageForShortName(langCode);
     final JLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
     if (languageModelDir != null) {
@@ -146,6 +151,9 @@ public class SentenceSourceChecker {
       enableOnlySpecifiedRules(ruleIds, languageTool);
     } else {
       applyRuleDeactivation(languageTool, disabledRules);
+    }
+    if (filter != null) {
+      System.out.println("*** NOTE: only sentences that match regular expression '" + filter + "' will be checked");
     }
     activateAdditionalCategories(additionalCategoryIds, languageTool);
     disableSpellingRules(languageTool);
@@ -162,7 +170,7 @@ public class SentenceSourceChecker {
       } else {
         resultHandler = new StdoutHandler(maxSentences, maxErrors);
       }
-      MixingSentenceSource mixingSource = MixingSentenceSource.create(fileNames, lang);
+      MixingSentenceSource mixingSource = MixingSentenceSource.create(fileNames, lang, filter);
       while (mixingSource.hasNext()) {
         Sentence sentence = mixingSource.next();
         try {

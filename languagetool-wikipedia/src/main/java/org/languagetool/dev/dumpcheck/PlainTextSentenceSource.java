@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 /**
  * Provides access to the relevant sentences of a plain text file
@@ -40,7 +41,12 @@ public class PlainTextSentenceSource extends SentenceSource {
   private int articleCount = 0;
 
   public PlainTextSentenceSource(InputStream textInput, Language language) {
-    super(language);
+    this(textInput, language, null);
+  }
+  
+  /** @since 3.0 */
+  public PlainTextSentenceSource(InputStream textInput, Language language, Pattern filter) {
+    super(language, filter);
     scanner = new Scanner(textInput);
     sentences = new ArrayList<>();
   }
