@@ -63,7 +63,7 @@ public class GermanChunkerTest {
     assertFullChunks("Das sind 37/NPP Prozent/NPP");
     assertFullChunks("Er will die/NPP Arbeitsplätze/NPP so umgestalten , dass/NPP sie/NPP wie/NPP ein/NPP Spiel/NPP sind.");
     assertFullChunks("So dass Knochenbrüche/NPP und/NPP Platzwunden/NPP die/NPP Regel/NPP sind");
-    assertFullChunks("Eine/NPS Veranstaltung/NPS ,/NPP die/NPP immer/NPP wieder/NPP ein/NPP kultureller/NPP Höhepunkt/NPP war");  // warum NPP?
+    assertFullChunks("Eine/NPS Veranstaltung/NPS ,/NPS die/NPS immer/NPS wieder/NPS ein/NPS kultureller/NPS Höhepunkt/NPS war");
 
     assertFullChunks("Und die/NPS ältere/NPS der/NPS beiden/NPS Töchter/NPS ist 20.");
     assertFullChunks("Der/NPS Synthese/NPS organischer/NPS Verbindungen/NPS steht nichts im/PP Weg/NPS");
@@ -103,6 +103,7 @@ public class GermanChunkerTest {
     assertFullChunks("Letztes/PP Jahr/PP war es kalt");
     assertFullChunks("Es sind Atome/NPP ,/NPP welche/NPP der/NPP Urstoff/NPP aller/NPP Körper/NPP sind");
     assertFullChunks("Kommentare/NPP ,/NPP Korrekturen/NPP ,/NPP Kritik/NPP bitte nach /dev/null");
+    assertFullChunks("Einer/NPS der/NPS beiden/NPS Höfe/NPS war schön");
   }
 
   // B = begin, will be expanded to B-NP, I = inner, will be expanded to I-NP
@@ -137,9 +138,9 @@ public class GermanChunkerTest {
 
   @Test
   public void testTemp() throws Exception {
-    assertBasicChunks("Ein/B Haus/I");
+    //GermanChunker.setDebug(true);
     //TODO:
-    //assertChunks("Eines ihrer/B drei/I Autos/I ist blau");
+    //assertFullChunks("Seine Novelle, die eigentlich eine Glosse ist, war so.");
     //assertChunks("Das/B Wasser/I , das Wärme/B überträgt");  // keine Kongruenz bzgl. Genus -> keine NP
     //assertChunks("Das/B Wasser/I , das viel/B Wärme/I überträgt");  // keine Kongruenz bzgl. Genus -> keine NP
     //assertChunks("Das/B Wasser/I , das wohlige/B Wärme/I überträgt");  // keine Kongruenz bzgl. Genus -> keine NP

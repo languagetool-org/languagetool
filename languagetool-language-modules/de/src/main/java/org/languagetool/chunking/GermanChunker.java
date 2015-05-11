@@ -168,6 +168,8 @@ public class GermanChunker implements Chunker {
 
       // "eine der am meisten verbreiteten Krankheiten":
       build("<regex=eine[rs]?> <der> <am> <pos=ADJ> <pos=PA2> <NP>", NPS),
+      // "einer der beiden Höfe":
+      build("<regex=eine[rs]?> <der> <beiden> <pos=ADJ>* <pos=SUB>", NPS),
 
       // "xy Prozent" - beide Varianten okay (zumindest umgangssprachlich):
       // siehe http://www.canoo.net/services/OnlineGrammar/Wort/Verb/Numerus-Person/ProblemNum.html#Anchor-Mengenangabe-49575
@@ -179,7 +181,9 @@ public class GermanChunker implements Chunker {
       // "[so dass Knochenbrüche und] Platzwunden die Regel [sind]"
       build("<pos=PLU> <die> <Regel>", NPP),
       // "Veranstaltung, die immer wieder ein kultureller Höhepunkt", aber nicht "... in der Geschichte des Museums, die Sammlung ist seit 2011 zugänglich.":
-      build("<NP> <,> <die> <pos=ADV>+ <chunk=NPS>+", NPP),
+      build("<chunk=B-NP & pos=SIN> <chunk=I-NP & pos=SIN>* <,> <die> <pos=ADV>+ <chunk=NPS>+", NPS),
+      // "Die Nauheimer Musiktage, die immer wieder ein kultureller Höhepunkt sind":
+      build("<chunk=B-NP & pos=PLU> <chunk=I-NP & pos=PLU>* <,> <die> <pos=ADV>+ <chunk=NPS>+", NPP),
 
       // ===== genitive phrases and similar ====================================================
 

@@ -77,11 +77,12 @@ public class CaseRule extends GermanRule {
   }
 
   /*
-   * These are words that Morphy only knows as non-nouns. The proper
-   * solution is to add all those to our Morphy data, but as a simple
+   * These are words that Morphy only knows as non-nouns (or not at all).
+   * The proper solution is to add all those to our Morphy data, but as a simple
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final Set<String> exceptions = new HashSet<>(Arrays.asList(
+    "Dienstreisender",
     "Verletzte",
     "Vermisste",
     "Äußeres",

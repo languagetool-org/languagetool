@@ -96,6 +96,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     -->
 ]>
 
+<!--suppress ProblematicWhitespace -->
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
     <!--
@@ -21868,7 +21869,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
                     </marker>
-                    <token><exception postag="SUB:NOM:SIN:NEU"/></token>
+                    <token><exception postag="SUB:NOM:SIN:NEU"/><exception postag="SUB:NOM:SIN:NEU:INF"/></token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion> hier großgeschrieben werden muss.</message>
                 <short>&prgk;.</short>
@@ -23387,6 +23388,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="MEIN_KLEIN_HAUS" name="Grammatik: Unflektiertes Adjektiv statt flektierter Form (unvollständig!), z.B. 'mein klein (kleines) Haus' ">
             <rule>
+                <antipattern>
+                    <token>auf</token>
+                    <token>praktisch</token>
+                    <token>Null</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="PRP:.*" postag_regexp="yes"><exception regexp="yes">um|zu|als</exception></token>
@@ -23586,6 +23592,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Das ist für <marker>deiner schönen Frau</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>in</token>
+                    <token>was</token>
+                    <token>für</token>
+                    <token>einem</token>
+                </antipattern>
                 <!-- MAS|NEU SIN -->
                 <pattern case_sensitive="yes">
                     <token regexp="yes">betreffend|durch|für|gegen|kontra|via|wider</token>
@@ -23747,7 +23759,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token/>
                     <token><exception postag="ADJ:.*" postag_regexp="yes"/><exception postag="UNKNOWN"/></token> <!-- TODO must match 2nd token in KNG -->
                 </pattern>
-                <message>Nach einem Artikel steht in der Regel kein stark oder gemischt flektiertes Adjektiv (Beispiel: 'im heißem Ofen' statt 'im heißen Ofen').</message>
+                <message>Nach einem Artikel steht in der Regel kein stark oder gemischt flektiertes Adjektiv (Beispiel: 'im heißem Ofen' statt 'im heißen Ofen'). Oder fehlt vielleicht ein Komma vor dem Artikel?</message>
                 <suggestion>\2 <match no="3" postag_regexp="yes" postag="ADJ:(NOM|AKK|DAT|GEN):(.*):(.*):(.*):(SOL|IND)(.*)" postag_replace="ADJ:.*:$2:$3:$4:DEF$6"/></suggestion>
                 <url>http://www.canoo.net/services/OnlineGrammar/Wort/Adjektiv/Deklinationstyp/index.html?MenuId=Word313#Anchor-Deklinationstypen-35882</url>
                 <example correction="Im mentale|Im mentalen"><marker>Im mentalem</marker> Lexikon ist viel gespeichert.</example>
@@ -24447,7 +24459,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag="SUB:AKK:SIN:MAS"/>
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
-                            <exception regexp="yes">Bier|Wassers?|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Paar|Stück|Fuß|Grad|Gramm|Kilo.*|Milli.+|Mark|Reichsmark|Rentenmark|Zeit|Irritation|Pfund|Einwanderung|Auswanderung|Kritik|Literatur|Aufmerksamkeit|Verwirrung|Bar|Gold|Schlamms?|Schilling|Überredungskunst|Aufregung|Muße</exception>
+                            <exception regexp="yes">Bier|Wassers?|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Paar|Stück|Fuß|Grad|Gramm|Kilo.*|Milli.+|Mark|Reichsmark|Rentenmark|Zeit|Irritation|Pfund|Einwanderung|Auswanderung|Kritik|Literatur|Aufmerksamkeit|Verwirrung|Bar|Gold|Schlamms?|Schilling|Überredungskunst|Aufregung|Muße|Mitte</exception>
                         </token>
                     </marker>
                     <token>
