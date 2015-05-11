@@ -31,10 +31,7 @@ import org.languagetool.tagging.de.GermanTagger;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -57,12 +54,24 @@ public class SubjectVerbAgreementRule extends GermanRule {
   private static final ChunkTag PP = new ChunkTag("PP");   // prepositional phrase etc.
   private static final List<String> QUESTION_PRONOUNS = Arrays.asList("wie");
   private static final List<String> CURRENCIES = Arrays.asList("Dollar", "Euro", "Yen");
+  
+  private static final List<SingularPluralPair> PAIRS = Arrays.asList(
+    new SingularPluralPair("ist", "sind"),
+    new SingularPluralPair("war", "waren")
+    // add more pairs here to activate more cases step by step 
+  );
+  private final Set<String> singular = new HashSet<>();
+  private final Set<String> plural = new HashSet<>();
 
   private final GermanTagger tagger;
 
   public SubjectVerbAgreementRule(ResourceBundle messages, German language) {
     super.setCategory(new Category(messages.getString("category_grammar")));
     tagger = (GermanTagger) language.getTagger();
+    for (SingularPluralPair pair : PAIRS) {
+      singular.add(pair.singular);
+      plural.add(pair.plural);
+    }
   }
 
   @Override
@@ -107,7 +116,7 @@ public class SubjectVerbAgreementRule extends GermanRule {
 
   @Nullable
   private RuleMatch getSingularMatchOrNull(AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings token, String tokenStr) throws IOException {
-    if (tokenStr.equals("ist") || tokenStr.equals("war")) {
+    if (singular.contains(tokenStr)) {
       AnalyzedTokenReadings prevToken = tokens[i - 1];
       AnalyzedTokenReadings nextToken = i + 1 < tokens.length ? tokens[i + 1] : null;
       List<ChunkTag> prevChunkTags = prevToken.getChunkTags();
@@ -125,7 +134,7 @@ public class SubjectVerbAgreementRule extends GermanRule {
                       && !containsRegexToTheLeft("(?i)manche[nrs]?", tokens, i-1)
                       && !containsOnlyInfinitivesToTheLeft(tokens, i-1);
       if (match) {
-        String message = "Bitte prüfen, ob hier <suggestion>" + (tokenStr.equals("ist") ? "sind" : "waren") + "</suggestion> stehen sollte.";
+        String message = "Bitte prüfen, ob hier <suggestion>" + getPluralFor(tokenStr) + "</suggestion> stehen sollte.";
         return new RuleMatch(this, token.getStartPos(), token.getEndPos(), message);
       }
     }
@@ -134,7 +143,7 @@ public class SubjectVerbAgreementRule extends GermanRule {
 
   @Nullable
   private RuleMatch getPluralMatchOrNull(AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings token, String tokenStr) {
-    if (tokenStr.equals("sind") || tokenStr.equals("waren")) {
+    if (plural.contains(tokenStr)) {
       AnalyzedTokenReadings prevToken = tokens[i - 1];
       List<ChunkTag> prevChunkTags = prevToken.getChunkTags();
       boolean match = prevChunkTags.contains(NPS)
@@ -146,7 +155,7 @@ public class SubjectVerbAgreementRule extends GermanRule {
                       && !hasUnknownTokenToTheRight(tokens, i+1)
                       && !isFollowedByNominativePlural(tokens, i+1);  // z.B. "Die Zielgruppe sind Männer." - beides Nominativ, aber 'Männer' ist das Subjekt
       if (match) {
-        String message = "Bitte prüfen, ob hier <suggestion>" + (tokenStr.equals("sind") ? "ist" : "war") + "</suggestion> stehen sollte.";
+        String message = "Bitte prüfen, ob hier <suggestion>" + getSingularFor(tokenStr) + "</suggestion> stehen sollte.";
         return new RuleMatch(this, token.getStartPos(), token.getEndPos(), message);
       }
     }
@@ -246,6 +255,33 @@ public class SubjectVerbAgreementRule extends GermanRule {
     return false;
   }
 
+  private String getSingularFor(String token) {
+    for (SingularPluralPair pair : PAIRS) {
+      if (pair.plural.equals(token)) {
+        return pair.singular;
+      }
+    }
+    throw new RuntimeException("No singular found for '" + token + "'");
+  }
+
+  private String getPluralFor(String token) {
+    for (SingularPluralPair pair : PAIRS) {
+      if (pair.singular.equals(token)) {
+        return pair.plural;
+      }
+    }
+    throw new RuntimeException("No plural found for '" + token + "'");
+  }
+
   @Override
   public void reset() {}
+  
+  private static class SingularPluralPair {
+    String singular;
+    String plural;
+    SingularPluralPair(String singular, String plural) {
+      this.singular = singular;
+      this.plural = plural;
+    }
+  }
 }
