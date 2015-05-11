@@ -256,6 +256,8 @@ public class GermanChunker implements Chunker {
       build("<die> <pos=ADJ> <pos=ZAL> <Sekunden|Minuten|Stunden|Tage|Wochen|Monate|Jahre|Jahrzehnte|Jahrhunderte> (<NP>)?", PP),
       // "letztes Jahr":
       build("<regex=(vor)?letzte[sn]?> <Woche|Monat|Jahr|Jahrzehnt|Jahrhundert>", PP),
+      // "Für in Österreich lebende Afrikaner und Afrikanerinnen":
+      build("<für> <in> <pos=EIG> <pos=PA1> <pos=SUB> <und> <pos=SUB>", PP, true),
 
       // "die Beziehungen zwischen Kanada und dem Iran":
       build("<chunk=NPP> <zwischen> <pos=EIG> <und|sowie> <NP>", NPP),
