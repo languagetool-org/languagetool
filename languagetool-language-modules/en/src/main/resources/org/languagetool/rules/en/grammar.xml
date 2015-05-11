@@ -42,6 +42,18 @@ USA
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category name="Possible Typo" type="misspelling">
+        <rule id="LOT_S" name="lot's of (lots of)">
+            <pattern>
+                <marker>
+                    <token>lot</token>
+                    <token>'</token>
+                    <token>s</token>
+                </marker>
+                <token>of</token>
+            </pattern>
+            <message>Did you mean <suggestion>lots</suggestion>?</message>
+            <example correction="lots">There was <marker>lot's</marker> of stuff.</example>
+        </rule>
         <rule id="YEAR_20001" name="May 20001 (May 2001)">
             <pattern>
                 <token regexp="yes">&months;|year</token>
