@@ -64,6 +64,7 @@ public class VerbAgreementRule extends GermanRule {
     "Muhammad",
     "Muhammed",
     "Mohammed",
+    "Mohammad",
     "Mansour",
     "Qaboos",
     "Qabus",

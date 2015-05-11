@@ -284,7 +284,8 @@ public class SubjectVerbAgreementRuleTest {
         "Das Ziel der elf neuen Vorstandmitglieder ist klar definiert.",
         "Laut den meisten Quellen ist das Seitenverhältnis der Nationalflagge...",
         "Seine Novelle, die eigentlich eine Glosse ist, war toll.",
-        "Für in Österreich lebende Afrikaner und Afrikanerinnen ist dies nicht üblich."
+        "Für in Österreich lebende Afrikaner und Afrikanerinnen ist dies nicht üblich.",
+        "Von ursprünglich drei Almhütten ist noch eine erhalten."
     );
     for (String sentence : sentences) {
       assertGood(sentence);
@@ -390,7 +391,8 @@ public class SubjectVerbAgreementRuleTest {
         "Verwandte sind selten mehr als Bekannte.",
         "Ursache waren die hohe Arbeitslosigkeit und die Wohnungsnot.",
         "Ursache waren unter anderem die hohe Arbeitslosigkeit und die Wohnungsnot.", 
-        "Er ahnt nicht, dass sie und sein Sohn ein Paar sind."
+        "Er ahnt nicht, dass sie und sein Sohn ein Paar sind.",
+        "Die Ursachen der vorliegenden Durchblutungsstörung sind noch unbekannt."
     );
     for (String sentence : sentences) {
       assertGood(sentence);

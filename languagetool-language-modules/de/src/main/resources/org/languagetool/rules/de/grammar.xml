@@ -7903,6 +7903,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://www.duden.de/sprachwissen/sprachratgeber/infinitiv-mit-zu</url>
             <!-- Siehe auch die Regel ZU_ZUMUTEN. -->
             <antipattern>
+                <token>nach</token>
+                <token>wie</token>
+                <token>vor</token>
+                <token>zu</token>
+            </antipattern>
+            <antipattern>
                 <token skip="2" regexp="yes">liegt|liegen|lag</token>
                 <token>nahe</token>
                 <token>zu</token>
@@ -23639,10 +23645,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">den(selben)?|[Ddsm]?einen|(eu|ih|Ih|unse)ren|(jede|jene|diese|alle)n</token>
                         <token postag="(ADJ|SUB):DAT:PLU:(MAS|NEU)" postag_regexp="yes"><exception postag="(ADJ|SUB):AKK:(SIN|PLU):(MAS|NEU).*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="ADJ:AKK:.+" postag_regexp="yes"/><exception>nach</exception></token>
+                    <token><exception postag="ADJ:AKK:.+" postag_regexp="yes"/><exception regexp="yes">nach|zu</exception></token>
                 </pattern>
                 <message>Die Präposition '\1' erfordert in der Regel den Akkusativ.</message>
                 <short>'\1' erfordert den Akkusativ</short>
+                <example>Das geht, ohne den Tieren zu schaden.</example>
                 <example>Das ist für <marker>die Bilder</marker>.</example>
                 <example>Das ist für <marker>den Menschen</marker> unschädlich.</example>
                 <example>Der Österreicher wurde durch einen Sieg gegen <marker>den Polen</marker> Schachweltmeister.</example>

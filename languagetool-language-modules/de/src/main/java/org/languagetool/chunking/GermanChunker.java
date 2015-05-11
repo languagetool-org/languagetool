@@ -186,7 +186,11 @@ public class GermanChunker implements Chunker {
       build("<chunk=B-NP & pos=PLU> <chunk=I-NP & pos=PLU>* <,> <die> <pos=ADV>+ <chunk=NPS>+", NPP),
 
       // ===== genitive phrases and similar ====================================================
-
+      
+      // "Das letzte der teilnehmenden Länder":
+      build("<der|die|das> <pos=ADJ> <der> <pos=PA1> <pos=SUB>", NPS),
+      // "Ursachen der vorliegenden Durchblutungsstörung":
+      build("<pos=SUB & pos=PLU> <der> <pos=PA1> <pos=SUB>", NPP),
       // "die ältere der beiden Töchter":
       build("<der|die|das> <pos=ADJ> <der> <pos=PRO>? <pos=SUB>", NPS),
       // "Synthese organischer Verbindungen", "die Anordnung der vier Achsen", aber nicht "Einige der Inhaltsstoffe":
@@ -251,6 +255,8 @@ public class GermanChunker implements Chunker {
       build("<pos=PRP> <NP> <NP> (<und|oder>) <NP>", PP),
       // "bei sehr guten Beobachtungsbedingungen":
       build("<pos=PRP> <pos=ADV> <pos=ADJ> <NP>", PP),
+      // "[Von ursprünglich drei Almhütten] ist noch eine erhalten":
+      build("<pos=PRP> <pos=ADJ:PRD:GRU> <pos=ZAL> <NP>", PP),
 
       // "die darauffolgenden Jahre" -> eigentlich "in den darauffolgenden Jahren":
       build("<die> <pos=ADJ> <Sekunden|Minuten|Stunden|Tage|Wochen|Monate|Jahre|Jahrzehnte|Jahrhunderte> (<NP>)?", PP),
