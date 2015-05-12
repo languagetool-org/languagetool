@@ -245,6 +245,9 @@ $Id$
                                     <token regexp="yes">\p{Ll}+</token>
                                     <marker><token postag="verb.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}+</token></marker>
                                 </antipattern>
+                        <antipattern>
+                            <token>gotów</token>
+                        </antipattern>
                                 <pattern>
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1">
                                             <exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;|verb:winien.*" postag_regexp="yes" scope="current"/>
@@ -1092,6 +1095,16 @@ $Id$
 								<example correction="domu, żeby">Przemysław wstąpił do <marker>domu żeby</marker> spryskać się Przemysławką.</example>
                                 <example>Oddalam się z głośnym tupaniem i wrzawą, tak iżby mnie posłyszał człek o dużej stopie…</example>
 						</rule>
+                    <rule>
+                        <pattern>
+                            <token>zatem</token>
+                            <token postag="comp" regexp="yes">(?:żeby|aby|ażeby|iżby)(?:ś|śmy|ście|m)?</token>
+                        </pattern>
+                        <message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
+                        <short>Błąd interpunkcyjny</short>
+                        <example>Przemysław wstąpił do domu, żeby spryskać się Przemysławką.</example>
+                        <example correction="zatem, żeby">Przemysław do domu wstąpił <marker>zatem żeby</marker> spryskać się Przemysławką.</example>
+                    </rule>
 						<rule>
 								<pattern>
 										<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
@@ -1350,7 +1363,7 @@ $Id$
 												<token negate="yes" regexp="yes">&interp;|niby|o?to<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
 												<token>dlaczego</token>
 										</marker>
-										<token><exception regexp="yes">&interp;</exception></token>
+										<token><exception regexp="yes">&interp;|\)</exception></token>
 								</pattern>
 								<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -1363,6 +1376,7 @@ $Id$
                                 <example>Jeżeli zaś nie — to dlaczego mówi się o tym w tak alarmistycznym tonie.</example>
                                 <!-- inny błąd: dla_czego -->
                                 <example>Nigdy prawie ta praktyczność nie powstaje dlaczego innego.</example>
+                            <example>Takie dziecko może zrozumieć, że druga osoba chce jeść albo zamierza otworzyć drzwi (choć niekoniecznie wie dlaczego).</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -17486,7 +17500,7 @@ $Id$
 						<pattern>
 								<token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">si[eę]</exception></token>
 								<marker>
-										<token postag_regexp="yes" postag=".*:refl" skip="-1"><exception postag=".*nonrefl.*" postag_regexp="yes" scope="current"/><exception postag="(subst|ppas|adj|pact|prep|adv).*" postag_regexp="yes" scope="current"></exception><exception regexp="yes">rozmaicie|śmiał.*</exception><exception scope="next" regexp="yes">si[ęe]</exception></token>
+										<token postag_regexp="yes" postag=".*:refl" skip="-1"><exception postag=".*nonrefl.*" postag_regexp="yes" scope="current"/><exception postag="(subst|ppas|adj|pact|prep|adv).*" postag_regexp="yes" scope="current"></exception><exception regexp="yes">rozmaicie|śmiał.*|wczuci.*</exception><exception scope="next" regexp="yes">si[ęe]</exception></token>
 								</marker>
 								<token postag="SENT_END"><exception regexp="yes">si[eę]</exception></token>
 						</pattern>
