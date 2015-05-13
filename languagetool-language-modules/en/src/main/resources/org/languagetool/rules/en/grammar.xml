@@ -6473,6 +6473,26 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+        <rule id="I_AM" name="missing 'am' in 'I am'" >
+            <pattern>
+                <marker>
+                    <token>I<exception scope="previous" postag_regexp="yes" postag="VBG|VBP" /></token>
+                </marker>
+                <token postag='VBG'></token>
+            </pattern>
+            <message>Did you mean <suggestion>I am</suggestion>?</message>
+            <example correction="I am"><marker>I</marker> looking into the problem.</example>
+        </rule>
+        <rule id="AM_I" name="missing 'I' in 'am I'" >
+            <pattern>
+                <marker>
+                    <token>am<exception scope="previous">I</exception></token>
+                </marker>
+                <token postag='VBG'></token>
+            </pattern>
+            <message>Did you mean <suggestion>am I</suggestion>?</message>
+            <example correction="am I">Whom <marker>am</marker> talking with?</example>
+        </rule>
         <rule id="SHOULD_BE_DO" name="should be do (done)">
             <pattern>
                 <token>should</token>
