@@ -9,10 +9,10 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 
     <unification feature="number">
         <equivalence type="sg">
-            <token postag="NNP?(:UN?)?|VB[ZD]|SENT_END" postag_regexp="yes"></token>
+            <token postag="NNP?(:UN?)?|VB[ZD]|SENT_END" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="pl">
-            <token postag="NNP?S|VB[PD]|SENT_END" postag_regexp="yes"></token>
+            <token postag="NNP?S|VB[PD]|SENT_END" postag_regexp="yes"/>
         </equivalence>
     </unification>
 
@@ -80,7 +80,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <rule id="SO_JJ" name="so + adj/rb => so/RB">
           <pattern>
             <marker><token>so</token></marker>
-            <token postag="JJ.?|RB.?" postag_regexp="yes"></token>
+            <token postag="JJ.?|RB.?" postag_regexp="yes"/>
           </pattern>
           <disambig postag="RB"/>
           <example type="untouched"> He checked carefully, so that the mistakes were caught.</example>
@@ -137,7 +137,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
      </rule>
      <rule>
          <pattern>
-         <token postag="JJ">last<exception postag="JJ" negate_pos="yes"></exception></token>
+         <token postag="JJ">last<exception postag="JJ" negate_pos="yes"/></token>
          <marker>
           <token postag="NN"/>
          </marker>          
@@ -531,7 +531,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <pattern>
         <marker><token>kind</token></marker>
         <token>of</token>
-        <token postag="JJ.*|RB.*" postag_regexp="yes"></token>
+        <token postag="JJ.*|RB.*" postag_regexp="yes"/>
       </pattern>
       <disambig postag="NN:UN"/>
       <example type="untouched">It's a kind of dogs.</example>
@@ -544,13 +544,13 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <marker>
                     <and>
                         <token postag="CD"><exception>one</exception></token>
-                        <token postag="NN"></token>
+                        <token postag="NN"/>
                     </and>
                 </marker>
-                <token min="0" max="1" postag="JJ"></token>
-                <token postag="NNS"></token>
+                <token min="0" max="1" postag="JJ"/>
+                <token postag="NNS"/>
             </pattern>
-            <disambig postag="CD"></disambig>
+            <disambig postag="CD"/>
             <example type="ambiguous" inputform="two[two/CD,two/JJ,two/NN]" outputform="two[two/CD]">These <marker>two</marker> things are important.</example>
             <example type="ambiguous" inputform="two[two/CD,two/JJ,two/NN]" outputform="two[two/CD]">These <marker>two</marker> bad things are important.</example>
             <example type="untouched">These are those bad two.</example>
@@ -560,10 +560,10 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <marker>
                     <token postag="CD">one<exception scope="previous">no</exception></token>
                 </marker>                
-                <token min="0" max="1" postag="JJ"></token>
+                <token min="0" max="1" postag="JJ"/>
                 <token postag="NN"/>
             </pattern>
-            <disambig postag="CD"></disambig>
+            <disambig postag="CD"/>
             <example type="ambiguous" inputform="one[one/CD,one/JJ,one/NN,one/PRP]" outputform="one[one/CD]">I have <marker>one</marker> black dog.</example>
             <example type="ambiguous" inputform="one[one/CD,one/JJ,one/NN,one/PRP]" outputform="one[one/CD]">I have <marker>one</marker> dog.</example>
             <example type="untouched">No one trusts him any more.</example>
@@ -599,22 +599,22 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <token>best</token>
         <token postag="IN"/>
       </pattern>
-      <disambig postag="JJS"></disambig>
+      <disambig postag="JJS"/>
       <example type="untouched">I best my opponents.</example>
       <example type="ambiguous" inputform="best[best/NN:U,best/VB,best/VBP,good/JJS,well/RBS]" outputform="best[good/JJS]">It's <marker>best</marker> for him.</example>
     </rule>
         
     <rule name="Modal verb + verb/noun -&gt; modal verb + verb" id="MD_VB">
         <pattern>
-            <token postag="MD"></token>
+            <token postag="MD"/>
             <marker>
                 <and>
-                    <token postag="VB"></token>
+                    <token postag="VB"/>
                     <token postag="NN(:UN?)?" postag_regexp="yes"/>
                 </and>
             </marker>
         </pattern>
-        <disambig postag="VB"></disambig>
+        <disambig postag="VB"/>
     </rule>
         
     <rule name="be + to + verb/... -&gt;be + to + verb" id="BE_TO_VB">
@@ -623,24 +623,24 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token>to</token>
             <marker>
                 <and>
-                    <token postag="VB"></token>
-                    <token postag_regexp="yes" postag="JJ|NN.*"></token>
+                    <token postag="VB"/>
+                    <token postag_regexp="yes" postag="JJ|NN.*"/>
                 </and>
             </marker>
         </pattern>
-        <disambig postag="VB"></disambig>
+        <disambig postag="VB"/>
     </rule>
     <rule id="DO_VBNN_VB" name="do/did/does + verb/noun -> VB">
       <pattern>
         <token regexp="yes">do|did|does</token>
             <marker>
                 <and>
-                    <token postag="VB"></token>
-                    <token postag_regexp="yes" postag="JJ|NN.*"></token>
+                    <token postag="VB"/>
+                    <token postag_regexp="yes" postag="JJ|NN.*"/>
                 </and>
             </marker>
         </pattern>
-        <disambig postag="VB"></disambig>       
+        <disambig postag="VB"/>       
         <example type="untouched">I did my homework.</example>
         <example type="ambiguous" inputform="notice[notice/NN:UN,notice/VB,notice/VBP]" outputform="notice[notice/VB]">I did <marker>notice</marker> what you said.</example>
     </rule>
@@ -650,12 +650,12 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token postag="VB.*" postag_regexp="yes" regexp="yes">do|did|does</token>
             <token>not</token>
                 <and>
-                    <token postag="VB"></token>
-                    <token postag_regexp="yes" postag="JJ|NN.*"></token>
+                    <token postag="VB"/>
+                    <token postag_regexp="yes" postag="JJ|NN.*"/>
                 </and>
             </marker>
         </pattern>
-        <disambig action="filterall"></disambig>
+        <disambig action="filterall"/>
         <example type="untouched">I did my homework.</example>
         <example type="ambiguous" inputform="notice[notice/NN:UN,notice/VB,notice/VBP]" outputform="notice[notice/VB]">I did not <marker>notice</marker> what you said.</example>
     </rule>
@@ -667,7 +667,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token postag="VB"/>
             </marker>
         </pattern>
-        <disambig action="filterall"></disambig>
+        <disambig action="filterall"/>
         <example type="ambiguous" inputform="does[do/VBZ,doe/NNS]" outputform="does[do/VBZ]">This <marker>does</marker> not happen.</example>
     </rule>
     <rule id="DONT_VBNN_VB" name="don't/didn't/doesn't + verb/noun -> VB">
@@ -677,12 +677,12 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <token>t</token>
             <marker>
                 <and>
-                    <token postag="VB"></token>
-                    <token postag_regexp="yes" postag="JJ|NN.*"></token>
+                    <token postag="VB"/>
+                    <token postag_regexp="yes" postag="JJ|NN.*"/>
                 </and>
             </marker>
         </pattern>
-        <disambig postag="VB"></disambig>       
+        <disambig postag="VB"/>       
         <example type="untouched">I did my homework.</example>
         <example type="ambiguous" inputform="notice[notice/NN:UN,notice/VB,notice/VBP]" outputform="notice[notice/VB]">I didn't <marker>notice</marker> what you said.</example>
     </rule>
@@ -705,12 +705,12 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       -->
     <rule name="no determiner + have as verb/noun -&gt;have/verb" id="NODT_HAVE">
         <pattern>
-            <token><exception postag="PRP$"></exception><exception regexp="yes">the|a</exception></token>
+            <token><exception postag="PRP$"/><exception regexp="yes">the|a</exception></token>
             <marker>
                 <token>have</token>
             </marker>
         </pattern>
-        <disambig><match no="1" postag_regexp="yes" postag="VB"></match></disambig>
+        <disambig><match no="1" postag_regexp="yes" postag="VB"/></disambig>
     </rule>
     <rulegroup name="well + past participle -&gt; well + adjective" id="WELL_VBN">
         <rule>
@@ -718,18 +718,18 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <marker>
                     <token postag="RB">well</token>
                 </marker>
-                <token postag="VBN"></token>
+                <token postag="VBN"/>
             </pattern>
-            <disambig><match no="1" postag_regexp="yes" postag="RB"></match></disambig>
+            <disambig><match no="1" postag_regexp="yes" postag="RB"/></disambig>
         </rule>
         <rule>
             <pattern>
                 <token>well</token>
                 <marker>
-                    <token postag="VBN"></token>
+                    <token postag="VBN"/>
                 </marker>
             </pattern>
-            <disambig postag="JJ"></disambig>
+            <disambig postag="JJ"/>
         </rule>
     </rulegroup>
     <rule name="verb + well => well = RB" id="WELL_VB_RB">
@@ -748,18 +748,18 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <marker>
                     <token>in</token>
                 </marker>
-                <token postag="DT|PRP\$" postag_regexp="yes"></token>
+                <token postag="DT|PRP\$" postag_regexp="yes"/>
             </pattern>
-            <disambig postag="IN"></disambig>
+            <disambig postag="IN"/>
         </rule>
         <rule name="in as noun/preposition + uncountable noun -&gt; in as preposition" id="IN_NNUN">
             <pattern>
                 <marker>
                     <token>in</token>
                 </marker>
-                <token postag="NN:U.*" postag_regexp="yes"></token>
+                <token postag="NN:U.*" postag_regexp="yes"/>
             </pattern>
-            <disambig postag="IN"></disambig>
+            <disambig postag="IN"/>
         </rule>
         <rule id="IN_ADJ_NN" name="in + adjective + noun">
           <pattern>
@@ -774,13 +774,13 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     </rulegroup>
     <rule name="the/these... + numeral + are (noun/verb) -&gt; the... + numer + are (verb)" id="DT_CD_ARE_VB">
         <pattern>
-            <token postag="DT"></token>
-            <token postag="CD"></token>
+            <token postag="DT"/>
+            <token postag="CD"/>
             <marker>
                 <token>are</token>
             </marker>
         </pattern>
-        <disambig><match no="3" postag="VBP" postag_regexp="yes"></match></disambig>
+        <disambig><match no="3" postag="VBP" postag_regexp="yes"/></disambig>
     </rule>
     <rulegroup name='these/those + adj/noun singular + are → adj' id="DT_ADJNN">
     <rule>
@@ -830,9 +830,9 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
                 <token>are</token>
             </marker>
-            <token postag="JJ.*|VB[GN]|IN|DT|RB|PRP\$?" postag_regexp="yes"></token>
+            <token postag="JJ.*|VB[GN]|IN|DT|RB|PRP\$?" postag_regexp="yes"/>
         </pattern>
-        <disambig><match no="1" postag="VBP" postag_regexp="yes"></match></disambig>
+        <disambig><match no="1" postag="VBP" postag_regexp="yes"/></disambig>
         <example type="ambiguous" inputform="are[are/NN,be/VBP]" outputform="are[be/VBP]">What follows <marker>are</marker> the terms used by the Aikikai Foundation</example>
     </rule>
     <rule name="Are...?" id="SENT_START_ARE">
@@ -846,12 +846,12 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     </rule>
     <rule name="NNS|EX + are (noun/verb) -&gt; are (verb)" id="NNS_ARE">
         <pattern>
-            <token postag_regexp="yes" postag="EX|NNS"></token>
+            <token postag_regexp="yes" postag="EX|NNS"/>
             <marker>
                 <token>are</token>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="VBP" postag_regexp="yes"></match></disambig>
+        <disambig><match no="2" postag="VBP" postag_regexp="yes"/></disambig>
     </rule>
     <rule name="are + we|you -&gt; are (verb)" id="ARE_PRP">
         <pattern>
@@ -860,7 +860,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
             <token regexp="yes">you|we|they</token>
         </pattern>
-        <disambig postag="VBP"></disambig>
+        <disambig postag="VBP"/>
     </rule>
     <rule name="are + : + NNS" id="are_NNS">
     	<pattern>
@@ -888,18 +888,18 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
                 <token>his</token>
             </marker>
-            <token postag="NN.*" postag_regexp="yes"></token>
+            <token postag="NN.*" postag_regexp="yes"/>
         </pattern>
-        <disambig><match no="1" postag="PRP\$" postag_regexp="yes"></match></disambig>
+        <disambig><match no="1" postag="PRP\$" postag_regexp="yes"/></disambig>
     </rule>
     <rule name="no determiner + how (noun/adv) -&gt; how (adv)" id="HOW_WRB">
         <pattern>
-            <token><exception postag_regexp="yes" postag="PRP\$|DT"></exception></token>
+            <token><exception postag_regexp="yes" postag="PRP\$|DT"/></token>
             <marker>
                 <token>how</token>
             </marker>
         </pattern>
-        <disambig postag="WRB"></disambig>
+        <disambig postag="WRB"/>
     </rule>
     <rule name="no determiner + but (noun/conj) -&gt; but (conj)" id="BUT_CC">
         <pattern>
@@ -908,25 +908,25 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token>but</token>
             </marker>
         </pattern>
-        <disambig postag="CC"></disambig>
+        <disambig postag="CC"/>
     </rule>
     <rule name="if (noun/adv) + determiner -&gt; if (conj)" id="IF_NN_CC">
         <pattern>
             <marker>
                 <token>if</token>
             </marker>
-            <token postag_regexp="yes" postag="DT|PRP"></token>
+            <token postag_regexp="yes" postag="DT|PRP"/>
         </pattern>
-        <disambig postag="CC"></disambig>
+        <disambig postag="CC"/>
     </rule>
     <rule name="los + proper name -&gt; los (proper name)" id="LOS_NNP">
         <pattern>
             <marker>
                 <token>Los</token>
             </marker>
-            <token postag="NNP"></token>
+            <token postag="NNP"/>
         </pattern>
-        <disambig postag="NNP"></disambig>
+        <disambig postag="NNP"/>
     </rule>
     <rule name="kind (adj) + of -&gt; kind (n)" id="KIND_JJ">
         <pattern>
@@ -935,7 +935,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
             <token>of</token>
         </pattern>
-        <disambig postag="NN"></disambig>
+        <disambig postag="NN"/>
     </rule>
     <rule name="the/a + mine = mine (noun)" id="MINE_NN">
         <pattern>
@@ -955,7 +955,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token>mine<exception scope="previous" negate_pos="yes" postag_regexp="yes" postag="RB.*|VB.*"/></token>
             </marker>
         </pattern>
-        <disambig postag="PRP$"></disambig>
+        <disambig postag="PRP$"/>
         <example type="untouched">This is a gold mine.</example>
         <example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">This is <marker>mine</marker>.</example>
         <example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">This is entirely <marker>mine</marker>.</example>
@@ -1033,12 +1033,12 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token regexp="yes">this|these</token>
             <marker>
                 <and>
-                    <token postag="NNS"></token>
+                    <token postag="NNS"/>
                     <token postag="VBZ"><exception regexp="yes">means|works|shows|leads|takes|lies|goes|stems|gives|makes|does</exception></token>
                 </and>
             </marker>
         </pattern>
-        <disambig postag="NNS"></disambig>
+        <disambig postag="NNS"/>
     </rule>
     
     <rule id="DURING_VBZ_NNS" name="during + verb 3sg.NNS =>NNS">
@@ -1046,12 +1046,12 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token>during</token>            
             <marker>
                 <and>
-                    <token postag="NNS"></token>
+                    <token postag="NNS"/>
                     <token postag="VBZ"><exception regexp="yes">means|works|shows|leads|takes|lies|goes|stems|gives|makes|does</exception></token>
                 </and>
             </marker>
         </pattern>
-        <disambig postag="NNS"></disambig>
+        <disambig postag="NNS"/>
         <example type="ambiguous" inputform="weekends[weekend/NNS,weekend/VBZ,weekends/RB]" outputform="weekends[weekend/NNS]">I work during <marker>weekends</marker>.</example>
         <example type="untouched">It happened during his sleep.</example>
     </rule>    
@@ -1119,7 +1119,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <token postag="VBZ">means</token>
         </marker>
         <token>to</token>
-        <token postag="VB"></token>
+        <token postag="VB"/>
       </pattern>
       <disambig postag="VBZ"/>
       <example type="untouched">What it all means, I don't know.</example>
@@ -1132,12 +1132,12 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token regexp="yes">I|you|we|they</token>
             <marker>
                 <and>
-                    <token postag="NN(:UN?)?" postag_regexp="yes"></token>
-                    <token postag="VBP"></token>
+                    <token postag="NN(:UN?)?" postag_regexp="yes"/>
+                    <token postag="VBP"/>
                 </and>
             </marker>
         </pattern>
-        <disambig postag="VBP"></disambig>
+        <disambig postag="VBP"/>
     </rule>
     <rule name="t -&gt; contraction (not/RB)" id="T_NOT">
         <pattern>
@@ -1261,10 +1261,10 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token regexp="yes">['’]</token>
             <token>re</token>
             <marker>
-                <token postag="VBG"></token>
+                <token postag="VBG"/>
             </marker>
         </pattern>
-        <disambig><match no="3" postag="VBG" postag_regexp="yes"></match></disambig>
+        <disambig><match no="3" postag="VBG" postag_regexp="yes"/></disambig>
     </rule>
     <rule name="I'm -&gt; VBP" id="AM_VBP">
         <pattern>
@@ -1284,17 +1284,17 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token regexp="yes">['’]</token>
             <token>t</token>
         </pattern>
-        <disambig action="add"><wd pos="VBP" lemma="do"></wd></disambig>
+        <disambig action="add"><wd pos="VBP" lemma="do"/></disambig>
     </rule>
     <rule name="'s -&gt; be/vbz" id="POS_BE_VBZ">
         <pattern>
-            <token postag_regexp="yes" postag="WP|PRP"></token>
+            <token postag_regexp="yes" postag="WP|PRP"/>
             <token regexp="yes">['’]</token>
             <marker>
                 <token spacebefore="no">s</token>
             </marker>
         </pattern>
-        <disambig action="add"><wd pos="VBZ" lemma="be"></wd></disambig>
+        <disambig action="add"><wd pos="VBZ" lemma="be"/></disambig>
     </rule>        
     <rulegroup name="let's" id="LETS1">    
         <rule>
@@ -1305,7 +1305,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token regexp="yes">['’]</token>
                 <token>s</token>
             </pattern>
-            <disambig postag="VBP"></disambig>
+            <disambig postag="VBP"/>
         </rule>
         <rule>
             <pattern>
@@ -1315,7 +1315,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                     <token>s</token>
                 </marker>
             </pattern>
-            <disambig postag="PRP"></disambig>
+            <disambig postag="PRP"/>
         </rule>
         <rule>
             <pattern>
@@ -1323,10 +1323,10 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token regexp="yes">['’]</token>
                 <token>s</token>
                 <marker>
-                	<token postag='VBP'></token>
+                	<token postag='VBP'/>
                 </marker>
             </pattern>
-            <disambig postag="VB"></disambig>
+            <disambig postag="VB"/>
         </rule>
     </rulegroup>
     <rule id="LET_GO" name="let as a verb">
@@ -1334,7 +1334,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <marker>
           <token>let</token>
         </marker>
-        <token postag="VB"></token>
+        <token postag="VB"/>
       </pattern>
       <disambig action="filter" postag="VB.*"/>
       <example type="untouched">Let was an unincorporated community in Gilmer County, West Virginia, United States.</example>
@@ -1359,7 +1359,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <marker>
           <token>like</token>
         </marker>
-        <token postag="JJ.*|NN.*|DT|PRP" postag_regexp="yes"></token>               
+        <token postag="JJ.*|NN.*|DT|PRP" postag_regexp="yes"/>               
       </pattern>
       <disambig postag="IN"/>
       <example type="untouched">Would you like a drink?</example>
@@ -1372,8 +1372,8 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <token regexp="yes">are|is|was|been</token>
             <marker>
                 <and>
-                    <token postag_regexp="yes" postag="VBP?"></token>
-                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VBP?|NN|NN:UN|NN:U" postag_regexp="yes"></exception></token>
+                    <token postag_regexp="yes" postag="VBP?"/>
+                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VBP?|NN|NN:UN|NN:U" postag_regexp="yes"/></token>
                 </and>
             </marker>
       </pattern>
@@ -1404,8 +1404,8 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <token>not</token>
             <marker>
                 <and>
-                    <token postag_regexp="yes" postag="VBP?"></token>
-                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VBP?|NN|NN:UN|NN:U" postag_regexp="yes"></exception></token>
+                    <token postag_regexp="yes" postag="VBP?"/>
+                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VBP?|NN|NN:UN|NN:U" postag_regexp="yes"/></token>
                 </and>
             </marker>
       </pattern>
@@ -1417,11 +1417,11 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <pattern>
         <token regexp="yes">are|is|was|been</token>
         <token>not</token>
-        <token postag="RB"><exception regexp="yes">in|t?here</exception><exception postag="VBN|JJ.*|CC" postag_regexp="yes"></exception></token>    
+        <token postag="RB"><exception regexp="yes">in|t?here</exception><exception postag="VBN|JJ.*|CC" postag_regexp="yes"/></token>    
             <marker>
                 <and>
-                    <token postag_regexp="yes" postag="VBP?"></token>
-                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VBP?|NN|NN:UN|NN:U" postag_regexp="yes"></exception></token>
+                    <token postag_regexp="yes" postag="VBP?"/>
+                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VBP?|NN|NN:UN|NN:U" postag_regexp="yes"/></token>
                 </and>
             </marker>
       </pattern>
@@ -1439,7 +1439,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <token postag="JJ"/>
           </and>
         </marker>
-          <token postag="NN"></token>        
+          <token postag="NN"/>        
       </pattern>
       <disambig postag="VBG"/>
       <example type="untouched">They are fine.</example>
@@ -1491,12 +1491,12 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|each|that</exception></token>
             <marker>
                 <and>
-                    <token postag_regexp="yes" postag="VB[PZDN]?|MD"></token>
-                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VB[ZPDN]?|NNS?|NN:UN|NN:U|MD" postag_regexp="yes"></exception></token>
+                    <token postag_regexp="yes" postag="VB[PZDN]?|MD"/>
+                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VB[ZPDN]?|NNS?|NN:UN|NN:U|MD" postag_regexp="yes"/></token>
                 </and>
             </marker>
         </pattern>
-        <disambig action="filter" postag="NN.*"></disambig>
+        <disambig action="filter" postag="NN.*"/>
         <example type="untouched">These may be to bring about political change.</example>
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">The <marker>dogs</marker> barks loudly.</example>
         <example type="untouched">Anarcho-pacifism is a tendency that rejects violence.</example>
@@ -1507,27 +1507,27 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
                 <and>
                 <token postag="JJ"/>
-                <token postag="NN(:UN?)?" postag_regexp="yes"></token>            
+                <token postag="NN(:UN?)?" postag_regexp="yes"/>            
                 </and>
             </marker>
             <token postag="VBZ"/>
         </pattern>
-        <disambig action="filter" postag="NN.*"></disambig>
+        <disambig action="filter" postag="NN.*"/>
         <example type="untouched">These may be to bring about political change.</example>
         <example type="ambiguous" inputform="chance[chance/JJ,chance/NN:UN,chance/VB,chance/VBP]" outputform="chance[chance/NN:UN]">A <marker>chance</marker> remains.</example>        
     </rule>
     <rule name="a/an/each + nn + verb sing/noun pl -> verb sing" id="AN_NN_VBZNNS">
         <pattern>
             <token regexp="yes">an?|each</token>
-            <token postag="NN(:UN?)?" postag_regexp="yes"><exception postag="NN(:UN?)?" negate_pos="yes" postag_regexp="yes"></exception></token>
+            <token postag="NN(:UN?)?" postag_regexp="yes"><exception postag="NN(:UN?)?" negate_pos="yes" postag_regexp="yes"/></token>
             <marker>
                 <and>
                   <token postag="VBZ"/>
-                  <token postag="NNS"></token>                  
+                  <token postag="NNS"/>                  
                 </and>
             </marker>
         </pattern>
-        <disambig postag="VBZ"></disambig>
+        <disambig postag="VBZ"/>
         <example type="untouched">These may be to bring about political change.</example>
         <example type="ambiguous" inputform="remains[remain/VBZ,remains/NNS]" outputform="remains[remain/VBZ]">A chance <marker>remains</marker>.</example>        
     </rule>        
@@ -1555,15 +1555,15 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <rule name="determiner + adj + verb/NN -&gt; NN" id="DT_JJ_VB_NN">
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
-            <token postag="JJ"><exception postag="RB|NNPS?|PRP" postag_regexp="yes"></exception></token>            
+            <token postag="JJ"><exception postag="RB|NNPS?|PRP" postag_regexp="yes"/></token>            
             <marker>
                 <and>
-                    <token postag_regexp="yes" postag="VB[PZ]?|MD"></token>
-                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VB[ZP]?|NNS?|NN:UN|NN:U|MD" postag_regexp="yes"></exception></token>
+                    <token postag_regexp="yes" postag="VB[PZ]?|MD"/>
+                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VB[ZP]?|NNS?|NN:UN|NN:U|MD" postag_regexp="yes"/></token>
                 </and>
             </marker>
         </pattern>
-        <disambig action="filter" postag="NN.*"></disambig>
+        <disambig action="filter" postag="NN.*"/>
         <example type="untouched">These may be to bring about political change.</example>
         <example type="untouched">No one trusts him any more.</example>
         <example type="untouched">The Atlantic harbors petroleum and gas fields.</example>
@@ -1594,11 +1594,11 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se</exception></token>
             <marker>
                 <and>
-                    <token postag="VB"></token>
-                    <token postag="NN(:UN?)?" postag_regexp="yes"></token>
+                    <token postag="VB"/>
+                    <token postag="NN(:UN?)?" postag_regexp="yes"/>
                 </and>
             </marker>
-            <token postag="SENT_END"></token>
+            <token postag="SENT_END"/>
         </pattern>
         <disambig action="filter" postag="NN.*"/>
     </rule>
@@ -1629,7 +1629,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token spacebefore="no" inflected="yes">a</token>
             </marker>
         </pattern>
-        <disambig postag="NNP"></disambig>
+        <disambig postag="NNP"/>
         <example type="untouched">This is a car.</example>
         <example type="ambiguous" inputform="an[a/DT]" outputform="an[a/NNP]">Qur'<marker>an</marker>.</example>
         <example type="ambiguous" inputform="a[a/DT]" outputform="a[a/NNP]">Me'<marker>a</marker> She'arim</example>
@@ -1667,7 +1667,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token>and</token>
             <token>b</token>
         </pattern>
-        <disambig postag="NNP"></disambig>
+        <disambig postag="NNP"/>
     </rule>
     <rule name="A is..." id="A_IS">
         <pattern case_sensitive="yes">
@@ -1676,7 +1676,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
             <token>is</token>
         </pattern>
-        <disambig postag="NNP"></disambig>
+        <disambig postag="NNP"/>
     </rule>
     <rule name="A.B.C." id="ABC">
         <pattern>
@@ -1689,7 +1689,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token>c</token>
             <token>.</token>
         </pattern>
-        <disambig postag="NNP"></disambig>
+        <disambig postag="NNP"/>
     </rule>
     <!-- 'a' used as a symbol in some technical notation -->
     <rule name="A technical" id="A_TECHNICAL">
@@ -1699,7 +1699,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
             <token regexp="yes">[/\+\[\]\(\){}\\,!%&amp;]</token>
         </pattern>
-        <disambig postag="SYM"></disambig>
+        <disambig postag="SYM"/>
     </rule>
 
     <!--  "A" mentioned only as a letter -->
@@ -1711,7 +1711,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
             <token spacebefore="no" regexp="yes">&quot;|'</token>
         </pattern>
-        <disambig postag="NNP"></disambig>
+        <disambig postag="NNP"/>
     </rule>
 
     <rule name="A priori / posteriori" id="A_PRIORI">
@@ -1721,7 +1721,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
             <token regexp="yes">priori|posteriori|capella</token>
         </pattern>
-        <disambig postag="FW"></disambig> <!-- foreign word -->
+        <disambig postag="FW"/> <!-- foreign word -->
         <example type="untouched">This is a dog.</example>
         <example type="ambiguous" inputform="a[a/DT]" outputform="a[a/FW]">This is an <marker>a</marker> priori truth.</example>
     </rule>
@@ -1733,7 +1733,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
             <token regexp="yes">and|or</token> <!--  add 'is'? -->
         </pattern>
-        <disambig postag="NNP"></disambig>
+        <disambig postag="NNP"/>
     </rule>
 
     <!-- for Bob Brown etc. -->
@@ -1747,7 +1747,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
             <token postag="NNP" regexp="yes">\p{Lu}\p{Ll}+</token>
         </pattern>
-        <disambig postag="NNP"></disambig>
+        <disambig postag="NNP"/>
         <example type="untouched">It is in many Caribbean and Latin American countries...</example>
     </rule>
     <rule name="Uppercase word/NNP|NN -&gt; NNP" id="UPPER_NNP">
@@ -1760,7 +1760,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token inflected="yes" regexp="yes" postag_regexp="yes" postag="NNP?|NN:.*">\p{Ll}+</token>
             </and>
         </pattern>
-        <disambig postag="NNP"></disambig>
+        <disambig postag="NNP"/>
         <example type="untouched">They looked at the ruins of the old Roman wall on the lower Via Veneto.</example>
         <example type="ambiguous" inputform="Bobby[Bobby/NNP,bobby/NN]" outputform="Bobby[Bobby/NNP]">His name was <marker>Bobby</marker> Brown and he acted as a clerk.</example>        
     </rule>
@@ -1771,7 +1771,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token regexp="yes" postag="NN">\p{Lu}\p{Ll}+</token>
             </marker>
         </pattern>
-        <disambig postag="NNP"></disambig>
+        <disambig postag="NNP"/>
         <example type="ambiguous" inputform="City[&lt;/S&gt;,city/JJ,city/NN]" outputform="City[&lt;/S&gt;,city/NNP]">Kansas <marker>City</marker></example>
         <example type="untouched">Los Angeles</example>
     </rule>
@@ -1783,7 +1783,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token regexp="yes">['’]</token>
             <token>s</token>
         </pattern>
-        <disambig postag="NNP"></disambig>
+        <disambig postag="NNP"/>
         <example type="ambiguous" inputform="Fodor[Fodor]" outputform="Fodor[Fodor/NNP]"><marker>Fodor</marker>'s concept of modularity is narrow.</example>
         <example type="untouched">Bill's example is very good.</example>
     </rule>
@@ -1795,7 +1795,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
             <token regexp="yes" postag_regexp="yes" postag="NNP?|NN:.*|JJ.*">\p{Lu}\p{Ll}+</token>            
         </pattern>
-        <disambig postag="NNP"></disambig>
+        <disambig postag="NNP"/>
         <example type="ambiguous" inputform="Wilshire[Wilshire]" outputform="Wilshire[Wilshire/NNP]">the <marker>Wilshire</marker> Country Club</example>
         <example type="untouched">Bill's example is very good.</example>
     </rule>
@@ -1804,24 +1804,24 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <rule>
             <pattern case_sensitive="yes">
                 <marker>
-                    <token regexp="yes">\p{Lu}$<exception scope="previous" postag="SENT_START"></exception></token>
+                    <token regexp="yes">\p{Lu}$<exception scope="previous" postag="SENT_START"/></token>
                 </marker>
                 <token>.</token>
-                <token postag="NNP"></token>
+                <token postag="NNP"/>
             </pattern>
-            <disambig postag="NNP"></disambig>
+            <disambig postag="NNP"/>
         </rule>
         <rule>
             <pattern case_sensitive="yes">
                 <marker>
-                    <token regexp="yes">\p{Lu}$<exception scope="previous" postag="SENT_START"></exception></token>
+                    <token regexp="yes">\p{Lu}$<exception scope="previous" postag="SENT_START"/></token>
                 </marker>
                 <token>.</token>
-                <token regexp="yes">\p{Lu}$<exception scope="previous" postag="SENT_START"></exception></token>
+                <token regexp="yes">\p{Lu}$<exception scope="previous" postag="SENT_START"/></token>
                 <token>.</token>
-                <token postag="NNP"></token>
+                <token postag="NNP"/>
             </pattern>
-            <disambig postag="NNP"></disambig>
+            <disambig postag="NNP"/>
         </rule>
     </rulegroup>
 
@@ -1832,7 +1832,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
             <token regexp="yes">\p{Lu}\p{Ll}*<exception>I</exception></token>
         </pattern>
-        <disambig postag="NNP"></disambig>
+        <disambig postag="NNP"/>
         <example type="untouched">In principal I don't agree.</example>
     </rule>
     
@@ -1844,7 +1844,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
               <token regexp="yes">\p{Lu}\p{Ll}*<exception>I</exception></token>
             </marker>
         </pattern>
-        <disambig postag="NNP"></disambig>
+        <disambig postag="NNP"/>
         <example type="untouched">Prof. I don't agree.</example>
         <example type="ambiguous" inputform="White[White/JJ,White/NNP,white/JJ,white/NN:UN]" outputform="White[White/NNP]">Welcome, Mr. <marker>White</marker>!</example>
     </rule>
@@ -1853,10 +1853,10 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <pattern>
             <token regexp="yes">elected|appointed|ordained</token>
             <marker>
-                <token postag="NN"><exception negate_pos="yes" postag="NN"></exception></token>
+                <token postag="NN"><exception negate_pos="yes" postag="NN"/></token>
             </marker>
         </pattern>
-        <disambig postag="NN:UN"></disambig>
+        <disambig postag="NN:UN"/>
     </rule>
 
     <rule name="Simple gazetteer/proper name rule" id="gazetteer">
@@ -1866,7 +1866,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
             <token regexp="yes">\p{Lu}\p{Ll}+</token>
         </pattern>
-        <disambig postag="NNP"></disambig>
+        <disambig postag="NNP"/>
     </rule>
 
     <rule name="street names" id="Street">
@@ -1876,7 +1876,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
             <token regexp="yes">Street|Avenue|Boulevard</token>
         </pattern>
-        <disambig postag="NNP"></disambig>
+        <disambig postag="NNP"/>
     </rule>
 
     <rule name="candidate|nomination for NN -&gt; NNP" id="candidate_NNP">
@@ -1884,10 +1884,10 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token regexp="yes" inflected="yes">candidate|nomination|election</token>
             <token>for</token>
             <marker>
-                <token postag="NN"><exception negate_pos="yes" postag="NN"></exception></token>
+                <token postag="NN"><exception negate_pos="yes" postag="NN"/></token>
             </marker>
         </pattern>
-        <disambig postag="NNP"></disambig>
+        <disambig postag="NNP"/>
     </rule>
 
     <rulegroup name="United States" id="USA1">
@@ -1898,7 +1898,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 </marker>
                 <token>States</token>
             </pattern>
-            <disambig postag="NNP"></disambig>
+            <disambig postag="NNP"/>
         </rule>
         <rule>
             <pattern case_sensitive="yes">
@@ -1907,7 +1907,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                     <token>States</token>
                 </marker>
             </pattern>
-            <disambig postag="NNPS"></disambig>
+            <disambig postag="NNPS"/>
         </rule>
     </rulegroup>
 
@@ -1935,12 +1935,12 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
                 <and>
                     <token postag="IN"><exception>like</exception></token>
-                    <token postag="NN"></token>
+                    <token postag="NN"/>
                 </and>
             </marker>
-            <token postag_regexp="yes" postag="PRP$|NNP"></token>
+            <token postag_regexp="yes" postag="PRP$|NNP"/>
         </pattern>
-        <disambig postag="IN"></disambig>
+        <disambig postag="IN"/>
     </rule>
 
     <!-- the known good solution -->
@@ -1948,33 +1948,33 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <pattern>
             <token regexp="yes">a|an|the</token>
             <marker>
-                <token postag="VBN"></token>
+                <token postag="VBN"/>
             </marker>
-            <token postag="JJ"></token>
+            <token postag="JJ"/>
         </pattern>
-        <disambig postag="JJ"></disambig>
+        <disambig postag="JJ"/>
     </rule>
 
     <!-- known written works -->
     <rule name="VBN + VBN + NN -&gt; JJ" id="VBN_VBN_NN_JJ">
         <pattern>
             <marker>
-                <token postag="VBN"></token>
+                <token postag="VBN"/>
             </marker>
-            <token postag="VBN"></token>
-            <token postag_regexp="yes" postag="NN:.*|NNS|NN"></token>
+            <token postag="VBN"/>
+            <token postag_regexp="yes" postag="NN:.*|NNS|NN"/>
         </pattern>
-        <disambig postag="JJ"></disambig>
+        <disambig postag="JJ"/>
     </rule>
     <rule name="of + VBN + JJ -&gt; JJ" id="OF_VBN_JJ">
         <pattern>
             <token>of</token>
             <marker>
-                <token postag="VBN"></token>
+                <token postag="VBN"/>
             </marker>
-            <token postag="JJ"></token>
+            <token postag="JJ"/>
         </pattern>
-        <disambig postag="JJ"></disambig>
+        <disambig postag="JJ"/>
     </rule>
 
     <!--  her duck Oliver -->
@@ -1984,11 +1984,11 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
                 <and>
                     <token postag="NNP" regexp="yes">\p{Lu}\p{Ll}+</token>
-                    <token postag="JJR"></token>
+                    <token postag="JJR"/>
                 </and>
             </marker>
         </pattern>
-        <disambig postag="NNP"></disambig>
+        <disambig postag="NNP"/>
     </rule>
 
     <rule id="NNP_NNS_VBZ_NNP" name="NNP/NNS -> NNP if followed by singular verb">
@@ -2013,23 +2013,23 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <pattern>
                 <token>from</token>
                 <marker>
-                    <token postag="NN"></token>
+                    <token postag="NN"/>
                 </marker>
                 <token>to</token>
-                <token postag_regexp="yes" postag="NN.*"></token>
+                <token postag_regexp="yes" postag="NN.*"/>
             </pattern>
-            <disambig postag="NN:UN"></disambig>
+            <disambig postag="NN:UN"/>
         </rule>
         <rule>
             <pattern>
                 <token>from</token>
-                <token postag="NN:UN"></token>
+                <token postag="NN:UN"/>
                 <token>to</token>
                 <marker>
-                    <token postag="NN"></token>
+                    <token postag="NN"/>
                 </marker>
             </pattern>
-            <disambig postag="NN:UN"></disambig>
+            <disambig postag="NN:UN"/>
         </rule>
     </rulegroup>
     <rulegroup name="from nose to tail" id="FROM_NOSE_TO_TAIL">
@@ -2042,7 +2042,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token>to</token>
                 <token>tail</token>
             </pattern>
-            <disambig postag="NN:UN"></disambig>
+            <disambig postag="NN:UN"/>
         </rule>
         <rule>
             <pattern>
@@ -2053,7 +2053,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                     <token>tail</token>
                 </marker>
             </pattern>
-            <disambig postag="NN:UN"></disambig>
+            <disambig postag="NN:UN"/>
         </rule>
     </rulegroup>
     <rule name="sore throat" id="SORE_THROAT">
@@ -2063,69 +2063,69 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token>throat</token>
             </marker>
         </pattern>
-        <disambig postag="NN:UN"></disambig>
+        <disambig postag="NN:UN"/>
     </rule>
     <rule name="give sb credit/VB -&gt; NN:UN" id="GIVE_CREDIT">
         <pattern>
             <token inflected="yes">give</token>
-            <token postag="NNP|PRP" postag_regexp="yes"></token>
+            <token postag="NNP|PRP" postag_regexp="yes"/>
             <marker>
                 <token>credit</token>
             </marker>
         </pattern>
-        <disambig postag="NN:UN"></disambig>
+        <disambig postag="NN:UN"/>
     </rule>
     <rule name="there + SENT_END -&gt; RB" id="EX_SENT_END_RB">
         <pattern>
             <marker>
-                <token postag="EX"></token>
+                <token postag="EX"/>
             </marker>
-            <token postag_regexp="yes" postag="SENT_END|,|IN|PRP"></token>
+            <token postag_regexp="yes" postag="SENT_END|,|IN|PRP"/>
         </pattern>
-        <disambig postag="RB"></disambig>
+        <disambig postag="RB"/>
     </rule>
     <rulegroup name="EX + was|is... + VB/NN -&gt; NN" id="EX_ARE_NN">
         <rule>
             <pattern>
-                <token postag="EX"></token>
+                <token postag="EX"/>
                 <token regexp="yes">is|was|are|were</token>
                 <marker>
                     <and>
-                        <token postag="VB"></token>
-                        <token postag_regexp="yes" postag="NN.*|JJ.*"></token>
+                        <token postag="VB"/>
+                        <token postag_regexp="yes" postag="NN.*|JJ.*"/>
                     </and>
                 </marker>
             </pattern>
-            <disambig><match no="3" postag_regexp="yes" postag="NN.*|JJ.*"></match></disambig>
+            <disambig><match no="3" postag_regexp="yes" postag="NN.*|JJ.*"/></disambig>
         </rule>
         <rule>
             <pattern>
-                <token postag="EX"></token>
+                <token postag="EX"/>
                 <token regexp="yes">is|was|are|were</token>
                 <marker>
-                    <token postag="RB"><exception postag="CC"></exception></token>
+                    <token postag="RB"><exception postag="CC"/></token>
                 </marker>
                 <and>
-                    <token postag="VB"></token>
-                    <token postag_regexp="yes" postag="NN.*|JJ.*"></token>
+                    <token postag="VB"/>
+                    <token postag_regexp="yes" postag="NN.*|JJ.*"/>
                 </and>
             </pattern>
-            <disambig><match no="3" postag_regexp="yes" postag="NN.*|JJ.*"></match></disambig>
+            <disambig><match no="3" postag_regexp="yes" postag="NN.*|JJ.*"/></disambig>
         </rule>
         <rule>
             <pattern>
-                <token postag="EX"></token>
+                <token postag="EX"/>
                 <token regexp="yes">have|has</token>
                 <token>been</token>
                 <marker>
-                    <token postag="RB"><exception postag="CC"></exception></token>
+                    <token postag="RB"><exception postag="CC"/></token>
                 </marker>
                 <and>
-                    <token postag="VB"></token>
-                    <token postag_regexp="yes" postag="NN.*|JJ.*"></token>
+                    <token postag="VB"/>
+                    <token postag_regexp="yes" postag="NN.*|JJ.*"/>
                 </and>
             </pattern>
-            <disambig><match no="3" postag_regexp="yes" postag="NN.*|JJ.*"></match></disambig>
+            <disambig><match no="3" postag_regexp="yes" postag="NN.*|JJ.*"/></disambig>
         </rule>
     </rulegroup>
     <rule name="while (IN/NN/VBP) + PRP -&gt; while/IN" id="WHILE_IN_PRP">
@@ -2133,24 +2133,24 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
                 <token>while</token>
             </marker>
-            <token postag_regexp="yes" postag="PRP|VBG"></token>
+            <token postag_regexp="yes" postag="PRP|VBG"/>
         </pattern>
-        <disambig postag="IN"></disambig>
+        <disambig postag="IN"/>
     </rule>
     <rule name="Web page (noun/verb) -&gt; page (noun)" id="WEB_PAGE">
         <pattern>
             <token postag="NN">web</token>
             <token postag="NN">page</token>
         </pattern>
-        <disambig action="filterall"></disambig>
+        <disambig action="filterall"/>
     </rule>
     <rule name="DT|JJ + JJ/NN + NN -&gt; JJ" id="DT_JJ_NN_JJ">
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"><exception postag="WDT"/></token>
             <marker>
                 <and>
-                    <token postag="JJ|VBG" postag_regexp="yes"><exception postag_regexp="yes" negate_pos="yes" postag="JJ|NN.*|VB.*"></exception></token>
-                    <token postag_regexp="yes" postag="VBP"></token>
+                    <token postag="JJ|VBG" postag_regexp="yes"><exception postag_regexp="yes" negate_pos="yes" postag="JJ|NN.*|VB.*"/></token>
+                    <token postag_regexp="yes" postag="VBP"/>
                 </and>
             </marker>
             <token postag_regexp="yes" postag="NN.*|CD"/>
@@ -2160,17 +2160,17 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     </rule>
     <rule name="DT|JJ + JJ + NN/VBP -&gt; NN" id="DT_JJ_NN_NN">
         <pattern>
-            <token postag_regexp="yes" postag="DT|JJ|PRP\$"></token>
+            <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
             <token postag="JJ.*|VBG" postag_regexp="yes"><exception postag="RB"/><exception>one</exception></token>
             <marker>
                 <and>
-                    <token postag="VBP|MD" postag_regexp="yes"><exception>will</exception><exception postag_regexp="yes" negate_pos="yes" postag="NN.*|VB.*|MD|JJ"></exception></token>
-                    <token postag_regexp="yes" postag="NN.*"></token>
+                    <token postag="VBP|MD" postag_regexp="yes"><exception>will</exception><exception postag_regexp="yes" negate_pos="yes" postag="NN.*|VB.*|MD|JJ"/></token>
+                    <token postag_regexp="yes" postag="NN.*"/>
                 </and>
             </marker>
             <token><exception postag="DT|RB?" postag_regexp="yes"/></token>
         </pattern>
-        <disambig><match no="2" postag_regexp="yes" postag="NN.*"></match></disambig>
+        <disambig><match no="2" postag_regexp="yes" postag="NN.*"/></disambig>
         <example type="untouched">His friend is now in England.</example>
         <example type="ambiguous" inputform="nose[nose/NN,nose/VB,nose/VBP]" outputform="nose[nose/NN]">The elephant swings its long <marker>nose</marker>.</example> 
         <example type="ambiguous" inputform="stone[stone/JJ,stone/NN:UN,stone/NNS,stone/VB,stone/VBP]" outputform="stone[stone/NN:UN,stone/NNS]">A rolling <marker>stone</marker> gathers no moss.</example>
@@ -2184,7 +2184,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token postag="NNS"/>
             </marker>
         </pattern>
-        <disambig action="filterall"></disambig>
+        <disambig action="filterall"/>
     </rule>
         <rule>
             <pattern>
@@ -2195,7 +2195,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                     <token postag="NNS"/>
                 </marker>
             </pattern>
-            <disambig action="filterall"></disambig>
+            <disambig action="filterall"/>
         </rule>
         <rule>
             <pattern>
@@ -2207,12 +2207,12 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                     <token postag="NNS"/>
                 </marker>
             </pattern>
-            <disambig action="filterall"></disambig>
+            <disambig action="filterall"/>
         </rule>
     </rulegroup>
     <rule name="DT|JJ + JJ + end of phrase -&gt; NN" id="DT_JJ_NN">
     <pattern>
-        <token postag_regexp="yes" postag="DT|JJ|PRP\$"></token>
+        <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
         <token postag="JJ.*|VBG" postag_regexp="yes"><exception postag="RB"/><exception>one</exception></token>
         <marker>
         <unify>
@@ -2238,7 +2238,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token postag="NN(:U?N)?" postag_regexp="yes"/>
                 </and>
             </marker>
-            <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
+            <token><exception postag="NNS|NNPS" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="remove" postag="NNP?(:U?N)?|VB[DP]?"/>
         <example type="ambiguous" inputform="illustrated[illustrate/VBD,illustrate/VBN,illustrated/NN]"
@@ -2252,7 +2252,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token postag="VBN"/>
             </marker>
         </pattern>
-        <disambig action="filterall"></disambig>
+        <disambig action="filterall"/>
         <example type="ambiguous" inputform="so[so/CC,so/JJ,so/NN:U]" outputform="so[so/JJ]">It also made him feel hate, sincere hate, for those <marker>so</marker> labeled.</example>
     </rule>
     <rule name="JJ_NN -> JJ" id="JJ_NN_JJ">
@@ -2275,7 +2275,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <pattern>
             <marker>
                 <token postag="VBN">required<exception scope="previous" postag="PRP"/></token>
-                <token postag="TO"></token>
+                <token postag="TO"/>
                 <token postag="VB"/>
             </marker>
         </pattern>
@@ -2326,7 +2326,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <marker>
         <and>
         <token postag='VB[PD]' postag_regexp="yes"/>
-        <token postag="NN"></token>
+        <token postag="NN"/>
         </and>
         </marker>
       </pattern>
@@ -2339,59 +2339,59 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
                 <token>till</token>
             </marker>
-            <token postag_regexp="yes" postag="PRP\$|DT"></token>
+            <token postag_regexp="yes" postag="PRP\$|DT"/>
             <token><exception regexp="yes">soil|land|fields|field</exception></token>
         </pattern>
-        <disambig postag="IN"></disambig>
+        <disambig postag="IN"/>
     </rule>
     <rule name="IN + NN/VBG + DT" id="before_NN_VBG">
         <pattern>
-            <token postag="IN"></token>
+            <token postag="IN"/>
             <marker>
                 <and>
-                    <token postag="NN"></token>
-                    <token postag="VBG"></token>
+                    <token postag="NN"/>
+                    <token postag="VBG"/>
                 </and>
             </marker>
-            <token postag_regexp="yes" postag="DT|PRP|IN|JJ.*"></token>
+            <token postag_regexp="yes" postag="DT|PRP|IN|JJ.*"/>
         </pattern>
-        <disambig><match no="2" postag="VBG" postag_regexp="yes"></match></disambig>
+        <disambig><match no="2" postag="VBG" postag_regexp="yes"/></disambig>
     </rule>
     <rule name="be + NN/VBG + DT" id="be_NN_VBG">
         <pattern>
             <token inflected="yes">be</token>
             <marker>
                 <and>
-                    <token postag="NN"></token>
-                    <token postag="VBG"></token>
+                    <token postag="NN"/>
+                    <token postag="VBG"/>
                 </and>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="VBG" postag_regexp="yes"></match></disambig>
+        <disambig><match no="2" postag="VBG" postag_regexp="yes"/></disambig>
     </rule>
     <rule name="without having (NN/VBG)-&gt;VBG" id="without_kk_NN_VBG">
         <pattern>
             <token regexp="yes">before|after|while|from|without</token>
             <marker>
                 <and>
-                    <token postag="NN"></token>
+                    <token postag="NN"/>
                     <token postag="VBG">having</token>
                 </and>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="VBG" postag_regexp="yes"></match></disambig>
+        <disambig><match no="2" postag="VBG" postag_regexp="yes"/></disambig>
     </rule>
     <rule name="having (NN/VBG) + VBN -&gt;VBG" id="HAVING_VBN">
         <pattern>
             <marker>
                 <and>
-                    <token postag="NN"></token>
+                    <token postag="NN"/>
                     <token postag="VBG">having</token>
                 </and>
             </marker>
-            <token postag="VBN"></token>
+            <token postag="VBN"/>
         </pattern>
-        <disambig><match no="1" postag="VBG" postag_regexp="yes"></match></disambig>
+        <disambig><match no="1" postag="VBG" postag_regexp="yes"/></disambig>
     </rule>
     <rulegroup name="off/in season(NN) -&gt; NN:UN" id="SEASON">
         <rule>
@@ -2401,7 +2401,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                     <token>season</token>
                 </marker>
             </pattern>
-            <disambig postag="NN:UN"></disambig>
+            <disambig postag="NN:UN"/>
         </rule>
         <rule>
             <pattern>
@@ -2411,7 +2411,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                     <token>season</token>
                 </marker>
             </pattern>
-            <disambig postag="NN:UN"></disambig>
+            <disambig postag="NN:UN"/>
         </rule>
     </rulegroup>
     <rulegroup name="coast to coast (NN:UN)" id="COAST_TO_COAST">
@@ -2423,7 +2423,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token>to</token>
                 <token>coast</token>
             </pattern>
-            <disambig postag="NN:UN"></disambig>
+            <disambig postag="NN:UN"/>
         </rule>
         <rule>
             <pattern>
@@ -2433,7 +2433,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                     <token>coast</token>
                 </marker>
             </pattern>
-            <disambig postag="NN:UN"></disambig>
+            <disambig postag="NN:UN"/>
         </rule>
     </rulegroup>
     <rule name="about + figure -&gt; about (RB)" id="ABOUT_NN_RB">
@@ -2443,7 +2443,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
             <token regexp="yes">(one\-(third|fourth|fifth|sixth|seventh|eighth|ninth|tenth|sixteenth|hundredth|thousandth|millionth|trillionth|quadrillionth|quintillionth|half))|two\-(thirds)</token>
         </pattern>
-        <disambig postag="RB"></disambig>
+        <disambig postag="RB"/>
     </rule>
     <rulegroup name="face to face" id="FACE_TO_FACE">
         <rule>
@@ -2454,7 +2454,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token>to</token>
                 <token>face</token>
             </pattern>
-            <disambig postag="NN:UN"></disambig>
+            <disambig postag="NN:UN"/>
         </rule>
         <rule>
             <pattern>
@@ -2464,7 +2464,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                     <token>face</token>
                 </marker>
             </pattern>
-            <disambig postag="NN:UN"></disambig>
+            <disambig postag="NN:UN"/>
         </rule>
     </rulegroup>
     <rulegroup name="arm in arm" id="ARM_IN_ARM">
@@ -2476,7 +2476,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token>in</token>
                 <token>arm</token>
             </pattern>
-            <disambig postag="NN:UN"></disambig>
+            <disambig postag="NN:UN"/>
         </rule>
         <rule>
             <pattern>
@@ -2486,7 +2486,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                     <token>arm</token>
                 </marker>
             </pattern>
-            <disambig postag="NN:UN"></disambig>
+            <disambig postag="NN:UN"/>
         </rule>
     </rulegroup>
     <rule name="old hat" id="OLD_HAT">
@@ -2496,7 +2496,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token>hat</token>
             </marker>
         </pattern>
-        <disambig postag="NN:UN"></disambig>
+        <disambig postag="NN:UN"/>
     </rule>
     <rulegroup name="Figure|Table|Appendix 1 -&gt; NNP" id="figure_1_NNP">
     <rule>
@@ -2506,7 +2506,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>       
             <token regexp="yes">\d+([\.\-]\d+)*|[A-Z]</token>
         </pattern>
-        <disambig postag="NNP"></disambig>
+        <disambig postag="NNP"/>
     </rule>
     	<rule>
     		<pattern>
@@ -2526,59 +2526,59 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token>worth</token>
             <marker>
                 <and>
-                    <token postag="NN"></token>
-                    <token postag="VBG"></token>
+                    <token postag="NN"/>
+                    <token postag="VBG"/>
                 </and>
             </marker>
         </pattern>
-        <disambig><match no="2" postag_regexp="yes" postag="VBG"></match></disambig>
+        <disambig><match no="2" postag_regexp="yes" postag="VBG"/></disambig>
     </rule>
     <rule name="NO/DT/NN/NNP + NN|JJ -&gt; NO/DT" id="IN_NO_DT">
         <pattern>
             <marker>
                 <token>no</token>
             </marker>
-            <token postag_regexp="yes" postag="NN.*|JJ.*"></token>
+            <token postag_regexp="yes" postag="NN.*|JJ.*"/>
         </pattern>
-        <disambig postag="DT"></disambig>
+        <disambig postag="DT"/>
     </rule>
     <rule name="PRP + VBZ/NNS -&gt; VBZ" id="PRP_VBZ">
         <pattern>
             <token regexp="yes" postag="PRP|WP" postag_regexp="yes">it|he|she|(some)?one|nobody|who</token>
             <marker>
                 <and>
-                    <token postag="VBZ"></token>
-                    <token postag_regexp="yes" postag="NN.*"></token>
+                    <token postag="VBZ"/>
+                    <token postag_regexp="yes" postag="NN.*"/>
                 </and>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="VBZ" postag_regexp="yes"></match></disambig>
+        <disambig><match no="2" postag="VBZ" postag_regexp="yes"/></disambig>
         <example type="untouched">He was determined to be someone.</example>
         <example type="ambiguous" inputform="trusts[trust/NNS,trust/VBZ]" outputform="trusts[trust/VBZ]">No one <marker>trusts</marker> him any more.</example>
     </rule>
     <rule name="PRP + MD/NN -&gt; MD" id="PRP_MD">
         <pattern>
-            <token postag="PRP"></token>
+            <token postag="PRP"/>
             <marker>
                 <and>
-                    <token postag="MD"></token>
-                    <token postag_regexp="yes" postag="NN.*"></token>
+                    <token postag="MD"/>
+                    <token postag_regexp="yes" postag="NN.*"/>
                 </and>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="MD" postag_regexp="yes"></match></disambig>
+        <disambig><match no="2" postag="MD" postag_regexp="yes"/></disambig>
     </rule>
     <rule name="PDT/DT -&gt; DT" id="PDT_DT">
         <pattern>
             <marker>
                 <and>
                     <token postag="PDT"><exception scope="previous" postag="JJ"/></token>
-                    <token postag="DT"></token>
+                    <token postag="DT"/>
                 </and>
             </marker>
-            <token><exception postag_regexp="yes" postag="DT|PRP\$"></exception></token>
+            <token><exception postag_regexp="yes" postag="DT|PRP\$"/></token>
         </pattern>
-        <disambig postag="DT"></disambig>
+        <disambig postag="DT"/>
         <example type="ambiguous" inputform="All[all/DT,all/JJ,all/PDT]" outputform="All[all/DT]"><marker>All</marker> students are happy.</example>
         <example type="untouched">All the people.</example>
     </rule>
@@ -2586,13 +2586,13 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <pattern>
             <marker>
                 <and>
-                    <token postag="PDT"></token>
-                    <token postag="DT"></token>
+                    <token postag="PDT"/>
+                    <token postag="DT"/>
                 </and>
             </marker>
-            <token postag_regexp="yes" postag="DT|PRP\$"></token>
+            <token postag_regexp="yes" postag="DT|PRP\$"/>
         </pattern>
-        <disambig postag="PDT"></disambig>
+        <disambig postag="PDT"/>
         <example type="ambiguous" inputform="All[all/DT,all/JJ,all/NN:U,all/PDT]" outputform="All[all/PDT]"><marker>All</marker> the people are happy.</example>
         <example type="untouched">All students are happy.</example>
     </rule>
@@ -2600,13 +2600,13 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <pattern>
             <marker>
                 <and>
-                    <token postag="WP"></token>
+                    <token postag="WP"/>
                     <token postag="WDT"><exception>that</exception></token>
                 </and>
             </marker>
-            <token postag_regexp="yes" postag="NN|NN:UN"></token>
+            <token postag_regexp="yes" postag="NN|NN:UN"/>
         </pattern>
-        <disambig postag="WDT"></disambig>
+        <disambig postag="WDT"/>
         <example type="ambiguous" inputform="What[what/UH,what/WDT,what/WP]" outputform="What[what/WDT]"><marker>What</marker> kind of bread is this?</example>
         <example type="untouched">What are you doing?</example>
     </rule>
@@ -2614,13 +2614,13 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <pattern>
             <marker>
                 <and>
-                    <token postag="WP"></token>
+                    <token postag="WP"/>
                     <token postag="WDT"><exception>that</exception></token>
                 </and>
             </marker>
-            <token><exception postag_regexp="yes" postag="NN|NN:UN"></exception></token>
+            <token><exception postag_regexp="yes" postag="NN|NN:UN"/></token>
         </pattern>
-        <disambig postag="WP"></disambig>
+        <disambig postag="WP"/>
         <example type="ambiguous" inputform="What[what/UH,what/WDT,what/WP]" outputform="What[what/WP]"><marker>What</marker> are you doing?</example>
         <example type="untouched">What kind of bread is this?</example>
     </rule>
@@ -2628,26 +2628,26 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <pattern>
             <marker>
                 <and>
-                    <token postag="WP"></token>
+                    <token postag="WP"/>
                     <token postag="WDT">that</token>
                 </and>
             </marker>
             <token min="0" postag="JJ"/>
-            <token postag_regexp="yes" postag="NN|NN:UN"></token>
+            <token postag_regexp="yes" postag="NN|NN:UN"/>
         </pattern>
-        <disambig postag="DT"></disambig>
+        <disambig postag="DT"/>
         <example type="ambiguous" inputform="That[that/DT,that/RP,that/WDT,that/WP]" outputform="That[that/DT]"><marker>That</marker> kind of bread is stale.</example>
         <example type="untouched">What are you doing?</example>
     </rule>
     <rulegroup name="Quotation marks" id="QUOT">
         <rule>
             <pattern>
-                <token postag="SENT_START"></token>
+                <token postag="SENT_START"/>
                 <marker>
                     <token>&quot;</token>
                 </marker>
             </pattern>
-            <disambig postag="``"></disambig>
+            <disambig postag="``"/>
             <example type="untouched">Example 'a'</example>
             <example type="untouched">Example &quot;a</example>
             <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]"><marker>&quot;</marker>A test.</example>
@@ -2662,7 +2662,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                     </and>
                 </marker>
             </pattern>
-            <disambig postag="''"></disambig>
+            <disambig postag="''"/>
             <example type="untouched">Example 'a'</example>
             <example type="untouched">Example &quot;a</example>
             <example type="untouched">Example (&quot;a</example>
@@ -2677,7 +2677,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                     </and>
                 </marker>
             </pattern>
-            <disambig postag="``"></disambig>
+            <disambig postag="``"/>
             <example type="untouched">Example 'a'</example>
             <example type="untouched">Example a&quot;</example>
             <example type="ambiguous" inputform="&quot;[&quot;/'',&quot;/``]" outputform="&quot;[&quot;/``]">A <marker>&quot;</marker>test&quot;.</example>
@@ -2692,7 +2692,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                     </and>
                 </marker>
             </pattern>
-            <disambig postag="``"></disambig>
+            <disambig postag="``"/>
             <example type="untouched">Example 'a'</example>
             <example type="untouched">Example &quot;a</example>
             <example type="untouched">Example a&quot;</example>
@@ -2703,10 +2703,10 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <rulegroup name="Add possessive ending" id="POS_ADD">
         <rule>  <!--	probably verb "is": now add to some -->
             <pattern>
-                <token><exception postag_regexp="yes" postag="NN.*|VBP|CD|UNKNOWN|\."></exception></token>
+                <token><exception postag_regexp="yes" postag="NN.*|VBP|CD|UNKNOWN|\."/></token>
                 <token spacebefore="no" regexp="yes">['’]</token>
                 <marker>
-                    <token spacebefore="no">s<exception postag="VBZ"></exception></token>
+                    <token spacebefore="no">s<exception postag="VBZ"/></token>
                 </marker>
                 <token><exception postag="SENT_END"/><exception regexp="yes">[,:;]</exception></token>
             </pattern>
@@ -2756,7 +2756,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         </rule>
         <rule> <!--  add to Bill's -->
             <pattern>
-                <token postag_regexp="yes" postag="NN.*"></token>
+                <token postag_regexp="yes" postag="NN.*"/>
                 <marker>
                     <token spacebefore="no" regexp="yes">['’]</token>
                 </marker>
@@ -2803,7 +2803,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
             <token spacebefore="no" regexp="yes">['’]</token>
         </pattern>
-        <disambig postag="VBG"></disambig>
+        <disambig postag="VBG"/>
         <example type="untouched">I'm in N.Y.</example>
         <example type="ambiguous" inputform="Puttin[Puttin]" outputform="Puttin[Puttin/VBG]"><marker>Puttin</marker>' on the Ritz!</example>
     </rule>
@@ -2815,7 +2815,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 </marker>
                 <token regexp="yes">but|right</token>
             </pattern>
-            <disambig postag="RB"></disambig>
+            <disambig postag="RB"/>
             <example type="untouched">All the students are happy.</example>
             <example type="ambiguous" inputform="All[all/DT]" outputform="All[all/RB]"><marker>All</marker> but one!</example>
             <example type="ambiguous" inputform="All[all/DT]" outputform="All[all/RB]"><marker>All</marker> right!</example>
@@ -2827,7 +2827,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                     <token>but</token>
                 </marker>
             </pattern>
-            <disambig postag="RB"></disambig>
+            <disambig postag="RB"/>
             <example type="untouched">All the students are happy.</example>
             <example type="ambiguous" inputform="but[but/CC]" outputform="but[but/RB]">All <marker>but</marker> one!</example>
         </rule>
@@ -2837,13 +2837,13 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token>the</token>
             <marker>
                 <and>
-                    <token postag="RB"></token>
-                    <token postag_regexp="yes" postag="NN.*"></token>
+                    <token postag="RB"/>
+                    <token postag_regexp="yes" postag="NN.*"/>
                 </and>
             </marker>
             <token>the</token>
         </pattern>
-        <disambig action="remove"><wd pos="RB"></wd></disambig>
+        <disambig action="remove"><wd pos="RB"/></disambig>
         <example type="untouched">The really the interesting thing is this.</example>
         <example type="ambiguous" inputform="meanwhile[meanwhile/JJ,meanwhile/NN:U,meanwhile/RB]" outputform="meanwhile[meanwhile/JJ,meanwhile/NN:U]">In the <marker>meanwhile</marker> the whole situation changed.</example>
     </rule>
@@ -2855,15 +2855,15 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token>all</token>
             <token>ways</token>
         </pattern>
-        <disambig action="immunize"></disambig>
+        <disambig action="immunize"/>
     </rule>
     <rule id="MD_STAND_ALONE" name="MD stand alone">
         <pattern>
-            <token postag="MD"><exception postag="MD" negate_pos="yes"></exception></token>
+            <token postag="MD"><exception postag="MD" negate_pos="yes"/></token>
             <token>stand</token>
             <token>alone</token>
         </pattern>
-        <disambig action="immunize"></disambig>
+        <disambig action="immunize"/>
     </rule>
     <rule id="TO_STAND_ALONE" name="to stand alone">
         <pattern>
@@ -2871,16 +2871,16 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token>stand</token>
             <token>alone</token>
         </pattern>
-        <disambig action="immunize"></disambig>
+        <disambig action="immunize"/>
     </rule>
     <!-- &comparisons then 0END.0::filter=kill -->
     <rule id="COMPARISONS_THEN_0END0" name="comparisons then 0END0">
         <pattern>
             <token regexp="yes">hotter|colder|lamer|less|lesser|more|greater|heavier|lighter|better|worse|smarter|dumber|cheaper|sexier|taller|shorter|faster|slower|older|younger|easier|harder|farther|closer|higher|lower|larger|smaller|sooner|later|weaker|stronger|louder|quieter|darker|brighter</token>
             <token>then</token>
-            <token postag="SENT_END"></token>
+            <token postag="SENT_END"/>
         </pattern>
-        <disambig action="immunize"></disambig>
+        <disambig action="immunize"/>
     </rule>
     <!-- Who's|who's .*ing::filter=kill -->
     <rule id="WHOSWHOS_ING" name="Whos whos ing">
@@ -2890,7 +2890,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token>s</token>
             <token regexp="yes">.*ing</token>
         </pattern>
-        <disambig action="immunize"></disambig>
+        <disambig action="immunize"/>
     </rule>
     
     <rule id="PRP_VBNNN_VBN" name="pronoun + vbn/nn->vbn">
@@ -3029,7 +3029,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token postag="VBZ"/>
           </and>
           </marker>
-          <token postag="VBP?" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="VBP?"></exception></token>        
+          <token postag="VBP?" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="VBP?"/></token>        
       </pattern>
       <disambig postag="NNS"/>
       <example type="untouched">They should pass the waters.</example>
@@ -3050,7 +3050,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     		</marker>
     		<token postag="NN.*" postag_regexp="yes"/>
     	</pattern>
-		<disambig action="add"><wd pos="POS" lemma="s"></wd></disambig>
+		<disambig action="add"><wd pos="POS" lemma="s"/></disambig>
     	<example type="untouched">His books are nice.</example>
     	<example type="ambiguous" inputform="s[be/VBZ]" outputform="s[be/VBZ,s/POS]" >Somebody else'<marker>s</marker> hypothesis needs to be tested.</example>    	
     </rule>
@@ -3136,7 +3136,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 			<token postag="NNP"/>
 			<marker><token postag="CD"/></marker>
 		</pattern>
-		<disambig action="add"><wd pos="NNP"></wd></disambig>
+		<disambig action="add"><wd pos="NNP"/></disambig>
 		<example type="untouched">Apollo is beautiful.</example>
 		<example type="ambiguous" inputform="12[12/CD]" outputform="12[12/CD,12/NNP]">Apollo <marker>12</marker> was beatiful.</example>
 	</rule>
@@ -3185,7 +3185,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 			</and>
 			</marker>
 		</pattern>
-		<disambig><match no="2" postag="NNP?S" postag_regexp="yes"></match></disambig>
+		<disambig><match no="2" postag="NNP?S" postag_regexp="yes"/></disambig>
 	</rule>     
   
     <rule id="VB_NNPRP_PRP" name="mine as PRP$">
@@ -3194,7 +3194,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <marker>
           <and>
             <token postag="NN"/>
-            <token postag="PRP$"></token>
+            <token postag="PRP$"/>
           </and>
         </marker>
       </pattern>
@@ -3208,12 +3208,12 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 				<token regexp="yes" postag="VB[ZPG]?" postag_regexp="yes" inflected="yes">be|have</token>
 				<marker>
 				<and>
-					<token postag="NN.*" postag_regexp="yes"><exception postag="NN"></exception><exception postag="JJ.*" postag_regexp="yes"></exception></token>
+					<token postag="NN.*" postag_regexp="yes"><exception postag="NN"/><exception postag="JJ.*" postag_regexp="yes"/></token>
 					<token postag="VB[ZP]?" postag_regexp="yes"/>
 				</and>
 				</marker>
 			</pattern>
-			<disambig><match no="2" postag="NN.*" postag_regexp="yes"></match></disambig>
+			<disambig><match no="2" postag="NN.*" postag_regexp="yes"/></disambig>
 			<example type="untouched">It's still valid.</example>
 			<example type="ambiguous" inputform="companies[company/NNS,company/VBZ]" outputform="companies[company/NNS]">They have <marker>companies</marker>.</example>
 		</rule>
@@ -3223,13 +3223,13 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token regexp="yes" postag="VB[ZPG]?" postag_regexp="yes" inflected="yes">be|have</token>
                 <marker>
                     <and>
-                        <token postag="NN.*" postag_regexp="yes"><exception postag="JJ.*" postag_regexp="yes"></exception></token>
+                        <token postag="NN.*" postag_regexp="yes"><exception postag="JJ.*" postag_regexp="yes"/></token>
                         <token postag="VB[ZP]?" postag_regexp="yes"/>
                     </and>
                     <token postag="NN.*" postag_regexp="yes"/>
                 </marker>
             </pattern>
-            <disambig><match no="2" postag="NN.*" postag_regexp="yes"></match></disambig>
+            <disambig><match no="2" postag="NN.*" postag_regexp="yes"/></disambig>
         </rule>
 		
 		<rule name="saw as a verb" id="PRP_SAW">
@@ -3257,7 +3257,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
               <token postag="DT"/>
               <marker><token>way</token></marker>
           </pattern>
-          <disambig postag="NN:UN"></disambig>
+          <disambig postag="NN:UN"/>
           <example type="untouched">It's way too much.</example>
           <example type="ambiguous" inputform="way[way/NN:UN,way/RB]" outputform="way[way/NN:UN]">There is a <marker>way</marker>.</example>
         </rule>
@@ -3382,7 +3382,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
               <token postag="JJ" postag_regexp="yes"><exception postag="CD"/></token>
             </and>
             </marker>
-            <token postag="VB.*" postag_regexp="yes"></token>
+            <token postag="VB.*" postag_regexp="yes"/>
           </pattern>
           <disambig action="filter" postag="NN.*"/>
           <example type="untouched">I do what I want to.</example>
@@ -3486,7 +3486,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <rule id="MOST_VBP" name="most + verb in plural">
           <pattern>
             <marker><token>most</token></marker>
-            <token postag="VBP"></token>
+            <token postag="VBP"/>
           </pattern>
           <disambig postag="JJS"/>
           <example type="untouched">Most of his writing is rubbish.</example>
@@ -3533,7 +3533,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token>it</token>
             <marker>
             <and>
-            <token postag="JJ.?" postag_regexp="yes"></token>
+            <token postag="JJ.?" postag_regexp="yes"/>
             <token postag="VBP?" postag_regexp="yes"/>
             </and>
             </marker>
@@ -3549,7 +3549,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token>it</token>
             <marker>
             <and>
-            <token postag="JJ.?" postag_regexp="yes"></token>
+            <token postag="JJ.?" postag_regexp="yes"/>
             <token postag="VBP?" postag_regexp="yes"/>
             </and>
             </marker>
@@ -3682,7 +3682,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
             <token postag="NN.*" postag_regexp="yes"/>
           </pattern>
-          <disambig action="filter" postag="JJ.?"></disambig>
+          <disambig action="filter" postag="JJ.?"/>
           <example type="untouched">It still expands.</example>
           <example type="ambiguous" inputform="further[far/JJR,further/RB,further/VB,further/VBP]" outputform="further[far/JJR]">It was after a <marker>further</marker> investigation.</example>
         </rule>
@@ -3877,7 +3877,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </and>
             </marker>
             <token postag="NN.*" postag_regexp="yes"/>
-            <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
+            <token><exception postag="NN.*" postag_regexp="yes"/></token>
           </pattern>
           <disambig action="filter" postag="JJ.?"/>
           <!-- example type="ambiguous" inputform="red[red/JJ,red/NN:UN]" outputform="red[red/JJ]">I have many <marker>red</marker> wine.</example -->
@@ -3910,7 +3910,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token regexp="yes">Ave|Avenue|Street|Terrace|Square|St|Circle|Drive</token>
          </marker>            
         </pattern>
-        <disambig action="immunize"></disambig>
+        <disambig action="immunize"/>
     </rule>        
         
     <rule name="Immunize votes" id="X_TO_X_VOTE">
