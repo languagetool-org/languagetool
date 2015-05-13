@@ -29,23 +29,22 @@ import java.io.IOException;
 
 public class WordRepeatRuleTest extends TestCase {
 
+  private final English english = new English();
+  private final WordRepeatRule rule = new WordRepeatRule(TestTools.getEnglishMessages(), english);
+  private final JLanguageTool langTool = new JLanguageTool(english);
+
   public void testRule() throws IOException {
-    final English english = new English();
-    final WordRepeatRule rule = new WordRepeatRule(TestTools.getEnglishMessages(), english);
-    RuleMatch[] matches;
-    final JLanguageTool langTool = new JLanguageTool(english);
-    // correct sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence..."));
-    assertEquals(0, matches.length);
-    // incorrect sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("This this is a test sentence."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence sentence."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This is is a a test sentence sentence."));
-    assertEquals(3, matches.length);
+    assertMatches("This is a test sentence.", 0);
+    assertMatches("This is a test sentence...", 0);
+    
+    assertMatches("This this is a test sentence.", 1);
+    assertMatches("This is a test sentence sentence.", 1);
+    assertMatches("This is is a a test sentence sentence.", 3);
+  }
+
+  private void assertMatches(String input, int expectedMatches) throws IOException {
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(input));
+    assertEquals(expectedMatches, matches.length);
   }
 
 }
