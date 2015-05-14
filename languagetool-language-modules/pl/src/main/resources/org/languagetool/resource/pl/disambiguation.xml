@@ -3994,6 +3994,23 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="filterall"/>
     </rule>
 
+    <rule id="CO_TWIERDZA" name="jak/co twierdzą -> czasownik">
+        <pattern>
+            <token regexp="yes">co|jak</token>
+            <marker><token>twierdzą</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="twierdza"/></disambig>
+    </rule>
+
+    <rule id="TWIERDZA_ZE" name="twierdzą, że -> czasownik">
+        <pattern>
+            <marker><token>twierdzą</token></marker>
+            <token>,</token>
+            <token regexp="yes">że|iż</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="twierdza"/></disambig>
+    </rule>
+
     <rule id="SWIECI" name="święci garnki -> nie czasownik">
         <pattern>
             <marker><token>święci</token></marker>
@@ -5380,7 +5397,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule id="PELNI_GEN" name="pełni + genetiwus = rzeczownik">
         <pattern>
             <marker>
-                <token skip="1">pełni</token>
+                <token skip="1">pełni<exception scope="previous">nie</exception></token>
             </marker>
             <token postag_regexp="yes" postag=".*gen.*"><exception postag=".*acc.*" postag_regexp="yes"/></token>
         </pattern>
