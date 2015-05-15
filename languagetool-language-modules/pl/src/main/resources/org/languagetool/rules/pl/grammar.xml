@@ -316,6 +316,7 @@ $Id$
                                 <example>Rząd jednak nie zdecydował się na tę zmianę i państwo nadal zachowuje militarną neutralność.</example>
                                 <example correction="">Tymczasem, kiedy <marker>odwiedziliśmy Państwowe Gospodarstwo Rolne tego regionu żniwa trwały już dziesięć dni,</marker> a nie był to nawet półmetek.</example>
                                 <example>Obiecywał, że to już jutro zwycięży, a te jutra tworzyły długie miesiące i zwycięstwa nie było.</example>
+                                <example correction="">Jak <marker>wykazała autopsja jego obiektywnego ciała przyczyną śmierci była poważna infekcja dróg oddechowych.</marker></example>
 						</rule>
 						<!--powinien + exception: powinien był-->
 						<rule>
@@ -1047,7 +1048,7 @@ $Id$
 						<rule>
 								<pattern>
 										<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
-										<token inflected="yes" regexp="yes">a|ale|lecz|który|jaki|zwłaszcza|jak|szczególnie|że|nawet|więc|jednak(:?że)?</token>
+										<token inflected="yes" regexp="yes">a|ale|lecz|który|jaki|tylko|zwłaszcza|jak|szczególnie|że|nawet|więc|jednak(:?że)?</token>
 										<token regexp="yes">(jeśli|jeżeli|jeżeliby|jeśliby|gdyby|zanim)(ś|śmy|ście|m)*</token>
 								</pattern>
 								<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>.</message>
@@ -1233,6 +1234,28 @@ $Id$
                                 <example correction=""><marker>Aby uniknąć powstawania amin wyższego rzędu należy</marker> użyć nadmiaru amoniaku.</example>
                                 <example>Nic nie jest skrytego, co by nie miało być objawione.</example>
 						</rule>
+                        <rule>
+                            <pattern>
+                                <token inflected="yes" regexp="yes" skip="-1" postag="comp">(?:a?by|a?żeby|iżby).*
+                                    <exception scope="previous" postag_regexp="yes" postag="verb:winien.*|verb:imps.*"/>
+                                    <exception scope="previous">co</exception>
+                                    <exception postag_regexp="yes" postag="(?:comp|interp):comma" scope="next"/>
+                                    <exception scope="next" postag="pred"/>
+                                    <exception scope="next" inflected="yes" postag_regexp="yes" postag="verb.*(sg|pl).*" regexp="yes">móc|musieć|potrafić|pozwalać|zdołać|umieć|ośmielić|woleć</exception>
+                                </token>
+                                <token postag="verb:inf.*" postag_regexp="yes" skip="-1">
+                                    <exception regexp="yes" scope="current">może|lecz|jedna|lub</exception>
+                                    <!-- exception regexp="yes" scope="next">[\p{Punct}—–„«»…&amp;&amp;[^\.]]+</exception -->
+                                    <exception postag="interp:comma" scope="next"/>
+                                    <exception postag="&lt;ELLIPSIS&gt;" scope="next"/>
+                                </token>
+                                <token inflected="yes" postag="verb.*(sg|pl).*"  postag_regexp="yes" regexp="yes">mieć|móc|musieć|potrafić|pozwolić|pozwalać|zdołać|umieć|ośmielić|powinien|gotów|ważyć|raczyć|usiłować|rozkazać|śmieć|zacząć|uczyć|dozwolić|chcieć|pomagać|położyć</token>
+                            </pattern>
+                            <message>W tym fragmencie zdania prawdopodobnie brakuje przecinka.</message>
+                            <short>Błąd interpunkcyjny</short>
+                            <example correction=""><marker>Żeby zrozumieć percepcję musimy</marker> więc zrozumieć intencjonalność.</example>
+                            <example>By się obronić — musiałem skłamać.</example>
+                        </rule>
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_ZAMIAST" name="Brak przecinka przed „zamiast”">
 						<rule>
@@ -1859,7 +1882,7 @@ $Id$
 										<token negate="yes">,<exception regexp="yes">&interp;</exception><exception postag="SENT_START"></exception></token>
 										<token>innymi</token>
 										<token>słowy</token>
-										<token negate="yes">,<exception regexp="yes">&interp;</exception></token>
+										<token negate="yes">,<exception regexp="yes">&interp;|\)</exception></token>
 								</pattern>
 								<message>Wyrażenie „\1 \2” wydziela się przecinkami lub myślnikami od reszty zdania. Poprawnie: <suggestion>\1, \2 \3, \4</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -2308,6 +2331,19 @@ $Id$
                                 <example>— Przyjacielu, bądź pozdrowiony!</example>
                                 <example>Nie wypadało mu mówić głupstw, bądź co bądź reprezentował parlament.</example>
 						</rule>
+                    <rule>
+                        <pattern>
+                            <token skip="-1">że</token>
+                            <marker>
+                                <token>,</token>
+                                <token regexp="yes">ani|i|lub|albo|czy|oraz</token>
+                            </marker>
+                                <token>że</token>
+                        </pattern>
+                        <message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion> \3</suggestion>.</message>
+                        <short>Błąd interpunkcyjny</short>
+                        <example correction=" lub">On myśli, że tak jest ogólnie<marker>, lub</marker> że mogłoby tak być zawsze.</example>
+                    </rule>
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_ANI" name="Brak przecinka przed powtórzonym „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
 						<rule>
@@ -2340,6 +2376,19 @@ $Id$
                                 <example>I nie zniżę się do zazdrości, która bądź jak bądź jest podłym uczuciem.</example>
 						</rule>
 				</rulegroup>
+            <rule id="BRAK_PRZECINKA_TYLKO" name="Brak przecinka przed „tylko”">
+                <pattern>
+                    <token skip='-1'>nie<exception regexp='yes' scope='next'>[,\(\);]</exception><exception regexp='yes' scope='next'>ani|lub|albo|czy|oraz|i</exception></token>
+                    <marker>
+                        <token postag='subst:.*' postag_regexp='yes'><exception postag='subst:sg:voc:f'></exception></token>
+                        <token>tylko</token>
+                    </marker>
+                </pattern>
+                <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion><match no="2"/>, <match no="3"/></suggestion></message>
+                <short>Brak przecinka</short>
+                <example correction='przedmiot, tylko'>Traktuj człowieka nie jako <marker>przedmiot tylko</marker> właśnie jako podmiot.</example>
+                <example>Traktuj człowieka nie jako przedmiot, tylko właśnie jako podmiot.</example>
+            </rule>
 				<rulegroup default="off" id="BRAK_PRZECINKA_I_KWITA" name="Brak przecinka przed „i kwita” itp.">
 						<rule>
 								<pattern case_sensitive="yes">
@@ -4645,6 +4694,10 @@ $Id$
 						</rule>
 				</rulegroup>
 				<rulegroup id="PRAWDOPODOBNYM_JEST" name="Orzecznik w narzędniku (zamiast mianownika)">
+                        <antipattern>
+                            <marker><token>jednym</token></marker>
+                            <token>z</token>
+                        </antipattern>
 						<rule>
 								<pattern>
 										<token><exception postag="(subst|ger):*sg:.*(inst|loc).*[.\:](m|n).*" postag_regexp="yes"></exception></token>
@@ -6001,6 +6054,10 @@ $Id$
                                 <token>raz</token>
                             </marker>
                         </antipattern>
+                    <antipattern>
+                        <token postag="prep:acc.*" postag_regexp="yes"/>
+                        <marker><token postag="(adj|subst|ppas|pact):.*acc.*" postag_regexp="yes"/></marker>
+                    </antipattern>
 						<rule>
 								<pattern>
 										<token inflected="yes" regexp="yes">używać|użyć<exception postag="ger:.*|ppas:.*" postag_regexp="yes"/><exception scope="previous" postag=".*gen.*" postag_regexp="yes"/></token>
@@ -6076,6 +6133,7 @@ $Id$
                                 <example>Demonstranci użyli do obrony kijów bambusowych i kamieni.</example>
                                 <example>Zeus użył do jej produkcji skóry swej karmicielki kozy Amaltei lub też zrobiła ją sama Atena po obdarciu ze skóry kozionogiego Pallasa, który ją napastował.</example>
                                 <example>Indianie amerykańscy używali do walki łuków i strzał.</example>
+                                <example>Nie przez przypadek używamy do opisu zachowania terminów psychologicznych.</example>
 						</rule>
 				</rulegroup>
 				<rulegroup id="PRZESTRZEGAC_CO" name="„przestrzegać co” (czego)">

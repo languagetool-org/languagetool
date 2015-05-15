@@ -18,8 +18,8 @@
     mostly for non-native speakers)
 
 #### Polish
-  * added a few new rules
-  * fixed some false alarms
+  * added new rules
+  * fixed dozens of false alarms
 
 #### Portuguese
   * added/improved a few rules
