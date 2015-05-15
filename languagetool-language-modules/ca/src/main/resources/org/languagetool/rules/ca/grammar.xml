@@ -2216,6 +2216,14 @@ $Id$
                         <token>mig</token>
                     </marker>
                 </antipattern>
+                <antipattern>
+                    <marker>
+                        <token inflected="yes" regexp="yes">traure|treure|llevar</token>
+                        <token>de</token>
+                        <token>l</token>
+                        <token>mig</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token>mig<exception postag="_allow_mig"/></token>
                     <token postag="N..P.*" postag_regexp="yes"/>
@@ -27829,6 +27837,14 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="A_MANS_DE" name="a mans de/en mans de">
+            <antipattern>
+                <marker>
+                    <token inflected="yes">fer</token>
+                    <token min="0" max="2" postag="P.*" postag_regexp="yes" spacebefore="no"/>
+                    <token>a</token>
+                    <token>mans</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag="V[^A].*|N.*" postag_regexp="yes" inflected="yes" regexp="yes">&exceptions_A_MANS_DE;</exception></token>
@@ -32743,7 +32759,7 @@ $Id$
         </rule>
         <rule id="FER_LA_GUARDIA" name="fer (*la) guàrdia">
             <pattern>
-                <token inflected="yes" skip="1">fer</token>
+                <token inflected="yes" skip="1">fer<exception scope="next">servir</exception></token>
                 <token>la</token>
                 <token>guàrdia</token>
             </pattern>

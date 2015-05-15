@@ -84,6 +84,8 @@ public class CatalanSentenceTokenizerTest extends TestCase {
     testSplit("Art. 2.1: Són obligats els...");
     testSplit("Arriba fins a les pp. 50-52.");
     testSplit("Arriba fins a les pp. XI-XII.");
+    testSplit("i no ho vol. ", "Malgrat que és així.");
+    testSplit("i és del vol. 3 de la col·lecció");
 
     // Exception to abbreviations
     testSplit("Ell és el número u. ", "Jo el dos.");
