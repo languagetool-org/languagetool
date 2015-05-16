@@ -17361,7 +17361,6 @@ $Id$
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion><match no="1" regexp_match="[Ee]?([^e])e?" regexp_replace="$1e"></match><match no="2" regexp_match="e?([^e]{1,2})e?" regexp_replace="'$1"></match></suggestion>
-                <short>Cal apostrofar</short>
                 <example correction="Se't"><marker>Se et</marker> halen de seguida.</example>
                 <example><marker>Se't</marker> buida de gent.</example>
             </rule>
@@ -17373,8 +17372,8 @@ $Id$
                     </marker>
                     <token postag="P[P0].*" postag_regexp="yes"><exception postag="SENT_END"/></token>
                 </pattern>
-                <message>Cal usar la forma plena: <suggestion><match no="2" regexp_match="[Ee]([^e])" regexp_replace="$1e"></match></suggestion>.</message>
-                <short>Cal usar la forma plena</short>
+                <message>Cal usar la forma plena.</message>
+                <suggestion><match no="2" regexp_match="[Ee]([^e])" regexp_replace="$1e"></match></suggestion>
                 <example correction="se">Això <marker>es</marker> t'omple.</example>
                 <example>Això se t'omple de gent.</example>
                 <example>Així es que si no canvia la cosa.</example>
@@ -17395,6 +17394,13 @@ $Id$
                 <example>Déu te guard</example>
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token>tant</token>
+                        <token>se</token>
+                        <token regexp="yes">val|valia|valdria</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token postag="P0.*" postag_regexp="yes" negate_pos="yes"></token>
                     <marker>
@@ -17407,7 +17413,7 @@ $Id$
                 <short>Cal usar la forma reforçada</short>
                 <example correction="es diu">Això <marker>se diu</marker>.</example>
                 <example>Això se celebra.</example>
-                <example>Déu te guard</example>
+                <example>Tant se valia una cosa com l'altra.</example>
             </rule>
             <rule>
                 <antipattern>
