@@ -1470,7 +1470,8 @@ $Id$
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—|наиболее|наименее|более|менее|а|и|но|что<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">конечно|несомненно|вероятно|кажется|однако</token>              
                     <and>
-                        <token negate="yes">,</token>                       
+                        <token negate="yes">,</token>
+                        <token negate="yes">же</token>                         
                         <token postag_regexp="yes" postag="VB:.*"></token> 
                     </and>            
                 </pattern>
@@ -1502,7 +1503,7 @@ $Id$
                     <marker>
                         <token regexp="yes">конечно|несомненно|вероятно|кажется|однако</token>
                     </marker>
-                    <token negate="yes" regexp="yes"><exception>если</exception>[\p{Punct}]|-|—</token>
+                    <token negate="yes" regexp="yes"><exception regexp= "yes" >если|же</exception>[\p{Punct}]|-|—</token>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\2,</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -1518,7 +1519,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
                     <token regexp="yes">Конечно|Несомненно|Вероятно|Кажется</token>
-                    <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]|же</token>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\2, \3</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
