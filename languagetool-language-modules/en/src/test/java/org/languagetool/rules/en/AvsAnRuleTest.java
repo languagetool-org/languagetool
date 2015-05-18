@@ -63,6 +63,7 @@ public class AvsAnRuleTest extends TestCase {
     assertCorrect("The Qur'an was translated into Polish.");
     assertCorrect("See an:Grammatica");
     assertCorrect("See http://www.an.com");
+    assertCorrect("Station A equals station B.");
 
     // errors:
     assertIncorrect("It was a hour ago.");

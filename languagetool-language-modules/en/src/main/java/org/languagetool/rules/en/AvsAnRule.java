@@ -74,35 +74,44 @@ public class AvsAnRule extends EnglishRule {
   public RuleMatch[] match(final AnalyzedSentence sentence) {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    AnalyzedTokenReadings prevToken = null;
+    int prevTokenIndex = 0;
     for (int i = 1; i < tokens.length; i++) {  // ignoring token 0, i.e., SENT_START
       AnalyzedTokenReadings token = tokens[i];
-      String prevTokenStr = prevToken != null ? prevToken.getToken() : null;
-      if ("a".equalsIgnoreCase(prevTokenStr) || "an".equalsIgnoreCase(prevTokenStr)) {
+      String prevTokenStr = prevTokenIndex > 0 ? tokens[prevTokenIndex].getToken() : null;
+
+      boolean isSentenceStart = prevTokenIndex == 1;
+      boolean equalsA = "a".equalsIgnoreCase(prevTokenStr);
+      boolean equalsAn = "an".equalsIgnoreCase(prevTokenStr);
+
+      if (!isSentenceStart) {
+          equalsA = "a".equals(prevTokenStr);
+          equalsAn = "an".equals(prevTokenStr);
+      }
+
+      if (equalsA || equalsAn) {
         Determiner determiner = getCorrectDeterminerFor(token);
-        if (prevTokenStr != null) {
-          String msg = null;
-          if ("a".equalsIgnoreCase(prevTokenStr) && determiner == Determiner.AN) {
-            String replacement = StringTools.startsWithUppercase(prevTokenStr) ? "An" : "an";
-            msg = "Use <suggestion>" + replacement + "</suggestion> instead of '" + prevTokenStr + "' if the following "+
-                    "word starts with a vowel sound, e.g. 'an article', 'an hour'";
-          } else if ("an".equalsIgnoreCase(prevTokenStr) && determiner == Determiner.A) {
-            String replacement = StringTools.startsWithUppercase(prevTokenStr) ? "A" : "a";
-            msg = "Use <suggestion>" + replacement + "</suggestion> instead of '" + prevTokenStr + "' if the following "+
-                    "word doesn't start with a vowel sound, e.g. 'a sentence', 'a university'";
-          }
-          if (msg != null) {
-            RuleMatch match = new RuleMatch(this, prevToken.getStartPos(), prevToken.getEndPos(), msg, "Wrong article");
-            ruleMatches.add(match);
-          }
+        String msg = null;
+        if (equalsA && determiner == Determiner.AN) {
+          String replacement = StringTools.startsWithUppercase(prevTokenStr) ? "An" : "an";
+          msg = "Use <suggestion>" + replacement + "</suggestion> instead of '" + prevTokenStr + "' if the following "+
+                  "word starts with a vowel sound, e.g. 'an article', 'an hour'";
+        } else if (equalsAn && determiner == Determiner.A) {
+          String replacement = StringTools.startsWithUppercase(prevTokenStr) ? "A" : "a";
+          msg = "Use <suggestion>" + replacement + "</suggestion> instead of '" + prevTokenStr + "' if the following "+
+                  "word doesn't start with a vowel sound, e.g. 'a sentence', 'a university'";
+        }
+        if (msg != null) {
+          RuleMatch match = new RuleMatch(
+              this, tokens[prevTokenIndex].getStartPos(), tokens[prevTokenIndex].getEndPos(), msg, "Wrong article");
+          ruleMatches.add(match);
         }
       }
       if (token.hasPosTag("DT")) {
-        prevToken = token;
+        prevTokenIndex = i;
       } else if (token.getToken().matches("[-\"()\\[\\]]+")) {
         // skip e.g. the quote in >>an "industry party"<<
       } else {
-        prevToken = null;
+        prevTokenIndex = 0;
       }
     }
     return toRuleMatchArray(ruleMatches);
