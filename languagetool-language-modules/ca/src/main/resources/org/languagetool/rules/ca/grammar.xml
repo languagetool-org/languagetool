@@ -1007,8 +1007,8 @@ $Id$
                 <example>Ningú decent.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CONCORDANCES_DET_POS_NOM" name="concordances determinant + possessiu + nom">
-            <rule>
+        <rulegroup id="CONCORDANCES_DET_POSSESSIU" name="concordances determinant + possessiu (+ nom)">
+            <rule> <!-- nom masculí -->
                 <pattern>
                     <unify negate="yes">
                         <feature id="nombre" />
@@ -1021,36 +1021,48 @@ $Id$
                 <message>Error de concordança.</message>
                 <suggestion>el <match no="2" postag="PX.MS.*" postag_regexp="yes" /> <match no="3" postag="N.[MC][SN].*" postag_regexp="yes" /></suggestion>
                 <suggestion>els <match no="2" postag="PX.[MC]P.*" postag_regexp="yes" /> <match no="3" postag="N.[MC][PN].*" postag_regexp="yes" /></suggestion>
-                <short>Error de concordança</short>
                 <example correction="El teu llibre|Els teus llibres"><marker>Els teves llibres</marker>.</example>
                 <example>els teus llibres.</example>
             </rule>
-            <rule>
+            <rule> <!-- nom femení, nostre/vostre -->
                 <pattern>
                     <unify negate="yes">
                         <feature id="nombre" />
                         <feature id="genere" />
                         <token postag="DA.*" postag_regexp="yes"></token>
-                        <token postag="PX.*" postag_regexp="yes"></token>
+                        <token postag="PX.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">[stm]eu</exception></token>
                         <token postag="N.F.*" postag_regexp="yes"></token>
                     </unify>
                 </pattern>
                 <message>Error de concordança. </message>
-                <short>Error de concordança</short>
-                <!--
-                    <suggestion><match no="1" postag="DA.FS.*" postag_regexp="yes" /> <match no="2" postag="PX.[FC]S.*" postag_regexp="yes" /> <match no="3" postag="N.FP.*" postag_regexp="yes" /></suggestion>,
-                    <suggestion><match no="1" postag="DA.FP.*" postag_regexp="yes" /> <match no="2" postag="PX.[FC]P.*" postag_regexp="yes" /> <match no="3" postag="N.FS.*" postag_regexp="yes" /></suggestion> -->
-                <example correction=""><marker>Els nostres culleres</marker>.</example>
-                <example>Les nostres culleres.</example>
-                <example>al meu nou i espectacular ordinador</example>
-                <!--
-                    <match no="3" postag="N.FP.*" postag_regexp="yes" />
-                    <match no="3" postag="N.FS.*" postag_regexp="yes" />
-                -->
+                <suggestion><match no="1" postag="DA.FS.*" postag_regexp="yes" /> <match no="2" postag="PX.[FC]S.*" postag_regexp="yes" /> <match no="3" postag="N.FS.*" postag_regexp="yes" /></suggestion>
+                <suggestion><match no="1" postag="DA.FP.*" postag_regexp="yes" /> <match no="2" postag="PX.[FC]P.*" postag_regexp="yes" /> <match no="3" postag="N.FP.*" postag_regexp="yes" /></suggestion>
+                <example correction="La nostra cullera|Les nostres culleres"><marker>Els nostres culleres</marker>.</example>
             </rule>
-        </rulegroup>
-        <rulegroup id="CONCORDANCES_DET_POSSESSIU" name="Concordances determinant i possessiu">
-            <rule>
+            <rule> <!-- nom femení, meu/teu/seu -->
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="nombre" />
+                        <feature id="genere" />
+                        <token postag="DA.*" postag_regexp="yes"></token>
+                        <token postag="PX.*" postag_regexp="yes" inflected="yes" regexp="yes">[stm]eu</token>
+                        <token postag="N.F.*" postag_regexp="yes"></token>
+                    </unify>
+                </pattern>
+                <message>Error de concordança. </message>
+                <suggestion><match no="1" postag="DA.FS.*" postag_regexp="yes" /> <match no="2" regexp_match="(?iu)([stm]).*" regexp_replace="$1eva" /> <match no="3" postag="N.FS.*" postag_regexp="yes" /></suggestion>
+                <suggestion><match no="1" postag="DA.FS.*" postag_regexp="yes" /> <match no="2" regexp_match="(?iu)([stm]).*" regexp_replace="$1eua" /> <match no="3" postag="N.FS.*" postag_regexp="yes" /></suggestion>
+                <suggestion><match no="1" postag="DA.FP.*" postag_regexp="yes" /> <match no="2" regexp_match="(?iu)([stm]).*" regexp_replace="$1eves" /> <match no="3" postag="N.FP.*" postag_regexp="yes" /></suggestion>
+                <suggestion><match no="1" postag="DA.FP.*" postag_regexp="yes" /> <match no="2" regexp_match="(?iu)([stm]).*" regexp_replace="$1eues" /> <match no="3" postag="N.FP.*" postag_regexp="yes" /></suggestion>
+                <example correction="La seva cullera|La seua cullera|Les seves culleres|Les seues culleres"><marker>Els seves culleres</marker>.</example>
+                <example correction="La seva cullera|La seua cullera|Les seves culleres|Les seues culleres"><marker>La seu cullera</marker>.</example>
+                <example correction="La seva cullera|La seua cullera|Les seves culleres|Les seues culleres"><marker>Les seus culleres</marker>.</example>
+                <example>al meu nou i espectacular ordinador</example>
+                <example>La Seu Vella de Lleida</example>
+                <example>La seu antiga del partit</example>
+                <example>Les seus abandonades de les ambaixades</example>
+            </rule>
+            <rule> <!-- det + possessiu -->
                 <pattern>
                     <unify negate="yes">
                         <feature id="nombre" />
@@ -1064,8 +1076,67 @@ $Id$
                 <suggestion><match no="1" postag="DA.MP.*" postag_regexp="yes" /> <match no="2" postag="PX.[MC]P.*" postag_regexp="yes" /></suggestion>
                 <suggestion><match no="1" postag="DA.FS.*" postag_regexp="yes" /> <match no="2" postag="PX.FS.*" postag_regexp="yes" /></suggestion>
                 <suggestion><match no="1" postag="DA.FP.*" postag_regexp="yes" /> <match no="2" postag="PX.[FC]P.*" postag_regexp="yes" /></suggestion>
-                <example correction="El teu|Els teus|La teua|La teva|Les teues|Les teves"><marker>Els teves</marker> culleres.</example>
+                <example correction="El teu|Els teus|La teua|La teva|Les teues|Les teves"><marker>Els teves</marker>.</example>
+                <example correction="El seu|Els seus|La seua|La seva|Les seues|Les seves"><marker>Els seu</marker>.</example>
+                <example correction="El seu|Els seus|La seua|La seva|Les seues|Les seves"><marker>El seus</marker>.</example>
+                <example correction="El teu|Els teus|La teua|La teva|Les teues|Les teves"><marker>La teu</marker> antiga feina.</example>
                 <example>Les teves culleres.</example>
+                <example>La seu de Lleida</example>
+                <example>La Seu Vella de Lleida</example>
+                <example>La seu antiga del partit</example>
+            </rule>
+            <rule> <!-- la seu(a) antiga feina -->
+                <pattern>
+                    <marker>
+                       <token postag="DA.*" postag_regexp="yes"></token>
+                       <token regexp="yes">seus?</token>
+                    </marker>
+                    <token postag="AQ.[FC].*" postag_regexp="yes"></token>
+                    <token postag="N.[FC].*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Error de concordança. </message>
+                <suggestion>la seva</suggestion>
+                <suggestion>la seua</suggestion>
+                <suggestion>les seves</suggestion>
+                <suggestion>les seues</suggestion>
+                <example correction="La seva|La seua|Les seves|Les seues"><marker>La seu</marker> antiga feina.</example>
+                <example correction="La seva|La seua|Les seves|Les seues"><marker>Les seus</marker> bones amigues.</example>
+                <example>La Seu Vella de Lleida</example>
+                <example>La seu antiga del partit</example>
+                <example>Les seus abandonades de les ambaixades</example>
+            </rule>
+            <rule> <!-- Cas particular: La seu(a) amiga -->
+                <pattern>
+                    <marker>
+                        <token postag="DA.*" postag_regexp="yes"></token>
+                        <token regexp="yes">seus?</token>
+                    </marker>
+                    <token regexp="yes">amiga|amigues</token>
+                </pattern>
+                <message>Possible error de concordança. </message>
+                <suggestion>La seva</suggestion>
+                <suggestion>La seua</suggestion>
+                <suggestion>Les seves</suggestion>
+                <suggestion>Les seues</suggestion>
+                <example correction="La seva|La seua|Les seves|Les seues"><marker>La seu</marker> amiga de la feina.</example>
+                <example correction="La seva|La seua|Les seves|Les seues"><marker>Les seus</marker> amigues de la feina.</example>
+                <example>La Seu Vella de Lleida</example>
+                <example>La seu antiga del partit</example>
+                <example>Les seus abandonades de les ambaixades</example>
+            </rule>
+            <rule> <!-- det + possessiu + adj + nom-->
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="nombre" />
+                        <feature id="genere" />
+                        <token postag="DA.*" postag_regexp="yes"></token>
+                        <token postag="PX.*" postag_regexp="yes"></token>
+                        <token postag="N.*|A.*|V.P.*" postag_regexp="yes"></token>
+                        <token postag="N.*|A.*|V.P.*" postag_regexp="yes"></token>
+                    </unify>
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <example correction=""><marker>La seva bones amigues</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_DET_ADJ" name="Concordances determinant i adjectiu">
@@ -1331,6 +1402,13 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_ADJ_NOM" name="Concordances adjectiu i nom"> <!-- cas especial per a ordinals AO.* ? -->
+            <antipattern> <!-- Detected by CONCORDANCES_DET_POSSESSIU -->
+                <marker>
+                    <token postag="DA.*" postag_regexp="yes"></token>
+                    <token postag="PX.*" postag_regexp="yes"></token>
+                    <token postag="N.*" postag_regexp="yes"></token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <unify negate="yes">
@@ -1492,6 +1570,13 @@ $Id$
             </rule>
             </rulegroup> -->
         <rulegroup id="DET_GN" name="concordança article determinat + grup nominal">
+            <antipattern> <!-- Detected by CONCORDANCES_DET_POSSESSIU -->
+                <marker>
+                    <token postag="DA.*" postag_regexp="yes"></token>
+                    <token postag="PX.*" postag_regexp="yes"></token>
+                    <token postag="N.*" postag_regexp="yes"></token>
+                </marker>
+            </antipattern>
             <rule> <!--  Falta veure què passa amb tots els altres determinants -->
                 <pattern>
                     <unify negate="yes">
@@ -1817,64 +1902,6 @@ $Id$
                 <example>va cridar a tots el nen</example>
                 <example correction="">va cridar a <marker>tot els nens</marker></example>
                 <!-- <example>a tot l'Índia</example> ?? allow_masculine -->
-            </rule>
-        </rulegroup>
-        <rulegroup id="CONCORDANCES_ARTICLE_SEU" name="Concordances article + seu">
-            <rule>
-                <pattern>
-                    <token regexp="yes">els|les</token>
-                    <marker>
-                        <token>seu</token>
-                    </marker>
-                </pattern>
-                <message>Possible falta de concordança.</message>
-                <suggestion>seus</suggestion>
-                <example correction="seus">Els <marker>seu</marker> llibres.</example>
-                <example>Els seus llibres.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">el|la</token>
-                    <marker>
-                        <token>seus</token>
-                    </marker>
-                </pattern>
-                <message>Possible falta de concordança.</message>
-                <suggestion>seu</suggestion>
-                <example correction="seu">El <marker>seus</marker> llibre.</example>
-                <example>El seu llibre.</example>
-            </rule>
-            <!-- id="LA_SEU" name="Concordança dubtosa «la seu»"-->
-            <rule>
-                <pattern>
-                    <token>la</token>
-                    <marker>
-                        <token>seu</token>
-                    </marker>
-                    <token postag="N.*|A.*" postag_regexp="yes"><exception postag="A..[FC][SN].*" postag_regexp="yes"></exception><exception>vella</exception></token>
-                </pattern>
-                <message>Possible falta de concordança.</message>
-                <suggestion>seva</suggestion>
-                <suggestion>seua</suggestion>
-                <short>Concordança de gènere o nombre dubtosa</short>
-                <example correction="seva|seua">La <marker>seu</marker> cullera.</example>
-                <example>La seva cullera.</example>
-            </rule>
-            <!-- id="LES_SEUS" name="Concordança dubtosa «les seus»"-->
-            <rule>
-                <pattern>
-                    <token>les</token>
-                    <marker>
-                        <token>seus</token>
-                    </marker>
-                    <token postag="N.*|A.*" postag_regexp="yes"><exception postag="A..[FC][PN].*" postag_regexp="yes"></exception></token>
-                </pattern>
-                <message>Possible falta de concordança.</message>
-                <suggestion>seves</suggestion>
-                <suggestion>seues</suggestion>
-                <short>Concordança de gènere o nombre dubtosa</short>
-                <example correction="seves|seues">Les <marker>seus</marker> culleres.</example>
-                <example>Les seves culleres.</example>
             </rule>
         </rulegroup>
         <rulegroup id="UN_DE_LES" name="Concordances dubtoses «un de les»">
@@ -14537,6 +14564,12 @@ $Id$
         </rulegroup>
         <rulegroup id="FEU" name="feu/féu">
             <!-- Cal estudiar "que el feu". Mirar que no hi hagi cap verb ni pronom de 2P abans. "que el feu famós"... -->
+            <antipattern>
+                <marker>
+                    <token>feu</token>
+                    <token>clic</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token skip="1" postag="P0300000|PP3.S000|_GN_.S|N..S.*" postag_regexp="yes"><exception postag="D.0MS0|PX3MS0C0|DP3CSP|complement.*" postag_regexp="yes"/><exception scope="next" postag="_PUNCT.*|CC|CS" postag_regexp="yes"/><exception>antic</exception></token>
@@ -14557,6 +14590,7 @@ $Id$
                 <example>Quin goig que feu tots plegats!</example>
                 <example>de part meva i feu que us ho lliurin tot</example>
                 <example>Ho aconseguí en el seu propi feu.</example>
+                <example>Si voleu sortir feu clic en la icona.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SON" name="son/són">
@@ -35780,6 +35814,12 @@ $Id$
             <example>sabem tot el que ésser català significa</example>
         </rule>
         <rulegroup id="EL_INFINITIU" name="el + infinitiu">
+            <antipattern>
+                <marker>
+                    <token>saber</token>
+                    <token>fer</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token><exception>a</exception></token>
@@ -35817,6 +35857,7 @@ $Id$
                 <example>El poder en els cinc estats centreasiàtics</example>
                 <example>Els temes tradicionals del trobar en aquella època</example>
                 <example>L'avenir del país.</example>
+                <example>El saber fer i l'experiència.</example>
                 <!-- que limita el menjar pans fermentats amb llevats, DIFÍCIL!!
                     Que el llegir no ens faci perdre l'escriure.
                     Sempre em toca el rebre.
