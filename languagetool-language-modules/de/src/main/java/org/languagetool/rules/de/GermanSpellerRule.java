@@ -77,6 +77,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       new Replacement("Ph", "F")
   );
   
+  private final LineExpander lineExpander = new LineExpander();
   private final GermanCompoundTokenizer compoundTokenizer;
   private final GermanWordSplitter splitter;
   private final Synthesizer synthesizer;
@@ -126,36 +127,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     wordsToBeIgnored.addAll(expandLine(line));
   }
 
-  private static List<String> expandLine(String line) {
-    List<String> result = new ArrayList<>();
-    if (!line.startsWith("#") && line.contains("/")) {
-      String[] parts = line.split("/");
-      if (parts.length != 2) {
-        throw new RuntimeException("Unexpected line format, expected at most one slash: " + line);
-      }
-      String word = parts[0];
-      String suffix = parts[1];
-      result.add(word);
-      for (int i = 0; i < suffix.length(); i++) {
-        char c = suffix.charAt(i);
-        if (c == 'S') {
-          result.add(word + "s");
-        } else if (c == 'N') {
-          result.add(word + "n");
-        } else if (c == 'A') {  // Adjektiv
-          result.add(word + "e");
-          result.add(word + "er");
-          result.add(word + "es");
-          result.add(word + "en");
-          result.add(word + "em");
-        } else {
-          throw new RuntimeException("Unknown suffix: " + suffix + " in line: " + line);
-        }
-      }
-    } else {
-      result.add(line);
-    }
-    return result;
+  @Override
+  protected List<String> expandLine(String line) {
+    return lineExpander.expandLine(line);
   }
 
   @Nullable
@@ -359,6 +333,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   static class ExpandingReader extends BufferedReader {
 
     private final List<String> buffer = new ArrayList<>();
+    private final LineExpander lineExpander = new LineExpander();
 
     ExpandingReader(Reader in) {
       super(in);
@@ -373,7 +348,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         if (line == null) {
           return null;
         }
-        buffer.addAll(expandLine(line));
+        buffer.addAll(lineExpander.expandLine(line));
         return buffer.remove(0);
       }
     }

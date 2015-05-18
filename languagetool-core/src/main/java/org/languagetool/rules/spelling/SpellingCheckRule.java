@@ -273,6 +273,15 @@ public abstract class SpellingCheckRule extends Rule {
     wordsToBeIgnored.add(line);
   }
 
+  /**
+   * Expand suffixes in a line. By default, the line is not expanded.
+   * Implementations might e.g. turn {@code bicycle/S} into {@code [bicycle, bicycles]}.
+   * @since 3.0
+   */
+  protected List<String> expandLine(String line) {
+    return Collections.singletonList(line);
+  }
+
   private void loadWordsToBeProhibited(String prohibitFile) throws IOException {
     if (!JLanguageTool.getDataBroker().resourceExists(prohibitFile)) {
       return;
@@ -285,7 +294,7 @@ public abstract class SpellingCheckRule extends Rule {
           continue;
         }
         failOnSpace(prohibitFile, line);
-        wordsToBeProhibited.add(line);
+        wordsToBeProhibited.addAll(expandLine(line));
       }
     }
   }
