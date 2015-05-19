@@ -1093,9 +1093,9 @@ $Id$
                 <example correction="дверь, пожалуйста.">Закройте <marker>дверь пожалуйста.</marker></example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
+                <pattern case_sensitive="no">
                     <marker>
-                        <token negate="yes" regexp="yes">[\p{Punct}]|всегда|здравствуйте|здрасьте<exception postag="SENT_START"></exception></token>
+                        <token negate="yes" regexp="yes">[\p{Punct}]|всегда|здравствуйте|здрасьте|подскажите|скажите<exception postag="SENT_START"></exception></token>
                         <token>пожалуйста</token>
                     </marker>
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
@@ -1217,7 +1217,7 @@ $Id$
          <!--  а + (что|точнее|то|следовательно|ну-ка|ну|например|наоборот|может|лучше|между|иначе|как|именно|значит|и|ещё|еще|всё-таки|все-таки|если|главное|впрочем|вернее|ведь|вдруг) -->
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|…|«<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|’|‘|…|«<exception postag="SENT_START"></exception></token>
                     <token>но</token>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\1, \2</suggestion>.</message>
@@ -1471,7 +1471,8 @@ $Id$
                     <token regexp="yes">конечно|несомненно|вероятно|кажется|однако</token>              
                     <and>
                         <token negate="yes">,</token>
-                        <token negate="yes">же</token>                         
+                        <token negate="yes">же</token>
+                        <token negate="yes">ж</token>                           
                         <token postag_regexp="yes" postag="VB:.*"></token> 
                     </and>            
                 </pattern>
