@@ -1091,19 +1091,18 @@ $Id$
                        <token postag="DA.*" postag_regexp="yes"></token>
                        <token regexp="yes">seus?</token>
                     </marker>
-                    <token postag="AQ.[FC].*" postag_regexp="yes"></token>
-                    <token postag="N.[FC].*" postag_regexp="yes"></token>
+                    <token postag="A..[FC].*" postag_regexp="yes"></token>
+                    <token postag="N.F.*" postag_regexp="yes"><exception postag="N.[MC].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Error de concordança. </message>
-                <suggestion>la seva</suggestion>
-                <suggestion>la seua</suggestion>
-                <suggestion>les seves</suggestion>
-                <suggestion>les seues</suggestion>
-                <example correction="La seva|La seua|Les seves|Les seues"><marker>La seu</marker> antiga feina.</example>
-                <example correction="La seva|La seua|Les seves|Les seues"><marker>Les seus</marker> bones amigues.</example>
+                <suggestion><match no="4" postag_regexp="yes" postag="N.F(.).*" postag_replace="DA.F$1.">el</match> <match no="4" postag_regexp="yes" postag="N.F(.).*" postag_replace="PX.F$1.*">seu</match></suggestion>
+                <example correction="La seua|La seva"><marker>La seu</marker> antiga feina.</example>
+                <example correction="Les seues|Les seves"><marker>Les seus</marker> bones amigues.</example>
+                <example correction="La seua|La seva"><marker>La seu</marker> primera llibreta.</example>
                 <example>La Seu Vella de Lleida</example>
                 <example>La seu antiga del partit</example>
                 <example>Les seus abandonades de les ambaixades</example>
+                <example>dels seus principals afluents</example>
             </rule>
             <rule> <!-- Cas particular: La seu(a) amiga -->
                 <pattern>
@@ -1111,18 +1110,12 @@ $Id$
                         <token postag="DA.*" postag_regexp="yes"></token>
                         <token regexp="yes">seus?</token>
                     </marker>
-                    <token regexp="yes">amiga|amigues</token>
+                    <token regexp="yes">amiga|amigues|enemiga|enemigues</token>
                 </pattern>
                 <message>Possible error de concordança. </message>
-                <suggestion>La seva</suggestion>
-                <suggestion>La seua</suggestion>
-                <suggestion>Les seves</suggestion>
-                <suggestion>Les seues</suggestion>
-                <example correction="La seva|La seua|Les seves|Les seues"><marker>La seu</marker> amiga de la feina.</example>
-                <example correction="La seva|La seua|Les seves|Les seues"><marker>Les seus</marker> amigues de la feina.</example>
-                <example>La Seu Vella de Lleida</example>
-                <example>La seu antiga del partit</example>
-                <example>Les seus abandonades de les ambaixades</example>
+                <suggestion><match no="3" postag_regexp="yes" postag=".*(F[SP]).*" postag_replace="DA.$1.">el</match> <match no="3" postag_regexp="yes" postag=".*(F[SP]).*" postag_replace="PX.$1.*">seu</match></suggestion>
+                <example correction="La seua|La seva"><marker>La seu</marker> amiga de la feina.</example>
+                <example correction="Les seues|Les seves"><marker>Les seus</marker> amigues de la feina.</example>
             </rule>
             <rule> <!-- det + possessiu + adj + nom-->
                 <pattern>
