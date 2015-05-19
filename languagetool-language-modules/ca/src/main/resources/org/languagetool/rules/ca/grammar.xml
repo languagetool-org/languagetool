@@ -3355,7 +3355,7 @@ $Id$
                 <pattern>
                     <token><exception regexp="yes">el|la|els|les|em|et|us|vos|ens|l'</exception></token>
                     <marker>
-                        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">informar|perjudicar|afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|sorprendre|espantar|apassionar|atr[ae]ure</token>
+                        <token postag="V.[ISMG].*" postag_regexp="yes" inflected="yes" regexp="yes">informar|perjudicar|afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|sorprendre|espantar|apassionar|atr[ae]ure</token>
                         <token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
                         <token regexp="yes">ls?</token>
                     </marker>
@@ -3367,6 +3367,7 @@ $Id$
                 <example>No emprenyeu el comissari</example>
                 <example>Afecten al voltant de 300 persones.</example>
                 <example>El sorprengué al nord de França</example>
+                <example>encara més preocupada al paquet</example>
             </rule>
             <rule>
                 <pattern>
@@ -4729,6 +4730,13 @@ $Id$
             <example>A cals dos joves arxiducs</example>
         </rule>
         <rulegroup id="DETERMINANTS_IMPOSSIBLE" name="Combinacions impossibles de determinants: *els tots els">
+            <antipattern>
+                <marker>
+                    <token>a</token>
+                    <token>l'</token>
+                    <token>una</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -14652,7 +14660,7 @@ $Id$
                     <marker>
                         <token>son<exception postag="_possible_nompropi"/></token>
                     </marker>
-                    <token postag="D.*|AQ.*|N.*" postag_regexp="yes"><exception postag="NC[MC][SN].*" postag_regexp="yes"/><exception regexp="yes">hivernal|excessiva</exception></token>
+                    <token postag="D.*|AQ.*|N.*" postag_regexp="yes"><exception postag="NC[MC][SN].*" postag_regexp="yes"/><exception regexp="yes">hivernal|excessiva|profunda?</exception></token>
                 </pattern>
                 <message>Si és del verb 'ser', cal accentuar.</message>
                 <suggestion>són</suggestion>
@@ -14664,6 +14672,7 @@ $Id$
                 <example>Però son pare el va tractar d'heretge.</example>
                 <example>La possessió de Son Torrella.</example>
                 <example>Com son germà Joan.</example>
+                <example>El van despertar del seu son profund.</example>
                 <!-- destaquen son Vivot, son Bordils i son Ramis d'Inca.  -->
             </rule>
             <rule> <!-- cas especial: darrere d'adjectius neutres -->
