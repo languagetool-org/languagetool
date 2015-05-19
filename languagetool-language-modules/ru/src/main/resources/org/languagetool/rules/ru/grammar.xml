@@ -1081,7 +1081,7 @@ $Id$
         <rulegroup id="POZHALUJSTA" name="«Пожалуйста» выделяется запятыми">
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes">[\p{Punct}]|всегда|здравствуйте|здрасьте<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]|всегда|здравствуйте|здрасьте|подскажите|скажите<exception postag="SENT_START"></exception></token>
                     <token>пожалуйста</token>
                     <token regexp="yes">[\p{Punct}]</token>
                 </pattern>
@@ -1093,7 +1093,7 @@ $Id$
                 <example correction="дверь, пожалуйста.">Закройте <marker>дверь пожалуйста.</marker></example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern case_sensitive="yes">
                     <marker>
                         <token negate="yes" regexp="yes">[\p{Punct}]|всегда|здравствуйте|здрасьте|подскажите|скажите<exception postag="SENT_START"></exception></token>
                         <token>пожалуйста</token>
@@ -1504,7 +1504,7 @@ $Id$
                     <marker>
                         <token regexp="yes">конечно|несомненно|вероятно|кажется|однако</token>
                     </marker>
-                    <token negate="yes" regexp="yes"><exception regexp= "yes" >если|же</exception>[\p{Punct}]|-|—</token>
+                    <token negate="yes" regexp="yes"><exception regexp= "yes" >если|же|ж</exception>[\p{Punct}]|-|—</token>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\2,</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
