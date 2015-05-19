@@ -2718,6 +2718,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <unify>
+                    <feature id="genere"/>
+                    <feature id="nombre"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"><exception regexp="yes">gran|possible</exception></token>
+                </unify>
+                <marker>
+                    <token regexp="yes">consort|mare|pare|fill|web|alfa|beta|gamma|lambda|font|hivernacle|euro|tipus|clau|membre|núm|número|matriu|estàndard|estrella|model|hoste|base|pont|sulfat|fosfat|calci|gas|satèl·lit|gel</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0" />
+        </rule>
+        <rule>
+            <pattern>
                 <token postag="N.*" postag_regexp="yes"><exception postag="[NA].*|_GN_.*" postag_regexp="yes" negate_pos="yes" /></token>
                 <marker>
                     <token regexp="yes">obra|propietat|objecte</token>
