@@ -19952,7 +19952,7 @@ $Id$
                     <token regexp="yes">[\d ,.]+</token>
                     <marker>
                         <token regexp="yes">:</token>
-                        <token spacebefore="no" regexp="yes">.+<exception regexp="yes">[\d ,.]+|\s+</exception></token>
+                        <token spacebefore="no" regexp="yes">.+<exception regexp="yes">[\d ,.]+h?|\s+</exception></token>
                     </marker>
                 </pattern>
                 <message>Falta un espai.</message>
@@ -19961,6 +19961,7 @@ $Id$
                 <example correction=": alguns">En van venir 10.000<marker>:alguns</marker> de bonics!</example>
                 <example>Escala 10.000:1</example>
                 <example>Escala 2,55:1</example>
+                <example>02:30h</example>
             </rule>
         </rulegroup>
         <rulegroup id="ELA_GEMINADA" name="Errors en la ela geminada" type="misspelling">
@@ -23486,36 +23487,6 @@ $Id$
             <example correction="de cara a"><marker>de cares a</marker> </example>
             <example>de cara a</example>
         </rule>
-        <rule id="CARA_ENFORA" name="*cara enfora/de cara enfora">
-            <pattern>
-                <token><exception regexp="yes">de|la</exception></token>
-                <marker>
-                    <token>cara</token>
-                    <token regexp="yes">enfora|endins|amunt|enlaire</token>
-                </marker>
-            </pattern>
-            <message>Expressió incorrecta.</message>
-            <suggestion>de cara <match no="3"/></suggestion>
-            <short>Expressió incorrecta</short>
-            <example correction="De cara enfora"><marker>Cara enfora</marker> no ha dit res.</example>
-            <example>De cara enfora no ha dit mai res.</example>
-            <example>Treu la cara enfora.</example>
-        </rule>
-        <!--<rule id="CARA_AVALL" name="*cara avall/de cara avall">
-            <pattern>
-            <token><exception regexp="yes">de|la</exception></token>
-            <marker>
-            <token>cara</token>
-            <token>avall</token>
-            </marker>
-            </pattern>
-            <message>Expressió incorrecta.</message>
-            <suggestion>de cara avall</suggestion>
-            <short>Expressió incorrecta</short>
-            <example correction=""><marker>Cara enfora</marker> no ha dit res.</example>
-            <example>De cara enfora no ha dit mai res.</example>
-            <example>Les llàgrimes li regalimaven cara avall.</example>
-            </rule>-->
         <rule id="CORRER_A_CARREC" name="*córrer/*estar/anar/ser a càrrec de">
             <pattern>
                 <marker>
@@ -35035,6 +35006,36 @@ $Id$
     </category>
     <category name="C2) Qüestions estilístiques opcionals" type="style">
         <!-- Fins (a)/ Cap (a) aquest. Hi ha diferents opinions segons els llibres d'estil-->
+        <rule id="CARA_ENFORA" name="*cara enfora/de cara enfora" default="off">
+            <pattern>
+                <token><exception regexp="yes">de|la</exception></token>
+                <marker>
+                    <token>cara</token>
+                    <token regexp="yes">enfora|endins|amunt|enlaire|avall</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>de cara <match no="3"/></suggestion>
+            <short>Expressió incorrecta</short>
+            <example correction="De cara enfora"><marker>Cara enfora</marker> no ha dit res.</example>
+            <example>De cara enfora no ha dit mai res.</example>
+            <example>Treu la cara enfora.</example>
+        </rule>
+        <!--<rule id="CARA_AVALL" name="*cara avall/de cara avall">
+            <pattern>
+            <token><exception regexp="yes">de|la</exception></token>
+            <marker>
+            <token>cara</token>
+            <token>avall</token>
+            </marker>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>de cara avall</suggestion>
+            <short>Expressió incorrecta</short>
+            <example correction=""><marker>Cara enfora</marker> no ha dit res.</example>
+            <example>De cara enfora no ha dit mai res.</example>
+            <example>Les llàgrimes li regalimaven cara avall.</example>
+            </rule>-->
         <rule id="FINS_CAP_A_DEMOSTRATIU" name="Exigeix 'fins a/cap a' davant de demostratiu" default="off">
             <pattern>
                 <marker>

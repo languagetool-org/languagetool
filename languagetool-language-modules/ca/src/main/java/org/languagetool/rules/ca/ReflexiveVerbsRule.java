@@ -173,7 +173,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
   
   @Override
   public String getId() {
-    return "REFLEXIVE_VERBS";
+    return "VERBS_REFLEXIUS";
   }
 
   @Override
