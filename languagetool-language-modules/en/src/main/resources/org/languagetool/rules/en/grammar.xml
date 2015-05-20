@@ -42,6 +42,28 @@ USA
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category name="Possible Typo" type="misspelling">
+        <rule id="MINUETS" name="minuet (minute)">
+            <antipattern>
+                <token regexp="yes">minuets?</token>
+                <token regexp="yes">piano|music|composed|style</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Mozart|Bach|Beethoven|Boccherini|elaborate|stately|trumpet|orchestra</token>
+                <token regexp="yes">minuets?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">minuets?</token>
+                <token>for</token>
+                <token regexp="yes">orchestra|keyboard|piano|flute|harpsichord|guitar|violin</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">minuets?</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" regexp_match="minuet" regexp_replace="minute"/></suggestion>?</message>
+            <example correction="minutes">The main plaza and town is located ten <marker>minuets</marker> walking distance from the beach.</example>
+            <example correction="minute">The main plaza and town is located one <marker>minuet</marker> walking distance from the beach.</example>
+            <example>Minuet for piano in G major, WoO 10/2 - Ludwig van Beethoven</example>
+        </rule>
         <rule id="LOT_S" name="lot's of (lots of)">
             <pattern>
                 <marker>
