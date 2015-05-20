@@ -43,12 +43,15 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
 
   @Override
   public boolean ignore(AnalyzedTokenReadings[] tokens, int position) {
-    if (wordRepetitionOf("had", tokens, position)) {
+    if (wordRepetitionOf("had", tokens, position)&& prePOSIsIn(tokens, position, "PRP")) {
       return true;   // "If I had had time, I would have gone to see him."
     }
     if (wordRepetitionOf("that", tokens, position) && nextPOSIsIn(tokens, position, "NN", "PRP$", "JJ", "VBZ", "VBD")) {
       return true;   // "I don't think that that is a problem."
     }
+    if (wordRepetitionOf("can", tokens, position)&& POSIsIn(tokens, position, "NN")) {
+			return true; // "The can can hold the water."
+		}
     if (wordRepetitionOf("Pago", tokens, position)) {
       return true;   // "Pago Pago"
     }
@@ -80,7 +83,45 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     }
     return false;
   }
+ /**
+	 * @author Mility
+	 * @since 2015/5/15
+	 * @param tokens
+	 * @param position
+	 * @param posTags
+	 * @return 功能：判断第一“can”的标签是否是“NN”，如果是则返回true，否则返回false
+	 */
+	private boolean POSIsIn(AnalyzedTokenReadings[] tokens, int position,String... posTags) {
+		if (tokens.length > position - 1) {
+			for (String posTag : posTags) {
+				if (tokens[position - 1].hasPartialPosTag(posTag)) {
+					return true;
+				}
+			}
 
+		}
+		return false;
+	}
+
+	/**
+	 * @author Mility
+	 * @since 2015/5/15
+	 * @param tokens
+	 * @param position
+	 * @param posTags
+	 * @return 功能：判断第一“had”前是否有“PRP”（人称代词），如果有则返回true，否则返回false
+	 */
+	private boolean prePOSIsIn(AnalyzedTokenReadings[] tokens, int position,String... posTags) {
+		if (tokens.length > position - 2) {
+			for (String posTag : posTags) {
+				if (tokens[position - 2].hasPartialPosTag(posTag)) {
+					return true;
+				}
+			}
+
+		}
+		return false;
+	}
   private boolean wordRepetitionOf(String word, AnalyzedTokenReadings[] tokens, int position) {
     return position > 0 && tokens[position - 1].getToken().equals(word) && tokens[position].getToken().equals(word);
   }
