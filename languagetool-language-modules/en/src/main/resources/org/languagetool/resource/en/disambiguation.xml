@@ -1024,6 +1024,15 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">8 oz. <marker>can</marker> pineapple</example>
       <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">8-oz. <marker>can</marker> pineapple</example>
     </rule>
+     <rule>
+    <pattern>
+    <token postag="DT"><exception postag="PDT" /></token>
+    <marker>
+      <token>can</token>
+    </marker>
+    </pattern>
+    <disambig postag="NN"/>
+     </rule>
   </rulegroup>
   
     <!-- useful for this/these rule, e.g., in this circumstances -->
