@@ -17745,7 +17745,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">.+(r|eu|au)</token>
+                    <token regexp="yes">.+[^aeiï]</token>
                     <token>-</token>
                     <token>lis</token>
                 </pattern>
@@ -17753,19 +17753,19 @@ $Id$
                 <suggestion><match no="1"/>-los</suggestion>
                 <short>Forma de pronom feble incorrecta</short>
                 <example correction="trucar-los">Has de <marker>trucar-lis</marker>.</example>
-                <example>Has de trucar-los.</example>
+                <example correction="donant-los"><marker>donant-lis</marker> un color exagerat.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">.+[aei]</token>
+                    <token regexp="yes">.+[aeiï]</token>
                     <token>-</token>
                     <token>lis</token>
                 </pattern>
                 <message>Forma de pronom feble incorrecta.</message>
                 <suggestion><match no="1"/>'ls</suggestion>
                 <short>Forma de pronom feble incorrecta</short>
-                <example correction="truca'ls">Has de <marker>truca-lis</marker>.</example>
-                <example>Truca'ls.</example>
+                <example correction="truca'ls"><marker>truca-lis</marker>.</example>
+                <example correction="Creï'ls"><marker>Creï-lis</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRONOMS_FEBLES_COMBINACIONS_SE" name="Combinacions incorrectes: *se'l donem/l'hi donem/li'l donem">
