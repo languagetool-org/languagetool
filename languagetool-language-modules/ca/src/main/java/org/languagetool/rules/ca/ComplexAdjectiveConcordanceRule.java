@@ -96,7 +96,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
   private static final Pattern PUNTUACIO = Pattern.compile("_PUNCT.*");
   private static final Pattern LOC_ADV = Pattern.compile(".*LOC_ADV.*");
   private static final Pattern ADVERBIS_ACCEPTATS = Pattern.compile("RG_anteposat");
-  private static final Pattern CONCORDA = Pattern.compile("_GN_.*|ignore_concordance");
+  private static final Pattern CONCORDA = Pattern.compile("_GN_.*|ignore_concordance|AQ.CN.");
   private static final Pattern UPPERCASE = Pattern.compile("\\p{Lu}[\\p{Ll}\u00B7]*");
   private static final Pattern COORDINACIO = Pattern.compile(",|i|o");
   private static final Pattern COORDINACIO_IONI = Pattern.compile("i|o|ni");

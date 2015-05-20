@@ -10947,11 +10947,18 @@ $Id$
             <example>com hem vist</example>
         </rule>
         <rule id="AM_AMB" name="am/amb">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">\d+</token>
+                    <token>:</token>
+                    <token regexp="yes">\d+</token>
+                    <token>am</token>
+                </marker>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token regexp="yes">am|Am<exception postag="NP.*" postag_regexp="yes"/></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>amb</suggestion>?</message>
-            <short>Possible confusió</short>
             <example correction="Amb"><marker>Am</marker> àmplies vistes</example>
             <example>amb àmplies vistes</example>
         </rule>
@@ -26854,7 +26861,7 @@ $Id$
                     <token inflected="yes">nassal</token>
                 </marker>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="AQ .C$1.">nasal</match></suggestion>? El "nassal" és una part de l'armadura de cavaller.</message>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="AQ.C$1.">nasal</match></suggestion>? El "nassal" és una part de l'armadura de cavaller.</message>
             <example correction="nasals">Les obertures <marker>nassals</marker>.</example>
         </rule>
         <rule id="ORDENADOR_ORDINADOR" name="ordenador/ordinador">
