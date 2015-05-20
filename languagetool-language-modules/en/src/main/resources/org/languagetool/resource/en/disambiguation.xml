@@ -1024,7 +1024,18 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">8 oz. <marker>can</marker> pineapple</example>
       <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">8-oz. <marker>can</marker> pineapple</example>
     </rule>
-  </rulegroup>
+    <rule>
+      <pattern>
+        <token postag="DT"><exception postag="PDT" /></token>
+        <marker>
+          <token>can</token>
+        </marker>
+      </pattern>
+      <disambig postag="NN"/>
+      <example type="untouched">You can!</example>
+      <example type="ambiguous" inputform="can[can/MD]" outputform="can[can/NN]">The <marker>can</marker> can hold the water.</example>
+    </rule>
+    </rulegroup>
   
     <!-- useful for this/these rule, e.g., in this circumstances -->
     <rule name="preposition + 'this' + verb 3sg/NNS -&gt; nns" id="IN_VBZ_NNS">

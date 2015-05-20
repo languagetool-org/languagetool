@@ -43,11 +43,14 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
 
   @Override
   public boolean ignore(AnalyzedTokenReadings[] tokens, int position) {
-    if (wordRepetitionOf("had", tokens, position)) {
+    if (wordRepetitionOf("had", tokens, position) && posIsIn(tokens, position - 2, "PRP")) {
       return true;   // "If I had had time, I would have gone to see him."
     }
-    if (wordRepetitionOf("that", tokens, position) && nextPOSIsIn(tokens, position, "NN", "PRP$", "JJ", "VBZ", "VBD")) {
+    if (wordRepetitionOf("that", tokens, position) && posIsIn(tokens, position+1, "NN", "PRP$", "JJ", "VBZ", "VBD")) {
       return true;   // "I don't think that that is a problem."
+    }
+    if (wordRepetitionOf("can", tokens, position) && posIsIn(tokens, position-1, "NN")) {
+      return true; // "The can can hold the water."
     }
     if (wordRepetitionOf("Pago", tokens, position)) {
       return true;   // "Pago Pago"
@@ -70,10 +73,10 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     return false;
   }
 
-  private boolean nextPOSIsIn(AnalyzedTokenReadings[] tokens, int position, String... posTags) {
-    if (tokens.length > position + 1) {
+  private boolean posIsIn(AnalyzedTokenReadings[] tokens, int position, String... posTags) {
+    if (position >= 0 && position < tokens.length) {
       for (String posTag : posTags) {
-        if (tokens[position + 1].hasPartialPosTag(posTag)) {
+        if (tokens[position].hasPartialPosTag(posTag)) {
           return true;
         }
       }
