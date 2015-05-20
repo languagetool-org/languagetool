@@ -2502,9 +2502,9 @@ $Id$
             </rule>
             <rule id="CONFUSIO_NOMBRE" name="Confusions de nombre: catequesis, diesis">
                 <pattern>
-                    <token regexp="yes">catequesis|diesis|deisis|èmesis|catarsis<exception postag="_GN_FP"/></token>
+                    <token regexp="yes">catequesis|diesis|deisis|èmesis|catarsis|praxis<exception postag="_GN_FP"/></token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(.+)s" regexp_replace="$1"/></suggestion> (singular) en comptes de "<match no="1"/>" (plural)?</message>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)(.+)s" regexp_replace="$1"/></suggestion> (singular) en comptes de "<match no="1"/>" (plural)?</message>
                 <short>Possible confusió</short>
                 <example correction="catequesi">Hi anàvem a fer <marker>catequesis</marker>.</example>
                 <example>Les anàlisis són correctes.</example>
@@ -26848,6 +26848,15 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="NASSAL" name="nassal/nasal">
+            <pattern>
+                <marker>
+                    <token inflected="yes">nassal</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="AQ .C$1.">nasal</match></suggestion>? El "nassal" és una part de l'armadura de cavaller.</message>
+            <example correction="nasals">Les obertures <marker>nassals</marker>.</example>
+        </rule>
         <rule id="ORDENADOR_ORDINADOR" name="ordenador/ordinador">
             <antipattern>
                 <marker>
