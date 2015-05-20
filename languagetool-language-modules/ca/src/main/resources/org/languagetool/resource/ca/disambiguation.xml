@@ -4846,14 +4846,22 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next">que</exception></token>
                 <token postag="V.[MSI].*|_GV_" postag_regexp="yes" skip="6"><exception negate_pos="yes" postag="V.[MSI].*|_GV_" postag_regexp="yes"/><exception scope="next" regexp="yes">com|perquè|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
-                <unify>
-                    <feature id="nombre"/>
-                    <feature id="genere"/>
-                    <token max="4" postag="D[^R].*|A.*|V.P.*" postag_regexp="yes"/>
-                    <marker>
-                        <token postag="N.*" postag_regexp="yes">era</token>
-                    </marker>
-                </unify>
+                <token max="4" postag="D[^R].FS.|A..[FC][SN].|V.P..SF." postag_regexp="yes"/>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes">era</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*|_GN_.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next">que</exception></token>
+                <token postag="V.[MSI].*|_GV_" postag_regexp="yes" skip="6"><exception negate_pos="yes" postag="V.[MSI].*|_GV_" postag_regexp="yes"/><exception scope="next" regexp="yes">com|perquè|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
+                <token postag="D[^R].FS." postag_regexp="yes" skip="6"><exception scope="next" regexp="yes">com|perquè|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
+                <token max="4" postag="D[^R].FS.|A..[FC][SN].|V.P..SF." postag_regexp="yes"/>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes">era</token>
+                </marker>
             </pattern>
             <disambig action="filter" postag="N.*|_GN_.*" />
         </rule>
