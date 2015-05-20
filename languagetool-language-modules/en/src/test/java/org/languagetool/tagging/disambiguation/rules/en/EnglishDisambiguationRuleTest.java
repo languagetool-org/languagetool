@@ -66,6 +66,13 @@ public class EnglishDisambiguationRuleTest extends DisambiguationRuleTest {
     TestTools.myAssert("He is well known.",
         "/[null]SENT_START He/[he]PRP  /[null]null is/[be]VBZ  /[null]null well/[well]NN|well/[well]RB|well/[well]UH|well/[well]VB|well/[well]VBP  /[null]null known/[know]VBN|known/[known]NN ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disamb2);
+    TestTools.myAssert("The can can hold the water.", 
+    	"/[null]SENT_START The/[the]DT  /[null]null can/[can]NN  /[null]null can/[can]MD  /[null]null hold/[hold]VB  /[null]null the/[the]DT  /[null]null water/[water]NN:U ./[null]null",
+    	tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools.myAssert("The can can hold the water.", 
+    	"/[null]SENT_START The/[the]DT  /[null]null can/[can]MD|can/[can]NN|can/[can]VB|can/[can]VBP  /[null]null can/[can]MD|can/[can]NN|can/[can]VB|can/[can]VBP  /[null]null "
+    	+ "hold/[hold]NN:UN|hold/[hold]VB|hold/[hold]VBP  /[null]null the/[the]DT  /[null]null water/[water]NN:U|water/[water]VB|water/[water]VBP ./[null]null",
+    	tokenizer, sentenceTokenizer, tagger, disamb2);
   }
 
 }
