@@ -3761,6 +3761,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.*"/>
     </rule>
+    <rule id="ull_mig_aclucat" name="ull mig (adv) aclucat">
+        <pattern>
+            <unify>
+                <feature id="nombre"/>
+                <feature id="genere"/>
+                <token postag="N.*" postag_regexp="yes"/>
+                <token postag="RG.*" postag_regexp="yes">mig</token>
+                <token postag="V.P.*|AQ.[^C][^N].*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+    </rule>
     <rule id="FOS" name="Fos (verb ser)">
         <!-- És molt comú com a verb. Cal buscar excepcions específiques: metall fos, etc. -->
         <pattern>
@@ -4895,7 +4907,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token postag="RG">mig</token>
                 </marker>
-                <token regexp="yes">ple|buit|nu|despullat|vestit|mort|cru|despectiu</token>
+                <token regexp="yes">ple|buit|nu|despullat|vestit|mort|cru|despectiu|sec</token>
             </pattern>
             <disambig action="filter" postag="RG"></disambig>
         </rule>
@@ -5689,6 +5701,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="DI.*"/>
         </rule>
     </rulegroup>
+    <rule id="vora" name="vora (preposició)">
+        <pattern>
+            <token><exception postag="D.*" postag_regexp="yes"/></token>
+            <marker>
+                <token>vora</token>
+            </marker>
+            <token postag="D.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="SPS00"/>
+    </rule>
     <!--<rule id="en_preposicio" name="en (preposició) + article">
         <pattern>
         <marker>
@@ -6082,18 +6104,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </unify>
         </pattern>
         <disambig action="filterall"/>
-    </rule>
-    <rule id="ull_mig_aclucat" name="ull mig (adv) aclucat">
-        <pattern>
-            <unify>
-                <feature id="nombre"/>
-                <feature id="genere"/>
-                <token postag="N.*" postag_regexp="yes"/>
-                <token postag="RG.*" postag_regexp="yes">mig</token>
-                <token postag="V.P.*|AQ.[^C][^N].*" postag_regexp="yes"/>
-            </unify>
-        </pattern>
-        <disambig action="unify"/>
     </rule>
     <rulegroup id="DNA" name="Det + Nom + Adj/Possessiu/participi">
         <!--Falla amb nom neutre?: Aquest art expressa  -->

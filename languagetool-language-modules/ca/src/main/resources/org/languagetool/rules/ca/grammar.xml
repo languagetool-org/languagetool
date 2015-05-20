@@ -30349,6 +30349,16 @@ $Id$
         </rulegroup>
         <rulegroup id="MIG_MITJA" name="*mig/mitjà">
             <rule>
+                <antipattern>
+                    <marker>
+                        <unify>
+                            <feature id="genere"/>
+                            <feature id="nombre"/>
+                            <token inflected="yes">mig</token>
+                            <token postag="NC.*" postag_regexp="yes"><exception postag="V.[SI].*|_GV_" postag_regexp="yes"/></token>
+                        </unify>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <unify>
                         <feature id="genere"/>
@@ -30376,11 +30386,12 @@ $Id$
                 <example>amb un ull mig aclucat</example>
                 <example>pel porticó mig tancat.</example>
                 <example>sacrificant mig milió de soldats</example>
-                <!-- <example>dirigien el poble mig any cadascuna</example> -->
-                <!-- un marc mig d'un color i mig de l'altre
-                    vora mitja dotzena de registres
-                    sota el glaç mig fos
-                    al foc mig litre de nata -->
+                <example>al vell riu mig sec</example>
+                <example>dirigien el poble mig any cadascuna</example>
+                <example>al foc mig litre de nata</example>
+                <example>vora mitja dotzena de registres</example>
+                <example>sota el glaç mig fos</example>
+                <!-- un marc mig d'un color i mig de l'altre  -->
             </rule>
             <rule>
                 <pattern>
