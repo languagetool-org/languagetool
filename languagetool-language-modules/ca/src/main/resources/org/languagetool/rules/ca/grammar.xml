@@ -3277,6 +3277,13 @@ $Id$
                 </rule> -->
         </rulegroup>
         <rulegroup id="VERBS_NO_INTRANSITIUS" name="verbs no intransitius">
+            <antipattern>
+                <marker>
+                    <token>a</token>
+                    <token min="0" spacebefore="no">l</token>
+                    <token regexp="yes">damunt|davall|sota|sobre|final|partir|mesura|conseqüencia</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token><exception>se</exception></token>
@@ -5087,6 +5094,11 @@ $Id$
         </rule>
         <rulegroup id="QUANT_MES_MES" name="*quant/com més... més">
             <!-- excepció: que és quan més ens interessa,  -->
+            <antipattern>
+                <token regexp="yes">just|és</token>
+                <token>quan</token>
+                <token>més</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token><exception postag="VS.*" postag_regexp="yes"/></token>
@@ -11805,7 +11817,7 @@ $Id$
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">presa|preses</token>
+                        <token regexp="yes">presa|preses<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     </marker>
                     <token>per</token>
                     <token postag="V.N.*" postag_regexp="yes"/>
@@ -11815,6 +11827,7 @@ $Id$
                 <example correction="presses">Hi havia <marker>preses</marker> per governar.</example>
                 <example>es llança sobre la presa per engolir-ne els líquids</example>
                 <example>una mena de presa per subjectar l'oponent</example>
+                <example>Les disposicions preses per apropiar-se'n.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SOBRE_TOT_SOBRETOT" name="*sobre tot/sobretot">
@@ -28311,8 +28324,8 @@ $Id$
             </antipattern>
             <antipattern>
                 <marker>
-                    <token>de</token>
-                    <token>manera</token>
+                    <token regexp="yes">de|d'</token>
+                    <token regexp="yes">manera|ara</token>
                 </marker>
             </antipattern>
             <antipattern>
