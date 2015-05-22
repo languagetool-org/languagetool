@@ -6495,6 +6495,26 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+        <rule id="HAD_VBP" name="Had + verb present tense">
+            <antipattern>
+                <token>had</token>
+                <token chunk="B-NP-plural"></token>
+            </antipattern>
+            <antipattern>
+                <token>had</token>
+                <token chunk="B-NP-singular"></token>
+            </antipattern>
+            <pattern>
+                <token>had</token>
+                <marker>
+                    <token postag='VBP'>
+                        <exception postag='JJ|JJR|JJS|VBN' postag_regexp='yes'></exception><exception regexp="yes">become|lunch|dinner|breakfast|brunch</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Possible agreement error -- use past participle here: <suggestion><match no="2" postag="VBN"/></suggestion>.</message>
+            <example correction="played">They had <marker>play</marker> the game</example>
+        </rule>
         <rule id="I_AM" name="missing 'am' in 'I am'" >
             <pattern>
                 <marker>
