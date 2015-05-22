@@ -53,7 +53,7 @@ $Id$
     <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|templer|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim">
     <!ENTITY ordes_invariable "conventual|mendicant|militar|major|menor|marista|jesuïta|regular">
     <!ENTITY parts_dia "matinada|matí|migdia|tarda|vesprada|horabaixa|vespre|capvespre|nit1|mitjanit">
-    <!ENTITY precedits_per_TAN "bo|prompte|savi|espectacular|alt|ample|estret|complex|comú|divers|eficaç|efectiu|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer|exagerat|ràpid">
+    <!ENTITY precedits_per_TAN "bo|prompte|savi|espectacular|alt|ample|estret|complex|comú|divers|eficaç|efectiu|fals|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer|exagerat|ràpid">
     <!ENTITY precedits_per_TANT "no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY seguits_per_COM_A "acceptar|justificar|caracteritzar|qualificar|establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre|etiquetar|pintar">
     <!ENTITY sigles_apostrofen "(?-i)FM|FBI|FMI|NBA|NBC|SPD|FTP">
@@ -5800,7 +5800,7 @@ $Id$
         <rulegroup id="ADV_MENT" name="dos adverbis acabats en -ment">
             <rule>
                 <pattern>
-                    <token><exception postag="RG_anteposat"/></token>
+                    <token><exception postag="RG_anteposat"/><exception inflected="yes">de</exception></token>
                     <marker>
                         <token postag="A..[CF]S.|V.P..SF.?" postag_regexp="yes"><exception postag="_GN_.*|_GV_" postag_regexp="yes"></exception></token>
                     </marker>
@@ -6405,7 +6405,8 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="PER_PER_A_DETERMINANT" name="per/per a davant de determinant">
-            <!-- s'empren pel seu gust
+            <!-- necessari per la incapacitat 
+                s'empren pel seu gust
                 s'utilitza pels > és utilitzat pels
                 fàcil d'utilitzar pels usuaris, fàcil de fer servir pel consumidor (dubtós)
                 cal pel seu paper
@@ -6565,7 +6566,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes">qualificar</token>
+                        <token inflected="yes">qualificar<exception postag="_GN_.*" postag_regexp="yes"/></token>
                         <token>com</token>
                     </marker>
                     <token><exception>a</exception></token>
@@ -6575,7 +6576,7 @@ $Id$
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">descriure</match> com</suggestion>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">definir</match> com</suggestion>
                 <example correction="qualifiquin de|descriguin com|defineixin com">Que el <marker>qualifiquin com</marker> el més satisfactori</example>
-                <example>qualificar de</example>
+                <example>per tants votants qualificats com sigui possible</example>
             </rule>
             <rule>
                 <pattern>
@@ -20742,6 +20743,19 @@ $Id$
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="MAI_DELS_MAIS" name="mai dels mais">
+            <pattern>
+                <token>mai</token>
+                <token>de</token>
+                <token>ls</token>
+                <token>mais</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>mai de la vida</suggestion>
+            <suggestion>mai del món</suggestion>
+            <suggestion>mai per mai</suggestion>
+            <example correction='mai de la vida|mai del món|mai per mai'><marker>mai dels mais</marker></example>
+        </rule>
         <rule id="INALAMBRIC" name="*inalàmbric / sense fils">
             <pattern>
                 <token regexp="yes">h?inh?a[ŀl][·•.⋅\-]?l?h?[aáà][mn]bri(c|cs|ca|ques|cament)</token>
@@ -33185,6 +33199,13 @@ $Id$
             <example>difereixen del tot quant a llur funcionalitat</example>
         </rule>
         <rule id="DITA_PERSONA" name="dita persona/la dita persona">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">el|la|les|les</token>
+                    <token>damunt</token>
+                    <token regexp="yes">dit|dita|dits|dites</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <!-- <token><exception inflected="yes">mà</exception></token> -->
                 <token postag="SPS00|.*LOC_.*|CS|PR.*" postag_regexp="yes"/>
