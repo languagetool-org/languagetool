@@ -13870,7 +13870,7 @@ $Id$
         <rule id="VERBS_NOMSPROPIS" name="verbs / noms propis: Barbara, Macàs, Adoram">
             <pattern>
                 <and>
-                    <token postag="V.{6}[VBZ34567]" postag_regexp="yes"><exception postag="V.{6}[0CXY12]|N.*|AQ.*|SPS00|RG|.*_GN_.*" postag_regexp="yes"/><exception regexp="yes">vinga|aviam</exception></token>
+                    <token postag="V.{6}[VBZ34567]" postag_regexp="yes"><exception postag="V.{6}[0CXY12]|N.*|AQ.*|SPS00|RG|.*_GN_.*" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|contacte</exception></token>
                     <token postag="_possible_nompropi"/>
                 </and>
             </pattern>
@@ -15231,7 +15231,7 @@ $Id$
                     <unify>
                         <feature id="nombre"/>
                         <feature id="genere"/>
-                        <token postag="DN.*" postag_regexp="yes" />
+                        <token postag="DN.*" postag_regexp="yes" ><exception regexp="yes">[\d.,]{2,}</exception></token>
                         <marker>
                             <token inflected="yes">net</token>
                         </marker>
@@ -15243,6 +15243,7 @@ $Id$
                 <example correction="néts">Tinc quatre <marker>nets</marker>.</example>
                 <example correction="nétes">Tinc 5 <marker>netes</marker>.</example>
                 <example correction="nétes">Tinc dues <marker>netes</marker>.</example>
+                <example>en guanya 2.300 nets cada mes</example>
                 <example>Tinc quatre néts.</example>
                 <example>Un castell de 3 de 9 net.</example>
                 <example>Un quinze net, trenta net.</example>
