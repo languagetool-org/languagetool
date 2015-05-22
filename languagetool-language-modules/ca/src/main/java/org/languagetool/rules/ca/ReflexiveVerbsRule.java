@@ -324,7 +324,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
             tokens[i].getStartPos(), tokens[i].getEndPos(),
             msg, "Verb no pronominal");
         if (tokens[i].hasLemma("créixer")) {
-          ArrayList<String> replacements = new ArrayList<String>();
+          ArrayList<String> replacements = new ArrayList<>();
           replacements.add("(encoratjar-se)");
           replacements.add("(animar-se)");
           replacements.add("(agafar ànim)");

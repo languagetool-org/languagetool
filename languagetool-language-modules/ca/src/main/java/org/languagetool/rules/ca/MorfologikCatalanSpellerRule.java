@@ -82,7 +82,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   @Override
   protected List<String> orderSuggestions(List<String> suggestions, String word) {
     //move some run-on-words suggestions to the top
-    List<String> newSuggestions = new ArrayList<String>();
+    List<String> newSuggestions = new ArrayList<>();
     for (String suggestion : suggestions) {
       if (PARTICULA_INICIAL.matcher(suggestion).matches()) {
         newSuggestions.add(0, suggestion);
