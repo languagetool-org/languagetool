@@ -1786,6 +1786,17 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <example type="ambiguous" inputform="City[&lt;/S&gt;,city/JJ,city/NN]" outputform="City[&lt;/S&gt;,city/NNP]">Kansas <marker>City</marker></example>
         <example type="untouched">Los Angeles</example>
     </rule>
+    <rule name="NNP + Uppercase NN:UN -&gt; NNP" id="UPPER_NNUN_NNP">
+        <pattern case_sensitive="yes">
+            <token inflected="yes" regexp="yes" postag="NNP">\p{Lu}\p{Ll}+</token><!--\p{Upper}\p{Lower}  -->
+            <marker>
+                <token regexp="yes" postag="NN:UN">\p{Lu}\p{Ll}+</token>
+            </marker>
+        </pattern>
+        <disambig postag="NNP"></disambig>
+        <example type="ambiguous" inputform="Association[association/NN:UN]" outputform="Association[association/NNP]">The National Education <marker>Association</marker>.</example>
+        <example type="untouched">Los Angeles</example>
+    </rule>
     <rule name="Uppercase word/no tag + 's -&gt; NNP" id="UPPER_UNKNOWN_NNP">
         <pattern case_sensitive="yes">
             <marker>
