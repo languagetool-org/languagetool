@@ -4445,6 +4445,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="PI.*"></disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes">cap</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*|_GN_.*"></disambig>
+        </rule>
     </rulegroup>
     <rule id="llavors" name="llavors">
         <pattern>
