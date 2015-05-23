@@ -12529,24 +12529,13 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token>conferencia</token>
+                        <token regexp="yes">conferenci(a|es)|vivenci(a|es)</token>
                     </marker>
                 </pattern>
-                <message>Si és nom, cal accentuar. Correcte si és del verb conferenciar.</message>
-                <suggestion>conferència</suggestion>
-                <short>Cal accentuar</short>
+                <message>Si és nom, cal accentuar. Correcte si és del verb "<match no="1" case_conversion="alllower" regexp_match="(?iu)(.*enci)(a|es)" regexp_replace="$1ar"/>".</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*)enci(a|es)" regexp_replace="$1ènci$2"/></suggestion>
                 <example correction="Conferència"><marker>Conferencia</marker> a càrrec del president.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>conferencies</token>
-                    </marker>
-                </pattern>
-                <message>Si és nom, cal accentuar. Correcte si és del verb conferenciar.</message>
-                <suggestion>conferències</suggestion>
-                <short>Cal accentuar</short>
-                <example correction="Conferències"><marker>Conferencies</marker> a càrrec del president.</example>
+                <example correction="Vivències"><marker>Vivencies</marker> del president.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -20759,7 +20748,7 @@ $Id$
         </rule>
         <rule id="INALAMBRIC" name="*inalàmbric / sense fils">
             <pattern>
-                <token regexp="yes">h?inh?a[ŀl][·•.⋅\-]?l?h?[aáà][mn]bri(c|cs|ca|ques|cament)</token>
+                <token regexp="yes">h?inh?a[ŀl][·•.⋅\-]?l?h?[aáà][mn]bri(c|cs|ca|ques|camente?)</token>
             </pattern>
             <message>Paraula incorrecta</message>
             <suggestion>sense fils</suggestion>
