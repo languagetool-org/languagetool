@@ -9781,6 +9781,11 @@ USA
         <!-- 106(less..)+319(more...) in complete BNC, all(?) because &quot;...as&quot; -->
         <rulegroup id="COMP_THAN" name="Comparison with 'than', e.g. 'bigger then (than)'">
             <rule>
+                    <antipattern>
+                    <token>as</token>
+                    <token>more</token>
+                    <token>as</token>
+                    </antipattern>
                 <pattern>
                     <token regexp="yes">more|less</token>
                     <marker>
@@ -9806,6 +9811,11 @@ USA
                 <example correction="than">The tagger will return more <marker>then</marker> one tag.</example>
             </rule>
             <rule>
+                    <antipattern>
+                    <token>as</token>
+                    <token>more</token>
+                    <token>as</token>
+                    </antipattern>
                 <pattern>
                     <token postag="JJR"><exception postag="IN"></exception></token>
                     <marker>
