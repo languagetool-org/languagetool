@@ -44,6 +44,11 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("S'autodefineixin com a populars.")).length);
         //assertEquals(0, rule.match(langTool.getAnalyzedSentence("Redibuixen el futur.")).length);
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("L'exdirigent del partit.")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("S'autoprenia.")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("S'autocanta.")).length);
+        
+        // word not well-formed with prefix 
+        assertEquals(1, rule.match(langTool.getAnalyzedSentence("S'autopren.")).length);
 
         // correct sentences:
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("Abacallanada")).length);
