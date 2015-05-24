@@ -22,6 +22,7 @@ $Id$
     <!ENTITY adverbis_temps_lloc "entra(t|ts|da|des)|passa(t|ts|da|des)|tocad(a|es)|arran|enfront|per|durant|llavors|tard|aviat|pròximament|properament|prompte|avui|abans|després|hui|ara|demà|ahir|despús-ahir|despús-demà|aquí|ací|allí|allà|ahí|aleshores|recentment|posteriorment">
     <!ENTITY context_PASTAR "aigua|bol|canyella|cera|coca|dit|farina|ingredient|llet|llevat|llimona|mà|mantega|massa|min|minuts|mona|oli|ou|panificadora|sucre">
     <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
+    <!ENTITY context_FER_SE_AMB "triomf|victòria|alcaldia|presidència|nombre|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit">
     <!ENTITY dies_setmana_abrev "dl|dt|dc|dj|dv|ds|dg">
     <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
     <!ENTITY estacions "primavera|estiu|tardor|hivern">
@@ -2750,6 +2751,20 @@ $Id$
                 <example>Quins dies ha tingut lliures?</example>
                 <example>Poca cosa hem pogut fer nosaltres.</example>
                 <example>Les Borges va aconseguir un bon resultat.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>s'</token>
+                    <marker>
+                        <token>està</token>
+                    </marker>
+                    <token postag="V.G.*" postag_regexp="yes"></token>
+                    <token postag="_GN_.P|NC.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion>estan</suggestion>
+                <example correction="estan">S'<marker>està</marker> baixant els fitxers.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONCORD_COPULATIVES" name="concordança en frases copulatives">
@@ -22686,7 +22701,7 @@ $Id$
                         <token skip="2" inflected="yes">fer<exception scope="next" postag="AQ.*" postag_regexp="yes"/></token>
                         <token skip="7">amb<exception scope="next" regexp="yes">,|cap</exception></token>
                     </marker>
-                    <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">alcaldia|presidència|nombre|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit<exception scope="previous">a</exception></token>
+                    <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">&context_FER_SE_AMB;<exception scope="previous">a</exception></token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion>(apoderar-se de)</suggestion>
@@ -22710,7 +22725,7 @@ $Id$
                         <token postag="P0.0.*" postag_regexp="yes" skip="2"/>
                         <token skip="7">amb</token>
                     </marker>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">alcaldia|presidència|nombre|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit<exception scope="previous">a</exception></token>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">&context_FER_SE_AMB;<exception scope="previous">a</exception></token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion>(apoderar-se de)</suggestion>
