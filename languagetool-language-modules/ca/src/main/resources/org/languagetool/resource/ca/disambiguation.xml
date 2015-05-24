@@ -8701,6 +8701,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="N.*|_GN_.*"></disambig>
         </rule>
+        <rule><!-- excepcions a la regla següent -->
+            <pattern>
+                <token regexp="yes">més|menys</token>
+                <marker>
+                    <and>
+                        <token postag="V.N.*" postag_regexp="yes"></token>
+                        <token postag="N.*" postag_regexp="yes"></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*|_GN_.*"></disambig>
+        </rule>
         <rule>
             <pattern>
                 <marker>
