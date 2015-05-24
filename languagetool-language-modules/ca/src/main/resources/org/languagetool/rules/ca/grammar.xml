@@ -39,7 +39,6 @@ $Id$
     <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena">
     <!ENTITY expressions_temps "ara|avui|hui|demà|despús-demà|ahir|despús-ahir|endemà|enguany">
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
-    <!ENTITY llibres_biblia "Gn|Ex|Lv|Nm|Dt|Jos|Jt|Rt|1Sa|2Sa|1Re|2Re|1Cr|2Cr|Esd|Ne|Est|Jb|Sl|Pr|Coh|Ct|Is|Jr|Lm|Ez|Dn|Os|Jl|Am|Ab|Jon|Mi|Na|Ha|So|Ag|Za|Ml|Mt|Mc|Lc|Jn|Ac|Rm|1Co|2Co|Ga|Ef|Fl|Col|1Te|2Te|1Tm|2Tm|Tt|Flm|He|Jm|1Pe|2Pe|1Jn|2Jn|3Jn|Jud|Ap|Estgr|Jdt|Tb|1Ma|2Ma|Sv|Sir|Ba|EpJr|Dngr|Dngr3|Dngr13|Dngr14|Man|3Esr|4Esr|Sl151|Lao|SIH">
     <!ENTITY mesos_any_abrev "gen|febr|abr|jul|ag|set|oct|nov|des">
     <!ENTITY mesos_any "gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre">
     <!ENTITY mesos_any_maj "Gener|Febrer|Març|Abril|Maig|Juny|Juliol|Agost|Setembre|Octubre|Novembre|Desembre">
@@ -8566,6 +8565,17 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="ID" name="Maria/María">
+            <pattern>
+                <token regexp='yes'>José|Luis|Pedro|Antonio|Juan</token>
+                <marker>
+                    <token>Maria</token>
+                </marker>
+            </pattern>
+            <message>Si és un nom castellà, duu accent.</message>
+            <suggestion>María</suggestion>
+            <example correction='María'>José <marker>Maria</marker></example>
+        </rule>
         <rule id="FINA_FINS_A" name="*fina a/fins a">
             <antipattern>
                 <marker>
@@ -10987,13 +10997,14 @@ $Id$
                 <marker>
                     <token>san</token>
                 </marker>
-                <token postag="NPMSSP0"/>
+                <token postag="NPMSSP0"><exception regexp="yes">Antonio|Pedro|José|Diego</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>sant</suggestion> en comptes de 'san' (= poble africà)?</message>
             <short>Possible confusió</short>
             <example correction="sant"><marker>san</marker> Joan </example>
             <example>sant Joan</example>
             <example>San Dalmazzo</example>
+            <example>a San Antonio</example>
         </rule>
         <rule id="ALLIOLI" name="allioli">
             <antipattern>
@@ -18895,7 +18906,7 @@ $Id$
             </antipattern>
             <antipattern> <!--  llibres de la Bíblia -->
                 <marker>
-                    <token regexp="yes">(?-i)&llibres_biblia;</token>
+                    <token postag="_abrev_biblia"/>
                     <token min="0" max="4" regexp="yes">[\d.,-]+<exception regexp="yes">\d+\.\d+</exception></token>
                     <token regexp="yes">\d+\.\d+</token>
                 </marker>
