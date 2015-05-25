@@ -8581,17 +8581,30 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
-        <rule id="MARIA" name="Maria/María">
-            <pattern>
-                <token regexp='yes'>José|Luis|Pedro|Antonio|Juan</token>
-                <marker>
-                    <token>Maria</token>
-                </marker>
-            </pattern>
-            <message>Si és un nom castellà, duu accent.</message>
-            <suggestion>María</suggestion>
-            <example correction='María'>José <marker>Maria</marker></example>
-        </rule>
+        <rulegroup id="MARIA" name="Maria/María">
+            <rule>
+                <pattern>
+                    <token regexp='yes'>José|Luis|Pedro|Antonio|Juan</token>
+                    <marker>
+                        <token>Maria</token>
+                    </marker>
+                </pattern>
+                <message>Si és un nom castellà, duu accent.</message>
+                <suggestion>María</suggestion>
+                <example correction='María'>José <marker>Maria</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Maria</token>
+                    </marker>
+                    <token regexp='yes'>José|Luisa</token>
+                </pattern>
+                <message>Si és un nom castellà, duu accent.</message>
+                <suggestion>María</suggestion>
+                <example correction='María'><marker>Maria</marker> José</example>
+            </rule>
+        </rulegroup>
         <rule id="FINA_FINS_A" name="*fina a/fins a">
             <antipattern>
                 <marker>
