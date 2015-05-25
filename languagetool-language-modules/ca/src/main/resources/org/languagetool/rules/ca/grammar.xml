@@ -12182,6 +12182,19 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="CONFUSIONS_B_V" name="confusions b/v: proba/prova">
+            <rule id="ELL_EL" name="*ell cotxe/el cotxe">
+                <pattern>
+                    <marker>
+                        <token>ell</token>
+                    </marker>
+                    <token postag="NCMS.*" postag_regexp="yes"><exception>sol</exception></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>el</suggestion>?</message>
+                <example correction="El"><marker>Ell</marker> corrector.</example>
+                <example correction="El"><marker>Ell</marker> cotxe.</example>
+                <example>ell mateix</example>
+                <example>ell sol ho aconseguí</example>
+            </rule>
             <rule id="PROBA" name="proba/prova">
                 <pattern>
                     <token regexp="yes">proba|probes|probe</token>
