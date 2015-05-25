@@ -23196,10 +23196,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="triggers_error">Es wird ein optisches Gitter vorgeschaltet, <marker>das</marker> das einfallende Licht aufspaltet</example>
             </rule>
         </rulegroup>
-        <rulegroup id="BEI_OHNE_DATIV" name="Grammatik: 'bei/entsprechend' ohne Dativ">
+        <rulegroup id="BEI_OHNE_DATIV" name="Grammatik: 'bei/entsprechend/...' ohne Dativ">
             <rule>
                 <pattern>
-                    <token regexp="yes">bei|entsprechend</token>
+                    <token regexp="yes">bei|entsprechend|gemäß|entgegen|nahe</token>
                     <marker>
                         <token regexp="yes">meine|deine|seine|unsere|euere|eure|ihre</token>
                     </marker>
@@ -23220,7 +23220,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ihr</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">bei|entsprechend</token>
+                    <token regexp="yes">bei|entsprechend|gemäß|entgegen|nahe</token>
                     <marker>
                         <token regexp="yes">mein|dein|sein|unser|euer|ihr</token>
                     </marker>
@@ -23240,7 +23240,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">bei|entsprechend</token>
+                    <token regexp="yes">bei|entsprechend|gemäß|entgegen|nahe</token>
                     <marker>
                         <token regexp="yes">meine|deine|seine|unsere|euere|eure|ihre</token>
                     </marker>
@@ -23345,7 +23345,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token skip="-1" postag="SENT_START"><exception scope="next" postag="SUB.*:GEN:.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token regexp="yes">wegen|(ab|zu)züglich|seitens</token><!-- TODO … liegt abseits das …-->
+                        <token regexp="yes">wegen|(ab|zu)züglich|angesichts|abseits|anhand|anstatt|aufgrund|ausschließlich|infolge|innerhalb|außerhalb|jenseits|kraft|mithilfe|namens|seitens|unfern|zwecks</token>
                         <token regexp="yes">(das|dem|den|die)(selben?)?|ein|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jene|deine|diese)[mn]?</token>
                     </marker>
                 </pattern>
@@ -23372,7 +23372,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
-                    <token regexp="yes">Wegen|Abzüglich</token><!-- TODO Abseits das …-->
+                    <token regexp="yes">Wegen|(Ab|Zu)züglich|Angesichts|Abseits|Anhand|Anstatt|Aufgrund|Ausschließlich|Infolge|Innerhalb|Außerhalb|Jenseits|Kraft|Mithilfe|Namens|Seitens|Unfern|Zwecks</token>
                     <token regexp="yes">(das|dem|den|die)(selben?)?|ein|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jene|deine|diese)[mn]?</token>
                 </pattern>
                 <message>Die Präposition '<match no="2" case_conversion="startlower"/>' erfordert standardsprachlich den Genitiv.</message>
@@ -23386,11 +23386,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>Abzüglich des</marker> Halbkreises beträgt die Fläche 3m².</example>
                 <example correction=""><marker>Abzüglich dem</marker> Halbkreis beträgt die Fläche 3m².</example>
                 <example correction=""><marker>Wegen deinem</marker> Auto</example>
+                <example correction=""><marker>Angesichts die</marker> Gefahr durch Feuer</example>
+                <example correction=""><marker>Abseits dem</marker> Weg wird es matschig</example>
                 <example><marker>Wegen jenes</marker> Auto</example>
-                <!--
-                <example><marker>Abseits des</marker> Weges …</example>
-                <example type="incorrect"><marker>Abseits dem</marker> Weg …</example>
-                -->
             </rule>
         </rulegroup>
         <rulegroup id="MEIN_KLEIN_HAUS" name="Grammatik: Unflektiertes Adjektiv statt flektierter Form (unvollständig!), z.B. 'mein klein (kleines) Haus' ">
