@@ -12184,16 +12184,19 @@ $Id$
         <rulegroup id="CONFUSIONS_B_V" name="confusions b/v: proba/prova">
             <rule id="ELL_EL" name="*ell cotxe/el cotxe">
                 <pattern>
+                    <token postag="SENT_START"/>
                     <marker>
                         <token>ell</token>
                     </marker>
                     <token postag="NCMS.*" postag_regexp="yes"><exception>sol</exception></token>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>el</suggestion>?</message>
-                <example correction="El"><marker>Ell</marker> corrector.</example>
-                <example correction="El"><marker>Ell</marker> cotxe.</example>
+                <example correction="El"><marker>Ell</marker> corrector és bo.</example>
+                <example correction="El"><marker>Ell</marker> cotxe corre massa.</example>
                 <example>ell mateix</example>
                 <example>ell sol ho aconseguí</example>
+                <example>va cridar ell furiós</example>
             </rule>
             <rule id="PROBA" name="proba/prova">
                 <pattern>
