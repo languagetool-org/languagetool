@@ -14495,7 +14495,8 @@ $Id$
                 <pattern>
                     <token regexp="yes">culés?</token>
                 </pattern>
-                <message>Referit als seguidors del FC Barcelona, cal escriure: <suggestion><match no="1" regexp_match="culé(.*)" regexp_replace="culer$1"/></suggestion>. 'Culés' pot ser del verb 'cular'.</message>
+                <message>Referit als seguidors del FC Barcelona, cal escriure: <suggestion><match no="1" regexp_match="culé(.*)" regexp_replace="culer$1"/></suggestion>.</message>
+                <!-- "culés" pot ser del verb cular-->
                 <short>Error ortogràfic</short>
                 <example correction="culers">Són seguidors <marker>culés</marker>.</example>
                 <example>Un seguidor culer.</example>
@@ -14514,9 +14515,8 @@ $Id$
                 <pattern>
                     <token regexp="yes">(desa|a|com)pareixin?|(des|re)?coneixin?</token>
                 </pattern>
-                <message>Forma incorrecta de subjuntiu.</message>
+                <message>Forma incorrecta.</message>
                 <suggestion><match no="1" regexp_match="(.*)eixi(n?)" regexp_replace="$1egui$2"/></suggestion>
-                <short>Error ortogràfic</short>
                 <example correction="coneguin">Sembla que el <marker>coneixin</marker>.</example>
                 <example correction="desaparegui">I quan <marker>desapareixi</marker>?</example>
                 <example>Quan pareixi.</example>
@@ -14525,9 +14525,8 @@ $Id$
                 <pattern>
                     <token regexp="yes">((desa|a|com)?pareix|(des|re)?coneix)(és|ess[ei]s|éss[ei]m|éss[ei]u|ess[ei]n)</token>
                 </pattern>
-                <message>Verb conjugat de manera incorrecta.</message>
+                <message>Forma incorrecta.</message>
                 <suggestion><match no="1" regexp_match="(.+)eix(.+)" regexp_replace="$1egu$2"/></suggestion>
-                <short>Verb incorrecte</short>
                 <example correction="reconeguessin">Que ho <marker>reconeixessin</marker>.</example>
                 <example correction="pareguessin">Que ho <marker>pareixessin</marker>.</example>
                 <example>Que parissin.</example>
@@ -35859,6 +35858,23 @@ $Id$
                 <short>Reviseu la construcció de relatiu</short>
                 <example correction="quals">les regles en contra de les <marker>que</marker> va lluitar</example>
                 <example>les regles en contra de les quals va lluitar</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>a<exception postag="_no_relatiu"/></token>
+                        <token>l</token>
+                        <token regexp="yes">que|què</token>
+                        <token>se</token>
+                        <token>li</token>
+                    </marker>
+                </pattern>
+                <message>Reviseu la construcció de relatiu.</message>
+                <suggestion>al qual se li</suggestion>
+                <suggestion>a qui se li</suggestion>
+                <suggestion>al qual es</suggestion>
+                <suggestion>al qual se</suggestion>
+                <example correction="al qual se li|a qui se li|al qual es|al qual se">És l'autor <marker>al que se li</marker> atribueix l'obra.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ENTRE_ELS_QUE" name="entre els *que/quals destaca">
