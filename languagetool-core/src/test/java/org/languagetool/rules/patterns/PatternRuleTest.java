@@ -220,6 +220,9 @@ public class PatternRuleTest extends TestCase {
     final Set<Class> ruleClasses = new HashSet<>();
     for (Rule rule : allRules) {
       assertIdUniqueness(ids, ruleClasses, lang, rule);
+      if (rule.getId().equalsIgnoreCase("ID")) {
+        System.err.println("WARNING: " + lang.getShortNameWithCountryAndVariant() + " has a rule with id 'ID', this should probably be changed");
+      }
     }
   }
 
