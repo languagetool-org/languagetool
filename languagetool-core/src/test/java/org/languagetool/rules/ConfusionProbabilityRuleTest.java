@@ -77,7 +77,32 @@ public class ConfusionProbabilityRuleTest {
     assertThat(rule.getContext(token, tokens, "XX", 1, 1).toString(), is("[is, XX, test]"));
     assertThat(rule.getContext(token, tokens, "XX", 0, 2).toString(), is("[XX, test, .]"));
     assertThat(rule.getContext(token, tokens, "XX", 2, 0).toString(), is("[This, is, XX]"));
-    assertThat(rule.getContext(token, tokens, "XX", 3, 0).toString(), is("[This, is, a]"));
+    assertThat(rule.getContext(token, tokens, "XX", 3, 0).toString(), is("[This, is, XX]"));
+  }
+
+  @Test
+  public void testGetContext2() throws IOException {
+    List<ConfusionProbabilityRule.GoogleToken> tokens = Arrays.asList(
+            new ConfusionProbabilityRule.GoogleToken("This", 0, 0),
+            new ConfusionProbabilityRule.GoogleToken("is", 0, 0)
+    );
+    ConfusionProbabilityRule.GoogleToken token = tokens.get(1);
+    assertThat(rule.getContext(token, tokens, "XX", 1, 1).toString(), is("[This, XX, .]"));
+    assertThat(rule.getContext(token, tokens, "XX", 0, 2).toString(), is("[XX, ., .]"));
+    assertThat(rule.getContext(token, tokens, "XX", 2, 0).toString(), is("[This, XX]"));
+    assertThat(rule.getContext(token, tokens, "XX", 3, 0).toString(), is("[This, XX]"));
+  }
+
+  @Test
+  public void testGetContext3() throws IOException {
+    List<ConfusionProbabilityRule.GoogleToken> tokens = Arrays.asList(
+            new ConfusionProbabilityRule.GoogleToken("This", 0, 0)
+    );
+    ConfusionProbabilityRule.GoogleToken token = tokens.get(0);
+    assertThat(rule.getContext(token, tokens, "XX", 1, 1).toString(), is("[XX]"));
+    assertThat(rule.getContext(token, tokens, "XX", 0, 2).toString(), is("[XX, ., .]"));
+    assertThat(rule.getContext(token, tokens, "XX", 2, 0).toString(), is("[XX]"));
+    assertThat(rule.getContext(token, tokens, "XX", 3, 0).toString(), is("[XX]"));
   }
 
   private void assertMatch(String input) throws IOException {

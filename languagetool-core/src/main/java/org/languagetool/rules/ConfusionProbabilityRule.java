@@ -167,9 +167,14 @@ public abstract class ConfusionProbabilityRule extends Rule {
     for (int i = 1, added = 0; added < toLeft; i++) {
       if (pos-i < 0) {
         // We don't use v2 of the Google data everywhere, so we don't always have the "_START_"
-        // marker. So if we're at the beginning of the sentence, just use the first three tokens
+        // marker. So if we're at the beginning of the sentence, just use the first tokens
         // without an artificial start marker:
-        return toStrings(tokens.subList(0, 3));
+        result.clear();
+        result.add(newToken);
+        for (int j = pos-1; j >= 0; j--) {
+          result.add(0, tokens.get(j).token);
+        }
+        return result;
       } else {
         if (!tokens.get(pos-i).isWhitespace()) {
           result.add(0, tokens.get(pos - i).token);
