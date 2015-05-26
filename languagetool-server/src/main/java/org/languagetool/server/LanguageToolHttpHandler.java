@@ -333,8 +333,8 @@ class LanguageToolHttpHandler implements HttpHandler {
   private void checkText(final String text, final HttpExchange httpExchange, final Map<String, String> parameters) throws Exception {
     final long timeStart = System.currentTimeMillis();
     if (text.length() > maxTextLength) {
-      throw new TextTooLongException("Your text is " + text.length() + " characters long, which longer " +
-              "than this server's limit of " + maxTextLength + " characters. Please consider submitting a shorter text.");
+      throw new TextTooLongException("Your text exceeds this server's limit of " + maxTextLength +
+              " characters (it's " + text.length() + " characters). Please submit a shorter text.");
     }
     //print("Check start: " + text.length() + " chars, " + langParam);
     final boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
