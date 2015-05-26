@@ -21,8 +21,9 @@ package org.languagetool.dev;
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.English;
-import org.languagetool.rules.ConfusionProbabilityRule;
+import org.languagetool.rules.ConfusionSet;
 import org.languagetool.rules.ConfusionSetLoader;
+import org.languagetool.rules.ConfusionString;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
 
@@ -55,14 +56,14 @@ public class RuleCreator {
   private void run(File homophoneOccurrences, String homophonePath) throws IOException {
     ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(homophonePath);
-    Map<String,ConfusionProbabilityRule.ConfusionSet> confusionSetMap = confusionSetLoader.loadConfusionSet(inputStream);
+    Map<String,ConfusionSet> confusionSetMap = confusionSetLoader.loadConfusionSet(inputStream);
     initMaps(homophoneOccurrences);
     int groupCount = 0;
     if (XML_MODE) {
       System.out.println("<rules lang='en'>\n");
       System.out.println("<category name='Auto-generated rules'>\n");
     }
-    for (Map.Entry<String, ConfusionProbabilityRule.ConfusionSet> entry : confusionSetMap.entrySet()) {
+    for (Map.Entry<String, ConfusionSet> entry : confusionSetMap.entrySet()) {
       System.err.println(" === " + entry + " === ");
       List<OccurrenceInfo> infos = occurrenceInfos.get(entry.getKey());
       if (infos == null) {
@@ -78,11 +79,11 @@ public class RuleCreator {
       groupCount++;
       for (OccurrenceInfo occurrenceInfo : infos) {
         String[] parts = occurrenceInfo.ngram.split(" ");
-        for (String variant : entry.getValue().getSet()) {
-          if (variant.equals(entry.getKey())) {
+        for (ConfusionString variant : entry.getValue().getSet()) {
+          if (variant.getString().equals(entry.getKey())) {
             continue;
           }
-          printRule(occurrenceInfo, parts, variant);
+          printRule(occurrenceInfo, parts, variant.getString());
         }
       }
       if (XML_MODE) {
@@ -184,7 +185,7 @@ public class RuleCreator {
     }
     float minErrorProb = args.length >= 2 ? Float.parseFloat(args[1]) : 0.0f;
     RuleCreator creator = new RuleCreator(minErrorProb);
-    creator.run(new File(args[0]), "/en/homophones-subset.txt");
+    creator.run(new File(args[0]), "/en/confusion_sets_subset.txt");
   }
 
 }

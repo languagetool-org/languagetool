@@ -25,7 +25,7 @@ import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.util.BytesRef;
 import org.languagetool.JLanguageTool;
 import org.languagetool.languagemodel.LuceneLanguageModel;
-import org.languagetool.rules.ConfusionProbabilityRule;
+import org.languagetool.rules.ConfusionSet;
 import org.languagetool.rules.ConfusionSetLoader;
 
 import java.io.File;
@@ -79,11 +79,11 @@ class HomophoneOccurrenceDumper extends LuceneLanguageModel {
     return result;
   }
 
-  private void run(String homophonePath) throws IOException {
-    System.err.println("Loading homophones from " + homophonePath + ", minimum occurrence: " + MIN_COUNT);
+  private void run(String confusionSetPath) throws IOException {
+    System.err.println("Loading confusion sets from " + confusionSetPath + ", minimum occurrence: " + MIN_COUNT);
     ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
-    InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(homophonePath);
-    Map<String,ConfusionProbabilityRule.ConfusionSet> map = confusionSetLoader.loadConfusionSet(inputStream);
+    InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(confusionSetPath);
+    Map<String,ConfusionSet> map = confusionSetLoader.loadConfusionSet(inputStream);
     Set<String> confusionTerms = map.keySet();
     dumpOccurrences(confusionTerms);
   }
@@ -124,7 +124,13 @@ class HomophoneOccurrenceDumper extends LuceneLanguageModel {
       System.out.println("Usage: " + HomophoneOccurrenceDumper.class.getSimpleName() + " <indexDir>");
       System.exit(1);
     }
-    HomophoneOccurrenceDumper dumper = new HomophoneOccurrenceDumper(new File(args[0]));
-    dumper.run("/en/homophones.txt");
+    try (HomophoneOccurrenceDumper dumper = new HomophoneOccurrenceDumper(new File(args[0]))) {
+      dumper.run("/en/confusion_sets.txt");
+    }
+  }
+
+  @Override
+  public long getTotalTokenCount() {
+    throw new RuntimeException("not implemented");
   }
 }

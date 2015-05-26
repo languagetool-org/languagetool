@@ -18,6 +18,7 @@
  */
 package org.languagetool.languagemodel;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.FSDirectory;
@@ -46,10 +47,11 @@ public class LuceneLanguageModel implements LanguageModel {
       throw new RuntimeException("Not found or is not a directory: " + topIndexDir);
     }
     this.topIndexDir = topIndexDir;
+    addIndex(topIndexDir, 1);
     addIndex(topIndexDir, 2);
     addIndex(topIndexDir, 3);
     if (luceneSearcherMap.size() == 0) {
-      throw new RuntimeException("No directories '2grams' and/or '3grams' found in " + topIndexDir);
+      throw new RuntimeException("No directories '1grams', '2grams', and/or '3grams' found in " + topIndexDir);
     }
   }
 
@@ -62,12 +64,23 @@ public class LuceneLanguageModel implements LanguageModel {
   }
 
   @Override
+  public long getCount(List<String> tokens) {
+    Objects.requireNonNull(tokens);
+    Term term = new Term("ngram", StringUtils.join(tokens, " "));
+    return getCount(term, getLuceneSearcher(tokens.size()));
+  }
+
+  @Override
+  public long getCount(String token1) {
+    Objects.requireNonNull(token1);
+    return getCount(Arrays.asList(token1));
+  }
+
+  @Override
   public long getCount(String token1, String token2) {
     Objects.requireNonNull(token1);
     Objects.requireNonNull(token2);
-    Term term = new Term("ngram", token1 + " " + token2);
-    LuceneSearcher luceneSearcher = getLuceneSearcher(2);
-    return getCount(term, luceneSearcher);
+    return getCount(Arrays.asList(token1, token2));
   }
 
   @Override
@@ -75,11 +88,29 @@ public class LuceneLanguageModel implements LanguageModel {
     Objects.requireNonNull(token1);
     Objects.requireNonNull(token2);
     Objects.requireNonNull(token3);
-    Term term = new Term("ngram", token1 + " " + token2 + " " + token3);
-    LuceneSearcher luceneSearcher = getLuceneSearcher(3);
-    long count = getCount(term, luceneSearcher);
-    //System.out.println("Lookup: " + token1 + " " + token2 + " " + token3 + " => " + count);
-    return count;
+    return getCount(Arrays.asList(token1, token2, token3));
+  }
+
+  @Override
+  public long getTotalTokenCount() {
+    LuceneSearcher luceneSearcher = getLuceneSearcher(1);
+    try {
+      RegexpQuery query = new RegexpQuery(new Term("totalTokenCount", ".*"));
+      TopDocs docs = luceneSearcher.searcher.search(query, 1000);  // Integer.MAX_VALUE might cause OOE on wrong index
+      if (docs.totalHits == 0) {
+        throw new RuntimeException("Expected 'totalTokenCount' meta documents not found in 1grams index");
+      } else if (docs.totalHits > 1000) {
+        throw new RuntimeException("Did not expect more than 1000 'totalTokenCount' meta documents");
+      } else {
+        long result = 0;
+        for (ScoreDoc scoreDoc : docs.scoreDocs) {
+          result += Long.parseLong(luceneSearcher.reader.document(scoreDoc.doc).get("totalTokenCount"));
+        }
+        return result;
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   protected LuceneSearcher getLuceneSearcher(int ngramSize) {

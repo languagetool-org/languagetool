@@ -20,11 +20,12 @@ package org.languagetool.rules;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,50 +33,37 @@ import java.util.*;
 
 /**
  * LanguageTool's homophone confusion check that uses ngram lookups
- * to decide which word in a confusion set suits best.
- * Inspired by After the Deadline.
+ * to decide which word in a confusion set (from {@code confusion_sets.txt}) suits best.
  * @since 2.7
  */
 public abstract class ConfusionProbabilityRule extends Rule {
 
-  /* The minimal amount the alternative's score needs to be better to be used as a replacement.
-   * If all alternatives have smaller differences to the text score, no error will be reported: */
-  private static final int MIN_SCORE_DIFF = 6;
-  /* The minimum score of the alternative (e.g. 'there' if the text is 'their') to be considered at
-   * all. Setting this to > 0 avoids very exotic suggestions that are backed only by a small number
-   * of occurrences (and thus often wrong): */
-  private static final int MIN_ALTERNATIVE_SCORE = 14;
-  /* The maximum score of the original text up to which it will be considered a potential error.
-   * In other words, if the original text is this or more common, it will not be considered an error,
-   * no matter how common the alternatives are. */
-  private static final int MAX_TEXT_SCORE = Integer.MAX_VALUE;
-  /* The minimum sentences that each homophone must have been tested with to be considered at 
-   * all (see homophones-info.txt): */
-  private static final int MIN_SENTENCES = 0;
-  /* The maximum error rate of each homophone to be considered at all (see homophones-info.txt): */
-  private static final float MAX_ERROR_RATE = 10.0f;
+  // probability is only used then at least these many of the occurrence lookups succeeded, 
+  // i.e. returned a value > 0:
+  public static final float MIN_COVERAGE = 0.5f;
 
-  private static final String HOMOPHONES = "homophones.txt";
-  private static final String HOMOPHONES_INFO = "homophones-info.txt";
-  
+  private static final boolean DEBUG = false;
+
   private final Map<String,ConfusionSet> wordToSet;
-  private final LanguageModel languageModel;
+  private final LanguageModel lm;
+  private final long totalTokenCount;
 
-  @Override
-  public abstract String getDescription();
+  public abstract String getMessage(String suggestion, String description);
 
-  public abstract String getMessage(String suggestion);
+  protected abstract WordTokenizer getTokenizer();
 
-  public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) throws IOException {
+  public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     super(messages);
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-    String prefix = "/" + language.getShortName() + "/";
-    try (InputStream homophonesInfoStream = dataBroker.getFromResourceDirAsStream(prefix + HOMOPHONES_INFO);
-         InputStream homophonesStream = dataBroker.getFromResourceDirAsStream(prefix + HOMOPHONES)) {
-      ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(homophonesInfoStream, MIN_SENTENCES, MAX_ERROR_RATE);
-      this.wordToSet = confusionSetLoader.loadConfusionSet(homophonesStream);
-      this.languageModel = languageModel;
+    String path = "/" + language.getShortName() + "/confusion_sets.txt";
+    try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {
+      ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
+      this.wordToSet = confusionSetLoader.loadConfusionSet(confusionSetStream);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
+    this.lm = Objects.requireNonNull(languageModel);
+    totalTokenCount = languageModel.getTotalTokenCount();
   }
 
   @Override
@@ -84,18 +72,26 @@ public abstract class ConfusionProbabilityRule extends Rule {
   }
 
   @Override
-  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+  public RuleMatch[] match(AnalyzedSentence sentence) {
+    List<GoogleToken> tokens = getGoogleTokens(sentence.getText());
     List<RuleMatch> matches = new ArrayList<>();
     int pos = 0;
-    for (AnalyzedTokenReadings token : tokens) {
-      ConfusionSet confusionSet = wordToSet.get(token.getToken());
+    for (GoogleToken googleToken : tokens) {
+      String token = googleToken.token;
+      ConfusionSet confusionSet = wordToSet.get(token);
+      boolean uppercase = false;
+      if (confusionSet == null && token.length() > 0 && Character.isUpperCase(token.charAt(0))) {
+        confusionSet = wordToSet.get(StringTools.lowercaseFirstChar(token));
+        uppercase = true;
+      }
       boolean isEasilyConfused = confusionSet != null;
       if (isEasilyConfused) {
-        String betterAlternative = getBetterAlternativeOrNull(tokens, pos, confusionSet);
+        Set<ConfusionString> set = uppercase ? confusionSet.getUppercaseFirstCharSet() : confusionSet.getSet();
+        ConfusionString betterAlternative = getBetterAlternativeOrNull(tokens.get(pos), tokens, set, confusionSet.getFactor());
         if (betterAlternative != null) {
-          RuleMatch match = new RuleMatch(this, token.getStartPos(), token.getEndPos(), getMessage(betterAlternative));
-          match.setSuggestedReplacement(betterAlternative);
+          String message = getMessage(betterAlternative.getString(), betterAlternative.getDescription());
+          RuleMatch match = new RuleMatch(this, googleToken.startPos, googleToken.endPos, message);
+          match.setSuggestedReplacement(betterAlternative.getString());
           matches.add(match);
         }
       }
@@ -104,6 +100,21 @@ public abstract class ConfusionProbabilityRule extends Rule {
     return matches.toArray(new RuleMatch[matches.size()]);
   }
 
+  // Tokenization in google ngram corpus is different from LT tokenization (e.g. {@code you ' re} -> {@code you 're}),
+  // so we use getTokenizer() and simple ignore the LT tokens.
+  private List<GoogleToken> getGoogleTokens(String sentence) {
+    List<GoogleToken> result = new ArrayList<>();
+    List<String> tokens = getTokenizer().tokenize(sentence);
+    int startPos = 0;
+    for (String token : tokens) {
+      if (!StringTools.isWhitespace(token)) {
+        result.add(new GoogleToken(token, startPos, startPos+token.length()));
+      }
+      startPos += token.length();
+    }
+    return result;
+  }
+  
   @Override
   public void reset() {
   }
@@ -111,128 +122,155 @@ public abstract class ConfusionProbabilityRule extends Rule {
   /** @deprecated used only for tests */
   public void setConfusionSet(ConfusionSet set) {
     wordToSet.clear();
-    for (String word : set.set) {
-      wordToSet.put(word, set);
+    for (ConfusionString word : set.getSet()) {
+      wordToSet.put(word.getString(), set);
     }
-  }
-
-  // non-private for tests
-  @Nullable
-  String getBetterAlternativeOrNull(AnalyzedTokenReadings[] tokens, int pos, ConfusionSet confusionSet) {
-    AnalyzedTokenReadings token = tokens[pos];
-    //
-    // TODO: LT's tokenization is different to the Google one. E.g. Google "don't" vs LT "don ' t"
-    //
-    String next = getStringAtOrNull(tokens, pos + 1);
-    String next2 = getStringAtOrNull(tokens, pos + 2);
-    String prev = getStringAtOrNull(tokens, pos - 1);
-    String prev2 = getStringAtOrNull(tokens, pos - 2);
-    if ((next + next2 + prev + prev2).contains(",")) {
-      // v1 of Google ngram corpus doesn't contain commas, so we better stop instead of getting confused:
-      return null;
-    }
-    @SuppressWarnings("UnnecessaryLocalVariable")
-    double textScore = score(token.getToken(), next, next2, prev, prev2);
-    if (textScore >= MAX_TEXT_SCORE) {
-      // too common, let's assume it is not an error
-      return null;
-    }
-    double bestScore = textScore;
-    String betterAlternative = null;
-    for (String alternative : confusionSet.set) {
-      if (alternative.equalsIgnoreCase(token.getToken())) {
-        // this is the text variant, calculated above already...
-        continue;
-      }
-      double alternativeScore = score(alternative, next, next2, prev, prev2);
-      if (alternativeScore >= bestScore + MIN_SCORE_DIFF && alternativeScore >= MIN_ALTERNATIVE_SCORE) {
-        betterAlternative = alternative;
-        bestScore = alternativeScore;
-      }
-    }
-    return betterAlternative;
   }
 
   @Nullable
-  private String getStringAtOrNull(AnalyzedTokenReadings[] tokens, int i) {
-    if (i == -1) {
-      // Note: we should use LanguageModel.GOOGLE_SENTENCE_START, but this is not in the v1 data from Google:
-      return null;
-    } else if (i >= tokens.length) {
-      // Note: we should use LanguageModel.GOOGLE_SENTENCE_END, but this is not in the v1 data from Google:
-      return null;
-    } else if (i >= 0 && i < tokens.length) {
-      return tokens[i].getToken();
+  private ConfusionString getBetterAlternativeOrNull(GoogleToken token, List<GoogleToken> tokens, Set<ConfusionString> confusionSet, int factor) {
+    if (confusionSet.size() != 2) {
+      throw new RuntimeException("Confusion set must be of size 2: " + confusionSet);
     }
-    return null;
+    ConfusionString other = getAlternativeTerm(confusionSet, token);
+    return getBetterAlternativeOrNull(token, tokens, other, factor);
   }
 
-  /**
-   * Using only 3grams is the result of trying different variants with the Pedler corpus. It leads
-   * to slightly better results compared to using 2grams and 3grams combined, and it has the advantage
-   * of requiring less lookups.
-   * 
-   * This is also the place to add a machine learning algorithm. However, according to 
-   * "Web-Scale N-gram Models for Lexical Disambiguation" (Bergsma, Lin, Goebel; 2009) this
-   * might improve the results only a little bit.
-   * 
-   * @param option the word in question
-   * @param next1 the next word
-   * @param next2 the word after the next word
-   * @param prev1 the word before {@code option}
-   * @param prev2 the word before {@code prev1}
-   */
-  private double score(String option, String next1, String next2, String prev1, String prev2) {
-    Objects.requireNonNull(option);
-    //long ngram2left = languageModel.getCount(prev, option);
-    //long ngram2right = languageModel.getCount(option, next);
-    // the values may be null, see getStringAtOrNull():
-    long ngram3      = (prev1 != null && next1 != null) ? languageModel.getCount(prev1, option, next1) : 0;
-    long ngram3left  = (prev2 != null && prev1 != null) ? languageModel.getCount(prev2, prev1, option) : 0;
-    long ngram3right = (next1 != null && next2 != null) ? languageModel.getCount(option, next1, next2) : 0;
-
-    //double val1 = Math.log(Math.max(1, ngram2left));
-    //double val2 = Math.log(Math.max(1, ngram2right));
-    double val3 = Math.log(Math.max(1, ngram3));
-    double val4 = Math.log(Math.max(1, ngram3left));
-    double val5 = Math.log(Math.max(1, ngram3right));
-
-    // baseline:
-    //double val = 1.0;  // f-measure: 0.3417 (perfect suggestions only)
-    
-    // 2grams only:
-    //double val = val1 * val2;  // f-measure: 0.5115 (perfect suggestions only)
-    //double val = val1 + val2;  // f-measure: 0.5168 (perfect suggestions only)
-
-    // 2grams and 3grams:
-    //double val = val1 * val2 * val3;  // f-measure: 0.4986 (perfect suggestions only)
-    //double val = val1 + val2 + val3;  // f-measure: 0.5203 (perfect suggestions only)
-    //double val = val1 + val2 + val3 + val4 + val5;  // f-measure: 0.5212 (perfect suggestions only)
-
-    // 3grams only:
-    //double val = Math.max(1, ngram3);  // f-measure: 0.5038 (perfect suggestions only)
-    double val = val3 + val4 + val5;  // f-measure: 0.5292 (perfect suggestions only)
-    /*String ngram3String = prev1 + " " + option + " " + next1;
-    String ngram3leftString = prev2 + " " + prev1 + " " + option;
-    String ngram3rightString = option + " " + next1+ " " + next2;
-    System.out.println("=> " + option + ": " + val3 + ", " + val4 + ", " + val5 + " = " + val
-            + " (" + ngram3String + "=" + ngram3 + ", " + ngram3leftString + "=" + ngram3left + ", " + ngram3rightString + "=" + ngram3right + ")");
-    */
-
-    return val;
+  private ConfusionString getAlternativeTerm(Set<ConfusionString> confusionSet, GoogleToken token) {
+    ConfusionString other = null;
+    for (ConfusionString s : confusionSet) {
+      if (!s.getString().equals(token.token)) {
+        other = s;
+      }
+    }
+    if (other == null) {
+      throw new RuntimeException("No alternative found for: " + token);
+    }
+    return other;
   }
 
-  public static class ConfusionSet {
-    private final Set<String> set = new HashSet<>();
-    ConfusionSet(String... words) {
-      Collections.addAll(this.set, words);
+  private ConfusionString getBetterAlternativeOrNull(GoogleToken token, List<GoogleToken> tokens, ConfusionString otherWord, int factor) {
+    String word = token.token;
+    double p1 = getProbabilityFor(token, tokens, word);
+    double p2 = getProbabilityFor(token, tokens, otherWord.getString());
+    debug("P(" + word + ") = %.50f\n", p1);
+    debug("P(" + otherWord + ") = %.50f\n", p2);
+    return p2 > p1 * factor ? otherWord : null;
+  }
+
+  List<String> getContext(GoogleToken token, List<GoogleToken> tokens, String newToken, int toLeft, int toRight) {
+    int pos = tokens.indexOf(token);
+    if (pos == -1) {
+      throw new RuntimeException("Token not found: " + token);
     }
-    public Set<String> getSet() {
-      return set;
+    List<String> result = new ArrayList<>();
+    for (int i = 1, added = 0; added < toLeft; i++) {
+      if (pos-i < 0) {
+        // We don't use v2 of the Google data everywhere, so we don't always have the "_START_"
+        // marker. So if we're at the beginning of the sentence, just use the first three tokens
+        // without an artificial start marker:
+        return toStrings(tokens.subList(0, 3));
+      } else {
+        if (!tokens.get(pos-i).isWhitespace()) {
+          result.add(0, tokens.get(pos - i).token);
+          added++;
+        }
+      }
     }
-    @Override
-    public String toString() {
-      return set.toString();
+    result.add(newToken);
+    for (int i = 1, added = 0; added < toRight; i++) {
+      if (pos+i >= tokens.size()) {
+        result.add(".");
+        added++;
+      } else {
+        if (!tokens.get(pos+i).isWhitespace()) {
+          result.add(tokens.get(pos + i).token);
+          added++;
+        }
+      }
+    }
+    return result;
+  }
+
+  private List<String> toStrings(List<GoogleToken> analyzedTokenReadings) {
+    List<String> result = new ArrayList<>();
+    for (GoogleToken reading : analyzedTokenReadings) {
+      result.add(reading.token);
+    }
+    return result;
+  }
+
+  private double getProbabilityFor(GoogleToken token, List<GoogleToken> tokens, String term) {
+    Probability ngram3Left = getPseudoProbability(getContext(token, tokens, term, 0, 2));
+    Probability ngram3Middle = getPseudoProbability(getContext(token, tokens, term, 1, 1));
+    Probability ngram3Right = getPseudoProbability(getContext(token, tokens, term, 2, 0));
+    if (ngram3Left.coverage < MIN_COVERAGE && ngram3Middle.coverage < MIN_COVERAGE && ngram3Right.coverage < MIN_COVERAGE) {
+      debug("  Min coverage of %.2f not reached: %.2f, %.2f, %.2f, assuming p=0\n", MIN_COVERAGE, ngram3Left.coverage, ngram3Middle.coverage, ngram3Right.coverage);
+      return 0.0;
+    } else {
+      //debug("  Min coverage of %.2f okay: %.2f, %.2f\n", MIN_COVERAGE, ngram3Left.coverage, ngram3Right.coverage);
+      return ngram3Left.prob * ngram3Middle.prob * ngram3Right.prob;
     }
   }
+
+  // This is not always guaranteed to be a real probability (0.0 to 1.0)
+  Probability getPseudoProbability(List<String> context) {
+    int maxCoverage = 0;
+    int coverage = 0;
+    long firstWordCount = lm.getCount(context.get(0));
+    maxCoverage++;
+    if (firstWordCount == 0) {
+      debug("    # zero matches for '%s'\n", context.get(0));
+    } else {
+      coverage++;
+    }
+    // chain rule:
+    double p = (double) (firstWordCount + 1) / (totalTokenCount + 1);
+    debug("    P for %s: %.20f\n", context.get(0), p);
+    for (int i = 2; i <= context.size(); i++) {
+      List<String> subList = context.subList(0, i);
+      long phraseCount = lm.getCount(subList);
+      double thisP = (double) (phraseCount + 1) / (firstWordCount + 1);
+      maxCoverage++;
+      debug("    P for " + subList + ": %.20f\n", thisP);
+      if (phraseCount == 0) {
+        debug("    # zero matches for '%s'\n", subList);
+      } else {
+        coverage++;
+      }
+      p *= thisP;
+    }
+    debug("  " + StringTools.listToString(context, " ") + " => %.20f\n", p);
+    return new Probability(p, (float)coverage/maxCoverage);
+  }
+
+  private void debug(String message, Object... vars) {
+    if (DEBUG) {
+      System.out.printf(Locale.ENGLISH, message, vars);
+    }
+  }
+  
+  static class Probability {
+    final double prob;
+    final float coverage;
+    Probability(double prob, float coverage) {
+      this.prob = prob;
+      this.coverage = coverage;
+    }
+  }
+
+  static class GoogleToken {
+    String token;
+    int startPos;
+    int endPos;
+    GoogleToken(String token, int startPos, int endPos) {
+      this.token = token;
+      this.startPos = startPos;
+      this.endPos = endPos;
+    }
+    boolean isWhitespace() {
+      return StringTools.isWhitespace(token);
+    }
+  }
+
 }

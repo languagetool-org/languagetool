@@ -51,6 +51,8 @@ public class FrequencyIndexCreator {
   private static final String NAME_REGEX1 = "googlebooks-eng-all-[1-5]gram-20120701-(.*?).gz";
   private static final String NAME_REGEX2 = "[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+_(.*?).gz";  // Hive result
   private static final int BUFFER_SIZE = 16384;
+  
+  private long totalTokenCount;
 
   private void run(File inputDir, File indexBaseDir) throws IOException {
     List<File> files = Arrays.asList(inputDir.listFiles());
@@ -120,7 +122,7 @@ public class FrequencyIndexCreator {
         }
         if (hiveMode) {
           String docCountStr = parts[1];
-          addDoc(writer, text, docCountStr);
+          addDoc(writer, text, Long.parseLong(docCountStr));
           if (++i % 500_000 == 0) {
             printStats(i, Long.parseLong(docCountStr), lineCount, text, startTime);
           }
@@ -134,7 +136,7 @@ public class FrequencyIndexCreator {
             docCount += Long.parseLong(parts[2]);
           } else {
             //System.out.println(">"+ prevText + ": " + count);
-            addDoc(writer, prevText, docCount + "");
+            addDoc(writer, prevText, docCount);
             if (++i % 5_000 == 0) {
               printStats(i, docCount, lineCount, prevText, startTime);
             }
@@ -145,6 +147,7 @@ public class FrequencyIndexCreator {
       }
       printStats(i, docCount, lineCount, prevText, startTime);
     }
+    addTotalTokenCountDoc(writer, totalTokenCount);
   }
 
   private boolean isRealPosTag(String text) {
@@ -173,12 +176,23 @@ public class FrequencyIndexCreator {
             prevText, format.format(docCount), millisPerDoc);
   }
 
-  private void addDoc(IndexWriter writer, String text, String count) throws IOException {
+  private void addDoc(IndexWriter writer, String text, long count) throws IOException {
     Document doc = new Document();
     doc.add(new Field("ngram", text, StringField.TYPE_NOT_STORED));
     FieldType fieldType = new FieldType();
     fieldType.setStored(true);
-    Field countField = new Field("count", count, fieldType);
+    Field countField = new Field("count", String.valueOf(count), fieldType);
+    doc.add(countField);
+    totalTokenCount += count;
+    writer.addDocument(doc);
+  }
+
+  private void addTotalTokenCountDoc(IndexWriter writer, long totalTokenCount) throws IOException {
+    FieldType fieldType = new FieldType();
+    fieldType.setIndexed(true);
+    fieldType.setStored(true);
+    Field countField = new Field("totalTokenCount", String.valueOf(totalTokenCount), fieldType);
+    Document doc = new Document();
     doc.add(countField);
     writer.addDocument(doc);
   }

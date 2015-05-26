@@ -24,24 +24,44 @@ import org.languagetool.JLanguageTool;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+import java.util.Set;
 
 import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertFalse;
 
 public class ConfusionSetLoaderTest {
   
   @Test
-  public void testWithDefaultLimits() throws IOException {
-    InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/yy/homophones.txt");
-    ConfusionSetLoader loader = new ConfusionSetLoader();
-    Map<String,ConfusionProbabilityRule.ConfusionSet> map = loader.loadConfusionSet(inputStream);
-    assertTrue(map.size() == 2);
+  public void testLoadWithStrictLimits() throws IOException {
+    try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/yy/confusion_sets.txt")) {
+      ConfusionSetLoader loader = new ConfusionSetLoader();
+      Map<String, ConfusionSet> map = loader.loadConfusionSet(inputStream);
+      assertTrue(map.size() == 2);
+
+      assertThat(map.get("there").getFactor(), is(10));
+      assertThat(map.get("their").getFactor(), is(10));
+
+      Set<ConfusionString> there = map.get("there").getSet();
+      assertTrue(getAsString(there).contains("there - example 1"));
+      assertTrue(getAsString(there).contains("their - example 2"));
+
+      Set<ConfusionString> their = map.get("their").getSet();
+      assertTrue(getAsString(their).contains("there - example 1"));
+      assertTrue(getAsString(their).contains("their - example 2"));
+      assertFalse(getAsString(their).contains("comment"));
+    }
   }
 
-  @Test
-  public void testLoadWithStrictLimits() throws IOException {
-    InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/yy/homophones.txt");
-    InputStream infoStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/yy/homophones-info.txt");
-    ConfusionSetLoader loader2 = new ConfusionSetLoader(infoStream, 1002, 10.0f);
-    assertTrue(loader2.loadConfusionSet(inputStream).size() == 0);
+  private String getAsString(Set<ConfusionString> their) {
+    StringBuilder sb = new StringBuilder();
+    for (ConfusionString confusionString : their) {
+      sb.append(confusionString.getString()).append(" - ");
+      sb.append(confusionString.getDescription());
+      sb.append(" ");
+    }
+    return sb.toString();
   }
+
 }

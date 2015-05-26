@@ -21,16 +21,54 @@ package org.languagetool.rules.en;
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ConfusionProbabilityRule;
+import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tokenizers.en.EnglishWordTokenizer;
 
-import java.io.IOException;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * @since 2.7
  */
 public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
 
-  public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) throws IOException {
+  private final EnglishWordTokenizer tokenizer = new EnglishWordTokenizer() {
+    @Override
+    public String getTokenizingCharacters() {
+      return super.getTokenizingCharacters() + "-";
+    }
+    @Override
+    public List<String> tokenize(final String text) {
+      List<String> tokens = super.tokenize(text);
+      String prev = null;
+      final Stack<String> l = new Stack<>();
+      for (String token : tokens) {
+        if ("'".equals(prev)) {
+          // TODO: add more cases if needed:
+          if (token.equals("m")) {
+            l.pop();
+            l.push("'m");
+          } else if (token.equals("re")) {
+            l.pop();
+            l.push("'re");
+          } else if (token.equals("ve")) {
+            l.pop();
+            l.push("'ve");
+          } else if (token.equals("ll")) {
+            l.pop();
+            l.push("'ll");
+          } else {
+            l.push(token);
+          }
+        } else {
+          l.push(token);
+        }
+        prev = token;
+      }
+      return l;
+    }
+  };
+
+  public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     super(messages, languageModel, language);
   }
 
@@ -40,8 +78,12 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
   }
   
   @Override
-  public String getMessage(String suggestion) {
-    return "Statistic suggests that '" + suggestion + "' might be the right word here. Please check.";
+  public String getMessage(String suggestion, String description) {
+    return "Statistic suggests that '" + suggestion + "' (" + description + ") might be the correct word here. Please check.";
   }
   
+  @Override
+  protected WordTokenizer getTokenizer() {
+    return tokenizer;
+  }
 }

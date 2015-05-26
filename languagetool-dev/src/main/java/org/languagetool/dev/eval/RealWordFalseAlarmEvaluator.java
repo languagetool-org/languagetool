@@ -24,10 +24,7 @@ import org.languagetool.language.BritishEnglish;
 import org.languagetool.language.English;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
-import org.languagetool.rules.ConfusionProbabilityRule;
-import org.languagetool.rules.ConfusionSetLoader;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.rules.en.EnglishConfusionProbabilityRule;
 
 import java.io.File;
@@ -52,24 +49,18 @@ class RealWordFalseAlarmEvaluator {
   
   private final JLanguageTool langTool;
   private final ConfusionProbabilityRule confusionRule;
-  private final Map<String,ConfusionProbabilityRule.ConfusionSet> confusionSet;
+  private final Map<String,ConfusionSet> confusionSet;
   private final LanguageModel languageModel;
   
   private int globalSentenceCount;
   private int globalRuleMatches;
 
   RealWordFalseAlarmEvaluator(File languageModelIndexDir) throws IOException {
-    InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/homophones.txt");
-    ConfusionSetLoader confusionSetLoader;
-    if (EVAL_MODE) {
-      InputStream infoStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/homophones-info.txt");
-      confusionSetLoader =  new ConfusionSetLoader(infoStream, MIN_SENTENCES, MAX_ERROR_RATE);
-    } else {
-      confusionSetLoader =  new ConfusionSetLoader();
+    try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/confusion_sets.txt")) {
+      ConfusionSetLoader confusionSetLoader =  new ConfusionSetLoader();
+      confusionSet = confusionSetLoader.loadConfusionSet(inputStream);
     }
-    confusionSet = confusionSetLoader.loadConfusionSet(inputStream);
     langTool = new JLanguageTool(new BritishEnglish());
-    //langTool.activateDefaultPatternRules();
     List<Rule> rules = langTool.getAllActiveRules();
     for (Rule rule : rules) {
       langTool.disableRule(rule.getId());
@@ -109,12 +100,12 @@ class RealWordFalseAlarmEvaluator {
     System.out.println("==============================");
     System.out.println(globalSentenceCount + " sentences checked");
     System.out.println(globalRuleMatches + " errors found");
-    float percentage = ((float)globalRuleMatches/(float)globalSentenceCount*100);
+    float percentage = (float)globalRuleMatches/(float)globalSentenceCount*100;
     System.out.printf("%.2f%% of sentences have a match\n", percentage);
   }
 
   private void checkLines(List<String> lines, String name) throws IOException {
-    ConfusionProbabilityRule.ConfusionSet subConfusionSet = confusionSet.get(name);
+    ConfusionSet subConfusionSet = confusionSet.get(name);
     if (subConfusionSet == null) {
       System.out.println("Skipping '" + name + "', homophone not loaded");
       return;
@@ -145,7 +136,7 @@ class RealWordFalseAlarmEvaluator {
     }
     System.out.println(sentenceCount + " sentences checked");
     System.out.println(ruleMatches + " errors found");
-    float percentage = ((float)ruleMatches/(float)sentenceCount*100);
+    float percentage = (float)ruleMatches/(float)sentenceCount*100;
     System.out.printf("%.2f%% of sentences have a match\n", percentage);
     if (!EVAL_MODE) {
       System.out.printf(Locale.ENGLISH, "DATA;%s;%d;%d;%.2f\n\n", name, sentenceCount, ruleMatches, percentage);

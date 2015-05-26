@@ -9,6 +9,11 @@
 
 #### English
   * added a few new rules
+  * ConfusionProbabilityRule (only enabled with the `--languagemodel` option)
+    has been rewritten and `homophones.txt` has been renamed to `confusion_sets.txt`
+    and now only has few items enabled by default, the rest is commented out
+    to improve quality (less false alarms).
+    Also see http://wiki.languagetool.org/finding-errors-using-big-data
 
 #### German
   * fixed some false alarms
