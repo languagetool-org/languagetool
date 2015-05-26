@@ -110,8 +110,8 @@ abstract class Server {
     System.out.println("                 'maxCheckThreads' - maximum number of threads working in parallel (optional)");
     System.out.println("                 'requestLimit' - maximum number of requests (optional)");
     System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit applies (optional)");
-    System.out.println("                 'languageModel' - a directory with a '3grams' sub directory with a Lucene index that");
-    System.out.println("                  contains ngram occurrence counts; activates the confusion rule if supported (optional)");
+    System.out.println("                 'languageModel' - a directory with '1grams', '2grams', '3grams' sub directories which contain a Lucene index");
+    System.out.println("                  each with ngram occurrence counts; activates the confusion rule if supported (optional)");
     System.out.println("                 'maxWorkQueueSize' - reject request if request queue gets larger than this (optional)");
   }
   
