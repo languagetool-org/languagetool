@@ -33,6 +33,8 @@ import java.util.*;
  */
 public class LuceneLanguageModel implements LanguageModel {
 
+  private static final Map<File,LuceneSearcher> dirToSearcherMap = new HashMap<>();  // static to save memory for language variants
+
   private final List<File> indexes = new ArrayList<>();
   private final Map<Integer,LuceneSearcher> luceneSearcherMap = new HashMap<>();
   private final File topIndexDir;
@@ -58,7 +60,10 @@ public class LuceneLanguageModel implements LanguageModel {
   private void addIndex(File topIndexDir, int ngramSize) throws IOException {
     File indexDir = new File(topIndexDir, ngramSize + "grams");
     if (indexDir.exists() && indexDir.isDirectory()) {
-      luceneSearcherMap.put(ngramSize, new LuceneSearcher(indexDir));
+      if (luceneSearcherMap.containsKey(ngramSize)) {
+        throw new RuntimeException("Searcher for ngram size " + ngramSize + " already exists");
+      }
+      luceneSearcherMap.put(ngramSize, getCachedLuceneSearcher(indexDir));
       indexes.add(indexDir);
     }
   }
@@ -119,6 +124,17 @@ public class LuceneLanguageModel implements LanguageModel {
       throw new RuntimeException("No " + ngramSize + "grams directory found in " + topIndexDir);
     }
     return luceneSearcher;
+  }
+
+  private LuceneSearcher getCachedLuceneSearcher(File indexDir) throws IOException {
+    LuceneSearcher luceneSearcher = dirToSearcherMap.get(indexDir);
+    if (luceneSearcher == null) {
+      LuceneSearcher newSearcher = new LuceneSearcher(indexDir);
+      dirToSearcherMap.put(indexDir, newSearcher);
+      return newSearcher;
+    } else {
+      return luceneSearcher;
+    }
   }
 
   private long getCount(Term term, LuceneSearcher luceneSearcher) {
