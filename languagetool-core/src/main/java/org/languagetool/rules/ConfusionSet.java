@@ -31,12 +31,12 @@ public class ConfusionSet {
   private final Set<ConfusionString> set = new HashSet<>();
   private final int factor;
 
-  ConfusionSet(int factor, List<ConfusionString> confusionStrings) {
+  public ConfusionSet(int factor, List<ConfusionString> confusionStrings) {
     this.factor = factor;
     set.addAll(confusionStrings);
   }
 
-  ConfusionSet(int factor, String... words) {
+  public ConfusionSet(int factor, String... words) {
     this.factor = factor;
     for (String word : words) {
       set.add(new ConfusionString(word, null));

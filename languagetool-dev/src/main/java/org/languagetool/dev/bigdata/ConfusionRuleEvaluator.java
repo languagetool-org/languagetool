@@ -27,7 +27,8 @@ import org.languagetool.dev.eval.FMeasure;
 import org.languagetool.language.English;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
-import org.languagetool.rules.Rule;
+import org.languagetool.rules.ConfusionProbabilityRule;
+import org.languagetool.rules.ConfusionSet;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.en.EnglishConfusionProbabilityRule;
 import org.languagetool.tools.StringTools;
@@ -58,10 +59,12 @@ class ConfusionRuleEvaluator {
 
   private static final String TOKEN = "there";
   private static final String TOKEN_HOMOPHONE = "their";
+  private static final int FACTOR = 100;
+  
   private static final int MAX_SENTENCES = 1000;
 
   private final Language language;
-  private final Rule rule;
+  private final ConfusionProbabilityRule rule;
 
   private int truePositives = 0;
   private int trueNegatives = 0;
@@ -71,6 +74,7 @@ class ConfusionRuleEvaluator {
   private ConfusionRuleEvaluator(Language language, LanguageModel languageModel) {
     this.language = language;
     this.rule = new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel, language);
+    rule.setConfusionSet(new ConfusionSet(FACTOR, TOKEN_HOMOPHONE, TOKEN));
   }
 
   private void run(List<String> inputsOrDir, String token, String homophoneToken, int maxSentences) throws IOException {
