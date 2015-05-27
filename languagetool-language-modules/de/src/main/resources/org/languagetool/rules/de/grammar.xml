@@ -6,7 +6,7 @@
 German grammar and typo rules for LanguageTool.
 See resource/de/tagset.txt for the meaning of the POS tags.
 
-Copyright © 2001–2014 Markus Brenneis, Daniel Naber, Jan Schreiber
+Copyright © 2001–2015 Markus Brenneis, Daniel Naber, Jan Schreiber
 http://www.languagetool.org
 
 This library is free software; you can redistribute it and/or
@@ -24931,16 +24931,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="20-prozentige">Eine <marker>20prozentige</marker> Lösung.</example>
             </rule>
         </rulegroup>
-        <rule id="IN_UND_AUSWENDIG" name="in (in-) und auswendig">
-            <pattern>
-                <token>in</token>
-                <token>und</token>
-                <token>auswendig</token>
-            </pattern>
-            <message>Die feste Wendung <suggestion>in- und auswendig</suggestion> wird mit Bindestrich geschrieben.</message>
-            <url>http://www.korrekturen.de/beliebte_fehler/in_und_auswendig.shtml</url>
-            <example correction="in- und auswendig">Sie kennt die Regeln <marker>in und auswendig</marker>.</example>
-        </rule>
+        <rulegroup id="IN_UND_AUSWENDIG" name="in (in-) und auswendig">
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <token>und</token>
+                    <token>auswendig</token>
+                </pattern>
+                <message>Die feste Wendung <suggestion>in- und auswendig</suggestion> wird mit Bindestrich geschrieben.</message>
+                <url>http://www.korrekturen.de/beliebte_fehler/in_und_auswendig.shtml</url>
+                <short>Fehlender Bindestrich</short>
+                <example correction="in- und auswendig">Sie kennt die Regeln <marker>in und auswendig</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>Groß</token>
+                    </marker>
+                    <token regexp="yes">\/|und</token>
+                    <token>Kleinschreibung</token>
+                </pattern>
+                <message>Die feste Wendung '<suggestion>Groß-</suggestion> \2 Kleinschreibung' wird in der Regel mit Bindestrich geschrieben.</message>
+                <short>Fehlender Bindestrich</short>
+                <example correction="Groß-">Bitte beachten Sie die <marker>Groß</marker>/Kleinschreibung.</example>
+                <example correction="Groß-">Sie kennt die Regeln der <marker>Groß</marker> und Kleinschreibung.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ZEICHENSETZUNG_DIREKTE_REDE" name="Zeichensetzung bei direkter Rede">
             <rule>
                 <pattern>
