@@ -21,6 +21,7 @@ package org.languagetool.rules.en;
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ConfusionProbabilityRule;
+import org.languagetool.rules.Example;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
 
@@ -70,6 +71,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
 
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     super(messages, languageModel, language);
+    addExamplePair(Example.wrong("I didn't <marker>now</marker> where it came from."),
+                   Example.fixed("I didn't <marker>know</marker> where it came from."));
   }
 
   @Override

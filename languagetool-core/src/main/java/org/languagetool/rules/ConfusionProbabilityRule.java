@@ -54,6 +54,8 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     super(messages);
+    setCategory(new Category(messages.getString("category_typo")));
+    setLocQualityIssueType(ITSIssueType.NonConformance);
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     String path = "/" + language.getShortName() + "/confusion_sets.txt";
     try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {
