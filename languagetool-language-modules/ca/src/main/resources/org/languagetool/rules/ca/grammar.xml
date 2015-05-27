@@ -21888,12 +21888,19 @@ $Id$
             <example correction="arrencar a córrer|arrancar a córrer">N'hi ha per a <marker>llançar a córrer</marker>.</example>
         </rule>
         <rule id="INCLOENTHI" name="incloent/incloent-hi">
+            <antipattern>
+                <marker>
+                    <token>incloent</token>
+                    <token spacebefore="no" regexp="yes">-.*</token>
+                    <token spacebefore="no" regexp="yes">['-]hi</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token regexp="yes">[,;(]</token>
                 <marker>
                     <token>incloent</token>
                 </marker>
-                <token><exception regexp="yes">-hi|-ne|-n</exception></token>
+                <token><exception regexp="yes">-hi|-ne</exception></token>
                 <!-- Caldria un tractament especial per a "incloent-ne" -->
             </pattern>
             <message>Probablement cal escriure <suggestion>incloent-hi</suggestion>.</message>
