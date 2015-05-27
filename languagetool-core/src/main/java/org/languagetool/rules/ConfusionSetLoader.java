@@ -51,11 +51,8 @@ public class ConfusionSetLoader {
         List<ConfusionString> confusionStrings = new ArrayList<>();
         for (String part : Arrays.asList(parts).subList(0, parts.length-1)) {
           String[] subParts = part.split("\\|");
-          if (subParts.length != 2) {
-            throw new RuntimeException("Unexpected format, expected 'word|some description': " + part);
-          }
           String word = subParts[0];
-          String description = subParts[1];
+          String description = subParts.length == 2 ? subParts[1] : null;
           if (map.containsKey(part)) {
             throw new RuntimeException("Cannot add " + part + " to confusion set: already exists");
           }

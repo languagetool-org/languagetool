@@ -82,7 +82,11 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
   
   @Override
   public String getMessage(String suggestion, String description) {
-    return "Statistic suggests that '" + suggestion + "' (" + description + ") might be the correct word here. Please check.";
+    if (description != null) {
+      return "Statistic suggests that '" + suggestion + "' (" + description + ") might be the correct word here. Please check.";
+    } else {
+      return "Statistic suggests that '" + suggestion + "' might be the correct word here. Please check.";
+    }
   }
   
   @Override

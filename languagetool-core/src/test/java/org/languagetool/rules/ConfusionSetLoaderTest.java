@@ -38,10 +38,12 @@ public class ConfusionSetLoaderTest {
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/yy/confusion_sets.txt")) {
       ConfusionSetLoader loader = new ConfusionSetLoader();
       Map<String, ConfusionSet> map = loader.loadConfusionSet(inputStream);
-      assertTrue(map.size() == 2);
+      assertTrue(map.size() == 4);
 
       assertThat(map.get("there").getFactor(), is(10));
       assertThat(map.get("their").getFactor(), is(10));
+      assertThat(map.get("foo").getFactor(), is(5));
+      assertThat(map.get("bar").getFactor(), is(5));
 
       Set<ConfusionString> there = map.get("there").getSet();
       assertTrue(getAsString(there).contains("there - example 1"));
@@ -51,6 +53,11 @@ public class ConfusionSetLoaderTest {
       assertTrue(getAsString(their).contains("there - example 1"));
       assertTrue(getAsString(their).contains("their - example 2"));
       assertFalse(getAsString(their).contains("comment"));
+
+      Set<ConfusionString> foo = map.get("foo").getSet();
+      assertTrue(getAsString(foo).contains("foo"));
+      Set<ConfusionString> bar = map.get("foo").getSet();
+      assertTrue(getAsString(bar).contains("bar"));
     }
   }
 
