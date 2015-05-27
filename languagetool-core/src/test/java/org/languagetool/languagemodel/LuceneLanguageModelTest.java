@@ -20,10 +20,27 @@ package org.languagetool.languagemodel;
 
 import org.junit.Ignore;
 import org.junit.Test;
+import org.languagetool.JLanguageTool;
 
 import java.io.File;
+import java.net.URL;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class LuceneLanguageModelTest extends LanguageModelTest {
+
+  @Test
+  public void testLanguageModel() throws Exception {
+    URL ngramUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/yy/ngram-index");
+    try (LanguageModel model = new LuceneLanguageModel(new File(ngramUrl.getFile()))) {
+      assertThat(model.getCount("the"), is(55L));
+      assertThat(model.getCount("the", "nice"), is(3L));
+      assertThat(model.getCount("the", "nice", "building"), is(1L));
+      assertThat(model.getCount("not-in-here"), is(0L));
+      assertThat(model.getTotalTokenCount(), is(3L));
+    }
+  }
 
   /**
    * Some values for average time per lookup on 2grams on a 3.7GB Lucene 4.8.1 index with 118,941,740 docs:
