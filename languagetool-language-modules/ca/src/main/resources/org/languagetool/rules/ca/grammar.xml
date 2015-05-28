@@ -19420,6 +19420,31 @@ $Id$
         </rule>
     </category>
     <category name="E) Majúscules i minúscules" type="typographical">
+        <rulegroup id="GENERALITAT" name="generalitat/Generalitat">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">generalitat</token>
+                    </marker>
+                    <token min="0">de</token>
+                    <token regexp="yes">Catalunya|València|valenciana|catalana</token>
+                </pattern>
+                <message>Com a nom d'una institució, s'escriu en majúscula.</message>
+                <suggestion><match no="1" case_conversion="startupper"/></suggestion>
+                <example correction="Generalitat">A la <marker>generalitat</marker> de Catalunya.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes" skip="3">presidir|governar</token>
+                    <marker>
+                        <token case_sensitive="yes">generalitat</token>
+                    </marker>
+                </pattern>
+                <message>Com a nom d'una institució, s'escriu en majúscula.</message>
+                <suggestion><match no="2" case_conversion="startupper"/></suggestion>
+                <example correction="Generalitat">Qui ha de presidir a <marker>generalitat</marker>?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PENINSULA_IBERICA" name="*península ibèrica/península Ibèrica">
             <rule>
                 <pattern>
