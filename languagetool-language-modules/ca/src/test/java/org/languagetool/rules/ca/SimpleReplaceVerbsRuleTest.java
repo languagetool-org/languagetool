@@ -102,6 +102,26 @@ public class SimpleReplaceVerbsRuleTest extends TestCase {
     assertEquals("afeixugues", matches[0].getSuggestedReplacements().get(5));
     assertEquals("mareges", matches[0].getSuggestedReplacements().get(6));
     assertEquals("afanyes", matches[0].getSuggestedReplacements().get(7));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("agobiem"));
+    assertEquals(1, matches.length);
+    assertEquals("aclaparem", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("atabalem", matches[0].getSuggestedReplacements().get(1));  
+    assertEquals("angoixem", matches[0].getSuggestedReplacements().get(2));
+    assertEquals("estressem", matches[0].getSuggestedReplacements().get(3));
+    assertEquals("(estar) molt a sobre", matches[0].getSuggestedReplacements().get(4));
+    assertEquals("(cansar) molt", matches[0].getSuggestedReplacements().get(5));
+    assertEquals("(ser) molt pesat", matches[0].getSuggestedReplacements().get(6));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("agobiïs"));
+    assertEquals(1, matches.length);
+    assertEquals("aclaparis", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("atabalis", matches[0].getSuggestedReplacements().get(1));  
+    assertEquals("angoixis", matches[0].getSuggestedReplacements().get(2));
+    assertEquals("estressis", matches[0].getSuggestedReplacements().get(3));
+    assertEquals("(estar) molt a sobre", matches[0].getSuggestedReplacements().get(4));
+    assertEquals("(cansar) molt", matches[0].getSuggestedReplacements().get(5));
+    assertEquals("(ser) molt pesat", matches[0].getSuggestedReplacements().get(6));
   }
 
 }

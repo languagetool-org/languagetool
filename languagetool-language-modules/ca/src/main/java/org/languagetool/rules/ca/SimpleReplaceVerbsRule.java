@@ -81,8 +81,8 @@ public class SimpleReplaceVerbsRule extends Rule {
         .getFromRulesDirAsStream(getFileName()));
     tagger = new CatalanTagger();
     synth = new CatalanSynthesizer();
-    desinencies_1conj[0]=Pattern.compile("(.+?)(a|à|ada|ades|am|ant|ar|ara|arà|aran|aràs|aré|arem|àrem|aren|ares|areu|àreu|aria|aríem|arien|aries|aríeu|às|àssem|assen|asses|àsseu|àssim|assin|assis|àssiu|at|ats|au|ava|àvem|aven|aves|àveu|e|em|en|es|és|éssem|essen|esses|ésseu|éssim|essin|essis|éssiu|eu|i|í|in|is|o)");
-    desinencies_1conj[1]=Pattern.compile("(.+)(a|à|ada|ades|am|ant|ar|ara|arà|aran|aràs|aré|arem|àrem|aren|ares|areu|àreu|aria|aríem|arien|aries|aríeu|às|àssem|assen|asses|àsseu|àssim|assin|assis|àssiu|at|ats|au|ava|àvem|aven|aves|àveu|e|em|en|es|és|éssem|essen|esses|ésseu|éssim|essin|essis|éssiu|eu|i|í|in|is|o)");
+    desinencies_1conj[0]=Pattern.compile("(.+?)(a|à|ada|ades|am|ant|ar|ara|arà|aran|aràs|aré|arem|àrem|aren|ares|areu|àreu|aria|aríem|arien|aries|aríeu|às|àssem|assen|asses|àsseu|àssim|assin|assis|àssiu|at|ats|au|ava|àvem|aven|aves|àveu|e|em|en|es|és|éssem|essen|esses|ésseu|éssim|essin|essis|éssiu|eu|i|í|in|is|o|ïs)");
+    desinencies_1conj[1]=Pattern.compile("(.+)(a|à|ada|ades|am|ant|ar|ara|arà|aran|aràs|aré|arem|àrem|aren|ares|areu|àreu|aria|aríem|arien|aries|aríeu|às|àssem|assen|asses|àsseu|àssim|assin|assis|àssiu|at|ats|au|ava|àvem|aven|aves|àveu|e|em|en|es|és|éssem|essen|esses|ésseu|éssim|essin|essis|éssiu|eu|i|í|in|is|o|ïs)");
     
   }  
 
@@ -141,6 +141,9 @@ public class SimpleReplaceVerbsRule extends Rule {
               lexeme = lexeme.substring(0, lexeme.length() - 2).concat("g");
             }
           }
+          if (desinence.startsWith("ï")) {
+            desinence = "i" + desinence.substring(1, desinence.length());
+          }
           infinitive = lexeme.concat("ar");
           if (wrongWords.containsKey(infinitive)) {
             List<String> wordAsArray = Arrays.asList("cant".concat(desinence));
@@ -160,16 +163,24 @@ public class SimpleReplaceVerbsRule extends Rule {
         String[] synthesized = null;
         List<String> replacementInfinitives = wrongWords.get(infinitive);
         for (String replacementInfinitive : replacementInfinitives) {
-          String[] parts = replacementInfinitive.split(" "); // the first part is the verb
-          AnalyzedToken infinitiveAsAnTkn=new AnalyzedToken (parts[0], "V.*", parts[0]);
-          for (AnalyzedToken analyzedToken : analyzedTokenReadings) {
-            synthesized = synth.synthesize(infinitiveAsAnTkn, analyzedToken.getPOSTag());
-            for (String s : synthesized) {
-              for (int j=1; j<parts.length;j++) {
-                s=s.concat(" ").concat(parts[j]);
-              }
-              if (!possibleReplacements.contains(s)) {
-                possibleReplacements.add(s);
+          if (replacementInfinitive.startsWith("(")) {
+            possibleReplacements.add(replacementInfinitive);
+          } else {
+            String[] parts = replacementInfinitive.split(" "); // the first part
+                                                               // is the verb
+            AnalyzedToken infinitiveAsAnTkn = new AnalyzedToken(parts[0],
+                "V.*", parts[0]);
+            for (AnalyzedToken analyzedToken : analyzedTokenReadings) {
+
+              synthesized = synth.synthesize(infinitiveAsAnTkn,
+                  analyzedToken.getPOSTag());
+              for (String s : synthesized) {
+                for (int j = 1; j < parts.length; j++) {
+                  s = s.concat(" ").concat(parts[j]);
+                }
+                if (!possibleReplacements.contains(s)) {
+                  possibleReplacements.add(s);
+                }
               }
             }
           }
