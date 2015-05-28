@@ -76,6 +76,20 @@ USA
             <message>Did you mean <suggestion>lots</suggestion>?</message>
             <example correction="lots">There was <marker>lot's</marker> of stuff.</example>
         </rule>
+        <rule id="GOOD_NEWS" name="the good new (news) is ...">
+            <pattern>
+                <token>the</token>
+                <token regexp="yes">good|bad</token>
+                <marker>
+                    <token>new</token>
+                </marker>
+                <token>is</token>
+                <token>that</token>
+            </pattern>
+            <message>Did you mean <suggestion>news</suggestion>?</message>
+            <example correction="news">The bad <marker>new</marker> is that it doesn't work.</example>
+            <example>The bad <marker>news</marker> is that it doesn't work.</example>
+        </rule>
         <rule id="YEAR_20001" name="May 20001 (May 2001)">
             <pattern>
                 <token regexp="yes">&months;|year</token>
