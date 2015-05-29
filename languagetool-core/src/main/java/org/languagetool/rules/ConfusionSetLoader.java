@@ -46,7 +46,7 @@ public class ConfusionSetLoader {
         }
         String[] parts = line.replaceFirst("\\s*#.*", "").split(";\\s*");
         if (parts.length != 3) {
-          throw new RuntimeException("Unexpected format: " + line);
+          throw new RuntimeException("Unexpected format: '" + line + "' - expected three semicolon-separated values: word1; word2; factor");
         }
         List<ConfusionString> confusionStrings = new ArrayList<>();
         for (String part : Arrays.asList(parts).subList(0, parts.length-1)) {
