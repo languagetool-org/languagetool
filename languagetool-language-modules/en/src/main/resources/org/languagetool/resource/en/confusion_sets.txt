@@ -12,7 +12,8 @@
 #            Use a higher value for better precision but lower recall.
 #   Precision and recall values in the comments come from ConfusionRuleEvaluator
 #     and are based on Wikipedia and Tatoeba data, usually with 1000 random sentences
-#     (if that many sentence are available for that pair).
+#     (if that many sentence are available for that pair). Starting from 2015-05-30,
+#     the precision/recall values are from a Wikipedia/Tatoeba/Enron mix.
 
 accept|to agree, to endure; except|with the exception of; 10000                  # precision=0.998, recall=0.787 (2015-05-25)
 ate|past of 'to eat'; eight|the number '8'; 10                                   # precision=0.998, recall=0.882 (2015-05-25)
@@ -35,8 +36,15 @@ rite|established ceremony or practice; right|opposite of 'left'; 10000000       
 their|as in 'It’s not their fault.'; there|as in 'Is there an answer?'; 100      # precision=0.998, recall=0.970 (2015-05-25) false alarms: there being
 then|next in order; than|used in comparisons; 10000                              # precision=0.997, recall=0.766 (2015-05-27)
 to; the; 1000000                                                                 # precision=0.999, recall=0.644 (2015-05-29)
-whether|as in 'whether or not'; weather|atmospheric conditions; 10000            # precision=0.997, recall=0.914 (2015-05-29)
+whether|as in 'whether or not'; weather|atmospheric conditions; 10000            # precision=0.997, recall=0.914 (2015-05-29) false alarm: weather conditions
 you|personal pronoun; your|possessive pronoun; 1000                              # precision=0.999, recall=0.947 (2015-05-25)
+
+# results on a better evaluation corpus with wikipedia, tatoeba, enron (33% each):
+# accept/except precision=0.997, recall=0.784 (2015-05-29)
+# first/fist precision=0.992, recall=0.771 (2015-05-29)
+# our/out precision=0.998, recall=0.863 (2015-05-29)
+# their/there precision=0.992, recall=0.945 (2015-05-29)
+# whether/weather precision=0.991, recall=0.806 (2015-05-29)
 
 #to; too; 10000000                                                               # precision=0.994, recall=0.404 (2015-05-29) note the low recall
 #allowed|with permission; aloud|using the voice, not silently; 10000             # precision=0.995, recall=0.534 (2015-05-22)
