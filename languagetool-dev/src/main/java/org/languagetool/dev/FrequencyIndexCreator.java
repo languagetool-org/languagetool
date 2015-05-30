@@ -49,7 +49,7 @@ public class FrequencyIndexCreator {
 
   private static final int MIN_YEAR = 1910;
   private static final String NAME_REGEX1 = "googlebooks-eng-all-[1-5]gram-20120701-(.*?).gz";
-  private static final String NAME_REGEX2 = "[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+_(.*?).gz";  // Hive result
+  private static final String NAME_REGEX2 = "[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+[_-](.*?).gz";  // Hive result
   private static final int BUFFER_SIZE = 16384;
   
   private long totalTokenCount;
