@@ -52,8 +52,9 @@ public class LuceneLanguageModel implements LanguageModel {
     addIndex(topIndexDir, 1);
     addIndex(topIndexDir, 2);
     addIndex(topIndexDir, 3);
+    addIndex(topIndexDir, 4);
     if (luceneSearcherMap.size() == 0) {
-      throw new RuntimeException("No directories '1grams', '2grams', and/or '3grams' found in " + topIndexDir);
+      throw new RuntimeException("No directories '1grams' ... '3grams' found in " + topIndexDir);
     }
   }
 

@@ -47,12 +47,17 @@ public abstract class ConfusionProbabilityRule extends Rule {
   private final Map<String,ConfusionSet> wordToSet;
   private final LanguageModel lm;
   private final long totalTokenCount;
+  private final int grams;
 
   public abstract String getMessage(String suggestion, String description);
 
   protected abstract WordTokenizer getTokenizer();
 
   public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
+    this(messages, languageModel, language, 3);
+  }
+  
+  public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams) {
     super(messages);
     setCategory(new Category(messages.getString("category_typo")));
     setLocQualityIssueType(ITSIssueType.NonConformance);
@@ -65,6 +70,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
       throw new RuntimeException(e);
     }
     this.lm = Objects.requireNonNull(languageModel);
+    this.grams = grams;
     totalTokenCount = languageModel.getTotalTokenCount();
   }
 
@@ -153,8 +159,17 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   private ConfusionString getBetterAlternativeOrNull(GoogleToken token, List<GoogleToken> tokens, ConfusionString otherWord, int factor) {
     String word = token.token;
-    double p1 = getProbabilityFor(token, tokens, word);
-    double p2 = getProbabilityFor(token, tokens, otherWord.getString());
+    double p1;
+    double p2;
+    if (grams == 3) {
+      p1 = get3gramProbabilityFor(token, tokens, word);
+      p2 = get3gramProbabilityFor(token, tokens, otherWord.getString());
+    } else if (grams == 4) {
+      p1 = get4gramProbabilityFor(token, tokens, word);
+      p2 = get4gramProbabilityFor(token, tokens, otherWord.getString());
+    } else {
+      throw new RuntimeException("Only 3grams and 4grams are supported");
+    }
     debug("P(" + word + ") = %.50f\n", p1);
     debug("P(" + otherWord + ") = %.50f\n", p2);
     return p2 > p1 * factor ? otherWord : null;
@@ -199,7 +214,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     return result;
   }
 
-  private double getProbabilityFor(GoogleToken token, List<GoogleToken> tokens, String term) {
+  private double get3gramProbabilityFor(GoogleToken token, List<GoogleToken> tokens, String term) {
     Probability ngram3Left = getPseudoProbability(getContext(token, tokens, term, 0, 2));
     Probability ngram3Middle = getPseudoProbability(getContext(token, tokens, term, 1, 1));
     Probability ngram3Right = getPseudoProbability(getContext(token, tokens, term, 2, 0));
@@ -209,6 +224,19 @@ public abstract class ConfusionProbabilityRule extends Rule {
     } else {
       //debug("  Min coverage of %.2f okay: %.2f, %.2f\n", MIN_COVERAGE, ngram3Left.coverage, ngram3Right.coverage);
       return ngram3Left.prob * ngram3Middle.prob * ngram3Right.prob;
+    }
+  }
+
+  private double get4gramProbabilityFor(GoogleToken token, List<GoogleToken> tokens, String term) {
+    Probability ngram4Left = getPseudoProbability(getContext(token, tokens, term, 0, 3));
+    Probability ngram4Middle = getPseudoProbability(getContext(token, tokens, term, 1, 2));
+    Probability ngram4Right = getPseudoProbability(getContext(token, tokens, term, 3, 0));
+    if (ngram4Left.coverage < MIN_COVERAGE && ngram4Middle.coverage < MIN_COVERAGE && ngram4Right.coverage < MIN_COVERAGE) {
+      debug("  Min coverage of %.2f not reached: %.2f, %.2f, %.2f, assuming p=0\n", MIN_COVERAGE, ngram4Left.coverage, ngram4Middle.coverage, ngram4Right.coverage);
+      return 0.0;
+    } else {
+      //debug("  Min coverage of %.2f okay: %.2f, %.2f\n", MIN_COVERAGE, ngram3Left.coverage, ngram3Right.coverage);
+      return ngram4Left.prob * ngram4Middle.prob * ngram4Right.prob;
     }
   }
 

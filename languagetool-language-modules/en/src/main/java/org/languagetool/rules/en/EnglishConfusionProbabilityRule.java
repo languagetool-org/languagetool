@@ -70,7 +70,11 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
   };
 
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
-    super(messages, languageModel, language);
+    this(messages, languageModel, language, 3);
+  }
+
+  public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams) {
+    super(messages, languageModel, language, grams);
     addExamplePair(Example.wrong("I didn't <marker>now</marker> where it came from."),
                    Example.fixed("I didn't <marker>know</marker> where it came from."));
   }

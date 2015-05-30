@@ -65,16 +65,18 @@ class ConfusionRuleEvaluator {
 
   private final Language language;
   private final ConfusionProbabilityRule rule;
+  private final int grams;
 
   private int truePositives = 0;
   private int trueNegatives = 0;
   private int falsePositives = 0;
   private int falseNegatives = 0;
 
-  private ConfusionRuleEvaluator(Language language, LanguageModel languageModel) {
+  private ConfusionRuleEvaluator(Language language, LanguageModel languageModel, int grams) {
     this.language = language;
-    this.rule = new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel, language);
+    this.rule = new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel, language, grams);
     rule.setConfusionSet(new ConfusionSet(FACTOR, TOKEN_HOMOPHONE, TOKEN));
+    this.grams = grams;
   }
 
   private void run(List<String> inputsOrDir, String token, String homophoneToken, int maxSentences) throws IOException {
@@ -129,8 +131,8 @@ class ConfusionRuleEvaluator {
     System.out.printf(ENGLISH, "  F-measure: %.3f (beta=0.5)\n", fMeasure);
     System.out.printf(ENGLISH, "  Matches:   %d (true positives)\n", truePositives);
     System.out.printf(ENGLISH, "  Inputs:    %s\n", inputsOrDir);
-    System.out.printf(ENGLISH, "  Summary:   precision=%.3f, recall=%.3f (%s)\n",
-            precision, recall, new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+    System.out.printf(ENGLISH, "  Summary:   precision=%.3f, recall=%.3f (%s) using %dgrams\n",
+            precision, recall, new SimpleDateFormat("yyyy-MM-dd").format(new Date()), grams);
   }
 
   private List<Sentence> getRelevantSentences(List<String> inputs, String token, int maxSentences) throws IOException {
@@ -188,8 +190,10 @@ class ConfusionRuleEvaluator {
     if (args.length >= 4) {
       inputsFiles.add(args[3]);
     }
-    ConfusionRuleEvaluator generator = new ConfusionRuleEvaluator(lang, languageModel);
+    ConfusionRuleEvaluator generator = new ConfusionRuleEvaluator(lang, languageModel, 3);
     generator.run(inputsFiles, TOKEN, TOKEN_HOMOPHONE, MAX_SENTENCES);
+    //ConfusionRuleEvaluator generator2 = new ConfusionRuleEvaluator(lang, languageModel, 4);
+    //generator2.run(inputsFiles, TOKEN, TOKEN_HOMOPHONE, MAX_SENTENCES);
   }
   
 }
