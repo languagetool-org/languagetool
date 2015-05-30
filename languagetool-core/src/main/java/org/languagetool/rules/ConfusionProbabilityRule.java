@@ -199,14 +199,6 @@ public abstract class ConfusionProbabilityRule extends Rule {
     return result;
   }
 
-  private List<String> toStrings(List<GoogleToken> analyzedTokenReadings) {
-    List<String> result = new ArrayList<>();
-    for (GoogleToken reading : analyzedTokenReadings) {
-      result.add(reading.token);
-    }
-    return result;
-  }
-
   private double getProbabilityFor(GoogleToken token, List<GoogleToken> tokens, String term) {
     Probability ngram3Left = getPseudoProbability(getContext(token, tokens, term, 0, 2));
     Probability ngram3Middle = getPseudoProbability(getContext(token, tokens, term, 1, 1));
