@@ -19,7 +19,7 @@
   * fixed some false alarms
   * updated to jwordsplitter 4.1 for better compound splitting
   * the spell checker offers correct suggestions now for
-    incorrect past tense forms like "gehte" -> ging (useful
+    incorrect past tense forms like "gehte" -> "ging" (useful
     mostly for non-native speakers)
 
 #### Polish
@@ -41,9 +41,6 @@
   
 #### GUI (stand-alone version)
   * fixed auto-detection of text language, which didn't work after editing text
-
-#### LO/AOO Integration
-  *  fix `osl::Thread::Create failed` error message, see https://bugs.documentfoundation.org/show_bug.cgi?id=90740
 
 #### Embedded server
   * performance improvements for checking small texts
@@ -85,6 +82,11 @@
   * updated to language-detector 0.5
 
 
+## 2.9.1 (2015-05-14)
+
+#### LO/AOO Integration
+  *  fix `osl::Thread::Create failed` error message, see https://bugs.documentfoundation.org/show_bug.cgi?id=90740
+
 ## Older versions
 
-See [CHANGES.txt](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.txt) for changes before 3.0.
+See [CHANGES.txt](https://github.com/languagetool-org/languagetool/blob/master/languagetool-standalone/CHANGES.txt) for changes before 2.9.1.
