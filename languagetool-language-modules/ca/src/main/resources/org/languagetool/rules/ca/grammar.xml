@@ -26977,6 +26977,17 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="CANCERIGEN_CANCEROS" name="cancerigen / cancerós">
+            <pattern>
+                <token regexp="yes" inflected="yes">cèl·lula|tumor</token>
+                <marker>
+                    <token inflected="yes">cancerigen</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="2" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">cancerós</match></suggestion>?</message>
+            <url>http://esadir.cat/entrades/fitxa/node/cancerigen</url>
+            <example correction="canceroses">En cèl·lules <marker>cancerígenes</marker>.</example>
+        </rule>
         <rule id="NASSAL" name="nassal/nasal">
             <pattern>
                 <marker>
