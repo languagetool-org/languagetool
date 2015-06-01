@@ -70,6 +70,9 @@ public abstract class ConfusionProbabilityRule extends Rule {
       throw new RuntimeException(e);
     }
     this.lm = Objects.requireNonNull(languageModel);
+    if (grams < 1 || grams > 5) {
+      throw new IllegalArgumentException("grams must be between 1 and 5: " + grams);
+    }
     this.grams = grams;
     totalTokenCount = languageModel.getTotalTokenCount();
   }
