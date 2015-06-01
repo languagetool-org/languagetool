@@ -13283,15 +13283,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Grabe">Er wird sich im <marker>grabe</marker> umdrehen.</example>
             </rule>
         </rulegroup>
-        <rule id="ZU_UNRECHT" name="Groß-/Kleinschreibung: 'zu unrecht (Unrecht)'">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">[Zz]u</token>
-                <token>unrecht</token>
-            </pattern>
-            <message>&inwend;<suggestion>zu Unrecht</suggestion> (im Sinne von <suggestion>unberechtigt</suggestion>) wird 'Unrecht' großgeschrieben.</message>
+        <rulegroup id="ZU_UNRECHT" name="Groß-/Kleinschreibung: 'zu unrecht (Unrecht)' u.ä.">
             <short>&prgk;.</short>
-            <example correction="zu Unrecht|unberechtigt">Da regt er sich ganz <marker>zu unrecht</marker> auf.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">zu</token>
+                    <token case_sensitive="yes">unrecht</token>
+                </pattern>
+                <message>&inwend;<suggestion>zu Unrecht</suggestion> (im Sinne von <suggestion>unberechtigt</suggestion>) wird 'Unrecht' großgeschrieben.</message>
+                <example correction="zu Unrecht|unberechtigt">Da regt er sich ganz <marker>zu unrecht</marker> auf.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">haben</token>
+                    <marker>
+                        <token case_sensitive="yes">unrecht</token>
+                    </marker>
+                </pattern>
+                <message><suggestion>Unrecht</suggestion> scheint wird als Nomen benutzt zu werden und wird dann großgeschrieben.</message>
+                <example correction="Unrecht">Aber er hat <marker>unrecht</marker> in dieser Sache.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">unrecht</token>
+                    </marker>
+                    <token inflected="yes">haben</token>
+                </pattern>
+                <message><suggestion>Unrecht</suggestion> scheint wird als Nomen benutzt zu werden und wird dann großgeschrieben.</message>
+                <example correction="Unrecht">Wenn er <marker>unrecht</marker> hat, mag er das nie zugeben.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="FETT_SUBST" name="Groß-/Kleinschreibung: 'in heißem fett (Fett)' etc.">
             <rule>
                 <pattern case_sensitive="yes">
