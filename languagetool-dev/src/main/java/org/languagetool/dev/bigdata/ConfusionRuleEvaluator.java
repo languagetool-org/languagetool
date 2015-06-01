@@ -99,11 +99,11 @@ class ConfusionRuleEvaluator {
       String textToken = isCorrect ? token : homophoneToken;
       String plainText = sentence.getText();
       String replacement = plainText.indexOf(textToken) == 0 ? StringTools.uppercaseFirstChar(token) : token;
-      String replacedTokenSentence = isCorrect ? plainText : plainText.replaceFirst("(?i)" + textToken, replacement);
+      String replacedTokenSentence = isCorrect ? plainText : plainText.replaceFirst("(?i)\\b" + textToken + "\\b", replacement);
       AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(replacedTokenSentence);
       RuleMatch[] matches = rule.match(analyzedSentence);
       boolean consideredCorrect = matches.length == 0;
-      String displayStr = plainText.replaceFirst("(?i)" + textToken, "**" + replacement + "**");
+      String displayStr = plainText.replaceFirst("(?i)\\b" + textToken + "\\b", "**" + replacement + "**");
       if (consideredCorrect && isCorrect) {
         trueNegatives++;
       } else if (!consideredCorrect && isCorrect) {
