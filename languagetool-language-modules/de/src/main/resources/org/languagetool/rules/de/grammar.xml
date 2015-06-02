@@ -6383,6 +6383,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>Addis Abeba</suggestion>
             <example correction="Addis Abeba"><marker>Addis-Abeba</marker> ist die Hauptstadt von Äthiopien.</example>
         </rule>
+        <rule id="VON_NOETEN" name="von Nöten (vonnöten)">
+        <!-- TODO: Needs testing and exceptions: "Er sprach von Nöten und Ängsten" -->
+            <antipattern>
+                <token>von</token>
+                <token>Nöten</token>
+                <token>und</token>
+                <token case_sensitive="yes" regexp="yes">Ängsten|Gaben|Reichtümern|Tugenden</token>
+            </antipattern>
+            <pattern>
+                <token>von</token>
+                <token>Nöten</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>vonnöten</suggestion> (im Sinne von <suggestion>notwendig</suggestion>)?</message>
+            <url>http://www.korrekturen.de/beliebte_fehler/von_noeten.shtml</url>
+            <short>&getrennt;</short>
+            <example correction="vonnöten|notwendig">Hier ist schnelle Hilfe <marker>von Nöten</marker>.</example>
+        </rule>
         <rule id="WOHL_GEMERKT" name="wohl gemerkt vs. wohlgemerkt">
             <pattern case_sensitive='yes'>
                 <marker>
@@ -6392,6 +6409,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><exception>,</exception><exception inflected='yes'>haben</exception></token>
             </pattern>
             <message>Meinten Sie <suggestion>wohlgemerkt</suggestion> (notabene, übrigens)?</message>
+            <short>&getrennt;</short>
             <example correction="wohlgemerkt">Ich spreche hier <marker>wohl gemerkt</marker> von Dir!</example>
             <example>Ich spreche hier wohlgemerkt von Dir!</example>
             <example>Ich habe sehr wohl gemerkt, dass Du hier bist.</example>
@@ -6404,6 +6422,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp='yes'>allererst|allerletzt|alleroberst|allerunterst|allermeist</token>
             </pattern>
             <message>Das Adverb <suggestion><match no="1"/><match no="2"/></suggestion> wird zusammengeschrieben.</message>
+            <short>&getrennt;</short>
             <example correction="Zuallererst"><marker>Zu allererst</marker> mal in Ruhe nachdenken.</example>
             <example>Zuallererst mal in Ruhe nachdenken.</example>
         </rule>
@@ -13287,7 +13306,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&prgk;.</short>
             <rule>
                 <pattern>
-                    <token regexp="yes">zu</token>
+                    <token>zu</token>
                     <token case_sensitive="yes">unrecht</token>
                 </pattern>
                 <message>&inwend;<suggestion>zu Unrecht</suggestion> (im Sinne von <suggestion>unberechtigt</suggestion>) wird 'Unrecht' großgeschrieben.</message>
