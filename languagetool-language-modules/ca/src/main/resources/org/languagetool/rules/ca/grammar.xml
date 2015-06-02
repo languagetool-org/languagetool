@@ -34405,6 +34405,16 @@ $Id$
     </category>
     <category name="C6) Evita paraules incloses només en alguns diccionaris" default="on" type="style">
         <!--  verbs valencians: caquejar -->
+        <rule id="FREGONA" name="fregona">
+            <pattern>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">fregona</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="N..(.).*" postag_regexp="yes" postag_replace="NCM$1000">pal</match> de fregar</suggestion>
+            <suggestion><match no="1" postag="N..(.).*" postag_regexp="yes" postag_replace="NCF$1000">baieta</match></suggestion>
+            <suggestion><match no="1" postag="N..(.).*" postag_regexp="yes" postag_replace="NCF$1000">minyona</match></suggestion>
+            <example correction="pals de fregar|baietes|minyones">Les <marker>fregones</marker>.</example>
+        </rule>
         <rule id="MEDRAR" name="medrar">
             <pattern>
                 <token postag="(V.+)" postag_regexp="yes" inflected="yes">medrar</token>
