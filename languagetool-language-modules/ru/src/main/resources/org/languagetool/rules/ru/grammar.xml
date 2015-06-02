@@ -1127,7 +1127,7 @@ $Id$
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—|так|и|но<exception postag="SENT_START"></exception></token>
                     <token>как</token>
                     <token regexp="yes">обычно|всегда|правило|исключение|нарочно|сейчас</token>
-                    <token negate="yes">,</token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|…</token>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\1, \2 \3, \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -1157,7 +1157,7 @@ $Id$
                         <token>как</token>
                         <token regexp="yes">обычно|всегда|правило|исключение|нарочно|сейчас</token>
                     </marker>
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—</token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|…</token>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2 \3,</suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -1466,8 +1466,8 @@ $Id$
             
             <rule>
                 <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, однако ...-->
-                <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|наиболее|наименее|более|менее|а|и|но|что<exception postag="SENT_START"></exception></token>
+                <pattern case_sensitive="no">
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|наиболее|наименее|более|менее|очень|а|и|но|что<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">конечно|несомненно|вероятно|кажется|однако</token>              
                     <and>
                         <token negate="yes">,</token>
@@ -1486,8 +1486,8 @@ $Id$
             </rule>
             <rule>
                 <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, однако ...-->
-                <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|наиболее|наименее|более|менее|а|и|но|что<exception postag="SENT_START"></exception></token>
+                <pattern case_sensitive="no">
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|наиболее|наименее|более|менее|очень|а|и|но|что<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">конечно|несомненно|вероятно|кажется|однако</token>
                     <token>,</token>
                 </pattern>
