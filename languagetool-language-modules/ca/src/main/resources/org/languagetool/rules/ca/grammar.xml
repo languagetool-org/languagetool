@@ -26934,6 +26934,24 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="PLATILLO" name="platillo">
+            <pattern>
+                <token inflected="yes">platillo</token>
+            </pattern>
+            <message>Castellanisme. Només admissible com a nom de plat de cuina empordanesa.</message>
+            <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">plat</match></suggestion>
+            <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">platet</match></suggestion>
+            <example correction="plats|platets"><marker>platillos</marker>.</example>
+        </rule>
+        <rule id="PUTXERO" name="putxero">
+            <pattern>
+                <token inflected="yes">putxero</token>
+            </pattern>
+            <message>Castellanisme. Només admissible com a nom de plat de cuina valenciana.</message>
+            <suggestion><match no="1" postag="N..(.).*" postag_regexp="yes" postag_replace="NCF$1000">olla</match></suggestion>
+            <suggestion>carn d'olla</suggestion>
+            <example correction="olles|carn d'olla"><marker>putxeros</marker>.</example>
+        </rule>
         <rule id="BALADI" name="baladí">
             <pattern>
                 <token inflected="yes">baladí</token>
@@ -33087,7 +33105,7 @@ $Id$
         <rulegroup id="COLOR" name="amor, color, sabor... (normalment en masculí)">
             <antipattern>
                 <marker>
-                    <token>pel·lícula</token>
+                    <token regexp="yes" inflected="yes">pel·lícula|història</token>
                     <token>de</token>
                     <token>terror</token>
                 </marker>
