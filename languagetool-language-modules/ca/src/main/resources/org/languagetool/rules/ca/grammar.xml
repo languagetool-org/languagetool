@@ -25604,50 +25604,6 @@ $Id$
             <example correction="De primer antuvi|D’antuvi|De bell antuvi|Al primer antuvi|Ja d’entrada"><marker>Per de prompte</marker>, ja m’havia semblat una persona de confiança</example>
             <example>De primer antuvi, ja m’havia semblat una persona de confiança</example>
         </rule>
-        <rulegroup id="PER_LA_NIT" name="*per/a la nit/tarda...">
-            <rule>
-                <pattern>
-                    <token>pe</token>
-                    <token spacebefore="no">l</token>
-                    <token regexp="yes">matí|vespre</token>
-                </pattern>
-                <message>Cal dir <suggestion>al <match no="3"/></suggestion>.</message>
-                <short>Expressió incorrecta</short>
-                <example correction="al matí"><marker>pel matí</marker> em llevo d'hora</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>pe</token>
-                    <token spacebefore="no">ls</token>
-                    <token regexp="yes">matins|vespres</token>
-                </pattern>
-                <message>Cal dir <suggestion>als <match no="3"/></suggestion>.</message>
-                <short>Expressió incorrecta</short>
-                <example correction="als matins"><marker>pels matins</marker> em llevo d'hora</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>per</token>
-                    <token>la</token>
-                    <token regexp="yes">nit|tarda|vesprada<exception regexp="yes">(?-i)Nit</exception></token>
-                </pattern>
-                <message>Cal dir <suggestion>a la <match no="3"></match></suggestion>.</message>
-                <short>Expressió incorrecta</short>
-                <example correction="a la nit"><marker>per la nit</marker> tinc son</example>
-                <example>A la nit tinc son</example>
-                <example>Engendrades per la Nit.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>per</token>
-                    <token>les</token>
-                    <token regexp="yes">nits|tardes|vesprades</token>
-                </pattern>
-                <message>Cal dir <suggestion>a les <match no="3"></match></suggestion>.</message>
-                <short>Expressió incorrecta</short>
-                <example correction="a les nits"><marker>per les nits</marker> tinc son</example>
-            </rule>
-        </rulegroup>
         <rule id="A_LES_MIL_MERAVELLES" name="*a les mil meravelles">
             <pattern>
                 <token>a</token>
@@ -31747,6 +31703,51 @@ $Id$
             <example correction="No hi ha temps|No (tenir) temps"><marker>No dóna temps</marker>.</example>
             <example correction="No hi ha temps|No (tenir) temps"><marker>No em dóna temps</marker> de fer-ho.</example>
             </rule> -->
+        <rulegroup id="PER_LA_NIT" name="per la nit/a la nit">
+            <url>http://esadir.cat/entrades/fitxa/node/pel_mati</url>
+            <rule>
+                <pattern>
+                    <token>pe</token>
+                    <token spacebefore="no">l</token>
+                    <token regexp="yes">matí|vespre</token>
+                </pattern>
+                <message>La majoria de llibres d'estil recomanen usar la preposició 'a'.</message>
+                <suggestion>al <match no="3"/></suggestion>
+                <example correction="al matí"><marker>pel matí</marker> em llevo d'hora</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>pe</token>
+                    <token spacebefore="no">ls</token>
+                    <token regexp="yes">matins|vespres</token>
+                </pattern>
+                <message>La majoria de llibres d'estil recomanen usar la preposició 'a'.</message>
+                <suggestion>als <match no="3"/></suggestion>
+                <example correction="als matins"><marker>pels matins</marker> em llevo d'hora</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>per</token>
+                    <token>la</token>
+                    <token regexp="yes">nit|tarda|vesprada<exception regexp="yes">(?-i)Nit</exception></token>
+                </pattern>
+                <message>La majoria de llibres d'estil recomanen usar la preposició 'a'.</message>
+                <suggestion>a la <match no="3"></match></suggestion>
+                <example correction="a la nit"><marker>per la nit</marker> tinc son</example>
+                <example>A la nit tinc son</example>
+                <example>Engendrades per la Nit.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>per</token>
+                    <token>les</token>
+                    <token regexp="yes">nits|tardes|vesprades</token>
+                </pattern>
+                <message>La majoria de llibres d'estil recomanen usar la preposició 'a'.</message>
+                <suggestion>a les <match no="3"></match></suggestion>
+                <example correction="a les nits"><marker>per les nits</marker> tinc son</example>
+            </rule>
+        </rulegroup>
         <rule id="MIMAR" name="mimar">
             <pattern>
                 <marker>
