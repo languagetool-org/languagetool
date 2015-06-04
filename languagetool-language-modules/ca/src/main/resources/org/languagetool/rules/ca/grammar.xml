@@ -31496,6 +31496,14 @@ $Id$
         </rule>
     </category>
     <category name="C8) Formes secundàries" default="on" type="style">
+        <rule id="DISSUASORI" name="dissuasori">
+            <pattern>
+                <token postag="A.*" postag_regexp="yes" inflected="yes">dissuasori</token>
+            </pattern>
+            <message>Forma secundària no admesa per tots els diccionaris.</message>
+            <suggestion><match no="1" postag="(A.*)" postag_regexp="yes" postag_replace="$1">dissuasiu</match></suggestion>
+            <example correction="dissuasives">Accions <marker>dissuasòries</marker></example>
+        </rule>
         <rule id="HAVEU" name="haveu">
             <pattern>
                 <token>haveu<exception inflected="yes">heure</exception></token>
