@@ -5578,16 +5578,27 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="N.*"/>
         </rule>
     </rulegroup>
-    <rule id="ens_pronom" name="ens (pronom)">
-        <pattern>
-            <token postag="RG"/>
-            <marker>
-                <token postag="P.*" postag_regexp="yes">ens</token>
-            </marker>
-            <token postag="V.[SI].*|P.*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filter" postag="P.*"/>
-    </rule>
+    <rulegroup id="ens_pronom" name="ens (pronom)">
+        <rule>
+            <pattern>
+                <token postag="RG"/>
+                <marker>
+                    <token postag="P.*" postag_regexp="yes">ens</token>
+                </marker>
+                <token postag="V.[SI].*|P.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="P.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="P.*" postag_regexp="yes">ens</token>
+                </marker>
+                <token postag="V...1P.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="P.*"/>
+        </rule>
+    </rulegroup>
     <rule id="PronomNom" name="nom i pronom">
         <!-- jo, mi, la, te, ens. Excepció: de te.  -->
         <pattern>
