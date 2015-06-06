@@ -42,6 +42,20 @@ USA
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category name="Possible Typo" type="misspelling">
+        <rule id="DUE_TO_THE_FACT_THAT" name="'Do to that fact that' -> 'Due to'">
+            <pattern>
+                <token>Do</token>
+                <token>to</token>
+                <token>the</token>
+                <token>fact</token>
+                <token>that</token>
+            </pattern>
+            <message>Use <suggestion>due to</suggestion> or <suggestion>because of</suggestion> to fix spelling and readability of this sentence.</message>
+            <url>https://public.wsu.edu/~brians/errors/dueto.html</url>
+            <example correction='Due to|Because of'><marker>Do to the fact that</marker> the MTA has burned through leaders at a rate of nearly one per year over the last six years, ...</example>
+            <example>Due to</example>
+            <example>Because of</example>
+        </rule>
         <rule id="MINUETS" name="minuet (minute)">
             <antipattern>
                 <token regexp="yes">minuets?</token>
@@ -17169,6 +17183,75 @@ USA
             <example correction="">The band is <marker>very</marker> irritating.</example>
             <example>The band is <marker>mind-jarringly</marker> irritating.</example>
         </rule>
+    </category>
+    <category name="Wikipedia" default="off">
+        <rule id="HASH_SYMBOL" name="Replace '#'">
+            <pattern>
+                <token>#</token>
+            </pattern>
+            <message>Replace "#" with <suggestion>No.</suggestion> or <suggestion>number</suggestion> when referring to numbers or rankings.</message>
+            <url>https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style#Number_signs</url>
+            <example correction='No.|number'>The <marker>#</marker> 3</example>
+            <example>number</example>
+            <example>No.</example>
+        </rule>
+
+        <rule id="WIKIPEDIA_12_PM" name="Replace '12 pm' with 'noon'">
+            <pattern>
+                <token>12</token>
+                <token>pm</token>
+            </pattern>
+            <message>Replace "12 pm" with <suggestion>noon</suggestion> for clarity.</message>
+            <url>https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style#Time_of_day</url>
+            <example correction='noon'>At <marker>12 pm</marker></example>
+            <example>noon</example>
+        </rule>
+
+        <rule id="WIKIPEDIA_12_AM" name="Replace '12 am' with 'midnight'">
+            <pattern>
+                <token>12</token>
+                <token>am</token>
+            </pattern>
+            <message>Replace "12 am" with <suggestion>midnight</suggestion> for clarity.</message>
+            <url>https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style#Time_of_day</url>
+            <example correction='midnight'>At <marker>12 am</marker></example>
+            <example>midnight</example>
+        </rule>
+
+        <rule id="WIKIPEDIA_CURRENTLY" name="Replace 'currently' with a specific date">
+            <pattern>
+                <token>currently</token>
+            </pattern>
+            <message>Replace "currently" with a specific date, as "currently" will change over time.</message>
+            <url>https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style#Current</url>
+            <example correction=''><marker>currently</marker></example>
+            <example>date</example>
+        </rule>
+
+        <rulegroup id="WIKIPEDIA_CONTRACTIONS" name="Replace 'wasn't' with 'was not'">
+            <rule>
+                <pattern>
+                    <token>wasn</token>
+                    <token>'</token>
+                    <token>t</token>
+                </pattern>
+                <message>Replace "wasn't" with <suggestion>was not</suggestion>.</message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style#Contractions</url>
+                <example correction='was not'><marker>wasn't</marker></example>
+                <example>it's</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>it</token>
+                    <token>'</token>
+                    <token>s</token>
+                </pattern>
+                <message>Replace "it's" with <suggestion>it is</suggestion></message>
+                <url>https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style#Contractions</url>
+                <example correction='it is'><marker>it's</marker></example>
+                <example>it is</example>
+            </rule>
+        </rulegroup>
     </category>
     <!-- This rule is useful only for lowercase only text after machine translation. I leave it in the
     file because it's not so bad for such input but it shouldn't be even visible in the config dialog.
