@@ -30,6 +30,9 @@ import java.io.IOException;
  */
 final class AtomFeedCheckerCmd {
 
+  private AtomFeedCheckerCmd() {
+  }
+
   public static void main(String[] args) throws IOException, InterruptedException {
     if (args.length != 2 && args.length != 3) {
       System.out.println("Usage: " + AtomFeedCheckerCmd.class.getSimpleName() + " <atomFeedUrl> <sleepTime> [database.properties]");
