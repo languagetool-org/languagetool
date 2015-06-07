@@ -116,9 +116,10 @@ public class WikipediaQuickCheck {
   MarkupAwareWikipediaResult checkWikipediaMarkup(URL url, MediaWikiContent wikiContent, Language language, ErrorMarker errorMarker) throws IOException {
     final SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
     final PlainTextMapping mapping = filter.filter(wikiContent.getContent());
-    final JLanguageTool langTool = getLanguageTool(language);
+    final MultiThreadedJLanguageTool langTool = getLanguageTool(language);
     final List<AppliedRuleMatch> appliedMatches = new ArrayList<>();
     final List<RuleMatch> matches = langTool.check(mapping.getPlainText());
+    langTool.shutdown();
     int internalErrors = 0;
     for (RuleMatch match : matches) {
       final SuggestionReplacer replacer = errorMarker != null ? 
@@ -136,8 +137,9 @@ public class WikipediaQuickCheck {
   }
 
   public WikipediaQuickCheckResult checkPage(String plainText, Language lang) throws IOException {
-    final JLanguageTool langTool = getLanguageTool(lang);
+    final MultiThreadedJLanguageTool langTool = getLanguageTool(lang);
     final List<RuleMatch> ruleMatches = langTool.check(plainText);
+    langTool.shutdown();
     return new WikipediaQuickCheckResult(plainText, ruleMatches, lang.getShortName());
   }
 
@@ -191,8 +193,8 @@ public class WikipediaQuickCheck {
     return new MediaWikiContent(handler.getRevisionContent(), handler.getTimestamp());
   }
 
-  private JLanguageTool getLanguageTool(Language lang) throws IOException {
-    final JLanguageTool langTool = new MultiThreadedJLanguageTool(lang);
+  private MultiThreadedJLanguageTool getLanguageTool(Language lang) throws IOException {
+    final MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(lang);
     enableWikipediaRules(langTool);
     for (String disabledRuleId : disabledRuleIds) {
       langTool.disableRule(disabledRuleId);

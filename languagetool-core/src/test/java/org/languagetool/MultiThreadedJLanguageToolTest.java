@@ -19,11 +19,13 @@
 package org.languagetool;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.fail;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.RejectedExecutionException;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -49,6 +51,17 @@ public class MultiThreadedJLanguageToolTest {
     final List<String> ruleMatchIds2 = getRuleMatchIds(tool);
     assertEquals(ruleMatchIds1, ruleMatchIds2);
     Assert.assertEquals(4, tool.getSentenceCount());
+  }
+  
+  @Test
+  public void testShutdownException() throws IOException {
+    MultiThreadedJLanguageTool tool = new MultiThreadedJLanguageTool(new Demo());
+    getRuleMatchIds(tool);
+    tool.shutdown();
+    try {
+      getRuleMatchIds(tool);
+      fail("should have been rejected as the thread pool has been shut down");
+    } catch (RejectedExecutionException ignore) {}
   }
   
   @Test

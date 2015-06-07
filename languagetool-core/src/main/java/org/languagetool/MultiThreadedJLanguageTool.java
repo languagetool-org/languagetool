@@ -35,7 +35,8 @@ import org.languagetool.rules.RuleMatch;
 /**
  * A variant of {@link JLanguageTool} that uses several threads for rule matching.
  * Use this if you want text checking to be fast and do not care about the 
- * high load that this might cause.
+ * high load that this might cause. Call {@link #shutdown()} when you don't need
+ * the object anymore.
  * 
  * <p><b>Thread-safety:</b> See the remarks at {@link JLanguageTool}.
  */
@@ -49,6 +50,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   }
 
   /**
+   * @see #shutdown()
    * @param threadPoolSize the number of concurrent threads
    * @since 2.9
    */
@@ -56,11 +58,15 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     this(language, null, threadPoolSize);
   }
 
+  /**
+   * @see #shutdown()
+   */
   public MultiThreadedJLanguageTool(Language language, Language motherTongue) {
     this(language, motherTongue, getDefaultThreadCount());
   }
 
   /**
+   * @see #shutdown()
    * @param threadPoolSize the number of concurrent threads
    * @since 2.9
    */
@@ -71,6 +77,14 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     }
     this.threadPoolSize = threadPoolSize;
     threadPool = Executors.newFixedThreadPool(getThreadPoolSize(), new DaemonThreadFactory());
+  }
+
+  /**
+   * Call this to shut down the internally used thread pool.
+   * @since 3.0
+   */
+  public void shutdown() {
+    threadPool.shutdownNow();
   }
 
   private static int getDefaultThreadCount() {
