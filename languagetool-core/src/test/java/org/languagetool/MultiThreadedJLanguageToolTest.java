@@ -36,21 +36,21 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.patterns.PatternRule;
 
+@SuppressWarnings("ResultOfObjectAllocationIgnored")
 public class MultiThreadedJLanguageToolTest {
 
   @Test
   public void testCheck() throws IOException {
-    JLanguageTool tool;
-    
-    tool = new MultiThreadedJLanguageTool(new Demo());
-    final List<String> ruleMatchIds1 = getRuleMatchIds(tool);
+    MultiThreadedJLanguageTool lt1 = new MultiThreadedJLanguageTool(new Demo());
+    final List<String> ruleMatchIds1 = getRuleMatchIds(lt1);
     assertEquals(9, ruleMatchIds1.size());
-    Assert.assertEquals(4, tool.getSentenceCount());
-    
-    tool = new JLanguageTool(new Demo());
-    final List<String> ruleMatchIds2 = getRuleMatchIds(tool);
+    Assert.assertEquals(4, lt1.getSentenceCount());
+    lt1.shutdown();
+
+    JLanguageTool lt2 = new JLanguageTool(new Demo());
+    final List<String> ruleMatchIds2 = getRuleMatchIds(lt2);
     assertEquals(ruleMatchIds1, ruleMatchIds2);
-    Assert.assertEquals(4, tool.getSentenceCount());
+    Assert.assertEquals(4, lt1.getSentenceCount());
   }
   
   @Test
@@ -66,19 +66,21 @@ public class MultiThreadedJLanguageToolTest {
   
   @Test
   public void testTextAnalysis() throws IOException {
-    JLanguageTool tool = new MultiThreadedJLanguageTool(new Demo());
-    List<AnalyzedSentence> analyzedSentences = tool.analyzeText("This is a sentence. And another one.");
+    MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(new Demo());
+    List<AnalyzedSentence> analyzedSentences = lt.analyzeText("This is a sentence. And another one.");
     assertThat(analyzedSentences.size(), is(2));
     assertThat(analyzedSentences.get(0).getTokens().length, is(10));
     assertThat(analyzedSentences.get(0).getTokensWithoutWhitespace().length, is(6));  // sentence start has its own token
     assertThat(analyzedSentences.get(1).getTokens().length, is(7));
     assertThat(analyzedSentences.get(1).getTokensWithoutWhitespace().length, is(5));
+    lt.shutdown();
   }
   
   @Test
   public void testConfigurableThreadPoolSize() throws IOException {
-    MultiThreadedJLanguageTool tool = new MultiThreadedJLanguageTool(new Demo());
-    Assert.assertEquals(Runtime.getRuntime().availableProcessors(), tool.getThreadPoolSize());
+    MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(new Demo());
+    Assert.assertEquals(Runtime.getRuntime().availableProcessors(), lt.getThreadPoolSize());
+    lt.shutdown();
   }
 
   private List<String> getRuleMatchIds(JLanguageTool langTool) throws IOException {
@@ -93,7 +95,7 @@ public class MultiThreadedJLanguageToolTest {
 
   @Test
   public void testTwoRulesOnly() throws IOException {
-    MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(new FakeLanguage() {
+    MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(new FakeLanguage() {
       @Override
       protected synchronized List<PatternRule> getPatternRules() {
         return Collections.emptyList();
@@ -108,7 +110,8 @@ public class MultiThreadedJLanguageToolTest {
         );
       }
     });
-    assertThat(langTool.check("my test  text").size(), is(2));
+    assertThat(lt.check("my test  text").size(), is(2));
+    lt.shutdown();
   }
 
   @Test(expected = IllegalArgumentException.class)
