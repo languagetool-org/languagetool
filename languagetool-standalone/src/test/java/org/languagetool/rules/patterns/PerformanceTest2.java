@@ -54,9 +54,10 @@ final class PerformanceTest2 {
       int endIndex = Math.min(beginIndex + MAX_TEXT_LENGTH, text.length()-1);
       String subText = text.substring(beginIndex, endIndex);
       long startTime = System.currentTimeMillis();
-      JLanguageTool langTool = new MultiThreadedJLanguageTool(language);
+      MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(language);
       List<RuleMatch> matches = langTool.check(subText);
       long runTime = System.currentTimeMillis() - startTime;
+      langTool.shutdown();
       if (i >= SKIP) {
         totalTime += runTime;
         System.out.println("Time: " + runTime + "ms (" + matches.size() + " matches)");

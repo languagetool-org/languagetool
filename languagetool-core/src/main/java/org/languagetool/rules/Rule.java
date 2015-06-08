@@ -29,10 +29,10 @@ import org.languagetool.Language;
 
 /**
  * Abstract rule class. A Rule describes a language error and can test whether a
- * given pre-analyzed text contains that error using the {@link Rule#match(org.languagetool.AnalyzedSentence)}
+ * given pre-analyzed text contains that error using the {@link Rule#match(AnalyzedSentence)}
  * method.
  *
- * <p>Rules are created whenever a {@link org.languagetool.JLanguageTool} or
+ * <p>Rules are created whenever a {@link JLanguageTool} or
  * a {@link org.languagetool.MultiThreadedJLanguageTool} object is created.
  * As these objects are not thread-safe, this can happen often. Rules should thus
  * make sure that their initialization works fast. For example, if a rule needs

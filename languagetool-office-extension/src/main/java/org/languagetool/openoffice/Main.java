@@ -379,7 +379,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private void initLanguageTool() {
     try {
       prepareConfig(docLanguage);
-      // not using MultiThreadedJLanguageTool here might fix "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
+      // not using MultiThreadedJLanguageTool here fixes "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
       langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
       for (Rule rule : langTool.getAllActiveRules()) {
         if (rule.isDictionaryBasedSpellingRule()) {

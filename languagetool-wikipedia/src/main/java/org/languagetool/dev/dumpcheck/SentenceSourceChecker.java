@@ -143,7 +143,7 @@ public class SentenceSourceChecker {
   private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds,
                    String[] additionalCategoryIds, int maxSentences, int maxErrors, File languageModelDir, Pattern filter) throws IOException {
     final Language lang = Languages.getLanguageForShortName(langCode);
-    final JLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
+    final MultiThreadedJLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
     if (languageModelDir != null) {
       languageTool.activateLanguageModelRules(languageModelDir);
     }
@@ -190,6 +190,7 @@ public class SentenceSourceChecker {
     } catch (DocumentLimitReachedException | ErrorLimitReachedException e) {
       System.out.println(getClass().getSimpleName() + ": " + e);
     } finally {
+      languageTool.shutdown();
       if (resultHandler != null) {
         final float matchesPerSentence = (float)ruleMatchCount / sentenceCount;
         System.out.printf(lang + ": %d total matches\n", ruleMatchCount);

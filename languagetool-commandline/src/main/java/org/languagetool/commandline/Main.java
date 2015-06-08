@@ -63,10 +63,10 @@ class Main {
   private final String[] disabledRules;
   private final Language motherTongue;
   
-  private JLanguageTool lt;
+  private MultiThreadedJLanguageTool lt;
   private boolean profileRules;
   private boolean bitextMode;
-  private JLanguageTool srcLt;
+  private MultiThreadedJLanguageTool srcLt;
   private List<BitextRule> bRules;
   private Rule currentRule;
 
@@ -125,6 +125,12 @@ class Main {
   }
   
   private void cleanUp() {
+    if (lt != null) {
+      lt.shutdown();
+    }
+    if (srcLt != null) {
+      srcLt.shutdown();
+    }
     JLanguageTool.removeTemporaryFiles();
   }
   

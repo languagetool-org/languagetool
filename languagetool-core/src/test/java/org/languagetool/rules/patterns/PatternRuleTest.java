@@ -148,11 +148,11 @@ public class PatternRuleTest extends TestCase {
   public void runTestForLanguage(Language lang) throws IOException {
     validatePatternFile(lang);
     System.out.print("Running pattern rule tests for " + lang.getName() + "... ");
-    final JLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
+    final MultiThreadedJLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
     if (CHECK_WITH_SENTENCE_SPLITTING) {
       disableSpellingRules(languageTool);
     }
-    final JLanguageTool allRulesLanguageTool = new MultiThreadedJLanguageTool(lang);
+    final MultiThreadedJLanguageTool allRulesLanguageTool = new MultiThreadedJLanguageTool(lang);
     validateRuleIds(lang, allRulesLanguageTool);
     final List<PatternRule> rules = new ArrayList<>();
     for (String patternRuleFileName : lang.getRuleFileNames()) {
@@ -186,6 +186,8 @@ public class PatternRuleTest extends TestCase {
     }
     testGrammarRulesFromXML(rules, languageTool, allRulesLanguageTool, lang);
     System.out.println(rules.size() + " rules tested.");
+    allRulesLanguageTool.shutdown();
+    languageTool.shutdown();
   }
 
   private void validatePatternFile(Language lang) throws IOException {

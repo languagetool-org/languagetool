@@ -112,7 +112,7 @@ class LanguageToolSupport {
   private final List<RuleMatch> ruleMatches;
   private final List<Span> documentSpans;
 
-  private JLanguageTool languageTool;
+  private MultiThreadedJLanguageTool languageTool;
   private ScheduledExecutorService checkExecutor;
   private MouseListener mouseListener;
   private ActionListener actionListener;
@@ -285,6 +285,9 @@ class LanguageToolSupport {
       config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, language);
       //config still contains old language, update it
       this.config.setLanguage(language);
+      if (languageTool != null) {
+        languageTool.shutdown();
+      }
       languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue());
       loadConfig();
     } catch (Exception e) {
