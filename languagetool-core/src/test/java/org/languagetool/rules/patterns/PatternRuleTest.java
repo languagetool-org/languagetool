@@ -197,12 +197,11 @@ public class PatternRuleTest extends TestCase {
       System.out.println("Running XML validation for " + grammarFile + "...");
       final String rulesDir = JLanguageTool.getDataBroker().getRulesDir();
       final String ruleFilePath = rulesDir + "/" + grammarFile;
-      final InputStream xmlStream = this.getClass().getResourceAsStream(ruleFilePath);
-      if (xmlStream == null) {
-        System.out.println("No rule file found at " + ruleFilePath + " in classpath");
-        continue;
-      }
-      try {
+      try (InputStream xmlStream = this.getClass().getResourceAsStream(ruleFilePath)) {
+        if (xmlStream == null) {
+          System.out.println("No rule file found at " + ruleFilePath + " in classpath");
+          continue;
+        }
         // if there are multiple xml grammar files we'll prepend all unification elements 
         // from the first file to the rest of them 
         if (grammarFiles.size() > 1 && !grammarFiles.get(0).equals(grammarFile)) {
@@ -210,8 +209,6 @@ public class PatternRuleTest extends TestCase {
         } else {
           validator.validateWithXmlSchema(ruleFilePath, rulesDir + "/rules.xsd");
         }
-      } finally {
-        xmlStream.close();
       }
     }
   }
