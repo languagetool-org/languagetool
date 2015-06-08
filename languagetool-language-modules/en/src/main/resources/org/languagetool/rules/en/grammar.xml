@@ -6523,6 +6523,22 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+        <rule id="PRP_MD_CD_IN" name="Missing verb (some cases)">
+            <pattern>
+                <token postag='PRP'><exception scope="previous" postag="IN|VBN" postag_regexp="yes"></exception></token>
+                <marker>
+                    <token postag='MD'></token>
+                    <token postag='CD'></token>
+                </marker>
+                <token postag='IN'></token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="2"/> use <match no="3"/></suggestion> or <suggestion><match no="2"/> be <match no="3"/></suggestion>?</message>
+            <example correction='could use one|could be one'>We <marker>could one</marker> of them.</example>
+            <example correction='can use two|can be two'>We <marker>can two</marker> of these.</example>
+            <example correction='may use one|may be one'>That she <marker>may one</marker> of the Tyr-Ridan</example>
+            <example>I'm not convinced we need one for that.</example>
+            <example>Any more than I would one of NAFTA medals.</example>
+        </rule>
         <rule id="HAD_VBP" name="Had + verb present tense">
             <antipattern>
                 <token>had</token>
