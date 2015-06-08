@@ -55,6 +55,7 @@
     option makes more sense
 
 #### API
+  * added `MultiThreadedJLanguageTool.shutdown()` to clean up the thread pool
   * several deprecated methods and classes have been removed, e.g.
     * `Language.REAL_LANGUAGES` is now `Languages.get()`
     * `Language.LANGUAGES` is now `Languages.getWithDemoLanguage()` - but you will probably
