@@ -201,7 +201,6 @@ public class GermanSpellerRuleTest {
     final HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
 
     assertCorrection(rule, "Hauk", "Haus", "Haut");
-    assertCorrection(rule, "Hauk", "Haus", "Haut");
     assertCorrection(rule, "Eisnbahn", "Einbahn", "Eisbahn", "Eisenbahn"); 
     assertCorrection(rule, "Rechtschreipreform", "Rechtschreibreform");
     assertCorrection(rule, "Theatrekasse", "Theaterkasse");
@@ -280,7 +279,8 @@ public class GermanSpellerRuleTest {
     assertCorrectionsByOrder(rule, "Aerger", "Ärger");
     assertCorrectionsByOrder(rule, "Walt", "Wald");
     assertCorrectionsByOrder(rule, "Rythmus", "Rhythmus");
-    assertCorrectionsByOrder(rule, "Rytmus", "Rhythmus", "Remus");
+    assertCorrectionsByOrder(rule, "Rytmus", "Rhythmus");
+    assertCorrectionsByOrder(rule, "is", "iss", "in", "im", "ist");  // 'ist' should actually be preferred...
   }
   
   private void assertCorrection(HunspellRule rule, String input, String... expectedTerms) throws IOException {

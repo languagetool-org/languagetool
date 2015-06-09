@@ -21,6 +21,7 @@
   * the spell checker offers correct suggestions now for
     incorrect past tense forms like "gehte" -> "ging" (useful
     mostly for non-native speakers)
+  * added word frequency information to improve spelling suggestions
 
 #### Polish
   * added new rules
