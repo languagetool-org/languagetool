@@ -34448,6 +34448,22 @@ $Id$
     </category>
     <category name="C6) Evita paraules incloses només en alguns diccionaris" default="on" type="style">
         <!--  verbs valencians: caquejar -->
+        <rule id="CORSET" name="corset">
+            <pattern>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">corset</token>
+            </pattern>
+            <message>Gal·licisme admès només per alguns diccionaris.</message>
+            <suggestion><match no="1" postag="N..(.).*" postag_regexp="yes" postag_replace="NCF$1000">cotilla</match></suggestion>
+            <example correction="cotilles">Els <marker>corsets</marker>.</example>
+        </rule>
+        <rule id="ENCORSETAR" name="encorsetar">
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">encorsetar</token>
+            </pattern>
+            <message>Gal·licisme admès només per alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">encotillar</match></suggestion>
+            <example correction="encotillaren">Els <marker>encorsetaren</marker>.</example>
+        </rule>
         <rule id="FREGONA" name="fregona">
             <pattern>
                 <token postag="N.*" postag_regexp="yes" inflected="yes">fregona</token>
