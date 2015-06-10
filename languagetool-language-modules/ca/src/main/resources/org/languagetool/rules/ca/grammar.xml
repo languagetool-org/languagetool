@@ -19424,6 +19424,21 @@ $Id$
         </rule>
     </category>
     <category name="E) Majúscules i minúscules" type="typographical">
+        <rule id="CARRER_MAJUSCULA" name="Carrer/carrer de">
+            <pattern>
+                <token><exception postag="SENT_START"/><exception>-</exception></token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">Carrer|Plaça|Avinguda|Ronda|Rambla|Carretera|Autopista|Barri</token>
+                </marker>
+                <token inflected="yes">de</token>
+            </pattern>
+            <message>Els noms de vies urbanes s'escriuen normalment en minúscula.</message>
+            <suggestion><match no="2" case_conversion="alllower"/></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/5074</url>
+            <example correction="carrer">és el <marker>Carrer</marker> de Dalt.</example>
+            <example>Carrer de Dalt, núm. 3</example>
+            <example>Viu a la Rambla Vella.</example>
+        </rule>
         <rulegroup id="GENERALITAT" name="generalitat/Generalitat">
             <rule>
                 <pattern>
@@ -19608,6 +19623,7 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="GRAUS_MINUTS_SEGONS" name="tipografia de graus, minuts i segons: 50° 45′ 20″">
+            <!-- Caldria separar l'ús d'hores (h) -->
             <rule>
                 <pattern>
                     <token regexp="yes">[\d., ]+[º°h]</token>
