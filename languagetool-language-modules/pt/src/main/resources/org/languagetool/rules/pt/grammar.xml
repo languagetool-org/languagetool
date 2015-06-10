@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.115 2015-06-09 00:30:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.116 2015-06-10 15:20:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -2011,7 +2011,19 @@ $Id: grammar.xml,v 1.115 2015-06-09 00:30:00 marcoagpinto Exp $
       <example correction="ronhosa">Ele é a ovelha <marker>ranhosa</marker> da família.</example>
     </rule>
 
+	
 
+    <!-- PAIS NATAL pais natais -->
+    <rule id="PAIS_NATAL" name="pais natais">
+      <pattern>
+        <token>pais</token>
+		<token>natal</token>
+      </pattern>
+      <message>Substituir «pais natal» por <suggestion>pais natais</suggestion>.</message>
+      <example correction="pais natais">Havia muitos <marker>pais natal</marker> na festa.</example>
+    </rule>
+		
+	
 
     <!-- PALAVRAS-CHAVES palavras-chave -->
     <rule id="PALAVRAS-CHAVES" name="palavras-chave">
@@ -2021,6 +2033,19 @@ $Id: grammar.xml,v 1.115 2015-06-09 00:30:00 marcoagpinto Exp $
       <message>Substituir «palavras-chaves» por <suggestion>palavras-chave</suggestion>.</message>
       <example correction="palavras-chave">Estas são as <marker>palavras-chaves</marker> da tese.</example>
     </rule>
+
+
+	
+    <!-- PALAVRAS DE ORDENS palavras de ordem -->
+    <rule id="PALAVRAS_DE_ORDENS" name="palavras de ordem">
+      <pattern>
+        <token>palavras</token>
+		<token>de</token>
+		<token>ordens</token>
+      </pattern>
+      <message>Substituir «palavras de ordens» por <suggestion>palavras de ordem</suggestion>.</message>
+      <example correction="palavras de ordem">Manifestantes gritam <marker>palavras de ordens</marker>.</example>
+    </rule>	
 
 
 
