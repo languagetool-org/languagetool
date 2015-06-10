@@ -28,7 +28,7 @@
   * fixed dozens of false alarms
 
 #### Portuguese
-  * added/improved a few rules
+  * added/improved several rules
 
 #### Slovak
   * dictionary update and several new rules
