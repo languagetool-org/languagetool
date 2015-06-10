@@ -18,6 +18,12 @@
  */
 package org.languagetool.rules.de;
 
+import morfologik.fsa.CFSA2Serializer;
+import morfologik.fsa.FSA;
+import morfologik.fsa.FSABuilder;
+import morfologik.speller.Speller;
+import morfologik.stemming.Dictionary;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
@@ -28,7 +34,10 @@ import org.languagetool.language.SwissGerman;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 import static junit.framework.TestCase.assertFalse;
@@ -283,6 +292,26 @@ public class GermanSpellerRuleTest {
     assertCorrectionsByOrder(rule, "is", "iss", "in", "im", "ist");  // 'ist' should actually be preferred...
   }
   
+  @Test
+  @Ignore("testing a potential bug in Morfologik")
+  public void testMorfologikSpeller() throws Exception {
+    List<byte[]> lines = new ArrayList<>();
+    lines.add("die".getBytes());
+    lines.add("ist".getBytes());
+    byte[] info = "fsa.dict.separator=+\nfsa.dict.encoding=utf-8\nfsa.dict.frequency-included=true".getBytes();
+    Dictionary dict = getDictionary(lines, new ByteArrayInputStream(info));
+    Speller speller = new Speller(dict, 2);
+    System.out.println(speller.findReplacements("is"));  // why do both "die" and "ist" have a distance of 1 in the CandidateData constructor?
+  }
+
+  private Dictionary getDictionary(List<byte[]> lines, InputStream infoFile) throws IOException {
+    Collections.sort(lines, FSABuilder.LEXICAL_ORDERING);
+    FSA fsa = FSABuilder.build(lines);
+    ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());
+    ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
+    return Dictionary.readAndClose(fsaInStream, infoFile);
+  }
+
   private void assertCorrection(HunspellRule rule, String input, String... expectedTerms) throws IOException {
     final List<String> suggestions = rule.getSuggestions(input);
     for (String expectedTerm : expectedTerms) {
