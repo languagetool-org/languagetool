@@ -28,7 +28,7 @@
   * fixed dozens of false alarms
 
 #### Portuguese
-  * added/improved several rules
+  * added/improved several rules (started adding morphologic rules)
 
 #### Slovak
   * dictionary update and several new rules
