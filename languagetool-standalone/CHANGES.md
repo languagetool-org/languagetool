@@ -40,6 +40,11 @@
 #### Ukrainian
   * improved some rules
   
+#### Bug Fixes
+  * `UppercaseSentenceStartRule` didn't properly reset its state so that
+    different errors could be found when e.g. `JLanguageTool.check()` got
+    called twice with the same text.
+  
 #### GUI (stand-alone version)
   * fixed auto-detection of text language, which didn't work after editing text
 

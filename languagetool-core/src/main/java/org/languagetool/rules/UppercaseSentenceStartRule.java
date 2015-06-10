@@ -153,6 +153,7 @@ public class UppercaseSentenceStartRule extends Rule {
 
   @Override
   public void reset() {
+    lastParagraphString = "";
   }
   
   protected boolean isUrl(String token) {
