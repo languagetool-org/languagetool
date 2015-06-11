@@ -37,6 +37,7 @@ $Id$
     <!ENTITY exceptions_BE "carn|llop|xai|degollar|esquilar|tondre|crit|animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana">
     <!ENTITY exceptions_hostatge "edifici|dieta|luxe|viatger|turista|caminant|obrir|planta">
     <!ENTITY exceptions_MES "solar|sideral|marià|hivernal|hebreu|jueu|musulmà|islàmic|sinòdic|draconític|lunar|mitjà|tròpic|anomalístic|dedicat|consagrat|vinent|entrant|propvinent|passat|proppassat|intercalar|anterior|següent|posterior|previ">
+    <!ENTITY exceptions_ODRE "pell|bot|líquid|aigua|oli|llet|vi|substància|mantega|càntir|ampolla|porró|paràbola|cuir|cuiro">
     <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena">
     <!ENTITY expressions_temps "ara|avui|hui|demà|despús-demà|ahir|despús-ahir|endemà|enguany">
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
@@ -6421,7 +6422,7 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="PER_PER_A_DETERMINANT" name="per/per a davant de determinant">
-            <!-- necessari per la incapacitat 
+            <!-- necessari per la incapacitat
                 s'empren pel seu gust
                 s'utilitza pels > és utilitzat pels
                 fàcil d'utilitzar pels usuaris, fàcil de fer servir pel consumidor (dubtós)
@@ -8582,6 +8583,18 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="TOS_TOTS" name="tos/tots">
+            <pattern>
+                <marker>
+                    <token>tos<exception postag="_GN_FS"/></token>
+                    <token regexp="yes">els|aquests</token>
+                </marker>
+            </pattern>
+            <message>Possible confusió.</message>
+            <suggestion>tots \2</suggestion>
+            <example correction="Tots els"><marker>Tos els</marker> tots els seus amics.</example>
+            <example>de la tos els dimecres</example>
+        </rule>
         <rulegroup id="MARIA" name="Maria/María">
             <rule>
                 <pattern>
@@ -19074,7 +19087,7 @@ $Id$
             <example correction="És"><marker>¿És</marker> així?</example>
             <example>És així?</example>
         </rule>
-        <rule id="EVITA_EXCLAMACIO_INICIAL" name="Evita sempre el signe d'exclamació inicial" default="off">
+        <rule id="EVITA_EXCLAMACIO_INICIAL" name="Evita sempre el signe d'exclamació inicial" default="on">
             <pattern>
                 <token>¡</token>
                 <token/>
@@ -26953,6 +26966,23 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="ODRE" name="odre">
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">&exceptions_ODRE;</exception></token>
+                <marker>
+                    <token inflected="yes" skip="-1">odre<exception scope="next" inflected="yes" regexp="yes">&exceptions_ODRE;</exception></token>
+                </marker>
+                <token postag="SENT_END"/>
+            </pattern>
+            <message>Possible confusió. "Odre" és correcte com a nom de recipient.</message>
+            <suggestion><match no="2" regexp_match="(?iu)odre(s?)" regexp_replace="ordre$1" /></suggestion>
+            <suggestion><match no="2" regexp_match="(?iu)odre(s?)" regexp_replace="orde$1" /></suggestion>
+            <example correction="ordre|orde">Per <marker>odre</marker> del rei.</example>
+            <example correction="ordres|ordes">Han arribat <marker>odres</marker> del rei.</example>
+            <example correction="Ordres|Ordes"><marker>Odres</marker> superiors.</example>
+            <example>Un odre de vi.</example>
+            <example>Les pells amb què es feien els odres eren d'ovella.</example>
+        </rule>
         <rule id="PLATILLO" name="platillo">
             <pattern>
                 <token inflected="yes">platillo</token>
