@@ -8583,11 +8583,11 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
-        <rule id="EXCALAMACIO_APOSTROF" name="confusió exclamació/apòstrof (¡/')">
+        <rule id="EXCLAMACIO_APOSTROF" name="confusió exclamació/apòstrof (¡/')">
             <pattern>
                 <token regexp="yes">[lmntsd]</token>
                 <token spacebefore="no" regexp="yes">[¡¿?]</token>
-                <token spacebefore="no"></token>
+                <token spacebefore="no" regexp="yes">\p{L}.*</token>
             </pattern>
             <message>Possible error de picatge.</message>
             <suggestion>\1'\3</suggestion>
@@ -34506,6 +34506,15 @@ $Id$
     </category>
     <category name="C6) Evita paraules incloses només en alguns diccionaris" default="on" type="style">
         <!--  verbs valencians: caquejar -->
+        <rule id="ESPAIAL" name="espaial">
+            <pattern>
+                <token postag="A.*" postag_regexp="yes" inflected="yes">espaial</token>
+            </pattern>
+            <message>Adjectiu admès només per alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(A.*)" postag_regexp="yes" postag_replace="$1">espacial</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/1875</url>
+            <example correction="espacials">Les <marker>espaials</marker>.</example>
+        </rule>
         <rule id="CORSET" name="corset">
             <pattern>
                 <token postag="N.*" postag_regexp="yes" inflected="yes">corset</token>
