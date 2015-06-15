@@ -372,6 +372,8 @@ public final class Tools {
         // ignore, but the feature to use user:password in the URL cannot be used now,
         // see https://github.com/languagetool-org/languagetool/issues/255
       }
+    } else {
+      Authenticator.setDefault(new PasswordAuthenticator());
     }
   }
 
