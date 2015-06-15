@@ -49,7 +49,7 @@ class RealWordFalseAlarmEvaluator {
   
   private final JLanguageTool langTool;
   private final ConfusionProbabilityRule confusionRule;
-  private final Map<String,ConfusionSet> confusionSet;
+  private final Map<String,List<ConfusionSet>> confusionSets;
   private final LanguageModel languageModel;
   
   private int globalSentenceCount;
@@ -57,8 +57,8 @@ class RealWordFalseAlarmEvaluator {
 
   RealWordFalseAlarmEvaluator(File languageModelIndexDir) throws IOException {
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/confusion_sets.txt")) {
-      ConfusionSetLoader confusionSetLoader =  new ConfusionSetLoader();
-      confusionSet = confusionSetLoader.loadConfusionSet(inputStream);
+      ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
+      confusionSets = confusionSetLoader.loadConfusionSet(inputStream);
     }
     langTool = new JLanguageTool(new BritishEnglish());
     List<Rule> rules = langTool.getAllActiveRules();
@@ -105,12 +105,15 @@ class RealWordFalseAlarmEvaluator {
   }
 
   private void checkLines(List<String> lines, String name) throws IOException {
-    ConfusionSet subConfusionSet = confusionSet.get(name);
+    List<ConfusionSet> subConfusionSet = confusionSets.get(name);
     if (subConfusionSet == null) {
       System.out.println("Skipping '" + name + "', homophone not loaded");
       return;
     }
-    confusionRule.setConfusionSet(subConfusionSet);
+    if (subConfusionSet.size() > 1) {
+      System.err.println("WARN: will only use first confusion set of " + subConfusionSet.size() + ": " + subConfusionSet.get(0));
+    }
+    confusionRule.setConfusionSet(subConfusionSet.get(0));
     int sentenceCount = 0;
     int ruleMatches = 0;
     for (String line : lines) {

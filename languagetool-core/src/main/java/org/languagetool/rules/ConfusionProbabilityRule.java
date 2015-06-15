@@ -44,7 +44,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   private static final boolean DEBUG = false;
 
-  private final Map<String,ConfusionSet> wordToSet;
+  private final Map<String,List<ConfusionSet>> wordToSets;
   private final LanguageModel lm;
   private final long totalTokenCount;
   private final int grams;
@@ -65,7 +65,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     String path = "/" + language.getShortName() + "/confusion_sets.txt";
     try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {
       ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
-      this.wordToSet = confusionSetLoader.loadConfusionSet(confusionSetStream);
+      this.wordToSets = confusionSetLoader.loadConfusionSet(confusionSetStream);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -89,21 +89,25 @@ public abstract class ConfusionProbabilityRule extends Rule {
     int pos = 0;
     for (GoogleToken googleToken : tokens) {
       String token = googleToken.token;
-      ConfusionSet confusionSet = wordToSet.get(token);
+      List<ConfusionSet> confusionSets = wordToSets.get(token);
       boolean uppercase = false;
-      if (confusionSet == null && token.length() > 0 && Character.isUpperCase(token.charAt(0))) {
-        confusionSet = wordToSet.get(StringTools.lowercaseFirstChar(token));
+      if (confusionSets == null && token.length() > 0 && Character.isUpperCase(token.charAt(0))) {
+        confusionSets = wordToSets.get(StringTools.lowercaseFirstChar(token));
         uppercase = true;
       }
-      boolean isEasilyConfused = confusionSet != null;
-      if (isEasilyConfused) {
-        Set<ConfusionString> set = uppercase ? confusionSet.getUppercaseFirstCharSet() : confusionSet.getSet();
-        ConfusionString betterAlternative = getBetterAlternativeOrNull(tokens.get(pos), tokens, set, confusionSet.getFactor());
-        if (betterAlternative != null) {
-          String message = getMessage(betterAlternative.getString(), betterAlternative.getDescription());
-          RuleMatch match = new RuleMatch(this, googleToken.startPos, googleToken.endPos, message);
-          match.setSuggestedReplacement(betterAlternative.getString());
-          matches.add(match);
+      if (confusionSets != null) {
+        for (ConfusionSet confusionSet : confusionSets) {
+          boolean isEasilyConfused = confusionSet != null;
+          if (isEasilyConfused) {
+            Set<ConfusionString> set = uppercase ? confusionSet.getUppercaseFirstCharSet() : confusionSet.getSet();
+            ConfusionString betterAlternative = getBetterAlternativeOrNull(tokens.get(pos), tokens, set, confusionSet.getFactor());
+            if (betterAlternative != null) {
+              String message = getMessage(betterAlternative.getString(), betterAlternative.getDescription());
+              RuleMatch match = new RuleMatch(this, googleToken.startPos, googleToken.endPos, message);
+              match.setSuggestedReplacement(betterAlternative.getString());
+              matches.add(match);
+            }
+          }
         }
       }
       pos++;
@@ -132,9 +136,9 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   /** @deprecated used only for tests */
   public void setConfusionSet(ConfusionSet set) {
-    wordToSet.clear();
+    wordToSets.clear();
     for (ConfusionString word : set.getSet()) {
-      wordToSet.put(word.getString(), set);
+      wordToSets.put(word.getString(), Collections.singletonList(set));
     }
   }
 

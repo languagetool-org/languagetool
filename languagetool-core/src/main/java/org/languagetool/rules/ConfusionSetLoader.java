@@ -33,8 +33,8 @@ public class ConfusionSetLoader {
   public ConfusionSetLoader() {
   }
 
-  public Map<String,ConfusionSet> loadConfusionSet(InputStream stream) throws IOException {
-    Map<String,ConfusionSet> map = new HashMap<>();
+  public Map<String,List<ConfusionSet>> loadConfusionSet(InputStream stream) throws IOException {
+    Map<String,List<ConfusionSet>> map = new HashMap<>();
     try (
       InputStreamReader reader = new InputStreamReader(stream, CHARSET);
       BufferedReader br = new BufferedReader(reader)
@@ -53,14 +53,19 @@ public class ConfusionSetLoader {
           String[] subParts = part.split("\\|");
           String word = subParts[0];
           String description = subParts.length == 2 ? subParts[1] : null;
-          if (map.containsKey(part)) {
-            throw new RuntimeException("Cannot add " + part + " to confusion set: already exists");
-          }
           confusionStrings.add(new ConfusionString(word, description));
         }
         ConfusionSet confusionSet = new ConfusionSet(Integer.parseInt(parts[parts.length-1]), confusionStrings);
         for (ConfusionString confusionString : confusionStrings) {
-          map.put(confusionString.getString(), confusionSet);
+          String key = confusionString.getString();
+          List<ConfusionSet> existingEntry = map.get(key);
+          if (existingEntry != null) {
+            existingEntry.add(confusionSet);
+          } else {
+            List<ConfusionSet> sets = new ArrayList<>();
+            sets.add(confusionSet);
+            map.put(key, sets);
+          }
         }
       }
     }

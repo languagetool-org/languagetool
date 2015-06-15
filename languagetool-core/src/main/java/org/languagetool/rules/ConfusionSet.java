@@ -24,6 +24,8 @@ import java.util.*;
 
 /**
  * Words that can easily be confused - for internal use only.
+ * Even though there can be more words in the set, usually there
+ * are two, as the factor is specific for this pair of words.
  * @since 3.0
  */
 public class ConfusionSet {
