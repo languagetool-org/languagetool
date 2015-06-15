@@ -31,10 +31,7 @@ import org.languagetool.rules.ConfusionSetLoader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Dump the occurrences of homophone 3grams to STDOUT. Useful to have a more
@@ -83,7 +80,7 @@ class HomophoneOccurrenceDumper extends LuceneLanguageModel {
     System.err.println("Loading confusion sets from " + confusionSetPath + ", minimum occurrence: " + MIN_COUNT);
     ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(confusionSetPath);
-    Map<String,ConfusionSet> map = confusionSetLoader.loadConfusionSet(inputStream);
+    Map<String,List<ConfusionSet>> map = confusionSetLoader.loadConfusionSet(inputStream);
     Set<String> confusionTerms = map.keySet();
     dumpOccurrences(confusionTerms);
   }

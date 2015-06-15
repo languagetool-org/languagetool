@@ -56,21 +56,24 @@ public class RuleCreator {
   private void run(File homophoneOccurrences, String homophonePath) throws IOException {
     ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(homophonePath);
-    Map<String,ConfusionSet> confusionSetMap = confusionSetLoader.loadConfusionSet(inputStream);
+    Map<String,List<ConfusionSet>> confusionSetMap = confusionSetLoader.loadConfusionSet(inputStream);
     initMaps(homophoneOccurrences);
     int groupCount = 0;
     if (XML_MODE) {
       System.out.println("<rules lang='en'>\n");
       System.out.println("<category name='Auto-generated rules'>\n");
     }
-    for (Map.Entry<String, ConfusionSet> entry : confusionSetMap.entrySet()) {
+    for (Map.Entry<String, List<ConfusionSet>> entry : confusionSetMap.entrySet()) {
       System.err.println(" === " + entry + " === ");
+      if (entry.getValue().size() > 1) {
+        System.err.println("WARN: will use only first pair of " + entry.getValue().size() + ": " + entry.getValue().get(0));
+      }
       List<OccurrenceInfo> infos = occurrenceInfos.get(entry.getKey());
       if (infos == null) {
         System.err.println("Could not find occurrence infos for '" + entry.getKey() + "', skipping");
         continue;
       }
-      Set cleanSet = new HashSet<>(entry.getValue().getSet());
+      Set cleanSet = new HashSet<>(entry.getValue().get(0).getSet());
       cleanSet.remove(entry.getKey());
       String name = StringUtils.join(cleanSet, "/") + " -> " + entry.getKey();
       if (XML_MODE) {
@@ -79,7 +82,7 @@ public class RuleCreator {
       groupCount++;
       for (OccurrenceInfo occurrenceInfo : infos) {
         String[] parts = occurrenceInfo.ngram.split(" ");
-        for (ConfusionString variant : entry.getValue().getSet()) {
+        for (ConfusionString variant : entry.getValue().get(0).getSet()) {
           if (variant.getString().equals(entry.getKey())) {
             continue;
           }
