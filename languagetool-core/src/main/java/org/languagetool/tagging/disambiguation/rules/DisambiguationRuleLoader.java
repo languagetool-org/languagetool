@@ -18,7 +18,7 @@
  */
 package org.languagetool.tagging.disambiguation.rules;
 
-import org.languagetool.rules.patterns.PasswordAuthenticator;
+import org.languagetool.tools.Tools;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -27,7 +27,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.Authenticator;
 import java.util.List;
 
 /**
@@ -43,7 +42,7 @@ public class DisambiguationRuleLoader extends DefaultHandler {
     final DisambiguationRuleHandler handler = new DisambiguationRuleHandler();
     final SAXParserFactory factory = SAXParserFactory.newInstance();
     final SAXParser saxParser = factory.newSAXParser();
-    Authenticator.setDefault(new PasswordAuthenticator());
+    Tools.setPasswordAuthenticator();
     saxParser.parse(stream, handler);
     return handler.getDisambRules();
   }

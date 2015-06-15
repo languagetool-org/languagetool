@@ -24,6 +24,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
+import org.languagetool.rules.patterns.PasswordAuthenticator;
 import org.languagetool.rules.patterns.bitext.BitextPatternRule;
 import org.languagetool.rules.patterns.bitext.BitextPatternRuleLoader;
 import org.languagetool.rules.patterns.bitext.FalseFriendsAsBitextLoader;
@@ -32,6 +33,8 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.lang.reflect.Constructor;
+import java.net.Authenticator;
+import java.net.NetPermission;
 import java.util.*;
 
 public final class Tools {
@@ -348,6 +351,28 @@ public final class Tools {
     }
     newBRules.removeAll(rulesToDisable);
     return newBRules;
+  }
+
+  /**
+   * Calls {@code Authenticator.setDefault()} with a password
+   * authenticator so that it's possible to use URLs of the
+   * format {@code http://username:password@server} when loading XML files.
+   * If the password manager doesn't allow calling {@code Authenticator.setDefault()},
+   * this will be silently ignored and the feature of using these URLs
+   * will not be available.
+   * @since 3.0
+   */
+  public static void setPasswordAuthenticator() {
+    SecurityManager security = System.getSecurityManager();
+    if (security != null) {
+      try {
+        security.checkPermission(new NetPermission("setDefaultAuthenticator"));
+        Authenticator.setDefault(new PasswordAuthenticator());
+      } catch (SecurityException e) {
+        // ignore, but the feature to use user:password in the URL cannot be used now,
+        // see https://github.com/languagetool-org/languagetool/issues/255
+      }
+    }
   }
 
 }

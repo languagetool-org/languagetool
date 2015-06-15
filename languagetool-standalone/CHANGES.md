@@ -44,6 +44,10 @@
   * `UppercaseSentenceStartRule` didn't properly reset its state so that
     different errors could be found when e.g. `JLanguageTool.check()` got
     called twice with the same text.
+  * `Authenticator.setDefault()` is now only called if it's allowed by
+    the Java security manager. In rare cases, this might affect using
+    external XML rule files as documented at
+    http://wiki.languagetool.org/tips-and-tricks#toc9 (Github issue #255)
   
 #### GUI (stand-alone version)
   * fixed auto-detection of text language, which didn't work after editing text
