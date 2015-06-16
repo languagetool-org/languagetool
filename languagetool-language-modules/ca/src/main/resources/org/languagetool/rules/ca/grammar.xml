@@ -8583,6 +8583,37 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="MANER" name="maner/manera">
+            <pattern>
+                <marker>
+                    <token regexp="yes">maner|maners</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>manera</suggestion>? "Maner" exisiteix com a adjectiu (=manerós).</message>
+            <suggestion>maneres</suggestion>
+            <example correction="manera|maneres">de diferents <marker>maners</marker>.</example>
+        </rule>
+        <rule id="A_COSTAT" name="a costat/al costat">
+            <antipattern>
+                <marker>
+                    <token>costat</token>
+                    <token regexp="yes">i|a</token>
+                    <token>costat</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>a</token>
+                    <token>costat</token>
+                </marker>
+            </pattern>
+            <message>Possible confusió</message>
+            <suggestion>al costat</suggestion>
+            <suggestion>ha costat</suggestion>
+            <example correction="Al costat|Ha costat"><marker>A costat</marker> del riu.</example>
+            <example>De costat a costat</example>
+            <example>a costat i costat</example>
+        </rule>
         <rule id="EXCLAMACIO_APOSTROF" name="confusió exclamació/apòstrof (¡/')">
             <pattern>
                 <token regexp="yes">[lmntsd]</token>
@@ -12214,10 +12245,12 @@ $Id$
                         <token>ell</token>
                     </marker>
                     <token postag="NCMS.*" postag_regexp="yes"><exception>sol</exception></token>
+                    <token min="0" postag="P.*" postag_regexp="yes"/>
                     <token postag="V.[SI].*" postag_regexp="yes"/>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>el</suggestion>?</message>
                 <example correction="El"><marker>Ell</marker> corrector és bo.</example>
+                <example correction="El"><marker>Ell</marker> corrector es pot usar</example>
                 <example correction="El"><marker>Ell</marker> cotxe corre massa.</example>
                 <example>ell mateix</example>
                 <example>ell sol ho aconseguí</example>
@@ -20749,6 +20782,13 @@ $Id$
             <example>aquesta frase, a part del fet de ser llarga, no comença amb majúsucula i, per tant, no compleix els requisits per a ser marcada com a erònia</example>
         </rule>
         <rulegroup id="ESPAIS_QUE_FALTEN_PUNTUACIO" name="espais que falten en alguns signes de puntació">
+            <antipattern>
+                <marker>
+                    <token spacebefore="no">[</token>
+                    <token spacebefore="no" regexp="yes">\d{1,4}</token>
+                    <token spacebefore="no">]</token>
+                </marker>
+            </antipattern>
             <antipattern>
                 <marker>
                     <token regexp="yes">[=+\-]</token>
