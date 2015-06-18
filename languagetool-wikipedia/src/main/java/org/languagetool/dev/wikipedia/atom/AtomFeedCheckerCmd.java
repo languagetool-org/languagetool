@@ -22,6 +22,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -34,14 +35,16 @@ final class AtomFeedCheckerCmd {
   }
 
   public static void main(String[] args) throws IOException, InterruptedException {
-    if (args.length != 2 && args.length != 3) {
-      System.out.println("Usage: " + AtomFeedCheckerCmd.class.getSimpleName() + " <atomFeedUrl> <sleepTime> [database.properties]");
+    if (args.length < 2 || args.length > 4) {
+      System.out.println("Usage: " + AtomFeedCheckerCmd.class.getSimpleName() + " <atomFeedUrl> <sleepTime> [database.properties] [languageModelDir]");
       System.out.println("  <atomFeedUrl> is a Wikipedia URL to the latest changes, for example:");
       System.out.println("    https://de.wikipedia.org/w/index.php?title=Spezial:Letzte_%C3%84nderungen&feed=atom&namespace=0");
       System.out.println("  <sleepTime> -1: don't loop at all (run once), 0: run in loop, other number: run in loop and");
       System.out.println("    wait this many milliseconds between runs");
       System.out.println("  [database.properties] (optional) is a file that defines dbUrl, dbUser, and dbPassword,");
       System.out.println("    used to write the results to a database via JDBC");
+      System.out.println("  [languageModelDir] (optional, use only together with database.properties) a directory with ngram");
+      System.out.println("    sub directories, activates the confusion rule if supported");
       System.out.println("");
       System.out.println("  When the database.properties file is specified, this command will store all feed changes that");
       System.out.println("  cause LanguageTool rule matches to the database. If an error is then fixed later, this will");
@@ -66,8 +69,14 @@ final class AtomFeedCheckerCmd {
       databaseConfig = new DatabaseConfig(propFile);
       System.out.println("Writing results to database at: " + databaseConfig.getUrl());
     }
+    AtomFeedChecker atomFeedChecker;
     Language language = Languages.getLanguageForShortName(langCode);
-    AtomFeedChecker atomFeedChecker = new AtomFeedChecker(language, databaseConfig);
+    if (args.length == 4) {
+      String languageModelDir = args[3];
+      atomFeedChecker = new AtomFeedChecker(language, databaseConfig, new File(languageModelDir));
+    } else {
+      atomFeedChecker = new AtomFeedChecker(language, databaseConfig);
+    }
     while (true) {
       long startTime = System.currentTimeMillis();
       try {

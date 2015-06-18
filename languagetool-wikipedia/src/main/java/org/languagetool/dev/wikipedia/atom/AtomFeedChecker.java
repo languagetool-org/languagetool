@@ -31,6 +31,7 @@ import org.languagetool.tools.ContextTools;
 import xtc.tree.Location;
 
 import javax.xml.stream.XMLStreamException;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -59,8 +60,15 @@ class AtomFeedChecker {
   }
   
   AtomFeedChecker(Language language, DatabaseConfig dbConfig) throws IOException {
+    this(language, dbConfig, null);
+  }
+  
+  AtomFeedChecker(Language language, DatabaseConfig dbConfig, File languageModelDir) throws IOException {
     this.language = Objects.requireNonNull(language);
     langTool = new JLanguageTool(language);
+    if (languageModelDir != null) {
+      langTool.activateLanguageModelRules(languageModelDir);
+    }
     // disable because they create too many false alarms:
     langTool.disableRule("UNPAIRED_BRACKETS");
     langTool.disableRule("EN_UNPAIRED_BRACKETS");
