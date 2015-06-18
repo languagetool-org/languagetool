@@ -57,7 +57,7 @@ public class WikipediaQuickCheck {
   public String getMediaWikiContent(URL wikipediaUrl) throws IOException {
     final Language lang = getLanguage(wikipediaUrl);
     final String pageTitle = getPageTitle(wikipediaUrl);
-    final String apiUrl = "http://" + lang.getShortName() + ".wikipedia.org/w/api.php?titles=" 
+    final String apiUrl = "https://" + lang.getShortName() + ".wikipedia.org/w/api.php?titles=" 
             + URLEncoder.encode(pageTitle, "utf-8") + "&action=query&prop=revisions&rvprop=content|timestamp&format=xml";
     return getContent(new URL(apiUrl));
   }

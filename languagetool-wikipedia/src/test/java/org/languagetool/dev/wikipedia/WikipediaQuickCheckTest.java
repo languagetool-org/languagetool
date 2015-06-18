@@ -37,7 +37,7 @@ public class WikipediaQuickCheckTest extends TestCase {
     //final String url = "http://de.wikipedia.org/wiki/OpenThesaurus";
     //final String url = "http://de.wikipedia.org/wiki/Gütersloh";
     //final String url = "http://de.wikipedia.org/wiki/Bielefeld";
-    final String url = "http://de.wikipedia.org/wiki/Augsburg";
+    final String url = "https://de.wikipedia.org/wiki/Augsburg";
     final MarkupAwareWikipediaResult result = check.checkPage(new URL(url));
     final List<AppliedRuleMatch> appliedMatches = result.getAppliedRuleMatches();
     System.out.println("ruleApplications: " + appliedMatches.size());
