@@ -43,23 +43,23 @@ public class ConfusionSetLoaderTest {
       assertThat(map.size(), is(8));
 
       assertThat(map.get("there").size(), is(1));
-      assertThat(map.get("there").get(0).getFactor(), is(10));
+      assertThat(map.get("there").get(0).getFactor(), is(10L));
 
       assertThat(map.get("their").size(), is(1));
-      assertThat(map.get("their").get(0).getFactor(), is(10));
+      assertThat(map.get("their").get(0).getFactor(), is(10L));
       
       assertThat(map.get("foo").size(), is(2));
-      assertThat(map.get("foo").get(0).getFactor(), is(5));
-      assertThat(map.get("foo").get(1).getFactor(), is(8));
+      assertThat(map.get("foo").get(0).getFactor(), is(5L));
+      assertThat(map.get("foo").get(1).getFactor(), is(8L));
 
       assertThat(map.get("goo").size(), is(2));
-      assertThat(map.get("goo").get(0).getFactor(), is(11));
-      assertThat(map.get("goo").get(1).getFactor(), is(12));
+      assertThat(map.get("goo").get(0).getFactor(), is(11L));
+      assertThat(map.get("goo").get(1).getFactor(), is(12L));
       assertThat(map.get("lol").size(), is(1));
       assertThat(map.get("something").size(), is(1));
 
       assertThat(map.get("bar").size(), is(1));
-      assertThat(map.get("bar").get(0).getFactor(), is(5));
+      assertThat(map.get("bar").get(0).getFactor(), is(5L));
 
       Set<ConfusionString> there = map.get("there").get(0).getSet();
       assertTrue(getAsString(there).contains("there - example 1"));

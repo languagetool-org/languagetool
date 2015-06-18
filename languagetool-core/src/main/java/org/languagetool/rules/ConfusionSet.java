@@ -31,14 +31,16 @@ import java.util.*;
 public class ConfusionSet {
 
   private final Set<ConfusionString> set = new HashSet<>();
-  private final int factor;
+  private final long factor;
 
-  public ConfusionSet(int factor, List<ConfusionString> confusionStrings) {
+  public ConfusionSet(long factor, List<ConfusionString> confusionStrings) {
+    Objects.requireNonNull(confusionStrings);
     this.factor = factor;
     set.addAll(confusionStrings);
   }
 
-  public ConfusionSet(int factor, String... words) {
+  public ConfusionSet(long factor, String... words) {
+    Objects.requireNonNull(words);
     this.factor = factor;
     for (String word : words) {
       set.add(new ConfusionString(word, null));
@@ -46,7 +48,7 @@ public class ConfusionSet {
   }
 
   /* Alternative must be at least this much more probable to be considered correct. */
-  public int getFactor() {
+  public long getFactor() {
     return factor;
   }
 
@@ -81,7 +83,8 @@ public class ConfusionSet {
   @Override
   public int hashCode() {
     int result = set.hashCode();
-    result = 31 * result + factor;
+    result = 31 * result + (int) (factor ^ (factor >>> 32));
     return result;
   }
+  
 }

@@ -143,7 +143,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   }
 
   @Nullable
-  private ConfusionString getBetterAlternativeOrNull(GoogleToken token, List<GoogleToken> tokens, Set<ConfusionString> confusionSet, int factor) {
+  private ConfusionString getBetterAlternativeOrNull(GoogleToken token, List<GoogleToken> tokens, Set<ConfusionString> confusionSet, long factor) {
     if (confusionSet.size() != 2) {
       throw new RuntimeException("Confusion set must be of size 2: " + confusionSet);
     }
@@ -164,7 +164,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     return other;
   }
 
-  private ConfusionString getBetterAlternativeOrNull(GoogleToken token, List<GoogleToken> tokens, ConfusionString otherWord, int factor) {
+  private ConfusionString getBetterAlternativeOrNull(GoogleToken token, List<GoogleToken> tokens, ConfusionString otherWord, long factor) {
     String word = token.token;
     double p1;
     double p2;
