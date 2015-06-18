@@ -33,13 +33,24 @@ public class ConfusionSet {
   private final Set<ConfusionString> set = new HashSet<>();
   private final long factor;
 
+  /**
+   * @param factor the factor that one string must be more probable than the other to be considered a correction, must be >= 1
+   */
   public ConfusionSet(long factor, List<ConfusionString> confusionStrings) {
-    Objects.requireNonNull(confusionStrings);
+    if (factor < 1) {
+      throw new IllegalArgumentException("factor must be >= 1: " + factor);
+    }
     this.factor = factor;
-    set.addAll(confusionStrings);
+    set.addAll(Objects.requireNonNull(confusionStrings));
   }
 
+  /**
+   * @param factor the factor that one string must be more probable than the other to be considered a correction, must be >= 1
+   */
   public ConfusionSet(long factor, String... words) {
+    if (factor < 1) {
+      throw new IllegalArgumentException("factor must be >= 1: " + factor);
+    }
     Objects.requireNonNull(words);
     this.factor = factor;
     for (String word : words) {
@@ -74,9 +85,9 @@ public class ConfusionSet {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    ConfusionSet that = (ConfusionSet) o;
-    if (factor != that.factor) return false;
-    if (!set.equals(that.set)) return false;
+    ConfusionSet other = (ConfusionSet) o;
+    if (factor != other.factor) return false;
+    if (!set.equals(other.set)) return false;
     return true;
   }
 
