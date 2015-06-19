@@ -202,6 +202,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList(word.replaceFirst("standart$", "standard"));
     } else if (word.endsWith("standarts")) {
       return Collections.singletonList(word.replaceFirst("standarts$", "standards"));
+    } else if (word.equals("Rolladen")) {
+      return Collections.singletonList("Rollladen");
     } else if (!StringTools.startsWithUppercase(word)) {
       String ucWord = StringTools.uppercaseFirstChar(word);
       if (!suggestions.contains(ucWord) && !hunspellDict.misspelled(ucWord)) {
