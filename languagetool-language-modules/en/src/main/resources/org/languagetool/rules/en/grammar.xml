@@ -6213,7 +6213,7 @@ USA
         <!-- it's is::word=it is::filter=none -->
         <rule id="ITS_IS" name="its is (it is)">
             <pattern>
-                <token regexp="yes">it|who|she|he|there|that</token>
+                <token regexp="yes">what|it|who|she|he|there|that</token>
                 <token spacebefore="no" regexp="yes">['’]</token>
                 <token>s</token>
                 <token>is</token>
@@ -6523,6 +6523,26 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+        <rule id="VE_HAVING" name="'ve having -> 've been having">
+            <pattern>
+                <token regexp='yes'>could|would|should|you|i|we|they</token>
+                <marker>
+                    <token spacebefore="no" regexp="yes">['`]</token>
+                    <token>ve</token>
+                    <token>having</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="2"/><match no="3"/> been having</suggestion>?</message>
+            <example correction="'ve been having">I<marker>'ve having</marker> lunch.</example>
+        </rule>
+        <rule id="HAVE_HAVING" name="have having -> have been having">
+            <pattern>
+                <token>have</token>
+                <token>having</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1"/> been having</suggestion>?</message>
+            <example correction="have been having">I <marker>have having</marker> lunch.</example>
+        </rule>
         <rule id="PRP_MD_CD_IN" name="Missing verb (some cases)">
             <pattern>
                 <token postag='PRP'><exception scope="previous" postag="IN|VBN" postag_regexp="yes"></exception></token>
