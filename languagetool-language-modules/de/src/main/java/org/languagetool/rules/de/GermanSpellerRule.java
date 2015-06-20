@@ -215,6 +215,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (verbSuggestion != null) {
       return Collections.singletonList(verbSuggestion);
     }
+    String participleSuggestion = getParticipleSuggestion(word);
+    if (participleSuggestion != null) {
+      return Collections.singletonList(participleSuggestion);
+    }
     return Collections.emptyList();
   }
 
@@ -223,7 +227,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   @Nullable
   private String getPastTenseVerbSuggestion(String word) {
     if (word.endsWith("e")) {
-      String wordStem = word.replaceAll("e$", "");
+      String wordStem = word.replaceFirst("e$", "");
       try {
         String lemma = baseForThirdPersonSingularVerb(wordStem);
         if (lemma != null) {
@@ -247,6 +251,34 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       if (reading.hasPartialPosTag("VER:3:SIN:")) {
         return reading.getReadings().get(0).getLemma();
       }
+    }
+    return null;
+  }
+
+  // Get a correct suggestion for invalid words like geschwimmt, geruft: useful for
+  // non-native speakers and cannot be found by just looking for similar words.
+  @Nullable
+  private String getParticipleSuggestion(String word) {
+    if (word.startsWith("ge") && word.endsWith("t")) {
+      String baseform = word.replaceFirst("^ge", "").replaceFirst("t$", "en");
+      try {
+        String participle = getParticipleForBaseform(baseform);
+        if (participle != null) {
+          return participle;
+        }
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    return null;
+  }
+
+  @Nullable
+  private String getParticipleForBaseform(String baseform) throws IOException {
+    AnalyzedToken token = new AnalyzedToken(baseform, null, baseform);
+    String[] forms = synthesizer.synthesize(token, "VER:PA2:.*", true);
+    if (forms.length > 0 && !hunspellDict.misspelled(forms[0])) {
+      return forms[0];
     }
     return null;
   }

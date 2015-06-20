@@ -74,6 +74,11 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("schwimmte", "schwamm", rule, langTool);
     assertFirstSuggestion("gehte", "ging", rule, langTool);
     assertFirstSuggestion("greifte", "griff", rule, langTool);
+    assertFirstSuggestion("geschwimmt", "geschwommen", rule, langTool);
+    assertFirstSuggestion("gegeht", "gegangen", rule, langTool);
+    assertFirstSuggestion("getrinkt", "getrunken", rule, langTool);
+    assertFirstSuggestion("gespringt", "gesprungen", rule, langTool);
+    assertFirstSuggestion("geruft", "gerufen", rule, langTool);
   }
 
   @Test
