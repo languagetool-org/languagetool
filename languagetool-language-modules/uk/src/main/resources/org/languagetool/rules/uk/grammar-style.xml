@@ -40,7 +40,7 @@ $Id$
                         <exception scope="previous" regexp="yes" inflected="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
                     </token>
                     <token postag_regexp="yes" postag="adj.*:(compr).*">
-                        <exception postag_regexp="yes" postag="(pron|noun|verb).*"></exception>
+                        <exception postag_regexp="yes" postag="(noun|verb).*"></exception>
                         <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
                     </token>
                   </unify>
@@ -59,7 +59,7 @@ $Id$
                         <exception scope="previous" regexp="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
                     </token>
                     <token postag_regexp="yes" postag="adj.*:v_(naz|zna).*:comp.*">
-                        <exception postag_regexp="yes" postag="(pron|noun|verb).*"></exception>
+                        <exception postag_regexp="yes" postag="(noun|verb).*"></exception>
                         <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
                     </token>
                 </pattern>
@@ -85,7 +85,7 @@ $Id$
                         <exception scope="previous" regexp="yes" inflected="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
                     </token>
                     <token postag_regexp="yes" postag="adj.*:(comp).*">
-                        <exception postag_regexp="yes" postag="(pron|noun|verb).*"></exception>
+                        <exception postag_regexp="yes" postag="(noun|verb).*"></exception>
                         <exception regexp="yes">(дуже|мала)</exception>
                     </token>
                     </marker>
@@ -113,7 +113,7 @@ $Id$
                         <exception scope="previous" regexp="yes" inflected="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
                     </token>
                     <token postag_regexp="yes" postag="adj.*:(comp).*">
-                        <exception postag_regexp="yes" postag="(pron|noun|verb).*"></exception>
+                        <exception postag_regexp="yes" postag="(noun|verb).*"></exception>
                         <exception regexp="yes">(дуже|мала)</exception>
                         <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
                     </token>
@@ -233,6 +233,27 @@ $Id$
                 <example correction="понад рік|більше як рік"><marker>більше року</marker>.</example>
                 -->
             </rule>
+
+            <!-- загальне правило: прикметник вищого ступіня + іменник в р.в. — забагато фальшивих помилок -->
+            <!--       TODO: core bug??: if we put від after ніж/як the suggestions are wrong!!!  -->
+            <!--
+            <rule id="COMPAR_PLUS_V_ROD">
+                <pattern>
+                    <token postag_regexp="yes" postag=".*v_naz.*compr.*">
+                      <exception regexp="yes">більше|менше</exception>
+                    </token>
+                    <marker>
+                      <token postag_regexp="yes" postag="adj.*:v_rod.*" min="0"/>
+                      <token postag_regexp="yes" postag="noun.*:v_rod.*"/>
+                    </marker>
+                </pattern>
+                <message>Після прикметника вищого ступіня краще вживати «ніж», «як», «від»</message>
+                <suggestion>ніж/як <match no="2" postag_regexp="yes" postag="(adj.*):v_rod(.*)" postag_replace="$1:v_zna$2"/> <match no="3" postag_regexp="yes" postag="(noun.*):v_rod(.*)" postag_replace="$1:v_zna$2"/></suggestion>
+                <suggestion>від <match no="2"/> <match no="3"/></suggestion>
+                <example correction="від тактичного узгодження|ніж/як тактичне узгодження|ніж/як тактичний узгодження|ніж/як тактичного узгодження">Оперативне реагування стало зараз потрібніше <marker>тактичного узгодження</marker> дій.</example>
+                <example correction="від узгодження|ніж/як узгодження">Оперативне реагування стало зараз потрібніше <marker>узгодження</marker> тактики.</example>
+            </rule>
+            -->
 	    </rulegroup>
 
         <rulegroup name="Менше з числівниками та іменниками часу" id="MENSHE_WITH_TIME_NOUNS">
@@ -756,7 +777,7 @@ $Id$
                    <token>вилитий</token> <!-- TODO: inflected ? -->
                </marker>
                    <token postag_regexp="yes" postag="adj.*" min="0" max="1"/>
-                   <token postag_regexp="yes" postag="(noun:.*anim|pron).*"></token>
+                   <token postag_regexp="yes" postag="(noun:.*anim).*"></token>
            </pattern>
            <message>Краще: <suggestion>викапаний</suggestion></message>
            <example correction="викапаний"><marker>вилитий</marker> живий Йозеф Швейк</example>
@@ -782,7 +803,7 @@ $Id$
                <token inflected="yes">економічний</token>
              </marker>
                <token inflected="yes" regexp="yes">двигун|технологія</token>
-               <token min="0" postag_regexp="yes" postag="(adj|pron).*"/>
+               <token min="0" postag_regexp="yes" postag="adj.*"/>
                <token postag_regexp="yes" postag="noun.*"><exception regexp="yes">країни|ціноутворення</exception></token>
            </pattern>
            <message>Правильно: <suggestion>економний</suggestion></message>

@@ -43,7 +43,6 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.uk.IPOSTag;
 import org.languagetool.tagging.uk.PosTagHelper;
-import org.languagetool.tagging.uk.UkrainianTagger;
 
 /**
  * A rule that checks if tokens in the sentence agree on inflection etc
@@ -105,6 +104,14 @@ public class TokenAgreementRule extends Rule {
       if (posTag == null
           || posTag.contains(IPOSTag.unknown.getText())
           || posTag.equals(JLanguageTool.SENTENCE_START_TAGNAME) ){
+        reqTokenReadings = null;
+        continue;
+      }
+
+      // first token is always SENT_START
+      String thisToken = tokenReadings.getToken();
+      if( i > 1 && thisToken.length() == 1 && Character.isUpperCase(thisToken.charAt(0)) 
+          && tokenReadings.isWhitespaceBefore() && ! tokens[i-1].getToken().matches("[:—–-]")) {  // часто вживають укр. В замість лат.: гепатит В
         reqTokenReadings = null;
         continue;
       }
@@ -193,7 +200,7 @@ public class TokenAgreementRule extends Rule {
       }
 
       //      System.out.println("For " + tokenReadings + " to match " + posTagsToFind + " of " + reqTokenReadings.getToken());
-      if( ! hasRequiredPosTag(posTagsToFind, tokenReadings) ) {
+      if( ! getReadingWithVidmPosTag(posTagsToFind, tokenReadings) ) {
         if( isTokenToSkip(tokenReadings) )
           continue;
 
@@ -205,7 +212,7 @@ public class TokenAgreementRule extends Rule {
 
         //TODO: only for subset: президенти/депутати/мери/гості... or by verb піти/йти/балотуватися/записатися...
         if( prep.equalsIgnoreCase("в") || prep.equalsIgnoreCase("у") || prep.equals("межи") || prep.equals("між") ) {
-          if( hasRequiredPosTag(Arrays.asList("p:v_naz"), tokenReadings) ) {
+          if( PosTagHelper.hasPosTag(tokenReadings, ".*p:v_naz[^&]*") ) { // but not &pron:
             reqTokenReadings = null;
             continue;
           }
@@ -300,6 +307,10 @@ public class TokenAgreementRule extends Rule {
             // спиралося на місячної давнини рішення
             if (/*prep.equalsIgnoreCase("на") &&*/ posTag.matches("adj.*:[mfn]:v_rod.*")) {
               String gender = PosTagHelper.getGender(posTag);
+              if( gender == null ) {
+                System.err.println("unknown gender for " + token);
+              }
+              
               if ( PosTagHelper.hasPosTag(tokens[i+1], "noun.*:"+gender+":v_rod.*")) {
                 i += 1;
                 continue;
@@ -371,7 +382,7 @@ public class TokenAgreementRule extends Rule {
 //    return false;
 //  }
 
-  private boolean hasRequiredPosTag(Collection<String> posTagsToFind, AnalyzedTokenReadings tokenReadings) {
+  private boolean getReadingWithVidmPosTag(Collection<String> posTagsToFind, AnalyzedTokenReadings tokenReadings) {
     boolean vidminokFound = false;  // because POS dictionary is not complete
 
     for(AnalyzedToken token: tokenReadings) {
@@ -425,14 +436,14 @@ public class TokenAgreementRule extends Rule {
 
     ArrayList<String> reqVidminkyNames = new ArrayList<>();
     for (String vidm: posTagsToFind) {
-      reqVidminkyNames.add(UkrainianTagger.VIDMINKY_MAP.get(vidm));
+      reqVidminkyNames.add(PosTagHelper.VIDMINKY_MAP.get(vidm));
     }
 
     ArrayList<String> foundVidminkyNames = new ArrayList<>();
     for(AnalyzedToken token: tokenReadings) {
       String posTag2 = token.getPOSTag();
       if( posTag2 != null && posTag2.contains(VIDMINOK_SUBSTR) ) {
-        String vidmName = UkrainianTagger.VIDMINKY_MAP.get(posTag2.replaceFirst("^.*"+VIDMINOK_REGEX+".*$", "$1"));
+        String vidmName = PosTagHelper.VIDMINKY_MAP.get(posTag2.replaceFirst("^.*"+VIDMINOK_REGEX+".*$", "$1"));
         if( foundVidminkyNames.contains(vidmName) ) {
           if (posTag2.contains(":p:")) {
             vidmName = vidmName + " (мн.)";
@@ -453,7 +464,7 @@ public class TokenAgreementRule extends Rule {
       msg += ". Можливо тут потрібно присвійний займенник «їхній»?";
       try {
         String newYihPostag = "adj:p" + requiredPostTagsRegEx + ".*";
-        String[] synthesized = ukrainianSynthesizer.synthesize(new AnalyzedToken("їхній", "adj:m:v_naz:&pron", "їхній"), newYihPostag, true);
+        String[] synthesized = ukrainianSynthesizer.synthesize(new AnalyzedToken("їхній", "adj:m:v_naz:&pron:pos", "їхній"), newYihPostag, true);
         suggestions.addAll( Arrays.asList(synthesized) );
       } catch (IOException e) {
         throw new RuntimeException(e);

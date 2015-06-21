@@ -72,7 +72,7 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
       }
     }
     
-    if( word.contains("-") ) {
+    if( word.contains("-") || word.endsWith(".") ) {
       return hasGoodTag(tokens[idx]);
     }
 

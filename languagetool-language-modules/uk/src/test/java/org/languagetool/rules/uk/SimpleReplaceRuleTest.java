@@ -55,6 +55,11 @@ public class SimpleReplaceRuleTest extends TestCase {
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("Нападник", "Нападальний", "Нападний"), matches[0].getSuggestedReplacements());
 
+    //refl
+    matches = rule.match(langTool.getAnalyzedSentence("відображаються"));
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("показуватися", "зображатися", "відбиватися"), matches[0].getSuggestedReplacements());
+
     // test ignoreTagged
     matches = rule.match(langTool.getAnalyzedSentence("щедрота"));
     assertEquals(1, matches.length);

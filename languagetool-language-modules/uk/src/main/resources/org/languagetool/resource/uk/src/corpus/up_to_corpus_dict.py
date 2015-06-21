@@ -174,7 +174,7 @@ for line in sys.stdin:
    other_line = re_sub("(.*)ти((ся)? .* verb:inf.*)", "\\1ть\\2:coll", line)
    new_lines.append(other_line)
 
- if " noun" in line:
+ if " noun" in line and not "&pron" in line:
    line = re_sub(":p:nv", "\g<0>:ns", line)
    if not ":anim" in line:
      line = line + ":inanim"

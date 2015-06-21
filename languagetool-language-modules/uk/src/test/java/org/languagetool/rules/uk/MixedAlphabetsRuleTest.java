@@ -67,6 +67,18 @@ public class MixedAlphabetsRuleTest {
 
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("XI"), matches[0].getSuggestedReplacements());
+
+    matches = rule.match(langTool.getAnalyzedSentence("Щеплення від гепатиту В.")); // cyrillic B
+    assertEquals(1, matches.length);
+    assertEquals("B", matches[0].getSuggestedReplacements().get(0));
+
+    matches = rule.match(langTool.getAnalyzedSentence("група А")); // cyrillic А
+    assertEquals(1, matches.length);
+    assertEquals("A", matches[0].getSuggestedReplacements().get(0));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("На 0,6°С.")); // cyrillic С
+    assertEquals(1, matches.length);
+    assertEquals("0,6°C", matches[0].getSuggestedReplacements().get(0));
   }
 
 }

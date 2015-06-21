@@ -44,8 +44,8 @@ public class UkrainianTaggerTest extends TestCase {
   public void testTagger() throws IOException {
 
     // one-way case sensitivity
-    TestTools.myAssert("києві", "києві/[кий]noun:m:v_dav", tokenizer, tagger);
-    TestTools.myAssert("Києві", "Києві/[Київ]noun:m:v_mis|Києві/[кий]noun:m:v_dav", tokenizer, tagger);
+    TestTools.myAssert("києві", "києві/[кий]noun:m:v_dav|києві/[кий]noun:m:v_mis", tokenizer, tagger);
+    TestTools.myAssert("Києві", "Києві/[Київ]noun:m:v_mis|Києві/[кий]noun:m:v_dav|Києві/[кий]noun:m:v_mis", tokenizer, tagger);
     TestTools.myAssert("віл", "віл/[віл]noun:m:v_naz:anim", tokenizer, tagger);
     TestTools.myAssert("Віл", "Віл/[віл]noun:m:v_naz:anim", tokenizer, tagger);
     TestTools.myAssert("ВІЛ", "ВІЛ/[ВІЛ]noun:m:v_dav:nv:np:abbr|ВІЛ/[ВІЛ]noun:m:v_mis:nv:np:abbr|ВІЛ/[ВІЛ]noun:m:v_naz:nv:np:abbr|ВІЛ/[ВІЛ]noun:m:v_oru:nv:np:abbr|ВІЛ/[ВІЛ]noun:m:v_rod:nv:np:abbr|ВІЛ/[ВІЛ]noun:m:v_zna:nv:np:abbr|ВІЛ/[віл]noun:m:v_naz:anim", tokenizer, tagger);
@@ -84,9 +84,15 @@ public class UkrainianTaggerTest extends TestCase {
   
   public void testTaggingWithDots() throws IOException {
     TestTools.myAssert("300 р. до н. е.", 
-      "300/[300]number -- р./[null]null -- до/[до]noun:n:v_dav:nv|до/[до]noun:n:v_mis:nv|до/[до]noun:n:v_naz:nv|до/[до]noun:n:v_oru:nv|до/[до]noun:n:v_rod:nv|до/[до]noun:n:v_zna:nv|до/[до]noun:p:v_dav:nv|до/[до]noun:p:v_mis:nv|до/[до]noun:p:v_naz:nv|до/[до]noun:p:v_oru:nv|до/[до]noun:p:v_rod:nv|до/[до]noun:p:v_zna:nv|до/[до]prep:rv_rod -- н./[null]null -- е/[е]excl",
+      "300/[300]number -- р./[р.]noun:f:v_dav:nv:np:abbr|р./[р.]noun:f:v_mis:nv:np:abbr|р./[р.]noun:f:v_naz:nv:np:abbr|р./[р.]noun:f:v_oru:nv:np:abbr|р./[р.]noun:f:v_rod:nv:np:abbr|р./[р.]noun:f:v_zna:nv:np:abbr|р./[р.]noun:m:v_dav:nv:np:abbr|р./[р.]noun:m:v_mis:nv:np:abbr|р./[р.]noun:m:v_naz:nv:np:abbr|р./[р.]noun:m:v_oru:nv:np:abbr|р./[р.]noun:m:v_rod:nv:np:abbr|р./[р.]noun:m:v_zna:nv:np:abbr -- до/[до]noun:n:v_dav:nv|до/[до]noun:n:v_mis:nv|до/[до]noun:n:v_naz:nv|до/[до]noun:n:v_oru:nv|до/[до]noun:n:v_rod:nv|до/[до]noun:n:v_zna:nv|до/[до]noun:p:v_dav:nv|до/[до]noun:p:v_mis:nv|до/[до]noun:p:v_naz:nv|до/[до]noun:p:v_oru:nv|до/[до]noun:p:v_rod:nv|до/[до]noun:p:v_zna:nv|до/[до]prep:rv_rod -- "
+       + "н./[н.]adj:f:v_dav:nv:abbr|н./[н.]adj:f:v_mis:nv:abbr|н./[н.]adj:f:v_naz:nv:abbr|н./[н.]adj:f:v_oru:nv:abbr|н./[н.]adj:f:v_rod:nv:abbr|н./[н.]adj:f:v_zna:nv:abbr|н./[н.]adj:m:v_dav:nv:abbr|н./[н.]adj:m:v_mis:nv:abbr|н./[н.]adj:m:v_naz:nv:abbr|н./[н.]adj:m:v_oru:nv:abbr|н./[н.]adj:m:v_rod:nv:abbr|н./[н.]adj:m:v_zna:nv:abbr|н./[н.]adj:n:v_dav:nv:abbr|н./[н.]adj:n:v_mis:nv:abbr|н./[н.]adj:n:v_naz:nv:abbr|н./[н.]adj:n:v_oru:nv:abbr|н./[н.]adj:n:v_rod:nv:abbr|н./[н.]adj:n:v_zna:nv:abbr|н./[н.]adj:p:v_dav:nv:abbr|н./[н.]adj:p:v_mis:nv:abbr|н./[н.]adj:p:v_naz:nv:abbr|н./[н.]adj:p:v_oru:nv:abbr|н./[н.]adj:p:v_rod:nv:abbr|н./[н.]adj:p:v_zna:nv:abbr -- "
+       + "е./[е.]noun:f:v_dav:nv:abbr|е./[е.]noun:f:v_mis:nv:abbr|е./[е.]noun:f:v_naz:nv:abbr|е./[е.]noun:f:v_oru:nv:abbr|е./[е.]noun:f:v_rod:nv:abbr|е./[е.]noun:f:v_zna:nv:abbr|е./[е.]noun:p:v_dav:nv:abbr|е./[е.]noun:p:v_mis:nv:abbr|е./[е.]noun:p:v_naz:nv:abbr|е./[е.]noun:p:v_oru:nv:abbr|е./[е.]noun:p:v_rod:nv:abbr|е./[е.]noun:p:v_zna:nv:abbr",
        tokenizer, tagger);
-  
+
+    TestTools.myAssert("300 тис. гривень", 
+        "300/[300]number -- тис./[тис.]numr:f:v_dav:nv:abbr|тис./[тис.]numr:f:v_mis:nv:abbr|тис./[тис.]numr:f:v_naz:nv:abbr|тис./[тис.]numr:f:v_oru:nv:abbr|тис./[тис.]numr:f:v_rod:nv:abbr|тис./[тис.]numr:f:v_zna:nv:abbr -- гривень/[гривня]noun:p:v_rod",
+         tokenizer, tagger);
+
 //    TestTools.myAssert("Є.Бакуліна.",
 //      "Є.Бакуліна[Бакулін]noun:m:v_rod:anim:lname|Є.Бакуліна[Бакулін]noun:m:v_zna:anim:lname",
 //       tokenizer, tagger);
@@ -203,6 +209,8 @@ public class UkrainianTaggerTest extends TestCase {
 //    TestTools.myAssert("американо-блакитний", "бірмюково-блакитний/[бірмюково-блакитний]adj:m:v_naz|бірмюково-блакитний/[бірмюково-блакитний]adj:m:v_zna", tokenizer, tagger);
 
     TestTools.myAssert("Дівчинка-першокласниця", "Дівчинка-першокласниця/[дівчинка-першокласниця]noun:f:v_naz:anim", tokenizer, tagger);
+
+    TestTools.myAssert("RPM-пакунок", "RPM-пакунок/[RPM-пакунок]noun:m:v_naz|RPM-пакунок/[RPM-пакунок]noun:m:v_zna", tokenizer, tagger);
 
     // істота-неістота
     //TODO:

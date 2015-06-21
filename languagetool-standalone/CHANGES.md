@@ -38,7 +38,14 @@
   * update spellchecker
   
 #### Ukrainian
-  * improved some rules
+  * big dictionary update (thousands of new words, new tagging for pronouns)
+  * improved sentence and word tokenization
+  * improved tokenization and tagging of lowercase abbreviations
+  * new grammar and styling rules
+  * new spelling rules, especially for lowercase abbrevations with dots
+  * improved compound word tagging 
+  * improved some rules coverage
+  * many new barbarism replacement suggestions
   
 #### Bug Fixes
   * `UppercaseSentenceStartRule` didn't properly reset its state so that

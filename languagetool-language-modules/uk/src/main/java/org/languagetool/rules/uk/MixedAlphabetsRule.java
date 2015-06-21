@@ -45,6 +45,7 @@ public class MixedAlphabetsRule extends Rule {
   private static final Pattern MIXED_ALPHABETS = Pattern.compile(".*([a-zA-Z]'?[а-яіїєґА-ЯІЇЄҐ]|[а-яіїєґА-ЯІЇЄҐ]'?[a-zA-Z]).*");
   private static final Pattern CYRILLIC_ONLY = Pattern.compile(".*[бвгґдєжзйїлнпфцчшщьюяБГҐДЄЖЗИЙЇЛПФЦЧШЩЬЮЯ].*");
   private static final Pattern LATIN_ONLY = Pattern.compile(".*[bdfghjlqrsvzDFGLNQRSUVZ].*");
+  private static final Pattern COMMON_CYR_LETTERS = Pattern.compile("[АВЕІКОРСТУХ]+");
 
   public MixedAlphabetsRule(final ResourceBundle messages) throws IOException {
     super.setCategory(new Category(messages.getString("category_misc")));
@@ -83,6 +84,7 @@ public class MixedAlphabetsRule extends Rule {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
+    int i=0;
     for (AnalyzedTokenReadings tokenReadings: tokens) {
       String tokenString = tokenReadings.getToken();
 
@@ -109,6 +111,31 @@ public class MixedAlphabetsRule extends Rule {
         RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements);
         ruleMatches.add(potentialRuleMatch);
       }
+      else if (i>1 && COMMON_CYR_LETTERS.matcher(tokenString).matches()) {
+        String prevLemma = tokens[i-1].getAnalyzedToken(0).getLemma();
+        if( prevLemma != null && prevLemma.matches("гепатит|група|турнір") ) {
+          List<String> replacements = new ArrayList<>();
+          replacements.add( toLatin(tokenString) );
+
+          String msg = "Вжито кирилічну літеру замість латинської";
+
+          RuleMatch potentialRuleMatch = new RuleMatch(this, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
+          potentialRuleMatch.setSuggestedReplacements(replacements);
+          ruleMatches.add(potentialRuleMatch);
+        }
+      }
+      else if( tokenString.endsWith("°С") ) {  // cyrillic С
+        List<String> replacements = new ArrayList<>();
+        int length = tokenString.length();
+        replacements.add( tokenString.substring(0,  length-1) + toLatin(tokenString.substring(length-1, tokenString.length())) );
+
+        String msg = "Вжито кирилічну літеру замість латинської";
+
+        RuleMatch potentialRuleMatch = new RuleMatch(this, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
+        potentialRuleMatch.setSuggestedReplacements(replacements);
+        ruleMatches.add(potentialRuleMatch);
+      }
+      i++;
     }
     return toRuleMatchArray(ruleMatches);
   }

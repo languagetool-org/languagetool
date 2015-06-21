@@ -42,6 +42,18 @@ echo $LIBS
 
 #mv -f checked.out checked.out.bak
 
+[ -f "$IDS_TO_CHECK" ] && {
+
+    SRC=$IDS_TO_CHECK
+
+    echo "Tagging $SRC"
+
+    run_lt $SRC 0
+
+  exit 0
+}
+
+
 ID=1
 for src_file in $SRCS; do
 
@@ -53,7 +65,7 @@ for src_file in $SRCS; do
 
     run_lt $SRC $ID
     
-    diff tagged$ID.out.old tagged$ID.out > tagged$ID.out.diff
+    diff tagged$ID.out.bak tagged$ID.out > tagged$ID.out.diff
 
   fi
 

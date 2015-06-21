@@ -103,6 +103,21 @@
             outputform="По[&lt;/S&gt;,по/noun:m:nv:anim:lname,по/noun:m:nv:anim:lname]">Знали Едгара <marker>По</marker></example>
         <example type="untouched">Едгара по полю.</example>
     </rule>
+
+    <rule name="Скорочення та ініціали" id="ABBR_VS_INITIALS">
+        <pattern>
+          <token case_sensitive="yes" postag_regexp="yes" postag=".*:abbr.*" regexp="yes">[А-ЯІЇЄҐ]
+            <exception postag_regexp="yes" postag=".*:(fname|patr).*"></exception>
+          </token>
+          <token>.</token>
+        </pattern>
+        <disambig action="remove" postag=".*:abbr.*"/>
+        <example type="ambiguous" 
+            inputform="С[с/noun:f:v_dav:nv:abbr,с/noun:f:v_mis:nv:abbr,с/noun:f:v_naz:nv:abbr,с/noun:f:v_oru:nv:abbr,с/noun:f:v_rod:nv:abbr,с/noun:f:v_zna:nv:abbr,с/noun:p:v_dav:nv:abbr,с/noun:p:v_mis:nv:abbr,с/noun:p:v_naz:nv:abbr,с/noun:p:v_oru:nv:abbr,с/noun:p:v_rod:nv:abbr,с/noun:p:v_zna:nv:abbr]" 
+            outputform="С[С]"><marker>С</marker>. Макаров.</example>
+        <example type="untouched">100 м батерфляєм.</example>
+    </rule>
+
     
     <rule name="Слова з великої літери в середині речення - це іменники або прикметники" id="DIS_PROPER_NOUN_INSIDE_SENTENCE">
         <pattern case_sensitive="yes">

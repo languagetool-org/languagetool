@@ -76,8 +76,11 @@ public class MorfologikUkrainianSpellerRuleTest {
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Він багато сидів на інтермет-форумах")).length);
 
+    
     // dynamic tagging
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("екс-креветка")).length);
+
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("банд-формування.")).length);
 
 
     // abbreviations
@@ -93,6 +96,16 @@ public class MorfologikUkrainianSpellerRuleTest {
 
     match = rule.match(langTool.getAnalyzedSentence("Англі́йська мова (англ English language, English) належить до германської групи"));
     assertEquals(1, match.length);
+
+  
+    match = rule.match(langTool.getAnalyzedSentence("100 тис. гривень"));
+    assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(match));
+
+    match = rule.match(langTool.getAnalyzedSentence("100 кв. м"));
+    assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(match));
+
+    match = rule.match(langTool.getAnalyzedSentence("100 кв м"));
+    assertEquals(1, Arrays.asList(match).size());
   }
 
 }

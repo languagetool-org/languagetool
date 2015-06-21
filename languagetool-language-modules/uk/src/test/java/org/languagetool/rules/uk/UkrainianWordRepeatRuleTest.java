@@ -51,6 +51,7 @@ public class UkrainianWordRepeatRuleTest {
     assertEmptyMatch("ще в В.Кандинського");
     assertEmptyMatch("Від добра добра не шукають.");
     assertEmptyMatch("Що що, а кіно в Україні...");
+    assertEmptyMatch("Відповідно до ст. ст. 3, 7, 18.");
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("без без повного розрахунку")).length);
     RuleMatch[] match = rule.match(langTool.getAnalyzedSentence("Верховної Ради І і ІІ скликань"));

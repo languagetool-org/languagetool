@@ -167,11 +167,30 @@ public class TokenAgreementRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("згідно з документа"));
     assertEquals(1, matches.length);
 
+    matches = rule.match(langTool.getAnalyzedSentence("зацікавлених у ви користанні"));
+    assertEquals(1, matches.length);
+
 //    matches = rule.match(langTool.getAnalyzedSentence("колега з Мінську"));
 //    System.out.println(langTool.getAnalyzedSentence("колега з Мінську"));
 //    // check match positions:
 //    assertEquals(1, matches.length);
 
+    matches = rule.match(langTool.getAnalyzedSentence("В йому заграла кров."));
+    assertEquals(1, matches.length);
+
+    matches = rule.match(langTool.getAnalyzedSentence("  В йому заграла кров."));
+    assertEquals(1, matches.length);
+
+    matches = rule.match(langTool.getAnalyzedSentence("І от «В йому заграла кров»."));
+    assertEquals(1, matches.length);
+
+    assertEmptyMatch("гепатитів В та С");
+    
+    matches = rule.match(langTool.getAnalyzedSentence("— О пан Єзус, захисти їх!"));
+    assertEquals(1, matches.length);
+    
+    matches = rule.match(langTool.getAnalyzedSentence("На фото: З Голлівуду Яринка Шуст привезла дві золоті медалі"));
+    assertEquals(1, matches.length);
   }
 
   private void assertEmptyMatch(String text) throws IOException {

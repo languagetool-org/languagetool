@@ -16,7 +16,7 @@ import org.languagetool.tagging.uk.PosTagHelper;
  */
 public class UkrainianWordRepeatRule extends WordRepeatRule {
   private static final HashSet<String> REPEAT_ALLOWED_SET = new HashSet<>(
-      Arrays.asList("що", "ні", "одне", "ось")
+      Arrays.asList("що", "ні", "одне", "ось", "ст.")
   );
   private static final HashSet<String> REPEAT_ALLOWED_CAPS_SET = new HashSet<>(
       Arrays.asList("ПРО", "Джей", "Ді")

@@ -20,8 +20,8 @@ CPATH=$LIBDIR/lucene-gosen-ipadic.jar:$LIBDIR/ictclas4j.jar:$LIBDIR/cjftransform
 #JAVA_OPTS="-Xverify:none"
 
 # For JMC
-#JAVA_OPTS="-XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:FlightRecorderOptions=defaultrecording=true,dumponexit=true,dumponexitpath=dumponexit.jfr"
-#export PATH=/usr/java/latest/bin:$PATH
+JAVA_OPTS="-XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:FlightRecorderOptions=defaultrecording=true,dumponexit=true,dumponexitpath=dumponexit.jfr"
+export PATH=/usr/java/latest/bin:$PATH
 
 THREAD_CNT=`more /proc/cpuinfo | grep processor| wc -l`
 (( THREAD_CNT += 0 ))
@@ -31,7 +31,7 @@ JAVA_OPTS="$JAVA_OPTS -Dorg.languagetool.thread_count_internal=$THREAD_CNT"
 
 #RULES_TO_FIX="UPPERCASE_SENTENCE_START,DOUBLE_PUNCTUATION"
 #RULES_TO_IGNORE="MORFOLOGIK_RULE_UK_UA,COMMA_PARENTHESIS_WHITESPACE,WHITESPACE_RULE,EUPHONY,UK_MIXED_ALPHABETS,UK_SIMPLE_REPLACE"
-RULES_TO_IGNORE="MORFOLOGIK_RULE_UK_UA,COMMA_PARENTHESIS_WHITESPACE,WHITESPACE_RULE,UK_MIXED_ALPHABETS,UK_SIMPLE_REPLACE,UK_SIMPLE_REPLACE_SOFT,EUPHONY,INVALID_DATE,YEAR_20001,DATE_WEEKDAY1,DASH,UK_HIDDEN_CHARS"
+RULES_TO_IGNORE="MORFOLOGIK_RULE_UK_UA,COMMA_PARENTHESIS_WHITESPACE,WHITESPACE_RULE,UK_MIXED_ALPHABETS,UK_SIMPLE_REPLACE,UK_SIMPLE_REPLACE_SOFT,EUPHONY,INVALID_DATE,YEAR_20001,DATE_WEEKDAY1,DASH,UK_HIDDEN_CHARS,UPPER_INDEX_FOR_M,DEGREES_FOR_C,OVKA_FOR_PROCESS"
 RULES_TO_IGNORE_FOR_GROUPED="MORFOLOGIK_RULE_UK_UA,COMMA_PARENTHESIS_WHITESPACE,WHITESPACE_RULE,UK_MIXED_ALPHABETS,UK_SIMPLE_REPLACE,UK_SIMPLE_REPLACE_SOFT,INVALID_DATE,YEAR_20001,DATE_WEEKDAY1,DASH,UK_HIDDEN_CHARS"
 #RULES_DONE="BILSHE_WITH_NUMERICS,COMMA_BEFORE_BUT,INSERTED_WORDS_NO_COMMA"
 
@@ -95,7 +95,7 @@ echo $LIBS
 
 if [ "$IDS_TO_CHECK" == "0" ]; then
     ID=$IDS_TO_CHECK
-    SRC=text4.txt
+    SRC=text/t.txt
     echo "Checking $SRC [$ID]"
 
     RULES_TO_IGNORE="MORFOLOGIK_RULE_UK_UA,COMMA_PARENTHESIS_WHITESPACE" #,WHITESPACE_RULE,UK_SIMPLE_REPLACE"
@@ -116,11 +116,11 @@ for src_file in $SRCS; do
     
     echo "Checking $SRC [$ID]"
 
-    if [ "$IDS_TO_CHECK" == "" ] && [ $((ID%2)) -eq 1 ]; then
-      run_full_test $SRC $ID &
-    else
+#    if [ "$IDS_TO_CHECK" == "" ] && [ $((ID%2)) -eq 1 ]; then
+#      run_full_test $SRC $ID &
+#    else
       run_full_test $SRC $ID
-    fi
+#    fi
 
   fi
 

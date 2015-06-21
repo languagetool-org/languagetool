@@ -124,18 +124,188 @@ $Id$
       </rule>
     </rulegroup>
 
-    <rulegroup id="DASH" name="DASH">
+    <rulegroup id="DASH" name="Риска">
       <rule>
         <pattern>
           <token regexp="yes">[а-яіїєґ]+[—–][а-яіїєґ]+</token>
         </pattern>
-        <message>Риска всередині слова. Всередині слова вживайте дефіс: <suggestion><match no="1" regexp_match="([а-яіїєґ]+)[—–]([а-яіїєґ]+)" regexp_replace="$1-$2"/></suggestion
-        >, між словами виокремлюйте риску пробілами: <suggestion><match no="1" regexp_match="([а-яіїєґ]+)[—–]([а-яіїєґ]+)" regexp_replace="$1 — $2"/></suggestion></message>
+        <message>Риска всередині слова. Всередині слова вживайте дефіс: <suggestion><match no="1" regexp_match="(.*)[—–](.*)" regexp_replace="$1-$2"/></suggestion
+        >, між словами виокремлюйте риску пробілами: <suggestion><match no="1" regexp_match="(.*)[—–](.*)" regexp_replace="$1 — $2"/></suggestion></message>
         <example correction="січень-лютий|січень — лютий"><marker>січень—лютий</marker></example>
         <example correction="яскраво-рожевий|яскраво — рожевий"><marker>яскраво–рожевий</marker></example>
+        <example correction="Вовка-Волкова|Вовка — Волкова"><marker>Вовка—Волкова</marker></example>
       </rule>
     </rulegroup>
 
+    <rulegroup id="DIGITS_AND_LETTERS" name="Цифри та літери">
+      <rule>
+        <antipattern>
+            <token>«</token>
+            <token regexp="yes">[А-ЯІЇЄҐа-яіїєґ'-][а-яіїєґ]+[0-9]+[^а-яіїєґ]+</token>
+            <token>»</token>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token regexp="yes">[А-ЯІЇЄҐа-яіїєґ'-][а-яіїєґ]+[0-9]+[^а-яіїєґ]+
+	          <exception regexp="yes">([кдсмн]|мк)?м[23]</exception>
+	          <exception regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ-]+[0-9]+</exception>
+	        </token>
+          </marker>
+        </pattern>
+        <message>Відсутній дефіс або пробіл між словом і числом</message>
+        <suggestion><match no="1" regexp_match="([А-ЯІЇЄҐа-яіїєґ'-])([0-9]+)" regexp_replace="$1-$2"/></suggestion>
+        <suggestion><match no="1" regexp_match="([А-ЯІЇЄҐа-яіїєґ'-])([0-9]+)" regexp_replace="$1 $2"/></suggestion>
+        <example correction="культивувати-170|культивувати 170">почали <marker>культивувати170</marker> років</example>
+        <example correction="до-1600|до 1600"><marker>до1600</marker> ккал</example>
+        <example correction="Євро-2012|Євро 2012">на хвилі <marker>Євро2012</marker></example>
+        <example correction="майже-100%|майже 100%"><marker>майже100%</marker>.</example>
+        <example>20 мм2</example>
+        <example>ми скористалися службою «Інфо300»</example>
+        <example>АН4774087</example>
+      </rule>
+      <rule id="UPPER_INDEX_FOR_M" name="Верхній індекс для метрів">
+        <pattern>
+          <token regexp="yes">([кдсмн]|мк)?м[23]</token>
+        </pattern>
+        <message>Можливо потрібен верхній індекс?</message>
+        <suggestion><match no="1" regexp_match="([а-я]+)([23])" regexp_replace="$1²"/></suggestion>
+        <suggestion><match no="1" regexp_match="([а-я]+)([23])" regexp_replace="$1³"/></suggestion>
+        <example correction="км²|км³">900 тис. <marker>км2</marker></example>
+        <example correction="м²|м³">900 <marker>м3</marker></example>
+        <example>20 скм3</example>
+      </rule>
+      <rule id="DEGREES_FOR_C" name="Знак градусів">
+        <pattern>
+			<token case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</token>	<!-- both lat and cyr o and C -->
+        </pattern>
+        <message>Можливо потрібен знак градуса?</message>
+        <suggestion><match no="1" regexp_match="([+-]?[0-9,-]*[0-9])[оo][СC]" regexp_replace="$1°C"/></suggestion>
+        <example correction="27°C">температура знизиться до <marker>27оC</marker>.</example>
+        <example>20 ОС</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[А-ЯІЇЄҐа-яіїєґ'-][а-яіїєґ]+[0-9]+[а-яіїєґ]+
+	        </token>
+          </marker>
+        </pattern>
+        <message>Цифри всередині слова</message>
+        <suggestion><match no="1" regexp_match="([А-ЯІЇЄҐа-яіїєґ'-])([0-9]+)([а-яіїєґ'-])" regexp_replace="$1$3"/></suggestion>
+        <suggestion><match no="1" regexp_match="([А-ЯІЇЄҐа-яіїєґ'-])([0-9]+)([а-яіїєґ'-])" regexp_replace="$1 $2 $3"/></suggestion>
+        <example correction="напередодні|напе 1 редодні"><marker>напе1редодні</marker></example>
+        <example>40х40х30</example>
+      </rule>
+      <rule>
+        <antipattern>
+            <token regexp="yes">[А-ЯІЇЄҐ].*</token>
+         	<token regexp="yes">,</token>
+            <token regexp="yes">[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">номер.*|нумерац.*|[/№]</token>
+            <token regexp="yes">[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*</token>
+        </antipattern>
+        <antipattern>
+            <token>«</token>
+            <token regexp="yes">[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*</token>
+            <token>»</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">[0-9]{1,3}[а-яіїєґ]?</token>
+            <token regexp="yes">,|і|та</token>
+            <token regexp="yes">[0-9]{1,3}[а-яіїєґ]</token>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token regexp="yes">[$+-]?[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*\.?
+            	<exception case_sensitive="yes">1С</exception>
+            	<exception regexp="yes">[0-9]+'</exception>
+            	<exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</exception>	<!-- both lat and cyr o and C -->
+            </token>
+          </marker>
+        </pattern>
+        <message>Відсутній дефіс або пробіл між числом і словом</message>
+        <suggestion><match no="1" regexp_match="([0-9,-]*[0-9,])([а-яіїєґ'-])" regexp_replace="$1 $2"/></suggestion>
+        <suggestion><match no="1" regexp_match="([0-9,-]*[0-9,])([а-яіїєґ'-])" regexp_replace="$1-$2"/></suggestion>
+        <example correction="21 відсоток|21-відсоток">набрав <marker>21відсоток</marker>.</example>
+        <example correction="505 грн|505-грн"><marker>505грн</marker>.</example>
+        <example correction="5,05 грн|5,05-грн"><marker>5,05грн</marker>.</example>
+        <example correction="1981 р.|1981-р.">З <marker>1981р.</marker></example>
+        <example correction="1989 го|1989-го">15 лютого <marker>1989го</marker>.</example>
+        <example correction="0,4-10 кВ|0,4-10-кВ">напруги <marker>0,4-10кВ</marker>.</example>
+        <example>Естафета 4х100 м.</example>
+        <example>Грушевського, 9а</example>
+        <example>14,7оС</example>
+        <example>та ж вулиця, номер 8ж</example>
+        <example>автобусом № 441, 41к</example>
+        <example>Будівля №36а</example>
+        <example>у справі № 8/348а</example>
+        <example>1С</example>
+        <example>23° 27'</example>
+        <example>програма «4М».</example>
+        <example>від 27 грудня 1978 року за №44у—279 вирок</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="ABBREVIATIONS" name="Скорочення">
+    <!-- TODO: c - секунда, c. - село/сторінка; м — метр, м. — місто; т - тонна, т. - точка -->
+      <url>http://www.library.ukma.edu.ua/fileadmin/documents/Bibliography/26_DCTU3582-97.pdf</url>
+      <rule>
+        <pattern>
+          <token case_sensitive="yes" regexp="yes">[мк]?г|мкг|грн|год|крб|м?л|млн|млрд|[мнсдк]м|мкм|[нм]с|мкс|смт|хв</token>
+          <token negate_pos="yes" postag="SENT_END">.</token>
+        </pattern>
+        <message>Стягнені скорочення та метричні одиниці пишуться без крапки: <suggestion><match no="1"/></suggestion></message>
+        <example correction="грн">100 <marker>грн.</marker> в банк.</example>
+        <example correction="год">Двадцять <marker>год.</marker> їзди.</example>
+        <example>Двадцять год.</example>
+        <example>В м. Київ.</example>
+        <example>Прийшов Л. Коцюба.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[0-9,-]+|кв\.|куб\.</token>
+          <marker>
+            <token case_sensitive="yes">м</token>
+            <token negate_pos="yes" postag="SENT_END">.</token>
+          </marker>
+          <token case_sensitive="yes" negate="yes" regexp="yes">[А-ЯІЇЄҐ].*</token>
+        </pattern>
+        <message>Метричні одиниці пишуться без крапки: <suggestion><match no="2"/></suggestion></message>
+        <example correction="м">100 <marker>м.</marker> дороги.</example>
+        <example correction="м">100 кв. <marker>м.</marker> дороги.</example>
+        <example>Останні 100 м.</example>
+        <example>Прийшов М. Гориня.</example>
+        <example>Проїхали м. Львів.</example>
+        <example>Листи надсилайте на адресу: 79026    м. Львів, вул. Володимира Великого</example>
+        <!-- TODO: важко розрізнити секунди від села від сторінки -->
+        <!--
+        <example correction="с">Останніх 37,8 <marker>с.</marker> шляху.</example>
+        <example>Проїхали с. Веселе.</example>
+        -->
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token regexp="yes">р\.</token>
+          <token regexp="yes">р\.</token>
+        </pattern>
+        <message>Роки скорочено пишуться <suggestion>рр.</suggestion></message>
+        <example correction="рр.">70-80 <marker>р.р.</marker></example>
+      </rule>
+    </rulegroup>
+<!--
+    <rulegroup id="LAT_CYR" name="Латиниця/кирилиця">
+      <rule>
+        <pattern>
+          <token regexp="yes">група|турнір|гепатит</token>
+          <token case_sensitive="yes" regexp="yes">[АВСЕ]</token>
+        </pattern>
+        <message>Вжито кирилічну літеру замість <suggestion>рр.</suggestion></message>
+        <example correction="рр.">70-80 <marker>р.р.</marker></example>
+      </rule>
+    </rulegroup>
+-->
   </category>
 
 </rules>
