@@ -45,26 +45,26 @@ public class Configuration {
 
   private static final String CONFIG_FILE = ".languagetool.cfg";
 
-  private static final String DISABLED_RULES_CONFIG_KEY = "disabledRules";
-  private static final String ENABLED_RULES_CONFIG_KEY = "enabledRules";
-  private static final String DISABLED_CATEGORIES_CONFIG_KEY = "disabledCategories";
-  private static final String LANGUAGE_CONFIG_KEY = "language";
-  private static final String MOTHER_TONGUE_CONFIG_KEY = "motherTongue";
-  private static final String NGRAM_DIR_CONFIG_KEY = "ngramDir";
-  private static final String AUTO_DETECT_CONFIG_KEY = "autoDetect";
-  private static final String SERVER_RUN_CONFIG_KEY = "serverMode";
-  private static final String SERVER_PORT_CONFIG_KEY = "serverPort";
-  private static final String USE_GUI_CONFIG_KEY = "useGUIConfig";
-  private static final String FONT_NAME_CONFIG_KEY = "font.name";
-  private static final String FONT_STYLE_CONFIG_KEY = "font.style";
-  private static final String FONT_SIZE_CONFIG_KEY = "font.size";
-  private static final String LF_NAME_CONFIG_KEY = "lookAndFeelName";
-  private static final String ERROR_COLORS_CONFIG_KEY = "errorColors";
+  private static final String DISABLED_RULES_KEY = "disabledRules";
+  private static final String ENABLED_RULES_KEY = "enabledRules";
+  private static final String DISABLED_CATEGORIES_KEY = "disabledCategories";
+  private static final String LANGUAGE_KEY = "language";
+  private static final String MOTHER_TONGUE_KEY = "motherTongue";
+  private static final String NGRAM_DIR_KEY = "ngramDir";
+  private static final String AUTO_DETECT_KEY = "autoDetect";
+  private static final String SERVER_RUN_KEY = "serverMode";
+  private static final String SERVER_PORT_KEY = "serverPort";
+  private static final String USE_GUI_KEY = "useGUIConfig";
+  private static final String FONT_NAME_KEY = "font.name";
+  private static final String FONT_STYLE_KEY = "font.style";
+  private static final String FONT_SIZE_KEY = "font.size";
+  private static final String LF_NAME_KEY = "lookAndFeelName";
+  private static final String ERROR_COLORS_KEY = "errorColors";
 
   private static final String DELIMITER = ",";
   private static final String EXTERNAL_RULE_DIRECTORY = "extRulesDirectory";
 
-  private final Map<String, String> configForOtherLangs = new HashMap<>();
+  private final Map<String, String> configForOtherLanguages = new HashMap<>();
   private final Map<ITSIssueType, Color> errorColors = new HashMap<>();
 
   private File configFile;
@@ -78,8 +78,8 @@ public class Configuration {
   private boolean autoDetect;
   private boolean guiConfig;
   private String fontName;
-  private int fontStyle;
-  private int fontSize;
+  private int fontStyle = FONT_STYLE_INVALID;
+  private int fontSize = FONT_SIZE_INVALID;
   private int serverPort = DEFAULT_SERVER_PORT;
   private String externalRuleDirectory;
   private String lookAndFeelName;
@@ -92,10 +92,13 @@ public class Configuration {
   public Configuration(final Language lang) throws IOException {
     this(new File(System.getProperty("user.home")), CONFIG_FILE, lang);
   }
-  
+
+  public Configuration(final File baseDir, final Language lang) throws IOException {
+    this(baseDir, CONFIG_FILE, lang);
+  }
+
   public Configuration(final File baseDir, final String filename, final Language lang)
       throws IOException {
-    this();
     if (!baseDir.isDirectory()) {
       throw new IllegalArgumentException("Not a directory: " + baseDir);
     }
@@ -103,13 +106,7 @@ public class Configuration {
     loadConfiguration(lang);
   }
 
-  public Configuration(final File baseDir, final Language lang) throws IOException {
-    this(baseDir, CONFIG_FILE, lang);
-  }
-
   Configuration() {
-    fontStyle = FONT_STYLE_INVALID;
-    fontSize = FONT_SIZE_INVALID;
   }
 
   /**
@@ -152,9 +149,9 @@ public class Configuration {
     this.enabledRuleIds.addAll(configuration.enabledRuleIds);
     this.disabledCategoryNames.clear();
     this.disabledCategoryNames.addAll(configuration.disabledCategoryNames);
-    this.configForOtherLangs.clear();
-    for (String key : configuration.configForOtherLangs.keySet()) {
-      this.configForOtherLangs.put(key, configuration.configForOtherLangs.get(key));
+    this.configForOtherLanguages.clear();
+    for (String key : configuration.configForOtherLanguages.keySet()) {
+      this.configForOtherLanguages.put(key, configuration.configForOtherLanguages.get(key));
     }
   }
 
@@ -239,90 +236,69 @@ public class Configuration {
   }
 
   /**
-   *
    * Returns the name of the GUI's editing textarea font.
-   *
    * @return the name of the font.
    * @since 2.6
-   * 
-   * @see java.awt.Font#getFamily()
+   * @see Font#getFamily()
    */
   public String getFontName() {
     return fontName;
   }
 
   /**
-   *
    * Sets the name of the GUI's editing textarea font.
-   *
    * @param fontName the name of the font.
    * @since 2.6
-   * 
-   * @see java.awt.Font#getFamily()
+   * @see Font#getFamily()
    */
   public void setFontName(String fontName) {
     this.fontName = fontName;
   }
 
   /**
-   *
    * Returns the style of the GUI's editing textarea font.
-   *
    * @return the style of the font.
    * @since 2.6
-   * 
-   * @see java.awt.Font#getStyle()
+   * @see Font#getStyle()
    */
   public int getFontStyle() {
     return fontStyle;
   }
 
   /**
-   *
    * Sets the style of the GUI's editing textarea font.
-   *
    * @param fontStyle the style of the font.
    * @since 2.6
-   * 
-   * @see java.awt.Font#getStyle()
+   * @see Font#getStyle()
    */
   public void setFontStyle(int fontStyle) {
     this.fontStyle = fontStyle;
   }
 
   /**
-   *
    * Returns the size of the GUI's editing textarea font.
-   *
    * @return the size of the font.
    * @since 2.6
-   * 
-   * @see java.awt.Font#getSize()
+   * @see Font#getSize()
    */
   public int getFontSize() {
     return fontSize;
   }
 
   /**
-   *
    * Sets the size of the GUI's editing textarea font.
-   *
    * @param fontSize the size of the font.
    * @since 2.6
-   * 
-   * @see java.awt.Font#getSize()
+   * @see Font#getSize()
    */
   public void setFontSize(int fontSize) {
     this.fontSize = fontSize;
   }
 
   /**
-   *
    * Returns the name of the GUI's LaF.
-   *
    * @return the name of the LaF.
    * @since 2.6
-   * 
    * @see javax.swing.UIManager.LookAndFeelInfo#getName()
    */
   public String getLookAndFeelName() {
@@ -330,12 +306,9 @@ public class Configuration {
   }
 
   /**
-   *
    * Sets the name of the GUI's LaF.
-   *
    * @param lookAndFeelName the name of the LaF.
    * @since 2.6 @see
-   * 
    * @see javax.swing.UIManager.LookAndFeelInfo#getName()
    */
   public void setLookAndFeelName(String lookAndFeelName) {
@@ -375,45 +348,45 @@ public class Configuration {
       final Properties props = new Properties();
       props.load(fis);
 
-      disabledRuleIds.addAll(getListFromProperties(props, DISABLED_RULES_CONFIG_KEY + qualifier));
-      enabledRuleIds.addAll(getListFromProperties(props, ENABLED_RULES_CONFIG_KEY + qualifier));
-      disabledCategoryNames.addAll(getListFromProperties(props, DISABLED_CATEGORIES_CONFIG_KEY + qualifier));
+      disabledRuleIds.addAll(getListFromProperties(props, DISABLED_RULES_KEY + qualifier));
+      enabledRuleIds.addAll(getListFromProperties(props, ENABLED_RULES_KEY + qualifier));
+      disabledCategoryNames.addAll(getListFromProperties(props, DISABLED_CATEGORIES_KEY + qualifier));
       
-      final String languageStr = (String) props.get(LANGUAGE_CONFIG_KEY);
+      final String languageStr = (String) props.get(LANGUAGE_KEY);
       if (languageStr != null) {
         language = Languages.getLanguageForShortName(languageStr);
       }
-      final String motherTongueStr = (String) props.get(MOTHER_TONGUE_CONFIG_KEY);
+      final String motherTongueStr = (String) props.get(MOTHER_TONGUE_KEY);
       if (motherTongueStr != null && !motherTongueStr.equals("xx")) {
         motherTongue = Languages.getLanguageForShortName(motherTongueStr);
       }
-      final String ngramDir = (String) props.get(NGRAM_DIR_CONFIG_KEY);
+      final String ngramDir = (String) props.get(NGRAM_DIR_KEY);
       if (ngramDir != null) {
         ngramDirectory = new File(ngramDir);
       }
             
-      autoDetect = "true".equals(props.get(AUTO_DETECT_CONFIG_KEY));
-      guiConfig = "true".equals(props.get(USE_GUI_CONFIG_KEY));
-      runServer = "true".equals(props.get(SERVER_RUN_CONFIG_KEY));
+      autoDetect = "true".equals(props.get(AUTO_DETECT_KEY));
+      guiConfig = "true".equals(props.get(USE_GUI_KEY));
+      runServer = "true".equals(props.get(SERVER_RUN_KEY));
 
-      fontName = (String) props.get(FONT_NAME_CONFIG_KEY);
-      if (props.get(FONT_STYLE_CONFIG_KEY) != null) {
+      fontName = (String) props.get(FONT_NAME_KEY);
+      if (props.get(FONT_STYLE_KEY) != null) {
         try {
-          fontStyle = Integer.parseInt((String) props.get(FONT_STYLE_CONFIG_KEY));
+          fontStyle = Integer.parseInt((String) props.get(FONT_STYLE_KEY));
         } catch (NumberFormatException e) {
           // Ignore
         }
       }
-      if (props.get(FONT_SIZE_CONFIG_KEY) != null) {
+      if (props.get(FONT_SIZE_KEY) != null) {
         try {
-          fontSize = Integer.parseInt((String) props.get(FONT_SIZE_CONFIG_KEY));
+          fontSize = Integer.parseInt((String) props.get(FONT_SIZE_KEY));
         } catch (NumberFormatException e) {
           // Ignore
         }
       }
-      lookAndFeelName = (String) props.get(LF_NAME_CONFIG_KEY);
+      lookAndFeelName = (String) props.get(LF_NAME_KEY);
 
-      final String serverPortString = (String) props.get(SERVER_PORT_CONFIG_KEY);
+      final String serverPortString = (String) props.get(SERVER_PORT_KEY);
       if (serverPortString != null) {
         serverPort = Integer.parseInt(serverPortString);
       }
@@ -422,7 +395,7 @@ public class Configuration {
         externalRuleDirectory = extRules;
       }
 
-      String colorsString = (String) props.get(ERROR_COLORS_CONFIG_KEY);
+      String colorsString = (String) props.get(ERROR_COLORS_KEY);
       parseErrorColors(colorsString);
 
       //store config for other languages
@@ -460,16 +433,16 @@ public class Configuration {
     for (Language otherLang : Languages.get()) {
       if (!otherLang.equals(lang)) {
         final String languageSuffix = "." + otherLang.getShortNameWithCountryAndVariant();
-        storeConfigKeyFromProp(prop, DISABLED_RULES_CONFIG_KEY + languageSuffix);
-        storeConfigKeyFromProp(prop, ENABLED_RULES_CONFIG_KEY + languageSuffix);
-        storeConfigKeyFromProp(prop, DISABLED_CATEGORIES_CONFIG_KEY + languageSuffix);
+        storeConfigKeyFromProp(prop, DISABLED_RULES_KEY + languageSuffix);
+        storeConfigKeyFromProp(prop, ENABLED_RULES_KEY + languageSuffix);
+        storeConfigKeyFromProp(prop, DISABLED_CATEGORIES_KEY + languageSuffix);
       }
     }
   }
 
   private void storeConfigKeyFromProp(final Properties prop, final String key) {
     if (prop.containsKey(key)) {
-      configForOtherLangs.put(key, prop.getProperty(key));
+      configForOtherLanguages.put(key, prop.getProperty(key));
     }
   }
 
@@ -487,33 +460,33 @@ public class Configuration {
     final Properties props = new Properties();
     final String qualifier = getQualifier(lang);
     
-    addListToProperties(props, DISABLED_RULES_CONFIG_KEY + qualifier, disabledRuleIds);
-    addListToProperties(props, ENABLED_RULES_CONFIG_KEY + qualifier, enabledRuleIds);
-    addListToProperties(props, DISABLED_CATEGORIES_CONFIG_KEY + qualifier, disabledCategoryNames);
+    addListToProperties(props, DISABLED_RULES_KEY + qualifier, disabledRuleIds);
+    addListToProperties(props, ENABLED_RULES_KEY + qualifier, enabledRuleIds);
+    addListToProperties(props, DISABLED_CATEGORIES_KEY + qualifier, disabledCategoryNames);
     if (language != null && !language.isExternal()) {  // external languages won't be known at startup, so don't save them
-      props.setProperty(LANGUAGE_CONFIG_KEY, language.getShortNameWithCountryAndVariant());
+      props.setProperty(LANGUAGE_KEY, language.getShortNameWithCountryAndVariant());
     }
     if (motherTongue != null) {
-      props.setProperty(MOTHER_TONGUE_CONFIG_KEY, motherTongue.getShortName());
+      props.setProperty(MOTHER_TONGUE_KEY, motherTongue.getShortName());
     }
     if (ngramDirectory != null) {
-      props.setProperty(NGRAM_DIR_CONFIG_KEY, ngramDirectory.getAbsolutePath());
+      props.setProperty(NGRAM_DIR_KEY, ngramDirectory.getAbsolutePath());
     }
-    props.setProperty(AUTO_DETECT_CONFIG_KEY, Boolean.toString(autoDetect));
-    props.setProperty(USE_GUI_CONFIG_KEY, Boolean.toString(guiConfig));
-    props.setProperty(SERVER_RUN_CONFIG_KEY, Boolean.toString(runServer));
-    props.setProperty(SERVER_PORT_CONFIG_KEY, Integer.toString(serverPort));
+    props.setProperty(AUTO_DETECT_KEY, Boolean.toString(autoDetect));
+    props.setProperty(USE_GUI_KEY, Boolean.toString(guiConfig));
+    props.setProperty(SERVER_RUN_KEY, Boolean.toString(runServer));
+    props.setProperty(SERVER_PORT_KEY, Integer.toString(serverPort));
     if (fontName != null) {
-      props.setProperty(FONT_NAME_CONFIG_KEY, fontName);
+      props.setProperty(FONT_NAME_KEY, fontName);
     }
     if (fontStyle != FONT_STYLE_INVALID) {
-      props.setProperty(FONT_STYLE_CONFIG_KEY, Integer.toString(fontStyle));
+      props.setProperty(FONT_STYLE_KEY, Integer.toString(fontStyle));
     }
     if (fontSize != FONT_SIZE_INVALID) {
-      props.setProperty(FONT_SIZE_CONFIG_KEY, Integer.toString(fontSize));
+      props.setProperty(FONT_SIZE_KEY, Integer.toString(fontSize));
     }
     if (this.lookAndFeelName != null) {
-      props.setProperty(LF_NAME_CONFIG_KEY, lookAndFeelName);
+      props.setProperty(LF_NAME_KEY, lookAndFeelName);
     }    
     if (externalRuleDirectory != null) {
       props.setProperty(EXTERNAL_RULE_DIRECTORY, externalRuleDirectory);
@@ -524,10 +497,10 @@ public class Configuration {
       rgb = rgb.substring(2, rgb.length());
       sb.append(entry.getKey()).append(":").append("#").append(rgb).append(", ");
     }
-    props.setProperty(ERROR_COLORS_CONFIG_KEY, sb.toString());
+    props.setProperty(ERROR_COLORS_KEY, sb.toString());
 
-    for (final String key : configForOtherLangs.keySet()) {
-      props.setProperty(key, configForOtherLangs.get(key));
+    for (final String key : configForOtherLanguages.keySet()) {
+      props.setProperty(key, configForOtherLanguages.get(key));
     }
 
     try (FileOutputStream fos = new FileOutputStream(configFile)) {
