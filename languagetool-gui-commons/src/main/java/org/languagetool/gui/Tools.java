@@ -47,7 +47,7 @@ import org.languagetool.tools.StringTools;
  * 
  * @author Daniel Naber
  */
-public class Tools {
+public final class Tools {
 
   private Tools() {
     // no public constructor
@@ -65,10 +65,7 @@ public class Tools {
    * <code>null</code>.
    */
   static File openFileDialog(final Frame frame, final FileFilter fileFilter) {
-    final JFileChooser jfc = new JFileChooser();
-    jfc.setFileFilter(fileFilter);
-    jfc.showOpenDialog(frame);
-    return jfc.getSelectedFile();
+    return openFileDialog(frame, fileFilter, null);
   }
 
   /**
@@ -121,24 +118,25 @@ public class Tools {
    */
   public static String shortenComment(String comment) {
     final int maxCommentLength = 100;
-    if (comment.length() > maxCommentLength) {
+    String shortComment = comment;
+    if (shortComment.length() > maxCommentLength) {
       // if there is text in brackets, drop it (beginning at the end)
-      while (comment.lastIndexOf(" [") > 0
-              && comment.lastIndexOf(']') > comment.lastIndexOf(" [")
-              && comment.length() > maxCommentLength) {
-        comment = comment.substring(0,comment.lastIndexOf(" [")) + comment.substring(comment.lastIndexOf(']')+1);
+      while (shortComment.lastIndexOf(" [") > 0
+              && shortComment.lastIndexOf(']') > shortComment.lastIndexOf(" [")
+              && shortComment.length() > maxCommentLength) {
+        shortComment = shortComment.substring(0, shortComment.lastIndexOf(" [")) + shortComment.substring(comment.lastIndexOf(']')+1);
       }
-      while (comment.lastIndexOf(" (") > 0
-              && comment.lastIndexOf(')') > comment.lastIndexOf(" (")
-              && comment.length() > maxCommentLength) {
-        comment = comment.substring(0,comment.lastIndexOf(" (")) + comment.substring(comment.lastIndexOf(')')+1);
+      while (shortComment.lastIndexOf(" (") > 0
+              && shortComment.lastIndexOf(')') > shortComment.lastIndexOf(" (")
+              && shortComment.length() > maxCommentLength) {
+        shortComment = shortComment.substring(0, shortComment.lastIndexOf(" (")) + shortComment.substring(comment.lastIndexOf(')')+1);
       }
       // in case it's still not short enough, shorten at the end
-      if (comment.length() > maxCommentLength) {
-        comment = comment.substring(0,maxCommentLength-1) + "…";
+      if (shortComment.length() > maxCommentLength) {
+        shortComment = shortComment.substring(0, maxCommentLength-1) + "…";
       }
     }
-    return comment;
+    return shortComment;
   }
 
   /**
