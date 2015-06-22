@@ -13599,6 +13599,16 @@ USA
         </rule>
     </category>
     <category name="Redundant Phrases" type="style">
+      <rule id="OF_ANY_OF" name="of any of -> of">
+        <pattern>
+            <token>of</token>
+            <token>any</token>
+            <token>of</token>
+        </pattern>
+        <message>Consider simply using <suggestion>of</suggestion> instead.</message>
+        <url>http://public.wsu.edu/~brians/errors/errors.txt</url>
+        <example correction='of'>He was the worst <marker>of any of</marker> the dancers</example>
+      </rule>
       <rule id="USELESS_THAT" name="Possibly needless 'that'" default="off">
             <pattern>
                 <token postag='JJ'><exception postag_regexp="yes" postag='VBN|RP'/><exception regexp='yes'>say|like|then|so|though|.*?ble</exception></token>
