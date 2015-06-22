@@ -41,6 +41,8 @@ public abstract class ConfusionProbabilityRule extends Rule {
   // probability is only used then at least these many of the occurrence lookups succeeded, 
   // i.e. returned a value > 0:
   public static final float MIN_COVERAGE = 0.5f;
+  // the minimum value the more probable variant needs to have to be considered:
+  private static final double MIN_PROB = 0.0;  // try values > 0 to avoid false alarms
 
   private static final boolean DEBUG = false;
 
@@ -179,7 +181,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     }
     debug("P(" + word + ") = %.50f\n", p1);
     debug("P(" + otherWord + ") = %.50f\n", p2);
-    return p2 > p1 * factor ? otherWord : null;
+    return p2 >= MIN_PROB && p2 > p1 * factor ? otherWord : null;
   }
 
   List<String> getContext(GoogleToken token, List<GoogleToken> tokens, String newToken, int toLeft, int toRight) {
