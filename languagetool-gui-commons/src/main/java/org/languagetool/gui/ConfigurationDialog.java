@@ -18,11 +18,13 @@
  */
 package org.languagetool.gui;
 
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.Rule;
 
 import javax.swing.*;
@@ -36,6 +38,7 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.util.*;
 import java.util.List;
 
@@ -194,6 +197,8 @@ public class ConfigurationDialog implements ActionListener {
     cons.weighty = 10.0f;
     cons.fill = GridBagConstraints.BOTH;
     contentPane.add(new JScrollPane(checkBoxPanel), cons);
+    cons.weightx = 0.0f;
+    cons.weighty = 0.0f;
 
     cons.gridx = 0;
     cons.gridy++;
@@ -204,6 +209,10 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     cons.anchor = GridBagConstraints.WEST;
     contentPane.add(getMotherTonguePanel(cons), cons);
+
+    cons.gridy++;
+    cons.anchor = GridBagConstraints.WEST;
+    contentPane.add(getNgramPanel(cons), cons);
 
     cons.gridy++;
     cons.anchor = GridBagConstraints.WEST;
@@ -424,7 +433,6 @@ public class ConfigurationDialog implements ActionListener {
     final JButton collapseAllButton = new JButton(messages.getString("guiCollapseAll"));
     treeButtonPanel.add(collapseAllButton, cons);
     collapseAllButton.addActionListener(new ActionListener() {
-
       @Override
       public void actionPerformed(ActionEvent e) {
         TreeNode root = (TreeNode) configTree.getModel().getRoot();
@@ -448,7 +456,6 @@ public class ConfigurationDialog implements ActionListener {
       motherTongueBox.setSelectedItem(config.getMotherTongue().getTranslatedName(messages));
     }
     motherTongueBox.addItemListener(new ItemListener() {
-
       @Override
       public void itemStateChanged(ItemEvent e) {
         if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -466,6 +473,36 @@ public class ConfigurationDialog implements ActionListener {
     return motherTonguePanel;
   }
 
+  private JPanel getNgramPanel(GridBagConstraints cons) {
+    JPanel panel = new JPanel();
+    panel.add(new JLabel(messages.getString("guiNgramDir")), cons);
+    final File dir = config.getNgramDirectory();
+    final int maxDirDisplayLength = 45;
+    String buttonText = dir != null ? StringUtils.abbreviate(dir.getAbsolutePath(), maxDirDisplayLength) : messages.getString("guiNgramDirSelect");
+    final JButton ngramDirButton = new JButton(buttonText);
+    ngramDirButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        File newDir = Tools.openDirectoryDialog(owner, dir);
+        if (newDir != null) {
+          try {
+            LuceneLanguageModel.validateDirectory(newDir);
+            config.setNgramDirectory(newDir);
+            ngramDirButton.setText(StringUtils.abbreviate(newDir.getAbsolutePath(), maxDirDisplayLength));
+          } catch (Exception ex) {
+            Tools.showErrorMessage(ex);
+          }
+        } else {
+          // not the best UI, but this way user can turn off ngram feature without another checkbox
+          config.setNgramDirectory(null);
+          ngramDirButton.setText(StringUtils.abbreviate(messages.getString("guiNgramDirSelect"), maxDirDisplayLength));
+        }
+      }
+    });
+    panel.add(ngramDirButton, cons);
+    return panel;
+  }
+
   private String[] getPossibleMotherTongues() {
     final List<String> motherTongues = new ArrayList<>();
     motherTongues.add(NO_MOTHER_TONGUE);
@@ -478,7 +515,7 @@ public class ConfigurationDialog implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == okButton) {
-      if(original != null) {
+      if (original != null) {
         original.restoreState(config);
       }
       dialog.setVisible(false);

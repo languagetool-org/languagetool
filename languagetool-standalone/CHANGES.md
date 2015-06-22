@@ -58,6 +58,9 @@
   
 #### GUI (stand-alone version)
   * fixed auto-detection of text language, which didn't work after editing text
+  * a directory with ngram data for the confusion rule can now be specified
+    in the configuration dialog (English only for now), see 
+    http://wiki.languagetool.org/finding-errors-using-big-data
 
 #### Embedded server
   * performance improvements for checking small texts

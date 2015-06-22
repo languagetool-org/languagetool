@@ -19,6 +19,7 @@
 package org.languagetool.gui;
 
 import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -49,6 +50,7 @@ public class Configuration {
   private static final String DISABLED_CATEGORIES_CONFIG_KEY = "disabledCategories";
   private static final String LANGUAGE_CONFIG_KEY = "language";
   private static final String MOTHER_TONGUE_CONFIG_KEY = "motherTongue";
+  private static final String NGRAM_DIR_CONFIG_KEY = "ngramDir";
   private static final String AUTO_DETECT_CONFIG_KEY = "autoDetect";
   private static final String SERVER_RUN_CONFIG_KEY = "serverMode";
   private static final String SERVER_PORT_CONFIG_KEY = "serverPort";
@@ -71,6 +73,7 @@ public class Configuration {
   private Set<String> disabledCategoryNames = new HashSet<>();
   private Language language;
   private Language motherTongue;
+  private File ngramDirectory;
   private boolean runServer;
   private boolean autoDetect;
   private boolean guiConfig;
@@ -133,6 +136,7 @@ public class Configuration {
     this.configFile = configuration.configFile;
     this.language = configuration.language;
     this.motherTongue = configuration.motherTongue;
+    this.ngramDirectory = configuration.ngramDirectory;
     this.runServer = configuration.runServer;
     this.autoDetect = configuration.autoDetect;
     this.guiConfig = configuration.guiConfig;
@@ -339,6 +343,23 @@ public class Configuration {
   }
 
   /**
+   * Directory with ngram data or null.
+   * @since 3.0
+   */
+  @Nullable
+  public File getNgramDirectory() {
+    return ngramDirectory;
+  }
+
+  /**
+   * Sets the directory with ngram data (may be null).
+   * @since 3.0
+   */
+  public void setNgramDirectory(File dir) {
+    this.ngramDirectory = dir;
+  }
+
+  /**
    * @since 2.8
    */
   public Map<ITSIssueType, Color> getErrorColors() {
@@ -365,6 +386,10 @@ public class Configuration {
       final String motherTongueStr = (String) props.get(MOTHER_TONGUE_CONFIG_KEY);
       if (motherTongueStr != null && !motherTongueStr.equals("xx")) {
         motherTongue = Languages.getLanguageForShortName(motherTongueStr);
+      }
+      final String ngramDir = (String) props.get(NGRAM_DIR_CONFIG_KEY);
+      if (ngramDir != null) {
+        ngramDirectory = new File(ngramDir);
       }
             
       autoDetect = "true".equals(props.get(AUTO_DETECT_CONFIG_KEY));
@@ -471,6 +496,9 @@ public class Configuration {
     if (motherTongue != null) {
       props.setProperty(MOTHER_TONGUE_CONFIG_KEY, motherTongue.getShortName());
     }
+    if (ngramDirectory != null) {
+      props.setProperty(NGRAM_DIR_CONFIG_KEY, ngramDirectory.getAbsolutePath());
+    }
     props.setProperty(AUTO_DETECT_CONFIG_KEY, Boolean.toString(autoDetect));
     props.setProperty(USE_GUI_CONFIG_KEY, Boolean.toString(guiConfig));
     props.setProperty(SERVER_RUN_CONFIG_KEY, Boolean.toString(runServer));
@@ -514,5 +542,4 @@ public class Configuration {
       props.setProperty(key, StringTools.listToString(list, DELIMITER));
     }
   }
-
 }

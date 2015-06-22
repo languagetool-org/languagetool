@@ -290,6 +290,9 @@ class LanguageToolSupport {
       }
       languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue());
       loadConfig();
+      if (config.getNgramDirectory() != null) {
+        languageTool.activateLanguageModelRules(config.getNgramDirectory());
+      }
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

@@ -70,14 +70,30 @@ public final class Tools {
 
   /**
    * Show a file chooser dialog in a specified directory
-   * @param frame Owner frame.
-   * @param fileFilter The pattern of files to choose from.
+   * @param frame Owner frame
+   * @param fileFilter The pattern of files to choose from
    * @param initialDir The initial directory
-   * @return the selected file.
+   * @return the selected file
    * @since 2.6
    */
   static File openFileDialog(final Frame frame, final FileFilter fileFilter, final File initialDir) {
+    return openFileDialog(frame, fileFilter, initialDir, JFileChooser.FILES_ONLY);
+  }
+
+  /**
+   * Show a directory chooser dialog, starting with a specified directory
+   * @param frame Owner frame
+   * @param initialDir The initial directory
+   * @return the selected file
+   * @since 3.0
+   */
+  static File openDirectoryDialog(Frame frame, File initialDir) {
+    return openFileDialog(frame, null, initialDir, JFileChooser.DIRECTORIES_ONLY);
+  }
+
+  private static File openFileDialog(final Frame frame, final FileFilter fileFilter, final File initialDir, int mode) {
     final JFileChooser jfc = new JFileChooser();
+    jfc.setFileSelectionMode(mode);
     jfc.setCurrentDirectory(initialDir);
     jfc.setFileFilter(fileFilter);
     jfc.showOpenDialog(frame);

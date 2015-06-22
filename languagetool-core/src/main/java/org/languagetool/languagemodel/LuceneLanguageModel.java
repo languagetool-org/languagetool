@@ -40,14 +40,35 @@ public class LuceneLanguageModel implements LanguageModel {
   private final File topIndexDir;
 
   /**
+   * Throw RuntimeException is the given directory does not seem to be a valid ngram top directory
+   * with sub directories {@code 1grams} etc.
+   * @since 3.0
+   */
+  public static void validateDirectory(File topIndexDir) {
+    if (!topIndexDir.exists() || !topIndexDir.isDirectory()) {
+      throw new RuntimeException("Not found or is not a directory: " + topIndexDir);
+    }
+    List<String> dirs = new ArrayList<>();
+    for (String name : topIndexDir.list()) {
+      if (name.matches("[123]grams")) {
+        dirs.add(name);
+      }
+    }
+    if (dirs.size() == 0) {
+      throw new RuntimeException("Directory must contain at least '1grams', '2grams', and '3grams': " + topIndexDir.getAbsolutePath());
+    }
+    if (dirs.size() < 3) {
+      throw new RuntimeException("Expected at least '1grams', '2grams', and '3grams' sub directories but only got " + dirs + " in " + topIndexDir.getAbsolutePath());
+    }
+  }
+
+  /**
    * @param topIndexDir a directory which contains at least another sub directory called {@code 3grams},
    *                    which is a Lucene index with ngram occurrences as created by
    *                    {@code org.languagetool.dev.FrequencyIndexCreator}.
    */
   public LuceneLanguageModel(File topIndexDir) throws IOException {
-    if (!topIndexDir.exists() || !topIndexDir.isDirectory()) {
-      throw new RuntimeException("Not found or is not a directory: " + topIndexDir);
-    }
+    validateDirectory(topIndexDir);
     this.topIndexDir = topIndexDir;
     addIndex(topIndexDir, 1);
     addIndex(topIndexDir, 2);
