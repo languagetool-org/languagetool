@@ -13,7 +13,7 @@ import org.languagetool.AnalyzedTokenReadings;
 /**
  * @since 2.9
  */
-public class PosTagHelper {
+public final class PosTagHelper {
   private static final Pattern NUM_REGEX = Pattern.compile("(noun|numr|adj|adjp.*):(.):v_.*");
   private static final Pattern CONJ_REGEX = Pattern.compile("(noun|numr|adj|adjp.*):[mfnp]:(v_...).*");
   private static final Pattern GENDER_REGEX = NUM_REGEX;

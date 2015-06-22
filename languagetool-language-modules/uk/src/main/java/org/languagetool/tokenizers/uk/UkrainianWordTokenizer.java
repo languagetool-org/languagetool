@@ -94,7 +94,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
   @Override
   public List<String> tokenize(String text) {
-    HashMap<String, String> urls = new HashMap<String, String>();
+    HashMap<String, String> urls = new HashMap<>();
 
     text = cleanup(text);
     
@@ -131,7 +131,6 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
     if( text.contains(".") ) {
     
-
       text = DATE_PATTERN.matcher(text).replaceAll("$1" + DATE_DOT_SUBST + "$2" + DATE_DOT_SUBST + "$3");
       text = DOTTED_NUMBERS_PATTERN.matcher(text).replaceAll("$1" + NUMBER_DOT_SUBST + "$2");
 

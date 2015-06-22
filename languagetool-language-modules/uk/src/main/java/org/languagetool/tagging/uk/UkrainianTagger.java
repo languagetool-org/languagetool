@@ -81,10 +81,11 @@ public class UkrainianTagger extends BaseTagger {
     return null;
   }
 
+  @Override
   protected List<AnalyzedToken> getAnalyzedTokens(String word) {
-    List<AnalyzedToken> tkns = super.getAnalyzedTokens(word);
+    List<AnalyzedToken> tokens = super.getAnalyzedTokens(word);
 
-    if( tkns.get(0).getPOSTag() == null ) {
+    if( tokens.get(0).getPOSTag() == null ) {
       if( (word.indexOf('\u2013') != -1) 
            && word.matches(".*[а-яіїєґ][\u2013][а-яіїєґ].*")) {
         String newWord = word.replace('\u2013', '-');
@@ -103,7 +104,7 @@ public class UkrainianTagger extends BaseTagger {
           }
         }
         
-        tkns = newTokens;
+        tokens = newTokens;
       }
     }
     
@@ -111,7 +112,7 @@ public class UkrainianTagger extends BaseTagger {
 //      debug_tagged_write(tkns, taggedDebugWriter);
 //    }
     
-    return tkns;
+    return tokens;
   }
 
   List<AnalyzedToken> asAnalyzedTokenListForTaggedWordsInternal(String word, List<TaggedWord> taggedWords) {

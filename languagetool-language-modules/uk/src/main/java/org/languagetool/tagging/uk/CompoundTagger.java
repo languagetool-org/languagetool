@@ -26,6 +26,9 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.TaggedWord;
 import org.languagetool.tagging.WordTagger;
 
+/**
+ * @since 3.0
+ */
 class CompoundTagger {
   private static final String DEBUG_COMPOUNDS_PROPERTY = "org.languagetool.tagging.uk.UkrainianTagger.debugCompounds";
 
@@ -100,16 +103,14 @@ class CompoundTagger {
     // TODO: "бабуся", "лялька", "рятівник" - not quite slaves, could be masters too
   }
 
+  private final WordTagger wordTagger;
+  private final Locale conversionLocale;
+  private final UkrainianTagger ukrainianTagger;
   
   private BufferedWriter compoundUnknownDebugWriter;
   private BufferedWriter compoundTaggedDebugWriter;
 
-  private final WordTagger wordTagger;
-  private final Locale conversionLocale;
-  private final UkrainianTagger ukrainianTagger;
-
-  
-  public CompoundTagger(UkrainianTagger ukrainianTagger, WordTagger wordTagger, Locale conversionLocale) {
+  CompoundTagger(UkrainianTagger ukrainianTagger, WordTagger wordTagger, Locale conversionLocale) {
     this.ukrainianTagger = ukrainianTagger;
     this.wordTagger = wordTagger;
     this.conversionLocale = conversionLocale;
@@ -126,7 +127,8 @@ class CompoundTagger {
     debug_compound_tagged_write(guessedCompoundTags);
     return guessedCompoundTags;
   }
-  
+
+  @Nullable
   private List<AnalyzedToken> doGuessCompoundTag(String word) {
     int dashIdx = word.lastIndexOf('-');
     if( dashIdx == 0 || dashIdx == word.length() - 1 )
@@ -257,7 +259,8 @@ class CompoundTagger {
     
     return null;
   }
-
+  
+  @Nullable
   private List<AnalyzedToken> cityAvenueMatch(String word, List<AnalyzedToken> leftAnalyzedTokens) {
     List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(leftAnalyzedTokens.size());
     
@@ -270,7 +273,8 @@ class CompoundTagger {
     
     return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;
   }
-  
+
+  @Nullable
   private List<AnalyzedToken> tagMatch(String word, List<AnalyzedToken> leftAnalyzedTokens, List<AnalyzedToken> rightAnalyzedTokens) {
     List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
     List<AnalyzedToken> newAnalyzedTokensAnimInanim = new ArrayList<>();
@@ -400,6 +404,7 @@ class CompoundTagger {
   }
 
   // right part is numr
+  @Nullable
   private String getNumAgreedPosTag(String leftPosTag, String rightPosTag, boolean leftNv) {
     String agreedPosTag = null;
     
@@ -443,13 +448,14 @@ class CompoundTagger {
         || rightToken.equals("мінімум");
   }
 
+  @Nullable
   private String tryAnimInanim(String leftPosTag, String rightPosTag, String leftLemma, String rightLemma, boolean leftNv, boolean rightNv) {
     String agreedPosTag = null;
     
     // підприємство-банкрут
     if( leftMasterSet.contains(leftLemma) ) {
       if( leftPosTag.contains(TAG_ANIM) ) {
-        rightPosTag = rightPosTag.concat(TAG_ANIM);
+        rightPosTag = rightPosTag + TAG_ANIM;
       }
       else {
         rightPosTag = rightPosTag.replace(TAG_ANIM, "");
@@ -516,6 +522,7 @@ class CompoundTagger {
     return posTag.startsWith("noun:p:");
   }
 
+  @Nullable
   private List<AnalyzedToken> oAdjMatch(String word, List<AnalyzedToken> analyzedTokens, String leftWord) {
     List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(analyzedTokens.size());
 
@@ -543,6 +550,7 @@ class CompoundTagger {
         : leftWord.substring(0,  leftWord.length()-1) + "ий";
   }
 
+  @Nullable
   private List<AnalyzedToken> getNvPrefixNounMatch(String word, List<AnalyzedToken> analyzedTokens, String leftWord) {
     List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(analyzedTokens.size());
     
@@ -593,7 +601,7 @@ class CompoundTagger {
   private static Set<String> loadSet(String path) {
     Set<String> result = new HashSet<>();
     try (InputStream is = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-         Scanner scanner = new Scanner(is,"UTF-8")) {
+         Scanner scanner = new Scanner(is, "UTF-8")) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
         result.add(line);
@@ -650,7 +658,7 @@ class CompoundTagger {
   
   private void debug_tagged_write(List<AnalyzedToken> analyzedTokens, BufferedWriter writer) {
     if( analyzedTokens.get(0).getLemma() == null || analyzedTokens.get(0).getToken().trim().isEmpty() )
-          return;
+      return;
 
     try {
       String prevToken = "";
