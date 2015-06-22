@@ -152,7 +152,7 @@ public class ConfigurationDialog implements ActionListener {
       public void treeNodesChanged(TreeModelEvent e) {
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) e.getTreePath().getLastPathComponent();
         int index = e.getChildIndices()[0];
-        node = (DefaultMutableTreeNode) (node.getChildAt(index));
+        node = (DefaultMutableTreeNode) node.getChildAt(index);
         if (node instanceof RuleNode) {
           RuleNode o = (RuleNode) node;
           if (o.getRule().isDefaultOff()) {
@@ -399,7 +399,6 @@ public class ConfigurationDialog implements ActionListener {
       serverSettingsCheckbox.setSelected(config.getUseGUIConfig());
       serverSettingsCheckbox.setEnabled(config.getRunServer());
       serverSettingsCheckbox.addItemListener(new ItemListener() {
-
         @Override
         public void itemStateChanged(ItemEvent e) {
           config.setUseGUIConfig(serverSettingsCheckbox.isSelected());
@@ -433,34 +432,20 @@ public class ConfigurationDialog implements ActionListener {
     contentPane.add(new JScrollPane(checkBoxPanel), cons);
 
     cons.gridx = 0;
-    cons.gridy = 1;
-    cons.weightx = 0.0f;
-    cons.weighty = 0.0f;
+    cons.gridy++;
     cons.fill = GridBagConstraints.NONE;
     cons.anchor = GridBagConstraints.LINE_END;
     contentPane.add(treeButtonPanel, cons);
     
-    cons.gridx = 0;
-    cons.gridy = 2;
-    cons.weightx = 0.0f;
-    cons.weighty = 0.0f;
-    cons.fill = GridBagConstraints.NONE;
+    cons.gridy++;
     cons.anchor = GridBagConstraints.WEST;
     contentPane.add(motherTonguePanel, cons);
 
-    cons.gridx = 0;
-    cons.gridy = 3;
-    cons.weightx = 0.0f;
-    cons.weighty = 0.0f;
-    cons.fill = GridBagConstraints.NONE;
+    cons.gridy++;
     cons.anchor = GridBagConstraints.WEST;
     contentPane.add(portPanel, cons);
 
-    cons.gridx = 0;
-    cons.gridy = 4;
-    cons.weightx = 0.0f;
-    cons.weighty = 0.0f;
-    cons.fill = GridBagConstraints.NONE;
+    cons.gridy++;
     cons.anchor = GridBagConstraints.EAST;
     contentPane.add(buttonPanel, cons);
 
