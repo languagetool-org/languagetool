@@ -9936,6 +9936,7 @@ USA
                     <marker>
                         <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|DT"/></token>
                     </marker>
+                    <token><exception regexp="yes">['’]</exception></token>
                 </pattern>
                 <message>The pronoun '<match no="1"></match>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"></match></suggestion></message>
                 <short>Grammatical problem</short>
@@ -9947,10 +9948,24 @@ USA
             </rule>
             <rule>
                 <pattern>
+                    <token skip="1" regexp="yes" postag="PRP">we|they</token>
+                    <marker>
+                        <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|DT"/></token>
+                        <token regexp="yes">['’]</token>
+                        <token>t</token>
+                    </marker>
+                </pattern>
+                <message>The pronoun '<match no="1"></match>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"/>n<match no="3"/><match no="4"/></suggestion></message>
+                <short>Grammatical problem</short>
+                <example correction="don't">We <marker>doesn't</marker> believe so.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token skip="1" postag="PRP">you<exception scope="previous" postag="IN"/><exception scope="next" postag="PRP"/></token>
                     <marker>
                         <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|DT"/></token>
                     </marker>
+                    <token><exception regexp="yes">['’]</exception></token>
                 </pattern>
                 <message>The pronoun '<match no="1"></match>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"></match></suggestion></message>
                 <short>Grammatical problem</short>
@@ -9960,6 +9975,19 @@ USA
                 <example>Be sure the man nearest you is awake.</example>
                 <example>You guys remember that.</example>
                 <example>How many times do I have to tell you he isn't here?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="1" postag="PRP">you<exception scope="previous" postag="IN"/><exception scope="next" postag="PRP"/></token>
+                    <marker>
+                        <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|DT"/></token>
+                        <token regexp="yes">['’]</token>
+                        <token>t</token>
+                    </marker>
+                </pattern>
+                <message>The pronoun '<match no="1"></match>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"/>n<match no="3"/><match no="4"/></suggestion></message>
+                <short>Grammatical problem</short>
+                <example correction="don't">You <marker>doesn't</marker> work hard enough.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -10054,6 +10082,7 @@ USA
                     <marker>
                         <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"></exception></token>
                     </marker>
+                    <token><exception regexp="yes">['’]</exception></token>
                 </pattern>
                 <message>The pronoun '<match no="2"></match>' must be used with a third-person verb: <suggestion><match no="3" postag="VBZ"></match></suggestion>.</message>
                 <short>Agreement error</short>
@@ -10068,6 +10097,20 @@ USA
                 <example>He was busy, he said, in having someone submit to a monkey-gland operation.</example>
                 <example>What's he going to do?</example>
                 <!-- TODO: False-positive: Nobody move! -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|without|into)</token>
+                    <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
+                    <marker>
+                        <token postag="VB|VBG|VBP" postag_regexp="yes"><exception postag="VBN|VBD|JJ.*|RB|MD" postag_regexp="yes"></exception></token>
+                        <token regexp="yes">['’]</token>
+                        <token>t</token>
+                    </marker>
+                </pattern>
+                <message>The pronoun '<match no="2"></match>' must be used with a third-person verb: <suggestion><match no="3" postag="VBZ"/>n<match no="4"/><match no="5"/></suggestion>.</message>
+                <short>Agreement error</short>
+                <example correction="doesn't">He <marker>don't</marker> like fish.</example>
             </rule>
             <rule>
                 <pattern>
