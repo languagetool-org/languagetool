@@ -9914,6 +9914,7 @@ USA
         <!-- this works now, and accounts for subjunctive
              i.e., she recommended that he use his money... -->
         <rulegroup id="NON3PRS_VERB" name="Agreement error: Third person verb with a non-third person pronoun">
+            <short>Grammatical problem</short>
             <rule>
                 <pattern>
                     <token skip="1">I<exception scope="previous" regexp="yes">Phase|Am</exception></token>
@@ -9922,7 +9923,6 @@ USA
                     </marker>
                 </pattern>
                 <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"/></suggestion></message>
-                <short>Grammatical problem</short>
                 <example correction="work">I <marker>works</marker> here.</example>
                 <example>We <marker>make</marker> a lot of mistakes.</example>
                 <example>Phase I corresponds to the small-deformation regime.</example>
@@ -9938,7 +9938,6 @@ USA
                     <token><exception regexp="yes">['’]</exception></token>
                 </pattern>
                 <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"/></suggestion></message>
-                <short>Grammatical problem</short>
                 <example correction="work">They <marker>works</marker> here.</example>
                 <example correction="work">They always <marker>works</marker> here.</example>
                 <example correction="mean">They all <marker>means</marker> the same.</example>
@@ -9955,7 +9954,6 @@ USA
                     </marker>
                 </pattern>
                 <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"/>n<match no="3"/><match no="4"/></suggestion></message>
-                <short>Grammatical problem</short>
                 <example correction="don't">We <marker>doesn't</marker> believe so.</example>
             </rule>
             <rule>
@@ -9967,7 +9965,6 @@ USA
                     <token><exception regexp="yes">['’]</exception></token>
                 </pattern>
                 <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"/></suggestion></message>
-                <short>Grammatical problem</short>
                 <example correction="work">You <marker>works</marker> here.</example>
                 <example>You <marker>make</marker> a lot of mistakes.</example>
                 <example>One of you thinks that this is possible.</example>
@@ -9985,7 +9982,6 @@ USA
                     </marker>
                 </pattern>
                 <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"/>n<match no="3"/><match no="4"/></suggestion></message>
-                <short>Grammatical problem</short>
                 <example correction="don't">You <marker>doesn't</marker> work hard enough.</example>
             </rule>
             <rule>
@@ -10074,6 +10070,7 @@ USA
             <example>We ought to say the truth.</example>
         </rule>
         <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person verb with 'he/she'">
+            <short>Agreement error</short>
             <rule>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|without|into)</token>
@@ -10084,7 +10081,6 @@ USA
                     <token><exception regexp="yes">['’]</exception></token>
                 </pattern>
                 <message>The pronoun '<match no="2"/>' must be used with a third-person verb: <suggestion><match no="3" postag="VBZ"/></suggestion>.</message>
-                <short>Agreement error</short>
                 <example correction="walks">He <marker>walk</marker> to the building.</example>
                 <example>He cannot hear you.</example>
                 <example>She came in through the back door lest she be seen.</example>
@@ -10108,7 +10104,6 @@ USA
                     </marker>
                 </pattern>
                 <message>The pronoun '<match no="2"/>' must be used with a third-person verb: <suggestion><match no="3" postag="VBZ"/>n<match no="4"/><match no="5"/></suggestion>.</message>
-                <short>Agreement error</short>
                 <example correction="doesn't">He <marker>don't</marker> like fish.</example>
             </rule>
             <rule>
@@ -10121,7 +10116,6 @@ USA
                     </marker>
                 </pattern>
                 <message>The pronoun '<match no="2"/>' must be used with a third-person verb: <suggestion><match no="4" postag="VBZ"/></suggestion>.</message>
-                <short>Agreement error</short>
                 <example correction="walks">He always <marker>walk</marker> to the building.</example>
                 <example correction="enters">Somebody usually <marker>enter</marker> the building.</example>
                 <example>He <marker>walked</marker> to the building.</example>
@@ -10136,7 +10130,6 @@ USA
                     </marker>
                 </pattern>
                 <message>The pronoun '<match no="2"/>' must be used with a third-person verb: <suggestion><match no="4" postag="VBZ"/></suggestion>.</message>
-                <short>Agreement error</short>
                 <example>Nobody else <marker>walks</marker> to the building.</example>
                 <example correction="walks">Someone else <marker>walk</marker> to the building.</example>
                 <example correction="enters">Somebody else <marker>enter</marker> the building.</example>
@@ -10154,7 +10147,6 @@ USA
                     </marker>
                 </pattern>
                 <message>The pronoun '<match no="2"/>' must be used with a third-person verb: <suggestion><match no="5" postag="VBZ"/></suggestion>.</message>
-                <short>Agreement error</short>
                 <example>Nobody else <marker>walks</marker> to the building.</example>
                 <example correction="walks">Someone else always <marker>walk</marker> to the building.</example>
                 <example correction="enters">Somebody else usually <marker>enter</marker> the building.</example>
@@ -10171,7 +10163,6 @@ USA
                     </marker>
                 </pattern>
                 <message>'He' in subjunctive clause must be used base form of the verb: <suggestion><match no="4" postag="VB"/></suggestion>.</message>
-                <short>Grammatical problem</short>
                 <example>She recommended that he <marker>walk</marker> to the building.</example>
                 <example correction="walk">She stipulates that he <marker>walking</marker> to the building.</example>
                 <example>He <marker>walked</marker> to the building.</example>
@@ -10186,7 +10177,6 @@ USA
                     </marker>
                 </pattern>
                 <message>The word '<match no="2"/>' in subjunctive clause must be used with a base form of a verb: <suggestion><match no="3" postag="VB"/></suggestion>.</message>
-                <short>Grammatical problem</short>
                 <example>She recommended he <marker>walk</marker> to the building.</example>
                 <example correction="walk">She stipulates he <marker>walking</marker> to the building.</example>
                 <example>He <marker>walked</marker> to the building.</example>
@@ -10209,7 +10199,6 @@ USA
                     <token postag="IN|DT" postag_regexp="yes"/>
                 </pattern>
                 <message>The proper name in singular (<match no="2"/>) must be used with a third-person verb: <suggestion><match no="3" postag="VBZ"/></suggestion>.</message>
-                <short>Grammatical problem</short>
                 <example correction="walks">Ann <marker>walk</marker> to the building.</example>
                 <example>Bill <marker>walks</marker> to the building.</example>
                 <example>Guinness <marker>walked</marker> to the building.</example>
@@ -10232,7 +10221,6 @@ USA
                     <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
                 </pattern>
                 <message>The pronoun <match no="3"/> must be used with <suggestion><match no="2" postag="VBZ"/></suggestion>.</message>
-                <short>Agreement error</short>
                 <example correction="Has"><marker>Have</marker> she bought a ticket?</example>
                 <example>Has anyone done this?</example>
             </rule>
@@ -10245,7 +10233,6 @@ USA
                     <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$|NNPS|NNS|IN|RB|WRB" postag_regexp="yes"/></token>
                 </pattern>
                 <message>The singular proper name <match no="3"/> must be used with <suggestion><match no="2" postag="VBZ"/></suggestion>.</message>
-                <short>Agreement error</short>
                 <example correction="Has"><marker>Have</marker> Mary bought a ticket?</example>
                 <example>Has Jack done this?</example>
             </rule>
@@ -10259,7 +10246,6 @@ USA
                     <token regexp="yes">he|she|someone|somebody|nobody|anyone</token>
                 </pattern>
                 <message>The pronoun <match no="4"/> must be used with <suggestion><match no="3" postag="VBZ"/></suggestion>.</message>
-                <short>Agreement error</short>
                 <example correction="has">When <marker>have</marker> he bought a ticket?</example>
                 <example>Why has anyone done this?</example>
             </rule>
@@ -10273,7 +10259,6 @@ USA
                     <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$|NNPS|NNS|IN|RB|WRB" postag_regexp="yes"/></token>
                 </pattern>
                 <message>The singular proper name <match no="4"/> must be used with <suggestion><match no="3" postag="VBZ"/></suggestion>.</message>
-                <short>Agreement error</short>
                 <example correction="has">When <marker>have</marker> Mary bought a ticket?</example>
                 <example>Why has Mary done this?</example>
             </rule>
