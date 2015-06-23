@@ -135,35 +135,35 @@ $Id$
             <rule>
                 <pattern>
                     <token>meglio</token>
-                    <token postag="(NOUN-M.s)|(NOUN-F.s)" postag_regexp="yes"></token>
+                    <token postag="(NOUN-M.s)|(NOUN-F.s)" postag_regexp="yes"/>
                 </pattern>
-                <message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2"></match> migliore</suggestion>.</message>
+                <message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2"/> migliore</suggestion>.</message>
                 <example correction="occasione migliore">Bisogna cogliere la <marker>meglio occasione</marker>.</example>
                 <example>Bisogna cogliere l'<marker>occasione migliore</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>meglio</token>
-                    <token postag="(NOUN-M.p)|(NOUN-F.p)" postag_regexp="yes"></token>
+                    <token postag="(NOUN-M.p)|(NOUN-F.p)" postag_regexp="yes"/>
                 </pattern>
-                <message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2"></match> migliori</suggestion>.</message>
+                <message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2"/> migliori</suggestion>.</message>
                 <example correction="occasioni migliori">Bisogna cogliere le <marker>meglio occasioni</marker>.</example>
             </rule>
             <!-- peggio -->
             <rule>
                 <pattern>
                     <token>peggio</token>
-                    <token postag="(NOUN-M.s)|(NOUN-F.s)" postag_regexp="yes"></token>
+                    <token postag="(NOUN-M.s)|(NOUN-F.s)" postag_regexp="yes"/>
                 </pattern>
-                <message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2"></match> peggiore</suggestion>.</message>
+                <message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2"/> peggiore</suggestion>.</message>
                 <example correction="figura peggiore">Evitiamo di fare una <marker>peggio figura</marker>.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>peggio</token>
-                    <token postag="(NOUN-M.p)|(NOUN-F.p)" postag_regexp="yes"></token>
+                    <token postag="(NOUN-M.p)|(NOUN-F.p)" postag_regexp="yes"/>
                 </pattern>
-                <message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2"></match> peggiori</suggestion>.</message>
+                <message>Non utilizzare un avverbio in luogo di un aggettivo: <suggestion><match no="2"/> peggiori</suggestion>.</message>
                 <example correction="figure peggiori">Evitiamo di fare delle <marker>peggio figure</marker>.</example>
             </rule>
             <!-- PB003 - -->
@@ -177,7 +177,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker><token skip="1" regexp="yes">il|lo|i|gli|le</token></marker>
-                    <token postag="NOUN-F.s" postag_regexp="yes"><exception postag="(NOUN-F.p)|(NOUN-M.s)|(ADV)" postag_regexp="yes"></exception></token>
+                    <token postag="NOUN-F.s" postag_regexp="yes"><exception postag="(NOUN-F.p)|(NOUN-M.s)|(ADV)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>L'articolo non concorda, usare: <suggestion>la</suggestion>.</message>
                 <example correction="la">Vidi <marker>il</marker> mucca pascolare nel campo.</example>
@@ -186,7 +186,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker><token skip="1" regexp="yes">il|lo|i|gli|la</token></marker>
-                    <token postag="NOUN-F.p" postag_regexp="yes"><exception postag="(NOUN-F.s)|(NOUN-M.p)|(ADV)" postag_regexp="yes"></exception>
+                    <token postag="NOUN-F.p" postag_regexp="yes"><exception postag="(NOUN-F.s)|(NOUN-M.p)|(ADV)" postag_regexp="yes"/>
 <!-- 3610289 + -->
                     	<exception regexp="yes">(?-i)Signore</exception>
 <!-- 3610289 - -->
@@ -199,7 +199,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker><token skip="1" regexp="yes">un|uno</token></marker>
-                    <token postag="NOUN-F.s" postag_regexp="yes"><exception postag="(NOUN-F.p)|(NOUN-M.s)|(ADV)" postag_regexp="yes"></exception></token>
+                    <token postag="NOUN-F.s" postag_regexp="yes"><exception postag="(NOUN-F.p)|(NOUN-M.s)|(ADV)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>L'articolo non concorda, usare: <suggestion>una</suggestion>.</message>
                 <example correction="una">Vidi <marker>un</marker> mucca pascolare nel campo.</example>
@@ -209,7 +209,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker><token skip="1" regexp="yes">lo|la|i|gli|le</token></marker>
-                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.p)|(NOUN-F.s)|(ADV)" postag_regexp="yes"></exception></token>
+                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.p)|(NOUN-F.s)|(ADV)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>L'articolo non concorda, usare: <suggestion>il</suggestion>.</message>
                 <example correction="il">Quanto costa <marker>lo</marker> vino?</example>
@@ -218,7 +218,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker><token skip="1" regexp="yes">lo|la|il|gli|le</token></marker>
-                    <token postag="NOUN-M.p" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.s)|(NOUN-F.p)|(ADV)" postag_regexp="yes"></exception>
+                    <token postag="NOUN-M.p" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.s)|(NOUN-F.p)|(ADV)" postag_regexp="yes"/>
 <!-- PB0012 + -->
                     	<exception>dei</exception>
 <!-- PB0012 - -->                        
@@ -231,7 +231,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker><token skip="1" regexp="yes">uno|una</token></marker>
-                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfghlmnqrtv][bcdfghlmnpqrtv].*<exception postag="(NOUN-M.p)|(NOUN-F.s)|(ADV)" postag_regexp="yes"></exception></token>
+                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfghlmnqrtv][bcdfghlmnpqrtv].*<exception postag="(NOUN-M.p)|(NOUN-F.s)|(ADV)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>L'articolo non concorda, usare: <suggestion>un</suggestion>.</message>
                 <example correction="un">Mi insegni <marker>uno</marker> trucco?</example>
@@ -240,7 +240,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker><token skip="1" regexp="yes">i|la|il|gli|le</token></marker>
-                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)|(ADV)" postag_regexp="yes"></exception></token>
+                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)|(ADV)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>L'articolo non concorda, usare: <suggestion>lo</suggestion>.</message>
                 <example correction="lo">Ho forato <marker>il</marker> pneumatico.</example>
@@ -250,7 +250,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker><token skip="1" regexp="yes">i|la|il|lo|le</token></marker>
-                    <token postag="NOUN-M.p" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.s)|(NOUN-F.p)" postag_regexp="yes"></exception></token>
+                    <token postag="NOUN-M.p" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.s)|(NOUN-F.p)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>L'articolo non concorda, usare: <suggestion>gli</suggestion>.</message>
                 <example correction="gli">Come raccontano <marker>i</marker> storici...</example>
@@ -263,7 +263,7 @@ $Id$
                     <!--
                                         <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|[gn].*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"/></token>
                     -->
-                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)|(ADV)" postag_regexp="yes"></exception></token>
+                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)|(ADV)" postag_regexp="yes"/></token>
                     <!-- 2957133 - -->
                 </pattern>
                 <message>L'articolo non concorda, usare: <suggestion>uno</suggestion>.</message>
@@ -312,7 +312,7 @@ $Id$
                     <token>di</token>
                     <token regexp="yes">i.*</token>
                 </pattern>
-                <message>Si consiglia di sostituire la preposizione di con la forma apostrofata <suggestion>d'<match no="2"></match></suggestion></message>
+                <message>Si consiglia di sostituire la preposizione di con la forma apostrofata <suggestion>d'<match no="2"/></suggestion></message>
                 <example correction="d'informazioni">Ho bisogno <marker>di informazioni</marker>.</example>
             </rule>
             <!-- e' -->
@@ -333,7 +333,7 @@ $Id$
 <!-- PB011 - -->                    
                     <token>'</token>
                 </pattern>
-                <message>Togliere l'apostrofo in quanto la parola è già accentata: <suggestion><match no="1"></match></suggestion>.</message>
+                <message>Togliere l'apostrofo in quanto la parola è già accentata: <suggestion><match no="1"/></suggestion>.</message>
                 <example correction="perché">Ve lo dico solo <marker>perché'</marker> mi siete simpatici.</example>
             </rule>
             <!-- E' -->
@@ -365,12 +365,12 @@ $Id$
             <!-- non iniziare la frase con una congiunzione -->
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
-                    <token postag="CON"></token>
+                    <token postag="SENT_START"/>
+                    <token postag="CON"/>
                 </pattern>
                 <message>Si consiglia di non iniziare una frase con una congiunzione.</message>
                 <example correction=""><marker>E</marker> non si capisce il perché di tanta paura.</example>
-                <example><marker></marker>Non si capisce il perché di tanta paura.</example>
+                <example><marker/>Non si capisce il perché di tanta paura.</example>
             </rule>
         </rulegroup>
     </category>
@@ -387,7 +387,7 @@ $Id$
             <!-- da -->
             <rule>
                 <pattern>
-                    <token postag_regexp="yes" postag="VER:ind.*"></token>
+                    <token postag_regexp="yes" postag="VER:ind.*"/>
                     <marker>
                         <token>dà</token>
                     </marker>
@@ -404,9 +404,9 @@ $Id$
                         <token>a</token>
                     </marker>
                 </pattern>
-                <message>Non si assolve a qualcosa, si assolve qualcosa. Rimuovere a <suggestion></suggestion></message>
+                <message>Non si assolve a qualcosa, si assolve qualcosa. Rimuovere a <suggestion/></message>
                 <example correction="">Assolvere <marker>a</marker> un compito.</example>
-                <example>Assolvere<marker></marker> un compito.</example>
+                <example>Assolvere<marker/> un compito.</example>
             </rule>
             <!-- interessarsi a... -->
             <rule>
@@ -438,9 +438,9 @@ $Id$
                         <token>a</token>
                     </marker>
                 </pattern>
-                <message>Non si promuove a qualcosa, si promuove qualcosa. Rimuovere a <suggestion></suggestion></message>
+                <message>Non si promuove a qualcosa, si promuove qualcosa. Rimuovere a <suggestion/></message>
                 <example correction="">Fui promosso <marker>a</marker> direttore.</example>
-                <example>Fui promosso<marker></marker> direttore.</example>
+                <example>Fui promosso<marker/> direttore.</example>
             </rule>
             <!-- insistere a... -->
             <rule>
@@ -469,7 +469,7 @@ $Id$
                         <token>a</token>
                         <token>nome</token>
                     </marker>
-                    <token postag="NPR"></token>
+                    <token postag="NPR"/>
                 </pattern>
                 <message>La forma corretta è <suggestion>di nome</suggestion> e non a nome.</message>
                 <example correction="di nome">Una ragazza <marker>a nome</marker> Francesca.</example>
@@ -731,9 +731,9 @@ $Id$
             <!-- IND PRESENTE -->
 	    <rule>
                 <pattern>
-                    <token skip="-1" postag="VER.ind.pres.1.*" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                    <token skip="-1" postag="VER.ind.pres.1.*" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"/></token>
                     <token skip="-1" regexp="yes">e|o|ma</token>
-                    <token postag="(VER.ind.past.1.*)|(VER.ind.impf.1.*)|(VER.ind.fut.1.*)" postag_regexp="yes"></token>
+                    <token postag="(VER.ind.past.1.*)|(VER.ind.impf.1.*)|(VER.ind.fut.1.*)" postag_regexp="yes"/>
                 </pattern>
                 <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
                 <example correction="">Io <marker>navigo ma mi dirigevo</marker> nella direzione sbagliata.</example>
@@ -741,9 +741,9 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token skip="-1" postag="VER.ind.pres.2.*" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                    <token skip="-1" postag="VER.ind.pres.2.*" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"/></token>
                     <token skip="-1" regexp="yes">e|o|ma</token>
-                    <token postag="(VER.ind.past.2.*)|(VER.ind.impf.2.*)|(VER.ind.fut.2.*)" postag_regexp="yes"></token>
+                    <token postag="(VER.ind.past.2.*)|(VER.ind.impf.2.*)|(VER.ind.fut.2.*)" postag_regexp="yes"/>
                 </pattern>
                 <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
                 <example correction="">Tu <marker>navighi ma ti dirigevi</marker> nella direzione sbagliata.</example>
@@ -751,9 +751,9 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token skip="-1" postag="VER.ind.pres.3.*" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                    <token skip="-1" postag="VER.ind.pres.3.*" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"/></token>
                     <token skip="-1" regexp="yes">e|o|ma</token>
-                    <token postag="(VER.ind.past.3.*)|(VER.ind.impf.3.*)|(VER.ind.fut.3.*)" postag_regexp="yes"></token>
+                    <token postag="(VER.ind.past.3.*)|(VER.ind.impf.3.*)|(VER.ind.fut.3.*)" postag_regexp="yes"/>
                 </pattern>
                 <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
                 <example correction="">La barca <marker>naviga ma si dirigeva</marker> nella direzione sbagliata.</example>
@@ -763,9 +763,9 @@ $Id$
             <!-- IND FUTURO -->
             <rule>
                 <pattern>
-                    <token skip="-1" postag="VER.ind.fut.1.*" postag_regexp="yes"></token>
+                    <token skip="-1" postag="VER.ind.fut.1.*" postag_regexp="yes"/>
                     <token skip="-1" regexp="yes">e|o|ma</token>
-                    <token postag="(VER.ind.past.1.*)|(VER.ind.impf.1.*)|(VER.ind.pres.1.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                    <token postag="(VER.ind.past.1.*)|(VER.ind.impf.1.*)|(VER.ind.pres.1.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
                 <example correction="">Questa notte <marker>camminerò nel buio e rischio</marker> di andare a sbattere contro una porta.</example>
@@ -773,9 +773,9 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token skip="-1" postag="VER.ind.fut.2.*" postag_regexp="yes"></token>
+                    <token skip="-1" postag="VER.ind.fut.2.*" postag_regexp="yes"/>
                     <token skip="-1" regexp="yes">e|o|ma</token>
-                    <token postag="(VER.ind.past.2.*)|(VER.ind.impf.2.*)|(VER.ind.pres.2.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                    <token postag="(VER.ind.past.2.*)|(VER.ind.impf.2.*)|(VER.ind.pres.2.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
                 <example correction="">Questa notte <marker>camminerai nel buio e rischi</marker> di andare a sbattere contro una porta.</example>
@@ -783,9 +783,9 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token skip="-1" postag="VER.ind.fut.3.*" postag_regexp="yes"></token>
+                    <token skip="-1" postag="VER.ind.fut.3.*" postag_regexp="yes"/>
                     <token skip="-1" regexp="yes">e|o|ma</token>
-                    <token postag="(VER.ind.past.3.*)|(VER.ind.impf.3.*)|(VER.ind.pres.3.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                    <token postag="(VER.ind.past.3.*)|(VER.ind.impf.3.*)|(VER.ind.pres.3.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
                 <example correction="">Questa notte <marker>camminerà nel buio e rischia</marker> di andare a sbattere contro una porta.</example>
@@ -795,9 +795,9 @@ $Id$
            <!-- IND IMPERFETTO -->
             <rule>
                 <pattern>
-                    <token skip="-1" postag="VER.ind.impf.1.*" postag_regexp="yes"></token>
-                    <token skip="-1" postag="CON"></token>
-		    <token postag="(VER.ind.fut.1.*)|(VER.ind.pres.1.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                    <token skip="-1" postag="VER.ind.impf.1.*" postag_regexp="yes"/>
+                    <token skip="-1" postag="CON"/>
+		    <token postag="(VER.ind.fut.1.*)|(VER.ind.pres.1.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
                 <example correction="">Io <marker>aspettavo il tram e decido</marker> di telefonare.</example>
@@ -805,9 +805,9 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token skip="-1" postag="VER.ind.impf.2.*" postag_regexp="yes"></token>
-                    <token skip="-1" postag="CON"></token>
-		    <token postag="(VER.ind.fut.2.*)|(VER.ind.pres.2.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                    <token skip="-1" postag="VER.ind.impf.2.*" postag_regexp="yes"/>
+                    <token skip="-1" postag="CON"/>
+		    <token postag="(VER.ind.fut.2.*)|(VER.ind.pres.2.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
                 <example correction="">Tu <marker>aspettavi il tram e decidi</marker> di telefonare.</example>
@@ -815,9 +815,9 @@ $Id$
             </rule>
             <rule name="Indicativo Imperfetto 3 pers">
                 <pattern>
-                    <token skip="-1" postag="VER.ind.impf.3.*" postag_regexp="yes"></token>
-                    <token skip="-1" postag="CON"></token>
-		    <token postag="(VER.ind.fut.3.*)|(VER.ind.pres.3.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                    <token skip="-1" postag="VER.ind.impf.3.*" postag_regexp="yes"/>
+                    <token skip="-1" postag="CON"/>
+		    <token postag="(VER.ind.fut.3.*)|(VER.ind.pres.3.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
                 <example correction="">Clara <marker>aspettava il tram e decide</marker> di telefonare.</example>
@@ -827,9 +827,9 @@ $Id$
            <!-- IND PASSATO -->
             <rule>
                 <pattern>
-                    <token skip="-1" postag="VER.ind.past.1.*" postag_regexp="yes"></token>
-                    <token skip="-1" postag="CON"></token>
-                    <token postag="(VER.ind.fut.1.*)|(VER.ind.pres.1.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                    <token skip="-1" postag="VER.ind.past.1.*" postag_regexp="yes"/>
+                    <token skip="-1" postag="CON"/>
+                    <token postag="(VER.ind.fut.1.*)|(VER.ind.pres.1.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
                 <example correction="">Io <marker>aspettai il tram e decido</marker> di telefonare.</example>
@@ -837,9 +837,9 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token skip="-1" postag="VER.ind.past.2.*" postag_regexp="yes"></token>
-                    <token skip="-1" postag="CON"></token>
-                    <token postag="(VER.ind.fut.2.*)|(VER.ind.pres.2.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                    <token skip="-1" postag="VER.ind.past.2.*" postag_regexp="yes"/>
+                    <token skip="-1" postag="CON"/>
+                    <token postag="(VER.ind.fut.2.*)|(VER.ind.pres.2.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
                 <example correction="">Tu <marker>aspettasti il tram e decidi</marker> di telefonare.</example>
@@ -847,9 +847,9 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token skip="-1" postag="VER.ind.past.3.*" postag_regexp="yes"></token>
-                    <token skip="-1" postag="CON"></token>
-                    <token postag="(VER.ind.fut.3.*)|(VER.ind.pres.3.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"></exception></token>
+                    <token skip="-1" postag="VER.ind.past.3.*" postag_regexp="yes"/>
+                    <token skip="-1" postag="CON"/>
+                    <token postag="(VER.ind.fut.3.*)|(VER.ind.pres.3.*)" postag_regexp="yes"><exception scope="previous" postag="(ART-F.*)|(ART-M.*)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Controllare il tempo dei verbi utilizzati nella frase.</message>
                 <example correction="">Clara <marker>aspettò il tram e decide</marker> di telefonare.</example>
@@ -884,12 +884,12 @@ $Id$
                     <token skip="2" regexp="yes">affinché|acciocché|purché|benché|sebbene|quantunque|qualora</token>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
-                    	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"></exception>
-                    	    <exception scope="previous" postag="VER.sub.*" postag_regexp="yes"></exception>
+                    	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"/>
+                    	    <exception scope="previous" postag="VER.sub.*" postag_regexp="yes"/>
                        	</token>
                     </marker>
                 </pattern>
-                <message>La congiunzione '<match no="1"></match>' richiede il congiuntivo.</message>
+                <message>La congiunzione '<match no="1"/>' richiede il congiuntivo.</message>
                 <example correction="">Ti avviso affinché tu <marker>puoi</marker> rimediare.</example>
                 <example>Ti avviso affinché tu <marker>possa</marker> rimediare.</example>
             </rule>
@@ -900,8 +900,8 @@ $Id$
                     <token skip="2">che</token>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
-                    	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"></exception>
-                    	    <exception scope="previous" postag="VER.sub.*" postag_regexp="yes"></exception>
+                    	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"/>
+                    	    <exception scope="previous" postag="VER.sub.*" postag_regexp="yes"/>
                        	</token>
                     </marker>
                 </pattern>
@@ -916,8 +916,8 @@ $Id$
                     <token skip="2">che</token>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
-                    	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"></exception>
-                    	    <exception scope="previous" postag="VER.sub.*" postag_regexp="yes"></exception>
+                    	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"/>
+                    	    <exception scope="previous" postag="VER.sub.*" postag_regexp="yes"/>
                        	</token>
                     </marker>
                 </pattern>
@@ -931,12 +931,12 @@ $Id$
                     <token skip="2">che</token>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
-                    	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"></exception>
-                    	    <exception scope="previous" postag="VER.sub.*" postag_regexp="yes"></exception>
+                    	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"/>
+                    	    <exception scope="previous" postag="VER.sub.*" postag_regexp="yes"/>
                        	</token>
                     </marker>
                 </pattern>
-                <message>La congiunzione '<match no="1"></match> che' richiede il congiuntivo.</message>
+                <message>La congiunzione '<match no="1"/> che' richiede il congiuntivo.</message>
                 <example correction="">Ti avviso prima che tu <marker>fai</marker> qualcosa di sbagliato.</example>
                 <example>Ti avviso prima che tu <marker>faccia</marker> qualcosa di sbagliato.</example>
             </rule>
@@ -946,12 +946,12 @@ $Id$
                     <token skip="2" regexp="yes">qualunque|chiunque|qualsiasi|ovunque|dovunque</token>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
-                    	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"></exception>
-                    	    <exception scope="previous" postag="VER.sub.*" postag_regexp="yes"></exception>
+                    	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"/>
+                    	    <exception scope="previous" postag="VER.sub.*" postag_regexp="yes"/>
                        	</token>
                     </marker>
                 </pattern>
-                <message>L'aggettivo '<match no="1"></match>' richiede il congiuntivo.</message>
+                <message>L'aggettivo '<match no="1"/>' richiede il congiuntivo.</message>
                 <example correction="">Ti troverò ovunque tu <marker>sei</marker>.</example>
                 <example>Ti troverò ovunque tu <marker>sia</marker>.</example>
             </rule>
@@ -963,12 +963,12 @@ $Id$
                     <token skip="2">che</token>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
-                    	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"></exception>                    	    
-                    	    <exception scope="previous" postag="VER.sub.*" postag_regexp="yes"></exception>
+                    	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"/>                    	    
+                    	    <exception scope="previous" postag="VER.sub.*" postag_regexp="yes"/>
                        	</token>
                     </marker>
                 </pattern>
-                <message>L'espressione impersonale 'è <match no="2"></match> che' richiede il congiuntivo.</message>
+                <message>L'espressione impersonale 'è <match no="2"/> che' richiede il congiuntivo.</message>
                 <example correction="">Credimi, è meglio che tu <marker>sei</marker> vicino.</example>
                 <example>Credimi, è meglio che tu <marker>sia</marker> vicino.</example>
             </rule>
@@ -1077,7 +1077,7 @@ $Id$
                     <token regexp="yes">me|noi</token>
                     <token regexp="yes">mi|ci</token>
                 </pattern>
-                <message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion><match no="1"></match> <match no="2"></match></suggestion> oppure <suggestion><match no="3"></match></suggestion>.</message>
+                <message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion><match no="1"/> <match no="2"/></suggestion> oppure <suggestion><match no="3"/></suggestion>.</message>
                 <example correction="A me|Mi"><marker>A me mi</marker> piace il gelato.</example>
                 <example>Mi piace il gelato.</example>
             </rule>
@@ -1087,7 +1087,7 @@ $Id$
                     <token regexp="yes">te|voi</token>
                     <token regexp="yes">ti|vi</token>
                 </pattern>
-                <message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion><match no="1"></match> <match no="2"></match></suggestion> oppure <suggestion><match no="3"></match></suggestion>.</message>
+                <message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion><match no="1"/> <match no="2"/></suggestion> oppure <suggestion><match no="3"/></suggestion>.</message>
                 <example correction="A te|Ti"><marker>A te ti</marker> pare strano.</example>
                 <example>Ti pare strano.</example>
             </rule>
@@ -1097,7 +1097,7 @@ $Id$
                     <token regexp="yes">lui|lei</token>
                     <token regexp="yes">gli|le</token>
                 </pattern>
-                <message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion><match no="1"></match> <match no="2"></match></suggestion> oppure <suggestion><match no="3"></match></suggestion>.</message>
+                <message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion><match no="1"/> <match no="2"/></suggestion> oppure <suggestion><match no="3"/></suggestion>.</message>
                 <example correction="A lui|Gli"><marker>A lui gli</marker> faceva comodo.</example>
                 <example>Gli faceva comodo.</example>
             </rule>
@@ -1107,7 +1107,7 @@ $Id$
                     <token>loro</token>
                     <token>gli</token>
                 </pattern>
-                <message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion><match no="1"></match> <match no="2"></match></suggestion> oppure <suggestion><match no="3"></match></suggestion>.</message>
+                <message>Si tratta di una ripetizione. Meglio scegliere una delle due forme: <suggestion><match no="1"/> <match no="2"/></suggestion> oppure <suggestion><match no="3"/></suggestion>.</message>
                 <example correction="A loro|Gli"><marker>A loro gli</marker> era utile.</example>
                 <example>Gli era utile.</example>
             </rule>
@@ -1136,7 +1136,7 @@ $Id$
                     <token>più</token>
                     <token regexp="yes">migliore|peggiore|superiore|inferiore|maggiore|ulteriore|posteriore|interiore|esteriore|citeriore|anteriore</token>
                 </pattern>
-                <message>Il più è ridondante in quanto la gradazione di comparazione è già contemplata nell'aggettivo. Sostituire con: <suggestion><match no="2"></match></suggestion>.</message>
+                <message>Il più è ridondante in quanto la gradazione di comparazione è già contemplata nell'aggettivo. Sostituire con: <suggestion><match no="2"/></suggestion>.</message>
                 <example correction="migliore">Usa questo prodotto che è <marker>più migliore</marker> del tuo.</example>
             </rule>
             <!-- più molto -->
@@ -1289,7 +1289,7 @@ $Id$
                     <token>ad</token>
                     <token regexp="yes">[eiou].*<exception regexp="yes">esempio|es</exception></token>
                 </pattern>
-                <message>L'uso della d eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>a <match no="2"></match></suggestion>.</message>
+                <message>L'uso della d eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>a <match no="2"/></suggestion>.</message>
                 <example correction="a interpretare">Provo <marker>ad interpretare</marker> il tuo pensiero.</example>
                 <example>Io, <marker>ad esempio</marker>, non ci sono cascato.</example>
             </rule>
@@ -1299,7 +1299,7 @@ $Id$
                     <token>ed</token>
                     <token regexp="yes">[aiou].*</token>
                 </pattern>
-                <message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>e <match no="2"></match></suggestion>.</message>
+                <message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>e <match no="2"/></suggestion>.</message>
                 <example correction="e insisto">Ti dico <marker>ed insisto</marker> che è vero.</example>
             </rule>
             <!-- togli od -->
@@ -1308,7 +1308,7 @@ $Id$
                     <token>od</token>
                     <token regexp="yes">[aieu].*</token>
                 </pattern>
-                <message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>o <match no="2"></match></suggestion>.</message>
+                <message>L'uso della 'd' eufonica dovrebbe essere limitato ai casi di incontro della stessa vocale: <suggestion>o <match no="2"/></suggestion>.</message>
                 <example correction="o un">Si consiglia un farmaco blando <marker>od un</marker> omeopatico.</example>
             </rule>
 
@@ -1318,7 +1318,7 @@ $Id$
                     <token>a</token>
                     <token regexp="yes">[a].*|esempio|es</token>
                 </pattern>
-                <message>In questo caso l'uso della 'd' eufonica è ammesso: <suggestion>ad <match no="2"></match></suggestion>.</message>
+                <message>In questo caso l'uso della 'd' eufonica è ammesso: <suggestion>ad <match no="2"/></suggestion>.</message>
                 <example correction="ad arrivare">Provo <marker>a arrivare</marker> prima di te.</example>
                 <example>Io, <marker>ad esempio</marker>, non ci sono cascato.</example>
             </rule>
@@ -1328,7 +1328,7 @@ $Id$
                     <token>e</token>
                     <token regexp="yes">[e].*</token>
                 </pattern>
-                <message>In questo caso l'uso della 'd' eufonica è ammesso: <suggestion>ed <match no="2"></match></suggestion>.</message>
+                <message>In questo caso l'uso della 'd' eufonica è ammesso: <suggestion>ed <match no="2"/></suggestion>.</message>
                 <example correction="ed effettua">Si concentra <marker>e effettua</marker> una bella manovra.</example>
             </rule>
             <!-- metti od -->
@@ -1337,7 +1337,7 @@ $Id$
                     <token>o</token>
                     <token regexp="yes">[o].*</token>
                 </pattern>
-                <message>In questo caso l'uso della 'd' eufonica è ammesso: <suggestion>od <match no="2"></match></suggestion>.</message>
+                <message>In questo caso l'uso della 'd' eufonica è ammesso: <suggestion>od <match no="2"/></suggestion>.</message>
                 <example correction="od ogni">Puoi vederlo ogni mattina <marker>o ogni</marker> sera.</example>
                 <example>Puoi vederlo ogni mattina <marker>od ogni</marker> sera.</example>
             </rule>
@@ -1353,11 +1353,11 @@ $Id$
 <!-- 
                     <token skip="-1" regexp="yes">[qwertyuiopasdfghjklzxcvbnm].*<exception postag="PRE|ARTPRE.*|ART.*|CON|PON" postag_regexp="yes"></exception><exception regexp="yes">l|dell|all|sull|dall|nell</exception></token>
 -->
-					<token skip="-1" postag_regexp="yes" postag="ADJ.*|ADV.*|NOUN.*|VER.*"></token>
+					<token skip="-1" postag_regexp="yes" postag="ADJ.*|ADV.*|NOUN.*|VER.*"/>
 <!-- PB001 - -->
                     <marker>
                     	<token>
-                    	    <match no="0"></match>
+                    	    <match no="0"/>
 <!-- 181 + -->
                     	    <exception scope="previous" regexp="yes">via|così|Duran|Pago|Wagga</exception>
 <!-- 181 - -->                    	    
@@ -1365,7 +1365,7 @@ $Id$
                     </marker>
 <!-- PB010 - -->
                 </pattern>
-                <message>Si consiglia di rivedere la frase al fine di eliminare la ripetizione della parola: <match no="1"></match>.</message>
+                <message>Si consiglia di rivedere la frase al fine di eliminare la ripetizione della parola: <match no="1"/>.</message>
                 <example correction="">Il bambino aveva capito bene l'altro <marker>bambino</marker> di fronte a se.</example>
                 <example>Il bambino aveva capito bene l'altro fanciullo di fronte a se.</example>
             </rule>
@@ -1496,18 +1496,18 @@ $Id$
                 <!-- "a" + un participio passato -->
                 <pattern>
                     <token>a</token>
-                    <token postag="VER:part.+past.*" postag_regexp="yes"></token>
+                    <token postag="VER:part.+past.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Forse volevi dire <suggestion>ha <match no="2"></match></suggestion>?</message>
+                <message>Forse volevi dire <suggestion>ha <match no="2"/></suggestion>?</message>
                 <example correction="ha fatto">La mamma <marker>a fatto</marker> la spesa.</example>
             </rule>
             <rule>
                 <!-- "a" + un sostantivo plurale -->
                 <pattern>
                     <token>a</token>
-                    <token postag="NOUN.+p" postag_regexp="yes"></token>
+                    <token postag="NOUN.+p" postag_regexp="yes"/>
                 </pattern>
-                <message>Forse volevi dire <suggestion>ha <match no="2"></match></suggestion>?</message>
+                <message>Forse volevi dire <suggestion>ha <match no="2"/></suggestion>?</message>
                 <example correction="ha soldi">Piero <marker>a soldi</marker> con sé?.</example>
                 <example>Piero <marker>ha soldi</marker> con se?.</example>
             </rule>
@@ -1529,28 +1529,28 @@ $Id$
 <!-- 
                     <token postag="VER:part.+past.*" postag_regexp="yes"></token>
 -->
-                    <token postag="VER:part.+past.*" postag_regexp="yes"><exception postag="NOUN-M:p"></exception></token>
+                    <token postag="VER:part.+past.*" postag_regexp="yes"><exception postag="NOUN-M:p"/></token>
 <!--  182 - -->
                     </pattern>
-                <message>Forse volevi dire <suggestion>hai <match no="2"></match></suggestion>?</message>
+                <message>Forse volevi dire <suggestion>hai <match no="2"/></suggestion>?</message>
                 <example correction="Hai fatto"><marker>Ai fatto</marker> i compiti?</example>
             </rule>
             <rule>
                 <!-- "ai" + un sostantivo singolare -->
                 <pattern>
                     <token>ai</token>
-                    <token postag="NOUN.+s" postag_regexp="yes"></token>
+                    <token postag="NOUN.+s" postag_regexp="yes"/>
                 </pattern>
-                <message>Forse volevi dire <suggestion>hai <match no="2"></match></suggestion>?</message>
+                <message>Forse volevi dire <suggestion>hai <match no="2"/></suggestion>?</message>
                 <example correction="Hai fame"><marker>Ai fame</marker>?</example>
             </rule>
             <rule>
                 <!-- "ai" + articolo/aggettivo/etc singolare -->
                 <pattern>
                     <token>ai</token>
-                    <token postag="(ADJ|ART|ARTPRE|DET-INDEF|DET-NUM-CARD).+s" postag_regexp="yes"></token>
+                    <token postag="(ADJ|ART|ARTPRE|DET-INDEF|DET-NUM-CARD).+s" postag_regexp="yes"/>
                 </pattern>
-                <message>Forse volevi dire <suggestion>ha <match no="2"></match></suggestion>?</message>
+                <message>Forse volevi dire <suggestion>ha <match no="2"/></suggestion>?</message>
                 <example correction="ha un">Tu <marker>ai un</marker> bel cane.</example>
                 <example>Tu <marker>hai un</marker> bel cane.</example>
             </rule>
@@ -1568,18 +1568,18 @@ $Id$
                 <!-- "anno" + un participio passato -->
                 <pattern>
                     <token>anno</token>
-                    <token postag="VER:part.+past.*" postag_regexp="yes"></token>
+                    <token postag="VER:part.+past.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Forse volevi dire <suggestion>hanno <match no="2"></match></suggestion>?</message>
+                <message>Forse volevi dire <suggestion>hanno <match no="2"/></suggestion>?</message>
                 <example correction="Hanno fatto"><marker>Anno fatto</marker> i compiti?</example>
             </rule>
             <rule>
                 <!-- "anno" + articolo -->
                 <pattern>
                     <token>anno</token>
-                    <token postag="(ART|ARTPRE|DET-INDEF|DET-NUM-CARD).*" postag_regexp="yes"></token>
+                    <token postag="(ART|ARTPRE|DET-INDEF|DET-NUM-CARD).*" postag_regexp="yes"/>
                 </pattern>
-                <message>Forse volevi dire <suggestion>ha <match no="2"></match></suggestion>?</message>
+                <message>Forse volevi dire <suggestion>ha <match no="2"/></suggestion>?</message>
                 <example correction="ha un">Piero e Cinzia <marker>anno un</marker> bel cane.</example>
                 <example>Piero e Cinzia <marker>hanno un</marker> bel cane.</example>
             </rule>
@@ -1588,9 +1588,9 @@ $Id$
             <!-- "o" + un participio passato -->
             <pattern>
                 <token>o</token>
-                <token postag="VER:part.+past.*" postag_regexp="yes"></token>
+                <token postag="VER:part.+past.*" postag_regexp="yes"/>
             </pattern>
-            <message>Forse volevi dire <suggestion>ho <match no="2"></match></suggestion>?</message>
+            <message>Forse volevi dire <suggestion>ho <match no="2"/></suggestion>?</message>
             <example correction="ho fatto">Non <marker>o fatto</marker> i compiti.</example>
         </rule>
     </category>
@@ -1606,19 +1606,19 @@ $Id$
                 <!-- "ala" + sostantivo -->
                 <pattern>
                     <token>ala</token>
-                    <token postag="NOUN-F.*" postag_regexp="yes"></token>
+                    <token postag="NOUN-F.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Forse volevi dire <suggestion>alla <match no="2"></match></suggestion>?</message>
+                <message>Forse volevi dire <suggestion>alla <match no="2"/></suggestion>?</message>
                 <example correction="alla mamma">Ho dato un bacio <marker>ala mamma</marker>.</example>
             </rule>
             <rule>
                 <!-- "ala" + aggettivo + sostantivo -->
                 <pattern>
                     <token>ala</token>
-                    <token postag="(ADJ|DET).*" postag_regexp="yes"></token>
-                    <token postag="NOUN-F.*" postag_regexp="yes"></token>
+                    <token postag="(ADJ|DET).*" postag_regexp="yes"/>
+                    <token postag="NOUN-F.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Forse volevi dire <suggestion>alla <match no="2"></match> <match no="3"></match></suggestion>?</message>
+                <message>Forse volevi dire <suggestion>alla <match no="2"/> <match no="3"/></suggestion>?</message>
                 <example correction="alla mia mamma">Ho dato un bacio <marker>ala mia mamma</marker>.</example>
             </rule>
         </rulegroup>
@@ -1631,10 +1631,10 @@ $Id$
 <!--
 					<token postag="NOUN-M:s"></token>
 -->                
-					<token postag="NOUN-M:s"><exception postag="NOUN-F:s"></exception></token>
+					<token postag="NOUN-M:s"><exception postag="NOUN-F:s"/></token>
 <!-- 3609558 - -->
 				</pattern>
-                <message>Forse volevi dire <suggestion>al <match no="2"></match></suggestion>?</message>
+                <message>Forse volevi dire <suggestion>al <match no="2"/></suggestion>?</message>
                 <example correction="al circo">Sono andato <marker>la circo</marker>.</example>
             </rule>
             <rule>
@@ -1644,11 +1644,11 @@ $Id$
                     <!-- serve il "\+m" con ADJ perché la 'm' compare anche in 'ADJ:comp+f' -->
                     <token postag="(ADJ.+\+m|DET.+:m).*" postag_regexp="yes">
 <!-- 180 + -->
-                        <exception postag="(ADJ.+\+f|DET.+:f).*" postag_regexp="yes"></exception>
+                        <exception postag="(ADJ.+\+f|DET.+:f).*" postag_regexp="yes"/>
 <!-- 180 - -->
                     </token>
                 </pattern>
-                <message>Forse volevi dire <suggestion>al <match no="2"></match></suggestion>?</message>
+                <message>Forse volevi dire <suggestion>al <match no="2"/></suggestion>?</message>
                 <example correction="al mio">Ho portato un regalo <marker>la mio</marker> papà.</example>
             </rule>
             <rule>
@@ -1659,10 +1659,10 @@ $Id$
 <!-- 
                     <token postag="NOUN-F:s"></token>
 -->
-                    <token postag="NOUN-F:s"><exception postag="NOUN-M:s"></exception></token> 
+                    <token postag="NOUN-F:s"><exception postag="NOUN-M:s"/></token> 
 <!-- 3609558 - -->
                     </pattern>
-                <message>Forse volevi dire <suggestion>la <match no="2"></match></suggestion>?</message>
+                <message>Forse volevi dire <suggestion>la <match no="2"/></suggestion>?</message>
                 <example correction="la mela">Ho mangiato <marker>al mela</marker>.</example>
             </rule>
             <rule>
@@ -1671,11 +1671,11 @@ $Id$
                     <token>al</token>
                     <token postag="(ADJ.+\+f|DET.+:f).*" postag_regexp="yes">
 <!-- 180 + -->
-                        <exception postag="(ADJ.+\+m|DET.+:m).*" postag_regexp="yes"></exception>
+                        <exception postag="(ADJ.+\+m|DET.+:m).*" postag_regexp="yes"/>
 <!-- 180 - -->
                     </token>
                 </pattern>
-                <message>Forse volevi dire <suggestion>la <match no="2"></match></suggestion>?</message>
+                <message>Forse volevi dire <suggestion>la <match no="2"/></suggestion>?</message>
                 <example correction="la tua">Ho mangiato <marker>al tua</marker> merenda.</example>
             </rule>
         </rulegroup>
@@ -1684,9 +1684,9 @@ $Id$
                 <!-- "li" + sostantivo maschile -->
                 <pattern>
                     <token>li</token>
-                    <token postag="NOUN-M:s"></token>
+                    <token postag="NOUN-M:s"/>
                 </pattern>
-                <message>Forse volevi dire <suggestion>il <match no="2"></match></suggestion>?</message>
+                <message>Forse volevi dire <suggestion>il <match no="2"/></suggestion>?</message>
                 <example correction="Il gatto"><marker>Li gatto</marker> dormiva tranquillo.</example>
             </rule>
             <rule>
@@ -1694,9 +1694,9 @@ $Id$
                 <pattern>
                     <token>li</token>
                     <!-- serve il "\+m" con ADJ perché la 'm' compare anche in 'ADJ:comp+f' -->
-                    <token postag="(ADJ.+\+m|DET.+:m).*" postag_regexp="yes"></token>
+                    <token postag="(ADJ.+\+m|DET.+:m).*" postag_regexp="yes"/>
                 </pattern>
-                <message>Forse volevi dire <suggestion>il <match no="2"></match></suggestion>?</message>
+                <message>Forse volevi dire <suggestion>il <match no="2"/></suggestion>?</message>
                 <example correction="Il mio"><marker>Li mio</marker> gatto dormiva tranquillo.</example>
                 <example correction="Il bel"><marker>Li bel</marker> gatto dormiva tranquillo.</example>
             </rule>
@@ -1706,18 +1706,18 @@ $Id$
                 <!-- 'là' + sostantivo femminile quasi certamente è 'la' -->
                 <pattern>
                     <token>là</token>
-                    <token postag="NOUN-F.*" postag_regexp="yes"></token>
+                    <token postag="NOUN-F.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Forse volevi dire <suggestion>la <match no="2"></match></suggestion>?</message>
+                <message>Forse volevi dire <suggestion>la <match no="2"/></suggestion>?</message>
                 <example correction="La gatta"><marker>Là gatta</marker> dormiva tranquilla.</example>
             </rule>
             <rule>
                 <!-- 'là' + aggettivo/articolo/etc. femminile quasi certamente è 'la' -->
                 <pattern>
                     <token>là</token>
-                    <token postag="(ADJ.+\+f|DET.+:f).*" postag_regexp="yes"></token>
+                    <token postag="(ADJ.+\+f|DET.+:f).*" postag_regexp="yes"/>
                 </pattern>
-                <message>Forse volevi dire <suggestion>la <match no="2"></match></suggestion>?</message>
+                <message>Forse volevi dire <suggestion>la <match no="2"/></suggestion>?</message>
                 <example correction="La mia"><marker>Là mia</marker> gatta dormiva tranquilla.</example>
             </rule>
             <rule>
@@ -1726,16 +1726,16 @@ $Id$
                     <token>la</token>
                     <token regexp="yes">\.|,|;|:|!|\?</token>
                 </pattern>
-                <message>Forse volevi dire <suggestion>là<match no="2"></match></suggestion>?</message>
+                <message>Forse volevi dire <suggestion>là<match no="2"/></suggestion>?</message>
                 <example correction="là.">Mettilo <marker>la.</marker></example>
             </rule>
             <rule>
                 <!-- 'la' in fine di frase quasi certamente è 'là' -->
                 <pattern>
                     <token>la</token>
-                    <token postag="SENT"></token>
+                    <token postag="SENT"/>
                 </pattern>
-                <message>Forse volevi dire <suggestion>là<match no="2"></match></suggestion>?</message>
+                <message>Forse volevi dire <suggestion>là<match no="2"/></suggestion>?</message>
                 <example correction="là.">Mettilo <marker>la.</marker></example>
             </rule>
         </rulegroup>        
@@ -1747,7 +1747,7 @@ $Id$
                     <!--
                                         <token postag_regexp="yes" postag="PRO-PERS-CLI.*"/>
                     -->
-                    <token postag_regexp="yes" postag="PRO-PERS-CLI.*"><exception postag="CON"></exception></token>
+                    <token postag_regexp="yes" postag="PRO-PERS-CLI.*"><exception postag="CON"/></token>
                     <!-- PB005- -->
                     <marker>
                         <token>da</token>
