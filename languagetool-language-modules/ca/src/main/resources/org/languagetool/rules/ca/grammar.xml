@@ -3703,16 +3703,17 @@ $Id$
                     <token><exception postag="SPS00"/></token>
                     <token inflected="yes">deure<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="VM[^N].*" postag_regexp="yes"></token>
+                        <token postag="VM[GP].*" postag_regexp="yes"></token>
                     </marker>
                 </pattern>
-                <message>Darrere de «\1» va un infinitiu.</message>
+                <message>Probablement falta un infinitiu.</message>
                 <suggestion><match no="3" postag="V.N.*" postag_regexp="yes"></match></suggestion>
                 <short>Falta un infinitiu</short>
                 <example correction="quedar">En deuen <marker>quedat</marker> tres.</example>
                 <example>En deuen quedar tres.</example>
                 <example>La reclamació de rendes degudes segueix els tràmits.</example>
                 <example>Deu escollits del clergat responen</example>
+                <example>dels favors que es deuen neix el trencament</example>
             </rule>
         </rulegroup>
         <rulegroup id="HAVER_PARTICIPI_HAVER_IMPERSONAL" name="Comprova: «haver» + participi / «haver-hi» impersonal">
@@ -35726,7 +35727,7 @@ $Id$
         </rule>
         <rule id="BE_QUE_SUBJUNTIU" name="bé que + *subjuntiu/indicatiu">
             <pattern>
-                <token><exception>o</exception><exception postag="SPS00|RG_anteposat|PR.*|.*LOC_CONJ.*|.*LOC_ADV.*|_GV_|V.[^P].*" postag_regexp="yes"/></token>
+                <token><exception regexp="yes">o|gens</exception><exception postag="SPS00|RG_anteposat|PR.*|.*LOC_CONJ.*|.*LOC_ADV.*|_GV_|V.[^P].*" postag_regexp="yes"/></token>
                 <marker>
                     <token>bé<exception postag="_GN_MS"/></token>
                     <token skip="8">que<exception scope="next" postag="V.I.*|PR.*|CS|.*LOC_CONJ.*" postag_regexp="yes"/></token>
