@@ -72,7 +72,8 @@ public class SpellingCheckRuleTest {
       assertTrue(isUrl("http://www.test-dash.com/foo/path-dash"));
       assertTrue(isUrl("http://www.test-dash.com/foo/öäü-dash"));
       assertTrue(isUrl("http://www.test-dash.com/foo/%C3%B-dash"));
-      assertFalse(isUrl("www.languagetool.org"));  // currently not detected
+      assertTrue(isUrl("www.languagetool.org"));
+      assertFalse(isUrl("languagetool.org"));  // currently not detected
     }
   }
 }

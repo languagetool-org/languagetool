@@ -61,6 +61,18 @@ public class WordTokenizer implements Tokenizer {
     return PROTOCOLS;
   }
 
+  /**
+   * @since 3.0
+   */
+  public static boolean isUrl(String token) {
+    for (String protocol : WordTokenizer.getProtocols()) {
+      if (token.startsWith(protocol + "://") || token.startsWith("www.")) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public WordTokenizer() {
   }
 
@@ -119,6 +131,13 @@ public class WordTokenizer implements Tokenizer {
         return true;
       }
     }
+    if (l.size() > i + 1) {
+      final String nToken = l.get(i);
+      final String nnToken = l.get(i + 1);
+      if (nToken.equals("www") && nnToken.equals(".")) {
+        return true;
+      }
+    }
     return false;
   }
 
@@ -135,7 +154,7 @@ public class WordTokenizer implements Tokenizer {
     final String token = l.get(i);
     if (StringTools.isWhitespace(token)) {
       return true;
-    } else if (token.equals(")")) {
+    } else if (token.equals(")") || token.equals("]")) {   // this is guesswork
       return true;
     } else if (l.size() > i + 1) {
       final String nToken = l.get(i + 1);

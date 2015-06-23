@@ -38,6 +38,14 @@ public class WordTokenizerTest extends TestCase {
     assertEquals("[This, \r, breaks]", tokens2.toString());
   }
 
+  public void testIsUrl() {
+    assertTrue(WordTokenizer.isUrl("www.languagetool.org"));
+    assertTrue(WordTokenizer.isUrl("http://www.languagetool.org"));
+    assertTrue(WordTokenizer.isUrl("https://www.languagetool.org"));
+    assertFalse(WordTokenizer.isUrl("languagetool.org"));  // not detected yet
+    assertFalse(WordTokenizer.isUrl("something-else"));
+  }
+  
   public void testUrlTokenize() {
     assertEquals("This| |http://foo.org| |blah", tokenize("This http://foo.org blah"));
     assertEquals("This| |http://foo.org| |and| |ftp://bla.com| |blah", tokenize("This http://foo.org and ftp://bla.com blah"));
