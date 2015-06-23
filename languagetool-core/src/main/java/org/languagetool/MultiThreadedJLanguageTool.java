@@ -38,6 +38,8 @@ import org.languagetool.rules.RuleMatch;
  * high load that this might cause. Call {@link #shutdown()} when you don't need
  * the object anymore.
  * 
+ * <p>Also see the javadoc of {@link JLanguageTool}.</p>
+ * 
  * <p><b>Thread-safety:</b> See the remarks at {@link JLanguageTool}.
  */
 public class MultiThreadedJLanguageTool extends JLanguageTool {
