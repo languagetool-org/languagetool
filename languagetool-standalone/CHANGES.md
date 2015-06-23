@@ -2,6 +2,9 @@
 
 ## 3.0 (release planned for 2015-06-29)
 
+#### Breton
+  * updated FSA spelling dictionary from An Drouizig Breton Spellchecker 0.13
+
 #### Catalan
   * added new rules
   * fixed false alarms

@@ -119,9 +119,9 @@ dictionary under GNU General Public License with permission of its authors:
     * Grup Transducens, Universitat d'Alacant
 
 The Breton FSA spelling dictionary is based on the Breton Hunspell dictionary
-"Difazier Hunspell an Drouizig" (0.12) licensed under the Lesser GNU Public
+"Difazier Hunspell an Drouizig" (0.13) licensed under the Lesser GNU Public
 License (LGPL), available at:
-http://extensions.libreoffice.org/extension-center/an-drouizig-breton-spellchecker/releases/0.12/difazier-an-drouizig-0.12
+http://extensions.libreoffice.org/extension-center/an-drouizig-breton-spellchecker/releases/0.13/difazier-an-drouizig-0_13.oxt
 
 #### Catalan
 

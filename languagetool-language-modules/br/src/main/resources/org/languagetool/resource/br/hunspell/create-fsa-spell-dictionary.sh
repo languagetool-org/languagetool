@@ -13,10 +13,10 @@
 #
 # Author: Dominique Pelle <dominique.pelle@gmail.com>
 
-file_oxt=difazier-an-drouizig-0.12
+file_oxt=difazier-an-drouizig-0_13.oxt
 if [ ! -f $file_oxt ]; then
   # Download the Breton Hunspell dictionary, if not already done.
-  wget http://extensions.libreoffice.org/extension-center/an-drouizig-breton-spellchecker/releases/0.12/$file_oxt
+  wget http://extensions.libreoffice.org/extension-center/an-drouizig-breton-spellchecker/releases/0.13/$file_oxt
 fi
 
 # We're only interested in 2 files (*.aff and *.dic) files in the *.oxt zip file. 
