@@ -24156,6 +24156,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="HILFSVERB_HABEN_SEIN" name="Grammatik: falsches Hilfsverb für Perfekt (z.B. 'hat (ist) gegangen)'">
             <rule>
+                <antipattern>
+                    <token skip="-1" inflected="yes">haben</token>
+                    <token>den</token>
+                    <token>Rang</token>
+                    <token>abgelaufen</token>
+                </antipattern>
                 <pattern>
                     <token negate="yes">zu</token>
                     <marker>
@@ -24171,6 +24177,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sie <marker>ist gegangen</marker>.</example>
                 <example>Sie <marker>haben gesungen und sind eingeschlafen</marker>.</example>
                 <example>Er wäre dafür zu <marker>haben gewesen</marker>.</example>
+                <example>Sie haben der Westküste den Rang abgelaufen.</example>
             </rule>
            <!-- <rule>
                 <pattern>

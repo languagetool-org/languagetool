@@ -258,7 +258,7 @@ public class VerbAgreementRule extends GermanRule {
   }
 
   /**
-   * @return true if |a - b| &lt; 5, and a != -1 
+   * @return true if |a - b| < 5, and a != -1 
    */
   private boolean isNear(final int a, final int b) {
     return (Math.abs(a - b) < 5) && a != -1;

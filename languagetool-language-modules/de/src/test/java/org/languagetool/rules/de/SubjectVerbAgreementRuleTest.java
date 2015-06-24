@@ -286,7 +286,8 @@ public class SubjectVerbAgreementRuleTest {
         "Seine Novelle, die eigentlich eine Glosse ist, war toll.",
         "Für in Österreich lebende Afrikaner und Afrikanerinnen ist dies nicht üblich.",
         "Von ursprünglich drei Almhütten ist noch eine erhalten.",
-        "Einer seiner bedeutendsten Kämpfe war gegen den späteren Weltmeister."
+        "Einer seiner bedeutendsten Kämpfe war gegen den späteren Weltmeister.",
+        "Aufgrund stark schwankender Absatzmärkte war die GEFA-Flug Mitte der 90er Jahre gezwungen, ..."
     );
     for (String sentence : sentences) {
       assertGood(sentence);
@@ -394,7 +395,8 @@ public class SubjectVerbAgreementRuleTest {
         "Ursache waren unter anderem die hohe Arbeitslosigkeit und die Wohnungsnot.", 
         "Er ahnt nicht, dass sie und sein Sohn ein Paar sind.",
         "Die Ursachen der vorliegenden Durchblutungsstörung sind noch unbekannt.",
-        "Der See und das Marschland sind ein Naturschutzgebiet"
+        "Der See und das Marschland sind ein Naturschutzgebiet",
+        "Details, Dialoge, wie auch die Typologie der Charaktere sind frei erfunden."
     );
     for (String sentence : sentences) {
       assertGood(sentence);

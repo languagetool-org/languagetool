@@ -254,6 +254,8 @@ public class GermanChunker implements Chunker {
       build("<pos=PRP> <pos=ADV> <regex=\\d+> <NP>", PP),
       // "über laufende Sanierungsmaßnahmen":
       build("<pos=PRP> <pos=PA1> <NP>", PP),
+      // "Aufgrund stark schwankender Absatzmärkte war die GEFA-Flug..."
+      build("<pos=PRP> <pos=ADJ> <pos=PA1> <NP>", PP),
       // "durch Einsatz größerer Maschinen und bessere Kapazitätsplanung":
       // with OpenNLP: build("<pos=PRP> <NP> <pos=ADJ> <NP> (<und|oder>) <NP>", PP),
       build("<pos=PRP> <NP> <NP> (<und|oder>) <NP>", PP),
@@ -276,7 +278,9 @@ public class GermanChunker implements Chunker {
       // ", die die hauptsächliche Beute der Eisbären", ", welche der Urstoff aller Körper":
       build("<,> <die|welche> <NP> <chunk=NPS & pos=GEN>+", NPP),
       // "Kommentare, Korrekturen, Kritik":
-      build("<NP> <,> <NP> <,> <NP>", NPP)
+      build("<NP> <,> <NP> <,> <NP>", NPP),
+      // "Details, Dialoge, wie auch die Typologie der Charaktere":
+      build("<NP> <,> <NP> <,> <wie> <auch> <chunk=NPS>+", NPP)
   );
 
   private static RegularExpressionWithPhraseType build(String expr, PhraseType phraseType) {
