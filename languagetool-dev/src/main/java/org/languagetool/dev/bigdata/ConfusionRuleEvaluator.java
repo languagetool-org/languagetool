@@ -42,15 +42,8 @@ import java.util.*;
 import static java.util.Locale.ENGLISH;
 
 /**
- * Loads sentences with a homophone (e.g. 'there') from Wikipedia or confusion set files
+ * Loads sentences with a homophone (e.g. there/their) from Wikipedia or confusion set files
  * and evaluates EnglishConfusionProbabilityRule with them.
- *
- * Evaluation results for there/their with 2000 sentences as of Mon May 25 15:54:41 CEST 2015:
- * Precision: 0.998 (3 false positives)
- * Recall:    0.970 (60 false negatives)
- * F-measure: 0.993 (beta=0.5)
- * Matches:   1940 (true positives)
- * Inputs:    [/media/Data/wikipedia/en/enwiki-20140811-pages-articles-multistream_part.xml, /media/Data/tatoeba/tatoeba-en.txt]
  *
  * @since 3.0
  * @author Daniel Naber 
