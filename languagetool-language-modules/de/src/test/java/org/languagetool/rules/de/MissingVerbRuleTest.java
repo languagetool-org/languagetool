@@ -47,14 +47,16 @@ public class MissingVerbRuleTest {
     
     assertBad("Dieser Satz kein Verb.", lt);
     assertBad("Aus einer Idee sich erste Wortgruppen, aus Wortgruppen einzelne Sätze, aus Sätzen ganze Texte.", lt);
+    assertBad("Ich ein neues Rad.", lt);
+    //assertBad("Ich einen neuen Fehler gefunden.", lt);  // see issue #42
   }
 
   private void assertGood(String text, JLanguageTool langTool) throws IOException {
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence(text)).length);
+    assertEquals("Found unexpected error in: '" + text + "'", 0, rule.match(langTool.getAnalyzedSentence(text)).length);
   }
 
   private void assertBad(String text, JLanguageTool langTool) throws IOException {
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence(text)).length);
+    assertEquals("Did not find expected error in: '" + text + "'", 1, rule.match(langTool.getAnalyzedSentence(text)).length);
   }
 
 }

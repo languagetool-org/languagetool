@@ -87,16 +87,18 @@ public class MissingVerbRule extends GermanRule {
     int i = 0;
     for (AnalyzedTokenReadings readings : sentence.getTokensWithoutWhitespace()) {
       if (readings.hasPartialPosTag("VER") || (!readings.isTagged() && !StringTools.isCapitalizedWord(readings.getToken()))) {  // ignore unknown words to avoid false alarms
+        //System.out.println("Found verb: " + readings.getToken());
         verbFound = true;
         break;
       } else if (i == 1 && verbAtSentenceStart(readings)) {
+        //System.out.println("Found verb: " + readings.getToken());
         verbFound = true;
         break;
       }
       lastToken = readings;
       i++;
     }
-    if (!verbFound && lastToken != null && i - 1 >= MIN_TOKENS_FOR_ERROR) {
+    if (!verbFound && lastToken != null && sentence.getTokensWithoutWhitespace().length >= MIN_TOKENS_FOR_ERROR) {
       RuleMatch match = new RuleMatch(this, 0, lastToken.getStartPos() + lastToken.getToken().length(), "Dieser Satz scheint kein Verb zu enthalten");
       return new RuleMatch[]{ match };
     }
