@@ -202,7 +202,7 @@ public class GermanChunker implements Chunker {
       // "die Kenntnisse der Sprache":
       build("<chunk=NPP> <chunk=NPS & pos=GEN>+", NPP, true),
       // "die Pyramide des Friedens und der Eintracht":
-      build("<chunk=NPS>+ <und> <chunk=NP[SP] & pos=GEN>+", NPS, true),
+      build("<chunk=NPS>+ <und> <chunk=NP[SP] & (pos=GEN | pos=ADV)>+", NPS, true),
       // "Teil der dort ausgestellten Bestände":
       build("<chunk=NPS>+ <der> <pos=ADV> <pos=PA2> <chunk=I-NP>", NPS, true),
       // "Autor der ersten beiden Bücher":
