@@ -575,13 +575,14 @@ public class CaseRule extends GermanRule {
       AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
       AnalyzedTokenReadings prevPrevToken = i >= 2 ? tokens[i-2] : null;
       AnalyzedTokenReadings prevPrevPrevToken = i >= 3 ? tokens[i-3] : null;
-      if (prevToken != null && ("und".equals(prevToken.getToken()) || "oder".equals(prevToken.getToken()))) {
+      String prevTokenStr = prevToken != null ? prevToken.getToken() : "";
+      if (prevToken != null && ("und".equals(prevTokenStr) || "oder".equals(prevTokenStr))) {
         if (prevPrevToken != null && prevPrevToken.hasPartialPosTag("SUB") && StringTools.startsWithUppercase(prevPrevToken.getToken())) {
           // "das dabei Erlernte und Erlebte ist ..." -> 'Erlebte' is correct here
           return true;
         }
       }
-      return (prevToken != null && ("irgendwas".equals(prevToken.getToken()) || "aufs".equals(prevToken.getToken()))) ||
+      return (prevToken != null && ("irgendwas".equals(prevTokenStr) || "aufs".equals(prevTokenStr) || "als".equals(prevTokenStr))) ||
          hasPartialTag(prevToken, "PRO") ||  // "etwas Verrücktes"
          (hasPartialTag(prevPrevToken, "PRO", "PRP") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2")) ||  // "etwas schön Verrücktes", "mit aufgewühltem Innerem"
          (hasPartialTag(prevPrevPrevToken, "PRO", "PRP") && hasPartialTag(prevPrevToken, "ADJ", "ADV") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2"));  // "etwas ganz schön Verrücktes"
