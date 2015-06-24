@@ -213,13 +213,6 @@ public class PatternRule extends AbstractPatternRule {
   }
   
   /**
-   * For testing only.
-   */
-  final List<DisambiguationPatternRule> getAntiPatterns() {
-    return antiPatterns;
-  }
-
-  /**
    * A fast check whether this rule can be ignored for the given sentence
    * because it can never match. Used internally for performance optimization.
    * @since 2.4
@@ -302,7 +295,7 @@ public class PatternRule extends AbstractPatternRule {
   /**
    * Set up the list of antipatterns used to immunize tokens, i.e., make them
    * non-matchable by the current rule. Useful for multi-word complex exceptions,
-   * such as multi-word idiomatic expressions
+   * such as multi-word idiomatic expressions.
    * @param antiPatterns A list of antiPatterns, implemented as {@code DisambiguationPatternRule}.
    * @since 2.5
    */
@@ -310,6 +303,13 @@ public class PatternRule extends AbstractPatternRule {
     this.antiPatterns.addAll(antiPatterns);
   }
 
+  /**
+   * For testing only.
+   */
+  final List<DisambiguationPatternRule> getAntiPatterns() {
+    return antiPatterns;
+  }
+  
   private AnalyzedSentence getSentenceWithImmunization(AnalyzedSentence sentence) throws IOException {
     if (antiPatterns != null && !antiPatterns.isEmpty()) {
       //we need a copy of the sentence, not reference to the old one
