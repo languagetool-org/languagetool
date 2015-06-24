@@ -157,12 +157,7 @@ public class UppercaseSentenceStartRule extends Rule {
   }
   
   protected boolean isUrl(String token) {
-    for (String protocol : WordTokenizer.getProtocols()) {
-      if (token.startsWith(protocol + "://")) {
-        return true;
-      }
-    }
-    return false;
+    return WordTokenizer.isUrl(token);
   }
 
 }
