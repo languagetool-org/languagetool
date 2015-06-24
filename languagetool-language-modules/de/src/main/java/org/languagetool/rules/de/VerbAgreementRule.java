@@ -173,7 +173,7 @@ public class VerbAgreementRule extends GermanRule {
                   || (tokens.length != i + 1 && tokens[i+1].getToken().startsWith("Laden")) ))) {
           posVer1Sin = i;
         } 
-        else if (hasUnambiguouslyPersonAndNumber(tokens[i], "2", "SIN")) {
+        else if (hasUnambiguouslyPersonAndNumber(tokens[i], "2", "SIN") && !"Probst".equals(tokens[i].getToken())) {
           posVer2Sin = i;
         } else if (hasUnambiguouslyPersonAndNumber(tokens[i], "1", "PLU")) {
           posVer1Plu = i;
@@ -277,7 +277,6 @@ public class VerbAgreementRule extends GermanRule {
         || !tokenReadings.hasPartialPosTag("VER")) {
       return false;
     }
-
     for (AnalyzedToken analyzedToken : tokenReadings) {
       final String postag = analyzedToken.getPOSTag();
       if (postag.contains("_END")) { // ignore SENT_END and PARA_END
@@ -286,8 +285,7 @@ public class VerbAgreementRule extends GermanRule {
       if (!postag.contains(":" + person + ":" + number)) {
         return false;
       }
-    } // for each reading
-    
+    }
     return true;
   }
   
@@ -347,7 +345,7 @@ public class VerbAgreementRule extends GermanRule {
    */
   private List<String> getVerbSuggestions(final AnalyzedTokenReadings verb, final String expectedVerbPOS, final boolean toUppercase) {
     // find the first verb reading
-    AnalyzedToken verbToken = new AnalyzedToken("","","");
+    AnalyzedToken verbToken = new AnalyzedToken("", "", "");
     for (AnalyzedToken token : verb.getReadings()) {
       if (token.getPOSTag().startsWith("VER:")) {
         verbToken = token;
@@ -357,11 +355,8 @@ public class VerbAgreementRule extends GermanRule {
     
     try {
       String[] synthesized = language.getSynthesizer().synthesize(verbToken, "VER.*:"+expectedVerbPOS+".*", true);
-      // remove duplicates
-      Set<String> suggestionSet = new HashSet<>();
-      suggestionSet.addAll(Arrays.asList(synthesized));
-      List<String> suggestions = new ArrayList<>();
-      suggestions.addAll(suggestionSet);
+      Set<String> suggestionSet = new HashSet<>(Arrays.asList(synthesized));  // remove duplicates
+      List<String> suggestions = new ArrayList<>(suggestionSet);
       if (toUppercase) {
         for (int i = 0; i < suggestions.size(); ++i) {
           suggestions.set(i, StringTools.uppercaseFirstChar(suggestions.get(i)));

@@ -64,6 +64,7 @@ public class VerbAgreementRuleTest extends TestCase {
     assertGood("Wenn ihr sterben solltet, wer würde sich dann um die Katze kümmern?");
     assertGood("Wenn wir sterben sollten, wer würde sich dann um die Katze kümmern?");
     assertGood("Dafür erhielten er sowie der Hofgoldschmied Theodor Heiden einen Preis.");
+    assertGood("Probst wurde deshalb in den Medien gefeiert.");
     assertGood("/usr/bin/firefox");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
