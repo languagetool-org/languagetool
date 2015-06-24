@@ -163,6 +163,8 @@ public class CaseRuleTest extends TestCase {
     assertBad("Dem Norwegischen Ingenieur gelingt das gut.");
     assertGood("Peter Peterson, dessen Namen auf Griechisch Stein bedeutet.");
     assertGood("Peter Peterson, dessen Namen auf Griechisch gut klingt.");
+    assertGood("Das dabei Erlernte und Erlebte ist sehr nützlich.");
+    assertBad("Das dabei erlernte und Erlebte Wissen ist sehr nützlich.");
     //assertBad("Peter Peterson, dessen Namen auf griechisch Stein bedeutet.");
   }
 
