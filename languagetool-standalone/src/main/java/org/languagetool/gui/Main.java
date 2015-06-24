@@ -857,6 +857,8 @@ public final class Main {
           }
         }
       });
+    } else if (args.length == 1 && (args[0].equals("-h") || args[0].equals("--help"))) {
+      printUsage();
     } else if (args.length == 0 || args.length == 1) {
       SwingUtilities.invokeLater(new Runnable() {
         @Override
@@ -873,12 +875,16 @@ public final class Main {
         }
       });
     } else {
-      System.out.println("Usage: java org.languagetool.gui.Main [-t|--tray]");
-      System.out.println("    or java org.languagetool.gui.Main [file]");
-      System.out.println("Parameters:");
-      System.out.println("    -t, --tray: dock LanguageTool to system tray on startup");
-      System.out.println("    file:       a plain text file to load on startup");
+      printUsage();
     }
+  }
+
+  private static void printUsage() {
+    System.out.println("Usage: java org.languagetool.gui.Main [-t|--tray]");
+    System.out.println("    or java org.languagetool.gui.Main [file]");
+    System.out.println("Parameters:");
+    System.out.println("    -t, --tray: dock LanguageTool to system tray on startup");
+    System.out.println("    file:       a plain text file to load on startup");
   }
 
   private class ControlReturnTextCheckingListener implements KeyListener {
