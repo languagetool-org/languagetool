@@ -234,6 +234,8 @@ public class GermanChunker implements Chunker {
       build("<pos=PRP> <chunk=NPP>+ <,> <NP>", PP, true),
       // "für die Stadtteile und selbständigen Ortsteile":
       build("<pos=PRP> <chunk=NPP>+", PP, true),
+      // "Das Bündnis zwischen der Sowjetunion und Kuba":
+      build("<pos=PRP> <der> <chunk=NPP>+", PP),
       // "in chemischen Komplexverbindungen", "für die Fische":
       build("<pos=PRP> <NP>", PP),
       // "einschließlich der biologischen und sozialen Grundlagen":

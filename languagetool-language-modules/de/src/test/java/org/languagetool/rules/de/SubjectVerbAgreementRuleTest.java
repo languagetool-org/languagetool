@@ -288,7 +288,8 @@ public class SubjectVerbAgreementRuleTest {
         "Von ursprünglich drei Almhütten ist noch eine erhalten.",
         "Einer seiner bedeutendsten Kämpfe war gegen den späteren Weltmeister.",
         "Aufgrund stark schwankender Absatzmärkte war die GEFA-Flug Mitte der 90er Jahre gezwungen, ...",
-        "Der Abzug der Besatzungssoldaten und deren mittlerweile ansässigen Angehörigen der Besatzungsmächte war vereinbart."
+        "Der Abzug der Besatzungssoldaten und deren mittlerweile ansässigen Angehörigen der Besatzungsmächte war vereinbart.",
+        "Das Bündnis zwischen der Sowjetunion und Kuba war für beide vorteilhaft."
     );
     for (String sentence : sentences) {
       assertGood(sentence);
