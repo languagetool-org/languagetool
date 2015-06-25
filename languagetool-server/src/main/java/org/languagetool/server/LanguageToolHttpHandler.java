@@ -67,6 +67,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private int maxWorkQueueSize;
   private boolean trustXForwardForHeader = false;
   private Set<String> ownIps;
+  private File rulesConfigurationFile = null;
   
   /**
    * Create an instance. Call {@link #shutdown()} when done.
@@ -145,6 +146,13 @@ class LanguageToolHttpHandler implements HttpHandler {
       throw new IllegalArgumentException("Max queue size must be >= 0: " + size);
     }
     this.maxWorkQueueSize = size;
+  }
+
+  /**
+   * @since 3.0
+   */
+  void setRulesConfigurationFile(File configFile) {
+	  this.rulesConfigurationFile = configFile;
   }
 
   @Override
@@ -505,9 +513,13 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (languageModelDir != null) {
       newLanguageTool.activateLanguageModelRules(languageModelDir);
     }
-    final Configuration config = new Configuration(lang);
-    if (!params.useQuerySettings && internalServer && config.getUseGUIConfig()) { // use the GUI config values
-      configureFromGUI(newLanguageTool, config);
+    if (!params.useQuerySettings) {
+      if (rulesConfigurationFile != null) {
+        configureFromRulesFile(newLanguageTool, lang);
+      }
+      else {
+        configureFromGUI(newLanguageTool, lang);
+      }
     }
     if (params.useQuerySettings) {
       Tools.selectRules(newLanguageTool, params.disabledRules, params.enabledRules, params.useEnabledOnly);
@@ -515,8 +527,22 @@ class LanguageToolHttpHandler implements HttpHandler {
     return newLanguageTool;
   }
 
-  private void configureFromGUI(JLanguageTool langTool, Configuration config) {
-    print("Using options configured in the GUI");
+  private void configureFromRulesFile(JLanguageTool langTool, Language lang) throws IOException {
+    print("Using options configured in " + rulesConfigurationFile);
+    // If we are explicitly configuring from rules, ignore the useGUIConfig flag
+    configureFromRules(langTool, new Configuration(rulesConfigurationFile.getParentFile(),
+                       rulesConfigurationFile.getName(), lang));
+  }
+
+  private void configureFromGUI(JLanguageTool langTool, Language lang) throws IOException {
+    Configuration config = new Configuration(lang);
+    if (internalServer && config.getUseGUIConfig()) {
+      print("Using options configured in the GUI");
+      configureFromRules(langTool, config);
+    }
+  }
+
+  private void configureFromRules(JLanguageTool langTool, Configuration config) {
     final Set<String> disabledRules = config.getDisabledRuleIds();
     if (disabledRules != null) {
       for (final String ruleId : disabledRules) {

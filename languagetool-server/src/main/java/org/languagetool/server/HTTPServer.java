@@ -106,6 +106,7 @@ public class HTTPServer extends Server {
       }
       httpHandler.setLanguageModel(config.getLanguageModelDir());
       httpHandler.setMaxWorkQueueSize(config.getMaxWorkQueueSize());
+      httpHandler.setRulesConfigurationFile(config.getRulesConfigFile());
       server.createContext("/", httpHandler);
       executorService = getExecutorService(workQueue, config);
       server.setExecutor(executorService);
