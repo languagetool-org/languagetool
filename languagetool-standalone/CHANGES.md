@@ -4,6 +4,7 @@
 
 #### Breton
   * updated FSA spelling dictionary from An Drouizig Breton Spellchecker 0.13
+  * updated POS dictionary from Apertium (svn r61079)
 
 #### Catalan
   * added new rules
