@@ -577,7 +577,7 @@ public class CaseRule extends GermanRule {
       AnalyzedTokenReadings prevPrevPrevToken = i >= 3 ? tokens[i-3] : null;
       String prevTokenStr = prevToken != null ? prevToken.getToken() : "";
       if (prevToken != null && ("und".equals(prevTokenStr) || "oder".equals(prevTokenStr))) {
-        if (prevPrevToken != null && prevPrevToken.hasPartialPosTag("SUB") && StringTools.startsWithUppercase(prevPrevToken.getToken())) {
+        if (prevPrevToken != null && tokens[i].hasPartialPosTag("SUB") && tokens[i].hasPartialPosTag(":ADJ")) {
           // "das dabei Erlernte und Erlebte ist ..." -> 'Erlebte' is correct here
           return true;
         }

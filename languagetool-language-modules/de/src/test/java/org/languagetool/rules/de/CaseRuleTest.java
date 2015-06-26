@@ -166,6 +166,8 @@ public class CaseRuleTest extends TestCase {
     assertGood("Das dabei Erlernte und Erlebte ist sehr nützlich.");
     assertBad("Das dabei erlernte und Erlebte Wissen ist sehr nützlich.");
     assertGood("Ein Kapitän verlässt als Letzter das sinkende Schiff.");
+    assertBad("Die Dolmetscherin und Der Vorleser gehen spazieren.");
+    assertGood("Es hilft, die Harmonie zwischen Führer und Geführten zu stützen.");
     //assertBad("Peter Peterson, dessen Namen auf griechisch Stein bedeutet.");
   }
 
