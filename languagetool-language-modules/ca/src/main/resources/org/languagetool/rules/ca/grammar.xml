@@ -13587,11 +13587,24 @@ $Id$
                 <pattern>
                     <token regexp="yes">[ld]</token>
                     <token>'</token>
-                    <token regexp="yes">\p{Sc}</token>
+                    <token regexp="yes">\p{Sc}|.*[₀₁₂₃₄₅₆₇₈₉²³¹⁰ⁱ⁴⁵⁶⁷⁸⁹].*</token>
                 </pattern>
                 <message>Els símbols no s'apostrofen.</message>
                 <suggestion>de <match no="3"/></suggestion>
                 <suggestion>el <match no="3"/></suggestion>
+                <url>http://esadir.cat/gramatica/sintaxi/articles</url>
+                <short>No s'apostrofa</short>
+                <example correction="de €|el €">3 milions <marker>d'€</marker>.</example>
+                <example>d'1 grau</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[ld]'</token>
+                    <token regexp="yes">\p{Sc}|.*[₀₁₂₃₄₅₆₇₈₉²³¹⁰ⁱ⁴⁵⁶⁷⁸⁹].*</token>
+                </pattern>
+                <message>Els símbols no s'apostrofen.</message>
+                <suggestion>de <match no="2"/></suggestion>
+                <suggestion>el <match no="2"/></suggestion>
                 <url>http://esadir.cat/gramatica/sintaxi/articles</url>
                 <short>No s'apostrofa</short>
                 <example correction="de €|el €">3 milions <marker>d'€</marker>.</example>
