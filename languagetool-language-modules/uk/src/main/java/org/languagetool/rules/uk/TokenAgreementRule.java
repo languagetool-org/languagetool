@@ -308,7 +308,7 @@ public class TokenAgreementRule extends Rule {
             if (/*prep.equalsIgnoreCase("на") &&*/ posTag.matches("adj.*:[mfn]:v_rod.*")) {
               String gender = PosTagHelper.getGender(posTag);
               if( gender == null ) {
-                System.err.println("unknown gender for " + token);
+//                System.err.println("unknown gender for " + token);
               }
               
               if ( PosTagHelper.hasPosTag(tokens[i+1], "noun.*:"+gender+":v_rod.*")) {
