@@ -39,6 +39,7 @@ import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.net.URL;
 import java.util.*;
 import java.util.List;
 
@@ -500,6 +501,20 @@ public class ConfigurationDialog implements ActionListener {
       }
     });
     panel.add(ngramDirButton, cons);
+    JButton helpButton = new JButton(messages.getString("guiNgramHelp"));
+    helpButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        if (Desktop.isDesktopSupported()) {
+          try {
+            Desktop.getDesktop().browse(new URL("http://wiki.languagetool.org/finding-errors-using-n-gram-data").toURI());
+          } catch (Exception ex) {
+            Tools.showError(ex);
+          }
+        }
+      }
+    });
+    panel.add(helpButton, cons);
     return panel;
   }
 
