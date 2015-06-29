@@ -4,6 +4,11 @@
   
   * ...
 
+#### LibreOffice / Apache OpenOffice Integration
+  * Fix: the ngram directory that turns on the confusion rule (see
+    http://wiki.languagetool.org/finding-errors-using-big-data) was
+    ignored in LibreOffice and OpenOffice
+
 
 ## 3.0 (2015-06-29)
 
@@ -115,8 +120,8 @@
 
 ## 2.9.1 (2015-05-14)
 
-#### LO/AOO Integration
-  *  fix `osl::Thread::Create failed` error message, see https://bugs.documentfoundation.org/show_bug.cgi?id=90740
+#### LibreOffice / Apache OpenOffice Integration
+  * fix `osl::Thread::Create failed` error message, see https://bugs.documentfoundation.org/show_bug.cgi?id=90740
 
 ## Older versions
 
