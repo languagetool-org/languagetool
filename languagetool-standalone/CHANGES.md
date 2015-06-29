@@ -1,6 +1,6 @@
 # LanguageTool Change Log
 
-## 3.0 (release planned for 2015-06-29)
+## 3.0 (2015-06-29)
 
 #### Breton
   * updated FSA spelling dictionary from An Drouizig Breton Spellchecker 0.13
@@ -25,7 +25,8 @@
   * the spell checker offers correct suggestions now for
     incorrect past tense forms like "gehte" -> "ging" (useful
     mostly for non-native speakers)
-  * added word frequency information to improve spelling suggestions
+  * added word frequency information to improve spelling suggestions (but this
+    won't help for compounds which are not in the dictionary)
 
 #### Polish
   * added new rules
@@ -34,19 +35,19 @@
 #### Portuguese
   * added/improved several rules (started adding morphologic rules)
 
-#### Slovak
-  * dictionary update and several new rules
-  
 #### Russian
   * improved rules
-  * update spellchecker
+  * updated spellchecker
+  
+#### Slovak
+  * dictionary update and several new rules
   
 #### Ukrainian
   * big dictionary update (thousands of new words, new tagging for pronouns)
   * improved sentence and word tokenization
   * improved tokenization and tagging of lowercase abbreviations
   * new grammar and styling rules
-  * new spelling rules, especially for lowercase abbrevations with dots
+  * new spelling rules, especially for lowercase abbreviations with dots
   * improved compound word tagging 
   * improved some rules coverage
   * many new barbarism replacement suggestions

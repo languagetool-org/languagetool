@@ -4,7 +4,7 @@
 Polish, Chinese, French, Russian, Italian, Dutch
 and [more languages](https://www.languagetool.org/languages/)**
 
-Version x.y, 2015-xx-yy  
+Version 3.0, 2015-06-29  
 Copyright (C) 2005-2015 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
 Homepage: https://www.languagetool.org
 
@@ -23,12 +23,12 @@ Homepage: https://www.languagetool.org
 
 To integrate LanguageTool into LibreOffice or OpenOffice.org, you can use two methods:
 
-1. Double-click `LanguageTool-2.9.oxt`. The extension should
+1. Double-click `LanguageTool-3.0.oxt`. The extension should
    start installing. Follow the on-screen instructions.
 
 2. If the above method doesn't work, call `Tools > Extension
    Manager > Add...` in OpenOffice.org/LibreOffice and browse for the
-   `LanguageTool-2.9.oxt` file.
+   `LanguageTool-3.0.oxt` file.
 
    Close and restart OpenOffice.org/LibreOffice Writer. Remember to close
    the QuickStarter as well if you use it. Type text with
