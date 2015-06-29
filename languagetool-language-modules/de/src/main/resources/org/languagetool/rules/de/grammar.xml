@@ -7229,6 +7229,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="preisgegeben">Sie hat es <marker>Preis gegeben</marker>.</example>
                 <example>Wird es einen <marker>Preis geben</marker>?</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">den|einen|seinen|ihren|Ihren</token>
+                    <token>Preis</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes">geben</token>
+                    <token skip="2"/>
+                    <marker>
+                        <token case_sensitive="yes">Preis</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie das Verb 'preisgeben'? Dann wir <suggestion><match no="3" case_conversion="alllower"/></suggestion> kleingeschrieben.</message>
+                <short>&getrennt;.</short>
+                <example correction="preis">Sie gab es nicht <marker>Preis</marker>.</example>
+                <example correction="preis">Sie gab das Versteck nicht <marker>Preis</marker>.</example>
+                <example>Sie gab ihm den <marker>Preis</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="OST_ASIATISCH" name="Zusammen-/Getrenntschreibung: 'ost asiatisch (ostasiatisch)' u.ä.">
             <pattern>
