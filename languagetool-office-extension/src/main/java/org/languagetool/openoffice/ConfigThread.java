@@ -34,12 +34,11 @@ class ConfigThread extends Thread {
 
   private final Language docLanguage;
   private final Configuration config;
-  private final org.languagetool.openoffice.Main mainThread;
+  private final Main mainThread;
   
   private final ConfigurationDialog cfgDialog;
   
-  ConfigThread(final Language docLanguage, final Configuration config,
-      final org.languagetool.openoffice.Main main) {
+  ConfigThread(final Language docLanguage, final Configuration config, final Main main) {
     this.docLanguage = docLanguage;
     this.config = config;
     mainThread = main; 
