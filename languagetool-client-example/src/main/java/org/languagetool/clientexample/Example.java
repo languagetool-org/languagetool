@@ -20,6 +20,7 @@ package org.languagetool.clientexample;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -31,15 +32,15 @@ import java.util.List;
 public class Example {
 
   public static void main(String[] args) throws IOException {
-    final Language[] realLanguages = Language.REAL_LANGUAGES;
+    List<Language> realLanguages = Languages.get();
     System.out.println("This example will test a short string with all languages known to LanguageTool.");
     System.out.println("It's just a test to make sure there's at least no crash.");
     System.out.println("Using LanguageTool " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
-    System.out.println("Supported languages: " + realLanguages.length);
+    System.out.println("Supported languages: " + realLanguages.size());
     for (Language language : realLanguages) {
-      final JLanguageTool langTool = new JLanguageTool(language);
-      final String input = "And the the";
-      final List<RuleMatch> result = langTool.check(input);
+      JLanguageTool langTool = new JLanguageTool(language);
+      String input = "And the the";
+      List<RuleMatch> result = langTool.check(input);
       System.out.println("Checking '" + input + "' with " + language + ":");
       for (RuleMatch ruleMatch : result) {
         System.out.println("    " + ruleMatch);
