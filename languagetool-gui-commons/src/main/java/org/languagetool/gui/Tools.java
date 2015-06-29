@@ -140,12 +140,12 @@ public final class Tools {
       while (shortComment.lastIndexOf(" [") > 0
               && shortComment.lastIndexOf(']') > shortComment.lastIndexOf(" [")
               && shortComment.length() > maxCommentLength) {
-        shortComment = shortComment.substring(0, shortComment.lastIndexOf(" [")) + shortComment.substring(comment.lastIndexOf(']')+1);
+        shortComment = shortComment.substring(0, shortComment.lastIndexOf(" [")) + shortComment.substring(shortComment.lastIndexOf(']')+1);
       }
       while (shortComment.lastIndexOf(" (") > 0
               && shortComment.lastIndexOf(')') > shortComment.lastIndexOf(" (")
               && shortComment.length() > maxCommentLength) {
-        shortComment = shortComment.substring(0, shortComment.lastIndexOf(" (")) + shortComment.substring(comment.lastIndexOf(')')+1);
+        shortComment = shortComment.substring(0, shortComment.lastIndexOf(" (")) + shortComment.substring(shortComment.lastIndexOf(')')+1);
       }
       // in case it's still not short enough, shorten at the end
       if (shortComment.length() > maxCommentLength) {
