@@ -100,12 +100,17 @@ public class WordTokenizer implements Tokenizer {
     final List<String> newList = new ArrayList<>();
     boolean inUrl = false;
     final StringBuilder url = new StringBuilder();
+    String urlQuote = null;
     for (int i = 0; i < l.size(); i++) {
       if (urlStartsAt(i, l)) {
         inUrl = true;
+        if (i-1 >= 0) {
+          urlQuote = l.get(i-1);
+        }
         url.append(l.get(i));
-      } else if (inUrl && urlEndsAt(i, l)) {
+      } else if (inUrl && urlEndsAt(i, l, urlQuote)) {
         inUrl = false;
+        urlQuote = null;
         newList.add(url.toString());
         url.setLength(0);
         newList.add(l.get(i));
@@ -150,7 +155,7 @@ public class WordTokenizer implements Tokenizer {
     return false;
   }
 
-  private boolean urlEndsAt(int i, List<String> l) {
+  private boolean urlEndsAt(int i, List<String> l, String urlQuote) {
     final String token = l.get(i);
     if (StringTools.isWhitespace(token)) {
       return true;
@@ -159,7 +164,7 @@ public class WordTokenizer implements Tokenizer {
     } else if (l.size() > i + 1) {
       final String nToken = l.get(i + 1);
       if (StringTools.isWhitespace(nToken) &&
-            (token.equals(".") || token.equals(",") || token.equals(";") || token.equals(":") || token.equals("!") || token.equals("?"))) {
+            (token.equals(".") || token.equals(",") || token.equals(";") || token.equals(":") || token.equals("!") || token.equals("?") || token.equals(urlQuote))) {
         return true;
       }
     } else {

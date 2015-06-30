@@ -59,6 +59,11 @@ public class WordTokenizerTest extends TestCase {
           tokenize("foo https://joe:passwd@example.net:8080/index.html?action=x&session=A54C6FE2#info bar"));
   }
   
+  public void testUrlTokenizeWithQuote() {
+    assertEquals("This| |'|http://foo.org|'| |blah", tokenize("This 'http://foo.org' blah"));
+    assertEquals("This| |\"|http://foo.org|\"| |blah", tokenize("This \"http://foo.org\" blah"));
+  }
+  
   public void testUrlTokenizeWithAppendedCharacter() {
     assertEquals("foo| |(|http://ex.net/p?a=x#i|)| |bar", tokenize("foo (http://ex.net/p?a=x#i) bar"));
     assertEquals("foo| |http://ex.net/p?a=x#i|,| |bar", tokenize("foo http://ex.net/p?a=x#i, bar"));
