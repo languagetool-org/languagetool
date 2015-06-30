@@ -53,6 +53,7 @@ public class HTTPServerConfig {
   protected int requestLimitPeriodInSeconds;
   protected boolean trustXForwardForHeader;
   protected int maxWorkQueueSize;
+  protected File rulesConfigFile = null;
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -130,6 +131,13 @@ public class HTTPServerConfig {
         mode = getOptionalProperty(props, "mode", "LanguageTool").equalsIgnoreCase("AfterTheDeadline") ? Mode.AfterTheDeadline : Mode.LanguageTool;
         if (mode == Mode.AfterTheDeadline) {
           atdLanguage = Languages.getLanguageForShortName(getProperty(props, "afterTheDeadlineLanguage", file));
+        }
+        String rulesConfigFilePath = getOptionalProperty(props, "rulesFile", null);
+        if (rulesConfigFilePath != null) {
+          rulesConfigFile = new File(rulesConfigFilePath);
+          if (!rulesConfigFile.exists() || !rulesConfigFile.isFile()) {
+            throw new RuntimeException("Rules Configuration file can not be found: " + rulesConfigFile);
+          }
         }
       }
     } catch (IOException e) {
@@ -244,6 +252,15 @@ public class HTTPServerConfig {
   /** @since 2.9 */
   int getMaxWorkQueueSize() {
     return maxWorkQueueSize;
+  }
+
+  /**
+   * @return the file from which server rules configuration should be loaded, or {@code null}
+   * @since 3.0
+   */
+  @Nullable
+  File getRulesConfigFile() {
+    return rulesConfigFile;
   }
 
   /**

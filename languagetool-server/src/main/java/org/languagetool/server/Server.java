@@ -113,6 +113,7 @@ abstract class Server {
     System.out.println("                 'languageModel' - a directory with '1grams', '2grams', '3grams' sub directories which contain a Lucene index");
     System.out.println("                  each with ngram occurrence counts; activates the confusion rule if supported (optional)");
     System.out.println("                 'maxWorkQueueSize' - reject request if request queue gets larger than this (optional)");
+    System.out.println("                 'rulesFile' - a file containing rules configuration, such as .langugagetool.cfg (optional)");
   }
   
   protected static void printCommonOptions() {
