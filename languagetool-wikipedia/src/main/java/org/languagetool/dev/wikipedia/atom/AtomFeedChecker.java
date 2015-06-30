@@ -156,8 +156,9 @@ class AtomFeedChecker {
 
   CheckResult checkChanges(URL atomFeedUrl) throws IOException {
     System.out.println("Getting atom feed from " + atomFeedUrl);
-    InputStream xml = getXmlStream(atomFeedUrl);
-    return checkChanges(xml);
+    try (InputStream xml = getXmlStream(atomFeedUrl)) {
+      return checkChanges(xml);
+    }
   }
 
   CheckResult checkChanges(InputStream xml) throws IOException {

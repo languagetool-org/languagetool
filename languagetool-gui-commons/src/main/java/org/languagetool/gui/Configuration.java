@@ -110,11 +110,8 @@ public class Configuration {
   }
 
   /**
-   *
    * Returns a copy of the given configuration.
-   *
    * @param configuration the object to copy.
-   * @return the copy.
    * @since 2.6
    */
   Configuration copy(Configuration configuration) {
@@ -124,8 +121,7 @@ public class Configuration {
   }
 
   /**
-   * Restore the state of this object from configuration
-   *
+   * Restore the state of this object from configuration.
    * @param configuration the object from which we will read the state
    * @since 2.6
    */
