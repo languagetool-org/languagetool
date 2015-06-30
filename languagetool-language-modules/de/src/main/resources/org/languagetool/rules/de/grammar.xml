@@ -7231,7 +7231,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">den|einen|seinen|ihren|Ihren</token>
+                    <token regexp="yes">den|einen|seinen|ihren</token>
                     <token>Preis</token>
                 </antipattern>
                 <pattern>
@@ -14835,6 +14835,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Wert">Sie legt <marker>wert</marker> auf ihr Äußeres.</example>
             </rule>
             <rule>
+                <pattern>
+                    <token>unter</token>
+                    <marker>
+                        <token case_sensitive="yes">wert</token>
+                    </marker>
+                    <!-- Note: '[ver]kaufen' is the tagger result for 'verkaufen' -->
+                    <token inflected="yes">[ver]kaufen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Wert</suggestion>&subende;</message>
+                <url>http://de.wiktionary.org/wiki/Wert</url>
+                <short>&prgk;.</short>
+                <example correction="Wert">Du hast dich wie so oft unter <marker>wert</marker> verkauft.</example>
+            </rule>            
+            <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">im|von|ohne</token>
                     <marker>
@@ -18959,6 +18973,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Schritt">Da haben wir einen großen <marker>schritt</marker> getan.</example>
             </rule>
             <rule>
+                <pattern>
+                    <token>einen</token>
+                    <token min="0" max="1" postag_regexp="yes" postag="(PA1|ADJ):AKK:SIN:MAS.*"/>
+                    <marker>
+                        <token case_sensitive="yes">schritt</token>
+                    </marker>
+                    <token>voraus</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Schritt</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Schritt">Da bin ich dir einen entscheidenden <marker>schritt</marker> voraus.</example>
+                <example correction="Schritt">Da bin ich dir einen <marker>schritt</marker> voraus.</example>
+            </rule>
+            <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes" skip="1">[mM]it</token>
                     <token regexp="yes">schnellen|großen|schweren|entschlossenen|bedächtigen|hastigen|eiligen</token>
@@ -20240,6 +20268,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion>Knie</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Knie">Er ist vor ihr auf die <marker>knie</marker> gefallen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Aa]uf</token>
+                    <marker>
+                        <token>knien</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Knien</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Knien">Ihr werdet mir noch auf <marker>knien</marker> danken!</example>
             </rule>
         </rulegroup>
         <rulegroup id="STELLE_SUBST" name="Groß-/Kleinschreibung: 'stelle (Stelle)'">
