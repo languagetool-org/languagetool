@@ -5,7 +5,7 @@
   * ...
 
 #### LibreOffice / Apache OpenOffice Integration
-  * Fix: the ngram directory that turns on the confusion rule (see
+  * fix: the ngram directory that turns on the confusion rule (see
     http://wiki.languagetool.org/finding-errors-using-big-data) was
     ignored in LibreOffice and OpenOffice
 
@@ -13,6 +13,9 @@
   * new property file key `rulesFile` to use a `.languagetool.cfg` file 
     to configure which options should be enabled/disabled in a server
     (https://github.com/languagetool-org/languagetool/pull/281)
+
+#### API
+  * several deprecated methods and classes have been removed
 
 
 ## 3.0 (2015-06-29)

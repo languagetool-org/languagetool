@@ -36,8 +36,6 @@ import java.util.*;
  */
 public abstract class AbstractSimpleReplaceRule extends Rule {
 
-  private static final String FILE_ENCODING = "utf-8";
-
   private boolean ignoreTaggedWords = false;
   private boolean checkLemmas = true;
 
@@ -45,13 +43,6 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
   protected static Map<String, List<String>> load(String path) {
     return new SimpleReplaceDataLoader().loadWords(path);
-  }
-
-  /**
-   * @deprecated will be removed, it was always "utf-8" anyway (deprecated since 3.0)
-   */
-  public String getEncoding() {
-    return FILE_ENCODING;
   }
 
   /**

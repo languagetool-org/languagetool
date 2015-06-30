@@ -66,8 +66,8 @@ public abstract class Language {
   private final UnifierConfiguration unifierConfig = new UnifierConfiguration();
   private final UnifierConfiguration disambiguationUnifierConfig = new UnifierConfiguration();
 
-  private boolean isExternalLanguage = false;
-  private Pattern ignoredCharactersRegex = Pattern.compile("[\u00AD]");  // soft hyphen
+  private final Pattern ignoredCharactersRegex = Pattern.compile("[\u00AD]");  // soft hyphen
+  
   private List<PatternRule> patternRules;
 
   /**
@@ -392,18 +392,12 @@ public abstract class Language {
     return false;
   }
 
-  public boolean isExternal() {
-    return isExternalLanguage;
-  }
-
   /**
-   * Sets the language as external. Useful for
-   * making a copy of an existing language.
-   * @since 2.6
-   * @deprecated overwrite {@link #isExternal()} instead (deprecated since 3.0)
+   * For internal use only. Overwritten to return {@code true} for languages that
+   * have been loaded from an external file after start up.
    */
-  public void makeExternal() {
-    isExternalLanguage = true;
+  public boolean isExternal() {
+    return false;
   }
 
   /**
@@ -433,16 +427,6 @@ public abstract class Language {
    */
   public Pattern getIgnoredCharactersRegex() {
     return ignoredCharactersRegex;
-  }
-
-  /**
-   * Sets the regular expression (usually set of chars) to ignore inside tokens.
-   * By default only soft hyphen ({@code \u00AD}) is ignored.
-   * @since 2.9
-   * @deprecated overwrite {@link #getIgnoredCharactersRegex()} instead (deprecated since 3.0)
-   */
-  public void setIgnoredCharactersRegex(String ignoredCharactersRegex) {
-    this.ignoredCharactersRegex = Pattern.compile(ignoredCharactersRegex);
   }
 
 }

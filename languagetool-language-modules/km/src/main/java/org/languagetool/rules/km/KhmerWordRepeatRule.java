@@ -41,17 +41,6 @@ public class KhmerWordRepeatRule extends Rule {
     super.setCategory(new Category(messages.getString("category_misc")));
   }
 
-  /**
-   * @deprecated will be made non-public (deprecated since 3.0)
-   */
-  public boolean ignore(final AnalyzedSentence sentence, final AnalyzedTokenReadings[] tokensWithWhiteSpace, final int position) {
-    final int origPos = sentence.getOriginalPosition(position);
-    if (position >= 1 && "\u0020".equals(tokensWithWhiteSpace[origPos-1].getToken())) {
-      return true;
-    }
-    return false;
-  }
-
   @Override
   public String getId() {
     return "KM_WORD_REPEAT_RULE";
@@ -100,6 +89,14 @@ public class KhmerWordRepeatRule extends Rule {
       }
     }
     return true;
+  }
+
+  private boolean ignore(final AnalyzedSentence sentence, final AnalyzedTokenReadings[] tokensWithWhiteSpace, final int position) {
+    final int origPos = sentence.getOriginalPosition(position);
+    if (position >= 1 && "\u0020".equals(tokensWithWhiteSpace[origPos-1].getToken())) {
+      return true;
+    }
+    return false;
   }
 
   @Override

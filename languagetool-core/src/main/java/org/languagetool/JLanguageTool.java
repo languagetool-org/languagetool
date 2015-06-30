@@ -550,10 +550,7 @@ public class JLanguageTool {
     }
   }
 
-  /**
-   * @deprecated will be made non-public, please use one of the {@link #check(String)} methods instead (deprecated since 3.0)
-   */
-  public List<RuleMatch> checkAnalyzedSentence(final ParagraphHandling paraMode,
+  List<RuleMatch> checkAnalyzedSentence(final ParagraphHandling paraMode,
       final List<Rule> allRules, int charCount, int lineCount, int columnCount,
       final String sentence, final AnalyzedSentence analyzedSentence) throws IOException {
     return checkAnalyzedSentence(paraMode, allRules, charCount, lineCount, columnCount, sentence, analyzedSentence, null);
