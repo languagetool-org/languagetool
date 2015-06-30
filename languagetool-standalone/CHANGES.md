@@ -9,6 +9,11 @@
     http://wiki.languagetool.org/finding-errors-using-big-data) was
     ignored in LibreOffice and OpenOffice
 
+#### Embedded server
+  * new property file key `rulesFile` to use a `.languagetool.cfg` file 
+    to configure which options should be enabled/disabled in a server
+    (https://github.com/languagetool-org/languagetool/pull/281)
+
 
 ## 3.0 (2015-06-29)
 
