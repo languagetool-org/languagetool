@@ -45,7 +45,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY alnum "&lsqb;0-9A-ZÄÖÜa-zäöüßáàâêéèëíìîïòóôõûçñšž&rsqb;">
 
     <!-- Error messages -->
-	<!ENTITY gla "Bitte verwenden Sie in Abkürzungen umbruchgeschützte Leerzeichen.">
+    <!ENTITY gla "Bitte verwenden Sie in Abkürzungen umbruchgeschützte Leerzeichen.">
     <!ENTITY glalong "Innerhalb von Abkürzungen, die aus mehreren Buchstaben bestehen, sollten (außer bei Schriftarten mit fester Breite) in der Regel geschützte Leerzeichen verwendet werden: ">
     <!ENTITY prgk "Bitte überprüfen Sie die Groß-/Kleinschreibung">
     <!ENTITY namengross "Zu mehrteiligen Namen gehörende Adjektive werden großgeschrieben.">
@@ -11354,19 +11354,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token>Du</token>
-                    <token>dich</token>
+                    <token regexp="yes">dich|dir|dein(e[mnrs]?)?</token>
                 </pattern>
                 <message>Uneinheitliche Schreibung von 'Du' und 'Dich'</message>
                 <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>
                 <suggestion><match no="1" case_conversion="startlower"/> <match no="2" case_conversion="startlower"/></suggestion>
                 <example correction="Du Dich|du dich">Kannst <marker>Du dich</marker> erinnern?</example>
+                <example correction="Du Dir|du dir">Kannst <marker>Du dir</marker> das vorstellen?</example>
+                <example correction="Du Deiner|du deiner">Kannst <marker>Du deiner</marker> Mutter Bescheid sagen?</example>
                 <example>Kannst <marker>Du Dich</marker> erinnern?</example>
                 <example>Kannst <marker>du dich</marker> erinnern?</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token>du</token>
-                    <token>Dich</token>
+                    <token regexp="yes">Dich|Dir|Dein(e[mnrs]?)?</token>
                 </pattern>
                 <message>Uneinheitliche Schreibung von 'Du' und 'Dich'</message>
                 <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>
@@ -24753,6 +24755,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er hatte einigen <marker>Erfolg</marker> mit seiner Idee.</example>
                 <example>Sie hatte einige <marker>Game</marker> Boys.</example>
                 <example>Es gibt einige <marker>Holz</marker> verarbeitende Industriebetriebe.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="USA_PLURAL" name="Grammatik: 'Die USA ist (sind)' etc. (falscher Singular)">
+        <!-- This should be covered by DE_SUBJECT_VERB_AGREEMENT but apparently isn't. -->
+        <!-- Perhaps the tagger dict isn't 100 % correct. -->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>Die</token>
+                    <token regexp="yes" case_sensitive="yes">USA|UN|AGB|SBB</token>
+                    <marker>
+                        <token postag="VER:([A-Z]{3}:)?3:SIN:.+" postag_regexp="yes"><exception postag="VER:([A-Z]{3}:)?3:PLU:.+" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Müsste dieses Verb im Plural stehen? Stehen Kurzwörter wie 'USA', 'UN', 'AGB' als Subjekt im Satz, muss das dazugehörige Verb im Plural stehen.</message>
+                <suggestion><match no="4" postag="VER:([A-Z]{3}:)?3:PLU:.+" postag_regexp="yes"/></suggestion>
+                <url>http://www.duden.de/sprachwissen/sprachratgeber/usa-un-und-sbb</url>
+                <short>Müsste dieses Verb im Plural stehen?</short>
+                <example correction="haben|hatten|hätten">Die USA <marker>hat</marker> eine besondere Verantwortung.</example>
+                <example correction="tragen|trugen|trügen">Die USA <marker>trägt</marker> eine besondere Verantwortung.</example>
             </rule>
         </rulegroup>
     </category>
