@@ -35,7 +35,8 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.zip.GZIPInputStream;
 
 /**
- * Index *.gz files from Google's ngram corpus into a Lucene index.
+ * Index *.gz files from Google's ngram corpus into a Lucene index (TEXT_MODE = false)
+ * or aggregate them to plain text files (TEXT_MODE = true).
  * Index time (1 doc = 1 ngram and its count, years are aggregated into one number):
  * 130µs/doc (both on an external USB hard disk or on an internal SSD) = about 7700 docs/sec
  * 
@@ -48,6 +49,7 @@ import java.util.zip.GZIPInputStream;
  */
 public class FrequencyIndexCreator {
 
+  private static final boolean TEXT_MODE = false;  // when true, will write text files instead of Lucene index
   private static final int MIN_YEAR = 1910;
   private static final String NAME_REGEX1 = "googlebooks-eng-all-[1-5]gram-20120701-(.*?).gz";
   private static final String NAME_REGEX2 = "[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+[_-](.*?).gz";  // Hive result
@@ -101,14 +103,14 @@ public class FrequencyIndexCreator {
     }
     System.out.println("Index dir: " + indexDir);
     try {
-      Directory directory = FSDirectory.open(indexDir);
-      Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_4_10_3);
-      IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_4_10_3, analyzer);
-      config.setUseCompoundFile(false);  // ~10% speedup
-      config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
-      //config.setRAMBufferSizeMB(1000);
-      try (IndexWriter writer = new IndexWriter(directory, config)) {
-        indexLinesFromGoogleFile(writer, file, totalBytes, hiveMode);
+      if (TEXT_MODE) {
+        try (DataWriter dw = new TextDataWriter(indexDir)) {
+          indexLinesFromGoogleFile(dw, file, totalBytes, hiveMode);
+        }
+      } else {
+        try (DataWriter dw = new LuceneDataWriter(indexDir)) {
+          indexLinesFromGoogleFile(dw, file, totalBytes, hiveMode);
+        }
       }
       markIndexAsComplete(indexDir);
     } catch (Exception e) {
@@ -127,7 +129,7 @@ public class FrequencyIndexCreator {
     return new File(directory, LT_COMPLETE_MARKER).exists();
   }
 
-  private void indexLinesFromGoogleFile(IndexWriter writer, File inputFile, long totalBytes, boolean hiveMode) throws IOException {
+  private void indexLinesFromGoogleFile(DataWriter writer, File inputFile, long totalBytes, boolean hiveMode) throws IOException {
     float progress = (float)bytesProcessed.get() / totalBytes * 100;
     System.out.printf("==== Working on " + inputFile + " (%.2f%%) ====\n", progress);
     try (
@@ -157,7 +159,7 @@ public class FrequencyIndexCreator {
         }
         if (hiveMode) {
           String docCountStr = parts[1];
-          addDoc(writer, text, Long.parseLong(docCountStr));
+          writer.addDoc(text, Long.parseLong(docCountStr));
           if (++i % 500_000 == 0) {
             printStats(i, inputFile, Long.parseLong(docCountStr), lineCount, text, startTime, totalBytes);
           }
@@ -171,7 +173,7 @@ public class FrequencyIndexCreator {
             docCount += Long.parseLong(parts[2]);
           } else {
             //System.out.println(">"+ prevText + ": " + count);
-            addDoc(writer, prevText, docCount);
+            writer.addDoc(prevText, docCount);
             if (++i % 5_000 == 0) {
               printStats(i, inputFile, docCount, lineCount, prevText, startTime, totalBytes);
             }
@@ -182,7 +184,7 @@ public class FrequencyIndexCreator {
       }
       printStats(i, inputFile, docCount, lineCount, prevText, startTime, totalBytes);
     }
-    addTotalTokenCountDoc(writer, totalTokenCount);
+    writer.addTotalTokenCountDoc(totalTokenCount);
   }
 
   private boolean isRealPosTag(String text) {
@@ -211,26 +213,88 @@ public class FrequencyIndexCreator {
             progress, inputFile.getName(), format.format(i), format.format(lineCount),
             prevText, format.format(docCount), millisPerDoc);
   }
-
-  private void addDoc(IndexWriter writer, String text, long count) throws IOException {
-    Document doc = new Document();
-    doc.add(new Field("ngram", text, StringField.TYPE_NOT_STORED));
-    FieldType fieldType = new FieldType();
-    fieldType.setStored(true);
-    Field countField = new Field("count", String.valueOf(count), fieldType);
-    doc.add(countField);
-    totalTokenCount += count;
-    writer.addDocument(doc);
+  
+  abstract static class DataWriter implements AutoCloseable {
+    abstract void addDoc(String text, long count) throws IOException;
+    abstract void addTotalTokenCountDoc(long totalTokenCount) throws IOException;
   }
 
-  private void addTotalTokenCountDoc(IndexWriter writer, long totalTokenCount) throws IOException {
-    FieldType fieldType = new FieldType();
-    fieldType.setIndexed(true);
-    fieldType.setStored(true);
-    Field countField = new Field("totalTokenCount", String.valueOf(totalTokenCount), fieldType);
-    Document doc = new Document();
-    doc.add(countField);
-    writer.addDocument(doc);
+  
+  class LuceneDataWriter extends DataWriter {
+
+    IndexWriter writer;
+    
+    LuceneDataWriter(File indexDir) throws IOException {
+      Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_4_10_3);
+      IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_4_10_3, analyzer);
+      config.setUseCompoundFile(false);  // ~10% speedup
+      config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
+      //config.setRAMBufferSizeMB(1000);
+      Directory directory = FSDirectory.open(indexDir);
+      writer = new IndexWriter(directory, config);
+    }
+
+    @Override
+    void addDoc(String text, long count) throws IOException {
+      Document doc = new Document();
+      doc.add(new Field("ngram", text, StringField.TYPE_NOT_STORED));
+      FieldType fieldType = new FieldType();
+      fieldType.setStored(true);
+      Field countField = new Field("count", String.valueOf(count), fieldType);
+      doc.add(countField);
+      totalTokenCount += count;
+      writer.addDocument(doc);
+    }
+
+    @Override
+    void addTotalTokenCountDoc(long totalTokenCount) throws IOException {
+      FieldType fieldType = new FieldType();
+      fieldType.setIndexed(true);
+      fieldType.setStored(true);
+      Field countField = new Field("totalTokenCount", String.valueOf(totalTokenCount), fieldType);
+      Document doc = new Document();
+      doc.add(countField);
+      writer.addDocument(doc);
+    }
+
+    @Override
+    public void close() throws Exception {
+      if (writer != null) {
+        writer.close();
+      }
+    }
+  }
+
+  static class TextDataWriter extends DataWriter {
+
+    private final FileWriter fw;
+    private final BufferedWriter writer;
+    
+    TextDataWriter(File indexDir) throws IOException {
+      indexDir.mkdir();
+      fw = new FileWriter(new File(indexDir, indexDir.getName() + "-output.csv"));
+      writer = new BufferedWriter(fw);
+    }
+
+    @Override
+    void addDoc(String text, long count) throws IOException {
+      fw.write(text + "\t" + count + "\n");
+    }
+
+    @Override
+    void addTotalTokenCountDoc(long totalTokenCount) throws IOException {
+      System.err.println("Note: not writing totalTokenCount (" + totalTokenCount + ") in file mode");
+    }
+
+    @Override
+    public void close() throws Exception {
+      if (fw != null) {
+        fw.close();
+      }
+      if (writer != null) {
+        writer.close();
+      }
+    }
   }
 
   public static void main(String[] args) throws IOException {
