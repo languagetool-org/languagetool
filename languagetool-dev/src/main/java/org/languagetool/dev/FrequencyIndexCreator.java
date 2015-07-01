@@ -31,6 +31,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import java.io.*;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.zip.GZIPInputStream;
 
 /**
@@ -52,15 +53,22 @@ public class FrequencyIndexCreator {
   private static final String NAME_REGEX2 = "[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+[_-](.*?).gz";  // Hive result
   private static final int BUFFER_SIZE = 16384;
   
+  private final AtomicLong bytesProcessed = new AtomicLong(0);
+  
   private long totalTokenCount;
 
   private void run(File inputDir, File indexBaseDir) throws IOException {
+    if (!inputDir.exists()) {
+      throw new RuntimeException("Not found: " + inputDir);
+    }
     List<File> files = Arrays.asList(inputDir.listFiles());
+    long totalBytes = files.stream().mapToLong(File::length).sum();
+    System.out.println("Total input bytes: " + totalBytes);
     //Collections.sort(files);  use for non-parallel streams
-    files.parallelStream().forEach(dir -> index(dir, indexBaseDir));
+    files.parallelStream().forEach(dir -> index(dir, indexBaseDir, totalBytes));
   }
-  
-  public void index(File file, File indexBaseDir) {
+
+  public void index(File file, File indexBaseDir, long totalBytes) {
     System.out.println(file);
     String name = file.getName();
     if (name.matches(".*_[A-Z]+_.*")) {
@@ -93,15 +101,17 @@ public class FrequencyIndexCreator {
       config.setUseCompoundFile(false);  // ~10% speedup
       //config.setRAMBufferSizeMB(1000);
       try (IndexWriter writer = new IndexWriter(directory, config)) {
-        indexLinesFromGoogleFile(writer, file, hiveMode);
+        indexLinesFromGoogleFile(writer, file, totalBytes, hiveMode);
       }
     } catch (Exception e) {
       throw new RuntimeException("Could not index " + file, e);
     }
+    bytesProcessed.addAndGet(file.length());
   }
 
-  private void indexLinesFromGoogleFile(IndexWriter writer, File inputFile, boolean hiveMode) throws IOException {
-    System.out.println("==== Working on " + inputFile + " ====");
+  private void indexLinesFromGoogleFile(IndexWriter writer, File inputFile, long totalBytes, boolean hiveMode) throws IOException {
+    float progress = (float)bytesProcessed.get() / totalBytes * 100;
+    System.out.printf("==== Working on " + inputFile + " (%.2f%%) ====\n", progress);
     try (
       InputStream fileStream = new FileInputStream(inputFile);
       InputStream gzipStream = new GZIPInputStream(fileStream, BUFFER_SIZE);
@@ -131,7 +141,7 @@ public class FrequencyIndexCreator {
           String docCountStr = parts[1];
           addDoc(writer, text, Long.parseLong(docCountStr));
           if (++i % 500_000 == 0) {
-            printStats(i, inputFile, Long.parseLong(docCountStr), lineCount, text, startTime);
+            printStats(i, inputFile, Long.parseLong(docCountStr), lineCount, text, startTime, totalBytes);
           }
         } else {
           int year = Integer.parseInt(parts[1]);
@@ -145,14 +155,14 @@ public class FrequencyIndexCreator {
             //System.out.println(">"+ prevText + ": " + count);
             addDoc(writer, prevText, docCount);
             if (++i % 5_000 == 0) {
-              printStats(i, inputFile, docCount, lineCount, prevText, startTime);
+              printStats(i, inputFile, docCount, lineCount, prevText, startTime, totalBytes);
             }
             docCount = Long.parseLong(parts[2]);
           }
         }
         prevText = text;
       }
-      printStats(i, inputFile, docCount, lineCount, prevText, startTime);
+      printStats(i, inputFile, docCount, lineCount, prevText, startTime, totalBytes);
     }
     addTotalTokenCountDoc(writer, totalTokenCount);
   }
@@ -174,12 +184,13 @@ public class FrequencyIndexCreator {
     }
   }
 
-  private void printStats(int i, File inputFile, long docCount, long lineCount, String prevText, long startTimeMicros) {
+  private void printStats(int i, File inputFile, long docCount, long lineCount, String prevText, long startTimeMicros, long totalBytes) {
     long microsNow = System.nanoTime()/1000;
     float millisPerDoc = (microsNow-startTimeMicros)/Math.max(1, i);
     NumberFormat format = NumberFormat.getNumberInstance(Locale.US);
-    System.out.printf("input:%s doc:%s line:%s ngram:%s occ:%s (%.0fµs/doc)\n",
-            inputFile.getName(), format.format(i), format.format(lineCount),
+    float progress = (float)bytesProcessed.get() / totalBytes * 100;
+    System.out.printf("%.2f%% input:%s doc:%s line:%s ngram:%s occ:%s (%.0fµs/doc)\n",
+            progress, inputFile.getName(), format.format(i), format.format(lineCount),
             prevText, format.format(docCount), millisPerDoc);
   }
 
