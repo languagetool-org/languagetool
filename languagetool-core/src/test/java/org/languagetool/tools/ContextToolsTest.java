@@ -38,6 +38,22 @@ public class ContextToolsTest extends TestCase {
     assertEquals("...s is a test sent...\n        ^^^^^^     ", result);
   }
 
+  public void testPlainTextContextWithLineBreaks() throws Exception {
+    final ContextTools contextTools = new ContextTools();
+    contextTools.setContextSize(5);
+    final String input = "One.\nThis is a test sentence.\nHere's another sentence.";
+    final String result = contextTools.getPlainTextContext(15, 19, input);
+    assertEquals("...is a test sent...\n        ^^^^     ", result);
+  }
+
+  public void testPlainTextContextWithDosLineBreaks() throws Exception {
+    final ContextTools contextTools = new ContextTools();
+    contextTools.setContextSize(5);
+    final String input = "One.\r\nThis is a test sentence.\r\nHere's another sentence.";
+    final String result = contextTools.getPlainTextContext(16, 20, input);
+    assertEquals("...is a test sent...\n        ^^^^     ", result);
+  }
+
   public void testLargerContext() throws Exception {
     final ContextTools contextTools = new ContextTools();
     contextTools.setContextSize(100);
