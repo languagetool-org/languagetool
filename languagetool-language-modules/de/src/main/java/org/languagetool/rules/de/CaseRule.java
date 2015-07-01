@@ -433,6 +433,8 @@ public class CaseRule extends GermanRule {
       final AnalyzedTokenReadings analyzedToken = tokens[i];
       final String token = analyzedToken.getToken();
 
+      markLowerCaseNounErrors(ruleMatches, tokens, i, analyzedToken);
+
       boolean isBaseform = analyzedToken.getReadingsLength() >= 1 && analyzedToken.hasLemma(token);
       if ((analyzedToken.getAnalyzedToken(0).getPOSTag() == null || GermanHelper.hasReadingOfType(analyzedToken, GermanToken.POSType.VERB))
           && isBaseform) {
@@ -469,6 +471,35 @@ public class CaseRule extends GermanRule {
       potentiallyAddUppercaseMatch(ruleMatches, tokens, i, analyzedToken, token);
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private void markLowerCaseNounErrors(List<RuleMatch> ruleMatches, AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings analyzedToken) throws IOException {
+    // commented out, too many false alarms...
+    /*if (i > 0 && i + 1 < tokens.length) {
+      AnalyzedTokenReadings prevToken = tokens[i - 1];
+      AnalyzedTokenReadings nextToken = tokens[i + 1];
+      String prevTokenStr = prevToken.getToken();
+      if (!nextToken.hasPartialPosTag("SUB:") &&
+          !analyzedToken.getToken().matches("bitte|einen|sein|habe") &&
+          !analyzedToken.hasPartialPosTag("ADJ:") &&
+          !prevTokenStr.matches("einen|zu") && 
+          (prevToken.hasPartialPosTag("PRP:") ||
+           prevToken.matchesPosTagRegex("^ART:.*") ||
+           prevToken.getToken().matches("seiner|seine|seinen|seinem|seines"))) {
+        if (!StringTools.startsWithUppercase(analyzedToken.getToken())
+                && analyzedToken.matchesPosTagRegex("^VER:.*") 
+                && !analyzedToken.matchesPosTagRegex("^PA2:.*")) {
+          String ucToken = StringTools.uppercaseFirstChar(analyzedToken.getToken());
+          AnalyzedTokenReadings ucLookup = tagger.lookup(ucToken);
+          if (ucLookup != null && ucLookup.hasPartialPosTag("SUB:")) {
+            String msg = "Wenn '" + analyzedToken.getToken() + "' hier als Nomen benutzt wird, muss es großgeschrieben werden.";
+            RuleMatch ucMatch = new RuleMatch(this, analyzedToken.getStartPos(), analyzedToken.getEndPos(), msg);
+            ucMatch.setSuggestedReplacement(ucToken);
+            ruleMatches.add(ucMatch);
+          }
+        }
+      }
+    }*/
   }
 
   // e.g. "Ein Kaninchen, das zaubern kann" - avoid false alarm here
