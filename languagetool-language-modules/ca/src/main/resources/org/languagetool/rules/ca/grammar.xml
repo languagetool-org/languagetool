@@ -23,6 +23,7 @@ $Id$
     <!ENTITY context_PASTAR "aigua|bol|canyella|cera|coca|dit|farina|ingredient|llet|llevat|llimona|mà|mantega|massa|min|minuts|mona|oli|ou|panificadora|sucre">
     <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
     <!ENTITY context_FER_SE_AMB "triomf|victòria|alcaldia|presidència|nombre|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit">
+    <!ENTITY context_ROTAR_GIRAR "angle1|grau|girar|objecte|triangle|quadrat|polígon|eix|gravetat|minut|segon|sentit|agulla|rellotge|planeta|Terra|rotació|aparell|oest|est|magnètic|òrbita|pilota">
     <!ENTITY dies_setmana_abrev "dl|dt|dc|dj|dv|ds|dg">
     <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
     <!ENTITY estacions "primavera|estiu|tardor|hivern">
@@ -27334,23 +27335,22 @@ $Id$
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes" skip="7">rotar<exception></exception></token>
                     </marker>
-                    <token inflected="yes" regexp="yes">angle1|grau|girar|objecte|triangle|quadrat|polígon</token>
+                    <token inflected="yes" regexp="yes">&context_ROTAR_GIRAR;</token>
                 </pattern>
                 <message>Paraula incorrecta en aquest context</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">girar</match></suggestion>
-                <short>Possible confusió</short>
                 <example correction="girar">Va <marker>rotar</marker> un angle de 180 graus.</example>
+                <example>No ho faré perquè no em rota.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="7">angle1|grau|girar|objecte|triangle|quadrat|polígon</token>
+                    <token inflected="yes" regexp="yes" skip="7">&context_ROTAR_GIRAR;</token>
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes" >rotar<exception></exception></token>
                     </marker>
                 </pattern>
                 <message>Paraula incorrecta en aquest context</message>
                 <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">girar</match></suggestion>
-                <short>Possible confusió</short>
                 <example correction="girar">Mesurar angles o <marker>rotar</marker> objectes.</example>
             </rule>
         </rulegroup>
