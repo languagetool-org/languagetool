@@ -56,32 +56,37 @@ public class FrequencyIndexCreator {
 
   private void run(File inputDir, File indexBaseDir) throws IOException {
     List<File> files = Arrays.asList(inputDir.listFiles());
-    Collections.sort(files);
-    for (File file : files) {
-      String name = file.getName();
-      if (name.matches(".*_[A-Z]+_.*")) {
-        System.out.println("Skipping POS tag file " + name);
-        continue;
-      }
-      File indexDir;
-      boolean hiveMode;
-      if (name.matches(NAME_REGEX1)) {
-        indexDir = new File(indexBaseDir, name.replaceAll(NAME_REGEX1, "$1"));
-        hiveMode = false;
-        System.out.println("Running in corpus mode (i.e. aggregation of years)");
-      } else if (name.matches(NAME_REGEX2)) {
-        indexDir = new File(indexBaseDir, name.replaceAll(NAME_REGEX2, "$1"));
-        hiveMode = true;
-        System.out.println("Running in Hive mode (i.e. no aggregation of years)");
-      } else {
-        System.out.println("Skipping " + name + " - doesn't match regex " + NAME_REGEX1 + " or " + NAME_REGEX2);
-        continue;
-      }
-      if (indexDir.exists() && indexDir.isDirectory()) {
-        System.out.println("Skipping " + name + " - index dir '" + indexDir + "' already exists");
-        continue;
-      }
-      System.out.println("Index dir: " + indexDir);
+    //Collections.sort(files);  use for non-parallel streams
+    files.parallelStream().forEach(dir -> index(dir, indexBaseDir));
+  }
+  
+  public void index(File file, File indexBaseDir) {
+    System.out.println(file);
+    String name = file.getName();
+    if (name.matches(".*_[A-Z]+_.*")) {
+      System.out.println("Skipping POS tag file " + name);
+      return;
+    }
+    File indexDir;
+    boolean hiveMode;
+    if (name.matches(NAME_REGEX1)) {
+      indexDir = new File(indexBaseDir, name.replaceAll(NAME_REGEX1, "$1"));
+      hiveMode = false;
+      System.out.println("Running in corpus mode (i.e. aggregation of years)");
+    } else if (name.matches(NAME_REGEX2)) {
+      indexDir = new File(indexBaseDir, name.replaceAll(NAME_REGEX2, "$1"));
+      hiveMode = true;
+      System.out.println("Running in Hive mode (i.e. no aggregation of years)");
+    } else {
+      System.out.println("Skipping " + name + " - doesn't match regex " + NAME_REGEX1 + " or " + NAME_REGEX2);
+      return;
+    }
+    if (indexDir.exists() && indexDir.isDirectory()) {
+      System.out.println("Skipping " + name + " - index dir '" + indexDir + "' already exists");
+      return;
+    }
+    System.out.println("Index dir: " + indexDir);
+    try {
       Directory directory = FSDirectory.open(indexDir);
       Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_4_10_3);
       IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_4_10_3, analyzer);
@@ -90,6 +95,8 @@ public class FrequencyIndexCreator {
       try (IndexWriter writer = new IndexWriter(directory, config)) {
         indexLinesFromGoogleFile(writer, file, hiveMode);
       }
+    } catch (Exception e) {
+      throw new RuntimeException("Could not index " + file, e);
     }
   }
 
@@ -124,7 +131,7 @@ public class FrequencyIndexCreator {
           String docCountStr = parts[1];
           addDoc(writer, text, Long.parseLong(docCountStr));
           if (++i % 500_000 == 0) {
-            printStats(i, Long.parseLong(docCountStr), lineCount, text, startTime);
+            printStats(i, inputFile, Long.parseLong(docCountStr), lineCount, text, startTime);
           }
         } else {
           int year = Integer.parseInt(parts[1]);
@@ -138,14 +145,14 @@ public class FrequencyIndexCreator {
             //System.out.println(">"+ prevText + ": " + count);
             addDoc(writer, prevText, docCount);
             if (++i % 5_000 == 0) {
-              printStats(i, docCount, lineCount, prevText, startTime);
+              printStats(i, inputFile, docCount, lineCount, prevText, startTime);
             }
             docCount = Long.parseLong(parts[2]);
           }
         }
         prevText = text;
       }
-      printStats(i, docCount, lineCount, prevText, startTime);
+      printStats(i, inputFile, docCount, lineCount, prevText, startTime);
     }
     addTotalTokenCountDoc(writer, totalTokenCount);
   }
@@ -167,12 +174,12 @@ public class FrequencyIndexCreator {
     }
   }
 
-  private void printStats(int i, long docCount, long lineCount, String prevText, long startTimeMicros) {
+  private void printStats(int i, File inputFile, long docCount, long lineCount, String prevText, long startTimeMicros) {
     long microsNow = System.nanoTime()/1000;
     float millisPerDoc = (microsNow-startTimeMicros)/Math.max(1, i);
     NumberFormat format = NumberFormat.getNumberInstance(Locale.US);
-    System.out.printf("doc:%s line:%s ngram:%s occ:%s (%.0fµs/doc)\n",
-            format.format(i), format.format(lineCount),
+    System.out.printf("input:%s doc:%s line:%s ngram:%s occ:%s (%.0fµs/doc)\n",
+            inputFile.getName(), format.format(i), format.format(lineCount),
             prevText, format.format(docCount), millisPerDoc);
   }
 
