@@ -52,7 +52,8 @@ public class FrequencyIndexCreator {
   private static final String NAME_REGEX1 = "googlebooks-eng-all-[1-5]gram-20120701-(.*?).gz";
   private static final String NAME_REGEX2 = "[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+[_-](.*?).gz";  // Hive result
   private static final int BUFFER_SIZE = 16384;
-  
+  private static final String LT_COMPLETE_MARKER = "languagetool_index_complete";
+
   private final AtomicLong bytesProcessed = new AtomicLong(0);
   
   private long totalTokenCount;
@@ -90,8 +91,13 @@ public class FrequencyIndexCreator {
       return;
     }
     if (indexDir.exists() && indexDir.isDirectory()) {
-      System.out.println("Skipping " + name + " - index dir '" + indexDir + "' already exists");
-      return;
+      if (isIndexComplete(indexDir)) {
+        System.out.println("Skipping " + name + " - index dir '" + indexDir + "' already exists and is complete");
+        bytesProcessed.addAndGet(file.length());
+        return;
+      } else {
+        System.out.println("Not skipping " + name + " - index dir '" + indexDir + "' already exists but is not complete");
+      }
     }
     System.out.println("Index dir: " + indexDir);
     try {
@@ -99,14 +105,26 @@ public class FrequencyIndexCreator {
       Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_4_10_3);
       IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_4_10_3, analyzer);
       config.setUseCompoundFile(false);  // ~10% speedup
+      config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
       //config.setRAMBufferSizeMB(1000);
       try (IndexWriter writer = new IndexWriter(directory, config)) {
         indexLinesFromGoogleFile(writer, file, totalBytes, hiveMode);
       }
+      markIndexAsComplete(indexDir);
     } catch (Exception e) {
       throw new RuntimeException("Could not index " + file, e);
     }
     bytesProcessed.addAndGet(file.length());
+  }
+
+  private void markIndexAsComplete(File directory) throws IOException {
+    try (FileWriter fw = new FileWriter(new File(directory, LT_COMPLETE_MARKER))) {
+      fw.write(new Date().toString());
+    }
+  }
+
+  private boolean isIndexComplete(File directory) {
+    return new File(directory, LT_COMPLETE_MARKER).exists();
   }
 
   private void indexLinesFromGoogleFile(IndexWriter writer, File inputFile, long totalBytes, boolean hiveMode) throws IOException {
