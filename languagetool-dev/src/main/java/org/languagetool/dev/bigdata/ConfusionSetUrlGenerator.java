@@ -31,11 +31,28 @@ import java.util.*;
  * that we need to cover the confusion set.
  * @since 2.7
  */
+@SuppressWarnings("DynamicRegexReplaceableByCompiledPattern")
 final class ConfusionSetUrlGenerator {
 
   private ConfusionSetUrlGenerator() {}
 
   public static void main(String[] args) throws IOException {
+    String url = "http://storage.googleapis.com/books/ngrams/books/googlebooks-eng-all-4gram-20120701-<XX>.gz";
+    String chars = "abcdefghijklmnopqrstuvwxyz";
+    String chars2 = "abcdefghijklmnopqrstuvwxyz_";
+    for (int i = 0; i <= 9; i++) {
+      System.out.println(url.replace("<XX>", String.valueOf(i)));
+    }
+    for (int i = 0; i < chars.length(); i++) {
+      for (int j = 0; j < chars2.length(); j++) {
+        String name = String.valueOf(chars.charAt(i)) + String.valueOf(chars2.charAt(j));
+        System.out.println(url.replace("<XX>", name));
+      }
+    }
+    System.out.println(url.replace("<XX>", "punctuation"));
+  }
+
+  public static void mainDownloadSome(String[] args) throws IOException {
     ConfusionSetLoader confusionSetLoader =  new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/homophones.txt");
     Map<String,List<ConfusionSet>> map = confusionSetLoader.loadConfusionSet(inputStream);
