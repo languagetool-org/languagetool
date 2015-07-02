@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.dev.hadoop;
+package org.languagetool.dev.bigdata;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
