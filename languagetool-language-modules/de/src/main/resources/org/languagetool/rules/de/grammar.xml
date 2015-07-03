@@ -20024,6 +20024,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Betrug">Das ist doch <marker>betrug</marker>!</example>
             </rule>
         </rulegroup>
+        <rulegroup id="FARBEN_SUBST" name="Groß-/Kleinschreibung: 'bei rot (Rot) über die Straße' etc.">
+            <rule>
+                <pattern>
+                    <token>bei</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">rot|grün</token>
+                    </marker>
+                    <token>über</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Rot</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Rot">Geht nicht bei <marker>rot</marker> über die Straße.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KETTE_SUBST" name="Groß-/Kleinschreibung: 'Das schwächste Glied in der kette (Kette)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Glied</token>
+                    <token>in</token>
+                    <token>der</token>
+                    <marker>
+                        <token>kette</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Kette</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Kette">Das schwächste Glied in der <marker>kette</marker> ist Martin.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>an</token>
+                    <token>die</token>
+                    <marker>
+                        <token case_sensitive="yes">kette</token>
+                    </marker>
+                    <token inflected="yes">legen</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Kette</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Kette">Wir lassen uns nicht an die <marker>kette</marker> legen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="FAELLEN_SUBST" name="Groß-/Kleinschreibung: 'fällen (Fällen)'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -24774,6 +24816,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Müsste dieses Verb im Plural stehen?</short>
                 <example correction="haben">Die USA <marker>hat</marker> eine besondere Verantwortung.</example>
                 <example correction="tragen">Die USA <marker>trägt</marker> eine besondere Verantwortung.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PRINCIPIA_PLURAL" name="Grammatik: 'Die Principia Mathematica ist (sind)' etc. (falscher Singular)">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>Die</token>
+                    <token>Principia</token>
+                    <token min="0" max="1">Mathematica</token>
+                    <marker>
+                        <token postag="VER:([A-Z]{3}:)?3:SIN:.+" postag_regexp="yes"><exception postag="VER:([A-Z]{3}:)?3:PLU:.+" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>'Principia Mathematica' ist ein Plural, deshalb muss auch das dazugehörige Verb im Plural stehen.</message>
+                <suggestion><match no="5" postag="(.*)SIN(.*)" postag_regexp="yes" postag_replace="$1PLU$2"/></suggestion>
+                <url>https://de.wikipedia.org/wiki/Principia_Mathematica</url>
+                <short>Müsste dieses Verb im Plural stehen?</short>
+                <example correction="sind">Die Principia Mathematica <marker>ist</marker> ein dreibändiges Werk von Bertrand Russell und Alfred North Whitehead.</example>
             </rule>
         </rulegroup>
     </category>
