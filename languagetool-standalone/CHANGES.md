@@ -2,7 +2,8 @@
 
 ## 3.1 (release planned for 2015-09-28)
   
-  * ...
+#### English
+  * added a new rule
 
 #### LibreOffice / Apache OpenOffice Integration
   * fix: the ngram directory that turns on the confusion rule (see
