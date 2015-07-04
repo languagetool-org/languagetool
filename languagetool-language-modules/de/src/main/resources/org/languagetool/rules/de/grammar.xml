@@ -13200,29 +13200,62 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Tropfen">Wir kämpfen bis zum letzten <marker>tropfen</marker> Blut.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">kein(en)?</token>
+                    <token regexp="yes" min="0">einzige[rn]</token>
+                    <marker>
+                        <token case_sensitive="yes">tropfen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Tropfen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Tropfen">Ich habe seit der Therapie keinen <marker>tropfen</marker> Alkohol mehr getrunken.</example>
+                <example correction="Tropfen">Ich habe seit der Therapie keinen einzigen <marker>tropfen</marker> mehr getrunken.</example>
+                <example correction="Tropfen">Keinen <marker>tropfen</marker> im Becher mehr und der Beutel schlaff und leer.</example>
+                <example correction="Tropfen">Kein einziger <marker>tropfen</marker> ging verloren.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="JENSEITS_SUBST" name="Groß-/Kleinschreibung: 'ins jenseits (Jenseits) befördern' etc.">
+            <rule>
+                <pattern>
+                    <token>ins</token>
+                    <marker>
+                        <token case_sensitive="yes">jenseits</token>
+                    </marker>
+                    <!-- Note that the "[be]" below is not a regular expression. -->
+                    <token inflected="yes">[be]fördern</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Jenseits</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Jenseits">Er wurde von der Mafia ins <marker>jenseits</marker> befördert.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="NUTZEN_SUBST" name="Groß-/Kleinschreibung: 'nutzen (Nutzen) ziehen' etc.">
             <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[vV]on</token>
+                <pattern>
+                    <token>von</token>
+                    <token postag="ADJ:DAT:SIN:MAS:.+" postag_regexp="yes" min="0"/>
                     <marker>
-                        <token>nutzen</token>
+                        <token case_sensitive="yes">nutzen</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion>Nutzen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Nutzen">Das kann noch von <marker>nutzen</marker> sein.</example>
+                <example correction="Nutzen">Das wird noch von großem <marker>nutzen</marker> sein.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
+                <pattern>
                     <token inflected="yes">ziehen</token>
                     <marker>
-                        <token>nutzen</token>
+                        <token case_sensitive="yes">nutzen</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion>Nutzen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Nutzen">Wer zieht <marker>nutzen</marker> daraus?</example>
+                <example correction="Nutzen">Ziehe <marker>nutzen</marker> daraus!</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
