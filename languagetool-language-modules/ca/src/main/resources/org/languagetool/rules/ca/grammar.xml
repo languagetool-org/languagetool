@@ -6406,6 +6406,12 @@ $Id$
             <example>poc acostumada es va allargassar</example>
         </rule>
         <rulegroup id="PER_PER_A_INFINITIU" name="per/per a davant d'infinitiu" default="off">
+            <antipattern>
+                <marker>
+                    <token regexp="yes" inflected="yes" skip="2">vetllar|vetlar|esforçar|apostar|bregar|treballar</token>
+                    <token inflected="yes">per</token>
+                </marker>
+            </antipattern>
             <rule id="SERVIR_PER_TALLAR" name="servir/usar/emprar/aprofitar/preparar per/per a">
                 <pattern>
                     <token inflected='yes' skip='3' regexp='yes'>caldre|servir|usar|emprar|aprofitar|preparar|necessari|suficient|prou</token>
@@ -6421,6 +6427,7 @@ $Id$
                 <example correction="per a">Aprofitem l'avinentesa <marker>per</marker> desitjar-vos bon estiu.</example>
                 <example>Serveixen per a tallar.</example>
                 <example>Són usats per l'aristocràcia.</example>
+                <example>cal treballar per cagirar la situació</example>
             </rule>
         </rulegroup>
         <rulegroup id="PER_PER_A_DETERMINANT" name="per/per a davant de determinant">
@@ -6454,7 +6461,7 @@ $Id$
             </antipattern>
             <antipattern>
                 <marker>
-                    <token regexp="yes" inflected="yes" skip="2">vetllar|vetlar|esforçar|apostar</token>
+                    <token regexp="yes" inflected="yes" skip="2">vetllar|vetlar|esforçar|apostar|bregar|treballar</token>
                     <token inflected="yes">per</token>
                 </marker>
             </antipattern>
@@ -12669,6 +12676,18 @@ $Id$
                 <example correction="secundàries">Les eleccions primàries i <marker>secundaries</marker>.</example>
                 <example correction="secundària">Escola Primària i <marker>Secundaria</marker>.</example>
                 <example>que el rei Pere secundaria els seus moviments guerrers</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="P.*" postag_regexp="yes"/><exception>contribuent</exception></token>
+                    <marker>
+                        <token regexp="yes">tributari(a|es)</token>
+                    </marker>
+                </pattern>
+                <message>Si és adjectiu, s'ha d'accentuar. Correcte si és del verb "<match no="2" case_conversion="alllower" regexp_match="(?iu)(.*ar)i(a|es)" regexp_replace="$1"/>".</message>
+                <suggestion><match no="2" regexp_match="(?iu)(.*)ari(a|es)" regexp_replace="$1àri$2"/></suggestion>
+                <example correction="tributària">En matèria <marker>tributaria</marker>.</example>
+                <example>li tributaria un culte semblant</example>
             </rule>
         </rulegroup>
         <rulegroup id="COMA_COM_A" name="coma / com a">
@@ -27031,6 +27050,42 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rulegroup id="DESPRENDRE_DESPENDRE" name="despendre / desprendre">
+            <!-- es pot completar amb més paraules -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="7">despendre<exception>assec</exception></token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">conseqüència|lògic|resultat</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desprendre</match></suggestion>? 'Despendre' vol dir 'gastar'.</message>
+                <short>Possible confusió</short>
+                <example correction="desprendran"> se'n <marker>despendran</marker> moltes conseqüències</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="7">conseqüència|lògic|resultat</token>
+                    <marker>
+                        <token inflected="yes">despendre<exception>assec</exception></token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desprendre</match></suggestion>? 'Despendre' vol dir 'gastar'.</message>
+                <short>Possible confusió</short>
+                <example correction="desprendran">Les conseqüències que se'n <marker>despendran</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">en</token>
+                    <marker>
+                        <token inflected="yes">despendre<exception>assec</exception></token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desprendre</match></suggestion>? 'Despendre' vol dir 'gastar'.</message>
+                <short>Possible confusió</short>
+                <example correction="desprendran">Se'n <marker>despendran</marker> problemes greus.</example>
+            </rule>
+        </rulegroup>
         <rule id="ODRE" name="odre">
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">&exceptions_ODRE;</exception></token>
@@ -27848,9 +27903,10 @@ $Id$
                 <suggestion>flagell</suggestion>
                 <suggestion>mal</suggestion>
                 <suggestion>calamitat</suggestion>
+                <suggestion>xacra</suggestion>
                 <url>http://esadir.cat/entrades/fitxa/node/lacra</url>
                 <short>Possible confusió</short>
-                <example correction="plaga|flagell|mal|calamitat">Aquesta <marker>lacra</marker></example>
+                <example correction="plaga|flagell|mal|calamitat|xacra">Aquesta <marker>lacra</marker></example>
                 <example>La plaga</example>
             </rule>
             <rule>
@@ -27863,9 +27919,10 @@ $Id$
                 <suggestion>flagells</suggestion>
                 <suggestion>mals</suggestion>
                 <suggestion>calamitats</suggestion>
+                <suggestion>xacres</suggestion>
                 <url>http://esadir.cat/entrades/fitxa/node/lacra</url>
                 <short>Possible confusió</short>
-                <example correction="plagues|flagells|mals|calamitats">Aquestes <marker>lacres</marker>.</example>
+                <example correction="plagues|flagells|mals|calamitats|xacres">Aquestes <marker>lacres</marker>.</example>
                 <example>Les plagues</example>
             </rule>
         </rulegroup>
@@ -36475,7 +36532,7 @@ $Id$
                     <marker>
                         <token regexp="yes">vaig|vas|va|anem|aneu|van</token> <!-- potser és més probable amb uns que amb altres -->
                         <token>a</token>
-                        <token regexp="yes">tractar|ser|ésser|esser|dir|tenir|tindre|passar|resoldre|fallar|errar</token> <!-- veure, mirar -->
+                        <token regexp="yes">tractar|ser|ésser|esser|dir|tenir|tindre|passar|resoldre|fallar|errar|encetar</token> <!-- veure, mirar -->
                     </marker>
                 </pattern>
                 <message>Expressió incorrecta si no indica moviment. Elimineu el verb anar i useu el present o el futur.</message>
