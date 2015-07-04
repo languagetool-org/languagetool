@@ -81,7 +81,7 @@ public class ContextTools {
    * @since 2.3
    */
   public String getPlainTextContext(final int fromPos, final int toPos, final String contents) {
-    final String text = contents.replace('\n', ' ').replace('\r', ' ');
+    final String text = contents.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ');
     // calculate context region:
     int startContent = fromPos - contextSize;
     String prefix = "...";
