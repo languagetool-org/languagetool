@@ -6375,7 +6375,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category name="Zusammen-/Getrenntschreibung">
-        <rule id="ADDIS_ABEBA" name="Addis-Abeba (Addis Abeba)">
+        <rulegroup id="NICHTSDESTOTROTZ" name="Zusammen-/Getrenntschreibung: 'nichts desto trotz (nichtsdestotrotz)'">
+            <rule>
+                <pattern>
+                    <token>nichts</token>
+                    <token>desto</token>
+                    <token>trotz</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>nichtsdestotrotz</suggestion>? 'Nichtsdestotrotz' wird zusammengeschrieben.</message>
+                <url>https://de.wikipedia.org/wiki/Nichtsdestotrotz</url>
+                <example><marker>Nichtsdestotrotz</marker> finde ich es einfach ungerecht.</example>
+                <example correction="Nichtsdestotrotz"><marker>Nichts desto trotz</marker> wird einfach weiter geplant.</example>
+            </rule>
+        </rulegroup>
+        <rule id="ADDIS_ABEBA" name="Zusammen-/Getrenntschreibung: Addis-Abeba (Addis Abeba)">
             <pattern case_sensitive='yes'>
                 <token>Addis-Abeba</token>
             </pattern>
@@ -6383,7 +6396,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>Addis Abeba</suggestion>
             <example correction="Addis Abeba"><marker>Addis-Abeba</marker> ist die Hauptstadt von Äthiopien.</example>
         </rule>
-        <rule id="VON_NOETEN" name="von Nöten (vonnöten)">
+        <rule id="VON_NOETEN" name="Zusammen-/Getrenntschreibung: 'von Nöten (vonnöten)'">
         <!-- TODO: Needs testing and exceptions: "Er sprach von Nöten und Ängsten" -->
             <antipattern>
                 <token>von</token>
@@ -6400,7 +6413,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;</short>
             <example correction="vonnöten|notwendig">Hier ist schnelle Hilfe <marker>von Nöten</marker>.</example>
         </rule>
-        <rule id="WOHL_GEMERKT" name="wohl gemerkt vs. wohlgemerkt">
+        <rule id="WOHL_GEMERKT" name="Zusammen-/Getrenntschreibung: wohl gemerkt vs. wohlgemerkt">
             <pattern case_sensitive='yes'>
                 <marker>
                     <token>wohl</token>
@@ -6416,7 +6429,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Das hast du wohl gemerkt, denn du lachst.</example>
             <example>Wohlgemerkt habe ich das bestätigt.</example>
         </rule>
-        <rule id="ZU_ALLERERST" name="zu allererst (zuallererst)">
+        <rule id="ZU_ALLERERST" name="Zusammen-/Getrenntschreibung: 'zu allererst (zuallererst)'">
             <pattern>
                 <token>zu</token>
                 <token regexp='yes'>allererst|allerletzt|alleroberst|allerunterst|allermeist</token>
@@ -10647,19 +10660,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion>ohne</suggestion>? 'Mit ohne' ist eine umgangssprachliche Wendung.</message>
             <example correction="ohne">Internet <marker>mit ohne</marker> Schnur</example>
         </rule>
-        <rulegroup id="NICHTSDESTOTROTZ" name="Stil: 'nichtsdestotrotz' (ugs. Verballhornung)">
-            <rule>
-                <pattern>
-                    <token>nichts</token>
-                    <token>desto</token>
-                    <token>trotz</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>nichtsdestotrotz</suggestion>? 'Nichtsdestotrotz' wird zusammengeschrieben.</message>
-                <url>https://de.wikipedia.org/wiki/Nichtsdestotrotz</url>
-                <example><marker>Nichtsdestotrotz</marker> finde ich es einfach ungerecht.</example>
-                <example correction="Nichtsdestotrotz"><marker>Nichts desto trotz</marker> wird einfach weiter geplant.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="MURKSEN" name="Umgangssprache: 'abmurksen' etc. [unvollständige Markierung ugs. Ausdrucksweisen]">
             <rule>
                 <pattern>
@@ -11417,7 +11417,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Gleicher unter Gleichen">Er war <marker>gleicher unter gleichen</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="ALS_ERSTES" name="als erstes (Erstes) etc.">
+        <rule id="ALS_ERSTES" name="Groß-/Kleinschreibung: 'als erstes (Erstes)' etc.">
             <antipattern>
                 <token>als</token>
                 <token regexp="yes" case_sensitive="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes|zehntes|elftes|zwölftes</token>
@@ -11448,7 +11448,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Bis nach Schweich als <marker>drittes</marker> und viertes Gleis entlang der bestehenden Moselstrecke.</example>
             <example type="triggers_error">Der Borgward Hansa 1500, der 1949 als erstes nach dem Krieg neu konstruiertes deutsches Auto eingeführt worden war.</example>
         </rule>
-        <rule id="ANS_KLEINES_NOMEN" name="ans/fürs/... + kleingeschr. Nomen">
+        <rule id="ANS_KLEINES_NOMEN" name="Groß-/Kleinschreibung: ans/fürs/... + kleingeschr. Nomen">
             <antipattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
                 <token postag="ADJ:.*" postag_regexp="yes"/>
@@ -11488,7 +11488,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Sie konnten ungehindert ins <marker>reiche</marker> Babylon einziehen.</example>
             <example>Man kann die Nutzung des Geländes bis ins <marker>spätere</marker> 4. Jahrhundert belegen</example>
         </rule>
-        <rule id="AM_KLEINES_NOMEN" name="am/beim/... + kleingeschr. Nomen">
+        <rule id="AM_KLEINES_NOMEN" name="Groß-/Kleinschreibung: am/beim/... + kleingeschr. Nomen">
             <pattern case_sensitive="yes">
                 <token regexp="yes">am|beim|hinterm|überm|unterm|vorm</token>
                 <marker>
@@ -11499,7 +11499,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier ein Nomen zu sein (\1 = <match no="1" regexp_match="m$" regexp_replace="" /> dem) und muss dann großgeschrieben werden.</message>
             <example correction="Essen">Aber überm <marker>essen</marker> hat er das Trinken vergessen.</example>
         </rule>
-        <rule id="VOM_KLEINES_NOMEN" name="vom + kleingeschr. Nomen">
+        <rule id="VOM_KLEINES_NOMEN" name="Groß-/Kleinschreibung: vom + kleingeschr. Nomen">
             <pattern>
                 <token>vom</token>
                 <marker>
@@ -11511,7 +11511,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Sammeln">Damals lebten die Menschen vom <marker>sammeln</marker>.</example>
             <example>Ein Hut, der vom deutschen Bundespräsidenten übergeben wird.</example>
         </rule>
-        <rule id="AM_VERB_KLEIN" name="vom + kleingeschr. Nomen">
+        <rule id="AM_VERB_KLEIN" name="Groß-/Kleinschreibung: am + kleingeschr. Verb">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[Aa]m</token>
                 <marker>
@@ -11527,7 +11527,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Essen">Alle sind am <marker>essen</marker>.</example>
             <example>Am <marker>leeren</marker> Tisch verstummt die Unterhaltung.</example>
         </rule>
-        <rule id="AM_XSTEN" name="am Schnellsten etc. (schnellesten)">
+        <rule id="AM_XSTEN" name="Groß-/Kleinschreibung: am Schnellsten etc. (schnellsten)">
             <antipattern>
                 <token inflected="yes" skip="2">fehlen</token>
                 <token>am</token>
@@ -11547,7 +11547,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Es fehlte ihnen am <marker>Nötigsten</marker>.</example>
             <example type="triggers_error">Am liebsten fummelt sie am <marker>Liebsten</marker> herum.</example>
         </rule>
-        <rule id="BIEGEN_UND_BRECHEN" name="auf biegen und brechen (Biegen und Brechen)">
+        <rule id="BIEGEN_UND_BRECHEN" name="Groß-/Kleinschreibung: auf biegen und brechen (Biegen und Brechen)">
             <pattern case_sensitive="yes">
                 <token case_sensitive="no">auf</token>
                 <marker>
@@ -11559,7 +11559,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>In der festen Wendung wird <suggestion>Biegen \3 Brechen</suggestion> großgeschrieben.</message>
             <example correction="Biegen oder Brechen">Die Sozialdemokratie aber will die Befragung auf <marker>biegen oder brechen</marker> erzwingen.</example>
         </rule>
-        <rulegroup id="JAEHRIG" name="x-jährig/Jährig">
+        <rulegroup id="JAEHRIG" name="Groß-/Kleinschreibung: x-jährig/Jährig">
             <url>http://www.korrekturen.de/kurz_erklaert/schreibweise_von_ziffern_mit_-jaehrig_und_-jaehrige.shtml</url>
             <rule>
                 <antipattern case_sensitive="yes">
@@ -18392,11 +18392,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Sprachen">Ich habe den Job bekommen, weil ich drei <marker>sprachen</marker> spreche.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="WIEGE_SUBST" name="Groß-/Kleinschreibung: 'an der wiege (Wiege) gesungen'">
+            <rule>
+                <pattern>
+                    <token regexp="yes">in|an|von</token>
+                    <token regexp="yes">die|der</token>
+                    <marker>
+                        <token case_sensitive="yes">wiege</token>
+                    </marker>
+                    <token negate="yes" inflected="yes">ich</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Wiege</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Wiege">Es wurde mir nicht an der <marker>wiege</marker> gesungen, dass ich mal an LanguageTool mitarbeiten würde.</example>
+                <example correction="Wiege">Von der <marker>wiege</marker> bis zur Bahre: Formulare, Formulare!</example>
+                <example correction="Wiege">Das wurde ihm in die <marker>wiege</marker> gelegt.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GRUENDE_SUBST" name="Groß-/Kleinschreibung: 'mit guten gründen (Gründen)' etc.">
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]us|[mM]it</token>
-                    <token regexp="yes">(zwingend|zureichend|welch|irgendwelch|gut|triftig|plausibl|stichhaltig|verständlich|taktisch|politisch|bestimmt|ersichtlich|begreiflich|gesundheitlich|nachvollziehbar|einleuchtend|wichtig)en</token>
+                    <token min="0" postag="ADJ:PRD:GRU"/>
+                    <or>
+                        <token regexp="yes">(irgend)?welchen|diesen</token>
+                        <token postag="(PA[12]|ADJ):DAT:PLU:MAS:.*" postag_regexp="yes"/>
+                    </or>
                     <marker>
                         <token>gründen</token>
                     </marker>
@@ -18404,6 +18425,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion>Gründen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Gründen">Aus irgendwelchen <marker>gründen</marker> gelang mir das nicht.</example>
+                <example correction="Gründen">Aus welchen <marker>gründen</marker> auch immer – es gelang mir nicht.</example>
+                <example correction="Gründen">Aus gesundheitlichen <marker>gründen</marker> musste sie eine Weile lang aussetzen.</example>
+                <example correction="Gründen">Das interessiert mich aus rein beruflichen <marker>gründen</marker>.</example>
+                <example correction="Gründen">Der Vorschlag wurde mit ziemlich fadenscheinigen <marker>gründen</marker> abgeschmettert.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -18416,7 +18441,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion>Gründen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Gründen">Aus <marker>gründen</marker> des Datenschutzes bitte das Deckblatt entfernen.</example>
-                <example>Aus irgendwelchen <marker>Gründen</marker> gelang mir das nicht.</example>
             </rule>
         </rulegroup>
         <rulegroup id="WUERDE_SUBST" name="Groß-/Kleinschreibung: 'die würde (Würde) des Gerichts' etc.">
@@ -22176,7 +22200,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Laufenden">Wir werden dich auf dem <marker>laufenden</marker> halten.</example>
             <example>Er stand auf dem <marker>laufenden</marker> Karussell.</example>
         </rule>
-        <rule id="AUFS_VERB" name="aufs + Verb (kleingeschrieben)">
+        <rule id="AUFS_VERB" name="Groß-/Kleinschreibung: aufs + Verb (kleingeschrieben)">
             <pattern>
                 <token>aufs</token>
                 <marker>
@@ -22187,7 +22211,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Er müsste sich aufs <marker>lernen</marker> konzentrieren.</example>
             <example>Er müsste sich aufs <marker>Lernen</marker> konzentrieren.</example>
         </rule>
-        <rule id="AUFS_GLEICHE" name="aufs + Verb (kleingeschrieben)">
+        <rule id="AUFS_GLEICHE" name="Groß-/Kleinschreibung: aufs gleiche (Gleiche) herauskommen">
             <pattern>
                 <token>aufs</token>
                 <marker>
