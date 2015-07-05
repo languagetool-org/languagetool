@@ -1169,22 +1169,30 @@ $Id$
           TODO: sugerencias múltiples-->
 
       <short>Concordancia de número dudosa.</short>
+      <antipattern>
+        <marker>
+          <token>lo</token>
+          <token postag="AQ.*" postag_regexp="yes"/>
+          <token>que</token>
+        </marker>
+      </antipattern>
 
       <rule id="LO_LOS" name="confusión lo/los">
-          <pattern>
-              <marker>
-                  <token>lo</token>
-              </marker>
-              <token postag="N..P.*|A...P.|V.P..P." postag_regexp="yes"><exception postag="V.[SI].*" postag_regexp="yes"/></token>
-          </pattern>
-          <message>Posible error de concordancia.</message>
-          <suggestion>los</suggestion>
-          <example correction="los">a favor de <marker>lo</marker> acreedores.</example>
-          <example correction="los">a favor de <marker>lo</marker> azulados.</example>
-          <example>¿Por qué lo preguntas?</example>
-          <example>Lo eres tú.</example>
+        <pattern>
+          <marker>
+            <token>lo</token>
+          </marker>
+          <token postag="N..P.*|AQ..P.|V.P..P." postag_regexp="yes"><exception postag="V.[SI].*" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Posible error de concordancia.</message>
+        <suggestion>los</suggestion>
+        <example correction="los">a favor de <marker>lo</marker> acreedores.</example>
+        <example correction="los">a favor de <marker>lo</marker> azulados.</example>
+        <example>¿Por qué lo preguntas?</example>
+        <example>Lo eres tú.</example>
+        <example>Lo pequeños que son.</example>
       </rule>
-
+      
       <!-- DET_NOM_SING Concordancia (el pavos) -->
 
       <rule id="DET_NOM_SING" name="Concordancia singular en Determinante + nombre">
