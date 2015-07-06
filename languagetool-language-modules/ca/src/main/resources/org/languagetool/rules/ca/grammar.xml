@@ -20938,6 +20938,18 @@ $Id$
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="MALGRAT_I_AIXO" name="malgrat i això">
+            <pattern>
+                <token>malgrat<exception postag="NP.*" postag_regexp="yes"></exception></token>
+                <token>i</token>
+                <token>això</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>malgrat això</suggestion>
+            <suggestion>tot i això</suggestion>
+            <example correction='malgrat això|tot i això'><marker>malgrat i això</marker></example>
+            <example>Vam anar a Malgrat i això està bé.</example>
+        </rule>
         <rule id="MAI_DELS_MAIS" name="mai dels mais">
             <pattern>
                 <token>mai</token>
