@@ -30,6 +30,7 @@ import java.util.List;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
+import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.RAMDirectory;
@@ -167,7 +168,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
             final FieldType fieldType = new FieldType();
             fieldType.setStored(true);
             fieldType.setTokenized(true);
-            fieldType.setIndexed(true);
+            fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
             doc.add(new Field(FIELD_NAME, example, fieldType));
             // no lowercase here, it would lowercase the input to the LT analysis, leading to wrong POS tags:
             doc.add(new Field(FIELD_NAME_LOWERCASE, example, fieldType));
@@ -325,9 +326,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
     createIndex("How to move back and fourth from linux to xmb?");
     final PatternToken exceptionElem = new PatternToken("", false, true, false);
     exceptionElem.setStringPosException("exception", false, false, false, false, false, "POS", false, false, null);
-    final List<PatternToken> patternTokens = Arrays.asList(
-        exceptionElem
-        );
+    final List<PatternToken> patternTokens = Arrays.asList(exceptionElem);
     final PatternRule rule1 = new PatternRule("RULE1", new English(), patternTokens, "desc", "msg", "shortMsg");
     final Searcher errorSearcher = new Searcher(directory);
     try {
@@ -345,7 +344,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
   }
 
   private void useRealIndex() throws IOException {
-    directory = FSDirectory.open(new File("/home/languagetool/corpus/en/"));  // for debugging with more data
+    directory = FSDirectory.open(new File("/home/languagetool/corpus/en/").toPath());  // for debugging with more data
     errorSearcher = new Searcher(directory);
   }
 

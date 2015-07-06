@@ -21,6 +21,7 @@ package org.languagetool.dev.bigdata;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.*;
+import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
@@ -225,12 +226,12 @@ public class FrequencyIndexCreator {
     IndexWriter writer;
     
     LuceneDataWriter(File indexDir) throws IOException {
-      Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_4_10_3);
-      IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_4_10_3, analyzer);
+      Analyzer analyzer = new StandardAnalyzer();
+      IndexWriterConfig config = new IndexWriterConfig(analyzer);
       config.setUseCompoundFile(false);  // ~10% speedup
       config.setOpenMode(IndexWriterConfig.OpenMode.CREATE);
       //config.setRAMBufferSizeMB(1000);
-      Directory directory = FSDirectory.open(indexDir);
+      Directory directory = FSDirectory.open(indexDir.toPath());
       writer = new IndexWriter(directory, config);
     }
 
@@ -249,7 +250,7 @@ public class FrequencyIndexCreator {
     @Override
     void addTotalTokenCountDoc(long totalTokenCount) throws IOException {
       FieldType fieldType = new FieldType();
-      fieldType.setIndexed(true);
+      fieldType.setIndexOptions(IndexOptions.DOCS);
       fieldType.setStored(true);
       Field countField = new Field("totalTokenCount", String.valueOf(totalTokenCount), fieldType);
       Document doc = new Document();

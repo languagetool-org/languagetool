@@ -20,15 +20,13 @@ package org.languagetool.dev.index;
 
 import org.apache.lucene.analysis.Analyzer;
 
-import java.io.Reader;
-
 /**
  * Fake analyzer, always throws exception.
  */
 class DoNotUseAnalyzer extends Analyzer {
 
   @Override
-  protected TokenStreamComponents createComponents(String s, Reader reader) {
+  protected TokenStreamComponents createComponents(String s) {
     throw new RuntimeException("This analyzer is not supposed to be called");
   }
 

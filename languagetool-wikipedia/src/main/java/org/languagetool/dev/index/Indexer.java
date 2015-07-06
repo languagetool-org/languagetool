@@ -28,12 +28,12 @@ import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
+import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.Version;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -52,8 +52,6 @@ import static org.languagetool.dev.index.PatternRuleQueryBuilder.SOURCE_FIELD_NA
 public class Indexer implements AutoCloseable {
 
   static final String TITLE_FIELD_NAME = "title";
-
-  private static final Version LUCENE_VERSION = Version.LUCENE_4_10_3;
 
   private final IndexWriter writer;
   private final SentenceTokenizer sentenceTokenizer;
@@ -77,13 +75,13 @@ public class Indexer implements AutoCloseable {
 
   static Analyzer getAnalyzer(Language language) {
     final Map<String, Analyzer> analyzerMap = new HashMap<>();
-    analyzerMap.put(FIELD_NAME, new LanguageToolAnalyzer(LUCENE_VERSION, new JLanguageTool(language), false));
-    analyzerMap.put(FIELD_NAME_LOWERCASE, new LanguageToolAnalyzer(LUCENE_VERSION, new JLanguageTool(language), true));
+    analyzerMap.put(FIELD_NAME, new LanguageToolAnalyzer(new JLanguageTool(language), false));
+    analyzerMap.put(FIELD_NAME_LOWERCASE, new LanguageToolAnalyzer(new JLanguageTool(language), true));
     return new PerFieldAnalyzerWrapper(new DoNotUseAnalyzer(), analyzerMap);
   }
 
   static IndexWriterConfig getIndexWriterConfig(Analyzer analyzer) {
-    return new IndexWriterConfig(LUCENE_VERSION, analyzer);
+    return new IndexWriterConfig(analyzer);
   }
 
   private static void ensureCorrectUsageOrExit(String[] args) {
@@ -105,7 +103,7 @@ public class Indexer implements AutoCloseable {
     }
     try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
       System.out.println("Indexing to directory '" + indexDir + "'...");
-      try (FSDirectory directory = FSDirectory.open(new File(indexDir))) {
+      try (FSDirectory directory = FSDirectory.open(new File(indexDir).toPath())) {
         final Language language = Languages.getLanguageForShortName(languageCode);
         try (Indexer indexer = new Indexer(directory, language)) {
           indexer.indexText(reader);
@@ -148,27 +146,27 @@ public class Indexer implements AutoCloseable {
     final Document doc = new Document();
     final FieldType type = new FieldType();
     type.setStored(true);
-    type.setIndexed(true);
+    type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
     type.setTokenized(true);
     doc.add(new Field(FIELD_NAME, sentence, type));
     doc.add(new Field(FIELD_NAME_LOWERCASE, sentence, type));
     if (docCount != -1) {
       final FieldType countType = new FieldType();
       countType.setStored(true);
-      countType.setIndexed(false);
-      doc.add(new Field("docCount", docCount + "", countType));
+      countType.setIndexOptions(IndexOptions.NONE);
+      doc.add(new Field("docCount", String.valueOf(docCount), countType));
     }
     if (title != null) {
       final FieldType titleType = new FieldType();
       titleType.setStored(true);
-      titleType.setIndexed(false);
+      titleType.setIndexOptions(IndexOptions.NONE);
       titleType.setTokenized(false);
       doc.add(new Field(TITLE_FIELD_NAME, title, titleType));
     }
     if (source != null) {
       final FieldType sourceType = new FieldType();
       sourceType.setStored(true);
-      sourceType.setIndexed(true);
+      sourceType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
       sourceType.setTokenized(false);
       doc.add(new Field(SOURCE_FIELD_NAME, source, sourceType));
     }

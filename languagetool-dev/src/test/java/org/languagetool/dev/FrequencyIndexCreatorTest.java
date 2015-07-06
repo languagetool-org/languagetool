@@ -40,7 +40,7 @@ public class FrequencyIndexCreatorTest {
   @Test
   @Ignore("Interactive use only")
   public void testReadPerformance() throws IOException {
-    try (FSDirectory directory = FSDirectory.open(INDEX_DIR)) {
+    try (FSDirectory directory = FSDirectory.open(INDEX_DIR.toPath())) {
       DirectoryReader reader = DirectoryReader.open(directory);
       IndexSearcher searcher = new IndexSearcher(reader);
       try (Scanner scanner = new Scanner(new File("/lt/performance-test/en.txt"))) {

@@ -196,7 +196,7 @@ public class LuceneLanguageModel implements LanguageModel {
     final IndexReader reader;
     final IndexSearcher searcher;
     private LuceneSearcher(File indexDir) throws IOException {
-      this.directory = FSDirectory.open(indexDir);
+      this.directory = FSDirectory.open(indexDir.toPath());
       this.reader = DirectoryReader.open(directory);
       this.searcher = new IndexSearcher(reader);
     }

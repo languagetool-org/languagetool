@@ -23,6 +23,7 @@ import java.io.StringReader;
 
 import org.apache.lucene.analysis.BaseTokenStreamTestCase;
 import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
 import org.apache.lucene.analysis.tokenattributes.PositionIncrementAttribute;
@@ -35,7 +36,8 @@ public class LanguageToolFilterTest extends BaseTokenStreamTestCase {
   public void testFilter() throws Exception {
     final String input = "How to?";
 
-    final TokenStream stream = new AnyCharTokenizer(TEST_VERSION_CURRENT, new StringReader(input));
+    final Tokenizer stream = new AnyCharTokenizer();
+    stream.setReader(new StringReader(input));
     final LanguageToolFilter filter = new LanguageToolFilter(stream, new JLanguageTool(new English()), false);
     //displayTokensWithFullDetails(filter);
 

@@ -25,7 +25,6 @@ import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.Version;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,8 +37,8 @@ final class LuceneSimpleIndexCreator {
   private LuceneSimpleIndexCreator() {}
 
   public static void main(String[] args) throws IOException {
-    IndexWriterConfig conf = new IndexWriterConfig(Version.LATEST, new KeywordAnalyzer());
-    try (IndexWriter iw1 = new IndexWriter(FSDirectory.open(new File("/tmp/1grams")), conf)) {
+    IndexWriterConfig conf = new IndexWriterConfig(new KeywordAnalyzer());
+    try (IndexWriter iw1 = new IndexWriter(FSDirectory.open(new File("/tmp/1grams").toPath()), conf)) {
       addDoc(iw1, "the", 55);
       addDoc(iw1, "nice", 10);
       addDoc(iw1, "building", 1);
@@ -47,13 +46,13 @@ final class LuceneSimpleIndexCreator {
       document.add(new TextField("totalTokenCount", String.valueOf(3), Field.Store.YES));
       iw1.addDocument(document);
     }
-    IndexWriterConfig conf2 = new IndexWriterConfig(Version.LATEST, new KeywordAnalyzer());
-    try (IndexWriter iw2 = new IndexWriter(FSDirectory.open(new File("/tmp/2grams")), conf2)) {
+    IndexWriterConfig conf2 = new IndexWriterConfig(new KeywordAnalyzer());
+    try (IndexWriter iw2 = new IndexWriter(FSDirectory.open(new File("/tmp/2grams").toPath()), conf2)) {
       addDoc(iw2, "the nice", 3);
       addDoc(iw2, "nice building", 2);
     }
-    IndexWriterConfig conf3 = new IndexWriterConfig(Version.LATEST, new KeywordAnalyzer());
-    try (IndexWriter iw3 = new IndexWriter(FSDirectory.open(new File("/tmp/3grams")), conf3)) {
+    IndexWriterConfig conf3 = new IndexWriterConfig(new KeywordAnalyzer());
+    try (IndexWriter iw3 = new IndexWriter(FSDirectory.open(new File("/tmp/3grams").toPath()), conf3)) {
       addDoc(iw3, "the nice building", 1);
     }
   }

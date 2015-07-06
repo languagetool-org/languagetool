@@ -34,15 +34,7 @@ import java.util.List;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.Query;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.Sort;
-import org.apache.lucene.search.SortField;
-import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.TimeLimitingCollector;
-import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.TopFieldCollector;
+import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.SimpleFSDirectory;
 import org.apache.lucene.util.Counter;
@@ -183,8 +175,8 @@ public class Searcher {
     }
   }
 
-  private PossiblyLimitedTopDocs getTopDocs(Query query, Sort sort) throws IOException {
-    final TopFieldCollector topCollector = TopFieldCollector.create(sort, maxHits, true, false, false, false);
+  private PossiblyLimitedTopDocs getTopDocs(Query query) throws IOException {
+    final TopScoreDocCollector topCollector = TopScoreDocCollector.create(maxHits);
     final Counter clock = Counter.newCounter(true);
     final int waitMillis = 1000;
     // TODO: if we interrupt the whole thread anyway, do we still need the TimeLimitingCollector?
@@ -316,12 +308,11 @@ public class Searcher {
     @Override
     public void run() {
       try {
-        final Sort sort = new Sort(new SortField("docCount", SortField.Type.INT));  // do not sort by relevance as this will move the shortest documents to the top
         final long t1 = System.currentTimeMillis();
         final JLanguageTool languageTool = getLanguageToolWithOneRule(language, rule);
         final long langToolCreationTime = System.currentTimeMillis() - t1;
         final long t2 = System.currentTimeMillis();
-        final PossiblyLimitedTopDocs limitedTopDocs = getTopDocs(query, sort);
+        final PossiblyLimitedTopDocs limitedTopDocs = getTopDocs(query);
         final long luceneTime = System.currentTimeMillis() - t2;
         final long t3 = System.currentTimeMillis();
         luceneMatchCount = limitedTopDocs.topDocs.totalHits;
@@ -372,7 +363,7 @@ public class Searcher {
     final Language language = Languages.getLanguageForShortName(languageCode);
     final File indexDir = new File(args[2]);
     final boolean limitSearch = args.length > 3 && "--no_limit".equals(args[3]);
-    final Searcher searcher = new Searcher(new SimpleFSDirectory(indexDir));
+    final Searcher searcher = new Searcher(new SimpleFSDirectory(indexDir.toPath()));
     if (!limitSearch) {
       searcher.setMaxHits(100_000);
     }

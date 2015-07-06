@@ -104,7 +104,7 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
     System.out.println("Output index dir: " + indexDir);
     
     final long start = System.currentTimeMillis();
-    try (FSDirectory fsDirectory = FSDirectory.open(indexDir)) {
+    try (FSDirectory fsDirectory = FSDirectory.open(indexDir.toPath())) {
       final SentenceSourceIndexer indexer = new SentenceSourceIndexer(fsDirectory, language, maxSentences);
       try {
         indexer.run(dumpFilesNames, language);

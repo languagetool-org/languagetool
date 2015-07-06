@@ -23,6 +23,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.sandbox.queries.regex.RegexQuery;
@@ -88,7 +89,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     final Document doc = new Document();
     final FieldType type = new FieldType();
     type.setStored(true);
-    type.setIndexed(true);
+    type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
     type.setTokenized(true);
     doc.add(new Field(FIELD_NAME, content, type));
     doc.add(new Field(FIELD_NAME_LOWERCASE, content, type));

@@ -18,12 +18,9 @@
  */
 package org.languagetool.dev.index;
 
-import java.io.Reader;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.Tokenizer;
-import org.apache.lucene.util.Version;
 import org.languagetool.JLanguageTool;
 
 /**
@@ -36,18 +33,16 @@ public final class LanguageToolAnalyzer extends Analyzer {
 
   private final JLanguageTool languageTool;
   private final boolean toLowerCase;
-  private final Version luceneVersion;
 
-  public LanguageToolAnalyzer(Version luceneVersion, JLanguageTool languageTool, boolean toLowerCase) {
+  public LanguageToolAnalyzer(JLanguageTool languageTool, boolean toLowerCase) {
     super();
-    this.luceneVersion = luceneVersion;
     this.languageTool = languageTool;
     this.toLowerCase = toLowerCase;
   }
 
   @Override
-  protected TokenStreamComponents createComponents(String s, Reader reader) {
-    final Tokenizer tokenizer = new AnyCharTokenizer(luceneVersion, reader);
+  protected TokenStreamComponents createComponents(String s) {
+    final Tokenizer tokenizer = new AnyCharTokenizer();
     final TokenStream result = new LanguageToolFilter(tokenizer, languageTool, toLowerCase);
     return new TokenStreamComponents(tokenizer, result);
   }
