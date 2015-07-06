@@ -180,6 +180,7 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Dieses Grünkern genannte Getreide ist aber nicht backbar.");
     assertGood("Außerdem unterstützt mich Herr Müller beim abheften");
     assertGood("Außerdem unterstützt mich Frau Müller beim abheften");
+    assertBad("Der Zustand meiner Gehirns.");
 
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");

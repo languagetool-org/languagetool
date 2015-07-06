@@ -429,7 +429,8 @@ public class AgreementRule extends GermanRule {
         continue;
       }
       if (reading.getGenus() == GermanToken.Genus.ALLGEMEIN && 
-          tmpReading.getPOSTag() != null && !tmpReading.getPOSTag().endsWith(":STV")) {  // STV: stellvertretend (!= begleitend)
+          tmpReading.getPOSTag() != null && !tmpReading.getPOSTag().endsWith(":STV") &&  // STV: stellvertretend (!= begleitend)
+          !possessiveSpecialCase(aToken, tmpReading)) {   
         // genus=ALG in the original data. Not sure if this is allowed, but expand this so
         // e.g. "Ich Arbeiter" doesn't get flagged as incorrect:
         set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.MASKULINUM, omit));
@@ -440,6 +441,11 @@ public class AgreementRule extends GermanRule {
       }
     }
     return set;
+  }
+
+  private boolean possessiveSpecialCase(AnalyzedTokenReadings aToken, AnalyzedToken tmpReading) {
+    // would cause error misses as it contains 'ALG', e.g. in "Der Zustand meiner Gehirns."
+    return aToken.hasPartialPosTag("PRO:POS") && ("ich".equals(tmpReading.getLemma()) || "sich".equals(tmpReading.getLemma()));
   }
 
   private String makeString(GermanToken.Kasus casus, GermanToken.Numerus num, GermanToken.Genus gen,
