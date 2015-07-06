@@ -47,6 +47,9 @@ public class PatternRule extends AbstractPatternRule {
   // a list of antipatterns used in the rule:
   private final List<DisambiguationPatternRule> antiPatterns = new ArrayList<>();
 
+  private final List<Match> suggestionMatches = new ArrayList<>();
+  private final List<Match> suggestionMatchesOutMsg = new ArrayList<>();
+
   // This property is used for short-circuiting evaluation of the elementNo list order:
   private final boolean useList;
 
@@ -55,8 +58,6 @@ public class PatternRule extends AbstractPatternRule {
   private String message;
   private String suggestionsOutMsg; // extra suggestions outside message
 
-  private List<Match> suggestionMatches;
-  private List<Match> suggestionMatchesOutMsg;
   private Set<String> tokenSet;
   private Set<String> lemmaSet;
 
@@ -164,7 +165,6 @@ public class PatternRule extends AbstractPatternRule {
 
   /**
    * Return the pattern as a string, using toString() on the pattern elements.
-   *
    * @since 0.9.2
    */
   public final String toPatternString() {
@@ -177,7 +177,6 @@ public class PatternRule extends AbstractPatternRule {
 
   /**
    * Return the rule's definition as an XML string, loaded from the XML rule files.
-   *
    * @since 0.9.3
    */
   public final String toXML() {
@@ -198,17 +197,11 @@ public class PatternRule extends AbstractPatternRule {
 
   /** Add formatted suggestion elements. */
   public final void addSuggestionMatch(final Match m) {
-    if (suggestionMatches == null) {
-      suggestionMatches = new ArrayList<>();
-    }
     suggestionMatches.add(m);
   }
 
   /** Add formatted suggestion elements outside message. */
   public final void addSuggestionMatchOutMsg(final Match m) {
-    if (suggestionMatchesOutMsg == null) {
-      suggestionMatchesOutMsg = new ArrayList<>();
-    }
     suggestionMatchesOutMsg.add(m);
   }
   

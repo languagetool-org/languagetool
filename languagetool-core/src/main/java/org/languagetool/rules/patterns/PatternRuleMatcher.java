@@ -292,29 +292,27 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer {
           nextTokenPos = firstMatchTok + repTokenPos + positions.get(j + 1);
         }
 
-        if (suggestionMatches != null) {
+        if (suggestionMatches != null && suggestionMatches.size() > 0) {
           if (matchCounter < suggestionMatches.size()) {
             numbersToMatches[j] = matchCounter;
-            if (suggestionMatches.get(matchCounter) != null) {
-              // if token is optional remove it from suggestions:
-              final String[] matches = j >= positions.size() || positions.get(j) != 0
-                   ? concatMatches(matchCounter, j, firstMatchTok + repTokenPos, tokenReadings, nextTokenPos, suggestionMatches)
-                   : new String[] { "" };
-              final String leftSide = errorMessage.substring(0, backslashPos);
-              final String rightSide = errorMessage.substring(backslashPos + numLen);
-              if (matches.length == 1) {
-                // if we removed optional token from suggestion squeeze two spaces into one:
-                if (matches[0].isEmpty() && leftSide.endsWith(" ") && rightSide.startsWith(" ")) {
-                  errorMessage = leftSide.substring(0, leftSide.length()-1) + rightSide;
-                } else {
-                  errorMessage = leftSide + matches[0] + rightSide;
-                }
+            // if token is optional remove it from suggestions:
+            final String[] matches = j >= positions.size() || positions.get(j) != 0
+                 ? concatMatches(matchCounter, j, firstMatchTok + repTokenPos, tokenReadings, nextTokenPos, suggestionMatches)
+                 : new String[] { "" };
+            final String leftSide = errorMessage.substring(0, backslashPos);
+            final String rightSide = errorMessage.substring(backslashPos + numLen);
+            if (matches.length == 1) {
+              // if we removed optional token from suggestion squeeze two spaces into one:
+              if (matches[0].isEmpty() && leftSide.endsWith(" ") && rightSide.startsWith(" ")) {
+                errorMessage = leftSide.substring(0, leftSide.length()-1) + rightSide;
               } else {
-                errorMessage = formatMultipleSynthesis(matches, leftSide, rightSide);
+                errorMessage = leftSide + matches[0] + rightSide;
               }
-              matchCounter++;
-              newWay = true;
+            } else {
+              errorMessage = formatMultipleSynthesis(matches, leftSide, rightSide);
             }
+            matchCounter++;
+            newWay = true;
           } else {
             // FIXME: is this correct? this is how we deal with multiple matches
             suggestionMatches.add(suggestionMatches.get(numbersToMatches[j]));
@@ -390,30 +388,28 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer {
       final int tokenIndex, final AnalyzedTokenReadings[] tokens,
       final int nextTokenPos, final List<Match> suggestionMatches)
           throws IOException {
-    String[] finalMatch = null;
-    if (suggestionMatches.get(start) != null) {
-      final int len = phraseLen(index);
-      final Language language = rule.language;
-      if (len == 1) {
-        final int skippedTokens = nextTokenPos - tokenIndex;
-        final MatchState matchState = suggestionMatches.get(start).createState(language.getSynthesizer(), tokens, tokenIndex - 1, skippedTokens);
-        finalMatch = matchState.toFinalString(language);
-        if (suggestionMatches.get(start).checksSpelling()
-            && finalMatch.length == 1
-            && "".equals(finalMatch[0])) {
-          finalMatch = new String[1];
-          finalMatch[0] = MISTAKE;
-        }
-      } else {
-        final List<String[]> matchList = new ArrayList<>();
-        for (int i = 0; i < len; i++) {
-          final int skippedTokens = nextTokenPos - (tokenIndex + i);
-          final MatchState matchState = suggestionMatches.get(start).createState(language.getSynthesizer(), tokens, tokenIndex - 1 + i, skippedTokens);
-          matchList.add(matchState.toFinalString(language));
-        }
-        return combineLists(matchList.toArray(new String[matchList.size()][]),
-            new String[matchList.size()], 0, language);
+    String[] finalMatch;
+    final int len = phraseLen(index);
+    final Language language = rule.language;
+    if (len == 1) {
+      final int skippedTokens = nextTokenPos - tokenIndex;
+      final MatchState matchState = suggestionMatches.get(start).createState(language.getSynthesizer(), tokens, tokenIndex - 1, skippedTokens);
+      finalMatch = matchState.toFinalString(language);
+      if (suggestionMatches.get(start).checksSpelling()
+          && finalMatch.length == 1
+          && "".equals(finalMatch[0])) {
+        finalMatch = new String[1];
+        finalMatch[0] = MISTAKE;
       }
+    } else {
+      final List<String[]> matchList = new ArrayList<>();
+      for (int i = 0; i < len; i++) {
+        final int skippedTokens = nextTokenPos - (tokenIndex + i);
+        final MatchState matchState = suggestionMatches.get(start).createState(language.getSynthesizer(), tokens, tokenIndex - 1 + i, skippedTokens);
+        matchList.add(matchState.toFinalString(language));
+      }
+      return combineLists(matchList.toArray(new String[matchList.size()][]),
+          new String[matchList.size()], 0, language);
     }
     return finalMatch;
   }
