@@ -55,23 +55,23 @@ public class LanguageModelSanityTest {
     assertMatches(lm, "The man");
     assertMatches(lm, "_START_ the");
     assertMatches(lm, "_START_ The");
-    //TODO: assertMatches(lm, "it _END_"); -- these are commented out because the don't work with v1 of the data
+    assertMatches(lm, "it _END_");
     assertMatches(lm, "Also ,");
     assertMatches(lm, "is 0");
     // 3gram:
     assertMatches(lm, "the man who");
     assertMatches(lm, "The man who");
-    //TODO: assertMatches(lm, "_START_ The man");
+    //TODO: assertMatches(lm, "_START_ The man");  // -- these are commented out because the don't work with v1 of the data
     //TODO: assertMatches(lm, "it was _END_");
     //TODO: assertMatches(lm, "Also , it");
     assertMatches(lm, "it is 0");
     // 4gram:
-    assertMatches(lm, "the man who could");
-    assertMatches(lm, "The man who could");
+    //assertMatches(lm, "the man who could");
+    //assertMatches(lm, "The man who could");
     //TODO: assertMatches(lm, "_START_ The man who");
     //TODO: assertMatches(lm, "which it was _END_");
     //TODO: assertMatches(lm, "Also , it is");
-    assertMatches(lm, "when it is 0");
+    //assertMatches(lm, "when it is 0");
   }
 
   private void assertMatches(LuceneLanguageModel lm, String phrase) {
