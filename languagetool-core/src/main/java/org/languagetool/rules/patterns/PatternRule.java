@@ -60,9 +60,6 @@ public class PatternRule extends AbstractPatternRule {
   private String filterArgs;
   private String message;
 
-  private Set<String> tokenSet;
-  private Set<String> lemmaSet;
-
   // Marks whether the rule is a member of a disjunctive set (in case of OR operation on phraserefs).
   private boolean isMemberOfDisjunctiveSet;
 
@@ -112,9 +109,8 @@ public class PatternRule extends AbstractPatternRule {
       }
     }
     useList = tempUseList;
-    //don't instantiate a hash for every sentence, simply store it:
-    simpleRuleTokens = getSimpleTokens();
-    inflectedRuleTokens = getInflectedTokens();
+    simpleRuleTokens = getSet(false);
+    inflectedRuleTokens = getSet(true);
   }
   
   public PatternRule(final String id, final Language language,
@@ -216,22 +212,7 @@ public class PatternRule extends AbstractPatternRule {
             || (!inflectedRuleTokens.isEmpty() && !sentence.getLemmaSet().containsAll(inflectedRuleTokens));
   }
 
-  // tokens that just refer to a word - no regex, no inflection etc.
-  private synchronized Set<String> getSimpleTokens() {
-    if (tokenSet == null) {
-      tokenSet = getSet(false);
-    }
-    return tokenSet;
-  }
-
-  // tokens that just refer to a lemma - no regex etc.
-  private synchronized Set<String> getInflectedTokens() {
-    if (lemmaSet == null) {
-      lemmaSet = getSet(true);
-    }
-    return lemmaSet;
-  }
-
+  // tokens that just refer to a word - no regex and optionally no inflection etc.
   private Set<String> getSet(boolean isInflected) {
     Set<String> set = new HashSet<>();
     for (PatternToken patternToken : patternTokens) {
@@ -244,7 +225,7 @@ public class PatternRule extends AbstractPatternRule {
         }
       }
     }
-    return set;
+    return Collections.unmodifiableSet(set);
   }
 
   List<Integer> getElementNo() {
