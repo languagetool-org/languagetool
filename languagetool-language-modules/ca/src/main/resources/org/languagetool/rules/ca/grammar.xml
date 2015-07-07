@@ -576,6 +576,12 @@ $Id$
                     <token postag="DN.*" postag_regexp="yes"/>
                     <token>part</token>
                 </antipattern>
+                <antipattern>
+                    <marker>
+                        <token postag="DN..P.*" postag_regexp="yes"><exception regexp="yes">\d|dos|tres|quatre|cinc|sis|set|vuit|nou|huit|deu</exception></token>
+                        <token>aniversari</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token postag="DN..P.*" postag_regexp="yes"><exception postag="A...S.*|.*LOC_ADV.*|AO.*" postag_regexp="yes" /><exception>1</exception></token>
                     <marker>
@@ -590,6 +596,8 @@ $Id$
                 <example correction="anys">en trenta-un <marker>any</marker>.</example>
                 <example correction="homes|hòmens">Dos <marker>home</marker>.</example>
                 <example correction="parts">2/3 <marker>part</marker>.</example>
+                <example correction="aniversaris">en dos <marker>aniversari</marker>.</example>
+                <example>en el cinquanta aniversari</example>
                 <example>Trenta-dos homes.</example>
                 <example>El 2 d'agost de 1644 Lleida</example>
                 <example>la 35 Divisió Internacional</example>
