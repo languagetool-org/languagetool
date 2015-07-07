@@ -53,10 +53,11 @@ public class PatternRule extends AbstractPatternRule {
   // This property is used for short-circuiting evaluation of the elementNo list order:
   private final boolean useList;
 
+  private final String suggestionsOutMsg; // extra suggestions outside message
+
   private RuleFilter filter;
   private String filterArgs;
   private String message;
-  private String suggestionsOutMsg; // extra suggestions outside message
 
   private Set<String> tokenSet;
   private Set<String> lemmaSet;
@@ -72,14 +73,14 @@ public class PatternRule extends AbstractPatternRule {
    * @param message Message to be displayed to the user
    * @param shortMessage Message to be displayed to the user in the context menu in OpenOffice.org/LibreOffice
    */
-  public PatternRule(final String id, final Language language,
-      final List<PatternToken> patternTokens, final String description,
-      final String message, final String shortMessage) {
+  public PatternRule(String id, Language language,
+      List<PatternToken> patternTokens, String description,
+      String message, String shortMessage, String suggestionsOutMsg) {
     super(id, description, language, patternTokens, false);
     this.message = message;
     this.shortMessage = shortMessage;
     this.elementNo = new ArrayList<>();
-    this.suggestionsOutMsg = "";
+    this.suggestionsOutMsg = suggestionsOutMsg;
     String prevName = "";
     String curName;
     int cnt = 0;
@@ -117,9 +118,8 @@ public class PatternRule extends AbstractPatternRule {
   
   public PatternRule(final String id, final Language language,
       final List<PatternToken> patternTokens, final String description,
-      final String message, final String shortMessage, final String suggestionsOutMsg) {
-    this(id, language, patternTokens, description, message, shortMessage);
-    this.suggestionsOutMsg = suggestionsOutMsg;
+      final String message, final String shortMessage) {
+    this(id, language, patternTokens, description, message, shortMessage, "");
   }
 
   public PatternRule(final String id, final Language language,
