@@ -55,6 +55,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.SwingUtilities;
@@ -291,7 +292,12 @@ class LanguageToolSupport {
       languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue());
       loadConfig();
       if (config.getNgramDirectory() != null) {
-        languageTool.activateLanguageModelRules(config.getNgramDirectory());
+    	  try { 
+              languageTool.activateLanguageModelRules(config.getNgramDirectory());
+            }
+            catch (Exception e) {
+              JOptionPane.showMessageDialog(null, "Error while loading ngram database.\n" + e.getMessage());
+            } 
       }
     } catch (Exception e) {
       throw new RuntimeException(e);
