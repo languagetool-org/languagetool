@@ -292,12 +292,12 @@ class LanguageToolSupport {
       languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue());
       loadConfig();
       if (config.getNgramDirectory() != null) {
-    	  try { 
-              languageTool.activateLanguageModelRules(config.getNgramDirectory());
-            }
-            catch (Exception e) {
-              JOptionPane.showMessageDialog(null, "Error while loading ngram database.\n" + e.getMessage());
-            } 
+      	try { 
+          languageTool.activateLanguageModelRules(config.getNgramDirectory());
+        }
+        catch (Exception e) {
+          JOptionPane.showMessageDialog(null, "Error while loading ngram database.\n" + e.getMessage());
+        } 
       }
     } catch (Exception e) {
       throw new RuntimeException(e);
