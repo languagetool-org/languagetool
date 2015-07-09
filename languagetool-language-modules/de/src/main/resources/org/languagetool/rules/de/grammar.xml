@@ -155,6 +155,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="gewachsen">Meine neue Freundin ist mir richtig ans Herz <marker>gewaschen</marker>.</example>
         </rule>
         <rule id="GENANT" name="genant (genannt)">
+        <!-- Jan: TODO: Kontext prüfen. -->
             <pattern>
                 <token regexp="yes">genant(e|er|es|en|em)?</token>
             </pattern>
@@ -3869,18 +3870,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion>klanglos</suggestion>? 'sang- und klanglos' ist eine feste Wendung.</message>
                 <short>Meinten Sie 'klanglos'?</short>
                 <example correction="klanglos">Sowas geht doch immer sang- und <marker>klaglos</marker> unter.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>sang</token>
-                    </marker>
-                    <token>und</token>
-                    <token>klanglos</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>sang-</suggestion>? 'sang- und klanglos' ist eine feste Wendung.</message>
-                <short>Meinten Sie 'sang-'?</short>
-                <example correction="sang-">Sowas geht doch immer <marker>sang</marker> und klanglos unter.</example>
             </rule>
         </rulegroup>
         <rule id="SPURTEN_SPUTEN" name="Mögliche Wortverwechslung: spurten/sputen">
@@ -16664,6 +16653,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="AUF_DER_STRECKE" name="Groß-/Kleinschreibung: 'auf der strecke (Strecke) bleiben'">
             <rule>
                 <pattern case_sensitive="yes">
+                    <token case_sensitive="no">auf</token>
+                    <token regexp="yes">freier|offener|halber</token>
+                    <marker>
+                        <token>strecke</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Strecke</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Strecke">Bei Halt auf freier <marker>strecke</marker> bitte Ruhe bewahren und die Anweisungen des Personals abwarten.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]uf</token>
                     <token>der</token>
                     <marker>
@@ -16674,7 +16675,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion>Strecke</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Strecke">Wenn Schüler auf der <marker>strecke</marker> bleiben.</example>
-            </rule>
+            </rule>            
             <rule>
                 <pattern case_sensitive="yes">
                     <token inflected="yes" skip="2">bleiben</token>
@@ -25340,7 +25341,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="20-prozentige">Eine <marker>20prozentige</marker> Lösung.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="IN_UND_AUSWENDIG" name="in (in-) und auswendig">
+        <rulegroup id="IN_UND_AUSWENDIG" name="Zeichensetzung: 'in (in-) und auswendig' usw.">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ober</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">untergärig(e[mnrs]?)?</token>
+                </pattern>
+                <message>Die Wendung '<suggestion>ober-</suggestion> und \3' wird in der Regel mit Bindestrich geschrieben.</message>
+                <short>Meinten Sie '\1-'?</short>
+                <example correction="Ober-"><marker>Ober</marker> und untergärige Biersorten unterscheiden sich durch das Brauverfahren.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>Ober</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">Unter(hitze|begriff(e[ns]?)?|teil(e[ns]?)?|haus(es)?|kiefer[ns])</token>
+                </pattern>
+                <message>Die Wendung '<suggestion>Ober-</suggestion> und \3' wird mit Bindestrich geschrieben.</message>
+                <short>Meinten Sie '\1-'?</short>
+                <example correction="Ober-">Heißluft: 200 °C, <marker>Ober</marker> und Unterhitze: 180 °C.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>An</token>
+                    </marker>
+                    <token>und</token>
+                    <token>Verkauf</token>
+                </pattern>
+                <message>Die Wendung '<suggestion>An-</suggestion> und Verkauf' wird mit Bindestrich geschrieben, wenn 'Ankauf und Verkauf' gemeint ist.</message>
+                <short>Meinten Sie 'An-'?</short>
+                <example correction="An-">Auf dem Schild stand "<marker>An</marker> und Verkauf".</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>sang</token>
+                    </marker>
+                    <token>und</token>
+                    <token>klanglos</token>
+                </pattern>
+                <message>Die feste Wendung '<suggestion>sang-</suggestion> und klanglos' wird mit Bindestrich geschrieben.</message>
+                <short>Meinten Sie 'sang-'?</short>
+                <example correction="sang-">Sowas geht doch immer <marker>sang</marker> und klanglos unter.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>in</token>
