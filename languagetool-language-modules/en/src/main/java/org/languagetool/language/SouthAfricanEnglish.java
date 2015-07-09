@@ -43,7 +43,6 @@ public class SouthAfricanEnglish extends English {
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages));
-    // South African English speller...
     rules.add(new MorfologikSouthAfricanSpellerRule(messages, this));
     return rules;
   }

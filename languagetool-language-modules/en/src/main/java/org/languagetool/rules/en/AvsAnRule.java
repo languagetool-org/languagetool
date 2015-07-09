@@ -84,8 +84,8 @@ public class AvsAnRule extends EnglishRule {
       boolean equalsAn = "an".equalsIgnoreCase(prevTokenStr);
 
       if (!isSentenceStart) {
-          equalsA = "a".equals(prevTokenStr);
-          equalsAn = "an".equals(prevTokenStr);
+        equalsA = "a".equals(prevTokenStr);
+        equalsAn = "an".equals(prevTokenStr);
       }
 
       if (equalsA || equalsAn) {

@@ -43,7 +43,6 @@ public class AmericanEnglish extends English {
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages));
-    // American English speller...
     rules.add(new MorfologikAmericanSpellerRule(messages, this));
     return rules;
   }

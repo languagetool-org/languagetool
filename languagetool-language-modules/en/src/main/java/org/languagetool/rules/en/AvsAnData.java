@@ -24,7 +24,7 @@ import java.io.InputStream;
 import java.util.*;
 
 /**
- * Data for {@link org.languagetool.rules.en.AvsAnRule}.
+ * Data for {@link AvsAnRule}.
  * Loads exceptions (e.g. "hour" as in "an hour") from external files.
  * 
  * @author Daniel Naber

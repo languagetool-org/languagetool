@@ -44,7 +44,6 @@ public class NewZealandEnglish extends English {
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages));
-    // New Zealand English speller...
     rules.add(new MorfologikNewZealandSpellerRule(messages, this));
     rules.add(new NewZealandReplaceRule(messages));
     return rules;

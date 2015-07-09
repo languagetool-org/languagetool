@@ -43,7 +43,6 @@ public class CanadianEnglish extends English {
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages));
-    // Canadian English speller...
     rules.add(new MorfologikCanadianSpellerRule(messages, this));
     return rules;
   }

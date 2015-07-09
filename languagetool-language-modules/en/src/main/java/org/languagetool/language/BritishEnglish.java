@@ -44,7 +44,6 @@ public class BritishEnglish extends English {
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages));
-    // specific to British English:
     rules.add(new BritishReplaceRule(messages));
     rules.add(new MorfologikBritishSpellerRule(messages, this));
     return rules;
