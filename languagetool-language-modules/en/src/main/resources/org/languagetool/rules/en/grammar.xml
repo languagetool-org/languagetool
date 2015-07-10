@@ -6532,6 +6532,17 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+        <rule id="PREFER_TO_VBG" name="prefer to [gerund] -> [base form]">
+            <pattern>
+                <token>prefer</token>
+                <token>to</token>
+                <marker>
+                    <token postag='VBG'></token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="3" postag="VB"/></suggestion>?</message>
+            <example correction='change'>Some other people prefer to <marker>changing</marker> job.</example>
+        </rule>
         <rule id="VE_HAVING" name="'ve having -> 've been having">
             <pattern>
                 <token regexp='yes'>could|would|should|you|i|we|they</token>
