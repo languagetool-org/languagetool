@@ -5893,6 +5893,23 @@ $Id$
             <example>El sí va acompanyat de dubtes.</example>
             <example>I què si nosaltres volem.</example>
         </rule>
+        <rule id="DE_GENEROSAMENT" name="preposició + adv. -ment">
+            <pattern>
+                <marker>
+                    <token postag="SPS00"><exception postag="RG"/></token>
+                    <token postag="RG" regexp="yes">.*ment<exception>aproximadament</exception><exception postag="N.*" postag_regexp="yes"/></token>
+                </marker>
+                <token><exception postag="A.*|V.P.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Combinació probablement incorrecta.</message>
+            <suggestion>\2</suggestion>
+            <example correction="generosament">Cal tractar-lo <marker>de generosament</marker>.</example>
+            <example>d'aproximadament 5,65 m.</example>
+            <example>Les va qualificar d'absolutament desesperades.</example>
+            <example>Centre d'internament d'estrangers</example>
+            <example>No n'hi havia de relativament grans.</example>
+            <example>Cal tractar-lo menys generosament.</example>
+        </rule>
     </category>
     <category name="Z) Conjuncions" type="grammar">
         <rulegroup id="Y_CONJUNCIO" name="conjunció *y/i">
@@ -22005,13 +22022,14 @@ $Id$
             <pattern>
                 <marker>
                     <token inflected="yes" regexp="yes">tirar|trobar</token>
-                    <token>en</token>
+                    <token regexp="yes">en|a</token>
                     <token>falta</token>
                 </marker>
             </pattern>
             <message>Expressió incorrecta.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">trobar</match> a faltar</suggestion>
             <example correction="Trobàrem a faltar"><marker>Tiràrem en falta</marker></example>
+            <example correction="trobar a faltar">Et vaig <marker>trobar a falta</marker></example>
             <example>va trobar a faltar</example>
         </rule>
         <rule id="MA_DE_SANT" name="mà de sant">
