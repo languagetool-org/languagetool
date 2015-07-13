@@ -14469,31 +14469,32 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">pol[íi]tico</token>
+                    <token regexp="yes">pol[íi]tico|jur[íi]dico</token>
                     <token min="0">-</token>
                     <token postag="AQ.*" postag_regexp="yes"/>
                     <!-- <token regexp="yes" inflected="yes">militar|administratiu|econòmic|social|religiós|territorial|jurídic|ideològic|financer|cultural</token> -->
                 </pattern>
                 <message>Normalment s'escriu junt sense guionet.</message>
-                <suggestion>politico<match no="3"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(pol|jur)[íi](.*o)" regexp_replace="$1i$2"/><match no="3"/></suggestion>
                 <url>http://www.iecat.net/institucio/seccions/Filologica/llenguacatalana/documentsnormatius/docsf5.htm</url>
                 <short>Sense guionet</short>
                 <example correction="politicomilitar">ETA <marker>político-militar</marker>.</example>
-                <example correction="politicoadministrativa">L'organització <marker>político-administrativa</marker>.</example>
+                <example correction="juridicoadministrativa">L'organització <marker>jurídico-administrativa</marker>.</example>
                 <example>ETA politicomilitar.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">s[òo]cio</token>
+                    <token regexp="yes">s[òo]cio|hist[oò]rico|econ[oò]mico|ideol[òo]gico|l[òo]gico|filos[òo]fico</token>
                     <token min="0">-</token>
                     <token postag="AQ.*" postag_regexp="yes"/>
                     <!-- <token regexp="yes" inflected="yes">filosòfic|psicològic|professional|laboral|polític|econòmic|religiós|territorial|jurídic|ideològic|financer|cultural|militar|històric</token> -->
                 </pattern>
                 <message>Normalment s'escriu junt sense guionet.</message>
-                <suggestion>socio<match no="3"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(s|hist|econ|ideol|l|filos)[òo](.*o)" regexp_replace="$1o$2"/><match no="3"/></suggestion>
                 <url>http://www.iecat.net/institucio/seccions/Filologica/llenguacatalana/documentsnormatius/docsf5.htm</url>
                 <short>Sense guionet</short>
                 <example correction="sociopolític">El clima <marker>sòcio-polític</marker>.</example>
+                <example correction="historicocultural">El clima <marker>històrico-cultural</marker>.</example>
                 <example correction="socioeconòmica">L'organització <marker>sòcio econòmica</marker>.</example>
                 <example>La situació socioeconòmica.</example>
             </rule>
@@ -26273,7 +26274,7 @@ $Id$
         </rulegroup>
         <rule id="AL_POC_TEMPS" name="al poc temps">
             <pattern>
-                <token><exception inflected="yes" regexp="yes">deure|atribuir</exception></token>
+                <token><exception inflected="yes" regexp="yes">deure|atribuir|per</exception></token>
                 <marker>
                     <token>a</token>
                     <token>l</token>
@@ -26289,10 +26290,11 @@ $Id$
             <example>al cap de poc</example>
             <example>ho va atribuir al poc temps amb què ho prepararen</example>
             <example>Fou degut al poc temps de preparació</example>
+            <example>Per al poc temps que els quedava.</example>
         </rule>
         <rule id="AL_POC" name="al poc/al cap de poc">
             <pattern>
-                <token><exception inflected="yes" regexp="yes">deure|atribuir</exception></token>
+                <token><exception inflected="yes" regexp="yes">deure|atribuir|per</exception></token>
                 <marker>
                     <token>a</token>
                     <token>l</token>
