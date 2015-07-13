@@ -5894,22 +5894,44 @@ $Id$
             <example>I què si nosaltres volem.</example>
         </rule>
         <rule id="DE_GENEROSAMENT" name="preposició + adv. -ment">
+            <!--<antipattern>
+                <marker>
+                    <token>per</token>
+                    <token min="0">a</token>
+                    <token regexp="yes">posteriorment</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>-->
+            <antipattern>
+                <marker>
+                    <token regexp="yes">igual|així</token>
+                    <token inflected="yes">de</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <marker>
-                    <token postag="SPS00"><exception postag="RG"/></token>
-                    <token postag="RG" regexp="yes">.*ment<exception>aproximadament</exception><exception postag="N.*" postag_regexp="yes"/></token>
+                    <token postag="SPS00" regexp="yes" inflected="yes">de|en|malgrat<exception postag="RG|_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="RG" regexp="yes">.*ment<exception regexp="yes">aproximadament|simplement</exception><exception postag="N.*" postag_regexp="yes"/></token>
                 </marker>
-                <token><exception postag="A.*|V.P.*" postag_regexp="yes"/><exception regexp="yes" inflected="yes">molt|poc</exception></token>
+                <token><exception postag="A.*|V.P.*|PX.*" postag_regexp="yes"/><exception regexp="yes" inflected="yes">molt|poc|tot</exception></token>
             </pattern>
             <message>Combinació probablement incorrecta.</message>
             <suggestion>\2</suggestion>
             <example correction="generosament">Cal tractar-lo <marker>de generosament</marker>.</example>
+            <example correction="condicionalment">magatzems <marker>de condicionalment</marker> de fruita</example>
             <example>d'aproximadament 5,65 m.</example>
             <example>Les va qualificar d'absolutament desesperades.</example>
             <example>Centre d'internament d'estrangers</example>
             <example>No n'hi havia de relativament grans.</example>
             <example>Cal tractar-lo menys generosament.</example>
             <example>Amb relativament poques coses</example>
+            <example>en pràcticament tots els països del món</example>
+            <example>per posteriorment esponjar-lo</example>
+            <example>movent el cap tristament</example>
+            <example>com a legítimament seu</example>
+            <example>igual de malament</example>
+            <example>així d'amorosament</example>
+            <example>fins a pràcticament el final de la seva vida</example>
         </rule>
     </category>
     <category name="Z) Conjuncions" type="grammar">
