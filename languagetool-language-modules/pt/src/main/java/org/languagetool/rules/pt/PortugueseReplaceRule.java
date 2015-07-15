@@ -50,8 +50,8 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
   public PortugueseReplaceRule(final ResourceBundle messages) throws IOException {
     super(messages);
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
-//    addExamplePair(Example.wrong("Vou a <marker>New York</marker> para a semana."),
-//                   Example.fixed("Vou a <marker>Nova Iorque</marker> para a semana."));
+    addExamplePair(Example.wrong("<marker>device</marker>"),
+                   Example.fixed("<marker>dispositivo</marker>"));
   }
 
   @Override
