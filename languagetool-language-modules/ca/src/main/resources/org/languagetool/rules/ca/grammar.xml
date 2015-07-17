@@ -10694,7 +10694,7 @@ $Id$
         </rule>
         <rule id="CONTRA_DE" name="contra de/en contra de">
             <pattern>
-                <token><exception>en</exception></token>
+                <token><exception regexp="yes">en|la</exception></token>
                 <marker>
                     <token>contra</token>
                 </marker>
@@ -14570,7 +14570,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">llarg|curt</token>
+                    <token regexp="yes">llarg|curt|mig</token>
                     <token min="0">-</token>
                     <token regexp="yes">metratges?</token>
                 </pattern>
@@ -21008,6 +21008,18 @@ $Id$
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="AMB_PROU_FEINES_SI" name="amb prou feines si">
+            <pattern>
+                <token>amb</token>
+                <token>prou</token>
+                <token regexp="yes">feines|faenes</token>
+                <token>si</token>
+            </pattern>
+            <message>Probable redundància.</message>
+            <suggestion>amb prou \3</suggestion>
+            <example correction='Amb prou feines'><marker>Amb prou feines si</marker> poden fer-ho.</example>
+            <example>Amb prou feines poden fer-ho.</example>
+        </rule>
         <rulegroup id="JAJAJA" name="jajaja">
             <rule>
                 <pattern>
@@ -24551,7 +24563,7 @@ $Id$
                 </marker>
             </antipattern>
             <pattern>
-                <token><exception regexp="yes">en|a|lo|de</exception><exception inflected="yes" regexp="yes">tenir|fer|dir|anomenar|denominar</exception></token>
+                <token><exception regexp="yes">en|a|lo|de</exception><exception inflected="yes" regexp="yes">tenir|fer|dir|anomenar|denominar|obrir</exception></token>
                 <marker>
                     <token>camí<exception postag="_GN_.*|_possible_nompropi" postag_regexp="yes"/></token>
                     <token regexp="yes">de|d'</token>
@@ -24563,14 +24575,15 @@ $Id$
             <example correction="Cap a|Anant cap a|Pel camí de"><marker>Camí de</marker> París</example>
             <example>L'antic camí de Sant Feliu</example>
             <example>en camí de fer-ho</example>
+            <example>S'ha obert camí de manera autodidàctica.</example>
         </rule>
         <rule id="CIENCIA_FICCIO" name="ciència-ficció">
             <pattern>
                 <token>ciència</token>
                 <token>ficció</token>
             </pattern>
-            <message>Cal escriure <suggestion>ciència-ficció</suggestion>.</message>
-            <short>Expressió incorrecta</short>
+            <message>Falta un guionet.</message>
+            <suggestion>ciència-ficció</suggestion>
             <example correction="ciència-ficció">La <marker>ciència ficció</marker>.</example>
             <example>La ciència-ficció.</example>
         </rule>
@@ -24579,8 +24592,8 @@ $Id$
                 <token>cobrament</token>
                 <token>revertit</token>
             </pattern>
-            <message>Cal dir <suggestion>cobrament a destinació</suggestion>.</message>
-            <short>Expressió incorrecta</short>
+            <message>Expressió incorrecta.</message>
+            <suggestion>cobrament a destinació</suggestion>
             <example correction="cobrament a destinació">una trucada de <marker>cobrament revertit</marker></example>
         </rule>
         <rule id="COM_NO" name="com no">
