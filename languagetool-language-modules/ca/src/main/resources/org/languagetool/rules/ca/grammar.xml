@@ -14568,6 +14568,17 @@ $Id$
                 <example correction="ex-Iugoslàvia">És de l'<marker>ex Iugoslàvia</marker>.</example>
                 <example>És l'ex-xicot.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">llarg|curt</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">metratges?</token>
+                </pattern>
+                <message>S'escriu junt sense guionet.</message>
+                <suggestion><match no="1"></match><match no="3"/></suggestion>
+                <example correction="llargmetratges">Aquells <marker>llarg-metratges</marker></example>
+                <example correction="llargmetratges">Aquells <marker>llarg metratges</marker></example>
+            </rule>
         </rulegroup>
         <rulegroup id="CONTRACCIONS" name="contraccions">
             <rule>
@@ -20997,6 +21008,29 @@ $Id$
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rulegroup id="JAJAJA" name="jajaja">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ja</token>
+                        <token min="1" max="10">ja</token>
+                    </marker>
+                </pattern>
+                <message>Onomatopeia de la rialla.</message>
+                <suggestion>ha ha ha</suggestion>
+                <example correction="ha ha ha"><marker>ja ja ja ja</marker></example>
+                <example>Ja t'ho deia.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ja(ja)+</token>
+                </pattern>
+                <message>Onomatopeia de la rialla.</message>
+                <suggestion>ha ha ha</suggestion>
+                <example correction="ha ha ha"><marker>jajajaja</marker></example>
+                <example>Ja t'ho deia.</example>
+            </rule>
+        </rulegroup>
         <rule id="GOM_A_GOM" name="gom a gom">
             <pattern>
                 <token><exception>de</exception></token>
@@ -36681,6 +36715,12 @@ $Id$
                 <marker>
                     <token regexp="yes">major|gran|bona</token>
                     <token>part</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>número</token>
+                    <token postag="DN.*" postag_regexp="yes"/>
                 </marker>
             </antipattern>
             <rule>
