@@ -8585,6 +8585,36 @@ $Id$
                 <suggestion>vint-i-<match no="5"/></suggestion>
                 <example correction="Vint-i-u"><marker>Vint-i- u</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">tres|quatre|cinc|sis|set|vuit|huit|nou</token>
+                        <token min="0">-</token>
+                        <token>cent</token>
+                    </marker>
+                </pattern>
+                <message>Numeral possiblement mal escrit.</message>
+                <suggestion><match no="1"></match>-cents</suggestion>
+                <suggestion><match no="1"></match>-centes</suggestion>
+                <example correction="Tres-cents|Tres-centes"><marker>Tres cent</marker>.</example>
+                <example correction="Tres-cents|Tres-centes"><marker>Tres-cent</marker>.</example>
+                <example>Tres-cents.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">dues|dos</token>
+                        <token min="0">-</token>
+                        <token>cent</token>
+                    </marker>
+                </pattern>
+                <message>Numeral possiblement mal escrit.</message>
+                <suggestion>dos-cents</suggestion>
+                <suggestion>dues-centes</suggestion>
+                <example correction="dos-cents|dues-centes">De <marker>dos cent</marker>.</example>
+                <example correction="dos-cents|dues-centes">De <marker>dos-cent</marker>.</example>
+                <example>Dos-cents.</example>
+            </rule>
         </rulegroup>
     </category>
     <category name="Z2) Errors de traductor automàtic">
@@ -14239,7 +14269,7 @@ $Id$
             </rule>
             <rule id="PREFIXOS_SENSE_GUIONET_NOMSADJECTIUS" name="prefixos sense guionet: *vice-president">
                 <pattern>
-                    <token regexp="yes">arxi|bes|plus|per|post|pre|pro|pseudo|quasi|semi|sobre|sots|sub|ultra|vice|auto|greco|mini|micro|multi</token>
+                    <token regexp="yes">arxi|bes|plus|per|post|pre|pro|pseudo|quasi|semi|sobre|sots|sub|ultra|vice|auto|greco|mini|micro|multi|anti</token>
                     <token>-</token>
                     <token postag="[NA].*|V.P.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception><exception inflected="yes">iugoslau</exception></token>
                 </pattern>
