@@ -21038,6 +21038,28 @@ $Id$
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rulegroup id="EN_SO_DE" name="*en so de / en to de">
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token>so</token>
+                    <token inflected="yes">de</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>en to \3</suggestion>
+                <example correction='en to de'>Venien <marker>en so de</marker> pau.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>so</token>
+                    <token>de</token>
+                    <token regexp="yes">pau|guerra</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>to de \3</suggestion>
+                <example correction='to de pau'>Venien en un <marker>so de pau</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="AMB_PROU_FEINES_SI" name="amb prou feines si">
             <pattern>
                 <token>amb</token>
