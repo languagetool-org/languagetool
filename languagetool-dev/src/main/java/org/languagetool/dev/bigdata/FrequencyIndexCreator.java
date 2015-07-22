@@ -26,7 +26,6 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.Version;
 import org.languagetool.languagemodel.LanguageModel;
 
 import java.io.*;
@@ -54,6 +53,7 @@ public class FrequencyIndexCreator {
   private static final int MIN_YEAR = 1910;
   private static final String NAME_REGEX1 = "googlebooks-eng-all-[1-5]gram-20120701-(.*?).gz";
   private static final String NAME_REGEX2 = "[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+[_-](.*?).gz";  // Hive result
+  private static final String NAME_REGEX3 = "([_a-z0-9]{1,2}|other|punctuation)";  // result of FrequencyIndexCreator with TEXT_MODE = true
   private static final int BUFFER_SIZE = 16384;
   private static final String LT_COMPLETE_MARKER = "languagetool_index_complete";
 
@@ -89,8 +89,13 @@ public class FrequencyIndexCreator {
       indexDir = new File(indexBaseDir, name.replaceAll(NAME_REGEX2, "$1"));
       hiveMode = true;
       System.out.println("Running in Hive mode (i.e. no aggregation of years)");
+    } else if (name.matches(NAME_REGEX3) && file.isDirectory()) {
+      file = new File(file, file.getName() + "-output.csv.gz");
+      indexDir = new File(indexBaseDir, name.replaceAll(NAME_REGEX1, "$1"));
+      hiveMode = true;
+      System.out.println("Running in Hive/Text mode (i.e. no aggregation of years)");
     } else {
-      System.out.println("Skipping " + name + " - doesn't match regex " + NAME_REGEX1 + " or " + NAME_REGEX2);
+      System.out.println("Skipping " + name + " - doesn't match regex " + NAME_REGEX1 + ", " + NAME_REGEX2 + ", or " + NAME_REGEX3);
       return;
     }
     if (indexDir.exists() && indexDir.isDirectory()) {
@@ -159,6 +164,10 @@ public class FrequencyIndexCreator {
           continue;
         }
         if (hiveMode) {
+          if (parts.length <= 1) {
+            System.err.println("Could not index: " + line);
+            continue;
+          }
           String docCountStr = parts[1];
           writer.addDoc(text, Long.parseLong(docCountStr));
           if (++i % 500_000 == 0) {
@@ -237,14 +246,18 @@ public class FrequencyIndexCreator {
 
     @Override
     void addDoc(String text, long count) throws IOException {
-      Document doc = new Document();
-      doc.add(new Field("ngram", text, StringField.TYPE_NOT_STORED));
-      FieldType fieldType = new FieldType();
-      fieldType.setStored(true);
-      Field countField = new Field("count", String.valueOf(count), fieldType);
-      doc.add(countField);
-      totalTokenCount += count;
-      writer.addDocument(doc);
+      if (text.length() > 1000) {
+        System.err.println("Ignoring doc, ngram is > 1000 chars: " + text.substring(0, 50) + "...");
+      } else {
+        Document doc = new Document();
+        doc.add(new Field("ngram", text, StringField.TYPE_NOT_STORED));
+        FieldType fieldType = new FieldType();
+        fieldType.setStored(true);
+        Field countField = new Field("count", String.valueOf(count), fieldType);
+        doc.add(countField);
+        totalTokenCount += count;
+        writer.addDocument(doc);
+      }
     }
 
     @Override
