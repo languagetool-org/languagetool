@@ -4202,15 +4202,25 @@ $Id$
             </rule>
         </rulegroup>
         <rule id="PREP_ON_END" name="Предлог в конце предложения">
-            <pattern>
-                <token postag='PREP'></token>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">для|на|к|от|по|в</token>
                 <token postag='SENT_END'>.</token>
             </pattern>
-            <message>Предлог в конце предложения</message>
+            <message>Предлог в конце предложения.</message>
+            <short>Предлог в конце предложения.</short>
             <example correction=''>Не грубости ради, но порядка <marker>для.</marker></example>
             <example>Не грубости ради, но для порядка.</example>
         </rule>
-        
+        <rule id="PNN_ON_END" name="Местоимение в конце предложения">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">он|она|оно</token>
+                <token postag='SENT_END'>.</token>
+            </pattern>
+            <message>Местоимение в конце предложения.</message>
+            <short>Местоимение в конце предложения.</short>
+            <example correction=''>Не для этого <marker>оно.</marker></example>
+            <example>Оно не для этого.</example>
+        </rule>
         
        <rulegroup default="on" id="noun_genitive_3" name="Более 4 существительных в родительном падеже подряд.">
             <rule>
