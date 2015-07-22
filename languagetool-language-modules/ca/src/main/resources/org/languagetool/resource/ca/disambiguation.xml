@@ -618,6 +618,36 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^N].*"/>
     </rule>
+    <rulegroup id="ESTAR_IMPERATIU" name="formes del verb estar en imperatiu">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>està</token>
+                </marker>
+                <token spacebefore="no"><exception>-te</exception></token>
+            </pattern>
+            <disambig action="remove" postag="V.M.*"></disambig>
+            <example type="untouched">Està-te quiet.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">esteu|estau</token>
+                </marker>
+                <token><exception spacebefore="no">-vos</exception></token>
+            </pattern>
+            <disambig action="remove" postag="V.M.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>estem</token>
+                </marker>
+                <token><exception spacebefore="no">-nos</exception></token>
+            </pattern>
+            <disambig action="remove" postag="V.M.*"></disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="LOCUCIONS" name="locucions adverbials, preposicionals, conjuntives">
         <!-- locucions concretes-->
         <rule id="duna_banda" name="d'una banda (locució conj.)">
