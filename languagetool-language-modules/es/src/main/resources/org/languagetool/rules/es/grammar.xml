@@ -1865,5 +1865,34 @@ $Id$
 
       <example>Esca canción está relacionada con el amor.</example>
     </rule>
+    
+    <rulegroup id="CONTRACORRIENTE" name=" *contracorriente, *a contra corriente">
+      <url>http://www.fundeu.es/recomendacion/a-contracorrienteo-contra-corriente/</url>
+      <rule>
+        <pattern>
+          <token><exception regexp="yes">a|la</exception></token>
+          <marker>
+            <token>contracorriente</token>
+          </marker>
+        </pattern>
+        <message>Expresión incorrecta.</message>
+        <suggestion>contra corriente</suggestion>
+        <suggestion>a contracorriente</suggestion>
+        <example correction="contra corriente|a contracorriente">Ir <marker>contracorriente</marker></example>
+        <example>a contracorriente</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>a</token>
+          <token>contra</token>
+          <token>corriente</token>
+        </pattern>
+        <message>Expresión incorrecta.</message>
+        <suggestion>contra corriente</suggestion>
+        <suggestion>a contracorriente</suggestion>
+        <example correction="contra corriente|a contracorriente">Ir <marker>a contra corriente</marker></example>
+      </rule>
+    </rulegroup>
+    
   </category>
 </rules>
