@@ -2197,12 +2197,13 @@ $Id$
                             <token regexp="yes">jeśli|jeżeli|gdyby</token>
                         </antipattern>
                         <pattern>
-                            <token postag='&lt;/PREP:.*&gt;' postag_regexp='yes'><exception postag='adv'/></token>
+                            <token postag='&lt;/PREP:.*&gt;' postag_regexp='yes'><exception postag='adv'/><exception regexp="yes">razie|przypadku|wypadku</exception></token>
                             <token>,</token>
                         </pattern>
                         <message>Prawdopodobnie zbędny przecinek po wyrażeniu przyimkowym: <suggestion><match no="1"/></suggestion>.</message>
                         <short>Błąd interpunkcyjny</short>
                         <example correction="pomocą">Nie wiem za <marker>pomocą,</marker> czego to zrobili!</example>
+                        <example>W rozmowach lekarz-pacjentka i lekarz-rodzice w przypadku, gdy mamy do czynienia z kobietą, należy być uprzejmym.</example>
                     </rule>
                 </rulegroup>
 				<rulegroup id="PRZECINEK_ANI" name="Zbędny przecinek przed „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
