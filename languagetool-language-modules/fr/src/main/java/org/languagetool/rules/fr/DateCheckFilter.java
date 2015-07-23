@@ -62,8 +62,10 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     if (mon.startsWith("mar")) return 3;
     if (mon.startsWith("avr")) return 4;
     if (mon.startsWith("mai")) return 5;
-    if (mon.startsWith("jui")) return 6;
-    if (mon.startsWith("jui")) return 7;
+    // "juin" and "juillet" are never abbreviated with 3 letters
+    // since it would be ambiguous (both start with "jui").
+    if (mon.startsWith("juin")) return 6;
+    if (mon.startsWith("juil")) return 7;
     if (mon.startsWith("aou") ||
         mon.startsWith("aoû")) return 8;
     if (mon.startsWith("sep")) return 9;

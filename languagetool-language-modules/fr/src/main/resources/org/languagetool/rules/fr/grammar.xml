@@ -25944,7 +25944,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">lundi|lun|mardi|mar|mercredi|mer|jeudi|jeu|vendredi|ven|samedi|sam|dimanche|dim</token>
           <token min="0" max="1">,</token>
           <token regexp="yes">[012]?\d|3[01]|1er</token>
-          <token regexp="yes">janvier|jan|février|fév|mars?|avril|avr|mai|juin?|juillet|jui|ao[uû]t?|septembre|sep|octobre|oct|novembre|nov|décembre|déc</token>
+          <token regexp="yes">janvier|janv?|février|févr?|mars?|avril|avr|mai|juin|juillet|juil|ao[uû]t?|septembre|sept?|octobre|oct|novembre|nov|décembre|déc</token>
           <token regexp="yes">[12]\d\d\d</token>
         </pattern>
         <filter class="org.languagetool.rules.fr.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
@@ -25956,6 +25956,10 @@ though, and has since been slightly modified)-->
         <example>Jeudi 28 août 2014.</example>
         <example correction=""><marker>Lundi 14 septembre 2014</marker>.</example>
         <example>Dimanche 14 septembre 2014.</example>
+        <example correction="">Le <marker>dimanche 18 juillet 2015</marker>.</example>
+        <example correction="">Le <marker>dimanche 18 juil 2015</marker>.</example>
+        <example>Le dimanche 19 juil 2015.</example>
+        <example>Le dimanche 19 juillet 2015.</example>
       </rule>
       <rule>
         <pattern>
