@@ -106,7 +106,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
       + "<token regexp='yes'>idea|proposal</token>"; // match "idea"
 
     final PatternRule patternRule = makeRule(ruleXml);
-    final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language);
+    final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language, searcher);
     final Query query = patternRuleQueryBuilder.buildRelaxedQuery(patternRule);
     assertEquals("+fieldLowercase:how +fieldLowercase:_pos_prp +fieldLowercase:thin " +
             "+spanNear([fieldLowercase:this, SpanMultiTermQueryWrapper(fieldLowercase:/_pos_(jj|dt)/)], 0, false) " +
@@ -120,7 +120,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
     final List<PatternRule> rules = ruleLoader.getRules(input, "test.xml");
 
-    final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language);
+    final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language, searcher);
     Query query = patternRuleQueryBuilder.buildRelaxedQuery(rules.get(0));
     assertEquals(1, searcher.search(query, null, 1000).totalHits);
 
@@ -135,7 +135,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
   }
 
   public void testUnsupportedPatternRule() throws Exception {
-    final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language);
+    final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language, searcher);
     try {
       patternRuleQueryBuilder.buildRelaxedQuery(makeRule("<token skip='-1'><exception>and</exception></token>", false));
       fail("Exception should be thrown for unsupported PatternRule");
@@ -143,7 +143,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
   }
 
   public void testUnsupportedBackReferencePatternRule() throws Exception {
-    final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language);
+    final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language, searcher);
     try {
       patternRuleQueryBuilder.buildRelaxedQuery(makeRule("<token>\\1</token>", false));
       fail("Exception should be thrown for unsupported PatternRule");
@@ -152,7 +152,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
   public void testSpecialRegexSyntax() throws Exception {
     final PatternRule patternRule = makeRule("<token regexp='yes'>\\p{Punct}</token>", false);
-    final PatternRuleQueryBuilder queryBuilder = new PatternRuleQueryBuilder(language);
+    final PatternRuleQueryBuilder queryBuilder = new PatternRuleQueryBuilder(language, searcher);
     final Query query = queryBuilder.buildRelaxedQuery(patternRule);
     assertEquals("+fieldLowercase:\\p{Punct}", query.toString());
     assertEquals(RegexQuery.class, ((BooleanQuery)query).clauses().get(0).getQuery().getClass());
@@ -161,7 +161,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
   public void testSpecialRegexSyntax2() throws Exception {
     final PatternRule patternRule = makeRule("<token regexp='yes' inflected='yes'>\\p{Lu}\\p{Ll}+</token>", false);
-    final PatternRuleQueryBuilder queryBuilder = new PatternRuleQueryBuilder(language);
+    final PatternRuleQueryBuilder queryBuilder = new PatternRuleQueryBuilder(language, searcher);
     final Query query = queryBuilder.buildRelaxedQuery(patternRule);
     assertEquals("+fieldLowercase:\\p{Lu}\\p{Ll}+", query.toString());
     assertEquals(RegexQuery.class, ((BooleanQuery)query).clauses().get(0).getQuery().getClass());
@@ -271,7 +271,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
   }
 
   private void assertMatches(PatternRule patternRule, int expectedMatches) throws Exception {
-    final PatternRuleQueryBuilder queryBuilder = new PatternRuleQueryBuilder(language);
+    final PatternRuleQueryBuilder queryBuilder = new PatternRuleQueryBuilder(language, searcher);
     final Query query = queryBuilder.buildRelaxedQuery(patternRule);
     //System.out.println("QUERY: " + query);
     final int matches = searcher.search(query, null, 1000).totalHits;

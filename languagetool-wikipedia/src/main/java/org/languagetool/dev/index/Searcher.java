@@ -58,7 +58,7 @@ import org.languagetool.tools.ContextTools;
  */
 public class Searcher {
 
-  private static boolean WIKITEXT_OUTPUT = false;
+  private static final boolean WIKITEXT_OUTPUT = false;
   
   private final Directory directory;
 
@@ -123,7 +123,7 @@ public class Searcher {
     // when not doing so...
     open();
     try {
-      final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language);
+      final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language, indexSearcher);
       final Query query = patternRuleQueryBuilder.buildRelaxedQuery(rule);
       if (query == null) {
         throw new NullPointerException("Cannot search on null query for rule: " + rule.getId());

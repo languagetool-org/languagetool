@@ -6,8 +6,8 @@
   * added a new rule
 
 #### Polish
-  * added some compound prepositions to avoid false alarms (thanks to Sławek
-  Borewicz)
+  * added some compound prepositions to avoid false alarms (thanks to
+    Sławek Borewicz)
 
 #### Portuguese
   * added/improved several rules
@@ -24,6 +24,9 @@
 
 #### API
   * several deprecated methods and classes have been removed
+
+#### Internal
+  * updated to Lucene 5.2.1
 
 
 ## 3.0 (2015-06-29)

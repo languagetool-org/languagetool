@@ -57,9 +57,11 @@ public class PatternRuleQueryBuilder {
   public static final String FIELD_NAME_LOWERCASE = "fieldLowercase";
   
   private final Language language;
+  private final IndexSearcher indexSearcher;
 
-  public PatternRuleQueryBuilder(Language language) {
+  public PatternRuleQueryBuilder(Language language, IndexSearcher indexSearcher) {
     this.language = language;
+    this.indexSearcher = indexSearcher;
   }
 
   /**
@@ -120,7 +122,11 @@ public class PatternRuleQueryBuilder {
       return new SpanMultiTermQueryWrapper<>((MultiTermQuery) query.getQuery());
     } else {
       final Set<Term> terms = new HashSet<>();
-      query.getQuery().extractTerms(terms);
+      try {
+        indexSearcher.createWeight(query.getQuery(), false).extractTerms(terms);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
       if (terms.size() != 1) {
         throw new RuntimeException("Expected term set of size 1: " + terms);
       }

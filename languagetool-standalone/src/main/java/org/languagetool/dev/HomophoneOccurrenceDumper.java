@@ -113,7 +113,7 @@ class HomophoneOccurrenceDumper extends LuceneLanguageModel {
     LuceneSearcher luceneSearcher = getLuceneSearcher(3);
     Fields fields = MultiFields.getFields(luceneSearcher.getReader());
     Terms terms = fields.terms("ngram");
-    return terms.iterator(null);
+    return terms.iterator();
   }
 
   public static void main(String[] args) throws IOException {
