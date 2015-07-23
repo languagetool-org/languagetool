@@ -5,8 +5,8 @@ title="Pretty print" ?>
 title="Easy editing stylesheet" ?>
 <!--
 Portuguese (Portugal - pre-reform + post-reform) - Grammar and Typo Rules for LanguageTool
-Copyright (C) 2012-2015 Marco A.G.Pinto (www.marcoagpinto.com).
-Thanks to Juan Martorell and Daniel Naber who mentored the project.
+Copyright (c) 2012-2015 Marco A.G.Pinto (www.marcoagpinto.com).
+Thanks to Juan Martorell, Daniel Naber and Yakov Reztsov who mentored the project.
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.119 2015-07-21 17:00:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.120 2015-07-23 15:00:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -174,7 +174,35 @@ $Id: grammar.xml,v 1.119 2015-07-21 17:00:00 marcoagpinto Exp $
      <example correction="um">Quero <marker>uma</marker> bonito carro novo.</example>
     </rule> 			
 	
+
 	
+    <!-- DE/DA MATRICULA de/da matrícula -->
+    <rule id="DE_DA_MATRICULA" name="de-da matrícula">
+      <pattern>
+        <token regexp="yes">de|da</token>
+		<marker>
+			<token>matricula</token>
+		</marker>  	
+      </pattern>
+      <message>Substituir «matricula» por <suggestion>matrícula</suggestion>.</message>
+      <example correction="matrícula">Não esquecer da <marker>matricula</marker> do Rui.</example>
+    </rule>
+
+
+
+    <!-- DE/DAS MATRICULAS de/das matrículas -->
+    <rule id="DE_DAS_MATRICULAS" name="de-das matrículas">
+      <pattern>
+        <token regexp="yes">de|das</token>
+		<marker>
+			<token>matriculas</token>
+		</marker>  	
+      </pattern>
+      <message>Substituir «matriculas» por <suggestion>matrículas</suggestion>.</message>
+      <example correction="matrículas">Não esquecer das <marker>matriculas</marker> amanhã.</example>
+    </rule>
+	
+		
 	
     <!-- DET_FEM_MAS words that use "o" instead of "a" -->
     <rule id="DET_FEM_MAS_A_O" name="palavras a-o">
@@ -1075,10 +1103,12 @@ $Id: grammar.xml,v 1.119 2015-07-21 17:00:00 marcoagpinto Exp $
     <rule id="DE_CALCULO" name="de cálculo">
       <pattern>
         <token>de</token>
-        <token>calculo</token>
+		<marker>
+			<token>calculo</token>
+		</marker>  	
       </pattern>
-      <message>Substituir «de calculo» por <suggestion>de cálculo</suggestion>.</message>
-      <example correction="de cálculo">Isto é <marker>de calculo</marker> difícil.</example>
+      <message>Substituir «calculo» por <suggestion>cálculo</suggestion>.</message>
+      <example correction="cálculo">Isto é de <marker>calculo</marker> difícil.</example>
     </rule>
 
 
@@ -1979,6 +2009,22 @@ $Id: grammar.xml,v 1.119 2015-07-21 17:00:00 marcoagpinto Exp $
       <example correction="o mesmo que">Beber não é <marker>o mesmo do que</marker> comer.</example>
     </rule>
 
+	
+
+    <!-- O MEU MUITO OBRIGADA o meu muito obrigado -->
+    <rule id="O_MEU_MUITO_OBRIGADA" name="o meu muito obrigado">
+      <pattern>
+        <token>o</token>
+		<token>meu</token>
+		<token>muito</token>
+		<marker>
+			<token>obrigada</token>
+		</marker>  	
+      </pattern>
+      <message>Substituir «obrigada» por <suggestion>obrigado</suggestion>.</message>
+      <example correction="obrigado">O meu muito <marker>obrigada</marker> por tudo.</example>
+    </rule>
+	
 	
 
     <!-- OVELHA RANHOSA ovelha ronhosa -->
