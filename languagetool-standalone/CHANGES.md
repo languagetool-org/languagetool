@@ -9,6 +9,9 @@
   * added some compound prepositions to avoid false alarms (thanks to Sławek
   Borewicz)
 
+#### Portuguese
+  * added/improved several rules
+
 #### LibreOffice / Apache OpenOffice Integration
   * fix: the ngram directory that turns on the confusion rule (see
     http://wiki.languagetool.org/finding-errors-using-big-data) was
