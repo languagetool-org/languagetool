@@ -53,7 +53,6 @@ class ConfusionRuleEvaluator {
   private static final String TOKEN = "there";
   private static final String TOKEN_HOMOPHONE = "their";
   private static final int FACTOR = 100;
-  
   private static final int MAX_SENTENCES = 1000;
 
   private final Language language;
@@ -77,6 +76,10 @@ class ConfusionRuleEvaluator {
   }
 
   String run(List<String> inputsOrDir, String token, String homophoneToken, long factor, int maxSentences) throws IOException {
+    truePositives = 0;
+    trueNegatives = 0;
+    falsePositives = 0;
+    falseNegatives = 0;
     rule.setConfusionSet(new ConfusionSet(factor*10, homophoneToken, token));
     List<Sentence> allTokenSentences = getRelevantSentences(inputsOrDir, token, maxSentences);
     // Load the sentences with a homophone and later replace it so we get error sentences:
