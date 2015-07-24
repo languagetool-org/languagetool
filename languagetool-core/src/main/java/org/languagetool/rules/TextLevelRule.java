@@ -33,6 +33,8 @@ import java.util.ResourceBundle;
 @Experimental
 public abstract class TextLevelRule extends Rule {
 
+  public abstract RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException;
+
   /**
    * Called by rules that require a translation of their messages.
    */
@@ -43,10 +45,6 @@ public abstract class TextLevelRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     throw new RuntimeException("Not implemented for a text-level rule");
-  }
-
-  public RuleMatch[] match(List<AnalyzedSentence> sentence) throws IOException {
-    return new RuleMatch[0];
   }
 
   @Override
