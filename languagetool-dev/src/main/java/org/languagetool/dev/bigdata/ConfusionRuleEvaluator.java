@@ -64,15 +64,20 @@ class ConfusionRuleEvaluator {
   private int trueNegatives = 0;
   private int falsePositives = 0;
   private int falseNegatives = 0;
+  private boolean verbose = true;
 
-  private ConfusionRuleEvaluator(Language language, LanguageModel languageModel, int grams) {
+  ConfusionRuleEvaluator(Language language, LanguageModel languageModel, int grams) {
     this.language = language;
     this.rule = new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel, language, grams);
-    rule.setConfusionSet(new ConfusionSet(FACTOR, TOKEN_HOMOPHONE, TOKEN));
     this.grams = grams;
   }
+  
+  void setVerboseMode(boolean verbose) {
+    this.verbose = verbose;
+  }
 
-  private void run(List<String> inputsOrDir, String token, String homophoneToken, int maxSentences) throws IOException {
+  String run(List<String> inputsOrDir, String token, String homophoneToken, long factor, int maxSentences) throws IOException {
+    rule.setConfusionSet(new ConfusionSet(factor*10, homophoneToken, token));
     List<Sentence> allTokenSentences = getRelevantSentences(inputsOrDir, token, maxSentences);
     // Load the sentences with a homophone and later replace it so we get error sentences:
     List<Sentence> allHomophoneSentences = getRelevantSentences(inputsOrDir, homophoneToken, maxSentences);
@@ -80,13 +85,13 @@ class ConfusionRuleEvaluator {
     evaluate(allTokenSentences, false, homophoneToken, token);
     evaluate(allHomophoneSentences, false, token, homophoneToken);
     evaluate(allHomophoneSentences, true, homophoneToken, token);
-    printEvalResult(allTokenSentences, allHomophoneSentences, inputsOrDir);
+    return printEvalResult(allTokenSentences, allHomophoneSentences, inputsOrDir);
   }
 
   @SuppressWarnings("ConstantConditions")
   private void evaluate(List<Sentence> sentences, boolean isCorrect, String token, String homophoneToken) throws IOException {
-    System.out.println("======================");
-    System.out.printf("Starting evaluation on " + sentences.size() + " sentences with %s/%s:\n", token, homophoneToken);
+    println("======================");
+    printf("Starting evaluation on " + sentences.size() + " sentences with %s/%s:\n", token, homophoneToken);
     JLanguageTool lt = new JLanguageTool(new English());
     for (Sentence sentence : sentences) {
       String textToken = isCorrect ? token : homophoneToken;
@@ -101,7 +106,7 @@ class ConfusionRuleEvaluator {
         trueNegatives++;
       } else if (!consideredCorrect && isCorrect) {
         falsePositives++;
-        System.out.println("false positive: " + displayStr);
+        println("false positive: " + displayStr);
       } else if (consideredCorrect && !isCorrect) {
         falseNegatives++;
       } else {
@@ -111,21 +116,25 @@ class ConfusionRuleEvaluator {
     }
   }
 
-  private void printEvalResult(List<Sentence> allTokenSentences, List<Sentence> allHomophoneSentences, List<String> inputsOrDir) {
-    int sentences = allTokenSentences.size() + allHomophoneSentences.size();
-    System.out.println("======================");
-    System.out.println("Evaluation results for " + TOKEN + "/" + TOKEN_HOMOPHONE
-            + " with " + sentences + " sentences as of " + new Date() + ":");
+  private String printEvalResult(List<Sentence> allTokenSentences, List<Sentence> allHomophoneSentences, List<String> inputsOrDir) {
     float precision = (float) truePositives / (truePositives + falsePositives);
     float recall = (float) truePositives / (truePositives + falseNegatives);
-    double fMeasure = FMeasure.getWeightedFMeasure(precision, recall);
-    System.out.printf(ENGLISH, "  Precision: %.3f (%d false positives)\n", precision, falsePositives);
-    System.out.printf(ENGLISH, "  Recall:    %.3f (%d false negatives)\n", recall, falseNegatives);
-    System.out.printf(ENGLISH, "  F-measure: %.3f (beta=0.5)\n", fMeasure);
-    System.out.printf(ENGLISH, "  Matches:   %d (true positives)\n", truePositives);
-    System.out.printf(ENGLISH, "  Inputs:    %s\n", inputsOrDir);
-    System.out.printf(ENGLISH, "  Summary:   precision=%.3f, recall=%.3f (%s) using %dgrams\n",
+    String summary = String.format(ENGLISH, "precision=%.3f, recall=%.3f (%s) using %dgrams",
             precision, recall, new SimpleDateFormat("yyyy-MM-dd").format(new Date()), grams);
+    if (verbose) {
+      int sentences = allTokenSentences.size() + allHomophoneSentences.size();
+      System.out.println("======================");
+      System.out.println("Evaluation results for " + TOKEN + "/" + TOKEN_HOMOPHONE
+              + " with " + sentences + " sentences as of " + new Date() + ":");
+      System.out.printf(ENGLISH, "  Precision: %.3f (%d false positives)\n", precision, falsePositives);
+      System.out.printf(ENGLISH, "  Recall:    %.3f (%d false negatives)\n", recall, falseNegatives);
+      double fMeasure = FMeasure.getWeightedFMeasure(precision, recall);
+      System.out.printf(ENGLISH, "  F-measure: %.3f (beta=0.5)\n", fMeasure);
+      System.out.printf(ENGLISH, "  Matches:   %d (true positives)\n", truePositives);
+      System.out.printf(ENGLISH, "  Inputs:    %s\n", inputsOrDir);
+      System.out.printf("  Summary:   " + summary + "\n");
+    }
+    return summary;
   }
 
   private List<Sentence> getRelevantSentences(List<String> inputs, String token, int maxSentences) throws IOException {
@@ -154,16 +163,28 @@ class ConfusionRuleEvaluator {
       Sentence sentence = sentenceSource.next();
       if (sentence.getText().toLowerCase().matches(".*\\b" + token + "\\b.*")) {
         sentences.add(sentence);
-        if (sentences.size() % 100 == 0) {
-          System.out.println("Loaded sentence " + sentences.size() + " with '" + token + "' from " + inputs);
+        if (sentences.size() % 250 == 0) {
+          println("Loaded sentence " + sentences.size() + " with '" + token + "' from " + inputs);
         }
         if (sentences.size() >= maxSentences) {
           break;
         }
       }
     }
-    System.out.println("Loaded " + sentences.size() + " sentences with '" + token + "' from " + inputs);
+    println("Loaded " + sentences.size() + " sentences with '" + token + "' from " + inputs);
     return sentences;
+  }
+  
+  private void println(String msg) {
+    if (verbose) {
+      System.out.println(msg);
+    }
+  }
+
+  private void printf(String msg, String... args) {
+    if (verbose) {
+      System.out.printf(msg, args);
+    }
   }
 
   public static void main(String[] args) throws IOException {
@@ -171,7 +192,7 @@ class ConfusionRuleEvaluator {
       System.err.println("Usage: " + ConfusionRuleEvaluator.class.getSimpleName()
               + " <langCode> <languageModelTopDir> <wikipediaXml|tatoebaFile|dir>...");
       System.err.println("   <languageModelTopDir> is a directory with sub-directories '1grams', '2grams' and '3grams' with Lucene indexes");
-      System.err.println("   <wikipediaXml|tatoebaFile| dir> either a Wikipedia XML dump, or a Tatoeba file or");
+      System.err.println("   <wikipediaXml|tatoebaFile|dir> either a Wikipedia XML dump, or a Tatoeba file or");
       System.err.println("                      a directory with example sentences (where <word>.txt contains only the sentences for <word>).");
       System.err.println("                      You can specify both a Wikipedia file and a Tatoeba file.");
       System.exit(1);
@@ -184,7 +205,7 @@ class ConfusionRuleEvaluator {
       inputsFiles.add(args[3]);
     }
     ConfusionRuleEvaluator generator = new ConfusionRuleEvaluator(lang, languageModel, 3);
-    generator.run(inputsFiles, TOKEN, TOKEN_HOMOPHONE, MAX_SENTENCES);
+    generator.run(inputsFiles, TOKEN, TOKEN_HOMOPHONE, FACTOR, MAX_SENTENCES);
     //ConfusionRuleEvaluator generator2 = new ConfusionRuleEvaluator(lang, languageModel, 4);
     //generator2.run(inputsFiles, TOKEN, TOKEN_HOMOPHONE, MAX_SENTENCES);
   }
