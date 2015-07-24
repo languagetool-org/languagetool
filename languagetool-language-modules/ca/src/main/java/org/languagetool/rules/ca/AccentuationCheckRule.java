@@ -92,7 +92,7 @@ public class AccentuationCheckRule extends CatalanRule {
 
   public AccentuationCheckRule(ResourceBundle messages) throws IOException {
     super.setCategory(new Category(messages.getString("category_misc")));
-    setLocQualityIssueType(ITSIssueType.Grammar);
+    setLocQualityIssueType(ITSIssueType.Misspelling);
     relevantWords = loadWords(FILE_NAME);
     relevantWords2 = loadWords(FILE_NAME2);
   }

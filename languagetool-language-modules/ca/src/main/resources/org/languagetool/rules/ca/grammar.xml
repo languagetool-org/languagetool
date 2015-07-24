@@ -4951,6 +4951,7 @@ $Id$
         </rulegroup>
         <rule id="GENS" name="gens / gens de">
             <pattern>
+                <token><exception postag="D.*" postag_regexp="yes"/></token>
                 <marker>
                     <token>gens</token>
                 </marker>
@@ -6086,6 +6087,16 @@ $Id$
                 <example correction="o">Cal dir una cosa <marker>u</marker> altra.</example>
                 <example correction="o">Vindrà un <marker>u</marker> altre.</example>
                 <example>dins o fora</example>
+            </rule>
+            <rule id="E_LES" name="e les/de les">
+                <pattern>
+                    <token>e</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Possible confusió.</message>
+                <suggestion>de \2</suggestion>
+                <suggestion>i \2</suggestion>
+                <example correction="de les|i les">Vinc <marker>e les</marker> cases.</example>
             </rule>
         </rulegroup>
         <rule id="DONCS_CAUSAL" name="*'doncs' causal">
