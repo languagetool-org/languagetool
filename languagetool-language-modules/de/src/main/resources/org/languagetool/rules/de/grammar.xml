@@ -12361,7 +12361,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="STROEME_SUBST" name="Groß-/Kleinschreibung: 'in strömen (Strömen)'">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes" skip="2">regnete?|goss|gießt|floss|fließt</token>
+                    <token regexp="yes" skip="2">regnete?|goss|gießt|floss(en)?|fließt</token>
                     <token>in</token>
                     <marker>
                         <token>strömen</token>
@@ -20801,6 +20801,77 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example>Du hast mich ganz <marker>nass</marker> gemacht!</example>
                 <example correction="Nass">Hinein ins kühle <marker>nass</marker>!</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HOCH_SUBST" name="Groß-/Kleinschreibung: 'Ein hoch (Hoch) auf ...'">
+            <rule>
+                <pattern>
+                    <token>ein</token>
+                    <marker>
+                        <token case_sensitive="yes">hoch</token>
+                    </marker>
+                    <token>auf</token>
+                    <token min="0" postag="ART:DEF:AKK:.+" postag_regexp="yes"/>
+                    <token min="0" postag="ADJ:AKK:.+" postag_regexp="yes"/>
+                    <token postag="(SUB|EIG):AKK:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>&subanfang;<suggestion>Hoch</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example>Ein <marker>hoch</marker> auf dem gelben Wagen sitzender Postillion sang Volkslieder.</example>
+                <example correction="Hoch">Ein <marker>hoch</marker> auf die Wissenschaft!</example>
+                <example correction="Hoch">Ein <marker>hoch</marker> auf die moderne Wissenschaft!</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ERNST_SUBST" name="Groß-/Kleinschreibung: 'ernst (Ernst)'">
+            <rule>
+                <pattern>
+                    <token postag="PRO:POS:.+" postag_regexp="yes"/>
+                    <token min="0">voller</token>
+                    <marker>
+                        <token case_sensitive="yes">ernst</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>&subanfang;<suggestion>Ernst</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example>Sie war ganz <marker>ernst</marker> dabei.</example>
+                <example correction="Ernst">Das ist mein voller <marker>ernst</marker>!</example>
+                <example correction="Ernst">Das ist dein <marker>ernst</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ist</token>
+                    <token>das</token>
+                    <token min="0">etwa</token>
+                    <token postag="PRO:POS:.+" postag_regexp="yes"/>
+                    <marker>
+                        <token case_sensitive="yes">ernst</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>&subanfang;<suggestion>Ernst</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example>Ist das ein <marker>ernst</marker> gemeinter Vorschlag?</example>
+                <example correction="Ernst">Ist das euer <marker>ernst</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>das</token>
+                    <token>ist</token>
+                    <token min="0">doch</token>
+                    <token min="0">wohl</token>
+                    <token>nicht</token>
+                    <token postag="PRO:POS:.+" postag_regexp="yes"/>
+                    <marker>
+                        <token case_sensitive="yes">ernst</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>&subanfang;<suggestion>Ernst</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example>Das ist doch wohl nicht <marker>ernst</marker> gemeint, oder?</example>
+                <example correction="Ernst">Das ist doch wohl nicht euer <marker>ernst</marker>?</example>
+                <example correction="Ernst">Das ist doch nicht dein <marker>ernst</marker>!</example>
             </rule>
         </rulegroup>
         <rulegroup id="STOLZ_SUBST" name="Groß-/Kleinschreibung: 'stolz (Stolz)'">
