@@ -50,6 +50,9 @@ public class LanguageModelSanityTest {
     assertMatches(lm, "7");
     assertMatches(lm, "8");
     assertMatches(lm, "9");
+    assertMatches(lm, ":");
+    assertMatches(lm, "(");
+    assertMatches(lm, ")");
     // 2gram:
     assertMatches(lm, "the man");
     assertMatches(lm, "The man");
@@ -58,13 +61,19 @@ public class LanguageModelSanityTest {
     assertMatches(lm, "it _END_");
     assertMatches(lm, "Also ,");
     assertMatches(lm, "is 0");
+    assertMatches(lm, ": it");
+    assertMatches(lm, "( it");
+    assertMatches(lm, "it )");
     // 3gram:
     assertMatches(lm, "the man who");
     assertMatches(lm, "The man who");
-    //TODO: assertMatches(lm, "_START_ The man");  // -- these are commented out because the don't work with v1 of the data
-    //TODO: assertMatches(lm, "it was _END_");
-    //TODO: assertMatches(lm, "Also , it");
+    assertMatches(lm, "_START_ The man");
+    assertMatches(lm, "it was _END_");
+    assertMatches(lm, "Also , it");
     assertMatches(lm, "it is 0");
+    assertMatches(lm, ": it is");
+    assertMatches(lm, "( it is");
+    assertMatches(lm, "it is )");
     // 4gram:
     //assertMatches(lm, "the man who could");
     //assertMatches(lm, "The man who could");
