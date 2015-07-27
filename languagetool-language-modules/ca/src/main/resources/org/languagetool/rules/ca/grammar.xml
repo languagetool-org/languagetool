@@ -6090,13 +6090,15 @@ $Id$
             </rule>
             <rule id="E_LES" name="e les/de les">
                 <pattern>
-                    <token>e</token>
+                    <token case_sensitive="yes">e</token>
                     <token postag="D.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Possible confusió.</message>
                 <suggestion>de \2</suggestion>
                 <suggestion>i \2</suggestion>
-                <example correction="de les|i les">Vinc <marker>e les</marker> cases.</example>
+                <suggestion>en \2</suggestion>
+                <example correction="de les|i les|en les">Vinc <marker>e les</marker> cases.</example>
+                <example>i a l'E el promontori</example>
             </rule>
         </rulegroup>
         <rule id="DONCS_CAUSAL" name="*'doncs' causal">
