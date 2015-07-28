@@ -3114,6 +3114,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="N.*|.*_GN_.*"></disambig>
     </rule>
+    <rule id="perquè_conjuncio" name="perquè (conjunció)">
+        <pattern>
+            <token><exception postag="D..MS." postag_regexp="yes"></exception></token>
+            <marker>
+                <token postag="CS" postag_regexp="yes">perquè</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall" />
+        <example type="untouched">Sense saber el perquè.</example>
+    </rule>
     <rule id="feu_verb" name="feu (verb)">
         <pattern>
             <marker>
@@ -7445,15 +7455,26 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="A.*"/>
     </rule>
-    <rule id="som" name="què som">
-        <pattern>
-            <token regexp="yes">qui|quins|què|quant|quants|com|nosaltres|pocs|poques</token>
-            <marker>
-                <token postag="VSIP1P00">som</token>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="A.*|N.*"/>
-    </rule>
+    <rulegroup id="som" name="què som">
+        <rule>
+            <pattern>
+                <token regexp="yes">qui|quins|què|quant|quants|com|nosaltres|pocs|poques</token>
+                <marker>
+                    <token postag="VSIP1P00">som</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="A.*|N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="VSIP1P00">som</token>
+                </marker>
+                <token postag="N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="A.*|N.*"/>
+        </rule>
+    </rulegroup>
     <rule id="adj_punct" name="adjectiu no verb abans de puntuació"> <!-- Però: Quants anys tens, Ricard? ¿Quina edat tens..., seixanta-vuit?-->
         <pattern>
             <token><exception regexp="yes">no|que|ja|perquè|encara|com</exception><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>
