@@ -2825,6 +2825,35 @@ $Id$
                 <example>Quants diners té ell?</example>
             </rule>
         </rulegroup>
+        <rulegroup id="CONCORDANCES_ATRIBUT" name="Concordances de subjecte i atribut en frases copulatives">
+            <antipattern>
+                <marker>
+                    <token>la</token>
+                    <token regexp="yes">resta|majoria</token>
+                </marker>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PUNCT.*" postag_regexp="yes"/>
+                    <unify negate="yes">
+                        <feature id="nombre"/>
+                        <feature id="genere"/>
+                        <token min="1" max="4" postag_regexp="yes" postag="_GN.*|N.*"/>
+                        <unify-ignore>
+                            <token regexp="yes" inflected="yes">ser|estar|semblar|parèixer</token>
+                        </unify-ignore>
+                        <token postag="V.P.*|A.*" postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <message>Error de concordança.</message>
+                <example correction=""><marker>La casa és bonic</marker>.</example>
+                <example correction=""><marker>La qualitat pareixia alts</marker>.</example>
+                <example correction=""><marker>La Joana és casat</marker>.</example>
+                <example>La majoria eren bonics.</example>
+                <example>La casa és bonica.</example>
+                <example>La majoria eren casats</example>
+            </rule>
+        </rulegroup>
         <rule id="CONCORDANCES_PRONOM_VERB" name="Concordaces pronom verb: nosaltres *penseu/pensem">
             <antipattern>
                 <token>hi</token>
