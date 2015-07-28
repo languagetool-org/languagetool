@@ -27,7 +27,6 @@ $Id$
     <!ENTITY dies_setmana_abrev "dl|dt|dc|dj|dv|ds|dg">
     <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
     <!ENTITY estacions "primavera|estiu|tardor|hivern">
-    <!ENTITY excepcions_Paris "Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu">
     <!ENTITY excep_exceptions_BE "ben|prou|tan|que|si|ara|molt|per|i|o|ni|més|['-].+">
     <!ENTITY exceptions_A_DIT_HA_DIT "concedir|crèdit|selecció|subvenció|atorgar|designar|designació|contractar|contractació|plaça|assignar|assignació|nomenar|nomenament|col·locar|col·locació|ajudicar|adjudicació|càrrec">
     <!ENTITY exceptions_A_L_ANY "tornar|arribar|equivaler|equivalent|portar|atribuir|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir|proper|pròxim|pertànyer|remetre|previ|referència|referent|prèviament">
@@ -39,6 +38,7 @@ $Id$
     <!ENTITY exceptions_hostatge "edifici|dieta|luxe|viatger|turista|caminant|obrir|planta">
     <!ENTITY exceptions_MES "solar|sideral|marià|hivernal|hebreu|jueu|musulmà|islàmic|sinòdic|draconític|lunar|mitjà|tròpic|anomalístic|dedicat|consagrat|vinent|entrant|propvinent|passat|proppassat|intercalar|anterior|següent|posterior|previ">
     <!ENTITY exceptions_ODRE "pell|bot|líquid|aigua|oli|llet|vi|substància|mantega|càntir|ampolla|porró|paràbola|cuir|cuiro">
+    <!ENTITY exceptions_Paris "Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu|judici|juí">
     <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena">
     <!ENTITY expressions_temps "ara|avui|hui|demà|despús-demà|ahir|despús-ahir|endemà|enguany">
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
@@ -9371,25 +9371,26 @@ $Id$
         <rulegroup id="PARIS" name="Paris/París">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">&excepcions_Paris;</exception></token>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">&exceptions_Paris;</exception></token>
                     <marker>
-                        <token skip="-1">Paris<exception scope="next" regexp="yes">&excepcions_Paris;</exception><exception scope="previous" regexp="yes">is|in|à|von|aus|\p{Lu}.+|\.</exception></token>
+                        <token skip="-1">Paris<exception scope="next" regexp="yes">&exceptions_Paris;</exception><exception scope="previous" regexp="yes">is|in|à|von|aus|\p{Lu}.+|\.</exception></token>
                     </marker>
-                    <token postag="NP..G.*" postag_regexp="yes" skip="-1"><exception regexp="yes">Troia|Atena|Esparta|Hèctor</exception><exception scope="next" inflected="yes" regexp="yes">&excepcions_Paris;</exception></token>
+                    <token postag="NP..G.*" postag_regexp="yes" skip="-1"><exception regexp="yes">Troia|Atena|Esparta|Hèctor</exception><exception scope="next" inflected="yes" regexp="yes">&exceptions_Paris;</exception></token>
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>París</suggestion> (ciutat)?</message>
                 <short>Possible confusió</short>
                 <example correction="París">A <marker>Paris</marker> i Londres.</example>
                 <example>Paris a la guerra de Troia.</example>
-                <example> el judici de Paris, el rapte d'Helena i el sacrifici d'Ifigènia a Aulis</example>
+                <example>el judici de Paris, el rapte d'Helena i el sacrifici d'Ifigènia a Aulis</example>
+                <example>El judici de Paris.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">&excepcions_Paris;</exception></token>
-                    <token postag="NP..G.*" postag_regexp="yes" skip="-1"><exception regexp="yes">Troia|Atena|Esparta|Hèctor</exception><exception scope="next" regexp="yes">&excepcions_Paris;</exception></token>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">&exceptions_Paris;</exception></token>
+                    <token postag="NP..G.*" postag_regexp="yes" skip="-1"><exception regexp="yes">Troia|Atena|Esparta|Hèctor</exception><exception scope="next" regexp="yes">&exceptions_Paris;</exception></token>
                     <marker>
-                        <token skip="-1">Paris<exception scope="next" inflected="yes" regexp="yes">&excepcions_Paris;</exception><exception scope="previous" regexp="yes">is|in|à|von|aus|\p{Lu}.+|\.</exception></token>
+                        <token skip="-1">Paris<exception scope="next" inflected="yes" regexp="yes">&exceptions_Paris;</exception><exception scope="previous" regexp="yes">is|in|à|von|aus|\p{Lu}.+|\.</exception></token>
                     </marker>
                     <token postag="SENT_END"/>
                 </pattern>
