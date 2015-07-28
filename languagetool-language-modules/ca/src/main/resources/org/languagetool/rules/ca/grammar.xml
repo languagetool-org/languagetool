@@ -2828,8 +2828,13 @@ $Id$
         <rulegroup id="CONCORDANCES_ATRIBUT" name="Concordances de subjecte i atribut en frases copulatives">
             <antipattern>
                 <marker>
-                    <token>la</token>
                     <token regexp="yes">resta|majoria</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">terme|paraula|mot</token>
+                    <token postag="N.*|A.*" postag_regexp="yes"/>
                 </marker>
             </antipattern>
             <rule>
@@ -2838,20 +2843,56 @@ $Id$
                     <unify negate="yes">
                         <feature id="nombre"/>
                         <feature id="genere"/>
-                        <token min="1" max="4" postag_regexp="yes" postag="_GN.*|N.*"/>
+                        <token min="1" max="4" postag_regexp="yes" postag="_GN.*|N.*"><exception postag="_loc_unavegada"/><exception regexp="yes">.*%</exception></token>
                         <unify-ignore>
+                            <token min="0">no</token>
                             <token regexp="yes" inflected="yes">ser|estar|semblar|parèixer</token>
                         </unify-ignore>
-                        <token postag="V.P.*|A.*" postag_regexp="yes"/>
+                        <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_nompropi|_GN_.*" postag_regexp="yes"/><exception regexp="yes">derivats|composto?s</exception></token>
                     </unify>
                 </pattern>
                 <message>Error de concordança.</message>
                 <example correction=""><marker>La casa és bonic</marker>.</example>
+                <example correction=""><marker>La casa no és bonic</marker>.</example>
                 <example correction=""><marker>La qualitat pareixia alts</marker>.</example>
                 <example correction=""><marker>La Joana és casat</marker>.</example>
                 <example>La majoria eren bonics.</example>
                 <example>La casa és bonica.</example>
                 <example>La majoria eren casats</example>
+                <example>Un cop són introduïts al cos humà a través de la dieta</example>
+                <example>Els països veïns són Nova Zelanda, al sud-est, </example>
+                <example>La gran majoria són solubles en aigua.</example>
+                <example>El 12% són seguidores de la dieta.</example>
+                <example>El terme addicció és utilitzat sovint.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PUNCT.*" postag_regexp="yes"/>
+                    <unify negate="yes">
+                        <feature id="nombre"/>
+                        <feature id="genere"/>
+                        <token min="1" max="4" postag_regexp="yes" postag="_GN.*|N.*"><exception postag="_loc_unavegada"/><exception regexp="yes">.*%</exception></token>
+                        <unify-ignore>
+                            <token min="0">no</token>
+                            <token regexp="yes" inflected="yes">ser|estar|semblar|parèixer</token>
+                            <token postag="RG_anteposat"/>
+                        </unify-ignore>
+                        <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_nompropi|_GN_.*" postag_regexp="yes"/><exception regexp="yes">derivats|composto?s</exception></token>
+                    </unify>
+                </pattern>
+                <message>Error de concordança.</message>
+                <example correction=""><marker>La casa és molt bonic</marker>.</example>
+                <example correction=""><marker>La casa no és gaire bonic</marker>.</example>
+                <example correction=""><marker>La qualitat pareixia menys alts</marker>.</example>
+                <example correction=""><marker>La Joana és feliçment casat</marker>.</example>
+                <example>La majoria eren força bonics.</example>
+                <example>La casa és molt bonica.</example>
+                <example>La majoria eren feliçment casats</example>
+                <example>Un cop són introduïts al cos humà a través de la dieta</example>
+                <example>Els països veïns són Nova Zelanda, al sud-est, </example>
+                <example>La gran majoria són solubles en aigua.</example>
+                <example>El 12% són seguidores de la dieta.</example>
+                <example>El terme addicció és freqüentment utilitzat.</example>
             </rule>
         </rulegroup>
         <rule id="CONCORDANCES_PRONOM_VERB" name="Concordaces pronom verb: nosaltres *penseu/pensem">
@@ -28746,8 +28787,8 @@ $Id$
             <message>Incorrecte si volíeu dir <suggestion><match no="1" postag="NCM([SP]).+" postag_regexp="yes" postag_replace="NCM$1.*">suport</match></suggestion>. Correcte en altres sentits.</message>
             <suggestion><match no="1" postag="NCM([SP]).+" postag_regexp="yes" postag_replace="NCF$1.*">adhesió</match></suggestion>
             <suggestion><match no="1" postag="NCM([SP]).+" postag_regexp="yes" postag_replace="NCM$1.*">acord</match></suggestion>
-            <short>Possible error</short>
             <url>http://esadir.cat/entrades/fitxa/id/2235</url>
+            <short>Possible error</short>
             <example correction="suport|adhesió|acord">Sense <marker>recolzament</marker> popular.</example>
             <example correction="suports|adhesions|acords">Sense <marker>recolzaments</marker> parlamentaris.</example>
             <example>Sense suport.</example>
