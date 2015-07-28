@@ -19659,6 +19659,11 @@ $Id$
     </category>
     <category name="E) Majúscules i minúscules" type="typographical">
         <rule id="CARRER_MAJUSCULA" name="Carrer/carrer de">
+            <antipattern>
+                <token>Rambla</token>
+                <token>de</token>
+                <token>Barcelona</token>
+            </antipattern>
             <pattern>
                 <token><exception postag="SENT_START"/><exception>-</exception></token>
                 <marker>
@@ -27281,6 +27286,17 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="VIAL_VIARI" name="vial (nom)/viari (adj)">
+            <pattern>
+                <token postag="NC.*" postag_regexp="yes"></token>
+                <token inflected="yes">vial</token>
+            </pattern>
+            <message>"Vial" és un nom, no un adjectiu.</message>
+            <suggestion>\1 <match no="1" postag_regexp="yes" postag="NC(..).*" postag_replace="AQ.$1.">viari</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/2381</url>
+            <example correction="Seguretat viària"><marker>Seguretat vial</marker>.</example>
+            <example correction="Connexions viàries"><marker>Connexions vials</marker>.</example>
+        </rule>
         <rulegroup id="DESPRENDRE_DESPENDRE" name="despendre / desprendre">
             <!-- es pot completar amb més paraules -->
             <rule>
@@ -27309,7 +27325,7 @@ $Id$
                 <pattern>
                     <token inflected="yes">en</token>
                     <marker>
-                        <token inflected="yes">despendre<exception>assec</exception></token>
+                        <token inflected="yes">despendre</token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desprendre</match></suggestion>? 'Despendre' vol dir 'gastar'.</message>
