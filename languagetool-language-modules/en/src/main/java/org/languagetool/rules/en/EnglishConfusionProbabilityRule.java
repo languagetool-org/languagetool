@@ -21,6 +21,7 @@ package org.languagetool.rules.en;
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ConfusionProbabilityRule;
+import org.languagetool.rules.ConfusionString;
 import org.languagetool.rules.Example;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
@@ -85,11 +86,14 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
   }
   
   @Override
-  public String getMessage(String suggestion, String description) {
-    if (description != null) {
-      return "Statistic suggests that '" + suggestion + "' (" + description + ") might be the correct word here. Please check.";
+  public String getMessage(ConfusionString textString, ConfusionString suggestion) {
+    if (textString.getDescription() != null && suggestion.getDescription() != null) {
+      return "Statistic suggests that '" + suggestion.getString() + "' (" + suggestion.getDescription() + ") might be the correct word here, not '"
+              + textString.getString() + "' (" + textString.getDescription() + "). Please check.";
+    } else if (suggestion.getDescription() != null) {
+      return "Statistic suggests that '" + suggestion.getString() + "' (" + suggestion.getDescription() + ") might be the correct word here. Please check.";
     } else {
-      return "Statistic suggests that '" + suggestion + "' might be the correct word here. Please check.";
+      return "Statistic suggests that '" + suggestion.getString() + "' might be the correct word here. Please check.";
     }
   }
   

@@ -51,7 +51,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   private final long totalTokenCount;
   private final int grams;
 
-  public abstract String getMessage(String suggestion, String description);
+  public abstract String getMessage(ConfusionString textString, ConfusionString suggestion);
 
   protected abstract WordTokenizer getTokenizer();
 
@@ -104,7 +104,8 @@ public abstract class ConfusionProbabilityRule extends Rule {
             Set<ConfusionString> set = uppercase ? confusionSet.getUppercaseFirstCharSet() : confusionSet.getSet();
             ConfusionString betterAlternative = getBetterAlternativeOrNull(tokens.get(pos), tokens, set, confusionSet.getFactor());
             if (betterAlternative != null) {
-              String message = getMessage(betterAlternative.getString(), betterAlternative.getDescription());
+              ConfusionString stringFromText = getConfusionString(set, tokens.get(pos));
+              String message = getMessage(stringFromText, betterAlternative);
               RuleMatch match = new RuleMatch(this, googleToken.startPos, googleToken.endPos, message);
               match.setSuggestedReplacement(betterAlternative.getString());
               matches.add(match);
@@ -154,16 +155,21 @@ public abstract class ConfusionProbabilityRule extends Rule {
   }
 
   private ConfusionString getAlternativeTerm(Set<ConfusionString> confusionSet, GoogleToken token) {
-    ConfusionString other = null;
     for (ConfusionString s : confusionSet) {
       if (!s.getString().equals(token.token)) {
-        other = s;
+        return s;
       }
     }
-    if (other == null) {
-      throw new RuntimeException("No alternative found for: " + token);
+    throw new RuntimeException("No alternative found for: " + token);
+  }
+
+  private ConfusionString getConfusionString(Set<ConfusionString> confusionSet, GoogleToken token) {
+    for (ConfusionString s : confusionSet) {
+      if (s.getString().equals(token.token)) {
+        return s;
+      }
     }
-    return other;
+    throw new RuntimeException("Not found in set: " + token);
   }
 
   private ConfusionString getBetterAlternativeOrNull(GoogleToken token, List<GoogleToken> tokens, ConfusionString otherWord, long factor) {

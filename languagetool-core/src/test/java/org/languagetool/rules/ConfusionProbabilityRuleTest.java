@@ -170,7 +170,7 @@ public class ConfusionProbabilityRuleTest {
       return (WordTokenizer) language.getWordTokenizer();
     }
     @Override public String getDescription() { return null; }
-    @Override public String getMessage(String suggestion, String description) { return null; }
+    @Override public String getMessage(ConfusionString textString, ConfusionString suggestion) { return null; }
   }
 
 }
