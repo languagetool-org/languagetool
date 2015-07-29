@@ -185,6 +185,10 @@ public abstract class ConfusionProbabilityRule extends Rule {
   }
 
   List<String> getContext(GoogleToken token, List<GoogleToken> tokens, String newToken, int toLeft, int toRight) {
+    return getContext(token, tokens, Collections.singletonList(new GoogleToken(newToken, 0, newToken.length())), toLeft, toRight);
+  }
+  
+  private List<String> getContext(GoogleToken token, List<GoogleToken> tokens, List<GoogleToken> newTokens, int toLeft, int toRight) {
     int pos = tokens.indexOf(token);
     if (pos == -1) {
       throw new RuntimeException("Token not found: " + token);
@@ -196,7 +200,9 @@ public abstract class ConfusionProbabilityRule extends Rule {
         // marker. So if we're at the beginning of the sentence, just use the first tokens
         // without an artificial start marker:
         result.clear();
-        result.add(newToken);
+        for (GoogleToken googleToken : newTokens) {
+          result.add(googleToken.token);
+        }
         for (int j = pos-1; j >= 0; j--) {
           result.add(0, tokens.get(j).token);
         }
@@ -208,7 +214,9 @@ public abstract class ConfusionProbabilityRule extends Rule {
         }
       }
     }
-    result.add(newToken);
+    for (GoogleToken googleToken : newTokens) {
+      result.add(googleToken.token);
+    }
     for (int i = 1, added = 0; added < toRight; i++) {
       if (pos+i >= tokens.size()) {
         result.add(".");
@@ -224,9 +232,24 @@ public abstract class ConfusionProbabilityRule extends Rule {
   }
 
   private double get3gramProbabilityFor(GoogleToken token, List<GoogleToken> tokens, String term) {
-    Probability ngram3Left = getPseudoProbability(getContext(token, tokens, term, 0, 2));
-    Probability ngram3Middle = getPseudoProbability(getContext(token, tokens, term, 1, 1));
-    Probability ngram3Right = getPseudoProbability(getContext(token, tokens, term, 2, 0));
+    List<GoogleToken> newTokens = getGoogleTokens(term);
+    Probability ngram3Left;
+    Probability ngram3Middle;
+    Probability ngram3Right;
+    if (newTokens.size() == 1) {
+      ngram3Left = getPseudoProbability(getContext(token, tokens, term, 0, 2));
+      ngram3Middle = getPseudoProbability(getContext(token, tokens, term, 1, 1));
+      ngram3Right = getPseudoProbability(getContext(token, tokens, term, 2, 0));
+    } else if (newTokens.size() == 2) {
+      // e.g. you're -> you 're
+      ngram3Left = getPseudoProbability(getContext(token, tokens, newTokens, 0, 1));
+      ngram3Right = getPseudoProbability(getContext(token, tokens, newTokens, 1, 0));
+      // we cannot just use new Probability(1.0, 1.0f) as that would always produce higher
+      // probabilities than in the case of one token (eg. "your"):
+      ngram3Middle = new Probability((ngram3Left.prob + ngram3Right.prob) / 2, 1.0f); 
+    } else {
+      throw new RuntimeException("Words that consists of more than 2 tokens (according to Google tokenization) are not supported yet: " + term);
+    }
     if (ngram3Left.coverage < MIN_COVERAGE && ngram3Middle.coverage < MIN_COVERAGE && ngram3Right.coverage < MIN_COVERAGE) {
       debug("  Min coverage of %.2f not reached: %.2f, %.2f, %.2f, assuming p=0\n", MIN_COVERAGE, ngram3Left.coverage, ngram3Middle.coverage, ngram3Right.coverage);
       return 0.0;
@@ -255,23 +278,19 @@ public abstract class ConfusionProbabilityRule extends Rule {
     int coverage = 0;
     long firstWordCount = lm.getCount(context.get(0));
     maxCoverage++;
-    if (firstWordCount == 0) {
-      debug("    # zero matches for '%s'\n", context.get(0));
-    } else {
+    if (firstWordCount > 0) {
       coverage++;
     }
     // chain rule:
     double p = (double) (firstWordCount + 1) / (totalTokenCount + 1);
-    debug("    P for %s: %.20f\n", context.get(0), p);
+    debug("    P for %s: %.20f (%d)\n", context.get(0), p, firstWordCount);
     for (int i = 2; i <= context.size(); i++) {
       List<String> subList = context.subList(0, i);
       long phraseCount = lm.getCount(subList);
       double thisP = (double) (phraseCount + 1) / (firstWordCount + 1);
       maxCoverage++;
-      debug("    P for " + subList + ": %.20f\n", thisP);
-      if (phraseCount == 0) {
-        debug("    # zero matches for '%s'\n", subList);
-      } else {
+      debug("    P for " + subList + ": %.20f (%d)\n", thisP, phraseCount);
+      if (phraseCount > 0) {
         coverage++;
       }
       p *= thisP;
