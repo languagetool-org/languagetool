@@ -55,7 +55,7 @@ public class ConfusionSetLoader {
           String description = subParts.length == 2 ? subParts[1] : null;
           confusionStrings.add(new ConfusionString(word, description));
         }
-        ConfusionSet confusionSet = new ConfusionSet(Integer.parseInt(parts[parts.length-1]), confusionStrings);
+        ConfusionSet confusionSet = new ConfusionSet(Long.parseLong(parts[parts.length-1]), confusionStrings);
         for (ConfusionString confusionString : confusionStrings) {
           String key = confusionString.getString();
           List<ConfusionSet> existingEntry = map.get(key);

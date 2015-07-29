@@ -74,9 +74,11 @@ public class LanguageModelSanityTest {
     assertMatches(lm, ": it is");
     assertMatches(lm, "( it is");
     assertMatches(lm, "it is )");
+    assertMatches(lm, "five - pound");
     // 4gram:
     //assertMatches(lm, "the man who could");
     //assertMatches(lm, "The man who could");
+    //assertMatches(lm, "five - pound note");
     //TODO: assertMatches(lm, "_START_ The man who");
     //TODO: assertMatches(lm, "which it was _END_");
     //TODO: assertMatches(lm, "Also , it is");
