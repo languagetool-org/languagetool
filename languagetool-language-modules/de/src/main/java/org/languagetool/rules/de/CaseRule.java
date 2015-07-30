@@ -721,7 +721,7 @@ public class CaseRule extends GermanRule {
     for (String phrase : myExceptionPhrases) {
       final String[] parts = phrase.split(" ");
       for (int j = 0; j < parts.length; j++) {
-        if (parts[j].equals(tokens[i].getToken())) {
+        if (tokens[i].getToken().matches(parts[j])) {
           final int startIndex = i-j;
           if (compareLists(tokens, startIndex, startIndex+parts.length-1, parts)) {
             return true;
@@ -742,7 +742,7 @@ public class CaseRule extends GermanRule {
       if (i >= parts.length || j >= tokens.length) {
         return false;
       }
-      if (!tokens[j].getToken().equals(parts[i])) {
+      if (!tokens[j].getToken().matches(parts[i])) {
         return false;
       }
       i++;

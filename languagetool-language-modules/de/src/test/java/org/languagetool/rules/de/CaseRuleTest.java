@@ -168,6 +168,8 @@ public class CaseRuleTest extends TestCase {
     assertGood("Ein Kapitän verlässt als Letzter das sinkende Schiff.");
     assertBad("Die Dolmetscherin und Der Vorleser gehen spazieren.");
     assertGood("Es hilft, die Harmonie zwischen Führer und Geführten zu stützen.");
+    assertGood("Das Gebäude des Auswärtigen Amts.");
+    assertGood("Das Gebäude des Auswärtigen Amtes.");
     //assertBad("Peter Peterson, dessen Namen auf griechisch Stein bedeutet.");
   }
 
