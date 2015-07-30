@@ -287,7 +287,7 @@ class LanguageToolSupport {
       //config still contains old language, update it
       this.config.setLanguage(language);
       if (languageTool != null) {
-        languageTool.shutdown();
+    //    languageTool.shutdown();       // fix error "Task rejected"
       }
       languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue());
       loadConfig();
