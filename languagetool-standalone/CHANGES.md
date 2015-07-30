@@ -3,7 +3,10 @@
 ## 3.1 (release planned for 2015-09-28)
   
 #### English
-  * added a new rule
+  * added and improved a few rules
+  
+#### German
+  * improved several rules
 
 #### Polish
   * added some compound prepositions to avoid false alarms (thanks to
