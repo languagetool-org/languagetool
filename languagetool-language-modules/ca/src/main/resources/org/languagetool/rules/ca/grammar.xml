@@ -15000,6 +15000,18 @@ $Id$
                 <example correction="què">No sé <marker>que</marker> passa.</example>
                 <example>no sé què</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="1">saber</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token regexp="yes">fer|dir</token>
+                    <token regexp="yes" inflected="yes">amb|de</token>
+                </pattern>
+                <message>Probablement cal escriure <suggestion>què</suggestion>.</message>
+                <example correction="què">No sabien <marker>que</marker> fer amb allò.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="FEU" name="feu/féu">
             <!-- Cal estudiar "que el feu". Mirar que no hi hagi cap verb ni pronom de 2P abans. "que el feu famós"... -->
@@ -18416,6 +18428,12 @@ $Id$
         <rulegroup id="PRONOM_FEBLE_HI" name="Comprovacions del pronom feble 'hi'">
             <!-- Per a fer la norma més robusta, caldria comptar des del verb cap enrere (hauria de ser una regla en Java) -->
             <rule>
+                <antipattern>
+                    <token regexp="yes">haguts|hagudes</token>
+                    <token>i</token>
+                    <token>per</token>
+                    <token>haver</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception postag="PP3CN000" scope="next" inflected="yes">hi</exception><exception postag="PP3..A00" scope="next" postag_regexp="yes" /></token>
                     <marker>
@@ -18435,6 +18453,7 @@ $Id$
                 <example>tots els casos haguts i per haver</example>
                 <example correction="haver-hi">després d'<marker>haver</marker> finalment sentència</example>
                 <example>després d'haver finalment abandonat la teoria</example>
+                <example>Totes les coses hagudes i per haver.</example>
             </rule>
             <rule>
                 <pattern>
