@@ -276,22 +276,11 @@ public class PatternRule extends AbstractPatternRule {
   }
 
   /**
-   * For testing only.
+   * @since 3.1
    */
-  final List<DisambiguationPatternRule> getAntiPatterns() {
-    return antiPatterns;
+  @Override
+  public final List<DisambiguationPatternRule> getAntiPatterns() {
+    return Collections.unmodifiableList(antiPatterns);
   }
   
-  private AnalyzedSentence getSentenceWithImmunization(AnalyzedSentence sentence) throws IOException {
-    if (antiPatterns != null && !antiPatterns.isEmpty()) {
-      //we need a copy of the sentence, not reference to the old one
-      AnalyzedSentence immunizedSentence = sentence.copy(sentence);
-      for (final DisambiguationPatternRule patternRule : antiPatterns) {
-        immunizedSentence = patternRule.replace(immunizedSentence);
-      }
-      return immunizedSentence;
-    }
-    return sentence;
-  }
-
 }

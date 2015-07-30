@@ -24,6 +24,10 @@
 
 #### API
   * several deprecated methods and classes have been removed
+  * Rules can now overwrite `getAntiPatterns()` with patterns to
+    be ignored. See the javadoc for details of what needs to
+    be considered to make this work. See `org.languagetool.rules.de.CaseRule`
+    for an example.
 
 #### Internal
   * updated to Lucene 5.2.1

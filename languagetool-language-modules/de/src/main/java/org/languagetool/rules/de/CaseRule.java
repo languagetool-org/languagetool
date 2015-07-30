@@ -26,9 +26,12 @@ import org.languagetool.language.German;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tagging.de.GermanToken;
 import org.languagetool.tagging.de.GermanToken.POSType;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -53,6 +56,15 @@ public class CaseRule extends GermanRule {
   // wenn hinter diesen Wörtern ein Verb steht, ist es wohl ein substantiviertes Verb,
   // muss also groß geschrieben werden:
   private static final Set<String> nounIndicators = new HashSet<>();
+  
+  // also see case_rule_exception.txt:
+  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(
+      new PatternTokenBuilder().tokenRegex("Vereinigte[ns]?").build(),
+      new PatternTokenBuilder().tokenRegex("Staaten|Königreiche?s?").build()
+    )
+  );
+
   static {
     nounIndicators.add("das");
     nounIndicators.add("sein");
@@ -382,8 +394,10 @@ public class CaseRule extends GermanRule {
   }
 
   private final GermanTagger tagger;
-  
+  private final German german;
+
   public CaseRule(final ResourceBundle messages, final German german) {
+    this.german = german;
     super.setCategory(new Category(messages.getString("category_case")));
     this.tagger = (GermanTagger) german.getTagger();
     addExamplePair(Example.wrong("<marker>Das laufen</marker> fällt mir schwer."),
@@ -412,7 +426,7 @@ public class CaseRule extends GermanRule {
   @Override
   public RuleMatch[] match(final AnalyzedSentence sentence) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    final AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     
     boolean prevTokenIsDas = false;
     for (int i = 0; i < tokens.length; i++) {
@@ -471,6 +485,11 @@ public class CaseRule extends GermanRule {
       potentiallyAddUppercaseMatch(ruleMatches, tokens, i, analyzedToken, token);
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  @Override
+  public List<DisambiguationPatternRule> getAntiPatterns() {
+    return makeAntiPatterns(ANTI_PATTERNS, german);
   }
 
   private void markLowerCaseNounErrors(List<RuleMatch> ruleMatches, AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings analyzedToken) throws IOException {
@@ -544,7 +563,7 @@ public class CaseRule extends GermanRule {
     if (prevTokenIsDas && !nextTokenIsPersonalPronoun) {
       // e.g. essen -> Essen
       if (Character.isLowerCase(token.charAt(0)) && !substVerbenExceptions.contains(token) && tokenReadings.hasPartialPosTag("VER:INF")
-              && !tokenReadings.isIgnoredBySpeller()) {
+              && !tokenReadings.isIgnoredBySpeller() && !tokenReadings.isImmunized()) {
         final String msg = "Substantivierte Verben werden großgeschrieben.";
         final RuleMatch ruleMatch = new RuleMatch(this, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg);
         final String word = tokenReadings.getToken();
@@ -559,6 +578,7 @@ public class CaseRule extends GermanRule {
     if (Character.isUpperCase(token.charAt(0)) &&
         token.length() > 1 &&     // length limit = ignore abbreviations
         !tokens[i].isIgnoredBySpeller() &&
+        !tokens[i].isImmunized() &&
         !sentenceStartExceptions.contains(tokens[i - 1].getToken()) &&
         !exceptions.contains(token) &&
         !StringTools.isAllUppercase(token) &&

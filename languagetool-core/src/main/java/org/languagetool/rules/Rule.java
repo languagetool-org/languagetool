@@ -24,8 +24,11 @@ import java.util.*;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
 /**
  * Abstract rule class. A Rule describes a language error and can test whether a
@@ -96,6 +99,47 @@ public abstract class Rule {
    */
   public abstract void reset();
 
+  /**
+   * Overwrite this to avoid false alarms by ignoring these patterns -
+   * note that your {@link #match(AnalyzedSentence)} method needs to
+   * call {@link #getSentenceWithImmunization} for this to be used
+   * and you need to check {@link AnalyzedTokenReadings#isImmunized()}
+   * @since 3.1
+   */
+  public List<DisambiguationPatternRule> getAntiPatterns() {
+    return Collections.emptyList();
+  }
+
+  /**
+   * To be called from {@link #match(AnalyzedSentence)} for rules that want
+   * {@link #getAntiPatterns()} to be considered.
+   * @since 3.1
+   */
+  protected AnalyzedSentence getSentenceWithImmunization(AnalyzedSentence sentence) throws IOException {
+    if (!getAntiPatterns().isEmpty()) {
+      //we need a copy of the sentence, not reference to the old one
+      AnalyzedSentence immunizedSentence = sentence.copy(sentence);
+      for (DisambiguationPatternRule patternRule : getAntiPatterns()) {
+        immunizedSentence = patternRule.replace(immunizedSentence);
+      }
+      return immunizedSentence;
+    }
+    return sentence;
+  }
+
+  /**
+   * Helper for implementing {@link #getAntiPatterns()}.
+   * @since 3.1
+   */
+  protected List<DisambiguationPatternRule> makeAntiPatterns(List<List<PatternToken>> patternList, Language language) {
+    List<DisambiguationPatternRule> rules = new ArrayList<>();
+    for (List<PatternToken> patternTokens : patternList) {
+      rules.add(new DisambiguationPatternRule("INTERNAL_ANTIPATTERN", "(no description)", language,
+              patternTokens, null, null, DisambiguationPatternRule.DisambiguatorAction.IMMUNIZE));
+    }
+    return Collections.unmodifiableList(rules);
+  }
+  
   /**
    * Whether this rule can be used for text in the given language.
    * Since LanguageTool 2.6, this also works {@link org.languagetool.rules.patterns.PatternRule}s
