@@ -2828,7 +2828,7 @@ $Id$
         <rulegroup id="CONCORDANCES_ATRIBUT" name="Concordances de subjecte i atribut en frases copulatives">
             <antipattern>
                 <marker>
-                    <token regexp="yes">resta|majoria</token>
+                    <token regexp="yes" inflected="yes">resta|majoria|vegada|volta|cop|&mesos_any;|&unitats_temps;|&expressions_temps;|\d{3,4}</token>
                 </marker>
             </antipattern>
             <antipattern>
@@ -2837,25 +2837,39 @@ $Id$
                     <token postag="N.*|A.*" postag_regexp="yes"/>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">ser|estar|semblar|parèixer</token>
+                    <token regexp="yes">obvi|evident|clar</token>
+                    <token>que</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="SENT_START"/>
+                    <token postag="V.P.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="SENT_START|PUNCT.*" postag_regexp="yes"/>
                     <unify negate="yes">
                         <feature id="nombre"/>
                         <feature id="genere"/>
-                        <token min="1" max="4" postag_regexp="yes" postag="_GN.*|N.*"><exception postag="_loc_unavegada"/><exception regexp="yes">.*%</exception></token>
+                        <token min="1" max="4" postag_regexp="yes" postag="_GN.*"><exception postag="_loc_unavegada"/><exception regexp="yes">.*%</exception></token>
                         <unify-ignore>
                             <token min="0">no</token>
                             <token regexp="yes" inflected="yes">ser|estar|semblar|parèixer</token>
                         </unify-ignore>
-                        <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_nompropi|_GN_.*" postag_regexp="yes"/><exception regexp="yes">derivats|composto?s</exception></token>
+                        <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_nompropi|_GN_.*|N.*" postag_regexp="yes"/><exception regexp="yes">derivats|composto?s</exception></token>
                     </unify>
                 </pattern>
-                <message>Error de concordança.</message>
+                <message>Possible falta de concordança.</message>
                 <example correction=""><marker>La casa és bonic</marker>.</example>
                 <example correction=""><marker>La casa no és bonic</marker>.</example>
                 <example correction=""><marker>La qualitat pareixia alts</marker>.</example>
                 <example correction=""><marker>La Joana és casat</marker>.</example>
+                <example correction=""><marker>Les seves primeres composicions no són dolents</marker>.</example> 
                 <example>La majoria eren bonics.</example>
                 <example>La casa és bonica.</example>
                 <example>La majoria eren casats</example>
@@ -2864,6 +2878,12 @@ $Id$
                 <example>La gran majoria són solubles en aigua.</example>
                 <example>El 12% són seguidores de la dieta.</example>
                 <example>El terme addicció és utilitzat sovint.</example>
+                <example>El mateix any fou establerta una treva</example>
+                <example>L'endemà fou proclamada la República Democràtica d'Àustria.</example>
+                <example>Els anys trenta era habitat per famílies de classe mitjana.</example>
+                <example>Caiguda València fou dut presoner al castell.</example>
+                <example>Els seus acudits són reflex dels hàbits.</example>
+                <example>Les seves primeres composicions són reflexos de la seva inspiració</example> 
             </rule>
             <rule>
                 <pattern>
@@ -2871,16 +2891,16 @@ $Id$
                     <unify negate="yes">
                         <feature id="nombre"/>
                         <feature id="genere"/>
-                        <token min="1" max="4" postag_regexp="yes" postag="_GN.*|N.*"><exception postag="_loc_unavegada"/><exception regexp="yes">.*%</exception></token>
+                        <token min="1" max="4" postag_regexp="yes" postag="_GN.*"><exception postag="_loc_unavegada"/><exception regexp="yes">.*%</exception></token>
                         <unify-ignore>
                             <token min="0">no</token>
                             <token regexp="yes" inflected="yes">ser|estar|semblar|parèixer</token>
                             <token postag="RG_anteposat"/>
                         </unify-ignore>
-                        <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_nompropi|_GN_.*" postag_regexp="yes"/><exception regexp="yes">derivats|composto?s</exception></token>
+                        <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_nompropi|_GN_.*|N.*" postag_regexp="yes"/><exception regexp="yes">derivats|composto?s</exception></token>
                     </unify>
                 </pattern>
-                <message>Error de concordança.</message>
+                <message>Possible falta de concordança.</message>
                 <example correction=""><marker>La casa és molt bonic</marker>.</example>
                 <example correction=""><marker>La casa no és gaire bonic</marker>.</example>
                 <example correction=""><marker>La qualitat pareixia menys alts</marker>.</example>
@@ -2893,6 +2913,42 @@ $Id$
                 <example>La gran majoria són solubles en aigua.</example>
                 <example>El 12% són seguidores de la dieta.</example>
                 <example>El terme addicció és freqüentment utilitzat.</example>
+                <example>Álvarez Cascos fou investit president del govern</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PUNCT.*" postag_regexp="yes"/>
+                    <unify negate="yes">
+                        <feature id="nombre"/>
+                        <feature id="genere"/>
+                        <token postag_regexp="yes" postag="N.*"><exception postag="_loc_unavegada"/><exception regexp="yes">.*%</exception></token>
+                        <unify-ignore>
+                            <token min="0">no</token>
+                            <token regexp="yes" inflected="yes">ser|estar|semblar|parèixer</token>
+                        </unify-ignore>
+                        <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_nompropi|_GN_.*|N.*" postag_regexp="yes"/><exception regexp="yes">derivats|composto?s</exception></token>
+                    </unify>
+                </pattern>
+                <message>Possible falta de concordança.</message>
+                <example correction=""><marker>Gàmbia és bonic</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PUNCT.*" postag_regexp="yes"/>
+                    <unify negate="yes">
+                        <feature id="nombre"/>
+                        <feature id="genere"/>
+                        <token postag_regexp="yes" postag="N.*"><exception postag="_loc_unavegada"/><exception regexp="yes">.*%</exception></token>
+                        <unify-ignore>
+                            <token min="0">no</token>
+                            <token regexp="yes" inflected="yes">ser|estar|semblar|parèixer</token>
+                            <token postag="RG_anteposat"/>
+                        </unify-ignore>
+                        <token postag="V.P.*|A.*" postag_regexp="yes"><exception postag="_possible_nompropi|_GN_.*|N.*" postag_regexp="yes"/><exception regexp="yes">derivats|composto?s</exception></token>
+                    </unify>
+                </pattern>
+                <message>Possible falta de concordança.</message>
+                <example correction=""><marker>Gàmbia no és gaire bonic</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="CONCORDANCES_PRONOM_VERB" name="Concordaces pronom verb: nosaltres *penseu/pensem">
