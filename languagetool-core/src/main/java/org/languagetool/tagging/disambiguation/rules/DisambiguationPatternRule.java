@@ -73,11 +73,11 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
         && disambAction != DisambiguatorAction.REPLACE
         && disambAction != DisambiguatorAction.FILTERALL
         && disambAction != DisambiguatorAction.IGNORE_SPELLING) {
-      throw new NullPointerException("disambiguated POS cannot be null");
+      throw new NullPointerException("disambiguated POS cannot be null with posSelect == null and " + disambAction);
     }
     this.disambiguatedPOS = disambiguatedPOS;
     this.matchElement = posSelect;
-    this.disAction = disambAction;
+    this.disAction = Objects.requireNonNull(disambAction);
   }
 
   /**
