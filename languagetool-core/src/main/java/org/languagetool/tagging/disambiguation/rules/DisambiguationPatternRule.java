@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
@@ -56,16 +57,15 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
    * @param id Id of the Rule
    * @param language Language of the Rule
    * @param description Description to be shown (name)
-   * @param disambAction the action to be executed on found token(s), one of the
-   *          following: add, filter, filterall, ignore_spelling, immunize, remove, replace, unify.
+   * @param disambAction the action to be executed on found token(s)
    * @since public since 2.5
    */
   public DisambiguationPatternRule(final String id, final String description,
                                    final Language language, final List<PatternToken> patternTokens,
-                                   final String disamb, final Match posSelect,
+                                   final String disambiguatedPOS, final Match posSelect,
                                    final DisambiguatorAction disambAction) {
     super(id, description, language, patternTokens, true);
-    if (disamb == null && posSelect == null
+    if (disambiguatedPOS == null && posSelect == null
         && disambAction != DisambiguatorAction.UNIFY
         && disambAction != DisambiguatorAction.ADD
         && disambAction != DisambiguatorAction.REMOVE
@@ -75,14 +75,13 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
         && disambAction != DisambiguatorAction.IGNORE_SPELLING) {
       throw new NullPointerException("disambiguated POS cannot be null");
     }
-    this.disambiguatedPOS = disamb;
+    this.disambiguatedPOS = disambiguatedPOS;
     this.matchElement = posSelect;
     this.disAction = disambAction;
   }
 
   /**
    * Used to add new interpretations.
-   * 
    * @param newReadings
    *          An array of AnalyzedTokens. The length of the array should be the
    *          same as the number of the tokens matched and selected by
@@ -94,40 +93,26 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
 
   /**
    * Performs disambiguation on the source sentence.
-   * 
    * @param sentence {@link AnalyzedSentence} Sentence to be disambiguated.
    * @return {@link AnalyzedSentence} Disambiguated sentence (might be unchanged).
    */
-
   public final AnalyzedSentence replace(final AnalyzedSentence sentence) throws IOException {
     final DisambiguationPatternRuleReplacer replacer = new DisambiguationPatternRuleReplacer(this);
     return replacer.replace(sentence);
   }
 
-  /**
-   * @param examples the examples to set
-   */
   public void setExamples(final List<DisambiguatedExample> examples) {
     this.examples = Objects.requireNonNull(examples);
   }
 
-  /**
-   * @return the examples
-   */
   public List<DisambiguatedExample> getExamples() {
     return Collections.unmodifiableList(examples);
   }
 
-  /**
-   * @param untouchedExamples the untouchedExamples to set
-   */
   public void setUntouchedExamples(final List<String> untouchedExamples) {
     this.untouchedExamples = Objects.requireNonNull(untouchedExamples);
   }
 
-  /**
-   * @return the untouchedExamples
-   */
   public List<String> getUntouchedExamples() {
     return Collections.unmodifiableList(untouchedExamples);
   }
@@ -149,6 +134,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
   /**
    * @since 2.3
    */
+  @Nullable
   public Match getMatchElement() {
     return matchElement;
   }
@@ -156,6 +142,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
   /**
    * @since 2.3
    */
+  @Nullable
   public String getDisambiguatedPOS() {
     return disambiguatedPOS;
   }
