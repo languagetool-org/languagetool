@@ -89,6 +89,14 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     threadPool.shutdownNow();
   }
 
+  /**
+   * Call this to shut down the internally used thread pool after all running tasks are finished.
+   * @since 3.1
+   */
+  public void shutdownWhenDone() {
+    threadPool.shutdown();
+  }
+
   private static int getDefaultThreadCount() {
     String threadCountStr = System.getProperty("org.languagetool.thread_count_internal", "-1");
     int threadPoolSize = Integer.parseInt(threadCountStr);
