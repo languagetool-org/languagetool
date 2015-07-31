@@ -19377,6 +19377,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Schuld">Dich trifft keine <marker>schuld</marker>!</example>
                 <example correction="Schuld">Wer von euch ohne <marker>schuld</marker> ist, der werfe den ersten Stein.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes" postag="VER:.*" postag_regexp="yes">sein</token>
+                    <token min="0" max="2" regexp="yes">aber|doch</token>
+                    <token min="0" max="1">nicht</token>
+                    <token min="0" max="1">daran</token>
+                    <marker>
+                        <token>Schuld</token>
+                    </marker>
+                    <token min="0" max="1">daran</token>
+                    <token>,</token>
+                    <token regexp="yes">dass|wenn</token>
+                </pattern>
+                <message>In der Redewendung '<suggestion><match no="5" case_conversion="alllower"/></suggestion> (an etwas) sein' ist 'schuld' ein verblasstes Substantiv und sollte kleingeschrieben werden.</message>
+                <url>http://www.duden.de/rechtschreibung/schuld</url>
+                <short>&prgk;.</short>
+                <example>Das ist doch nicht meine <marker>Schuld</marker>!</example>
+                <example correction="schuld">Wir sind doch nicht <marker>Schuld</marker> daran, dass das passiert ist!</example>
+                <example correction="schuld">Er ist <marker>Schuld</marker> daran, dass das passiert ist.</example>
+            </rule>
         </rulegroup>
         <rule id="AUF_DIE_NERVEN" name="Groß-/Kleinschreibung: 'auf die nerven (Nerven) gehen'">
             <pattern case_sensitive="yes">
