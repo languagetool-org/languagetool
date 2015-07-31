@@ -21,7 +21,7 @@ package org.languagetool.dev.bigdata;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.Languages;
+import org.languagetool.chunking.Chunker;
 import org.languagetool.dev.dumpcheck.*;
 import org.languagetool.dev.eval.FMeasure;
 import org.languagetool.language.English;
@@ -31,6 +31,8 @@ import org.languagetool.rules.ConfusionProbabilityRule;
 import org.languagetool.rules.ConfusionSet;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.en.EnglishConfusionProbabilityRule;
+import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tools.StringTools;
 
 import java.io.File;
@@ -95,7 +97,7 @@ class ConfusionRuleEvaluator {
   private void evaluate(List<Sentence> sentences, boolean isCorrect, String token, String homophoneToken) throws IOException {
     println("======================");
     printf("Starting evaluation on " + sentences.size() + " sentences with %s/%s:\n", token, homophoneToken);
-    JLanguageTool lt = new JLanguageTool(new English());
+    JLanguageTool lt = new JLanguageTool(language);
     for (Sentence sentence : sentences) {
       String textToken = isCorrect ? token : homophoneToken;
       String plainText = sentence.getText();
@@ -200,7 +202,8 @@ class ConfusionRuleEvaluator {
       System.err.println("                      You can specify both a Wikipedia file and a Tatoeba file.");
       System.exit(1);
     }
-    Language lang = Languages.getLanguageForShortName(args[0]);
+    long startTime = System.currentTimeMillis();
+    Language lang = new EnglishLight();
     LanguageModel languageModel = new LuceneLanguageModel(new File(args[1]));
     List<String> inputsFiles = new ArrayList<>();
     inputsFiles.add(args[2]);
@@ -209,8 +212,32 @@ class ConfusionRuleEvaluator {
     }
     ConfusionRuleEvaluator generator = new ConfusionRuleEvaluator(lang, languageModel, 3);
     generator.run(inputsFiles, TOKEN, TOKEN_HOMOPHONE, FACTOR, MAX_SENTENCES);
+    long endTime = System.currentTimeMillis();
+    System.out.println("Time: " + (endTime-startTime)+"ms");
     //ConfusionRuleEvaluator generator2 = new ConfusionRuleEvaluator(lang, languageModel, 4);
     //generator2.run(inputsFiles, TOKEN, TOKEN_HOMOPHONE, MAX_SENTENCES);
   }
   
+  static class EnglishLight extends English {
+    
+    private DemoTagger tagger;
+
+    @Override
+    public String getName() {
+      return "English Light";
+    }
+    
+    @Override
+    public Tagger getTagger() {
+      if (tagger == null) {
+        tagger = new DemoTagger();
+      }
+      return tagger;
+    }
+
+    @Override
+    public Chunker getChunker() {
+      return null;
+    }
+  }
 }
