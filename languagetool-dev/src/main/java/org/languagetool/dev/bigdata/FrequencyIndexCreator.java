@@ -285,7 +285,10 @@ public class FrequencyIndexCreator {
     private final BufferedWriter writer;
     
     TextDataWriter(File indexDir) throws IOException {
-      indexDir.mkdir();
+      boolean mkdir = indexDir.mkdir();
+      if (!mkdir) {
+        throw new RuntimeException("Could not create: " + indexDir);
+      }
       fw = new FileWriter(new File(indexDir, indexDir.getName() + "-output.csv"));
       writer = new BufferedWriter(fw);
     }
