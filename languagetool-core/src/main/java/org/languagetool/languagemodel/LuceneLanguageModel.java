@@ -25,6 +25,8 @@ import org.apache.lucene.store.FSDirectory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 /**
@@ -196,7 +198,13 @@ public class LuceneLanguageModel implements LanguageModel {
     final IndexReader reader;
     final IndexSearcher searcher;
     private LuceneSearcher(File indexDir) throws IOException {
-      this.directory = FSDirectory.open(indexDir.toPath());
+      Path path = indexDir.toPath();
+      // symlinks are not supported here, see https://issues.apache.org/jira/browse/LUCENE-6700,
+      // so we resolve the link ourselves:
+      if (Files.isSymbolicLink(path)) {
+        path = indexDir.getCanonicalFile().toPath();
+      }
+      this.directory = FSDirectory.open(path);
       this.reader = DirectoryReader.open(directory);
       this.searcher = new IndexSearcher(reader);
     }
