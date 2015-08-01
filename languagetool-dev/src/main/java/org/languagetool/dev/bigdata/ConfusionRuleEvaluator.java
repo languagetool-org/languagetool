@@ -55,6 +55,7 @@ class ConfusionRuleEvaluator {
   private static final String TOKEN = "there";
   private static final String TOKEN_HOMOPHONE = "their";
   private static final int FACTOR = 100;
+  private static final int NGRAM_LEVEL = 3;
   private static final int MAX_SENTENCES = 1000;
 
   private final Language language;
@@ -113,6 +114,7 @@ class ConfusionRuleEvaluator {
         falsePositives++;
         println("false positive: " + displayStr);
       } else if (consideredCorrect && !isCorrect) {
+        //println("false negative: " + displayStr);
         falseNegatives++;
       } else {
         truePositives++;
@@ -210,12 +212,10 @@ class ConfusionRuleEvaluator {
     if (args.length >= 4) {
       inputsFiles.add(args[3]);
     }
-    ConfusionRuleEvaluator generator = new ConfusionRuleEvaluator(lang, languageModel, 3);
+    ConfusionRuleEvaluator generator = new ConfusionRuleEvaluator(lang, languageModel, NGRAM_LEVEL);
     generator.run(inputsFiles, TOKEN, TOKEN_HOMOPHONE, FACTOR, MAX_SENTENCES);
     long endTime = System.currentTimeMillis();
     System.out.println("Time: " + (endTime-startTime)+"ms");
-    //ConfusionRuleEvaluator generator2 = new ConfusionRuleEvaluator(lang, languageModel, 4);
-    //generator2.run(inputsFiles, TOKEN, TOKEN_HOMOPHONE, MAX_SENTENCES);
   }
   
   static class EnglishLight extends English {

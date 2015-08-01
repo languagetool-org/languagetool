@@ -185,8 +185,8 @@ public abstract class ConfusionProbabilityRule extends Rule {
     } else {
       throw new RuntimeException("Only 3grams and 4grams are supported");
     }
-    debug("P(" + word + ") = %.50f\n", p1);
-    debug("P(" + otherWord + ") = %.50f\n", p2);
+    debug("P(" + word + ") = %.90f\n", p1);
+    debug("P(" + otherWord + ") = %.90f\n", p2);
     return p2 >= MIN_PROB && p2 > p1 * factor ? otherWord : null;
   }
 

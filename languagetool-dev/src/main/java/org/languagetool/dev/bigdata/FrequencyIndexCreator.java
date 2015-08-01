@@ -322,6 +322,7 @@ public class FrequencyIndexCreator {
       System.exit(1);
     }
     FrequencyIndexCreator creator = new FrequencyIndexCreator();
+    System.out.println("TEXT_MODE: " + TEXT_MODE);
     creator.run(new File(args[0]), new File(args[1]));
   }
 }
