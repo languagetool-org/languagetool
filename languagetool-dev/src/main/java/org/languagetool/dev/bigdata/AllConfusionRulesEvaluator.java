@@ -47,7 +47,12 @@ final class AllConfusionRulesEvaluator {
       System.err.println("                      You can specify both a Wikipedia file and a Tatoeba file.");
       System.exit(1);
     }
-    Language lang = Languages.getLanguageForShortName(args[0]);
+    Language lang;
+    if ("en".equals(args[0])) {
+      lang = new ConfusionRuleEvaluator.EnglishLight();
+    } else {
+      lang = Languages.getLanguageForShortName(args[0]);
+    }
     LanguageModel languageModel = new LuceneLanguageModel(new File(args[1]));
     List<String> inputsFiles = new ArrayList<>();
     inputsFiles.add(args[2]);
