@@ -1738,73 +1738,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="replace" postag="NPCN000"/>
         </rule>
-        <!-- Uppercase words with unknown postag -->
-        <!-- <rule>
-            <pattern>
-            <token postag="D[^R]0MS.*" postag_regexp="yes"/>
-            <marker>
-            <token postag="UNKNOWN" regexp="yes">\p{Lu}[\p{Ll}·]+</token>
-            </marker>
-            </pattern>
-            <disambig action="add"><wd pos="NPMS000"></wd></disambig>
-            </rule>
-            <rule>
-            <pattern>
-            <token postag="D[^R]0FS.*" postag_regexp="yes"/>
-            <marker>
-            <token postag="UNKNOWN" regexp="yes">\p{Lu}[\p{Ll}·]+</token>
-            </marker>
-            </pattern>
-            <disambig action="add"><wd pos="NPFS000"></wd></disambig>
-            </rule>
-            <rule>
-            <pattern>
-            <token postag="D[^R]0MP.*" postag_regexp="yes"/>
-            <marker>
-            <token postag="UNKNOWN" regexp="yes">\p{Lu}[\p{Ll}·]+</token>
-            </marker>
-            </pattern>
-            <disambig action="add"><wd pos="NPMP000"></wd></disambig>
-            </rule>
-            <rule>
-            <pattern>
-            <token postag="D[^R]0FP.*" postag_regexp="yes"/>
-            <marker>
-            <token postag="UNKNOWN" regexp="yes">\p{Lu}[\p{Ll}·]+</token>
-            </marker>
-            </pattern>
-            <disambig action="add"><wd pos="NPFP000"></wd></disambig>
-            </rule>
-            <rule>
-            <pattern>
-            <token postag="D[^R]0CS.*" postag_regexp="yes"/>
-            <marker>
-            <token postag="UNKNOWN" regexp="yes">\p{Lu}[\p{Ll}·]+</token>
-            </marker>
-            </pattern>
-            <disambig action="add"><wd pos="NPCS000"></wd></disambig>
-            </rule> -->
-        <!-- <rule>
-            <pattern>
-            <token postag="D[^R].*" postag_regexp="yes" negate_pos="yes"/>
-            <marker>
-            <token postag="UNKNOWN" regexp="yes">\p{Lu}[\p{Ll}·]+</token>
-            </marker>
-            </pattern>
-            <disambig action="add"><wd pos="NPCN000"></wd></disambig>
-            </rule>   -->
-        <!--  <rule id="nom_persona_o_geografic" name="nom de persona o geogràfic: a l'Àfrica?">
-            <pattern>
-            <token skip="1">a</token>
-            <marker>
-            <and>
-            <token postag="NP..G00" postag_regexp="yes"/>
-            <token postag="NP..SP0" postag_regexp="yes"/>
-            </and>
-            </marker>
-            </pattern>
-            <disambig action="filter" postag="NP..G00" />
-            </rule> -->
         <rule id="senyor_senyora" name="senyor -a">
             <pattern>
                 <marker>
@@ -1813,24 +1746,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token regexp="yes">\p{Lu}.*</token>
             </pattern>
             <disambig action="filter" postag="N.*"/>
-        </rule>
-        <rule id="esser" name="ésser: nom no verb">
-            <pattern>
-                <marker>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes">ésser|esser</token>
-                </marker>
-                <token regexp="yes">humà|viu</token>
-            </pattern>
-            <disambig action="filter" postag="N.*"/>
-        </rule>
-        <rule id="tret" name="tret: no preposició">
-            <pattern>
-                <token postag="D[AID].MS." postag_regexp="yes"/>
-                <marker>
-                    <token postag="N.*" postag_regexp="yes">tret</token>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="N.*|V.P.*"/>
         </rule>
         <rule id="sant" name="sant">
             <pattern>
@@ -1843,7 +1758,34 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="unify"/>
         </rule>
+        <rule id="nompropi_ordinal" name="nom propi + ordinal: Pere III">
+            <pattern>
+                <marker>
+                    <token postag="NP.S.*" postag_regexp="yes"/>
+                </marker>
+                <token postag="AO.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="NP.S.*"/>
+        </rule>
     </rulegroup>
+    <rule id="esser" name="ésser: nom no verb">
+        <pattern>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">ésser|esser</token>
+            </marker>
+            <token regexp="yes">humà|viu</token>
+        </pattern>
+        <disambig action="filter" postag="N.*"/>
+    </rule>
+    <rule id="tret" name="tret: no preposició">
+        <pattern>
+            <token postag="D[AID].MS." postag_regexp="yes"/>
+            <marker>
+                <token postag="N.*" postag_regexp="yes">tret</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N.*|V.P.*"/>
+    </rule>
     <rulegroup id="interjeccions" name="interjeccions">
         <rule>
             <pattern>
