@@ -10,7 +10,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!ENTITY exceptions_TE "aigua|arròs|cacau|cacauet|caf[èé]|cautxú|cervesa|cítric|coca-cola|cotó|espècies|farigola|fruita|infusió|llet|malta?|melmelada|mill|oli|ordi|pastes|pastís|pastisset|poliol|quina|raïm|sucre|tabac|torrada|xocolat[ae]">
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
     <!ENTITY masculi_inusual "policia|justícia|part[123]">
-    <!ENTITY nom_o_verb "escola|vaticini|queixa|tinta|plaga|cometa2|cursa|país|domini|equilibri|termini|cap|dosi|tema|imperi|barri|sonda|porta|resta|ment|capa|demanda|esperança|manca|marca|marxa|mostra|obra|ou|orquestra|profeta|programa|terra">
+    <!ENTITY nom_o_verb "escultura|escola|vaticini|queixa|tinta|plaga|cometa2|cursa|país|domini|equilibri|termini|cap|dosi|tema|imperi|barri|sonda|porta|resta|ment|capa|demanda|esperança|manca|marca|marxa|mostra|obra|ou|orquestra|profeta|programa|terra">
     <!ENTITY nom_seguitde_nompropi "senyor|estàndard|tipus|adreça|imperi|profeta|balneari|projecte|corrent|estany|cometa2|mont|pare|premi|cas|cursa|concurs|quadre|taula|novel·la|obra|riu|estil|programa|orquestra|escola|registre|finca|sonda|rosa|tema">
     <!ENTITY unitats_temps "molt|poc|temps|temporada|jornada|estona|mil·lisegon|segon|minut|hora|dia|jorn|setmana|mes|any|lustre|dècada|decenni|segle|mil·lenni">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
@@ -8235,22 +8235,46 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd pos="_GN_FP"/><wd pos="_GN_FP"/></disambig>
         </rule>
     </rulegroup>
-    <rule id="ser_atribut_adjectiu" name="ser + atribut (adjectiu)">
-        <pattern>
-            <token inflected="yes" regexp="yes">ser|estar|parèixer|semblar</token>
-            <marker>
-                <and>
-                    <token postag="A.*" postag_regexp="yes"><exception postag="_GN.*" postag_regexp="yes"/></token>
-                    <token postag="N.*" postag_regexp="yes"><exception inflected="yes" regexp="yes" postag="N.*" postag_regexp="yes">reflex|desert|motiu|foguera</exception></token>
-                </and>
-            </marker>
-            <token><exception inflected="yes">de</exception></token>
-        </pattern>
-        <disambig action="remove"  postag="N.*"/>
-        <example type="untouched">Aquesta impressió és reflex de la situació.</example>
-        <example type="untouched">Són mones albines.</example>
-        <example type="untouched">Són mitjans de comunicació.</example>
-    </rule>
+    <rulegroup id="ser_atribut_adjectiu" name="ser + atribut (adjectiu)">
+        <!--exceptions-->
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes">mitjà</token>
+                </marker>
+                <token>de</token>
+                <token regexp="yes" inflected="yes">comunicació|transport|informació</token>
+            </pattern>
+            <disambig action="remove" postag="A.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes">divisòria</token>
+                </marker>
+                <token>d'</token>
+                <token>aigües</token>
+            </pattern>
+            <disambig action="remove" postag="A.*"></disambig>
+        </rule>
+        <!-- main rule -->
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">ser|estar|parèixer|semblar</token>
+                <marker>
+                    <and>
+                        <token postag="A.*" postag_regexp="yes"><exception postag="_GN.*" postag_regexp="yes"/></token>
+                        <token postag="N.*" postag_regexp="yes"><exception inflected="yes" regexp="yes" postag="N.*" postag_regexp="yes">reflex|desert|motiu|foguera</exception></token>
+                    </and>
+                </marker>
+                <!--<token><exception inflected="yes">de</exception></token>-->
+            </pattern>
+            <disambig action="remove"  postag="N.*"/>
+            <example type="untouched">Aquesta impressió és reflex de la situació.</example>
+            <example type="untouched">Són mones albines.</example>
+            <!--<example type="untouched">Són mitjans de comunicació.</example>-->
+        </rule>
+    </rulegroup>
     <rule id="GerAdj_Nom" name="gerundi/adjectiu + nom">
         <pattern>
             <marker>
