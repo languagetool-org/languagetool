@@ -9,13 +9,13 @@
 
     <xsl:template match="text()" />
 
-    <xsl:template match="*">    
+    <xsl:template match="*">
         <xsl:apply-templates select="*">
             <xsl:sort select="@name"/>
         </xsl:apply-templates>
     </xsl:template>
-    
-    <xsl:template match="//category">        
+
+    <xsl:template match="//category">
         <xsl:variable name="category_name" select="@name"/>
         <xsl:variable name="cat_id" select="generate-id()"/>
         <xsl:element name="div">
@@ -35,7 +35,7 @@
                 </xsl:apply-templates>
             </ol>
         </xsl:element>
-        <h4>        
+        <h4>
             <xsl:element name="a">
                 <xsl:attribute name="href">javascript:;</xsl:attribute>
                 <xsl:attribute name="onmousedown">toggleDiv('<xsl:copy-of select="$cat_id"/>');</xsl:attribute>
@@ -48,7 +48,7 @@
 
     <xsl:template match="//rule[@id!='']">
         <li>
-            <xsl:value-of select="@name" />
+            <strong><xsl:value-of select="@name" /></strong>
         </li>
         <ul>
             <xsl:apply-templates select="*" />
@@ -57,7 +57,7 @@
 
     <xsl:template match="//rulegroup">
         <li>
-            <xsl:value-of select="@name" />
+            <strong><xsl:value-of select="@name" /></strong>
         </li>
         <ul>
             <xsl:apply-templates select="*" />
@@ -73,79 +73,88 @@
         </li>
     </xsl:template>
 
-    <xsl:template match="//rule/example[@type='incorrect']">
+    <xsl:template match="//rule/example">
         <li>
             <xsl:apply-templates select="*|text()" /> <br/>
-            <xsl:if test="@correction !=''">
-                <xsl:choose>
-                <xsl:when test="not(contains(@correction, '|')) and not(contains(../message/text(), '\')) and count(../message/text()) &lt; 3">
-                    <xsl:copy-of select="../message/text()[1]"/>
-                    <strong style="color: #339900;"><xsl:value-of select="@correction"/></strong>
-                    <xsl:copy-of select="../message/text()[2]"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    <!--  two problems: parse correction, i.e., split it on "|"
-                    and replace \1 with ../pattern/token[1]/text()
-                    <xsl:copy-of select="../pattern/token[2]/text()"/>
-                    for now, we simply print "Correction", and skip the message
-                    <xsl:variable name="cor_text" select="substring-before(@correction, '|')"/>
-                    <strong style="color: #339900;">
-                        <xsl:value-of select="$cor_text"/>
-                    </strong>
-                    <xsl:variable name="cor_text" select="substring-after($cor_text,'|')"/>
-                    aaaa <xsl:value-of select="$cor_text"/>
-                    <xsl:if test="contains($cor_text, '|')">
-                        <xsl:variable name="message_cnt" select="$message_cnt + 1"/>
-                        aas
-                        <xsl:copy-of select="../message/text()[$message_cnt]"/>
+            <xsl:if test="@correction">
+                <xsl:if test="@correction !=''">
+                    <xsl:choose>
+                    <xsl:when test="not(contains(@correction, '|')) and not(contains(../message/text(), '\')) and count(../message/text()) &lt; 3">
+                        <xsl:copy-of select="../message/text()[1]"/>
+                        <strong style="color: #339900;"><xsl:value-of select="@correction"/></strong>
+                        <xsl:copy-of select="../message/text()[2]"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <!--  two problems: parse correction, i.e., split it on "|"
+                        and replace \1 with ../pattern/token[1]/text()
+                        <xsl:copy-of select="../pattern/token[2]/text()"/>
+                        for now, we simply print "Correction", and skip the message
                         <xsl:variable name="cor_text" select="substring-before(@correction, '|')"/>
                         <strong style="color: #339900;">
                             <xsl:value-of select="$cor_text"/>
                         </strong>
-                        <xsl:variable name="message_cnt" select="$message_cnt + 1"/>
-                        <xsl:copy-of select="../message/text()[$message_cnt]"/>
-                    </xsl:if>
-                    </xsl:when>
-                    <xsl:otherwise>
-                    <xsl:copy-of select="../message/text()[1]"/>
-                    </xsl:otherwise>
-                    </xsl:choose>
-                                -->
-                    <xsl:choose>
-                    <xsl:when test="//rules[@lang='pl']">Poprawnie: </xsl:when>
-                    <xsl:when test="//rules[@lang='en']">Correctly: </xsl:when>
-                    <xsl:when test="//rules[@lang='de']">Korrekt: </xsl:when>
-                    <xsl:when test="//rules[@lang='fr']">Correctement : </xsl:when>
-                    <xsl:when test="//rules[@lang='nl']">Correct: </xsl:when>
-                    <xsl:when test="//rules[@lang='es']">Correctamente: </xsl:when>
-                    </xsl:choose>
-                        <strong style="color: #339900;">
-                            <xsl:value-of select="@correction"/>
-                        </strong>
-                    <!--
-                    <xsl:variable name="text_count" select="count(../message/text())"/>
-                    <xsl:value-of select="../message/text()[$text_count]"/>
-                     -->
-                 </xsl:otherwise>
-                 </xsl:choose>
+                        <xsl:variable name="cor_text" select="substring-after($cor_text,'|')"/>
+                        aaaa <xsl:value-of select="$cor_text"/>
+                        <xsl:if test="contains($cor_text, '|')">
+                            <xsl:variable name="message_cnt" select="$message_cnt + 1"/>
+                            aas
+                            <xsl:copy-of select="../message/text()[$message_cnt]"/>
+                            <xsl:variable name="cor_text" select="substring-before(@correction, '|')"/>
+                            <strong style="color: #339900;">
+                                <xsl:value-of select="$cor_text"/>
+                            </strong>
+                            <xsl:variable name="message_cnt" select="$message_cnt + 1"/>
+                            <xsl:copy-of select="../message/text()[$message_cnt]"/>
+                        </xsl:if>
+                        </xsl:when>
+                        <xsl:otherwise>
+                        <xsl:copy-of select="../message/text()[1]"/>
+                        </xsl:otherwise>
+                        </xsl:choose>
+                                    -->
+                        <xsl:choose>
+                        <xsl:when test="//rules[@lang='pl']">Poprawnie: </xsl:when>
+                        <xsl:when test="//rules[@lang='en']">Correctly: </xsl:when>
+                        <xsl:when test="//rules[@lang='de']">Korrekt: </xsl:when>
+                        <xsl:when test="//rules[@lang='fr']">Correctement : </xsl:when>
+                        <xsl:when test="//rules[@lang='nl']">Correct: </xsl:when>
+                        <xsl:when test="//rules[@lang='es']">Correctamente: </xsl:when>
+                        </xsl:choose>
+                            <strong style="color: #339900;">
+                                <xsl:value-of select="@correction"/>
+                            </strong>
+                        <!--
+                        <xsl:variable name="text_count" select="count(../message/text())"/>
+                        <xsl:value-of select="../message/text()[$text_count]"/>
+                         -->
+                     </xsl:otherwise>
+                     </xsl:choose>
+                </xsl:if>
             </xsl:if>
         </li>
     </xsl:template>
 
-    <xsl:template match="//rule/example[@type='incorrect']/text()">
+    <xsl:template match="//rule/example/text()">
         <xsl:copy-of select="." />
     </xsl:template>
 
-    <xsl:template match="//rule/example[@type='incorrect']/marker">
+    <xsl:template match="//rule/example[@correction]/marker">
         <strong style="color: rgb(255, 0, 0);">
             <xsl:value-of select="./text()" />
         </strong>
     </xsl:template>
-    
-    <xsl:template match="//rules">    
+
+    <xsl:template match="//rule/example[not(@correction)]/marker">
+        <span style="color: rgb(100, 100, 100);">
+            <xsl:value-of select="./text()" />
+        </span>
+    </xsl:template>
+
+    <xsl:template match="//rules">
         <html>
             <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
             <head>
+            <title>LanguageTool Rules</title>            
             <script language="javascript">
             <xsl:text>
               function toggleDiv(divid){
@@ -159,6 +168,7 @@
             </script>
             </head>
             <body>
+                <h1>LanguageTool Rules for the <em><xsl:value-of select="//rules/@lang" /></em> Language</h1>
                 <noscript><p><strong>Note:</strong> this page requires Javascript to work</p></noscript>
                 <xsl:choose>
                     <xsl:when test="//rules[@lang='pl']">Łączna liczba reguł: </xsl:when>
@@ -189,6 +199,6 @@
                 </xsl:apply-templates>
             </body>
         </html>
-    </xsl:template>    
-    
+    </xsl:template>
+
 </xsl:stylesheet>
