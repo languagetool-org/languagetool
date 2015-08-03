@@ -22,7 +22,7 @@ $Id$
     <!ENTITY adverbis_temps_lloc "entra(t|ts|da|des)|passa(t|ts|da|des)|tocad(a|es)|arran|enfront|per|durant|llavors|tard|aviat|pròximament|properament|prompte|avui|abans|després|hui|ara|demà|ahir|despús-ahir|despús-demà|aquí|ací|allí|allà|ahí|aleshores|recentment|posteriorment">
     <!ENTITY context_PASTAR "aigua|bol|canyella|cera|coca|dit|farina|ingredient|llet|llevat|llimona|mà|mantega|massa|min|minuts|mona|oli|ou|panificadora|sucre">
     <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
-    <!ENTITY context_FER_SE_AMB "triomf|victòria|alcaldia|presidència|nombre|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit">
+    <!ENTITY context_FER_SE_AMB "títol|triomf|victòria|alcaldia|presidència|nombre|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit">
     <!ENTITY context_ROTAR_GIRAR "angle1|grau|girar|objecte|triangle|quadrat|polígon|eix|gravetat|minut|segon|sentit|agulla|rellotge|planeta|Terra|rotació|aparell|oest|est|magnètic|òrbita|pilota">
     <!ENTITY dies_setmana_abrev "dl|dt|dc|dj|dv|ds|dg">
     <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
@@ -14345,17 +14345,26 @@ $Id$
                 <example correction="boca-orella">Em va arribar pel <marker>boca a orella</marker>.</example>
                 <example>La notícia va córrer de boca a orella.</example>
             </rule>
-            <rule id="ESTIRAIARRONSA" name="estira-i-arronsa">
+            <rule>
                 <pattern>
                     <token regexp="yes">tira|estira</token>
                     <token>i</token>
                     <token regexp="yes">arronsa|amolla</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>estira-i-\3</suggestion>?</message>
+                <message>S'escriu amb guionets.</message>
+                <suggestion>\1-\2-\3</suggestion>
                 <example correction="estira-i-arronsa">Aquest <marker>estira i arronsa</marker></example>
             </rule>
-        </rulegroup>
-        <rulegroup id="MOTS_AMB_GUIONET" name="nomts amb guionet: no-violència">
+            <rule>
+                <pattern>
+                    <token>ciència</token>
+                    <token>ficció</token>
+                </pattern>
+                <message>S'escriu amb guionet.</message>
+                <suggestion>ciència-ficció</suggestion>
+                <example correction="ciència-ficció">La <marker>ciència ficció</marker>.</example>
+                <example>La ciència-ficció.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="D[AI].*|SPS00" postag_regexp="yes"/>
@@ -14394,8 +14403,8 @@ $Id$
                     <token>-</token>
                     <token regexp="yes" inflected="yes">campió|campionat</token>
                 </pattern>
-                <message>Cal dir <suggestion>sub<match no="3"/></suggestion>.</message>
-                <short>Error ortogràfic</short>
+                <message>S'escriu junt sense guionet.</message>
+                <suggestion>sub\3</suggestion>
                 <example correction="subcampionats">Els <marker>sots-campionats</marker></example>
                 <example correction="subcampiones">Les <marker>sots-campiones</marker></example>
                 <example>El subcampió</example>
@@ -14422,7 +14431,6 @@ $Id$
                 </pattern>
                 <message>S'escriu junt sense guionets.</message>
                 <suggestion>visti<match no="5"/></suggestion>
-                <short>Error ortogràfic</short>
                 <example correction="vistiplau">El <marker>vist-i-plau</marker> del president</example>
                 <example>El vistiplau del president</example>
             </rule>
@@ -24813,16 +24821,6 @@ $Id$
             <example>L'antic camí de Sant Feliu</example>
             <example>en camí de fer-ho</example>
             <example>S'ha obert camí de manera autodidàctica.</example>
-        </rule>
-        <rule id="CIENCIA_FICCIO" name="ciència-ficció">
-            <pattern>
-                <token>ciència</token>
-                <token>ficció</token>
-            </pattern>
-            <message>Falta un guionet.</message>
-            <suggestion>ciència-ficció</suggestion>
-            <example correction="ciència-ficció">La <marker>ciència ficció</marker>.</example>
-            <example>La ciència-ficció.</example>
         </rule>
         <rule id="COBRAMENT_REVERTIT" name="cobrament revertit">
             <pattern>
