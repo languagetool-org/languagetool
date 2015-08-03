@@ -52,7 +52,7 @@ $Id$
     <!ENTITY nombres_que_apostrofen "(1{1,2}|11[.\s]?\d{3}|1{1,2}\.\d{3}\.\d{3}|1{1,2}\s\d{3}\s\d{3}|1{1,2}\d{6})([,]\d+)?([&#37;&#8240;&#8241;]|&#176;[CFKNSEW]?)?|11[aèé]">
     <!ENTITY noms_ABAIXAR_APUJAR "calefacció|impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista">
     <!ENTITY noms_collectius "majoria|parell|gent|grup|colla|família|part|nombre">
-    <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|templer|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim">
+    <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|templer|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim|caputxí|carmelità">
     <!ENTITY ordes_invariable "conventual|mendicant|militar|major|menor|marista|jesuïta|regular">
     <!ENTITY parts_dia "matinada|matí|migdia|tarda|vesprada|horabaixa|vespre|capvespre|nit1|mitjanit">
     <!ENTITY precedits_per_TAN "bo|prompte|savi|espectacular|alt|ample|estret|complex|comú|divers|eficaç|efectiu|fals|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer|exagerat|ràpid">
@@ -21231,6 +21231,17 @@ $Id$
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="RISC_DE_VIDA" name="Risc de vida">
+            <pattern>
+                <token inflected='yes'>risc</token>
+                <token>de</token>
+                <token>vida</token>
+            </pattern>
+            <message>Expressió incoherent.</message>
+            <suggestion>\1 per a la vida</suggestion>
+            <suggestion>\1 de mort</suggestion>
+            <example correction='risc per a la vida|risc de mort'><marker>risc de vida</marker></example>
+        </rule>
         <rulegroup id="EN_SO_DE" name="*en so de / en to de">
             <rule>
                 <pattern>
@@ -28429,20 +28440,21 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="ALCADA_ALTURA" name="alçada / altura">
+            <url>http://www.ub.edu/untipdetrucs//?p=1244</url>
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes" inflected="yes">alçada|alçària</token>
+                        <token regexp="yes" inflected="yes" skip="3">alçada|alçària</token>
                     </marker>
                     <token skip="4" regexp="yes">sobre|damunt</token>
                     <token>mar</token>
                 </pattern>
                 <message>Probablement cal dir <suggestion>altitud</suggestion>.</message>
                 <suggestion>altura</suggestion>
-                <url>http://www.ub.edu/untipdetrucs//?p=1244</url>
                 <short>Possible confusió</short>
                 <example correction="altitud|altura"><marker>alçada</marker> sobre el mar</example>
                 <example correction="altitud|altura"><marker>alçada</marker> sobre el nivell del mar</example>
+                <example correction="altitud|altura">una <marker>alçària</marker> de 720 m sobre el nivell del mar.</example> 
                 <example>altura sobre el mar</example>
             </rule>
             <rule>
@@ -28456,7 +28468,6 @@ $Id$
                 </pattern>
                 <message>Probablement cal dir <suggestion>altitud</suggestion>.</message>
                 <suggestion>altura</suggestion>
-                <url>http://www.ub.edu/untipdetrucs//?p=1244</url>
                 <short>Possible confusió</short>
                 <example correction="altitud|altura"> 3.000 metres d'<marker>alçada</marker></example>
                 <example>L'abre pot arribar a 4 metres d'alçada.</example>
@@ -28464,14 +28475,14 @@ $Id$
                 <example>Pau Gasol fa més de 2 metres d'alçada.</example>
             </rule>
         </rulegroup>
-        <!-- <rule id="PLAC" name="plaç (plaçar) / termini">
+        <rule id="PLAC" name="plaç (plaçar) / termini">
             <pattern>
-            <token>plaç</token>
+                <token>plaç</token>
             </pattern>
             <message>¿Volíeu dir <suggestion>termini</suggestion>? "Plaç" és del verb "plaçar" (jo plaç).</message>
-            <example correction="termini">A llarg <marker>plaç</marker>.</example>
-            <example>A llarg termini</example>
-            </rule> -->
+            <suggestion>terme</suggestion>
+            <example correction="termini|terme">A llarg <marker>plaç</marker>.</example>
+        </rule>
         <rule id="BUSSO_BUSTIA" name="bussó / bústia">
             <pattern>
                 <token inflected="yes">bussó</token>
@@ -31599,7 +31610,7 @@ $Id$
                         <token postag="_GN_F." postag_regexp="yes">ordes</token>
                     </marker>
                     <token skip="1">de</token>
-                    <token regexp="yes">temple|sant|cavalleri(a|es)|Cartoixa|Cister|Malta|Canadà|Montesa|Toisó</token>
+                    <token regexp="yes" inflected="yes">temple|sant|cavalleria|cartoixa|Cister|Malta|Canadà|Montesa|toisó|&ordes;|&ordes_invariable;</token>
                 </pattern>
                 <message>En el sentit de "societat de religiosos" o de "ritu cristià", "orde" és masculí.</message>
                 <url>http://esadir.cat/entrades/fitxa/id/2575</url>
@@ -31620,9 +31631,9 @@ $Id$
                         <token regexp="yes">ordres?</token>
                     </marker>
                     <token skip="1">de</token>
-                    <token regexp="yes">temple|sant|cavalleri(a|es)|Cartoixa|Cister|Malta|Canadà|Montesa|Toisó</token>
+                    <token regexp="yes" inflected="yes">temple|sant|cavalleria|cartoixa|Cister|Malta|Canadà|Montesa|toisó|&ordes;|&ordes_invariable;</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="([Oo]rd)r(e.*)" regexp_replace="$1$2"/></suggestion>?</message>
+                <message>En el sentit de 'societat religiosa' cal dir: <suggestion><match no="1" regexp_match="([Oo]rd)r(e.*)" regexp_replace="$1$2"/></suggestion>.</message>
                 <url>http://esadir.cat/entrades/fitxa/id/2575</url>
                 <example correction="orde">l'<marker>ordre</marker> del Temple</example>
                 <example correction="orde">l'<marker>ordre</marker> de sant Benet.</example>
@@ -31633,7 +31644,7 @@ $Id$
             <pattern>
                 <token>xollo</token>
             </pattern>
-            <message>És correcte com a forma del verb 'xollar'.</message>
+            <message>Només és correcte com a forma del verb 'xollar'.</message>
             <suggestion>ganga</suggestion>
             <suggestion>mina</suggestion>
             <suggestion>bicoca</suggestion>
