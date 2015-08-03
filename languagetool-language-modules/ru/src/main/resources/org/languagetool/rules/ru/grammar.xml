@@ -4201,6 +4201,24 @@ $Id$
                 <example correction="">Иван <marker>Иваныч</marker>.</example>
             </rule>
         </rulegroup>
+        
+        <rulegroup default="on" id="DoubleNE" name="Двойное «не»">
+             
+            <rule>
+                <!-- два не подряд
+                -->
+                <pattern>
+                    <marker>
+                    <token>не</token>
+                    <token postag_regexp="yes" regexp="yes">(не)(.*)</token>
+                    </marker>
+                </pattern>
+                <message>Не ставьте два «не» подряд, если это не оправдано смыслом предложения.</message>
+                <short>Не ставьте два «не» подряд.</short>
+                <example>Эта книга интересная.</example>
+                <example correction="">Эта книга <marker>не неинтересная</marker>.</example>
+            </rule>
+        </rulegroup>     
         <rule id="PREP_ON_END" name="Предлог в конце предложения">
             <pattern case_sensitive="yes">
                 <token regexp="yes">для|на|к|от|по|в</token>
