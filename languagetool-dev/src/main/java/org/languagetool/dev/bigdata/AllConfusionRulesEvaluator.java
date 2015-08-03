@@ -81,7 +81,12 @@ final class AllConfusionRulesEvaluator {
             String summary = eval.run(inputsFiles, word1, word2, confusionSet.getFactor(), MAX_SENTENCES);
             String summary1 = set1.getDescription() != null ? word1 + "|" + set1.getDescription() : word1;
             String summary2 = set2.getDescription() != null ? word2 + "|" + set2.getDescription() : word2;
-            String start = summary1 + "; " + summary2 + "; " + confusionSet.getFactor();
+            String start;
+            if (summary1.compareTo(summary2) < 0) {
+              start = summary1 + "; " + summary2 + "; " + confusionSet.getFactor();
+            } else {
+              start = summary2 + "; " + summary1 + "; " + confusionSet.getFactor();
+            }
             String spaces = StringUtils.repeat(" ", 82-start.length());
             System.out.println(start + spaces + "# " + summary);
           }
