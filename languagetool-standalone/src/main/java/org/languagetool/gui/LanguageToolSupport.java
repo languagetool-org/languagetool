@@ -286,16 +286,16 @@ class LanguageToolSupport {
       config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, language);
       //config still contains old language, update it
       this.config.setLanguage(language);
-      if (languageTool != null) {
-        languageTool.shutdownWhenDone();
-      }
+      // Calling shutdown here may cause a RejectedExecutionException:
+      //if (languageTool != null) {
+      //  languageTool.shutdownWhenDone();
+      //}
       languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue());
       loadConfig();
       if (config.getNgramDirectory() != null) {
       	try { 
           languageTool.activateLanguageModelRules(config.getNgramDirectory());
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
           JOptionPane.showMessageDialog(null, "Error while loading ngram database.\n" + e.getMessage());
         } 
       }
