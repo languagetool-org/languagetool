@@ -15,6 +15,10 @@
 #### Portuguese
   * added/improved several rules
 
+#### Russian
+  * added and improved a few rules
+  * added a few false frends rules (Russian/English)
+
 #### LibreOffice / Apache OpenOffice Integration
   * fix: the ngram directory that turns on the confusion rule (see
     http://wiki.languagetool.org/finding-errors-using-big-data) was
