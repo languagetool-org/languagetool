@@ -13087,7 +13087,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>berge</token>
                     </marker>
-                    <token>versetzen</token>
+                    <token inflected="yes" regexp="yes">\[ver\]setzen</token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -16027,15 +16027,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">[aA]us</token>
                     <token>den</token>
                     <marker>
-                        <token regexp="yes">angeln|federn|fugen</token>
+                        <token regexp="yes">angeln|federn|fugen|fingern</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Federn">Wir kamen nicht rechtzeitig aus den <marker>federn</marker>.</example>
                 <example correction="Angeln">Gebt mir einen festen Punkt, und ich werde die Erde aus den <marker>angeln</marker> heben.</example>
+                <example correction="Fingern">Ich sauge mir das doch nicht aus den <marker>fingern</marker>!</example>
                 <example>Die Welt ist aus den <marker>Fugen</marker>.</example>
                 <example>Ich gehe morgen <marker>angeln</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HAARE_SUBST" name="Groß-/Kleinschreibung: 'an den haaren (Haaren) herbeigezogen' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[aA]n</token>
+                    <token>den</token>
+                    <marker>
+                        <token>haaren</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Haaren">Das ist doch an den <marker>haaren</marker> herbeigezogen!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">haare</token>
+                    </marker>
+                    <token>zu</token>
+                    <token>Berge</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Haare">Mir standen die <marker>haare</marker> zu Berge.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SCHULTERN_SUBST" name="Groß-/Kleinschreibung: 'mit den schultern (Schultern) zucken' etc.">
@@ -18771,18 +18798,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Flammen">Rhein in <marker>flammen</marker>.</example>
             <example correction="Ketten">Die Freiheit liegt in <marker>ketten</marker>.</example>
         </rule>
-        <rule id="SEI_MEIN_ZEUGE" name="Groß-/Kleinschreibung: 'ist/sei mein zeuge (Zeuge)'">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">[Ii]st|[Ss]ei</token>
-                <token regexp="yes">mein|unser</token>
-                <marker>
-                    <token>zeuge</token>
-                </marker>
-            </pattern>
-            <message>&subanfang;<suggestion>Zeuge</suggestion>&subende;</message>
-            <short>&prgk;.</short>
-            <example correction="Zeuge">Gott sei mein <marker>zeuge</marker>.</example>
-        </rule>
+        <rulegroup id="ZEUGE_SUBST" name="Groß-/Kleinschreibung: 'als zeuge (Zeuge) vernehmen' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[aA]ls</token>
+                    <marker>
+                        <token regexp="yes">zeugen?</token>
+                    </marker>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Zeuge">Ich wurde als <marker>zeuge</marker> vernommen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Ii]st|[Ss]ei</token>
+                    <token regexp="yes">mein|unser</token>
+                    <marker>
+                        <token>zeuge</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Zeuge</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Zeuge">Gott sei mein <marker>zeuge</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AUF_DIE_PROBE" name="Groß-/Kleinschreibung: 'auf die probe (Probe) stellen'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -22347,7 +22388,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Passendes">Ich brauche noch etwas <marker>passendes</marker> zum Anziehen.</example>
                 <example correction="Kluges">Bei dem Meeting wurde viel <marker>kluges</marker> gesagt.</example>
                 <example correction="Kluges">Bei dem Meeting wurde nur wenig <marker>kluges</marker> gesagt.</example>
-                <example>Die Kirche weist eine Sakristei aus Spätgotik und ein nur wenig <marker>jüngeres</marker> Haus auf.</example>
+                <example>Die Kirche weist eine Sakristei aus der Spätgotik und ein nur wenig <marker>jüngeres</marker> Haus auf.</example>
                 <example>Es hat für viel positives öffentliches Aufsehen gesorgt.</example>
             </rule>
             <rule>
@@ -25483,11 +25524,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>sang</token>
                     </marker>
                     <token>und</token>
-                    <token>klanglos</token>
+                    <token regexp="yes">klanglos(e[mnrs]?)?</token>
                 </pattern>
                 <message>Die feste Wendung '<suggestion>sang-</suggestion> und klanglos' wird mit Bindestrich geschrieben.</message>
                 <short>Meinten Sie 'sang-'?</short>
                 <example correction="sang-">Sowas geht doch immer <marker>sang</marker> und klanglos unter.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>hieb</token>
+                    </marker>
+                    <token>und</token>
+                    <token regexp="yes">stichfest(e[mnrs]?)?</token>
+                </pattern>
+                <message>Die feste Wendung '<suggestion>hieb-</suggestion> und \3' wird mit Bindestrich geschrieben.</message>
+                <short>Meinten Sie 'hieb-'?</short>
+                <example correction="hieb-">Wir brauchen <marker>hieb</marker> und stichfeste Beweise.</example>
             </rule>
             <rule>
                 <pattern>
