@@ -21231,6 +21231,17 @@ $Id$
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="FA_ANYS_ENRERE" name="*fa tres anys enrere">
+            <pattern>
+                <token skip="2" regexp="yes">fa|feia</token>
+                <token regexp="yes" inflected="yes">&unitats_temps;</token>
+                <token regexp="yes">enrere|endarrere</token>
+            </pattern>
+            <message>Construcció incorrecta.</message>
+            <suggestion><match no="1" include_skipped="all"/> \2</suggestion>
+            <suggestion><match no="1" include_skipped="following"/> \2 \3</suggestion>
+            <example correction="fa tres anys|tres anys enrere"><marker>fa tres anys enrere</marker>.</example>
+        </rule>
         <rule id="RISC_DE_VIDA" name="Risc de vida">
             <pattern>
                 <token inflected='yes'>risc</token>
