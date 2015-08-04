@@ -4,6 +4,8 @@
   
 #### English
   * added and improved a few rules
+  * added several pairs of easily confused words - active only with
+    ngram data (see http://wiki.languagetool.org/finding-errors-using-n-gram-data)
   
 #### German
   * improved several rules
@@ -17,7 +19,7 @@
 
 #### Russian
   * added and improved a few rules
-  * added a few false frends rules (Russian/English)
+  * added a few false friends rules (Russian/English)
 
 #### LibreOffice / Apache OpenOffice Integration
   * fix: the ngram directory that turns on the confusion rule (see
