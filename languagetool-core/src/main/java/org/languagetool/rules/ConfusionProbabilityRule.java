@@ -305,6 +305,20 @@ public abstract class ConfusionProbabilityRule extends Rule {
     return new Probability(p, (float)coverage/maxCoverage);
   }
 
+  // a simplified version of getPseudoProbability() for clarity:
+  double getPseudoProbability2(List<String> context) {  // three tokens, e.g. [this, is, their] and [this, is, there]  
+    long firstWordCount = lm.getCount(context.get(0));  // this gets absolute ngram count
+    // chain rule:
+    double p = (double) (firstWordCount + 1) / (totalTokenCount + 1);
+    for (int i = 2; i <= context.size(); i++) {
+      List<String> subList = context.subList(0, i);  // e.g. [this, is], then [this, is, their]
+      long phraseCount = lm.getCount(subList);
+      double thisP = (double) (phraseCount + 1) / (firstWordCount + 1);
+      p *= thisP;
+    }
+    return p;
+  }
+
   private void debug(String message, Object... vars) {
     if (DEBUG) {
       System.out.printf(Locale.ENGLISH, message, vars);
