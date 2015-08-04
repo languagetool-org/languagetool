@@ -28902,6 +28902,12 @@ $Id$
         <rulegroup id="RECOLZAR" name="recolzar">
             <url>http://esadir.cat/entrades/fitxa/id/2235</url>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token inflected="yes" regexp="yes">ansa|nansa</token>
+                        <token inflected="yes">recolzar</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag="NP..G.." postag_regexp="yes"/><exception scope="next" regexp="yes" inflected="yes">&exceptions_RECOLZAR;</exception></token>
                     <marker>
@@ -31420,13 +31426,26 @@ $Id$
                     <marker>
                         <token inflected="yes">mitjà</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">marí|terrestre|aquàtic</token>
+                    <token inflected="yes" regexp="yes">marí|terrestre|aquàtic|líquid|sòlid|gasós|semisòlid</token>
                 </pattern>
                 <message>Incorrecte en el sentit de "entorn, ambient".</message>
                 <suggestion><match no="1" postag="NC(.+)" postag_regexp="yes" postag_replace="NC$1">medi</match></suggestion>
                 <url>http://esadir.cat/entrades/fitxa/node/medi</url>
                 <example correction="medis">Els <marker>mitjans</marker> marins</example>
                 <example>El medi marí.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" regexp="yes">mitjà|mig</token>
+                    </marker>
+                    <token inflected="yes">de</token>
+                    <token>cultiu</token>
+                </pattern>
+                <message>Incorrecte en el sentit de "entorn, ambient".</message>
+                <suggestion><match no="1" postag="NC(.+)" postag_regexp="yes" postag_replace="NC$1">medi</match></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/medi</url>
+                <example correction="medi">El <marker>mitjà</marker> de cultiu</example>
             </rule>
         </rulegroup>
         <rule id="EN_EL_SEU_CAS" name="en el seu cas">
@@ -31441,7 +31460,9 @@ $Id$
                 </marker>
                 <token>,</token>
             </pattern>
-            <message>Caldria dir: <suggestion>si escau</suggestion>, <suggestion>si és procedent</suggestion>.</message>
+            <message>Probablement cal usar una altra expressió.</message>
+            <suggestion>si escau</suggestion>
+            <suggestion>si és procedent</suggestion>
             <example correction="si escau|si és procedent">estudiar, <marker>en el seu cas</marker>, la declaració</example>
             <example>aprovar, si escau, l'acta</example>
         </rule>
