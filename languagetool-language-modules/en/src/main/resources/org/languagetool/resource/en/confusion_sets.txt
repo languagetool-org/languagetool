@@ -11,9 +11,10 @@
 #            probable so the text is considered potentially incorrect.
 #            Use a higher value for better precision but lower recall.
 #   Precision and recall values in the comments come from ConfusionRuleEvaluator
-#     and are based on Wikipedia and Tatoeba data, usually with 1000 random sentences
-#     (if that many sentence are available for that pair). Starting from 2015-05-30,
-#     the precision/recall values are from a Wikipedia/Tatoeba/Enron mix.
+#     and are based on Wikipedia, Tatoeba, and Enron data, usually with 1000 random 
+#     sentences (if that many sentence are available for that pair).
+# Order is relevant for ambiguous cases like 'know' ('no' or 'now') where the match
+# is used whose pair comes first in this file.
 
 accept|to agree, to endure; except|with the exception of; 10000                   # precision=0.997, recall=0.766 (2015-08-03) using 3grams
 affect|experience of emotion; effect|outcome, result; 1000000                     # precision=0.982, recall=0.593 (2015-08-03) using 3grams
