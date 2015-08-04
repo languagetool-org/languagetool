@@ -60,6 +60,7 @@ public class LanguageModelSanityTest {
     assertMatches(lm, "_START_ the");
     assertMatches(lm, "_START_ The");
     assertMatches(lm, "it _END_");
+    assertMatches(lm, "it .");
     assertMatches(lm, "Also ,");
     assertMatches(lm, "is 0");
     assertMatches(lm, ": it");
@@ -71,6 +72,7 @@ public class LanguageModelSanityTest {
     assertMatches(lm, "The man who");
     assertMatches(lm, "_START_ The man");
     assertMatches(lm, "it was _END_");
+    assertMatches(lm, "it was .");
     assertMatches(lm, "Also , it");
     assertMatches(lm, "it is 0");
     assertMatches(lm, ": it is");
