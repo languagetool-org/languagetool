@@ -53,6 +53,7 @@ public class LanguageModelSanityTest {
     assertMatches(lm, ":");
     assertMatches(lm, "(");
     assertMatches(lm, ")");
+    assertMatches(lm, "£");
     // 2gram:
     assertMatches(lm, "the man");
     assertMatches(lm, "The man");
@@ -64,6 +65,7 @@ public class LanguageModelSanityTest {
     assertMatches(lm, ": it");
     assertMatches(lm, "( it");
     assertMatches(lm, "it )");
+    assertMatches(lm, "£ 5");
     // 3gram:
     assertMatches(lm, "the man who");
     assertMatches(lm, "The man who");
@@ -75,6 +77,7 @@ public class LanguageModelSanityTest {
     assertMatches(lm, "( it is");
     assertMatches(lm, "it is )");
     assertMatches(lm, "five - pound");
+    assertMatches(lm, "is £ 5");
     // 4gram:
     assertMatches(lm, "the man who could");
     assertMatches(lm, "The man who could");
@@ -83,6 +86,7 @@ public class LanguageModelSanityTest {
     assertMatches(lm, "which it was _END_");
     assertMatches(lm, "Also , it is");
     assertMatches(lm, "when it is 0");
+    assertMatches(lm, "it is £ 5");
   }
 
   private void assertMatches(LuceneLanguageModel lm, String phrase) {
