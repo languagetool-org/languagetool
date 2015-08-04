@@ -76,13 +76,13 @@ public class LanguageModelSanityTest {
     assertMatches(lm, "it is )");
     assertMatches(lm, "five - pound");
     // 4gram:
-    //assertMatches(lm, "the man who could");
-    //assertMatches(lm, "The man who could");
-    //assertMatches(lm, "five - pound note");
-    //TODO: assertMatches(lm, "_START_ The man who");
-    //TODO: assertMatches(lm, "which it was _END_");
-    //TODO: assertMatches(lm, "Also , it is");
-    //assertMatches(lm, "when it is 0");
+    assertMatches(lm, "the man who could");
+    assertMatches(lm, "The man who could");
+    assertMatches(lm, "five - pound note");
+    assertMatches(lm, "_START_ The man who");
+    assertMatches(lm, "which it was _END_");
+    assertMatches(lm, "Also , it is");
+    assertMatches(lm, "when it is 0");
   }
 
   private void assertMatches(LuceneLanguageModel lm, String phrase) {
