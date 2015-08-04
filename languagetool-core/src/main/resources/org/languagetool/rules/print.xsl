@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	version="1.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
     <!-- XSLT stylesheet to pretty print grammar.xml
         usage:
         java -jar saxon8.jar grammar.xml print.xsl
@@ -73,16 +72,35 @@
         </li>
     </xsl:template>
 
+    <xsl:template match="//rulegroup/url">
+        <li>
+            <xsl:element name="a">
+                <xsl:attribute name="href"><xsl:value-of select="." /></xsl:attribute>
+                <xsl:value-of select="."/>
+            </xsl:element>
+        </li>
+    </xsl:template>
+
     <xsl:template match="//rule/example">
         <li>
             <xsl:apply-templates select="*|text()" /> <br/>
             <xsl:if test="@correction">
                 <xsl:if test="@correction !=''">
                     <xsl:choose>
-                    <xsl:when test="not(contains(@correction, '|')) and not(contains(../message/text(), '\')) and count(../message/text()) &lt; 3">
+                    <xsl:when test="not(contains(@correction, '|')) and not(contains(../message/text(), '\')) and count(../message/text()) = 3">
                         <xsl:copy-of select="../message/text()[1]"/>
                         <strong style="color: #339900;"><xsl:value-of select="@correction"/></strong>
                         <xsl:copy-of select="../message/text()[2]"/>
+                        <xsl:copy-of select="../message/text()[3]"/>
+                    </xsl:when>
+                    <xsl:when test="not(contains(@correction, '|')) and not(contains(../message/text(), '\')) and count(../message/text()) = 2">
+                        <xsl:copy-of select="../message/text()[1]"/>
+                        <strong style="color: #339900;"><xsl:value-of select="@correction"/></strong>
+                        <xsl:copy-of select="../message/text()[2]"/>
+                    </xsl:when>
+                    <xsl:when test="not(contains(@correction, '|')) and not(contains(../message/text(), '\')) and count(../message/text()) = 1">
+                        <strong style="color: #339900;"><xsl:value-of select="@correction"/></strong>
+                        <xsl:copy-of select="../message/text()[1]"/>
                     </xsl:when>
                     <xsl:otherwise>
                         <!--  two problems: parse correction, i.e., split it on "|"
@@ -115,7 +133,7 @@
                         <xsl:choose>
                         <xsl:when test="//rules[@lang='pl']">Poprawnie: </xsl:when>
                         <xsl:when test="//rules[@lang='en']">Correctly: </xsl:when>
-                        <xsl:when test="//rules[@lang='de']">Korrekt: </xsl:when>
+                        <xsl:when test="//rules[@lang='de']">Korrektur: </xsl:when>
                         <xsl:when test="//rules[@lang='fr']">Correctement : </xsl:when>
                         <xsl:when test="//rules[@lang='nl']">Correct: </xsl:when>
                         <xsl:when test="//rules[@lang='es']">Correctamente: </xsl:when>
@@ -166,6 +184,9 @@
               }
              </xsl:text>
             </script>
+            <style type="text/css">
+                body {font-family:Gentium,Gentium Plus,Georgia,Times,serif;}
+            </style>
             </head>
             <body>
                 <h1>LanguageTool Rules for the <em><xsl:value-of select="//rules/@lang" /></em> Language</h1>
