@@ -11332,7 +11332,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>FIXME</message>
         </rule>
         -->
-        <rule id="EIN_KLEINES_NOMEN" name="ein klopfen (Klopfen) etc.">
+        <rule id="EIN_KLEINES_NOMEN" name="Groß-/Kleinschreibung: ein klopfen (Klopfen) etc.">
             <pattern>
                 <token>ein</token>
                 <token postag_regexp="yes" postag="ADJ:.*" min="0"><exception regexp="yes">wenig|sieben</exception></token>
@@ -11344,7 +11344,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Klopfen">Ein <marker>klopfen</marker> erfüllte den Raum.</example>
             <example correction="Klopfen">Ein starkes <marker>klopfen</marker> erfüllte den Raum.</example>
         </rule>
-        <rule id="EIN_FUENFTEL" name="ein fünftel (Fünftel) etc.">
+        <rule id="EIN_FUENFTEL" name="Groß-/Kleinschreibung: ein fünftel (Fünftel) etc.">
             <pattern>
                 <token>ein</token>
                 <marker>
@@ -11356,7 +11356,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Fünftel">Ein <marker>fünftel</marker> vom Ganzen</example>
             <example>Es kostet eine <marker>drittel</marker> Million.</example>
         </rule>
-        <rulegroup id="FOLGE_LEISTEN" name="leiste ... folge (Folge)">
+        <rulegroup id="FOLGE_LEISTEN" name="Groß-/Kleinschreibung: leiste ... folge (Folge)">
             <rule>
                 <pattern>
                     <marker>
@@ -11378,7 +11378,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Folge">Ich leiste der Anweisung <marker>folge</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DU_DICH" name="Du dich (Du Dich, du dich)">
+        <rulegroup id="DU_DICH" name="Groß-/Kleinschreibung: Du dich (Du Dich, du dich)">
             <rule>
                 <pattern case_sensitive="yes">
                     <token>Du</token>
@@ -11406,7 +11406,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Kannst <marker>du dich</marker> erinnern?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WORTPAAR" name="jung und alt (Jung und Alt)">
+        <rulegroup id="WORTPAAR" name="Groß-/Kleinschreibung: jung und alt (Jung und Alt)">
             <url>http://www.duden.de/sprachwissen/rechtschreibregeln/Gro%C3%9F-%20und%20Kleinschreibung#K72</url>
             <rule>
                 <pattern case_sensitive="yes">
@@ -11476,7 +11476,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Bis nach Schweich als <marker>drittes</marker> und viertes Gleis entlang der bestehenden Moselstrecke.</example>
             <example type="triggers_error">Der Borgward Hansa 1500, der 1949 als erstes nach dem Krieg neu konstruiertes deutsches Auto eingeführt worden war.</example>
         </rule>
-        <rule id="ANS_KLEINES_NOMEN" name="Groß-/Kleinschreibung: ans/fürs/... + kleingeschr. Nomen">
+        <rule id="ANS_KLEINES_NOMEN" name="Groß-/Kleinschreibung: ans/fürs/... + kleingeschriebenes Nomen">
             <antipattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
                 <token postag="ADJ:.*" postag_regexp="yes"/>
@@ -11516,7 +11516,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Sie konnten ungehindert ins <marker>reiche</marker> Babylon einziehen.</example>
             <example>Man kann die Nutzung des Geländes bis ins <marker>spätere</marker> 4. Jahrhundert belegen</example>
         </rule>
-        <rule id="AM_KLEINES_NOMEN" name="Groß-/Kleinschreibung: am/beim/... + kleingeschr. Nomen">
+        <rule id="AM_KLEINES_NOMEN" name="Groß-/Kleinschreibung: am/beim/... + kleingeschriebenes Nomen">
             <pattern case_sensitive="yes">
                 <token regexp="yes">am|beim|hinterm|überm|unterm|vorm</token>
                 <marker>
@@ -11527,7 +11527,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier ein Nomen zu sein (\1 = <match no="1" regexp_match="m$" regexp_replace="" /> dem) und muss dann großgeschrieben werden.</message>
             <example correction="Essen">Aber überm <marker>essen</marker> hat er das Trinken vergessen.</example>
         </rule>
-        <rule id="VOM_KLEINES_NOMEN" name="Groß-/Kleinschreibung: vom + kleingeschr. Nomen">
+        <rule id="VOM_KLEINES_NOMEN" name="Groß-/Kleinschreibung: vom + kleingeschriebenes Nomen">
             <pattern>
                 <token>vom</token>
                 <marker>
@@ -11539,7 +11539,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Sammeln">Damals lebten die Menschen vom <marker>sammeln</marker>.</example>
             <example>Ein Hut, der vom deutschen Bundespräsidenten übergeben wird.</example>
         </rule>
-        <rule id="AM_VERB_KLEIN" name="Groß-/Kleinschreibung: am + kleingeschr. Verb">
+        <rule id="AM_VERB_KLEIN" name="Groß-/Kleinschreibung: am + kleingeschriebenes Verb">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[Aa]m</token>
                 <marker>
@@ -12277,6 +12277,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example>Es war eine <marker>stille</marker> Nacht.</example>
                 <example correction="Stille">Sie wurde in aller <marker>stille</marker> beigesetzt.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EBENE_SUBST" name="Groß-/Kleinschreibung: 'auf vielen ebenen (Ebenen)' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Geometrie</token>
+                    <token>der</token>
+                    <marker>
+                        <token>ebene</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Ebene</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Ebene">Die analytische Geometrie der <marker>ebene</marker> und des Raumes.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[aA]uf</token>
+                    <token regexp="yes" min="0" max="1">ganz|so|sehr</token>
+                    <token regexp="yes" min="0" max="1">schrecklich|furchtbar</token>
+                    <token regexp="yes">vielen|zahlreichen|mehreren</token>
+                    <marker>
+                        <token>ebenen</token>
+                    </marker>
+                    <token><exception postag="SUB:DAT:PLU:.+" postag_regexp="yes"/></token>
+                </pattern>
+                <message>&subanfang;<suggestion>Ebenen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Ebenen">Das verstört mich auf so vielen <marker>ebenen</marker>.</example>
+                <example>Auf vielen <marker>ebenen</marker> Flächen kann man ausrutschen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FRISCHE_SUBST" name="Groß-/Kleinschreibung: 'in alter frische (Frische)'">
@@ -19310,6 +19340,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token>eine</token>
+                    <token postag="ADJ:AKK:SIN:FEM.*" postag_regexp="yes" min="0" max="1"/>
                     <marker>
                         <token>rede</token>
                     </marker>
@@ -19324,6 +19355,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token inflected="yes">halten</token>
                     <token>eine</token>
+                    <token postag="ADJ:AKK:SIN:FEM.*" postag_regexp="yes" min="0" max="1"/>
                     <marker>
                         <token>rede</token>
                     </marker>
@@ -19331,6 +19363,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion>Rede</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Rede">Er hielt eine <marker>rede</marker>.</example>
+                <example correction="Rede">Er hielt eine kurze <marker>rede</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -19482,6 +19515,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Schuld">Das ist ganz allein deine <marker>schuld</marker>!</example>
                 <example correction="Schuld">Dich trifft keine <marker>schuld</marker>!</example>
                 <example correction="Schuld">Wer von euch ohne <marker>schuld</marker> ist, der werfe den ersten Stein.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="PRO:REF:DAT.+" postag_regexp="yes"/>
+                    <token regexp="yes">keiner(lei)?</token>
+                    <marker>
+                        <token>schuld</token>
+                    </marker>
+                    <token>bewusst</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Schuld</suggestion>&subende;</message>
+                <example correction="Schuld">Ich war mir keiner <marker>schuld</marker> bewusst.</example>
+                <example correction="Schuld">Sie war sich keiner <marker>schuld</marker> bewusst.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
