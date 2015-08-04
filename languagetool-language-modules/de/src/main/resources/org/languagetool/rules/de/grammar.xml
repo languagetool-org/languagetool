@@ -4948,7 +4948,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Mögliche Wortverwechslung</short>
                 <example>Sind heute die <marker>Iden</marker> des März?</example>
                 <example>Sind heute die <marker>Iden</marker> des März?</example>
-                <example>Wichtig waren die Nonae am siebten Monatstag und die <marker>Iden</marker> 15. Tag.</example>
+                <example>Wichtig waren die Nonae am siebten Monatstag und die <marker>Iden</marker> am 15. Tag.</example>
                 <example correction="Ideen">Deine <marker>Iden</marker> sind gut!</example>
             </rule>
             <rule>
@@ -8914,7 +8914,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Redundanz -->
     <!-- ====================================================================== -->
     <category name="Redundanz">
-        <rulegroup id="UND_SOWIE" name="und sowie">
+        <rulegroup id="UND_ETC" name="Verdoppelung: 'und etc.'">
+            <rule>
+                <antipattern>
+                    <token>usw</token>
+                    <token>.</token>
+                    <token>und</token>
+                    <token>etc</token>
+                    <token>.</token>
+                </antipattern>
+                <pattern case_sensitive='yes'>
+                    <token regexp="yes">und|&amp;</token>
+                    <token>etc</token>
+                    <token>.</token>
+                </pattern>
+                <message>Mögliche Verdoppelung: Das 'et' in '<suggestion>etc.</suggestion>' bedeutet auf Deutsch 'und'.</message>
+                <example correction="etc.">Rasenmäher <marker>und etc.</marker></example>
+                <example correction="etc.">Rasenmäher <marker>&amp; etc.</marker></example>
+                <example>Die Abkürzungen usw. und etc. werden mit Punkt geschrieben.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token regexp="yes">und|&amp;</token>
+                    <token>et</token>
+                    <token>cetera</token>
+                </pattern>
+                <message>Mögliche Verdoppelung: Das 'et' in '<suggestion>et cetera</suggestion>' bedeutet auf Deutsch 'und'.</message>
+                <example correction="et cetera">Rasenmäher <marker>und et cetera</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="UND_SOWIE" name="Verdoppelung: 'und sowie'">
             <rule>
                 <pattern case_sensitive='yes'>
                     <token>und</token>
@@ -18604,17 +18633,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="recht">Es soll mir <marker>Recht</marker> sein.</example>
             </rule>
         </rulegroup>
-        <rule id="LAUFE_SUBST" name="Groß-/Kleinschreibung: 'im laufe (Laufe) des Tages'">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">[iI]m</token>
-                <marker>
-                    <token>laufe</token>
-                </marker>
-                <token postag=".*GEN.*" postag_regexp="yes"/>
-            </pattern>
-            <message>&subanfang;<suggestion>Laufe</suggestion>&subende;</message>
-            <example correction="Laufe">Im <marker>laufe</marker> des Tages ist nichts passiert.</example>
-        </rule>
+        <rulegroup id="LAUFE_SUBST" name="Groß-/Kleinschreibung: 'im laufe (Laufe) des Tages'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]m</token>
+                    <marker>
+                        <token>laufe</token>
+                    </marker>
+                    <token postag=".*GEN.*" postag_regexp="yes"/>
+                </pattern>
+                <message>&subanfang;<suggestion>Laufe</suggestion>&subende;</message>
+                <example correction="Laufe">Im <marker>laufe</marker> des Tages ist nichts passiert.</example>
+                <example correction="Laufe">Im <marker>laufe</marker> der Woche haben wir allerhand geschafft.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[iI]m</token>
+                    <token>Laufe</token>
+                    <token>des</token>
+                    <marker>
+                        <token>abends</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Abends</suggestion>&subende;</message>
+                <example correction="Abends">Im Laufe des <marker>abends</marker> wurden wir immer ausgelassener.</example>
+            </rule>
+        </rulegroup>
         <rule id="GANG_KLEIN" name="Groß-/Kleinschreibung: 'gang (Gang)'">
             <pattern case_sensitive="yes">
                 <marker>
@@ -18799,6 +18843,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Ketten">Die Freiheit liegt in <marker>ketten</marker>.</example>
         </rule>
         <rulegroup id="ZEUGE_SUBST" name="Groß-/Kleinschreibung: 'als zeuge (Zeuge) vernehmen' etc.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[vV]or</token>
+                    <marker>
+                        <token>zeugen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Zeugen">Er hat vor <marker>zeugen</marker> gelogen.</example>
+            </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]ls</token>
@@ -23105,7 +23160,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">[Ee]in</token>
                         <token>Paar</token>
                     </marker>
-                    <token postag_regexp="yes" postag="SUB:.*PLU:.*" negate="yes" regexp="yes">(.*)([Ss]chuhe|[Ss]ocken|[Ss]trümpfe|[Ss]tiefel|[Ss]andalen|[Hh]osen|[aA]ugen|[oO]hren|[hH]ände|[fF]äust(ling)?en?|[fF]üße|Brüste|Ohrringe|.*ohrringe)</token>
+                    <token postag_regexp="yes" postag="SUB:.*PLU:.*" negate="yes" regexp="yes">(.*)([Ss]chuhe|[Ss]ocken|[Ss]trümpfe|[Ss]tiefel|[Ss]andalen|[Hh]osen|[aA]ugen|[oO]hren|[hH]ände|[fF]äust(ling)?en?|[fF]üße|Brüste|Ohrringe|.*ohrringe|Handschellen)</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>ein paar</suggestion> (=einige), im Unterschied zu 'ein Paar' (=genau zwei)?</message>
                 <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-14210</url>
@@ -23534,7 +23589,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- TODO V-Leute, G-Punkt -->
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">I\-Punkt(e[ns]?)?|I\-Tüpfelchen</token>
+                    <token regexp="yes">I\-Punkt(e[ns]?)?|I\-Tüpfelchen|I\-Pünktchen</token>
                 </pattern>
                 <message>In dem Wort 'i-Punkt' wird entgegen sonstigen Regeln das i kleingeschrieben, weil es sich um einen ikonischen Gebrauch handelt: <suggestion><match case_conversion="startlower" no="1"/></suggestion>.</message>
                 <url>http://www.canoo.net/services/Controller?dispatch=spelling&amp;input=i-Punkt</url>
@@ -25481,6 +25536,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="20-prozentige">Eine <marker>20prozentige</marker> Lösung.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="EIN_UND_AUS_GEHEN" name="Zeichensetzung: 'ein- und ausgehen (ein und aus gehen)'">
+            <rule>
+                <pattern>
+                    <token>ein-</token>
+                    <token>und</token>
+                    <token inflected="yes">ausgehen</token>
+                </pattern>
+                <message>Die Wendung '<suggestion>ein und aus <match no="3" regexp_match="^aus" regexp_replace=""/></suggestion>' wird ohne Bindestrich geschrieben.</message>
+                <url>http://www.duden.de/rechtschreibung/ein_und_aus_gehen</url>
+                <example correction="ein und aus gegangen">Wir sind dort <marker>ein- und ausgegangen</marker>.</example>
+                <example>Mir sind irgendwann die Ideen ausgegangen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IN_UND_AUSWENDIG" name="Zeichensetzung: 'in (in-) und auswendig' usw.">
             <rule>
                 <pattern>
@@ -25678,8 +25746,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="“,">„Die Fenster sind geschlossen<marker>,“</marker> sagt sie.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ABKUERZUNG_FALSCHE_PUNKTE" name="Zeichensetzung: zu viel gesetzte Punkte in Abkürzungen (z. B. 'e.t.c.')">
+            <!-- TODO ergänzen. -->
+            <rule>
+                <pattern>
+                    <token>e</token>
+                    <token>.</token>
+                    <token>t</token>
+                    <token>.</token>
+                    <token>c</token>
+                    <token>.</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>etc.</suggestion> (lat. et cetera)?</message>
+                <example correction="etc.">Sie erkennt einige Fehler <marker>e. t. c.</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ABKUERZUNG_FEHLENDE_PUNKTE" name="Zeichensetzung: Fehlende Punkte in Abkürzungen ('z B.' etc.)">
-            <!--TODO ergänzen .-->
+            <!-- TODO ergänzen. -->
             <rule>
                 <pattern>
                     <token>z</token>
