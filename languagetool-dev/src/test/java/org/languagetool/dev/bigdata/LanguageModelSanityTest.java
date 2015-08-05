@@ -80,6 +80,8 @@ public class LanguageModelSanityTest {
     assertMatches(lm, "it is )");
     assertMatches(lm, "five - pound");
     assertMatches(lm, "is £ 5");
+    assertMatches(lm, "it 's a");
+    assertMatches(lm, "it ' s");
     // 4gram:
     assertMatches(lm, "the man who could");
     assertMatches(lm, "The man who could");

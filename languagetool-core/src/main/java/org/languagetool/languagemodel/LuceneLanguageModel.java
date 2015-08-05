@@ -130,7 +130,7 @@ public class LuceneLanguageModel implements LanguageModel {
       if (docs.totalHits == 0) {
         throw new RuntimeException("Expected 'totalTokenCount' meta documents not found in 1grams index");
       } else if (docs.totalHits > 1000) {
-        throw new RuntimeException("Did not expect more than 1000 'totalTokenCount' meta documents");
+        throw new RuntimeException("Did not expect more than 1000 'totalTokenCount' meta documents: " + docs.totalHits);
       } else {
         long result = 0;
         for (ScoreDoc scoreDoc : docs.scoreDocs) {

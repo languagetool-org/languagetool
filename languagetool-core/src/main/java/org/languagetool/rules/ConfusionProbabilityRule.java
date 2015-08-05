@@ -254,7 +254,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
       // probabilities than in the case of one token (eg. "your"):
       ngram3Middle = new Probability((ngram3Left.prob + ngram3Right.prob) / 2, 1.0f); 
     } else {
-      throw new RuntimeException("Words that consists of more than 2 tokens (according to Google tokenization) are not supported yet: " + term);
+      throw new RuntimeException("Words that consists of more than 2 tokens (according to Google tokenization) are not supported yet: " + term + " -> " + newTokens);
     }
     if (ngram3Left.coverage < MIN_COVERAGE && ngram3Middle.coverage < MIN_COVERAGE && ngram3Right.coverage < MIN_COVERAGE) {
       debug("  Min coverage of %.2f not reached: %.2f, %.2f, %.2f, assuming p=0\n", MIN_COVERAGE, ngram3Left.coverage, ngram3Middle.coverage, ngram3Right.coverage);
@@ -345,6 +345,10 @@ public abstract class ConfusionProbabilityRule extends Rule {
     }
     boolean isWhitespace() {
       return StringTools.isWhitespace(token);
+    }
+    @Override
+    public String toString() {
+      return token;
     }
   }
 
