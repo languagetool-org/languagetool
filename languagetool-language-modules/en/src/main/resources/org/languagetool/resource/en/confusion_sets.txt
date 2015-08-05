@@ -10,103 +10,104 @@
 #   <factor> is the factor of how much more the other word must be more
 #            probable so the text is considered potentially incorrect.
 #            Use a higher value for better precision but lower recall.
-#   Precision and recall values in the comments come from ConfusionRuleEvaluator
+#   Precision (p) and recall (r) values in the comments come from ConfusionRuleEvaluator
 #     and are based on Wikipedia, Tatoeba, and Enron data, usually with 1000 random 
-#     sentences (if that many sentence are available for that pair).
+#     sentences (if that many sentence are available for that pair). The number after recall
+#     is the number of sentences used for evaluation.
 # Order is relevant for ambiguous cases like 'know' ('no' or 'now') where the match
 # is used whose pair comes first in this file.
 
-accept|to agree, to endure; except|with the exception of; 10000                   # precision=0.997, recall=0.766 (2015-08-03) using 3grams
-advice|noun; advise|verb; 10000                                                   # precision=0.998, recall=0.791 (2015-08-05) using 3grams
-affect|experience of emotion; effect|outcome, result; 1000000                     # precision=0.982, recall=0.593 (2015-08-03) using 3grams
-and; end; 100000000000                                                            # precision=0.998, recall=0.529 (2015-08-03) using 3grams
-allowed|permitted; aloud|using the voice; 1000                                    # precision=0.999, recall=0.895 (2015-08-05), 3grams, 1057
-ate|past of 'to eat'; eight|the number '8'; 10                                    # precision=0.996, recall=0.940 (2015-08-03) using 3grams
-be; bee|insects; 100000                                                           # precision=0.999, recall=0.835 (2015-08-04) using 3grams
-be; we; 1000000                                                                   # precision=1.000, recall=0.870 (2015-08-03) using 3grams
-bean; been; 100                                                                   # precision=0.995, recall=0.923 (2015-08-03) using 3grams
-been; bin|container; 10000                                                        # precision=0.999, recall=0.913 (2015-08-04) using 3grams
-begin|start; being|living thing; 10000000                                         # precision=1.000, recall=0.558 (2015-08-03) using 3grams
-bit; but; 1000000                                                                 # precision=0.997, recall=0.799 (2015-08-03) using 3grams false alarm: butt in
-breathe|verb; breath|noun; 10000                                                  # precision=1.000, recall=0.770 (2015-08-03) using 3grams
-but; butt; 10000                                                                  # precision=0.993, recall=0.837 (2015-08-03) using 3grams
-buy|purchase; bye|goodbye; 100                                                    # precision=1.000, recall=0.825 (2015-08-03) using 3grams
-desert|arid land; dessert|last course of a meal; 100000                           # precision=0.996, recall=0.490 (2015-08-03) using 3grams
-except|with the exception of; expect|regard something as likely; 1000000          # precision=0.998, recall=0.638 (2015-08-03) using 3grams
-extend|verb; extent|noun; 10                                                      # precision=0.998, recall=0.974 (2015-08-03) using 3grams
-fill; full; 100000                                                                # precision=0.997, recall=0.761 (2015-08-03) using 3grams false alarm: fill-in
-first; fist; 100000000                                                            # precision=0.994, recall=0.799 (2015-08-03) using 3grams
-for|a preposition as in 'I have something for you'; four|the number '4'; 10000000 # precision=0.994, recall=0.506 (2015-08-03) using 3grams
-had|past of 'have'; hat|head covering; 10000000                                   # precision=0.998, recall=0.643 (2015-08-03) using 3grams
-half|noun/adjective; halve|verb; 100000                                           # precision=0.997, recall=0.961 (2015-08-04) using 3grams few evaluation examples for 'halve'
-hear; heart; 100                                                                  # precision=0.996, recall=0.951 (2015-08-04) using 3grams
-in; inn|a hostel; 100000                                                          # precision=0.999, recall=0.834 (2015-08-04) using 3grams
-known|past participle of 'know'; know|to be aware of; 100                         # precision=0.999, recall=0.965 (2015-08-03) using 3grams
-know|to be aware of; no|negation; 10000                                           # precision=0.999, recall=0.887 (2015-08-03) using 3grams
-know|to be aware of; now|in this moment; 100                                      # precision=0.999, recall=0.876 (2015-08-03) using 3grams
-lies; lines; 100000                                                               # precision=0.999, recall=0.558 (2015-08-03) using 3grams
-loose|not tight; lose|opposite of win; 10000                                      # precision=0.996, recall=0.795 (2015-08-03) using 3grams
-mice|plural of 'mouse'; nice|pleasant; 100                                        # precision=0.997, recall=0.860 (2015-08-03) using 3grams
-near|close to; neat|clean or organized; 10000                                     # precision=1.000, recall=0.783 (2015-08-03) using 3grams
-new; news; 100000                                                                 # precision=0.997, recall=0.541 (2015-08-03) using 3grams
-nit; not; 10000000                                                                # precision=0.998, recall=0.945 (2015-08-03) using 3grams
-not; note; 10000000                                                               # precision=0.997, recall=0.524 (2015-08-03) using 3grams
-now|at the present moment; no|negation; 100000                                    # precision=0.996, recall=0.559 (2015-08-03) using 3grams
-our; out; 1000                                                                    # precision=0.996, recall=0.896 (2015-08-03) using 3grams
-passed|paste tense of 'to pass'; past|past times; 1000                            # precision=0.999, recall=0.858 (2015-08-03) using 3grams
-peace|absence of war; piece|a portion of a natural object; 100000                 # precision=0.998, recall=0.629 (2015-08-03) using 3grams
-peak|extremum, summit, top; peek|a secret look; 10000                             # precision=0.999, recall=0.794 (2015-08-03) using 3grams
-pray|say a prayer; prey|animal hunted for food; 1000                              # precision=0.996, recall=0.785 (2015-08-03) using 3grams
-proof|often noun, also 'proofread'; prove|verb: show, testify, demonstrate; 10000 # precision=0.997, recall=0.843 (2015-08-03) using 3grams
-quit|stop, give up; quite|completely, to a degree; 10000                          # precision=0.998, recall=0.835 (2015-08-03) using 3grams
-quiet|free of noise; quite|completely, to a degree; 10000                         # precision=0.999, recall=0.808 (2015-08-03) using 3grams
-right|opposite of 'left'; rite|established ceremony or practice; 10000000         # precision=0.995, recall=0.698 (2015-08-03) using 3grams false alarms: "...of the rite."
-same|identical; sane|mentally healthy; 1000                                       # precision=1.000, recall=0.962 (2015-08-03) using 3grams
-scene|place where some action occurs; seen|past participle of 'see'; 100          # precision=1.000, recall=0.910 (2015-08-03) using 3grams
-sea|ocean; see|to look at; 1000                                                   # precision=0.996, recall=0.869 (2015-08-03) using 3grams
-sire|noun: title, verb: make by reproduction; sure|certain; 10000                 # precision=0.999, recall=0.934 (2015-08-05) using 3grams
-than; that; 10000000                                                              # precision=0.999, recall=0.496 (2015-08-03) using 3grams
-than|used in comparisons; then|next in order; 10000                               # precision=0.999, recall=0.779 (2015-08-03) using 3grams
-their|as in 'It’s not their fault.'; there|as in 'Is there an answer?'; 100       # precision=0.994, recall=0.965 (2015-08-03) using 3grams false alarms: there being
-the; to; 1000000                                                                  # precision=0.995, recall=0.639 (2015-08-03) using 3grams
-thing|noun; think|usually a verb; 100                                             # precision=0.997, recall=0.953 (2015-08-03) using 3grams
-threw|past of throw; through|preposition, e.g. 'go through the door'; 10000000    # precision=0.996, recall=0.610 (2015-08-03) using 3grams
-weather|atmospheric conditions; whether|as in 'whether or not'; 10000             # precision=0.993, recall=0.802 (2015-08-03) using 3grams false alarm: weather conditions
-we; wee|a short time; 100                                                         # precision=0.999, recall=0.971 (2015-08-04) using 3grams few eval examples for 'wee'
-wit|humor; with; 100000                                                           # precision=0.997, recall=0.858 (2015-08-04) using 3grams
-which; witch|female sorcerer or magician; 1000000                                 # precision=0.995, recall=0.840 (2015-08-04) using 3grams
-your|possessive pronoun; you|personal pronoun; 1000                               # precision=0.993, recall=0.860 (2015-08-03) using 3grams
+accept|to agree, to endure; except|with the exception of; 10000                   # p=0.997, r=0.766, 3grams, 2015-08-03
+advice|noun; advise|verb; 10000                                                   # p=0.998, r=0.791, 3grams, 2015-08-05
+affect|experience of emotion; effect|outcome, result; 1000000                     # p=0.982, r=0.593, 3grams, 2015-08-03
+and; end; 100000000000                                                            # p=0.998, r=0.529, 3grams, 2015-08-03
+allowed|permitted; aloud|using the voice; 1000                                    # p=0.999, r=0.895, 1057, 3grams, 2015-08-05
+ate|past of 'to eat'; eight|the number '8'; 10                                    # p=0.996, r=0.940, 3grams, 2015-08-03
+be; bee|insects; 100000                                                           # p=0.999, r=0.835, 3grams, 2015-08-04
+be; we; 1000000                                                                   # p=1.000, r=0.870, 3grams, 2015-08-03
+bean; been; 100                                                                   # p=0.995, r=0.923, 3grams, 2015-08-03
+been; bin|container; 10000                                                        # p=0.999, r=0.913, 3grams, 2015-08-04
+begin|start; being|living thing; 10000000                                         # p=1.000, r=0.558, 3grams, 2015-08-03
+bit; but; 1000000                                                                 # p=0.997, r=0.799, 3grams, 2015-08-03 false alarm: butt in
+breathe|verb; breath|noun; 10000                                                  # p=1.000, r=0.770, 3grams, 2015-08-03
+but; butt; 10000                                                                  # p=0.993, r=0.837, 3grams, 2015-08-03
+buy|purchase; bye|goodbye; 100                                                    # p=1.000, r=0.825, 3grams, 2015-08-03
+desert|arid land; dessert|last course of a meal; 100000                           # p=0.996, r=0.490, 3grams, 2015-08-03
+except|with the exception of; expect|regard something as likely; 1000000          # p=0.998, r=0.638, 3grams, 2015-08-03
+extend|verb; extent|noun; 10                                                      # p=0.998, r=0.974, 3grams, 2015-08-03
+fill; full; 100000                                                                # p=0.997, r=0.761, 3grams, 2015-08-03 false alarm: fill-in
+first; fist; 100000000                                                            # p=0.994, r=0.799, 3grams, 2015-08-03
+for|a preposition as in 'I have something for you'; four|the number '4'; 10000000 # p=0.994, r=0.506, 3grams, 2015-08-03
+had|past of 'have'; hat|head covering; 10000000                                   # p=0.998, r=0.643, 3grams, 2015-08-03
+half|noun/adjective; halve|verb; 100000                                           # p=0.997, r=0.961, 3grams, 2015-08-04 few evaluation examples for 'halve'
+hear; heart; 100                                                                  # p=0.996, r=0.951, 3grams, 2015-08-04
+in; inn|a hostel; 100000                                                          # p=0.999, r=0.834, 3grams, 2015-08-04
+known|past participle of 'know'; know|to be aware of; 100                         # p=0.999, r=0.965, 3grams, 2015-08-03
+know|to be aware of; no|negation; 10000                                           # p=0.999, r=0.887, 3grams, 2015-08-03
+know|to be aware of; now|in this moment; 100                                      # p=0.999, r=0.876, 3grams, 2015-08-03
+lies; lines; 100000                                                               # p=0.999, r=0.558, 3grams, 2015-08-03
+loose|not tight; lose|opposite of win; 10000                                      # p=0.996, r=0.795, 3grams, 2015-08-03
+mice|plural of 'mouse'; nice|pleasant; 100                                        # p=0.997, r=0.860, 3grams, 2015-08-03
+near|close to; neat|clean or organized; 10000                                     # p=1.000, r=0.783, 3grams, 2015-08-03
+new; news; 100000                                                                 # p=0.997, r=0.541, 3grams, 2015-08-03
+nit; not; 10000000                                                                # p=0.998, r=0.945, 3grams, 2015-08-03
+not; note; 10000000                                                               # p=0.997, r=0.524, 3grams, 2015-08-03
+now|at the present moment; no|negation; 100000                                    # p=0.996, r=0.559, 3grams, 2015-08-03
+our; out; 1000                                                                    # p=0.996, r=0.896, 3grams, 2015-08-03
+passed|paste tense of 'to pass'; past|past times; 1000                            # p=0.999, r=0.858, 3grams, 2015-08-03
+peace|absence of war; piece|a portion of a natural object; 100000                 # p=0.998, r=0.629, 3grams, 2015-08-03
+peak|extremum, summit, top; peek|a secret look; 10000                             # p=0.999, r=0.794, 3grams, 2015-08-03
+pray|say a prayer; prey|animal hunted for food; 1000                              # p=0.996, r=0.785, 3grams, 2015-08-03
+proof|often noun, also 'proofread'; prove|verb: show, testify, demonstrate; 10000 # p=0.997, r=0.843, 3grams, 2015-08-03
+quit|stop, give up; quite|completely, to a degree; 10000                          # p=0.998, r=0.835, 3grams, 2015-08-03
+quiet|free of noise; quite|completely, to a degree; 10000                         # p=0.999, r=0.808, 3grams, 2015-08-03
+right|opposite of 'left'; rite|established ceremony or practice; 10000000         # p=0.995, r=0.698, 3grams, 2015-08-03 false alarms: "...of the rite."
+same|identical; sane|mentally healthy; 1000                                       # p=1.000, r=0.962, 3grams, 2015-08-03
+scene|place where some action occurs; seen|past participle of 'see'; 100          # p=1.000, r=0.910, 3grams, 2015-08-03
+sea|ocean; see|to look at; 1000                                                   # p=0.996, r=0.869, 3grams, 2015-08-03
+sire|noun: title, verb: make by reproduction; sure|certain; 10000                 # p=0.999, r=0.934, 3grams, 2015-08-05
+than; that; 10000000                                                              # p=0.999, r=0.496, 3grams, 2015-08-03
+than|used in comparisons; then|next in order; 10000                               # p=0.999, r=0.779, 3grams, 2015-08-03
+their|as in 'It’s not their fault.'; there|as in 'Is there an answer?'; 100       # p=0.994, r=0.965, 3grams, 2015-08-03 false alarms: there being
+the; to; 1000000                                                                  # p=0.995, r=0.639, 3grams, 2015-08-03
+thing|noun; think|usually a verb; 100                                             # p=0.997, r=0.953, 3grams, 2015-08-03
+threw|past of throw; through|preposition, e.g. 'go through the door'; 10000000    # p=0.996, r=0.610, 3grams, 2015-08-03
+weather|atmospheric conditions; whether|as in 'whether or not'; 10000             # p=0.993, r=0.802, 3grams, 2015-08-03 false alarm: weather conditions
+we; wee|a short time; 100                                                         # p=0.999, r=0.971, 3grams, 2015-08-04 few eval examples for 'wee'
+wit|humor; with; 100000                                                           # p=0.997, r=0.858, 3grams, 2015-08-04
+which; witch|female sorcerer or magician; 1000000                                 # p=0.995, r=0.840, 3grams, 2015-08-04
+your|possessive pronoun; you|personal pronoun; 1000                               # p=0.993, r=0.860, 3grams, 2015-08-03
 
 # results on a better evaluation corpus with wikipedia, tatoeba, enron (33% each):
-# accept/except precision=0.997, recall=0.784 (2015-05-29)
-# first/fist precision=0.992, recall=0.771 (2015-05-29)
-# our/out precision=0.998, recall=0.863 (2015-05-29)
-# their/there precision=0.992, recall=0.945 (2015-05-29)
-# whether/weather precision=0.991, recall=0.806 (2015-05-29)
+# accept/except p=0.997, r=0.784 (2015-05-29)
+# first/fist p=0.992, r=0.771 (2015-05-29)
+# our/out p=0.998, r=0.863 (2015-05-29)
+# their/there p=0.992, r=0.945 (2015-05-29)
+# whether/weather p=0.991, r=0.806 (2015-05-29)
 
-#in; on; 10000                                                                   # precision=0.975, recall=0.313 (2015-06-01) using 3grams
-#its; it; 10000000                                                               # precision=0.991, recall=0.639 (2015-06-01) using 3grams - "it's" must also be supported to avoid wrong suggestions
-#if; is; 1000000                                                                 # precision=0.993, recall=0.529 (2015-06-01) using 3grams
-#an;and; 100000                                                                  # precision=0.999, recall=0.791 (2015-05-30) using 3grams - we need even better precision for such common words 
-#to; too; 10000000                                                               # precision=0.994, recall=0.404 (2015-05-29) note the low recall
-#if; of; 1000000                                                                 # precision=0.979, recall=0.569 (2015-06-17) using 3grams
-#the; thee; 1000000000                                                           # precision=0.993, recall=0.830 (2015-07-29) using 3grams (only 76 examples for 'thee')
-#allowed|with permission; aloud|using the voice, not silently; 10000             # precision=0.995, recall=0.534 (2015-05-22)
-#band|music group; banned|to be excluded; 1000                                   # precision=0.997, recall=0.480 (2015-05-22)
-#ant|an insect; aunt|the sister of your father or mother; 1000                   # precision=0.995, recall=0.398 (2015-05-22)
-#accesses; assesses; 1000                                                        # precision=0.999, recall=0.580 (2015-05-22)
-#ads|x; adds|y; 1000                                                             # precision=0.997, recall=0.503 (2015-05-22)
-#message|x; massage|x; 1000                                                      # precision=0.984, recall=0.867 (2015-05-25)
-#use;sue; 1000000                                                                # precision=0.951, recall=0.487 (2015-06-13) using 3grams
-#through; though; 100000                                                         # precision=0.990, recall=0.495 (2015-06-13) using 3grams
-#used; sued; 1000000000                                                          # precision=0.991, recall=0.484 (2015-07-30) using 3grams
-#off; of; 100000000000                                                           # precision=0.993, recall=0.408 (2015-06-17) using 3grams
-#raise|transitive; rise|intransitive; 10000                                      # precision=0.992, recall=0.743 (2015-08-03) using 3grams https://www.englishclub.com/vocabulary/cw-raise-rise.htm
-#principal; principle; 1000000                                                   # precision=0.991, recall=0.358 (2015-08-03) using 3grams
-#county; country; 1000000                                                        # precision=0.995, recall=0.207 (2015-08-03) using 3grams
-#fewer; less; 100000                                                             # precision=0.995, recall=0.985 (2015-08-03) using 3grams
-#form; from; 100000000                                                           # precision=0.993, recall=0.565 (2015-08-04) using 3grams
-#gays; guys; 100                                                                 # precision=0.998, recall=0.855 (2015-08-05) using 3grams
+#in; on; 10000                                                                   # p=0.975, r=0.313 (2015-06-01), 3grams
+#its; it; 10000000                                                               # p=0.991, r=0.639 (2015-06-01), 3grams - "it's" must also be supported to avoid wrong suggestions
+#if; is; 1000000                                                                 # p=0.993, r=0.529 (2015-06-01), 3grams
+#an;and; 100000                                                                  # p=0.999, r=0.791 (2015-05-30), 3grams - we need even better precision for such common words 
+#to; too; 10000000                                                               # p=0.994, r=0.404 (2015-05-29) note the low recall
+#if; of; 1000000                                                                 # p=0.979, r=0.569 (2015-06-17), 3grams
+#the; thee; 1000000000                                                           # p=0.993, r=0.830 (2015-07-29), 3grams (only 76 examples for 'thee')
+#allowed|with permission; aloud|using the voice, not silently; 10000             # p=0.995, r=0.534 (2015-05-22)
+#band|music group; banned|to be excluded; 1000                                   # p=0.997, r=0.480 (2015-05-22)
+#ant|an insect; aunt|the sister of your father or mother; 1000                   # p=0.995, r=0.398 (2015-05-22)
+#accesses; assesses; 1000                                                        # p=0.999, r=0.580 (2015-05-22)
+#ads|x; adds|y; 1000                                                             # p=0.997, r=0.503 (2015-05-22)
+#message|x; massage|x; 1000                                                      # p=0.984, r=0.867 (2015-05-25)
+#use;sue; 1000000                                                                # p=0.951, r=0.487 (2015-06-13), 3grams
+#through; though; 100000                                                         # p=0.990, r=0.495 (2015-06-13), 3grams
+#used; sued; 1000000000                                                          # p=0.991, r=0.484 (2015-07-30), 3grams
+#off; of; 100000000000                                                           # p=0.993, r=0.408 (2015-06-17), 3grams
+#raise|transitive; rise|intransitive; 10000                                      # p=0.992, r=0.743, 3grams, 2015-08-03 https://www.englishclub.com/vocabulary/cw-raise-rise.htm
+#principal; principle; 1000000                                                   # p=0.991, r=0.358, 3grams, 2015-08-03
+#county; country; 1000000                                                        # p=0.995, r=0.207, 3grams, 2015-08-03
+#fewer; less; 100000                                                             # p=0.995, r=0.985, 3grams, 2015-08-03
+#form; from; 100000000                                                           # p=0.993, r=0.565 (2015-08-04), 3grams
+#gays; guys; 100                                                                 # p=0.998, r=0.855 (2015-08-05), 3grams
 #your|possessive pronoun; you're|you are; 10
 #they're; their
 #check; cheque (relevant only for en-GB) 

@@ -126,8 +126,9 @@ class ConfusionRuleEvaluator {
   private String printEvalResult(List<Sentence> allTokenSentences, List<Sentence> allHomophoneSentences, List<String> inputsOrDir) {
     float precision = (float) truePositives / (truePositives + falsePositives);
     float recall = (float) truePositives / (truePositives + falseNegatives);
-    String summary = String.format(ENGLISH, "precision=%.3f, recall=%.3f (%s) using %dgrams",
-            precision, recall, new SimpleDateFormat("yyyy-MM-dd").format(new Date()), grams);
+    String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+    String summary = String.format(ENGLISH, "p=%.3f, r=%.3f, %d, %dgrams, %s",
+            precision, recall, allTokenSentences.size() + allHomophoneSentences.size(), grams, date);
     if (verbose) {
       int sentences = allTokenSentences.size() + allHomophoneSentences.size();
       System.out.println("======================");
