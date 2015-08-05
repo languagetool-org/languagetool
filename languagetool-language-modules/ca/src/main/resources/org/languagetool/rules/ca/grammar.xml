@@ -6224,18 +6224,6 @@ $Id$
                 <example correction="o">Vindrà un <marker>u</marker> altre.</example>
                 <example>dins o fora</example>
             </rule>
-            <rule id="E_LES" name="e les/de les">
-                <pattern>
-                    <token case_sensitive="yes">e</token>
-                    <token postag="D.*" postag_regexp="yes"/>
-                </pattern>
-                <message>Possible confusió.</message>
-                <suggestion>de \2</suggestion>
-                <suggestion>i \2</suggestion>
-                <suggestion>en \2</suggestion>
-                <example correction="de les|i les|en les">Vinc <marker>e les</marker> cases.</example>
-                <example>i a l'E el promontori</example>
-            </rule>
         </rulegroup>
         <rule id="DONCS_CAUSAL" name="*'doncs' causal">
             <!-- La regla aprofita que és més probable que després del 'doncs' il·latiu hi hagi un verb
@@ -8181,7 +8169,7 @@ $Id$
         </rule>
         <rule id="CONSISTIR_EN_QUE" name="consistir *en què">
             <pattern>
-                <token inflected="yes" regexp="yes">consistir|basar|insistir|fonamentar|coincidir</token>
+                <token inflected="yes" regexp="yes">consistir|basar|insistir|fonamentar|coincidir|raure</token>
                 <token min="0" max="4" postag="RG|_PUNCT_CONT|.*LOC_ADV.*" postag_regexp="yes"/>
                 <marker>
                     <token>en</token>
@@ -8829,6 +8817,54 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rulegroup id="CONFUSIO_E" name="Possible confusió e/i/en/es">
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">e</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Possible confusió.</message>
+                <suggestion>de \2</suggestion>
+                <suggestion>i \2</suggestion>
+                <suggestion>en \2</suggestion>
+                <example correction="de les|i les|en les">Vinc <marker>e les</marker> cases.</example>
+                <example>i a l'E el promontori</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token case_sensitive="yes">e</token>
+                        <token skip="2" regexp="yes">és|són</token>
+                        <token inflected="yes" regexp="yes">transcendent|irracional|nombre</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token><exception regexp="yes">la|vocal</exception></token>
+                    <marker>
+                        <token case_sensitive="yes" spacebefore="yes">e</token>
+                    </marker>
+                    <token postag='V.*' postag_regexp='yes'><exception regexp="yes">tancada|oberta</exception></token>
+                </pattern>
+                <message>Possible confusió.</message>
+                <suggestion>i</suggestion>
+                <suggestion>en</suggestion>
+                <suggestion>es</suggestion>
+                <example correction='i|en|es'>Els mínims que <marker>e</marker> posa</example>
+                <example correction='i|en|es'>No amaguen errors <marker>e</marker> intenten aprendre d'ells.</example> 
+                <example>Serveix per a demostrar que pi i e són transcendents.</example>
+            </rule>
+        </rulegroup>
+        <rule id="BEN_BE" name="ben/bé">
+            <pattern>
+                <token>ben</token>
+                <token postag="NC.*" postag_regexp="yes"><exception postag="AQ.*|V.P.*|_possible_nompropi|RG|.*LOC_ADV.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+</exception></token>
+            </pattern>
+            <message>Possible confusió.</message>
+            <suggestion>bé</suggestion>
+            <example correction="bé">Medi rural o <marker>ben medi</marker> urbà.</example>
+            <example>Cridaven ben fort.</example>
+            <example>No era ben bé això.</example>
+        </rule>
         <rule id="MANER" name="maner/manera">
             <pattern>
                 <marker>
