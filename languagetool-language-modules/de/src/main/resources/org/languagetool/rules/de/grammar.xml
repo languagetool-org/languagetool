@@ -3589,6 +3589,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Kein"><marker>Keim</marker> Redakteur wird sich die Mühe machen</example>
             <example>Kein Redakteur wird sich die Mühe machen</example>
         </rule>
+        <rulegroup id="FUSS_FUESSEN" name="Mögliche Wortverwechslung: Füßen/Füssen">
+            <url>http://www.duden.de/rechtschreibung/Fusz</url>
+            <rule>
+                <pattern>
+                    <token postag="PRP:.+" postag_regexp="yes"/>
+                    <token regexp="yes">den|eigenen|tönernen|seinen|ihren|meinen|deinen|euren|unseren</token>
+                    <marker>
+                        <token>Füssen</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>Füßen</suggestion> (Plural von 'Fuß')? Füssen ist eine Stadt in Bayern.</message>
+                <example correction="Füßen">Du musst lernen, auf eigenen <marker>Füssen</marker> zu stehen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IN_PUNCTO" name="Mögliche Wortverwechslung: punkto/puncto">
             <url>http://www.korrekturen.de/beliebte_fehler/in_punkto.shtml</url>
             <rule>
@@ -5043,6 +5057,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Rheinland-Pfalz">Mainz liegt in <marker>Rheinland Falz</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="MEISSENER" name="Eigenname: 'Meissener (Meißener)'">
+            <antipattern>
+                <token>Meissener</token>
+                <token>Porzellan</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>Meissener</token>
+                </marker>
+            </pattern>
+            <message>Das Wort <suggestion>Meißener</suggestion> wird in Deutschland und Österreich mit ß geschrieben.</message>
+            <example correction="Meißener">Die <marker>Meissener</marker> waren sehr nett.</example>
+            <example>Das ist echtes <marker>Meissener</marker> Porzellan.</example>
+        </rule>
         <rule id="JUECHEN_JUELICH" name="Eigenname: 'Forschungszentrum Jüchen (Jülich)'">
             <pattern>
                 <token regexp="yes" skip="1">.*forschungszentrums?</token>
@@ -12279,6 +12307,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Stille">Sie wurde in aller <marker>stille</marker> beigesetzt.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="INNERES_SUBST" name="Groß-/Kleinschreibung: 'im inneren (Inneren) des Körpers' etc.">
+            <rule>
+                <pattern>
+                    <token>im</token>
+                    <marker>
+                        <token case_sensitive="yes">inneren</token>
+                    </marker>
+                    <token regexp="yes">der|des</token>
+                    <token postag="SUB:GEN:SIN:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>&subanfang;<suggestion>Inneren</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Inneren">Im <marker>inneren</marker> der Statue befindet sich ein Hohlraum.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="EBENE_SUBST" name="Groß-/Kleinschreibung: 'auf vielen ebenen (Ebenen)' etc.">
             <rule>
                 <pattern case_sensitive="yes">
@@ -14765,6 +14808,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example>Sie haben <marker>Angst und Schrecken</marker> verbreitet.</example>
                 <example correction="Angst und Schrecken">Sie begannen <marker>angst und schrecken</marker> zu verbreiten.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ANZEIGE_SUBST" name="Groß-/Kleinschreibung: 'zur anzeige (Anzeige) bringen'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>zur</token>
+                    <marker>
+                        <token>anzeige</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Anzeige</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Anzeige">Wir haben den Fall zur <marker>anzeige</marker> gebracht.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZUR_SCHULE_GEHEN" name="Groß-/Kleinschreibung: 'zur schule (Schule) gehen'">
@@ -17938,6 +17994,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]uf|[bB]ei</token>
                     <token regexp="yes">(sein|ihr|d)er</token>
+                    <token postag="ADJ:.*" postag_regexp="yes" min="0" max="2"/>
                     <marker>
                         <token>flucht</token>
                     </marker>
@@ -17946,20 +18003,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Flucht">Er wurde auf der <marker>flucht</marker> erschossen.</example>
                 <example correction="Flucht">Bei seiner <marker>flucht</marker> stahl er ein Auto.</example>
+                <example correction="Flucht">Bei seiner wilden <marker>flucht</marker> stahl er ein Auto.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[aA]uf|[bB]ei</token>
-                    <token regexp="yes">(sein|ihr|d)er</token>
-                    <token postag="ADJ:.*" postag_regexp="yes"/>
+                    <token regexp="yes">[dD]ie</token>
                     <marker>
                         <token>flucht</token>
+                    </marker>
+                    <token>nach</token>
+                    <token regexp="yes">vorne?</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Flucht</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Flucht">Er trat die <marker>flucht</marker> nach vorne an.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>zur</token>
+                    <marker>
+                        <token case_sensitive="yes">flucht</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion>Flucht</suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example correction="Flucht">Bei seiner wilden <marker>flucht</marker> stahl er ein Auto.</example>
-                <example>Er wurde auf der <marker>Flucht</marker> erschossen.</example>
+                <example correction="Flucht">Wir verhalfen ihnen zur <marker>flucht</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WILLE_SUBST" name="Groß-/Kleinschreibung: 'gegen seinen willen (Willen)'">
+            <rule>
+                <pattern>
+                    <token>gegen</token>
+                    <token postag="PRO:POS:AKK:SIN:MAS.*" postag_regexp="yes"/>
+                    <marker>
+                        <token case_sensitive="yes">willen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Willen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Willen">Sie wurde gegen ihren <marker>willen</marker> dort festgehalten.</example>
             </rule>
         </rulegroup>
         <rulegroup id="VOR_DEM_AUS" name="Groß-/Kleinschreibung: 'vor dem aus (Aus)'">
@@ -26165,6 +26247,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="EIG:.*" postag_regexp="yes">
                         <exception>King</exception>
+                        <exception>Beck</exception>
                         <exception>McDonald</exception>
                         <exception>Andrea</exception>
                     </token>
