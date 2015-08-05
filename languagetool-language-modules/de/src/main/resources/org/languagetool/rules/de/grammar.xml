@@ -3444,18 +3444,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Bescheid">Da würde ich auch <marker>Bescheide</marker> sagen.</example>
             <example correction="Bescheid">Da würde ich auch <marker>Bescheids</marker> geben.</example>
         </rule>
-        <rule id="WIEDER_WILLEN" name="Möglicher Tippfehler: 'wieder (wider) Willen/Erwarten'">
-            <pattern case_sensitive="yes">
-                <marker>
-                    <token regexp="yes">[wW]ieder</token>
-                </marker>
-                <token regexp="yes">Willen|Erwarten</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>wider</suggestion> (wider = gegen, wieder = nochmals)?</message>
-            <example>Und <marker>wieder</marker> erwarten wir Probleme.</example>
-            <example correction="wider">Wunschwitz wird zum Aufständler und Rebellen <marker>wieder</marker> Willen.</example>
-            <example correction="Wider"><marker>Wieder</marker> Erwarten.</example>
-        </rule>
+        <rulegroup id="WIEDER_WILLEN" name="Möglicher Tippfehler: 'wieder (wider) Willen/Erwarten'">
+            <rule>
+		    <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[wW]ieder</token>
+                    </marker>
+                    <token>besseres</token>
+                    <token>Wissen</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>wider</suggestion> (wider = gegen, wieder = nochmals)?</message>
+                <example correction="wider">Er handelt <marker>wieder</marker> besseres Wissen.</example>
+            </rule>
+            <rule>
+		    <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[wW]ieder</token>
+                    </marker>
+                    <token regexp="yes">Willen|Erwarten</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>wider</suggestion> (wider = gegen, wieder = nochmals)?</message>
+                <example>Und <marker>wieder</marker> erwarten wir Probleme.</example>
+                <example correction="wider">Wunschwitz wird zum Aufständler und Rebellen <marker>wieder</marker> Willen.</example>
+                <example correction="Wider"><marker>Wieder</marker> Erwarten.</example>
+            </rule>
+        </rulegroup>
         <rule id="ICH_VERALTE" name="Möglicher Tippfehler: 'ich veralte (verwalte/verhalte)'">
             <pattern>
                 <token>ich</token>
@@ -3601,6 +3614,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie <suggestion>Füßen</suggestion> (Plural von 'Fuß')? Füssen ist eine Stadt in Bayern.</message>
                 <example correction="Füßen">Du musst lernen, auf eigenen <marker>Füssen</marker> zu stehen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>mit</token>
+                    <marker>
+                        <token>Füssen</token>
+                    </marker>
+                    <token inflected="yes">treten</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Füßen</suggestion> (Plural von 'Fuß')? Füssen ist eine Stadt in Bayern.</message>
+                <example correction="Füßen">Hier wird die Gerechtigkeit mit <marker>Füssen</marker> getreten.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IN_PUNCTO" name="Mögliche Wortverwechslung: punkto/puncto">
@@ -4135,7 +4159,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">[sS]chieße</token>
                     </marker>
                 </pattern>
-                <message>&verw;Meinten Sie <suggestion>Scheiße</suggestion> (ugs.)?</message>
+                <message>&verw;Meinten Sie <suggestion>Scheiße</suggestion> (ugs./vulg.)?</message>
                 <short>Mögliche Wortverwechslung</short>
                 <example correction="Scheiße">Das war echt <marker>Schieße</marker>.</example>
             </rule>
@@ -12322,6 +12346,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Inneren">Im <marker>inneren</marker> der Statue befindet sich ein Hohlraum.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="LAUT_SUBST" name="Groß-/Kleinschreibung: 'keinen laut (Laut) von sich geben' etc.">
+            <rule>
+                <pattern>
+                    <token>keinen</token>
+                    <marker>
+                        <token case_sensitive="yes">laut</token>
+                    </marker>
+                    <token>von</token>
+                    <token postag="PRO:REF:DAT:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>&subanfang;<suggestion>Laut</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Laut">Sie gab keinen <marker>laut</marker> von sich.</example>
+                <example>Sie sprach <marker>laut</marker> von sich selbst und ihren Problemen.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PELLE_SUBST" name="Groß-/Kleinschreibung: 'auf die pelle (Pelle) rücken' etc.">
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <token>die</token>
+                    <marker>
+                        <token case_sensitive="yes">pelle</token>
+                    </marker>
+                    <token inflected="yes">rücken</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Pelle</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Pelle">Sie sind mir auf die <marker>pelle</marker> gerückt.</example>
+            </rule>
+            <!-- TODO: test fails
+		<rule>
+                <pattern>
+                    <token inflected="yes">rücken</token>
+                    <token min="0" max="3"/>
+                    <token>auf</token>
+                    <token>die</token>
+                    <marker>
+                        <token case_sensitive="yes">pelle</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Pelle</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Pelle">Sie rücken mir auf die <marker>pelle</marker>.</example>
+            </rule>
+            -->
+        </rulegroup>
         <rulegroup id="EBENE_SUBST" name="Groß-/Kleinschreibung: 'auf vielen ebenen (Ebenen)' etc.">
             <rule>
                 <pattern case_sensitive="yes">
@@ -13749,6 +13820,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example>Hier stinkt es nach <marker>Scheiße</marker>.</example>
                 <example correction="Scheiße">Es ist widerlich, weil es nach <marker>scheiße</marker> stinkt.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PFEIFE_SUBST" name="Groß-/Kleinschreibung: 'Was soll das, du pfeife (Pfeife)?'">
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <token>der</token>
+                    <marker>
+                        <token case_sensitive="yes">pfeife</token>
+                    </marker>
+                    <token inflected="yes">rauchen</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Pfeife">Den kannst du doch in der <marker>pfeife</marker> rauchen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>du</token>
+                    <token min="0" postag="ADJ:AKK:SIN:FEM:.+" postag_regexp="yes"/>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">pfeife|schlampe|hure</token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Pfeife">Was soll das, du <marker>pfeife</marker>?</example>
+                <example correction="Schlampe">Dir werde ich es zeigen, du blöde <marker>schlampe</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SCHEISSE_SUBST" name="Groß-/Kleinschreibung: 'in die scheiße (Scheiße) reiten' usw.">
@@ -16139,6 +16239,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ANGELN_SUBST" name="Groß-/Kleinschreibung: 'aus den angeln (Angeln) heben' etc.">
             <rule>
                 <pattern case_sensitive="yes">
+                    <token regexp="yes">[mM]it</token>
+                    <token>fremden</token>
+                    <marker>
+                        <token>federn</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Federn"> Da hast du dich mit fremden <marker>federn</marker> geschmückt.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]us</token>
                     <token>den</token>
                     <marker>
@@ -18043,6 +18155,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Willen">Sie wurde gegen ihren <marker>willen</marker> dort festgehalten.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>beim</token>
+                    <token>besten</token>
+                    <marker>
+                        <token case_sensitive="yes">willen</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Willen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Willen">Ich sehe beim besten <marker>willen</marker> keine Chance für das Projekt.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="VOR_DEM_AUS" name="Groß-/Kleinschreibung: 'vor dem aus (Aus)'">
             <rule>
@@ -18412,7 +18536,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Herzen">Sie hat doch etwas auf dem <marker>herzen</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="BAD_SUBST" name="Groß-/Kleinschreibung: 'das Kind mit dem bade (Bade)'">
+            <rule>
+                <pattern>
+                    <token>Kind</token>
+                    <token min="0" max="1">aber</token>
+                    <token min="0" max="1">nicht</token>
+                    <token>mit</token>
+                    <token>dem</token>
+                    <marker>
+                        <token case_sensitive="yes">bade</token>
+                    </marker>
+                    <token regexp="yes">.*schütt.+|aus</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Bade</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Bade">Du schüttest das Kind mit dem <marker>bade</marker> aus.</example>
+                <example correction="Bade">Du solltest das Kind nicht mit dem <marker>bade</marker> ausschütten.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HACKE_SUBST" name="Groß-/Kleinschreibung: 'auf hohen hacken (Hacken)'">
+            <rule>
+                <pattern>
+                    <token>auf</token>
+                    <token>hohen</token>
+                    <marker>
+                        <token case_sensitive="yes">hacken</token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion>Hacken</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Hacken">Auf hohen <marker>hacken</marker> durchs Leben.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="RUECKEN_SUBST" name="Groß-/Kleinschreibung: 'rücken (Rücken)'">
+            <rule>
+                <pattern>
+                    <token>mit</token>
+                    <token>dem</token>
+                    <marker>
+                        <token case_sensitive="yes">rücken</token>
+                    </marker>
+                    <token regexp="yes">zur?</token>
+                </pattern>
+                <message>&subanfang;<suggestion>Rücken</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Rücken">Sie steht mit dem <marker>rücken</marker> zur Wand.</example>
+            </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]uf|[hH]inter</token>
@@ -18946,13 +19116,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token regexp="yes">[iI]n</token>
                 <marker>
-                    <token regexp="yes">flammen|ketten|fesseln|klammern</token>
+                    <token regexp="yes">flammen|ketten|fesseln|klammern|streifen|scharen</token>
                 </marker>
             </pattern>
             <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
             <short>&prgk;.</short>
             <example correction="Flammen">Rhein in <marker>flammen</marker>.</example>
             <example correction="Ketten">Die Freiheit liegt in <marker>ketten</marker>.</example>
+            <example correction="Scharen">Sie kamen in <marker>scharen</marker>.</example>
+            <example correction="Streifen">Ich schnitt es in <marker>streifen</marker>.</example>
+            <example correction="Streifen">Ich habe es in <marker>streifen</marker> geschnitten.</example>
         </rule>
         <rulegroup id="ZEUGE_SUBST" name="Groß-/Kleinschreibung: 'als zeuge (Zeuge) vernehmen' etc.">
             <rule>
@@ -20163,6 +20336,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Stunde">Das kostet 20 € pro <marker>stunde</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">tage|stunden</token>
+                    </marker>
+                    <token inflected="yes">dauern</token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Tage">Das noch ein paar <marker>tage</marker> dauern.</example>
+                <example correction="Stunden">Das noch <marker>stunden</marker> dauern.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
