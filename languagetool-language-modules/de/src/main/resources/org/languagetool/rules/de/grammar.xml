@@ -87,7 +87,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY leidwoerter "Angst|Armut|Bevölkerung|Blut(vergießens?)?|Einsamkeit|Elend|Entbehrung(en)?|Entsagung|Flüchtling(en?)?|Gewalt|Krankheit(en?)?|Mitleid|Not|Ohnmacht|Qual(en?)?|Schadens?|Schrecken|Unterdrückung|Vertreibung|Verzweiflung|Zerstörung(en?)?|Zivilbevölkerung|bitteres|endloses|ertragen|geschieht|geteiltes|psychisches|unendliches|unermessliches|unerträgliches|ungeheures|unsagbares|unsägliches|unvorstellbares|vermeidbares|verursacht|zugefügt">
     <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|genau|laut|maximal|reichlich|täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich|voraussichtlich|gleichzeitig|zeitgleich|häufig|mehrheitlich|ungefähr">
     <!ENTITY meindein "&lsqb;mds&rsqb;ein|unser|euer|ihr">
-    <!ENTITY verbendirekterede "befehlen|behaupten|denken|fragen|rufen|sagen|versichern|flüstern">
+    <!ENTITY verbendirekterede "befehlen|behaupten|denken|fragen|rufen|sagen|versichern|flüstern|sprechen">
     <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt|empört|entrüstet|erbost">
     <!ENTITY fragewoerter "inwiefern|wann|warum|was|wem|wen|wer|weshalb|weswegen|wie|wieso|wo|wodurch|woher|wohin|wonach|woran|worauf|woraus|worüber|worunter|wozu">
     <!--
@@ -121,7 +121,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>paar kleine</suggestion>
             <suggestion>Paar \3</suggestion>
             <example correction="paar kleine|Paar keine">Dort gibt es ein <marker>paar keine</marker> Wanderwege.</example>
-            <example correction="paar kleine|Paar keine">...nur weil ein <marker>paar keine</marker> Kinder möchte.</example>
+            <example correction="paar kleine|Paar keine">... nur weil ein <marker>paar keine</marker> Kinder möchte.</example>
         </rule>
         <rule id="MIR_MIR" name="Wiederholung Dativ: mir mir/dir/uns">
             <pattern>
@@ -13754,7 +13754,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[eE]in|[aA]ls</token>
-                    <token>kleiner</token>
+                    <token postag="ADJ:NOM:SIN:.+" postag_regexp="yes"/>
                     <marker>
                         <token>junge</token>
                     </marker>
@@ -13763,6 +13763,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Junge">Ich war damals noch ein kleiner <marker>junge</marker>.</example>
+                <example correction="Junge">Du bist doch schon ein großer <marker>junge</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZWEI_FLIEGEN_MIT_EINER_KLAPPE" name="Groß-/Kleinschreibung: 'zwei Fliegen mit einer klappe (Klappe) schlagen'">
@@ -20346,8 +20347,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
-                <example correction="Tage">Das noch ein paar <marker>tage</marker> dauern.</example>
-                <example correction="Stunden">Das noch <marker>stunden</marker> dauern.</example>
+                <example correction="Tage">Das wird noch ein paar <marker>tage</marker> dauern.</example>
+                <example correction="Stunden">Das kann noch <marker>stunden</marker> dauern.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -20478,7 +20479,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion>Dank</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Dank">Dem Himmel sei <marker>dank</marker>!</example>
-                <example>Wir sind ihr zu großem <marker>Dank</marker> verpflichtet.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -20491,7 +20491,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&subanfang;<suggestion>Dank</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Dank">Vielen <marker>dank</marker> für die Blumen!</example>
-                <example>Wir sind ihr zu großem <marker>Dank</marker> verpflichtet.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -26297,6 +26296,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Möglicherweise falsches Satzzeichen</short>
                 <example correction="?">Ist er blöd<marker>.</marker></example>
                 <example correction="?">Ist Peter blöd<marker>.</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>Wie</token>
+                    <token>geht</token>
+                    <token>es</token>
+                    <token min="0"/>
+                    <marker>
+                        <token postag="SENT_END">
+                            <exception>?</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Wenn dieser Satz eine Frage ist, verwenden Sie bitte ein Fragezeichen. Das gilt auch für rhetorische Fragen. Vorschlag:
+                    <suggestion>?</suggestion>
+                </message>
+                <short>Möglicherweise falsches Satzzeichen</short>
+                <example correction="?">Wie geht es dir<marker>.</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="ROCK_N_ROLL" name="Zeichensetzung: Apostroph in 'Rock 'n' Roll'">
