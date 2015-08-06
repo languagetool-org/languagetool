@@ -19528,15 +19528,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="ENDE_SUBST" name="Groß-/Kleinschreibung: 'ende (Ende)'">
             <rule>
-                <pattern case_sensitive="yes">
+                <pattern>
                     <token regexp="yes">ohne|am|zu|zum|gegen</token>
+                    <token postag="ADJ:DAT:SIN:NEU:.+" postag_regexp="yes" min="0"/>
                     <marker>
-                        <token>ende</token>
+                        <token case_sensitive="yes">ende</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion>Ende</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example correction="Ende">Unsere Fahrt ist zu <marker>ende</marker>.</example>
+                <example correction="Ende">Der Preis liegt am oberen <marker>ende</marker> der Skala.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
