@@ -101,6 +101,8 @@ public class WordRepeatRule extends Rule {
       if (!Character.isLetter(c)) {
         isWord = false;
       }
+    } else if (token.matches("0+")) {  // e.g. "1 000 000"
+      isWord = false;
     }
     return isWord;
   }
