@@ -241,7 +241,7 @@ public class WikipediaQuickCheck {
     // URL examples:
     //final String urlString = "http://de.wikipedia.org/wiki/Angela_Merkel";
     //final String urlString = "https://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber";
-    //final String urlString = "https://secure.wikimedia.org/wikipedia/de/wiki/G%C3%BCtersloh";
+    //final String urlString = "https://secure.wikimedia.org/wikipedia/de/wiki/Gütersloh";
     String urlString = args[0];
     MarkupAwareWikipediaResult result = check.checkPage(new URL(urlString), new ErrorMarker("***", "***"));
     int errorCount = 0;
