@@ -40,6 +40,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.util.Locale.ENGLISH;
 
@@ -167,9 +169,11 @@ class ConfusionRuleEvaluator {
 
   private List<Sentence> getSentencesFromSource(List<String> inputs, String token, int maxSentences, SentenceSource sentenceSource) {
     List<Sentence> sentences = new ArrayList<>();
+    Pattern pattern = Pattern.compile(".*\\b" + token.toLowerCase() + "\\b.*");
     while (sentenceSource.hasNext()) {
       Sentence sentence = sentenceSource.next();
-      if (sentence.getText().toLowerCase().matches(".*\\b" + token + "\\b.*")) {
+      Matcher matcher = pattern.matcher(sentence.getText().toLowerCase());
+      if (matcher.matches()) {
         sentences.add(sentence);
         if (sentences.size() % 250 == 0) {
           println("Loaded sentence " + sentences.size() + " with '" + token + "' from " + inputs);
