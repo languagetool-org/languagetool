@@ -4201,7 +4201,28 @@ $Id$
                 <example correction="">Иван <marker>Иваныч</marker>.</example>
             </rule>
         </rulegroup>
-        
+
+        <rulegroup default="on" id="O_tom_chto" name="Связка слов «о том, что»">
+             
+            <rule>
+                <!-- о том, что
+                -->
+                <pattern>
+                    <marker>
+                        <token>о</token>
+                        <token>том</token>
+                        <token>,</token>
+                        <token>что</token>
+                    </marker>
+                </pattern>
+                <message>В большинстве случаев связку слов «о том» можно исключить:<suggestion>\3 \4</suggestion>.</message>
+                <short>Не ставьте два «не» подряд.</short>
+                <example>Помните, что в большинстве случаев связку «о том» можно исключить.</example>
+                <example correction=", что">Помните<marker> о том, что</marker> в большинстве случаев связку «о том» можно исключить.</example>
+            </rule>
+        </rulegroup>     
+
+                        
         <rulegroup default="on" id="DoubleNE" name="Двойное «не»">
              
             <rule>
@@ -4210,7 +4231,7 @@ $Id$
                 <pattern>
                     <marker>
                     <token>не</token>
-                    <token postag_regexp="yes" regexp="yes">(не)(.*)</token>
+                    <token postag_regexp="yes" regexp="yes">(не)(.*)<exception regexp="yes">незнаком(.*)|немец(.*)|ненавид(.*)|нескольк(.*)</exception></token>
                     </marker>
                 </pattern>
                 <message>Не ставьте два «не» подряд, если это не оправдано смыслом предложения.</message>
