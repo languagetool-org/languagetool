@@ -83,7 +83,7 @@ class ConfusionRuleEvaluator {
     trueNegatives = 0;
     falsePositives = 0;
     falseNegatives = 0;
-    rule.setConfusionSet(new ConfusionSet(factor*10, homophoneToken, token));
+    rule.setConfusionSet(new ConfusionSet(factor, homophoneToken, token));
     List<Sentence> allTokenSentences = getRelevantSentences(inputsOrDir, token, maxSentences);
     // Load the sentences with a homophone and later replace it so we get error sentences:
     List<Sentence> allHomophoneSentences = getRelevantSentences(inputsOrDir, homophoneToken, maxSentences);
