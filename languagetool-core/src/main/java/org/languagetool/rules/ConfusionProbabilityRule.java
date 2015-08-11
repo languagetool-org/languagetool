@@ -265,6 +265,34 @@ public abstract class ConfusionProbabilityRule extends Rule {
     }
   }
 
+  // testing a variant...
+  private double get3gramProbabilityForTEST(GoogleToken token, List<GoogleToken> tokens, String term) {
+    List<String> leftContext = getContext(token, tokens, term, 2, 0);
+    List<String> leftContextSub = new ArrayList<>();
+    if (leftContext.size() == 1) {
+      leftContextSub = leftContext.subList(0, 0); // TODO: ??
+    } else if (leftContext.size() == 2) {
+      leftContextSub = leftContext.subList(0, 1);
+    } else if (leftContext.size() == 3) {
+      leftContextSub = leftContext.subList(0, 2);
+    }
+    List<String> rightContext = getContext(token, tokens, term, 0, 2);
+    List<String> rightContextSub = new ArrayList<>();
+    if (rightContext.size() == 3) {
+      rightContextSub = rightContext.subList(1, 3);
+    } else {
+      System.err.println("?? " + rightContext);
+    }
+    if (leftContextSub.size() > 0 && rightContextSub.size() > 0) {
+      double p = ((double)lm.getCount(leftContext)/(lm.getCount(leftContextSub)+1) + (double)lm.getCount(rightContext)/(lm.getCount(rightContextSub)+1)) / 2;
+      return p;
+    } else {
+      //System.err.println("fallback for " + leftContext + " / " + rightContext + ": " + leftContextSub  + " / " + rightContextSub);
+      long p = (lm.getCount(leftContext) + lm.getCount(rightContext)) / 2;
+      return p;
+    }
+  }
+
   private double get4gramProbabilityFor(GoogleToken token, List<GoogleToken> tokens, String term) {
     Probability ngram4Left = getPseudoProbability(getContext(token, tokens, term, 0, 3));
     Probability ngram4Middle = getPseudoProbability(getContext(token, tokens, term, 1, 2));
@@ -287,15 +315,20 @@ public abstract class ConfusionProbabilityRule extends Rule {
     if (firstWordCount > 0) {
       coverage++;
     }
-    // chain rule:
+    // chain rule of probability (https://www.coursera.org/course/nlp, "Introduction to N-grams" and "Estimating N-gram Probabilities"),
+    // https://www.ibm.com/developerworks/community/blogs/nlp/entry/the_chain_rule_of_probability?lang=en
     double p = (double) (firstWordCount + 1) / (totalTokenCount + 1);
     debug("    P for %s: %.20f (%d)\n", context.get(0), p, firstWordCount);
     for (int i = 2; i <= context.size(); i++) {
       List<String> subList = context.subList(0, i);
       long phraseCount = lm.getCount(subList);
       double thisP = (double) (phraseCount + 1) / (firstWordCount + 1);
+      // Variant:
+      //long prevPhraseCount = lm.getCount(subList.subList(0, subList.size()-1));
+      //double thisP = (double) (phraseCount + 1) / (prevPhraseCount + 1);
       maxCoverage++;
       debug("    P for " + subList + ": %.20f (%d)\n", thisP, phraseCount);
+      //debug("    (%s)\n", subList.subList(0, subList.size()-1));
       if (phraseCount > 0) {
         coverage++;
       }
