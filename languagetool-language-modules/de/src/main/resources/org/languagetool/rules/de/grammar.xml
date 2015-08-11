@@ -108,7 +108,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category name="Mögliche Tippfehler">
-
+        
+        <rule id="ET" name="et -> er">
+            <pattern>
+                <marker>
+                    <token>et</token>
+                </marker>
+                <token regexp='yes' negate='yes'>al|cetera|la|le|les</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>er</suggestion>?</message>
+            <example correction='Er'><marker>Et</marker> hat das aber so gesagt.</example>
+            <example>Miller <marker>et</marker> al. zeigten das 2010.</example>
+        </rule>
         <rule id="KEINE_KLEINE" name="ein paar keine (kleine)">
             <pattern>
                 <token>ein</token>
