@@ -41,6 +41,17 @@ USA
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category name="Possible Typo" type="misspelling">
+        <rule id="WAN_T" name="wan't (want)">
+            <!-- hunspell gets this right, but LT works a bit differently, so we need a rule -->
+            <pattern>
+                <token>wan</token>
+                <token>'</token>
+                <token regexp="yes">t|ted</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1\3</suggestion>?</message>
+            <example correction='want'>But I <marker>wan't</marker> to suggest something else.</example>
+            <example correction='wanted'>But I <marker>wan'ted</marker> to suggest something else.</example>
+        </rule>
         <rule id="RE_CENT" name="re cent (recent)">
             <pattern>
                 <marker>
