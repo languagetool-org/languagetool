@@ -226,7 +226,9 @@ public abstract class ConfusionProbabilityRule extends Rule {
     }
     for (int i = 1, added = 0; added < toRight; i++) {
       if (pos+i >= tokens.size()) {
-        result.add(".");   // I'm not sure if we should use _END_ here instead
+        // I'm not sure if we should use _END_ here instead. Evaluation on 2015-08-12
+        // shows increase in recall for some pairs, decrease in others.
+        result.add(".");
         added++;
       } else {
         if (!tokens.get(pos+i).isWhitespace()) {
