@@ -93,7 +93,7 @@ class ConfusionRuleEvaluator {
     evaluate(allTokenSentences, false, homophoneToken, token);
     evaluate(allHomophoneSentences, false, token, homophoneToken);
     evaluate(allHomophoneSentences, true, homophoneToken, token);
-    return printEvalResult(allTokenSentences, allHomophoneSentences, inputsOrDir);
+    return printEvalResult(allTokenSentences, allHomophoneSentences, inputsOrDir, factor);
   }
 
   @SuppressWarnings("ConstantConditions")
@@ -125,7 +125,7 @@ class ConfusionRuleEvaluator {
     }
   }
 
-  private String printEvalResult(List<Sentence> allTokenSentences, List<Sentence> allHomophoneSentences, List<String> inputsOrDir) {
+  private String printEvalResult(List<Sentence> allTokenSentences, List<Sentence> allHomophoneSentences, List<String> inputsOrDir, long factor) {
     float precision = (float) truePositives / (truePositives + falsePositives);
     float recall = (float) truePositives / (truePositives + falseNegatives);
     String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
@@ -136,13 +136,15 @@ class ConfusionRuleEvaluator {
       System.out.println("======================");
       System.out.println("Evaluation results for " + TOKEN + "/" + TOKEN_HOMOPHONE
               + " with " + sentences + " sentences as of " + new Date() + ":");
-      System.out.printf(ENGLISH, "  Precision: %.3f (%d false positives)\n", precision, falsePositives);
-      System.out.printf(ENGLISH, "  Recall:    %.3f (%d false negatives)\n", recall, falseNegatives);
+      System.out.printf(ENGLISH, "  Precision:    %.3f (%d false positives)\n", precision, falsePositives);
+      System.out.printf(ENGLISH, "  Recall:       %.3f (%d false negatives)\n", recall, falseNegatives);
       double fMeasure = FMeasure.getWeightedFMeasure(precision, recall);
-      System.out.printf(ENGLISH, "  F-measure: %.3f (beta=0.5)\n", fMeasure);
-      System.out.printf(ENGLISH, "  Matches:   %d (true positives)\n", truePositives);
-      System.out.printf(ENGLISH, "  Inputs:    %s\n", inputsOrDir);
-      System.out.printf("  Summary:   " + summary + "\n");
+      System.out.printf(ENGLISH, "  F-measure:    %.3f (beta=0.5)\n", fMeasure);
+      System.out.printf(ENGLISH, "  Good Matches: %d (true positives)\n", truePositives);
+      System.out.printf(ENGLISH, "  All matches:  %d\n", (truePositives + falsePositives));
+      System.out.printf(ENGLISH, "  Factor:       %d\n", factor);
+      System.out.printf(ENGLISH, "  Inputs:       %s\n", inputsOrDir);
+      System.out.printf("  Summary:      " + summary + "\n");
     }
     return summary;
   }
