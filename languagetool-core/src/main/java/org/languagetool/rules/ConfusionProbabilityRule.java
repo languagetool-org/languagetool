@@ -86,7 +86,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
-    List<GoogleToken> tokens = getGoogleTokens(sentence.getText());
+    List<GoogleToken> tokens = getGoogleTokens(sentence.getText(), true);
     List<RuleMatch> matches = new ArrayList<>();
     int pos = 0;
     for (GoogleToken googleToken : tokens) {
@@ -120,8 +120,11 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   // Tokenization in google ngram corpus is different from LT tokenization (e.g. {@code you ' re} -> {@code you 're}),
   // so we use getTokenizer() and simple ignore the LT tokens.
-  private List<GoogleToken> getGoogleTokens(String sentence) {
+  private List<GoogleToken> getGoogleTokens(String sentence, boolean addStartToken) {
     List<GoogleToken> result = new ArrayList<>();
+    if (addStartToken) {
+      result.add(new GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0));
+    }
     List<String> tokens = getTokenizer().tokenize(sentence);
     int startPos = 0;
     for (String token : tokens) {
@@ -202,9 +205,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     List<String> result = new ArrayList<>();
     for (int i = 1, added = 0; added < toLeft; i++) {
       if (pos-i < 0) {
-        // We don't use v2 of the Google data everywhere, so we don't always have the "_START_"
-        // marker. So if we're at the beginning of the sentence, just use the first tokens
-        // without an artificial start marker:
+        // So if we're at the beginning of the sentence, just use the first tokens:
         result.clear();
         for (GoogleToken googleToken : newTokens) {
           result.add(googleToken.token);
@@ -225,7 +226,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     }
     for (int i = 1, added = 0; added < toRight; i++) {
       if (pos+i >= tokens.size()) {
-        result.add(".");
+        result.add(".");   // I'm not sure if we should use _END_ here instead
         added++;
       } else {
         if (!tokens.get(pos+i).isWhitespace()) {
@@ -238,7 +239,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   }
 
   private double get3gramProbabilityFor(GoogleToken token, List<GoogleToken> tokens, String term) {
-    List<GoogleToken> newTokens = getGoogleTokens(term);
+    List<GoogleToken> newTokens = getGoogleTokens(term, false);
     Probability ngram3Left;
     Probability ngram3Middle;
     Probability ngram3Right;

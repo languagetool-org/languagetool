@@ -68,29 +68,32 @@ public class ConfusionProbabilityRuleTest {
   @Test
   public void testGetContext() throws IOException {
     List<ConfusionProbabilityRule.GoogleToken> tokens = Arrays.asList(
+            new ConfusionProbabilityRule.GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0),
             new ConfusionProbabilityRule.GoogleToken("This", 0, 0),
             new ConfusionProbabilityRule.GoogleToken("is", 0, 0),
             new ConfusionProbabilityRule.GoogleToken("a", 0, 0),
             new ConfusionProbabilityRule.GoogleToken("test", 0, 0)
     );
-    ConfusionProbabilityRule.GoogleToken token = tokens.get(2);
+    ConfusionProbabilityRule.GoogleToken token = tokens.get(3);
     assertThat(rule.getContext(token, tokens, "XX", 1, 1).toString(), is("[is, XX, test]"));
     assertThat(rule.getContext(token, tokens, "XX", 0, 2).toString(), is("[XX, test, .]"));
     assertThat(rule.getContext(token, tokens, "XX", 2, 0).toString(), is("[This, is, XX]"));
-    assertThat(rule.getContext(token, tokens, "XX", 3, 0).toString(), is("[This, is, XX]"));
+    assertThat(rule.getContext(token, tokens, "XX", 3, 0).toString(), is("[_START_, This, is, XX]"));
   }
 
   @Test
   public void testGetContext2() throws IOException {
     List<ConfusionProbabilityRule.GoogleToken> tokens = Arrays.asList(
+            new ConfusionProbabilityRule.GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0),
             new ConfusionProbabilityRule.GoogleToken("This", 0, 0),
             new ConfusionProbabilityRule.GoogleToken("is", 0, 0)
     );
-    ConfusionProbabilityRule.GoogleToken token = tokens.get(1);
+    ConfusionProbabilityRule.GoogleToken token = tokens.get(2);
     assertThat(rule.getContext(token, tokens, "XX", 1, 1).toString(), is("[This, XX, .]"));
+    assertThat(rule.getContext(token, tokens, "XX", 2, 1).toString(), is("[_START_, This, XX, .]"));
     assertThat(rule.getContext(token, tokens, "XX", 0, 2).toString(), is("[XX, ., .]"));
-    assertThat(rule.getContext(token, tokens, "XX", 2, 0).toString(), is("[This, XX]"));
-    assertThat(rule.getContext(token, tokens, "XX", 3, 0).toString(), is("[This, XX]"));
+    assertThat(rule.getContext(token, tokens, "XX", 2, 0).toString(), is("[_START_, This, XX]"));
+    assertThat(rule.getContext(token, tokens, "XX", 3, 0).toString(), is("[_START_, This, XX]"));
   }
 
   @Test
@@ -105,14 +108,27 @@ public class ConfusionProbabilityRuleTest {
     assertThat(rule.getContext(token, tokens, "XX", 3, 0).toString(), is("[XX]"));
   }
 
+  @Test
+  public void testGetContext4() throws IOException {
+    List<ConfusionProbabilityRule.GoogleToken> tokens = Arrays.asList(
+            new ConfusionProbabilityRule.GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0),
+            new ConfusionProbabilityRule.GoogleToken("This", 0, 0)
+    );
+    ConfusionProbabilityRule.GoogleToken token = tokens.get(1);
+    assertThat(rule.getContext(token, tokens, "XX", 1, 1).toString(), is("[_START_, XX, .]"));
+    assertThat(rule.getContext(token, tokens, "XX", 0, 2).toString(), is("[XX, ., .]"));
+    assertThat(rule.getContext(token, tokens, "XX", 2, 0).toString(), is("[_START_, XX]"));
+    assertThat(rule.getContext(token, tokens, "XX", 3, 0).toString(), is("[_START_, XX]"));
+  }
+
   private void assertMatch(String input) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
-    assertThat(matches.length, is(1));
+    assertThat("Did not find match in: " + input, matches.length, is(1));
   }
 
   private void assertGood(String input) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
-    assertThat(matches.length, is(0));
+    assertThat("Got unexpected match in: " + input, matches.length, is(0));
   }
 
   static class FakeLanguageModel implements LanguageModel {
