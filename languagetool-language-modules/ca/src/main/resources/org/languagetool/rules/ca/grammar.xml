@@ -8753,6 +8753,21 @@ $Id$
                 <example>Dos-cents.</example>
             </rule>
         </rulegroup>
+        <rule id="NUMERALS_INCOMPLETS" name="numerals incomplets: unè">
+            <pattern>
+                <token><exception regexp="yes">mil|cent</exception></token>
+                <marker>
+                    <token inflected="yes" regexp="yes">unè|dosè|tresè|quatrè</token>
+                </marker>
+            </pattern>
+            <message>Numeral incomplet</message>
+            <suggestion>cent \2</suggestion>
+            <suggestion>mil \2</suggestion>
+            <example correction="cent unè|mil unè"><marker>unè</marker> president</example>
+            <example correction="cent uné|mil uné"><marker>uné</marker> president</example>
+            <example correction="cent unena|mil unena"><marker>unena</marker> presidenta</example>
+            <example>cent unè president</example>
+        </rule>
     </category>
     <category name="Z2) Errors de traductor automàtic">
         <rule id="DOBLE_BAIX" name="doble baix/contrabaix">
@@ -35685,15 +35700,6 @@ $Id$
             <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCF$1.*">simplicitat</match></suggestion>
             <example correction="simplicitat">Va actuar amb <marker>simplesa</marker>.</example>
             <example>La simplicitat.</example>
-        </rule>
-        <rule id="VACACIONAL" name="vacacional">
-            <pattern>
-                <token inflected="yes">vacacional</token>
-            </pattern>
-            <message>Paraula admesa només en alguns diccionaris.</message>
-            <suggestion>de vacances</suggestion>
-            <example correction="de vacances">Ciutats <marker>vacacionals</marker>.</example>
-            <example>Ciutat de vacances.</example>
         </rule>
         <rule id="SUGGERENCIA" name="suggerència">
             <pattern>
