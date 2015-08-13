@@ -2598,21 +2598,21 @@ $Id$
                 <example>La més comuna</example>
             </rule>
         </rulegroup>
-        <rule id="CONCORDANCES_ADJECTIUS_AMB_CONJUNCIO" name="Concordances d'adjectius amb conjunció">
+        <!--<rule id="CONCORDANCES_ADJECTIUS_AMB_CONJUNCIO" name="Concordances d'adjectius amb conjunció">
             <pattern>
                 <unify negate="yes">
                     <feature id="nombre"></feature>
                     <feature id="genere"></feature>
-                    <token postag="A.*|PX.*|V.P.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
+                    <token postag="A.*|PX.*|V.P.*" postag_regexp="yes"><exception postag="_GN_.*|N.*" postag_regexp="yes"></exception></token>
                     <unify-ignore>
                         <token regexp="yes">i|o|ni|,</token>
                     </unify-ignore>
-                    <token postag="A.*|PX.*|V.P.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
+                    <token postag="A.*|PX.*|V.P.*" postag_regexp="yes"><exception postag="_GN_.*|N.*" postag_regexp="yes"></exception></token>
                 </unify>
             </pattern>
             <message>Possible error de concordança.</message>
             <example correction="">De tots els agents <marker>públic i privats</marker></example>
-        </rule>
+        </rule>-->
     </category>
     <category name="Z) Concordances entre subjecte, verb i complements">
         <rulegroup id="CONCORD_SER_PARTICIPI" name="concordança ser + participi">
@@ -15082,7 +15082,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="A.*|N.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="SENT_START|V.M.*" postag_regexp="yes"/></token>
+                    <token postag="A.*|N.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="SENT_START|V.M.*|_GV_" postag_regexp="yes"/></token>
                     <token min="0" postag="_PUNCT_CONT"/>
                     <marker>
                         <token case_sensitive="yes">què</token>
@@ -15097,6 +15097,7 @@ $Id$
                 <example>què?</example>
                 <example>Ensenya què tens a la mà!</example>
                 <example>Viquipèdia: què és.</example>
+                <example>A Occident s'ha dictaminat què era i què no era susceptible.</example>
             </rule>
             <rule>
                 <antipattern>
