@@ -2907,7 +2907,7 @@ $Id$
                         <example>W innych sytuacjach, tak jak w Ardenach, był zbyt ostrożny.</example>
                         <example>W języku walijskim digrafy ch, dd, ff, ng, ll, ph, rh i th są uznawane za odrębne.</example>
 				</rule>
-				<rule id="DODATKOWO" name="Zbędny przecinek po „dodatkowo” na początku zdania">
+                <rule id="DODATKOWO" name="Zbędny przecinek po „dodatkowo” na początku zdania">
 						<pattern>
 								<token postag="SENT_START"></token>
 								<marker>
@@ -2922,6 +2922,51 @@ $Id$
 						<example correction="Dodatkowo miałem"><marker>Dodatkowo, miałem</marker> rację.</example>
 						<example>Dodatkowo, jak już mówiłem, miałem rację.</example>
 				</rule>
+                <rule id="WIEC_ZATEM_PRZECINEK" name="Zbędny przecinek po „więc/zatem/toteż”">
+                    <antipattern>
+                        <marker>
+                            <token>,</token>
+                            <token postag="pant:.*|pcon.*" postag_regexp="yes"/>
+                        </marker>
+                    </antipattern>
+                    <pattern>
+                        <marker>
+                        <token regexp='yes'>więc|zatem|toteż</token>
+                        <token>,</token>
+                        </marker>
+                        <phraseref idref="NIE_SPOJNIK_PRZECINKOWY_OLD"></phraseref>
+                    </pattern>
+                    <message>Prawdopodobnie zbędny przecinek: <suggestion><match no="1"/></suggestion>.</message>
+                    <short>Zbędny przecinek</short>
+                    <example correction='więc'>Jest to <marker>więc,</marker> problem.</example>
+                    <example>Jest to więc problem.</example>
+                    <example>Publiczność oczekiwała od niej dłuższej arii, gdy więc, wykonawszy krótką frazę, zniknęła, znowu rozległy się gwizdy.</example>
+                    <example> A więc, Edgarze, ty również byłeś kiedyś czarodziejem?</example>
+                </rule>
+                <rule id="I_TAK" name="Zbędny przecinek po „i tak”">
+                    <antipattern>
+                        <token>i</token>
+                        <token>tak</token>
+                        <marker>
+                        <token>,</token>
+                        </marker>
+                        <token>i</token>
+                        <token>nie</token>
+                    </antipattern>
+                    <pattern>
+                        <token postag='SENT_START'></token>
+                        <token>I</token>
+                        <marker>
+                            <token>tak</token>
+                            <token>,</token>
+                        </marker>
+                    </pattern>
+                    <message>Prawdopodobnie zbędny przecinek: <suggestion><match no="3"/></suggestion>.</message>
+                    <url>http://sjp.pwn.pl/poradnia/haslo/i-tak;14063.html</url>
+                    <short>Zbędny przecinek</short>
+                    <example correction='tak'>I <marker>tak,</marker> Józef kupił dwie krowy.</example>
+                    <example>I tak Józef kupił dwie krowy.</example>
+                </rule>
                 <rule id="BYLE_GDZIE" name="Zbędny przecinek po „byle”">
                     <pattern>
                         <marker>
