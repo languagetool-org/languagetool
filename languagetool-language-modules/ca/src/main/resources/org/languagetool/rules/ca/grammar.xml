@@ -14981,7 +14981,6 @@ $Id$
                 </pattern>
                 <message>Si és nom, s'accentua.</message>
                 <suggestion>ús</suggestion>
-                <short>Accent diacrític</short>
                 <example correction="ús">En fa un <marker>us</marker> correcte.</example>
                 <example>Se us farà tard.</example>
                 <example>Us "agradaria"?</example>
@@ -14997,7 +14996,7 @@ $Id$
                 </pattern>
                 <message>Si és nom, s'accentua.</message>
                 <suggestion>ús</suggestion>
-                <short>Accent diacrític</short>
+
                 <example correction="ús">Amb l'<marker>us</marker></example>
                 <example correction="ús">Manual d'<marker>us</marker></example>
                 <example>Se us farà tard emà els els porta.</example>
@@ -15028,7 +15027,7 @@ $Id$
             <example>les fases en què tradicionalment se subdivideix</example>
             <example>Què tal?</example>
         </rule>
-        <rulegroup id="QUE_QUE" name="què/que">
+        <rulegroup id="QUE_SENSE_ACCENT" name="què/que: no s'ha d'accentuar">
             <rule>
                 <antipattern>
                     <token regexp="yes">una?</token>
@@ -15042,8 +15041,8 @@ $Id$
                     </marker>
                     <token><exception postag="V.N.*" postag_regexp="yes"/><exception>?</exception></token>
                 </pattern>
-                <message>Cal escriure <suggestion><match no="1"/> que</suggestion>.</message>
-                <short>Diacrític</short>
+                <message>No s'ha d'accentuar.</message>
+                <suggestion><match no="1"/> que</suggestion>
                 <example correction="ja que"><marker>ja què</marker> són així</example>
                 <example correction="els que">Són <marker>els què</marker> ho fan.</example>
                 <example correction="més que">La <marker>més què</marker> probable reelecció.</example>
@@ -15060,8 +15059,8 @@ $Id$
                     </marker>
                     <token><exception>?</exception></token>
                 </pattern>
-                <message>Cal escriure <suggestion>que</suggestion>.</message>
-                <short>Diacrític</short>
+                <message>No s'ha d'accentuar.</message>
+                <suggestion>que</suggestion>
                 <example correction="que">tot i <marker>què</marker> no m'interessa</example>
                 <example correction="que">Pel <marker>què</marker> fa a això</example>
                 <example>De tot el què?</example>
@@ -15075,12 +15074,53 @@ $Id$
                     </marker>
                     <token postag="V.[SI].*|_GV_" postag_regexp="yes"/>
                 </pattern>
-                <message>Cal escriure: <suggestion>que</suggestion>.</message>
-                <short>Diacrític</short>
+                <message>Probablement no s'ha d'accentuar.</message>
+                <suggestion>que</suggestion>
                 <example correction="que">per què escriuen el <marker>què</marker> escriuen</example>
                 <example correction="que">per què han escrit el <marker>què</marker> han escrit</example>
                 <example>per què van escriure el que han escrit</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="A.*|N.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="SENT_START|V.M.*" postag_regexp="yes"/></token>
+                    <token min="0" postag="_PUNCT_CONT" postag_regexp="yes"/>
+                    <marker>
+                        <token case_sensitive="yes">què</token>
+                    </marker>
+                    <token skip="-1"><exception scope="next">?</exception><exception>?</exception></token>
+                    <token postag="SENT_END"><exception>?</exception></token>
+                </pattern>
+                <message>Probablement cal llevar l'accent.</message>
+                <suggestion>que</suggestion>
+                <example correction='que'>"Solucions" <marker>què</marker>, al remat, no són bones.</example>
+                <example correction='que'>Solucions <marker>què</marker>, al remat, no són bones.</example>
+                <example>què?</example>
+                <example>Ensenya què tens a la mà!</example>
+                <example>Viquipèdia: què és.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token>què</token>
+                        <token min="0" max="3" postag="&pronom_feble;|RN" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
+                        <token postag="V.[SI].*" postag_regexp="yes"></token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token postag="V.[MSIGN].*" postag_regexp="yes"></token>
+                    <marker>
+                        <token case_sensitive="yes">què</token>
+                    </marker>
+                    <token><exception postag="V.N.*" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>Probablement no s'ha d'accentuar.</message>
+                <suggestion>que</suggestion>
+                <example correction='que'>Diuen <marker>què</marker> les coses són així.</example>
+                <example>No sabia què fer.</example>
+                <example>No sé què li ha passat.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="QUE_AMB_ACCENT" name="que/què: cal accentuar">
             <rule>
                 <pattern>
                     <token>no</token>
@@ -15089,7 +15129,8 @@ $Id$
                         <token>que</token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>què</suggestion>?</message>
+                <message>Probablement cal accentuar.</message>
+                <suggestion>què</suggestion>
                 <example correction="què">No sé <marker>que</marker> passa.</example>
                 <example>no sé què</example>
             </rule>
@@ -15102,7 +15143,8 @@ $Id$
                     <token regexp="yes">fer|dir</token>
                     <token regexp="yes" inflected="yes">amb|de</token>
                 </pattern>
-                <message>Probablement cal escriure <suggestion>què</suggestion>.</message>
+                <message>Probablement cal accentuar.</message>
+                <suggestion>què</suggestion>
                 <example correction="què">No sabien <marker>que</marker> fer amb allò.</example>
             </rule>
         </rulegroup>
