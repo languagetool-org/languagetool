@@ -65,6 +65,7 @@ $Id$
     <!ENTITY verbs_no_apostrofen "halar|ioditzar|iotitzar|iodurar|iodar">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
     <!ENTITY vocabulari_menjar "xocolata|xocolate|allioli|aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
+    <!ENTITY pronom_feble "P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00">
 ]>
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
     <unification feature="nombre">
@@ -2469,6 +2470,7 @@ $Id$
                 <example correction=""><marker>els principals pomeres</marker>.</example>
                 <example correction="">pel <marker>seu penetrant olor</marker></example>
                 <example>les principals pomeres.</example>
+                <example>es va decidir que el millor era no traslladar tot l'equip</example>
             </rule>
             <rule>
                 <pattern>
@@ -2596,6 +2598,21 @@ $Id$
                 <example>La més comuna</example>
             </rule>
         </rulegroup>
+        <rule id="CONCORDANCES_ADJECTIUS_AMB_CONJUNCIO" name="Concordances d'adjectius amb conjunció">
+            <pattern>
+                <unify negate="yes">
+                    <feature id="nombre"></feature>
+                    <feature id="genere"></feature>
+                    <token postag="A.*|PX.*|V.P.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
+                    <unify-ignore>
+                        <token regexp="yes">i|o|ni|,</token>
+                    </unify-ignore>
+                    <token postag="A.*|PX.*|V.P.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"></exception></token>
+                </unify>
+            </pattern>
+            <message>Possible error de concordança.</message>
+            <example correction="">De tots els agents <marker>públic i privats</marker></example>
+        </rule>
     </category>
     <category name="Z) Concordances entre subjecte, verb i complements">
         <rulegroup id="CONCORD_SER_PARTICIPI" name="concordança ser + participi">
@@ -3000,7 +3017,7 @@ $Id$
                         <feature id="persona"/>
                         <token regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós<exception postag=".*_GN_.*" postag_regexp="yes"/></token>
                         <unify-ignore>
-                            <token min="0" max="3" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes" />
+                            <token min="0" max="3" postag="&pronom_feble;|RN" postag_regexp="yes" />
                         </unify-ignore>
                         <token postag="V.[MIS].*" postag_regexp="yes"><exception postag=".*LOC_ADV.*|.*_GN_.*" postag_regexp="yes"></exception><exception inflected="yes">caldre</exception></token>
                     </unify>
@@ -3888,7 +3905,7 @@ $Id$
                 </marker>
                 <token>o</token>
                 <token>no</token>
-                <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
+                <token postag="&pronom_feble;" postag_regexp="yes"/>
                 <token><match no="0"/></token>
             </antipattern>
             <rule>
@@ -5043,7 +5060,7 @@ $Id$
                     <token>no</token>
                     <token regexp="yes">ningú|gens|enlloc|mai|tampoc</token> <!--cap, res-->
                 </marker>
-                <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[MSI].*" postag_regexp="yes"/>
+                <token postag="&pronom_feble;|V.[MSI].*" postag_regexp="yes"/>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="2"/> <match no="1" case_conversion="alllower"/></suggestion>?</message>
             <!-- <example correction="Mai no"><marker>No mai</marker> arriba</example> Problem with uppercase correction-->
@@ -5190,7 +5207,7 @@ $Id$
                 </rule> -->
             <rule>
                 <pattern>
-                    <token><exception>que</exception><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>
+                    <token><exception>que</exception><exception postag="&pronom_feble;" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">(?-i)casi</token>
                     </marker>
@@ -5248,7 +5265,7 @@ $Id$
                     <marker>
                         <token>casi</token>
                     </marker>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes" regexp="yes">['-].+</exception></token>
+                    <token><exception postag="&pronom_feble;" postag_regexp="yes" regexp="yes">['-].+</exception></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>quasi</suggestion> (=gairebé) en comptes de casi (v. 'casar', n. 'derivat de la llet')?</message>
                 <short>Possible confusió</short>
@@ -6017,7 +6034,7 @@ $Id$
                 <marker>
                     <token>sí<exception postag="_GN_MS"/><exception regexp="yes" scope="previous">entre|en|de|amb|per|sobre</exception></token>
                 </marker>
-                <token min="0" max="3" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
+                <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"/>
                 <token postag="V.[MIS].*" postag_regexp="yes"/>
             </pattern>
             <message>Cal dir: <suggestion>sí que</suggestion>.</message>
@@ -6390,7 +6407,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.M.*" postag_regexp="yes" skip="3"><exception postag="V.[SI].*|_GN_.*" postag_regexp="yes"/><exception scope="next" postag="_PUNCT.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|SENT_END|CC" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="V.M.*" postag_regexp="yes" skip="3"><exception postag="V.[SI].*|_GN_.*" postag_regexp="yes"/><exception scope="next" postag="_PUNCT.*|&pronom_feble;|SENT_END|CC" postag_regexp="yes" negate_pos="yes"/></token>
                     <marker>
                         <token>sinó</token>
                     </marker>
@@ -9023,7 +9040,7 @@ $Id$
         </rule>
         <rule id="OCASIONES" name="ocasiones/ocasions">
             <pattern>
-                <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN|RG|.*LOC.*" postag_regexp="yes"/><exception regexp="yes">tu|que</exception></token>
+                <token><exception postag="&pronom_feble;|RN|RG|.*LOC.*" postag_regexp="yes"/><exception regexp="yes">tu|que</exception></token>
                 <marker>
                     <token>ocasiones</token>
                 </marker>
@@ -9520,7 +9537,7 @@ $Id$
             </antipattern>
             <pattern>
                 <marker>
-                    <token inflected="yes">contar<exception scope="previous" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>
+                    <token inflected="yes">contar<exception scope="previous" postag="&pronom_feble;" postag_regexp="yes"/></token>
                 </marker>
                 <token>amb</token>
             </pattern>
@@ -9598,7 +9615,7 @@ $Id$
                 <marker>
                     <token>o</token>
                 </marker>
-                <token postag="V.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes" skip="-1"><exception scope="next">o</exception></token>
+                <token postag="V.*|&pronom_feble;" postag_regexp="yes" skip="-1"><exception scope="next">o</exception></token>
                 <token postag="SENT_END"/>
             </pattern>
             <message>¿Volíeu dir <suggestion>ho</suggestion>?</message>
@@ -9619,7 +9636,7 @@ $Id$
                 <marker>
                     <token>i</token>
                 </marker>
-                <token postag="V.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"></token>
+                <token postag="V.*|&pronom_feble;" postag_regexp="yes"></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>ho</suggestion>?</message>
             <short>Possible confusió</short>
@@ -9755,7 +9772,7 @@ $Id$
                 <marker>
                     <token>que</token>
                 </marker>
-                <token min="0" max="1" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
+                <token min="0" max="1" postag="&pronom_feble;" postag_regexp="yes"/>
                 <token postag="V.I.*" postag_regexp="yes"/>
             </pattern>
             <message>¿Volíeu dir <suggestion>què</suggestion>?</message>
@@ -10919,7 +10936,7 @@ $Id$
                 <marker>
                     <token>os<exception postag="_GN_MS"/></token>
                 </marker>
-                <token postag="V.[MSI].*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
+                <token postag="V.[MSI].*|&pronom_feble;" postag_regexp="yes"/>
             </pattern>
             <message>¿Volíeu dir <suggestion>us</suggestion>?</message>
             <example correction="Us">¿<marker>Os</marker> agraden les cloïsses?</example>
@@ -11697,7 +11714,7 @@ $Id$
                         <token postag="D[ID]0FS.*" postag_regexp="yes"/>
                         <token postag="V.N.*" postag_regexp="yes" regexp="yes">\p{Ll}.+<exception postag="_GN.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes" regexp="yes">['-].+</exception></token>
+                    <token><exception postag="&pronom_feble;" postag_regexp="yes" regexp="yes">['-].+</exception></token>
                 </pattern>
                 <message>Possible confusió.</message>
                 <suggestion><match no="1"/> <match no="2" regexp_match="(.+)r" regexp_replace="$1t" /></suggestion>
@@ -14956,11 +14973,11 @@ $Id$
         <rulegroup id="US" name="us/ús">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[MNG].*" postag_regexp="yes"/><exception regexp="yes">l'|d'</exception></token>
+                    <token><exception postag="&pronom_feble;|V.[MNG].*" postag_regexp="yes"/><exception regexp="yes">l'|d'</exception></token>
                     <marker>
                         <token regexp="yes">us|Us<exception postag="_GV_"/></token>
                     </marker>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/><exception regexp="yes">["‘“«]|sia</exception></token>
+                    <token><exception postag="&pronom_feble;|V.[SI].*" postag_regexp="yes"/><exception regexp="yes">["‘“«]|sia</exception></token>
                 </pattern>
                 <message>Si és nom, s'accentua.</message>
                 <suggestion>ús</suggestion>
@@ -15385,7 +15402,7 @@ $Id$
                     <marker>
                         <token>fora</token>
                     </marker>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.*" postag_regexp="yes"/></token>
+                    <token><exception postag="&pronom_feble;|V.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>fóra</suggestion>?</message>
                 <suggestion>fos</suggestion>
@@ -16093,7 +16110,7 @@ $Id$
                     <marker>
                         <token>mes</token>
                     </marker>
-                    <token min="0" max="3" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes" />
+                    <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes" />
                     <token postag="V.[^P].*|_GV_" postag_regexp="yes"><exception postag="_GN_MS"/></token>
                 </pattern>
                 <message>S'accentua quan és adjectiu o adverbi.</message>
@@ -16694,7 +16711,7 @@ $Id$
                     <marker>
                         <token postag="P020S000|PP2CS000" postag_regexp="yes" regexp="yes">(?-i)te</token>
                     </marker>
-                    <token postag="[ANDSCPVR].*|.*LOC.*|_PUNCT.*" postag_regexp="yes"><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/></token>
+                    <token postag="[ANDSCPVR].*|.*LOC.*|_PUNCT.*" postag_regexp="yes"><exception postag="&pronom_feble;|V.[SI].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>S'accentua si és del verb "tenir".</message>
                 <suggestion>té</suggestion>
@@ -16732,7 +16749,7 @@ $Id$
                         <token min="0" regexp="yes" spacebefore="yes">[,—–"'‘“«¡¿(\-]</token>
                         <token spacebefore="no">,</token>
                     </or>
-                    <token postag="[ANDSCPVR].*|.*LOC.*" postag_regexp="yes"><exception regexp="yes">(?-i)Tai|Deum</exception><exception regexp="yes">&adjectius_TE_INFUSIO;</exception><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/></token>
+                    <token postag="[ANDSCPVR].*|.*LOC.*" postag_regexp="yes"><exception regexp="yes">(?-i)Tai|Deum</exception><exception regexp="yes">&adjectius_TE_INFUSIO;</exception><exception postag="&pronom_feble;|V.[SI].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>S'accentua si és del verb "tenir".</message>
                 <suggestion>Té</suggestion>
@@ -17105,7 +17122,7 @@ $Id$
             <rule>
                 <pattern>
                     <token postag="PP.*" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
-                    <token min="0" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
+                    <token min="0" postag="&pronom_feble;" postag_regexp="yes"/>
                     <marker>
                         <token>dona<exception postag="_possible_nompropi"/></token>
                     </marker>
@@ -17123,7 +17140,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
+                    <token postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
                     <token>la</token>
                     <marker>
                         <token>dona</token>
@@ -17137,8 +17154,8 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
-                    <token min="0" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
+                    <token postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
+                    <token min="0" postag="&pronom_feble;" postag_regexp="yes"/>
                     <marker>
                         <token>dones</token>
                     </marker>
@@ -17156,7 +17173,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
+                    <token postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
                     <token>les</token>
                     <marker>
                         <token>dones</token>
@@ -17205,7 +17222,7 @@ $Id$
                         <token regexp="yes">dona|dones<exception postag="_GN_F.|_possible_nompropi" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="RG|.*LOC_ADV.*" postag_regexp="yes"><exception postag="CS|P[RT].*" postag_regexp="yes"/></token>
-                    <token><exception postag="AQ.[CF]..|V.P...F.|V.[MSI].*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>
+                    <token><exception postag="AQ.[CF]..|V.P...F.|V.[MSI].*|&pronom_feble;" postag_regexp="yes"/></token>
                 </pattern>
                 <message>S'accentua quan és del verb "donar".</message>
                 <suggestion><match no="2" regexp_match=".+(a|es)" regexp_replace="dón$1"/></suggestion>
@@ -17486,11 +17503,11 @@ $Id$
             <!-- pronom feble solt: caldria diferenciar dos casos: posposat i anteposat-->
             <rule>
                 <pattern>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[MNG].*" postag_regexp="yes"/><exception regexp="yes">digue|espreme|convence|(re)?coneixe|ve</exception></token>
+                    <token><exception postag="&pronom_feble;|V.[MNG].*" postag_regexp="yes"/><exception regexp="yes">digue|espreme|convence|(re)?coneixe|ve</exception></token>
                     <marker>
-                        <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception postag="_GV_|_possible_nompropi" postag_regexp="yes"/><exception postag="allow_saxon_genitive"/><exception regexp="yes">te|es|us</exception><exception regexp="yes">(?-i)SE</exception></token>
+                        <token postag="&pronom_feble;" postag_regexp="yes"><exception postag="_GV_|_possible_nompropi" postag_regexp="yes"/><exception postag="allow_saxon_genitive"/><exception regexp="yes">te|es|us</exception><exception regexp="yes">(?-i)SE</exception></token>
                     </marker>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/><exception regexp="yes">["‘“«]|dona|dones</exception></token>
+                    <token><exception postag="&pronom_feble;|V.[SI].*" postag_regexp="yes"/><exception regexp="yes">["‘“«]|dona|dones</exception></token>
                 </pattern>
                 <message>Pronom feble solt.</message>
                 <short>Pronom feble solt</short>
@@ -17512,12 +17529,12 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[MNG].*" postag_regexp="yes"/></token>
+                    <token><exception postag="&pronom_feble;|V.[MNG].*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception postag="_GV_"/><exception postag="allow_saxon_genitive"/><exception>te</exception></token>
+                        <token postag="&pronom_feble;" postag_regexp="yes"><exception postag="_GV_"/><exception postag="allow_saxon_genitive"/><exception>te</exception></token>
                     </marker>
                     <token regexp="yes">["‘“«]</token>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/></token>
+                    <token><exception postag="&pronom_feble;|V.[SI].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Pronom feble solt.</message>
                 <example correction="">Aquí <marker>et</marker> "no pots quedar".</example>
@@ -17525,12 +17542,12 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[MNG].*" postag_regexp="yes"/><exception regexp="yes">digue|espreme|convence|(re)?coneixe|ve</exception></token>
+                    <token><exception postag="&pronom_feble;|V.[MNG].*" postag_regexp="yes"/><exception regexp="yes">digue|espreme|convence|(re)?coneixe|ve</exception></token>
                     <marker>
-                        <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"></token>
-                        <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception postag="_GV_"/></token>
+                        <token postag="&pronom_feble;" postag_regexp="yes"></token>
+                        <token postag="&pronom_feble;" postag_regexp="yes"><exception postag="_GV_"/></token>
                     </marker>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/><exception regexp="yes">dona|dones</exception></token>
+                    <token><exception postag="&pronom_feble;|V.[SI].*" postag_regexp="yes"/><exception regexp="yes">dona|dones</exception></token>
                 </pattern>
                 <message>Pronoms febles solts.</message>
                 <example correction="">Jo no <marker>m'hi</marker> sentit mai espanyol.</example>
@@ -17538,13 +17555,13 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[MNG].*" postag_regexp="yes"/><exception regexp="yes">digue|espreme|convence|(re)?coneixe|ve</exception></token>
+                    <token><exception postag="&pronom_feble;|V.[MNG].*" postag_regexp="yes"/><exception regexp="yes">digue|espreme|convence|(re)?coneixe|ve</exception></token>
                     <marker>
-                        <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"></token>
-                        <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"></token>
-                        <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception postag="_GV_"/></token>
+                        <token postag="&pronom_feble;" postag_regexp="yes"></token>
+                        <token postag="&pronom_feble;" postag_regexp="yes"></token>
+                        <token postag="&pronom_feble;" postag_regexp="yes"><exception postag="_GV_"/></token>
                     </marker>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/><exception regexp="yes">dona|dones</exception></token>
+                    <token><exception postag="&pronom_feble;|V.[SI].*" postag_regexp="yes"/><exception regexp="yes">dona|dones</exception></token>
                 </pattern>
                 <message>Pronoms febles solts.</message>
                 <example correction="">Cal conduit<marker>-se-me-la</marker>.</example>
@@ -18515,7 +18532,7 @@ $Id$
                     <marker>
                         <token postag="V.[GN].*" postag_regexp="yes" regexp="yes">haver|havent<exception postag="_GN_MS|_perfet|_obligacio" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="V.P.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/><exception regexp="yes">de|d'</exception></token>
+                    <token><exception postag="V.P.*|&pronom_feble;" postag_regexp="yes"/><exception regexp="yes">de|d'</exception></token>
                 </pattern>
                 <message>Falta el pronom 'hi'.</message>
                 <suggestion><match no="2"/>-hi</suggestion>
@@ -18552,7 +18569,7 @@ $Id$
                         <token regexp="yes">haver|havent</token>
                         <token>-ne</token>
                     </marker>
-                    <token><exception postag="V.P.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/><exception regexp="yes">de|d'</exception></token>
+                    <token><exception postag="V.P.*|&pronom_feble;" postag_regexp="yes"/><exception regexp="yes">de|d'</exception></token>
                 </pattern>
                 <message>Falta el pronom 'hi'.</message>
                 <suggestion><match no="2"/>-n'hi</suggestion>
@@ -29139,7 +29156,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
+                    <token postag="&pronom_feble;" postag_regexp="yes"/>
                     <marker>
                         <token regexp="yes">lliura|lliures</token>
                         <token regexp="yes">de|d'</token>
@@ -31320,7 +31337,7 @@ $Id$
                         <token>més</token>
                         <token>bé</token>
                     </marker>
-                    <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/>
+                    <token postag="&pronom_feble;|V.[SI].*" postag_regexp="yes"/>
                 </pattern>
                 <message>Probablement cal usar una altra expressió.</message>
                 <suggestion>més aviat</suggestion>
@@ -32887,13 +32904,13 @@ $Id$
         </rule>
         <rulegroup id="PORTA_UNA_HORA" name="porta una hora/fa una hora">
             <antipattern>
-                <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes" />
+                <token postag="&pronom_feble;|RN" postag_regexp="yes" />
                 <token>va</token>
                 <token regexp="yes">portar|dur</token>
             </antipattern>
             <rule>
                 <pattern>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes" /></token>
+                    <token><exception postag="&pronom_feble;|RN" postag_regexp="yes" /></token>
                     <marker>
                         <token postag="V.[IN].*" postag_regexp="yes" inflected="yes" regexp="yes">portar|dur<exception inflected="yes">durar</exception><exception postag="V.IS.*" postag_regexp="yes"/></token>
                         <token postag="D[NI].*" postag_regexp="yes" skip="1"><exception>cada</exception></token>
@@ -32919,7 +32936,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes" /></token>
+                    <token><exception postag="&pronom_feble;|RN" postag_regexp="yes" /></token>
                     <marker>
                         <token postag="V.[IN].*" postag_regexp="yes" inflected="yes" regexp="yes">portar|dur<exception inflected="yes">durar</exception><exception postag="V.IS.*" postag_regexp="yes"/></token>
                         <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|temps|temporada</token>
@@ -32946,7 +32963,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes" /></token>
+                    <token><exception postag="&pronom_feble;|RN" postag_regexp="yes" /></token>
                     <marker>
                         <token postag="V.[IN].*" postag_regexp="yes" inflected="yes" regexp="yes">portar|dur<exception inflected="yes">durar</exception><exception postag="V.IS.*" postag_regexp="yes"/></token>
                         <token regexp="yes">més|menys</token>
@@ -32964,7 +32981,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes" /></token>
+                    <token><exception postag="&pronom_feble;|RN" postag_regexp="yes" /></token>
                     <marker>
                         <token postag="V.S.*" postag_regexp="yes" inflected="yes" regexp="yes">portar|dur<exception inflected="yes">durar</exception><exception postag="V.I[IP].*" postag_regexp="yes"/></token>
                         <token postag="D[NI].*" postag_regexp="yes" skip="1"><exception>cada</exception></token>
@@ -32986,7 +33003,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes" /></token>
+                    <token><exception postag="&pronom_feble;|RN" postag_regexp="yes" /></token>
                     <marker>
                         <token postag="V.S.*" postag_regexp="yes" inflected="yes" regexp="yes">portar|dur<exception inflected="yes">durar</exception><exception postag="V.I[IP].*" postag_regexp="yes"/></token>
                         <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|temps|temporada</token>
@@ -33009,7 +33026,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes" /></token>
+                    <token><exception postag="&pronom_feble;|RN" postag_regexp="yes" /></token>
                     <marker>
                         <token postag="V.S.*" postag_regexp="yes" inflected="yes" regexp="yes">portar|dur<exception inflected="yes">durar</exception><exception postag="V.IS.*" postag_regexp="yes"/></token>
                         <token regexp="yes">més|menys</token>
@@ -34964,7 +34981,7 @@ $Id$
                 <marker>
                     <token>mos<exception postag="_GN_MS"/></token>
                 </marker>
-                <token postag="V.[MSI].*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
+                <token postag="V.[MSI].*|&pronom_feble;" postag_regexp="yes"/>
             </pattern>
             <message>En un registre formal cal dir: <suggestion>ens</suggestion>.</message>
             <short>Llenguatge col·loquial</short>
@@ -36172,7 +36189,7 @@ $Id$
         <rule id="POTSER_SIGUI" name="potser *sigui/és">
             <pattern> <!-- <exception scope="next" regexp="yes">que|quan|perquè|si|qui|quals?</exception> -->
                 <token regexp="yes">probablement|potser|possiblement<exception scope="previous" regexp="yes">quan|si</exception></token>
-                <token min="0" max="4" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN|RG" postag_regexp="yes"><exception>quan</exception></token>
+                <token min="0" max="4" postag="&pronom_feble;|RN|RG" postag_regexp="yes"><exception>quan</exception></token>
                 <marker>
                     <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*|_possible_nompropi" postag_regexp="yes"/></token>
                 </marker>
@@ -36699,7 +36716,7 @@ $Id$
                         <token postag="DA..P." postag_regexp="yes"></token>
                         <token>que</token>
                     </marker>
-                    <token min="0" max="3" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes"/>
+                    <token min="0" max="3" postag="&pronom_feble;|RN" postag_regexp="yes"/>
                     <token inflected="yes" regexp="yes">destacar|trobar|incloure</token>
                     <token><exception regexp="yes">[.,]|a|en</exception></token>
                 </pattern>
@@ -36718,7 +36735,7 @@ $Id$
                         <token postag="DA..P." postag_regexp="yes"></token>
                         <token>que</token>
                     </marker>
-                    <token min="0" max="3" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes"/>
+                    <token min="0" max="3" postag="&pronom_feble;|RN" postag_regexp="yes"/>
                     <token postag="VA.*" postag_regexp="yes"></token>
                     <token inflected="yes" regexp="yes">destacar|trobar|haver</token>
                     <token><exception regexp="yes">[.,]|a|en</exception></token>
