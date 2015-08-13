@@ -4748,7 +4748,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </and>
             </marker>
         </pattern>
-        <disambig><match no="1" postag_regexp="yes" postag="[^V].*"></match></disambig>
+        <disambig action="remove" postag="V.*"/>
+    </rule>
+    <rule  id="Verb" name="verb">
+        <pattern>
+            <token><exception postag="D.*" postag_regexp="yes"></exception></token>
+            <marker>
+                <and>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">fem|sabeu</token>
+                    <token postag="V.*" postag_regexp="yes" negate_pos="yes" />
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="[^V].*"/>
     </rule>
     <rule id="mitjana_nVerb" name="mitjana no verb">
         <pattern>
@@ -5465,7 +5477,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="NC.*|A.*|V.P.*|PX.*" postag_regexp="yes"></token>
                 </and>
             </marker>
-            <token min="0" max="3" postag="&pronom_feble;|RN"><exception regexp="yes">['-].+</exception></token>
+            <token min="0" max="3" postag="&pronom_feble;|RN" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
             <token postag="V.[SI].*" postag_regexp="yes"><exception postag="V.[MSI].*|_GV_" postag_regexp="yes" negate_pos="yes" /></token>
         </pattern>
         <disambig action="remove" postag="V.[GMSI].*"></disambig>
@@ -7285,7 +7297,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </and>
             </marker>
             <!-- No està ben resolt?? -->
-            <token min="0" max="3" postag="&pronom_feble;|RN"><exception regexp="yes">['-].+</exception></token>
+            <token min="0" max="3" postag="&pronom_feble;|RN" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
             <token postag="V.[SI].*" postag_regexp="yes"><exception postag="V.[MSI].*|_GV_" postag_regexp="yes" negate_pos="yes" /></token>
         </pattern>
         <disambig action="remove" postag="V.[GMSI].*"></disambig>

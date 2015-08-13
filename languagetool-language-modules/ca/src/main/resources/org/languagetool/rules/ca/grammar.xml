@@ -15083,7 +15083,7 @@ $Id$
             <rule>
                 <pattern>
                     <token postag="A.*|N.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="SENT_START|V.M.*" postag_regexp="yes"/></token>
-                    <token min="0" postag="_PUNCT_CONT" postag_regexp="yes"/>
+                    <token min="0" postag="_PUNCT_CONT"/>
                     <marker>
                         <token case_sensitive="yes">què</token>
                     </marker>
@@ -15453,26 +15453,41 @@ $Id$
                 <example>com si fora hi hagués algú</example>
             </rule>
         </rulegroup>
-        <rule id="DEU" name="*Deu/Déu">
-            <pattern>
-                <token><exception postag="SENT_START|D[^R]..P.|D[^R].FS." postag_regexp="yes"/><exception regexp="yes">[¿¡"«»—–:\-]|can|mas|museu|n</exception></token>
-                <marker>
-                    <token regexp="yes">(?-i)Deu</token>
-                </marker>
-                <token><exception postag="NC.P.*" postag_regexp="yes"/><exception regexp="yes">mil|pometes</exception></token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>Déu</suggestion> (= ésser suprem)?</message>
-            <example correction="Déu">perquè <marker>Deu</marker> no va voler</example>
-            <example>perquè Déu no va voler</example>
-            <example>Deu ser això</example>
-            <example>Sí, deu ser això</example>
-            <example>Dels Deu manaments</example>
-            <example>Guerra dels Deu Anys</example>
-            <example>la plataforma Deu Mil a Brussel·les</example>
-            <example>En el pla de la Deu</example>
-            <example>El bosc de Can Deu.</example>
-            <example>Deu pometes té el pomer</example>
-        </rule>
+        <rulegroup id="DEU" name="*Deu/Déu">
+            <rule>
+                <pattern>
+                    <token><exception postag="SENT_START|D[^R]..P.|D[^R].FS." postag_regexp="yes"/><exception regexp="yes">[¿¡"«»—–:\-]|can|mas|museu|n</exception></token>
+                    <marker>
+                        <token regexp="yes">(?-i)Deu</token>
+                    </marker>
+                    <token><exception postag="NC.P.*" postag_regexp="yes"/><exception regexp="yes">mil|pometes</exception></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>Déu</suggestion> (= ésser suprem)?</message>
+                <example correction="Déu">perquè <marker>Deu</marker> no va voler</example>
+                <example>perquè Déu no va voler</example>
+                <example>Deu ser això</example>
+                <example>Sí, deu ser això</example>
+                <example>Dels Deu manaments</example>
+                <example>Guerra dels Deu Anys</example>
+                <example>la plataforma Deu Mil a Brussel·les</example>
+                <example>En el pla de la Deu</example>
+                <example>El bosc de Can Deu.</example>
+                <example>Deu pometes té el pomer</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>mare</token>
+                        <token>de</token>
+                        <token>deu<exception postag="_GN_.P" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir "Déu" (= ésser suprem)?</message>
+                <suggestion>Mare de Déu</suggestion>
+                <example correction="Mare de Déu">La <marker>mare de deu</marker> de Montserrat</example>
+                <example>És mare de deu fills.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="EN_EL_SI_DE" name="en el/al *sí/si de">
             <rule>
                 <pattern>
