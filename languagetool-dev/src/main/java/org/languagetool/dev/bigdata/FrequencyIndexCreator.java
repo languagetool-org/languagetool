@@ -49,19 +49,25 @@ import java.util.zip.GZIPInputStream;
  */
 public class FrequencyIndexCreator {
 
-  private static final boolean TEXT_MODE = false;  // when true, will write text files instead of Lucene index
   private static final int MIN_YEAR = 1910;
-  private static final String NAME_REGEX1 = "googlebooks-eng-all-[1-5]gram-20120701-(.*?).gz";
+  private static final String NAME_REGEX1 = "googlebooks-[a-z]{3}-all-[1-5]gram-20120701-(.*?).gz";
   private static final String NAME_REGEX2 = "[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+[_-](.*?).gz";  // Hive result
   private static final String NAME_REGEX3 = "([_a-z0-9]{1,2}|other|punctuation)";  // result of FrequencyIndexCreator with TEXT_MODE = true
   private static final int BUFFER_SIZE = 16384;
   private static final String LT_COMPLETE_MARKER = "languagetool_index_complete";
 
+  private enum Mode { PlainText, Lucene }
+
   private final AtomicLong bytesProcessed = new AtomicLong(0);
+  private final Mode mode;
   
   private long totalTokenCount;
 
-  private void run(File inputDir, File indexBaseDir) throws IOException {
+  public FrequencyIndexCreator(Mode mode) {
+    this.mode = mode;
+  }
+  
+  private void run(File inputDir, File indexBaseDir) {
     if (!inputDir.exists()) {
       throw new RuntimeException("Not found: " + inputDir);
     }
@@ -109,7 +115,7 @@ public class FrequencyIndexCreator {
     }
     System.out.println("Index dir: " + indexDir);
     try {
-      if (TEXT_MODE) {
+      if (mode == Mode.PlainText) {
         try (DataWriter dw = new TextDataWriter(indexDir)) {
           indexLinesFromGoogleFile(dw, file, totalBytes, hiveMode);
         }
@@ -308,21 +314,29 @@ public class FrequencyIndexCreator {
       if (fw != null) {
         fw.close();
       }
-      if (writer != null) {
-        writer.close();
-      }
+      writer.close();
     }
   }
 
   public static void main(String[] args) throws IOException {
-    if (args.length != 2) {
-      System.out.println("Usage: " + FrequencyIndexCreator.class.getSimpleName() + " <inputDir> <outputDir>");
-      System.out.println("    <inputDir> is the Google ngram data aggregated by Hive,");
+    if (args.length != 3) {
+      System.out.println("Usage: " + FrequencyIndexCreator.class.getSimpleName() + " <text|lucene> <inputDir> <outputDir>");
+      System.out.println("    <text|lucene> 'text' will write plain text files, 'lucene' will write Lucene indexes");
+      System.out.println("    <inputDir> is the Google ngram data, optionally already aggregated by Hive (lucene mode),");
       System.out.println("               please see http://wiki.languagetool.org/finding-errors-using-big-data");
       System.exit(1);
     }
-    FrequencyIndexCreator creator = new FrequencyIndexCreator();
-    System.out.println("TEXT_MODE: " + TEXT_MODE);
-    creator.run(new File(args[0]), new File(args[1]));
+    Mode mode;
+    if (args[0].equals("text")) {
+      mode = Mode.PlainText;
+    } else if (args[0].equals("lucene")) {
+      mode = Mode.Lucene;
+    } else {
+      throw new RuntimeException("Unknown mode: " + args[0]);
+    }
+    FrequencyIndexCreator creator = new FrequencyIndexCreator(mode);
+    System.out.println("Mode: " + mode);
+    System.out.println("Minimum year: " + MIN_YEAR);
+    creator.run(new File(args[1]), new File(args[2]));
   }
 }
