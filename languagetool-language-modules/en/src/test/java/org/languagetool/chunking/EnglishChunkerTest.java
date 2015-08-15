@@ -54,6 +54,20 @@ public class EnglishChunkerTest {
   }
 
   @Test
+  public void testAddChunkTagsSingular() throws Exception {
+    EnglishChunker chunker = new EnglishChunker();
+    JLanguageTool lt = new JLanguageTool(new English());
+    List<AnalyzedSentence> sentences = lt.analyzeText("The abacus shows how numbers can be stored");
+    List<AnalyzedTokenReadings> readingsList = Arrays.asList(sentences.get(0).getTokens());
+    chunker.addChunkTags(readingsList);
+    // "The abacus":
+    assertThat(readingsList.get(1).getChunkTags().toString(), is("[B-NP-singular]"));
+    assertThat(readingsList.get(3).getChunkTags().toString(), is("[E-NP-singular]"));
+    // "numbers":
+    assertThat(readingsList.get(9).getChunkTags().toString(), is("[B-NP-plural, E-NP-plural]"));
+  }
+
+  @Test
   public void testContractions() throws Exception {
     JLanguageTool langTool = new JLanguageTool(new English());
     AnalyzedSentence analyzedSentence = langTool.getAnalyzedSentence("I'll be there");

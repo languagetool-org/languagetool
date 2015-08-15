@@ -95,14 +95,14 @@ class EnglishChunkFilter {
     boolean isPlural = false;
     for (int i = chunkStartPos; i < tokens.size(); i++) {
       ChunkTaggedToken token = tokens.get(i);
+      if (!isBeginningOfNounPhrase(token) && !isContinuationOfNounPhrase(token)) {
+        break;
+      }
       if (false && "and".equals(token.getToken())) {   // e.g. "Tarzan and Jane" is a plural noun phrase
         // TODO: "Additionally, there are over 500 college and university chapter."
         isPlural = true;
       } else if (hasNounWithPluralReading(token)) {   // e.g. "ten books" is a plural noun phrase
         isPlural = true;
-      }
-      if (!isBeginningOfNounPhrase(token) && !isContinuationOfNounPhrase(token)) {
-        break;
       }
     }
     return isPlural ? ChunkType.PLURAL : ChunkType.SINGULAR;
