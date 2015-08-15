@@ -35,8 +35,8 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.zip.GZIPInputStream;
 
 /**
- * Index *.gz files from Google's ngram corpus into a Lucene index (TEXT_MODE = false)
- * or aggregate them to plain text files (TEXT_MODE = true).
+ * Index *.gz files from Google's ngram corpus into a Lucene index ('text' mode)
+ * or aggregate them to plain text files ('lucene' mode).
  * Index time (1 doc = 1 ngram and its count, years are aggregated into one number):
  * 130µs/doc (both on an external USB hard disk or on an internal SSD) = about 7700 docs/sec
  * 
@@ -318,7 +318,7 @@ public class FrequencyIndexCreator {
     }
   }
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) {
     if (args.length != 3) {
       System.out.println("Usage: " + FrequencyIndexCreator.class.getSimpleName() + " <text|lucene> <inputDir> <outputDir>");
       System.out.println("    <text|lucene> 'text' will write plain text files, 'lucene' will write Lucene indexes");
