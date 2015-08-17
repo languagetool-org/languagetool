@@ -18,6 +18,7 @@
  */
 package org.languagetool.language;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +29,8 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.GermanChunker;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.de.*;
 import org.languagetool.rules.de.SentenceWhitespaceRule;
@@ -46,7 +49,7 @@ import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
  * Support for German - use the sub classes {@link GermanyGerman}, {@link SwissGerman}, or {@link AustrianGerman}
  * if you need spell checking.
  */
-public class German extends Language {
+public class German extends Language implements AutoCloseable {
 
   private Tagger tagger;
   private Synthesizer synthesizer;
@@ -55,6 +58,7 @@ public class German extends Language {
   private GermanChunker chunker;
   private CompoundWordTokenizer compoundTokenizer;
   private GermanCompoundTokenizer strictCompoundTokenizer;
+  private LuceneLanguageModel languageModel;
 
   @Override
   public Language getDefaultLanguageVariant() {
@@ -196,5 +200,29 @@ public class German extends Language {
     }
     return strictCompoundTokenizer;
   }
-  
+
+  @Override
+  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
+    if (languageModel == null) {
+      languageModel = new LuceneLanguageModel(indexDir);
+    }
+    return languageModel;
+  }
+
+  /** @since 3.1 */
+  @Override
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+    return Arrays.<Rule>asList(
+            new GermanConfusionProbabilityRule(messages, languageModel, this)
+    );
+  }
+
+  /** @since 3.1 */
+  @Override
+  public void close() throws Exception {
+    if (languageModel != null) {
+      languageModel.close();
+    }
+  }
+
 }
