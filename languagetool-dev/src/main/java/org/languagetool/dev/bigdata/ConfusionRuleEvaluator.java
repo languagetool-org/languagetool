@@ -113,6 +113,10 @@ class ConfusionRuleEvaluator {
     println("======================");
     printf("Starting evaluation on " + sentences.size() + " sentences with %s/%s:\n", token, homophoneToken);
     JLanguageTool lt = new JLanguageTool(language);
+    List<Rule> allActiveRules = lt.getAllActiveRules();
+    for (Rule activeRule : allActiveRules) {
+      lt.disableRule(activeRule.getId());
+    }
     for (Sentence sentence : sentences) {
       String textToken = isCorrect ? token : homophoneToken;
       String plainText = sentence.getText();
