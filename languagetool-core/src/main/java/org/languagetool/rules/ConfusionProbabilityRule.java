@@ -34,6 +34,7 @@ import java.util.*;
 /**
  * LanguageTool's homophone confusion check that uses ngram lookups
  * to decide which word in a confusion set (from {@code confusion_sets.txt}) suits best.
+ * Also see <a href="http://wiki.languagetool.org/finding-errors-using-n-gram-data">http://wiki.languagetool.org/finding-errors-using-n-gram-data</a>.
  * @since 2.7
  */
 public abstract class ConfusionProbabilityRule extends Rule {
