@@ -21,6 +21,7 @@ package org.languagetool.dev.bigdata;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.dev.dumpcheck.*;
 import org.languagetool.dev.eval.FMeasure;
@@ -29,8 +30,8 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.ConfusionProbabilityRule;
 import org.languagetool.rules.ConfusionSet;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.en.EnglishConfusionProbabilityRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tools.StringTools;
@@ -72,7 +73,18 @@ class ConfusionRuleEvaluator {
 
   ConfusionRuleEvaluator(Language language, LanguageModel languageModel, int grams) {
     this.language = language;
-    this.rule = new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel, language, grams);
+    try {
+      List<Rule> rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel);
+      if (rules == null) {
+        throw new RuntimeException("Language " + language + " doesn't seem to support a language model");
+      }
+      if (rules.size() > 1) {
+        throw new RuntimeException("Language " + language + " has more than one language model rule, this is not supported yet");
+      }
+      this.rule = (ConfusionProbabilityRule)rules.get(0);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
     this.grams = grams;
   }
   
@@ -212,8 +224,14 @@ class ConfusionRuleEvaluator {
       System.exit(1);
     }
     long startTime = System.currentTimeMillis();
-    Language lang = new EnglishLight();
-    LanguageModel languageModel = new LuceneLanguageModel(new File(args[1]));
+    String langCode = args[0];
+    Language lang;
+    if ("en".equals(langCode)) {
+      lang = new EnglishLight();
+    } else {
+      lang = Languages.getLanguageForShortName(langCode);
+    }
+    LanguageModel languageModel = new LuceneLanguageModel(new File(args[1], lang.getShortName()));
     List<String> inputsFiles = new ArrayList<>();
     inputsFiles.add(args[2]);
     if (args.length >= 4) {
@@ -225,6 +243,7 @@ class ConfusionRuleEvaluator {
     System.out.println("Time: " + (endTime-startTime)+"ms");
   }
   
+  // faster version of English as it uses no chunking:
   static class EnglishLight extends English {
     
     private DemoTagger tagger;
