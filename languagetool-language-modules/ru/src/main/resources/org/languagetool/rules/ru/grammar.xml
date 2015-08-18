@@ -4201,6 +4201,33 @@ $Id$
                 <example correction="">Иван <marker>Иваныч</marker>.</example>
             </rule>
         </rulegroup>
+        
+        <rulegroup default="on" id="AllCaps" name="Все буквы - ЗАГЛАВНЫЕ.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START" negate_pos="yes"></token>
+                    <marker>
+                        <token regexp="yes">[А-ЯЁ][А-ЯЁ][А-ЯЁ][А-ЯЁ].*</token>
+                    </marker>
+                </pattern>
+                <message>Не выделяйте слова ЗАГЛАВНЫМИ буквами: <suggestion><match no="2" case_conversion="alllower"></match></suggestion>.</message>
+                <short>Выделение текста ЗАГЛАВНЫМИ буквами.</short>
+                <example>Не выделяйте текст заглавными буквами.</example>
+                <example correction="заглавными">Не выделяйте текст <marker>ЗАГЛАВНЫМИ</marker> буквами.</example>
+            </rule>
+     <!--   <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token regexp="yes">[А-ЯЁ][А-ЯЁ][А-ЯЁ][А-ЯЁ].*</token>
+                    </marker>
+                </pattern>
+                <message>Не выделяйте слова ЗАГЛАВНЫМИ буквами: <suggestion><match no="2" case_conversion="startupper"></match></suggestion>.</message>
+                <short>Выделение текста ЗАГЛАВНЫМИ буквами.</short>
+                <example>Заглавными буквами не выделяйте текст.</example>
+                <example correction="Заглавными"><marker>ЗАГЛАВНЫМИ</marker> буквами не выделяйте текст.</example>
+            </rule>  -->
+        </rulegroup>
 
         <rulegroup default="off" id="O_tom_chto" name="Связка слов «о том, что»">    
             <rule>
