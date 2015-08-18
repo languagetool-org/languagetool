@@ -37,7 +37,10 @@ final class AllConfusionRulesEvaluator {
 
   private static final int MAX_SENTENCES = 1000;
   private static final int MAX_NGRAM = 3;
-  
+
+  private AllConfusionRulesEvaluator() {
+  }
+
   public static void main(String[] args) throws IOException {
     if (args.length < 3 || args.length > 4) {
       System.err.println("Usage: " + ConfusionRuleEvaluator.class.getSimpleName()
