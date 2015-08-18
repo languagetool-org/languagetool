@@ -58,6 +58,7 @@ class ConfusionRuleEvaluator {
   private static final String TOKEN = "there";
   private static final String TOKEN_HOMOPHONE = "their";
   private static final int FACTOR = 100;
+  private static final boolean CASE_SENSITIVE = false;
   private static final int NGRAM_LEVEL = 3;
   private static final int MAX_SENTENCES = 1000;
 
@@ -157,8 +158,9 @@ class ConfusionRuleEvaluator {
       double fMeasure = FMeasure.getWeightedFMeasure(precision, recall);
       System.out.printf(ENGLISH, "  F-measure:    %.3f (beta=0.5)\n", fMeasure);
       System.out.printf(ENGLISH, "  Good Matches: %d (true positives)\n", truePositives);
-      System.out.printf(ENGLISH, "  All matches:  %d\n", (truePositives + falsePositives));
+      System.out.printf(ENGLISH, "  All matches:  %d\n", truePositives + falsePositives);
       System.out.printf(ENGLISH, "  Factor:       %d\n", factor);
+      System.out.printf(ENGLISH, "  Case sensit.: %s\n", CASE_SENSITIVE);
       System.out.printf(ENGLISH, "  Inputs:       %s\n", inputsOrDir);
       System.out.printf("  Summary:      " + summary + "\n");
     }
@@ -187,10 +189,11 @@ class ConfusionRuleEvaluator {
 
   private List<Sentence> getSentencesFromSource(List<String> inputs, String token, int maxSentences, SentenceSource sentenceSource) {
     List<Sentence> sentences = new ArrayList<>();
-    Pattern pattern = Pattern.compile(".*\\b" + token.toLowerCase() + "\\b.*");
+    Pattern pattern = Pattern.compile(".*\\b" + (CASE_SENSITIVE ? token : token.toLowerCase()) + "\\b.*");
     while (sentenceSource.hasNext()) {
       Sentence sentence = sentenceSource.next();
-      Matcher matcher = pattern.matcher(sentence.getText().toLowerCase());
+      String sentenceText = CASE_SENSITIVE ? sentence.getText() : sentence.getText().toLowerCase();
+      Matcher matcher = pattern.matcher(sentenceText);
       if (matcher.matches()) {
         sentences.add(sentence);
         if (sentences.size() % 250 == 0) {
