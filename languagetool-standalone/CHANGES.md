@@ -40,6 +40,7 @@
 
 #### Internal
   * updated to Lucene 5.2.1
+  * updated to Apache OpenNLP 1.6.0
 
 
 ## 3.0 (2015-06-29)
