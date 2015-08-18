@@ -241,7 +241,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     return result;
   }
 
-  private double get3gramProbabilityFor(GoogleToken token, List<GoogleToken> tokens, String term) {
+  private double get3gramProbabilityForOLD(GoogleToken token, List<GoogleToken> tokens, String term) {
     List<GoogleToken> newTokens = getGoogleTokens(term, false);
     Probability ngram3Left;
     Probability ngram3Middle;
@@ -270,11 +270,11 @@ public abstract class ConfusionProbabilityRule extends Rule {
   }
 
   // testing a variant...
-  private double get3gramProbabilityForTEST(GoogleToken token, List<GoogleToken> tokens, String term) {
+  private double get3gramProbabilityFor(GoogleToken token, List<GoogleToken> tokens, String term) {
     List<String> leftContext = getContext(token, tokens, term, 2, 0);
     List<String> leftContextSub = new ArrayList<>();
     if (leftContext.size() == 1) {
-      leftContextSub = leftContext.subList(0, 0); // TODO: ??
+      leftContextSub = Arrays.asList();
     } else if (leftContext.size() == 2) {
       leftContextSub = leftContext.subList(0, 1);
     } else if (leftContext.size() == 3) {
@@ -287,14 +287,21 @@ public abstract class ConfusionProbabilityRule extends Rule {
     } else {
       System.err.println("?? " + rightContext);
     }
+    double res;
     if (leftContextSub.size() > 0 && rightContextSub.size() > 0) {
-      double p = ((double)lm.getCount(leftContext)/(lm.getCount(leftContextSub)+1) + (double)lm.getCount(rightContext)/(lm.getCount(rightContextSub)+1)) / 2;
-      return p;
+      res = ((double) lm.getCount(leftContext) / (lm.getCount(leftContextSub) + 1) + (double) lm.getCount(rightContext) / (lm.getCount(rightContextSub) + 1)) / 2;
+      //System.out.println("(1) "+ term +": " + leftContext + " / " + leftContextSub + " + " + rightContext + " / " + rightContextSub + " => " + res);
+    } else if (leftContextSub.size() > 0 && rightContextSub.size() == 0) {
+      res = (double) lm.getCount(leftContext) / (lm.getCount(leftContextSub) + 1);
+      //System.out.println("(2) " + term + ": " + leftContext + " / " + rightContextSub + " => " + res);
+    } else if (leftContextSub.size() == 0 && rightContextSub.size() > 0) {
+      res = (double) lm.getCount(rightContext) / (lm.getCount(rightContextSub) + 1);
+      //System.out.println("(3) "+ term +": " + rightContext + " / " + rightContextSub + " => " + res);
     } else {
-      //System.err.println("fallback for " + leftContext + " / " + rightContext + ": " + leftContextSub  + " / " + rightContextSub);
-      long p = (lm.getCount(leftContext) + lm.getCount(rightContext)) / 2;
-      return p;
+      //System.err.println("(4) "+ term +": fallback for " + leftContext + " / " + rightContext);
+      return (lm.getCount(leftContext) + lm.getCount(rightContext)) / 2.0f;
     }
+    return res;
   }
 
   private double get4gramProbabilityFor(GoogleToken token, List<GoogleToken> tokens, String term) {
