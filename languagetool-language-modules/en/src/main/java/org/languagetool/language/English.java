@@ -134,7 +134,7 @@ public class English extends Language implements AutoCloseable {
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
     if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(indexDir);
+      languageModel = new LuceneLanguageModel(new File(indexDir, getShortName()));
     }
     return languageModel;
   }

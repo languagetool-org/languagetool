@@ -26,6 +26,12 @@
     http://wiki.languagetool.org/finding-errors-using-big-data) was
     ignored in LibreOffice and OpenOffice
 
+#### ngrams
+  * if a directory with ngram data for the confusion rule is specified,
+    this directory is now expected to have at least one sub directory `en`
+    or `de` with the `1grams`, `2grams`, and `3grams` directories
+    (also see http://wiki.languagetool.org/finding-errors-using-n-gram-data)
+
 #### Embedded server
   * new property file key `rulesFile` to use a `.languagetool.cfg` file 
     to configure which options should be enabled/disabled in a server
