@@ -137,7 +137,7 @@ public class HTTPServer extends Server {
     final HTTPServerConfig config = new HTTPServerConfig(args);
     try {
       final HTTPServer server;
-      System.out.println("WARNING: running in HTTP mode, consider using SSL by running " + HTTPSServer.class.getName() + " instead");
+      System.out.println("WARNING: running in HTTP mode, consider using " + HTTPSServer.class.getName() + " for encrypted connections");
       if (config.isPublicAccess()) {
         System.out.println("WARNING: running in public mode, LanguageTool API can be accessed without restrictions!");
         server = new HTTPServer(config, runInternal, null, null);
