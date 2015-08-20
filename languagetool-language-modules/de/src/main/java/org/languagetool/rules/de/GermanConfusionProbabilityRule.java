@@ -40,8 +40,8 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
 
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams) {
     super(messages, languageModel, language, grams);
-    addExamplePair(Example.wrong("Dort habe ich <marker>denn</marker> Mann gesehen."),
-                   Example.fixed("Dort habe ich <marker>den</marker> Mann gesehen."));
+    addExamplePair(Example.wrong("Während Sie das Ganze <marker>mir</marker> einem Holzlöffel rühren…"),
+                   Example.fixed("Während Sie das Ganze <marker>mit</marker> einem Holzlöffel rühren…"));
   }
 
   @Override
