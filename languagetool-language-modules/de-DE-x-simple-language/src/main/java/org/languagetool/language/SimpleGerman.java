@@ -18,12 +18,19 @@
  */
 package org.languagetool.language;
 
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Simple German (see e.g. <a href="https://de.wikipedia.org/wiki/Leichte_Sprache">Wikipedia</a>)
+ * that only support rules specific to this variant, not the other German rules.
+ */
 public class SimpleGerman extends GermanyGerman {
 
   @Override
@@ -45,6 +52,16 @@ public class SimpleGerman extends GermanyGerman {
 
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) {
+    return Collections.emptyList();
+  }
+
+  @Override
+  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
+    return null;
+  }
+
+  @Override
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Collections.emptyList();
   }
 

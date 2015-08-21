@@ -39,6 +39,8 @@ import java.util.*;
  */
 public abstract class ConfusionProbabilityRule extends Rule {
 
+  /** @since 3.1 */
+  public static final String RULE_ID = "CONFUSION_RULE";
   // probability is only used then at least these many of the occurrence lookups succeeded, 
   // i.e. returned a value > 0:
   public static final float MIN_COVERAGE = 0.5f;
@@ -82,7 +84,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   @Override
   public String getId() {
-    return "CONFUSION_RULE";
+    return RULE_ID;
   }
 
   @Override
