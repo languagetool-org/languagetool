@@ -4265,7 +4265,27 @@ $Id$
                 <example>Эта книга интересная.</example>
                 <example correction="">Эта книга <marker>не неинтересная</marker>.</example>
             </rule>
-        </rulegroup>     
+        </rulegroup>
+        
+        <rulegroup default="on" id="DoubleNOT" name="Двойное отрицание">
+             
+            <rule>
+                <!-- две частицы "не" в предложении
+                -->
+                <pattern>
+                    <marker>
+                        <token skip="-1">не</token>
+                        <token skip="-1">не</token>
+                    </marker>
+                    <token regexp="yes">[.!?:;]</token>
+                </pattern>
+                <message>Не ставьте два «не» подряд, если это не оправдано смыслом предложения.</message>
+                <short>Не ставьте два «не» подряд.</short>
+                <example>Cледует пытаться избегать двойных отрицаний.</example>
+                <example correction=""><marker>Не следует пытаться не</marker> избегать двойных отрицаний.</example>
+            </rule>
+        </rulegroup>                 
+                                 
         <rule id="PREP_ON_END" name="Предлог в конце предложения">
             <pattern case_sensitive="yes">
                 <token regexp="yes">для|на|к|от|по|в</token>
