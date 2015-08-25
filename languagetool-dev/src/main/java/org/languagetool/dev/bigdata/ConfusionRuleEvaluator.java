@@ -24,7 +24,6 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.dev.dumpcheck.*;
-import org.languagetool.dev.eval.FMeasure;
 import org.languagetool.language.English;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
@@ -45,6 +44,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.util.Locale.ENGLISH;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Loads sentences with a homophone (e.g. there/their) from Wikipedia or confusion set files
@@ -57,7 +57,8 @@ class ConfusionRuleEvaluator {
 
   private static final String TOKEN = "there";
   private static final String TOKEN_HOMOPHONE = "their";
-  private static final int FACTOR = 100;
+  //private static final List<Integer> EVAL_FACTORS = Arrays.asList(100);
+  private static final List<Long> EVAL_FACTORS = Arrays.asList(10L, 100L, 1_000L, 10_000L, 100_000L, 1_000_000L, 10_000_000L);
   private static final boolean CASE_SENSITIVE = false;
   private static final int NGRAM_LEVEL = 3;
   private static final int MAX_SENTENCES = 1000;
@@ -65,11 +66,8 @@ class ConfusionRuleEvaluator {
   private final Language language;
   private final ConfusionProbabilityRule rule;
   private final int grams;
+  private final Map<Long,EvalValues> evalValues = new HashMap<>();
 
-  private int truePositives = 0;
-  private int trueNegatives = 0;
-  private int falsePositives = 0;
-  private int falseNegatives = 0;
   private boolean verbose = true;
 
   ConfusionRuleEvaluator(Language language, LanguageModel languageModel, int grams) {
@@ -93,24 +91,22 @@ class ConfusionRuleEvaluator {
     this.verbose = verbose;
   }
 
-  String run(List<String> inputsOrDir, String token, String homophoneToken, long factor, int maxSentences) throws IOException {
-    truePositives = 0;
-    trueNegatives = 0;
-    falsePositives = 0;
-    falseNegatives = 0;
-    rule.setConfusionSet(new ConfusionSet(factor, homophoneToken, token));
+  String run(List<String> inputsOrDir, String token, String homophoneToken, int maxSentences, List<Long> evalFactors) throws IOException {
+    for (Long evalFactor : evalFactors) {
+      evalValues.put(evalFactor, new EvalValues());
+    }
     List<Sentence> allTokenSentences = getRelevantSentences(inputsOrDir, token, maxSentences);
     // Load the sentences with a homophone and later replace it so we get error sentences:
     List<Sentence> allHomophoneSentences = getRelevantSentences(inputsOrDir, homophoneToken, maxSentences);
-    evaluate(allTokenSentences, true, token, homophoneToken);
-    evaluate(allTokenSentences, false, homophoneToken, token);
-    evaluate(allHomophoneSentences, false, token, homophoneToken);
-    evaluate(allHomophoneSentences, true, homophoneToken, token);
-    return printEvalResult(allTokenSentences, allHomophoneSentences, inputsOrDir, factor);
+    evaluate(allTokenSentences, true, token, homophoneToken, evalFactors);
+    evaluate(allTokenSentences, false, homophoneToken, token, evalFactors);
+    evaluate(allHomophoneSentences, false, token, homophoneToken, evalFactors);
+    evaluate(allHomophoneSentences, true, homophoneToken, token, evalFactors);
+    return printEvalResult(allTokenSentences, allHomophoneSentences, inputsOrDir);
   }
 
   @SuppressWarnings("ConstantConditions")
-  private void evaluate(List<Sentence> sentences, boolean isCorrect, String token, String homophoneToken) throws IOException {
+  private void evaluate(List<Sentence> sentences, boolean isCorrect, String token, String homophoneToken, List<Long> evalFactors) throws IOException {
     println("======================");
     printf("Starting evaluation on " + sentences.size() + " sentences with %s/%s:\n", token, homophoneToken);
     JLanguageTool lt = new JLanguageTool(language);
@@ -124,45 +120,53 @@ class ConfusionRuleEvaluator {
       String replacement = plainText.indexOf(textToken) == 0 ? StringTools.uppercaseFirstChar(token) : token;
       String replacedTokenSentence = isCorrect ? plainText : plainText.replaceFirst("(?i)\\b" + textToken + "\\b", replacement);
       AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(replacedTokenSentence);
-      RuleMatch[] matches = rule.match(analyzedSentence);
-      boolean consideredCorrect = matches.length == 0;
-      String displayStr = plainText.replaceFirst("(?i)\\b" + textToken + "\\b", "**" + replacement + "**");
-      if (consideredCorrect && isCorrect) {
-        trueNegatives++;
-      } else if (!consideredCorrect && isCorrect) {
-        falsePositives++;
-        println("false positive: " + displayStr);
-      } else if (consideredCorrect && !isCorrect) {
-        //println("false negative: " + displayStr);
-        falseNegatives++;
-      } else {
-        truePositives++;
-        //System.out.println("true positive: " + displayStr);
+      for (Long factor : evalFactors) {
+        rule.setConfusionSet(new ConfusionSet(factor, homophoneToken, token));
+        RuleMatch[] matches = rule.match(analyzedSentence);
+        boolean consideredCorrect = matches.length == 0;
+        String displayStr = plainText.replaceFirst("(?i)\\b" + textToken + "\\b", "**" + replacement + "**");
+        if (consideredCorrect && isCorrect) {
+          evalValues.get(factor).trueNegatives++;
+        } else if (!consideredCorrect && isCorrect) {
+          evalValues.get(factor).falsePositives++;
+          println(factor + " false positive: " + displayStr);
+        } else if (consideredCorrect && !isCorrect) {
+          //println("false negative: " + displayStr);
+          evalValues.get(factor).falseNegatives++;
+        } else {
+          evalValues.get(factor).truePositives++;
+          //System.out.println("true positive: " + displayStr);
+        }
       }
     }
   }
 
-  private String printEvalResult(List<Sentence> allTokenSentences, List<Sentence> allHomophoneSentences, List<String> inputsOrDir, long factor) {
-    float precision = (float) truePositives / (truePositives + falsePositives);
-    float recall = (float) truePositives / (truePositives + falseNegatives);
-    String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-    String summary = String.format(ENGLISH, "p=%.3f, r=%.3f, %d, %dgrams, %s",
-            precision, recall, allTokenSentences.size() + allHomophoneSentences.size(), grams, date);
-    if (verbose) {
-      int sentences = allTokenSentences.size() + allHomophoneSentences.size();
-      System.out.println("======================");
-      System.out.println("Evaluation results for " + TOKEN + "/" + TOKEN_HOMOPHONE
-              + " with " + sentences + " sentences as of " + new Date() + ":");
-      System.out.printf(ENGLISH, "  Precision:    %.3f (%d false positives)\n", precision, falsePositives);
-      System.out.printf(ENGLISH, "  Recall:       %.3f (%d false negatives)\n", recall, falseNegatives);
-      double fMeasure = FMeasure.getWeightedFMeasure(precision, recall);
-      System.out.printf(ENGLISH, "  F-measure:    %.3f (beta=0.5)\n", fMeasure);
-      System.out.printf(ENGLISH, "  Good Matches: %d (true positives)\n", truePositives);
-      System.out.printf(ENGLISH, "  All matches:  %d\n", truePositives + falsePositives);
-      System.out.printf(ENGLISH, "  Factor:       %d\n", factor);
-      System.out.printf(ENGLISH, "  Case sensit.: %s\n", CASE_SENSITIVE);
-      System.out.printf(ENGLISH, "  Inputs:       %s\n", inputsOrDir);
-      System.out.printf("  Summary:      " + summary + "\n");
+  private String printEvalResult(List<Sentence> allTokenSentences, List<Sentence> allHomophoneSentences, List<String> inputsOrDir) {
+    String summary = null;
+    int sentences = allTokenSentences.size() + allHomophoneSentences.size();
+    System.out.println("\nEvaluation results for " + TOKEN + "/" + TOKEN_HOMOPHONE
+            + " with " + sentences + " sentences as of " + new Date() + ":");
+    System.out.printf(ENGLISH, "Inputs:       %s\n", inputsOrDir);
+    System.out.printf(ENGLISH, "Case sensit.: %s\n", CASE_SENSITIVE);
+    List<Long> factors = evalValues.keySet().stream().sorted().collect(toList());
+    for (Long factor : factors) {
+      EvalValues evalValues = this.evalValues.get(factor);
+      float precision = (float)evalValues.truePositives / (evalValues.truePositives + evalValues.falsePositives);
+      float recall = (float) evalValues.truePositives / (evalValues.truePositives + evalValues.falseNegatives);
+      String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+      summary = String.format(ENGLISH, "p=%.3f, r=%.3f, %d, %dgrams, %s",
+              precision, recall, allTokenSentences.size() + allHomophoneSentences.size(), grams, date);
+      if (verbose) {
+        System.out.println();
+        System.out.printf(ENGLISH, "Factor:   %d - %d false positives, %d false negatives\n", factor, evalValues.falsePositives, evalValues.falseNegatives);
+        //System.out.printf(ENGLISH, "Precision:    %.3f (%d false positives)\n", precision, evalValues.falsePositives);
+        //System.out.printf(ENGLISH, "Recall:       %.3f (%d false negatives)\n", recall, evalValues.falseNegatives);
+        //double fMeasure = FMeasure.getWeightedFMeasure(precision, recall);
+        //System.out.printf(ENGLISH, "F-measure:    %.3f (beta=0.5)\n", fMeasure);
+        //System.out.printf(ENGLISH, "Good Matches: %d (true positives)\n", evalValues.truePositives);
+        //System.out.printf(ENGLISH, "All matches:  %d\n", evalValues.truePositives + evalValues.falsePositives);
+        System.out.printf("Summary:  " + summary + "\n");
+      }
     }
     return summary;
   }
@@ -245,9 +249,16 @@ class ConfusionRuleEvaluator {
       inputsFiles.add(args[3]);
     }
     ConfusionRuleEvaluator generator = new ConfusionRuleEvaluator(lang, languageModel, NGRAM_LEVEL);
-    generator.run(inputsFiles, TOKEN, TOKEN_HOMOPHONE, FACTOR, MAX_SENTENCES);
+    generator.run(inputsFiles, TOKEN, TOKEN_HOMOPHONE, MAX_SENTENCES, EVAL_FACTORS);
     long endTime = System.currentTimeMillis();
-    System.out.println("Time: " + (endTime-startTime)+"ms");
+    System.out.println("\nTime: " + (endTime-startTime)+"ms");
+  }
+
+  static class EvalValues {
+    private int truePositives = 0;
+    private int trueNegatives = 0;
+    private int falsePositives = 0;
+    private int falseNegatives = 0;
   }
   
   // faster version of English as it uses no chunking:
