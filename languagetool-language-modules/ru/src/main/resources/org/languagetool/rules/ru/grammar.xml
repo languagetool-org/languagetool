@@ -1903,9 +1903,7 @@ $Id$
             </rule>
         </rulegroup>
     </category>
-    <category name="Типографика">
-        
-        
+    <category name="Типографика">     
         
         <rulegroup default="off" id="DOUBL_KAVITCHKI" name="Двойные кавычки">
             <rule>
@@ -4274,7 +4272,7 @@ $Id$
                 -->
                 <pattern>
                     <marker>
-                        <token skip="-1">не</token>
+                        <token skip="-1">не<exception  scope="next" regexp="yes">[,:;]</exception></token>
                         <token skip="-1">не</token>
                     </marker>
                     <token regexp="yes">[.!?:;]</token>
@@ -4282,6 +4280,7 @@ $Id$
                 <message>Не ставьте два «не» подряд, если это не оправдано смыслом предложения.</message>
                 <short>Не ставьте два «не» подряд.</short>
                 <example>Cледует пытаться избегать двойных отрицаний.</example>
+                <example>Если вы не знали меня с этой стороны, то вы вообще меня не знали.</example>
                 <example correction=""><marker>Не следует пытаться не</marker> избегать двойных отрицаний.</example>
             </rule>
         </rulegroup>                 
