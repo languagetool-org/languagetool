@@ -1,12 +1,16 @@
 # LanguageTool Change Log
 
 ## 3.1 (release planned for 2015-09-28)
-  
+
 #### English
   * added and improved a few rules
   * added several pairs of easily confused words - active only with
     ngram data (see http://wiki.languagetool.org/finding-errors-using-n-gram-data)
-  
+
+#### French
+  * Upgraded Hunspell dictionary to Dicollecte-5.4.1
+  * Upgraded POS tag and Synthesizer dictionaries to Dicollecte-5.4
+
 #### German
   * improved several rules
 
@@ -33,7 +37,7 @@
     (also see http://wiki.languagetool.org/finding-errors-using-n-gram-data)
 
 #### Embedded server
-  * new property file key `rulesFile` to use a `.languagetool.cfg` file 
+  * new property file key `rulesFile` to use a `.languagetool.cfg` file
     to configure which options should be enabled/disabled in a server
     (https://github.com/languagetool-org/languagetool/pull/281)
 
@@ -87,20 +91,20 @@
 #### Russian
   * improved rules
   * updated spellchecker
-  
+
 #### Slovak
   * dictionary update and several new rules
-  
+
 #### Ukrainian
   * big dictionary update (thousands of new words, new tagging for pronouns)
   * improved sentence and word tokenization
   * improved tokenization and tagging of lowercase abbreviations
   * new grammar and styling rules
   * new spelling rules, especially for lowercase abbreviations with dots
-  * improved compound word tagging 
+  * improved compound word tagging
   * improved some rules coverage
   * many new barbarism replacement suggestions
-  
+
 #### Bug Fixes
   * `UppercaseSentenceStartRule` didn't properly reset its state so that
     different errors could be found when e.g. `JLanguageTool.check()` got
@@ -109,11 +113,11 @@
     the Java security manager. In rare cases, this might affect using
     external XML rule files as documented at
     http://wiki.languagetool.org/tips-and-tricks#toc9 (Github issue #255)
-  
+
 #### GUI (stand-alone version)
   * fixed auto-detection of text language, which didn't work after editing text
   * a directory with ngram data for the confusion rule can now be specified
-    in the configuration dialog (English only for now), see 
+    in the configuration dialog (English only for now), see
     http://wiki.languagetool.org/finding-errors-using-big-data
 
 #### Embedded server
@@ -138,7 +142,7 @@
   * `Language.addExternalRuleFile()` and `Language.getExternalRuleFiles()`
     have been removed. To add rules, load them with `PatternRuleLoader`
     and call `JLanguageTool.addRule()`.
-  * `getAllRules()`, `getAllActiveRules()`, and `getPatternRulesByIdAndSubId()` 
+  * `getAllRules()`, `getAllActiveRules()`, and `getPatternRulesByIdAndSubId()`
     in class `JLanguageTool` used to call `reset()` for all rules. This is
     not the case anymore. `reset()` is now called when one of the `check()`
     methods is called. This shouldn't make a difference for all common use-cases.
