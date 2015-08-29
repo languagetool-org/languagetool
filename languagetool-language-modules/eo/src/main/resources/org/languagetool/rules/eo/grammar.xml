@@ -397,6 +397,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="finnlandanoj">Post la rusia revolucio de 1905 la <marker>finlandanoj</marker> sukcesis havigi al si pliajn rajtojn.</example>
       <example>Post la rusia revolucio de 1905 la finnlandanoj sukcesis havigi al si pliajn rajtojn.</example>
     </rule>
+    <rule id="VIVI_LOGXI" name="vivi anstataŭ loĝi">
+      <pattern>
+        <token postag="R nak .*" postag_regexp="yes"/>
+        <marker><token inflected="yes" postag="V.*" postag_regexp="yes">vivi</token></marker>
+        <token>en</token>
+        <token regexp="yes">\p{Lu}.*o</token>
+      </pattern>
+      <message>Laŭ la kunteksto, ŝajnas, ke vi intencis skrivi <suggestion><match no="2" regexp_match="^viv" regexp_replace="loĝ"/></suggestion>.</message>
+      <example correction="loĝas">Mi <marker>vivas</marker> en Nederlando.</example>
+      <example>Elefantoj vivas en Azio kaj Afriko.</example>
+    </rule>
   </category>
   <category name="Misliterumaj propraj nomoj">
     <rule id="ZAMENHOF" name="Zamenof → Zamenhof">
