@@ -6911,7 +6911,7 @@ $Id$
                     <marker>
                         <token>com<exception postag="allow_com"/></token>
                     </marker>
-                    <token regexp="yes">avantatges?|municipi|excepci(ó|ons)|exemples?|causa|causes|ostatges?|conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
+                    <token regexp="yes">elements?|avantatges?|municipi|excepci(ó|ons)|exemples?|causa|causes|ostatges?|conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <url>http://esadir.cat/gramatica/sintaxi/advcomcoma</url>
@@ -8849,6 +8849,19 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="MOTLES_MOLTES" name="motles/moltes">
+            <pattern>
+                <marker>
+                    <token>motles</token>
+                </marker>
+                <token postag="(N.|A..)[FC]P.*|V.P..PF." postag_regexp="yes"></token>
+            </pattern>
+            <message>Possible confusió.</message>
+            <suggestion>moltes</suggestion>
+            <example correction="Moltes"><marker>Motles</marker> coses.</example>
+            <example correction="Moltes"><marker>Motles</marker> altres coses.</example>
+            <example>En motles fabricats per ells.</example>
+        </rule>
         <rulegroup id="CONFUSIO_E" name="Possible confusió e/i/en/es">
             <rule>
                 <pattern>
@@ -15609,11 +15622,12 @@ $Id$
                         <token skip="1">venen</token>
                     </marker>
                     <token regexp="yes">de|a</token>
-                    <token regexp="yes">gust|continuació</token>
+                    <token min="0">l</token>
+                    <token regexp="yes">gust|continuació|cas</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>vénen</suggestion> (v. venir)?</message>
                 <example correction="vénen">em <marker>venen</marker> de gust</example>
-                <example>em vénen de gust</example>
+                <example correction="vénen">coses que no <marker>venen</marker> al cas</example>
             </rule>
             <rule>
                 <pattern>
@@ -21356,6 +21370,23 @@ $Id$
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="A_PRESSA" name="a pressa">
+            <antipattern>
+                <marker>
+                    <token>a</token>
+                    <token>pressa</token>
+                    <token>feta</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token>a</token>
+                <token>pressa</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>de pressa</suggestion>
+            <example correction='de pressa'>Vam anar-hi molt <marker>a pressa</marker>.</example>
+            <example>Ho van fer a pressa feta.</example>
+        </rule>
         <rule id="FA_ANYS_ENRERE" name="*fa tres anys enrere">
             <pattern>
                 <token skip="2" regexp="yes">fa|feia</token>
@@ -27570,6 +27601,40 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rulegroup id="ENCONTRA" name="encontra">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>encontra</token>
+                    </marker>
+                    <token inflected="yes">de</token>
+                </pattern>
+                <message>Possible confusió.</message>
+                <suggestion>en contra</suggestion>
+                <suggestion>encontre</suggestion>
+                <example correction="en contra|encontre"><marker>encontra</marker> d'ell</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>encontra</token>
+                </pattern>
+                <message>Possible confusió. "Encontra" és correcte com a forma del verb "encontrar".</message>
+                <suggestion>en contra</suggestion>
+                <suggestion>encontre</suggestion>
+                <suggestion>troba</suggestion>
+                <example correction="en contra|encontre|troba"><marker>encontra</marker> d'ell</example>
+            </rule>
+        </rulegroup>
+        <rule id="CONDUIT" name="conduit">
+            <pattern>
+                <marker>
+                    <token regexp="yes">conduits?</token>
+                </marker>
+            </pattern>
+            <message>Si és participi del verb 'conduir', falta una dièresi. "Conduit" és correcte en altres sentits.</message>
+            <suggestion><match no="1" regexp_match="(?iu)conduit(s?)" regexp_replace="conduït$1" /></suggestion>
+            <example correction="conduïts">Són <marker>conduits</marker> pels taxistes.</example>
+        </rule>
         <rule id="VIAL_VIARI" name="vial (nom)/viari (adj)">
             <pattern>
                 <token postag="NC.*" postag_regexp="yes"></token>
@@ -29407,12 +29472,14 @@ $Id$
                 <marker>
                     <token inflected="yes">plànol</token>
                 </marker>
-                <token inflected="yes" regexp="yes">mediàtic|.*econòmic|.*social|.*polític|abstracte|personal|professional|vertical|horitzontal|oblic|teòric</token>
+                <token min="0" inflected="yes">de</token>
+                <token inflected="yes" regexp="yes">mediàtic|.*econòmic|.*social|.*polític|abstracte|personal|professional|vertical|horitzontal|oblic|teòric|pràctic|igualtat</token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">pla</match></suggestion>? Exemples d'ús correcte: un plànol de Xàtiva, un plànol del castell.</message>
             <url>http://esadir.cat/entrades/fitxa/id/2157</url>
             <short>Possible confusió</short>
             <example correction="pla">en el <marker>plànol</marker> personal</example>
+            <example correction="pla">en <marker>plànol</marker> d'igualtat</example>
             <example>pla personal</example>
         </rule>
         <rulegroup id="FULLA_FULL" name="fulla/full">
