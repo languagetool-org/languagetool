@@ -14568,6 +14568,17 @@ $Id$
                 <example correction="autoanomenava">Ell s'<marker>auto-anomenava</marker> el millor.</example>
                 <example>S'autoanomenava així.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Castella</token>
+                    <token min="0">-</token>
+                    <token >Lleó</token>
+                </pattern>
+                <message>S'escriu amb la conjunció 'i'.</message>
+                <suggestion>Castella i Lleó</suggestion>
+                <url>http://esadir.cat/Toponims/Toponims_del_mon/Europa/Espanya/Castella_i_Lleo</url>
+                <example correction="Castella i Lleó"><marker>Castella-Lleó</marker></example>
+            </rule>
         </rulegroup>
         <rulegroup id="MOTS_NO_SEPARATS" name="mots no separats: *súper heroi/*súper-heroi/superheroi">
             <rule>
@@ -37374,7 +37385,7 @@ $Id$
                     </or>
                     <marker>
                         <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">com|perquè|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
-                        <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi||&lt;.*&gt;" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
                     </marker>
                 </pattern>
                 <message>Falta algun element entre verbs: coma, conjunció, pronom relatiu, etc.</message>
