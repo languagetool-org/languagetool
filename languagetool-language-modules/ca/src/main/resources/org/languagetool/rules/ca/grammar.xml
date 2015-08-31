@@ -21370,6 +21370,44 @@ $Id$
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rulegroup id="STRICTO_LATO_SENSU" name="formes incorrectes de stricto/lato sensu">
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">stricto|lato</token>
+                        <token>sensu</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">e?strict[ou]|lat[ou]</token>
+                    <token regexp="yes">sens[ou]</token>
+                </pattern>
+                <message>Expressió mal escrita.</message>
+                <suggestion><match no="1" regexp_match="(?iu)e?(strict|lat)[ou]" regexp_replace="$1"></match>o sensu</suggestion>
+                <example correction="stricto sensu"><marker>strictu senso</marker></example>
+                <example correction="lato sensu"><marker>latu sensu</marker></example>
+                <example>lato sensu</example>
+                <example>stricto sensu</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token>sensu</token>
+                        <token regexp="yes">stricto|lato</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">sens[ou]</token>
+                    <token regexp="yes">e?strict[ou]|lat[ou]</token>
+                </pattern>
+                <message>Expressió mal escrita.</message>
+                <suggestion>sensu <match no="2" regexp_match="(?iu)e?(strict|lat)[ou]" regexp_replace="$1"></match>o</suggestion>
+                <example correction="sensu stricto"><marker>senso stricto</marker></example>
+                <example correction="sensu lato"><marker>sensu latu</marker></example>
+                <example>sensu lato</example>
+                <example>sensu stricto</example>
+            </rule>
+        </rulegroup>
         <rule id="A_PRESSA" name="a pressa">
             <antipattern>
                 <marker>
@@ -37335,8 +37373,8 @@ $Id$
                         <token regexp="yes" skip="-1">(?-i);|I|O|Ni|Però<exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception></token>
                     </or>
                     <marker>
-                        <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">com|perquè|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
-                        <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi|&lt;.*&gt;" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">com|perquè|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi||&lt;.*&gt;" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
                     </marker>
                 </pattern>
                 <message>Falta algun element entre verbs: coma, conjunció, pronom relatiu, etc.</message>
@@ -37411,6 +37449,7 @@ $Id$
                 <example>s'establí en 34 barris i 8 districtes</example>
                 <example>Un cop vaig renunciar a encapçalar la llista vaig sentir un alleugeriment</example>
                 <example>Li suggereix una alternativa a les faltes ja siguin ortogràfiques o gramaticals.</example>
+                <example>Els recomptes d’E. coli aconseguiren nivells alts.</example>
             </rule>
         </rulegroup>
         <rule id="FALTA_COMA_FRASE_CONDICIONAL" name="Coma en frase condicional" type="style">
