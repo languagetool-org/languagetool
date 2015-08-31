@@ -34504,6 +34504,17 @@ $Id$
             <example correction="incloent">sense desmerèixer els anteriors, <marker>tot incloent</marker>-hi el muntatge de la Fura dels Baus</example>
             <example>sense desmerèixer els anteriors, incloent-hi el muntatge de la Fura dels Baus</example>
         </rule>
+        <rulegroup id="NI_NO" name="ni... no (redundant)">
+            <rule>
+                 <pattern>
+                     <token skip="10">ni<exception postag="_PUNCT.*"></exception></token>
+                     <token>no</token>
+                 </pattern>
+                 <message>Probable redundància.</message>
+                 <suggestion><match no="1" include_skipped="all"/></suggestion>
+                 <example correction="Ni tan sols"><marker>Ni tan sols no</marker> ho sabia.</example>
+            </rule>
+        </rulegroup>
     </category>
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
         <rule id="DESCOLLONAR" name="descollonar" >
