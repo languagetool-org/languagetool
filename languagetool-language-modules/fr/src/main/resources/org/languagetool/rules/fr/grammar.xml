@@ -939,23 +939,30 @@ though, and has since been slightly modified)-->
       </pattern>
       <message>Voulez-vous écrire <suggestion>for intérieur</suggestion> ?</message>
       <example correction="for intérieur">En mon <marker>fort intérieur</marker>, je le crois.</example>
-      <example>En mon for intérieur, je le crois.</example>
     </rule>
-    <rulegroup id="PALE" name="Pale au lieu de pâle">
+    <rulegroup id="PALE" name="pale, pâle">
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes" skip="2">air|teint|peau|visage|sembler|devenir|porter|être</token>
-          <marker>
-            <token>pale</token>
-          </marker>
+          <marker><token regexp="yes">pall?e?s?</token></marker>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>pâle</suggestion> ?</message>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^.*?(s?)$" regexp_replace="pâle$1"/></suggestion> ?</message>
         <example correction="pâle">Tu as l’air si <marker>pale</marker>.</example>
         <example correction="pâle">Tu as l’air <marker>pale</marker>.</example>
         <example correction="pâle">Il semble bien <marker>pale</marker>.</example>
-        <example>Tu as l’air pâle.</example>
-        <example>Il semble bien pâle.</example>
         <example>La pale de l’hélice est cassée.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">pâles?|palles?|pals?</token></marker>
+          <token>de</token>
+          <token>l</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token>hélice</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^.*?(s?)$" regexp_replace="pale$1"/></suggestion></message>
+        <example correction="pale">La <marker>pâle</marker> de l’hélice.</example>
+        <example correction="pales">Les <marker>pâles</marker> de l’hélice.</example>
       </rule>
     </rulegroup>
     <rulegroup id="GOLF_GOLFE" name="golf et golfe">
@@ -5222,7 +5229,7 @@ though, and has since been slightly modified)-->
       <example correction="affilée">Il a gagné trois partie d’<marker>affilé</marker>.</example>
     </rule>
     <rulegroup id="ANALES_ANNALES" name="anales, annales">
-        <url>https://fr.wiktionary.org/wiki/annales</url>
+      <url>https://fr.wiktionary.org/wiki/annales</url>
       <rule>
         <pattern>
           <marker><token>anales</token></marker>
@@ -5251,6 +5258,14 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous écrire <suggestion>annales</suggestion> ?</message>
         <example correction="annales">Les <marker>anales</marker> de l’histoire.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[lcd]es</token>
+          <marker><token>anales</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>annales</suggestion> ?</message>
+        <example correction="annales">Je fait une recheche dans les <marker>anales</marker>.</example>
       </rule>
     </rulegroup>
   </category>
