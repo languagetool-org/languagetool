@@ -49,7 +49,7 @@ $Id$
     <!ENTITY mots_HAC_ASPIRADA2 "Higgs|high|Hildesheim|Hill|Hillary|Himmler|hip-hop|hippies|hippy|Hirado|His|Hubei|Hudson|Hunter|Husserl|Huygens|Utah">
     <!ENTITY mots_HAC_ASPIRADA "Haarlem|Habermas|hack.*|Harlem|Hartford|Haifa|haikus?|haima|haimes|halal|halar|hall.*|Halloweens?|Hamada|Hamas|Hamàs|hamilton.*|Hamlet.*|Hammond|Hampton|handicaps?|Hannover|Hanoi|Hans|Hansa|hardware|harolds?|Harrison|harrods?|harry|Hartmann?|Haruki|Harvard|Harz|hash.*|Havilland|hawai.*|hawk.*|Haydn|Hayworth|Heard|hearst|Heathrow|heav.*|hegel.*|Heidelberg|Heide[gn].*|Heilig.*|hein.*|Heisen.*|Heitz|Helen|Heming.*|henna|hennes|Henry|Hepburn|herbert.*|Herder|Hereford|Hesse|Hessen|Hewlett.*|Hezboll.+|high.*|hilbert.*|Hilda|hinden.*|hinterlands?|Hitch.*|hitler.*|hobbes.*|hobby|hobbies|Hohen.*|holdings?|hollywood.*|Holmes.*|Holstein|Hong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hoover.*|hopkins|Hork.*|horst|H[ou]f.*|Houston|Howard|Hubble|humbold.*|Hume|hunting.*|husseinit.+">
     <!ENTITY mots_SOTA "direcció|supervisió|batuta|guia|pseudònim|protecció|tutela|denominació|jurisdicció|nom|títol|domini|dominació|patronatge">
-    <!ENTITY nombres_que_apostrofen "(1{1,2}|11[.\s]?\d{3}|1{1,2}\.\d{3}\.\d{3}|1{1,2}\s\d{3}\s\d{3}|1{1,2}\d{6})([,]\d+)?([&#37;&#8240;&#8241;]|&#176;[CFKNSEW]?)?|11[aèé]">
+    <!ENTITY nombres_que_apostrofen "(1{1,2}|11[.\s]?\d{3}|1{1,2}\.\d{3}\.\d{3}|1{1,2}\s\d{3}\s\d{3}|1{1,2}\d{6})([,]\d+)?([&#37;&#8240;&#8241;′″]|&#176;[CFKNSEW]?)?|11[aèé]">
     <!ENTITY noms_ABAIXAR_APUJAR "calefacció|impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista">
     <!ENTITY noms_collectius "majoria|parell|gent|grup|colla|família|part|nombre">
     <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|templer|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim|caputxí|carmelità">
@@ -13925,6 +13925,8 @@ $Id$
                 <example>L'amortització hauria de ser d'1.200.000 euros.</example>
                 <example>L'amortització hauria de ser d'11.200.000 euros.</example>
                 <example>un total d'11 300 milions de kWh</example>
+                <example>un film d'1′</example>
+                <example>un film d'11″</example>
             </rule>
             <rule>
                 <pattern>
@@ -34506,13 +34508,22 @@ $Id$
         </rule>
         <rulegroup id="NI_NO" name="ni... no (redundant)">
             <rule>
+                <antipattern>
+                    <marker>
+                        <token skip="5">ni<exception scope="next" postag="_PUNCT|CS" postag_regexp="yes"/></token>
+                        <token skip="5">ni<exception scope="next" postag="_PUNCT|CS" postag_regexp="yes"/></token>
+                        <token>no</token>
+                    </marker>
+                </antipattern>
                  <pattern>
-                     <token skip="10">ni<exception postag="_PUNCT.*"></exception></token>
+                     <token skip="10">ni<exception scope="next" postag="_PUNCT|CS" postag_regexp="yes"/></token>
                      <token>no</token>
                  </pattern>
                  <message>Probable redundància.</message>
                  <suggestion><match no="1" include_skipped="all"/></suggestion>
                  <example correction="Ni tan sols"><marker>Ni tan sols no</marker> ho sabia.</example>
+                <example>sense manillar ni pedals que no reeixí.</example>
+                <example>Ni l'un ni l'altre no ho sabien.</example>
             </rule>
         </rulegroup>
     </category>
