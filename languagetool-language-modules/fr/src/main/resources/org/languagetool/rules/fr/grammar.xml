@@ -2124,11 +2124,49 @@ though, and has since been slightly modified)-->
           <marker>
             <token regexp="yes">court?|courts</token>
           </marker>
-          <token>de</token>
+          <token regexp="yes">des?|du</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>cours</suggestion> ?</message>
+        <url>https://fr.wiktionary.org/wiki/au_cours_de</url>
         <example correction="cours">Au <marker>cour</marker> de l’été</example>
-        <example>Au cours de l’été</example>
+        <example correction="cours">Au <marker>court</marker> des dix dernières années.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>aux</token>
+            <token regexp="yes">court?s?</token>
+          </marker>
+          <token regexp="yes">des?|du</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>au cours</suggestion> ?</message>
+        <url>https://fr.wiktionary.org/wiki/au_cours_de</url>
+        <example correction="Au cours"><marker>Aux cours</marker> des dix dernières années.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">couper</token>
+          <marker>
+            <token regexp="yes">cour|court?s</token>
+          </marker>
+          <token regexp="yes">à|aux</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>court</suggestion> ?</message>
+        <url>https://fr.wiktionary.org/wiki/couper_court</url>
+        <example correction="court">Il coupe <marker>cours</marker> aux rumeurs.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>à</token>
+          <marker>
+            <token regexp="yes">cour|court?s</token>
+          </marker>
+          <token regexp="yes">de?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>court</suggestion> ?</message>
+        <url>https://fr.wiktionary.org/wiki/%C3%A0_court</url>
+        <example correction="court">Je suis à <marker>cours</marker> d’argent.</example>
+        <example correction="court">Nous sommes à <marker>cour</marker> de nourriture.</example>
       </rule>
       <rule>
         <pattern>
