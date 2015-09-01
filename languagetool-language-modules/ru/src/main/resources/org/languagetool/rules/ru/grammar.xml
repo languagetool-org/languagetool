@@ -4651,6 +4651,32 @@ $Id$
             
         </rulegroup>
         
+        <rulegroup default="on" id="kosvennaja_rech" name="Косвенная речь и кавычки">
+          <rule>
+            <pattern>
+                <token>что</token>
+                <token>"</token>
+                <token  skip="-1"></token>
+                <token>"</token>
+            </pattern>
+            <message>Косвенная речь в кавычки не берётся.</message>
+            <short>Кавычки не нужны.</short>
+            <example>Мы говорим, что косвенная речь в кавычки не берётся.</example>
+            <example correction="">Мы говорим, <marker>что "косвенная речь в кавычки не берётся"</marker>.</example>
+          </rule>
+            <rule>
+            <pattern>
+                <token>что</token>
+                <token>«</token>
+                <token  skip="-1"></token>
+                <token>»</token>
+            </pattern>
+            <message>Косвенная речь в кавычки не берётся.</message>
+            <short>Кавычки не нужны.</short>
+            <example>Мы говорим, что косвенная речь в кавычки не берётся.</example>
+            <example correction="">Мы говорим, <marker>что «косвенная речь в кавычки не берётся»</marker>.</example>
+          </rule>
+        </rulegroup>
         
         <rule default="on" id="OPREDELENIA" name="Избыточные придаточные определения">
             <pattern>
