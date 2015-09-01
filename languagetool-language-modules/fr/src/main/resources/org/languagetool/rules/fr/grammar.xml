@@ -4,7 +4,7 @@
 <!--
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski, Agnes Souque, Hugo Voisard and Myriam Lechelt.
-              2011-2014 Dominique Pellé
+              2011-2015 Dominique Pellé
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -5209,6 +5209,48 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion>teint</suggestion> ?</message>
         <url>https://fr.wikipedia.org/wiki/Fond_de_teint</url>
         <example correction="teint">Un fond de <marker>tain</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rule id="AFFILEE_AFFILE" name="affilée, affilé">
+      <pattern>
+        <token>d</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <marker><token>affilé</token></marker>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>affilée</suggestion> ?</message>
+      <url>https://fr.wiktionary.org/wiki/d%E2%80%99affil%C3%A9e</url>
+      <example correction="affilée">Il a gagné trois partie d’<marker>affilé</marker>.</example>
+    </rule>
+    <rulegroup id="ANALES_ANNALES" name="anales, annales">
+        <url>https://fr.wiktionary.org/wiki/annales</url>
+      <rule>
+        <pattern>
+          <marker><token>anales</token></marker>
+          <token regexp="yes">politiques|ecclésiastiques|littéraires|akashiques|royales|maximi|scientifiques|corrigées|officieles</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>annales</suggestion> ?</message>
+        <example correction="annales">Les <marker>anales</marker> littéraires.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>anales</token></marker>
+          <token regexp="yes">d[eu]</token>
+          <token min="0" max="1">la</token>
+          <token regexp="yes">baccalauréat|bac|brevet|physique|chimie|géographie|philosophie|dynastie|chirurgie|paléontologie|Tacite|chrétienneté|France|journalisme|théatre|congrès|congrégation|parlement|institut|musée|muséum|concours|règne|fondation|recherches?|guerre|société</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>annales</suggestion> ?</message>
+        <example correction="annales">Les <marker>anales</marker> du baccalauréat.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>anales</token></marker>
+          <token>de</token>
+          <token>l</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">histoire|examen|école|économie</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>annales</suggestion> ?</message>
+        <example correction="annales">Les <marker>anales</marker> de l’histoire.</example>
       </rule>
     </rulegroup>
   </category>
