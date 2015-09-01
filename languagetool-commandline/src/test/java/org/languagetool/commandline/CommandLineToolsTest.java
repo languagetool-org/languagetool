@@ -28,8 +28,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Locale;
-import java.util.ResourceBundle;
 
 public class CommandLineToolsTest extends TestCase {
 
@@ -64,17 +62,11 @@ public class CommandLineToolsTest extends TestCase {
     assertEquals(0, matches);
 
     tool.disableRule("test_unification_with_negation");
-    tool.addRule(new WordRepeatRule(getMessages("en"), TestTools.getDemoLanguage()));
+    tool.addRule(new WordRepeatRule(TestTools.getEnglishMessages(), TestTools.getDemoLanguage()));
     matches = CommandLineTools.checkText("To jest problem problem.", tool);
     output = new String(this.out.toByteArray());
     assertTrue(output.contains("Rule ID: WORD_REPEAT_RULE"));
     assertEquals(1, matches);
-  }
-
-  private static ResourceBundle getMessages(String language) {
-    final ResourceBundle messages = ResourceBundle.getBundle(
-            JLanguageTool.MESSAGE_BUNDLE, new Locale(language));
-    return messages;
   }
 
 }
