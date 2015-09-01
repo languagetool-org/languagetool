@@ -10,6 +10,7 @@
 #### French
   * Upgraded Hunspell dictionary to Dicollecte-5.4.1
   * Upgraded POS tag and Synthesizer dictionaries to Dicollecte-5.4
+  * added/improved several rules
 
 #### German
   * improved several rules
