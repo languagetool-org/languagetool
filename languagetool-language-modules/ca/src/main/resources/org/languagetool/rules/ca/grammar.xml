@@ -27652,6 +27652,32 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rulegroup id="CRIDADA" name="cridada">
+            <rule>
+                <pattern>
+                    <token>la</token>
+                    <token>cridada</token>
+                </pattern>
+                <message>Possible castellanisme.</message>
+                <suggestion>l'anomenada</suggestion>
+                <suggestion>la trucada</suggestion>
+                <suggestion>la telefonada</suggestion>
+                <suggestion>la crida</suggestion>
+                <suggestion>el crit</suggestion>
+                <example correction="l'anomenada|la trucada|la telefonada|la crida|el crit">Va rebre <marker>la cridada</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>una</token>
+                    <token>cridada</token>
+                </pattern>
+                <message>Possible castellanisme.</message>
+                <suggestion>una trucada</suggestion>
+                <suggestion>una telefonada</suggestion>
+                <suggestion>una anomenada</suggestion>
+                <example correction="una trucada|una telefonada|una anomenada">Va rebre <marker>una cridada</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ENCONTRA" name="encontra">
             <rule>
                 <pattern>
@@ -34507,23 +34533,34 @@ $Id$
             <example>sense desmerèixer els anteriors, incloent-hi el muntatge de la Fura dels Baus</example>
         </rule>
         <rulegroup id="NI_NO" name="ni... no (redundant)">
+            <url>http://esadir.cat/gramatica/sintaxi/advnegdlbneg</url>
             <rule>
                 <antipattern>
                     <marker>
-                        <token skip="5">ni<exception scope="next" postag="_PUNCT|CS" postag_regexp="yes"/></token>
-                        <token skip="5">ni<exception scope="next" postag="_PUNCT|CS" postag_regexp="yes"/></token>
+                        <token skip="5" regexp="yes">ni|no<exception scope="next" postag="_PUNCT|C," postag_regexp="yes"/></token>
+                        <token skip="5">ni<exception scope="next" postag="_PUNCT|C." postag_regexp="yes"/></token>
                         <token>no</token>
                     </marker>
                 </antipattern>
-                 <pattern>
-                     <token skip="10">ni<exception scope="next" postag="_PUNCT|CS" postag_regexp="yes"/></token>
-                     <token>no</token>
-                 </pattern>
-                 <message>Probable redundància.</message>
-                 <suggestion><match no="1" include_skipped="all"/></suggestion>
-                 <example correction="Ni tan sols"><marker>Ni tan sols no</marker> ho sabia.</example>
+                <pattern>
+                    <token skip="10">ni<exception scope="next" postag="_PUNCT|C." postag_regexp="yes"/></token>
+                    <token>no</token>
+                </pattern>
+                <message>Possible redundància.</message>
+                <suggestion><match no="1" include_skipped="all"/></suggestion>
+                <example correction="Ni tan sols"><marker>Ni tan sols no</marker> ho sabia.</example>
                 <example>sense manillar ni pedals que no reeixí.</example>
                 <example>Ni l'un ni l'altre no ho sabien.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ni</token>
+                    <token regexp="yes">res|cap|ningú|gens|enlloc|mai|tampoc</token>
+                    <token>no</token>
+                </pattern>
+                <message>Possible redundància.</message>
+                <suggestion>\1 \2</suggestion>
+                <example correction="ni ningú"><marker>ni ningú no</marker> pot considerar-ho així</example>
             </rule>
         </rulegroup>
     </category>
