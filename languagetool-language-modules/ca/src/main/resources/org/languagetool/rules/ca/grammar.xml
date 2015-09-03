@@ -8244,7 +8244,7 @@ $Id$
         <rule id="COLLABORAR_A_QUE" name="col·laborar *a què">
             <pattern>
                 <marker>
-                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">ajudar|col·laborar|contribuir|deure|esperar|convidar|invitar</token>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">ajudar|col·laborar|contribuir|deure|esperar|convidar|invitar|disposar</token>
                     <token regexp="yes">a|en</token>
                     <token>què</token>
                 </marker>
@@ -27706,6 +27706,15 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="CINT" name="cint">
+            <pattern>
+                <token inflected="yes">cint</token>
+            </pattern>
+            <message>"Cint" és un arcaisme. ¿Volíeu dir una altra cosa?</message>
+            <suggestion>vint</suggestion>
+            <suggestion>cinc</suggestion>
+            <example correction="vint|cinc">N'hi ha <marker>cint</marker>.</example>
+        </rule>
         <rulegroup id="CRIDADA" name="cridada">
             <rule>
                 <pattern>
