@@ -52,6 +52,7 @@ $Id$
     <!ENTITY nombres_que_apostrofen "(1{1,2}|11[.\s]?\d{3}|1{1,2}\.\d{3}\.\d{3}|1{1,2}\s\d{3}\s\d{3}|1{1,2}\d{6})([,]\d+)?([&#37;&#8240;&#8241;′″]|&#176;[CFKNSEW]?)?|11[aèé]">
     <!ENTITY noms_ABAIXAR_APUJAR "calefacció|impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista">
     <!ENTITY noms_collectius "majoria|parell|gent|grup|colla|família|part|nombre">
+    <!ENTITY numerals_unitats "pocs|poques|tants|tantes|u|un|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou|deu|((un|quatr|cinqu|[hv]uit|nov)(è|é|ena|ens|enes))|(dos|tres)(è|é|ena|ens|enes)">
     <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|templer|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim|caputxí|carmelità">
     <!ENTITY ordes_invariable "conventual|mendicant|militar|major|menor|marista|jesuïta|regular">
     <!ENTITY parts_dia "matinada|matí|migdia|tarda|vesprada|horabaixa|vespre|capvespre|nit1|mitjanit">
@@ -8565,16 +8566,54 @@ $Id$
             <example correction="cinquanta-u">És el número <marker>cinquanta-un</marker></example>
             <example>número u</example>
         </rule>
-        <rule id="CENT_CENTS" name="*dos-cent/dos-cents">
-            <pattern>
-                <token regexp="yes">(dos|tres|quatre|cinc|sis|set|vuit|huit|nou)</token>
-                <token>-</token>
-                <token>cent</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1"/>-cents</suggestion>?</message>
-            <example correction="dos-cents"><marker>dos-cent</marker>.</example>
-            <example>dos-cents.</example>
-        </rule>
+        <rulegroup id="NUMERALS_ORTOGRAFIA" name="errors ortogràfics en numerals amb guionets: *dos-cent, *vint-i-cint">
+            <rule>
+                <pattern>
+                    <token>cint</token>
+                    <token>-</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>vint-</suggestion></message>
+                <example correction="vint-"><marker>cint-</marker>i-tres</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>-</token>
+                    <token>cint</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>-cinc</suggestion></message>
+                <example correction="-cinc">trenta<marker>-cint</marker>.</example>
+            </rule>
+            <rule> <!-- *dos-cent/dos-cents -->
+                <pattern>
+                    <token regexp="yes">(dos|tres|quatre|cinc|sis|set|vuit|huit|nou)</token>
+                    <token>-</token>
+                    <token regexp="yes">cent|cens</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1"/>-cents</suggestion>?</message>
+                <example correction="dos-cents"><marker>dos-cent</marker>.</example>
+                <example>dos-cents.</example>
+            </rule>
+            <rule> <!-- *vint-i-cint/vint-i-cinc -->
+                <pattern>
+                    <token>vint</token>
+                    <token>-</token>
+                    <token>i</token>
+                    <token>-</token>
+                    <token><exception regexp="yes">&numerals_unitats;</exception></token>
+                </pattern>
+                <message>Possible error ortogràfic.</message>
+                <example correction=""><marker>vint-i-cint</marker></example>
+            </rule>
+            <rule> <!-- *trenta-cint/trenta-cinc -->
+                <pattern>
+                    <token regexp="yes">trenta|quaranta|cinquanta|seixanta|setanta|[vh]uitanta|noranta</token>
+                    <token spacebefore="no">-</token>
+                    <token spacebefore="no"><exception regexp="yes">&numerals_unitats;</exception></token>
+                </pattern>
+                <message>Possible error ortogràfic.</message>
+                <example correction=""><marker>trenta-cint</marker></example>
+            </rule>
+        </rulegroup>
         <!-- Falta: guionets que sobren-->
         <rulegroup id="GUIONET_NUMERALS" name="Comprova el guionet en els numerals">
             <!-- Falta controlar els espais: vint- i- u -->
@@ -8583,7 +8622,7 @@ $Id$
                     <token><exception>anys</exception></token>
                     <marker>
                         <token regexp="yes">trenta|quaranta|cinquanta|seixanta|setanta|vuitanta|huitanta|noranta</token>
-                        <token regexp="yes">u|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
+                        <token regexp="yes">&numerals_unitats;</token>
                     </marker>
                 </pattern>
                 <message>Falta un guionet.</message>
@@ -8596,7 +8635,7 @@ $Id$
                     <token>vint</token>
                     <token>-</token>
                     <token>i</token>
-                    <token regexp="yes">u|un|una|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
+                    <token regexp="yes">&numerals_unitats;</token>
                 </pattern>
                 <message>Falta un guionet.</message>
                 <suggestion><match no="1"/>-i-<match no="4"/></suggestion>
@@ -8607,7 +8646,7 @@ $Id$
                     <token>vint</token>
                     <token>i</token>
                     <token>-</token>
-                    <token regexp="yes">u|un|una|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
+                    <token regexp="yes">&numerals_unitats;</token>
                 </pattern>
                 <message>Falta un guionet.</message>
                 <suggestion><match no="1"/>-i-<match no="4"/></suggestion>
@@ -8619,7 +8658,7 @@ $Id$
                     <marker>
                         <token>vint</token>
                         <token>i</token>
-                        <token regexp="yes">u|un|una|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
+                        <token regexp="yes">&numerals_unitats;</token>
                     </marker>
                 </pattern>
                 <message>Falten els guionets.</message>
@@ -8697,7 +8736,7 @@ $Id$
                     <token spacebefore="yes">-</token>
                     <token>i</token>
                     <token>-</token>
-                    <token regexp="yes">u|un|una|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
+                    <token regexp="yes">&numerals_unitats;</token>
                 </pattern>
                 <message>Sobra un espai.</message>
                 <suggestion>vint-i-<match no="5"/></suggestion>
@@ -8709,7 +8748,7 @@ $Id$
                     <token>-</token>
                     <token spacebefore="yes">i</token>
                     <token>-</token>
-                    <token regexp="yes">u|un|una|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
+                    <token regexp="yes">&numerals_unitats;</token>
                 </pattern>
                 <message>Sobra un espai.</message>
                 <suggestion>vint-i-<match no="5"/></suggestion>
@@ -8721,7 +8760,7 @@ $Id$
                     <token>-</token>
                     <token>i</token>
                     <token spacebefore="yes">-</token>
-                    <token regexp="yes">u|un|una|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
+                    <token regexp="yes">&numerals_unitats;</token>
                 </pattern>
                 <message>Sobra un espai.</message>
                 <suggestion>vint-i-<match no="5"/></suggestion>
@@ -8733,7 +8772,7 @@ $Id$
                     <token>-</token>
                     <token>i</token>
                     <token>-</token>
-                    <token spacebefore="yes" regexp="yes">u|un|una|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou</token>
+                    <token spacebefore="yes" regexp="yes">&numerals_unitats;</token>
                 </pattern>
                 <message>Sobra un espai.</message>
                 <suggestion>vint-i-<match no="5"/></suggestion>
@@ -8744,7 +8783,7 @@ $Id$
                     <marker>
                         <token regexp="yes">tres|quatre|cinc|sis|set|vuit|huit|nou</token>
                         <token min="0">-</token>
-                        <token>cent</token>
+                        <token regexp="yes">cent|cens</token>
                     </marker>
                 </pattern>
                 <message>Numeral possiblement mal escrit.</message>
@@ -8759,14 +8798,14 @@ $Id$
                     <marker>
                         <token regexp="yes">dues|dos</token>
                         <token min="0">-</token>
-                        <token>cent</token>
+                        <token regexp="yes">cent|cens</token>
                     </marker>
                 </pattern>
                 <message>Numeral possiblement mal escrit.</message>
                 <suggestion>dos-cents</suggestion>
                 <suggestion>dues-centes</suggestion>
                 <example correction="dos-cents|dues-centes">De <marker>dos cent</marker>.</example>
-                <example correction="dos-cents|dues-centes">De <marker>dos-cent</marker>.</example>
+                <example correction="dos-cents|dues-centes">De <marker>dos-cens</marker>.</example>
                 <example>Dos-cents.</example>
             </rule>
         </rulegroup>
@@ -8849,6 +8888,39 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rulegroup id="ELL_EL" name="*ell cotxe/el cotxe">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>ell</token>
+                    </marker>
+                    <token postag="NCMS.*" postag_regexp="yes"><exception>sol</exception></token>
+                    <token min="0" postag="P.*" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>el</suggestion>?</message>
+                <example correction="El"><marker>Ell</marker> corrector és bo.</example>
+                <example correction="El"><marker>Ell</marker> corrector es pot usar</example>
+                <example correction="El"><marker>Ell</marker> cotxe corre massa.</example>
+                <example>ell mateix</example>
+                <example>ell sol ho aconseguí</example>
+                <example>va cridar ell furiós</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <!--<token postag="SENT_START|C.|_PUNCT.*" regexp="yes"/>-->
+                    <marker>
+                        <token>ells</token>
+                    </marker>
+                    <token postag="NCM[PN].*" postag_regexp="yes"><exception>sols</exception></token>
+                    <token min="0" postag="P.*" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>els</suggestion>?</message>
+                <example correction="els">Pareixia que <marker>ells</marker> temps estaven a punt de canviar.</example>
+            </rule>
+        </rulegroup>
         <rule id="MOTLES_MOLTES" name="motles/moltes">
             <pattern>
                 <marker>
@@ -9222,7 +9294,7 @@ $Id$
             <example>Podria ser que no compliren les condicions.</example>
             <example>Pensaríeu que no tindreu sort en el futur.</example>
         </rule>
-        <rule id="PAIS_VALENCIA" name="País Valècia/Valencià">
+        <rule id="PAIS_VALENCIA" name="País València/Valencià">
             <pattern>
                 <token>País</token>
                 <token>València</token>
@@ -12570,24 +12642,6 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="CONFUSIONS_B_V" name="confusions b/v: proba/prova">
-            <rule id="ELL_EL" name="*ell cotxe/el cotxe">
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker>
-                        <token>ell</token>
-                    </marker>
-                    <token postag="NCMS.*" postag_regexp="yes"><exception>sol</exception></token>
-                    <token min="0" postag="P.*" postag_regexp="yes"/>
-                    <token postag="V.[SI].*" postag_regexp="yes"/>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>el</suggestion>?</message>
-                <example correction="El"><marker>Ell</marker> corrector és bo.</example>
-                <example correction="El"><marker>Ell</marker> corrector es pot usar</example>
-                <example correction="El"><marker>Ell</marker> cotxe corre massa.</example>
-                <example>ell mateix</example>
-                <example>ell sol ho aconseguí</example>
-                <example>va cridar ell furiós</example>
-            </rule>
             <rule id="PROBA" name="proba/prova">
                 <pattern>
                     <token regexp="yes">proba|probes|probe</token>
@@ -34535,19 +34589,26 @@ $Id$
         <rulegroup id="NI_NO" name="ni... no (redundant)">
             <url>http://esadir.cat/gramatica/sintaxi/advnegdlbneg</url>
             <rule>
-                <antipattern>
+                <!--<antipattern>
                     <marker>
                         <token skip="5" regexp="yes">ni|no<exception scope="next" postag="_PUNCT|C," postag_regexp="yes"/></token>
                         <token skip="5">ni<exception scope="next" postag="_PUNCT|C." postag_regexp="yes"/></token>
                         <token>no</token>
                     </marker>
-                </antipattern>
+                </antipattern>-->
                 <pattern>
-                    <token skip="10">ni<exception scope="next" postag="_PUNCT|C." postag_regexp="yes"/></token>
-                    <token>no</token>
+                    <!--<token skip="10">ni<exception scope="next" postag="_PUNCT|C.|PR.*" postag_regexp="yes"/></token>
+                    <token>no</token>-->
+                    <marker>
+                        <token>ni</token>
+                        <token>tan</token>
+                        <token regexp="yes">sols|solament</token>
+                        <token>no</token>
+                    </marker>
                 </pattern>
                 <message>Possible redundància.</message>
-                <suggestion><match no="1" include_skipped="all"/></suggestion>
+                <!--<suggestion><match no="1" include_skipped="all"/></suggestion>-->
+                <suggestion>ni tan sols</suggestion>
                 <example correction="Ni tan sols"><marker>Ni tan sols no</marker> ho sabia.</example>
                 <example>sense manillar ni pedals que no reeixí.</example>
                 <example>Ni l'un ni l'altre no ho sabien.</example>
