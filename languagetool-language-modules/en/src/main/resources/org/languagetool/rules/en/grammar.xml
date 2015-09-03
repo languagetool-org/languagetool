@@ -6572,20 +6572,50 @@ USA
             <example correction="A soccer player kicks"><marker>A soccer players kicks</marker> a ball and scores a goal</example>
         </rule>
         -->
-        <rule id="TOO_EITHER" name="'too' in negation (either)">
-            <pattern>
-                <token>'</token>
-                <token>t</token>
-                <token min="0">,</token>
-                <marker>
-                    <token>too</token>
-                </marker>
-                <token><exception postag="JJ"></exception></token>
-            </pattern>
-            <message>For negated sentences, use <suggestion>either</suggestion> instead of 'too'.</message>
-            <example correction="either">I am not a child, and my cousin isn't <marker>too</marker>.</example>
-            <example>My news isn't too important to people who don't want to know.</example>
-        </rule>
+        <rulegroup id="TOO_EITHER" name="'too' in negation (either)">
+            <rule>
+                <pattern>
+                    <token>'</token>
+                    <token>t</token>
+                    <token min="0">,</token>
+                    <marker>
+                        <token>too</token>
+                    </marker>
+                    <token><exception postag="JJ"></exception></token>
+                </pattern>
+                <message>For negated sentences, use <suggestion>either</suggestion> instead of 'too'.</message>
+                <example correction="either">I am not a child, and my cousin isn't <marker>too</marker>.</example>
+                <example>My news isn't too important to people who don't want to know.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>no</token>
+                    <token postag_regexp="yes" postag="NN|NNS"></token>
+                    <token min="0">,</token>
+                    <marker>
+                        <token>too</token>
+                    </marker>
+                </pattern>
+                <message>For negated sentences, use <suggestion>either</suggestion> instead of 'too'.</message>
+                <example correction="either">I have no problems <marker>too</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>'</token>
+                    <token>t</token>
+                    <token postag="VB"></token>
+                    <token postag="NNS"></token>
+                    <token min="0">,</token>
+                    <marker>
+                        <token>too</token>
+                    </marker>
+                    <token><exception postag="RB"></exception></token>
+                </pattern>
+                <message>For negated sentences, use <suggestion>either</suggestion> instead of 'too'.</message>
+                <example correction="either">I don't have problems <marker>too</marker>.</example>
+                <example>Don't take things <marker>too</marker> seriously.</example>
+            </rule>
+        </rulegroup>
         <rule id="PREFER_TO_VBG" name="prefer to [gerund] -> [base form]">
             <pattern>
                 <token>prefer</token>
