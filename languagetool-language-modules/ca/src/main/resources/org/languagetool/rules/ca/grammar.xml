@@ -8622,13 +8622,14 @@ $Id$
                     <token><exception>anys</exception></token>
                     <marker>
                         <token regexp="yes">trenta|quaranta|cinquanta|seixanta|setanta|vuitanta|huitanta|noranta</token>
-                        <token regexp="yes">&numerals_unitats;</token>
+                        <token regexp="yes">&numerals_unitats;<exception postag="_GN_.*" postag_regexp="yes" regexp="yes">una?</exception></token>
                     </marker>
                 </pattern>
                 <message>Falta un guionet.</message>
                 <suggestion><match no="2"></match>-<match no="3"></match></suggestion>
                 <example correction="trenta-dues"><marker>trenta dues</marker>.</example>
                 <example>als anys cinquanta una especial dedicació</example>
+                <example>A començament dels vuitant un petit grup de nens.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8783,7 +8784,7 @@ $Id$
                     <marker>
                         <token regexp="yes">tres|quatre|cinc|sis|set|vuit|huit|nou</token>
                         <token min="0">-</token>
-                        <token regexp="yes">cent|cens</token>
+                        <token>cent</token>
                     </marker>
                 </pattern>
                 <message>Numeral possiblement mal escrit.</message>
@@ -8798,14 +8799,14 @@ $Id$
                     <marker>
                         <token regexp="yes">dues|dos</token>
                         <token min="0">-</token>
-                        <token regexp="yes">cent|cens</token>
+                        <token>cent</token>
                     </marker>
                 </pattern>
                 <message>Numeral possiblement mal escrit.</message>
                 <suggestion>dos-cents</suggestion>
                 <suggestion>dues-centes</suggestion>
                 <example correction="dos-cents|dues-centes">De <marker>dos cent</marker>.</example>
-                <example correction="dos-cents|dues-centes">De <marker>dos-cens</marker>.</example>
+                <example correction="dos-cents|dues-centes">De <marker>dos-cent</marker>.</example>
                 <example>Dos-cents.</example>
             </rule>
         </rulegroup>
