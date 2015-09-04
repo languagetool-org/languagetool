@@ -1453,7 +1453,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">grâce|prête?s?|pareils?|pareilles?|semblables?|identiques?|tant|tendances?</token>
+          <token regexp="yes">grâce|prête?s?|pareils?|pareilles?|semblables?|identiques?|tant|tendances?<exception scope="previous" regexp="yes">[cl]e|un|[mts]on|[nv]otre|leur</exception></token>
           <marker>
             <token>a</token>
           </marker>
@@ -1463,6 +1463,7 @@ though, and has since been slightly modified)-->
         <example>Grâce à toi, j’ai gagné.</example>
         <example correction="à">Elles sont prêtes <marker>a</marker> t’écouter.</example>
         <example>Elles sont prêtes à t’écouter.</example>
+        <example>Le prêt a été refusé.</example>
       </rule>
       <rule>
         <pattern>
@@ -1503,14 +1504,40 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>garde</token>
-          <marker>
-            <token>a</token>
-          </marker>
+          <marker><token>a</token></marker>
           <token>vue</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>\1 à \3</suggestion> ?</message>
-        <example correction="garde à vue">Il est en garde <marker>a</marker> vue.</example>
-        <example>Il est en garde à vue.</example>
+        <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
+        <example correction="à">Il est en garde <marker>a</marker> vue.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>a</token></marker>
+          <token>plein</token>
+          <token regexp="yes">cœur|nez|temps|régime</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
+        <example correction="à">Il a trouvé un travail <marker>a</marker> plein temps.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>a</token></marker>
+          <token>rude</token>
+          <token>épreuve</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
+        <example correction="à">Il soumis <marker>a</marker> rude épreuve.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>a</token></marker>
+          <token>vol</token>
+          <token>d</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token>oiseau</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
+        <example correction="à">La distance <marker>a</marker> vol d’oiseau.</example>
       </rule>
     </rulegroup>
     <rulegroup id="A_ACCENT_A" name="À au lieu de A">
@@ -25920,7 +25947,7 @@ though, and has since been slightly modified)-->
             <exception postag="N m s">est</exception>
           </token>
           <token spacebefore="yes">
-            <exception regexp="yes">vous|nous|mieux|faire|en|donnant|couvent|ho|olé|Bora|vroum</exception><match no="0"/>
+            <exception regexp="yes">vous|nous|mieux|faire|en|donnant|couvent|ho|olé|Bora|roses?|vroum</exception><match no="0"/>
           </token>
         </pattern>
         <message>Faute de frappe possible : un mot est répété : \1 \2. Correction : <suggestion>\1</suggestion>.</message>
