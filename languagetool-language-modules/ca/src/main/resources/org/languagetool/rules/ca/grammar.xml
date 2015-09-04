@@ -6134,6 +6134,13 @@ $Id$
                 <example>França i Itàlia</example>
             </rule>
             <rule>
+                <antipattern case_sensitive="yes">
+                    <marker>
+                        <token>Curial</token>
+                        <token>e</token>
+                        <token>Güelfa</token>
+                    </marker>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token postag="A.*|V.P.*" postag_regexp="yes"/>
                     <marker>
@@ -8899,7 +8906,7 @@ $Id$
                     <token postag="V.N.*" postag_regexp="yes"></token>
                     <token postag="V.N.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)fa(?n)" regexp_replace="va$1"/></suggestion>?</message>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)fa(n?)" regexp_replace="va$1"/></suggestion>?</message>
                 <example correction="va"><marker>fa</marker> poder elaborar.</example>
                 <example correction="Van"><marker>Fan</marker> poder dir.</example>
             </rule>
@@ -8911,9 +8918,9 @@ $Id$
                     </marker>
                     <token postag="V.N.*" postag_regexp="yes"><exception regexp="yes">dir|servir|portar|dur</exception></token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)fa(?n)" regexp_replace="va$1"/></suggestion>?</message>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?iu)fa(n?)" regexp_replace="va$1"/></suggestion>?</message>
                 <example correction="va">es <marker>fa</marker> cansar.</example>
-                <example correction="Van">Es <marker>fan</marker> cantar boleros.</example>
+                <example correction="van">Es <marker>fan</marker> cantar boleros.</example>
                 <example>Es fan servir per a rentar.</example>
             </rule>
         </rulegroup>
@@ -8982,6 +8989,13 @@ $Id$
                         <token case_sensitive="yes">e</token>
                         <token skip="2" regexp="yes">és|són</token>
                         <token inflected="yes" regexp="yes">transcendent|irracional|nombre</token>
+                    </marker>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <marker>
+                        <token>Curial</token>
+                        <token>e</token>
+                        <token>Güelfa</token>
                     </marker>
                 </antipattern>
                 <pattern>
