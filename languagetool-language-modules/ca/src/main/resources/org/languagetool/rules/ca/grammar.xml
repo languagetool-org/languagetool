@@ -8923,7 +8923,7 @@ $Id$
                 <example correction="va"><marker>fa</marker> poder elaborar.</example>
                 <example correction="Van"><marker>Fan</marker> poder dir.</example>
             </rule>
-            <rule>
+            <!--<rule>
                 <pattern>
                     <token>es</token>
                     <marker>
@@ -8935,7 +8935,7 @@ $Id$
                 <example correction="va">es <marker>fa</marker> cansar.</example>
                 <example correction="van">Es <marker>fan</marker> cantar boleros.</example>
                 <example>Es fan servir per a rentar.</example>
-            </rule>
+            </rule>-->
         </rulegroup>
         <rulegroup id="ELL_EL" name="*ell cotxe/el cotxe">
             <rule>
@@ -15264,6 +15264,12 @@ $Id$
                 <example>No sé què li ha passat.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token skip="2">què</token>
+                        <token regexp="yes" inflected="yes">passar|ocórrer|esdevenir</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes">ser|dir|pensar|expressar|afirmar|concloure|confirmar</token>
                     <marker>
@@ -15275,6 +15281,7 @@ $Id$
                 <suggestion>que</suggestion>
                 <example correction='que'>És <marker>què</marker> no ho veuen.</example>
                 <example>Diu que és què?</example>
+                <example>Algú em sabria dir què passaria si...</example>
             </rule>
         </rulegroup>
         <rulegroup id="QUE_AMB_ACCENT" name="que/què: cal accentuar">
