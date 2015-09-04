@@ -34598,14 +34598,14 @@ $Id$
         </rule>
         <rulegroup id="NI_NO" name="ni... no (redundant)">
             <url>http://esadir.cat/gramatica/sintaxi/advnegdlbneg</url>
+            <antipattern>
+                <marker>
+                    <token skip="5" regexp="yes">ni|no<exception scope="next" postag="_PUNCT|C," postag_regexp="yes"/></token>
+                    <token skip="5">ni<exception scope="next" postag="_PUNCT|C." postag_regexp="yes"/></token>
+                    <token>no</token>
+                </marker>
+            </antipattern>
             <rule>
-                <!--<antipattern>
-                    <marker>
-                        <token skip="5" regexp="yes">ni|no<exception scope="next" postag="_PUNCT|C," postag_regexp="yes"/></token>
-                        <token skip="5">ni<exception scope="next" postag="_PUNCT|C." postag_regexp="yes"/></token>
-                        <token>no</token>
-                    </marker>
-                </antipattern>-->
                 <pattern>
                     <!--<token skip="10">ni<exception scope="next" postag="_PUNCT|C.|PR.*" postag_regexp="yes"/></token>
                     <token>no</token>-->
@@ -34632,6 +34632,7 @@ $Id$
                 <message>Possible redundància.</message>
                 <suggestion>\1 \2</suggestion>
                 <example correction="ni ningú"><marker>ni ningú no</marker> pot considerar-ho així</example>
+                <example>Ni vosaltres ni ningú no ho sap pas</example>
             </rule>
         </rulegroup>
     </category>
