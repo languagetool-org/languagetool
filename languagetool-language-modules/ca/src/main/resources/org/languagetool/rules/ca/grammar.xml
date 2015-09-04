@@ -8593,16 +8593,17 @@ $Id$
                 <example correction="dos-cents"><marker>dos-cent</marker>.</example>
                 <example>dos-cents.</example>
             </rule>
-            <rule> <!-- *vint-i-cint/vint-i-cinc -->
+            <rule> <!--*vint-i-cint/vint-i-cinc--> 
                 <pattern>
                     <token>vint</token>
                     <token>-</token>
                     <token>i</token>
                     <token>-</token>
-                    <token><exception regexp="yes">&numerals_unitats;</exception></token>
+                    <token><exception regexp="yes">&numerals_unitats;</exception><exception>cint</exception><exception postag="UNKNOWN"></exception></token>
                 </pattern>
                 <message>Possible error ortogràfic.</message>
-                <example correction=""><marker>vint-i-cint</marker></example>
+                <example correction=""><marker>vint-i-buit</marker></example>
+                <example>vint-i-bdduit</example>
             </rule>
             <rule> <!-- *trenta-cint/trenta-cinc -->
                 <pattern>
@@ -8976,7 +8977,7 @@ $Id$
         <rule id="BEN_BE" name="ben/bé">
             <pattern>
                 <token>ben<exception postag="_possible_nompropi"></exception></token>
-                <token postag="NC.*" postag_regexp="yes"><exception postag="AQ.*|V.P.*|_possible_nompropi|RG|.*LOC_ADV.*|PX.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+|veritat</exception></token>
+                <token postag="NC.*" postag_regexp="yes"><exception postag="AQ.*|V.P.*|_possible_nompropi|RG|.*LOC_ADV.*|PX.*|V.N.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+|veritat</exception></token>
             </pattern>
             <message>Possible confusió.</message>
             <suggestion>bé</suggestion>
@@ -8986,6 +8987,7 @@ $Id$
             <example>Era ben seu.</example>
             <example>Era ben veritat.</example>
             <example>Altrament ben estesa i coneguda.</example>
+            <example>Pot ben ser.</example>
         </rule>
         <rule id="MANER" name="maner/manera">
             <pattern>
@@ -15155,23 +15157,29 @@ $Id$
                     </marker>
                     <token postag="V.[SI].*|_GV_" postag_regexp="yes"/>
                 </pattern>
-                <message>Probablement no s'ha d'accentuar.</message>
+                <message>Potser no s'ha d'accentuar.</message>
                 <suggestion>que</suggestion>
                 <example correction="que">per què escriuen el <marker>què</marker> escriuen</example>
                 <example correction="que">per què han escrit el <marker>què</marker> han escrit</example>
                 <example>per què van escriure el que han escrit</example>
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token skip="2">què</token>
+                        <token inflected="yes" regexp="yes">significar|dir</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token postag="A.*|N.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="SENT_START|V.M.*|_GV_" postag_regexp="yes"/></token>
-                    <token min="0" postag="_PUNCT_CONT"/>
+                    <token min="0" postag="_PUNCT_CONT"></token>
                     <marker>
                         <token case_sensitive="yes">què</token>
                     </marker>
                     <token skip="-1"><exception scope="next">?</exception><exception>?</exception></token>
                     <token postag="SENT_END"><exception>?</exception></token>
                 </pattern>
-                <message>Probablement cal llevar l'accent.</message>
+                <message>Potser cal llevar l'accent.</message>
                 <suggestion>que</suggestion>
                 <example correction='que'>"Solucions" <marker>què</marker>, al remat, no són bones.</example>
                 <example correction='que'>Solucions <marker>què</marker>, al remat, no són bones.</example>
@@ -15200,6 +15208,19 @@ $Id$
                 <example correction='que'>Diuen <marker>què</marker> les coses són així.</example>
                 <example>No sabia què fer.</example>
                 <example>No sé què li ha passat.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">ser|dir|pensar|expressar|afirmar|concloure|confirmar</token>
+                    <marker>
+                        <token>què</token>
+                    </marker>
+                    <token><exception regexp="yes">[?!]</exception></token>
+                </pattern>
+                <message>Probablement no s'ha d'accentuar.</message>
+                <suggestion>que</suggestion>
+                <example correction='que'>És <marker>què</marker> no ho veuen.</example>
+                <example>Diu que és què?</example>
             </rule>
         </rulegroup>
         <rulegroup id="QUE_AMB_ACCENT" name="que/què: cal accentuar">
@@ -25970,6 +25991,12 @@ $Id$
                 <example correction="enfront del"><marker>enfront al</marker> problema, hem d'actuar ràpidament</example>
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token inflected="yes">tenir</token>
+                        <token>enfront</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token>enfront</token>
                     <token regexp="yes">els?</token>
@@ -25977,6 +26004,7 @@ $Id$
                 <message>Cal dir <suggestion>enfront d<match no="2" /></suggestion>.</message>
                 <short>Expressió incorrecta</short>
                 <example correction="enfront del"><marker>enfront el</marker> problema, hem d'actuar ràpidament</example>
+                <example>Té enfront els mateixos arguments.</example>
             </rule>
             <rule>
                 <pattern>
@@ -27708,6 +27736,18 @@ $Id$
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
         <rule id="CINT" name="cint">
+            <antipattern>
+                <marker>
+                    <token>-</token>
+                    <token>cint</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>cint</token>
+                    <token>-</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token inflected="yes">cint</token>
             </pattern>
@@ -37397,6 +37437,12 @@ $Id$
                 <marker>
                     <token>número</token>
                     <token postag="DN.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>el</token>
+                    <token>concepte</token>
                 </marker>
             </antipattern>
             <rule>
