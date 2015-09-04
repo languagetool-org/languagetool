@@ -151,6 +151,14 @@ public abstract class ConfusionProbabilityRule extends Rule {
     }
   }
 
+  /**
+   * Returns the ngram level uses, typically 3.
+   * @since 3.1
+   */
+  public int getNGrams() {
+    return grams;
+  }
+
   @Nullable
   private ConfusionString getBetterAlternativeOrNull(GoogleToken token, List<GoogleToken> tokens, Set<ConfusionString> confusionSet, long factor) {
     if (confusionSet.size() != 2) {

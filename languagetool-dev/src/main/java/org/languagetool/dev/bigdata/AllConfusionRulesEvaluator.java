@@ -36,7 +36,6 @@ import java.util.*;
 final class AllConfusionRulesEvaluator {
 
   private static final int MAX_SENTENCES = 1000;
-  private static final int MAX_NGRAM = 3;
 
   private AllConfusionRulesEvaluator() {
   }
@@ -63,7 +62,7 @@ final class AllConfusionRulesEvaluator {
     if (args.length >= 4) {
       inputsFiles.add(args[3]);
     }
-    ConfusionRuleEvaluator eval = new ConfusionRuleEvaluator(lang, languageModel, MAX_NGRAM);
+    ConfusionRuleEvaluator eval = new ConfusionRuleEvaluator(lang, languageModel);
     eval.setVerboseMode(false);
     ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/confusion_sets.txt");

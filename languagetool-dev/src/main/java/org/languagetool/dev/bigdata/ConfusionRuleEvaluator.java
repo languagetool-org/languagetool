@@ -60,17 +60,15 @@ class ConfusionRuleEvaluator {
   //private static final List<Integer> EVAL_FACTORS = Arrays.asList(100);
   private static final List<Long> EVAL_FACTORS = Arrays.asList(10L, 100L, 1_000L, 10_000L, 100_000L, 1_000_000L, 10_000_000L);
   private static final boolean CASE_SENSITIVE = false;
-  private static final int NGRAM_LEVEL = 3;
   private static final int MAX_SENTENCES = 1000;
 
   private final Language language;
   private final ConfusionProbabilityRule rule;
-  private final int grams;
   private final Map<Long,EvalValues> evalValues = new HashMap<>();
 
   private boolean verbose = true;
 
-  ConfusionRuleEvaluator(Language language, LanguageModel languageModel, int grams) {
+  ConfusionRuleEvaluator(Language language, LanguageModel languageModel) {
     this.language = language;
     try {
       List<Rule> rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel);
@@ -84,7 +82,6 @@ class ConfusionRuleEvaluator {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-    this.grams = grams;
   }
   
   void setVerboseMode(boolean verbose) {
@@ -155,7 +152,7 @@ class ConfusionRuleEvaluator {
       float recall = (float) evalValues.truePositives / (evalValues.truePositives + evalValues.falseNegatives);
       String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
       summary = String.format(ENGLISH, "p=%.3f, r=%.3f, %d, %dgrams, %s",
-              precision, recall, allTokenSentences.size() + allHomophoneSentences.size(), grams, date);
+              precision, recall, allTokenSentences.size() + allHomophoneSentences.size(), rule.getNGrams(), date);
       if (verbose) {
         System.out.println();
         System.out.printf(ENGLISH, "Factor:   %d - %d false positives, %d false negatives\n", factor, evalValues.falsePositives, evalValues.falseNegatives);
@@ -248,7 +245,7 @@ class ConfusionRuleEvaluator {
     if (args.length >= 4) {
       inputsFiles.add(args[3]);
     }
-    ConfusionRuleEvaluator generator = new ConfusionRuleEvaluator(lang, languageModel, NGRAM_LEVEL);
+    ConfusionRuleEvaluator generator = new ConfusionRuleEvaluator(lang, languageModel);
     generator.run(inputsFiles, TOKEN, TOKEN_HOMOPHONE, MAX_SENTENCES, EVAL_FACTORS);
     long endTime = System.currentTimeMillis();
     System.out.println("\nTime: " + (endTime-startTime)+"ms");
