@@ -8890,6 +8890,33 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rulegroup id="FA_VA" name="fa/va">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">fan?</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"></token>
+                    <token postag="V.N.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)fa(?n)" regexp_replace="va$1"/></suggestion>?</message>
+                <example correction="va"><marker>fa</marker> poder elaborar.</example>
+                <example correction="Van"><marker>Fan</marker> poder dir.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>es</token>
+                    <marker>
+                        <token regexp="yes">fan?</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"><exception regexp="yes">dir|servir|portar|dur</exception></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)fa(?n)" regexp_replace="va$1"/></suggestion>?</message>
+                <example correction="va">es <marker>fa</marker> cansar.</example>
+                <example correction="Van">Es <marker>fan</marker> cantar boleros.</example>
+                <example>Es fan servir per a rentar.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ELL_EL" name="*ell cotxe/el cotxe">
             <rule>
                 <pattern>
