@@ -15165,6 +15165,12 @@ $Id$
             <example>Què tal?</example>
         </rule>
         <rulegroup id="QUE_SENSE_ACCENT" name="què/que: no s'ha d'accentuar">
+            <!--<antipattern>
+                <marker>
+                    <token>què</token>
+                    <token regexp="yes">carat|carai|carall|dimonis|collons</token>
+                </marker>
+            </antipattern>-->
             <rule>
                 <antipattern>
                     <token regexp="yes">una?</token>
@@ -15224,6 +15230,13 @@ $Id$
                         <token inflected="yes" regexp="yes">significar|dir</token>
                     </marker>
                 </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>cor</token>
+                        <token>què</token>
+                        <token regexp="yes">vols|desitges</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token postag="A.*|N.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="SENT_START|V.M.*|_GV_" postag_regexp="yes"/></token>
                     <token min="0" postag="_PUNCT_CONT"></token>
@@ -15241,12 +15254,14 @@ $Id$
                 <example>Ensenya què tens a la mà!</example>
                 <example>Viquipèdia: què és.</example>
                 <example>A Occident s'ha dictaminat què era i què no era susceptible.</example>
+                <example>A cor què vols, cor què desitges.</example>
+                <example> tot i no saber del cert què havia provocat la discussió</example>
             </rule>
             <rule>
                 <antipattern>
                     <marker>
                         <token>què</token>
-                        <token min="0" max="3" postag="&pronom_feble;|RN" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
+                        <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
                         <token postag="V.[SI].*" postag_regexp="yes"></token>
                     </marker>
                 </antipattern>
@@ -15255,33 +15270,20 @@ $Id$
                     <marker>
                         <token case_sensitive="yes">què</token>
                     </marker>
-                    <token><exception postag="V.N.*" postag_regexp="yes"></exception></token>
+                    <token><exception postag="V.N.*" postag_regexp="yes"></exception><exception regexp="yes">[?!]</exception></token>
                 </pattern>
                 <message>Probablement no s'ha d'accentuar.</message>
                 <suggestion>que</suggestion>
                 <example correction='que'>Diuen <marker>què</marker> les coses són així.</example>
+                <example correction='que'>És <marker>què</marker> no ho veuen.</example>
                 <example>No sabia què fer.</example>
                 <example>No sé què li ha passat.</example>
-            </rule>
-            <rule>
-                <antipattern>
-                    <marker>
-                        <token skip="2">què</token>
-                        <token regexp="yes" inflected="yes">passar|ocórrer|esdevenir</token>
-                    </marker>
-                </antipattern>
-                <pattern>
-                    <token inflected="yes" regexp="yes">ser|dir|pensar|expressar|afirmar|concloure|confirmar</token>
-                    <marker>
-                        <token>què</token>
-                    </marker>
-                    <token><exception regexp="yes">[?!]</exception></token>
-                </pattern>
-                <message>Probablement no s'ha d'accentuar.</message>
-                <suggestion>que</suggestion>
-                <example correction='que'>És <marker>què</marker> no ho veuen.</example>
                 <example>Diu que és què?</example>
                 <example>Algú em sabria dir què passaria si...</example>
+                <example>amb prou feines podrem dir què és aquell quelcom.</example>
+                <example>Pensem què han representat</example>
+                <example> ens diu què fer amb els ulls</example>
+                <example>Jo us diré què penso</example>
             </rule>
         </rulegroup>
         <rulegroup id="QUE_AMB_ACCENT" name="que/què: cal accentuar">
@@ -27796,7 +27798,7 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
-        <rule id="CINT" name="cint">
+        <rulegroup id="CINT" name="cint">
             <antipattern>
                 <marker>
                     <token>-</token>
@@ -27809,14 +27811,33 @@ $Id$
                     <token>-</token>
                 </marker>
             </antipattern>
-            <pattern>
-                <token inflected="yes">cint</token>
-            </pattern>
-            <message>"Cint" és un arcaisme. ¿Volíeu dir una altra cosa?</message>
-            <suggestion>vint</suggestion>
-            <suggestion>cinc</suggestion>
-            <example correction="vint|cinc">N'hi ha <marker>cint</marker>.</example>
-        </rule>
+            <rule>
+                 <pattern case_sensitive="yes">
+                     <token regexp="yes">cints?</token>
+                 </pattern>
+                 <message>"Cint" és un arcaisme. ¿Volíeu dir una altra cosa?</message>
+                 <suggestion>vint</suggestion>
+                 <suggestion>cinc</suggestion>
+                 <example correction="vint|cinc">N'hi ha <marker>cint</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token postag="DA0MS0" regexp="yes">el|l</token>
+                        <token case_sensitive="yes">Cint</token>
+                    </marker>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token>Cint</token>
+                </pattern>
+                <message>"Cint" és un topònim o un arcaisme. ¿Volíeu dir una altra cosa?</message>
+                <suggestion>vint</suggestion>
+                <suggestion>cinc</suggestion>
+                <example correction="Vint|Cinc">Taverna dels <marker>Cint</marker> Roures.</example>
+                <example>El Cint</example>
+                <example>barranc del Cint</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CRIDADA" name="cridada">
             <rule>
                 <pattern>
