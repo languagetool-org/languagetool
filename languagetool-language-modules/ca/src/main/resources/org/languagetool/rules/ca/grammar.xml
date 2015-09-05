@@ -10622,22 +10622,33 @@ $Id$
             <example correction="bullent">En aigua <marker>bullint</marker></example>
             <example>En oli bullent.</example>
         </rule>
-        <rule id="NA" name="na (sense nom): per na altra banda">
-            <pattern case_sensitive="yes">
-                <marker>
+        <rulegroup id="NA" name="na (sense nom): per na altra banda">
+            <rule>
+                <pattern>
+                    <token>u</token>
                     <token>na</token>
-                </marker>
-                <token><exception postag="N.[FC][SN].*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.*</exception></token>
-            </pattern>
-            <message>L'article 'na' ha d'anar seguit per un nom femení.</message>
-            <suggestion>una</suggestion>
-            <suggestion>ona</suggestion>
-            <suggestion>en</suggestion>
-            <example correction="una|ona|en">Per <marker>na</marker> altra banda</example>
-            <example correction="una|ona|en">Establint u <marker>na</marker> nova aliança</example>
-            <example>Ve na Maria.</example>
-            <example>És na Margarideta.</example>
-        </rule>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>una</suggestion>?</message>
+                <example correction="una"><marker>u na</marker> Catalunya</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>na</token>
+                    </marker>
+                    <token><exception postag="N.[FC][SN].*" postag_regexp="yes" regexp="yes">\p{Lu}.*</exception><exception regexp="yes">\p{Lu}.*</exception></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>una</suggestion>?</message>
+                <suggestion>ona</suggestion>
+                <suggestion>en</suggestion>
+                <example correction="una|ona|en">Per <marker>na</marker> altra banda</example>
+                <example correction="una|ona|en">Establint u <marker>na</marker> nova aliança</example>
+                <example>Ve na Maria.</example>
+                <example>És na Margarideta.</example>
+                <example correction="una|ona|en"><marker>na</marker> qüestió</example>
+                <example>na Pobresa</example>
+            </rule>
+        </rulegroup>
         <rule id="LLUNYA" name="llunya/llunyà">
             <pattern>
                 <marker>
@@ -10654,11 +10665,12 @@ $Id$
                 <marker>
                     <token>sua</token>
                 </marker>
-                <token postag="N.[FC][SN].*" postag_regexp="yes"/>
+                <token postag="N.[FC][SN].*|A..[FC][SN].|V.P..SF." postag_regexp="yes"/>
             </pattern>
             <message>¿Volíeu dir <suggestion>seua</suggestion>?</message>
             <suggestion>seva</suggestion>
             <example correction="seua|seva">La <marker>sua</marker> metodologia</example>
+            <example correction="seua|seva">La <marker>sua</marker> renovada metodologia</example>
             <example>La samarreta ell la sua.</example>
         </rule>
         <rule id="LES_SUES_SEUES" name="les *sues/seues">
@@ -10667,7 +10679,7 @@ $Id$
                 <marker>
                     <token>sues</token>
                 </marker>
-                <token postag="N.[FC][PN].*" postag_regexp="yes"/>
+                <token postag="N.[FC][PN].*|A..[FC][PN].|V.P..PF." postag_regexp="yes"/>
             </pattern>
             <message>¿Volíeu dir <suggestion>seues</suggestion>?</message>
             <suggestion>seves</suggestion>
