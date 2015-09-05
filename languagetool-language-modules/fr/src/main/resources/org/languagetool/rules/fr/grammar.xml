@@ -5324,6 +5324,23 @@ though, and has since been slightly modified)-->
       <message>Voulez-vous écrire <suggestion>vue</suggestion> ?</message>
       <example correction="vue">Il partage mon point de <marker>vu</marker>.</example>
     </rule>
+    <rulegroup id="AU_DELA" name="au-delà">
+      <rule>
+        <pattern>
+          <token regexp="yes">hauts?|aux?</token>
+          <token regexp="yes">delà|deça</token>
+        </pattern>
+        <message>Écrivez <suggestion>au-\2</suggestion>.</message>
+        <example correction="au-delà">La croyance en l’<marker>haut delà</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(haut|aux)-(delà|deça)</token>
+        </pattern>
+        <message>Écrivez <suggestion><match no="1" regexp_match=".*-" regexp_replace="au-"/></suggestion>.</message>
+        <example correction="au-delà">La croyance en l’<marker>haut-delà</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
@@ -23467,14 +23484,6 @@ though, and has since been slightly modified)-->
       <message>« Et ce » (sans virgule après) peut être une faute de typographie. Employez une virgule (<suggestion>,</suggestion>) au besoin.</message>
       <example correction=","><marker>et ce</marker> blah blah</example>
       <example><marker>et ce</marker>,</example>
-    </rule>
-    <rule id="AU_DELA" name="au delà">
-      <pattern>
-        <token>au</token>
-        <token>delà</token>
-      </pattern>
-      <message>« \1 \2 » est une faute de typographie. Employez <suggestion>\1-\2</suggestion>.</message>
-      <example correction="au-delà"><marker>au delà</marker></example>
     </rule>
     <rule id="PAR-LA" name="par-là">
       <pattern>
