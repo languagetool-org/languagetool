@@ -5357,6 +5357,101 @@ though, and has since been slightly modified)-->
       <example correction="leurre">C’est un <marker>leur</marker>.</example>
       <example>Quelqu’un leur a déjà dit.</example>
     </rule>
+    <rule id="CHAUME_CHOME" name="chaumé, chômé">
+      <pattern>
+        <token regexp="yes">jours?|journées?|semaines?|mois</token>
+        <marker><token regexp="yes">chaumée?s?</token></marker>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="au" regexp_replace="ô"/></suggestion> ?</message>
+      <url>http://tempsreel.nouvelobs.com/abc-lettres/chaumer-chomer/C/homophone.html</url>
+      <example correction="chômée">Une journée <marker>chaumée</marker>.</example>
+    </rule>
+    <rule id="BRIS_BRIE_BRI" name="bris, brie, bri">
+      <pattern>
+        <marker><token regexp="yes">brie?</token></marker>
+        <token regexp="yes">des?</token>
+        <token regexp="yes">clôture|confiance|confidentialité|glace|scellé|vitre</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>bris</suggestion> ?</message>
+      <url>http://tempsreel.nouvelobs.com/abc-lettres/brie-brie-bris/B/homophone.html</url>
+      <example correction="bris">Du <marker>brie</marker> de glace.</example>
+    </rule>
+    <rulegroup id="CECI_DIT" name="ceci dit">
+      <rule>
+        <pattern>
+          <marker>
+            <token>ceux</token>
+            <token>ci</token>
+          </marker>
+          <token>dit</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>ceci</suggestion> ?</message>
+        <example correction="Ceci"><marker>Ceux ci</marker> dit.</example>
+        <example>Ceci dit.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>ceux-ci</token></marker>
+          <token>dit</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>ceci</suggestion> ?</message>
+        <example correction="Ceci"><marker>Ceux-ci</marker> dit.</example>
+        <example>Ceci dit.</example>
+      </rule>
+    </rulegroup>
+    <rule id="EN_CAS_OU" name="en cas où → au cas où">
+      <antipattern>
+        <token>au</token>
+        <token>cas</token>
+        <token>où</token>
+      </antipattern>
+      <pattern>
+        <token regexp="yes">en|au</token>
+        <token>cas</token>
+        <token regexp="yes">ou|où</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>au cas où</suggestion> ?</message>
+      <example correction="au cas où">Je parts tôt <marker>en cas où</marker> il y a des embouteillages.</example>
+    </rule>
+    <rulegroup id="COMPAGNE_CAMPAGNE" name="compagne, campagne">
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">compagnes?</token></marker>
+          <token regexp="yes">électorales?|présidentielles?|publicitaires?|militaires?|politiques?|économiques?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="o" regexp_replace="a"/></suggestion> ?</message>
+        <example correction="campagne">La <marker>compagne</marker> électorale a commencé.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes">compagne</token></marker>
+          <token>de</token>
+          <token regexp="yes">candidature|charité|communication|crowdfunding|dépistage|dons?|financement|levée|mobilisation|pêche|presse|prévention|promotion|propagande|pub|publicité|sensibilisation|solidarité|vaccination|Russie|France|Provence|Bretagne|[12]\d\d\d</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="o" regexp_replace="a"/></suggestion> ?</message>
+        <example correction="campagne">La <marker>compagne</marker> de presse.</example>
+        <example correction="campagne">La <marker>compagne</marker> de 1781.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>rase</token>
+          <marker><token>compagne</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>campagne</suggestion> ?</message>
+        <example correction="campagne">Une route en rase <marker>compagne</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>à</token>
+          <token>la</token>
+          <marker><token>compagne</token></marker>
+          <token><exception regexp="yes">d[eu]?</exception></token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>campagne</suggestion> ?</message>
+        <example correction="campagne">J’ai acheté une maison à la <marker>compagne</marker>.</example>
+        <example>Il s’est confié à la compagne du roi.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
