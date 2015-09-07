@@ -15177,12 +15177,6 @@ $Id$
             <example>Què tal?</example>
         </rule>
         <rulegroup id="QUE_SENSE_ACCENT" name="què/que: no s'ha d'accentuar">
-            <!--<antipattern>
-                <marker>
-                    <token>què</token>
-                    <token regexp="yes">carat|carai|carall|dimonis|collons</token>
-                </marker>
-            </antipattern>-->
             <rule>
                 <antipattern>
                     <token regexp="yes">una?</token>
@@ -15245,6 +15239,12 @@ $Id$
                 </antipattern>
                 <antipattern>
                     <marker>
+                        <token>què</token>
+                        <token regexp="yes">carat|carai|carall|dimonis|collons</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
                         <token>cor</token>
                         <token>què</token>
                         <token regexp="yes">vols|desitges</token>
@@ -15270,7 +15270,20 @@ $Id$
                 <example>A cor què vols, cor què desitges.</example>
                 <example> tot i no saber del cert què havia provocat la discussió</example>
             </rule>-->
-            <rule>
+            <!--<rule>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes" skip="1">no|qui|si|sense|com</token>
+                        <token inflected="yes" skip="1">saber</token>
+                        <token>què</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>què</token>
+                        <token regexp="yes">carat|carai|carall|dimonis|collons|més</token>
+                    </marker>
+                </antipattern>
                 <antipattern>
                     <marker>
                         <token>què</token>
@@ -15283,7 +15296,7 @@ $Id$
                     <marker>
                         <token case_sensitive="yes">què</token>
                     </marker>
-                    <token><exception postag="V.N.*" postag_regexp="yes"></exception><exception regexp="yes">[?!]</exception></token>
+                    <token><exception postag="V.N.*" postag_regexp="yes"></exception><exception regexp="yes">[?!;]</exception></token>
                 </pattern>
                 <message>Probablement no s'ha d'accentuar.</message>
                 <suggestion>que</suggestion>
@@ -15297,7 +15310,7 @@ $Id$
                 <example>Pensem què han representat</example>
                 <example> ens diu què fer amb els ulls</example>
                 <example>Jo us diré què penso</example>
-            </rule>
+            </rule>-->
         </rulegroup>
         <rulegroup id="QUE_AMB_ACCENT" name="que/què: cal accentuar">
             <rule>
