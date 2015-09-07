@@ -25,6 +25,7 @@ import org.languagetool.Languages;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.patterns.AbstractPatternRule;
+import org.languagetool.rules.patterns.PatternRule;
 
 import java.io.File;
 import java.io.FileReader;
@@ -57,6 +58,9 @@ final class UselessExampleFinder {
     List<String> xmlLines = IOUtils.readLines(new FileReader(xml));
     JLanguageTool tool = new JLanguageTool(lang);
     for (Rule rule : tool.getAllActiveRules()) {
+      if (!(rule instanceof PatternRule)) {
+        continue;
+      }
       List<String> correctExamples = rule.getCorrectExamples();
       List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
       for (IncorrectExample incorrectExample : incorrectExamples) {
@@ -72,12 +76,18 @@ final class UselessExampleFinder {
 
   private void checkCorrections(Rule rule, List<String> correctExamples, IncorrectExample incorrectExample, List<String> xmlLines) {
     List<String> corrections = incorrectExample.getCorrections();
-    if (corrections != null && corrections.size() == 1) {
+    if (corrections != null) {
       for (String correction : corrections) {
         String fixedSentence = incorrectExample.getExample().replaceAll("<marker>.*?</marker>", "<marker>" + correction.replace("$", "\\$") + "</marker>");
+        String fixedSentenceNoMarker = incorrectExample.getExample().replaceAll("<marker>.*?</marker>", correction.replace("$", "\\$"));
         if (correctExamples.contains(fixedSentence)) {
           System.err.println("Useless: " + fixedSentence + " in " + rule.getId());
           removeLinesFromXml(rule, fixedSentence, xmlLines);
+          uselessExampleCount++;
+        }
+        if (correctExamples.contains(fixedSentenceNoMarker)) {
+          System.err.println("Useless: " + fixedSentenceNoMarker + " in " + rule.getId());
+          removeLinesFromXml(rule, fixedSentenceNoMarker, xmlLines);
           uselessExampleCount++;
         }
       }
@@ -108,7 +118,7 @@ final class UselessExampleFinder {
       if (m.matches()) {
         currentRuleId = m.group(1);
       }
-      if ((xmlLine.contains("type=\"correct\"") || xmlLine.contains("type='correct'")) && xmlLine.contains(sentenceToRemove + "</example>")) {
+      if (!xmlLine.contains("correction=") && xmlLine.contains(sentenceToRemove + "</example>")) {
         if (currentRuleId != null && !currentRuleId.equals(rule.getId())) {
           lineCount++;
           continue;
