@@ -8579,7 +8579,7 @@ $Id$
                     <token>cint</token>
                     <token>-</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>vint-</suggestion></message>
+                <message>¿Volíeu dir <suggestion>vint-</suggestion>?</message>
                 <example correction="vint-"><marker>cint-</marker>i-tres</example>
             </rule>
             <rule>
@@ -8587,7 +8587,7 @@ $Id$
                     <token>-</token>
                     <token>cint</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>-cinc</suggestion></message>
+                <message>¿Volíeu dir <suggestion>-cinc</suggestion>?</message>
                 <example correction="-cinc">trenta<marker>-cint</marker>.</example>
             </rule>
             <rule> <!-- *dos-cent/dos-cents -->
@@ -8616,10 +8616,10 @@ $Id$
                 <pattern>
                     <token regexp="yes">trenta|quaranta|cinquanta|seixanta|setanta|[vh]uitanta|noranta</token>
                     <token spacebefore="no">-</token>
-                    <token spacebefore="no"><exception regexp="yes">&numerals_unitats;</exception></token>
+                    <token spacebefore="no"><exception regexp="yes">&numerals_unitats;</exception><exception>cint</exception><exception postag="UNKNOWN"></exception></token>
                 </pattern>
                 <message>Possible error ortogràfic.</message>
-                <example correction=""><marker>trenta-cint</marker></example>
+                <example correction=""><marker>trenta-buit</marker></example>
             </rule>
         </rulegroup>
         <!-- Falta: guionets que sobren-->
