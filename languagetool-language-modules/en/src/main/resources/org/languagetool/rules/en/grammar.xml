@@ -319,18 +319,34 @@ USA
             <short>Possible typo</short>
             <example correction="use">He made <marker>us</marker> of the new tools.</example>
         </rule>
-        <rule id="ON_OF_THE" name="on (one) of the most/least/...">
-            <pattern>
-                <token>on</token>
-                <token>of</token>
-                <token>the</token>
-                <token regexp="yes">more|most|less|least|best|worst</token>
-            </pattern>
-            <message>Did you mean <suggestion>one</suggestion>?</message>
-            <short>Possible typo</short>
-            <example correction="one">It's <marker>on of the most</marker> popular songs.</example>
-            <example>It's <marker>one</marker> of the most popular songs.</example>
-        </rule>
+        <rulegroup id="ON_OF_THE" name="on (one) of the most/least/...">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>on</token>
+                    </marker>
+                    <token>of</token>
+                    <token>the</token>
+                    <token regexp="yes">more|most|less|least|best|worst</token>
+                </pattern>
+                <message>Did you mean <suggestion>one</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="one">It's <marker>on</marker> of the most popular songs.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>on</token>
+                    </marker>
+                    <token>of</token>
+                    <token>the</token>
+                    <token postag="JJS"/>
+                </pattern>
+                <message>Did you mean <suggestion>one</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="one">It's <marker>on</marker> of the loudest songs.</example>
+            </rule>
+        </rulegroup>
         <rule id="BE_ALOUD_TO" name="aloud to (allowed to)">
           <pattern>
             <token inflected="yes">be</token>
