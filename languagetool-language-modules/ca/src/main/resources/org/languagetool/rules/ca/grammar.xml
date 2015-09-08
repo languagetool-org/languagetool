@@ -2395,6 +2395,15 @@ $Id$
                 <example>La forma més comuna.</example>
                 <example>el tipus d'imatge més comú.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="A..M.." postag_regexp="yes"></token>
+                    <token regexp="yes" inflected="yes">esplendor|resplendor</token>
+                </pattern>
+                <message>Error de concordança</message>
+                <suggestion><match no="1" postag="(A..)M(..)" postag_regexp="yes" postag_replace="$1F$2"/> \2</suggestion>
+                <example correction="màxima esplendor">moment de <marker>màxim esplendor</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PEDENT_CORRENT" name="pendent, corrent (nom masculí)">
             <antipattern>
