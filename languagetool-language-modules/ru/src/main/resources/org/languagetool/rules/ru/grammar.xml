@@ -4200,6 +4200,19 @@ $Id$
             </rule>
         </rulegroup>
         
+        <rulegroup default="on" id="prev_st" name="Излишние прилагательные в превосходной степени">
+            <rule>
+                <pattern>
+                    <token skip="1">абсолютно</token>
+                    <token postag="ADJ_Com:.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Излишние прилагательные в превосходной степени.</message>
+                <short>Излишние прилагательные в превосходной степени.</short>
+                <example>Это всегда лучший способ подачи потрясающих идей.</example>
+                <example correction="">Это всегда <marker>абсолютно самый лучший</marker> способ подачи потрясающих идей.</example>
+            </rule>
+        </rulegroup>
+        
         <rulegroup default="on" id="AllCaps" name="Все буквы - ЗАГЛАВНЫЕ.">
             <rule>
                 <pattern case_sensitive="yes">
