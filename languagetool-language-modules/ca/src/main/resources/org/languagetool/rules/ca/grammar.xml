@@ -10636,7 +10636,7 @@ $Id$
                     <marker>
                         <token>na</token>
                     </marker>
-                    <token><exception postag="N.[FC][SN].*" postag_regexp="yes" regexp="yes">\p{Lu}.*</exception><exception regexp="yes">\p{Lu}.*</exception></token>
+                    <token><exception regexp="yes">\p{Lu}.*</exception></token> <!--exception postag="N.[FC][SN].*" postag_regexp="yes" regexp="yes">\p{Lu}.*</exception>-->
                 </pattern>
                 <message>¿Volíeu dir <suggestion>una</suggestion>?</message>
                 <suggestion>ona</suggestion>
@@ -27914,6 +27914,20 @@ $Id$
                 <example correction="en contra|encontre|troba"><marker>encontra</marker> d'ell</example>
             </rule>
         </rulegroup>
+        <rule id="GALEGA" name="galega">
+            <pattern>
+                <token inflected="yes">galega</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">gallega</match></suggestion> (= de Galícia) en comptes de "\1" (nom de planta)?</message>
+            <example correction="gallegues">Les <marker>galegues</marker>.</example>
+        </rule>
+        <rule id="ANULACIO" name="anulació">
+            <pattern>
+                <token inflected="yes">anulació</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">anul·lació</match></suggestion> (=acció d'anul·lar) en comptes de "\1" (=formació d'anells)?</message>
+            <example correction="anul·lacions">Les <marker>anulacions</marker>.</example>
+        </rule>
         <rule id="CONDUIT" name="conduit">
             <pattern>
                 <marker>
@@ -34602,6 +34616,17 @@ $Id$
         </rule>
     </category>
     <category name="C8) Redundàncies" type="style">
+        <rule id="DES_ENCA" name="des de ... ençà">
+            <pattern>
+                <token skip="5">des<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
+                <token>ençà<exception scope="previous">d'</exception></token>
+            </pattern>
+            <message>Expressió redundant.</message>
+            <suggestion><match no="1" include_skipped="all"/></suggestion>
+            <suggestion><match no="1" include_skipped="following"/> \2</suggestion>
+            <example correction="des del 2014|del 2014 ençà"><marker>des del 2014 ençà</marker>.</example>
+            <example>Des del 2000 d'ençà que és president.</example>
+        </rule>
         <rule id="COLLABORACIO_MUTUA" name="col·laboració mútua">
             <pattern>
                 <token inflected="yes">col·laboració</token>
