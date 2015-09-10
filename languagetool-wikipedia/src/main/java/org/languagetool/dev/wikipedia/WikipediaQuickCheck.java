@@ -18,6 +18,7 @@
  */
 package org.languagetool.dev.wikipedia;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -52,7 +53,21 @@ public class WikipediaQuickCheck {
   private static final Pattern WIKIPEDIA_URL_REGEX = Pattern.compile("https?://(..)\\.wikipedia\\.org/wiki/(.*)"); 
   private static final Pattern SECURE_WIKIPEDIA_URL_REGEX = Pattern.compile("https://secure\\.wikimedia\\.org/wikipedia/(..)/wiki/(.*)");
 
+  private final File ngramDir;
+  
   private List<String> disabledRuleIds = new ArrayList<>();
+
+  public WikipediaQuickCheck() {
+    this.ngramDir = null;
+  }
+
+  /**
+   * @since 3.1
+   * @param ngramDir directory with sub directories like 'en', 'de' etc that contain '1grams' etc directories with ngram data (Lucene indexes)
+   */
+  public WikipediaQuickCheck(File ngramDir) {
+    this.ngramDir = ngramDir;
+  }
 
   public String getMediaWikiContent(URL wikipediaUrl) throws IOException {
     final Language lang = getLanguage(wikipediaUrl);
@@ -100,8 +115,7 @@ public class WikipediaQuickCheck {
    */
   public MarkupAwareWikipediaResult checkPage(URL url, ErrorMarker errorMarker) throws IOException, PageNotFoundException {
     validateWikipediaUrl(url);
-    final WikipediaQuickCheck check = new WikipediaQuickCheck();
-    final String xml = check.getMediaWikiContent(url);
+    final String xml = getMediaWikiContent(url);
     final MediaWikiContent wikiContent = getRevisionContent(xml);
     final String content = wikiContent.getContent();
     if (content.trim().isEmpty()) {
@@ -198,6 +212,9 @@ public class WikipediaQuickCheck {
     enableWikipediaRules(langTool);
     for (String disabledRuleId : disabledRuleIds) {
       langTool.disableRule(disabledRuleId);
+    }
+    if (ngramDir != null) {
+      langTool.activateLanguageModelRules(ngramDir);
     }
     disableSpellingRules(langTool);
     return langTool;
