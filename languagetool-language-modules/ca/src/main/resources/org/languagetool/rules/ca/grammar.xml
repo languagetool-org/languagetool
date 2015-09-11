@@ -8906,6 +8906,20 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="DEL_S" name="del s / dels">
+            <pattern>
+                <marker>
+                    <token regexp="yes" postag="D..MS." postag_regexp="yes"></token>
+                    <token case_sensitive="yes">s</token>
+                </marker>
+                <token><exception regexp="yes">.|[XICV]+</exception></token>
+            </pattern>
+            <message>Possible confusió.</message>
+            <suggestion>\1\2</suggestion>
+            <example correction="ls">de<marker>l s</marker> mateixos.</example>
+            <example correction="uns"><marker>un s</marker> homes.</example>
+            <example>Del s. XX</example>
+        </rule>
         <rule id="PERA_PER_A" name="pera / per a">
             <pattern>
                 <marker>
@@ -37821,6 +37835,13 @@ $Id$
             <antipattern>
                 <marker>
                     <token>en</token>
+                    <token postag="V.G.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>com</token>
+                    <token>a</token>
                     <token postag="V.G.*" postag_regexp="yes"/>
                 </marker>
             </antipattern>
