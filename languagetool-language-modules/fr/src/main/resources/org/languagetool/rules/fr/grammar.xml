@@ -3698,6 +3698,42 @@ though, and has since been slightly modified)-->
         <example correction="François Hollande"><marker>François Holland</marker></example>
         <example correction="François Hollande"><marker>Francois Hollande</marker></example>
       </rule>
+      <rule>
+        <antipattern>
+          <token>Dominique</token>
+          <token>Strauss-Kahn</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Dominique|Dominic</token>
+          <token regexp="yes">Strauss?-[CK]h?ah?n</token>
+        </pattern>
+        <message>Écrivez <suggestion>Dominique Strauss-Kahn</suggestion> s’il s’agit de l’économiste et politicien français.</message>
+        <url>https://fr.wikipedia.org/wiki/Dominique_Strauss-Kahn</url>
+        <example correction="Dominique Strauss-Kahn"><marker>Dominique Strauss-Khan</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Dominique|Dominic</token>
+          <token regexp="yes">Strauss?</token>
+          <token regexp="yes">[CK]h?ah?n</token>
+        </pattern>
+        <message>Écrivez <suggestion>Dominique Strauss-Kahn</suggestion> s’il s’agit de l’économiste et politicien français.</message>
+        <url>https://fr.wikipedia.org/wiki/Dominique_Strauss-Kahn</url>
+        <example correction="Dominique Strauss-Kahn"><marker>Dominique Strauss Khan</marker></example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>Ségolène</token>
+          <token>Royal</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">S[éi]goll?[eè]nn?e?</token>
+          <token regexp="yes">Royale?</token>
+        </pattern>
+        <message>Écrivez <suggestion>Ségolène Royal</suggestion> s’il s’agit de la femme polique française.</message>
+        <url>https://fr.wikipedia.org/wiki/S%C3%A9gol%C3%A8ne_Royal</url>
+        <example correction="Ségolène Royal"><marker>Ségolène Royale</marker></example>
+      </rule>
       <!-- See http://www.liberation.fr/societe/2012/11/23/sarkozy-les-juges-ont-ils-confondu-bettencourt-et-betancourt_862496
            to see how LanguageTool can be useful. -->
       <rule>
