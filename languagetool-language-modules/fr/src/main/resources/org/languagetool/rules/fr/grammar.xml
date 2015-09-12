@@ -3202,16 +3202,24 @@ though, and has since been slightly modified)-->
         <example correction="Billy Squier">Connais-tu <marker>Billy Squire</marker> ?</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
           <token>Bonnie</token>
-          <token regexp="yes">Rate|Rait</token>
+          <token>Raitt</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Bonn?(y|ie)</token>
+          <token regexp="yes">Rai?tt?e?</token>
         </pattern>
         <message>Écrivez <suggestion>Bonnie Raitt</suggestion> s’il s’agit de la chanteuse américaine.</message>
         <example correction="Bonnie Raitt">Connais-tu <marker>Bonnie Rate</marker> ?</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Janis</token>
+          <token>Joplin</token>
+        </antipattern>
         <pattern>
-          <token>Janice</token>
+          <token regexp="yes">Janis|Janice</token>
           <token regexp="yes">Jopp?line?</token>
         </pattern>
         <message>Écrivez <suggestion>Janis Joplin</suggestion> s’il s’agit de la chanteuse américaine.</message>
@@ -3524,7 +3532,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token regexp="yes">Ghandh?i|Gandi</token>
         </pattern>
-        <message>Écrivez <suggestion>Gandhi</suggestion> s’il du dirigeant politique et guide spirituel de l’Inde.</message>
+        <message>Écrivez <suggestion>Gandhi</suggestion> s’il s’agit du dirigeant politique et guide spirituel de l’Inde.</message>
         <url>https://fr.wikipedia.org/wiki/Gandhi</url>
         <example correction="Gandhi"><marker>Ghandi</marker></example>
       </rule>
@@ -3543,6 +3551,15 @@ though, and has since been slightly modified)-->
         <example correction="Barack Obama"><marker>Barack Obbama</marker></example>
       </rule>
       <rule>
+        <pattern>
+          <token>Eva</token>
+          <token>Mendez</token>
+        </pattern>
+        <message>Écrivez <suggestion>Eva Mendes</suggestion> s’il s’agit de l’actrice d’origine cubaine.</message>
+        <url>https://fr.wikipedia.org/wiki/Eva_Mendes</url>
+        <example correction="Eva Mendes"><marker>Eva Mendez</marker></example>
+      </rule>
+      <rule>
         <antipattern>
           <token>Salma</token>
           <token>Hayek</token>
@@ -3551,7 +3568,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">S[ae]lma</token>
           <token regexp="yes">Ha[yj][ae]c?k</token>
         </pattern>
-        <message>Écrivez <suggestion>Salma Hayek</suggestion> de l’actrice mexico-américaine.</message>
+        <message>Écrivez <suggestion>Salma Hayek</suggestion> s’il s’agit de l’actrice mexico-américaine.</message>
         <url>https://fr.wikipedia.org/wiki/Salma_Hayek</url>
         <example correction="Salma Hayek"><marker>Selma Hayek</marker></example>
         <example correction="Salma Hayek"><marker>Salma Hayeck</marker></example>
@@ -3561,7 +3578,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">Jerr?y</token>
           <token>Seinfield</token>
         </pattern>
-        <message>Écrivez <suggestion>Jerry Seinfeld</suggestion> de l’humoriste américain.</message>
+        <message>Écrivez <suggestion>Jerry Seinfeld</suggestion> s’il s’agit de l’humoriste américain.</message>
         <url>https://fr.wikipedia.org/wiki/Jerry_Seinfeld</url>
         <example correction="Jerry Seinfeld"><marker>Jerry Seinfield</marker></example>
       </rule>
@@ -3573,6 +3590,18 @@ though, and has since been slightly modified)-->
         <message>Écrivez <suggestion>Kanye West</suggestion> s’il s’agit du musicien américain.</message>
         <url>https://fr.wikipedia.org/wiki/Kanye_West</url>
         <example correction="Kanye West"><marker>Kayne West</marker></example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>Steve</token>
+          <token>Ballmer</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Stee?ve</token>
+          <token regexp="yes">Ball?mer</token>
+        </pattern>
+        <message>Écrivez <suggestion>Steve Ballmer</suggestion> s’il s’agit de l’ex CEO de Microsoft.</message>
+        <example correction="Steve Ballmer"><marker>Steve Balmer</marker></example>
       </rule>
       <rule>
         <antipattern>
@@ -3899,9 +3928,13 @@ though, and has since been slightly modified)-->
         <example correction="Whoopi Goldberg"><marker>Whoopie Goldberg</marker></example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
           <token>Jennifer</token>
-          <token>Anniston</token>
+          <token>Aniston</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Jenn?ifer</token>
+          <token regexp="yes">Ann?iston</token>
         </pattern>
         <message>Écrivez <suggestion>Jennifer Aniston</suggestion> s’il s’agit de l’actrice américaine.</message>
         <url>https://fr.wikipedia.org/wiki/Jennifer_Aniston</url>
