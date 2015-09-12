@@ -8583,6 +8583,30 @@ $Id$
             <example>número u</example>
         </rule>
         <rulegroup id="NUMERALS_ORTOGRAFIA" name="errors ortogràfics en numerals amb guionets: *dos-cent, *vint-i-cint">
+            <rule> <!-- *trenta-i-cinc/trenta-cinc -->
+                <pattern>
+                    <token regexp="yes">trenta|quaranta|cinquanta|seixanta|setanta|[vh]uitanta|noranta</token>
+                    <token>-</token>
+                    <token>i</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">&numerals_unitats;</token>
+                </pattern>
+                <message>Froma incorrecta.</message>
+                <suggestion>\1-\5</suggestion>
+                <example correction="trenta-quatre"><marker>trenta-i-quatre</marker></example>
+                <example correction="trenta-tantes"><marker>trenta-i-tantes</marker></example>
+            </rule>
+            <rule> <!-- *vint-quatre -->
+                <pattern>
+                    <token>vint</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">&numerals_unitats;<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Froma incorrecta.</message>
+                <suggestion>vint-i-\3</suggestion>
+                <example correction="vint-i-quatre"><marker>vint-quatre</marker></example>
+                <example>N'hi havia vint quatre anys després.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>cint</token>
@@ -8629,19 +8653,6 @@ $Id$
                 </pattern>
                 <message>Possible error ortogràfic.</message>
                 <example correction=""><marker>trenta-buit</marker></example>
-            </rule>
-            <rule> <!-- *trenta-i-cinc/trenta-cinc -->
-                <pattern>
-                    <token regexp="yes">trenta|quaranta|cinquanta|seixanta|setanta|[vh]uitanta|noranta</token>
-                    <token>-</token>
-                    <token>i</token>
-                    <token min="0">-</token>
-                    <token regexp="yes">&numerals_unitats;</token>
-                </pattern>
-                <message>Froma incorrecta.</message>
-                <suggestion>\1-\5</suggestion>
-                <example correction="trenta-quatre"><marker>trenta-i-quatre</marker></example>
-                <example correction="trenta-tantes"><marker>trenta-i-tantes</marker></example>
             </rule>
         </rulegroup>
         <!-- Falta: guionets que sobren-->
