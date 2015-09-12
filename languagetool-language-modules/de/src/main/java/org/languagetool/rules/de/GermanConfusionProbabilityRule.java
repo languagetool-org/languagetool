@@ -23,7 +23,6 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ConfusionProbabilityRule;
 import org.languagetool.rules.ConfusionString;
 import org.languagetool.rules.Example;
-import org.languagetool.tokenizers.WordTokenizer;
 
 import java.util.ResourceBundle;
 
@@ -32,8 +31,6 @@ import java.util.ResourceBundle;
  */
 public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
 
-  private static final WordTokenizer WORD_TOKENIZER = new WordTokenizer();
-  
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);
   }
@@ -61,8 +58,4 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     }
   }
   
-  @Override
-  protected WordTokenizer getTokenizer() {
-    return WORD_TOKENIZER;
-  }
 }

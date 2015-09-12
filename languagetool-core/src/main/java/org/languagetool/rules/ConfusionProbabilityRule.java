@@ -24,7 +24,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -53,10 +53,9 @@ public abstract class ConfusionProbabilityRule extends Rule {
   private final LanguageModel lm;
   private final long totalTokenCount;
   private final int grams;
+  private final Language language;
 
   public abstract String getMessage(ConfusionString textString, ConfusionString suggestion);
-
-  protected abstract WordTokenizer getTokenizer();
 
   public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);
@@ -75,6 +74,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
       throw new RuntimeException(e);
     }
     this.lm = Objects.requireNonNull(languageModel);
+    this.language = Objects.requireNonNull(language);
     if (grams < 1 || grams > 5) {
       throw new IllegalArgumentException("grams must be between 1 and 5: " + grams);
     }
@@ -121,6 +121,10 @@ public abstract class ConfusionProbabilityRule extends Rule {
     return matches.toArray(new RuleMatch[matches.size()]);
   }
 
+  protected Tokenizer getWordTokenizer() {
+    return language.getWordTokenizer();
+  }
+  
   // Tokenization in google ngram corpus is different from LT tokenization (e.g. {@code you ' re} -> {@code you 're}),
   // so we use getTokenizer() and simple ignore the LT tokens.
   private List<GoogleToken> getGoogleTokens(String sentence, boolean addStartToken) {
@@ -128,7 +132,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     if (addStartToken) {
       result.add(new GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0));
     }
-    List<String> tokens = getTokenizer().tokenize(sentence);
+    List<String> tokens = getWordTokenizer().tokenize(sentence);
     int startPos = 0;
     for (String token : tokens) {
       if (!StringTools.isWhitespace(token)) {

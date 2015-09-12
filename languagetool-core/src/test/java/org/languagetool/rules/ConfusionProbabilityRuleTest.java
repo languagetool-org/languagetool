@@ -21,7 +21,6 @@ package org.languagetool.rules;
 import org.junit.Test;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -180,10 +179,6 @@ public class ConfusionProbabilityRuleTest {
     private FakeRule(LanguageModel languageModel, Language language) {
       super(JLanguageTool.getMessageBundle(), languageModel, language);
       this.language = language;
-    }
-    @Override
-    protected WordTokenizer getTokenizer() {
-      return (WordTokenizer) language.getWordTokenizer();
     }
     @Override public String getDescription() { return null; }
     @Override public String getMessage(ConfusionString textString, ConfusionString suggestion) { return null; }

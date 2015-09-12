@@ -98,7 +98,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
   }
   
   @Override
-  protected WordTokenizer getTokenizer() {
+  protected WordTokenizer getWordTokenizer() {
     return tokenizer;
   }
 }
