@@ -27886,6 +27886,13 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="ESTOMAC" name="estómac/estomac">
+            <pattern>
+                <token inflected="yes">estomac</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">estómac</match></suggestion> en comptes de "\1" (= acció d'estomacar)?</message>
+            <example correction="estómacs">Els <marker>estomacs</marker>.</example>
+        </rule>
         <rulegroup id="CINT" name="cint">
             <antipattern>
                 <marker>
