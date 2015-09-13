@@ -14525,7 +14525,7 @@ $Id$
                 <token>Hondt</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">d'</token>
+                <token>d'</token>
                 <token regexp="yes">Hond?t?</token>
             </pattern>
             <message>Error ortogràfic.</message>
@@ -27925,6 +27925,13 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="TUPAR" name="tupar">
+            <pattern>
+                <token inflected="yes">tupar</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">topar</match></suggestion>? "Tupar" és una variant de "atupar, batre".</message>
+            <example correction="toparen"><marker>tuparen</marker></example>
+        </rule>
         <rule id="ESTOMAC" name="estómac/estomac">
             <pattern>
                 <token inflected="yes">estomac</token>
@@ -36475,13 +36482,6 @@ $Id$
                 <example correction="amoltonament">Quin <marker>aborregament</marker>!</example>
             </rule>
         </rulegroup>
-        <rule id="TUPAR" name="tupar">
-            <pattern>
-                <token inflected="yes">tupar</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">topar</match></suggestion>? "Tupar" és una variant de "atupar, batre".</message>
-            <example correction="toparen"><marker>tuparen</marker></example>
-        </rule>
         <rule id="AFINCAR" name="afincar">
             <pattern>
                 <token inflected="yes">afincar</token>
