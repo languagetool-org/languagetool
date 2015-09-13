@@ -119,7 +119,7 @@ public class AboutDialog {
 
   private String getMaintainers() {
     final TreeMap<String, Language> list = new TreeMap<>();
-    for (final Language lang : Languages.get()) {
+    for (Language lang : Languages.get()) {
       if (!lang.isVariant()) {
         if (lang.getMaintainers() != null) {
           list.put(messages.getString(lang.getShortName()), lang);
@@ -128,22 +128,25 @@ public class AboutDialog {
     }
     final StringBuilder maintainersInfo = new StringBuilder();
     maintainersInfo.append("<table border=0 cellspacing=0 cellpadding=0>");
-    for(String lang : list.keySet()) {
+    for (String lang : list.keySet()) {
       maintainersInfo.append("<tr valign=\"top\"><td>");
       maintainersInfo.append(lang);
       maintainersInfo.append(":</td>");
       maintainersInfo.append("<td>&nbsp;</td>");
       maintainersInfo.append("<td>");
       int i = 0;
-      for (Contributor contributor : list.get(lang).getMaintainers()) {
-        if (i > 0) {
-          maintainersInfo.append(", ");
-          if (i % 3 == 0) {
-            maintainersInfo.append("<br>");
+      Contributor[] maintainers = list.get(lang).getMaintainers();
+      if (maintainers != null) {
+        for (Contributor contributor : maintainers) {
+          if (i > 0) {
+            maintainersInfo.append(", ");
+            if (i % 3 == 0) {
+              maintainersInfo.append("<br>");
+            }
           }
+          maintainersInfo.append(contributor.getName());
+          i++;
         }
-        maintainersInfo.append(contributor.getName());
-        i++;
       }
       maintainersInfo.append("</td></tr>");
     }
