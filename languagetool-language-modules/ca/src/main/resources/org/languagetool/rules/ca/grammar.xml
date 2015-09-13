@@ -14519,6 +14519,22 @@ $Id$
         </rulegroup>
     </category>
     <category name="Errors ortogràfics" type="misspelling">
+        <rule id="DHONDT" name="D'Hondt">
+            <antipattern case_sensitive="yes">
+                <token>D'</token>
+                <token>Hondt</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">d'</token>
+                <token regexp="yes">Hond?t?</token>
+            </pattern>
+            <message>Error ortogràfic.</message>
+            <suggestion>D'Hondt</suggestion>
+            <url>http://esadir.cat/nomspropis/fitxa/id/6509</url>
+            <example correction="D'Hondt">La regla <marker>d'Hondt</marker>.</example>
+            <example correction="D'Hondt">La regla <marker>d'Hont</marker>.</example>
+            <example>La fórmula D'Hondt.</example>
+        </rule>
         <rule id="PRET_A_PORTER" name="prêt-à-porter">
             <antipattern>
                 <token>prêt</token>
@@ -37649,10 +37665,17 @@ $Id$
         <rulegroup id="SUBSTANTIUS_JUNTS" name="Dos noms comuns junts">
             <antipattern>
                 <marker>
-                    <token inflected="yes" regexp="yes">relació|anàlisi</token>
                     <token regexp="yes">causa|cost</token>
                     <token regexp="yes">[/-]</token>
                     <token regexp="yes">efecte|benefici</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">binomi|relació</token>
+                    <token/>
+                    <token regexp="yes">[/-]</token>
+                    <token/>
                 </marker>
             </antipattern>
             <antipattern>
