@@ -16,7 +16,10 @@
                args="no:1 regexp:(.*)-tu postag_regexp:V.*(ind|con|sub).*2\ss negate_pos:yes"/>
 
 #### German
-  * improved several rules
+  * added and improved several rules
+  * added a rule to detect word confusion by using ngram data, so far it has
+    only a few word pairs
+    (see http://wiki.languagetool.org/finding-errors-using-n-gram-data),
 
 #### Polish
   * added some compound prepositions to avoid false alarms (thanks to
