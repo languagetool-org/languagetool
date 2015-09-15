@@ -27927,10 +27927,11 @@ $Id$
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
         <rule id="TUPAR" name="tupar">
             <pattern>
-                <token inflected="yes">tupar</token>
+                <token inflected="yes">tupar<exception postag="_GN_.*" postag_regexp="yes"/></token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">topar</match></suggestion>? "Tupar" és una variant de "atupar, batre".</message>
             <example correction="toparen"><marker>tuparen</marker></example>
+            <example>de can Tupí</example>
         </rule>
         <rule id="ESTOMAC" name="estómac/estomac">
             <pattern>
