@@ -18,15 +18,19 @@
  */
 package org.languagetool.language;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 // 181 +
 //import org.languagetool.rules.WordRepeatRule;
+import org.languagetool.rules.it.ItalianConfusionProbabilityRule;
 import org.languagetool.rules.it.ItalianWordRepeatRule;
 // 181 -
 import org.languagetool.rules.it.MorfologikItalianSpellerRule;
@@ -38,11 +42,12 @@ import org.languagetool.tagging.it.ItalianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
-public class Italian extends Language {
+public class Italian extends Language implements AutoCloseable {
 
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
-
+  private LuceneLanguageModel languageModel;
+  
   @Override
   public String getName() {
     return "Italian";
@@ -95,6 +100,31 @@ public class Italian extends Language {
             new ItalianWordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this)
     );
+  }
+
+  /** @since 3.1 */
+  @Override
+  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
+    if (languageModel == null) {
+      languageModel = new LuceneLanguageModel(new File(indexDir, getShortName()));
+    }
+    return languageModel;
+  }
+
+  /** @since 3.1 */
+  @Override
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+    return Arrays.<Rule>asList(
+            new ItalianConfusionProbabilityRule(messages, languageModel, this)
+    );
+  }
+
+  /** @since 3.1 */
+  @Override
+  public void close() throws Exception {
+    if (languageModel != null) {
+      languageModel.close();
+    }
   }
 
 }
