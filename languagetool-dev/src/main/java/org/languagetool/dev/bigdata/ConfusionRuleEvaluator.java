@@ -224,10 +224,13 @@ class ConfusionRuleEvaluator {
   public static void main(String[] args) throws IOException {
     if (args.length < 3 || args.length > 4) {
       System.err.println("Usage: " + ConfusionRuleEvaluator.class.getSimpleName()
-              + " <langCode> <languageModelTopDir> <wikipediaXml|tatoebaFile|dir>...");
-      System.err.println("   <languageModelTopDir> is a directory with sub-directories '1grams', '2grams' and '3grams' with Lucene indexes");
-      System.err.println("   <wikipediaXml|tatoebaFile|dir> either a Wikipedia XML dump, or a Tatoeba file or");
-      System.err.println("                      a directory with example sentences (where <word>.txt contains only the sentences for <word>).");
+              + " <langCode> <languageModelTopDir> <wikipediaXml|tatoebaFile|plainTextFile|dir>...");
+      System.err.println("   <languageModelTopDir> is a directory with sub-directories like 'en' which then again contain '1grams',");
+      System.err.println("                      '2grams', and '3grams' sub directories with Lucene indexes");
+      System.err.println("                      See http://wiki.languagetool.org/finding-errors-using-n-gram-data");
+      System.err.println("   <wikipediaXml|tatoebaFile|plainTextFile|dir> either a Wikipedia XML dump, or a Tatoeba file, or");
+      System.err.println("                      a plain text file with one sentence per line, or a directory with");
+      System.err.println("                      example sentences (where <word>.txt contains only the sentences for <word>).");
       System.err.println("                      You can specify both a Wikipedia file and a Tatoeba file.");
       System.exit(1);
     }
