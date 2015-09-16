@@ -18,14 +18,19 @@
  */
 package org.languagetool.language;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.DoublePunctuationRule;
 import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.zh.ChineseConfusionProbabilityRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.zh.ChineseTagger;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -33,11 +38,12 @@ import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.zh.ChineseSentenceTokenizer;
 import org.languagetool.tokenizers.zh.ChineseWordTokenizer;
 
-public class Chinese extends Language {
+public class Chinese extends Language implements AutoCloseable {
 
   private Tagger tagger;
   private Tokenizer wordTokenizer;
   private SentenceTokenizer sentenceTokenizer;
+  private LuceneLanguageModel languageModel;
 
   @Override
   public String getShortName() {
@@ -89,6 +95,31 @@ public class Chinese extends Language {
       sentenceTokenizer = new ChineseSentenceTokenizer();
     }
     return sentenceTokenizer;
+  }
+
+  /** @since 3.1 */
+  @Override
+  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
+    if (languageModel == null) {
+      languageModel = new LuceneLanguageModel(new File(indexDir, getShortName()));
+    }
+    return languageModel;
+  }
+
+  /** @since 3.1 */
+  @Override
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+    return Arrays.<Rule>asList(
+            new ChineseConfusionProbabilityRule(messages, languageModel, this)
+    );
+  }
+
+  /** @since 3.1 */
+  @Override
+  public void close() throws Exception {
+    if (languageModel != null) {
+      languageModel.close();
+    }
   }
 
 }
