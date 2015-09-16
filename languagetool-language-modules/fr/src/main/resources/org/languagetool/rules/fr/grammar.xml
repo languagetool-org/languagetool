@@ -9025,24 +9025,24 @@ though, and has since been slightly modified)-->
         <example>Que manges-tu ?</example>
       </rule>
       <rule>
-        <pattern><token regexp="yes">(.*?)-(?:t-)?(?:il|elle|on|ce)</token></pattern>
+        <pattern><token regexp="yes">(.*?)-(?:t-)?(?:il|elle|on)</token></pattern>
         <filter class="org.languagetool.rules.fr.FrenchPartialPosTagFilter"
-                args="no:1 regexp:(.*?)-(?:t-)?(?:il|elle|on|ce) postag_regexp:V.*(ind|con|sub).*3\ss negate_pos:yes"/>
+                args="no:1 regexp:(.*?)-(?:t-)?(?:il|elle|on) postag_regexp:V.*(ind|con|sub).*3\ss negate_pos:yes"/>
         <message>Vérifier l’accord du verbe « \1 » avec le pronom.</message>
         <example correction=""><marker>Pourraient-il</marker> venir ?</example>
         <example correction="">Que <marker>manges-t-elle</marker> ?</example>
-        <example correction=""><marker>Étais-ce</marker> toi ?</example>
         <example>Pourrait-il venir ?</example>
         <example>Que mange-t-elle ?</example>
-        <example>Était-ce toi ?</example>
       </rule>
       <rule>
         <pattern><token regexp="yes">(.*)-nous</token></pattern>
         <filter class="org.languagetool.rules.fr.FrenchPartialPosTagFilter"
-                args="no:1 regexp:(.*)-nous postag_regexp:V.*(ind|con|sub).*1\sp negate_pos:yes"/>
+                args="no:1 regexp:(.*)-nous postag_regexp:V.*(ind|con|sub).*1\sp|V.*\simp\spres\s2\s[sp] negate_pos:yes"/>
         <message>Vérifier l’accord du verbe « \1 » avec le pronom.</message>
-        <example correction="">Que <marker>mangez-nous</marker> ?</example>
+        <example correction="">Que <marker>mangeont-nous</marker> ?</example>
         <example>Que mangeons-nous ?</example>
+        <example>Attrapez-nous ?</example>
+        <example>Attrape-nous ?</example>
       </rule>
       <rule>
         <pattern><token regexp="yes">(.*)-vous</token></pattern>
