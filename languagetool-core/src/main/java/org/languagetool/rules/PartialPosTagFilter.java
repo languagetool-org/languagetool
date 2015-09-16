@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
  *       non-capturing groups <tt>(?:...)</tt>, as in the example.</li>
  *   <li>{@code postag_regexp}: a regular expression to match the POS tag of the part of the word, e.g. <tt>VB.?</tt>
  *       to match any verb in English.</li>
+ *   <li>{@code negate_postag}: if value is yes, then the regexp is negated (not negated if not specified).</li>
  * </ul>
  * @since 2.8
  */
@@ -55,12 +56,13 @@ public abstract class PartialPosTagFilter implements RuleFilter {
     int tokenPos = Integer.parseInt(args.get("no"));
     Pattern pattern = Pattern.compile(args.get("regexp"));
     String requiredTagRegexp = args.get("postag_regexp");
+    boolean negatePos = args.containsKey("negate_pos");
     String token = patternTokens[tokenPos - 1].getToken();
     Matcher matcher = pattern.matcher(token);
     if (matcher.matches()) {
       String partialToken = matcher.group(1);
       List<AnalyzedTokenReadings> tags = tag(partialToken);
-      if (tags != null && partialTagHasRequiredTag(tags, requiredTagRegexp)) {
+      if (tags != null && partialTagHasRequiredTag(tags, requiredTagRegexp, negatePos)) {
         return match;
       }
       return null;
@@ -68,16 +70,16 @@ public abstract class PartialPosTagFilter implements RuleFilter {
     return null;
   }
 
-  private boolean partialTagHasRequiredTag(List<AnalyzedTokenReadings> tags, String requiredTagRegexp) {
+  private boolean partialTagHasRequiredTag(List<AnalyzedTokenReadings> tags, String requiredTagRegexp, boolean negatePos) {
+    // Without negate_pos=yes: return true if any postag matches the regexp.
+    // With negate_pos=yes:    return true if none of the postag matches the regexp.
     for (AnalyzedTokenReadings tag : tags) {
       for (AnalyzedToken analyzedToken : tag.getReadings()) {
-        boolean tagFound = analyzedToken.getPOSTag() != null && analyzedToken.getPOSTag().matches(requiredTagRegexp);
-        if (tagFound) {
-          return true;
+        if (analyzedToken.getPOSTag() != null && analyzedToken.getPOSTag().matches(requiredTagRegexp)) {
+          return !negatePos;
         }
       }
     }
-    return false;
+    return negatePos;
   }
-
 }

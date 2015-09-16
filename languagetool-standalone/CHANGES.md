@@ -8,9 +8,12 @@
     ngram data (see http://wiki.languagetool.org/finding-errors-using-n-gram-data)
 
 #### French
-  * Upgraded Hunspell dictionary to Dicollecte-5.4.1
-  * Upgraded POS tag and Synthesizer dictionaries to Dicollecte-5.4
+  * upgraded Hunspell dictionary to Dicollecte-5.4.1
+  * upgraded POS tag and Synthesizer dictionaries to Dicollecte-5.4
   * added/improved several rules
+  * new filter to be used for matching the part-of-speech of parts of words, e.g.:
+       <filter class="org.languagetool.rules.fr.FrenchPartialPosTagFilter"
+               args="no:1 regexp:(.*)-tu postag_regexp:V.*(ind|con|sub).*2\ss negate_pos:yes"/>
 
 #### German
   * improved several rules
