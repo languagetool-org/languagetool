@@ -72,14 +72,24 @@ public abstract class PartialPosTagFilter implements RuleFilter {
 
   private boolean partialTagHasRequiredTag(List<AnalyzedTokenReadings> tags, String requiredTagRegexp, boolean negatePos) {
     // Without negate_pos=yes: return true if any postag matches the regexp.
-    // With negate_pos=yes:    return true if none of the postag matches the regexp.
+    // With negate_pos=yes:    return true if there are postag and none them matches the regexp.
+    int postagCount = 0;
     for (AnalyzedTokenReadings tag : tags) {
       for (AnalyzedToken analyzedToken : tag.getReadings()) {
-        if (analyzedToken.getPOSTag() != null && analyzedToken.getPOSTag().matches(requiredTagRegexp)) {
-          return !negatePos;
+        if (analyzedToken.getPOSTag() != null) {
+          if (negatePos) {
+            postagCount++;
+            if (analyzedToken.getPOSTag().matches(requiredTagRegexp)) {
+              return false;
+            }
+          } else {
+            if (analyzedToken.getPOSTag().matches(requiredTagRegexp)) {
+              return true;
+            }
+          }
         }
       }
     }
-    return negatePos;
+    return postagCount == 0 ? false : negatePos;
   }
 }
