@@ -21,6 +21,9 @@
     only a few word pairs
     (see http://wiki.languagetool.org/finding-errors-using-n-gram-data),
 
+#### Japanese
+  * major rule update with 700+ new rules, thanks to Shugyousha
+
 #### Polish
   * added some compound prepositions to avoid false alarms (thanks to
     Sławek Borewicz)
