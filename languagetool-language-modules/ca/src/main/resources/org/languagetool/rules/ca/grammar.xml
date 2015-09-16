@@ -6068,7 +6068,7 @@ $Id$
             </antipattern>-->
             <antipattern>
                 <marker>
-                    <token regexp="yes">igual|així</token>
+                    <token regexp="yes">igual|així|com</token>
                     <token inflected="yes">de</token>
                 </marker>
             </antipattern>
@@ -6096,6 +6096,7 @@ $Id$
             <example>igual de malament</example>
             <example>així d'amorosament</example>
             <example>fins a pràcticament el final de la seva vida</example>
+            <example>Com de malament ho fem?</example>
         </rule>
     </category>
     <category name="Z) Conjuncions" type="grammar">
@@ -17780,6 +17781,7 @@ $Id$
     </category>
     <category name="Pronoms febles" type="grammar">
         <rulegroup id="PRONOMS_FEBLES_DUPLICATS" name="pronoms febles duplicats">
+            <!-- s'hauria de generalitzar en una regla Java-->
             <rule>
                 <pattern>
                     <token inflected="yes">hi</token>
@@ -17795,11 +17797,23 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">hi|en</token>
+                    <token inflected="yes">ho</token>
+                    <token postag="V.[MSI].*" postag_regexp="yes"/>
+                    <token postag="V.[NG].*" postag_regexp="yes"/>
+                    <token regexp="yes">[-']ho</token>
+                </pattern>
+                <message>Pronom feble duplicat.</message>
+                <suggestion>\1 \2 \3</suggestion>
+                <suggestion>\2 \3\4</suggestion>
+                <example correction="ho puc arreglar|puc arreglar-ho">Jo no <marker>ho puc arreglar-ho</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">hi|en|ho</token>
                     <token postag="VA.*" postag_regexp="yes"/>
                     <token postag="V.N.*" postag_regexp="yes"/>
                     <token postag="V.[NG].*" postag_regexp="yes"/>
-                    <token regexp="yes">[-']hi|-ne|'n</token>
+                    <token regexp="yes">[-']hi|-ne|'n|-ho</token>
                 </pattern>
                 <message>Pronom feble duplicat.</message>
                 <example correction=""><marker>Hi va poder trobar-hi</marker> un error.</example>
@@ -21824,7 +21838,7 @@ $Id$
         </rule>
         <rule id="INALAMBRIC" name="*inalàmbric / sense fils">
             <pattern>
-                <token regexp="yes">h?inh?a[ŀl][·•.⋅\-]?l?h?[aáà][mn]bri(c|cs|ca|ques|camente?)</token>
+                <token regexp="yes">h?inn?h?a[ŀl][·•.⋅\-]?l?h?[aáà][mn]bri(c|cs|ca|ques|camente?)</token>
             </pattern>
             <message>Paraula incorrecta.</message>
             <suggestion>sense fils</suggestion>
