@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
 public class FrenchConfusionProbabilityRule extends ConfusionProbabilityRule {
 
   public FrenchConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
-    super(messages, languageModel, language, 3);
+    super(messages, languageModel, language);
     // TODO: add example:
     //addExamplePair(Example.wrong("<marker>wrong</marker> word in sentence"),
     //               Example.fixed("<marker>correct</marker> word in sentence"));

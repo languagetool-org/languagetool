@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.ru;
+package org.languagetool.rules.es;
 
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
@@ -27,9 +27,9 @@ import java.util.ResourceBundle;
 /**
  * @since 3.1
  */
-public class RussianConfusionProbabilityRule extends ConfusionProbabilityRule {
+public class SpanishConfusionProbabilityRule extends ConfusionProbabilityRule {
 
-  public RussianConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
+  public SpanishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     super(messages, languageModel, language);
     // TODO: add example:
     //addExamplePair(Example.wrong("<marker>wrong</marker> word in sentence"),
