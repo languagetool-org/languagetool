@@ -18,12 +18,15 @@
  */
 package org.languagetool.language;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.io.IOException;
 
 import org.languagetool.Language;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.fr.*;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
@@ -36,13 +39,14 @@ import org.languagetool.tagging.fr.FrenchTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
-public class French extends Language {
+public class French extends Language implements AutoCloseable {
 
   private SentenceTokenizer sentenceTokenizer;
   private Synthesizer synthesizer;
   private Tagger tagger;
   private Disambiguator disambiguator;
-
+  private LuceneLanguageModel languageModel;
+  
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
@@ -118,6 +122,31 @@ public class French extends Language {
             new CompoundRule(messages),
             new QuestionWhitespaceRule(messages)
     );
+  }
+
+  /** @since 3.1 */
+  @Override
+  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
+    if (languageModel == null) {
+      languageModel = new LuceneLanguageModel(new File(indexDir, "fr"));
+    }
+    return languageModel;
+  }
+
+  /** @since 3.1 */
+  @Override
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+    return Arrays.<Rule>asList(
+            new FrenchConfusionProbabilityRule(messages, languageModel, this)
+    );
+  }
+
+  /** @since 3.1 */
+  @Override
+  public void close() throws Exception {
+    if (languageModel != null) {
+      languageModel.close();
+    }
   }
 
 }
