@@ -28,14 +28,9 @@ import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
-// 181 +
-//import org.languagetool.rules.WordRepeatRule;
 import org.languagetool.rules.it.ItalianConfusionProbabilityRule;
 import org.languagetool.rules.it.ItalianWordRepeatRule;
-// 181 -
 import org.languagetool.rules.it.MorfologikItalianSpellerRule;
-// 3607406 +
-// 3607406 -
 
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.it.ItalianTagger;
@@ -96,7 +91,6 @@ public class Italian extends Language implements AutoCloseable {
                     Arrays.asList("]", ")", "}", "«", "»" /*"’"*/)),
             new MorfologikItalianSpellerRule(messages, this),
             new UppercaseSentenceStartRule(messages, this),
-//            new WordRepeatRule(messages),
             new ItalianWordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this)
     );

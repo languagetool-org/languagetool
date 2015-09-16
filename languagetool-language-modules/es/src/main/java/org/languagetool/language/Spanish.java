@@ -135,7 +135,7 @@ public class Spanish extends Language implements AutoCloseable{
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
     if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, "es"));
+      languageModel = new LuceneLanguageModel(new File(indexDir, getShortName()));
     }
     return languageModel;
   }

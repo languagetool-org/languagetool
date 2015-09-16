@@ -121,7 +121,7 @@ public class Russian extends Language implements AutoCloseable {
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
     if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, "ru"));
+      languageModel = new LuceneLanguageModel(new File(indexDir, getShortName()));
     }
     return languageModel;
   }
