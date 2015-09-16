@@ -38,6 +38,11 @@
     ignored in LibreOffice and OpenOffice
 
 #### ngrams
+  * Chinese, French, Italian, Russian, and Spanish have been prepared to
+    use ngram data, that means they have a `confusion_sets.txt` file
+    where word pairs can be added.
+    See http://wiki.languagetool.org/finding-errors-using-n-gram-data
+    for information on where to download the ngram data.
   * if a directory with ngram data for the confusion rule is specified,
     this directory is now expected to have at least one sub directory `en`
     or `de` with the `1grams`, `2grams`, and `3grams` directories
