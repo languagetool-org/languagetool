@@ -175,13 +175,9 @@ public class ConfusionProbabilityRuleTest {
   }
 
   private static class FakeRule extends ConfusionProbabilityRule {
-    private final Language language;
     private FakeRule(LanguageModel languageModel, Language language) {
       super(JLanguageTool.getMessageBundle(), languageModel, language);
-      this.language = language;
     }
-    @Override public String getDescription() { return null; }
-    @Override public String getMessage(ConfusionString textString, ConfusionString suggestion) { return null; }
   }
 
 }
