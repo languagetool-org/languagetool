@@ -18,18 +18,17 @@
  */
 package org.languagetool.language;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
-import org.languagetool.rules.ru.RussianCompoundRule;
-import org.languagetool.rules.ru.RussianSimpleReplaceRule;
-import org.languagetool.rules.ru.RussianUnpairedBracketsRule;
-import org.languagetool.rules.ru.RussianWordRepeatRule;
-import org.languagetool.rules.ru.MorfologikRussianSpellerRule;
+import org.languagetool.rules.ru.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ru.RussianSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -39,12 +38,13 @@ import org.languagetool.tagging.ru.RussianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
-public class Russian extends Language {
+public class Russian extends Language implements AutoCloseable {
 
   private Tagger tagger;
   private Disambiguator disambiguator;
   private Synthesizer synthesizer;
   private SentenceTokenizer sentenceTokenizer;
+  private LuceneLanguageModel languageModel;
 
   @Override
   public String getName() {
@@ -115,6 +115,31 @@ public class Russian extends Language {
             new RussianSimpleReplaceRule(messages),
             new RussianWordRepeatRule(messages)
     );
+  }
+
+  /** @since 3.1 */
+  @Override
+  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
+    if (languageModel == null) {
+      languageModel = new LuceneLanguageModel(new File(indexDir, "ru"));
+    }
+    return languageModel;
+  }
+
+  /** @since 3.1 */
+  @Override
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+    return Arrays.<Rule>asList(
+            new RussianConfusionProbabilityRule(messages, languageModel, this)
+    );
+  }
+
+  /** @since 3.1 */
+  @Override
+  public void close() throws Exception {
+    if (languageModel != null) {
+      languageModel.close();
+    }
   }
 
 }
