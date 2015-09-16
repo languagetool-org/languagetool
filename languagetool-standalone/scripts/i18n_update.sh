@@ -19,7 +19,7 @@ cd i18n-temp
 SOURCE=downloaded.tmp
 
 # List of languages in the same order as on https://www.transifex.com/projects/p/languagetool/:
-# Do not list 'en', it's the source and taken from SVN. 
+# Do not list 'en', it's the source and taken from git. 
 for lang in ast be br ca zh da nl eo fr gl de el_GR it pl ru sl es tl uk ro sk sv is lt km pt_PT pt_BR ta fa
 do
   shortCode=$(echo "$lang" | sed -e 's/_.*//')
@@ -33,7 +33,7 @@ do
   if [ $modified_lines -ne "0" ]; then
     # fix the comment for English, which doesn't make sense for the translations:
     sed -i "s/^# English translation of LanguageTool/# DO NOT MODIFY MANUALLY - all changes are done at https:\/\/www.transifex.com\/projects\/p\/languagetool\//" $SOURCE2
-    sed -i "s/^# Copyright (C).*/# Copyright (C) 2006-2013 the LanguageTool team (http:\/\/www.languagetool.org)/" $SOURCE2
+    sed -i "s/^# Copyright (C).*/# Copyright (C) 2006-2015 the LanguageTool team (http:\/\/www.languagetool.org)/" $SOURCE2
     echo "Moving $SOURCE2 to $TARGET ($modified_lines lines modified)"
     mv $SOURCE2 $TARGET
   else
