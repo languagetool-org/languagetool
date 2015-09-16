@@ -35,12 +35,23 @@ import java.io.*;
 import java.lang.reflect.Constructor;
 import java.net.Authenticator;
 import java.net.NetPermission;
+import java.text.MessageFormat;
 import java.util.*;
 
 public final class Tools {
 
   private Tools() {
     // cannot construct, static methods only
+  }
+
+  /**
+   * Translate a text string based on our i18n files.
+   * @since 3.1
+   */
+  public static String i18n(ResourceBundle messages, String key, Object... messageArguments) {
+    final MessageFormat formatter = new MessageFormat("");
+    formatter.applyPattern(messages.getString(key).replaceAll("'", "''"));
+    return formatter.format(messageArguments);
   }
 
   /**

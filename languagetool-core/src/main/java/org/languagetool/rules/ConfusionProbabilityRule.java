@@ -26,6 +26,7 @@ import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,8 +55,6 @@ public abstract class ConfusionProbabilityRule extends Rule {
   private final long totalTokenCount;
   private final int grams;
   private final Language language;
-
-  public abstract String getMessage(ConfusionString textString, ConfusionString suggestion);
 
   public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);
@@ -121,8 +120,23 @@ public abstract class ConfusionProbabilityRule extends Rule {
     return matches.toArray(new RuleMatch[matches.size()]);
   }
 
+  @Override
+  public String getDescription() {
+    return Tools.i18n(messages, "statistics_rule_description");
+  }
+
   protected Tokenizer getWordTokenizer() {
     return language.getWordTokenizer();
+  }
+
+  private String getMessage(ConfusionString textString, ConfusionString suggestion) {
+    if (textString.getDescription() != null && suggestion.getDescription() != null) {
+      return Tools.i18n(messages, "statistics_suggest1", suggestion.getString(), suggestion.getDescription(), textString.getString(), textString.getDescription());
+    } else if (suggestion.getDescription() != null) {
+      return Tools.i18n(messages, "statistics_suggest2", suggestion.getString(), suggestion.getDescription());
+    } else {
+      return Tools.i18n(messages, "statistics_suggest3", suggestion.getString());
+    }
   }
   
   // Tokenization in google ngram corpus is different from LT tokenization (e.g. {@code you ' re} -> {@code you 're}),

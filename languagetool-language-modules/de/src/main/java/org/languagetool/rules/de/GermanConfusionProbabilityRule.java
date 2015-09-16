@@ -21,7 +21,6 @@ package org.languagetool.rules.de;
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ConfusionProbabilityRule;
-import org.languagetool.rules.ConfusionString;
 import org.languagetool.rules.Example;
 
 import java.util.ResourceBundle;
@@ -39,23 +38,6 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     super(messages, languageModel, language, grams);
     addExamplePair(Example.wrong("Während Sie das Ganze <marker>mir</marker> einem Holzlöffel rühren…"),
                    Example.fixed("Während Sie das Ganze <marker>mit</marker> einem Holzlöffel rühren…"));
-  }
-
-  @Override
-  public String getDescription() {
-    return "Mit Statistik mögliche Tippfehler erkennen";
-  }
-  
-  @Override
-  public String getMessage(ConfusionString textString, ConfusionString suggestion) {
-    if (textString.getDescription() != null && suggestion.getDescription() != null) {
-      return "Ist möglicherweise '" + suggestion.getString() + "' (" + suggestion.getDescription() + ") gemeint statt '"
-              + textString.getString() + "' (" + textString.getDescription() + ")?";
-    } else if (suggestion.getDescription() != null) {
-      return "Ist möglicherweise '" + suggestion.getString() + "' (" + suggestion.getDescription() + ") gemeint?";
-    } else {
-      return "Ist möglicherweise '" + suggestion.getString() + "' gemeint?";
-    }
   }
   
 }

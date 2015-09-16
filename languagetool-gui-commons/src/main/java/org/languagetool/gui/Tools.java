@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.text.MessageFormat;
 import java.util.*;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -53,11 +52,12 @@ public final class Tools {
     // no public constructor
   }
 
+  /**
+   * @deprecated use {@link org.languagetool.tools.Tools#i18n(ResourceBundle, String, Object...)} instead (deprecated since 3.1)
+   */
   public static String makeTexti18n(final ResourceBundle messages, final String key,
                                     final Object... messageArguments) {
-    final MessageFormat formatter = new MessageFormat("");
-    formatter.applyPattern(messages.getString(key).replaceAll("'", "''"));
-    return formatter.format(messageArguments);
+    return org.languagetool.tools.Tools.i18n(messages, key, messageArguments);
   }
 
   /**

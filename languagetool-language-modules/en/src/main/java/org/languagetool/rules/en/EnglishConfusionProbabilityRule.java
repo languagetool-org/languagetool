@@ -21,12 +21,13 @@ package org.languagetool.rules.en;
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ConfusionProbabilityRule;
-import org.languagetool.rules.ConfusionString;
 import org.languagetool.rules.Example;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
 
-import java.util.*;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Stack;
 
 /**
  * @since 2.7
@@ -80,23 +81,6 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
                    Example.fixed("I didn't <marker>know</marker> where it came from."));
   }
 
-  @Override
-  public String getDescription() {
-    return "Statistically detect wrong use of words that are easily confused";
-  }
-  
-  @Override
-  public String getMessage(ConfusionString textString, ConfusionString suggestion) {
-    if (textString.getDescription() != null && suggestion.getDescription() != null) {
-      return "Statistic suggests that '" + suggestion.getString() + "' (" + suggestion.getDescription() + ") might be the correct word here, not '"
-              + textString.getString() + "' (" + textString.getDescription() + "). Please check.";
-    } else if (suggestion.getDescription() != null) {
-      return "Statistic suggests that '" + suggestion.getString() + "' (" + suggestion.getDescription() + ") might be the correct word here. Please check.";
-    } else {
-      return "Statistic suggests that '" + suggestion.getString() + "' might be the correct word here. Please check.";
-    }
-  }
-  
   @Override
   protected WordTokenizer getWordTokenizer() {
     return tokenizer;
