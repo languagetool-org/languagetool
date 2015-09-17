@@ -107,11 +107,11 @@ public class DutchSRXSentenceTokenizerTest extends TestCase {
     testSplit("De auteur vermeldt: 'Deze opvatting van het vorstendom heeft lang doorgewerkt.'");
 
     // http://taaladvies.net/taal/advies/vraag/1557
-    testSplit("'Gaat u zitten', zei zij. 'De dokter komt zo.'");
-    testSplit("'Mijn broer woont ook in Den Haag', vertelde ze. 'Hij woont al een paar jaar samen.'");
-    testSplit("'Je bent grappig', zei ze. 'Echt, ik vind je grappig.'");
-    testSplit("'Is Jan thuis?', vroeg Piet. 'Ik wil hem wat vragen.'");
-    testSplit("'Ik denk er niet over!', riep ze. 'Dat gaat echt te ver, hoor!'");
+    testSplit("'Gaat u zitten', zei zij. ", "'De dokter komt zo.'");
+    testSplit("'Mijn broer woont ook in Den Haag', vertelde ze. ", "'Hij woont al een paar jaar samen.'");
+    testSplit("'Je bent grappig', zei ze. ", "'Echt, ik vind je grappig.'");
+    testSplit("'Is Jan thuis?', vroeg Piet. ", "'Ik wil hem wat vragen.'");
+    testSplit("'Ik denk er niet over!', riep ze. ", "'Dat gaat echt te ver, hoor!'");
     testSplit("'Ik vermoed', zei Piet, 'dat Jan al wel thuis is.'");
   }
 
