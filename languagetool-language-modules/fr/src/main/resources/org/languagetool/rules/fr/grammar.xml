@@ -7030,6 +7030,33 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token postag="SENT_START" skip="-1">
+            <exception scope="next" postag="[NR].*sp?" postag_regexp="yes"/>
+          </token>
+          <token postag="[NZ] . p|R pers suj [13].* p|R dem.* p" postag_regexp="yes"/>
+          <token regexp="yes">ont|avons|auraient|aurions|avaient|avions|auron[ts]|eurent|eûmes|aient|ayons|eussent|eussions</token>
+          <token>été</token>
+          <token min="0" max="1" postag="A"/>
+          <marker>
+            <token postag="V.* ppa .* s|J . s" postag_regexp="yes">
+              <exception postag="V.* ppa .* s?p|J . s?p" postag_regexp="yes"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Le mot pluriel « \6 » n’est pas accordé en nombre avec le mot pluriel « \2 ».</message>
+        <example correction="">Des orages avaient été <marker>annoncé</marker>.</example>
+        <example>Des orages avaient été annoncés.</example>
+        <example correction="">Ils avaient été <marker>dénoncé</marker>.</example>
+        <example>Ils avaient été dénoncés.</example>
+        <example correction="">Nous aurions été <marker>dénoncé</marker>.</example>
+        <example>Nous aurions été <marker>dénoncés</marker>.</example>
+        <example>Vous auriez été dénoncés.</example>
+        <example>Vous auriez été dénoncé.</example>
+        <example correction="">Elles avaient été immédiatement <marker>dénoncée</marker>.</example>
+        <example>Elles avaient été immédiatement dénoncées.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="SENT_START" skip="-1">
             <exception scope="next" postag="[NR].*sp?|V inf" postag_regexp="yes"/>
           </token>
           <token postag="N . p|R pers suj [13].* p|R dem.* p" postag_regexp="yes"/>
