@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -43,7 +43,7 @@ import org.languagetool.tools.StringTools;
 
 /**
  * GUI-related tools.
- * 
+ *
  * @author Daniel Naber
  */
 public final class Tools {
@@ -226,10 +226,14 @@ public final class Tools {
     String url = "http://community.languagetool.org/rule/show/" + encodeUrl(rule)
             + "?lang=" + lang + "&amp;ref=standalone-gui";
     boolean isExternal = rule.getCategory().getLocation() == Category.Location.EXTERNAL;
+    String urls = '';
+    for (URL url : rule.getUrls()) {
+        urls += formatURL(rule.getUrl())
+    }
     String ruleDetailLink = rule instanceof FalseFriendPatternRule || isExternal ?
             "" : "<a href='" + url + "'>" + messages.getString("ruleDetailsLink") +"</a>";
     textPane.setText("<html>"
-            + messageWithBold + exampleSentences + formatURL(rule.getUrl())
+            + messageWithBold + exampleSentences + urls
             + "<br><br>"
             + ruleDetailLink
             + "</html>");

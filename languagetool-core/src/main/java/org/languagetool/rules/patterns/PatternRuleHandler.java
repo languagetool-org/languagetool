@@ -524,7 +524,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
    * Create rule from an Element list.
    * In case of OR groups, several rules are created recursively.
    * @since 2.3
-   * 
+   *
    * @param elemList The complete original Element list
    * @param tmpPatternTokens Temporary list being created
    * @param numElement Index of elemList being analyzed
@@ -612,13 +612,13 @@ public class PatternRuleHandler extends XMLRuleHandler {
     }
     if (url != null && url.length() > 0) {
       try {
-        rule.setUrl(new URL(url.toString()));
+        rule.addUrl(new URL(url.toString()));
       } catch (MalformedURLException e) {
         throw new RuntimeException("Could not parse URL for rule: " + rule + ": '" + url + "'", e);
       }
     } else if (urlForRuleGroup != null && urlForRuleGroup.length() > 0) {
       try {
-        rule.setUrl(new URL(urlForRuleGroup.toString()));
+        rule.addUrl(new URL(urlForRuleGroup.toString()));
       } catch (MalformedURLException e) {
         throw new RuntimeException("Could not parse URL for rule: " + rule + ": '" + urlForRuleGroup + "'", e);
       }

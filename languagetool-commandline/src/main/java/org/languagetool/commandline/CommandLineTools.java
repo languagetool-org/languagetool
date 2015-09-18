@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -74,7 +74,7 @@ public final class CommandLineTools {
                               final boolean apiFormat, final int lineOffset) throws IOException {
     return checkText(contents, lt, apiFormat, -1, lineOffset, 0, StringTools.XmlPrintMode.NORMAL_XML, false, Collections.<String>emptyList());
   }
-  
+
   public static int checkText(final String contents, final JLanguageTool lt,
           final boolean apiFormat, final int lineOffset, final boolean listUnknownWords) throws IOException {
     return checkText(contents, lt, apiFormat, -1, lineOffset, 0, StringTools.XmlPrintMode.NORMAL_XML, listUnknownWords, Collections.<String>emptyList());
@@ -180,8 +180,8 @@ public final class CommandLineTools {
                 + StringTools.listToString(replacements, "; "));
       }
       System.out.println(contextTools.getPlainTextContext(match.getFromPos(), match.getToPos(), contents));
-      if (rule.getUrl() != null) {
-        System.out.println("More info: " + rule.getUrl());
+      for (URL url : rule.getUrls()) {
+        System.out.println("More info: " + url);
       }
       if (i < ruleMatches.size()) {
         System.out.println();
@@ -191,7 +191,7 @@ public final class CommandLineTools {
   }
 
   /**
-   * Checks the bilingual input (bitext) and displays the output (considering the target 
+   * Checks the bilingual input (bitext) and displays the output (considering the target
    * language) in API format or in the simple text format.
    *
    * NOTE: the positions returned by the rule matches are adjusted
@@ -323,7 +323,7 @@ public final class CommandLineTools {
       for (RuleMatch thisMatch : curMatches) {
         fixedMatches.add(
                 targetLt.adjustRuleMatchPos(thisMatch,
-                        0, //don't need to adjust at all, we have zero offset related to trg sentence 
+                        0, //don't need to adjust at all, we have zero offset related to trg sentence
                         reader.getTargetColumnCount(),
                         reader.getLineCount(),
                         reader.getCurrentLine(), null));

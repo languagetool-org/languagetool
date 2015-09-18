@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -41,7 +41,7 @@ import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
  * make sure that their initialization works fast. For example, if a rule needs
  * to load data from disk, it should store it in a static variable to make sure
  * the loading happens only once.
- * 
+ *
  * @author Daniel Naber
  */
 public abstract class Rule {
@@ -52,7 +52,7 @@ public abstract class Rule {
   private List<IncorrectExample> incorrectExamples = new ArrayList<>();
   private ITSIssueType locQualityIssueType = ITSIssueType.Uncategorized;
   private Category category;
-  private URL url;
+  private List<URL> urls = new ArrayList<>();
   private boolean defaultOff;
 
   public Rule() {
@@ -69,7 +69,7 @@ public abstract class Rule {
   /**
    * A string used to identify the rule in e.g. configuration files.
    * This string is supposed to be unique and to stay the same in all upcoming
-   * versions of LanguageTool. It's supposed to contain only the characters {@code A-Z} 
+   * versions of LanguageTool. It's supposed to contain only the characters {@code A-Z}
    * and the underscore.
    */
   public abstract String getId();
@@ -139,7 +139,7 @@ public abstract class Rule {
     }
     return Collections.unmodifiableList(rules);
   }
-  
+
   /**
    * Whether this rule can be used for text in the given language.
    * Since LanguageTool 2.6, this also works {@link org.languagetool.rules.patterns.PatternRule}s
@@ -168,7 +168,7 @@ public abstract class Rule {
   public boolean isDictionaryBasedSpellingRule() {
     return false;
   }
-  
+
   /**
    * Whether this rule should be forced to be used in LO/OO extension.
    * Rules that return {@code true} will be enabled always in LO/OO extension
@@ -240,23 +240,23 @@ public abstract class Rule {
   public final void setDefaultOn() {
     defaultOff = false;
   }
-  
+
   /**
-   * An optional URL describing the rule match in more detail. Typically points to a dictionary or grammar website
-   * with explanations and examples. Will return {@code null} for rules that have no URL.
+   * Optional URLs describing the rule match in more detail. They typically point to a dictionary or grammar website
+   * with explanations and examples.
    * @since 1.8
    */
   @Nullable
-  public URL getUrl() {
-    return url;
+  public List<URL> getUrls() {
+    return Collections.unmodifiableList(urls);
   }
 
   /**
    * @since 1.8
-   * @see #getUrl()
+   * @see #getUrls()
    */
-  public void setUrl(URL url) {
-    this.url = url;
+  public void addUrl(URL url) {
+    this.urls.add(url);
   }
 
   /**

@@ -29,18 +29,18 @@ import org.languagetool.rules.Example;
  * Double punctuation rule with German-specific error message.
  */
 public class GermanDoublePunctuationRule extends DoublePunctuationRule {
-  
+
   public GermanDoublePunctuationRule(final ResourceBundle messages) {
     super(messages);
     try {
-      setUrl(new URL("http://www.canoo.net/services/GermanSpelling/Amtlich/Interpunktion/pgf101-105.html#pgf103"));
+      addUrl(new URL("http://www.canoo.net/services/GermanSpelling/Amtlich/Interpunktion/pgf101-105.html#pgf103"));
     } catch (MalformedURLException e) {
       throw new RuntimeException(e);
     }
     addExamplePair(Example.wrong("Sein Vater ist Regierungsrat <marker>a. D..</marker>"),
                    Example.fixed("Sein Vater ist Regierungsrat <marker>a. D.</marker>"));
   }
-  
+
   @Override
   public final String getId() {
     return "DE_DOUBLE_PUNCTUATION";
@@ -51,5 +51,5 @@ public class GermanDoublePunctuationRule extends DoublePunctuationRule {
     return "Zwei aufeinander folgende Punkte. Auch wenn ein Satz mit einer Abkürzung endet, " +
             "endet er nur mit einem Punkt (§103 Regelwerk).";
   }
-    
+
 }

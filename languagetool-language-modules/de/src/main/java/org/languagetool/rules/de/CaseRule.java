@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -45,7 +45,7 @@ import java.util.regex.Pattern;
  * first letter (except at the start of a sentence) and cases
  * like this: <tt>Das laufen f&auml;llt mir leicht.</tt> (<tt>laufen</tt> needs
  * to be uppercased).
- *   
+ *
  * @author Daniel Naber
  */
 public class CaseRule extends GermanRule {
@@ -56,7 +56,7 @@ public class CaseRule extends GermanRule {
   // wenn hinter diesen Wörtern ein Verb steht, ist es wohl ein substantiviertes Verb,
   // muss also groß geschrieben werden:
   private static final Set<String> nounIndicators = new HashSet<>();
-  
+
   // also see case_rule_exception.txt:
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
@@ -74,7 +74,7 @@ public class CaseRule extends GermanRule {
     nounIndicators.add("euer");
     nounIndicators.add("unser");
   }
-  
+
   private static final Set<String> sentenceStartExceptions = new HashSet<>();
   static {
     sentenceStartExceptions.add("(");
@@ -146,7 +146,7 @@ public class CaseRule extends GermanRule {
     "Abriss",
     "Ahne",
     "Ähnlichem",
-    "Ähnliches",   // je nach Kontext groß (TODO), z.B. "Er hat Ähnliches erlebt" 
+    "Ähnliches",   // je nach Kontext groß (TODO), z.B. "Er hat Ähnliches erlebt"
     "Allerlei",
     "Anklang",
     "Anstrich",
@@ -158,7 +158,7 @@ public class CaseRule extends GermanRule {
     "Bänden",
     "Beauftragter",
     "Belange",
-    "besonderes",   // je nach Kontext groß (TODO): "etwas Besonderes" 
+    "besonderes",   // je nach Kontext groß (TODO): "etwas Besonderes"
     "Biss",
     "De",    // "De Morgan" etc
     "Dr",
@@ -178,7 +178,7 @@ public class CaseRule extends GermanRule {
     "Herzöge",
     "Herzögen",
     "Hinfahrt",
-    "Hundert",   // je nach Kontext groß (TODO) 
+    "Hundert",   // je nach Kontext groß (TODO)
     "Ihnen",
     "Ihr",
     "Ihre",
@@ -239,11 +239,11 @@ public class CaseRule extends GermanRule {
     "St",   // Paris St. Germain
     "Stereotyp",
     "Störe",
-    "Tausend",   // je nach Kontext groß (TODO) 
+    "Tausend",   // je nach Kontext groß (TODO)
     "Toter",
     "tun",   // "Sie müssen das tun"
-    "Übrigen",   // je nach Kontext groß (TODO), z.B. "im Übrigen" 
-    "Unvorhergesehenes",   // je nach Kontext groß (TODO), z.B. "etwas Unvorhergesehenes" 
+    "Übrigen",   // je nach Kontext groß (TODO), z.B. "im Übrigen"
+    "Unvorhergesehenes",   // je nach Kontext groß (TODO), z.B. "etwas Unvorhergesehenes"
     "Verantwortlicher",
     "Verwandter",
     "Vielfaches",
@@ -296,7 +296,7 @@ public class CaseRule extends GermanRule {
     "Euren",
     "Eures"
   ));
-  
+
   private static final Set<String> languages = new HashSet<>();
     static {
     // TODO: alle Sprachen
@@ -349,7 +349,7 @@ public class CaseRule extends GermanRule {
     languages.add("Ungarisch");
     languages.add("Weißrussisch");
   }
-  
+
   private static final Set<String> myExceptionPhrases = CaseRuleExceptions.getExceptions();
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
@@ -403,16 +403,18 @@ public class CaseRule extends GermanRule {
     addExamplePair(Example.wrong("<marker>Das laufen</marker> fällt mir schwer."),
                    Example.fixed("<marker>Das Laufen</marker> fällt mir schwer."));
   }
-  
+
   @Override
   public String getId() {
     return "DE_CASE";
   }
 
   @Override
-  public URL getUrl() {
+  public URL getUrls() {
     try {
-      return new URL("http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/index.html");
+      List<URL> urls = new ArrayList<>();
+      urls.add(new URL("http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/index.html"));
+      return urls;
     } catch (MalformedURLException e) {
       throw new RuntimeException(e);
     }
@@ -427,7 +429,7 @@ public class CaseRule extends GermanRule {
   public RuleMatch[] match(final AnalyzedSentence sentence) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
-    
+
     boolean prevTokenIsDas = false;
     for (int i = 0; i < tokens.length; i++) {
       //Note: defaulting to the first analysis is only save if we only query for sentence start
@@ -501,12 +503,12 @@ public class CaseRule extends GermanRule {
       if (!nextToken.hasPartialPosTag("SUB:") &&
           !analyzedToken.getToken().matches("bitte|einen|sein|habe") &&
           !analyzedToken.hasPartialPosTag("ADJ:") &&
-          !prevTokenStr.matches("einen|zu") && 
+          !prevTokenStr.matches("einen|zu") &&
           (prevToken.hasPartialPosTag("PRP:") ||
            prevToken.matchesPosTagRegex("^ART:.*") ||
            prevToken.getToken().matches("seiner|seine|seinen|seinem|seines"))) {
         if (!StringTools.startsWithUppercase(analyzedToken.getToken())
-                && analyzedToken.matchesPosTagRegex("^VER:.*") 
+                && analyzedToken.matchesPosTagRegex("^VER:.*")
                 && !analyzedToken.matchesPosTagRegex("^PA2:.*")) {
           String ucToken = StringTools.uppercaseFirstChar(analyzedToken.getToken());
           AnalyzedTokenReadings ucLookup = tagger.lookup(ucToken);

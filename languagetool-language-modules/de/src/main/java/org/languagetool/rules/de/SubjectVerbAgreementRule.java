@@ -54,7 +54,7 @@ public class SubjectVerbAgreementRule extends GermanRule {
   private static final ChunkTag PP = new ChunkTag("PP");   // prepositional phrase etc.
   private static final List<String> QUESTION_PRONOUNS = Arrays.asList("wie");
   private static final List<String> CURRENCIES = Arrays.asList("Dollar", "Euro", "Yen");
-  
+
   private static final List<SingularPluralPair> PAIRS = Arrays.asList(
     new SingularPluralPair("ist", "sind"),
     new SingularPluralPair("war", "waren")
@@ -86,9 +86,11 @@ public class SubjectVerbAgreementRule extends GermanRule {
   }
 
   @Override
-  public URL getUrl() {
+  public URL getUrls() {
     try {
-      return new URL("http://www.canoo.net/services/OnlineGrammar/Wort/Verb/Numerus-Person/ProblemNum.html");
+      List<URL> urls = new ArrayList<>();
+      urls.add(new URL("http://www.canoo.net/services/OnlineGrammar/Wort/Verb/Numerus-Person/ProblemNum.html"));
+      return urls;
     } catch (MalformedURLException e) {
       throw new RuntimeException(e);
     }
@@ -276,7 +278,7 @@ public class SubjectVerbAgreementRule extends GermanRule {
 
   @Override
   public void reset() {}
-  
+
   private static class SingularPluralPair {
     String singular;
     String plural;

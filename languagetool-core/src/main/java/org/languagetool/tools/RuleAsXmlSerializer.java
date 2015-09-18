@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -18,6 +18,9 @@
  */
 package org.languagetool.tools;
 
+import java.net.URL;
+import java.util.List;
+
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Category;
@@ -25,13 +28,11 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 
-import java.util.List;
-
 import static org.languagetool.tools.StringTools.*;
 
 /**
  * Generate XML to represent matching rules.
- * 
+ *
  * @since 2.5
  */
 public class RuleAsXmlSerializer {
@@ -112,8 +113,8 @@ public class RuleAsXmlSerializer {
               .append(" contextoffset=\"").append(contextOffset).append('"')
               .append(" offset=\"").append(match.getFromPos()).append('"')
               .append(" errorlength=\"").append(match.getToPos() - match.getFromPos()).append('"');
-      if (match.getRule().getUrl() != null) {
-        xml.append(" url=\"").append(escapeXMLForAPIOutput(match.getRule().getUrl().toString())).append('"');
+      for (URL url : match.getRule().getUrls()) {
+        xml.append(" url=\"").append(escapeXMLForAPIOutput(url.toString())).append('"');
       }
       Category category = match.getRule().getCategory();
       if (category != null) {
@@ -188,5 +189,5 @@ public class RuleAsXmlSerializer {
     // this is simplified XML, i.e. put the "<error>" in one line:
     return escapeForXmlAttribute(s).replaceAll("[\n\r]", " ");
   }
-  
+
 }

@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -20,7 +20,7 @@ package org.languagetool.openoffice;
 
 /**
  * LibreOffice/OpenOffice integration.
- * 
+ *
  * @author Marcin Miłkowski
  */
 import java.io.File;
@@ -86,7 +86,7 @@ public class Main extends WeakBase implements XJobExecutor,
 
   private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
 
-  // LibreOffice (since 4.2.0) special tag for locale with variant 
+  // LibreOffice (since 4.2.0) special tag for locale with variant
   // e.g. language ="qlt" country="ES" variant="ca-ES-valencia":
   private static final String LIBREOFFICE_SPECIAL_LANGUAGE_TAG = "qlt";
 
@@ -231,7 +231,7 @@ public class Main extends WeakBase implements XJobExecutor,
 
   /**
    * Runs the grammar checker on paragraph text.
-   * 
+   *
    * @param docID document ID
    * @param paraText paragraph text
    * @param locale Locale the text Locale
@@ -326,7 +326,7 @@ public class Main extends WeakBase implements XJobExecutor,
             pErrorCount = pErrors.length;
           }
           if (!ruleMatches.isEmpty()) {
-            final SingleProofreadingError[] errorArray = 
+            final SingleProofreadingError[] errorArray =
                     new SingleProofreadingError[ruleMatches.size() + pErrorCount];
             int i = 0;
             for (final RuleMatch myRuleMatch : ruleMatches) {
@@ -426,7 +426,7 @@ public class Main extends WeakBase implements XJobExecutor,
     return "";
   }
 
-  // Fix numbers that are (probably) foot notes. 
+  // Fix numbers that are (probably) foot notes.
   // See https://bugs.freedesktop.org/show_bug.cgi?id=69416
   // non-private for test case
   String cleanFootnotes(String paraText) {
@@ -494,9 +494,9 @@ public class Main extends WeakBase implements XJobExecutor,
     // LibreOffice since version 3.5 supports an URL that provides more
     // information about the error,
     // older version will simply ignore the property:
-    if (ruleMatch.getRule().getUrl() != null) {
+    for (URL url : ruleMatch.getRule().getUrls()) {
       aError.aProperties = new PropertyValue[] { new PropertyValue(
-          "FullCommentURL", -1, ruleMatch.getRule().getUrl().toString(),
+          "FullCommentURL", -1, url.toString(),
           PropertyState.DIRECT_VALUE) };
     } else {
       aError.aProperties = new PropertyValue[0];
@@ -583,7 +583,7 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Add a listener that allow re-checking the document after changing the
    * options in the configuration dialog box.
-   * 
+   *
    * @param eventListener the listener to be added
    * @return true if listener is non-null and has been added, false otherwise
    */
@@ -599,7 +599,7 @@ public class Main extends WeakBase implements XJobExecutor,
 
   /**
    * Remove a listener from the event listeners list.
-   * 
+   *
    * @param eventListener the listener to be removed
    * @return true if listener is non-null and has been removed, false otherwise
    */
@@ -797,7 +797,7 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Called on rechecking the document - resets the ignore status for rules that
    * was set in the spelling dialog box or in the context menu.
-   * 
+   *
    * The rules disabled in the config dialog box are left as intact.
    */
   @Override

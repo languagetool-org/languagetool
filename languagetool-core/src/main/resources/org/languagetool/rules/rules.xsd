@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-<!-- 
- * LanguageTool, a natural language style checker 
+<!--
+ * LanguageTool, a natural language style checker
  * Copyright (c) Marcin Miłkowski, 2014 (http://www.languagetool.org)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -18,7 +18,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
- 
+
  Schema for rule files
  -->
 
@@ -80,7 +80,7 @@
 	<xs:element name="rulegroup">
 		<xs:complexType>
 			<xs:sequence minOccurs="1">
-				<xs:element ref="url" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="url" minOccurs="0" maxOccurs="unbounded" />
 				<xs:element ref="short" minOccurs="0" maxOccurs="1" />
 				<xs:element ref="antipattern" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="rule" maxOccurs="unbounded" />
@@ -154,7 +154,7 @@
 				<xs:element ref="filter" minOccurs="0" maxOccurs="1" />
 				<xs:element ref="message" />
 				<xs:element ref="suggestion" minOccurs="0" maxOccurs="15" />
-				<xs:element ref="url" minOccurs="0" maxOccurs="1" />
+				<xs:element ref="url" minOccurs="0" maxOccurs="unbounded" />
 				<xs:element ref="short" minOccurs="0" />
 				<xs:element ref="example" minOccurs="1" maxOccurs="unbounded" />
 			</xs:sequence>
@@ -233,7 +233,7 @@
 			</xs:attribute>
 			<xs:attribute name="args" type="xs:string" use="required">
 				<xs:annotation>
-					<xs:documentation xml:lang="en">Arguments given to the Java code: a space-separated list with 
+					<xs:documentation xml:lang="en">Arguments given to the Java code: a space-separated list with
 						elements in the form of 'key:\x', where key is the parameter name and x is a number
 						that refers to the pattern's token. Number and parameter names depend on the Java code.</xs:documentation>
 				</xs:annotation>

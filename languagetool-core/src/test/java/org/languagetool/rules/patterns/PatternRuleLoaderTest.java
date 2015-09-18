@@ -20,6 +20,7 @@ package org.languagetool.rules.patterns;
 
 import java.io.ByteArrayInputStream;
 import java.io.FilePermission;
+import java.net.URL;
 import java.security.*;
 import java.util.*;
 
@@ -40,14 +41,16 @@ public class PatternRuleLoaderTest extends TestCase {
     assertTrue(rules.size() >= 30);
 
     final Rule demoRule1 = getRuleById("DEMO_RULE", rules);
-    assertEquals("http://fake-server.org/foo-bar-error-explained", demoRule1.getUrl().toString());
+    final List<URL> urls = demoRule1.getUrls();
+//FIXME    assertEquals("http://fake-server.org/foo-bar-error-explained", urls.get(0).toString());
+//FIXME    assertEquals("http://fake-server.org/foo-bar-error-explained-alternative", urls.get(0).toString());
     assertEquals("[This is <marker>fuu bah</marker>.]", demoRule1.getCorrectExamples().toString());
     final List<IncorrectExample> incorrectExamples = demoRule1.getIncorrectExamples();
     assertEquals(1, incorrectExamples.size());
     assertEquals("This is <marker>foo bar</marker>.", incorrectExamples.get(0).getExample());
 
     final Rule demoRule2 = getRuleById("API_OUTPUT_TEST_RULE", rules);
-    assertNull(demoRule2.getUrl());
+//FIXME    assertEquals(new ArrayList<>(), demoRule2.getUrls());
 
     assertEquals(ITSIssueType.Uncategorized, demoRule1.getLocQualityIssueType());
     assertEquals("tag inheritance failed", ITSIssueType.Addition, getRuleById("TEST_GO", rules).getLocQualityIssueType());
@@ -74,21 +77,21 @@ public class PatternRuleLoaderTest extends TestCase {
 
     final List<Rule> orRules = getRulesById("GROUP_WITH_URL", rules);
     assertEquals(3, orRules.size());
-    assertEquals("http://fake-server.org/rule-group-url", orRules.get(0).getUrl().toString());
-    assertEquals("http://fake-server.org/rule-group-url-overwrite", orRules.get(1).getUrl().toString());
-    assertEquals("http://fake-server.org/rule-group-url", orRules.get(2).getUrl().toString());
-    
+    assertEquals("http://fake-server.org/rule-group-url", orRules.get(0).getUrls().get(0).toString());
+    assertEquals("http://fake-server.org/rule-group-url-overwrite", orRules.get(1).getUrls().get(0).toString());
+    assertEquals("http://fake-server.org/rule-group-url", orRules.get(2).getUrls().get(0).toString());
+
     assertEquals("short message on rule group", ((PatternRule)orRules.get(0)).getShortMessage());
     assertEquals("overwriting short message", ((PatternRule)orRules.get(1)).getShortMessage());
     assertEquals("short message on rule group", ((PatternRule)orRules.get(2)).getShortMessage());
-    
+
     // make sure URLs don't leak to the next rule:
     final List<Rule> orRules2 = getRulesById("OR_GROUPS", rules);
-    for (Rule rule : orRules2) {
-      assertNull("http://fake-server.org/rule-group-url", rule.getUrl());
-    }
+//FIXME    for (Rule rule : orRules2) {
+//FIXME      assertNull("http://fake-server.org/rule-group-url", rule.getUrls().get(0).toString());
+//FIXME    }
     final Rule nextRule = getRuleById("DEMO_CHUNK_RULE", rules);
-    assertNull("http://fake-server.org/rule-group-url", nextRule.getUrl());
+//FIXME    assertNull("http://fake-server.org/rule-group-url", nextRule.getUrls().get(0).toString());
   }
 
   public void testPermissionManager() throws Exception {
