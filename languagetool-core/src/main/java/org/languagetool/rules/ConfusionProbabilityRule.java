@@ -170,7 +170,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   }
 
   /**
-   * Returns the ngram level uses, typically 3.
+   * Returns the ngram level used, typically 3.
    * @since 3.1
    */
   public int getNGrams() {
