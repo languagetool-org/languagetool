@@ -12,8 +12,10 @@
   * upgraded POS tag and Synthesizer dictionaries to Dicollecte-5.4
   * added/improved several rules
   * new filter to be used for matching the part-of-speech of parts of words, e.g.:
+```xml
        <filter class="org.languagetool.rules.fr.FrenchPartialPosTagFilter"
                args="no:1 regexp:(.*)-tu postag_regexp:V.*(ind|con|sub).*2\ss negate_pos:yes"/>
+```
 
 #### German
   * added and improved several rules
