@@ -22,14 +22,14 @@ import java.lang.reflect.Constructor;
 
 /**
  * Create a {@link RuleFilter}.
- * @since 2.7
+ * @since 2.7 (public since 3.2)
  */
-class RuleFilterCreator {
+public class RuleFilterCreator {
 
   /**
    * @param className fully qualified class Name of a class implementing {@link RuleFilter}
    */
-  RuleFilter getFilter(String className) {
+  public RuleFilter getFilter(String className) {
     try {
       Class<?> aClass = Class.forName(className);
       Constructor<?>[] constructors = aClass.getConstructors();

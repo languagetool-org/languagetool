@@ -19,17 +19,20 @@
 package org.languagetool.rules.patterns;
 
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
  * Filter rule matches after a PatternRule has matched already.
  * Can be used from the XML using the {@code filter} element.
- * @since 2.7
+ * @since 2.7 (changed from interface to abstract class in 3.2)
  */
-public interface RuleFilter {
+public abstract class RuleFilter {
 
   /**
    * Returns the original rule match or a modified one, or {@code null}
@@ -41,6 +44,19 @@ public interface RuleFilter {
    *         the arguments) that properly describes the detected error
    */
   @Nullable
-  RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens);
+  public abstract RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens);
+
+  /** @since 3.2 */
+  public boolean matches(Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens) {
+    RuleMatch fakeMatch = new RuleMatch(new FakeRule(), 0, 1, "(internal rule)");
+    return acceptRuleMatch(fakeMatch, arguments, patternTokens) != null;
+  }
+
+  private class FakeRule extends Rule {
+    @Override public String getId() { return "FAKE-RULE-FOR-FILTER"; }
+    @Override public String getDescription() { return "<none>"; }
+    @Override public RuleMatch[] match(AnalyzedSentence sentence) throws IOException { return new RuleMatch[0]; }
+    @Override public void reset() {}
+  }
   
 }

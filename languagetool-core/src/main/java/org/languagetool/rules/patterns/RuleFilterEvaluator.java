@@ -26,18 +26,18 @@ import java.util.*;
 
 /**
  * Evaluates a {@link RuleFilter}.
- * @since 2.7
+ * @since 2.7 (public since 3.2)
  */
-class RuleFilterEvaluator {
+public class RuleFilterEvaluator {
 
   private final RuleFilter filter;
 
-  RuleFilterEvaluator(RuleFilter filter) {
+  public RuleFilterEvaluator(RuleFilter filter) {
     this.filter = filter;
   }
 
   @Nullable
-  RuleMatch runFilter(String filterArgs, RuleMatch ruleMatch, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
+  public RuleMatch runFilter(String filterArgs, RuleMatch ruleMatch, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
     Map<String,String> args = getResolvedArguments(filterArgs, patternTokens, tokenPositions);
     return filter.acceptRuleMatch(ruleMatch, args, patternTokens);
   }
@@ -45,7 +45,7 @@ class RuleFilterEvaluator {
   /**
    * Resolves the backref arguments, e.g. replaces {@code \1} by the value of the first token in the pattern.
    */
-  Map<String,String> getResolvedArguments(String filterArgs, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
+  public Map<String,String> getResolvedArguments(String filterArgs, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
     Map<String,String> result = new HashMap<>();
     String[] arguments = filterArgs.split("\\s+");
     for (String arg : arguments) {

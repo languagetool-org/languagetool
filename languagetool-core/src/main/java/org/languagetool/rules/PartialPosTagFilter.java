@@ -43,7 +43,7 @@ import java.util.regex.Pattern;
  * </ul>
  * @since 2.8
  */
-public abstract class PartialPosTagFilter implements RuleFilter {
+public abstract class PartialPosTagFilter extends RuleFilter {
 
   @Nullable
   protected abstract List<AnalyzedTokenReadings> tag(String token);
@@ -59,6 +59,9 @@ public abstract class PartialPosTagFilter implements RuleFilter {
     boolean negatePos = args.containsKey("negate_pos");
     String token = patternTokens[tokenPos - 1].getToken();
     Matcher matcher = pattern.matcher(token);
+    if (matcher.groupCount() != 1) {
+      throw new RuntimeException("Got " + matcher.groupCount() + " groups for regex '" + pattern.pattern() + "', expected 1");
+    }
     if (matcher.matches()) {
       String partialToken = matcher.group(1);
       List<AnalyzedTokenReadings> tags = tag(partialToken);

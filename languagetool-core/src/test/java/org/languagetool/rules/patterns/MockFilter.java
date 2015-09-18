@@ -23,7 +23,7 @@ import org.languagetool.rules.RuleMatch;
 
 import java.util.Map;
 
-public class MockFilter implements RuleFilter {
+public class MockFilter extends RuleFilter {
 
   public MockFilter() {
   }

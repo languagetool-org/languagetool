@@ -20,9 +20,7 @@ package org.languagetool.tagging.disambiguation.rules;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Languages;
-import org.languagetool.rules.patterns.PatternToken;
-import org.languagetool.rules.patterns.Match;
-import org.languagetool.rules.patterns.XMLRuleHandler;
+import org.languagetool.rules.patterns.*;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -44,6 +42,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   private String name;
   private String ruleGroupId;
   private String ruleGroupName;
+  protected String filterClassName;
+  protected String filterArgs;
   private StringBuilder disamb = new StringBuilder();
   private StringBuilder wd = new StringBuilder();
   private StringBuilder example = new StringBuilder();
@@ -223,6 +223,10 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         }
         example = new StringBuilder();
         break;
+      case "filter":
+        filterClassName = attrs.getValue("class");
+        filterArgs = attrs.getValue("args");
+        break;
       case MARKER:
         example.append("<marker>");
         if (inPattern) {
@@ -285,6 +289,12 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         if (untouchedExamples != null) {
           rule.setUntouchedExamples(untouchedExamples);
         }
+        if (filterClassName != null && filterArgs != null) {
+          RuleFilterCreator creator = new RuleFilterCreator();
+          RuleFilter filter = creator.getFilter(filterClassName);
+          rule.setFilter(filter);
+          rule.setFilterArguments(filterArgs);
+        }
         rules.add(rule);
         if (disambigAction == DisambiguationPatternRule.DisambiguatorAction.UNIFY && matchedTokenCount != uniCounter) {
           throw new SAXException(language.getName() + " rule error. The number unified tokens: "
@@ -306,6 +316,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         untouchedExamples = null;
         startPos = -1;
         endPos = -1;
+        filterClassName = null;
+        filterArgs = null;
         break;
       case EXCEPTION:
         finalizeExceptions();

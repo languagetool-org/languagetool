@@ -33,7 +33,7 @@ import java.util.Map;
  * and {@code {day}} with the claimed day from the text (might be useful in case the text uses an abbreviation).
  * @since 2.7
  */
-public abstract class AbstractDateCheckFilter implements RuleFilter {
+public abstract class AbstractDateCheckFilter extends RuleFilter {
   // The day of the month may contain not only digits but also extra letters
   // such as"22nd" in English or "22-an" in Esperanto. The regexp extracts
   // the numerical part.

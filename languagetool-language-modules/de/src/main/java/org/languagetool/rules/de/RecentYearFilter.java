@@ -30,7 +30,7 @@ import java.util.Map;
  * recent years (up to {@code maxYearsBack} years ago).
  * @since 2.7
  */
-public class RecentYearFilter implements RuleFilter {
+public class RecentYearFilter extends RuleFilter {
   
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens) {

@@ -28,7 +28,9 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -70,7 +72,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       unifiedTokens = null;
       int matchingTokens = 0;
       int firstMatchToken = -1;
-      int lastMatchToken;
+      int lastMatchToken = -1;
       int firstMarkerMatchToken = -1;
       int lastMarkerMatchToken = -1;
       int prevSkipNext = 0;
@@ -130,8 +132,11 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         }
       }
       if (allElementsMatch && matchingTokens == patternSize || matchingTokens == patternSize - minOccurSkip && firstMatchToken != -1) {
-        whTokens = executeAction(sentence, whTokens, unifiedTokens, firstMatchToken, lastMarkerMatchToken, matchingTokens, tokenPositions);
-        changed = true;
+        boolean keepMatch = keepDespiteFilter(tokens, tokenPositions, firstMatchToken, lastMatchToken);
+        if (keepMatch) {
+          whTokens = executeAction(sentence, whTokens, unifiedTokens, firstMatchToken, lastMarkerMatchToken, matchingTokens, tokenPositions);
+          changed = true;
+        }
       }
       i++;
     }
@@ -139,6 +144,21 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       return new AnalyzedSentence(whTokens);
     }
     return sentence;
+  }
+
+  private boolean keepDespiteFilter(AnalyzedTokenReadings[] tokens, int[] tokenPositions, int firstMatchToken, int lastMatchToken) {
+    RuleFilter filter = rule.getFilter();
+    if (filter != null) {
+      RuleFilterEvaluator ruleFilterEval = new RuleFilterEvaluator(filter);
+      List<Integer> tokensPos = new ArrayList<>();
+      for (int tokenPosition : tokenPositions) {
+        tokensPos.add(tokenPosition);
+      }
+      Map<String, String> resolvedArguments = ruleFilterEval.getResolvedArguments(rule.getFilterArguments(), tokens, tokensPos);
+      AnalyzedTokenReadings[] relevantTokens = Arrays.copyOfRange(tokens, firstMatchToken, lastMatchToken + 1);
+      return filter.matches(resolvedArguments, relevantTokens);
+    }
+    return true;
   }
 
   @Override

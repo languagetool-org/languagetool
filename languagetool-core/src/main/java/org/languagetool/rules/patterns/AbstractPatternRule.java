@@ -27,6 +27,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
@@ -268,23 +269,25 @@ public abstract class AbstractPatternRule extends Rule {
     this.message = message;
   }
 
-  /** @since 2.7 */
-  void setFilter(RuleFilter filter) {
+  /** @since 2.7 (public since 3.2) */
+  public void setFilter(RuleFilter filter) {
     this.filter = filter;
   }
 
-  /** @since 2.7 */
-  RuleFilter getFilter() {
+  /** @since 2.7 (public since 3.2) */
+  @Nullable
+  public RuleFilter getFilter() {
     return filter;
   }
 
-  /** @since 2.7 */
-  void setFilterArguments(String filterArgs) {
+  /** @since 2.7 (public since 3.2) */
+  public void setFilterArguments(String filterArgs) {
     this.filterArgs = filterArgs;
   }
 
-  /** @since 2.7 */
-  String getFilterArguments() {
+  /** @since 2.7 (public since 3.2) */
+  @Nullable
+  public String getFilterArguments() {
     return filterArgs;
   }
 
