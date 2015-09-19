@@ -1506,6 +1506,38 @@ RB => Règles Brutes
     </pattern>
     <disambig postag=""/>
   </rule>
+  <rulegroup id="DERNIER_CRI" name="dernier cri">
+    <rule>
+      <pattern>
+        <marker><token>dernier</token></marker>
+        <token>cri</token>
+      </pattern>
+      <disambig postag="J e sp"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token>dernier</token>
+        <marker><token>cri</token></marker>
+      </pattern>
+      <disambig postag="N e sp"/>
+    </rule>
+  </rulegroup>
+  <rulegroup id="BON_MARCHE" name="bon marché">
+    <rule>
+      <pattern>
+        <marker><token regexp="yes">bon|meilleur</token></marker>
+        <token>marché</token>
+      </pattern>
+      <disambig postag="J e sp"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">bon|meilleur</token>
+        <marker><token>marché</token></marker>
+      </pattern>
+      <disambig postag="J e sp"/>
+    </rule>
+  </rulegroup>
   <rule id="TRIENT" name="Trient">
     <pattern>
       <token regexp="yes">d[eu]</token>

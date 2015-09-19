@@ -15,7 +15,6 @@ Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
-$Id$
 -->
 <!DOCTYPE rules [
     <!ENTITY adjectius_TE_INFUSIO "descafeïnat|mòlt|jove|conegut|preparat|empaquetat|xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
@@ -5989,12 +5988,21 @@ $Id$
                     <token regexp="yes">de|d'</token>
                 </pattern>
                 <message>Davant d'adjectiu o adverbi cal escriure <suggestion>tan</suggestion>.</message>
-                <short>Confusió</short>
                 <example correction="tan">Era <marker>tant</marker> a prop d'ell.</example>
                 <example correction="tan">Cal anar <marker>tant</marker> a prop d'ell com sigui possible.</example>
                 <example correction="tan">Juga <marker>tant</marker> a prop de la cistella com vol.</example>
                 <example>Neden tant a prop de la superfície com pel fons del mar.</example>
                 <example>És capaç de jugar tant a prop de la cistella com lluny.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>tan</token>
+                    <token>o</token>
+                    <token>més</token>
+                </pattern>
+                <message>Forma preferible.</message>
+                <suggestion>tant o més</suggestion>
+                <example correction='tant o més'>Aquest és <marker>tan o més</marker> gran.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ADV_MENT" name="dos adverbis acabats en -ment">
@@ -16409,6 +16417,30 @@ $Id$
                 <example correction="sí">Has de dir que <marker>si</marker>?</example>
                 <example>Què passaria si...?</example>
                 <example>Havia de guardar-ho per a si.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token regexp="yes">o|ni</token>
+                    <token>no</token>
+                </pattern>
+                <message>S'accentua quan és una afirmació.</message>
+                <suggestion>sí</suggestion>
+                <example correction="sí">¿Vindràs, <marker>si</marker> o no?.</example>
+                <example correction="sí">No va dir ni <marker>si</marker> ni no</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>si</token>
+                    </marker>
+                    <token spacebefore="no" regexp="yes">['"‘’”»!?]</token>
+                </pattern>
+                <message>S'accentua quan és una afirmació.</message>
+                <suggestion>sí</suggestion>
+                <example correction="sí">Cal respondre "<marker>si</marker>" o "no"</example>
             </rule>
         </rulegroup>
         <rulegroup id="MES" name="mes/més">
@@ -28048,7 +28080,7 @@ $Id$
             <pattern>
                 <token inflected="yes">galega</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">gallega</match></suggestion> (= de Galícia) en comptes de "\1" (nom de planta)?</message>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">gallec</match></suggestion> (= de Galícia) en comptes de "\1" (nom de planta)?</message>
             <example correction="gallegues">Les <marker>galegues</marker>.</example>
         </rule>
         <rule id="ANULACIO" name="anulació">
@@ -34467,24 +34499,42 @@ $Id$
                 <example>la mà enlairada vessant aigua sobre el cap</example>
             </rule>
         </rulegroup>
-        <rule id="URL" name="URL (masculí o femení)">
+        <rulegroup id="URL" name="URL (masculí o femení)">
             <antipattern>
                 <marker>
                     <token regexp="yes">adreça|adreces</token>
                     <token>URL</token>
                 </marker>
             </antipattern>
-            <pattern>
-                <marker>
-                    <token postag="_GN_FS">URL<exception postag="_GN_MS"/></token>
-                </marker>
-            </pattern>
-            <message>En el sentit d'adreça d'Internet és masculí. Femení si correspon a Universitat Ramon Llull.</message>
-            <example correction="">En la <marker>URL</marker>.</example>
-            <example>En l'URL.</example>
-            <example>Adreça URL completa.</example>
-            <example>En l'adreça URL introduïda abans.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..F..|PX.F.*|A..F.." postag_regexp="yes"></token>
+                    <marker>
+                        <token>URL</token>
+                    </marker>
+                </pattern>
+                <message>En el sentit d'adreça d'Internet és masculí. Femení si correspon a Universitat Ramon Llull.</message>
+                <example correction="">En la <marker>URL</marker>.</example>
+                <example correction="">La seva <marker>URL</marker>.</example>
+                <example>En l'URL.</example>
+                <example>Adreça URL completa.</example>
+                <example>En l'adreça URL introduïda abans.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>URL</token>
+                    </marker>
+                    <token postag="A..F..|V.P...F." postag_regexp="yes"></token>
+                </pattern>
+                <message>En el sentit d'adreça d'Internet és masculí. Femení si correspon a Universitat Ramon Llull.</message>
+                <example correction=""><marker>URL</marker> introduïda.</example>
+                <example correction="">L'<marker>URL</marker> completa.</example>
+                <example>En l'URL.</example>
+                <example>Adreça URL completa.</example>
+                <example>En l'adreça URL introduïda abans.</example>
+            </rule>
+        </rulegroup>
         <rule id="POSAR_DE_RELLEU" name="posar de/en relleu">
             <pattern>
                 <token inflected="yes" skip="1">posar</token>

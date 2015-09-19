@@ -6857,6 +6857,8 @@ though, and has since been slightly modified)-->
         <example correction="">Martine est très <marker>joli</marker>.</example>
         <example>Martine est très <marker>jolie</marker>.</example>
         <example>L’Autriche est pendant tout le Moyen Âge une des nombreuses principautés.</example>
+        <example>Cette voiture était suffisamment bon marché.</example>
+        <example>Cette caméra est dernier cri.</example>
       </rule>
       <rule>
         <pattern>
@@ -7052,6 +7054,8 @@ though, and has since been slightly modified)-->
         <example>Nous étions trop <marker>fatigués</marker>.</example>
         <example>Ils sont bien <marker>sûr</marker> ressortis indemnes.</example>
         <example>Nous sommes quelque peu occupés.</example>
+        <example>Ces ordinateurs sont meilleur marché que ceux-là.</example>
+        <example>Ces ordinateurs sont denier cri.</example>
       </rule>
       <rule>
         <pattern>
@@ -11016,36 +11020,57 @@ though, and has since been slightly modified)-->
         <example correction="Pas vu pas pris"><marker>Pas vu pas prise</marker> !</example>
       </rule>
     </rulegroup>
-    <rulegroup id="DERNIER_CRI" name="dernier cri">
-      <rule>
-        <pattern>
-          <token postag="N.*" postag_regexp="yes"/>
-          <marker>
-            <token regexp="yes">derni[eè]re?s?<exception>dernier</exception></token>
-            <token regexp="yes">crie?s?</token>
-          </marker>
-        </pattern>
-        <message>La locution <suggestion>dernier cri</suggestion> ne s’accorde pas avec le nom qu’elle caractérise, elle est invariable.</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3916</url>
-        <example correction="dernier cri">Les voitures <marker>derniers cris</marker>.</example>
-        <example>Les voitures dernier cri.</example>
-        <example>Ses derniers cris.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token postag="N.*" postag_regexp="yes"/>
-          <marker>
-            <token regexp="yes">derni[eè]re?s?</token>
-            <token regexp="yes">crie?s?<exception>cri</exception></token>
-          </marker>
-        </pattern>
-        <message>La locution <suggestion>dernier cri</suggestion> ne s’accorde pas avec le nom qu’elle caractérise, elle est invariable.</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3916</url>
-        <example correction="dernier cri">Les voitures <marker>derniers cris</marker>.</example>
-        <example>Les voitures dernier cri.</example>
-        <example>Ses derniers cris.</example>
-      </rule>
-    </rulegroup>
+    <rule id="GRAND_PUBLIC" name="grand public invariable">
+      <antipattern>
+        <token>grand</token>
+        <token>public</token>
+      </antipattern>
+      <pattern>
+        <token postag="N.*" postag_regexp="yes"/>
+        <marker>
+          <token regexp="yes">grande?s?</token>
+          <token regexp="yes">publics?|publiques?</token>
+        </marker>
+      </pattern>
+      <message>La locution <suggestion>grand public</suggestion> ne s’accorde jamais avec le nom qu’elle caractérise : elle est invariable.</message>
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3462</url>
+      <example correction="grand public">Des films <marker>grands publics</marker>.</example>
+    </rule>
+    <rule id="BON_MARCHE" name="bon marché invariable">
+      <antipattern>
+        <token regexp="yes">bon|meilleur</token>
+        <token>marché</token>
+      </antipattern>
+      <pattern>
+        <token postag="N.*" postag_regexp="yes"/>
+        <marker>
+          <token regexp="yes">bons?|meilleure?s?</token>
+          <token regexp="yes">marchée?s?</token>
+        </marker>
+      </pattern>
+      <message>Les locutions « bon marché » ou « meilleur marché » ne s’accordent jamais avec le nom qu’elles caractérisent : elles sont invariables.</message>
+      <suggestion><match no="2" regexp_match="e?s?$" regexp_replace=""/> marché</suggestion>
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3462</url>
+      <example correction="bon marché">Des légumes <marker>bons marchés</marker>.</example>
+    </rule>
+    <rule id="DERNIER_CRI" name="dernier cri">
+      <antipattern>
+        <token>dernier</token>
+        <token>cri</token>
+      </antipattern>
+      <pattern>
+        <token postag="N.*" postag_regexp="yes"/>
+        <marker>
+          <token regexp="yes">derni[eè]re?s?</token>
+          <token regexp="yes">crie?s?</token>
+        </marker>
+      </pattern>
+      <message>La locution <suggestion>dernier cri</suggestion> ne s’accorde pas avec le nom qu’elle caractérise : elle est invariable.</message>
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3916</url>
+      <example correction="dernier cri">Les voitures <marker>derniers cris</marker>.</example>
+      <example>Les voitures dernier cri.</example>
+      <example>Ses derniers cris.</example>
+    </rule>
     <rule id="POINT_DE_VUE" name="points de vues → points de vue">
       <pattern>
         <token regexp="yes">points?</token>
@@ -26000,6 +26025,16 @@ though, and has since been slightly modified)-->
       <example>Il a pulvérisé le record.</example>
       <example correction="">Ils ont <marker>explosé</marker> le pont.</example>
       <example>Ils ont fait exploser le pont.</example>
+    </rule>
+    <rule id="AUTANT_POUR_MOI" name="autant pour moi → au temps pour moi">
+      <pattern>
+        <token>autant</token>
+        <token>pour</token>
+        <token>moi</token>
+      </pattern>
+      <message>« Autant pour moi » est une expression inexacte mais tolérée. Préferez <suggestion>au temps pour moi</suggestion>.</message>
+      <url>https://fr.wiktionary.org/wiki/autant_pour_moi</url>
+      <example correction="au temps pour moi"><marker>autant pour moi</marker>.</example>
     </rule>
   </category>
   <category name="Marques de commerce">

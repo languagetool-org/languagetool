@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 
@@ -35,6 +36,7 @@ class RuleFilterEvaluator {
     this.filter = filter;
   }
 
+  @Nullable
   RuleMatch runFilter(String filterArgs, RuleMatch ruleMatch, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
     Map<String,String> args = getResolvedArguments(filterArgs, patternTokens, tokenPositions);
     return filter.acceptRuleMatch(ruleMatch, args, patternTokens);
