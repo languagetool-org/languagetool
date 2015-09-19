@@ -28047,7 +28047,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected="yes">galega</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">gallega</match></suggestion> (= de Galícia) en comptes de "\1" (nom de planta)?</message>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">gallec</match></suggestion> (= de Galícia) en comptes de "\1" (nom de planta)?</message>
             <example correction="gallegues">Les <marker>galegues</marker>.</example>
         </rule>
         <rule id="ANULACIO" name="anulació">
@@ -34466,24 +34466,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>la mà enlairada vessant aigua sobre el cap</example>
             </rule>
         </rulegroup>
-        <rule id="URL" name="URL (masculí o femení)">
+        <rulegroup id="URL" name="URL (masculí o femení)">
             <antipattern>
                 <marker>
                     <token regexp="yes">adreça|adreces</token>
                     <token>URL</token>
                 </marker>
             </antipattern>
-            <pattern>
-                <marker>
-                    <token postag="_GN_FS">URL<exception postag="_GN_MS"/></token>
-                </marker>
-            </pattern>
-            <message>En el sentit d'adreça d'Internet és masculí. Femení si correspon a Universitat Ramon Llull.</message>
-            <example correction="">En la <marker>URL</marker>.</example>
-            <example>En l'URL.</example>
-            <example>Adreça URL completa.</example>
-            <example>En l'adreça URL introduïda abans.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token postag="D..F..|PX.F.*|A..F.." postag_regexp="yes"></token>
+                    <marker>
+                        <token>URL</token>
+                    </marker>
+                </pattern>
+                <message>En el sentit d'adreça d'Internet és masculí. Femení si correspon a Universitat Ramon Llull.</message>
+                <example correction="">En la <marker>URL</marker>.</example>
+                <example correction="">La seva <marker>URL</marker>.</example>
+                <example>En l'URL.</example>
+                <example>Adreça URL completa.</example>
+                <example>En l'adreça URL introduïda abans.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>URL</token>
+                    </marker>
+                    <token postag="A..F..|V.P...F." postag_regexp="yes"></token>
+                </pattern>
+                <message>En el sentit d'adreça d'Internet és masculí. Femení si correspon a Universitat Ramon Llull.</message>
+                <example correction=""><marker>URL</marker> introduïda.</example>
+                <example correction="">L'<marker>URL</marker> completa.</example>
+                <example>En l'URL.</example>
+                <example>Adreça URL completa.</example>
+                <example>En l'adreça URL introduïda abans.</example>
+            </rule>
+        </rulegroup>
         <rule id="POSAR_DE_RELLEU" name="posar de/en relleu">
             <pattern>
                 <token inflected="yes" skip="1">posar</token>
