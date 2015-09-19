@@ -30662,7 +30662,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes" skip="5">fallar</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">sentència|veredicte|premi|tribunal|jutge|jurat|favor</token>
+                    <token inflected="yes" regexp="yes">sentència|veredicte|premi|tribunal|jutges?|jurat|favor</token>
                 </pattern>
                 <message>Possible castellanisme.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dictaminar</match></suggestion>
@@ -30679,7 +30679,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="5">sentència|veredicte|premi|tribunal|jutge|jurat|favor</token>
+                    <token inflected="yes" regexp="yes" skip="5">sentència|veredicte|premi|tribunal|jutges?|jurat|favor</token>
                     <marker>
                         <token inflected="yes">fallar</token>
                     </marker>
@@ -30695,6 +30695,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">decidir</match></suggestion>
                 <short>Possible error</short>
                 <example correction="dictaminar|dictar|pronunciar|sentenciar|adjudicar|concedir|atorgar|decidir">El jutge va <marker>fallar</marker> així.</example>
+                <example correction="dictaminaren|dictaren|pronunciaren|sentenciaren|adjudicaren|concediren|atorgaren|decidiren">Els jutges <marker>fallaren</marker> en favor d'Ermessenda</example>
                 <example>La sentència fou dictada ahir.</example>
             </rule>
         </rulegroup>
