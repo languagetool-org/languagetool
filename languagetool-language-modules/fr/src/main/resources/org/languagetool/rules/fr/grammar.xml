@@ -6094,6 +6094,10 @@ though, and has since been slightly modified)-->
         <example>Le CAPES de mathématiques.</example>
       </rule>
       <rule name="nom masculin suivi du féminin">
+        <antipattern>
+          <token>petit</token>
+          <token>peu</token>
+        </antipattern>
         <pattern>
           <token postag="N m .*" postag_regexp="yes" skip="1">
             <exception scope="previous" postag="&lt;/DE&gt;"/>
@@ -6134,6 +6138,7 @@ though, and has since been slightly modified)-->
         <example>Voir la déclaration sur l’<marker>honneur ci-jointe</marker>.</example>
         <example>Une mise à jour gratuite.</example>
         <example>Une mise à niveau couteuse.</example>
+        <example>Elle est un petit peu chiante.</example>
         <!-- <example>L’étoile à neutrons peut <marker>même être</marker> remplacée par un trou noir.</example> -->
       </rule>
       <rule name="féminin suivi du masculin">
@@ -6288,6 +6293,11 @@ though, and has since been slightly modified)-->
         <example>Des créatures <marker>marines</marker>.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>noir</token>
+          <token>de</token>
+          <token>jais</token>
+        </antipattern>
         <pattern>
           <token postag="D . s?p" postag_regexp="yes"/>
           <token postag="N . p" postag_regexp="yes"/>
@@ -6298,6 +6308,7 @@ though, and has since been slightly modified)-->
         <example correction="verts">Des yeux <marker>vert</marker>.</example>
         <example>Des yeux <marker>vert</marker> clair.</example>
         <example>Des yeux <marker>vert</marker> olive.</example>
+        <example>Ses cheveux étaient noir de jais.</example>
       </rule>
       <rule>
         <pattern>
@@ -6324,6 +6335,16 @@ though, and has since been slightly modified)-->
         <message>Quand la couleur est exprimée par un adjectif composé, l’accord ne doit pas se faire.</message>
         <example correction="">Une jupe <marker>bleue foncée</marker>.</example>
         <example>Une jupe bleu foncé.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">noires?|noirs</token></marker>
+          <token>de</token>
+          <token>jais</token>
+        </pattern>
+        <message>Les adjectifs de couleur composés de plusieurs mots demeurent invariable.</message>
+        <suggestion>noir</suggestion>
+        <example correction="noir">Des cheveux <marker>noirs</marker> de jais.</example>
       </rule>
     </rulegroup>
     <rulegroup id="A_LAQUELLE" name="accord avec lequel, laquelle, lesquels, etc.">
@@ -6838,6 +6859,10 @@ though, and has since been slightly modified)-->
         <example>Mon oncle n’est pas <marker>avare</marker> de son argent.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>droit</token>
+          <token>devant</token>
+        </antipattern>
         <pattern>
           <token postag="SENT_START" skip="-1">
             <exception scope="next" postag="[NRZ].* [me] .*|V inf" postag_regexp="yes"/>
@@ -6865,6 +6890,7 @@ though, and has since been slightly modified)-->
         <example>L’Autriche est pendant tout le Moyen Âge une des nombreuses principautés.</example>
         <example>Cette voiture était suffisamment bon marché.</example>
         <example>Cette caméra est dernier cri.</example>
+        <example>La sortie est droit devant.</example>
       </rule>
       <rule>
         <pattern>
@@ -8428,7 +8454,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">d|du|des?|en</exception></token>
           <token postag="[NR].* p" postag_regexp="yes">
-            <exception regexp="yes">[mt]oi|[nv]ous|eux</exception>
+            <exception regexp="yes">[mt]oi|[nvt]ous|eux</exception>
             <exception postag="[NZ].* sp?" postag_regexp="yes"/>
           </token>
           <token>qui</token>
@@ -8446,6 +8472,7 @@ though, and has since been slightly modified)-->
         <example>Un drapeau en lambeaux qui continue à flotter au vent.</example>
         <example>J’ai un fils qui est en secondaire.</example>
         <example>Le grand Tours qui disparaît.</example>
+        <example>Vous tous qui venez ici.</example>
       </rule>
       <rule>
         <pattern>
