@@ -42,15 +42,15 @@ public class PatternRuleLoaderTest extends TestCase {
 
     final Rule demoRule1 = getRuleById("DEMO_RULE", rules);
     final List<URL> urls = demoRule1.getUrls();
-//FIXME    assertEquals("http://fake-server.org/foo-bar-error-explained", urls.get(0).toString());
-//FIXME    assertEquals("http://fake-server.org/foo-bar-error-explained-alternative", urls.get(0).toString());
+    assertEquals("http://fake-server.org/foo-bar-error-explained", urls.get(0).toString());
+    assertEquals("http://fake-server.org/foo-bar-error-explained-alternative", urls.get(1).toString());
     assertEquals("[This is <marker>fuu bah</marker>.]", demoRule1.getCorrectExamples().toString());
     final List<IncorrectExample> incorrectExamples = demoRule1.getIncorrectExamples();
     assertEquals(1, incorrectExamples.size());
     assertEquals("This is <marker>foo bar</marker>.", incorrectExamples.get(0).getExample());
 
     final Rule demoRule2 = getRuleById("API_OUTPUT_TEST_RULE", rules);
-//FIXME    assertEquals(new ArrayList<>(), demoRule2.getUrls());
+    assertEquals(0, demoRule2.getUrls().size());
 
     assertEquals(ITSIssueType.Uncategorized, demoRule1.getLocQualityIssueType());
     assertEquals("tag inheritance failed", ITSIssueType.Addition, getRuleById("TEST_GO", rules).getLocQualityIssueType());
@@ -87,12 +87,12 @@ public class PatternRuleLoaderTest extends TestCase {
 
     // make sure URLs don't leak to the next rule:
     final List<Rule> orRules2 = getRulesById("OR_GROUPS", rules);
-//FIXME    for (Rule rule : orRules2) {
-//FIXME      assertNull("http://fake-server.org/rule-group-url", rule.getUrls().get(0).toString());
-//FIXME    }
+    for (Rule rule : orRules2) {
+      assertEquals(0, rule.getUrls().size());
+    }
     final Rule nextRule = getRuleById("DEMO_CHUNK_RULE", rules);
-//FIXME    assertNull("http://fake-server.org/rule-group-url", nextRule.getUrls().get(0).toString());
-  }
+      assertEquals(0, nextRule.getUrls().size());
+    }
 
   public void testPermissionManager() throws Exception {
     Policy.setPolicy(new MyPolicy());

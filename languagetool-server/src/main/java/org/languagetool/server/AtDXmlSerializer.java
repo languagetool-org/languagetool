@@ -33,7 +33,7 @@ import static org.languagetool.tools.StringTools.escapeForXmlContent;
  */
 @Experimental
 public class AtDXmlSerializer {
-  
+
   public String ruleMatchesToXml(List<RuleMatch> matches, String text) {
     StringBuilder sb = new StringBuilder();
     sb.append("<results>\n");
@@ -75,8 +75,8 @@ public class AtDXmlSerializer {
     sb.append("    <type>").append(escapeForXmlContent(type)).append("</type>\n");
     // TODO: we return the URL of external pages here, but WordPress/Jetpack shows the page
     // in a window that's too small, so we have to disable this very nice feature for now...
-    //if (rule.getUrl() != null) {
-    //  sb.append("    <url>").append(escapeForXmlContent(rule.getUrl().toString())).append("</url>\n");
+    //for (URL url : rule.getUrls()) {
+    //  sb.append("    <url>").append(escapeForXmlContent(url.toString())).append("</url>\n");
     //}
     sb.append("  </error>\n");
   }
@@ -97,5 +97,5 @@ public class AtDXmlSerializer {
       }
     }
   }
-  
+
 }

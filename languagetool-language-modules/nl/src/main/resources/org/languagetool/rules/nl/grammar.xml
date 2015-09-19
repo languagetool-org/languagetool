@@ -20,12 +20,12 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-Contributions and ideas from: 
-- taaladvies.net, 
-- Pander
+Contributions and ideas from:
+- taaladvies.net,
+- Pander OpenTaal
 - TaalTik (taaltik.nl)
 - E. Sanders: Aarsrivalen, scheldkarbonades en terminale baden, uitgeverij Prometheus, met toestemming van de auteur.
-- Jan de Ridder (missende regels aan de hand van fouten op Wikipedia) 
+- Jan de Ridder (missende regels aan de hand van fouten op Wikipedia)
 - F. de Raat: Hoe bereidt je een paard, uitgeverij Nieuw Amsterdan (NRC), met toestemming van de auteur
 
 $Id$
@@ -71,7 +71,7 @@ $Id$
                 <message>\3 \4 \5 is geen \day, maar een {realDay}.</message>
                 <example correction=""><marker>Maandag, 7 oktober 2014</marker>.</example>
                 <example><marker>Dinsdag, 7 oktober 2014</marker>.</example>
-            </rule>	    
+            </rule>
 	   <!--
 	    <rule>
 	      <pattern>
@@ -142,7 +142,7 @@ $Id$
 
   -->
 <category name="Witte spelling - geaccepteerd buiten overheid en onderwijs" default ="on">
-  
+
   <rule id="TaalTik_RESTAURANTS_a" name="italiaan => Italiaan">
     <!--
     2014-09-15 TaalTik nieuw
@@ -172,11 +172,11 @@ $Id$
     <example correction="De">Hij at bij de <marker>chinees</marker>.</example>
     <example>Ik <marker>chinees</marker> bij de Chinees.</example>
   </rule>
-  
+
 </category>
 
 <category name="Leesbaarheid">
-  
+
   <rule id="TaalTik_LANGER_DAN_18" name="Niet gemakkelijk leesbaar door lengte" default="off">
     <!-- TaalTik 2014-09-12 nieuw -->
     <pattern>
@@ -185,12 +185,12 @@ $Id$
       <token/><token/><token/><token/><token/><token/>
       <token skip="12"/>
       <token postag="SENT_END"/>
-    </pattern>    
-    <message>Deze zin is al te lang voor de norm voor gemakkelijk lezen. Let op dat de gemiddelde zinslengte klein blijft (onder de 12 woorden).</message>  
+    </pattern>
+    <message>Deze zin is al te lang voor de norm voor gemakkelijk lezen. Let op dat de gemiddelde zinslengte klein blijft (onder de 12 woorden).</message>
     <url>http://taalunieversum.org/algemeen/toelichting-bij-het-keurmerk-makkelijk-lezen</url>
     <example correction=""><marker>a b c d e f g h i j k l m n o p q r s t u v w.</marker></example>
     <example>Een <marker>afdoend</marker> antwoord.</example>
-  </rule> 
+  </rule>
 
   <rule id="TaalTik_LANGER_DAN_30" name="Te lange zin, lastig leesbaar" default="off">
     <!-- TaalTik 2014-09-12 nieuw -->
@@ -201,13 +201,13 @@ $Id$
       <token/><token/><token/><token/><token/><token/>
       <token skip="20"/>
       <token postag="SENT_END"/>
-    </pattern>    
-    <message>Deze zin is erg lang en daarom lastig te lezen. Probeer het in te korten tot maximaal 12 woorden.</message>  
+    </pattern>
+    <message>Deze zin is erg lang en daarom lastig te lezen. Probeer het in te korten tot maximaal 12 woorden.</message>
     <url>http://taalunieversum.org/algemeen/toelichting-bij-het-keurmerk-makkelijk-lezen</url>
     <example correction=""><marker>a b c d e f g h i j k l m a b c d e f g h i j k l m a b c d e f g h i j k l m.</marker></example>
     <example>Een <marker>afdoend</marker> antwoord.</example>
-  </rule> 
-  
+  </rule>
+
     <rule id="TaalTik_LANGER_DAN_50" name="Veel te lange zin">
     <!-- TaalTik 2014-09-12 nieuw -->
     <pattern>
@@ -217,18 +217,18 @@ $Id$
       <token/><token/><token/><token/><token/><token/><token/><token/><token/><token/><token/><token/>
       <token/><token/><token/><token/><token/><token/><token/><token/><token/><token/><token/><token/>
       <token/><token/>
-      <token skip="400"/>      
+      <token skip="400"/>
       <token postag="SENT_END"/>
-    </pattern>    
-    <message>Deze zin is (veel) te lang en dus moeilijk te lezen. Inkorten of opdelen moet mogelijk zijn. Bij voorkeur tot 12 woorden of korter.</message>  
+    </pattern>
+    <message>Deze zin is (veel) te lang en dus moeilijk te lezen. Inkorten of opdelen moet mogelijk zijn. Bij voorkeur tot 12 woorden of korter.</message>
     <url>http://taalunieversum.org/algemeen/toelichting-bij-het-keurmerk-makkelijk-lezen</url>
     <example correction=""><marker>a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g a b c d e f g h i j k l m n o p q r s t u v w x y z a b c d e f g h i j k l m n o p q r s t u v w x y z</marker></example>
     <example>Een <marker>afdoend</marker> antwoord.</example>
-  </rule> 
-  
+  </rule>
+
 </category>
 
-<category name="Eigennamen beroemdheden etc.">  
+<category name="Eigennamen beroemdheden etc.">
     <rulegroup id="NAAM_FOUT_GESPELD" name="Jimmy Hendrix → Jimi Hendrix (etc.)">
       <rule>
         <antipattern>
@@ -1326,7 +1326,7 @@ $Id$
         <url>https://nl.wikipedia.org/wiki/Mark_Zuckerberg</url>
         <example correction="Zuckerberg">Kent u Mark <marker>Zuckerburg</marker>?</example>
         <example>Kent u Mark Zuckerberg?</example>
-      </rule>      
+      </rule>
       <rule>
 	<antipattern><token>Mark</token><token>Zuckerberg</token></antipattern>
         <pattern>
@@ -1337,10 +1337,10 @@ $Id$
         <url>https://nl.wikipedia.org/wiki/Mark_Zuckerberg</url>
         <example correction="Mark Zuckerberg">Kent u <marker>Mark Zuckerburg</marker>?</example>
         <example>Kent u Mark Zuckerberg?</example>
-      </rule>      
+      </rule>
     </rulegroup>
-  
-</category>    
+
+</category>
 
 <category name="Aaneen of los">
 
@@ -1374,9 +1374,9 @@ $Id$
 </rule>
 
 <rule id="OT_EURO_a" name="€ teken → €-teken">
-  <!-- 
-  2014-08-19 TaalTik 
-    Regel aangepast omdat de melding er vaak naast zat en het om een vergeten spatie ging. 
+  <!--
+  2014-08-19 TaalTik
+    Regel aangepast omdat de melding er vaak naast zat en het om een vergeten spatie ging.
   -->
   <pattern>
     <token regexp="yes">€[a-z]{4}.*</token>
@@ -1433,10 +1433,10 @@ $Id$
       <token>grote</token>
       <token regexp="yes">van|is|te</token>
     </pattern>
-    <message>Als u het over de afmeting hebt, dan is het: <suggestion>grootte</suggestion></message>    
+    <message>Als u het over de afmeting hebt, dan is het: <suggestion>grootte</suggestion></message>
     <example correction="Grootte"><marker>De grote van</marker> het terrein was omvangrijk.</example>
     <example><marker>De grootte van</marker> het terrein was omvangrijk.</example>
-  </rule>  
+  </rule>
 
 <rule id="OT_2E_KAMER_a" name="tweede-kamerstuk → Tweede Kamerstuk">
   <!--
@@ -1453,7 +1453,7 @@ $Id$
 </rule>
 
 <rule id="OT_2E_KAMER_b" name="eerste-kamerstuk → Eerste Kamerstuk">
-  <!-- 
+  <!--
   2014-08-20 TaalTik
     regel werkt goed, url toegevoegd -->
   <pattern case_sensitive="no">
@@ -1570,7 +1570,7 @@ $Id$
     <token regexp="yes">bestellin(g|gen)</token>
   </pattern>
   <message>Juist is <suggestion><match no="1"></match><match no="2"></match><match no="3"></match></suggestion></message>
-  <url>http://taaladvies.net/taal/advies/vraag/412/in_bedrijf_stelling_inbedrijfstelling/</url>  
+  <url>http://taaladvies.net/taal/advies/vraag/412/in_bedrijf_stelling_inbedrijfstelling/</url>
   <example correction="teraardebestelling">De <marker>ter aarde bestelling</marker> is onterecht.</example>
 </rule>
 
@@ -1582,12 +1582,12 @@ $Id$
   <token regexp="yes">stellin(g|gen)</token>
   </pattern>
   <message>Juist is <suggestion><match no="1"></match><match no="2"></match><match no="3"></match></suggestion></message>
-  <url>http://taaladvies.net/taal/advies/vraag/412/in_bedrijf_stelling_inbedrijfstelling/</url>  
+  <url>http://taaladvies.net/taal/advies/vraag/412/in_bedrijf_stelling_inbedrijfstelling/</url>
   <example correction="terbeschikkingstelling">De <marker>ter beschikking stelling</marker> is onterecht.</example>
 </rule>
 
 <rule id="OT_XXX_ding" name="KLM vliegtuig → KLM-vliegtuig">
-  <!-- 
+  <!--
   2014-08-20 TaalTik
     regel geeft veel goede, maar ook vrij veel false positives
     Die zijn echter nauwelijk te voorkomen, anders dan met een zeer complexe regel voor spatiefouten
@@ -1699,7 +1699,7 @@ $Id$
     2014-09-08 regel verder aangepast
   -->
   <antipattern><token>NRC</token><token>Handelsblad</token></antipattern> <!-- bekende eigennaam -->
-  <antipattern><token>Longkanker</token><token>Informatiecentrum</token></antipattern> <!-- bekende eigennaam -->  
+  <antipattern><token>Longkanker</token><token>Informatiecentrum</token></antipattern> <!-- bekende eigennaam -->
   <pattern>
   <token>het</token>
   <token postag="NN1[dmf]|NN2" postag_regexp="yes"><exception regexp="yes">bij|voor|was|niet|een|buiten</exception><exception postag="VB1|VBp|VBpe|NM.*|VBi|AJ.*|PP.*|UNKNOWN" postag_regexp="yes"></exception></token>
@@ -1730,9 +1730,9 @@ $Id$
 
 
 <rule id="OT_GELE_TRUIDRAGER_a" name="gele truidrager → geletruidrager">
-  <!-- 
-  2014-08-19 TaalTik: 
-    rule is perfect; url added 
+  <!--
+  2014-08-19 TaalTik:
+    rule is perfect; url added
   -->
   <pattern>
   <token regexp="yes">gele|roze|groene|blauwe|witte|rode|oranje|bolletjes</token>
@@ -1829,7 +1829,7 @@ $Id$
 </rule>
 
 <rule id="OT_1_STE" name="1 ste → 1ste">
-  <!-- 
+  <!--
   2014-08-23 TaalTik
     regel werkt goed
   -->
@@ -1843,7 +1843,7 @@ $Id$
 </rule>
 
 <rule id="TaalTik_1_TE" name="1 te → 1e">
-  <!-- 
+  <!--
   2014-09-08 TaalTik
     Nieuwe regel
   -->
@@ -1886,7 +1886,7 @@ $Id$
 
 </category>
 <category name="Afkortingen">
-  
+
 <rule id="OT_AD_a" name="ad. → ad">
 <pattern case_sensitive="yes">
 <token spacebefore="yes">ad</token>
@@ -1897,8 +1897,8 @@ $Id$
 </rule>
 
 <rule id="OT_AD_b" name="Ad. → Ad">
-  <!-- 
-    2014-08-19 TaalTik: regel werkt goed 
+  <!--
+    2014-08-19 TaalTik: regel werkt goed
   -->
   <pattern case_sensitive="yes">
   <token postag="SENT_START"></token>
@@ -1947,8 +1947,8 @@ $Id$
 </rule>
 
 <rule id="OT_A_I_O" name="a.i.o. → aio">
-  <!-- 
-  2014-08-19 TaalTik: regel werkt goed, url toegevoegd 
+  <!--
+  2014-08-19 TaalTik: regel werkt goed, url toegevoegd
   -->
   <pattern>
   <token>A</token>
@@ -1959,7 +1959,7 @@ $Id$
   <token spacebefore="no">.</token>
   </pattern>
   <message>Juist is <suggestion>aio</suggestion>.</message>
-  <url>http://taaladvies.net/taal/advies/vraag/36/aio_aio_aio_aio/</url>  
+  <url>http://taaladvies.net/taal/advies/vraag/36/aio_aio_aio_aio/</url>
   <example correction="aio">Hij is <marker>a.i.o.</marker></example>
   <example>Hij is <marker>aio</marker>.</example>
 </rule>
@@ -1973,7 +1973,7 @@ $Id$
     <pattern case_sensitive="yes">
     <marker>
     <token regexp="yes" postag="NN2">.*[bcdefghjklmnpqrstvwxz]('|‘)s<exception regexp="yes">(?iu)(McDonald|there|that|what|it|let|dj|pc|cd|wc|dvd|bh|fte|tv|gsm|bv|cv|pcb|dc|cfk|pk|roc|ic|lp)('|‘)s</exception></token>
-    </marker>	
+    </marker>
     </pattern>
     <message>Alleen na een sterke eindklank en woorden die letter voor letter worden uitgesproken wordt het meervoud met 's geschreven.<suggestion><match no="1" regexp_match="(.*)[’']s" regexp_replace="$1s"></match></suggestion>.</message>
     <url>http://educatie-en-school.infonu.nl/taal/28508-het-gebruik-van-de-apostrof-in-het-nederlands.html</url>
@@ -2001,7 +2001,7 @@ $Id$
 
 </category>
 <category name="Beledigend">
-  
+
 <rule id="OT_GROF" name="Mogelijk beledigend taalgebruik">
   <!--
   2014-08-20 TaalTik
@@ -2019,7 +2019,7 @@ $Id$
 
 </category>
 <category name="Constructiefout">
-  
+
 <rule id="OT_EINDE_ZIN_ONTBREEKT" name="Einde zin vergeten">
   <!--
   2014-08-22 TaalTik
@@ -2046,7 +2046,7 @@ $Id$
     <antipattern><token postag="SENT_START"/><token/><token/><token/><token/><token/><token/><token/></antipattern>
   <pattern>
     <marker>
-    <token regexp="yes" postag="SENT_END">[\p{L}]+</token> 
+    <token regexp="yes" postag="SENT_END">[\p{L}]+</token>
     </marker>
   </pattern>
   <message>Onverwacht einde. Voeg toe een leesteken toe of koppel de teksten.</message>
@@ -2152,8 +2152,8 @@ $Id$
 </rule>
 
 <rule id="OT_BESEF_ME" name="besef me → realiseer me">
-  <!-- 
-  2014-08-19 TaalTik: regel werkt goed. 
+  <!--
+  2014-08-19 TaalTik: regel werkt goed.
   -->
   <pattern>
   <token>besef</token>
@@ -2166,8 +2166,8 @@ $Id$
 </rule>
 
 <rule id="OT_BESEFT_ZICH" name="beseft zich → realiseert">
-  <!-- 
-  2014-08-19 url toegevoegd; regel is goed 
+  <!--
+  2014-08-19 url toegevoegd; regel is goed
   -->
   <pattern>
   <token>beseft</token>
@@ -2182,7 +2182,7 @@ $Id$
 
 <rule id="OT_IRRITEERT_ZICH" name="irriteert zich etc">
   <!--
-  2014-08-19 TaalTik: fout in suggestie verbeterd, url toegevoegd 
+  2014-08-19 TaalTik: fout in suggestie verbeterd, url toegevoegd
   -->
   <pattern>
   <token inflected="yes">irriteren</token>
@@ -2209,7 +2209,7 @@ $Id$
   <url>https://onzetaal.nl/taaladvies/advies/jaren-70-jaren-70</url>
   <example correction="jaren 80">De <marker>jaren '80</marker> was er veel disco.</example>
   </rule>
-  
+
 <rule id="OT_GROTERE_ALS" name="grotere als">
   <!--
   2014-08-23 TaalTik
@@ -2263,7 +2263,7 @@ $Id$
   <message>U bedoelt vast <suggestion><match no="1" postag="VB.*">verwijzen</match></suggestion></message>
   <url>http://www.vrt.be/taal/refereren-0</url>
   <example correction="verwijst">Hij <marker>refereert</marker> weer naar de oude zaak.</example>
-  </rule>  
+  </rule>
   <rule>
   <pattern>
     <token skip="6">naar</token>
@@ -2274,7 +2274,7 @@ $Id$
   <message>U bedoelt vast <suggestion><match no="2" postag="VB.*">verwijzen</match></suggestion></message>
   <example correction="verwijst">Als hij naar de oude zaak <marker>refereert</marker>, gaat het mis.</example>
   <example>Als hij naar de oude zaak <marker>verwijst</marker>, komt het goed.</example>
-  </rule>  
+  </rule>
 </rulegroup>
 
 <rulegroup id="MANKEREN" name="Mankeren">
@@ -2289,7 +2289,7 @@ $Id$
     <token regexp="yes">niets|iets|wat</token>
     </pattern>
     <message>Door velen wordt '<suggestion>mij mankeert <match no="3"></match></suggestion>' beter gevonden.</message>
-    <url>https://onzetaal.nl/taaladvies/advies/ik-mankeer-niets-mij-mankeert-niets</url>    
+    <url>https://onzetaal.nl/taaladvies/advies/ik-mankeer-niets-mij-mankeert-niets</url>
     <example correction="Mij mankeert wat"><marker>Ik mankeer wat</marker>.</example>
     <example><marker>Mij mankeert niets</marker>.</example>
 
@@ -2302,7 +2302,7 @@ $Id$
     <token regexp="yes">niets|iets|wat</token>
     </pattern>
     <message>Door velen wordt '<suggestion>jou mankeert <match no="3"></match></suggestion>' beter gevonden.</message>
-    <url>https://onzetaal.nl/taaladvies/advies/ik-mankeer-niets-mij-mankeert-niets</url>    
+    <url>https://onzetaal.nl/taaladvies/advies/ik-mankeer-niets-mij-mankeert-niets</url>
     <short>jou</short>
     <example correction="Jou mankeert wat"><marker>Jij mankeert wat</marker>.</example>
     <example><marker>Jou mankeert niets</marker>.</example>
@@ -2315,7 +2315,7 @@ $Id$
     <token regexp="yes">niets|iets|wat</token>
     </pattern>
     <message>Door velen wordt '<suggestion>hem mankeert <match no="3"></match></suggestion>' beter gevonden.</message>
-    <url>https://onzetaal.nl/taaladvies/advies/ik-mankeer-niets-mij-mankeert-niets</url>    
+    <url>https://onzetaal.nl/taaladvies/advies/ik-mankeer-niets-mij-mankeert-niets</url>
     <short>hem</short>
     <example correction="Hem mankeert wat"><marker>Hij mankeert wat</marker>.</example>
     <example><marker>Hem mankeert niets</marker>.</example>
@@ -2323,8 +2323,8 @@ $Id$
 </rulegroup>
 
 <rule id="OT_WAT_SCHETST" name="wat schetst">
-  <!-- 
-  2014-08-19 TaalTik: regel werkt goed, url toegevoegd 
+  <!--
+  2014-08-19 TaalTik: regel werkt goed, url toegevoegd
   -->
   <pattern>
   <marker>
@@ -2340,10 +2340,10 @@ $Id$
 </rule>
 
 <rule id="OT_CORDON_BLUE" name="cordon bleu">
-  <!-- 
-  2014-08-19 TaalTik: 
-    regel werkt goed; 
-    url toegevoegd 
+  <!--
+  2014-08-19 TaalTik:
+    regel werkt goed;
+    url toegevoegd
   2014-10-02 TaalTik de g toegevoegd
   -->
   <antipattern><token>cordon</token><token>bleu</token></antipattern>
@@ -2352,7 +2352,7 @@ $Id$
   <token regexp="yes">blue|bleu</token>
   </pattern>
   <message>Juist is: <suggestion>cordon bleu</suggestion>, want het is Frans.</message>
-  <url>http://nl.wikipedia.org/wiki/Wikipedia:Lijst_van_veelvuldig_gemaakte_fouten_in_het_Nederlands</url>  
+  <url>http://nl.wikipedia.org/wiki/Wikipedia:Lijst_van_veelvuldig_gemaakte_fouten_in_het_Nederlands</url>
   <example correction="cordon bleu">Ik lust geen <marker>cordon blue</marker>.</example>
   <example>Ik ben dol op <marker>cordon bleu</marker>.</example>
 </rule>
@@ -2408,7 +2408,7 @@ $Id$
 </rule>
 
 <rule id="OT_LAAT_ONS" name="laat ons">
-  <!-- 
+  <!--
   2014-08-23 TaalTik
     regel werkt goed, url toegevoegd, tekst aangepast.
   -->
@@ -2428,7 +2428,7 @@ $Id$
 
 </category>
 <category name="Geografie">
-  
+
 <rule id="OT_PEKING" name="Bejing">
   <!-- 2014-08-22 TaalTik
     regel werkt goed
@@ -2480,7 +2480,7 @@ $Id$
     regel geeft veel false positives.
     TODO: veel voorkomende geografische begrippen oplossen zoals 'leger des heils', uitgezet op mailing list
   <rule id="nr629" name="hoofdletter in Golf van .. etc">
-      
+
   <pattern case_sensitive="yes">
   <token regexp="yes">golf|bocht|baai|kanaal|hoogland|laagland|nauw|meer|plateau|straat|zee|land|landengte|vallei|vlakte|bekken</token>
   <token>van</token>
@@ -2492,7 +2492,7 @@ $Id$
   <example>De <marker>Golf van Amman</marker>.</example>
   </rule>
     -->
-    
+
   <!--
   2014-08-21 TaalTik
     regel werkt redelijk, maar niet 100%
@@ -2528,7 +2528,7 @@ $Id$
 
 
 <rule id="OT_T_PLAATS" name="'t Plaats">
-  <!-- 
+  <!--
   2014-08-23 TaalTik
     regel is vrij ruw, mar komt ook niet zo vaak op.
   -->
@@ -2562,11 +2562,11 @@ $Id$
 </rule>
 
 <rule id="OT_PLAATS_HL" name="Missende hoofdletter in plaatsnaam met 'aan den' er in.">
-  <!-- 
-  2014-08-19 TaalTik: 
-    markering van fout aangepast 
-    case_conversion toegevoegd; 
-    regel werkt goed 
+  <!--
+  2014-08-19 TaalTik:
+    markering van fout aangepast
+    case_conversion toegevoegd;
+    regel werkt goed
   -->
   <pattern>
   <marker>
@@ -2582,8 +2582,8 @@ $Id$
 </rule>
 
 <rule id="OT_ZEE" name="Missende hoofdletter van Zee in plaats 'aan Zee'">
-  <!-- 
-  2014-08-19 TaalTik: regel werkt goed 
+  <!--
+  2014-08-19 TaalTik: regel werkt goed
   -->
   <pattern case_sensitive="yes">
   <marker>
@@ -2601,7 +2601,7 @@ $Id$
 <!-- 2014-08-19 TaalTik
   'een' toegevoegd aan patroon om uitzondering te maken.
   Regel werkt verder goed
-  -->  
+  -->
   <pattern case_sensitive="yes">
   <token negate="yes">een</token>
   <marker>
@@ -2645,10 +2645,10 @@ $Id$
 </category>
 
 <category name="Getallen">
-  
+
 <rule id="OT_GETALLEN" name="getallen">
   <!--
-  2014-08-20 TaalTik : regel werkt prima 
+  2014-08-20 TaalTik : regel werkt prima
   -->
   <pattern>
   <token regexp="yes">.+duizend.*(een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|twin|der|veer|honderd).*</token>
@@ -2660,7 +2660,7 @@ $Id$
 
 <rule id="OT_GETALLEN_O_20" name="Getallen onder 20 uitschrijven" default="on">
   <!-- TODO: weer op 'off'zetten na testen -->
-  
+
   <pattern>
   <token negate="yes" regexp="yes">[.,/-]|artikel|jaar|jaren|'</token>
   <marker>
@@ -2669,23 +2669,23 @@ $Id$
   <token><exception regexp="yes">.{4,50}|[.,/-]|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|mg|ml|m|cm|km</exception></token>
   </pattern>
   <message>Ronde getallen en getallen onder de twintig worden in tekst bij voorkeur in letters geschreven</message>
-  <url>https://onzetaal.nl/taaladvies/advies/getallen-uitschrijven</url>  
+  <url>https://onzetaal.nl/taaladvies/advies/getallen-uitschrijven</url>
   <short>Uitschrijven</short>
   <example correction="">Er was <marker>100</marker> man aanwezig.</example>
   <example>Er was <marker>honderd</marker> man aanwezig.</example>
 </rule>
 
 <rule id="OT_GROTE_GETALLEN_a" name="grote getallen">
-  <!-- 
-  2014-08-19 TaalTik: 
-    regel werkt goed ; 
-    url toegevoegd 
+  <!--
+  2014-08-19 TaalTik:
+    regel werkt goed ;
+    url toegevoegd
   -->
   <pattern>
   <token regexp="yes">.*(m|b|tr)ilj(oen|ard)(een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|twin|der|veer|honderd|duizend).*</token>
   </pattern>
   <message>De getallen miljoen, miljard, e.d. worden in een getal los geschreven<suggestion><match no="1" regexp_match="(miljoen|miljard|biljoen|biljard|triljoen|triljard)" regexp_replace=" $1 "></match></suggestion></message>
-  <url>https://onzetaal.nl/taaladvies/advies/getallen-uitschrijven</url>  
+  <url>https://onzetaal.nl/taaladvies/advies/getallen-uitschrijven</url>
   <short>Miljoen etc. horen los</short>
   <example correction=" miljoen vijfhonderdduidend">De regering begrootte drie <marker>miljoenvijfhonderdduidend</marker>.</example>
   <example>De regering begrootte drie <marker>miljoen</marker> vijfhonderdduizend.</example>
@@ -2693,10 +2693,10 @@ $Id$
 
 <rule id="OT_GROTE_GETALLEN_b" name="grote getallen">
   <pattern>
-  <!-- 
-  2014-08-19 TaalTik: 
-    regel werkt goed ; 
-    url toegevoegd 
+  <!--
+  2014-08-19 TaalTik:
+    regel werkt goed ;
+    url toegevoegd
   -->
   <token regexp="yes">.*(m|b|tr)ilj(oen|ard).*(een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|tig|honderd|duizend).*<exception regexp="yes">(miljarden|miljoenen).*</exception></token>
   </pattern>
@@ -2713,7 +2713,7 @@ $Id$
   <token regexp="yes">.*(een|twee|drie|vier|vijf|zes|zeven|acht|negen|tien|tig|honderd|duizend).*(m|b|tr)ilj(oen|ard)</token>
   </pattern>
   <message>De getallen miljoen, miljard, e.d. worden in een getal los geschreven: <suggestion><match no="1" regexp_match="(miljoen|miljard|biljoen|biljard|triljoen|triljard)" regexp_replace=" $1"></match></suggestion></message>
-  <url>https://onzetaal.nl/taaladvies/advies/getallen-uitschrijven</url>  
+  <url>https://onzetaal.nl/taaladvies/advies/getallen-uitschrijven</url>
   <short>Miljoen etc. horen los</short>
   <example correction="drie miljoen">De regering begrootte <marker>driemiljoen</marker> vijfhonderdduizend.</example>
   <example>De regering begrootte drie <marker>miljoen</marker> vijfhonderdduizend.</example>
@@ -2738,7 +2738,7 @@ $Id$
   2014-08-23 TaalTik
     geen hiets op deze regel in 20 GB data. Heeft deze wel zin
     TODO:foutzoeken
-  -->	
+  -->
   <pattern>
   <token>ad</token>
   <token regexp="yes">€|EUR</token>
@@ -2754,7 +2754,7 @@ $Id$
 </category>
 
 <category name="Hoofdletters">
-  
+
   <rule id="OT_HL" name=", Hoofdletter">
     <!--
     2014-08-21 TaalTik
@@ -2782,7 +2782,7 @@ $Id$
     de Graaf /Hertog is een normale achternaam; uitzonderingen gemaakt.
   -->
   <antipattern><token regexp="yes">[A-Z].*</token><token>de</token><token>Graaf</token></antipattern>
-  <antipattern><token regexp="yes">[A-Z].*</token><token>Hertog</token></antipattern>  
+  <antipattern><token regexp="yes">[A-Z].*</token><token>Hertog</token></antipattern>
   <pattern case_sensitive="yes">
   <token/>
   <token><exception postag="SENT_START"/><exception>De</exception></token>
@@ -2812,7 +2812,7 @@ $Id$
 </rule>
 
 <rule id="OT_MAANDEN" name="maanden hebben geen hoofdletter">
-  <!-- 
+  <!--
   2014-08-21 TaalTik
     regel werkt goed op NL teksten; er zitten wel een paar eigennamen in de weg.
   -->
@@ -2828,11 +2828,11 @@ $Id$
 
 
 <rule id="OT_FEESTDAGEN" name="samenstellingen met feestdagen, geen hoofdletter">
-  <!-- 
-  2014-08-19 TaalTik 
-    waarschuwing van testrun weggewerkt 
+  <!--
+  2014-08-19 TaalTik
+    waarschuwing van testrun weggewerkt
     verder werkt regel goed
-  -->  
+  -->
   <pattern case_sensitive="yes">
   <token><exception postag="SENT_START"></exception></token>
   <marker>
@@ -2846,7 +2846,7 @@ $Id$
 </rule>
 
 <rule id="OT_PAMPUS" name="Pampus of pampus">
-  <!-- 
+  <!--
   2014-08-23 TaalTik
     regel werkte redelijk, maar wel nog veel false positives
     aangepast; TODO: controleren
@@ -2897,9 +2897,9 @@ $Id$
   <example>Hij werkt bij <marker>Unicef</marker>.</example>
   <example><marker>AMSTERDAM</marker> - is een uitzondering van kranten.</example>
 </rule>
-  
+
 <rule id="OT_AMERIKAAN" name="amerikaan of Amerikaan">
-  <!-- 
+  <!--
   2014-08-23 TaalTik
     regel werkt goed
   -->
@@ -2931,7 +2931,7 @@ $Id$
   <message>Wanneer u geen auto's bedoelt, maar inwoner van Amerika, is juist: <suggestion>Ameriknen</suggestion></message>
   <short>Amerikanen?</short>
   <example correction="Ameriknen">Hij kent <marker>amerikanen</marker>.</example>
-  <example correction="Ameriknen">Het is heel leuk voor de <marker>amerikanen</marker>.</example>  
+  <example correction="Ameriknen">Het is heel leuk voor de <marker>amerikanen</marker>.</example>
   <example>Het is heel leuk voor de <marker>Amerikanen</marker>.</example>
 </rule>
 
@@ -2958,7 +2958,7 @@ $Id$
   2014-08-22 TaalTik
     regel werkte goed, maar flexibeler gemaakt met antipattern
   -->
-  <antipattern case_sensitive="yes"><token regexp="yes">Tweede|Eerste</token><token regexp="yes">Kamer.*</token></antipattern>  
+  <antipattern case_sensitive="yes"><token regexp="yes">Tweede|Eerste</token><token regexp="yes">Kamer.*</token></antipattern>
   <pattern>
   <token regexp="yes">tweede|eerste</token>
   <token regexp="yes">kamer.*</token>
@@ -2973,8 +2973,8 @@ $Id$
   <!--
   2014-08-22 TaalTik
     regel werkte goed, maar flexibeler gemaakt met antipattern
-  -->  
-  <antipattern case_sensitive="yes"><token>Rode</token><token regexp="yes">Kruis.*</token></antipattern>    
+  -->
+  <antipattern case_sensitive="yes"><token>Rode</token><token regexp="yes">Kruis.*</token></antipattern>
   <pattern>
   <token>rode</token>
   <token regexp="yes">kruis.*<exception regexp="yes">.*je$|.*jes$</exception></token>
@@ -3087,7 +3087,7 @@ $Id$
   <example>Hij is een <marker>brave hendrik</marker>.</example>
 </rule>
 
-  <!-- 
+  <!--
   2014-08-21 TaalTik
     deze regel geeft voornamelijk false positives, daarom uitgeschakeld
     TODO:  regel schrijven op bureau Jeugdzorg
@@ -3140,7 +3140,7 @@ $Id$
 </category>
 
 <category name="Informeel">
-  
+
 <rule id="OT_GEEN_EEN" name="geen een">
   <!--
   2014-08-23 TaalTik
@@ -3159,7 +3159,7 @@ $Id$
   <!--
   2014-08-23 TaalTik
     regel werkt goed
-  -->  
+  -->
   <pattern>
   <token>geen</token>
   <token>eens</token>
@@ -3257,7 +3257,7 @@ $Id$
   <!--
   2014-08-22 TaalTik
     de tekst in het taaladvies is veel complexer dan deze regel aan kan, daarom uitgeschakeld.
-    TODO: betere regels voor kwijt 
+    TODO: betere regels voor kwijt
 <rule id="nr799" name="kwijt zijn">
   <pattern>
   <token>kwijt</token>
@@ -3312,7 +3312,7 @@ $Id$
 2014-08-21 TaalTik
     deze regel geeft bijna alleem maar false positives in de vorm van regelnummers en alineanummers.
     daarom uitgeschakeld
-  
+
 <rule id="nr603" name="zin begint met symbool">
   <pattern case_sensitive="yes">
   <token postag="SENT_START"></token>
@@ -3341,7 +3341,7 @@ $Id$
      <short>—</short>
       <example correction="—">Dit is geen <marker>-</marker> gedachtestreep.</example>
       <example>Dit is een <marker>—</marker> gedachtestreep.</example>
-    </rule>  
+    </rule>
 
     <rule>
       <!-- TaalTik 2014-09-18 nieuw -->
@@ -3357,7 +3357,7 @@ $Id$
       <short>—</short>
       <example correction=" —">Dit is geen<marker>—</marker> gedachtestreep.</example>
       <example>Dit is een <marker>—</marker> gedachtestreep.</example>
-    </rule>  
+    </rule>
 
     <rule>
       <!-- TaalTik 2014-09-18 nieuw -->
@@ -3372,7 +3372,7 @@ $Id$
       <short>—</short>
       <example correction="— ">Dit is geen <marker>—</marker>gedachtestreep.</example>
       <example>Dit is een <marker>—</marker> gedachtestreep.</example>
-    </rule>  
+    </rule>
 
     <rule>
       <!-- TaalTik 2014-09-18 nieuw -->
@@ -3387,21 +3387,21 @@ $Id$
       <short>—</short>
       <example correction=" — ">Dit is geen<marker>—</marker>gedachtestreep.</example>
       <example>Dit is een <marker>—</marker> gedachtestreep.</example>
-    </rule>  
-    
+    </rule>
+
   </rulegroup>
-  
+
   <rule id="TaalTik_KOMMA_DAT" name=", dat → dat">
     <!-- 2014-09-24 Nieuwe regel (uit 'hoe bereidt je een paard' -->
     <pattern>
       <token>,</token>
       <token>dat</token>
     </pattern>
-    <message>Voor 'dat' lees je meestal geen pauze; dan hoort er ook geen komma: <suggestion>\2</suggestion></message>    
+    <message>Voor 'dat' lees je meestal geen pauze; dan hoort er ook geen komma: <suggestion>\2</suggestion></message>
     <example correction="dat">Ik wist niet<marker>, dat</marker> het fout was.</example>
     <example>Ik wist niet <marker>dat</marker> het goed was.</example>
-  </rule> 
-  
+  </rule>
+
 <rule id="OT_PUNT_UITR" name=".! of .?">
   <!--
   2014-08-21 TaalTik
@@ -3567,7 +3567,7 @@ $Id$
 </category>
 
 <category name="Leenwoorden met een gangbaar alternatief" default="on">
-  
+
   <rule id="OT_GOAL" name="goal → doel(punt)">
   <!--
   2014-08-22 TaalTik
@@ -3582,7 +3582,7 @@ $Id$
 </rule>
 
 <!--
-  2014-08-22 TaalTik 
+  2014-08-22 TaalTik
   opgenomen in regel hiervoor
 <rule id="nr562" name="goals">
 <pattern case_sensitive="yes">
@@ -3596,7 +3596,7 @@ $Id$
 -->
 
 <rule id="OT_SUPPORT" name="support → ondersteuning">
-  <!-- 
+  <!--
   2014-08-21 TaalTik
     regel werkt goed
   -->
@@ -3708,7 +3708,7 @@ $Id$
 
 
 <rule id="OT_MANAGEMENT" name="management → leiding" default="off">
-  <!-- 
+  <!--
   2014-08-20 TaalTik
     regel geeft veel meldingen, verder wel oké
   -->
@@ -3763,7 +3763,7 @@ $Id$
   </pattern>
   <message>Engels. Suggesties: <suggestion>oppas</suggestion>.</message>
   <example correction="oppas">Zoek de <marker>babysit</marker>.</example>
-  <example correction="oppas">Ik durfde in het begin geen <marker>babysit</marker> nemen.</example>  
+  <example correction="oppas">Ik durfde in het begin geen <marker>babysit</marker> nemen.</example>
 </rule>
 
 <rule id="OT_MAGAZINE" name="magazine → tijdschrift">
@@ -3806,7 +3806,7 @@ $Id$
   <!--
   2014-08-22 TaalTik
     regel werkt goed
-  -->  
+  -->
   <pattern>
   <token inflected="yes">reporter</token>
   </pattern>
@@ -3815,7 +3815,7 @@ $Id$
 </rule>
 
 <rule id="OT_EYECATCHER" name="eyecatcher → blikvanger">
-  <!-- 
+  <!--
   2014-08-23 TaalTik
     regel werkt prima
   -->
@@ -3983,9 +3983,9 @@ $Id$
 
 
 <category name="Lidwoorden">
-  
+
 <rule id="OT_HET_JE_DIE" name="het hondje die">
-  <!-- 
+  <!--
   2012-08-22 TaalTik
     regel werkt goed
   -->
@@ -4001,7 +4001,7 @@ $Id$
   <example correction="dat">Ik zie het hondje <marker>die</marker> loopt.</example>
 </rule>
 
-    
+
 
 
 <!--
@@ -4046,7 +4046,7 @@ $Id$
 </category>
 
 <category name="Notaties">
-  
+
 <rule id="OT_EURO_b" name="Geen EUR voor een bedrag">
   <!--
   2014-08-21 TaalTik
@@ -4119,7 +4119,7 @@ $Id$
 
 <rule id="OT_GRADEN_KELVIN_a" name="Kelvin hoort zonder gradenteken">
   <!--
-  TaalTik 2014-08-18: spacebefore toegevoegd om false positives te voorkomen 
+  TaalTik 2014-08-18: spacebefore toegevoegd om false positives te voorkomen
   De gevonden fouten waren allemaal false positives
   -->
   <pattern>
@@ -4134,7 +4134,7 @@ $Id$
 
 <rule id="OT_GRADEN_KELVIN_b" name="Kelvin hoort zonder gradenteken">
   <!--
-  TaalTik 2014-08-18: spacebefore toegevoegd om false positives te voorkomen 
+  TaalTik 2014-08-18: spacebefore toegevoegd om false positives te voorkomen
   De gevonden fouten waren allemaal false positives
   -->
   <pattern>
@@ -4172,14 +4172,16 @@ $Id$
   <token regexp="yes">[0-9]{1,2}u\d\d</token>
   </pattern>
   <message>De voorkeur voor notatie van tijd is <suggestion><match no="1" regexp_match="u" regexp_replace="\."></match> uur</suggestion> of <suggestion><match no="1" regexp_match="u" regexp_replace="\."></match> u.</suggestion></message>
+  <url>http://taaladvies.net/taal/advies/vraag/1278</url>
   <url>https://onzetaal.nl/taaladvies/advies/tijden-noteren</url>
+  <url>https://nl.wikipedia.org/wiki/Tijdnotatie</url>
   <short>Tijdnotatie onjuist</short>
   <example correction="8.30 uur|8.30 u.">Hij komt <marker>8u30</marker>.</example>
   <example>Hij komt <marker>8.30</marker> uur.</example>
 </rule>
 
 <rule id="OT_TIJD_b" name="tijdnotatie 16u.30">
-  <!-- 
+  <!--
     2014-08-23 TaalTik
       regel werkt goed
   -->
@@ -4215,7 +4217,7 @@ $Id$
   TaalTik 2014-08-21
     regel werkt goed
     url toegevoegd
-  
+
   -->
   <pattern>
   <marker>
@@ -4233,14 +4235,14 @@ $Id$
 </rule>
 
 
-<!-- 
-    2014-08-19 TaalTik 
-      [.] gewijzigd in \. 
+<!--
+    2014-08-19 TaalTik
+      [.] gewijzigd in \.
       Heel veel onterechte meldingen op paragraafnummers en versienummers
       regel daarom uitgezet.
       TODO alternatieven maken
 <rule id="nr728" name="vreemd getal v.w.b. decimaaltekens">
-      
+
   <pattern>
   <token negate="yes" regexp="yes">\.|artikel|artikelen|paragraaf|paragrafen|punt|punten</token>
   <marker>
@@ -4318,7 +4320,7 @@ $Id$
   <pattern>
   <marker>
   <token>teneinde</token>
-  </marker>	
+  </marker>
   <token><exception postag="SENT_END"/></token>
   </pattern>
   <message>Gebruik <suggestion>om</suggestion> in plaats van deze ouderwetse term.</message>
@@ -4344,7 +4346,7 @@ $Id$
 
 
 <rule id="OT_HER_EN_DER" name="her en der">
-  <!-- 
+  <!--
   2014-08-22 TaalTik
     regel werkt prima
   -->
@@ -4372,7 +4374,7 @@ $Id$
   <example correction="'s middags">Het was <marker>des middags</marker>.</example>
 </rule>
 
-  <!-- 
+  <!--
   2014-08-20 TaalTik
     Regel werkt goed, tekst iets aangepast.
   2014-08-27 TaalTik
@@ -4649,9 +4651,9 @@ $Id$
   <message>Dit woord is ouderwets. Gebruik <suggestion>en</suggestion>, <suggestion>evenals</suggestion>.</message>
   <url>https://onzetaal.nl/taaladvies/advies/ouderwets-taalgebruik</url>
   <example correction="en|evenals">Het is vreemd <marker>alsmede</marker> fout.</example>
-  <example correction="en|evenals">Het zwembad <marker>alsmede</marker> de fitness was al jaren niets aan gedaan.</example>  
-  <example correction="en|evenals">Wij vragen de regering van Nederland, <marker>alsmede</marker> alle andere regeringen om de 'Rechten van de Natuur' te accepteren.</example>  
-  <example correction="en|evenals">Het onderwerpen van alle geschillen aan de beslissing van scheidsmannen <marker>alsmede</marker> het verlenen van zijn medewerking in het geding;</example>  
+  <example correction="en|evenals">Het zwembad <marker>alsmede</marker> de fitness was al jaren niets aan gedaan.</example>
+  <example correction="en|evenals">Wij vragen de regering van Nederland, <marker>alsmede</marker> alle andere regeringen om de 'Rechten van de Natuur' te accepteren.</example>
+  <example correction="en|evenals">Het onderwerpen van alle geschillen aan de beslissing van scheidsmannen <marker>alsmede</marker> het verlenen van zijn medewerking in het geding;</example>
   <example>Die is altijd goed.</example>
 </rule>
 
@@ -5256,8 +5258,8 @@ $Id$
   <pattern>
     <token inflected="yes">evident</token>
   </pattern>
-  <message>Dit is ouderwets. Gebruik <suggestion><match no="1" postag="AJ.*" postag_regexp="yes">duidelijk</match></suggestion>, 
-  <suggestion><match no="1" postag="NN.*" postag_regexp="yes">overduidelijk</match></suggestion>    
+  <message>Dit is ouderwets. Gebruik <suggestion><match no="1" postag="AJ.*" postag_regexp="yes">duidelijk</match></suggestion>,
+  <suggestion><match no="1" postag="NN.*" postag_regexp="yes">overduidelijk</match></suggestion>
   .</message>
   <url>https://onzetaal.nl/taaladvies/advies/ouderwets-taalgebruik</url>
   <example correction="duidelijk|(overduidelijk)">De werkgroep noemt het <marker>evident</marker>.</example>
@@ -5468,7 +5470,7 @@ zijdens 	van de kant van, door
 -->
 
 <rule id="OT_TERZAKE" name="terzake">
-  <!-- 
+  <!--
   2014-08-22 TaalTik
     regel werkt goed
   -->
@@ -5508,7 +5510,7 @@ zijdens 	van de kant van, door
 </category>
 
 <category name="Spellingcontrole">
-  
+
 <rule id="OT_TYPEFOUT" name="Grote kans op typefout">
   <!--
   2014-08-22 TaalTik
@@ -5585,10 +5587,10 @@ zijdens 	van de kant van, door
 </rule>
 
 <rule id="OT_ABC_TJE" name="AOW -er → AOW'er">
-  <!-- 
-  2014-08-20 TaalTik 
+  <!--
+  2014-08-20 TaalTik
     naam regel gecorrigeerd
-    regel werkt goed, met een paar false positives, maar dan is dan iets anders fout 
+    regel werkt goed, met een paar false positives, maar dan is dan iets anders fout
     url toegevoegd
   -->
   <pattern case_sensitive="yes">
@@ -5676,12 +5678,12 @@ zijdens 	van de kant van, door
   <example>De <marker>belastingbetaler</marker> is de sigaar.</example>
 </rule>
     -->
-    
+
 <rule id="OT_ZOEVEN" name="zo-even">
   <!--
   2014-08-20 TaalTik
-    veel false positives 
-    regel aangepast 
+    veel false positives
+    regel aangepast
     TODO: regel opnieuw controleren
     -->
   <pattern>
@@ -5720,7 +5722,7 @@ zijdens 	van de kant van, door
 	<example correction=""><marker>Er misten</marker> zes pannen.</example>
 	<example>Er ontbraken zes pannen.</example>
     </rule>
-    
+
 <rule id="OT_VAAG" name="vage taal" default="on">
   <!-- TODO: weer op 'off'zetten na testen -->
 <pattern>
@@ -5753,7 +5755,7 @@ zijdens 	van de kant van, door
   2014-08-20 TaalTik
     TODO : Volgens taaladviesdienst niet fout,k maar wel regionaal en ongebruikelijk
     regel werkt goed
-  -->    
+  -->
   <pattern>
   <token>te</token>
   <token>bed</token>
@@ -5827,9 +5829,9 @@ zijdens 	van de kant van, door
   <pattern>
   <token inflected="yes">modaliteit</token>
   </pattern>
-  <message>Standaardtaal voor dit woord is 
-    <suggestion><match no="1" postag="NN.*" postag_regexp="yes">bepaling</match></suggestion>, 
-    <suggestion><match no="1" postag="NN.*" postag_regexp="yes">voorwaarde</match></suggestion> of 
+  <message>Standaardtaal voor dit woord is
+    <suggestion><match no="1" postag="NN.*" postag_regexp="yes">bepaling</match></suggestion>,
+    <suggestion><match no="1" postag="NN.*" postag_regexp="yes">voorwaarde</match></suggestion> of
     <suggestion><match no="1" postag="NN.*" postag_regexp="yes">regeling</match></suggestion>
     </message>
     <url>http://taaladvies.net/taal/advies/vraag/1701/modaliteiten_voorwaarden/</url>
@@ -5864,8 +5866,8 @@ zijdens 	van de kant van, door
 </rule>
 
 <rule id="OT_BEGROTING_a" name="begroting in evenwicht">
-  <!-- 
-  2014-08-19 TaalTIk: regel werkt prima, url toegevoegd 
+  <!--
+  2014-08-19 TaalTIk: regel werkt prima, url toegevoegd
   -->
   <pattern>
   <token>begroting</token>
@@ -5880,8 +5882,8 @@ zijdens 	van de kant van, door
 </rule>
 
 <rule id="OT_BEGROTING_b" name="begroting in evenwicht">
-  <!-- 
-  2014-08-19 TaalTIk: regel werkt prima, url toegevoegd 
+  <!--
+  2014-08-19 TaalTIk: regel werkt prima, url toegevoegd
   -->
   <pattern>
   <token>begroting</token>
@@ -5953,7 +5955,7 @@ zijdens 	van de kant van, door
 
 </category>
 <category name="Vaste uitdrukkingen">
-  
+
 <rule id="OT_AD_HOC" name="ad hoc">
   <!--
   2014-08-23 TaalTik
@@ -6007,7 +6009,7 @@ zijdens 	van de kant van, door
 </category>
 
 <category name="Voluit schrijven">
-  
+
 <rule id="OT_M" name="'m">
   <!--
   2014-08-22 TaalTik
@@ -6142,7 +6144,7 @@ zijdens 	van de kant van, door
 
 </category>
 <category name="Vormfouten">
-  
+
   <!--
   2014-08-11 TaalTik
     de meeste meldingen zijn false positives
@@ -6162,7 +6164,7 @@ zijdens 	van de kant van, door
   <example>Jan is <marker>lelijker dan</marker> Kees.</example>
 </rule>
     -->
-    
+
 <rule id="OT_ALS_MIJ" name="Als mij">
   <!--
   2014-08-23 TaalTik
@@ -6375,7 +6377,7 @@ zijdens 	van de kant van, door
 <rule id="TaalTik_JIJ_BEHEERD" name="Jij beheerd → jij beheert">
   <!--
   2014-09-12 TaalTik nieuw
-  2014-09-22 TaalTik antipattern toegevoegd 
+  2014-09-22 TaalTik antipattern toegevoegd
   -->
   <antipattern><token>je</token><token postag="NN1.*" postag_regexp="yes"/><token></token></antipattern> <!-- je geduld wordt .. -->
   <pattern>
@@ -6423,7 +6425,7 @@ zijdens 	van de kant van, door
 </rule>
 
 <rule id="OT_ERKENT_BEDRIJF" name="een erkent bedrijf">
-  <!-- 
+  <!--
   2014-08-23 TaalTik
     regel werkte goed, maar suggestie niet. aangepast.
   2014-10-03 Nogmaals aangepast ...
@@ -6533,8 +6535,8 @@ zijdens 	van de kant van, door
 </rule>
 
 <rule id="OT_TE_X_LASTE" name=" te ? laste → te mijnen laste">
-  <!-- 
-  2014-08-23 TaalTik 
+  <!--
+  2014-08-23 TaalTik
     regel bevat nodige mogelijk valse meldingen
     regel aangepast
   -->
@@ -6760,7 +6762,7 @@ zijdens 	van de kant van, door
   <example><marker>Te dezer zake</marker>.</example>
 </rule>
 
-<!-- 
+<!--
 2014-08-22 TaalTik
   slechte regel, uitgeschakeld
   TODO: betere regel maken
@@ -6791,7 +6793,7 @@ zijdens 	van de kant van, door
   -->
 
 <rule id="OT_TE_BERDE" name="te berde etc.">
-  <!-- 
+  <!--
   2014-08-22 TaalTik
     lande verwijderd omdat ook 'den lande' kan.
     verder oké
@@ -6910,7 +6912,7 @@ zijdens 	van de kant van, door
 -->
 
 <rule id="TaalTik_IN_X_NAME" name="in gebruik name etc.">
-  <!-- 
+  <!--
     2014-08-22 TaalTik
       nieuwe regel
     2014-10-03 TaalTik: 'namen' geschrapt i.v.m. onterechte meldingen
@@ -6926,7 +6928,7 @@ zijdens 	van de kant van, door
 </rule>
 
 <rule id="TaalTik_TOE_NAME" name="in gebruik name etc.">
-  <!-- 
+  <!--
     2014-08-22 TaalTik
       nieuwe regel
   -->
@@ -6945,7 +6947,7 @@ zijdens 	van de kant van, door
   2014-08-22 TaalTik
     regel vangt vooral andere fouten ... uitgeschakeld
 <rule id="nr559" name="name">
-  
+
 <pattern>
 <token negate="yes" regexp="yes">ten|met</token>
 <marker>
@@ -7015,7 +7017,7 @@ zijdens 	van de kant van, door
   <example>Dat is mijn schoonzoon <marker>nota bene</marker>.</example>
 </rule>
 
-<!-- 
+<!--
 2014-08-23 TaalTik
   rgel werkte niet goed, gecombineer met andere in 1 betere
 
@@ -7066,7 +7068,7 @@ zijdens 	van de kant van, door
 <rule id="OT_WILLENS" name="willens en wetens">
   <!--
   2014-08-22
-    vaakst voorkomende hit is willens en wetens/andersom; 
+    vaakst voorkomende hit is willens en wetens/andersom;
     TODO: VRT: In België is de gebruikelijke vorm wetens en willens, in Nederland willens en wetens.
     Er bestaat ook een achternaam willens, die het weer lastig maakt!
   -->
@@ -7094,7 +7096,7 @@ zijdens 	van de kant van, door
   </pattern>
   <message>U bedoelt vast <suggestion>à <match no="2"></match></suggestion>.</message>
   <example correction="à charge">Getuige <marker>a charge</marker>.</example>
-  <example correction="à charge">Ik word wel getuige <marker>a charge</marker> voor yveZ21.</example> 
+  <example correction="à charge">Ik word wel getuige <marker>a charge</marker> voor yveZ21.</example>
   <example>Getuige <marker>à decharge</marker>.</example>
 </rule>
 
@@ -7171,7 +7173,7 @@ zijdens 	van de kant van, door
 <rule id="OT_TEN_ALLEN_TIJDE" name="ten allen tijde">
   <!--
   2014-08-22 TaalTik
-    regel is perfect 
+    regel is perfect
     url toegevoegd
   -->
   <pattern>
@@ -7185,9 +7187,9 @@ zijdens 	van de kant van, door
 </rule>
 
 <rule id="OT_TE_ALLEN_TIJDEN" name="te alle tijden">
-  <!-- 
+  <!--
   2014-08-19 TaalTik
-    regel is perfect 
+    regel is perfect
     url toegevoegd
   -->
   <pattern>
@@ -7239,8 +7241,8 @@ zijdens 	van de kant van, door
   <message>Let op: een 'kadet' is een broodje, een 'cadet' is een militair in opleiding.</message>
   <example>Wij vormen een <marker>cadet</marker>.</example>
   <example correction="">Wij maken een <marker>kadet</marker>.</example>
-  </rule>  
-  
+  </rule>
+
   <!-- TaalTik 2014-09-26 nieuw -->
   <rule id="TaalTik_BUIGEN_OP" name="Buigen op => bogen op">
   <pattern>
@@ -7250,22 +7252,22 @@ zijdens 	van de kant van, door
   <message>U bedoelt vast: <suggestion><match no="1" postag="VB.*" postag_regexp="yes">bogen</match> op</suggestion> (terugvallen op).</message>
   <url>https://onzetaal.nl/taaladvies/advies/bogen-buigen-op</url>
   <example correction="bogen op">Wij kunnen <marker>buigen op</marker> goede kwaliteit.</example>
-  </rule>    
- 
+  </rule>
+
 <rule id="OT_MONOPOLIEN" name="monopoliën of monopolyen">
   <!-- TaalTik 2014-09-06
     Nieuwe regel
   -->
   <pattern>
     <token regexp="yes">monopoliën|monopolyen</token>
-  </pattern>    
-  <message>Het gebruikelijke meervoud is 'monopolies', het spel spelen heet 'monopolyen'.</message>    
+  </pattern>
+  <message>Het gebruikelijke meervoud is 'monopolies', het spel spelen heet 'monopolyen'.</message>
   <example correction="">Wij <marker>monopoliën</marker> soms.</example>
   <example>De deur.</example>
-</rule>  
+</rule>
 
 <rule id="OT_SLIBBEN" name="Slibben of slippen">
-  <!-- 
+  <!--
   2014-08-23 TaalTik
     regel niet gevonden in 20 GB. Vreemd
   -->
@@ -7281,7 +7283,7 @@ zijdens 	van de kant van, door
 </rule>
 
 <rule id="OT_WOUDEN_a" name="wilden of wouden">
-  <!-- 
+  <!--
   2014-08-22 TaalTik
     regel werkt wel, maar suggestie ik wilden is vreemd; daarom regel opgesplitst
     url toegevoegd
@@ -7296,7 +7298,7 @@ zijdens 	van de kant van, door
 </rule>
 
 <rule id="OT_WOUDEN_b" name="wilden of wouden">
-  <!-- 
+  <!--
   2014-08-22 TaalTik
     regel werkte wel goed, maar suggestie ik wilden is vreemd; daarom regel opgesplitst
     url toegevoegd
@@ -7348,10 +7350,10 @@ zijdens 	van de kant van, door
       <token></token>
       <token>staat</token>
     </pattern>
-    <message></message>    
+    <message></message>
     <example correction="">Het <marker>verkeerd in goede staat</marker>.</example>
     <example>Het <marker>verkeert in goede staat</marker>.</example>
-  </rule>   
+  </rule>
     <rule>
     <pattern>
       <token>in</token>
@@ -7359,15 +7361,15 @@ zijdens 	van de kant van, door
       <token>staat</token>
       <token>verkeerd</token>
     </pattern>
-    <message></message>    
+    <message></message>
     <example correction="">Ik vind dat het <marker>in goede staat verkeerd</marker>.</example>
     <example>Ik vind dat het <marker>in goede staat verkeert</marker>.</example>
-  </rule>   
+  </rule>
   </rulegroup>
 
 </category>
 <category name="_Bungelend">
-  
+
 <rule id="OT_ONTKEN_2" name="dubbele ontkenning">
   <!-- 2014-08-20 TaalTik
     regel werkt best goed, maar niet altijd, daarom tekst wat algemener gemaakt.
@@ -7435,7 +7437,7 @@ zijdens 	van de kant van, door
 
 
 
-<!-- TODO regel werkt niet goed, helemaal aanpassen 
+<!-- TODO regel werkt niet goed, helemaal aanpassen
 <rule id="nr737" name="kost duur">
 <pattern>
 <token skip="10">kost</token>
@@ -7447,9 +7449,9 @@ zijdens 	van de kant van, door
 <example>Die auto <marker>kost veel</marker>.</example>
 </rule>
 -->
-<!-- 
+<!--
 <rule id="nr738" name="duur kost">
-  2014-08-19 TODO Regel aanpassen, te veel false positives 
+  2014-08-19 TODO Regel aanpassen, te veel false positives
   <pattern>
   <token skip="4">duur</token>
   <token>kost</token>
@@ -7460,7 +7462,7 @@ zijdens 	van de kant van, door
   <example>Weet je niet hoe <marker>duur die auto wel niet is</marker>?</example>
 </rule>
 -->
-  
+
 <rule id="OT_KAN_KUN_a" name="kan vs kun">
   <!--
   2014-08-20 TaalTik
@@ -7494,7 +7496,7 @@ zijdens 	van de kant van, door
   <token>u</token>
   </pattern>
   <message>Velen vinden <suggestion>kunt</suggestion> beter.</message>
-  <url>http://taaladvies.net/taal/advies/vraag/442/je_kan_kunt/</url>  
+  <url>http://taaladvies.net/taal/advies/vraag/442/je_kan_kunt/</url>
   <example><marker>Kunt</marker> u het even doen voor mij?.</example>
   <example correction="Kunt"><marker>Kan</marker> u het even doen voor mij?</example>
 </rule>
@@ -7574,7 +7576,7 @@ zijdens 	van de kant van, door
   2014-08-23 TaalTik
     regel uitgezet vanwege advies: https://onzetaal.nl/taaladvies/advies/dicteewoorden-met-een-f
 <rule id="nr746" name="driedubbel">
-  
+
 <pattern>
 <token regexp="yes">(drie|vier)dubbel</token>
 </pattern>
@@ -7624,28 +7626,28 @@ zijdens 	van de kant van, door
 
 
 <category name="Regels van TaalTik">
-  
+
   <rule id="TaalTik_NB_a" name="N.B.: → N.B. ">
     <!--
-    2014-09-08 TaalTik 
-      Nieuwe regel. 
+    2014-09-08 TaalTik
+      Nieuwe regel.
     -->
     <pattern>
       <token case_sensitive="yes">N</token>
       <token>.</token>
-      <token case_sensitive="yes">B</token>      
-      <token>.</token>      
-      <token>:</token>      
+      <token case_sensitive="yes">B</token>
+      <token>.</token>
+      <token>:</token>
     </pattern>
     <message>Na N.B. komt geen dubbelepunt: <suggestion>N.B.</suggestion></message>
     <url>https://onzetaal.nl/taaladvies/advies/ps</url>
     <example correction="N.B."><marker>N.B.:</marker> Dit is fout.</example>
     <example><marker>N.B. dit is correct.</marker>.</example>
-  </rule>  
+  </rule>
   <rule id="TaalTik_NB_b" name="NB: → NB">
     <!--
-    2014-09-08 TaalTik 
-      Nieuwe regel. 
+    2014-09-08 TaalTik
+      Nieuwe regel.
     -->
     <pattern>
       <token case_sensitive="yes">NB</token>
@@ -7655,30 +7657,30 @@ zijdens 	van de kant van, door
     <url>https://onzetaal.nl/taaladvies/advies/ps</url>
     <example correction="NB"><marker>NB:</marker> Dit is fout.</example>
     <example><marker>NB dit is correct.</marker>.</example>
-  </rule>  
+  </rule>
 
   <rule id="TaalTik_PS_a" name="P.S.: → P.S. ">
     <!--
-    2014-09-08 TaalTik 
-      Nieuwe regel. 
+    2014-09-08 TaalTik
+      Nieuwe regel.
     -->
     <pattern>
       <token case_sensitive="yes">P</token>
       <token>.</token>
-      <token case_sensitive="yes">S</token>      
-      <token>.</token>      
-      <token>:</token>      
+      <token case_sensitive="yes">S</token>
+      <token>.</token>
+      <token>:</token>
     </pattern>
     <message>Na P.S. komt geen dubbelepunt: <suggestion>P.S.</suggestion></message>
     <url>https://onzetaal.nl/taaladvies/advies/ps</url>
    <example correction="P.S."><marker>P.S.:</marker> Dit is fout.</example>
     <example><marker>P.S. dit is correct.</marker>.</example>
-  </rule>  
-  
+  </rule>
+
   <rule id="TaalTik_PS_b" name="PS: → PS">
     <!--
-    2014-09-08 TaalTik 
-      Nieuwe regel. 
+    2014-09-08 TaalTik
+      Nieuwe regel.
     -->
     <pattern>
       <token case_sensitive="yes">PS</token>
@@ -7688,17 +7690,17 @@ zijdens 	van de kant van, door
     <url>https://onzetaal.nl/taaladvies/advies/ps</url>
     <example correction="PS"><marker>PS:</marker> Dit is fout.</example>
     <example><marker>PS dit is correct.</marker>.</example>
-  </rule>  
-  
+  </rule>
+
   <rule id="TaalTik_LEGER_DES_HEILS" name="Leger des Heils">
     <!--
-    2014-08-21 TaalTik Nieuwe regel. 
+    2014-08-21 TaalTik Nieuwe regel.
     -->
     <antipattern>
       <token case_sensitive="yes">Leger</token>
       <token case_sensitive="yes">des</token>
-      <token case_sensitive="yes">Heils</token>      
-    </antipattern>    
+      <token case_sensitive="yes">Heils</token>
+    </antipattern>
     <pattern>
       <token>leger</token>
       <token>des</token>
@@ -7706,8 +7708,8 @@ zijdens 	van de kant van, door
     </pattern>
     <message>Juist is <suggestion>Leger des Heils</suggestion></message>
     <example correction="Leger des Heils">Dit is het <marker>leger des heils</marker>.</example>
-  </rule>  
-  
+  </rule>
+
 <rule id="TaalTik_EENS_NOOIT_MEER" name="eens, maar nooit meer">
   <pattern>
     <token skip="1">eens</token>
@@ -7727,20 +7729,20 @@ zijdens 	van de kant van, door
   <antipattern><token>ter</token><token>aangehaalder</token><token>plaatse</token></antipattern>
   <antipattern><token>ter</token><token>aangehaalde</token><token>plaatse</token></antipattern>
   <antipattern><token regexp="yes">te|ter</token><token>bestemder</token><token>plaatse</token></antipattern>
-  <antipattern><token>ter</token><token>zelfder</token><token>plaatse</token></antipattern>  
-  <antipattern><token>ter</token><token>juister</token><token>plaatse</token></antipattern>    
+  <antipattern><token>ter</token><token>zelfder</token><token>plaatse</token></antipattern>
+  <antipattern><token>ter</token><token>juister</token><token>plaatse</token></antipattern>
   <pattern>
     <token/>
     <token/>
     <token>plaatse</token>
   </pattern>
-  <message>U bedoelt vast 
-    <suggestion><match no="1"/> <match no="2"/> plaatsen</suggestion>,  
-    <suggestion><match no="1"/> ter plaatse</suggestion>, 
+  <message>U bedoelt vast
+    <suggestion><match no="1"/> <match no="2"/> plaatsen</suggestion>,
+    <suggestion><match no="1"/> ter plaatse</suggestion>,
     <suggestion>ter zelfder plaatse</suggestion>
     <suggestion>ter aangehaalder plaatse</suggestion>
-    <suggestion>ter zelfder plaatse</suggestion>    
-    <suggestion>ter juister plaatse</suggestion>    
+    <suggestion>ter zelfder plaatse</suggestion>
+    <suggestion>ter juister plaatse</suggestion>
     . Moderniseren is overigens beter.</message>
   <url>https://onzetaal.nl/taaladvies/advies/staande-uitdrukkingen</url>
   <example correction="ter bestemd plaatsen|ter ter plaatse|ter zelfder plaatse|ter aangehaalder plaatse|ter zelfder plaatse|ter juister plaatse">Het was <marker>ter bestemd plaatse</marker>.</example>
@@ -7825,8 +7827,8 @@ zijdens 	van de kant van, door
     <token/>
     <token>lijve</token>
   </pattern>
-  <message>U bedoelt vast 
-    <suggestion><match no="1"/> <match no="2"/> lijven</suggestion>,  
+  <message>U bedoelt vast
+    <suggestion><match no="1"/> <match no="2"/> lijven</suggestion>,
     <suggestion>in levenden lijve</suggestion>
     <suggestion>aan den lijve</suggestion>
     . Moderniseren is overigens beter.</message>
@@ -7844,7 +7846,7 @@ zijdens 	van de kant van, door
   <message>Dit kan ook: <suggestion>zelf</suggestion>, <suggestion>persoonlijk</suggestion>.</message>
   <url>http://taaladvies.net/taal/advies/vraag/785/ter_plekke_ter_plaatse/6</url>
   <example correction="zelf|persoonlijk">Hij ondervond het <marker>aan den lijve</marker>.</example>
-  <example correction="zelf|persoonlijk">Om ons <marker>aan den lijve</marker> te doen ervaren wat ideeën met ons doen.</example>  
+  <example correction="zelf|persoonlijk">Om ons <marker>aan den lijve</marker> te doen ervaren wat ideeën met ons doen.</example>
   <example>Hij ondervond het <marker>zelf</marker>.</example>
 </rule>
 
@@ -7868,8 +7870,8 @@ zijdens 	van de kant van, door
     <token>bestemder</token>
     <token/>
   </pattern>
-  <message>U bedoelt vast 
-    <suggestion><match no="1"/> bestemde <match no="3"/></suggestion>,  
+  <message>U bedoelt vast
+    <suggestion><match no="1"/> bestemde <match no="3"/></suggestion>,
     <suggestion>te bestemder plaatse</suggestion>
     <suggestion>te bestemder tijd</suggestion>
     . Moderniseren is overigens beter.</message>
@@ -7884,8 +7886,8 @@ zijdens 	van de kant van, door
     <token negate="yes">te</token>
     <token regexp="yes" case_sensitive="yes">harent|hunnent|mijnent|uwent|onzent|zijnent</token>
   </pattern>
-  <message>U bedoelt vast 
-    <suggestion>te <match no="2"/></suggestion>  
+  <message>U bedoelt vast
+    <suggestion>te <match no="2"/></suggestion>
     . Moderniseren is overigens beter.</message>
   <url>https://onzetaal.nl/taaladvies/advies/staande-uitdrukkingen</url>
   <example correction="te hunnent">Het was <marker>ter hunnent</marker>.</example>
@@ -7901,10 +7903,10 @@ zijdens 	van de kant van, door
     <token>bate</token>
     <token/>
   </pattern>
-  <message>U bedoelt vast 
-    <suggestion><match no="1"/> <match no="2"/> baten <match no="4"/></suggestion>,  
-    <suggestion><match no="1"/> ten  bate van</suggestion> of  
-    <suggestion>te <match no="2"/> bate <match no="4"/></suggestion>  
+  <message>U bedoelt vast
+    <suggestion><match no="1"/> <match no="2"/> baten <match no="4"/></suggestion>,
+    <suggestion><match no="1"/> ten  bate van</suggestion> of
+    <suggestion>te <match no="2"/> bate <match no="4"/></suggestion>
     . Moderniseren is overigens beter.
   </message>
   <url>https://onzetaal.nl/taaladvies/advies/staande-uitdrukkingen</url>
@@ -7917,9 +7919,9 @@ zijdens 	van de kant van, door
     <token><exception>bij</exception></token>
     <token>geruchte</token>
   </pattern>
-  <message>U bedoelt vast 
-    <suggestion><match no="1"/> geruchten</suggestion>  
-    <suggestion>bij geruchte</suggestion>  
+  <message>U bedoelt vast
+    <suggestion><match no="1"/> geruchten</suggestion>
+    <suggestion>bij geruchte</suggestion>
   </message>
   <url>https://onzetaal.nl/taaladvies/advies/staande-uitdrukkingen</url>
   <example correction="als geruchten|bij geruchte">Het was <marker>als geruchte</marker> vernomen.</example>
@@ -7931,9 +7933,9 @@ zijdens 	van de kant van, door
     <token><exception>bij</exception></token>
     <token>machte</token>
   </pattern>
-  <message>U bedoelt vast 
-    <suggestion><match no="1"/> machten</suggestion>  
-    <suggestion>bij machte</suggestion>  
+  <message>U bedoelt vast
+    <suggestion><match no="1"/> machten</suggestion>
+    <suggestion>bij machte</suggestion>
   </message>
   <url>https://onzetaal.nl/taaladvies/advies/staande-uitdrukkingen</url>
   <example correction="tot machten|bij machte">Ze waren tot <marker>tot machte</marker> bestempeld.</example>
@@ -7952,13 +7954,13 @@ zijdens 	van de kant van, door
 </rule>
 
 <rule id="TaalTik_URE_1" name="uitdrukkingen met 'ure'">
-  <antipattern><token>te</token><token>elfder</token><token>ure</token></antipattern>  
+  <antipattern><token>te</token><token>elfder</token><token>ure</token></antipattern>
   <pattern>
     <token></token>
     <token></token>
     <token>ure</token>
   </pattern>
-  <message>U bedoelt vast 
+  <message>U bedoelt vast
     <suggestion><match no="1"/> <match no="2"/> uren</suggestion> of
     <suggestion>te elfder ure</suggestion>
   </message>
@@ -8004,7 +8006,7 @@ zijdens 	van de kant van, door
     <token/>
     <token>wijle</token>
   </pattern>
-  <message>U bedoelt vast 
+  <message>U bedoelt vast
     <suggestion>wijlen</suggestion> of
     <suggestion>bij tijd en wijle</suggestion>
   </message>
@@ -8035,7 +8037,7 @@ zijdens 	van de kant van, door
     <token>monde</token>
     <token/>
   </pattern>
-  <message>U bedoelt vast 
+  <message>U bedoelt vast
     <suggestion><match no="1"/> monden <match no="3"/></suggestion> of
     <suggestion>bij monde van</suggestion>
   </message>
@@ -8064,7 +8066,7 @@ zijdens 	van de kant van, door
     <token>eigener</token>
     <token/>
   </pattern>
-  <message>U bedoelt vast 
+  <message>U bedoelt vast
     <suggestion>eigen <match no="2"/></suggestion> of
     <suggestion>eigener beweging</suggestion>
   </message>
@@ -8080,19 +8082,19 @@ zijdens 	van de kant van, door
   <antipattern><token></token><token>des</token><token>mensen</token></antipattern>
   <antipattern><token>dag</token><token>des</token><token case_sensitive="yes">Heren</token></antipattern>
   <antipattern><token>tand</token><token>des</token><token case_sensitive="yes">tijds</token></antipattern>
-  <antipattern><token></token><token>des</token><token>huizes</token></antipattern>  
-  <antipattern><token>plek</token><token>des</token><token>onheils</token></antipattern>  
-  <antipattern><token>leger</token><token>des</token><token>heils</token></antipattern>  
-  <antipattern><token>vader</token><token>des</token><token>vaderlands</token></antipattern>   
-  <antipattern><token>loop</token><token>des</token><token>tijds</token></antipattern>    
-  <antipattern><token>zweet</token><token>des</token><token>aanschijns</token></antipattern>    
-  <antipattern><token>naam</token><token>des</token><token>konings</token></antipattern>    
-  <antipattern><token>plaats</token><token>des</token><token>onheils</token></antipattern>     
-  <antipattern><token>steen</token><token>des</token><token>aanstoots</token></antipattern>    
-  <antipattern><token>stem</token><token>des</token><token>volks</token></antipattern>     
+  <antipattern><token></token><token>des</token><token>huizes</token></antipattern>
+  <antipattern><token>plek</token><token>des</token><token>onheils</token></antipattern>
+  <antipattern><token>leger</token><token>des</token><token>heils</token></antipattern>
+  <antipattern><token>vader</token><token>des</token><token>vaderlands</token></antipattern>
+  <antipattern><token>loop</token><token>des</token><token>tijds</token></antipattern>
+  <antipattern><token>zweet</token><token>des</token><token>aanschijns</token></antipattern>
+  <antipattern><token>naam</token><token>des</token><token>konings</token></antipattern>
+  <antipattern><token>plaats</token><token>des</token><token>onheils</token></antipattern>
+  <antipattern><token>steen</token><token>des</token><token>aanstoots</token></antipattern>
+  <antipattern><token>stem</token><token>des</token><token>volks</token></antipattern>
   <antipattern><token></token><token>des</token><token>te</token></antipattern>   <!-- des te eerder -->
   <!-- TODO Afraden van al deze ouderwetsigheid -->
-  
+
   <pattern>
     <token/>
     <marker>
@@ -8155,7 +8157,7 @@ zijdens 	van de kant van, door
   <antipattern><token>uit</token><token>den</token><token>dode</token></antipattern>
   <antipattern><token>van</token><token>den</token><token>beginne</token></antipattern>
   <antipattern><token>in</token><token>den</token><token>treure</token></antipattern>
-  <antipattern><token></token><token>den</token><token regexp="yes" case_sensitive="yes">[A-Z].*</token></antipattern> <!-- eigennamen --> 
+  <antipattern><token></token><token>den</token><token regexp="yes" case_sensitive="yes">[A-Z].*</token></antipattern> <!-- eigennamen -->
 
   <!-- TODO Afraden van al deze ouderwetsigheid -->
 
@@ -8627,7 +8629,7 @@ zich van de domme houden, van den domme houden
 </rule>
 
 <rule id="TaalTik_SAAIE_BEDOELING" name="Bedoeling → bedoening">
-  <!-- 
+  <!--
     TaalTik 2014-09-05 nieuwe regel
     TaalTik 2014-10-02 i.p.v. alle AJ's maar saaie etc. gebruikt, om onterechte meldingen te voorkomen
   -->
@@ -8678,7 +8680,7 @@ zich van de domme houden, van den domme houden
     nieuwe regel
   -->
   <pattern>
-    <token regexp="yes">een|de|geen|soort</token>    
+    <token regexp="yes">een|de|geen|soort</token>
     <marker>
     <token>huis</token>
     <token>aan</token>
@@ -8697,7 +8699,7 @@ zich van de domme houden, van den domme houden
     nieuwe regel
   -->
   <pattern>
-    <token regexp="yes">een|de|geen|soort</token>    
+    <token regexp="yes">een|de|geen|soort</token>
     <marker>
     <token>huis</token>
     <token>tuin</token>
@@ -9556,7 +9558,7 @@ zich van de domme houden, van den domme houden
   <example correction="met groenten">Een gerecht met <marker>verse groeten</marker>.</example>
   <example>Een gerecht met <marker>verse groenten</marker>.</example>
 </rule>
-  
+
   <rule id="TaalTik_EEN_AANTAL_KEER" name="Een aantal keer → een aantal keren">
     <!-- TaalTik 2014-09-11 nieuw -->
     <pattern>
@@ -9566,12 +9568,12 @@ zich van de domme houden, van den domme houden
       <token>keer</token>
     </marker>
     <token/>
-    </pattern>    
-    <message>De voorkeur heeft: <suggestion>\1 \2 keren</suggestion>.</message>  
+    </pattern>
+    <message>De voorkeur heeft: <suggestion>\1 \2 keren</suggestion>.</message>
     <url>https://onzetaal.nl/taaladvies/advies/een-aantal-keer-keren</url>
     <example correction="Een aantal keren"><marker>Een aantal keer</marker> ging het fout.</example>
     <example><marker>Een aantal keren</marker> ging het goed.</example>
-  </rule>  
+  </rule>
 
   <rule id="TaalTik_ALLE_DRIE_WINNAARS" name="Alle drie winnaars → alle drie de winnaars">
     <!-- TaalTik 2014-09-11 nieuw -->
@@ -9582,12 +9584,12 @@ zich van de domme houden, van den domme houden
       <token postag_regexp="yes" postag="NN2|NN2r"/>
     </marker>
     <token/>
-    </pattern>    
-    <message>Net iets beter is: <suggestion>\1 \2 de \3</suggestion>.</message>  
+    </pattern>
+    <message>Net iets beter is: <suggestion>\1 \2 de \3</suggestion>.</message>
     <url>https://onzetaal.nl/taaladvies/advies/alle-drie-winnaars-alle-drie-de-winnaars</url>
     <example correction="Alle drie de winnaars"><marker>Alle drie winnaars</marker> gingen de fout in.</example>
     <example><marker>Alle drie de winnaars</marker> gingen goed.</example>
-  </rule>  
+  </rule>
 
     <!-- TaalTik 2014-09-15: nieuw , maar 16-9 uitgeschakeld; niet zinnig
   <rule id="TaalTik_KORT_3" name="Zinnen van 3 woorden">
@@ -9599,14 +9601,14 @@ zich van de domme houden, van den domme houden
       <token/>
       <token postag="SENT_END" regexp="yes">\?|\!|\.</token>
     </pattern>
-    <message>Zulke korte zinnen zijn zeldzaam.</message>    
+    <message>Zulke korte zinnen zijn zeldzaam.</message>
     <example type="incorrect"><marker>Hij doet niet.</marker></example>
   <example>Hij kan het</example>
   </rule>
   -->
-  
-    
-  
+
+
+
   <rule id="TaalTik_X_EEUWSE" name="19e eeuwse → 19e-eeuwse">
     <!-- TaalTik 2014-09-15: nieuw -->
     <antipattern><token regexp="yes">[0-9]</token><token>.</token><token regexp="yes">[0-9]</token><token>.</token></antipattern>
@@ -9614,11 +9616,11 @@ zich van de domme houden, van den domme houden
       <token regexp="yes">.*[0-9](e|de|ste)</token>
       <token regexp="yes">eeuws|eeuwse</token>
     </pattern>
-    <message>Juist is <suggestion>\1-\2</suggestion></message>    
+    <message>Juist is <suggestion>\1-\2</suggestion></message>
     <example correction="20e-eeuws">Een <marker>20e eeuws</marker> gebouw.</example>
     <example>Een <marker>20e-eeuws</marker> gebouw</example>
   </rule>
-  
+
   <rulegroup id="TaalTik_DIT_BETEKEND_DAT" name="Dit betekend → dit betekent">
     <!-- TaalTik 2014-09-15: nieuw -->
     <rule>
@@ -9627,7 +9629,7 @@ zich van de domme houden, van den domme houden
       <token postag="VBp" regexp="yes">.*d<exception postag_regexp="yes" postag="NN1.*|VB3"/></token>
       <token>dat</token>
     </pattern>
-    <message>\1|\2|\3</message>    
+    <message>\1|\2|\3</message>
     <example correction=""><marker>Dit betekend dat</marker> het fout is</example>
     <example>Hij kan het</example>
   </rule>
@@ -9638,7 +9640,7 @@ zich van de domme houden, van den domme houden
       <token regexp="yes">niet|toch|wel</token>
       <token>dat</token>
     </pattern>
-    <message>\1|\2|\3</message>    
+    <message>\1|\2|\3</message>
     <example correction=""><marker>Dit betekend niet dat</marker> het fout is</example>
     <example>Hij kan het</example>
   </rule>
@@ -9651,7 +9653,7 @@ zich van de domme houden, van den domme houden
       <token>van</token>
       <token>orde</token>
     </pattern>
-    <message>U bedoelt vast: <suggestion>orde van grootte</suggestion></message>    
+    <message>U bedoelt vast: <suggestion>orde van grootte</suggestion></message>
     <example correction="orde van grootte">Het was van die <marker>grootte van orde</marker>.</example>
   </rule>
 
@@ -9662,7 +9664,7 @@ zich van de domme houden, van den domme houden
       <token regexp="yes">is|was|heb|hebben</token>
       <token>voldaan</token>
     </pattern>
-    <message>U bedoelt waarschijnlijk: <suggestion>\1 \2 volbracht</suggestion>.</message>    
+    <message>U bedoelt waarschijnlijk: <suggestion>\1 \2 volbracht</suggestion>.</message>
     <example correction="taak is volbracht">Mijn <marker>taak is voldaan</marker>.</example>
   </rule>
 
@@ -9687,11 +9689,11 @@ zich van de domme houden, van den domme houden
       <token><exception regexp="yes">§|"|©</exception></token>
       <token postag="SENT_END" regexp="yes">\?|\!|\.</token>
     </pattern>
-    <message>Zulke korte zinnen zijn niet fout, maar wel ongebruikelijk in officiële tekst.</message>    
+    <message>Zulke korte zinnen zijn niet fout, maar wel ongebruikelijk in officiële tekst.</message>
     <example correction=""><marker>Hij.</marker></example>
     <example>Hij kan het</example>
-  </rule>  
-  
+  </rule>
+
   <rule id="TaalTik_KORT_2" name="Zinnen van 2 woorden">
     <pattern>
       <token postag="SENT_START"/>
@@ -9699,10 +9701,10 @@ zich van de domme houden, van den domme houden
       <token/>
       <token postag="SENT_END" regexp="yes">\?|\!|\.</token>
     </pattern>
-    <message>Zulke korte zinnen zijn zeldzaam, incompleet en ongebruikelijk in officiële tekst.</message>    
+    <message>Zulke korte zinnen zijn zeldzaam, incompleet en ongebruikelijk in officiële tekst.</message>
     <example correction=""><marker>Hij doet.</marker></example>
     <example>Hij kan het</example>
-  </rule>  
+  </rule>
 
     <rule id="TaalTik_AMPEL_AMPER_a" name="Ampel en amper">
     <!-- TaalTik 2014-09-18: nieuw -->
@@ -9710,10 +9712,10 @@ zich van de domme houden, van den domme houden
       <token>amper</token>
       <token regexp="yes">beraad|overleg</token>
     </pattern>
-    <message>Bedoelt u wellicht <suggestion>ampel \2</suggestion>? Amper betekent weinig, ampel juist uitgebreid.</message>    
+    <message>Bedoelt u wellicht <suggestion>ampel \2</suggestion>? Amper betekent weinig, ampel juist uitgebreid.</message>
     <example correction="ampel overleg">Na <marker>amper overleg</marker> met het besluit genomen.</example>
     <example>Hij kan het</example>
-    </rule> 
+    </rule>
 
   <rule id="TaalTik_GAAT_TE_PAARD_MET" name="Gaat te paard met → gaat gepaard met">
     <!-- TaalTik 2014-09-15 nieuw -->
@@ -9726,22 +9728,22 @@ zich van de domme houden, van den domme houden
       <token>met</token>
     </marker>
     <token/>
-    </pattern>    
-    <message>U bedoelt vast: <suggestion>\2 gepaard met</suggestion>.</message>  
+    </pattern>
+    <message>U bedoelt vast: <suggestion>\2 gepaard met</suggestion>.</message>
     <example correction="gaat gepaard met">Het <marker>gaat te paard met</marker> humor.</example>
-  </rule>  
+  </rule>
 
   <rule id="TaalTik_NOG_EENDJE" name="Nog eendje → nog eentje">
     <!-- TaalTik 2014-09-15 nieuw -->
     <pattern>
       <token regexp="yes">nog|noch</token>
       <token>eendje</token>
-    </pattern>    
-    <message>Dit is een woordspeling, of u bedoelt vast: <suggestion>nog een</suggestion> of <suggestion>nog eentje</suggestion> .</message>  
+    </pattern>
+    <message>Dit is een woordspeling, of u bedoelt vast: <suggestion>nog een</suggestion> of <suggestion>nog eentje</suggestion> .</message>
     <example correction="nog een|nog eentje">Ik doe er <marker>nog eendje</marker>.</example>
     <example>Ik doe er <marker>nog eentje</marker>.</example>
   </rule>
-  
+
   <rule id="TaalTik_EEN_AFDOENDE_ANTWOORD" name="Een afdoende antwoord → een afdoend antwoord">
     <!-- TaalTik 2014-09-11 nieuw -->
     <pattern>
@@ -9751,13 +9753,13 @@ zich van de domme houden, van den domme houden
       </marker>
       <token>antwoord</token>
     <token/>
-    </pattern>    
-    <message>Juist is: <suggestion>afdoend</suggestion>.</message>  
+    </pattern>
+    <message>Juist is: <suggestion>afdoend</suggestion>.</message>
     <url>https://onzetaal.nl/taaladvies/advies/afdoend-afdoende</url>
     <example correction="afdoend">Een <marker>afdoende</marker> antwoord.</example>
-  </rule>  
+  </rule>
 
-  
+
   <rule id="TaalTik_ME_TEEN" name="me teen → meteen, met een, mijn teen">
     <!-- TaalTik 2014-09-18 nieuw -->
     <pattern>
@@ -9767,9 +9769,9 @@ zich van de domme houden, van den domme houden
     <message>Fout. Wat moet het zijn: <suggestion>met een</suggestion>, <suggestion>meteen</suggestion> of <suggestion>mijn teen</suggestion>?</message>
     <example correction="met een|meteen|mijn teen">Dit is niet <marker>me teen</marker>.</example>
     <example>Dit is niet <marker>mijn teen</marker>.</example>
-  </rule>  
+  </rule>
 
-  
+
   <rule id="TaalTik_DE_IPV_HET" name="De → het">
     <!-- 2014-09-18 TaalTik nieuw -->
     <antipattern><token>van</token><token>de</token><token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token></antipattern> <!-- blokkeer eigennamen -->
@@ -9778,7 +9780,7 @@ zich van de domme houden, van den domme houden
       <token case_sensitive="yes" postag="NN1h"><exception postag_regexp="yes" postag="NN1d|VBpe|AJ.*|PPe|VB3|NN2"/><exception regexp="yes">iets|paar|weer|nummer|been|alles</exception><exception regexp="yes">[A-Z].*</exception></token>
       <token/>
     </pattern>
-    <message>Verwacht werd: <suggestion>het \2 \3</suggestion> of <suggestion>het \2\3</suggestion> of er is nog iets anders mis.</message>    
+    <message>Verwacht werd: <suggestion>het \2 \3</suggestion> of <suggestion>het \2\3</suggestion> of er is nog iets anders mis.</message>
     <url>http://woordenlijst.org/</url>
     <example correction="Het weeskind ging|Het weeskindging"><marker>De weeskind ging</marker> weg.</example>
   <example>Het kind.</example>
@@ -9795,7 +9797,7 @@ zich van de domme houden, van den domme houden
       </marker>
       <token><exception postag_regexp="yes" postag="VB.*"/><exception regexp="yes">te|of|en|op</exception></token>
     </pattern>
-    <message>Verwacht werd: <suggestion>de \3</suggestion>. Het zou een de-het-fout kunnen zijn, een spatiefout, of nog anders.</message>    
+    <message>Verwacht werd: <suggestion>de \3</suggestion>. Het zou een de-het-fout kunnen zijn, een spatiefout, of nog anders.</message>
     <example correction="De man"><marker>Het man</marker>.</example>
     <example>De man.</example>
   </rule>
@@ -9809,11 +9811,11 @@ zich van de domme houden, van den domme houden
       <token>zin</token>
       </marker>
     </pattern>
-    <message>U bedoelt vast: <suggestion>weerzin</suggestion></message>    
+    <message>U bedoelt vast: <suggestion>weerzin</suggestion></message>
     <example correction="weerzin">Mijn <marker>weer zin</marker> tegen dit onderwerp is groot.</example>
     <example>Mijn taak is volbracht.</example>
-  </rule>  
-  
+  </rule>
+
   <rule id="TaalTik_DE_MAXIMUM" name="De maximum aanvaardbare → de maximaal aanvaardbare">
     <!-- 2014-09-22 TaalTik nieuw -->
     <pattern>
@@ -9823,28 +9825,28 @@ zich van de domme houden, van den domme houden
       </marker>
       <token postag="AJe"/>
     </pattern>
-    <message>Juist is: <suggestion>maximaal</suggestion></message>    
+    <message>Juist is: <suggestion>maximaal</suggestion></message>
     <example correction="maximaal">De <marker>maximum</marker> aanvaardbare schade.</example>
-  </rule>  
+  </rule>
 
   <rule id="TaalTik_DAR" name="Dar → daar">
     <pattern>
       <token>dar</token>
     </pattern>
-    <message>Bedoelt u soms <suggestion>dat</suggestion> of <suggestion>daar</suggestion>? Een 'dar' is een bij.</message>    
+    <message>Bedoelt u soms <suggestion>dat</suggestion> of <suggestion>daar</suggestion>? Een 'dar' is een bij.</message>
     <example correction="dat|daar">Hij werkt <marker>dar</marker> niet.</example>
     <example>Hij werkt <marker>daar</marker> wel.</example>
-  </rule>  
-  
+  </rule>
+
 
   <rule id="TaalTik_GE" name="Ge, gij → je, u">
     <pattern>
       <token regexp="yes">ge|gij</token>
     </pattern>
-    <message>'\1' is niet gebruikelijk meer in dagelijks Nederlands. Gebruik <suggestion>je</suggestion> of <suggestion>u</suggestion></message>    
+    <message>'\1' is niet gebruikelijk meer in dagelijks Nederlands. Gebruik <suggestion>je</suggestion> of <suggestion>u</suggestion></message>
     <example correction="Je|U"><marker>Ge</marker> doet het fout.</example>
     <example><marker>Je</marker> doet het goed.</example>
-  </rule>    
+  </rule>
 
   <rule id="TaalTik_ONDANKS_HET_FEIT" name="Ondanks het feit dat → hoewel">
     <pattern>
@@ -9853,10 +9855,10 @@ zich van de domme houden, van den domme houden
       <token>feit</token>
       <token>dat</token>
     </pattern>
-    <message>Niet fout, maar wel onnodig lang; <suggestion>hoewel</suggestion> is een stuk korter.</message>    
+    <message>Niet fout, maar wel onnodig lang; <suggestion>hoewel</suggestion> is een stuk korter.</message>
     <example correction="Hoewel"><marker>Ondanks het feit dat</marker> het fout was.</example>
     <example><marker>Hoewel</marker> het correct was.</example>
-  </rule>    
+  </rule>
 
   <rule id="TaalTik_SCHERPST_VAN_DE_SNEDE" name="Scherpst van de snede  → scherp van de snede">
     <!-- TaalTik, 2014-10-03, nieuw -->
@@ -9868,11 +9870,11 @@ zich van de domme houden, van den domme houden
       <token>de</token>
       <token>snede</token>
     </pattern>
-    <message>De uitdrukking luidt: <suggestion>op het scherp van de snede</suggestion>.</message>    
+    <message>De uitdrukking luidt: <suggestion>op het scherp van de snede</suggestion>.</message>
     <example correction="Op het scherp van de snede"><marker>Op het scherpst van de snede</marker> is fout.</example>
     <example><marker>Op het scherp van de snede</marker> is correct.</example>
-  </rule>  
-  
+  </rule>
+
   <rule id="TaalTik_SCHRIL_CONTRACT" name="Schril contract → schril contrast">
     <pattern>
       <token>schril</token>
@@ -9891,7 +9893,7 @@ zich van de domme houden, van den domme houden
     <example correction="maand geldig">De offerte is een <marker>mand geldig</marker>.</example>
     <example>De aanbieding is een <marker>maand geldig</marker>.</example>
   </rule>
-  
+
 </category>
 
 <category name="Uit: Hoe bereidt je een paard? : clichés" default="on">
@@ -9902,7 +9904,7 @@ zich van de domme houden, van den domme houden
       <token skip="6">kassa</token>
       <token inflected="yes">rinkelen</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Als de <marker>kassa maar rinkelt</marker> is het goed.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
@@ -9911,12 +9913,12 @@ zich van de domme houden, van den domme houden
       <token inflected="yes" skip="6">rinkelen</token>
       <token>kassa</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Dan <marker>rinkelt de kassa</marker> weer eens.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-  </rulegroup>  
-  
+  </rulegroup>
+
   <rule id="TaalTik_ROLLS" name="De Rolls-Royce onder de">
     <pattern>
       <token>de</token>
@@ -9924,11 +9926,11 @@ zich van de domme houden, van den domme houden
       <token>onder</token>
       <token>de</token>
      </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Dit is voor mij <marker>de Rolls-Royce onder de</marker> programma's.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule>  
-    
+    </rule>
+
   <rule id="TaalTik_HOBBY" name="Uit de hand gelopen hobby">
     <pattern>
       <token>uit</token>
@@ -9937,31 +9939,31 @@ zich van de domme houden, van den domme houden
       <token>gelopen</token>
       <token>hobby</token>
      </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Dit is voor mij een <marker>uit de hand gelopen hobby</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule>  
-    
+    </rule>
+
   <rule id="TaalTik_SCHANDPAAL" name="Aan de schandpaal">
     <pattern>
       <token>aan</token>
       <token>de</token>
       <token>schandpaal</token>
      </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Ik ben <marker>aan de schandpaal</marker> genageld.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule>  
-    
+    </rule>
+
   <rule id="TaalTik_SPOOR_BIJSTER" name="Met open vizier">
     <pattern>
       <token>spoor</token>
       <token>bijster</token>
      </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Ik ben het <marker>spoor bijster</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule>   
+    </rule>
 
     <rule id="TaalTik_STOELEN_BANKEN" name="Met open vizier">
     <pattern>
@@ -9970,28 +9972,28 @@ zich van de domme houden, van den domme houden
       <token>of</token>
       <token>banken</token>
      </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Ik steek het niet <marker>onder stoelen of banken</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule>  
-    
+    </rule>
+
     <rule id="TaalTik_OPEN_VIZIER" name="Met open vizier">
     <pattern>
       <token>open</token>
       <token>vizier</token>
      </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Ik vecht met <marker>open vizier</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule>   
-  
+    </rule>
+
   <rulegroup id="TaalTik_BADWATER" name="Met het badwater weggooien">
     <rule>
     <pattern>
       <token skip="6">badwater</token>
       <token inflected="yes">weggooien</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ik wil hte kind niet met het <marker>badwater weggooien</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
@@ -10001,38 +10003,38 @@ zich van de domme houden, van den domme houden
       <token skip="4">badwater</token>
       <token>weg</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ik <marker>gooi het kind met het badwater weg</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-  </rulegroup>  
-  
+  </rulegroup>
+
     <rule id="TaalTik_BITTERE_PIL" name="Een bittere pil">
     <pattern>
       <token>bittere</token>
       <token>pil</token>
      </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Het is een <marker>bittere pil</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule> 
-    
+    </rule>
+
     <rule id="TaalTik_BIERKAAI" name="Vechten tegen de bierkaai">
     <pattern>
       <token>bierkaai</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Het is vechten tegen de <marker>bierkaai</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule> 
-    
+    </rule>
+
   <rulegroup id="TaalTik_ROER_OMGOOIEN" name="Het roer omgooien">
     <rule>
     <pattern>
       <token skip="6">roer</token>
       <token inflected="yes">omgooien</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ik heb het <marker>roer omgegooid</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
@@ -10042,19 +10044,19 @@ zich van de domme houden, van den domme houden
       <token skip="4">roer</token>
       <token>om</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ik <marker>gooi het roer flink om</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-  </rulegroup>   
-  
+  </rulegroup>
+
   <rulegroup id="TaalTik_BAKENS_VERZETTEN" name="De bakens verzetten">
     <rule>
     <pattern>
       <token skip="6">bakens</token>
       <token inflected="yes">verzetten</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ik heb de <marker>bakens verzet</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
@@ -10063,21 +10065,21 @@ zich van de domme houden, van den domme houden
       <token inflected="yes" skip="6">verzetten</token>
       <token skip="1">bakens</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ik <marker>verzet voorgoed de bakens</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-  </rulegroup> 
-  
+  </rulegroup>
+
     <rule id="TaalTik_LACHSPIEREN" name="Op de lachspieren werken">
     <pattern>
       <token>lachspieren</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Het werkt op de <marker>lachspieren</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule> 
-  
+    </rule>
+
     <rule id="TaalTik_DAAD_BIJ_WOORD" name="De daad bij het woord voegen">
     <pattern>
       <token>daad</token>
@@ -10085,21 +10087,21 @@ zich van de domme houden, van den domme houden
       <token>het</token>
       <token>woord</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Ik voeg de <marker>daad bij het woord</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule> 
+    </rule>
 
     <rule id="TaalTik_KNUPPEL_HOENDERHOK" name="De knuppel in het hoenderhok">
     <pattern>
       <token skip="10">knuppel</token>
       <token>hoenderhok</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">De <marker>knuppel ging in het hoenderhok</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule> 
-    
+    </rule>
+
     <rule id="TaalTik_INKT_DROOG" name="De inkt is nog niet droog">
     <pattern>
       <token skip="4">inkt</token>
@@ -10107,22 +10109,22 @@ zich van de domme houden, van den domme houden
       <token>niet</token>
       <token>droog</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">De <marker>inkt was nog niet droog</marker> of er was al commentaar.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule> 
-    
+    </rule>
+
     <rule id="TaalTik_5_VOOR_12" name="Vijf voor twaalf">
     <pattern>
       <token regexp="yes">5|vijf</token>
       <token>voor</token>
       <token regexp="yes">12|twaalf</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Voor het milieu is het <marker>vijf voor twaalf</marker></example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule> 
-  
+    </rule>
+
   <rulegroup id="TaalTik_UIT_DE_MOUW" name="Uit de mouw schudden">
     <rule>
     <pattern>
@@ -10130,7 +10132,7 @@ zich van de domme houden, van den domme houden
       <token skip="4">mouw</token>
       <token inflected="yes">schudden</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ik heb het zo <marker>uit mijn mouw geschud</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
@@ -10140,12 +10142,12 @@ zich van de domme houden, van den domme houden
       <token skip="1">uit</token>
       <token>mouw</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ik <marker>schud het zo uit mijn mouw</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-  </rulegroup> 
-  
+  </rulegroup>
+
   <rulegroup id="TaalTik_AAN_ZIJN_JAS_TREKKEN" name="Aan zijn jas trekken">
     <rule>
     <pattern>
@@ -10153,7 +10155,7 @@ zich van de domme houden, van den domme houden
       <token skip="4">jas</token>
       <token inflected="yes">trekken</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ik zal hem <marker>aan zijn jas trekken</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
@@ -10163,56 +10165,56 @@ zich van de domme houden, van den domme houden
       <token skip="1">aan</token>
       <token >jas</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ze <marker>trok mij aan mijn jas</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-  </rulegroup> 
-  
-  
+  </rulegroup>
+
+
     <rule id="TaalTik_ZURE_APPEL" name="Door de zure appel bijten">
     <pattern>
       <token>zure</token>
       <token skip="6">appel</token>
       <token skip="6" regexp="yes">.*(bijt|beet).*|.*beten</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Op korte termijn moet je door de <marker>zure appel heen bijten</marker></example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule> 
-    
+    </rule>
+
     <rule id="TaalTik_MOSTERD_MAALTIJD" name="Mosterd na de maaltijd">
     <pattern>
       <token skip="6">mosterd</token>
       <token>maaltijd</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Dus geen <marker>mosterd na de maaltijd</marker> maar weten waar die vandaag komt en hoe deze gemaakt wordt.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule> 
-    
+    </rule>
+
     <rule id="TaalTik_DRUIVEN_ZUUR" name="De druiven zijn zuur">
     <pattern>
       <token skip="4">druiven</token>
       <token skip="2" regexp="yes">zuur|zijn|waren</token>
       <token regexp="yes">zuur|zijn|waren</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Nu lijkt het er op dat de <marker>druiven afgelopen zaterdag erg zuur waren</marker> voor Katwijk.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule> 
-    
+    </rule>
+
   <rule id="TaalTik_TIEN_TEGEN_EEN" name="Tien tegen een">
     <pattern>
       <token>tien</token>
       <token>tegen</token>
       <token regexp="yes">een|één</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Probeer eens één blaadje te eten, <marker>tien tegen een</marker> dat u het direct uitspuugt.</example>
     <example>Er is geen correct voorbeeld van.</example>
-  </rule> 
-  
+  </rule>
+
   <rulegroup id="TaalTik_VOET_SCHIETEN" name="In de voet schieten">
     <rule>
     <pattern>
@@ -10220,7 +10222,7 @@ zich van de domme houden, van den domme houden
       <token skip="4">voet</token>
       <token inflected="yes">schieten</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ik wil niet dat ze zich <marker>in de voet schieten</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
@@ -10230,29 +10232,29 @@ zich van de domme houden, van den domme houden
       <token skip="1">in</token>
       <token>voet</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ze <marker>schoten zichzelf in de voet</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-  </rulegroup> 
-  
+  </rulegroup>
+
   <rule id="TaalTik_HART_VOOR" name="Hart hebben voor">
     <pattern>
       <token skip="4">hart</token>
       <token>voor</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij heeft <marker>hart voor</marker> de zaak.</example>
     <example>Er is geen correct voorbeeld van.</example>
-  </rule> 
-  
+  </rule>
+
   <rulegroup id="TaalTik_STEEN_BIJDRAGEN" name="Een steentje bijdragen">
     <rule>
     <pattern>
       <token skip="6" regexp="yes">steen|steentje</token>
       <token inflected="yes">bijdragen</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ik wil dat ze snel hun <marker>steentje komen bijdragen</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
@@ -10262,34 +10264,34 @@ zich van de domme houden, van den domme houden
       <token regexp="yes" skip="4">steen|steentje</token>
       <token>bij</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ze <marker>dragen hun steentje wel bij</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-  </rulegroup> 
-  
+  </rulegroup>
+
     <rule id="TaalTik_VINKENTOUW" name="Op het vinkentouw">
     <pattern>
       <token>op</token>
       <token>het</token>
       <token>vinkentouw</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Mark Rutte van de VVD zit <marker>op het vinkentouw</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule> 
-    
+    </rule>
+
     <rule id="TaalTik_MELK_BROKKELEN" name="In de melk te brokkelen">
     <pattern>
       <token skip="4">melk</token>
       <token>te</token>
       <token>brokkelen</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Zolang die griezel iets in de Nederlandse <marker>melk heeft te brokkelen</marker>, stem ik met een hoofddoek.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule>  
-    
+    </rule>
+
     <rule id="TaalTik_ONDERSTE_KAN" name="Het onderste uit de kan">
     <pattern>
       <token skip="4">onderste</token>
@@ -10297,31 +10299,31 @@ zich van de domme houden, van den domme houden
       <token>de</token>
       <token>kan</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Tijdens de prijsonderhandelingen kunnen we voor u het <marker>onderste voor u uit de kan</marker> halen.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule>  
-    
+    </rule>
+
     <rule id="TaalTik_KOGEL_KERK" name="De kogel is door de kerk">
     <pattern>
       <token skip="6">kogel</token>
       <token>kerk</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Sinds de <marker>kogel door de kerk</marker> is, is ook het grote gissen in medialand begonnen.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule>  
-    
+    </rule>
+
     <rule id="TaalTik_STEKKER_ER_UIT" name="De stekker er uit trekken">
     <pattern>
       <token skip="4">stekker</token>
       <token regexp="yes">eruit|uit</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Er zat niets anders voor Bos op, om de <marker>stekker uit</marker> de bank te trekken!</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule>  
-    
+    </rule>
+
     <rule id="TaalTik_PADDENSTOELEN" name="Als paddenstoelen uit de grond">
     <pattern>
       <token>als</token>
@@ -10330,11 +10332,11 @@ zich van de domme houden, van den domme houden
       <token>de</token>
       <token>grond</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Opleidingen in het Engels komen <marker>als paddenstoelen uit de grond</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule> 
-    
+    </rule>
+
     <rule id="TaalTik_VINGER_AAN_DE_POLS" name="De vinger aan de pols houden">
     <pattern>
       <token skip="4">vinger</token>
@@ -10342,10 +10344,10 @@ zich van de domme houden, van den domme houden
       <token>de</token>
       <token>pols</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">De Verenigde Staten hielden de <marker>vinger stevig aan de pols</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule>  
+    </rule>
 
   <rulegroup id="TaalTik_UIT_DE_GROND_STAMPEN" name="Uit de grond stampen">
     <rule>
@@ -10355,7 +10357,7 @@ zich van de domme houden, van den domme houden
       <token>grond</token>
       <token inflected="yes">stampen</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ik wil dat ze het snel <marker>uit de grond stampen</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
@@ -10366,12 +10368,12 @@ zich van de domme houden, van den domme houden
       <token>de</token>
       <token>grond</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ze <marker>stampten het snel uit de grond</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-  </rulegroup> 
- 
+  </rulegroup>
+
   <rulegroup id="TaalTik_OP_DE_KAART" name="Op de kaart zetten">
     <rule>
     <pattern>
@@ -10380,7 +10382,7 @@ zich van de domme houden, van den domme houden
       <token>kaart</token>
       <token inflected="yes">zetten</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ik wil dat zehet goed <marker>op de kaart zetten</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
@@ -10391,54 +10393,54 @@ zich van de domme houden, van den domme houden
       <token>de</token>
       <token>kaart</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ze <marker>zetten het goed op de kaart</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-  </rulegroup> 
-  
+  </rulegroup>
+
     <rule id="TaalTik_DE_KOEK_IS_OP" name="De koek is op">
     <pattern>
       <token>de</token>
       <token skip="4">koek</token>
       <token>op</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ik vond dat <marker>de koek op</marker> is.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-  
+
     <rule id="TaalTik_MAAT_VOL" name="De maat is vol">
     <pattern>
       <token skip="3">maat</token>
       <token>vol</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij vond dat de <marker>maat wel eens vol</marker> was.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-    
+
     <rule id="TaalTik_BIEZEN" name="Zijn biezen pakken">
     <pattern>
       <token>zijn</token>
       <token>biezen</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij pakte <marker>zijn biezen</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-    
+
     <rule id="TaalTik_NEUZEN" name="De neuzen dezelfde kant op">
     <pattern>
       <token>neuzen</token>
       <token>dezelfde</token>
       <token>kant</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij kreeg de <marker>neuzen dezelfde kant</marker> op.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-    
+
     <rulegroup id="TaalTik_DE_KLOKKEN_GELIJK" name="De klokken gelijk zetten">
     <rule>
     <pattern>
@@ -10446,7 +10448,7 @@ zich van de domme houden, van den domme houden
       <token>klokken</token>
       <token inflected="yes">gelijkzetten</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ik wil dat ze <marker>de klokken gelijkzetten</marker> voor het overleg.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
@@ -10457,12 +10459,12 @@ zich van de domme houden, van den domme houden
       <token>klokken</token>
       <token>gelijk</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ze <marker>zetten de klokken gelijk</marker> voor het overleg.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-  </rulegroup> 
-  
+  </rulegroup>
+
     <rulegroup id="TaalTik_DE_BAKENS" name="De bakens verzetten">
     <rule>
     <pattern>
@@ -10470,7 +10472,7 @@ zich van de domme houden, van den domme houden
       <token>bakens</token>
       <token inflected="yes">verzetten</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ik meen dat ze <marker>de bakens verzet</marker> hebben.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
@@ -10480,18 +10482,18 @@ zich van de domme houden, van den domme houden
       <token>de</token>
       <token>bakens</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ze <marker>verzetten de bakens</marker> weer eens.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-  </rulegroup> 
-  
+  </rulegroup>
+
     <rule id="TaalTik_GEMOEDEREN_BEZIG" name="De gemoederen bezighouden">
     <pattern>
       <token skip="4">gemoederen</token>
       <token>bezig</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Het hield de <marker>gemoederen flink bezig</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
@@ -10503,11 +10505,11 @@ zich van de domme houden, van den domme houden
       <token>of</token>
       <token>stoot</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij deed het <marker>zonder slag of stoot</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-    
+
     <rulegroup id="TaalTik_In_DE_RIJ" name="In de rij staan voor">
     <rule>
     <pattern>
@@ -10517,7 +10519,7 @@ zich van de domme houden, van den domme houden
       <token inflected="yes">staan</token>
       <token>voor</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ik wil dat ze <marker>in de rij staan voor</marker> mijn producten.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
@@ -10529,23 +10531,23 @@ zich van de domme houden, van den domme houden
       <token>rij</token>
       <token>voor</token>
     </pattern>
-    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als dit figuurlijk is, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Ze <marker>staan in de rij voor</marker> mijn producten.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-  </rulegroup> 
-  
+  </rulegroup>
+
     <rule id="TaalTik_IN_DE_KINDERSCHOENEN" name="In de kinderschoenen">
     <pattern>
       <token>in</token>
       <token>de</token>
       <token>kinderschoenen</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Het staat <marker>in de kinderschoenen</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-    
+
     <rulegroup id="TaalTik_OM_ZICH_HEEN" name="Om zich heen slaan">
     <rule>
     <pattern>
@@ -10554,7 +10556,7 @@ zich van de domme houden, van den domme houden
       <token>heen</token>
       <token inflected="yes">slaan</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij heeft <marker>om zich heen geslagen</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
@@ -10565,11 +10567,11 @@ zich van de domme houden, van den domme houden
       <token>zich</token>
       <token>heen</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij <marker>slaat om zich heen</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-  </rulegroup>  
+  </rulegroup>
 
     <rule id="TaalTik_IN_DE_BAN_VAN" name="In de ban van">
     <pattern>
@@ -10578,18 +10580,18 @@ zich van de domme houden, van den domme houden
       <token>ban</token>
       <token>van</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij is <marker>in de ban van</marker> haar.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-    
+
     <rule id="TaalTik_ONDERSTE_STEEN" name="De onderste steen boven">
     <pattern>
       <token>onderste</token>
       <token skip="6">steen</token>
       <token>boven</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">De <marker>onderste steen kwam boven</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
@@ -10601,7 +10603,7 @@ zich van de domme houden, van den domme houden
       <token>licht</token>
       <token inflected="yes">geven</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij heeft <marker>groen licht gegeven</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
@@ -10612,13 +10614,13 @@ zich van de domme houden, van den domme houden
       <token>groen</token>
       <token>licht</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij <marker>geeft groen licht</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
   </rulegroup>
-  
-  
+
+
     <rule id="TaalTik_HANDDOEK_RING" name="De handdoek in de ring gooien">
     <pattern>
       <token>handdoek</token>
@@ -10626,7 +10628,7 @@ zich van de domme houden, van den domme houden
       <token>de</token>
       <token>ring</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij heeft de <marker>handdoek in de ring</marker> gegooid.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
@@ -10638,7 +10640,7 @@ zich van de domme houden, van den domme houden
       <token>veld</token>
       <token inflected="yes">ruimen</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij heeft <marker>het veld geruimd</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
@@ -10649,33 +10651,33 @@ zich van de domme houden, van den domme houden
       <token>het</token>
       <token>veld</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij heeft <marker>ruimt het veld</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
   </rulegroup>
-  
+
     <rule id="TaalTik_STALEN_ZENUWEN" name="Stalen zenuwen hebben">
     <pattern>
       <token>stalen</token>
       <token>zenuwen</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij heeft <marker>stalen zenuwen</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
     </rule>
-    
+
     <rule id="TaalTik_OP_GLAD_IJS" name="Zich op glad ijs begeven">
     <pattern>
       <token>op</token>
       <token>glad</token>
       <token>ijs</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij begeeft zich <marker>op glad ijs</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule> 
-    
+    </rule>
+
   <rulegroup id="TaalTik_DOOR_HET_STOF_a" name="Door het stof gaan">
     <rule>
     <pattern>
@@ -10684,10 +10686,10 @@ zich van de domme houden, van den domme houden
       <token>stof</token>
       <token inflected="yes">gaan</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij is <marker>door het stof gegaan</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule> 
+    </rule>
 
     <rule>
     <pattern>
@@ -10696,12 +10698,12 @@ zich van de domme houden, van den domme houden
       <token>het</token>
       <token>stof</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij <marker>gaat door het stof</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule> 
+    </rule>
   </rulegroup>
-  
+
   <rulegroup id="TaalTik_SCHOUDERS_ERONDER" name="De schouders eronder">
     <rule>
     <pattern>
@@ -10709,11 +10711,11 @@ zich van de domme houden, van den domme houden
       <token>schouders</token>
       <token>eronder</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij zet <marker>de schouders eronder</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-    </rule> 
-    
+    </rule>
+
     <rule>
       <pattern>
 	<token>de</token>
@@ -10721,10 +10723,10 @@ zich van de domme houden, van den domme houden
 	<token>er</token>
 	<token>onder</token>
       </pattern>
-      <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+      <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
       <example correction="">Hij zet <marker>de schouders er onder</marker>.</example>
       <example>Er is geen correct voorbeeld van.</example>
-    </rule> 
+    </rule>
   </rulegroup>
 
   <rule id="TaalTik_BREVET_ONVERMOGEN" name="Brevet van onvermogen">
@@ -10733,60 +10735,60 @@ zich van de domme houden, van den domme houden
       <token>van</token>
       <token>onvermogen</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij krijgt een <marker>brevet van onvermogen</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-  </rule> 
-  
+  </rule>
+
   <rule id="TaalTik_LAATSTE_STUIP" name="Laatste stuiptrekking">
     <pattern>
       <token>laatste</token>
       <token regexp="yes">stuiptrekking|stuiptrekkingen</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Pas op voor de <marker>laatste stuiptrekkingen</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-  </rule> 
-  
+  </rule>
+
   <rule id="TaalTik_HOGE_POTEN" name="Op hoge poten">
     <pattern>
       <token>op</token>
       <token>hoge</token>
       <token>poten</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij ging <marker>op hoge poten</marker> naar de directie.</example>
     <example>Er is geen correct voorbeeld van.</example>
-  </rule>  
-  
+  </rule>
+
   <rule id="TaalTik_ACHTERSTE_BENEN" name="Op de achterste benen">
     <pattern>
       <token>achterste</token>
       <token>benen</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij staat op zijn <marker>achterste benen</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-  </rule>  
-  
+  </rule>
+
   <rule id="TaalTik_TIERELIER" name="Als een tierelier">
     <pattern>
       <token>tierelier</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Het loopt als een <marker>tierelier</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-  </rule>  
-  
+  </rule>
+
   <rule id="TaalTik_GEVOELIGE_SNAAR" name="Een gevoelige snaar raken">
     <pattern>
       <token>gevoelige</token>
       <token>snaar</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij raakt een <marker>gevoelige snaar</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
-  </rule>  
+  </rule>
 
   <rulegroup id="TaalTik_SLEPEN_RECHTER" name="Voor de rechter slepen">
     <rule>
@@ -10796,11 +10798,11 @@ zich van de domme houden, van den domme houden
 	<token skip="4">rechter</token>
 	<token inflected="yes">slepen</token>
       </pattern>
-      <message>Pas op voor clichés. 'Dagen' is ook nog zakelijker.</message>    
+      <message>Pas op voor clichés. 'Dagen' is ook nog zakelijker.</message>
       <example correction="">Hij is <marker>voor de rechter gesleept</marker>.</example>
       <example>Er is geen correct voorbeeld van.</example>
     </rule>
-    
+
     <rule>
       <pattern>
 	<token inflected="yes" skip="4">slepen</token>
@@ -10808,12 +10810,12 @@ zich van de domme houden, van den domme houden
 	<token>de</token>
 	<token>rechter</token>
       </pattern>
-      <message>Pas op voor clichés. 'Dagen' is ook nog zakelijker.</message>    
+      <message>Pas op voor clichés. 'Dagen' is ook nog zakelijker.</message>
       <example correction="">Ik <marker>sleep hem voor de rechter</marker>.</example>
       <example>Er is geen correct voorbeeld van.</example>
     </rule>
   </rulegroup>
-  
+
   <rule id="TaalTik_HANDEN_EN_VOETEN" name="Handen en voeten">
     <pattern>
       <token><exception regexp="yes">van|op|aan|je|uw|zijn|hun|koude|,</exception></token>
@@ -10824,11 +10826,11 @@ zich van de domme houden, van den domme houden
       </marker>
       <token><exception>koud</exception></token>
     </pattern>
-    <message>Pas op voor clichés. Als u niet de letterlijke 'handen en voeten' bedoelt, probeer het dan op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Als u niet de letterlijke 'handen en voeten' bedoelt, probeer het dan op een andere manier uit te drukken.</message>
     <example correction="">Hij geeft het <marker>handen en voeten</marker>.</example>
     <example>Hij drukt zich niet zo goed uit.</example>
   </rule>
-  
+
   <rulegroup id="TaalTik_GROEIEN_ALS_KOOL" name="Groeien als kool">
     <rule>
       <pattern>
@@ -10836,43 +10838,43 @@ zich van de domme houden, van den domme houden
 	<token>kool</token>
 	<token inflected="yes">groeien</token>
       </pattern>
-      <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+      <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
       <example correction="">Hij is <marker>als kool gegroeid</marker>.</example>
       <example>Er is geen correct voorbeeld van.</example>
     </rule>
-    
+
     <rule>
       <pattern>
 	<token inflected="yes" skip="4">groeien</token>
 	<token>als</token>
 	<token>kool</token>
       </pattern>
-      <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+      <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
       <example correction="">Hij <marker>groeit als kool</marker>.</example>
       <example>Er is geen correct voorbeeld van.</example>
     </rule>
   </rulegroup>
-  
+
   <rule id="TaalTik_COMMUNICEREN" name="Communiceren">
     <pattern>
       <token inflected="yes">communiceren</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Hij <marker>communiceert</marker> gebrekkig.</example>
     <example>Hij drukt zich niet zo goed uit.</example>
   </rule>
-  
+
   <rule id="TaalTik_SCHRIL_CONTRAST" name="In schril contrast met">
     <pattern>
       <token>schril</token>
       <token>contrast</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Het staat in <marker>schril contrast</marker> met de werkelijkheid.</example>
     <example>Er is geen correct voorbeeld van.</example>
 
   </rule>
-  
+
   <rule id="TaalTik_DOLK_IN_DE_RUG" name="Dolk in de rug">
     <pattern>
       <token>dolk</token>
@@ -10880,12 +10882,12 @@ zich van de domme houden, van den domme houden
       <token>de</token>
       <token>rug</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Ze kregen een <marker>dolk in de rug</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
 
-  </rule>  
-  
+  </rule>
+
     <rule id="TaalTik_TIK_OP_DE_VINGERS" name="Tik op de vingers">
     <pattern>
       <token>tik</token>
@@ -10893,12 +10895,12 @@ zich van de domme houden, van den domme houden
       <token>de</token>
       <token>vingers</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Ze kregen een <marker>tik op de vingers</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
 
-  </rule>  
-  
+  </rule>
+
   <rule id="TaalTik_HAND_OP_DE_KNIP" name="De hand op de kip houden">
     <pattern>
       <token>hand</token>
@@ -10906,24 +10908,24 @@ zich van de domme houden, van den domme houden
       <token>de</token>
       <token>knip</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Ze hadden de <marker>hand op de knip</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
 
-  </rule>  
-  
+  </rule>
+
   <rule id="TaalTik_ALLE_ZEILEN" name="Alle zeilen bijzetten">
     <pattern>
       <token>alle</token>
       <token>zeilen</token>
       <token regexp="yes">bij(ge){0,1}ze.*</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Ze hadden <marker>alle zeilen bijgezet</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
 
-  </rule>  
-  
+  </rule>
+
   <rule id="TaalTik_WIND_RUG" name="De wind in de rug hebben">
     <pattern>
       <token>wind</token>
@@ -10931,34 +10933,34 @@ zich van de domme houden, van den domme houden
       <token>de</token>
       <token regexp="yes">rug|zeilen</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Ze hadden de <marker>wind in de rug</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
 
-  </rule>  
+  </rule>
 
   <rule id="TaalTik_PIKETPAAL" name="Piketpaaltjes slaan">
     <pattern>
       <token regexp="yes">piketpa.*</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Ze sloegen de <marker>piketpaaltje</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
 
-  </rule>  
-  
+  </rule>
+
     <rule id="TaalTik_SLEUTEL_TOT_SUCCES" name="Sleutel tot succes">
     <pattern>
       <token>sleutel</token>
       <token skip="2">tot</token>
       <token>succes</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Het was de <marker>sleutel tot zijn succes</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
 
-  </rule>   
-  
+  </rule>
+
     <rule id="TaalTik_SNEEUW_VOOR_DE_ZON" name="Als sneeuw voor de zon">
     <pattern>
       <token>sneeuw</token>
@@ -10966,34 +10968,34 @@ zich van de domme houden, van den domme houden
       <token>de</token>
       <token>zon</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Als <marker>sneeuw voor de zon</marker> verdween het.</example>
     <example>Er is geen correct voorbeeld van.</example>
 
-  </rule>   
-  
+  </rule>
+
   <rule id="TaalTik_DONKERE_WOLKEN" name="Donkere wolken pakken zich samen">
     <pattern>
       <token>donkere</token>
       <token>wolken</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction=""><marker>Donkere wolken</marker> pakten zich samen.</example>
     <example>Er is geen correct voorbeeld van.</example>
 
-  </rule>    
+  </rule>
 
   <rule id="TaalTik_DE_NOODKLOK" name="De noodklok luiden">
     <pattern>
       <token>de</token>
       <token>noodklok</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Zij luidden <marker>de noodklok</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
 
-  </rule>    
-  
+  </rule>
+
   <rule id="TaalTik_DOORN_OOG" name="Door in het oog">
     <pattern>
       <token>doorn</token>
@@ -11001,23 +11003,23 @@ zich van de domme houden, van den domme houden
       <token>het</token>
       <token>oog</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Het was mij een <marker>doorn in het oog</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
 
-  </rule>    
-  
+  </rule>
+
   <rule id="TaalTik_HOLLANDS_GLORIE" name="Hollands glorie">
     <pattern>
       <token>hollands</token>
       <token>glorie</token>
     </pattern>
-    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>    
+    <message>Pas op voor clichés. Probeer het op een andere manier uit te drukken.</message>
     <example correction="">Het was <marker>Hollands glorie</marker>.</example>
     <example>Er is geen correct voorbeeld van.</example>
 
-  </rule>    
-  
+  </rule>
+
 </category>
 
 <category name="Uit: Aarsrivalen, scheldkarbonades en terminale baden">
@@ -11027,19 +11029,19 @@ zich van de domme houden, van den domme houden
     <pattern>
 	<token>vluchthaven</token>
     </pattern>
-    <message>Mogelijk verwarring: Bedoelde u <suggestion>luchthaven</suggestion> (een veilig adres.) i.p.v. 'luchthaven' (vliegveld.).</message>    
+    <message>Mogelijk verwarring: Bedoelde u <suggestion>luchthaven</suggestion> (een veilig adres.) i.p.v. 'luchthaven' (vliegveld.).</message>
     <example correction="luchthaven">Op de <marker>vluchthaven</marker> stond het vliegtuig klaar.</example>
-  </rule>     
-  
+  </rule>
+
   <rule id="TaalTik_POSTALE_DEPRESSIE" name="Postale depressie → postnatale depressie">
     <!-- TaalTik, 2014-10-03, nieuw -->
     <pattern>
 	<token>postale</token>
 	<token>depressie</token>
     </pattern>
-    <message>U bedoelt vast: <suggestion>postnatale depressie</suggestion> (neerslachtig na een geboorte).</message>    
+    <message>U bedoelt vast: <suggestion>postnatale depressie</suggestion> (neerslachtig na een geboorte).</message>
     <example correction="postnatale depressie">Haar <marker>postale depressie</marker> was hevig.</example>
-  </rule>  
+  </rule>
 
   <rule id="TaalTik_VISUELE_CIRKEL" name="Visuele cirkel → vicieuze cirkel">
     <!-- TaalTik, 2014-10-03, nieuw -->
@@ -11047,31 +11049,31 @@ zich van de domme houden, van den domme houden
       <token>visuele</token>
       <token>cirkel</token>
     </pattern>
-    <message>U bedoelt vast: <suggestion>vicieuze cirkel</suggestion> (kring zonder uitweg).</message>    
+    <message>U bedoelt vast: <suggestion>vicieuze cirkel</suggestion> (kring zonder uitweg).</message>
     <example correction="vicieuze cirkel">De <marker>visuele cirkel</marker> begint.</example>
-  </rule>  
-  
+  </rule>
+
   <rule id="TaalTik_FINALE_PLEITING" name="Finale pleiting → finale kwijting">
     <!-- TaalTik, 2014-10-03, nieuw -->
     <pattern>
       <token>finale</token>
 	<token>pleiting</token>
     </pattern>
-    <message>U bedoelt vast: <suggestion>\1 kwijting</suggestion> (verklaring van afbetaald zijn).</message>    
+    <message>U bedoelt vast: <suggestion>\1 kwijting</suggestion> (verklaring van afbetaald zijn).</message>
     <example correction="finale kwijting">De <marker>finale pleiting</marker> ontbreekt.</example>
     <example>De <marker>finale kwijting</marker> is aanwezig.</example>
-  </rule>    
-  
-  
+  </rule>
+
+
   <rule id="TaalTik_LASTIG_PAKKET" name="Lastig pakket → lastig parket">
     <!-- TaalTik, 2014-10-03, nieuw -->
     <pattern>
       <token regexp="yes">lastig|moeilijk|vervelend</token>
 	<token>pakket</token>
     </pattern>
-    <message>U bedoelt vast: <suggestion>\1 parket</suggestion> (situatie).</message>    
+    <message>U bedoelt vast: <suggestion>\1 parket</suggestion> (situatie).</message>
     <example correction="lastig parket">Hij zat in een <marker>lastig pakket</marker>.</example>
-  </rule>  
+  </rule>
 
   <rule id="TaalTik_SURVEILLANCE_VAN_BETALING" name="Surveillance van betaling → surseance van betaling">
     <!-- TaalTik, 2014-10-03, nieuw -->
@@ -11080,10 +11082,10 @@ zich van de domme houden, van den domme houden
       <token>van</token>
       <token>betaling</token>
     </pattern>
-    <message>U bedoelt vast: <suggestion>surseance \2 \3</suggestion> (uitstel van financiële verplichtingen).</message>    
+    <message>U bedoelt vast: <suggestion>surseance \2 \3</suggestion> (uitstel van financiële verplichtingen).</message>
     <example correction="surseance van betaling">De zaak kwam in <marker>surveillance van betaling</marker>.</example>
-  </rule>  
-  
+  </rule>
+
   <rule id="TaalTik_ZAAK_AANHANKELIJK" name="Zaak anhankelijk maken → zaak aanhangig maken">
     <!-- TaalTik, 2014-10-03, nieuw -->
     <pattern>
@@ -11093,10 +11095,10 @@ zich van de domme houden, van den domme houden
       </marker>
       <token inflected="yes">maken</token>
     </pattern>
-    <message>U bedoelt vast: <suggestion>aanhangig</suggestion>.</message>    
+    <message>U bedoelt vast: <suggestion>aanhangig</suggestion>.</message>
     <example correction="aanhangig">Hij heeft de zaak <marker>aanhankelijk</marker> gemaakt.</example>
-  </rule>    
-  
+  </rule>
+
   <rule id="TaalTik_EIS_EN_WEDER_DIENENDE" name="Eis en weder → ijs en weder">
     <!-- TaalTik, 2014-10-03, nieuw -->
     <pattern>
@@ -11105,19 +11107,19 @@ zich van de domme houden, van den domme houden
       <token>weder</token>
       <token regexp="yes">dienend|dienende</token>
     </pattern>
-    <message>U bedoelt vast: <suggestion>ijs \2 \3 \4</suggestion>.</message>    
+    <message>U bedoelt vast: <suggestion>ijs \2 \3 \4</suggestion>.</message>
     <example correction="Ijs en weder dienende"><marker>Eis en weder dienende</marker> komt het goed.</example>
     <example><marker>IJs en weder dienende</marker> gaat het goed.</example>
-  </rule>      
-  
+  </rule>
+
   <rule id="TaalTik_JAARGETAL" name="Jaargetal → jaartal">
     <!-- TaalTik, 2014-10-03, nieuw -->
     <pattern>
       <token>jaargetal</token>
     </pattern>
-    <message>U bedoelt vast: <suggestion>jaartal</suggestion>(als in 2014).</message>    
+    <message>U bedoelt vast: <suggestion>jaartal</suggestion>(als in 2014).</message>
     <example correction="jaartal">Het <marker>jaargetal</marker> van de ramp is 2001.</example>
-  </rule>  
+  </rule>
 
   <rule id="TEST_LIBER_AMORICUM" name="Liber amoricum  → liber amicorum">
     <!-- TaalTik, 2014-10-03, nieuw -->
@@ -11125,10 +11127,10 @@ zich van de domme houden, van den domme houden
       <token>liber</token>
       <token>amoricum</token>
     </pattern>
-    <message>Deftig doen kan tot fouten leiden: <suggestion>\1 amicorum</suggestion> (vriendenboek in de wetenschappelijke wereld).</message>    
+    <message>Deftig doen kan tot fouten leiden: <suggestion>\1 amicorum</suggestion> (vriendenboek in de wetenschappelijke wereld).</message>
     <example correction="liber amicorum">Het <marker>liber amoricum</marker> was in leer gebonden.</example>
-  </rule>  
-  
+  </rule>
+
   <rule id="TEST_VACCINEREND" name="vaccinerend → fascinerend">
     <pattern>
     <token skip="-1" postag="SENT_START"><exception scope="next" regexp="yes">.*(ije|ië)|.*(land|dokter|verpleeg|pest|personeel).*</exception></token>
@@ -11142,98 +11144,98 @@ zich van de domme houden, van den domme houden
   </rule>
 
   <rule id="TaalTik_MOMENT_SUBLIEM" name="moment subliem → moment suprême">
-    <!-- TaalTik, 2014-10-02, nieuw 
+    <!-- TaalTik, 2014-10-02, nieuw
     (item is wel vrij zeldzaam; niet in corpus, wel op internet te vinden)
     -->
     <pattern>
 	<token>moment</token>
 	<token>subliem</token>
     </pattern>
-    <message>U bedoelt: <suggestion>moment suprême</suggestion></message>    
+    <message>U bedoelt: <suggestion>moment suprême</suggestion></message>
     <example correction="moment suprême">Op het <marker>moment subliem</marker> ging het mis.</example>
     <example>Op het <marker>moment suprême</marker> ging het goed.</example>
-  </rule>    
-  
-  
+  </rule>
+
+
   <rule id="TaalTik_EPISCH_CENTRUM" name="Episch centrum → epicentrum">
     <!-- TaalTik, 2014-10-02, nieuw -->
     <pattern>
 	<token>episch</token>
 	<token>centrum</token>
     </pattern>
-    <message>U bedoelt vast: <suggestion>epicentrum</suggestion>, het hart van de aardbeving.</message>    
+    <message>U bedoelt vast: <suggestion>epicentrum</suggestion>, het hart van de aardbeving.</message>
     <example correction="epicentrum">Het <marker>episch centrum</marker> lag vijf km uit de kust.</example>
-  </rule>    
-  
+  </rule>
+
   <rule id="TaalTik_HEET_GEBLAKERD" name="Heet geblakerd → heetgebakerd">
     <!-- TaalTik, 2014-10-02, nieuw -->
     <pattern>
 	<token>heet</token>
 	<token>geblakerd</token>
     </pattern>
-    <message>U bedoelt vast: <suggestion>heetgebakerd</suggestion>, opvliegend.</message>    
+    <message>U bedoelt vast: <suggestion>heetgebakerd</suggestion>, opvliegend.</message>
     <example correction="heetgebakerd">Hij is <marker>heet geblakerd</marker>.</example>
-  </rule>   
-  
+  </rule>
+
   <rule id="TaalTik_DRAADKRACHT" name="Draadkracht → daadkracht">
     <!-- TaalTik, 2014-10-02, nieuw -->
     <pattern>
 	<token>draadkracht</token>
     </pattern>
-    <message>U bedoelt vast: <suggestion>daadkracht</suggestion>, opvliegend.</message>    
+    <message>U bedoelt vast: <suggestion>daadkracht</suggestion>, opvliegend.</message>
     <example correction="daadkracht">Hij heeft <marker>draadkracht</marker>.</example>
-  </rule>   
+  </rule>
 
   <rule id="TaalTik_LIQUIDATIEPROBLEEM" name="Liquidatieprobleem → liquiditeitsprobleem">
     <!-- TaalTik, 2014-10-02, nieuw -->
     <pattern>
 	<token regexp="yes">liquidatie.{3,}</token>
     </pattern>
-    <message>Mogelijk bedoelt u: <suggestion><match no="1" regexp_match="liquidatie" regexp_replace="liquiditeits"></match></suggestion> (iets met betalen).</message>    
+    <message>Mogelijk bedoelt u: <suggestion><match no="1" regexp_match="liquidatie" regexp_replace="liquiditeits"></match></suggestion> (iets met betalen).</message>
     <example correction="liquiditeitsprobleem">Hij heeft een <marker>liquidatieprobleem</marker>.</example>
-  </rule>    
- 
+  </rule>
+
   <rule id="TaalTik_EXTRA_DEMENTIE" name="Extra dementie → extra dimensie">
     <!-- TaalTik, 2014-10-02, nieuw -->
     <pattern>
 	<token>extra</token>
 	<token>dementie</token>
     </pattern>
-    <message>Waarschijnlijk bedoelt u: <suggestion>\1 dimensie</suggestion> (een extra denkrichting).</message>    
+    <message>Waarschijnlijk bedoelt u: <suggestion>\1 dimensie</suggestion> (een extra denkrichting).</message>
     <example correction="extra dimensie">Hij heeft een <marker>extra dementie</marker> toegevoegd.</example>
-  </rule>  
-  
+  </rule>
+
   <rule id="TaalTik_TERMINALE_BADEN" name="Terminale baden → thermale baden">
     <!-- TaalTik, 2014-10-02, nieuw -->
     <pattern>
 	<token>terminale</token>
 	<token>baden</token>
     </pattern>
-    <message>Waarschijnlijk bedoelt u: <suggestion>thermale \2</suggestion> (warme baden).</message>    
+    <message>Waarschijnlijk bedoelt u: <suggestion>thermale \2</suggestion> (warme baden).</message>
     <example correction="thermale baden">Hij zwom in de <marker>terminale baden</marker>.</example>
-  </rule>  
-  
+  </rule>
+
   <rule id="TaalTik_MEDIA_MAAND" name="Media januari → medio januari">
     <!-- TaalTik, 2014-10-02, nieuw -->
     <pattern>
 	<token>media</token>
 	<token regexp="yes">januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december</token>
     </pattern>
-    <message>Waarschijnlijk bedoelt u: <suggestion>medi \2</suggestion> (warme baden).</message>    
+    <message>Waarschijnlijk bedoelt u: <suggestion>medi \2</suggestion> (warme baden).</message>
     <example correction="medi juli">Nederland is het warmst <marker>media juli</marker>.</example>
     <example>Nederland is het warmst <marker>medio juli</marker>.</example>
-  </rule>  
-  
+  </rule>
+
   <rule id="TaalTik_VOL_PENSIOEN" name="Vol pensioen → Vol pension">
     <!-- TaalTik, 2014-10-02, nieuw -->
     <pattern>
 	<token regexp="yes">vol|half</token>
 	<token>pensioen</token>
     </pattern>
-    <message>Waarschijnlijk bedoelt u: <suggestion>\1 pension</suggestion> (eten bij het hotel).</message>    
+    <message>Waarschijnlijk bedoelt u: <suggestion>\1 pension</suggestion> (eten bij het hotel).</message>
     <example correction="vol pension">We boekten <marker>vol pensioen</marker>.</example>
-  </rule>    
-  
+  </rule>
+
   <rule id="TaalTik_BOVEN_HET_MAISVELD" name="Boven het maisveld → boven het maaiveld">
     <!-- TaalTik, 2014-10-02, nieuw -->
     <pattern>
@@ -11243,9 +11245,9 @@ zich van de domme houden, van den domme houden
 	<token regexp="yes">ma[iï]sveld</token>
 	</marker>
     </pattern>
-    <message>U bedoelt vast: boven het <suggestion>maaiveld</suggestion>, opvliegend.</message>    
+    <message>U bedoelt vast: boven het <suggestion>maaiveld</suggestion>, opvliegend.</message>
     <example correction="maaiveld">Kom nooit met je hoofd boven het <marker>maisveld</marker>.</example>
-  </rule>   
+  </rule>
 
   <rule id="TaalTik_SO_WIE_SO" name="Boven het maisveld → boven het maaiveld">
     <!-- TaalTik, 2014-10-02, nieuw -->
@@ -11254,20 +11256,20 @@ zich van de domme houden, van den domme houden
 	<token regexp="yes">wie|ie</token>
 	<token regexp="yes">[sz]o</token>
     </pattern>
-    <message>U bedoelt vast: <suggestion>sowieso</suggestion> (<suggestion>hoe dan ook</suggestion>).</message>    
+    <message>U bedoelt vast: <suggestion>sowieso</suggestion> (<suggestion>hoe dan ook</suggestion>).</message>
     <example correction="sowieso|hoe dan ook">Ik kom <marker>so ie zo</marker> niet uit.</example>
     <example>Ik kom <marker>sowieso</marker> uit.</example>
-  </rule>   
-  
+  </rule>
+
   <rule id="TaalTik_PUBERTIJD" name="Pubertijd → puberteit">
     <!-- TaalTik, 2014-10-02, nieuw -->
     <pattern>
       <token regexp="yes">.*pubertijd.*</token>
     </pattern>
-    <message>Meestal wordt <suggestion><match no="1" regexp_match="pubertijd" regexp_replace="puberteit"></match></suggestion> bedoeld (de toestand van puber zijn).</message>    
+    <message>Meestal wordt <suggestion><match no="1" regexp_match="pubertijd" regexp_replace="puberteit"></match></suggestion> bedoeld (de toestand van puber zijn).</message>
     <example correction="puberteit">Ik kom de <marker>pubertijd</marker> niet uit.</example>
     <example>Ik kom de <marker>puberteit</marker> uit.</example>
-  </rule>   
+  </rule>
 
  <rule id="TaalTik_CHAMPIGNONS_LEAGUE" name="Chapignons league → Champions League">
     <!-- TaalTik, 2014-10-02, nieuw -->
@@ -11275,9 +11277,9 @@ zich van de domme houden, van den domme houden
 	<token>champignons</token>
 	<token>league</token>
     </pattern>
-    <message>U bedoelt vast de: <suggestion>Champions League</suggestion></message>    
+    <message>U bedoelt vast de: <suggestion>Champions League</suggestion></message>
     <example correction="Champions League">De <marker>champignons league</marker> was voorbij.</example>
-  </rule>  
+  </rule>
 
  <rule id="TaalTik_BEGAANDE_GROND" name="begaande grond → begane grond">
     <!-- TaalTik, 2014-10-02, nieuw -->
@@ -11285,22 +11287,22 @@ zich van de domme houden, van den domme houden
 	<token>begaande</token>
 	<token>grond</token>
     </pattern>
-    <message>U bedoelt vast de: <suggestion>begane grond</suggestion></message>    
+    <message>U bedoelt vast de: <suggestion>begane grond</suggestion></message>
     <example correction="begane grond">De <marker>begaande grond</marker> is beneden.</example>
     <example>De <marker>begane grond</marker> is daar.</example>
-  </rule>     
-  
+  </rule>
+
  <rule id="TaalTik_ONTROEREND_GOED" name="Ontroerend goed → onroerend goed">
     <!-- TaalTik, 2014-10-02, nieuw -->
     <pattern>
 	<token>ontroerend</token>
 	<token>goed</token>
     </pattern>
-    <message>U bedoelt vast: <suggestion>onroerend goed</suggestion> (gebouwen).</message>    
+    <message>U bedoelt vast: <suggestion>onroerend goed</suggestion> (gebouwen).</message>
     <example correction="onroerend goed">Het <marker>ontroerend goed</marker> is onbetaalbaar.</example>
-  </rule>   
-  
-  
+  </rule>
+
+
   <rule id="TaalTik_OP_DE_KEEPER_BESCHOUWD" name="Op de keeper beschouwd → op de keper beschouwd">
     <!-- TaalTik, 2014-10-02, nieuw -->
     <pattern>
@@ -11311,10 +11313,10 @@ zich van de domme houden, van den domme houden
       </marker>
 	<token regexp="yes">beschouw.*</token>
     </pattern>
-    <message>U bedoelt vast: op de <suggestion>keper</suggestion> beschouwd (nauwkeurig bekeken).</message>    
+    <message>U bedoelt vast: op de <suggestion>keper</suggestion> beschouwd (nauwkeurig bekeken).</message>
     <example correction="keper">Op de <marker>keeper</marker> beschouwd was het fout.</example>
-  </rule>     
-  
+  </rule>
+
   <rule id="TaalTik_WENDT_OF_KEERT" name="Went of keert → wendt of keert">
     <!-- TaalTik, 2014-10-02, nieuw -->
     <pattern>
@@ -11324,11 +11326,11 @@ zich van de domme houden, van den domme houden
 	<token>of</token>
 	<token>keert</token>
     </pattern>
-    <message>U bedoelt vast: <suggestion>wendt</suggestion> of keert.</message>    
+    <message>U bedoelt vast: <suggestion>wendt</suggestion> of keert.</message>
     <url>https://onzetaal.nl/taaladvies/advies/wendt-of-keert-went-of-keert</url>
     <example correction="wendt">Hoe je het ook <marker>went</marker> of keert: het is fout.</example>
-  </rule>   
-  
+  </rule>
+
   <rule id="TaalTik_INVALIDE_TOILET" name="Invalide toilet → invalidentoilet">
     <!-- TaalTik, 2014-10-02, nieuw -->
     <pattern>
@@ -11337,11 +11339,11 @@ zich van de domme houden, van den domme houden
 	<token postag="NN.*" postag_regexp="yes"/>
       </marker>
     </pattern>
-    <message>U bedoelt vast: <suggestion>\1n\2</suggestion>.</message>    
+    <message>U bedoelt vast: <suggestion>\1n\2</suggestion>.</message>
     <example correction="invalidentoilet">Het <marker>invalide toilet</marker> was net schoongemaakt.</example>
-  </rule>       
-  
-  
+  </rule>
+
+
   <rule id="TaalTik_EEN_SOORT_VAN_AJN" name="Een soort van jammer → jammer">
     <!-- TaalTik, 2014-10-02, nieuw -->
     <pattern>
@@ -11352,10 +11354,10 @@ zich van de domme houden, van den domme houden
 	<token postag="AJn"/>
       </marker>
     </pattern>
-    <message>Netter is: <suggestion>\4</suggestion>.</message>    
+    <message>Netter is: <suggestion>\4</suggestion>.</message>
     <example correction="jammer">Het is <marker>een soort van jammer</marker> dat het vaak voorkomt.</example>
-  </rule>      
-  
+  </rule>
+
   <rule id="TaalTik_HEUR_HAAR" name="Heur haar => haar haar">
     <!-- TaalTik, 2014-10-02, nieuw -->
     <pattern>
@@ -11363,11 +11365,11 @@ zich van de domme houden, van den domme houden
 	<token>heur</token>
       </marker>
     </pattern>
-    <message>Altijd beter is: <suggestion>haar</suggestion>, ook in 'haar haar'.</message>    
+    <message>Altijd beter is: <suggestion>haar</suggestion>, ook in 'haar haar'.</message>
     <url>https://onzetaal.nl/taaladvies/advies/heur-haar</url>
     <example correction="haar">De kapper deed <marker>heur</marker> haar.</example>
-  </rule>     
-  
+  </rule>
+
 </category>
 
 

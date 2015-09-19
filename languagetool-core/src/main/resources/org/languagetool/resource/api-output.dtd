@@ -1,5 +1,5 @@
 <!--
-Simple XML output format for the 'api' option and the HTTP 
+Simple XML output format for the 'api' option and the HTTP
 interface of LanguageTool (http://www.languagetool.org). Version 1.3 of the XML, 2012-11-09
 -->
 
@@ -10,7 +10,7 @@ interface of LanguageTool (http://www.languagetool.org). Version 1.3 of the XML,
 <!ATTLIST matches buildDate CDATA #REQUIRED>
 
 <!-- A (potential) error. -->
-<!ELEMENT error EMPTY>
+<!ELEMENT error ((url)*)>
 
 <!-- The line in which the error starts. Counting starts at 0. -->
 <!ATTLIST error fromy CDATA #REQUIRED>
@@ -48,7 +48,7 @@ Counting starts at 0. (added in LanguageTool 1.9) -->
 <!-- The length of the error in the input text. -->
 <!ATTLIST error errorlength CDATA #REQUIRED>
 
-<!-- The url with additional information that may be given. -->
+<!-- The url with additional information that may be given (old, will be deprecated). -->
 <!ATTLIST error url CDATA #IMPLIED>
 
 <!-- The category of the match, if any (added in LanguageTool 1.9). -->
@@ -61,6 +61,9 @@ Counting starts at 0. (added in LanguageTool 1.9) -->
  *** Please consider this to be a prototypical implementation for now ***
  -->
 <!ATTLIST error locqualityissuetype CDATA #IMPLIED>
+
+<!-- The url with additional information that may be given (new). -->
+ <!ELEMENT url (#PCDATA)>
 
 <!-- The language of the match (added in LanguageTool 2.0). -->
 <!ELEMENT language EMPTY>

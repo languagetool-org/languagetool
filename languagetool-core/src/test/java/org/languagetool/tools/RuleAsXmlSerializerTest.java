@@ -101,7 +101,8 @@ public class RuleAsXmlSerializerTest {
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" " +
-            "locqualityissuetype=\"misspelling\"/>\n" +
+            "locqualityissuetype=\"misspelling\">\n" +
+            "</error>\n" +
             "</matches>\n"));
   }
 
@@ -122,7 +123,8 @@ public class RuleAsXmlSerializerTest {
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"MY_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is a test ...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"MyCategory\" " +
-            "locqualityissuetype=\"uncategorized\"/>\n" +
+            "locqualityissuetype=\"uncategorized\">\n" +
+            "</error>\n" +
             "</matches>\n"));
   }
 
@@ -136,6 +138,7 @@ public class RuleAsXmlSerializerTest {
       public List<URL> getUrls() {
         try {
           urls.add(new URL("http://server.org?id=1&foo=bar"));
+          urls.add(new URL("http://server.org?id=2&foo=bar"));
           return urls;
         } catch (MalformedURLException e) {
           throw new RuntimeException(e);
@@ -148,10 +151,14 @@ public class RuleAsXmlSerializerTest {
     match.setEndLine(45);
     matches.add(match);
     final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_XML, LANG, Collections.<String>emptyList());
+    System.out.println(xml.toString());
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
-            "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" url=\"http://server.org?id=1&amp;foo=bar\" " +
-            "locqualityissuetype=\"misspelling\"/>\n" +
+            "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" " +
+            "locqualityissuetype=\"misspelling\">\n" +
+            "<url>http://server.org?id=1&amp;foo=bar</url>\n" +
+            "<url>http://server.org?id=2&amp;foo=bar</url>\n" +
+            "</error>\n" +
             "</matches>\n"));
   }
 
@@ -169,7 +176,8 @@ public class RuleAsXmlSerializerTest {
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"... is &quot;an test...\" contextoffset=\"8\" offset=\"9\" errorlength=\"2\" " +
-            "locqualityissuetype=\"misspelling\"/>\n" +
+            "locqualityissuetype=\"misspelling\">\n" +
+            "</error>\n" +
             "</matches>\n"));
   }
 

@@ -113,7 +113,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         shortMessage = new StringBuilder();
         message = new StringBuilder();
         suggestionsOutMsg = new StringBuilder();
-        url = new StringBuilder();
+        urls = new ArrayList<>();
         id = attrs.getValue(ID);
         name = attrs.getValue(NAME);
         if (inRuleGroup) {
@@ -240,17 +240,15 @@ public class PatternRuleHandler extends XMLRuleHandler {
       case "url":
         if (inRule) {
           inUrl = true;
-          url = new StringBuilder();
         } else {
           inUrlForRuleGroup = true;
-          urlForRuleGroup = new StringBuilder();
         }
         break;
       case RULEGROUP:
         ruleGroupId = attrs.getValue(ID);
         ruleGroupDescription = attrs.getValue(NAME);
         ruleGroupDefaultOff = OFF.equals(attrs.getValue(DEFAULT));
-        urlForRuleGroup = new StringBuilder();
+        urlsForRuleGroup = new ArrayList<>();
         shortMessageForRuleGroup = new StringBuilder();
         inRuleGroup = true;
         subId = 0;
@@ -461,7 +459,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
         inMatch = false;
         break;
       case RULEGROUP:
-        urlForRuleGroup = new StringBuilder();
         shortMessageForRuleGroup = new StringBuilder();
         inRuleGroup = false;
         ruleGroupIssueType = null;
@@ -610,17 +607,21 @@ public class PatternRuleHandler extends XMLRuleHandler {
     if (category.isDefaultOff() && !defaultOn) {
       rule.setDefaultOff();
     }
-    if (url != null && url.length() > 0) {
-      try {
-        rule.addUrl(new URL(url.toString()));
-      } catch (MalformedURLException e) {
-        throw new RuntimeException("Could not parse URL for rule: " + rule + ": '" + url + "'", e);
+    if (urls.size() > 0) {
+      for (URL url : urls) {
+        try {
+          rule.addUrl(new URL(url.toString()));
+        } catch (MalformedURLException e) {
+          throw new RuntimeException("Could not parse URL for rule: " + rule + ": '" + url + "'", e);
+        }
       }
-    } else if (urlForRuleGroup != null && urlForRuleGroup.length() > 0) {
-      try {
-        rule.addUrl(new URL(urlForRuleGroup.toString()));
-      } catch (MalformedURLException e) {
-        throw new RuntimeException("Could not parse URL for rule: " + rule + ": '" + urlForRuleGroup + "'", e);
+  } else if (urlsForRuleGroup.size() > 0) {
+      for (URL urlForRuleGroup : urlsForRuleGroup) {
+        try {
+          rule.addUrl(new URL(urlForRuleGroup.toString()));
+        } catch (MalformedURLException e) {
+          throw new RuntimeException("Could not parse URL for rule: " + rule + ": '" + urlForRuleGroup + "'", e);
+        }
       }
     }
     // inheritance of values - if no type value is defined for a rule, take the rule group's value etc:
@@ -655,9 +656,17 @@ public class PatternRuleHandler extends XMLRuleHandler {
     } else if (inShortMessageForRuleGroup) {
       shortMessageForRuleGroup.append(s);
     } else if (inUrl) {
-      url.append(s);
+      try {
+        urls.add(new URL(s));
+      } catch (MalformedURLException e) {
+          throw new RuntimeException("Could not parse URL for rule: '" + s + "'", e);
+      }
     } else if (inUrlForRuleGroup) {
-      urlForRuleGroup.append(s);
+      try {
+        urlsForRuleGroup.add(new URL(s));
+      } catch (MalformedURLException e) {
+        throw new RuntimeException("Could not parse URL for rule group: '" + s + "'", e);
+      }
     }
   }
 

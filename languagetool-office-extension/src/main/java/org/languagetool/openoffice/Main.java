@@ -494,12 +494,13 @@ public class Main extends WeakBase implements XJobExecutor,
     // LibreOffice since version 3.5 supports an URL that provides more
     // information about the error,
     // older version will simply ignore the property:
-    for (URL url : ruleMatch.getRule().getUrls()) {
-      aError.aProperties = new PropertyValue[] { new PropertyValue(
+    List<URL> urls = ruleMatch.getRule().getUrls();
+    aError.aProperties = new PropertyValue[urls.size()];
+    int urlIndex = 0;
+    for (URL url : urls) {
+      aError.aProperties[urlIndex++] = new PropertyValue(
           "FullCommentURL", -1, url.toString(),
-          PropertyState.DIRECT_VALUE) };
-    } else {
-      aError.aProperties = new PropertyValue[0];
+          PropertyState.DIRECT_VALUE);
     }
     return aError;
   }

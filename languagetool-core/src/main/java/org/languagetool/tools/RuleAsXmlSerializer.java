@@ -113,9 +113,6 @@ public class RuleAsXmlSerializer {
               .append(" contextoffset=\"").append(contextOffset).append('"')
               .append(" offset=\"").append(match.getFromPos()).append('"')
               .append(" errorlength=\"").append(match.getToPos() - match.getFromPos()).append('"');
-      for (URL url : match.getRule().getUrls()) {
-        xml.append(" url=\"").append(escapeXMLForAPIOutput(url.toString())).append('"');
-      }
       Category category = match.getRule().getCategory();
       if (category != null) {
         xml.append(" category=\"").append(escapeXMLForAPIOutput(category.getName())).append('"');
@@ -124,7 +121,11 @@ public class RuleAsXmlSerializer {
       if (type != null) {
         xml.append(" locqualityissuetype=\"").append(escapeXMLForAPIOutput(type.toString())).append('"');
       }
-      xml.append("/>\n");
+      xml.append(">\n");
+      for (URL url : match.getRule().getUrls()) {
+        xml.append("<url>").append(escapeXMLForAPIOutput(url.toString())).append("</url>\n");
+      }
+      xml.append("</error>\n");
     }
     return xml.toString();
   }

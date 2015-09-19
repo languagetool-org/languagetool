@@ -245,8 +245,14 @@ public abstract class Rule {
    * Optional URLs describing the rule match in more detail. They typically point to a dictionary or grammar website
    * with explanations and examples.
    * @since 1.8
+   * @deprecated use {@link #getUrls()} instead.
    */
   @Nullable
+  @Deprecated
+  public URL getUrl() {
+    return null;
+  }
+
   public List<URL> getUrls() {
     return Collections.unmodifiableList(urls);
   }
@@ -254,10 +260,15 @@ public abstract class Rule {
   /**
    * @since 1.8
    * @see #getUrls()
+   * @deprecated use {@link #addUrl(URL url)} instead.
    */
-  public void addUrl(URL url) {
-    this.urls.add(url);
-  }
+   @Deprecated
+   public void setUrl(URL url) {
+   }
+
+   public void addUrl(URL url) {
+     this.urls.add(url);
+   }
 
   /**
    * Returns the Localization Quality Issue Type, as defined
