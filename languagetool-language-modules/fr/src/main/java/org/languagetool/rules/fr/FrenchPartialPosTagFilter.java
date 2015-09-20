@@ -35,7 +35,7 @@ import java.util.List;
  * that the disambiguator is called with a single token, so only rules
  * will apply that have a single {@code <match>} element.
  *
- * @since 2.8
+ * @since 3.1
  */
 public class FrenchPartialPosTagFilter extends PartialPosTagFilter {
 
