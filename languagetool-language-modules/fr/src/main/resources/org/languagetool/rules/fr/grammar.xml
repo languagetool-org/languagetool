@@ -3786,11 +3786,11 @@ though, and has since been slightly modified)-->
       <rule>
         <antipattern>
           <token>Dominique</token>
-          <token>Strauss-Kahn</token>
+          <token regexp="yes">Strauss[-‑‐]Kahn</token>
         </antipattern>
         <pattern>
           <token regexp="yes">Dominique|Dominic</token>
-          <token regexp="yes">Strauss?-[CK]h?ah?n</token>
+          <token regexp="yes">Strauss?[-‑‐][CK]h?ah?n</token>
         </pattern>
         <message>Écrivez <suggestion>Dominique Strauss-Kahn</suggestion> s’il s’agit de l’économiste et politicien français.</message>
         <url>https://fr.wikipedia.org/wiki/Dominique_Strauss-Kahn</url>
@@ -4173,7 +4173,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>Ban</token>
-          <token case_sensitive="yes">Ki-Moon</token>
+          <token regexp="yes" case_sensitive="yes">Ki[-‑‐]Moon</token>
         </pattern>
         <message>Écrivez <suggestion>Ban Ki-moon</suggestion> s’il s’agit du diplomate sud-coréen.</message>
         <url>https://fr.wikipedia.org/wiki/Ban_Ki-moon</url>
@@ -5254,7 +5254,7 @@ though, and has since been slightly modified)-->
     <rule id="AMANITE" name="amanite ou ammonite">
       <pattern>
         <marker><token regexp="yes">amm?onites?|ammanites?</token></marker>
-        <token regexp="yes">citrina|tue-mouches?|ovoïdes?|panthères?|rougissantes?|phalloïdes?|printanières?|épaisses?|solitaires?|vaginées?|vireuses?</token>
+        <token regexp="yes">citrina|tue[-‑‐]mouches?|ovoïdes?|panthères?|rougissantes?|phalloïdes?|printanières?|épaisses?|solitaires?|vaginées?|vireuses?</token>
       </pattern>
       <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^.*?(s?)$" regexp_replace="amanite$1"/></suggestion> s’il s’agit du champignon ?</message>
       <url>https://fr.wikipedia.org/wiki/Amanite</url>
@@ -5265,7 +5265,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="CORNOUAILLE" name="Cornouailles et Cornouaille">
       <rule>
         <pattern>
-          <token regexp="yes">(Haute|Basse)-Cornouailles</token>
+          <token regexp="yes">(Haute|Basse)[-‑‐]Cornouailles</token>
         </pattern>
         <message>Confusion probable entre <suggestion>Cornouaille</suggestion> (ancienne division de la Bretagne) et « Cornouailles » (nation celtique au sud ouest de l’Angleterre).</message>
         <url>https://fr.wikipedia.org/wiki/Cornouaille</url>
@@ -5406,7 +5406,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(haut|aux)-(delà|deça)</token>
+          <token regexp="yes">(haut|aux)[-‑‐](delà|deça)</token>
         </pattern>
         <message>Écrivez <suggestion><match no="1" regexp_match=".*-" regexp_replace="au-"/></suggestion>.</message>
         <example correction="au-delà">La croyance en l’<marker>haut-delà</marker>.</example>
@@ -5462,7 +5462,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <marker><token>ceux-ci</token></marker>
+          <marker><token regexp="yes">ceux[-‑‐]ci</token></marker>
           <token>dit</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>ceci</suggestion> ?</message>
@@ -5565,7 +5565,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes" skip="1">clime?s?|chauffe-eau|douche?|eau|éviers?|lavabos?|nez|parapluies?|plafond|pluie|robinets?|sang|sueur|toilettes|toits?</token>
+          <token regexp="yes" skip="1">clime?s?|chauffe[-‑‐]eau|douche?|eau|éviers?|lavabos?|nez|parapluies?|plafond|pluie|robinets?|sang|sueur|toilettes|toits?</token>
           <marker><token inflected="yes">goûter</token></marker>
         </pattern>
         <message>Confusion probable entre « \2 » et <suggestion><match no="2" regexp_match="û" regexp_replace="ut"/></suggestion>.</message>
@@ -5579,7 +5579,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <marker><token regexp="yes">fausses?</token></marker>
           <token regexp="yes">des|d[ue]|aux</token>
-          <token regexp="yes">Aléoutiennes|Bougainville|Kermadec|Java|Japon|Mariannes|Kouriles|Pérou-Chili|Philippines|Puerto|Ryukyu|Tonga|Cedros|Tuscarora|subduction|caïmans?|crocodiles?|charognards?|lions?|lionnes?|loups?|louves?|ours|serpents?|cobras?|diables?|compost|tanneurs?|musiciens|scène</token>
+          <token regexp="yes">Aléoutiennes|Bougainville|Kermadec|Java|Japon|Mariannes|Kouriles|Pérou[-‑‐]Chili|Philippines|Puerto|Ryukyu|Tonga|Cedros|Tuscarora|subduction|caïmans?|crocodiles?|charognards?|lions?|lionnes?|loups?|louves?|ours|serpents?|cobras?|diables?|compost|tanneurs?|musiciens|scène</token>
         </pattern>
         <message>Confusion probable entre l’adjectif « \1 » et le nom <suggestion><match no="1" regexp_match="au" regexp_replace="o"/></suggestion>.</message>
         <url>http://tempsreel.nouvelobs.com/abc-lettres/fausse-fosse/F/homophone.html</url>
@@ -5609,7 +5609,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker><token regexp="yes">fausses?</token></marker>
-          <token regexp="yes">abyssales?|canines?|béantes?|communes?|océaniques?|sous-marines?|septiques?|immenses?|profondes?|nasales?|iliaques?|temporales?</token>
+          <token regexp="yes">abyssales?|canines?|béantes?|communes?|océaniques?|sous[-‑‐]marines?|septiques?|immenses?|profondes?|nasales?|iliaques?|temporales?</token>
         </pattern>
         <message>Confusion probable entre l’adjectif « \1 » et le nom <suggestion><match no="1" regexp_match="au" regexp_replace="o"/></suggestion>.</message>
         <url>http://tempsreel.nouvelobs.com/abc-lettres/fausse-fosse/F/homophone.html</url>
@@ -5631,7 +5631,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="PLUPART" name="plus-part → plupart">
       <rule>
         <pattern>
-          <token regexp="yes">plu[st]-part</token>
+          <token regexp="yes">plu[st][-‑‐]part</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>plupart</suggestion> ?</message>
         <example correction="plupart">La <marker>plus-part</marker> des gens.</example>
@@ -5671,7 +5671,7 @@ though, and has since been slightly modified)-->
     <rule id="ELISION" name="Élision de le, la…">
       <pattern>
         <token regexp="yes">[dljmnst]e|la|jusque|que</token>
-        <token regexp="yes">[àâaéêèeiîou]\D.*|à<exception regexp="yes">onze|onzièmes?|une?|au?|oui|ouistiti|ouï-dire|énième|Ouagadougou|o[ùu]|(?-i)[IVXLCM]+e?|Ier|Ire</exception></token>
+        <token regexp="yes">[àâaéêèeiîou]\D.*|à<exception regexp="yes">onze|onzièmes?|une?|au?|oui|ouistiti|ouï[-‑‐]dire|énième|Ouagadougou|o[ùu]|(?-i)[IVXLCM]+e?|Ier|Ire</exception></token>
       </pattern>
       <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
       <url>http://66.46.185.79/bdl/gabarit_bdl.asp?Th=2&amp;t1=&amp;id=1737</url>
@@ -9831,6 +9831,11 @@ though, and has since been slightly modified)-->
         <example>Que manges-tu ?</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>on</token>
+          <token>ne</token>
+          <token>peut</token>
+        </antipattern>
         <pattern>
           <marker>
             <and>
@@ -9850,6 +9855,7 @@ though, and has since been slightly modified)-->
         <example>Que prend-il ?</example>
         <example>Notre point de <marker>départ on</marker> pouvait le voir d’ici.</example>
         <example>Ce prédateur réintroduit il y a 30 ans.</example>
+        <example>L’auditoire était on ne peut plus ravi.</example>
       </rule>
       <rule>
         <antipattern>
@@ -10093,7 +10099,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token postag="N .*" postag_regexp="yes">
-            <exception regexp="yes">est|pas</exception>
+            <exception regexp="yes">est|pas|car</exception>
             <exception postag="V.*" postag_regexp="yes"/>
           </token>
           <token regexp="yes" >l[àa]</token>
@@ -12161,7 +12167,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token regexp="yes">perdrixs?</token>
           <token regexp="yes">des?</token>
-          <token regexp="yes">bois-francs?</token>
+          <token regexp="yes">bois[-‑‐]francs?</token>
         </pattern>
         <message>« Perdrix de bois francs » est un régionalisme (Québec). Employez <suggestion>gélinotte huppée</suggestion>.</message>
         <example correction="gélinotte huppée"><marker>perdrix de bois-francs</marker></example>
@@ -13336,7 +13342,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="LAISSEZ_MOI_VOUS_DIRE_QUE" name="laisse-moi te dire que">
       <rule>
         <pattern>
-          <token>laisse-moi</token>
+          <token regexp="yes">laisse[-‑‐]moi</token>
           <token>te</token>
           <token>dire</token>
           <token regexp="yes">que?</token>
@@ -26541,7 +26547,7 @@ though, and has since been slightly modified)-->
             <exception postag="N m s">est</exception>
           </token>
           <token spacebefore="yes">
-            <exception regexp="yes">vous|nous|mieux|faire|en|donnant|couvent|ho|olé|Bora|roses?|vroum</exception><match no="0"/>
+            <exception regexp="yes">vous|nous|mieux|faire|en|donnant|couvent|ho|olé|Bora|roses?|vroum|Zsa</exception><match no="0"/>
           </token>
         </pattern>
         <message>Faute de frappe possible : un mot est répété : \1 \2. Correction : <suggestion>\1</suggestion>.</message>
@@ -26590,7 +26596,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="NOEUDS_PAR_HEURE" name="nœuds par heure → nœuds">
       <pattern>
-        <token regexp="yes">(demi-)?(nœud|noeud)s?</token>
+        <token regexp="yes">(demi[-‑‐])?(nœud|noeud)s?</token>
         <token>par</token>
         <token>heure</token>
       </pattern>
@@ -26671,7 +26677,7 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rule id="UNITES_DE_MESURE" name="unités de mesure">
       <pattern>
-        <token regexp="yes">\d+|une?|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|dix-.*|vingt-.*|trente-.*|quarante-.*|cinquante-.*|soixante-.*|quatre-.*|octante-.*|huitante-.*|nonante-.*|-?cents?-?|mille</token>
+        <token regexp="yes">\d+|une?|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|dix[-‑‐].*|vingt[-‑‐].*|trente[-‑‐].*|quarante[-‑‐].*|cinquante[-‑‐].*|soixante[-‑‐].*|quatre[-‑‐].*|octante[-‑‐].*|huitante[-‑‐].*|nonante[-‑‐].*|-?cents?[-‑‐]?|mille</token>
         <marker>
          <and>
            <token regexp="yes">(yotta|zetta|exa|péta|téra|giga|méga|kilo|hecto|déca|déci|centi|milli|micro|nano|pico|femto|atto|zepto|yocto)?((mètre|watt|gramme|seconde|ampère|kelvin|mole|candela|hertz|henry|newton|pascal|joule|coulompb|volt|ohm|farad|tesla|wéber|radian|stéradian|lumen|lux|becquerel|gray|sievert|katal)s?|siémens)</token>
@@ -26759,7 +26765,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token regexp="yes">lundi|lun|mardi|mar|mercredi|mer|jeudi|jeu|vendredi|ven|samedi|sam|dimanche|dim</token>
           <token min="0" max="1">,</token>
-          <token regexp="yes">\d\d?-\d\d?-\d\d\d\d</token>
+          <token regexp="yes">\d\d?[-‑‐]\d\d?[-‑‐]\d\d\d\d</token>
         </pattern>
         <filter class="org.languagetool.rules.fr.DMYDateCheckFilter" args="date:\3 weekDay:\1"/>
         <message>La date « \1\2 \3 » n’est pas un <match no="1" case_conversion="alllower"/> mais un {realDay}.</message>
@@ -26796,7 +26802,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">31-(avril|avr|juin|jui|septembre|sep|novembre|nov|0?[469]|11)(-\d\d(\d\d)?)?</token>
+          <token regexp="yes">31[-‑‐](avril|avr|juin|jui|septembre|sep|novembre|nov|0?[469]|11)([-‑‐]\d\d(\d\d)?)?</token>
         </pattern>
         <message>Le mois « <match no="1" regexp_match="31-([^-]*)(.*)" regexp_replace="$1"/> » n’a que 30 jours.</message>
         <example correction="">Il est né le <marker>31-septembre-1969</marker>.</example>
@@ -26830,7 +26836,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">3[01]-(février|fév|0?2)(-\d\d(\d\d)?)?</token>
+          <token regexp="yes">3[01][-‑‐](février|fév|0?2)([-‑‐]\d\d(\d\d)?)?</token>
         </pattern>
         <message>Le mois de février n’a que 28 ou 29 jours pour les années bissextiles.</message>
         <url>https://fr.wikipedia.org/wiki/Ann%C3%A9e_bissextile</url>
@@ -26883,8 +26889,8 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">29-(février|fév|0?2)-\d\d(00|\d[13579]|[02468][26]|[13579][048])
-            <exception regexp="yes">29-[^-]+-[13579][26]00|[2468][048]00</exception>
+          <token regexp="yes">29[-‑‐](février|fév|0?2)[-‑‐]\d\d(00|\d[13579]|[02468][26]|[13579][048])
+            <exception regexp="yes">29[-‑‐][^-]+[-‑‐][13579][26]00|[2468][048]00</exception>
           </token>
         </pattern>
         <message>Le mois de février n’a pas 29 jours, puisque <match no="1" regexp_match=".*(\d\d\d\d)$" regexp_replace="$1"/> n’est pas une année bissextile.</message>
