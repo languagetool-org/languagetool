@@ -6035,6 +6035,7 @@ though, and has since been slightly modified)-->
         <example correction=""><marker>Les véhicule</marker>.</example>
         <example>Les véhicules.</example>
         <example>Les ondes radio.</example>
+        <example>Des événements différents ayant lieu en même temps.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_GENRE" name="Accord en genre">
@@ -8086,6 +8087,10 @@ though, and has since been slightly modified)-->
       </rule>
 
       <rule name="ils/elles + 0 token + Verbe">
+        <antipattern>
+          <token regexp="yes">(?:celles|ceux)[-‑‐](?:ci|là)</token>
+          <token postag_regexp="yes" postag="V .* ppr"/>
+        </antipattern>
         <pattern>
           <token postag="R pers suj 3 .* p|R dem . p" postag_regexp="yes">
             <exception regexp="yes">celles|ceux</exception>
@@ -8094,7 +8099,7 @@ though, and has since been slightly modified)-->
           </token>
           <token min="0" max="1" regexp="yes">[lmnst]e|la|les|[nv]ous|leur|lui|en|y</token>
           <token postag="V .*" postag_regexp="yes">
-            <exception postag="V .* 3 p" postag_regexp="yes"/>
+            <exception postag="V .* 3 p|V .* ppr" postag_regexp="yes"/>
           </token>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \3 ».</message>
@@ -8111,8 +8116,15 @@ though, and has since been slightly modified)-->
         <example>Ceux-ci ne fonctionnent pas.</example>
         <example correction=""><marker>Ils vous étonnerons</marker> par leur efficacité.</example>
         <example>Ils vous étonneront par leur efficacité.</example>
+        <example>Ceux-ci ayant été approvés.</example>
       </rule>
       <rule name="ils/elles + 2 tokens + Verbe">
+        <antipattern>
+          <token regexp="yes">(?:celles|ceux)[-‑‐](?:ci|là)</token>
+          <token regexp="yes">[lmnst]|[mnst]e|la|les?|[nv]ous|lui|leur</token>
+          <token regexp="yes">[’´'‛′‘]|[mnst]e|la|les?|[vn]ous|en|lui|leur</token>
+          <token postag="V .* ppr" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
           <token postag="R pers suj 3 .* p|R dem . p" postag_regexp="yes">
             <exception scope="previous" postag="&lt;/DE&gt;"/>
@@ -8130,6 +8142,7 @@ though, and has since been slightly modified)-->
         <example>Ils ne nous attendent pas</example>
         <example correction=""><marker>Ceux-ci l’aide</marker>.</example>
         <example>Ceux-ci l’aident.</example>
+        <example>Ceux-ci n’ayant pas été approvés.</example>
       </rule>
       <rule name="ils/elles + 3 tokens + Verbe">
         <pattern>
