@@ -26691,6 +26691,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="LEERZEICHEN_RECHENZEICHEN" name="Zeichensetzung: Leerzeichen vor Rechenzeichen">
             <!-- Zwischen Zahlen werden Rechenzeichen durch kleine, feste Zwischenräume (Duden) oder ganze Leerschritte (DIN 5008) von den Zahlen abgetrennt -->
+            <antipattern>
+                <!-- vermutlich Uhrzeit: -->
+                <token regexp="yes">([01]?[0-9]|2[0-4])[0-9]?</token>
+                <token>:</token>
+                <token regexp="yes">[0-5][0-9]</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes">([0-9]+[a-z]*)
@@ -26709,6 +26715,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Am 2014-01-23 10:32 schrieb ich:</example>
             <example>a = 2 · x² + 5</example>
             <example>4,5 × 2,5</example>
+            <example>Zwischen 9:00 und 16:45.</example>
             <example correction="3a = 2"><marker>3a=2</marker>.</example>
             <example correction="5 * 5"><marker>5*5</marker>.</example>
         </rule>
