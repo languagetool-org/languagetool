@@ -7598,7 +7598,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">(?-i)A</token>
         </antipattern>
         <pattern>
-          <token postag="V avoir .*" postag_regexp="yes"/>
+          <token postag="V avoir .*" postag_regexp="yes"><exception postag="N m p">avions</exception></token>
           <marker>
             <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/></token>
           </marker>
@@ -7621,6 +7621,7 @@ though, and has since been slightly modified)-->
         <example correction="">J’ai <marker>manger</marker> de la soupe.</example>
         <example>J’ai <marker>mangé</marker> de la soupe.</example>
         <example>L’exposition au bisphénol A entraine des malformations.</example>
+        <example>Les gros avions causent une forte pollution sonore.</example>
       </rule>
       <rule>
         <pattern>
@@ -24699,10 +24700,10 @@ though, and has since been slightly modified)-->
         <token postag="D f s"/>
         <marker>
           <token regexp="yes">saint|st</token>
-          <token>valentin</token>
+          <token regexp="yes">valentin|Patrick</token>
         </marker>
       </pattern>
-      <message>« \1 \2 \3 » est une erreur de typographie. Employez <suggestion>\1 Saint-Valentin</suggestion>.</message>
+      <message>« \1 \2 \3 » est une erreur de typographie. Employez <suggestion>\1 Saint-<match no="3" case_conversion="startupper"/></suggestion>.</message>
       <example correction="la Saint-Valentin">J’ai reçu des fleurs pour la <marker>saint Valentin</marker>.</example>
       <example>J’ai reçu des fleurs pour la <marker>Saint-Valentin</marker>.</example>
     </rule>
