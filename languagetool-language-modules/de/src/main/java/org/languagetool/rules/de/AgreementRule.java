@@ -27,9 +27,12 @@ import org.languagetool.language.German;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.de.AnalyzedGermanToken;
 import org.languagetool.tagging.de.GermanToken;
 import org.languagetool.tagging.de.GermanToken.POSType;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 
 import java.util.*;
@@ -64,6 +67,14 @@ public class AgreementRule extends GermanRule {
       this.displayName = displayName;
     }
   }
+
+  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(
+      new PatternTokenBuilder().tokenRegex("(?i:ist|war)").build(),
+      new PatternTokenBuilder().token("das").build(),
+      new PatternTokenBuilder().token("Zufall").build()
+    )
+  );
 
   private static final Set<String> VIELE_WENIGE_LOWERCASE = new HashSet<>(Arrays.asList(
     "viele",
@@ -172,7 +183,7 @@ public class AgreementRule extends GermanRule {
   @Override
   public RuleMatch[] match(final AnalyzedSentence sentence) {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();    
+    final AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     for (int i = 0; i < tokens.length; i++) {
       //defaulting to the first reading
       //TODO: check for all readings
@@ -248,6 +259,11 @@ public class AgreementRule extends GermanRule {
            
     } // for each token
     return toRuleMatchArray(ruleMatches);
+  }
+
+  @Override
+  public List<DisambiguationPatternRule> getAntiPatterns() {
+    return makeAntiPatterns(ANTI_PATTERNS, language);
   }
 
   private boolean isNonPredicativeAdjective(AnalyzedTokenReadings tokensReadings) {

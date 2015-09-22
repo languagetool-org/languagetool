@@ -115,12 +115,16 @@ public abstract class Rule {
    * {@link #getAntiPatterns()} to be considered.
    * @since 3.1
    */
-  protected AnalyzedSentence getSentenceWithImmunization(AnalyzedSentence sentence) throws IOException {
+  protected AnalyzedSentence getSentenceWithImmunization(AnalyzedSentence sentence) {
     if (!getAntiPatterns().isEmpty()) {
       //we need a copy of the sentence, not reference to the old one
       AnalyzedSentence immunizedSentence = sentence.copy(sentence);
       for (DisambiguationPatternRule patternRule : getAntiPatterns()) {
-        immunizedSentence = patternRule.replace(immunizedSentence);
+        try {
+          immunizedSentence = patternRule.replace(immunizedSentence);
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
       }
       return immunizedSentence;
     }
