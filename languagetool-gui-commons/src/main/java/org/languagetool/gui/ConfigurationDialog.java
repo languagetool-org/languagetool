@@ -487,7 +487,8 @@ public class ConfigurationDialog implements ActionListener {
         File newDir = Tools.openDirectoryDialog(owner, dir);
         if (newDir != null) {
           try {
-            LuceneLanguageModel.validateDirectory(newDir);
+            File checkDir = new File(newDir, config.getLanguage().getShortName());
+            LuceneLanguageModel.validateDirectory(checkDir);
             config.setNgramDirectory(newDir);
             ngramDirButton.setText(StringUtils.abbreviate(newDir.getAbsolutePath(), maxDirDisplayLength));
           } catch (Exception ex) {
