@@ -33,6 +33,9 @@ import org.languagetool.language.German;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.PatternTokenBuilder;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -56,7 +59,17 @@ import java.io.IOException;
  * @author Markus Brenneis
  */
 public class VerbAgreementRule extends GermanRule {
-  
+
+  private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(
+      new PatternTokenBuilder().tokenRegex("die|welche").build(),
+      new PatternTokenBuilder().tokenRegex(".*").build(),
+      new PatternTokenBuilder().tokenRegex("mehr|weniger").build(),
+      new PatternTokenBuilder().token("als").build(),
+      new PatternTokenBuilder().tokenRegex("ich|du|er|sie|es").build()
+    )
+  );
+
   // Words that prevent a rule match when they occur directly before "bin":
   private static final Set<String> BIN_IGNORE = new HashSet<>(Arrays.asList(
     "Suleiman",
@@ -123,7 +136,7 @@ public class VerbAgreementRule extends GermanRule {
   public RuleMatch[] match(final AnalyzedSentence sentence) {
     
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    final AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     
     if (tokens.length < 4) { // ignore one-word sentences (3 tokens: SENT_START, one word, SENT_END)
       return toRuleMatchArray(ruleMatches);
@@ -147,7 +160,11 @@ public class VerbAgreementRule extends GermanRule {
     /*int posPossibleVer2Plu = -1;*/
     
     for (int i = 1; i < tokens.length; ++i) { // ignore SENT_START
-      
+
+      if (tokens[i].isImmunized()) {
+        continue;
+      }
+
       String strToken = tokens[i].getToken().toLowerCase();
       strToken = strToken.replace("‚", "");
 
@@ -250,6 +267,11 @@ public class VerbAgreementRule extends GermanRule {
     }
     
     return toRuleMatchArray(ruleMatches);
+  }
+
+  @Override
+  public List<DisambiguationPatternRule> getAntiPatterns() {
+    return makeAntiPatterns(ANTI_PATTERNS, language);
   }
 
   // avoid false alarm on 'wenn ich sterben sollte ...':
