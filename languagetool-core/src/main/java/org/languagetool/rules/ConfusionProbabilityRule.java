@@ -88,7 +88,8 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
-    List<GoogleToken> tokens = getGoogleTokens(sentence.getText(), true);
+    String text = sentence.getText();
+    List<GoogleToken> tokens = getGoogleTokens(text, true);
     List<RuleMatch> matches = new ArrayList<>();
     int pos = 0;
     for (GoogleToken googleToken : tokens) {
@@ -105,7 +106,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
           if (isEasilyConfused) {
             Set<ConfusionString> set = uppercase ? confusionSet.getUppercaseFirstCharSet() : confusionSet.getSet();
             ConfusionString betterAlternative = getBetterAlternativeOrNull(tokens.get(pos), tokens, set, confusionSet.getFactor());
-            if (betterAlternative != null) {
+            if (betterAlternative != null && !isException(text)) {
               ConfusionString stringFromText = getConfusionString(set, tokens.get(pos));
               String message = getMessage(stringFromText, betterAlternative);
               RuleMatch match = new RuleMatch(this, googleToken.startPos, googleToken.endPos, message);
@@ -118,6 +119,13 @@ public abstract class ConfusionProbabilityRule extends Rule {
       pos++;
     }
     return matches.toArray(new RuleMatch[matches.size()]);
+  }
+
+  /**
+   * Return true to prevent a match.
+   */
+  protected boolean isException(String sentenceText) {
+    return false;
   }
 
   @Override

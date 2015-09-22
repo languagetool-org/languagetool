@@ -23,12 +23,20 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ConfusionProbabilityRule;
 import org.languagetool.rules.Example;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @since 3.1
  */
 public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
+
+  private static final List<Pattern> EXCEPTION_PATTERNS = Arrays.asList(
+    Pattern.compile("fiel(e|en)? .* aus|auf")
+  );
 
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);
@@ -39,5 +47,16 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     addExamplePair(Example.wrong("Während Sie das Ganze <marker>mir</marker> einem Holzlöffel rühren…"),
                    Example.fixed("Während Sie das Ganze <marker>mit</marker> einem Holzlöffel rühren…"));
   }
-  
+
+  @Override
+  protected boolean isException(String sentenceText) {
+    for (Pattern pattern : EXCEPTION_PATTERNS) {
+      Matcher m = pattern.matcher(sentenceText);
+      if (m.find()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 }

@@ -42,7 +42,14 @@ public class ConfusionProbabilityRuleTest {
     assertMatch("Why is there car broken again?");
     assertGood("Why is their car broken again?");
     assertGood("Is this their useful test?");
-    assertGood("Is this there useful test?");  // error not found b/c no data 
+    assertGood("Is this there useful test?");  // error not found b/c no data
+    ConfusionProbabilityRule ruleWithException = new FakeRule(new FakeLanguageModel(), new FakeLanguage()) {
+      @Override
+      protected boolean isException(String sentenceText) {
+        return sentenceText.contains("Their are");
+      }
+    };
+    assertGood("Their are new ideas to explore.", ruleWithException);
   }
 
   @Test
@@ -120,14 +127,22 @@ public class ConfusionProbabilityRuleTest {
     assertThat(rule.getContext(token, tokens, "XX", 3, 0).toString(), is("[_START_, XX]"));
   }
 
-  private void assertMatch(String input) throws IOException {
+  private void assertMatch(String input, Rule rule) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
     assertThat("Did not find match in: " + input, matches.length, is(1));
   }
 
-  private void assertGood(String input) throws IOException {
+  private void assertMatch(String input) throws IOException {
+    assertMatch(input, rule);
+  }
+
+  private void assertGood(String input, Rule rule) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
     assertThat("Got unexpected match in: " + input, matches.length, is(0));
+  }
+
+  private void assertGood(String input) throws IOException {
+    assertGood(input, rule);
   }
 
   static class FakeLanguageModel implements LanguageModel {
