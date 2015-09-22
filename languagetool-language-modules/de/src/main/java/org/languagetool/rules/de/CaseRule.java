@@ -62,6 +62,11 @@ public class CaseRule extends GermanRule {
     Arrays.asList(
       new PatternTokenBuilder().tokenRegex("Vereinigte[ns]?").build(),
       new PatternTokenBuilder().tokenRegex("Staaten|Königreiche?s?").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("Hin").build(),
+      new PatternTokenBuilder().token("und").build(),
+      new PatternTokenBuilder().token("Her").build()
     )
   );
 
