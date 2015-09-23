@@ -31,31 +31,31 @@ public interface BitextReader extends Iterable<StringPair> {
    * Get the current line number in the file.
    * @return The current line number.
    */
-  public int getLineCount();
+  int getLineCount();
   
   /**
    * Get the current column number in the file.
    * @return  The current column number.
    */
-  public int getColumnCount();
+  int getColumnCount();
   
   /**
    * Get the current target column number in the file.
    * @return  The current target column number.
    */
-  public int getTargetColumnCount();
+  int getTargetColumnCount();
   
   
   /**
    * Get the current target sentence position in the file.
    * @return  The current sentence position.
    */
-  public int getSentencePosition();
+  int getSentencePosition();
   
   /**
    * Get the current line of the bitext input.
    * @return The complete line (including source, if any).
    */
-  public String getCurrentLine();
+  String getCurrentLine();
   
 }

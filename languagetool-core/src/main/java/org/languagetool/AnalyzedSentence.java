@@ -89,10 +89,10 @@ public final class AnalyzedSentence {
   }
 
   /**
-   * The method copies {@link org.languagetool.AnalyzedSentence} and returns the copy.
+   * The method copies {@link AnalyzedSentence} and returns the copy.
    * Useful for performing local immunization (for example).
    *
-   * @param sentence {@link org.languagetool.AnalyzedSentence} to be copied
+   * @param sentence {@link AnalyzedSentence} to be copied
    * @return a new object which is a copy
    * @since  2.5
    */

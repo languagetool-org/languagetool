@@ -205,7 +205,7 @@ public abstract class AbstractCompoundRule extends Rule {
     for (int k = 0; k < stringParts.length; k++) {
       if (isHyphenIgnored() || !"-".equals(stringParts[k])) {
         if (k == 0) {
-          sb.append(stringParts[k]);
+          sb.append(stringParts[0]);
         } else {
           sb.append(stringParts[k].toLowerCase());
         }

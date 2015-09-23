@@ -43,7 +43,6 @@ import java.util.List;
  * Identify the language of a text. Note that some languages might never be
  * detected because they are close to another language. Language variants like
  * en-US or en-GB are not detected, the result will be {@code en} for those.
- *
  * @since 2.9
  */
 public class LanguageIdentifier {

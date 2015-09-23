@@ -38,7 +38,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  *
  * Unlike AbstractSimpleReplaceRule, supports multiple words (Ex: "aqua forte" => "acvaforte").<br/><br/>
  *
- * Note: Merge this into {@link org.languagetool.rules.AbstractSimpleReplaceRule}<br/>
+ * Note: Merge this into {@link AbstractSimpleReplaceRule}<br/>
  *
  * @author Ionuț Păduraru
  */
@@ -89,7 +89,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
 
   /**
    * Load the list of words.
-   * Same as {@link org.languagetool.rules.AbstractSimpleReplaceRule#load} but allows multiple words.   
+   * Same as {@link AbstractSimpleReplaceRule#load} but allows multiple words.   
    * @param stream the stream to load.
    * @return the list of maps containing the error-corrections pairs. The n-th map contains key strings of (n+1) words.
    */

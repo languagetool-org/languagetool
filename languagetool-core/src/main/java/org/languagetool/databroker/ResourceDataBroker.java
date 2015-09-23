@@ -59,12 +59,12 @@ public interface ResourceDataBroker {
   /**
    * The directory name of the {@code /resource} directory.
    */
-  public static final String RESOURCE_DIR = "/org/languagetool/resource";
+  String RESOURCE_DIR = "/org/languagetool/resource";
 
   /**
    * The directory name of the {@code /rules} directory.
    */
-  public static final String RULES_DIR = "/org/languagetool/rules";
+  String RULES_DIR = "/org/languagetool/rules";
 
   /**
    * Gets any resource from the grammar checker's {@code /resource} directory.
@@ -73,21 +73,21 @@ public interface ResourceDataBroker {
    * @return An {@link URL} object to the requested item
    * @throws RuntimeException if path cannot be found
    */
-  public URL getFromResourceDirAsUrl(String path);
+  URL getFromResourceDirAsUrl(String path);
   
   /**
    * Checks if a resource in the grammar checker's {@code /resource} exists.
    * @param path Path to an item from the {@code /resource} directory.
    * @return {@code true} if the resource file exists.
    */
-  public boolean resourceExists(String path);
+  boolean resourceExists(String path);
   
   /**
    * Checks if a resource in the grammar checker's {@code /rules} exists.
    * @param path Path to an item from the {@code /rules} directory.
    * @return {@code true} if the resource file exists.
    */
-  public boolean ruleFileExists(String path);
+  boolean ruleFileExists(String path);
   
    /**
    * Gets any resource from the grammar checker's {@code /resource} directory.
@@ -96,7 +96,7 @@ public interface ResourceDataBroker {
    * @return An {@link InputStream} object to the requested item
    * @throws RuntimeException if path cannot be found
    */
-  public InputStream getFromResourceDirAsStream(String path);
+   InputStream getFromResourceDirAsStream(String path);
 
   /**
    * Gets any resource from the grammar checker's {@code /rules} directory.
@@ -106,7 +106,7 @@ public interface ResourceDataBroker {
    * @return An {@link URL} object to the requested item
    * @throws RuntimeException if path cannot be found
    */
-  public URL getFromRulesDirAsUrl(String path);
+  URL getFromRulesDirAsUrl(String path);
 
   /**
    * Gets any resource from the grammar checker's {@code /rules} directory.
@@ -115,7 +115,7 @@ public interface ResourceDataBroker {
    * @return An {@link InputStream} object to the requested item
    * @throws RuntimeException if path cannot be found
    */
-  public InputStream getFromRulesDirAsStream(String path);
+  InputStream getFromRulesDirAsStream(String path);
 
   /**
    * @return The currently set resource directory path as a string. Make sure
@@ -123,7 +123,7 @@ public interface ResourceDataBroker {
    *         <p>
    *         {@code /subdir/furtherdir/resourcedir}
    */
-  public String getResourceDir();
+  String getResourceDir();
 
   /**
    * @return The currently set rules directory path as a string. Make sure
@@ -131,6 +131,6 @@ public interface ResourceDataBroker {
    *         <p>
    *         {@code /subdir/furtherdir/rulesdir}
    */
-  public String getRulesDir();
+  String getRulesDir();
 
 }

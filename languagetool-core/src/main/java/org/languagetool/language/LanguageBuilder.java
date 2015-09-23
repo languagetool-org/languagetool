@@ -36,8 +36,6 @@ import org.languagetool.tokenizers.Tokenizer;
 
 /**
  * Create a language by specifying the language's XML rule file.
- * 
- * @author Daniel Naber
  */
 public final class LanguageBuilder {
 

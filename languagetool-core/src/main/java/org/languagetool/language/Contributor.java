@@ -22,8 +22,6 @@ import java.util.Objects;
 
 /**
  * A person that contributed rules or code to LanguageTool.
- * 
- * @author Daniel Naber
  */
 public final class Contributor {
 

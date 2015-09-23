@@ -19,7 +19,7 @@
 package org.languagetool.tagging;
 
 /**
- * Result of {@link org.languagetool.tagging.WordTagger}.
+ * Result of {@link WordTagger}.
  * @since 2.8
  */
 public final class TaggedWord {

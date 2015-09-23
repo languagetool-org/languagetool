@@ -224,7 +224,6 @@ public class HunspellRule extends SpellingCheckRule {
       try (InputStream affStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(originalPath.replaceFirst(".dic$", ".aff"))) {
         fileCopy(affStream, tempAffFile);
       }
-
       dictionaryPath = tempDir.getAbsolutePath() + "/" + dicName;
     } else {
       final int suffixLength = ".dic".length();

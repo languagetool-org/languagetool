@@ -20,7 +20,6 @@ package org.languagetool.tools;
 
 /**
  * JNA helper tools.
- *
  * @since 2.2
  */
 public final class JnaTools {

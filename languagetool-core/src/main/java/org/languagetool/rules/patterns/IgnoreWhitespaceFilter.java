@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.ls.LSParserFilter;
 
@@ -37,7 +38,7 @@ class IgnoreWhitespaceFilter implements LSParserFilter {
   }
 
   @Override
-  public short startElement(org.w3c.dom.Element elementArg) {
+  public short startElement(Element elementArg) {
     return LSParserFilter.FILTER_ACCEPT;
   }
 

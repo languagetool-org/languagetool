@@ -41,17 +41,17 @@ public interface Tagger {
    * 
    * @param sentenceTokens the text as returned by a WordTokenizer 
    */
-  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) throws IOException;
+  List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) throws IOException;
   
   /** 
    * Create the AnalyzedToken used for whitespace and other non-words. Use <code>null</code>
    * as the POS tag for this token.
    */
-  public AnalyzedTokenReadings createNullToken(String token, int startPos);
+  AnalyzedTokenReadings createNullToken(String token, int startPos);
 
   /**
    * Create a token specific to the language of the implementing class.
    */
-  public AnalyzedToken createToken(String token, String posTag);
+  AnalyzedToken createToken(String token, String posTag);
     
 }

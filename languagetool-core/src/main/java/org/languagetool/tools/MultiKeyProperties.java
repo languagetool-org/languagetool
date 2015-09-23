@@ -28,7 +28,7 @@ import java.util.*;
  * values will be merged to a list with the other properties of that key. This
  * is useful if property files get merged by Maven.
  * 
- * Note: this is not a full replacement for {@link java.util.Properties}, e.g. it does
+ * Note: this is not a full replacement for {@link Properties}, e.g. it does
  * not support values that span multiple lines
  */
 public class MultiKeyProperties {

@@ -134,7 +134,7 @@ public abstract class SpellingCheckRule extends Rule {
 
   /**
    * Returns true iff the word should be ignored by the spell checker.
-   * If possible, use {@link #ignoreToken(org.languagetool.AnalyzedTokenReadings[], int)} instead.
+   * If possible, use {@link #ignoreToken(AnalyzedTokenReadings[], int)} instead.
    */
   protected boolean ignoreWord(String word) throws IOException {
     if (!considerIgnoreWords) {
@@ -151,7 +151,7 @@ public abstract class SpellingCheckRule extends Rule {
 
   /**
    * Returns true iff the word at the given position should be ignored by the spell checker.
-   * If possible, use {@link #ignoreToken(org.languagetool.AnalyzedTokenReadings[], int)} instead.
+   * If possible, use {@link #ignoreToken(AnalyzedTokenReadings[], int)} instead.
    * @since 2.6
    */
   protected boolean ignoreWord(List<String> words, int idx) throws IOException {

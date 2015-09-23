@@ -65,7 +65,7 @@ public class XmlRuleDisambiguator implements Disambiguator {
   }
 
   /**
-   * Load disambiguation rules from an XML file. Use {@link org.languagetool.JLanguageTool#addRule} to add
+   * Load disambiguation rules from an XML file. Use {@link JLanguageTool#addRule} to add
    * these rules to the checking process.
    * 
    * @return a List of {@link DisambiguationPatternRule} objects

@@ -433,7 +433,7 @@ public class Unifier {
   }
 
   /**
-   * Used to add neutral elements ({@link org.languagetool.AnalyzedTokenReadings} to the
+   * Used to add neutral elements ({@link AnalyzedTokenReadings} to the
    * unified sequence. Useful if the sequence contains punctuation or connectives, for example.
    * @param analyzedTokenReadings A neutral element to be added.
    *
@@ -442,11 +442,10 @@ public class Unifier {
   public final void addNeutralElement(final AnalyzedTokenReadings analyzedTokenReadings) {
     tokSequence.add(analyzedTokenReadings);
     List<Map<String, Set<String>>> tokEquivs = new ArrayList<>(analyzedTokenReadings.getReadingsLength());
-    Map<String, Set<String>> dummy = new ConcurrentHashMap<>();
-    Set<String> dummySet = new HashSet<>();
-    dummy.put(UNIFY_IGNORE, dummySet);
+    Map<String, Set<String>> map = new ConcurrentHashMap<>();
+    map.put(UNIFY_IGNORE, new HashSet<String>());
     for (int i = 0; i < analyzedTokenReadings.getReadingsLength(); i++) {
-      tokEquivs.add(dummy);
+      tokEquivs.add(map);
     }
     tokSequenceEquivalences.add(tokEquivs);
     readingsCounter++;
@@ -454,7 +453,7 @@ public class Unifier {
 
   /**
    * Used for getting a unified sequence in case when simple test method
-   * {@link #isUnified(org.languagetool.AnalyzedToken, java.util.Map, boolean)}} was used.
+   * {@link #isUnified(AnalyzedToken, Map, boolean)}} was used.
    * 
    * @return An array of {@link AnalyzedTokenReadings} or {@code null} when not in unification
    */

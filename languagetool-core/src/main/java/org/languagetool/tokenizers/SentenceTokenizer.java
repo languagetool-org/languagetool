@@ -29,14 +29,14 @@ public interface SentenceTokenizer extends Tokenizer {
    * Tokenize the given string to sentences.
    */
   @Override
-  public List<String> tokenize(String text);
+  List<String> tokenize(String text);
 
   /**
    * @param lineBreakParagraphs if <code>true</code>, single line breaks are assumed to end a paragraph,
    *  with <code>false</code>, only two ore more consecutive line breaks end a paragraph
    */
-  public void setSingleLineBreaksMarksParagraph(final boolean lineBreakParagraphs);
+  void setSingleLineBreaksMarksParagraph(final boolean lineBreakParagraphs);
 
-  public boolean singleLineBreaksMarksPara();
+  boolean singleLineBreaksMarksPara();
 
 }

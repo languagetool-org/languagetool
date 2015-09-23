@@ -20,7 +20,7 @@
 package org.languagetool.rules;
 
 /**
- * Helper class for GenericUnpairedBracketsRule to identify
+ * Helper class for {@link GenericUnpairedBracketsRule} to identify
  * symbols indexed with integers.
  * 
  * @author Marcin Miłkowski

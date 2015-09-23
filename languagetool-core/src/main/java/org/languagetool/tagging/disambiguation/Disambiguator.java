@@ -25,13 +25,8 @@ import org.languagetool.AnalyzedSentence;
 /**
  * Disambiguator interface. Particular implementations are language-dependent.
  * 
- * <p>
- * The POS tagger might assign multiple tags to the token.
- * 
- * The goal is to filter out the incorrect tags and leave ideally only one per
- * token.
- * 
- * @author Jozef Licko
+ * <p>The POS tagger might assign multiple tags to the token.
+ * The goal is to filter out the incorrect tags and leave ideally only one per token.
  */
 public interface Disambiguator {
 

@@ -103,7 +103,7 @@ public class PatternTokenMatcher {
    * Doesn't test exceptions.
    *
    * Works as logical AND operator only if preceded with
-   * {@link #prepareAndGroup(int, org.languagetool.AnalyzedTokenReadings[], org.languagetool.Language)}, and followed by {@link #checkAndGroup(boolean)}
+   * {@link #prepareAndGroup(int, AnalyzedTokenReadings[], Language)}, and followed by {@link #checkAndGroup(boolean)}
    *
    * @param token the token checked.
    */

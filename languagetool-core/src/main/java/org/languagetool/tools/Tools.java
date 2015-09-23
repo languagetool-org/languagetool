@@ -240,7 +240,7 @@ public final class Tools {
         //make sure the error hasn't been already corrected:
         if (errors.get(counter).equals(sb.substring(rm.getFromPos() - offset, rm.getToPos() - offset))) {
           sb.replace(rm.getFromPos() - offset, rm.getToPos() - offset, replacements.get(0));
-          offset += (rm.getToPos() - rm.getFromPos()) - replacements.get(0).length();
+          offset += rm.getToPos() - rm.getFromPos() - replacements.get(0).length();
         }
         counter++;
       }

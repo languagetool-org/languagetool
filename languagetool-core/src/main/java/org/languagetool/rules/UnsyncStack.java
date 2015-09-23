@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.EmptyStackException;
 
 /**
- * Implements unsynchronized stack (contrary to default Java java.util.Stack,
+ * Implements unsynchronized stack (contrary to default Java {@link java.util.Stack},
  * this one is based on ArrayList). Usage is the same as the java.util.Stack.
  * 
  * @author Marcin Miłkowski.
@@ -42,7 +42,7 @@ public class UnsyncStack<E> extends ArrayList<E> {
    * 
    * @param item the item to be pushed onto this stack.
    * @return the <code>item</code> argument.
-   * @see java.util.ArrayList#add
+   * @see ArrayList#add
    */
   public E push(E item) {
     add(item);

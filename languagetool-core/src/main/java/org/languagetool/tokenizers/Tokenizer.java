@@ -27,6 +27,6 @@ import java.util.List;
  */
 public interface Tokenizer {
 
-  public abstract List<String> tokenize(String text);
+  List<String> tokenize(String text);
   
 }

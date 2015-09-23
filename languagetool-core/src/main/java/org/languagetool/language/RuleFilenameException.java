@@ -22,8 +22,6 @@ import java.io.File;
 
 /**
  * Thrown if external rule filename doesn't match the required format.
- * 
- * @author Daniel Naber
  */
 public class RuleFilenameException extends RuntimeException {
 

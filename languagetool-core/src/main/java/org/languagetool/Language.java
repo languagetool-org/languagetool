@@ -319,8 +319,7 @@ public abstract class Language {
    */
   public final String getShortNameWithCountryAndVariant() {
     String name = getShortName();
-    if (getCountries().length == 1 
-            && !name.contains("-x-")) {   // e.g. "de-DE-x-simple-language"
+    if (getCountries().length == 1 && !name.contains("-x-")) {   // e.g. "de-DE-x-simple-language"
       name += "-" + getCountries()[0];
       if (getVariant() != null) {   // e.g. "ca-ES-valencia"
         name += "-" + getVariant();

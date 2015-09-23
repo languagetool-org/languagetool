@@ -70,7 +70,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       unifiedTokens = null;
       int matchingTokens = 0;
       int firstMatchToken = -1;
-      int lastMatchToken = -1;
+      int lastMatchToken;
       int firstMarkerMatchToken = -1;
       int lastMarkerMatchToken = -1;
       int prevSkipNext = 0;

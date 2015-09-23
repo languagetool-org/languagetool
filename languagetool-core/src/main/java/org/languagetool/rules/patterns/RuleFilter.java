@@ -41,6 +41,6 @@ public interface RuleFilter {
    *         the arguments) that properly describes the detected error
    */
   @Nullable
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens);
+  RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens);
   
 }

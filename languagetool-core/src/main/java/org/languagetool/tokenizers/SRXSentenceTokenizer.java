@@ -35,18 +35,18 @@ public class SRXSentenceTokenizer implements SentenceTokenizer {
 
   private static final SrxDocument DOCUMENT = SrxTools.createSrxDocument("/segment.srx");
 
-  private final String languageCode;
+  private final Language language;
 
   private String parCode;
 
   public SRXSentenceTokenizer(final Language language) {
-    this.languageCode = language.getShortName();
+    this.language = language;
     setSingleLineBreaksMarksParagraph(false);
   }
 
   @Override
   public final List<String> tokenize(final String text) {
-    return SrxTools.tokenize(text, DOCUMENT, languageCode + parCode);
+    return SrxTools.tokenize(text, DOCUMENT, language.getShortName() + parCode);
   }
 
   @Override
