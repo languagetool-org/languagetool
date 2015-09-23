@@ -68,7 +68,6 @@ public class WordFastTMReader extends TabBitextReader {
     public StringPair next() {
       try {
         final StringPair result = nextPair;
-
         if (nextLine != null) {
           nextLine = in.readLine();
           nextPair = tab2StringPair(nextLine);
@@ -77,8 +76,8 @@ public class WordFastTMReader extends TabBitextReader {
           }
         }
         return result;
-      } catch(IOException e) { 
-        throw new IllegalArgumentException(e); 
+      } catch (IOException e) { 
+        throw new RuntimeException(e); 
       }
     }
 

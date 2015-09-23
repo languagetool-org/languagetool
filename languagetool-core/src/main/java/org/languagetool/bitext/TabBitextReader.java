@@ -42,6 +42,9 @@ public class TabBitextReader implements BitextReader {
   private String prevLine;
   private int lineCount = -1;
 
+  /**
+   * @param encoding input encoding or {@code null} to use the platform default
+   */
   public TabBitextReader(final String filename, final String encoding) {
     try {     
       if (encoding == null) {
@@ -53,7 +56,7 @@ public class TabBitextReader implements BitextReader {
       prevLine = "";
       nextPair = tab2StringPair(nextLine);
     } catch (IOException e) { 
-      throw new IllegalArgumentException(e); 
+      throw new RuntimeException(e); 
     }
   }
 
@@ -96,8 +99,8 @@ public class TabBitextReader implements BitextReader {
           }
         }
         return result;
-      } catch(IOException e) { 
-        throw new IllegalArgumentException(e); 
+      } catch (IOException e) { 
+        throw new RuntimeException(e); 
       }
     }
 

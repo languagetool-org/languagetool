@@ -25,7 +25,6 @@ package org.languagetool.bitext;
  * 
  * @author Marcin Miłkowski
  */
-
 public interface BitextReader extends Iterable<StringPair> {
 
   /**
