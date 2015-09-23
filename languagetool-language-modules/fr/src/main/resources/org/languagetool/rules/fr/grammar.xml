@@ -8945,11 +8945,25 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le participe « \8 » devrait être au singulier masculin singulier.</message>
+        <message>Le participe « \8 » devrait être au masculin singulier.</message>
         <example correction="">Les élèves ne lui ont pas <marker>écoutés</marker>.</example>
         <example correction="">Les élèves ne lui ont pas <marker>écoutées</marker>.</example>
         <example correction="">Les élèves ne lui ont pas <marker>écoutée</marker>.</example>
         <example>Les élèves ne lui ont pas <marker>écouté</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="SENT_START|C coor" skip="1" postag_regexp="yes"><exception scope="next">en</exception></token>
+          <token regexp="yes">(?:ai|avais|aurais?|eus)-je|(?:as|avais|aurai?s|eus)-tu|(?:a|avait|aura|aurait|eut)-(?:il|elle|on)|(?:avi?ons|auri?ons|eûmes)-nous|(?:avi?ez|auri?ez|eûtes)-vous|(?:ont|avaient|auront|auraient|eurent)-(?:ils|elles)</token>
+          <marker><token postag="V.* ppa.*" postag_regexp="yes"><exception postag="V.* ppa [me] sp?" postag_regexp="yes"/></token></marker>
+        </pattern>
+        <message>Le participe « \3 » devrait être au singulier masculin.</message>
+        <example correction="">As-tu <marker>eus</marker> peur ?</example>
+        <example correction="">Pourquoi as-tu <marker>eus</marker> peur ?</example>
+        <example>As-tu eu peur ?</example>
+        <example>Pourquoi as-tu eu peur ?</example>
+        <example correction="">Aviez-vous <marker>mangés</marker> ?</example>
+        <example>En aviez-vous mangés ?</example>
       </rule>
     </rulegroup>
     <rulegroup id="QUE_AVOIR" name="accord que + verbe avoir">
