@@ -8948,6 +8948,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="TANTS_TANT" name="*tants/tant els uns">
+            <pattern>
+                <marker>
+                    <token>tants</token>
+                </marker>
+                <token skip="-1" postag="D.*" postag_regexp="yes"></token>
+                <token>com</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>tant</suggestion>?</message>
+            <example correction="Tant"><marker>Tants</marker> els uns com els altres.</example>
+        </rule>
         <rule id="POCS_DESPRES" name="pocs després/poc després">
             <pattern>
                 <token>pocs</token>
