@@ -66,16 +66,25 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="N m sp"/>
   </rule>
-  <rule name="est" id="EST">
-    <pattern>
-      <token regexp="yes">[dl]<exception scope="previous" regexp="yes">ne|il|elle</exception><exception scope="previous" postag="[NZ].*" postag_regexp="yes"/></token>
-      <token regexp="yes">[’´'‛′‘]</token>
-      <marker>
-        <token>est</token>
-      </marker>
-    </pattern>
-    <disambig postag="N m s"/>
-  </rule>
+  <rulegroup name="est" id="EST">
+    <rule>
+      <pattern>
+        <token regexp="yes">[dl]<exception scope="previous" regexp="yes">[ns]e|il|elle|on</exception><exception scope="previous" postag="[NZ].*" postag_regexp="yes"/></token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <marker><token>est</token></marker>
+      </pattern>
+      <disambig postag="N m s"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">[ns]e|il|elle|on</token>
+        <token>l</token>
+        <token regexp="yes">[’´'‛′‘]</token>
+        <marker><token>est</token></marker>
+      </pattern>
+      <disambig postag="V etre ind pres 3 s"/>
+    </rule>
+  </rulegroup>
 
   <rule name="la (pronom pers))" id="LA_R">
     <pattern>
