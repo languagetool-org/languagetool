@@ -6694,6 +6694,7 @@ though, and has since been slightly modified)-->
         <example correction="">Je ne <marker>dix</marker> rien.</example>
         <example>Je ne <marker>dis</marker> rien.</example>
         <example>Il me causa un grand tord.</example>
+        <example>On y entre comme dans un moulin.</example>
       </rule>
       <rule>
         <pattern>
@@ -9504,7 +9505,11 @@ though, and has since been slightly modified)-->
           <token postag="N . s?p" postag_regexp="yes"/>
           <!-- 0 or 1 token: not all combinations of tokens are actually possible -->
           <token min="0" max="1" regexp="yes">[lmnts]e|la|les|leur|lui|en|y</token>
-          <marker><token postag="V.*" postag_regexp="yes"><exception postag="V .* 3 p|[JN] .* s?p|V ppa .* s?p" postag_regexp="yes"/></token></marker>
+          <marker>
+            <token postag="V.*" postag_regexp="yes">
+              <exception postag="V .* 3 p|[JN] .* s?p|V ppa .* s?p|V.* ppr" postag_regexp="yes"/>
+            </token>
+          </marker>
         </pattern>
         <message>Lorsque l’expression « la plupart » est employée avec un complément, le verbe s’accorde toujours avec ce complément.</message>
         <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1650</url>
@@ -9514,6 +9519,7 @@ though, and has since been slightly modified)-->
         <example>La plupart des femmes ne rêvent pas d’un mariage en grande noce.</example>
         <example>La plupart des autres chaînes.</example>
         <example>La plupart des grandes entreprises.</example>
+        <example>La plupart des gens étant d’accord avec moi…</example>
       </rule>
       <rule>
         <pattern>
