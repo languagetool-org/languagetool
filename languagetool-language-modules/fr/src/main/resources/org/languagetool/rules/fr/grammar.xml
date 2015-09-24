@@ -8553,7 +8553,9 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">d|du|des?|en</exception></token>
           <token postag="[NR].* s" postag_regexp="yes"><exception regexp="yes">[mt]oi|[nv]ous|eux</exception></token>
           <token>qui</token>
-          <token postag="R pers obj.*" postag_regexp="yes"/>
+          <token postag="R pers obj.*" postag_regexp="yes">
+            <exception postag="R pers suj.*" postag_regexp="yes"/>
+          </token>
           <marker>
             <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 s" postag_regexp="yes"/></token>
           </marker>
@@ -8561,6 +8563,7 @@ though, and has since been slightly modified)-->
         <message>Le verbe « \5 » devrait être à la 3e personne du singulier.</message>
         <example correction="">Celle qui me <marker>dérangent</marker> ici</example>
         <example>Celle qui me dérange</example>
+        <example>Tom ne semble pas savoir qui nous sommes.</example>
       </rule>
       <rule>
         <pattern>
