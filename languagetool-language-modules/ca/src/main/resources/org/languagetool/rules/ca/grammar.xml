@@ -6109,6 +6109,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category name="Z) Conjuncions" type="grammar">
         <rulegroup id="Y_CONJUNCIO" name="conjunció *y/i">
+            <antipattern>
+                <marker>
+                    <token>x</token>
+                    <token regexp="yes">i|,|;</token>
+                    <token>y</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
@@ -6121,6 +6128,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="i">França <marker>y</marker> Itàlia.</example>
                 <example>França i Itàlia</example>
                 <example>y=x2</example>
+                <example>entre x i y</example>
+                <example>(x,y)</example>
             </rule>
             <rule>
                 <pattern>
