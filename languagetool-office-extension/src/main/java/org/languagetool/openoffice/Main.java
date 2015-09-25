@@ -383,7 +383,10 @@ public class Main extends WeakBase implements XJobExecutor,
       langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
       File ngramDirectory = config.getNgramDirectory();
       if (ngramDirectory != null) {
-        langTool.activateLanguageModelRules(ngramDirectory);
+        File ngramLangDir = new File(config.getNgramDirectory(), docLanguage.getShortName());
+        if (ngramLangDir.exists()) {  // user might have ngram data only for some languages and that's okay
+          langTool.activateLanguageModelRules(ngramDirectory);
+        }
       }
       for (Rule rule : langTool.getAllActiveRules()) {
         if (rule.isDictionaryBasedSpellingRule()) {
