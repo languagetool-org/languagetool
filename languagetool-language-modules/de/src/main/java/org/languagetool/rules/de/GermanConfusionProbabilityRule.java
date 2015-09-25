@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
 public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
 
   private static final List<Pattern> EXCEPTION_PATTERNS = Arrays.asList(
-    Pattern.compile("fiel(e|en)? .* aus|auf")
+    Pattern.compile("fiel(e|en)? .* (aus|auf)")
   );
 
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
