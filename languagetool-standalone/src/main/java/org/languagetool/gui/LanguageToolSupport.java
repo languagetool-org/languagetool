@@ -293,11 +293,19 @@ class LanguageToolSupport {
       languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue());
       loadConfig();
       if (config.getNgramDirectory() != null) {
-      	try { 
-          languageTool.activateLanguageModelRules(config.getNgramDirectory());
-        } catch (Exception e) {
-          JOptionPane.showMessageDialog(null, "Error while loading ngram database.\n" + e.getMessage());
-        } 
+        File ngramLangDir = new File(config.getNgramDirectory(), language.getShortName());
+        if (ngramLangDir.exists()) {
+          try {
+            languageTool.activateLanguageModelRules(config.getNgramDirectory());
+          } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error while loading ngram database.\n" + e.getMessage());
+          }
+        } else {
+          // user might have set ngram directory to use it for e.g. English, but they
+          // might not have the data for other languages that supports ngram, so don't
+          // annoy them with an error dialog:
+          System.err.println("Not loading ngram data, directory does not exist: " + ngramLangDir);
+        }
       }
     } catch (Exception e) {
       throw new RuntimeException(e);
