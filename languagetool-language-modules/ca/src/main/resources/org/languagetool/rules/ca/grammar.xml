@@ -28012,6 +28012,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="ESPESA_ESPESSA" name="espesa (espènyer) / espessa (espès)">
+            <pattern>
+                <token regexp="yes">espes(a|es|os)</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)(espes)(a|es|os)" regexp_replace="$1s$2" /></suggestion> (adj.)? "$1" és participi del verb "espènyer".</message>
+            <example correction="espessa">És molt <marker>espesa</marker>.</example>
+        </rule>
         <rule id="BRILLANTES" name="brillantés">
             <pattern>
                 <token>brillantés</token>
