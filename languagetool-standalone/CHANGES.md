@@ -7,6 +7,11 @@
 
 ## 3.1 (2015-09-28)
 
+#### Catalan
+  * added new rules
+  * fixed false alarms
+  * added words suggested by users
+ 
 #### English
   * added and improved a few rules
   * added several pairs of easily confused words - active only with
