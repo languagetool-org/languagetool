@@ -2,7 +2,13 @@
 
 ## 3.2-SNAPSHOT (release planned for 2015-12-28)
 
-* LanguageTool requires Java 8 now
+LanguageTool requires Java 8 now
+
+#### English
+  * improved a new rules
+
+#### German
+  * improved a new rules
 
 
 ## 3.1 (2015-09-28)
