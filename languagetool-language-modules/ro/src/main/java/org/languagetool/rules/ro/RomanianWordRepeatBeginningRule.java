@@ -43,7 +43,7 @@ public class RomanianWordRepeatBeginningRule extends WordRepeatBeginningRule {
   }
 
   /**
-   * Indicates if ambiguous adverbs are to be considered.<br />
+   * Indicates if ambiguous adverbs are to be considered.
    * Ambiguous adverbs are words that have the 'adverb' tag along with other tags 
    * E.g.  romanian word "Și" can be "adverb predicativ", "conjuncție coordonatoare" or "pronume (își)".
    * @return true if ambiguous adverbs are to be considered.

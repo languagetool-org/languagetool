@@ -27,7 +27,7 @@ import org.languagetool.tokenizers.Tokenizer;
 
 /**
  *
- * @author Panagiotis Minos <pminos@gmail.com>
+ * @author Panagiotis Minos (pminos@gmail.com)
  */
 public class GreekWordTokenizer implements Tokenizer {
 

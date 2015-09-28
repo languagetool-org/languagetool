@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * Filter rule matches so that only the longest match is kept from overlapping
- * matches with the same rule that contains tokens with maxOccurrence > 1.
+ * matches with the same rule that contains tokens with maxOccurrence &gt; 1.
  *
  * @since 2.6
  */

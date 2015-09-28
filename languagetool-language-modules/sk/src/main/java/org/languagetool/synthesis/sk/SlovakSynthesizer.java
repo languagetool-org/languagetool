@@ -21,7 +21,7 @@ package org.languagetool.synthesis.sk;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
- * Slovak word form synthesizer. <br/>
+ * Slovak word form synthesizer.
  * 
  * @author Marcin Miłkowski
  */

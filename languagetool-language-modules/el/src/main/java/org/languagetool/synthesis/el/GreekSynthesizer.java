@@ -22,7 +22,7 @@ import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
  *
- * @author Panagiotis Minos <pminos@gmail.com>
+ * @author Panagiotis Minos (pminos@gmail.com)
  */
 public class GreekSynthesizer extends BaseSynthesizer {
 

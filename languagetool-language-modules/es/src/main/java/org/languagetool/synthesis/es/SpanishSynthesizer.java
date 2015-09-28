@@ -21,7 +21,7 @@ package org.languagetool.synthesis.es;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
- * Spanish word form synthesizer. <br/> 
+ * Spanish word form synthesizer.
  *
  * Based on Dutch word from synthesizer
  *

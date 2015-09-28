@@ -39,7 +39,7 @@ import org.languagetool.tokenizers.el.GreekWordTokenizer;
 
 /**
  *
- * @author Panagiotis Minos <pminos@gmail.com>
+ * @author Panagiotis Minos (pminos@gmail.com)
  */
 public class Greek extends Language {
 

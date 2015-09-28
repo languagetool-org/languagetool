@@ -27,7 +27,7 @@ import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
 
 /**
- *  Adapter from {@link ManualSynthesizer} to {@link Synthesizer}. <br/> 
+ *  Adapter from {@link ManualSynthesizer} to {@link Synthesizer}. 
  *  Note: It resides in "test" package because for now it is only used on unit testing.
  */
 public class ManualSynthesizerAdapter extends BaseSynthesizer {

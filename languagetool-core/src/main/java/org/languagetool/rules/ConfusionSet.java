@@ -34,7 +34,7 @@ public class ConfusionSet {
   private final long factor;
 
   /**
-   * @param factor the factor that one string must be more probable than the other to be considered a correction, must be >= 1
+   * @param factor the factor that one string must be more probable than the other to be considered a correction, must be &gt;= 1
    */
   public ConfusionSet(long factor, List<ConfusionString> confusionStrings) {
     if (factor < 1) {
@@ -45,7 +45,7 @@ public class ConfusionSet {
   }
 
   /**
-   * @param factor the factor that one string must be more probable than the other to be considered a correction, must be >= 1
+   * @param factor the factor that one string must be more probable than the other to be considered a correction, must be &gt;= 1
    */
   public ConfusionSet(long factor, String... words) {
     if (factor < 1) {

@@ -382,14 +382,14 @@ public class Unifier {
   /**
    * Tests if the token sequence is unified.
    * 
-   * Usage note: to test if the sequence of tokens is unified (i.e.,
+   * <p>Usage note: to test if the sequence of tokens is unified (i.e.,
    * shares a group of features, such as the same gender, number,
    * grammatical case etc.), you need to test all tokens but the last one
    * in the following way: call {@code isUnified()} for every reading of a token,
    * and set {@code lastReading} to {@code true}. For the last token, check the
    * truth value returned by this method. In previous cases, it may actually be
    * discarded before the final check. See {@link AbstractPatternRule} for
-   * an example. <p/>
+   * an example.</p>
    * 
    * To make it work in XML rules, the Elements built based on {@code <token>}s inside
    * the unify block have to be processed in a special way: namely the last Element has to be

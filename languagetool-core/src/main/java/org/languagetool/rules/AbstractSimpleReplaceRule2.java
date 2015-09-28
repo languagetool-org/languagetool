@@ -32,13 +32,13 @@ import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 
 /**
- * A rule that matches words which should not be used and suggests correct ones instead. <br/> 
+ * A rule that matches words which should not be used and suggests correct ones instead. 
  * Romanian implementations. Loads the list of words from
- * <code>/ro/replace.txt</code>.<br/><br/>
+ * <code>/ro/replace.txt</code>.
  *
- * Unlike AbstractSimpleReplaceRule, supports multiple words (Ex: "aqua forte" => "acvaforte").<br/><br/>
+ * <p>Unlike AbstractSimpleReplaceRule, supports multiple words (Ex: "aqua forte" -&gt; "acvaforte").
  *
- * Note: Merge this into {@link AbstractSimpleReplaceRule}<br/>
+ * Note: Merge this into {@link AbstractSimpleReplaceRule}
  *
  * @author Ionuț Păduraru
  */

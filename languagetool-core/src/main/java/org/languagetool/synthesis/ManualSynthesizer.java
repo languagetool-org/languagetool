@@ -26,7 +26,7 @@ import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tools.StringTools;
 
 /**
- * A synthesizer that reads the inflected form and POS information from a plain (UTF-8) text file. <br/>
+ * A synthesizer that reads the inflected form and POS information from a plain (UTF-8) text file.
  * This makes it possible for the user to edit the text file to let the system know
  * about new words or missing readings in the synthesizer *.dict file.
  * <p>
@@ -60,7 +60,8 @@ public final class ManualSynthesizer {
    * 
    * @param lemma the lemma to inflect.
    * @param posTag the required POS tag.
-   * @return a list with all the inflected forms of the specified lemma having the specified POS tag. If no inflected form is found, the function returns <code><code>null</code>.
+   * @return a list with all the inflected forms of the specified lemma having the specified POS tag.
+   * If no inflected form is found, the function returns <code>null</code>.
    */
   public List<String> lookup(final String lemma, final String posTag) {
     return mapping.get(lemma + "|" + posTag);

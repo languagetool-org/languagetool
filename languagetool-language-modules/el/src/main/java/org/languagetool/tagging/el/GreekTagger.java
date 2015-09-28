@@ -24,7 +24,7 @@ import org.languagetool.tagging.BaseTagger;
 
 /**
  *
- * @author Panagiotis Minos <pminos@gmail.com>
+ * @author Panagiotis Minos (pminos@gmail.com)
  */
 public class GreekTagger extends BaseTagger {
 

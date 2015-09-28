@@ -39,7 +39,7 @@ import java.util.*;
 public abstract class AbstractWordCoherencyRule extends Rule {
 
   /**
-   * Maps words in both directions, e.g. "aufwendig -> aufwändig" and "aufwändig -> aufwendig".
+   * Maps words in both directions, e.g. "aufwendig -&gt; aufwändig" and "aufwändig -&gt; aufwendig".
    * @since 3.0
    */
   protected abstract Map<String, String> getWordMap();

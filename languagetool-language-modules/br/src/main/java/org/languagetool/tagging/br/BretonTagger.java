@@ -34,9 +34,9 @@ import org.languagetool.tools.StringTools;
  *
  * Based on Breton diction diction from apertium:
  *
- *  Copyright (C) 2008--2010 Francis Tyers <ftyers@prompsit.com>
- *  Copyright (C) 2009--2010 Fulup Jakez <fulup.jakez@ofis-bzh.org>
- *  Copyright (C) 2009       Gwenvael Jekel <jequelg@yahoo.fr>
+ *  Copyright (C) 2008--2010 Francis Tyers (ftyers@prompsit.com)
+ *  Copyright (C) 2009--2010 Fulup Jakez (fulup.jakez@ofis-bzh.org)
+ *  Copyright (C) 2009       Gwenvael Jekel (jequelg@yahoo.fr)
  *  Development supported by:
  *  * Prompsit Language Engineering, S. L.
  *  * Ofis ar Brezhoneg
@@ -44,7 +44,7 @@ import org.languagetool.tools.StringTools;
  *
  * Implemented in FSA.
  *
- * @author Dominique Pellé <dominique.pelle@gmail.com>
+ * @author Dominique Pellé (dominique.pelle@gmail.com)
  */
 public class BretonTagger extends BaseTagger {
 

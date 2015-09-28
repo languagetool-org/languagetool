@@ -34,7 +34,7 @@ import org.languagetool.rules.en.AvsAnRule;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
- * English word form synthesizer. <br/>
+ * English word form synthesizer.
  * Based on part-of-speech lists in Public Domain. See readme.txt for details,
  * the POS tagset is described in tagset.txt.
  * 

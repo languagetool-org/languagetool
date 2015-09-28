@@ -191,7 +191,7 @@ public final class StringTools {
 
   /**
    * Like {@link #uppercaseFirstChar(String)}, but handles a special case for Dutch (IJ in 
-   * e.g. "ijsselmeer" -> "IJsselmeer").
+   * e.g. "ijsselmeer" -&gt; "IJsselmeer").
    * @param language the language, will be ignored if it's {@code null}
    * @since 2.7
    */

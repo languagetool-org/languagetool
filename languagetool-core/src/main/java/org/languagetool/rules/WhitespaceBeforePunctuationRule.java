@@ -32,9 +32,9 @@ import org.languagetool.tools.StringTools;
  * 
  * Checks for:
  * <pre>
- *    &lt;a word> : and suggests &lt;a word>:
- *    &lt;a word> ; and suggests &lt;a word>;
- *    &lt;a number> % and suggests &lt;a number>%
+ *    &lt;a word&gt; : and suggests &lt;a word&gt;:
+ *    &lt;a word&gt; ; and suggests &lt;a word&gt;;
+ *    &lt;a number&gt; % and suggests &lt;a number&gt;%
  * </pre>
  * 
  * @author Paolo Bianchini

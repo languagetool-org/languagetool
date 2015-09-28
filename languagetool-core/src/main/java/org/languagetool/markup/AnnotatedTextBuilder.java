@@ -34,14 +34,14 @@ import java.util.Map;
  * <p>For example, text with XML markup like</p>
  * 
  * <pre>
- *   Here is &lt;b>some text&lt;/b>
+ *   Here is &lt;b&gt;some text&lt;/b&gt;
  * </pre>
  * 
  * <p>needs to be prepared like this:</p>
  * 
  * <pre>
  * new AnnotatedTextBuilder()
- *   .addText("Here is ").addMarkup("&lt;b>").addText("some text").addMarkup("&lt;/b>")
+ *   .addText("Here is ").addMarkup("&lt;b&gt;").addText("some text").addMarkup("&lt;/b&gt;")
  *   .build()
  * </pre>
  * 

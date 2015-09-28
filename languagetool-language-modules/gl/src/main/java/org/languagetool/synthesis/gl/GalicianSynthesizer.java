@@ -21,7 +21,7 @@ package org.languagetool.synthesis.gl;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
- * Galician word form synthesizer. <br/>
+ * Galician word form synthesizer.
  *
  * Based on Dutch word form synthesizer.
  * 

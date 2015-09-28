@@ -21,7 +21,7 @@ package org.languagetool.synthesis.nl;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
- * Dutch word form synthesizer. <br/>
+ * Dutch word form synthesizer.
  * 
  * @author Marcin Miłkowski
  */

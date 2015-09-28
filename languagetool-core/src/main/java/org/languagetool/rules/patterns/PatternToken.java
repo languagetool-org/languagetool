@@ -477,7 +477,7 @@ public class PatternToken implements Cloneable {
 
   /**
    * The maximum number of times this element may occur.
-   * @param i a number >= 1 or {@code -1} for unlimited occurrences
+   * @param i a number &gt;= 1 or {@code -1} for unlimited occurrences
    */
   public final void setMaxOccurrence(final int i) {
     if (i == 0) {

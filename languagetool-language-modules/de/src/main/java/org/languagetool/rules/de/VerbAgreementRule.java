@@ -50,8 +50,8 @@ import java.io.IOException;
  * 
  * TODO:
  * <ul>
- * <li>wenn nur ein mögliches finites Verb -> das nehmen (Max machen das.)
- * <li>Sie (i>1)
+ * <li>wenn nur ein mögliches finites Verb -&gt; das nehmen (Max machen das.)
+ * <li>Sie (i&gt;1)
  * <li>bei ich/du/er/wir sofort prüfen, damit alle vorkommen geprüft werden (Ich geht jetzt nach Hause und dort gehe ich sofort unter die Dusche.) [aber: isNear]
  * <li>Alle Verbvorkommen merken (Er präsentieren wollte und Video hätte keine Pläne.)
  * </ul>

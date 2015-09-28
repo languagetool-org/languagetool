@@ -147,7 +147,7 @@ public abstract class WrongWordInContextRule extends Rule {
   }
   
   /**
-   * @return a string like "Possible confusion of words: Did you mean <suggestion>$SUGGESTION</suggestion> instead of '$WRONGWORD'?"
+   * @return a string like "Possible confusion of words: Did you mean &lt;suggestion&gt;$SUGGESTION&lt;/suggestion&gt; instead of '$WRONGWORD'?"
    */
   protected abstract String getMessageString();
   
@@ -157,7 +157,7 @@ public abstract class WrongWordInContextRule extends Rule {
   protected abstract String getShortMessageString();
   
   /**
-   * @return a string like "Possible confusion of words: Did you mean <suggestion>$SUGGESTION</suggestion>
+   * @return a string like "Possible confusion of words: Did you mean &lt;suggestion&gt;$SUGGESTION&lt;/suggestion&gt;
    * (= $EXPLANATION_SUGGESTION) instead of '$WRONGWORD' (= $EXPLANATION_WRONGWORD)?"
    */
   protected abstract String getLongMessageString();

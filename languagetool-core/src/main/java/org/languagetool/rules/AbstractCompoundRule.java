@@ -30,7 +30,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 /**
  * Checks that compounds (if in the list) are not written as separate words.
  * 
- * @author Daniel Naber & Marcin Miłkowski (refactoring)
+ * @author Daniel Naber, Marcin Miłkowski (refactoring)
  */
 public abstract class AbstractCompoundRule extends Rule {
 
