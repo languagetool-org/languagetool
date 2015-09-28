@@ -11,7 +11,7 @@ Homepage: https://www.languagetool.org
 
 ## Requirements
 
-* Java 7 or later (Oracle Java or IcedTea; GIJ is not supported)
+* Java 8 or later (Oracle Java or IcedTea; GIJ is not supported)
 * For OpenOffice.org/LibreOffice integration:
     * LibreOffice 3.5.4 (or later) or
     * Apache OpenOffice 3.4.1 (or later)
