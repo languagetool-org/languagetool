@@ -15112,6 +15112,18 @@ USA
                 <example>IGD Convention 2014 - <marker>Monday, 10/09/2014</marker></example><!-- not correct, but ambiguous -->
                 <example>IGD Convention 2014 - <marker>Monday, 9/10/2014</marker></example><!-- not correct, but ambiguous -->
             </rule>
+            <rule>
+                <!-- "Monday, 2014-10-31" -->
+                <pattern>
+                    <token regexp="yes">&weekdays;</token>
+                    <token>,</token>
+                    <token regexp="yes">\d\d\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])</token>
+                </pattern>
+                <filter class="org.languagetool.rules.en.YMDDateCheckFilter" args="date:\3 weekDay:\1"/>
+                <message>The date \3 (YYYY-MM-DD) is not a \1.</message>
+                <example correction="">IGD Convention 2014 - <marker>Monday, 2014-10-31</marker></example>
+                <example>IGD Convention 2014 - <marker>Friday, 2014-10-31</marker></example>
+            </rule>
         </rulegroup>
         <rulegroup id="INVALID_DATE" name="Invalid date, like 'February 31, 2014'">
             <rule>
