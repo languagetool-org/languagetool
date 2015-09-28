@@ -1,5 +1,9 @@
 # LanguageTool Change Log
 
+## 3.2-SNAPSHOT (release planned for 2015-12-28)
+  * ...
+  
+  
 ## 3.1 (2015-09-28)
 
 #### English
