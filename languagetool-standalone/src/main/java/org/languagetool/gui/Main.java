@@ -537,6 +537,8 @@ public final class Main {
     }
     if (lookAndFeelName == null) {
       lookAndFeelName = "Nimbus";
+      // to use the system's look and feel:
+      //lookAndFeelName = UIManager.getSystemLookAndFeelClassName();
     }
     for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
       if (lookAndFeelName.equals(info.getName())) {
