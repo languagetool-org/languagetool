@@ -20,8 +20,8 @@ CPATH=$LIBDIR/lucene-gosen-ipadic.jar:$LIBDIR/ictclas4j.jar:$LIBDIR/cjftransform
 #JAVA_OPTS="-Xverify:none"
 
 # For JMC
-JAVA_OPTS="-XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:FlightRecorderOptions=defaultrecording=true,dumponexit=true,dumponexitpath=dumponexit.jfr"
-export PATH=/usr/java/latest/bin:$PATH
+#JAVA_OPTS="-XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:FlightRecorderOptions=defaultrecording=true,dumponexit=true,dumponexitpath=dumponexit.jfr"
+#export PATH=/usr/java/latest/bin:$PATH
 
 THREAD_CNT=`more /proc/cpuinfo | grep processor| wc -l`
 (( THREAD_CNT += 0 ))

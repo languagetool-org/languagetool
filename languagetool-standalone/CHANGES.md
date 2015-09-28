@@ -37,6 +37,9 @@
   * added and improved a few rules
   * added a few false friends rules (Russian/English)
 
+#### Ukrainian
+  * significant dictionary update (fixes, lot of new adjectives and last names)
+
 #### LibreOffice / Apache OpenOffice Integration
   * fix: the ngram directory that turns on the confusion rule (see
     http://wiki.languagetool.org/finding-errors-using-big-data) was
