@@ -212,12 +212,7 @@ public final class RuleOverview {
 
   private List<Language> getSortedLanguages() {
     final List<Language> sortedLanguages = new ArrayList<>(Languages.get());
-    Collections.sort(sortedLanguages, new Comparator<Language>() {
-      @Override
-      public int compare(Language o1, Language o2) {
-        return o1.getName().compareTo(o2.getName());
-      }
-    });
+    Collections.sort(sortedLanguages, (o1, o2) -> o1.getName().compareTo(o2.getName()));
     return sortedLanguages;
   }
 

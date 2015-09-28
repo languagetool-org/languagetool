@@ -31,7 +31,7 @@ import org.languagetool.tokenizers.Tokenizer;
  */
 public class GreekWordTokenizer implements Tokenizer {
 
-  private GreekWordTokenizerImpl tokenizer = new GreekWordTokenizerImpl(new StringReader(""));
+  private final GreekWordTokenizerImpl tokenizer = new GreekWordTokenizerImpl(new StringReader(""));
 
   public GreekWordTokenizer() {
   }

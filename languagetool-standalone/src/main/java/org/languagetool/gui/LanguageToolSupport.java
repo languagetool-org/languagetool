@@ -607,12 +607,7 @@ class LanguageToolSupport {
       }
       disabledRules.add(rule);
     }
-    Collections.sort(disabledRules, new Comparator<Rule>() {
-      @Override
-      public int compare(Rule r1, Rule r2) {
-        return r1.getDescription().compareTo(r2.getDescription());
-      }
-    });
+    Collections.sort(disabledRules, (r1, r2) -> r1.getDescription().compareTo(r2.getDescription()));
     return disabledRules;
   }
 

@@ -68,11 +68,7 @@ class XmlUsageCounter {
     for (Map.Entry<String, Integer> entry : map.entrySet()) {
       elemCounts.add(new ElemCount(entry.getKey(), entry.getValue()));
     }
-    Collections.sort(elemCounts, new Comparator<ElemCount>() {
-      @Override public int compare(ElemCount ec1, ElemCount ec2) {
-        return ec2.count - ec1.count;
-      }
-    });
+    Collections.sort(elemCounts, (ec1, ec2) -> ec2.count - ec1.count);
     for (ElemCount elemCount : elemCounts) {
       System.out.println(elemCount.count + " " + elemCount.elem);
     }
