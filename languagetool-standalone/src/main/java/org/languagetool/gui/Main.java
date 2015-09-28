@@ -357,7 +357,7 @@ public final class Main {
       @Override
       public void languageToolEventOccurred(LanguageToolEvent event) {
         if (event.getType() == LanguageToolEvent.Type.CHECKING_STARTED) {
-          final String msg = Tools.makeTexti18n(messages, "checkStart");
+          final String msg = org.languagetool.tools.Tools.i18n(messages, "checkStart");
           statusLabel.setText(msg);
           if (event.getCaller() == getFrame()) {
             startTime = System.currentTimeMillis();
@@ -370,10 +370,10 @@ public final class Main {
             unsetWaitCursor();
             resultAreaHelper.setRunTime(System.currentTimeMillis() - startTime);
             resultAreaHelper.displayResult();
-            final String msg = Tools.makeTexti18n(messages, "checkDone", event.getSource().getMatches().size(), System.currentTimeMillis() - startTime);
+            final String msg = org.languagetool.tools.Tools.i18n(messages, "checkDone", event.getSource().getMatches().size(), System.currentTimeMillis() - startTime);
             statusLabel.setText(msg);
           } else {
-            final String msg = Tools.makeTexti18n(messages, "checkDoneNoTime", event.getSource().getMatches().size());
+            final String msg = org.languagetool.tools.Tools.i18n(messages, "checkDoneNoTime", event.getSource().getMatches().size());
             statusLabel.setText(msg);              
           }
         }

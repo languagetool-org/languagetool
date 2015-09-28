@@ -34,36 +34,9 @@ public final class Category {
     EXTERNAL
   }
 
-  private static final int DEFAULT_PRIORITY = 50;
-  
-  private final int priority;
   private final String name;
   private final Location location;
   private final boolean defaultOff;
-
-  /**
-   * Create a new category with the given name and priority.
-   * @param name name of the category
-   * @param priority a value between 0 and 100 (inclusive)
-   * @deprecated priority will be removed, as it had not been used (deprecated since 2.8)
-   */
-  public Category(final String name, final int priority, Location location, boolean onByDefault) {
-    if (priority < 0 || priority > 100) {
-      throw new IllegalArgumentException("priority must be in range 0 - 100: " + priority);
-    }
-    this.name = name;
-    this.priority = priority;
-    this.location = location;
-    this.defaultOff = !onByDefault;
-  }
-
-  /**
-   * @since 2.8
-   * @deprecated priority will be removed, as it had not been used (deprecated since 2.8)
-   */
-  Category(final String name, final int priority) {
-    this(name, priority, Location.INTERNAL, true);
-  }
 
   /**
    * Create a new category.
@@ -79,7 +52,7 @@ public final class Category {
    * @since 2.8
    */
   public Category(String name, Location location) {
-    this(name, DEFAULT_PRIORITY, location, true);
+    this(name, location, true);
   }
 
   /**
@@ -88,17 +61,15 @@ public final class Category {
    * @since 2.9
    */
   public Category(String name, Location location, boolean onByDefault) {
-    this(name, DEFAULT_PRIORITY, location, onByDefault);
+    this.name = name;
+    this.location = location;
+    this.defaultOff = !onByDefault;
   }
 
   public String getName() {
     return name;
   }
 
-  public int getPriority() {
-    return priority;
-  }
-  
   @Override
   public String toString() {
     return name;

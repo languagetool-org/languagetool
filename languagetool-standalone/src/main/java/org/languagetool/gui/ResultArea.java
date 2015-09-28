@@ -81,7 +81,7 @@ class ResultArea {
             langName = lang.getTranslatedName(messages);
           }
           final String startCheckText = Main.HTML_GREY_FONT_START
-              + Tools.makeTexti18n(messages, "startChecking", langName) + "..." + Main.HTML_FONT_END;
+              + org.languagetool.tools.Tools.i18n(messages, "startChecking", langName) + "..." + Main.HTML_FONT_END;
           statusPane.setText(startCheckText);
           setStartText(startCheckText);
           if (event.getCaller() == marker) {
@@ -112,7 +112,7 @@ class ResultArea {
     sb.append("<br>\n");
     int i = 0;
     for (final RuleMatch match : ruleMatches) {
-      final String output = Tools.makeTexti18n(messages, "result1", i + 1, match.getLine() + 1, match.getColumn());
+      final String output = org.languagetool.tools.Tools.i18n(messages, "result1", i + 1, match.getLine() + 1, match.getColumn());
       sb.append(output);
       final String msg = match.getMessage()
           .replaceAll("<suggestion>", "<b>").replaceAll("</suggestion>", "</b>")
@@ -144,7 +144,7 @@ class ResultArea {
     }
     sb.append(Main.HTML_GREY_FONT_START);
     sb.append(getDisabledRulesHtml());
-    final String checkDone = Tools.makeTexti18n(messages, "checkDone", ruleMatches.size(), runTime);
+    final String checkDone = org.languagetool.tools.Tools.i18n(messages, "checkDone", ruleMatches.size(), runTime);
     sb.append("<br>\n").append(checkDone);
     sb.append("<br>\n").append(messages.getString("makeLanguageToolBetter"));
     sb.append(Main.HTML_FONT_END).append("<br>\n");

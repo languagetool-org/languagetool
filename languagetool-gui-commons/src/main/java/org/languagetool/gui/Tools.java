@@ -53,14 +53,6 @@ public final class Tools {
   }
 
   /**
-   * @deprecated use {@link org.languagetool.tools.Tools#i18n(ResourceBundle, String, Object...)} instead (deprecated since 3.1)
-   */
-  public static String makeTexti18n(final ResourceBundle messages, final String key,
-                                    final Object... messageArguments) {
-    return org.languagetool.tools.Tools.i18n(messages, key, messageArguments);
-  }
-
-  /**
    * Show a file chooser dialog and return the file selected by the user or
    * <code>null</code>.
    */

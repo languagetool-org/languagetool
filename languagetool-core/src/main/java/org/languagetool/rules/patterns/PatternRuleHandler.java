@@ -91,15 +91,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
     switch (qName) {
       case "category":
         final String catName = attrs.getValue(NAME);
-        final String priorityStr = attrs.getValue("priority");
         Category.Location location = YES.equals(attrs.getValue(EXTERNAL)) ?
                 Category.Location.EXTERNAL : Category.Location.INTERNAL;
         final boolean onByDefault = !OFF.equals(attrs.getValue(DEFAULT));
-        if (priorityStr == null) {
-          category = new Category(catName, location, onByDefault);
-        } else {
-          category = new Category(catName, Integer.parseInt(priorityStr), location, onByDefault);
-        }
+        category = new Category(catName, location, onByDefault);
         if (attrs.getValue(TYPE) != null) {
           categoryIssueType = attrs.getValue(TYPE);
         }

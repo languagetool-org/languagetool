@@ -22,7 +22,7 @@ import com.sun.net.httpserver.HttpsConfigurator;
 import com.sun.net.httpserver.HttpsParameters;
 import com.sun.net.httpserver.HttpsServer;
 import org.languagetool.JLanguageTool;
-import org.languagetool.gui.Tools;
+import org.languagetool.tools.Tools;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -86,11 +86,11 @@ public class HTTPSServer extends Server {
       server.setExecutor(executorService);
     } catch (BindException e) {
       final ResourceBundle messages = JLanguageTool.getMessageBundle();
-      final String message = Tools.makeTexti18n(messages, "https_server_start_failed", host, Integer.toString(port));
+      final String message = Tools.i18n(messages, "https_server_start_failed", host, Integer.toString(port));
       throw new PortBindingException(message, e);
     } catch (Exception e) {
       final ResourceBundle messages = JLanguageTool.getMessageBundle();
-      final String message = Tools.makeTexti18n(messages, "https_server_start_failed_unknown_reason", host, Integer.toString(port));
+      final String message = Tools.i18n(messages, "https_server_start_failed_unknown_reason", host, Integer.toString(port));
       throw new RuntimeException(message, e);
     }
   }

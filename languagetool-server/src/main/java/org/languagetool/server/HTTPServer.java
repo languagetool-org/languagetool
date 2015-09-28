@@ -20,7 +20,7 @@ package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpServer;
 import org.languagetool.JLanguageTool;
-import org.languagetool.gui.Tools;
+import org.languagetool.tools.Tools;
 
 import java.net.InetSocketAddress;
 import java.util.ResourceBundle;
@@ -112,7 +112,7 @@ public class HTTPServer extends Server {
       server.setExecutor(executorService);
     } catch (Exception e) {
       final ResourceBundle messages = JLanguageTool.getMessageBundle();
-      final String message = Tools.makeTexti18n(messages, "http_server_start_failed", host, Integer.toString(port));
+      final String message = Tools.i18n(messages, "http_server_start_failed", host, Integer.toString(port));
       throw new PortBindingException(message, e);
     }
   }

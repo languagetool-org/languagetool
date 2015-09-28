@@ -361,28 +361,6 @@ public class PatternToken implements Cloneable {
   }
 
   /**
-   * Sets an exception for matching Optional tokens.
-   * @param token The string in the exception.
-   * @param regExp True if the string is specified as a regular expression.
-   * @param inflected True if the string is a base form (lemma).
-   * @param negation True if the exception is negated.
-   * @param posToken The part of the speech tag in the exception.
-   * @param posRegExp True if the POS is specified as a regular expression.
-   * @param posNegation True if the POS exception is negated.
-   * @since 2.5
-   * @deprecated will be removed as it hasn't been used (deprecated since 3.0)
-   */
-  public final void setOptionalException(
-      final String token, final boolean regExp, final boolean inflected,
-      final boolean negation, final String posToken,
-      final boolean posRegExp, final boolean posNegation) {
-    final PatternToken exception = new PatternToken(token, caseSensitive, regExp, inflected);
-    exception.setNegation(negation);
-    exception.setPosToken(new PosToken(posToken, posRegExp, posNegation));
-    setException(exception, false);
-  }
-
-  /**
    * Tests if part of speech matches a given string.
    * Special value UNKNOWN_TAG matches null POS tags.
    * @param token Token to test.
