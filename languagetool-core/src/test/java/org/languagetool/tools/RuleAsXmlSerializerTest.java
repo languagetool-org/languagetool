@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -47,7 +47,7 @@ import static org.languagetool.tools.StringTools.XmlPrintMode.*;
 
 @SuppressWarnings("MagicNumber")
 public class RuleAsXmlSerializerTest {
-  
+
   private static final RuleAsXmlSerializer SERIALIZER = new RuleAsXmlSerializer();
   private static final Language LANG = TestTools.getDemoLanguage();
 
@@ -101,7 +101,8 @@ public class RuleAsXmlSerializerTest {
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" " +
-            "locqualityissuetype=\"misspelling\"/>\n" +
+            "locqualityissuetype=\"misspelling\">\n" +
+            "</error>\n" +
             "</matches>\n"));
   }
 
@@ -122,19 +123,23 @@ public class RuleAsXmlSerializerTest {
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"MY_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is a test ...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"MyCategory\" " +
-            "locqualityissuetype=\"uncategorized\"/>\n" +
+            "locqualityissuetype=\"uncategorized\">\n" +
+            "</error>\n" +
             "</matches>\n"));
   }
 
   @Test
   public void testRuleMatchesWithUrlToXML() throws IOException {
     final List<RuleMatch> matches = new ArrayList<>();
+    final List<URL> urls = new ArrayList<>();
     final String text = "This is an test sentence. Here's another sentence with more text.";
     final RuleMatch match = new RuleMatch(new FakeRule() {
       @Override
-      public URL getUrl() {
+      public List<URL> getUrls() {
         try {
-          return new URL("http://server.org?id=1&foo=bar");
+          urls.add(new URL("http://server.org?id=1&foo=bar"));
+          urls.add(new URL("http://server.org?id=2&foo=bar"));
+          return urls;
         } catch (MalformedURLException e) {
           throw new RuntimeException(e);
         }
@@ -146,10 +151,14 @@ public class RuleAsXmlSerializerTest {
     match.setEndLine(45);
     matches.add(match);
     final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_XML, LANG, Collections.<String>emptyList());
+    System.out.println(xml.toString());
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
-            "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" url=\"http://server.org?id=1&amp;foo=bar\" " +
-            "locqualityissuetype=\"misspelling\"/>\n" +
+            "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" " +
+            "locqualityissuetype=\"misspelling\">\n" +
+            "<url>http://server.org?id=1&amp;foo=bar</url>\n" +
+            "<url>http://server.org?id=2&amp;foo=bar</url>\n" +
+            "</error>\n" +
             "</matches>\n"));
   }
 
@@ -167,7 +176,8 @@ public class RuleAsXmlSerializerTest {
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"... is &quot;an test...\" contextoffset=\"8\" offset=\"9\" errorlength=\"2\" " +
-            "locqualityissuetype=\"misspelling\"/>\n" +
+            "locqualityissuetype=\"misspelling\">\n" +
+            "</error>\n" +
             "</matches>\n"));
   }
 

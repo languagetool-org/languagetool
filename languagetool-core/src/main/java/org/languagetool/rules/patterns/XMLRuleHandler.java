@@ -1,6 +1,6 @@
 /* LanguageTool, a natural language style checker
  * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +40,7 @@ import org.xml.sax.helpers.DefaultHandler;
 /**
  * XML rule handler that loads rules from XML and throws
  * exceptions on errors and warnings.
- * 
+ *
  * @author Daniel Naber
  */
 public class XMLRuleHandler extends DefaultHandler {
@@ -186,8 +187,8 @@ public class XMLRuleHandler extends DefaultHandler {
 
   protected boolean inUrl;
   protected boolean inUrlForRuleGroup;
-  protected StringBuilder url = new StringBuilder();
-  protected StringBuilder urlForRuleGroup = new StringBuilder();
+  protected List<URL> urls = new ArrayList<>();
+  protected List<URL> urlsForRuleGroup = new ArrayList<>();
 
   protected boolean inShortMessage;
   protected boolean inShortMessageForRuleGroup;
@@ -320,7 +321,7 @@ public class XMLRuleHandler extends DefaultHandler {
   /**
    * Calculates the offset of the match reference (if any) in case the match
    * element has been used in the group.
-   * 
+   *
    * @param patternTokens token list where the match element was used. It is directly changed.
    */
   protected void processElement(final List<PatternToken> patternTokens) {
