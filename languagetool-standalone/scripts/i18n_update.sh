@@ -41,8 +41,9 @@ do
     rm $SOURCE
     rm $SOURCE2
   fi
-
 done
+
+cp ../../../languagetool-core/src/main/resources/org/languagetool/MessagesBundle.properties ../../../languagetool-core/src/main/resources/org/languagetool/MessagesBundle_en.properties
 
 cd ..
 rm -r i18n-temp
