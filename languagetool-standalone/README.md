@@ -4,7 +4,7 @@
 Polish, Chinese, French, Russian, Italian, Dutch
 and [more languages](https://www.languagetool.org/languages/)**
 
-Version 3.1-SNAPSHOT, 2015-xx-yy  
+Version 3.1, 2015-09-28  
 Copyright (C) 2005-2015 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
 Homepage: https://www.languagetool.org
 
@@ -23,37 +23,37 @@ Homepage: https://www.languagetool.org
 
 To integrate LanguageTool into LibreOffice or OpenOffice.org, you can use two methods:
 
-1. Double-click `LanguageTool-3.0.oxt`. The extension should
+1. Double-click `LanguageTool-3.1.oxt`. The extension should
    start installing. Follow the on-screen instructions.
 
 2. If the above method doesn't work, call `Tools > Extension
    Manager > Add...` in OpenOffice.org/LibreOffice and browse for the
-   `LanguageTool-3.0.oxt` file.
+   `LanguageTool-3.1.oxt` file.
 
-   Close and restart OpenOffice.org/LibreOffice Writer. Remember to close
-   the QuickStarter as well if you use it. Type text with
-   an error, e.g. "Feel tree to do so." - make sure the text language
-   is set to English for this example.
+Close and restart OpenOffice.org/LibreOffice Writer. Remember to close
+the QuickStarter as well if you use it. Type text with
+an error, e.g. "Feel tree to do so." - make sure the text language
+is set to English for this example.
 
-   You should see a blue underline under the word "tree" after about a second.
-   Opening the context menu with the right mouse button on that word
-   offers you a short description of the error and a correction ("free").
+You should see a blue underline under the word "tree" after about a second.
+Opening the context menu with the right mouse button on that word
+offers you a short description of the error and a correction ("free").
 
-   If you are using LibreOffice and you want to check English or Russian texts:
-   Use `Options -> Language Settings -> Writing Aids -> Edit...` in the
-   'Tools' menu to disable LightProof and enable LanguageTool for English.
-  
-   Note that there will also be a new menu item "LanguageTool"
-   under the "Tools" menu.
-   If the native spelling and grammar dialog doesn't check grammar,
-   make sure that the check box "Check Grammar" is checked in it
-   (if the window closes because of no mistakes in the document,
-   simply make any spelling mistake to make it open for a longer
-   time, and check the box). Check also if LanguageTool is visible
-   under "Grammar" in `Tools > Options > Language Settings > Spelling`
-   for your language. Note: you can disable the grammar check without
-   uninstalling LanguageTool simply by clearing the check box next to
-   LanguageTool in the same dialog.
+If you are using LibreOffice and you want to check English or Russian texts:
+Use `Options -> Language Settings -> Writing Aids -> Edit...` in the
+`Tools` menu to disable LightProof and enable LanguageTool for English.
+
+Note that there will also be a new menu item "LanguageTool"
+under the `Tools` menu.
+If the native spelling and grammar dialog doesn't check grammar,
+make sure that the check box `Check Grammar` is checked in it
+(if the window closes because of no mistakes in the document,
+simply make any spelling mistake to make it open for a longer
+time, and check the box). Check also if LanguageTool is visible
+under `Grammar` in `Tools > Options > Language Settings > Spelling`
+for your language. Note: you can disable the grammar check without
+uninstalling LanguageTool simply by clearing the check box next to
+LanguageTool in the same dialog.
   
 Please see https://www.languagetool.org/issues/ if you experience problems.
 

@@ -1,6 +1,6 @@
 # LanguageTool Change Log
 
-## 3.1 (release planned for 2015-09-28)
+## 3.1 (2015-09-28)
 
 #### English
   * added and improved a few rules
