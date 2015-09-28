@@ -29,7 +29,7 @@ import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tools.ContextTools;
-import org.languagetool.tools.RuleAsXmlSerializer;
+import org.languagetool.tools.RuleMatchAsXmlSerializer;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
@@ -110,7 +110,7 @@ public final class CommandLineTools {
       if (listUnknownWords && xmlMode == StringTools.XmlPrintMode.NORMAL_XML) {
         unknownWords = lt.getUnknownWords();
       }
-      final RuleAsXmlSerializer serializer = new RuleAsXmlSerializer();
+      final RuleMatchAsXmlSerializer serializer = new RuleMatchAsXmlSerializer();
       final String xml = serializer.ruleMatchesToXml(ruleMatches, contents,
               contextSize, xmlMode, lt.getLanguage(), unknownWords);
       final PrintStream out = new PrintStream(System.out, true, "UTF-8");
@@ -214,7 +214,7 @@ public final class CommandLineTools {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     int matchCount = 0;
     int sentCount = 0;
-    final RuleAsXmlSerializer serializer = new RuleAsXmlSerializer();
+    final RuleMatchAsXmlSerializer serializer = new RuleMatchAsXmlSerializer();
     final PrintStream out = new PrintStream(System.out, true, "UTF-8");
     if (apiFormat) {
       out.print(serializer.getXmlStart(null, null));

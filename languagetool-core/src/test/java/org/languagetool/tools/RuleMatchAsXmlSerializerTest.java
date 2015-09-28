@@ -46,9 +46,9 @@ import static org.junit.Assert.assertThat;
 import static org.languagetool.tools.StringTools.XmlPrintMode.*;
 
 @SuppressWarnings("MagicNumber")
-public class RuleAsXmlSerializerTest {
+public class RuleMatchAsXmlSerializerTest {
   
-  private static final RuleAsXmlSerializer SERIALIZER = new RuleAsXmlSerializer();
+  private static final RuleMatchAsXmlSerializer SERIALIZER = new RuleMatchAsXmlSerializer();
   private static final Language LANG = TestTools.getDemoLanguage();
 
   @Test

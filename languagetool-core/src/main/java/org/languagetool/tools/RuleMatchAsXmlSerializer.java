@@ -32,9 +32,9 @@ import static org.languagetool.tools.StringTools.*;
 /**
  * Generate XML to represent matching rules.
  * 
- * @since 2.5
+ * @since 2.5 (as 'RuleAsXmlSerializer' up to 3.1)
  */
-public class RuleAsXmlSerializer {
+public class RuleMatchAsXmlSerializer {
 
   private static final int CAPACITY = 200;
 

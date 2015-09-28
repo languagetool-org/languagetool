@@ -33,7 +33,7 @@ import org.languagetool.gui.Configuration;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
-import org.languagetool.tools.RuleAsXmlSerializer;
+import org.languagetool.tools.RuleMatchAsXmlSerializer;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
@@ -463,7 +463,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       AtDXmlSerializer serializer = new AtDXmlSerializer();
       return serializer.ruleMatchesToXml(matches, text);
     } else {
-      RuleAsXmlSerializer serializer = new RuleAsXmlSerializer();
+      RuleMatchAsXmlSerializer serializer = new RuleMatchAsXmlSerializer();
       return serializer.ruleMatchesToXml(matches, text, CONTEXT_SIZE, lang, motherTongue);
     }
   }

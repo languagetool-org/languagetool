@@ -10,6 +10,10 @@ LanguageTool requires Java 8 now
 #### German
   * improved a new rules
 
+#### API
+  * `RuleAsXmlSerializer` has been renamed to `RuleMatchAsXmlSerializer`
+
+
 
 ## 3.1 (2015-09-28)
 
