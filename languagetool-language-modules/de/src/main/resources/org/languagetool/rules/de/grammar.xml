@@ -8754,6 +8754,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Termin: <marker>Sa, 23. Aug. 2014</marker></example>
                 <example>Termin: <marker>Samstag, den 23. Aug. 2014</marker></example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&wochentage;|&abgekWochentage;</token>
+                    <token>,</token>
+                    <token regexp="yes">\d\d\d\d-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])</token>
+                </pattern>
+                <filter class="org.languagetool.rules.de.YMDDateCheckFilter" args="weekDay:\1 date:\3"/>
+                <message>Das Datum \3 (JJJJ-MM-TT) fällt nicht auf einen {day}, sondern auf einen {realDay}.</message>
+                <example correction="">Ein Termin am <marker>Dienstag, 2015-09-28</marker>.</example>
+                <example>Ein Termin am <marker>Montag, 2015-09-28</marker>.</example>
+            </rule>
             <!-- TODO: weitere regel auch ohne Jahr (Annahme: dieses Jahr (auch am jahresende bei "2.1."?)) -->
         </rulegroup>
         <rulegroup id="UNGUELTIGES_DATUM" name="Ungültiges Datum, z.B. '31. Februar'">
