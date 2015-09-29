@@ -6,6 +6,7 @@ import org.languagetool.JLanguageTool;
 import java.io.IOException;
 import java.util.List;
 
+import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -14,7 +15,7 @@ public class CombiningTaggerTest {
 
   @Test
   public void testTagNoOverwrite() throws Exception {
-    CombiningTagger tagger = getCombiningTagger(false);
+    CombiningTagger tagger = getCombiningTagger(false, null);
     assertThat(tagger.tag("nosuchword").size(), is(0));
     List<TaggedWord> result = tagger.tag("fullform");
     assertThat(result.size(), is(2));
@@ -25,7 +26,7 @@ public class CombiningTaggerTest {
 
   @Test
   public void testTagOverwrite() throws Exception {
-    CombiningTagger tagger = getCombiningTagger(true);
+    CombiningTagger tagger = getCombiningTagger(true, null);
     assertThat(tagger.tag("nosuchword").size(), is(0));
     List<TaggedWord> result = tagger.tag("fullform");
     assertThat(result.size(), is(1));
@@ -33,10 +34,24 @@ public class CombiningTaggerTest {
     assertTrue(asString.contains("baseform2/POSTAG2"));
   }
 
-  private CombiningTagger getCombiningTagger(boolean overwrite) throws IOException {
+  @Test
+  public void testTagRemoval() throws Exception {
+    CombiningTagger tagger = getCombiningTagger(false, "/xx/removed.txt");
+    assertThat(tagger.tag("nosuchword").size(), is(0));
+    List<TaggedWord> result = tagger.tag("fullform");
+    String asString = getAsString(result);
+    assertFalse(asString.contains("baseform1/POSTAG1"));  // first tagged, but in removed.txt
+    assertTrue(asString.contains("baseform2/POSTAG2"));
+  }
+
+  private CombiningTagger getCombiningTagger(boolean overwrite, String removalPath) throws IOException {
     ManualTagger tagger1 = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream("/xx/added1.txt"));
     ManualTagger tagger2 = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream("/xx/added2.txt"));
-    return new CombiningTagger(tagger1, tagger2, overwrite);
+    ManualTagger removalTagger = null;
+    if (removalPath != null) {
+      removalTagger = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream(removalPath));
+    }
+    return new CombiningTagger(tagger1, tagger2, removalTagger, overwrite);
   }
 
   private String getAsString(List<TaggedWord> result) {

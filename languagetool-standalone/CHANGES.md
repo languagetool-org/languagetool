@@ -6,9 +6,13 @@ LanguageTool requires Java 8 now
 
 #### English
   * improved a new rules
+  * added `en/removed.txt` so incorrect readings of the POS tagger can be avoided without
+    rebuilding the binary dictionary (https://github.com/languagetool-org/languagetool/issues/306)
 
 #### German
   * improved a new rules
+  * added `de/removed.txt` so incorrect readings of the POS tagger can be avoided without
+    rebuilding the binary dictionary
 
 #### API
   * `RuleAsXmlSerializer` has been renamed to `RuleMatchAsXmlSerializer`
@@ -91,6 +95,7 @@ LanguageTool requires Java 8 now
 #### Internal
   * updated to Lucene 5.2.1
   * updated to Apache OpenNLP 1.6.0
+
 
 
 ## 3.0 (2015-06-29)

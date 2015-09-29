@@ -55,6 +55,15 @@ public abstract class BaseTagger implements Tagger {
   @Nullable
   public abstract String getManualAdditionsFileName();
 
+  /**
+   * Get the filename for manual removals, e.g., {@code /en/removed.txt}, or {@code null}.
+   * @since 3.2
+   */
+  @Nullable
+  public String getManualRemovalsFileName() {
+    return null;
+  }
+
   /** @since 2.9 */
   public BaseTagger(String filename) {
     this(filename, Locale.getDefault(), true);
@@ -102,11 +111,18 @@ public abstract class BaseTagger implements Tagger {
   private WordTagger initWordTagger(String filename) {
     MorfologikTagger morfologikTagger = new MorfologikTagger(filename);
     try {
-      String manualFileName = getManualAdditionsFileName();
-      if (manualFileName != null) {
-        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(manualFileName)) {
+      String manualRemovalFileName = getManualRemovalsFileName();
+      ManualTagger removalTagger = null;
+      if (manualRemovalFileName != null) {
+        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(manualRemovalFileName)) {
+          removalTagger = new ManualTagger(stream);
+        }
+      }
+      String manualAdditionFileName = getManualAdditionsFileName();
+      if (manualAdditionFileName != null) {
+        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(manualAdditionFileName)) {
           ManualTagger manualTagger = new ManualTagger(stream);
-          return new CombiningTagger(morfologikTagger, manualTagger, overwriteWithManualTagger());
+          return new CombiningTagger(morfologikTagger, manualTagger, removalTagger, overwriteWithManualTagger());
         }
       } else {
         return morfologikTagger;

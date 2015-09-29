@@ -36,6 +36,11 @@ public class EnglishTagger extends BaseTagger {
     return "/en/added.txt";
   }
 
+  @Override
+  public String getManualRemovalsFileName() {
+    return "/en/removed.txt";
+  }
+
   public EnglishTagger() {
     super("/en/english.dict", Locale.ENGLISH);
   }

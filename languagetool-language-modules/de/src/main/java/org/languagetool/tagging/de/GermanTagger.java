@@ -51,6 +51,11 @@ public class GermanTagger extends BaseTagger {
     return "/de/added.txt";
   }
 
+  @Override
+  public String getManualRemovalsFileName() {
+    return "/de/removed.txt";
+  }
+  
   /**
    * Return only the first reading of the given word or {@code null}.
    */

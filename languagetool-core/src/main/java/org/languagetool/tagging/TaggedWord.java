@@ -44,4 +44,21 @@ public final class TaggedWord {
   public String toString() {
     return lemma + "/" + posTag;
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    TaggedWord that = (TaggedWord) o;
+    if (lemma != null ? !lemma.equals(that.lemma) : that.lemma != null) return false;
+    if (posTag != null ? !posTag.equals(that.posTag) : that.posTag != null) return false;
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int result = lemma != null ? lemma.hashCode() : 0;
+    result = 31 * result + (posTag != null ? posTag.hashCode() : 0);
+    return result;
+  }
 }

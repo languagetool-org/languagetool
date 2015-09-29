@@ -20,6 +20,7 @@ package org.languagetool.tagging;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Tags a word using two taggers, combining their results.
@@ -29,17 +30,25 @@ public class CombiningTagger implements WordTagger {
 
   private final WordTagger tagger1;
   private final WordTagger tagger2;
+  private final WordTagger removalTagger;
   private final boolean overwriteWithSecondTagger;
+
+  public CombiningTagger(WordTagger tagger1, WordTagger tagger2, boolean overwriteWithSecondTagger) {
+    this(tagger1, tagger2, null, overwriteWithSecondTagger);
+  }
 
   /**
    * @param tagger1 typically the tagger that takes its data from the binary file
    * @param tagger2 typically the tagger that takes its data from the plain text file {@code added.txt}
+   * @param removalTagger the tagger that removes readings which takes its data from the plain text file {@code removed.txt}, or {@code null}
    * @param overwriteWithSecondTagger if set to {@code true}, only the second tagger's result will be
-   *                                  used if both taggers can tag that word
+   *                                  used if both first and second tagger can tag that word
+   * @since 3.2
    */
-  public CombiningTagger(WordTagger tagger1, WordTagger tagger2, boolean overwriteWithSecondTagger) {
+  public CombiningTagger(WordTagger tagger1, WordTagger tagger2, WordTagger removalTagger, boolean overwriteWithSecondTagger) {
     this.tagger1 = tagger1;
     this.tagger2 = tagger2;
+    this.removalTagger = removalTagger;
     this.overwriteWithSecondTagger = overwriteWithSecondTagger;
   }
 
@@ -50,7 +59,25 @@ public class CombiningTagger implements WordTagger {
     if (!(overwriteWithSecondTagger && result.size() > 0)) {
       result.addAll(tagger1.tag(word));
     }
+    if (removalTagger != null) {
+      removeReadings(word, result);
+    }
     return result;
+  }
+
+  private void removeReadings(String word, List<TaggedWord> result) {
+    List<TaggedWord> removalTags = removalTagger.tag(word);
+    List<TaggedWord> toRemove = new ArrayList<>();
+    for (TaggedWord taggedWord : result) {
+      for (TaggedWord removalTag : removalTags) {
+        if (Objects.equals(taggedWord.getLemma(), removalTag.getLemma()) && Objects.equals(taggedWord.getPosTag(), removalTag.getPosTag())) {
+          toRemove.add(removalTag);
+        }
+      }
+    }
+    for (TaggedWord taggedWord : toRemove) {
+      result.remove(taggedWord);
+    }
   }
 
 }
