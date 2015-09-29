@@ -20,7 +20,6 @@ package org.languagetool.tagging;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Tags a word using two taggers, combining their results.
@@ -60,24 +59,10 @@ public class CombiningTagger implements WordTagger {
       result.addAll(tagger1.tag(word));
     }
     if (removalTagger != null) {
-      removeReadings(word, result);
+      List<TaggedWord> removalTags = removalTagger.tag(word);
+      result.removeAll(removalTags);
     }
     return result;
   }
-
-  private void removeReadings(String word, List<TaggedWord> result) {
-    List<TaggedWord> removalTags = removalTagger.tag(word);
-    List<TaggedWord> toRemove = new ArrayList<>();
-    for (TaggedWord taggedWord : result) {
-      for (TaggedWord removalTag : removalTags) {
-        if (Objects.equals(taggedWord.getLemma(), removalTag.getLemma()) && Objects.equals(taggedWord.getPosTag(), removalTag.getPosTag())) {
-          toRemove.add(removalTag);
-        }
-      }
-    }
-    for (TaggedWord taggedWord : toRemove) {
-      result.remove(taggedWord);
-    }
-  }
-
+  
 }
