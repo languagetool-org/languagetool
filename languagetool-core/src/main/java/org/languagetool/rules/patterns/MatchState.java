@@ -238,7 +238,6 @@ public class MatchState {
 
   /**
    * Gets all strings formatted using the match element.
-   * @throws IOException in case of synthesizer-related I/O problems
    */
   public final String[] toFinalString(Language lang) throws IOException {
     String[] formattedString = new String[1];
@@ -409,19 +408,12 @@ public class MatchState {
   /**
    * Method for getting the formatted match as a single string. In case of
    * multiple matches, it joins them using a regular expression operator "|".
-   *
    * @return Formatted string of the matched token.
+   * @deprecated will be made non-public (deprecated since 3.2)
    */
-  public final String toTokenString() throws IOException {
-    final StringBuilder output = new StringBuilder();
-    final String[] stringToFormat = toFinalString(null);
-    for (int i = 0; i < stringToFormat.length; i++) {
-      output.append(stringToFormat[i]);
-      if (i + 1 < stringToFormat.length) {
-        output.append('|');
-      }
-    }
-    return output.toString();
+  final String toTokenString() throws IOException {
+    String[] stringToFormat = toFinalString(null);
+    return StringTools.listToString(Arrays.asList(stringToFormat), "|");
   }
 
   public Match getMatch() {

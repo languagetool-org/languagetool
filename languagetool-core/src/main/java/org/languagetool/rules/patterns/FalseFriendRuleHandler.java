@@ -29,10 +29,11 @@ import org.xml.sax.SAXException;
 
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 class FalseFriendRuleHandler extends XMLRuleHandler {
 
-  /** Definitions of values in XML files. */
+  // Definitions of values in XML files:
   private static final String TRANSLATION = "translation";
 
   private final ResourceBundle messages;
@@ -143,11 +144,9 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
           }
           rules.add(rule);
         }
-
         if (patternTokens != null) {
           patternTokens.clear();
         }
-
         break;
       case TOKEN:
         finalizeTokens();
@@ -172,8 +171,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
         if (inCorrectExample) {
           correctExamples.add(correctExample.toString());
         } else if (inIncorrectExample) {
-          incorrectExamples
-                  .add(new IncorrectExample(incorrectExample.toString()));
+          incorrectExamples.add(new IncorrectExample(incorrectExample.toString()));
         }
         inCorrectExample = false;
         inIncorrectExample = false;
@@ -195,17 +193,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   }
 
   private String formatTranslations(final List<StringBuilder> translations) {
-    final StringBuilder sb = new StringBuilder();
-    for (final Iterator<StringBuilder> iter = translations.iterator(); iter.hasNext();) {
-      final StringBuilder trans = iter.next();
-      sb.append('"');
-      sb.append(trans);
-      sb.append('"');
-      if (iter.hasNext()) {
-        sb.append(", ");
-      }
-    }
-    return sb.toString();
+    return translations.stream().map(o -> "\"" + o + "\"").collect(Collectors.joining(", "));
   }
 
   @Override

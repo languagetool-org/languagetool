@@ -16,6 +16,8 @@ LanguageTool requires Java 8 now
 
 #### API
   * `RuleAsXmlSerializer` has been renamed to `RuleMatchAsXmlSerializer`
+  * some formerly deprecated code has been removed
+  * some code has been deprecated
 
 
 

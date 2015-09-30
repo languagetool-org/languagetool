@@ -271,7 +271,6 @@ public class Unifier {
    * Make sure that we really matched all the required features of the unification.
    * @param uFeatures Features to be checked
    * @return True if the token sequence has been found.
-   *
    * @since 2.5
    */
   public final boolean getFinalUnificationValue(final Map<String, List<String>> uFeatures) {
@@ -303,8 +302,9 @@ public class Unifier {
         }
 
       }
-      if (!unifiedTokensFound)
+      if (!unifiedTokensFound) {
         return false;
+      }
     }
     if (tokUnified == tokSequence.size()) {
       return true;
@@ -331,7 +331,6 @@ public class Unifier {
 
   /**
    * Gets a full sequence of filtered tokens.
-   * 
    * @return Array of AnalyzedTokenReadings that match equivalence relation
    *         defined for features tested, or {@code null}
    */
@@ -436,7 +435,6 @@ public class Unifier {
    * Used to add neutral elements ({@link AnalyzedTokenReadings} to the
    * unified sequence. Useful if the sequence contains punctuation or connectives, for example.
    * @param analyzedTokenReadings A neutral element to be added.
-   *
    * @since 2.5
    */
   public final void addNeutralElement(final AnalyzedTokenReadings analyzedTokenReadings) {
@@ -454,7 +452,6 @@ public class Unifier {
   /**
    * Used for getting a unified sequence in case when simple test method
    * {@link #isUnified(AnalyzedToken, Map, boolean)}} was used.
-   * 
    * @return An array of {@link AnalyzedTokenReadings} or {@code null} when not in unification
    */
   @Nullable

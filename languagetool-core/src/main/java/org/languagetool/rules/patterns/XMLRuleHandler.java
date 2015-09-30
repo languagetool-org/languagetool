@@ -560,12 +560,10 @@ public class XMLRuleHandler extends DefaultHandler {
     } else {
       patternToken.setStringElement(elements.toString());
     }
-
     if (skipPos != 0) {
       patternToken.setSkipNext(skipPos);
       skipPos = 0;
     }
-
     if (minOccurrence == 0) {
       patternToken.setMinOccurrence(0);
     }
@@ -581,11 +579,9 @@ public class XMLRuleHandler extends DefaultHandler {
       patternToken.setChunkTag(chunkTag);
       chunkTag = null;
     }
-
     if (tokenReference != null) {
       patternToken.setMatch(tokenReference);
     }
-
     if (inAndGroup && andGroupCounter > 0) {
       patternTokens.get(patternTokens.size() - 1).setAndGroupElement(patternToken);
         if (minOccurrence !=1 || maxOccurrence !=1) {
@@ -612,17 +608,13 @@ public class XMLRuleHandler extends DefaultHandler {
     if (inOrGroup) {
       orGroupCounter++;
     }
-
     if (inUnification) {
       patternToken.setUnification(equivalenceFeatures);
     }
-
     if (inUnificationNeutral) {
       patternToken.setUnificationNeutral();
     }
-
     patternToken.setInsideMarker(inMarker);
-
     if (inUnificationDef) {
       language.getUnifierConfiguration().setEquivalence(uFeature, uType, patternToken);
       patternTokens.clear();

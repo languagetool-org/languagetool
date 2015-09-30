@@ -623,7 +623,6 @@ public class PatternToken implements Cloneable {
 
   /**
    * Gets the phrase the element is in.
-   * 
    * @return String The name of the phrase.
    */
   @Nullable
