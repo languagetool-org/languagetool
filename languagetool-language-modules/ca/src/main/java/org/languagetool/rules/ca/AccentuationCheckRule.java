@@ -165,7 +165,7 @@ public class AccentuationCheckRule extends CatalanRule {
       final Matcher mArticleELFP = ARTICLE_EL_FP.matcher(prevToken);
 
       // VERB WITHOUT ACCENT -> NOUN WITH ACCENT
-      if (isRelevantWord && !matchPostagRegexp(tokens[i], GN)) {
+      if (isRelevantWord && !matchPostagRegexp(tokens[i], GN) && !matchPostagRegexp(tokens[i], LOCUCIONS)) {
         // amb renuncies
         if (tokens[i - 1].hasPosTag("SPS00") && !tokens[i - 1].hasPosTag("RG")
             && !matchPostagRegexp(tokens[i - 1], DETERMINANT)
@@ -301,7 +301,7 @@ public class AccentuationCheckRule extends CatalanRule {
       }
 
       // VERB WITHOUT ACCENT -> ADJECTIVE WITH ACCENT
-      if (isRelevantWord2 && !matchPostagRegexp(tokens[i], GN)) {
+      if (isRelevantWord2 && !matchPostagRegexp(tokens[i], GN) && !matchPostagRegexp(tokens[i], LOCUCIONS)) {
         // de manera obvia, circumstàncies extraordinaries.
         if ((matchPostagRegexp(relevantWords2.get(token), ADJECTIU_MS) && matchPostagRegexp(tokens[i - 1], NOM_MS)
               && !tokens[i - 1].hasPosTag("_GN_FS") && matchPostagRegexp(tokens[i], VERB_CONJUGAT) 

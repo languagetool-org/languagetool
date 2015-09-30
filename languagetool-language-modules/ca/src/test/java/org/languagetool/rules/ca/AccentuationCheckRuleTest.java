@@ -43,6 +43,7 @@ public class AccentuationCheckRuleTest extends TestCase {
   public void testRule() throws IOException {
 
     // correct sentences:
+    assertCorrect("Va tocar l'ària da capo de les variacions Goldberg.");
     assertCorrect("A ponent continua la serra de Fontpobra");
     assertCorrect("com a base de la categoria faria que els enllaços");
     assertCorrect("De jove faria amistat amb ells");
