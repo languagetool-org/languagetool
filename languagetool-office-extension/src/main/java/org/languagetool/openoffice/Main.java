@@ -130,7 +130,7 @@ public class Main extends WeakBase implements XJobExecutor,
         disabledRules = new HashSet<>();
       }
       disabledRulesUI = new HashSet<>(disabledRules);
-    } catch (final Throwable t) {
+    } catch (Throwable t) {
       showError(t);
     }
   }
@@ -146,7 +146,7 @@ public class Main extends WeakBase implements XJobExecutor,
       final Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xContext);
       final XDesktop xDesktop = UnoRuntime.queryInterface(XDesktop.class, desktop);
       return xDesktop.getCurrentComponent();
-    } catch (final Throwable t) {
+    } catch (Throwable t) {
       showError(t);
       return null;
     }
@@ -210,7 +210,7 @@ public class Main extends WeakBase implements XJobExecutor,
         JOptionPane.showMessageDialog(null, message);
         return null;
       }
-    } catch (final Throwable t) {
+    } catch (Throwable t) {
       showError(t);
       return null;
     }
@@ -254,7 +254,7 @@ public class Main extends WeakBase implements XJobExecutor,
       paRes.aProperties = propertyValues;
       int[] footnotePositions = getPropertyValues("FootnotePositions", propertyValues);  // since LO 4.3
       return doGrammarCheckingInternal(paraText, locale, paRes, footnotePositions);
-    } catch (final Throwable t) {
+    } catch (Throwable t) {
       showError(t);
       return paRes;
     }
@@ -351,7 +351,7 @@ public class Main extends WeakBase implements XJobExecutor,
             }
           }
         }
-      } catch (final Throwable t) {
+      } catch (Throwable t) {
         showError(t);
         paRes.nBehindEndOfSentencePosition = paraText.length();
       }
@@ -397,7 +397,7 @@ public class Main extends WeakBase implements XJobExecutor,
         }
       }
       recheck = false;
-    } catch (final Throwable t) {
+    } catch (Throwable t) {
       showError(t);
     }
   }
@@ -445,7 +445,7 @@ public class Main extends WeakBase implements XJobExecutor,
         paragraphMatches = langTool.check(paraText, false,
             JLanguageTool.ParagraphHandling.ONLYPARA);
         this.docID = docID;
-      } catch (final Throwable t) {
+      } catch (Throwable t) {
         showError(t);
       }
     }
@@ -555,7 +555,7 @@ public class Main extends WeakBase implements XJobExecutor,
         }
       }
       return locales.toArray(new Locale[locales.size()]);
-    } catch (final Throwable t) {
+    } catch (Throwable t) {
       showError(t);
       return new Locale[0];
     }
@@ -577,7 +577,7 @@ public class Main extends WeakBase implements XJobExecutor,
           return true;
         }
       }
-    } catch (final Throwable t) {
+    } catch (Throwable t) {
       showError(t);
     }
     return false;
@@ -694,7 +694,7 @@ public class Main extends WeakBase implements XJobExecutor,
       } else {
         System.err.println("Sorry, don't know what to do, sEvent = " + sEvent);
       }
-    } catch (final Throwable e) {
+    } catch (Throwable e) {
       showError(e);
     }
   }
@@ -791,7 +791,7 @@ public class Main extends WeakBase implements XJobExecutor,
     config.setDisabledRuleIds(disabledRulesUI);
     try {
       config.saveConfiguration(langTool.getLanguage());
-    } catch (final Throwable t) {
+    } catch (Throwable t) {
       showError(t);
     }
     recheck = true;
@@ -808,7 +808,7 @@ public class Main extends WeakBase implements XJobExecutor,
     config.setDisabledRuleIds(disabledRules);
     try {
       config.saveConfiguration(langTool.getLanguage());
-    } catch (final Throwable t) {
+    } catch (Throwable t) {
       showError(t);
     }
     recheck = true;

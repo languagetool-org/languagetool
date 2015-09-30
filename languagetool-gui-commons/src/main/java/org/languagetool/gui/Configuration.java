@@ -397,7 +397,7 @@ public class Configuration {
       //store config for other languages
       loadConfigForOtherLanguages(lang, props);
       
-    } catch (final FileNotFoundException e) {
+    } catch (FileNotFoundException e) {
       // file not found: okay, leave disabledRuleIds empty
     }
   }

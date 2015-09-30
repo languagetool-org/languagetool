@@ -41,7 +41,7 @@ final class ResourceBundleTools {
       final ResourceBundle bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE);
       final ResourceBundle fallbackBundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
       return new ResourceBundleWithFallback(bundle, fallbackBundle);
-    } catch (final MissingResourceException e) {
+    } catch (MissingResourceException e) {
       return ResourceBundle.getBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
     }
   }
@@ -65,7 +65,7 @@ final class ResourceBundleTools {
       }
       final ResourceBundle fallbackBundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
       return new ResourceBundleWithFallback(bundle, fallbackBundle);
-    } catch (final MissingResourceException e) {
+    } catch (MissingResourceException e) {
       return ResourceBundle.getBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
     }
   }

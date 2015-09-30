@@ -302,10 +302,10 @@ public abstract class Language {
   public final String getTranslatedName(final ResourceBundle messages) {
     try {
       return messages.getString(getShortNameWithCountryAndVariant());
-    } catch (final MissingResourceException e) {
+    } catch (MissingResourceException e) {
       try {
         return messages.getString(getShortName());
-      } catch (final MissingResourceException e1) {
+      } catch (MissingResourceException e1) {
         return getName();
       }
     }

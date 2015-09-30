@@ -183,7 +183,7 @@ public final class Tools {
                   + ", it supports only these constructors: " + Arrays.toString(constructors));
         }
       }
-    } catch (final Exception e) {
+    } catch (Exception e) {
       throw new RuntimeException("Failed to load bitext rules", e);
     }
     return rules;

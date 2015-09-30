@@ -45,7 +45,7 @@ public class BitextPatternRuleLoader extends DefaultHandler {
       saxParser.parse(is, handler);
       rules = handler.getBitextRules();
       return rules;
-    } catch (final Exception e) {
+    } catch (Exception e) {
       throw new IOException("Cannot load or parse '" + filename + "'", e);
     }
   }

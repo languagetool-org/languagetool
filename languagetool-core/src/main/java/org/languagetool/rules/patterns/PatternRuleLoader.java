@@ -72,7 +72,7 @@ public class PatternRuleLoader extends DefaultHandler {
       saxParser.getXMLReader().setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
       saxParser.parse(is, handler);
       return handler.getRules();
-    } catch (final Exception e) {
+    } catch (Exception e) {
       throw new IOException("Cannot load or parse input stream of '" + filename + "'", e);
     }
   }
