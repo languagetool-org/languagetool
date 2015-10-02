@@ -51,6 +51,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY nombres_que_apostrofen "(1{1,2}|11[.\s]?\d{3}|1{1,2}\.\d{3}\.\d{3}|1{1,2}\s\d{3}\s\d{3}|1{1,2}\d{6})([,]\d+)?([&#37;&#8240;&#8241;′″]|&#176;[CFKNSEW]?)?|11[aèé]">
     <!ENTITY noms_ABAIXAR_APUJAR "calefacció|impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista">
     <!ENTITY noms_collectius "majoria|parell|gent|grup|colla|família|part|nombre">
+    <!ENTITY noms_lletres "a|e|i|o|efa|ef|efe|hac|ela|ele|ema|eme|em|ena|ene|erra|erre|er|essa|esse|ics|enya">
     <!ENTITY numerals_unitats "pocs|poques|tants|tantes|u|un|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou|deu|((un|quatr|cinqu|[hv]uit|nov)(è|é|ena|ens|enes))|(dos|tres)(è|é|ena|ens|enes)">
     <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|templer|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim|caputxí|carmelità">
     <!ENTITY ordes_invariable "conventual|mendicant|militar|major|menor|marista|jesuïta|regular">
@@ -14046,7 +14047,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>de</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|hosts?|el|els|a|e|i|o|u|efa|ef|efe|hac|ela|ele|ema|eme|em|ena|ene|erra|erre|essa|esse|ics|iure|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|V.[MSI].*|NP..000" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|hosts?|el|els|&noms_lletres;|iure|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|V.[MSI].*|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>d'<match no="2"></match></suggestion>
@@ -14330,7 +14331,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>d'</token>
-                    <token regexp="yes">(?-i)a|e|i|o|efa|ef|efe|hac|ela|ele|ema|eme|em|ena|ene|erra|erre|er|essa|esse|ics<exception regexp="yes">(?-i)I</exception></token>
+                    <token regexp="yes">(?-i)&noms_lletres;<exception regexp="yes">(?-i)I</exception></token>
                 </pattern>
                 <message>Els noms de lletra no s'apostrofen.</message>
                 <suggestion>de <match no="2"></match></suggestion>
@@ -14343,7 +14344,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>l'</token>
-                    <token regexp="yes">(?-i)a|e|i|o|efa|ef|efe|hac|ela|ele|ema|eme|em|ena|ene|er|essa|esse|ics<exception regexp="yes">(?-i)I</exception></token>
+                    <token regexp="yes">(?-i)&noms_lletres;<exception regexp="yes">(?-i)I</exception></token>
                 </pattern>
                 <message>Els noms de lletra no s'apostrofen.</message>
                 <suggestion>la <match no="2"></match></suggestion>
