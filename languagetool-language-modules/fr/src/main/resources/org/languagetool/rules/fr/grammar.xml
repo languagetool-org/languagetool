@@ -8440,6 +8440,33 @@ though, and has since been slightly modified)-->
         <example>Nous convenons en particulier ce qui suit.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="QUE_VCONJ" name="Verbe conjugué après pronom relatif que">
+      <rule>
+        <pattern>
+          <token>que</token>
+          <marker><token postag="V.* [12] .*" postag_regexp="yes"><exception postag="[NJ].*|V.* 3 .*|V.* inf" postag_regexp="yes"/></token></marker>
+          <token><exception regexp="yes">tu|je|[nv]ous|donc</exception></token>
+        </pattern>
+        <message>Le verbe « \2 » devrait être à la 3e personne.</message>
+        <example correction="">Que <marker>serai</marker> la terre sans l’homme ?</example>
+        <example>Que serait la terre sans l’homme ?</example>
+        <example>C’est là que volèrent la reine et son essaim.</example>
+        <example>Je n’ai que mépris pour son comportement.</example>
+        <example>Que vas donc tu faire ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>qu</token>
+          <token regexp="yes">['´‘’′]</token>
+          <marker><token postag="V.* [12] .*" postag_regexp="yes"><exception postag="[NJ].*|V.* 3 .*|V.* inf" postag_regexp="yes"/></token></marker>
+          <token><exception regexp="yes">tu|je|[nv]ous|donc</exception></token>
+        </pattern>
+        <message>Le verbe « \3 » devrait être à la 3e personne.</message>
+        <example correction="">Jamais je ne pensais qu'<marker>arriverai</marker> le jour où je ne pourrais dire ça.</example>
+        <example>Mieux vaut arriver tôt qu’arriver tard.</example>
+        <example>Qu’as donc tu fait ?</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="QUI_VCONJ" name="Verbe conjugué après pronom relatif qui">
       <rule>
         <pattern>
