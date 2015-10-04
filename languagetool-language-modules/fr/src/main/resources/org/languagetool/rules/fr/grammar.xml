@@ -10163,6 +10163,29 @@ though, and has since been slightly modified)-->
         <example>La quarante-quatrième.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="INV_T_EUPHONIQUE" name="t euphonique invalide">
+      <rule>
+        <pattern>
+          <token regexp="yes">.*[-‑‐]t[-‑‐]en</token>
+        </pattern>
+        <message>Ne pas confondre le t euphonique et l’apostrophe. Écrivez <suggestion><match no="1" regexp_match="[-‑‐]en$" regexp_replace="’en"/></suggestion>.</message>
+
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?T1=t+euphonique</url>
+        <example correction="Va-t’en"><marker>Va-t-en</marker> !</example>
+        <example>C’est un va-t-en-guerre.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">.*[-‑‐]t[-‑‐].*<exception regexp="yes">.*-(ils?|elles?|on)|va-t-en-guerre</exception></token>
+        </pattern>
+        <message>Le t eurphonique ne peut s’employer qu'avec il, ils, elle, elles ou on.</message>
+        <url>http://www.academie-francaise.fr/quatre-z-assiettes-il-va-t-la-peche</url>
+        <example correction="">Il <marker>va-t-à</marker> la pêche.</example>
+        <example correction=""><marker>Va-t-en</marker> !</example>
+        <example>Va-t-elle venir ?</example>
+        <example>C’est un va-t-en-guerre.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="LA" name="là sans trait d’union">
       <rule>
         <pattern>
