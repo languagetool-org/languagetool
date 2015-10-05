@@ -20,7 +20,7 @@ package org.languagetool;
 
 import org.languagetool.language.Contributor;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -48,7 +48,7 @@ public class FakeLanguage extends Language {
   }
 
   @Override
-  protected synchronized List<PatternRule> getPatternRules() throws IOException {
+  protected synchronized List<AbstractPatternRule> getPatternRules() throws IOException {
     return Collections.emptyList();
   }
 

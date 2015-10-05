@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules;
 
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,12 +61,12 @@ public class RuleWithMaxFilter implements RuleMatchFilter {
   }
 
   private boolean haveSameRule(final RuleMatch match, final RuleMatch nextMatch) {
-    if (!(match.getRule() instanceof PatternRule) || !(nextMatch.getRule() instanceof PatternRule)) {
+    if (!(match.getRule() instanceof AbstractPatternRule) || !(nextMatch.getRule() instanceof AbstractPatternRule)) {
       return false;
     }
     final String id1 = match.getRule().getId();
-    final String subId1 = ((PatternRule) match.getRule()).getSubId();
-    final String subId2 = ((PatternRule) nextMatch.getRule()).getSubId();
+    final String subId1 = ((AbstractPatternRule) match.getRule()).getSubId();
+    final String subId2 = ((AbstractPatternRule) nextMatch.getRule()).getSubId();
     if (subId1 == null &&  subId2 != null) {
       return false;
     }

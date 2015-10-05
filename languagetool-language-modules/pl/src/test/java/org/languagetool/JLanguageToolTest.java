@@ -27,14 +27,14 @@ import junit.framework.TestCase;
 
 import org.languagetool.language.Polish;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 
 public class JLanguageToolTest extends TestCase {
 
   public void testPolish() throws IOException {
     final Polish noXmlRulesPolish = new Polish() {
       @Override
-      public List<PatternRule> getPatternRules() {
+      public List<AbstractPatternRule> getPatternRules() {
         return Collections.emptyList();
       }
     };

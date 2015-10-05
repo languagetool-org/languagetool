@@ -28,7 +28,7 @@ import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 
 public class RuleTest extends TestCase {
 
@@ -45,7 +45,7 @@ public class RuleTest extends TestCase {
       final JLanguageTool lt = new JLanguageTool(language);
       final List<Rule> allRules = lt.getAllRules();
       for (Rule rule : allRules) {
-        if (!(rule instanceof PatternRule)) {
+        if (!(rule instanceof AbstractPatternRule)) {
           assertIdUniqueness(ids, ruleClasses, language, rule);
           assertIdValidity(language, rule);
           assertTrue(rule.supportsLanguage(language));

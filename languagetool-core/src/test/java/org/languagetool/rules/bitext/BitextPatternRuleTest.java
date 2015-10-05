@@ -29,7 +29,7 @@ import org.languagetool.*;
 import org.languagetool.bitext.StringPair;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.bitext.BitextPatternRule;
 import org.languagetool.rules.patterns.bitext.BitextPatternRuleLoader;
 
@@ -87,7 +87,7 @@ public class BitextPatternRuleTest extends TestCase {
 
   private void testBadSentence(final String origBadSentence,
                                final List<String> suggestedCorrection, final int expectedMatchStart,
-                               final int expectedMatchEnd, final PatternRule rule,
+                               final int expectedMatchEnd, final AbstractPatternRule rule,
                                final Language lang,
                                final JLanguageTool languageTool) throws IOException {
     final String badSentence = cleanXML(origBadSentence);

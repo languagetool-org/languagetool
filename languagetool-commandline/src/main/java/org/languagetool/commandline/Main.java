@@ -27,7 +27,7 @@ import org.languagetool.language.English;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.bitext.BitextRule;
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.tools.JnaTools;
 import org.languagetool.tools.Tools;
@@ -99,8 +99,8 @@ class Main {
   private void addExternalRules(String filename) throws IOException {
     PatternRuleLoader ruleLoader = new PatternRuleLoader();
     try (InputStream is = new FileInputStream(filename)) {
-      List<PatternRule> externalRules = ruleLoader.getRules(is, filename);
-      for (PatternRule externalRule : externalRules) {
+      List<AbstractPatternRule> externalRules = ruleLoader.getRules(is, filename);
+      for (AbstractPatternRule externalRule : externalRules) {
         lt.addRule(externalRule);
       }
     }
@@ -499,8 +499,8 @@ class Main {
 
     final Main prg = new Main(options);
     if (options.getFalseFriendFile() != null) {
-      List<PatternRule> ffRules = prg.lt.loadFalseFriendRules(options.getFalseFriendFile());
-      for (PatternRule ffRule : ffRules) {
+      List<AbstractPatternRule> ffRules = prg.lt.loadFalseFriendRules(options.getFalseFriendFile());
+      for (AbstractPatternRule ffRule : ffRules) {
         prg.lt.addRule(ffRule);
       }
     }

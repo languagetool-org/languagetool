@@ -36,7 +36,7 @@ public class PatternRuleLoaderTest extends TestCase {
   public void testGetRules() throws Exception {
     final PatternRuleLoader prg = new PatternRuleLoader();
     final String name = "/xx/grammar.xml";
-    final List<PatternRule> rules = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(name), name);
+    final List<AbstractPatternRule> rules = prg.getRules(JLanguageTool.getDataBroker().getFromRulesDirAsStream(name), name);
     assertTrue(rules.size() >= 30);
 
     final Rule demoRule1 = getRuleById("DEMO_RULE", rules);
@@ -104,15 +104,15 @@ public class PatternRuleLoaderTest extends TestCase {
     }
   }
 
-  private Set<String> getCategoryNames(List<PatternRule> rules) {
+  private Set<String> getCategoryNames(List<AbstractPatternRule> rules) {
     final Set<String> categories = new HashSet<>();
-    for (PatternRule rule : rules) {
+    for (AbstractPatternRule rule : rules) {
       categories.add(rule.getCategory().getName());
     }
     return categories;
   }
 
-  private Rule getRuleById(String id, List<PatternRule> rules) {
+  private Rule getRuleById(String id, List<AbstractPatternRule> rules) {
     for (Rule rule : rules) {
       if (rule.getId().equals(id)) {
         return rule;
@@ -121,7 +121,7 @@ public class PatternRuleLoaderTest extends TestCase {
     throw new RuntimeException("No rule found for id '" + id + "'");
   }
 
-  private List<Rule> getRulesById(String id, List<PatternRule> rules) {
+  private List<Rule> getRulesById(String id, List<AbstractPatternRule> rules) {
     final List<Rule> result = new ArrayList<>();
     for (Rule rule : rules) {
       if (rule.getId().equals(id)) {

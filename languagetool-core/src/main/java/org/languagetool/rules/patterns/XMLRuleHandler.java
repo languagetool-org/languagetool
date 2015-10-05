@@ -88,7 +88,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String MESSAGE = "message";
   protected static final String SUGGESTION = "suggestion";
 
-  protected List<PatternRule> rules = new ArrayList<>();
+  protected List<AbstractPatternRule> rules = new ArrayList<>();
   protected Language language;
 
   protected StringBuilder correctExample = new StringBuilder();
@@ -188,6 +188,10 @@ public class XMLRuleHandler extends DefaultHandler {
   protected boolean inUrlForRuleGroup;
   protected StringBuilder url = new StringBuilder();
   protected StringBuilder urlForRuleGroup = new StringBuilder();
+  
+  protected boolean inRegex;
+  protected StringBuilder regex = new StringBuilder();
+  protected boolean regexCaseSensitive = false;
 
   protected boolean inShortMessage;
   protected boolean inShortMessageForRuleGroup;
@@ -213,7 +217,7 @@ public class XMLRuleHandler extends DefaultHandler {
     uTypeList = new ArrayList<>();
   }
 
-  public List<PatternRule> getRules() {
+  public List<AbstractPatternRule> getRules() {
     return rules;
   }
 
@@ -390,7 +394,7 @@ public class XMLRuleHandler extends DefaultHandler {
       throw new SAXException("References cannot be empty: " + "\n Line: "
           + pLocator.getLineNumber() + ", column: "
           + pLocator.getColumnNumber() + ".");
-    } else if (Integer.parseInt(attrs.getValue("no")) < 1) {
+    } else if (Integer.parseInt(attrs.getValue("no")) < 1 && regex.length() == 0) {
       throw new SAXException("References must be larger than 0: "
           + attrs.getValue("no") + "\n Line: " + pLocator.getLineNumber()
           + ", column: " + pLocator.getColumnNumber() + ".");

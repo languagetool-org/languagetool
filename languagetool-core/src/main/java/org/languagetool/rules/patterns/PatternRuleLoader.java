@@ -42,7 +42,7 @@ public class PatternRuleLoader extends DefaultHandler {
   /**
    * @param file XML file with pattern rules
    */
-  public final List<PatternRule> getRules(final File file) throws IOException {
+  public final List<AbstractPatternRule> getRules(final File file) throws IOException {
     try (InputStream inputStream = new FileInputStream(file)) {
       final PatternRuleLoader ruleLoader = new PatternRuleLoader();
       return ruleLoader.getRules(inputStream, file.getAbsolutePath());
@@ -62,7 +62,7 @@ public class PatternRuleLoader extends DefaultHandler {
    * @param is stream with the XML rules
    * @param filename used only for verbose exception message - should refer to where the stream comes from
    */
-  public final List<PatternRule> getRules(final InputStream is, final String filename) throws IOException {
+  public final List<AbstractPatternRule> getRules(final InputStream is, final String filename) throws IOException {
     try {
       final PatternRuleHandler handler = new PatternRuleHandler();
       handler.setRelaxedMode(relaxedMode);

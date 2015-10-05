@@ -21,13 +21,17 @@ package org.languagetool.rules.patterns;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
 /**
  * An Abstract Pattern Rule that describes a pattern of words or part-of-speech tags 
@@ -41,41 +45,73 @@ public abstract class AbstractPatternRule extends Rule {
 
   protected final Language language;
   protected final List<PatternToken> patternTokens;
+  protected final Pattern regex;
   protected final boolean testUnification;
   protected final boolean sentStart;
+  protected final List<Match> suggestionMatches = new ArrayList<>();
+  protected final List<Match> suggestionMatchesOutMsg = new ArrayList<>();
+  protected final List<DisambiguationPatternRule> antiPatterns = new ArrayList<>();
 
   protected String subId; // because there can be more than one rule in a rule group
   protected int startPositionCorrection;
   protected int endPositionCorrection;
+  protected String suggestionsOutMsg; // extra suggestions outside message
+  protected RuleFilter filter;
+  protected String filterArgs;
+  protected String message;
 
   private final String id;
   private final String description;
   private final boolean getUnified;
   private final boolean groupsOrUnification;
 
-  public AbstractPatternRule(final String id, 
-      final String description,
-      final Language language,
-      final List<PatternToken> patternTokens,
-      final boolean getUnified) {
+  /**
+   * @since 3.2
+   */
+  public AbstractPatternRule(String id, String description, Language language, Pattern regex) {
+    this(id, description, language, null, regex, false);
+  }
+
+  public AbstractPatternRule(String id, String description, Language language, List<PatternToken> patternTokens, boolean getUnified, String message) {
+    this(id, description, language, patternTokens, null, getUnified);
+    this.message = message;
+  }
+
+  public AbstractPatternRule(String id, String description, Language language, List<PatternToken> patternTokens, boolean getUnified) {
+    this(id, description, language, patternTokens, null, getUnified);
+  }
+
+  private AbstractPatternRule(String id, String description, Language language, List<PatternToken> patternTokens, Pattern regex, boolean getUnified) {
     this.id = Objects.requireNonNull(id, "id cannot be null");
     this.description = Objects.requireNonNull(description, "description cannot be null");
-    this.patternTokens = new ArrayList<>(Objects.requireNonNull(patternTokens, "patternTokens cannot be null")); // copy elements
     this.language = Objects.requireNonNull(language, "language cannot be null");
     this.getUnified = getUnified;
-    testUnification = initUnifier();
-    sentStart = this.patternTokens.size() > 0 && this.patternTokens.get(0).isSentenceStart();
-    if (!testUnification) {
-      boolean found = false;
-      for (PatternToken elem : this.patternTokens) {
-        if (elem.hasAndGroup()) {
-          found = true;
-          break;
+    if (patternTokens == null && regex == null) {
+      throw new IllegalArgumentException("patternTokens and regex cannot both be null");
+    }
+    if (patternTokens != null) {
+      this.patternTokens = new ArrayList<>(patternTokens);
+      testUnification = initUnifier();
+      sentStart = this.patternTokens.size() > 0 && this.patternTokens.get(0).isSentenceStart();
+      if (!testUnification) {
+        boolean found = false;
+        for (PatternToken elem : this.patternTokens) {
+          if (elem.hasAndGroup()) {
+            found = true;
+            break;
+          }
         }
+        groupsOrUnification = found;
+      } else {
+        groupsOrUnification = true;
       }
-      groupsOrUnification = found;
+      this.regex = null;
     } else {
-      groupsOrUnification = true;
+      this.regex = regex;
+      this.patternTokens = null;
+      groupsOrUnification = false;
+      sentStart = false;
+      testUnification = false;
     }
   }
 
@@ -182,4 +218,81 @@ public abstract class AbstractPatternRule extends Rule {
   public List<PatternToken> getPatternTokens() {
     return patternTokens;
   }
+
+  /** Add formatted suggestion elements. */
+  public final void addSuggestionMatch(final Match m) {
+    suggestionMatches.add(m);
+  }
+
+  /** Add formatted suggestion elements outside message. */
+  public final void addSuggestionMatchOutMsg(final Match m) {
+    suggestionMatchesOutMsg.add(m);
+  }
+  
+  List<Match> getSuggestionMatches() {
+    return suggestionMatches;
+  }
+
+  List<Match> getSuggestionMatchesOutMsg() {
+    return suggestionMatchesOutMsg;
+  }
+
+  @NotNull
+  public final String getSuggestionsOutMsg() {
+    return suggestionsOutMsg;
+  }
+  
+  /**
+   * Get the message shown to the user if this rule matches.
+   */
+  public final String getMessage() {
+    return message;
+  }
+
+  /**
+   * Set the message shown to the user if this rule matches.
+   */
+  public final void setMessage(final String message) {
+    this.message = message;
+  }
+
+  /** @since 2.7 */
+  void setFilter(RuleFilter filter) {
+    this.filter = filter;
+  }
+
+  /** @since 2.7 */
+  RuleFilter getFilter() {
+    return filter;
+  }
+
+  /** @since 2.7 */
+  void setFilterArguments(String filterArgs) {
+    this.filterArgs = filterArgs;
+  }
+
+  /** @since 2.7 */
+  String getFilterArguments() {
+    return filterArgs;
+  }
+
+  /**
+   * Set up the list of antipatterns used to immunize tokens, i.e., make them
+   * non-matchable by the current rule. Useful for multi-word complex exceptions,
+   * such as multi-word idiomatic expressions.
+   * @param antiPatterns A list of antiPatterns, implemented as {@code DisambiguationPatternRule}.
+   * @since 2.5
+   */
+  public void setAntiPatterns(List<DisambiguationPatternRule> antiPatterns) {
+    this.antiPatterns.addAll(antiPatterns);
+  }
+
+  /**
+   * @since 3.1
+   */
+  @Override
+  public final List<DisambiguationPatternRule> getAntiPatterns() {
+    return Collections.unmodifiableList(antiPatterns);
+  }
+
 }

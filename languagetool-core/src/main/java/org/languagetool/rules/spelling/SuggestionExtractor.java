@@ -20,7 +20,7 @@ package org.languagetool.rules.spelling;
 
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -42,8 +42,8 @@ public class SuggestionExtractor {
    */
   public List<String> getSuggestionTokens(Rule rule, Language language) {
     final List<String> wordsToBeIgnored = new ArrayList<>();
-    if (rule instanceof PatternRule) {
-      final PatternRule patternRule = (PatternRule) rule;
+    if (rule instanceof AbstractPatternRule) {
+      final AbstractPatternRule patternRule = (AbstractPatternRule) rule;
       final String message = patternRule.getMessage();
       final List<String> suggestions = getSimpleSuggestions(message);
       final List<String> tokens = getSuggestionTokens(suggestions, language);

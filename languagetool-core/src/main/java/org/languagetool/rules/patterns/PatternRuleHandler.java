@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.languagetool.Languages;
@@ -102,6 +103,11 @@ public class PatternRuleHandler extends XMLRuleHandler {
       case "rules":
         final String languageStr = attrs.getValue("lang");
         language = Languages.getLanguageForShortName(languageStr);
+        break;
+      case "regexp":
+        inRegex = true;
+        regex = new StringBuilder();
+        regexCaseSensitive = attrs.getValue(CASE_SENSITIVE) != null && YES.equals(attrs.getValue(CASE_SENSITIVE));
         break;
       case RULE:
         inRule = true;
@@ -299,6 +305,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
     switch (qName) {
       case "category":
         categoryIssueType = null;
+        break;
+      case "regexp":
+        inRegex = false;
         break;
       case RULE:
         suggestionMatchesOutMsg = addLegacyMatches(suggestionMatchesOutMsg, suggestionsOutMsg.toString(), false);
@@ -533,9 +542,17 @@ public class PatternRuleHandler extends XMLRuleHandler {
       shortMessage = this.shortMessageForRuleGroup.toString();
     }
     if (numElement >= elemList.size()) {
-      final PatternRule rule = new PatternRule(id, language, tmpPatternTokens, name,
-          message.toString(), shortMessage,
-          suggestionsOutMsg.toString(), phrasePatternTokens.size() > 1);
+      AbstractPatternRule rule;
+      if (tmpPatternTokens.size() > 0) {
+        rule = new PatternRule(id, language, tmpPatternTokens, name,
+                message.toString(), shortMessage,
+                suggestionsOutMsg.toString(), phrasePatternTokens.size() > 1);
+      } else if (regex.length() > 0) {
+        int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE;
+        rule = new RegexPatternRule(id, name, message.toString(), suggestionsOutMsg.toString(), language, Pattern.compile(regex.toString(), flags));
+      } else {
+        throw new IllegalStateException("Neither pattern tokens nor regex is set");
+      }
       if (filterClassName != null && filterArgs != null) {
         RuleFilterCreator creator = new RuleFilterCreator();
         RuleFilter filter = creator.getFilter(filterClassName);
@@ -559,7 +576,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
     }
   }
 
-  protected void prepareRule(final PatternRule rule) {
+  protected void prepareRule(final AbstractPatternRule rule) {
     if (startPos != -1 && endPos != -1) {
       rule.setStartPositionCorrection(startPos);
       rule.setEndPositionCorrection(endPos - tokenCountForMarker);
@@ -653,6 +670,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
       url.append(s);
     } else if (inUrlForRuleGroup) {
       urlForRuleGroup.append(s);
+    } else if (inRegex) {
+      regex.append(s);
     }
   }
 

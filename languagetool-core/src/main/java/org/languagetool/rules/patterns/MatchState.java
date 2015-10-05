@@ -175,44 +175,12 @@ public class MatchState {
 
   /**
    * Converts case of the string token according to match element attributes.
-   *
    * @param s Token to be converted.
-   * @param sample the sample string used to determine how the original string looks like (used on case preservation)
+   * @param sample the sample string used to determine how the original string looks like (used only on case preservation)
    * @return Converted string.
    */
   String convertCase(final String s, String sample, Language lang) {
-    if (StringTools.isEmpty(s)) {
-      return s;
-    }
-    String token = s;
-    switch (match.getCaseConversionType()) {
-    case NONE:
-      break;
-    case PRESERVE:
-      if (StringTools.startsWithUppercase(sample)) {
-        if (StringTools.isAllUppercase(sample)) {
-          token = token.toUpperCase(Locale.ENGLISH);
-        } else {
-          token = StringTools.uppercaseFirstChar(token, lang);
-        }
-      }
-      break;
-    case STARTLOWER:
-      token = token.substring(0, 1).toLowerCase() + token.substring(1);
-      break;
-    case STARTUPPER:
-      token = StringTools.uppercaseFirstChar(token, lang);
-      break;
-    case ALLUPPER:
-      token = token.toUpperCase(Locale.ENGLISH);
-      break;
-    case ALLLOWER:
-      token = token.toLowerCase();
-      break;
-    default:
-      break;
-    }
-    return token;
+    return CaseConversionHelper.convertCase(match.getCaseConversionType(), s, sample, lang);
   }
 
   private List<AnalyzedToken> getNewToken(final int numRead, final String token) {

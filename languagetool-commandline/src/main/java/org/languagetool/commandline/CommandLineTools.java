@@ -26,7 +26,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.TextLevelRule;
 import org.languagetool.rules.bitext.BitextRule;
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tools.ContextTools;
 import org.languagetool.tools.RuleMatchAsXmlSerializer;
@@ -163,8 +163,8 @@ public final class CommandLineTools {
       Rule rule = match.getRule();
       String output = i + prevMatches + ".) Line " + (match.getLine() + 1) + ", column "
               + match.getColumn() + ", Rule ID: " + rule.getId();
-      if (rule instanceof PatternRule) {
-        final PatternRule pRule = (PatternRule) rule;
+      if (rule instanceof AbstractPatternRule) {
+        final AbstractPatternRule pRule = (AbstractPatternRule) rule;
         if (pRule.getSubId() != null) {
           output += "[" + pRule.getSubId() + "]";
         }

@@ -26,6 +26,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.FalseFriendRuleLoader;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
@@ -268,7 +269,7 @@ public class JLanguageTool {
    * @param filename path to an XML file in the classpath or in the filesystem - the classpath is checked first
    * @return a List of {@link PatternRule} objects
    */
-  public List<PatternRule> loadPatternRules(final String filename) throws IOException {
+  public List<AbstractPatternRule> loadPatternRules(final String filename) throws IOException {
     final PatternRuleLoader ruleLoader = new PatternRuleLoader();
     try (InputStream is = this.getClass().getResourceAsStream(filename)) {
       if (is == null) {
@@ -289,7 +290,7 @@ public class JLanguageTool {
    * @param filename path to an XML file in the classpath or in the filesystem - the classpath is checked first
    * @return a List of {@link PatternRule} objects, or an empty list if mother tongue is not set
    */
-  public List<PatternRule> loadFalseFriendRules(final String filename)
+  public List<AbstractPatternRule> loadFalseFriendRules(final String filename)
       throws ParserConfigurationException, SAXException, IOException {
     if (motherTongue == null) {
       return Collections.emptyList();
@@ -324,11 +325,11 @@ public class JLanguageTool {
    * {@code org/languagetool/rules/<languageCode>/grammar.xml}.
    */
   private void activateDefaultPatternRules() throws IOException {
-    final List<PatternRule> patternRules = language.getPatternRules();
+    final List<AbstractPatternRule> patternRules = language.getPatternRules();
     final List<String> enabledRules = language.getDefaultEnabledRulesForVariant();
     final List<String> disabledRules = language.getDefaultDisabledRulesForVariant();
     if (!enabledRules.isEmpty() || !disabledRules.isEmpty()) {
-      for (PatternRule patternRule : patternRules) {
+      for (AbstractPatternRule patternRule : patternRules) {
         if (enabledRules.contains(patternRule.getId())) {
           patternRule.setDefaultOn();
         }
@@ -823,13 +824,13 @@ public class JLanguageTool {
    * @return a List of {@link Rule} objects
    * @since 2.3
    */
-  public List<PatternRule> getPatternRulesByIdAndSubId(String Id, String subId) {
+  public List<AbstractPatternRule> getPatternRulesByIdAndSubId(String Id, String subId) {
     final List<Rule> rules = getAllRules();
-    final List<PatternRule> rulesById = new ArrayList<>();   
+    final List<AbstractPatternRule> rulesById = new ArrayList<>();   
     for (final Rule rule : rules) {
-      if (rule instanceof PatternRule) {
-        if (rule.getId().equals(Id) && ((PatternRule)rule).getSubId().equals(subId)) {
-          rulesById.add((PatternRule) rule);
+      if (rule instanceof AbstractPatternRule) {
+        if (rule.getId().equals(Id) && ((AbstractPatternRule) rule).getSubId().equals(subId)) {
+          rulesById.add((AbstractPatternRule) rule);
         }
       }
     }    

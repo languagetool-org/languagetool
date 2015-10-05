@@ -54,6 +54,9 @@ public final class PatternTestTools {
   // we can probably validate using XSD and specify regexes straight there
   public static void warnIfRegexpSyntaxNotKosher(final List<PatternToken> patternTokens,
           final String ruleId, final String ruleSubId, final Language lang) {
+    if (patternTokens == null) {   // for <regexp>
+      return;
+    }
     int i = 0;
     for (final PatternToken pToken : patternTokens) {
       i++;

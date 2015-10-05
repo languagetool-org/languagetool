@@ -34,7 +34,7 @@ import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 
 @SuppressWarnings("ResultOfObjectAllocationIgnored")
 public class MultiThreadedJLanguageToolTest {
@@ -97,7 +97,7 @@ public class MultiThreadedJLanguageToolTest {
   public void testTwoRulesOnly() throws IOException {
     MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(new FakeLanguage() {
       @Override
-      protected synchronized List<PatternRule> getPatternRules() {
+      protected synchronized List<AbstractPatternRule> getPatternRules() {
         return Collections.emptyList();
       }
 

@@ -24,10 +24,7 @@ import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Contributor;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.patterns.PatternRule;
-import org.languagetool.rules.patterns.PatternRuleLoader;
-import org.languagetool.rules.patterns.Unifier;
-import org.languagetool.rules.patterns.UnifierConfiguration;
+import org.languagetool.rules.patterns.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -68,7 +65,7 @@ public abstract class Language {
 
   private final Pattern ignoredCharactersRegex = Pattern.compile("[\u00AD]");  // soft hyphen
   
-  private List<PatternRule> patternRules;
+  private List<AbstractPatternRule> patternRules;
 
   /**
    * Get this language's character code, e.g. <code>en</code> for English.
@@ -333,10 +330,10 @@ public abstract class Language {
    * @since 2.7
    */
   @SuppressWarnings("resource")
-  protected synchronized List<PatternRule> getPatternRules() throws IOException {
+  protected synchronized List<AbstractPatternRule> getPatternRules() throws IOException {
     // use lazy loading to speed up start of stand-alone LT, where all the languages get initialized:
     if (patternRules == null) {
-      List<PatternRule> rules = new ArrayList<>();
+      List<AbstractPatternRule> rules = new ArrayList<>();
       PatternRuleLoader ruleLoader = new PatternRuleLoader();
       for (String fileName : getRuleFileNames()) {
         InputStream is = null;

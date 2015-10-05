@@ -23,7 +23,7 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.IOException;
 import java.util.*;
@@ -58,7 +58,7 @@ class ExampleSentenceProvider {
     final List<Rule> rules = lt.getAllActiveRules();
     final List<ExampleSentence> sentences = new ArrayList<>();
     for (Rule rule : rules) {
-      if (rule instanceof PatternRule && !rule.isDefaultOff()) {
+      if (rule instanceof AbstractPatternRule && !rule.isDefaultOff()) {
         final List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
         for (IncorrectExample incorrectExample : incorrectExamples) {
           final ExampleSentence sentence = new ExampleSentence(incorrectExample.getExample(), rule.getId());

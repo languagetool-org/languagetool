@@ -27,7 +27,7 @@ import org.languagetool.language.English;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.de.GermanSpellerRule;
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -121,7 +121,7 @@ public class SuggestionReplacerTest extends TestCase {
     String origMarkup = IOUtils.toString(stream, "utf-8");
     JLanguageTool langTool = new JLanguageTool(new GermanyGerman() {
       @Override
-      protected synchronized List<PatternRule> getPatternRules() {
+      protected synchronized List<AbstractPatternRule> getPatternRules() {
         return Collections.emptyList();
       }
     });

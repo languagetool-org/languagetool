@@ -25,7 +25,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 
 /**
  * A bitext pattern rule class. A BitextPatternRule describes a language error and 
@@ -37,19 +37,19 @@ import org.languagetool.rules.patterns.PatternRule;
  */
 public class BitextPatternRule extends BitextRule {
 
-  private final PatternRule srcRule;
-  private final PatternRule trgRule;
+  private final AbstractPatternRule srcRule;
+  private final AbstractPatternRule trgRule;
   
-  BitextPatternRule(final PatternRule src, final PatternRule trg) {    
+  BitextPatternRule(final AbstractPatternRule src, final AbstractPatternRule trg) {    
     srcRule = src;
     trgRule = trg;
   }
   
-  public PatternRule getSrcRule() {
+  public AbstractPatternRule getSrcRule() {
     return srcRule;        
   }
   
-  public PatternRule getTrgRule() {
+  public AbstractPatternRule getTrgRule() {
     return trgRule;
   }
   

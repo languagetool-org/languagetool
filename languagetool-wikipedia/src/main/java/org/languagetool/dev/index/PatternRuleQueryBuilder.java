@@ -30,8 +30,8 @@ import org.apache.lucene.search.spans.SpanTermQuery;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternToken;
-import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.synthesis.Synthesizer;
 
 import java.io.IOException;
@@ -68,7 +68,7 @@ public class PatternRuleQueryBuilder {
    * Iterate over all elements, ignore those not supported, add the other ones to a BooleanQuery.
    * @throws UnsupportedPatternRuleException if no query could be created for the rule
    */
-  public Query buildRelaxedQuery(PatternRule rule) throws UnsupportedPatternRuleException {
+  public Query buildRelaxedQuery(AbstractPatternRule rule) throws UnsupportedPatternRuleException {
     final BooleanQuery booleanQuery = new BooleanQuery();
     for (PatternToken patternToken : rule.getPatternTokens()) {
       try {

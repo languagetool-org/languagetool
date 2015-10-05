@@ -35,7 +35,7 @@ import java.util.List;
 /**
  * Matches a pattern rule against text.
  */
-final class PatternRuleMatcher extends AbstractPatternRulePerformer {
+final class PatternRuleMatcher extends AbstractPatternRulePerformer implements RuleMatcher {
 
   private static final String SUGGESTION_START_TAG = "<suggestion>";
   private static final String SUGGESTION_END_TAG = "</suggestion>";
@@ -50,7 +50,8 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer {
     this.patternTokenMatchers = createElementMatchers();
   }
 
-  RuleMatch[] match(final AnalyzedSentence sentence) throws IOException {
+  @Override
+  public RuleMatch[] match(final AnalyzedSentence sentence) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
 
     final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();

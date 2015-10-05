@@ -21,7 +21,7 @@ package org.languagetool.rules.nl;
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Dutch;
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -32,7 +32,7 @@ public class UppercaseSentenceStartRuleTest extends TestCase {
   public void testDutchSpecialCases() throws IOException {
     final JLanguageTool lt = new JLanguageTool(new Dutch() {
       @Override
-      protected synchronized List<PatternRule> getPatternRules() {
+      protected synchronized List<AbstractPatternRule> getPatternRules() {
         return Collections.emptyList();
       }
     });

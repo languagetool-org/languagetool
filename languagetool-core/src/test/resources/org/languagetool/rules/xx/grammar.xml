@@ -111,6 +111,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </phrases>
 
     <category name="misc">
+        <rule id="REGEX_DEMO_RULE" name="Find 'foo bar'">
+            <regexp>(fo[ou]) bar</regexp>
+            <message>Did you mean <suggestion>\1 baz</suggestion>?</message>
+            <example>This is <marker>fuu bah</marker>.</example>
+            <example correction="foo baz">This is <marker>foo bar</marker>.</example>
+            <example correction="fou baz">This is <marker>fou bar</marker>.</example>
+        </rule>
         <rule id="DEMO_RULE" name="Find 'foo bar'">
             <!-- a trivial demo rule that matches "foo" followed by "bar" -->
             <pattern case_sensitive="no">

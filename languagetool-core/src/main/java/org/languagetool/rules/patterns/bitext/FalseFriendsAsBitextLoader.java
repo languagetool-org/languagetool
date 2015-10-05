@@ -29,8 +29,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.FalseFriendRuleLoader;
-import org.languagetool.rules.patterns.PatternRule;
 import org.xml.sax.SAXException;
 
 /**
@@ -48,17 +48,17 @@ public class FalseFriendsAsBitextLoader {
           SAXException, IOException {
     final FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader();
     final List<BitextPatternRule> bRules = new ArrayList<>();
-    final List<PatternRule> rules1 = ruleLoader.getRules(JLanguageTool
+    final List<AbstractPatternRule> rules1 = ruleLoader.getRules(JLanguageTool
             .getDataBroker().getFromRulesDirAsStream(filename),
             motherTongue, language);
-    final List<PatternRule> rules2 = ruleLoader.getRules(JLanguageTool
+    final List<AbstractPatternRule> rules2 = ruleLoader.getRules(JLanguageTool
             .getDataBroker().getFromRulesDirAsStream(filename),
             language, motherTongue);
-    final Map<String, PatternRule> srcRules = new HashMap<>();
-    for (PatternRule rule : rules1) {
+    final Map<String, AbstractPatternRule> srcRules = new HashMap<>();
+    for (AbstractPatternRule rule : rules1) {
       srcRules.put(rule.getId(), rule);
     }
-    for (PatternRule rule : rules2) {
+    for (AbstractPatternRule rule : rules2) {
       if (srcRules.containsKey(rule.getId())) {
         final BitextPatternRule bRule = new BitextPatternRule(
                 srcRules.get(rule.getId()), rule);

@@ -2,7 +2,11 @@
 
 ## 3.2-SNAPSHOT (release planned for 2015-12-28)
 
-LanguageTool requires Java 8 now
+* LanguageTool requires Java 8 now
+* New rule syntax `<regexp>...<regexp>` as a simple alternative
+  to `<pattern><token>...</token></pattern>`. Note that this is limited:
+  E.g. it's not possible to address POS tags and the `<suggestion>` cannot
+  change the case of the match.
 
 #### English
   * improved a new rules

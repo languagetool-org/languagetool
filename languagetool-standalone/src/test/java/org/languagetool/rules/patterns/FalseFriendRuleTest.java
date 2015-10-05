@@ -81,7 +81,7 @@ public class FalseFriendRuleTest extends TestCase {
   public void testHintsForPolishSpeakers() throws IOException, ParserConfigurationException, SAXException {
     final JLanguageTool langTool = new JLanguageTool(new English() {
       @Override
-      protected synchronized List<PatternRule> getPatternRules() {
+      protected synchronized List<AbstractPatternRule> getPatternRules() {
         return Collections.emptyList();
       }
     }, new Polish());
