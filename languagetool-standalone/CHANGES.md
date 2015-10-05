@@ -34,6 +34,10 @@
   * some code has been deprecated
   * `SuggestionExtractorTool` and `SuggestionExtractor` have been removed
 
+#### LibreOffice / Apache OpenOffice Integration
+  * fix: disabling rules that are disabled by default and had been 
+    enabled didn't work
+
 
 
 ## 3.1 (2015-09-28)

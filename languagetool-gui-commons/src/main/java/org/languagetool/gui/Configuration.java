@@ -165,6 +165,7 @@ public class Configuration {
 
   public void setDisabledRuleIds(final Set<String> ruleIDs) {
     disabledRuleIds = ruleIDs;
+    enabledRuleIds.removeAll(ruleIDs);
   }
 
   public void setEnabledRuleIds(final Set<String> ruleIDs) {
