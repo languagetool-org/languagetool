@@ -8,10 +8,20 @@
   E.g. it's not possible to address POS tags and the `<suggestion>` cannot
   change the case of the match.
 
+#### Catalan
+  * fixed false alarms
+  * added words suggested by users
+
 #### English
   * improved a few rules
   * added `en/removed.txt` so incorrect readings of the POS tagger can be avoided without
     rebuilding the binary dictionary (https://github.com/languagetool-org/languagetool/issues/306)
+
+#### Esperanto
+   * added a new rule
+
+#### French
+ * added/improved several rules
 
 #### German
   * improved a few rules
