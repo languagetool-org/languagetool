@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY context_ROTAR_GIRAR "angle1|grau|girar|objecte|triangle|quadrat|polígon|eix|gravetat|minut|segon|sentit|agulla|rellotge|planeta|Terra|rotació|aparell|oest|est|magnètic|òrbita|pilota">
     <!ENTITY dies_setmana_abrev "dl|dt|dc|dj|dv|ds|dg">
     <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
+    <!ENTITY espais "&#8239;| |&#8201;|&#160;">
     <!ENTITY estacions "primavera|estiu|tardor|hivern">
     <!ENTITY excep_exceptions_BE "ben|prou|tan|que|si|ara|molt|per|i|o|ni|més|['-].+">
     <!ENTITY exceptions_A_DIT_HA_DIT "concedir|crèdit|selecció|subvenció|atorgar|designar|designació|contractar|contractació|plaça|assignar|assignació|nomenar|nomenament|col·locar|col·locació|ajudicar|adjudicació|càrrec">
@@ -20612,72 +20613,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="2′&#160;15″"><marker>2'15"</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SIMBOL_GRAU_ORDINAL" name="ordinals no estàndards (ºª); símbol de grau (°)">
-            <rule>
-                <antipattern case_sensitive="yes">
-                    <marker>
-                        <token regexp="yes">.*º</token>
-                        <token regexp="yes">[CFNSEW]</token>
-                    </marker>
-                </antipattern>
-                <pattern>
-                    <marker>
-                        <token regexp="yes">.*º<exception>nº</exception></token>
-                    </marker>
-                </pattern>
-                <message>Si voleu indicar graus, useu el símbol <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1°"/></suggestion>. Per a indicar ordinals, useu <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1è"/></suggestion> (sing.) <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1ns"/></suggestion> (pl.).</message>
-                <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1é"/></suggestion>
-                <short>Error tipogràfic</short>
-                <example correction="25°|25è|25ns|25é">Fa una temperatura de <marker>25º</marker>.</example>
-                <example>Fa 25°.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token regexp="yes">.+º<exception>nº</exception></token>
-                        <token regexp="yes">[CFNSEW]</token>
-                    </marker>
-                </pattern>
-                <message>Si voleu indicar graus, useu el símbol <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1&#8239;°"/>\2</suggestion>.</message>
-                <short>Error tipogràfic</short>
-                <example correction="25&#8239;°C">Fa una temperatura de <marker>25º C</marker>.</example>
-                <example>Fa 25°.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <marker>
-                        <token regexp="yes">.+º[CFNSEW]</token>
-                    </marker>
-                </pattern>
-                <message>Si voleu indicar graus, useu el símbol <suggestion><match no="1" regexp_match="(.*)º(.*)" regexp_replace="$1&#8239;°$2"/></suggestion>.</message>
-                <short>Error tipogràfic</short>
-                <example correction="25&#8239;°C">Fa una temperatura de <marker>25ºC</marker>.</example>
-                <example>Fa 25°C.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token regexp="yes">º</token>
-                        <token regexp="yes">[CFNSEW]</token>
-                    </marker>
-                </pattern>
-                <message>Si voleu indicar graus, useu el símbol <suggestion>°\2</suggestion>.</message>
-                <short>Error tipogràfic</short>
-                <example correction="°C">Fa una temperatura de 25 <marker>º C</marker>.</example>
-                <example>Fa 25°.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <marker>
-                        <token regexp="yes">º[CFNSEW]</token>
-                    </marker>
-                </pattern>
-                <message>Si voleu indicar graus, useu el símbol <suggestion><match no="1" regexp_match="º(.*)" regexp_replace="°$1"/></suggestion>.</message>
-                <short>Error tipogràfic</short>
-                <example correction="°C">Fa una temperatura de 25 <marker>ºC</marker>.</example>
-                <example>Fa 25°C.</example>
-            </rule>
-        </rulegroup>
+        <rule id="SIMBOL_GRAU" name="símbol de grau (°)">
+            <regexp>[&espais;]?º[&espais;]?([CFNSEW])</regexp>
+            <message>Si voleu indicar graus, useu el símbol <suggestion>&#8239;°\1</suggestion>.</message>
+            <example correction="&#8239;°C">Fa una temperatura de 25<marker>º C</marker>.</example>
+            <example correction="&#8239;°C">Fa una temperatura de 25<marker>ºC</marker>.</example>
+            <example correction="&#8239;°C">Fa una temperatura de 25<marker> º C</marker>.</example>
+            <example correction="&#8239;°C">Fa una temperatura de 25<marker> ºC</marker>.</example>
+            <example>Fa 25°.</example>
+        </rule>
+        <rule id="SIMBOL_GRAU_ORDINAL" name="ordinals no estàndards (ºª); símbol de grau (°)">
+            <antipattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">.*º</token>
+                    <token regexp="yes">[CFNSEW]</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">.*º<exception>nº</exception></token>
+                </marker>
+            </pattern>
+            <message>Si voleu indicar graus, useu el símbol <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1°"/></suggestion>. Per a indicar ordinals, useu <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1è"/></suggestion> (sing.) <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1ns"/></suggestion> (pl.).</message>
+            <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1é"/></suggestion>
+            <short>Error tipogràfic</short>
+            <example correction="25°|25è|25ns|25é">Fa una temperatura de <marker>25º</marker>.</example>
+            <example>Fa 25°.</example>
+        </rule>
         <rulegroup id="ORDINALS" name="escriptura dels ordinals (1r, 2n...) ">
             <rule>
                 <pattern case_sensitive="yes">
