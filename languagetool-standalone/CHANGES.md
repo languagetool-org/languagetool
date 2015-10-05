@@ -9,12 +9,12 @@
   change the case of the match.
 
 #### English
-  * improved a new rules
+  * improved a few rules
   * added `en/removed.txt` so incorrect readings of the POS tagger can be avoided without
     rebuilding the binary dictionary (https://github.com/languagetool-org/languagetool/issues/306)
 
 #### German
-  * improved a new rules
+  * improved a few rules
   * added `de/removed.txt` so incorrect readings of the POS tagger can be avoided without
     rebuilding the binary dictionary
 
