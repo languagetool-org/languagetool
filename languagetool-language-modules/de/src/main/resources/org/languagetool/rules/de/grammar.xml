@@ -4998,6 +4998,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Rhein">Warum ist es am <marker>Rein</marker> so schön?</example>
         </rule>
         <rulegroup id="AUS_ESSEN" name="Ortsname: 'aus/nach/in siegen (Siegen)' etc.">
+            <short>&eigenname;</short>
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes" skip="1"/>
@@ -5007,7 +5008,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>&subanfang;es sich bei <suggestion><match no="3" case_conversion="startupper"/></suggestion> um einen geographischen Eigennamen handelt, der großgeschrieben werden muss.</message>
-                <short>&eigenname;</short>
                 <example correction="Polen">Im Urlaub fahren wir nach <marker>polen</marker>.</example>
                 <example correction="Polen">Deutsche Truppen marschierten in <marker>polen</marker> ein.</example>
                 <example correction="Essen">Ich wohne jetzt in <marker>essen</marker>.</example>
@@ -5024,7 +5024,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Rhein</token>
                 </pattern>
                 <message>&subanfang;es sich bei <suggestion><match no="2" case_conversion="startupper"/></suggestion> um einen geographischen Eigennamen handelt, der großgeschrieben werden muss.</message>
-                <short>&eigenname;</short>
                 <example>Sie kommt aus <marker>Weil</marker> am Rhein in Südbaden.</example>
                 <example>Ich lebe gern in Köln, <marker>weil</marker> am Rhein der Frohsinn zu Hause ist.</example>
                 <example correction="Weil">Sie kommt aus <marker>weil</marker> am Rhein.</example>
@@ -5042,6 +5041,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Dom">Der Kölner <marker>Don</marker> ist das Wahrzeichen der Stadt.</example>
         </rule>
         <rulegroup id="ROTHENBURG_VS_ROTENBURG" name="Ortsname: 'Rotenburg (Rothenburg) ob der Tauber' etc.">
+            <short>&eigenname;</short>
             <rule>
                 <pattern>
                     <marker>
@@ -5052,7 +5052,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Fulda</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>Rotenburg</suggestion> an der Fulda (Rotenburg ohne "h")?</message>
-                <short>&eigenname;</short>
                 <example correction="Rotenburg"><marker>Rothenburg</marker> an der Fulda liegt in Hessen.</example>
             </rule>
             <rule>
@@ -5067,7 +5066,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Fulda</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>Rotenburg</suggestion> an der Fulda (Rotenburg ohne "h")?</message>
-                <short>&eigenname;</short>
                 <example><marker>Rotenburg</marker> an der Fulda liegt in Hessen.</example>
                 <example correction="Rotenburg"><marker>Rothenburg</marker> a. d. Fulda liegt in Hessen.</example>
             </rule>
@@ -5081,7 +5079,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>)</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>Rotenburg</suggestion> in Niedersachsen (Rotenburg ohne "h")?</message>
-                <short>&eigenname;</short>
                 <example correction="Rotenburg"><marker>Rothenburg</marker> (Wümme) liegt in Niedersachsen.</example>
             </rule>
             <rule>
@@ -5094,7 +5091,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Tauber</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>Rothenburg</suggestion> ob der Tauber (Rothenburg mit "h")?</message>
-                <short>&eigenname;</short>
                 <example correction="Rothenburg"><marker>Rotenburg</marker> ob der Tauber ist eine Kleinstadt in Mittelfranken.</example>
             </rule>
             <rule>
@@ -5107,7 +5103,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                 </pattern>
                 <message>Meinten Sie <suggestion>Rothenburg ob der Tauber</suggestion> (Kleinstadt in Franken)?</message>
-                <short>&eigenname;</short>
                 <example correction="Rothenburg ob der Tauber"><marker>Rotenburg ob der Taube</marker> ist eine Kleinstadt in Mittelfranken.</example>
                 <example correction="Rothenburg ob der Tauber"><marker>Rothenburg ob der Tauben</marker> ist eine Kleinstadt in Mittelfranken.</example>
             </rule>
@@ -5123,7 +5118,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Tauber</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>Rothenburg</suggestion> ob der Tauber (Rothenburg mit "h")?</message>
-                <short>&eigenname;</short>
                 <example><marker>Rothenburg</marker> ob der Tauber ist eine Kleinstadt in Mittelfranken.</example>
                 <example correction="Rothenburg"><marker>Rotenburg</marker> o. d. Tauber ist eine Kleinstadt in Mittelfranken.</example>
             </rule>
@@ -5138,22 +5132,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="MUEHLHEIM_A_D_RUHR" name="Ortsname: 'Mühlheim (Mülheim) an der Ruhr'">
+            <short>&eigenname;</short>
             <rule>
                 <regexp>Mühlheim an der Ruhr</regexp>
                 <message>Meinten Sie <suggestion>Mülheim an der Ruhr</suggestion> (Mülheim ohne "h")?</message>
-                <short>&eigenname;</short>
                 <example correction="Mülheim an der Ruhr"><marker>Mühlheim an der Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
             </rule>
             <rule>
                 <regexp>Mühlheim a\. d\. Ruhr</regexp>
                 <message>Meinten Sie <suggestion>Mülheim a. d. Ruhr</suggestion> (Mülheim ohne "h")?</message>
-                <short>&eigenname;</short>
                 <example correction="Mülheim a. d. Ruhr"><marker>Mühlheim a. d. Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
             </rule>
             <rule>
                 <regexp>Mühlheim/Ruhr</regexp>
                 <message>Meinten Sie <suggestion>Mülheim/Ruhr</suggestion> (Mülheim ohne "h")?</message>
-                <short>&eigenname;</short>
                 <example correction="Mülheim/Ruhr"><marker>Mühlheim/Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
             </rule>
         </rulegroup>
@@ -5172,6 +5164,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="OPENOFFICE" name="Produktname: 'OpenOffice (OpenOffice.org)'">
             <!-- die richtigen Versionen sind: Sun OpenOffice.org, Oracle OpenOffice.org, Oracle Open Office, Apache OpenOffice -->
             <url>https://de.wikipedia.org/wiki/Apache_OpenOffice</url>
+            <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
             <rule>
                 <pattern>
                     <token>Oracle</token>
@@ -5181,7 +5174,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate="yes">.</token>
                 </pattern>
                 <message>Meinten Sie das freie Oracle <suggestion>OpenOffice.org</suggestion> oder das eingestellte Oracle <suggestion>Open Office</suggestion>?</message>
-                <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
                 <example>Sun <marker>OpenOffice.org</marker> war freie Software.</example>
                 <example>Oracle <marker>Open Office</marker> hat Geld gekostet.</example>
                 <example>Apache <marker>OpenOffice</marker> ist freie Software.</example>
@@ -5197,7 +5189,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate="yes">.</token>
                 </pattern>
                 <message>Meinten Sie das freie Sun <suggestion>OpenOffice.org</suggestion>?</message>
-                <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
                 <example>Sun <marker>OpenOffice.org</marker> war freie Software.</example>
                 <example>Oracle <marker>OpenOffice.org</marker> ist freie Software.</example>
                 <example>Oracle <marker>Open Office</marker> hat Geld gekostet.</example>
@@ -5213,7 +5204,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie das freie Sun <suggestion>OpenOffice.org</suggestion>?</message>
-                <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
                 <example>Sun <marker>OpenOffice.org</marker> war freie Software.</example>
                 <example>Oracle <marker>OpenOffice.org</marker> ist freie Software.</example>
                 <example>Oracle <marker>Open Office</marker> hat Geld gekostet.</example>
@@ -5229,7 +5219,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie das freie Apache <suggestion>OpenOffice</suggestion>?</message>
-                <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
                 <example>Sun <marker>OpenOffice.org</marker> war freie Software.</example>
                 <example>Oracle <marker>OpenOffice.org</marker> ist freie Software.</example>
                 <example>Oracle <marker>Open Office</marker> hat Geld gekostet.</example>
@@ -5245,7 +5234,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie das freie Apache <suggestion>OpenOffice</suggestion>?</message>
-                <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
                 <example>Sun <marker>OpenOffice.org</marker> war freie Software.</example>
                 <example>Oracle <marker>OpenOffice.org</marker> ist freie Software.</example>
                 <example>Oracle <marker>Open Office</marker> hat Geld gekostet.</example>
@@ -5254,7 +5242,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <regexp>Open-Office</regexp>
                 <message>Meinten Sie das freie Apache <suggestion>OpenOffice</suggestion>, Oracle/Sun <suggestion>OpenOffice.org</suggestion> oder das kostenpflichtige Oracle <suggestion>Open Office</suggestion>?</message>
-                <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
                 <example>Sun <marker>OpenOffice.org</marker> war freie Software.</example>
                 <example>Oracle <marker>OpenOffice.org</marker> ist freie Software.</example>
                 <example>Oracle <marker>Open Office</marker> hat Geld gekostet.</example>
@@ -5307,6 +5294,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Unitymedia">Ich habe einen Kabelanschluss von <marker>Juniti Media</marker>.</example>
         </rule>
         <rulegroup id="SONY_ERICSSON" name="Eigenname: 'Sony Eriksson (Sony Ericsson)'">
+            <short>&eigenname;</short>
             <rule>
                 <pattern>
                     <token>Sony</token>
@@ -5314,7 +5302,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie das schwedische Joint Venture <suggestion>Sony Ericsson</suggestion>? Bitte beachten Sie auch, dass es dieses Joint Venture seit 2012 nicht mehr gibt. Evt. möchten Sie deshalb die Bezeichnung <suggestion>Sony</suggestion> verwenden.</message>
                 <url>https://de.wikipedia.org/wiki/Sony_Ericsson</url>
-                <short>&eigenname;</short>
                 <example correction="Sony Ericsson|Sony">Mein Handy ist von <marker>Sony Ericson</marker>.</example>
                 <example correction="Sony Ericsson|Sony">Mein Handy ist von <marker>Sony Eriksson</marker>.</example>
             </rule>
@@ -5322,35 +5309,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <regexp>Sony-Eri[ck]ss?on</regexp>
                 <message>Meinten Sie das schwedische Joint Venture <suggestion>Sony Ericsson</suggestion>? Bitte beachten Sie auch, dass es dieses Joint Venture seit 2012 nicht mehr gibt. Evt. möchten Sie deshalb die Bezeichnung <suggestion>Sony</suggestion> verwenden.</message>
                 <url>https://de.wikipedia.org/wiki/Sony_Ericsson</url>
-                <short>&eigenname;</short>
                 <example correction="Sony Ericsson|Sony">Mein Handy ist von <marker>Sony-Ericsson</marker>.</example>
                 <example correction="Sony Ericsson|Sony">Mein Handy ist von <marker>Sony-Eriksson</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GIRLS_DAY" name="Eigenname: 'Girl's (Girls’) Day'">
+            <short>&eigenname;</short>
             <rule>
                 <regexp>(girl|boy)['’`´‘]s day</regexp>
                 <message>Meinten Sie den Aktionstag <suggestion>\1s’ Day</suggestion>?</message>
-                <short>&eigenname;</short>
                 <example correction="Girls’ Day">Der <marker>Girl's Day</marker> findet einmal im Jahr statt.</example>
                 <example correction="Boys’ Day">Der <marker>Boy`s Day</marker> ist ein Aktionstag.</example>
             </rule>
             <rule>
-                <regexp>(girls|boys) day</regexp>
+                <regexp>(girls|boys)[´`‘] day</regexp>
                 <message>Meinten Sie den Aktionstag <suggestion>\1’ Day</suggestion>?</message>
                 <short>&eigenname;</short>
+                <example>Der <marker>Boys’ Day</marker> findet einmal im Jahr statt.</example>
+                <example correction="Boys’ Day">Der <marker>Boys` Day</marker> ist ein Aktionstag.</example>
+            </rule>
+            <rule>
+                <regexp>(girls|boys) day</regexp>
+                <message>Meinten Sie den Aktionstag <suggestion>\1’ Day</suggestion>?</message>
                 <example correction="Girls’ Day">Der <marker>Girls Day</marker> findet einmal im Jahr statt.</example>
                 <example correction="Boys’ Day">Der <marker>Boys Day</marker> ist ein Aktionstag.</example>
             </rule>
             <rule>
                 <regexp>(girls|boys)['’`´‘]day</regexp>
                 <message>Meinten Sie den Aktionstag <suggestion>\1’ Day</suggestion>?</message>
-                <short>&eigenname;</short>
                 <example correction="Girls’ Day">Der <marker>Girls'Day</marker> findet einmal im Jahr statt.</example>
                 <example correction="Boys’ Day">Der <marker>Boys`Day</marker> ist ein Aktionstag.</example>
             </rule>
         </rulegroup>
         <rulegroup id="OPEN_STREET_MAP" name="Eigenname: 'Open Street Map (OpenStreetMap)'">
+            <short>&eigenname;</short>
             <antipattern>
                 <token>openstreetmap</token>
                 <token>.</token>
@@ -5359,13 +5351,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <regexp>Open Street Maps?</regexp>
                 <message>Meinten Sie die freie Geodatenbank <suggestion>OpenStreetMap</suggestion>?</message>
-                <short>&eigenname;</short>
                 <example correction="OpenStreetMap">Bei <marker>Open Street Map</marker> handelt es sich um eine freie Geodatenbank.</example>
             </rule>
             <rule>
                 <regexp>Open Streetmaps?</regexp>
                 <message>Meinten Sie die freie Geodatenbank <suggestion>OpenStreetMap</suggestion>?</message>
-                <short>&eigenname;</short>
                 <example correction="OpenStreetMap">Bei <marker>Open Streetmaps</marker> handelt es sich um eine freie Geodatenbank.</example>
             </rule>
             <rule>
@@ -5373,7 +5363,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">[oO]pen\-?[sS]treet\-?[mM]aps?<exception>OpenStreetMap</exception></token>
                 </pattern>
                 <message>Meinten Sie die freie Geodatenbank <suggestion>OpenStreetMap</suggestion>?</message>
-                <short>&eigenname;</short>
                 <example correction="OpenStreetMap">Bei <marker>Open-Streetmap</marker> handelt es sich um eine freie Geodatenbank.</example>
                 <example correction="OpenStreetMap">Bei <marker>Open-Street-Map</marker> handelt es sich um eine freie Geodatenbank.</example>
                 <example correction="OpenStreetMap">Bei <marker>Openstreetmap</marker> handelt es sich um eine freie Geodatenbank.</example>
@@ -5494,49 +5483,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="JANE_AUSTEN" name="Eigenname: 'Jane Austin (Austen)'">
             <url>https://de.wikipedia.org/wiki/Jane_Austen</url>
+            <short>&eigenname;</short>
             <rule>
                 <regexp case_sensitive='yes'>Jane Austin</regexp>
                 <message>Meinten Sie evt. <suggestion>Jane Austen</suggestion>, die britische Schriftstellerin?</message>
-                <short>&eigenname;</short>
                 <example correction="Jane Austen"><marker>Jane Austin</marker> war eine britische Schriftstellerin.</example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>J[eo]?an Austen</regexp>
                 <message>Meinten Sie evt. <suggestion>Jane Austen</suggestion>, die britische Schriftstellerin?</message>
-                <short>&eigenname;</short>
                 <example correction="Jane Austen"><marker>Jan Austen</marker> war eine britische Schriftstellerin.</example>
                 <example correction="Jane Austen"><marker>Jean Austen</marker> war eine britische Schriftstellerin.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MARX_BROTHERS" name="Eigenname: 'Max (Marx) Brothers'">
             <url>https://de.wikipedia.org/wiki/Marx_Brothers</url>
+            <short>&eigenname;</short>
             <rule>
                 <regexp case_sensitive='yes'>Max Brothers</regexp>
                 <message>Meinten Sie die <suggestion>Marx Brothers</suggestion> (amerikanische Komiker in den 30er Jahren)?</message>
-                <short>&eigenname;</short>
                 <example>Ich bin ein großer Fan der <marker>Marx Brothers</marker>.</example>
                 <example correction="Marx Brothers">Ich bin ein Fan der <marker>Max Brothers</marker>.</example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>Groucho Max</regexp>
                 <message>Meinten Sie <suggestion>Groucho Marx</suggestion>?</message>
-                <short>&eigenname;</short>
                 <example>Ich bin ein großer Fan von <marker>Groucho Marx</marker>.</example>
                 <example correction="Groucho Marx">Ich bin ein Fan von <marker>Groucho Max</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="JIMI_HENDRIX" name="Eigenname: 'Jimi Hendrix'">
             <url>https://de.wikipedia.org/wiki/Jimi_Hendrix</url>
+            <short>&eigenname;</short>
             <rule>
                 <regexp>Jimm\w+ Hendrix</regexp>
                 <message>Meinten Sie <suggestion>Jimi Hendrix</suggestion> (Musiker)?</message>
-                <short>&eigenname;</short>
                 <example correction="Jimi Hendrix"><marker>Jimmy Hendrix</marker> starb jung.</example>
             </rule>
             <rule>
                 <regexp>Jimi Hendricks</regexp>
                 <message>Meinten Sie <suggestion>Jimi Hendrix</suggestion> (Musiker)?</message>
-                <short>&eigenname;</short>
                 <example correction="Jimi Hendrix"><marker>Jimi Hendricks</marker> starb jung.</example>
             </rule>
         </rulegroup>
@@ -5556,6 +5542,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="JOHANNES_GUTENBERG" name="Eigenname: 'Johannes Guttenberg (Gutenberg)'">
             <!-- TODO: extend this ('Buchdruck' ...) -->
+            <short>&eigenname;</short>
             <rule>
                 <pattern>
                     <token>Johannes</token>
@@ -5565,7 +5552,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie Johannes <suggestion>Gutenberg</suggestion>, den Erfinder des Buchdrucks?</message>
                 <url>https://de.wikipedia.org/wiki/Johannes_Gutenberg</url>
-                <short>&eigenname;</short>
                 <example>Karl Theodor zu <marker>Guttenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
                 <example correction="Gutenberg">Johannes <marker>Guttenberg</marker> ist der Erfinder des Buchdrucks mit beweglichen Lettern.</example>
             </rule>
@@ -5580,7 +5566,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie Karl-Theodor zu <suggestion>Guttenberg</suggestion>, den ehemaligen Bundesminister der Verteidigung?</message>
                 <url>https://de.wikipedia.org/wiki/Karl-Theodor_zu_Guttenberg</url>
-                <short>&eigenname;</short>
                 <example>Ich sagte zu <marker>Gutenberg</marker>: "Erfinde doch mal den Buchdruck mit beweglichen Lettern."</example>
                 <example>Johannes <marker>Gutenberg</marker> ist der Erfinder des Buchdrucks mit beweglichen Lettern.</example>
                 <example>Karl-Theodor zu <marker>Guttenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
@@ -5595,7 +5580,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie Karl-Theodor zu <suggestion>Guttenberg</suggestion>, den ehemaligen Bundesminister der Verteidigung?</message>
                 <url>https://de.wikipedia.org/wiki/Karl-Theodor_zu_Guttenberg</url>
-                <short>&eigenname;</short>
                 <example>Johannes <marker>Gutenberg</marker> ist der Erfinder des Buchdrucks mit beweglichen Lettern.</example>
                 <example>Karl-Theodor zu <marker>Guttenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
                 <example correction="Guttenberg">Karl Theodor zu <marker>Gutenberg</marker> ist wegen einer Plagiatsaffäre zurückgetreten.</example>
@@ -5603,21 +5587,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="ELISABETH_SELBERT" name="Eigenname: 'Elisabeth Selber (Selbert)' etc.">
             <url>https://de.wikipedia.org/wiki/Elisabeth_Selbert</url>
+            <short>&eigenname;</short>
             <rule>
-                <pattern>
-                    <token regexp="yes">Eli[zs]abeth?<exception>Elisabeth</exception></token>
-                    <token regexp="yes">Selbert?h?</token>
-                </pattern>
+                <regexp case_sensitive="yes">Eli[sz]abeth? (Selber|Selberth)\b</regexp>
                 <message>Meinten Sie <suggestion>Elisabeth Selbert</suggestion> (deutsche Politikerin)?</message>
-                <short>&eigenname;</short>
                 <example><marker>Elisabeth Selbert</marker> was eine der vier „Mütter des Grundgesetzes“.</example>
-                <example correction="Elisabeth Selbert"><marker>Elizabeth Selbert</marker> war eine der vier „Mütter des Grundgesetzes“.</example>
-                <example correction="Elisabeth Selbert"><marker>Elizabeth Selber</marker> war eine der vier „Mütter des Grundgesetzes“.</example>
+                <example correction="Elisabeth Selbert"><marker>Elisabeth Selber</marker> war eine der vier „Mütter des Grundgesetzes“.</example>
             </rule>
             <rule>
                 <regexp case_sensitive="yes">Elisabeth (Selber|Selberth)\b</regexp>
                 <message>Meinten Sie <suggestion>Elisabeth Selbert</suggestion> (deutsche Politikerin)?</message>
-                <short>&eigenname;</short>
                 <example><marker>Elisabeth Selbert</marker> was eine der vier „Mütter des Grundgesetzes“.</example>
                 <example correction="Elisabeth Selbert"><marker>Elisabeth Selber</marker> war eine der vier „Mütter des Grundgesetzes“.</example>
             </rule>
@@ -5651,6 +5630,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="BERTRAND_RUSSELL" name="Eigenname: 'Russel (Russell)'">
+            <short>&eigenname;</short>
             <rule>
                 <pattern>
                     <token>Bertrand</token>
@@ -5660,7 +5640,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie den Philosophen und Mathematiker Lord Bertrand <suggestion>Russell</suggestion>?</message>
                 <url>https://de.wikipedia.org/wiki/Bertrand_Russell</url>
-                <short>&eigenname;</short>
                 <example correction="Russell">Bertrand <marker>Russel</marker></example>
             </rule>
             <rule>
@@ -5672,19 +5651,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie: <suggestion><match no="1" regexp_match="(Russel)(sche|schen)" regexp_replace="$1l$2"/></suggestion>?</message>
                 <url>https://de.wikipedia.org/wiki/Russellsche_Antinomie</url>
-                <short>&eigenname;</short>
                 <example correction="Russellsche"><marker>Russelsche</marker> Antinomie</example>
             </rule>
         </rulegroup>
         <rulegroup id="MARINA_WEISBAND" name="Eigenname: 'Marita (Marina) Weisband'">
             <url>https://de.wikipedia.org/wiki/Marina_Weisband</url>
+            <short>&eigenname;</short>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">Mari\w?a<exception>Marina</exception></token>
                     <token regexp="yes">Weisband|Weißband</token>
                 </pattern>
                 <message>Meinen Sie die Politikerin <suggestion>Marina Weisband</suggestion>?</message>
-                <short>&eigenname;</short>
                 <example correction="Marina Weisband"><marker>Maria Weißband</marker></example>
                 <example correction="Marina Weisband"><marker>Marita Weisband</marker></example>
             </rule>
@@ -5694,7 +5672,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">Wei\w\w?band|Weißband<exception>Weisband</exception></token>
                 </pattern>
                 <message>Meinen Sie die Politikerin <suggestion>Marina Weisband</suggestion>?</message>
-                <short>&eigenname;</short>
                 <example correction="Marina Weisband"><marker>Marina Weißband</marker></example>
             </rule>
         </rulegroup>
@@ -5752,6 +5729,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="HELMUT_SCHMIDT" name="Eigenname: 'Helmuth (Helmut) Schmidt'">
             <url>https://de.wikipedia.org/wiki/Helmut_Schmidt</url>
+            <short>&eigenname;</short>
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
@@ -5760,7 +5738,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Schmidt</token>
                 </pattern>
                 <message>Meinen Sie den deutschen SPD-Politiker <suggestion>Helmut</suggestion> Schmidt (Bundeskanzler 1974 bis 1982)?</message>
-                <short>&eigenname;</short>
                 <example correction="Helmut"><marker>Helmuth</marker> Schmidt</example>
             </rule>
             <rule>
@@ -5771,7 +5748,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinen Sie den deutschen SPD-Politiker Helmut <suggestion>Schmidt</suggestion> (Bundeskanzler 1974 bis 1982)?</message>
-                <short>&eigenname;</short>
                 <example correction="Schmidt">Helmut <marker>Schmitt</marker></example>
             </rule>
         </rulegroup>
@@ -5791,17 +5767,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="JOSEPH_GOEBBELS" name="Eigenname: 'Josef (Joseph) Goebbels'">
             <url>https://de.wikipedia.org/wiki/Joseph_Goebbels</url>
+            <short>&eigenname;</short>
             <rule>
                 <regexp case_sensitive='yes'>Josef (G(oe|ö)bbels)</regexp>
                 <message>Meinen Sie <suggestion>Joseph Goebbels</suggestion>, den Propagandaminister des Dritten Reiches?</message>
-                <short>&eigenname;</short>
                 <example correction="Joseph Goebbels"><marker>Josef Goebbels</marker></example>
                 <example correction="Joseph Goebbels"><marker>Josef Göbbels</marker></example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>Joseph Göbbels</regexp>
                 <message>Meinen Sie <suggestion>Joseph Goebbels</suggestion>, den Propagandaminister des Dritten Reiches?</message>
-                <short>&eigenname;</short>
                 <example correction="Joseph Goebbels"><marker>Joseph Göbbels</marker></example>
             </rule>
         </rulegroup>
@@ -5893,10 +5868,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="GEORG_CANTOR" name="Eigenname: 'Georg Kantor (Cantor)'">
             <url>https://de.wikipedia.org/wiki/Georg_Cantor</url>
+            <short>&eigenname;</short>
             <rule>
                 <regexp case_sensitive='yes'>(Kantorsche[ns]?)</regexp>
                 <message>Meinten Sie <suggestion><match no="1" regexp_replace="Can" regexp_match="Kan"/></suggestion> (nach dem Mathematiker G. Cantor)?</message>
-                <short>&eigenname;</short>
                 <example>Die <marker>Cantorsche</marker> Paradoxie</example>
                 <example correction="Cantorsche">Das <marker>Kantorsche</marker> Diagonalverfahren</example>
             </rule>
@@ -5908,17 +5883,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie den Mathematiker Georg <suggestion>Cantor</suggestion>?</message>
-                <short>&eigenname;</short>
                 <example correction="Cantor">Georg <marker>Kantor</marker></example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>Kantor-Medaille</regexp>
                 <message>Meinten Sie die nach dem Mathematiker Georg Cantor benannte <suggestion>Cantor-Medaille</suggestion>?</message>
-                <short>&eigenname;</short>
                 <example correction="Cantor-Medaille"><marker>Kantor-Medaille</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="HEINRICH_HERTZ" name="Eigenname: 'Heinrich Herz (Hertz)'">
+            <short>&eigenname;</short>
             <rule>
                 <pattern>
                     <token>Heinrich</token>
@@ -5928,7 +5902,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie den deutschen Physiker Heinrich Rudolf <suggestion>Hertz</suggestion>?</message>
                 <url>https://de.wikipedia.org/wiki/Heinrich_Hertz</url>
-                <short>&eigenname;</short>
                 <example correction="Hertz">Heinrich <marker>Herz</marker></example>
             </rule>
             <rule>
@@ -5941,7 +5914,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie den deutschen Physiker Heinrich Rudolf <suggestion>Hertz</suggestion>?</message>
                 <url>https://de.wikipedia.org/wiki/Heinrich_Rudolf_Hertz</url>
-                <short>&eigenname;</short>
                 <example>Heinrich <marker>Hertz</marker></example>
                 <example correction="Hertz">Heinrich Rudolf <marker>Herz</marker></example>
             </rule>
@@ -5962,6 +5934,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="EMIL_LENZ" name="Eigenname: 'Lentz (Lenz)'">
             <url>https://de.wikipedia.org/wiki/Emil_Lenz</url>
+            <short>&eigenname;</short>
             <rule>
                 <pattern>
                     <token>Heinrich</token>
@@ -5972,66 +5945,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie Heinrich Friedrich Emil <suggestion>Lenz</suggestion> (Physiker)?</message>
-                <short>&eigenname;</short>
                 <example correction="Lenz">Heinrich Friedrich Emil <marker>Lentz</marker> war ein Physiker.</example>
             </rule>
             <rule>
                 <regexp>(Lentzsche\w*) (Regel|Gesetz)</regexp>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="entz" regexp_replace="enz"/> \2</suggestion>?</message>
-                <short>&eigenname;</short>
                 <example correction="Lenzschen Regel">Nach der <marker>Lentzschen Regel</marker> wird durch eine Änderung des magnetischen Flusses …</example>
                 <example correction="Lenzsche Gesetz">Das <marker>Lentzsche Gesetz</marker> ist wichtig.</example>
             </rule>
             <rule>
                 <regexp>Lentz[’'](sche\w*) (Regel|Gesetz)</regexp>
                 <message>Meinten Sie <suggestion>Lenz’\1 \2</suggestion>?</message>
-                <short>&eigenname;</short>
                 <example correction="Lenz’schen Regel">Nach der <marker>Lentz’schen Regel</marker> wird durch eine Änderung des magnetischen Flusses …</example>
                 <example correction="Lenz’sche Gesetz">Das <marker>Lentz'sche Gesetz</marker> ist wichtig.</example>
             </rule>
             <rule>
                 <regexp>Regel von Lentz</regexp>
                 <message>Meinten Sie die <suggestion>Regel von Lenz</suggestion>?</message>
-                <short>&eigenname;</short>
                 <example correction="Regel von Lenz">Das ist die <marker>Regel von Lentz</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HENDRIK_LORENTZ" name="Eigenname: 'Lorenz (Lorentz)'">
             <url>https://de.wikipedia.org/wiki/Hendrik_Antoon_Lorentz</url>
+            <short>&eigenname;</short>
             <rule>
                 <regexp>Hendric?k Antoo?n Lorenz</regexp>
                 <message>Meinten Sie <suggestion>Hendrik Antoon Lorentz</suggestion> (Physiker und Mathematiker)?</message>
-                <short>&eigenname;</short>
                 <example correction="Hendrik Antoon Lorentz"><marker>Hendrik Anton Lorenz</marker> war ein Physiker.</example>
             </rule>
             <rule>
                 <regexp>(Lorenz\-?(kraft|transformation)\w*)</regexp>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="enz" regexp_replace="entz"/></suggestion> (benannt nach Hendrik Antoon Lorentz)?</message>
-                <short>&eigenname;</short>
                 <example correction="Lorentzkraft">Es wirkt eine <marker>Lorenzkraft</marker> auf die Elektronen.</example>
                 <example correction="Lorentz-Transformationen">Die <marker>Lorenz-Transformationen</marker> sind schön.</example>
             </rule>
         </rulegroup>
         <rulegroup id="LUDVIG_LORENZ" name="Eigenname: 'Lorentz (Lorenz)'">
+            <short>&eigenname;</short>
             <rule>
                 <regexp>Ludvig Valentin Lorentz</regexp>
                 <message>Meinten Sie <suggestion>Ludvig Valentin Lorenz</suggestion> (Physiker)?</message>
-                <short>&eigenname;</short>
                 <example correction="Ludvig Valentin Lorenz"><marker>Ludvig Valentin Lorentz</marker> war ein Physiker.</example>
             </rule>
             <rule>
                 <regexp>(Lorentz\-?(eichung|mie)[\w-]*)</regexp>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="entz" regexp_replace="enz"/></suggestion> (benannt nach Ludvig Valentin Lorenz)?</message>
-                <short>&eigenname;</short>
                 <example correction="Lorenz-Eichung">Die <marker>Lorentz-Eichung</marker> ist interessant.</example>
                 <example correction="Lorenz-Mie-Streuung">Die <marker>Lorentz-Mie-Streuung</marker> ist interessant.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GOTTFRIED_WILHELM_LEIBNIZ" name="Eigenname: 'Leibnitz (Leibniz)'">
+            <short>&eigenname;</short>
             <rule>
                 <regexp case_sensitive='yes'>(Leibnitzsche[ns]?)</regexp>
                 <message>Meinten Sie <suggestion><match no="1" regexp_replace="niz" regexp_match="nitz"/></suggestion> (nach dem Philosophen Leibniz)?</message>
-                <short>&eigenname;</short>
                 <example correction="Leibnizsche">Das <marker>Leibnitzsche</marker> Gesetz</example>
             </rule>
             <rule>
@@ -6043,7 +6010,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie den Philosophen <suggestion>Leibniz</suggestion>?</message>
-                <short>&eigenname;</short>
                 <example correction="Leibniz">Freiherr von <marker>Leibnitz</marker></example>
             </rule>
             <rule>
@@ -6055,7 +6021,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie den Philosophen <suggestion>Leibniz</suggestion>?</message>
-                <short>&eigenname;</short>
                 <example correction="Leibniz">Gottfried Wilhelm <marker>Leibnitz</marker></example>
             </rule>
             <rule>
@@ -6068,7 +6033,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie den Philosophen <suggestion>Leibniz</suggestion>?</message>
-                <short>&eigenname;</short>
                 <example correction="Leibniz">Gottfried W. <marker>Leibnitz</marker></example>
             </rule>
             <rule>
@@ -6079,25 +6043,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie den Philosophen <suggestion>Leibniz</suggestion>?</message>
-                <short>&eigenname;</short>
                 <example correction="Leibniz">Der Philosoph <marker>Leibnitz</marker></example>
             </rule>
             <rule>
                 <regexp>Leibnitz Universität</regexp>
                 <message>Meinten Sie die <suggestion>Leibniz Universität</suggestion> Hannover?</message>
-                <short>&eigenname;</short>
                 <example correction="Leibniz Universität">Ich gehe zur <marker>Leibnitz Universität</marker> Hannover.</example>
             </rule>
             <rule>
                 <regexp>Intel Leibnitz Challenge</regexp>
                 <message>Meinten Sie die <suggestion>Intel Leibniz Challenge</suggestion>?</message>
-                <short>&eigenname;</short>
                 <example correction="Intel Leibniz Challenge">Ich mache bei der <marker>Intel Leibnitz Challenge</marker> mit.</example>
             </rule>
             <rule>
                 <regexp>(Leibnitz[\w-]*keks[\w-]*)</regexp>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="Leibnitz" regexp_replace="Leibniz"/></suggestion>?</message>
-                <short>&eigenname;</short>
                 <example>Ich esse <marker>Leibniz-Kekse</marker> mit.</example>
                 <example correction="Leibniz-Kekse">Ich esse <marker>Leibnitz-Kekse</marker>.</example>
                 <example correction="Leibniz-Butterkeks">Ich esse einen <marker>Leibnitz-Butterkeks</marker>.</example>
@@ -26381,13 +26341,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Der Name der Computerzeitschrift <suggestion>c’t</suggestion> wird mit einem Apostroph geschrieben.</message>
                 <short>Akzent statt Apostroph</short>
                 <example correction="c’t">Die <marker>c`t</marker> ist eine Computerzeitschrift.</example>
-            </rule>
-            <rule>
-                <regexp>(girls|boys)[´`‘] day</regexp>
-                <message>Meinten Sie den Aktionstag <suggestion>\1’ Day</suggestion>?</message>
-                <short>&eigenname;</short>
-                <example>Der <marker>Boys’ Day</marker> findet einmal im Jahr statt.</example>
-                <example correction="Boys’ Day">Der <marker>Boys` Day</marker> ist ein Aktionstag.</example>
             </rule>
         </rulegroup>
         <rule id="BISSTRICH" name="Typographie: Bis-Strich vs. Bindestrich">
