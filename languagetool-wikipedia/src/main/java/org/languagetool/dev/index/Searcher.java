@@ -373,7 +373,7 @@ public class Searcher {
     for (String ruleId : ruleIds) {
       final long ruleStartTime = System.currentTimeMillis();
       for (PatternRule rule : searcher.getRuleById(ruleId, language)) {
-        System.out.println("===== " + ruleId + "[" + rule.getSubId() + "] =========================================================");
+        System.out.println("===== " + rule.getFullId() + " =========================================================");
         final SearcherResult searcherResult = searcher.findRuleMatchesOnIndex(rule, language);
         int i = 1;
         if (searcherResult.getMatchingSentences().size() == 0) {

@@ -101,7 +101,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
           for (MatchingSentence matchingSentence : matchingSentences) {
             final List<RuleMatch> ruleMatches = matchingSentence.getRuleMatches();
             final List<String> ruleMatchIds = getRuleMatchIds(ruleMatches);
-            if (ruleMatchIds.contains(getFullId(patternRule))) {
+            if (ruleMatchIds.contains(patternRule.getFullId())) {
               // TODO: there can be more than one expected match, can't it?
               foundExpectedMatch = true;
               break;
@@ -121,10 +121,10 @@ public class IndexerSearcherTest extends LuceneTestCase {
             //System.out.println("Tested " + matchingSentences.size() + " sentences in " + time + "ms for rule " + patternRule);
           }
         } catch (UnsupportedPatternRuleException e) {
-          System.out.println("UnsupportedPatternRuleException searching for rule " + getFullId(patternRule) + ": " + e.getMessage());
+          System.out.println("UnsupportedPatternRuleException searching for rule " + patternRule.getFullId() + ": " + e.getMessage());
           ruleProblems++;
         } catch (Exception e) {
-          System.out.println("Exception searching for rule " + getFullId(patternRule) + ": " + e.getMessage());
+          System.out.println("Exception searching for rule " + patternRule.getFullId() + ": " + e.getMessage());
           e.printStackTrace(System.out);
           exceptionCount++;
         }
@@ -135,16 +135,12 @@ public class IndexerSearcherTest extends LuceneTestCase {
     System.out.println("Total time: " + (System.currentTimeMillis() - startTime) + "ms");
   }
 
-  private String getFullId(PatternRule patternRule) {
-    return patternRule.getId() + "[" + patternRule.getSubId() + "]";
-  }
-
   private List<String> getRuleMatchIds(List<RuleMatch> ruleMatches) {
     final List<String> ids = new ArrayList<>();
     for (RuleMatch ruleMatch : ruleMatches) {
       if (ruleMatch.getRule() instanceof PatternRule) {
         final PatternRule patternRule = (PatternRule) ruleMatch.getRule();
-        ids.add(getFullId(patternRule));
+        ids.add(patternRule.getFullId());
       }
     }
     return ids;
@@ -162,7 +158,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
           final FieldType idType = new FieldType();
           idType.setStored(true);
           idType.setTokenized(false);
-          doc.add(new Field("ruleId", getFullId(patternRule), idType));
+          doc.add(new Field("ruleId", patternRule.getFullId(), idType));
           for (IncorrectExample incorrectExample : incorrectExamples) {
             final String example = incorrectExample.getExample().replaceAll("</?marker>", "");
             final FieldType fieldType = new FieldType();

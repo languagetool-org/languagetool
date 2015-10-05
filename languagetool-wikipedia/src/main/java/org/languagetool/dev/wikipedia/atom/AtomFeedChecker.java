@@ -26,7 +26,7 @@ import org.languagetool.dev.wikipedia.SwebleWikipediaTextFilter;
 import org.languagetool.dev.wikipedia.TextMapFilter;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.tools.ContextTools;
 import xtc.tree.Location;
 
@@ -147,8 +147,8 @@ class AtomFeedChecker {
   }
 
   private String getId(Rule rule) {
-    if (rule instanceof PatternRule) {
-      return rule.getId() + "[" + ((PatternRule) rule).getSubId() + "]";
+    if (rule instanceof AbstractPatternRule) {
+      return ((AbstractPatternRule) rule).getFullId();
     } else {
       return rule.getId();
     }

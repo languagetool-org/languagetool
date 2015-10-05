@@ -176,6 +176,18 @@ public abstract class AbstractPatternRule extends Rule {
     return endPositionCorrection;
   }
 
+  /**
+   * The rule id and it's sub id, if any. The format is like {@code RULE_ID[SUB_ID]}.
+   * @since 3.2
+   */
+  public String getFullId() {
+    if (subId != null) {
+      return id + "[" + subId + "]";
+    } else {
+      return id;
+    }
+  }
+
   public final String getSubId() {
     return subId;
   }

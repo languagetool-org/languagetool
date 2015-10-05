@@ -38,7 +38,7 @@ import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -270,8 +270,8 @@ public class WikipediaQuickCheck {
       String message = ruleMatch.getMessage().replace("<suggestion>", "'").replace("</suggestion>", "'");
       errorCount++;
       System.out.print(errorCount + ". " + message);
-      if (rule instanceof PatternRule) {
-        System.out.println(" (" + rule.getId() + "[" + ((PatternRule) rule).getSubId() + "])");
+      if (rule instanceof AbstractPatternRule) {
+        System.out.println(" (" + ((AbstractPatternRule) rule).getFullId() + ")");
       } else {
         System.out.println(" (" + rule.getId() + ")");
       }

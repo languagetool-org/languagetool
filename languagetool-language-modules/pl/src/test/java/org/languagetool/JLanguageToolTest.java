@@ -102,31 +102,31 @@ public class JLanguageToolTest extends TestCase {
     //and let's test other feats
     AnalyzedSentence sent = tool.getAnalyzedSentence("Z powodu pogody dobre buty są wskazane.");
     assertEquals("Disambiguator log: \n\n"+
-        "prep_verb:2 Z[z/prep:acc:nwok*,z/prep:gen:nwok*,z/prep:inst:nwok*] -> Z[z/prep:gen:nwok*]\n"+
-        "PREP_SUBST:1 Z[z/prep:gen:nwok*] -> Z[z/prep:gen:nwok*]\n"+
-        "PREP_SUBST_2:1 Z[z/prep:gen:nwok*] -> Z[z/prep:gen:nwok*]\n"+
+        "prep_verb[2]: Z[z/prep:acc:nwok*,z/prep:gen:nwok*,z/prep:inst:nwok*] -> Z[z/prep:gen:nwok*]\n"+
+        "PREP_SUBST[1]: Z[z/prep:gen:nwok*] -> Z[z/prep:gen:nwok*]\n"+
+        "PREP_SUBST_2[1]: Z[z/prep:gen:nwok*] -> Z[z/prep:gen:nwok*]\n"+
         "MULTIWORD_CHUNKER: Z[z/prep:gen:nwok*] -> Z[z/prep:gen:nwok*,Z powodu/<PREP:GEN>*]\n\n" +
 
-        "prep_verb:2 powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3]\n"+
-        "PREP_SUBST:1 powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3]\n"+
-        "PREP_SUBST_2:1 powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3]\n"+
+        "prep_verb[2]: powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3]\n"+
+        "PREP_SUBST[1]: powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3]\n"+
+        "PREP_SUBST_2[1]: powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3]\n"+
 
         "MULTIWORD_CHUNKER: powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3,Z powodu/</PREP:GEN>]\n" +
         "\n" +
-        "PREP_SUBST:8 pogody[pogoda/subst:pl:acc:f,pogoda/subst:pl:nom:f,pogoda/subst:pl:voc:f,pogoda/subst:sg:gen:f] -> pogody[pogoda/subst:sg:gen:f]\n" +
+        "PREP_SUBST[8]: pogody[pogoda/subst:pl:acc:f,pogoda/subst:pl:nom:f,pogoda/subst:pl:voc:f,pogoda/subst:sg:gen:f] -> pogody[pogoda/subst:sg:gen:f]\n" +
         "\n" +
-        "WIELKI_SWOJ_ADJ:1 dobre[dobre/subst:pl:acc:n2,dobre/subst:pl:nom:n2,dobre/subst:pl:voc:n2,dobre/subst:sg:acc:n2,dobre/subst:sg:nom:n2,dobre/subst:sg:voc:n2,dobry/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:sg:acc:n1.n2:pos,dobry/adj:sg:nom.voc:n1.n2:pos,dobry/depr:pl:nom:m2,dobry/depr:pl:voc:m2,dobry/subst:pl:acc:m3,dobry/subst:pl:nom:m3,dobry/subst:pl:voc:m3] -> dobre[dobry/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:sg:acc:n1.n2:pos,dobry/adj:sg:nom.voc:n1.n2:pos]\n" +
-        "unify_adj_subst:2 dobre[dobry/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:sg:acc:n1.n2:pos,dobry/adj:sg:nom.voc:n1.n2:pos] -> dobre[dobry/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos]\n" +
+        "WIELKI_SWOJ_ADJ[1]: dobre[dobre/subst:pl:acc:n2,dobre/subst:pl:nom:n2,dobre/subst:pl:voc:n2,dobre/subst:sg:acc:n2,dobre/subst:sg:nom:n2,dobre/subst:sg:voc:n2,dobry/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:sg:acc:n1.n2:pos,dobry/adj:sg:nom.voc:n1.n2:pos,dobry/depr:pl:nom:m2,dobry/depr:pl:voc:m2,dobry/subst:pl:acc:m3,dobry/subst:pl:nom:m3,dobry/subst:pl:voc:m3] -> dobre[dobry/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:sg:acc:n1.n2:pos,dobry/adj:sg:nom.voc:n1.n2:pos]\n" +
+        "unify_adj_subst[2]: dobre[dobry/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:sg:acc:n1.n2:pos,dobry/adj:sg:nom.voc:n1.n2:pos] -> dobre[dobry/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos]\n" +
             "\n" +
-            "unify_adj_subst:2 buty[but/subst:pl:acc:m2,but/subst:pl:acc:m3,but/subst:pl:nom:m2,but/subst:pl:nom:m3,but/subst:pl:voc:m2,but/subst:pl:voc:m3,buta/subst:pl:acc:f,buta/subst:pl:nom:f,buta/subst:pl:voc:f,buta/subst:sg:gen:f] -> buty[but/subst:pl:acc:m2,but/subst:pl:acc:m3,but/subst:pl:nom:m2,but/subst:pl:nom:m3,but/subst:pl:voc:m2,but/subst:pl:voc:m3,buta/subst:pl:acc:f,buta/subst:pl:nom:f,buta/subst:pl:voc:f]\n" +
-            "SUBST_NOM_VOC_VERB:5 buty[but/subst:pl:acc:m2,but/subst:pl:acc:m3,but/subst:pl:nom:m2,but/subst:pl:nom:m3,but/subst:pl:voc:m2,but/subst:pl:voc:m3,buta/subst:pl:acc:f,buta/subst:pl:nom:f,buta/subst:pl:voc:f] -> buty[but/subst:pl:nom:m2,but/subst:pl:nom:m3,buta/subst:pl:nom:f]\n" +
+            "unify_adj_subst[2]: buty[but/subst:pl:acc:m2,but/subst:pl:acc:m3,but/subst:pl:nom:m2,but/subst:pl:nom:m3,but/subst:pl:voc:m2,but/subst:pl:voc:m3,buta/subst:pl:acc:f,buta/subst:pl:nom:f,buta/subst:pl:voc:f,buta/subst:sg:gen:f] -> buty[but/subst:pl:acc:m2,but/subst:pl:acc:m3,but/subst:pl:nom:m2,but/subst:pl:nom:m3,but/subst:pl:voc:m2,but/subst:pl:voc:m3,buta/subst:pl:acc:f,buta/subst:pl:nom:f,buta/subst:pl:voc:f]\n" +
+            "SUBST_NOM_VOC_VERB[5]: buty[but/subst:pl:acc:m2,but/subst:pl:acc:m3,but/subst:pl:nom:m2,but/subst:pl:nom:m3,but/subst:pl:voc:m2,but/subst:pl:voc:m3,buta/subst:pl:acc:f,buta/subst:pl:nom:f,buta/subst:pl:voc:f] -> buty[but/subst:pl:nom:m2,but/subst:pl:nom:m3,buta/subst:pl:nom:f]\n" +
             "\n" +
-            "ppas_jest:1 są[być/verb:fin:pl:ter:imperf:nonrefl] -> są[być/verb:fin:pl:ter:imperf:nonrefl]\n" +
-            "SUBST_NOM_VOC_VERB:5 są[być/verb:fin:pl:ter:imperf:nonrefl] -> są[być/verb:fin:pl:ter:imperf:nonrefl]\n" +
-            "BYC_ADJ_ACC_NOM:1 są[być/verb:fin:pl:ter:imperf:nonrefl] -> są[być/verb:fin:pl:ter:imperf:nonrefl]\n" +
+            "ppas_jest[1]: są[być/verb:fin:pl:ter:imperf:nonrefl] -> są[być/verb:fin:pl:ter:imperf:nonrefl]\n" +
+            "SUBST_NOM_VOC_VERB[5]: są[być/verb:fin:pl:ter:imperf:nonrefl] -> są[być/verb:fin:pl:ter:imperf:nonrefl]\n" +
+            "BYC_ADJ_ACC_NOM[1]: są[być/verb:fin:pl:ter:imperf:nonrefl] -> są[być/verb:fin:pl:ter:imperf:nonrefl]\n" +
             "\n" +
-            "ppas_jest:1 wskazane[wskazany/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,wskazany/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,wskazany/adj:sg:acc:n1.n2:pos,wskazany/adj:sg:nom.voc:n1.n2:pos,wskazać/ppas:pl:nom.acc.voc:m2.m3.f.n1.n2.p2.p3:perf:aff,wskazać/ppas:sg:nom.acc.voc:n1.n2:perf:aff] -> wskazane[wskazać/ppas:pl:nom.acc.voc:m2.m3.f.n1.n2.p2.p3:perf:aff]\n" +
-            "BYC_ADJ_ACC_NOM:1 wskazane[wskazać/ppas:pl:nom.acc.voc:m2.m3.f.n1.n2.p2.p3:perf:aff] -> wskazane[wskazać/ppas:pl:nom.acc.voc:m2.m3.f.n1.n2.p2.p3:perf:aff]\n",
+            "ppas_jest[1]: wskazane[wskazany/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,wskazany/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,wskazany/adj:sg:acc:n1.n2:pos,wskazany/adj:sg:nom.voc:n1.n2:pos,wskazać/ppas:pl:nom.acc.voc:m2.m3.f.n1.n2.p2.p3:perf:aff,wskazać/ppas:sg:nom.acc.voc:n1.n2:perf:aff] -> wskazane[wskazać/ppas:pl:nom.acc.voc:m2.m3.f.n1.n2.p2.p3:perf:aff]\n" +
+            "BYC_ADJ_ACC_NOM[1]: wskazane[wskazać/ppas:pl:nom.acc.voc:m2.m3.f.n1.n2.p2.p3:perf:aff] -> wskazane[wskazać/ppas:pl:nom.acc.voc:m2.m3.f.n1.n2.p2.p3:perf:aff]\n",
         sent.getAnnotations());
 
   }

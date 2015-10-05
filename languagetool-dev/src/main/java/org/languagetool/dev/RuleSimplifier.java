@@ -61,7 +61,7 @@ final class RuleSimplifier {
         continue;
       }
       PatternRule patternRule = (PatternRule) rule;
-      String id = patternRule.getId() + "/" + patternRule.getSubId();
+      String id = patternRule.getFullId();
       if (isSimple((PatternRule)rule)) {
         System.err.println("Simplifying: " + id);
         simplify(patternRule, xmlLines);

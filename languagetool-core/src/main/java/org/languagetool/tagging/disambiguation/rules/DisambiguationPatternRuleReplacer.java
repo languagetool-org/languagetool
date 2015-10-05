@@ -419,8 +419,8 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
 
   private void annotateChange(AnalyzedTokenReadings atr,
       final String prevValue, String prevAnot) {
-    atr.setHistoricalAnnotations(prevAnot + "\n" + rule.getId() + ":"
-        + rule.getSubId() + " " + prevValue + " -> " + atr);
+    atr.setHistoricalAnnotations(prevAnot + "\n" + rule.getFullId() + ": "
+        + prevValue + " -> " + atr);
   }
 
   private AnalyzedTokenReadings replaceTokens(AnalyzedTokenReadings oldAtr,

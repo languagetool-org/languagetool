@@ -64,7 +64,7 @@ public final class PatternRuleId {
   @Override
   public String toString() {
     if (subId != null) {
-      return id + "/" + subId;
+      return id + "[" + subId + "]";
     } else {
       return id;
     }
