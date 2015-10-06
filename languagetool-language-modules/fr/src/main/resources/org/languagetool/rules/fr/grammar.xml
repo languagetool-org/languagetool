@@ -6207,6 +6207,10 @@ though, and has since been slightly modified)-->
         <example>L’une des pires.</example>
       </rule>
       <rule name="nom féminin suivi du masculin">
+        <antipattern>
+          <token>orge</token>
+          <token>perlé</token>
+        </antipattern>
         <pattern>
           <token postag="N f .*" postag_regexp="yes" skip="1">
             <exception regexp="yes" scope="previous">des?</exception>
@@ -6248,6 +6252,7 @@ though, and has since been slightly modified)-->
         <example correction="">Une mise à <marker>jour gratuit</marker>.</example>
         <example>Une mise à jour gratuite.</example>
         <example>Les sols en permanence gelés.</example>
+        <example>L’orge perlé.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_CENTAINE_DE" name="centaine de">
@@ -6628,7 +6633,7 @@ though, and has since been slightly modified)-->
         <suggestion><match no="2" postag="V.* inf" postag_regexp="yes"/></suggestion>
         <example correction="préparer">Je veux te <marker>préparé</marker></example>
         <example>Je veux te préparer</example>
-        <example>Luc est quant à lui comdamné.</example>
+        <example>Luc est quant à lui condamné.</example>
       </rule>
       <rule>
         <pattern>
@@ -26718,6 +26723,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">perlée|mondée</token>
       </pattern>
       <message>Bien que « orge » soit un substantif féminin, on écrit <suggestion>\1 <match no="2" regexp_match=".$" regexp_replace=""/></suggestion>.</message>
+      <url>https://fr.wikipedia.org/wiki/Orge_perl%C3%A9</url>
       <example correction="orge perlé">De l’<marker>orge perlée</marker>.</example>
       <example correction="orge mondé">De l’<marker>orge mondée</marker>.</example>
       <example>De l’orge perlé.</example>
