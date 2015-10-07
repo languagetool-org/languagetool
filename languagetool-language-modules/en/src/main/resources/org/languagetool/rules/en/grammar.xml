@@ -2659,6 +2659,15 @@ USA
         </rule>
         </rulegroup>
         <rulegroup id="LETS_LET" name="let's (lets)">
+            <url>http://english.stackexchange.com/questions/3392/lets-vs-lets-which-is-correct</url>
+            <antipattern>
+                <token>let</token>
+                <token regexp="yes">['’]</token>
+                <token>s</token>
+                <token>for</token>
+                <token>a</token>
+                <token>while</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="SENT_START|CC|;" postag_regexp="yes"/>
@@ -2667,7 +2676,7 @@ USA
                     </marker>
                     <token postag="VBP?|RB?" postag_regexp="yes"/>
                 </pattern>
-                <message>Did you mean <suggestion>Let's</suggestion>?</message>
+                <message>Did you mean <suggestion>Let's</suggestion> (let's = let us; lets = 3rd person singular of 'let')?</message>
                 <short>Possible typo</short>
                 <example correction="Let's"><marker>Lets</marker> go home.</example>
                 <example>It lets you sleep all night.</example>
@@ -2682,7 +2691,7 @@ USA
                     <token>all</token>
                     <token postag="VBP?|RB?" postag_regexp="yes"/>
                 </pattern>
-                <message>Did you mean <suggestion>Let's</suggestion>?</message>
+                <message>Did you mean <suggestion>Let's</suggestion> (let's = let us; lets = 3rd person singular of 'let')?</message>
                 <short>Possible typo</short>
                 <example correction="Let's"><marker>Lets</marker> all go home.</example>
                 <example>It lets you sleep all night.</example>
@@ -2696,7 +2705,7 @@ USA
                     </marker>
                     <token><exception postag="VB|RB?" postag_regexp="yes"/><exception regexp="yes">all|first|just</exception></token>
                 </pattern>
-                <message>Did you mean <suggestion>\1s</suggestion> or <suggestion>\1</suggestion>?</message>
+                <message>Did you mean <suggestion>\1s</suggestion> or <suggestion>\1</suggestion> (let's = let us; lets = 3rd person singular of 'let')?</message>
                 <short>Possible typo</short>
                 <example correction="lets|let">It <marker>let's</marker> you quickly search for the product.</example>
                 <example>Let's go home!</example>
@@ -2715,7 +2724,7 @@ USA
                     <token>all</token>
                     <token><exception postag="VB|RB?" postag_regexp="yes"/></token>
                 </pattern>
-                <message>Did you mean <suggestion>\1s</suggestion> or <suggestion>\1</suggestion>?</message>
+                <message>Did you mean <suggestion>\1s</suggestion> or <suggestion>\1</suggestion> (let's = let us; lets = 3rd person singular of 'let')?</message>
                 <short>Possible typo</short>
                 <example correction="lets|let">The system <marker>let's</marker> all students enter the building.</example>
                 <example>Let's go home!</example>
