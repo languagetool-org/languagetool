@@ -20519,102 +20519,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="GRAUS_MINUTS_SEGONS" name="tipografia de graus, minuts i segons: 50° 45′ 20″">
-            <!-- Caldria separar l'ús d'hores (h) -->
-            <rule>
-                <pattern>
-                    <token regexp="yes">[\d., ]+[º°h]</token>
-                    <token regexp="yes">[\d., ]+</token>
-                    <token regexp="yes">["'′`]</token>
-                    <token regexp="yes">[\d., ]+</token>
-                    <token regexp="yes">["'′`]</token>
-                </pattern>
-                <message>Símbols incorrectes de graus, minuts i segons.</message>
-                <suggestion><match no="1" regexp_match="(.*)[º°]" regexp_replace="$1°"/>&#8239;<match no="2"/>′&#8239;<match no="4"/>″</suggestion>
-                <short>Error tipogràfic</short>
+            <rule>  <!-- Caldria separar l'ús d'hores (h) -->
+                <regexp>\b([\d., ]*\d)[&espais;]*[º°][&espais;]*([\d., ]*\d)[&espais;]*["'′`][&espais;]*([\d., ]*\d)[&espais;]*["'′`][&espais;]*</regexp>
+                <message>Símbols de graus, minuts i segons.</message>
+                <suggestion>\1°&#8239;\2′&#8239;\3″</suggestion>
                 <example correction="25°&#8239;29,1′&#8239;49″"><marker>25º 29,1' 49"</marker>.</example>
                 <example correction="25°&#8239;29′&#8239;49″"><marker>25º 29' 49'</marker>.</example>
-                <example>25° 29′ 34″</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">[\d., ]+[º°h]</token>
-                    <token regexp="yes">[\d., ]+</token>
-                    <token regexp="yes">["'′`]</token>
-                </pattern>
-                <message>Símbols incorrectes de graus i minuts.</message>
-                <suggestion><match no="1" regexp_match="(.*)[º°]" regexp_replace="$1°"/>&#8239;<match no="2"/>′</suggestion>
-                <short>Error tipogràfic</short>
-                <example correction="25°&#8239;29′"><marker>25º 29'</marker>.</example>
-                <example>25° 29′</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">[\d., ]+</token>
-                    <token regexp="yes">[º°h]</token>
-                    <token regexp="yes">[\d., ]+</token>
-                    <token regexp="yes">["'′`]</token>
-                    <token regexp="yes">[\d., ]+</token>
-                    <token regexp="yes">["'′`]</token>
-                </pattern>
-                <message>Símbols incorrectes de graus, minuts i segons.</message>
-                <suggestion><match no="1"/>°&#8239;<match no="3"/>′&#8239;<match no="5"/>″</suggestion>
-                <short>Error tipogràfic</short>
                 <example correction="25°&#8239;29,1′&#8239;49″"><marker>25 º 29,1' 49"</marker>.</example>
                 <example correction="25°&#8239;29′&#8239;49″"><marker>25 º 29' 49'</marker>.</example>
                 <example>25° 29′ 34″</example>
             </rule>
             <rule>
-                <pattern>
-                    <token regexp="yes">[\d., ]+</token>
-                    <token regexp="yes">[º°h]</token>
-                    <token regexp="yes">[\d., ]+</token>
-                    <token regexp="yes">["'′`]</token>
-                </pattern>
-                <message>Símbols incorrectes de graus i minuts.</message>
-                <suggestion><match no="1"/>°&#8239;<match no="3"/>′</suggestion>
-                <short>Error tipogràfic</short>
-                <example correction="25°&#8239;29′"><marker>25 º 29'</marker>.</example>
+                <regexp>\b([\d., ]*\d)[&espais;]*[º°][&espais;]*([\d., ]*\d)[&espais;]*["'`]</regexp>
+                <message>Símbols de graus i minuts.</message>
+                <suggestion>\1°&#8239;\2′</suggestion>
+                <example correction="25°&#8239;29,1′"><marker>25º 29,1'</marker>.</example>
+                <example correction="25°&#8239;29′"><marker>25º 29 '</marker>.</example>
+                <example correction="25°&#8239;29,1′"><marker>25 º 29,1'</marker>.</example>
+                <example correction="25°&#8239;29′"><marker>25 º29'</marker>.</example>
                 <example>25° 29′</example>
             </rule>
             <rule>
-                <pattern>
-                    <token regexp="yes">[\d., ]+[º°h][\d., ]+</token>
-                    <token regexp="yes">["'′`]</token>
-                    <token regexp="yes">[\d., ]+</token>
-                    <token regexp="yes">["'′`]</token>
-                </pattern>
-                <message>Símbols incorrectes de graus, minuts i segons.</message>
-                <suggestion><match no="1" regexp_match="(.*)[º°](.*)" regexp_replace="$1°&#8239;$2"/>′&#8239;<match no="3"/>″</suggestion>
-                <short>Error tipogràfic</short>
-                <example correction="25°&#8239;29,1′&#8239;49″"><marker>25º29,1' 49"</marker>.</example>
-                <example correction="25°&#8239;29′&#8239;49″"><marker>25º29' 49'</marker>.</example>
-                <example>25° 29′ 34″</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">[\d., ]+[º°h][\d., ]+</token>
-                    <token regexp="yes">["'′`]</token>
-                </pattern>
-                <message>Símbols incorrectes de graus i minuts.</message>
-                <suggestion><match no="1" regexp_match="(.*)[º°](.*)" regexp_replace="$1°&#8239;$2"/>′</suggestion>
-                <short>Error tipogràfic</short>
-                <example correction="25°&#8239;29′"><marker>25º29'</marker>.</example>
-                <example>25° 29′</example>
-            </rule>
-            <rule> <!-- només minuts i segons -->
-                <pattern>
-                    <token regexp="yes">\d+</token>
-                    <token regexp="yes">["'′`]</token>
-                    <token regexp="yes">\d+</token>
-                    <token regexp="yes">["'′`]</token>
-                </pattern>
-                <message>Useu els símbols de minuts i segons.</message>
-                <suggestion>\1′&#160;\3″</suggestion>
-                <example correction="2′&#160;15″"><marker>2'15"</marker>.</example>
+                <regexp>\b([\d., ]*\d)[&espais;]*["'′`][&espais;]*([\d., ]*\d)[&espais;]*["'′`]</regexp>
+                <message>Símbols de minuts i segons.</message>
+                <suggestion>\1′&#8239;\2″</suggestion>
+                <example correction="29,1′&#8239;49″"><marker>29,1' 49"</marker>.</example>
+                <example correction="29′&#8239;49″"><marker>29' 49 '</marker>.</example>
+                <example correction="29,1′&#8239;49″"><marker>29,1' 49 "</marker>.</example>
+                <example correction="29′&#8239;49″"><marker>29 ' 49'</marker>.</example>
+                <example>29′ 34″</example>
             </rule>
         </rulegroup>
         <rule id="SIMBOL_GRAU" name="símbol de grau (°)">
-            <regexp>[&espais;]?º[&espais;]?([CFNSEW])</regexp>
+            <regexp>[&espais;]*º[&espais;]*([CFNSEW])\b</regexp>
             <message>Si voleu indicar graus, useu el símbol <suggestion>&#8239;°\1</suggestion>.</message>
             <example correction="&#8239;°C">Fa una temperatura de 25<marker>º C</marker>.</example>
             <example correction="&#8239;°C">Fa una temperatura de 25<marker>ºC</marker>.</example>
@@ -20725,40 +20662,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Les 4es jornades.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="KELVIN" name="kelvin (no graus)">
+        <rule id="KELVIN" name="kelvin (no graus)">
+            <regexp>[&espais;]*[º°][&espais;]*K\b</regexp>
+            <message>Els kèlvins no són graus</message>
+            <suggestion>&#8239;K</suggestion>
             <url>https://ca.wikipedia.org/wiki/Kelvin</url>
-            <rule>
-                <pattern>
-                    <token regexp="yes">[º°]K</token>
-                </pattern>
-                <message>Els kèlvins no són graus.</message>
-                <suggestion>K</suggestion>
-                <short>Error tipogràfic</short>
-                <example correction="K">A 30 <marker>ºK</marker>.</example>
-                <example>A una temperatura de 30 K.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">.+[º°]K</token>
-                </pattern>
-                <message>Els kèlvins no són graus.</message>
-                <suggestion><match no="1" regexp_match="(.+)[º°]K" regexp_replace="$1 K"/></suggestion>
-                <short>Error tipogràfic</short>
-                <example correction="30 K">A <marker>30ºK</marker>.</example>
-                <example>A una temperatura de 30 K.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">[º°]</token>
-                    <token>K</token>
-                </pattern>
-                <message>Els kèlvins no són graus.</message>
-                <suggestion>K</suggestion>
-                <short>Error tipogràfic</short>
-                <example correction="K">A 30 <marker>º K</marker>.</example>
-                <example>A una temperatura de 30 K.</example>
-            </rule>
-        </rulegroup>
+            <example correction="&#8239;K">A 30<marker> ºK</marker>.</example>
+            <example correction="&#8239;K">A 30<marker>ºK</marker>.</example>
+            <example correction="&#8239;K">A 30<marker> º K</marker>.</example>
+        </rule>
         <rule id="ORDINALS_SENSE_PUNT" name="ordinals sense punt: *5è./5è">
             <pattern>
                 <marker>
