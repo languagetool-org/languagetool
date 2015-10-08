@@ -2777,29 +2777,25 @@ though, and has since been slightly modified)-->
         <example>La tradition ascétique de l’Église.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="COLON" name="colon et côlon">
-      <rule>
-        <pattern>
-          <token regexp="yes">(cancer|cellule|chirurgie|endoscopie|hydrothérapie|inflammation|irrigation|intérieur|lésion|maladie|nettoyage|pathologie|muqueuse|occlusion|opération|spasme|syndrome|tissu|tumeur)s?</token>
-          <token>du</token>
-          <marker><token>colon</token></marker>
-        </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="^(.)." regexp_replace="$1ô"/></suggestion> ?</message>
-        <example correction="côlon">Cancer du <marker>colon</marker>.</example>
-        <example>Cancer dur <marker>côlon</marker>.</example>
-      </rule>
-    </rulegroup>
-    <rulegroup id="DIFFEREND" name="différend et différent">
-      <rule>
-        <pattern>
-          <token regexp="yes">assez|pas|peu|si|très|vraiment</token>
-          <marker><token regexp="yes">différends?</token></marker>
-        </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^(..*)d" regexp_replace="$1t"/></suggestion> ?</message>
-        <example correction="différents">Ils ne sont pas si <marker>différends</marker>.</example>
-        <example>Ils ne sont pas si différents.</example>
-      </rule>
-    </rulegroup>
+    <rule id="COLON" name="colon et côlon">
+      <pattern>
+        <token regexp="yes">(cancer|cellule|chirurgie|endoscopie|hydrothérapie|inflammation|irrigation|intérieur|lésion|maladie|nettoyage|pathologie|muqueuse|occlusion|opération|spasme|syndrome|tissu|tumeur)s?</token>
+        <token>du</token>
+        <marker><token>colon</token></marker>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="^(.)." regexp_replace="$1ô"/></suggestion> ?</message>
+      <example correction="côlon">Cancer du <marker>colon</marker>.</example>
+      <example>Cancer dur <marker>côlon</marker>.</example>
+    </rule>
+    <rule id="DIFFEREND" name="différend et différent">
+      <pattern>
+        <token regexp="yes">assez|pas|peu|si|très|vraiment</token>
+        <marker><token regexp="yes">différends?</token></marker>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^(..*)d" regexp_replace="$1t"/></suggestion> ?</message>
+      <example correction="différents">Ils ne sont pas si <marker>différends</marker>.</example>
+      <example>Ils ne sont pas si différents.</example>
+    </rule>
     <rulegroup id="TACHE" name="tache et tâche">
       <rule>
         <pattern>
@@ -13848,16 +13844,14 @@ though, and has since been slightly modified)-->
       <example correction="directeur d’agence bancaire|directeur d’agence|directeur de banque"><marker>gérant de banque</marker></example>
       <example><marker>directeur de banque</marker></example>
     </rule>
-    <rulegroup id="ENTRETIEN_FORMEL" name="entretien formel">
-      <rule>
-        <pattern>
-          <token regexp="yes" skip="2">entretiens?</token>
-          <token regexp="yes">formels?</token>
-        </pattern>
-        <message>« Entretien formel » est un anglicisme. Employez <suggestion>entretien officiel</suggestion>.</message>
-        <example correction="entretien officiel"><marker>entretien formel</marker></example>
-      </rule>
-    </rulegroup>
+    <rule id="ENTRETIEN_FORMEL" name="entretien formel">
+      <pattern>
+        <token regexp="yes" skip="2">entretiens?</token>
+        <token regexp="yes">formels?</token>
+      </pattern>
+      <message>« Entretien formel » est un anglicisme. Employez <suggestion>entretien officiel</suggestion>.</message>
+      <example correction="entretien officiel"><marker>entretien formel</marker></example>
+    </rule>
     <rule id="FAMILIER_AVEC" name="familier avec">
       <pattern>
         <token regexp="yes">familiers?|familières?</token>
