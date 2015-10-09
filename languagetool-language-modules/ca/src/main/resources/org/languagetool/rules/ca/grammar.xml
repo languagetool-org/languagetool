@@ -13734,6 +13734,73 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="DUES_PREPOSICIONS" name="Dues preposicions: a amb">
             <rule>
+                <antipattern>
+                    <marker>
+                    <token regexp="yes">fins|cap|per</token>
+                    <token>a</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                    <token regexp="yes">des|més|menys|prop|dins|fora|dintre|cap|via</token>
+                    <token regexp="yes">de|d'</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>a</token>
+                        <token regexp="yes">dins|dintre|fora|davant|darrere|dalt|baix|damunt|sobre</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>d'</token>
+                        <token regexp="yes">en|altres</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>en</token>
+                        <token regexp="yes">\p{Lu}.*</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="SPS00"><exception postag="N.*|_GN_.*|_possible_nompropi" postag_regexp="yes"/></token>
+                        <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception postag="N.*|_GN_.*|_possible_nompropi|.*NP.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <!--<token postag="D[^AI].*" postag_regexp="yes"></token>-->
+                </pattern>
+                <message>Construcció probablement incorrecta</message>
+                <example correction=""><marker>en d'</marker>aquesta ocasió.</example>
+                <example correction=""><marker>en de</marker> cinc a trenta minuts.</example>
+                <example>El primer cap de setmana.</example>
+                <example>eliminació de la a en les paraules esdrúixoles</example>
+                <example>per transmetre a d'altres les nostres idees</example>
+                <example correction="">Pensava que <marker>a amb</marker> ell me'n sortiria.</example>
+                <example correction=""><marker>Per pe</marker>l que fa a ell, se'n sortirà.</example>
+                <example>Pensava que amb ell sí.</example>
+                <example>Li ho van donar a en Pere.</example>
+                <example>Per a ell sí.</example>
+                <example>Vitamina A en forma de</example>
+                <example>per transmetre a d'altres les nostres idees</example>
+                <example correction="">Anaven <marker>a en</marker> ell.</example>
+                <example>va ser introduït a Europa per en Minoru Mochizuki</example>
+                <example>Eliminació de la a en les paraules esdrúixoles</example>
+                <example correction="">hem tingut <marker>per d'</marker>equips amb Windows.</example>
+                <example>per a d'altres les nostres idees</example>
+                <example correction="">Una altra manera <marker>de d'</marker>analitzar .</example>
+                <example>No volia res més que mirar i mirar i mirar.</example>
+                <example>la política nacionalista de De Gaulle</example>
+                <example>la política nacionalista de de Gaulle</example>
+                <example correction="">que volíem deixar enrere <marker>amb a</marker>l procés</example>
+                <example correction="">Deixem-ho <marker>en a</marker> una part.</example>
+                <example>que volíem deixar enrere amb el procés</example>
+                <example>amb A. Moncunill.</example>
+                <example>Amb a penes tres anys.</example>
+            </rule>
+
+<!--            <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SPS00" regexp="yes">a|per|Per</token>
                     <token postag="SPS00|.*LOC_.*" postag_regexp="yes" regexp="yes">amb|per?|des|de<exception postag="&lt;?NP.*" postag_regexp="yes"/></token>
@@ -13820,7 +13887,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Sobra un element</short>
                 <example correction="enrere">Cap a dins i cap <marker>a enrere</marker>.</example>
                 <example>Anaven avant.</example>
-            </rule>
+            </rule>-->
             <!-- <rule>
                 <pattern>
                 <token postag="SPS00" regexp="yes">per|cap|fins|com</token>
