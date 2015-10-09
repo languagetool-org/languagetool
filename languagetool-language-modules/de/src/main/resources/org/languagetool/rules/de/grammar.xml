@@ -8427,6 +8427,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>In den Jahren <marker>1960 und 1961</marker> wurden sie jeweils Dritte.</example>
             <example>In den Jahren <marker>1960 und 1960</marker>/61 wurden sie jeweils Dritte.</example>
         </rule>
+        <rule id="DOPPELTE_VERNEINUNG" name="Doppelte Verneinung: 'ohne dass es keine'">
+            <pattern>
+                <token>ohne</token>
+                <token>dass</token>
+                <token>es</token>
+                <token regexp="yes">kein|keine[nmr]?</token>
+            </pattern>
+            <message>Doppelte Verneinung, oder ist hier der Artikel 'das' gemeint?</message>
+            <suggestion>ohne das es \4</suggestion>
+            <suggestion>ohne dass es</suggestion>
+            <example correction="ohne das es keine|ohne dass es">Ich will kein Projekt machen, das dann Facebook kauft, <marker>ohne dass es keine</marker> Revenues hat.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
