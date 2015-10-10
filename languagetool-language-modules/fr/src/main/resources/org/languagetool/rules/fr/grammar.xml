@@ -26960,26 +26960,29 @@ though, and has since been slightly modified)-->
       <!-- TODO: improve this rule to detect other problems in French addresses -->
       <rule>
         <regexp>\b(Rue|Ruelle|Avenue|Av\.|Place|Pl\.|Boulevard|Boul\.|Impasse|Imp.|Chemin|Allée|Chaussée|Montée|Passage|Lieu-dit)[  ][^,\n]+\s*[,\n]\s*\p{Lu}[^,%\d\n]+[  ]\d{5}\s*[,\n]\s*(FRANCE|FRANCIA|FRANKRIJK|FRANKREICH)\b</regexp>
-        <message>Le code postal « \1 » doit avant le nom de la ville pour les adresses postales en France.</message>
+        <message>Le code postal doit avant le nom de la ville pour les adresses postales en France.</message>
         <!-- TODO: we should highlight the postal code only, but it's not implemented in regexp yet -->
         <example correction="">5 <marker>Rue de l’église, BREST 29200, FRANCE</marker></example>
         <example>5 Rue de l’église, 29200 BREST, FRANCE</example>
       </rule>
       <rule>
         <!-- When country is not specified, we can still guess that the address
-             is in France for some biggest well known cities -->
-        <regexp>\b(Rue|Ruelle|Avenue|Av\.|Place|Pl\.|Boulevard|Boul\.|Impasse|Imp.|Chemin|Allée|Chaussée|Montée|Passage|Lieu-dit)[  ][^,\n]+\s*[,\n]\s*(ALBI|AJACCIO|AMIENS|ANGERS|ANGOUL[ÈE]ME|ANNECY|ARGENTEUIL|ASNI[ÈE]RES-SUR-SEINE|AUBERVILLIERS|AULNAY-SOUS-BOIS|AVIGNON|BEAUVAIS|BELFORT|BESAN[ÇC]ON|B[ÉE]ZIERS|BORDEAUX|BOULOGNE(-BILLANCOURT)?|BOURGES|BREST|COLMAR|CANNES|CASTRES|CHAMB[ÉE]RY|CHOLET|CLERMONT-FERRAND|COLOMBES|COURBEVOIE|CRÉTEIL|DIEPPE|DIJON|DOUAI|DRANCY|DUNKERQUE|[ÉE]PINAY-SUR-SEINE|[ÉE]VREUX|FONTENAY-SOUS-BOIS|FORT-DE-FRANCE|FR[ÉE]JUS|GAP|GRENOBLE|LANNION|LA ROCHELLE|LA ROCHE-SUR-YON|LAVAL|LE BLANC-MESNILLE MANS|LE HAVRE|LENS|LILLE|LIMOGES|LORIENT|LYON|MAISONS-ALFORT|MARSEILLE|M[ÉE]RIGNAC|MONTAUBAN|METZ|MONTPELLIER|MONTROUGE|MONTREUIL|NANCY|NANTERRE|NANTES|NARBONNE|NIORT|N[ÎI]MES|NOISY-LE-GRAND|ORL[ÉE]ANS|NICE|PANTIN|PARIS|PAU|PERPIGNAN|PESSAC|POITIERS|QUIMPER|REIMS|RENNES|ROUBAIX|ROUEN|ROYAN|SARCELLES|SARTROUVILLE|SEVRAN|ST-[ÉE]TIENNE|STRASBOURG|TALENCE|TARBES|THIONVILLE|TOULOUSE|TOURCOING|TROYES|VANNES|VERSAILLES|VALENCE|V[ÉE]NISSIEUX|VILLEURBANNE|VILLEJUIF|VILLENEUVE-D['´‘’′]ASQ|VINCENNES|VITRY-SUR-SEINE|WATTRELOS)[  ]\d{5}\b</regexp>
-        <message>Le code postal « \1 » doit avant le nom de la ville pour les adresses postales en France.</message>
+             is in France for some biggest well known cities.
+             Voir http://www.toutes-les-villes.com/villes-departements/29-finistere.html
+             pour les plus grandes villes per département -->
         <!-- TODO: we should highlight the postal code only, but it's not implemented in regexp yet -->
-        <example correction="">5 <marker>Rue de l’église, BREST 29200</marker>.</example>
-        <example>5 Rue de l’église, 29200 BREST.</example>
+        <!-- TODO: in progress, add more cities -->
+        <regexp>\b((Bourg-en-Bresse|Oyonnax|Ambérieu-en-Bugey) 01\d\d\d|(Saint-Quentin|Soissons|Laon|Tergnier) 02\d\d\d|(Monlu[çc]on|Vischy|Moulins|Cusset|Yzeure|Dom[ée]rat) 03\d\d\d|(Manosque|Digne-les-Bains|Sisteron) 04\d\d\d|(Gap|Brian[çc]on|Embrun) 05\d\d\d|(Antibes|Cagnes-sur-Mer|Cannes|Grasse|Nice) 06\d\d\d|(Annonay|Aubennas) 07\d\d\d|(Charleville-Mézières|Givet|Rethel|Revin|Sedan) 08\d\d\d|(Foix|Pamiers) 09\d\d\d|(La Chapelle-Saint-Luc|Romily-sur-Seine|Saint-André-les-Vergers|Troyes) 10\d\d\d|(Carcassonne|Castelnaudary|Limoux|Narbonne) 11\d\d\d|(Onet-le-Château|Milau|Rodez|Villefranche-de-Rouergue) 12\d\d\d|(Aix-en-Provence|Allauch|Arles|Aubagne|Fos-sur-Mer|Gardanne|Istres|La Ciotat|Les Pennes-Mirabeau|Marignane|Marseille|Martigues|Miramas|Port-de-Bouc|Salon-de-Provence|Tarascon|Vitrolles) 13\d\d\d|(Bayeux|Caen|Ifs|Lisieux|Hérouville-Saint-Clair|Mondeville|Vire) 14\d\d\d|(Aurillac|Saint-Flour) 15\d\d\d|(Angoul[èêe]me|Cognac|Soyaux) 16\d\d\d|(La Rochelle|Rochefort|Royan|Saintes) 17\d\d\d|(Bourges|Vierzon) 18\d\d\d|(Brive-la-Guaillarde|Tulle|Ussel) 19\d\d\d|(Ajaccio|Porto-Vecchio|Sartène) 2[A0]\d\d\d|(Bastia|Calvi|Corte) 2[B0]\d\d\d|(Beaune|Chenôve|Chevigny-Saint-Sauveur|Dijon|Quetigny|Talant) 21\d\d\d|(Dinan|Lannion|Plérin|Ploufragan|Saint-Brieuc) 22\d\d\d|(Aubusson|La Souterraine|Guéret) 23\d\d\d|(Bergerac|Périgneux) 24\d\d\d|(Audincourt|Besan[çc]on|Bethoncourt|Montbéliard|Pontarlier|Valentigney) 25\d\d\d|(Bourg-l[èe]s-Valence|Montélimar|Pierrelatte|Romans-sur-Isère|Valence) 26\d\d\d|(Bernay|[ÉE]vreux|Gisors|Louviers|Val-de-Reuil|Vernon) 27\d\d\d|(Chartres|Ch[âa]teaudun|Dreux|Lucé|Mainvilliers|Nogent-le-Rotrou|Vernouillet) 28\d\d\d|(Brest|Guipavas|Concarneau|Douarnenez|Fouesnant|Landerneau|Landivisau|Le Relecq-Kerhuon|Morlaix|Plougastel-Daoulas|Plouzané|Quimper|Quimperlé) 29\d\d\d|(Alès|Beaucaire|Bagnol-sur-C[èe]ze|N[îi]mes|Saint-Gilles|Vauvert|Villeneuve-les-Avignon) 30\d\d\d|(Auray|Guidel|Hennebont|Larmor-Plage|Lorient|Ploemeur|Pontivy|Vannes|Lanester) 56\d\d\d|(Blagnac|Colomiers|Cugnaux|Muret|Plaisance-du-Touch|Toulouse|Tournefeuille) 31\d\d\d|(Auch|Condom) 32\d\d\d|Paris 75\d\d\d|(Alfortville|Champigny-sur-Marne|Choisy-le-Roi|Créteil|Fontenay-sous-Bois|Ivry-sur-Seine|Maisons-Alfort|Saint-Maur-des-Fossés|Villejuif|Vincennes|Vitry-sur-Seine) 94\d\d\d|(Argenteuil|Bezons|Cergy|Ermont|Franconville|Garge-l[èe]s-Gonesse|Gonesse|Goussainville|Herblay|Pontoise|Sannois|Sarcelles|Taverny|Villier-le-Bel) 95\d\d\d|(Cayenne|Kourou|Mana|Matoury|Remire-Montjoly|Saint-Laurent-du-Maroni) 973\d\d)\b</regexp>
+        <message>Le code postal doit avant le nom de la ville pour les adresses postales en France.</message>
+        <example correction="">5 Rue de l’église, <marker>Brest 29200</marker>.</example>
+        <example>5 Rue de l’église, 29200 Brest.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ADRESSES_BELGIQUE" name="Format des adresses en Belgique">
       <!-- TODO: improve this rule to detect other problems in French addresses -->
       <rule>
         <regexp>\b(Rue|Ruelle|Avenue|Av\.|Place|Pl\.|Boulevard|Boul\.|Impasse|Imp.|Chemin|Allée|Chaussée|Montée|Passage)[  ][^,\n]+\s*[,\n]\s*\p{Lu}[^,%\d\n]+[  ]\d{4}\s*[,\n]\s*(BELGIQUE|BELGIUM|BELGI[ËE]N?)\b</regexp>
-        <message>Le code postal « \1 » doit avant le nom de la ville pour les adresses postales en Belgique.</message>
+        <message>Le code postal doit avant le nom de la ville pour les adresses postales en Belgique.</message>
         <!-- TODO: we should highlight the postal code only, but it's not implemented in regexp yet -->
         <example correction="">5 <marker>Rue de Louvain 5, BRUXELLES 1000, BELGIQUE</marker>.</example>
         <example>Rue de Louvain 5, 1000 BRUXELLES, BELGIQUE.</example>
@@ -26988,7 +26991,7 @@ though, and has since been slightly modified)-->
         <!-- When country is not specified, we can still guess that the address
              is in Belgium for some biggest well known cities -->
         <regexp>\b(Rue|Ruelle|Avenue|Av\.|Place|Pl\.|Boulevard|Boul\.|Impasse|Imp.|Chemin|Allée|Chaussée|Montée|Passage)[  ][^,\n]+\s*[,\n]\s*(ALOST|ANDERLECHT|ANVERS|ANTERPEN|BRUGES|BRUGGE|BRUXELLES|BR[UÜ]SSEL|BRUSELS|CHARLEROI|COURTRAI|GAND|GENK|HASSELT|IXELLES|LA LOUVI[ÈE]RE|LI[ÈE]GE|LOUVAIN|LUIK|MALINES|MOLENBEEK-SAINT-JEAN|MONS|MOUSCRON|NAMUR|OSTENDE|SARAING|SCHA[AE]RBEEK|ROULERS|TOURNAI|UCCLE|UKKEL|VERVIERS)[  ]\d{4}\b</regexp>
-        <message>Le code postal « \1 » doit avant le nom de la ville pour les adresses postales en Belgique.</message>
+        <message>Le code postal doit avant le nom de la ville pour les adresses postales en Belgique.</message>
         <!-- TODO: we should highlight the postal code only, but it's not implemented in regexp yet -->
         <example correction="">5 <marker>Rue de Louvain, BRUXELLES 1000</marker>.</example>
         <example>5 Rue de Louvain, 1000 BRUXELLES.</example>
