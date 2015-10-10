@@ -26956,6 +26956,16 @@ though, and has since been slightly modified)-->
         <example>Le 29-février-2004</example>
       </rule>
     </rulegroup>
+    <rulegroup id="ADRESSES_FRANCE" name="Format des adresses en France">
+      <!-- TODO: improve this rule to detect other problems in French addresses -->
+      <rule>  
+        <regexp>\b(Rue|Ruelle|Avenue|Av\.|Place|Pl\.|Boulevard|Boul\.|Impasse|Imp.|Chemin|Allée|Chaussée|Montée|Passage|Lieu-dit)[  ][^,\n]+\s*[,\n]\s*\p{Lu}[^,\n]+[  ]\d{5}\s*[,\n]\s*FRANCE\b</regexp>
+        <message>Le code postal « \1 » doit avant le nom de la ville pour les adresses postales en France.</message>
+        <!-- TODO: we should highlight the postal code only, but it's not implemented in regexp yet -->
+        <example correction="">5 <marker>Rue de l’église, BREST 29200, FRANCE</marker></example>
+        <example>5 Rue de l’église, 29200 BREST, FRANCE</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
