@@ -2527,7 +2527,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule id="CONFUSIO_NOMBRE" name="Confusions de nombre: catequesis, diesis">
                 <pattern>
-                    <token regexp="yes">catequesis|diesis|deisis|eneuresis|èmesis|catarsis|praxis|fibrosis|psicosis<exception postag="_GN_FP"/></token>
+                    <token regexp="yes">catequesis|diesis|deisis|eneuresis|èmesis|catarsis|praxis|fibrosis|psicosis|.*sintaxis<exception postag="_GN_FP"/></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)(.+)s" regexp_replace="$1"/></suggestion> (singular) en comptes de "<match no="1"/>" (plural)?</message>
                 <short>Possible confusió</short>
@@ -8966,8 +8966,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.G.*" postag_regexp="yes"><exception postag="AQ.*|NC.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
-            <message>¿Volíu dir <suggestion>va anar \4</suggestion>?</message>
+            <message>¿Volíeu dir <suggestion>va anar \4</suggestion>?</message>
             <example correction="va anar adonant">A poc a poc es <marker>va ser adonant</marker> que...</example>
+        </rule>
+        <rule id="ANYS_I_MITJA" name="anys i *mitjà/mig">
+            <pattern>
+                <token regexp="yes">anys?</token>
+                <token>i</token>
+                <marker>
+                    <token>mitjà</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>mig</suggestion>?</message>
+            <example correction="mig">Durant tres anys i <marker>mitjà</marker>.</example>
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
