@@ -8439,6 +8439,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>ohne dass es</suggestion>
             <example correction="ohne das es keine|ohne dass es">Ich will kein Projekt machen, das dann Facebook kauft, <marker>ohne dass es keine</marker> Revenues hat.</example>
         </rule>
+        <rule id="KEIN_EIN" name="Verdoppelung: 'kein ein'">
+            <pattern>
+                <token>kein</token>
+                <token regexp='yes'>eine?|eine[snmr]</token>
+            </pattern>
+            <message>Verdoppelung: meinten Sie <suggestion>\1</suggestion> oder <suggestion>\2</suggestion>?</message>
+            <example correction='kein|ein'>Da steht <marker>kein ein</marker> Fahrrad.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
