@@ -65,6 +65,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY unitats "mm|cm|dm|m|km|d|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|K|pts|ptes|[£€$]">
     <!ENTITY unitats_temps "segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|decenni|segle|mil·lenni|mil·lenari">
     <!ENTITY verbs_no_apostrofen "halar|ioditzar|iotitzar|iodurar|iodar">
+    <!ENTITY verbs_no_intrans_consonant "perjudicar|concernir|cansar|preocupar|molestar|sorprendre">
+    <!ENTITY verbs_no_intrans_vocal "informar|afectar|emprenyar|empipar|espantar|apassionar|atr[ae]ure|ajudar">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
     <!ENTITY vocabulari_menjar "xocolata|xocolate|allioli|aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
     <!ENTITY pronom_feble "P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00">
@@ -3478,7 +3480,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception>se</exception></token>
                     <marker>
                         <token>li</token>
-                        <token inflected="yes" regexp="yes">perjudicar|concernir|cansar|preocupar|molestar|sorprendre</token>
+                        <token inflected="yes" regexp="yes">&verbs_no_intrans_consonant;</token>
                     </marker>
                 </pattern>
                 <message>Aquest verb és transitiu. Potser cal canviar el pronom.</message>
@@ -3493,7 +3495,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>li</token>
-                    <token inflected="yes" regexp="yes">informar|afectar|emprenyar|empipar|espantar|apassionar|atr[ae]ure|ajudar</token>
+                    <token inflected="yes" regexp="yes">&verbs_no_intrans_vocal;</token>
                 </pattern>
                 <message>Aquest verb és transitiu. Potser cal canviar el pronom.</message>
                 <suggestion>l'<match no="3"></match></suggestion>
@@ -3510,7 +3512,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>li</token>
                         <token postag="V.[^MNGP].*" postag_regexp="yes" inflected="yes" regexp="yes">haver|anar<exception regexp="yes">v.+</exception></token>
-                        <token postag="V.[NPG].*" postag_regexp="yes" inflected="yes" regexp="yes">informar|perjudicar|afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|sorprendre|espantar|apassionar|atr[ae]ure|ajudar</token>
+                        <token postag="V.[NPG].*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;</token>
                     </marker>
                 </pattern>
                 <message>Aquest verb és transitiu. Potser cal canviar el pronom.</message>
@@ -3526,7 +3528,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>li</token>
                         <token postag="V.[^MNGP].*" postag_regexp="yes" inflected="yes" regexp="yes">anar|fer<exception regexp="yes">a.+</exception></token>
-                        <token postag="V.[NPG].*" postag_regexp="yes" inflected="yes" regexp="yes">informar|perjudicar|afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|sorprendre|espantar|apassionar|atr[ae]ure|ajudar</token>
+                        <token postag="V.[NPG].*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;</token>
                     </marker>
                 </pattern>
                 <message>Aquest verb és transitiu. Potser cal canviar el pronom.</message>
@@ -3539,7 +3541,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.[NG].*" postag_regexp="yes" inflected="yes" regexp="yes">informar|perjudicar|afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|sorprendre|espantar|apassionar|atr[ae]ure|ajudar</token>
+                    <token postag="V.[NG].*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;</token>
                     <token>-li</token>
                 </pattern>
                 <message>Aquest verb és transitiu. Potser cal canviar el pronom.</message>
@@ -3553,7 +3555,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token><exception regexp="yes">el|la|els|les|em|et|us|vos|ens|l'</exception></token>
                     <marker>
-                        <token postag="V.[ISMGN].*" postag_regexp="yes" inflected="yes" regexp="yes">informar|perjudicar|afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|sorprendre|espantar|apassionar|atr[ae]ure</token>
+                        <token postag="V.[ISMGN].*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;</token>
                         <token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
                         <token regexp="yes">ls?</token>
                     </marker>
@@ -3572,7 +3574,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token><exception regexp="yes">el|la|els|les|em|et|us|vos|ens|l'</exception></token>
                     <marker>
-                        <token postag="V.[ISMG].*" postag_regexp="yes" inflected="yes" regexp="yes">informar|perjudicar|afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|sorprendre|espantar|apassionar|atr[ae]ure<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token postag="V.[ISMG].*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;<exception postag="_GN_.*" postag_regexp="yes"/></token>
                         <token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
                     </marker>
                     <token><exception regexp="yes">ls?|tots?|tothom|ningú|cadascú|mi|tu|ella?|[nv]osaltres|elle?s|vost[éè]s?|si</exception><exception postag="V.N.*" postag_regexp="yes"/></token>
@@ -3597,7 +3599,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VA.*" postag_regexp="yes"/>
                     <marker>
                         <and>
-                            <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">informar|perjudicar|afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|sorprendre|espantar|apassionar|atr[ae]ure<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                            <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;<exception postag="_GN_.*" postag_regexp="yes"/></token>
                             <token postag="_GV_"/>
                         </and>
                         <token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
@@ -3618,7 +3620,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VA.*" postag_regexp="yes"/>
                     <marker>
                         <and>
-                            <token postag="V.N.*" postag_regexp="yes" inflected="yes" regexp="yes">informar|perjudicar|afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|sorprendre|espantar|apassionar|atr[ae]ure<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                            <token postag="V.N.*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;<exception postag="_GN_.*" postag_regexp="yes"/></token>
                             <token postag="_GV_"/>
                         </and>
                         <token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
