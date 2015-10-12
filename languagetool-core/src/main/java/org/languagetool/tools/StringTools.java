@@ -381,7 +381,7 @@ public final class StringTools {
 
   /**
    * Checks if a string contains only whitespace, including all Unicode
-   * whitespace, but not the non-breaking space. This differs a bit from the 
+   * whitespace, and the non-breaking space. This differs a bit from the 
    * definition of whitespace in Java 7 because of the way we want to interpret Khmer.
    * 
    * @param str String to check
@@ -399,6 +399,8 @@ public final class StringTools {
     if (trimStr.length() == 1) {
       if ("\u200B".equals(str)) {
         // We need u200B​​ to be detected as whitespace for Khmer, as it was the case before Java 7.
+        return true;
+      } else if ("\u00A0".equals(str)) {  // non-breaking space
         return true;
       }
       return Character.isWhitespace(trimStr.charAt(0));

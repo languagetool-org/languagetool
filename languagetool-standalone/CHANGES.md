@@ -7,6 +7,8 @@
   to `<pattern><token>...</token></pattern>`. Note that this is limited:
   E.g. it's not possible to address POS tags and the `<suggestion>` cannot
   change the case of the match.
+* Non-breaking spaces (\u00A0) are now treated like regular spaces. Before,
+  using a non-breaking space could cause a rule not to match.
 
 #### Catalan
   * fixed false alarms
@@ -33,6 +35,8 @@
   * some formerly deprecated code has been removed
   * some code has been deprecated
   * `SuggestionExtractorTool` and `SuggestionExtractor` have been removed
+  * `StringTools.isWhitespace()` now returns `true` for a token that is
+    a non-breaking space
 
 #### LibreOffice / Apache OpenOffice Integration
   * fix: disabling rules that are disabled by default and had been 
