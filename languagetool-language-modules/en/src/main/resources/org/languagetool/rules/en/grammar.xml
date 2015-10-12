@@ -11441,16 +11441,27 @@ USA
             <example>This is important – as far as I know.</example>
             <example correction="…">This is important<marker>...</marker> as far as I know.</example>
         </rule>
-        <rule id="WRONG_APOSTROPHE" name="Wrong apostrophe character">
-            <pattern>
-                <token regexp="yes">(ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn)</token>
-                <token regexp="yes">(´|`)</token>
-                <token>t</token>
-            </pattern>
-            <message>You used an accent character instead of an apostrophe. Please use either <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>.</message>
-            <short>Accent character misused as apostrophe</short>
-            <example correction="shouldn't|shouldn’t">You <marker>shouldn´t</marker> do it!</example>
-        </rule>
+        <rulegroup id="WRONG_APOSTROPHE" name="Wrong apostrophe character">
+            <rule>
+                <pattern>
+                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
+                    <token regexp="yes">[´`]</token>
+                    <token>t</token>
+                </pattern>
+                <message>You used an accent character instead of an apostrophe. Please use either <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>.</message>
+                <short>Accent character misused as apostrophe</short>
+                <example correction="shouldn't|shouldn’t">You <marker>shouldn´t</marker> do it!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
+                    <token regexp="yes">[;:"]</token>
+                    <token>t</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>?</message>
+                <example correction="shouldn't|shouldn’t">You <marker>shouldn;t</marker> do it!</example>
+            </rule>
+        </rulegroup>
         <rule id="CONTRACTED_FORM_NOT" name="shouldn't not (shouldn't)">
             <pattern>
                 <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
