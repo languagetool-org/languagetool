@@ -2243,13 +2243,17 @@ USA
         </rule>
         <rule id="AND_SO_ONE" name="and so one (on)">
             <pattern>
-                <token>and</token>
-                <token>so</token>
-                <token>one</token>
+                <marker>
+                    <token>and</token>
+                    <token>so</token>
+                    <token>one</token>
+                </marker>
+                <token><exception postag_regexp="yes" postag="VB.*"/></token>
             </pattern>
             <message>Did you mean <suggestion>and so on</suggestion> (=&quot;etc.&quot;)?</message>
             <short>Possible typo</short>
             <example correction="and so on">We think it helps to find bottlenecks <marker>and so one</marker>.</example>
+            <example>It’s very peaceful, <marker>and so one</marker> tends to like it.</example>
         </rule>
         <rule id="THROUGH_AWAY" name="through (throw) away">
             <pattern>
