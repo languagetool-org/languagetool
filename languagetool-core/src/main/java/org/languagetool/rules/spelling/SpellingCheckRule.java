@@ -58,9 +58,7 @@ public abstract class SpellingCheckRule extends Rule {
   private final Set<String> wordsToBeIgnored = new HashSet<>();
   private final Set<String> wordsToBeProhibited = new HashSet<>();
 
-  private boolean wordsWithDotsPresent = false;
   private boolean considerIgnoreWords = true;
-
   private boolean convertsCase = false;
 
   public SpellingCheckRule(final ResourceBundle messages, final Language language) {
@@ -140,13 +138,15 @@ public abstract class SpellingCheckRule extends Rule {
     if (!considerIgnoreWords) {
       return false;
     }
-    if (!wordsWithDotsPresent) {
-      // TODO?: this is needed at least for German as Hunspell tokenization includes the dot:
-      word = word.endsWith(".") ? word.substring(0, word.length() - 1) : word;
+    if (word.endsWith(".") && !wordsToBeIgnored.contains(word)) {
+      return isIgnoredNoCase(word.substring(0, word.length()-1));  // e.g. word at end of sentence
     }
-    return (wordsToBeIgnored.contains(word)
-        || (convertsCase &&
-        wordsToBeIgnored.contains(word.toLowerCase(language.getLocale()))));
+    return isIgnoredNoCase(word);
+  }
+
+  private boolean isIgnoredNoCase(String word) {
+    return wordsToBeIgnored.contains(word) ||
+           (convertsCase && wordsToBeIgnored.contains(word.toLowerCase(language.getLocale())));
   }
 
   /**
@@ -252,9 +252,6 @@ public abstract class SpellingCheckRule extends Rule {
         }
         failOnSpace(ignoreFile, line);
         addIgnoreWords(line, wordsToBeIgnored);
-        if (line.endsWith(".")) {
-          wordsWithDotsPresent = true;
-        }
       }
     }
   }
