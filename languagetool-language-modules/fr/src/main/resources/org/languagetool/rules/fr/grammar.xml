@@ -5645,6 +5645,50 @@ though, and has since been slightly modified)-->
         <example correction="plupart">La <marker>plus part</marker> des gens.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="ACCROC_ACCRO" name="accroc et accro">
+      <url>http://tempsreel.nouvelobs.com/abc-lettres/accroc-accro-a-croc/A/homophone.html</url>
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">devenir|être|rendre|sembler</token>
+          <token regexp="yes" min="0" max="1">une?</token>
+          <marker><token regexp="yes">accrocs?</token></marker>
+        </pattern>
+        <message>Confusion probable entre « \3 » (déchirure, incident) et le mot familier <suggestion><match no="3" regexp_match="oc" regexp_replace="o"/></suggestion> (dépendant, passioné).</message>
+        <example correction="accros">Ils sont devenu <marker>accrocs</marker> sans s’en rendre compte.</example>
+        <example correction="accro">Je suis un <marker>accroc</marker> au chocolat.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">accrocs?</token></marker>
+          <token regexp="yes">à|aux?|des|du</token>
+          <token regexp="yes" min="0" max="1">la|ces?|cette|[mts]on|[mts]a|[nv]otre|[nv]os|leurs?</token>
+          <token regexp="yes">achats|anti-?d[ée]presseurs|apéros|apéritifs|anxiolytiques?|baise|belotte|bières?|boissons?|bonbons?|boulots?|bouffes?|cacao|caff?[é]s?|(?:[ïi]ne)|came|cannabis|cartes|casinos?|chambignons|clopes?|coca(?:-cola)?|chirurgies?|chocolats?|cigares?|cigarettes|cocaïne|cod[ée][iï]ne|cognacs?|coke|colle|crack|courses?|cuisines?|culs?|cybersexe|desserts?|drague|drogues?|[ée]checs|Facebook|femmes?|films?|fumette|ganja|gin|gonzesses?|gym(?:nastique)|hashish|jazz|jeux|joints?|infidélités|internet|k[ée]tamine|lectures?|littérature?|LSD|lui|machines?|malbouffes?|marie-jeanne|marijuana|masturbation|mecs?|m[ée]dicaments?|m[ée]th(?:amph[ée]tamine)?s?|meufs?|mode|morphine|motos?|musculation|musiques?|nicorette|nicotine|nourriture?|pastis|p[ée]tards?|piercings?|pinards?|pipes?|pizzas?|poker|politiques?|pornos?(?:graphie)?|portables?|poudre|psychotropes|résaux?|résine|s[ée]ries|shit|shopping|sel|sexes?|sexualités?|si[èe]ste|sites?|smart-?phones?|solarium|soleil|sports?|substituts?|sucre(?:ries)|techo(?:logies?)?|tabacs?|tablette|télé(?:vision|phone)?s?|tattouages|travail|Twitter|viandes?|victoires?|vins?|vitesse|vodka|voyance|whisky</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » (déchirure, incident) et le mot familier <suggestion><match no="1" regexp_match="oc" regexp_replace="o"/></suggestion> (dépendant, passioné).</message>
+        <example correction="Accro"><marker>Accroc</marker> à la télévision.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">accrocs?</token></marker>
+          <token>à</token>
+          <token>l</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token regexp="yes">absinthe|adr[ée]naline|alcool|amour|apéro|apéritif|argent|armagnac|astrologie|ecstasy|herbe|héro(?:[ïi]ne)|informatique|iPhone|opium|ordi(?:nateur)?</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » (déchirure, incident) et le mot familier <suggestion><match no="1" regexp_match="oc" regexp_replace="o"/></suggestion> (dépendant, passioné).</message>
+        <example correction="Accro"><marker>Accroc</marker> à l’alcool.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">faire</token>
+          <token regexp="yes">un|des</token>
+          <marker><token>accro</token></marker>
+          <token regexp="yes">à|dans</token>
+        </pattern>
+        <message>Confusion probable entre le mot familier « \3 » (dépendant, passioné) et <suggestion><match no="3" regexp_match="$" regexp_replace="c"/></suggestion> (déchirure, incident).</message>
+        <example correction="accroc">Elle à fait un <marker>accro</marker> à sa jupe.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
