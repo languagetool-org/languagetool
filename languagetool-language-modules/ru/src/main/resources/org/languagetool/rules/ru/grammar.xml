@@ -1972,7 +1972,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         
         
         </rulegroup>
-                
+        
+        <rule default="off" id="TIRE" name="Дефис вместо тире.">
+            <pattern>
+                <token regexp="yes">[а-я][а-я].*</token>
+                <marker>
+                    <token spacebefore="yes">-</token>
+                </marker>
+                <token spacebefore="yes" regexp="yes">[а-я][а-я].*</token>
+            </pattern>
+            <message>Дефис вместо тире <suggestion>—</suggestion></message>
+            <short>Тире.</short>
+            <example correction='—'>В основе сюжета <marker>-</marker> дальнейшие приключения центрального персонажа «Двенадцати стульев» Остапа Бендера.</example>
+            <example>В основе сюжета — дальнейшие приключения центрального персонажа «Двенадцати стульев» Остапа Бендера.</example>
+        </rule> 
+                   
         <rule default="on" id="PUNKT_KAVITCHKI" name="Кавычки и знаки препинания">
             <pattern>
                 <token spacebefore="no" regexp="yes"><exception scope="previous" regexp="yes">;|:|[\p{Digit}]*</exception>;|:|-|—</token>
