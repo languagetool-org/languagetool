@@ -47,7 +47,7 @@ public class DisambiguationRuleTest extends TestCase {
 
   private void testDisambiguationRulesFromXML(final Set<Language> ignoredLanguages)
       throws IOException, ParserConfigurationException, SAXException {
-    for (final Language lang : Languages.get()) {
+    for (final Language lang : Languages.getWithDemoLanguage()) {
       if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
         continue;
       }

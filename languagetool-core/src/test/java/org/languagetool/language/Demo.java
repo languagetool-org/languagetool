@@ -28,6 +28,8 @@ import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.xx.DemoChunker;
 import org.languagetool.rules.Rule;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.rules.xx.DemoDisambiguator2;
 import org.languagetool.tagging.xx.DemoTagger;
 
 /**
@@ -37,10 +39,9 @@ public class Demo extends Language {
 
   public static final String SHORT_NAME = "xx";
 
-  String name = "Testlanguage";
-  
   private Tagger tagger;
   private Chunker chunker;
+  private Disambiguator disambiguator;
 
   @Override
   public Locale getLocale() {
@@ -48,8 +49,16 @@ public class Demo extends Language {
   }
 
   @Override
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new DemoDisambiguator2();
+    }
+    return disambiguator;
+  }
+
+  @Override
   public String getName() {
-    return name;
+    return "Testlanguage";
   }
 
   @Override

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	Example Disambiguation Rules for LanguageTool
+-->
+<rules lang="xx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
+
+    <rule id="CD" name="Tag numbers">
+        <pattern>
+            <token regexp="yes">\d+</token>
+        </pattern>
+        <disambig postag="CD"/>
+        <example type="untouched">Ten dollars</example>
+        <example type='ambiguous' inputform="10[10]" outputform="10[10/CD]"><marker>10</marker> dollars</example>
+    </rule>
+
+</rules>
+ 
+ 
