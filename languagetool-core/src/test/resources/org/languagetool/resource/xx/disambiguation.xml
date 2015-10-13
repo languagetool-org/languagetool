@@ -13,7 +13,16 @@
         <example type="untouched">Ten dollars</example>
         <example type='ambiguous' inputform="10[10]" outputform="10[10/CD]"><marker>10</marker> dollars</example>
     </rule>
+    
+    <rule id="FILTER1" name="Test filter">
+        <pattern>
+            <token regexp="yes">X\d+</token>
+        </pattern>
+        <filter class="org.languagetool.tagging.disambiguation.rules.xx.DemoDisambiguationFilter" args="fixme:foo"/>
+        <disambig postag="CD"/>
+        <example type="untouched">X8 dollars</example>
+        <example type='ambiguous' inputform="X9[X9]" outputform="X9[X9/CD]"><marker>X9</marker> dollars</example>
+        <example type="untouched">X10 dollars</example>
+    </rule>
 
 </rules>
- 
- 
