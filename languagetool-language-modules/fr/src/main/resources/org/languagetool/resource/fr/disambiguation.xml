@@ -26,6 +26,21 @@ RB => Règles Brutes
     </equivalence>
   </unification>
 
+  <rulegroup id="DANS" name="dans">
+    <rule>
+      <pattern>
+        <token>dans</token>
+      </pattern>
+      <disambig postag="P"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">[ld]es</token>
+        <token>dans</token>
+      </pattern>
+      <disambig postag="N m p"/>
+    </rule>
+  </rulegroup>
   <rule name="nom" id="NOM">
     <pattern>
       <token postag="SENT_START"/>
@@ -94,6 +109,14 @@ RB => Règles Brutes
       </marker>
     </pattern>
     <disambig postag="R pers obj 3 f s"/>
+  </rule>
+
+  <rule name="la_le_les_leur (déterminant)" id="LA_LE_LES_LEUR_D">
+    <pattern>
+      <token postag="P"/>
+      <marker><token regexp="yes">la|les?|leurs?</token></marker>
+    </pattern>
+    <disambig action="filter" postag="D.*"/>
   </rule>
 
   <rule name="la (déterminant)" id="LA_D">
@@ -446,7 +469,7 @@ RB => Règles Brutes
           <token>leur</token>
         </marker>
       </pattern>
-      <disambig postag="R pers obj 3 p"/>
+      <disambig postag="R pers obj 3 p="/>
     </rule>
     <rule>
       <pattern>
@@ -1313,21 +1336,6 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="N m s"/>
   </rule>
-  <rulegroup id="DANS" name="dans">
-    <rule>
-      <pattern>
-        <token>dans</token>
-      </pattern>
-      <disambig postag="P"/>
-    </rule>
-    <rule>
-      <pattern>
-        <token regexp="yes">[ld]es</token>
-        <token>dans</token>
-      </pattern>
-      <disambig postag="N m p"/>
-    </rule>
-  </rulegroup>
   <rule id="JAVA" name="Java">
     <pattern case_sensitive="yes">
       <marker><token>Java</token></marker>
