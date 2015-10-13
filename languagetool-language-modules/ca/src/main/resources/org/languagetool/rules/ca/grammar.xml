@@ -13941,6 +13941,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="pràcticament no|no pràcticament"><marker>no pràcticament no</marker>.</example>
             <example>No només no</example>
         </rule>
+        <rule id="ELEMENTS_REPETITS" name="repetició: també... també">
+            <pattern>
+                <token skip="6" regexp="yes">també|ja|encara<exception scope="next" postag="_PUNCT.*|C.*" postag_regexp="yes"/></token>
+                <token><match no="0"/></token>
+            </pattern>
+            <message>Repetició probablement incorrecta.</message>
+            <example correction=""><marker>També s'anomena també</marker> així.</example>
+            <example correction=""><marker>encara no és encara</marker> definitiu.</example>
+            <example>També és blanc, i també és negre.</example>
+        </rule>
         <!-- <rule id="ELEMENTS_REPETITS" name="elements repetits: ja...ja, no...no">
             <pattern>
             <token postag="SENT_START" skip="-1"><exception scope="next" postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C.*" postag_regexp="yes"/></token>
