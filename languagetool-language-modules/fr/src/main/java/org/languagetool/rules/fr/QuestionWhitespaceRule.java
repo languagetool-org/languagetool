@@ -66,7 +66,7 @@ public class QuestionWhitespaceRule extends FrenchRule {
     String prevToken = "";
     for (int i = 1; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
-      final boolean isWhiteBefore = tokens[i].isWhitespaceBefore();
+      final boolean isWhiteBefore = tokens[i].isWhitespaceBefore() && !"\u00A0".equals(prevToken);
       String msg = null;
       int fixLen = 0;
       String suggestionText = null;
