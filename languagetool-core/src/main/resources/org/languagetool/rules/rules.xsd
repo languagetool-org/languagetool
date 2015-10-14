@@ -194,6 +194,14 @@
 			<xs:simpleContent>
 				<xs:extension base="xs:string">
 					<xs:attribute name="case_sensitive" type="binaryYesNo" use="optional"/>
+                    <xs:attribute name="type" use="optional" default="smart">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:NMTOKEN">
+                                <xs:enumeration value="smart" />
+                                <xs:enumeration value="exact" />
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:attribute>
 				</xs:extension>
 			</xs:simpleContent>
 		</xs:complexType>

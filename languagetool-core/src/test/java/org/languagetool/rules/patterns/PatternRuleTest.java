@@ -301,10 +301,14 @@ public class PatternRuleTest extends TestCase {
           for (AnalyzedTokenReadings atr : analyzedSentence.getTokens()) {
             sb.append(" ").append(atr);
           }
+          String info = "";
+          if (rule instanceof RegexPatternRule) {
+            info = "\nRegexp: " + ((RegexPatternRule) rule).getPattern().toString();
+          }
           fail(lang + " rule " + rule.getFullId() + ":\n\"" + badSentence + "\"\n"
                   + "Errors expected: 1\n"
                   + "Errors found   : " + matches.size() + "\n"
-                  + "Message: " + rule.getMessage() + "\n" + sb + "\nMatches: " + matches);
+                  + "Message: " + rule.getMessage() + "\n" + sb + "\nMatches: " + matches + info);
         }
         assertEquals(lang
                 + ": Incorrect match position markup (start) for rule " + rule.getFullId() + ", sentence: " + badSentence,

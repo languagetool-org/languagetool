@@ -43,6 +43,10 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author Daniel Naber
  */
 public class XMLRuleHandler extends DefaultHandler {
+  
+  enum RegexpMode {
+    SMART, EXACT
+  }
 
   public static final String ID = "id";
   public static final String NAME = "name";
@@ -191,6 +195,7 @@ public class XMLRuleHandler extends DefaultHandler {
   
   protected boolean inRegex;
   protected StringBuilder regex = new StringBuilder();
+  protected RegexpMode regexMode = RegexpMode.SMART;
   protected boolean regexCaseSensitive = false;
 
   protected boolean inShortMessage;

@@ -107,6 +107,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       case "regexp":
         inRegex = true;
         regex = new StringBuilder();
+        regexMode = "exact".equals(attrs.getValue("type")) ? RegexpMode.EXACT : RegexpMode.SMART;
         regexCaseSensitive = attrs.getValue(CASE_SENSITIVE) != null && YES.equals(attrs.getValue(CASE_SENSITIVE));
         break;
       case RULE:
@@ -549,7 +550,19 @@ public class PatternRuleHandler extends XMLRuleHandler {
                 suggestionsOutMsg.toString(), phrasePatternTokens.size() > 1);
       } else if (regex.length() > 0) {
         int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE;
-        rule = new RegexPatternRule(id, name, message.toString(), suggestionsOutMsg.toString(), language, Pattern.compile(regex.toString(), flags));
+        String regexStr = regex.toString();
+        if (regexMode == RegexpMode.SMART) {
+          regexStr = replaceSpacesInRegex(regexStr);
+          // TODO: it's not that easy to add \b because the regex might look like '(foo)' or '\d' so we cannot just look at the last character
+          /*if (regexStr.matches("^\\w")) {
+            regexStr = "\\b" + regexStr;
+          }
+          if (regexStr.matches("\\w$")) {
+            // word boundary, wouldn't work when e.g. regex ends in a dot and next char in input after the dot is a space
+            regexStr = regexStr + "\\b";
+          }*/
+        }
+        rule = new RegexPatternRule(id, name, message.toString(), suggestionsOutMsg.toString(), language, Pattern.compile(regexStr, flags));
       } else {
         throw new IllegalStateException("Neither pattern tokens nor regex is set");
       }
@@ -574,6 +587,25 @@ public class PatternRuleHandler extends XMLRuleHandler {
       tmpPatternTokens.add((PatternToken) ObjectUtils.clone(patternToken));
       createRules(elemList, tmpPatternTokens, numElement + 1);
     }
+  }
+
+  String replaceSpacesInRegex(String s) {
+    StringBuilder sb = new StringBuilder();
+    boolean inBracket = false;
+    for (int i = 0; i < s.length(); i++) {
+      char c = s.charAt(i);
+      if (c == '[') {
+        inBracket = true;
+      } else if (c == ']') {
+        inBracket = false;
+      }
+      if (c == ' ' && !inBracket) {
+        sb.append("(?:\\s+)");
+      } else {
+        sb.append(c);
+      }
+    }
+    return sb.toString();
   }
 
   protected void prepareRule(final AbstractPatternRule rule) {

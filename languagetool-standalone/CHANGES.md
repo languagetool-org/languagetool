@@ -29,6 +29,8 @@
     to `<pattern><token>...</token></pattern>`. Note that this is limited:
     E.g. it's not possible to address POS tags and the `<suggestion>` cannot
     change the case of the match.
+    Available attribute: `type` with value `smart` (treats space in the regular
+    expression as if it was `\s+`) or `exact` (`smart` is the default) 
   * Non-breaking spaces (`\u00A0`) are now treated like regular spaces. Before,
     using a non-breaking space could cause a rule not to match.
   * `<filter>` can now also be used in `disambiguation.xml`
