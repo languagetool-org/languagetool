@@ -3555,7 +3555,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token><exception regexp="yes">el|la|els|les|em|et|us|vos|ens|l'</exception></token>
                     <marker>
-                        <token postag="V.[ISMGN].*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;</token>
+                        <token postag="V.[ISMGN].*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;<exception inflected="yes">ajudar</exception></token>
                         <token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
                         <token regexp="yes">ls?</token>
                     </marker>
@@ -3574,7 +3574,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token><exception regexp="yes">el|la|els|les|em|et|us|vos|ens|l'</exception></token>
                     <marker>
-                        <token postag="V.[ISMG].*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token postag="V.[ISMG].*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_no_intrans_consonant;|&verbs_no_intrans_vocal;<exception inflected="yes">ajudar</exception><exception postag="_GN_.*" postag_regexp="yes"/></token>
                         <token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
                     </marker>
                     <token><exception regexp="yes">ls?|tots?|tothom|ningú|cadascú|mi|tu|ella?|[nv]osaltres|elle?s|vost[éè]s?|si</exception><exception postag="V.N.*" postag_regexp="yes"/></token>
@@ -13942,6 +13942,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>No només no</example>
         </rule>
         <rule id="ELEMENTS_REPETITS" name="repetició: també... també">
+            <antipattern>
+                <marker>
+                   <token>ja</token>
+                   <token skip="7"/>
+                   <token><match no="0"/></token>
+                   <token><match no="1"/></token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token skip="6" regexp="yes">també|ja|encara<exception scope="next" postag="_PUNCT.*|C.*" postag_regexp="yes"/></token>
                 <token><match no="0"/></token>
@@ -13950,6 +13958,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=""><marker>També s'anomena també</marker> així.</example>
             <example correction=""><marker>encara no és encara</marker> definitiu.</example>
             <example>També és blanc, i també és negre.</example>
+            <example>Ja per vergonya ja per timidesa</example>
         </rule>
         <!-- <rule id="ELEMENTS_REPETITS" name="elements repetits: ja...ja, no...no">
             <pattern>
