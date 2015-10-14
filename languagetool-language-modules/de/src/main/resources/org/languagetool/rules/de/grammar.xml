@@ -25652,13 +25652,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="5 %">Die Steigung beträgt <marker>5%</marker>.</example>
             </rule>
             <rule>
-                <regexp>((\-)?[0-9]{1,}) (°)</regexp>
+                <regexp>((\-)?[0-9]{1,}) (°[^CFK])</regexp>
                 <message>Vor dem Gradzeichen, auf das kein Buchstabe zur Kennzeichnung der Skala folgt, steht kein Leerzeichen. Verwenden Sie <suggestion>\1°</suggestion> oder fügen Sie ggf. ein fehlendes Einheitenzeichen hinzu (z. B. <suggestion>\1 °C</suggestion>).</message>
-                <example correction="25°|25 °C">Der Winkel ist <marker>25 °</marker> groß.</example>
-                <example correction="5°|5 °C">Es ist -25,<marker>5 °</marker> warm.</example>
-                <example correction="-25°|-25 °C">Es ist <marker>-25 °</marker> warm.</example>
-                <example correction="25°|25 °C">Der Winkel ist <marker>25 °</marker> groß.</example>
-                <example correction="-25°|-25 °C">Es ist <marker>-25 °</marker> warm.</example>
+                <example correction="25°|25 °C">Der Winkel ist <marker>25 ° </marker>groß.</example>
+                <example correction="5°|5 °C">Es ist -25,<marker>5 ° </marker>warm.</example>
+                <example correction="-25°|-25 °C">Es ist <marker>-25 ° </marker>warm.</example>
+                <example correction="25°|25 °C">Der Winkel ist <marker>25 ° </marker>groß.</example>
+                <example correction="-25°|-25 °C">Es ist <marker>-25 ° </marker>warm.</example>
             </rule>
             <rule>
                 <regexp>(\-?[0-9]+) (″)</regexp>
@@ -26533,7 +26533,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="PARAGRAF_LEERZEICHEN" name="Fehlendes geschütztes Leerzeichen nach '§'">
             <rule>
-                <regexp case_sensitive='yes'>§ ?(\d+[a-z]?)</regexp>
+                <regexp case_sensitive='yes' type="exact">§ ?(\d+[a-z]?)</regexp>
                 <message>Nach dem Paragrafenzeichen sollte ein geschütztes Leerzeichen stehen</message>
                 <suggestion>§&nbsp;\1</suggestion>
                 <example>An dieser Kreuzung gilt §&nbsp;20.</example>
