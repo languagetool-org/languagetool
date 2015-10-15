@@ -8233,6 +8233,15 @@ USA
     longer list but not checked thouroughly: 
     http://www.geocities.com/Athens/Olympus/7583/ncntlist.html
     -->
+        <rule id="UNCOUNTABLE_PLURAL" name="uncountable coun(no plural)">
+	    <pattern>
+		 <token inflected='yes' regexp='yes' postag='NNS'>accommodation|advice|access|baggage|bread|damage|equipment|garbage|luggage|money|cattle|sand|furniture|meat|food|news|pasta|progress|research|water|freedom|maturity|intelligence|travel|pollution|traffic|transport|patience
+					<exception postag='VBZ'></exception></token>
+	     </pattern>
+	     <message><match no="1" postag="NN:U" />is uncountable noun.Change to <suggestion><match no="1" postag="NN:U" /></suggestion>.</message>
+	     <example correction=''>People are getting more conscious of the <marker>damages</marker>.</example>
+	     <example>People are getting more conscious of the damage.</example>
+	</rule>
         <rulegroup id="A_UNCOUNTABLE" name="Articles: a + uncountable noun">
         <rule>
             <pattern>
