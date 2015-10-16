@@ -135,8 +135,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="paar kleine|Paar keine">... nur weil ein <marker>paar keine</marker> Kinder möchte.</example>
         </rule>
         <rule id="MIR_MIR" name="Wiederholung Dativ: mir mir/dir/uns">
-            <regexp>(mir) (mir|dir|ihm|uns|euch|ihnen|meinem|deinem|seinem|unserem|eurem|ihrem)</regexp>
-            <message>Hier wird ein Dativ-Pronomen wiederholt. Meinten Sie vielleicht <suggestion>mit \2</suggestion>?</message>
+            <regexp>mir (mir|dir|ihm|uns|euch|ihnen|meinem|deinem|seinem|unserem|eurem|ihrem)</regexp>
+            <message>Hier wird ein Dativ-Pronomen wiederholt. Meinten Sie vielleicht <suggestion>mit \1</suggestion>?</message>
             <example correction="mit dir">Ich will <marker>mir dir</marker> reden.</example>
         </rule>
         <rule id="FINDER_GEWICKELT" name="Möglicher Tippfehler: um den Finder (Finger) gewickelt">
@@ -164,9 +164,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="GENANT" name="Möglicher Tippfehler: genant (genannt)">
         <!-- Jan: TODO: Kontext prüfen. -->
-            <regexp>(genant(?:e|er|es|en|em)?)</regexp>
-            <message>Meinten Sie <suggestion>genannt</suggestion>, das Partizip von 'nennen'?</message>
+            <regexp>genant(er|es|en|em|e)?</regexp>
+            <message>Meinten Sie <suggestion>genannt\1</suggestion>, das Partizip von 'nennen'?</message>
             <example correction="genannt">Seit seiner Kindheit wurde er Tom <marker>genant</marker>.</example>
+            <example correction="genannter">Ein 'Hundi' <marker>genanter</marker> Hund.</example>
         </rule>
         <rule id="CHRISTI_HIMMELPFAD" name="Möglicher Tippfehler: Christi Himmelpfad (Himmelfahrt)">
             <pattern>
@@ -199,9 +200,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Sich selbst auf dem Schlachtfeld zu verschieben hat seinen Reiz.</example>
         </rule>
         <rule id="GEBRAUCHTSPUREN" name="Möglicher Tippfehler: Gebrauchtspuren (Gebrauchsspuren)">
-            <regexp case_sensitive='yes'>(Gebrauchtspur(en)?)</regexp>
-            <message>Meinten Sie <suggestion><match no="1" regexp_match="Gebrauchtspur" regexp_replace="Gebrauchsspur"/></suggestion>?</message>
+            <regexp case_sensitive='yes'>Gebrauchtspur(en)?</regexp>
+            <message>Meinten Sie <suggestion>Gebrauchsspur\1</suggestion>?</message>
             <example correction="Gebrauchsspuren">Die Ware hat deutliche <marker>Gebrauchtspuren</marker>.</example>
+            <example correction="Gebrauchsspur">Die Ware hat eine deutliche <marker>Gebrauchtspur</marker>.</example>
         </rule>
         <rule id="IM_IHM" name="Möglicher Tippfehler: 'im (ihm)'">
             <antipattern>
@@ -224,8 +226,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example><marker>Im</marker> gleichen T-Shirt sah er besser aus.</example>
         </rule>
         <rule id="SEIN_MONATEN" name="Möglicher Tippfehler: sein (seit) Jahren etc.">
-            <regexp>(sein) ((Sekunden|Minuten|Stunden|Tagen|Wochen|Monaten|Jahren|Jahrzehnten|Jahrhunderten))</regexp>
-            <message>Meinten Sie <suggestion>seit \2</suggestion>?</message>
+            <regexp>sein (Sekunden|Minuten|Stunden|Tagen|Wochen|Monaten|Jahren|Jahrzehnten|Jahrhunderten)</regexp>
+            <message>Meinten Sie <suggestion>seit \1</suggestion>?</message>
             <example correction="Seit Monaten"><marker>Sein Monaten</marker> nervt er mich.</example>
         </rule>
         <rule id="ZUR_STANDE" name="Möglicher Tippfehler: zur Stande (zustande, zu Stande)">
@@ -9314,8 +9316,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
 
         <rule id="BAUCHWEH" name="Umgangssprache: 'Bauchweh (Bauchschmerz)'">
-            <regexp>((Bauch|Kopf|Hals|Zahn)wehs?)</regexp>
-            <message><match no="1"/> ist umgangssprachlich. Vorschläge: <suggestion><match no="1" regexp_replace="schmerz" regexp_match="wehs?$"/></suggestion>, <suggestion><match no="1" regexp_replace="schmerzen" regexp_match="wehs?$"/></suggestion>.\nBitte beachten Sie, dass etwaige Adjektive an das neue Genus angepasst werden müssen.</message>
+            <regexp>(Bauch|Kopf|Hals|Zahn)(wehs?)</regexp>
+            <message><match no="1"/> ist umgangssprachlich. Vorschläge: <suggestion>\1schmerz</suggestion>, <suggestion>\1schmerzen</suggestion>.\nBitte beachten Sie, dass etwaige Adjektive an das neue Genus angepasst werden müssen.</message>
             <example correction="Bauchschmerz|Bauchschmerzen">Er hat <marker>Bauchweh</marker>.</example>
             <example correction="Zahnschmerz|Zahnschmerzen">Wegen des starken <marker>Zahnwehs</marker>...</example>
         </rule>

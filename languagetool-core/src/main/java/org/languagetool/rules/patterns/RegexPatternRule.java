@@ -92,7 +92,7 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
   }
 
   private List<String> extractSuggestions(Matcher matcher, String msg) {
-    Pattern suggestionPattern = Pattern.compile("<suggestion>(.*?)</suggestion>");  // TODO: this needs to be clean up, there should be no need to parse this
+    Pattern suggestionPattern = Pattern.compile("<suggestion>(.*?)</suggestion>");  // TODO: this needs to be cleaned up, there should be no need to parse this
     Matcher sMatcher = suggestionPattern.matcher(msg);
     int startPos = 0;
     List<String> result = new ArrayList<>();
@@ -116,6 +116,7 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
         replacedMsg = replacedMsg.replace("\\" + i, replacement);
       }
     }
+    replacedMsg = replacedMsg.replaceAll("\\\\[0-9]", "");   // optional matches need to be replaced by empty string
     return replacedMsg;
   }
 
