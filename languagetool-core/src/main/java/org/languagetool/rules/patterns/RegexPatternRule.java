@@ -36,6 +36,8 @@ import java.util.regex.Pattern;
  */
 class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
 
+  private static final Pattern suggestionPattern = Pattern.compile("<suggestion>(.*?)</suggestion>");  // TODO: this needs to be cleaned up, there should be no need to parse this?
+
   private final Pattern pattern;
 
   RegexPatternRule(String id, String description, String message, String suggestionsOutMsg, Language language, Pattern regex) {
@@ -58,13 +60,14 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
     while (matcher.find(startPos)) {
       String msg = replaceBackRefs(matcher, message);
       boolean sentenceStart = matcher.start(0) == 0;
-      RuleMatch ruleMatch = new RuleMatch(this, matcher.start(), matcher.end(), msg, null, sentenceStart, null);
+      List<String> suggestions = extractSuggestions(matcher, msg);
       List<String> matchSuggestions = getMatchSuggestions(sentence, matcher);
+      msg = replaceMatchElements(msg, matchSuggestions);
+      RuleMatch ruleMatch = new RuleMatch(this, matcher.start(), matcher.end(), msg, null, sentenceStart, null);
       List<String> allSuggestions = new ArrayList<>();
       if (matchSuggestions.size() > 0) {
         allSuggestions.addAll(matchSuggestions);
       } else {
-        List<String> suggestions = extractSuggestions(matcher, msg);
         allSuggestions.addAll(suggestions);
         List<String> extendedSuggestions = extractSuggestions(matcher, getSuggestionsOutMsg());
         allSuggestions.addAll(extendedSuggestions);
@@ -91,8 +94,20 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
     return matchSuggestions;
   }
 
+  private String replaceMatchElements(String msg, List<String> suggestions) {
+    Matcher sMatcher = suggestionPattern.matcher(msg);
+    StringBuffer sb = new StringBuffer();
+    int i = 0;
+    while (sMatcher.find()) {
+      if (i < suggestions.size()) {
+        sMatcher.appendReplacement(sb, "<suggestion>" + suggestions.get(i++) + "</suggestion>");
+      }
+    }
+    sMatcher.appendTail(sb);
+    return sb.toString();
+  }
+  
   private List<String> extractSuggestions(Matcher matcher, String msg) {
-    Pattern suggestionPattern = Pattern.compile("<suggestion>(.*?)</suggestion>");  // TODO: this needs to be cleaned up, there should be no need to parse this
     Matcher sMatcher = suggestionPattern.matcher(msg);
     int startPos = 0;
     List<String> result = new ArrayList<>();
