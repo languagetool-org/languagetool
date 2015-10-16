@@ -28,7 +28,7 @@ public class PatternRuleHandlerTest {
   @Test
   public void testReplaceSpacesInRegex() {
     PatternRuleHandler handler = new PatternRuleHandler();
-    String s = "(?:[\\s\u00A0]+)";
+    String s = "(?:[\\s\u00A0\u202F]+)";
     assertThat(handler.replaceSpacesInRegex("foo bar"), is("foo" + s + "bar"));
     assertThat(handler.replaceSpacesInRegex("foo bar x"), is("foo" + s + "bar" + s + "x"));
     assertThat(handler.replaceSpacesInRegex("foo  bar"), is("foo" + s + s + "bar"));  // well, does not really make sense

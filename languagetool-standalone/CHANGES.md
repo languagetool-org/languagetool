@@ -41,7 +41,7 @@
   * some code has been deprecated
   * `SuggestionExtractorTool` and `SuggestionExtractor` have been removed
   * `StringTools.isWhitespace()` now returns `true` for a token that is
-    a non-breaking space
+    a non-breaking space or a narrow non-breaking space
   * `RuleFilter` is not an interface anymore but an abstract class
 
 #### LibreOffice / Apache OpenOffice Integration

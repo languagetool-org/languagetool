@@ -380,12 +380,15 @@ public final class StringTools {
   }
 
   /**
-   * Checks if a string contains only whitespace, including all Unicode
-   * whitespace, and the non-breaking space. This differs a bit from the 
-   * definition of whitespace in Java 7 because of the way we want to interpret Khmer.
-   * 
+   * Checks if a string contains a whitespace, including:
+   * <ul>
+   * <li>all Unicode whitespace
+   * <li>the non-breaking space (U+00A0)
+   * <li>the narrow non-breaking space (U+202F)
+   * <li>the zero width space (U+200B), used in Khmer
+   * </ul>
    * @param str String to check
-   * @return true if the string is whitespace-only
+   * @return true if the string is a whitespace character
    */
   public static boolean isWhitespace(final String str) {
     if ("\u0002".equals(str) // unbreakable field, e.g. a footnote number in OOo
@@ -400,7 +403,7 @@ public final class StringTools {
       if ("\u200B".equals(str)) {
         // We need u200B​​ to be detected as whitespace for Khmer, as it was the case before Java 7.
         return true;
-      } else if ("\u00A0".equals(str)) {  // non-breaking space
+      } else if ("\u00A0".equals(str) || "\u202F".equals(str)) {  // non-breaking space and narrow non-breaking space
         return true;
       }
       return Character.isWhitespace(trimStr.charAt(0));

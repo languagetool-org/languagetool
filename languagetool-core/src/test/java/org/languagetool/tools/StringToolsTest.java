@@ -190,6 +190,8 @@ public class StringToolsTest extends TestCase {
     //non-breaking OOo field
     assertEquals(false, StringTools.isWhitespace("\\u02"));
     assertEquals(false, StringTools.isWhitespace("\u0001"));
+    // narrow nbsp:
+    assertEquals(true, StringTools.isWhitespace("\u202F"));
   }
   
   public void testIsPositiveNumber() {

@@ -600,7 +600,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         inBracket = false;
       }
       if (c == ' ' && !inBracket) {
-        sb.append("(?:[\\s\u00A0]+)");
+        sb.append("(?:[\\s\u00A0\u202F]+)");
       } else {
         sb.append(c);
       }
