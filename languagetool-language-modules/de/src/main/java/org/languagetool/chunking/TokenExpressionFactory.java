@@ -18,7 +18,6 @@
  */
 package org.languagetool.chunking;
 
-import com.google.common.base.Function;
 import edu.washington.cs.knowitall.logic.LogicExpression;
 import edu.washington.cs.knowitall.regex.Expression;
 import edu.washington.cs.knowitall.regex.ExpressionFactory;
@@ -39,12 +38,7 @@ final class TokenExpressionFactory extends ExpressionFactory<ChunkTaggedToken> {
 
   @Override
   public Expression.BaseExpression<ChunkTaggedToken> create(final String expr) {
-    final LogicExpression<ChunkTaggedToken> logicExpression = LogicExpression.compile(expr, new Function<String, edu.washington.cs.knowitall.logic.Expression.Arg<ChunkTaggedToken>>() {
-      @Override
-      public edu.washington.cs.knowitall.logic.Expression.Arg<ChunkTaggedToken> apply(final String input) {
-        return new TokenPredicate(input, caseSensitive);
-      }
-    });
+    final LogicExpression<ChunkTaggedToken> logicExpression = LogicExpression.compile(expr, input -> new TokenPredicate(input, caseSensitive));
     return new Expression.BaseExpression<ChunkTaggedToken>(expr) {
       @Override
       public boolean apply(ChunkTaggedToken token) {

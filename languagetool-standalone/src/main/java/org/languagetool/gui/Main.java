@@ -616,12 +616,7 @@ public final class Main {
         try {
           tagTextAndDisplayResults();
         } finally {
-          SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-              unsetWaitCursor();
-            }
-          });
+          SwingUtilities.invokeLater(() -> unsetWaitCursor());
         }
       }
     }.start();
@@ -792,12 +787,7 @@ public final class Main {
           taggerDialog.setSize(640, 480);
           taggerDialog.setLocationRelativeTo(frame);
           KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
-          ActionListener actionListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-              taggerDialog.setVisible(false);
-            }
-          };
+          ActionListener actionListener = actionEvent -> taggerDialog.setVisible(false);
           taggerDialog.getRootPane().registerKeyboardAction(actionListener,
                   stroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
           JPanel panel = new JPanel(new GridBagLayout());
