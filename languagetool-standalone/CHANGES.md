@@ -24,6 +24,10 @@
   * added `de/removed.txt` so incorrect readings of the POS tagger can be avoided without
     rebuilding the binary dictionary
 
+#### Russian
+  * added/improved a few rules
+  * added words suggested by users
+
 #### Rule Syntax
   * New rule syntax `<regexp>...<regexp>` as a simple alternative
     to `<pattern><token>...</token></pattern>`. Note that this is limited:
