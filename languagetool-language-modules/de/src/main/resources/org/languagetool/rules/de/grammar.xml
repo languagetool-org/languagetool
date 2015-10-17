@@ -231,17 +231,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Seit Monaten"><marker>Sein Monaten</marker> nervt er mich.</example>
         </rule>
         <rule id="ZUR_STANDE" name="Möglicher Tippfehler: zur Stande (zustande, zu Stande)">
-            <regexp>zur Stande</regexp>
+            <regexp>zur Stande\b</regexp>
             <message>Die feste Wendung lautet '<suggestion>zustande</suggestion> bringen' oder '<suggestion>zu Stande</suggestion> bringen'</message>
             <example correction="zustande|zu Stande">Keinen vernünftigen Gesichtsausdruck <marker>zur Stande</marker> bringen.</example>
         </rule>
-        <rulegroup id="BIT_62" name="Möglicher Tippfehler: 62-Bit (64-Bit) etc.">
-            <rule>
-                <regexp>((?:62|34)\-bit)</regexp>
-                <message>Meinten Sie <suggestion><match no="1" regexp_match="62|34" regexp_replace="32"/></suggestion> oder <suggestion><match no="1" regexp_match="62|34" regexp_replace="64"/></suggestion>?</message>
-                <example correction="32-Bit|64-Bit">Du solltest die <marker>62-Bit</marker>-Version installieren</example>
-            </rule>
-        </rulegroup>
+        <rule id="BIT_62" name="Möglicher Tippfehler: 62-Bit (64-Bit) etc.">
+            <regexp>(62|34)-bit</regexp>
+            <message>Meinten Sie <suggestion><match no="0" regexp_match="62|34" regexp_replace="32"/></suggestion> oder <suggestion><match no="0" regexp_match="62|34" regexp_replace="64"/></suggestion>?</message>
+            <example correction="32-Bit|64-Bit">Du solltest die <marker>62-Bit</marker>-Version installieren</example>
+        </rule>
         <rule id="SUCH_SICH" name="Möglicher Tippfehler: lasst/lässt such (sich)">
             <pattern>
                 <token regexp="yes">lassen|lässt|wird|kann|darf|mag</token>
@@ -604,7 +602,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="BEIM_BEI" name="Möglicher Tippfehler: 'bei beim' etc.">
-            <regexp>beim? beim?</regexp>
+            <regexp>\bbeim? beim?\b</regexp>
             <message>Möglicherweise ist hier ein Wort zu viel. Vorschläge: <suggestion>bei</suggestion>, <suggestion>beim</suggestion></message>
             <short>Möglicherweise ist hier ein Wort zu viel</short>
             <example correction="bei|beim">Begründe, weshalb solche Zustände des Elektrons die gleichen wie <marker>bei beim</marker> Hg-Atom sind.</example>
@@ -665,7 +663,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="KOMMA_TLD" name="Möglicher Tippfehler: 'example,com (example.com)'">
             <rule>
-                <regexp case_sensitive='yes'>([a-zäöüß\-]+),(com|de|net|uk|org|info|nl|eu|cn|biz)</regexp>
+                <regexp case_sensitive='yes'>([a-zäöüß0-9\-]+),(com|de|net|uk|org|info|nl|eu|cn|biz)\b</regexp>
                 <message>Möglicher Tippfehler: Meinten Sie <suggestion>\1.\2</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
                 <example correction="example.com">Guck mal auf <marker>example,com</marker> nach.</example>
@@ -1807,7 +1805,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="E-Mail">Ich regle die Angelegenheit per <marker>Email</marker>.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>email|eMail|e-Mail|e-mail|E-mail</regexp>
+                <regexp case_sensitive='yes'>\b(email|eMail|e-Mail|e-mail|E-mail)</regexp>
                 <message>Meinten Sie <suggestion>E-Mail</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
                 <example correction="E-Mail">Er schickt mir eine <marker>e-mail</marker>.</example>
@@ -2195,7 +2193,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="in der Regel">Wir machen das <marker>in der Regeln</marker> folgendermaßen.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>in aller Regeln</regexp>
+                <regexp case_sensitive='yes'>in aller Regeln\b</regexp>
                 <message>Meinten Sie evt. die Redewendung <suggestion>in aller Regel</suggestion>?</message>
                 <example correction="in aller Regel">Wir machen das <marker>in aller Regeln</marker> folgendermaßen.</example>
             </rule>
@@ -2494,12 +2492,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="FUER_UND_WIEDER" name="Möglicher Tippfehler: 'für und wieder (wider)'">
             <url>http://www.duden.de/rechtschreibung/wider</url>
             <rule>
-                <regexp case_sensitive='yes'>für und wieder</regexp>
+                <regexp case_sensitive='yes'>\bfür und wieder\b</regexp>
                 <message>Meinten Sie <suggestion>für und wider</suggestion>?</message>
                 <example correction="für und wider">Die Argumente <marker>für und wieder</marker> diese Option halten sich die Waage.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>Für und Wieder</regexp>
+                <regexp case_sensitive='yes'>Für und Wieder\b</regexp>
                 <message>Meinten Sie <suggestion>Für und Wider</suggestion>?</message>
                 <example>Das <marker>Für und Wider</marker> sollte gründlich abgewogen werden.</example>
                 <example correction="Für und Wider">Das <marker>Für und Wieder</marker> wird erwogen.</example>
@@ -3417,13 +3415,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="verhalte|verwalte">Ich <marker>veralte</marker> auf diese Weise so 100 E-Mail-Adressen.</example>
         </rule>
         <rule id="MITTELOHRENZUENDUNG" name="Möglicher Tippfehler: 'Mittelohrenzündung (Mittelohrentzündung)'">
-            <regexp>(Mittelohrenzündung(en)?)</regexp>
-            <message>Meinten Sie <suggestion><match no="1" regexp_match="enz" regexp_replace="entz"/></suggestion>?</message>
+            <regexp>Mittelohrenzündung(en)?</regexp>
+            <message>Meinten Sie <suggestion><match no="0" regexp_match="enz" regexp_replace="entz"/></suggestion>?</message>
             <example correction="Mittelohrentzündungen">Sie haben <marker>Mittelohrenzündungen</marker>.</example>
         </rule>
         <rule id="WALDNUSSÖL" name="Möglicher Tippfehler: 'Waldnussöl (Walnussöl)'">
-            <regexp>(Waldnussöl(e)?)</regexp>
-            <message>Meinten Sie <suggestion><match no="1" regexp_match="Waldnuss" regexp_replace="Walnuss"/></suggestion>, das Öl aus Walnüssen?</message>
+            <regexp>Waldnussöle?</regexp>
+            <message>Meinten Sie <suggestion><match no="0" regexp_match="Waldnuss" regexp_replace="Walnuss"/></suggestion>, das Öl aus Walnüssen?</message>
             <example correction="Walnussöl">Hier gibt es leckeres <marker>Waldnussöl</marker>.</example>
         </rule>
         <rule id="VON_WIEDER_VON" name="Möglicher Tippfehler: 'von (schon) wieder von'">
@@ -3484,7 +3482,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Die"><marker>Dies</marker> ersten beiden Zuweisungen sind korrekt.</example>
         </rule>
         <rule id="ZU_NEIGE" name="zu Neige (zur Neige)">
-            <regexp>zu Neige</regexp>
+            <regexp>zu Neige\b</regexp>
             <message>Die feste Wendung für 'bald aufgebraucht sein' lautet '<suggestion>zur Neige</suggestion> gehen'</message>
             <example correction="zur Neige">Der Sauerstoff ist <marker>zu Neige</marker> gegangen.</example>
         </rule>
@@ -3557,7 +3555,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="IN_PUNCTO" name="Mögliche Wortverwechslung: punkto/puncto">
             <url>http://www.korrekturen.de/beliebte_fehler/in_punkto.shtml</url>
             <rule>
-                <regexp>in punkto</regexp>
+                <regexp>\bin punkto\b</regexp>
                 <message>Meinten Sie die feste Wendung <suggestion>in puncto</suggestion>?</message>
                 <example correction="In puncto"><marker>In punkto</marker> Gesamtnutzung liegt sie auf Platz vier der meistgelesenen Sprachausgaben.</example>
             </rule>
@@ -4537,8 +4535,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Miene">Er hat gute <marker>Mine</marker> zum bösen Spiel gemacht.</example>
             </rule>
             <rule>
-                <regexp>((Kugelschreiber|Bleistift)mienen?)</regexp>
-                <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="miene" regexp_replace="mine"/></suggestion>? (Miene = Gesichtsausdruck)</message>
+                <regexp>(Kugelschreiber|Bleistift)mienen?</regexp>
+                <message>&verw;Meinten Sie <suggestion><match no="0" regexp_match="miene" regexp_replace="mine"/></suggestion>? (Miene = Gesichtsausdruck)</message>
                 <example correction="Kugelschreibermine">Die <marker>Kugelschreibermiene</marker></example>
                 <example>Die <marker>Bleistiftmine</marker></example>
             </rule>
@@ -4760,7 +4758,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Gros">Für das <marker>Groß</marker> der Studierenden sind die Bedingungen schlecht.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>en groß</regexp>
+                <regexp case_sensitive='yes'>\ben groß\b</regexp>
                 <message>Meinten Sie <suggestion>en gros</suggestion>?</message>
                 <url>http://www.duden.de/rechtschreibung/en_gros</url>
                 <short>Mögliche Wortverwechslung</short>
@@ -4768,8 +4766,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="DER_GENUS" name="Mögliche Wortverwechslung: Genus/Genuss">
-            <regexp>(der|den) (Genus\b)</regexp>
-            <message>Meinten Sie <suggestion><match no="1"/> Genuss</suggestion> oder <suggestion>das Genus</suggestion> (gramm. Geschlecht)?</message>
+            <regexp>\b(der|den) (Genus\b)</regexp>
+            <message>Meinten Sie <suggestion>\1 Genuss</suggestion> oder <suggestion>das Genus</suggestion> (gramm. Geschlecht)?</message>
             <example><marker>Das Genus</marker> bezeichnet das grammatische Geschlecht.</example>
             <example correction="Der Genuss|Das Genus"><marker>Der Genus</marker> von Schokolade.</example>
         </rule>
@@ -4901,8 +4899,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="DER_SCHILD" name="Mögliche Wortverwechslung: das/der Schild">
             <url>http://www.duden.de/rechtschreibung/Schild_Schutzwaffe_Schirm</url>
             <rule>
-                <regexp>(das) (.*(Schutz|Abfang|Abwehr)schild)</regexp>
-                <message>'Schild' im Sinne von 'Schutzwaffe' ist ein maskulines Nomen. Vorschlag: <suggestion>der \2</suggestion></message>
+                <regexp>\bdas (.*(Schutz|Abfang|Abwehr)schild)</regexp>
+                <message>'Schild' im Sinne von 'Schutzwaffe' ist ein maskulines Nomen. Vorschlag: <suggestion>der \1</suggestion></message>
                 <short>'Schild' im Sinne von 'Schutzwaffe' ist ein maskulines Nomen.</short>
                 <example correction="der Schutzschild">Hier ist <marker>das Schutzschild</marker>.</example>
             </rule>
@@ -4925,7 +4923,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Schutzschilden">Den menschlichen <marker>Schutzschildern</marker>.</example>
             </rule>
             <rule>
-                <regexp>der (\w*(Verkehrs|Verbots|Namens|Hinweis|Warn)schild)</regexp>
+                <regexp>\bder (\w*(Verkehrs|Verbots|Namens|Hinweis|Warn)schild)</regexp>
                 <message>'Schild' im Sinne von 'Zeichen, Tafel' ist ein Neutrum. Vorschlag: <suggestion>das \1</suggestion></message>
                 <url>http://www.duden.de/rechtschreibung/Schild_Tafel_Platte_Fleck</url>
                 <short>'Schild' im Sinne von 'Zeichen' ist ein Neutrum.</short>
@@ -4954,13 +4952,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!-- geographische Namen u. ä. -->
         <rulegroup id="RHEINLAND_FALZ" name="Eigenname: 'Rheinland-Falz (Rheinland-Pfalz)'">
             <rule>
-                <regexp>Rheinland-Falz</regexp>
+                <regexp>Rheinland[ -]Falz</regexp>
                 <message>Meinten Sie das Bundesland <suggestion>Rheinland-Pfalz</suggestion>?</message>
                 <example correction="Rheinland-Pfalz">Mainz liegt in <marker>Rheinland-Falz</marker>.</example>
-            </rule>
-            <rule>
-                <regexp>Rheinland Falz</regexp>
-                <message>Meinten Sie das Bundesland <suggestion>Rheinland-Pfalz</suggestion>?</message>
                 <example correction="Rheinland-Pfalz">Mainz liegt in <marker>Rheinland Falz</marker>.</example>
             </rule>
         </rulegroup>
@@ -5136,13 +5130,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="MUEHLHEIM_A_D_RUHR" name="Ortsname: 'Mühlheim (Mülheim) an der Ruhr'">
             <short>&eigenname;</short>
             <rule>
-                <regexp>Mühlheim an der Ruhr</regexp>
-                <message>Meinten Sie <suggestion>Mülheim an der Ruhr</suggestion> (Mülheim ohne "h")?</message>
+                <regexp>Mühlheim (an|a\.) (der|d\.) Ruhr</regexp>
+                <message>Meinten Sie <suggestion>Mülheim \1 \2 Ruhr</suggestion> (Mülheim ohne "h")?</message>
                 <example correction="Mülheim an der Ruhr"><marker>Mühlheim an der Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
-            </rule>
-            <rule>
-                <regexp>Mühlheim a\. d\. Ruhr</regexp>
-                <message>Meinten Sie <suggestion>Mülheim a. d. Ruhr</suggestion> (Mülheim ohne "h")?</message>
                 <example correction="Mülheim a. d. Ruhr"><marker>Mühlheim a. d. Ruhr</marker> ist eine kreisfreie Stadt im westlichen Ruhrgebiet.</example>
             </rule>
             <rule>
@@ -5261,27 +5251,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="BLUE_RAY" name="Produktname: 'Blue Ray (Blu-ray)'">
             <rule>
-                <regexp>Blue (Ray|Rai|Rei)</regexp>
+                <regexp>Blue[ -](Ray|Rai|Rei)</regexp>
                 <message>Meinten Sie das digitale optische Speichermedium <suggestion>Blu-ray</suggestion> Disc?</message>
                 <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
                 <example>Das ist eine <marker>Blu ray</marker> Disc.</example>
                 <example correction="Blu-ray">Das ist eine <marker>Blue ray</marker> Disc.</example>
-            </rule>
-            <rule>
-                <regexp>(Blue\-?(Ray|Rai|Rei))</regexp>
-                <message>Meinten Sie das digitale optische Speichermedium <suggestion>Blu-ray</suggestion> Disc?</message>
                 <example correction="Blu-ray">Das ist eine <marker>Blue-ray</marker> Disc.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IPHONE" name="Produktname: 'I-Phone (iPhone)' etc.">
             <rule>
-                <regexp>(i-phon(es?)?)</regexp>
-                <message>Mit i beginnende Produktnamen von Apple wie <suggestion><match no="1" case_conversion="startlower" regexp_match="^[iI]\-[pP]" regexp_replace="iP"/></suggestion>, 'iPad' oder 'iPod' werden in der Regel zusammen, mit kleinem i und großem P geschrieben.</message>
+                <regexp>i-phon(es?)?</regexp>
+                <message>Mit i beginnende Produktnamen von Apple wie <suggestion><match no="0" case_conversion="startlower" regexp_match="^[iI]\-[pP]" regexp_replace="iP"/></suggestion>, 'iPad' oder 'iPod' werden in der Regel zusammen, mit kleinem i und großem P geschrieben.</message>
                 <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
                 <example correction="iPhone">Ich habe jetzt ein <marker>i-Phone</marker>.</example>
             </rule>
             <rule>
-                <regexp>(i-p[ao]ds?)</regexp>
+                <regexp>i-p[ao]ds?</regexp>
                 <message>Mit i beginnende Produktnamen von Apple wie <suggestion><match no="1" case_conversion="startlower" regexp_match="^[iI]\-[pP]" regexp_replace="iP"/></suggestion> oder 'iPhone' werden in der Regel zusammen, mit kleinem i und großem P geschrieben.</message>
                 <short>Möglicherweise falsch geschriebene Produktbezeichnung.</short>
                 <example correction="iPad">Ich habe jetzt ein <marker>i-Pad</marker>.</example>
@@ -5302,14 +5288,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Sony</token>
                     <token regexp="yes">Eri[ck]ss?on<exception>Ericsson</exception></token>
                 </pattern>
-                <message>Meinten Sie das schwedische Joint Venture <suggestion>Sony Ericsson</suggestion>? Bitte beachten Sie auch, dass es dieses Joint Venture seit 2012 nicht mehr gibt. Evt. möchten Sie deshalb die Bezeichnung <suggestion>Sony</suggestion> verwenden.</message>
+                <message>Meinten Sie das schwedische Joint Venture <suggestion>Sony Ericsson</suggestion>? Dieses Joint Venture gibt es seit 2012 nicht mehr, evt. möchten Sie deshalb <suggestion>Sony</suggestion> verwenden.</message>
                 <url>https://de.wikipedia.org/wiki/Sony_Ericsson</url>
                 <example correction="Sony Ericsson|Sony">Mein Handy ist von <marker>Sony Ericson</marker>.</example>
                 <example correction="Sony Ericsson|Sony">Mein Handy ist von <marker>Sony Eriksson</marker>.</example>
             </rule>
             <rule>
                 <regexp>Sony-Eri[ck]ss?on</regexp>
-                <message>Meinten Sie das schwedische Joint Venture <suggestion>Sony Ericsson</suggestion>? Bitte beachten Sie auch, dass es dieses Joint Venture seit 2012 nicht mehr gibt. Evt. möchten Sie deshalb die Bezeichnung <suggestion>Sony</suggestion> verwenden.</message>
+                <message>Meinten Sie das schwedische Joint Venture <suggestion>Sony Ericsson</suggestion>? Dieses Joint Venture gibt es seit 2012 nicht mehr, evt. möchten Sie deshalb <suggestion>Sony</suggestion> verwenden.</message>
                 <url>https://de.wikipedia.org/wiki/Sony_Ericsson</url>
                 <example correction="Sony Ericsson|Sony">Mein Handy ist von <marker>Sony-Ericsson</marker>.</example>
                 <example correction="Sony Ericsson|Sony">Mein Handy ist von <marker>Sony-Eriksson</marker>.</example>
@@ -5324,15 +5310,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Boys’ Day">Der <marker>Boy`s Day</marker> ist ein Aktionstag.</example>
             </rule>
             <rule>
-                <regexp>(girls|boys)[´`‘] day</regexp>
+                <regexp>(girls|boys)[´`‘]? day</regexp>
                 <message>Meinten Sie den Aktionstag <suggestion>\1’ Day</suggestion>?</message>
                 <short>&eigenname;</short>
                 <example>Der <marker>Boys’ Day</marker> findet einmal im Jahr statt.</example>
                 <example correction="Boys’ Day">Der <marker>Boys` Day</marker> ist ein Aktionstag.</example>
-            </rule>
-            <rule>
-                <regexp>(girls|boys) day</regexp>
-                <message>Meinten Sie den Aktionstag <suggestion>\1’ Day</suggestion>?</message>
                 <example correction="Girls’ Day">Der <marker>Girls Day</marker> findet einmal im Jahr statt.</example>
                 <example correction="Boys’ Day">Der <marker>Boys Day</marker> ist ein Aktionstag.</example>
             </rule>
@@ -5351,13 +5333,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>org</token>
             </antipattern>
             <rule>
-                <regexp>Open Street Maps?</regexp>
+                <regexp>Open (Street Maps?|Streetmaps?)</regexp>
                 <message>Meinten Sie die freie Geodatenbank <suggestion>OpenStreetMap</suggestion>?</message>
                 <example correction="OpenStreetMap">Bei <marker>Open Street Map</marker> handelt es sich um eine freie Geodatenbank.</example>
-            </rule>
-            <rule>
-                <regexp>Open Streetmaps?</regexp>
-                <message>Meinten Sie die freie Geodatenbank <suggestion>OpenStreetMap</suggestion>?</message>
                 <example correction="OpenStreetMap">Bei <marker>Open Streetmaps</marker> handelt es sich um eine freie Geodatenbank.</example>
             </rule>
             <rule>
@@ -5371,18 +5349,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="OpenStreetMap">Bei <marker>Openstreetmaps</marker> handelt es sich um eine freie Geodatenbank.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="IF_SCHLEIFE" name="Fachbegriff: 'if-Schleife (if-Bedingung)'">
-            <rule>
-                <regexp>if-Schleifen?</regexp>
-                <message>Meinten Sie <suggestion>if-Bedingung</suggestion>?</message>
-                <example correction="if-Bedingung">Hier muss man eine <marker>if-Schleife</marker> verwenden.</example>
-            </rule>
-            <rule>
-                <regexp>if Schleifen?</regexp>
-                <message>Meinten Sie <suggestion>if-Bedingung</suggestion>?</message>
-                <example correction="if-Bedingung">Hier muss man eine <marker>if Schleife</marker> verwenden.</example>
-            </rule>
-        </rulegroup>
+        <rule id="IF_SCHLEIFE" name="Fachbegriff: 'if-Schleife (if-Bedingung)'">
+            <regexp>\bif[ -]Schleifen?</regexp>
+            <message>Meinten Sie <suggestion>if-Bedingung</suggestion>?</message>
+            <example correction="if-Bedingung">Hier muss man eine <marker>if-Schleife</marker> verwenden.</example>
+            <example correction="if-Bedingung">Hier muss man eine <marker>if Schleife</marker> verwenden.</example>
+        </rule>
         <rulegroup id="JAVASCRIPT_APPLET" name="Fachbegriff: 'JavaScript-Applet (Java-Applet)'">
             <rule>
                 <regexp>JavaScript[ -]Applets?</regexp>
@@ -5419,16 +5391,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="13.10">Ich benutze Ubuntu <marker>13.1</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MP_3" name="Eigenname: 'MP-3 (MP3)' etc.">
-            <rule>
-                <regexp case_sensitive='yes'>([mM][pP]\-3|Mp3)</regexp>
-                <message>Meinten Sie <suggestion><match no="1" regexp_match=".*3(.*)" regexp_replace="MP3$1"/></suggestion>?</message>
-                <url>https://de.wikipedia.org/wiki/MP3</url>
-                <example correction="MP3">Ich habe einen neuen <marker>MP-3</marker>-Player.</example>
-                <example correction="MP3"><marker>Mp3</marker> ist ein weit verbreitetes Format.</example>
-                <example correction="MP3"><marker>Mp-3</marker> ist ein weit verbreitetes Format.</example>
-            </rule>
-        </rulegroup>
+        <rule id="MP_3" name="Eigenname: 'MP-3 (MP3)' etc.">
+            <regexp case_sensitive='yes'>[mM][pP]\-3|Mp3</regexp>
+            <message>Meinten Sie <suggestion><match no="0" regexp_match=".*3(.*)" regexp_replace="MP3$1"/></suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/MP3</url>
+            <example correction="MP3">Ich habe einen neuen <marker>MP-3</marker>-Player.</example>
+            <example correction="MP3"><marker>Mp3</marker> ist ein weit verbreitetes Format.</example>
+            <example correction="MP3"><marker>Mp-3</marker> ist ein weit verbreitetes Format.</example>
+        </rule>
         <!-- Prominente -->
         <rule id="ALEXIUS_MEINONG" name="Eigenname: 'Alexius Meinung (Meinong)'">
             <pattern case_sensitive="yes">
@@ -5463,26 +5433,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&eigenname;</short>
             <example correction="Hermann"><marker>Herman</marker> Reutter komponierte die Melodie der Hymne an Deutschland.</example>
         </rule>
-        <rulegroup id="ABRAHAM_LINCOLN" name="Eigenname: 'Abraham Linken (Lincoln)'">
+        <rule id="ABRAHAM_LINCOLN" name="Eigenname: 'Abraham Linken (Lincoln)'">
             <!-- phonetische Schreibweise -->
-            <rule>
-                <regexp case_sensitive='yes'>Abraham Linken</regexp>
-                <message>Meinten Sie evt. den US-Präsidenten <suggestion>Abraham Lincoln</suggestion>?</message>
-                <url>https://de.wikipedia.org/wiki/Abraham_Lincoln</url>
-                <short>&eigenname;</short>
-                <example correction="Abraham Lincoln"><marker>Abraham Linken</marker> fiel einem Attentat zum Opfer.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="MAX_BROD" name="Eigenname: 'Max Brot (Brod)'">
-            <rule>
-                <regexp case_sensitive='yes'>Max Brot</regexp>
-                <message>Meinten Sie evt. <suggestion>Max Brod</suggestion>, den Freund und Nachlassverwalter Franz Kafkas?</message>
-                <url>https://de.wikipedia.org/wiki/Max_Brod</url>
-                <short>&eigenname;</short>
-                <example><marker>Max Brod</marker> war mit Kafka befreundet.</example>
-                <example correction="Max Brod"><marker>Max Brot</marker> war ein Freund von Kafka.</example>
-            </rule>
-        </rulegroup>
+            <regexp case_sensitive='yes'>Abraham Linken</regexp>
+            <message>Meinten Sie evt. den US-Präsidenten <suggestion>Abraham Lincoln</suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Abraham_Lincoln</url>
+            <short>&eigenname;</short>
+            <example correction="Abraham Lincoln"><marker>Abraham Linken</marker> fiel einem Attentat zum Opfer.</example>
+        </rule>
+        <rule id="MAX_BROD" name="Eigenname: 'Max Brot (Brod)'">
+            <regexp case_sensitive='yes'>Max Brot\b</regexp>
+            <message>Meinten Sie evt. <suggestion>Max Brod</suggestion>, den Freund und Nachlassverwalter Franz Kafkas?</message>
+            <url>https://de.wikipedia.org/wiki/Max_Brod</url>
+            <short>&eigenname;</short>
+            <example><marker>Max Brod</marker> war mit Kafka befreundet.</example>
+            <example correction="Max Brod"><marker>Max Brot</marker> war ein Freund von Kafka.</example>
+        </rule>
         <rulegroup id="JANE_AUSTEN" name="Eigenname: 'Jane Austin (Austen)'">
             <url>https://de.wikipedia.org/wiki/Jane_Austen</url>
             <short>&eigenname;</short>
@@ -6058,9 +6024,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Intel Leibniz Challenge">Ich mache bei der <marker>Intel Leibnitz Challenge</marker> mit.</example>
             </rule>
             <rule>
-                <regexp>(Leibnitz[\w-]*keks[\w-]*)</regexp>
-                <message>Meinten Sie <suggestion><match no="1" regexp_match="Leibnitz" regexp_replace="Leibniz"/></suggestion>?</message>
-                <example>Ich esse <marker>Leibniz-Kekse</marker> mit.</example>
+                <regexp>Leibnitz[\w-]*keks[\w-]*</regexp>
+                <message>Meinten Sie <suggestion><match no="0" regexp_match="Leibnitz" regexp_replace="Leibniz"/></suggestion>?</message>
+                <example>Ich esse <marker>Leibniz-Kekse</marker>.</example>
                 <example correction="Leibniz-Kekse">Ich esse <marker>Leibnitz-Kekse</marker>.</example>
                 <example correction="Leibniz-Butterkeks">Ich esse einen <marker>Leibnitz-Butterkeks</marker>.</example>
             </rule>
@@ -6143,7 +6109,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="ZU_ALLERERST" name="Zusammen-/Getrenntschreibung: 'zu allererst (zuallererst)'">
             <regexp>(zu) (allererst|allerletzt|alleroberst|allerunterst|allermeist)</regexp>
-            <message>Das Adverb <suggestion><match no="1"/><match no="2"/></suggestion> wird zusammengeschrieben.</message>
+            <message>Das Adverb <suggestion>\1\2</suggestion> wird zusammengeschrieben.</message>
             <short>&getrennt;</short>
             <example correction="Zuallererst"><marker>Zu allererst</marker> mal in Ruhe nachdenken.</example>
         </rule>
@@ -6238,7 +6204,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Sowas esse ich ab und zu mal.</example>
         </rule>
         <rule id="ZU_LETZT" name="Zusammen-/Getrenntschreibung: zu letzt (zuletzt)">
-            <regexp>zu letzt</regexp>
+            <regexp>\bzu letzt\b</regexp>
             <message><suggestion>zuletzt</suggestion> wird zusammengeschrieben.</message>
             <url>http://www.duden.de/rechtschreibung/zuletzt</url>
             <example correction="zuletzt">Ich werde die Aufgabe <marker>zu Letzt</marker> machen.</example>
@@ -23865,7 +23831,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Deinetwegen"><marker>Wegen dir</marker> komme ich zu spät.</example>
             </rule>
             <rule>
-                <regexp>(wegen) (ihr)</regexp>
+                <regexp>(wegen) (ihr)\b</regexp>
                 <message>'\1 \2' ist möglicherweise umgangssprachlich. Ersetzen durch <suggestion>ihretwegen</suggestion>?</message>
                 <example correction="Ihretwegen"><marker>Wegen ihr</marker> komme ich zu spät.</example>
             </rule>
@@ -23881,7 +23847,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="EINE_MILLIONEN" name="Grammatik: 'eine Millionen (Million)'">
-            <regexp>(eine(r)?) (Millionen)</regexp>
+            <regexp>(einer?) Millionen</regexp>
             <message>Meinten Sie <suggestion>\1 Million</suggestion>? 'Millionen' ist der Plural von 'Million'.</message>
             <example correction="eine Million">Sie verdient <marker>eine Millionen</marker> Euro im Jahr.</example>
         </rule>
