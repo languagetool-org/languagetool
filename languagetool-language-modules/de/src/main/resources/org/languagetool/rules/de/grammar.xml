@@ -226,7 +226,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example><marker>Im</marker> gleichen T-Shirt sah er besser aus.</example>
         </rule>
         <rule id="SEIN_MONATEN" name="Möglicher Tippfehler: sein (seit) Jahren etc.">
-            <regexp>sein (Sekunden|Minuten|Stunden|Tagen|Wochen|Monaten|Jahren|Jahrzehnten|Jahrhunderten)</regexp>
+            <regexp>\bsein (Sekunden|Minuten|Stunden|Tagen|Wochen|Monaten|Jahren|Jahrzehnten|Jahrhunderten)\b</regexp>
             <message>Meinten Sie <suggestion>seit \1</suggestion>?</message>
             <example correction="Seit Monaten"><marker>Sein Monaten</marker> nervt er mich.</example>
         </rule>
@@ -2786,7 +2786,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="wahr">Wann das <marker>war</marker> ist nicht bekannt.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>([Ww]ird|[Ww]urde|[Ww]urden|[Ww]ürde|[Ii]st|[Ss]ind|waren) (war)</regexp>
+                <regexp case_sensitive='yes'>\b([Ww]ird|[Ww]urde|[Ww]urden|[Ww]ürde|[Ii]st|[Ss]ind|waren) (war)\b</regexp>
                 <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein') &odkomma;?</message>
                 <suggestion>\1, \2</suggestion>
                 <suggestion>\2</suggestion>
@@ -12574,7 +12574,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="ZU_NUTZE" name="Groß-/Kleinschreibung: 'zu nutze (Nutze)'">
-            <regexp case_sensitive='yes'>[Zz]u nutze</regexp>
+            <regexp case_sensitive='yes'>\b[Zz]u nutze\b</regexp>
             <message>&inwend;<suggestion>zu Nutze</suggestion> wird 'Nutze' großgeschrieben oder es wird zusammengeschrieben (<suggestion>zunutze</suggestion>).</message>
             <short>&prgk;.</short>
             <example correction="zu Nutze|zunutze">Er macht sich die Erfindung <marker>zu nutze</marker>.</example>
@@ -23090,7 +23090,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="in der">Danach lernte er ab 1910 <marker>im der</marker> Hamburger Niederlassung das Geschäft.</example>
         </rule>
         <rule id="IM_DEM" name="im dem (in dem)">
-            <regexp case_sensitive='yes'>im dem</regexp>
+            <regexp case_sensitive='yes'>\bim dem\b</regexp>
             <message>Meinten Sie möglicherweise <suggestion>in dem</suggestion>?</message>
             <example correction="in dem">Luxusurlaub <marker>im dem</marker> wohl besten Hotel der Türkei</example>
         </rule>
@@ -25273,7 +25273,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ANS_OHNE_APOSTROPH" name="Zeichensetzung: Kein Apostroph bei 'ans', 'ins', 'aufs' usw.">
             <url>http://www.canoo.net/services/OnlineGrammar/Wort/Artikel/Prep-Art/Form.html</url>
             <rule>
-                <regexp>(an|in|für|auf|durch|hinter|über|um|unter|vor)['’´`‘]s</regexp>
+                <regexp>\b(an|in|für|auf|durch|hinter|über|um|unter|vor)['’´`‘]s</regexp>
                 <message>Das Wort <suggestion>\1s</suggestion> wird ohne Apostroph geschrieben.</message>
                 <short>'Ans', 'ins' usw. sollten ohne Apostroph geschrieben werden.</short>
                 <example>Ich ging <marker>ans</marker> Fenster.</example>
@@ -25284,13 +25284,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="hinters">Er wurde <marker>hinter's</marker> Licht geführt!</example>
             </rule>
             <rule>
-                <regexp>(hinter|über|unter)['’´`‘](n|m)</regexp>
+                <regexp>\b(hinter|über|unter)['’´`‘](n|m)</regexp>
                 <message>Das umgangssprachliche Wort <suggestion>\1\2</suggestion> wird ohne Apostroph geschrieben.</message>
                 <short>'übern', 'untern' usw. sollten ohne Apostroph geschrieben werden.</short>
                 <example correction="übern">Ich bin <marker>über'n</marker> Berg.</example>
             </rule>
             <rule>
-                <regexp>vor['’´`‘](m|n)</regexp>
+                <regexp>\bvor['’´`‘](m|n)</regexp>
                 <message>Das Wort <suggestion>vor\1</suggestion> wird ohne Apostroph geschrieben.</message>
                 <short>'vorm' und 'vorn' sollten ohne Apostroph geschrieben werden.</short>
                 <example correction="vorm">Ich bin <marker>vor'm</marker> Supermarkt stehen geblieben.</example>
