@@ -8977,6 +8977,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rulegroup id="ATENDRE_ATENIR" name="ens *atenem/atenim a">
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="1">us|ens|vos</token>
+                    <marker>
+                        <token inflected="yes">atendre<exception inflected="yes">atenir</exception></token>
+                    </marker>
+                    <token>a</token>
+                </pattern>
+                <message>Useu el verb 'atenir' i no 'atendre'.</message>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">atenir</match></suggestion>
+                <example correction="atenim">Si ens <marker>atenem</marker> als resultats.</example>
+                <example correction="atingut">Ens hem <marker>atès</marker> a les conseqüències.</example>
+                <example correction="atenir|atindre">Ens vam <marker>atendre</marker> a les conseqüències.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ateneu</token>
+                    </marker>
+                    <token regexp="yes">-vos</token>
+                </pattern>
+                <message>Useu el verb 'atenir' i no 'atendre'.</message>
+                <suggestion>ateniu</suggestion>
+                <suggestion>atingueu</suggestion>
+                <example correction="Ateniu|Atingueu"><marker>Ateneu</marker>-vos a les conseqüències.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">atenem|atenim|atenguem</token>
+                    </marker>
+                    <token regexp="yes">-nos</token>
+                </pattern>
+                <message>Useu la forma adequada del verb 'atenir'.</message>
+                <suggestion>atinguem</suggestion>
+                <example correction="Atinguem"><marker>Atenem</marker>-nos a les conseqüències.</example>
+            </rule>
+        </rulegroup>
         <rule id="ALTES_ALTRES" name="altes/altres">
             <pattern>
                 <token>altes</token>
@@ -33077,6 +33116,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="No hi ha temps|No (tenir) temps"><marker>No dóna temps</marker>.</example>
             <example correction="No hi ha temps|No (tenir) temps"><marker>No em dóna temps</marker> de fer-ho.</example>
             </rule> -->
+        <rule id="CREUAR_ENCREUAR" name="creuar/encreuar">
+            <pattern>
+                <marker>
+                    <token skip="2" inflected="yes">creuar</token>
+                </marker>
+                <token regexp="yes" inflected="yes">braç|cama</token>
+            </pattern>
+            <message>Paraula preferible.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">encreuar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">plegar</match></suggestion>
+            <example correction="encreuar|plegar">Va <marker>creuar</marker> els braços.</example>
+            <example correction="Encreuà|Plegà"><marker>Creuà</marker> les cames.</example>
+        </rule>
         <rulegroup id="PER_LA_NIT" name="per la nit/a la nit">
             <url>http://esadir.cat/entrades/fitxa/node/pel_mati</url>
             <rule>

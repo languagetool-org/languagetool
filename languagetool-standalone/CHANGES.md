@@ -6,6 +6,7 @@
 
 #### Catalan
   * fixed false alarms
+  * added new rules
   * added words suggested by users
 
 #### English
