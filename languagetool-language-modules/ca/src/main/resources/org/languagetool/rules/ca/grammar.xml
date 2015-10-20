@@ -13797,6 +13797,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="PHRASE_REPETITION" name="Repetició de dues paraules ('a la a la')">
             <!--  made more general-->
             <rule>
+                <antipattern>
+                    <marker>
+                         <token>ni</token>
+                         <token>massa</token>
+                         <token inflected="yes">poc</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>i</exception><exception postag="allow_repetition">de</exception>[\p{L}·'-]+</token>
@@ -13818,6 +13825,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Sigui qui sigui qui vingui.</example>
                 <example>D'hereu a hereu a través de generacions.</example>
                 <example>De dos en dos en l'arbre.</example>
+                <example>No n'hi havia ni massa ni massa pocs</example>
                 <!--<exception postag=".*LOC.*" postag_regexp="yes" regexp="yes">a|qui</exception>-->
             </rule>
             <rule>
