@@ -2199,6 +2199,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Vaig rebre una trucada de la llevadora dient-me que estava en un altre part.</example>
                 <example>Ha afegit que ahir hi va haver un altre part múltiple al mateix hospital.</example>
             </rule>
+            <rule id="DOS_PARTS" name="dos/dues parts">
+                <antipattern>
+                    <marker>
+                        <token postag="SENT_START" skip="-1"/>
+                        <token inflected="yes" regexp="yes" skip="-1">cesàrea|embaràs|placenta</token>
+                        <token postag="SENT_END"/>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>dos</token>
+                        <token>parts</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>dues parts</suggestion>?</message>
+                <example correction="dues parts">L'obra té <marker>dos parts</marker>.</example>
+                <example>Es va menjar la placenta dels seus dos parts.</example>
+                <example>Ha tingut dos parts amb cesàrea.</example>
+            </rule>
             <rule id="EDITORIAL" name="editorial (m/f)">
                 <pattern>
                     <token skip="5" regexp="yes" inflected="yes">defensar|expressar|rebre|enviar|consensuar|acordar|escriure|redactar|fer|llegir|firmar|signar</token>
@@ -5160,6 +5179,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>referents al com, al quant i al què</example>
             <!-- Quant tinga coses fetes,  -->
         </rule>
+        <rule id="QUAN_QUANT" name="*quan/quant de temps">
+            <pattern>
+                <marker>
+                    <token>quan</token>
+                    <token regexp="yes">de|d'</token>
+                </marker>
+                <token regexp="yes">temps|valor|pes|vent</token> <!-- altres paraules?-->
+            </pattern>
+            <message>¿Volíeu dir <suggestion>quant \2</suggestion>?</message>
+            <example correction="Quant de"><marker>Quan de</marker> temps tardarem?</example>
+        </rule>
         <rule id="CONCORDANCA_MILLOR" name="CONCORDANCA_MILLOR">
             <pattern>
                 <marker>
@@ -6511,7 +6541,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token>envers</token>
-                        <token>a</token>
+                        <token regexp="yes">a|de</token>
                     </marker>
                     <token><exception regexp="yes" spacebefore="no">ls?</exception></token>
                 </pattern>
@@ -6524,14 +6554,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token>envers</token>
-                        <token>a</token>
+                        <token regexp="yes">a|de</token>
                         <token regexp="yes" spacebefore="no">ls?</token>
                     </marker>
                 </pattern>
                 <message>Combinació incorrecta de preposicions.</message>
                 <suggestion>envers e\3</suggestion>
-                <suggestion>cap \2\3</suggestion>
+                <suggestion>cap a\3</suggestion>
                 <example correction="envers el|cap al">I <marker>envers al</marker> futur.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>envers</token>
+                        <token>d'</token>
+                    </marker>
+                </pattern>
+                <message>Combinació incorrecta de preposicions.</message>
+                <suggestion>envers </suggestion>
+                <suggestion>cap a </suggestion>
+                <example correction="envers |cap a ">I <marker>envers d'</marker>ells</example>
             </rule>
         </rulegroup>
         <rule id="A_ARRAN" name="*a arran/arran">
@@ -7859,6 +7901,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Fa de tot per a arribar a l'endemà.</example>
             <example>Esperarem a l'endemà.</example>
         </rule>
+            <rule id="A_ABANS" name="*a abans/abans">
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">a<exception scope="previous" regexp="yes">entorno|torn|entorn|por|quant|fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*|AO0CN0" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">&exceptions_A_L_ANY;</exception></token>
+                        <token>abans</token>
+                    </marker>
+                </pattern>
+                <message>Sobra la preposició 'a'.</message>
+                <suggestion>abans</suggestion>
+                <url>http://esadir.cat/gramatica/sintaxi/prepatemporal</url>
+                <example correction="abans">Poc <marker>a abans</marker> que arribessin.</example>
+                <example>per a abans de Nadal</example>
+                <example>respecte a abans</example>
+                <example>es remunten a abans del segle I aC.</example>
+            </rule>
         <rulegroup id="A_L_ANY" name="*al 1996/*a l'any 1996">
             <!-- todo: som a l'any> som en l'any -->
             <antipattern>
@@ -8997,7 +9054,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>ateneu</token>
                     </marker>
-                    <token regexp="yes">-vos</token>
+                    <token>-vos</token>
                 </pattern>
                 <message>Useu el verb 'atenir' i no 'atendre'.</message>
                 <suggestion>ateniu</suggestion>
@@ -9009,7 +9066,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">atenem|atenim|atenguem</token>
                     </marker>
-                    <token regexp="yes">-nos</token>
+                    <token>-nos</token>
                 </pattern>
                 <message>Useu la forma adequada del verb 'atenir'.</message>
                 <suggestion>atinguem</suggestion>
@@ -15206,7 +15263,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">avant</token>
+                    <token>avant</token>
                     <token min="0">-</token>
                     <token regexp="yes" inflected="yes">braç|cambra|càrrega|directriu|distribuïdor|dit|fossa|gresol|guarda|guerra|judici|llotja|matx|muralla|país|passat|port|posar|projecte|sala|títol|votació</token>
                 </pattern>
