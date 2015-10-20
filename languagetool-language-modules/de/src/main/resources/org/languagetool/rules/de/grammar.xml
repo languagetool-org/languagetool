@@ -23079,8 +23079,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
         </rulegroup>
         -->
+        <rule id="ZUM_DEM" name="zum dem (zu dem)">
+            <pattern>
+                <token regexp="yes">zum|vorm</token>
+                <token>dem</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="m$" regexp_replace=""/> dem</suggestion>?</message>
+            <example correction="Zu dem"><marker>Zum dem</marker> Bild möchte ich mich nicht äußern.</example>
+        </rule>
+        <rule id="AM_DEM" name="am dem (an dem)">
+            <pattern>
+                <token regexp="yes">am|im</token>
+                <token>dem</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="m$" regexp_replace="n"/> dem</suggestion>?</message>
+            <example correction="An dem"><marker>Am dem</marker> Bild steht ein Hinweisschild.</example>
+        </rule>
         <rule id="DER_KORPUS" name="der (das) Korpus">
-            <regexp>der Korpus</regexp>
+            <regexp>der Korpus\b</regexp>
             <message>Meinten Sie möglicherweise <suggestion>das Korpus</suggestion>, eine Textsammlung?</message>
             <example correction="Das Korpus"><marker>Der Korpus</marker> besteht aus 1000 Zeitungsartikeln.</example>
         </rule>
