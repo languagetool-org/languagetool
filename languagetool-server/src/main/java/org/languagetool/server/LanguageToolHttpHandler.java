@@ -361,13 +361,19 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (disabledParam != null) {
       disabledRules.addAll(Arrays.asList(disabledParam.split(",")));
     }
+      
+    final String disabledCategoriesParam = parameters.get("disabledCategories");
+    final List<String> disabledCategories = new ArrayList<>();
+    if (disabledCategoriesParam != null) {
+      disabledCategories.addAll(Arrays.asList(disabledCategoriesParam.split(",")));
+    }
 
-    if (disabledRules.size() > 0 && useEnabledOnly) {
-      throw new IllegalArgumentException("You cannot specify disabled rules using enabledOnly=yes");
+    if ((disabledRules.size() > 0 || disabledCategories.size() > 0) && useEnabledOnly) {
+      throw new IllegalArgumentException("You cannot specify disabled rules or categories using enabledOnly=yes");
     }
     
-    final boolean useQuerySettings = enabledRules.size() > 0 || disabledRules.size() > 0;
-    final QueryParams params = new QueryParams(enabledRules, disabledRules, useEnabledOnly, useQuerySettings);
+    final boolean useQuerySettings = enabledRules.size() > 0 || disabledRules.size() > 0 || disabledCategories.size() > 0;
+    final QueryParams params = new QueryParams(enabledRules, disabledRules, disabledCategories, useEnabledOnly, useQuerySettings);
     
     final Future<List<RuleMatch>> future = executorService.submit(new Callable<List<RuleMatch>>() {
       @Override
@@ -523,6 +529,11 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
     if (params.useQuerySettings) {
       Tools.selectRules(newLanguageTool, params.disabledRules, params.enabledRules, params.useEnabledOnly);
+      if (params.disabledCategories != null) {
+            for (final String categoryName : params.disabledCategories) {
+                newLanguageTool.disableCategory(categoryName);
+            }
+      }
     }
     return newLanguageTool;
   }
@@ -589,12 +600,14 @@ class LanguageToolHttpHandler implements HttpHandler {
   private class QueryParams {
     final List<String> enabledRules;
     final List<String> disabledRules;
+    final List<String> disabledCategories;
     final boolean useEnabledOnly;
     final boolean useQuerySettings;
 
-    QueryParams(List<String> enabledRules, List<String> disabledRules, boolean useEnabledOnly, boolean useQuerySettings) {
+    QueryParams(List<String> enabledRules, List<String> disabledRules, List<String> disabledCategories, boolean useEnabledOnly, boolean useQuerySettings) {
       this.enabledRules = enabledRules;
       this.disabledRules = disabledRules;
+      this.disabledCategories = disabledCategories;
       this.useEnabledOnly = useEnabledOnly;
       this.useQuerySettings = useQuerySettings;
     }
