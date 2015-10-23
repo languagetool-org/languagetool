@@ -10223,14 +10223,39 @@ though, and has since been slightly modified)-->
       <message>Voulez-vous écrire <suggestion>y a-t-il</suggestion> ?</message>
       <example correction="Y a-t-il"><marker>Y-a-t-il</marker> un pilote dans l’avion ?</example>
     </rule>
-    <rule id="CI" name="ci joint → ci-joint (etc.)">
-      <pattern>
-        <token>ci</token>
-        <token regexp="yes">contre|joint|inclus|desso?us</token>
-      </pattern>
-      <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-      <example correction="ci-joint">Voici <marker>ci joint</marker> la photo.</example>
-    </rule>
+    <rulegroup id="CI" name="ci joint → ci-joint (etc.)">
+      <rule>
+        <pattern>
+          <token>ci</token>
+          <token regexp="yes">annexé|après|contre|de|devant|derrière|joint|inclus|desso?us|gît|celui|celles?|ceux|par</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3480</url>
+        <example correction="ci-joint">Voici <marker>ci joint</marker> la photo.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">cette|ce[st]?</token>
+          <token postag="J.*" postag_regexp="yes" min="0" max="1"/>
+          <marker>
+            <token postag="N.*" postag_regexp="yes"/>
+            <token>ci</token>
+          </marker>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\3-\4</suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3480</url>
+        <example correction="arbre-ci">Cet <marker>arbre ci</marker>.</example>
+        <example correction="voiture-ci">Cette <marker>voiture ci</marker>.</example>
+        <example correction="voiture-ci">Cette belle <marker>voiture ci</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">comme[-‑‐](?:ci|ça)</token>
+        </pattern>
+        <message>Écrivez <suggestion><match no="1" regexp_match="[-‑‐]" regexp_replace=" "/></suggestion> sans trait d’union.</message>
+        <example correction="comme ci">Faites <marker>comme-ci</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="LA_LA" name="la → là">
       <rule>
         <pattern>
