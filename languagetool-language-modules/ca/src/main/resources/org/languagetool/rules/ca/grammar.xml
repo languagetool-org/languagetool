@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY adverbis_temps_lloc "entra(t|ts|da|des)|passa(t|ts|da|des)|tocad(a|es)|arran|enfront|per|durant|llavors|tard|aviat|pròximament|properament|prompte|avui|abans|després|hui|ara|demà|ahir|despús-ahir|despús-demà|aquí|ací|allí|allà|ahí|aleshores|recentment|posteriorment">
     <!ENTITY context_PASTAR "aigua|bol|canyella|cera|coca|dit|farina|ingredient|llet|llevat|llimona|mà|mantega|massa|min|minuts|mona|oli|ou|panificadora|sucre">
     <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
+    <!ENTITY context_FALLAR "sentència|veredicte|premi|tribunal|jutges?|jurat|favor|instruir|procés|dispositiva|jutjar|sentenciar">
     <!ENTITY context_FER_SE_AMB "títol|triomf|victòria|alcaldia|presidència|nombre|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit">
     <!ENTITY context_ROTAR_GIRAR "angle1|grau|girar|objecte|triangle|quadrat|polígon|eix|gravetat|minut|segon|sentit|agulla|rellotge|planeta|Terra|rotació|aparell|oest|est|magnètic|òrbita|pilota">
     <!ENTITY dies_setmana_abrev "dl|dt|dc|dj|dv|ds|dg">
@@ -30869,7 +30870,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes" skip="5">fallar</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">sentència|veredicte|premi|tribunal|jutges?|jurat|favor</token>
+                    <token inflected="yes" regexp="yes">&context_FALLAR;</token>
                 </pattern>
                 <message>Possible castellanisme.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dictaminar</match></suggestion>
@@ -30886,7 +30887,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="5">sentència|veredicte|premi|tribunal|jutges?|jurat|favor</token>
+                    <token inflected="yes" regexp="yes" skip="5">&context_FALLAR;</token>
                     <marker>
                         <token inflected="yes">fallar</token>
                     </marker>
@@ -31423,7 +31424,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes" skip="-1">complimentar</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">butlletí|formulari|test|examen|enquesta</token>
+                    <token regexp="yes" inflected="yes">butlletí|formulari|test|examen|enquesta|apartat</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">omplir</match></suggestion>, <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">emplenar</match></suggestion> en comptes de "<match no="1"/>" (= fer compliments)?</message>
                 <example correction="Ompliu|Empleneu"><marker>Complimenteu</marker> el formulari.</example>
@@ -31431,7 +31432,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="-1">butlletí|formulari|test|examen|enquesta</token>
+                    <token regexp="yes" inflected="yes" skip="-1">butlletí|formulari|test|examen|enquesta|apartat</token>
                     <marker>
                         <token inflected="yes">complimentar</token>
                     </marker>
@@ -32970,6 +32971,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="C8) Formes secundàries" default="on" type="style">
+        <rule id="CONVINENT" name="convinent">
+            <pattern>
+                <token postag="A.*" inflected="yes">convinent</token>
+            </pattern>
+            <message>Forma antiga.</message>
+            <suggestion><match no="1" postag="(A.*)" postag_regexp="yes" postag_replace="$1">convenient</match></suggestion>
+            <example correction="convenients">Els més <marker>convinents</marker></example>
+        </rule>
+        <rule id="FOR" name="for">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">bucles?|cicles?</token>
+                    <token>for</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">for</token>
+            </pattern>
+            <message>Forma secundària o antiga.</message>
+            <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">fur</match></suggestion>
+            <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">fòrum</match></suggestion>
+            <example correction="furs|fòrums">Els <marker>fors</marker></example>
+            <example>Està programat amb dos bucles for.</example>
+        </rule>
         <rule id="MARGARITA" name="margarita">
             <pattern>
                 <token postag="N.*" postag_regexp="yes" inflected="yes">margarita</token>
