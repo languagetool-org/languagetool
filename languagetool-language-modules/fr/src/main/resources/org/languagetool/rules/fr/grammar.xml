@@ -7761,7 +7761,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(a|aura)[-‑‐]t[-‑‐](ils?|elles|on)|(a[is]|avi?ons|avi?ez|ont|avai[st]|avaient|aurai[st]|aurions|auriez|auraient|eut|eurent|eusses|eût|eussions|eussiez|eussent)[-‑‐](je|tu|ils?|elles?|on|[nv]ous)</token>
+          <token regexp="yes">(?:a|aura)[-‑‐]t[-‑‐](?:il|elle|on)|(?:a[is]|avi?ons|avi?ez|ont|avai[st]|avaient|aurai[st]|aurions|auriez|auraient|eut|eurent|eusses|eût|eussions|eussiez|eussent)[-‑‐](?:je|tu|ils?|elles?|on|[nv]ous)</token>
           <marker>
             <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/></token>
           </marker>
@@ -7773,7 +7773,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(a|aura)[-‑‐]t[-‑‐](ils?|elles|on)|(a[is]|avi?ons|avi?ez|ont|avai[st]|avaient|aurai[st]|aurions|auriez|auraient|eut|eurent|eusses|eût|eussions|eussiez|eussent)[-‑‐](je|tu|ils?|elles?|on|[nv]ous)</token>
+          <token regexp="yes">(?:a|aura)[-‑‐]t[-‑‐](?:il|elle|on)|(a[is]|avi?ons|avi?ez|ont|avai[st]|avaient|aurai[st]|aurions|auriez|auraient|eut|eurent|eusses|eût|eussions|eussiez|eussent)[-‑‐](?:je|tu|ils?|elles?|on|[nv]ous)</token>
           <token regexp="yes">assez|beaucoup|bien|déjà|encore|enfin|énormément|guerre|mieux|moins|parfois|pas|peu|peut[-‑‐]être|plus|presque|toujours|trop</token>
           <marker>
             <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/></token>
@@ -9083,17 +9083,31 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START|C coor" skip="1" postag_regexp="yes"><exception scope="next">en</exception></token>
-          <token regexp="yes">(?:ai|avais|aurais?|eus)[-‑‐]je|(?:as|avais|aurai?s|eus)[-‑‐]tu|(?:a|avait|aura|aurait|eut)[-‑‐](?:il|elle|on)|(?:avi?ons|auri?ons|eûmes)[-‑‐]nous|(?:avi?ez|auri?ez|eûtes)[-‑‐]vous|(?:ont|avaient|auront|auraient|eurent)[-‑‐](?:ils|elles)</token>
+          <token postag="SENT_START|C coor" skip="1" postag_regexp="yes"><exception scope="next" regexp="yes">en|les</exception></token>
+          <token regexp="yes">(?:ai|avais|aurais?|eus)[-‑‐]je|(?:as|avais|aurai?s|eus)[-‑‐]tu|(?:a|avait|aura|aurait|eut)(?:[-‑‐]t)[-‑‐](?:il|elle|on)|(?:avi?ons|auri?ons|eûmes)[-‑‐]nous|(?:avi?ez|auri?ez|eûtes)[-‑‐]vous|(?:ont|avaient|auront|auraient|eurent)[-‑‐](?:ils|elles)</token>
           <marker><token postag="V.* ppa.*" postag_regexp="yes"><exception postag="V.* ppa [me] sp?" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Le participe « \3 » devrait être au singulier masculin.</message>
+        <example correction="">A-t-il <marker>eus</marker> peur ?</example>
         <example correction="">As-tu <marker>eus</marker> peur ?</example>
         <example correction="">Pourquoi as-tu <marker>eus</marker> peur ?</example>
+        <example>A-il-il eu peur ?</example>
         <example>As-tu eu peur ?</example>
         <example>Pourquoi as-tu eu peur ?</example>
         <example correction="">Aviez-vous <marker>mangés</marker> ?</example>
         <example>En aviez-vous mangés ?</example>
+        <example>Les as-tu lus ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <token>Les</token>
+          <token regexp="yes">(?:ai|avais|aurais?|eus)[-‑‐]je|(?:as|avais|aurai?s|eus)[-‑‐]tu|(?:a|avait|aura|aurait|eut)(?:[-‑‐]t)[-‑‐](?:il|elle|on)|(?:avi?ons|auri?ons|eûmes)[-‑‐]nous|(?:avi?ez|auri?ez|eûtes)[-‑‐]vous|(?:ont|avaient|auront|auraient|eurent)[-‑‐](?:ils|elles)</token>
+          <marker><token postag="V.* ppa . s" postag_regexp="yes"/></marker>
+        </pattern>
+        <message>Le participe « \4 » devrait être au pluriel.</message>
+        <example correction="">Les as-tu <marker>lu</marker> ?</example>
+        <example correction="">Les a-t-il <marker>lu</marker> ?</example>
       </rule>
     </rulegroup>
     <rulegroup id="QUE_AVOIR" name="accord que + verbe avoir">
@@ -10170,7 +10184,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="T_EUPHONIQUE" name="t euphonique">
       <rule>
         <pattern>
-          <token regexp="yes">.*[dt][-‑‐]t[-‑‐](il|elle|on)</token>
+          <token regexp="yes">.*[dt][-‑‐]t[-‑‐](?:il|elle|on)</token>
         </pattern>
         <message>Si le verbe se termine part t ou d, la liaison se fait sans t euphonique.</message>
         <suggestion><match no="1" regexp_match="[-‑‐]t[-‑‐]" regexp_replace="-"/></suggestion>
@@ -10180,7 +10194,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">.*[^ae][-‑‐]t[-‑‐](il|elle|on)<exception regexp="yes">(?:convainc|voilà)[-‑‐]t[-‑‐].*</exception></token>
+          <token regexp="yes">.*[^ae][-‑‐]t[-‑‐](?:il|elle|on)<exception regexp="yes">(?:convainc|voilà)[-‑‐]t[-‑‐].*</exception></token>
         </pattern>
         <message>Le -t- euphonique n’est possible qu’avec les verbes se terminant en a ou e et avec le verbe convaincre.</message>
         <url>http://66.46.185.79/bdl/gabarit_bdl.asp?T1=t+euphonique</url>
@@ -10192,7 +10206,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">.*[-‑‐]t[-‑‐](je|tu|[nv]ous|ils|elles)</token>
+          <token regexp="yes">.*[-‑‐]t[-‑‐](?:je|tu|[nv]ous|ils|elles)</token>
         </pattern>
         <message>Le -t- euphonique n’est possible qu’avec un pronom sujet de troisième personne (il, elle on).</message>
         <url>http://66.46.185.79/bdl/gabarit_bdl.asp?T1=t+euphonique</url>
@@ -10208,15 +10222,6 @@ though, and has since been slightly modified)-->
         <url>http://66.46.185.79/bdl/gabarit_bdl.asp?T1=t+euphonique</url>
         <example correction="Va-t-il"><marker>Va-il</marker> venir ?</example>
         <example correction="convainc-t-il">Vous <marker>convainc-il</marker> ?</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">.*[-‑‐]t[-‑‐](je|tu|[nv]ous|ils|elles)</token>
-        </pattern>
-        <message>Le -t- euphonique n’est possible qu’avec un pronom sujet de troisième personne (il, elle on).</message>
-        <url>http://66.46.185.79/bdl/gabarit_bdl.asp?T1=t+euphonique</url>
-        <example correction="">Quand <marker>arriveras-t-tu</marker> ?</example>
-        <example>Quand <marker>arriveras-tu</marker> ?</example>
       </rule>
     </rulegroup>
     <rule id="Y_A_T_IL" name="y-a-t-il → y a-t-il">
