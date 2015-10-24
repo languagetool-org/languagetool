@@ -27146,6 +27146,36 @@ though, and has since been slightly modified)-->
         <example>5 Rue de Louvain, 1000 BRUXELLES.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="URL" name="URL incorrectes">
+      <url>https://fr.wikipedia.org/wiki/Uniform_Resource_Locator</url>
+      <rule>
+        <regexp type="exact">\b(?:https?://(?:wwww|ww)\.\S*|(?:wwww|ww).[a-z\-]+\.(?:com|edu|mil|net|gov|org|net|int|fr|de|it|us|uk))\b</regexp>
+        <message>Il devrait probablement y avoir 3 w dans l’URL.</message>
+        <example correction="">Clickez sur <marker>wwww.google.com</marker>.</example>
+        <example>Clickez sur <marker>www.google.com</marker>.</example>
+        <example correction="">Clickez sur <marker>http://wwww.google.com</marker>.</example>
+        <example>Clickez sur <marker>http://www.google.com</marker>.</example>
+      </rule>
+      <rule>
+        <regexp type="exact">\b(?:https?|ftps?|telnet):(?:/|///)?[a-z]\S+\b</regexp>
+        <message>Il devrait probablement y en avoir 2 barres obliques dans l’URL.</message>
+        <example correction="">Clickez sur <marker>http:/www.google.com</marker>.</example>
+        <example correction="">Clickez sur <marker>http:www.google.com</marker>.</example>
+        <example>Clickez sur <marker>http://www.google.com</marker>.</example>
+      </rule>
+      <rule>
+        <regexp type="exact">\b(?:https?|ftps?|telnet)///?[a-z]\S+\b</regexp>
+        <message>Il devrait probablement y en avoir un deux-points après le prototocole dans l’URL.</message>
+        <example correction="">Clickez sur <marker>http//www.google.com</marker>.</example>
+        <example>Clickez sur <marker>http://www.google.com</marker>.</example>
+      </rule>
+      <rule>
+        <regexp type="exact">\b(?:mailto|news)://?[a-z]\S+\b</regexp>
+        <message>Les protocoles d’URL mailto: our news: ne devraient pas être suivis de deux barres obliques //.</message>
+        <example correction=""><marker>mailto://john.doe.com</marker>.</example>
+        <example><marker>mailto:john.doe.com</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
