@@ -33275,19 +33275,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>per llogar</suggestion>
             <example correction="de lloguer|per a llogar|per llogar">Pis <marker>en lloguer</marker>.</example>
         </rule>
-        <rule id="CREUAR_ENCREUAR" name="creuar/encreuar">
-            <pattern>
-                <marker>
-                    <token skip="2" inflected="yes">creuar</token>
-                </marker>
-                <token regexp="yes" inflected="yes">braç|cama</token>
-            </pattern>
-            <message>Paraula preferible.</message>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">encreuar</match></suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">plegar</match></suggestion>
-            <example correction="encreuar|plegar">Va <marker>creuar</marker> els braços.</example>
-            <example correction="Encreuà|Plegà"><marker>Creuà</marker> les cames.</example>
-        </rule>
+        <rulegroup id="CREUAR" name="creuar/encreuar/travessar/passar">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="2" inflected="yes">creuar</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">braç|cama|dit</token>
+                </pattern>
+                <message>Paraula preferible.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">encreuar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">plegar</match></suggestion>
+                <example correction="encreuar|plegar">Va <marker>creuar</marker> els braços.</example>
+                <example correction="Encreuà|Plegà"><marker>Creuà</marker> les cames.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="2" inflected="yes">creuar</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">carrer|frontera|avinguda|riu|llac|estany|carretera|autopista|autovia</token>
+                </pattern>
+                <message>Paraula preferible.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">travessar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">passar</match></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/creuar</url>
+                <example correction="travessar|passar">Va <marker>creuar</marker> la frontera.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PER_LA_NIT" name="per la nit/a la nit">
             <url>http://esadir.cat/entrades/fitxa/node/pel_mati</url>
             <rule>
