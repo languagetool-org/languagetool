@@ -549,7 +549,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
                 message.toString(), shortMessage,
                 suggestionsOutMsg.toString(), phrasePatternTokens.size() > 1);
       } else if (regex.length() > 0) {
-        int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE;
+        int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE;
         String regexStr = regex.toString();
         if (regexMode == RegexpMode.SMART) {
           regexStr = replaceSpacesInRegex(regexStr);
