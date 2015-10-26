@@ -8421,6 +8421,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Redundanz -->
     <!-- ====================================================================== -->
     <category name="Redundanz">
+        <rule id="EHEMALIG_EX" name="Verdoppelung: ehemaliger Ex-...">
+            <pattern>
+                <token regexp="yes">ehemalige[rns]?</token>
+                <token regexp="yes">Ex-.*</token>
+            </pattern>
+            <message>Mögliche Doppelung, meinten Sie <suggestion>\2</suggestion>?</message>
+            <example correction="Ex-Weltmeister">Darunter auch <marker>ehemalige Ex-Weltmeister</marker>.</example>
+        </rule>
         <rule id="FALSCHER_TRUGSCHLUSS" name="Verdoppelung: 'falscher Trugschluss'">
             <pattern>
                 <token inflected="yes">falsch</token>
