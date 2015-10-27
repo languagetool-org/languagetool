@@ -28194,6 +28194,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="PROCEDIR" name="procedir/és procedent/escau">
+            <pattern>
+                <token inflected="yes">procedir</token>
+                <token postag="V.N.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Expressió incorrecta si equival a <suggestion><match no="1" postag="V.(I.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> procedent \2</suggestion>.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">escaure</match> \2</suggestion>
+            <example correction="és procedent acordar|escau acordar">Si <marker>procedeix acordar</marker>-ho.</example>
+        </rule>
         <rule id="ESPESA_ESPESSA" name="espesa (espènyer) / espessa (espès)">
             <pattern>
                 <token regexp="yes">espes(a|es|os)</token>
