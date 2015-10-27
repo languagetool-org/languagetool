@@ -591,7 +591,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="DN..P.*" postag_regexp="yes"><exception postag="A...S.*|.*LOC_ADV.*|AO.*" postag_regexp="yes" /><exception>1</exception></token>
                     <marker>
-                        <token postag="NC.S.*" postag_regexp="yes"><exception postag="N..[PN].*|V.[^P].*|_possible_nompropi|AO.*" postag_regexp="yes" /><exception regexp="yes">&mesos_any;</exception><exception regexp="yes">(?-i)CE</exception></token>
+                        <token postag="NC.S.*" postag_regexp="yes"><exception postag="N..[PN].*|V.[^P].*|_possible_nompropi|AO.*" postag_regexp="yes" /><exception regexp="yes">&mesos_any;</exception><exception regexp="yes">bis|(?-i)CE</exception></token>
                     </marker>
                 </pattern>
                 <message>Error de concordança.</message>
@@ -610,6 +610,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En l'article 151 CE.</example>
                 <example>1 concert per a violí</example>
                 <example>1/24 part d'unitat</example>
+                <example>En l'article 4 bis</example>
             </rule>
             <!-- Hauria de ser la regla ComplexAdjectiveConcordance. Però prèviament cal haver desambiguat bé el nombre. -->
             <!-- <example>la comissió de vint-i-quatre encarregada</example>-->
@@ -9837,7 +9838,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Els deus diners?</example>
             </rule>
         </rulegroup>
-        <rule id="POR_PER" name="format *por/per">
+        <rule id="POR_PER" name="*por/per">
             <antipattern>
                 <marker>
                     <token inflected="yes" skip="1">haver</token>
@@ -9865,6 +9866,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>M'ha fet por la seva veu.</example>
             <example>Havia tingut por que no arribés un llop</example>
             <example>Ha provocat por escènica.</example>
+        </rule>
+        <rule id="POR_POT" name="*por/pot ser">
+            <antipattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">tenir|fer|passar|causar|sofrir|patir</token>
+                    <token>por</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>por</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>pot</suggestion>?</message>
+            <example correction="pot"><marker>por</marker> requerir.</example>
+            <example>Fa por canviar algunes coses.</example>
         </rule>
         <rule id="RECONDIT" name="recondit/recòndit">
             <pattern>
