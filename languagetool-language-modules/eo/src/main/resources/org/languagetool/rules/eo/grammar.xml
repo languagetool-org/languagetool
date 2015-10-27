@@ -299,6 +299,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="esploris">Li <marker>eksploris</marker> la landon.</example>
       <example correction="esploristoj">Ili estis <marker>eksploristoj</marker>.</example>
     </rule>
+    <rule id="ENKONTRI" name="enkontri kaj renkonti">
+      <pattern>
+        <token inflected="yes" regexp="yes">(?:re)?(?:inter)?(?:[ei]nkontr?|r[ei]nkontr)(?:ad|ebl|em|i[ĝg])?[aieo]</token>
+      </pattern>
+      <message>La vorto «\1» estas verŝajna eraro pro influo de nacia lingvo. Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="(?i)([ei]nkontr?|r[ei]nkontr)" regexp_replace="renkont"/></suggestion>?</message>
+      <example correction="renkontis">Mi <marker>enkontris</marker> lian fraton.</example>
+    </rule>
     <rule id="VERSIONO" name="versiono → versio">
       <pattern>
         <token inflected="yes" regexp="yes">version[oae]</token>
