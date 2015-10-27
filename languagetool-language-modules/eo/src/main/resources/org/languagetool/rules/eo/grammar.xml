@@ -236,6 +236,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="violonon">Ŝi ludas la <marker>violinon</marker> bonege.</example>
       <example>Ŝi ludas la violonon bonege.</example>
     </rule>
+    <rulegroup id="JENO_ENO" name="jeno → eno">
+      <url>http://www.reta-vortaro.de/revo</url>
+      <rule>
+        <pattern>
+          <token regexp="yes">\d+</token>
+          <marker><token inflected="yes">jeno</token></marker>
+        </pattern>
+        <message>Se «\2» temas pri la japana monunuo, oni tiam skribas <suggestion><match no="2" regexp_match="^." regexp_replace=""/></suggestion>.</message>
+        <example correction="enojn">Tio kostas 200 <marker>jenojn</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="N"/>
+          <marker><token inflected="yes">jeno</token></marker>
+        </pattern>
+        <message>Se «\2» temas pri la japana monunuo, oni tiam skribas <suggestion><match no="2" regexp_match="^." regexp_replace=""/></suggestion>.</message>
+        <example correction="enojn">Tio kostas ducent <marker>jenojn</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="NATURALA" name="naturala → natura">
       <pattern>
         <token regexp="yes" inflected="yes">(?:ne|mal|super)?natural(?:eg)?[aeio]</token>
@@ -1843,7 +1862,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <exception postag="V t[rn] i|E.*" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Prepozicio «\1» neniam povas esti sekvita de akuzativo. Uzu <suggestion><match no="2" regexp_match="n$" regexp_replace=""/></suggestion></message>
+        <message>Prepozicio «\1» neniam povas esti sekvita de akuzativo. Uzu <suggestion><match no="2" regexp_match="n$" regexp_replace=""/></suggestion>.</message>
         <url>http://eo.lernu.net/lernado/gramatiko/demandoj/oe-pri_vin.php</url>
         <example correction="vi">Mi pensas pri <marker>vin</marker>.</example>
         <example correction="veturilo">Mi vojaĝas sen <marker>veturilon</marker>.</example>
