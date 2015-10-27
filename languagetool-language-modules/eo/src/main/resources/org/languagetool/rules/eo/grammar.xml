@@ -4211,6 +4211,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Merkredon la dudek-duan de Oktobro 2014.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="URL" name="Neĝustaj URL-oj">
+      <url>https://eo.wikipedia.org/wiki/URL</url>
+      <rule>
+        <regexp type="exact">\b(?:https?://(?:wwww|ww)\.\S*|(?:wwww|ww).[a-z\-]+\.(?:com|edu|mil|net|gov|org|net|int|fr|de|it|us|uk))\b</regexp>
+        <message>Devus veŝajne esti 3 literoj «wwww» en la URL.</message>
+        <example correction="">Vidu <marker>wwww.google.com</marker>.</example>
+        <example>Vidu <marker>www.google.com</marker>.</example>
+        <example correction="">Vidu <marker>http://wwww.google.com</marker>.</example>
+        <example>Vidu <marker>http://www.google.com</marker>.</example>
+      </rule>
+      <rule>
+        <regexp type="exact">\b(?:https?|ftps?|telnet):(?:/|///)?[a-z]\S+\b</regexp>
+        <message>Devus veŝajne esti 2 oblikvoj «//» en la URL.</message>
+        <example correction="">Vidu <marker>http:/www.google.com</marker>.</example>
+        <example correction="">Vidu <marker>http:www.google.com</marker>.</example>
+        <example>Vidu <marker>http://www.google.com</marker>.</example>
+      </rule>
+      <rule>
+        <regexp type="exact">\b(?:https?|ftps?|telnet)///?[a-z]\S+\b</regexp>
+        <message>Devus verŝajne esti dupunkto «:» malantaŭ la protokolo en la URL.</message>
+        <example correction="">Vidu <marker>http//www.google.com</marker>.</example>
+        <example>Vidu <marker>http://www.google.com</marker>.</example>
+      </rule>
+      <rule>
+        <regexp type="exact">\b(?:mailto|news)://?[a-z]\S+\b</regexp>
+        <message>La protokolo de URL mailto: aŭ news: ne devus esti sekvita de du oblikjvoj «//».</message>
+        <example correction="">Vidu <marker>mailto://john.doe.com</marker>.</example>
+        <example>Vidu <marker>mailto:john.doe.com</marker>.</example>
+      </rule>
+      <rule>
+        <regexp type="exact">\b(?:https?|fts?|telnet|file):\S*([\\{}|^`]|%(?![0-9a-f]{2}))\S*</regexp>
+        <message>La URL enhavas neĝustan signon «\1» laŭ RFC 1738. Oni povas anstataŭigi specialajn signojn per % kun 2 deksesumaj nombroj.</message>
+        <url>http://www.ietf.org/rfc/rfc1738.txt</url>
+        <example correction="">Vidu <marker>http://foobar.com/%foo.html</marker></example>
+        <example>Vidu <marker>http://foobar.com/%20foo.html</marker></example>
+        <example correction="">Vidu <marker>http://foobar.com/^foo.html</marker></example>
+        <example correction="">Vidu <marker>http://foobar.com/{foo.html</marker></example>
+        <example correction="">Vidu <marker>http://foobar.com/|foo.html</marker></example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
