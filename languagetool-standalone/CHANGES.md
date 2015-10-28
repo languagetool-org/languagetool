@@ -15,7 +15,7 @@
     rebuilding the binary dictionary (https://github.com/languagetool-org/languagetool/issues/306)
 
 #### Esperanto
-   * added a new rule
+  * added/improved several rules
 
 #### French
  * added/improved several rules
