@@ -4233,12 +4233,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="URL" name="Neĝustaj URL-oj">
       <url>https://eo.wikipedia.org/wiki/URL</url>
       <rule>
-        <regexp type="exact">\b(?:https?://(?:wwww|ww)\.\S*|(?:wwww|ww).[a-z\-]+\.(?:com|edu|mil|net|gov|org|net|int|fr|de|it|us|uk))\b</regexp>
+        <regexp type="exact">\b(?:https?://(?:wwww|ww)\.\S*|(?:^|\s)(?:wwww|ww)\.[a-z0-9\-]+\.(?:com|edu|mil|net|gov|org|int|be|c[ahnz]|e[us]|f[ir]|d[ek]|i[elrst]|li|n[loz]|p[lt]|ru|se|u[ks]))\b</regexp>
         <message>Devus veŝajne esti 3 literoj «wwww» en la URL.</message>
         <example correction="">Vidu <marker>wwww.google.com</marker>.</example>
         <example>Vidu <marker>www.google.com</marker>.</example>
         <example correction="">Vidu <marker>http://wwww.google.com</marker>.</example>
         <example>Vidu <marker>http://www.google.com</marker>.</example>
+        <example>Vidu <marker>http://www.wwnorton.com</marker>.</example>
       </rule>
       <rule>
         <regexp type="exact">\b(?:https?|ftps?|telnet):(?:/|///)?[a-z]\S+\b</regexp>
