@@ -1691,6 +1691,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Ĉu tiu ĉi vere okazis?</example>
       <example>Mi loĝas ĉi tie.</example>
     </rule>
+    <rulegroup id="JARAGXA" name="10 jaraĝa → 10-jaraĝa">
+      <url>https://eo.wikipedia.org/wiki/Streketo</url>
+      <rule>
+        <pattern>
+          <token postag="N">dudek</token>
+          <token regexp="yes" inflected="yes">(?:jaraĝ)?a</token>
+        </pattern>
+        <message>Oni devas uzi streketon en la vortkombino <suggestion>\1-\2</suggestion>.</message>
+        <example correction="dudek-jaraĝaj">Ili estas <marker>dudek jaraĝaj</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">\d+</token>
+          <token regexp="yes" inflected="yes">(?:jaraĝ)?a</token>
+        </pattern>
+        <message>Oni devas uzi streketon en la vortkombino <suggestion>\1-\2</suggestion>.</message>
+        <example correction="20-jaraĝaj">Ili estas <marker>20 jaraĝaj</marker>.</example>
+        <example correction="30-an">La <marker>30 an</marker> de Marto.</example>
+      </rule>
+    </rulegroup>
     <rule id="CXI_O" name="ĉi-libro (ĉi libro)">
       <pattern>
         <token regexp="yes">ĉi-.*oj?n?</token>
@@ -4233,7 +4253,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="URL" name="Neĝustaj URL-oj">
       <url>https://eo.wikipedia.org/wiki/URL</url>
       <rule>
-        <regexp type="exact">\b(?:https?://(?:wwww|ww)\.\S*|(?:^|\s)(?:wwww|ww)\.[a-z0-9\-]+\.(?:com|edu|mil|net|gov|org|int|be|c[ahnz]|e[us]|f[ir]|d[ek]|i[elrst]|li|n[loz]|p[lt]|ru|se|u[ks]))\b</regexp>
+        <regexp type="exact">\b(?:https?://(?:wwww|ww)\.\S*|(?:^|(?&lt;=\s))(?:wwww|ww)\.[a-z0-9\-]+\.(?:com|edu|mil|net|gov|org|int|be|c[ahnz]|e[us]|f[ir]|d[ek]|i[elrst]|li|n[loz]|p[lt]|ru|se|u[ks]))\b</regexp>
         <message>Devus veŝajne esti 3 literoj «wwww» en la URL.</message>
         <example correction="">Vidu <marker>wwww.google.com</marker>.</example>
         <example>Vidu <marker>www.google.com</marker>.</example>
