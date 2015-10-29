@@ -9039,6 +9039,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="VAIG_FAIG" name="vaig/faig">
+            <antipattern>
+                <marker>
+                    <token postag="DI.*" postag_regexp="yes"/>
+                    <token regexp="yes">vegada|volta|col?p|dia</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token><exception>hi</exception></token>
+                <marker>
+                    <token>vaig</token>
+                </marker>
+                <token postag="_GN_.*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>faig</suggestion>?</message>
+            <example correction="Faig"><marker>Vaig</marker> una ullada.</example>
+            <example>Hi vaig una vegada al mes.</example>
+            <example>Vaig molt cansat.</example>
+            <example>Vaig una vegada al mes al gimnàs.</example>
+        </rule>
         <rulegroup id="ATENDRE_ATENIR" name="ens *atenem/atenim a">
             <rule>
                 <pattern>
