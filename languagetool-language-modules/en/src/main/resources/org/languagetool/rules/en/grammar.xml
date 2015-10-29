@@ -15199,6 +15199,18 @@ USA
         <!-- some rules belonging to other categories included -->
         <!-- xxx marks optional edge tokens that cause an error if uncommented -->
 
+        <rule id="BE_A_X_ONE" name="Possible wordiness: be a X one">
+            <pattern>
+                <token regexp="yes" inflected="yes">be|as</token>
+                <token regexp="yes">a|an</token>
+                <token postag_regexp='yes' postag="J.*"/>
+                <token>one</token>
+            </pattern>
+            <message>Might <suggestion>\1 \3</suggestion> convey the same?</message>
+            <short>Possible wordiness</short>
+            <example correction="is easy">This test <marker>is an easy one</marker>.</example>
+        </rule>
+        
         <rule id="ABUNDANCE" name="abundance">
             <pattern>
                 <token>abundance</token>
