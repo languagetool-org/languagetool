@@ -434,7 +434,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="VIVI_LOGXI" name="vivi anstataŭ loĝi">
       <pattern>
         <token postag="R nak .*" postag_regexp="yes"/>
-        <marker><token inflected="yes" postag="V.*" postag_regexp="yes">vivi</token></marker>
+        <marker><token inflected="yes" postag="V .*" postag_regexp="yes">vivi</token></marker>
         <token>en</token>
         <token regexp="yes">\p{Lu}.*o</token>
       </pattern>
@@ -2012,7 +2012,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag="R nak.*" postag_regexp="yes">
             <exception scope="previous" postag="P .*" postag_regexp="yes"/>
           </token>
-          <token postag="E.*" postag_regexp="yes"/>
+          <token postag="E .*" postag_regexp="yes"/>
           <token inflected="yes" regexp="yes">(?:ek)?(?:fulm|fros|hajl|neĝ|pluv|tondr|tem|tagiĝ|vent|ŝtorm)(?:et|eg)?i</token>
         </pattern>
         <message>La verbo «\3» estas sensubjekta verbo, do ne uzu «\1». Skribu <suggestion>\2 \3</suggestion>.</message>
@@ -2535,7 +2535,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="SI_TRIAPERSONA" name="si triapersona">
       <pattern>
         <token regexp="yes">[cmnv]i</token>
-        <token postag="V.*" postag_regexp="yes"/>
+        <token postag="V .*" postag_regexp="yes"/>
         <token postag="P .ak" postag_regexp="yes"/>
         <token regexp="yes">sia?j?</token>
       </pattern>
@@ -2550,7 +2550,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern mark_from="2" mark_to="-1">
           <token postag="O nak .*" postag_regexp="yes"><exception postag="X ndo"/></token>
           <token inflected="yes">esti</token>
-          <token postag="E.*" postag_regexp="yes"><exception>tie</exception></token>
+          <token postag="E .*" postag_regexp="yes"><exception>tie</exception></token>
           <token regexp="yes">[.!?,;…]</token>
         </pattern>
         <message>Ĉu vi intencis skribi <suggestion><match no="2" regexp_match="e$" regexp_replace="a"/></suggestion>?</message>
@@ -2564,8 +2564,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern mark_from="3" mark_to="-1">
           <token postag="O nak .*" postag_regexp="yes"><exception postag="X ndo"/></token>
           <token inflected="yes">esti</token>
-          <token postag="E.*" postag_regexp="yes"><exception>tie</exception></token>
-          <token postag="E.*" postag_regexp="yes"><exception>tie</exception></token>
+          <token postag="E .*" postag_regexp="yes"><exception>tie</exception></token>
+          <token postag="E .*" postag_regexp="yes"><exception>tie</exception></token>
           <token regexp="yes">[.!?,;…]</token>
         </pattern>
         <message>Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="e$" regexp_replace="a"/></suggestion>?</message>
@@ -2720,10 +2720,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <marker>
           <token skip="2">sen</token>
-          <token postag="O.*" postag_regexp="yes"/>
+          <token postag="O .*" postag_regexp="yes"/>
           <token skip="2">nek</token>
         </marker>
-        <token postag="O.*" postag_regexp="yes"/>
+        <token postag="O .*" postag_regexp="yes"/>
       </pattern>
       <message>Ne uzu «nek» por ligi du aferojn post «sen». Uzu <suggestion>\1 \2 kaj</suggestion>.</message>
       <url>http://bertilow.com/pmeg/gramatiko/neado.html#i-nzv</url>
@@ -3064,7 +3064,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <exception scope="next">la</exception>
         </token>
         <marker>
-          <token postag="A.*" postag_regexp="yes"/>
+          <token postag="A .*" postag_regexp="yes"/>
         </marker>
         <token postag="SENT_END|K" postag_regexp="yes">
           <exception regexp="yes">kaj|aŭ</exception>
@@ -3380,7 +3380,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token>la</token>
         <and>
-          <token postag_regexp="yes" postag="[KMPRV].*">
+          <token postag_regexp="yes" postag="[KN]|[PRV] .*">
             <exception regexp="yes">ĝis|ĉirkaŭ</exception>
           </token>
           <token regexp="yes">(?-i)[a-zĉĝĵĥŝ].*</token>
@@ -3446,7 +3446,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag_regexp="yes" postag="O nak.*">
             <exception regexp="yes">.*inoj?</exception>
           </token>
-          <token postag_regexp="yes" postag="V.*"/>
+          <token postag_regexp="yes" postag="V .*"/>
         </pattern>
         <message>La vorto «\4» ne povas esti subjekto. Ĉu vi intencis diri <suggestion><match no="4" regexp_match="^." regexp_replace="l"/></suggestion>?</message>
         <example correction="lia">Tom kaj <marker>sia</marker> frato alvenis.</example>
@@ -3462,7 +3462,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token regexp="yes">siaj?</token>
           </marker>
           <token postag_regexp="yes" postag="O nak.*" regexp="yes">.*inoj?</token>
-          <token postag_regexp="yes" postag="V.*"/>
+          <token postag_regexp="yes" postag="V .*"/>
         </pattern>
         <message>La vorto «\4» ne povas esti subjekto. Ĉu vi intencis diri <suggestion><match no="4" regexp_match=".(.*)" regexp_replace="ŝ$1"/></suggestion>?</message>
         <example correction="ŝia">Tom kaj <marker>sia</marker> fratino alvenis.</example>
@@ -3660,7 +3660,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <marker>
             <token>ne</token>
-            <token postag="V.*" postag_regexp="yes"/>
+            <token postag="V .*" postag_regexp="yes"/>
             <token regexp="yes">neni(?:[aou]j?n?|[ao]m|el|e)</token>
           </marker>
           <token><exception postag="V .* i" postag_regexp="yes"/></token>
@@ -3700,7 +3700,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="P_P" name="prepozicio + prepozicio">
       <pattern>
         <token regexp="yes">al|je|(?:mal)?graŭ</token>
-        <token postag="P.*" postag_regexp="yes">
+        <token postag="P .*" postag_regexp="yes">
           <exception>ĉirkaŭ</exception>
         </token>
       </pattern>
