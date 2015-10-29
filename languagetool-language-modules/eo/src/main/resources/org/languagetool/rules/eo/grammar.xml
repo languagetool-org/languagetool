@@ -1795,6 +1795,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Tro multe estas ankoraŭ farenda.</example>
       <example>Mi havis tro da kafo.</example>
     </rule>
+    <rule id="MULTA_DA" name="multa da → multe da / multa">
+      <pattern>
+        <token regexp="yes">(?:ne)?(?:mal)?(?:mult|kelk|sufiĉ)(?:e[gt])?aj?n?</token>
+        <token>da</token>
+      </pattern>
+      <message>Kiam oni anstataŭigas kvantan E-vorton per kvanta A-vorto, tiam «da» malaperas.</message>
+      <suggestion>\1</suggestion>
+      <suggestion><match no="1" regexp_match="aj?n?$" regexp_replace="e"/> \2</suggestion>
+      <url>http://bertilow.com/pmeg/gramatiko/kvantaj_vortoj/e-vortoj.html#i-z3o</url>
+      <example correction="multan|multe da">Li havas <marker>multan da</marker> mono.</example>
+    </rule>
     <rule id="KILO_DE" name="kilogramo de">
       <pattern>
         <token regexp="yes">(?:kilo)?gramoj?n?|(?:litr|tun)oj?n?</token>
