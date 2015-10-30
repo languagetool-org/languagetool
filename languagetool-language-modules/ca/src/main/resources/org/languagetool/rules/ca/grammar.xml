@@ -2531,7 +2531,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>parella</token>
                     <token>de</token>
-                    <token>fet</token>
+                    <token regexp="yes">fet|mitjana</token>
                 </marker>
             </antipattern>
             <rule>
@@ -2548,6 +2548,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>un grup de teatre</example>
                 <example>un parell d'engegada alt</example>
                 <example>Són parella de fet.</example>
+                <example>Eren una parella de mitjana edat.</example>
             </rule>
             <rule id="CONFUSIO_NOMBRE" name="Confusions de nombre: catequesis, diesis">
                 <pattern>
@@ -2882,6 +2883,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token regexp="yes" inflected="yes">resta|majoria|vegada|volta|cop|&mesos_any;|&unitats_temps;|&expressions_temps;|\d{3,4}</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>major</token>
+                    <token>part</token>
                 </marker>
             </antipattern>
             <antipattern>
@@ -16034,6 +16041,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>té una tendència pel fosc i ombrívol,</example>
                 <example>substituït pel fins aquells moments ministre</example>
                 <example>era detingut pels ras o governadors provincials</example>
+                <example>Què li passa pel cap a algú que diu això?</example>
                 <!-- <example>pels de gat</example>
                     pels primer emigrants aris, -->
             </rule>
@@ -24903,6 +24911,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>anar de baixa</example>
         </rule>
         <rule id="CARA_A" name="*cara a/de cara a">
+            <antipattern>
+                <marker>
+                    <token>cara</token>
+                    <token>a</token>
+                    <token>cara</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token><exception inflected="yes" regexp="yes">plantar|fer|tenir|posar</exception><exception regexp="yes">de|la|tan|[stm]e[uv]a|[nv]ostra|aquesta|aquella|aqueixa|esta|eixa|mateixa</exception></token>
                 <marker>
@@ -37351,7 +37366,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="BE_QUE_SUBJUNTIU" name="bé que + *subjuntiu/indicatiu">
             <pattern>
-                <token><exception regexp="yes">o|gens</exception><exception postag="SPS00|RG_anteposat|PR.*|.*LOC_CONJ.*|.*LOC_ADV.*|_GV_|V.[^P].*" postag_regexp="yes"/></token>
+                <token><exception regexp="yes" inflected="yes">o|gens|anar|venir</exception><exception postag="SPS00|RG_anteposat|PR.*|.*LOC_CONJ.*|.*LOC_ADV.*|_GV_|V.[^P].*" postag_regexp="yes"/></token>
                 <marker>
                     <token>bé<exception postag="_GN_MS"/></token>
                     <token skip="8">que<exception scope="next" postag="V.I.*|PR.*|CS|.*LOC_CONJ.*" postag_regexp="yes"/></token>
@@ -37367,6 +37382,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Estaria bé que vinguessis.</example>
             <example>Que bé que hàgiu vingut.</example>
             <example>no va veure ben bé que fos ella</example>
+            <example>Quin dia va bé que vinguin?</example>
             <!-- I sobretot a preocupar-nos tots de treballar, bé que es rebaixin les hores de treball, bé que el treballador es pugui jubilar més jove que no pas ara, bé que els sous siguin suficients -->
         </rule>
         <rulegroup id="ALGUN_CAP" name="no hi ha esperança *alguna/cap esperança">
