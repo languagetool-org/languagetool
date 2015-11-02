@@ -9046,6 +9046,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="ESTAN_FET" name="*estan fet/estan fent/estan fets">
+            <pattern>
+                <token postag="V...3P.." postag_regexp="yes" inflected="yes" regexp="yes">estar|ser|anar|quedar|restar</token>
+                <token postag="V.P..SM." postag_regexp="yes"></token>
+            </pattern>
+            <message>Possible confusió.</message>
+            <suggestion>\1 <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.G.*"/></suggestion>
+            <suggestion>\1 <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PM."/></suggestion>
+            <example correction="estan fent|estan fets"><marker>estan fet</marker>.</example>
+        </rule>
         <rule id="VAIG_FAIG" name="vaig/faig">
             <antipattern>
                 <marker>
