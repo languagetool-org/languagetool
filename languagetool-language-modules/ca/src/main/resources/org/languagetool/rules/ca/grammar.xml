@@ -15027,7 +15027,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">arronsa|amolla</token>
                 </pattern>
                 <message>S'escriu amb guionets.</message>
-                <suggestion>\1-\2-\3</suggestion>
+                <suggestion>estira-\2-\3</suggestion>
                 <example correction="estira-i-arronsa">Aquest <marker>estira i arronsa</marker></example>
             </rule>
             <rule>
@@ -21963,6 +21963,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="TIRA_I_ARRONSA" name="tira-i-arronsa">
+            <pattern>
+                <token>tira</token>
+                <token>-</token>
+                <token>i</token>
+                <token>-</token>
+                <token regexp="yes">arronsa|amolla</token>
+            </pattern>
+            <message>S'escriu amb guionets.</message>
+            <suggestion>estira-i-\5</suggestion>
+            <example correction="estira-i-arronsa">Aquest <marker>tira-i-arronsa</marker></example>
+        </rule>
         <rule id="ALT_EL_FOC" name="*alt el foc/alto el foc">
             <regexp case_sensitive="no">\balt[\s-]+[ae]l[\s-]+foc\b</regexp>
             <message>Expressió incorrecta.</message>
