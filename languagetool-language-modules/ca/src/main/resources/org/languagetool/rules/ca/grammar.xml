@@ -33374,6 +33374,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="No hi ha temps|No (tenir) temps"><marker>No dóna temps</marker>.</example>
             <example correction="No hi ha temps|No (tenir) temps"><marker>No em dóna temps</marker> de fer-ho.</example>
             </rule> -->
+        <rule id="RAPID_DE_PRESSA" name="ràpid (adv.)/de pressa">
+            <antipattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">voler|significar</token>
+                    <token min="0">dir</token>
+                    <token>ràpid</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>menjar</token>
+                    <token>ràpid</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token postag="V.[MSING].*|_GV_" postag_regexp="yes"><exception inflected="yes">ser</exception></token>
+                <token postag="RG_anteposat" min="0"/>
+                <marker>
+                    <token>ràpid</token>
+                </marker>
+            </pattern>
+            <message>Com a adverbi, val més usar una altra expressió.</message>
+            <suggestion>de pressa</suggestion>
+            <suggestion>ràpidament</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/rapid</url>
+            <example correction="de pressa|ràpidament">Van <marker>ràpid</marker>.</example>
+            <example correction="de pressa|ràpidament">Has d'anar més <marker>ràpid</marker>.</example>
+            <example correction="de pressa|ràpidament">Joan corre tan <marker>ràpid</marker> com Pere.</example>
+            <example correction="de pressa|ràpidament">No has de menjar tan <marker>ràpid</marker>.</example>
+            <example>És ràpid de reflexos.</example>
+            <example>No m'agrada el menjar ràpid.</example>
+            <example>Restaurants de menjar ràpid.</example>
+            <example>Wiki vol dir ràpid en hawaià.</example>
+        </rule>
         <rule id="EN_LLOGUER" name="en lloguer">
             <pattern>
                 <token regexp="yes" inflected="yes" skip="1">pis|casa|oficina|planta|edifici|plaça|pàrquing|apartament|cotxe|vehicle|furgoneta</token>
