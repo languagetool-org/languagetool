@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
     <!ENTITY context_FALLAR "sentència|veredicte|premi|tribunal|jutges?|jurat|favor|instruir|procés|dispositiva|jutjar|sentenciar">
     <!ENTITY context_FER_SE_AMB "títol|triomf|victòria|alcaldia|presidència|nombre|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit">
+    <!ENTITY context_MUSICA "arranjador|orquestrador|orquestrar|saxòfon|saxofon|oboè|trompeta|trompa|trombó|timbala|timbal|percussió|compondre|interpretar|compositor|orquestra|director|banda|piano|corda|vent|fusta|peça|obra|simfonia|suite|obertura|òpera|metall|violí|flauta|clarinet|viola|violoncel|contrabaix|guitarra|intermezzo">
     <!ENTITY context_ROTAR_GIRAR "angle1|grau|girar|objecte|triangle|quadrat|polígon|eix|gravetat|minut|segon|sentit|agulla|rellotge|planeta|Terra|rotació|aparell|oest|est|magnètic|òrbita|pilota">
     <!ENTITY dies_setmana_abrev "dl|dt|dc|dj|dv|ds|dg">
     <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
@@ -31361,6 +31362,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Possible confusió</short>
                 <example correction="pastar">Els ingredients s'han d'<marker>amassar</marker> durant cinc minuts.</example>
                 <example>Una gran fortuna, va amssar.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="INSTRUMENTALITZAR" name="instrumentalitzar /instrumentar">
+            <!-- es pot completar amb més paraules -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="15" regexp="yes">instrumentalitzar|instrumentalització|instrumentalitzador</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">&context_MUSICA;</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)instrumentalitz(.*)" regexp_replace="instrument$1"/></suggestion> (terme usat en música)?</message>
+                <example correction="instrumentar">Va <marker>instrumentalitzar</marker> la peça per a banda de vent.</example>
+                <example correction="instrumentació">La <marker>instrumentalització</marker> de les simfonies és brillant.</example>
+                <example>El president va instrumentalitzar el partit.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="15">&context_MUSICA;</token>
+                    <marker>
+                        <token inflected="yes" skip="15" regexp="yes">instrumentalitzar|instrumentalització|instrumentalitzador</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?-i)instrumentalitz(.*)" regexp_replace="instrument$1"/></suggestion> (terme usat en música)?</message>
+                <example correction="instrumentà">El compositor la <marker>instrumentalitzà</marker> al seu gust.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ASSECAR_EIXUGAR" name="assecar / eixugar">
