@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+Italian Disambiguation Rules for LanguageTool
+Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
+-->
+
+<rules lang="it" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <unification feature="number">
+        <equivalence type="sg">
+            <token postag="(NOUN.*s)|(ADJ.*\+s)" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="pl">
+            <token postag="(NOUN.*p)|(ADJ.*\+p)" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+
+    <unification feature="gender">
+        <equivalence type="mas">
+            <token postag="(NOUN-M.*)|(ADJ.*\+m\+.?)" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="fem">
+            <token postag="(NOUN-F.*)|(ADJ.*\+f\+.?)" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+
+    <!-- ============================================================================================================== -->
+    <!-- Adjective Noun phrases unification -->
+    <!-- ============================================================================================================== -->
+
+    <rule name="ADJ-NOUN_1" id="UNIFY_ADJ_NOUN">
+        <pattern>
+            <marker>
+                <unify>
+                    <feature id="number"/><feature id="gender"/>
+                    <token postag="ADJ.*" postag_regexp="yes"></token>
+                    <token postag="NOUN.*" postag_regexp="yes"></token>
+                </unify>
+            </marker>
+        </pattern>
+        <disambig action="unify"/>
+    </rule>
+	
+</rules>
