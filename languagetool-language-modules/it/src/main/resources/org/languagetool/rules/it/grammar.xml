@@ -25,70 +25,68 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  Paolo Bianchini
  ================================================================================
  Categorie delle regole
-    gruppi delle regole
-
- nome											ID				stato
+    gruppi delle regole                         ID              stato
  ============================================== =============== ===============
- Grammatica - Aggettivi							GR_01 		
-   uso corretto									GR_01_01		add more
+ Grammatica - Aggettivi                         GR_01
+   uso corretto                                 GR_01_01        add more
  
- Grammatica - Articoli							GR_02		
-   uso corretto									GR_02_001		ok
+ Grammatica - Articoli                          GR_02
+   uso corretto                                 GR_02_001       ok
 
- Grammatica - Concordanza						GR_03		
-   tra genere e numero							GR_03_001		to do
-   tra soggetto e verbo							GR_03_002		to do
+ Grammatica - Concordanza                       GR_03
+   tra genere e numero                          GR_03_001       to do
+   tra soggetto e verbo                         GR_03_002       to do
 
- Grammatica - Elisioni e troncamenti			GR_04		
-   apocopi vocaliche							GR_04_001		add more
-   elisioni										GR_04_002		add more
+ Grammatica - Elisioni e troncamenti            GR_04
+   apocopi vocaliche                            GR_04_001       add more
+   elisioni                                     GR_04_002       add more
 
- Grammatica - Frase								GR_05		
-   altri elementi								GR_05_001		to do
-   struttura									GR_05_002  		add more
+ Grammatica - Frase                             GR_05		
+   altri elementi                               GR_05_001       to do
+   struttura                                    GR_05_002       add more
 
- Grammatica - Maiuscole							GR_06		
-   uso corretto									GR_06_001		not needed?
+ Grammatica - Maiuscole                         GR_06
+   uso corretto                                 GR_06_001       not needed?
 
- Grammatica - Preposizioni						GR_07		
-   uso corretto									GR_07_001		add more
+ Grammatica - Preposizioni                      GR_07
+   uso corretto                                 GR_07_001       add more
 
- Grammatica - Pronomi							GR_08		
-   uso corretto									GR_08_001		to do
+ Grammatica - Pronomi                           GR_08
+   uso corretto                                 GR_08_001       to do
  
- Grammatica - Punteggiatura						GR_09		
-   asterischi di omissione (***)				GR_09_001		ok
-   puntini di sospensione (...)					GR_09_002		ok
-   ripetizioni									GR_09_003		ok
-   sigle										GR_09_004		ok
+ Grammatica - Punteggiatura                     GR_09
+   asterischi di omissione (***)                GR_09_001       ok
+   puntini di sospensione (...)                 GR_09_002       ok
+   ripetizioni                                  GR_09_003       ok
+   sigle                                        GR_09_004       ok
 
- Grammatica - Verbi								GR_10		
-   concordanza tempi delle coordinate			GR_10_001		ok
-   concordanza tempi delle subordinate			GR_10_002		to do  
-   uso del congiuntivo							GR_10_003		add more
-   uso corretto									GR_10_004		add more
+ Grammatica - Verbi                             GR_10
+   concordanza tempi delle coordinate           GR_10_001       ok
+   concordanza tempi delle subordinate          GR_10_002       to do  
+   uso del congiuntivo                          GR_10_003       add more
+   uso corretto                                 GR_10_004       add more
 
- Stile - Espressioni 							ST_01		
-   arcaiche										ST_01_001		to do
-   parlato										ST_01_002		add more
-   pleonasmi									ST_01_003		add more
-   regionali									ST_01_004		add more					
-   straniere									ST_01_005		add more
-   uso errato									ST_01_006		to do
+ Stile - Espressioni                            ST_01
+   arcaiche                                     ST_01_001       to do
+   parlato                                      ST_01_002       add more
+   pleonasmi                                    ST_01_003       add more
+   regionali                                    ST_01_004       add more					
+   straniere                                    ST_01_005       add more
+   uso errato                                   ST_01_006       to do
 
- Stile - Frase									ST_02
-   frasi lunghe									ST_02_001		ok
+ Stile - Frase                                  ST_02
+   frasi lunghe                                 ST_02_001       ok
 
- Stile - Leggibilità							ST_03		
-   eufoniche									ST_03_001		ok
-   ripetizioni									ST_03_002		ok
+ Stile - Leggibilità                            ST_03
+   eufoniche                                    ST_03_001       ok
+   ripetizioni                                  ST_03_002       ok
 
- Stile - Numeri									ST_04		
-   in cifre se minori di 10						ST_04_001		ok
-   in cifre se minori di 100					ST_04_002		ok
+ Stile - Numeri                                 ST_04
+   in cifre se minori di 10                     ST_04_001       ok
+   in cifre se minori di 100                    ST_04_002       ok
 
- Ulteriori errori comuni - avere				ER_01			ok
- Ulteriori errori comuni - ortografia			ER_02			ok
+ Ulteriori errori comuni - avere                ER_01           ok
+ Ulteriori errori comuni - ortografia           ER_02           ok
  
  ================================================================================
 -->
@@ -115,9 +113,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  3610360  False positive in dates for rule ST_04_001 fixes also 3611066
  3610289  False positive il artice for word "Signore"
  182      False positive in 'ai peccati' suggests 'hai'
- 181	  Don't apply word repetition rule on 'via via' and 'così così'
- 180	  Fix some false positives in al for la 
- PB013	  Added ma però rule
+ 181      Don't apply word repetition rule on 'via via' and 'così così'
+ 180      Fix some false positives in al for la 
+ PB013    Added ma però rule
+ PB014    We don't need the skip in article rules since we are unifying adj and noun 
  ======== ==================================================================================
 -->
 
@@ -172,8 +171,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- la -->
             <rule>
                 <pattern>
-                    <marker><token skip="1" regexp="yes">il|lo|i|gli|le</token></marker>
-                    <token postag="NOUN-F.s" postag_regexp="yes"><exception postag="(NOUN-F.p)|(NOUN-M.s)|(ADV)" postag_regexp="yes"/></token>
+                    <!-- PB014 marker><token skip="1" regexp="yes">il|lo|i|gli|le</token></marker -->
+                    <marker><token regexp="yes">il|lo|i|gli|le</token></marker>
+                    <token postag="(NOUN-F.s)|(ADJ.*\+f\+s)" postag_regexp="yes"><exception postag="(NOUN-F.p)|(ADJ.*\+f\+p)|(NOUN-M.s)|(ADJ.*\+m\+s)|(ADV)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>L'articolo non concorda, usare: <suggestion>la</suggestion>.</message>
                 <example correction="la">Vidi <marker>il</marker> mucca pascolare nel campo.</example>
@@ -181,8 +181,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- le -->
             <rule>
                 <pattern>
-                    <marker><token skip="1" regexp="yes">il|lo|i|gli|la</token></marker>
-                    <token postag="NOUN-F.p" postag_regexp="yes"><exception postag="(NOUN-F.s)|(NOUN-M.p)|(ADV)" postag_regexp="yes"/>
+                    <!-- PB014 marker><token skip="1" regexp="yes">il|lo|i|gli|la</token></marker -->
+                    <marker><token regexp="yes">il|lo|i|gli|la</token></marker>
+                    <token postag="(NOUN-F.p)|(ADJ.*\+f\+p)" postag_regexp="yes"><exception postag="(NOUN-F.s)|(ADJ.*\+f\+s)|(NOUN-M.p)|(ADJ.*\+m\+p)(ADV)" postag_regexp="yes"/>
 <!-- 3610289 + -->
                     	<exception regexp="yes">(?-i)Signore</exception>
 <!-- 3610289 - -->
@@ -194,8 +195,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- una -->
             <rule>
                 <pattern>
-                    <marker><token skip="1" regexp="yes">un|uno</token></marker>
-                    <token postag="NOUN-F.s" postag_regexp="yes"><exception postag="(NOUN-F.p)|(NOUN-M.s)|(ADV)" postag_regexp="yes"/></token>
+                    <!-- PB014 marker><token skip="1" regexp="yes">un|uno</token></marker -->
+                    <marker><token regexp="yes">un|uno</token></marker>
+                    <token postag="(NOUN-F.s)|(ADJ.*\+f\+s)" postag_regexp="yes"><exception postag="(NOUN-F.p)|(ADJ.*\+f\+p)|(NOUN-M.s)|(ADJ.*\+m\+s)|(ADV)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>L'articolo non concorda, usare: <suggestion>una</suggestion>.</message>
                 <example correction="una">Vidi <marker>un</marker> mucca pascolare nel campo.</example>
@@ -204,8 +206,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- il -->
             <rule>
                 <pattern>
-                    <marker><token skip="1" regexp="yes">lo|la|i|gli|le</token></marker>
-                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.p)|(NOUN-F.s)|(ADV)" postag_regexp="yes"/></token>
+                    <!-- PB014 marker><token skip="1" regexp="yes">lo|la|i|gli|le</token></marker -->
+                    <marker><token regexp="yes">lo|la|i|gli|le</token></marker>
+                    <token postag="(NOUN-M.s)|(ADJ.*\+m\+s)" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.p)|(ADJ.*\+m\+p)|(NOUN-F.s)|(ADJ.*\+f\+s)|(ADV)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>L'articolo non concorda, usare: <suggestion>il</suggestion>.</message>
                 <example correction="il">Quanto costa <marker>lo</marker> vino?</example>
@@ -213,8 +216,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- i -->
             <rule>
                 <pattern>
-                    <marker><token skip="1" regexp="yes">lo|la|il|gli|le</token></marker>
-                    <token postag="NOUN-M.p" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.s)|(NOUN-F.p)|(ADV)" postag_regexp="yes"/>
+                    <!-- PB014 marker><token skip="1" regexp="yes">lo|la|il|gli|le</token></marker -->
+                    <marker><token regexp="yes">lo|la|il|gli|le</token></marker>
+                    <token postag="(NOUN-M.p)|(ADJ.*\+m\+p)" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfglmnqrtv][bcdfglmnpqrtv].*<exception postag="(NOUN-M.s)|(ADJ.*\+m\+s)|(NOUN-F.p)|(ADJ.*\+f\+p)|(ADV)" postag_regexp="yes"/>
 <!-- PB0012 + -->
                     	<exception>dei</exception>
 <!-- PB0012 - -->                        
@@ -226,8 +230,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- un -->
             <rule>
                 <pattern>
-                    <marker><token skip="1" regexp="yes">uno|una</token></marker>
-                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfghlmnqrtv][bcdfghlmnpqrtv].*<exception postag="(NOUN-M.p)|(NOUN-F.s)|(ADV)" postag_regexp="yes"/></token>
+                    <!-- PB014 marker><token skip="1" regexp="yes">uno|una</token></marker -->
+                    <marker><token regexp="yes">uno|una</token></marker>
+                    <token postag="(NOUN-M.s)|(ADJ.*\+m\+s)" postag_regexp="yes" regexp="yes">[bcdfghlmnpqrstv][aeiou].*|[bcdfghlmnqrtv][bcdfghlmnpqrtv].*<exception postag="(NOUN-M.p)|(ADJ.*\+m\+p)|(NOUN-F.s)|(ADJ.*\+f\+s)|(ADV)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>L'articolo non concorda, usare: <suggestion>un</suggestion>.</message>
                 <example correction="un">Mi insegni <marker>uno</marker> trucco?</example>
@@ -235,8 +240,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- lo -->
             <rule>
                 <pattern>
-                    <marker><token skip="1" regexp="yes">i|la|il|gli|le</token></marker>
-                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)|(ADV)" postag_regexp="yes"/></token>
+                    <!-- PB014 marker><token skip="1" regexp="yes">i|la|il|gli|le</token></marker -->
+                    <marker><token regexp="yes">i|la|il|gli|le</token></marker>
+                    <token postag="(NOUN-M.s)|(ADJ.*\+m\+s)" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(ADJ.*\+m\+p)|(NOUN-F.s)|(ADJ.*\+f\+s)|(ADV)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>L'articolo non concorda, usare: <suggestion>lo</suggestion>.</message>
                 <example correction="lo">Ho forato <marker>il</marker> pneumatico.</example>
@@ -245,8 +251,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- gli -->
             <rule>
                 <pattern>
-                    <marker><token skip="1" regexp="yes">i|la|il|lo|le</token></marker>
-                    <token postag="NOUN-M.p" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.s)|(NOUN-F.p)" postag_regexp="yes"/></token>
+                    <!-- PB014 marker><token skip="1" regexp="yes">i|la|il|lo|le</token></marker -->
+                    <marker><token regexp="yes">i|la|il|lo|le</token></marker>
+                    <token postag="(NOUN-M.p)|(ADJ.*\+m\+p)" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.s)|(ADJ.*\+m\+s)|(NOUN-F.p)|(ADJ.*\+f\+p)|(ADV)" postag_regexp="yes"/></token>
                 </pattern>
                 <message>L'articolo non concorda, usare: <suggestion>gli</suggestion>.</message>
                 <example correction="gli">Come raccontano <marker>i</marker> storici...</example>
@@ -254,12 +261,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- uno -->
             <rule>
                 <pattern>
-                    <marker><token skip="1" regexp="yes">un|una</token></marker>
+                    <!-- PB014 marker><token skip="1" regexp="yes">un|una</token></marker -->
+                    <marker><token regexp="yes">un|una</token></marker>
                     <!-- 2957133 + -->
                     <!--
                                         <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|[gn].*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)" postag_regexp="yes"/></token>
                     -->
-                    <token postag="NOUN-M.s" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(NOUN-F.s)|(ADV)" postag_regexp="yes"/></token>
+                    <token postag="(NOUN-M.s)|(ADJ.*\+m\+s)" postag_regexp="yes" regexp="yes">[zx].*|s[bcdfghlmnpqrstv].*|p[ns].*|gn.*|[iy][aeiou].*<exception postag="(NOUN-M.p)|(ADJ.*\+m\+p)|(NOUN-F.s)|(ADJ.*\+f\+s)|(ADV)" postag_regexp="yes"/></token>
                     <!-- 2957133 - -->
                 </pattern>
                 <message>L'articolo non concorda, usare: <suggestion>uno</suggestion>.</message>
