@@ -21836,16 +21836,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>
             <pattern>
+                <token postag="SENT_START"/>
                 <token regexp="yes">\p{Lu}.*</token>
-                <token min="20"></token>
+                <token min="20" skip="-1"/>
                 <marker>
                     <token postag="SENT_END"><exception regexp="yes">[.!?:…]</exception></token>
                 </marker>
             </pattern>
             <message>Si no és un títol, falta un punt al final de la frase.</message>
-            <suggestion>\22.</suggestion>
-            <short>Falta un punt</short>
-            <example correction="error.">Aquesta és una frase llarga que no té punt al final i per tant és segur que hi ha un <marker>error</marker></example>
+            <!--<suggestion>\22.</suggestion>-->
+            <example correction="">Aquesta és una frase llarga que no té punt al final i per tant és segur que hi ha un <marker>error</marker></example>
+            <example correction="">Aquesta és una frase llarga, molt llarga, llarguíssima, que no té punt al final i per tant és segur que hi ha un <marker>error</marker></example>
             <example>Aquesta frase és curta, podria ser un títol</example>
             <example>«Aquesta frase, a més de ser llarga, sí que acaba amb punt, encara que el punt va abans de les cometes de tancament.»</example>
             <example>aquesta frase, a part del fet de ser llarga, no comença amb majúsucula i, per tant, no compleix els requisits per a ser marcada com a erònia</example>
