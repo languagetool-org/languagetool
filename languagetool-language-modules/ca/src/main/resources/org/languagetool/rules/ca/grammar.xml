@@ -2682,6 +2682,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Són resultat de la seva recerca.</example>
                 <example>Eren presa fàcil.</example>
                 <example>Ja sigui mullats o eixuts.</example>
+                <example>No eren pecat</example>
             </rule>
             <rule>
                 <pattern>
@@ -9048,6 +9049,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category name="Z1) Confusions" type="grammar">
         <rule id="ESTAN_FET" name="*estan fet/estan fent/estan fets">
+            <antipattern>
+                <marker>
+                    <token inflected="yes">ser</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
             <pattern>
                 <token postag="V....P.." postag_regexp="yes" inflected="yes" regexp="yes">estar|ser|anar|quedar|restar</token>
                 <token postag="V.P..SM." postag_regexp="yes"></token>
@@ -9057,6 +9064,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>\1 <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PM."/></suggestion>
             <example correction="estan fent|estan fets"><marker>estan fet</marker>.</example>
             <example correction="estem documentant|estem documentats"><marker>estem documentat</marker>.</example>
+            <example>No eren pecat.</example>
         </rule>
         <rule id="VAIG_FAIG" name="vaig/faig">
             <antipattern>
