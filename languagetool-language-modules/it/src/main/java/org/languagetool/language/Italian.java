@@ -37,11 +37,15 @@ import org.languagetool.tagging.it.ItalianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.rules.it.ItalianRuleDisambiguator;
+
 public class Italian extends Language implements AutoCloseable {
 
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
   private LuceneLanguageModel languageModel;
+  private Disambiguator disambiguator;
   
   @Override
   public String getName() {
@@ -119,6 +123,14 @@ public class Italian extends Language implements AutoCloseable {
     if (languageModel != null) {
       languageModel.close();
     }
+  }
+
+  @Override
+  public final Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new ItalianRuleDisambiguator();
+    }
+    return disambiguator;
   }
 
 }
