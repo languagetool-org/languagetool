@@ -3270,6 +3270,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="DORMIR_ADORMIRSE" name="*dormir-se / adormir-se">
+            <url>http://esadir.cat/entrades/fitxa/node/dormir</url>
             <rule>
                 <pattern>
                     <marker>
@@ -3310,15 +3311,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- un cop s'ha dormit la pítima -->
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token>hores</token>
+                        <token>dormides</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token><exception postag="VA.*" postag_regexp="yes" inflected="yes">haver</exception></token>
                     <marker>
                         <token postag="V.P.*" postag_regexp="yes" inflected="yes">dormir</token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>a<match no="2"/></suggestion>?</message>
-                <example correction="adormida">la princesa <marker>dormida</marker></example>
-                <example>la princesa ha dormit</example>
+                <message>Probablement cal dir <suggestion>a<match no="2"/></suggestion>.</message>
+                <example correction="adormida">La princesa <marker>dormida</marker></example>
+                <example>La princesa ha dormit tota la nit.</example>
+                <example>Nombre d'hores dormides.</example>
             </rule>
             <rule>
                 <pattern>
