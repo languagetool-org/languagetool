@@ -18,11 +18,11 @@
  */
 package org.languagetool.tokenizers;
 
-import net.sourceforge.segment.TextIterator;
-import net.sourceforge.segment.srx.SrxDocument;
-import net.sourceforge.segment.srx.SrxParser;
-import net.sourceforge.segment.srx.SrxTextIterator;
-import net.sourceforge.segment.srx.io.Srx2SaxParser;
+import net.loomchild.segment.TextIterator;
+import net.loomchild.segment.srx.SrxDocument;
+import net.loomchild.segment.srx.SrxParser;
+import net.loomchild.segment.srx.SrxTextIterator;
+import net.loomchild.segment.srx.io.Srx2SaxParser;
 import org.languagetool.JLanguageTool;
 
 import java.io.*;

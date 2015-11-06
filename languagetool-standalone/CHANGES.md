@@ -53,6 +53,9 @@
   * fix: disabling rules that are disabled by default and had been 
     enabled didn't work
 
+#### Internal
+  * updated segment library to 2.0.0 (https://github.com/loomchild/segment)
+
 
 
 ## 3.1 (2015-09-28)

@@ -18,7 +18,7 @@
  */
 package org.languagetool.tokenizers;
 
-import net.sourceforge.segment.srx.SrxDocument;
+import net.loomchild.segment.srx.SrxDocument;
 import org.languagetool.Language;
 
 import java.util.List;
