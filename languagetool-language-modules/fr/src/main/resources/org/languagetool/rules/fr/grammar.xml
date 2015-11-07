@@ -26276,6 +26276,14 @@ though, and has since been slightly modified)-->
       <message>Voulez-vous écrire <suggestion>\1.0\3</suggestion> ?</message>
       <example correction="xubuntu-12.04">J’ai installé <marker>xubuntu-12.4</marker>.</example>
     </rule>
+    <rule id="X86" name="X86 → x86">
+      <pattern>
+        <token case_sensitive="yes" regexp="yes">X86(?:[-_]64)?</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion><match no="1" case_conversion="startlower"/></suggestion> ?</message>
+      <example correction="x86">Le jeu d’instruction <marker>X86</marker>.</example>
+      <example correction="x86_64">Le jeu d’instruction <marker>X86_64</marker>.</example>
+    </rule>
     <rule id="SQLITE" name="SQLite">
       <pattern>
         <token regexp="yes">sql-?l?i(te|ght)<exception case_sensitive="yes">SQLite</exception></token>
