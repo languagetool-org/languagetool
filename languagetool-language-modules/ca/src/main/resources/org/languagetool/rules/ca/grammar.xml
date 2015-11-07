@@ -9058,6 +9058,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="DONANT_T_HI" name="confusió: donant-t'hi/donant-hi">
+            <pattern>
+                <token postag="V.G.*" postag_regexp="yes"></token>
+                <token>-t</token>
+                <token>'hi</token>
+            </pattern>
+            <message>Possible confusió. Probablement sobra un pronom.</message>
+            <suggestion>\1-hi</suggestion>
+            <example correction="portant-hi"><marker>portant-t'hi</marker>.</example>
+        </rule>
         <rule id="ESTAN_FET" name="*estan fet/estan fent/estan fets">
             <antipattern>
                 <marker>
