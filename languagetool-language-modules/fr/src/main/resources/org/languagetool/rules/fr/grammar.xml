@@ -8783,6 +8783,12 @@ though, and has since been slightly modified)-->
         <example>Nous l’avons mangée.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>les</token>
+          <token inflected="yes">avoir</token>
+          <token regexp="yes">fait|laissé</token>
+          <token postag="V inf"/>
+        </antipattern>
         <pattern>
           <token postag="SENT_START|C coor" postag_regexp="yes"/>
           <token postag="R pers suj.*|Z.*" postag_regexp="yes"/>
@@ -8802,6 +8808,7 @@ though, and has since been slightly modified)-->
         <example correction="">Il les a <marker>prise</marker> en train de voler.</example>
         <example>Il les a pris en train de voler.</example>
         <example>Il les a prises en train de voler.</example>
+        <example>Il les a fait fuir.</example>
       </rule>
       <rule>
         <pattern>
@@ -8863,6 +8870,14 @@ though, and has since been slightly modified)-->
         <example>Nous ne t’avons pas écoutée.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>ne</token>
+          <token>les</token>
+          <token inflected="yes">avoir</token>
+          <token regexp="yes">pas|guère|point|rien|jamais</token>
+          <token regexp="yes">fait|laissé</token>
+          <token postag="V inf"/>
+        </antipattern>
         <pattern>
           <token postag="SENT_START|C coor" postag_regexp="yes"/>
           <token postag="R pers suj.*|Z.*" postag_regexp="yes"/>
@@ -8881,6 +8896,7 @@ though, and has since been slightly modified)-->
         <example correction="">Nous ne les avons pas <marker>écoutée</marker>.</example>
         <example>Nous ne les avons pas écoutés.</example>
         <example>Nous ne les avons pas écoutées.</example>
+        <example>Il ne les a pas fair fuir.</example>
       </rule>
       <rule>
         <pattern>
@@ -8959,6 +8975,14 @@ though, and has since been slightly modified)-->
         <example>Les élèves t’ont écoutée.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>les</token>
+          <token inflected="yes">avoir</token>
+          <token regexp="yes">fait|lassé</token>
+          <token postag="V inf"/>
+        </antipattern>
         <pattern>
           <token postag="SENT_START|C coor" postag_regexp="yes"/>
           <token postag="D.*" postag_regexp="yes"/>
@@ -8976,6 +9000,7 @@ though, and has since been slightly modified)-->
         <example correction="">Les élèves les ont <marker>écoutée</marker>.</example>
         <example>Les élèves les ont écoutés.</example>
         <example>Les élèves les ont écoutées.</example>
+        <example>Les soldats les ont fait fuir.</example>
       </rule>
       <rule>
         <pattern>
@@ -9040,6 +9065,16 @@ though, and has since been slightly modified)-->
         <example>Les élèves ne m’ont pas écoutée.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token postag="N.*" postag_regexp="yes"/>
+          <token>ne</token>
+          <token>les</token>
+          <token inflected="yes">avoir</token>
+          <token regexp="yes">pas|guère|point|rien|jamais</token>
+          <token regexp="yes">fait|laissé</token>
+          <token postag="V inf"/>
+        </antipattern>
         <pattern>
           <token postag="SENT_START|C coor" postag_regexp="yes"/>
           <token postag="D.*" postag_regexp="yes"/>
@@ -9059,6 +9094,7 @@ though, and has since been slightly modified)-->
         <example correction="">Les élèves ne les ont pas <marker>écoutée</marker>.</example>
         <example>Les élèves ne les ont pas écoutés.</example>
         <example>Les élèves ne les ont pas écoutées.</example>
+        <example>Les soldats ne les ont pas fait fuir.</example>
       </rule>
       <rule>
         <pattern>
