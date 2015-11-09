@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
