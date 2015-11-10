@@ -6581,13 +6581,24 @@ though, and has since been slightly modified)-->
       <example>Son malaise</example>
       <example correction=""><marker>Mon fille</marker></example>
     </rule>
+    <rule id="MIEUX_VAUT_INF" name="mieux vaut + verbe inf">
+      <pattern>
+        <token>mieux</token>
+        <token inflected="yes" postag="V.*" postag_regexp="yes">valoir</token>
+        <marker><token postag="V.*" postag_regexp="yes" regexp="yes">.*(?:ée?s?|ez)</token></marker>
+      </pattern>
+      <message>Le verbe « \3 » devrait être à l’infinitif après le « \1 \2 ».</message>
+      <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
+      <example correction="rester">Mieux vaut <marker>resté</marker> que partir.</example>
+      <example correction="rester">Il auraut mieux valu <marker>resté</marker>.</example>
+    </rule>
     <rule id="NE_PLUS_INF" name="ne plus + verbe inf">
       <pattern>
         <token>ne</token>
         <token regexp="yes">plus|pas</token>
         <marker><token postag="V.*" postag_regexp="yes" regexp="yes">.*(?:ée?s?|ez)</token></marker>
       </pattern>
-      <message>Le verbe « \3 » devrait être à l’infinitif après le verbe modal « ne plus ».</message>
+      <message>Le verbe « \3 » devrait être à l’infinitif après « \1 \2 ».</message>
       <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
       <example correction="travailler">Pour ne plus <marker>travaillé</marker>.</example>
       <example correction="travailler">Pour ne plus <marker>travaillez</marker>.</example>
