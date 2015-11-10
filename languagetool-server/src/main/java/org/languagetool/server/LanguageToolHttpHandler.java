@@ -404,9 +404,10 @@ class LanguageToolHttpHandler implements HttpHandler {
       // the client is disconnected
       messageSent = "notSent: " + exception.getMessage();
     }
+    String agent = parameters.get("useragent") != null ? parameters.get("useragent") : "-";
     print("Check done: " + text.length() + " chars, " + languageMessage + ", " + referrer + ", "
             + "handlers:" + handleCount + ", queue:" + workQueue.size() + ", " + matches.size() + " matches, "
-            + (System.currentTimeMillis() - timeStart) + "ms"
+            + (System.currentTimeMillis() - timeStart) + "ms, agent:" + agent
             + ", " + messageSent);
   }
 
