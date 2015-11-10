@@ -227,7 +227,7 @@ public class VerbAgreementRule extends GermanRule {
                && !isQuotationMark(tokens[posIch-1])) {
       final int plus1 = ((posIch + 1) == tokens.length) ? 0 : +1; // prevent posIch+1 segfault
       if (!verbDoesMatchPersonAndNumber(tokens[posIch-1], tokens[posIch+plus1], "1", "SIN")) {
-        if (!nextButOneIsModal(tokens, posIch)) {
+        if (!nextButOneIsModal(tokens, posIch) && !"äußerst".equals(finiteVerb.getToken())) {
           ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posIch], finiteVerb, "1:SIN"));
         }
       }
