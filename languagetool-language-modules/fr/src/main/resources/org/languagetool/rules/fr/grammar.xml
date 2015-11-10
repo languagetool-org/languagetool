@@ -6595,14 +6595,16 @@ though, and has since been slightly modified)-->
     <rule id="NE_PLUS_INF" name="ne plus + verbe inf">
       <pattern>
         <token>ne</token>
-        <token regexp="yes">plus|pas</token>
+        <token regexp="yes">plus|pas|jamais|rien|point|guerre</token>
+        <token regexp="yes" min="0" max="1">déjà|encore|jamais|rien|guerre</token>
         <marker><token postag="V.*" postag_regexp="yes" regexp="yes">.*(?:ée?s?|ez)</token></marker>
       </pattern>
-      <message>Le verbe « \3 » devrait être à l’infinitif après « \1 \2 ».</message>
-      <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
+      <message>Le verbe « \4 » devrait être à l’infinitif.</message>
+      <suggestion><match no="4" postag="V.* inf" postag_regexp="yes"/></suggestion>
       <example correction="travailler">Pour ne plus <marker>travaillé</marker>.</example>
       <example correction="travailler">Pour ne plus <marker>travaillez</marker>.</example>
       <example>Pour ne plus travailler.</example>
+      <example correction="travailler">Pour ne plus jamais <marker>travaillez</marker>.</example>
     </rule>
     <rulegroup id="FAIRE_VPPA" name="Comment + verbe ppa">
       <rule>
