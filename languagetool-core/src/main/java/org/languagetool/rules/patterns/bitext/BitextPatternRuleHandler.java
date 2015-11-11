@@ -41,6 +41,8 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
   private static final String SRC_EXAMPLE = "srcExample";
   private static final String TRG_EXAMPLE = "trgExample";
 
+  private final List<BitextPatternRule> rules = new ArrayList<>();
+
   private PatternRule srcRule;
   private PatternRule trgRule;
 
@@ -51,7 +53,6 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
 
   private List<StringPair> correctExamples = new ArrayList<>();
   private List<IncorrectBitextExample> incorrectExamples = new ArrayList<>();
-  private final List<BitextPatternRule> rules = new ArrayList<>();
 
   List<BitextPatternRule> getBitextRules() {
     return rules;
@@ -92,13 +93,11 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
     switch (qName) {
       case RULE:
         trgRule.setMessage(message.toString());
-        if (suggestionMatches != null) {
-          for (final Match m : suggestionMatches) {
-            trgRule.addSuggestionMatch(m);
-          }
-          if (phrasePatternTokens.size() <= 1) {
-            suggestionMatches.clear();
-          }
+        for (final Match m : suggestionMatches) {
+          trgRule.addSuggestionMatch(m);
+        }
+        if (phrasePatternTokens.size() <= 1) {
+          suggestionMatches.clear();
         }
         final BitextPatternRule bRule = new BitextPatternRule(srcRule, trgRule);
         bRule.setCorrectBitextExamples(correctExamples);
@@ -160,7 +159,6 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
 
   private PatternRule finalizeRule() {
     PatternRule rule = null;
-    phraseElementInit();
     if (phrasePatternTokens.isEmpty()) {
       rule = new PatternRule(id, language, patternTokens,
           name, "", shortMessage.toString());

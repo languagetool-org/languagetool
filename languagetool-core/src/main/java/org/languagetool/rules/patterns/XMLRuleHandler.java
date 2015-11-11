@@ -151,7 +151,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected boolean exceptionLevelCaseSet;
 
   /** List of elements as specified by tokens. */
-  protected List<PatternToken> patternTokens;
+  protected List<PatternToken> patternTokens = new ArrayList<>();
 
   /** true when phraseref is the last element in the rule. */
   protected boolean lastPhrase;
@@ -168,8 +168,8 @@ public class XMLRuleHandler extends DefaultHandler {
   protected String id;
   protected PatternToken patternToken;
   protected Match tokenReference;
-  protected List<Match> suggestionMatches;
-  protected List<Match> suggestionMatchesOutMsg;
+  protected List<Match> suggestionMatches = new ArrayList<>();
+  protected List<Match> suggestionMatchesOutMsg = new ArrayList<>();
   protected Locator pLocator;
 
   protected int startPositionCorrection;
@@ -183,7 +183,7 @@ public class XMLRuleHandler extends DefaultHandler {
    * Logically forking element list, used for including multiple phrases in the
    * current one.
    */
-  protected List<ArrayList<PatternToken>> phrasePatternTokens;
+  protected List<ArrayList<PatternToken>> phrasePatternTokens = new ArrayList<>();
 
   protected int andGroupCounter;
   protected int orGroupCounter;
@@ -212,14 +212,10 @@ public class XMLRuleHandler extends DefaultHandler {
   protected String uFeature;
   protected String uType = "";
 
-  protected List<String> uTypeList;
-
-  protected Map<String, List<String>> equivalenceFeatures;
+  protected List<String> uTypeList = new ArrayList<>();
+  protected Map<String, List<String>> equivalenceFeatures = new HashMap<>();
 
   public XMLRuleHandler() {
-    patternTokens = new ArrayList<>();
-    equivalenceFeatures = new HashMap<>();
-    uTypeList = new ArrayList<>();
   }
 
   public List<AbstractPatternRule> getRules() {
@@ -248,7 +244,6 @@ public class XMLRuleHandler extends DefaultHandler {
     inToken = false;
     tokenSpaceBefore = false;
     tokenSpaceBeforeSet = false;
-
     resetException();
     exceptionSet = false;
     tokenReference = null;
@@ -264,13 +259,6 @@ public class XMLRuleHandler extends DefaultHandler {
     exceptionValidPrev = false;
     exceptionSpaceBefore = false;
     exceptionSpaceBeforeSet = false;
-  }
-
-  protected void phraseElementInit() {
-    // lazy init
-    if (phrasePatternTokens == null) {
-      phrasePatternTokens = new ArrayList<>();
-    }
   }
 
   protected void preparePhrase(final Attributes attrs) {
@@ -302,7 +290,6 @@ public class XMLRuleHandler extends DefaultHandler {
     if (phraseMap == null) {
       phraseMap = new HashMap<>();
     }
-    phraseElementInit();
     for (PatternToken patternToken : patternTokens) {
       patternToken.setInsideMarker(inMarker);
     }
@@ -314,7 +301,7 @@ public class XMLRuleHandler extends DefaultHandler {
       }
     }
 
-    phraseMap.put(phraseId, new ArrayList<List<PatternToken>>(phrasePatternTokens));
+    phraseMap.put(phraseId, new ArrayList<>(phrasePatternTokens));
     patternTokens.clear();
 
     phrasePatternTokens.clear();
@@ -367,18 +354,12 @@ public class XMLRuleHandler extends DefaultHandler {
         includeRange);
     mWorker.setInMessageOnly(!inSuggestion);
     if (inMessage) {
-      if (suggestionMatches == null) {
-        suggestionMatches = new ArrayList<>();
-      }
       suggestionMatches.add(mWorker);
       // add incorrect XML character for simplicity
       message.append("\u0001\\");
       message.append(attrs.getValue("no"));
       checkNumber(attrs);
     } else if (inSuggestion) {
-      if (suggestionMatchesOutMsg == null) {
-        suggestionMatchesOutMsg = new ArrayList<>();
-      }
       suggestionMatchesOutMsg.add(mWorker);
       // add incorrect XML character for simplicity
       suggestionsOutMsg.append("\u0001\\");
@@ -524,7 +505,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected List<Match> addLegacyMatches(final List <Match> existingSugMatches, final String messageStr,
       boolean inMessage) {
     if (existingSugMatches == null || existingSugMatches.isEmpty()) {
-      return null;
+      return new ArrayList<>();
     }
     final List<Match> sugMatch = new ArrayList<>();
     int pos = 0;

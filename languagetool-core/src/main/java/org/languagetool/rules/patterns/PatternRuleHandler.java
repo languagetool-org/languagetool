@@ -141,12 +141,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
 
         correctExamples = new ArrayList<>();
         incorrectExamples = new ArrayList<>();
-        if (suggestionMatches != null) {
-          suggestionMatches.clear();
-        }
-        if (suggestionMatchesOutMsg != null) {
-          suggestionMatchesOutMsg.clear();
-        }
+        suggestionMatches.clear();
+        suggestionMatchesOutMsg.clear();
         if (attrs.getValue(TYPE) != null) {
           ruleIssueType = attrs.getValue(TYPE);
         }
@@ -284,7 +280,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
         inPhrases = true;
         break;
       case "includephrases":
-        phraseElementInit();
         break;
       case "phrase":
         if (inPhrases) {
@@ -312,7 +307,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case RULE:
         suggestionMatchesOutMsg = addLegacyMatches(suggestionMatchesOutMsg, suggestionsOutMsg.toString(), false);
-        phraseElementInit();
         if (relaxedMode && id == null) {
           id = "";
         }
@@ -626,20 +620,16 @@ public class PatternRuleHandler extends XMLRuleHandler {
       rule.setSubId("1");
     }
     caseSensitive = false;
-    if (suggestionMatches != null) {
-      for (final Match m : suggestionMatches) {
-        rule.addSuggestionMatch(m);
-      }
-      if (phrasePatternTokens.size() <= 1) {
-        suggestionMatches.clear();
-      }
+    for (final Match m : suggestionMatches) {
+      rule.addSuggestionMatch(m);
     }
-    if (suggestionMatchesOutMsg != null) {
-      for (final Match m : suggestionMatchesOutMsg) {
-        rule.addSuggestionMatchOutMsg(m);
-      }
-      suggestionMatchesOutMsg.clear();
+    if (phrasePatternTokens.size() <= 1) {
+      suggestionMatches.clear();
     }
+    for (final Match m : suggestionMatchesOutMsg) {
+      rule.addSuggestionMatchOutMsg(m);
+    }
+    suggestionMatchesOutMsg.clear();
     if (defaultOff) {
       rule.setDefaultOff();
     }
