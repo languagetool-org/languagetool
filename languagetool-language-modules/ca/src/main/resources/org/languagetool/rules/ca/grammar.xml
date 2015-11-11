@@ -48,7 +48,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY mesos_any "gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre">
     <!ENTITY mesos_any_maj "Gener|Febrer|Març|Abril|Maig|Juny|Juliol|Agost|Setembre|Octubre|Novembre|Desembre">
     <!ENTITY mots_femenins_apostrofen "hidra|hifa|hulla|ulna|umbra|una|ungla|unça|umma|upa|urbs|urca|urna|urpa|idus|illa|inca|iva|URSS|UJI|(?-i)ICONA|ICS|Ingrid|IRA|Imma|UCI|UCE|ISO">
-    <!ENTITY mots_HAC_ASPIRADA2 "Higgs|high|Hildesheim|Hill|Hillary|Himmler|hip-hop|hippies|hippy|Hirado|His|Hubei|Hudson|Hunter|Husserl|Huygens|Utah">
+    <!ENTITY mots_HAC_ASPIRADA2 "Higgs|high|Hildesheim|Hill|Hillary|Himmler|hip-hop|hippies|hippy|hipsters?|Hirado|His|Hubei|Hudson|Hunter|Husserl|Huygens|Utah">
     <!ENTITY mots_HAC_ASPIRADA "Haarlem|haendel.*|händel.*|habermas.*|hack.*|Harlem|Hartford|Haifa|haikus?|haima|haimes|halal|halar|hall.*|Halloweens?|Hamada|Hamas|Hamàs|hamilton.*|Hamlet.*|Hammond|Hampton|handicaps?|Hannover|Hanoi|Hans|Hansa|hardware|harolds?|Harrison|harrods?|harry|Hartmann?|Haruki|Harvard|Harz|hash.*|Havilland|hawai.*|hawk.*|Haydn.*|Hayworth|Heard|hearst|Heathrow|heav.*|hegel.*|Heidelberg|Heide[gn].*|Heilig.*|hein.*|Heisen.*|Heitz|Helen|Heming.*|henna|hennes|Henry|Hepburn|herbert.*|Herder|Hereford|Hesse|Hessen|Hewlett.*|Hezboll.+|high.*|hilbert.*|Hilda|hinden.*|hinterlands?|Hitch.*|hitler.*|hobbes.*|hobby|hobbies|Hohen.*|holdings?|hollywood.*|Holmes.*|Holstein|Hong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hooligan.*|hoover.*|hopkins|Hork.*|horst|H[ou]f.*|Houston|Howard|Hubble|humbold.*|Hume|hunting.*|husseinit.+">
     <!ENTITY mots_SOTA "direcció|supervisió|batuta|guia|pseudònim|protecció|tutela|denominació|jurisdicció|nom|títol|domini|dominació|patronatge">
     <!ENTITY nombres_que_apostrofen "(1{1,2}|11[.\s]?\d{3}|1{1,2}\.\d{3}\.\d{3}|1{1,2}\s\d{3}\s\d{3}|1{1,2}\d{6})([,]\d+)?([&#37;&#8240;&#8241;′″]|&#176;[CFKNSEW]?)?|11[aèé]|11\.[0-5]\d">
@@ -2430,6 +2430,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Error de concordança</message>
                 <suggestion><match no="1" postag="(A..)M(..)" postag_regexp="yes" postag_replace="$1F$2"/> \2</suggestion>
                 <example correction="màxima esplendor">moment de <marker>màxim esplendor</marker>.</example>
+            </rule>
+            <rule id="MOLT_MES_ERRORS" name="molt(s) més errors">
+                <pattern>
+                <unify negate="yes">
+                    <feature id="nombre" />
+                    <feature id="genere" />
+                    <token inflected="yes">molt</token>
+                    <unify-ignore><token regexp="yes">més|menys</token></unify-ignore>
+                    <token postag="NC.*" postag_regexp="yes"><exception postag="A.*" postag_regexp="yes"/></token>
+                </unify>
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <example correction=""><marker>molt més errors</marker>.</example>
+                <example correction=""><marker>molts més error</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PEDENT_CORRENT" name="pendent, corrent (nom masculí)">
