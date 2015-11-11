@@ -562,8 +562,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
             regexStr = regexStr + "\\b";
           }*/
         }
-        if (ruleAntiPatterns != null && ruleAntiPatterns.size() > 0) {
-          throw new RuntimeException("<regexp> rules currently cannot be used together with <antipattern>. Rule id: " + id);
+        if (ruleAntiPatterns != null && ruleAntiPatterns.size() > 0 || rulegroupAntiPatterns != null && rulegroupAntiPatterns.size() > 0) {
+          throw new RuntimeException("<regexp> rules currently cannot be used together with <antipattern>. Rule id: " + id + "[" + subId + "]");
         }
         rule = new RegexPatternRule(id, name, message.toString(), suggestionsOutMsg.toString(), language, Pattern.compile(regexStr, flags));
       } else {

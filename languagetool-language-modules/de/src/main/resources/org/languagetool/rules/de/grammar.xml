@@ -5327,14 +5327,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="OPEN_STREET_MAP" name="Eigenname: 'Open Street Map (OpenStreetMap)'">
             <short>&eigenname;</short>
-            <antipattern>
-                <token>openstreetmap</token>
-                <token>.</token>
-                <token>org</token>
-            </antipattern>
             <rule>
                 <regexp>Open (Street Maps?|Streetmaps?)</regexp>
                 <message>Meinten Sie die freie Geodatenbank <suggestion>OpenStreetMap</suggestion>?</message>
+                <example>Bei <marker>openstreetmap.org</marker> handelt es sich um eine freie Geodatenbank.</example>
                 <example correction="OpenStreetMap">Bei <marker>Open Street Map</marker> handelt es sich um eine freie Geodatenbank.</example>
                 <example correction="OpenStreetMap">Bei <marker>Open Streetmaps</marker> handelt es sich um eine freie Geodatenbank.</example>
             </rule>
@@ -7779,7 +7775,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="nachzuholen">..., um den Unterricht <marker>nach zu holen</marker>.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>(hinweg) (zu) (fegen|gehen|gleiten|helfen|kommen|raffen|reden|retten|schreiten|schwemmen|sehen|setzen|täuschen|trösten|ziehen)</regexp>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token>hinweg</token>
+                        <token>zu</token>
+                        <token regexp="yes">fegen|gehen|gleiten|helfen|kommen|raffen|reden|retten|schreiten|schwemmen|sehen|setzen|täuschen|trösten|ziehen</token>
+                    </marker>
+                </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example correction="hinwegzukommen">..., um darüber <marker>hinweg zu kommen</marker>.</example>
             </rule>
@@ -7797,42 +7799,74 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="umzudrehen">Sie begannen, sich <marker>um zu drehen</marker>.</example>
             </rule>
             <rule>
-                <regexp>(ein) (zu) (arbeiten|atmen|balsamieren|bauen|behalten|berufen|betten|beziehen|biegen|bilden|binden|blenden|brechen|bringen|bürgern|büßen|checken|dämmen|decken|drehen|dringen|drücken|ebnen|engen|fädeln|fahren|fallen|fangen|finden|flechten|fliegen|fließen|flößen|fordern|frieren|fügen|führen|geben|gehen|gestehen|gewöhnen|gießen|gliedern|greifen|grenzen|halten|handeln|hängen|hauchen|holen|hüllen|impfen|kaufen|kehren|kerkern|klagen|kleiden|kochen|kommen|kreisen|laden|lagern|lassen|laufen|leben|legen|leiten|lenken|lesen|loggen|lösen|marschieren|mauern|mischen|nähen|nehmen|nisten|ordnen|packen|passen|pflanzen|planen|prägen|quartieren|räumen|rechnen|reden|reiben|reichen|reihen|reisen|reißen|richten|sammeln|saugen|scannen|schalten|schätzen|schenken|schieben|schiffen|schlafen|schläfern|schlagen|schleusen|schließen|schmeicheln|schmelzen|schmuggeln|schneiden|schränken|schreiben|schreiten|schüchtern|schwenken|schwören|sehen|setzen|sinken|sitzen|spannen|sparen|speisen|sperren|spielen|sprechen|springen|stampfen|stecken|stehen|steigen|stellen|steuern|stimmen|streichen|streuen|studieren|stufen|stürzen|tauchen|tauschen|teilen|tippen|tragen|treffen|treiben|treten|tüten|üben|verleiben|weihen|weisen|werben|werfen|wickeln|willigen|wirken|zahlen|zäunen|zeichnen|ziehen|zwängen)</regexp>
+                <pattern>
+                    <token>ein</token>
+                    <token>zu</token>
+                    <token regexp="yes">arbeiten|atmen|balsamieren|bauen|behalten|berufen|betten|beziehen|biegen|bilden|binden|blenden|brechen|bringen|bürgern|büßen|checken|dämmen|decken|drehen|dringen|drücken|ebnen|engen|fädeln|fahren|fallen|fangen|finden|flechten|fliegen|fließen|flößen|fordern|frieren|fügen|führen|geben|gehen|gestehen|gewöhnen|gießen|gliedern|greifen|grenzen|halten|handeln|hängen|hauchen|holen|hüllen|impfen|kaufen|kehren|kerkern|klagen|kleiden|kochen|kommen|kreisen|laden|lagern|lassen|laufen|leben|legen|leiten|lenken|lesen|loggen|lösen|marschieren|mauern|mischen|nähen|nehmen|nisten|ordnen|packen|passen|pflanzen|planen|prägen|quartieren|räumen|rechnen|reden|reiben|reichen|reihen|reisen|reißen|richten|sammeln|saugen|scannen|schalten|schätzen|schenken|schieben|schiffen|schlafen|schläfern|schlagen|schleusen|schließen|schmeicheln|schmelzen|schmuggeln|schneiden|schränken|schreiben|schreiten|schüchtern|schwenken|schwören|sehen|setzen|sinken|sitzen|spannen|sparen|speisen|sperren|spielen|sprechen|springen|stampfen|stecken|stehen|steigen|stellen|steuern|stimmen|streichen|streuen|studieren|stufen|stürzen|tauchen|tauschen|teilen|tippen|tragen|treffen|treiben|treten|tüten|üben|verleiben|weihen|weisen|werben|werfen|wickeln|willigen|wirken|zahlen|zäunen|zeichnen|ziehen|zwängen</token>
+                </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example correction="einzuarbeiten">Er versprach, mich bald <marker>ein zu arbeiten</marker>.</example>
             </rule>
             <rule>
-                <regexp>(hin) (zu) (bekommen|biegen|bringen|fahren|fallen|geben|gehen|gucken|halten|hängen|hocken|horchen|hören|langen|legen|nehmen|reißen|rennen|richten|schauen|scheiden|schicken|schlachten|schmeißen|schreiben|schütten|schwimmen|sehen|setzen|sinken|starren|stellen|weisen|werfen|wirken)</regexp>
+                <pattern>
+                    <token>hin</token>
+                    <token>zu</token>
+                    <token regexp="yes">bekommen|biegen|bringen|fahren|fallen|geben|gehen|gucken|halten|hängen|hocken|horchen|hören|langen|legen|nehmen|reißen|rennen|richten|schauen|scheiden|schicken|schlachten|schmeißen|schreiben|schütten|schwimmen|sehen|setzen|sinken|starren|stellen|weisen|werfen|wirken</token>
+                </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example correction="hinzubringen">Er versprach, mich dort <marker>hin zu bringen</marker>.</example>
             </rule>
             <rule>
-                <regexp>(hinein) (zu) (bauen|begeben|begleiten|bekommen|bemühen|beugen|bewegen|biegen|bitten|blasen|blicken|bohren|bringen|deuten|drücken|dürfen|eilen|fahren|finden|fliegen|fließen|flitzen|führen|gehen|gehören|gelangen|gießen|gleiten|greifen|halten|hängen|heben|heiraten|helfen|holen|klettern|kommen|können|kriechen|kriegen|lachen|laufen|leben|legen|leiten|lesen|mischen|nehmen|neigen|packen|passen|pferchen|pfuschen|plumpsen|pumpen|quetschen|rasen|rasseln|reden|reiten|riechen|rollen|sausen|schaffen|schauen|scheinen|schicken|schieben|schleichen|schleifen|schlendern|schleppen|schleudern|schliddern|schlüpfen|schmuggeln|schwingen|sehen|springen|spritzen|spucken|stechen|stecken|stehlen|steigen|stellen|steuern|stoßen|strömen|stürmen|stürzen|taumeln|torkeln|tragen|treiben|tropfen|trudeln|wagen|wälzen|weben|wehen|werfen|wirken|zerren|ziehen|zwängen)</regexp>
+                <pattern>
+                    <token>hinein</token>
+                    <token>zu</token>
+                    <token regexp="yes">bauen|begeben|begleiten|bekommen|bemühen|beugen|bewegen|biegen|bitten|blasen|blicken|bohren|bringen|deuten|drücken|dürfen|eilen|fahren|finden|fliegen|fließen|flitzen|führen|gehen|gehören|gelangen|gießen|gleiten|greifen|halten|hängen|heben|heiraten|helfen|holen|klettern|kommen|können|kriechen|kriegen|lachen|laufen|leben|legen|leiten|lesen|mischen|nehmen|neigen|packen|passen|pferchen|pfuschen|plumpsen|pumpen|quetschen|rasen|rasseln|reden|reiten|riechen|rollen|sausen|schaffen|schauen|scheinen|schicken|schieben|schleichen|schleifen|schlendern|schleppen|schleudern|schliddern|schlüpfen|schmuggeln|schwingen|sehen|springen|spritzen|spucken|stechen|stecken|stehlen|steigen|stellen|steuern|stoßen|strömen|stürmen|stürzen|taumeln|torkeln|tragen|treiben|tropfen|trudeln|wagen|wälzen|weben|wehen|werfen|wirken|zerren|ziehen|zwängen</token>
+                </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example correction="hineinzubringen">Er versprach, mich dort <marker>hinein zu bringen</marker>.</example>
             </rule>
             <rule>
-                <regexp>(herein) (zu) (begleiten|bekommen|beugen|bewegen|biegen|bitten|blicken|brechen|bringen|drängen|dringen|dürfen|eilen|fahren|fallen|fliegen|fließen|flitzen|führen|geben|gehen|gelangen|gleiten|gucken|helfen|holen|klettern|kommen|können|krabbeln|kriechen|kriegen|lassen|laufen|leiten|locken|müssen|neigen|rasen|rasseln|regnen|reiten|rennen|rieseln|rinnen|rollen|rufen|sausen|schaffen|schallen|schauen|scheinen|schicken|schieben|schleichen|schleifen|schlendern|schleppen|schleudern|schlittern|schlüpfen|schmeißen|schmuggeln|schwingen|sehen|spähen|spielen|springen|stecken|stehlen|steigen|stellen|stoßen|strecken|strömen|stürmen|stürzen|taumeln|torkeln|tragen|tropfen|trudeln|wagen|wälzen|wehen|werfen|wollen|zerren|ziehen|zwängen)</regexp>
+                <pattern>
+                    <token>herein</token>
+                    <token>zu</token>
+                    <token regexp="yes">begleiten|bekommen|beugen|bewegen|biegen|bitten|blicken|brechen|bringen|drängen|dringen|dürfen|eilen|fahren|fallen|fliegen|fließen|flitzen|führen|geben|gehen|gelangen|gleiten|gucken|helfen|holen|klettern|kommen|können|krabbeln|kriechen|kriegen|lassen|laufen|leiten|locken|müssen|neigen|rasen|rasseln|regnen|reiten|rennen|rieseln|rinnen|rollen|rufen|sausen|schaffen|schallen|schauen|scheinen|schicken|schieben|schleichen|schleifen|schlendern|schleppen|schleudern|schlittern|schlüpfen|schmeißen|schmuggeln|schwingen|sehen|spähen|spielen|springen|stecken|stehlen|steigen|stellen|stoßen|strecken|strömen|stürmen|stürzen|taumeln|torkeln|tragen|tropfen|trudeln|wagen|wälzen|wehen|werfen|wollen|zerren|ziehen|zwängen</token>
+                </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example correction="hereinzubringen">Er versprach, mich hier <marker>herein zu bringen</marker>.</example>
             </rule>
             <rule>
-                <regexp>(hinunter|herab|hinab|herunter) (zu) (baumeln|befördern|begeben|begleiten|bemühen|beugen|bewegen|biegen|bitten|blicken|brechen|brennen|bringen|bücken|drücken|dürfen|eilen|fahren|fallen|finden|fliegen|fließen|flitzen|führen|geben|gehen|gießen|gleiten|greifen|hauen|heben|helfen|holen|kippen|klappen|klettern|knallen|kommen|können|kraxeln|kriechen|kriegen|kugeln|kullern|kurbeln|laden|langen|lassen|laufen|leiern|leiten|machen|müssen|nehmen|neigen|pendeln|putzen|rasen|rasseln|reichen|reißen|reiten|rinnen|rollen|rufen|rutschen|sausen|schaffen|schalten|schauen|schicken|schießen|schlagen|schleichen|schleifen|schlendern|schleppen|schleudern|schlingen|schlucken|schmeißen|schnurren|schütten|schwingen|sehen|senken|setzen|sinken|spielen|springen|spülen|steigen|stoßen|strömen|stufen|stürmen|stürzen|tauchen|taumeln|torkeln|tragen|treiben|tröpfeln|tropfen|trudeln|wälzen|werfen|wollen|würdigen|würgen|zerren|ziehen)</regexp>
+                <pattern>
+                    <token regexp="yes">hinunter|herab|hinab|herunter</token>
+                    <token>zu</token>
+                    <token regexp="yes">baumeln|befördern|begeben|begleiten|bemühen|beugen|bewegen|biegen|bitten|blicken|brechen|brennen|bringen|bücken|drücken|dürfen|eilen|fahren|fallen|finden|fliegen|fließen|flitzen|führen|geben|gehen|gießen|gleiten|greifen|hauen|heben|helfen|holen|kippen|klappen|klettern|knallen|kommen|können|kraxeln|kriechen|kriegen|kugeln|kullern|kurbeln|laden|langen|lassen|laufen|leiern|leiten|machen|müssen|nehmen|neigen|pendeln|putzen|rasen|rasseln|reichen|reißen|reiten|rinnen|rollen|rufen|rutschen|sausen|schaffen|schalten|schauen|schicken|schießen|schlagen|schleichen|schleifen|schlendern|schleppen|schleudern|schlingen|schlucken|schmeißen|schnurren|schütten|schwingen|sehen|senken|setzen|sinken|spielen|springen|spülen|steigen|stoßen|strömen|stufen|stürmen|stürzen|tauchen|taumeln|torkeln|tragen|treiben|tröpfeln|tropfen|trudeln|wälzen|werfen|wollen|würdigen|würgen|zerren|ziehen</token>
+                </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example correction="hinunterzuziehen">Er versuchte, es <marker>hinunter zu ziehen</marker>.</example>
             </rule>
             <rule>
-                <regexp>(fest) (zu) (binden|halten|ketten|kleben|krallen|legen|machen|nageln|nehmen|zurren|ziehen|schrauben|schreiben|setzen|stehen|stellen)</regexp>
+                <pattern>
+                    <token>fest</token>
+                    <token>zu</token>
+                    <token regexp="yes">binden|halten|ketten|kleben|krallen|legen|machen|nageln|nehmen|zurren|ziehen|schrauben|schreiben|setzen|stehen|stellen</token>
+                </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example correction="festzubinden">Er versuchte, es <marker>fest zu binden</marker>.</example>
             </rule>
             <rule>
-                <regexp>(los) (zu) (ballern|bekommen|bellen|binden|brausen|brechen|brüllen|donnern|drehen|dreschen|drücken|eisen|fahren|flennen|fliegen|gehen|gurten|haben|haken|hauen|heften|hetzen|heulen|kaufen|ketten|knüpfen|kommen|koppeln|kriegen|lachen|lassen|laufen|legen|lösen|machen|marschieren|platzen|poltern|prügeln|prusten|rasen|reißen|rennen|rollen|sagen|sausen|schicken|schießen|schlagen|schluchzen|schnallen|schneiden|schrauben|schreien|schwimmen|sprechen|springen|treten|werden|wickeln|wiehern)</regexp>
+                <pattern>
+                    <token>los</token>
+                    <token>zu</token>
+                    <token regexp="yes">ballern|bekommen|bellen|binden|brausen|brechen|brüllen|donnern|drehen|dreschen|drücken|eisen|fahren|flennen|fliegen|gehen|gurten|haben|haken|hauen|heften|hetzen|heulen|kaufen|ketten|knüpfen|kommen|koppeln|kriegen|lachen|lassen|laufen|legen|lösen|machen|marschieren|platzen|poltern|prügeln|prusten|rasen|reißen|rennen|rollen|sagen|sausen|schicken|schießen|schlagen|schluchzen|schnallen|schneiden|schrauben|schreien|schwimmen|sprechen|springen|treten|werden|wickeln|wiehern</token>
+                </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example correction="loszubrüllen">Das ist kein Grund <marker>los zu brüllen</marker>.</example>
             </rule>
             <rule>
-                <regexp>(fort) (zu) (begleiten|bestehen|beugen|bewegen|biegen|bilden|bringen|dauern|denken|eilen|entwickeln|fahren|fließen|flitzen|führen|gehen|gelangen|gleiten|helfen|holen|klettern|kommen|lassen|laufen|leiten|nehmen|neigen|pflanzen|rasen|reißen|rollen|sausen|schaffen|schicken|schleifen|schlendern|schleppen|schleudern|schreiben|schreiten|schwingen|setzen|springen|stehlen|steigen|stoßen|strömen|stürmen|stürzen|taumeln|torkeln|tragen|treiben|trudeln|wälzen|werfen|zerren|ziehen)</regexp>
+                <pattern>
+                    <token>fort</token>
+                    <token>zu</token>
+                    <token regexp="yes">begleiten|bestehen|beugen|bewegen|biegen|bilden|bringen|dauern|denken|eilen|entwickeln|fahren|fließen|flitzen|führen|gehen|gelangen|gleiten|helfen|holen|klettern|kommen|lassen|laufen|leiten|nehmen|neigen|pflanzen|rasen|reißen|rollen|sausen|schaffen|schicken|schleifen|schlendern|schleppen|schleudern|schreiben|schreiten|schwingen|setzen|springen|stehlen|steigen|stoßen|strömen|stürmen|stürzen|taumeln|torkeln|tragen|treiben|trudeln|wälzen|werfen|zerren|ziehen</token>
+                </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example correction="fortzubewegen">Das ist eine seltsame Methode, sich <marker>fort zu bewegen</marker>.</example>
             </rule>
@@ -7850,12 +7884,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="umzugehen">Es ist nicht leicht, damit <marker>um zu gehen</marker>.</example>
             </rule>
             <rule>
-                <regexp>(zu) (zu) (arbeiten|bauen|beißen|bekommen|bereiten|betonieren|billigen|binden|bringen|decken|denken|drehen|drücken|eignen|erkennen|fallen|fassen|faxen|fliegen|fließen|frieren|fügen|führen|geben|gehen|gehören|gesellen|gestehen|gießen|greifen|haken|halten|hängen|hauen|heilen|hören|jauchzen|kaufen|kehren|kiffen|klappen|kleben|klinken|knallen|knöpfen|kommen|korken|lachen|lächeln|laden|langen|lassen|laufen|legen|leiten|löten|machen|messen|mischen|muten|nähen|nehmen|neigen|ordnen|packen|pfropfen|prosten|raten|raunen|rechnen|reden|reichen|reiten|richten|rollen|rren|rufen|rüsten|sagen|schalten|schanzen|schauen|schicken|schieben|schießen|schlagen|schließen|schmeißen|schmieren|schnallen|schnappen|schneiden|schnüren|schrauben|schreiben|schreien|schütten|schwellen|sehen|setzen|sperren|spielen|spitzen|sprechen|springen|stechen|stecken|stehen|stellen|stimmen|stopfen|stoßen|streben|strömen|stürzen|teilen|tragen|trauen|treffen|trinken|wachsen|warten|weisen|werfen|winken|ziehen)</regexp>
+                <pattern>
+                    <token>zu</token>
+                    <token>zu</token>
+                    <token regexp="yes">arbeiten|bauen|beißen|bekommen|bereiten|betonieren|billigen|binden|bringen|decken|denken|drehen|drücken|eignen|erkennen|fallen|fassen|faxen|fliegen|fließen|frieren|fügen|führen|geben|gehen|gehören|gesellen|gestehen|gießen|greifen|haken|halten|hängen|hauen|heilen|hören|jauchzen|kaufen|kehren|kiffen|klappen|kleben|klinken|knallen|knöpfen|kommen|korken|lachen|lächeln|laden|langen|lassen|laufen|legen|leiten|löten|machen|messen|mischen|muten|nähen|nehmen|neigen|ordnen|packen|pfropfen|prosten|raten|raunen|rechnen|reden|reichen|reiten|richten|rollen|rren|rufen|rüsten|sagen|schalten|schanzen|schauen|schicken|schieben|schießen|schlagen|schließen|schmeißen|schmieren|schnallen|schnappen|schneiden|schnüren|schrauben|schreiben|schreien|schütten|schwellen|sehen|setzen|sperren|spielen|spitzen|sprechen|springen|stechen|stecken|stehen|stellen|stimmen|stopfen|stoßen|streben|strömen|stürzen|teilen|tragen|trauen|treffen|trinken|wachsen|warten|weisen|werfen|winken|ziehen</token>
+                </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion>\1\2\3</suggestion>?</message>
                 <example correction="zuzumuten">Das ist ihm wohl nicht <marker>zu zu muten</marker>.</example>
             </rule>
             <rule>
-                <regexp>(zurecht) (zu) (basteln|biegen|finden|kommen|legen|machen|rücken|schneiden|setzen|stellen|stutzen|weisen|zimmern)</regexp>
+                <pattern>
+                    <token>zurecht</token>
+                    <token>zu</token>
+                    <token regexp="yes">basteln|biegen|finden|kommen|legen|machen|rücken|schneiden|setzen|stellen|stutzen|weisen|zimmern</token>
+                </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion>\1\2\3</suggestion>? Sollten Sie 'berechtigterweise zu \3' meinen, schreiben Sie bitte <suggestion>zu Recht zu \3</suggestion> oder formulieren Sie den Satz um.</message>
                 <example>Er versuchte es <marker>zurechtzurücken</marker>.</example>
                 <example>Er versuchte zu Recht, es <marker>zu biegen</marker>.</example>
@@ -7863,14 +7905,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="zurechtzuweisen|zu Recht zu weisen">Es gibt keinen Grund, die Schülerin <marker>zurecht zu weisen</marker>.</example>
             </rule>
             <rule>
-                <regexp>(zurecht) (zukommen|zulegen|zumachen|zuschneiden|zusetzen|zustellen|zuweisen)</regexp>
+                <pattern>
+                    <token>zurecht</token>
+                    <token regexp="yes">zukommen|zulegen|zumachen|zuschneiden|zusetzen|zustellen|zuweisen</token>
+                </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion>\1\2</suggestion> oder 'berechtigt \2'? Im zweiten Fall schreiben Sie bitte <suggestion>zu Recht \2</suggestion>.</message>
                 <example>Er versuchte <marker>zurechtzukommen</marker>.</example>
                 <example>Er versuchte zu Recht <marker>zu kommen</marker>.</example>
                 <example correction="zurechtzukommen|zu Recht zukommen">Er versuchte vergeblich, damit <marker>zurecht zukommen</marker>.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>(zu) (recht) (zukommen|zulegen|zumachen|zuschneiden|zusetzen|zustellen|zuweisen)</regexp>
+                <pattern case_sensitive="yes">
+                    <token>zu</token>
+                    <token>recht</token>
+                    <token regexp="yes">zukommen|zulegen|zumachen|zuschneiden|zusetzen|zustellen|zuweisen</token>
+                </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion>\1\2\3</suggestion> oder 'berechtigt \3'? Im zweiten Fall schreiben Sie bitte <suggestion>zu Recht \3</suggestion>.</message>
                 <example>Er versuchte <marker>zurechtzukommen</marker>.</example>
                 <example>Das sind Dinge, die mir <marker>zu Recht zukommen</marker>.</example>
