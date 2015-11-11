@@ -6898,7 +6898,7 @@ though, and has since been slightly modified)-->
             <exception>on</exception>
             <exception postag="[NZ] [fe] .*" postag_regexp="yes"/>
           </token>
-          <token postag="V etre.* 3 .*" postag_regexp="yes"/>
+          <token postag="V.* 3 .*" postag_regexp="yes" regexp="yes" inflected="yes">être|devenir|sembler|para[îi]tre</token>
           <token min="0" max="1" postag="A"/>
           <marker>
             <token postag="V.* ppa f .*|J f .*" postag_regexp="yes">
@@ -6910,6 +6910,8 @@ though, and has since been slightly modified)-->
         <message>Le mot féminin « \5 » n’est pas accordé en genre avec le mot masculin « \2 ».</message>
         <example correction="">Un orage est <marker>annoncée</marker>.</example>
         <example>Un orage est <marker>annoncé</marker>.</example>
+        <example correction="">Un orage semble <marker>annoncée</marker>.</example>
+        <example>Un orage semble <marker>annoncé</marker>.</example>
         <example correction="">Antoine est <marker>mariée</marker>.</example>
         <example>Antoine est <marker>marié</marker>.</example>
         <example>Ils sont même restés ici.</example>
@@ -6956,7 +6958,7 @@ though, and has since been slightly modified)-->
             <exception postag="[NZ] [fe] .*" postag_regexp="yes"/>
           </token>
           <token regexp="yes" skip="1">ne?</token>
-          <token postag="V etre.* 3 .*" postag_regexp="yes"/>
+          <token postag="V.* 3 .*" postag_regexp="yes" regexp="yes" inflected="yes">être|devenir|sembler|para[îi]tre</token>
           <token regexp="yes">pas|point|guère|plus|jamais</token>
           <token min="0" max="1" postag="A"/>
           <marker>
@@ -6985,7 +6987,7 @@ though, and has since been slightly modified)-->
           <token postag="[NZ] f .*|R pers suj 3 f .*|R dem f .*" postag_regexp="yes">
             <exception postag="[NZ] [me] .*" postag_regexp="yes"/>
           </token>
-          <token postag="V etre.* 3 .*" postag_regexp="yes"/>
+          <token postag="V.* 3 .*" postag_regexp="yes" regexp="yes" inflected="yes">être|devenir|sembler|para[îi]tre</token>
           <token min="0" max="1" postag="A"/>
           <marker>
             <token postag="V.* ppa m .*|J m .*" postag_regexp="yes">
@@ -7045,7 +7047,7 @@ though, and has since been slightly modified)-->
             <exception postag="[NZ] [me] .*" postag_regexp="yes"/>
           </token>
           <token regexp="yes" skip="1">ne?</token>
-          <token postag="V etre.* 3 .*" postag_regexp="yes"/>
+          <token postag="V.* 3 .*" postag_regexp="yes" regexp="yes" inflected="yes">être|devenir|sembler|para[îi]tre</token>
           <token regexp="yes">pas|point|guère|plus|jamais</token>
           <token min="0" max="1" postag="A"/>
           <marker>
@@ -7057,6 +7059,8 @@ though, and has since been slightly modified)-->
         <message>Le mot masculin « \7 » n’est pas accordé en genre avec le mot féminin « \2 ».</message>
         <example correction="">Martine n’est pas <marker>marié</marker>.</example>
         <example>Martine n’est pas mariée.</example>
+        <example correction="">Martine ne semble pas <marker>marié</marker>.</example>
+        <example>Martine ne semble pas mariée.</example>
         <example correction="">Martine n’est pas très <marker>joli</marker>.</example>
         <example>Martine n’est pas très jolie.</example>
       </rule>
@@ -7070,7 +7074,7 @@ though, and has since been slightly modified)-->
             <exception>on</exception>
             <exception postag="N . s?p" postag_regexp="yes"/>
           </token>
-          <token postag="V etre .*s" postag_regexp="yes"/>
+          <token postag="V .*s" postag_regexp="yes" regexp="yes" inflected="yes">être|devenir|sembler|para[îi]tre</token>
           <token min="0" max="1" postag="A"/>
           <marker>
             <token postag="V.* ppa .* p|J . p" postag_regexp="yes">
@@ -7152,7 +7156,7 @@ though, and has since been slightly modified)-->
             <exception>on</exception>
           </token>
           <token regexp="yes" skip="1">ne?</token>
-          <token postag="V etre .*s" postag_regexp="yes"/>
+          <token postag="V .*s" postag_regexp="yes" regexp="yes" inflected="yes">être|devenir|sembler|para[îi]tre</token>
           <token regexp="yes">pas|point|guère|plus|jamais</token>
           <token min="0" max="1" postag="A"/>
           <marker>
@@ -7179,7 +7183,7 @@ though, and has since been slightly modified)-->
           <token postag="N . p|R pers suj [13].* p|R dem.* p" postag_regexp="yes">
             <exception postag="N . sp?" postag_regexp="yes"/>
           </token>
-          <token postag="V etre .*p" postag_regexp="yes"/>
+          <token postag="V .*p" postag_regexp="yes" regexp="yes" inflected="yes">être|devenir|sembler|para[îi]tre</token>
           <token min="0" max="1" postag="A"/>
           <marker>
             <token postag="V.* ppa .* s|J . s" postag_regexp="yes">
@@ -7250,7 +7254,7 @@ though, and has since been slightly modified)-->
             <exception postag="[NZ] . sp?" postag_regexp="yes"/>
           </token>
           <token regexp="yes" skip="1">ne?</token>
-          <token postag="V etre .*p" postag_regexp="yes"/>
+          <token postag="V .*p" postag_regexp="yes" regexp="yes" inflected="yes">être|devenir|sembler|para[îi]tre</token>
           <token regexp="yes">pas|point|guère|plus|jamais</token>
           <token min="0" max="1" postag="A"/>
           <marker>
@@ -7271,7 +7275,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(est|était|fut|serait|sera[-‑‐]t)[-‑‐]elle</token>
+          <token regexp="yes">(est|était|fut|serait|sera[-‑‐]t|semble[-‑‐]t|semblait|semblerait|sembla[-‑‐]t|semblera[-‑‐]t|para[îi]t|parut|paraissait|para[îi]tra[-‑‐]t|para[îi]trait|devient|devenait|devint|deviendra[-‑‐]t|deviendrait)[-‑‐]elle</token>
           <marker>
             <token postag="[VJ] .*" postag_regexp="yes">
               <exception postag="V ppa [fe] sp?|[JNZ] [fe] sp?" postag_regexp="yes"/>
@@ -7291,10 +7295,12 @@ though, and has since been slightly modified)-->
         <example>Est-elle <marker>souriante</marker> ?</example>
         <example correction="">Est-elle <marker>aveugles</marker> ?</example>
         <example>Est-elle <marker>aveugle</marker> ?</example>
+        <example correction="">Semble-t-elle <marker>fatigué</marker> ?</example>
+        <example>Semble-t-elle <marker>fatiguée</marker> ?</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(sont|étaient|furent|seraient|seront)[-‑‐]elles</token>
+          <token regexp="yes">(sont|étaient|furent|seraient|seront|semblent|semblaient|semblèrent|sembleront|sembleraient|paraissent|paraissaient|parurent|para[îi]traient|para[îi]tront|deviennent|devenaient|devinrent|deviendraient|deviendront)[-‑‐]elles</token>
           <marker>
             <token postag="[VJ] .*" postag_regexp="yes">
               <exception postag="V ppa [fe] s?p|[JNZ] [fe] s?p" postag_regexp="yes"/>
@@ -7314,10 +7320,12 @@ though, and has since been slightly modified)-->
         <example>Sont-elles <marker>souriantes</marker> ?</example>
         <example correction="">Sont-elles <marker>aveugle</marker> ?</example>
         <example>Sont-elles <marker>aveugles</marker> ?</example>
+        <example correction="">Deviendront-elles <marker>aveugle</marker> ?</example>
+        <example>Deviendront-elles <marker>aveugles</marker> ?</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(est|était|fut|serait|sera[-‑‐]t)[-‑‐]il</token>
+          <token regexp="yes">(est|était|fut|serait|sera[-‑‐]t|semble[-‑‐]t|semblait|semblerait|sembla[-‑‐]t|semblera[-‑‐]t|para[îi]t|parut|paraissait|para[îi]tra[-‑‐]t|para[îi]trait|devient|devenait|devint|deviendra[-‑‐]t|deviendrait)[-‑‐]il</token>
           <marker>
             <token postag="[VJ] .*" postag_regexp="yes">
               <exception postag="V ppa [me] sp?|[JNZ] [me] sp?" postag_regexp="yes"/>
@@ -7340,7 +7348,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(sont|étaient|furent|seraient|seront)[-‑‐]ils</token>
+          <token regexp="yes">(sont|étaient|furent|seraient|seront|semblent|semblaient|semblèrent|sembleront|sembleraient|paraissent|paraissaient|parurent|para[îi]traient|para[îi]tront|deviennent|devenaient|devinrent|deviendraient|deviendront)[-‑‐]ils</token>
           <marker>
             <token postag="[VJ] .*" postag_regexp="yes">
               <exception postag="V ppa [me] s?p|[JNZ] [me] s?p" postag_regexp="yes"/>
@@ -7363,7 +7371,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(est|était|fut|serait|sera[-‑‐]t)[-‑‐]elle</token>
+          <token regexp="yes">(est|était|fut|serait|sera[-‑‐]t|semble[-‑‐]t|semblait|semblerait|sembla[-‑‐]t|semblera[-‑‐]t|para[îi]t|parut|paraissait|para[îi]tra[-‑‐]t|para[îi]trait|devient|devenait|devint|deviendra[-‑‐]t|deviendrait)[-‑‐]elle</token>
           <token regexp="yes">assez|beaucoup|bien|déjà|encore|enfin|juste|mieux|moins|parfois|pas|peut[-‑‐]être|plus|presque|toujours|trop</token>
           <marker>
             <token postag="[VJ] .*" postag_regexp="yes">
@@ -7387,7 +7395,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(sont|étaient|furent|seraient|seront)[-‑‐]elles</token>
+          <token regexp="yes">(sont|étaient|furent|seraient|seront|semblent|semblaient|semblèrent|sembleront|sembleraient|paraissent|paraissaient|parurent|para[îi]traient|para[îi]tront|deviennent|devenaient|devinrent|deviendraient|deviendront)[-‑‐]elles</token>
           <token regexp="yes">assez|beaucoup|bien|déjà|encore|enfin|juste|mieux|moins|parfois|pas|peut[-‑‐]être|plus|presque|toujours|trop</token>
           <marker>
             <token postag="[VJ] .*" postag_regexp="yes">
@@ -7411,7 +7419,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(est|était|fut|serait|sera[-‑‐]t)[-‑‐]il</token>
+          <token regexp="yes">(est|était|fut|serait|sera[-‑‐]t|semble[-‑‐]t|semblait|semblerait|sembla[-‑‐]t|semblera[-‑‐]t|para[îi]t|parut|paraissait|para[îi]tra[-‑‐]t|para[îi]trait|devient|devenait|devint|deviendra[-‑‐]t|deviendrait)[-‑‐]il</token>
           <token regexp="yes">assez|beaucoup|bien|déjà|encore|enfin|juste|mieux|moins|parfois|pas|peut[-‑‐]être|plus|presque|toujours|trop</token>
           <marker>
             <token postag="[VJ] .*" postag_regexp="yes">
@@ -7435,7 +7443,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(sont|étaient|furent|seraient|seront)[-‑‐]ils</token>
+          <token regexp="yes">(sont|étaient|furent|seraient|seront|semblent|semblaient|semblèrent|sembleront|sembleraient|paraissent|paraissaient|parurent|para[îi]traient|para[îi]tront|deviennent|devenaient|devinrent|deviendraient|deviendront)[-‑‐]ils</token>
           <token regexp="yes">assez|beaucoup|bien|déjà|encore|enfin|juste|mieux|moins|parfois|pas|peut[-‑‐]être|plus|presque|toujours|trop</token>
           <marker>
             <token postag="[VJ] .*" postag_regexp="yes">
@@ -7597,7 +7605,7 @@ though, and has since been slightly modified)-->
             <exception scope="next" postag="[NRZ].* [fe] .*" postag_regexp="yes"/>
           </token>
           <token postag="[NZ] m .*|R pers suj 3 m .*" postag_regexp="yes"/>
-          <token inflected="yes" postag="V .* 3 .*" postag_regexp="yes" regexp="yes">devoir|pouvoir|sembler|para[îi]tre</token>
+          <token inflected="yes" postag="V.* 3 .*" postag_regexp="yes" regexp="yes">devoir|pouvoir|sembler|para[îi]tre</token>
           <token>être</token>
           <marker><token postag="V.* ppa f .*|J f .*" postag_regexp="yes"/></marker>
         </pattern>
@@ -7618,7 +7626,7 @@ though, and has since been slightly modified)-->
             <exception scope="next" postag="[NRZ].* [fe] .*" postag_regexp="yes"/>
           </token>
           <token postag="[NZ] m .*|R pers suj 3 m .*" postag_regexp="yes"/>
-          <token inflected="yes" postag="V .* 3 .*" postag_regexp="yes" regexp="yes">devoir|pouvoir|sembler|para[îi]tre</token>
+          <token inflected="yes" postag="V.* 3 .*" postag_regexp="yes" regexp="yes">devoir|pouvoir|sembler|para[îi]tre</token>
           <token>avoir</token>
           <token>été</token>
           <marker><token postag="V.* ppa f .*|J f .*" postag_regexp="yes"/></marker>
@@ -7641,7 +7649,7 @@ though, and has since been slightly modified)-->
           <token postag="[NZ] f .*|R pers suj 3 f .*" postag_regexp="yes">
             <exception postag="[NZJ] [em] .*|V ppa [em].*" postag_regexp="yes"/>
           </token>
-          <token inflected="yes" postag="V .* 3 .*" postag_regexp="yes" regexp="yes">devoir|pouvoir|sembler|para[îi]tre</token>
+          <token inflected="yes" postag="V.* 3 .*" postag_regexp="yes" regexp="yes">devoir|pouvoir|sembler|para[îi]tre</token>
           <token>être</token>
           <marker><token postag="V.* ppa m .*|J m .*" postag_regexp="yes"/></marker>
         </pattern>
@@ -7660,7 +7668,7 @@ though, and has since been slightly modified)-->
           <token postag="[NZ] f .*|R pers suj 3 f .*" postag_regexp="yes">
             <exception postag="[NZJ] [em] .*|V ppa [em].*" postag_regexp="yes"/>
           </token>
-          <token inflected="yes" postag="V .* 3 .*" postag_regexp="yes" regexp="yes">devoir|pouvoir|sembler|para[îi]tre</token>
+          <token inflected="yes" postag="V.* 3 .*" postag_regexp="yes" regexp="yes">devoir|pouvoir|sembler|para[îi]tre</token>
           <token>avoir</token>
           <token>été</token>
           <marker><token postag="V.* ppa m .*|J m .*" postag_regexp="yes"/></marker>
