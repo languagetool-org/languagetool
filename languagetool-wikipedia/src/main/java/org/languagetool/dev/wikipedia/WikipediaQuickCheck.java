@@ -132,8 +132,12 @@ public class WikipediaQuickCheck {
     final PlainTextMapping mapping = filter.filter(wikiContent.getContent());
     final MultiThreadedJLanguageTool langTool = getLanguageTool(language);
     final List<AppliedRuleMatch> appliedMatches = new ArrayList<>();
-    final List<RuleMatch> matches = langTool.check(mapping.getPlainText());
-    langTool.shutdown();
+    final List<RuleMatch> matches;
+    try {
+      matches = langTool.check(mapping.getPlainText());
+    } finally {
+      langTool.shutdown();
+    }
     int internalErrors = 0;
     for (RuleMatch match : matches) {
       final SuggestionReplacer replacer = errorMarker != null ? 
@@ -152,9 +156,12 @@ public class WikipediaQuickCheck {
 
   public WikipediaQuickCheckResult checkPage(String plainText, Language lang) throws IOException {
     final MultiThreadedJLanguageTool langTool = getLanguageTool(lang);
-    final List<RuleMatch> ruleMatches = langTool.check(plainText);
-    langTool.shutdown();
-    return new WikipediaQuickCheckResult(plainText, ruleMatches, lang.getShortName());
+    try {
+      final List<RuleMatch> ruleMatches = langTool.check(plainText);
+      return new WikipediaQuickCheckResult(plainText, ruleMatches, lang.getShortName());
+    } finally {
+      langTool.shutdown();
+    }
   }
 
   public void validateWikipediaUrl(URL wikipediaUrl) {
@@ -239,8 +246,9 @@ public class WikipediaQuickCheck {
   }
 
   private String getContent(URL wikipediaUrl) throws IOException {
-    final InputStream contentStream = (InputStream) wikipediaUrl.getContent();
-    return StringTools.streamToString(contentStream, "UTF-8");
+    try (InputStream contentStream = (InputStream) wikipediaUrl.getContent()) {
+      return StringTools.streamToString(contentStream, "UTF-8");
+    }
   }
 
   /*public static void mainTest(String[] args) throws IOException {

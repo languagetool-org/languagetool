@@ -35,46 +35,50 @@ import java.util.List;
 class AtomFeedParser {
 
   List<AtomFeedItem> getAtomFeedItems(InputStream xml) throws XMLStreamException {
-    List<AtomFeedItem> items = new ArrayList<>();
     String id = null;
     String title = null;
     Date date = null;
     XMLInputFactory inputFactory = XMLInputFactory.newInstance();
     XMLEventReader eventReader = inputFactory.createXMLEventReader(xml);
-    while (eventReader.hasNext()) {
-      XMLEvent event = eventReader.nextEvent();
-      if (event.isStartElement()) {
-        String localPart = event.asStartElement().getName().getLocalPart();
-        switch (localPart) {
-          case "id":
-            id = getCharacterData(eventReader);
-            break;
-          case "title":
-            title = getCharacterData(eventReader);
-            break;
-          case "updated":
-            String dateString = getCharacterData(eventReader);
-            try {
-              // e.g. 2013-12-03T09:48:29Z - got this from http://stackoverflow.com/questions/6038136,
-              // with SimpleDateParser the hour is off by one:
-              date = DatatypeFactory.newInstance().newXMLGregorianCalendar(dateString).toGregorianCalendar().getTime();
-            } catch (Exception e) {
-              throw new RuntimeException("Could not parse date string '" + dateString + "'", e);
-            }
-            break;
-          case "summary":
-            if (id == null || title == null || date == null) {
-              throw new RuntimeException("id, title and/or date is null: id=" + id + ", title=" + title + ", date=" + date);
-            }
-            items.add(new AtomFeedItem(id, title, getCharacterData(eventReader), date));
-            id = null;
-            title = null;
-            date = null;
-            break;
+    try {
+      List<AtomFeedItem> items = new ArrayList<>();
+      while (eventReader.hasNext()) {
+        XMLEvent event = eventReader.nextEvent();
+        if (event.isStartElement()) {
+          String localPart = event.asStartElement().getName().getLocalPart();
+          switch (localPart) {
+            case "id":
+              id = getCharacterData(eventReader);
+              break;
+            case "title":
+              title = getCharacterData(eventReader);
+              break;
+            case "updated":
+              String dateString = getCharacterData(eventReader);
+              try {
+                // e.g. 2013-12-03T09:48:29Z - got this from http://stackoverflow.com/questions/6038136,
+                // with SimpleDateParser the hour is off by one:
+                date = DatatypeFactory.newInstance().newXMLGregorianCalendar(dateString).toGregorianCalendar().getTime();
+              } catch (Exception e) {
+                throw new RuntimeException("Could not parse date string '" + dateString + "'", e);
+              }
+              break;
+            case "summary":
+              if (id == null || title == null || date == null) {
+                throw new RuntimeException("id, title and/or date is null: id=" + id + ", title=" + title + ", date=" + date);
+              }
+              items.add(new AtomFeedItem(id, title, getCharacterData(eventReader), date));
+              id = null;
+              title = null;
+              date = null;
+              break;
+          }
         }
       }
+      return items;
+    } finally {
+      eventReader.close();
     }
-    return items;
   }
 
   private String getCharacterData(XMLEventReader eventReader) throws XMLStreamException {
