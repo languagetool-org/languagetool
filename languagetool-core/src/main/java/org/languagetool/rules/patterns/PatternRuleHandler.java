@@ -52,6 +52,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
   protected String filterClassName;
   protected String filterArgs;
 
+  private final List<DisambiguationPatternRule> rulegroupAntiPatterns = new ArrayList<>();
+  private final List<DisambiguationPatternRule> ruleAntiPatterns = new ArrayList<>();
+
   private int subId;
 
   private boolean defaultOff;
@@ -66,9 +69,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private int antiPatternCounter;
 
   private boolean inRule;
-
-  private List<DisambiguationPatternRule> rulegroupAntiPatterns;
-  private List<DisambiguationPatternRule> ruleAntiPatterns;
 
   private boolean relaxedMode = false;
   private boolean inAntiPattern;
@@ -397,14 +397,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
         }
         patternTokens.clear();
         if (inRule) {
-          if (ruleAntiPatterns == null) {
-            ruleAntiPatterns = new ArrayList<>();
-          }
           ruleAntiPatterns.add(rule);
         } else { // a rulegroup shares all antipatterns not included in a single rule
-          if (rulegroupAntiPatterns == null) {
-            rulegroupAntiPatterns = new ArrayList<>();
-          }
           rulegroupAntiPatterns.add(rule);
         }
         tokenCounter = 0;
@@ -470,9 +464,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         shortMessageForRuleGroup = new StringBuilder();
         inRuleGroup = false;
         ruleGroupIssueType = null;
-        if (rulegroupAntiPatterns != null) {
-          rulegroupAntiPatterns.clear();
-        }
+        rulegroupAntiPatterns.clear();
         antiPatternCounter = 0;
         ruleGroupDefaultOff = false;
         defaultOff = false;
@@ -562,7 +554,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
             regexStr = regexStr + "\\b";
           }*/
         }
-        if (ruleAntiPatterns != null && ruleAntiPatterns.size() > 0 || rulegroupAntiPatterns != null && rulegroupAntiPatterns.size() > 0) {
+        if (ruleAntiPatterns.size() > 0 || rulegroupAntiPatterns.size() > 0) {
           throw new RuntimeException("<regexp> rules currently cannot be used together with <antipattern>. Rule id: " + id + "[" + subId + "]");
         }
         rule = new RegexPatternRule(id, name, message.toString(), suggestionsOutMsg.toString(), language, Pattern.compile(regexStr, flags));
@@ -621,10 +613,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
     rule.setCorrectExamples(correctExamples);
     rule.setIncorrectExamples(incorrectExamples);
     rule.setCategory(category);
-    if (rulegroupAntiPatterns != null && !rulegroupAntiPatterns.isEmpty()) {
+    if (!rulegroupAntiPatterns.isEmpty()) {
       rule.setAntiPatterns(rulegroupAntiPatterns);
     }
-    if (ruleAntiPatterns != null && !ruleAntiPatterns.isEmpty()) {
+    if (!ruleAntiPatterns.isEmpty()) {
       rule.setAntiPatterns(ruleAntiPatterns);
       ruleAntiPatterns.clear();
     }
