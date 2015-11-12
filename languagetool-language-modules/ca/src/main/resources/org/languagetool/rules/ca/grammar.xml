@@ -24986,19 +24986,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="d'acord amb|segons|a partir de|partint de|basant-se en|sobre la base de"><marker>en base a</marker> això</example>
             <example>d'acord amb això</example>
         </rule>
-        <rule id="DE_CAPA_CAIGUDA" name="*de capa caiguda">
-            <pattern>
-                <token>de</token>
-                <token>capa</token>
-                <token>caiguda</token>
-            </pattern>
-            <message>Expressió incorrecta quan vol dir <suggestion>de baixa</suggestion>.</message>
-            <suggestion>a mal borràs</suggestion>
-            <suggestion>de mal borràs</suggestion>
-            <suggestion>de mal en pitjor</suggestion>
-            <example correction="de baixa|a mal borràs|de mal borràs|de mal en pitjor">anar <marker>de capa caiguda</marker></example>
-            <example>anar de baixa</example>
-        </rule>
         <rule id="DE_CAP_A_CAIGUDA" name="*de capa caiguda">
             <pattern>
                 <token>de</token>
@@ -25006,11 +24993,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>a</token>
                 <token>caiguda</token>
             </pattern>
-            <message>Expressió incorrecta quan vol dir <suggestion>de baixa</suggestion>.</message>
+            <message>¿Volíeu dir <suggestion>de capa caiguda</suggestion>?</message>
+            <suggestion>de baixa</suggestion>
             <suggestion>a mal borràs</suggestion>
             <suggestion>de mal borràs</suggestion>
             <suggestion>de mal en pitjor</suggestion>
-            <example correction="de baixa|a mal borràs|de mal borràs|de mal en pitjor">anar <marker>de cap a caiguda</marker></example>
+            <example correction="de capa caiguda|de baixa|a mal borràs|de mal borràs|de mal en pitjor">anar <marker>de cap a caiguda</marker></example>
             <example>anar de baixa</example>
         </rule>
         <rule id="CARA_A" name="*cara a/de cara a">
@@ -27927,6 +27915,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category name="C4) Construccions desaconsellades per alguns manuals d'estil" default="off" type="style">
         <!-- Expressions condemnades per alguns manuals d'estil de manera no sempre justificada -->
         <!-- També: en/amb referència a -->
+        <rule id="DE_CAPA_CAIGUDA" name="*de capa caiguda">
+            <pattern>
+                <token>de</token>
+                <token>capa</token>
+                <token>caiguda</token>
+            </pattern>
+            <message>Expressió no admesa per alguns.</message>
+            <suggestion>de baixa</suggestion>
+            <suggestion>a mal borràs</suggestion>
+            <suggestion>de mal borràs</suggestion>
+            <suggestion>de mal en pitjor</suggestion>
+            <example correction="de baixa|a mal borràs|de mal borràs|de mal en pitjor">anar <marker>de capa caiguda</marker></example>
+            <example>anar de baixa</example>
+        </rule>
         <rule id="PORTAR_LA_CONTRARIA" name="portar la *contrària/contra">
             <pattern>
                 <token regexp="yes" skip="1" inflected="yes">portar|dur|fer</token>
@@ -30396,7 +30398,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">full(a|es)</token>
                     </marker>
                     <token regexp="yes">de|d'</token>
-                    <token regexp="yes" inflected="yes">Excel|resultat|servei|càlcul|programació|reclamació|denúncia|seguiment|avaluació|ruta</token>
+                    <token regexp="yes" inflected="yes">calendari|Excel|resultat|servei|càlcul|programació|reclamació|denúncia|seguiment|avaluació|ruta</token>
                 </pattern>
                 <message>En aquest sentit, cal dir <suggestion><match no="1" regexp_match="(.*)[AaEe]([Ss]?)" regexp_replace="$1$2"/></suggestion> (nom masculí).</message>
                 <short>Gènere incorrecte</short>
