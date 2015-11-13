@@ -42,6 +42,8 @@
 
 #### API
   * `ConfusionProbabilityRule` has been moved to package `org.languagetool.rules.ngrams`
+  * `ConfusionProbabilityRule.getWordTokenizer()` is now called
+    `ConfusionProbabilityRule.getGoogleStyleWordTokenizer()`
   * `RuleAsXmlSerializer` has been renamed to `RuleMatchAsXmlSerializer`
   * some formerly deprecated code has been removed
   * some code has been deprecated

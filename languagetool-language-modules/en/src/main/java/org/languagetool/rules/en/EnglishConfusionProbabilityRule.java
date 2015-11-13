@@ -23,53 +23,15 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
 import org.languagetool.rules.Example;
 import org.languagetool.tokenizers.WordTokenizer;
-import org.languagetool.tokenizers.en.EnglishWordTokenizer;
 
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Stack;
 
 /**
  * @since 2.7
  */
 public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
 
-  private final EnglishWordTokenizer tokenizer = new EnglishWordTokenizer() {
-    @Override
-    public String getTokenizingCharacters() {
-      return super.getTokenizingCharacters() + "-";
-    }
-    @Override
-    public List<String> tokenize(final String text) {
-      List<String> tokens = super.tokenize(text);
-      String prev = null;
-      final Stack<String> l = new Stack<>();
-      for (String token : tokens) {
-        if ("'".equals(prev)) {
-          // TODO: add more cases if needed:
-          if (token.equals("m")) {
-            l.pop();
-            l.push("'m");
-          } else if (token.equals("re")) {
-            l.pop();
-            l.push("'re");
-          } else if (token.equals("ve")) {
-            l.pop();
-            l.push("'ve");
-          } else if (token.equals("ll")) {
-            l.pop();
-            l.push("'ll");
-          } else {
-            l.push(token);
-          }
-        } else {
-          l.push(token);
-        }
-        prev = token;
-      }
-      return l;
-    }
-  };
+  private final WordTokenizer tokenizer = new GoogleStyleWordTokenizer();
 
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);
@@ -82,7 +44,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
   }
 
   @Override
-  protected WordTokenizer getWordTokenizer() {
+  protected WordTokenizer getGoogleStyleWordTokenizer() {
     return tokenizer;
   }
 }

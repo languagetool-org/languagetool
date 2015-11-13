@@ -26,7 +26,6 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tokenizers.Tokenizer;
-import org.languagetool.tools.StringTools;
 
 import java.util.*;
 
@@ -71,7 +70,7 @@ public class NgramProbabilityRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     String text = sentence.getText();
-    List<GoogleToken> tokens = GoogleToken.getGoogleTokens(text, true, getWordTokenizer());
+    List<GoogleToken> tokens = GoogleToken.getGoogleTokens(text, true, getGoogleStyleWordTokenizer());
     List<RuleMatch> matches = new ArrayList<>();
     GoogleToken prevPrevToken = null;
     GoogleToken prevToken = null;
@@ -102,7 +101,7 @@ public class NgramProbabilityRule extends Rule {
   public void reset() {
   }
 
-  protected Tokenizer getWordTokenizer() {
+  protected Tokenizer getGoogleStyleWordTokenizer() {
     return language.getWordTokenizer();
   }
   

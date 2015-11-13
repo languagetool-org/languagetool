@@ -90,7 +90,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     String text = sentence.getText();
-    List<GoogleToken> tokens = GoogleToken.getGoogleTokens(text, true, getWordTokenizer());
+    List<GoogleToken> tokens = GoogleToken.getGoogleTokens(text, true, getGoogleStyleWordTokenizer());
     List<RuleMatch> matches = new ArrayList<>();
     int pos = 0;
     for (GoogleToken googleToken : tokens) {
@@ -134,7 +134,11 @@ public abstract class ConfusionProbabilityRule extends Rule {
     return Tools.i18n(messages, "statistics_rule_description");
   }
 
-  protected Tokenizer getWordTokenizer() {
+  /**
+   * Return a tokenizer that works more like Google does for its ngram index (which
+   * doesn't seem to be properly documented).
+   */
+  protected Tokenizer getGoogleStyleWordTokenizer() {
     return language.getWordTokenizer();
   }
 
@@ -261,7 +265,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   }
 
   private double get3gramProbabilityFor(GoogleToken token, List<GoogleToken> tokens, String term) {
-    List<GoogleToken> newTokens = GoogleToken.getGoogleTokens(term, false, getWordTokenizer());
+    List<GoogleToken> newTokens = GoogleToken.getGoogleTokens(term, false, getGoogleStyleWordTokenizer());
     Probability ngram3Left;
     Probability ngram3Middle;
     Probability ngram3Right;
