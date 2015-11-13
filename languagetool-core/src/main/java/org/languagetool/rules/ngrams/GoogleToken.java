@@ -16,24 +16,33 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.fr;
+package org.languagetool.rules.ngrams;
 
-import org.languagetool.Language;
-import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
-
-import java.util.ResourceBundle;
+import org.languagetool.tools.StringTools;
 
 /**
- * @since 3.1
+ * A token as tokenized in the Google ngram index.
+ * @since 3.2
  */
-public class FrenchConfusionProbabilityRule extends ConfusionProbabilityRule {
+class GoogleToken {
 
-  public FrenchConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
-    super(messages, languageModel, language);
-    // TODO: add example:
-    //addExamplePair(Example.wrong("<marker>wrong</marker> word in sentence"),
-    //               Example.fixed("<marker>correct</marker> word in sentence"));
+  String token;
+  int startPos;
+  int endPos;
+
+  GoogleToken(String token, int startPos, int endPos) {
+    this.token = token;
+    this.startPos = startPos;
+    this.endPos = endPos;
+  }
+
+  boolean isWhitespace() {
+    return StringTools.isWhitespace(token);
+  }
+
+  @Override
+  public String toString() {
+    return token;
   }
 
 }

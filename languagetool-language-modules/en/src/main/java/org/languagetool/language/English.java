@@ -31,6 +31,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.en.*;
+import org.languagetool.rules.ngrams.NgramProbabilityRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -167,6 +168,7 @@ public class English extends Language implements AutoCloseable {
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Arrays.<Rule>asList(
         new EnglishConfusionProbabilityRule(messages, languageModel, this)
+        //new NgramProbabilityRule(messages, languageModel, this)
     );
   }
 

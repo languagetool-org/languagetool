@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules;
+package org.languagetool.rules.ngrams;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
@@ -24,6 +24,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.rules.*;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
@@ -378,23 +379,5 @@ public abstract class ConfusionProbabilityRule extends Rule {
       this.coverage = coverage;
     }
   }
-
-  static class GoogleToken {
-    String token;
-    int startPos;
-    int endPos;
-    GoogleToken(String token, int startPos, int endPos) {
-      this.token = token;
-      this.startPos = startPos;
-      this.endPos = endPos;
-    }
-    boolean isWhitespace() {
-      return StringTools.isWhitespace(token);
-    }
-    @Override
-    public String toString() {
-      return token;
-    }
-  }
-
+  
 }

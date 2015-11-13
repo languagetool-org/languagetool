@@ -41,6 +41,7 @@
   * `<filter>` can now also be used in `disambiguation.xml`
 
 #### API
+  * `ConfusionProbabilityRule` has been moved to package `org.languagetool.rules.ngrams`
   * `RuleAsXmlSerializer` has been renamed to `RuleMatchAsXmlSerializer`
   * some formerly deprecated code has been removed
   * some code has been deprecated

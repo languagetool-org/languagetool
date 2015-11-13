@@ -27,7 +27,7 @@ import org.languagetool.dev.dumpcheck.*;
 import org.languagetool.language.English;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
-import org.languagetool.rules.ConfusionProbabilityRule;
+import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
 import org.languagetool.rules.ConfusionSet;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;

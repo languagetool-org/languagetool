@@ -16,11 +16,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules;
+package org.languagetool.rules.ngrams;
 
 import org.junit.Test;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -73,14 +75,14 @@ public class ConfusionProbabilityRuleTest {
 
   @Test
   public void testGetContext() throws IOException {
-    List<ConfusionProbabilityRule.GoogleToken> tokens = Arrays.asList(
-            new ConfusionProbabilityRule.GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0),
-            new ConfusionProbabilityRule.GoogleToken("This", 0, 0),
-            new ConfusionProbabilityRule.GoogleToken("is", 0, 0),
-            new ConfusionProbabilityRule.GoogleToken("a", 0, 0),
-            new ConfusionProbabilityRule.GoogleToken("test", 0, 0)
+    List<GoogleToken> tokens = Arrays.asList(
+            new GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0),
+            new GoogleToken("This", 0, 0),
+            new GoogleToken("is", 0, 0),
+            new GoogleToken("a", 0, 0),
+            new GoogleToken("test", 0, 0)
     );
-    ConfusionProbabilityRule.GoogleToken token = tokens.get(3);
+    GoogleToken token = tokens.get(3);
     assertThat(rule.getContext(token, tokens, "XX", 1, 1).toString(), is("[is, XX, test]"));
     assertThat(rule.getContext(token, tokens, "XX", 0, 2).toString(), is("[XX, test, .]"));
     assertThat(rule.getContext(token, tokens, "XX", 2, 0).toString(), is("[This, is, XX]"));
@@ -89,12 +91,12 @@ public class ConfusionProbabilityRuleTest {
 
   @Test
   public void testGetContext2() throws IOException {
-    List<ConfusionProbabilityRule.GoogleToken> tokens = Arrays.asList(
-            new ConfusionProbabilityRule.GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0),
-            new ConfusionProbabilityRule.GoogleToken("This", 0, 0),
-            new ConfusionProbabilityRule.GoogleToken("is", 0, 0)
+    List<GoogleToken> tokens = Arrays.asList(
+            new GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0),
+            new GoogleToken("This", 0, 0),
+            new GoogleToken("is", 0, 0)
     );
-    ConfusionProbabilityRule.GoogleToken token = tokens.get(2);
+    GoogleToken token = tokens.get(2);
     assertThat(rule.getContext(token, tokens, "XX", 1, 1).toString(), is("[This, XX, .]"));
     assertThat(rule.getContext(token, tokens, "XX", 2, 1).toString(), is("[_START_, This, XX, .]"));
     assertThat(rule.getContext(token, tokens, "XX", 0, 2).toString(), is("[XX, ., .]"));
@@ -104,10 +106,10 @@ public class ConfusionProbabilityRuleTest {
 
   @Test
   public void testGetContext3() throws IOException {
-    List<ConfusionProbabilityRule.GoogleToken> tokens = Arrays.asList(
-            new ConfusionProbabilityRule.GoogleToken("This", 0, 0)
+    List<GoogleToken> tokens = Arrays.asList(
+            new GoogleToken("This", 0, 0)
     );
-    ConfusionProbabilityRule.GoogleToken token = tokens.get(0);
+    GoogleToken token = tokens.get(0);
     assertThat(rule.getContext(token, tokens, "XX", 1, 1).toString(), is("[XX]"));
     assertThat(rule.getContext(token, tokens, "XX", 0, 2).toString(), is("[XX, ., .]"));
     assertThat(rule.getContext(token, tokens, "XX", 2, 0).toString(), is("[XX]"));
@@ -116,11 +118,11 @@ public class ConfusionProbabilityRuleTest {
 
   @Test
   public void testGetContext4() throws IOException {
-    List<ConfusionProbabilityRule.GoogleToken> tokens = Arrays.asList(
-            new ConfusionProbabilityRule.GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0),
-            new ConfusionProbabilityRule.GoogleToken("This", 0, 0)
+    List<GoogleToken> tokens = Arrays.asList(
+            new GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0),
+            new GoogleToken("This", 0, 0)
     );
-    ConfusionProbabilityRule.GoogleToken token = tokens.get(1);
+    GoogleToken token = tokens.get(1);
     assertThat(rule.getContext(token, tokens, "XX", 1, 1).toString(), is("[_START_, XX, .]"));
     assertThat(rule.getContext(token, tokens, "XX", 0, 2).toString(), is("[XX, ., .]"));
     assertThat(rule.getContext(token, tokens, "XX", 2, 0).toString(), is("[_START_, XX]"));

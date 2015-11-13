@@ -20,7 +20,7 @@ package org.languagetool.rules.de;
 
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.rules.ConfusionProbabilityRule;
+import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
 import org.languagetool.rules.Example;
 
 import java.util.Arrays;

@@ -26,6 +26,7 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.en.EnglishConfusionProbabilityRule;
+import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
 
 import java.io.File;
 import java.io.FileInputStream;
