@@ -108,7 +108,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category name="Mögliche Tippfehler">
-        
+
+        <rule id="BEI_VERB" name="bei + Verb">
+            <pattern>
+                <token>bei</token>
+                <token postag='VER:.*' postag_regexp='yes'></token>
+            </pattern>
+            <message>Nach 'bei' folgt normalerweise kein Verb.</message>
+            <example correction=''>Was ich <marker>bei machen</marker> Menschen hasse.</example>
+        </rule>
         <rule id="ET" name="Möglicher Tippfehler: et (er)">
             <pattern>
                 <marker>
@@ -4016,6 +4024,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="TOT_TOD" name="Mögliche Wortverwechslung: tot/Tod">
+            <rule>
+                <pattern>
+                    <token postag='ART:.*' postag_regexp='yes'></token>
+                    <marker>
+                        <token>Tot</token>
+                    </marker>
+                </pattern>
+                <message>Meinen Sie <suggestion>Tod</suggestion>?</message>
+                <example correction='Tod'>Der <marker>Tot</marker> kam unerwartet.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">auf|um|über|zwischen</token>
@@ -9337,14 +9355,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category name="Stil, Umgangssprache">
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
-
+        <rule id="BRAUCHEN_OHNE_ZU" name="fehlendes zu">
+            <pattern>
+                <token inflected='yes'>brauchen</token>
+                <token postag='NEG' />
+                <marker>
+                    <token postag='VER:.+' postag_regexp='yes'>
+                        <exception postag='VER:EIZ:.*' postag_regexp='yes'/>
+                        <exception postag='PA2:.*' postag_regexp='yes'/>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>zu \3</suggestion>? Brauchen ohne 'zu' ist umgangssprachlich.</message>
+            <example correction='zu kommen'>Du brauchst nicht <marker>kommen</marker>.</example>
+        </rule>
         <rule id="BAUCHWEH" name="Umgangssprache: 'Bauchweh (Bauchschmerz)'">
             <regexp>(Bauch|Kopf|Hals|Zahn)(wehs?)</regexp>
             <message><match no="1"/> ist umgangssprachlich. Vorschläge: <suggestion>\1schmerz</suggestion>, <suggestion>\1schmerzen</suggestion>.\nBitte beachten Sie, dass etwaige Adjektive an das neue Genus angepasst werden müssen.</message>
             <example correction="Bauchschmerz|Bauchschmerzen">Er hat <marker>Bauchweh</marker>.</example>
             <example correction="Zahnschmerz|Zahnschmerzen">Wegen des starken <marker>Zahnwehs</marker>...</example>
         </rule>
-
         <rule id="TAUCHERBRILLE" name="Umgangssprache: 'Taucherbrille (Schwimmbrille, Tauchermaske)'">
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">Lok.*|Baureihe|Spitzname.*|478|754</exception></token>
@@ -23136,6 +23166,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
         </rulegroup>
         -->
+        <rule id="ZU_KOMMA_ALS" name="zu, als dass">
+            <pattern>
+                <token>zu</token>
+                <token postag='ADJ:PRD:GRU'></token>
+                <token>,</token>
+                <marker>
+                    <token>als</token>
+                </marker>
+                <token negate='yes'>dass</token>
+            </pattern>
+            <message>Ist <suggestion>als dass</suggestion> gemeint?</message>
+            <example correction='als dass'>Es war zu schrecklich, <marker>als</marker> man es mit Worten beschreiben könnte.</example>
+        </rule>
         <rule id="ZUM_DEM" name="zum dem (zu dem)">
             <pattern>
                 <token regexp="yes">zum|vorm</token>
