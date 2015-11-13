@@ -168,7 +168,7 @@ public class English extends Language implements AutoCloseable {
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Arrays.<Rule>asList(
         new EnglishConfusionProbabilityRule(messages, languageModel, this)
-        //new NgramProbabilityRule(messages, languageModel, this)
+        //new EnglishNgramProbabilityRule(messages, languageModel, this)
     );
   }
 
