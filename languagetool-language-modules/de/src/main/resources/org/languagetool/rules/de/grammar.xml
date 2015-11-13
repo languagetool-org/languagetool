@@ -23166,6 +23166,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
         </rulegroup>
         -->
+        <rule id="EINES_GENITIV" name="Nomen + eines/einer + Genitiv">
+            <pattern>
+                <token postag='SUB:.+' postag_regexp='yes'/>
+                <token regexp="yes">eines|einer</token>
+                <marker>
+                    <token postag='SUB:.+' postag_regexp='yes'><exception postag='SUB:GEN:.+' postag_regexp='yes'></exception></token>
+                </marker>
+            </pattern>
+            <message>Hier sollte vermutlich der Genitiv benutzt werden.</message>
+            <example correction=''>…zur Erstellung eines <marker>Kriterium</marker>.</example>
+        </rule>
         <rule id="ZU_KOMMA_ALS" name="zu, als dass">
             <pattern>
                 <token>zu</token>
