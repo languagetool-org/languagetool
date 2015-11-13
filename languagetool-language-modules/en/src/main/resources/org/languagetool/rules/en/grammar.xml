@@ -1180,46 +1180,18 @@ USA
             <short>Possible typo</short>
             <example correction="away from">He is <marker>away fro</marker> the sea.</example>
         </rule>
-        <rulegroup id="FOR_FRO" name="fro a while (for a while)">
-            <rule>
-                <pattern>
-                    <!-- phrase "to and fro" = to back and forth -->
-                    <!-- problem with double negation - does not detect: "For him and fro me." -->
-                    <token negate="yes">to</token>
-                    <token negate="yes">and</token>
-                    <marker>
-                        <token>fro</token>
-                    </marker>
-                </pattern>
-                <message>Did you mean <suggestion>for</suggestion>?</message>
-                <example><marker>For</marker> me.</example>
-                <example>And <marker>for</marker> me.</example>
-                <example correction="for">That's good <marker>fro</marker> your.</example>
-                <example correction="for">And good <marker>fro</marker> your.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker>
-                        <token>Fro</token>
-                    </marker>
-                </pattern>
-                <message>Did you mean <suggestion>for</suggestion>?</message>
-                <example correction="For"><marker>Fro</marker> me.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>fro</token>
-                    </marker>
-                    <token regexp="yes">a|an</token>
-                    <token regexp="yes">while|weekend|month|year|hour|minute|second|week</token>
-                </pattern>
-                <message>Did you mean <suggestion>for</suggestion>?</message>
-                <short>Possible typo</short>
-                <example correction="for">I went there <marker>fro</marker> a weekend.</example>
-            </rule>
-        </rulegroup>
+        <rule id="FOR_FRO" name="fro (for)">
+            <antipattern>
+                <token>to</token>
+                <token>and</token>
+                <token>fro</token>
+            </antipattern>
+            <pattern>
+                <token>fro</token>
+            </pattern>
+            <message>Did you mean <suggestion>for</suggestion> or <suggestion>from</suggestion>?</message>
+            <example correction="for|from">I got a voicemail <marker>fro</marker> Ken.</example>
+        </rule>
         <rulegroup id="HUMANS_BEINGS" name="humans beings (human beings)">
         <rule>
             <pattern>
