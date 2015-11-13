@@ -18,7 +18,12 @@
  */
 package org.languagetool.rules.ngrams;
 
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tools.StringTools;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A token as tokenized in the Google ngram index.
@@ -43,6 +48,24 @@ class GoogleToken {
   @Override
   public String toString() {
     return token;
+  }
+
+  // Tokenization in google ngram corpus is different from LT tokenization (e.g. {@code you ' re} -> {@code you 're}),
+  // so we use getTokenizer() and simple ignore the LT tokens.
+  static List<GoogleToken> getGoogleTokens(String sentence, boolean addStartToken, Tokenizer wordTokenizer) {
+    List<GoogleToken> result = new ArrayList<>();
+    if (addStartToken) {
+      result.add(new GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0));
+    }
+    List<String> tokens = wordTokenizer.tokenize(sentence);
+    int startPos = 0;
+    for (String token : tokens) {
+      if (!StringTools.isWhitespace(token)) {
+        result.add(new GoogleToken(token, startPos, startPos+token.length()));
+      }
+      startPos += token.length();
+    }
+    return result;
   }
 
 }

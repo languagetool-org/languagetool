@@ -71,7 +71,7 @@ public class NgramProbabilityRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     String text = sentence.getText();
-    List<GoogleToken> tokens = getGoogleTokens(text, true);
+    List<GoogleToken> tokens = GoogleToken.getGoogleTokens(text, true, getWordTokenizer());
     List<RuleMatch> matches = new ArrayList<>();
     GoogleToken prevPrevToken = null;
     GoogleToken prevToken = null;
@@ -104,24 +104,6 @@ public class NgramProbabilityRule extends Rule {
 
   protected Tokenizer getWordTokenizer() {
     return language.getWordTokenizer();
-  }
-
-  // Tokenization in google ngram corpus is different from LT tokenization (e.g. {@code you ' re} -> {@code you 're}),
-  // so we use getTokenizer() and simple ignore the LT tokens.
-  private List<GoogleToken> getGoogleTokens(String sentence, boolean addStartToken) {
-    List<GoogleToken> result = new ArrayList<>();
-    if (addStartToken) {
-      result.add(new GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0));
-    }
-    List<String> tokens = getWordTokenizer().tokenize(sentence);
-    int startPos = 0;
-    for (String token : tokens) {
-      if (!StringTools.isWhitespace(token)) {
-        result.add(new GoogleToken(token, startPos, startPos+token.length()));
-      }
-      startPos += token.length();
-    }
-    return result;
   }
   
   private void debug(String message, Object... vars) {

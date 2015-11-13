@@ -90,7 +90,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     String text = sentence.getText();
-    List<GoogleToken> tokens = getGoogleTokens(text, true);
+    List<GoogleToken> tokens = GoogleToken.getGoogleTokens(text, true, getWordTokenizer());
     List<RuleMatch> matches = new ArrayList<>();
     int pos = 0;
     for (GoogleToken googleToken : tokens) {
@@ -146,24 +146,6 @@ public abstract class ConfusionProbabilityRule extends Rule {
     } else {
       return Tools.i18n(messages, "statistics_suggest3", suggestion.getString());
     }
-  }
-  
-  // Tokenization in google ngram corpus is different from LT tokenization (e.g. {@code you ' re} -> {@code you 're}),
-  // so we use getTokenizer() and simple ignore the LT tokens.
-  private List<GoogleToken> getGoogleTokens(String sentence, boolean addStartToken) {
-    List<GoogleToken> result = new ArrayList<>();
-    if (addStartToken) {
-      result.add(new GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0));
-    }
-    List<String> tokens = getWordTokenizer().tokenize(sentence);
-    int startPos = 0;
-    for (String token : tokens) {
-      if (!StringTools.isWhitespace(token)) {
-        result.add(new GoogleToken(token, startPos, startPos+token.length()));
-      }
-      startPos += token.length();
-    }
-    return result;
   }
   
   @Override
@@ -279,7 +261,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   }
 
   private double get3gramProbabilityFor(GoogleToken token, List<GoogleToken> tokens, String term) {
-    List<GoogleToken> newTokens = getGoogleTokens(term, false);
+    List<GoogleToken> newTokens = GoogleToken.getGoogleTokens(term, false, getWordTokenizer());
     Probability ngram3Left;
     Probability ngram3Middle;
     Probability ngram3Right;
