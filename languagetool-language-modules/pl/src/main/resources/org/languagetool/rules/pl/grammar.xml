@@ -10980,6 +10980,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category name="Błędy ortograficzne" type="misspelling">
+            <!-- Polish rule, 2015-11-14 -->
+            <rule id="EUROPA_ZACHODNIA" name="„Europa zachodnia” (Europa Zachodnia)">
+                <antipattern>
+                    <marker>
+                        <token inflected='yes' regexp='yes'>zachodni|wschodni</token>
+                    </marker>
+                        <token regexp='yes'>[i,]</token>
+                        <token inflected='yes' regexp='yes'>środkowy|wchodni</token>
+                </antipattern>
+                <pattern case_sensitive='yes'>
+                    <unify>
+                        <feature id="case"/><feature id="gender"/><feature id="number"/>
+                        <token inflected='yes'>Europa</token>
+                        <token inflected='yes' regexp='yes'>zachodni|wschodni<exception regexp='yes'>[ZW].*</exception></token>
+                    </unify>
+                </pattern>
+                <message>Błąd ortograficzny, jeśli chodziło o państwa Europy zachodniej wchodzące w skład UE. Powinno być: <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>.</message>
+                <url>http://sjp.pwn.pl/poradnia/haslo/zachodnia-Europa-Europa-Zachodnia;5447.html</url>
+                <short>Błąd ortograficzny</short>
+                <example correction='Europy Zachodniej'>Pojechałem do <marker>Europy zachodniej</marker>.</example>
+                <example>Pojechałem do Europy Zachodniej.</example>
+            </rule>
             <rule id="CZUL_SIE" name="„Czół się” (czuł się)">
                 <pattern>
                     <token>czół</token>
