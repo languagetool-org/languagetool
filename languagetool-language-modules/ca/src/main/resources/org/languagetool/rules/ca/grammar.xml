@@ -16608,6 +16608,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token><exception postag="NC.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token inflected="yes">net</token>
+                    </marker>
+                    <token inflected="yes">de</token>
+                    <token regexp="yes">\p{Lu}[\p{Ll}·'-]+</token>
+                </pattern>
+                <message>S'accentua quan és nom.</message>
+                <suggestion><match no="2" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>
+                <example correction="nét"><marker>net</marker> de Čoban.</example>
+                <example>La taxa neta de CO2.</example>
+                <example>net de CO2</example>
+                <example>El benefici net de Banc de Madrid.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <unify>
                         <feature id="nombre"/>
                         <feature id="genere"/>
@@ -16660,7 +16676,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token inflected="yes">fill</token>
-                    <token regexp="yes">i|o|ni</token>
+                    <token regexp="yes">i|o|ni|,</token>
                     <marker>
                         <token inflected="yes">net</token>
                     </marker>
