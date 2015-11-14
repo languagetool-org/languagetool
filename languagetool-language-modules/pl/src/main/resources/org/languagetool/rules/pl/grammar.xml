@@ -15024,6 +15024,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <!-- Polish rule, 2015-11-14 -->
+            <rule id="NAUKI_PRAWE" name="„Nauki prawe” (nauki prawne)">
+                <pattern case_sensitive='yes'>
+                    <unify>
+                        <feature id="case"/><feature id="gender"/><feature id="number"/>
+                    <token inflected='yes'>nauka</token>
+                    <token inflected='yes'>prawy</token>
+                    </unify>
+                </pattern>
+                <message>Literówka. Powinno być: <suggestion><match no="1"/> <match no="2" regexp_match="praw" regexp_replace="prawn"/></suggestion>.</message>
+                <short>Literówka</short>
+                <example correction='nauk prawnych'>Jest profesorem <marker>nauk prawych</marker>.</example>
+                <example>Jest profesorem nauk prawnych.</example>
+            </rule>
             <rule id="KONICZNY" name="„Koniczny” (konieczny)">
                 <pattern case_sensitive='yes'>
                     <token inflected='yes'>koniczny<exception inflected='yes' regexp='yes' scope='previous'>przekrój|sekcja|por</exception></token>
