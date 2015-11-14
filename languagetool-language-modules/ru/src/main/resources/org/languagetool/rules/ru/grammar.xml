@@ -402,8 +402,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="прогноз">Метеоагенство составило <marker>прогноз на будущее</marker>.</example>
                 <example>Метеоагенство составило прогноз.</example>
             </rule>
-        </rulegroup>  
+        </rulegroup>
+        <rulegroup id="GLAVNAJA_SUT" name="Тавтология «главная суть»">
+            <rule> 
+                <pattern>
+                    <token inflected="yes" >главный</token>
+                    <token>суть</token>                  
+                </pattern>
+                <message>Языковая избыточность (плеоназм): <suggestion>\2</suggestion>?</message>
+                <short>Тавтология.</short>
+                <example correction="Суть"><marker>Главная суть</marker> рассказа</example>
+            </rule>
+        </rulegroup>    
+
+        <rulegroup id="TOLPA_LUDEJ" name="Тавтология «толпа людей»">
+            <rule> 
+                <pattern>
+                    <token inflected="yes" >толпа</token>
+                    <token>людей</token>                  
+                </pattern>
+                <message>Языковая избыточность (плеоназм): <suggestion>\1</suggestion>?</message>
+                <short>Тавтология.</short>
+                <example correction="толпа"><marker>толпа людей</marker></example>
+            </rule>
+        </rulegroup>    
+        <rulegroup id="LICHNO_JA" name="Тавтология «лично я»">
+            <rule> 
+                <pattern>
+                    <token>лично</token>
+                    <token>я</token>                  
+                </pattern>
+                <message>Языковая избыточность (плеоназм): <suggestion>\2</suggestion>?</message>
+                <short>Тавтология.</short>
+                <example correction="я"><marker>лично я</marker></example>
+            </rule>
+        </rulegroup>    
                         
+                        
+                                                
+                                                                                                
         <rulegroup id="BLIZKIJ_BLIZHNIJ" name="Употребление слов «близкий/ближний»">
             <rule> 
                 <pattern>
