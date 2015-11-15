@@ -91,6 +91,7 @@ public class CatalanSentenceTokenizerTest extends TestCase {
     testSplit("Ell és el número u. ", "Jo el dos.");
     testSplit("Té un trau al cap. ", "Cal portar-lo a l'hospital.");
     testSplit("Això passa en el PP. ", "Però, per altra banda,");
+    testSplit("Ceba, all, carabassa, etc. ", "En comprem a la fruiteria.");
     // Units
     testSplit("1 500 m/s. ", "Neix a");
     testSplit("Són d'1 g. ", "Han estat condicionades.");
