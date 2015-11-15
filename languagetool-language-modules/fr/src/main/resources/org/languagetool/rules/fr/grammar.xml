@@ -5211,7 +5211,6 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous écrire <suggestion>huit</suggestion> ?</message>
         <example correction="huit">Il ne me reste que <marker>huis</marker> centimes.</example>
-        <example>Il ne me reste que huit centimes.</example>
       </rule>
       <rule>
         <pattern>
@@ -5220,7 +5219,6 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous écrire <suggestion>huis</suggestion> ?</message>
         <example correction="huis">Un procès à <marker>huit</marker> clos.</example>
-        <example>Un procès à huis clos.</example>
       </rule>
     </rulegroup>
     <rulegroup id="MOI_MOIS" name="moi et mois">
@@ -5231,9 +5229,7 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous écrire <suggestion>mois</suggestion> ?</message>
         <example correction="mois">Elle est enceinte de trois <marker>moi</marker>.</example>
-        <example>Elle est enceinte de trois mois.</example>
         <example correction="mois">Elle est enceinte de 3 <marker>moi</marker>.</example>
-        <example>Elle est enceinte de 3 mois.</example>
       </rule>
       <rule>
         <pattern>
@@ -5243,7 +5239,6 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous écrire <suggestion>mois</suggestion> ?</message>
         <example correction="mois">Le <marker>moi</marker> de mai a été froid.</example>
-        <example>Le mois de mai a été froid.</example>
       </rule>
       <rule>
         <pattern>
@@ -5254,7 +5249,6 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous écrire <suggestion>mois</suggestion> ?</message>
         <example correction="mois">Le <marker>moi</marker> d’avril a été froid.</example>
-        <example>Le mois d’avril a été froid.</example>
       </rule>
     </rulegroup>
     <rulegroup id="AGE" name="age et âge">
@@ -5265,7 +5259,6 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Confusion probable entre « age » (pièce d’une charrue) et <suggestion>âge</suggestion>.</message>
         <example correction="âge">Quel <marker>age</marker> as-tu ?</example>
-        <example>Quel âge as-tu ?</example>
       </rule>
       <rule>
         <pattern>
@@ -5274,7 +5267,6 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Confusion probable entre « age » (pièce d’une charrue) et <suggestion>âge</suggestion>.</message>
         <example correction="âge">Une femme d’<marker>age</marker> mûr.</example>
-        <example>Une femme d’âge mûr.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ANIME_AMINE" name="aminé ou animé">
@@ -5286,9 +5278,7 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^(.).(.)." regexp_replace="$1m$2n"/></suggestion> ?</message>
         <url>https://fr.wikipedia.org/wiki/Acide_amin%C3%A9</url>
         <example correction="aminés">Des acides <marker>animés</marker>.</example>
-        <example>Des acides aminés.</example>
         <example correction="aminé">Un acide <marker>animé</marker>.</example>
-        <example>Un acide aminé.</example>
       </rule>
       <rule>
         <pattern>
@@ -5297,29 +5287,42 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^(.).(.)." regexp_replace="$1n$2m"/></suggestion> ?</message>
         <example correction="animés">Des dessins <marker>aminés</marker>.</example>
-        <example>Des dessins animés.</example>
         <example correction="animé">Un dessin <marker>aminé</marker>.</example>
-        <example>Un dessin animé.</example>
       </rule>
     </rulegroup>
     <rulegroup id="JEUNE" name="jeune et jeûne">
       <rule>
         <pattern>
           <marker><token regexp="yes">jeûnes?</token></marker>
-          <token regexp="yes">(âge|homme|femme|garçon|fille|enfant|bébé|chien|chat|célibataire|célibatrice|étudiante?|lycéen(ne)?|élève|écolier|dipl[oô]mée?|prodige|couple|mariée?|papa|père|mère|con(ne)?|génération|Française?|Anglaise?|Américaine?)s?|gens</token>
+          <token regexp="yes">(adolescent|adulte|âge|homme|femme|garçon|gars|épouse|mari|fille|enfant|bébé|chien|chat|célibataire|célibatrice|étudiante?|lycéen(ne)?|élève|écolier|dipl[oô]mée?|prodige|couple|mariée?|papa|père|mère|con(ne)?|génération|médecin|travailleur|Française?|Anglaise?|Américaine?)s?|gens</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="û" regexp_replace="u"/></suggestion> ?</message>
         <example correction="jeunes">Des <marker>jeûnes</marker> filles.</example>
-        <example>Des jeunes filles.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">assez|plutôt|encore|très|moins|plus|toujours</token>
+          <token regexp="yes" inflected="yes">assez|plutôt|encore|long|très|trop|moins|plus|toujours|tout|être|rester|mourir|semble|para[îi]tre</token>
           <marker><token regexp="yes">jeûnes?</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="û" regexp_replace="u"/></suggestion> ?</message>
         <example correction="jeune">Il n’est plus très <marker>jeûne</marker>.</example>
-        <example>Il n’est plus très jeune.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>jeune</token></marker>
+          <token>du</token>
+          <token regexp="yes">carême|ramadan</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>jeûne</suggestion> ?</message>
+        <example correction="jeûne">Le <marker>jeune</marker> du carême.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>jeune</token></marker>
+          <token regexp="yes">alimentaire|eucharistique|rituel|sacramentel</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>jeûne</suggestion> ?</message>
+        <example correction="jeûne">Le <marker>jeune</marker> eucharistique.</example>
       </rule>
     </rulegroup>
     <rule id="AMANITE" name="amanite ou ammonite">
@@ -5331,7 +5334,6 @@ though, and has since been slightly modified)-->
       <url>https://fr.wikipedia.org/wiki/Amanite</url>
       <example correction="amanite">L’<marker>ammonite</marker> tue-mouches est toxique.</example>
       <example correction="amanites">Des <marker>ammonites</marker> tue-mouches.</example>
-      <example>L’amanite tue-mouches est toxique.</example>
     </rule>
     <rulegroup id="CORNOUAILLE" name="Cornouailles et Cornouaille">
       <rule>
