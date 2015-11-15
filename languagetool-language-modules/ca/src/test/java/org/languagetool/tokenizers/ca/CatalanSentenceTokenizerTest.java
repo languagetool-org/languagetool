@@ -41,6 +41,8 @@ public class CatalanSentenceTokenizerTest extends TestCase {
     testSplit("És d’abans-d’ahir? ", "Bé, bé.");
     testSplit("És d’abans-d’ahir! ", "Bé, bé.");
     testSplit("Què vols dir? ", "Ja ho tinc!");
+    testSplit("Què? ", "Ja ho tinc!");
+    testSplit("Ah! ", "Ja ho tinc!");
     testSplit("Ja ho tinc! ", "Què vols dir?");
     testSplit("Us explicaré com va anar: ",
             "»La Maria va engegar el cotxe");
