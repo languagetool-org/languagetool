@@ -6489,6 +6489,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No només el peix, sinó també la carn.</example>
             </rule>
             <rule>
+                <antipattern> <!-- cas dubtós -->
+                    <marker>
+                        <token>si</token>
+                        <token>no</token>
+                        <token>?</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token postag="RN|PT.*" postag_regexp="yes" skip="-1"><exception>com</exception><exception scope="next" regexp="yes">sinó|perquè</exception></token>
                     <marker>
@@ -6506,9 +6513,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No vinguis, si no ho passaràs malament.</example>
                 <example correction="sinó">¿Qui ha de venir <marker>si no</marker> ella?</example>
                 <example>¿Qui ha de venir sinó ella?</example>
-                <example correction="sinó">¿Qui ha de venir <marker>si no</marker>?</example> <!-- Cas dubtós, discutit!! -->
+                <!--<example correction="sinó">¿Qui ha de venir <marker>si no</marker>?</example>--> <!-- Cas dubtós, discutit!! -->
                 <!-- <example>¿Com si no?</example> Cas dubtós, discutit!! -->
-                <example>¿Qui ha de venir sinó?</example>
+                <example>¿Qui ha de venir sinó?</example>  <!-- Cas dubtós, discutit!! -->
+                <example>¿Qui ha de venir si no?</example>  <!-- Cas dubtós, discutit!! -->
                 <example correction="sinó">¿Què és <marker>si no</marker> un intent de desestabilitar, de convèncer que tot serà millor?</example>
                 <example>tant si vols com si no.</example>
                 <example>en veure com col·locaven les peces, va exclamar: "a grapats s'han de posar, si no, no acabarem mai".</example>
