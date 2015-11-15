@@ -4255,7 +4255,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[’´'‛′‘]</token>
           <token>amarrage</token>
         </pattern>
-        <message>Voulez-vous dire <suggestion>bitte</suggestion> ?</message>
+        <message>Voulez-vous dire <suggestion><match no="1" regexp_match="t" regexp_replace="tt"/></suggestion> ?</message>
         <example correction="bitte">Une <marker>bite</marker> d’amarrage.</example>
       </rule>
       <rule>
@@ -4264,8 +4264,70 @@ though, and has since been slightly modified)-->
           <token>du</token>
           <token>quai</token>
         </pattern>
-        <message>Voulez-vous dire <suggestion>bitte</suggestion> ?</message>
+        <message>Voulez-vous dire <suggestion><match no="1" regexp_match="t" regexp_replace="tt"/></suggestion> ?</message>
         <example correction="bitte">La <marker>bite</marker> du quai.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">bites?</token></marker>
+          <token>sur</token>
+          <token>le</token>
+          <token>quai</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion><match no="1" regexp_match="t" regexp_replace="tt"/></suggestion> ?</message>
+        <example correction="bitte">La <marker>bite</marker> sur le quai.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[mts]a|leurs?|votre|[nv]os</token>
+          <marker><token regexp="yes">bittes?</token></marker>
+        </pattern>
+        <message>Voulez-vous dire <suggestion><match no="2" regexp_match="tt" regexp_replace="t"/></suggestion> ?</message>
+        <example correction="bite">Ma <marker>bitte</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ne</token>
+          <marker><token regexp="yes">bittes?</token></marker>
+        </pattern>
+        <message>Voulez-vous dire <suggestion><match no="2" regexp_match="tt" regexp_replace="t"/></suggestion> ?</message>
+        <example correction="bite">Il ne <marker>bitte</marker> rien.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">être</token>
+          <token regexp="yes" skip="1">une|des</token>
+          <marker><token regexp="yes">bittes?</token></marker>
+          <token>en</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion><match no="3" regexp_match="tt" regexp_replace="t"/></suggestion> ?</message>
+        <example correction="bite">Je suis une <marker>bitte</marker> en orthographe.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">avoir</token>
+          <token regexp="yes">une|des?</token>
+          <token regexp="yes">(?:petite|grosse|enorme|longue)s?</token>
+          <marker><token regexp="yes">bittes?</token></marker>
+        </pattern>
+        <message>Voulez-vous dire <suggestion><match no="4" regexp_match="tt" regexp_replace="t"/></suggestion> ?</message>
+        <example correction="bite">Il a une grosse <marker>bitte</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes" skip="2">aimer|sucer|branler|mordre|lécher|poil</token>
+          <marker><token regexp="yes">bittes?</token></marker>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>bite</suggestion> ?</message>
+        <example correction="bite">Elle aime la <marker>bitte</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">bittes?</token></marker>
+          <token regexp="yes">(?:molle|dure)s?</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion><match no="1" regexp_match="tt" regexp_replace="t"/></suggestion> ?</message>
+        <example correction="bite">La <marker>bitte</marker> molle.</example>
       </rule>
     </rulegroup>
     <rulegroup id="DU_DU" name="du ou dû">
