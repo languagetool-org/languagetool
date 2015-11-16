@@ -24604,7 +24604,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Schmerz zugefügt">Ich habe ihm großen <marker>Schmerz zugeführt</marker>.</example>
         </rule>
         <rule id="AUF_WEITEM_FLUR" name="Redewendung: 'auf weitem (weiter) Flur'">
-            <regexp>auf weitem Flur</regexp>
+            <regexp>\bauf weitem Flur\b</regexp>
             <message>Meinten Sie die Redewendung <suggestion>auf weiter Flur</suggestion>?</message>
             <url>http://www.duden.de/rechtschreibung/Flur_Boden_Land_Feld</url>
             <short>Möglicherweise falsch verwendete Redewendung</short>
@@ -24707,7 +24707,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="in Bausch und Bogen">Ich will es nicht <marker>in Baum und Bogen</marker> verurteilen.</example>
         </rule>
         <rule id="GANG_UND_GEBE" name="Redewendung: 'gang und gebe (gäbe)'">
-            <regexp>gang und gebe</regexp>
+            <regexp>\bgang und gebe\b</regexp>
             <message>Meinten Sie <suggestion>gang und gäbe</suggestion>? (feste Redewendung)</message>
             <short>Möglicherweise falsch verwendete Redewendung</short>
             <example correction="gang und gäbe">Das ist <marker>gang und gebe</marker>.</example>
@@ -25016,7 +25016,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="hieb-">Wir brauchen <marker>hieb</marker> und stichfeste Beweise.</example>
             </rule>
             <rule>
-                <regexp>in und auswendig</regexp>
+                <regexp>\bin und auswendig\b</regexp>
                 <message>Die feste Wendung <suggestion>in- und auswendig</suggestion> wird mit Bindestrich geschrieben.</message>
                 <url>http://www.korrekturen.de/beliebte_fehler/in_und_auswendig.shtml</url>
                 <short>Fehlender Bindestrich</short>
@@ -25152,7 +25152,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ABKUERZUNG_FEHLENDE_PUNKTE" name="Zeichensetzung: Fehlende Punkte in Abkürzungen ('z B.' etc.)">
             <!-- TODO ergänzen. -->
             <rule>
-                <regexp>z B\.</regexp>
+                <regexp>\bz B\.</regexp>
                 <message>Meinten Sie <suggestion>z.&nbsp;B.</suggestion>?</message>
                 <example>Sie erkennt <marker>z. B.</marker> den Fehler in diesem Satz.</example>
                 <example correction="z.&nbsp;B.">Sie erkennt <marker>z B.</marker> den Fehler in diesem Satz.</example>
@@ -25687,6 +25687,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            -->
         </rulegroup>
         <rulegroup id="GRAD_ZU_VIEL" name="Zeichensetzung: Gradzeichen zu viel ('°K (K)')">
+            <url>https://de.wikipedia.org/wiki/Kelvin</url>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[0-9]+</token>
@@ -25695,20 +25696,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>'°K' wird seit 1967 nicht mehr verwendet. Vorschlag: <suggestion>K</suggestion></message>
-                <url>https://de.wikipedia.org/wiki/Kelvin</url>
                 <example correction="K">Es ist 25 <marker>°K</marker> warm.</example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>([0-9]+°K)</regexp>
                 <message>'°K' wird seit 1967 nicht mehr verwendet. Vorschlag: <suggestion><match no="1" regexp_match="([0-9]*)°K" regexp_replace="$1 K"/></suggestion></message>
-                <url>https://de.wikipedia.org/wiki/Kelvin</url>
                 <example>Es ist <marker>25 K</marker> warm.</example>
                 <example correction="25 K">Es ist <marker>25°K</marker> warm.</example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>Grad Kelvin</regexp>
                 <message>'Grad Kelvin' wird seit 1967 nicht mehr verwendet. Vorschlag: <suggestion>Kelvin</suggestion></message>
-                <url>https://de.wikipedia.org/wiki/Kelvin</url>
                 <example correction="Kelvin">Es ist 5 <marker>Grad Kelvin</marker> warm.</example>
             </rule>
         </rulegroup>
@@ -26436,7 +26434,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="McDonald's|McDonald’s"><marker>McDonald`s</marker></example>
             </rule>
             <rule>
-                <regexp>[‘´`](nen|ne|n)</regexp>
+                <regexp>[‘´`](nen|ne|n)\b</regexp>
                 <message>Wollten Sie einen Apostroph verwenden? Vorschlag: <suggestion>'\1</suggestion> oder <suggestion>’\1</suggestion></message>
                 <short>Akzent statt Apostroph</short>
                 <example correction="'ne|’ne">Das war vielleicht <marker>‘ne</marker> Party!</example>
@@ -26445,7 +26443,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="'n|’n">Auf<marker>´n</marker> Dachboden musst du gehen.</example>
             </rule>
             <rule>
-                <regexp>c[´`‘]t</regexp>
+                <regexp>\bc[´`‘]t\b</regexp>
                 <message>Der Name der Computerzeitschrift <suggestion>c’t</suggestion> wird mit einem Apostroph geschrieben.</message>
                 <short>Akzent statt Apostroph</short>
                 <example correction="c’t">Die <marker>c`t</marker> ist eine Computerzeitschrift.</example>
