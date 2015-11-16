@@ -37,7 +37,7 @@ import java.util.List;
  */
 public class MorfologikMultiSpeller {
 
-  private final List<MorfologikSpeller> spellers = new ArrayList<>();
+  private final List<MorfologikSpeller> spellers;
   private final boolean convertsCase;
 
   /**
@@ -62,6 +62,7 @@ public class MorfologikMultiSpeller {
    */
   public MorfologikMultiSpeller(String binaryDictPath, BufferedReader plainTextReader, int maxEditDistance) throws IOException {
     MorfologikSpeller speller = getBinaryDict(binaryDictPath, maxEditDistance);
+    List<MorfologikSpeller> spellers = new ArrayList<>();
     spellers.add(speller);
     convertsCase = speller.convertsCase();
     String infoFile = binaryDictPath.replace(".dict", ".info");
@@ -69,6 +70,7 @@ public class MorfologikMultiSpeller {
     if (plainTextDict != null) {
       spellers.add(plainTextDict);
     }
+    this.spellers = Collections.unmodifiableList(spellers);
   }
 
   private MorfologikSpeller getBinaryDict(String binaryDictPath, int maxEditDistance) throws IOException {
