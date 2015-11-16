@@ -26,9 +26,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Morfologik speller that merges results from binary (.dict) and plain text (.txt) dictionaries.
@@ -36,6 +34,8 @@ import java.util.List;
  * @since 2.9
  */
 public class MorfologikMultiSpeller {
+
+  private static final Map<String,Dictionary> dicPathToDict = new HashMap<>();
 
   private final List<MorfologikSpeller> spellers;
   private final boolean convertsCase;
@@ -65,10 +65,9 @@ public class MorfologikMultiSpeller {
     List<MorfologikSpeller> spellers = new ArrayList<>();
     spellers.add(speller);
     convertsCase = speller.convertsCase();
-    String infoFile = binaryDictPath.replace(".dict", ".info");
-    MorfologikSpeller plainTextDict = getPlainTextDictOrNull(plainTextReader, infoFile, maxEditDistance);
-    if (plainTextDict != null) {
-      spellers.add(plainTextDict);
+    MorfologikSpeller plainTextSpeller = getPlainTextDictSpellerOrNull(plainTextReader, binaryDictPath, maxEditDistance);
+    if (plainTextSpeller != null) {
+      spellers.add(plainTextSpeller);
     }
     this.spellers = Collections.unmodifiableList(spellers);
   }
@@ -82,12 +81,12 @@ public class MorfologikMultiSpeller {
   }
 
   @Nullable
-  private MorfologikSpeller getPlainTextDictOrNull(BufferedReader plainTextReader, String infoFile, int maxEditDistance) throws IOException {
+  private MorfologikSpeller getPlainTextDictSpellerOrNull(BufferedReader plainTextReader, String dictPath, int maxEditDistance) throws IOException {
     List<byte[]> lines = getLines(plainTextReader);
     if (lines.size() == 0) {
       return null;
     }
-    Dictionary dictionary = getDictionary(lines, infoFile);
+    Dictionary dictionary = getDictionary(lines, dictPath);
     return new MorfologikSpeller(dictionary, maxEditDistance);
   }
 
@@ -102,12 +101,23 @@ public class MorfologikMultiSpeller {
     return lines;
   }
 
-  private Dictionary getDictionary(List<byte[]> lines, String infoFile) throws IOException {
-    Collections.sort(lines, FSABuilder.LEXICAL_ORDERING);
-    FSA fsa = FSABuilder.build(lines);
-    ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());
-    ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
-    return Dictionary.readAndClose(fsaInStream, JLanguageTool.getDataBroker().getFromResourceDirAsStream(infoFile));
+  private Dictionary getDictionary(List<byte[]> lines, String dictPath) throws IOException {
+    Dictionary dictFromCache = dicPathToDict.get(dictPath);
+    if (dictFromCache != null) {
+      return dictFromCache;
+    } else {
+      // Creating the dictionary at runtime can easily take 50ms for spelling.txt files
+      // that are ~50KB. We don't want that overhead for every check of a short sentence,
+      // so we cache the result:
+      Collections.sort(lines, FSABuilder.LEXICAL_ORDERING);
+      FSA fsa = FSABuilder.build(lines);
+      ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());
+      ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
+      String infoFile = dictPath.replace(".dict", ".info");
+      Dictionary dict = Dictionary.readAndClose(fsaInStream, JLanguageTool.getDataBroker().getFromResourceDirAsStream(infoFile));
+      dicPathToDict.put(dictPath, dict);
+      return dict;
+    }
   }
 
   /**

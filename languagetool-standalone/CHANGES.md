@@ -40,6 +40,9 @@
     using a non-breaking space could cause a rule not to match.
   * `<filter>` can now also be used in `disambiguation.xml`
 
+#### Embedded server
+  * Speed up for testing short sentences for de-DE, de-AT, and de-CH
+
 #### API
   * `ConfusionProbabilityRule` has been moved to package `org.languagetool.rules.ngrams`
   * `ConfusionProbabilityRule.getWordTokenizer()` is now called
