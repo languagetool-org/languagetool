@@ -42,7 +42,7 @@ import java.util.*;
 public final class RuleOverview {
 
   private static final List<String> LANGUAGES_WITH_NEW_MAINTAINER_NEED = 
-          Arrays.asList("en", "ja", "is", "sv", "lt", "ro", "ml");
+          Arrays.asList("en", "ja", "is", "sv", "lt", "ro", "ml", "nl");
   private static final List<String> LANGUAGES_WITH_CO_MAINTAINER_NEED = 
           Arrays.asList("da", "be", "zh", "gl");
 
