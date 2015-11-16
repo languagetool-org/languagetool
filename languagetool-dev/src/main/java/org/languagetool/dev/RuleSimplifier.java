@@ -39,7 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Replaces the 'pattern' element in simple rules with the 'regex' element.
+ * Replaces the 'pattern' element in simple rules with the 'regexp' element.
  * WARNING: this is a hack, the rules it produces need to be checked and modified manually!
  */
 final class RuleSimplifier {

@@ -31,7 +31,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Matches 'regex' elements from XML rules against sentences.
+ * Matches 'regexp' elements from XML rules against sentences.
  * @since 3.2
  */
 class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
