@@ -140,6 +140,9 @@ public abstract class AbstractPatternRule extends Rule {
     return description;
   }
 
+  /**
+   * @see #getFullId() 
+   */
   @Override
   public String getId() {
     return id;
@@ -180,6 +183,7 @@ public abstract class AbstractPatternRule extends Rule {
   /**
    * The rule id and it's sub id, if any. The format is like {@code RULE_ID[SUB_ID]}.
    * @since 3.2
+   * @see #getId()
    */
   public String getFullId() {
     if (subId != null) {
