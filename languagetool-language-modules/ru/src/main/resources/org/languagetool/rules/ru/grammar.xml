@@ -437,10 +437,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="я"><marker>лично я</marker></example>
             </rule>
         </rulegroup>    
-                        
-                        
-                                                
-                                                                                                
+        <rulegroup id="RIBNAJA_UHA" name="Тавтология «рыбная уха»">
+            <rule> 
+                <pattern>
+                    <token inflected="yes" >рыбный</token>
+                    <token inflected="yes" >уха</token>                  
+                </pattern>
+                <message>Языковая избыточность (плеоназм): <suggestion>\2</suggestion>?</message>
+                <short>Тавтология.</short>
+                <example correction="уха"><marker>рыбная уха</marker></example>
+            </rule>
+        </rulegroup>                       
+        <rulegroup id="VPERVIJE_ZNAKOMITSJA" name="Тавтология «впервые знакомиться»">
+            <rule> 
+                <pattern>
+                    <token inflected="yes" >впервые</token>
+                    <token inflected="yes" >знакомиться</token>                  
+                </pattern>
+                <message>Языковая избыточность (плеоназм): <suggestion>\2</suggestion>?</message>
+                <short>Тавтология.</short>
+                <example correction="знакомиться"><marker>впервые знакомиться</marker></example>
+            </rule>
+        </rulegroup>                   
+        <rulegroup id="NEMNOGO_PRIOTKRIT" name="Тавтология «немного приоткрыть»">
+            <rule> 
+                <pattern>
+                    <token>немного</token>
+                    <token inflected="yes" >приоткрыть</token>                  
+                </pattern>
+                <message>Языковая избыточность (плеоназм): <suggestion>\2</suggestion>?</message>
+                <short>Тавтология.</short>
+                <example correction="приоткрыть"><marker>немного приоткрыть</marker></example>
+            </rule>
+        </rulegroup>                                         
+        <rulegroup id="VOZVRASHATSJA_OBRATNO" name="Тавтология «возвращаться обратно»">
+            <rule> 
+                <pattern>
+                    <token inflected="yes" >возвращаться</token>                  
+                    <token>обратно</token>
+                </pattern>
+                <message>Языковая избыточность (плеоназм): <suggestion>\1</suggestion>?</message>
+                <short>Тавтология.</short>
+                <example correction="возвращаться"><marker>возвращаться обратно</marker></example>
+            </rule>
+        </rulegroup>  
+                                                                                                                                                                                        
         <rulegroup id="BLIZKIJ_BLIZHNIJ" name="Употребление слов «близкий/ближний»">
             <rule> 
                 <pattern>
