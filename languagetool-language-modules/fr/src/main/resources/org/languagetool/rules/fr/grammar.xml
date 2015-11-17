@@ -5765,6 +5765,16 @@ though, and has since been slightly modified)-->
         <message>Confusion probable entre les mots « \1 » (moment dans le temps) et <suggestion><match no="1" regexp_match="t" regexp_replace="tt"/></suggestion> (fruit).</message>
         <example correction="dattes">Des <marker>dates</marker> séchées.</example>
       </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">dattes?</token></marker>
+          <token regexp="yes">d[eu]|des</token>
+          <token regexp="yes">(?:bac|bapt[ê]me|brevet|calendrier|car[êe]me|carnaval|concert|début|dép[oô]t|demande|dernier|diffusion|document|fin|jour|journal|lancement|livraison|mise|marriage|message|mort|naissance|parution|pentec[ôo]te|péremption|post|prélèvement|premier|prise|prochain|publication|ramadan|rapport|réception|référendum|règlement|retraite|réunion|séminaire|show|sortie|spectacle|terme|tirage|tournage|trajet|virement|vol|vote|voyage)s?|1er|[0-2]?\d|3[01]|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|congrès|décès|permis|procès</token>
+        </pattern>
+        <message>Confusion probable entre les mots « \1 » (fruit) et <suggestion><match no="1" regexp_match="tt" regexp_replace="t"/></suggestion> (moment dans le temps).</message>
+        <example correction="date">La <marker>datte</marker> du décès.</example>
+        <example correction="date">La <marker>datte</marker> du 25 décembre.</example>
+      </rule>
     </rulegroup>
     <rulegroup id="CANNE_CANE" name="canne et cane">
       <url>http://grammaire.reverso.net/2_1_13_cane_canne.shtml</url>
