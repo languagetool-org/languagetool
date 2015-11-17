@@ -155,7 +155,7 @@ public class PatternRule extends AbstractPatternRule {
       if (patternTokens != null) {
         matcher = new PatternRuleMatcher(this, useList);
       } else if (regex != null) {
-        matcher = new RegexPatternRule(this.getId(), getDescription(), getMessage(), getSuggestionsOutMsg(), language, regex);
+        matcher = new RegexPatternRule(this.getId(), getDescription(), getMessage(), getSuggestionsOutMsg(), language, regex, regexMark);
       } else {
         throw new IllegalStateException("Neither pattern tokens nor regex set for rule " + getId());
       }

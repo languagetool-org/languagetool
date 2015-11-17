@@ -125,6 +125,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=""><marker>Über all</marker></example>
             <example correction=""><marker>ÜBER all</marker></example>
         </rule>
+        <rule id="REGEX_DEMO_PARTIAL_MARK" name="Regexp match with 'mark' attribute">
+            <regexp mark="2">(fo[ou]) (bar)</regexp>
+            <message>Did you mean <suggestion>baz</suggestion>?</message>
+            <example>This is fuu <marker>bah</marker>.</example>
+            <example correction="baz">This is foo <marker>bar</marker>.</example>
+            <example correction="baz">This is fou <marker>bar</marker>.</example>
+        </rule>
         <rule id="DEMO_RULE" name="Find 'foo bar'">
             <!-- a trivial demo rule that matches "foo" followed by "bar" -->
             <pattern case_sensitive="no">

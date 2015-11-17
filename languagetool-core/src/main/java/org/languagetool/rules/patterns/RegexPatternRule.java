@@ -39,12 +39,14 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
   private static final Pattern suggestionPattern = Pattern.compile("<suggestion>(.*?)</suggestion>");  // TODO: this needs to be cleaned up, there should be no need to parse this?
 
   private final Pattern pattern;
+  private final int markGroup;
 
-  RegexPatternRule(String id, String description, String message, String suggestionsOutMsg, Language language, Pattern regex) {
-    super(id, description, language, regex);
+  RegexPatternRule(String id, String description, String message, String suggestionsOutMsg, Language language, Pattern regex, int regexpMark) {
+    super(id, description, language, regex, regexpMark);
     this.message = message;
     this.pattern = regex;
     this.suggestionsOutMsg = suggestionsOutMsg;
+    markGroup = regexpMark;
   }
 
   public Pattern getPattern() {
@@ -63,7 +65,9 @@ class RegexPatternRule extends AbstractPatternRule implements RuleMatcher {
       List<String> suggestions = extractSuggestions(matcher, msg);
       List<String> matchSuggestions = getMatchSuggestions(sentence, matcher);
       msg = replaceMatchElements(msg, matchSuggestions);
-      RuleMatch ruleMatch = new RuleMatch(this, matcher.start(), matcher.end(), msg, null, sentenceStart, null);
+      int markStart = matcher.start(markGroup);
+      int markEnd = matcher.end(markGroup);
+      RuleMatch ruleMatch = new RuleMatch(this, markStart, markEnd, msg, null, sentenceStart, null);
       List<String> allSuggestions = new ArrayList<>();
       if (matchSuggestions.size() > 0) {
         allSuggestions.addAll(matchSuggestions);

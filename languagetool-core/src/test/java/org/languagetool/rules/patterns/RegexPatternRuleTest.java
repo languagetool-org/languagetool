@@ -37,7 +37,7 @@ public class RegexPatternRuleTest {
     RegexPatternRule rule = new RegexPatternRule("ID", "desc",
             "msg: <suggestion>a suggestion \\1</suggestion>",
             "<suggestion>another suggestion \\2</suggestion>", TestTools.getDemoLanguage(),
-            Pattern.compile("(fo.) (bar)"));
+            Pattern.compile("(fo.) (bar)"), 0);
     JLanguageTool lt = new JLanguageTool(TestTools.getDemoLanguage());
 
     RuleMatch[] matches1 = rule.match(lt.getAnalyzedSentence("This is a test"));
@@ -61,5 +61,19 @@ public class RegexPatternRuleTest {
     assertThat(matches3[1].getMessage(), is("msg: <suggestion>a suggestion fou</suggestion>"));
     assertThat(matches3[1].getSuggestedReplacements().toString(), is("[a suggestion fou, another suggestion bar]"));
   }
+ 
+  @Test
+  public void testMatchWithMark() throws IOException {
+    RegexPatternRule rule = new RegexPatternRule("ID", "desc",
+            "msg: <suggestion>a suggestion \\1</suggestion>",
+            "<suggestion>another suggestion \\2</suggestion>", TestTools.getDemoLanguage(),
+            Pattern.compile("(fo.) (bar)"), 1);
+    JLanguageTool lt = new JLanguageTool(TestTools.getDemoLanguage());
+
+    RuleMatch[] matches2 = rule.match(lt.getAnalyzedSentence("This is foo bar"));
+    assertThat(matches2.length, is(1));
+    assertThat(matches2[0].getFromPos(), is(8));
+    assertThat(matches2[0].getToPos(), is(11));
+ }
   
 }

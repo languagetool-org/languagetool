@@ -109,6 +109,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         regex = new StringBuilder();
         regexMode = "exact".equals(attrs.getValue("type")) ? RegexpMode.EXACT : RegexpMode.SMART;
         regexCaseSensitive = attrs.getValue(CASE_SENSITIVE) != null && YES.equals(attrs.getValue(CASE_SENSITIVE));
+        regexpMark = attrs.getValue(MARK) != null ? Integer.parseInt(attrs.getValue(MARK)) : 0;
         break;
       case RULE:
         inRule = true;
@@ -551,7 +552,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (ruleAntiPatterns.size() > 0 || rulegroupAntiPatterns.size() > 0) {
           throw new RuntimeException("<regexp> rules currently cannot be used together with <antipattern>. Rule id: " + id + "[" + subId + "]");
         }
-        rule = new RegexPatternRule(id, name, message.toString(), suggestionsOutMsg.toString(), language, Pattern.compile(regexStr, flags));
+        rule = new RegexPatternRule(id, name, message.toString(), suggestionsOutMsg.toString(), language, Pattern.compile(regexStr, flags), regexpMark);
       } else {
         throw new IllegalStateException("Neither pattern tokens nor regex is set");
       }

@@ -80,6 +80,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String OR = "or";
   protected static final String EXCEPTION = "exception";
   protected static final String CASE_SENSITIVE = "case_sensitive";
+  protected static final String MARK = "mark";
   protected static final String PATTERN = "pattern";
   protected static final String ANTIPATTERN = "antipattern";
   protected static final String MATCH = "match";
@@ -197,6 +198,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected StringBuilder regex = new StringBuilder();
   protected RegexpMode regexMode = RegexpMode.SMART;
   protected boolean regexCaseSensitive = false;
+  protected int regexpMark = 0;
 
   protected boolean inShortMessage;
   protected boolean inShortMessageForRuleGroup;

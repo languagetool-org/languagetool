@@ -47,6 +47,7 @@ public abstract class AbstractPatternRule extends Rule {
   protected final Language language;
   protected final List<PatternToken> patternTokens;
   protected final Pattern regex;
+  protected final int regexMark;
   protected final boolean testUnification;
   protected final boolean sentStart;
   protected final List<Match> suggestionMatches = new ArrayList<>();
@@ -69,20 +70,20 @@ public abstract class AbstractPatternRule extends Rule {
   /**
    * @since 3.2
    */
-  public AbstractPatternRule(String id, String description, Language language, Pattern regex) {
-    this(id, description, language, null, regex, false);
+  public AbstractPatternRule(String id, String description, Language language, Pattern regex, int regexMark) {
+    this(id, description, language, null, regex, regexMark, false);
   }
 
   public AbstractPatternRule(String id, String description, Language language, List<PatternToken> patternTokens, boolean getUnified, String message) {
-    this(id, description, language, patternTokens, null, getUnified);
+    this(id, description, language, patternTokens, null, 0, getUnified);
     this.message = message;
   }
 
   public AbstractPatternRule(String id, String description, Language language, List<PatternToken> patternTokens, boolean getUnified) {
-    this(id, description, language, patternTokens, null, getUnified);
+    this(id, description, language, patternTokens, null, 0, getUnified);
   }
 
-  private AbstractPatternRule(String id, String description, Language language, List<PatternToken> patternTokens, Pattern regex, boolean getUnified) {
+  private AbstractPatternRule(String id, String description, Language language, List<PatternToken> patternTokens, Pattern regex, int regexMark, boolean getUnified) {
     this.id = Objects.requireNonNull(id, "id cannot be null");
     this.description = Objects.requireNonNull(description, "description cannot be null");
     this.language = Objects.requireNonNull(language, "language cannot be null");
@@ -107,8 +108,13 @@ public abstract class AbstractPatternRule extends Rule {
         groupsOrUnification = true;
       }
       this.regex = null;
+      this.regexMark = 0;
     } else {
       this.regex = regex;
+      if (regexMark < 0) {
+        throw new IllegalArgumentException("mark must be >= 0: " + regexMark);
+      }
+      this.regexMark = regexMark;
       this.patternTokens = null;
       groupsOrUnification = false;
       sentStart = false;
