@@ -5756,6 +5756,16 @@ though, and has since been slightly modified)-->
         <example correction="accroc">Elle à fait un <marker>accro</marker> à sa jupe.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="DATTE_DATE" name="datte et date">
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">dates?</token></marker>
+          <token regexp="yes">fra[îi]ches?|séchées?|cultivées?|produites?|muscades?|medjool|Hamraya</token>
+        </pattern>
+        <message>Confusion probable entre les mots « \1 » (moment dans le temps) et <suggestion><match no="1" regexp_match="t" regexp_replace="tt"/></suggestion> (fruit).</message>
+        <example correction="dattes">Des <marker>dates</marker> séchées.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="CANNE_CANE" name="canne et cane">
       <url>http://grammaire.reverso.net/2_1_13_cane_canne.shtml</url>
       <rule>
