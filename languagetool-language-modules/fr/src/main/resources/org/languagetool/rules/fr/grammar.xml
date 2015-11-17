@@ -5769,11 +5769,29 @@ though, and has since been slightly modified)-->
         <pattern>
           <marker><token regexp="yes">dattes?</token></marker>
           <token regexp="yes">d[eu]|des</token>
-          <token regexp="yes">(?:bac|bapt[ê]me|brevet|calendrier|car[êe]me|carnaval|concert|début|dép[oô]t|demande|dernier|diffusion|document|fin|jour|journal|lancement|livraison|mise|marriage|message|mort|naissance|parution|pentec[ôo]te|péremption|post|prélèvement|premier|prise|prochain|publication|ramadan|rapport|réception|référendum|règlement|retraite|réunion|séminaire|show|sortie|spectacle|terme|tirage|tournage|trajet|virement|vol|vote|voyage)s?|1er|[0-2]?\d|3[01]|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|congrès|décès|permis|procès</token>
+          <token regexp="yes">(?:bac|bapt[ê]me|brevet|calendrier|car[êe]me|carnaval|concert|début|dép[oô]t|demande|dernier|diffusion|document|fermeture|fin|jour|journal|lancement|livraison|mise|marriage|message|mort|naissance|parution|pentec[ôo]te|péremption|post|prélèvement|premier|prise|prochain|publication|ramadan|rapport|réception|référendum|règlement|retraite|réunion|séminaire|show|sortie|spectacle|terme|tirage|tournage|trajet|vente|virement|vol|vote|voyage)s?|1er|[0-2]?\d|3[01]|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|congrès|décès|permis|procès</token>
         </pattern>
         <message>Confusion probable entre les mots « \1 » (fruit) et <suggestion><match no="1" regexp_match="tt" regexp_replace="t"/></suggestion> (moment dans le temps).</message>
         <example correction="date">La <marker>datte</marker> du décès.</example>
         <example correction="date">La <marker>datte</marker> du 25 décembre.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">dattes?</token></marker>
+          <token>d</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token regexp="yes">(?:accouchement|actualisation|achat|adhésion|anniversaire|apparition|échéance|édition|émission|engagement|entrée|envoi|examen|exécution|expédition|expiration|immatriculation|imputation|inscription|origine|ouverture|ovulation)s?|aujourd|Hallowenn</token>
+        </pattern>
+        <message>Confusion probable entre les mots « \1 » (fruit) et <suggestion><match no="1" regexp_match="tt" regexp_replace="t"/></suggestion> (moment dans le temps).</message>
+        <example correction="date">La <marker>datte</marker> d’accouchement.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>en</token>
+          <marker><token>datte</token></marker>
+        </pattern>
+        <message>Confusion probable entre les mots « \2 » (fruit) et <suggestion><match no="2" regexp_match="tt" regexp_replace="t"/></suggestion> (moment dans le temps).</message>
+        <example correction="date">Le dernier en <marker>datte</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="CANNE_CANE" name="canne et cane">
