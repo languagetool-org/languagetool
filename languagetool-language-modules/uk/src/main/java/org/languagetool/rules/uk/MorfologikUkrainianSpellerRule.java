@@ -27,6 +27,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tagging.uk.IPOSTag;
 
@@ -50,6 +51,14 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
   @Override
   public String getId() {
     return "MORFOLOGIK_RULE_UK_UA";
+  }
+  
+  @Override
+  protected boolean isMisspelled(MorfologikMultiSpeller speller, String word) {
+    if( word.endsWith("²") || word.endsWith("³") ) {
+      word = word.substring(0, word.length() - 1); 
+    }
+    return super.isMisspelled(speller, word);
   }
 
   @Override

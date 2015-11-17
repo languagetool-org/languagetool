@@ -104,6 +104,9 @@ public class MorfologikUkrainianSpellerRuleTest {
     match = rule.match(langTool.getAnalyzedSentence("100 кв. м"));
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(match));
 
+    match = rule.match(langTool.getAnalyzedSentence("100 км²"));
+    assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(match));
+
     match = rule.match(langTool.getAnalyzedSentence("100 кв м"));
     assertEquals(1, Arrays.asList(match).size());
   }
