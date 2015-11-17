@@ -1645,13 +1645,12 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="SE_CE" name="SE au lieu de CE">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2440</url>
       <rule>
         <pattern>
-          <marker>
-            <token>se</token>
-          </marker>
+          <marker><token>se</token></marker>
           <or>
-            <token regexp="yes">que?</token>
+            <token regexp="yes">qu[ei]?|avec|dont|pour|pourquoi|malgré</token>
             <token postag="N m s|J.*" postag_regexp="yes"><exception postag="V.*" postag_regexp="yes"/></token>
           </or>
         </pattern>
@@ -1659,44 +1658,34 @@ though, and has since been slightly modified)-->
         <example correction="Ce"><marker>Se</marker> test montre que ça fonctionne.</example>
         <example>Ce programme se base sur la participation des femmes.</example>
         <example correction="ce">Tout <marker>se</marker> que je sais.</example>
-        <example>Tout ce que je sais.</example>
       </rule>
       <rule>
         <pattern>
-          <marker>
-            <token>se<exception scope="previous" regexp="yes">ils|elles</exception></token>
-          </marker>
+          <marker><token>se<exception scope="previous" regexp="yes">ils|elles</exception></token></marker>
           <token regexp="yes">sont|seraient|seront|furent</token>
           <token regexp="yes">eux|(ceux|celles)[-‑‐](là|ci)|de?|[cdl]es|certaines|quelques|plusieurs</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>ce</suggestion> ?</message>
         <example correction="Ce"><marker>Se</marker> sont des histoires.</example>
-        <example>Ce sont des histoires.</example>
         <example correction="Ce"><marker>Se</marker> sont de grands enfants.</example>
-        <example>Ce sont de grands enfants.</example>
         <example>Ils se sont tous inscrits.</example>
         <example>Ils se sont aimés.</example>
         <example>Ils <marker>se</marker> sont d’ailleurs doté d’un nouvel ordinateur.</example>
       </rule>
       <rule>
         <pattern>
-          <marker>
-            <token>se</token>
-          </marker>
+          <marker><token>se</token></marker>
           <token regexp="yes">sera|serait|soit|fut</token>
           <token regexp="yes">une?|du|des|chaque|l[ae]?|ce|cette</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>ce</suggestion> ?</message>
         <example correction="Ce"><marker>Se</marker> sera une fille.</example>
-        <example>Ce sera une fille.</example>
         <example>Il se sera d’abord lavé.</example>
       </rule>
     </rulegroup>
     <rule id="CE_SE" name="CE au lieu de SE">
       <pattern>
-        <marker>
-          <token>ce</token>
-        </marker>
+        <marker><token>ce</token></marker>
         <token postag="V.*" postag_regexp="yes">
           <exception postag="[NJ] [me] s" postag_regexp="yes"/>
           <exception inflected="yes" regexp="yes">être|devoir|pouvoir</exception>
@@ -1704,10 +1693,10 @@ though, and has since been slightly modified)-->
         </token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>se</suggestion> ?</message>
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2440</url>
       <example correction="Se"><marker>Ce</marker> promener est relaxant.</example>
-      <example><marker>Ce</marker> sera bien.</example>
       <example correction="se">Ce phénomène <marker>ce</marker> transforme en phénomène de société.</example>
-      <example>Ce phénomène se transforme en phénomène de société.</example>
+      <example>Ce sera bien.</example>
       <example>Ce peuple</example>
       <example>Ce faisant, il se rapprochait.</example>
       <example>Pour ce faire, vous disposez d’un délai d’une semaine.</example>
@@ -1939,7 +1928,7 @@ though, and has since been slightly modified)-->
       <example correction="soutien">Il dépend du <marker>soutient</marker> de ses parents.</example>
     </rule>
     <rulegroup id="ENTRAIN" name="entrain ou en train">
-      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?Th=2&amp;t1=&amp;id=2075</url>
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2075</url>
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes">être|voyager|surprendre|venir|.*[-‑‐](je|tu|on|ils?|elles?|[nv]ous)</token>
@@ -5905,7 +5894,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">[àâaéêèeiîou]\D.*|à<exception regexp="yes">onze|onzièmes?|une?|au?|oui|ouistiti|ouï[-‑‐]dire|énième|Ouagadougou|o[ùu]|(?-i)[IVXLCM]+e?|Ier|Ire</exception></token>
       </pattern>
       <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
-      <url>http://66.46.185.79/bdl/gabarit_bdl.asp?Th=2&amp;t1=&amp;id=1737</url>
+      <url>http://66.46.185.79/bdl/gabarit_bdl.asp?id=1737</url>
       <example correction="L’île"><marker>La île</marker> est encore loin.</example>
       <example>Il connait l’histoire de A à Z.</example>
       <example>Il a appris ça en un jour.</example>
@@ -10610,7 +10599,7 @@ though, and has since been slightly modified)-->
           <token>là</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-là</suggestion> ?</message>
-        <url>http://66.46.185.79/bdl/gabarit_bdl.asp?Al=1&amp;id=3480</url>
+        <url>http://66.46.185.79/bdl/gabarit_bdl.asp?id=3480</url>
         <example correction="Jusque-là"><marker>Jusque là</marker> tout va bien.</example>
         <example correction="Celle-là"><marker>Celle là</marker>, elle sait comment faire.</example>
       </rule>
@@ -24595,7 +24584,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">rectos?[-‑‐]versos?</token>
         </pattern>
         <message>La locution adverbiale <suggestion>recto verso</suggestion> s’écrit sans trait d’union et est invariable.</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?Th=2&amp;t1=&amp;id=3626</url>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3626</url>
         <example correction="recto verso">Des impressions <marker>recto-verso</marker>.</example>
         <example>Des impressions recto verso.</example>
       </rule>
@@ -24605,7 +24594,7 @@ though, and has since been slightly modified)-->
           <token>versos</token>
         </pattern>
         <message>La locution adverbiale <suggestion>recto verso</suggestion> s’écrit sans trait d’union et est invariable.</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?Th=2&amp;t1=&amp;id=3626</url>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3626</url>
         <example correction="recto verso">Des impressions <marker>rectos versos</marker>.</example>
         <example>Des impressions recto verso.</example>
       </rule>
