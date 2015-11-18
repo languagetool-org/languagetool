@@ -73,6 +73,18 @@ public class ErrorSentence {
     return false;
   }
 
+  /** @since 3.2 */
+  public boolean hasErrorOverlappingWithMatch(RuleMatch match) {
+    for (Error error : errors) {
+      if (match.getFromPos() <= error.getStartPos() && match.getToPos() >= error.getEndPos() ||
+          match.getFromPos() >= error.getStartPos() && match.getFromPos() <= error.getEndPos() ||
+          match.getToPos() >= error.getStartPos() && match.getToPos() <= error.getEndPos()) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public String getMarkupText() {
     return markupText;
   }

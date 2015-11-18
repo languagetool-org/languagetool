@@ -152,6 +152,7 @@ class RealWordCorpusEvaluator {
           }
           System.out.println("    [++] " + match + ": " + match.getSuggestedReplacements());
         } else if (!alreadyCounted && sentence.hasErrorCoveredByMatch(match)) {
+        //} else if (!alreadyCounted && sentence.hasErrorOverlappingWithMatch(match)) {
           goodMatches++;
           matchCount++;
           if (isConfusionRule(match)) {
