@@ -67,7 +67,7 @@ import java.util.List;
  */
 class RealWordCorpusEvaluator {
 
-  private final Evaluator checker;
+  private final Evaluator evaluator;
   private final List<String> badConfusionMatchWords = new ArrayList<>();
   
   private int sentenceCount;
@@ -80,7 +80,7 @@ class RealWordCorpusEvaluator {
   private int badConfusionMatches;
 
   RealWordCorpusEvaluator(File indexDir) throws IOException {
-    checker = getEvaluator(indexDir);
+    evaluator = getEvaluator(indexDir);
   }
 
   @NotNull
@@ -97,7 +97,7 @@ class RealWordCorpusEvaluator {
   }
   
   void close() {
-    checker.close();
+    evaluator.close();
   }
 
   int getSentencesChecked() {
@@ -130,7 +130,7 @@ class RealWordCorpusEvaluator {
 
   private void checkLines(ErrorCorpus corpus) throws IOException {
     for (ErrorSentence sentence : corpus) {
-      List<RuleMatch> matches = checker.check(sentence.getAnnotatedText());
+      List<RuleMatch> matches = evaluator.check(sentence.getAnnotatedText());
       sentenceCount++;
       errorsInCorpusCount += sentence.getErrors().size();
       System.out.println(sentence.getMarkupText() + " => " + matches.size());
@@ -228,7 +228,7 @@ class RealWordCorpusEvaluator {
     evaluator.close();
   }
   
-  class Span {
+  static class Span {
     private final int startPos;
     private final int endPos;
 
