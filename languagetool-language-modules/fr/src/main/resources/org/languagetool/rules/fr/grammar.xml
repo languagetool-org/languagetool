@@ -5812,7 +5812,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">un|[dl]es</token>
           <marker><token regexp="yes">auspices?</token></marker>
         </pattern>
-        <message>Confusion probable entre les mots « 3 » et <suggestion><match no="3" regexp_match="^......." regexp_replace="hospice"/></suggestion>.</message>
+        <message>Confusion probable entre les mots « 3 » et <suggestion><match no="3" regexp_match="^......." regexp_replace="hospice"/></suggestion>.</message>
         <example correction="hospice">Il a finit ses jours dans un <marker>auspice</marker>.</example>
       </rule>
       <rule>
@@ -5821,7 +5821,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">des?|pour</token>
           <token regexp="yes">vieillards?|vieux|s[eé]niors|personnes?|maternité|enfants|orphelins|femmes|aliénés|incurables|indigents|pauvres|Paris</token>
         </pattern>
-        <message>Confusion probable entre les mots « 1 » et <suggestion><match no="1" regexp_match="^......." regexp_replace="hospice"/></suggestion>.</message>
+        <message>Confusion probable entre les mots « 1 » et <suggestion><match no="1" regexp_match="^......." regexp_replace="hospice"/></suggestion>.</message>
         <example correction="hospice">L’<marker>auspice</marker> des vieillards.</example>
       </rule>
       <rule>
@@ -5831,7 +5831,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[dl]es</token>
           <token regexp="yes">vieillards|vieux|s[eé]niors|personnes|enfants|orphelins|femmes|aliénés|incurables|indigents|pauvres</token>
         </pattern>
-        <message>Confusion probable entre les mots « 1 » et <suggestion><match no="1" regexp_match="^......." regexp_replace="hospice"/></suggestion>.</message>
+        <message>Confusion probable entre les mots « 1 » et <suggestion><match no="1" regexp_match="^......." regexp_replace="hospice"/></suggestion>.</message>
         <example correction="hospice">L’<marker>auspice</marker> pour les vieux.</example>
       </rule>
     </rulegroup>
@@ -5917,6 +5917,28 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Si « \3 » est la ville des Alpes-Maritimes, alors il faut ěcrire <suggestion>Cannes</suggestion>.</message>
         <example correction="Cannes">Bienvenue à <marker>Canne</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="BAILLER_BAYER" name="bailler, bâiller, bayer">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2022</url>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes" regexp="yes">b[aâ]iller</token></marker>
+          <token>aux</token>
+          <token>corneilles</token>
+        </pattern>
+        <message>Confusion entre le verbe « \1 » et <suggestion><match no="1" regexp_match="^....." regexp_replace="bay"/></suggestion>.</message>
+        <example correction="bayent">Elles <marker>bâillent</marker> aux corneilles.</example>
+        <example correction="bayez">Vous <marker>baillez</marker> aux corneilles.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes" regexp="yes">bailler|bayer</token></marker>
+          <token>bruyamment</token>
+        </pattern>
+        <message>Confusion entre le verbe « \1 » et <suggestion><match no="1" regexp_match="^(baill|bay)" regexp_replace="bâill"/></suggestion>.</message>
+        <example correction="bâilles">Tu <marker>bailles</marker> bruyamment.</example>
+        <example correction="bâillé">J’ai <marker>bayé</marker> bruyamment.</example>
       </rule>
     </rulegroup>
   </category>
