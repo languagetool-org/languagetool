@@ -46,7 +46,7 @@ public class PedlerCorpus implements ErrorCorpus {
   public PedlerCorpus(File dir) throws IOException {
     File[] files = dir.listFiles();
     if (files == null) {
-      throw new RuntimeException("Directory not found: " + dir);
+      throw new RuntimeException("Directory not found or is not a directory: " + dir);
     }
     for (File file : files) {
       if (!file.getName().endsWith(".txt")) {

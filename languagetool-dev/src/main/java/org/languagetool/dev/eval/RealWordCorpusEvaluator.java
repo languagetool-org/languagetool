@@ -204,18 +204,16 @@ class RealWordCorpusEvaluator {
       System.out.println("   [languageModel] is a morfologik file or Lucene index directory with ngram frequency information (optional)");
       System.exit(1);
     }
+    File languageModelTopDir = null;
     if (args.length == 1) {
       System.out.println("Running without language model");
-      RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator(null);
-      evaluator.run(new File(args[0]));
-      evaluator.close();
     } else {
-      File languageModelTopDir = new File(args[1]);
+      languageModelTopDir = new File(args[1]);
       System.out.println("Running with language model from " + languageModelTopDir);
-      RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator(languageModelTopDir);
-      evaluator.run(new File(args[0]));
-      evaluator.close();
     }
+    RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator(languageModelTopDir);
+    evaluator.run(new File(args[0]));
+    evaluator.close();
   }
   
   class Span {
