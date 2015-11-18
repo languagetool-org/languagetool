@@ -5783,6 +5783,58 @@ though, and has since been slightly modified)-->
         <example correction="date">Le dernier en <marker>datte</marker>.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="AUSPICES_HOSPICE" name="auspices et hospice">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2047</url>
+      <rule>
+        <pattern>
+          <token>sous</token>
+          <token regexp="yes" skip="2">d|des?|les</token>
+          <marker><token>hospices</token></marker>
+        </pattern>
+        <message>Confusion probable entre les mots « hospices » et <suggestion>auspices</suggestion>.</message>
+        <example correction="auspices">Sous les meilleurs <marker>hospices</marker>.</example>
+        <example correction="auspices">Sous d’heureux <marker>hospices</marker>.</example>
+        <example correction="auspices">Sous les <marker>hospices</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">à|dans</token>
+          <token>l</token>
+          <token regexp="yes">['´‘’′]</token>
+          <marker><token>auspice</token></marker>
+        </pattern>
+        <message>Confusion probable entre les mots « auspice » et <suggestion>hospice</suggestion>.</message>
+        <example correction="hospice">Il a finit ses jours à l’<marker>auspice</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>dans</token>
+          <token regexp="yes">un|[dl]es</token>
+          <marker><token regexp="yes">auspices?</token></marker>
+        </pattern>
+        <message>Confusion probable entre les mots « 3 » et <suggestion><match no="3" regexp_match="^......." regexp_replace="hospice"/></suggestion>.</message>
+        <example correction="hospice">Il a finit ses jours dans un <marker>auspice</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">auspices?</token></marker>
+          <token regexp="yes">des?|pour</token>
+          <token regexp="yes">vieillards?|vieux|s[eé]niors|personnes?|maternité|enfants|orphelins|femmes|aliénés|incurables|indigents|pauvres|Paris</token>
+        </pattern>
+        <message>Confusion probable entre les mots « 1 » et <suggestion><match no="1" regexp_match="^......." regexp_replace="hospice"/></suggestion>.</message>
+        <example correction="hospice">L’<marker>auspice</marker> des vieillards.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">auspices?</token></marker>
+          <token>pour</token>
+          <token regexp="yes">[dl]es</token>
+          <token regexp="yes">vieillards|vieux|s[eé]niors|personnes|enfants|orphelins|femmes|aliénés|incurables|indigents|pauvres</token>
+        </pattern>
+        <message>Confusion probable entre les mots « 1 » et <suggestion><match no="1" regexp_match="^......." regexp_replace="hospice"/></suggestion>.</message>
+        <example correction="hospice">L’<marker>auspice</marker> pour les vieux.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="CANNE_CANE" name="canne et cane">
       <url>http://grammaire.reverso.net/2_1_13_cane_canne.shtml</url>
       <rule>
