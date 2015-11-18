@@ -5925,7 +5925,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <marker><token inflected="yes" regexp="yes">b[aâ]iller</token></marker>
           <token>aux</token>
-          <token>corneilles</token>
+          <token regexp="yes">corneilles|chimères|nuées</token>
         </pattern>
         <message>Confusion entre le verbe « \1 » et <suggestion><match no="1" regexp_match="^....." regexp_replace="bay"/></suggestion>.</message>
         <example correction="bayent">Elles <marker>bâillent</marker> aux corneilles.</example>
@@ -5939,6 +5939,44 @@ though, and has since been slightly modified)-->
         <message>Confusion entre le verbe « \1 » et <suggestion><match no="1" regexp_match="^(baill|bay)" regexp_replace="bâill"/></suggestion>.</message>
         <example correction="bâilles">Tu <marker>bailles</marker> bruyamment.</example>
         <example correction="bâillé">J’ai <marker>bayé</marker> bruyamment.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes" regexp="yes">bailler|bayer</token></marker>
+          <token>d</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token>ennui</token>
+        </pattern>
+        <message>Confusion entre le verbe « \1 » et <suggestion><match no="1" regexp_match="^(baill|bay)" regexp_replace="bâill"/></suggestion>.</message>
+        <example correction="bâillent">Il <marker>baillent</marker> d’ennui.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(?:col|chemise|jupe)</token>
+          <token>qui</token>
+          <marker><token inflected="yes" regexp="yes">bailler|bayer</token></marker>
+        </pattern>
+        <message>Confusion entre le verbe « \3 » et <suggestion><match no="3" regexp_match="^(baill|bay)" regexp_replace="bâill"/></suggestion>.</message>
+        <example correction="bâillait">Une chemise qui <marker>bayait</marker>.</example>
+        <example correction="bâillait">Une chemise qui <marker>baillait</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(?:col|chemise|jupe)</token>
+          <marker><token inflected="yes" regexp="yes">bailler|bayer</token></marker>
+        </pattern>
+        <message>Confusion entre le verbe « \2 » et <suggestion><match no="2" regexp_match="^(baill|bay)" regexp_replace="bâill"/></suggestion>.</message>
+        <example correction="bâille">Ton col <marker>baille</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>la</token>
+          <marker><token inflected="yes" regexp="yes">bâiller|bayer</token></marker>
+          <token regexp="yes">belle|bonne</token>
+        </pattern>
+        <message>Confusion entre le verbe « \2 » et <suggestion><match no="2" regexp_match="^(bâill|bay)" regexp_replace="baill"/></suggestion>.</message>
+        <example correction="baillez">Vous me la <marker>bâillez</marker> belle.</example>
+        <example correction="baillez">Vous me la <marker>bayez</marker> belle.</example>
       </rule>
     </rulegroup>
   </category>
