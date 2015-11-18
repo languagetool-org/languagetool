@@ -9093,6 +9093,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="EMPREN" name="empren/emprèn">
+            <pattern>
+                <marker>
+                    <token skip="3">empren</token>
+                </marker>
+                <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">acció|atac|autopista|autovia|aventura|camí|campanya|carrera|carretera|creuer|crítica|croada|cursa|direcció|empresa|expansió|expedició|gira|iniciativa|investigació|línia|lluita|marxa|missió|modernització|obra|política|projecte|recerca|reforma|renovació|tasca|transformació|viatge|vida|vol</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>emprèn</suggestion> (del v. emprendre) en lloc de "empren" (del v. emprar)?</message>
+            <suggestion>emprén</suggestion>
+            <example correction="emprèn|emprén">Joan <marker>empren</marker> una nova iniciativa.</example>
+            <example correction="Emprèn|Emprén"><marker>Empren</marker> el vol.</example>
+        </rule>
         <rule id="AFERMAR_AFIRMAR" name="afermar/afirmar">
             <pattern>
                 <marker>
@@ -23637,6 +23649,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>urbi et orbi</suggestion>
             <example correction="urbi et orbi"><marker>urbi et orbe</marker></example>
             <example>urbi et orbi</example>
+        </rule>
+        <rule id="VENI_VIDI_VICI" name="veni, vidi,vici">
+            <antipattern>
+                <marker>
+                    <token>veni</token>
+                    <token>,</token>
+                    <token>vidi</token>
+                    <token>,</token>
+                    <token>vici</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">v[ei]n?[ndc]i</token>
+                <token min="0">,</token>
+                <token regexp="yes">v[ei]n?[ndc]i</token>
+                <token min="0">,</token>
+                <token regexp="yes">v[ei]n?[ndc]i</token>
+            </pattern>
+            <message>Expressió llatina mal escrita.</message>
+            <suggestion>veni, vidi, vici</suggestion>
+            <example correction="Veni, vidi, vici"><marker>Veni vidi, vici</marker>.</example>
+            <example correction="veni, vidi, vici"><marker>veni, vidi, vinci</marker>.</example>
         </rule>
         <rule id="A_MITJAN_TERMINI" name="a *mitjan termini">
             <pattern>
