@@ -78,9 +78,10 @@ public class NgramProbabilityRule extends Rule {
       String token = googleToken.token;
       if (prevPrevToken != null && prevToken != null) {
         long occurrences = lm.getCount(prevPrevToken.token, prevToken.token, token);
-        debug("lookup: " + prevPrevToken + " " + prevToken + " " + token + " => " + occurrences + "\n");
+        String ngram = prevPrevToken + " " + prevToken + " " + token;
+        debug("lookup: " + ngram + " => " + occurrences + "\n");
         if (occurrences < MIN_OKAY_OCCURRENCES) {
-          String message = "ngram rarely occurs in ngram reference corpus (occurrences: " + occurrences + ")";
+          String message = "ngram '" + ngram + "' rarely occurs in ngram reference corpus (occurrences: " + occurrences + ")";
           RuleMatch match = new RuleMatch(this, prevPrevToken.startPos, googleToken.endPos, message);
           matches.add(match);
         }

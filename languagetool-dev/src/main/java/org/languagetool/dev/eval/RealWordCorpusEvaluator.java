@@ -18,6 +18,7 @@
  */
 package org.languagetool.dev.eval;
 
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.dev.errorcorpus.ErrorCorpus;
 import org.languagetool.dev.errorcorpus.ErrorSentence;
 import org.languagetool.dev.errorcorpus.PedlerCorpus;
@@ -78,10 +79,21 @@ class RealWordCorpusEvaluator {
   private int goodConfusionMatches;
   private int badConfusionMatches;
 
-  RealWordCorpusEvaluator(File indexTopDir) throws IOException {
-    checker = new LanguageToolEvaluator(indexTopDir);
+  RealWordCorpusEvaluator(File indexDir) throws IOException {
+    checker = getEvaluator(indexDir);
+  }
+
+  @NotNull
+  protected Evaluator getEvaluator(File indexTopDir) throws IOException {
+    Evaluator checker = new LanguageToolEvaluator(indexTopDir);
     // use this to run AtD as the backend, so results can easily be compared to LT:
     //checker = new AtDEvalChecker("http://en.service.afterthedeadline.com/checkDocument?key=test&data=");
+    return checker;
+  }
+
+  @NotNull
+  protected ErrorCorpus getCorpus(File dir) throws IOException {
+    return new PedlerCorpus(dir);
   }
   
   void close() {
@@ -111,7 +123,7 @@ class RealWordCorpusEvaluator {
     System.out.println("    [++] = this is an expected error and the first suggestion is correct");
     System.out.println("    [//]  = not counted because already matches by a different rule");
     System.out.println("");
-    ErrorCorpus corpus = new PedlerCorpus(dir);
+    ErrorCorpus corpus = getCorpus(dir);
     checkLines(corpus);
     printResults();
   }
@@ -201,7 +213,7 @@ class RealWordCorpusEvaluator {
   public static void main(String[] args) throws IOException {
     if (args.length != 1 && args.length != 2) {
       System.out.println("Usage: " + RealWordCorpusEvaluator.class.getSimpleName() + " <corpusDirectory> [languageModel]");
-      System.out.println("   [languageModel] is a morfologik file or Lucene index directory with ngram frequency information (optional)");
+      System.out.println("   [languageModel] is a Lucene index directory with ngram frequency information (optional)");
       System.exit(1);
     }
     File languageModelTopDir = null;
