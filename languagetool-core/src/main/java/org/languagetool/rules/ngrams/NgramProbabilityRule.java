@@ -19,6 +19,7 @@
 package org.languagetool.rules.ngrams;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.Experimental;
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Category;
@@ -36,6 +37,7 @@ import java.util.*;
  * Also see <a href="http://wiki.languagetool.org/finding-errors-using-n-gram-data">http://wiki.languagetool.org/finding-errors-using-n-gram-data</a>.
  * @since 3.2
  */
+@Experimental
 public class NgramProbabilityRule extends Rule {
 
   /** @since 3.2 */
@@ -67,8 +69,39 @@ public class NgramProbabilityRule extends Rule {
     return RULE_ID;
   }
 
+  // 63 out of 120 matches are real errors => 0,52 precision, 0,62 recall
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
+    String text = sentence.getText();
+    List<GoogleToken> tokens = GoogleToken.getGoogleTokens(text, true, getGoogleStyleWordTokenizer());
+    List<RuleMatch> matches = new ArrayList<>();
+    GoogleToken prevPrevToken = null;
+    GoogleToken prevToken = null;
+    int i = 0;
+    for (GoogleToken googleToken : tokens) {
+      String token = googleToken.token;
+      if (prevPrevToken != null && prevToken != null) {
+        if (i < tokens.size()-1) {
+          GoogleToken next = tokens.get(i+1);
+          long occurrences = lm.getCount(prevToken.token, token, next.token);
+          String ngram = prevToken + " " + token + " " + next.token;
+          debug("lookup: " + ngram + " => " + occurrences + "\n");
+          if (occurrences < MIN_OKAY_OCCURRENCES) {
+            String message = "ngram '" + ngram + "' rarely occurs in ngram reference corpus (occurrences: " + occurrences + ")";
+            RuleMatch match = new RuleMatch(this, prevToken.startPos, next.endPos, message);
+            matches.add(match);
+          }
+        }
+      }
+      prevPrevToken = prevToken;
+      prevToken = googleToken;
+      i++;
+    }
+    return matches.toArray(new RuleMatch[matches.size()]);
+  }
+
+  // 59 out of 121 matches are real errors => 0,49 precision, 0,58 recall
+  public RuleMatch[] matchOld(AnalyzedSentence sentence) {
     String text = sentence.getText();
     List<GoogleToken> tokens = GoogleToken.getGoogleTokens(text, true, getGoogleStyleWordTokenizer());
     List<RuleMatch> matches = new ArrayList<>();
