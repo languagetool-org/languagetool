@@ -481,7 +481,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="возвращаться"><marker>возвращаться обратно</marker></example>
             </rule>
         </rulegroup>  
+        <rulegroup id="CHREZVICHAJNO_GROMADNIJ" name="Тавтология «чрезвычайно громадный»">
+            <rule> 
+                <pattern>
+                    <token>чрезвычайно</token>                  
+                    <token inflected="yes">громадный</token>
+                </pattern>
+                <message>Языковая избыточность (плеоназм): <suggestion>\2</suggestion>?</message>
+                <short>Тавтология.</short>
+                <example correction="громадный"><marker>чрезвычайно громадный</marker></example>
+            </rule>
+        </rulegroup>  
+         <rulegroup id="OCHEN_KROHOTNIJ" name="Тавтология «очень крохотный»">
+            <rule> 
+                <pattern>
+                    <token>очень</token>                  
+                    <token inflected="yes">крохотный</token>
+                </pattern>
+                <message>Языковая избыточность (плеоназм): <suggestion>\2</suggestion>?</message>
+                <short>Тавтология.</short>
+                <example correction="крохотный"><marker>очень крохотный</marker></example>
+            </rule>
+        </rulegroup>  
+
                                                                                                                                                                                         
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
         <rulegroup id="BLIZKIJ_BLIZHNIJ" name="Употребление слов «близкий/ближний»">
             <rule> 
                 <pattern>
@@ -714,8 +738,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="местожительства"><marker>адрес местожительства</marker></example>
             <example>местожительство</example>
         </rule>
-         <rule id="Tavtology_zaranee_predupredit" name="Тавтология «заранее предупредить»">
-            <pattern>
+         <rulegroup id="Tavtology_zaranee_predupredit" name="Тавтология «заранее предупредить»">
+           <rule> 
+             <pattern>
                 <token inflected="yes">заранее</token>
                 <token inflected="yes">предупредить</token>
             </pattern>
@@ -724,8 +749,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Тавтология.</short>
             <example correction="предупредить"><marker>заранее предупредить</marker></example>
             <example>предупредить</example>
-        </rule>
-         <rule id="Tavtology_zaranee_predchuvstvovat" name="Тавтология «заранее предчувствовать»">
+           </rule>
+           <rule> 
+             <pattern>
+                 <token inflected="yes">предупредить</token>
+                 <token inflected="yes">заранее</token>
+            </pattern>
+            <message>Языковая избыточность: <suggestion>\1</suggestion>?</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+            <short>Тавтология.</short>
+            <example correction="предупредить"><marker>предупредить заранее</marker></example>
+           </rule>
+        </rulegroup>
+        <rulegroup id="Tavtology_zaranee_predchuvstvovat" name="Тавтология «заранее предчувствовать»">
+           <rule>           
             <pattern>
                 <token inflected="yes">заранее</token>
                 <token inflected="yes">предчувствовать</token>
@@ -734,8 +771,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
             <short>Тавтология.</short>
             <example correction="предчувствовать"><marker>заранее предчувствовать</marker></example>
-            <example>предчувствовать</example>
-        </rule>
+           </rule>
+           <rule>           
+            <pattern>
+                <token inflected="yes">предчувствовать</token>
+                <token inflected="yes">заранее</token>
+            </pattern>
+            <message>Языковая избыточность: <suggestion>\1</suggestion>?</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+            <short>Тавтология.</short>
+            <example correction="предчувствовать"><marker>предчувствовать заранее</marker></example>
+           </rule>
+        </rulegroup>
         <rule id="Tavtology_prejskurant_cen" name="Тавтология «прейскурант цен»">
             <pattern>
                 <token inflected="yes">прейскурант</token>
