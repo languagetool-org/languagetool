@@ -539,15 +539,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
         int flags = regexCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE;
         String regexStr = regex.toString();
         if (regexMode == RegexpMode.SMART) {
+          // Note: it's not that easy to add \b because the regex might look like '(foo)' or '\d' so we cannot just look at the last character
           regexStr = replaceSpacesInRegex(regexStr);
-          // TODO: it's not that easy to add \b because the regex might look like '(foo)' or '\d' so we cannot just look at the last character
-          /*if (regexStr.matches("^\\w")) {
-            regexStr = "\\b" + regexStr;
-          }
-          if (regexStr.matches("\\w$")) {
-            // word boundary, wouldn't work when e.g. regex ends in a dot and next char in input after the dot is a space
-            regexStr = regexStr + "\\b";
-          }*/
         }
         if (ruleAntiPatterns.size() > 0 || rulegroupAntiPatterns.size() > 0) {
           throw new RuntimeException("<regexp> rules currently cannot be used together with <antipattern>. Rule id: " + id + "[" + subId + "]");
