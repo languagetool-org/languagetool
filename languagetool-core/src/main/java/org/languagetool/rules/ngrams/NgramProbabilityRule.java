@@ -43,7 +43,7 @@ public class NgramProbabilityRule extends Rule {
   /** @since 3.2 */
   public static final String RULE_ID = "NGRAM_RULE";
   
-  private static final float MIN_OKAY_OCCURRENCES = 1;
+  private static final float MIN_OKAY_OCCURRENCES = 1000;
   private static final boolean DEBUG = false;
 
   private final LanguageModel lm;
@@ -69,9 +69,60 @@ public class NgramProbabilityRule extends Rule {
     return RULE_ID;
   }
 
-  // 63 out of 120 matches are real errors => 0,52 precision, 0,62 recall
+  // MIN_OKAY_OCCURRENCES=1:      17 out of 31 matches are real errors => 0,55 precision, 0,17 recall
+  // MIN_OKAY_OCCURRENCES=100:    26 out of 42 matches are real errors => 0,62 precision, 0,25 recall
+  // MIN_OKAY_OCCURRENCES=1000:   46 out of 78 matches are real errors => 0,59 precision, 0,45 recall
+  // MIN_OKAY_OCCURRENCES=10000:  63 out of 133 matches are real errors => 0,47 precision, 0,62 recall
+  // MIN_OKAY_OCCURRENCES=100000: 72 out of 193 matches are real errors => 0,37 precision, 0,71 recall
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
+    String text = sentence.getText();
+    List<GoogleToken> tokens = GoogleToken.getGoogleTokens(text, true, getGoogleStyleWordTokenizer());
+    List<RuleMatch> matches = new ArrayList<>();
+    GoogleToken prevPrevToken = null;
+    GoogleToken prevToken = null;
+    int i = 0;
+    for (GoogleToken googleToken : tokens) {
+      String token = googleToken.token;
+      if (prevPrevToken != null && prevToken != null) {
+        if (i < tokens.size()-1) {
+          GoogleToken next = tokens.get(i+1);
+          long occurrences = lm.getCount(prevToken.token, token, next.token);
+          long leftOccurrences = lm.getCount(prevPrevToken.token, prevToken.token, token);
+          long rightOccurrences = 0;
+          if (i < tokens.size()-2) {
+            GoogleToken nextNext = tokens.get(i+2);
+            rightOccurrences = lm.getCount(token, next.token, nextNext.token);
+          }
+          String ngram = prevToken + " " + token + " " + next.token;
+          long allOccurrences = leftOccurrences + occurrences + rightOccurrences;
+          if (i < tokens.size()-2) {
+            GoogleToken nextNext = tokens.get(i+2);
+            debug("lookup: " + ngram + " => " + occurrences + ", " +
+                    prevPrevToken.token + " " + prevToken.token + " " + token + " => " + leftOccurrences + ", " +
+                    token + " " + next.token + " " + nextNext.token + " => " + rightOccurrences +
+                    "\n");
+          } else {
+            debug("lookup: " + ngram + " => " + occurrences + ", " +
+                    prevPrevToken.token + " " + prevToken.token + " " + token + " => " + leftOccurrences +
+                    " + 0\n");
+          }
+          if (allOccurrences < MIN_OKAY_OCCURRENCES) {
+            String message = "ngram '" + ngram + "' rarely occurs in ngram reference corpus (occurrences: " + occurrences + ")";
+            RuleMatch match = new RuleMatch(this, prevToken.startPos, next.endPos, message);
+            matches.add(match);
+          }
+        }
+      }
+      prevPrevToken = prevToken;
+      prevToken = googleToken;
+      i++;
+    }
+    return matches.toArray(new RuleMatch[matches.size()]);
+  }
+
+  // 63 out of 120 matches are real errors => 0,52 precision, 0,62 recall
+  public RuleMatch[] matchOld2(AnalyzedSentence sentence) {
     String text = sentence.getText();
     List<GoogleToken> tokens = GoogleToken.getGoogleTokens(text, true, getGoogleStyleWordTokenizer());
     List<RuleMatch> matches = new ArrayList<>();
@@ -101,7 +152,7 @@ public class NgramProbabilityRule extends Rule {
   }
 
   // 59 out of 121 matches are real errors => 0,49 precision, 0,58 recall
-  public RuleMatch[] matchOld(AnalyzedSentence sentence) {
+  public RuleMatch[] matchOld1(AnalyzedSentence sentence) {
     String text = sentence.getText();
     List<GoogleToken> tokens = GoogleToken.getGoogleTokens(text, true, getGoogleStyleWordTokenizer());
     List<RuleMatch> matches = new ArrayList<>();
