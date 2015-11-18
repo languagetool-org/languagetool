@@ -18,6 +18,7 @@
  */
 package org.languagetool.dev.eval;
 
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.dev.errorcorpus.ErrorCorpus;
 import org.languagetool.dev.errorcorpus.ErrorSentence;
@@ -134,7 +135,10 @@ class RealWordCorpusEvaluator {
       sentenceCount++;
       errorsInCorpusCount += sentence.getErrors().size();
       System.out.println(sentence.getMarkupText() + " => " + matches.size());
-      //System.out.println("###"+sentence.annotatedText.toString().replaceAll("<.*?>", ""));
+      for (RuleMatch match : matches) {
+        int length = match.getToPos() - match.getFromPos();
+        System.out.println(StringUtils.repeat(" ", match.getFromPos()) + StringUtils.repeat("^", length));
+      }
       List<Span> detectedErrorPositions = new ArrayList<>();
       for (RuleMatch match : matches) {
         boolean alreadyCounted = errorAlreadyCounted(match, detectedErrorPositions);
