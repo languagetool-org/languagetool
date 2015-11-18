@@ -5978,6 +5978,18 @@ though, and has since been slightly modified)-->
         <example correction="baillez">Vous me la <marker>bâillez</marker> belle.</example>
         <example correction="baillez">Vous me la <marker>bayez</marker> belle.</example>
       </rule>
+      <rule>
+        <pattern>
+          <token>l</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token inflected="yes">avoir</token>
+          <marker><token regexp="yes">bâillée?s?|bayée?s?</token></marker>
+          <token regexp="yes">belle|bonne</token>
+        </pattern>
+        <message>Confusion entre le verbe « \2 » et <suggestion>baillé</suggestion>.</message>
+        <example correction="baillé">Elle me l’avait <marker>bâillé</marker> belle.</example>
+        <example correction="baillé">Elle me l’avait <marker>bayé</marker> belle.</example>
+      </rule>
     </rulegroup>
   </category>
   <category name="Élision">
