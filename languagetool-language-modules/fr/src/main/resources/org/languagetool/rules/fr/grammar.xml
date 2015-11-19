@@ -6006,6 +6006,99 @@ though, and has since been slightly modified)-->
         <example correction="baillé">Elle me l’avait <marker>bayé</marker> belle.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="BANC_BAN" name="banc et ban">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4466</url>
+      <rule>
+        <regexp mark="1">\bau (banc) (?:des nations|de la (?:société|ville|communauté|France)|de l['´‘’′](?:Europe|empire|église|islam))\b</regexp>
+        <message>Confusion probable entre « banc » et <suggestion>ban</suggestion>.</message>
+        <example correction="ban">Il a été mis au <marker>banc</marker> de la société.</example>
+        <example correction="ban">Il a été mis au <marker>banc</marker> de l’empire.</example>
+        <example correction="ban">Il risque de mettre la France au <marker>banc</marker> des nations.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>en</token>
+          <token>rupture</token>
+          <token>de</token>
+          <marker><token>banc</token></marker>
+          <token>avec</token>
+        </pattern>
+        <message>Confusion probable entre « banc » et <suggestion>ban</suggestion>.</message>
+        <example correction="ban">Il est en rupture de <marker>banc</marker> avec sa famille.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">bancs?</token></marker>
+          <token regexp="yes">d[ue]</token>
+          <token>marriage</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="c" regexp_replace=""/></suggestion>.</message>
+        <example correction="bans">Les <marker>bancs</marker> du marriage ont été publiés.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">publier|publication</token>
+          <token regexp="yes">[ldsmt]es|[nv]os|leurs</token>
+          <marker><token>bancs</token></marker>
+        </pattern>
+        <message>Confusion probable entre « bancs » et <suggestion>bans</suggestion>.</message>
+        <example correction="bans">Il ont publié les <marker>bancs</marker>.</example>
+      </rule>
+      <rule>
+        <regexp>banc et l['´‘’′]arrière[ -]banc?</regexp>
+        <message>Écrivez <suggestion>ban et l’arrière-ban</suggestion>.</message>
+        <example correction="ban et l’arrière-ban">Inviter le <marker>banc et l’arrière-banc</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>banc</token></marker>
+          <token>en</token>
+          <token>l</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token>honneur</token>
+        </pattern>
+        <message>Confusion probable entre « banc » et <suggestion>ban</suggestion>.</message>
+        <example correction="ban">Je propose un <marker>banc</marker> en l’honneur du président.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">allonger|asseoir|étendre</token>
+          <token>sur</token>
+          <token postag="D .*" postag_regexp="yes"/>
+          <marker><token regexp="yes">bans?</token></marker>
+        </pattern>
+        <message>Confusion probable entre « \4 » et <suggestion><match no="4" regexp_match="n" regexp_replace="nc"/></suggestion>.</message>
+        <example correction="banc">Elle est assise sur un <marker>ban</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>ban</token></marker>
+          <token>des</token>
+          <token>accusés</token>
+        </pattern>
+        <message>Confusion probable entre « ban » et <suggestion>banc</suggestion>.</message>
+        <example correction="banc">Il s’est retrouvé sur le <marker>ban</marker> des accusés.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">bans?</token></marker>
+          <token>d</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token regexp="yes">anchois|(?:essai|orque|optique|étalonnage|écolier|école|église)s?</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="n" regexp_replace="nc"/></suggestion>.</message>
+        <example correction="banc">Un <marker>ban</marker> d’essai.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">bans?</token></marker>
+          <token>de</token>
+          <token regexp="yes">(?:poisson|neige|sable|hareng|sardine|piranha|baleine|dauphin|requin|thon|méduse|test|charge|calibration|soufflerie|musculation|scie|brume)s?</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="n" regexp_replace="nc"/></suggestion>.</message>
+        <example correction="banc">Un <marker>ban</marker> de poissons.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
