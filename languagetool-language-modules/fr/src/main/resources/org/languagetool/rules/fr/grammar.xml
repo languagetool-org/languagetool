@@ -4151,6 +4151,21 @@ though, and has since been slightly modified)-->
         <url>https://fr.wikipedia.org/wiki/Bob_Sinclar</url>
         <example correction="Bob Sinclar"><marker>Bob Sinclair</marker> est un DJ français.</example>
       </rule>
+      <rule>
+        <antipattern>
+          <token>Jonah</token>
+          <token>Lomu</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Jh?oh?nn?h?ah?</token>
+          <token regexp="yes">Lomm?o?u</token>
+        </pattern>
+        <message>Écrivez <suggestion>Jonah Lomu</suggestion> s’il s’agit du joueur de rugby néo-zélandais.</message>
+        <url>https://fr.wikipedia.org/wiki/Jonah_Lomu</url>
+        <example correction="Jonah Lomu"><marker>Johna Lomu</marker> est né à Auckland.</example>
+        <example correction="Jonah Lomu"><marker>Jhona Lomu</marker> est né à Auckland.</example>
+        <example correction="Jonah Lomu"><marker>Jonnah Lomu</marker> est né à Auckland.</example>
+      </rule>
     </rulegroup>
     <rule id="WIKIPEDIA" name="Wikipedia → Wikipédia">
       <pattern>
@@ -26669,7 +26684,7 @@ though, and has since been slightly modified)-->
         <token>quelques</token>
         <token>sortes</token>
       </pattern>
-      <message>Bien que fréquemment utilisée, l'orthographe plurielle « en quelques sortes » est incorrecte.</message>
+      <message>Bien que fréquemment utilisée, l’orthographe plurielle « en quelques sortes » est incorrecte.</message>
       <suggestion>en quelque sorte</suggestion>
       <url>https://fr.wiktionary.org/wiki/en_quelque_sorte</url>
       <example correction="En quelque sorte"><marker>En quelques sortes</marker>.</example>
