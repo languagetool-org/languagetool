@@ -2364,14 +2364,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     per un ideal d'emancipació comú-->
                 <!-- <example correction="comuna">Un cau de gent <marker>comú</marker>.</example> -->
             </rule>
-            <rule id="ESTRATEGA" name="estratega">
+            <rule id="ESTRATEGA" name="estrateg -a, raposde -a, psiquiatre -a">
                 <pattern>
-                    <token inflected="yes" postag="NCF.*" postag_regexp="yes">estrateg<exception postag="_GN_F." postag_regexp="yes"/></token>
+                    <token inflected="yes" postag="NCF.*" postag_regexp="yes" regexp="yes">estrateg|rapsode|psiquiatre<exception postag="_GN_F." postag_regexp="yes"/></token>
                 </pattern>
-                <message>Possible error de concordança.</message>
-                <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCM$1000"></match></suggestion>
+                <message>Si és un nom masculí, cal dir <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCM$1000"></match></suggestion>. Correcte si és un nom femení.</message>
                 <example correction="estrateg">Polític i <marker>estratega</marker>.</example>
+                <example correction="rapsode">Joan Pérez, <marker>rapsoda</marker>.</example>
                 <example>Una gran estratega.</example>
+                <example>Ella és una molt bona psiquiatra.</example>
             </rule>
             <rule id="L_ESTRATEGA" name="l'estratega">
                 <antipattern>
