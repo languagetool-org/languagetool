@@ -9102,9 +9102,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>tot</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">damunt|sobre|abans|primer|després|darrere</token>
+                    <token regexp="yes">de|que</token>
+                    <token>tot</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>a</token>
+                    <token>tot</token>
+                    <token regexp="yes">estirar|córrer</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token>tot</token>
-                <token postag="V.N.*" postag_regexp="yes" regexp="yes">.*r</token>
+                <token postag="V.N.*" postag_regexp="yes" regexp="yes">.*[ai]r</token>
             </pattern>
             <message>Possible confusió.</message>
             <suggestion>tot <match no="2" postag="V.N.*" postag_regexp="yes" postag_replace="V.P..SM."/></suggestion>
