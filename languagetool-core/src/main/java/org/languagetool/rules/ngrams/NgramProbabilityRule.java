@@ -73,21 +73,21 @@ public class NgramProbabilityRule extends Rule {
 
   /*
     Without bigrams:
-      0.00000100000000000000: f=0.390, precision=0.260, recall=0.784
-      0.00000010000000000000: f=0.391, precision=0.261, recall=0.784
-      0.00000001000000000000: f=0.400, precision=0.267, recall=0.794
-      0.00000000100000000000: f=0.422, precision=0.286, recall=0.804
-      0.00000000010000000000: f=0.420, precision=0.290, recall=0.765
-      0.00000000001000000000: f=0.491, precision=0.350, recall=0.824
-      0.00000000000100000000: f=0.505, precision=0.377, recall=0.765
-      0.00000000000010000000: f=0.554, precision=0.438, recall=0.755
-      0.00000000000001000000: f=0.594, precision=0.503, recall=0.725
-      0.00000000000000100000: f=0.645, precision=0.602, recall=0.696 *
-      0.00000000000000010000: f=0.589, precision=0.611, recall=0.569
-      0.00000000000000001000: f=0.536, precision=0.623, recall=0.471
+      1.0E-6                : f=0.390, precision=0.260, recall=0.784
+      1.0E-7                : f=0.391, precision=0.261, recall=0.784
+      1.0E-8                : f=0.400, precision=0.267, recall=0.794
+      1.0E-9                : f=0.422, precision=0.286, recall=0.804
+      1.0000000000000002E-10: f=0.420, precision=0.290, recall=0.765
+      1.0000000000000003E-11: f=0.491, precision=0.350, recall=0.824
+      1.0000000000000004E-12: f=0.505, precision=0.377, recall=0.765
+      1.0000000000000004E-13: f=0.554, precision=0.438, recall=0.755
+      1.0000000000000005E-14: f=0.594, precision=0.503, recall=0.725
+      1.0000000000000005E-15: f=0.645, precision=0.602, recall=0.696 *
+      1.0000000000000005E-16: f=0.589, precision=0.611, recall=0.569
+      1.0000000000000005E-17: f=0.536, precision=0.623, recall=0.471
 
      With bigram occurrences added:
-      1.0E-22: f=0.418, precision=0.285, recall=0.784
+      1.0E-22               : f=0.418, precision=0.285, recall=0.784
       1.0000000000000001E-23: f=0.446, precision=0.307, recall=0.814
       1.0000000000000001E-24: f=0.449, precision=0.316, recall=0.775
       1.0000000000000002E-25: f=0.485, precision=0.353, recall=0.775
@@ -113,34 +113,17 @@ public class NgramProbabilityRule extends Rule {
       if (prevPrevToken != null && prevToken != null) {
         if (i < tokens.size()-1) {
           GoogleToken next = tokens.get(i+1);
-          long occurrences = lm.getCount(prevToken.token, token, next.token);
-          long leftOccurrences = lm.getCount(prevPrevToken.token, prevToken.token, token);
-          long rightOccurrences = 0;
-          if (i < tokens.size()-2) {
-            GoogleToken nextNext = tokens.get(i+2);
-            rightOccurrences = lm.getCount(token, next.token, nextNext.token);
-          }
-          String ngram = prevToken + " " + token + " " + next.token;
           Probability p = getPseudoProbability(Arrays.asList(prevToken.token, token, next.token));
           //System.out.println("P=" + p + " for " + Arrays.asList(prevToken.token, token, next.token));
-          if (i < tokens.size()-2) {
-            GoogleToken nextNext = tokens.get(i+2);
-            debug("lookup: " + ngram + " => " + occurrences + ", " +
-                    prevPrevToken.token + " " + prevToken.token + " " + token + " => " + leftOccurrences + ", " +
-                    token + " " + next.token + " " + nextNext.token + " => " + rightOccurrences +
-                    "\n");
-          } else {
-            debug("lookup: " + ngram + " => " + occurrences + ", " +
-                    prevPrevToken.token + " " + prevToken.token + " " + token + " => " + leftOccurrences +
-                    " + 0\n");
-          }
+          String ngram = prevToken + " " + token + " " + next.token;
           // without bigrams:
-          //double prob = p.getProb();
+          double prob = p.getProb();
           // with bigrams:
-          Probability bigramLeftP = getPseudoProbability(Arrays.asList(prevToken.token, token));
-          Probability bigramRightP = getPseudoProbability(Arrays.asList(token, next.token));
-          double prob = p.getProb() * bigramLeftP.getProb() * bigramRightP.getProb();
+          //Probability bigramLeftP = getPseudoProbability(Arrays.asList(prevToken.token, token));
+          //Probability bigramRightP = getPseudoProbability(Arrays.asList(token, next.token));
+          //double prob = p.getProb() + bigramLeftP.getProb() + bigramRightP.getProb();
           if (prob < minProbability) {
+            long occurrences = lm.getCount(prevToken.token, token, next.token);
             String message = "ngram '" + ngram + "' rarely occurs in ngram reference corpus (occurrences: " + occurrences + ")";
             RuleMatch match = new RuleMatch(this, prevToken.startPos, next.endPos, message);
             matches.add(match);

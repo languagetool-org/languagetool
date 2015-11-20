@@ -45,11 +45,11 @@ import java.util.Locale;
 class SimpleCorpusEvaluator {
 
   // without bigrams:
-  //private static final double START_THRESHOLD = 0.000001;
-  //private static final double END_THRESHOLD = 0.00000000000000001;
+  private static final double START_THRESHOLD = 0.000001;
+  private static final double END_THRESHOLD = 0.00000000000000001;
   // with bigrams:
-  private static final double START_THRESHOLD = 0.0000000000000000000001;
-  private static final double END_THRESHOLD = 0.000000000000000000000000000000001;
+  //private static final double START_THRESHOLD = 0.0000000000000000000001;
+  //private static final double END_THRESHOLD = 0.000000000000000000000000000000001;
   private static EnglishNgramProbabilityRule probabilityRule;
 
   private final Evaluator evaluator;
@@ -197,7 +197,7 @@ class SimpleCorpusEvaluator {
       probabilityRule.setMinProbability(threshold);
       PrecisionRecall res = evaluator.run(inputFile);
       //String thresholdStr = String.format(Locale.ENGLISH, "%.20f", threshold);
-      String thresholdStr = String.valueOf(threshold);
+      String thresholdStr = StringUtils.rightPad(String.valueOf(threshold), 22);
       double fMeasure = FMeasure.getFMeasure(res.getPrecision(), res.getRecall(), 1.0f);
       String fMeasureStr = String.format(Locale.ENGLISH, "%.3f", fMeasure);
       String precision = String.format(Locale.ENGLISH, "%.3f", res.getPrecision());
