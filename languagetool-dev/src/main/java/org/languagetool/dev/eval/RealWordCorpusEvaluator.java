@@ -233,17 +233,4 @@ class RealWordCorpusEvaluator {
     evaluator.close();
   }
   
-  static class Span {
-    private final int startPos;
-    private final int endPos;
-
-    Span(int startPos, int endPos) {
-      this.startPos = startPos;
-      this.endPos = endPos;
-    }
-
-    boolean covers(Span other) {
-      return startPos <= other.startPos && endPos >= other.endPos;
-    }
-  }
 }

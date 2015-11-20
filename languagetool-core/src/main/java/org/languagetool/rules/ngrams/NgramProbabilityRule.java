@@ -43,11 +43,13 @@ public class NgramProbabilityRule extends Rule {
   /** @since 3.2 */
   public static final String RULE_ID = "NGRAM_RULE";
   
-  private static final float MIN_OKAY_OCCURRENCES = 1000;
+  private static final int MIN_OKAY_OCCURRENCES = 1000;
   private static final boolean DEBUG = false;
 
   private final LanguageModel lm;
   private final Language language;
+  
+  private long minOkayOccurrences = MIN_OKAY_OCCURRENCES;
 
   public NgramProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);
@@ -69,11 +71,39 @@ public class NgramProbabilityRule extends Rule {
     return RULE_ID;
   }
 
-  // MIN_OKAY_OCCURRENCES=1:      17 out of 31 matches are real errors => 0,55 precision, 0,17 recall
-  // MIN_OKAY_OCCURRENCES=100:    26 out of 42 matches are real errors => 0,62 precision, 0,25 recall
-  // MIN_OKAY_OCCURRENCES=1000:   46 out of 78 matches are real errors => 0,59 precision, 0,45 recall
-  // MIN_OKAY_OCCURRENCES=10000:  63 out of 133 matches are real errors => 0,47 precision, 0,62 recall
-  // MIN_OKAY_OCCURRENCES=100000: 72 out of 193 matches are real errors => 0,37 precision, 0,71 recall
+  @Experimental
+  public void setMinOkayOccurrences(long minOkayOccurrences) {
+    this.minOkayOccurrences = minOkayOccurrences;
+  }
+
+  /*
+    Without bigrams:
+                  10: f=0.256, precision=0.548, recall=0.167
+                 100: f=0.361, precision=0.619, recall=0.255
+                1000: f=0.511, precision=0.590, recall=0.451
+               10000: f=0.536, precision=0.474, recall=0.618 *
+              100000: f=0.488, precision=0.373, recall=0.706
+             1000000: f=0.449, precision=0.313, recall=0.794
+            10000000: f=0.441, precision=0.297, recall=0.853
+           100000000: f=0.383, precision=0.256, recall=0.765
+          1000000000: f=0.390, precision=0.260, recall=0.784
+         10000000000: f=0.390, precision=0.260, recall=0.784
+        100000000000: f=0.390, precision=0.260, recall=0.784
+
+     With bigram occurrences added:
+                  10: f=0.038, precision=1.000, recall=0.020
+                 100: f=0.075, precision=1.000, recall=0.039
+                1000: f=0.140, precision=0.667, recall=0.078
+               10000: f=0.229, precision=0.517, recall=0.147
+              100000: f=0.417, precision=0.530, recall=0.343
+             1000000: f=0.446, precision=0.376, recall=0.549 *
+            10000000: f=0.443, precision=0.313, recall=0.755
+           100000000: f=0.404, precision=0.272, recall=0.784
+          1000000000: f=0.398, precision=0.266, recall=0.794
+         10000000000: f=0.390, precision=0.260, recall=0.784
+        100000000000: f=0.390, precision=0.260, recall=0.784
+
+   */
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     String text = sentence.getText();
@@ -107,7 +137,13 @@ public class NgramProbabilityRule extends Rule {
                     prevPrevToken.token + " " + prevToken.token + " " + token + " => " + leftOccurrences +
                     " + 0\n");
           }
-          if (allOccurrences < MIN_OKAY_OCCURRENCES) {
+          long biGramLeft = lm.getCount(prevToken.token, token);
+          long biGramRight = lm.getCount(token, next.token);
+          allOccurrences += biGramLeft;
+          allOccurrences += biGramRight;
+          if (allOccurrences < minOkayOccurrences) {
+            debug("biGramLeft : " + biGramLeft + " for '" + prevToken.token + " " + token + "'");
+            debug("biGramRight: " + biGramRight + " for '" + token + " " + next.token + "'");
             String message = "ngram '" + ngram + "' rarely occurs in ngram reference corpus (occurrences: " + occurrences + ")";
             RuleMatch match = new RuleMatch(this, prevToken.startPos, next.endPos, message);
             matches.add(match);
