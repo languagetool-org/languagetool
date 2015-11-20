@@ -56,16 +56,16 @@ public class ConfusionProbabilityRuleTest {
 
   @Test
   public void testPseudoProbability() throws IOException {
-    ConfusionProbabilityRule.Probability prob1 = rule.getPseudoProbability(Arrays.asList("no", "data", "here"));
+    Probability prob1 = rule.getPseudoProbability(Arrays.asList("no", "data", "here"));
     double delta = 0.001;
-    assertEquals(0.010, prob1.prob, delta);  // artificially not zero
-    assertThat(prob1.coverage, is(0.0f));
-    ConfusionProbabilityRule.Probability prob2 = rule.getPseudoProbability(Arrays.asList("1", "2", "3", "4"));
-    assertEquals(0.010, prob2.prob, delta);  // artificially not zero
-    assertThat(prob2.coverage, is(0.0f));
-    ConfusionProbabilityRule.Probability prob3 = rule.getPseudoProbability(Arrays.asList("There", "are"));
-    assertEquals(0.119, prob3.prob, delta);
-    assertThat(prob3.coverage, is(0.5f));
+    assertEquals(0.010, prob1.getProb(), delta);  // artificially not zero
+    assertThat(prob1.getCoverage(), is(0.0f));
+    Probability prob2 = rule.getPseudoProbability(Arrays.asList("1", "2", "3", "4"));
+    assertEquals(0.010, prob2.getProb(), delta);  // artificially not zero
+    assertThat(prob2.getCoverage(), is(0.0f));
+    Probability prob3 = rule.getPseudoProbability(Arrays.asList("There", "are"));
+    assertEquals(0.119, prob3.getProb(), delta);
+    assertThat(prob3.getCoverage(), is(0.5f));
   }
 
   @Test(expected = IndexOutOfBoundsException.class)

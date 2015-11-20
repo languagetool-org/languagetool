@@ -27,6 +27,7 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tools.StringTools;
 
 import java.util.*;
 
@@ -48,22 +49,17 @@ public class NgramProbabilityRule extends Rule {
 
   private final LanguageModel lm;
   private final Language language;
-  
-  private long minOkayOccurrences = MIN_OKAY_OCCURRENCES;
+  private final long totalTokenCount;
+
+  private double minProbability = 0.1f;
 
   public NgramProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
-    this(messages, languageModel, language, 3);
-  }
-  
-  public NgramProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams) {
     super(messages);
     setCategory(new Category(messages.getString("category_typo")));
     setLocQualityIssueType(ITSIssueType.NonConformance);
     this.lm = Objects.requireNonNull(languageModel);
     this.language = Objects.requireNonNull(language);
-    if (grams < 1 || grams > 5) {
-      throw new IllegalArgumentException("grams must be between 1 and 5: " + grams);
-    }
+    totalTokenCount = lm.getTotalTokenCount();
   }
 
   @Override
@@ -72,37 +68,26 @@ public class NgramProbabilityRule extends Rule {
   }
 
   @Experimental
-  public void setMinOkayOccurrences(long minOkayOccurrences) {
-    this.minOkayOccurrences = minOkayOccurrences;
+  public void setMinProbability(double minProbability) {
+    this.minProbability = minProbability;
   }
 
   /*
     Without bigrams:
-                  10: f=0.256, precision=0.548, recall=0.167
-                 100: f=0.361, precision=0.619, recall=0.255
-                1000: f=0.511, precision=0.590, recall=0.451
-               10000: f=0.536, precision=0.474, recall=0.618 *
-              100000: f=0.488, precision=0.373, recall=0.706
-             1000000: f=0.449, precision=0.313, recall=0.794
-            10000000: f=0.441, precision=0.297, recall=0.853
-           100000000: f=0.383, precision=0.256, recall=0.765
-          1000000000: f=0.390, precision=0.260, recall=0.784
-         10000000000: f=0.390, precision=0.260, recall=0.784
-        100000000000: f=0.390, precision=0.260, recall=0.784
+      0.00000100000000000000: f=0.390, precision=0.260, recall=0.784
+      0.00000010000000000000: f=0.391, precision=0.261, recall=0.784
+      0.00000001000000000000: f=0.400, precision=0.267, recall=0.794
+      0.00000000100000000000: f=0.422, precision=0.286, recall=0.804
+      0.00000000010000000000: f=0.420, precision=0.290, recall=0.765
+      0.00000000001000000000: f=0.491, precision=0.350, recall=0.824
+      0.00000000000100000000: f=0.505, precision=0.377, recall=0.765
+      0.00000000000010000000: f=0.554, precision=0.438, recall=0.755
+      0.00000000000001000000: f=0.594, precision=0.503, recall=0.725
+      0.00000000000000100000: f=0.645, precision=0.602, recall=0.696 *
+      0.00000000000000010000: f=0.589, precision=0.611, recall=0.569
+      0.00000000000000001000: f=0.536, precision=0.623, recall=0.471
 
-     With bigram occurrences added:
-                  10: f=0.038, precision=1.000, recall=0.020
-                 100: f=0.075, precision=1.000, recall=0.039
-                1000: f=0.140, precision=0.667, recall=0.078
-               10000: f=0.229, precision=0.517, recall=0.147
-              100000: f=0.417, precision=0.530, recall=0.343
-             1000000: f=0.446, precision=0.376, recall=0.549 *
-            10000000: f=0.443, precision=0.313, recall=0.755
-           100000000: f=0.404, precision=0.272, recall=0.784
-          1000000000: f=0.398, precision=0.266, recall=0.794
-         10000000000: f=0.390, precision=0.260, recall=0.784
-        100000000000: f=0.390, precision=0.260, recall=0.784
-
+     With bigram occurrences added: TODO
    */
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
@@ -125,7 +110,8 @@ public class NgramProbabilityRule extends Rule {
             rightOccurrences = lm.getCount(token, next.token, nextNext.token);
           }
           String ngram = prevToken + " " + token + " " + next.token;
-          long allOccurrences = leftOccurrences + occurrences + rightOccurrences;
+          Probability p = getPseudoProbability(Arrays.asList(prevToken.token, token, next.token));
+          //System.out.println("P=" + p + " for " + Arrays.asList(prevToken.token, token, next.token));
           if (i < tokens.size()-2) {
             GoogleToken nextNext = tokens.get(i+2);
             debug("lookup: " + ngram + " => " + occurrences + ", " +
@@ -137,13 +123,14 @@ public class NgramProbabilityRule extends Rule {
                     prevPrevToken.token + " " + prevToken.token + " " + token + " => " + leftOccurrences +
                     " + 0\n");
           }
-          long biGramLeft = lm.getCount(prevToken.token, token);
-          long biGramRight = lm.getCount(token, next.token);
-          allOccurrences += biGramLeft;
-          allOccurrences += biGramRight;
-          if (allOccurrences < minOkayOccurrences) {
-            debug("biGramLeft : " + biGramLeft + " for '" + prevToken.token + " " + token + "'");
-            debug("biGramRight: " + biGramRight + " for '" + token + " " + next.token + "'");
+          //TODO:
+          //long biGramLeft = lm.getCount(prevToken.token, token);
+          //long biGramRight = lm.getCount(token, next.token);
+          //allOccurrences += biGramLeft;
+          //allOccurrences += biGramRight;
+          if (p.getProb() < minProbability) {
+            //debug("biGramLeft : " + biGramLeft + " for '" + prevToken.token + " " + token + "'");
+            //debug("biGramRight: " + biGramRight + " for '" + token + " " + next.token + "'");
             String message = "ngram '" + ngram + "' rarely occurs in ngram reference corpus (occurrences: " + occurrences + ")";
             RuleMatch match = new RuleMatch(this, prevToken.startPos, next.endPos, message);
             matches.add(match);
@@ -157,6 +144,38 @@ public class NgramProbabilityRule extends Rule {
     return matches.toArray(new RuleMatch[matches.size()]);
   }
 
+  // This is not always guaranteed to be a real probability (0.0 to 1.0)
+  Probability getPseudoProbability(List<String> context) {
+    int maxCoverage = 0;
+    int coverage = 0;
+    long firstWordCount = lm.getCount(context.get(0));
+    maxCoverage++;
+    if (firstWordCount > 0) {
+      coverage++;
+    }
+    // chain rule of probability (https://www.coursera.org/course/nlp, "Introduction to N-grams" and "Estimating N-gram Probabilities"),
+    // https://www.ibm.com/developerworks/community/blogs/nlp/entry/the_chain_rule_of_probability?lang=en
+    double p = (double) (firstWordCount + 1) / (totalTokenCount + 1);
+    debug("    P for %s: %.20f (%d)\n", context.get(0), p, firstWordCount);
+    for (int i = 2; i <= context.size(); i++) {
+      List<String> subList = context.subList(0, i);
+      long phraseCount = lm.getCount(subList);
+      double thisP = (double) (phraseCount + 1) / (firstWordCount + 1);
+      // Variant:
+      //long prevPhraseCount = lm.getCount(subList.subList(0, subList.size()-1));
+      //double thisP = (double) (phraseCount + 1) / (prevPhraseCount + 1);
+      maxCoverage++;
+      debug("    P for " + subList + ": %.20f (%d)\n", thisP, phraseCount);
+      //debug("    (%s)\n", subList.subList(0, subList.size()-1));
+      if (phraseCount > 0) {
+        coverage++;
+      }
+      p *= thisP;
+    }
+    debug("  " + StringTools.listToString(context, " ") + " => %.20f\n", p);
+    return new Probability(p, (float)coverage/maxCoverage);
+  }
+  
   // 63 out of 120 matches are real errors => 0,52 precision, 0,62 recall
   public RuleMatch[] matchOld2(AnalyzedSentence sentence) {
     String text = sentence.getText();

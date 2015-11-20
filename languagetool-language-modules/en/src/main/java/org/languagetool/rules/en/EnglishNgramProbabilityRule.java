@@ -33,11 +33,7 @@ public class EnglishNgramProbabilityRule extends NgramProbabilityRule {
   private final WordTokenizer tokenizer = new GoogleStyleWordTokenizer();
 
   public EnglishNgramProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
-    this(messages, languageModel, language, 3);
-  }
-
-  public EnglishNgramProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams) {
-    super(messages, languageModel, language, grams);
+    super(messages, languageModel, language);
     //addExamplePair(Example.wrong("I didn't <marker>now</marker> where it came from."),
     //               Example.fixed("I didn't <marker>know</marker> where it came from."));
   }

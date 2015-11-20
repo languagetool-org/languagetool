@@ -279,16 +279,16 @@ public abstract class ConfusionProbabilityRule extends Rule {
       ngram3Right = getPseudoProbability(getContext(token, tokens, newTokens, 1, 0));
       // we cannot just use new Probability(1.0, 1.0f) as that would always produce higher
       // probabilities than in the case of one token (eg. "your"):
-      ngram3Middle = new Probability((ngram3Left.prob + ngram3Right.prob) / 2, 1.0f); 
+      ngram3Middle = new Probability((ngram3Left.getProb() + ngram3Right.getProb()) / 2, 1.0f); 
     } else {
       throw new RuntimeException("Words that consists of more than 2 tokens (according to Google tokenization) are not supported yet: " + term + " -> " + newTokens);
     }
-    if (ngram3Left.coverage < MIN_COVERAGE && ngram3Middle.coverage < MIN_COVERAGE && ngram3Right.coverage < MIN_COVERAGE) {
-      debug("  Min coverage of %.2f not reached: %.2f, %.2f, %.2f, assuming p=0\n", MIN_COVERAGE, ngram3Left.coverage, ngram3Middle.coverage, ngram3Right.coverage);
+    if (ngram3Left.getCoverage() < MIN_COVERAGE && ngram3Middle.getCoverage() < MIN_COVERAGE && ngram3Right.getCoverage() < MIN_COVERAGE) {
+      debug("  Min coverage of %.2f not reached: %.2f, %.2f, %.2f, assuming p=0\n", MIN_COVERAGE, ngram3Left.getCoverage(), ngram3Middle.getCoverage(), ngram3Right.getCoverage());
       return 0.0;
     } else {
       //debug("  Min coverage of %.2f okay: %.2f, %.2f\n", MIN_COVERAGE, ngram3Left.coverage, ngram3Right.coverage);
-      return ngram3Left.prob * ngram3Middle.prob * ngram3Right.prob;
+      return ngram3Left.getProb() * ngram3Middle.getProb() * ngram3Right.getProb();
     }
   }
 
@@ -296,12 +296,12 @@ public abstract class ConfusionProbabilityRule extends Rule {
     Probability ngram4Left = getPseudoProbability(getContext(token, tokens, term, 0, 3));
     Probability ngram4Middle = getPseudoProbability(getContext(token, tokens, term, 1, 2));
     Probability ngram4Right = getPseudoProbability(getContext(token, tokens, term, 3, 0));
-    if (ngram4Left.coverage < MIN_COVERAGE && ngram4Middle.coverage < MIN_COVERAGE && ngram4Right.coverage < MIN_COVERAGE) {
-      debug("  Min coverage of %.2f not reached: %.2f, %.2f, %.2f, assuming p=0\n", MIN_COVERAGE, ngram4Left.coverage, ngram4Middle.coverage, ngram4Right.coverage);
+    if (ngram4Left.getCoverage() < MIN_COVERAGE && ngram4Middle.getCoverage() < MIN_COVERAGE && ngram4Right.getCoverage() < MIN_COVERAGE) {
+      debug("  Min coverage of %.2f not reached: %.2f, %.2f, %.2f, assuming p=0\n", MIN_COVERAGE, ngram4Left.getCoverage(), ngram4Middle.getCoverage(), ngram4Right.getCoverage());
       return 0.0;
     } else {
       //debug("  Min coverage of %.2f okay: %.2f, %.2f\n", MIN_COVERAGE, ngram3Left.coverage, ngram3Right.coverage);
-      return ngram4Left.prob * ngram4Middle.prob * ngram4Right.prob;
+      return ngram4Left.getProb() * ngram4Middle.getProb() * ngram4Right.getProb();
     }
   }
 
@@ -354,15 +354,6 @@ public abstract class ConfusionProbabilityRule extends Rule {
   private void debug(String message, Object... vars) {
     if (DEBUG) {
       System.out.printf(Locale.ENGLISH, message, vars);
-    }
-  }
-  
-  static class Probability {
-    final double prob;
-    final float coverage;
-    Probability(double prob, float coverage) {
-      this.prob = prob;
-      this.coverage = coverage;
     }
   }
   

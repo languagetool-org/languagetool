@@ -44,8 +44,8 @@ import java.util.Locale;
  */
 class SimpleCorpusEvaluator {
 
-  private static final long MIN_THRESHOLD = 10;
-  private static final long MAX_THRESHOLD = 100_000_000_000L;
+  private static final double START_THRESHOLD = 0.000001;
+  private static final double END_THRESHOLD = 0.00000000000000001;
   private static EnglishNgramProbabilityRule probabilityRule;
 
   private final Evaluator evaluator;
@@ -188,17 +188,17 @@ class SimpleCorpusEvaluator {
     System.out.println("Running with language model from " + languageModelTopDir);
     SimpleCorpusEvaluator evaluator = new SimpleCorpusEvaluator(languageModelTopDir);
     List<String> results = new ArrayList<>();
-    long threshold = MIN_THRESHOLD;
-    while (threshold <= MAX_THRESHOLD) {
-      probabilityRule.setMinOkayOccurrences(threshold);
+    double threshold = START_THRESHOLD;
+    while (threshold >= END_THRESHOLD) {
+      probabilityRule.setMinProbability(threshold);
       PrecisionRecall res = evaluator.run(inputFile);
-      String thresholdStr = StringUtils.leftPad(String.valueOf(threshold), 20);
+      String thresholdStr = String.format(Locale.ENGLISH, "%.20f", threshold);
       double fMeasure = FMeasure.getFMeasure(res.getPrecision(), res.getRecall(), 1.0f);
       String fMeasureStr = String.format(Locale.ENGLISH, "%.3f", fMeasure);
       String precision = String.format(Locale.ENGLISH, "%.3f", res.getPrecision());
       String recall = String.format(Locale.ENGLISH, "%.3f", res.getRecall());
       results.add(thresholdStr + ": f=" + fMeasureStr + ", precision=" + precision + ", recall=" + recall);
-      threshold = threshold * 10;
+      threshold = threshold * 0.1;
     }
     System.out.println("=== Results: ==================================");
     for (String result : results) {
