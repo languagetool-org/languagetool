@@ -44,7 +44,6 @@ public class NgramProbabilityRule extends Rule {
   /** @since 3.2 */
   public static final String RULE_ID = "NGRAM_RULE";
   
-  private static final int MIN_OKAY_OCCURRENCES = 1000;
   private static final boolean DEBUG = false;
 
   private final LanguageModel lm;
@@ -161,9 +160,6 @@ public class NgramProbabilityRule extends Rule {
       List<String> subList = context.subList(0, i);
       long phraseCount = lm.getCount(subList);
       double thisP = (double) (phraseCount + 1) / (firstWordCount + 1);
-      // Variant:
-      //long prevPhraseCount = lm.getCount(subList.subList(0, subList.size()-1));
-      //double thisP = (double) (phraseCount + 1) / (prevPhraseCount + 1);
       maxCoverage++;
       debug("    P for " + subList + ": %.20f (%d)\n", thisP, phraseCount);
       //debug("    (%s)\n", subList.subList(0, subList.size()-1));
@@ -174,61 +170,6 @@ public class NgramProbabilityRule extends Rule {
     }
     debug("  " + StringTools.listToString(context, " ") + " => %.20f\n", p);
     return new Probability(p, (float)coverage/maxCoverage);
-  }
-  
-  // 63 out of 120 matches are real errors => 0,52 precision, 0,62 recall
-  public RuleMatch[] matchOld2(AnalyzedSentence sentence) {
-    String text = sentence.getText();
-    List<GoogleToken> tokens = GoogleToken.getGoogleTokens(text, true, getGoogleStyleWordTokenizer());
-    List<RuleMatch> matches = new ArrayList<>();
-    GoogleToken prevPrevToken = null;
-    GoogleToken prevToken = null;
-    int i = 0;
-    for (GoogleToken googleToken : tokens) {
-      String token = googleToken.token;
-      if (prevPrevToken != null && prevToken != null) {
-        if (i < tokens.size()-1) {
-          GoogleToken next = tokens.get(i+1);
-          long occurrences = lm.getCount(prevToken.token, token, next.token);
-          String ngram = prevToken + " " + token + " " + next.token;
-          debug("lookup: " + ngram + " => " + occurrences + "\n");
-          if (occurrences < MIN_OKAY_OCCURRENCES) {
-            String message = "ngram '" + ngram + "' rarely occurs in ngram reference corpus (occurrences: " + occurrences + ")";
-            RuleMatch match = new RuleMatch(this, prevToken.startPos, next.endPos, message);
-            matches.add(match);
-          }
-        }
-      }
-      prevPrevToken = prevToken;
-      prevToken = googleToken;
-      i++;
-    }
-    return matches.toArray(new RuleMatch[matches.size()]);
-  }
-
-  // 59 out of 121 matches are real errors => 0,49 precision, 0,58 recall
-  public RuleMatch[] matchOld1(AnalyzedSentence sentence) {
-    String text = sentence.getText();
-    List<GoogleToken> tokens = GoogleToken.getGoogleTokens(text, true, getGoogleStyleWordTokenizer());
-    List<RuleMatch> matches = new ArrayList<>();
-    GoogleToken prevPrevToken = null;
-    GoogleToken prevToken = null;
-    for (GoogleToken googleToken : tokens) {
-      String token = googleToken.token;
-      if (prevPrevToken != null && prevToken != null) {
-        long occurrences = lm.getCount(prevPrevToken.token, prevToken.token, token);
-        String ngram = prevPrevToken + " " + prevToken + " " + token;
-        debug("lookup: " + ngram + " => " + occurrences + "\n");
-        if (occurrences < MIN_OKAY_OCCURRENCES) {
-          String message = "ngram '" + ngram + "' rarely occurs in ngram reference corpus (occurrences: " + occurrences + ")";
-          RuleMatch match = new RuleMatch(this, prevPrevToken.startPos, googleToken.endPos, message);
-          matches.add(match);
-        }
-      }
-      prevPrevToken = prevToken;
-      prevToken = googleToken;
-    }
-    return matches.toArray(new RuleMatch[matches.size()]);
   }
 
   @Override
