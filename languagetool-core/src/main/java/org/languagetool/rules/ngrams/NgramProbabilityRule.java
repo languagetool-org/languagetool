@@ -86,7 +86,19 @@ public class NgramProbabilityRule extends Rule {
       0.00000000000000010000: f=0.589, precision=0.611, recall=0.569
       0.00000000000000001000: f=0.536, precision=0.623, recall=0.471
 
-     With bigram occurrences added: TODO
+     With bigram occurrences added:
+      1.0E-22: f=0.418, precision=0.285, recall=0.784
+      1.0000000000000001E-23: f=0.446, precision=0.307, recall=0.814
+      1.0000000000000001E-24: f=0.449, precision=0.316, recall=0.775
+      1.0000000000000002E-25: f=0.485, precision=0.353, recall=0.775
+      1.0000000000000002E-26: f=0.511, precision=0.382, recall=0.775
+      1.0000000000000002E-27: f=0.536, precision=0.409, recall=0.775
+      1.0000000000000003E-28: f=0.539, precision=0.422, recall=0.745
+      1.0000000000000004E-29: f=0.551, precision=0.448, recall=0.716
+      1.0000000000000004E-30: f=0.591, precision=0.503, recall=0.716
+      1.0000000000000005E-31: f=0.602, precision=0.548, recall=0.667 *
+      1.0000000000000006E-32: f=0.590, precision=0.574, recall=0.608
+      1.0000000000000007E-33: f=0.566, precision=0.583, recall=0.549
    */
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
@@ -122,14 +134,13 @@ public class NgramProbabilityRule extends Rule {
                     prevPrevToken.token + " " + prevToken.token + " " + token + " => " + leftOccurrences +
                     " + 0\n");
           }
-          //TODO:
-          //long biGramLeft = lm.getCount(prevToken.token, token);
-          //long biGramRight = lm.getCount(token, next.token);
-          //allOccurrences += biGramLeft;
-          //allOccurrences += biGramRight;
-          if (p.getProb() < minProbability) {
-            //debug("biGramLeft : " + biGramLeft + " for '" + prevToken.token + " " + token + "'");
-            //debug("biGramRight: " + biGramRight + " for '" + token + " " + next.token + "'");
+          // without bigrams:
+          //double prob = p.getProb();
+          // with bigrams:
+          Probability bigramLeftP = getPseudoProbability(Arrays.asList(prevToken.token, token));
+          Probability bigramRightP = getPseudoProbability(Arrays.asList(token, next.token));
+          double prob = p.getProb() * bigramLeftP.getProb() * bigramRightP.getProb();
+          if (prob < minProbability) {
             String message = "ngram '" + ngram + "' rarely occurs in ngram reference corpus (occurrences: " + occurrences + ")";
             RuleMatch match = new RuleMatch(this, prevToken.startPos, next.endPos, message);
             matches.add(match);
