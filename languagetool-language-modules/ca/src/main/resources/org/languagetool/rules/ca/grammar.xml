@@ -7041,7 +7041,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>com<exception postag="allow_com"/></token>
                     </marker>
-                    <token regexp="yes">institució|institucions|elements?|avantatges?|municipi|excepci(ó|ons)|exemples?|causa|causes|ostatges?|conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
+                    <token regexp="yes">institució|institucions|elements?|avantatges?|municipi|excepci(ó|ons)|exemples?|causa|causes|ostatges?|conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens|administrador[ae]?s?<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <url>http://esadir.cat/gramatica/sintaxi/advcomcoma</url>
@@ -24594,20 +24594,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Construcció incorrecta.</message>
             <suggestion>pel mig</suggestion>
             <suggestion>pel bell mig</suggestion>
-            <short>Construcció incorrecta</short>
             <example correction="pel mig|pel bell mig"><marker>per enmig</marker></example>
             <example>pel mig</example>
         </rule>
         <rule id="A_MIG_TERMINI" name="a mig termini">
             <pattern>
                 <token>a</token>
-                <token>mig</token>
+                <token min="0" max="2" regexp="yes">llarg|curt|i</token>
+                <marker>
+                    <token>mig</token>
+                </marker>
+                <token min="0" max="3" regexp="yes">llarg|curt|i|a</token>
                 <token>termini</token>
             </pattern>
             <message>Expressió incorrecta.</message>
-            <suggestion>a mitjà termini</suggestion>
-            <example correction="a mitjà termini"><marker>a mig termini</marker></example>
-            <example>a mitjà termini</example>
+            <suggestion>mitjà</suggestion>
+            <example correction="mitjà">a <marker>mig</marker> termini</example>
+            <example correction="mitjà">a <marker>mig</marker> i a llarg termini</example>
         </rule>
         <rule id="PESAT_PESANT" name="pesat_pesant">
             <pattern>
