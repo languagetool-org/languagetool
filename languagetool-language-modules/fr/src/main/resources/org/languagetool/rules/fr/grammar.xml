@@ -6119,6 +6119,83 @@ though, and has since been slightly modified)-->
         <example correction="fard">Un aveu sans <marker>fart</marker>.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="FLANC_FLAN" name="flanc et flan">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2132</url>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">flancs?</token></marker>
+          <token regexp="yes">aux?</token>
+          <token regexp="yes">caramel|café|citrons?|chocolat|coco|four|lait|lard|pâtissier|pommes?|pruneaux|œufs|oeufs|raisins</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="c" regexp_replace=""/></suggestion>.</message>
+        <example correction="flan">Un <marker>flanc</marker> au œufs.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">flancs?</token></marker>
+          <token regexp="yes">d</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token regexp="yes">argent|or</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="c" regexp_replace=""/></suggestion>.</message>
+        <example correction="flan">Un <marker>flanc</marker> d’or.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>comme</token>
+          <token>deux</token>
+          <token>ronds</token>
+          <token>de</token>
+          <marker><token regexp="yes">flancs?</token></marker>
+        </pattern>
+        <message>Confusion probable entre « \5 » et <suggestion>flan</suggestion>.</message>
+        <example correction="flan">Il est resté comme deux ronds de <marker>flanc</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">flans?</token></marker>
+          <token regexp="yes">gauches?|droite?s?</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="^...." regexp_replace="flanc"/></suggestion>.</message>
+        <example correction="flanc">Le <marker>flan</marker> gauche.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">tires?[-‑‐]aux?[-‑‐]flanc?s?<exception>tire-au-flanc</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>tire-au-flanc</suggestion> (invariable).</message>
+        <example correction="tire-au-flanc">Un <marker>tire-au-flan</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">tirer</token>
+          <token>au</token>
+          <marker><token>flan</token></marker>
+        </pattern>
+        <message>Confusion probable entre « \3 » et <suggestion>flanc</suggestion>.</message>
+        <example correction="flanc">On tirait au <marker>flan</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>à</token>
+          <marker><token regexp="yes">flans?</token></marker>
+          <token>de</token>
+        </pattern>
+        <message>Confusion probable entre « \2 » et <suggestion>flanc</suggestion>.</message>
+        <example correction="flanc">Une maison à <marker>flan</marker> de colline.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>sur</token>
+          <token regexp="yes">les?</token>
+          <marker><token regexp="yes">flans?</token></marker>
+          <token>de</token>
+        </pattern>
+        <message>Confusion probable entre « \3 » et <suggestion><match no="3" regexp_match="^...." regexp_replace="flanc"/></suggestion>.</message>
+        <example correction="flanc">Sur le <marker>flan</marker> de la colline.</example>
+        <example correction="flancs">Sur les <marker>flans</marker> de la colline.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
