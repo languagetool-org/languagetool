@@ -6099,6 +6099,26 @@ though, and has since been slightly modified)-->
         <example correction="banc">Un <marker>ban</marker> de poissons.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="FAR_FARD_FART" name="far, fard, fart">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4692</url>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">far[dt]s?</token></marker>
+          <token regexp="yes">(?:breton|potevin)s?</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="[dt]" regexp_replace=""/></suggestion>.</message>
+        <example correction="far">Le <marker>fard</marker> breton est bon.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>sans</token>
+          <marker><token regexp="yes">fart?</token></marker>
+        </pattern>
+        <message>Confusion probable entre « \2 » et <suggestion>fard</suggestion>.</message>
+        <example correction="fard">Un aveu sans <marker>far</marker>.</example>
+        <example correction="fard">Un aveu sans <marker>fart</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
