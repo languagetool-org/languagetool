@@ -42,6 +42,23 @@ USA
     <!-- Possible typo -->
     <!-- ====================================================================== -->
     <category name="Possible Typo" type="misspelling">
+        <rule id="BOTH_ENUM" name="'to both ...' with more than two items">
+            <pattern>
+                <token>to</token>
+                <marker>
+                    <token skip="5">both</token>
+                    <token>,</token>
+                    <token skip="5"><exception>and</exception></token>
+                    <token>,</token>
+                    <token>and</token>
+                </marker>
+            </pattern>
+            <message>'both' is usually followed by two items</message>
+            <example correction="">It allows us to <marker>both grow, focus, and</marker> flourish.</example>
+            <example correction="">It allows us to <marker>both grow a lot, focus, and</marker> flourish.</example>
+            <example correction="">It allows us to <marker>both grow a lot, focus some, and</marker> flourish.</example>
+            <example>It allows us to <marker>both</marker> grow and focus, and later flourish.</example>
+        </rule>
         <rule id="LING" name="ling (long)">
             <pattern>
                 <token case_sensitive="yes">ling</token>
