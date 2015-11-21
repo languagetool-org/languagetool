@@ -156,18 +156,23 @@ public final class RuleOverview {
       System.out.print("<td valign=\"top\" align=\"right\"><span style='display:none'>" + commits + "</span>" + images + "</td>");
       
       // maintainer information:
-      final StringBuilder maintainerInfo = getMaintainerInfo(lang);
-      final String maintainerText;
+      String maintainerInfo = getMaintainerInfo(lang);
+      String maintainerText;
+      boolean greyOutMaintainer = false;
       if (langCode.equals("pt")) {
-        maintainerText = " - <span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for a maintainer for Brazilian Portuguese</a></span>";
+        maintainerText = "<span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for a maintainer for Brazilian Portuguese</a></span> - ";
       } else if (LANGUAGES_WITH_NEW_MAINTAINER_NEED.contains(langCode)) {
-        maintainerText = " - <span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for new maintainer</a></span>";
+        maintainerText = "<span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for new maintainer</a></span> - ";
+        greyOutMaintainer = true;
       } else if (LANGUAGES_WITH_CO_MAINTAINER_NEED.contains(langCode)) {
-        maintainerText = " - <span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for co-maintainer</a></span>";
+        maintainerText = "<span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for co-maintainer</a></span> - ";
       } else {
         maintainerText = "";
       }
-      System.out.print("<td valign=\"top\" align=\"left\">" + maintainerInfo + maintainerText + "</td>");
+      if (greyOutMaintainer) {
+        maintainerInfo = "<span class='previousMaintainer'><br>previous maintainer: " + maintainerInfo + "</span>";
+      }
+      System.out.print("<td valign=\"top\" align=\"left\">" + maintainerText + maintainerInfo + "</td>");
       
       System.out.println("</tr>");    
     }
@@ -255,7 +260,7 @@ public final class RuleOverview {
     return count;
   }
 
-  private StringBuilder getMaintainerInfo(Language lang) {
+  private String getMaintainerInfo(Language lang) {
     final StringBuilder maintainerInfo = new StringBuilder();
     if (lang.getMaintainers() != null) {
       for (Contributor contributor : lang.getMaintainers()) {
@@ -273,7 +278,7 @@ public final class RuleOverview {
         }
       }
     }
-    return maintainerInfo;
+    return maintainerInfo.toString();
   }
 
   private static class JavaFilter implements FileFilter {
