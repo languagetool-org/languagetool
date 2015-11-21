@@ -15228,6 +15228,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="MOTS_AMB_GUIONETS" name="mots amb guionets: boca-orella">
             <rule>
                 <pattern>
+                    <token regexp="yes">sud|nord</token>
+                    <token regexp="yes">o?est|sud|nord</token>
+                </pattern>
+                <message>Falta un guionet.</message>
+                <suggestion>\1-\2</suggestion>
+                <example correction="sud-est"><marker>sud est</marker></example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>boca</token>
                     <token regexp="yes">orell(a|es)</token>
                 </pattern>
