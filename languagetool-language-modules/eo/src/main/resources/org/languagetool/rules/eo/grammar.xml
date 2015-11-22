@@ -304,6 +304,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Tiuj aŭtoj estas multekostaj.</example>
     </rule>
     <rule id="REGARDI" name="regardi kaj rigardi">
+      <antipattern>
+        <token>Flavio</token>
+        <token>Rebelo</token>
+      </antipattern>
       <pattern>
         <token inflected="yes" regexp="yes">re(?:bel|cel|cev|fuĝ|fuz|gard|kolt|laks|lati|mark|mors|par|pet|poz|proĉ|verenc|volu)(?:a[ĉd]|e[tg])?[aeio]</token>
       </pattern>
@@ -801,7 +805,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <message>Laŭ la kunteksto, ĉu vi eble intencis skribi <suggestion><match no="3" regexp_match="^(...)(in)?(iĝ.*)" regexp_replace="ge$1$3"/></suggestion>?</message>
         <example correction="geedziĝis">Ili ĵus <marker>edziĝis</marker>?</example>
-        <example>Ili ĵus geedziĝis?</example>
+        <example>Ili ĵus geedziĝis.</example>
       </rule>
       <rule>
         <pattern>
@@ -2002,7 +2006,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Mi havis <marker>agrablajn</marker> feriojn.</example>
       <example correction="">Mi vivis <marker>agrablajn</marker> feriojn.</example>
       <example>Mi vivis <marker>agrablan</marker> vivon.</example>
-      <example>Ni vituris 10 <marker>km-ojn</marker>.</example>
+      <example>Ni veturis 10 <marker>km-ojn</marker>.</example>
     </rule>
     <rulegroup id="SENSUBJEKTA_V" name="sensubjekta verbo">
       <rule>
@@ -3738,6 +3742,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Mi ŝatas tion.</example>
     </rule>
     <rule id="E_VORT_PLUR" name="navalida pluralo ĉe e-vorto.">
+      <antipattern>
+        <token>O</token>
+        <token>kej</token>
+      </antipattern>
       <pattern>
         <token regexp="yes">.*ejn?
           <exception regexp="yes">(?:mal)?plej|h?ej|okej</exception>
@@ -3749,6 +3757,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Mi kuras vespere.</example>
       <example>Ŝi estas la plej bela knabino.</example>
       <example>Ĉu vi konas Sergej?</example>
+      <example>O kej!</example>
     </rule>
     <rule id="CXAPELO" name="neĝusta ĉapelo.">
       <pattern>
