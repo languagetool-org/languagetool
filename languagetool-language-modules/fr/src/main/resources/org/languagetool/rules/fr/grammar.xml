@@ -27546,14 +27546,23 @@ though, and has since been slightly modified)-->
     <rulegroup id="KELVIN" name="degré kelvin → kelvin">
       <rule>
         <pattern>
-          <token regexp="yes">degrés?</token>
+          <token>degré</token>
           <token>kelvin</token>
         </pattern>
         <message>Le kelvin n’est jamais précédé du mot « degré » ni du symbole « ° ». À l’origine le kelvin s’appelait « degré Kelvin » et s’écrivait °K, mais le degré fut supprimé en 1967 et son symbole devint K.</message>
         <suggestion><match no="2" case_conversion="alllower"/></suggestion>
         <url>https://fr.wikipedia.org/wiki/Kelvin</url>
-        <example correction="kelvin">Une température de 3 <marker>degrés kelvin</marker>.</example>
-        <example>Une température de 3 kelvin.</example>
+        <example correction="kelvin">Une température de 1 <marker>degré kelvin</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>degrés</token>
+          <token regexp="yes">kelvins?</token>
+        </pattern>
+        <message>Le kelvin n’est jamais précédé du mot « degré » ni du symbole « ° ». À l’origine le kelvin s’appelait « degré Kelvin » et s’écrivait °K, mais le degré fut supprimé en 1967 et son symbole devint K.</message>
+        <suggestion>kelvins</suggestion>
+        <url>https://fr.wikipedia.org/wiki/Kelvin</url>
+        <example correction="kelvins">Une température de 3 <marker>degrés kelvin</marker>.</example>
       </rule>
       <rule>
         <pattern>
