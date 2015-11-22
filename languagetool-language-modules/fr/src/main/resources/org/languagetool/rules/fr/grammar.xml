@@ -6195,6 +6195,14 @@ though, and has since been slightly modified)-->
         <example correction="flanc">Sur le <marker>flan</marker> de la colline.</example>
         <example correction="flancs">Sur les <marker>flans</marker> de la colline.</example>
       </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes" skip="2">attaquer|allonger|blesser|blessure|coucher|étendre|plaie|toucher</token>
+          <marker><token regexp="yes">flans?</token></marker>
+        </pattern>
+        <message>Confusion probable entre « \3 » et <suggestion><match no="2" regexp_match="^...." regexp_replace="flanc"/></suggestion>.</message>
+        <example correction="flanc">Il est blessé au <marker>flan</marker>.</example>
+      </rule>
     </rulegroup>
   </category>
   <category name="Élision">
