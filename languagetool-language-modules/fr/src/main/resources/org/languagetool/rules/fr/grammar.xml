@@ -6,7 +6,7 @@ French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski, Agnes Souque, Hugo Voisard and Myriam Lechelt.
               2011-2015 Dominique Pellé
 
-This library is free software; you can redistribute it and/or
+This library is free software; you can redistribute it and/orEST_CE_QUE_INF
 modify it under the terms of the GNU Lesser General Public
 License as published by the Free Software Foundation; either
 version 2.1 of the License, or (at your option) any later version.
@@ -7041,6 +7041,30 @@ though, and has since been slightly modified)-->
       <example>Son malaise</example>
       <example correction=""><marker>Mon fille</marker></example>
     </rule>
+    <rulegroup id="EST_CE_QUE_INF" name="est-ce que + verbe inf">
+      <rule>
+        <pattern>
+          <token>est-ce</token>
+          <token>que</token>
+          <marker><token postag="V.*" postag_regexp="yes" regexp="yes">.*(?:ée?s?|ez)</token></marker>
+        </pattern>
+        <message>Le verbe « \3 » devrait être à l’infinitif après le « \1 \2 ».</message>
+        <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example correction="manger">Est-ce que <marker>mangé</marker> de l’ail est bon pour la santé ?.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>est-ce</token>
+          <token>que</token>
+          <token>ne</token>
+          <token regexp="yes">pas|plus|point|jamais|rien</token>
+          <marker><token postag="V.*" postag_regexp="yes" regexp="yes">.*(?:ée?s?|ez)</token></marker>
+        </pattern>
+        <message>Le verbe « \5 » devrait être à l’infinitif après le « \1 \2 \3 \4 ».</message>
+        <suggestion><match no="5" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example correction="manger">Est-ce que ne pas <marker>mangé</marker> de la viande est bon pour las santé ?.</example>
+      </rule>
+    </rulegroup>
     <rule id="MIEUX_VAUT_INF" name="mieux vaut + verbe inf">
       <pattern>
         <token>mieux</token>
