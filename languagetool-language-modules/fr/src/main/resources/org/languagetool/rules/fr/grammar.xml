@@ -1102,10 +1102,8 @@ though, and has since been slightly modified)-->
           <token>honorable</token>
         </antipattern>
         <pattern>
-          <token regexp="yes">en|aux<exception scope="previous">face</exception></token>
-          <marker>
-            <token regexp="yes" skip="3">amendes?</token>
-          </marker>
+          <token regexp="yes">en|aux|fortes<exception scope="previous">face</exception></token>
+          <marker><token regexp="yes">amendes?</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="en" regexp_replace="an"/></suggestion> ?</message>
         <example correction="amande">Des yeux en <marker>amende</marker>.</example>
@@ -1115,10 +1113,8 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes" skip="3">payer|recevoir|condamner</token>
-          <marker>
-            <token regexp="yes">amandes?</token>
-          </marker>
+          <token inflected="yes" regexp="yes" skip="3">payer|recevoir|condamner|forte</token>
+          <marker><token regexp="yes">amandes?</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="an" regexp_replace="en"/></suggestion> ?</message>
         <example correction="amende">J’ai été condamné à une forte <marker>amande</marker>.</example>
@@ -1129,9 +1125,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[aà]</token>
           <token>l</token>
           <token regexp="yes">[’´'‛′‘]</token>
-          <marker>
-            <token regexp="yes">amandes?</token>
-          </marker>
+          <marker><token regexp="yes">amandes?</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>amende</suggestion> ?</message>
         <example correction="amende">J’ai été mis à l’<marker>amande</marker>.</example>
