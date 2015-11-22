@@ -8389,19 +8389,31 @@ though, and has since been slightly modified)-->
       <example correction="manger">J’ai dû <marker>mangé</marker> cela.</example>
       <example>Ils avaient voulu cela.</example>
     </rule>
-    <rule id="EN_TRAIN_DE" name="En train de + infinitif">
-      <pattern>
-        <token>en</token>
-        <token>train</token>
-        <token>de</token>
-        <marker>
-          <token regexp="yes">.*ée?s?</token>
-        </marker>
-      </pattern>
-      <message>L’infinitif est attendu après « \1 \2 \3 ».</message>
-      <suggestion><match no="4" postag="V.* inf" postag_regexp="yes"/></suggestion>
-      <example correction="jouer">Il est en train de <marker>joué</marker>.</example>
-    </rule>
+    <rulegroup id="EN_TRAIN_DE" name="En train de + infinitif">
+      <rule>
+        <pattern>
+          <token>en</token>
+          <token>train</token>
+          <token>de</token>
+          <marker><token regexp="yes">.*ée?s?</token></marker>
+        </pattern>
+        <message>L’infinitif est attendu après « \1 \2 \3 ».</message>
+        <suggestion><match no="4" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example correction="jouer">Il est en train de <marker>joué</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>en</token>
+          <token>train</token>
+          <token>d</token>
+          <token regexp="yes">['´‘’′]</token>
+          <marker><token regexp="yes">.*ée?s?</token></marker>
+        </pattern>
+        <message>L’infinitif est attendu après « \1 \2 \3\4 ».</message>
+        <suggestion><match no="5" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example correction="arroser">Il est en train d’<marker>arrosé</marker> le jardin.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="COND_VS_FUTUR" name="probable futur avant bientôt, demain, etc.">
       <rule>
         <pattern>
