@@ -1089,11 +1089,23 @@ though, and has since been slightly modified)-->
       <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2045</url>
       <rule>
         <pattern>
+          <token inflected="yes" regexp="yes">faire|en</token>
+          <marker><token>amande</token></marker>
+          <token>honorable</token>
+        </pattern>
+        <message>Confusion probably entre « \2 » et <suggestion>amende</suggestion>.</message>
+        <example correction="amende">Il a fait <marker>amande</marker> honorable.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>amende</token>
+          <token>honorable</token>
+        </antipattern>
+        <pattern>
           <token regexp="yes">en|aux<exception scope="previous">face</exception></token>
           <marker>
             <token regexp="yes" skip="3">amendes?</token>
           </marker>
-          <token negate="yes">honorable</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="en" regexp_replace="an"/></suggestion> ?</message>
         <example correction="amande">Des yeux en <marker>amende</marker>.</example>
