@@ -6248,6 +6248,24 @@ though, and has since been slightly modified)-->
         <example correction="pair">Il travaille actuellement au <marker>paire</marker>.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="EXAUCER_EXHAUSSER" name="exaucer et exhausser">
+      <rule>
+        <pattern>
+          <token regexp="yes" skip="3">désirs?|prières?|requêtes?|souhaits?|vœux?|voeux?|dieux?</token>
+          <marker><token inflected="yes">exhausser</token></marker>
+        </pattern>
+        <message>Confusion probable entre les verbes « exhausser » (surélever) et « exaucer ».</message>
+        <example correction="">Ses prières furent <marker>exhaussées</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes" skip="3">exhausser</token></marker>
+          <token regexp="yes">désirs?|prières?|requêtes?|souhaits?|vœux?|voeux?</token>
+        </pattern>
+        <message>Confusion probable entre les verbes « exhausser » (surélever) et « exaucer ».</message>
+        <example correction="">Il <marker>exhaussait</marker> le plus cher désir de sa femme.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
