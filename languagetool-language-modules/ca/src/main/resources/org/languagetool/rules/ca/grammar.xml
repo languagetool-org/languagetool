@@ -59,7 +59,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|templer|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim|caputxí|carmelità">
     <!ENTITY ordes_invariable "conventual|mendicant|militar|major|menor|marista|jesuïta|regular">
     <!ENTITY parts_dia "matinada|matí|migdia|tarda|vesprada|horabaixa|vespre|capvespre|nit1|mitjanit">
-    <!ENTITY precedits_per_TAN "bo|prompte|savi|espectacular|alt|ample|estret|complex|comú|divers|eficaç|efectiu|fals|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer|exagerat|ràpid|(in)?capacita(ts?|da|des)">
+    <!ENTITY precedits_per_COM_A "instituci(ó|ons)|elements?|avantatges?|municipi|excepci(ó|ons)|exemples?|causa|causes|ostatges?|conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens|administrador[ae]?s?">
+    <!ENTITY precedits_per_TAN "bo|prompte|savi|espectacular|alt|ample|estret|complex|comú|divers|eficaç|efectiu|fals|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer|exagerat|ràpid|(in)?capacita(ts?|da|des)|necessaris?|necessàri(a|es)">
     <!ENTITY precedits_per_TANT "no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY seguits_per_COM_A "acceptar|justificar|caracteritzar|qualificar|establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre|etiquetar|pintar">
     <!ENTITY sigles_apostrofen "(?-i)FM|FBI|FMI|IEC|IES|NBA|NBC|SPD|FTP|F1|IAE">
@@ -7041,7 +7042,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>com<exception postag="allow_com"/></token>
                     </marker>
-                    <token regexp="yes">institució|institucions|elements?|avantatges?|municipi|excepci(ó|ons)|exemples?|causa|causes|ostatges?|conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens|administrador[ae]?s?<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
+                    <token regexp="yes">&precedits_per_COM_A;<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <url>http://esadir.cat/gramatica/sintaxi/advcomcoma</url>
@@ -22072,7 +22073,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token regexp="yes">[.!?]</token>
                     <token min="0" regexp="yes">['"’”»]</token>
-                    <token postag="SENT_END" regexp="yes">['"’”»)]</token>
+                    <token postag="SENT_END" regexp="yes">['"’”»)\]]</token>
                 </marker>
             </antipattern>
             <pattern>
@@ -24609,11 +24610,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="A_MIG_TERMINI" name="a mig termini">
             <pattern>
                 <token>a</token>
-                <token min="0" max="2" regexp="yes">llarg|curt|i</token>
+                <token min="0" max="2" regexp="yes">llarg|curt|i|o|ni</token>
                 <marker>
                     <token>mig</token>
                 </marker>
-                <token min="0" max="3" regexp="yes">llarg|curt|i|a</token>
+                <token min="0" max="3" regexp="yes">a|llarg|curt|i|o|ni</token>
                 <token>termini</token>
             </pattern>
             <message>Expressió incorrecta.</message>
@@ -38488,7 +38489,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">vaig|vas|va|anem|aneu|van</token> <!-- potser és més probable amb uns que amb altres -->
                         <token>a</token>
-                        <token regexp="yes">tractar|ser|ésser|esser|dir|tenir|tindre|passar|resoldre|fallar|errar|encetar|començar|acabar</token> <!-- veure, mirar -->
+                        <token regexp="yes">contar|explicar|tractar|ser|ésser|esser|dir|tenir|tindre|passar|resoldre|fallar|errar|encetar|començar|acabar</token> <!-- veure, mirar -->
                     </marker>
                 </pattern>
                 <message>Expressió incorrecta si no indica moviment. Elimineu el verb anar i useu el present o el futur.</message>
