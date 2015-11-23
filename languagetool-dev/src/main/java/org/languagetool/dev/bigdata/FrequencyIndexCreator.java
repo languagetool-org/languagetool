@@ -166,7 +166,7 @@ public class FrequencyIndexCreator {
         //}
         String[] parts = line.split("\t");
         String text = parts[0];
-        if (isRealPosTag(text)) {
+        if (isRealPosTag(text)) {  // filtering '_VERB_', 'Italian_ADJ', etc.
           continue;
         }
         if (hiveMode) {
