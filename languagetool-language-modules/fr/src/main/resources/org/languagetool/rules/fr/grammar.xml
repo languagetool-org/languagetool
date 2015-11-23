@@ -6231,7 +6231,7 @@ though, and has since been slightly modified)-->
     <rule id="ELISION" name="Élision de le, la…">
       <pattern>
         <token regexp="yes">[dljmnst]e|la|jusque|que</token>
-        <token regexp="yes">[àâaéêèeiîou]\D.*|à<exception regexp="yes">onze|onzièmes?|une?|au?|oui|ouistiti|ouï[-‑‐]dire|énième|Ouagadougou|o[ùu]|(?-i)[IVXLCM]+e?|Ier|Ire</exception></token>
+        <token regexp="yes">[àâaéêèeiîou]\D.*|à<exception regexp="yes">onze|onzièmes?|une?|au?|oui|ouistiti|ouï[-‑‐]dire|énième|Ouagadougou|Ouarzazate|o[ùu]|(?-i)[IVXLCM]+e?|Ier|Ire</exception></token>
       </pattern>
       <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
       <url>http://66.46.185.79/bdl/gabarit_bdl.asp?id=1737</url>
@@ -7111,6 +7111,11 @@ though, and has since been slightly modified)-->
           <token inflected="yes">venir</token>
           <token regexp="yes">accompagnés?e?s?</token>
         </antipattern>
+        <antipattern>
+          <token>se</token>
+          <token inflected="yes" regexp="yes">(re)?détester|(re)?désider|savoir|vouloir</token>
+          <token postag="V ppa .*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
           <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">adorer|aimer|aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|entendre|(ré)?espérer|(re)?faillir|(re)?faire|(re)?falloir|penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir
             <exception postag="V ind pres 1 s">puis</exception>
@@ -7127,6 +7132,8 @@ though, and has since been slightly modified)-->
         <example>Puis assigné à résidence.</example>
         <example>Je me suis en fait amusé.</example>
         <example>Elle vint accompagnée.</example>
+        <example>Il se sait traqué.</example>
+        <example correction="aimer">Il se fait <marker>aimé</marker>.</example>
       </rule>
       <rule>
         <pattern>
