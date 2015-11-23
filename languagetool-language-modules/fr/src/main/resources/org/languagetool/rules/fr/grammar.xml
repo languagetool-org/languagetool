@@ -6217,6 +6217,37 @@ though, and has since been slightly modified)-->
       <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3777</url>
       <example correction="rancart">Le projet est mis au <marker>rancard</marker>.</example>
     </rule>
+    <rulegroup id="PAIR_PAIRE" name="pair et paire">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2215</url>
+      <rule>
+        <pattern>
+          <token>hors</token>
+          <token min="0" max="1">de</token>
+          <marker><token regexp="yes">paires?</token></marker>
+        </pattern>
+        <message>Confusion probably entre « \3 » et <suggestion>pair</suggestion>.</message>
+        <example correction="pair">Une cuisinière hors <marker>paire</marker>.</example>
+        <example correction="pair">Une cuisinière hors de <marker>paire</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">aller</token>
+          <token>de</token>
+          <marker><token regexp="yes">paires?</token></marker>
+        </pattern>
+        <message>Confusion probably entre « \2 » et <suggestion>pair</suggestion>.</message>
+        <example correction="pair">Travail et talent vont de <marker>paire</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" skip="1">travailler</token>
+          <token>au</token>
+          <marker><token>paire</token></marker>
+        </pattern>
+        <message>Confusion probably entre « paire » et <suggestion>pair</suggestion>.</message>
+        <example correction="pair">Il travaille actuellement au <marker>paire</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
@@ -26791,17 +26822,6 @@ though, and has since been slightly modified)-->
       <message>« En \2 » est une expression fautive. Employez <suggestion>\1 <match no="2" regexp_match="(.*)e" regexp_replace="$1"/></suggestion>.</message>
       <example correction="en général">Il arrive <marker>en générale</marker> assez tard.</example>
       <example>Il arrive en général assez tard.</example>
-    </rule>
-    <rule id="ALLER_DE_PAIRE" name="aller de paire">
-      <pattern>
-        <token inflected="yes">aller</token>
-        <token>de</token>
-        <marker>
-          <token regexp="yes">paires?</token>
-        </marker>
-      </pattern>
-      <message>« aller de \3 » est une expression fautive. Employez <suggestion>pair</suggestion>.</message>
-      <example correction="pair">Travail et talent vont de <marker>paire</marker>.</example>
     </rule>
     <rule id="FAIRE_AFFAIRES_AVEC" name="faire affaires avec">
       <pattern>
