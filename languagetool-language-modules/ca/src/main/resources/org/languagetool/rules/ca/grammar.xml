@@ -9095,6 +9095,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="THINK_TANK" name="think *thank/tank">
+            <pattern>
+                <token>think</token>
+                <token min="0">-</token>
+                <token regexp="yes">thanks?</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>\1 <match no="3" regexp_match="(?-i)thank(s?)" regexp_replace="tank$1"/></suggestion>?</message>
+            <example correction="think tanks">Els <marker>think thanks</marker>.</example>
+        </rule>
         <rule id="TOT_SEGUIR" name="tot *seguir/seguit">
             <antipattern>
                 <marker>
