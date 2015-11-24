@@ -9095,6 +9095,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="NI_NO_SI_NO" name="*ni no/si no">
+            <pattern>
+                <marker>
+                    <token>ni</token>
+                    <token>no</token>
+                </marker>
+                <token postag="P.*" postag_regexp="yes" min="0" max="3" />
+                <token postag="V.[ISM].*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>si no</suggestion>?</message>
+            <example correction="si no">I <marker>ni no</marker> véns, no et queixis.</example>
+            <example correction="si no">I <marker>ni no</marker> li ho dius, no et queixis.</example>
+        </rule>
         <rule id="THINK_TANK" name="think *thank/tank">
             <pattern>
                 <token>think</token>
