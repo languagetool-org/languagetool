@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.dev.eval.FMeasure;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.ConfusionSet;
@@ -68,6 +69,8 @@ final class AllConfusionRulesEvaluator {
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/confusion_sets.txt");
     Map<String,List<ConfusionSet>> confusionSetMap = confusionSetLoader.loadConfusionSet(inputStream);
     Set<String> done = new HashSet<>();
+    int fMeasureCount = 0;
+    float fMeasureTotal = 0;
     for (List<ConfusionSet> entry : confusionSetMap.values()) {
       for (ConfusionSet confusionSet : entry) {
         Set<ConfusionString> set = confusionSet.getSet();
@@ -81,7 +84,7 @@ final class AllConfusionRulesEvaluator {
           String word2 = set2.getString();
           String key = word1 + " " + word2;
           if (!done.contains(key)) {
-            String summary = eval.run(inputsFiles, word1, word2, MAX_SENTENCES, Arrays.asList(confusionSet.getFactor()));
+            ConfusionRuleEvaluator.EvalResult evalResult = eval.run(inputsFiles, word1, word2, MAX_SENTENCES, Arrays.asList(confusionSet.getFactor()));
             String summary1 = set1.getDescription() != null ? word1 + "|" + set1.getDescription() : word1;
             String summary2 = set2.getDescription() != null ? word2 + "|" + set2.getDescription() : word2;
             String start;
@@ -91,12 +94,17 @@ final class AllConfusionRulesEvaluator {
               start = summary2 + "; " + summary1 + "; " + confusionSet.getFactor();
             }
             String spaces = StringUtils.repeat(" ", 82-start.length());
-            System.out.println(start + spaces + "# " + summary);
+            System.out.println(start + spaces + "# " + evalResult.getSummary());
+            double fMeasure = FMeasure.getWeightedFMeasure(evalResult.getLatestPrecision(), evalResult.getLatestRecall());
+            //System.out.println("f-measure: " + fMeasure);
+            fMeasureCount++;
+            fMeasureTotal += fMeasure;
           }
           done.add(key);
         }
       }
     }
+    System.out.println("Average f-measure: " + (fMeasureTotal/fMeasureCount));
   }
   
 }
