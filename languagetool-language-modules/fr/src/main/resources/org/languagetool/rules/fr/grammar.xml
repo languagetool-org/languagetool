@@ -6266,6 +6266,28 @@ though, and has since been slightly modified)-->
         <example correction="">Il <marker>exhaussait</marker> le plus cher désir de sa femme.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="TAULE_TOLE" name="taule et tôle">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.aspid=3723</url>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">taules?</token></marker>
+          <token regexp="yes">(?:boulonée|cintré|émaillée|embouti|galvanisé|gaufré|nervuré|ondulée|perforé|soudé)s?</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="au" regexp_replace="ô"/></suggestion>.</message>
+        <example correction="tôle">Un toit en <marker>taule</marker> ondulée.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">taules?</token></marker>
+          <token regexp="yes">de?|en</token>
+          <token regexp="yes" min="0" max="1">[’´'‛′‘]</token>
+          <token regexp="yes">acier|aluminium|bardage|cuivre|étanchéité|fer|festonnage|inox|laiton|métal|trapèze|zinc</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="au" regexp_replace="ô"/></suggestion>.</message>
+        <example correction="tôle">Une <marker>taule</marker> de zinc.</example>
+        <example correction="tôle">Une <marker>taule</marker> d’aluminium.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
