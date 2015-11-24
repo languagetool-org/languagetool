@@ -28,6 +28,13 @@ public class VersionTest {
         // used, we log it here manually:
         System.out.println("Java version: " + System.getProperty("java.version") + ", " + System.getProperty("java.vendor"));
         System.out.println("OS: " + System.getProperty("os.arch") + ", " + System.getProperty("os.name") + ", " + System.getProperty("os.version"));
+        System.out.println("user.language: " + System.getProperty("user.language"));
+        System.out.println("user.country: " + System.getProperty("user.country"));
+        System.out.println("file.encoding: " + System.getProperty("file.encoding"));
+        /*Properties properties = System.getProperties();
+        for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }*/
     }
     
 }
