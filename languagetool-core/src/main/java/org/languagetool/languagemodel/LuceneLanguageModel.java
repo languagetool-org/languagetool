@@ -128,9 +128,9 @@ public class LuceneLanguageModel implements LanguageModel {
       RegexpQuery query = new RegexpQuery(new Term("totalTokenCount", ".*"));
       TopDocs docs = luceneSearcher.searcher.search(query, 1000);  // Integer.MAX_VALUE might cause OOE on wrong index
       if (docs.totalHits == 0) {
-        throw new RuntimeException("Expected 'totalTokenCount' meta documents not found in 1grams index");
+        throw new RuntimeException("Expected 'totalTokenCount' meta documents not found in 1grams index: " + luceneSearcher.directory);
       } else if (docs.totalHits > 1000) {
-        throw new RuntimeException("Did not expect more than 1000 'totalTokenCount' meta documents: " + docs.totalHits);
+        throw new RuntimeException("Did not expect more than 1000 'totalTokenCount' meta documents: " + docs.totalHits + " in " + luceneSearcher.directory);
       } else {
         long result = 0;
         for (ScoreDoc scoreDoc : docs.scoreDocs) {
