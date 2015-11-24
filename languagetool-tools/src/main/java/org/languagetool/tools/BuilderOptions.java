@@ -40,14 +40,12 @@ class BuilderOptions {
       CommandLineParser parser = new BasicParser();
       CommandLine cmd = parser.parse(options, args);
       return cmd;
-    }
-    catch(ParseException e) {
+    } catch (ParseException e) {
       HelpFormatter formatter = new HelpFormatter();
       formatter.printHelp( clazz.getName(), options );
       System.exit(1);
       throw e; // should never happen - just to make compiler happy
     }
-    
   }
 
 }

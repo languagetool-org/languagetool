@@ -22,7 +22,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.tools.POSDictionaryBuilder;
 
 import static org.junit.Assert.*;
 
@@ -62,12 +61,9 @@ public class POSDictionaryBuilderTest extends DictionaryBuilderTestHelper {
   }
   
   private static final String INFO = 
-      "fsa.dict.separator=+\n"
-      + "fsa.dict.encoding=cp1251\n";
+      "fsa.dict.separator=+\n" +
+      "fsa.dict.encoding=cp1251\n";
 
-//fsa.dict.uses-prefixes=false
-//fsa.dict.uses-infixes=false
-  
   @Test
   public void testPOSBuilder() throws Exception {
     Path inputFile = Files.createTempFile("dictTest", ".txt");
@@ -82,8 +78,7 @@ public class POSDictionaryBuilderTest extends DictionaryBuilderTestHelper {
           "-o", outFile.toAbsolutePath().toString()} );
       
       assertTrue(outFile.toFile().length() >= 40);
-    }
-    finally {
+    } finally {
       Files.delete(inputFile);
       Files.delete(infoFile);
     }

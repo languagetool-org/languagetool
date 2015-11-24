@@ -67,11 +67,9 @@ public class SynthDictionaryBuilderTest extends DictionaryBuilderTestHelper {
   }
   
   private static final String INFO = 
-      "fsa.dict.separator=+\n"
-      + "fsa.dict.encoding=cp1251\n";
+      "fsa.dict.separator=+\n" +
+      "fsa.dict.encoding=cp1251\n";
 
-//fsa.dict.uses-prefixes=false
-//fsa.dict.uses-infixes=false
   @Test
   public void testSynthBuilder() throws Exception {
     Path inputFile = Files.createTempFile("dictTest", ".txt");
@@ -87,13 +85,11 @@ public class SynthDictionaryBuilderTest extends DictionaryBuilderTestHelper {
           "-o", outFile.toAbsolutePath().toString()} );
       
       assertTrue(outFile.toFile().length() >= 40);
-    }
-    finally {
+    } finally {
       Files.delete(inputFile);
       Files.delete(infoFile);
       Files.delete(outFile);
     }
   }
-
 
 }

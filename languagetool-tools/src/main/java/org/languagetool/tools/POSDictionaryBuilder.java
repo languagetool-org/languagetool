@@ -52,7 +52,6 @@ public final class POSDictionaryBuilder extends DictionaryBuilder {
 
   public File build(File dictFile) throws Exception {
     File tempFile = File.createTempFile(POSDictionaryBuilder.class.getSimpleName(), ".txt");
-    
     try {
       List<String> tab2morphOptions = getTab2MorphOptions(dictFile, tempFile);
       tab2morphOptions.add(0, "tab2morph");
