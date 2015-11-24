@@ -42,7 +42,7 @@ import java.util.Locale;
  * Evaluates the ngram rule with a simple corpus, see {@link SimpleCorpus}.
  * @since 3.2
  */
-class SimpleCorpusEvaluator {
+public class SimpleCorpusEvaluator {
 
   // without bigrams:
   private static final double START_THRESHOLD = 0.000001;
@@ -64,8 +64,8 @@ class SimpleCorpusEvaluator {
   private int goodConfusionMatches;
   private int badConfusionMatches;
 
-  SimpleCorpusEvaluator(File indexDir) throws IOException {
-    evaluator = getEvaluator(indexDir);
+  public SimpleCorpusEvaluator(File indexTopDir) throws IOException {
+    evaluator = getEvaluator(indexTopDir);
   }
 
   @NotNull
@@ -74,23 +74,22 @@ class SimpleCorpusEvaluator {
   }
 
   @NotNull
-  private ErrorCorpus getCorpus(File dir) throws IOException {
-    return new SimpleCorpus(dir);
+  private ErrorCorpus getCorpus(File file) throws IOException {
+    return new SimpleCorpus(file);
   }
 
   void close() {
     evaluator.close();
   }
 
-  PrecisionRecall run(File dir) throws IOException {
+  public PrecisionRecall run(File file) throws IOException {
     System.out.println("Output explanation:");
     System.out.println("    [  ] = this is not an expected error");
     System.out.println("    [+ ] = this is an expected error");
     System.out.println("    [++] = this is an expected error and the first suggestion is correct");
     System.out.println("    [//]  = not counted because already matches by a different rule");
     System.out.println("");
-    ErrorCorpus corpus = getCorpus(dir);
-    checkLines(corpus);
+    checkLines(getCorpus(file));
     return printAndResetResults();
   }
 
