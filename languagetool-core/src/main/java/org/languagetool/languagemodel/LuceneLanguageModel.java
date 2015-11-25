@@ -31,6 +31,9 @@ import java.util.*;
 
 /**
  * Information about ngram occurrences, taken from a Lucene index.
+ * This is not a real language model as it only returns information
+ * about occurrence counts but has no probability calculation, especially
+ * not for the case with 0 occurrences.
  * @since 2.7
  */
 public class LuceneLanguageModel implements LanguageModel {

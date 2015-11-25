@@ -21,7 +21,8 @@ package org.languagetool.languagemodel;
 import java.util.List;
 
 /**
- * A very simple language model that contains information about ngram occurrences.
+ * A very simple language model that simply contains information about ngram occurrences.
+ * The implementations don't necessarily deal well with the occurrence = 0 case.
  * @since 2.7
  */
 public interface LanguageModel extends AutoCloseable {
