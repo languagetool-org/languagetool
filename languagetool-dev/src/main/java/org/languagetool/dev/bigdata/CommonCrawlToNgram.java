@@ -46,6 +46,8 @@ import java.util.Map;
  * @since 3.2
  */
 class CommonCrawlToNgram implements AutoCloseable {
+
+  private static final double THRESHOLD = 0.00000000001;
   
   private final Language language;
   private final File input;
@@ -56,7 +58,8 @@ class CommonCrawlToNgram implements AutoCloseable {
   private final Map<String, Long> trigramToCount = new HashMap<>();
   private final Map<Integer, LuceneLiveIndex> indexes = new HashMap<>();
   
-  private int limit = 1000;
+  private int cacheLimit = 1_000_000;  // max. number of trigrams in HashMap before we flush to Lucene
+  private int lineCount = 0;
 
   CommonCrawlToNgram(Language language, File input, File indexTopDir, File evalFile) throws IOException {
     this.language = language;
@@ -75,11 +78,12 @@ class CommonCrawlToNgram implements AutoCloseable {
     }
   }
 
-  void setLimit(int limit) {
-    this.limit = limit;
+  void setCacheLimit(int cacheLimit) {
+    this.cacheLimit = cacheLimit;
   }
   
   void indexInputFile() throws IOException {
+    writeAndEvaluate();  // run now so we have a baseline
     FileInputStream fin = new FileInputStream(input);
     BufferedInputStream in = new BufferedInputStream(fin);
     Tokenizer wordTokenizer = language.getWordTokenizer();  // TODO: use a more Google-like tokenizer
@@ -92,12 +96,15 @@ class CommonCrawlToNgram implements AutoCloseable {
         indexLine(wordTokenizer, lines);
       }
     }
+    writeAndEvaluate();
   }
 
   private void indexLine(Tokenizer wordTokenizer, String[] lines) throws IOException {
     for (String line : lines) {
+      if (lineCount++ % 50_000 == 0) {
+        System.out.println("Indexing line " + lineCount);
+      }
       List<String> tokens = wordTokenizer.tokenize(line);
-      //System.out.println("L: " + tokens);
       String prevPrev = null;
       String prev = null;
       // TODO: add start and end tokens
@@ -113,7 +120,7 @@ class CommonCrawlToNgram implements AutoCloseable {
         if (prevPrev != null && prev != null) {
           String ngram = prevPrev + " " + prev + " " + token;
           trigramToCount.compute(ngram, (k, v) ->  v == null ? 1 : v + 1);
-          if (trigramToCount.size() > limit) {
+          if (trigramToCount.size() > cacheLimit) {
             writeAndEvaluate();
           }
         }
@@ -121,7 +128,6 @@ class CommonCrawlToNgram implements AutoCloseable {
         prev = token;
       }
     }
-    writeAndEvaluate();
   }
 
   private void writeAndEvaluate() throws IOException {
@@ -129,25 +135,29 @@ class CommonCrawlToNgram implements AutoCloseable {
     writeToLucene(2, bigramToCount);
     writeToLucene(3, trigramToCount);
     if (evalFile != null) {
+      System.out.println("Running evaluation...");
+      long startTime = System.currentTimeMillis();
       SimpleCorpusEvaluator evaluator = new SimpleCorpusEvaluator(indexTopDir);
-      evaluator.run(evalFile);
+      evaluator.run(evalFile, THRESHOLD);
+      System.out.println("Eval time: " + (System.currentTimeMillis()-startTime) + "ms");
     } else {
       System.out.println("Skipping evaluation, no evaluation file specified");
     }
   }
-
+  
   private void writeToLucene(int ngramSize, Map<String, Long> ngramToCount) throws IOException {
-    //System.out.println("WRITE: ");
+    long startTime = System.currentTimeMillis();
+    System.out.println("Writing " + ngramToCount.size() + " cached ngrams to Lucene index (ngramSize=" + ngramSize + ")...");
     LuceneLiveIndex index = indexes.get(ngramSize);
+    // not sure why this doesn't work, should be faster:
+    /*DirectoryReader newReader = DirectoryReader.openIfChanged(reader);
+    if (newReader != null) {
+      reader = newReader;
+    }*/
+    index.reader = DirectoryReader.open(index.indexWriter, true);
+    index.searcher = new IndexSearcher(index.reader);
     for (Map.Entry<String, Long> entry : ngramToCount.entrySet()) {
       Term ngram = new Term("ngram", entry.getKey());
-      index.reader = DirectoryReader.open(index.indexWriter, true);
-      index.searcher = new IndexSearcher(index.reader);
-      // not sure why this doesn't work, should be faster:
-      /*DirectoryReader newReader = DirectoryReader.openIfChanged(reader);
-      if (newReader != null) {
-        reader = newReader;
-      }*/
       TopDocs topDocs = index.searcher.search(new TermQuery(ngram), 2);
       //System.out.println(ngram + " ==> " + topDocs.totalHits);
       if (topDocs.totalHits == 0) {
@@ -167,8 +177,15 @@ class CommonCrawlToNgram implements AutoCloseable {
       }
       //System.out.println("   " + entry.getKey() + " -> " + entry.getValue());
     }
-    // TODO: add/update 'totalTokenCount'
+    if (ngramSize == 1) {
+      // TODO: runtime code will crash if there are more than 1000 of these docs, so update instead of delete
+      long total = ngramToCount.values().stream().mapToLong(Number::longValue).sum();
+      System.out.println("Adding totalTokenCount doc: " + total);
+      addTotalTokenCountDoc(total, index.indexWriter);
+    }
+    System.out.println("Commit...");
     index.indexWriter.commit();
+    System.out.println("Commit done, indexing took " + (System.currentTimeMillis()-startTime) + "ms");
     ngramToCount.clear();
   }
 
@@ -187,6 +204,16 @@ class CommonCrawlToNgram implements AutoCloseable {
     fieldType.setNumericType(FieldType.NumericType.LONG);
     fieldType.setDocValuesType(DocValuesType.NUMERIC);
     return new LongField("count", count, fieldType);
+  }
+
+  private void addTotalTokenCountDoc(long totalTokenCount, IndexWriter writer) throws IOException {
+    FieldType fieldType = new FieldType();
+    fieldType.setIndexOptions(IndexOptions.DOCS);
+    fieldType.setStored(true);
+    Field countField = new Field("totalTokenCount", String.valueOf(totalTokenCount), fieldType);
+    Document doc = new Document();
+    doc.add(countField);
+    writer.addDocument(doc);
   }
 
   public static void main(String[] args) throws IOException {
@@ -222,6 +249,7 @@ class CommonCrawlToNgram implements AutoCloseable {
     }
     
     void close() throws IOException {
+      reader.close();
       indexWriter.close();
       directory.close();
     }

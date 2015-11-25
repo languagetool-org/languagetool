@@ -36,7 +36,7 @@ public class CommonCrawlToNgramTest {
       tempDir.mkdir();
       String filename = CommonCrawlToNgramTest.class.getResource("/org/languagetool/dev/bigdata/ngram-input.txt.xz").getFile();
       try (CommonCrawlToNgram prg = new CommonCrawlToNgram(new German(), new File(filename), tempDir, null)) {
-        prg.setLimit(1);
+        prg.setCacheLimit(1);
         prg.indexInputFile();
       }
     } finally {

@@ -82,7 +82,8 @@ public class SimpleCorpusEvaluator {
     evaluator.close();
   }
 
-  public PrecisionRecall run(File file) throws IOException {
+  public PrecisionRecall run(File file, double threshold) throws IOException {
+    probabilityRule.setMinProbability(threshold);
     System.out.println("Output explanation:");
     System.out.println("    [  ] = this is not an expected error");
     System.out.println("    [+ ] = this is an expected error");
@@ -153,10 +154,8 @@ public class SimpleCorpusEvaluator {
     System.out.print("  " + goodMatches + " out of " + matchCount + " matches are real errors");
     float precision = (float)goodMatches / matchCount;
     float recall = (float)goodMatches / errorsInCorpusCount;
-    System.out.printf(" => %.2f precision, %.2f recall\n", precision, recall);
-
     double fMeasure = FMeasure.getFMeasure(precision, recall, 1.0f);
-    System.out.printf("  => %.4f F measure\n", fMeasure);
+    System.out.printf(" => %.3f precision, %.3f recall, %.5f f-measure\n", precision, recall, fMeasure);
 
     sentenceCount = 0;
     errorsInCorpusCount = 0;
@@ -193,8 +192,7 @@ public class SimpleCorpusEvaluator {
     List<String> results = new ArrayList<>();
     double threshold = START_THRESHOLD;
     while (threshold >= END_THRESHOLD) {
-      probabilityRule.setMinProbability(threshold);
-      PrecisionRecall res = evaluator.run(inputFile);
+      PrecisionRecall res = evaluator.run(inputFile, threshold);
       //String thresholdStr = String.format(Locale.ENGLISH, "%.20f", threshold);
       String thresholdStr = StringUtils.rightPad(String.valueOf(threshold), 22);
       double fMeasure = FMeasure.getFMeasure(res.getPrecision(), res.getRecall(), 1.0f);
@@ -214,12 +212,13 @@ public class SimpleCorpusEvaluator {
   static class NgramLanguageToolEvaluator implements Evaluator {
 
     private final JLanguageTool langTool;
-    private final LanguageModel languageModel;
+    private final LuceneLanguageModel languageModel;
 
     NgramLanguageToolEvaluator(File indexTopDir) throws IOException {
       langTool = new JLanguageTool(new English());
       disableAllRules();
       languageModel = new LuceneLanguageModel(indexTopDir);
+      LuceneLanguageModel.clearCaches();
       System.out.println("Using Lucene language model from " + languageModel);
       probabilityRule = new EnglishNgramProbabilityRule(JLanguageTool.getMessageBundle(), languageModel, new English());
       langTool.addRule(probabilityRule);

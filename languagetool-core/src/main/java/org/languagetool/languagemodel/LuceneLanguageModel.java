@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.FSDirectory;
+import org.languagetool.Experimental;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,6 +67,11 @@ public class LuceneLanguageModel implements LanguageModel {
     if (dirs.size() < 3) {
       throw new RuntimeException("Expected at least '1grams', '2grams', and '3grams' sub directories but only got " + dirs + " in " + topIndexDir.getAbsolutePath());
     }
+  }
+  
+  @Experimental
+  public static void clearCaches() {
+    dirToSearcherMap.clear();
   }
 
   /**
