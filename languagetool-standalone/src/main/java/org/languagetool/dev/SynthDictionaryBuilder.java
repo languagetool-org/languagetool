@@ -26,7 +26,9 @@ import java.util.regex.Pattern;
 
 /**
  * Create a Morfologik binary synthesizer dictionary from plain text data.
+ * @deprecated Please use {@link org.languagetool.tools.SpellDictionaryBuilder}
  */
+@Deprecated
 final class SynthDictionaryBuilder extends DictionaryBuilder {
 
   /**

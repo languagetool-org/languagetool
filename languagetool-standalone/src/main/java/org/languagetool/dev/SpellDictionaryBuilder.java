@@ -39,7 +39,9 @@ import org.languagetool.tokenizers.Tokenizer;
 
 /**
  * Create a Morfologik spelling binary dictionary from plain text data.
+ * @deprecated Please use {@link org.languagetool.tools.SpellDictionaryBuilder}
  */
+@Deprecated
 final class SpellDictionaryBuilder extends DictionaryBuilder {
 
   SpellDictionaryBuilder(File infoFile) throws IOException {

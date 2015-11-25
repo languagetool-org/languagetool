@@ -37,7 +37,9 @@ import java.util.regex.Pattern;
 
 /**
  * Create a Morfologik binary dictionary from plain text data.
+ * @deprecated Please use {@link org.languagetool.tools.DictionaryBuilder}
  */
+@Deprecated
 class DictionaryBuilder {
 
   private final Properties props = new Properties();
@@ -122,7 +124,9 @@ class DictionaryBuilder {
     File resultFile = outputFilename != null
         ? new File(outputFilename)
         : File.createTempFile(DictionaryBuilder.class.getSimpleName(), suffix);
-        
+
+    System.err.println("WARNING: You are running deprecated version of dictionary builder, please use classes org.languagetool.tools");
+
     String[] buildToolOptions = {"-f", "cfsa2", "-i", tempFile.getAbsolutePath(), "-o", resultFile.getAbsolutePath()};
     System.out.println("Running Morfologik FSABuildTool.main with these options: " + Arrays.toString(buildToolOptions));
     FSABuildTool.main(buildToolOptions);

@@ -24,7 +24,9 @@ import java.io.File;
 
 /**
  * Print the contents of a Morfologik binary dictionary to STDOUT.
+ * @deprecated Please use {@link org.languagetool.tools.DictionaryExporter}
  */
+@Deprecated
 final class DictionaryExporter {
 
   public static void main(String[] args) throws Exception {
