@@ -9260,6 +9260,76 @@ though, and has since been slightly modified)-->
         <example>Qu’as donc tu fait ?</example>
       </rule>
     </rulegroup>
+    <rulegroup id="ACCORD_QUEL_QUE_SOIT" name="accord avec quel que soit">
+      <rule>
+        <pattern>
+          <token regexp="yes">quel|quelle</token>
+          <token>que</token>
+          <token regexp="yes">soient|fussent</token>
+        </pattern>
+        <message>« \1 » n’est pas accordé en nombre avec « \3 ».</message>
+        <example correction=""><marker>Quel que soient</marker> son problème.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">quels|quelles</token>
+          <token>que</token>
+          <token regexp="yes">soit|fût</token>
+        </pattern>
+        <message>« \1 » n’est pas accordé en nombre avec « \3 ».</message>
+        <example correction=""><marker>Quelles que soit</marker> ses intentions.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">quels?</token></marker>
+          <token>que</token>
+          <token regexp="yes">soit|soient|fût|fussent</token>
+          <token postag="D [ef] .*" postag_regexp="yes"/>
+          <token postag="N f .*" postag_regexp="yes"/>
+        </pattern>
+        <message>« \1 » n’est pas accordé en genre avec « \5 ».</message>
+        <suggestion><match no="1" regexp_match="l" regexp_replace="lle"/></suggestion>
+        <example correction="Quelle"><marker>Quel</marker> que soit sa raison.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">quelles?</token></marker>
+          <token>que</token>
+          <token regexp="yes">soit|soient|fût|fussent</token>
+          <token postag="D [em] .*" postag_regexp="yes"/>
+          <token postag="N m .*" postag_regexp="yes"/>
+        </pattern>
+        <message>« \1 » n’est pas accordé en genre avec « \5 ».</message>
+        <suggestion><match no="1" regexp_match="lle" regexp_replace="l"/></suggestion>
+        <example correction="Quel"><marker>Quelle</marker> que soit son problème.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">quel|quelle</token>
+            <token>que</token>
+            <token regexp="yes">soit|fût</token>
+          </marker>
+          <token postag="D . p" postag_regexp="yes"/>
+          <token postag="N . p" postag_regexp="yes"/>
+        </pattern>
+        <message>« \1 \2 \3 » n’est pas accordé en nombre avec « \5 ».</message>
+        <example correction=""><marker>Quelle que soit</marker> ses raisons.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">quels|quelles</token>
+            <token>que</token>
+            <token regexp="yes">soient|fussent</token>
+          </marker>
+          <token postag="D . s" postag_regexp="yes"/>
+          <token postag="N . s" postag_regexp="yes"/>
+        </pattern>
+        <message>« \1 \2 \3 » n’est pas accordé en nombre avec « \5 ».</message>
+        <example correction=""><marker>Quelles que soient</marker> sa raison.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="QUI_VCONJ" name="Verbe conjugué après pronom relatif qui">
       <rule>
         <pattern>
