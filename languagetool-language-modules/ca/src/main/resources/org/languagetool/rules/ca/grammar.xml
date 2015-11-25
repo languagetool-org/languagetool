@@ -64,7 +64,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY precedits_per_TANT "no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY seguits_per_COM_A "acceptar|justificar|caracteritzar|qualificar|establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre|etiquetar|pintar">
     <!ENTITY sigles_apostrofen "(?-i)FM|FBI|FMI|IEC|IES|NBA|NBC|SPD|FTP|F1|IAE">
-    <!ENTITY sigles_no_apostrofen "(?-i)SGAE">
+    <!ENTITY sigles_no_apostrofen "(?-i)SGAE|FNAC">
     <!ENTITY unitats "mm|cm|dm|m|km|d|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|K|pts|ptes|[£€$]">
     <!ENTITY unitats_temps "segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|decenni|segle|mil·lenni|mil·lenari">
     <!ENTITY verbs_no_apostrofen "halar|ioditzar|iotitzar|iodurar|iodar">
@@ -10480,7 +10480,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">representats?<exception scope="previous" regexp="yes">molt|ben</exception></token>
+                        <token regexp="yes">representats?<exception scope="previous" regexp="yes">molt|ben|més</exception></token>
                     </marker>
                     <token inflected="yes" skip="2">de</token>
                     <token postag="NP.*|_possible_nompropi" postag_regexp="yes"/>
@@ -10488,7 +10488,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match=".+t(s?)" regexp_replace="representant$1"/></suggestion>?</message>
                 <short>Possible confusió</short>
                 <example correction="representant">Era <marker>representat</marker> d'Andorra a les Nacions Unides.</example>
-                <example>És el nostre representant.</example>
+                <example>És un dels títols més representats de Rossini</example>
             </rule>
         </rulegroup>
         <rule id="FER_SERVIT" name="fer *servit/servir">
