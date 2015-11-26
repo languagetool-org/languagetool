@@ -11,7 +11,7 @@ LT_DIR=`ls $BASE/languagetool-standalone/target/LanguageTool-?.*-SNAPSHOT`
 LIBDIR="$BASE/languagetool-standalone/target/$LT_DIR/$LT_DIR/libs"
 #LIBS=`ls $LIBDIR | tr '\n' ':'`
 
-CPATH=$LIBDIR/lucene-gosen-ipadic.jar:$LIBDIR/ictclas4j.jar:$LIBDIR/cjftransform.jar:$LIBDIR/jwordsplitter.jar:$LIBDIR/commons-logging.jar:$LIBDIR/segment.jar:$LIBDIR/morfologik-fsa.jar:$LIBDIR/morfologik-speller.jar:$LIBDIR/morfologik-stemming.jar:$LIBDIR/commons-lang.jar
+CPATH=$LIBDIR/lucene-gosen-ipadic.jar:$LIBDIR/ictclas4j.jar:$LIBDIR/cjftransform.jar:$LIBDIR/jwordsplitter.jar:$LIBDIR/commons-logging.jar:$LIBDIR/segment.jar:$LIBDIR/morfologik-fsa.jar:$LIBDIR/morfologik-speller.jar:$LIBDIR/morfologik-stemming.jar:$LIBDIR/commons-lang.jar:$LIBDIR/languagetool-dict-uk.jar
 
 # Profiling
 
@@ -67,6 +67,7 @@ function run_full_test()
   if [ "$GROUP_RULES" = "1" ]; then
     run_lt_grouped $SRC $ID
   else
+    rm checked$ID.out.diff
     run_lt $SRC $ID
     diff checked$ID.out.bak checked$ID.out > checked$ID.out.diff
     [ -f compounds-unknown.txt ] && {
@@ -99,6 +100,8 @@ if [ "$IDS_TO_CHECK" == "0" ]; then
     echo "Checking $SRC [$ID]"
 
     RULES_TO_IGNORE="MORFOLOGIK_RULE_UK_UA,COMMA_PARENTHESIS_WHITESPACE" #,WHITESPACE_RULE,UK_SIMPLE_REPLACE"
+
+    rm checked$ID.out.diff
 
     run_lt $SRC $ID
 

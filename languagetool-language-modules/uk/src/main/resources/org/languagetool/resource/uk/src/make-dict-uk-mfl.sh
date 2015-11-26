@@ -25,10 +25,13 @@ function decode() {
   fi
 }
 
-MFL_JAR_DIR="$HOME/work/ukr/spelling/grammar/morfologik-stemming/morfologik-tools/target"
-MFL_JAR="morfologik-tools-*-standalone.jar"
+MFL_JAR_DIR="$HOME/work/ukr/spelling/grammar/morfologik-distribution-1.9.0"
+MFL_JAR="morfologik-tools-*.jar"
+#MFL_CP=`ls $MFL_JAR_DIR/morfologik-tools-?.?.?-SNAPSHOT/morfologik-tools-?.?.?-SNAPSHOT/lib/*.jar | tr '\n' ':' `
+#MFL_CP="$MFL_CP."
 
 MFL_CMD="java -jar $MFL_JAR_DIR/$MFL_JAR"
+echo $MFL_CMD
 
 #MFL_CMD="mfl"
 
@@ -46,12 +49,7 @@ if [ "$1" == "-c" ]; then
 else
 
   INPUT_FILE=tagged.main.txt
-
-  #cat tagged.main.txt | sed -r "/adjp/ s/adjp(:pasv|:actv|:pres|:past|:perf|:imperf)+(.*)/adj\\2/" |\
-  # sed -r '/&adj$/ s/:&adj$//' > tagged.main.txt2
-  cat $INPUT_FILE | sed -r "/adjp/ s/ (adjp(:pasv|:actv|:pres|:past|:perf|:imperf)+):(.*)(:&adj)/ adj:\\3:\&\\1/" > tagged.main.txt2
-
-  TAGGED_DICT="tagged.main.txt2"
+  TAGGED_DICT="tagged.main.txt"
   OUT_TAG_DICT_FILE="ukrainian.dict"
 
 fi
@@ -93,6 +91,8 @@ if [ "$1" == "-f" ]; then
 #    cat all_words.lst | encode | sort -u > all.tagged.tmp && \
 #    cat all.tagged.tmp | $MFL_CMD fsa_build $FSA_FLAGS -o uk_UA.dict && \
 #    mv uk_UA.dict ../hunspell/
+
+    echo -e "\nGenerating spelling dictionary"
     
     BASE="../../../../../../../../../.."
     LT_DIR=`ls $BASE/languagetool-standalone/target/LanguageTool-?.*-SNAPSHOT`
@@ -105,9 +105,9 @@ if [ "$1" == "-f" ]; then
     #LT_STD_CP="$BASE/languagetool-standalone/target/$LT_DIR/$LT_DIR//languagetool.jar"
     LT_STD_CP=$BASE/languagetool-standalone/target/classes:$LIBS
 
-    (cat all_words.lst | encode | sort -u > all.words.tmp && \
-    java -cp $LT_STD_CP org.languagetool.dev.SpellDictionaryBuilder uk-UA all.words.tmp ../hunspell/uk_UA.info freq/uk_wordlist.xml -o uk_UA.dict 2>&1 > fsa_spell.out && \
-    mv uk_UA.dict ../hunspell/ ) &
+    WORD_LIST=words.txt
+    (cat $WORD_LIST | grep -v "\.$" | encode | sort -u > all.words.tmp && \
+    java -cp $LT_STD_CP org.languagetool.dev.SpellDictionaryBuilder uk-UA all.words.tmp ../hunspell/uk_UA.info freq/uk_wordlist.xml -o ../hunspell/uk_UA.dict 2>&1 > fsa_spell.out) &
 
 fi
 
@@ -116,5 +116,3 @@ wait
 
 rm -f all.words.tmp
 rm -f all.tagged.tmp
-#rm -f all_words.lst
-rm -f tagged.main.txt2
