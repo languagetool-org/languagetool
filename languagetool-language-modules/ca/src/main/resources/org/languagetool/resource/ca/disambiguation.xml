@@ -833,7 +833,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
             <example type="untouched">Per <marker>a més</marker> d'un dia.</example>
         </rule>
-        <rule id="en_canvi" name="de nou">
+        <rule id="en_canvi" name="en canvi">
             <pattern>
                 <marker>
                     <token regexp="yes">en|a</token>
@@ -4118,6 +4118,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^V].*"/>
     </rule>
+    <rule id="nou0" name="nou + nom singular">
+        <pattern>
+            <marker>
+                <token  postag="A.*" postag_regexp="yes">nou</token>
+            </marker>
+            <token postag="N.MS.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="A.*"/>
+    </rule>
     <rulegroup id="el_pais" name="el país, el domini, l'equilibri (nom)">
         <rule>
             <pattern>
@@ -4882,7 +4891,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!-- relacionat amb Grups Nominals. Abans o després? La part nort i la sud-->
         <rule>
             <pattern>
-                <token postag="N.*|DA.*|CC|RG.*" postag_regexp="yes" negate_pos="yes"><exception postag="N.*|DA.*|CC|RG.*" postag_regexp="yes"></exception></token>
+                <token><exception postag="N.*|DA.*|CC|RG.*" postag_regexp="yes" /></token>
                 <!-- exception: la part nord -->
                 <marker>
                     <and>
@@ -7619,10 +7628,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="nou" name="nou (adj/nom/numeral)">
         <rule>
             <pattern>
-            <token>el</token>
-            <marker>
-                <token>nou</token>
-            </marker>
+                <token>el</token>
+                <marker>
+                    <token>nou</token>
+                </marker>
             </pattern>
             <disambig action="remove" postag="V.*|NCFS000"></disambig>
         </rule>
