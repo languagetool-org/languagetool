@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.123 2015-11-20 18:10:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.124 2015-11-26 17:20:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -35,9 +35,38 @@ $Id: grammar.xml,v 1.123 2015-11-20 18:10:00 marcoagpinto Exp $
 
 <category name="Gramática">
 
+    <!-- Concordance error plural - QUALQUER + PLURAL -->
+    <rule id="QUALQUER_PLURAL" name="Erro de concordância do plural QUALQUER + PLURAL">
+      <pattern>
+		<marker>
+			<token>qualquer</token>	  
+		</marker>
+		<token postag_regexp="yes"  postag="NCFP000|NCMP000"></token> 	
+     </pattern>	 	 
+     <message>Erro de concordância do plural.</message>
+     <suggestion>quaisquer</suggestion>
+     <example correction="quaisquer">Tratamos de <marker>qualquer</marker> assuntos.</example>	 	 
+    </rule> 
+
+	
+	
+    <!-- Concordance error plural - QUAISQUER + SINGULAR -->
+    <rule id="QUAISQUER_PLURAL" name="Erro de concordância do plural QUAISQUER + SINGULAR">
+      <pattern>
+		<marker>
+			<token>quaisquer</token>	  
+		</marker>
+		<token postag_regexp="yes"  postag="NCFS000|NCMS000"></token> 	
+     </pattern>	 	 
+     <message>Erro de concordância do plural.</message>
+     <suggestion>qualquer</suggestion>
+     <example correction="qualquer">Tratamos de <marker>quaisquer</marker> assunto.</example>	 	 
+    </rule> 	
+	
+
 
     <!-- Concordance error plural - É + PLURAL -->
-    <rule id="É_PLURAL" name="Erro de concordância do plural">
+    <rule id="É_PLURAL" name="Erro de concordância do plural É+PLURAL">
       <pattern>
 		<marker>
 			<token>é</token>	  
