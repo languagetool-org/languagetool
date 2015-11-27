@@ -25,7 +25,6 @@ import org.languagetool.dev.errorcorpus.ErrorCorpus;
 import org.languagetool.dev.errorcorpus.ErrorSentence;
 import org.languagetool.dev.errorcorpus.SimpleCorpus;
 import org.languagetool.language.English;
-import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.Rule;
@@ -44,12 +43,10 @@ import java.util.Locale;
  */
 public class SimpleCorpusEvaluator {
 
-  // without bigrams:
   private static final double START_THRESHOLD = 0.000001;
-  private static final double END_THRESHOLD = 0.00000000000000001;
-  // with bigrams:
-  //private static final double START_THRESHOLD = 0.0000000000000000000001;
-  //private static final double END_THRESHOLD = 0.000000000000000000000000000000001;
+  private static final double END_THRESHOLD   = 0.00000000000000001;
+  private static final double STEP_FACTOR     = 0.1;
+
   private static EnglishNgramProbabilityRule probabilityRule;
 
   private final Evaluator evaluator;
@@ -200,7 +197,7 @@ public class SimpleCorpusEvaluator {
       String precision = String.format(Locale.ENGLISH, "%.3f", res.getPrecision());
       String recall = String.format(Locale.ENGLISH, "%.3f", res.getRecall());
       results.add(thresholdStr + ": f=" + fMeasureStr + ", precision=" + precision + ", recall=" + recall);
-      threshold = threshold * 0.1;
+      threshold = threshold * STEP_FACTOR;
     }
     System.out.println("=== Results: ==================================");
     for (String result : results) {
