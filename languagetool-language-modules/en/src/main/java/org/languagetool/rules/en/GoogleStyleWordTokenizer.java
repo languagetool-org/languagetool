@@ -29,7 +29,7 @@ import java.util.Stack;
  * so this is just an approximation.
  * @since 3.2
  */
-class GoogleStyleWordTokenizer extends WordTokenizer {
+public class GoogleStyleWordTokenizer extends WordTokenizer {
 
   @Override
   public String getTokenizingCharacters() {

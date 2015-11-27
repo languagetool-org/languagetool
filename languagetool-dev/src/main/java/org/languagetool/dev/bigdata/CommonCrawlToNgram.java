@@ -32,6 +32,7 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.dev.eval.SimpleCorpusEvaluator;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.rules.en.GoogleStyleWordTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.tukaani.xz.XZInputStream;
@@ -72,7 +73,7 @@ class CommonCrawlToNgram implements AutoCloseable {
     this.indexTopDir = indexTopDir;
     this.evalFile = evalFile;
     this.sentenceTokenizer = language.getSentenceTokenizer();
-    this.wordTokenizer = language.getWordTokenizer();  // TODO: use a more Google-like tokenizer
+    this.wordTokenizer = new GoogleStyleWordTokenizer();
     indexes.put(1, new LuceneLiveIndex(new File(indexTopDir, "1grams")));
     indexes.put(2, new LuceneLiveIndex(new File(indexTopDir, "2grams")));
     indexes.put(3, new LuceneLiveIndex(new File(indexTopDir, "3grams")));
