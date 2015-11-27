@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.124 2015-11-26 17:20:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.125 2015-11-27 15:50:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -2068,7 +2068,61 @@ $Id: grammar.xml,v 1.124 2015-11-26 17:20:00 marcoagpinto Exp $
       <example correction="o controlo">Perderam <marker>o controle</marker> da situação.</example>
     </rule>
 
+	
+	
+	
+	<!-- O FACTO DA/DAS/DO/DOS *START* -->
+	<!-- ***************************** -->
+	
+    <!-- O FACTO DA o facto de a -->
+    <rule id="O_FACTO_DA" name="o facto de a">
+      <pattern>
+        <token>o</token>
+        <token>facto</token>
+        <token>da</token>
+      </pattern>
+      <message>Substituir «o facto da» por <suggestion>o facto de a</suggestion>.</message>
+      <example correction="o facto de a">Ter em conta <marker>o facto da</marker> aluna não saber.</example>
+    </rule>
 
+    <!-- O FACTO DAS o facto de as -->
+    <rule id="O_FACTO_DAS" name="o facto de as">
+      <pattern>
+        <token>o</token>
+        <token>facto</token>
+        <token>das</token>
+      </pattern>
+      <message>Substituir «o facto das» por <suggestion>o facto de as</suggestion>.</message>
+      <example correction="o facto de as">Ter em conta <marker>o facto das</marker> alunas não saberem.</example>
+    </rule>
+	
+    <!-- O FACTO DO o facto de o -->
+    <rule id="O_FACTO_DO" name="o facto de o">
+      <pattern>
+        <token>o</token>
+        <token>facto</token>
+        <token>do</token>
+      </pattern>
+      <message>Substituir «o facto do» por <suggestion>o facto de o</suggestion>.</message>
+      <example correction="o facto de o">Ter em conta <marker>o facto do</marker> aluno não saber.</example>
+    </rule>	
+
+    <!-- O FACTO DOS o facto de os -->
+    <rule id="O_FACTO_DOS" name="o facto de os">
+      <pattern>
+        <token>o</token>
+        <token>facto</token>
+        <token>dos</token>
+      </pattern>
+      <message>Substituir «o facto dos» por <suggestion>o facto de os</suggestion>.</message>
+      <example correction="o facto de os">Ter em conta <marker>o facto dos</marker> alunos não saberem.</example>
+    </rule>	
+	
+	<!-- O FACTO DA/DAS/DO/DOS *END* -->
+	<!-- ***************************** -->
+	
+
+	
 
     <!-- O MESMO DO QUE o mesmo que -->
     <rule id="O_MESMO_DO_QUE" name="o mesmo que">
