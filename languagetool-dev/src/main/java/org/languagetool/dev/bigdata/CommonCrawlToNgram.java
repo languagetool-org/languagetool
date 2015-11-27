@@ -31,6 +31,8 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.dev.eval.SimpleCorpusEvaluator;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.tukaani.xz.XZInputStream;
 
@@ -50,10 +52,11 @@ class CommonCrawlToNgram implements AutoCloseable {
 
   private static final double THRESHOLD = 0.00000000001;
   
-  private final Language language;
   private final File input;
   private final File indexTopDir;
   private final File evalFile;
+  private final SentenceTokenizer sentenceTokenizer;
+  private final Tokenizer wordTokenizer;
   private final Map<String, Long> unigramToCount = new HashMap<>();
   private final Map<String, Long> bigramToCount = new HashMap<>();
   private final Map<String, Long> trigramToCount = new HashMap<>();
@@ -64,10 +67,11 @@ class CommonCrawlToNgram implements AutoCloseable {
   private long lineCount = 0;
 
   CommonCrawlToNgram(Language language, File input, File indexTopDir, File evalFile) throws IOException {
-    this.language = language;
     this.input = input;
     this.indexTopDir = indexTopDir;
     this.evalFile = evalFile;
+    this.sentenceTokenizer = language.getSentenceTokenizer();
+    this.wordTokenizer = language.getWordTokenizer();  // TODO: use a more Google-like tokenizer
     indexes.put(1, new LuceneLiveIndex(new File(indexTopDir, "1grams")));
     indexes.put(2, new LuceneLiveIndex(new File(indexTopDir, "2grams")));
     indexes.put(3, new LuceneLiveIndex(new File(indexTopDir, "3grams")));
@@ -88,49 +92,56 @@ class CommonCrawlToNgram implements AutoCloseable {
     writeAndEvaluate();  // run now so we have a baseline
     FileInputStream fin = new FileInputStream(input);
     BufferedInputStream in = new BufferedInputStream(fin);
-    Tokenizer wordTokenizer = language.getWordTokenizer();  // TODO: use a more Google-like tokenizer
     try (XZInputStream xzIn = new XZInputStream(in)) {
       final byte[] buffer = new byte[8192];
       int n;
       while ((n = xzIn.read(buffer)) != -1) {
         String buf = new String(buffer, 0, n);  // TODO: not always correct, we need to wait for line end first?
         String[] lines = buf.split("\n");
-        indexLine(wordTokenizer, lines);
+        indexLine(lines);
       }
     }
     writeAndEvaluate();
   }
 
-  private void indexLine(Tokenizer wordTokenizer, String[] lines) throws IOException {
+  private void indexLine(String[] lines) throws IOException {
     for (String line : lines) {
       if (lineCount++ % 50_000 == 0) {
-        float mb = (float)charCount/1000/1000;
+        float mb = (float) charCount / 1000 / 1000;
         System.out.printf(Locale.ENGLISH, "Indexing line %d (%.2fMB)\n", lineCount, mb);
       }
       charCount += line.length();
-      List<String> tokens = wordTokenizer.tokenize(line);
-      String prevPrev = null;
-      String prev = null;
-      // TODO: add start and end tokens
-      for (String token : tokens) {
-        if (token.trim().isEmpty()) {
-          continue;
-        }
-        unigramToCount.compute(token, (k, v) ->  v == null ? 1 : v + 1);
-        if (prev != null) {
-          String ngram = prev + " " + token;
-          bigramToCount.compute(ngram, (k, v) ->  v == null ? 1 : v + 1);
-        }
-        if (prevPrev != null && prev != null) {
-          String ngram = prevPrev + " " + prev + " " + token;
-          trigramToCount.compute(ngram, (k, v) ->  v == null ? 1 : v + 1);
-          if (trigramToCount.size() > cacheLimit) {
-            writeAndEvaluate();
-          }
-        }
-        prevPrev = prev;
-        prev = token;
+      List<String> sentences = sentenceTokenizer.tokenize(line);
+      for (String sentence : sentences) {
+        indexSentence(sentence);
       }
+    }
+  }
+
+  private void indexSentence(String sentence) throws IOException {
+    List<String> tokens = wordTokenizer.tokenize(sentence);
+    tokens.add(0, LanguageModel.GOOGLE_SENTENCE_START);
+    tokens.add(LanguageModel.GOOGLE_SENTENCE_END);
+    String prevPrev = null;
+    String prev = null;
+    for (String token : tokens) {
+      if (token.trim().isEmpty()) {
+        continue;
+      }
+      unigramToCount.compute(token, (k, v) -> v == null ? 1 : v + 1);
+      if (prev != null) {
+        String ngram = prev + " " + token;
+        bigramToCount.compute(ngram, (k, v) -> v == null ? 1 : v + 1);
+      }
+      if (prevPrev != null && prev != null) {
+        String ngram = prevPrev + " " + prev + " " + token;
+        trigramToCount.compute(ngram, (k, v) -> v == null ? 1 : v + 1);
+        if (trigramToCount.size() > cacheLimit) {
+          writeAndEvaluate();
+        }
+      }
+      prevPrev = prev;
+      prev = token;
     }
   }
 
