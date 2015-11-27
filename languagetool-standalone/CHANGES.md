@@ -25,6 +25,9 @@
   * added `de/removed.txt` so incorrect readings of the POS tagger can be avoided without
     rebuilding the binary dictionary
 
+#### Portuguese
+  * added/improved several rules
+
 #### Russian
   * added/improved a few rules
   * added words suggested by users
