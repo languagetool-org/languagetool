@@ -37,6 +37,7 @@ import org.tukaani.xz.XZInputStream;
 import java.io.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -59,7 +60,8 @@ class CommonCrawlToNgram implements AutoCloseable {
   private final Map<Integer, LuceneLiveIndex> indexes = new HashMap<>();
   
   private int cacheLimit = 1_000_000;  // max. number of trigrams in HashMap before we flush to Lucene
-  private int lineCount = 0;
+  private long charCount = 0;
+  private long lineCount = 0;
 
   CommonCrawlToNgram(Language language, File input, File indexTopDir, File evalFile) throws IOException {
     this.language = language;
@@ -102,8 +104,10 @@ class CommonCrawlToNgram implements AutoCloseable {
   private void indexLine(Tokenizer wordTokenizer, String[] lines) throws IOException {
     for (String line : lines) {
       if (lineCount++ % 50_000 == 0) {
-        System.out.println("Indexing line " + lineCount);
+        float mb = (float)charCount/1000/1000;
+        System.out.printf(Locale.ENGLISH, "Indexing line %d (%.2fMB)\n", lineCount, mb);
       }
+      charCount += line.length();
       List<String> tokens = wordTokenizer.tokenize(line);
       String prevPrev = null;
       String prev = null;
