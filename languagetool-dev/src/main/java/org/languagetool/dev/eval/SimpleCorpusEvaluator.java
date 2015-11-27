@@ -25,7 +25,9 @@ import org.languagetool.dev.errorcorpus.ErrorCorpus;
 import org.languagetool.dev.errorcorpus.ErrorSentence;
 import org.languagetool.dev.errorcorpus.SimpleCorpus;
 import org.languagetool.language.English;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
+import org.languagetool.languagemodel.MultiLanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -34,8 +36,10 @@ import org.languagetool.rules.en.EnglishNgramProbabilityRule;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * Evaluates the ngram rule with a simple corpus, see {@link SimpleCorpus}.
@@ -65,9 +69,13 @@ public class SimpleCorpusEvaluator {
     evaluator = getEvaluator(indexTopDir);
   }
 
+  public SimpleCorpusEvaluator(File... indexTopDirs) throws IOException {
+    evaluator = getEvaluator(indexTopDirs);
+  }
+
   @NotNull
-  private Evaluator getEvaluator(File indexTopDir) throws IOException {
-    return new NgramLanguageToolEvaluator(indexTopDir);
+  private Evaluator getEvaluator(File... indexTopDirs) throws IOException {
+    return new NgramLanguageToolEvaluator(indexTopDirs);
   }
 
   @NotNull
@@ -179,13 +187,13 @@ public class SimpleCorpusEvaluator {
   public static void main(String[] args) throws IOException {
     if (args.length != 2) {
       System.out.println("Usage: " + SimpleCorpusEvaluator.class.getSimpleName() + " <corpusFile> <languageModelDir>");
-      System.out.println("   [languageModel] is a Lucene index directory with ngram frequency information");
+      System.out.println("   <languageModelDir> is a Lucene index directory with ngram frequency information (use comma but not space to specify more than one)");
       System.exit(1);
     }
     File inputFile = new File(args[0]);
-    File languageModelTopDir = new File(args[1]);
-    System.out.println("Running with language model from " + languageModelTopDir);
-    SimpleCorpusEvaluator evaluator = new SimpleCorpusEvaluator(languageModelTopDir);
+    List<File> indexDirs = Arrays.stream(args[1].split(",")).map(File::new).collect(Collectors.toList());
+    System.out.println("Running with language model from " + indexDirs);
+    SimpleCorpusEvaluator evaluator = new SimpleCorpusEvaluator(indexDirs.toArray(new File[]{}));
     List<String> results = new ArrayList<>();
     double threshold = START_THRESHOLD;
     while (threshold >= END_THRESHOLD) {
@@ -209,12 +217,16 @@ public class SimpleCorpusEvaluator {
   static class NgramLanguageToolEvaluator implements Evaluator {
 
     private final JLanguageTool langTool;
-    private final LuceneLanguageModel languageModel;
+    private final LanguageModel languageModel;
 
-    NgramLanguageToolEvaluator(File indexTopDir) throws IOException {
+    NgramLanguageToolEvaluator(File... indexTopDirs) throws IOException {
       langTool = new JLanguageTool(new English());
       disableAllRules();
-      languageModel = new LuceneLanguageModel(indexTopDir);
+      List<LanguageModel> lms = new ArrayList<>();
+      for (File indexTopDir : indexTopDirs) {
+        lms.add(new LuceneLanguageModel(indexTopDir));
+      }
+      languageModel = new MultiLanguageModel(lms);
       LuceneLanguageModel.clearCaches();
       System.out.println("Using Lucene language model from " + languageModel);
       probabilityRule = new EnglishNgramProbabilityRule(JLanguageTool.getMessageBundle(), languageModel, new English());
