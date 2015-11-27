@@ -51,6 +51,7 @@ import java.util.Map;
 class CommonCrawlToNgram implements AutoCloseable {
 
   private static final double THRESHOLD = 0.00000000001;
+  private static final int MAX_TOKEN_LENGTH = 20;
   
   private final File input;
   private final File indexTopDir;
@@ -128,14 +129,20 @@ class CommonCrawlToNgram implements AutoCloseable {
       if (token.trim().isEmpty()) {
         continue;
       }
-      unigramToCount.compute(token, (k, v) -> v == null ? 1 : v + 1);
+      if (token.length() <= MAX_TOKEN_LENGTH) {
+        unigramToCount.compute(token, (k, v) -> v == null ? 1 : v + 1);
+      }
       if (prev != null) {
-        String ngram = prev + " " + token;
-        bigramToCount.compute(ngram, (k, v) -> v == null ? 1 : v + 1);
+        if (token.length() <= MAX_TOKEN_LENGTH && prev.length() <= MAX_TOKEN_LENGTH) {
+          String ngram = prev + " " + token;
+          bigramToCount.compute(ngram, (k, v) -> v == null ? 1 : v + 1);
+        }
       }
       if (prevPrev != null && prev != null) {
-        String ngram = prevPrev + " " + prev + " " + token;
-        trigramToCount.compute(ngram, (k, v) -> v == null ? 1 : v + 1);
+        if (token.length() <= MAX_TOKEN_LENGTH && prev.length() <= MAX_TOKEN_LENGTH && prevPrev.length() <= MAX_TOKEN_LENGTH) {
+          String ngram = prevPrev + " " + prev + " " + token;
+          trigramToCount.compute(ngram, (k, v) -> v == null ? 1 : v + 1);
+        }
         if (trigramToCount.size() > cacheLimit) {
           writeAndEvaluate();
         }
