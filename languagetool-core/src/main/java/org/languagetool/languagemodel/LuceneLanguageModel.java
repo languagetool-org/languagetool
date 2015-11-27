@@ -173,12 +173,14 @@ public class LuceneLanguageModel implements LanguageModel {
 
   private long getCount(Term term, LuceneSearcher luceneSearcher) {
     try {
-      TopDocs docs = luceneSearcher.searcher.search(new TermQuery(term), 1);
-      if (docs.totalHits > 0) {
+      TopDocs docs = luceneSearcher.searcher.search(new TermQuery(term), 2);
+      if (docs.totalHits == 0) {
+        return 0;
+      } else if (docs.totalHits == 1) {
         int docId = docs.scoreDocs[0].doc;
         return Long.parseLong(luceneSearcher.reader.document(docId).get("count"));
       } else {
-        return 0;
+        throw new RuntimeException("Found more than one match for query " + term + " in " + luceneSearcher.directory);
       }
     } catch (IOException e) {
       throw new RuntimeException(e);
