@@ -1812,8 +1812,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <unify>
                     <feature id="nombre"/>
                     <feature id="genere"/>
-                    <token postag="AQ.*|DA.*" postag_regexp="yes" inflected="yes" regexp="yes">sant|el</token>
+                    <token postag="AQ.*" postag_regexp="yes" inflected="yes">sant</token>
                     <token postag="NP..SP.*" postag_regexp="yes"/>
+                </unify>
+            </pattern>
+            <disambig action="unify"/>
+        </rule>
+        <rule id="el_nompropi" name="el + nom propi">
+            <pattern>
+                <unify>
+                    <feature id="nombre"/>
+                    <feature id="genere"/>
+                    <token postag="DA.*" postag_regexp="yes" inflected="yes">el</token>
+                    <token postag="NP..SP.*" postag_regexp="yes"><exception postag="NP..G.*" postag_regexp="yes"/></token>
                 </unify>
             </pattern>
             <disambig action="unify"/>

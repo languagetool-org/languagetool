@@ -4674,36 +4674,65 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>ho va fer un cop.</example>
                 <example>Llavors farem un cop de cap.</example>
             </rule>
-            <rule id="DONAR_MITJA_VOLTA" name="donar mitja volta">
+            <rule>
                 <pattern>
                     <marker>
                         <token inflected="yes">donar</token>
+                        <token>mitja</token>
+                        <token>volta</token>
                     </marker>
-                    <token>mitja</token>
+                </pattern>
+                <message>Construcció probablement incorrecta.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">girar</match> cua</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">tocar</match> el dos</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> mitja volta</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/4086</url>
+                <example correction="girar cua|tocar el dos|fer mitja volta">Va <marker>donar mitja volta</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="1">donar</token>
+                    </marker>
                     <token>volta</token>
+                    <token skip="1">a</token>
+                    <token regexp="yes">món|plaça|terra|ciutat|astre|planeta|poble</token>
                 </pattern>
                 <message>Val més usar el verb "fer".</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
                 <url>http://esadir.cat/entrades/fitxa/id/4086</url>
-                <example correction="fer">Va <marker>donar</marker> mitja volta.</example>
-                <example>fer mitja volta</example>
+                <example correction="feia">Mentre <marker>donava</marker> la volta al món.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="1">donar</token>
+                    </marker>
+                    <token>volta</token>
+                    <token skip="1">a</token>
+                    <token postag="NP..G.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Val més usar el verb "fer".</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/4086</url>
+                <example correction="feia">Mentre <marker>donava</marker> la volta a l'Àfrica.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="1">donar</token>
+                        <token>volta</token>
+                        <token skip="1">a</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">situació|eliminatòria|enquesta|guerra|circumstància</token>
+                </pattern>
+                <message>Val més usar una altra expressió.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">capgirar</match></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/4086</url>
+                <example correction="capgirar">Volia <marker>donar la volta a</marker> les enquestes.</example>
+                <example correction="capgirar">Volia <marker>donar la volta a</marker> aquella situació.</example>
             </rule>
         </rulegroup>
-        <!-- Només funciona per a algunes situacions: van beguts, considerin oportú. <rulegroup id="concorda_verb_objecte" name="Comprova concordança: verb + participi/adjectiu">
-            <rule>
-            <pattern mark_from="0" mark_to="0">
-            <unify negate="yes">
-            <feature id="nombre"/>
-            <token postag="V[MS][^NPG].*" postag_regexp="yes"><exception inflected="yes">caldre</exception><exception postag="VA[^NPG].*" postag_regexp="yes"></exception></token>
-            <token postag="V.P.*|A.*" postag_regexp="yes"/>
-            </unify>
-            </pattern>
-            <message>Error de concordança de nombre entre verb i participi o adjectiu.</message>
-            <short>Cal separar dos verbs</short>
-            <example correction=""><marker>Estan cansat</marker>.</example>
-            <example><marker>Estan cansats</marker>.</example>
-            </rule>
-            </rulegroup> -->
         <rulegroup id="SER_ESTAR" name="alguns casos de ser/estar">
             <rule id="ESTAR_A_TEMPS" name="*estar/ser a temps">
                 <pattern>
