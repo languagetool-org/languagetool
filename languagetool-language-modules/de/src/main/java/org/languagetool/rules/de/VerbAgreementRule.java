@@ -67,6 +67,11 @@ public class VerbAgreementRule extends GermanRule {
       new PatternTokenBuilder().tokenRegex("mehr|weniger").build(),
       new PatternTokenBuilder().token("als").build(),
       new PatternTokenBuilder().tokenRegex("ich|du|er|sie|es").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("wenn").build(),
+      new PatternTokenBuilder().token("du").build(),
+      new PatternTokenBuilder().token("anstelle").build()
     )
   );
 

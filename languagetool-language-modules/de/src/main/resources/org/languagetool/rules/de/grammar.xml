@@ -2872,6 +2872,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="DU_WUENSCHT" name="Möglicher Tippfehler: 'du wünscht (wünschst)'">
             <!-- TODO this should be covered by VerbAgreementRule but isn't fully. -->
             <rule>
+                <antipattern>
+                    <token regexp="yes">(enttäu|beglückwün|begrap|beherr|belau|bequat|berau|betat|erwi|hinwegtäu|überra|verar|verna|zerknaut)scht</token>
+                    <token regexp="yes">bist|warst|wurdest</token>
+                </antipattern>
                 <pattern>
                     <token>du</token>
                     <marker>
@@ -2880,6 +2884,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2" regexp_match="scht$" regexp_replace="schst"/></suggestion>?</message>
                 <example correction="wünschst">Du <marker>wünscht</marker> dir so viel.</example>
+                <example>Es ist nachvollziehbar, dass du enttäuscht bist.</example>
             </rule>
             <rule>
                 <pattern>
