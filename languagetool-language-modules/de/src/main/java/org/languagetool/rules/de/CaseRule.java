@@ -60,15 +60,32 @@ public class CaseRule extends GermanRule {
   // also see case_rule_exception.txt:
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
-      new PatternTokenBuilder().tokenRegex("Vereinigte[ns]?").build(),
-      new PatternTokenBuilder().tokenRegex("Staaten|Königreiche?s?").build()
+      regex("Vereinigte[ns]?"),
+      regex("Staaten|Königreiche?s?")
     ),
     Arrays.asList(
-      new PatternTokenBuilder().token("Hin").build(),
-      new PatternTokenBuilder().token("und").build(),
-      new PatternTokenBuilder().token("Her").build()
+      token("Hin"),
+      token("und"),
+      token("Her")
+    ),
+    Arrays.asList(
+      // "... weshalb ihr das wissen wollt."
+      pos("VER:INF:NON"),
+      pos("VER:MOD:2:PLU:PRÄ")
     )
   );
+
+  private static PatternToken token(String token) {
+    return new PatternTokenBuilder().tokenRegex(token).build();
+  }
+
+  private static PatternToken regex(String regex) {
+    return new PatternTokenBuilder().tokenRegex(regex).build();
+  }
+
+  private static PatternToken pos(String posTag) {
+    return new PatternTokenBuilder().pos(posTag).build();
+  }
 
   static {
     nounIndicators.add("das");
@@ -99,6 +116,7 @@ public class CaseRule extends GermanRule {
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final Set<String> exceptions = new HashSet<>(Arrays.asList(
+    "Genaueres",
     "Äußersten",
     "Dienstreisender",
     "Verletzte",
