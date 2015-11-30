@@ -65,4 +65,8 @@ public class MultiLanguageModel implements LanguageModel {
     lms.stream().forEach(LanguageModel::close);
   }
 
+  @Override
+  public String toString() {
+    return lms.toString();
+  }
 }
