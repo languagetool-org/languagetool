@@ -42,7 +42,7 @@ public abstract class BaseLanguageModel implements LanguageModel {
     }
     int maxCoverage = 0;
     int coverage = 0;
-    // TODO: lm.getCount("_START_") returns 0 for Google data
+    // TODO: lm.getCount("_START_") returns 0 for Google data -- see getCount(String) in LuceneLanguageModel
     long firstWordCount = getCount(context.get(0));
     maxCoverage++;
     if (firstWordCount > 0) {

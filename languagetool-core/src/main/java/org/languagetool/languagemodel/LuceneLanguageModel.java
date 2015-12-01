@@ -127,6 +127,10 @@ public class LuceneLanguageModel extends BaseLanguageModel {
   @Override
   public long getCount(String token1) {
     Objects.requireNonNull(token1);
+    //TODO: move this into the document? It's not there currently...
+    //if (token1.equals(LanguageModel.GOOGLE_SENTENCE_START)) {
+    //  return 42_107_029_039L;  // see StartTokenCounter, run with 2grams (3grams: 124_541_229_392)
+    //}
     return getCount(Arrays.asList(token1));
   }
 
