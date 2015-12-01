@@ -1198,11 +1198,6 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="DES_DES_ACCENT" name="Des, dès, dés">
       <rule>
-        <antipattern>
-          <token>des</token>
-          <token>a</token>
-          <token>priori</token>
-        </antipattern>
         <pattern>
           <marker><token regexp="yes">d[eé]s<exception scope="previous" regexp="yes">[mtsl]es|[nv]os|quelques</exception></token></marker>
           <token regexp="yes">que?|[lmst]a|[mts]on|[lmst]es|le?[nv]os|cette|lors|après|maintenant|toujours|midi|minuit|aujourd|hier|demain|une?|janvier|f[eé]vrier|mars|avril|mai|juin|juillet|a[uû]ot|septembre|octobre|novembre|d[eé]cembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|P[âa]ques|No[ëe]l</token>
@@ -1227,12 +1222,13 @@ though, and has since been slightly modified)-->
         <pattern>
           <marker><token regexp="yes">d[eè]s</token></marker>
           <token regexp="yes">[àa]</token>
-          <token><exception>présent</exception></token>
+          <token><exception regexp="yes">présent|priori</exception></token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>dés</suggestion> ?</message>
         <example correction="dés">J’ai acheté des <marker>dès</marker> à jouer.</example>
         <example>J’ai acheté des dés à jouer.</example>
         <example>Dès à présent</example>
+        <example>Ils ont des a priori sur nous.</example>
       </rule>
       <rule>
         <pattern>
@@ -25982,7 +25978,7 @@ though, and has since been slightly modified)-->
         <example correction="rappelle">Je ne me <marker>rappelle pas de</marker> ce moment.</example>
         <example>Je ne me rappelle pas ce moment.</example>
         <example>Je me rappelle de quelle manière il a dit cela.</example>
-        <example>Je dois me rappeller de tout ranger.</example>
+        <example>Je dois me rappeler de tout ranger.</example>
         <example>Ils se rappellent bien de moi.</example>
       </rule>
       <rule>
