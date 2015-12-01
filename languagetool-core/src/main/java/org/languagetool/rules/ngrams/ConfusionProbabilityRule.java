@@ -270,13 +270,13 @@ public abstract class ConfusionProbabilityRule extends Rule {
     Probability ngram3Middle;
     Probability ngram3Right;
     if (newTokens.size() == 1) {
-      ngram3Left = getPseudoProbability(getContext(token, tokens, term, 0, 2));
-      ngram3Middle = getPseudoProbability(getContext(token, tokens, term, 1, 1));
-      ngram3Right = getPseudoProbability(getContext(token, tokens, term, 2, 0));
+      ngram3Left = lm.getPseudoProbability(getContext(token, tokens, term, 0, 2));
+      ngram3Middle = lm.getPseudoProbability(getContext(token, tokens, term, 1, 1));
+      ngram3Right = lm.getPseudoProbability(getContext(token, tokens, term, 2, 0));
     } else if (newTokens.size() == 2) {
       // e.g. you're -> you 're
-      ngram3Left = getPseudoProbability(getContext(token, tokens, newTokens, 0, 1));
-      ngram3Right = getPseudoProbability(getContext(token, tokens, newTokens, 1, 0));
+      ngram3Left = lm.getPseudoProbability(getContext(token, tokens, newTokens, 0, 1));
+      ngram3Right = lm.getPseudoProbability(getContext(token, tokens, newTokens, 1, 0));
       // we cannot just use new Probability(1.0, 1.0f) as that would always produce higher
       // probabilities than in the case of one token (eg. "your"):
       ngram3Middle = new Probability((ngram3Left.getProb() + ngram3Right.getProb()) / 2, 1.0f); 
@@ -293,9 +293,9 @@ public abstract class ConfusionProbabilityRule extends Rule {
   }
 
   private double get4gramProbabilityFor(GoogleToken token, List<GoogleToken> tokens, String term) {
-    Probability ngram4Left = getPseudoProbability(getContext(token, tokens, term, 0, 3));
-    Probability ngram4Middle = getPseudoProbability(getContext(token, tokens, term, 1, 2));
-    Probability ngram4Right = getPseudoProbability(getContext(token, tokens, term, 3, 0));
+    Probability ngram4Left = lm.getPseudoProbability(getContext(token, tokens, term, 0, 3));
+    Probability ngram4Middle = lm.getPseudoProbability(getContext(token, tokens, term, 1, 2));
+    Probability ngram4Right = lm.getPseudoProbability(getContext(token, tokens, term, 3, 0));
     if (ngram4Left.getCoverage() < MIN_COVERAGE && ngram4Middle.getCoverage() < MIN_COVERAGE && ngram4Right.getCoverage() < MIN_COVERAGE) {
       debug("  Min coverage of %.2f not reached: %.2f, %.2f, %.2f, assuming p=0\n", MIN_COVERAGE, ngram4Left.getCoverage(), ngram4Middle.getCoverage(), ngram4Right.getCoverage());
       return 0.0;
@@ -303,39 +303,6 @@ public abstract class ConfusionProbabilityRule extends Rule {
       //debug("  Min coverage of %.2f okay: %.2f, %.2f\n", MIN_COVERAGE, ngram3Left.coverage, ngram3Right.coverage);
       return ngram4Left.getProb() * ngram4Middle.getProb() * ngram4Right.getProb();
     }
-  }
-
-  // This is not always guaranteed to be a real probability (0.0 to 1.0)
-  Probability getPseudoProbability(List<String> context) {
-    int maxCoverage = 0;
-    int coverage = 0;
-    // TODO: lm.getCount("_START_") returns 0 for Google data
-    long firstWordCount = lm.getCount(context.get(0));
-    maxCoverage++;
-    if (firstWordCount > 0) {
-      coverage++;
-    }
-    // chain rule of probability (https://www.coursera.org/course/nlp, "Introduction to N-grams" and "Estimating N-gram Probabilities"),
-    // https://www.ibm.com/developerworks/community/blogs/nlp/entry/the_chain_rule_of_probability?lang=en
-    double p = (double) (firstWordCount + 1) / (totalTokenCount + 1);
-    debug("    P for %s: %.20f (%d)\n", context.get(0), p, firstWordCount);
-    for (int i = 2; i <= context.size(); i++) {
-      List<String> subList = context.subList(0, i);
-      long phraseCount = lm.getCount(subList);
-      double thisP = (double) (phraseCount + 1) / (firstWordCount + 1);
-      // Variant:
-      //long prevPhraseCount = lm.getCount(subList.subList(0, subList.size()-1));
-      //double thisP = (double) (phraseCount + 1) / (prevPhraseCount + 1);
-      maxCoverage++;
-      debug("    P for " + subList + ": %.20f (%d)\n", thisP, phraseCount);
-      //debug("    (%s)\n", subList.subList(0, subList.size()-1));
-      if (phraseCount > 0) {
-        coverage++;
-      }
-      p *= thisP;
-    }
-    debug("  " + StringTools.listToString(context, " ") + " => %.20f\n", p);
-    return new Probability(p, (float)coverage/maxCoverage);
   }
 
   // a simplified version of getPseudoProbability() for clarity:
