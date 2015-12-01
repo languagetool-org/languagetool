@@ -150,7 +150,7 @@ class CommonCrawlToNgram2 implements AutoCloseable {
         System.out.printf(Locale.ENGLISH, "Indexing line %d (%.2fMB) - took %dms, avg=%.2f\n", lineCount, mb, thisTime, avgTime);
         lastTime = System.currentTimeMillis();
       }
-      if (++lineCount % 100_000 == 0) {
+      if (lineCount % 100_000 == 0) {
         System.out.println("commit");
         db.commit();
       }
