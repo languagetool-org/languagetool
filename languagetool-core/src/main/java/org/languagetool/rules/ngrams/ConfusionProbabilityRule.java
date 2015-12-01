@@ -309,6 +309,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   Probability getPseudoProbability(List<String> context) {
     int maxCoverage = 0;
     int coverage = 0;
+    // TODO: lm.getCount("_START_") returns 0 for Google data
     long firstWordCount = lm.getCount(context.get(0));
     maxCoverage++;
     if (firstWordCount > 0) {
