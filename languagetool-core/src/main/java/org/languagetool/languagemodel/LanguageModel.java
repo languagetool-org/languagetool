@@ -18,6 +18,8 @@
  */
 package org.languagetool.languagemodel;
 
+import org.languagetool.rules.ngrams.Probability;
+
 import java.util.List;
 
 /**
@@ -31,6 +33,13 @@ public interface LanguageModel extends AutoCloseable {
   String GOOGLE_SENTENCE_START = "_START_";
   /** ngram sentence end marker - note: this is not in the v1 data from Google */
   String GOOGLE_SENTENCE_END = "_END_";
+
+  /** 
+   * This is not always guaranteed to be a real probability (0.0 to 1.0).
+   * Throws exception if context is longer than the ngram index supports. 
+   * @since 3.2
+   */
+  Probability getPseudoProbability(List<String> context);
 
   /**
    * Get the occurrence count for {@code token}.

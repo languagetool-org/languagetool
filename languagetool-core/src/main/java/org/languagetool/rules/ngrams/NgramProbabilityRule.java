@@ -48,9 +48,8 @@ public class NgramProbabilityRule extends Rule {
 
   private final LanguageModel lm;
   private final Language language;
-  private final long totalTokenCount;
 
-  private double minProbability = 0.1f;
+  private double minProbability = 0.000000000000001;
 
   public NgramProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     super(messages);
@@ -58,7 +57,6 @@ public class NgramProbabilityRule extends Rule {
     setLocQualityIssueType(ITSIssueType.NonConformance);
     this.lm = Objects.requireNonNull(languageModel);
     this.language = Objects.requireNonNull(language);
-    totalTokenCount = lm.getTotalTokenCount();
   }
 
   @Override
@@ -113,7 +111,7 @@ public class NgramProbabilityRule extends Rule {
       if (prevPrevToken != null && prevToken != null) {
         if (i < tokens.size()-1) {
           GoogleToken next = tokens.get(i+1);
-          Probability p = getPseudoProbability(Arrays.asList(prevToken.token, token, next.token));
+          Probability p = lm.getPseudoProbability(Arrays.asList(prevToken.token, token, next.token));
           //System.out.println("P=" + p + " for " + Arrays.asList(prevToken.token, token, next.token));
           String ngram = prevToken + " " + token + " " + next.token;
           // without bigrams:
@@ -122,9 +120,9 @@ public class NgramProbabilityRule extends Rule {
           //Probability bigramLeftP = getPseudoProbability(Arrays.asList(prevToken.token, token));
           //Probability bigramRightP = getPseudoProbability(Arrays.asList(token, next.token));
           //double prob = p.getProb() + bigramLeftP.getProb() + bigramRightP.getProb();
+          //System.out.println(prob + " for " + prevToken.token +" "+ token +" "+ next.token);
           if (prob < minProbability) {
-            long occurrences = lm.getCount(prevToken.token, token, next.token);
-            String message = "ngram '" + ngram + "' rarely occurs in ngram reference corpus (occurrences: " + occurrences + ")";
+            String message = "ngram '" + ngram + "' rarely occurs in ngram reference corpus";
             RuleMatch match = new RuleMatch(this, prevToken.startPos, next.endPos, message);
             matches.add(match);
           }
@@ -136,36 +134,7 @@ public class NgramProbabilityRule extends Rule {
     }
     return matches.toArray(new RuleMatch[matches.size()]);
   }
-
-  // This is not always guaranteed to be a real probability (0.0 to 1.0)
-  Probability getPseudoProbability(List<String> context) {
-    int maxCoverage = 0;
-    int coverage = 0;
-    long firstWordCount = lm.getCount(context.get(0));
-    maxCoverage++;
-    if (firstWordCount > 0) {
-      coverage++;
-    }
-    // chain rule of probability (https://www.coursera.org/course/nlp, "Introduction to N-grams" and "Estimating N-gram Probabilities"),
-    // https://www.ibm.com/developerworks/community/blogs/nlp/entry/the_chain_rule_of_probability?lang=en
-    double p = (double) (firstWordCount + 1) / (totalTokenCount + 1);
-    debug("    P for %s: %.20f (%d)\n", context.get(0), p, firstWordCount);
-    for (int i = 2; i <= context.size(); i++) {
-      List<String> subList = context.subList(0, i);
-      long phraseCount = lm.getCount(subList);
-      double thisP = (double) (phraseCount + 1) / (firstWordCount + 1);
-      maxCoverage++;
-      debug("    P for " + subList + ": %.20f (%d)\n", thisP, phraseCount);
-      //debug("    (%s)\n", subList.subList(0, subList.size()-1));
-      if (phraseCount > 0) {
-        coverage++;
-      }
-      p *= thisP;
-    }
-    debug("  " + StringTools.listToString(context, " ") + " => %.20f\n", p);
-    return new Probability(p, (float)coverage/maxCoverage);
-  }
-
+  
   @Override
   public String getDescription() {
     //return Tools.i18n(messages, "statistics_rule_description");

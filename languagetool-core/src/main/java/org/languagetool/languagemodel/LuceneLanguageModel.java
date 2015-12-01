@@ -37,13 +37,14 @@ import java.util.*;
  * not for the case with 0 occurrences.
  * @since 2.7
  */
-public class LuceneLanguageModel implements LanguageModel {
+public class LuceneLanguageModel extends BaseLanguageModel {
 
   private static final Map<File,LuceneSearcher> dirToSearcherMap = new HashMap<>();  // static to save memory for language variants
 
   private final List<File> indexes = new ArrayList<>();
   private final Map<Integer,LuceneSearcher> luceneSearcherMap = new HashMap<>();
   private final File topIndexDir;
+  private final long maxNgram;
 
   /**
    * Throw RuntimeException is the given directory does not seem to be a valid ngram top directory
@@ -79,8 +80,8 @@ public class LuceneLanguageModel implements LanguageModel {
    *                    which is a Lucene index with ngram occurrences as created by
    *                    {@code org.languagetool.dev.FrequencyIndexCreator}.
    */
-  public LuceneLanguageModel(File topIndexDir) throws IOException {
-    validateDirectory(topIndexDir);
+  public LuceneLanguageModel(File topIndexDir)  {
+    doValidateDirectory(topIndexDir);
     this.topIndexDir = topIndexDir;
     addIndex(topIndexDir, 1);
     addIndex(topIndexDir, 2);
@@ -89,9 +90,20 @@ public class LuceneLanguageModel implements LanguageModel {
     if (luceneSearcherMap.size() == 0) {
       throw new RuntimeException("No directories '1grams' ... '3grams' found in " + topIndexDir);
     }
+    maxNgram = Collections.<Integer>max(luceneSearcherMap.keySet());
   }
 
-  private void addIndex(File topIndexDir, int ngramSize) throws IOException {
+  @Experimental
+  public LuceneLanguageModel(int maxNgram)  {
+    this.maxNgram = maxNgram;
+    this.topIndexDir = null;
+  }
+
+  protected void doValidateDirectory(File topIndexDir) {
+    validateDirectory(topIndexDir);
+  }
+
+  private void addIndex(File topIndexDir, int ngramSize) {
     File indexDir = new File(topIndexDir, ngramSize + "grams");
     if (indexDir.exists() && indexDir.isDirectory()) {
       if (luceneSearcherMap.containsKey(ngramSize)) {
@@ -104,6 +116,9 @@ public class LuceneLanguageModel implements LanguageModel {
 
   @Override
   public long getCount(List<String> tokens) {
+    if (tokens.size() > maxNgram) {
+      throw new RuntimeException("Requested " + tokens.size() + "gram but index has only up to " + maxNgram + "gram: " + tokens);
+    }
     Objects.requireNonNull(tokens);
     Term term = new Term("ngram", StringUtils.join(tokens, " "));
     return getCount(term, getLuceneSearcher(tokens.size()));
@@ -160,12 +175,16 @@ public class LuceneLanguageModel implements LanguageModel {
     return luceneSearcher;
   }
 
-  private LuceneSearcher getCachedLuceneSearcher(File indexDir) throws IOException {
+  private LuceneSearcher getCachedLuceneSearcher(File indexDir) {
     LuceneSearcher luceneSearcher = dirToSearcherMap.get(indexDir);
     if (luceneSearcher == null) {
-      LuceneSearcher newSearcher = new LuceneSearcher(indexDir);
-      dirToSearcherMap.put(indexDir, newSearcher);
-      return newSearcher;
+      try {
+        LuceneSearcher newSearcher = new LuceneSearcher(indexDir);
+        dirToSearcherMap.put(indexDir, newSearcher);
+        return newSearcher;
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
     } else {
       return luceneSearcher;
     }

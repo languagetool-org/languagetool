@@ -19,11 +19,11 @@
 package org.languagetool.languagemodel;
 
 import org.junit.Test;
+import org.languagetool.rules.ngrams.Probability;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 @SuppressWarnings("MagicNumber")
@@ -31,40 +31,41 @@ public class MultiLanguageModelTest {
   
   @Test
   public void test() {
-    LanguageModel lm1 = new FakeLanguageModel(10);
-    LanguageModel lm2 = new FakeLanguageModel(15);
+    LanguageModel lm1 = new FakeLanguageModel(0.5f);
+    LanguageModel lm2 = new FakeLanguageModel(0.2f);
     MultiLanguageModel lm = new MultiLanguageModel(Arrays.asList(lm1, lm2));
-    assertThat(lm.getCount("foo"), is(25L));
-    assertThat(lm.getCount("foo", "bar"), is(4L));
-    assertThat(lm.getCount("foo", "bar", "blah"), is(6L));
-    assertThat(lm.getCount(Arrays.asList("a", "b", "c")), is(8L));
-    assertThat(lm.getTotalTokenCount(), is(18L));
+    assertEquals(0.7f, lm.getPseudoProbability(Arrays.asList("foo", "bar", "blah")).getProb(), 0.01f);
+    assertEquals(0.35f, lm.getPseudoProbability(Arrays.asList("foo", "bar", "blah")).getCoverage(), 0.01f);
   }
 
   private class FakeLanguageModel implements LanguageModel {
-    private final int fakeValue;
-    FakeLanguageModel(int fakeValue) {
+    private final float fakeValue;
+    FakeLanguageModel(float fakeValue) {
       this.fakeValue = fakeValue;
     }
     @Override
+    public Probability getPseudoProbability(List<String> context) {
+      return new Probability(fakeValue, 0.5f);
+    }
+    @Override
     public long getCount(String token1) {
-      return fakeValue;
+      throw new RuntimeException();
     }
     @Override
     public long getCount(String token1, String token2) {
-      return 2;
+      throw new RuntimeException();
     }
     @Override
     public long getCount(String token1, String token2, String token3) {
-      return 3;
+      throw new RuntimeException();
     }
     @Override
     public long getCount(List<String> tokens) {
-      return 4;
+      throw new RuntimeException();
     }
     @Override
     public long getTotalTokenCount() {
-      return 9;
+      throw new RuntimeException();
     }
     @Override public void close() {}
   }

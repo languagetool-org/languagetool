@@ -22,21 +22,34 @@ package org.languagetool.rules.ngrams;
  * Probability, but doesn't check for a range of 0 to 1.
  * @since 3.2
  */
-class Probability {
+public class Probability {
 
   private final double prob;
   private final float coverage;
 
-  Probability(double prob, float coverage) {
+  public Probability(double prob, float coverage) {
+    if (prob < 0.0) {
+      throw new RuntimeException("Probability must be >= 0: " + prob);
+    }
+    //if (prob > 1.0) {
+    //  throw new RuntimeException("Probability must be 0.0 to 1.0: " + prob);
+    //}
     this.prob = prob;
     this.coverage = coverage;
   }
 
-  double getProb() {
+  /**
+   * A probability-like value, but can be filled with any float >= 0.
+   */
+  public double getProb() {
     return prob;
   }
 
-  float getCoverage() {
+  /**
+   * The fraction of lookups that had occurrence counts > 0. This
+   * might be used to ignore the whole probability for low coverage items.
+   */
+  public float getCoverage() {
     return coverage;
   }
 

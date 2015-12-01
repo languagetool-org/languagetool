@@ -1,0 +1,73 @@
+/* LanguageTool, a natural language style checker 
+ * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+package org.languagetool.languagemodel;
+
+import org.languagetool.rules.ngrams.Probability;
+import org.languagetool.tools.StringTools;
+
+import java.util.List;
+
+/**
+ * The algorithm of a language model, independent of the way data
+ * is stored (see sub classes for that).
+ * @since 3.2
+ */
+public abstract class BaseLanguageModel implements LanguageModel {
+
+  private Long totalTokenCount;
+
+  public BaseLanguageModel()  {
+  }
+
+  @Override
+  public Probability getPseudoProbability(List<String> context) {
+    if (this.totalTokenCount == null) {
+      this.totalTokenCount = getTotalTokenCount();
+    }
+    int maxCoverage = 0;
+    int coverage = 0;
+    long firstWordCount = getCount(context.get(0));
+    maxCoverage++;
+    if (firstWordCount > 0) {
+      coverage++;
+    }
+    // chain rule of probability (https://www.coursera.org/course/nlp, "Introduction to N-grams" and "Estimating N-gram Probabilities"),
+    // https://www.ibm.com/developerworks/community/blogs/nlp/entry/the_chain_rule_of_probability?lang=en
+    double p = (double) (firstWordCount + 1) / (totalTokenCount + 1);
+    debug("    P for %s: %.20f (%d)\n", context.get(0), p, firstWordCount);
+    for (int i = 2; i <= context.size(); i++) {
+      List<String> subList = context.subList(0, i);
+      long phraseCount = getCount(subList);
+      double thisP = (double) (phraseCount + 1) / (firstWordCount + 1);
+      maxCoverage++;
+      debug("    P for " + subList + ": %.20f (%d)\n", thisP, phraseCount);
+      if (phraseCount > 0) {
+        coverage++;
+      }
+      p *= thisP;
+    }
+    debug("  " + StringTools.listToString(context, " ") + " => %.20f\n", p);
+    return new Probability(p, (float)coverage/maxCoverage);
+  }
+
+  private void debug(String message, Object... vars) {
+    //System.out.printf(Locale.ENGLISH, message, vars);
+  }
+
+}

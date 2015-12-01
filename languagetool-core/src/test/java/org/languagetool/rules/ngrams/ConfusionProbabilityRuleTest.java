@@ -21,10 +21,12 @@ package org.languagetool.rules.ngrams;
 import org.junit.Test;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -147,9 +149,10 @@ public class ConfusionProbabilityRuleTest {
     assertGood(input, rule);
   }
 
-  static class FakeLanguageModel implements LanguageModel {
-    Map<String,Integer> map = new HashMap<>();
+  static class FakeLanguageModel extends LuceneLanguageModel {
+    static Map<String,Integer> map = new HashMap<>();
     FakeLanguageModel() {
+      super(3);
       // for "Their are new ideas to explore":
       map.put("There are", 10);
       map.put("There are new", 5);
@@ -161,6 +164,9 @@ public class ConfusionProbabilityRuleTest {
       map.put("Why is their", 5);
       map.put("their car", 11);
       map.put("their car broken", 2);
+    }
+    @Override
+    public void doValidateDirectory(File topIndexDir) {
     }
     @Override
     public long getCount(List<String> tokens) {

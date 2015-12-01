@@ -18,6 +18,8 @@
  */
 package org.languagetool.languagemodel;
 
+import org.languagetool.rules.ngrams.Probability;
+
 import java.util.List;
 
 /**
@@ -36,28 +38,56 @@ public class MultiLanguageModel implements LanguageModel {
   }
 
   @Override
-  public long getCount(String token) {
-    return lms.stream().mapToLong(lm -> lm.getCount(token)).sum();
+  public Probability getPseudoProbability(List<String> context) {
+    double prob = 0;
+    float coverage = 0;
+    int i = 0;
+    //System.out.println(context + " ----------------------------------------------------------");
+    for (LanguageModel lm : lms) {
+      Probability pProb = lm.getPseudoProbability(context);
+      //System.out.println(i + ". " + pProb.getProb() + " (" + pProb.getCoverage() + ")");
+      //prob += pProb.getProb();
+      //if (prob < pProb.getProb()) {
+      //  prob = pProb.getProb();
+      //}
+      /*if (i == 1) {
+        prob += pProb.getProb() / 100000;
+      } else {
+        prob += pProb.getProb();
+      }*/
+      // TODO: decide what's the proper way to combine the probabilities
+      prob += pProb.getProb();
+      coverage += pProb.getProb();
+      i++;
+    }
+    //System.out.println(context +"=>" +prob);
+    //return new Probability(prob/lms.size(), coverage/lms.size());
+    return new Probability(prob, coverage/lms.size());
   }
 
   @Override
   public long getCount(List<String> tokens) {
-    return lms.stream().mapToLong(lm -> lm.getCount(tokens)).sum();
+    throw new RuntimeException("Not supported in MultiLanguageModel");
+  }
+
+  @Override
+  public long getCount(String token) {
+    throw new RuntimeException("Not supported in MultiLanguageModel");
   }
 
   @Override
   public long getCount(String token1, String token2) {
-    return lms.stream().mapToLong(lm -> lm.getCount(token1, token2)).sum();
+    throw new RuntimeException("Not supported in MultiLanguageModel");
   }
 
   @Override
   public long getCount(String token1, String token2, String token3) {
-    return lms.stream().mapToLong(lm -> lm.getCount(token1, token2, token3)).sum();
+    throw new RuntimeException("Not supported in MultiLanguageModel");
   }
 
   @Override
   public long getTotalTokenCount() {
-    return lms.stream().mapToLong(LanguageModel::getTotalTokenCount).sum();
+    throw new RuntimeException("Not supported in MultiLanguageModel");
   }
 
   @Override
