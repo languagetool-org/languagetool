@@ -63,7 +63,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY precedits_per_TAN "bo|prompte|savi|espectacular|alt|ample|estret|complex|comú|divers|eficaç|efectiu|fals|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer|exagerat|ràpid|(in)?capacita(ts?|da|des)|necessaris?|necessàri(a|es)">
     <!ENTITY precedits_per_TANT "no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY seguits_per_COM_A "acceptar|justificar|caracteritzar|qualificar|establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre|etiquetar|pintar">
-    <!ENTITY sigles_apostrofen "(?-i)FM|FBI|FMI|IEC|IES|IEA|NBA|NBC|SPD|FTP|F1|IAE|LSD|FDP|FMLN|IPC|IRA|IRPF|NPD|SME|SMI|Sporting|SPD|SPLA|Spartak?">
+    <!ENTITY sigles_apostrofen "(?-i)FM|FBI|FMI|IEC|IES|IEA|NBA|NBC|SPD|FTP|F1|IAE|LSD|FDP|FMLN|IPC|IRA|IRPF|NPD|SME|SMI|Sporting|SPLA|Spartak?">
     <!ENTITY sigles_no_apostrofen "(?-i)SGAE|FNAC|ITV|Scala">
     <!ENTITY unitats "mm|cm|dm|m|km|d|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|K|pts|ptes|[£€$]">
     <!ENTITY unitats_temps "segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|decenni|segle|mil·lenni|mil·lenari">
@@ -9153,6 +9153,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="TANTA_TANT_LA" name="*tanta/tant">
+            <pattern>
+                <token postag="V.[SI].*|_GV_" postag_regexp="yes"><exception inflected="yes" regexp="yes">ser|semblar|parèixer</exception></token>
+                <marker>
+                    <token>tanta</token>
+                </marker>
+                <token postag="DA.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Possible confusió.</message>
+            <suggestion>tant</suggestion>
+            <example correction="tant">Anhelava <marker>tanta</marker> la soledat.</example>
+            <example>Fou tanta la desesperació.</example>
+        </rule>
         <rule id="A_CAPELLA" name="a *capella/cappella">
             <pattern>
                 <token>a<exception scope="previous" regexp="yes" inflected="yes">com|dedicar|consagrar|reduir|per</exception></token>
@@ -25668,7 +25681,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>a<exception scope="previous" regexp="yes">escrits?</exception></token>
                         <token spacebefore="no">l</token>
-                        <token skip="1" regexp="yes">(?-i)front</token>
+                        <token skip="1" regexp="yes">(?-i)front<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
                         <token regexp="yes">d'|de</token>
                     </marker>
                     <token><exception postag="NP..G..|NP..SP." postag_regexp="yes"/><exception regexp="yes">combat|batalla|guerra|ell</exception></token>
@@ -28655,6 +28668,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="PENDUL_PENDOL" name="pèndul/pèndol">
+            <pattern>
+                <token regexp="yes">pènduls?<exception scope="previous" postag="N.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>'Pèndul' és correcte com a adjectiu. Com a nom cal escriure <suggestion><match no="1" postag="AQ..([SP]).*" postag_regexp="yes" postag_replace="NCM$1.*">pèndol</match></suggestion>.</message>
+            <example correction="pèndol">Del <marker>pèndul</marker> de Foucault.</example>
+            <example>El càrex pèndul.</example>
+        </rule>
         <rule id="PROCEDIR" name="procedir/és procedent/escau">
             <pattern>
                 <token inflected="yes">procedir</token>
@@ -29789,7 +29810,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="PETROLIFER" name="petrolífer/petrolier">
             <pattern>
-                <token regexp="yes" inflected="yes">interès|exportació|importació|port|vaixell|extracció|monopoli|sector|activitat|explotació|plataforma|prospecció|indústria|crisi|companyia|empresa|grup|productor|holding|hòlding</token>
+                <token regexp="yes" inflected="yes">objectiu|interès|exportació|importació|port|vaixell|extracció|monopoli|sector|activitat|explotació|plataforma|prospecció|indústria|crisi|companyia|empresa|grup|productor|holding|hòlding</token>
                 <token inflected="yes">petrolífer</token>
             </pattern>
             <message>Paraula inadequada en aquest context. "Petrolífer" vol dir només "que conté petroli".</message>
