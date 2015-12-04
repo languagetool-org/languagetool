@@ -23601,6 +23601,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <!-- Please note that 'um' is omitted intentionally because it generates false positives. -->
             <rule>
+                <antipattern>
+                    <token>zu</token>
+                    <token postag="VER:INF:SFT"/>
+                </antipattern>
                 <!-- FEM -->
                 <pattern case_sensitive="yes">
                     <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
@@ -23619,7 +23623,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Das ist wider <marker>der Vernunft</marker>.</example>
                 <example correction="">Das ist wider <marker>aller Vernunft</marker>.</example>
                 <example correction="">Das ist für <marker>deiner Frau</marker>.</example>
-<!--                 <example>Er macht es, ohne <marker>seiner Gruppe</marker> zu schädigen.</example> TODO -->
+                <example>Er macht es, ohne <marker>seiner Gruppe</marker> zu schaden.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
