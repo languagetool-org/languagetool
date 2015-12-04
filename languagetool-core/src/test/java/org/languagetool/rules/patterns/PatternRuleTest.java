@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.String;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
@@ -44,7 +45,9 @@ public class PatternRuleTest extends TestCase {
   // This check prints a warning for affected rules, but it's disabled by default because
   // it makes the tests very slow:
   private static final boolean CHECK_WITH_SENTENCE_SPLITTING = false;
-  
+  private static final Pattern PATTERN_MARKER_START = Pattern.compile(".*<pattern[^>]*>\\s*<marker>.*", Pattern.DOTALL);
+  private static final Pattern PATTERN_MARKER_END = Pattern.compile(".*</marker>\\s*</pattern>.*", Pattern.DOTALL);
+
   public void testFake() {
     // there's no test here - the languages are supposed to extend this class and call runGrammarRulesFromXmlTest() 
   }
@@ -160,6 +163,12 @@ public class PatternRuleTest extends TestCase {
     }
     for (AbstractPatternRule rule : rules) {
       // Test the rule pattern.
+      /* check for useless 'marker' elements commented out - too slow to always run:
+      PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
+      String xml = creator.toXML(rule.getPatternRuleId(), lang);
+      if (PATTERN_MARKER_START.matcher(xml).matches() && PATTERN_MARKER_END.matcher(xml).matches()) {
+        System.err.println("WARNING " + lang + ": useless <marker>: " + rule.getFullId());
+      }*/
       PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getPatternTokens(),
               rule.getId(), rule.getSubId(), lang);
 

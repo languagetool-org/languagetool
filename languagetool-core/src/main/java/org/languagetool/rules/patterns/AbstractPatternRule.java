@@ -187,7 +187,7 @@ public abstract class AbstractPatternRule extends Rule {
   }
 
   /**
-   * The rule id and it's sub id, if any. The format is like {@code RULE_ID[SUB_ID]}.
+   * The rule id and its sub id, if any. The format is like {@code RULE_ID[SUB_ID]}, e.g. {@code WANT_TO[2]}.
    * @since 3.2
    * @see #getId()
    */
@@ -196,6 +196,18 @@ public abstract class AbstractPatternRule extends Rule {
       return id + "[" + subId + "]";
     } else {
       return id;
+    }
+  }
+
+  /**
+   * The rule id and its sub id, if any.
+   * @since 3.2
+   */
+  public PatternRuleId getPatternRuleId() {
+    if (subId != null) {
+      return new PatternRuleId(id, subId);
+    } else {
+      return new PatternRuleId(id);
     }
   }
 
