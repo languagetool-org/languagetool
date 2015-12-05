@@ -53,7 +53,6 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   private final Map<String,List<ConfusionSet>> wordToSets;
   private final LanguageModel lm;
-  private final long totalTokenCount;
   private final int grams;
   private final Language language;
 
@@ -79,7 +78,6 @@ public abstract class ConfusionProbabilityRule extends Rule {
       throw new IllegalArgumentException("grams must be between 1 and 5: " + grams);
     }
     this.grams = grams;
-    totalTokenCount = languageModel.getTotalTokenCount();
   }
 
   @Override
@@ -303,20 +301,6 @@ public abstract class ConfusionProbabilityRule extends Rule {
       //debug("  Min coverage of %.2f okay: %.2f, %.2f\n", MIN_COVERAGE, ngram3Left.coverage, ngram3Right.coverage);
       return ngram4Left.getProb() * ngram4Middle.getProb() * ngram4Right.getProb();
     }
-  }
-
-  // a simplified version of getPseudoProbability() for clarity:
-  double getPseudoProbability2(List<String> context) {  // three tokens, e.g. [this, is, their] and [this, is, there]  
-    long firstWordCount = lm.getCount(context.get(0));  // this gets absolute ngram count
-    // chain rule:
-    double p = (double) (firstWordCount + 1) / (totalTokenCount + 1);
-    for (int i = 2; i <= context.size(); i++) {
-      List<String> subList = context.subList(0, i);  // e.g. [this, is], then [this, is, their]
-      long phraseCount = lm.getCount(subList);
-      double thisP = (double) (phraseCount + 1) / (firstWordCount + 1);
-      p *= thisP;
-    }
-    return p;
   }
 
   private void debug(String message, Object... vars) {

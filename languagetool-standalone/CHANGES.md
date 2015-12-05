@@ -59,6 +59,12 @@
   * `StringTools.isWhitespace()` now returns `true` for a token that is
     a non-breaking space or a narrow non-breaking space
   * `RuleFilter` is not an interface anymore but an abstract class
+  * Class `BerkeleyLanguageModel` was added to support BerkeleyLM language models.
+    See https://github.com/adampauls/berkeleylm for the software and e.g.
+    http://tomato.banatao.berkeley.edu:8080/berkeleylm_binaries/ for pre-built models.
+    To use the new models your language class needs to overwrite the `getLanguageModel(File)`
+    method. For now, we recommend to continue using the Lucene-based models at
+    http://languagetool.org/download/ngram-data/.
 
 #### LibreOffice / Apache OpenOffice Integration
   * fix: disabling rules that are disabled by default and had been 
@@ -66,7 +72,6 @@
 
 #### Internal
   * updated segment library to 2.0.0 (https://github.com/loomchild/segment)
-
 
 
 ## 3.1 (2015-09-28)

@@ -58,7 +58,7 @@ public class German extends Language implements AutoCloseable {
   private GermanChunker chunker;
   private CompoundWordTokenizer compoundTokenizer;
   private GermanCompoundTokenizer strictCompoundTokenizer;
-  private LuceneLanguageModel languageModel;
+  private LanguageModel languageModel;
 
   @Override
   public Language getDefaultLanguageVariant() {
@@ -200,6 +200,9 @@ public class German extends Language implements AutoCloseable {
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
     if (languageModel == null) {
       languageModel = new LuceneLanguageModel(new File(indexDir, getShortName()));
+      // for testing:
+      //languageModel = new BerkeleyRawLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));
+      //languageModel = new BerkeleyLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));
     }
     return languageModel;
   }
