@@ -1304,14 +1304,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="incorrect">Стоимость работ составила 10 <marker>млн</marker> рублей.</example>
         </rule>
         -->
-         <rule default="on" id="postscriptum" name="«P.S.»">
+        <rule default="on" id="postscriptum" name="«P.S.»">
              <pattern case_sensitive="no">
-                <marker>
                     <token>P</token>
                     <token>.</token>
                     <token spacebefore="yes">S</token>
                     <token>.</token>
-                </marker>
              </pattern>
             <message>«P.S.» пробелом не разделяется: <suggestion>P.S.</suggestion></message>
             <short>«P.S.» пробелом не разделяется</short>
@@ -6492,12 +6490,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
             <rule>   
                 <pattern>
-                    <marker>
                         <token>не</token>
                         <token>свет</token>
                         <token>не</token>                  
                         <token>заря</token>                  
-                    </marker>
                 </pattern>
                 <message>Частица «ни» в устойчивых выражениях. Запятая не ставится. Вы имели в виду <suggestion>ни свет ни заря</suggestion>?</message>
                 <short>Правильно «ни свет ни заря»</short>
@@ -6508,12 +6504,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
             <rule>   
                 <pattern>
-                    <marker>
                         <token>не</token>
                         <token>днем</token>
                         <token>не</token>                  
                         <token>ночью</token>                  
-                    </marker>
                 </pattern>
                 <message>Частица «ни» в устойчивых выражениях. Запятая не ставится. Вы имели в виду <suggestion>ни днем ни ночью</suggestion>?</message>
                 <short>Правильно «ни днем ни ночью»</short>
@@ -6524,95 +6518,74 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
             <rule>   
                 <pattern>
-                    <marker>
                         <token>не</token>
                         <token>много</token>
                         <token>не</token>                  
                         <token>мало</token>                  
-                    </marker>
                 </pattern>
                 <message>Частица «ни» в устойчивых выражениях. Запятая не ставится. Вы имели в виду <suggestion>ни много ни мало</suggestion>?</message>
                 <short>Правильно «ни много ни мало»</short>
                 <example correction="ни много ни мало">Он заработал <marker>не много не мало</marker> миллион.</example>
                 <example>Он заработал ни много ни мало миллион.</example>
-
-
             </rule>   
-
 
             <rule>   
                 <pattern>
-                    <marker>
                         <token>не</token>
                         <token>пуха</token>
                         <token>не</token>                  
                         <token>пера</token>                  
-                    </marker>
                 </pattern>
                 <message>Частица «ни» в устойчивых выражениях. Запятая не ставится. Вы имели в виду <suggestion>ни пуха ни пера</suggestion>?</message>
                 <short>Правильно «ни пуха ни пера»</short>
                 <example correction="ни пуха ни пера">Пожелать <marker>не пуха не пера</marker>.</example>
                 <example>Пожелать ни пуха ни пера.</example>
             </rule>   
-
-
         </rulegroup>
 
 <rulegroup id="Chastitsa_NI_usilen_negat" name="Частица «НИ» для усиления отрицания">
 
             <rule>   
                 <pattern>
-                    <marker>
                         <token>нет</token>
                         <token>не</token>
                         <token postag="NN:Masc:Sin:R|NN:Fem:Sin:R|NN:Neut:Sin:R" postag_regexp="yes"/>
-                    </marker>
                 </pattern>
                 <message>Частица «ни» для усиления отрицания. Вы имели в виду <suggestion>нет ни \3</suggestion>?</message>
                 <short>Правильно «нет ни…»</short>
                 <example correction="нет ни копейки">У меня с собой <marker>нет не копейки</marker>.</example>
                 <example>У меня с собой нет ни копейки.</example>
             </rule>   
-
-
             <rule>   
                 <pattern>
-                    <marker>
                         <token>не</token>
                         <token>было</token>
                         <token>не</token>
                         <token postag="NN:Masc:Sin:R|NN:Fem:Sin:R|NN:Neut:Sin:R" postag_regexp="yes"/>
-                    </marker>
                 </pattern>
                 <message>Частица «ни» для усиления отрицания. Вы имели в виду <suggestion>не было ни \4</suggestion>?</message>
                 <short>Правильно «не было ни…»</short>
                 <example correction="не было ни цента">У него <marker>не было не цента</marker>.</example>
                 <example>У него не было ни цента.</example>
             </rule>   
-
             <rule>   
                 <pattern>
-                    <marker>
                         <token>не</token>
                         <token inflected="yes">сделать</token> 
                         <token>не</token>
                         <token postag="NN:.*:Sin:R|NN:.*:Sin:D" postag_regexp="yes"/>
-                    </marker>
                 </pattern>
                 <message>Частица «ни» для усиления отрицания. Вы имели в виду <suggestion>не \2 ни \4</suggestion>?</message>
                 <short>Правильно «не сделать ни…»</short>
                 <example correction="не сделала ни шагу">Она <marker>не сделала не шагу</marker>.</example>
                 <example>Она не сделала ни шагу.</example>
             </rule>   
-
             <rule>   
                 <pattern>
-                    <marker>
                         <token>не</token>
                         <token inflected="yes">заплатить</token> 
                         <token>не</token>
                         <token postag="NN:Masc:Sin:R|NN:Fem:Sin:R|NN:Neut:Sin:R" postag_regexp="yes"/>
-                    </marker>
                 </pattern>
                 <message>Частица «ни» для усиления отрицания. Вы имели в виду <suggestion>не \2 ни \4</suggestion>?</message>
                 <short>Правильно «не заплатить ни…»</short>
@@ -6642,21 +6615,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="не мог не заметить">Он <marker>не мог ни заметить</marker> этого.</example>
                 <example>Он не мог не заметить этого.</example>
             </rule>   
-
             <rule>   
                 <pattern>
-                    <marker>
                         <token>нельзя</token>
                         <token>ни</token>
                         <token postag="VB:INF" />
-                    </marker>
                 </pattern>
                 <message>Двойное отрицание с частицей «не»:<suggestion>не \2 не \4</suggestion></message>
                 <short>Правильно два «НЕ»</short>
                 <example correction="не ни не согласиться">С этим <marker>нельзя ни согласиться</marker>.</example>
                 <example>С этим нельзя не согласиться.</example>
             </rule>   
-
             <rule>   
                 <pattern>
                     <marker>
@@ -6673,14 +6642,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="не может не узнать">Она <marker>не может ни узнать</marker> вас.</example>
                 <example>Она не может не узнать вас.</example>
             </rule>   
-
             <rule>   
                 <pattern>
-                    <marker>
                         <token>невозможно</token>
                         <token>ни</token>
                         <token postag="VB:INF" />
-                    </marker>
                 </pattern>
                 <message>Двойное отрицание с частицей «не»:<suggestion>\1 не \3</suggestion></message>
                 <short>Правильно два «НЕ»</short>
@@ -6691,64 +6657,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
 
 <rulegroup id="Parnoje_upotrebl_NI" name="Парное употребление частицы «НИ»">
-
             <rule>   
                 <pattern>
-                    <marker>
                         <token>не</token>
                         <token postag_regexp = "yes" postag ="NN:.*:.*:.*|PNN:.*:.*"></token>
                         <token>,</token>
                         <token>не</token>
                         <token postag_regexp = "yes" postag ="NN:.*:.*:.*|PNN:.*:.*"></token>
-                    </marker>
                 </pattern>
                 <message>Здесь необходимо парное употребление частицы «ни»:<suggestion>ни \2\3 ни \5</suggestion></message>
                 <short>Правильно два «НИ»</short>
                 <example correction="ни матери, ни отца">Он не помнил <marker>не матери, не отца</marker>.</example>
                 <example>Он не помнил ни матери, ни отца.</example>
-            </rule>   
-
+            </rule>
             <rule>   
                 <pattern>
-                    <marker>
                         <token>не</token>
                         <token postag="VB:INF" />
                         <token>,</token>
                         <token>не</token>
                         <token postag="VB:INF" />
-                    </marker>
                 </pattern>
                 <message>Здесь необходимо парное употребление частицы «ни»:<suggestion>ни \2\3 ни \5</suggestion></message>
                 <short>Правильно два «НИ»</short>
                 <example correction="ни видеть, ни знать">Не хочу его <marker>не видеть, не знать</marker>.</example>
                 <example>Не хочу его ни видеть, ни знать.</example>
             </rule>   
-
             <rule>   
                 <pattern>
-                    <marker>
                         <token>не</token>
                         <token postag="Ord:.*:.*" postag_regexp="yes"/>
                         <token>,</token>
                         <token>не</token>
                         <token postag="Ord:.*:.*" postag_regexp="yes"/>
-                    </marker>
                 </pattern>
                 <message>Здесь необходимо парное употребление частицы «ни»:<suggestion>ни \2\3 ни \5</suggestion></message>
                 <short>Правильно два «НИ»</short>
                 <example correction="ни первого, ни второго">Он не знал <marker>не первого, не второго</marker>.</example>
                 <example>Он не знал ни первого, ни второго.</example>
             </rule>   
-
             <rule>   
                 <pattern>
-                    <marker>
                         <token>не</token>
                         <token postag="ADJ_Short:.*" postag_regexp="yes"/>
                         <token>,</token>
                         <token>не</token>
                         <token postag="ADJ_Short:.*" postag_regexp="yes"/>
-                    </marker>
                 </pattern>
                 <message>Здесь необходимо парное употребление частицы «ни»:<suggestion>ни \2\3 ни \5</suggestion></message>
                 <short>Правильно два «НИ»</short>
@@ -6762,11 +6716,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
             <rule>   
                 <pattern>
-                    <marker>
                         <token>на</token>
                         <token>подобии</token>
                         <token regexp="yes">тех|этих|этой|того|той|моей|твоей|вашей|нашей|их|его|этого|ее|моих|твоих|ваших|наших</token>
-                    </marker>
                 </pattern>
                 <message>Это предлог «в» с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>наподобие \3</suggestion>?</message>
                 <short>Правильно «наподобие»</short>
@@ -6775,12 +6727,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>   
 
             <rule>   
-                <pattern>
-                    <marker>
+                <pattern> 
                         <token>в</token>
                         <token>следствии</token>
                         <token regexp="yes">этого|чего|этих|этой|того|той|которого|которой|которых|моей|твоей|вашей|нашей|их|его|ее|моих|твоих|ваших|наших</token>
-                    </marker>
                 </pattern>
                 <message>Это предлог «в» с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>вследствие \3</suggestion>?</message>
                 <short>Правильно «вследствие»</short>
@@ -6790,11 +6740,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
             <rule>   
                 <pattern>
-                    <marker>
                         <token>в</token>
                         <token>следствие</token>
                         <token regexp="yes">этого|чего|которого|которой|которых|этих|этой|того|той|моей|твоей|вашей|нашей|их|его|ее|моих|твоих|ваших|наших</token>
-                    </marker>
                 </pattern>
                 <message>Это предлог «в» с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>вследствие \3</suggestion>?</message>
                 <short>Правильно «вследствие»</short>
@@ -6808,11 +6756,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
             <rule>   
                 <pattern>
-                    <marker>
                         <token>в</token>
                         <token>заключении</token>
                         <token regexp="yes">этого|чего|всего|которых|этой|того|той|моей|твоей|вашей|нашей|своей|своего|выступления|концерта|эфира|вышесказанного|позвольте|вышеупомянутого</token>
-                    </marker>
                 </pattern>
                 <message>Это предлог «в» с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Вы имели в виду <suggestion>в заключение \3</suggestion>?</message>
                 <short>Правильно «в заключение»</short>
