@@ -59,6 +59,8 @@
   * `StringTools.isWhitespace()` now returns `true` for a token that is
     a non-breaking space or a narrow non-breaking space
   * `RuleFilter` is not an interface anymore but an abstract class
+  * the `LanguageModel` interface has been redesigned, see `BaseLanguageModel`
+    for a class similar to the previous implementation
   * Class `BerkeleyLanguageModel` was added to support BerkeleyLM language models.
     See https://github.com/adampauls/berkeleylm for the software and e.g.
     http://tomato.banatao.berkeley.edu:8080/berkeleylm_binaries/ for pre-built models.

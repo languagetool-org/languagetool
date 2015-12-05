@@ -135,21 +135,6 @@ public class LuceneLanguageModel extends BaseLanguageModel {
   }
 
   @Override
-  public long getCount(String token1, String token2) {
-    Objects.requireNonNull(token1);
-    Objects.requireNonNull(token2);
-    return getCount(Arrays.asList(token1, token2));
-  }
-
-  @Override
-  public long getCount(String token1, String token2, String token3) {
-    Objects.requireNonNull(token1);
-    Objects.requireNonNull(token2);
-    Objects.requireNonNull(token3);
-    return getCount(Arrays.asList(token1, token2, token3));
-  }
-
-  @Override
   public long getTotalTokenCount() {
     LuceneSearcher luceneSearcher = getLuceneSearcher(1);
     try {

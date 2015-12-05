@@ -23,7 +23,7 @@ import org.languagetool.rules.ngrams.Probability;
 import java.util.List;
 
 /**
- * A very simple language model that simply contains information about ngram occurrences.
+ * A language model that provides information about ngram probabilities.
  * The implementations don't necessarily deal well with the occurrence = 0 case.
  * @since 2.7
  */
@@ -40,28 +40,6 @@ public interface LanguageModel extends AutoCloseable {
    * @since 3.2
    */
   Probability getPseudoProbability(List<String> context);
-
-  /**
-   * Get the occurrence count for {@code token}.
-   */
-  long getCount(String token1);
-
-  /**
-   * Get the occurrence count for the given token sequence.
-   */
-  long getCount(List<String> tokens);
-  
-  /**
-   * Get the occurrence count for the phrase {@code token1 token2}.
-   */
-  long getCount(String token1, String token2);
-
-  /**
-   * Get the occurrence count for the phrase {@code token1 token2 token3}.
-   */
-  long getCount(String token1, String token2, String token3);
-
-  long getTotalTokenCount();
 
   @Override
   void close();

@@ -22,6 +22,7 @@ import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
 
 import java.io.FileInputStream;
+import java.util.Arrays;
 import java.util.List;
 
 public class LanguageModelTest {
@@ -29,7 +30,7 @@ public class LanguageModelTest {
   private static final int SKIP_FIRST_ITEMS = 5;
   private static final String FILE = "/lt/performance-test/en.txt";
 
-  protected void testPerformance(LanguageModel model, int ngramLength) throws Exception {
+  protected void testPerformance(LuceneLanguageModel model, int ngramLength) throws Exception {
     try (FileInputStream fis = new FileInputStream(FILE)) {
       String content = StringTools.readStream(fis, "UTF-8");
       WordTokenizer wordTokenizer = new WordTokenizer();
@@ -46,10 +47,10 @@ public class LanguageModelTest {
           long t1 = System.nanoTime()/1000;
           long count = 0;
           if (ngramLength == 2) {
-            count = model.getCount(prevWord, word);
+            count = model.getCount(Arrays.asList(prevWord, word));
           } else if (ngramLength == 3) {
             if (prevPrevWord != null) {
-              count = model.getCount(prevPrevWord, prevWord, word);
+              count = model.getCount(Arrays.asList(prevPrevWord, prevWord, word));
             }
           } else {
             throw new IllegalArgumentException("ngram length not supported: " + ngramLength);

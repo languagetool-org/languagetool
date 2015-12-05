@@ -22,6 +22,7 @@ import org.languagetool.rules.ngrams.Probability;
 import org.languagetool.tools.StringTools;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * The algorithm of a language model, independent of the way data
@@ -30,6 +31,8 @@ import java.util.List;
  */
 public abstract class BaseLanguageModel implements LanguageModel {
 
+  private static final boolean DEBUG = false;
+  
   private Long totalTokenCount;
 
   public BaseLanguageModel()  {
@@ -67,8 +70,22 @@ public abstract class BaseLanguageModel implements LanguageModel {
     return new Probability(p, (float)coverage/maxCoverage);
   }
 
+  /**
+   * Get the occurrence count for {@code token}.
+   */
+  abstract long getCount(String token1);
+
+  /**
+   * Get the occurrence count for the given token sequence.
+   */
+  abstract long getCount(List<String> tokens);
+
+  abstract long getTotalTokenCount();
+
   private void debug(String message, Object... vars) {
-    //System.out.printf(Locale.ENGLISH, message, vars);
+    if (DEBUG) {
+      System.out.printf(Locale.ENGLISH, message, vars);
+    }
   }
 
 }

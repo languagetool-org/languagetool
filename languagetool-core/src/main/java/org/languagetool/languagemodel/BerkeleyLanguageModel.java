@@ -32,7 +32,7 @@ import java.util.List;
  * @since 3.2
  */
 @Experimental
-public class BerkeleyLanguageModel extends BaseLanguageModel {
+public class BerkeleyLanguageModel implements LanguageModel {
 
   private final StupidBackoffLm<String> lm;
           
@@ -56,31 +56,6 @@ public class BerkeleyLanguageModel extends BaseLanguageModel {
       //System.out.println(context + " -> " + logProb + " => " + Math.pow(10, logProb));
       return new Probability(Math.pow(10, logProb), 1.0f);
     }
-  }
-
-  @Override
-  public long getCount(List<String> tokens) {
-    throw new IllegalStateException("not implemented");
-  }
-
-  @Override
-  public long getCount(String token1) {
-    throw new IllegalStateException("not implemented");
-  }
-
-  @Override
-  public long getCount(String token1, String token2) {
-    throw new IllegalStateException("not implemented");
-  }
-
-  @Override
-  public long getCount(String token1, String token2, String token3) {
-    throw new IllegalStateException("not implemented");
-  }
-
-  @Override
-  public long getTotalTokenCount() {
-    throw new IllegalStateException("not implemented");
   }
 
   @Override

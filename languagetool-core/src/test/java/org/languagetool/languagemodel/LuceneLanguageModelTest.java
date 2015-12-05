@@ -24,6 +24,7 @@ import org.languagetool.JLanguageTool;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -33,10 +34,10 @@ public class LuceneLanguageModelTest extends LanguageModelTest {
   @Test
   public void testLanguageModel() throws Exception {
     URL ngramUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/yy/ngram-index");
-    try (LanguageModel model = new LuceneLanguageModel(new File(ngramUrl.getFile()))) {
+    try (LuceneLanguageModel model = new LuceneLanguageModel(new File(ngramUrl.getFile()))) {
       assertThat(model.getCount("the"), is(55L));
-      assertThat(model.getCount("the", "nice"), is(3L));
-      assertThat(model.getCount("the", "nice", "building"), is(1L));
+      assertThat(model.getCount(Arrays.asList("the", "nice")), is(3L));
+      assertThat(model.getCount(Arrays.asList("the", "nice", "building")), is(1L));
       assertThat(model.getCount("not-in-here"), is(0L));
       assertThat(model.getTotalTokenCount(), is(3L));
     }
@@ -63,7 +64,7 @@ public class LuceneLanguageModelTest extends LanguageModelTest {
     //super.testPerformance(model, 2);
     // 3grams:
     //LanguageModel model = new LuceneLanguageModel(new File("/media/Data/google-ngram/3gram/aggregated/lucene-index/merged/"));
-    LanguageModel model = new LuceneLanguageModel(new File("/data/google-gram-index/"));
+    LuceneLanguageModel model = new LuceneLanguageModel(new File("/data/google-gram-index/"));
     super.testPerformance(model, 3);
   }
   

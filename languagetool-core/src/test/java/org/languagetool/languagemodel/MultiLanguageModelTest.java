@@ -47,26 +47,6 @@ public class MultiLanguageModelTest {
     public Probability getPseudoProbability(List<String> context) {
       return new Probability(fakeValue, 0.5f);
     }
-    @Override
-    public long getCount(String token1) {
-      throw new RuntimeException();
-    }
-    @Override
-    public long getCount(String token1, String token2) {
-      throw new RuntimeException();
-    }
-    @Override
-    public long getCount(String token1, String token2, String token3) {
-      throw new RuntimeException();
-    }
-    @Override
-    public long getCount(List<String> tokens) {
-      throw new RuntimeException();
-    }
-    @Override
-    public long getTotalTokenCount() {
-      throw new RuntimeException();
-    }
     @Override public void close() {}
   }
 }

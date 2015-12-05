@@ -66,31 +66,6 @@ public class MultiLanguageModel implements LanguageModel {
   }
 
   @Override
-  public long getCount(List<String> tokens) {
-    throw new RuntimeException("Not supported in MultiLanguageModel");
-  }
-
-  @Override
-  public long getCount(String token) {
-    throw new RuntimeException("Not supported in MultiLanguageModel");
-  }
-
-  @Override
-  public long getCount(String token1, String token2) {
-    throw new RuntimeException("Not supported in MultiLanguageModel");
-  }
-
-  @Override
-  public long getCount(String token1, String token2, String token3) {
-    throw new RuntimeException("Not supported in MultiLanguageModel");
-  }
-
-  @Override
-  public long getTotalTokenCount() {
-    throw new RuntimeException("Not supported in MultiLanguageModel");
-  }
-
-  @Override
   public void close() {
     lms.stream().forEach(LanguageModel::close);
   }

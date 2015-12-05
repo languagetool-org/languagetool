@@ -80,14 +80,6 @@ public class BaseLanguageModelTest {
       return getCount(Arrays.asList(token1));
     }
     @Override
-    public long getCount(String token1, String token2) {
-      return getCount(Arrays.asList(token1, token2));
-    }
-    @Override
-    public long getCount(String token1, String token2, String token3) {
-      return getCount(Arrays.asList(token1, token2, token3));
-    }
-    @Override
     public long getTotalTokenCount() {
       int sum = 0;
       for (int val : map.values()) {

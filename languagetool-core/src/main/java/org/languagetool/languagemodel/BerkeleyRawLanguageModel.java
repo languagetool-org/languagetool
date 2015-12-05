@@ -76,16 +76,6 @@ public class BerkeleyRawLanguageModel extends BaseLanguageModel {
   }
 
   @Override
-  public long getCount(String token1, String token2) {
-    return getCount(Arrays.asList(token1, token2));
-  }
-
-  @Override
-  public long getCount(String token1, String token2, String token3) {
-    return getCount(Arrays.asList(token1, token2, token3));
-  }
-
-  @Override
   public long getTotalTokenCount() {
     return map.getMapForOrder(1).size();
   }

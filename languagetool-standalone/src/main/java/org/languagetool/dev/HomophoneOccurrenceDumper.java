@@ -64,7 +64,7 @@ class HomophoneOccurrenceDumper extends LuceneLanguageModel {
         if (term.contains(" " + token + " ")) {
           String[] split = term.split(" ");
           if (split.length == 3) {
-            long count = getCount(split[0], split[1], split[2]);
+            long count = getCount(Arrays.asList(split[0], split[1], split[2]));
             result.put(term, count);
           }
         }
@@ -96,7 +96,7 @@ class HomophoneOccurrenceDumper extends LuceneLanguageModel {
       if (split.length == 3) {
         String token = split[1];
         if (tokens.contains(token)) {
-          long count = getCount(split[0], split[1], split[2]);
+          long count = getCount(Arrays.asList(split[0], split[1], split[2]));
           if (count >= MIN_COUNT) {
             System.out.println(token + "\t" + count + "\t" + split[0] + " " + split[1] + " " + split[2]);
           }
