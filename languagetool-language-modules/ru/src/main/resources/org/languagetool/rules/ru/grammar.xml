@@ -214,7 +214,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>                     
         </rulegroup>
         
-        
+         <rulegroup id="vlasti_priderjashie" name="Логические ошибки «власти предержащие»">
+            <rule> 
+                <pattern>
+                    <token>власть</token>
+                    <token>предержащие</token>
+                </pattern>              
+                <message>Имелось в виду <suggestion>власти \2</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="власти предержащие">Это <marker>власть предержащие</marker>.</example>
+            </rule>
+          </rulegroup>
+         <rulegroup id="sdelat_ukol" name="Логические ошибки «сделать укол»">
+            <rule> 
+                <pattern>
+                    <token>поставить</token>
+                    <token>укол</token>
+                </pattern>              
+                <message>Имелось в виду <suggestion>сделать \2</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="сделать укол"><marker>поставить укол</marker></example>
+            </rule>
+          </rulegroup>
+
         <rulegroup id="nе_igraet_nikakogo_znachenija" name="Логические ошибки «не играет никакой роли/не играет никакого значения»">
             <rule> 
                 <pattern>
