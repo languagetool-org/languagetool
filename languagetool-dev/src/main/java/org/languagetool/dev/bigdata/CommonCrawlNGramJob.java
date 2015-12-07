@@ -113,7 +113,8 @@ public final class CommonCrawlNGramJob {
 
   public static void main(String[] args) throws Exception {
     Configuration conf = new Configuration();
-    conf.set("io.compression.codecs","io.sensesecure.hadoop.xz.XZCodec");
+    // comment in to work on *.xz input files:
+    //conf.set("io.compression.codecs","io.sensesecure.hadoop.xz.XZCodec");
     Job job = Job.getInstance(conf, "CommonCrawl ngram indexer (see http://data.statmt.org/ngrams/)");
     job.setJarByClass(CommonCrawlNGramJob.class);
     job.setMapperClass(TokenizerMapper.class);
