@@ -2322,6 +2322,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="»:">Газета «Правда<marker>:»</marker> &quot;У нас опубликована сенсационная статья&quot;!</example>
         </rule>
         
+        <rulegroup default="on" id="Digit_comnatnaja" name="Сокращение: 2-комнатная">
+            <rule>
+                <pattern>
+                    <token regexp="yes">[\p{Digit}]-х</token>
+                    <token inflected="yes">комнатный</token>
+                </pattern>
+                <message>Неправильное словообразование. Должно быть: <suggestion><match no="1" regexp_match="([\p{Digit}])-(х)" regexp_replace="$1‑"></match><match no="2"></match></suggestion></message>
+                <short>Неправильное сокращение.</short>
+                <example correction="2‑комнатные">В доме есть <marker>2-х комнатные</marker> квартиры.</example>
+            </rule>
+        </rulegroup>
+        
         <rulegroup default="on" id="Digit_defis_letter" name="Окончания порядковых числительных">
             <rule>
                 <pattern>
