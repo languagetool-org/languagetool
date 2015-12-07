@@ -214,7 +214,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>                     
         </rulegroup>
         
-         <rulegroup id="vlasti_priderjashie" name="Логические ошибки «власти предержащие»">
+        <rulegroup id="vlasti_priderjashie" name="Логические ошибки «власти предержащие»">
             <rule> 
                 <pattern>
                     <token>власть</token>
@@ -234,6 +234,66 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Имелось в виду <suggestion>сделать \2</suggestion>?</message>
                 <short>Логическая ошибка.</short>
                 <example correction="сделать укол"><marker>поставить укол</marker></example>
+            </rule>
+          </rulegroup>
+         <rulegroup id="prinat_tabletku" name="Логические ошибки «принять таблетку»">
+            <rule> 
+                <pattern>
+                    <token>выпить</token>
+                    <token>таблетку</token>
+                </pattern>              
+                <message>Имелось в виду <suggestion>принять \2</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="принять таблетку"><marker>выпить таблетку</marker></example>
+            </rule>
+          </rulegroup>
+          <rulegroup id="skrepja_serdce" name="Логические ошибки «скрепя сердце»">
+            <rule> 
+                <pattern>
+                    <token>скрипя</token>
+                    <token>сердцем</token>
+                </pattern>              
+                <message>Имелось в виду <suggestion>скрепя сердце</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="скрепя сердце"><marker>скрипя сердцем</marker></example>
+            </rule>
+          </rulegroup>
+          <rulegroup id="na_ladan_dishit" name="Логические ошибки «на ладан дышит»">
+            <rule> 
+                <pattern>
+                    <token>наладом</token>
+                    <token>дышит</token>
+                </pattern>              
+                <message>Имелось в виду <suggestion>на ладан дышит</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="на ладан дышит"><marker>наладом дышит</marker></example>
+            </rule>
+          </rulegroup>
+          <rulegroup id="sud_da_delo" name="Логические ошибки «суд да дело»">
+            <rule> 
+                <pattern>
+                    <token>суть</token>
+                    <token>да</token>
+                    <token>дело</token>
+                </pattern>              
+                <message>Имелось в виду <suggestion>суд \2 \3</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="суд да дело"><marker>суть да дело</marker></example>
+            </rule>
+          </rulegroup>
+          <rulegroup id="belogo_kalenija" name="Логические ошибки «довести до белого каления»">
+              <rule> 
+                  <pattern>
+                      <token inflected="yes">довести</token>
+                      <token>до</token>
+                      <marker>
+                          <token>белого</token>
+                          <token>колена</token>
+                      </marker>
+                  </pattern>              
+                <message>Имелось в виду <suggestion>\3 каления</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="белого каления">Довести до <marker>белого колена</marker></example>
             </rule>
           </rulegroup>
 
