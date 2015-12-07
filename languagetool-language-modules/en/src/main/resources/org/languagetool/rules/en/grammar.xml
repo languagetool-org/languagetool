@@ -1258,6 +1258,20 @@ USA
             <short>Possible typo</short>
             <example correction="one and the same">Our town is a place where neighbours and friends are <marker>one in the same</marker>.</example>
         </rule>
+        <rule id="ONE_THE_ONE_HAND" name="'One the one hand' (On the one hand)">
+            <pattern>
+                <marker>
+                    <token>One</token>
+                </marker>
+                <token>the</token>
+                <token regexp='yes'>one|other</token>
+                <token>hand</token>
+            </pattern>
+            <message>Did you mean <suggestion>on</suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction='On'><marker>One</marker> the one hand, he was rich.</example>
+            <example>On the one hand, he was rich.</example>
+        </rule>
         <rule id="OTHER_WISE_OTHERWISE" name="other wise (otherwise)">
             <pattern>
                 <marker>
@@ -1936,7 +1950,7 @@ USA
                     <token>in</token>
                     <token>low</token>
                 </pattern>
-                <message>Possible typos. This word is usually spelled with hyphens: <suggestion>\1-\2-law</suggestion>.</message>
+                <message>Possible typo. This word is usually spelled with hyphens: <suggestion>\1-\2-law</suggestion>.</message>
                 <short>Possible typo</short>
                 <example correction="mother-in-law">This is her <marker>mother in low</marker>.</example>
             </rule>
