@@ -29,7 +29,6 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
-import java.nio.charset.CharacterCodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -88,12 +87,8 @@ public class MorfologikSpeller {
 
   public List<String> getSuggestions(String word) {
     final List<String> suggestions = new ArrayList<>();
-    try {
-      suggestions.addAll(speller.findReplacements(word));
-      suggestions.addAll(speller.replaceRunOnWords(word));
-    } catch (CharacterCodingException e) {
-      throw new RuntimeException(e);
-    }
+    suggestions.addAll(speller.findReplacements(word));
+    suggestions.addAll(speller.replaceRunOnWords(word));
     // capitalize suggestions if necessary
     if (dictionary.metadata.isConvertingCase() && StringTools.startsWithUppercase(word)) {
       for (int i = 0; i < suggestions.size(); i++) {

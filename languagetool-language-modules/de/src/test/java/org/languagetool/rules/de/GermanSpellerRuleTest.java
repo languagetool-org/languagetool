@@ -18,9 +18,9 @@
  */
 package org.languagetool.rules.de;
 
-import morfologik.fsa.CFSA2Serializer;
 import morfologik.fsa.FSA;
-import morfologik.fsa.FSABuilder;
+import morfologik.fsa.builders.CFSA2Serializer;
+import morfologik.fsa.builders.FSABuilder;
 import morfologik.speller.Speller;
 import morfologik.stemming.Dictionary;
 import org.junit.Ignore;
@@ -42,9 +42,7 @@ import java.util.*;
 
 import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class GermanSpellerRuleTest {
 
@@ -321,8 +319,10 @@ public class GermanSpellerRuleTest {
     Collections.sort(lines, FSABuilder.LEXICAL_ORDERING);
     FSA fsa = FSABuilder.build(lines);
     ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());
-    ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
-    return Dictionary.readAndClose(fsaInStream, infoFile);
+    try (InputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
+         InputStream metadataInStream = infoFile) {
+      return Dictionary.read(fsaInStream, metadataInStream);
+    }
   }
 
   private void assertCorrection(HunspellRule rule, String input, String... expectedTerms) throws IOException {

@@ -18,28 +18,14 @@
  */
 package org.languagetool.tools;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import morfologik.tools.FSABuild;
+import morfologik.tools.Launcher;
 import org.jetbrains.annotations.Nullable;
 
-import morfologik.tools.FSABuildTool;
-import morfologik.tools.Launcher;
+import java.io.*;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Create a Morfologik binary dictionary from plain text data.
@@ -109,7 +95,7 @@ class DictionaryBuilder {
         
     String[] buildToolOptions = {"-f", "cfsa2", "-i", tempFile.getAbsolutePath(), "-o", resultFile.getAbsolutePath()};
     System.out.println("Running Morfologik FSABuildTool.main with these options: " + Arrays.toString(buildToolOptions));
-    FSABuildTool.main(buildToolOptions);
+    FSABuild.main(buildToolOptions);
     System.out.println("Done. The binary dictionary has been written to " + resultFile.getAbsolutePath());
     return resultFile;
   }
