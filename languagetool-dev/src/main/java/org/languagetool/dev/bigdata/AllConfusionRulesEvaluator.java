@@ -84,7 +84,8 @@ final class AllConfusionRulesEvaluator {
           String word2 = set2.getString();
           String key = word1 + " " + word2;
           if (!done.contains(key)) {
-            ConfusionRuleEvaluator.EvalResult evalResult = eval.run(inputsFiles, word1, word2, MAX_SENTENCES, Arrays.asList(confusionSet.getFactor()));
+            Map<Long, ConfusionRuleEvaluator.EvalResult> evalResults = eval.run(inputsFiles, word1, word2, MAX_SENTENCES, Arrays.asList(confusionSet.getFactor()));
+            ConfusionRuleEvaluator.EvalResult evalResult = evalResults.values().iterator().next();
             String summary1 = set1.getDescription() != null ? word1 + "|" + set1.getDescription() : word1;
             String summary2 = set2.getDescription() != null ? word2 + "|" + set2.getDescription() : word2;
             String start;
@@ -95,7 +96,7 @@ final class AllConfusionRulesEvaluator {
             }
             String spaces = StringUtils.repeat(" ", 82-start.length());
             System.out.println(start + spaces + "# " + evalResult.getSummary());
-            double fMeasure = FMeasure.getWeightedFMeasure(evalResult.getLatestPrecision(), evalResult.getLatestRecall());
+            double fMeasure = FMeasure.getWeightedFMeasure(evalResult.getPrecision(), evalResult.getRecall());
             //System.out.println("f-measure: " + fMeasure);
             fMeasureCount++;
             fMeasureTotal += fMeasure;

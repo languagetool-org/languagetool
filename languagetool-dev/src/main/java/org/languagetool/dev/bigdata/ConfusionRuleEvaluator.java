@@ -88,7 +88,7 @@ class ConfusionRuleEvaluator {
     this.verbose = verbose;
   }
 
-  EvalResult run(List<String> inputsOrDir, String token, String homophoneToken, int maxSentences, List<Long> evalFactors) throws IOException {
+  Map<Long, EvalResult> run(List<String> inputsOrDir, String token, String homophoneToken, int maxSentences, List<Long> evalFactors) throws IOException {
     for (Long evalFactor : evalFactors) {
       evalValues.put(evalFactor, new EvalValues());
     }
@@ -138,25 +138,22 @@ class ConfusionRuleEvaluator {
     }
   }
 
-  private EvalResult printEvalResult(List<Sentence> allTokenSentences, List<Sentence> allHomophoneSentences, List<String> inputsOrDir) {
-    String summary = null;
+  private Map<Long,EvalResult> printEvalResult(List<Sentence> allTokenSentences, List<Sentence> allHomophoneSentences, List<String> inputsOrDir) {
+    Map<Long,EvalResult> results = new HashMap<>();
     int sentences = allTokenSentences.size() + allHomophoneSentences.size();
     System.out.println("\nEvaluation results for " + TOKEN + "/" + TOKEN_HOMOPHONE
             + " with " + sentences + " sentences as of " + new Date() + ":");
     System.out.printf(ENGLISH, "Inputs:       %s\n", inputsOrDir);
     System.out.printf(ENGLISH, "Case sensit.: %s\n", CASE_SENSITIVE);
     List<Long> factors = evalValues.keySet().stream().sorted().collect(toList());
-    float latestPrecision = 0.0f;
-    float latestRecall = 0.0f;
     for (Long factor : factors) {
       EvalValues evalValues = this.evalValues.get(factor);
       float precision = (float)evalValues.truePositives / (evalValues.truePositives + evalValues.falsePositives);
-      latestPrecision = precision;
       float recall = (float) evalValues.truePositives / (evalValues.truePositives + evalValues.falseNegatives);
-      latestRecall = recall;
       String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-      summary = String.format(ENGLISH, "p=%.3f, r=%.3f, %d, %dgrams, %s",
-              precision, recall, allTokenSentences.size() + allHomophoneSentences.size(), rule.getNGrams(), date);
+      String summary = String.format(ENGLISH, "p=%.3f, r=%.3f, %d+%d, %dgrams, %s",
+              precision, recall, allTokenSentences.size(), allHomophoneSentences.size(), rule.getNGrams(), date);
+      results.put(factor, new EvalResult(summary, precision, recall));
       if (verbose) {
         System.out.println();
         System.out.printf(ENGLISH, "Factor:   %d - %d false positives, %d false negatives\n", factor, evalValues.falsePositives, evalValues.falseNegatives);
@@ -169,7 +166,7 @@ class ConfusionRuleEvaluator {
         System.out.printf("Summary:  " + summary + "\n");
       }
     }
-    return new EvalResult(summary, latestPrecision, latestRecall);
+    return results;
   }
 
   private List<Sentence> getRelevantSentences(List<String> inputs, String token, int maxSentences) throws IOException {
@@ -294,25 +291,25 @@ class ConfusionRuleEvaluator {
   class EvalResult {
 
     private final String summary;
-    private final float latestPrecision;
-    private final float latestRecall;
+    private final float precision;
+    private final float recall;
 
-    EvalResult(String summary, float latestPrecision, float latestRecall) {
+    EvalResult(String summary, float precision, float recall) {
       this.summary = summary;
-      this.latestPrecision = latestPrecision;
-      this.latestRecall = latestRecall;
+      this.precision = precision;
+      this.recall = recall;
     }
 
     String getSummary() {
       return summary;
     }
 
-    float getLatestPrecision() {
-      return latestPrecision;
+    float getPrecision() {
+      return precision;
     }
 
-    float getLatestRecall() {
-      return latestRecall;
+    float getRecall() {
+      return recall;
     }
   }
 }
