@@ -106,4 +106,21 @@ public final class GermanToken {
     }
   }
 
+  /** @since 3.2 */
+  public static final class Determination {
+    public static final Determination DEFINITE = new Determination("definit");
+    public static final Determination INDEFINITE = new Determination("indefinit");
+
+    private final String name;
+
+    private Determination(final String name) {
+      this.name = name;
+    }
+
+    @Override
+    public String toString() {
+      return name;
+    }
+  }
+  
 }

@@ -449,11 +449,27 @@ public class AgreementRule extends GermanRule {
           !possessiveSpecialCase(aToken, tmpReading)) {   
         // genus=ALG in the original data. Not sure if this is allowed, but expand this so
         // e.g. "Ich Arbeiter" doesn't get flagged as incorrect:
-        set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.MASKULINUM, omit));
-        set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.FEMININUM, omit));
-        set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.NEUTRUM, omit));
+        if (reading.getDetermination() == null) {
+          // Nouns don't have the determination property (definite/indefinite), and as we don't want to
+          // introduce a special case for that, we just pretend they always fulfill both properties:
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.MASKULINUM, GermanToken.Determination.DEFINITE, omit));
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.MASKULINUM, GermanToken.Determination.INDEFINITE, omit));
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.FEMININUM, GermanToken.Determination.DEFINITE, omit));
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.FEMININUM, GermanToken.Determination.INDEFINITE, omit));
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.NEUTRUM, GermanToken.Determination.DEFINITE, omit));
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.NEUTRUM, GermanToken.Determination.INDEFINITE, omit));
+        } else {
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.MASKULINUM, reading.getDetermination(), omit));
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.FEMININUM, reading.getDetermination(), omit));
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.NEUTRUM, reading.getDetermination(), omit));
+        }
       } else {
-        set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), omit));
+        if (reading.getDetermination() == null) {
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), GermanToken.Determination.DEFINITE, omit));
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), GermanToken.Determination.INDEFINITE, omit));
+        } else {
+          set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), reading.getDetermination(), omit));
+        }
       }
     }
     return set;
@@ -465,7 +481,7 @@ public class AgreementRule extends GermanRule {
   }
 
   private String makeString(GermanToken.Kasus casus, GermanToken.Numerus num, GermanToken.Genus gen,
-      Set<GrammarCategory> omit) {
+      GermanToken.Determination determination, Set<GrammarCategory> omit) {
     final List<String> l = new ArrayList<>();
     if (casus != null && !omit.contains(GrammarCategory.KASUS)) {
       l.add(casus.toString());
@@ -475,6 +491,9 @@ public class AgreementRule extends GermanRule {
     }
     if (gen != null && !omit.contains(GrammarCategory.GENUS)) {
       l.add(gen.toString());
+    }
+    if (determination != null) {
+      l.add(determination.toString());
     }
     return StringTools.listToString(l, "/");
   }

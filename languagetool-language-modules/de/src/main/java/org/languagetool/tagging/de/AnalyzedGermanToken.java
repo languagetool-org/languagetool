@@ -23,6 +23,7 @@ import org.languagetool.tagging.de.GermanToken.Genus;
 import org.languagetool.tagging.de.GermanToken.Kasus;
 import org.languagetool.tagging.de.GermanToken.Numerus;
 import org.languagetool.tagging.de.GermanToken.POSType;
+import org.languagetool.tagging.de.GermanToken.Determination;
 
 /**
  * One reading of a German word. Many words can have more
@@ -37,6 +38,7 @@ public class AnalyzedGermanToken {
   private final Kasus casus;
   private final Numerus numerus;
   private final Genus genus;
+  private final Determination determination;
 
   public AnalyzedGermanToken(AnalyzedToken token) {
     String posTag = token.getPOSTag();
@@ -45,6 +47,7 @@ public class AnalyzedGermanToken {
       casus = null;
       numerus = null;
       genus = null;
+      determination = null;
       return;
     }
     final String[] parts = posTag.split(":");
@@ -52,6 +55,7 @@ public class AnalyzedGermanToken {
     Kasus tempCasus = null;
     Numerus tempNumerus = null;
     Genus tempGenus = null;
+    Determination tempDetermination = null;
     for (String part : parts) {
       if (part.equals("EIG")) {
         tempType = POSType.PROPER_NOUN;
@@ -89,12 +93,17 @@ public class AnalyzedGermanToken {
         tempGenus = Genus.FEMININUM;    // NOG = no genus because only used as plural
       } else if (part.equals("ALG")) {
         tempGenus = Genus.ALLGEMEIN;
+      } else if (part.equals("IND")) {
+        tempDetermination = Determination.INDEFINITE;
+      } else if (part.equals("DEF")) {
+        tempDetermination = Determination.DEFINITE;
       }
     }
     type = tempType != null ? tempType : null;
     casus = tempCasus != null ? tempCasus : null;
     numerus = tempNumerus != null ? tempNumerus : null;
     genus = tempGenus != null ? tempGenus : null;
+    determination = tempDetermination != null ? tempDetermination : null;
   }
 
   public POSType getType() {
@@ -111,6 +120,11 @@ public class AnalyzedGermanToken {
 
   public Genus getGenus() {
     return genus; 
+  }
+  
+  /** @since 3.2 */
+  public Determination getDetermination() {
+    return determination;
   }
   
 }

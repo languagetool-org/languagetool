@@ -22,6 +22,8 @@
 
 #### German
   * improved a few rules
+  * improved agreement rule to detect errors like `Ich gebe dir ein kleine Kaninchen.`
+    where the determiner is indefinite but the adjective fits only for a definite determiner
   * added `de/removed.txt` so incorrect readings of the POS tagger can be avoided without
     rebuilding the binary dictionary
 

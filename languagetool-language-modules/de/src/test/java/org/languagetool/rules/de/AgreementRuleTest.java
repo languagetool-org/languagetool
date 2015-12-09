@@ -181,6 +181,20 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Außerdem unterstützt mich Herr Müller beim abheften");
     assertGood("Außerdem unterstützt mich Frau Müller beim abheften");
     assertBad("Der Zustand meiner Gehirns.");
+    
+    assertBad("Ich gebe dir ein kleine Kaninchen.");
+    assertBad("Ich gebe dir ein kleinen Kaninchen.");
+    assertBad("Ich gebe dir ein kleinem Kaninchen.");
+    assertBad("Ich gebe dir ein kleiner Kaninchen.");
+    //assertBad("Ich gebe dir ein klein Kaninchen.");  // already detected by MEIN_KLEIN_HAUS
+    assertGood("Ich gebe dir ein kleines Kaninchen.");
+
+    assertBad("Ich gebe dir das kleinen Kaninchen.");
+    assertBad("Ich gebe dir das kleinem Kaninchen.");
+    assertBad("Ich gebe dir das kleiner Kaninchen.");
+    //assertBad("Ich gebe dir das kleines Kaninchen.");  // already detected by ART_ADJ_SOL
+    //assertBad("Ich gebe dir das klein Kaninchen.");  // already detected by MEIN_KLEIN_HAUS
+    assertGood("Ich gebe dir das kleine Kaninchen.");
 
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
