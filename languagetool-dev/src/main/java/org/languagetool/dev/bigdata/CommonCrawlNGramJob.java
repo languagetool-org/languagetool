@@ -38,7 +38,7 @@ import java.util.List;
 
 /**
  * Index ngrams from CommonCrawl plain text (e.g. http://data.statmt.org/ngrams/)
- * in Hadoop.
+ * in Hadoop. See {@link AggregatedNgramToLucene} to turn the result into a Lucene index.
  */
 public final class CommonCrawlNGramJob {
 
