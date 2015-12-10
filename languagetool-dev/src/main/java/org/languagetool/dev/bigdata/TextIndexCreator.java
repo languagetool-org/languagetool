@@ -78,7 +78,7 @@ class TextIndexCreator {
     if (outputDir.exists()) {
       throw new RuntimeException("Output directory already exists: " + outputDir);
     }
-    creator.index(outputDir, Arrays.copyOfRange(args, 1, args.length-1));
+    creator.index(outputDir, Arrays.copyOfRange(args, 1, args.length));
   }
   
 }
