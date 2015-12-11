@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
     
     <category name="Логические ошибки">
-          <rulegroup id="INVALID_DATE" name="Неверная дата, например '31 февраля 2014'">
+          <rulegroup id="INVALID_DATE" name="Неверная дата, например «31 февраля 2014»">
             <rule>
                 <pattern>
                     <!-- "31 июня 2014 г." -->
@@ -1399,18 +1399,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="incorrect">Стоимость работ составила 10 <marker>млн</marker> рублей.</example>
         </rule>
         -->
-        <rule default="on" id="postscriptum" name="«P.S.»">
-             <pattern case_sensitive="no">
-                    <token>P</token>
-                    <token>.</token>
-                    <token spacebefore="yes">S</token>
-                    <token>.</token>
-             </pattern>
-            <message>«P.S.» пробелом не разделяется: <suggestion>P.S.</suggestion></message>
-            <short>«P.S.» пробелом не разделяется</short>
-            <example>P.S.</example>
-            <example correction="P.S."><marker>P. S.</marker></example>
-        </rule>
+
         <rulegroup id="POZHALUJSTA" name="«Пожалуйста» выделяется запятыми">
             <rule>
                 <pattern>
@@ -1998,7 +1987,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=", -">Здорово живешь, соседка<marker> -,</marker> поздоровался Иван.</example>
         </rule>
         
-        <rulegroup default="on" id="Hyphen_and_spaces" name="Пробелы перед/после дефиса.">
+        <rulegroup default="on" id="Hyphen_and_spaces" name="Пробелы перед/после дефиса">
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">.*[а-яё]</token>
@@ -2262,6 +2251,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="»">«Цыганы<marker>»»</marker> мои не продаются вовсе», — сетовал Пушкин.</example>
            </rule>
         </rulegroup>
+        <rule default="on" id="postscriptum" name="«P.S.»">
+             <pattern case_sensitive="no">
+                    <token>P</token>
+                    <token>.</token>
+                    <token spacebefore="yes">S</token>
+                    <token>.</token>
+             </pattern>
+            <message>«P.S.» пробелом не разделяется: <suggestion>P.S.</suggestion></message>
+            <short>«P.S.» пробелом не разделяется</short>
+            <example>P.S.</example>
+            <example correction="P.S."><marker>P. S.</marker></example>
+        </rule>
         <rule default="off" id="KAVITCHKI" name="” → „">
             <pattern>
                 <token>“</token>
@@ -2308,7 +2309,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         
         </rulegroup>
         
-        <rule default="off" id="TIRE" name="Дефис вместо тире.">
+        <rule default="off" id="TIRE" name="Дефис вместо тире">
             <pattern>
                 <token regexp="yes">[а-я][а-я].*</token>
                 <marker>
@@ -2529,7 +2530,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Он ведёт себя сообразно взглядам.</example>
         </rule>  
         
-        <rule id="grammar_v_sootvetstvii" name="«В соответствии с» ">
+        <rule id="grammar_v_sootvetstvii" name="«В соответствии с»">
             <pattern>
                 <token>в</token>
                 <token>соответствии</token>
@@ -2540,7 +2541,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="в соответствии с графиком">Отпуск предоставляется <marker>в соответствии графику</marker>.</example>
             <example>Отпуск предоставляется в соответствии с графиком.</example>
         </rule> 
-        <rule id="grammar_uverennost_v" name="«Уверенность в ...» ">
+        <rule id="grammar_uverennost_v" name="«Уверенность в ...»">
             <pattern>
                 <token>уверенность</token>
                 <token>в</token>
@@ -2552,7 +2553,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>уверенность в силах</example>
         </rule> 
         
-         <rulegroup id="toska_toskovat" name="«Тоска/тосковать + ...» ">
+         <rulegroup id="toska_toskovat" name="«Тоска/тосковать + ...»">
            <rule>    
             <pattern>
                 <token inflected="yes">тоска</token>
@@ -3906,7 +3907,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Из окна"><marker>Изо окна</marker> выпал пакет.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="off" id="S_SO" name="Беглая гласная в предлогах: «c», «co».">
+        <rulegroup default="off" id="S_SO" name="Беглая гласная в предлогах: «c», «co»">
             <rule>
                 <pattern>
                     <token>с</token>
@@ -4542,7 +4543,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rulegroup default="on" id="bolee_ili_menee_k" name="Более или менее конкретны">
+        <rulegroup default="on" id="bolee_ili_menee_k" name="«Более или менее конкретны»">
             <rule>
                 <pattern>
                     <token>более</token>
@@ -4570,7 +4571,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rulegroup default="on" id="AllCaps" name="Все буквы - ЗАГЛАВНЫЕ.">
+        <rulegroup default="on" id="AllCaps" name="Все буквы в слове ЗАГЛАВНЫЕ.">
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" negate_pos="yes"></token>
@@ -5628,7 +5629,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  
         </rulegroup>
             
-        <rulegroup id="Obrazovanije_glagoln_form_imperativ" name=" Образование повелительного наклонения">
+        <rulegroup id="Obrazovanije_glagoln_form_imperativ" name="Образование повелительного наклонения">
 
 
             <rule>   
