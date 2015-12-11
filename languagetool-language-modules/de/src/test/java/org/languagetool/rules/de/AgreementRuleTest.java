@@ -66,6 +66,13 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Sie erreichten 5 Prozent.");
     assertGood("Sie erreichten mehrere Prozent Zustimmung.");
     assertGood("Die Bestandteile, aus denen Schwefel besteht.");
+    assertGood("Ich tat für ihn, was kein anderer Autor für ihn tat.");
+    assertGood("Ich tat für ihn, was keine andere Autorin für ihn tat.");
+    assertGood("Ich tat für ihn, was kein anderes Kind für ihn tat.");
+    assertGood("Ich tat für ihn, was dieser andere Autor für ihn tat.");
+    assertGood("Ich tat für ihn, was diese andere Autorin für ihn tat.");
+    assertGood("Ich tat für ihn, was dieses andere Kind für ihn tat.");
+    assertGood("Ich tat für ihn, was jener andere Autor für ihn tat.");
     assertGood("Ich tat für ihn, was jeder andere Autor für ihn tat.");
     assertGood("Ich tat für ihn, was jede andere Autorin für ihn tat.");
     assertGood("Ich tat für ihn, was jedes andere Kind für ihn tat.");
