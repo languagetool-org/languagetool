@@ -22,9 +22,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.*;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.languagetool.language.English;
@@ -43,13 +41,14 @@ import java.util.List;
 public final class CommonCrawlNGramJob {
 
   private static final int MAX_TOKEN_LENGTH = 20;
+  private static final int MAX_TEXT_LENGTH = 25_000;
 
   public static class TokenizerMapper extends Mapper<Object, Text, Text, LongWritable> {
 
     private final SentenceTokenizer sentenceTokenizer;
     private final Tokenizer wordTokenizer;
     private final Text word = new Text();
-    private final LongWritable count = new LongWritable();
+    private final LongWritable one = new LongWritable(1);
 
     public TokenizerMapper() {
       this.sentenceTokenizer = new English().getSentenceTokenizer();
@@ -58,7 +57,12 @@ public final class CommonCrawlNGramJob {
 
     @Override
     public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-      List<String> sentences = sentenceTokenizer.tokenize(value.toString());
+      String text = value.toString();
+      if (text.length() > MAX_TEXT_LENGTH) {
+        context.getCounter("stats", "sentenceTooLong").increment(1);
+        return;
+      }
+      List<String> sentences = sentenceTokenizer.tokenize(text);
       for (String sentence : sentences) {
         indexSentence(sentence, context);
       }
@@ -66,11 +70,11 @@ public final class CommonCrawlNGramJob {
 
     private void write(String ngram, Context context) throws IOException, InterruptedException {
       word.set(ngram);
-      count.set(1);
-      context.write(word, count);
+      context.write(word, one);
     }
 
     private void indexSentence(String sentence, Context context) throws IOException, InterruptedException {
+      context.getCounter("stats", "sentences").increment(1);
       List<String> tokens = wordTokenizer.tokenize(sentence);
       tokens.add(0, LanguageModel.GOOGLE_SENTENCE_START);
       tokens.add(LanguageModel.GOOGLE_SENTENCE_END);
