@@ -66,6 +66,10 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Sie erreichten 5 Prozent.");
     assertGood("Sie erreichten mehrere Prozent Zustimmung.");
     assertGood("Die Bestandteile, aus denen Schwefel besteht.");
+    assertGood("Ich tat für ihn, was jeder andere Autor für ihn tat.");
+    assertGood("Ich tat für ihn, was jede andere Autorin für ihn tat.");
+    assertGood("Ich tat für ihn, was jedes andere Kind für ihn tat.");
+    assertGood("Klebe ein Preisschild auf jedes einzelne Produkt.");
 
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");
