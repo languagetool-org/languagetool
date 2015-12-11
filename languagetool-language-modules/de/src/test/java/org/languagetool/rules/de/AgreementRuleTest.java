@@ -70,6 +70,8 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Ich tat für ihn, was jede andere Autorin für ihn tat.");
     assertGood("Ich tat für ihn, was jedes andere Kind für ihn tat.");
     assertGood("Klebe ein Preisschild auf jedes einzelne Produkt.");
+    assertGood("Eine Stadt, in der zurzeit eine rege Bautätigkeit herrscht.");
+    assertGood("... wo es zu einer regen Bautätigkeit kam.");
 
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");
