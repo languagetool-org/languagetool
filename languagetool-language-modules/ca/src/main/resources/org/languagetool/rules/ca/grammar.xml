@@ -2560,6 +2560,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Són parella de fet.</example>
                 <example>Eren una parella de mitjana edat.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">plantilla|grup|colla|col·lectiu|llista|llistat|conjunt|aula|ramat</token>
+                    <token inflected="yes">de</token>
+                    <marker> <!-- extraure llista de tot tipus de persona, animal...-->
+                        <token postag="NC.S.*" postag_regexp="yes" inflected="yes" regexp="yes">animal|bèstia|home|dona|nen|xiquet|jove|infant|al·lot|treballador|persona|empresari|assalariat|futbolista|jugador|sindicalista|funcionari|polític|alumne|professor</token>
+                    </marker>
+                </pattern>
+                <message>Probablement cal un nom en plural.</message>
+                <suggestion><match no="3" postag="(NC.)S.*" postag_regexp="yes" postag_replace="$1P.*"/></suggestion>
+                <example correction="treballadores">La plantilla de <marker>treballadora</marker>.</example>
+                <example correction="nens">Unes colles de <marker>nen</marker>.</example>
+            </rule>
             <rule id="CONFUSIO_NOMBRE" name="Confusions de nombre: catequesis, diesis">
                 <pattern>
                     <token regexp="yes">catequesis|diesis|deisis|eneuresis|èmesis|catarsis|praxis|fibrosis|psicosis|.*sintaxis|.*praxis<exception postag="_GN_FP"/></token>
