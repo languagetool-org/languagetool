@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.128 2015-12-11 18:10:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.129 2015-12-12 20:15:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -246,7 +246,22 @@ $Id: grammar.xml,v 1.128 2015-12-11 18:10:00 marcoagpinto Exp $
       <example correction="matrículas">Não esquecer das <marker>matriculas</marker> amanhã.</example>
     </rule>
 	
-		
+
+
+    <!-- DE/DA SOBRE MESA de/da sobremesa -->
+    <rule id="DE_DA_SOBRE_MESA" name="de-da sobremesa">
+      <pattern>
+        <token regexp="yes">de|da</token>
+		<marker>
+			<token>sobre</token>
+			<token>mesa</token>
+		</marker>  	
+      </pattern>
+      <message>Substituir «sobre mesa» por <suggestion>sobremesa</suggestion>.</message>
+      <example correction="sobremesa">Gosto da <marker>sobre mesa</marker>.</example>
+    </rule>
+
+	
 	
     <!-- DET_FEM_MAS words that use "o" instead of "a" -->
     <rule id="DET_FEM_MAS_A_O" name="palavras a-o">
