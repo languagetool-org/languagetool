@@ -11,6 +11,7 @@
 
 #### English
   * improved a few rules
+  * added more than 50 confusion pairs like shell/shell, sheer/shear (works only with ngram data) 
   * added `en/removed.txt` so incorrect readings of the POS tagger can be avoided without
     rebuilding the binary dictionary (https://github.com/languagetool-org/languagetool/issues/306)
 
