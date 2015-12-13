@@ -9146,6 +9146,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="POSAT" name="posat/posa't">
+            <pattern>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"></token>
+                <marker>
+                    <token>posat</token>
+                </marker>
+                <token>en</token>
+                <token regexp="yes">contacte|marxa|peus?|comunicació|acció|forma</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>posa't</suggestion> (imperatiu)?</message>
+            <example correction="Posa't"><marker>Posat</marker> en contacte amb nosaltres.</example>
+            <example correction="posa't">Si ho necessites, <marker>posat</marker> en contacte amb nosaltres.</example>
+            <example>No s'ha posat en contacte amb mi.</example>
+        </rule>
         <rule id="TANTA_TANT_LA" name="*tanta/tant">
             <pattern>
                 <token postag="V.[SI].*|_GV_" postag_regexp="yes"><exception inflected="yes" regexp="yes">ser|semblar|parèixer</exception></token>
