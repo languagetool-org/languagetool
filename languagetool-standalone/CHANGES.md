@@ -30,6 +30,9 @@
 
 #### Portuguese
   * added/improved several rules
+  
+#### Belarusian
+   * new spellchecker dictionary. This dictionary is based on dict-be-official-2008-20140108.oxt from http://bnkorpus.info/download.html
 
 #### Russian
   * added/improved a few rules
