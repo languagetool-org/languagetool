@@ -27,7 +27,6 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tokenizers.Tokenizer;
-import org.languagetool.tools.StringTools;
 
 import java.util.*;
 
@@ -69,35 +68,6 @@ public class NgramProbabilityRule extends Rule {
     this.minProbability = minProbability;
   }
 
-  /*
-    Without bigrams:
-      1.0E-6                : f=0.390, precision=0.260, recall=0.784
-      1.0E-7                : f=0.391, precision=0.261, recall=0.784
-      1.0E-8                : f=0.400, precision=0.267, recall=0.794
-      1.0E-9                : f=0.422, precision=0.286, recall=0.804
-      1.0000000000000002E-10: f=0.420, precision=0.290, recall=0.765
-      1.0000000000000003E-11: f=0.491, precision=0.350, recall=0.824
-      1.0000000000000004E-12: f=0.505, precision=0.377, recall=0.765
-      1.0000000000000004E-13: f=0.554, precision=0.438, recall=0.755
-      1.0000000000000005E-14: f=0.594, precision=0.503, recall=0.725
-      1.0000000000000005E-15: f=0.645, precision=0.602, recall=0.696 *
-      1.0000000000000005E-16: f=0.589, precision=0.611, recall=0.569
-      1.0000000000000005E-17: f=0.536, precision=0.623, recall=0.471
-
-     With bigram occurrences added:
-      1.0E-22               : f=0.418, precision=0.285, recall=0.784
-      1.0000000000000001E-23: f=0.446, precision=0.307, recall=0.814
-      1.0000000000000001E-24: f=0.449, precision=0.316, recall=0.775
-      1.0000000000000002E-25: f=0.485, precision=0.353, recall=0.775
-      1.0000000000000002E-26: f=0.511, precision=0.382, recall=0.775
-      1.0000000000000002E-27: f=0.536, precision=0.409, recall=0.775
-      1.0000000000000003E-28: f=0.539, precision=0.422, recall=0.745
-      1.0000000000000004E-29: f=0.551, precision=0.448, recall=0.716
-      1.0000000000000004E-30: f=0.591, precision=0.503, recall=0.716
-      1.0000000000000005E-31: f=0.602, precision=0.548, recall=0.667 *
-      1.0000000000000006E-32: f=0.590, precision=0.574, recall=0.608
-      1.0000000000000007E-33: f=0.566, precision=0.583, recall=0.549
-   */
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     String text = sentence.getText();
