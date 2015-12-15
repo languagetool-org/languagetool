@@ -58,15 +58,11 @@ class WikipediaSentenceExtractor {
     return sentence.trim().length() == 0 || Character.isLowerCase(sentence.trim().charAt(0));
   }
 
-  private static void checkUsageOrExit(String[] args) {
+  public static void main(String[] args) throws IOException, CompressorException {
     if (args.length != 2) {
       System.out.println("Usage: " + WikipediaSentenceExtractor.class.getSimpleName() + " <langCode> <wikipediaXmlDump>");
       System.exit(1);
     }
-  }
-
-  public static void main(String[] args) throws IOException, CompressorException {
-    checkUsageOrExit(args);
     WikipediaSentenceExtractor extractor = new WikipediaSentenceExtractor();
     extractor.extract(Languages.getLanguageForShortName(args[0]), args[1]);
   }

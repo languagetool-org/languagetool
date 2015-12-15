@@ -45,7 +45,6 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.gui.AboutDialog;
 import org.languagetool.gui.Configuration;
-import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.Rule;
