@@ -55,7 +55,7 @@ public class SRXSentenceTokenizer implements SentenceTokenizer {
   }
 
   @Override
-  public final List<String> tokenize(final String text) {
+  public final List<String> tokenize(String text) {
     return SrxTools.tokenize(text, srxDocument, language.getShortName() + parCode);
   }
 
@@ -65,14 +65,11 @@ public class SRXSentenceTokenizer implements SentenceTokenizer {
   }
 
   /**
-   * @param lineBreakParagraphs
-   *          if <code>true</code>, single lines breaks are assumed to end a
-   *          paragraph; if <code>false</code>, only two ore more consecutive
-   *          line breaks end a paragraph
+   * @param lineBreakParagraphs if <code>true</code>, single lines breaks are assumed to end a
+   *   paragraph; if <code>false</code>, only two ore more consecutive line breaks end a paragraph
    */
   @Override
-  public final void setSingleLineBreaksMarksParagraph(
-      final boolean lineBreakParagraphs) {
+  public final void setSingleLineBreaksMarksParagraph(boolean lineBreakParagraphs) {
     if (lineBreakParagraphs) {
       parCode = "_one";
     } else {
