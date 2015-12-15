@@ -34,6 +34,7 @@ public class EnglishNgramProbabilityRule extends NgramProbabilityRule {
 
   public EnglishNgramProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     super(messages, languageModel, language);
+    setDefaultOff();  // too many false alarms for now (2015-12)
     //addExamplePair(Example.wrong("I didn't <marker>now</marker> where it came from."),
     //               Example.fixed("I didn't <marker>know</marker> where it came from."));
   }
