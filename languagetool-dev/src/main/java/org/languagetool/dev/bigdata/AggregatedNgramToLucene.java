@@ -89,8 +89,7 @@ class AggregatedNgramToLucene implements AutoCloseable {
   @NotNull
   private Document getDoc(String ngram, long count) {
     Document doc = new Document();
-    //doc.add(new Field("ngram", ngram, StringField.TYPE_NOT_STORED));
-    doc.add(new Field("ngram", ngram, StringField.TYPE_STORED));  //TODO
+    doc.add(new Field("ngram", ngram, StringField.TYPE_NOT_STORED));  // use StringField.TYPE_STORED for easier debugging with e.g. Luke
     doc.add(getCountField(count));
     return doc;
   }
