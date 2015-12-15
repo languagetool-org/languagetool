@@ -18,11 +18,7 @@
  */
 package org.languagetool.tokenizers;
 
-import net.loomchild.segment.srx.SrxDocument;
 import org.languagetool.Language;
-
-import java.util.List;
-import java.util.Objects;
 
 /**
  * Class to tokenize sentences using an SRX file.
@@ -30,47 +26,16 @@ import java.util.Objects;
  * for a description of how we use SRX.
  * @see SRXSentenceTokenizer
  * @since 2.6
+ * @deprecated use {@link SRXSentenceTokenizer} instead (deprecated since 3.2)
  */
-public class LocalSRXSentenceTokenizer implements SentenceTokenizer {
-
-  private final SrxDocument srxDocument;
-  private final Language language;
-
-  private String parCode;
+@Deprecated
+public class LocalSRXSentenceTokenizer extends SRXSentenceTokenizer {
 
   /**
    * @param srxInClassPath the path to an SRX file in the classpath 
    */
   public LocalSRXSentenceTokenizer(Language language, String srxInClassPath) {
-    this.language = Objects.requireNonNull(language);
-    this.srxDocument = SrxTools.createSrxDocument(srxInClassPath);
-    setSingleLineBreaksMarksParagraph(false);
+    super(language, srxInClassPath);
   }
-
-  @Override
-  public final List<String> tokenize(final String text) {
-    return SrxTools.tokenize(text, srxDocument, language.getShortName() + parCode);
-  }
-
-  @Override
-  public final boolean singleLineBreaksMarksPara() {
-    return "_one".equals(parCode);
-  }
-
-  /**
-   * @param lineBreakParagraphs
-   *          if <code>true</code>, single lines breaks are assumed to end a
-   *          paragraph; if <code>false</code>, only two ore more consecutive
-   *          line breaks end a paragraph
-   */
-  @Override
-  public final void setSingleLineBreaksMarksParagraph(
-      final boolean lineBreakParagraphs) {
-    if (lineBreakParagraphs) {
-      parCode = "_one";
-    } else {
-      parCode = "_two";
-    }
-  }
-
+  
 }

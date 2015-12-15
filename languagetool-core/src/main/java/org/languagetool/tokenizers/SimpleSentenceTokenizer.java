@@ -28,10 +28,10 @@ import java.util.ResourceBundle;
 
 /**
  * A very simple sentence tokenizer that splits on {@code [.!?…]} followed by whitespace
- * or an uppercase letter. You probably want to use an adapted {@link LocalSRXSentenceTokenizer} instead.
+ * or an uppercase letter. You probably want to use an adapted {@link SRXSentenceTokenizer} instead.
  * @since 2.6
  */
-public class SimpleSentenceTokenizer extends LocalSRXSentenceTokenizer {
+public class SimpleSentenceTokenizer extends SRXSentenceTokenizer {
 
   public SimpleSentenceTokenizer() {
     super(new AnyLanguage(), "/org/languagetool/tokenizers/segment-simple.srx");
