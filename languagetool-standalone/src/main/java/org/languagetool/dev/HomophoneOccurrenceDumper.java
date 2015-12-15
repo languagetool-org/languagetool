@@ -24,7 +24,7 @@ import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.util.BytesRef;
 import org.languagetool.JLanguageTool;
-import org.languagetool.languagemodel.LuceneLanguageModel;
+import org.languagetool.languagemodel.LuceneSingleIndexLanguageModel;
 import org.languagetool.rules.ConfusionSet;
 import org.languagetool.rules.ConfusionSetLoader;
 
@@ -40,7 +40,7 @@ import java.util.*;
  * thus slow.
  * @since 2.8
  */
-class HomophoneOccurrenceDumper extends LuceneLanguageModel {
+class HomophoneOccurrenceDumper extends LuceneSingleIndexLanguageModel {
 
   private static final int MIN_COUNT = 1000;
 

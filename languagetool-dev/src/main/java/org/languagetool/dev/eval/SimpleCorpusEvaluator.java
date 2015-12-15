@@ -27,6 +27,7 @@ import org.languagetool.dev.errorcorpus.SimpleCorpus;
 import org.languagetool.language.English;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
+import org.languagetool.languagemodel.LuceneSingleIndexLanguageModel;
 import org.languagetool.languagemodel.MultiLanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.Rule;
@@ -227,7 +228,7 @@ public class SimpleCorpusEvaluator {
         lms.add(new LuceneLanguageModel(indexTopDir));
       }
       languageModel = new MultiLanguageModel(lms);
-      LuceneLanguageModel.clearCaches();
+      LuceneSingleIndexLanguageModel.clearCaches();
       System.out.println("Using Lucene language model from " + languageModel);
       probabilityRule = new EnglishNgramProbabilityRule(JLanguageTool.getMessageBundle(), languageModel, new English());
       langTool.addRule(probabilityRule);

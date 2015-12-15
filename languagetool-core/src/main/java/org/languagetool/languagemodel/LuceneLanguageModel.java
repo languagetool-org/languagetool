@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,215 +18,77 @@
  */
 package org.languagetool.languagemodel;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.lucene.index.*;
-import org.apache.lucene.search.*;
-import org.apache.lucene.store.FSDirectory;
-import org.languagetool.Experimental;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * Information about ngram occurrences, taken from a Lucene index.
- * This is not a real language model as it only returns information
- * about occurrence counts but has no probability calculation, especially
- * not for the case with 0 occurrences.
+ * Like {@link LuceneSingleIndexLanguageModel}, but can merge the results of
+ * lookups in several independent indexes to one result.
  * @since 2.7
  */
 public class LuceneLanguageModel extends BaseLanguageModel {
 
-  private static final Map<File,LuceneSearcher> dirToSearcherMap = new HashMap<>();  // static to save memory for language variants
+  private final List<LuceneSingleIndexLanguageModel> lms = new ArrayList<>();
 
-  private final List<File> indexes = new ArrayList<>();
-  private final Map<Integer,LuceneSearcher> luceneSearcherMap = new HashMap<>();
-  private final File topIndexDir;
-  private final long maxNgram;
-
-  /**
-   * Throw RuntimeException is the given directory does not seem to be a valid ngram top directory
-   * with sub directories {@code 1grams} etc.
-   * @since 3.0
-   * @throws RuntimeException
-   */
   public static void validateDirectory(File topIndexDir) {
-    if (!topIndexDir.exists() || !topIndexDir.isDirectory()) {
-      throw new RuntimeException("Not found or is not a directory: " + topIndexDir);
-    }
-    List<String> dirs = new ArrayList<>();
-    for (String name : topIndexDir.list()) {
-      if (name.matches("[123]grams")) {
-        dirs.add(name);
-      }
-    }
-    if (dirs.size() == 0) {
-      throw new RuntimeException("Directory must contain at least '1grams', '2grams', and '3grams': " + topIndexDir.getAbsolutePath());
-    }
-    if (dirs.size() < 3) {
-      throw new RuntimeException("Expected at least '1grams', '2grams', and '3grams' sub directories but only got " + dirs + " in " + topIndexDir.getAbsolutePath());
+    File[] subDirs = getSubDirectoriesOrNull(topIndexDir);
+    if (subDirs == null || subDirs.length == 0) {
+      LuceneSingleIndexLanguageModel.validateDirectory(topIndexDir);
     }
   }
-  
-  /** @since 3.2 */
-  @Experimental
-  public static void clearCaches() {
-    dirToSearcherMap.clear();
+
+  @Nullable
+  private static File[] getSubDirectoriesOrNull(File topIndexDir) {
+    return topIndexDir.listFiles((file, name) -> name.matches("index-\\d+"));
   }
 
   /**
-   * @param topIndexDir a directory which contains at least another sub directory called {@code 3grams},
-   *                    which is a Lucene index with ngram occurrences as created by
-   *                    {@code org.languagetool.dev.FrequencyIndexCreator}.
+   * @param topIndexDir a directory which contains either:
+   *                    1) sub directories called {@code 1grams}, {@code 2grams}, {@code 3grams},
+   *                    which are Lucene indexes with ngram occurrences as created by
+   *                    {@code org.languagetool.dev.FrequencyIndexCreator}
+   *                    or 2) sub directories {@code index-1}, {@code index-2} etc who contain
+   *                    the sub directories described under 1)
    */
   public LuceneLanguageModel(File topIndexDir)  {
-    doValidateDirectory(topIndexDir);
-    this.topIndexDir = topIndexDir;
-    addIndex(topIndexDir, 1);
-    addIndex(topIndexDir, 2);
-    addIndex(topIndexDir, 3);
-    addIndex(topIndexDir, 4);
-    if (luceneSearcherMap.size() == 0) {
-      throw new RuntimeException("No directories '1grams' ... '3grams' found in " + topIndexDir);
-    }
-    maxNgram = Collections.<Integer>max(luceneSearcherMap.keySet());
-  }
-
-  @Experimental
-  public LuceneLanguageModel(int maxNgram) {
-    this.maxNgram = maxNgram;
-    this.topIndexDir = null;
-  }
-
-  protected void doValidateDirectory(File topIndexDir) {
-    validateDirectory(topIndexDir);
-  }
-
-  private void addIndex(File topIndexDir, int ngramSize) {
-    File indexDir = new File(topIndexDir, ngramSize + "grams");
-    if (indexDir.exists() && indexDir.isDirectory()) {
-      if (luceneSearcherMap.containsKey(ngramSize)) {
-        throw new RuntimeException("Searcher for ngram size " + ngramSize + " already exists");
+    File[] subDirs = getSubDirectoriesOrNull(topIndexDir);
+    if (subDirs != null && subDirs.length > 0) {
+      System.out.println("Running in multi-index mode with " + subDirs.length + " indexes: " + topIndexDir);
+      for (File subDir : subDirs) {
+        lms.add(new LuceneSingleIndexLanguageModel(subDir));
       }
-      luceneSearcherMap.put(ngramSize, getCachedLuceneSearcher(indexDir));
-      indexes.add(indexDir);
+    } else {
+      lms.add(new LuceneSingleIndexLanguageModel(topIndexDir));
     }
   }
 
   @Override
   public long getCount(List<String> tokens) {
-    if (tokens.size() > maxNgram) {
-      throw new RuntimeException("Requested " + tokens.size() + "gram but index has only up to " + maxNgram + "gram: " + tokens);
-    }
-    Objects.requireNonNull(tokens);
-    Term term = new Term("ngram", StringUtils.join(tokens, " "));
-    return getCount(term, getLuceneSearcher(tokens.size()));
+    return lms.stream().mapToLong(lm -> lm.getCount(tokens)).sum();
   }
 
   @Override
-  public long getCount(String token1) {
-    Objects.requireNonNull(token1);
-    //TODO: move this into the document? It's not there currently...
-    //if (token1.equals(LanguageModel.GOOGLE_SENTENCE_START)) {
-    //  return 42_107_029_039L;  // see StartTokenCounter, run with 2grams (3grams: 124_541_229_392)
-    //}
-    return getCount(Arrays.asList(token1));
+  public long getCount(String token) {
+    return getCount(Arrays.asList(token));
   }
 
   @Override
   public long getTotalTokenCount() {
-    LuceneSearcher luceneSearcher = getLuceneSearcher(1);
-    try {
-      RegexpQuery query = new RegexpQuery(new Term("totalTokenCount", ".*"));
-      TopDocs docs = luceneSearcher.searcher.search(query, 1000);  // Integer.MAX_VALUE might cause OOE on wrong index
-      if (docs.totalHits == 0) {
-        throw new RuntimeException("Expected 'totalTokenCount' meta documents not found in 1grams index: " + luceneSearcher.directory);
-      } else if (docs.totalHits > 1000) {
-        throw new RuntimeException("Did not expect more than 1000 'totalTokenCount' meta documents: " + docs.totalHits + " in " + luceneSearcher.directory);
-      } else {
-        long result = 0;
-        for (ScoreDoc scoreDoc : docs.scoreDocs) {
-          result += Long.parseLong(luceneSearcher.reader.document(scoreDoc.doc).get("totalTokenCount"));
-        }
-        return result;
-      }
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  protected LuceneSearcher getLuceneSearcher(int ngramSize) {
-    LuceneSearcher luceneSearcher = luceneSearcherMap.get(ngramSize);
-    if (luceneSearcher == null) {
-      throw new RuntimeException("No " + ngramSize + "grams directory found in " + topIndexDir);
-    }
-    return luceneSearcher;
-  }
-
-  private LuceneSearcher getCachedLuceneSearcher(File indexDir) {
-    LuceneSearcher luceneSearcher = dirToSearcherMap.get(indexDir);
-    if (luceneSearcher == null) {
-      try {
-        LuceneSearcher newSearcher = new LuceneSearcher(indexDir);
-        dirToSearcherMap.put(indexDir, newSearcher);
-        return newSearcher;
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-    } else {
-      return luceneSearcher;
-    }
-  }
-
-  private long getCount(Term term, LuceneSearcher luceneSearcher) {
-    try {
-      TopDocs docs = luceneSearcher.searcher.search(new TermQuery(term), 2);
-      if (docs.totalHits == 0) {
-        return 0;
-      } else if (docs.totalHits == 1) {
-        int docId = docs.scoreDocs[0].doc;
-        return Long.parseLong(luceneSearcher.reader.document(docId).get("count"));
-      } else {
-        throw new RuntimeException("Found more than one match for query " + term + " in " + luceneSearcher.directory);
-      }
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    return lms.stream().mapToLong(lm -> lm.getTotalTokenCount()).sum();
   }
 
   @Override
   public void close() {
-    for (LuceneSearcher searcher : luceneSearcherMap.values()) {
-      try {
-        searcher.reader.close();
-        searcher.directory.close();
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-    }
+    lms.stream().forEach(lm -> lm.close());
   }
 
   @Override
   public String toString() {
-    return indexes.toString();
+    return lms.toString();
   }
 
-  protected static class LuceneSearcher {
-    final FSDirectory directory;
-    final IndexReader reader;
-    final IndexSearcher searcher;
-    private LuceneSearcher(File indexDir) throws IOException {
-      Path path = indexDir.toPath();
-      // symlinks are not supported here, see https://issues.apache.org/jira/browse/LUCENE-6700,
-      // so we resolve the link ourselves:
-      if (Files.isSymbolicLink(path)) {
-        path = indexDir.getCanonicalFile().toPath();
-      }
-      this.directory = FSDirectory.open(path);
-      this.reader = DirectoryReader.open(directory);
-      this.searcher = new IndexSearcher(reader);
-    }
-  }
 }

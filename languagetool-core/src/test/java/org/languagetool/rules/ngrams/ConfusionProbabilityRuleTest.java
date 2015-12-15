@@ -23,7 +23,7 @@ import org.languagetool.FakeLanguage;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.LuceneLanguageModel;
+import org.languagetool.languagemodel.LuceneSingleIndexLanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -133,7 +133,7 @@ public class ConfusionProbabilityRuleTest {
     assertGood(input, rule);
   }
 
-  static class FakeLanguageModel extends LuceneLanguageModel {
+  static class FakeLanguageModel extends LuceneSingleIndexLanguageModel {
     static Map<String,Integer> map = new HashMap<>();
     FakeLanguageModel() {
       super(3);
