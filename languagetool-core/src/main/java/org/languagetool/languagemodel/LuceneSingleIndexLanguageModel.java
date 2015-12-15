@@ -184,19 +184,21 @@ public class LuceneSingleIndexLanguageModel extends BaseLanguageModel {
   }
 
   private long getCount(Term term, LuceneSearcher luceneSearcher) {
+    long result = 0;
     try {
-      TopDocs docs = luceneSearcher.searcher.search(new TermQuery(term), 2);
-      if (docs.totalHits == 0) {
-        return 0;
-      } else if (docs.totalHits == 1) {
-        int docId = docs.scoreDocs[0].doc;
-        return Long.parseLong(luceneSearcher.reader.document(docId).get("count"));
-      } else {
-        throw new RuntimeException("Found more than one match for query " + term + " in " + luceneSearcher.directory);
+      TopDocs docs = luceneSearcher.searcher.search(new TermQuery(term), 2000);
+      if (docs.totalHits > 2000) {
+        throw new RuntimeException("More than 2000 matches for '" + term + "' not supported for performance reasons: " +
+                                   docs.totalHits + " matches in " + luceneSearcher.directory);
+      }
+      for (ScoreDoc scoreDoc : docs.scoreDocs) {
+        String countStr = luceneSearcher.reader.document(scoreDoc.doc).get("count");
+        result += Long.parseLong(countStr);
       }
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+    return result;
   }
 
   @Override
