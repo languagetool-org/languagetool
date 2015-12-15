@@ -22,7 +22,6 @@ package org.languagetool.tokenizers;
 import java.util.List;
 
 import junit.framework.TestCase;
-import org.languagetool.tools.StringTools;
 
 public class WordTokenizerTest extends TestCase {
 
@@ -87,7 +86,7 @@ public class WordTokenizerTest extends TestCase {
 
   private String tokenize(String text) {
     final List<String> tokens = wordTokenizer.tokenize(text);
-    return StringTools.listToString(tokens, "|");
+    return String.join("|", tokens);
   }
   
 }

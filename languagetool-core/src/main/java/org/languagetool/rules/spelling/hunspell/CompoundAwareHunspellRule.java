@@ -104,7 +104,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
           } else {
             partsCopy.set(partCount, suggestion);
           }
-          String candidate = StringTools.listToString(partsCopy, "");
+          String candidate = String.join("", partsCopy);
           if (!isMisspelled(candidate)) {
             candidates.add(candidate);
           }

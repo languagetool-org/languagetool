@@ -33,7 +33,6 @@ import org.languagetool.tagging.de.AnalyzedGermanToken;
 import org.languagetool.tagging.de.GermanToken;
 import org.languagetool.tagging.de.GermanToken.POSType;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
-import org.languagetool.tools.StringTools;
 
 import java.util.*;
 
@@ -340,7 +339,7 @@ public class AgreementRule extends GermanRule {
     if (set1.size() == 0 && !isException(token1, token2)) {
       final List<String> errorCategories = getCategoriesCausingError(token1, token2);
       final String errorDetails = errorCategories.size() > 0 ?
-              StringTools.listToString(errorCategories, " und ") : "Kasus, Genus oder Numerus";
+              String.join(" und ", errorCategories) : "Kasus, Genus oder Numerus";
       final String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel und Nomen " +
             "bezüglich " + errorDetails + ".";
       final String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich " + errorDetails;
@@ -495,7 +494,7 @@ public class AgreementRule extends GermanRule {
     if (determination != null) {
       l.add(determination.toString());
     }
-    return StringTools.listToString(l, "/");
+    return String.join("/", l);
   }
 
   @Override

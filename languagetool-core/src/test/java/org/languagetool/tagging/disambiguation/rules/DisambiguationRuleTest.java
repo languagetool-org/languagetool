@@ -32,7 +32,6 @@ import junit.framework.TestCase;
 import org.languagetool.*;
 import org.languagetool.rules.patterns.PatternTestTools;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
-import org.languagetool.tools.StringTools;
 import org.xml.sax.SAXException;
 
 public class DisambiguationRuleTest extends TestCase {
@@ -87,7 +86,7 @@ public class DisambiguationRuleTest extends TestCase {
     final String forms = wordForms.substring(wordForms.indexOf('[') + 1, wordForms.length() -1);
     final String[] formToSort = forms.split(",");
     Arrays.sort(formToSort);
-    return word + StringTools.listToString(Arrays.asList(formToSort), ",") + "]";
+    return word + String.join(",", Arrays.asList(formToSort)) + "]";
   }
 
   private void testDisambiguationRulesFromXML(

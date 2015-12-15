@@ -22,7 +22,6 @@ import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.tools.ContextTools;
-import org.languagetool.tools.StringTools;
 
 import java.util.List;
 
@@ -58,7 +57,7 @@ class StdoutHandler extends ResultHandler {
         System.out.println("Message: " + msg);
         final List<String> replacements = match.getSuggestedReplacements();
         if (!replacements.isEmpty()) {
-          System.out.println("Suggestion: " + StringTools.listToString(replacements, "; "));
+          System.out.println("Suggestion: " + String.join("; ", replacements));
         }
         System.out.println(contextTools.getPlainTextContext(match.getFromPos(), match.getToPos(), sentence.getText()));
         i++;

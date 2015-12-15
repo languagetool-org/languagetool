@@ -26,7 +26,6 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.tools.StringTools;
 
 import java.io.File;
 import java.io.IOException;
@@ -155,7 +154,7 @@ public class ConfusionProbabilityRuleTest {
     }
     @Override
     public long getCount(List<String> tokens) {
-      Integer count = map.get(StringTools.listToString(tokens, " "));
+      Integer count = map.get(String.join(" ", tokens));
       return count == null ? 0 : count;
     }
     @Override

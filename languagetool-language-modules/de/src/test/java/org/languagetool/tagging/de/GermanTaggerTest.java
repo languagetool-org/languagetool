@@ -25,7 +25,6 @@ import morfologik.stemming.WordData;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
@@ -180,7 +179,7 @@ public class GermanTaggerTest extends TestCase {
         elements.add(reading.toString());
       }
     }
-    sb.append(StringTools.listToString(elements, ", "));
+    sb.append(String.join(", ", elements));
     sb.append(']');
     return sb.toString();
   }

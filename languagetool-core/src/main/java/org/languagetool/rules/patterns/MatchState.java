@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.TreeSet;
 import java.util.regex.Pattern;
 
@@ -381,7 +380,7 @@ public class MatchState {
    */
   final String toTokenString() throws IOException {
     String[] stringToFormat = toFinalString(null);
-    return StringTools.listToString(Arrays.asList(stringToFormat), "|");
+    return String.join("|", Arrays.asList(stringToFormat));
   }
 
   public Match getMatch() {

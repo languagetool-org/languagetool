@@ -37,7 +37,6 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.ContextTools;
-import org.languagetool.tools.StringTools;
 
 /**
  * Area where the result of text checking is displayed.
@@ -122,7 +121,7 @@ class ResultArea {
       final RuleLink ruleLink = RuleLink.buildDeactivationLink(match.getRule());
       sb.append(" <a href=\"").append(ruleLink).append("\">").append(messages.getString("deactivateRule")).append("</a><br>\n");
       if (match.getSuggestedReplacements().size() > 0) {
-        final String replacement = StringTools.listToString(match.getSuggestedReplacements(), "; ");
+        final String replacement = String.join("; ", match.getSuggestedReplacements());
         sb.append("<b>").append(messages.getString("correctionMessage")).append("</b> ").append(replacement).append("<br>\n");
       }
       if (ITSIssueType.Misspelling.equals(match.getRule().getLocQualityIssueType())) {

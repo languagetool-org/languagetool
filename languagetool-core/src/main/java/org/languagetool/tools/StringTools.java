@@ -25,7 +25,6 @@ import org.languagetool.Language;
 import java.io.*;
 import java.lang.Character;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -314,16 +313,11 @@ public final class StringTools {
     return sb.toString();
   }
 
+  /**
+   * @deprecated use e.g. Java's {@code String.join()} (deprecated since 3.2)
+   */
   public static String listToString(final Collection<String> l, final String delimiter) {
-    final StringBuilder sb = new StringBuilder();
-    for (final Iterator<String> iter = l.iterator(); iter.hasNext();) {
-      final String str = iter.next();
-      sb.append(str);
-      if (iter.hasNext()) {
-        sb.append(delimiter);
-      }
-    }
-    return sb.toString();
+    return String.join(delimiter, l);
   }
 
   /**

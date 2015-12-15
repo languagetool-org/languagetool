@@ -149,8 +149,8 @@ public class StringToolsTest extends TestCase {
     list.add("foo");
     list.add("bar");
     list.add(",");
-    assertEquals("foo,bar,,", StringTools.listToString(list, ","));
-    assertEquals("foo\tbar\t,", StringTools.listToString(list, "\t"));
+    assertEquals("foo,bar,,", String.join(",", list));
+    assertEquals("foo\tbar\t,", String.join("\t", list));
   }
 
   public void testTrimWhitespace() {

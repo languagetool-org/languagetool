@@ -72,7 +72,7 @@ public class BaseLanguageModelTest {
     }
     @Override
     public long getCount(List<String> tokens) {
-      Integer count = map.get(StringTools.listToString(tokens, " "));
+      Integer count = map.get(String.join(" ", tokens));
       return count == null ? 0 : count;
     }
     @Override

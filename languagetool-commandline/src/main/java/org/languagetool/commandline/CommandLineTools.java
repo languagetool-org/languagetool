@@ -176,8 +176,7 @@ public final class CommandLineTools {
       System.out.println("Message: " + msg);
       final List<String> replacements = match.getSuggestedReplacements();
       if (!replacements.isEmpty()) {
-        System.out.println("Suggestion: "
-                + StringTools.listToString(replacements, "; "));
+        System.out.println("Suggestion: " + String.join("; ", replacements));
       }
       System.out.println(contextTools.getPlainTextContext(match.getFromPos(), match.getToPos(), contents));
       if (rule.getUrl() != null) {

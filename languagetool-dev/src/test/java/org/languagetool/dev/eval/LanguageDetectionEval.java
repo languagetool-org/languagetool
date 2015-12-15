@@ -22,7 +22,6 @@ import com.google.common.io.CharStreams;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.language.LanguageIdentifier;
-import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -80,7 +79,7 @@ class LanguageDetectionEval {
     totalInputs++;
     String[] tokens = line.split("\\s+");
     for (int i = tokens.length; i > 0; i--) {
-      String text = StringTools.listToString(Arrays.asList(tokens).subList(0, i), " ");
+      String text = String.join(" ", Arrays.asList(tokens).subList(0, i));
       Language detectedLangObj = languageIdentifier.detectLanguage(text);
       String detectedLang = null;
       if (detectedLangObj != null) {

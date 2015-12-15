@@ -27,7 +27,6 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRule;
-import org.languagetool.tools.StringTools;
 
 import java.io.File;
 import java.io.FileReader;
@@ -84,7 +83,7 @@ final class ExampleSentenceCorrectionCreator {
         throw new RuntimeException("Got no rule match: " + incorrectSentence);
       }
       List<String> suggestedReplacements = matches.get(0).getSuggestedReplacements();
-      String newAttribute = "correction=\"" + StringTools.listToString(suggestedReplacements, "|") + "\"";
+      String newAttribute = "correction=\"" + String.join("|", suggestedReplacements) + "\"";
       addAttribute(rule, newAttribute, xmlLines);
     }
   }
