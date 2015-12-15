@@ -70,6 +70,7 @@ public class LuceneLanguageModel extends BaseLanguageModel {
     }
   }
   
+  /** @since 3.2 */
   @Experimental
   public static void clearCaches() {
     dirToSearcherMap.clear();
@@ -94,7 +95,7 @@ public class LuceneLanguageModel extends BaseLanguageModel {
   }
 
   @Experimental
-  public LuceneLanguageModel(int maxNgram)  {
+  public LuceneLanguageModel(int maxNgram) {
     this.maxNgram = maxNgram;
     this.topIndexDir = null;
   }
@@ -226,9 +227,6 @@ public class LuceneLanguageModel extends BaseLanguageModel {
       this.directory = FSDirectory.open(path);
       this.reader = DirectoryReader.open(directory);
       this.searcher = new IndexSearcher(reader);
-    }
-    public IndexReader getReader() {
-      return reader;
     }
   }
 }

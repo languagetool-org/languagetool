@@ -113,7 +113,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 
   /**
    * See:
-   * {@link ResourceDataBroker#getFromResourceDirAsStream(java.lang.String)}
+   * {@link ResourceDataBroker#getFromResourceDirAsStream(String)}
    *
    * @param path
    *            The relative path to the item inside of the {@code /resource}
@@ -133,7 +133,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 
   /**
    * See:
-   * {@link ResourceDataBroker#getFromResourceDirAsUrl(java.lang.String)}
+   * {@link ResourceDataBroker#getFromResourceDirAsUrl(String)}
    *
    * @param path
    *            The relative path to the item inside of the {@code /resource}
@@ -165,7 +165,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
 
   /**
    * See:
-   * {@link ResourceDataBroker#getFromRulesDirAsStream(java.lang.String)}
+   * {@link ResourceDataBroker#getFromRulesDirAsStream(String)}
    *
    * @param path The relative path to the item inside of the {@code /rules}
    *  directory. Please start your path information with {@code /} because it
@@ -182,7 +182,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   }
 
   /**
-   * See: {@link ResourceDataBroker#getFromRulesDirAsUrl(java.lang.String)}
+   * See: {@link ResourceDataBroker#getFromRulesDirAsUrl(String)}
    *
    * @param path The relative path to the item inside of the {@code /rules}
    *  directory. Please start your path information with {@code /} because it
@@ -229,7 +229,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   }
 
   /**
-   * See: {@link ResourceDataBroker#resourceExists(java.lang.String)}
+   * See: {@link ResourceDataBroker#resourceExists(String)}
    * 
    * Checks if a resource in the grammar checker's {@code /resource} exists.
    * @param path Path to an item from the {@code /resource} directory.
@@ -242,7 +242,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   }
   
   /**
-   * See: {@link ResourceDataBroker#ruleFileExists(java.lang.String)}
+   * See: {@link ResourceDataBroker#ruleFileExists(String)}
    * 
    * Checks if a resource in the grammar checker's {@code /rules} exists.
    * @param path Path to an item from the {@code /rules} directory.

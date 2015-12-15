@@ -55,6 +55,7 @@ class AggregatedNgramToLucene implements AutoCloseable {
   }
 
   void indexInputFile(File file) throws IOException {
+    System.out.println("=== Indexing " + file + " ===");
     try (Scanner scanner = new Scanner(file)) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
@@ -64,7 +65,7 @@ class AggregatedNgramToLucene implements AutoCloseable {
   }
 
   private void indexLine(String line) throws IOException {
-    if (lineCount++ % 100_000 == 0) {
+    if (lineCount++ % 250_000 == 0) {
       System.out.printf(Locale.ENGLISH, "Indexing line %d\n", lineCount);
     }
     String[] lineParts = line.split("\t");
