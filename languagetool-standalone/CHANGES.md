@@ -19,7 +19,8 @@
   * added/improved several rules
 
 #### French
- * added/improved several rules
+  * upgraded dictionaries to Dicollecte-5.5
+  * added/improved several rules
 
 #### German
   * improved a few rules
