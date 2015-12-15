@@ -92,7 +92,7 @@ public class NgramProbabilityRule extends Rule {
           //double prob = p.getProb() + bigramLeftP.getProb() + bigramRightP.getProb();
           //System.out.println(prob + " for " + prevToken.token +" "+ token +" "+ next.token);
           if (prob < minProbability) {
-            String message = "ngram '" + ngram + "' rarely occurs in ngram reference corpus";
+            String message = "The phrase '" + ngram + "' rarely occurs in ngram reference corpus";
             RuleMatch match = new RuleMatch(this, prevToken.startPos, next.endPos, message);
             matches.add(match);
           }
@@ -107,8 +107,7 @@ public class NgramProbabilityRule extends Rule {
   
   @Override
   public String getDescription() {
-    //return Tools.i18n(messages, "statistics_rule_description");
-    return "Assume errors for ngrams that occur rarely in the reference index";
+    return "Assume errors for phrases (ngrams) that occur rarely in a reference index";
   }
 
   @Override
