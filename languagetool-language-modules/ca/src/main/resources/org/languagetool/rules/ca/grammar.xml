@@ -42,7 +42,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY exceptions_ODRE "pell|bot|líquid|aigua|oli|llet|vi|substància|mantega|càntir|ampolla|porró|paràbola|cuir|cuiro">
     <!ENTITY exceptions_Paris "Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu|judici|juí">
     <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena">
-    <!ENTITY expressions_temps "ara|avui|hui|demà|despús-demà|ahir|despús-ahir|endemà|enguany|temporada">
+    <!ENTITY expressions_temps "ara|avui|hui|demà|despús-demà|ahir|despús-ahir|endemà|enguany|temporada|curs">
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
     <!ENTITY mesos_any_abrev "gen|febr|abr|jul|ag|set|oct|nov|des">
     <!ENTITY mesos_any "gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre">
@@ -4485,7 +4485,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="CONFUSIO_PARTICIPI_INFINITIU" name="Nom + adverbi + (*infinitiu/*gerundi/participi)">
             <pattern>
                 <token postag="N.[MC][SN].*" postag_regexp="yes"><exception postag="V.[SI].*|DN.*|NCCN.*" postag_regexp="yes"/><exception>possible</exception></token>
-                <token postag="RG_anteposat"><exception regexp="yes">tot|també|només</exception></token>
+                <token postag="RG_anteposat"><exception regexp="yes">tot|també|només|ja</exception></token>
                 <marker>
                     <token postag="V.[GN].*" postag_regexp="yes" regexp="yes">.+(nt|r)<exception postag="A.*|V.P.*" postag_regexp="yes"/><exception regexp="yes">dient|dur</exception></token>
                 </marker>
@@ -4504,6 +4504,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>El públic s'identifica amb l'actor només identificant-se amb l'aparell</example>
             <example>pot ser millor incidir en la zona supurada</example>
             <example>he acomplert a l'acte només aparèixer.</example>
+            <example>Amb Messi ja passejant per la gespa.</example>
         </rule>
         <rule id="DONAR_QUE_PENSAR" name="donar que pensar">
             <pattern>
@@ -12156,6 +12157,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>un cap buit no pot adquirir saviesa</example>
         </rule>
         <rule id="LLIURAMENT_LLIUREMENT" name="lliurament/lliurement">
+            <antipattern>
+                <marker>
+                    <token inflected="yes">fer</token>
+                    <token>lliurament</token>
+                    <token>a</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token><exception regexp="yes">de|amb|en</exception></token>
                 <marker>
@@ -38912,7 +38920,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="FALTA_COMA_FRASE_CONDICIONAL" name="Coma en frase condicional" type="style">
             <pattern>
-                <token skip="-1">si<exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C.*" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception><exception scope="previous">com</exception></token>
+                <token skip="-1">si<exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C.*" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception><exception scope="previous" regexp="yes">com|sols|només|solament</exception></token>
                 <marker>
                     <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes" skip="-1">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">com|perquè|que</exception><exception postag="C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_PUNCT.*" postag_regexp="yes" scope="next"/></token>
                     <token postag="V.[^NGP].*" postag_regexp="yes" regexp="yes">[\p{Ll}·]+<exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
