@@ -18,22 +18,28 @@
  */
 package org.languagetool.dev.dumpcheck;
 
+import org.apache.commons.compress.compressors.CompressorException;
+import org.apache.commons.compress.compressors.CompressorInputStream;
+import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
+import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
- * Command line tool to extract sentences from a decompressed Wikipedia XML dump.
+ * Command line tool to extract sentences from a compressed Wikipedia XML dump.
  * @since 2.6
  */
 class WikipediaSentenceExtractor {
 
-  private void extract(Language language, String xmlDumpPath) throws IOException {
-    try (FileInputStream fis = new FileInputStream(xmlDumpPath)) {
+  private void extract(Language language, String xmlDumpPath) throws IOException, CompressorException {
+    try (FileInputStream fis = new FileInputStream(xmlDumpPath);
+         BufferedInputStream bis = new BufferedInputStream(fis);
+         CompressorInputStream input = new CompressorStreamFactory().createCompressorInputStream(bis)) {
       int sentenceCount = 0;
-      WikipediaSentenceSource source = new WikipediaSentenceSource(fis, language);
+      WikipediaSentenceSource source = new WikipediaSentenceSource(input, language);
       while (source.hasNext()) {
         String sentence = source.next().getText();
         if (skipSentence(sentence)) {
@@ -59,7 +65,7 @@ class WikipediaSentenceExtractor {
     }
   }
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException, CompressorException {
     checkUsageOrExit(args);
     WikipediaSentenceExtractor extractor = new WikipediaSentenceExtractor();
     extractor.extract(Languages.getLanguageForShortName(args[0]), args[1]);
