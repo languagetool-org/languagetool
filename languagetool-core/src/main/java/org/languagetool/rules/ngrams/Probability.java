@@ -26,8 +26,9 @@ public class Probability {
 
   private final double prob;
   private final float coverage;
+  private final long occurrences;
 
-  public Probability(double prob, float coverage) {
+  public Probability(double prob, float coverage, long occurrences) {
     if (prob < 0.0) {
       throw new RuntimeException("Probability must be >= 0: " + prob);
     }
@@ -36,6 +37,11 @@ public class Probability {
     //}
     this.prob = prob;
     this.coverage = coverage;
+    this.occurrences = occurrences;
+  }
+
+  public Probability(double prob, float coverage) {
+    this(prob, coverage, -1);
   }
 
   /**
@@ -53,6 +59,13 @@ public class Probability {
     return coverage;
   }
 
+  /**
+   * The number the longest ngram occurs in the corpus. Maybe be -1 if not known.
+   */
+  public long getOccurrences() {
+    return occurrences;
+  }
+  
   @Override
   public String toString() {
     return prob + ", coverage=" + coverage;

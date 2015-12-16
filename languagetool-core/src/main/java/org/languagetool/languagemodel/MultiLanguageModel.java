@@ -41,28 +41,16 @@ public class MultiLanguageModel implements LanguageModel {
   public Probability getPseudoProbability(List<String> context) {
     double prob = 0;
     float coverage = 0;
-    int i = 0;
-    //System.out.println(context + " ----------------------------------------------------------");
+    long occurrences = 0;
     for (LanguageModel lm : lms) {
       Probability pProb = lm.getPseudoProbability(context);
       //System.out.println(i + ". " + pProb.getProb() + " (" + pProb.getCoverage() + ")");
-      //prob += pProb.getProb();
-      //if (prob < pProb.getProb()) {
-      //  prob = pProb.getProb();
-      //}
-      /*if (i == 1) {
-        prob += pProb.getProb() / 100000;
-      } else {
-        prob += pProb.getProb();
-      }*/
       // TODO: decide what's the proper way to combine the probabilities
       prob += pProb.getProb();
       coverage += pProb.getProb();
-      i++;
+      occurrences += pProb.getOccurrences();
     }
-    //System.out.println(context +"=>" +prob);
-    //return new Probability(prob/lms.size(), coverage/lms.size());
-    return new Probability(prob, coverage/lms.size());
+    return new Probability(prob, coverage/lms.size(), occurrences);
   }
 
   @Override

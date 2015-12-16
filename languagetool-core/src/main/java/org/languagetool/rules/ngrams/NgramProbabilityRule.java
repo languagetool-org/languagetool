@@ -93,7 +93,7 @@ public class NgramProbabilityRule extends Rule {
           //System.out.printf("%.20f for " + prevToken.token + " " + token + " " + next.token + "\n", prob);
           //System.out.printf("%.20f is minProbability\n", minProbability);
           if (prob < minProbability) {
-            String message = "The phrase '" + ngram + "' rarely occurs in the reference corpus";
+            String message = "The phrase '" + ngram + "' rarely occurs in the reference corpus (" + p.getOccurrences() + " times)";
             RuleMatch match = new RuleMatch(this, prevToken.startPos, next.endPos, message);
             matches.add(match);
           }

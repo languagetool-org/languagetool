@@ -54,9 +54,14 @@ public abstract class BaseLanguageModel implements LanguageModel {
     // https://www.ibm.com/developerworks/community/blogs/nlp/entry/the_chain_rule_of_probability?lang=en
     double p = (double) (firstWordCount + 1) / (totalTokenCount + 1);
     debug("    P for %s: %.20f (%d)\n", context.get(0), p, firstWordCount);
+    long totalCount = 0;
     for (int i = 2; i <= context.size(); i++) {
       List<String> subList = context.subList(0, i);
       long phraseCount = getCount(subList);
+      //System.out.println(subList + " -> " +phraseCount);
+      if (subList.size() == 3) {
+        totalCount = phraseCount;
+      }
       double thisP = (double) (phraseCount + 1) / (firstWordCount + 1);
       maxCoverage++;
       debug("    P for " + subList + ": %.20f (%d)\n", thisP, phraseCount);
@@ -66,7 +71,7 @@ public abstract class BaseLanguageModel implements LanguageModel {
       p *= thisP;
     }
     debug("  " + String.join(" ", context) + " => %.20f\n", p);
-    return new Probability(p, (float)coverage/maxCoverage);
+    return new Probability(p, (float)coverage/maxCoverage, totalCount);
   }
 
   /**
