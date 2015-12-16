@@ -231,6 +231,7 @@ public class SimpleCorpusEvaluator {
       LuceneSingleIndexLanguageModel.clearCaches();
       System.out.println("Using Lucene language model from " + languageModel);
       probabilityRule = new EnglishNgramProbabilityRule(JLanguageTool.getMessageBundle(), languageModel, new English());
+      probabilityRule.setDefaultOn();
       langTool.addRule(probabilityRule);
     }
 
