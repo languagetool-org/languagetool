@@ -75,10 +75,18 @@ class ConfusionRuleEvaluator {
       if (rules == null) {
         throw new RuntimeException("Language " + language + " doesn't seem to support a language model");
       }
-      if (rules.size() > 1) {
-        throw new RuntimeException("Language " + language + " has more than one language model rule, this is not supported yet");
+      ConfusionProbabilityRule foundRule = null;
+      for (Rule rule : rules) {
+        if (rule.getId().equals(ConfusionProbabilityRule.RULE_ID)) {
+          foundRule = (ConfusionProbabilityRule)rules.get(0);
+          break;
+        }
       }
-      this.rule = (ConfusionProbabilityRule)rules.get(0);
+      if (foundRule == null) {
+        throw new RuntimeException("Language " + language + " has no language model rule with id " + ConfusionProbabilityRule.RULE_ID);
+      } else {
+        this.rule = foundRule;
+      }
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -288,7 +296,7 @@ class ConfusionRuleEvaluator {
     }
   }
 
-  class EvalResult {
+  static class EvalResult {
 
     private final String summary;
     private final float precision;
