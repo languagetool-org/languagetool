@@ -6290,6 +6290,17 @@ USA
             <example correction="A soccer player kicks"><marker>A soccer players kicks</marker> a ball and scores a goal</example>
         </rule>
         -->
+        <rule id="IS_CAUSE_BY" name="is cause (caused) by">
+            <pattern>
+                <token regexp="yes">is|was</token>
+                <marker>
+                    <token>cause</token>
+                </marker>
+                <token>by</token>
+            </pattern>
+            <message>Did you mean <suggestion>caused</suggestion>?</message>
+            <example correction='caused'>This is <marker>cause</marker> by a bug.</example>
+        </rule>
         <rule id="BE_INTEREST_IN" name="be interesting (interested) in">
             <pattern>
                 <token inflected='yes'>be</token>
