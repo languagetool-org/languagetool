@@ -34,12 +34,13 @@ import java.util.Scanner;
 
 /**
  * Index sentences with Lucene from a plain text file, one sentence per line.
- * Can be used for {@link AutomaticConfusionRuleEvaluator}.
+ * Can be used for {@link AutomaticConfusionRuleEvaluator} to find example
+ * sentences.
  * @since 3.2
  */
 class TextIndexCreator {
 
-  static final java.lang.String FIELD = "sentence";
+  static final String FIELD = "sentence";
 
   private void index(File outputDir, String[] inputFiles) throws IOException {
     Analyzer analyzer = new StandardAnalyzer();
@@ -61,7 +62,7 @@ class TextIndexCreator {
         Document doc = new Document();
         doc.add(new TextField(FIELD, line, Field.Store.YES));
         indexWriter.addDocument(doc);
-        if (++lineCount % 1000 == 0) {
+        if (++lineCount % 10_000 == 0) {
           System.out.println(lineCount + "...");
         }
       }

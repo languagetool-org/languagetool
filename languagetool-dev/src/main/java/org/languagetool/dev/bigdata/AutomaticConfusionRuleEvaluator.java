@@ -41,6 +41,7 @@ import java.util.*;
  * Automatically run {@link ConfusionRuleEvaluator} on word pairs.
  * @since 3.2
  */
+@SuppressWarnings({"resource", "CallToPrintStackTrace"})
 class AutomaticConfusionRuleEvaluator {
   
   private static final int MAX_EXAMPLES = 1000;
