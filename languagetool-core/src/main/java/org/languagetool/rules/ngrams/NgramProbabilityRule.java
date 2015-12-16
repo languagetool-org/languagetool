@@ -90,7 +90,8 @@ public class NgramProbabilityRule extends Rule {
           //Probability bigramLeftP = getPseudoProbability(Arrays.asList(prevToken.token, token));
           //Probability bigramRightP = getPseudoProbability(Arrays.asList(token, next.token));
           //double prob = p.getProb() + bigramLeftP.getProb() + bigramRightP.getProb();
-          //System.out.println(prob + " for " + prevToken.token +" "+ token +" "+ next.token);
+          //System.out.printf("%.20f for " + prevToken.token + " " + token + " " + next.token + "\n", prob);
+          //System.out.printf("%.20f is minProbability\n", minProbability);
           if (prob < minProbability) {
             String message = "The phrase '" + ngram + "' rarely occurs in the reference corpus";
             RuleMatch match = new RuleMatch(this, prevToken.startPos, next.endPos, message);
