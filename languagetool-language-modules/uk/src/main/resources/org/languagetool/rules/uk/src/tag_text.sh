@@ -12,6 +12,7 @@ LIBDIR="$BASE/languagetool-standalone/target/$LT_DIR/$LT_DIR/libs"
 #LIBS=`ls $LIBDIR | tr '\n' ':'`
 
 CPATH=$LIBDIR/lucene-gosen-ipadic.jar:$LIBDIR/ictclas4j.jar:$LIBDIR/cjftransform.jar:$LIBDIR/jwordsplitter.jar:$LIBDIR/commons-logging.jar:$LIBDIR/segment.jar:$LIBDIR/morfologik-fsa.jar:$LIBDIR/morfologik-speller.jar:$LIBDIR/morfologik-stemming.jar:$LIBDIR/commons-lang.jar
+CPATH=$CPATH:/home/arysin/.m2/repository/org/languagetool/language-dict-uk/3.2-SNAPSHOT/language-dict-uk-3.2-SNAPSHOT.jar
 
 # Profiling
 

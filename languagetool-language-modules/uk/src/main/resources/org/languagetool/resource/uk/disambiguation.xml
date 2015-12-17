@@ -399,4 +399,204 @@
         <example type="untouched">попереду поїхав</example>
     </rule>
 -->
+
+    <rule name="Прийменник та прислівник 'після'" id="PREP_OR_ADV_PISLIA">
+        <pattern>
+            <marker>
+                <token>після</token>
+            </marker>
+            <token postag_regexp="yes" postag="adj.*:v_rod.*" min="0"/>
+            <token postag_regexp="yes" postag="(noun|numr).*:v_rod.*"/>
+        </pattern>
+        <disambig>
+          <match no="1" postag="prep.*" postag_regexp="yes"/>
+        </disambig>
+        <example type="ambiguous"
+            inputform="після[після/adv,після/prep:rv_rod]"
+            outputform="після[після/prep:rv_rod]"
+            ><marker>після</marker> століть поневолення
+        </example>
+        <example type="untouched">Ото завше так — як сперва дуже весело, то після будеш плакать</example>
+    </rule>
+
+    <rule name="Прийменник та прислівник 'поруч'" id="PREP_OR_ADV_PORUCH_1">
+        <pattern>
+            <marker>
+                <token>поруч</token>
+            </marker>
+            <token regexp="yes">з|із|зі</token>
+            <token postag_regexp="yes" postag="adj.*:v_oru*" min="0"/>
+            <token postag_regexp="yes" postag="(noun|numr).*:v_oru.*"/>
+        </pattern>
+        <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous"
+            inputform="поруч[поруч/adv,поруч/prep:rv_rod]"
+            outputform="поруч[поруч/prep:rv_rod]"
+            >пливти <marker>поруч</marker> із судном
+        </example>
+        <example type="untouched">пливти поруч</example>
+    </rule>
+
+    <rule name="Прийменник та прислівник 'поруч'" id="PREP_OR_ADV_PORUCH_2">
+        <pattern>
+            <marker>
+                <token>поруч</token>
+            </marker>
+            <token postag_regexp="yes" postag="adj.*:v_rod.*" min="0"/>
+            <token postag_regexp="yes" postag="(noun|numr).*:v_rod.*"/>
+        </pattern>
+        <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous"
+            inputform="поруч[поруч/adv,поруч/prep:rv_rod]"
+            outputform="поруч[поруч/prep:rv_rod]"
+            >поставив відро <marker>поруч</marker> стільця
+        </example>
+        <example type="untouched">пливти поруч</example>
+    </rule>
+
+    <rule name="Прийменник та прислівник 'відповідно'" id="PREP_OR_ADV_VIDPOVIDNO_1">
+        <pattern>
+            <marker>
+                <token>відповідно</token>
+            </marker>
+            <token regexp="yes">[,;:–—.!?»“…-]</token>
+        </pattern>
+        <disambig><match no="1" postag="adv.*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous"
+            inputform="Відповідно[відповідно/adv:compb,відповідно/prep:rv_dav]"
+            outputform="Відповідно[відповідно/adv:compb]"
+            ><marker>Відповідно</marker>, цей газ був спільним
+        </example>
+        <example type="untouched">відповідно до тих обставин</example>
+    </rule>
+
+    <rule name="Прийменник та прислівник 'відповідно'" id="PREP_OR_ADV_VIDPOVIDNO_2">
+        <pattern>
+            <marker>
+                <token>відповідно</token>
+            </marker>
+            <token>до</token>
+            <token postag_regexp="yes" postag="adj.*:v_rod.*" min="0"/>
+            <token postag_regexp="yes" postag="(noun|numr).*:v_rod.*"/>
+        </pattern>
+        <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous"
+            inputform="відповідно[відповідно/adv:compb,відповідно/prep:rv_dav]"
+            outputform="відповідно[відповідно/prep:rv_dav]"
+            ><marker>відповідно</marker> до тих обставин
+        </example>
+        <example type="untouched">Він налягав, щоб вона й одяглася відповідно.</example>
+    </rule>
+
+    <rule name="Прийменник та прислівник 'відповідно'" id="PREP_OR_ADV_VIDPOVIDNO_3">
+        <pattern>
+            <marker>
+                <token>відповідно</token>
+            </marker>
+            <token postag_regexp="yes" postag="adj.*:v_dav.*" min="0"/>
+            <token postag_regexp="yes" postag="(noun|numr).*:v_dav.*"/>
+        </pattern>
+        <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous"
+            inputform="відповідно[відповідно/adv:compb,відповідно/prep:rv_dav]"
+            outputform="відповідно[відповідно/prep:rv_dav]"
+            >Переписав <marker>відповідно</marker> словам
+        </example>
+        <example type="untouched">Він налягав, щоб вона й одяглася відповідно.</example>
+    </rule>
+
+    <rule name="Прийменник та іменник 'серед'" id="PREP_OR_NOUN_SERED">
+        <pattern>
+            <marker>
+                <token>серед</token>
+            </marker>
+            <token postag_regexp="yes" postag="adj.*:v_rod.*" min="0"/>
+            <token postag_regexp="yes" postag="(noun|numr).*:v_rod.*"/>
+        </pattern>
+        <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous" 
+            inputform="серед[серед/prep:rv_rod,середа/noun:p:v_rod]"
+            outputform="серед[серед/prep:rv_rod]"
+            ><marker>серед</marker> степу</example>
+        <example type="untouched">Валько боявся тих серед.</example>
+    </rule>
+
+    <rule name="Прийменник та дієслово 'при'" id="PREP_OR_VERB_PRY">
+        <pattern>
+            <marker>
+                <token>при</token>
+            </marker>
+            <token postag_regexp="yes" postag="adj.*" min="0"/>
+            <token postag_regexp="yes" postag="noun.*:v_mis.*"></token>
+        </pattern>
+        <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous" 
+            inputform="при[перти/verb:impr:s:2:imperf,при/prep:rv_mis]"
+            outputform="при[при/prep:rv_mis]"
+            >очі їй засвітились <marker>при</marker> згадці про свого штурманця 
+        </example>
+        <example type="untouched">Давай! При в ту сторону!</example>
+    </rule>
+
+    <rule name="Сполучник та частка 'а'" id="CONJ_OR_PART_A">
+    <pattern>
+        <token min="0">,</token>
+        <marker>
+          <token>а</token>
+        </marker>
+        <token>?</token>
+    </pattern>
+    <disambig><match no="1" postag="part" postag_regexp="yes"/></disambig>
+    <example type="ambiguous"
+        inputform="а[а/conj:coord,а/excl,а/part]"
+        outputform="а[а/part]"
+        >Йдемо гуляти, <marker>а</marker>?
+    </example>
+    <example type="untouched">Його пальці заніміли, а вся земля була просякнута піною.</example>
+    </rule>
+
+    <rule name="Сполучник та частка 'а'" id="CONJ_OR_PART_A_2">
+    <pattern>
+        <token>,</token>
+          <marker><token>а</token></marker>
+    </pattern>
+    <disambig><match no="1" postag="conj.*" postag_regexp="yes"/></disambig>
+    <example type="ambiguous"
+        inputform="а[а/conj:coord,а/excl,а/part]"
+        outputform="а[а/conj:coord]"
+        >Його пальці заніміли, <marker>а</marker> вся земля була просякнута піною.
+    </example>
+    <example type="untouched">А, і ви тут!</example>
+    </rule>
+
+
+    <rule name="Сполучник та вигук 'але'" id="CONJ_OR_EXCL_ALE">
+    <pattern>
+        <marker><token>але</token></marker>
+        <token>!</token>
+    </pattern>
+    <disambig><match no="1" postag="excl" postag_regexp="yes"/></disambig>
+    <example type="ambiguous"
+        inputform="але[але/conj:coord,але/excl,але/part:rare]"
+        outputform="але[але/excl]"
+        >Ото <marker>але</marker>!
+    </example>
+    <example type="untouched">Степанко ходив у ліщину по горішки, але хтось уже обібрав кущі.</example>
+    </rule>
+
+    <rule name="Іменник та частка 'ван'" id="NOUN_OR_PART_VAN">
+        <pattern>
+            <marker>
+                <token>ван</token>
+            </marker>
+            <token postag_regexp="yes" postag=".*:lname.*"/>
+        </pattern>
+        <disambig><match no="1" postag="part.*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous" 
+            inputform="Ван[Ван/noun:m:v_naz:xp1,Ван/noun:m:v_naz:xp2,Ван/noun:m:v_zna:xp1,Ван/noun:m:v_zna:xp2,ван/part:pers]"
+            outputform="Ван[ван/part:pers]"
+            >для <marker>Ван</marker> Гаала</example>
+        <example type="untouched">В Ван приїхав султан.</example>
+    </rule>
+
 </rules>

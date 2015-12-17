@@ -39,6 +39,13 @@
   * added/improved a few rules
   * added words suggested by users
 
+#### Ukrainian
+  * big dictionary update: more than 10k new words, many fixes (the dictionary source is now available at https://github.com/arysin/dict_uk)
+  * many new rules
+  * improvements for euphony rules
+  * improvements in dynamic compound tagger
+  * new disambguation rules
+
 #### Rule Syntax
   * New rule syntax `<regexp>...<regexp>` as a simple alternative
     to `<pattern><token>...</token></pattern>`. Note that this is limited:

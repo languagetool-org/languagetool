@@ -49,7 +49,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Саме такий</example>
                 <example>Саме кращий</example>
                 <example correction="Найкращий|Найкращого|Щонайкращий|Щонайкращого|Якнайкращий|Якнайкращого"><marker>Самий кращий</marker>.</example>
-                <example correction="Найгірша|Найпоганіша|Щонайгірша|Якнайгірша"><marker>Сама гірша</marker>.</example>
+                <example correction="Найгірша|Найпоганіша|Щонайгірша|Щонайпоганіша|Якнайгірша|Якнайпоганіша"><marker>Сама гірша</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -68,8 +68,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>той самий страшний сон</example>
                 <example>лише самих економічних санкцій</example>
                 <example correction="Найкращий|Найкращого|Щонайкращий|Щонайкращого|Якнайкращий|Якнайкращого"><marker>Самий кращий</marker>.</example>
-                <example correction="найсильніший|найсильнішого">Він — <marker>самий сильний</marker>.</example>
-                <example correction="найзадоволеніший|найзадоволенішого">Він — <marker>самий задоволений</marker>.</example>
+                <example correction="найсильніший|найсильнішого|щонайсильніший|щонайсильнішого|якнайсильніший|якнайсильнішого">Він — <marker>самий сильний</marker>.</example>
+                <example correction="найзадоволеніший|найзадоволенішого|щонайзадоволеніший|щонайзадоволенішого|якнайзадоволеніший|якнайзадоволенішого">Він — <marker>самий задоволений</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -155,12 +155,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup name="Більш з прикметниками" id="BILSH_WITH_ADJ">
             <rule>
                 <pattern>
-                    <token>більш</token>
-                    <token postag_regexp="yes" postag="adj.*:compr.*"/>
+                  <token>більш</token>
+                  <token postag_regexp="yes" postag="ad[jv]:.*compr.*">
+                    <exception>менш</exception>
+                  </token>
                 </pattern>
-                <message>Замість «більш» + вищий ступінь прикметника треба вживати «більш» + нульова форма прикметника: <suggestion><match no="2"/></suggestion></message>
-                <example correction="Світліший"><marker>Більш світліший</marker>.</example>
-                <example>Більш світлий.</example>
+                <message>Після «більш» не може стояти вища форма прикметника</message>
+                <suggestion><match no="2"/></suggestion>
+                <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="(.*):compr(.*)" postag_replace="$1:compb$2"/></suggestion>
+                <example correction="Світліший|Більш світлий|Більш світлого"><marker>Більш світліший</marker>.</example>
+                <example>все закінчилось більш менш</example>
+            </rule>
+            <rule>
+                <pattern>
+                  <token>найбільш</token>
+                  <token postag_regexp="yes" postag="ad[jv]:.*compr.*"/>
+                </pattern>
+                <message>Після «найбільш» не може стояти вища форма прикметника</message>
+                <suggestion><match no="2" postag_regexp="yes" postag="(.*):compr(.*)" postag_replace="$1:super$2"/></suggestion>
+                <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="(.*):compr(.*)" postag_replace="$1:compb$2"/></suggestion>
+                <example correction="найцікавіших|найцікавіші|щонайцікавіших|щонайцікавіші|якнайцікавіших|якнайцікавіші|найбільш цікавих|найбільш цікаві">Серед <marker>найбільш цікавіших</marker> відповідей.</example>
             </rule>
         </rulegroup>
 <!--
@@ -345,61 +359,94 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 -->
 
-    <rulegroup name="Милозвучність" id="EUPHONY">
-        <!--
+    <rulegroup name="Милозвучність прийменників в/у" id="EUPHONY_PREP_V_U">
+    
+    <!--
+    перед голосним - в
+    перед в, ф, св та іншими буквосполуками з в,ф:
+       після паузи й приголосного - у
+       після голосного - рекомендувати у
+       ігнорувати (не виправляти) випадки "у/в тв..." та "у/в дв..." (тут практика 50 на 50)
+    перед іншими приголосними:
+      після голосного - в
+      після паузи - рекомендувати в (цей пункт суперечить правопису, але відбиває мовний вжиток),
+      після приголосного - рекомендувати у
+      
+      (поки «рекомендувати» не робимо)
+    -->
+
             <rule>
                 <pattern>
-                    <token regexp="yes">.*[156789ґйцкнгшщзхфвпрлджчсмтбьqwrtpsdfghjklzxcvbnm]</token>
+                    <token regexp="yes">.*[^вф]</token>
                     <marker>
-                        <token>в</token>
+                        <token>у</token>
                     </marker>
-                    <token regexp="yes">[23456789ґйцкнгшщзхфвпрлджчсмтьбqwrtpsdfghjklzxcvbnm][^у].*</token>
+                    <token regexp="yes">[уеіаоиeuioa].*</token>
                 </pattern>
-                <message>Між двома приголосними варто писати у: \1 <suggestion>у</suggestion> \3</message>
+                <message>Перед нейотованими голосними варто писати в: <suggestion>в</suggestion></message>
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
-                <example>Стіг у степу.</example>
-                <example>скинув в 0</example>
-                <example>Однотипний апарат в музеї Монако</example>
-                <example correction="у">Стіг <marker>в</marker> степу.</example>
+                <!--
+                <example correction="В"><marker>У</marker> арт-проекту.</example>
+                -->
+                <example correction="в">Сталося це <marker>у</marker> іншій хаті.</example>
+                <example>Сталося це у їхній хаті.</example>
+                <example>У одного з студентів аркуш паперу.</example>
             </rule>
-        -->
-            <!-- прийменник: в -> у -->
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">.*[аеєиіїоюуя]</exception></token>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>у</token>
+                    </marker>
+                    <token regexp="yes">[уu].*</token>
+                </pattern>
+                <message>Перед у варто писати в: <suggestion>в</suggestion></message>
+                <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
+                <example correction="В"><marker>У</marker> Україні.</example>
+                <example>У одного з студентів аркуш паперу.</example>
+            </rule>
+
+            <rule>
+                <pattern>
+                    <or>
+                      <token regexp="yes">.*[бвгґджзклмнпрстфхцчшщ]|[,;:—–-]</token>
+                      <token postag="SENT_START"/>
+                    </or>
                     <marker>
                         <token>в</token>
                     </marker>
-                    <token regexp="yes">[28вфvfw].*|[ґйцкнгшщзхпрлджчсмтбqwrtpsdghjklzxcbnm]ь?[вфvfw].*</token>
+                    <token regexp="yes">[28вфvfw].*|[бгґжзйклнпрчсмцшщхqwrpsghkjlzxcbnm]ь?[вфvfw].*</token> <!-- виняток: тв, дв -->
                 </pattern>
                 <message>Перед словами, що починаються на в, ф або збігом приголосних із в, ф пишемо у: <suggestion>у</suggestion> \2</message>
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
                 <example correction="у"><marker>в</marker> вівторок.</example>
                 <example correction="У"><marker>В</marker> вольєрі сталася пожежа.</example>
                 <example correction="у">Наприклад, <marker>в</marker> фанерних будинках.</example>
-                <!-- conflicts with "сингулярності в квантовій"
-                <example correction="X">Сьогодні <marker>в</marker> Львові.</example>
-                -->
+                <example correction="у">парад <marker>в</marker> зворотному напрямку</example>
                 <example>у вівторок.</example>
                 <example>Сьогодні у Львові.</example>
                 <example>перевагу в швидкості</example>
                 <example>сингулярності в квантовій</example>
+                <example>таких ознак в двійнятах</example>
             </rule>
+<!--
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
+                    <token regexp="yes">.*[аеєиіїоюуя]</token>
                     <marker>
-                        <token>В</token>
+                        <token>у</token>
                     </marker>
-                    <token regexp="yes">([238]|[ґйцкнгшщзхфвпрлджчсмтьбqwrtpsdfghjklzxcvbnm]{2,}).*</token>
+                    <token regexp="yes">[бгґджзйклмнпрстцчшщх].*
+                        <exception regexp="yes">[бгґджзйклнпрствмцшщх]ь?[вф].*</exception>
+                    </token>
                 </pattern>
-                <message>На початку речення перед збігом приголосних варто писати у: <suggestion>У</suggestion> \3</message>
-                <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
-                <example>В будинку сталася пожежа.</example>
-                <example>В установі сталася пожежа.</example>
-                <example correction="У"><marker>В</marker> приміщенні сталася пожежа.</example>
-                <example correction="У"><marker>В</marker> 88 році там сталася пожежа.</example>
+                <message>Після голосного, перед приголосними (окрім в, ф та комбінацій приглосних із в, ф) пишемо в: <suggestion>в</suggestion></message>
+                <example correction="в">Завада <marker>у</marker> приладі.</example>
+                <example>Завада у втулці.</example>
+                <example>мають відбуватися у два етапи</example>
             </rule>
+-->
+<!--
             <rule>
                 <pattern>
                     <token regexp="yes">[(){}:;,./?!]*</token>
@@ -415,25 +462,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="у">Наприклад, <marker>в</marker> простих визарах.</example>
                 <example correction="у">Наприклад, <marker>в</marker> 80 років.</example>
             </rule>
+-->
+    </rulegroup>
 
-            <!-- прийменник: у -> в -->
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"></token>
-                    <marker>
-                        <token>У</token>
-                    </marker>
-                    <token regexp="yes">[уеіаоиeuioa].*</token>
-                </pattern>
-                <message>На початку речення перед нейотованими голосними варто писати В: <suggestion>В</suggestion> \3</message>
-                <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
-                <example correction="В"><marker>У</marker> Україні.</example>
-                <example correction="В"><marker>У</marker> арт-проекту.</example>
-                <example>В Україні.</example>
-                <example>В їхніх.</example>
-            </rule>
-
-            <!-- в-/у- на початку слів -->
+<!--
+    <rulegroup name="Милозвучність в/у на початку слова" id="EUPHONY_WORD_START_V_U">
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">.*[^у][вф]</token>
@@ -463,7 +496,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>зі списку у місцевій раді</example>
                 <example>партію УДАР</example>
             </rule>
-
+    </rulegroup>
+-->
+    <rulegroup name="Милозвучність" id="EUPHONY_OTHER">
             <!-- TODO: і-/й- на початку слів лише для іти/йти, імовірність/ймовірність, імення/ймення, іменувати/йменуватися??? -->
 
             <!-- сполучники і/й -->
@@ -561,12 +596,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">зі|із</token>
                     </marker>
-                    <token regexp="yes">[^зсшщ].*</token>
+                    <token regexp="yes">[^зсшщ].*
+                      <exception regexp="yes">вс.*</exception>
+                    </token>
                 </pattern>
                 <message>Після голосної та на початку речення перед приголосною (крім с, ш) вживаємо з: <suggestion>з</suggestion> \3</message>
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
-                <example>3 її приходом</example>
                 <example correction="З"><marker>Із</marker> її приходом.</example>
+                <example>3 її приходом</example>
+                <example>Зі всієї.</example>
             </rule>
             <!--
             <rule>
@@ -985,11 +1023,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token inflected="yes">воєнний</token>
           </marker>
-          <token inflected="yes" regexp="yes">присяга|трибунал|училище|частина|звання|лікар</token>
+          <token inflected="yes" regexp="yes">присяга|трибунал|училище|частина|звання|лікар|стан</token>
          </pattern>
          <message>Правильно: <suggestion>військовий</suggestion></message>
          <example correction="військовий">Пішов до <marker>воєнного</marker> училища.</example>
-         <example>Воєнний стан</example>
        </rule>
 
        <rule>

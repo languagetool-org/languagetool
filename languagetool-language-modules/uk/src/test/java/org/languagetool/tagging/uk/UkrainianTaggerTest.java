@@ -51,8 +51,8 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("ВІЛ", "ВІЛ/[ВІЛ]noun:m:v_dav:nv:np:abbr|ВІЛ/[ВІЛ]noun:m:v_mis:nv:np:abbr|ВІЛ/[ВІЛ]noun:m:v_naz:nv:np:abbr|ВІЛ/[ВІЛ]noun:m:v_oru:nv:np:abbr|ВІЛ/[ВІЛ]noun:m:v_rod:nv:np:abbr|ВІЛ/[ВІЛ]noun:m:v_zna:nv:np:abbr|ВІЛ/[віл]noun:m:v_naz:anim", tokenizer, tagger);
     TestTools.myAssert("далі", "далі/[далі]adv", tokenizer, tagger);
     TestTools.myAssert("Далі", "Далі/[Даль]noun:m:v_mis:anim:lname|Далі/[Далі]noun:m:v_dav:nv:np:anim:lname|Далі/[Далі]noun:m:v_mis:nv:np:anim:lname|Далі/[Далі]noun:m:v_naz:nv:np:anim:lname|Далі/[Далі]noun:m:v_oru:nv:np:anim:lname|Далі/[Далі]noun:m:v_rod:nv:np:anim:lname|Далі/[Далі]noun:m:v_zna:nv:np:anim:lname|Далі/[далі]adv", tokenizer, tagger);
-    TestTools.myAssert("Бен", "Бен/[Бен]noun:m:v_naz:anim:fname|Бен/[бен]unknown", tokenizer, tagger);
-    TestTools.myAssert("бен", "бен/[бен]unknown", tokenizer, tagger);
+    TestTools.myAssert("Бен", "Бен/[Бен]noun:m:v_naz:anim:fname|Бен/[бен]part:pers", tokenizer, tagger);
+    TestTools.myAssert("бен", "бен/[бен]part:pers", tokenizer, tagger);
 
 
     TestTools.myAssert("Справу порушено судом", 
@@ -63,7 +63,7 @@ public class UkrainianTaggerTest extends TestCase {
       "Майже/[майже]adv -- два/[два]numr:m:v_naz|два/[два]numr:m:v_zna|два/[два]numr:n:v_naz|два/[два]numr:n:v_zna -- роки/[рік]noun:p:v_naz|роки/[рік]noun:p:v_zna"
     + " -- тому/[той]adj:m:v_dav:&pron:dem|тому/[той]adj:m:v_mis:&pron:dem|тому/[той]adj:n:v_dav:&pron:dem|тому/[той]adj:n:v_mis:&pron:dem|тому/[том]noun:m:v_dav|тому/[том]noun:m:v_mis|тому/[том]noun:m:v_rod|тому/[тому]adv|тому/[тому]conj:subord"
     + " -- Люба/[Люба]noun:f:v_naz:anim:fname|Люба/[любий]adj:f:v_naz -- разом/[раз]noun:m:v_oru|разом/[разом]adv -- із/[із]prep:rv_rod:rv_zna:rv_oru"
-    + " -- чоловіком/[чоловік]noun:m:v_oru:anim -- Степаном/[Степан]noun:m:v_oru:anim:fname -- виїхали/[виїхати]verb:past:m:perf -- туди/[туди]adv:&pron:dem"
+    + " -- чоловіком/[чоловік]noun:m:v_oru:anim -- Степаном/[Степан]noun:m:v_oru:anim:fname -- виїхали/[виїхати]verb:past:p:perf -- туди/[туди]adv:&pron:dem"
     + " -- на/[на]excl|на/[на]part|на/[на]prep:rv_zna:rv_mis -- "
     + "проживання/[проживання]noun:n:v_naz|проживання/[проживання]noun:n:v_rod|проживання/[проживання]noun:n:v_zna|проживання/[проживання]noun:p:v_naz|проживання/[проживання]noun:p:v_zna";
   
@@ -102,8 +102,8 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("г-г-г", "г-г-г/[null]null", tokenizer, tagger);
     
     TestTools.myAssert("100-річному", "100-річному/[100-річний]adj:m:v_dav|100-річному/[100-річний]adj:m:v_mis|100-річному/[100-річний]adj:n:v_dav|100-річному/[100-річний]adj:n:v_mis", tokenizer, tagger);
-    TestTools.myAssert("100-й", "100-й/[100-й]adj:m:v_naz|100-й/[100-й]adj:m:v_zna", tokenizer, tagger);
-    TestTools.myAssert("50-х", "50-х/[50-й]adj:p:v_rod|50-х/[50-й]adj:p:v_zna", tokenizer, tagger);
+    TestTools.myAssert("100-й", "100-й/[100-й]adj:f:v_dav|100-й/[100-й]adj:f:v_mis|100-й/[100-й]adj:m:v_naz|100-й/[100-й]adj:m:v_zna", tokenizer, tagger);
+    TestTools.myAssert("50-х", "50-х/[50-й]adj:p:v_mis|50-х/[50-й]adj:p:v_rod|50-х/[50-й]adj:p:v_zna", tokenizer, tagger);
 
     TestTools.myAssert("по-свинячому", "по-свинячому/[по-свинячому]adv", tokenizer, tagger);
     TestTools.myAssert("по-сибірськи", "по-сибірськи/[по-сибірськи]adv", tokenizer, tagger);
@@ -211,6 +211,8 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("Дівчинка-першокласниця", "Дівчинка-першокласниця/[дівчинка-першокласниця]noun:f:v_naz:anim", tokenizer, tagger);
 
     TestTools.myAssert("RPM-пакунок", "RPM-пакунок/[RPM-пакунок]noun:m:v_naz|RPM-пакунок/[RPM-пакунок]noun:m:v_zna", tokenizer, tagger);
+
+    TestTools.myAssert("ось\u2011ось", "ось\u2011ось/[ось\u2011ось]adv", tokenizer, tagger);
 
     // істота-неістота
     //TODO:

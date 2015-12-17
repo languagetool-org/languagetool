@@ -48,7 +48,10 @@ public class MorfologikUkrainianSpellerRuleTest {
     // soft hyphen
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("піс\u00ADні")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("піс\u00ADні піс\u00ADні")).length);
-    
+
+    // non-breaking hyphen
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("ось\u2011ось")).length);
+
     
     //incorrect sentences:
 

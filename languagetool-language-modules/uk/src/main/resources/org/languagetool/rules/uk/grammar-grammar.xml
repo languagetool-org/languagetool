@@ -121,6 +121,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
 
+        <rulegroup name="Узгодженість відмінків з іменниками" id="CONSISTENCY_VIDM_noun">
+            <rule>
+                <pattern>
+                  <token inflected="yes" regexp="yes">завідувач|завідувачка|зав|зав\.</token>
+                  <marker>
+                    <token postag_regexp="yes" postag="adj.*v_oru.*" min="0"/>
+                    <token postag_regexp="yes" postag="noun.*v_oru.*">
+                      <exception postag_regexp="yes" postag="noun.*v_rod.*|.*pron.*"/>
+                    </token>
+                  </marker>
+                </pattern>
+                <message>Завідувач(ка) чого</message>
+                <suggestion><match no="2" postag_regexp="yes" postag="(adj.*)v_oru(.*)" postag_replace="$1v_rod$2"/> <match no="3" postag_regexp="yes" postag="(noun.*)v_oru(.*)" postag_replace="$1v_rod$2"/></suggestion>
+                <!-- TODO: change code to remove space -->
+                <example correction=" відділу">завідувача <marker>відділом</marker></example>
+                <example correction=" відділу">зав <marker>відділом</marker></example>
+<!--                <example correction=" відділу">зав. <marker>відділом</marker></example> -->
+                <example correction="сьомого відділу">завідувачки <marker>сьомим відділом</marker></example>
+                <example>завідувачем ним же створеної</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup name="Узгодженість відмінків з дієсловами" id="CONSISTENCY_VIDM_AFTER_VERBS">
             <rule>
                 <pattern>
@@ -186,7 +208,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   <token postag_regexp="yes" postag="num.*">
                     <exception scope="previous">на</exception>
                   </token>
-                  <token regexp="yes">десятих|сотих|третіх|треті|четвертих|чверті</token>
+                  <token regexp="yes">десятих|сотих|третіх|треті|четвертих|чверті|четверті</token>
                   <marker>
                     <token postag_regexp="yes" postag="noun:.:.*">
                       <exception postag_regexp="yes" postag="noun:[mfnp]:v_rod.*"/>
@@ -195,14 +217,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                   </marker>
                 </pattern>
-                <message>Після дробового числівника іменник має стояти в родовому відмінку множини</message>
+                <message>Після дробового числівника іменник має стояти в родовому відмінку</message>
                 <suggestion><match no="3" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:[mnf]:v_rod$2"/></suggestion>
                 <example correction="відсотка">два десятих <marker>відсотки</marker></example>
                 <example correction="відсотка">дві третіх <marker>відсотки</marker></example>
-                <example>два десятих відсотка</example>
+                <example correction="відсотка">три четверті <marker>відсотки</marker></example>
+                <example>дві десяті відсотка</example>
                 <example>через десяті руки</example>
                 <example>дві третіх країн-членів</example>
-                <example>дві десятих мм</example>
+                <example>дві десяті мм</example>
                 <example>три чверті місць</example>
                 <example>три чверті їх слухати неможливо</example>
                 <example>на три чверті він ними був заповнений</example>
@@ -454,8 +477,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <token>пів</token>
               <token postag_regexp="yes" postag="adj:f:v_rod.*" regexp="yes" inflected="yes">&hours;</token>
             </pattern>
-            <message>Правильно: <suggestion>(о) пів на <match no="2" postag_regexp="yes" postag="adj:f:v_zna"/></suggestion></message>
-            <suggestion>(о) пів до <match no="2" postag_regexp="yes" postag="adj:f:v_rod"/></suggestion>
+            <message>Правильно: <suggestion>(о) пів на <match no="2" postag_regexp="yes" postag="adj:f:v_zna.*"/></suggestion></message>
+            <suggestion>(о) пів до <match no="2" postag_regexp="yes" postag="adj:f:v_rod.*"/></suggestion>
             <example correction="(о) пів на першу|(о) пів до першої"><marker>пів першої</marker> приїхав і він</example>
             <example>пів на першу приїхав і він</example>
           </rule>
@@ -735,8 +758,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <token>пів</token>
               <token postag_regexp="yes" postag="adj:f:v_rod.*" regexp="yes" inflected="yes">&hours;</token>
             </pattern>
-            <message>Правильно: <suggestion>(о) пів на <match no="2" postag_regexp="yes" postag="adj:f:v_zna"/></suggestion></message>
-            <suggestion>(о) пів до <match no="2" postag_regexp="yes" postag="adj:f:v_rod"/></suggestion>
+            <message>Правильно: <suggestion>(о) пів на <match no="2" postag_regexp="yes" postag="adj:f:v_zna.*"/></suggestion></message>
+            <suggestion>(о) пів до <match no="2" postag_regexp="yes" postag="adj:f:v_rod.*"/></suggestion>
             <example correction="(о) пів на першу|(о) пів до першої"><marker>пів першої</marker> приїхав і він</example>
             <example>пів на першу приїхав і він</example>
           </rule>

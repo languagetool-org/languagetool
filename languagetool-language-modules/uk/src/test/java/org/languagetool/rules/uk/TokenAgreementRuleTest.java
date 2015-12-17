@@ -219,7 +219,7 @@ public class TokenAgreementRuleTest {
 //    assertEquals(1, matches[1].getFromPos());
 
     assertEquals(27, matches[2].getFromPos());
-    assertEquals(Arrays.asList("воротах", "ворота"), matches[2].getSuggestedReplacements());
+    assertEquals(Arrays.asList("воротах", "воротях", "ворота"), matches[2].getSuggestedReplacements());
   }
 
 }

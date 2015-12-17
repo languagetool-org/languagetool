@@ -91,7 +91,7 @@ class CompoundTagger {
 
   static {
     Map<String, List<String>> map2 = new HashMap<>();
-    map2.put("й", Arrays.asList(":m:v_naz", ":m:v_zna"));
+    map2.put("й", Arrays.asList(":m:v_naz", ":m:v_zna", ":f:v_dav", ":f:v_mis"));
     map2.put("го", Arrays.asList(":m:v_rod", ":m:v_zna", ":n:v_rod"));
     map2.put("му", Arrays.asList(":m:v_dav", ":m:v_mis", ":n:v_dav", ":n:v_mis", ":f:v_zna"));  // TODO: depends on the last digit
     map2.put("м", Arrays.asList(":m:v_oru", ":n:v_oru", ":p:v_dav"));
@@ -106,7 +106,7 @@ class CompoundTagger {
 //    map2.put("тою", Arrays.asList(":f:v_oru"));
     map2.put("те", Arrays.asList(":n:v_naz", ":n:v_zna"));
     map2.put("ті", Arrays.asList(":p:v_naz", ":p:v_zna"));
-    map2.put("х", Arrays.asList(":p:v_rod", ":p:v_zna"));
+    map2.put("х", Arrays.asList(":p:v_rod", ":p:v_zna", ":p:v_mis"));
     NUMR_ENDING_MAP = Collections.unmodifiableMap(map2);
     
     rightPartsWithLeftTagMap.put("бо", Pattern.compile("(verb(:rev)?:impr|.*pron|noun|adv|excl|part|predic).*"));

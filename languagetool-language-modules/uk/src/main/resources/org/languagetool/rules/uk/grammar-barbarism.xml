@@ -366,7 +366,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <message>Краще вжити наказовий спосіб дієслова: <suggestion><match no="2" postag_regexp="yes" postag="verb(.*):futr:(.*)" postag_replace="verb$1:impr:$2"/></suggestion>, <suggestion>нумо <match no="2" postag_regexp="yes" postag="verb(.*):futr:(.*)" postag_replace="verb$1:impr:$2"/></suggestion></message>
          <url>http://r2u.org.ua/node/216</url>
          <example correction="Заспіваймо|Нумо заспіваймо"><marker>Давайте заспіваємо</marker></example>
-         <example correction="Пройдімось|Пройдімося|Нумо пройдімось|Нумо пройдімося"><marker>Давайте пройдемося</marker></example>
+         <example correction="Пройдімось|Пройдімося|Пройдімся|Нумо пройдімось|Нумо пройдімося|Нумо пройдімся"><marker>Давайте пройдемося</marker></example>
          <example>Давайте горілку</example>
          <example>Давайте будем знов сміятись</example>
        </rule>
@@ -1442,6 +1442,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>здаючи виторг на зміну</example>
          <example>на виручку прийшли друзі</example>
        </rule>
+       <rule>
+         <pattern>
+           <marker>
+              <token inflected="yes" regexp="yes">виручити|виручати</token>
+           </marker>
+           <token postag="number"/>
+         </pattern>
+         <message>Краще: <suggestion><match no="1" postag_regexp="yes" postag="(.*)" postag_replace="$1.*">вторгувати</match></suggestion></message>
+         <example correction="вторговано">було <marker>виручено</marker> 944,5 мільйона</example>
+         <example>виручив друзів</example>
+       </rule>
 
        <rule>
          <pattern>
@@ -1672,15 +1683,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <message>Правильно: <suggestion>так званий</suggestion></message>
          <example correction="так званий">В <marker>так називаний</marker> парадоксальний ефект.</example>
        </rule>
-
+<!--
        <rule>
          <pattern>
            <marker>
              <token inflected="yes">глупий
-             <!-- 
+             !-
                <exception scope="previous" inflected="yes">ніч</exception>
                <exception scope="next" inflected="yes">ніч</exception>
-              -->
+              -
              </token>
            </marker>
            <token postag_regexp="yes" postag="adj.*" min="0"/>
@@ -1693,12 +1704,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example correction="Нерозумний|Дурний|Дурноголовий|Безголовий"><marker>Глупої</marker> новорічної ночі.</example>
          <example>Стояла глупа ніч.</example>
          <example>співи тривали до глупої ночі</example>
-         <!--  TODO
+         !  TODO
          <example>Позавчорашньої ночі — глупої й морозної</example>
-          -->
+         
        </rule>
+-->
     </rulegroup>
-
     <rulegroup id="OVKA_FOR_PROCESS" name="-овка, -обка на позначення процесу">
        <rule>
          <pattern>
@@ -1863,6 +1874,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <suggestion>перед очима</suggestion>
          <suggestion>на оці</suggestion>
          <example correction="на видноті|перед очима|на оці">Завжди був <marker>на виду</marker>.</example>
+       </rule>
+
+       <rule>
+         <pattern>
+           <token inflected="yes">тряхнути</token>
+           <token>стариною</token>
+         </pattern>
+         <message>Краще: <suggestion>згадати старовину (давнину)</suggestion></message>
+         <suggestion>згадати молоді літа</suggestion>
+         <example correction="згадати старовину (давнину)|згадати молоді літа">Тоді він вирішив <marker>тряхнути стариною</marker>.</example>
        </rule>
        
     </rulegroup>
@@ -2172,6 +2193,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <url>http://slovoua.com/questions/149</url>
          <example correction="Сьогодні|На сьогодні|Нині|Тепер"><marker>На сьогоднішній день</marker> банкірів більше ніж дентистів.</example>
          <example>На сьогодні заборгованість становить 10 тис.</example>
+       </rule>
+       <rule>
+         <pattern>
+            <marker>
+              <token regexp="yes">і?з</token>
+              <token>сьогоднішнього</token>
+              <token>дня</token>
+            </marker>
+         </pattern>
+         <message>Правильно: <suggestion>відсьогодні</suggestion>, <suggestion>віднині</suggestion>, <suggestion>відтепер</suggestion></message>
+         <suggestion>від сьогодні</suggestion>
+         <suggestion>з нинішнього дня</suggestion>
+         <suggestion>з цього часу</suggestion>
+         <url>http://slovoua.com/questions/149</url>
+         <example correction="Відсьогодні|Віднині|Відтепер|Від сьогодні|З нинішнього дня|З цього часу"><marker>З сьогоднішнього дня</marker> їх не годуватимуть.</example>
        </rule>
 
        <rule>
@@ -2550,6 +2586,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          </pattern>
          <message>Правильно: <suggestion>з-поміж</suggestion></message>
          <example correction="з-поміж">навіть <marker>із числа</marker> її знайомих</example>
+       </rule>
+
+       <rule>
+         <pattern>
+            <marker>
+              <token>більше
+                <exception scope="previous">не</exception>
+              </token>
+              <token>того</token>
+            </marker>
+            <token regexp="yes">[,:.…–—-]</token>
+         </pattern>
+         <message>Правильно: <suggestion>ще ж і надто</suggestion></message>
+         <suggestion>ще й надто</suggestion>
+         <suggestion>ще й більш [від] того</suggestion>
+         <suggestion>навіть більш(е)</suggestion>
+         <suggestion>ба більше</suggestion>
+         <example correction="ще ж і надто|ще й надто|ще й більш [від] того|навіть більш(е)|ба більше">Шухевич знав про це, <marker>більше того</marker>, він допоміг виробити</example>
+         <example correction="ще ж і надто|ще й надто|ще й більш [від] того|навіть більш(е)|ба більше">ене, чесно кажучи, заскочило, <marker>більше того</marker> - обурило…</example>
+         <example>...процесу в Україні, і не більше того.</example>
+         <example>щораз більше того самого.</example>
+         <example>не в стані більше того витримувати фізично</example>
+       </rule>
+
+       <rule>
+         <pattern>
+            <marker>
+              <token>не</token>
+              <token>більше</token>
+              <token>того</token>
+            </marker>
+            <token regexp="yes">[,:.…–—-]</token>
+         </pattern>
+         <message>Правильно: <suggestion>(і) не більше</suggestion></message>
+         <example correction="(і) не більше">Піар, статусність і <marker>не більше того</marker>.</example>
+         <example>не більше того глечика</example>
+       </rule>
+
+       <rule>
+         <pattern>
+            <token>на</token>
+            <token>повному</token>
+            <token>серйозі</token>
+         </pattern>
+         <message>Краще: <suggestion>цілком серйозно</suggestion></message>
+         <suggestion>з усією серйозністю</suggestion>
+         <suggestion>без жартів</suggestion>
+         <example correction="цілком серйозно|з усією серйозністю|без жартів"> так <marker>на повному серйозі</marker> твердять чиновники Київради</example>
        </rule>
 
     </rulegroup>

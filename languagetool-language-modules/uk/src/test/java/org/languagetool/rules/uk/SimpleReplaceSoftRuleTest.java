@@ -41,9 +41,9 @@ public class SimpleReplaceSoftRuleTest extends TestCase {
     matches = rule.match(langTool.getAnalyzedSentence("Ці рядки повинні збігатися."));
     assertEquals(0, matches.length);
 
-    matches = rule.match(langTool.getAnalyzedSentence("Цей графин."));
+    matches = rule.match(langTool.getAnalyzedSentence("Цей брелок."));
     assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("карафа", "карафка"), matches[0].getSuggestedReplacements());
+    assertEquals(Arrays.asList("дармовис"), matches[0].getSuggestedReplacements());
 
     // test ignoreTagged
 //    matches = rule.match(langTool.getAnalyzedSentence("щедрота"));

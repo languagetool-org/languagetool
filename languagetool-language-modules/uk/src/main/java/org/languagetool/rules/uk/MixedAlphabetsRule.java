@@ -108,7 +108,8 @@ public class MixedAlphabetsRule extends Rule {
         List<String> replacements = new ArrayList<>();
         replacements.add( toLatin(tokenString) );
 
-        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements);
+        String msg = "Вжито кирилічні літери замість латинських на позначення латинської цифри";
+        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg);
         ruleMatches.add(potentialRuleMatch);
       }
       else if (i>1 && COMMON_CYR_LETTERS.matcher(tokenString).matches()) {
@@ -118,9 +119,7 @@ public class MixedAlphabetsRule extends Rule {
           replacements.add( toLatin(tokenString) );
 
           String msg = "Вжито кирилічну літеру замість латинської";
-
-          RuleMatch potentialRuleMatch = new RuleMatch(this, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
-          potentialRuleMatch.setSuggestedReplacements(replacements);
+          RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg);
           ruleMatches.add(potentialRuleMatch);
         }
       }
@@ -130,20 +129,22 @@ public class MixedAlphabetsRule extends Rule {
         replacements.add( tokenString.substring(0,  length-1) + toLatin(tokenString.substring(length-1, tokenString.length())) );
 
         String msg = "Вжито кирилічну літеру замість латинської";
-
-        RuleMatch potentialRuleMatch = new RuleMatch(this, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
-        potentialRuleMatch.setSuggestedReplacements(replacements);
+        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg);
         ruleMatches.add(potentialRuleMatch);
       }
       i++;
     }
     return toRuleMatchArray(ruleMatches);
   }
-
+  
   private RuleMatch createRuleMatch(AnalyzedTokenReadings readings, List<String> replacements) {
     String tokenString = readings.getToken();
     String msg = tokenString + getSuggestion(tokenString) + StringUtils.join(replacements, ", ");
+    
+    return createRuleMatch(readings, replacements, msg);
+  }
 
+  private RuleMatch createRuleMatch(AnalyzedTokenReadings readings, List<String> replacements, String msg) {
     RuleMatch potentialRuleMatch = new RuleMatch(this, readings.getStartPos(), readings.getEndPos(), msg, getShort());
     potentialRuleMatch.setSuggestedReplacements(replacements);
 

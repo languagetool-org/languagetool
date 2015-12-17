@@ -73,7 +73,7 @@ public class UkrainianTagger extends BaseTagger {
       return additionalTaggedTokens;
     }
     
-    if ( word.contains("-") ) {
+    if ( word.indexOf('-') != -1 ) {
       List<AnalyzedToken> guessedCompoundTags = compoundTagger.guessCompoundTag(word);
       return guessedCompoundTags;
     }
@@ -86,9 +86,11 @@ public class UkrainianTagger extends BaseTagger {
     List<AnalyzedToken> tokens = super.getAnalyzedTokens(word);
 
     if( tokens.get(0).getPOSTag() == null ) {
-      if( (word.indexOf('\u2013') != -1) 
-           && word.matches(".*[а-яіїєґ][\u2013][а-яіїєґ].*")) {
-        String newWord = word.replace('\u2013', '-');
+      char otherHyphen = getOtherHyphen(word);
+      if( otherHyphen != '\u0000'
+           && word.matches(".*[а-яіїєґ][\u2013\u2011][а-яіїєґ].*")) {
+        
+        String newWord = word.replace(otherHyphen, '-');
         
         List<AnalyzedToken> newTokens = super.getAnalyzedTokens(newWord);
         
@@ -97,7 +99,7 @@ public class UkrainianTagger extends BaseTagger {
           if( newWord.equals(analyzedToken.getToken()) ) {
             String lemma = analyzedToken.getLemma();
             if( lemma != null ) {
-              lemma = lemma.replace('-', '\u2013');
+              lemma = lemma.replace('-', otherHyphen);
             }
             AnalyzedToken newToken = new AnalyzedToken(word, analyzedToken.getPOSTag(), lemma);
             newTokens.set(i, newToken);
@@ -113,6 +115,15 @@ public class UkrainianTagger extends BaseTagger {
 //    }
     
     return tokens;
+  }
+
+  private static char getOtherHyphen(String word) {
+    if( word.indexOf('\u2013') != -1 )
+      return '\u2013';
+    if( word.indexOf('\u2011') != -1 )
+      return '\u2011';
+    
+    return '\u0000';
   }
 
   List<AnalyzedToken> asAnalyzedTokenListForTaggedWordsInternal(String word, List<TaggedWord> taggedWords) {
