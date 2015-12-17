@@ -1446,7 +1446,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|к<exception postag="SENT_START"></exception></token>
                     <token>таким</token>
                     <token>как</token>
                 </pattern>
@@ -1456,7 +1456,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ремонт, таким как">Многим домам необходим капитальный <marker>ремонт таким как</marker> пятиэтажки.</example>
             </rule>
          </rulegroup>
-        
+          <rulegroup default="on" id="K_TAKIM_KAK" name="Запятые при сравнительных оборотах «к таким как»">
+ 
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—<exception postag="SENT_START"></exception></token>
+                    <token>к</token>
+                    <token>таким</token>
+                    <token>как</token>
+                </pattern>
+                <message>Пропущена запятая: <suggestion>\1, \2 \3 \4</suggestion>.</message>
+               
+                <short>Пропущена запятая.</short>
+                <example correction="творчества, к таким как">Это относится ко многим видам <marker>творчества к таким как</marker> музыка, пение, танцы.</example>
+            </rule>
+         </rulegroup>
         <rulegroup default="on" id="KAK_PRAVILO" name="Вводное сочетание «как обычно», «как всегда», ...">
             <!--Вводное сочетание как обычно, как всегда, как правило, как исключение, как сейчас, как нарочно
 -->
