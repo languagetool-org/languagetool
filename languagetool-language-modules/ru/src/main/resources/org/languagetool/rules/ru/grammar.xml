@@ -1441,6 +1441,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Пожалуйста, закройте"><marker>Пожалуйста закройте</marker> дверь.</example>
             </rule>
         </rulegroup>
+        
+         <rulegroup default="on" id="TAKIM_KAK" name="Запятые при сравнительных оборотах «таким как»">
+ 
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—<exception postag="SENT_START"></exception></token>
+                    <token>таким</token>
+                    <token>как</token>
+                </pattern>
+                <message>Пропущена запятая: <suggestion>\1, \2 \3</suggestion>.</message>
+               
+                <short>Пропущена запятая.</short>
+                <example correction="ремонт, таким как">Многим домам необходим капитальный <marker>ремонт таким как</marker> пятиэтажки.</example>
+            </rule>
+         </rulegroup>
+        
         <rulegroup default="on" id="KAK_PRAVILO" name="Вводное сочетание «как обычно», «как всегда», ...">
             <!--Вводное сочетание как обычно, как всегда, как правило, как исключение, как сейчас, как нарочно
 -->
@@ -4571,33 +4587,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rulegroup default="on" id="AllCaps" name="Все буквы в слове ЗАГЛАВНЫЕ.">
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START" negate_pos="yes"></token>
-                    <marker>
-                        <token regexp="yes">[А-ЯЁ][А-ЯЁ][А-ЯЁ][А-ЯЁ][А-ЯЁ][А-ЯЁ].*</token>
-                    </marker>
-                </pattern>
-                <message>Не выделяйте слова ЗАГЛАВНЫМИ буквами: <suggestion><match no="2" case_conversion="alllower"></match></suggestion>.</message>
-                <short>Выделение текста ЗАГЛАВНЫМИ буквами.</short>
-                <example>Не выделяйте текст заглавными буквами.</example>
-                <example correction="заглавными">Не выделяйте текст <marker>ЗАГЛАВНЫМИ</marker> буквами.</example>
-            </rule>
-     <!--   <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START"></token>
-                    <marker>
-                        <token regexp="yes">[А-ЯЁ][А-ЯЁ][А-ЯЁ][А-ЯЁ].*</token>
-                    </marker>
-                </pattern>
-                <message>Не выделяйте слова ЗАГЛАВНЫМИ буквами: <suggestion><match no="2" case_conversion="startupper"></match></suggestion>.</message>
-                <short>Выделение текста ЗАГЛАВНЫМИ буквами.</short>
-                <example>Заглавными буквами не выделяйте текст.</example>
-                <example correction="Заглавными"><marker>ЗАГЛАВНЫМИ</marker> буквами не выделяйте текст.</example>
-            </rule>  -->
-        </rulegroup>
-
+      
         <rulegroup default="off" id="O_tom_chto" name="Связка слов «о том, что»">    
             <rule>
                 <!-- о том, что
@@ -4623,11 +4613,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 -->
                 <pattern>
                     <token>не</token>
-                    <token postag_regexp="yes" regexp="yes">(не)(.*)<exception regexp="yes">незнаком(.*)|немец(.*)|ненавид(.*)|нескольк(.*)</exception></token>
+                    <token postag_regexp="yes" regexp="yes">(не)[а-я](.*)<exception regexp="yes">незнаком(.*)|немец(.*)|ненавид(.*)|нескольк(.*)</exception></token>
                 </pattern>
                 <message>Не ставьте два «не» подряд, если это не оправдано смыслом предложения.</message>
                 <short>Не ставьте два «не» подряд.</short>
                 <example>Эта книга интересная.</example>
+                <example>Это не только не критично, но и оправданно.</example>
                 <example correction="">Эта книга <marker>не неинтересная</marker>.</example>
             </rule>
         </rulegroup>
@@ -5131,7 +5122,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Он - <marker>Иванович</marker>.</example>
             <example correction="Иванович">Он - <marker>иванович</marker>.</example>
         </rule>
-        
+        <rulegroup default="off" id="AllCaps" name="Все буквы в слове ЗАГЛАВНЫЕ.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START" negate_pos="yes"></token>
+                    <marker>
+                        <token regexp="yes">[А-ЯЁ][А-ЯЁ][А-ЯЁ][А-ЯЁ][А-ЯЁ][А-ЯЁ].*</token>
+                    </marker>
+                </pattern>
+                <message>Не выделяйте слова ЗАГЛАВНЫМИ буквами: <suggestion><match no="2" case_conversion="alllower"></match></suggestion>.</message>
+                <short>Выделение текста ЗАГЛАВНЫМИ буквами.</short>
+                <example>Не выделяйте текст заглавными буквами.</example>
+                <example correction="заглавными">Не выделяйте текст <marker>ЗАГЛАВНЫМИ</marker> буквами.</example>
+            </rule>
+     <!--   <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token regexp="yes">[А-ЯЁ][А-ЯЁ][А-ЯЁ][А-ЯЁ].*</token>
+                    </marker>
+                </pattern>
+                <message>Не выделяйте слова ЗАГЛАВНЫМИ буквами: <suggestion><match no="2" case_conversion="startupper"></match></suggestion>.</message>
+                <short>Выделение текста ЗАГЛАВНЫМИ буквами.</short>
+                <example>Заглавными буквами не выделяйте текст.</example>
+                <example correction="Заглавными"><marker>ЗАГЛАВНЫМИ</marker> буквами не выделяйте текст.</example>
+            </rule>  -->
+        </rulegroup>
     </category>
    
     <category name="Дополнительные правила">
