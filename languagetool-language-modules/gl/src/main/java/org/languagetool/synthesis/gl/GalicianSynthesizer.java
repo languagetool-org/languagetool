@@ -22,16 +22,12 @@ import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
  * Galician word form synthesizer.
- *
  * Based on Dutch word form synthesizer.
- * 
  * @author Susana Sotelo
  */
-
 public class GalicianSynthesizer extends BaseSynthesizer {
 
   private static final String RESOURCE_FILENAME = "/gl/galician_synth.dict";
-
   private static final String TAGS_FILE_NAME = "/gl/galician_tags.txt";
 
   public GalicianSynthesizer() {

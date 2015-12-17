@@ -22,19 +22,15 @@ import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
  * Dutch word form synthesizer.
- * 
  * @author Marcin Miłkowski
  */
-
 public class DutchSynthesizer extends BaseSynthesizer {
 
   private static final String RESOURCE_FILENAME = "/nl/dutch_synth.dict";
-
   private static final String TAGS_FILE_NAME = "/nl/dutch_tags.txt";
 
   public DutchSynthesizer() {
     super(RESOURCE_FILENAME, TAGS_FILE_NAME);
   }
-  
   
 }

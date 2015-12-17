@@ -44,7 +44,7 @@ public class JapaneseWordTokenizer implements Tokenizer {
       return ret;
     }
     
-    for(Token token : tokens){
+    for (Token token : tokens) {
       String basicForm;
       if (token.getMorpheme().getBasicForm().equalsIgnoreCase("*")) {
         basicForm = token.getSurface();

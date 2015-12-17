@@ -24,6 +24,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -118,7 +119,6 @@ public class PolishSynthesizer implements Synthesizer {
         posTag = posTag.replaceAll(NEGATION_TAG, POTENTIAL_NEGATION_TAG + "?");
       }
 
-  
       final Pattern p = Pattern.compile(posTag.replace('+', '|'));
       for (final String tag : possibleTags) {
         final Matcher m = p.matcher(tag);
@@ -130,7 +130,7 @@ public class PolishSynthesizer implements Synthesizer {
         }
       }
       //remove duplicates
-      HashSet<String> hs = new HashSet<>();
+      Set<String> hs = new HashSet<>();
       hs.addAll(results);
       results.clear();
       results.addAll(hs);     
@@ -185,7 +185,6 @@ public class PolishSynthesizer implements Synthesizer {
         }
       }      
     }
-    
     return forms;
   }
 

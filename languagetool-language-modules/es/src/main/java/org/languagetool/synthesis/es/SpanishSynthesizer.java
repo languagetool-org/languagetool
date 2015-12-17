@@ -27,16 +27,13 @@ import org.languagetool.synthesis.BaseSynthesizer;
  *
  * @author Juan Martorell
  */
-
 public class SpanishSynthesizer extends BaseSynthesizer {
 
   private static final String RESOURCE_FILENAME = "/es/spanish_synth.dict";
-
   private static final String TAGS_FILE_NAME = "/es/spanish_tags.txt";
 
   public SpanishSynthesizer() {
     super(RESOURCE_FILENAME, TAGS_FILE_NAME);
   }
-  
   
 }

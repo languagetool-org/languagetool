@@ -140,6 +140,7 @@ public class StringToolsTest extends TestCase {
   }
 
   public void testEscapeXMLandHTML() {
+    assertEquals("foo bar", StringTools.escapeXML("foo bar"));
     assertEquals("!ä&quot;&lt;&gt;&amp;&amp;", StringTools.escapeXML("!ä\"<>&&"));
     assertEquals("!ä&quot;&lt;&gt;&amp;&amp;", StringTools.escapeHTML("!ä\"<>&&"));
   }

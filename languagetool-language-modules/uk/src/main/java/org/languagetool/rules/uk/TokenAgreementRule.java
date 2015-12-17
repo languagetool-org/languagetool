@@ -169,7 +169,7 @@ public class TokenAgreementRule extends Rule {
 
       // Do actual check
 
-      ArrayList<String> posTagsToFind = new ArrayList<>();
+      List<String> posTagsToFind = new ArrayList<>();
       String reqPosTag = reqTokenReadings.getAnalyzedToken(0).getPOSTag();
       String prep = reqTokenReadings.getAnalyzedToken(0).getLemma();
       
@@ -418,7 +418,7 @@ public class TokenAgreementRule extends Rule {
 
     Synthesizer ukrainianSynthesizer = ukrainian.getSynthesizer();
 
-    ArrayList<String> suggestions = new ArrayList<>();
+    List<String> suggestions = new ArrayList<>();
     String oldPosTag = tokenReadings.getAnalyzedToken(0).getPOSTag();
     String requiredPostTagsRegEx = ":(" + StringUtils.join(posTagsToFind,"|") + ")";
     String posTag = oldPosTag.replaceFirst(":v_[a-z]+", requiredPostTagsRegEx);
@@ -434,13 +434,13 @@ public class TokenAgreementRule extends Rule {
       throw new RuntimeException(e);
     }
 
-    ArrayList<String> reqVidminkyNames = new ArrayList<>();
+    List<String> reqVidminkyNames = new ArrayList<>();
     for (String vidm: posTagsToFind) {
       reqVidminkyNames.add(PosTagHelper.VIDMINKY_MAP.get(vidm));
     }
 
-    ArrayList<String> foundVidminkyNames = new ArrayList<>();
-    for(AnalyzedToken token: tokenReadings) {
+    List<String> foundVidminkyNames = new ArrayList<>();
+    for (AnalyzedToken token: tokenReadings) {
       String posTag2 = token.getPOSTag();
       if( posTag2 != null && posTag2.contains(VIDMINOK_SUBSTR) ) {
         String vidmName = PosTagHelper.VIDMINKY_MAP.get(posTag2.replaceFirst("^.*"+VIDMINOK_REGEX+".*$", "$1"));

@@ -456,14 +456,14 @@ public final class Main {
     JMenu lafMenu = new JMenu(messages.getString("guiLookAndFeelMenu"));
     UIManager.LookAndFeelInfo[] lafInfo = UIManager.getInstalledLookAndFeels();
     ButtonGroup buttonGroup = new ButtonGroup();
-    for(UIManager.LookAndFeelInfo laf : lafInfo) {
-      if(!"Nimbus".equals(laf.getName())) {
+    for (UIManager.LookAndFeelInfo laf : lafInfo) {
+      if (!"Nimbus".equals(laf.getName())) {
         continue;
       }
       addLookAndFeelMenuItem(lafMenu, laf, buttonGroup);
     }
-    for(UIManager.LookAndFeelInfo laf : lafInfo) {
-      if("Nimbus".equals(laf.getName())) {
+    for (UIManager.LookAndFeelInfo laf : lafInfo) {
+      if ("Nimbus".equals(laf.getName())) {
         continue;
       }
       addLookAndFeelMenuItem(lafMenu, laf, buttonGroup);
@@ -519,7 +519,7 @@ public final class Main {
     JRadioButtonMenuItem lfItem = new JRadioButtonMenuItem(new SelectLFAction(laf));
     lafMenu.add(lfItem);
     buttonGroup.add(lfItem);
-    if(laf.getName().equals(UIManager.getLookAndFeel().getName())) {
+    if (laf.getName().equals(UIManager.getLookAndFeel().getName())) {
       buttonGroup.setSelected(lfItem.getModel(), true);
     }
   }

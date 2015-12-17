@@ -22,14 +22,11 @@ import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
  * Slovak word form synthesizer.
- * 
  * @author Marcin Miłkowski
  */
-
 public class SlovakSynthesizer extends BaseSynthesizer {
 
   private static final String RESOURCE_FILENAME = "/sk/slovak_synth.dict";
-
   private static final String TAGS_FILE_NAME = "/sk/slovak_tags.txt";
 
   public SlovakSynthesizer() {

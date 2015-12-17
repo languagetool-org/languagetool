@@ -165,11 +165,9 @@ public class Ukrainian extends Language {
     List<String> ruleFileNames = super.getRuleFileNames();
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     String dirBase = dataBroker.getRulesDir() + "/" + getShortName() + "/";
-
-    for(String ruleFile: RULE_FILES) {
+    for (String ruleFile : RULE_FILES) {
       ruleFileNames.add(dirBase + ruleFile);
     }
-
     return ruleFileNames;
   }
 

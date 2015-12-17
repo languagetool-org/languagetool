@@ -24,7 +24,6 @@ import java.util.Collections;
 import java.util.List;
 
 import morfologik.stemming.IStemmer;
-import morfologik.stemming.WordData;
 
 /**
  *  Adapter from {@link ManualSynthesizer} to {@link Synthesizer}. 
@@ -41,12 +40,7 @@ public class ManualSynthesizerAdapter extends BaseSynthesizer {
 
   @Override
   protected IStemmer createStemmer() {
-    return new IStemmer() { // null synthesiser 
-      @Override
-      public List<WordData> lookup(CharSequence word) {
-        return Collections.emptyList();
-      }
-    };
+    return word -> Collections.emptyList();
   }
   
   @Override

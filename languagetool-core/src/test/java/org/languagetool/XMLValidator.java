@@ -166,7 +166,7 @@ public final class XMLValidator {
     Node ruleNode = ruleDoc.getElementsByTagName("rules").item(0);
     Node firstChildRuleNode = ruleNode.getChildNodes().item(1);
 
-    for(int i=0; i<unificationNodes.getLength(); i++) {
+    for (int i = 0; i < unificationNodes.getLength(); i++) {
       Node unificationNode = ruleDoc.importNode(unificationNodes.item(i), true);
       ruleNode.insertBefore(unificationNode, firstChildRuleNode);
     }
