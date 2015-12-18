@@ -49,15 +49,15 @@ import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.ca.CatalanWordTokenizer;
 
 public class Catalan extends Language {
-  
+
+  private static final Language GENERAL_CATALAN = new GeneralCatalan();
+
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
   private Tokenizer wordTokenizer;
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
 
-  private static final Language GENERAL_CATALAN = new GeneralCatalan();
-  
   @Override
   public String getName() {
     return "Catalan";
