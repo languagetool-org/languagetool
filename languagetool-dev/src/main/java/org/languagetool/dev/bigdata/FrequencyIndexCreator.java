@@ -55,6 +55,7 @@ public class FrequencyIndexCreator {
   private static final String NAME_REGEX3 = "([_a-z0-9]{1,2}|other|punctuation)";  // result of FrequencyIndexCreator with text mode
   private static final int BUFFER_SIZE = 16384;
   private static final String LT_COMPLETE_MARKER = "languagetool_index_complete";
+  private static final boolean IGNORE_POS = false;
 
   private enum Mode { PlainText, Lucene }
 
@@ -81,7 +82,7 @@ public class FrequencyIndexCreator {
   public void index(File file, File indexBaseDir, long totalBytes) {
     System.out.println(file);
     String name = file.getName();
-    if (name.matches(".*_[A-Z]+_.*")) {
+    if (IGNORE_POS && name.matches(".*_[A-Z]+_.*")) {
       System.out.println("Skipping POS tag file " + name);
       return;
     }
@@ -166,7 +167,7 @@ public class FrequencyIndexCreator {
         //}
         String[] parts = line.split("\t");
         String text = parts[0];
-        if (isRealPosTag(text)) {  // filtering '_VERB_', 'Italian_ADJ', etc.
+        if (IGNORE_POS && isRealPosTag(text)) {  // filtering '_VERB_', 'Italian_ADJ', etc.
           continue;
         }
         if (hiveMode) {
@@ -337,6 +338,7 @@ public class FrequencyIndexCreator {
     FrequencyIndexCreator creator = new FrequencyIndexCreator(mode);
     System.out.println("Mode: " + mode);
     System.out.println("Minimum year: " + MIN_YEAR);
+    System.out.println("Ignore POS tags: " + IGNORE_POS);
     creator.run(new File(args[1]), new File(args[2]));
   }
 }
