@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!DOCTYPE rules [
     <!ENTITY adjectius_TE_INFUSIO "descafeïnat|mòlt|jove|conegut|preparat|empaquetat|xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
     <!ENTITY adverbis_temps_lloc "entra(t|ts|da|des)|passa(t|ts|da|des)|tocad(a|es)|arran|enfront|per|durant|llavors|tard|aviat|pròximament|properament|prompte|avui|abans|després|hui|ara|demà|ahir|despús-ahir|despús-demà|aquí|ací|allí|allà|ahí|aleshores|recentment|posteriorment">
+    <!ENTITY context_ALOS "Isil|Àneu|Pallars|Sobirà">
     <!ENTITY context_PASTAR "aigua|bol|canyella|cera|coca|dit|farina|ingredient|llet|llevat|llimona|mà|mantega|massa|min|minuts|mona|oli|ou|panificadora|sucre">
     <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
     <!ENTITY context_FALLAR "sentència|veredicte|premi|tribunal|jutges?|jurat|favor|instruir|procés|dispositiva|jutjar|sentenciar">
@@ -28481,6 +28482,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rulegroup id="ALOS" name="Alòs/Alós">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes" skip="-1">&context_ALOS;</token>
+                    <marker>
+                       <token>Alòs</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>Alós</suggestion> d'Isil (Alt Àneu, Pallars Sobirà)?</message>
+                <example correction="Alós">Al Pallars Sobirà hi ha <marker>Alòs</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                       <token skip="-1">Alòs</token>
+                    </marker>
+                    <token regexp="yes" skip="-1">&context_ALOS;</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>Alós</suggestion> d'Isil (Alt Àneu, Pallars Sobirà)?</message>
+                <example correction="Alós">Al Pallars Sobirà hi ha <marker>Alòs</marker> d'Isil.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">&context_ALOS;</exception></token>
+                    <marker>
+                       <token skip="-1">Alós<exception scope="next" regexp="yes">&context_ALOS;</exception></token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>Alòs</suggestion>? Alós sols és correcte referit a Alós d'Isil (Alt Àneu, Pallars Sobirà).</message>
+                <example correction="Alòs">El meu cosí Nicolau <marker>Alós</marker>.</example>
+                <example>Al Pallars Sobirà hi ha Alós</example>
+                <example>Alós d'Isil</example>
+            </rule>
+        </rulegroup>
         <rule id="PENDUL_PENDOL" name="pèndul/pèndol">
             <pattern>
                 <token regexp="yes">pènduls?<exception scope="previous" postag="N.*" postag_regexp="yes"/></token>
