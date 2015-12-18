@@ -108,7 +108,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category name="Mögliche Tippfehler">
-
+        <rule id="BEIDEN" name="Möglicher Tippfehler: die beide (beiden)">
+            <antipattern>
+                <token postag="PRP:.*" postag_regexp="yes"/>
+                <token postag="PRO:.*" postag_regexp="yes"/>
+                <token>beide</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">die|der|den<exception scope="previous">,</exception></token>
+                <marker>
+                    <token>beide</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>beiden</suggestion>?</message>
+            <example correction="beiden">Die <marker>beide</marker> Turteltauben wollen bald heiraten.</example>
+            <example correction="beiden">Welcher der <marker>beide</marker> Brüder hat den Unfall verursacht?</example>
+            <example correction="beiden">Mein Vater, der die <marker>beide</marker> kennt, hat eine hohe Meinung von ihnen.</example>
+            <example>Mein Vater, der beide kennt, hat eine hohe Meinung von ihnen.</example>
+            <example>Die Hoffnung gibt den beiden Halt.</example>
+            <example>Kennst du die beiden?</example>
+            <example>Er hatte zwei Söhne, die beide Lehrer wurden.</example>
+            <example>Die Tür, durch die beide passen, muss erst noch erfunden werden.</example>
+            <example>Die Aufführung, in der beide Hauptfiguren am Ende sterben, wurde heftig kritisiert.</example>
+        </rule>
         <rule id="BEI_VERB" name="bei + Verb">
             <pattern>
                 <token>bei</token>
@@ -6083,6 +6105,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category name="Zusammen-/Getrenntschreibung">
+        <rule id="WIE_SO_OFT" name="Möglicher Tippfehler: 'wieso (wie so) oft'">
+            <pattern>
+                <marker>
+                    <token>wieso</token>
+                </marker>
+                <token regexp="yes">oft|häufig</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>wie so</suggestion>?</message>
+            <example correction="wie so">Die Mannschaft vergab den Sieg <marker>wieso</marker> oft in den letzten Spielminuten.</example>
+            <example correction="Wie so"><marker>Wieso</marker> häufig in den letzten Wochen kam er auch heute zu spät.</example>
+        </rule>
         <rule id="IN_KRAFT_TRETEN" name="Zusammen-/Getrenntschreibung: 'Inkrafttreten'">
             <pattern case_sensitive='yes'>
                 <token case_sensitive='no' regexp="yes">das|ein(em)?|dem|mit|nach|vor|zum|durch|beim?</token>
@@ -7082,10 +7115,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="MOEGLICHER_WEISE_ETC" name="Zusammen-/Getrenntschreibung: 'möglicher Weise (möglicherweise)' etc.">
             <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">[In]n</token>
+                    <token regexp="yes">komischer|lustiger</token>
+                    <token>Weise</token>
+                </antipattern>
                 <pattern>
                     <token/>
                     <marker>
-                        <token regexp="yes">(absurd|auffällig|bedauerlich|bedauernswert|begreiflich|beklagenswert|bemerkenswert|berechtigt|betrüblich|bevorzugt|bezeichnend|billig|blöd|charakteristisch|dankenswert|drollig|ehrlich|eigenartig|eigenmächtig|eigentümlich|entgegenkommend|enttäuschend|erfreulich|erklärlich|erstaunlich|evident|fair|fälschlich|fatal|folgend|frech|freundlich|gebührend|gemein|gerecht|gewöhnlich|gleich|glied|glücklich|gnädig|günstig|heimlich|heimtückisch|herkömmlich|ideal|idiotisch|inkonsequent|inkorrekt|interessant|ironisch|irreführend|irrig|irritierend|irrtümlich|klar|klassisch|kleck|klug|komisch|konsequent|kontingent|korrekt|kurios|laienhaft|legitim|leichtsinnig|liebenswürdig|listig|lobenswert|löblich|logisch|merkwürdig|missverständlich|möglich|naheliegend|naiv|natürlich|nett|normal|notwendig|originell|paradox|passend|pikant|plausibl|praktisch|realistisch|richtig|riskant|schlau|seltsam|sinnig|sinnvoll|solch|sonderbar|traditionell|tragisch|traurig|trickreich|trivial|typisch|unachtsam|unerklärlich|unerlaubt|unerwartet|ungeschickt|unglücklich|unnötig|unstrittig|unverdient|unvermeidlich|unverständlich|unvorsichtig|verdient|vernünftig|verständlich|widersinnig|wunderbar|wunderlich|zufällig|zulässig|zweckmäßig)er<exception scope="previous">in</exception></token>
+                        <token regexp="yes">(absurd|auffällig|bedauerlich|bedauernswert|begreiflich|beklagenswert|bemerkenswert|berechtigt|betrüblich|bevorzugt|bezeichnend|billig|blöd|charakteristisch|dankenswert|drollig|ehrlich|eigenartig|eigenmächtig|eigentümlich|entgegenkommend|enttäuschend|erfreulich|erklärlich|erstaunlich|evident|fair|fälschlich|fatal|folgend|frech|freundlich|gebührend|gemein|gerecht|gewöhnlich|gleich|glied|glücklich|gnädig|günstig|heimlich|heimtückisch|herkömmlich|ideal|idiotisch|inkonsequent|inkorrekt|interessant|ironisch|irreführend|irrig|irritierend|irrtümlich|klar|klassisch|kleck|klug|komisch|konsequent|kontingent|korrekt|kurios|laienhaft|legitim|leichtsinnig|liebenswürdig|listig|lobenswert|löblich|logisch|lustig|merkwürdig|missverständlich|möglich|naheliegend|naiv|natürlich|nett|normal|notwendig|originell|paradox|passend|pikant|plausibl|praktisch|realistisch|richtig|riskant|schlau|seltsam|sinnig|sinnvoll|solch|sonderbar|traditionell|tragisch|traurig|trickreich|trivial|typisch|unachtsam|unerklärlich|unerlaubt|unerwartet|ungeschickt|unglücklich|unnötig|unstrittig|unverdient|unvermeidlich|unverständlich|unvorsichtig|verdient|vernünftig|verständlich|widersinnig|wunderbar|wunderlich|zufällig|zulässig|zweckmäßig)er<exception scope="previous">in</exception></token>
                         <token>Weise</token>
                     </marker>
                 </pattern>
@@ -7096,6 +7134,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Doch <marker>möglicherweise</marker> ist die Gelbphase der Ampel zu kurz eingestellt.</example>
                 <example correction="möglicherweise">Doch <marker>möglicher Weise</marker> ist die Gelbphase zu kurz eingestellt.</example>
                 <example correction="Möglicherweise"><marker>Möglicher Weise</marker> ist die Gelbphase zu kurz eingestellt.</example>
+                <example>Er hat sich in <marker>lustiger Weise</marker> vorgestellt.</example>
             </rule>
         </rulegroup>
         <rule id="ZU_TEIL" name="Zusammen-/Getrenntschreibung: 'zu Teil (zuteil/zum Teil)'">
