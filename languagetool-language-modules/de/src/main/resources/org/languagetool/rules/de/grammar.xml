@@ -6083,6 +6083,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category name="Zusammen-/Getrenntschreibung">
+        <rule id="IN_KRAFT_TRETEN" name="Zusammen-/Getrenntschreibung: 'Inkrafttreten'">
+            <pattern case_sensitive='yes'>
+                <token case_sensitive='no' regexp="yes">das|ein(em)?|dem|mit|nach|vor|zum|durch|beim?</token>
+                <marker>
+                    <token>in</token>
+                    <token>Kraft</token>
+                    <token>treten</token>
+                </marker>
+            </pattern>
+            <message>&getrennt;. Das Substantiv wird groß- und zusammengeschrieben. Vorschlag: <suggestion>Inkrafttreten</suggestion>.</message>
+            <short>&getrennt;.</short>
+            <example correction="Inkrafttreten">Vor dem <marker>in Kraft treten</marker> des Vertrags müssen ihn beide Parlamente ratifizieren.</example>
+            <example>Das Inkrafttreten der Vereinbarung ist an Bedingungen geknüpft.</example>
+            <example>Bis zum Inkrafttreten vergeht noch ein Jahr.</example>
+        </rule>
+        <rule id="DURCH_AUS" name="Zusammen-/Getrenntschreibung: 'durchaus'">
+            <pattern>
+                <marker>
+                    <token regexp="yes">durch</token>
+                    <token>aus</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>durchaus</suggestion>?</message>
+            <example correction="durchaus">Er ist <marker>durch aus</marker> lernfähig.</example>
+            <example>Ein durchaus lustiges Theaterstück!</example>
+        </rule>
         <rulegroup id="NICHTSDESTOTROTZ" name="Zusammen-/Getrenntschreibung: 'nichts desto trotz (nichtsdestotrotz)'">
             <rule>
                 <regexp>nichts desto trotz</regexp>
@@ -10637,6 +10663,101 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>FIXME</message>
         </rule>
         -->
+        <rulegroup id="ICH_NOMEN" name="Ich Rede (rede) etc.">
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token regexp='yes'>[iI]ch</token>
+                    <marker>
+                        <token regexp="yes">Band|Beichte|Beule|Binde|Bitte|Blase|Bräune|Breite|Bremse|Buche|Bürde|Bürste|Decke|Dichte|Dusche|Düse|Ecke|Ehre|Eiche|Eile|Erde|Falle|Falte|Feile|Flamme|Fliege|Fliese|Flöte|Folge|Frage|Fresse|Geige|Grenze|Hacke|Härte|Hecke|Heimfahrt|Höhle|Illustrierte|Kappe|Keule|Kippe|Klage|Klappe|Klaue|Klemme|Klinge|Klingel|Krähe|Kralle|Kürze|Lehre|Leine|Leiste|Leuchte|Liebe|Liege|Linse|Liste|Lüge|Menge|Messe|Miete|Nähe|Pauke|Pause|Perle|Pfeife|Presse|Probe|Pumpe|Puste|Quelle|Rede|Reibe|Reife|Reihe|Reise|Ritze|Robbe|Rolle|Rüge|Ruhe|Runde|Rutsche|Sage|Säge|Salbe|Scheide|Scheiße|Schere|Schiene|Schippe|Schlampe|Schleife|Schleuse|Schlinge|Schmelze|Schmiede|Schnalle|Schneide|Schule|Schürze|Schwäche|Schwärze|Schwebe|Schwelle|Sehne|Seife|Sonne|Sorge|Spalte|Speise|Spitze|Spritze|Stärke|Starre|Stelle|Stille|Stimme|Strafe|Strecke|Strippe|Stufe|Stütze|Suche|Summe|Taste|Tat|Taufe|Trage|Wache|Wärme|Weiche|Weide|Weihe|Weile|Weise|Wende|Wiege|Winde|Würde|Würze|Wüste|Zeche|Zwinge</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" case_conversion="startlower"/></suggestion>?</message>
+                <example correction='liebe'>Ich <marker>Liebe</marker> dich.</example>
+                <example correction='rede'>Während ich <marker>Rede</marker>, vergesse ich häufig Luft zu holen.</example>
+                <example>Bevor ich dusche, blase ich noch Ostereier aus.</example>
+                <example>Ich falle auf eure Streiche nicht mehr herein!</example>
+                <example>Ich zwinge euch nicht!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>ich|e[rs]|sie</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive='yes'>Band|Tat|Sucht|Würde|Macht|Haut</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" case_conversion="startlower"/></suggestion>?</message>
+                <example correction='tat'>Er <marker>Tat</marker> nur so.</example>
+                <example correction='haut'>Sie <marker>Haut</marker> ordentlich auf den Putz.</example>
+                <example>Ich würde keine Sekunde zögern, dir zu helfen.</example>
+                <example>Es macht mich traurig, euch so zu sehen.</example>
+            </rule>
+        </rulegroup>
+        <rule id="ZUR_ABBITTE_ETC" name="meiner abfahrt (Abfahrt) etc.">
+            <pattern>
+                <token regexp='yes'>zur|seiner?|ihrer?|meiner?|deiner?|eurer?|unserer?</token>
+                <marker>
+                    <token regexp="yes" case_sensitive='yes'>abbitte|abfahrt|abfrage|abfuhr|abgeordnete|ablöse|abreise|absage|absteige|anfahrt|anfrage|angst|anklage|anreise|anrichte|ansage|anzeige|auffahrt|ausbeute|ausfahrt|ausfuhr|ausleihe|auslese|ausrede|ausreise|aussage|beichte|beule|binde|bitte|blase|bräune|bremse|buche|bürde|bürste|decke|durchfahrt|durchreiche|durchreise|durchsage|dürre|dusche|düse|ebbe|ecke|ehe|ehre|eiche|eile|einfahrt|einreise|erde|fahrt|falle|falte|feile|flamme|fliege|fliese|flöte|flucht|folge|frage|fresse|geige|gemeinde|gnade|grenze|großtat|hacke|halle|härte|hast|hecke|heimfahrt|herfahrt|hinfahrt|höhle|kante|kappe|keule|kippe|klage|klammer|klappe|klaue|klemme|klinge|klingel|kraft|krähe|kralle|kürze|kutsche|last|legende|lehre|leine|leiste|leuchte|liege|linse|liste|lüge|menge|messe|miete|mithilfe|mühe|nachfrage|nachlese|nachrede|nähe|naht|pauke|pause|perle|pfeife|pleite|post|predigt|presse|probe|pumpe|puste|quelle|rast|ratsche|rede|reibe|reihe|reise|reue|rille|ritze|robbe|rolle|rückfrage|rüge|ruhe|rutsche|sage|säge|sahne|salbe|säure|schanze|scharte|schau|scheide|scheiße|schere|schiene|schippe|schlampe|schleife|schleuse|schlinge|schmelze|schmiede|schnalle|schneide|schuld|schule|schürze|schwäche|schwärze|schwebe|schwelle|sehne|seife|sonne|sorge|spalte|sparte|speise|spritze|stärke|stelle|stimme|strafe|strecke|strippe|stufe|stunde|stütze|suche|summe|taste|taufe|trage|träne|uniform|vollmacht|voraussage|vorfahrt|vorhersage|vormacht|vorrede|vorsitzende|vorsorge|wacht|wand|wärme|weide|weihe|weile|welle|wende|werft|wiege|wiese|winde|wolle|wunde|würze|zahl|zeche|zeit|zier|zufahrt|zufuhr|zusage|zwinge</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="2" case_conversion="startupper"/></suggestion>?</message>
+            <example correction='Beichte'>Er geht zur <marker>beichte</marker>.</example>
+            <example correction='Bitte'>Dies geschah auf seine <marker>bitte</marker>.</example>
+            <example>Nach seiner Beichte wurde ihm Absolution erteilt.</example>
+            <example>Kann eure Auffahrt wieder benutzt werden?</example>
+        </rule>
+        <rule id="ESSEN_GEHEN" name="Groß-/Kleinschreibung: 'essen gehen'">
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token>Essen</token>
+                <token>gehen</token>
+            </antipattern>
+            <antipattern>
+                <token postag="ADJ:.*|PA2:.*|PA1:.*" postag_regexp="yes"/>
+                <token>Essen</token>
+                <token>gehen</token>
+            </antipattern>
+            <antipattern>
+                <token postag="ART:DEF:.*|PRO:DEM:.*" postag_regexp="yes" skip="1"/>
+                <token>Essen</token>
+                <token>gehen</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">dem|ein(em)?|dem|mit|nach|vor|zum|durch|beim?|in</token>
+                <token>Essen</token>
+                <token>gehen</token>
+            </antipattern>
+            <pattern case_sensitive='yes'>
+                <marker>
+                    <token>Essen</token>
+                </marker>
+                <token>gehen</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" case_conversion="startlower"/></suggestion>?</message>
+            <example correction="essen">Wir wollen <marker>Essen</marker> gehen.</example>
+            <example correction="essen">Lass uns <marker>Essen</marker> gehen!</example>
+            <example>Essen gehen kann ziemlich teuer werden.</example>
+            <example>In Essen gehen wir auf jeden Fall zur Zeche Zollverein.</example>
+            <example>Bevor wir heute essen gehen, musst du deine Hausaufgaben gemacht haben.</example>
+            <example>Wollen wir mit deinen Eltern essen gehen.</example>
+            <example>Beim heutigen Essen gehen wir die offenen Punkte durch.</example>
+            <example>Dem schon vorbereiteten Essen gehen diverse Begrüßungsreden voraus.</example>
+            <example>Dem schon bereitstehenden Essen gehen diverse Begrüßungsreden voraus.</example>
+            <example>Dass essen gehen ein unerschwinglicher Luxus sein soll, bezweifle ich.</example>
+            <example>Die Essen gehen auf mich!</example>
+            <example>Diese beiden Essen gehen auf mich!</example>
+        </rule>
+        <rule id="AUS_ZUM_TROTZ" name="Groß-/Kleinschreibung: 'zum Trotz' / 'aus Trotz'">
+            <pattern>
+                <token regexp='yes'>zum|aus</token>
+                <marker>
+                    <token case_sensitive='yes'>trotz</token>
+                </marker>
+            </pattern>
+            <message>In dieser Wendung wird <suggestion>Trotz</suggestion> als Substantiv großgeschrieben.</message>
+            <short>&prgk;.</short>
+            <example correction="Trotz">Aus <marker>trotz</marker> tat sie stets das Gegenteil von dem, was man ihr auftrug.</example>
+            <example>Allen gut gemeinten Ratschlägen zum Trotz investierte er sein gesamtes Vermögen in das Unternehmen.</example>
+        </rule>
         <rule id="EIN_KLEINES_NOMEN" name="Groß-/Kleinschreibung: ein klopfen (Klopfen) etc.">
             <pattern>
                 <token>ein</token>
@@ -24551,6 +24672,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Redewendungen -->
     <!-- ====================================================================== -->
     <category name="Redewendungen">
+        <rule id="A_LA_CARTE" name="Wendung: à la carte">
+            <pattern>
+                <marker>
+                    <token>a</token>
+                    <token>la</token>
+                    <token regexp='yes'>[CckK]art[e]</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie die aus dem Französischen stammende Wendung '<suggestion>à la carte</suggestion>'?</message>
+            <example correction="à la carte">Wir essen heute <marker>a la carte</marker>.</example>
+        </rule>
+        <rule id="GESETZT_DEN_FALL" name="Wendung: 'gesetzt den Fall'">
+            <pattern case_sensitive='yes'>
+                <marker>
+                    <token regexp='yes'>[gG]esetzt</token>
+                    <token>dem</token>
+                </marker>
+                <token>Fall</token>
+            </pattern>
+            <message>Meinten Sie die Wendung '<suggestion>gesetzt den</suggestion> Fall (dass...)' im Sinne von 'angenommen(, dass)'?</message>
+            <example correction="Gesetzt den"><marker>Gesetzt dem</marker> Fall, dass der Antrag fristgerecht eingereicht wird, kann er bis Quartalsende bearbeitet werden.</example>
+            <example>Gesetzt den Fall, alle Anwesenden stimmen für das Vorhaben, kann mit der Ausführung schon morgen begonnen werden.</example>
+        </rule>
         <rule id="LEBZEITEN" name="Redewendung: 'zu seinen Lebzeiten'">
             <!-- Quelle: Google-Häufigkeit -->
             <pattern>
