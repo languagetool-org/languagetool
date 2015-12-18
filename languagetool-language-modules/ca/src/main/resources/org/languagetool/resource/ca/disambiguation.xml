@@ -5689,10 +5689,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="ens_nom" name="ens (nom)">
         <rule>
             <pattern>
+                <token>l'</token>
                 <marker>
                     <token postag="N.*" postag_regexp="yes">ens</token>
                 </marker>
-                <token postag="V.P.*|A.*" postag_regexp="yes" regexp="yes" inflected="yes">territorial|públic|local|metropolità|administratiu|representar|supramunicipal|supraestatal|interestatal|nacional|internacional|provincial|estatal|racional|televisiu|normatiu|autonòmic|polític|institucional|abstracte</token>
+            </pattern>
+            <disambig action="filter" postag="N.*|_GN_.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes">ens</token>
+                </marker>
+                <token postag="V.P.*|A.*" postag_regexp="yes" regexp="yes" inflected="yes">territorial|públic|local|metropolità|administratiu|representar|supramunicipal|supraestatal|interestatal|nacional|internacional|provincial|estatal|racional|televisiu|normatiu|autonòmic|polític|institucional|abstracte|parroquial</token>
             </pattern>
             <disambig action="filter" postag="N.*|_GN_.*"/>
         </rule>
@@ -11930,4 +11939,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd pos="NCFS000" lemma="_carretera"/></disambig>
         </rule>
     </rulegroup>
+    <rule id="expressio_guionet" name="expressió amb guionet">
+         <pattern>
+             <token regexp="yes" inflected="yes">traducció|interpretació|correció</token>
+             <marker>
+                 <token postag="N.*|A.*" postag_regexp="yes"/>
+             </marker>
+             <token spacebefore="no" regexp="yes">-|/</token>
+             <token postag="N.*|A.*" postag_regexp="yes" spacebefore="no"/>
+         </pattern>
+         <disambig action="add"><wd pos="ignore_concordance"/></disambig>
+    </rule>
 </rules>
