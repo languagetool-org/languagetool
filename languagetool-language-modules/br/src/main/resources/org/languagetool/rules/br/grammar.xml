@@ -3101,14 +3101,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="KEMM_NEVEZ" name="kemmadur goude nevez">
       <rule>
         <pattern>
-          <marker><token>nevez-ganet</token></marker>
+          <token>nevez-ganet</token>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «nevez». Ha fellout a rae deoc’h skrivañ <suggestion>nevez-c’hanet</suggestion>? (CHALM B3.1.2.6)</message>
         <example correction="Nevez-c’hanet"><marker>Nevez-ganet</marker>.</example>
       </rule>
       <rule>
         <pattern>
-          <marker><token regexp="yes">nevez-(bet|marvet)</token></marker>
+          <token regexp="yes">nevez-(bet|marvet)</token>
         </pattern>
         <message>Ur c’hemmadur dre vlotaat a zlefe bezañ goude «nevez». Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="-." regexp_replace="-v"/></suggestion>? (CHALM B3.1.2.6)</message>
         <example correction="Nevez-vet"><marker>Nevez-bet</marker>.</example>
@@ -4440,7 +4440,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="BED_HOLL_MAN" name="Ar bed-holl-mañ → ar bed-mañ-holl">
       <pattern>
-        <marker><token regexp="yes">.+-holl-(se|mañ|hont)</token></marker>
+        <token regexp="yes">.+-holl-(se|mañ|hont)</token>
       </pattern>
       <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="(.+)-(holl)-(se|mañ|hont)" regexp_replace="$1-$3-$2"/></suggestion>? (CHALM R1.1.2)</message>
       <example correction="bed-mañ-holl">Ar <marker>bed-holl-mañ</marker>.</example>
@@ -4471,7 +4471,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="A_WALCH" name="just-a-walc’h → just a-walc’h (hag all)">
       <pattern>
-        <marker><token regexp="yes">.*-a-walc’h</token></marker>
+        <token regexp="yes">.*-a-walc’h</token>
       </pattern>
       <message>Barrennig-stagañ ebet dirak an adverb «a-walc’h». Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="(.*)-(a-walc’h)" regexp_replace="$1 $2"/></suggestion>? (CHALM Sa)</message>
       <example correction="Just a-walc’h"><marker>Just-a-walc’h</marker>.</example>
@@ -7974,10 +7974,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
-          <marker>
-            <token>en<exception scope="previous" regexp="yes">[au]n|hon</exception></token>
-            <token>dro</token>
-          </marker>
+          <token>en<exception scope="previous" regexp="yes">[au]n|hon</exception></token>
+          <token>dro</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>en-dro</suggestion>?</message>
         <example correction="en-dro">N’a ket an urzhiater <marker>en dro</marker>.</example>
@@ -8529,7 +8527,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <marker><token regexp="yes">gozhoc’h|ruzoc’h</token></marker>
       </antipattern>
       <pattern>
-        <marker><token regexp="yes">(([kg]|c’h)ozh|nevez|pizh|ruz|serzh)(oc’h|añ|a?at)|reizhoc’h</token></marker>
+        <token regexp="yes">(([kg]|c’h)ozh|nevez|pizh|ruz|serzh)(oc’h|añ|a?at)|reizhoc’h</token>
       </pattern>
       <message>«\1» a zo ur verb diasur. Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="z" regexp_replace="s"/></suggestion> kentoc’h? (CHALM Sb4)</message>
       <example correction="Koshoc’h"><marker>Kozhoc’h</marker> eo ma gwreg egedon.</example>
