@@ -38,6 +38,8 @@ import java.util.ResourceBundle;
  */
 public class Portuguese extends Language {
 
+  private static final Language PORTUGAL_PORTUGUESE = new PortugalPortuguese();
+  
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
 
@@ -58,7 +60,7 @@ public class Portuguese extends Language {
 
   @Override
   public Language getDefaultLanguageVariant() {
-    return new PortugalPortuguese();
+    return PORTUGAL_PORTUGUESE;
   }
 
   @Override

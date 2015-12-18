@@ -51,6 +51,8 @@ import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
  */
 public class German extends Language implements AutoCloseable {
 
+  private static final Language GERMANY_GERMAN = new GermanyGerman();
+  
   private Tagger tagger;
   private Synthesizer synthesizer;
   private SentenceTokenizer sentenceTokenizer;
@@ -62,7 +64,7 @@ public class German extends Language implements AutoCloseable {
 
   @Override
   public Language getDefaultLanguageVariant() {
-    return new GermanyGerman();
+    return GERMANY_GERMAN;
   }
   
   @Override
