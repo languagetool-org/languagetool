@@ -62,6 +62,14 @@ public class German extends Language implements AutoCloseable {
   private GermanCompoundTokenizer strictCompoundTokenizer;
   private LanguageModel languageModel;
 
+  /**
+   * @deprecated use {@link GermanyGerman}, {@link AustrianGerman}, or {@link SwissGerman} instead -
+   *  they have rules for spell checking, this class doesn't (deprecated since 3.2)
+   */
+  @Deprecated
+  public German() {
+  }
+  
   @Override
   public Language getDefaultLanguageVariant() {
     return GERMANY_GERMAN;

@@ -60,6 +60,14 @@ public class English extends Language implements AutoCloseable {
   private WordTokenizer wordTokenizer;
   private LuceneLanguageModel languageModel;
 
+  /**
+   * @deprecated use {@link AmericanEnglish} or {@link BritishEnglish} etc. instead -
+   *  they have rules for spell checking, this class doesn't (deprecated since 3.2)
+   */
+  @Deprecated
+  public English() {
+  }
+
   @Override
   public Language getDefaultLanguageVariant() {
     return AMERICAN_ENGLISH;
