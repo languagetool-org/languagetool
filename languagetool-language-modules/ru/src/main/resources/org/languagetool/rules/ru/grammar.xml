@@ -4962,9 +4962,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag_regexp= "yes"  postag = "PT:.*"></token>
                 <token>бы</token>
             </pattern>
-            <message>Причастие с частицей «бы» не употребляется.</message>
-            <example correction="">Спит ум, может быть <marker>получивший бы</marker> внезапный родник великих свойств.</example>
+            <message>Причастие с частицей «бы» не употребляется: <suggestion>\1</suggestion></message>
+            <example correction="получивший">Спит ум, может быть <marker>получивший бы</marker> внезапный родник великих свойств.</example>
             <example>Спит ум, может быть получивший  внезапный родник великих свойств.</example>
+        </rule>
+        <rule id="DPT_BI" name="После деепричастия частица «бы» не употребляется.">
+            <pattern>
+                <token postag='DPT:.*' postag_regexp='yes'><exception postag='DPT:.*' postag_regexp='yes' negate_pos='yes'></exception></token>
+                <token>бы</token>
+            </pattern>
+            <message>После деепричастия частица «бы» не употребляется.</message>
+            <example correction=''>Он, <marker>подумав бы</marker>, отказался от этой затеи.</example>
         </rule>
         
         
