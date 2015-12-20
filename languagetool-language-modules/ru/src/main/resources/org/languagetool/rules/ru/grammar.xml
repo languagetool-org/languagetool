@@ -4045,6 +4045,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>В этой области мы не знаем ничего, давайте создадим модель и поэкспериментируем.</example>
             <example correction="будет строиться">Здесь <marker>будет строится</marker> всё больше жилья.</example>
         </rule>
+    <rule default="on" id="Verb_tsa_and_ttsya" name="Правописание «-тся» и «-ться» в глаголах">
+            <pattern>
+                <!--     VB:.*         -->
+                <token skip="-1">нужно</token>
+                <marker>
+                  <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception postag="VB:INF"></exception><exception postag_regexp="yes" negate_pos="yes" postag="VB:.*"></exception><exception>трём</exception></token>
+                </marker>
+                <token regexp="yes">[.;,!?]</token>
+            </pattern>
+            <message>Глагол должен быть в неопределённой форме: <suggestion><match no="2" postag="VB:.*" postag_regexp="yes" postag_replace="VB:INF"></match></suggestion></message>
+            <url>http://tsya.ru/</url>
+            <short>Глагол должен быть в неопределённой форме.</short>
+            <example correction="строиться">Нужно <marker>строится</marker> на этом месте.</example>
+        </rule>
         
         
         
@@ -5138,7 +5152,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Проверка текста и т.п.</example>
                 <example correction="">Это только <marker>теест</marker> проверка.</example>
             </rule>
-        </rulegroup>
+        </rulegroup>       
     </category>
     
     <category name="Заглавные буквы">
