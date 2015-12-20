@@ -6290,6 +6290,21 @@ USA
             <example correction="A soccer player kicks"><marker>A soccer players kicks</marker> a ball and scores a goal</example>
         </rule>
         -->
+        <rule id="SOME_NN_VBP" name="'some' + sing. noun + verb">
+            <antipattern>
+                <token>some</token>
+                <token>day</token>
+            </antipattern>
+            <pattern>
+                <token>some</token>
+                <marker>
+                    <token postag_regexp="yes" postag="NN|NN:UN"><exception postag="NNS"/></token>
+                </marker>
+                <token postag="VBP"><exception postag="NN:UN"/></token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="2" postag="NN:UN|NN" postag_regexp="yes" postag_replace="NNS"/></suggestion>?</message>
+            <example correction="languages">I think some <marker>language</marker> are more complicated than others.</example>
+        </rule>
         <rule id="IS_CAUSE_BY" name="is cause (caused) by">
             <pattern>
                 <token regexp="yes">is|was</token>
