@@ -1,7 +1,7 @@
-#Stavekontrolden version 2.2pre
+#Stavekontrolden version 2.3
 #Denne fil er en del af Stavekontrolden - et softwareprodukt, der gør det muligt at stavekontrollere på dansk.
 
-#Copyright (C) 2012 Foreningen for frit tilgængelige sprogværktøjer
+#Copyright (C) 2015 Foreningen for frit tilgængelige sprogværktøjer
 #Website: http://www.stavekontrolden.dk
 #E-mail: info@stavekontrolden.dk
 
@@ -41,7 +41,7 @@ ONLYMAXDIFF
  
 NOSUGGEST 1111
 
-REP 112
+REP 115
 REP ^allesammen$ alle_sammen
 REP ^altsammen$ alt_sammen
 REP ^forlængst$ for_længst
@@ -151,6 +151,9 @@ REP ede$ te #låsede -> låste
 REP ^i i_ #iaften -> i aften
 REP ^hen hen_ #henover -> hen over
 REP ^inden inden_ #indendøre -> inden døre
+REP ss$ s' #Genetiv
+REP xs$ x' #faxs -> fax'
+REP zs$ z' #jazzs -> jazz'
 REP aa å #Intet dansk keyboard
 REP ae æ
 REP oe ø
@@ -434,18 +437,14 @@ SFX 46 0 zernes/944 z	+KONSONANT_FORDOBLING
 #Dobbeltkonsonant NeedAffix
 NEEDAFFIX 53
 #Proprium
-SFX 55 Y 4
-SFX 55 0 s [^s]	+GENITIV
-SFX 55 0  s	+GENITIV
-SFX 55 0 ' s	+GENITIV
-SFX 55 0 es s	+GENITIV
+SFX 55 Y 3
+SFX 55 0 s [^sxz]	+GENITIV
+SFX 55 0 's [QWERTYUIOPÅASDFGHJKLÆØZXCVBNM]	+GENITIV
+SFX 55 0 ' [sxz]	+GENITIV
 #Genitiv
-SFX 70 Y 5
-SFX 70 0 s/944 [^s]	+GENITIV
-SFX 70 0 es/944 s	+GENITIV
-SFX 70 0 s/944 s	+GENITIV
-SFX 70 0 '/944 s	+GENITIV
-SFX 70 0 es/944 s	+GENITIV
+SFX 70 Y 2
+SFX 70 0 s/944 [^sxz]	+GENITIV
+SFX 70 0 '/944 [sxz]	+GENITIV
 #Substantiv, flertal, med -er
 SFX 73 Y 8
 SFX 73 0 er/70,944 [^e]	+PLUR_UBEK
@@ -460,14 +459,30 @@ SFX 73 0 rs/944 e	+GENITIV
 SFX 84 Y 4
 SFX 84 0 re/70,944 .
 SFX 84 0 ne/70,944 .
-SFX 84 0 nes/944,944 .	+GENITIV
+SFX 84 0 nes/944 .	+GENITIV
 SFX 84 0 res .	+GENITIV
 #Substantiv, flertal, med -re, stamme -er fjernes
-SFX 85 Y 4
-SFX 85 er rene/944 er	+PLUR_BEK
-SFX 85 er renes/944 er	+GENITIV
-SFX 85 er re/944 er	+PLUR_UBEK
-SFX 85 er res/944 er	+GENITIV
+SFX 85 Y 20
+SFX 85 er rene/944 [^mt]er	+PLUR_BEK
+SFX 85 er renes/944 [^mt]er	+GENITIV
+SFX 85 er re/944 [^mt]er	+PLUR_UBEK
+SFX 85 er res/944 [^mt]er	+GENITIV
+SFX 85 er re/944 [^t]ter	+PLUR_UBEK
+SFX 85 er re/944 [^m]mer	+PLUR_UBEK
+SFX 85 er rene/944 [^t]ter	+PLUR_BEK
+SFX 85 er rene/944 [^m]mer	+PLUR_BEK
+SFX 85 er res/944 [^t]ter	+GENITIV
+SFX 85 er res/944 [^m]mer	+GENITIV
+SFX 85 er renes/944 [^t]ter	+GENITIV
+SFX 85 er renes/944 [^m]mer	+GENITIV
+SFX 85 ter re/944 tter	+PLUR_UBEK
+SFX 85 mer re/944 mmer	+PLUR_UBEK
+SFX 85 ter rene/944 tter	+PLUR_BEK
+SFX 85 mer rene/944 mmer	+PLUR_BEK
+SFX 85 ter res/944 tter	+GENITIV
+SFX 85 mer res/944 mmer	+GENITIV
+SFX 85 ter renes/944 tter	+GENITIV
+SFX 85 mer renes/944 mmer	+GENITIV
 #Substantiv, bekendt form fælleskøn med -ren eller -eren
 SFX 115 Y 4
 SFX 115 er ren/944 er	+BESTEMT_ENTAL
@@ -836,19 +851,19 @@ SFX 913 0 e/944 .	+PLUR_BEK
 SFX 913 0 t/944 [^t]	+BESTEMT_ENTAL
 #Adjektiv, d erstatter t med komparation
 SFX 914 Y 4
-SFX 914 t de/70,70,944 .	+PLUR_BEK
+SFX 914 t de/70,944 .	+PLUR_BEK
 SFX 914 t dere/70,944 .	+KOMPARATIV
 SFX 914 t dest/70,944 .	+SUPERLATIV
 SFX 914 t deste/70,944 .	+SUPERLATIV_PLURALIS
 #Adjektiv, d erstatter t uden komparation
 SFX 915 Y 4
 SFX 915 t de/70 .	+PLUR_BEK
-SFX 915 0 s/944,944 [^s]	+GENITIV
+SFX 915 0 s/944 [^s]	+GENITIV
 SFX 915 0 '/944 s	+GENITIV
 SFX 915 0 es/944 s	+GENITIV
 #Adjektiv, ender på -ende
 SFX 916 Y 3
-SFX 916 0 s/944,944 [^s]	+GENITIV
+SFX 916 0 s/944 [^s]	+GENITIV
 SFX 916 0 '/944 s	+GENITIV
 SFX 916 0 es/944 s	+GENITIV
 #Adjektiv, ender på -isk
@@ -859,7 +874,7 @@ SFX 917 0 '/944 s	+GENITIV
 SFX 917 0 es/944 .	+GENITIV
 #Sammensætning, fugeelement -s-
 SFX 939 Y 2
-SFX 939 0 s/942,945,946,945 .
+SFX 939 0 s/942,945,946 .
 SFX 939 0 s/943,945,946 .
 #Sammensætning, fugeelement -e-
 SFX 940 Y 2
@@ -946,10 +961,9 @@ SFX 1106 0 w/53,962,945 w	+KONSONANT_FORDOBLING
 SFX 1106 0 x/53,962,945 x	+KONSONANT_FORDOBLING
 SFX 1106 0 z/53,962,945 z	+KONSONANT_FORDOBLING
 #Substantiv, ubestemt
-SFX 190 Y 3
-SFX 190 0 s [^s]	+GENITIV
-SFX 190 0 ' s	+GENITIV
-SFX 190 0 es s	+GENITIV
+SFX 190 Y 2
+SFX 190 0 s [^szx]	+GENITIV
+SFX 190 0 ' [szx]	+GENITIV
 #Substantiv, torso, fælleskøn
 SFX 193 Y 2
 SFX 193 0 en/70,944 [^e]	+BESTEMT_ENTAL
@@ -1148,7 +1162,7 @@ SFX 402 0 '/53,10,73,70,945 .
 #Sammensætning, fugeelement -
 SFX 466 Y 2
 SFX 466 0 -/942,945 .
-SFX 466 0 -/943,945,943 .
+SFX 466 0 -/943,945 .
 #Proprium med mulighed for retning som præfix
 PFX 699 Y 261
 PFX 699 A Norda/55 A
@@ -1490,7 +1504,7 @@ SFX 841 0 ze/70 z	+KONSONANT_FORDOBLING
 SFX 437 Y 2
 SFX 437 0 er/942,945,946 .
 SFX 437 0 er/946,943,945 .
-#Sammensætning, fugeelement -ne-
+#Sammensætning, fugeelement -kons.f.+e-
 SFX 449 Y 20
 SFX 449 0 ne/945,942,946 n
 SFX 449 0 ne/946,943,945 n
@@ -1512,3 +1526,101 @@ SFX 449 0 ge/946,942,945 g
 SFX 449 0 ge/946,943,945 g
 SFX 449 0 re/946,942,945 r
 SFX 449 0 re/946,943,945 r
+#Sammensætning, fugeelement Ø el. s
+
+#Sammensætning, fugeelement Ø el. e
+
+#Substantiv, ender på el, -ler i flertal
+SFX 815 Y 52
+SFX 815 el ler/944 [^dfkmps]el	+PLUR_UBEK
+SFX 815 el lers/944 [^dfkmps]el	+GENITIV
+SFX 815 el lerne/944 [^dfkmps]el	+PLUR_UBEK
+SFX 815 el lernes/944 [^dfkmps]el	+GENITIV
+SFX 815 el ler/944 [^d]del	+PLUR_BEK
+SFX 815 el ler/944 [^f]fel	+PLUR_BEK
+SFX 815 el ler/944 [^k]kel	+PLUR_BEK
+SFX 815 el ler/944 [^m]mel	+PLUR_BEK
+SFX 815 el ler/944 [^p]pel	+PLUR_BEK
+SFX 815 el ler/944 [^s]sel	+PLUR_BEK
+SFX 815 del ler/944 ddel	+PLUR_BEK
+SFX 815 fel ler/944 ffel	+PLUR_BEK
+SFX 815 kel ler/944 kkel	+PLUR_BEK
+SFX 815 mel ler/944 mmel	+PLUR_BEK
+SFX 815 pel ler/944 ppel	+PLUR_BEK
+SFX 815 sel ler/944 ssel	+PLUR_BEK
+SFX 815 el lers/944 [^d]del	+GENITIV
+SFX 815 el lers/944 [^f]fel	+GENITIV
+SFX 815 el lers/944 [^k]kel	+GENITIV
+SFX 815 el lers/944 [^m]mel	+GENITIV
+SFX 815 el lers/944 [^p]pel	+GENITIV
+SFX 815 el lers/944 [^s]sel	+GENITIV
+SFX 815 del lers/944 ddel	+GENITIV
+SFX 815 fel lers/944 ffel	+GENITIV
+SFX 815 kel lers/944 kkel	+GENITIV
+SFX 815 mel lers/944 mmel	+GENITIV
+SFX 815 pel lers/944 ppel	+GENITIV
+SFX 815 sel lers/944 ssel	+GENITIV
+SFX 815 el lerne/944 [^d]del	+PLUR_UBEK
+SFX 815 el lerne/944 [^f]del	+PLUR_UBEK
+SFX 815 el lerne/944 [^k]kel	+PLUR_UBEK
+SFX 815 el lerne/944 [^m]mel	+PLUR_UBEK
+SFX 815 el lerne/944 [^p]pel	+PLUR_UBEK
+SFX 815 el lerne/944 [^s]sel	+PLUR_UBEK
+SFX 815 del lerne/944 ddel	+PLUR_UBEK
+SFX 815 fel lerne/944 ffel	+PLUR_UBEK
+SFX 815 kel lerne/944 kkel	+PLUR_UBEK
+SFX 815 mel lerne/944 mmel	+PLUR_UBEK
+SFX 815 pel lerne/944 ppel	+PLUR_UBEK
+SFX 815 sel lerne/944 ssel	+PLUR_UBEK
+SFX 815 el lernes/944 [^d]del	+GENITIV
+SFX 815 el lernes/944 [^f]fel	+GENITIV
+SFX 815 el lernes/944 [^k]kel	+GENITIV
+SFX 815 el lernes/944 [^m]mel	+GENITIV
+SFX 815 el lernes/944 [^p]pel	+GENITIV
+SFX 815 el lernes/944 [^s]sel	+GENITIV
+SFX 815 del lernes/944 ddel	+GENITIV
+SFX 815 fel lernes/944 ffel	+GENITIV
+SFX 815 kel lernes/944 kkel	+GENITIV
+SFX 815 mel lernes/944 mmel	+GENITIV
+SFX 815 pel lernes/944 ppel	+GENITIV
+SFX 815 sel lernes/944 ssel	+GENITIV
+#Substantiv, fælleskøn, ender på el, bekendt form ental, -el erstattes med -len
+SFX 822 Y 26
+SFX 822 el len/944 [^dfkmps]el	+BESTEMT_ENTAL
+SFX 822 el lens/944 [^dfkmps]el	+GENITIV
+SFX 822 el len/944 [^d]del	+BESTEMT_ENTAL
+SFX 822 el len/944 [^f]fel	+BESTEMT_ENTAL
+SFX 822 el len/944 [^k]kel	+BESTEMT_ENTAL
+SFX 822 el len/944 [^m]mel	+BESTEMT_ENTAL
+SFX 822 el len/944 [^p]pel	+BESTEMT_ENTAL
+SFX 822 el len/944 [^s]sel	+BESTEMT_ENTAL
+SFX 822 del len/944 ddel	+BESTEMT_ENTAL
+SFX 822 fel len/944 ffel	+BESTEMT_ENTAL
+SFX 822 kel len/944 kkel	+BESTEMT_ENTAL
+SFX 822 mel len/944 mmel	+BESTEMT_ENTAL
+SFX 822 pel len/944 ppel	+BESTEMT_ENTAL
+SFX 822 sel len/944 ssel	+BESTEMT_ENTAL
+SFX 822 el lens/944 [^d]del	+GENITIV
+SFX 822 el lens/944 [^f]fel	+GENITIV
+SFX 822 el lens/944 [^k]kel	+GENITIV
+SFX 822 el lens/944 [^m]mel	+GENITIV
+SFX 822 el lens/944 [^p]pel	+GENITIV
+SFX 822 el lens/944 [^s]sel	+GENITIV
+SFX 822 del lens/944 ddel	+GENITIV
+SFX 822 fel lens/944 ffel	+GENITIV
+SFX 822 kel lens/944 kkel	+GENITIV
+SFX 822 mel lens/944 mmel	+GENITIV
+SFX 822 pel lens/944 ppel	+GENITIV
+SFX 822 sel lens/944 ssel	+GENITIV
+#Substantiv, intetkøn, ender på el, bestemt form ental,  -el erstattes med -let
+SFX 828 Y 10
+SFX 828 el let/944 [^dm]el	+BESTEMT_ENTAL
+SFX 828 el lets/944 [^dm]el	+GENITIV
+SFX 828 el let/944 [^d]del	+BESTEMT_ENTAL
+SFX 828 el let/944 [^m]mel	+BESTEMT_ENTAL
+SFX 828 del let/944 ddel	+BESTEMT_ENTAL
+SFX 828 mel let/944 mmel	+BESTEMT_ENTAL
+SFX 828 el lets/944 [^d]del	+GENITIV
+SFX 828 el lets/944 [^m]mel	+GENITIV
+SFX 828 del lets/944 ddel	+GENITIV
+SFX 828 mel lets/944 mmel	+GENITIV

@@ -9,6 +9,17 @@
   * added new rules
   * added words suggested by users
 
+#### Danish
+  * updated hunspell dictionary to Version 2.3 (2015-11-15):
+    * Corrections made regarding new spelling of 2012
+    * General cleanup
+    * A lot of  compound flags added
+  * fixed bug where Hunspell flags wrongly was in the tagger-dictionary. For example:  
+    `vintrenes+F+sub:bes:plu:utr:gen/115,70,85,976,941,947`  
+    `vinåndstermometrenes+F+sub:bes:plu:neu:gen/70,118,85,976`
+  * added new tags
+  * updated and made adjustment for the new things introduced by the new spelling of 2012 and Hunspell-da 2.3
+  
 #### English
   * improved a few rules
   * added more than 150 confusion pairs like shall/shell, sheer/shear (works only with ngram data) 
