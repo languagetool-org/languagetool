@@ -3824,6 +3824,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
+        <rulegroup id="VO_VREMJA" name="«Во время/вовремя»">
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <marker>
+                    <token>Вовремя</token>
+                    </marker>
+                    <token skip='-1'></token>
+                    <token postag='VB:.*' postag_regexp='yes'></token>
+                </pattern>
+                <message>Предлог+существительное: <suggestion>Во время</suggestion></message>
+                <short>Вовремя/Во время</short>
+                <example correction='Во время'><marker>Вовремя</marker> мероприятия был фуршет.</example>
+                <example>Во время мероприятия был фуршет.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive='yes'>
+                 <token postag='VB:.*' postag_regexp='yes' skip='-1'></token>
+                 <marker>
+                 <token>во</token>
+                 <token>время</token>
+                 </marker>
+                 <token regexp="yes">[.?!,]</token>
+                </pattern>
+                <message>Наречие: <suggestion>\2\3</suggestion></message>
+                <short>Вовремя/Во время</short>
+                <example correction='вовремя'>Поезд прибыл на вокзал <marker>во время</marker>.</example>
+                <example>Поезд прибыл на вокзал вовремя.</example>
+            </rule>
+        </rulegroup>
+        
         <rule id="Logical_bolee_menee" name="Устойчивое выражение «более или менее»">
             <pattern>
                 <token>более-менее</token>
