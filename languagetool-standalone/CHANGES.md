@@ -47,8 +47,8 @@
    * new spellchecker dictionary. This dictionary is based on dict-be-official-2008-20140108.oxt from http://bnkorpus.info/download.html
 
 #### Russian
-  * added/improved a few rules
-  * added words suggested by users
+  * added/improved several rules
+  * added words suggested by users to spellchecker dictionary
 
 #### Ukrainian
   * big dictionary update: more than 10k new words, many fixes (the dictionary source is now available at https://github.com/arysin/dict_uk)
