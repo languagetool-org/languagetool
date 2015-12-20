@@ -9108,6 +9108,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="CAL_INVERTIT" name="cal *invertit/invertir"> <!--semblant amb "voler"-->
+            <pattern>
+                <token regexp="yes">cal|calia|calgués|calguera|calgué|calgut</token>
+                <marker>
+                    <token postag="V.P..SM." postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.N.*"/></suggestion>?</message>
+            <example correction="comprar">Cal <marker>comprat</marker> accions.</example>
+            <example correction="invertir">Cal <marker>invertit</marker> en borsa.</example>
+            <example>Cal amistat i amor.</example>
+        </rule>
         <rulegroup id="POSAT" name="posat/posa't">
             <rule>
                 <pattern>
