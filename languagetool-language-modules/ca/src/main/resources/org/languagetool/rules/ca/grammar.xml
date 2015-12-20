@@ -28482,6 +28482,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="TABLETA" name="tableta">
+            <pattern>
+                <token inflected="yes">tableta</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">tauleta</match></suggestion>? 'Tableta' s'usa com a terme de farmàcia.</message>
+            <example correction="tauletes">Les <marker>tabletes</marker>.</example>
+        </rule>
         <rulegroup id="ALOS" name="Alòs/Alós">
             <rule>
                 <pattern case_sensitive="yes">
@@ -33315,6 +33322,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="C8) Formes secundàries" default="on" type="style">
+        <rule id="FUSELLATGE" name="fusellatges/fuselatge"> <!--innecessària quan s'actualitzi el diccionari-->
+            <pattern>
+                <token inflected="yes">fusellatge</token>
+            </pattern>
+            <message>Forma impròpia.</message>
+            <suggestion><match no="1" regexp_match="(?-i)fusellatge(s?)" regexp_replace="fuselatge$1"/></suggestion>
+            <example correction="fuselatges"><marker>fusellatges</marker>.</example>
+        </rule>
         <rule id="MIDAR" name="midar">
             <pattern>
                 <token inflected="yes">midar<exception postag="_GN_.*|N.*" postag_regexp="yes"/></token>
