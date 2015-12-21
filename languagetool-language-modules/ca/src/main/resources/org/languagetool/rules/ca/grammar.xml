@@ -2022,6 +2022,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_CASOS_PARTICULARS" name="casos particulars de concordances: esquerre/a, altre/a part, pendent, corrent...">
+            <rule id="CONCORDANCES_PRIMER" name="la *primer opció">
+                <pattern>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token>primer</token>
+                    <token postag="N..P.*|N.F.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Possible error de concordança</message>
+                <example correction=""><marker>La primer opció</marker>.</example>
+            </rule>
             <rule id="BAIX_RELLEUS" name="*baix relleus/baixos relleus">
                 <pattern>
                     <token regexp="yes">baix|mig|alt</token>
