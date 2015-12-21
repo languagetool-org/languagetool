@@ -15757,6 +15757,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="llargmetratges">Aquells <marker>llarg-metratges</marker></example>
                 <example correction="llargmetratges">Aquells <marker>llarg metratges</marker></example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">pluri|multi</token>
+                    <token min="0">-</token>
+                    <token inflected="yes">disciplinari</token>
+                </pattern>
+                <message>S'escriu junt sense guionet.</message>
+                <suggestion>\1\3</suggestion>
+                <example correction="multidisciplinàries"><marker>multi-disciplinàries</marker></example>
+                <example correction="multidisciplinàries"><marker>multi disciplinàries</marker></example>
+            </rule>
         </rulegroup>
         <rulegroup id="CONTRACCIONS" name="contraccions">
             <rule>
@@ -30780,17 +30791,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="revetlla|revetla"><marker>berbena</marker></example>
             <example>revetlla</example>
         </rule>
-        <rule id="DISCIPLINAR" name="disciplinar">
-            <pattern>
-                <token postag="NC.*" postag_regexp="yes"/>
-                <marker>
+        <rulegroup id="DISCIPLINAR" name="disciplinar">
+            <rule>
+                <pattern>
+                    <token postag="NC.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>disciplinar</token>
+                    </marker>
+                </pattern>
+                <message>Cal dir: <suggestion><match no="1" postag="NC(..).*" postag_regexp="yes" postag_replace="AQ0$10">disciplinari</match></suggestion>.</message>
+                <example correction="disciplinària">Ha estat una mesura <marker>disciplinar</marker></example>
+                <example>Ha de disciplinar els soldats</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">pluri|multi</token>
+                    <token min="0">-</token>
                     <token>disciplinar</token>
-                </marker>
-            </pattern>
-            <message>Cal dir: <suggestion><match no="1" postag="NC(..).*" postag_regexp="yes" postag_replace="AQ0$10">disciplinari</match></suggestion>.</message>
-            <example correction="disciplinària">Ha estat una mesura <marker>disciplinar</marker></example>
-            <example>Ha de disciplinar els soldats</example>
-        </rule>
+                </pattern>
+                <message>Paraula incorrecta.</message>
+                <suggestion>\1disciplinari</suggestion>
+                <suggestion>\1disciplinària</suggestion>
+                <example correction="multidisciplinari|multidisciplinària"><marker>multi- disciplinar</marker></example>
+                <example correction="multidisciplinari|multidisciplinària"><marker>multi disciplinar</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">pluri|multi</token>
+                    <token min="0">-</token>
+                    <token>disciplinars</token>
+                </pattern>
+                <message>Paraula incorrecta.</message>
+                <suggestion>\1disciplinaris</suggestion>
+                <suggestion>\1disciplinàries</suggestion>
+                <example correction="multidisciplinaris|multidisciplinàries"><marker>multi- disciplinars</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="DESMENTIT" name="desmentit/desmentiment">
             <pattern>
                 <token><exception postag="RG_anteposat|N.*|A.*|RN" postag_regexp="yes"/></token>
