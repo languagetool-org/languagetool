@@ -52,7 +52,7 @@ public class SimpleCorpusEvaluator {
   private static final double END_THRESHOLD   = 0.00000000000000001;
   private static final double STEP_FACTOR     = 0.1;
 
-  private static EnglishNgramProbabilityRule probabilityRule;
+  private static volatile EnglishNgramProbabilityRule probabilityRule;
 
   private final Evaluator evaluator;
   private final List<String> badConfusionMatchWords = new ArrayList<>();

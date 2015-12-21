@@ -49,9 +49,9 @@ public class EnglishChunker implements Chunker {
    * that is once created there will never be released. As English has several variants,
    * we'd have as many posModels etc. as we have variants -> huge waste of memory:
    */
-  private static TokenizerModel tokenModel;
-  private static POSModel posModel;
-  private static ChunkerModel chunkerModel;
+  private static volatile TokenizerModel tokenModel;
+  private static volatile POSModel posModel;
+  private static volatile ChunkerModel chunkerModel;
 
   private final EnglishChunkFilter chunkFilter;
 
