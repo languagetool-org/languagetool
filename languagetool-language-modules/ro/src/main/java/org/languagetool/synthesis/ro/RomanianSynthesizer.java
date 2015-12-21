@@ -66,7 +66,7 @@ public class RomanianSynthesizer extends BaseSynthesizer {
     }
   }
 
-  private void initSynth() {
+  private synchronized void initSynth() {
     if (manualSynthesizer == null) {
       try {
         try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(USER_DICT_FILENAME)) {

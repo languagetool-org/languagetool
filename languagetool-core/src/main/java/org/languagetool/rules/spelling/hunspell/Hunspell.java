@@ -60,7 +60,7 @@ public class Hunspell {
      *
      * @param libDir Optional absolute directory where the native lib can be found. 
      */
-    public static Hunspell getInstance(String libDir) throws UnsatisfiedLinkError, UnsupportedOperationException { 
+    public static synchronized Hunspell getInstance(String libDir) throws UnsatisfiedLinkError, UnsupportedOperationException {
         if (hunspell != null) {
             return hunspell;
         }
