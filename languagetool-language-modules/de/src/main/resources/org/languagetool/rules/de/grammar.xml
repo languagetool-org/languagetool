@@ -135,7 +135,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>bei</token>
                 <token postag='VER:.*' postag_regexp='yes' regexp="yes" case_sensitive="yes">[a-zöäü]+
-                    <exception postag='PA2:.*' postag_regexp='yes'/>
+                    <exception postag='PA[12]:.*' postag_regexp='yes'/>
                     <exception postag='ADJ:.*' postag_regexp='yes'/>
                     <exception postag='ZAL' />
                 </token>
@@ -200,7 +200,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="GENANT" name="Möglicher Tippfehler: genant (genannt)">
         <!-- Jan: TODO: Kontext prüfen. -->
-            <regexp>genant(er|es|en|em|e)?</regexp>
+            <regexp>\bgenant(er|es|en|em|e)?\b</regexp>
             <message>Meinten Sie <suggestion>genannt\1</suggestion>, das Partizip von 'nennen'?</message>
             <example correction="genannt">Seit seiner Kindheit wurde er Tom <marker>genant</marker>.</example>
             <example correction="genannter">Ein 'Hundi' <marker>genanter</marker> Hund.</example>
@@ -7434,7 +7434,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="irgendwann">Wir alle sterben <marker>irgend wann</marker>.</example>
         </rule>
         <rule id="WO_ANDERS" name="Zusammen-/Getrenntschreibung: 'wo anders (woanders)'">
-            <regexp>wo anders</regexp>
+            <regexp>\bwo anders\b</regexp>
             <message>&getrennt;: Meinten Sie <suggestion>woanders</suggestion>?</message>
             <example correction="woanders">Ihr müsst <marker>wo anders</marker> danach suchen.</example>
         </rule>
@@ -7462,7 +7462,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Zuerst|Anfangs"><marker>Zu erst</marker> wussten wir nicht, was wir überhaupt tun sollten.</example>
         </rule>
         <rule id="BIS_HER" name="Zusammen-/Getrenntschreibung: 'bis her (bisher)'">
-            <regexp>bis her</regexp>
+            <regexp>\bbis her\b</regexp>
             <message><suggestion>bisher</suggestion> (Synonym: <suggestion>bis jetzt</suggestion>) schreibt man zusammen.</message>
             <example correction="bisher|bis jetzt">Wo das Rad <marker>bis her</marker> stand.</example>
         </rule>
@@ -7600,19 +7600,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="SOWIESO" name="Zusammen-/Getrenntschreibung: 'so wie so (sowieso)'">
             <rule>
-                <regexp>so wie so</regexp>
+                <regexp>\bso wie so\b</regexp>
                 <message>&getrennt;: Meinten Sie <suggestion>sowieso</suggestion> (im Sinne von <suggestion>ohnehin</suggestion>)?</message>
                 <short>&getrennt;.</short>
                 <example correction="sowieso|ohnehin">Das geht <marker>so wie so</marker> nicht.</example>
             </rule>
             <rule>
-                <regexp>sowie so</regexp>
+                <regexp>\bsowie so\b</regexp>
                 <message>&getrennt;: Meinten Sie <suggestion>sowieso</suggestion> (im Sinne von <suggestion>ohnehin</suggestion>)?</message>
                 <short>&getrennt;.</short>
                 <example correction="sowieso|ohnehin">Das geht <marker>sowie so</marker> nicht.</example>
             </rule>
             <rule>
-                <regexp>so wieso</regexp>
+                <regexp>\bso wieso\b</regexp>
                 <message>&getrennt;: Meinten Sie <suggestion>sowieso</suggestion> (im Sinne von <suggestion>ohnehin</suggestion>)?</message>
                 <short>&getrennt;.</short>
                 <example correction="sowieso|ohnehin">Das geht <marker>so wieso</marker> nicht.</example>
@@ -8995,11 +8995,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Konsens">Der <marker>einvernehmliche Konsens</marker> war, dass wir es tun sollten.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>([aA]ndere[nr]?) (Alternative)</regexp>
-                <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschläge: <suggestion>\2</suggestion>, <suggestion>\1 Möglichkeit</suggestion>, <suggestion>\1 Wahl</suggestion>.</message>
+                <regexp case_sensitive='yes'>([aA]ndere[nr]?) (Alternativen?)</regexp>
+                <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschläge: <suggestion>\2</suggestion>, <suggestion>\1 Möglichkeit(en)</suggestion>, <suggestion>andere Wahl</suggestion>.</message>
                 <url>http://www.duden.de/rechtschreibung/Alternative_Entscheidungsmoeglichkeit</url>
                 <short>&redundanz;</short>
-                <example correction="Alternative|andere Möglichkeit|andere Wahl">Wir haben keine <marker>andere Alternative</marker>.</example>
+                <example correction="Alternative|andere Möglichkeit(en)|andere Wahl">Wir haben keine <marker>andere Alternative</marker>.</example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>([aA]ndere[nr]?) (Alternativen)</regexp>
@@ -9448,7 +9448,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="BAUCHWEH" name="Umgangssprache: 'Bauchweh (Bauchschmerz)'">
             <regexp>(Bauch|Kopf|Hals|Zahn)(wehs?)</regexp>
-            <message><match no="1"/> ist umgangssprachlich. Vorschläge: <suggestion>\1schmerz</suggestion>, <suggestion>\1schmerzen</suggestion>.\nBitte beachten Sie, dass etwaige Adjektive an das neue Genus angepasst werden müssen.</message>
+            <message>'\0' ist umgangssprachlich. Vorschläge: <suggestion>\1schmerz</suggestion>, <suggestion>\1schmerzen</suggestion>.\nBitte beachten Sie, dass etwaige Adjektive an das neue Genus angepasst werden müssen.</message>
             <example correction="Bauchschmerz|Bauchschmerzen">Er hat <marker>Bauchweh</marker>.</example>
             <example correction="Zahnschmerz|Zahnschmerzen">Wegen des starken <marker>Zahnwehs</marker>...</example>
         </rule>
@@ -9537,7 +9537,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="LILANES" name="Umgangssprache: 'lilanes (lila) Shirt'">
             <rule>
-                <regexp case_sensitive='yes'>((lilane?|pinke|chamoise)n?s?|olive[sn])</regexp>
+                <regexp case_sensitive='yes'>\b((lilane?|pinke|chamoise)n?s?|olive[sn])\b</regexp>
                 <message>Dieses Farbadjektiv wird standardsprachlich nicht gebeugt.</message>
                 <example>Ein <marker>lila</marker> Shirt</example>
                 <example>Ein <marker>lilafarbenes</marker> Kleid</example>
@@ -9765,12 +9765,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="MACHEN_UMGANGSSPRACHE" name="Umgangssprache: umgangssprachliche Verwendung von 'machen'">
             <rule>
-                <regexp>zumachen</regexp>
+                <regexp>\bzumachen\b</regexp>
                 <message>'Zumachen'&umgangsspr; Vorschläge: <suggestion>schließen</suggestion>, <suggestion>sich verschließen</suggestion>, <suggestion>sich beeilen</suggestion>.</message>
                 <example correction="schließen|sich verschließen|sich beeilen">Kannst du das Fenster <marker>zumachen</marker>?</example>
             </rule>
             <rule>
-                <regexp>mach zu</regexp>
+                <regexp>\bmach zu\b</regexp>
                 <message>'Zumachen'&umgangsspr; Vorschläge: <suggestion>schließen</suggestion>, <suggestion>sich verschließen</suggestion>, <suggestion>sich beeilen</suggestion>.</message>
                 <example correction="Schließen|Sich verschließen|Sich beeilen"><marker>Mach zu</marker>!</example>
                 <example><marker>Beeile dich</marker>!</example>
@@ -10154,7 +10154,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="nicht adäquat|inadäquat|unpassend">Das schien mir <marker>nicht adäquat genug</marker>.</example>
         </rule>
         <rule id="MEISTE_ALLER" name="Stil: 'die meisten aller ...'">
-            <regexp>(den|die) (meisten) (aller)</regexp>
+            <regexp>\b(den|die) (meisten) (aller)\b</regexp>
             <message>Was halten Sie von der Formulierung: <suggestion>\1 \2 der</suggestion>?</message>
             <example correction="Die meisten der"><marker>Die meisten aller</marker> Hollywoodfilme spielen in den USA.</example>
             <example><marker>Die meisten der</marker> damaligen Hollywoodfilme spielten in den USA.</example>
@@ -24143,7 +24143,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="EINE_MILLIONEN" name="Grammatik: 'eine Millionen (Million)'">
-            <regexp>(einer?) Millionen</regexp>
+            <regexp>\b(einer?) Millionen\b</regexp>
             <message>Meinten Sie <suggestion>\1 Million</suggestion>? 'Millionen' ist der Plural von 'Million'.</message>
             <example correction="eine Million">Sie verdient <marker>eine Millionen</marker> Euro im Jahr.</example>
         </rule>
