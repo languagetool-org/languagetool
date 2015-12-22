@@ -2366,7 +2366,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="»:">Газета «Правда<marker>:»</marker> &quot;У нас опубликована сенсационная статья&quot;!</example>
         </rule>
         
-        <rulegroup default="on" id="Digit_comnatnaja" name="Сокращение: 2-комнатная">
+        <rulegroup default="on" id="Digit_comnatnaja" name="Сокращения: «2-комнатная», ...">
             <rule>
                 <pattern>
                     <token regexp="yes">[\p{Digit}]-х</token>
@@ -3679,7 +3679,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rulegroup default="on" id="Frazeologizm_nevernij" name="Ошибки во фразеологизмах «щекотливая дилемма»,  ">
+        <rulegroup default="on" id="Frazeologizm_nevernij" name="Ошибки во фразеологизмах «щекотливая дилемма», ...">
             <!--  Щекотливая дилемма - щекотливый вопрос
                   Вся пресса поёт в одну дуду  -  поёт в один голос
                   не упасть лицом в грязь - не ударить лицом в грязь
@@ -4618,7 +4618,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rulegroup default="on" id="bolee_ili_menee_k" name="«Более или менее конкретны»">
+        <rulegroup default="on" id="bolee_ili_menee_k" name="Словосочетание «более или менее конкретны»">
             <rule>
                 <pattern>
                     <token>более</token>
@@ -4723,7 +4723,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Оно не для этого.</example>
         </rule>
         
-       <rulegroup default="on" id="noun_genitive_3" name="Более 4 существительных в родительном падеже подряд.">
+       <rulegroup default="on" id="noun_genitive_3" name="Более 4 существительных в родительном падеже подряд">
             <rule>
                 <pattern>
                     <token postag="NN:.*:.*:R" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*:.*:R" /></token>
@@ -4738,7 +4738,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Кнопка <marker>выбора файла сохранения цвета фона</marker>.</example>
             </rule>
         </rulegroup>   
-       <rulegroup default="on" id="kommentirovat_prep" name="Словосочетание «комментировать+предлог»">
+       <rulegroup default="on" id="kommentirovat_prep" name="Словосочетание «комментировать» + предлог">
             <rule>
                 <pattern>
                     <token inflected="yes">комментировать</token>
@@ -4772,7 +4772,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="очень красива">Она <marker>ужасно красива</marker>.</example>
             </rule>
         </rulegroup>      
-        <rulegroup default="on" id="mankirovat_nn" name="Словосочетание «манкировать+существительное»">
+        <rulegroup default="on" id="mankirovat_nn" name="Словосочетание «манкировать» + существительное">
             <rule>
                 <pattern>
                     <token inflected="yes">манкировать</token>
@@ -5002,7 +5002,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             
         </rulegroup>
         
-        <rule id="PT_BI" name="Причастие с частицей «бы» не употребляется.">
+        <rule id="PT_BI" name="Причастие с частицей «бы» не употребляется">
             <pattern>
                 <token postag_regexp= "yes"  postag = "PT:.*"></token>
                 <token>бы</token>
@@ -5011,7 +5011,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="получивший">Спит ум, может быть <marker>получивший бы</marker> внезапный родник великих свойств.</example>
             <example>Спит ум, может быть получивший  внезапный родник великих свойств.</example>
         </rule>
-        <rule id="DPT_BI" name="После деепричастия частица «бы» не употребляется.">
+        <rule id="DPT_BI" name="После деепричастия частица «бы» не употребляется">
             <pattern>
                 <token postag='DPT:.*' postag_regexp='yes'><exception postag='DPT:.*' postag_regexp='yes' negate_pos='yes'></exception></token>
                 <token>бы</token>
@@ -5189,7 +5189,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Он - <marker>Иванович</marker>.</example>
             <example correction="Иванович">Он - <marker>иванович</marker>.</example>
         </rule>
-        <rulegroup default="off" id="AllCaps" name="Все буквы в слове ЗАГЛАВНЫЕ.">
+        <rulegroup default="off" id="AllCaps" name="Все буквы в слове ЗАГЛАВНЫЕ">
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" negate_pos="yes"></token>
