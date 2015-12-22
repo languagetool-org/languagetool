@@ -463,7 +463,7 @@ public class AgreementRule extends GermanRule {
           set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.NEUTRUM, reading.getDetermination(), omit));
         }
       } else {
-        if (reading.getDetermination() == null || "jed".equals(tmpReading.getLemma())) {  // "jeder" etc. needs a special case to avoid false alarm
+        if (reading.getDetermination() == null || "jed".equals(tmpReading.getLemma()) || "manch".equals(tmpReading.getLemma())) {  // "jeder" etc. needs a special case to avoid false alarm
           set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), GermanToken.Determination.DEFINITE, omit));
           set.add(makeString(reading.getCasus(), reading.getNumerus(), reading.getGenus(), GermanToken.Determination.INDEFINITE, omit));
         } else {
