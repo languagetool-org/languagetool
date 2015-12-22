@@ -44,18 +44,20 @@
   * added/improved several rules
   
 #### Belarusian
-   * new spellchecker dictionary. This dictionary is based on dict-be-official-2008-20140108.oxt from http://bnkorpus.info/download.html
+  * new spellchecker dictionary. This dictionary is based on dict-be-official-2008-20140108.oxt
+    from http://bnkorpus.info/download.html
 
 #### Russian
   * added/improved several rules
   * added words suggested by users to spellchecker dictionary
 
 #### Ukrainian
-  * big dictionary update: more than 10k new words, many fixes (the dictionary source is now available at https://github.com/arysin/dict_uk)
+  * big dictionary update: more than 10k new words, many fixes (the dictionary source is now
+    available at https://github.com/arysin/dict_uk)
   * many new rules
   * improvements for euphony rules
   * improvements in dynamic compound tagger
-  * new disambguation rules
+  * new disambiguation rules
 
 #### Rule Syntax
   * New rule syntax `<regexp>...<regexp>` as a simple alternative
