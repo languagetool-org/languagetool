@@ -1221,6 +1221,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="el destacat|els destacats|la destacada|les destacades">És <marker>el destacats</marker>.</example>
                 <example>Porta els rojos.</example>
                 <example>amb la nou del coll</example>
+                <example>i els mig renya</example>
             </rule>
             <rule>
                 <pattern>
@@ -2030,6 +2031,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Possible error de concordança</message>
                 <example correction=""><marker>La primer opció</marker>.</example>
+                <example>Per sota del primer passa el camí</example>
             </rule>
             <rule id="BAIX_RELLEUS" name="*baix relleus/baixos relleus">
                 <pattern>
@@ -9117,18 +9119,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
-        <rule id="CAL_INVERTIT" name="cal *invertit/invertir"> <!--semblant amb "voler"-->
-            <pattern>
-                <token regexp="yes">cal|calia|calgués|calguera|calgué|calgut</token>
-                <marker>
-                    <token postag="V.P..SM." postag_regexp="yes"></token>
-                </marker>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.N.*"/></suggestion>?</message>
-            <example correction="comprar">Cal <marker>comprat</marker> accions.</example>
-            <example correction="invertir">Cal <marker>invertit</marker> en borsa.</example>
-            <example>Cal amistat i amor.</example>
-        </rule>
         <rulegroup id="POSAT" name="posat/posa't">
             <rule>
                 <pattern>
@@ -12413,7 +12403,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">caldre|poder|saber|voler|intentar|convenir</token>
                 <marker><!-- l'error amb gerundi té altres restriccions -->
-                    <token postag="V.P00SM.?" postag_regexp="yes"><exception inflected="yes">incloure</exception><exception postag="V.N.*|_GN_MS" postag_regexp="yes"/></token>
+                    <token postag="V.P00SM.?" postag_regexp="yes"><exception inflected="yes">incloure</exception><exception postag="V.N.*|_GN_MS|_possible_nompropi" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.N.*"/></suggestion>?</message>
@@ -12438,6 +12428,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>van anar perdent poder ocupats en altres coses</example>
             <example correction="accedir">necessitava un cognom per poder <marker>accedit</marker> a la universitat</example>
             <example correction="guanyar">N'hi ha prou amb poder <marker>guanyat</marker> la copa.</example>
+            <example>Cal amistat i amor.</example>
+            <example>A cal penjat.</example>
+            <example>És cal Trempat.</example>
             <!-- <example>per sobrepassar Mach 2 en vol anivellat</example> -->
             <!-- Amb el verb "fer" és més difícil
                 ho va fer funcionat/funcionar
@@ -15210,7 +15203,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <and>
-                        <token postag="V.{6}[0CXY12]" postag_regexp="yes"><exception postag="N.*|AQ.*|SPS00|RG|.*_GN_.*|&lt;/?NP.*" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|contacte|cal</exception></token>
+                        <token postag="V.{6}[0CXY12]" postag_regexp="yes"><exception postag="N.*|AQ.*|V.P.*|SPS00|RG|.*_GN_.*|&lt;/?NP.*" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|contacte|cal</exception></token>
                         <token postag="_possible_nompropi"/>
                     </and>
                 </pattern>
@@ -15223,6 +15216,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Vam anar a Cal Xato.</example>
                 <example>c) Guanya el jugador que arriba primer</example>
                 <example>(Vegeu el llibre Tirant lo Blanch.</example>
+                <example>És cal Trempat</example>
             </rule>
         </rulegroup>
         <rulegroup id="VERBS_INCORRECTES" name="verbs incorrectes: *anyadir, *arrepentir">
