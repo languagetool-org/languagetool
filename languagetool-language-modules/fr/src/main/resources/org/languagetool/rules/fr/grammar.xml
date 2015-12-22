@@ -5899,12 +5899,21 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(?:œuf|oeuf|filet)s?</token>
+          <token regexp="yes">(?:œuf|oeuf|filet|élevage|éleveur|insémination|race)s?</token>
           <token>de</token>
           <marker><token regexp="yes">cannes?</token></marker>
         </pattern>
         <message>Confusion probable entre « \3 » et <suggestion><match no="3" regexp_match="nn" regexp_replace="n"/></suggestion></message>
         <example correction="cane">Un œuf de <marker>canne</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">élever|inséminer</token>
+          <token>des</token>
+          <marker><token>cannes</token></marker>
+        </pattern>
+        <message>Confusion probable entre « cannes » et <suggestion>canes</suggestion></message>
+        <example correction="canes">Ils élèvent des <marker>cannes</marker> pour produire du foie gras.</example>
       </rule>
       <rule>
         <pattern>
