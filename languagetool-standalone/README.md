@@ -105,6 +105,13 @@ The Asturian data for part-of-speech tagging are from the Freeling dictionary,
 licensed under GNU General Public License.
 Contributor(s): Xesús González Rato <esbardu@softastur.org>
 
+  
+#### Belarusian
+
+Spellchecker dictionary is based on dict-be-official-2008-20140108.oxt from http://bnkorpus.info/download.html 
+under Creative Commons Attribution/Share-Alike 3.0.
+
+
 ####  Breton
 
 The Breton data for part-of-speech tagging is based on the Apertium Breton
