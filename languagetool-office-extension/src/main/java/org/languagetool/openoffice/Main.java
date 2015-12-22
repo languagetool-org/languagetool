@@ -39,6 +39,7 @@ import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.linguistic2.LinguServiceEvent;
 import com.sun.star.linguistic2.LinguServiceEventFlags;
 import com.sun.star.text.TextMarkupType;
+
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -89,6 +90,8 @@ public class Main extends WeakBase implements XJobExecutor,
   // e.g. language ="qlt" country="ES" variant="ca-ES-valencia":
   private static final String LIBREOFFICE_SPECIAL_LANGUAGE_TAG = "qlt";
 
+  private static final int MAX_SUGGESTIONS = 15;
+  
   private static boolean testMode;
 
   private final List<XLinguServiceEventListener> xEventListeners;
@@ -488,8 +491,14 @@ public class Main extends WeakBase implements XJobExecutor,
     aError.aShortComment = org.languagetool.gui.Tools
         .shortenComment(aError.aShortComment);
 
-    aError.aSuggestions = ruleMatch.getSuggestedReplacements().toArray(
-        new String[ruleMatch.getSuggestedReplacements().size()]);
+    int numSuggestions = ruleMatch.getSuggestedReplacements().size();
+    String[] allSuggestions = ruleMatch.getSuggestedReplacements().toArray(
+        new String[numSuggestions]);
+    if (numSuggestions > MAX_SUGGESTIONS) {
+      aError.aSuggestions = Arrays.copyOfRange(allSuggestions, 0, MAX_SUGGESTIONS);
+    } else {
+      aError.aSuggestions = allSuggestions;
+    }
     aError.nErrorStart = ruleMatch.getFromPos() + startIndex;
     aError.nErrorLength = ruleMatch.getToPos() - ruleMatch.getFromPos();
     aError.aRuleIdentifier = ruleMatch.getRule().getId();
