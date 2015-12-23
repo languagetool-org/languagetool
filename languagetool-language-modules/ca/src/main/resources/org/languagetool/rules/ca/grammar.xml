@@ -3231,14 +3231,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="ESTAR_CAUSAT" name="*estar/ser causat per">
             <pattern>
-                <token inflected="yes">estar<exception inflected="yes">ser</exception></token>
+                <token postag="V.[^M].*" postag_regexp="yes" inflected="yes">estar<exception inflected="yes">ser</exception></token>
                 <token postag="V.P.*" postag_regexp="yes" regexp="yes" inflected="yes">atribuir|causar|considerar|provocar|finançar|gestionar|originar|elegir|triar|escollir</token>
             </pattern>
             <message>Probablement cal usar el verb "ser".</message>
-            <suggestion><match no="1" postag="V.(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> \2</suggestion>
+            <suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VS$1">ser</match> \2</suggestion>
             <short>Verb inadequat</short>
             <example correction="Són causats"><marker>Estan causats</marker> per elements estranys.</example>
-            <example correction="Foren provocades"><marker>Estigueren provocades</marker> per elements estranys.</example>
+            <example correction="fossin provocades">encara que <marker>estiguessin provocades</marker> per elements estranys.</example>
+            <example correction="És considerat"><marker>Està considerat</marker> com el millor.</example>
+            <example correction="ser considerat">Va <marker>estar considerat</marker> com el millor.</example>
             <example>Els danys han estat causats pel terratrèmol.</example>
         </rule>
         <rulegroup id="VERBS_NO_INCOATIUS" name="verbs no incoatius: ajupir, admetre..." type="misspelling">
