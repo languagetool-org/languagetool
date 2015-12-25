@@ -6364,6 +6364,26 @@ though, and has since been slightly modified)-->
       <example correction="décelé">Il a <marker>dessellé</marker> une anomalie.</example>
       <example correction="décelé">Il a <marker>descellé</marker> une petite anomalie.</example>
     </rule>
+    <rulegroup id="DELASSER_DELACER" name="délasser, délacer">
+      <rule>
+        <pattern>
+          <marker><token inflected="yes" skip="1">délasser</token></marker>
+          <token regexp="yes" inflected="yes" skip="1">baskets|camisole|chaussure|corsage|corset|godasse|godillot|grolle|jupe|pompe|lacet|rangers|robe|soulier|voile</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="ss" regexp_replace="c"/></suggestion>.</message>
+        <url>http://tempsreel.nouvelobs.com/abc-lettres/delacer-delasser/D/homophone.html</url>
+        <example correction="délacent">Ils <marker>délassent</marker> leurs chaussures.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes" skip="1">baskets|camisole|chaussure|corsage|corset|godasse|godillot|grolle|jupe|pompe|lacet|rangers|robe|soulier|voile</token>
+          <marker><token inflected="yes">délasser</token></marker>
+        </pattern>
+        <message>Confusion probable entre « \2 » et <suggestion><match no="2" regexp_match="ss" regexp_replace="c"/></suggestion>.</message>
+        <url>http://tempsreel.nouvelobs.com/abc-lettres/delacer-delasser/D/homophone.html</url>
+        <example correction="délacées">Tes chaussures sont <marker>délassées</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
