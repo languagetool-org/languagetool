@@ -567,7 +567,7 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
-    assertTrue(stderr.indexOf("Expected text language: Catalan (Valencian)") == 0);
+    assertTrue(stderr.indexOf("Expected text language: Catalan (Valencian)\n") == 0);
     assertTrue(stdout.contains("EXIGEIX_VERBS_VALENCIANS"));
   }
 
@@ -577,7 +577,7 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
-    assertTrue(stderr.indexOf("Expected text language: Catalan") == 0);
+    assertTrue(stderr.indexOf("Expected text language: Catalan\n") == 0);
     assertTrue(stdout.contains("EXIGEIX_VERBS_CENTRAL"));
   }
 
@@ -587,7 +587,7 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
-    assertTrue(stderr.indexOf("Expected text language: Catalan") == 0);
+    assertTrue(stderr.indexOf("Expected text language: Catalan\n") == 0);
     assertTrue(stdout.contains("EXIGEIX_VERBS_CENTRAL"));
   }
 

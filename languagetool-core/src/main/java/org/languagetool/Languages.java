@@ -231,6 +231,8 @@ public final class Languages {
       for (Language element : LANGUAGES) {
         if (langCode.equalsIgnoreCase(element.getShortName())) {
           result = element;
+            /* TODO: It should return the DefaultLanguageVariant,
+             * not the first language found */
           break;
         }
       }
