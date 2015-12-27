@@ -6428,6 +6428,80 @@ though, and has since been slightly modified)-->
         <example correction="délacées">Tes chaussures sont <marker>délassées</marker>.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="MATER" name="mater, mâter, mât, mat">
+      <rule>
+        <pattern>
+          <marker><token inflected="yes">mâter</token></marker>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token min="0" max="1" regexp="yes">['´‘’′]</token>
+          <token regexp="yes" inflected="yes">adversaire|incendie|insurrection|rébellion|roi</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="^.." regexp_replace="ma"/></suggestion>.</message>
+        <example correction="maté">Il a <marker>mâté</marker> la rébellion.</example>
+        <example correction="maté">Les pompiers ont <marker>mâté</marker> l’incendie.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes" regexp="yes">mâter|mât</token></marker>
+          <token>avec</token>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token regexp="yes">cavalier|dame|fou|pion|tour</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="^.." regexp_replace="ma"/></suggestion>.</message>
+        <example correction="maté">Il m’a <marker>mâté</marker> avec son fou.</example>
+        <example correction="mat">Faire <marker>mât</marker> avec la tour.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[ée]checs?</token>
+          <token>et</token>
+          <marker><token>mât</token></marker>
+        </pattern>
+        <message>Confusion probable entre « \3 » et <suggestion>mat</suggestion>.</message>
+        <example correction="mat">échec et <marker>mât</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">mâts?</token></marker>
+          <token regexp="yes">d[eu]</token>
+          <token regexp="yes">berger|Boden|Damiano|couloir|Legal|lion|Morphy|Réti|sot</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="â" regexp_replace="a"/></suggestion>.</message>
+        <example correction="mat">Le <marker>mât</marker> de Legal.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">mats?</token></marker>
+          <token regexp="yes">du?|des?|en</token>
+          <token min="0" max="1" regexp="yes">['´‘’′]</token>
+          <token regexp="yes" inflected="yes">acier|alu|aluminium|artimon|assemblage|bois|carbone|catamaran|charge|cocagne|bateau|beaupré|cacatois|époxy|hune|fibre|flèche|goélette|misaine|navire|pavillon|perroquet|perruche|résine|signaux|tapecul|trimaran|vaisseau|voilier</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="a" regexp_replace="â"/></suggestion>.</message>
+        <example correction="mât">Le <marker>mat</marker> d’artimon.</example>
+        <example correction="mât">Le <marker>mat</marker> du voilier.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes">mâter</token></marker>
+          <token>en</token>
+          <token regexp="yes">\d\d?|un|deux|trois|quatre|cinq|six|sept|huit|neuf|dix</token>
+          <token regexp="yes">coups?</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="^.." regexp_replace="ma"/></suggestion>.</message>
+        <example correction="matent">Les blancs <marker>mâtent</marker> en trois coups.</example>
+        <example correction="matent">Les blancs <marker>mâtent</marker> en 3 coups.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes">mater</token></marker>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token min="0" max="1" regexp="yes">['´‘’′]</token>
+          <token regexp="yes" inflected="yes">aviron|bateau|canot|catamaran|goélette|navire|trimaran|vaisseau|voilier</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="^.." regexp_replace="mâ"/></suggestion>.</message>
+        <example correction="mâté">Il a <marker>maté</marker> la bateau.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
