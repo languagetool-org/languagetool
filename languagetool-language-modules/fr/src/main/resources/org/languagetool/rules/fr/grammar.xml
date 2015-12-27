@@ -2833,10 +2833,19 @@ though, and has since been slightly modified)-->
         <pattern>
           <marker><token regexp="yes">tâches?</token></marker>
           <token skip="1">sur</token>
-          <token regexp="yes">blouse|blouson|bois|bras|canapé|carrelage|col|corps|chemises?|chemisiers?|cravate|conscience|costume|cuir|CV|documents?|dos|feuilles?|habits?|jean|joue|jupe|linge|l[yi]no|mains?|marbre|meubles?|moquette|mur|nappe|ongles?|pantalons?|papier|parquet|peau|photos?|pénis|pieds?|pulls?|réputation|robes?|sexe|skaï|siège|sol|simili|tapis|tissus|t(ee)?[-‑‐]shirts?|vestes?|vêtements?|visage</token>
+          <token regexp="yes">(?:blouse|blouson|bois|bras|canapé|carrelage|col|corps|chemise|chemisier|cravate|conscience|costume|cuir|CV|document|dos|feuille|habit|jean|joue|jupe|linge|l[yi]no|main|marbre|meuble|moquette|mur|nappe|ongle|pantalon|papier|parquet|peau|photo|pénis|pied|pull|réputation|robe|sexe|skaï|siège|sol|simili|tapis|tissus|t(ee)?[-‑‐]shirt|veste|vêtement|visage)s?</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="â" regexp_replace="a"/></suggestion> ?</message>
         <example correction="tache">Une <marker>tâche</marker> sur ma chemise.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes">tâcher</token></marker>
+          <token postag="D.*" postag_regexp="yes"/>
+          <token regexp="yes">(?:blouse|blouson|canapé|carrelage|col|chemise|chemisier|cravate|costume|cuir|feuille|habit|jean|jupe|linge|marbre|meuble|moquette|mur|nappe|pantalon|papier|parquet|pull|robe|skaï|siège|sol|simili|tapis|tissus|t(ee)?[-‑‐]shirt|veste|vêtement)s?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="â" regexp_replace="a"/></suggestion> ?</message>
+        <example correction="taché">J’ai <marker>tâché</marker> ma chemise.</example>
       </rule>
       <rule>
         <pattern>
