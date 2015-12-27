@@ -1175,9 +1175,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes" skip="4">confesser|effacer|pardonner|repentir|rémission|absolution|commettre|coupable|curé|prêtre|grave</token>
-          <marker>
-            <token regexp="yes">p[eêè]ch(ér?|eur)s?</token>
-          </marker>
+          <marker><token regexp="yes">p[eêè]ch(ér?|eur)s?</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="(.).(.*)" regexp_replace="$1é$2"/></suggestion> ?</message>
         <example correction="péchés">Il a confessé tous ses <marker>pêchés</marker>.</example>
@@ -1185,15 +1183,52 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <marker>
-            <token regexp="yes" skip="3">p[eêè]chés?</token>
-          </marker>
+          <marker><token regexp="yes" skip="3">p[eêè]chés?</token></marker>
           <token inflected="yes" regexp="yes">avouer|confesser|commettre|pardonner|prêtre|curé|originel|mignon|dieu|adultère|omission|capital|jeunesse</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).(.*)" regexp_replace="$1é$2"/></suggestion> ?</message>
         <example correction="péchés">Les <marker>pêchés</marker> capitaux</example>
         <example correction="péché">Manger est mon <marker>pêché</marker> mignon.</example>
         <example correction="Péchés"><marker>Pêchés</marker> de jeunesse</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">pêches?|pêchent</token></marker>
+          <token>par</token>
+          <token regexp="yes">excès|insuffisance|omission|trop</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="ê" regexp_replace="è"/></suggestion>.</message>
+        <example correction="pèchent">Ils <marker>pêchent</marker> par excès de confiance.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes">pêcher</token></marker>
+          <token>par</token>
+          <token regexp="yes">excès|insuffisance|omission|trop</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="ê" regexp_replace="é"/></suggestion>.</message>
+        <example correction="péché">Il a <marker>pêché</marker> par excès de confiance.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes" regexp="yes">pécher|pécheur</token></marker>
+          <token regexp="yes" skip="2">du?|des?|l[ae]?|à|aux?</token>
+          <token regexp="yes">(?:ablette|oblade|albacore|anguille|baleine|bar|barracuda|blageon|blennie|bonite|bouvière|brème|brochet|bulot|cabillaud|cabot|calmar|canard|carassin|carnassier|carpe(-cuir)?|chabot|chevaine|chevenne|chevesne|colin|congre|coque|coquillage|coquille|corb|crabe|crevette|crustacé|dorade|dauphin|écrevisse|éponge|espadon|épinoche(tte)?|esturgeon|étrille|financement|gardon|girelle|gobie|goujon|gr[eé]mille|grondin|hareng|homard|hotu|hu[iî]tre|langouste|langoustine|leurre|liche|loche|lotte|marbré|marsouin|merlan|merlu|mérou|mollusque|morue|m[ou]stelle|mulet|murène|omble|ormeau|oursin|pageau|pagel|pageot|palourde|patelle|perche|pétoncle|moule|pieuvre|piranha|plie|poisson|poulpe|praire|raie|rascasse|requin|rotengle|rouget|sandre|sardine|salmonidé|sar|saumon|saupe|seiche|silure|sole|spirlin|tanche|thon|truite|turbot|vairon|vandoise|vive)s?|anchois|barbeaux?|bigorneaux?|black-bass|couteaux?|ligne|maquereaux?|saint-jacques</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="^.." regexp_replace="pê"/></suggestion>.</message>
+        <example correction="pêchent">Ils <marker>pèchent</marker> à la ligne.</example>
+        <example correction="pêcher">Il va <marker>pécher</marker> des crabes.</example>
+        <example correction="pêcheur">Un <marker>pécheur</marker> d’albacore.</example>
+        <example correction="pêcheurs">Des <marker>pécheurs</marker> à la ligne.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(?:auberge|barque|baraque|bottes|cabane|cabanon|caissette|chaloupe|cordage|cuissarde|habit|hameçon|maison|métier|nœud|noeud|pantalon|pirogue|soupe|veste|village)s?|bateaux</token>
+          <token regexp="yes">des?|du</token>
+          <marker><token regexp="yes">pécheurs?</token></marker>
+        </pattern>
+        <message>Confusion probable entre « \3 » et <suggestion><match no="3" regexp_match="^.." regexp_replace="pê"/></suggestion>.</message>
+        <example correction="pêcheur">Un village de <marker>pécheur</marker>,</example>
       </rule>
     </rulegroup>
     <rulegroup id="DES_DES_ACCENT" name="Des, dès, dés">
@@ -5856,7 +5891,7 @@ though, and has since been slightly modified)-->
           <token>à</token>
           <token regexp="yes">pêche|sucre|selfie</token>
         </pattern>
-        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="n" regexp_replace="nn"/></suggestion></message>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="n" regexp_replace="nn"/></suggestion>.</message>
         <example correction="canne">Une <marker>cane</marker> à pêche.</example>
       </rule>
       <rule>
@@ -5866,7 +5901,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[mts]a|une|[dtsml]es</token>
           <marker><token regexp="yes">canes?</token></marker>
         </pattern>
-        <message>Confusion probable entre « \4 » et <suggestion><match no="4" regexp_match="n" regexp_replace="nn"/></suggestion></message>
+        <message>Confusion probable entre « \4 » et <suggestion><match no="4" regexp_match="n" regexp_replace="nn"/></suggestion>.</message>
         <example correction="canne">Il marche avec une <marker>cane</marker>.</example>
       </rule>
       <rule>
@@ -5875,7 +5910,7 @@ though, and has since been slightly modified)-->
           <token>de</token>
           <marker><token>cane</token></marker>
         </pattern>
-        <message>Confusion probable entre « \3 » et <suggestion><match no="3" regexp_match="n" regexp_replace="nn"/></suggestion></message>
+        <message>Confusion probable entre « \3 » et <suggestion><match no="3" regexp_match="n" regexp_replace="nn"/></suggestion>.</message>
         <example correction="canne">Du sirop de <marker>cane</marker>.</example>
       </rule>
       <rule>
@@ -5884,7 +5919,7 @@ though, and has since been slightly modified)-->
           <token>de</token>
           <token inflected="yes" regexp="yes">bambou|bois|combat|compagnon|compagnonnage|défense|golf|marche|Noël|ramonage</token>
         </pattern>
-        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="n" regexp_replace="nn"/></suggestion></message>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="n" regexp_replace="nn"/></suggestion>.</message>
         <example correction="canne">Une <marker>cane</marker> de marche.</example>
       </rule>
       <rule>
@@ -5894,7 +5929,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">['´‘’′]</token>
           <token inflected="yes">aveugle</token>
         </pattern>
-        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="n" regexp_replace="nn"/></suggestion></message>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="n" regexp_replace="nn"/></suggestion>.</message>
         <example correction="canne">Une <marker>cane</marker> d’aveugle.</example>
       </rule>
       <rule>
@@ -5903,7 +5938,7 @@ though, and has since been slightly modified)-->
           <token>de</token>
           <marker><token regexp="yes">cannes?</token></marker>
         </pattern>
-        <message>Confusion probable entre « \3 » et <suggestion><match no="3" regexp_match="nn" regexp_replace="n"/></suggestion></message>
+        <message>Confusion probable entre « \3 » et <suggestion><match no="3" regexp_match="nn" regexp_replace="n"/></suggestion>.</message>
         <example correction="cane">Un œuf de <marker>canne</marker>.</example>
       </rule>
       <rule>
@@ -5912,7 +5947,7 @@ though, and has since been slightly modified)-->
           <token>des</token>
           <marker><token>cannes</token></marker>
         </pattern>
-        <message>Confusion probable entre « cannes » et <suggestion>canes</suggestion></message>
+        <message>Confusion probable entre « cannes » et <suggestion>canes</suggestion>.</message>
         <example correction="canes">Ils élèvent des <marker>cannes</marker> pour produire du foie gras.</example>
       </rule>
       <rule>
@@ -6229,7 +6264,7 @@ though, and has since been slightly modified)-->
           <token min="0" max="1">de</token>
           <marker><token regexp="yes">paires?</token></marker>
         </pattern>
-        <message>Confusion probably entre « \3 » et <suggestion>pair</suggestion>.</message>
+        <message>Confusion probably entre « \3 » et <suggestion>pair</suggestion>.</message>
         <example correction="pair">Une cuisinière hors <marker>paire</marker>.</example>
         <example correction="pair">Une cuisinière hors de <marker>paire</marker>.</example>
       </rule>
@@ -6258,7 +6293,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes" skip="3">désirs?|prières?|requêtes?|souhaits?|vœux?|voeux?|dieux?</token>
           <marker><token inflected="yes">exhausser</token></marker>
         </pattern>
-        <message>Confusion probable entre les verbes « exhausser » (surélever) et « exaucer ».</message>
+        <message>Confusion probable entre les verbes « exhausser » (surélever) et « exaucer ».</message>
         <example correction="">Ses prières furent <marker>exhaussées</marker>.</example>
       </rule>
       <rule>
@@ -6266,7 +6301,7 @@ though, and has since been slightly modified)-->
           <marker><token inflected="yes" skip="3">exhausser</token></marker>
           <token regexp="yes">désirs?|prières?|requêtes?|souhaits?|vœux?|voeux?</token>
         </pattern>
-        <message>Confusion probable entre les verbes « exhausser » (surélever) et « exaucer ».</message>
+        <message>Confusion probable entre les verbes « exhausser » (surélever) et « exaucer ».</message>
         <example correction="">Il <marker>exhaussait</marker> le plus cher désir de sa femme.</example>
       </rule>
     </rulegroup>
@@ -6358,7 +6393,7 @@ though, and has since been slightly modified)-->
         <token min="0" max="1" regexp="yes">petite?s?|grande?s?|énorme|dangereuses?|dangereux|formidables?|fortes?|légères?|merveilleuses?|merveilleux|nouvel|nouvelles?|nouveaux|vraie?s?|réels?|réelles?|sévères?|véritables?</token>
         <token regexp="yes">(?:acidité|activité|allergie|anévrisme|anomalie|arnaque|appendicite|atrophie|baisse|bébé|blessure|bug|carie|cause|changement|cancer|complot|comète|concentration|corrélation|croissance|défaut|défaillance|demande|dépression|diabète|différence|diminution|effluve|épilepsie|erreur|existence|(exo)?planète|grossesse|grosseur|faille|fuite|fraude|grippe|handicap|hausse|hémorragie|hostilité|hypertrophie|incompatibilité|incohérence|infection|infraction|indice|infidélité|insuffisance|intrigue|irrégularité|leucémie|lésion|lueur|lumière|malformation|maladie|manœuvre|manoeuvre|manipulation|molécule|mensonge|mutation|once|perturbation|personnalité|piste|perte|présence|prostate|qualité|odeur|opportunité|otite|problème|surdité|talent|tendance|tentative|tumeur|utilisation)s?|hoax|variation|vie|virus</token>
       </pattern>
-      <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="^......" regexp_replace="déce"/></suggestion></message>
+      <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="^......" regexp_replace="déce"/></suggestion>.</message>
       <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=5113</url>
       <example correction="décelé">Il a <marker>descellé</marker> une anomalie.</example>
       <example correction="décelé">Il a <marker>dessellé</marker> une anomalie.</example>
