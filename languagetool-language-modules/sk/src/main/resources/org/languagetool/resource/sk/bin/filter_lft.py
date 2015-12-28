@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# this will convert Slovak langauge tags as used in the Slovak
+# this will convert Slovak language tags as used in the Slovak
 # National Corpus into slightly simpler ones
 
 import sys, re
