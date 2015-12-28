@@ -76,6 +76,7 @@
   * Speed up for testing short sentences for de-DE, de-AT, and de-CH
 
 #### API
+  * `GeneralCatalan` has been removed, use `Catalan` instead
   * `ConfusionProbabilityRule` has been moved to package `org.languagetool.rules.ngrams`
   * `ConfusionProbabilityRule.getWordTokenizer()` is now called
     `ConfusionProbabilityRule.getGoogleStyleWordTokenizer()`
