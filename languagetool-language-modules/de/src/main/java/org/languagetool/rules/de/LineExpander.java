@@ -43,6 +43,8 @@ class LineExpander {
           result.add(word + "s");
         } else if (c == 'N') {
           result.add(word + "n");
+        } else if (c == 'E') {
+          result.add(word + "e");
         } else if (c == 'A') {  // Adjektiv
           result.add(word + "e");
           result.add(word + "er");
