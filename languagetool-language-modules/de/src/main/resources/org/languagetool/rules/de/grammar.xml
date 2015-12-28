@@ -6110,16 +6110,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category name="Zusammen-/Getrenntschreibung">
-        <rule id="WIE_SO_OFT" name="Möglicher Tippfehler: 'wieso (wie so) oft'">
+        <rule id="WIE_SO_OFT" name="Möglicher Tippfehler: 'wie so' ">
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token>Wieso</token>
+                <token regexp="yes" skip="-1">oft|häufig</token>
+                <token postag="SENT_END">?</token>
+            </antipattern>
             <pattern>
                 <marker>
-                    <token>wieso</token>
+                    <token>wieso<exception scope="previous">,</exception></token>
                 </marker>
                 <token regexp="yes">oft|häufig</token>
             </pattern>
             <message>Meinten Sie <suggestion>wie so</suggestion>?</message>
             <example correction="wie so">Die Mannschaft vergab den Sieg <marker>wieso</marker> oft in den letzten Spielminuten.</example>
             <example correction="Wie so"><marker>Wieso</marker> häufig in den letzten Wochen kam er auch heute zu spät.</example>
+            <example>Dieser Artikel beantwortet die Frage, wieso häufig Raucher davon betroffen sind.</example>
+            <example>Wieso oft Raucher davon betroffen sind?</example>
         </rule>
         <rule id="IN_KRAFT_TRETEN" name="Zusammen-/Getrenntschreibung: 'Inkrafttreten'">
             <pattern case_sensitive='yes'>
