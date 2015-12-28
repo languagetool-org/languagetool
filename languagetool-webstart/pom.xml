@@ -64,7 +64,7 @@
             <keypass>blabla</keypass>
             <storepass>blabla</storepass>
             <storetype>pkcs12</storetype>
-            <alias>6c070a43-903d-11e4-991b-8c89a57cdeaa</alias>
+            <alias>3a0d3f8c-a822-11e5-9bd3-8c89a57cdeaa</alias>
             <verify>true</verify>
           </sign>
           <verbose>true</verbose>
@@ -72,6 +72,39 @@
       </plugin>
       </plugins>
     </build>
+
+	<!-- needed for Java 8, see http://mojo.10943.n7.nabble.com/jira-MWEBSTART-269-Java-8-support-td44357.html -->
+    <profiles>
+      <profile>
+        <id>jdk18</id>
+        <activation>
+          <jdk>1.8</jdk>
+        </activation>
+        <build>
+          <pluginManagement>
+            <plugins>
+              <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>webstart-maven-plugin</artifactId>
+                <version>1.0-beta-6</version>
+                <dependencies>
+                  <dependency>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>webstart-pack200-impl</artifactId>
+                    <version>1.0-beta-6</version>
+                  </dependency>
+                  <dependency>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>keytool-api-1.7</artifactId>
+                    <version>1.4</version>
+                  </dependency>
+                </dependencies>
+              </plugin>
+            </plugins>
+          </pluginManagement>
+        </build>
+      </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
