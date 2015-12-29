@@ -118,7 +118,7 @@ public final class XMLValidator {
       if (schemaUrl == null) {
         throw new IOException("XML schema not found in classpath: " + xmlSchemaPath);
       }
-      validateInternal(xmlStream, schemaUrl);
+      validateInternal(new StreamSource(xmlStream), schemaUrl);
     } catch (Exception e) {
       throw new IOException("Cannot load or parse '" + filename + "'", e);
     }
@@ -140,23 +140,19 @@ public final class XMLValidator {
       if (schemaUrl == null) {
         throw new IOException("XML schema not found in classpath: " + xmlSchemaPath);
       }
-      validateInternal(mergeIntoSource(baseXmlStream, xmlStream, this.getClass().getResource(xmlSchemaPath)), schemaUrl);
+      validateInternal(mergeIntoSource(baseXmlStream, xmlStream), schemaUrl);
     } catch (Exception e) {
       throw new IOException("Cannot load or parse '" + filename + "'", e);
     }
   }
 
 
-  private static Source mergeIntoSource(InputStream baseXmlStream, InputStream xmlStream, URL xmlSchema) throws Exception {
+  private static Source mergeIntoSource(InputStream baseXmlStream, InputStream xmlStream) throws Exception {
     DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
     domFactory.setIgnoringComments(true);
     domFactory.setValidating(false);
     domFactory.setNamespaceAware(true);
 
-//    SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-//    Schema schema = sf.newSchema(xmlSchema);
-//    domFactory.setSchema(schema);
-    
     DocumentBuilder builder = domFactory.newDocumentBuilder();
     Document baseDoc = builder.parse(baseXmlStream);
     Document ruleDoc = builder.parse(xmlStream);
@@ -187,7 +183,7 @@ public final class XMLValidator {
         throw new IOException("XML schema not found in classpath: " + xmlSchemaPath);
       }
       final ByteArrayInputStream stream = new ByteArrayInputStream(xml.getBytes("utf-8"));
-      validateInternal(stream, schemaUrl);
+      validateInternal(new StreamSource(stream), schemaUrl);
     } catch (SAXException e) {
       throw new RuntimeException(e);
     }
@@ -214,11 +210,6 @@ public final class XMLValidator {
     final String newXML = cleanXml.substring(0, endPos+endDecl.length()) + "\r\n" + dtd + cleanXml.substring(endPos+endDecl.length());
     final InputSource is = new InputSource(new StringReader(newXML));
     saxParser.parse(is, new ErrorHandler());
-  }
-
-  private void validateInternal(InputStream xml, URL xmlSchema) throws SAXException, IOException {
-    final Validator validator = getValidator(xmlSchema);
-    validator.validate(new StreamSource(xml));
   }
 
   private void validateInternal(Source xmlSrc, URL xmlSchema) throws SAXException, IOException {
