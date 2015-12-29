@@ -376,7 +376,6 @@ public class MatchState {
    * Method for getting the formatted match as a single string. In case of
    * multiple matches, it joins them using a regular expression operator "|".
    * @return Formatted string of the matched token.
-   * @deprecated will be made non-public (deprecated since 3.2)
    */
   final String toTokenString() throws IOException {
     String[] stringToFormat = toFinalString(null);

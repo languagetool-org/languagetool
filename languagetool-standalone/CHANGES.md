@@ -4,6 +4,9 @@
 
 * ...
 
+#### Java API
+  * some formerly deprecated code has been removed
+
 
 
 ## 3.2 (2015-12-29)
