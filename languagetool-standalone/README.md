@@ -4,15 +4,15 @@
 Polish, Chinese, French, Russian, Italian, Dutch
 and [more languages](https://www.languagetool.org/languages/)**
 
-Version 3.2-SNAPSHOT, 2015-xx-yy  
+Version 3.2, 2015-12-29  
 Copyright (C) 2005-2015 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
 Homepage: https://www.languagetool.org
 
 
 ## Requirements
 
-* Java 8 or later (Oracle Java or IcedTea; GIJ is not supported)
-* For OpenOffice.org/LibreOffice integration:
+* Java 8 or later
+* For LibreOffice/OpenOffice.org integration:
     * LibreOffice 3.5.4 (or later) or
     * Apache OpenOffice 3.4.1 (or later)
 
@@ -23,14 +23,14 @@ Homepage: https://www.languagetool.org
 
 To integrate LanguageTool into LibreOffice or OpenOffice.org, you can use two methods:
 
-1. Double-click `LanguageTool-3.1.oxt`. The extension should
+1. Double-click `LanguageTool-3.2.oxt`. The extension should
    start installing. Follow the on-screen instructions.
 
 2. If the above method doesn't work, call `Tools > Extension
    Manager > Add...` in OpenOffice.org/LibreOffice and browse for the
-   `LanguageTool-3.1.oxt` file.
+   `LanguageTool-3.2.oxt` file.
 
-Close and restart OpenOffice.org/LibreOffice Writer. Remember to close
+Close and restart LibreOffice/OpenOffice.org Writer. Remember to close
 the QuickStarter as well if you use it. Type text with
 an error, e.g. "Feel tree to do so." - make sure the text language
 is set to English for this example.
@@ -68,14 +68,15 @@ To check plain text files from the command line, use
 
     java -jar languagetool-commandline.jar -l xx <filename>
 
-with `xx` being the code for your language, e.g. `en` for English.
+with `xx` being the code for your language, e.g. `en-US` for American English
+or just `en` for English without spell checking activated.
 
 
 ## Source code history
 
 On 2013-08-08 we moved our source code from Subversion at Sourceforge to
 git at github (https://github.com/languagetool-org/languagetool). Most
-history has been preserved. History is lost for:
+history has been preserved. History in git is lost for:
 
 * binary files
 * branches and tags
@@ -105,12 +106,10 @@ The Asturian data for part-of-speech tagging are from the Freeling dictionary,
 licensed under GNU General Public License.
 Contributor(s): Xesús González Rato <esbardu@softastur.org>
 
-  
 #### Belarusian
 
 Spellchecker dictionary is based on dict-be-official-2008-20140108.oxt from http://bnkorpus.info/download.html 
 under Creative Commons Attribution/Share-Alike 3.0.
-
 
 ####  Breton
 

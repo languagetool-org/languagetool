@@ -1,8 +1,12 @@
 # LanguageTool Change Log
 
-## 3.2-SNAPSHOT (release planned for 2015-12-28)
+## 3.2 (2015-12-29)
 
 * LanguageTool requires Java 8 now
+
+#### Belarusian
+  * new spellchecker dictionary. This dictionary is based on dict-be-official-2008-20140108.oxt
+    from http://bnkorpus.info/download.html
 
 #### Catalan
   * fixed false alarms
@@ -21,8 +25,9 @@
   * updated and made adjustment for the new things introduced by the new spelling of 2012 and Hunspell-da 2.3
   
 #### English
-  * improved a few rules
-  * added more than 150 confusion pairs like shall/shell, sheer/shear (works only with ngram data) 
+  * added/improved several rules
+  * added more than 150 confusion pairs like shall/shell, sheer/shear (works only with ngram data,
+    see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
   * added `en/removed.txt` so incorrect readings of the POS tagger can be avoided without
     rebuilding the binary dictionary (https://github.com/languagetool-org/languagetool/issues/306)
 
@@ -34,7 +39,7 @@
   * added/improved several rules
 
 #### German
-  * improved a few rules
+  * added/improved a few rules
   * improved agreement rule to detect errors like `Ich gebe dir ein kleine Kaninchen.`
     where the determiner is indefinite but the adjective fits only for a definite determiner
   * added `de/removed.txt` so incorrect readings of the POS tagger can be avoided without
@@ -43,10 +48,6 @@
 #### Portuguese
   * added/improved several rules
   
-#### Belarusian
-  * new spellchecker dictionary. This dictionary is based on dict-be-official-2008-20140108.oxt
-    from http://bnkorpus.info/download.html
-
 #### Russian
   * added/improved several rules
   * added words suggested by users to spellchecker dictionary
@@ -64,7 +65,7 @@
     to `<pattern><token>...</token></pattern>`. Note that this is limited:
     E.g. it's not possible to address POS tags and the `<suggestion>` cannot
     change the case of the match.
-    Available attribute: `type` with value `smart` (treats space in the regular
+    Available attributes: `type` with value `smart` (treats space in the regular
     expression as `\s+` or a non-breaking space) or `exact` (`smart` is the default),
     `mark` to specify which part of the match gets underlined (everything by default,
     use `1` to only underline the first group etc.)
@@ -72,18 +73,18 @@
     using a non-breaking space could cause a rule not to match.
   * `<filter>` can now also be used in `disambiguation.xml`
 
-#### Embedded server
+#### Embedded HTTPS server
   * Speed up for testing short sentences for de-DE, de-AT, and de-CH
 
-#### API
+#### Java API
   * `GeneralCatalan` has been removed, use `Catalan` instead
+  * `SuggestionExtractorTool` and `SuggestionExtractor` have been removed
   * `ConfusionProbabilityRule` has been moved to package `org.languagetool.rules.ngrams`
   * `ConfusionProbabilityRule.getWordTokenizer()` is now called
     `ConfusionProbabilityRule.getGoogleStyleWordTokenizer()`
   * `RuleAsXmlSerializer` has been renamed to `RuleMatchAsXmlSerializer`
   * some formerly deprecated code has been removed
   * some code has been deprecated
-  * `SuggestionExtractorTool` and `SuggestionExtractor` have been removed
   * `StringTools.isWhitespace()` now returns `true` for a token that is
     a non-breaking space or a narrow non-breaking space
   * `RuleFilter` is not an interface anymore but an abstract class
@@ -93,7 +94,7 @@
     See https://github.com/adampauls/berkeleylm for the software and e.g.
     http://tomato.banatao.berkeley.edu:8080/berkeleylm_binaries/ for pre-built models.
     To use the new models your language class needs to overwrite the `getLanguageModel(File)`
-    method. For now, we recommend to continue using the Lucene-based models at
+    method. For now, we recommend you continue using the Lucene-based models at
     http://languagetool.org/download/ngram-data/.
 
 #### LibreOffice / Apache OpenOffice Integration
@@ -102,6 +103,7 @@
 
 #### Internal
   * updated segment library to 2.0.0 (https://github.com/loomchild/segment)
+
 
 
 ## 3.1 (2015-09-28)
