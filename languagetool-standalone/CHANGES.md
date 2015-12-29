@@ -1,5 +1,11 @@
 # LanguageTool Change Log
 
+## 3.3 (release planned for 2016-03-28)
+
+* ...
+
+
+
 ## 3.2 (2015-12-29)
 
 * LanguageTool requires Java 8 now
