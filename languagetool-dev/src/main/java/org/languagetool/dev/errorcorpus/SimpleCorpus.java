@@ -34,8 +34,8 @@ import java.util.stream.Collectors;
 /**
  * Access to a simple error corpus with this format:
  * <pre>
- * 1. This is _a_ error. => an
- * 2. Here _come_ another example. => comes
+ * 1. This is _a_ error. =&gt; an
+ * 2. Here _come_ another example. =&gt; comes
  * </pre>
  * @since 3.2
  */

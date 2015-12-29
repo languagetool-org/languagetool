@@ -33,7 +33,7 @@ import java.util.*;
  * One-time script: find missing "-es" forms in the German tagger dictionary,
  * e.g. Morphy knows "Antrag" and "Antrags", but not "Antrages".
  * Uses Google n-gram data as a filter, but may nonetheless create
- * forms that aren't common anymore (e.g. Verb -> Verbes).
+ * forms that aren't common anymore (e.g. Verb -&gt; Verbes).
  * 
  * @author Daniel Naber
  */

@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
 
 /**
  * Create a Morfologik binary dictionary from plain text data.
- * @deprecated Please use {@link org.languagetool.tools.DictionaryBuilder}
+ * @deprecated Please use {@code org.languagetool.tools.DictionaryBuilder}
  */
 @Deprecated
 class DictionaryBuilder {

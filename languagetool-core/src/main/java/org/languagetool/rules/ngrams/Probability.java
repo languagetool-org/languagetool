@@ -45,14 +45,14 @@ public class Probability {
   }
 
   /**
-   * A probability-like value, but can be filled with any float >= 0.
+   * A probability-like value, but can be filled with any float &gt;= 0.
    */
   public double getProb() {
     return prob;
   }
 
   /**
-   * The fraction of lookups that had occurrence counts > 0. This
+   * The fraction of lookups that had occurrence counts &gt; 0. This
    * might be used to ignore the whole probability for low coverage items.
    */
   public float getCoverage() {

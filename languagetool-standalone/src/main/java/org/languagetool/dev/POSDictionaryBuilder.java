@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Create a Morfologik binary dictionary from plain text data.
  * @since public since 2.8
- * @deprecated Please use {@link org.languagetool.tools.POSDictionaryBuilder}
+ * @deprecated Please use {@code org.languagetool.tools.POSDictionaryBuilder}
  */
 @Deprecated
 public final class POSDictionaryBuilder extends DictionaryBuilder {
