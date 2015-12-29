@@ -22252,6 +22252,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rulegroup id="CAGATIO" name="*cagar/fer cagar el *cagatió/tió">
+            <rule>
+                <pattern>
+                    <token skip="1" inflected="yes">cagar</token>
+                    <marker>
+                        <token>cagatió</token>
+                    </marker>
+                </pattern>
+                <message>Cal dir <suggestion>tió</suggestion>.</message>
+                <url>http://esadir.cat/entrades/fitxa/id/4645</url>
+                <example correction="tió">Demà farem cagar el <marker>cagatió</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception inflected="yes">fer</exception></token>
+                    <marker>
+                        <token inflected="yes">cagar</token>
+                        <token postag="D.*" postag_regexp="yes"/>
+                        <token regexp="yes">tió|cagatió</token>
+                    </marker>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> cagar \3 tió</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/4645</url>
+                <example correction="farem cagar el tió">Demà <marker>cagarem el cagatió</marker>.</example>
+                <example correction="farem cagar el tió">Demà <marker>cagarem el tió</marker>.</example>
+                <example>Demà farem cagar el tió.</example>
+                <example>Caga, tió, avellanes i torró.</example>
+            </rule>
+        </rulegroup>
         <rule id="TIRA_I_ARRONSA" name="tira-i-arronsa">
             <pattern>
                 <token>tira</token>
