@@ -13,12 +13,17 @@ then
   exit 1
 fi
 
+REPO=/home/dnaber/.m2/repository
+LT_VERSION=3.3-SNAPSHOT
+FREQ_FILE=/lt/frequency-data/freeWordFreqsGaia/de_free_gaia.xml
 INPUT_ENCODING=latin1
 OUTPUT_ENCODING=utf8
+TEMP_FILE=/tmp/lt-dictionary.dump
+OUTPUT_FILE=/tmp/out.dict
+
+CPATH=$REPO/com/carrotsearch/hppc/0.5.3/hppc-0.5.3.jar:$REPO/org/carrot2/morfologik-stemming/1.9.0/morfologik-stemming-1.9.0.jar:$REPO/org/carrot2/morfologik-fsa/1.9.0/morfologik-fsa-1.9.0.jar:$REPO/org/carrot2/morfologik-tools/1.9.0/morfologik-tools-1.9.0.jar:$REPO/commons-cli/commons-cli/1.2/commons-cli-1.2.jar:languagetool-tools/target/languagetool-tools-${LT_VERSION}.jar
 LANG_CODE=$1
 COUNTRY_CODE=$2
-TEMP_FILE=/tmp/lt-dictionary.dump
-
 PREFIX=${LANG_CODE}_${COUNTRY_CODE}
 TOKENIZER_LANG=${LANG_CODE}-${COUNTRY_CODE}
 CONTENT_DIR=languagetool-language-modules/${LANG_CODE}/src/main/resources/org/languagetool/resource/$LANG_CODE/hunspell
@@ -34,6 +39,8 @@ mvn clean package -DskipTests &&
  # the result using hunspell:
  recode $INPUT_ENCODING..$OUTPUT_ENCODING | grep -v "^#" | hunspell -d $DIC_NO_SUFFIX -G -l >$TEMP_FILE
 
-java -cp languagetool-standalone/target/LanguageTool-*/LanguageTool-*/languagetool.jar org.languagetool.dev.SpellDictionaryBuilder ${LANG_CODE}-${COUNTRY_CODE} $TEMP_FILE $INFO_FILE
+java -cp $CPATH:languagetool-standalone/target/LanguageTool-*/LanguageTool-*/languagetool.jar \
+  org.languagetool.tools.SpellDictionaryBuilder -i $TEMP_FILE -info $INFO_FILE -o $OUTPUT_FILE \
+  -freq $FREQ_FILE
 
 rm $TEMP_FILE

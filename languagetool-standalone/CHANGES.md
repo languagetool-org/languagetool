@@ -2,7 +2,9 @@
 
 ## 3.3 (release planned for 2016-03-28)
 
-* ...
+#### German
+  * updated Hunspell dictionary to version 2015.12.28
+    (http://extensions.libreoffice.org/extension-center/german-de-de-frami-dictionaries etc.)
 
 #### Java API
   * some formerly deprecated code has been removed

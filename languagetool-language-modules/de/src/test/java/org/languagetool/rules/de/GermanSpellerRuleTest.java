@@ -128,7 +128,7 @@ public class GermanSpellerRuleTest {
   @Test
   public void testGetSuggestionsFromSpellingTxt() throws Exception {
     MyGermanSpellerRule ruleGermany = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
-    assertThat(ruleGermany.getSuggestions("Ligafußboll").toString(), is("[Ligafußball, Ligafußballs]"));  // from spelling.txt
+    assertThat(ruleGermany.getSuggestions("Ligafußboll").toString(), is("[Ligafußball, -Ligafußball, Ligafußballs]"));  // from spelling.txt
     MyGermanSpellerRule ruleSwiss = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
     assertThat(ruleSwiss.getSuggestions("Ligafußboll").toString(), is("[Ligafussball, Ligafussballs]"));
     assertThat(ruleSwiss.getSuggestions("konfliktbereid").toString(), is("[konfliktbereit, konfliktbereite]"));
@@ -140,7 +140,6 @@ public class GermanSpellerRuleTest {
   public void testIgnoreWord() throws Exception {
     MyGermanSpellerRule ruleGermany = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertTrue(ruleGermany.doIgnoreWord("einPseudoWortFürLanguageToolTests"));  // from ignore.txt
-    assertTrue(ruleGermany.doIgnoreWord("Ligafußball"));       // from spelling.txt
     assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchen"));   // from spelling.txt
     assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchens"));  // from spelling.txt with suffix
     assertTrue(ruleGermany.doIgnoreWord("vorgehängt"));        // from spelling.txt
