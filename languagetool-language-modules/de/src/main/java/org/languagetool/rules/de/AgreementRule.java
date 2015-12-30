@@ -72,6 +72,11 @@ public class AgreementRule extends GermanRule {
       new PatternTokenBuilder().tokenRegex("(?i:ist|war)").build(),
       new PatternTokenBuilder().token("das").build(),
       new PatternTokenBuilder().token("Zufall").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("von").build(),
+      new PatternTokenBuilder().tokenRegex("(vielen|allen)").build(),
+      new PatternTokenBuilder().posRegex("PA2:.*").build()  // "ein von vielen bewundertes Haus"
     )
   );
 
