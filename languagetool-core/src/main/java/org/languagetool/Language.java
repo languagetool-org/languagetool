@@ -335,6 +335,7 @@ public abstract class Language {
     if (patternRules == null) {
       List<AbstractPatternRule> rules = new ArrayList<>();
       PatternRuleLoader ruleLoader = new PatternRuleLoader();
+      ruleLoader.setClassLoader(this.getClass().getClassLoader());
       for (String fileName : getRuleFileNames()) {
         InputStream is = null;
         try {

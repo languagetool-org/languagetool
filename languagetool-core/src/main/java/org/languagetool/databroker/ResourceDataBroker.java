@@ -133,4 +133,7 @@ public interface ResourceDataBroker {
    */
   String getRulesDir();
 
+  void setClassLoader(ClassLoader aClassLoader);
+  
+  ClassLoader getClassLoader();
 }

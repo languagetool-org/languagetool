@@ -85,6 +85,8 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    */
   private final String rulesDir;
 
+  private ClassLoader classLoader;
+  
   /**
    * Instantiates this data broker with the default resource directory names
    * as specified in:
@@ -111,6 +113,21 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
     this.rulesDir = (rulesDir == null) ? "" : rulesDir;
   }
 
+  @Override
+  public void setClassLoader(ClassLoader aClassLoader) {
+    classLoader = aClassLoader;
+  }
+  
+  @Override
+  public ClassLoader getClassLoader() {
+    return classLoader;
+  }
+  
+  private ClassLoader classLoader()
+  {
+    return classLoader != null ? classLoader : this.getClass().getClassLoader();
+  }
+  
   /**
    * See:
    * {@link ResourceDataBroker#getFromResourceDirAsStream(String)}
@@ -126,7 +143,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   @Override
   public InputStream getFromResourceDirAsStream(final String path) {
     final String completePath = getCompleteResourceUrl(path);
-    final InputStream resourceAsStream = ResourceDataBroker.class.getResourceAsStream(completePath);
+    final InputStream resourceAsStream = classLoader().getResourceAsStream(completePath);
     assertNotNull(resourceAsStream, path, completePath);
     return resourceAsStream;
   }
@@ -146,7 +163,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   @Override
   public URL getFromResourceDirAsUrl(final String path) {
     final String completePath = getCompleteResourceUrl(path);
-    final URL resource = ResourceDataBroker.class.getResource(completePath);
+    final URL resource = classLoader().getResource(completePath);
     assertNotNull(resource, path, completePath);
     return resource;
   }
@@ -160,7 +177,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    *         {@code resource} directory.
    */
   private String getCompleteResourceUrl(final String path) {
-    return appendPath(resourceDir, path);
+    return appendPath(resourceDir, path).substring(1);
   }
 
   /**
@@ -176,7 +193,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   @Override
   public InputStream getFromRulesDirAsStream(final String path) {
     final String completePath = getCompleteRulesUrl(path);
-    final InputStream resourceAsStream = ResourceDataBroker.class.getResourceAsStream(completePath);
+    final InputStream resourceAsStream = classLoader().getResourceAsStream(completePath);
     assertNotNull(resourceAsStream, path, completePath);
     return resourceAsStream;
   }
@@ -193,7 +210,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   @Override
   public URL getFromRulesDirAsUrl(final String path) {
     final String completePath = getCompleteRulesUrl(path);
-    final URL resource = ResourceDataBroker.class.getResource(completePath);
+    final URL resource = classLoader().getResource(completePath);
     assertNotNull(resource, path, completePath);
     return resource;
   }
@@ -212,7 +229,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * @return The full relative path to the resource including the path to the {@code rules} directory.
    */
   private String getCompleteRulesUrl(final String path) {
-    return appendPath(rulesDir, path);
+    return appendPath(rulesDir, path).substring(1);
   }
 
   private String appendPath(String baseDir, String path) {
@@ -238,7 +255,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   @Override
   public boolean resourceExists(String path) {
     final String completePath = getCompleteResourceUrl(path);
-    return ResourceDataBroker.class.getResource(completePath) != null;
+    return classLoader().getResource(completePath) != null;
   }
   
   /**
@@ -251,7 +268,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   @Override
   public boolean ruleFileExists(String path) {
     final String completePath = getCompleteRulesUrl(path);
-    return ResourceDataBroker.class.getResource(completePath) != null;
+    return classLoader().getResource(completePath) != null;
   }
 
   /**

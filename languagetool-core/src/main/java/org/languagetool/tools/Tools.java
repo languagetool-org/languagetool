@@ -21,6 +21,7 @@ package org.languagetool.tools;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
@@ -31,6 +32,7 @@ import org.languagetool.rules.patterns.bitext.FalseFriendsAsBitextLoader;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.net.Authenticator;
@@ -269,7 +271,7 @@ public final class Tools {
     // the other ways to load the stream like
     // "Tools.class.getClass().getResourceAsStream(filename)"
     // don't work in a web context (using Grails):
-    final InputStream is = Tools.class.getResourceAsStream(path);
+    final InputStream is = Tools.getClassLoader().getResourceAsStream(path.substring(1));
     if (is == null) {
       throw new IOException("Could not load file from classpath: '" + path + "'");
     }
@@ -390,4 +392,15 @@ public final class Tools {
     }
   }
 
+  public static ClassLoader getClassLoader()
+  {
+    ClassLoader cl = JLanguageTool.getDataBroker().getClassLoader();
+    if (cl == null) {
+      cl = Thread.currentThread().getContextClassLoader();
+    }
+    if (cl == null) {
+      cl = Languages.class.getClassLoader();
+    }
+    return cl;
+  }
 }

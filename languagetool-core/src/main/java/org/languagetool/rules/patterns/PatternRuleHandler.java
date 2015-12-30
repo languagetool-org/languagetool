@@ -73,6 +73,12 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private boolean relaxedMode = false;
   private boolean inAntiPattern;
 
+  private ClassLoader classLoader;
+  
+  public void setClassLoader(ClassLoader aClassLoader) {
+    classLoader = aClassLoader;
+  }
+  
   /**
    * If set to true, don't throw an exception if id or name is not set.
    * Used for online rule editor.
@@ -551,6 +557,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       }
       if (filterClassName != null && filterArgs != null) {
         RuleFilterCreator creator = new RuleFilterCreator();
+        creator.setClassLoader(classLoader);
         RuleFilter filter = creator.getFilter(filterClassName);
         rule.setFilter(filter);
         rule.setFilterArguments(filterArgs);
