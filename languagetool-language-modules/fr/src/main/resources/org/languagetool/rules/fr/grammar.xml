@@ -831,7 +831,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">sans-gênes?</token>
+          <token regexp="yes">sans-gènes?</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="è" regexp_replace="ê"/></suggestion> ?</message>
         <url>https://fr.wiktionary.org/wiki/sans-g%C3%AAne</url>
@@ -6563,6 +6563,37 @@ though, and has since been slightly modified)-->
       <example correction="dénuée">Une histoire <marker>dénudée</marker> d’intérêt.</example>
       <example correction="dénués">Des hommes <marker>dénudés</marker> de compassion.</example>
     </rule>
+    <rule id="EN_AVOIR_MARE" name="en avoir mare → en avoir marre">
+      <pattern>
+        <token>en</token>
+        <token inflected="yes">avoir</token>
+        <marker><token>mare</token></marker>
+      </pattern>
+      <message>Confusion entre « mare » et <suggestion>marre</suggestion>.</message>
+      <url>https://fr.wiktionary.org/wiki/en_avoir_marre</url>
+      <example correction="marre">J’en avais <marker>mare</marker>.</example>
+    </rule>
+    <rulegroup id="MARC_DE_CAFE" name="mare de café → marc de café">
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">marr?e</token></marker>
+          <token>de</token>
+          <token regexp="yes">(bourgogne|café|pomme|raisin|soude|thé)s?</token>
+        </pattern>
+        <message>Confusion entre « \1 » et <suggestion>marc</suggestion>.</message>
+        <example correction="marc">Le <marker>marre</marker> de café.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">marr?e</token></marker>
+          <token>d</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token regexp="yes">olives?</token>
+        </pattern>
+        <message>Confusion entre « \1 » et <suggestion>marc</suggestion>.</message>
+        <example correction="marc">Le <marker>marre</marker> d’olives.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
