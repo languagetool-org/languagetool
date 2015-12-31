@@ -15024,7 +15024,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
-            <!-- Polish rule, 2015-11-14 -->
+            <rule id="TAKTOWAC_JAKO" name="„taktować jako” (traktować jako)">
+                <pattern>
+                    <marker>
+                        <token inflected='yes' skip='2'>taktować</token>
+                    </marker>
+                    <token>jako</token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1" regexp_match="[Tt]akt" regexp_replace="trakt"/></suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction='Traktuje'><marker>Taktuje</marker> się go jako intruza.</example>
+                <example>Traktuje się go jako intruza.</example>
+            </rule>
             <rule id="NAUKI_PRAWE" name="„Nauki prawe” (nauki prawne)">
                 <pattern case_sensitive='yes'>
                     <unify>
