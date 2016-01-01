@@ -6612,6 +6612,23 @@ though, and has since been slightly modified)-->
         <example correction="marc">Le <marker>marre</marker> d’olives.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="HERO_HEROS" name="héro et héros">
+      <rule>
+        <pattern>
+          <token>en</token>
+          <marker><token>héro</token></marker>
+        </pattern>
+        <message>Confusion probable entre « \2 » (drogue) et <suggestion>\2s</suggestion>.</message>
+        <example correction="héros">Il se défendit en <marker>héro</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">super[-‑‐]?héro</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion>\1s</suggestion>.</message>
+        <example correction="super-héros">C’est un <marker>super-héro</marker>,</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
