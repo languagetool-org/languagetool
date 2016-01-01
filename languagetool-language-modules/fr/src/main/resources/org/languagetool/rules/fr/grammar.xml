@@ -1882,26 +1882,44 @@ though, and has since been slightly modified)-->
       <example>Il est interrogé <marker>en tant</marker> que témoin.</example>
       <example>Il faut se rappeler de temps <marker>en temps</marker> que rien n’est immortel.</example>
     </rule>
-    <rule id="ON_ONT" name="ON au lieu de ONT">
-      <pattern>
-        <marker>
-          <token>ont</token>
-        </marker>
-        <token postag="V.*" postag_regexp="yes">
-          <exception postag="V.* ppa .*" postag_regexp="yes"/>
-          <exception regexp="yes">affaire|envie|confiance|cours|force|hâte|recours</exception>
-        </token>
-      </pattern>
-      <message>Voulez-vous écrire <suggestion>on</suggestion> ?</message>
-      <example><marker>On</marker> a fini.</example>
-      <example correction="On"><marker>Ont</marker> a tendance à ralentir.</example>
-      <example>Ceux qui ont envie de voir le film</example>
-      <example>Les décrets ont force de loi.</example>
-      <example>Les enfants ont recours au suicide.</example>
-      <example>Les méthodes qui ont cours.</example>
-      <example>Ils ont hâte de vous voir.</example>
-      <example>Ils comprennent qu’ils ont affaire à un épisode tragique.</example>
-    </rule>
+    <rulegroup id="ON_ONT" name="on, ont">
+      <rule>
+        <pattern>
+          <marker><token>ont</token></marker>
+          <token postag="V.*" postag_regexp="yes">
+            <exception postag="V.* ppa .*" postag_regexp="yes"/>
+            <exception regexp="yes">affaire|envie|confiance|cours|force|hâte|recours</exception>
+          </token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>on</suggestion> ?</message>
+        <example><marker>On</marker> a fini.</example>
+        <example correction="On"><marker>Ont</marker> a tendance à ralentir.</example>
+        <example>Ceux qui ont envie de voir le film</example>
+        <example>Les décrets ont force de loi.</example>
+        <example>Les enfants ont recours au suicide.</example>
+        <example>Les méthodes qui ont cours.</example>
+        <example>Ils ont hâte de vous voir.</example>
+        <example>Ils comprennent qu’ils ont affaire à un épisode tragique.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">ils|(?:ceux|celles)[-‑‐](?:ci|là)<exception scope="previous" regexp="yes">à|avec|sur|chez|par|dans</exception></token>
+          <marker><token>on</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>ont</suggestion> ?</message>
+        <example correction="ont">Ceux-ci <marker>on</marker> 18 ans.</example>
+        <example>À ceux-ci <marker>on</marker> leur dit oui.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">ceux|celles</token>
+          <token>qui</token>
+          <marker><token>on</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>ont</suggestion> ?</message>
+        <example correction="ont">Je remercie ceux qui <marker>on</marker> fait ça.</example>
+      </rule>
+    </rulegroup>
     <rule id="SEPTIQUE" name="septique au lieu de sceptique">
       <pattern>
         <token postag="V .*" postag_regexp="yes"><exception postag="N .*" postag_regexp="yes"/></token>
