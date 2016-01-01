@@ -6272,6 +6272,31 @@ USA
             <message>Did you mean <suggestion>safe to ignore</suggestion>?</message>
             <example correction="safe to ignore">It is <marker>save to ignore</marker> trivial code when writing unit tests.</example>
         </rule>
+        <rule id="SAVE_SAFE" name="save (safe)">
+            <antipattern>
+                <token>such</token>
+                <token>as</token>
+                <token>save</token>
+            </antipattern>
+            <pattern>
+                <token regexp='yes'>are|were|be|was|is|s|feels?|as<exception postag="PRP"/></token>
+                <token min='0' max='2' postag="RB"/>
+                <marker>
+                    <token>save</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>safe</suggestion>?</message>
+            <short>Commonly confused word</short>
+            <example correction='safe'>It is not <marker>save</marker> to eat moldy food.</example>
+            <example correction='safe'>It was not very <marker>save</marker> for him in this area.</example>
+            <example correction='safe'>Julia does not feel <marker>save</marker> in her house.</example>
+            <example correction='safe'>It's <marker>save</marker>.</example>
+            <example>It is safe say to that say that you are a genius.</example>
+            <example>You will be safe here.</example>
+            <example>This is totally safe.</example>
+            <example>Their jobs are as safe as houses.</example>
+            <example>Let's save the environment</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
