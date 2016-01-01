@@ -1695,6 +1695,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Ĉu tiu ĉi vere okazis?</example>
       <example>Mi loĝas ĉi tie.</example>
     </rule>
+    <rule id="JARO" name="en la 2015 jaro → en la 2015-a jaro">
+      <pattern>
+        <token>la</token>
+        <marker><token regexp="yes">[12]\d\d\d</token></marker>
+        <token>jaro</token>
+      </pattern>
+      <message>Ĉu vi intencis skribi <suggestion>\2-a</suggestion>?</message>
+      <example correction="2015-a">Tio okazis en la <marker>2015</marker> jaro.</example>
+    </rule>
     <rulegroup id="JARAGXA" name="10 jaraĝa → 10-jaraĝa">
       <url>https://eo.wikipedia.org/wiki/Streketo</url>
       <rule>
