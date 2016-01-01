@@ -21,6 +21,7 @@ package org.languagetool.rules;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A text, typically a sentence, that contains an error.
@@ -39,7 +40,7 @@ public final class IncorrectExample {
    * @since 2.9
    */
   public IncorrectExample(String example, List<String> corrections) {
-    this.example = example;
+    this.example = Objects.requireNonNull(example);
     this.corrections = Collections.unmodifiableList(new ArrayList<>(corrections));
   }
 

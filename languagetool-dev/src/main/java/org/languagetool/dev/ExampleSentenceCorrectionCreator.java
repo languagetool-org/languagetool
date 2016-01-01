@@ -70,7 +70,7 @@ final class ExampleSentenceCorrectionCreator {
 
   private void checkCorrections(Rule rule, IncorrectExample incorrectExample, List<String> xmlLines, JLanguageTool tool) throws IOException {
     List<String> corrections = incorrectExample.getCorrections();
-    if (corrections != null && corrections.size() == 0) {
+    if (corrections.isEmpty()) {
       for (Rule r : tool.getAllActiveRules()) {
         tool.disableRule(r.getId());
       }

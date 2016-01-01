@@ -149,12 +149,10 @@ public class BitextPatternRuleTest extends TestCase {
     final List<IncorrectBitextExample> badSentences = rule.getIncorrectBitextExamples();
     for (IncorrectBitextExample origBadExample : badSentences) {
       // enable indentation use
-      final String origBadSrcSentence = origBadExample.getExample().getSource().replaceAll(
-              "[\\n\\t]+", "");
-      final String origBadTrgSentence = origBadExample.getExample().getTarget().replaceAll(
-              "[\\n\\t]+", "");
-      final List<String> suggestedCorrection = origBadExample
-              .getCorrections();
+      final StringPair example = origBadExample.getExample();
+      final String origBadSrcSentence = example.getSource().replaceAll("[\\n\\t]+", "");
+      final String origBadTrgSentence = example.getTarget().replaceAll("[\\n\\t]+", "");
+      final List<String> suggestedCorrection = origBadExample.getCorrections();
       final int expectedSrcMatchStart = origBadSrcSentence.indexOf("<marker>");
       final int expectedSrcMatchEnd = origBadSrcSentence.indexOf("</marker>")
               - "<marker>".length();
