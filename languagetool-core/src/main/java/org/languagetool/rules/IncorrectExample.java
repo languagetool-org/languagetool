@@ -24,23 +24,21 @@ import java.util.List;
 
 /**
  * A text, typically a sentence, that contains an error.
- * 
  * @since 0.9.2
- * @author Daniel Naber
  */
 public final class IncorrectExample {
 
   private final String example;
   private final List<String> corrections;
 
-  public IncorrectExample(final String example) {
+  public IncorrectExample(String example) {
     this(example, Collections.<String>emptyList());
   }
 
   /**
    * @since 2.9
    */
-  public IncorrectExample(final String example, final List<String> corrections) {
+  public IncorrectExample(String example, List<String> corrections) {
     this.example = example;
     this.corrections = Collections.unmodifiableList(new ArrayList<>(corrections));
   }
@@ -53,7 +51,7 @@ public final class IncorrectExample {
   }
 
   /**
-   * Return the possible corrections. May be null.
+   * Return the possible corrections.
    */
   public List<String> getCorrections() {
     return corrections;
