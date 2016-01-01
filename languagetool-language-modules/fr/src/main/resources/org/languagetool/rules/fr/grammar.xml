@@ -6125,7 +6125,7 @@ though, and has since been slightly modified)-->
         <example correction="bans">Il ont publié les <marker>bancs</marker>.</example>
       </rule>
       <rule>
-        <regexp>banc et l['´‘’′]arrière[ -]banc?</regexp>
+        <regexp>\bbanc et l['´‘’′]arrière[ -]banc?\b</regexp>
         <message>Écrivez <suggestion>ban et l’arrière-ban</suggestion>.</message>
         <example correction="ban et l’arrière-ban">Inviter le <marker>banc et l’arrière-banc</marker>.</example>
       </rule>
@@ -6503,7 +6503,7 @@ though, and has since been slightly modified)-->
           <marker><token regexp="yes">mats?</token></marker>
           <token regexp="yes">du?|des?|en</token>
           <token min="0" max="1" regexp="yes">['´‘’′]</token>
-          <token regexp="yes" inflected="yes">acier|alu|aluminium|artimon|assemblage|bois|carbone|catamaran|charge|cocagne|bateau|beaupré|cacatois|époxy|hune|fibre|flèche|goélette|misaine|navire|pavillon|perroquet|perruche|résine|signaux|tapecul|trimaran|vaisseau|voilier</token>
+          <token regexp="yes" inflected="yes">acier|alu|aluminium|artimon|assemblage|bois|carbone|catamaran|charge|cocagne|bateau|beaupré|cacatois|[ée]poxy|hune|fibre|flèche|goélette|misaine|navire|pavillon|perroquet|perruche|résine|signaux|tapecul|trimaran|vaisseau|voilier</token>
         </pattern>
         <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="a" regexp_replace="â"/></suggestion>.</message>
         <example correction="mât">Le <marker>mat</marker> d’artimon.</example>
@@ -6558,7 +6558,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <marker><token inflected="yes">induire</token></marker>
           <token postag="D.*" postag_regexp="yes"/>
-          <token regexp="yes">(?:fa[çc]ade|lèvre|mur|paroie|peau|plafond)s?</token>
+          <token regexp="yes">(?:fa[çc]ade|lèvre|mur|paroi|peau|plafond)s?</token>
         </pattern>
         <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="^." regexp_replace="e"/></suggestion>.</message>
         <example correction="enduit">Il <marker>induit</marker> le mur de peinture.</example>
@@ -6615,7 +6615,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="HERO_HEROS" name="héro et héros">
       <rule>
         <pattern>
-          <token>en</token>
+          <token regexp="yes">ce|en|[mts]on|notre</token>
           <marker><token>héro</token></marker>
         </pattern>
         <message>Confusion probable entre « \2 » (drogue) et <suggestion>\2s</suggestion>.</message>
@@ -6627,6 +6627,59 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Confusion probable entre « \1 » et <suggestion>\1s</suggestion>.</message>
         <example correction="super-héros">C’est un <marker>super-héro</marker>,</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="GLACIAIRE_GLACIERE" name="glaciaire, glacière">
+      <rule>
+        <pattern>
+          <token regexp="yes">(?:mini[-‑‐])?(?:accumulation|[âa]ge|aire|alluvion|amphithéâtre|auge|calotte|cirque|cycle|dép[ôo]t|dynamique|[eé]coulement|[èe]re|[ée]rosion|faune|formation|géologie|grotte|lac|moraine|obturation|origine|période|rando|randonnée|relief|retrait|r[ée]gression|sédimentation|séisme|spéléo|spéléologie|strie|temps|vallée|verrou)s?|amas</token>
+          <marker><token regexp="yes">glacières?</token></marker>
+        </pattern>
+        <message>Confusion probable entre « \2 » et <suggestion><match no="2" regexp_match="è" regexp_replace="ai"/></suggestion>.</message>
+        <example correction="glaciaire">La calotte <marker>glacière</marker>.</example>
+      </rule>
+      <rule>
+        <pattern><token regexp="yes">(?:fluvio|pré|post|pro|sous)[-‑‐]?glacières?</token></pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="2" regexp_match="è" regexp_replace="ai"/></suggestion>.</message>
+        <example correction="sous-glaciaire">L’écoulement <marker>sous-glacière</marker>.</example>
+      </rule>
+      <rule>
+        <regexp mark="1">\b(glaciaires?) (de|en) (camping|plastique|voiture|voyage|\d+\s^(?:l|kg))\b</regexp>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="^(.....)ai(\S*)\s.*" regexp_replace="$1è$2"/></suggestion>.</message>
+        <example correction="glacière">Une <marker>glaciaire</marker> de camping.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">glaciaires?</token></marker>
+          <token regexp="yes">(auto|bleue|camping|contenant|gonflable|high[-‑‐]?tech|thermoélectrique|électrique|moderne|passive|Peltier|pleine|professionnelle|remplie|rigide|sorbetière|souple|vide|voiture)s?</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="ai" regexp_replace="è"/></suggestion>.</message>
+        <example correction="glacière">Une <marker>glaciaire</marker> électrique.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">dans|acheter|choisir|construire|donner|emporter|ouvrir|fabriquer|fermer|louer|porter|nettoyer|ranger|remplir|transporter|utiliser|vendre|vider</token>
+          <token postag="D.*" postag_regexp="yes"/>
+          <marker><token regexp="yes">glaciaires?</token></marker>
+        </pattern>
+        <message>Confusion probable entre « \3 » et <suggestion><match no="3" regexp_match="ai" regexp_replace="è"/></suggestion>.</message>
+        <example correction="glacière">Dans la <marker>glaciaire</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="AIRE_ERE" name="aire, ère">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2044</url>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">aires?</token></marker>
+          <token regexp="yes">(?:atomique|baroque|cénozoïque|géologique|glaciaire|Meiji|moderne|paléozoïque|pliocène|primaire|secondaire|tertière|quaternaire)s?</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="ai" regexp_replace="è"/></suggestion>.</message>
+        <example correction="ère">Une <marker>aire</marker> glaciaire.</example>
+      </rule>
+      <rule>
+        <regexp mark="1">\b(aire?) du (?:big data|cénozoïque|digital|numérique|Meiji|paléozoïque|pliocène|pétrole|primaire|secondaire|tertiare|quaternaire)\b</regexp>
+        <message>Confusion probable entre « \1 » et <suggestion>ère</suggestion>.</message>
+        <example correction="ère">L’<marker>aire</marker> du pétrole.</example>
       </rule>
     </rulegroup>
   </category>
@@ -26958,15 +27011,6 @@ though, and has since been slightly modified)-->
       </pattern>
       <message>« Courriél » est une expression fautive. Employez <suggestion>courriel</suggestion>.</message>
       <example correction="courriel"><marker>courriél</marker>.</example>
-    </rule>
-    <rule id="AIRE_GLACIAIRE" name="aire glaciaire">
-      <pattern>
-        <token inflected="yes">aire</token>
-        <token inflected="yes">glaciaire</token>
-      </pattern>
-      <message>« \1 \2 » est une expression fautive. Employez <suggestion><match no="1" regexp_match="^.." regexp_replace="è"/> \2</suggestion>.</message>
-      <example correction="ère glaciaire">L’<marker>aire glaciaire</marker>.</example>
-      <example>L’ère glaciaire.</example>
     </rule>
     <rule id="PAREIL_COMME" name="pareil comme">
       <pattern>
