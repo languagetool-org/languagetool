@@ -146,7 +146,7 @@ public class LanguagesTest {
     assertEquals("en-US", Languages.getLanguageForLocale(new Locale("en", "US")).getShortNameWithCountryAndVariant());
     assertEquals("en-GB", Languages.getLanguageForLocale(new Locale("en", "GB")).getShortNameWithCountryAndVariant());
     // fallback to the language's default variant if not specified:
-    assertEquals("en-GB", Languages.getLanguageForLocale(new Locale("en")).getShortNameWithCountryAndVariant());
+    assertEquals("en-US", Languages.getLanguageForLocale(new Locale("en")).getShortNameWithCountryAndVariant());
     assertEquals("de-DE", Languages.getLanguageForLocale(new Locale("de")).getShortNameWithCountryAndVariant());
     assertEquals("pl-PL", Languages.getLanguageForLocale(new Locale("pl")).getShortNameWithCountryAndVariant());
     // final fallback is everything else fails:

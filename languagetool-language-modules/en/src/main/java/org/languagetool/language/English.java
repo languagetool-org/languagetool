@@ -50,7 +50,7 @@ import org.languagetool.tokenizers.en.EnglishWordTokenizer;
  */
 public class English extends Language implements AutoCloseable {
 
-  private static final Language BRITISH_ENGLISH = new BritishEnglish();
+  private static final Language AMERICAN_ENGLISH = new AmericanEnglish();
 
   private Tagger tagger;
   private Chunker chunker;
@@ -70,7 +70,7 @@ public class English extends Language implements AutoCloseable {
 
   @Override
   public Language getDefaultLanguageVariant() {
-    return BRITISH_ENGLISH;
+    return AMERICAN_ENGLISH;
   }
 
   @Override
