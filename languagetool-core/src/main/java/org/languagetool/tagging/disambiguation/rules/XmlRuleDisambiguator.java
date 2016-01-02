@@ -29,7 +29,6 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tools.Tools;
 import org.xml.sax.SAXException;
 
 /**
@@ -44,10 +43,9 @@ public class XmlRuleDisambiguator implements Disambiguator {
 
   private final List<DisambiguationPatternRule> disambiguationRules;
 
-  public XmlRuleDisambiguator(final Language language) {
+  public XmlRuleDisambiguator(Language language) {
     Objects.requireNonNull(language);
-    final String disambiguationFile =
-            JLanguageTool.getDataBroker().getResourceDir() + "/" + language.getShortName() + "/" + DISAMBIGUATION_FILE;
+    String disambiguationFile = language.getShortName() + "/" + DISAMBIGUATION_FILE;
     try {
       disambiguationRules = loadPatternRules(disambiguationFile);
     } catch (Exception e) {
@@ -56,9 +54,9 @@ public class XmlRuleDisambiguator implements Disambiguator {
   }
 
   @Override
-  public AnalyzedSentence disambiguate(final AnalyzedSentence input) throws IOException {
+  public AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException {
     AnalyzedSentence sentence = input;
-    for (final DisambiguationPatternRule patternRule : disambiguationRules) {
+    for (DisambiguationPatternRule patternRule : disambiguationRules) {
       sentence = patternRule.replace(sentence);
     }
     return sentence;
@@ -67,12 +65,11 @@ public class XmlRuleDisambiguator implements Disambiguator {
   /**
    * Load disambiguation rules from an XML file. Use {@link JLanguageTool#addRule} to add
    * these rules to the checking process.
-   * 
    * @return a List of {@link DisambiguationPatternRule} objects
    */
-  protected List<DisambiguationPatternRule> loadPatternRules(final String filename) throws ParserConfigurationException, SAXException, IOException {
+  protected List<DisambiguationPatternRule> loadPatternRules(String filename) throws ParserConfigurationException, SAXException, IOException {
     final DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();
-    return ruleLoader.getRules(Tools.getStream(filename));
+    return ruleLoader.getRules(JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename));
   }
 
 }

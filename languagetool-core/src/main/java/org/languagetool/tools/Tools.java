@@ -262,8 +262,8 @@ public final class Tools {
 
   /**
    * Load a file from the classpath using {@link Class#getResourceAsStream(String)}.
-   *
-   * @return the stream of the file
+   * Please load files in the {@code rules} and {@code resource} directories with
+   * {@link org.languagetool.databroker.ResourceDataBroker} instead.
    */
   public static InputStream getStream(final String path) throws IOException {
     // the other ways to load the stream like
