@@ -1306,7 +1306,7 @@ though, and has since been slightly modified)-->
           </marker>
           <token regexp="yes">\d+|(une?|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante)([-‑‐].*)?|onze|douze|treize|quatorze|quinze|seize|cent</token>
           <token regexp="yes">ans?|heures?</token>
-          <token><exception>de</exception></token>
+          <token><exception regexp="yes">d[eu]</exception></token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>dès</suggestion> ?</message>
         <example correction="Dès"><marker>Des</marker> dix-huit ans.</example>
@@ -1317,6 +1317,7 @@ though, and has since been slightly modified)-->
         <example>Elle approche des cinquante ans.</example>
         <example>À l’occasion des vingt ans du groupe.</example>
         <example>Le congrès des 20 ans de l’association.</example>
+        <example>L’album des 15 ans du groupe.</example>
       </rule>
     </rulegroup>
     <rulegroup id="A_A_ACCENT" name="A au lieu de À">
@@ -4236,6 +4237,51 @@ though, and has since been slightly modified)-->
         <example correction="Jonah Lomu"><marker>Jhona Lomu</marker> est né à Auckland.</example>
         <example correction="Jonah Lomu"><marker>Jonnah Lomu</marker> est né à Auckland.</example>
       </rule>
+      <rule>
+        <antipattern>
+          <token>Natalie</token>
+          <token>Portman</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Nath?al[iy]e?</token>
+          <token regexp="yes">Poo?rt[-‑‐]?man</token>
+        </pattern>
+        <message>Écrivez <suggestion>Natalie Portman</suggestion> s’il s’agit de l’actrice israélo-américaine.</message>
+        <url>https://fr.wikipedia.org/wiki/Natalie_Portman</url>
+        <example correction="Natalie Portman"><marker>Nathalie Portman</marker> est née en 1981.</example>
+        <example correction="Natalie Portman"><marker>Natalie Port-man</marker> est née en 1981.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Nath?al[iy]e?<exception>Natalie</exception></token>
+          <token>Wood</token>
+        </pattern>
+        <message>Écrivez <suggestion>Natalie Wood</suggestion> s’il s’agit de l’actrice américaine.</message>
+        <url>https://fr.wikipedia.org/wiki/Natalie_Wood</url>
+        <example correction="Natalie Wood"><marker>Nathalie Wood</marker> est née en 1938.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>Natalie</token>
+          <token>Cole</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Nath?al[iy]e?</token>
+          <token regexp="yes">Coo?le</token>
+        </pattern>
+        <message>Écrivez <suggestion>Natalie Cole</suggestion> s’il s’agit de la chanteuse américaine de Jazz, soul et R&amp;B.</message>
+        <url>https://fr.wikipedia.org/wiki/Natalie_Cole</url>
+        <example correction="Natalie Cole"><marker>Nathalie Cole</marker> est née en 1950.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Nath?al[iy]e?<exception>Natalie</exception></token>
+          <token>Dormer</token>
+        </pattern>
+        <message>Écrivez <suggestion>Natalie Dormer</suggestion> s’il s’agit de l’actrice britannique.</message>
+        <url>https://fr.wikipedia.org/wiki/Natalie_Dormer</url>
+        <example correction="Natalie Dormer"><marker>Nathalie Dormer</marker> est née en 1982.</example>
+      </rule>
     </rulegroup>
     <rule id="WIKIPEDIA" name="Wikipedia → Wikipédia">
       <pattern>
@@ -6682,6 +6728,14 @@ though, and has since been slightly modified)-->
         <example correction="ère">L’<marker>aire</marker> du pétrole.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="PRUDES_HOMMES" name="prudes hommes → prud’hommes">
+      <rule>
+        <regexp>\bprude?s?[-‑‐ ](?:hommes?|homies?|homale?s?|homaux)\b</regexp>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^\w+\W(.*)" regexp_replace="prud’$1"/></suggestion> ou <suggestion>prud<match no="1" regexp_match="^\w+\W(.*)" regexp_replace="prud$1"/></suggestion> (orthographe rectifée de 1990) ?</message>
+        <example correction="prud’hommes|prudhommes">Le tribunal des <marker>prudes hommes</marker>.</example>
+        <example correction="prud’hommes|prudhommes">Le tribunal des <marker>prudes-hommes</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
@@ -6706,7 +6760,7 @@ though, and has since been slightly modified)-->
     <rule id="ELISION" name="Élision de le, la…">
       <pattern>
         <token regexp="yes">[dljmnst]e|la|jusque|que</token>
-        <token regexp="yes">[àâaéêèeiîou]\D.*|à<exception regexp="yes">onze|onzièmes?|une?|au?|oui|ouistiti|ouï[-‑‐]dire|énième|Ouagadougou|Ouarzazate|o[ùu]|(?-i)[IVXLCM]+e?|Ier|Ire</exception></token>
+        <token regexp="yes">[àâaéêèeiîou]\D.*|à<exception regexp="yes">onze|onzièmes?|une?|au?|oui|ouistiti|ouï[-‑‐]dire|énième|Ouagadougou|Ouarzazate|one(-.*)?|o[ùu]|(?-i)[IVXLCM]+e?|Ier|Ire</exception></token>
       </pattern>
       <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
       <url>http://66.46.185.79/bdl/gabarit_bdl.asp?id=1737</url>
@@ -6724,6 +6778,7 @@ though, and has since been slightly modified)-->
       <example correction="qu’il">Je pense <marker>que il</marker> va bientôt arriver.</example>
       <example>Dès le Ier siècle</example>
       <example>Les habitants de Ouagadougou.</example>
+      <example>Le one-man-show.</example>
     </rule>
     <rule id="EL_SI" name="Élision de si">
       <pattern>
@@ -7081,7 +7136,7 @@ though, and has since been slightly modified)-->
           </token>
           <token postag="A" min="0" max="1"><exception>moins</exception></token>
           <token postag="[JNZ] f .*" postag_regexp="yes">
-            <exception postag="V.* (ppa [em]|inf|ppr|ind|con|sub|imp).*|[NJZ] [em].*" postag_regexp="yes"/>
+            <exception postag="[JNZ] [me] .*|V.* (ppa [em]|inf|ppr|ind|con|sub|imp).*|[NJZ] [em].*" postag_regexp="yes"/>
             <exception scope="previous">peu</exception>
             <exception regexp="yes">face|grâce</exception>
             <exception case_sensitive="yes">CAPES</exception>
@@ -7140,7 +7195,7 @@ though, and has since been slightly modified)-->
           </token>
           <token min="0" max="1" postag="A"/>
           <token postag="J f .*|V .* f .*" postag_regexp="yes">
-            <exception postag="V .*(inf|ppr|ind|con|sub).*" postag_regexp="yes"/>
+            <exception postag="[JNZ] [me] .*|V .*(inf|ppr|ind|con|sub).*" postag_regexp="yes"/>
           </token>
         </pattern>
         <message>« \1 » et « \3 » ne semblent pas bien accordés en genre.</message>
@@ -7171,6 +7226,7 @@ though, and has since been slightly modified)-->
         <example>Une mise à niveau couteuse.</example>
         <example>Elle est un petit peu chiante.</example>
         <example>Il se l’est achetée.</example>
+        <example>Un nouveau musée.</example>
         <!-- <example>L’étoile à neutrons peut <marker>même être</marker> remplacée par un trou noir.</example> -->
       </rule>
       <rule name="féminin suivi du masculin">
@@ -7191,7 +7247,7 @@ though, and has since been slightly modified)-->
             <exception>partie</exception>
           </token>
           <token postag="[JNZ] m .*" postag_regexp="yes">
-            <exception postag="V .*(ppa [ef]|inf|ppr|ind|con|sub).*|C coor|[NJZ] [ef] .*" postag_regexp="yes"/>
+            <exception postag="[JNZ] [fe] .*|V .*(ppa [ef]|inf|ppr|ind|con|sub).*|C coor|[NJZ] [ef] .*" postag_regexp="yes"/>
             <exception regexp="yes">.|fait|non|pas|(sud|nord)(-(est|ouest))?|est|ouest|sept|neuf</exception>
           </token>
         </pattern>
@@ -7250,12 +7306,13 @@ though, and has since been slightly modified)-->
             <exception postag="Z [em] .*" postag_regexp="yes" regexp="yes">(?-i)\p{Lu}.*</exception>
             <exception postag="V.*" postag_regexp="yes"/>
           </token>
-          <token min="0" max="1" postag="A"/>
+          <token min="0" max="1" postag="A"><exception>mais</exception></token>
           <token postag="J m .*|V .* m .*" postag_regexp="yes">
-            <exception postag="V .*(inf|ppr|ind|con|sub).*" postag_regexp="yes"/>
+            <exception postag="[JNZ] [fe] .*|V .*(inf|ppr|ind|con|sub).*" postag_regexp="yes"/>
+            <exception>amateur</exception>
           </token>
         </pattern>
-        <message>« \1 » et « \2 » ne semblent pas bien accordés en genre.</message>
+        <message>« \1 » et « \3 » ne semblent pas bien accordés en genre.</message>
         <example correction="">Une <marker>forêt tropical</marker>.</example>
         <example>Une <marker>forêt tropicale</marker>.</example>
         <example correction="">Une <marker>forêt très grand</marker>.</example>
@@ -7281,6 +7338,9 @@ though, and has since been slightly modified)-->
         <example>Une mise à jour gratuite.</example>
         <example>Les sols en permanence gelés.</example>
         <example>L’orge perlé.</example>
+        <example>Non seulement ma <marker>fille mais certains</marker> de ses camarades.</example>
+        <example>Une ceinture marron.</example>
+        <example>L’astronomie amateur.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_CENTAINE_DE" name="centaine de">

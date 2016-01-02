@@ -76,20 +76,18 @@ final class UselessExampleFinder {
 
   private void checkCorrections(Rule rule, List<String> correctExamples, IncorrectExample incorrectExample, List<String> xmlLines) {
     List<String> corrections = incorrectExample.getCorrections();
-    if (corrections != null) {
-      for (String correction : corrections) {
-        String fixedSentence = incorrectExample.getExample().replaceAll("<marker>.*?</marker>", "<marker>" + correction.replace("$", "\\$") + "</marker>");
-        String fixedSentenceNoMarker = incorrectExample.getExample().replaceAll("<marker>.*?</marker>", correction.replace("$", "\\$"));
-        if (correctExamples.contains(fixedSentence)) {
-          System.err.println("Useless: " + fixedSentence + " in " + rule.getId());
-          removeLinesFromXml(rule, fixedSentence, xmlLines);
-          uselessExampleCount++;
-        }
-        if (correctExamples.contains(fixedSentenceNoMarker)) {
-          System.err.println("Useless: " + fixedSentenceNoMarker + " in " + rule.getId());
-          removeLinesFromXml(rule, fixedSentenceNoMarker, xmlLines);
-          uselessExampleCount++;
-        }
+    for (String correction : corrections) {
+      String fixedSentence = incorrectExample.getExample().replaceAll("<marker>.*?</marker>", "<marker>" + correction.replace("$", "\\$") + "</marker>");
+      String fixedSentenceNoMarker = incorrectExample.getExample().replaceAll("<marker>.*?</marker>", correction.replace("$", "\\$"));
+      if (correctExamples.contains(fixedSentence)) {
+        System.err.println("Useless: " + fixedSentence + " in " + rule.getId());
+        removeLinesFromXml(rule, fixedSentence, xmlLines);
+        uselessExampleCount++;
+      }
+      if (correctExamples.contains(fixedSentenceNoMarker)) {
+        System.err.println("Useless: " + fixedSentenceNoMarker + " in " + rule.getId());
+        removeLinesFromXml(rule, fixedSentenceNoMarker, xmlLines);
+        uselessExampleCount++;
       }
     }
   }

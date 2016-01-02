@@ -20,15 +20,13 @@ package org.languagetool.rules.bitext;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
-import org.jetbrains.annotations.Nullable;
 import org.languagetool.bitext.StringPair;
 
 /**
  * A text, typically a pair of sentences that contains an error.
- * 
  * @since 1.0.1
- * @author Marcin Miłkowski
  */
 public class IncorrectBitextExample {
 
@@ -36,14 +34,14 @@ public class IncorrectBitextExample {
   private final List<String> corrections;
 
   public IncorrectBitextExample(final StringPair example) {
-    this(example, (List<String>)null);
+    this(example, Collections.<String>emptyList());
   }
 
   /**
    * @since 2.9
    */
   public IncorrectBitextExample(final StringPair example, final List<String> corrections) {
-    this.example = example;
+    this.example = Objects.requireNonNull(example);
     this.corrections = Collections.unmodifiableList(corrections);
   }
 
@@ -55,9 +53,8 @@ public class IncorrectBitextExample {
   }
 
   /**
-   * Return the possible corrections or null.
+   * Return the possible corrections.
    */
-  @Nullable
   public List<String> getCorrections() {
     return corrections;
   }

@@ -21,27 +21,26 @@ package org.languagetool.rules;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A text, typically a sentence, that contains an error.
- * 
  * @since 0.9.2
- * @author Daniel Naber
  */
 public final class IncorrectExample {
 
   private final String example;
   private final List<String> corrections;
 
-  public IncorrectExample(final String example) {
+  public IncorrectExample(String example) {
     this(example, Collections.<String>emptyList());
   }
 
   /**
    * @since 2.9
    */
-  public IncorrectExample(final String example, final List<String> corrections) {
-    this.example = example;
+  public IncorrectExample(String example, List<String> corrections) {
+    this.example = Objects.requireNonNull(example);
     this.corrections = Collections.unmodifiableList(new ArrayList<>(corrections));
   }
 
@@ -53,7 +52,7 @@ public final class IncorrectExample {
   }
 
   /**
-   * Return the possible corrections. May be null.
+   * Return the possible corrections.
    */
   public List<String> getCorrections() {
     return corrections;

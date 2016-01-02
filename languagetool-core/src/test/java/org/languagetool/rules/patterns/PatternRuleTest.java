@@ -394,7 +394,7 @@ public class PatternRuleTest extends TestCase {
   }
 
   private void assertSuggestions(String sentence, Language lang, List<String> expectedCorrections, AbstractPatternRule rule, List<RuleMatch> matches) {
-    if (expectedCorrections != null && expectedCorrections.size() > 0) {
+    if (!expectedCorrections.isEmpty()) {
       boolean expectedNonEmptyCorrection = expectedCorrections.get(0).length() > 0;
       if (expectedNonEmptyCorrection) {
         assertTrue("You specified a correction but your message has no suggestions in rule " + rule.getFullId(),

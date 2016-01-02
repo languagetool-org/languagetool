@@ -122,7 +122,7 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
           correctExamples.add(new StringPair(srcExample.getExample(), trgExample.getExample()));
         } else if (inIncorrectExample) {
           final StringPair examplePair = new StringPair(srcExample.getExample(), trgExample.getExample());
-          if (trgExample.getCorrections() == null) {
+          if (trgExample.getCorrections().isEmpty()) {
             incorrectExamples.add(new IncorrectBitextExample(examplePair));
           } else {
             final List<String> corrections = trgExample.getCorrections();
