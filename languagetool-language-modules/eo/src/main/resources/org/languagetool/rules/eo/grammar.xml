@@ -1695,6 +1695,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Ĉu tiu ĉi vere okazis?</example>
       <example>Mi loĝas ĉi tie.</example>
     </rule>
+    <rule id="HORO" name="je la 8 jaro → je la 8-a jaro">
+      <pattern>
+        <token>la</token>
+        <marker><token regexp="yes">[1-9]|1\d|2[0-3]|unu|du|tri|kvar|kvin|ses|sep|ok|naŭ|dek|dekunu|dekdu</token></marker>
+        <token>horo</token>
+      </pattern>
+      <message>Ĉu vi intencis skribi <suggestion>\2-a</suggestion>?</message>
+      <example correction="8-a">Je la <marker>8</marker> horo.</example>
+    </rule>
     <rule id="JARO" name="en la 2015 jaro → en la 2015-a jaro">
       <pattern>
         <token>la</token>
