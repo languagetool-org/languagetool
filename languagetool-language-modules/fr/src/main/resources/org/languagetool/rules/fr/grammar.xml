@@ -4284,6 +4284,24 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
+          <token>France</token>
+          <token regexp="yes">Gall?e?s?<exception>Gall</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>France Gall</suggestion> s’il s’agit de la chanteuse française.</message>
+        <url>https://fr.wikipedia.org/wiki/France_Gall</url>
+        <example correction="France Gall"><marker>France Galle</marker> est née en 1947.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Michel</token>
+          <token regexp="yes">Fugh?u?a?i?n<exception>Fugain</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>Michel Fugain</suggestion> s’il s’agit du chanteur compositeur français.</message>
+        <url>https://fr.wikipedia.org/wiki/Michel_Fugain</url>
+        <example correction="Michel Fugain"><marker>Michel Fuguin</marker> est né en 1946.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token>Michel</token>
           <token regexp="yes">Delp[èêe]che?<exception>Delpech</exception></token>
         </pattern>
@@ -6771,6 +6789,17 @@ though, and has since been slightly modified)-->
       </pattern>
       <message>Confusion probable entre « pain » et <suggestion>pin</suggestion>.</message>
       <example correction="pin">Des pommes de <marker>pain</marker>.</example>
+    </rule>
+    <rule id="PENSER_PANSER" name="penser et panser">
+      <pattern>
+        <marker><token inflected="yes">penser</token></marker>
+        <token postag="D.*" postag_regexp="yes"/>
+        <token regexp="yes" min="0" max="1">['´‘’′]</token>
+        <token regexp="yes" inflected="yes">animal|blessure|blessé|bras|cheval|cuisse|doigt|épaule|jambe|main|patte|pied|plaie|tête</token>
+      </pattern>
+      <message>Confusion probable entre les verbes « \1 » et <suggestion><match no="1" regexp_match="^(.).(.*)" regexp_replace="$1a$2"/></suggestion>.</message>
+      <example correction="pansé">Elle a <marker>pensé</marker> les blessés.</example>
+      <example correction="pansé">Elle a <marker>pensé</marker> l’épaule.</example>
     </rule>
   </category>
   <category name="Élision">
