@@ -28564,6 +28564,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="COSSA" name="cossa">
+            <pattern>
+                <token inflected="yes">cossa</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)cos(.+)" regexp_replace="co$1"/></suggestion> (sentits més habituals) en comptes de "<match no="1"/>" (sentits menys habituals)?</message>
+            <example correction="coses">Això són altres <marker>cosses</marker>.</example>
+        </rule>
         <rule id="ANTES" name="antes/abans">
             <pattern>
                 <token>antes</token>
@@ -30656,7 +30663,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected="yes">porgar</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="po(.+)" regexp_replace="pu$1"/></suggestion> (sentits més habituals) en comptes de "<match no="1"/>" (sentits menys habituals)?</message>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)po(.+)" regexp_replace="pu$1"/></suggestion> (sentits més habituals) en comptes de "<match no="1"/>" (sentits menys habituals)?</message>
             <example correction="purgar">Cal <marker>porgar</marker>-lo.</example>
             <example>purgar</example>
         </rule>
@@ -30664,10 +30671,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected="yes">cimentar</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="ciment(.+)" regexp_replace="fonament$1"/></suggestion> (sentits més habituals) en comptes de "<match no="1"/>" (sentits menys habituals)?</message>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)ciment(.+)" regexp_replace="fonament$1"/></suggestion> (sentits més habituals) en comptes de "<match no="1"/>" (sentits menys habituals)?</message>
             <suggestion><match no="1" regexp_match="ciment(.+)" regexp_replace="pos$1"/> els fonaments</suggestion>
             <example correction="fonamentéssim|poséssim els fonaments">Calia que <marker>cimentéssim</marker> bé la casa.</example>
-            <example>purgar</example>
         </rule>
         <rule id="CIMENTS" name="ciments/fonaments">
             <pattern>
