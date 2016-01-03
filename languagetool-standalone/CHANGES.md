@@ -5,6 +5,9 @@
 #### German
   * updated Hunspell dictionary to version 2015.12.28
     (http://extensions.libreoffice.org/extension-center/german-de-de-frami-dictionaries etc.)
+    
+#### Russian
+  * added new rules
 
 #### Java API
   * some formerly deprecated code has been removed
