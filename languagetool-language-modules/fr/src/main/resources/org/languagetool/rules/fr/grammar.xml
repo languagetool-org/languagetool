@@ -5705,7 +5705,7 @@ though, and has since been slightly modified)-->
           <marker><token regexp="yes">dégouttée?s?</token></marker>
           <token regexp="yes">d[eu]?</token>
         </pattern>
-        <message>Confusion probable entre « \1 » et <suggestion><match no="2" regexp_match="ut" regexp_replace="û"/></suggestion>.</message>
+        <message>Confusion probable entre « \2 » et <suggestion><match no="2" regexp_match="ut" regexp_replace="û"/></suggestion>.</message>
         <example correction="dégoûtée">Je suis <marker>dégouttée</marker> du chocolat.</example>
       </rule>
       <rule>
@@ -5713,7 +5713,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[mt]e|[vn]ous</token>
           <marker><token inflected="yes">dégoutter</token></marker>
         </pattern>
-        <message>Confusion probable entre « \1 » et <suggestion><match no="2" regexp_match="ut" regexp_replace="û"/></suggestion>.</message>
+        <message>Confusion probable entre « \2 » et <suggestion><match no="2" regexp_match="ut" regexp_replace="û"/></suggestion>.</message>
         <example correction="dégoûtes">Tu me <marker>dégouttes</marker>.</example>
       </rule>
       <rule>
@@ -6353,7 +6353,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes" inflected="yes" skip="2">attaquer|allonger|blesser|blessure|coucher|étendre|plaie|toucher</token>
           <marker><token regexp="yes">flans?</token></marker>
         </pattern>
-        <message>Confusion probable entre « \3 » et <suggestion><match no="2" regexp_match="^...." regexp_replace="flanc"/></suggestion>.</message>
+        <message>Confusion probable entre « \2 » et <suggestion><match no="2" regexp_match="^...." regexp_replace="flanc"/></suggestion>.</message>
         <example correction="flanc">Il est blessé au <marker>flan</marker>.</example>
       </rule>
     </rulegroup>
@@ -6713,7 +6713,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern><token regexp="yes">(?:fluvio|pré|post|pro|sous)[-‑‐]?glacières?</token></pattern>
-        <message>Confusion probable entre « \1 » et <suggestion><match no="2" regexp_match="è" regexp_replace="ai"/></suggestion>.</message>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="è" regexp_replace="ai"/></suggestion>.</message>
         <example correction="sous-glaciaire">L’écoulement <marker>sous-glacière</marker>.</example>
       </rule>
       <rule>
@@ -6858,6 +6858,37 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Confusion probable entre « \3 » et <suggestion><match no="3" regexp_match="u" regexp_replace="û"/></suggestion>.</message>
         <example correction="mûres">Un clafouti aux <marker>mures</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="SALE_SALLE" name="sale et salle">
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">sales?</token></marker>
+          <token>d</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token regexp="yes">(accouchement|attente|audiance|[eé]chographie|embarquement|exposition|infirmier|hospitalisation|observation|op[ée]ration|urgence)s?</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="l" regexp_replace="ll"/></suggestion>.</message>
+        <example correction="salle">La <marker>sale</marker> d’attente.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">sales?</token></marker>
+          <token regexp="yes">des?|du</token>
+          <token regexp="yes">(bain|bal|banquet|billard|bloc|cin[ée]ma|classe|colle|commandement|concert|conf[ée]rence|conseil|consultation|cours|culture|danse|d[ée]part|f[êe]te|formation|garde|gym|gymnastique|lecture|machine|malade|mammographie|marché|mariage|musculation|musique|ordinateur|presse|pri[èe]re|prof|professeur|projection|radio|radiographie|r[eé]animation|r[ée]ception|r[ée]daction|rééducation|restaurant|r[ée]union|réveil|s[ée]jour|shoot|soin|spectacle|sport|stockage|th[ée][âa]tre|tir|toilette|torture|trading|travail|vente)s?|fitness|infirmiers|jeux?|repos|urgences</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="l" regexp_replace="ll"/></suggestion>.</message>
+        <example correction="salle">La <marker>sale</marker> de classe.</example>
+        <example>Mon pantalon est sale de poussière.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">sales?</token></marker>
+          <token>à</token>
+          <token>manger</token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="l" regexp_replace="ll"/></suggestion>.</message>
+        <example correction="salle">La <marker>sale</marker> à manger.</example>
       </rule>
     </rulegroup>
   </category>
