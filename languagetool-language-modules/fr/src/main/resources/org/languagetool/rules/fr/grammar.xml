@@ -6745,6 +6745,15 @@ though, and has since been slightly modified)-->
       <message>Confusion probable entre « \3 » et <suggestion><match no="3" regexp_match="n" regexp_replace="ng"/></suggestion>.</message>
       <example correction="coings">Une confiture de <marker>coins</marker>.</example>
     </rule>
+    <rule id="REBOUTER_REBOOTER" name="rebouter et rebooter">
+      <pattern>
+        <marker><token inflected="yes" skip="2">rebouter</token></marker>
+        <token regexp="yes">(?:appareil|imprimante|iPhone|kernel|machine|ordi|mac|modem|ordinateur|(?:mini-?)?PC|portable|programme|routeu?r|serveur|système|tablette|téléphone|terminal)s?|(?:Amiga|Android|Debian|FreeBSD|I?OS|MS-?DOS|NetBSD|OS-?X|QNX|Linux|[klx]?ubuntu|Unix|VxWorks|Windows)[0-9-]*</token>
+      </pattern>
+      <message>Confusion probable entre les verbes « \1 » et <suggestion><match no="1" regexp_match="ou" regexp_replace="oo"/></suggestion> (anglicisme pour redémarrer).</message>
+      <example correction="rebooter">Il faut <marker>rebouter</marker> l’ordinateur.</example>
+      <example correction="rebooté">J’ai <marker>rebouté</marker> mon PC.</example>
+    </rule>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
