@@ -4,7 +4,7 @@
 <!--
 French Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski, Agnes Souque, Hugo Voisard and Myriam Lechelt.
-              2011-2015 Dominique Pellé
+              2011-2016 Dominique Pellé
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -4411,7 +4411,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token inflected="yes">avoir</token>
           <token regexp="yes">une|des?</token>
-          <token regexp="yes">(?:petite|grosse|enorme|longue)s?</token>
+          <token regexp="yes">(?:petite|grosse|énorme|longue)s?</token>
           <marker><token regexp="yes">bittes?</token></marker>
         </pattern>
         <message>Voulez-vous dire <suggestion><match no="4" regexp_match="tt" regexp_replace="t"/></suggestion> ?</message>
@@ -6421,7 +6421,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker><token regexp="yes">taules?</token></marker>
-          <token regexp="yes">(?:bouloné|cintré|émaillé|embouti|galvanisé|gaufré|nervuré|ondulé|perforé|soudé)e?s?|translucide</token>
+          <token regexp="yes">(?:boulonné|cintré|émaillé|embouti|galvanisé|gaufré|nervuré|ondulé|perforé|soudé)e?s?|translucide</token>
         </pattern>
         <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="au" regexp_replace="ô"/></suggestion>.</message>
         <example correction="tôle">Un toit en <marker>taule</marker> ondulée.</example>
@@ -6750,7 +6750,7 @@ though, and has since been slightly modified)-->
         <example correction="ère">Une <marker>aire</marker> glaciaire.</example>
       </rule>
       <rule>
-        <regexp mark="1">\b(aire?) du (?:big data|cénozoïque|digital|numérique|Meiji|paléozoïque|pliocène|pétrole|primaire|secondaire|tertiare|quaternaire)\b</regexp>
+        <regexp mark="1">\b(aire?) du (?:big data|cénozoïque|digital|numérique|Meiji|paléozoïque|pliocène|pétrole|primaire|secondaire|tertière|quaternaire)\b</regexp>
         <message>Confusion probable entre « \1 » et <suggestion>ère</suggestion>.</message>
         <example correction="ère">L’<marker>aire</marker> du pétrole.</example>
       </rule>
@@ -7527,7 +7527,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="D . s?p" postag_regexp="yes"/>
           <token postag="N . p" postag_regexp="yes"/>
-          <marker><token regexp="yes">alezane?|aubère|baie?|basanée?|beige|bigarrée?|bis|blafarde?|blanc(he)?|blême|bleue?|blonde?|brune?|châtaine?|cramoisie?|dorée?|écrue?|glauque|jaune|livide|louvet(?:te)?|mate?|mordorée?|noire?|opaline?|perse?|rouge|rousse|vairon|verte?|violet(?:te)|zain|zinzoline?</token></marker>
+          <marker><token regexp="yes">alezane?|aubère|baie?|basanée?|beige|bigarrée?|bis|blafarde?|blanc(he)?|blême|bleue?|blonde?|brune?|châtain|cramoisie?|dorée?|écrue?|glauque|jaune|livide|louvet(?:te)?|mate?|mordorée?|noire?|opaline?|perse?|rouge|rousse|vairon|verte?|violet(?:te)|zain|zinzoline?</token></marker>
           <token><exception postag="[NJ] .*" postag_regexp="yes"/></token>
         </pattern>
         <message>Quand la couleur est exprimée par un adjectif simple, l’accord doit se faire. Voulez-vous écrire <suggestion><match no="3" regexp_match="$" regexp_replace="s"/></suggestion> ?</message>
@@ -16598,7 +16598,7 @@ though, and has since been slightly modified)-->
         <token>avec</token>
       </pattern>
       <message>« Que je/tu/il/nous/vous/ils [verbe] avec » est un anglicisme (that I/you/he/we/you/they [verbe] with). Employez <suggestion>avec lequel je</suggestion>.</message>
-      <example correcttion="avec lequel je"><marker>que je joue avec</marker></example>
+      <example correction="avec lequel je"><marker>que je joue avec</marker></example>
       <example><marker>avec lequel je joue</marker></example>
     </rule>
 -->
@@ -23390,7 +23390,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule default="off" id="MARKETING" name="marketing">
       <pattern>
-        <token regexp="yes">marketing|marketings|markéting|markétings</token>
+        <token regexp="yes">mark[ée]tings?</token>
       </pattern>
       <message>« Marketing » est un anglicisme. Employez <suggestion>mercatique</suggestion>.</message>
       <example correction="mercatique"><marker>marketing</marker></example>
@@ -23398,7 +23398,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="ADDICTION" name="addiction">
       <pattern>
-        <token regexp="yes">addiction|addictions|adiction|adictions</token>
+        <token regexp="yes">add?ictions?</token>
       </pattern>
       <message>« Addiction » est un anglicisme. Employez <suggestion>dépendance</suggestion>, <suggestion>toxicomanie</suggestion>.</message>
       <example correction="dépendance|toxicomanie"><marker>addiction</marker></example>
