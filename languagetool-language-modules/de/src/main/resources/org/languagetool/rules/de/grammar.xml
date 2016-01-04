@@ -6110,6 +6110,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category name="Zusammen-/Getrenntschreibung">
+        <rule id="BEI_ZEITEN" name="bei Zeiten (beizeiten)">
+            <pattern>
+                <marker>
+                    <token>bei</token>
+                    <token>Zeiten</token>
+                </marker>
+                <token>
+                    <exception regexp="yes">von|über</exception>
+                    <exception postag="ADJ:GEN:.*" postag_regexp="yes"/>
+                </token>
+            </pattern>
+            <message>Das Adverb <suggestion>beizeiten</suggestion> (= rechtzeitig) wird zusammengeschrieben.</message>
+            <url>http://www.korrekturen.de/regelwerk/getrennt-_und_zusammenschreibung4.shtml</url>
+            <example correction="beizeiten">Ich werde den Link <marker>bei Zeiten</marker> ergänzen.</example>
+            <example>Aber bei Zeiten von über 0,1 Sekunde verwackelt das Bild.</example>
+            <example>Aber bei Zeiten starker Auslastung muss man warten.</example>
+        </rule>
         <rule id="WIE_SO_OFT" name="Möglicher Tippfehler: 'wie so' ">
             <antipattern>
                 <token postag="SENT_START"/>
