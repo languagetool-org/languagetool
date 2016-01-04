@@ -49,14 +49,20 @@ public class RuleMatchAsXmlSerializer {
             .append(JLanguageTool.BUILD_DATE).append("\">\n");
     if (lang != null || motherTongue != null) {
       String languageXml = "<language ";
+      String warning = "";
       if (lang != null) {
         languageXml += "shortname=\"" + lang.getShortNameWithCountryAndVariant() + "\" name=\"" + lang.getName() + "\"";
+        String longCode = lang.getShortNameWithCountryAndVariant();
+        if ("en".equals(longCode) || "de".equals(longCode)) {
+          xml.append("<!-- NOTE: The language code you selected ('").append(longCode).append("') doesn't support spell checking. Consider using a code with a variant like 'en-US'. -->\n");
+        }
       }
-      if(motherTongue != null && (lang == null || !motherTongue.getShortName().equals(lang.getShortNameWithCountryAndVariant()))) {
+      if (motherTongue != null && (lang == null || !motherTongue.getShortName().equals(lang.getShortNameWithCountryAndVariant()))) {
         languageXml += " mothertongueshortname=\"" + motherTongue.getShortName() + "\" mothertonguename=\"" + motherTongue.getName() + "\"";
       }
       languageXml += "/>\n";
       xml.append(languageXml);
+      xml.append(warning);
     }
     return xml.toString();
   }
