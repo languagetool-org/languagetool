@@ -27,9 +27,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
 
-/**
- * @author Daniel Naber
- */
 public class CaseRuleTest extends TestCase {
 
   private CaseRule rule;
@@ -80,6 +77,7 @@ public class CaseRuleTest extends TestCase {
     // assertGood("Sein aufgewühltes Inneres erzählte von den Geschehnissen."); TODO: 'Sein' is mistagged
     assertGood("Aber sein Inneres erzählte von den Geschehnissen.");
     assertGood("Ein Kaninchen, das zaubern kann.");
+    assertGood("Keine Ahnung, wie ich das prüfen sollte.");
 
     assertBad("Tom ist etwas über Dreißig.");
     assertBad("Unser warten wird sich lohnen.");

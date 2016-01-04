@@ -72,6 +72,11 @@ public class CaseRule extends GermanRule {
       // "... weshalb ihr das wissen wollt."
       pos("VER:INF:NON"),
       pos("VER:MOD:2:PLU:PRÄ")
+    ),
+    Arrays.asList(
+      // "... wie ich das prüfen sollte."
+      pos("VER:INF:SFT"),
+      posRegex("VER:MOD:.*")
     )
   );
 
@@ -85,6 +90,10 @@ public class CaseRule extends GermanRule {
 
   private static PatternToken pos(String posTag) {
     return new PatternTokenBuilder().pos(posTag).build();
+  }
+
+  private static PatternToken posRegex(String posTag) {
+    return new PatternTokenBuilder().posRegex(posTag).build();
   }
 
   static {
