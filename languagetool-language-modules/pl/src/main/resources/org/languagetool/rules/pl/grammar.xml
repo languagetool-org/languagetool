@@ -2870,6 +2870,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token regexp="yes">\d+%?</token>
                         </antipattern>
                         <antipattern>
+                            <marker>
+                            <token>,</token>
+                            <token>np</token>
+                            <token skip="-1" spacebefore="no">.</token>
+                                <token>,</token>
+                            </marker>
+                        </antipattern>
+                        <antipattern>
                             <token>,</token>
                             <marker><token>tak</token></marker>
                             <token>jak</token>
@@ -2904,6 +2912,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>W 612 p.n.e., wraz z Medami i Babilończykami, Persowie zdobyli Niniwę.</example>
                         <example>W innych sytuacjach, tak jak w Ardenach, był zbyt ostrożny.</example>
                         <example>W języku walijskim digrafy ch, dd, ff, ng, ll, ph, rh i th są uznawane za odrębne.</example>
+                        <example>W klasycznych koncepcjach filozoficznych, np. J.S. Milla czy G. Fregego, reprezentacje mają nie tylko odniesienie, ale i treść.</example>
 				</rule>
                 <rule id="DODATKOWO" name="Zbędny przecinek po „dodatkowo” na początku zdania">
 						<pattern>
@@ -2926,6 +2935,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token>,</token>
                             <token postag="pant:.*|pcon.*" postag_regexp="yes"/>
                         </marker>
+                    </antipattern>
+                    <antipattern>
+                        <token>,</token>
+                        <token>zdaniem</token>
                     </antipattern>
                     <pattern>
                         <marker>
