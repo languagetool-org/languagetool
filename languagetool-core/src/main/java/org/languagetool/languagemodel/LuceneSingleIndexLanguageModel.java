@@ -31,7 +31,7 @@ import java.nio.file.Path;
 import java.util.*;
 
 /**
- * Information about ngram occurrences, taken from a Lucene index.
+ * Information about ngram occurrences, taken from Lucene indexes (one index per ngram level).
  * This is not a real language model as it only returns information
  * about occurrence counts but has no probability calculation, especially
  * not for the case with 0 occurrences.
