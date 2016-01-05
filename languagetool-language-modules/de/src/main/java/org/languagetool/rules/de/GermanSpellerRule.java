@@ -106,7 +106,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   public List<String> getCandidates(String word) {
     List<String> suggestions = new ArrayList<>();
     List<List<String>> partList = splitter.getAllSplits(word);
-    final List<String> candidates = new ArrayList<>();
+    List<String> candidates = new ArrayList<>();
     for (List<String> parts : partList) {
       candidates.addAll(super.getCandidates(parts));
     }
@@ -138,7 +138,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       throw new RuntimeException("Language is not a variant of German: " + language);
     }
     try {
-      final String morfoFile = "/de/hunspell/de_" + language.getCountries()[0] + ".dict";
+      String morfoFile = "/de/hunspell/de_" + language.getCountries()[0] + ".dict";
       if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {
         // spell data will not exist in LibreOffice/OpenOffice context
         try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/de/hunspell/spelling.txt");
@@ -313,12 +313,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   private List<String> sortByReplacements(String misspelling, List<String> suggestions) {
-    final List<String> result = new ArrayList<>();
+    List<String> result = new ArrayList<>();
     for (String suggestion : suggestions) {
       boolean moveSuggestionToTop = false;
       for (Replacement replacement : REPL) {
-        final String modifiedMisspelling = misspelling.replace(replacement.key, replacement.value);
-        final boolean equalsAfterReplacement = modifiedMisspelling.equals(suggestion);
+        String modifiedMisspelling = misspelling.replace(replacement.key, replacement.value);
+        boolean equalsAfterReplacement = modifiedMisspelling.equals(suggestion);
         if (equalsAfterReplacement) {
           moveSuggestionToTop = true;
           break;
@@ -337,7 +337,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   private List<String> sortByCase(String misspelling, List<String> suggestions) {
-    final List<String> result = new ArrayList<>();
+    List<String> result = new ArrayList<>();
     for (String suggestion : suggestions) {
       if (misspelling.equalsIgnoreCase(suggestion)) {
         // this should be preferred - only case differs:
