@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.rules.*;
 import org.languagetool.rules.pl.CompoundRule;
 import org.languagetool.rules.pl.MorfologikPolishSpellerRule;
@@ -127,6 +128,11 @@ public class Polish extends Language {
         new CompoundRule(messages),
         new SimpleReplaceRule(messages)
         );
+  }
+
+  @Override
+  public LanguageMaintainedState getMaintainedState() {
+    return LanguageMaintainedState.ActivelyMaintained;
   }
 
 }

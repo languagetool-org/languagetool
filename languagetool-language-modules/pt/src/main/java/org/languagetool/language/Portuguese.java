@@ -19,6 +19,7 @@
 package org.languagetool.language;
 
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.rules.*;
 import org.languagetool.rules.pt.PreReformPortugueseCompoundRule;
 import org.languagetool.rules.pt.PortugueseReplaceRule;
@@ -101,6 +102,11 @@ public class Portuguese extends Language {
             new PreReformPortugueseCompoundRule(messages),
             new PortugueseReplaceRule(messages)
     );
+  }
+
+  @Override
+  public LanguageMaintainedState getMaintainedState() {
+    return LanguageMaintainedState.ActivelyMaintained;
   }
 
 }

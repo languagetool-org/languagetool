@@ -425,4 +425,13 @@ public abstract class Language {
     return ignoredCharactersRegex;
   }
 
+  /**
+   * Information about whether the support for this language in LanguageTool is actively maintained.
+   * If not, the user interface might show a warning.
+   * @since 3.3
+   */
+  public LanguageMaintainedState getMaintainedState() {
+    return LanguageMaintainedState.LookingForNewMaintainer;
+  }
+
 }

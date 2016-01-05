@@ -33,6 +33,7 @@ import javax.swing.event.HyperlinkListener;
 
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -107,6 +108,9 @@ class ResultArea {
   private String getRuleMatchHtml(List<RuleMatch> ruleMatches, String text, String startCheckText) {
     final ContextTools contextTools = new ContextTools();
     final StringBuilder sb = new StringBuilder(200);
+    if (ltSupport.getLanguage().getMaintainedState() != LanguageMaintainedState.ActivelyMaintained) {
+      sb.append("<b>").append(messages.getString("unsupportedWarning")).append("</b><br><br>");
+    }
     sb.append(startCheckText);
     sb.append("<br>\n");
     int i = 0;

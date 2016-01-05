@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.*;
 import org.languagetool.rules.sk.CompoundRule;
@@ -119,6 +120,11 @@ public class Slovak extends Language {
       ruleFileNames.add(dirBase + ruleFile);
     }
     return ruleFileNames;
+  }
+
+  @Override
+  public LanguageMaintainedState getMaintainedState() {
+    return LanguageMaintainedState.ActivelyMaintained;
   }
 
 }

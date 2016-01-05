@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 import java.io.IOException;
 
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
@@ -147,6 +148,11 @@ public class French extends Language implements AutoCloseable {
     if (languageModel != null) {
       languageModel.close();
     }
+  }
+
+  @Override
+  public LanguageMaintainedState getMaintainedState() {
+    return LanguageMaintainedState.ActivelyMaintained;
   }
 
 }

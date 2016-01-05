@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.GermanChunker;
 import org.languagetool.languagemodel.LanguageModel;
@@ -231,6 +232,11 @@ public class German extends Language implements AutoCloseable {
     if (languageModel != null) {
       languageModel.close();
     }
+  }
+
+  @Override
+  public LanguageMaintainedState getMaintainedState() {
+    return LanguageMaintainedState.ActivelyMaintained;
   }
 
 }

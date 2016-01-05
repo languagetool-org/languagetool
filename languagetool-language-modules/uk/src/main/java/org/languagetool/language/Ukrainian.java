@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.MultipleWhitespaceRule;
@@ -169,6 +170,11 @@ public class Ukrainian extends Language {
       ruleFileNames.add(dirBase + ruleFile);
     }
     return ruleFileNames;
+  }
+
+  @Override
+  public LanguageMaintainedState getMaintainedState() {
+    return LanguageMaintainedState.ActivelyMaintained;
   }
 
 }

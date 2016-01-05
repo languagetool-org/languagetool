@@ -19,6 +19,7 @@
 package org.languagetool.language;
 
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
@@ -154,6 +155,11 @@ public class Spanish extends Language implements AutoCloseable{
     if (languageModel != null) {
       languageModel.close();
     }
+  }
+
+  @Override
+  public LanguageMaintainedState getMaintainedState() {
+    return LanguageMaintainedState.ActivelyMaintained;
   }
 
 }

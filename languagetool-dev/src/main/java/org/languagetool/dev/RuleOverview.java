@@ -21,6 +21,7 @@ package org.languagetool.dev;
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.Languages;
 import org.languagetool.language.Contributor;
 import org.languagetool.tools.StringTools;
@@ -40,11 +41,6 @@ import java.util.*;
  */
 @SuppressWarnings("StringConcatenationInsideStringBufferAppend")
 public final class RuleOverview {
-
-  private static final List<String> LANGUAGES_WITH_NEW_MAINTAINER_NEED = 
-          Arrays.asList("en", "ja", "is", "sv", "lt", "ro", "ml", "nl");
-  private static final List<String> LANGUAGES_WITH_CO_MAINTAINER_NEED = 
-          Arrays.asList("da", "be", "zh", "gl");
 
   public static void main(final String[] args) throws IOException {
     if (args.length != 1) {
@@ -161,11 +157,9 @@ public final class RuleOverview {
       boolean greyOutMaintainer = false;
       if (langCode.equals("pt")) {
         maintainerText = "<span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for a maintainer for Brazilian Portuguese</a></span> - ";
-      } else if (LANGUAGES_WITH_NEW_MAINTAINER_NEED.contains(langCode)) {
-        maintainerText = "<span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for new maintainer</a></span> - ";
+      } else if (lang.getMaintainedState() != LanguageMaintainedState.ActivelyMaintained) {
+        maintainerText = "<span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for maintainer</a></span> - ";
         greyOutMaintainer = true;
-      } else if (LANGUAGES_WITH_CO_MAINTAINER_NEED.contains(langCode)) {
-        maintainerText = "<span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for co-maintainer</a></span> - ";
       } else {
         maintainerText = "";
       }

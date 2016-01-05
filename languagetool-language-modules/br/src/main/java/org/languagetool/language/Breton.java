@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.rules.*;
 import org.languagetool.rules.br.TopoReplaceRule;
 import org.languagetool.rules.br.MorfologikBretonSpellerRule;
@@ -112,6 +113,11 @@ public class Breton extends Language {
             new SentenceWhitespaceRule(messages),
             new TopoReplaceRule(messages)
     );
+  }
+
+  @Override
+  public LanguageMaintainedState getMaintainedState() {
+    return LanguageMaintainedState.ActivelyMaintained;
   }
 
 }
