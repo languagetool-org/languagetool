@@ -89,7 +89,7 @@ public class Russian extends Language implements AutoCloseable {
   @Override
   public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
-       sentenceTokenizer = new SRXSentenceTokenizer(this);
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
     return sentenceTokenizer;
   }
@@ -143,9 +143,9 @@ public class Russian extends Language implements AutoCloseable {
     }
   }
 
-    /** @since 3.3 */
-@Override
-public LanguageMaintainedState getMaintainedState() {
-return LanguageMaintainedState.ActivelyMaintained;
- }  
+  /** @since 3.3 */
+  @Override
+  public LanguageMaintainedState getMaintainedState() {
+    return LanguageMaintainedState.ActivelyMaintained;
+  }
 }
