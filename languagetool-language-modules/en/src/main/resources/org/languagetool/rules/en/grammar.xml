@@ -654,7 +654,7 @@ USA
                     <token>in</token>
                     <token regexp="yes">&months;</token>
                 </marker>
-                <token regexp="yes">[1-3][0-9]</token>
+                <token regexp="yes">([1-3][0-9])|([1-9])</token>
             </pattern>
             <message>Did you mean <suggestion>on \2</suggestion>? This seems to be a day date.</message>
             <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
@@ -668,7 +668,7 @@ USA
                 <token>in</token>
                 <token>parenthesis</token>
             </pattern>
-            <message>Did you mean <suggestion>in parentheses</suggestion>?</message>
+            <message>Did you mean <suggestion>in parentheses</suggestion>? 'parenthesis' is the singular.</message>
             <short>Possible typo</short>
             <example correction="in parentheses">This is indicated by the number not <marker>in parenthesis</marker>.</example>
         </rule>
@@ -904,7 +904,7 @@ USA
             <short>Possible typo</short>
             <example correction="whereas">The northern and urban areas of the state do not generally offer sweet tea in the most restaurants, <marker>where as</marker> it is a staple beverage for the southern part ...</example>
         </rule>
-        <rule id="WITHOUT_OUT_WITHOUT" name="without out (without)">
+        <rule id="WITHOUT_OUT" name="without out (without)">
             <pattern>
                 <token>without</token>
                 <token>out</token>
@@ -3724,7 +3724,7 @@ USA
             <example correction="about whom to">What do you think <marker>about who to</marker> promote?</example>
         </rule>
         <!-- .*/VBG you're::word=\0 your::pivots=you're,your::options=you're,your -->
-        <rule id="VBG_YOURE" name="VBG youre (your)">
+        <rule id="VBG_YOURE" name="VBG you're (your)">
             <pattern>
                 <token postag="VBG"><exception postag="VBG" negate_pos="yes"/></token>
                 <token>you</token>
@@ -3735,7 +3735,7 @@ USA
             <example correction="visualizing your">Stop <marker>visualizing you're</marker> own demise.</example>
         </rule>
         <!-- that's|it's|who's|he's|she's|there's you're::word=\0 your::pivots=your,you're::options=your,you're -->
-        <rule id="THATS_YOURE" name="thats youre (your)">
+        <rule id="THATS_YOURE" name="that's you're (your)">
             <pattern>
                 <token regexp="yes">that|it|who|he|she|there</token>
                 <token spacebefore="no" regexp="yes">['’]</token>
@@ -3748,7 +3748,7 @@ USA
             <example correction="that's your">Don't ask me, <marker>that's you're</marker> own problem.</example>
         </rule>
         <!-- that's|it's|who's|he's|she's|there's they're::word=\0 their::pivots=they're,their::options=their,they're -->
-        <rule id="THATS_THEYRE" name="thats theyre (their)">
+        <rule id="THATS_THEYRE" name="that's they're (their)">
             <pattern>
                 <token regexp="yes">that|it|who|he|she|there</token>
                 <token spacebefore="no" regexp="yes">['’]</token>
@@ -3762,7 +3762,7 @@ USA
             <example>Who's their advisor this year?</example>
         </rule>
         <!-- that's|it's|who's|he's|she's|there's it's::word=\0 its::pivots=it's,its::options=it's,its -->
-        <rule id="THATS_ITS" name="thats its (possessive)">
+        <rule id="THATS_ITS" name="that's its (possessive)">
             <pattern>
                 <token regexp="yes">that|it|who|he|she|there</token>
                 <token spacebefore="no" regexp="yes">['’]</token>
@@ -3775,7 +3775,7 @@ USA
             <example correction="He's its"><marker>He's it's</marker> primary caretaker.</example>
         </rule>
         <!-- you're .*/JJS .*/NN::word=your \1 \2::pivots=you're,your::options=your,you're -->
-        <rule id="YOURE_JJS_NN" name="youre (your) JJS NN">
+        <rule id="YOURE_JJS_NN" name="you're (your) JJS NN">
             <pattern>
                 <token>you</token>
                 <token spacebefore="no" regexp="yes">['’]</token>
@@ -3787,7 +3787,7 @@ USA
             <example correction="your greenest banana">I'd like to buy <marker>you're greenest banana</marker> please.</example>
         </rule>
         <!-- they're .*/JJS .*/NN::word=their \1 \2::pivots=they're,their::options=their,they're -->
-        <rule id="THEYRE_JJS_NN" name="theyre (their) JJS NN">
+        <rule id="THEYRE_JJS_NN" name="they're (their) JJS NN">
             <pattern>
                 <token>they</token>
                 <token spacebefore="no" regexp="yes">['’]</token>
@@ -3799,7 +3799,7 @@ USA
             <example correction="their oddest hypothesis">It was <marker>they're oddest hypothesis</marker> yet.</example>
         </rule>
         <!-- .*/VBZ .*/IN|DT they're .*/NNP|NN|NNS::word=\0 \1 their \3::pivots=they're,their::options=they're,their -->
-        <rule id="VBZ_IN_THEYRE_NN" name="VBZ IN theyre (their) NN">
+        <rule id="VBZ_IN_THEYRE_NN" name="VBZ IN they're (their) NN">
             <pattern>
                 <token postag="VBZ"><exception postag="VBZ" negate_pos="yes"/></token>
                 <token postag="IN|DT" postag_regexp="yes"><exception postag="IN|DT" postag_regexp="yes" negate_pos="yes"/></token>
@@ -3812,7 +3812,7 @@ USA
             <example correction="disparages of their company">What kind of person <marker>disparages of they're company</marker>?</example>
         </rule>
         <!-- .*/IN .*/VBZ they're .*/NNP|NN|NNS::word=\0 \1 their \3::pivots=they're,their::options=they're,their -->
-        <rule id="IN_VBZ_THEYRE_NN" name="IN VBZ theyre (their) NN">
+        <rule id="IN_VBZ_THEYRE_NN" name="IN VBZ they're (their) NN">
             <pattern>
                 <token postag="IN"><exception postag="IN" negate_pos="yes"/></token>
                 <token postag="VBZ"><exception postag="VBZ" negate_pos="yes"/></token>
@@ -3825,7 +3825,7 @@ USA
             <example correction="of is their happiness">The only thing we think <marker>of is they're happiness</marker>.</example>
         </rule>
         <!-- .*/DT .*/VBZ they're .*/NNP|NN|NNS::word=\0 \1 their \3::pivots=they're,their::options=they're,their -->
-        <rule id="DT_VBZ_THEYRE_NN" name="DT VBZ theyre (their) NN">
+        <rule id="DT_VBZ_THEYRE_NN" name="DT VBZ they're (their) NN">
             <pattern>
                 <token postag="DT"><exception postag="DT" negate_pos="yes"/></token>
                 <token postag="VBZ"><exception postag="VBZ" negate_pos="yes"/></token>
@@ -10937,7 +10937,7 @@ USA
                 <example correction="their">I'm not worried about <marker>they're</marker> problems.</example>
             </rule>
             <!-- .*/VBG they're::word=\0 their::pivots=they're,their::options=they're,their -->
-            <rule id="VBG_THEYRE" name="VBG theyre (their)">
+            <rule id="VBG_THEYRE" name="VBG they're (their)">
                 <pattern>
                     <token postag="VBG"><exception postag="VBG" negate_pos="yes"/></token>
                     <token>they</token>
