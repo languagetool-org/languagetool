@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
@@ -142,4 +143,9 @@ public class Russian extends Language implements AutoCloseable {
     }
   }
 
+    /** @since 3.3 */
+@Override
+public LanguageMaintainedState getMaintainedState() {
+return LanguageMaintainedState.ActivelyMaintained;
+ }  
 }
