@@ -1426,7 +1426,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="incorrect">Стоимость работ составила 10 <marker>млн</marker> рублей.</example>
         </rule>
         -->
+        <rulegroup id="Privet_druzja" name="Устойчивое выражение «Привет, друзья!»">
+            <rule>
+                <pattern>              
+                    <token>привет</token>
+                    <token>друзья</token>
+                </pattern>
+                <message>Пропущена запятая: <suggestion>\1, \2</suggestion></message>
 
+                <short>Пропущена запятая.</short>
+                <example correction="Привет, друзья"><marker>Привет друзья</marker>!</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="POZHALUJSTA" name="«Пожалуйста» выделяется запятыми">
             <rule>
                 <pattern>
