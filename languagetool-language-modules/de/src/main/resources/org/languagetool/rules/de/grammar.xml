@@ -10263,20 +10263,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Die meisten der"><marker>Die meisten aller</marker> Hollywoodfilme spielen in den USA.</example>
             <example><marker>Die meisten der</marker> damaligen Hollywoodfilme spielten in den USA.</example>
         </rule>
-        <rule id="MAENNER_VS_LEUTE" name="Stil: 'Kaufleute' usw. statt 'Kaufmänner'">
-            <antipattern>
-                <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel)männern?</token>
-                <token>und</token>
-                <token>-frauen</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel)männern?</token>
-            </pattern>
-            <message>Meinten Sie <suggestion><match no="1" regexp_match="(Kauf|.*kauf|See|Feuerwehr|Gewährs|Edel)männer(n)?" regexp_replace="$1leute$2"/></suggestion>?</message>
-            <example correction="Feuerwehrleute">Es waren viele <marker>Feuerwehrmänner</marker> im Einsatz.</example>
-            <example>Es waren viele <marker>Feuerwehrmänner</marker> und -frauen im Einsatz.</example>
-            <example correction="Industriekaufleute">Es werden viele <marker>Industriekaufmänner</marker> gesucht.</example>
-        </rule>
         <rulegroup id="ZWISCHEN_SEIT_BIS" name="Stil: 'Zwischen ... bis ...'">
             <rule>
                 <pattern>
@@ -10343,6 +10329,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>„ein Kind“ (vgl. Erbe)</example>
             </rule>
         </rulegroup>
+    </category>
+
+    <!-- ====================================================================== -->
+    <!-- Geschlechtergerechte Sprache -->
+    <!-- ====================================================================== -->
+    <category name="Geschlechtergerechte Sprache">
+        <rule id="MAENNER_VS_LEUTE" name="'Kaufleute' usw. statt 'Kaufmänner'">
+            <antipattern>
+                <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel)männern?</token>
+                <token>und</token>
+                <token>-frauen</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel)männern?</token>
+            </pattern>
+            <message>Evtl. passt der geschlechtsneutrale Begriff <suggestion><match no="1" regexp_match="(Kauf|.*kauf|See|Feuerwehr|Gewährs|Edel)männer(n)?" regexp_replace="$1leute$2"/></suggestion> besser.</message>
+            <example correction="Feuerwehrleute">Es waren viele <marker>Feuerwehrmänner</marker> im Einsatz.</example>
+            <example>Es waren viele <marker>Feuerwehrmänner</marker> und -frauen im Einsatz.</example>
+            <example correction="Industriekaufleute">Es werden viele <marker>Industriekaufmänner</marker> gesucht.</example>
+        </rule>
+        <rule id="MANNSTUNDE" name="'Mannstunde' usw. statt 'Personenstunde'">
+            <pattern>
+                <token regexp="yes">Mann(stunden?|tage?|wochen?|monate?|jahre?)</token>
+            </pattern>
+            <message>Evtl. passt der geschlechtsneutrale Begriff <suggestion><match no="1" regexp_match="Mann" regexp_replace="Personen"/></suggestion> besser.</message>
+            <example correction="Personenstunden">Das dauert geschätzt fünf <marker>Mannstunden</marker>.</example>
+        </rule>
+        <rule id="MAEDCHENNAME" name="'Mädchenname' statt 'Geburtsname'">
+            <pattern>
+                <token inflected="yes">Mädchenname</token>
+            </pattern>
+            <message>Evtl. passt der geschlechtsneutrale Begriff <suggestion><match no="1" regexp_match="Mädchen" regexp_replace="Geburts"/></suggestion> besser.</message>
+            <example correction="Geburtsname">Der <marker>Mädchenname</marker> meiner Mutter ist Müller.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
