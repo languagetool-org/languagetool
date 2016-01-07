@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 Russian grammar and typo rules for LanguageTool.
 See resource/ru/russian_tags.txt for the meaning of the POS tags.
 
-Copyright © 2008-2015 Yakov Reztsov
+Copyright © 2008-2016 Yakov Reztsov
 http://www.languagetool.org
 
 This library is free software; you can redistribute it and/or
@@ -2080,8 +2080,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Кое-кто"><marker>Кое- кто</marker> пошёл в магазин.</example>
             </rule>
         </rulegroup>
-        
-        
+          
+        <rule id="Teper_tak_kak" name="Цельное выражение «Теперь так как»">
+            <pattern>
+                    <token>Теперь</token>
+                    <token>,</token>
+                    <token>так</token>
+                    <token>как</token>
+            </pattern>
+            <message>Запятая не нужна: <suggestion>\1 \3 \4</suggestion></message>
+            <short>Запятая не нужна.</short>
+            <example correction='Теперь так как'><marker>Теперь, так как</marker>.</example>
+            <example>Теперь так как.</example>
+        </rule>
+                                           
         <rulegroup default="on" id="NO_KAK_POPALO" name="«Что угодно», «как попало»">
             <!--Что угодно, как попало  не выделяются запятыми.
             -->
