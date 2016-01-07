@@ -63,12 +63,13 @@ public class FrequencyIndexCreator {
   private final Mode mode;
   
   private long totalTokenCount;
+  private long inputFileCount;
 
   public FrequencyIndexCreator(Mode mode) {
     this.mode = mode;
   }
   
-  private void run(File inputDir, File indexBaseDir) {
+  private void run(File inputDir, File indexBaseDir) throws Exception {
     if (!inputDir.exists()) {
       throw new RuntimeException("Not found: " + inputDir);
     }
@@ -76,12 +77,22 @@ public class FrequencyIndexCreator {
     long totalBytes = files.stream().mapToLong(File::length).sum();
     System.out.println("Total input bytes: " + totalBytes);
     //Collections.sort(files);  use for non-parallel streams
-    files.parallelStream().forEach(dir -> index(dir, indexBaseDir, totalBytes));
+    // use this to get one index per input file:
+    //files.parallelStream().forEach(dir -> index(dir, indexBaseDir, totalBytes, files.size(), null));
+    // use this to get one large index for all input files:
+    try (DataWriter dw = new LuceneDataWriter(indexBaseDir)) {
+      files.parallelStream().forEach(dir -> index(dir, indexBaseDir, totalBytes, files.size(), dw));
+      markIndexAsComplete(indexBaseDir);
+    }
   }
 
-  public void index(File file, File indexBaseDir, long totalBytes) {
+  private void index(File file, File indexBaseDir, long totalBytes, int inputFiles, DataWriter globalDataWriter) {
     System.out.println(file);
     String name = file.getName();
+    //if (file.list().length == 1) {
+    //  System.out.println("Ignoring empty dir " + file);
+    //  return;
+    //}
     if (IGNORE_POS && name.matches(".*_[A-Z]+_.*")) {
       System.out.println("Skipping POS tag file " + name);
       return;
@@ -114,18 +125,27 @@ public class FrequencyIndexCreator {
         System.out.println("Not skipping " + name + " - index dir '" + indexDir + "' already exists but is not complete");
       }
     }
-    System.out.println("Index dir: " + indexDir);
+    System.out.println("Index dir: " + indexDir + " - " + (++inputFileCount) + " of " + inputFiles);
     try {
       if (mode == Mode.PlainText) {
-        try (DataWriter dw = new TextDataWriter(indexDir)) {
-          indexLinesFromGoogleFile(dw, file, totalBytes, hiveMode);
+        if (globalDataWriter != null) {
+          indexLinesFromGoogleFile(globalDataWriter, file, totalBytes, hiveMode);
+        } else {
+          try (DataWriter dw = new TextDataWriter(indexDir)) {
+            indexLinesFromGoogleFile(dw, file, totalBytes, hiveMode);
+          }
+          markIndexAsComplete(indexDir);
         }
       } else {
-        try (DataWriter dw = new LuceneDataWriter(indexDir)) {
-          indexLinesFromGoogleFile(dw, file, totalBytes, hiveMode);
+        if (globalDataWriter != null) {
+          indexLinesFromGoogleFile(globalDataWriter, file, totalBytes, hiveMode);
+        } else {
+          try (DataWriter dw = new LuceneDataWriter(indexDir)) {
+            indexLinesFromGoogleFile(dw, file, totalBytes, hiveMode);
+          }
+          markIndexAsComplete(indexDir);
         }
       }
-      markIndexAsComplete(indexDir);
     } catch (Exception e) {
       throw new RuntimeException("Could not index " + file, e);
     }
@@ -319,7 +339,7 @@ public class FrequencyIndexCreator {
     }
   }
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
     if (args.length != 3) {
       System.out.println("Usage: " + FrequencyIndexCreator.class.getSimpleName() + " <text|lucene> <inputDir> <outputDir>");
       System.out.println("    <text|lucene> 'text' will write plain text files, 'lucene' will write Lucene indexes");
