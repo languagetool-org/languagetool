@@ -847,6 +847,18 @@
         <disambig action="remove"><wd lemma="dzienić"/></disambig>
     </rule>
 
+    <rule id="BYC_INF" name="być to nie zawsze bycie">
+        <pattern>
+            <marker>
+                <token postag="verb:winien.*" postag_regexp="yes"/>
+                <token postag="verb:inf:imperf:nonrefl">być</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+        <example type="ambiguous" inputform="być[bycie/subst:pl:gen:n2,być/verb:inf:imperf:nonrefl]"
+        outputform="być[być/verb:inf:imperf:nonrefl]">To nie powinno <marker>być</marker> trudne.</example>
+    </rule>
+
     <rule name="co przed czasownikiem nie jest przyimkiem" id="CO_VERB_ADAMP">
         <pattern>
             <marker>
@@ -2065,6 +2077,61 @@
                  outputform="niewielki[niewielki/adj:sg:nom.voc:m1.m2.m3:pos]">Jest to <marker>niewielki</marker> elektromagnes.</example>
     </rule>
 
+    <rule name="mianownik + jest + mianownik" id="nom_jest_nom">
+        <pattern>
+            <unify>
+                <feature id="number"/>
+                <marker>
+                    <token postag=".*nom[:\.].*" postag_regexp="yes"/>
+                    <token postag="verb:fin.*:ter:imperf:nonrefl" inflected="yes" postag_regexp="yes">być</token>
+                    <token postag=".*nom[:\.].*" postag_regexp="yes"/>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="niewielkie[niewielki/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,niewielki/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,niewielki/adj:sg:acc:n1.n2:pos,niewielki/adj:sg:nom.voc:n1.n2:pos]"
+                 outputform="niewielkie[niewielki/adj:sg:nom.voc:n1.n2:pos]">Zasadne jest <marker>niewielkie</marker> podtopienie.</example>
+    </rule>
+
+    <rule name="mianownik + conj + jest + mianownik" id="nom_conj_jest_nom">
+        <pattern>
+            <unify>
+                <feature id="number"/>
+                <marker>
+                    <token postag=".*nom[:\.].*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <token postag="conj"></token>
+                    </unify-ignore>
+                    <token postag="verb:fin.*:ter:imperf:nonrefl" inflected="yes" postag_regexp="yes">być</token>
+                    <token postag=".*nom[:\.].*" postag_regexp="yes"/>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="niewielkie[niewielki/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,niewielki/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,niewielki/adj:sg:acc:n1.n2:pos,niewielki/adj:sg:nom.voc:n1.n2:pos]"
+                 outputform="niewielkie[niewielki/adj:sg:nom.voc:n1.n2:pos]">Zasadne zatem jest <marker>niewielkie</marker> podtopienie.</example>
+    </rule>
+
+    <rule name="mianownik + jest + conj + mianownik" id="nom_jest_conj_nom">
+        <pattern>
+            <unify>
+                <feature id="number"/>
+                <marker>
+                    <token postag=".*nom[:\.].*" postag_regexp="yes"/>
+                    <token postag="verb:fin.*:ter:imperf:nonrefl" inflected="yes" postag_regexp="yes">być</token>
+                    <unify-ignore>
+                        <token postag="conj"></token>
+                    </unify-ignore>
+                    <token postag=".*nom[:\.].*" postag_regexp="yes"/>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="niewielkie[niewielki/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,niewielki/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,niewielki/adj:sg:acc:n1.n2:pos,niewielki/adj:sg:nom.voc:n1.n2:pos]"
+                 outputform="niewielkie[niewielki/adj:sg:nom.voc:n1.n2:pos]">Zasadne jest zatem <marker>niewielkie</marker> podtopienie.</example>
+    </rule>
+
+
     <rule name="był to..." id="byl_to">
         <pattern>
             <unify>
@@ -2312,8 +2379,8 @@
                 </unify>
             </pattern>
             <disambig action="unify"/>
-            <example type="ambiguous" inputform="ta[ta/qub,ten/adj:sg:nom.voc:f:pos]"
-                     outputform="ta[ten/adj:sg:nom.voc:f:pos]">Powieść <marker>ta</marker> jest interesująca.</example>
+            <example type="ambiguous" inputform="Powieść[powieść/subst:sg:acc:f,powieść/subst:sg:nom:f,powieść/verb:inf:perf:refl.nonrefl]"
+                     outputform="Powieść[powieść/subst:sg:nom:f]"><marker>Powieść</marker> ta jest interesująca.</example>
         </rule>
     </rulegroup>
 
@@ -4221,7 +4288,7 @@
         </pattern>
         <disambig postag="adj:sg:nom.voc:f:pos"/>
         <example type="untouched">Ta obelga się równa temu, czego doświadczyłem wczoraj.</example>
-        <example type="ambiguous" inputform="równa[równać/verb:fin:sg:ter:imperf:refl.nonrefl,równy/adj:sg:nom.voc:f:pos]" outputform="równa[równy/adj:sg:nom.voc:f:pos]">Ta obelga jest <marker>równa</marker> temu, czego doświadczyłem wczoraj.</example>
+        <example type="ambiguous" inputform="równa[równać/verb:fin:sg:ter:imperf:refl.nonrefl,równy/adj:sg:nom.voc:f:pos]" outputform="równa[równy/adj:sg:nom.voc:f:pos]">Ta obelga jest bodaj <marker>równa</marker> temu, czego doświadczyłem wczoraj.</example>
     </rule>
 
     <rule id="SOLI_SUBST" name="soli jako genetiwus">
@@ -4464,7 +4531,7 @@
         <disambig action="filterall"/>
         <example type="untouched">Sądzę, że współczesne pokolenia winny	- w świecie chaosu i nihilizmu - podjąć próbę tworzenia porządku.</example>
         <example type="ambiguous" inputform="winny[winien/verb:winien:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:nonrefl,winny/adj:sg:acc:m3:pos,winny/adj:sg:nom.voc:m1.m2.m3:pos,winny/subst:sg:nom:m1,winny/subst:sg:voc:m1]"
-                 outputform="winny[winny/adj:sg:acc:m3:pos,winny/adj:sg:nom.voc:m1.m2.m3:pos]">Wiadomo, że <marker>winny</marker> jest kucharz.</example>
+                 outputform="winny[winny/adj:sg:acc:m3:pos,winny/adj:sg:nom.voc:m1.m2.m3:pos]">Wiadomo, że <marker>winny</marker> temu jest kucharz.</example>
         </rule>
         <rule>
             <pattern>
@@ -4831,7 +4898,7 @@
         <example type="ambiguous" inputform="jedna[jeden/adj:sg:nom.voc:f:pos,jednać/verb:fin:sg:ter:imperf:refl.nonrefl]"
                  outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">Widząc to <marker>jedna</marker> szpetna starucha...</example>
         <example type="untouched">Dyktator jedna się z narodem co czwartek.</example>
-        <example type="ambiguous" inputform="jedna[jeden/adj:sg:nom.voc:f:pos,jednać/verb:fin:sg:ter:imperf:refl.nonrefl]" outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">To jest <marker>jedna</marker> osoba.</example>
+        <example type="ambiguous" inputform="jedna[jeden/adj:sg:nom.voc:f:pos,jednać/verb:fin:sg:ter:imperf:refl.nonrefl]" outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">To jest przecież <marker>jedna</marker> osoba.</example>
         <example type="ambiguous" inputform="jedna[jeden/adj:sg:nom.voc:f:pos,jednać/verb:fin:sg:ter:imperf:refl.nonrefl]" outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">To jest ta <marker>jedna</marker> jedyna.</example>
     </rule>
     <rule>
@@ -4850,7 +4917,7 @@
             <example type="ambiguous" inputform="jedna[jeden/adj:sg:nom.voc:f:pos,jednać/verb:fin:sg:ter:imperf:refl.nonrefl]"
                      outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">Kooperacja <marker>jedna</marker> tylko niweczy sprzeczność  między egoizmem a miłością bliźniego.</example>
             <example type="ambiguous" inputform="jedna[jeden/adj:sg:nom.voc:f:pos,jednać/verb:fin:sg:ter:imperf:refl.nonrefl]"
-                 outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">Ada <marker>jedna</marker> jest spokojna.</example>
+                 outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">Ada <marker>jedna</marker> dziś jest spokojna.</example>
             <example type="untouched">Dyktator jedna się z narodem co czwartek.</example>
             <example type="untouched">Tylko jedna Natalka nic się nie zdziwiła.</example>
     </rule>
@@ -4875,7 +4942,7 @@
         </pattern>
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="jedna[jeden/adj:sg:nom.voc:f:pos,jednać/verb:fin:sg:ter:imperf:refl.nonrefl]"
-                 outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">Chyba <marker>jedna</marker> jest spokojna.</example>
+                 outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">Chyba <marker>jedna</marker> musiała być spokojna.</example>
     </rule>
 
     <rule id="MIEC_NADZIEJE" name="mieć + nadzieję -> rzeczownik">
@@ -6052,7 +6119,7 @@
             </pattern>
             <disambig action="unify"/>
             <example type="ambiguous" inputform="moje[mój/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,mój/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos]"
-                     outputform="moje[mój/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos]">Nerwy <marker>moje</marker> są chore.</example>
+                     outputform="moje[mój/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos]">Nerwy <marker>moje</marker> wydają się chore.</example>
             <example type="untouched">A to był kostur pastuszy.</example>
             <example type="untouched">Trzeba było odbyć tak zwaną straż broni.</example>
             <example type="untouched">Ukazało się w r. 1670 to pierwsze wydanie Myśli, tzw.* wydanie Port-Royalu*.</example>
@@ -6184,7 +6251,7 @@
             </pattern>
             <disambig action="unify"/>
             <example type="ambiguous" inputform="powinna[powinien/verb:winien:sg:f:ter:imperf:nonrefl,powinny/adj:sg:nom.voc:f:pos]"
-                     outputform="powinna[powinien/verb:winien:sg:f:ter:imperf:nonrefl]">Gazeta <marker>powinna</marker> być drukowana.</example>
+                     outputform="powinna[powinien/verb:winien:sg:f:ter:imperf:nonrefl]">Gazeta <marker>powinna</marker> zniknąć.</example>
         </rule>
         <rule>
             <pattern>
@@ -6202,7 +6269,7 @@
             </pattern>
             <disambig action="unify"/>
             <example type="ambiguous" inputform="powinna[powinien/verb:winien:sg:f:ter:imperf:nonrefl,powinny/adj:sg:nom.voc:f:pos]"
-                     outputform="powinna[powinien/verb:winien:sg:f:ter:imperf:nonrefl]">Gazeta nadal <marker>powinna</marker> być drukowana.</example>
+                     outputform="powinna[powinien/verb:winien:sg:f:ter:imperf:nonrefl]">Gazeta nadal <marker>powinna</marker> zniknąć.</example>
         </rule>
     </rulegroup>
 
@@ -6761,7 +6828,7 @@
             <pattern>
                 <unify>
                     <feature id="number"/>
-                    <token inflected="yes" postag="verb:.*" postag_regexp="yes">być</token>
+                    <token postag="verb:.*" postag_regexp="yes"/>
                     <marker>
                         <token postag="verb:winien.*" postag_regexp="yes" regexp="yes">win.*</token>
                     </marker>
@@ -6770,7 +6837,7 @@
             <disambig action="filter" postag="adj.*"/>
             <example type="untouched">Powinien był pójść do lekarza.</example>
             <example type="untouched">Każdy winien przestrzegać prawa!</example>
-            <example type="ambiguous" inputform="winni[winien/verb:winien:pl:m1.p1:ter:imperf:nonrefl,winny/adj:pl:nom.voc:m1.p1:pos,winny/subst:pl:nom:m1,winny/subst:pl:voc:m1]" outputform="winni[winny/adj:pl:nom.voc:m1.p1:pos]">To oni są <marker>winni</marker>!</example>
+            <example type="ambiguous" inputform="winni[winien/verb:winien:pl:m1.p1:ter:imperf:nonrefl,winny/adj:pl:nom.voc:m1.p1:pos,winny/subst:pl:nom:m1,winny/subst:pl:voc:m1]" outputform="winni[winny/adj:pl:nom.voc:m1.p1:pos]">Tak mówią <marker>winni</marker>!</example>
         </rule>
     </rulegroup>
 
@@ -6957,6 +7024,16 @@
             <token postag="pred"><exception negate_pos="yes" postag="pred"></exception></token>
         </pattern>
         <disambig postag="qub"></disambig>
+    </rule>
+
+    <rule id="NIE_QUB_WINIEN" name="nie przed powinien">
+        <pattern>
+            <marker>
+                <token postag="qub">nie</token>
+                <token postag="verb:winien.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <rule id="NIE_QUB_SPOSOB" name="nie sposób jest">

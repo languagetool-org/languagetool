@@ -4935,7 +4935,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		</category>
 		<category name="Błędy składniowe" type="grammar">
             <rulegroup id="NIGDY_NIE" name="Brak negacji w zdaniu z „nigdy”, „nic” itd.">
-                <rule>
                     <antipattern>
                         <token inflected="yes">panna</token>
                         <marker><token case_sensitive="yes">Nikt</token></marker>
@@ -4953,6 +4952,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <marker><token>nic</token></marker>
                         <token postag="adj:sg:gen:m1.m2.m3.n1.n2:pos"/>
                     </antipattern>
+                <rule>
                 <pattern>
                     <token postag='SENT_START' skip='-1'><exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
                     <token regexp='yes' skip='-1'>nikt|nigdy|nic|bynajmniej<exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
@@ -4977,6 +4977,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example correction=''><marker>Zrobiłem bynajmniej wiele.</marker></example>
                     <example>Nigdy tego nie zrobiłam.</example>
                     <example>W 1996 roku stworzył Pannę Nikt w oparciu o powieść Tomka Tryzny o dorastającej dziewczynie, która przeżywa kryzys wartości.</example>
+                    <example>Treść pojęć bazowych pozostaje więc aporią w ramach solipsyzmu metodologicznego; nic dziwnego zatem, że później Fodor odrzuca solipsyzm.</example>
                 </rule>
             </rulegroup>
             <rule id="NIM_IMPERF" name="Czasownik niedokonany po spójniku nim i zanim">
