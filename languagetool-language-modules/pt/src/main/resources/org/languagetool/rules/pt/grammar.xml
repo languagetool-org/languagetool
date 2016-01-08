@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.131 2016-01-05 10:55:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.132 2016-01-08 8:05:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -1347,8 +1347,23 @@ $Id: grammar.xml,v 1.131 2016-01-05 10:55:00 marcoagpinto Exp $
       <example correction="após">Faz isso <marker>depois de</marker> saber os resultados.</example>
     </rule>
 
+	
+
+    <!-- DESDE QUE HAJAM desde que haja -->
+    <rule id="DESDE_QUE_HAJAM" name="desde que haja">
+      <pattern>
+        <token>desde</token>
+        <token>que</token>
+		<marker>
+			<token>hajam</token>
+		</marker>	
+      </pattern>
+      <message>Substituir «hajam» por <suggestion>haja</suggestion>.</message>
+      <example correction="haja">Isso é possível desde que <marker>hajam</marker> condições.</example>
+    </rule>
 
 
+	
     <!-- DEVE DE deve -->
     <rule id="DEVE_DE" name="deve">
       <pattern>
@@ -1766,7 +1781,20 @@ $Id: grammar.xml,v 1.131 2016-01-05 10:55:00 marcoagpinto Exp $
       <example correction="às vezes">É que <marker>hás vezes</marker> temos de tomar decisões.</example>
     </rule>
 
+	
+	
+    <!-- HEMORRAGIA DE SANGUE hemorragia -->
+    <rule id="HEMORRAGIA_DE_SANGUE" name="hemorragia">
+      <pattern>
+        <token>hemorragia</token>
+        <token>de</token>
+		<token>sangue</token>
+      </pattern>
+      <message>Substituir «hemorragia de sangue» por <suggestion>hemorragia</suggestion>.</message>
+      <example correction="hemorragia">Uma <marker>hemorragia de sangue</marker> pode ser fatal.</example>
+    </rule>
 
+	
 
     <!-- HOUVERAM MUITOS houve muitos -->
     <rule id="HOUVERAM_MUITOS" name="houve muitos">
