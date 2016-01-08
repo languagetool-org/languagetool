@@ -13404,8 +13404,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern case_sensitive="yes">
 										<marker>
-												<token>nie<exception regexp="yes" scope="previous" case_sensitive="no">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż</exception></token>
-												<token postag=".*:aff.*|ger:.*" postag_regexp="yes"><exception postag="verb.*|pred" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}.*</exception></token>
+												<token postag="qub">nie<exception regexp="yes" scope="previous" case_sensitive="no">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż</exception></token>
+												<token postag=".*:aff.*|ger:.*|adj.*:pos" postag_regexp="yes"><exception postag="verb.*|pred" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}.*</exception></token>
 										</marker>
 										<token postag="SENT_END"><exception>,</exception></token>
 								</pattern>
@@ -13425,12 +13425,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Dlaczego nie Polska?</example>
 								<example correction="niepalenie">Prosimy o <marker>nie palenie</marker>.</example>
 								<example correction="niepalący">To człowiek <marker>nie palący</marker>.</example>
+                                <example correction="niedobry">On jest <marker>nie dobry</marker>.</example>
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
 										<marker>
-												<token>nie<exception regexp="yes" scope="previous" case_sensitive="no">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż|przecież</exception></token>
-												<token postag=".*:aff.*|ger:.*" postag_regexp="yes"><exception postag="verb.*|pred" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}.*</exception></token>
+												<token postag="qub">nie<exception regexp="yes" scope="previous" case_sensitive="no">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż|przecież</exception></token>
+												<token postag=".*:aff.*|ger:.*|adj.*:pos" postag_regexp="yes"><exception postag="verb.*|pred" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}.*</exception></token>
 										</marker>
 										<token negate="yes">,</token>
 										<token negate="yes" regexp="yes">a|ale|lecz|tylko</token>

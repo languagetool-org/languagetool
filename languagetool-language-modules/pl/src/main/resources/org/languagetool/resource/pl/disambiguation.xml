@@ -2722,6 +2722,17 @@
         </rule>
     </rulegroup>
 
+    <!-- reguła potrzebna do działania reguły NIE_RZECZOWNIK -->
+    <rule name="o nie + gerundium" id="O_NIE_GER">
+        <pattern>
+            <marker>
+                <token postag="prep:acc">o</token>
+                <token postag="qub">nie</token>
+                <token postag="ger:sg:nom.acc:n2.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
 
     <rulegroup name="prep + czasownik -> ~ czasownik" id="prep_verb">
         <!--  przyimki zawsze z tym samym przypadkiem --> 
