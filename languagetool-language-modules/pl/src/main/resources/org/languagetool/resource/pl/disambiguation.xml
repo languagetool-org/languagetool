@@ -2722,13 +2722,24 @@
         </rule>
     </rulegroup>
 
-    <!-- reguła potrzebna do działania reguły NIE_RZECZOWNIK -->
-    <rule name="o nie + gerundium" id="O_NIE_GER">
+    <!-- reguły potrzebne do działania reguły NIE_RZECZOWNIK -->
+    <rule name="o nie + gerundium/acc" id="O_NIE_GER">
         <pattern>
             <marker>
                 <token postag="prep:acc">o</token>
                 <token postag="qub">nie</token>
                 <token postag="ger:sg:nom.acc:n2.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule name="o nie + gerundium/loc" id="O_NIE_LOC">
+        <pattern>
+            <marker>
+                <token postag="prep:loc">o</token>
+                <token postag="qub">nie</token>
+                <token postag="ger:sg:dat.loc:n2.*" postag_regexp="yes"></token>
             </marker>
         </pattern>
         <disambig action="filterall"/>
@@ -3896,6 +3907,11 @@
             <token regexp="yes">trupią?</token>
         </pattern>
         <disambig action="remove"><wd lemma="trupić"/></disambig>
+    </rule>
+
+    <rule id="TYLE_TYLI" name="tyle to nie tyli">
+        <pattern><token>tyle</token></pattern>
+        <disambig action="remove"><wd lemma="tyli"/></disambig>
     </rule>
 
     <rule id="UCZESTNICZY" name="uczestniczy to nie uczestniczy">
@@ -6283,6 +6299,13 @@
         </rule>
     </rulegroup>
 
+    <rule id="ON" name="on to nie adj">
+        <pattern>
+            <token>on</token>
+        </pattern>
+        <disambig postag="ppron3:sg:nom:m1.m2.m3:ter:akc.nakc:praep.npraep"></disambig>
+    </rule>
+
     <rule id="CI_PANT" name="ci = ten, kiedy przed imiesłowem">
         <pattern>
             <token>ci</token>
@@ -6942,6 +6965,27 @@
         <example type="ambiguous" inputform="to[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]" outputform="to[ten/adj:sg:nom.voc:n1.n2:pos]" >Jest <marker>to</marker> problem.</example>
     </rule>
 
+    <rule name="być gotowym" id="byc_gotowy">
+        <pattern>
+            <marker>
+            <token inflected="yes">być</token>
+            <token inflected="yes">gotowy</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule name="!być nie gotowym" id="byc_nie_gotowy">
+        <pattern>
+            <marker>
+                <token inflected="yes">być</token>
+                <token postag="qub">nie</token>
+                <token inflected="yes" postag="adj.*" postag_regexp="yes">gotowy</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
 	<!--  for za_pewne rule -->
 	<rule name="pewne qub" id="pewne_qub">
 		<pattern>
@@ -7076,6 +7120,16 @@
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="nie[nie/conj,nie/qub,on/ppron3:pl:acc:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:praep,on/ppron3:sg:acc:n1.n2:ter:akc.nakc:praep]" outputform="nie[nie/qub]">Proszę, <marker>nie</marker> jedź sam!</example>
         <example type="untouched">Martwię się o nie.</example>
+    </rule>
+
+    <rule id="nie_qub_tyle" name="nie tyle to qub adv wg NKJP">
+        <pattern>
+            <marker>
+                <token postag="qub">nie</token>
+                <token postag="adv">tyle</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <rule id="NIE_NIEPPRON" name="„nie” to nie zaimek, jeśli bez przyimka">

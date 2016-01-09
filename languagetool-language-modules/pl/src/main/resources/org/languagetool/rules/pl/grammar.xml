@@ -5953,7 +5953,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<token>nie</token>
 								<token skip="-1">tyle<exception regexp="yes" scope="next">ile|\(|\[</exception></token>
 								<marker>
-										<token>co</token>
+										<token regexp="yes">co|lecz|ale</token>
 								</marker>
 								<token><exception regexp="yes">najmniej|najwyżej</exception></token>
 						</pattern>
@@ -13401,10 +13401,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 				<!-- błąd ortograficzny - pisownia łączna rzeczowników z "nie" -->
 				<rulegroup id="NIE_RZECZOWNIK" name="Rozłączna pisownia „nie” z rzeczownikami i przymiotnikami">
+                        <antipattern>
+                            <marker>
+                                <token>nie</token>
+                                <token inflected="yes" regexp="yes">wszystek|taki|mój|twój|nasz|wasz|ten</token>
+                            </marker>
+                        </antipattern>
+                        <antipattern>
+                            <marker>
+                                <token>nie</token>
+                                <token postag="adj.*:pos" postag_regexp="yes"/>
+                            </marker>
+                                <token postag="subst.*" postag_regexp="yes"/>
+                                <token>,</token>
+                                <token regexp="yes">a|ale|lecz|tylko</token>
+                        </antipattern>
 						<rule>
 								<pattern case_sensitive="yes">
 										<marker>
-												<token postag="qub">nie<exception regexp="yes" scope="previous" case_sensitive="no">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż</exception></token>
+												<token postag="qub">nie<exception regexp="yes" scope="previous" case_sensitive="no">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż|że</exception></token>
 												<token postag=".*:aff.*|ger:.*|adj.*:pos" postag_regexp="yes"><exception postag="verb.*|pred" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}.*</exception></token>
 										</marker>
 										<token postag="SENT_END"><exception>,</exception></token>
@@ -13430,7 +13445,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern case_sensitive="yes">
 										<marker>
-												<token postag="qub">nie<exception regexp="yes" scope="previous" case_sensitive="no">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż|przecież</exception></token>
+												<token postag="qub">nie<exception regexp="yes" scope="previous" case_sensitive="no">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż|przecież|że|to</exception></token>
 												<token postag=".*:aff.*|ger:.*|adj.*:pos" postag_regexp="yes"><exception postag="verb.*|pred" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}.*</exception></token>
 										</marker>
 										<token negate="yes">,</token>
@@ -13453,6 +13468,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Dlaczego nie Polska, ale Ukraina jest ojczyzną najwyższego Słowianina?</example>
 								<example correction="niepalenie">Prosimy o <marker>nie palenie</marker> na okręcie.</example>
 								<example correction="niepalących">Prosimy <marker>nie palących</marker> o interwencje.</example>
+                                <example>Należy tutaj dodać, iż nie wszyscy anarchiści byli przeciwni egoizmowi.</example>
+                                <example>To nie takie proste.</example>
+                                <example>Miał na myśli nie konkretny dzień, lecz datę około tego terminu.</example>
 						</rule>
 				</rulegroup>
 				<!-- błąd ortograficzny - pisownia cząstek -bym -->
