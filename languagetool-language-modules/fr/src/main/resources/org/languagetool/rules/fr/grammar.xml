@@ -524,8 +524,9 @@ though, and has since been slightly modified)-->
         <marker><token>gente</token></marker>
         <token postag="J [fe].*|V ppa [fe].*" postag_regexp="yes"/>
       </pattern>
-      <message>On confond souvent l’adjectif « gente » et le nom féminin « gent ». Voulez-vous écrire « gent » ?</message>
-      <example correction="">La <marker>gente</marker> féminine.</example>
+      <message>On confond souvent l’adjectif « gente » et le nom féminin « gent ». Voulez-vous écrire <suggestion>gent</suggestion> ?</message>
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=5066</url>
+      <example correction="gent">La <marker>gente</marker> féminine.</example>
       <example>La <marker>gent</marker> féminine.</example>
     </rule>
     <rulegroup id="PRES_PRET" name="près et prêt">
@@ -608,6 +609,16 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous écrire <suggestion>côte</suggestion> ?</message>
         <example correction="côte">Une <marker>cote</marker> de veau.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>Cote</token></marker>
+          <token>d</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token regexp="yes">Azur|Ivoire|Or</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>Côte</suggestion> ?</message>
+        <example correction="Côte">La <marker>Cote</marker> d’Azur.</example>
       </rule>
     </rulegroup>
     <rulegroup id="CA_SA" name="ÇA au lieu de SA">
@@ -7088,6 +7099,7 @@ though, and has since been slightly modified)-->
         <url>http://tempsreel.nouvelobs.com/abc-lettres/chlore-clore/C/homophone.html</url>
         <example correction="chlore">Un atome de <marker>clore</marker>.</example>
         <example>Je viens de clore la fenêtre.</example>
+        <example>Il est en mesure de clore le dossier.</example>
       </rule>
     </rulegroup>
   </category>
