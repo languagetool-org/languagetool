@@ -1464,14 +1464,14 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">grâce|prête?s?|pareils?|pareilles?|semblables?|identiques?|tant|tendances?<exception scope="previous" regexp="yes">[cl]e|un|[mts]on|[nv]otre|leur</exception></token>
-          <marker>
-            <token>a</token>
-          </marker>
+          <marker><token>a</token></marker>
+          <token><exception>été</exception></token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
         <example correction="à">Grâce <marker>a</marker> toi, j’ai gagné.</example>
         <example correction="à">Elles sont prêtes <marker>a</marker> t’écouter.</example>
         <example>Le prêt a été refusé.</example>
+        <example>Une inscription identique a été trouvée.</example>
       </rule>
       <rule>
         <pattern>
@@ -5325,6 +5325,12 @@ though, and has since been slightly modified)-->
         <example correction="poings">Il desserra les <marker>points</marker>.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>à</token>
+          <token>ce</token>
+          <token>point</token>
+          <token regexp="yes">liés?</token>
+        </antipattern>
         <pattern>
           <marker><token regexp="yes">points?</token></marker>
           <token regexp="yes">américains?|serrés?|desserrés?|levés?|cassés?|liés?</token>
@@ -5332,6 +5338,7 @@ though, and has since been slightly modified)-->
         <message>Confusion probable entre « point » et <suggestion><match no="1" regexp_match="t" regexp_replace="g"/></suggestion>.</message>
         <example correction="poings">Les <marker>points</marker> serrés.</example>
         <example>Les poings serrés.</example>
+        <example>Ils sont à ce point liés, qu’il voyagent toujours ensemble.</example>
       </rule>
     </rulegroup>
     <rule id="CONTREPARTIE" name="contre partie → contrepartie">
