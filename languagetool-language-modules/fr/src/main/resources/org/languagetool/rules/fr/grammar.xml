@@ -4685,10 +4685,10 @@ though, and has since been slightly modified)-->
     <rulegroup id="SCEAU_SEAU" name="sceau et seau">
       <rule>
         <pattern>
-          <marker><token regexp="yes">sceaux?</token></marker>
+          <marker><token inflected="yes">sceau</token></marker>
           <token>d</token>
           <token regexp="yes">[’´'‛′‘]</token>
-          <token regexp="yes">avoine|eau</token>
+          <token regexp="yes">acier|avoine|eau</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="c" regexp_replace=""/></suggestion> ?</message>
         <example correction="seau">Un <marker>sceau</marker> d’eau.</example>
@@ -4696,7 +4696,26 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <marker><token regexp="yes" skip="1">sceaux?</token></marker>
+          <marker><token inflected="yes">sceau</token></marker>
+          <token>de</token>
+          <token regexp="yes" inflected="yes">bois|boue|ciment|glace|glaçon|gravat|gravier|gravillon|plage|lait|maçon|nettoyage|peinture|sable</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="c" regexp_replace=""/></suggestion> ?</message>
+        <example correction="seau">Un <marker>sceau</marker> de plage.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes">sceau</token></marker>
+          <token>en</token>
+          <token regexp="yes">acier|bois|cuivre|fer|inox|m[ée]tal|plastique|polypropylène|zinc</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="c" regexp_replace=""/></suggestion> ?</message>
+        <example correction="seau">Un <marker>sceau</marker> en plastique.</example>
+        <example>Un seau d’eau.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token inflected="yes" skip="1">sceau</token></marker>
           <token regexp="yes">remplis?|percés?|vides?</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="c" regexp_replace=""/></suggestion> ?</message>
@@ -5266,7 +5285,7 @@ though, and has since been slightly modified)-->
       <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2220</url>
       <rule>
         <pattern>
-          <token regexp="yes">coups?</token>
+          <token regexp="yes" inflected="yes">arme|coup|oiseau</token>
           <token>de</token>
           <marker><token regexp="yes">points?</token></marker>
         </pattern>
@@ -5277,7 +5296,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">taper|fermer|ouvrir|blesser|serrer|desserrer|oiseau|arme</token>
+          <token inflected="yes" regexp="yes">taper|fermer|ouvrir|blesser|serrer|desserrer</token>
           <token regexp="yes">[dl]es?|du</token>
           <marker><token regexp="yes">points?</token></marker>
         </pattern>
