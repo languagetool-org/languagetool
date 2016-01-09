@@ -7077,6 +7077,19 @@ though, and has since been slightly modified)-->
         <example correction="voilà-t-il">Ne <marker>voila-t-il</marker> pas ce qu’on appelle un signe des temps ?</example>
       </rule>
     </rulegroup>
+    <rulegroup id="CHLORE_CLORE" name="chlore et clore">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">ajout|analyseur|attaque|atome|baril|bidon|bioxyde|bouteille|capteur|composée?|comprimé|concentration|consommation|convoi|cyanure|dégagement|détecteur|diffuseur|dioxyde|dosage|dose|doseur|émanation|eau|excès|fabrication|fabrique|fuite|galet|gaz|go[uû]t|gramme|granulé|insuffisance|kg|kilo|litre|mesureur|neutraliseur|niveau|odeur|oxyde|pastille|pentafluorure|présence|production|quantité|régulateur|solution|source|taux|tonne|transport|trifluorure|trop|remplie?|usine|utilisation|vapeur|wagon</token>
+          <token>de</token>
+          <marker><token>clore</token></marker>
+        </pattern>
+        <message>Confusion probable entre le verbe « \3 » et le nom <suggestion>chlore</suggestion> (élément chimique).</message>
+        <url>http://tempsreel.nouvelobs.com/abc-lettres/chlore-clore/C/homophone.html</url>
+        <example correction="chlore">Un atome de <marker>clore</marker>.</example>
+        <example>Je viens de clore la fenêtre.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Grammaire">
     <!-- http://www.leconjugueur.com/frlesnombres.php -->
@@ -8135,7 +8148,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="N_V" name="pas de verbe après : au, de, du…">
       <rule>
         <pattern>
-          <token regexp="yes">aux|[cdmts]es|du|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cette|celles?|quelque|avec|dans|chez</token>
+          <token regexp="yes">aux|[cdmts]es|du|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cette|celles?|quelque|avec|dans|chez|une?</token>
           <marker>
             <token postag="V.*" postag_regexp="yes">
               <exception postag="N.*|V pp[ar].*" postag_regexp="yes"/>
@@ -8156,6 +8169,10 @@ though, and has since been slightly modified)-->
         <example>Le glacier du <marker>Trient</marker>.</example>
         <example>Le glacier des <marker>Bossons</marker>.</example>
         <example>Ils ont des a priori sur nous.</example>
+        <example correction="">Un <marker>délaie</marker> de paiement.</example>
+        <example>Un <marker>délai</marker> de paiement.</example>
+        <example correction="">Une <marker>pèle</marker>.</example>
+        <example>Une <marker>pelle</marker>.</example>
       </rule>
       <rule>
         <pattern>
