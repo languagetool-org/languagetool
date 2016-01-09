@@ -6919,6 +6919,70 @@ though, and has since been slightly modified)-->
         <example correction="salle">La <marker>sale</marker> à manger.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="GUERE_GUERRE" name="guère et guerre">
+      <url>http://tempsreel.nouvelobs.com/abc-lettres/guere-guerre/G/homophone.html</url>
+      <rule>
+        <pattern>
+          <token>ne</token>
+          <token min="0" max="2" regexp="yes">[lmts]e|la|les|[nv]ous|lui|leur|en</token>
+          <token postag="V.*" postag_regexp="yes"/>
+          <marker><token>guerre</token></marker>
+        </pattern>
+        <message>Confusion probable entre le nom « guerre » et l’adverbe <suggestion>guère</suggestion>.</message>
+        <example correction="guère">Je ne me souviens <marker>guerre</marker> de lui.</example>
+        <example correction="guère">Je ne lui en donne <marker>guerre</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ne</token>
+          <token regexp="yes">[lmts]</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token postag="V.*" postag_regexp="yes"/>
+          <token min="0" max="1">plus</token>
+          <marker><token>guerre</token></marker>
+        </pattern>
+        <message>Confusion probable entre le nom « guerre » et l’adverbe <suggestion>guère</suggestion>.</message>
+        <example correction="guère">Ils ne s'aiment <marker>guerre</marker>.</example>
+        <example correction="guère">Ils ne s'aiment plus <marker>guerre</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ne</token>
+          <token postag="V.*" postag_regexp="yes"/>
+          <token>plus</token>
+          <marker><token>guerre</token></marker>
+        </pattern>
+        <message>Confusion probable entre le nom « guerre » et l’adverbe <suggestion>guère</suggestion>.</message>
+        <example correction="guère">Il ne reste plus <marker>guerre</marker> que lui.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>n</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token min="0" max="2" regexp="yes">en|y</token>
+          <token postag="V.*" postag_regexp="yes"/>
+          <marker><token>guerre</token></marker>
+        </pattern>
+        <message>Confusion probable entre le nom « guerre » et l’adverbe <suggestion>guère</suggestion>.</message>
+        <example correction="guère">Je n’aime <marker>guerre</marker> le sport.</example>
+        <example correction="guère">Je n’en veux <marker>guerre</marker>.</example>
+        <example correction="guère">Il n’y en a <marker>guerre</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>n</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token min="0" max="2" regexp="yes">en|y</token>
+          <token postag="V.*" postag_regexp="yes"/>
+          <token>plus</token>
+          <marker><token>guerre</token></marker>
+        </pattern>
+        <message>Confusion probable entre le nom « guerre » et l’adverbe <suggestion>guère</suggestion>.</message>
+        <example correction="guère">Je n’aime plus <marker>guerre</marker> le sport.</example>
+        <example correction="guère">Je n’en veux plus <marker>guerre</marker>.</example>
+        <example correction="guère">Il n’y en a plus <marker>guerre</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
