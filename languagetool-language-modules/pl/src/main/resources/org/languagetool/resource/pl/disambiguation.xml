@@ -6306,6 +6306,39 @@
         <disambig postag="ppron3:sg:nom:m1.m2.m3:ter:akc.nakc:praep.npraep"></disambig>
     </rule>
 
+    <rule id="ONA" name="ona to nie adj">
+        <pattern>
+            <token>ona</token>
+        </pattern>
+        <disambig postag="ppron3:sg:nom:f:ter:akc.nakc:praep.npraep"></disambig>
+    </rule>
+
+    <rule id="byc_on_adj_1" name="był on X-owy">
+        <pattern>
+            <unify>
+            <feature id="number"/><feature id="gender"/>
+                <token inflected="yes">być</token>
+                <token inflected="yes">on</token>
+                <token postag="adj.*|ppas.*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+    </rule>
+
+    <rule id="byc_on_adj_2" name="jest on X-owy">
+        <pattern>
+            <token inflected="yes">być</token>
+            <marker>
+            <unify>
+                <feature id="number"/><feature id="gender"/><feature id='case'/>
+                <token inflected="yes">on</token>
+                <token postag="adj.*|ppas.*" postag_regexp="yes"/>
+            </unify>
+            </marker>
+        </pattern>
+        <disambig action="unify"/>
+    </rule>
+
     <rule id="CI_PANT" name="ci = ten, kiedy przed imiesłowem">
         <pattern>
             <token>ci</token>

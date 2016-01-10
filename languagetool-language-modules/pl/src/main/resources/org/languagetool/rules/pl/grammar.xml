@@ -6673,7 +6673,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<token><exception inflected="yes" regexp="yes">\p{Lu}\p{Ll}+</exception></token>
 						</pattern>
 						<message>To wyrażenie jest częstą i niepoprawną kalką z języka angielskiego (jeśli nie jest użyte dosłownie). Poprawnie: <suggestion>plan działań</suggestion>, <suggestion>harmonogram</suggestion>.</message>
-						<short>Błąd leksykalny</short>
+                        <url>https://pl.wikipedia.org/wiki/Mapa_drogowa_(harmonogram)</url>
+                        <short>Błąd leksykalny</short>
 						<example correction="plan działań|harmonogram">Resort zaprezentuje <marker>mapę drogową</marker> prac nad ustawą.</example>
 						<example>W ofercie mamy mapy drogowe Polski i Europy.</example>
 						<example>Mapy są bardzo ważne do jazdy po drogach.</example>
@@ -15057,6 +15058,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="ROZWIZANIE_PROBLEMY_PROBLEMU" name="„rozwiązanie problemy” (problemu)">
+                <pattern>
+                    <token>rozwiązanie<exception scope='previous'>na</exception></token>
+                    <marker>
+                        <token>problemy</token>
+                    </marker>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>problemu</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction='problemu'>Rozwiązanie <marker>problemy</marker> jest możliwe.</example>
+                <example>Rozwiązanie problemu jest możliwe.</example>
+            </rule>
+            <rule id="DOPIERO_W_LATA_W_LATACH" name="„dopiero w lata” (w latach)">
+                <pattern>
+                    <token inflected='yes' regexp='yes'>dopiero|zbudować|urodzony|wznieść|więziony|powstały</token>
+                    <marker>
+                        <token>w</token>
+                        <token>lata</token>
+                    </marker>
+                </pattern>
+                <message>Prawdopodobna literówka. Powinno być: <suggestion>w latach</suggestion></message>
+                <short>Prawdopodobna literówka</short>
+                <example correction='w latach'>Przetwarzanie odpadów na większą skalę rozpoczęło się dopiero <marker>w lata</marker> 70. XX wieku.</example>
+                <example>Przetwarzanie odpadów na większą skalę rozpoczęło się dopiero w latach 70. XX wieku.</example>
+            </rule>
             <rule id="TAKTOWAC_JAKO" name="„taktować jako” (traktować jako)">
                 <pattern>
                     <marker>
@@ -17862,16 +17888,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="jestem">Nie <marker>jetem</marker> z tego zadowolony.</example>
 						<example>Leciałem jumbo jetem.</example>
 				</rule>
-				<rule id="TE_INFORMACJE" name="„tę informacje” (tę informację)">
-						<pattern>
-								<token>tę</token>
-								<token postag="subst:pl:acc:f" regexp="yes">.+e<exception postag="subst:sg:.*acc.*:f" postag_regexp="yes"></exception><exception>macie</exception></token>
-						</pattern>
-						<message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1"></match> <match no="2" postag="subst:sg:.*acc.*:f" postag_regexp="yes"></match></suggestion>, czy o <suggestion>te <match no="2"></match></suggestion>?</message>
-						<short>Prawdopodobna literówka</short>
-						<example correction="tę informację|te informacje">Podaj mi <marker>tę informacje</marker>.</example>
-						<example>Podaj mi te informacje.</example>
-				</rule>
+                <rulegroup id="NIEZGODNO_PRZYPADKW_PRZYMIOTNIKA_I_RZECZOWNIKA_RODZAJU_ESKIEGO" name="Niezgodność przypadków przymiotnika i rzeczownika rodzaju żeńskiego">
+                <rule>
+                    <pattern>
+                        <token>tę</token>
+                        <token postag="subst:pl:acc:f" regexp="yes">.+e<exception postag="subst:sg:.*acc.*:f" postag_regexp="yes"></exception><exception>macie</exception></token>
+                    </pattern>
+                    <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1"></match> <match no="2" postag="subst:sg:.*acc.*:f" postag_regexp="yes"></match></suggestion>, czy o <suggestion>te <match no="2"></match></suggestion>?</message>
+                    <short>Prawdopodobna literówka</short>
+                    <example correction="tę informację|te informacje">Podaj mi <marker>tę informacje</marker>.</example>
+                    <example>Podaj mi te informacje.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <marker>
+                        <token postag='adj:sg:nom.voc:f.*' postag_regexp="yes"></token>
+                        </marker>
+                    <token regexp='yes' postag='subst:sg:inst:f'>.*ą</token>
+                </pattern>
+                <message>Prawdopodobna literówka: <suggestion><match no="1" regexp_match="(.*)a" regexp_replace="$1ą"/></suggestion>.</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction='swą'>Wynegocjowane warunki przyćmiły <marker>swa</marker> hojnością wszystkie poprzednie.</example>
+                <example>Wynegocjowane warunki przyćmiły swą hojnością wszystkie poprzednie.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token postag='adj:sg:inst:f:pos'></token>
+                        <marker>
+                            <token regexp='yes' postag='subst:sg:nom:f'>.*a<exception postag='subst.*:gen.*' postag_regexp='yes'></exception></token>
+                        </marker>
+                    </pattern>
+                    <message>Prawdopodobna literówka: <suggestion><match no="2" regexp_match="(.*)a" regexp_replace="$1ą"/></suggestion>.</message>
+                    <short>Prawdopodobna literówka</short>
+                    <example correction='definicją'>W tej pracy nie będę się zajmował dokładną <marker>definicja</marker> czasu.</example>
+                    <example>W tej pracy nie będę się zajmował dokładną definicją czasu.</example>
+                </rule>
+            </rulegroup>
 				<rule id="UNIWERSYTET_W_HARVARDZIE" name="„Uniwersytet w Harvardzie” (Uniwersytet Harvarda)">
 						<pattern>
 								<token inflected="yes">uniwersytet</token>
