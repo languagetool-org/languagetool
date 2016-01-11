@@ -751,6 +751,14 @@
         <example type="untouched">Dziwny XIX w.</example>
     </rule>
 
+    <rule id="uznac_za_acc" name="za po uznać wymaga biernika">
+        <pattern>
+            <token skip="5" regexp="yes" inflected="yes">uważać|dziękować|przepraszać|uchodzić|przeprosić|uznać|uznawać|odpowiadać<exception scope="next" regexp="yes">[\p{Punct}—–„«»…&amp;&amp;[^\.]]+</exception></token>
+            <marker><token>za</token></marker>
+        </pattern>
+        <disambig postag="prep:acc"/>
+    </rule>
+
     <rule id="cel_nie_brev" name="cel. to skrót, cel nie">
         <pattern>
             <marker><token>cel</token></marker>
@@ -836,7 +844,7 @@
         <example type="ambiguous" inputform="za[za/prep:acc,za/prep:gen,za/prep:inst,za/qub]"
                  outputform="za[za/prep:acc,za/prep:gen,za/prep:inst]">Stoję <marker>za</marker> murem.</example>
         <example type="ambiguous" inputform="za[za/prep:acc,za/prep:gen,za/prep:inst,za/qub]"
-                 outputform="za[za/prep:acc,za/prep:gen,za/prep:inst]">Dziękuję <marker>za</marker> to.</example>
+                 outputform="za[za/prep:acc,za/prep:gen,za/prep:inst]">Przesuń to <marker>za</marker> to.</example>
         <example type="untouched">To za mało.</example>
     </rule>
 
@@ -1957,6 +1965,14 @@
         <example type="untouched">On wart jest stu takich drabów.</example>
         <example type="ambiguous" inputform="eleganckim[elegancki/adj:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,elegancki/adj:sg:inst:m1.m2.m3.n1.n2:pos,elegancki/adj:sg:loc:m1.m2.m3.n1.n2:pos]"
                  outputform="eleganckim[elegancki/adj:sg:inst:m1.m2.m3.n1.n2:pos]">Nie sposób być <marker>eleganckim</marker>.</example>
+    </rule>
+
+    <rule name="jakim/którym być z narzędnikiem dla orzecznika" id="jaki_ktory_BYC_INST">
+    <pattern>
+        <token postag="adj.*inst.*" postag_regexp="yes" regexp="yes" inflected="yes">jaki|który</token>
+        <token inflected="yes" postag="(?:verb|pact).*" postag_regexp="yes">być</token>
+    </pattern>
+    <disambig action="filterall"/>
     </rule>
 
     <rule name="być z narzędnikiem dla orzecznika" id="BYC_INST_2">
@@ -3759,6 +3775,19 @@
             <token>Paca</token>
         </pattern>
         <disambig action="remove"><wd lemma="pacać"/></disambig>
+    </rule>
+
+    <rule id="PADLA_OFIARA" name="padła ofiarą to czasownik">
+        <pattern>
+            <marker>
+                <token>padła</token>
+            </marker>
+            <token>ofiarą</token>
+        </pattern>
+        <disambig postag="verb:praet:sg:f:ter:perf:nonrefl"></disambig>
+        <example type="untouched">W stajni leżała padła szkapa.</example>
+        <example type="ambiguous" inputform="padła[padło/subst:pl:acc:n2,padło/subst:pl:nom:n2,padło/subst:pl:voc:n2,padło/subst:sg:gen:n2,padły/adj:sg:nom.voc:f:pos,paść/verb:praet:sg:f:ter:perf:nonrefl]"
+                 outputform="padła[paść/verb:praet:sg:f:ter:perf:nonrefl]">Józefa <marker>padła</marker> ofiarą przemytu nocników.</example>
     </rule>
 
     <rule id="PAPA" name="papa to nie papać">
@@ -6318,7 +6347,7 @@
             <unify>
             <feature id="number"/><feature id="gender"/>
                 <token inflected="yes">być</token>
-                <token inflected="yes">on</token>
+                <token inflected="yes" postag=".*nom.*" postag_regexp="yes">on</token>
                 <token postag="adj.*|ppas.*" postag_regexp="yes"/>
             </unify>
         </pattern>
@@ -6331,7 +6360,7 @@
             <marker>
             <unify>
                 <feature id="number"/><feature id="gender"/><feature id='case'/>
-                <token inflected="yes">on</token>
+                <token inflected="yes" postag=".*nom.*" postag_regexp="yes">on</token>
                 <token postag="adj.*|ppas.*" postag_regexp="yes"/>
             </unify>
             </marker>
