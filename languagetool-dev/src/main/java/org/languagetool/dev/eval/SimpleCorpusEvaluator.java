@@ -85,12 +85,6 @@ public class SimpleCorpusEvaluator {
 
   public PrecisionRecall run(File file, double threshold) throws IOException {
     probabilityRule.setMinProbability(threshold);
-    System.out.println("Output explanation:");
-    System.out.println("    [  ] = this is not an expected error");
-    System.out.println("    [+ ] = this is an expected error");
-    System.out.println("    [++] = this is an expected error and the first suggestion is correct");
-    System.out.println("    [//]  = not counted because already matches by a different rule");
-    System.out.println("");
     checkLines(getCorpus(file));
     return printAndResetResults();
   }
@@ -173,8 +167,15 @@ public class SimpleCorpusEvaluator {
     System.out.println("Running with language model from " + indexDirs);
     SimpleCorpusEvaluator evaluator = new SimpleCorpusEvaluator(indexDirs.toArray(new File[]{}));
     List<String> results = new ArrayList<>();
+    System.out.println("Output explanation:");
+    System.out.println("    [  ] = this is not an expected error");
+    System.out.println("    [+ ] = this is an expected error");
+    System.out.println("    [++] = this is an expected error and the first suggestion is correct");
+    System.out.println("    [//]  = not counted because already matches by a different rule");
     double threshold = START_THRESHOLD;
     while (threshold >= END_THRESHOLD) {
+      System.out.println("====================================================="
+                       + "===================================================== " + threshold);
       PrecisionRecall res = evaluator.run(inputFile, threshold);
       //String thresholdStr = String.format(Locale.ENGLISH, "%.20f", threshold);
       String thresholdStr = StringUtils.rightPad(String.valueOf(threshold), 22);
