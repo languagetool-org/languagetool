@@ -55,16 +55,11 @@ public class SimpleCorpusEvaluator {
   private static volatile EnglishNgramProbabilityRule probabilityRule;
 
   private final Evaluator evaluator;
-  private final List<String> badConfusionMatchWords = new ArrayList<>();
 
   private int sentenceCount;
   private int errorsInCorpusCount;
-  private int perfectMatches;
   private int goodMatches;
   private int matchCount;
-  private int perfectConfusionMatches;
-  private int goodConfusionMatches;
-  private int badConfusionMatches;
 
   public SimpleCorpusEvaluator(File indexTopDir) throws IOException {
     evaluator = getEvaluator(indexTopDir);
@@ -111,49 +106,35 @@ public class SimpleCorpusEvaluator {
         System.out.println(StringUtils.repeat(" ", match.getFromPos()) + StringUtils.repeat("^", length));
       }
       List<Span> detectedErrorPositions = new ArrayList<>();
+      int tmpGoodMatches = 0;
       for (RuleMatch match : matches) {
         boolean alreadyCounted = errorAlreadyCounted(match, detectedErrorPositions);
         if (!alreadyCounted && sentence.hasErrorCoveredByMatchAndGoodFirstSuggestion(match)) {
           //TODO: it depends on the order of matches whether [++] comes before [ +] (it should!)
-          goodMatches++;
-          perfectMatches++;
+          tmpGoodMatches++;
           matchCount++;
-          if (isConfusionRule(match)) {
-            perfectConfusionMatches++;
-          }
           System.out.println("    [++] " + match + ": " + match.getSuggestedReplacements());
-        } else if (!alreadyCounted && sentence.hasErrorCoveredByMatch(match)) {
-          //} else if (!alreadyCounted && sentence.hasErrorOverlappingWithMatch(match)) {
-          goodMatches++;
+        //} else if (!alreadyCounted && sentence.hasErrorCoveredByMatch(match)) {
+        } else if (!alreadyCounted && sentence.hasErrorOverlappingWithMatch(match)) {
+          tmpGoodMatches++;
           matchCount++;
-          if (isConfusionRule(match)) {
-            goodConfusionMatches++;
-          }
           System.out.println("    [+ ] " + match + ": " + match.getSuggestedReplacements());
         } else if (alreadyCounted) {
           System.out.println("    [//]  " + match + ": " + match.getSuggestedReplacements());
         } else {
           System.out.println("    [  ] " + match + ": " + match.getSuggestedReplacements());
           matchCount++;
-          if (isConfusionRule(match)) {
-            badConfusionMatches++;
-            badConfusionMatchWords.add(sentence.getMarkupText().substring(match.getFromPos(), match.getToPos()));
-          }
         }
         detectedErrorPositions.add(new Span(match.getFromPos(), match.getToPos()));
       }
+      // Make sure we don't count matches twice, this could cause a recall > 1:
+      goodMatches += Math.min(tmpGoodMatches, 1);
     }
-  }
-
-  private boolean isConfusionRule(RuleMatch match) {
-    return match.getRule().getId().equals("CONFUSION_RULE");
   }
 
   private PrecisionRecall printAndResetResults() {
     System.out.println("");
     System.out.println(sentenceCount + " lines checked with " + errorsInCorpusCount + " errors.");
-    System.out.println("Confusion rule matches: " + perfectConfusionMatches+ " perfect, "
-            + goodConfusionMatches + " good, " + badConfusionMatches + " bad (" + badConfusionMatchWords + ")");
 
     System.out.println("\nCounting matches, no matter whether the first suggestion is correct:");
 
@@ -165,12 +146,8 @@ public class SimpleCorpusEvaluator {
 
     sentenceCount = 0;
     errorsInCorpusCount = 0;
-    perfectMatches = 0;
     goodMatches = 0;
     matchCount = 0;
-    perfectConfusionMatches = 0;
-    goodConfusionMatches = 0;
-    badConfusionMatches = 0;
 
     return new PrecisionRecall(precision, recall);
   }
