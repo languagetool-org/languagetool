@@ -8166,6 +8166,11 @@ though, and has since been slightly modified)-->
     </rule>
     <rulegroup id="N_V" name="pas de verbe après : au, de, du…">
       <rule>
+        <antipattern>
+          <token regexp="yes">['´‘’′]|num[eé]ro</token>
+          <token regexp="yes">une?</token>
+          <token postag="V.*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
           <token regexp="yes">aux|[cdmts]es|du|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cette|celles?|quelque|avec|dans|chez|une?</token>
           <marker>
@@ -8192,6 +8197,9 @@ though, and has since been slightly modified)-->
         <example>Un <marker>délai</marker> de paiement.</example>
         <example correction="">Une <marker>pèle</marker>.</example>
         <example>Une <marker>pelle</marker>.</example>
+        <example>Quelqu’un a pris mon téléphone.</example>
+        <example>L’un vit a Tokyo, l’autre vit à Paris.</example>
+        <example>L’objectif numéro un a été atteint.</example>
       </rule>
       <rule>
         <pattern>
@@ -13426,35 +13434,6 @@ though, and has since been slightly modified)-->
       <example correction="boîte postale"><marker>casier postal</marker></example>
       <example><marker>boîte postale</marker></example>
     </rule>
-    <rulegroup id="AIDER_A_QUELQUUN" name="aider à [quelqu’un]">
-      <rule>
-        <pattern>
-          <token inflected="yes" skip="5">aider</token>
-          <token>à</token>
-        </pattern>
-        <message>« Aider à quelqu’un » peut être un régionalisme (Québec). Employez <suggestion>aider</suggestion> (quelqu’un) au besoin.</message>
-        <example correction="aider"><marker>aider à</marker></example>
-        <example><marker>aider</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>lui</token>
-          <token inflected="yes">aider</token>
-        </pattern>
-        <message>« Aider à quelqu’un » est un régionalisme (Québec). Employez <suggestion>l’aider</suggestion>.</message>
-        <example correction="l’aider"><marker>lui aider</marker></example>
-        <example><marker>l’aider</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>leur</token>
-          <token inflected="yes">aider</token>
-        </pattern>
-        <message>« Aider à quelqu’un » est un régionalisme (Québec). Employez <suggestion>les aider</suggestion>.</message>
-        <example correction="les aider"><marker>leur aider</marker></example>
-        <example><marker>les aider</marker></example>
-      </rule>
-    </rulegroup>
     <rule id="AVOIR_DE_BESOIN" name="avoir de besoin">
       <pattern>
         <token inflected="yes" skip="5">avoir</token>
@@ -13464,17 +13443,6 @@ though, and has since been slightly modified)-->
       <message>« Avoir de besoin » est un régionalisme (Québec). Employez <suggestion>avoir besoin</suggestion>.</message>
       <example correction="avoir besoin"><marker>avoir de besoin</marker></example>
       <example><marker>avoir besoin</marker></example>
-    </rule>
-    <rule id="CE_QUE_JAI_BESOIN" name="ce que j’ai (de) besoin">
-      <pattern>
-        <token>ce</token>
-        <token skip="3">que</token>
-        <token inflected="yes" skip="5">avoir</token>
-        <token regexp="yes">besoins?</token>
-      </pattern>
-      <message>« Ce que j’ai (de) besoin » est un régionalisme (Québec). Employez <suggestion>ce dont j’ai besoin</suggestion>.</message>
-      <example correction="ce dont j’ai besoin"><marker>ce que j’ai besoin</marker></example>
-      <example><marker>ce dont j’ai besoin</marker></example>
     </rule>
     <rule id="CHANTEUR_DE_POMME" name="chanteur de pomme">
       <pattern>
@@ -13855,15 +13823,6 @@ though, and has since been slightly modified)-->
       <message>« Trou d’eau » est un régionalisme (Québec). Employez <suggestion>flaque d’eau</suggestion>.</message>
       <example correction="flaque d’eau"><marker>trou d’eau</marker></example>
       <example><marker>flaque d’eau</marker></example>
-    </rule>
-    <rule id="FAIRE_CHANGEMENT" name="faire changement">
-      <pattern>
-        <token inflected="yes" skip="2">faire</token>
-        <token regexp="yes">changements?</token>
-      </pattern>
-      <message>« Faire changement » est un régionalisme (Québec). Employez <suggestion>apporter des changements</suggestion>, <suggestion>changer</suggestion>, <suggestion>modifier</suggestion>.</message>
-      <example correction="apporter des changements|changer|modifier"><marker>faire changement</marker></example>
-      <example><marker>apporter des changements</marker></example>
     </rule>
     <rule id="CUEILLETTE_DE_DONNEES" name="cueillette de données">
       <pattern>
@@ -14297,15 +14256,6 @@ though, and has since been slightly modified)-->
       <message>« Tir au poignet » est un régionalisme (Québec). Employez <suggestion>bras de fer</suggestion>.</message>
       <example correction="bras de fer"><marker>tir au poignet</marker></example>
       <example><marker>bras de fer</marker></example>
-    </rule>
-    <rule id="POSER_UN_GESTE" name="poser un geste/acte">
-      <pattern>
-        <token inflected="yes" skip="2">poser</token>
-        <token regexp="yes">gestes?|actes?</token>
-      </pattern>
-      <message>« Poser un geste/un acte » est un régionalisme (Québec, Belgique). Employez <suggestion>faire un geste</suggestion>.</message>
-      <example correction="faire un geste"><marker>poser un geste</marker></example>
-      <example><marker>faire un geste</marker></example>
     </rule>
     <rule id="MOUCHE_A_FEU" name="mouche à feu">
       <pattern>
