@@ -63,6 +63,10 @@ public abstract class BaseLanguageModel implements LanguageModel {
         totalCount = phraseCount;
       }
       double thisP = (double) (phraseCount + 1) / (firstWordCount + 1);
+      /* boosting 4grams seems to improve f-measure a tiny bit:
+      if (subList.size() == 4 && phraseCount > 0) {
+        thisP = 100;
+      }*/
       maxCoverage++;
       debug("    P for " + subList + ": %.20f (%d)\n", thisP, phraseCount);
       if (phraseCount > 0) {
