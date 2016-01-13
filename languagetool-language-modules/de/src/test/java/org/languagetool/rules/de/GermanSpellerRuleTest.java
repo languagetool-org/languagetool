@@ -128,7 +128,7 @@ public class GermanSpellerRuleTest {
   @Test
   public void testGetSuggestionsFromSpellingTxt() throws Exception {
     MyGermanSpellerRule ruleGermany = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
-    assertThat(ruleGermany.getSuggestions("Ligafußboll").toString(), is("[Ligafußball, -Ligafußball, Ligafußballs]"));  // from spelling.txt
+    assertThat(ruleGermany.getSuggestions("Ligafußboll").toString(), is("[Ligafußball, Ligafußballs]"));  // from spelling.txt
     MyGermanSpellerRule ruleSwiss = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
     assertThat(ruleSwiss.getSuggestions("Ligafußboll").toString(), is("[Ligafussball, Ligafussballs]"));
     assertThat(ruleSwiss.getSuggestions("konfliktbereid").toString(), is("[konfliktbereit, konfliktbereite]"));

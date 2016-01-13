@@ -161,6 +161,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         suggestions.set(i, s.replace("ß", "ss"));
       }
     }
+    // This is not quite correct as it might remove valid suggestions that start with "-",
+    // but without this we get too many strange suggestions that start with "-" for no apparent reason
+    // (e.g. for "Gratifikationskrisem" -> "-Gratifikationskrisen"):
+    Iterator<String> iterator = suggestions.iterator();
+    while (iterator.hasNext()) {
+      String suggestion = iterator.next();
+      if (suggestion.length() > 1 && suggestion.startsWith("-")) {
+        iterator.remove();
+      }
+    }
   }
 
   // Use hunspell-style replacements to get good suggestions for "heisse", namely "heiße" etc
