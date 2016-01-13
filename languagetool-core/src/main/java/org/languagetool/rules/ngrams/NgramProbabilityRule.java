@@ -82,6 +82,8 @@ public class NgramProbabilityRule extends Rule {
         if (i < tokens.size()-1) {
           GoogleToken next = tokens.get(i+1);
           Probability p = lm.getPseudoProbability(Arrays.asList(prevToken.token, token, next.token));
+          // for 4grams:
+          //Probability p = lm.getPseudoProbability(Arrays.asList(prevPrevToken.token, prevToken.token, token, next.token));
           //System.out.println("P=" + p + " for " + Arrays.asList(prevToken.token, token, next.token));
           String ngram = prevToken + " " + token + " " + next.token;
           // without bigrams:
