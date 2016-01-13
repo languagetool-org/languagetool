@@ -8713,28 +8713,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>In den 70er Jahren des zwanzigsten Jahrhunderts.</example>
             </rule>
         </rulegroup>
-        <!-- Jan: TODO – Add more stuff like "Haarfrisur, Fußpedal, Altveteran, langsam kriechen, schnell rasen ..." -->
-        <rulegroup id="FUER_UMSONST" name="Umgangssprachliche Verdoppelung: 'für umsonst'" default="off">
-            <!-- Recherchieren: Sagt das überhaupt irgendwer außerhalb des Ruhrgebiets? -->
-            <rule>
-                <pattern>
-                    <token>für</token>
-                    <token>umsonst</token>
-                </pattern>
-                <message>Die Wendung 'für umsonst' ist umgangssprachlich. Ersetzen durch <suggestion>umsonst</suggestion> (Synonym: <suggestion>gratis</suggestion>)?</message>
-                <short>&redundanz;</short>
-                <example>LanguageTool gibt es <marker>umsonst</marker>, aber nicht vergebens.</example>
-                <example correction="umsonst|gratis">LanguageTool gibt es <marker>für umsonst</marker>, aber nicht vergebens.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="UEBERHAUPT_GAR_NICHT" name="Umgangssprachliche Verdoppelung: 'überhaupt gar nicht/kein' etc.">
-            <rule>
-                <regexp>(überhaupt) (gar) (nichts?|niemand(en)?|kein|keine[nmsr]?)</regexp>
-                <message>Die Wendung '\1 \2 \3' ist umgangssprachlich. Ersetzen durch <suggestion>\1 \3</suggestion> oder <suggestion>\2 \3</suggestion>?</message>
-                <short>&redundanz;</short>
-                <example correction="überhaupt nichts|gar nichts">LanguageTool kostet <marker>überhaupt gar nichts</marker>.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="ETC_PUNKTE" name="Verdoppelung: 'etc. …'">
             <rule>
                 <regexp>(etc|usw)\. (…)</regexp>
@@ -9405,14 +9383,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Dieses Vorgehen ist völlig <marker>illegal</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="SO_DERMASSEN" name="Verdoppelung: 'so dermaßen (so/dermaßen)'">
-            <regexp>\bso dermaßen\b</regexp>
-            <message>'So dermaßen' ist eine Doppelung oder umgangssprachlich.</message>
-            <suggestion>so</suggestion>
-            <suggestion>dermaßen</suggestion>
-            <short>&redundanz;</short>
-            <example correction="so|dermaßen">Das Stück war <marker>so dermaßen</marker> langweilig.</example>
-        </rule>
         <rulegroup id="ENTSTAMMEN_AUS" name="Verdoppelung: 'entstammt aus (entstammt)'">
             <rule>
                 <pattern>
@@ -9520,6 +9490,74 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category name="Umgangssprache" type="register">
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
+        <rule id="SO_DERMASSEN" name="Verdoppelung: 'so dermaßen (so/dermaßen)'">
+            <regexp>\bso dermaßen\b</regexp>
+            <message>'So dermaßen' ist eine Doppelung oder umgangssprachlich.</message>
+            <suggestion>so</suggestion>
+            <suggestion>dermaßen</suggestion>
+            <short>&redundanz;</short>
+            <example correction="so|dermaßen">Das Stück war <marker>so dermaßen</marker> langweilig.</example>
+        </rule>
+        <rule id="UEBERHAUPT_GAR_NICHT" name="Umgangssprachliche Verdoppelung: 'überhaupt gar nicht/kein' etc.">
+            <regexp>(überhaupt) (gar) (nichts?|niemand(en)?|kein|keine[nmsr]?)</regexp>
+            <message>Die Wendung '\1 \2 \3' ist umgangssprachlich. Ersetzen durch <suggestion>\1 \3</suggestion> oder <suggestion>\2 \3</suggestion>?</message>
+            <short>&redundanz;</short>
+            <example correction="überhaupt nichts|gar nichts">LanguageTool kostet <marker>überhaupt gar nichts</marker>.</example>
+        </rule>
+        <rulegroup id="WEGEN_DIR" name="Grammatik: 'wegen dir (deinetwegen)' usw.">
+            <rule>
+                <regexp>\b(wegen) (mir)</regexp>
+                <message>'\1 \2' ist möglicherweise umgangssprachlich. Ersetzen durch <suggestion>meinetwegen</suggestion>?</message>
+                <example correction="Meinetwegen"><marker>Wegen mir</marker> ist sie zu spät gekommen.</example>
+            </rule>
+            <rule>
+                <regexp>\b(wegen) (dir)</regexp>
+                <message>'\1 \2' ist möglicherweise umgangssprachlich. Ersetzen durch <suggestion>deinetwegen</suggestion>?</message>
+                <example correction="Deinetwegen"><marker>Wegen dir</marker> komme ich zu spät.</example>
+            </rule>
+            <rule>
+                <regexp>\b(wegen) (ihr)\b</regexp>
+                <message>'\1 \2' ist möglicherweise umgangssprachlich. Ersetzen durch <suggestion>ihretwegen</suggestion>?</message>
+                <example correction="Ihretwegen"><marker>Wegen ihr</marker> komme ich zu spät.</example>
+            </rule>
+            <rule>
+                <regexp>\b(wegen) (ihnen)</regexp>
+                <message>'\1 \2' ist möglicherweise umgangssprachlich. Ersetzen durch <suggestion>ihretwegen</suggestion>?</message>
+                <example correction="Ihretwegen"><marker>Wegen Ihnen</marker> komme ich zu spät.</example>
+            </rule>
+            <rule>
+                <regexp>\b(wegen) (ihm)</regexp>
+                <message>'\1 \2' ist möglicherweise umgangssprachlich. Ersetzen durch <suggestion>seinetwegen</suggestion>?</message>
+                <example correction="Seinetwegen"><marker>Wegen ihm</marker> komme ich zu spät.</example>
+            </rule>
+        </rulegroup>
+        <!-- Jan: TODO – Add more stuff like "Haarfrisur, Fußpedal, Altveteran, langsam kriechen, schnell rasen ..." -->
+        <rule id="FUER_UMSONST" name="Umgangssprachliche Verdoppelung: 'für umsonst'" default="off">
+            <pattern>
+                <token>für</token>
+                <token>umsonst</token>
+            </pattern>
+            <message>Die Wendung 'für umsonst' ist umgangssprachlich. Ersetzen durch <suggestion>umsonst</suggestion> (Synonym: <suggestion>gratis</suggestion>)?</message>
+            <short>&redundanz;</short>
+            <example>LanguageTool gibt es <marker>umsonst</marker>, aber nicht vergebens.</example>
+            <example correction="umsonst|gratis">LanguageTool gibt es <marker>für umsonst</marker>, aber nicht vergebens.</example>
+        </rule>
+        <rule id="SATZ_VON" name="Grammatik: 'Satz von (des) Pythagoras usw.'">
+            <!-- vgl. http://www.duden.de/rechtschreibung/von_aus_ab_durch_per_seitens#Bedeutung5c -->
+            <pattern>
+                <token><exception>des</exception></token>
+                <marker>
+                    <token regexp="yes">.*S(a|ä)tz.*</token>
+                    <token>von</token>
+                    <token regexp="yes">Pythagoras|Euklid|Thales</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>\2 des \4</suggestion>? Die Bezeichnung '\2 \3 \4' ist umgangssprachlich.</message>
+            <example>Der <marker>Satz des Pythagoras</marker> ist einer der fundamentalen Sätze der euklidischen Geometrie.</example>
+            <example correction="Satzgruppe des Pythagoras">Die <marker>Satzgruppe von Pythagoras</marker> gilt als fundamental.</example>
+            <example correction="Sätze des Thales">Die <marker>Sätze von Thales</marker> gelten als fundamental.</example>
+            <example correction="Höhensatz des Euklid">Der <marker>Höhensatz von Euklid</marker> gilt als fundamental.</example>
+        </rule>
         <rule id="BRAUCHEN_OHNE_ZU" name="fehlendes zu">
             <pattern>
                 <token inflected='yes'>brauchen</token>
@@ -24260,33 +24298,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich ging nach Hause, nachdem ich eine Stellungnahme bekommen <marker>hatte</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WEGEN_DIR" name="Grammatik: 'wegen dir (deinetwegen)' usw.">
-            <rule>
-                <regexp>\b(wegen) (mir)</regexp>
-                <message>'\1 \2' ist möglicherweise umgangssprachlich. Ersetzen durch <suggestion>meinetwegen</suggestion>?</message>
-                <example correction="Meinetwegen"><marker>Wegen mir</marker> ist sie zu spät gekommen.</example>
-            </rule>
-            <rule>
-                <regexp>\b(wegen) (dir)</regexp>
-                <message>'\1 \2' ist möglicherweise umgangssprachlich. Ersetzen durch <suggestion>deinetwegen</suggestion>?</message>
-                <example correction="Deinetwegen"><marker>Wegen dir</marker> komme ich zu spät.</example>
-            </rule>
-            <rule>
-                <regexp>\b(wegen) (ihr)\b</regexp>
-                <message>'\1 \2' ist möglicherweise umgangssprachlich. Ersetzen durch <suggestion>ihretwegen</suggestion>?</message>
-                <example correction="Ihretwegen"><marker>Wegen ihr</marker> komme ich zu spät.</example>
-            </rule>
-            <rule>
-                <regexp>\b(wegen) (ihnen)</regexp>
-                <message>'\1 \2' ist möglicherweise umgangssprachlich. Ersetzen durch <suggestion>ihretwegen</suggestion>?</message>
-                <example correction="Ihretwegen"><marker>Wegen Ihnen</marker> komme ich zu spät.</example>
-            </rule>
-            <rule>
-                <regexp>\b(wegen) (ihm)</regexp>
-                <message>'\1 \2' ist möglicherweise umgangssprachlich. Ersetzen durch <suggestion>seinetwegen</suggestion>?</message>
-                <example correction="Seinetwegen"><marker>Wegen ihm</marker> komme ich zu spät.</example>
-            </rule>
-        </rulegroup>
         <rule id="EINE_MILLIONEN" name="Grammatik: 'eine Millionen (Million)'">
             <regexp>\b(einer?) Millionen\b</regexp>
             <message>Meinten Sie <suggestion>\1 Million</suggestion>? 'Millionen' ist der Plural von 'Million'.</message>
@@ -24677,24 +24688,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Diese Form des Adjektivs '\1' ist sehr ungebräuchlich. Meinten Sie das Adverb <suggestion>etwa</suggestion> oder das Adjektiv in der Form <suggestion>\1e</suggestion> oder einer anderen flektierten Form?</message>
                 <example>Bei <marker>etwaigen</marker> Verstößen</example>
                 <example correction="etwa|etwaige">Sollte dagegen <marker>etwaig</marker> verstoßen werden</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="SATZ_VON" name="Grammatik: 'Satz von (des) Pythagoras usw.'">
-            <!-- vgl. http://www.duden.de/rechtschreibung/von_aus_ab_durch_per_seitens#Bedeutung5c -->
-            <rule>
-                <pattern>
-                    <token><exception>des</exception></token>
-                    <marker>
-                        <token regexp="yes">.*S(a|ä)tz.*</token>
-                        <token>von</token>
-                        <token regexp="yes">Pythagoras|Euklid|Thales</token>
-                    </marker>
-                </pattern>
-                <message>Meinten Sie <suggestion>\2 des \4</suggestion>? Die Bezeichnung '\2 \3 \4' ist umgangssprachlich.</message>
-                <example>Der <marker>Satz des Pythagoras</marker> ist einer der fundamentalen Sätze der euklidischen Geometrie.</example>
-                <example correction="Satzgruppe des Pythagoras">Die <marker>Satzgruppe von Pythagoras</marker> gilt als fundamental.</example>
-                <example correction="Sätze des Thales">Die <marker>Sätze von Thales</marker> gelten als fundamental.</example>
-                <example correction="Höhensatz des Euklid">Der <marker>Höhensatz von Euklid</marker> gilt als fundamental.</example>
             </rule>
         </rulegroup>
         <rulegroup id="VIELZAHL_PLUS_SINGULAR" name="Grammatik: 'eine Vielzahl von Möglichkeit (Möglichkeiten)' etc. (falscher Singular)">
