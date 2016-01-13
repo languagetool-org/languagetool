@@ -41,9 +41,8 @@ public class WordRepeatRule extends Rule {
 
   /**
    * Implement this method to return <code>true</code> if there's
-   * a potential word repetition at the current position should be ignored,
+   * a potential word repetition at the current position that should be ignored,
    * i.e. if no error should be created.
-   * 
    * @param tokens the tokens of the sentence currently being checked
    * @param position the current position in the tokens 
    * @return this implementation always returns false
