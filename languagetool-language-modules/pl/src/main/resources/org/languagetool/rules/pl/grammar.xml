@@ -4934,6 +4934,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category name="Błędy składniowe" type="grammar">
+            <rule id="WIKSZO_BYO_WIKSZO_BYA" name="„Większość było” (większość była)">
+                <pattern>
+                    <token skip='5'>większość<exception regexp='yes' scope='next'>verb:.*</exception><exception scope='next'>,</exception></token>
+                    <marker>
+                        <token postag='verb:praet:sg:n1.n2:ter:.*' postag_regexp='yes'></token>
+                    </marker>
+                </pattern>
+                <message>Prawdopodobny błąd gramatyczny. To rzeczownik rodzaju żeńskiego. Powinno być <suggestion><match no="2" regexp_match="o$" regexp_replace="a"/></suggestion>.</message>
+                <url>http://www.pwsz.chelm.pl/poradnia_jezykowa/index_2.php?id_k=4&amp;id_p=779</url>
+                <short>Błąd gramatyczny</short>
+                <example correction='była'>Większość ludności kolonii <marker>było</marker> emigrantami.</example>
+                <example>Większość ludności kolonii była emigrantami</example>
+            </rule>
             <rulegroup id="NIGDY_NIE" name="Brak negacji w zdaniu z „nigdy”, „nic” itd.">
                     <antipattern>
                         <token inflected="yes">panna</token>
@@ -10995,7 +11008,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category name="Błędy ortograficzne" type="misspelling">
-            <!-- Polish rule, 2015-11-14 -->
+            <rule id="OM_A" name="„sprzedać nabywcą” (nabywcom)">
+                <pattern>
+                    <token inflected='yes' regexp='yes'>(:?od)?sprzedać|(:?od)?sprzedawać|akompaniować|aplikować|asystować|bandażować|bezcześcić|bluzgać|bluźnić|błogosławić|opyl[ia]ć|posprzedqawać|życzyć</token>
+                    <marker>
+                        <token regexp='yes' postag='subst:sg:inst:m1'>.*ą</token>
+                    </marker>
+                </pattern>
+                <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion><match no="2" regexp_match="ą" regexp_replace="om"/></suggestion>?</message>
+                <short>Błąd ortograficzny</short>
+                <example correction='dzierżawcom'>Ziemia miała być odsprzedawana <marker>dzierżawcą</marker>.</example>
+                <example>Ziemia miała być odsprzedawana dzierżawcom.</example>
+            </rule>
             <rule id="EUROPA_ZACHODNIA" name="„Europa zachodnia” (Europa Zachodnia)">
                 <antipattern>
                     <marker>
@@ -17927,6 +17951,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example correction='definicją'>W tej pracy nie będę się zajmował dokładną <marker>definicja</marker> czasu.</example>
                     <example>W tej pracy nie będę się zajmował dokładną definicją czasu.</example>
                 </rule>
+                <rule>
+                    <pattern>
+                        <marker>
+                            <token postag='adj:sg:nom.voc:f.*' postag_regexp='yes'></token>
+                        </marker>
+                        <token regexp='yes' postag='subst:sg:acc:f'>.*ę</token>
+                    </pattern>
+                    <message>Prawdopodobna literówka: <suggestion><match no="1" regexp_match="(.*)a" regexp_replace="$1ą"/></suggestion>.</message>
+                    <short>Prawdopodobna literówka</short>
+                    <example correction='odpowiednią'>Musisz utworzyć <marker>odpowiednia</marker> infrastrukturę.</example>
+                    <example>Musisz utworzyć odpowiednią infrastrukturę.</example>
+                </rule>
+                    <rule>
+                        <pattern>
+                            <token regexp='yes' postag='subst:sg:acc:f'>.*ę</token>
+                            <marker>
+                                <token postag='adj:sg:nom.voc:f.*' postag_regexp='yes'></token>
+                            </marker>
+                        </pattern>
+                        <message>Prawdopodobna literówka: <suggestion><match no="2" regexp_match="(.*)a" regexp_replace="$1ą"/></suggestion>.</message>
+                        <short>Prawdopodobna literówka</short>
+                        <example correction='polityczną'>Był to czynnik kształtujący scenę <marker>polityczna</marker> infrastrukturę.</example>
+                        <example>Musisz utworzyć odpowiednią infrastrukturę.</example>
+                    </rule>
             </rulegroup>
 				<rule id="UNIWERSYTET_W_HARVARDZIE" name="„Uniwersytet w Harvardzie” (Uniwersytet Harvarda)">
 						<pattern>

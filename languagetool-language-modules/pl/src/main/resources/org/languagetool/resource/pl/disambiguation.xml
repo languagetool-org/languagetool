@@ -2643,6 +2643,16 @@
         <disambig action="filterall"/>
     </rule>
 
+    <rule id="WIEKSZOSC_GEN" name="gen po większość/mniejszość">
+        <pattern>
+            <token regexp="yes" inflected="yes">mniejszość|większość</token>
+            <marker>
+                <token postag="(?:adj|ger|subst).*gen.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rule id="NAPOJ_WYROB" name="napój/wyrób + przymiotnik -> rzeczownik">
         <pattern>
             <marker>
@@ -2980,6 +2990,7 @@
         <example type="ambiguous" inputform="kapitana[kapitan/subst:sg:acc:m1,kapitan/subst:sg:gen:m1,kapitana/subst:sg:nom:f]"
                  outputform="kapitana[kapitan/subst:sg:gen:m1]">Czy jest żoną <marker>kapitana</marker>?</example>
     </rule>
+
 
     <rule id="PRZYRODA_SINGULARE_TANTUM" name="Przyrody to raczej singulare">
         <pattern>
