@@ -7566,6 +7566,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example correction="spełniając swoją funkcję|odgrywając swoją rolę">Nadal <marker>spełniając swoją rolę</marker>, stali się zależni od Chin.</example>
                                 <example correction="pełni żadnej funkcji|odgrywa żadnej roli">To nie nie <marker>pełni żadnej roli</marker>.</example>
 						</rule>
+                    <rule>
+                        <pattern>
+                            <token inflected="yes" regexp="yes">s?pełnia?ć</token>
+                            <token postag="(adj|ppas|pact):.*(acc|gen).*:f.*" postag_regexp="yes"/>
+                            <token postag="(adj|ppas|pact):.*(acc|gen).*:f.*" postag_regexp="yes"/>
+                            <token regexp="yes">rol[ęei]</token>
+                        </pattern>
+                        <message>Mówimy <suggestion><match no="1"></match> <match no="2"/> <match no="3"/> <match no="4" regexp_match="rol([ęei])" regexp_replace="funkcj$1"/></suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*|pcon.*">odgrywać</match> <match no="2"></match> <match no="3"/> <match no="4"/></suggestion>. Roli nie można pełnić, można ją tylko odgrywać.</message>
+                        <short>Błąd leksykalny</short>
+                        <example correction="Pełni istotną metafizyczną funkcję|Odgrywa istotną metafizyczną rolę"><marker>Pełni istotną metafizyczną rolę</marker> w filozofii Hegla.</example>
+                        <example><marker>Odgrywa istotną ontologiczną rolę</marker> w żegludze różnych typów statków.</example>
+                    </rule>
                         <rule>
                             <pattern>
                                 <unify><feature id="number"/><feature id="person"/>
@@ -12569,12 +12581,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 										<token>ad</token>
 										<token>.</token>
 								</marker>
+                                <token min="0">(</token>
 								<token regexp="yes">\d+</token>
 						</pattern>
 						<message>Ten wyraz nie jest skrótem, lecz wyrazem łacińskim, pisanym bez kropki: <suggestion>ad</suggestion>.</message>
 						<short>Błąd ortograficzny</short>
 						<example>Ad 1.</example>
 						<example correction="Ad"><marker>Ad.</marker> 1.</example>
+                        <example correction="Ad"><marker>Ad.</marker> (1).</example>
 				</rule>
 
 				<rulegroup id="LICZBY_SLOWNIE_SKROT" name="Skrótowy zapis liczb: 10-tka (dziesiątka) itd.">
@@ -15083,6 +15097,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="WSZYSTKIE_Z_TEORIE_WSZYSTKIE_TEORIE" name="„wszystkie z teorie” (wszystkie teorie)">
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>wszystek</token>
+                        <token inflected='yes' postag='prep:acc.*' postag_regexp='yes'>z</token>
+                        <token postag='subst:pl:acc.*' postag_regexp='yes'><exception postag='subst:pl:gen.*' postag_regexp='yes'></exception></token>
+                    </marker>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1"/> <match no="3"/></suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction='wszystkie charakterystyki'>Ten obiekt ma <marker>wszystkie z charakterystyki</marker> istotne dla Wacława.</example>
+                <example>Ten obiekt ma wszystkie charakterystyki istotne dla Wacława.</example>
+            </rule>
+            <rule id="DUE_ZNACZENIA_MA_DUE_ZNACZENIE_MA" name="„duże znaczenia ma” (duże znaczenie ma)">
+                <pattern>
+                    <token regexp='yes'>duże|istotne|kluczowe</token>
+                    <marker>
+                        <token skip='4'>znaczenia</token>
+                    </marker>
+                    <token regexp='yes'>ma(ją)?</token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>znaczenie</suggestion> (liczba pojedyncza)?</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction='znaczenie'>Duże <marker>znaczenia</marker> mają badania nad percepcją.</example>
+                <example>Duże znaczenie mają badania nad percepcją.</example>
+            </rule>
             <rule id="ROZWIZANIE_PROBLEMY_PROBLEMU" name="„rozwiązanie problemy” (problemu)">
                 <pattern>
                     <token>rozwiązanie<exception scope='previous'>na</exception></token>
