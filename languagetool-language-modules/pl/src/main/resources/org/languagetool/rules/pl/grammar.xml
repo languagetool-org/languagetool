@@ -15097,6 +15097,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rulegroup id="Z_CO_ZA_TYM_IDZIE_A_CO_ZA_TYM_IDZIE" name="„z co za tym idzie” (a co za tym idzie)">
+                <rule>
+                <pattern>
+                    <token regexp="yes">[,;–—]</token>
+                    <marker>
+                        <token>z</token>
+                    </marker>
+                    <token>co</token>
+                    <token>za</token>
+                    <token>tym</token>
+                    <token>idzie</token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>a</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction='a'>Dobra sytuacja ekonomiczna społeczeństw, <marker>z</marker> co za tym idzie wysoki poziom życia, komfort, względna stabilizacja finansowa jakoś sprzyjają miłosierdziu.</example>
+                <example>Dobra sytuacja ekonomiczna społeczeństw, a co za tym idzie wysoki poziom życia, komfort, względna stabilizacja finansowa jakoś sprzyjają miłosierdziu</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token><exception regexp="yes">[,;–—]</exception></token>
+                        <marker>
+                            <token>z</token>
+                        <token>co</token>
+                        </marker>
+                        <token>za</token>
+                        <token>tym</token>
+                        <token>idzie</token>
+                    </pattern>
+                    <message>Prawdopodobna literówka. Czy chodziło o <suggestion>co</suggestion>?</message>
+                    <short>Prawdopodobna literówka</short>
+                    <example correction='co'>Dobra sytuacja ekonomiczna społeczeństw, a <marker>z co</marker> za tym idzie wysoki poziom życia, komfort, względna stabilizacja finansowa jakoś sprzyjają miłosierdziu.</example>
+                    <example>Dobra sytuacja ekonomiczna społeczeństw, a co za tym idzie wysoki poziom życia, komfort, względna stabilizacja finansowa jakoś sprzyjają miłosierdziu</example>
+                </rule>
+            </rulegroup>
             <rule id="WSZYSTKIE_Z_TEORIE_WSZYSTKIE_TEORIE" name="„wszystkie z teorie” (wszystkie teorie)">
                 <pattern>
                     <marker>
