@@ -161,7 +161,7 @@ public final class PatternTestTools {
                         (exception.isCaseSensitive() ? "" : "(?i)") +  pToken.getString())) {
                   System.err.println("The " + lang + " rule: "
                           + ruleId + "[" + ruleSubId + "] has exception word ["
-                          +  exception.getString() + "] which cannot match the"
+                          +  exception.getString() + "] which cannot match the "
                           + "regexp token [" + i + "] [" + pToken.getString()
                           + "] so exception seems useless, "
                           + "or did you forget skip=\"...\" or scope=\"previous\"?");
