@@ -61,6 +61,9 @@ public class TokenAgreementRule extends Rule {
   private static final Set<String> STREETS = new HashSet<>(Arrays.asList(
       "Штрассе", "Авеню", "Стріт"
       ));
+  private static final Set<String> NAMES = new HashSet<>(Arrays.asList(
+      "ім'я", "прізвище"
+      ));
 
   public TokenAgreementRule(final ResourceBundle messages) throws IOException {
     super.setCategory(new Category(messages.getString("category_misc")));
@@ -218,11 +221,16 @@ public class TokenAgreementRule extends Rule {
           }
         }
 
-        // на (свято) Купала, на (вулиці) Мазепи, на (вулиці) Тюльпанів
-        if (prep.equalsIgnoreCase("на")
-            && Character.isUpperCase(token.charAt(0)) && posTag.matches("noun:.:v_rod.*")) {
-          reqTokenReadings = null;
-          continue;
+        if (prep.equalsIgnoreCase("на")) {
+          // 1) на (свято) Купала, на (вулиці) Мазепи, на (вулиці) Тюльпанів
+          if ((Character.isUpperCase(token.charAt(0)) && posTag.matches("noun:.:v_rod.*"))
+                // 2) поміняти ім'я на Захар
+                || (posTag.matches(".*[fl]name.*")
+                    && ((i > 1 && NAMES.contains(tokens[i-2].getAnalyzedToken(0).getToken()))
+                        || (i > 2 && NAMES.contains(tokens[i-3].getAnalyzedToken(0).getLemma()))))) {
+            reqTokenReadings = null;
+            continue;
+          }
         }
 
         if( prep.equalsIgnoreCase("з") ) {

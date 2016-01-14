@@ -25,20 +25,29 @@
         <example type="untouched">Можний дядько.</example>
     </rule>
 
-    <rule name="На" id="DIS_PREP_NA">
+    <rule name="Прийменник і частка 'на'" id="DIS_PREP_NA">
         <pattern>
-            <token>на</token>
+            <token>на
+            </token>
             <token postag_regexp="yes" postag="(adj|noun|pron).*">
               <exception>тобі</exception>
+              <!--
+              <exception postag_regexp="yes" postag="&lt;.*"/>
               <exception postag_regexp="yes" postag="(adj|noun).*:v_naz.*|&lt;.*"/>
+              -->
             </token>
         </pattern>
-        <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
+        <disambig><match no="1" postag="prep.*|&lt;.*" postag_regexp="yes"/></disambig>
         <example type="ambiguous" 
             inputform="На[на/excl,на/part,на/prep:rv_zna:rv_mis]" 
             outputform="На[на/prep:rv_zna:rv_mis]"><marker>На</marker> столі лежала книжка.</example>
         <example type="untouched">На тобі портфель.</example>
+        <!--
+        <example type="untouched">Виносити на люди внутрішні проблеми.</example>
+        -->
+        <!--
         <example type="untouched">На портфель, Василю.</example>
+        -->
     </rule>
 
     <rule name="Згідно" id="DIS_PREP_ZGIDNO_Z1">
@@ -539,20 +548,20 @@
     </rule>
 
     <rule name="Сполучник та частка 'а'" id="CONJ_OR_PART_A">
-    <pattern>
+      <pattern>
         <token min="0">,</token>
         <marker>
           <token>а</token>
         </marker>
         <token>?</token>
-    </pattern>
-    <disambig><match no="1" postag="part" postag_regexp="yes"/></disambig>
-    <example type="ambiguous"
+      </pattern>
+      <disambig><match no="1" postag="part" postag_regexp="yes"/></disambig>
+      <example type="ambiguous"
         inputform="а[а/conj:coord,а/excl,а/part]"
         outputform="а[а/part]"
         >Йдемо гуляти, <marker>а</marker>?
-    </example>
-    <example type="untouched">Його пальці заніміли, а вся земля була просякнута піною.</example>
+      </example>
+      <example type="untouched">Його пальці заніміли, а вся земля була просякнута піною.</example>
     </rule>
 
     <rule name="Сполучник та частка 'а'" id="CONJ_OR_PART_A_2">

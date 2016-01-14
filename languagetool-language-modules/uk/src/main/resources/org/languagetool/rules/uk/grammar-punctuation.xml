@@ -119,6 +119,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="літери, але">Вгадав всі <marker>літери але</marker> не зміг прочитати слово.</example>
             </rule>
         </rulegroup>
+<!--
+   На жаль правило впирається в семантичний рівень, можна хіба що спробувати ловити перед числом або числівником
+        <rulegroup name="Зайва кома в оборотах «більш ніж…»" id="NO_COMMA_BEFORE_NIZH">
+            <rule>
+                <pattern>
+                  <marker>
+                    <token regexp="yes">(більше?|менше?|раніше?|пізніше?|довше?|коротше?)</token>
+                    <token>,</token>
+                    <token regexp="yes">ніж|як</token>
+                  </marker>
+                  <token postag_regexp="yes" postag="numr.*|number"/>
+                </pattern>
+                <message>Не ставиться кома перед як, ніж у виразах (не) більш як, (не) раніше ніж, (не) довше ніж тощо</message>
+                <suggestion>\1 \3</suggestion>
+                <url>http://pravopys.kiev.ua/pravopys.aspx?SectionID=2128</url>
+                <example correction="більше ніж">Додано <marker>більше, ніж</marker> 10 тис слів.</example>
+                <example>Ви більше, ніж актор.</example>
+            </rule>
+        </rulegroup>
+ -->
 
     </category>
 

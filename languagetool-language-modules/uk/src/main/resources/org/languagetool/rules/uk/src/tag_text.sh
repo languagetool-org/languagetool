@@ -43,6 +43,18 @@ echo $LIBS
 
 #mv -f checked.out checked.out.bak
 
+if [ "$IDS_TO_CHECK" == "0" ]; then
+    ID=$IDS_TO_CHECK
+    SRC=text/t.txt
+    echo "Tagging $SRC [$ID]"
+
+    run_lt $SRC 0
+
+    diff checked$ID.out.bak checked$ID.out > checked$ID.out.diff
+    exit
+fi
+
+
 [ -f "$IDS_TO_CHECK" ] && {
 
     SRC=$IDS_TO_CHECK

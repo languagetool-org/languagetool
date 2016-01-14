@@ -6,13 +6,23 @@ BASE2="$BASE/languagetool-core/target/classes"
 BASE3="$BASE/languagetool-language-modules/en/target/classes"
 BASE4="$BASE/languagetool-language-modules/uk/target/classes"
 
+[ -d $BASE1/org ] || {
+    echo $BASE1/org not there
+    exit 1
+}
+[ -d $BASE2/org ] || {
+    echo $BASE2/org not there
+    exit 1
+}
+
 
 LT_DIR=`ls $BASE/languagetool-standalone/target/LanguageTool-?.*-SNAPSHOT`
 LIBDIR="$BASE/languagetool-standalone/target/$LT_DIR/$LT_DIR/libs"
 #LIBS=`ls $LIBDIR | tr '\n' ':'`
 
-CPATH=$LIBDIR/lucene-gosen-ipadic.jar:$LIBDIR/ictclas4j.jar:$LIBDIR/cjftransform.jar:$LIBDIR/jwordsplitter.jar:$LIBDIR/commons-logging.jar:$LIBDIR/segment.jar:$LIBDIR/morfologik-fsa.jar:$LIBDIR/morfologik-speller.jar:$LIBDIR/morfologik-stemming.jar:$LIBDIR/commons-lang.jar:$LIBDIR/languagetool-dict-uk.jar
-CPATH=$CPATH:/home/arysin/.m2/repository/org/languagetool/language-dict-uk/3.2-SNAPSHOT/language-dict-uk-3.2-SNAPSHOT.jar
+CPATH=$LIBDIR/lucene-gosen-ipadic.jar:$LIBDIR/ictclas4j.jar:$LIBDIR/cjftransform.jar:$LIBDIR/jwordsplitter.jar:$LIBDIR/commons-logging.jar:$LIBDIR/segment.jar:$LIBDIR/morfologik-fsa.jar:$LIBDIR/morfologik-speller.jar:$LIBDIR/morfologik-stemming.jar:$LIBDIR/commons-lang.jar
+#:$LIBDIR/languagetool-dict-uk.jar
+#CPATH=$CPATH:/home/arysin/.m2/repository/org/languagetool/language-dict-uk/3.2-SNAPSHOT/language-dict-uk-3.2-SNAPSHOT.jar
 # Profiling
 
 # For JVisualVM

@@ -154,6 +154,12 @@ public class TokenAgreementRuleTest {
     assertEmptyMatch("на Ломоносова");
     // invert
     assertEmptyMatch("як на Кучми іменини");
+    // ім'я, прізвище
+    assertEmptyMatch("змінив ім'я на Фріц Ланг");
+    assertEmptyMatch("Бо заміна прізвища Горбатий на Щербань передбачає i зміну ситуації.");
+
+    assertEmptyMatch("З одного боку на щастя сім’я Ющенків нарешті з’їжджає з державної дачі.");
+
 
     assertEmptyMatch("спиралося на місячної давнини рішення");
     assertEmptyMatch("На середньої довжини шубу");
