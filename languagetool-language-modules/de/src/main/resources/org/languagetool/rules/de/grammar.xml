@@ -23515,6 +23515,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
         </rulegroup>
         -->
+        <rule id="MICH_DENKEN_DASS" name="mich (mir) denken, dass">
+            <pattern>
+                <marker>
+                    <token>mich</token>
+                </marker>
+                <token regexp="yes" min="0">nicht|kaum|schlecht|schon|ja|aber</token>
+                <token regexp="yes">vorstellen|denken|eingestehen</token>
+                <token>,</token>
+                <token>dass</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>mir</suggestion>?</message>
+            <example correction="mir">Ich kann <marker>mich</marker> vorstellen, dass das klappt.</example>
+            <example correction="mir">Ich kann <marker>mich</marker> nicht vorstellen, dass das klappt.</example>
+        </rule>
         <rule id="EINES_GENITIV" name="Nomen + eines/einer + Genitiv">
             <pattern>
                 <token postag='SUB:.+' postag_regexp='yes'/>
