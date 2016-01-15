@@ -639,7 +639,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="BEIM_BEI" name="Möglicher Tippfehler: 'bei beim' etc.">
             <regexp>\bbeim? beim?\b</regexp>
-            <message>Möglicherweise ist hier ein Wort zu viel. Vorschläge: <suggestion>bei</suggestion>, <suggestion>beim</suggestion></message>
+            <message>Möglicherweise ist hier ein Wort zu viel.</message>
+            <suggestion>bei</suggestion>
+            <suggestion>beim</suggestion>
             <short>Möglicherweise ist hier ein Wort zu viel</short>
             <example correction="bei|beim">Begründe, weshalb solche Zustände des Elektrons die gleichen wie <marker>bei beim</marker> Hg-Atom sind.</example>
         </rule>
@@ -1199,7 +1201,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception postag_regexp="yes" postag="VER:AUX:.*"/>
                     </token>
                 </pattern>
-                <message>Möglicherweise ist hier ein Wort zu viel oder es fehlt ein Komma. Vorschläge: <suggestion>\1</suggestion>, <suggestion>\2</suggestion>, <suggestion>\1, \2</suggestion></message>
+                <message>Möglicherweise ist hier ein Wort zu viel oder es fehlt ein Komma.</message>
+                <suggestion>\1</suggestion>
+                <suggestion>\2</suggestion>
+                <suggestion>\1, \2</suggestion>
                 <example correction="sagt|ruft|sagt, ruft">Sie <marker>sagt ruft</marker> laut.</example>
                 <example>Dort, wo es <marker>erkauft wird</marker>.</example>
                 <example>Ob sie dahin <marker>gelangen können</marker>?</example>
@@ -1219,7 +1224,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">bin|bist|ist|sind|seid|w[aä]re?s?t?|habet?|hat|h[aä]tten?s?t?</token>
                     <token regexp="yes">w[ai]rst|wird|w[eü]rden?t?</token>
                 </pattern>
-                <message>Möglicherweise ist hier ein Wort zu viel oder es fehlt ein Komma. Vorschläge: <suggestion>\1</suggestion>, <suggestion>\2</suggestion>, <suggestion>\1, \2</suggestion></message>
+                <message>Möglicherweise ist hier ein Wort zu viel oder es fehlt ein Komma.</message>
+                <suggestion>\1</suggestion>
+                <suggestion>\2</suggestion>
+                <suggestion>\1, \2</suggestion>
                 <example correction="hat|wird|hat, wird">Weil die Abfrage „false“ als Ergebnis <marker>hat wird</marker> die Schleife nicht erneut durchlaufen.</example>
                 <example correction="ist|wird|ist, wird">Da die Bedingung erfüllt <marker>ist wird</marker> die Schleife erneut durchlaufen.</example>
                 <example>Wann mein Wunsch erfüllt <marker>sein wird</marker>, weiß ich nicht.</example>
@@ -8854,7 +8862,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="1">freiwillig</token>
                     <token regexp="yes">gewollt(e[nsr]?)?</token>
                 </pattern>
-                <message>&redundanz;Vorschläge: <suggestion>\1 getan</suggestion>, <suggestion>selbst \2</suggestion></message>
+                <message>&redundanz;</message>
+                <suggestion>\1 getan</suggestion>
+                <suggestion>selbst \2</suggestion>
                 <short>&redundanz;</short>
                 <example correction="freiwillig getan|selbst gewollt">Das hast du <marker>freiwillig so gewollt</marker>.</example>
                 <example>Das hast du doch <marker>selbst so gewollt</marker>.</example>
@@ -9170,7 +9180,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="VON_WOHER" name="Verdoppelung: 'von woher'">
             <rule>
                 <regexp>\b(von) (woher)\b</regexp>
-                <message>&redundanz;Vorschläge: <suggestion>\2</suggestion>, <suggestion>von wo</suggestion>.</message>
+                <message>&redundanz;</message>
+                <suggestion>\2</suggestion>
+                <suggestion>von wo</suggestion>
                 <short>&redundanz;</short>
                 <example correction="woher|von wo">Man merkte gleich, <marker>von woher</marker> sie herkam.</example>
                 <example>Man merkte gleich, <marker>wo</marker> sie herkam.</example>
@@ -9190,7 +9202,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token>hin</token>
                 </pattern>
-                <message>Bitte verwenden Sie 'wo' und 'wohin' nicht zusammen. Vorschläge: <suggestion>wo \2 \3 hin</suggestion>, <suggestion>wohin \2 \3</suggestion>.</message>
+                <message>Bitte verwenden Sie 'wo' und 'wohin' nicht zusammen.</message>
+                <suggestion>wo \2 \3 hin</suggestion>
+                <suggestion>wohin \2 \3</suggestion>
                 <short>&redundanz;</short>
                 <example correction="Wo gehst du hin|Wohin gehst du"><marker>Wohin gehst du hin</marker>?</example>
                 <example correction="Wo wollte er hin|Wohin wollte er"><marker>Wohin wollte er hin</marker>?</example>
@@ -9209,7 +9223,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token>hin</token>
                 </pattern>
-                <message>Bitte verwenden Sie 'wo' und 'wohin' nicht zusammen. Vorschläge: <suggestion>wo \2 \3 \4 hin</suggestion>, <suggestion>wohin \2 \3 \4</suggestion>.</message>
+                <message>Bitte verwenden Sie 'wo' und 'wohin' nicht zusammen.</message>
+                <suggestion>wo \2 \3 \4 hin</suggestion>
+                <suggestion>wohin \2 \3 \4</suggestion>
                 <short>&redundanz;</short>
                 <example correction="Wo gehst du denn hin|Wohin gehst du denn"><marker>Wohin gehst du denn hin</marker>?</example>
                 <example correction="Wo wollte er denn hin|Wohin wollte er denn"><marker>Wohin wollte er denn hin</marker>?</example>
@@ -9225,7 +9241,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token>her</token>
                 </pattern>
-                <message>Bitte verwenden Sie 'wo' und 'woher' nicht zusammen. Vorschläge: <suggestion>wo \2 \3 her</suggestion>, <suggestion>woher \2 \3</suggestion>.</message>
+                <message>Bitte verwenden Sie 'wo' und 'woher' nicht zusammen.</message>
+                <suggestion>wo \2 \3 her</suggestion>
+                <suggestion>woher \2 \3</suggestion>
                 <short>&redundanz;</short>
                 <example correction="Wo kommst du her|Woher kommst du"><marker>Woher kommst du her</marker>?</example>
                 <example correction="Wo kam er her|Woher kam er"><marker>Woher kam er her</marker>?</example>
@@ -9244,7 +9262,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token>her</token>
                 </pattern>
-                <message>Bitte verwenden Sie 'wo' und 'woher' nicht zusammen. Vorschläge: <suggestion>wo \2 \3 \4 her</suggestion>, <suggestion>woher \2 \3 \4</suggestion>.</message>
+                <message>Bitte verwenden Sie 'wo' und 'woher' nicht zusammen.</message>
+                <suggestion>wo \2 \3 \4 her</suggestion>
+                <suggestion>woher \2 \3 \4</suggestion>
                 <short>&redundanz;</short>
                 <example correction="Wo kommst du denn her|Woher kommst du denn"><marker>Woher kommst du denn her</marker>?</example>
                 <example correction="Wo kam er denn her|Woher kam er denn"><marker>Woher kam er denn her</marker>?</example>
@@ -9260,7 +9280,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                     <token>her</token>
                 </pattern>
-                <message>Bitte verwenden Sie 'da' und 'daher' nicht zusammen. Vorschläge: <suggestion>da \2 \3 \4</suggestion>, <suggestion>daher \2 \3</suggestion>.</message>
+                <message>Bitte verwenden Sie 'da' und 'daher' nicht zusammen.</message>
+                <suggestion>da \2 \3 \4</suggestion>
+                <suggestion>daher \2 \3</suggestion>
                 <short>&redundanz;</short>
                 <example correction="Da kommst du her|Daher kommst du"><marker>Daher kommst du her</marker>.</example>
                 <example correction="Da kam er her|Daher kam er"><marker>Daher kam er her</marker>?</example>
@@ -9276,7 +9298,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">von|des|der|diese[rs]</token>
                 </pattern>
-                <message>&redundanz;Vorschläge: <suggestion>\1</suggestion>, <suggestion>im Verlauf</suggestion>.</message>
+                <message>&redundanz;</message>
+                <suggestion>\1</suggestion>
+                <suggestion>im Verlauf</suggestion>
                 <short>&redundanz;</short>
                 <example correction="Während|Im Verlauf"><marker>Während des Verlaufs</marker> des Krieges wechselte er mehrfach die Seiten.</example>
             </rule>
@@ -9345,7 +9369,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">rechtlich|juristisch</token>
                     <token inflected="yes">legal</token>
                 </pattern>
-                <message>&redundanz;.</message>
+                <message>&redundanz;</message>
                 <suggestion>\2</suggestion>
                 <example correction="legal">Dieses Vorgehen ist <marker>rechtlich legal</marker>.</example>
                 <example>Dieses Vorgehen ist völlig <marker>legal</marker>.</example>
@@ -9574,7 +9598,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="BAUCHWEH" name="Umgangssprache: 'Bauchweh (Bauchschmerz)'">
             <regexp>(Bauch|Kopf|Hals|Zahn)(wehs?)</regexp>
-            <message>'\0' ist umgangssprachlich. Vorschläge: <suggestion>\1schmerz</suggestion>, <suggestion>\1schmerzen</suggestion>.</message>
+            <message>'\0' ist umgangssprachlich.</message>
+            <suggestion>\1schmerz</suggestion>
+            <suggestion>\1schmerzen</suggestion>
             <example correction="Bauchschmerz|Bauchschmerzen">Er hat <marker>Bauchweh</marker>.</example>
             <example correction="Zahnschmerz|Zahnschmerzen">Wegen des starken <marker>Zahnwehs</marker>...</example>
         </rule>
@@ -9679,7 +9705,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="MEIN_INTERNET" name="Umgangssprache: 'mein Internet (meine Internetverbindung)'">
             <rule>
                 <regexp>([mds]ein|unser|euer|ihr) (Internet\b)</regexp>
-                <message>Diese Wendung ist möglicherweise umgangssprachlich. Alternativvorschläge: <suggestion>\1e \2verbindung</suggestion>, <suggestion>\1 \2zugang</suggestion>.</message>
+                <message>Diese Wendung ist möglicherweise umgangssprachlich.</message>
+                <suggestion>\1e \2verbindung</suggestion>
+                <suggestion>\1 \2zugang</suggestion>
                 <short>Diese Wendung ist möglicherweise umgangssprachlich.</short>
                 <example correction="Meine Internetverbindung|Mein Internetzugang"><marker>Mein Internet</marker> geht nicht.</example>
                 <example><marker>Meine Internetverbindung</marker> ist gestört.</example>
@@ -9700,7 +9728,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes" negate="yes">Verlag|2-Prozessor</token>
                 </pattern>
-                <message>'Info' ist umgangssprachlich. Vorschläge: <suggestion>Information</suggestion>, <suggestion>Informationsblatt</suggestion>, <suggestion>Informatik</suggestion>.</message>
+                <message>'Info' ist umgangssprachlich.</message>
+                <suggestion>Information</suggestion>
+                <suggestion>Informationsblatt</suggestion>
+                <suggestion>Informatik</suggestion>
                 <example correction="Information|Informationsblatt|Informatik">Ich hasse <marker>Info</marker>.</example>
                 <example>NDR Info</example>
                 <example>Guck mal auf example.info.</example>
@@ -9899,12 +9930,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="MACHEN_UMGANGSSPRACHE" name="Umgangssprache: umgangssprachliche Verwendung von 'machen'">
             <rule>
                 <regexp>\bzumachen\b</regexp>
-                <message>'Zumachen'&umgangsspr; Vorschläge: <suggestion>schließen</suggestion>, <suggestion>sich verschließen</suggestion>, <suggestion>sich beeilen</suggestion>.</message>
+                <message>'Zumachen'&umgangsspr;</message>
+                <suggestion>schließen</suggestion>
+                <suggestion>sich verschließen</suggestion>
+                <suggestion>sich beeilen</suggestion>
                 <example correction="schließen|sich verschließen|sich beeilen">Kannst du das Fenster <marker>zumachen</marker>?</example>
             </rule>
             <rule>
                 <regexp>\bmach zu\b</regexp>
-                <message>'Zumachen'&umgangsspr; Vorschläge: <suggestion>schließen</suggestion>, <suggestion>sich verschließen</suggestion>, <suggestion>sich beeilen</suggestion>.</message>
+                <message>'Zumachen'&umgangsspr;</message>
+                <suggestion>schließen</suggestion>
+                <suggestion>sich verschließen</suggestion>
+                <suggestion>sich beeilen</suggestion>
                 <example correction="Schließen|Sich verschließen|Sich beeilen"><marker>Mach zu</marker>!</example>
                 <example><marker>Beeile dich</marker>!</example>
             </rule>
@@ -9913,7 +9950,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="1" inflected="yes">Ableitung</token>
                     <token inflected="yes">machen</token>
                 </pattern>
-                <message>'Ableitung machen'&umgangsspr; Vorschläge: <suggestion>\1 <match no="1" include_skipped="following"/> bilden</suggestion>, <suggestion>ableiten</suggestion>.</message>
+                <message>'Ableitung machen'&umgangsspr;</message>
+                <suggestion>\1 <match no="1" include_skipped="following"/> bilden</suggestion>
+                <suggestion>ableiten</suggestion>
                 <example correction="Ableitung zu bilden|Ableiten">Ich habe keine Lust, die <marker>Ableitung zu machen</marker>.</example>
                 <example correction="Ableitungen zu bilden|Ableiten">Die <marker>Ableitungen zu machen</marker> ist einfach.</example>
             </rule>
@@ -9922,7 +9961,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="1" inflected="yes">machen</token>
                     <token inflected="yes">Ableitung</token>
                 </pattern>
-                <message>'Ableitung machen'&umgangsspr; Vorschläge: <suggestion>bilden <match no="1" include_skipped="following"/> \2</suggestion>, <suggestion>ableiten</suggestion>.</message>
+                <message>'Ableitung machen'&umgangsspr;</message>
+                <suggestion>bilden <match no="1" include_skipped="following"/> \2</suggestion>
+                <suggestion>ableiten</suggestion>
                 <example correction="Bilden von Ableitungen|Ableiten">Das <marker>Machen von Ableitungen</marker> ist einfach.</example>
                 <example>Das <marker>Bilden von Ableitungen</marker> is einfach.</example>
             </rule>
@@ -9940,7 +9981,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <regexp>Plus-Rechnen</regexp>
-                <message>'Plus-Rechnen'&umgangsspr; Vorschläge: <suggestion>Addition</suggestion>, <suggestion>addieren</suggestion>.</message>
+                <message>'Plus-Rechnen'&umgangsspr;</message>
+                <suggestion>Addition</suggestion>
+                <suggestion>addieren</suggestion>
                 <example correction="Addition|Addieren"><marker>Plus-Rechnen</marker> ist einfach.</example>
             </rule>
             <rule>
@@ -10197,7 +10240,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">rum(albern|alberten|ärgern|balgen|balgten|ballern|ballerten|basteln|bastelten|brüllen|brüllten|bummeln|bummelten|doktern|drucksen|drucksten|drückten|dümpeln|dümpelten|erzählen|erzählten|fingern|fingerten|fuchteln|fummeln|fummelten|gammeln|gammelten|gealbert|gebastelt|gebohrt|gebrüllt|gebummelt|gefuchtelt|gegammelt|gegangen|gehackt|gehüpft|gehurt|geknobelt|geknutscht|gekramt|gekriegt|gekrittelt|gekritzelt|gekrochen|gekurvt|gelaufen|gelegen|gelungert|gepaddelt|gepfuscht|geplagt|gequält|gerannt|geraten|gerätselt|gereicht|geschickt|geschleppt|geschnüffelt|geschraubt|geschubst|gespielt|gestanden|gestänkert|gestümpert|getrampelt|getrieben|getrödelt|geturnt|gewinselt|gewirbelt|geworfen|gewühlt|gewurstelt|gezankt|gezappelt|hacken|hämmern|hängen|hantieren|hingen|hocken|hockten|hüpfen|hüpften|huren|hurten|jammern|jammerten|knobeln|knutschen|kommandieren|kommandierten|kramen|kramten|krochen|kurven|kurvten|lagen|lästern|lästerten|laufen|liefen|liegen|lümmeln|lümmelten|lungern|lungerten|machen|machten|meckern|meckerten|motzen|motzten|murksen|murksten|nörgeln|probieren|probierten|rannten|schleppen|schleppten|schnüffeln|schnüffelten|schrauben|schraubten|schreien|schubsen|schubsten|sitzen|spazieren|spazierten|spielen|spielten|sprangen|springen|spritzen|spritzten|spukten|standen|stänkern|stänkerten|stehen|stöbern|stöberten|stochern|stocherten|stümpern|stümperten|suchen|suchten|toben|tobten|tollen|tollten|trödeln|trödelten|wandern|wanderten|winseln|wühlen|wursteln|zanken|zankten|zappeln)</token>
                 </pattern>
-                <message>'\1' ist umgangssprachlich. Vorschläge: <suggestion><match no="1" regexp_match="^[Rr]um" regexp_replace="herum"/></suggestion>.</message>
+                <message>'\1' ist umgangssprachlich.</message>
+                <suggestion><match no="1" regexp_match="^[Rr]um" regexp_replace="herum"/></suggestion>
                 <example correction="herumärgern">Ich will mich damit nicht immer <marker>rumärgern</marker> müssen.</example>
                 <example correction="Herumspielen">Es ist mehr zum <marker>Rumspielen</marker> gedacht.</example>
                 <example>Ich bin es leid, mich damit <marker>herumzuärgern</marker>.</example>
@@ -10206,7 +10250,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">rumzu(albern|ärgern|basteln|bohren|brüllen|fummeln|gammeln|hüpfen|huren|knobeln|knutschen|kramen|kriegen|kurven|laufen|liegen|pfuschen|quälen|schnüffeln|schrauben|schreien|schubsen|sitzen|spielen|spionieren|springen|spuken|stänkern|stehen|stochern|stoßen|streunen|stümpern|suchen|tappen|tasten|toben|tollen|tragen|trampeln|vagabundieren|wälzen|wandern|werfen|werkeln|wickeln|wühlen|wursteln|zanken)</token>
                 </pattern>
-                <message>'\1' ist umgangssprachlich. Vorschläge: <suggestion><match no="1" regexp_match="^[Rr]um" regexp_replace="herum"/></suggestion>.</message>
+                <message>'\1' ist umgangssprachlich.</message>
+                <suggestion><match no="1" regexp_match="^[Rr]um" regexp_replace="herum"/></suggestion>
                 <example correction="herumzuärgern">Ich bin es leid, mich damit immer <marker>rumzuärgern</marker>.</example>
                 <example>Ich bin es leid, mich damit <marker>herumzuärgern</marker>.</example>
             </rule>
@@ -10217,7 +10262,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>rum</token>
                     </marker>
                 </pattern>
-                <message>'\2' ist umgangssprachlich. Vorschläge: <suggestion>herum</suggestion>.</message>
+                <message>'\2' ist umgangssprachlich.</message>
+                <suggestion>herum</suggestion>
                 <example correction="herum">Wir alberten <marker>rum</marker>.</example>
                 <example>Wir alberten <marker>herum</marker>.</example>
             </rule>
@@ -10225,7 +10271,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">runter(baumeln|baumelten|drücken|drückten|fallen|fielen|fliegen|fließen|flitzen|flitzten|flogen|flossen|fuhren|gefallen|gefallenen|geflogen|gegangen|gehangelt|gehauen|gehen|geholt|geholten|gehst|geht|geklappt|geklettert|gekommen|gekommenen|gekullert|gekurbelt|gekurbelten|geladen|geladenen|gelassen|gelassenen|gelaufen|geleiert|geleierten|geputzt|gerannt|gerasselt|gerissen|gerollt|gerutscht|geschluckt|geschluckten|geschraubt|geschraubten|getragen|getropft|geworfen|gewürgt|gewürgten|gezerrt|gezogen|gezogenen|gingen|handeln|hängen|hauen|hauten|holen|holten|kamen|kam|kippen|kippten|klappen|klappten|klettern|kletterten|knallen|knallten|kommen|kullern|kullerten|kurbeln|kurbelten|laden|lassen|leiern|leierten|ließen|machen|putzen|putzten|rasseln|rasselten|rissen|rutschen|rutschten|schlingen|schlucken|schluckten|schmeißen|schmissen|schrauben|schütten|setzen|spielen|spielten|spülen|spülten|tropfen|würgen|würgten|zubrechen|zugehen|zukommen|zukraxeln|zumachen|zurennen|zurinnen|zurutschen|zuschleppen|zuschlingen|zuschlucken|zuschmeißen|zusetzen|zuspringen|zuspülen|zusteigen|zuwerfen|zuwürgen|zuzerren)</token>
                 </pattern>
-                <message>'\1' ist umgangssprachlich. Vorschläge: <suggestion><match no="1" regexp_match="^runter" regexp_replace="herunter"/></suggestion>.</message>
+                <message>'\1' ist umgangssprachlich.</message>
+                <suggestion><match no="1" regexp_match="^runter" regexp_replace="herunter"/></suggestion>
                 <example correction="herunterbaumeln">Er ließ die Beine <marker>runterbaumeln</marker>.</example>
                 <example>Er ließ die Beine <marker>herunterbaumeln</marker>.</example>
             </rule>
@@ -10722,37 +10769,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>Irgendetwas weniger Belangloses.</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="MFG" name="Stil: 'MfG (Mit freundlichen Grüßen)' (abgekürzte Schlussformeln)">
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="SENT_START"/>
-                    <marker>
-                        <token regexp="yes">mfg|MfG</token>
-                    </marker>
-                </pattern>
-                <message>Das Abkürzen von Schlussformeln kann als unhöflich empfunden werden. Vorschläge: <suggestion>Mit freundlichen Grüßen</suggestion>, <suggestion>Mit freundlichem Gruß</suggestion></message>
-                <short>Schlussformeln sollten nicht abgekürzt werden</short>
-                <example><marker>OMFG</marker> LOL!</example>
-                <example><marker>MFG</marker> ist die Medien- und Filmgesellschaft Baden-Württemberg.</example>
-                <example correction="Mit freundlichen Grüßen|Mit freundlichem Gruß"><marker>MfG</marker></example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="LG" name="Stil: 'LG (Liebe Grüße)' (abgekürzte Schlussformeln)" default="off">
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker>
-                        <token>LG</token>
-                    </marker>
-                </pattern>
-                <message>Das Abkürzen von Schlussformeln kann als unhöflich empfunden werden. Vorschläge: <suggestion>Liebe Grüße</suggestion>, <suggestion>Lieber Gruß</suggestion></message>
-                <short>Schlussformeln sollten nicht abgekürzt werden</short>
-                <example>Nach einem Urteil des <marker>OLG</marker> ...</example>
-                <example><marker>Mit freundlichen Grüßen</marker></example>
-                <example><marker>Liebe Grüße</marker></example>
-                <example correction="Liebe Grüße|Lieber Gruß"><marker>LG</marker></example>
-            </rule>
-        </rulegroup>
+        <rule id="MFG" name="Stil: 'MfG (Mit freundlichen Grüßen)' (abgekürzte Schlussformeln)">
+            <pattern case_sensitive="yes">
+                <token postag="SENT_START"/>
+                <marker>
+                    <token regexp="yes">mfg|MfG</token>
+                </marker>
+            </pattern>
+            <message>Das Abkürzen von Schlussformeln kann als unhöflich empfunden werden.</message>
+            <suggestion>Mit freundlichen Grüßen</suggestion>
+            <suggestion>Mit freundlichem Gruß</suggestion>
+            <short>Schlussformeln sollten nicht abgekürzt werden</short>
+            <example><marker>OMFG</marker> LOL!</example>
+            <example><marker>MFG</marker> ist die Medien- und Filmgesellschaft Baden-Württemberg.</example>
+            <example correction="Mit freundlichen Grüßen|Mit freundlichem Gruß"><marker>MfG</marker></example>
+        </rule>
+        <rule id="LG" name="Stil: 'LG (Liebe Grüße)' (abgekürzte Schlussformeln)" default="off">
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token>LG</token>
+                </marker>
+            </pattern>
+            <message>Das Abkürzen von Schlussformeln kann als unhöflich empfunden werden.</message>
+            <suggestion>Liebe Grüße</suggestion>
+            <suggestion>Lieber Gruß</suggestion>
+            <short>Schlussformeln sollten nicht abgekürzt werden</short>
+            <example>Nach einem Urteil des <marker>OLG</marker> ...</example>
+            <example><marker>Mit freundlichen Grüßen</marker></example>
+            <example><marker>Liebe Grüße</marker></example>
+            <example correction="Liebe Grüße|Lieber Gruß"><marker>LG</marker></example>
+        </rule>
         <rule id="SIE_GROSS" name="Möglicherweise fälschlich großgeschriebenes 'Sie'">
             <pattern case_sensitive='yes'>
                 <token postag='SENT_START'/>
@@ -25527,8 +25574,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="SENT_END">?</token>
                     </marker>
                 </pattern>
-                <message>Wenn dieser Satz eine Aufforderung ist, verwenden Sie bitte ein Ausrufezeichen oder einen Punkt. Vorschläge: <suggestion>!</suggestion>, <suggestion>.</suggestion>
-                </message>
+                <message>Wenn dieser Satz eine Aufforderung ist, verwenden Sie bitte ein Ausrufezeichen oder einen Punkt.</message>
+                <suggestion>!</suggestion>
+                <suggestion>.</suggestion>
                 <short>Möglicherweise falsches Satzzeichen</short>
                 <example correction="!|.">Berechnen Sie den Glanzwinkel<marker>?</marker></example>
             </rule>
@@ -25974,7 +26022,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>&gt;</token>
                     </marker>
                 </pattern>
-                <message>Wollen Sie einen Pfeil verwenden? Vorschläge: <suggestion>→</suggestion>, <suggestion>⇾</suggestion>, <suggestion>⇉</suggestion>, <suggestion>⇒</suggestion>, <suggestion>⇨</suggestion>, <suggestion>⇛</suggestion></message>
+                <message>Wollen Sie einen Pfeil verwenden?</message>
+                <suggestion>→</suggestion>
+                <suggestion>⇾</suggestion>
+                <suggestion>⇉</suggestion>
+                <suggestion>⇒</suggestion>
+                <suggestion>⇨</suggestion>
+                <suggestion>⇛</suggestion>
                 <short>Wollen Sie einen Pfeil verwenden?</short>
                 <example correction="→|⇾|⇉|⇒|⇨|⇛"><marker>-&gt;</marker> Erster Punkt</example>
             </rule>
