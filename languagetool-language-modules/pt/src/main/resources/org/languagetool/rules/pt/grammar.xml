@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.132 2016-01-08 8:05:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.133 2016-01-15 13:45:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -673,6 +673,22 @@ $Id: grammar.xml,v 1.132 2016-01-08 8:05:00 marcoagpinto Exp $
 
 
 
+    <!-- AJUDAR QUE SE FAÇA ajudar a que se faça -->
+    <rule id="AJUDAR_QUE_SE_FAÇA" name="ajudar a que se faça">
+      <pattern>            	        
+	  	<token>ajudar</token>
+		<marker>
+			<token>que</token>             	        
+		</marker>	
+		<token>se</token>  
+		<token>faça</token>  
+      </pattern>
+      <message>Substituir «que» por <suggestion>a que</suggestion>.</message>
+      <example correction="a que">Devemos ajudar <marker>que</marker> se faça justiça.</example>
+    </rule>
+	
+	
+
     <!-- ALERTAR PARA COM alertar para -->
     <rule id="ALERTAR_PARA_COM" name="alertar para">
       <pattern>
@@ -685,6 +701,20 @@ $Id: grammar.xml,v 1.132 2016-01-08 8:05:00 marcoagpinto Exp $
     </rule>
 
 
+
+    <!-- AMOR PELA LÍNGUA amor à língua -->
+    <rule id="AMOR_PELA_LÍNGUA" name="amor à língua">
+      <pattern>            	        
+	  	<token>amor</token>
+		<marker>
+			<token>pela</token>             	        
+		</marker>	
+		<token>língua</token>  
+      </pattern>
+      <message>Substituir «pela» por <suggestion>à</suggestion>.</message>
+      <example correction="à">Tenho amor <marker>pela</marker> língua materna.</example>
+    </rule>
+	
 
     <!-- ANALISE análise -->
     <rule id="ANALISE" name="análise">
