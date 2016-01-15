@@ -17989,7 +17989,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
                 <rulegroup id="NIEZGODNO_PRZYPADKW_PRZYMIOTNIKA_I_RZECZOWNIKA_RODZAJU_ESKIEGO" name="Niezgodność przypadków przymiotnika i rzeczownika rodzaju żeńskiego">
                     <antipattern>
-                        <marker><token>można</token></marker>
+                        <marker><token regexp="yes">można|be|któr[aeęą]</token></marker>
+                    </antipattern>
+                    <antipattern case_sensitive="yes">
+                        <marker>
+                            <token regexp="yes">\p{Ll}+</token>
+                            <token regexp="yes">\p{Lu}\p{Ll}+</token>
+                        </marker>
                     </antipattern>
                 <rule>
                     <pattern>
@@ -18036,10 +18042,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <short>Prawdopodobna literówka</short>
                     <example correction='odpowiednią'>Musisz utworzyć <marker>odpowiednia</marker> infrastrukturę.</example>
                     <example>Musisz utworzyć odpowiednią infrastrukturę.</example>
+                    <example>Chemia to nauka badająca naturę i własności substancji.</example>
                 </rule>
                     <rule>
                         <pattern>
-                            <token regexp='yes' postag='subst:sg:acc:f'>.*ę</token>
+                            <token regexp='yes' postag='subst:sg:acc:f'>.*ę<exception>odrobinę</exception></token>
                             <marker>
                                 <token postag='adj:sg:nom.voc:f.*' postag_regexp='yes'></token>
                             </marker>
@@ -18048,8 +18055,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <short>Prawdopodobna literówka</short>
                         <example correction='polityczną'>Był to czynnik kształtujący scenę <marker>polityczna</marker> infrastrukturę.</example>
                         <example>Musisz utworzyć odpowiednią infrastrukturę.</example>
+                        <example>Ta woda jest odrobinę słonawa.</example>
+                        <example>W następnym roku za tę rolę Włoska Akademia Filmowa przyznała jej nagrodę.</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <token postag='adj:sg:acc:f.*' postag_regexp='yes' regexp="yes">.+ą</token>
+                            <token postag="subst:pl:acc:f" regexp="yes">.+e<exception postag="subst:sg:.*acc.*:f" postag_regexp="yes"></exception><exception>macie</exception></token>
+                        </pattern>
+                        <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1"/> <match no="2" postag="subst:sg:.*acc.*:f" postag_regexp="yes"/></suggestion>?</message>
+                        <short>Prawdopodobna literówka</short>
+                        <example correction="prawdziwą informację">Podaj mi <marker>prawdziwą informacje</marker>.</example>
+                        <example>Podaj mi te informacje.</example>
                     </rule>
             </rulegroup>
+            <rule id="TEGO_OKRESY_TEGO_OKRESU" name="Niezgodność przypadków przymiotnika i rzeczownika rodzaju męskiego">
+                <pattern>
+                    <token>tego</token>
+                    <marker>
+                        <token regexp='yes' postag='subst:pl:nom:m[1-3]' postag_regexp='yes'>.+y</token>
+                    </marker>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="2" regexp_match="y$" regexp_replace="u"/></suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction='okresu'>Bilans tego <marker>okresy</marker> jest imponujący.</example>
+                <example>Bilans tego okresu jest imponujący.</example>
+            </rule>
 				<rule id="UNIWERSYTET_W_HARVARDZIE" name="„Uniwersytet w Harvardzie” (Uniwersytet Harvarda)">
 						<pattern>
 								<token inflected="yes">uniwersytet</token>

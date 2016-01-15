@@ -1998,6 +1998,31 @@
                  outputform="eleganckim[elegancki/adj:sg:inst:m1.m2.m3.n1.n2:pos]">Człowiekiem <marker>eleganckim</marker> dawniej był Ludwik.</example>
     </rule>
 
+    <rule id="SENT_START_BYLA_ADJ_NOM" name="była + przymiotnik/imiesłów w mianowniku">
+        <pattern>
+            <token postag="SENT_START"/>
+            <marker>
+                <token postag="verb:praet:sg:f:ter:imperf:nonrefl">była</token>
+                <token postag_regexp="yes" postag="(?:adj|ppas):sg:nom.voc:f:.*"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="Była[być/verb:praet:sg:f:ter:imperf:nonrefl,była/subst:sg:nom:f,była/subst:sg:voc:f,były/adj:sg:nom.voc:f:pos]"
+                 outputform="Była[być/verb:praet:sg:f:ter:imperf:nonrefl]"><marker>Była</marker> piękna jak nigdy.</example>
+    </rule>
+
+    <rule name="była + adj" id="byla_adj">
+        <pattern>
+            <marker>
+                <token postag="verb:praet:sg:f:ter:imperf:nonrefl">była</token>
+                <token postag="adj:sg:nom.voc:f:pos"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="była[być/verb:praet:sg:f:ter:imperf:nonrefl,była/subst:sg:nom:f,była/subst:sg:voc:f,były/adj:sg:nom.voc:f:pos]"
+                 outputform="była[być/verb:praet:sg:f:ter:imperf:nonrefl]">W USA walka o abolicję <marker>była</marker> trudna.</example>
+    </rule>
+
     <rule name="ppas + była" id="ppas_byla">
         <pattern>
             <marker>
@@ -2118,6 +2143,18 @@
         <disambig action="filter" postag="verb:praet.*"/>
         <example type="ambiguous" inputform="byli[być/verb:praet:pl:m1.p1:ter:imperf:nonrefl,były/adj:pl:nom.voc:m1.p1:pos,były/subst:pl:nom:m1,były/subst:pl:voc:m1]"
                  outputform="byli[być/verb:praet:pl:m1.p1:ter:imperf:nonrefl]">Przeciw <marker>byli</marker> Schmid i Leuwerik.</example>
+    </rule>
+
+    <rule name="pact/adj + acc > pact" id="pact_acc">
+        <pattern>
+            <marker>
+                <token postag="pact:sg:nom.voc:f:imperf:aff.*" postag_regexp="yes"/>
+                <token postag="subst.*acc.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="badająca[badający/adj:sg:nom.voc:f:pos,badać/pact:sg:nom.voc:f:imperf:aff:refl.nonrefl]"
+                 outputform="badająca[badać/pact:sg:nom.voc:f:imperf:aff:refl.nonrefl]">dyscyplina nauk społecznych <marker>badająca</marker> organizację kultury</example>
     </rule>
 
     <rule name="głosować przeciw" id="glosowac_przeciw">
@@ -2389,6 +2426,26 @@
             <token postag="adj:sg:nom.voc:f:pos">rozległa</token>
         </pattern>
         <disambig action="filterall"></disambig>
+    </rule>
+
+    <rule id="PODNIOSLA_ACC" name="podniosła/dostała z biernikiem > czasownik">
+        <pattern>
+            <marker>
+                <token postag="verb:praet:sg:f:ter:perf:refl.nonrefl" regexp="yes">podniosła|dostała</token>
+                <token postag=".*acc.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="podniosła[podnieść/verb:praet:sg:f:ter:perf:refl.nonrefl,podniosły/adj:sg:nom.voc:f:pos]"
+                 outputform="podniosła[podnieść/verb:praet:sg:f:ter:perf:refl.nonrefl]">Mama przestała szyć i <marker>podniosła</marker> książkę.</example>
+    </rule>
+
+    <rule id="SWIATLA_GEN" name="wiązka światła > rzeczownik">
+        <pattern>
+            <token inflected="yes" regexp="yes">wiązka|snop|smuga|smużka|refleks|promyk|plama|źródło|natężenie|błysk|plamka|łuna|słup</token>
+            <marker><token>światła</token></marker>
+        </pattern>
+        <disambig postag="subst:sg:gen:n2"></disambig>
     </rule>
 
     <rule id="DZISIAJ_GOSCI" name="dzisiaj gości">
@@ -4509,19 +4566,6 @@
             <example type="untouched">O sobie to mówisz?</example>
         </rule>
     </rulegroup>
-
-    <rule id="SENT_START_BYLA_ADJ_NOM" name="była + przymiotnik/czasownik w narzędniku">
-        <pattern>
-            <token postag="SENT_START"/>
-            <marker>
-                <token postag="verb:praet:sg:f:ter:imperf:nonrefl">była</token>
-                <token postag_regexp="yes" postag="(?:adj|ppas):sg:nom.voc:f:.*"/>
-            </marker>
-        </pattern>
-        <disambig action="filterall"/>
-        <example type="ambiguous" inputform="Była[być/verb:praet:sg:f:ter:imperf:nonrefl,była/subst:sg:nom:f,była/subst:sg:voc:f,były/adj:sg:nom.voc:f:pos]"
-                 outputform="Była[być/verb:praet:sg:f:ter:imperf:nonrefl]"><marker>Była</marker> piękna jak nigdy.</example>
-    </rule>
 
     <rule id="WINIEN_BYLA" name="powinien + była -> czasownik">
         <pattern>
@@ -6707,6 +6751,36 @@
                  outputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]">Jak <marker>ma</marker> być zrobione zadanie 3?</example>
     </rule>
 
+    <rule name="acc ma nom" id="ACC_MA_NOM">
+        <pattern>
+            <marker>
+            <token postag_regexp="yes" postag=".*acc.*"/>
+            <token postag="verb:fin:sg:ter:imperf:refl.nonrefl">ma</token>
+            <token postag="subst:sg:nom.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">To jest ma przyjaciółka.</example>
+        <example type="ambiguous" inputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl,mój/adj:sg:nom.voc:f:pos]"
+                 outputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]">Wcześniejszą genezę <marker>ma</marker> osada oraz kościoły.</example>
+    </rule>
+
+    <rule name="acc ma qub nom" id="ACC_MA_QUB_NOM">
+        <pattern>
+            <marker>
+                <token postag_regexp="yes" postag=".*acc.*"/>
+                <token postag="verb:fin:sg:ter:imperf:refl.nonrefl">ma</token>
+                <token postag="qub"/>
+                <token postag="subst:sg:nom.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">To jest ma przyjaciółka.</example>
+        <example type="ambiguous" inputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl,mój/adj:sg:nom.voc:f:pos]"
+                 outputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]">Wcześniejszą genezę <marker>ma</marker> też osada oraz kościoły.</example>
+    </rule>
+
+
     <!-- rule name="kobiety miały" id="MIALY">
         <pattern>
             <marker>
@@ -6820,6 +6894,13 @@
         <disambig postag="adv:pos"/>
     </rule>
 
+    <rule name="też to nie tenże" id="tez_nie_tenze">
+        <pattern>
+            <marker><token>też</token></marker>
+        </pattern>
+        <disambig postag="qub"/>
+    </rule>
+
     <rulegroup name="mam -> subst" id="mam">
         <rule>
             <pattern>
@@ -6834,13 +6915,16 @@
 
     <rule name="mam coś" id="mam_verb">
         <pattern>
+            <marker>
             <token postag="verb:fin:sg:(pri|ter):imperf:refl.nonrefl" postag_regexp="yes" regexp="yes">mam?</token>
             <token postag="(subst|adj|pact|ppas).*acc.*" postag_regexp="yes"/>
+            </marker>
         </pattern>
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="Mam[mama/subst:pl:gen:f,mamić/verb:impt:sg:sec:imperf:refl.nonrefl,mieć/verb:fin:sg:pri:imperf:refl.nonrefl]"
                  outputform="Mam[mieć/verb:fin:sg:pri:imperf:refl.nonrefl]"><marker>Mam</marker> powody.</example>
         <example type="untouched">Zwróciliśmy się do mam pracujących w komitecie rodzicielskim.</example>
+        <example type="untouched">Ustawodawstwo najłatwiej dopuszczające aborcję ma też Tunezja.</example>
     </rule>
 
     <rule name="mam na myśli" id="mam_na_mysli">
