@@ -5118,6 +5118,19 @@ USA
             <example correction="A soccer player kicks"><marker>A soccer players kicks</marker> a ball and scores a goal</example>
         </rule>
         -->
+        <rule id="I_MOVING" name="personal pronoun + gerund">
+            <pattern>
+                <token><exception regexp="yes">am|are|is|t|re|was|were|with|without|of|in|to|much|find</exception><exception postag="VBP|VBD|VB|VBZ|VBG|VBN" postag_regexp="yes"/></token>
+                <token regexp="yes">I|you|he|she|it|we|they</token>
+                <token postag="RB" min="0"/>
+                <marker>
+                    <token postag="VBG"><exception>being</exception></token>
+                </marker>
+            </pattern>
+            <message>Please check if the base form of the verb should be used here.</message>
+            <suggestion><match no="4" postag="VB"/></suggestion>
+            <example correction="">We regularly <marker>moving</marker> a conversation from the forum to email.</example>
+        </rule>
         <rule id="SOME_FACULTY" name="some faculty...  (some faculty members...)">
             <pattern>
                 <token regexp="yes">some|many|most|two|three|four|five|six|seven|eight|nine|ten</token>
