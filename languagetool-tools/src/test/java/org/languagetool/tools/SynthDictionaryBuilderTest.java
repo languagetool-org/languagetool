@@ -86,9 +86,12 @@ public class SynthDictionaryBuilderTest extends DictionaryBuilderTestHelper {
       
       assertTrue(outFile.toFile().length() >= 40);
     } finally {
-      Files.delete(inputFile);
-      Files.delete(infoFile);
-      Files.delete(outFile);
+      inputFile.toFile().deleteOnExit();
+      infoFile.toFile().deleteOnExit();
+      outFile.toFile().deleteOnExit();
+      // Files.delete(inputFile);
+      // Files.delete(infoFile);
+      // Files.delete(outFile);
     }
   }
 
