@@ -195,9 +195,6 @@ public class SubjectVerbAgreementRule extends GermanRule {
   }
 
   private boolean hasUnknownTokenAt(AnalyzedTokenReadings[] tokens, int startPos, int endPos) {
-    if (endPos < startPos) {
-      throw new RuntimeException("endPos < startPos: " + endPos  + " < " +  startPos);
-    }
     for (int i = startPos; i < endPos; i++) {
       AnalyzedTokenReadings token = tokens[i];
       for (AnalyzedToken analyzedToken : token.getReadings()) {

@@ -107,6 +107,11 @@ public class SubjectVerbAgreementRuleTest {
     //assertFalse(rule.prevChunkIsNominative(getTokens("Der Katzen Fell ist süß"), 3));
   }
 
+  @Test
+  public void testArrayOutOfBoundsBug() throws IOException {
+    rule.match(langTool.getAnalyzedSentence("Die nicht Teil des Näherungsmodells sind"));
+  }
+
   private AnalyzedTokenReadings[] getTokens(String s) throws IOException {
     return langTool.getAnalyzedSentence(s).getTokensWithoutWhitespace();
   }
