@@ -18071,7 +18071,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
             <rule id="TEGO_OKRESY_TEGO_OKRESU" name="Niezgodność przypadków przymiotnika i rzeczownika rodzaju męskiego">
                 <pattern>
-                    <token>tego</token>
+                    <token>tego<exception scope="previous" regexp="yes">zamiast|oprócz|pomimo</exception></token>
                     <marker>
                         <token regexp='yes' postag='subst:pl:nom:m[1-3]' postag_regexp='yes'>.+y</token>
                     </marker>
@@ -18080,6 +18080,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Prawdopodobna literówka</short>
                 <example correction='okresu'>Bilans tego <marker>okresy</marker> jest imponujący.</example>
                 <example>Bilans tego okresu jest imponujący.</example>
+                <example>W całości przetrwało zaledwie 7 sztuk, a oprócz tego tytuły utworów i różnej wielkości fragmenty.</example>
             </rule>
 				<rule id="UNIWERSYTET_W_HARVARDZIE" name="„Uniwersytet w Harvardzie” (Uniwersytet Harvarda)">
 						<pattern>

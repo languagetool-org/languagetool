@@ -2428,6 +2428,17 @@
         <disambig action="filterall"></disambig>
     </rule>
 
+    <rule id="LEZEC_SAMOTNIE" name="leżeć + sammotnie > adv:pos">
+        <pattern>
+            <token inflected="yes" postag="(verb|pact).*" postag_regexp="yes">leżeć</token>
+            <token postag="adv:pos">samotnie</token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Tam leżała samotnia.</example>
+        <example type="ambiguous" inputform="samotnie[samotnia/subst:pl:acc:f,samotnia/subst:pl:nom:f,samotnia/subst:pl:voc:f,samotnie/adv:pos]"
+                 outputform="samotnie[samotnie/adv:pos]">Paginę zwykłą (bieżącą) leżącą <marker>samotnie</marker> w wierszu liczy się za pół wiersza.</example>
+    </rule>
+
     <rule id="PODNIOSLA_ACC" name="podniosła/dostała z biernikiem > czasownik">
         <pattern>
             <marker>
