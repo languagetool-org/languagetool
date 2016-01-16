@@ -776,9 +776,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 </antipattern>
 								<pattern>
 										<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;</exception></token>
-										<token inflected="yes" regexp="yes" spacebefore="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to</token>
+										<token inflected="yes" regexp="yes" spacebefore="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to|jednak</token>
 										<token>,</token>
-										<token inflected="yes" regexp="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
+										<token inflected="yes" regexp="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby|gdy|kiedy</token>
 								</pattern>
 								<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>\1, \2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -789,17 +789,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern case_sensitive="yes">
 										<token regexp="yes">&interp_conj;</token>
-										<token inflected="yes" regexp="yes" spacebefore="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to</token>
-										<marker>
+                                        <marker>
+										        <token inflected="yes" regexp="yes" spacebefore="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to|jednak</token>
 												<token>,</token>
-												<token inflected="yes" regexp="yes" case_sensitive="no">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
+												<token inflected="yes" regexp="yes" case_sensitive="no">jeśli|jeżeli|gdyby|jeżeliby|jeśliby|gdy|kiedy</token>
 										</marker>
 								</pattern>
 								<message>Spójników złożonych nie rozdziela się: <suggestion>\2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
 								<short>Błąd interpunkcyjny</short>
 								<example>Zacytuj Ryle'a, jeśli go cenisz.</example>
-								<example correction="że jeśli">Powiedziałem mu, że<marker>, jeśli</marker> pójdzie się myć, to się wyprowadzam.</example>
+								<example correction="że jeśli">Powiedziałem mu, <marker>że, jeśli</marker> pójdzie się myć, to się wyprowadzam.</example>
 								<example>Powiedziałem mu, <marker>że jeśli</marker> pójdzie się myć, to się wyprowadzam.</example>
+                                <example correction="jednak gdy">Adenauer zdecydował się w nich startować, <marker>jednak, gdy</marker> zastanowił się, wycofał swoją kandydaturę.</example>
 						</rule>
 						<rule>
 								<pattern>
