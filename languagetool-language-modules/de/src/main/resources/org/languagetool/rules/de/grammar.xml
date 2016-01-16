@@ -6306,7 +6306,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>vorbei</token>
                 <token postag_regexp="yes" postag="VER:.*">
                     <exception inflected="yes" regexp="yes">sein|abfälschen|führen|einen|werden</exception>
-                    <exception regexp="yes">verläuft|verlief</exception>
+                    <exception regexp="yes">verläuft|verlief|enttäuscht</exception>
                 </token>
             </pattern>
             <message>Meinten Sie <suggestion>vorbei\2</suggestion>? Vorbei wird mit darauffolgendem Verb zusammengeschrieben.</message>
@@ -8400,6 +8400,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Termin: Sa., 35.08.2014</example><!-- invalid, but ignored by this rule -->
             </rule>
             <rule>
+                <antipattern case_sensitive="yes">
+                    <!-- Wochenzeitung -->
+                    <token>Der</token>
+                    <token>Freitag</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">&wochentage;|&abgekWochentage;</token>
                     <token>,</token>
@@ -17507,7 +17512,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token><exception>,</exception></token>
-                    <token postag="ART.*GEN.*MAS.*" postag_regexp="yes"/>
+                    <token regexp="yes">[Dd]es|[Ee]ines</token>
                     <marker>
                         <token regexp="yes">(montag|dienstag|mittwoch|donnerstag|freitag|samstag|sonntag)(&tageszeitangabenklein;)?s</token>
                     </marker>
@@ -17518,6 +17523,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Montags">Der Laden hat des <marker>montags</marker> geschlossen.</example>
                 <example>Der Laden hat <marker>montags</marker> geschlossen.</example>
                 <example>Der Laden, der <marker>montags</marker> geschlossen ist, ist weg.</example>
+                <example>Am 18. August 1901 berichtet der <marker>sonntags</marker> erscheinende Bridgeport Herald...</example>
                 <example correction="Dienstags">Eines <marker>dienstags</marker> kam er wieder zur Arbeit.</example>
                 <example correction="Sonntags">Er hat eines <marker>sonntags</marker> den Zug verpasst.</example>
             </rule>
@@ -23823,7 +23829,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
-                    <token regexp="yes">Wegen|(Ab|Zu)züglich|Angesichts|Abseits|Anhand|Aufgrund|Ausschließlich|Infolge|Innerhalb|Außerhalb|Jenseits|Kraft|Mithilfe|Namens|Seitens|Unfern|Zwecks</token>
+                    <token regexp="yes">Wegen|(Ab|Zu)züglich|Angesichts|Abseits|Anhand|Aufgrund|Infolge|Innerhalb|Außerhalb|Jenseits|Kraft|Mithilfe|Namens|Seitens|Unfern|Zwecks</token>
                     <token regexp="yes">(das|dem|den|die)(selben?)?|ein|[Ddsm]?eine[mn]?|(eu|ih|Ih|unse)re[mn]?|(jene|deine|diese)[mn]?</token>
                 </pattern>
                 <message>Die Präposition '<match no="2" case_conversion="startlower"/>' erfordert standardsprachlich den Genitiv.</message>
