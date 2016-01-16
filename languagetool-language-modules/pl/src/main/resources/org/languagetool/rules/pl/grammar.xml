@@ -18083,6 +18083,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example correction="prawdziwą informację">Podaj mi <marker>prawdziwą informacje</marker>.</example>
                         <example>Podaj mi te informacje.</example>
                     </rule>
+                    <rule>
+                        <pattern>
+                            <token postag="subst:pl:acc:f" regexp="yes">.+e<exception postag="subst:sg:.*acc.*:f" postag_regexp="yes"></exception><exception>macie</exception></token>
+                            <token postag='adj:sg:acc:f.*' postag_regexp='yes' regexp="yes">.+ą</token>
+                        </pattern>
+                        <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1" postag="subst:sg:.*acc.*:f" postag_regexp="yes"/> <match no="2"/></suggestion>?</message>
+                        <short>Prawdopodobna literówka</short>
+                        <example correction="recesję gospodarczą">Udało się przezwyciężyć <marker>recesje gospodarczą</marker>.</example>
+                        <example>Podaj mi te informacje.</example>
+                    </rule>
             </rulegroup>
             <rule id="TEGO_OKRESY_TEGO_OKRESU" name="Niezgodność przypadków przymiotnika i rzeczownika rodzaju męskiego">
                 <pattern>
