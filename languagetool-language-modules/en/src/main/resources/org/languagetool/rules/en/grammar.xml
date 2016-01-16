@@ -5604,17 +5604,6 @@ USA
             <message>Did you mean <suggestion>would</suggestion>?</message>
             <example correction='would'>I <marker>will</marker> like to do something.</example>
         </rule>
-        <rule id="NEEDS_FIXED" name="'Needs fixed' type construction">
-            <pattern>
-                <token regexp='yes'>(needs|wants|requires|needed|wanted|required)</token>
-                <marker>
-                    <token postag='VBN'/>
-                </marker>
-            </pattern>
-            <message>"\1 \2" is only accepted in certain dialects. For something more widely acceptable, try <suggestion><match no="2" regexp_match="ed$" regexp_replace="ing"/></suggestion> or <suggestion>to be \2</suggestion>.</message>
-            <url>http://english.stackexchange.com/questions/5407/central-pennsylvanian-english-speakers-what-are-the-limitations-on-the-needs-w</url>
-            <example correction='fixing|to be fixed'>My car needs <marker>fixed</marker>.</example>
-        </rule>
         <rule id="WHO_NOUN" name="Noun following 'who'">
             <pattern>
                 <token>who</token>
@@ -14988,6 +14977,17 @@ USA
     <!-- Style -->
     <!-- ====================================================================== -->
     <category name="Style" type="style">
+        <rule id="NEEDS_FIXED" name="'Needs fixed' type construction">
+            <pattern>
+                <token regexp='yes'>(needs|wants|requires|needed|wanted|required)</token>
+                <marker>
+                    <token postag='VBN'/>
+                </marker>
+            </pattern>
+            <message>"\1 \2" is only accepted in certain dialects. For something more widely acceptable, try <suggestion><match no="2" regexp_match="ed$" regexp_replace="ing"/></suggestion> or <suggestion>to be \2</suggestion>.</message>
+            <url>http://english.stackexchange.com/questions/5407/central-pennsylvanian-english-speakers-what-are-the-limitations-on-the-needs-w</url>
+            <example correction='fixing|to be fixed'>My car needs <marker>fixed</marker>.</example>
+        </rule>
         <rule id="AN_INVITE" name="an invite (invitation)">
             <pattern>
                 <token>an</token>
