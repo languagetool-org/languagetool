@@ -4934,6 +4934,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category name="Błędy składniowe" type="grammar">
+            <rule id="DISAGREEMENT_VERB_PPRON" name="Niezgodność formy czasownika i zaimka osobowego">
+                <pattern>
+                        <token postag="SENT_START"/>
+                    <unify negate="yes">
+                        <feature id="number"/>
+                        <feature id="person"/>
+                        <feature id="gender"/>
+                        <token postag="verb:praet.*" postag_regexp="yes"/>
+                        <token postag="ppron.*:nom.*" postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <message>Nieuzgodnione formy czasownika i zaimka osobowego (inna liczba, osoba lub rodzaj gramatyczny).</message>
+                <short>Błąd gramatyczny</short>
+                <example type="incorrect"><marker>Przywróciła on</marker> pokój wewnętrzny Niemcom i zorganizował ekspansję na wschód.</example>
+            </rule>
             <rule id="WIKSZO_BYO_WIKSZO_BYA" name="„Większość było” (większość była)">
                 <pattern>
                     <token skip='5'>większość<exception regexp='yes' scope='next'>verb:.*</exception><exception scope='next'>,</exception></token>
