@@ -688,8 +688,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example correction="tyle że">Wprawdzie upił się, tyle<marker>, że</marker> akurat on nie prowadził samochodu.</example>
 						</rule>
 						<rule>
+                            <antipattern>
+                                <token>cóż</token>
+                                <marker><token>dopiero</token></marker>
+                            </antipattern>
 								<pattern>
-										<token><exception regexp="yes">tylko|[,;:!–-—]</exception><exception postag="conj|comp|SENT_START" postag_regexp="yes"></exception></token>
+										<token><exception regexp="yes">tylko|[,;:!–-—]|czas|dni</exception><exception postag="conj|comp|SENT_START" postag_regexp="yes"></exception></token>
 										<token regexp="yes">dopiero|od|czy|to|podczas|potem|teraz|zwłaszcza|szczególnie|że|nawet|niż</token>
 										<token>,</token>
 										<token regexp="yes">gdy|kiedy</token>
@@ -698,6 +702,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<short>Błąd interpunkcyjny</short>
 								<example>Poszedłem, podczas gdy on siedział na kanapie.</example>
 								<example correction="Poszedłem, podczas gdy"><marker>Poszedłem podczas, gdy</marker> on siedział na kanapie.</example>
+                                <example>W jakiś czas potem, kiedy sprzedano wino, wzięto się do mycia beczki.</example>
+                                <example>On powinien bronić honoru dam w ogólności, a cóż dopiero, gdy idzie o królową Madasimę.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -4981,6 +4987,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <marker><token>nic</token></marker>
                         <token postag="adj:sg:gen:m1.m2.m3.n1.n2:pos"/>
                     </antipattern>
+                    <antipattern>
+                    <marker><token>nic</token></marker>
+                        <token>z</token>
+                        <token>tego</token>
+                    </antipattern>
+                <antipattern>
+                        <token regexp="yes">[nz]a</token>
+                        <marker><token>nic</token></marker>
+                    </antipattern>
+                    <antipattern>
+                        <token>jakby</token>
+                        <marker>
+                            <token>nigdy</token>
+                            <token>nic</token>
+                        </marker>
+                    </antipattern>
                 <rule>
                 <pattern>
                     <token postag='SENT_START' skip='-1'><exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
@@ -4995,6 +5017,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Nic dziwnego, że chrapał.</example>
                 </rule>
                 <rule>
+                    <antipattern>
+                        <marker>
+                        <token case_sensitive="yes" regexp='yes'>nikt|nigdy|nic|bynajmniej</token>
+                        </marker>
+                        <token postag="SENT_END">.</token>
+                    </antipattern>
                     <pattern>
                         <token postag='SENT_START' skip='-1'><exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
                         <token postag='verb:.*' postag_regexp='yes' skip='-1'><exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
@@ -5007,6 +5035,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Nigdy tego nie zrobiłam.</example>
                     <example>W 1996 roku stworzył Pannę Nikt w oparciu o powieść Tomka Tryzny o dorastającej dziewczynie, która przeżywa kryzys wartości.</example>
                     <example>Treść pojęć bazowych pozostaje więc aporią w ramach solipsyzmu metodologicznego; nic dziwnego zatem, że później Fodor odrzuca solipsyzm.</example>
+                    <example> Don Kichot pozwolił zebrać z pola bitwy rannych i z najzimniejszą krwią jął znów maszerować tam i na powrót wzdłuż żłobu jakby nigdy nic.</example>
+                    <example>Wzbogaciła niezmiernie swój zielnik i rozflirtowała się jak nigdy.</example>
                 </rule>
             </rulegroup>
             <rule id="NIM_IMPERF" name="Czasownik niedokonany po spójniku nim i zanim">
@@ -17086,6 +17116,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token regexp="yes">oraz|i|lub|bądź|czy</token>
                             <marker><token postag="adjp"/></marker>
                         </antipattern>
+                    <antipattern>
+                        <token>z</token>
+                        <token>wolna</token>
+                    </antipattern>
 						<pattern>
 								<token><exception scope="previous" postag="adjp"/><exception regexp="yes">i|po</exception></token>
 								<marker>
@@ -18005,12 +18039,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
                 <rulegroup id="NIEZGODNO_PRZYPADKW_PRZYMIOTNIKA_I_RZECZOWNIKA_RODZAJU_ESKIEGO" name="Niezgodność przypadków przymiotnika i rzeczownika rodzaju żeńskiego">
                     <antipattern>
-                        <marker><token regexp="yes">można|be|któr[aeęą]</token></marker>
+                        <marker><token regexp="yes">można|be|któr[aeęą]|jak[aeęą]</token></marker>
                     </antipattern>
                     <antipattern case_sensitive="yes">
                         <marker>
                             <token regexp="yes">\p{Ll}+</token>
                             <token regexp="yes">\p{Lu}\p{Ll}+</token>
+                        </marker>
+                    </antipattern>
+                    <antipattern>
+                        <marker>
+                            <token>o</token>
+                            <token>resztę</token>
+                            <token>mniejsza</token>
                         </marker>
                     </antipattern>
                 <rule>
@@ -18059,6 +18100,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example correction='odpowiednią'>Musisz utworzyć <marker>odpowiednia</marker> infrastrukturę.</example>
                     <example>Musisz utworzyć odpowiednią infrastrukturę.</example>
                     <example>Chemia to nauka badająca naturę i własności substancji.</example>
+                    <example>Tłumaczyłem się w ten sposób, że zrozumiała mowę moją.</example>
                 </rule>
                     <rule>
                         <pattern>
@@ -18066,6 +18108,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <marker>
                                 <token postag='adj:sg:nom.voc:f.*' postag_regexp='yes'></token>
                             </marker>
+                                <token><exception postag="subst:sg:nom:f|adj:sg:nom.voc:f.*" postag_regexp="yes"/></token>
                         </pattern>
                         <message>Prawdopodobna literówka: <suggestion><match no="2" regexp_match="(.*)a" regexp_replace="$1ą"/></suggestion>.</message>
                         <short>Prawdopodobna literówka</short>
@@ -18073,6 +18116,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Musisz utworzyć odpowiednią infrastrukturę.</example>
                         <example>Ta woda jest odrobinę słonawa.</example>
                         <example>W następnym roku za tę rolę Włoska Akademia Filmowa przyznała jej nagrodę.</example>
+                        <example>Tym więcej cierpiałby, gdybym mu pogardę okazała.</example>
+                        <example>A za godzinę cała wioska pewno puści się w pogoń za nami.</example>
+                        <example>Z Celimeną molierowską wchodzi na scenę wykwintna paryska dama, dzierżąca w dłoni berło.</example>
                     </rule>
                     <rule>
                         <pattern>

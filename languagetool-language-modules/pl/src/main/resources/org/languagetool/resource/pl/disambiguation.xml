@@ -386,10 +386,12 @@
 
     <rule name="tym + com" id="tym_com">
         <pattern>
-            <marker><token>tym</token></marker>
-            <token postag_regexp="yes" postag="ad[vj].*:com"/>
+            <marker>
+                <token postag="adv">tym</token>
+                <token postag_regexp="yes" postag="ad[vj].*:com"/>
+            </marker>
         </pattern>
-        <disambig postag="adv"/>
+        <disambig action="filterall"/>
         <example type="untouched">Tym przypadkiem nie będziemy się zajmować.</example>
         <example type="ambiguous" inputform="Tym[Tym/subst:sg:nom:m1,ten/adj:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,ten/adj:sg:inst:m1.m2.m3.n1.n2:pos,ten/adj:sg:loc:m1.m2.m3.n1.n2:pos,to/subst:sg:inst:n2,to/subst:sg:loc:n2,tym/adv,tym/conj]"
                  outputform="Tym[tym/adv]"><marker>Tym</marker> lepiej!</example>
@@ -683,6 +685,28 @@
         </pattern>
         <disambig action="filterall"/>
     </rule>
+
+    <rule id="Z_WOLNA" name="z wolna">
+          <pattern>
+              <token postag="prep:acc:nwok">z</token>
+              <marker>
+              <token>wolna</token>
+              </marker>
+          </pattern>
+        <disambig postag="adjp"/>
+        <example type="ambiguous" inputform="wolna[wolny/adj:sg:nom.voc:f:pos]"
+                 outputform="wolna[wolny/adjp]">Szedł z <marker>wolna</marker>.</example>
+    </rule>
+
+    <rule id="Z_WOLNA_2" name="z wolna">
+        <pattern>
+            <marker>
+                <token>z</token>
+            </marker><token>wolna</token>
+        </pattern>
+        <disambig postag="prep:acc:nwok"/>
+    </rule>
+
 
     <rule name="od to nie oda" id="OD_PREP_GEN">
         <pattern>
@@ -1956,48 +1980,6 @@
         <example type="untouched">Nie potrzebuję twoich rad!</example>
     </rule>
 
-    <rule name="być z narzędnikiem dla orzecznika" id="BYC_INST">
-        <pattern>
-            <token inflected="yes" postag="(?:verb|pact).*" postag_regexp="yes">być</token>
-            <token postag=".*inst.*" postag_regexp="yes"><exception postag="(?:adj|subst|depr|pact|ppas).*" postag_regexp="yes" negate_pos="yes"/></token>
-        </pattern>
-        <disambig action="filterall"/>
-        <example type="untouched">On wart jest stu takich drabów.</example>
-        <example type="ambiguous" inputform="eleganckim[elegancki/adj:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,elegancki/adj:sg:inst:m1.m2.m3.n1.n2:pos,elegancki/adj:sg:loc:m1.m2.m3.n1.n2:pos]"
-                 outputform="eleganckim[elegancki/adj:sg:inst:m1.m2.m3.n1.n2:pos]">Nie sposób być <marker>eleganckim</marker>.</example>
-    </rule>
-
-    <rule name="jakim/którym być z narzędnikiem dla orzecznika" id="jaki_ktory_BYC_INST">
-    <pattern>
-        <token postag="adj.*inst.*" postag_regexp="yes" regexp="yes" inflected="yes">jaki|który</token>
-        <token inflected="yes" postag="(?:verb|pact).*" postag_regexp="yes">być</token>
-    </pattern>
-    <disambig action="filterall"/>
-    </rule>
-
-    <rule name="być z narzędnikiem dla orzecznika" id="BYC_INST_2">
-        <pattern>
-            <token postag=".*inst.*" postag_regexp="yes"><exception postag="(?:adj|subst|depr|pact|ppas).*" postag_regexp="yes" negate_pos="yes"/></token>
-            <token inflected="yes" postag="(?:verb|pact).*" postag_regexp="yes">być</token>
-        </pattern>
-        <disambig action="filterall"/>
-        <example type="untouched">On wart jest stu takich drabów.</example>
-        <example type="ambiguous" inputform="eleganckim[elegancki/adj:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,elegancki/adj:sg:inst:m1.m2.m3.n1.n2:pos,elegancki/adj:sg:loc:m1.m2.m3.n1.n2:pos]"
-                 outputform="eleganckim[elegancki/adj:sg:inst:m1.m2.m3.n1.n2:pos]">Człowiekiem <marker>eleganckim</marker> był Ludwik.</example>
-    </rule>
-
-    <rule name="być z narzędnikiem dla orzecznika" id="BYC_INST_3">
-        <pattern>
-            <token postag=".*inst.*" postag_regexp="yes"><exception postag="(?:adj|subst|depr|pact|ppas).*" postag_regexp="yes" negate_pos="yes"/></token>
-            <token/>
-            <token inflected="yes" postag="(?:verb|pact).*" postag_regexp="yes">być</token>
-        </pattern>
-        <disambig action="filterall"/>
-        <example type="untouched">On wart jest stu takich drabów.</example>
-        <example type="ambiguous" inputform="eleganckim[elegancki/adj:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,elegancki/adj:sg:inst:m1.m2.m3.n1.n2:pos,elegancki/adj:sg:loc:m1.m2.m3.n1.n2:pos]"
-                 outputform="eleganckim[elegancki/adj:sg:inst:m1.m2.m3.n1.n2:pos]">Człowiekiem <marker>eleganckim</marker> dawniej był Ludwik.</example>
-    </rule>
-
     <rule id="SENT_START_BYLA_ADJ_NOM" name="była + przymiotnik/imiesłów w mianowniku">
         <pattern>
             <token postag="SENT_START"/>
@@ -2155,6 +2137,16 @@
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="badająca[badający/adj:sg:nom.voc:f:pos,badać/pact:sg:nom.voc:f:imperf:aff:refl.nonrefl]"
                  outputform="badająca[badać/pact:sg:nom.voc:f:imperf:aff:refl.nonrefl]">dyscyplina nauk społecznych <marker>badająca</marker> organizację kultury</example>
+    </rule>
+
+    <rule name="uniesiona + inst > ppas" id="uniesiona_ppas_inst">
+        <pattern>
+            <marker>
+                <token postag="ppas:sg:nom.voc:f:perf:aff" regexp="yes">uniesiona|ośmielona|wzruszona</token>
+                <token postag_regexp="yes" postag="subst:sg:inst.*"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <rule name="głosować przeciw" id="glosowac_przeciw">
@@ -2439,16 +2431,92 @@
                  outputform="samotnie[samotnie/adv:pos]">Paginę zwykłą (bieżącą) leżącą <marker>samotnie</marker> w wierszu liczy się za pół wiersza.</example>
     </rule>
 
+    <rule id="OKAZALA_SIE" name="okazała się > czasownik">
+        <pattern>
+            <marker>
+                <token postag="verb:praet:sg:f:ter:perf:refl.nonrefl">okazała</token>
+                <token postag="qub">się</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">To była okazała zdobycz.</example>
+        <example type="ambiguous" inputform="okazała[okazać/verb:praet:sg:f:ter:perf:refl.nonrefl,okazały/adj:sg:nom.voc:f:pos]"
+        outputform="okazała[okazać/verb:praet:sg:f:ter:perf:refl.nonrefl]">Najpopularniejsza <marker>okazała</marker> się amerykańska witryna Napster</example>
+    </rule>
+
+    <rule id="SUBST_ACC_OKAZALA" name="okazała coś > czasownik">
+        <pattern>
+            <marker>
+                <token postag='subst:sg:acc:f'/>
+                <token postag="verb:praet:sg:f:ter:perf:refl.nonrefl">okazała</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id="TRWALA_GODZINE" name="trwała godzinę > czasownik">
+        <pattern>
+            <marker>
+                <token postag="verb:praet:sg:f:ter:imperf:nonrefl" >trwała</token>
+                <token postag="subst:sg.*acc.*" postag_regexp="yes" regexp="yes">minutę|godzinę|rok|miesiąc|sekundę|chwilę|mgnienie|chwileczkę</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Na jej głowie była trwała.</example>
+        <example type="ambiguous" inputform="trwała[trwać/verb:praet:sg:f:ter:imperf:nonrefl,trwała/subst:sg:nom:f,trwała/subst:sg:voc:f,trwały/adj:sg:nom.voc:f:pos]"
+                 outputform="trwała[trwać/verb:praet:sg:f:ter:imperf:nonrefl]">Procedura <marker>trwała</marker> rok.</example>
+    </rule>
+
+    <rule id="GODZINE_TRWALA" name="godzinę trwała > czasownik">
+        <pattern>
+            <marker>
+                <token postag="subst:sg.*acc.*" postag_regexp="yes" regexp="yes">minutę|godzinę|rok|miesiąc|sekundę|chwilę|mgnienie|chwileczkę</token>
+                <token postag="verb:praet:sg:f:ter:imperf:nonrefl" >trwała</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Na jej głowie była trwała.</example>
+        <example type="ambiguous" inputform="trwała[trwać/verb:praet:sg:f:ter:imperf:nonrefl,trwała/subst:sg:nom:f,trwała/subst:sg:voc:f,trwały/adj:sg:nom.voc:f:pos]"
+                 outputform="trwała[trwać/verb:praet:sg:f:ter:imperf:nonrefl]">Procedura cały rok <marker>trwała</marker>.</example>
+    </rule>
+
+    <rule id="GODZINE_CALA_TRWALA" name="godzinę całą trwała > czasownik">
+        <pattern>
+            <marker>
+                <token postag="subst:sg.*acc.*" postag_regexp="yes" regexp="yes">minutę|godzinę|rok|miesiąc|sekundę|chwilę|mgnienie|chwileczkę</token>
+                <token postag="adj:sg:acc.*:pos" postag_regexp="yes" inflected="yes">cały</token>
+                <token postag="verb:praet:sg:f:ter:imperf:nonrefl" >trwała</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Na jej głowie była trwała.</example>
+        <example type="ambiguous" inputform="trwała[trwać/verb:praet:sg:f:ter:imperf:nonrefl,trwała/subst:sg:nom:f,trwała/subst:sg:voc:f,trwały/adj:sg:nom.voc:f:pos]"
+                 outputform="trwała[trwać/verb:praet:sg:f:ter:imperf:nonrefl]">Procedura rok cały <marker>trwała</marker>.</example>
+    </rule>
+
+
     <rule id="PODNIOSLA_ACC" name="podniosła/dostała z biernikiem > czasownik">
         <pattern>
             <marker>
-                <token postag="verb:praet:sg:f:ter:perf:refl.nonrefl" regexp="yes">podniosła|dostała</token>
+                <token postag="verb:praet:sg:f:ter:perf:refl.nonrefl" regexp="yes">podniosła|dostała|zrozumiała</token>
                 <token postag=".*acc.*" postag_regexp="yes"/>
             </marker>
         </pattern>
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="podniosła[podnieść/verb:praet:sg:f:ter:perf:refl.nonrefl,podniosły/adj:sg:nom.voc:f:pos]"
                  outputform="podniosła[podnieść/verb:praet:sg:f:ter:perf:refl.nonrefl]">Mama przestała szyć i <marker>podniosła</marker> książkę.</example>
+    </rule>
+
+    <rule id="przybyla_inst" name="przybyła z narzędnikiem > czasownik">
+        <pattern>
+            <marker>
+                <token postag="verb:praet:sg:f:ter:perf:nonrefl">przybyła</token>
+                <token postag=".*inst.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="przybyła[przybyć/verb:praet:sg:f:ter:perf:nonrefl,przybyła/subst:sg:nom:f,przybyła/subst:sg:voc:f,przybyły/adj:sg:nom.voc:f:pos]"
+                 outputform="przybyła[przybyć/verb:praet:sg:f:ter:perf:nonrefl]">Nad wieczorem <marker>przybyła</marker> kurierką od Czałbowa ostatnia partia.</example>
     </rule>
 
     <rule id="SWIATLA_GEN" name="wiązka światła > rzeczownik">
@@ -3390,6 +3458,48 @@
                  outputform="Pieczęci[pieczęć/subst:pl:gen:f,pieczęć/subst:sg:gen:f]"><marker>Pieczęci</marker> używano dosyć często.</example>
     </rule>
 
+    <rule name="być z narzędnikiem dla orzecznika" id="BYC_INST">
+        <pattern>
+            <token inflected="yes" postag="(?:verb|pact).*" postag_regexp="yes" regexp="yes">by(wa)?ć</token>
+            <token postag=".*inst.*" postag_regexp="yes"><exception postag="(?:adj|subst|depr|pact|ppas).*" postag_regexp="yes" negate_pos="yes"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">On wart jest stu takich drabów.</example>
+        <example type="ambiguous" inputform="eleganckim[elegancki/adj:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,elegancki/adj:sg:inst:m1.m2.m3.n1.n2:pos,elegancki/adj:sg:loc:m1.m2.m3.n1.n2:pos]"
+                 outputform="eleganckim[elegancki/adj:sg:inst:m1.m2.m3.n1.n2:pos]">Nie sposób być <marker>eleganckim</marker>.</example>
+    </rule>
+
+    <rule name="jakim/którym być z narzędnikiem dla orzecznika" id="jaki_ktory_BYC_INST">
+        <pattern>
+            <token postag="adj.*inst.*" postag_regexp="yes" regexp="yes" inflected="yes">jaki|który</token>
+            <token inflected="yes" postag="(?:verb|pact).*" postag_regexp="yes" regexp="yes">by(wa)?ć</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule name="być z narzędnikiem dla orzecznika" id="BYC_INST_2">
+        <pattern>
+            <token postag=".*inst.*" postag_regexp="yes"><exception postag="(?:adj|subst|depr|pact|ppas).*" postag_regexp="yes" negate_pos="yes"/></token>
+            <token inflected="yes" postag="(?:verb|pact).*" postag_regexp="yes">być</token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">On wart jest stu takich drabów.</example>
+        <example type="ambiguous" inputform="eleganckim[elegancki/adj:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,elegancki/adj:sg:inst:m1.m2.m3.n1.n2:pos,elegancki/adj:sg:loc:m1.m2.m3.n1.n2:pos]"
+                 outputform="eleganckim[elegancki/adj:sg:inst:m1.m2.m3.n1.n2:pos]">Człowiekiem <marker>eleganckim</marker> był Ludwik.</example>
+    </rule>
+
+    <rule name="być z narzędnikiem dla orzecznika" id="BYC_INST_3">
+        <pattern>
+            <token postag=".*inst.*" postag_regexp="yes"><exception postag="(?:adj|subst|depr|pact|ppas).*" postag_regexp="yes" negate_pos="yes"/></token>
+            <token/>
+            <token inflected="yes" postag="(?:verb|pact).*" postag_regexp="yes">być</token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">On wart jest stu takich drabów.</example>
+        <example type="ambiguous" inputform="eleganckim[elegancki/adj:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,elegancki/adj:sg:inst:m1.m2.m3.n1.n2:pos,elegancki/adj:sg:loc:m1.m2.m3.n1.n2:pos]"
+                 outputform="eleganckim[elegancki/adj:sg:inst:m1.m2.m3.n1.n2:pos]">Człowiekiem <marker>eleganckim</marker> dawniej był Ludwik.</example>
+    </rule>
+
     <rule id="ADV_COM_NIZ" name="niż po przysłówku w stopniu wyższym">
         <pattern>
             <token skip="3" postag="adj.*:com|adv:com" postag_regexp="yes"></token>
@@ -3643,6 +3753,11 @@
             <marker><token>ciężej</token></marker>
         </pattern>
         <disambig action="remove"><wd lemma="ciężeć"/></disambig>
+    </rule>
+
+    <rule id="CZUJE" name="czuję to nie czuja">
+        <pattern><token>czuję</token></pattern>
+        <disambig action="remove"><wd lemma="czuja"/></disambig>
     </rule>
 
     <rule id="DLUZEJ" name="dłużej to nie dłużeć">
@@ -4010,6 +4125,13 @@
         <disambig action="remove"><wd lemma="świetnić"/></disambig>
     </rule>
 
+    <rule id="świetnie" name="świetnie to nie świetnia">
+        <pattern>
+            <token>świetnie</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="świetnia"/></disambig>
+    </rule>
+
     <rule id="TRUPIA" name="trupi(ą) to nie trupić">
         <pattern>
             <token regexp="yes">trupią?</token>
@@ -4137,6 +4259,13 @@
             <token>Zoli</token>
         </pattern>
         <disambig action="remove"><wd lemma="zolić"/></disambig>
+    </rule>
+
+    <rule id="ZWIEZLE" name="zwięźle to nie zwięźla">
+        <pattern>
+            <token>zwięźle</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="zwięźla"/></disambig>
     </rule>
 
     <rule id="ZOLCI" name="żółci to nie żółcić">
@@ -4313,6 +4442,14 @@
             <marker><token>zieleni</token></marker>
         </pattern>
         <disambig postag="subst:sg:gen:f"></disambig>
+    </rule>
+
+    <rule id="OKRYWA_VERB" name="okrywa jako rzeczownik">
+        <pattern>
+            <marker><token>okrywa</token></marker>
+            <token regexp="yes">go|ją</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="okrywa"/></disambig>
     </rule>
 
     <rule id="OPIEKA_SUBST" name="opieka jako rzeczownik">
@@ -5370,6 +5507,16 @@
         <example type="ambiguous" inputform="równie[rówień/subst:pl:acc:f,rówień/subst:pl:nom:f,rówień/subst:pl:voc:f,równia/subst:pl:acc:f,równia/subst:pl:nom:f,równia/subst:pl:voc:f,równie/adv:pos]"
                  outputform="równie[równie/adv:pos]">On jest <marker>równie</marker> biegły jak inni.</example>
         <example type="untouched">Widziałem już różne równie pochyłe.</example>
+    </rule>
+
+    <rule id="ROWNIE_ADV_2" name="równie jako adv:pos">
+        <pattern>
+            <marker><token>równie</token></marker>
+            <token postag="adj.*:pos" postag_regexp="yes"><exception>pochyłe</exception></token>
+        </pattern>
+        <disambig postag="adv:pos"/>
+        <example type="ambiguous" outputform="równie[równie/adv:pos]"
+                 inputform="równie[rówień/subst:pl:acc:f,rówień/subst:pl:nom:f,rówień/subst:pl:voc:f,równia/subst:pl:acc:f,równia/subst:pl:nom:f,równia/subst:pl:voc:f,równie/adv:pos]">Dulcynea z Toboso jest <marker>równie</marker> dobrą księżniczką.</example>
     </rule>
 
     <rulegroup id="SMIALO_ADV" name="śmiało jako przysłówek">
@@ -6789,6 +6936,20 @@
         <example type="untouched">To jest ma przyjaciółka.</example>
         <example type="ambiguous" inputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl,mój/adj:sg:nom.voc:f:pos]"
                  outputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]">Wcześniejszą genezę <marker>ma</marker> też osada oraz kościoły.</example>
+    </rule>
+
+    <rule name="formę/acc ma GEN" id="FORMA_ACC_MA_GEN">
+        <pattern>
+            <marker>
+                <token postag_regexp="yes" postag=".*acc.*" regexp="yes">formę|kształt</token>
+                <token postag="verb:fin:sg:ter:imperf:refl.nonrefl">ma</token>
+                <token postag="subst:sg:gen.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">To jest ma przyjaciółka.</example>
+        <example type="ambiguous" inputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl,mój/adj:sg:nom.voc:f:pos]"
+                 outputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]">Formę <marker>ma</marker> pomarańczy.</example>
     </rule>
 
 
