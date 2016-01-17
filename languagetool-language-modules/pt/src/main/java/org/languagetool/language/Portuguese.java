@@ -21,6 +21,8 @@ package org.languagetool.language;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.rules.*;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.pt.PortugueseSynthesizer;
 import org.languagetool.rules.pt.PreReformPortugueseCompoundRule;
 import org.languagetool.rules.pt.PortugueseReplaceRule;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
@@ -42,6 +44,7 @@ public class Portuguese extends Language {
   private static final Language PORTUGAL_PORTUGUESE = new PortugalPortuguese();
   
   private Tagger tagger;
+  private Synthesizer synthesizer;
   private SentenceTokenizer sentenceTokenizer;
 
   @Override
@@ -77,6 +80,14 @@ public class Portuguese extends Language {
       tagger = new PortugueseTagger();
     }
     return tagger;
+  }
+
+  @Override
+  public Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new PortugueseSynthesizer();
+    }
+    return synthesizer;
   }
 
   @Override
