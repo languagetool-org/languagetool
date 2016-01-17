@@ -2478,7 +2478,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag='NumC:T' ></token>
                 <token postag='NumC:T'><exception negate_pos="yes" postag='NumC:T'></exception></token>
             </pattern>
-            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="3"/></suggestion>.</message>
+            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="2" /> <match no="3"/></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
             <short>Склоняются все слова.</short>
             <example correction='ста двадцатью пятью'>Склонять числительные можно <marker>сто двадцатью пятью</marker> способами, но только один из них правильный.</example>
@@ -2490,7 +2490,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:T'></exception></token>
                 <token postag='NumC:T'><exception negate_pos="yes" postag='NumC:T'></exception></token>
             </pattern>
-            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="3"/></suggestion>.</message>
+            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1"  /> <match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="3"/></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
             <short>Склоняются все слова.</short>
             <example correction='ста двадцатью пятью'>Склонять числительные можно <marker>ста двадцать пятью</marker> способами, но только один из них правильный.</example>
@@ -2499,10 +2499,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <rule>
             <pattern>
                 <token negate_pos="yes"  postag='NumC:.*' postag_regexp='yes'></token>
-                <marker>
+               <marker>
                 <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:T'></exception></token>
-                <token postag='NumC:T'><exception negate_pos="yes" postag='NumC:T'></exception></token>
-                </marker>
+                <token skip="1" postag='NumC:T'><exception negate_pos="yes" postag='NumC:T'></exception><exception  scope="next" postag_regexp="yes" postag='NumC:.*'></exception></token>             
+               </marker>
             </pattern>
             <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:T" /> <match no="3"/></suggestion>.</message>
             <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
@@ -2525,10 +2525,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          </rule>
          <rule>
             <pattern>
+                <token postag='NumC:Nom' ></token>
+                <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:Nom'></exception></token>
+                <token postag='NumC:Nom'></token>
+            </pattern>
+            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" /> <match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:Nom" /> <match no="3"/></suggestion>.</message>
+            <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
+            <short>Склоняются все слова.</short>
+            <example correction='сто двадцать пять'>Способ номер <marker>сто двадцати пять</marker>.</example>
+            <example>сто двадцать пять</example>
+         </rule>
+         <rule>
+            <pattern>
+                <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:Nom'></exception></token>
+                <token postag='NumC:Nom' ></token>
+                <token postag='NumC:Nom'></token>
+            </pattern>
+            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:Nom" /> <match no="2" /> <match no="3"/></suggestion>.</message>
+            <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
+            <short>Склоняются все слова.</short>
+            <example correction='сто двадцать пять'>Способ номер <marker>ста двадцать пять</marker>.</example>
+            <example>сто двадцать пять</example>
+         </rule>
+         <rule>
+            <pattern>
                 <token negate_pos="yes"  postag='NumC:.*' postag_regexp='yes'></token>
                 <marker>
                 <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:Nom'></exception><exception regexp='yes'>одиножды|дважды|трижды|четырежды|пятью|шестью|семью|восемью|девятью</exception></token>
-                <token postag='NumC:Nom'></token>
+                <token skip="1" postag='NumC:Nom'><exception  scope="next" postag_regexp="yes" postag='NumC:.*'></exception></token>
                 </marker>
             </pattern>
             <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:Nom" /> <match no="3"/></suggestion>.</message>
@@ -2549,13 +2573,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Склоняются все слова.</short>
             <example correction='ста двадцати пяти'>Скорость машины составляла около <marker>сто двадцать пяти</marker> километров в час.</example>
             <example>ста двадцати пяти</example>
+         </rule>
+         <rule>
+            <pattern>
+                <token postag='NumC:R' ></token>
+                <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:R'></exception></token>
+                <token postag='NumC:R'></token>
+            </pattern>
+            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" /> <match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:R" /> <match no="3"/></suggestion>.</message>
+            <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
+            <short>Склоняются все слова.</short>
+            <example correction='ста двадцати пяти'>Скорость машины составляла около <marker>ста двадцать пяти</marker> километров в час.</example>
+            <example>ста двадцати пяти</example>
+         </rule>
+         <rule>
+            <pattern>
+                <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:R'></exception></token>
+                <token postag='NumC:R' ></token>
+                <token postag='NumC:R'></token>
+            </pattern>
+            <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="1" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:R" /> <match no="2" /> <match no="3"/></suggestion>.</message>
+            <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
+            <short>Склоняются все слова.</short>
+            <example correction='ста двадцати пяти'>Скорость машины составляла около <marker>сто двадцати пяти</marker> километров в час.</example>
+            <example>ста двадцати пяти</example>
          </rule>  
          <rule>
             <pattern>
                 <token negate_pos="yes"  postag='NumC:.*' postag_regexp='yes'></token>
                 <marker>
                 <token postag='NumC:.*' postag_regexp='yes'><exception postag='NumC:R'></exception></token>
-                <token postag='NumC:R'></token>
+                <token skip="1" postag='NumC:R'><exception  scope="next" postag_regexp="yes" postag='NumC:.*'></exception></token>
                 </marker>
             </pattern>
             <message>При склонении количественных имён числительных изменяются все слова и все части сложных слов: <suggestion><match no="2" postag_regexp="yes" postag="NumC:.*" postag_replace="NumC:R" /> <match no="3"/></suggestion>.</message>
