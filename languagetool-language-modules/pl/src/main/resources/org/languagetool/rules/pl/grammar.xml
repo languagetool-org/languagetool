@@ -406,6 +406,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <example>— Mój przyjacielu — odparł — ty widać nie wiesz, co to rozrywka na tym świecie.</example>
                         </rule>
                         <rule>
+                            <antipattern>
+                                <token>to</token>
+                            </antipattern>
                               <pattern>                   
                                 <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|było|byłoby</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/><exception>widać</exception></token>
                                 <token postag="pred" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current" regexp="yes">może|widać</exception></token>
@@ -420,6 +423,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                               <example correction="">Teorię, która <marker>opisywałoby wszystkie jego własności można znaleźć tylko w podręcznikach.</marker></example>
                               <example>Śniło się widać biedakowi, że trzymał w ręku wielkoluda Pandafilando.</example>
                               <example>Rad nierad poszedłem do szkoły.</example>
+                              <example>Jest to problem.</example>
                         </rule>
                         <rule>
                             <pattern>
@@ -780,6 +784,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     <marker><token>to</token></marker>
                                     <token>,</token>
                                 </antipattern>
+                                <antipattern>
+                                    <token postag="subst:sg:acc:n2">to<exception postag="subst:sg:acc:n2" negate_pos="yes"/></token>
+                                </antipattern>
 								<pattern>
 										<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;</exception></token>
 										<token inflected="yes" regexp="yes" spacebefore="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to|jednak</token>
@@ -791,6 +798,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example correction="odejdę, nawet jeśli">Naprawdę <marker>odejdę nawet, jeśli</marker> pójdzie się myć.</example>
 								<example>Naprawdę odejdę, <marker>nawet jeśli</marker> pójdzie się myć.</example>
                                 <example>Mimo to, jeśli przez dłuższy czas kulka pada na pole czerwone, rośnie w nas chęć obstawienia czarnych w kolejnym rzucie.</example>
+                                <example>Zrobiłbym to, gdybym mógł.</example>
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
@@ -1925,20 +1933,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Lubię zarówno Lecha, jak i Jarosława.</example>
 						<example correction="Lecha, jak i">Lubię zarówno <marker>Lecha jak i</marker> Jarosława.</example>
 				</rule>
-            <rule id="IM_TYM" name="Brak przecinka wewnątrz spójnika „im..., tym”">
-                <pattern>
+            <rulegroup id="IM_TYM" name="Brak przecinka wewnątrz spójnika „im..., tym”">
+                <rule>
+                    <pattern>
+                            <token skip="-1">im</token>
+                            <token postag="(adj|adv).*:com" postag_regexp="yes" skip="-1"></token>
+                        <marker>
+                            <token>tym<exception scope="previous">,</exception></token>
+                        </marker>
+                            <token postag="(adj|adv).*:com" postag_regexp="yes"></token>
+                    </pattern>
+                    <message>Brak przecinka: <suggestion>, tym</suggestion>.</message>
+                    <short>Błąd interpunkcyjna</short>
+                    <example>Im większa, tym lepiej.</example>
+                    <example correction=", tym">Im większa<marker> tym</marker> lepiej.</example>
+                </rule>
+                <rule>
+                    <pattern>
                         <token skip="-1">im</token>
                         <token postag="(adj|adv).*:com" postag_regexp="yes" skip="-1"></token>
-                    <marker>
-                        <token>tym<exception scope="previous">,</exception></token>
-                    </marker>
-                        <token postag="(adj|adv).*:com" postag_regexp="yes"></token>
-                </pattern>
-                <message>Brak przecinka: <suggestion>, tym</suggestion>.</message>
-                <short>Błąd interpunkcyjna</short>
-                <example>Im większa, tym lepiej.</example>
-                <example correction=", tym">Im większa<marker> tym</marker> lepiej.</example>
-            </rule>
+                        <marker>
+                            <token>tym<exception scope="previous">,</exception></token>
+                        </marker>
+                        <token regexp="yes">więcej|mniej</token>
+                    </pattern>
+                    <message>Brak przecinka: <suggestion>, tym</suggestion>.</message>
+                    <short>Błąd interpunkcyjna</short>
+                    <example correction=", tym">Im bogatsze miasto<marker> tym</marker> więcej śmieci wytwarza..</example>
+                </rule>
+            </rulegroup>
 				<rulegroup id="ROWNIE_JAK" name="Brak przecinka w porównaniach typu „równie... jak”">
 						<rule>
 								<pattern>
@@ -17120,6 +17143,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>z</token>
                         <token>wolna</token>
                     </antipattern>
+                    <antipattern>
+                        <token>do</token>
+                        <token>cna</token>
+                    </antipattern>
 						<pattern>
 								<token><exception scope="previous" postag="adjp"/><exception regexp="yes">i|po</exception></token>
 								<marker>
@@ -18054,6 +18081,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token>mniejsza</token>
                         </marker>
                     </antipattern>
+                    <antipattern>
+                        <token>na</token>
+                        <token>jotę</token>
+                    </antipattern>
                 <rule>
                     <pattern>
                         <token>tę</token>
@@ -18103,6 +18134,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Tłumaczyłem się w ten sposób, że zrozumiała mowę moją.</example>
                 </rule>
                     <rule>
+                        <antipattern>
+                            <token>o</token>
+                            <token>połowę</token>
+                            <token postag="adj:sg:nom.voc:f:com"/>
+                        </antipattern>
                         <pattern>
                             <token regexp='yes' postag='subst:sg:acc:f'>.*ę<exception>odrobinę</exception></token>
                             <marker>
@@ -18119,6 +18155,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Tym więcej cierpiałby, gdybym mu pogardę okazała.</example>
                         <example>A za godzinę cała wioska pewno puści się w pogoń za nami.</example>
                         <example>Z Celimeną molierowską wchodzi na scenę wykwintna paryska dama, dzierżąca w dłoni berło.</example>
+                        <example>Suma dochodów w drugiej książce była o połowę mniejsza niż w pierwszej.</example>
                     </rule>
                     <rule>
                         <pattern>
