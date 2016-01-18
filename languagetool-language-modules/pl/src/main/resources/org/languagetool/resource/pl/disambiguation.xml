@@ -7242,6 +7242,45 @@
         <example type="ambiguous" inputform="mają[maić/verb:fin:pl:ter:imperf:refl.nonrefl,mieć/verb:fin:pl:ter:imperf:refl.nonrefl]" outputform="mają[mieć/verb:fin:pl:ter:imperf:refl.nonrefl]">Oni <marker>mają</marker> robaki.</example>
     </rule>
 
+    <rule name="mieć to do siebie" id="ma_to_do_siebie">
+        <pattern>
+            <marker>
+            <token postag="verb.*" postag_regexp="yes" inflected="yes">mieć</token>
+            <token postag="subst:sg:acc:n2">to</token>
+            <token postag="prep:gen">do</token>
+            <token postag="siebie:gen">siebie</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Ma przyjaciółka kupuje glizdy na targu.</example>
+        <example type="ambiguous" inputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl,mój/adj:sg:nom.voc:f:pos]"
+                 outputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]">Szczęście, niestety, <marker>ma</marker> to do siebie, że się kończy.</example>
+    </rule>
+
+    <rule name="mieć w sobie" id="ma_w_sobie">
+        <pattern>
+            <marker>
+                <token postag="verb.*" postag_regexp="yes" inflected="yes">mieć</token>
+                <token postag="prep:loc:nwok">w</token>
+                <token postag="siebie:loc">sobie</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Ma przyjaciółka kupuje glizdy na targu.</example>
+        <example type="ambiguous" inputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl,mój/adj:sg:nom.voc:f:pos]"
+                 outputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]">Szczęście, niestety, <marker>ma</marker> w sobie coś niepokojącego.</example>
+    </rule>
+
+    <rule name="kolokaty mieć" id="miec_kolokaty_nominatywne">
+        <pattern>
+            <marker>
+            <token postag="verb.*" postag_regexp="yes" inflected="yes">mieć</token>
+            <token postag="subst.*acc.*" postag_regexp="yes" regexp="yes">ochotę|wrażenie|nadzieję|zamiar|pojęcie|gorączkę|rację|przeczucie|pewność|odwagę|zwyczaj|rozkaz|wątpliwości|wątpliwość</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rule name="ma być" id="MA_INF">
         <pattern>
             <marker><token>ma</token></marker>
