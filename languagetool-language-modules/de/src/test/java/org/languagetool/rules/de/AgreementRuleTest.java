@@ -210,6 +210,9 @@ public class AgreementRuleTest extends TestCase {
     //assertBad("Ich gebe dir das kleines Kaninchen.");  // already detected by ART_ADJ_SOL
     //assertBad("Ich gebe dir das klein Kaninchen.");  // already detected by MEIN_KLEIN_HAUS
     assertGood("Ich gebe dir das kleine Kaninchen.");
+    
+    assertBad("Hier steht Ihre Text.");
+    assertBad("Hier steht ihre Text.");
 
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
