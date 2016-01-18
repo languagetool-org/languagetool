@@ -1644,11 +1644,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Wczoraj zadałem Swannowi parę pytań co do Bergotte'a.</example>
                   </rule>
                   <rule>
+                      <antipattern>
+                          <token>jak</token>
+                          <token postag_regexp="yes" postag=".*sup"/>
+                      </antipattern>
                   <pattern>                                          
                       <token/>
                       <marker>
                       <token postag="subst:sg.*" postag_regexp="yes" inflected="yes">to<exception postag="qub|conj" postag_regexp="yes"></exception></token>                                       
-                      <token regexp="yes" inflected="yes">co|czy|kto|skąd|dokąd|czyj|gdzie|jak|dlaczego</token>
+                      <token regexp="yes" inflected="yes">co|czy|kto|skąd|dokąd|czyj|gdzie|jak|dlaczego<exception regexp="yes">jak[ai]</exception></token>
                       </marker>
                       <token><exception postag="SENT_END"/><exception>niemiara</exception></token>
                     </pattern>
@@ -1658,7 +1662,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example correction="tego, czy">Zależy od <marker>tego czy</marker> faktycznie dzisiaj przed południem znajduję się w Krakowie.</example>                    
                     <example correction="to, gdzie">Jest ono prawdziwe bez względu na <marker>to gdzie</marker>, kiedy i przez kogo zostało wypowiedziane.</example>
                     <example correction="to, czy">Bez względu na <marker>to czy</marker> i jakie posiadam na ten temat przekonania.</example>
-                      <example>Było tego co niemiara.</example>
+                    <example>Było tego co niemiara.</example>
+                      <example>Zrób to jak najszybciej.</example>
                   </rule>
                 </rulegroup>
 				<rulegroup id="KTOS_CZYJ" name="Brak przecinka przed „czyj”">
@@ -4918,7 +4923,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Nową trasą ruszy uroczysta parada na czele z tramwajem konnym.</example>
 						</rule>
 				</rulegroup>
-				<rule id="BOWIEM_ZAS" name="„Bowiem”, „ale”, „zaś” na początku zdania">
+				<rule type="style" id="BOWIEM_ZAS" name="„Bowiem”, „ale”, „zaś” na początku zdania">
 						<pattern>
 								<token postag="SENT_START"></token>
 								<marker>
@@ -4932,7 +4937,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction=""><marker>Bowiem</marker> Ludwik chciał być wicepremierem.</example>
                         <example>Lecz się sam!</example>
 				</rule>
-				<rule id="BOWIEM_ZAS_PRZECINEK" name="„bowiem” i „zaś” na początku zdania podrzędnego">
+				<rule type="style" id="BOWIEM_ZAS_PRZECINEK" name="„bowiem” i „zaś” na początku zdania podrzędnego">
 						<pattern>
 								<token regexp="yes">&interp;</token>
 								<marker>
@@ -4944,7 +4949,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Ludwik chciał być wicepremierem, był bowiem człowiekiem ambitnym.</example>
 						<example correction="">Ludwik chciał być wicepremierem, <marker>bowiem</marker> był człowiekiem ambitnym.</example>
 				</rule>
-				<rule id="SIE_SENT_END" name="„Się” na końcu zdania">
+				<rule type="style" id="SIE_SENT_END" name="„Się” na końcu zdania">
 						<pattern>
 								<token><exception postag="SENT_START"></exception></token>
 								<token><exception regexp="yes">\p{Punct}</exception></token>
@@ -17141,11 +17146,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </antipattern>
                     <antipattern>
                         <token>z</token>
-                        <token>wolna</token>
+                        <token regexp="yes">wolna|daleka|lekka|grubsza</token>
                     </antipattern>
                     <antipattern>
                         <token>do</token>
-                        <token>cna</token>
+                        <token regexp="yes">cna|czysta</token>
                     </antipattern>
 						<pattern>
 								<token><exception scope="previous" postag="adjp"/><exception regexp="yes">i|po</exception></token>
@@ -18169,13 +18174,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </rule>
                     <rule>
                         <pattern>
-                            <token postag="subst:pl:acc:f" regexp="yes">.+e<exception postag="subst:sg:.*acc.*:f" postag_regexp="yes"></exception><exception>macie</exception></token>
+                            <marker>
+                            <token postag="subst:pl:acc:f" regexp="yes">.+e<exception postag="subst:sg:.*acc.*:f" postag_regexp="yes"></exception><exception>macie</exception><exception>Ale</exception></token>
                             <token postag='adj:sg:acc:f.*' postag_regexp='yes' regexp="yes">.+ą</token>
+                            </marker>
+                            <token><exception postag="(subst|adj):sg:acc:f.*" postag_regexp="yes"/></token>
                         </pattern>
                         <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1" postag="subst:sg:.*acc.*:f" postag_regexp="yes"/> <match no="2"/></suggestion>?</message>
                         <short>Prawdopodobna literówka</short>
                         <example correction="recesję gospodarczą">Udało się przezwyciężyć <marker>recesje gospodarczą</marker>.</example>
                         <example>Podaj mi te informacje.</example>
+                        <example>On będzie w stanie przywołać na pomoc w potrzebie całą dżunglę.</example>
                     </rule>
             </rulegroup>
             <rule id="TEGO_OKRESY_TEGO_OKRESU" name="Niezgodność przypadków przymiotnika i rzeczownika rodzaju męskiego">

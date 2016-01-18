@@ -687,11 +687,11 @@
         <disambig action="filterall"/>
     </rule>
 
-    <rule id="Z_WOLNA" name="z wolna">
+    <rule id="Z_WOLNA" name="z wolna/daleka">
           <pattern>
               <token postag="prep:acc:nwok">z</token>
               <marker>
-              <token>wolna</token>
+              <token regexp="yes">wolna|daleka|lekka|grubsza</token>
               </marker>
           </pattern>
         <disambig postag="adjp"/>
@@ -699,11 +699,11 @@
                  outputform="wolna[wolny/adjp]">Szedł z <marker>wolna</marker>.</example>
     </rule>
 
-    <rule id="Z_WOLNA_2" name="z wolna">
+    <rule id="Z_WOLNA_2" name="z wolna/daleka">
         <pattern>
             <marker>
                 <token>z</token>
-            </marker><token>wolna</token>
+            </marker><token regexp="yes">wolna|daleka|lekka|grubsza|naprzeciwka</token>
         </pattern>
         <disambig postag="prep:acc:nwok"/>
     </rule>
@@ -720,11 +720,24 @@
                  outputform="cna[cny/adjp]">Przemókł do <marker>cna</marker>.</example>
     </rule>
 
-    <rule id="do_cna" name="do cna">
+    <rule id="DO_CZYSTA" name="do cna">
+        <pattern>
+            <token>do</token>
+            <marker>
+                <token>czysta</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="adjp" lemma="czysty"/></disambig>
+        <example type="ambiguous" inputform="czysta[czysta/subst:sg:nom:f,czysta/subst:sg:voc:f,czysty/adj:sg:nom.voc:f:pos]"
+                 outputform="czysta[czysty/adjp]">Wyporządź mi kancelarię do <marker>czysta</marker>.</example>
+    </rule>
+
+
+    <rule id="do_cna" name="do cna/czysta">
         <pattern>
             <marker>
                 <token>do</token>
-            </marker><token>cna</token>
+            </marker><token regexp="yes">cna|czysta</token>
         </pattern>
         <disambig postag="prep:gen"/>
     </rule>
@@ -1033,6 +1046,16 @@
             <token postag="adv">jak</token>
         </pattern>
         <disambig action="remove"><wd pos="subst:sg:nom:m2"/></disambig>
+    </rule>
+
+    <rule name="jak i przysłówek/przymiotnik stopnia najwyższego" id="jak_advpos_sup">
+        <pattern>
+            <marker>
+                <token postag="adv:pos">jak</token>
+                <token postag=".*sup" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <rule name="juszyć" id="JUSZYC">
@@ -1484,6 +1507,14 @@
     </rule>
   </rulegroup>
 
+    <rule id="razem_z" name="razem z">
+        <pattern>
+            <token postag="adv">razem</token>
+            <token postag_regexp="yes" postag="prep:inst.*" inflected="yes">z</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rule id="interj" name="wykrzyknienia">
         <pattern>
                 <token postag="SENT_START"/>
@@ -1740,6 +1771,18 @@
         <example type="ambiguous" inputform="Ale[Al/depr:pl:nom:m2,Al/depr:pl:voc:m2,Ala/subst:pl:acc:f,Ala/subst:pl:nom:f,Ala/subst:pl:voc:f,Ale/comp:comma,Ali/depr:pl:nom:m2,Ali/depr:pl:voc:m2,Alo/depr:pl:nom:m2,Alo/depr:pl:voc:m2,ale/conj,ale/qub]"
                  outputform="Ale[Ale/comp:comma,ale/conj,ale/qub]"><marker>Ale</marker> są głupcami.</example>
     </rule>
+    <rule id="ALE_dialog" name="Ale to pewnie spójnik">
+        <pattern case_sensitive="yes">
+            <token postag="SENT_START"/>
+            <token regexp="yes">[\-—–]</token>
+            <marker><token>Ale<exception postag="interj"/></token></marker>
+        </pattern>
+        <disambig action="remove" postag="(?:subst|depr).*"/>
+        <example type="untouched">To prawda, ale co z tego?</example>
+        <example type="ambiguous" inputform="Ale[Al/depr:pl:nom:m2,Al/depr:pl:voc:m2,Ala/subst:pl:acc:f,Ala/subst:pl:nom:f,Ala/subst:pl:voc:f,Ale/comp:comma,Ali/depr:pl:nom:m2,Ali/depr:pl:voc:m2,Alo/depr:pl:nom:m2,Alo/depr:pl:voc:m2,ale/conj,ale/qub]"
+                 outputform="Ale[Ale/comp:comma,ale/conj,ale/qub]">– <marker>Ale</marker> są głupcami.</example>
+    </rule>
+
 
     <rule id="JESLI_TO" name="jeśli/jeżeli, to...">
         <pattern>
@@ -2164,7 +2207,7 @@
     <rule name="uniesiona + inst > ppas" id="uniesiona_ppas_inst">
         <pattern>
             <marker>
-                <token postag="ppas:sg:nom.voc:f:perf:aff" regexp="yes">uniesiona|ośmielona|wzruszona</token>
+                <token postag="ppas:sg:nom.voc:f:perf:aff" regexp="yes">uniesiona|ośmielona|wzruszona|zdziwiona|znużona|przerażona|wyczerpana|zajęta</token>
                 <token postag_regexp="yes" postag="subst:sg:inst.*"/>
             </marker>
         </pattern>
@@ -2538,7 +2581,7 @@
     <rule id="PODNIOSLA_ACC" name="podniosła/dostała z biernikiem > czasownik">
         <pattern>
             <marker>
-                <token postag="verb:praet:sg:f:ter:perf:refl.nonrefl" regexp="yes">podniosła|dostała|zrozumiała</token>
+                <token postag="verb:praet:sg:f:ter:.*" postag_regexp="yes" regexp="yes">podniosła|dostała|zrozumiała|zastała|czuła</token>
                 <token postag=".*acc.*" postag_regexp="yes"/>
             </marker>
         </pattern>
@@ -3287,6 +3330,18 @@
                  outputform="niespodziewanie[niespodziewanie/adv:pos]">W lipcu 1940, po <marker>niespodziewanie</marker> łatwym zwycięstwie nad Francją...</example>
     </rule>
 
+    <rule id="co_do_tego_jaki" name="co do tego + jaki">
+        <pattern>
+            <token postag="comp">co</token>
+            <token postag="prep:gen">do</token>
+            <token postag="subst:sg:gen:n2">tego</token>
+            <!--
+            <token inflected="yes" postag="adj.*" postag_regexp="yes">jaki</token>
+            -->
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+
     <rulegroup name="Przyimek z rzeczownikiem" id="PREP_SUBST">
     <rule>
         <pattern>
@@ -3303,7 +3358,7 @@
         <rule>
             <pattern>
                 <unify> <feature id="case"/>
-                    <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>
+                    <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/><exception>co</exception><exception scope="previous">co</exception></token>
                     <token postag="adj.*" postag_regexp="yes" inflected="yes">ten</token>
                     <token postag="(adj|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
                 </unify>
@@ -4207,6 +4262,13 @@
         <disambig action="remove"><wd lemma="powinny"/></disambig>
     </rule>
 
+    <rule id="POWSZECHNIE" name="powszechnie to nie powszechnia">
+        <pattern>
+            <token>powszechnie</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="powszechnia"/></disambig>
+    </rule>
+
     <rule id="PROMIENI" name="promieni to nie promienić">
         <pattern>
             <token>promieni</token>
@@ -4247,6 +4309,13 @@
             <token>przetrwania</token>
         </pattern>
         <disambig action="remove"><wd lemma="przetrwaniać"/></disambig>
+    </rule>
+
+    <rule id="rana" name="rany to nie rany">
+        <pattern>
+            <token postag="adj.*" postag_regexp="yes" regexp="yes">ran[ya]</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="rany"/></disambig>
     </rule>
 
     <rule id="ROZSTROJ" name="rozstrój to nie rozstroić (AdamP)">
@@ -4291,6 +4360,13 @@
         <disambig action="remove"><wd lemma="szalbierzyć"/></disambig>
     </rule>
 
+    <rule id="SZARPIE" name="szarpie to nie szarpia">
+        <pattern>
+            <token>szarpie</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="szarpia"/></disambig>
+    </rule>
+
     <rule id="SZLI" name="szli to nie szla">
         <pattern>
             <token>szli</token>
@@ -4310,6 +4386,13 @@
             <token>świetnie</token>
         </pattern>
         <disambig action="remove"><wd lemma="świetnia"/></disambig>
+    </rule>
+
+    <rule id="swinia" name="świnia to nie świni">
+        <pattern>
+            <token postag="adj.*" postag_regexp="yes" regexp="yes">świnia?</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="świni"/></disambig>
     </rule>
 
     <rule id="TROSZKE" name="troszkę to adv">
@@ -4448,6 +4531,13 @@
         <disambig action="remove"><wd lemma="zawiścić"/></disambig>
     </rule>
 
+    <rule id="zjadla" name="zjadła to nie zjadły">
+        <pattern>
+        <token postag="adj.*" postag_regexp="yes" regexp="yes">zjadł[ay]</token>
+        </pattern>
+    <disambig action="remove"><wd lemma="zjadły"/></disambig>
+    </rule>
+
     <rule id="ZNAJOMI" name="znajomi to nie znajomić">
         <pattern>
             <token>znajomi</token>
@@ -4460,6 +4550,13 @@
             <token>Zoli</token>
         </pattern>
         <disambig action="remove"><wd lemma="zolić"/></disambig>
+    </rule>
+
+    <rule id="zrob" name="zrób to nie zrób">
+        <pattern>
+            <token postag="subst:sg:nom:m3">zrób</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="zrób"/></disambig>
     </rule>
 
     <rule id="zrzedla" name="zrzedła to nie zrzedły">
@@ -5744,6 +5841,17 @@
         <disambig postag="adv:pos"/>
         <example type="ambiguous" outputform="równie[równie/adv:pos]"
                  inputform="równie[rówień/subst:pl:acc:f,rówień/subst:pl:nom:f,rówień/subst:pl:voc:f,równia/subst:pl:acc:f,równia/subst:pl:nom:f,równia/subst:pl:voc:f,równie/adv:pos]">Dulcynea z Toboso jest <marker>równie</marker> dobrą księżniczką.</example>
+    </rule>
+
+    <rule id="SILNIE" name="silnie jako adv:pos">
+    <pattern>
+        <marker><token>silnie</token></marker>
+        <token postag="adj.*:pos" postag_regexp="yes"/>
+    </pattern>
+    <disambig postag="adv:pos"/>
+        <example type="untouched">Funkcje takie jak silnie najczęstsze są w jego rachunkach.</example>
+        <example type="ambiguous" inputform="silnie[silnia/subst:pl:acc:f,silnia/subst:pl:nom:f,silnia/subst:pl:voc:f,silnie/adv:pos]"
+                 outputform="silnie[silnie/adv:pos]">Generał miał twarz <marker>silnie</marker> ogorzałą.</example>
     </rule>
 
     <rulegroup id="SMIALO_ADV" name="śmiało jako przysłówek">
@@ -7243,6 +7351,19 @@
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl,mój/adj:sg:nom.voc:f:pos]"
         outputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]">O, pan Ostrzeński to kombinator, głowę <marker>ma</marker> nie od parady.</example>
+    </rule>
+
+    <rule name="ma z biernikiem" id="MA_ACC">
+        <pattern>
+            <marker>
+                <token postag="verb:fin:sg:ter:imperf:refl.nonrefl">ma</token>
+                <token postag_regexp="yes" postag=".*acc.*"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Ma przyjaciółka robi na drutach.</example>
+        <example type="ambiguous" inputform="Ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl,mój/adj:sg:nom.voc:f:pos]"
+                 outputform="Ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]"><marker>Ma</marker> powierzchnię 462 km².</example>
     </rule>
 
     <!-- rule name="kobiety miały" id="MIALY">
@@ -9174,6 +9295,15 @@
         <pattern>
             <marker><token regexp="yes">&amp;[gl]t</token>
             <token spacebefore="no">;</token>
+            </marker>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="KM2" name="metry kwadratowe">
+        <pattern>
+            <marker>
+                <token regexp="yes">[ck]?m²</token>
             </marker>
         </pattern>
         <disambig action="immunize"/>

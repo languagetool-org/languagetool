@@ -204,7 +204,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         }
       }
 
-      for (int l = 0; l <= startPositionCorrection; l++) {
+      for (int l = 0; l <= startPositionCorrection && tokenPositionList.size() > l; l++) {
         correctedStPos += tokenPositionList.get(l);
       }
 
