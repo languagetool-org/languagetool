@@ -21,8 +21,8 @@ package org.languagetool.synthesis.pt;
 import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
- * Portuguese  word form synthesizer
- *
+ * Portuguese word form synthesizer
+ * @since 3.3
  */
 public class PortugueseSynthesizer extends BaseSynthesizer {
 
