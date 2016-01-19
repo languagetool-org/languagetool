@@ -200,7 +200,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   }
 
   private static String cleanup(String text) {
-    text = text.replace('’', '\'').replace('ʼ', '\'');
+    text = text.replace('’', '\'').replace('ʼ', '\'').replace('‘', '\'');
 
 //    if( text.contains("\u0301") || text.contains("\u00AD") ) {
 //      text = text.replace("\u0301", "").replace("\u00AD", "");
