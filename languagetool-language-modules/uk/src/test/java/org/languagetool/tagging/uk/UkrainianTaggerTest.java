@@ -93,6 +93,17 @@ public class UkrainianTaggerTest extends TestCase {
         "300/[300]number -- тис./[тис.]numr:f:v_dav:nv:abbr|тис./[тис.]numr:f:v_mis:nv:abbr|тис./[тис.]numr:f:v_naz:nv:abbr|тис./[тис.]numr:f:v_oru:nv:abbr|тис./[тис.]numr:f:v_rod:nv:abbr|тис./[тис.]numr:f:v_zna:nv:abbr -- гривень/[гривня]noun:p:v_rod",
          tokenizer, tagger);
 
+    TestTools.myAssert("Валерій (міліціонер-пародист. – Авт.) стане пародистом.",
+ //       "Валерій/[Валерій]noun:m:v_naz:anim:fname -- міліціонер-пародист/[міліціонер-пародист]noun:m:v_naz:anim -- Авт./[авт.]noun:m:v_naz:abbr"
+        "Валерій/[Валерій]noun:m:v_naz:anim:fname -- міліціонер-пародист/[міліціонер-пародист]noun:m:v_naz:anim -- Авт./[null]null"
+      + " -- стане/[станути]verb:futr:s:3:perf|стане/[стати]verb:futr:s:3:perf -- пародистом/[пародист]noun:m:v_oru:anim",
+         tokenizer, tagger);
+
+//    TestTools.myAssert("Сьогодні (у четвер. - Ред.), вранці.",
+//        "Сьогодні/[сьогодні]adv -- у/[у]prep:rv_zna:rv_mis:rv_rod:v-u -- четвер/[четвер]noun:m:v_naz|четвер/[четвер]noun:m:v_zna -- "
+//        +"Ред./[ред.]noun:f:v_dav:nv:abbr|Ред./[ред.]noun:f:v_mis:nv:abbr|Ред./[ред.]noun:f:v_naz:nv:abbr|Ред./[ред.]noun:f:v_oru:nv:abbr|Ред./[ред.]noun:f:v_rod:nv:abbr|Ред./[ред.]noun:f:v_zna:nv:abbr|Ред./[ред.]noun:m:v_naz:abbr|Ред./[ред.]noun:p:v_dav:nv:abbr|Ред./[ред.]noun:p:v_mis:nv:abbr|Ред./[ред.]noun:p:v_naz:nv:abbr|Ред./[ред.]noun:p:v_oru:nv:abbr|Ред./[ред.]noun:p:v_rod:nv:abbr|Ред./[ред.]noun:p:v_zna:nv:abbr -- вранці/[вранці]adv:v-u",
+//         tokenizer, tagger);
+
 //    TestTools.myAssert("Є.Бакуліна.",
 //      "Є.Бакуліна[Бакулін]noun:m:v_rod:anim:lname|Є.Бакуліна[Бакулін]noun:m:v_zna:anim:lname",
 //       tokenizer, tagger);

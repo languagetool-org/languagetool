@@ -71,6 +71,8 @@ public class UkrainianSRXSentenceTokenizerTest extends TestCase {
     testSplit("U.S. Marine");
     testSplit("B.B. King");
     testSplit("Церква Св. Духа і церква св. Духа");
+    testSplit("Валерій (міліціонер-пародист.  –  Авт.) стане пародистом.");
+    testSplit("Сьогодні (у четвер.  - Ред.), вранці.");
   }
   
   public void testTokenizeWithSplit() {

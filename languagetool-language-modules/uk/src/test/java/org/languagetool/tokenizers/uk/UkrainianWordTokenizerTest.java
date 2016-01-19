@@ -163,6 +163,15 @@ public class UkrainianWordTokenizerTest extends TestCase {
 
     testList = w.tokenize("на 1-кімн. кв. в центрі");
     assertEquals(Arrays.asList("на", " " , "1-кімн.", " ", "кв.", " ", "в", " ", "центрі"), testList);
+    
+    testList = w.tokenize("Валерій (міліціонер-пародист.\n–  Авт.) стане пародистом.");
+    assertEquals(Arrays.asList("Валерій", " ", "(", "міліціонер-пародист", ".", "\n", "–", " ", " ", "Авт.", ")", " ", "стане", " ", "пародистом", "."), testList);
+
+    testList = w.tokenize("Сьогодні (у четвер.  — Ред.), вранці.");
+    assertEquals(Arrays.asList("Сьогодні", " ", "(", "у", " ", "четвер", ".", " ", " ", "—", " ", "Ред.", ")", ",", " ", "вранці", "."), testList);
+ 
+    testList = w.tokenize("Fair trade [«Справедлива торгівля». –    Авт.], який стежить за тим, щоб у країнах");
+    assertTrue(testList.toString(), testList.contains("Авт."));
   }
 
 }

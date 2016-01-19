@@ -250,6 +250,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- TODO: c - секунда, c. - село/сторінка; м — метр, м. — місто; т - тонна, т. - точка -->
       <url>http://www.library.ukma.edu.ua/fileadmin/documents/Bibliography/26_DCTU3582-97.pdf</url>
       <rule>
+        <antipattern>
+            <token>.</token>
+            <token regexp="yes">[—–-]</token>
+            <token regexp="yes">(авт\.|ред\.)</token>
+        </antipattern>
         <pattern>
           <token case_sensitive="yes" regexp="yes">[мк]?г|мкг|грн|год|крб|м?л|млн|млрд|[мнсдк]м|мкм|[нм]с|мкс|смт|хв</token>
           <token negate_pos="yes" postag="SENT_END">.</token>
@@ -260,6 +265,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Двадцять год.</example>
         <example>В м. Київ.</example>
         <example>Прийшов Л. Коцюба.</example>
+        <example>штрафували на 30 тисяч злотих (близько 54 000 грн. – Авт.), конфіскували у нього машину.</example>
       </rule>
       <rule>
         <pattern>

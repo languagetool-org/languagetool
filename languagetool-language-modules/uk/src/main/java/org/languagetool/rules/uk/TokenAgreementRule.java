@@ -59,7 +59,7 @@ public class TokenAgreementRule extends Rule {
   private final Ukrainian ukrainian = new Ukrainian();
 
   private static final Set<String> STREETS = new HashSet<>(Arrays.asList(
-      "Штрассе", "Авеню", "Стріт"
+      "Штрассе", "штрассе", "Авеню", "авеню", "Стріт", "стріт", "Сьоркл", "Сквер"
       ));
   private static final Set<String> NAMES = new HashSet<>(Arrays.asList(
       "ім'я", "прізвище"
@@ -214,8 +214,8 @@ public class TokenAgreementRule extends Rule {
 
 
         //TODO: only for subset: президенти/депутати/мери/гості... or by verb піти/йти/балотуватися/записатися...
-        if( prep.equalsIgnoreCase("в") || prep.equalsIgnoreCase("у") || prep.equals("межи") || prep.equals("між") ) {
-          if( PosTagHelper.hasPosTag(tokenReadings, ".*p:v_naz[^&]*") ) { // but not &pron:
+        if( prep.equalsIgnoreCase("в") || prep.equalsIgnoreCase("у") || prep.equals("межи") || prep.equals("між") || prep.equals("на") ) {
+          if( PosTagHelper.hasPosTag(tokenReadings, ".*p:v_naz.*:anim[^&]*") ) { // but not &pron:
             reqTokenReadings = null;
             continue;
           }
@@ -224,7 +224,7 @@ public class TokenAgreementRule extends Rule {
         if (prep.equalsIgnoreCase("на")) {
           // 1) на (свято) Купала, на (вулиці) Мазепи, на (вулиці) Тюльпанів
           if ((Character.isUpperCase(token.charAt(0)) && posTag.matches("noun:.:v_rod.*"))
-                // 2) поміняти ім'я на Захар
+                // 2) поміняти ім'я на Захар; поміняв Іван на Петро
                 || (posTag.matches(".*[fl]name.*")
                     && ((i > 1 && NAMES.contains(tokens[i-2].getAnalyzedToken(0).getToken()))
                         || (i > 2 && NAMES.contains(tokens[i-3].getAnalyzedToken(0).getLemma()))))) {
