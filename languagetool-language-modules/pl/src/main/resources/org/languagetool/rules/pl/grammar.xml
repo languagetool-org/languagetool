@@ -693,10 +693,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 						<rule>
                             <antipattern>
-                                <token>cóż</token>
+                                <token regexp="yes">cóż|wtedy</token>
                                 <marker><token>dopiero</token></marker>
                             </antipattern>
-								<pattern>
+                            <antipattern>
+                                <token postag="subst:sg:acc:n2">to<exception postag="subst:sg:acc:n2" negate_pos="yes"/></token>
+                            </antipattern>
+                            <antipattern>
+                                <token regexp="yes">wkrótce|tydzień|miesiąc</token>
+                                <marker><token>potem</token></marker>
+                            </antipattern>
+                            <antipattern>
+                                <token regexp="yes">wtedy|wówczas</token>
+                                <marker><token>nawet</token></marker>
+                            </antipattern>
+                            <pattern>
 										<token><exception regexp="yes">tylko|[,;:!–-—]|czas|dni</exception><exception postag="conj|comp|SENT_START" postag_regexp="yes"></exception></token>
 										<token regexp="yes">dopiero|od|czy|to|podczas|potem|teraz|zwłaszcza|szczególnie|że|nawet|niż</token>
 										<token>,</token>
@@ -708,6 +719,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example correction="Poszedłem, podczas gdy"><marker>Poszedłem podczas, gdy</marker> on siedział na kanapie.</example>
                                 <example>W jakiś czas potem, kiedy sprzedano wino, wzięto się do mycia beczki.</example>
                                 <example>On powinien bronić honoru dam w ogólności, a cóż dopiero, gdy idzie o królową Madasimę.</example>
+                                <example>Mimo to, gdy dzieci już leżały, poszedł do ich pokoju.</example>
+                                <example>Atoli wkrótce potem, gdy stanął nad rzeką, by napić się wody, obaczył...</example>
+                                <example>Dama ciągnęła dyskurs nieustannie, wtedy nawet, gdy powóz przechodził istne konwulsje w dołach.</example>
 						</rule>
 						<rule>
 								<pattern>
