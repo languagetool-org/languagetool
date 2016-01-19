@@ -108,7 +108,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;|tyle|i|lub|albo|ani|oraz|bądź|czy|a</exception></token>
 				</phrase>
 				<phrase id="NIE_SPOJNIK_PRZECINKOWY_OLD">
-                    <token><exception postag="subst.*voc.*|pcon.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|choć|chociaż|czyliż?|dopóki|gdzie|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|dopóty|póki|dlaczego|ponieważ|zanim|który|jaki|co|kto|że|iż|jak|nawiasem|a|jeśli|jeżeli|gdyby|gdy|kiedy|jeśliby|jeżeliby|żeby|aby|ażeby|iżby|wraz|zamiast|zarówno|szczególnie|zwłaszcza|następnie|aż|czy|(?:po)?mimo|skąd</exception><exception postag="prep:.*" postag_regexp="yes"></exception></token>
+                    <token><exception postag="subst.*voc.*|pcon.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|by|byleby|choć|chociaż|czyliż?|dopóki|gdzie|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|dopóty|póki|dlaczego|ponieważ|zanim|który|jaki|co|kto|że|iż|jak|nawiasem|a|jeśli|jeżeli|gdyby|gdy|kiedy|jeśliby|jeżeliby|żeby|aby|ażeby|iżby|wraz|zamiast|zarówno|szczególnie|zwłaszcza|następnie|aż|czy|(?:po)?mimo|skąd|skoro</exception><exception postag="prep:.*" postag_regexp="yes"></exception></token>
 				</phrase>
 				<phrase id="ACC_NOM_1">
 						<token postag=".*acc.*|.*nom.*" postag_regexp="yes"><exception postag=".*inst.*|.*loc.*" postag_regexp="yes"></exception></token>
@@ -693,19 +693,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 						<rule>
                             <antipattern>
-                                <token regexp="yes">cóż|wtedy</token>
+                                <token regexp="yes">cóż|wtedy|wówczas|czasie|teraz</token>
                                 <marker><token>dopiero</token></marker>
                             </antipattern>
                             <antipattern>
                                 <token postag="subst:sg:acc:n2">to<exception postag="subst:sg:acc:n2" negate_pos="yes"/></token>
                             </antipattern>
                             <antipattern>
-                                <token regexp="yes">wkrótce|tydzień|miesiąc</token>
+                                <token regexp="yes">wkrótce|tydzień|miesiąc|chwilę|później</token>
                                 <marker><token>potem</token></marker>
                             </antipattern>
                             <antipattern>
                                 <token regexp="yes">wtedy|wówczas</token>
-                                <marker><token>nawet</token></marker>
+                                <marker><token regexp="yes">nawet|zwłaszcza</token></marker>
+                            </antipattern>
+                            <antipattern>
+                                <token regexp="yes">dopiero|właśnie|szczególniej?|jak|wszak|dlaczegóż</token>
+                                <marker><token>teraz</token></marker>
+                            </antipattern>
+                            <antipattern>
+                                <token postag="SENT_START"/>
+                                <marker>
+                                    <token regexp="yes">[–-—-]</token>
+                                </marker>
                             </antipattern>
                             <pattern>
 										<token><exception regexp="yes">tylko|[,;:!–-—]|czas|dni</exception><exception postag="conj|comp|SENT_START" postag_regexp="yes"></exception></token>
@@ -722,6 +732,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>Mimo to, gdy dzieci już leżały, poszedł do ich pokoju.</example>
                                 <example>Atoli wkrótce potem, gdy stanął nad rzeką, by napić się wody, obaczył...</example>
                                 <example>Dama ciągnęła dyskurs nieustannie, wtedy nawet, gdy powóz przechodził istne konwulsje w dołach.</example>
+                                <example>- Teraz, kiedy takie rzeczy się dzieją, mielibyśmy wyjeżdżać…</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -738,6 +749,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example correction="Podczas gdy"><marker>Podczas, gdy</marker> on siedział na kanapie, jadłem śledzia.</example>
 						</rule>
 						<rule>
+                                <antipattern>
+                                    <token postag="SENT_START"/>
+                                    <marker><token regexp="yes">[–-—-]</token>
+                                        <token regexp="yes">teraz|potem</token>
+                                    </marker>
+                                </antipattern>
 								<pattern>
 										<token regexp="yes">&interp_conj;</token>
 										<token regexp="yes">dopiero|od|czy|to|podczas|potem|teraz|zwłaszcza|szczególnie|że|nawet</token>
@@ -750,6 +767,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<short>Błąd interpunkcyjny</short>
 								<example>Jadłem śledzia, podczas gdy on siedział na kanapie.</example>
 								<example correction="podczas gdy">Jadłem śledzia, podczas<marker>, gdy</marker> on siedział na kanapie.</example>
+                                <example>- Teraz, kiedy takie rzeczy się dzieją, mielibyśmy wyjeżdżać…</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -794,15 +812,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 						<rule>
                                 <antipattern>
-                                    <token>mimo</token>
-                                    <marker><token>to</token></marker>
-                                    <token>,</token>
+                                    <token inflected="yes" postag="subst:.*n2" postag_regexp="yes">to<exception postag="conj"/></token>
                                 </antipattern>
                                 <antipattern>
-                                    <token postag="subst:sg:acc:n2">to<exception postag="subst:sg:acc:n2" negate_pos="yes"/></token>
+                                    <token regexp="yes">niekiedy|chwili|dnia|wtedy|dziś|czasem</token>
+                                    <marker><token>jednak</token></marker>
                                 </antipattern>
-								<pattern>
-										<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;</exception></token>
+                                <antipattern>
+                                    <token regexp="yes">dość|zwłaszcza</token>
+                                    <marker><token>że</token></marker>
+                                </antipattern>
+                                <antipattern>
+                                    <unify><feature id="case"/>
+                                    <token postag="prep.*" postag_regexp="yes"/>
+                                    <marker><token inflected="yes">który</token></marker>
+                                    </unify>
+                                </antipattern>
+                                <antipattern>
+                                    <token>dlaczegóż</token>
+                                    <marker><token>to</token></marker>
+                                </antipattern>
+                                <antipattern>
+                                    <token>tak</token>
+                                    <marker><token>więc</token></marker>
+                                </antipattern>
+                                <pattern>
+										<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;</exception><exception regexp="yes">[ia]|lub|albo</exception></token>
 										<token inflected="yes" regexp="yes" spacebefore="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to|jednak</token>
 										<token>,</token>
 										<token inflected="yes" regexp="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby|gdy|kiedy</token>
@@ -813,6 +848,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Naprawdę odejdę, <marker>nawet jeśli</marker> pójdzie się myć.</example>
                                 <example>Mimo to, jeśli przez dłuższy czas kulka pada na pole czerwone, rośnie w nas chęć obstawienia czarnych w kolejnym rzucie.</example>
                                 <example>Zrobiłbym to, gdybym mógł.</example>
+                                <example>Sam najlepiej przekonasz się o tym, gdy zawieziesz ode mnie list, cały wierszem.</example>
+                                <example>I miłe są te kobiety, przy których, kiedy im człowiek w najlepszej wierze oddaje…</example>
+                                <example>— Dlaczegóż to, jeżeli łaska?…</example>
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
@@ -843,8 +881,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example><marker>A jeśli</marker> pójdzie się myć, to się wyprowadzam.</example>
 						</rule>
 						<rule>
+                            <antipattern>
+                                <token regexp="yes">jak|dlatego|więc|tyle|a</token>
+                                <marker><token>tylko</token></marker>
+                            </antipattern>
+                            <antipattern>
+                                <token postag="subst:sg:acc:n2">to<exception postag="subst:sg:acc:n2" negate_pos="yes"/></token>
+                                <marker><token regexp="yes">tylko|chyba</token></marker>
+                            </antipattern>
 								<pattern>
-										<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;|nie</exception></token>
+										<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;|nie|i</exception></token>
 										<token regexp="yes">że|iż|chyba|jak|tylko</token>
 										<token>,</token>
 										<token inflected="yes" regexp="yes">żeby|aby|ażeby|iżby|by</token>
@@ -852,6 +898,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<message>Spójników złożonych nie rozdziela się, przecinek stawia się przed nimi: <suggestion>\1, \2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
 								<short>Błąd interpunkcyjny</short>
 								<example>Premier powołał go na stanowisko, chyba żeby go poniżyć.</example>
+                                <example>Nic mu już nie brakowało, jak tylko, ażeby znaleźć środek odczarowania księżniczki.</example>
 								<example correction="stanowisko, chyba żeby">Premier powołał go na <marker>stanowisko chyba, żeby</marker> go poniżyć.</example>
 						</rule>
 						<rule>
@@ -2986,8 +3033,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                     </antipattern>
                     <antipattern>
+                        <marker>
+                            <token>,</token>
+                            <token>nie</token>
+                            <token postag="pant:.*|pcon.*" postag_regexp="yes"/>
+                        </marker>
+                    </antipattern>
+                    <antipattern>
                         <token>,</token>
                         <token>zdaniem</token>
+                    </antipattern>
+                    <antipattern>
+                        <marker>
+                            <token>,</token>
+                        </marker>
+                        <token postag="adj.*voc.*" postag_regexp="yes"/>
+                        <token postag="subst:sg:voc.*" postag_regexp="yes"/>
+                    </antipattern>
+                    <antipattern case_sensitive="yes">
+                        <marker>
+                            <token>Dobrze</token>
+                            <token>więc</token>
+                        </marker>
                     </antipattern>
                     <pattern>
                         <marker>
@@ -3001,7 +3068,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example correction='więc'>Jest to <marker>więc,</marker> problem.</example>
                     <example>Jest to więc problem.</example>
                     <example>Publiczność oczekiwała od niej dłuższej arii, gdy więc, wykonawszy krótką frazę, zniknęła, znowu rozległy się gwizdy.</example>
-                    <example> A więc, Edgarze, ty również byłeś kiedyś czarodziejem?</example>
+                    <example>A więc, Edgarze, ty również byłeś kiedyś czarodziejem?</example>
+                    <example>Tak więc, miły bratku, nie smuć się tym.</example>
+                    <example>— Dobrze więc, rzekł Kandyd, zdajmy się na wolę Opatrzności…</example>
                 </rule>
                 <rule id="I_TAK" name="Zbędny przecinek po „i tak”">
                     <antipattern>
@@ -13531,7 +13600,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <antipattern>
                             <marker>
                                 <token>nie</token>
-                                <token inflected="yes" regexp="yes">wszystek|taki|mój|twój|nasz|wasz|ten</token>
+                                <token inflected="yes" regexp="yes">wszystek|każdy|taki|czyj|mój|twój|nasz|wasz|ten|sam|ostatni|pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty</token>
                             </marker>
                         </antipattern>
                         <antipattern>
@@ -13543,10 +13612,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <token>,</token>
                                 <token regexp="yes">a|ale|lecz|tylko</token>
                         </antipattern>
+                        <antipattern>
+                            <token>czyż</token>
+                            <token>to</token>
+                            <marker><token>nie</token></marker>
+                        </antipattern>
+                        <antipattern>
+                            <token>o</token>
+                            <token>ile</token>
+                            <marker><token>nie</token></marker>
+                        </antipattern>
+                        <antipattern>
+                            <marker>
+                                <token>nie</token>
+                                <token>łaska</token>
+                            </marker>
+                            <token>?</token>
+                        </antipattern>
                         <rule>
 								<pattern case_sensitive="yes">
 										<marker>
-												<token postag="qub">nie<exception regexp="yes" scope="previous" case_sensitive="no">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż|że</exception></token>
+												<token postag="qub">nie<exception regexp="yes" scope="previous" case_sensitive="no">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż|że|przecież</exception></token>
 												<token postag=".*:aff.*|ger:.*|adj.*:pos" postag_regexp="yes"><exception postag="verb.*|pred" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}.*</exception></token>
 										</marker>
 										<token postag="SENT_END"><exception>,</exception></token>
@@ -13565,6 +13651,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Nie boli mnie noga.</example>
 								<example>Wójt nie zabrania picia wódki w domu.</example>
 								<example>Dlaczego nie Polska?</example>
+                                <example>Marniejemy, panie… nie pierwsi i nie ostatni.</example>
+                                <example>Czyż to nie zadziwiające!</example>
+                                <example> A teraz użyczcie mi znów tej głowni… co, nie łaska?</example>
 								<example correction="niepalenie">Prosimy o <marker>nie palenie</marker>.</example>
 								<example correction="niepalący">To człowiek <marker>nie palący</marker>.</example>
                                 <example correction="niedobry">On jest <marker>nie dobry</marker>.</example>
