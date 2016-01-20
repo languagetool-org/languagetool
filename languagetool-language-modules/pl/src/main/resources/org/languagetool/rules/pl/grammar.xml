@@ -108,7 +108,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;|tyle|i|lub|albo|ani|oraz|bądź|czy|a</exception></token>
 				</phrase>
 				<phrase id="NIE_SPOJNIK_PRZECINKOWY_OLD">
-                    <token><exception postag="subst.*voc.*|pcon.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|by|byleby|choć|chociaż|czyliż?|dopóki|gdzie|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|dopóty|póki|dlaczego|ponieważ|zanim|który|jaki|co|kto|że|iż|jak|nawiasem|a|jeśli|jeżeli|gdyby|gdy|kiedy|jeśliby|jeżeliby|żeby|aby|ażeby|iżby|wraz|zamiast|zarówno|szczególnie|zwłaszcza|następnie|aż|czy|(?:po)?mimo|skąd|skoro</exception><exception postag="prep:.*" postag_regexp="yes"></exception></token>
+                    <token><exception postag="subst.*voc.*|pcon.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|by|byleby|choć|chociaż|czyliż?|dopóki|gdzie|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|dopóty|póki|dlaczego|ponieważ|zanim|któryś?|jaki|co|kto|że|iż|jak|nawiasem|a|jeśli|jeżeli|gdyby|gdy|kiedy|jeśliby|jeżeliby|żeby|aby|ażeby|iżby|wraz|zamiast|zarówno|szczególnie|zwłaszcza|następnie|aż|czy|(?:po)?mimo|skąd|skoro</exception><exception postag="prep:.*" postag_regexp="yes"></exception></token>
 				</phrase>
 				<phrase id="ACC_NOM_1">
 						<token postag=".*acc.*|.*nom.*" postag_regexp="yes"><exception postag=".*inst.*|.*loc.*" postag_regexp="yes"></exception></token>
@@ -2901,7 +2901,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>To wydarzenie, w trakcie którego doszło do eskalacji napięcia.</example>
             </rule>
             <rule id="W_PRZYPADKU_PRZECINEK" name="Zbędny przecinek po „w przypadku” na początku zdania">
-						<pattern>
+                <antipattern>
+                    <token>,</token>
+                    <marker>
+                        <token postag="adj.*voc.*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="subst:sg:voc.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
 								<token postag="SENT_START"></token>
 								<token skip="2">W</token>
 								<marker>
@@ -2913,6 +2920,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<message>Prawdopodobnie zbędny przecinek. Poprawnie: <suggestion>\3 \5</suggestion>.</message>
 						<example correction="przypadku miałem">W tym <marker>przypadku, miałem</marker> rację.</example>
 						<example>W tym przypadku, który już opisałem, miałem rację.</example>
+                        <example>W każdym razie, moja kobiecino, będziemy bogaci.</example>
 				</rule>
 				<rule id="W_MYSL_PRZECINEK" name="Zbędny przecinek po „w przypadku/razie/myśl/miarę” na początku zdania">
                     <antipattern>
@@ -2945,7 +2953,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rule id="POZA_TYM" name="Zbędny przecinek po „poza”, „dla”, „dzięki”, „mimo” itp. na początku zdania">
                         <antipattern>
                             <token>po</token>
-                            <token regexp="yes">pierwsze|drugie|trzecie</token>
+                            <token regexp="yes">pierwsze|drugie|trzecie|wtóre</token>
                         </antipattern>
                         <antipattern>
                             <token>w</token>
@@ -2983,7 +2991,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <marker><token regexp="yes" postag="UNKNOWN">\p{L}{1,2}</token></marker>
                             <token>,</token>
                         </antipattern>
-						<pattern>
+                    <antipattern>
+                        <token>,</token>
+                        <marker>
+                            <token>to</token>
+                            <token>znaczy</token>
+                        </marker>
+                    </antipattern>
+                    <antipattern>
+                            <token>,</token>
+                            <marker>
+                                <token postag="pant:.*|pcon.*" postag_regexp="yes"/>
+                            </marker>
+                        </antipattern>
+                        <antipattern>
+                            <token>,</token>
+                            <marker>
+                                <token>nie</token>
+                                <token postag="pant.*|pcon.*" postag_regexp="yes"/>
+                            </marker>
+                        </antipattern>
+                    <antipattern>
+                        <token>,</token>
+                        <marker>
+                            <token postag="adj.*voc.*" postag_regexp="yes"/>
+                        </marker>
+                        <token postag="subst:sg:voc.*" postag_regexp="yes"/>
+                    </antipattern>
+                        <antipattern>
+                            <token skip="4">nie</token>
+                            <token>,</token>
+                            <marker>
+                                <token>tylko</token>
+                            </marker>
+                        </antipattern>
+                    <antipattern>
+                        <token skip="4">ani</token>
+                        <token>,</token>
+                        <marker>
+                            <token>ani</token>
+                        </marker>
+                    </antipattern>
+                    <pattern>
 								<token postag="SENT_START"></token>
 								<marker>
 										<token postag="prep.*" postag_regexp="yes" regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*|pred" postag_regexp="yes" scope="next"/>poza|dla|dzięki|mimo|oprócz|wobec|po|w<exception scope="next" regexp="yes">[(:]</exception><exception scope="next" postag="conj">,</exception></token>
@@ -3009,6 +3058,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>W innych sytuacjach, tak jak w Ardenach, był zbyt ostrożny.</example>
                         <example>W języku walijskim digrafy ch, dd, ff, ng, ll, ph, rh i th są uznawane za odrębne.</example>
                         <example>W klasycznych koncepcjach filozoficznych, np. J.S. Milla czy G. Fregego, reprezentacje mają nie tylko odniesienie, ale i treść.</example>
+                        <example>Po długim szukaniu, nie znalazłszy jej ani śladu, wykrzyknął zdumiony…</example>
+                        <example>Po wtóre, widoczną jest tu chęć do zdzierstwa swoich poddanych.</example>
+                        <example>Po obiedzie Don Kichot, napisawszy instrukcję dla Sanchy, oddał mu ją.</example>
+                        <example>W każdym razie nie z głodu, tylko dla zabawy rzuciłem się ku rączkom tego dziecka.</example>
+                        <example>Dzięki potędze miłości ani jedno, ani drugie nie czuło swej nędzy.</example>
+                        <example>W niedzielę, to znaczy przed poniedziałkiem, napalić lub nie…</example>
 				</rule>
                 <rule id="DODATKOWO" name="Zbędny przecinek po „dodatkowo” na początku zdania">
 						<pattern>
@@ -17249,16 +17304,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </antipattern>
                     <antipattern>
                         <token>z</token>
-                        <token regexp="yes">wolna|daleka|lekka|grubsza|nagła|wysoka</token>
+                        <token regexp="yes">bliska|wolna|daleka|dawna|lekka|lewa|grubsza|nagła|osobna|prawa|pyszna|rzadka|wiejska|wysoka</token>
+                    </antipattern>
+                    <antipattern>
+                        <token>co</token>
+                        <marker>
+                            <token>gorsza</token>
+                        </marker>
+                    </antipattern>
+                    <antipattern>
+                        <token>od</token>
+                        <marker>
+                            <token regexp="yes">dawna|niedawna|nowa</token>
+                        </marker>
+                    </antipattern>
+                    <antipattern>
+                        <token>bez</token>
+                        <marker>
+                            <token>mała</token>
+                        </marker>
                     </antipattern>
                     <antipattern>
                         <token>do</token>
-                        <token regexp="yes">cna|czysta|niedawna</token>
+                        <token regexp="yes">cna|czysta|naga|niedawna|pełna|późna|sucha|syta</token>
                     </antipattern>
 						<pattern>
 								<token><exception scope="previous" postag="adjp"/><exception regexp="yes">i|po</exception></token>
 								<marker>
-										<token postag="adjp"><exception postag="subst.*" postag_regexp="yes"/><exception regexp="yes">mała|(?-iu)Brunszwicku|dawna</exception></token>
+										<token postag="adjp"><exception postag="subst.*" postag_regexp="yes"/><exception regexp="yes">(?-iu)Brunszwicku</exception></token>
 								</marker>
 						</pattern>
 						<message>Prawdopodobna literówka. Czy miało być <suggestion>po <match case_conversion="startlower" no="2"></match></suggestion>?</message>

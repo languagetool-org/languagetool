@@ -669,7 +669,7 @@
         <pattern>
             <token>od</token>
             <token min="0" max="1">jak</token>
-            <marker><token>dawna</token></marker>
+            <marker><token regexp="yes">dawna|niedawna|nowa</token></marker>
         </pattern>
         <disambig postag="adjp"/>
         <example type="ambiguous" inputform="dawna[dawny/adj:sg:nom.voc:f:pos]" outputform="dawna[dawny/adjp]">Czy od <marker>dawna</marker> tak jest?</example>
@@ -691,7 +691,7 @@
           <pattern>
               <token postag="prep:acc:nwok">z</token>
               <marker>
-              <token regexp="yes">wolna|daleka|lekka|grubsza|nagła|wysoka</token>
+              <token regexp="yes">bliska|wolna|daleka|dawna|lekka|lewa|grubsza|nagła|osobna|prawa|pyszna|rzadka|wiejska|wysoka</token>
               </marker>
           </pattern>
         <disambig postag="adjp"/>
@@ -703,10 +703,32 @@
         <pattern>
             <marker>
                 <token>z</token>
-            </marker><token regexp="yes">wolna|daleka|lekka|grubsza|naprzeciwka</token>
+            </marker><token regexp="yes">wolna|bliska|daleka|dawna|lekka|lewa|grubsza|osobna|prawa|pyszna|rzadka|wiejska|wysoka|naprzeciwka</token>
         </pattern>
         <disambig postag="prep:acc:nwok"/>
     </rule>
+
+    <rule id="CO_GORSZA" name="co gorsza">
+        <pattern>
+            <token>co</token>
+            <marker>
+                <token>gorsza</token>
+            </marker>
+        </pattern>
+        <disambig postag="adjp"/>
+        <example type="ambiguous" inputform="gorsza[zły/adj:sg:nom.voc:f:com]"
+                 outputform="gorsza[zły/adjp]">Co <marker>gorsza</marker>, jadł grzyby.</example>
+    </rule>
+
+    <rule id="CO_GORSZA_2" name="co gorsza">
+        <pattern>
+            <marker>
+                <token>co</token>
+            </marker><token>gorsza</token>
+        </pattern>
+        <disambig postag="prep:acc"/>
+    </rule>
+
 
     <rule id="DO_CNA" name="do cna">
         <pattern>
@@ -732,9 +754,22 @@
                  outputform="czysta[czysty/adjp]">Wyporządź mi kancelarię do <marker>czysta</marker>.</example>
     </rule>
 
-    <rule id="DO_NIEDAWNA" name="do niedawna">
+    <rule id="DO_NAGA" name="do naga">
         <pattern>
             <token>do</token>
+            <marker>
+                <token>naga</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="adjp" lemma="nagi"/></disambig>
+        <example type="ambiguous" inputform="naga[nagi/adj:sg:nom.voc:f:pos]"
+                 outputform="naga[nagi/adjp]">Rozebrała się do <marker>naga</marker>.</example>
+    </rule>
+
+
+    <rule id="DO_NIEDAWNA" name="do niedawna">
+        <pattern>
+            <token regexp="yes">do|od</token>
             <marker>
                 <token>niedawna</token>
             </marker>
@@ -744,12 +779,60 @@
                  outputform="niedawna[niedawny/adjp]">Do <marker>niedawna</marker> żarłem jarmuż.</example>
     </rule>
 
+    <rule id="DO_PELNA" name="do pełna">
+        <pattern>
+            <token>do</token>
+            <marker>
+                <token>pełna</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="adjp" lemma="pełny"/></disambig>
+        <example type="ambiguous" inputform="pełna[pełny/adj:sg:nom.voc:f:pos]"
+                 outputform="pełna[pełny/adjp]">Podał mu do <marker>pełna</marker> wypełnioną szklankę.</example>
+    </rule>
+
+    <rule id="DO_POZNA" name="do późna">
+        <pattern>
+            <token>do</token>
+            <marker>
+                <token>późna</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="adjp" lemma="późny"/></disambig>
+        <example type="ambiguous" inputform="późna[późny/adj:sg:nom.voc:f:pos]"
+                 outputform="późna[późny/adjp]">Siedziała do <marker>późna</marker>.</example>
+    </rule>
+
+    <rule id="DO_SUCHA" name="do sucha">
+        <pattern>
+            <token>do</token>
+            <marker>
+                <token>sucha</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="adjp" lemma="suchy"/></disambig>
+        <example type="ambiguous" inputform="sucha[suchy/adj:sg:nom.voc:f:pos]"
+                 outputform="sucha[suchy/adjp]">Wytarł twarz do <marker>sucha</marker>.</example>
+    </rule>
+
+    <rule id="DO_SYTA" name="do syta">
+        <pattern>
+            <token>do</token>
+            <marker>
+                <token>syta</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="adjp" lemma="syty"/></disambig>
+        <example type="ambiguous" inputform="syta[syta/subst:sg:nom:f,syty/adj:sg:nom.voc:f:pos]"
+                 outputform="syta[syty/adjp]">Najadł się do <marker>syta</marker> zupą.</example>
+    </rule>
+
 
     <rule id="do_cna" name="do cna/czysta">
         <pattern>
             <marker>
                 <token>do</token>
-            </marker><token regexp="yes">cna|czysta|niedawna</token>
+            </marker><token regexp="yes">cna|czysta|niedawna|naga|pełna|późna|sucha|syta</token>
         </pattern>
         <disambig postag="prep:gen"/>
     </rule>
@@ -1647,6 +1730,17 @@
         <example type="untouched">Bez małej czarnej nie wstanę.</example>
         <example type="ambiguous" inputform="mała[mała/subst:sg:nom:f,mała/subst:sg:voc:f,mały/adj:sg:nom.voc:f:pos]" outputform="mała[mały/adjp]">Bez <marker>mała</marker> wszyscy to robią.</example>
     </rule>
+
+    <rule id="BEZ_MALA_2" name="bez mała">
+        <pattern>
+            <marker>
+                <token>bez</token>
+            </marker>
+            <token>mała</token>
+        </pattern>
+        <disambig postag="prep:gen:nwok"/>
+    </rule>
+
 
     <rule id="Z_GRUBA" name="Z gruba (ciosany) - kublik">
         <pattern>
