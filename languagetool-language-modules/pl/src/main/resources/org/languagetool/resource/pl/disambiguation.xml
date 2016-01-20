@@ -691,7 +691,7 @@
           <pattern>
               <token postag="prep:acc:nwok">z</token>
               <marker>
-              <token regexp="yes">wolna|daleka|lekka|grubsza</token>
+              <token regexp="yes">wolna|daleka|lekka|grubsza|nagła|wysoka</token>
               </marker>
           </pattern>
         <disambig postag="adjp"/>
@@ -732,12 +732,24 @@
                  outputform="czysta[czysty/adjp]">Wyporządź mi kancelarię do <marker>czysta</marker>.</example>
     </rule>
 
+    <rule id="DO_NIEDAWNA" name="do niedawna">
+        <pattern>
+            <token>do</token>
+            <marker>
+                <token>niedawna</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="adjp" lemma="niedawny"/></disambig>
+        <example type="ambiguous" inputform="niedawna[niedawny/adj:sg:nom.voc:f:pos]"
+                 outputform="niedawna[niedawny/adjp]">Do <marker>niedawna</marker> żarłem jarmuż.</example>
+    </rule>
+
 
     <rule id="do_cna" name="do cna/czysta">
         <pattern>
             <marker>
                 <token>do</token>
-            </marker><token regexp="yes">cna|czysta</token>
+            </marker><token regexp="yes">cna|czysta|niedawna</token>
         </pattern>
         <disambig postag="prep:gen"/>
     </rule>
