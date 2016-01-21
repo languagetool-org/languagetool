@@ -7952,6 +7952,75 @@
         <disambig postag="adv"/>
     </rule>
 
+    <rule id="KIEDY_ADV" name="kiedy jako adv">
+    <pattern>
+        <token>któż</token>
+        <token postag="verb:praet:sg:m1.m2.m3:ter.*" postag_regexp="yes"/>
+        <marker>
+            <token>kiedy</token>
+        </marker>
+        </pattern>
+        <disambig postag="adv"/>
+        <example type="untouched">Poszedł, kiedy go wołali.</example>
+        <example type="ambiguous" inputform="kiedy[kiedy/adv,kiedy/comp,kiedy/comp:comma]"
+                 outputform="kiedy[kiedy/adv]">Któż widział <marker>kiedy</marker> podobne przepychy?</example>
+    </rule>
+
+    <rule id="sup_kiedy" name="kiedy jako adv po superlatywach">
+        <pattern>
+            <unify>
+                <feature id="case"/> <feature id="number"/> <feature id="gender"/>
+                <token postag="adj.*:sup" postag_regexp="yes"/>
+                <token postag="subst.*" postag_regexp="yes"/>
+            </unify>
+                <token>,</token>
+                <token inflected="yes">jaki</token>
+                <marker>
+                    <token>kiedy</token>
+                </marker>
+        </pattern>
+        <disambig postag="adv"/>
+        <example type="ambiguous" inputform="kiedy[kiedy/adv,kiedy/comp,kiedy/comp:comma]"
+                 outputform="kiedy[kiedy/adv]">Kupił najroślejszą kobyłę, jaką <marker>kiedy</marker> w świecie widziano.</example>
+    </rule>
+
+    <rule id="sup_verb_kiedy" name="kiedy jako adv po superlatywach">
+        <pattern>
+            <unify>
+                <feature id="case"/> <feature id="number"/> <feature id="gender"/>
+                <token postag="adj.*:sup" postag_regexp="yes"/>
+                <token postag="subst.*" postag_regexp="yes"/>
+            </unify>
+            <token>,</token>
+            <unify>
+                <feature id="number"/> <feature id="gender"/>
+                <token inflected="yes">jaki</token>
+                <token postag="verb.*" postag_regexp="yes"/>
+            </unify>
+            <marker>
+                <token>kiedy</token>
+            </marker>
+        </pattern>
+        <disambig postag="adv"/>
+        <example type="ambiguous" inputform="kiedy[kiedy/adv,kiedy/comp,kiedy/comp:comma]"
+                 outputform="kiedy[kiedy/adv]">Mojżesz, najłagodniejszy człowiek, jaki był <marker>kiedy</marker> na ziemi, srodze pokarał zuchwalce.</example>
+    </rule>
+
+    <rule id="JESLI_KIEDY_ADV" name="jeśli / jeżeli + kiedy jako adv">
+        <pattern>
+            <token regexp="yes">jeśli|jeżeli</token>
+            <token regexp="yes">kto|pani?</token>
+            <marker>
+                <token>kiedy</token>
+            </marker>
+        </pattern>
+        <disambig postag="adv"/>
+        <example type="untouched">Poszedł, kiedy go wołali.</example>
+        <example type="ambiguous" inputform="kiedy[kiedy/adv,kiedy/comp,kiedy/comp:comma]"
+                 outputform="kiedy[kiedy/adv]">Mów pan: jeśli kto <marker>kiedy</marker> widział…</example>
+    </rule>
+
+
     <rule id="MALO_KIEDY" name="mało/rzadko kiedy -> adv">
         <pattern>
             <token postag="adv:pos" regexp="yes">mało|rzadko</token>
@@ -9008,7 +9077,19 @@
         </pattern>
         <disambig action="immunize"/>
     </rule>
-    <rule>
+        <rule>
+            <pattern>
+                <token>licho</token>
+                <token>nie</token>
+                <marker>
+                    <token>wie</token>
+                    <token regexp="yes" inflected="yes">co|kto|kiedy|dlaczego|gdzie|jak|skąd|dokąd|czemu|jaki|który</token>
+                </marker>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+
+        <rule>
         <pattern case_sensitive="yes">
             <token skip="1" regexp="yes">Bóg|licho<exception scope="next" negate="yes" regexp="yes">jeden|wie</exception></token>
             <marker>
@@ -9484,5 +9565,16 @@
         </pattern>
         <disambig action="immunize"/>
     </rule>
+
+    <rule id="zdrowaska" name="Zdrowaś Maria">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Zdrowaś</token>
+            </marker>
+            <token>Maria</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
 
 </rules>
