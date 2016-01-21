@@ -27418,8 +27418,26 @@ though, and has since been slightly modified)-->
       <url>https://fr.wiktionary.org/wiki/soi-disamment</url>
       <example correction="soi-disant">Mon <marker>soi-disamment</marker> ami.</example>
     </rule>
-    <rulegroup id="EN_BONNET_DIFFORME" name="en bonnet difforme → en bonne et due forme">
+    <rulegroup id="EN_BONNE_ET_DUE_FORME" name="en bonnet difforme → en bonne et due forme">
       <url>https://fr.wiktionary.org/wiki/en_bonne_et_due_forme</url>
+      <rule>
+        <antipattern>
+          <token>en</token>
+          <token>bonne</token>
+          <token>et</token>
+          <token>due</token>
+          <token>forme</token>
+        </antipattern>
+        <pattern>
+          <token>en</token>
+          <token regexp="yes">bonnes?</token>
+          <token>et</token>
+          <token regexp="yes">d[ûu]e?s?</token>
+          <token regexp="yes">formes?</token>
+        </pattern>
+        <message>Écrivez <suggestion>en bonne et due forme</suggestion>.</message>
+        <example correction="en bonne et due forme">Un passeport <marker>en bonne et dû forme</marker>.</example>
+      </rule>
       <rule>
         <pattern>
           <token>en</token>
