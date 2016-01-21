@@ -6694,7 +6694,7 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rule id="DENUE_DENUDE" name="dénué et dénudé">
       <regexp mark="1">\b(?:(dénudée?s?) (?:de |d['´‘’′])(?:toute?s? )?(?:âme|apitoiement|ambigu[ïi]té|ambition|beauté|cause|charme|charisme|clarté|compassion|compétence|confort|connaissance|conscience|consistance|constance|contenu|contrepartie|crainte|créativité|culture|cynisme|difficulté|discrimination|envergure|intér[êe]t|émotion|esthétique|éthique|enjeux?|expertise|fantaisie|fondement|gentillesse|go[uû]t|grâce|haine|humanité|motif|imagination|inspiration|intention|inventivité|légitimité|logique|objectivité|maturité|méchanceté|mérite|paix|piété|plan|pertinence|peur|plaisir|politesse|préjugé|principe|professionnalisme|psychologie|qualité|raison|réalisme|remord|respect|revendication|rigueur|risque|sagesse|savoir|sens|sentiment|science|scrupule|soupçon|stress|sympathie|tact|talent|tendresse|toxicité|tromperie|valeur|vertu|violence|vision)s?)\b</regexp>
-      <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="^(.....)(\S*).*" regexp_replace="dénu$2"/></suggestion>.</message> 
+      <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="^(.....)(\S*).*" regexp_replace="dénu$2"/></suggestion>.</message>
       <example correction="dénué">Un film <marker>dénudé</marker> de tout intérêt.</example>
       <example correction="dénuée">Une personne <marker>dénudée</marker> de toute compassion.</example>
       <example correction="dénuée">Une histoire <marker>dénudée</marker> d’intérêt.</example>
@@ -7030,6 +7030,56 @@ though, and has since been slightly modified)-->
       <example correction="lice">Les candidats en <marker>liste</marker> pour les élections.</example>
       <example>S’inscrire en liste d’attente.</example>
     </rule>
+    <rulegroup id="VEILLEZ_VEUILLEZ" name="veillez et veuillez">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1939</url>
+      <rule>
+        <pattern>
+          <marker><token>veuillez</token></marker>
+          <token regexp="yes" min="0" max="1">bien|donc|toujours</token>
+          <token>à</token>
+          <token><exception>nouveau</exception></token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="u" regexp_replace=""/></suggestion>.</message>
+        <example correction="Veillez"><marker>Veuillez</marker> à éviter de faire des fautes.</example>
+        <example correction="Veillez"><marker>Veuillez</marker> bien à ce que tous soit en ordre.</example>
+        <example>Veuillez excuser mon retard.</example>
+        <example>Veuillez à nouveau essayer.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>veillez</token></marker>
+          <token regexp="yes" min="0" max="5">la|les?|[lmnts]e?|lui|[nv]ous|leur|toujours|bien|pas|plus|donc|en|y|SVP|['´‘’′]</token>
+          <token postag="V.* inf" postag_regexp="yes"></token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="^(..)" regexp_replace="$1u"/></suggestion>.</message>
+        <example correction="Veuillez"><marker>Veillez</marker> excuser mon retard.</example>
+        <example correction="Veuillez"><marker>Veillez</marker> me contacter.</example>
+        <example correction="Veuillez"><marker>Veillez</marker> me le faire savoir.</example>
+        <example correction="Veuillez"><marker>Veillez</marker> ne le dire à personne.</example>
+        <example correction="Veuillez"><marker>Veillez</marker> ne pas toujours nous en parler.</example>
+        <example correction="Veuillez"><marker>Veillez</marker> l’accompagner.</example>
+        <example correction="Veuillez"><marker>Veillez</marker> toujours l’accompagner.</example>
+        <example>Veillez à éviter de faire des fautes.</example>
+        <example>Veillez votre mari qui est malade.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>veillez</token></marker>
+          <token>,</token>
+          <token>s</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token>il</token>
+          <token>vous</token>
+          <token regexp="yes">pla[îi]t</token>
+          <token min="0" max="1">,</token>
+          <token regexp="yes" min="0" max="5">la?|les?|[mnts]e?|lui|[nv]ous|toujours|bien|pas|plus|donc|en|y|['´‘’′]</token>
+          <token postag="V.* inf" postag_regexp="yes"></token>
+        </pattern>
+        <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="^(..)" regexp_replace="$1u"/></suggestion>.</message>
+        <example correction="Veuillez"><marker>Veillez</marker>, s’il vous plait, excuser mon retard.</example>
+        <example correction="Veuillez"><marker>Veillez</marker>, s’il vous plaît me le faire savoir.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
