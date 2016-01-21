@@ -108,7 +108,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;|tyle|i|lub|albo|ani|oraz|bądź|czy|a</exception></token>
 				</phrase>
 				<phrase id="NIE_SPOJNIK_PRZECINKOWY_OLD">
-                    <token><exception postag="subst.*voc.*|pcon.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|by|byleby|choć|chociaż|czyliż?|dopóki|gdzie|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|dopóty|póki|dlaczego|ponieważ|zanim|któryś?|jaki|co|kto|że|iż|jak|nawiasem|a|jeśli|jeżeli|gdyby|gdy|kiedy|jeśliby|jeżeliby|żeby|aby|ażeby|iżby|wraz|zamiast|zarówno|szczególnie|zwłaszcza|następnie|aż|czy|(?:po)?mimo|skąd|skoro</exception><exception postag="prep:.*" postag_regexp="yes"></exception></token>
+                    <token>
+                        <exception postag="subst.*voc.*|pcon.*|SENT_END|PARA_END" postag_regexp="yes"/>
+                        <exception inflected="yes" regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|by|byleby|choć|chociaż|czyliż?|dopóki|gdzie|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|dopóty|póki|dlaczego|ponieważ|zanim|któryś?|jaki|co|kto|że|iż|jak|nawiasem|niestety|a|jeśli|jeżeli|gdyby|gdy|kiedym?|jeśliby|jeżeliby|żeby|aby|ażeby|iżby|wraz|zamiast|zarówno|szczególnie|zwłaszcza|następnie|aż|czy|(?:po)?mimo|skąd|dokąd|skoro|jakby</exception>
+                        <exception postag="prep:.*" postag_regexp="yes"/>
+                        <exception postag="comp:comma">nim</exception>
+                    </token>
 				</phrase>
 				<phrase id="ACC_NOM_1">
 						<token postag=".*acc.*|.*nom.*" postag_regexp="yes"><exception postag=".*inst.*|.*loc.*" postag_regexp="yes"></exception></token>
@@ -2542,10 +2547,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 				<rulegroup id="PRZECINEK_POROWNANIE" name="Zbędny przecinek przed „jak” i „niż”">
 						<rule>
+                                <antipattern>
+                                    <token>,</token>
+                                    <marker><token>jak</token></marker>
+                                    <token regexp="yes">zawsze|zwykle</token>
+                                    <token>,</token>
+                                </antipattern>
 								<pattern>
 										<token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">równie|zarówno|tak</exception></token>
 										<marker>
-												<token>,</token>
+												<token>,<exception scope="previous" postag="interj"/></token>
 												<token regexp="yes">jak|niż|jakby|niczym|niby</token>
 										</marker>
 										<token skip="-1"><exception postag="verb:.*|pcon:imperf.*|pant:perf.*|pred" postag_regexp="yes" scope="current"></exception><exception postag="verb:.*|pcon:imperf.*|pant:perf.*|pred" postag_regexp="yes" scope="next"></exception><exception regexp="yes">i|również|też</exception></token>
@@ -2556,6 +2567,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example correction=" jak">On jest zdrów<marker>, jak</marker> rydz.</example>
 								<example>Spotkałem tam wiele osób: Hanię, Jarosława, Ludwika oraz Heńka, jak również innych, których imion nie pamiętam.</example>
 								<example>On jest zdrów jak rydz.</example>
+                                <example>Oj, jak słońce na niebie!</example>
+                                <example>Myślał, jak zawsze, o sobie.</example>
 						</rule>
 				</rulegroup>
 				<rule id="PRZECINEK_TAK_JAK" name="Zbędny przecinek przed „tak jak”">
@@ -2908,6 +2921,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="subst:sg:voc.*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <marker>
+                        <token postag="adj.*voc.*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="adj.*voc.*" postag_regexp="yes"/>
+                    <token postag="subst:sg:voc.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
 								<token postag="SENT_START"></token>
 								<token skip="2">W</token>
@@ -2921,6 +2942,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="przypadku miałem">W tym <marker>przypadku, miałem</marker> rację.</example>
 						<example>W tym przypadku, który już opisałem, miałem rację.</example>
                         <example>W każdym razie, moja kobiecino, będziemy bogaci.</example>
+                        <example>W każdym razie, mój zacny gospodarzu, wierzaj temu, co mówiłem.</example>
 				</rule>
 				<rule id="W_MYSL_PRZECINEK" name="Zbędny przecinek po „w przypadku/razie/myśl/miarę” na początku zdania">
                     <antipattern>
@@ -2953,11 +2975,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rule id="POZA_TYM" name="Zbędny przecinek po „poza”, „dla”, „dzięki”, „mimo” itp. na początku zdania">
                         <antipattern>
                             <token>po</token>
-                            <token regexp="yes">pierwsze|drugie|trzecie|wtóre</token>
+                            <token regexp="yes">pierwsze|drugie|trzecie|wtóre|co</token>
                         </antipattern>
                         <antipattern>
                             <token>w</token>
                             <token>porządku</token>
+                        </antipattern>
+                        <antipattern>   <!-- wtrącenie -->
+                            <marker>
+                                <token>,</token>
+                                <token/>
+                                <token>,</token>
+                            </marker>
                         </antipattern>
                         <antipattern>
                             <unify>
@@ -3018,6 +3047,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                         <token postag="subst:sg:voc.*" postag_regexp="yes"/>
                     </antipattern>
+                    <antipattern>
+                        <token>,</token>
+                        <marker>
+                            <token postag="adj.*voc.*" postag_regexp="yes"/>
+                        </marker>
+                        <token postag="adj.*voc.*" postag_regexp="yes"/>
+                        <token postag="subst:sg:voc.*" postag_regexp="yes"/>
+                    </antipattern>
                         <antipattern>
                             <token skip="4">nie</token>
                             <token>,</token>
@@ -3035,7 +3072,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <pattern>
 								<token postag="SENT_START"></token>
 								<marker>
-										<token postag="prep.*" postag_regexp="yes" regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*|pred" postag_regexp="yes" scope="next"/>poza|dla|dzięki|mimo|oprócz|wobec|po|w<exception scope="next" regexp="yes">[(:]</exception><exception scope="next" postag="conj">,</exception></token>
+										<token postag="prep.*" postag_regexp="yes" regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*|pred|subst:sg:nom:m1" postag_regexp="yes" scope="next"/>poza|dla|dzięki|mimo|oprócz|wobec|po|w<exception scope="next" regexp="yes">[(:–—\-]</exception><exception scope="next" postag="conj">,</exception></token>
 										<token>,<exception scope="previous">ciebie</exception><exception postag="conj"/></token>
 										<phraseref idref="NIE_SPOJNIK_PRZECINKOWY_OLD"></phraseref>
 								</marker>
@@ -3064,6 +3101,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>W każdym razie nie z głodu, tylko dla zabawy rzuciłem się ku rączkom tego dziecka.</example>
                         <example>Dzięki potędze miłości ani jedno, ani drugie nie czuło swej nędzy.</example>
                         <example>W niedzielę, to znaczy przed poniedziałkiem, napalić lub nie…</example>
+                        <example>Dla ciebie, miła, rzuciłem taniec.</example>
+                        <example>W każdym razie, mój zacny gospodarzu, wierzaj temu, co mówiłem.</example>
+                        <example>Mimo to ostatni zamek, Karheń, opiera się jeszcze.</example>
+                        <example>W zimowy wieczór margrabia, jego żona i dzieci znajdowali się sami.</example>
+                        <example>Po kilku minutach, nim krzyki ustały, zaszedł fakt…</example>
+                        <example>Po obiedzie, niestety, trzeba mi było niebawem opuścić mamę.</example>
 				</rule>
                 <rule id="DODATKOWO" name="Zbędny przecinek po „dodatkowo” na początku zdania">
 						<pattern>
@@ -5088,10 +5131,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="">Ludwik chciał być wicepremierem, <marker>bowiem</marker> był człowiekiem ambitnym.</example>
 				</rule>
 				<rule type="style" id="SIE_SENT_END" name="„Się” na końcu zdania">
-						<pattern>
+						<antipattern>
+                            <token postag="SENT_START|interp:comma|conj" postag_regexp="yes"/>
+                            <token>nie</token>
+                            <token postag=".*[:\.]refl.*" postag_regexp="yes" />
+                            <marker>
+                                <token>się</token>
+                                <token postag="SENT_END"/>
+                            </marker>
+                        </antipattern>
+                        <antipattern>
+                            <token regexp="yes">[–—\-]</token>
+                            <token postag=".*[:\.]refl.*" postag_regexp="yes" />
+                            <marker>
+                                <token>się</token>
+                                <token postag="SENT_END"/>
+                            </marker>
+                        </antipattern>
+                        <antipattern>
+                            <token regexp="yes">sam[oa]?</token>
+                            <token>przez</token>
+                            <marker><token>się</token></marker>
+                        </antipattern>
+                        <pattern>
 								<token><exception postag="SENT_START"></exception></token>
 								<token><exception regexp="yes">\p{Punct}</exception></token>
-								<token><exception postag="ger:.*" postag_regexp="yes"></exception></token>
+								<token><exception postag="ger:.*|.*nakc.*" postag_regexp="yes"/></token>
 								<marker>
 										<token>się</token>
 								</marker>
@@ -5104,6 +5169,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Nie bój się.</example>
 						<example>On może zabić (się)</example>
                         <example>otwór, przez który wrzuca się listy</example>
+                        <example>Że zaś tak blisko, nie przebieraliśmy się.</example>
+                        <example>— Aha! — ozwał się.</example>
+                        <example>— Nie, żyję i nie kajam się.</example>
+                        <example>Upoił go sam przez się.</example>
+                        <example>Błyszczące przed chwilą oczy zamgliły mu się.</example>
+                        <example>Lecz Włoch nie myślał o poddaniu się.</example>
 				</rule>
 		</category>
 		<category name="Błędy składniowe" type="grammar">
@@ -13655,17 +13726,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <antipattern>
                             <marker>
                                 <token>nie</token>
-                                <token inflected="yes" regexp="yes">wszystek|każdy|taki|czyj|mój|twój|nasz|wasz|ten|sam|ostatni|pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty</token>
+                                <token inflected="yes" regexp="yes">wszystek|każdy|żaden|inny|jakiś?|taki|czyj|mój|twój|nasz|wasz|ten|sam|swój|on|ów|ostatni|jeden|pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty</token>
                             </marker>
                         </antipattern>
+                        <antipattern>
+                            <token regexp="yes">(:?gdy|że)by|czy</token>
+                            <marker>
+                                <token>nie</token>
+                            </marker>
+                            <token postag="adj.*:pos" postag_regexp="yes"/>
+                        </antipattern>
+                        <antipattern>
+                                <marker>
+                                    <token>nie</token>
+                                    <token postag="adj.*:pos" postag_regexp="yes"/>
+                                </marker>
+                                    <token postag="subst.*" postag_regexp="yes"/>
+                                    <token>,</token>
+                                    <token regexp="yes">a|ale|lecz|tylko</token>
+                            </antipattern>
                         <antipattern>
                             <marker>
                                 <token>nie</token>
                                 <token postag="adj.*:pos" postag_regexp="yes"/>
                             </marker>
-                                <token postag="subst.*" postag_regexp="yes"/>
-                                <token>,</token>
-                                <token regexp="yes">a|ale|lecz|tylko</token>
+                            <token>wprawdzie</token>
+                            <token>,</token>
+                            <token regexp="yes">a|ale|lecz|tylko</token>
                         </antipattern>
                         <antipattern>
                             <token>czyż</token>
@@ -13709,6 +13796,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>Marniejemy, panie… nie pierwsi i nie ostatni.</example>
                                 <example>Czyż to nie zadziwiające!</example>
                                 <example> A teraz użyczcie mi znów tej głowni… co, nie łaska?</example>
+                                <example> Sancho stał za nim, trzymając w ręku czarę, nie kryształową wprawdzie, lecz rogową.</example>
 								<example correction="niepalenie">Prosimy o <marker>nie palenie</marker>.</example>
 								<example correction="niepalący">To człowiek <marker>nie palący</marker>.</example>
                                 <example correction="niedobry">On jest <marker>nie dobry</marker>.</example>
@@ -13743,6 +13831,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>Należy tutaj dodać, iż nie wszyscy anarchiści byli przeciwni egoizmowi.</example>
                                 <example>To nie takie proste.</example>
                                 <example>Miał na myśli nie konkretny dzień, lecz datę około tego terminu.</example>
+                                <example>Ja nie żaden zbój, abym ludzi miał rżnąć - odpowiadał.</example>
+                                <example>I żeby nie święta przysięga, to mówię panu, już bym porzucił ją.</example>
+                                <example>Bodaj czy nie jedyny to był od śmierci Marty okres w moim życiu…</example>
 						</rule>
 				</rulegroup>
 				<!-- błąd ortograficzny - pisownia cząstek -bym -->
@@ -15329,6 +15420,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="NIE_ZABRANIE_NIE_ZABRAKNIE" name="„nie zabranie” (nie zabraknie)">
+                <pattern>
+                    <token>nigdy</token>
+                    <token>nie</token>
+                    <marker>
+                        <token>zabranie</token>
+                    </marker>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>zabraknie</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction='zabraknie'>— Jemu nigdy nie <marker>zabranie</marker> żywności.</example>
+                <example>— Jemu nigdy nie zabraknie żywności</example>
+            </rule>
             <rulegroup id="Z_CO_ZA_TYM_IDZIE_A_CO_ZA_TYM_IDZIE" name="„z co za tym idzie” (a co za tym idzie)">
                 <rule>
                 <pattern>
@@ -18130,7 +18234,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Bonaparte przerwał niespodziewanie świetną kampanię.</example>
 						<example correction="bał się|się bał">Ludwik niczego nie <marker>bał</marker>.</example>
 				</rule>
-				<rule id="STAWAC_KIM" name="„stawać/stać kim” (stawać/stać się kim)">
+                <rule id="ZWROTNE_I_DWA_RAZY_SIE" name="Podwojenie „się” obok czasownika">
+                    <antipattern>
+                        <token regexp="yes">sam[oa]?</token>
+                        <token>przez</token>
+                        <marker><token>się</token></marker>
+                    </antipattern>
+                <pattern>
+                    <token postag="SENT_START|interp:comma" postag_regexp="yes" skip="-1"><exception scope="next" postag_regexp="yes" postag=".*:refl.*" /></token>
+                    <token>się</token>
+                    <marker>
+                        <token postag_regexp="yes" postag=".*:refl.*"></token>
+                        <token skip="-1"><exception scope="next" postag_regexp="yes" postag=".*:refl.*" />się</token>
+                    </marker>
+                    <token postag="SENT_END|interp:comma" postag_regexp="yes"/>
+                </pattern>
+                <message>W tym zdaniu występuje dwa razy słówko „się”; wystarczy prawdopodobnie raz: <suggestion>\3</suggestion>.</message>
+                <short>Prawdopodobna literówka</short>
+                    <example>Ludwik niczego się nie bał.</example>
+                    <example>To rozumie się samo przez się.</example>
+                    <example>Wasyl uchwycił się nadarzającej się sposobności jak zbawienia.</example>
+                    <example correction="bał">Ludwik się <marker>bał się</marker> od dawna.</example>
+                </rule>
+                <rule id="STAWAC_KIM" name="„stawać/stać kim” (stawać/stać się kim)">
                         <antipattern>
                             <token>w</token>
                             <token>drzwiach</token>

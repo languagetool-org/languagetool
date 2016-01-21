@@ -1831,6 +1831,25 @@
         <disambig action="remove" postag="prep:nom"/>
     </rule>
 
+    <rule id="SENT_START_NIM" name="nim jako zanim">
+        <pattern>
+            <token postag_regexp="yes" postag="SENT_START|interp:comma"/>
+            <marker>
+                <token>nim</token>
+            </marker>
+        </pattern>
+        <disambig postag="comp"/>
+        <example type="ambiguous" inputform="nim[nim/comp,on/ppron3:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:ter:akc.nakc:praep,on/ppron3:sg:inst:m1.m2.m3:ter:akc.nakc:praep.npraep,on/ppron3:sg:inst:n1.n2:ter:akc.nakc:praep.npraep,on/ppron3:sg:loc:m1.m2.m3:ter:akc.nakc:praep.npraep,on/ppron3:sg:loc:n1.n2:ter:akc.nakc:praep.npraep]"
+                 outputform="nim[nim/comp]">Po kilku minutach, <marker>nim</marker> krzyki ustały, zaszedł fakt…</example>
+    </rule>
+
+    <rule id="NIM_COMP_COMMA" name="nim jako przecinkowy spójnik">
+        <pattern>
+            <token postag="comp">nim<exception postag="comp" negate_pos="yes"/></token>
+        </pattern>
+        <disambig action="add"><wd pos="comp:comma"/></disambig>
+    </rule>
+
     <rule id="ZA_OKOLO" name="za około - z biernikiem">
         <pattern>
             <marker><token>za</token></marker>
@@ -3174,6 +3193,16 @@
         <disambig action="filterall"/>
     </rule>
 
+    <rule id="PO_NIESPODZIEWANIE" name="po niespodziewanie">
+        <pattern>
+            <token>po</token>
+            <marker><token>niespodziewanie</token></marker>
+        </pattern>
+        <disambig postag="adv:pos"/>
+        <example type="ambiguous" inputform="niespodziewanie[niespodziewanie/adv:pos,spodziewać/ger:sg:nom.acc:n2:imperf:neg:refl]"
+                 outputform="niespodziewanie[niespodziewanie/adv:pos]">W lipcu 1940, po <marker>niespodziewanie</marker> łatwym zwycięstwie nad Francją...</example>
+    </rule>
+
     <rulegroup name="prep + czasownik -> ~ czasownik" id="prep_verb">
         <!--  przyimki zawsze z tym samym przypadkiem --> 
         <rule>
@@ -3186,7 +3215,7 @@
                     </and>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="adj.*|adv.*|subst.*|ppron.*"/>
+            <disambig action="filter" postag="adj.*|adv.*|subst.*|ppron.*|ger.*"/>
             <example type="untouched">Tu mamy piękny przykład sztuki barokowej.</example>
             <example type="untouched">A ma o czym marzyć.</example>
             <example type="ambiguous" inputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f,mieć/verb:fin:pl:pri:imperf:refl.nonrefl]" outputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f]">Spotykaliśmy się u <marker>mamy</marker>.</example>
@@ -3197,7 +3226,7 @@
        		<unify>
        			<feature id="case"/>
        			<token postag="prep:.*" postag_regexp="yes"><exception postag="prep.*|adv" negate_pos="yes" postag_regexp="yes"/></token>
-                <token postag_regexp="yes" postag="(adj|subst|ppron).*"><exception>pewne</exception></token>
+                <token postag_regexp="yes" postag="(adj|subst|ger|ppron).*"><exception>pewne</exception></token>
        		</unify>
        	</pattern>
        	<disambig action="unify"/>
@@ -3414,16 +3443,6 @@
         <disambig postag="prep:acc"/>
     </rule>
 
-    <rule id="PO_NIESPODZIEWANIE" name="po niespodziewanie">
-        <pattern>
-            <token>po</token>
-            <marker><token>niespodziewanie</token></marker>
-        </pattern>
-        <disambig postag="adv:pos"/>
-        <example type="ambiguous" inputform="niespodziewanie[niespodziewanie/adv:pos,spodziewać/ger:sg:nom.acc:n2:imperf:neg:refl]"
-                 outputform="niespodziewanie[niespodziewanie/adv:pos]">W lipcu 1940, po <marker>niespodziewanie</marker> łatwym zwycięstwie nad Francją...</example>
-    </rule>
-
     <rule id="co_do_tego_jaki" name="co do tego + jaki">
         <pattern>
             <token postag="comp">co</token>
@@ -3454,7 +3473,7 @@
                 <unify> <feature id="case"/>
                     <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/><exception>co</exception><exception scope="previous">co</exception></token>
                     <token postag="adj.*" postag_regexp="yes" inflected="yes">ten</token>
-                    <token postag="(adj|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
+                    <token postag="(adj|subst|ger|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
                 </unify>
             </pattern>
             <disambig action="unify"/>
@@ -7035,7 +7054,7 @@
         <pattern>
             <unify> <feature id="case"/>
                 <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>
-                <token postag="(adj|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
+                <token postag="(adj|subst|ger|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
             </unify>
         </pattern>
         <disambig action="unify"/>        
