@@ -9119,16 +9119,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
-        <rule id="DARRERE_BAMBOlINES" name="darrere de les bambolines">
+        <rule id="PERLA_PER_LA" name="perla/per la">
             <pattern>
-                <token regexp="yes">darrer[ea]|rer[ea]</token>
-                <token min="0">de</token>
-                <token min="0">les</token>
-                <token regexp="yes">bamb[oa]lines</token>
+                <marker>
+                    <token>perla<exception scope="previous" postag="D..FS.|SPS00" postag_regexp="yes"></exception></token>
+                </marker>
+                <token min="0" postag="AQ.[FC][NS].*|V.P.*SF.|PX.FS.*" postag_regexp="yes"/>
+                <token postag="N.[FC][NS].*" postag_regexp="yes"/>
             </pattern>
-            <message>Expressió probablement incorrecta.</message>
-            <suggestion>entre bastidors</suggestion>
-            <example correction="entre bastidors">Era <marker>darrere les bambolines</marker>.</example>
+            <message>¿Volíeu dir <suggestion>per la</suggestion>?</message>
+            <example correction="Per la"><marker>Perla</marker> mateixa raó.</example>
+            <example correction="Per la"><marker>Perla</marker> simple raó.</example>
+            <example correction="Per la"><marker>Perla</marker> seva raó.</example>
+            <example correction="Per la"><marker>Perla</marker> república.</example>
+            <example>Un tipus de perla anomenada Majorica.</example>
+            <example>La perla de la col·lecció.</example>
+        </rule>
+        <rule id="PERLES_PER_LES" name="perles/per les">
+            <pattern>
+                <marker>
+                    <token>perles<exception scope="previous" postag="D..FP.|SPS00" postag_regexp="yes"></exception></token>
+                </marker>
+                <token min="0" postag="AQ.[FC][NP].*|V.P.*PF.|PX.FP.*" postag_regexp="yes"/>
+                <token postag="N.[FC][NP].*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>per les</suggestion>?</message>
+            <example correction="Per les"><marker>Perles</marker> mateixes raons.</example>
+            <example correction="Per les"><marker>Perles</marker> simples raons.</example>
+            <example correction="Per les"><marker>Perles</marker> seves raons.</example>
+            <example correction="Per les"><marker>Perles</marker> repúbliques.</example>
+            <example>Un tipus de perles anomenades Majorica.</example>
+            <example>Les perles de la col·lecció.</example>
         </rule>
         <rule id="PEROS" name="peròs/però">
             <pattern>
@@ -22280,6 +22301,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="DARRERE_BAMBOlINES" name="darrere de les bambolines">
+            <pattern>
+                <token regexp="yes">darrer[ea]|rer[ea]</token>
+                <token min="0">de</token>
+                <token min="0">les</token>
+                <token regexp="yes">bamb[oa]lines</token>
+            </pattern>
+            <message>Expressió probablement incorrecta.</message>
+            <suggestion>entre bastidors</suggestion>
+            <example correction="entre bastidors">Era <marker>darrere les bambolines</marker>.</example>
+        </rule>        
         <rulegroup id="CAGATIO" name="*cagar/fer cagar el *cagatió/tió">
             <rule>
                 <pattern>
