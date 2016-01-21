@@ -4466,6 +4466,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token inflected="yes">avoir</token>
+          <token regexp="yes" min="0" max="2">bien|rien|encore|pas|jamais|toujours|parfois</token>
           <marker><token regexp="yes">due?s?</token></marker>
           <token postag="V inf"/>
         </pattern>
@@ -4473,6 +4474,7 @@ though, and has since been slightly modified)-->
         <example correction="dû">J’ai <marker>du</marker> partir tôt.</example>
         <example correction="dû">Épuisée, elle a <marker>due</marker> dormir.</example>
         <example correction="dû">Épuisées, elle ont <marker>dues</marker> dormir.</example>
+        <example correction="dû">Vous n’avez pas encore <marker>du</marker> lire le journal.</example>
       </rule>
       <rule>
         <pattern>
@@ -7044,7 +7046,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker><token>veillez</token></marker>
-          <token regexp="yes" min="0" max="5">la|les?|[lmnts]e?|lui|[nv]ous|leur|toujours|bien|pas|plus|donc|en|y|SVP|['´‘’′]</token>
+          <token regexp="yes" min="0" max="5">la|les?|[lmnts]e?|lui|[nv]ous|leur|toujours|bien|rien|pas|plus|donc|en|y|SVP|['´‘’′]</token>
           <token postag="V.* inf" postag_regexp="yes"></token>
         </pattern>
         <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="^(..)" regexp_replace="$1u"/></suggestion>.</message>
@@ -7068,7 +7070,7 @@ though, and has since been slightly modified)-->
           <token>vous</token>
           <token regexp="yes">pla[îi]t</token>
           <token min="0" max="1">,</token>
-          <token regexp="yes" min="0" max="5">la?|les?|[mnts]e?|lui|[nv]ous|toujours|bien|pas|plus|donc|en|y|['´‘’′]</token>
+          <token regexp="yes" min="0" max="5">la?|les?|[mnts]e?|lui|[nv]ous|toujours|bien|rien|pas|plus|donc|en|y|['´‘’′]</token>
           <token postag="V.* inf" postag_regexp="yes"></token>
         </pattern>
         <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="^(..)" regexp_replace="$1u"/></suggestion>.</message>
@@ -8027,7 +8029,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token>ne</token>
           <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|réespérer|(re)?faillir|(re)?faire|(re)?falloir|penser|pouvoir|(re)?préférer|regarder|savoir|(re)?souhaiter|retourner|venir|(re)?vouloir</token>
-          <token regexp="yes">pas|plus|point|guère|jamais</token>
+          <token regexp="yes">pas|plus|point|guère|jamais|rien</token>
           <marker>
             <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
           </marker>
@@ -8041,7 +8043,7 @@ though, and has since been slightly modified)-->
           <token>n</token>
           <token regexp="yes">[’´'‛′‘]</token>
           <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">adorer|aimer|aller|entendre|espérer</token>
-          <token regexp="yes">pas|plus|point|guère|jamais</token>
+          <token regexp="yes">pas|plus|point|guère|jamais|rien</token>
           <marker>
             <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
           </marker>
@@ -8084,7 +8086,7 @@ though, and has since been slightly modified)-->
           <token inflected="yes" regexp="yes">accepter|arrêter|(dé)?conseiller|contenter|décider|efforcer|essayer|excuser|finir|mériter|oublier|permettre|persuader|presser|promettre|proposer|refuser|rêver|soucier|souvenir</token>
           <token>de</token>
           <token>ne</token>
-          <token regexp="yes">jamais|pas|plus</token>
+          <token regexp="yes">jamais|pas|plus|rien</token>
           <marker>
             <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
           </marker>
