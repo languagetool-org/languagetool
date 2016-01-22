@@ -1839,7 +1839,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     <feature id="gender"/>
                                     <feature id="number"/>
                                     <marker>
-                                        <token inflected="yes" postag="adj.*" postag_regexp="yes" regexp="yes">który|jaki</token>
+                                        <token inflected="yes" postag="adj.*" postag_regexp="yes" regexp="yes">który|jaki<exception scope="previous" postag="adj.*" postag_regexp="yes" /></token>
                                     </marker>
                                         <token postag="(subst|adj):.*" postag_regexp="yes"/>
                                     </unify>
@@ -1867,6 +1867,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>...witriolu preparował jakiś gaz (już nawet nie pamiętam jaki) i napełniał nim balon nieduży wprawdzie…</example>
                                 <example>— Poślij którego z młodszych oficerów do Dagona.</example>
                                 <example>A wartość jego połowę przynajmniej jakiego królestwa wynosi.</example>
+                                <example correction="ważne, która">Nie jest <marker>ważne która</marker> drużyna wygrywa mecz.</example>
 						</rule>
 						<rule>
                                <antipattern>
@@ -3023,6 +3024,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <token/>
                                 <token>,</token>
                             </marker>
+                                <token><exception postag="comp:comma"/></token>
                         </antipattern>
                         <antipattern>
                             <unify>
@@ -5177,7 +5179,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             </marker>
                         </antipattern>
                         <antipattern>
-                            <token regexp="yes">[–—\-]</token>
+                            <token regexp="yes">[–—\-…]</token>
                             <token postag=".*[:\.]refl.*" postag_regexp="yes" />
                             <marker>
                                 <token>się</token>
@@ -5211,6 +5213,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Upoił go sam przez się.</example>
                         <example>Błyszczące przed chwilą oczy zamgliły mu się.</example>
                         <example>Lecz Włoch nie myślał o poddaniu się.</example>
+                        <example>— Nic, nic… uspokój się…</example>
 				</rule>
                 <rule id="SIE_NA_POCZATKU_ZDANIA" name="„Się” na początku zdania">
                     <pattern>
@@ -5257,7 +5260,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token inflected="yes">panna</token>
                         <marker><token case_sensitive="yes">Nikt</token></marker>
                     </antipattern>
-                    <antipattern>
+                <antipattern>
+                    <token>jak</token>
+                    <marker><token regexp="yes">nikt|nigdy</token></marker>
+                </antipattern>
+                <antipattern>
                         <marker><token>nic</token></marker>
                         <token>,</token>
                         <token>tylko</token>
@@ -5272,7 +5279,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </antipattern>
                     <antipattern>
                         <marker><token>nic</token></marker>
-                        <token regexp="yes">też|więc</token>
+                        <token regexp="yes">też|więc|zatem</token>
                         <token postag="adj:sg:gen:m1.m2.m3.n1.n2:.*" postag_regexp="yes"/>
                     </antipattern>
                     <antipattern>
@@ -5285,7 +5292,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <marker><token>nic</token></marker>
                     </antipattern>
                     <antipattern>
-                        <token>jakby</token>
+                        <token regexp="yes">jakby|gdyby</token>
                         <marker>
                             <token>nigdy</token>
                             <token>nic</token>
@@ -5300,8 +5307,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>że</token>
                     </antipattern>
                     <antipattern>
+                        <marker>
+                            <token>nic</token>
+                        </marker>
+                        <token>to</token>
+                        <token regexp="yes">[,;]</token>
+                    </antipattern>
+                    <antipattern>
                         <marker><token regexp="yes">bynajmniej|nigdy</token></marker>
-                        <token regexp="yes">[!–—\-]</token>
+                        <token regexp="yes">[!–—\-…]</token>
                     </antipattern>
                     <antipattern>
                         <token regexp="yes">[!–—\-]</token>
@@ -5313,18 +5327,75 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker><token>nic</token></marker>
                     <token>,</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">ale|i</token>
+                    <marker><token>nic</token></marker>
+                    <token>,</token>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>nic</token>
+                        <token>,</token>
+                        <token>ale</token>
+                        <token>to</token>
+                        <token>nic</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>nic</token>
+                        <token regexp="yes">[,a]</token>
+                        <token>nic</token>
+                    </marker>
+                    <token regexp="yes">[!–—\-,…]</token>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>nic</token>
+                    </marker>
+                    <token postag="&lt;ELLIPSIS&gt;"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="interp:comma|conj" postag_regexp="yes"/>
+                    <marker><token>nic</token></marker>
+                    <token>więcej</token>
+                    <token regexp="yes">[!–—\-,…]</token>
+                </antipattern>
                 <rule>
                 <pattern>
-                    <token postag='SENT_START' skip='-1'><exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
-                    <token regexp='yes' skip='-1'>nikt|nigdy|nic|bynajmniej<exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
+                    <token postag='SENT_START' skip='-1'><exception scope='next'>nie</exception>
+                        <exception scope="next" postag=".*:neg.*" postag_regexp="yes"/>
+                        <exception scope="next" postag="adj.*:pos" postag_regexp="yes" regexp="yes">nie.*</exception>
+                    </token>
+                    <token regexp='yes' skip='-1'>nikt|nigdy|nic|bynajmniej<exception scope='next'>nie</exception>
+                        <exception scope="next" postag=".*:neg.*" postag_regexp="yes"/>
+                        <exception scope="next" postag="adj.*:pos" postag_regexp="yes" regexp="yes">nie.*</exception>
+                        <exception scope="next" regexp="yes">[:;]</exception>
+                    </token>
                     <token postag='verb:.*' postag_regexp='yes' skip='-1'><exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
                     <token postag='SENT_END'></token>
                 </pattern>
                 <message>W tym zdaniu brak słowa „nie”.</message>
                 <short>Błąd składniowy</short>
-                <example correction=''><marker>Nigdy tego zrobiłam.</marker></example>
-                <example>Nigdy tego nie zrobiłam.</example>
+                    <example correction=''><marker>Nigdy tego zrobiłam.</marker></example>
+                    <example>Nigdy tego nie zrobiłam.</example>
                     <example>Nic dziwnego, że chrapał.</example>
+                    <example>Lubię czytać poezję, lubię ją po trosze uprawiać, ale nic więcej, i ojciec mój, panie, mówiąc to, żartował sobie ze mnie.</example>
+                    <example>- Nic... wszystko będzie dobrze.</example>
+                    <example>No, ale nic, dam radę i  wszystko będzie dobrze.</example>
+                    <example>Trzeba, jak gdyby nigdy nic, robić, co się postanowiło.</example>
+                    <example>- Nic, nic - rzekł.</example>
+                    <example>- Nic, nic - uśmiechnął się Bogumił.</example>
+                    <example>— Nic to; im lepiej wypocznie, tym ci raźniejszy będzie, jak wstanie.</example>
+                    <example>— Nic, nic, ukłułam się — odparła.</example>
+                    <example>— Nic a nic! — odparł śmiało.</example>
+                    <example>KUBUŚ: Nic; garnek wydaje się cały.</example>
+                    <example>— I nic, żadnej wiadomości? — spytał rządca.</example>
+                    <example>Ale i to jeszcze nic: gdyż baron przed dziesięcioma dniami strzelał się ze Starskim i dostał kulą po wierzchu żeber…</example>
+                    <example>Ileż to razy mówiono o mnie i prawie do mnie, że karmię się z fartucha żony, że wszystko zawdzięczam pracy Minclów, a nic, ale to nic — własnej energii, choć przecie ja podźwignąłem ten kramik, zdwoiłem jego dochody… </example>
+                    <example>— Nic, nic… uspokój się…</example>
+                    <example>— To, co już panu pisałem, nic więcej — odparł krótko.</example>
+                    <example>Nic zatem dziwnego, że mnie ten los spotka.</example>
                 </rule>
                 <rule>
                     <antipattern>
@@ -5335,8 +5406,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </antipattern>
                     <pattern>
                         <token postag='SENT_START' skip='-1'><exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
-                        <token postag='verb:.*' postag_regexp='yes' skip='-1'><exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
-                        <token case_sensitive="yes" regexp='yes' skip='-1'>nikt|nigdy|nic|bynajmniej<exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
+                        <token postag='verb:.*' postag_regexp='yes' skip='-1'><exception scope='next'>nie</exception>
+                            <exception scope="next" postag=".*:neg.*" postag_regexp="yes"/>
+                            <exception scope="next" postag="adj.*:pos" postag_regexp="yes" regexp="yes">nie.*</exception>
+                        </token>
+                        <token case_sensitive="yes" regexp='yes' skip='-1'>nikt|nigdy|nic|bynajmniej<exception scope='next'>nie</exception>
+                            <exception scope="next" postag=".*:neg.*" postag_regexp="yes"/>
+                            <exception scope="next" postag="adj.*:pos" postag_regexp="yes" regexp="yes">nie.*</exception>
+                            <exception scope="next" regexp="yes">[:;]</exception>
+                        </token>
                         <token postag='SENT_END'></token>
                     </pattern>
                     <message>W tym zdaniu brak słowa „nie”.</message>
@@ -5355,6 +5433,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Nic prócz chwili szaleństwa, którą ja będę  błogosławił, a ty przeklinała i wstydziła się.</example>
                     <example>No, nic, przyślę jutro przez Józefata.</example>
                     <example>Ale to nic — dodała.</example>
+                    <example>Na ogół pędziła ją do nauki nigdy niesyta ciekawość</example>
+                    <example>Karol usiadł, niezdolny nic powiedzieć.</example>
                 </rule>
             </rulegroup>
             <rule id="NIM_IMPERF" name="Czasownik niedokonany po spójniku nim i zanim">
