@@ -19,6 +19,7 @@
 package org.languagetool.rules.ngrams;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.Experimental;
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
@@ -26,8 +27,10 @@ import org.languagetool.rules.Category;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tokenizers.Tokenizer;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -69,9 +72,8 @@ public class NgramProbabilityRule extends Rule {
   }
 
   @Override
-  public RuleMatch[] match(AnalyzedSentence sentence) {
-    String text = sentence.getText();
-    List<GoogleToken> tokens = GoogleToken.getGoogleTokens(text, true, getGoogleStyleWordTokenizer());
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    List<GoogleToken> tokens = GoogleToken.getGoogleTokens(sentence, true, getGoogleStyleWordTokenizer());
     List<RuleMatch> matches = new ArrayList<>();
     GoogleToken prevPrevToken = null;
     GoogleToken prevToken = null;
@@ -107,9 +109,19 @@ public class NgramProbabilityRule extends Rule {
           //System.out.printf("%.20f for " + prevToken.token + " " + token + " " + next.token + "\n", prob);
           //System.out.printf("%.20f is minProbability\n", minProbability);
           if (prob < minProbability) {
-            String message = "The phrase '" + ngram + "' rarely occurs in the reference corpus (" + p.getOccurrences() + " times)";
-            RuleMatch match = new RuleMatch(this, prevToken.startPos, next.endPos, message);
-            matches.add(match);
+            Alternatives betterAlternatives = getBetterAlternatives(prevToken, token, next, googleToken, p);
+            if (!betterAlternatives.alternativesConsidered || betterAlternatives.alternatives.size() > 0) {
+              String message = "The phrase '" + ngram + "' rarely occurs in the reference corpus (" + p.getOccurrences() + " times)";
+              RuleMatch match = new RuleMatch(this, prevToken.startPos, next.endPos, message);
+              List<String> suggestions = new ArrayList<>();
+              for (Alternative betterAlternative : betterAlternatives.alternatives) {
+                suggestions.add(prevToken.token + " " + betterAlternative.token + " " + next.token);
+              }
+              match.setSuggestedReplacements(suggestions);
+              matches.add(match);
+            } else {
+              debug("Ignoring match as all alternatives are less probable: '%s' in '%s'\n", ngram, sentence.getText());
+            }
           }
         }
       }
@@ -119,7 +131,60 @@ public class NgramProbabilityRule extends Rule {
     }
     return matches.toArray(new RuleMatch[matches.size()]);
   }
+
+  private Alternatives getBetterAlternatives(GoogleToken prevToken, String token, GoogleToken next, GoogleToken googleToken, Probability p) throws IOException {
+    List<Replacement> replacements = Arrays.asList(
+      //new Replacement("VBG", "VB")        // f=0.728 => f=0.726
+      //new Replacement("VB",  "VBG")
+      //new Replacement("VBZ", "VB")
+      new Replacement("NNS", "NN"),     // f=0.728 => f=0.741
+      new Replacement("NN",  "NNS")     // f=0.728 => f=0.731
+    );
+    List<Alternative> betterAlternatives = new ArrayList<>();
+    boolean alternativesConsidered = false;
+    for (Replacement replacement : replacements) {
+      Optional<List<Alternative>> alternatives = getBetterAlternatives(replacement, prevToken, token, next, googleToken, p);
+      if (alternatives.isPresent()) {
+        betterAlternatives.addAll(alternatives.get());
+        alternativesConsidered = true;
+      }
+    }
+    return new Alternatives(betterAlternatives, alternativesConsidered);
+  }
   
+  private Optional<List<Alternative>> getBetterAlternatives(Replacement replacement, GoogleToken prevToken, String token, GoogleToken next, GoogleToken googleToken, Probability p) throws IOException {
+    Optional<AnalyzedToken> reading = getByPosTag(googleToken.getPosTags(), replacement.tag);
+    List<Alternative> betterAlternatives = new ArrayList<>();
+    if (reading.isPresent()) {
+      Synthesizer synthesizer = language.getSynthesizer();
+      if (synthesizer != null) {
+        String[] forms = synthesizer.synthesize(new AnalyzedToken(token, "not_used", reading.get().getLemma()), replacement.alternativeTag);
+        for (String alternativeToken : forms) {
+          List<String> ngram = Arrays.asList(prevToken.token, token, next.token);
+          List<String> alternativeNgram = Arrays.asList(prevToken.token, alternativeToken, next.token);
+          Probability alternativeProbability = lm.getPseudoProbability(alternativeNgram);
+          if (alternativeProbability.getProb() > p.getProb()) {  // TODO: consider a factor?
+            debug("More probable alternative to '%s': %s\n", ngram, alternativeNgram);
+            betterAlternatives.add(new Alternative(alternativeToken, alternativeProbability));
+          } else {
+            debug("Less probable alternative to '%s': %s\n", ngram, alternativeNgram);
+          }
+        }
+        return Optional.of(betterAlternatives);
+      }
+    }
+    return Optional.empty();
+  }
+
+  private Optional<AnalyzedToken> getByPosTag(Set<AnalyzedToken> tokens, String wantedPosTag) {
+    for (AnalyzedToken token : tokens) {
+      if (wantedPosTag.equals(token.getPOSTag())) {
+        return Optional.of(token);
+      }
+    }
+    return Optional.empty();
+  }
+
   @Override
   public String getDescription() {
     return "Assume errors for phrases (ngrams) that occur rarely in a reference index";
@@ -136,6 +201,33 @@ public class NgramProbabilityRule extends Rule {
   private void debug(String message, Object... vars) {
     if (DEBUG) {
       System.out.printf(Locale.ENGLISH, message, vars);
+    }
+  }
+  
+  class Replacement {
+    final String tag;
+    final String alternativeTag;
+    Replacement(String tag, String alternativeTag) {
+      this.tag = tag;
+      this.alternativeTag = alternativeTag;
+    }
+  }
+  
+  class Alternative {
+    final String token;
+    final Probability p;
+    Alternative(String token, Probability p) {
+      this.token = token;
+      this.p = p;
+    }
+  }
+  
+  class Alternatives {
+    final List<Alternative> alternatives;
+    final boolean alternativesConsidered;
+    Alternatives(List<Alternative> alternatives, boolean alternativesConsidered) {
+      this.alternatives = alternatives;
+      this.alternativesConsidered = alternativesConsidered;
     }
   }
   
