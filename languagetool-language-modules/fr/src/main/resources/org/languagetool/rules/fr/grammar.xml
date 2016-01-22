@@ -25806,13 +25806,11 @@ though, and has since been slightly modified)-->
         <example>Il habite en Franche-Comté.</example>
       </rule>
       <rule>
-        <pattern case_sensitive="yes">
-          <token>Clermont</token>
-          <token regexp="yes">F[ée]rrand</token>
-        </pattern>
-        <message>Voulez-vous dire <suggestion>\1-Ferrand</suggestion> ?</message>
+        <regexp>\b(?!Clermont-Ferrand)Clermon[dt]?[-‑‐  ]Ferr?an[dt]?\b</regexp>
+        <message>Voulez-vous dire <suggestion>Clermont-Ferrand</suggestion> ?</message>
+        <url>https://fr.wikipedia.org/wiki/Clermont-Ferand</url>
         <example correction="Clermont-Ferrand">Il habite à <marker>Clermont Ferrand</marker>.</example>
-        <example>Il habite à Clermont-Ferrand.</example>
+        <example correction="Clermont-Ferrand">Il habite à <marker>Clermont-Ferrant</marker>.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
