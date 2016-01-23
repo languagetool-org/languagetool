@@ -5260,11 +5260,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token inflected="yes">panna</token>
                         <marker><token case_sensitive="yes">Nikt</token></marker>
                     </antipattern>
-                <antipattern>
-                    <token>jak</token>
-                    <marker><token regexp="yes">nikt|nigdy</token></marker>
-                </antipattern>
-                <antipattern>
+                    <antipattern>
+                        <token>jak</token>
+                        <marker><token regexp="yes">nikt|nigdy</token></marker>
+                    </antipattern>
+                    <antipattern>
                         <marker><token>nic</token></marker>
                         <token>,</token>
                         <token>tylko</token>
@@ -5272,6 +5272,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <antipattern>
                         <marker><token>nic</token></marker>
                         <token regexp="yes">tylko|prócz</token>
+                    </antipattern>
+                    <antipattern>
+                        <token postag=".*dat.*" postag_regexp="yes"/>
+                        <marker><token>nic</token></marker>
+                        <token>po</token>
+                        <token postag=".*inst.*" postag_regexp="yes"/>
+                    </antipattern>
+                    <antipattern>
+                        <token postag=".*dat.*" postag_regexp="yes"/>
+                        <marker><token>nic</token></marker>
+                        <token>do</token>
+                        <token postag=".*gen.*" postag_regexp="yes"/>
                     </antipattern>
                     <antipattern>
                         <marker><token>nic</token></marker>
@@ -5314,6 +5326,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">[,;]</token>
                     </antipattern>
                     <antipattern>
+                        <token>to</token>
+                        <token regexp="yes">jedno|zresztą</token>
+                        <marker>
+                            <token>nic</token>
+                        </marker>
+                        <token regexp="yes">[!–—\-…,;]</token>
+                    </antipattern>
+                    <antipattern>
                         <marker><token regexp="yes">bynajmniej|nigdy</token></marker>
                         <token regexp="yes">[!–—\-…]</token>
                     </antipattern>
@@ -5344,7 +5364,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <marker>
                         <token>nic</token>
-                        <token regexp="yes">[,a]</token>
+                        <token regexp="yes">[,a…]</token>
                         <token>nic</token>
                     </marker>
                     <token regexp="yes">[!–—\-,…]</token>
@@ -5359,6 +5379,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="interp:comma|conj" postag_regexp="yes"/>
                     <marker><token>nic</token></marker>
                     <token>więcej</token>
+                    <token regexp="yes">[!–—\-,…]</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START|interp:comma|conj" postag_regexp="yes"/>
+                    <marker><token regexp="yes">nic|nigdy</token></marker>
                     <token regexp="yes">[!–—\-,…]</token>
                 </antipattern>
                 <rule>
@@ -5396,6 +5421,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>— Nic, nic… uspokój się…</example>
                     <example>— To, co już panu pisałem, nic więcej — odparł krótko.</example>
                     <example>Nic zatem dziwnego, że mnie ten los spotka.</example>
+                    <example>Ale mnie nic po matematyku; wziąłby mnie za twierdzenie.</example>
+                    <example>— Tobie nic do tego! — wrzasnął Ślimak.</example>
+                    <example>— Nic, mnie się tylko zdaje, że pan prezes trochę źle wygląda dzisiaj.</example>
+                    <example>— Ależ to jedno nic — rzekł Poiret.</example>
+                    <example>— Nigdy, nigdy! — powtarzała zaciśniętymi ustami.</example>
                 </rule>
                 <rule>
                     <antipattern>
