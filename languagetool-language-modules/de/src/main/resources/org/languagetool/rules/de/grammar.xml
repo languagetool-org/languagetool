@@ -5549,6 +5549,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Jimi Hendrix"><marker>Jimi Hendricks</marker> starb jung.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="INNENMINISTERIUM" name="Eigenname: 'Bundesministerium des Innern'">
+            <rule>
+                <pattern>
+                    <token regexp='yes'>Bundesminister(iums?|s?)</token>
+                    <token>des</token>
+                    <marker><token>Inneren</token></marker>
+                </pattern>
+                <message>Meinten Sie '\1 des <suggestion>Innern</suggestion>' (Deutschland) oder '\1 für Inneres' (Österreich)?</message>
+                <example correction="Innern">Es ist ein Erlass des Bundesministeriums des <marker>Inneren</marker>.</example>
+                <example correction="Innern">Es spricht der Bundesminister des <marker>Inneren</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ULRIKE_MEINHOF" name="Eigenname: 'Ulrike Meinhoff (Meinhof)'">
             <rule>
                 <pattern>
@@ -6150,16 +6162,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Wie so"><marker>Wieso</marker> häufig in den letzten Wochen kam er auch heute zu spät.</example>
             <example>Dieser Artikel beantwortet die Frage, wieso häufig Raucher davon betroffen sind.</example>
             <example>Wieso oft Raucher davon betroffen sind?</example>
-        </rule>
-        <rule id="GEGEBENEN_FALLS" name="gegebenen falls (gegebenenfalls)">
-            <pattern>
-                <token>gegebenen</token>
-                <token>falls</token>
-            </pattern>
-            <message>Meinten Sie <suggestion>gegebenenfalls</suggestion>?</message>
-            <short>&getrennt;.</short>
-            <example correction="gegebenenfalls">Er kann dir <marker>gegebenen falls</marker> Auskunft geben.</example>
-            <example><marker>Gegebenenfalls</marker> stehe ich für Rückfragen zur Verfügung.</example>
         </rule>
         <rule id="IN_KRAFT_TRETEN" name="Zusammen-/Getrenntschreibung: 'Inkrafttreten'">
             <pattern case_sensitive='yes'>
