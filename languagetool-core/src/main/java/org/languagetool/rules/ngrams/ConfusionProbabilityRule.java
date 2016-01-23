@@ -285,7 +285,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
       debug("  Min coverage of %.2f not reached: %.2f, %.2f, %.2f, assuming p=0\n", MIN_COVERAGE, ngram3Left.getCoverage(), ngram3Middle.getCoverage(), ngram3Right.getCoverage());
       return 0.0;
     } else {
-      //debug("  Min coverage of %.2f okay: %.2f, %.2f\n", MIN_COVERAGE, ngram3Left.coverage, ngram3Right.coverage);
+      //debug("  Min coverage of %.2f okay: %.2f, %.2f\n", MIN_COVERAGE, ngram3Left.getCoverage(), ngram3Right.getCoverage());
       return ngram3Left.getProb() * ngram3Middle.getProb() * ngram3Right.getProb();
     }
   }
