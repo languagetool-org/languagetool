@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.rules.*;
 import org.languagetool.rules.el.MorfologikGreekSpellerRule;
 import org.languagetool.synthesis.Synthesizer;
@@ -121,5 +122,10 @@ public class Greek extends Language {
       disambiguator = new XmlRuleDisambiguator(new Greek());
     }
     return disambiguator;
+  }
+
+  @Override
+  public LanguageMaintainedState getMaintainedState() {
+    return LanguageMaintainedState.ActivelyMaintained;
   }
 }
