@@ -5271,7 +5271,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <marker><token regexp="yes">nikt|nigdy</token></marker>
                     </antipattern>
                     <antipattern>
-                        <token regexp="yes">[!–—\-…,;]</token>
+                        <token regexp="yes">[!–—\-…,;]|że</token>
                         <unify><feature id="case"/><feature id="gender"/>
                             <feature id="number"><type id="sg"/></feature>
                         <marker>
@@ -5279,7 +5279,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                         <token inflected="yes">inny</token>
                         </unify>
-                        <token regexp="yes">[!–—\-…,;]</token>
+                        <token regexp="yes">[!–—\-…,;]|tylko</token>
                     </antipattern>
                     <antipattern>
                         <marker><token>nic</token></marker>
@@ -5294,7 +5294,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag=".*dat.*" postag_regexp="yes"/>
                         <marker><token>nic</token></marker>
                         <token>po</token>
-                        <token postag=".*inst.*" postag_regexp="yes"/>
+                        <token postag=".*loc.*" postag_regexp="yes"/>
+                    </antipattern>
+                    <antipattern>
+                        <marker><token>nic</token></marker>
+                        <token postag=".*dat.*" postag_regexp="yes"/>
+                        <token>po</token>
+                        <token postag=".*loc.*" postag_regexp="yes"/>
                     </antipattern>
                     <antipattern>
                         <token postag=".*dat.*" postag_regexp="yes"/>
@@ -5308,7 +5314,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </antipattern>
                     <antipattern>
                         <marker><token>nic</token></marker>
-                        <token regexp="yes">też|więc|zatem</token>
+                        <token regexp="yes">też|więc|zatem|mniej|bardziej</token>
+                        <token postag="adj:sg:gen:m1.m2.m3.n1.n2:.*" postag_regexp="yes"/>
+                    </antipattern>
+                    <antipattern>
+                        <marker><token>nic</token></marker>
+                        <token>w</token>
+                        <token postag=".*loc.*" postag_regexp="yes"/>
                         <token postag="adj:sg:gen:m1.m2.m3.n1.n2:.*" postag_regexp="yes"/>
                     </antipattern>
                     <antipattern>
@@ -5395,8 +5407,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token postag="interp:comma|conj" postag_regexp="yes"/>
                     <marker><token>nic</token></marker>
-                    <token regexp="yes">więcej|ponadto</token>
-                    <token regexp="yes">[!–—\-,…\?]</token>
+                    <token regexp="yes">więcej|(:?po)?nadto</token>
+                    <token regexp="yes">[!–—\-,…\?\.]</token>
                 </antipattern>
                 <antipattern>
                     <marker><token>nic</token></marker>
@@ -5405,7 +5417,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token postag="SENT_START|interp:comma|conj" postag_regexp="yes"/>
-                    <marker><token regexp="yes">nic|nigdy</token></marker>
+                    <marker><token regexp="yes">nic|nigdy|nikt|bynajmniej</token></marker>
                     <token regexp="yes">[!–—\-,…\?]</token>
                 </antipattern>
                 <antipattern> <!-- przytoczenia wyrazu: Wyraz „nikt” ma cztery litery. -->
@@ -5481,13 +5493,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example correction=''>Nauczyciel zaczął szukać tej *familii* w spisie abecadłowym pod literą Z — i <marker>nic znalazł.</marker></example>
                     <example>Widzi pani: oto jest opanowanie bestialskich wprost pożądań: nic dla siebie; wszystko oddaję społeczeństwu.</example>
                     <example correction="">W stronie Méséglise pierwszy raz zauważyłem okrągły cień, który jabłonie kładą na wysłonecznionej ziemi, a także owe jedwabie z nieuchwytnego złota, które zachód tka skośnie pod liśćmi, które w moich oczach ojciec przerywał laską, <marker>nic mogąc zmienić ich kierunku.</marker></example>
+                    <example>To nie ulegało wątpliwości, że nikt inny tylko ja miałem być jego ofiarą.</example>
+                    <example>Nikt, bo myślą, żeśmy już wszystko stracili… </example>
                 </rule>
                 <rule>
                     <antipattern>
                         <marker>
                         <token case_sensitive="yes" regexp='yes'>nikt|nigdy|nic|bynajmniej</token>
                         </marker>
-                        <token postag="SENT_END">.</token>
+                        <token postag="SENT_END"/>
                     </antipattern>
                     <pattern>
                         <token postag='SENT_START' skip='-1'><exception scope='next'>nie</exception><exception scope="next" postag=".*:neg.*" postag_regexp="yes"/></token>
@@ -5522,6 +5536,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Na ogół pędziła ją do nauki nigdy niesyta ciekawość</example>
                     <example>Karol usiadł, niezdolny nic powiedzieć.</example>
                     <example>Oni mogą doić swoje chude kozy albo pod egipskim batem mieszać glinę ze słomą, ale nigdy handlować.</example>
+                    <example>Ty, zamiast w takim mieście robić interesa dla siebie do swego handlu, ty nic… </example>
+                    <example>No — a przecie takich panów znamy, nic w nich nadzwyczajnego…</example>
+                    <example>— Teraz ci coś powiem — ciągnął dalej — tylko tyle, nic nadto.</example>
+                    <example>— Możesz go sobie wziąć na własność, nic mi po nim.</example>
                 </rule>
             </rulegroup>
             <rule id="NIM_IMPERF" name="Czasownik niedokonany po spójniku nim i zanim">
