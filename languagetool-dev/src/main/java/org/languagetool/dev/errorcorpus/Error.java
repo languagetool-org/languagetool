@@ -29,6 +29,9 @@ public class Error {
   private final String correction;
 
   Error(int startPos, int endPos, String correction) {
+    if (endPos < startPos) {
+      throw new RuntimeException("end pos < start pos: " + endPos + " < " + startPos);
+    }
     this.startPos = startPos;
     this.endPos = endPos;
     this.correction = correction;
@@ -47,8 +50,12 @@ public class Error {
   }
 
   public String getAppliedCorrection(String markupText) {
-    String correctionApplied = markupText.substring(0, startPos) + correction + markupText.substring(endPos);
-    return correctionApplied.replaceAll("<.*?>", "");
+    try {
+      String correctionApplied = markupText.substring(0, startPos) + correction + markupText.substring(endPos);
+      return correctionApplied.replaceAll("<.*?>", "");
+    } catch (Exception e) {
+      throw new RuntimeException("Could not get substrings 0-" + startPos + " and " + endPos + "-end: " + markupText);
+    }
   }
 
   @Override

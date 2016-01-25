@@ -76,6 +76,9 @@ public class SimpleCorpus implements ErrorCorpus {
     String normalizedNoCorrection = normalized.replaceFirst("=>.*", "").trim();
     int startError = normalized.indexOf('_');
     int endError = normalized.indexOf('_', startError+1);
+    if (startError == -1 || endError == -1) {
+      throw new RuntimeException("No '_..._' marker found: " + line);
+    }
     int startCorrectionMarker = normalized.indexOf("=>");
     if (startCorrectionMarker == -1) {
       throw new RuntimeException("No '=>' marker found: " + line);
