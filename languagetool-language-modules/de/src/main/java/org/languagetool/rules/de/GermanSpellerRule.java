@@ -20,10 +20,7 @@ package org.languagetool.rules.de;
 
 import de.danielnaber.jwordsplitter.GermanWordSplitter;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.*;
 import org.languagetool.language.German;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
@@ -112,6 +109,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     suggestions.addAll(candidates);
     return suggestions;
+  }
+
+  @Override
+  protected boolean isProhibited(String word) {
+    return word.startsWith("Standart-") || super.isProhibited(word);
   }
 
   @Override

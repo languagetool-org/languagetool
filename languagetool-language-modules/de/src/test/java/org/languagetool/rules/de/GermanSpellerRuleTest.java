@@ -61,6 +61,15 @@ public class GermanSpellerRuleTest {
   }
 
   @Test
+  public void testProhibited() throws Exception {
+    final GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    rule.getSuggestions("");  // needed to force a proper init
+    assertTrue(rule.isProhibited("Standart-Test"));
+    assertTrue(rule.isProhibited("Weihnachtfreier"));
+    assertFalse(rule.isProhibited("Standard-Test"));
+  }
+
+  @Test
   public void testGetAdditionalTopSuggestions() throws Exception {
     final GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     final JLanguageTool langTool = new JLanguageTool(GERMAN_DE);
