@@ -27,6 +27,7 @@ import org.languagetool.rules.Category;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tokenizers.Tokenizer;
 
@@ -64,6 +65,20 @@ public class NgramProbabilityRule extends Rule {
     new Replacement("VB.?", "VBG"),*/
     new Replacement("NNS", "NN"),
     new Replacement("NN", "NNS")
+  ));
+
+  private static final List<AdvancedReplacement> ADV_REPLACEMENTS = Collections.unmodifiableList(Arrays.asList(
+    // "$1" is the token in the middle of the ngram:
+    /*new AdvancedReplacement(Arrays.asList(
+      new PatternTokenBuilder().tokenRegex("a|an|the").negate().build(),
+      new PatternTokenBuilder().posRegex("NN").build(),
+      new PatternTokenBuilder().token("").build()),
+      "the $1"),
+    new AdvancedReplacement(Arrays.asList(
+      new PatternTokenBuilder().token("").build(),
+      new PatternTokenBuilder().tokenRegex("a|an|the").negate().build(),
+      new PatternTokenBuilder().posRegex("NN").build()),
+      "$1 the")*/
   ));
 
   private final LanguageModel lm;
@@ -127,7 +142,7 @@ public class NgramProbabilityRule extends Rule {
           //System.out.printf("%.20f for " + prevToken.token + " " + token + " " + next.token + "\n", prob);
           //System.out.printf("%.20f is minProbability\n", minProbability);
           if (prob < minProbability) {
-            Alternatives betterAlternatives = getBetterAlternatives(prevToken, token, next, googleToken, p);
+            Alternatives betterAlternatives = getBetterAlternatives(prevToken, token, next, googleToken, p, sentence);
             if (!betterAlternatives.alternativesConsidered || betterAlternatives.alternatives.size() > 0) {
               String message = "The phrase '" + ngram + "' rarely occurs in the reference corpus (" + p.getOccurrences() + " times)";
               RuleMatch match = new RuleMatch(this, prevToken.startPos, next.endPos, message);
@@ -150,31 +165,52 @@ public class NgramProbabilityRule extends Rule {
     return matches.toArray(new RuleMatch[matches.size()]);
   }
 
-  private Alternatives getBetterAlternatives(GoogleToken prevToken, String token, GoogleToken next, GoogleToken googleToken, Probability p) throws IOException {
+  private Alternatives getBetterAlternatives(GoogleToken prevToken, String token, GoogleToken next, GoogleToken googleToken, Probability p, AnalyzedSentence sentence) throws IOException {
     List<Alternative> betterAlternatives = new ArrayList<>();
     boolean alternativesConsidered = false;
     for (Replacement replacement : REPLACEMENTS) {
-      Optional<List<Alternative>> alternatives = getBetterAlternatives(replacement, prevToken, token, next, googleToken, p);
+      Optional<List<Alternative>> alternatives = getBetterAlternatives(replacement, prevToken, googleToken, next, p);
       if (alternatives.isPresent()) {
         betterAlternatives.addAll(alternatives.get());
         alternativesConsidered = true;
       }
     }
+
+    // TODO: no need for this to run every time?!
+    for (AdvancedReplacement advReplacement : ADV_REPLACEMENTS) {
+      PatternRule rule = new PatternRule("tmpId", language, advReplacement.patternTokens, "unused_description", "unused_message", "unused_shortMessage");
+      RuleMatch[] matches = rule.match(sentence);
+      for (RuleMatch match : matches) {
+        if (googleToken.startPos > match.getFromPos() && googleToken.endPos < match.getToPos()) {
+          String replacement = advReplacement.alternativeText.replace("$1", token);
+          List<String> newNgram = new ArrayList<>();
+          newNgram.add(prevToken.token);
+          Collections.addAll(newNgram, replacement.split(" "));
+          newNgram.add(next.token);
+          Probability newProb = lm.getPseudoProbability(newNgram);
+          if (newProb.getProb() * 1000000L > p.getProb()) {  // TODO: this is a good factor - find the best one (3gram vs. 4gram)
+            betterAlternatives.add(new Alternative(replacement, newProb));
+          }
+          alternativesConsidered = true;
+        }
+      }
+    }
+
     return new Alternatives(betterAlternatives, alternativesConsidered);
   }
   
-  private Optional<List<Alternative>> getBetterAlternatives(Replacement replacement, GoogleToken prevToken, String token, GoogleToken next, GoogleToken googleToken, Probability p) throws IOException {
-    Optional<AnalyzedToken> reading = getByPosTag(googleToken.getPosTags(), replacement.tag);
+  private Optional<List<Alternative>> getBetterAlternatives(Replacement replacement, GoogleToken prevToken, GoogleToken token, GoogleToken next, Probability p) throws IOException {
+    Optional<AnalyzedToken> reading = getByPosTag(token.getPosTags(), replacement.tagRegex);
     List<Alternative> betterAlternatives = new ArrayList<>();
     if (reading.isPresent()) {
       Synthesizer synthesizer = language.getSynthesizer();
       if (synthesizer != null) {
-        String[] forms = synthesizer.synthesize(new AnalyzedToken(token, "not_used", reading.get().getLemma()), replacement.alternativeTag);
+        String[] forms = synthesizer.synthesize(new AnalyzedToken(token.token, "not_used", reading.get().getLemma()), replacement.alternativeTag);
         for (String alternativeToken : forms) {
           if (alternativeToken.equals(token)) {
             continue;
           }
-          List<String> ngram = Arrays.asList(prevToken.token, token, next.token);
+          List<String> ngram = Arrays.asList(prevToken.token, token.token, next.token);
           List<String> alternativeNgram = Arrays.asList(prevToken.token, alternativeToken, next.token);
           Probability alternativeProbability = lm.getPseudoProbability(alternativeNgram);
           if (alternativeProbability.getProb() >= p.getProb()) {  // TODO: consider a factor?
@@ -219,11 +255,20 @@ public class NgramProbabilityRule extends Rule {
   }
   
   static class Replacement {
-    final String tag;
+    final String tagRegex;
     final String alternativeTag;
-    Replacement(String tag, String alternativeTag) {
-      this.tag = tag;
+    Replacement(String tagRegex, String alternativeTag) {
+      this.tagRegex = tagRegex;
       this.alternativeTag = alternativeTag;
+    }
+  }
+
+  static class AdvancedReplacement {
+    final List<PatternToken> patternTokens;
+    final String alternativeText;
+    AdvancedReplacement(List<PatternToken> patternTokens, String alternativeText) {
+      this.patternTokens = patternTokens;
+      this.alternativeText = alternativeText;
     }
   }
 

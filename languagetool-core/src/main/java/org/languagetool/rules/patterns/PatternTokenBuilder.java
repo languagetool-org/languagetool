@@ -53,6 +53,12 @@ public class PatternTokenBuilder {
     return this;
   }
 
+  /** @since 3.3 */
+  public PatternTokenBuilder negate() {
+    token.setNegation(true);
+    return this;
+  }
+  
   public PatternToken build() {
     return token;
   }
