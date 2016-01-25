@@ -51,7 +51,7 @@ public class NgramProbabilityRule extends Rule {
   private final LanguageModel lm;
   private final Language language;
 
-  private double minProbability = 0.000000000000001;
+  private double minProbability = 0.00000000000001;
 
   public NgramProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     super(messages);
@@ -134,11 +134,22 @@ public class NgramProbabilityRule extends Rule {
 
   private Alternatives getBetterAlternatives(GoogleToken prevToken, String token, GoogleToken next, GoogleToken googleToken, Probability p) throws IOException {
     List<Replacement> replacements = Arrays.asList(
-      //new Replacement("VBG", "VB")        // f=0.728 => f=0.726
-      //new Replacement("VB",  "VBG")
-      //new Replacement("VBZ", "VB")
-      new Replacement("NNS", "NN"),     // f=0.728 => f=0.741
-      new Replacement("NN",  "NNS")     // f=0.728 => f=0.731
+      new Replacement("VBG", "VB"),
+      new Replacement("VBG", "VBN"), 
+      new Replacement("VB",  "VBG"),
+      new Replacement("VB",  "VBZ"),
+      new Replacement("VB",  "VBN"),
+      new Replacement("VBZ", "VB"),
+      new Replacement("VBZ", "VBP"),
+      //TODO: this might improve results in general, but on our evaluation set, it makes results worse:
+      /*new Replacement("VB.?", "VB"),
+      new Replacement("VB.?", "VBZ"),
+      new Replacement("VB.?", "VBP"),
+      new Replacement("VB.?", "VBD"),
+      new Replacement("VB.?", "VBN"),
+      new Replacement("VB.?", "VBG"),*/
+      new Replacement("NNS", "NN"),
+      new Replacement("NN",  "NNS")
     );
     List<Alternative> betterAlternatives = new ArrayList<>();
     boolean alternativesConsidered = false;
@@ -160,10 +171,13 @@ public class NgramProbabilityRule extends Rule {
       if (synthesizer != null) {
         String[] forms = synthesizer.synthesize(new AnalyzedToken(token, "not_used", reading.get().getLemma()), replacement.alternativeTag);
         for (String alternativeToken : forms) {
+          if (alternativeToken.equals(token)) {
+            continue;
+          }
           List<String> ngram = Arrays.asList(prevToken.token, token, next.token);
           List<String> alternativeNgram = Arrays.asList(prevToken.token, alternativeToken, next.token);
           Probability alternativeProbability = lm.getPseudoProbability(alternativeNgram);
-          if (alternativeProbability.getProb() > p.getProb()) {  // TODO: consider a factor?
+          if (alternativeProbability.getProb() >= p.getProb()) {  // TODO: consider a factor?
             debug("More probable alternative to '%s': %s\n", ngram, alternativeNgram);
             betterAlternatives.add(new Alternative(alternativeToken, alternativeProbability));
           } else {
@@ -176,9 +190,9 @@ public class NgramProbabilityRule extends Rule {
     return Optional.empty();
   }
 
-  private Optional<AnalyzedToken> getByPosTag(Set<AnalyzedToken> tokens, String wantedPosTag) {
+  private Optional<AnalyzedToken> getByPosTag(Set<AnalyzedToken> tokens, String wantedPosTagRegex) {
     for (AnalyzedToken token : tokens) {
-      if (wantedPosTag.equals(token.getPOSTag())) {
+      if (token.getPOSTag() != null && token.getPOSTag().matches(wantedPosTagRegex)) {
         return Optional.of(token);
       }
     }
