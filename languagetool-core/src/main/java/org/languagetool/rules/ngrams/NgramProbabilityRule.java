@@ -47,6 +47,24 @@ public class NgramProbabilityRule extends Rule {
   public static final String RULE_ID = "NGRAM_RULE";
   
   private static final boolean DEBUG = false;
+  private static final List<Replacement> REPLACEMENTS = Collections.unmodifiableList(Arrays.asList(
+    new Replacement("VBG", "VB"),
+    new Replacement("VBG", "VBN"),
+    new Replacement("VB", "VBG"),
+    new Replacement("VB", "VBZ"),
+    new Replacement("VB", "VBN"),
+    new Replacement("VBZ", "VB"),
+    new Replacement("VBZ", "VBP"),
+    //TODO: this might improve results in general, but on our evaluation set, it makes results worse:
+    /*new Replacement("VB.?", "VB"),
+    new Replacement("VB.?", "VBZ"),
+    new Replacement("VB.?", "VBP"),
+    new Replacement("VB.?", "VBD"),
+    new Replacement("VB.?", "VBN"),
+    new Replacement("VB.?", "VBG"),*/
+    new Replacement("NNS", "NN"),
+    new Replacement("NN", "NNS")
+  ));
 
   private final LanguageModel lm;
   private final Language language;
@@ -133,27 +151,9 @@ public class NgramProbabilityRule extends Rule {
   }
 
   private Alternatives getBetterAlternatives(GoogleToken prevToken, String token, GoogleToken next, GoogleToken googleToken, Probability p) throws IOException {
-    List<Replacement> replacements = Arrays.asList(
-      new Replacement("VBG", "VB"),
-      new Replacement("VBG", "VBN"), 
-      new Replacement("VB",  "VBG"),
-      new Replacement("VB",  "VBZ"),
-      new Replacement("VB",  "VBN"),
-      new Replacement("VBZ", "VB"),
-      new Replacement("VBZ", "VBP"),
-      //TODO: this might improve results in general, but on our evaluation set, it makes results worse:
-      /*new Replacement("VB.?", "VB"),
-      new Replacement("VB.?", "VBZ"),
-      new Replacement("VB.?", "VBP"),
-      new Replacement("VB.?", "VBD"),
-      new Replacement("VB.?", "VBN"),
-      new Replacement("VB.?", "VBG"),*/
-      new Replacement("NNS", "NN"),
-      new Replacement("NN",  "NNS")
-    );
     List<Alternative> betterAlternatives = new ArrayList<>();
     boolean alternativesConsidered = false;
-    for (Replacement replacement : replacements) {
+    for (Replacement replacement : REPLACEMENTS) {
       Optional<List<Alternative>> alternatives = getBetterAlternatives(replacement, prevToken, token, next, googleToken, p);
       if (alternatives.isPresent()) {
         betterAlternatives.addAll(alternatives.get());
@@ -218,7 +218,7 @@ public class NgramProbabilityRule extends Rule {
     }
   }
   
-  class Replacement {
+  static class Replacement {
     final String tag;
     final String alternativeTag;
     Replacement(String tag, String alternativeTag) {
@@ -226,7 +226,7 @@ public class NgramProbabilityRule extends Rule {
       this.alternativeTag = alternativeTag;
     }
   }
-  
+
   class Alternative {
     final String token;
     final Probability p;
