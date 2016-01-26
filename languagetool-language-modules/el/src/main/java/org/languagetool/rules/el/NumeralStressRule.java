@@ -48,21 +48,16 @@ import org.languagetool.rules.RuleMatch;
 public class NumeralStressRule extends Rule {
 
   //map from stressed to unstressed form and unstressed to stressed form
-  @SuppressWarnings("Convert2Diamond")
-  private final Map<String, String> suffixMap = new HashMap<String, String>();
+  private final Map<String, String> suffixMap = new HashMap<>();
   // pattern to match an arabic number followed by a possible suffix
-  private Pattern numeral;
+  private final Pattern numeral;
   // pattern to match an arabic number that needs stress
-  private Pattern stressedNumber;
+  private final Pattern stressedNumber;
   // pattern to match a stressed suffix
-  private Pattern stressedSuffix;
+  private final Pattern stressedSuffix;
   
-  public NumeralStressRule(ResourceBundle messages) throws IOException {
+  public NumeralStressRule(ResourceBundle messages) {
     super(messages);
-    init();
-  }
-
-  private void init() {
     setCategory(new Category("Orthography"));      
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(
@@ -75,26 +70,26 @@ public class NumeralStressRule extends Rule {
     String[] stressedSfx = {
       "ός", "ού", "ό", "όν", "οί", "ών", "ούς", "ή", "ής", "ήν", "ές", "ά"
     };    
-    String stressedSuffixRE = "";
+    StringBuilder stressedSuffixRE = new StringBuilder();
     for (int i = 0; i < stressedSfx.length; i++) {
       if (i > 0) {
-        stressedSuffixRE += "|";
+        stressedSuffixRE.append("|");
       }
-      stressedSuffixRE += stressedSfx[i];
+      stressedSuffixRE.append(stressedSfx[i]);
       suffixMap.put(stressedSfx[i], unstressedSfx[i]);
       suffixMap.put(unstressedSfx[i], stressedSfx[i]);
     }
-    String pattern = "([1-9][0-9]*)(";
-    pattern += stressedSuffixRE;
+    StringBuilder pattern = new StringBuilder("([1-9][0-9]*)(");
+    pattern.append(stressedSuffixRE);
     for (String sfx : unstressedSfx) {
-      pattern += "|" + sfx;
+      pattern.append("|").append(sfx);
     }
-    pattern += ")";
+    pattern.append(")");
 
-    numeral = Pattern.compile(pattern);
+    numeral = Pattern.compile(pattern.toString());
     //we know the token can not start with 0
     stressedNumber = Pattern.compile("[0-9]*[0|2-9]0");
-    stressedSuffix = Pattern.compile(stressedSuffixRE);
+    stressedSuffix = Pattern.compile(stressedSuffixRE.toString());
   }
 
   @Override
@@ -109,7 +104,7 @@ public class NumeralStressRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
+    List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     for (AnalyzedTokenReadings token : tokens) {
       Matcher m = numeral.matcher(token.getToken());
@@ -121,7 +116,7 @@ public class NumeralStressRule extends Rule {
         if (needsStress != hasStress) {
           suffix = suffixMap.get(suffix);
           String suggestion = number + suffix;
-          String msg="<suggestion>" + suggestion + "</suggestion>";
+          String msg = "<suggestion>" + suggestion + "</suggestion>";
           RuleMatch match = new RuleMatch(this, token.getStartPos(),
                   token.getEndPos(), msg, "Πρόβλημα ορθογραφίας");
           ruleMatches.add(match);
