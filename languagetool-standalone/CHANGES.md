@@ -2,16 +2,25 @@
 
 ## 3.3 (release planned for 2016-03-28)
 
+#### Catalan
+  * added and improved rules
+
 #### English
   * added and improved rules, improved categorization of rules
+  * added a few confusion pairs like best/bets, wand/want (works only with ngram data,
+    see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
 
 #### German
+  * added and improved rules, improved categorization of rules
   * updated Hunspell dictionary to version 2015.12.28
     (http://extensions.libreoffice.org/extension-center/german-de-de-frami-dictionaries etc.)
 
 #### Greek
   * new rule for checking correct spell of ordinal numerals
 
+#### Polish
+  * added and improved rules
+    
 #### Portuguese
   * added new rules
     
