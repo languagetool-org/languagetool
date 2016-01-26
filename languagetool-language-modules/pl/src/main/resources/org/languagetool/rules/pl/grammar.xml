@@ -227,18 +227,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     </unify> <!-- władał był niemiecki - tu de facto trzeba by mieć dwuelementowy wzorzec ze znakiem przestankowym?... -->
                                         <token><exception postag="(?:adj|ppas).*(?:nom|inst).*" postag_regexp="yes"/></token>
 								</antipattern>
+                                <antipattern>   <!-- czas zaprzeszły z kublikiem -->
+                                    <unify>
+                                        <feature id="number"/><feature id="gender"/><feature id="person"/>
+                                        <token postag="verb:praet.*" postag_regexp="yes"/>
+                                        <unify-ignore>
+                                            <token postag="qub"/>
+                                        </unify-ignore>
+                                        <marker><token postag="verb:praet.*" postag_regexp="yes" inflected="yes">być</token></marker>
+                                    </unify> <!-- władał był niemiecki - tu de facto trzeba by mieć dwuelementowy wzorzec ze znakiem przestankowym?... -->
+                                    <token><exception postag="(?:adj|ppas).*(?:nom|inst).*" postag_regexp="yes"/></token>
+                                </antipattern>
                                 <antipattern>   <!-- czas zaprzeszły -->
-                                <unify>
-                                    <feature id="number"/><feature id="gender"/><feature id="person"/>
-                                    <token postag="verb:praet.*" postag_regexp="yes"/>
-                                    <marker><token postag="verb:praet.*" postag_regexp="yes" inflected="yes">być</token></marker>
-                                </unify> <!-- Wynalazł był znakomite miejsce - „znakomite” to biernik. -->
-                                    <token postag="(?:adj|ppas|subst).*(acc|gen|dat).*" postag_regexp="yes"></token>
+                                    <unify>
+                                        <feature id="number"/><feature id="gender"/><feature id="person"/>
+                                        <token postag="verb:praet.*" postag_regexp="yes"/>
+                                        <marker><token postag="verb:praet.*" postag_regexp="yes" inflected="yes">być</token></marker>
+                                    </unify> <!-- Wynalazł był znakomite miejsce - „znakomite” to biernik. -->
+                                        <token postag="(?:adj|ppas|subst).*(acc|gen|dat).*" postag_regexp="yes"></token>
                                 </antipattern>
                                 <antipattern>   <!-- czas zaprzeszły: był władał (szyk przestawny) -->
                                     <unify>
                                     <feature id="number"/><feature id="gender"/><feature id="person"/>
                                         <token postag="verb:praet.*" postag_regexp="yes" inflected="yes">być</token>
+                                        <marker>
+                                            <token postag="verb:praet.*" postag_regexp="yes"/>
+                                        </marker>
+                                    </unify>
+                                </antipattern>
+                                <antipattern>   <!-- czas zaprzeszły: był nie władał (szyk przestawny z kublikiem) -->
+                                    <unify>
+                                        <feature id="number"/><feature id="gender"/><feature id="person"/>
+                                        <token postag="verb:praet.*" postag_regexp="yes" inflected="yes">być</token>
+                                        <unify-ignore>
+                                            <token postag="qub"/>
+                                        </unify-ignore>
                                         <marker>
                                             <token postag="verb:praet.*" postag_regexp="yes"/>
                                         </marker>
@@ -280,7 +303,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>Jurek wygląda wypisz wymaluj jak babcia.</example>
                                 <example>I byłby tego niezawodnie dokonał, pewno bardzo pięknie.</example>
                                 <example>Zwykł był chadzać do parku.</example>
+                                <example>Dosiadł już był dzielnego rumaka Rosynanta.</example>
                                 <example>Wynalazł był znakomite miejsce.</example>
+                                <example>Rozjuszony Don Kichot pewno by mu był nie darował.</example>
                                 <example>Każdy inny, prócz naszego bohatera, byłby się był przeląkł.</example>
                                 <example>Ponieważ powiedziałeś, że gdybyś był słuchał rad moich, uniknąłbyś tego wypadku...</example>
                                 <example>Gdyż zaledwie wylądowałam w Osunie, zaraz doszły mnie o nim cuda i dziwy.</example>
@@ -320,6 +345,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example correction="">Tymczasem, kiedy <marker>odwiedziliśmy Państwowe Gospodarstwo Rolne tego regionu żniwa trwały już dziesięć dni,</marker> a nie był to nawet półmetek.</example>
                                 <example>Obiecywał, że to już jutro zwycięży, a te jutra tworzyły długie miesiące i zwycięstwa nie było.</example>
                                 <example correction="">Jak <marker>wykazała autopsja jego obiektywnego ciała przyczyną śmierci była poważna infekcja dróg oddechowych.</marker></example>
+                                <example>Starał się jak mógł.</example>
+                                <example>Rzekłszy to, spiął Rosynanta i błyskawicy lotem zjechał z pagórka na dolinę.</example>
 						</rule>
 						<!--powinien + exception: powinien był-->
 						<rule>
@@ -10434,7 +10461,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 						<rule>
 								<pattern>
-										<token postag="(adj|pact|ppas):sg.*[.\:]gen.*[\.:]m.*" postag_regexp="yes"></token>
+										<token postag="(adj|pact|ppas):sg.*[.\:]gen.*[\.:]m.*|(adj|subst|pact|ppas).*acc:m1.*" postag_regexp="yes"></token>
 										<token>pomarańcza</token>
 								</pattern>
 								<message>Rzeczownik „pomarańcza” (=owoc cytrusowy) jest rodzaju żeńskiego. Poprawnie: <suggestion><match no="1" postag="(pact|ppas|adj):sg.*" postag_regexp="yes" postag_replace="$1:sg:acc.*:f.*"></match> pomarańczę</suggestion>. Wyjątkiem jest tylko nazwa koloru pomarańczowego (rodzaj męski).</message>
