@@ -6769,6 +6769,26 @@
         <disambig postag="verb:fin:sg:ter:imperf:nonrefl"/>
     </rule>
 
+
+    <rule id="mamze" name="mamże">
+        <pattern>
+            <marker>
+            <token skip="-1">mamże</token>
+            </marker>
+            <token>?</token>
+        </pattern>
+        <disambig action="add"><wd pos="verb:fin:sg:pri:imperf:refl.nonrefl" lemma="mieć"/></disambig>
+    </rule>
+
+    <rule id="MAMZE_JA_ACC" name="mamże ja + acc">
+        <pattern>
+            <token postag="verb:fin:sg:pri:imperf:refl.nonrefl">mamże</token>
+            <token>ja</token>
+            <token postag=".*acc.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rulegroup id="SUBST_NOM_VOC_VERB" name="potencjalny podmiot i orzeczenie">
         <rule>
             <pattern case_sensitive="yes">
