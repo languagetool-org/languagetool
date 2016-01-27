@@ -17,6 +17,7 @@
 
 #### Greek
   * new rule for checking correct spell of ordinal numerals
+  * added new xml rules
 
 #### Polish
   * added and improved rules
