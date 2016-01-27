@@ -58,11 +58,6 @@ public class NumeralStressRule extends Rule {
   
   public NumeralStressRule(ResourceBundle messages) {
     super(messages);
-    setCategory(new Category("Orthography"));      
-    setLocQualityIssueType(ITSIssueType.Misspelling);
-    addExamplePair(
-        Example.wrong("Ο <marker>20ος</marker> αιώνας μαζί με τον 21ο αιώνα κατατάσσεται από τους ιστορικούς στη Σύγχρονη Ιστορία."),
-        Example.fixed("Ο <marker>20ός</marker> αιώνας μαζί με τον 21ο αιώνα κατατάσσεται από τους ιστορικούς στη Σύγχρονη Ιστορία."));
 
     String[] unstressedSfx = {
       "ος", "ου", "ο", "ον", "οι", "ων", "ους", "η", "ης", "ην", "ες", "α"
@@ -90,6 +85,15 @@ public class NumeralStressRule extends Rule {
     //we know the token can not start with 0
     stressedNumber = Pattern.compile("[0-9]*[0|2-9]0");
     stressedSuffix = Pattern.compile(stressedSuffixRE.toString());
+    setCategory(new Category("Orthography"));      
+    init();
+  }
+
+  private void init() {
+    setLocQualityIssueType(ITSIssueType.Misspelling);
+    addExamplePair(
+        Example.wrong("Ο <marker>20ος</marker> αιώνας μαζί με τον 21ο αιώνα κατατάσσεται από τους ιστορικούς στη Σύγχρονη Ιστορία."),
+        Example.fixed("Ο <marker>20ός</marker> αιώνας μαζί με τον 21ο αιώνα κατατάσσεται από τους ιστορικούς στη Σύγχρονη Ιστορία."));
   }
 
   @Override
