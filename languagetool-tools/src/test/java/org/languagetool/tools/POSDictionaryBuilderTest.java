@@ -79,10 +79,9 @@ public class POSDictionaryBuilderTest extends DictionaryBuilderTestHelper {
       
       assertTrue(outFile.toFile().length() >= 40);
     } finally {
-      inputFile.toFile().deleteOnExit();
+      outFile.toFile().deleteOnExit();
       infoFile.toFile().deleteOnExit();
-      // Files.delete(inputFile);
-      // Files.delete(infoFile);
+      inputFile.toFile().deleteOnExit();
     }
   }
 
