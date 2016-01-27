@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.134 2016-01-19 10:45:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.135 2016-01-27 17:50:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -1744,6 +1744,22 @@ $Id: grammar.xml,v 1.134 2016-01-19 10:45:00 marcoagpinto Exp $
       </pattern>
       <message>Substituir «falaram-se de» por <suggestion>falou-se de</suggestion>.</message>
       <example correction="falou-se de">Hoje <marker>falaram-se de</marker> de vários problemas.</example>
+    </rule>
+
+
+
+    <!-- FAZER AS COISAS DIREITAS fazer as coisas direito -->
+    <rule id="FAZER_AS_COISAS_DIREITAS" name="fazer as coisas direito">
+      <pattern>
+        <token>fazer</token>
+        <token>as</token>
+        <token>coisas</token>
+		<marker>
+			<token>direitas</token>
+		</marker>
+      </pattern>
+      <message>Substituir «direitas» por <suggestion>direito</suggestion>.</message>
+      <example correction="direito">Preciso fazer as coisas <marker>direitas</marker>.</example>
     </rule>
 
 
