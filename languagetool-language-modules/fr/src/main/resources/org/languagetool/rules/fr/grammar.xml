@@ -12173,16 +12173,17 @@ though, and has since been slightly modified)-->
           <token>si</token>
           <token postag="Z|R pers suj.*" postag_regexp="yes"/>
           <marker>
-            <token postag="V.* (futu|con|sub).*" postag_regexp="yes">
-              <exception postag="V.* ind (pres|impa).*" postag_regexp="yes"/>
+            <token postag="V.* (futu|con).*" postag_regexp="yes">
+              <exception postag="V.* (ind|sub) (pres|impa).*" postag_regexp="yes"/>
             </token>
           </marker>
         </pattern>
-        <message>« \2 » ne peut pas être suivi d’un verbe au futur, conditionnel ou subjonctif.</message>
+        <message>« \2 » ne peut pas être suivi d’un verbe au futur ou conditionnel.</message>
         <example correction="">Et si tu <marker>aurais</marker> gagné</example>
         <example>Et si tu <marker>avais</marker> gagné</example>
         <example correction="">Si tu <marker>mourrais</marker></example>
         <example>Si tu <marker>mourais</marker></example>
+        <example>Si vous eussiez compris</example>
       </rule>
       <rule>
         <pattern>
@@ -12191,14 +12192,15 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[jt]</token>
           <token regexp="yes">[’´'‛′‘]</token>
           <marker>
-            <token postag="V.* (futu|con|sub).*" postag_regexp="yes">
-              <exception postag="V.* ind (pres|impa).*" postag_regexp="yes"/>
+            <token postag="V.* (futu|con).*" postag_regexp="yes">
+              <exception postag="V.* (ind|sub) (pres|impa).*" postag_regexp="yes"/>
             </token>
           </marker>
         </pattern>
-        <message>« \2 » ne peut pas être suivi d’un verbe au futur, conditionnel ou subjonctif.</message>
+        <message>« \2 » ne peut pas être suivi d’un verbe au futur ou conditionnel.</message>
         <example correction="">Si j’<marker>aurai</marker> gagné</example>
         <example>Si j’<marker>avais</marker> gagné</example>
+        <example>Si j’eusse compris</example>
       </rule>
       <rule>
         <pattern>
@@ -12207,12 +12209,12 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[’´'‛′‘]</token>
           <token regexp="yes">ils?</token>
           <marker>
-            <token postag="V.* (futu|con|sub).*" postag_regexp="yes">
-              <exception postag="V.* ind (pres|impa).*" postag_regexp="yes"/>
+            <token postag="V.* (futu|con).*" postag_regexp="yes">
+              <exception postag="V.* (ind|sub) (pres|impa).*" postag_regexp="yes"/>
             </token>
           </marker>
         </pattern>
-        <message>« \2\3\4 » ne peut pas être suivi d’un verbe au futur, conditionnel ou subjonctif.</message>
+        <message>« \2\3\4 » ne peut pas être suivi d’un verbe au futur ou conditionnel.</message>
         <example correction="">S’ils <marker>auraient</marker> gagné</example>
         <example>S’ils <marker>avaient</marker> gagné</example>
       </rule>
