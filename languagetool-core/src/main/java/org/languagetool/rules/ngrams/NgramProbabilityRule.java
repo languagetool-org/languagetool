@@ -190,6 +190,9 @@ public class NgramProbabilityRule extends Rule {
           Probability newProb = lm.getPseudoProbability(newNgram);
           if (newProb.getProb() * 1000000L > p.getProb()) {  // TODO: this is a good factor - find the best one (3gram vs. 4gram)
             betterAlternatives.add(new Alternative(replacement, newProb));
+            debug("More probable: %s\n", replacement);
+          } else {
+            debug("Less probable: %s\n", replacement);
           }
           alternativesConsidered = true;
         }
