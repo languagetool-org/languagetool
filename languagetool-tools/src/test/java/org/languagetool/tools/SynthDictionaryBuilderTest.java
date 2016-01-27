@@ -22,7 +22,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.tools.SynthDictionaryBuilder;
 
 import static org.junit.Assert.assertTrue;
 
@@ -33,6 +32,10 @@ import java.util.Arrays;
 
 public class SynthDictionaryBuilderTest extends DictionaryBuilderTestHelper {
 
+  private static final String INFO =
+    "fsa.dict.separator=+\n" +
+    "fsa.dict.encoding=cp1251\n";
+  
   @Test
   @Ignore("for interactive use only")
   public void testExportPosDictAndCreateSynth() throws Exception {
@@ -66,10 +69,6 @@ public class SynthDictionaryBuilderTest extends DictionaryBuilderTestHelper {
     }
   }
   
-  private static final String INFO = 
-      "fsa.dict.separator=+\n" +
-      "fsa.dict.encoding=cp1251\n";
-
   @Test
   public void testSynthBuilder() throws Exception {
     Path inputFile = Files.createTempFile("dictTest", ".txt");
@@ -89,9 +88,6 @@ public class SynthDictionaryBuilderTest extends DictionaryBuilderTestHelper {
       inputFile.toFile().deleteOnExit();
       infoFile.toFile().deleteOnExit();
       outFile.toFile().deleteOnExit();
-      // Files.delete(inputFile);
-      // Files.delete(infoFile);
-      // Files.delete(outFile);
     }
   }
 
