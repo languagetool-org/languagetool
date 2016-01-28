@@ -2887,6 +2887,16 @@
         <rule>
             <pattern>
                 <token postag="verb.*" postag_regexp="yes"/>
+                <token postag="qub|adv.*" postag_regexp="yes"/>
+                <marker><token>je</token></marker>
+            </pattern>
+            <disambig action="filter" postag="ppron3.*"></disambig>
+            <example type="ambiguous" inputform="je[jeść/verb:fin:sg:ter:imperf:refl.nonrefl,on/ppron3:pl:acc:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:npraep,on/ppron3:sg:acc:n1.n2:ter:akc.nakc:npraep]"
+                     outputform="je[on/ppron3:pl:acc:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:npraep,on/ppron3:sg:acc:n1.n2:ter:akc.nakc:npraep]">Łączy też <marker>je</marker> postać tajemniczej Melindy.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="verb.*" postag_regexp="yes"/>
                 <marker><token>je</token></marker>
             </pattern>
             <disambig action="filter" postag="ppron3.*"></disambig>
@@ -2901,6 +2911,16 @@
             <disambig action="filter" postag="ppron3.*"/>
             <example type="ambiguous" inputform="je[jeść/verb:fin:sg:ter:imperf:refl.nonrefl,on/ppron3:pl:acc:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:npraep,on/ppron3:sg:acc:n1.n2:ter:akc.nakc:npraep]"
                      outputform="je[on/ppron3:pl:acc:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:npraep,on/ppron3:sg:acc:n1.n2:ter:akc.nakc:npraep]">On <marker>je</marker> lubi.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker><token>je</token></marker>
+                <token postag="qub|adv.*" postag_regexp="yes"/>
+                <token postag="verb.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="ppron3.*"/>
+            <example type="ambiguous" inputform="je[jeść/verb:fin:sg:ter:imperf:refl.nonrefl,on/ppron3:pl:acc:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:npraep,on/ppron3:sg:acc:n1.n2:ter:akc.nakc:npraep]"
+                     outputform="je[on/ppron3:pl:acc:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:npraep,on/ppron3:sg:acc:n1.n2:ter:akc.nakc:npraep]">On <marker>je</marker> nawet lubi.</example>
         </rule>
     </rulegroup>
 
@@ -3253,7 +3273,7 @@
        		<unify>
        			<feature id="case"/>
        			<token postag="prep:.*" postag_regexp="yes"><exception postag="prep.*|adv" negate_pos="yes" postag_regexp="yes"/></token>
-                <token postag_regexp="yes" postag="(adj|subst|ger|ppron).*"><exception>pewne</exception></token>
+                <token postag_regexp="yes" postag="(adj|subst|ger|ppron|pact).*"><exception>pewne</exception></token>
        		</unify>
        	</pattern>
        	<disambig action="unify"/>
@@ -3262,6 +3282,22 @@
            <example type="ambiguous" inputform="chęci[chęcić/verb:fin:sg:ter:imperf:refl.nonrefl,chęć/subst:pl:acc:f,chęć/subst:pl:gen:f,chęć/subst:pl:nom:f,chęć/subst:pl:voc:f,chęć/subst:sg:dat:f,chęć/subst:sg:gen:f,chęć/subst:sg:loc:f,chęć/subst:sg:voc:f]"
                     outputform="chęci[chęć/subst:sg:dat:f]">Żeglarze biegną w stronę wiatru i wbrew <marker>chęci</marker> nawracają wstecz.</example>
        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="case"/>
+                    <token postag="prep:.*" postag_regexp="yes"><exception postag="prep.*|adv" negate_pos="yes" postag_regexp="yes"/></token>
+                    <token postag_regexp="yes" postag="pact.*:refl.*"><exception>pewne</exception></token>
+                        <unify-ignore><token>się</token></unify-ignore>
+                        <token postag_regexp="yes" postag="(adj|subst|ger).*"/>
+                </unify>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="untouched">Oni mną papiery.</example>
+            <example type="untouched">Oczywiście, że ze <marker>mną</marker>!</example>
+            <example type="ambiguous" inputform="domów[dom/subst:pl:gen:m3,domowić/verb:impt:sg:sec:perf:refl.nonrefl,domówić/verb:impt:sg:sec:perf:refl.nonrefl]"
+                     outputform="domów[dom/subst:pl:gen:m3]">Ludzie najemni wyładowują z tratew i dźwigają do budujących się <marker>domów</marker> nocami.</example>
+        </rule>
     </rulegroup>
 
     <rule id="A_NON_PREP" name="a + czasownik -> nie przyimek">
@@ -5695,6 +5731,29 @@
                  outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">Chyba <marker>jedna</marker> musiała być spokojna.</example>
     </rule>
 
+    <rule id="dusze1" name="duszę + verb transitive = > dusza">
+        <pattern>
+            <marker>
+                <token postag="subst:sg:acc:f">duszę</token>
+                <token postag="verb.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&verb_non_transitive;</exception></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="duszę[dusić/verb:fin:sg:pri:imperf:nonrefl,dusić/verb:fin:sg:pri:imperf:refl.nonrefl,dusza/subst:sg:acc:f]"
+                 outputform="duszę[dusza/subst:sg:acc:f]">To jakby się <marker>duszę</marker> zaprzedawało dzikiej bestii.</example>
+    </rule>
+    <rule id="dusze2" name="verb transitive + duszę = > dusza">
+        <pattern>
+            <marker>
+                <token postag="verb.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&verb_non_transitive;</exception></token>
+                <token postag="subst:sg:acc:f">duszę</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="duszę[dusić/verb:fin:sg:pri:imperf:nonrefl,dusić/verb:fin:sg:pri:imperf:refl.nonrefl,dusza/subst:sg:acc:f]"
+                 outputform="duszę[dusza/subst:sg:acc:f]">To jakby się zaprzedawało <marker>duszę</marker> dzikiej bestii.</example>
+    </rule>
+
     <rule id="MIEC_NADZIEJE" name="mieć + nadzieję -> rzeczownik">
         <pattern>
             <token skip="10" inflected="yes">mieć<exception postag="SENT_END|interp:comma|comp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
@@ -7589,6 +7648,88 @@
         </rule>
     </rulegroup -->
 
+    <rule id="wrecz_ze" name="wręcz, że => qub">
+        <pattern>
+            <token postag="qub">wręcz</token>
+            <token>,</token>
+            <token postag="comp.*" postag_regexp="yes" regexp="yes">iż|że</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id="chciec_inf" name="bezokoliczniki">
+        <pattern>
+            <token skip="-1" postag="verb:.*(?:sg|pl|imp[st]).*|pred" postag_regexp="yes" inflected="yes" regexp="yes">mieć|móc|musieć|potrafić|pozwolić|pozwalać|zdołać|umieć|ośmielić|powinien|gotów|ważyć|raczyć|usiłować|rozkazać|śmieć|zacząć|uczyć|dozwolić|(?:po)?móc|s?próbować|chcieć|da(?:wa)?ć|iść|pójść|ośmielić|umieć|kazać|mieć|zacząć|przestać|zaczynać|przestawać|pozwolić|pozwalać|starać|jechać|nauczyć|biec|położyć|zdążyć
+            <exception scope="next" postag="comp:comma|interp:comma" postag_regexp="yes"/></token>
+            <marker>
+                <token postag_regexp="yes" postag="verb:inf.*"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id="inf_chciec" name="bezokoliczniki przed czasownikiem">
+        <pattern>
+            <marker>
+                <token skip="5" postag_regexp="yes" postag="verb:inf.*"><exception scope="next" postag="comp:comma|interp:comma" postag_regexp="yes"/></token>
+            </marker>
+            <token postag="verb:.*(?:sg|pl|imp[st]).*|pred" postag_regexp="yes" inflected="yes" regexp="yes">mieć|móc|musieć|potrafić|pozwolić|pozwalać|zdołać|umieć|ośmielić|powinien|gotów|ważyć|raczyć|usiłować|rozkazać|śmieć|zacząć|uczyć|dozwolić|(?:po)?móc|s?próbować|chcieć|da(?:wa)?ć|iść|pójść|ośmielić|umieć|kazać|mieć|zacząć|przestać|zaczynać|przestawać|pozwolić|pozwalać|starać|jechać|nauczyć|biec|położyć|zdążyć</token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="iść[iścić/verb:impt:sg:sec:imperf:nonrefl,iścić/verb:impt:sg:sec:imperf:refl.nonrefl,iść/verb:inf:imperf:nonrefl]"
+                 outputform="iść[iść/verb:inf:imperf:nonrefl]">... znaleźć nawet śladu drogi, po której by się <marker>iść</marker> chciało.</example>
+    </rule>
+
+    <rule id="nastroj" name="zmienia ci się nastrój">
+        <pattern>
+            <token postag="verb.*sg.*ter.*" postag_regexp="yes" inflected="yes" regexp="yes">zmienić|poprawić|udzielić</token>
+            <token postag="ppron.*dat.*nakc" postag_regexp="yes"/>
+            <token postag="qub">się</token>
+            <token postag="subst:sg:nom:m3">nastrój</token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Ty się nastrój na inne fale!</example>
+        <example type="ambiguous" inputform="nastrój[nastroić/verb:impt:sg:sec:perf:refl.nonrefl,nastrój/subst:sg:acc:m3,nastrój/subst:sg:nom:m3]"
+                 outputform="nastrój[nastrój/subst:sg:nom:m3]">Odkąd przyszła depesza, zmienił ci się <marker>nastrój</marker>?!</example>
+    </rule>
+
+    <rule id="nalezycie" name="należycie + verb => adv">
+        <pattern>
+            <marker>
+            <token skip="5">należycie</token>
+            </marker>
+            <token postag="verb.*|ppas.*|pact.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="adv:pos"/>
+        <example type="untouched">Od kiedy należycie do Partii, towarzyszu?</example>
+        <example type="ambiguous" inputform="należycie[należeć/verb:fin:pl:sec:imperf:refl.nonrefl,należeć/verb:fin:pl:sec:perf:refl,należycie/adv:pos]"
+                 outputform='należycie[należycie/adv:pos]'>Nie zdążyła się <marker>należycie</marker> rozpatrzyć w nowych warunkach życia rodziny.</example>
+    </rule>
+
+    <rulegroup id="zrobilo_zal" name="zrobiło się żal > rzeczownik">
+    <rule>
+        <pattern>
+            <token skip="-1">zrobiło</token>
+            <marker>
+                <token>żal</token>
+            </marker>
+        </pattern>
+        <disambig postag="pred"/>
+    </rule>
+    <rule>
+        <pattern>
+            <marker>
+                <token skip="-1">żal</token>
+            </marker>
+            <token>zrobiło</token>
+        </pattern>
+        <disambig postag="pred"/>
+        <example type="untouched">Jest mi jej żal.</example>
+        <example type="ambiguous" inputform="żal[żal/adv,żal/pred,żal/subst:sg:acc:m3,żal/subst:sg:nom:m3,żalić/verb:impt:sg:sec:imperf:refl]"
+                 outputform="żal[żal/pred]">Ale i wujkowi Władkowi <marker>żal</marker> się nagle tej czapki zrobiło.</example>
+    </rule>
+    </rulegroup>
+
     <rulegroup id="VERB_REFL_NONREFL" name="czasownik zwrotny i niezwrotny + się => zwrotny">
         <rule>
         <pattern>
@@ -7634,7 +7775,7 @@
             <token><exception postag=".*:refl.*" postag_regexp="yes"/></token>
             <marker>
                 <token postag="qub">się</token>
-                <token postag=".*:refl.*" postag_regexp="yes"/>
+                <token postag=".*:refl.*" postag_regexp="yes"><exception>iść</exception></token>
             </marker>
         </pattern>
         <disambig action="filterall"/>

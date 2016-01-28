@@ -446,6 +446,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <antipattern>
                                 <token>to</token>
                             </antipattern>
+                            <antipattern>
+                                <token skip="-1">zrobiło</token>
+                                <marker>
+                                    <token>żal</token>
+                                </marker>
+                            </antipattern>
+                            <antipattern>
+                                <marker>
+                                    <token skip="-1">żal</token>
+                                </marker>
+                                <token>zrobiło</token>
+                            </antipattern>
                               <pattern>                   
                                 <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|było|byłoby</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/><exception>widać</exception></token>
                                 <token postag="pred" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current" regexp="yes">może|widać</exception></token>
@@ -461,6 +473,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                               <example>Śniło się widać biedakowi, że trzymał w ręku wielkoluda Pandafilando.</example>
                               <example>Rad nierad poszedłem do szkoły.</example>
                               <example>Jest to problem.</example>
+                              <example>Zrobiło jej się żal, że nie śpi koło Heleny.</example>
+                              <example>Ale i wujkowi Władkowi żal się nagle tej czapki zrobiło.</example>
                         </rule>
                         <rule>
                             <pattern>
@@ -1361,7 +1375,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <rule>
                             <pattern>
                                 <token inflected="yes" regexp="yes" skip="-1" postag="comp">(?:a?by|a?żeby|iżby).*
-                                    <exception scope="previous" postag_regexp="yes" postag="verb:winien.*|verb:imps.*"/>
+                                    <exception scope="previous" postag_regexp="yes" postag="verb:winien.*|verb:imps.*|comp:comma"/>
                                     <exception scope="previous">co</exception>
                                     <exception postag_regexp="yes" postag="(?:comp|interp):comma" scope="next"/>
                                     <exception scope="next" postag="pred"/>
@@ -1379,6 +1393,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <short>Błąd interpunkcyjny</short>
                             <example correction=""><marker>Żeby zrozumieć percepcję musimy</marker> więc zrozumieć intencjonalność.</example>
                             <example>By się obronić — musiałem skłamać.</example>
+                            <example>Nie mógł znaleźć nawet śladu drogi, po której by się iść chciało.</example>
                         </rule>
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_ZAMIAST" name="Brak przecinka przed „zamiast”">
