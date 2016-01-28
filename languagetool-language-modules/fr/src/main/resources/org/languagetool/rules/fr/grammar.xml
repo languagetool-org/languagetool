@@ -12172,6 +12172,7 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START" skip="1"/>
           <token>si</token>
           <token postag="Z|R pers suj.*" postag_regexp="yes"/>
+          <token min="0" max="3" regexp="yes">[mnst]e?|[nv]ous|lui|leur|en|y|les?|la?|[’´'‛′‘]</token>
           <marker>
             <token postag="V.* (futu|con).*" postag_regexp="yes">
               <exception postag="V.* (ind|sub) (pres|impa).*" postag_regexp="yes"/>
@@ -12183,7 +12184,15 @@ though, and has since been slightly modified)-->
         <example>Et si tu <marker>avais</marker> gagné</example>
         <example correction="">Si tu <marker>mourrais</marker></example>
         <example>Si tu <marker>mourais</marker></example>
+        <example correction="">Si tu ne <marker>mourrais</marker> pas</example>
+        <example>Si tu ne <marker>mourais</marker> pas</example>
         <example>Si vous eussiez compris</example>
+        <example correction="">Et si tu m’<marker>aurais</marker> dit</example>
+        <example>Et si tu m’<marker>avais</marker> dit</example>
+        <example correction="">Et si tu n’<marker>aurais</marker> pas dit</example>
+        <example>Et si tu n’<marker>avais</marker> pas dit</example>
+        <example correction="">Et si tu ne m’<marker>aurais</marker> pas dit</example>
+        <example>Et si tu ne m’<marker>avais</marker> pas dit</example>
       </rule>
       <rule>
         <pattern>
@@ -12208,6 +12217,7 @@ though, and has since been slightly modified)-->
           <token>s</token>
           <token regexp="yes">[’´'‛′‘]</token>
           <token regexp="yes">ils?</token>
+          <token min="0" max="3" regexp="yes">[mnnst]e?|[nv]ous|lui|leur|en|y|les?|la?|[’´'‛′‘]</token>
           <marker>
             <token postag="V.* (futu|con).*" postag_regexp="yes">
               <exception postag="V.* (ind|sub) (pres|impa).*" postag_regexp="yes"/>
@@ -12217,6 +12227,16 @@ though, and has since been slightly modified)-->
         <message>« \2\3\4 » ne peut pas être suivi d’un verbe au futur ou conditionnel.</message>
         <example correction="">S’ils <marker>auraient</marker> gagné</example>
         <example>S’ils <marker>avaient</marker> gagné</example>
+        <example correction="">S’ils ne <marker>partiraient</marker> pas</example>
+        <example>S’ils ne partaient pas</example>
+        <example correction="">S’il ne vous <marker>aurait</marker> pas dit</example>
+        <example>S’il ne vous <marker>avait</marker> pas dit</example>
+        <example correction="">S’il ne vous les <marker>aurait</marker> pas donné</example>
+        <example>S’il ne vous les <marker>avait</marker> pas donné</example>
+        <example correction="">S’ils n’<marker>auraient</marker> pas gagné</example>
+        <example>S’ils n’<marker>avaient</marker> pas gagné</example>
+        <example correction="">S’ils ne t’<marker>auraient</marker> pas dit</example>
+        <example>S’ils ne t’<marker>avait</marker> pas dit</example>
       </rule>
     </rulegroup>
     <rulegroup id="SUBJ_SUBOR" name="subjonctif dans la proposition subordonnée">
