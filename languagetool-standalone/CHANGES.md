@@ -22,6 +22,9 @@
 #### Polish
   * added and improved rules
     
+#### Polish
+  * added and improved a large number of rules, largely improved disambiguation
+
 #### Portuguese
   * added new rules
     
