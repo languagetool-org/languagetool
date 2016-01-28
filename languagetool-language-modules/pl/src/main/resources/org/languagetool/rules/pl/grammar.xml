@@ -238,7 +238,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                         <feature id="number"/><feature id="gender"/><feature id="person"/>
                                         <token postag="verb:praet.*" postag_regexp="yes"/>
                                         <unify-ignore>
-                                            <token postag="qub"/>
+                                            <token postag="qub|ppron.*:nakc" postag_regexp="yes"/>
                                         </unify-ignore>
                                         <marker><token postag="verb:praet.*" postag_regexp="yes" inflected="yes">być</token></marker>
                                     </unify> <!-- władał był niemiecki - tu de facto trzeba by mieć dwuelementowy wzorzec ze znakiem przestankowym?... -->
@@ -266,13 +266,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                         <feature id="number"/><feature id="gender"/><feature id="person"/>
                                         <token postag="verb:praet.*" postag_regexp="yes" inflected="yes">być</token>
                                         <unify-ignore>
-                                            <token postag="qub"/>
+                                            <token postag="qub|ppron.*:nakc" postag_regexp="yes"/>
                                         </unify-ignore>
                                         <marker>
                                             <token postag="verb:praet.*" postag_regexp="yes"/>
                                         </marker>
                                     </unify>
                                 </antipattern>
+                        <antipattern>   <!-- czas zaprzeszły -->
+                            <unify>
+                                <feature id="number"/><feature id="gender"/><feature id="person"/>
+                                <token postag="verb:praet.*" postag_regexp="yes"/>
+                                <marker><token postag="verb:praet.*" postag_regexp="yes" inflected="yes">być</token></marker>
+                            </unify> <!-- władał był niemiecki - tu de facto trzeba by mieć dwuelementowy wzorzec ze znakiem przestankowym?... -->
+                            <token><exception postag="(?:adj|ppas).*(?:nom|inst).*" postag_regexp="yes"/></token>
+                        </antipattern>
+                        <antipattern>   <!-- czas zaprzeszły z kublikiem bez unifikacji osoby-->
+                            <unify>
+                                <feature id="number"/><feature id="gender"/>
+                                <token postag="verb:praet.*:(pri|sec).*" postag_regexp="yes"/>
+                                <unify-ignore>
+                                    <token postag="qub|ppron.*:nakc|siebie.*" postag_regexp="yes"/>
+                                </unify-ignore>
+                                <marker><token postag="verb:praet.*:ter.*" postag_regexp="yes" inflected="yes">być</token></marker>
+                            </unify> <!-- władał był niemiecki - tu de facto trzeba by mieć dwuelementowy wzorzec ze znakiem przestankowym?... -->
+                            <token><exception postag="(?:adj|ppas).*(?:nom|inst).*" postag_regexp="yes"/></token>
+                        </antipattern>
+                        <antipattern>   <!-- czas zaprzeszły: poszedłem był -->
+                            <unify>
+                                <feature id="number"/><feature id="gender"/>
+                                <token postag="verb:praet.*:(pri|sec).*" postag_regexp="yes"/>
+                                <marker><token postag="verb:praet.*:ter.*" postag_regexp="yes" inflected="yes">być</token></marker>
+                            </unify> <!-- Wynalazł był znakomite miejsce - „znakomite” to biernik. -->
+                            <token postag="(?:adj|ppas|subst).*(acc|gen|dat).*|adv.*" postag_regexp="yes"></token>
+                        </antipattern>
+                        <antipattern>   <!-- czas zaprzeszły: byłem władał (szyk przestawny) -->
+                            <unify>
+                                <feature id="number"/><feature id="gender"/>
+                                <token postag="verb:praet.*:(pri|sec).*" postag_regexp="yes" inflected="yes">być</token>
+                                <marker>
+                                    <token postag="verb:praet.*:ter.*" postag_regexp="yes"/>
+                                </marker>
+                            </unify>
+                        </antipattern>
+                        <antipattern>   <!-- czas zaprzeszły: byłem nie władał (szyk przestawny z kublikiem) -->
+                            <unify>
+                                <feature id="number"/><feature id="gender"/><feature id="person"/>
+                                <token postag="verb:praet.*:(pri|sec).*" postag_regexp="yes" inflected="yes">być</token>
+                                <unify-ignore>
+                                    <token postag="qub|ppron.*:nakc" postag_regexp="yes"/>
+                                </unify-ignore>
+                                <marker>
+                                    <token postag="verb:praet.*:ter.*" postag_regexp="yes"/>
+                                </marker>
+                            </unify>
+                        </antipattern>
                                 <antipattern case_sensitive="yes">
                                     <token regexp="yes">\p{Ll}+</token>
                                     <marker><token postag="verb.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}+</token></marker>
@@ -359,6 +407,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>Ale panowie Miller i Szulc mieli fizjognomie jaśniejące nadzieją.</example>
                                 <example>Jak bryła masła stal się między nie wślizguje.</example>
                                 <example>Jakim sposobem Patna została uszkodzona, nie sposób było się dowiedzieć.</example>
+                                <example>Byłbym niezawodnie zemdlał, gdyby Lopez nie był mi pośpieszył na pomoc.</example>
+                                <example>Wziąłem był Adę ze sobą na tę wycieczkę.</example>
+                                <example>Inaczej wprawdzie wyobrażałem sobie był niegdyś małżeństwo „jednego z nas” z Martą.</example>
 						</rule>
 						<!--powinien + exception: powinien był-->
 						<rule>
