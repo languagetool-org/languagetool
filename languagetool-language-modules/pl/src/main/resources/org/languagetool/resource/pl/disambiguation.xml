@@ -7759,6 +7759,45 @@
         </rule>
     </rulegroup>
 
+    <rule id="NIE_QUB_SPOSOB" name="nie sposób jest">
+        <pattern>
+            <marker>
+                <token postag="qub">nie</token>
+                <token skip="1" postag="pred">sposób</token>
+            </marker>
+            <token min="0" max="1" regexp="yes">jest|było|będzie</token>
+            <token postag="verb:inf.*" postag_regexp="yes"></token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
+                 outputform="sposób[sposób/pred]">Nie <marker>sposób</marker> być eleganckim.</example>
+        <example type="untouched">Nie sposób się do wojny.</example>
+        <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
+                 outputform="sposób[sposób/pred]">Nie <marker>sposób</marker> jest być eleganckim.</example>
+        <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
+                 outputform="sposób[sposób/pred]">Telefon to coś, bez czego nie <marker>sposób</marker> się obejść.</example>
+    </rule>
+
+    <rule id="NIE_QUB_SPOSOB_SIE_REFL" name="nie sposób jest się + zwrotny">
+        <pattern>
+            <marker>
+                <token postag="qub">nie</token>
+                <token skip="1" postag="pred">sposób</token>
+            <token min="0" max="1" regexp="yes">jest|było|będzie</token>
+            <token postag="qub">się</token>
+            <token postag="verb:inf.*:refl.*" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
+                 outputform="sposób[sposób/pred]">Nie <marker>sposób</marker> się cieszyć z cudzego nieszczęścia.</example>
+        <example type="untouched">Nie sposób się do wojny.</example>
+        <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
+                 outputform="sposób[sposób/pred]">Nie <marker>sposób</marker> było się cieszyć z cudzego nieszczęścia.</example>
+        <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
+                 outputform="sposób[sposób/pred]">Telefon to coś, bez czego nie <marker>sposób</marker> będzie się obejść.</example>
+    </rule>
+
     <rule name='się po czasowniku zwrotnym' id="refl_sie">
         <pattern>
             <marker>
@@ -8495,25 +8534,6 @@
             </marker>
         </pattern>
         <disambig action="filterall"/>
-    </rule>
-
-    <rule id="NIE_QUB_SPOSOB" name="nie sposób jest">
-        <pattern>
-            <marker>
-                <token postag="qub">nie</token>
-                <token skip="1" postag="pred">sposób</token>
-            </marker>
-            <token min="0" max="1">jest</token>
-            <token postag="verb:inf.*" postag_regexp="yes"></token>
-        </pattern>
-        <disambig action="filterall"/>
-         <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
-                  outputform="sposób[sposób/pred]">Nie <marker>sposób</marker> być eleganckim.</example>
-         <example type="untouched">Nie sposób się do wojny.</example>
-            <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
-                     outputform="sposób[sposób/pred]">Nie <marker>sposób</marker> jest być eleganckim.</example>
-        <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
-                 outputform="sposób[sposób/pred]">Telefon to coś, bez czego nie <marker>sposób</marker> się obejść.</example>
     </rule>
 
 

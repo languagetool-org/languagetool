@@ -218,6 +218,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                         <token spacebefore="yes" postag="interp" regexp="yes">[-−–—―]</token>
                     </antipattern>
+                    <antipattern> <!-- na to jest inna reguła -->
+                        <marker>
+                            <token>wgłąb</token>
+                        </marker>
+                        <token postag='.*gen.*' postag_regexp='yes'></token>
+                    </antipattern>
                     <rule>
 								<antipattern>   <!-- czas zaprzeszły -->
                                     <unify>
@@ -352,6 +358,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>Jednakże niechaj się nie boi.</example>
                                 <example>Ale panowie Miller i Szulc mieli fizjognomie jaśniejące nadzieją.</example>
                                 <example>Jak bryła masła stal się między nie wślizguje.</example>
+                                <example>Jakim sposobem Patna została uszkodzona, nie sposób było się dowiedzieć.</example>
 						</rule>
 						<!--powinien + exception: powinien był-->
 						<rule>
@@ -519,7 +526,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </rule>
 						<rule>
                                 <antipattern>
-                                    <marker><token regexp="yes">trzeba|można|wolno|trza</token></marker>
+                                    <marker><token regexp="yes">trzeba|można|wolno|trza|sposób</token></marker>
                                     <token min="0" max="2" postag="siebie|qub|ppron.*|subst.*|adv" postag_regexp="yes"></token>
                                     <token>będzie</token>
                                 </antipattern>
@@ -536,6 +543,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example correction="">Jurek <marker>pomoże Romanowi odrabiać lekcje a Marek będzie szukać okularów.</marker></example>
                                 <example>Trzeba to będzie sparzyć kipiątkiem i podrzucić kurom...</example>
                             <example correction="">Analiza, która <marker>zignorowała stronę doświadczeniową będzie jedynie analizą czegoś nieistotnego.</marker></example>
+                                <example>Telefon to coś, bez czego nie sposób będzie się obejść.</example>
 						</rule>
 				</rulegroup>
                 <rulegroup id="BEZOKOLICZNIKI" name="Dwa bezokoliczniki bez przecinka">
@@ -11626,6 +11634,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category name="Błędy ortograficzne" type="misspelling">
+            <rule id="WGLAB_W_GBLAB" name="„wgłąb” (w głąb)">
+                <pattern>
+                    <marker>
+                        <token>wgłąb</token>
+                    </marker>
+                    <token postag='.*gen.*' postag_regexp='yes'></token>
+                </pattern>
+                <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>w głąb</suggestion> (= głęboko, w dół)?</message>
+                <url>http://sjp.pwn.pl/sjp/w-glab;2535535.html</url>
+                <short>Błąd ortograficzny</short>
+                <example correction='w głąb'>Pozwól mi zajrzeć <marker>wgłąb</marker> swej duszy.</example>
+                <example>Pozwól mi zajrzeć w głąb swej duszy.</example>
+            </rule>
             <rule id="OM_A" name="„sprzedać nabywcą” (nabywcom)">
                 <pattern>
                     <token inflected='yes' regexp='yes'>(:?od)?sprzedać|(:?od)?sprzedawać|akompaniować|aplikować|asystować|bandażować|bezcześcić|bluzgać|bluźnić|błogosławić|opyl[ia]ć|posprzedqawać|życzyć</token>
