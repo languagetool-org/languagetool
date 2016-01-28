@@ -7505,6 +7505,17 @@
         <example type="untouched">O pięciu się w górę nie słyszałem.</example>
     </rule>
 
+    <rule name="niechaj jako kublik" id="niechaj">
+        <pattern>
+            <marker>
+            <token skip="-1"><exception scope="next" postag="verb:(fin|imps|impt):pl.*|interp:comma" postag_regexp="yes"/>niechaj</token>
+            </marker>
+            <token postag="verb:fin:sg:ter:.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="qub"/>
+        <example type="ambiguous" inputform="niechaj[niechaj/qub,niechać/verb:impt:sg:sec:imperf.perf:nonrefl]" outputform="niechaj[niechaj/qub]">Wiedziałeś od wieków, czego mi potrzeba; <marker>niechaj</marker> się wola twoja spełni.</example>
+    </rule>
+
     <rule name='się po czasowniku zwrotnym' id="refl_sie">
         <pattern>
             <marker>
