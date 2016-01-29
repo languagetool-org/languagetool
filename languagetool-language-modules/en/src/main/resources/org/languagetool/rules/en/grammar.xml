@@ -5118,6 +5118,54 @@ USA
             <example correction="A soccer player kicks"><marker>A soccer players kicks</marker> a ball and scores a goal</example>
         </rule>
         -->
+        <rule id="THIS_NNS_VB" name="this + plural noun + verb (these)">
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token>This</token>
+                </marker>
+                <token postag='NNS'><exception postag='NN:UN'/><exception postag='NN'/><exception regexp="yes">does|helps|fish</exception></token>
+                <token postag='VB.*' postag_regexp='yes'><exception>like</exception></token>
+            </pattern>
+            <message>Did you mean <suggestion>these</suggestion>?</message>
+            <example correction='These'><marker>This</marker> images are beautiful.</example>
+        </rule>
+        <rule id="PEOPLE_VBZ" name="people + 3rd person verb">
+            <pattern>
+                <token>people</token>
+                <marker>
+                    <token postag="VBZ"/>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="2" postag_regexp="yes" postag="VBZ" postag_replace="VB"/></suggestion>?</message>
+            <example correction='think'>Some people <marker>thinks</marker> that space is endless.</example>
+        </rule>
+        <rule id="WE_RB_ARE_VB" name="we + ... + are + base form verb (gerund)">
+            <pattern>
+                <token>we</token>
+                <token postag='RB'/>
+                <token>are</token>
+                <marker>
+                    <token postag='VB'/>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="4" postag_regexp="yes" postag="VB" postag_replace="VBG"/></suggestion>?</message>
+            <example correction='flying'>Today we still are <marker>fly</marker> to space.</example>
+        </rule>
+        <!--TODO: too many false alarms
+        <rule id="THE_NN_VB" name="we + ... + are + base form verb (gerund)">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token>the</token>
+                <token postag='NN'/>
+                <marker>
+                    <token postag='VB'/>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="4" postag_regexp="yes" postag="VB" postag_replace="VBZ"/></suggestion>?</message>
+            <example correction='becomes'>The astronaut <marker>becomes</marker> famous.</example>
+        </rule>
+        -->
         <rule id="I_MOVING" name="personal pronoun + gerund">
             <pattern>
                 <token><exception regexp="yes">am|are|is|t|re|was|were|with|without|of|in|to|much|find</exception><exception postag="VBP|VBD|VB|VBZ|VBG|VBN" postag_regexp="yes"/></token>
