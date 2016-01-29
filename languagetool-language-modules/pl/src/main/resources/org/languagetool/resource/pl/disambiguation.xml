@@ -2336,7 +2336,7 @@
 
     <rule name="to jako predykatyw" id="to_pred">
         <pattern>
-                <token postag="subst.*nom.*" postag_regexp="yes"><exception>to</exception></token>
+                <token postag="subst.*nom.*" postag_regexp="yes"><exception regexp="yes">to|jaki</exception><exception scope="previous" postag="prep.*" postag_regexp="yes"/></token>
             <marker>
                 <token>to</token>
             </marker>
@@ -2349,6 +2349,7 @@
         <example type="untouched">A ryby to ryby w pysku noszą.</example>
         <example type="ambiguous" inputform="to[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]"
         outputform="to[to/pred]">Ściśle rzecz biorąc, pomidor <marker>to</marker> owoc.</example>
+        <example type="untouched">Bylem tylko dostał do rączki to hrabstwo, to już wiem, że dam sobie radę...</example>
     </rule>
 
     <rule name="to jako predykatyw - uzgodnienie" id="to_pred_nominativ">
@@ -3296,12 +3297,12 @@
                 <token postag="prep:[^\.]+" postag_regexp="yes"><exception>co</exception><exception>a</exception><exception>jak</exception></token>
                 <marker>
                     <and>
-                        <token><match no="0" postag_regexp="yes" postag="prep:(.*)" postag_replace="(ad[jv]|subst|ppron):[^ ]*$1[^ ]*" setpos="yes"/></token>
+                        <token><match no="0" postag_regexp="yes" postag="prep:(.*)" postag_replace="(ad[jv]|subst|ppron|num):[^ ]*$1[^ ]*" setpos="yes"/></token>
                         <token postag="verb.*" postag_regexp="yes"/>
                     </and>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="adj.*|adv.*|subst.*|ppron.*|ger.*"/>
+            <disambig action="filter" postag="adj.*|adv.*|subst.*|ppron.*|ger.*|num.*"/>
             <example type="untouched">Tu mamy piękny przykład sztuki barokowej.</example>
             <example type="untouched">A ma o czym marzyć.</example>
             <example type="ambiguous" inputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f,mieć/verb:fin:pl:pri:imperf:refl.nonrefl]" outputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f]">Spotykaliśmy się u <marker>mamy</marker>.</example>
@@ -3312,7 +3313,7 @@
        		<unify>
        			<feature id="case"/>
        			<token postag="prep:.*" postag_regexp="yes"><exception postag="prep.*|adv" negate_pos="yes" postag_regexp="yes"/></token>
-                <token postag_regexp="yes" postag="(adj|subst|ger|ppron|pact).*"><exception>pewne</exception></token>
+                <token postag_regexp="yes" postag="(adj|subst|ger|ppron|pact|num).*"><exception>pewne</exception></token>
        		</unify>
        	</pattern>
        	<disambig action="unify"/>
@@ -4294,6 +4295,14 @@
         </pattern>
         <disambig action="remove"><wd lemma="skalić"/></disambig>
     </rule>
+
+    <rule id="KASA" name="kasa to nie kasać">
+        <pattern>
+            <token>kasa</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="kasać"/></disambig>
+    </rule>
+
 
     <rule id="KREWNI" name="krewni to nie krewnić">
         <pattern>
@@ -5409,7 +5418,7 @@
     <rule id="pora_subst" name="pora na => rzeczownik">
         <pattern>
             <marker><token>pora</token></marker>
-            <token>na</token>
+            <token regexp="yes">na|roku</token>
         </pattern>
         <disambig action="remove"><wd lemma="porać"/></disambig>
         <example type="ambiguous" inputform="Pora[por/subst:sg:acc:m2,por/subst:sg:gen:m2,por/subst:sg:gen:m3,pora/pred,pora/subst:sg:nom:f,porać/verb:fin:sg:ter:imperf:refl]"
@@ -5436,6 +5445,7 @@
         <example type="ambiguous" inputform="pora[por/subst:sg:acc:m2,por/subst:sg:gen:m2,por/subst:sg:gen:m3,pora/pred,pora/subst:sg:nom:f]"
                  outputform="pora[por/subst:sg:gen:m3]"> Kawałek białej części <marker>pora</marker> oczyścić, przekroić wzdłuż i pokroić w makaroniki.</example>
     </rule>
+
 
     <rulegroup id="PARA" name="para jako rzeczownik">
         <rule>
@@ -7315,7 +7325,7 @@
         <pattern>
             <unify> <feature id="case"/>
                 <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>
-                <token postag="(adj|subst|ger|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
+                <token postag="(adj|subst|ger|ppron.*|ppas|pact|num):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
             </unify>
         </pattern>
         <disambig action="unify"/>        
@@ -7637,6 +7647,14 @@
         <disambig action="add"><wd pos="comp:comma"/></disambig>
         <example type="untouched">To jest krowa.</example>
         <example type="ambiguous" inputform="której[który/adj:sg:loc:f:pos]" outputform="której[której/comp:comma,który/adj:sg:loc:f:pos]">Krainę, w <marker>której</marker> kupiłem krowę, zapamiętam do końca życia.</example>
+    </rule>
+
+    <rule name="jak gdyby" id="jak_gdyby">
+        <pattern>
+            <token postag="adv:pos">jak</token>
+            <token postag="qub">gdyby</token>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <rulegroup id="PIECIU" name="Pięciu jako gerundium">

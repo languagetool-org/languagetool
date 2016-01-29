@@ -411,6 +411,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>Wziąłem był Adę ze sobą na tę wycieczkę.</example>
                                 <example>Inaczej wprawdzie wyobrażałem sobie był niegdyś małżeństwo „jednego z nas” z Martą.</example>
                                 <example>Nie sposób było w takiej ciasnocie zachować wszystkie przepisy przyzwoitego urządzenia domu.</example>
+                                <example correction="">— Właśnie przejechał; <marker>pędził jak gdyby go diabli ścigali.</marker></example>
 						</rule>
 						<!--powinien + exception: powinien był-->
 						<rule>
@@ -1232,7 +1233,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rulegroup id="BRAK_PRZECINKA_JESLI" name="Brak przecinka przed „jeśli”, „jeżeli”, „gdyby” itd.">
 						<rule>
 								<pattern>
-										<token inflected="yes" negate="yes" regexp="yes">&interp;<exception regexp="yes">który|jaki|zwłaszcza|szczególnie|nawet|niemniej|przecież|wówczas|może|otóż|przynajmniej|jednak(?:że)?</exception><exception postag="SENT_START|conj|comp" postag_regexp="yes"/><exception>jak</exception></token>
+										<token inflected="yes" negate="yes" regexp="yes">&interp;<exception inflected="yes" regexp="yes">który|jaki|zwłaszcza|szczególnie|nawet|niemniej|przecież|wówczas|może|otóż|przynajmniej|jednak(?:że)?</exception><exception postag="SENT_START|conj|comp" postag_regexp="yes"/><exception>jak</exception></token>
 										<token regexp="yes">(jeśli|jeżeli|gdyby|jeżeliby|jeśliby)(ś|śmy|ście|m)*</token>
 								</pattern>
 								<message>Przed tym spójnikiem stawiamy przecinek:<suggestion>\1, \2</suggestion>.</message>
@@ -1244,6 +1245,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>A widziało się wszystko jak gdyby po raz pierwszy.</example>
 						</rule>
 						<rule>
+                                <antipattern>
+                                    <token>jak</token>
+                                    <marker>
+                                        <token>gdyby</token>
+                                    </marker>
+                                </antipattern>
+                                <antipattern>
+                                    <unify>
+                                        <feature id="case"/>
+                                        <token postag="prep.*" postag_regexp="yes"/>
+                                        <marker>
+                                            <token postag="adj.*" postag_regexp="yes" inflected="yes" regexp="yes">jaki|który</token>
+                                        </marker>
+                                    </unify>
+                                </antipattern>
 								<pattern>
 										<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
 										<token inflected="yes" regexp="yes">a|ale|lecz|który|jaki|tylko|zwłaszcza|jak|szczególnie|że|nawet|więc|jednak(:?że)?</token>
@@ -1253,6 +1269,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<short>Błąd interpunkcyjny</short>
 								<example>Zrobię omleta, nawet jeśli nie poprosisz.</example>
 								<example correction="omleta, nawet jeśli">Zrobię <marker>omleta nawet jeśli</marker> nie poprosisz.</example>
+                                <example>Nie życzy sobie wkraczać w labirynt, z którego jeśliby wyszło się, to z sercem i sumieniem  podartym.</example>
+                                <example>W tej chwili dusza Julii jak gdyby przeszła w duszę oficera.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -1839,7 +1857,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   <pattern>                                          
                       <token/>
                       <marker>
-                      <token postag="subst:sg.*" postag_regexp="yes" inflected="yes">to<exception postag="qub|conj" postag_regexp="yes"></exception></token>                                       
+                      <token postag="subst:sg.*" postag_regexp="yes" inflected="yes">to<exception postag="qub|conj" postag_regexp="yes"/><exception scope="previous">mimo</exception></token>
                       <token regexp="yes" inflected="yes">co|czy|kto|skąd|dokąd|czyj|gdzie|jak|dlaczego<exception regexp="yes">jak[ai]</exception></token>
                       </marker>
                       <token><exception postag="SENT_END"/><exception>niemiara</exception></token>
@@ -1852,6 +1870,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example correction="to, czy">Bez względu na <marker>to czy</marker> i jakie posiadam na ten temat przekonania.</example>
                     <example>Było tego co niemiara.</example>
                       <example>Zrób to jak najszybciej.</example>
+                      <example>Tworzą mimo to jak gdyby rodzinę.</example>
                   </rule>
                 </rulegroup>
 				<rulegroup id="KTOS_CZYJ" name="Brak przecinka przed „czyj”">
