@@ -2334,6 +2334,35 @@
                  outputform="niewielki[niewielki/adj:sg:nom.voc:m1.m2.m3:pos]">Był to <marker>niewielki</marker> elektromagnes.</example>
     </rule>
 
+    <rule name="to jako predykatyw" id="to_pred">
+        <pattern>
+                <token postag="subst.*nom.*" postag_regexp="yes"><exception>to</exception></token>
+            <marker>
+                <token>to</token>
+            </marker>
+                <token skip="-1" postag="subst.*nom.*" postag_regexp="yes"><exception>to</exception>
+                    <exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*" postag_regexp="yes"/></token>
+            <token postag="interp:comma|SENT_END" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="replace"><wd pos="pred"/></disambig>
+        <example type="untouched">To to to!</example>
+        <example type="untouched">A ryby to ryby w pysku noszą.</example>
+        <example type="ambiguous" inputform="to[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]"
+        outputform="to[to/pred]">Ściśle rzecz biorąc, pomidor <marker>to</marker> owoc.</example>
+    </rule>
+
+    <rule name="to jako predykatyw - uzgodnienie" id="to_pred_nominativ">
+        <pattern>
+            <marker>
+            <token postag="subst.*nom.*" postag_regexp="yes"><exception>to</exception></token>
+            <token postag="pred">to</token>
+            <token postag="subst.*nom.*" postag_regexp="yes"><exception>to</exception></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+
     <rule name="przeciw byli" id="przeciw_byli">
         <pattern>
             <token>przeciw</token>
@@ -2921,6 +2950,16 @@
             <disambig action="filter" postag="ppron3.*"/>
             <example type="ambiguous" inputform="je[jeść/verb:fin:sg:ter:imperf:refl.nonrefl,on/ppron3:pl:acc:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:npraep,on/ppron3:sg:acc:n1.n2:ter:akc.nakc:npraep]"
                      outputform="je[on/ppron3:pl:acc:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:npraep,on/ppron3:sg:acc:n1.n2:ter:akc.nakc:npraep]">On <marker>je</marker> nawet lubi.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker><token>je</token></marker>
+                <token regexp="yes">czasem|czasami|raz</token>
+                <token postag="verb.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="ppron3.*"/>
+            <example type="ambiguous" inputform="je[jeść/verb:fin:sg:ter:imperf:refl.nonrefl,on/ppron3:pl:acc:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:npraep,on/ppron3:sg:acc:n1.n2:ter:akc.nakc:npraep]"
+                     outputform="je[on/ppron3:pl:acc:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:npraep,on/ppron3:sg:acc:n1.n2:ter:akc.nakc:npraep]">On <marker>je</marker> czasami lubi.</example>
         </rule>
     </rulegroup>
 
@@ -4736,6 +4775,13 @@
         <disambig action="remove"><wd lemma="zawiścić"/></disambig>
     </rule>
 
+    <rule id="zdrow" name="zdrów to nie zdrowić">
+        <pattern>
+            <token>zdrów</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="zdrowić"/></disambig>
+    </rule>
+
     <rule id="zjadla" name="zjadła to nie zjadły">
         <pattern>
         <token postag="adj.*" postag_regexp="yes" regexp="yes">zjadł[ay]</token>
@@ -5552,6 +5598,22 @@
         <example type="untouched">Tak to zwykły czynić puchacze.</example>
     </rule>
 
+    <rule id="DUMA_SUBST" name="duma to rzeczownik, jeśli z przymiotnikiem">
+        <pattern>
+            <unify>
+                <feature id="case"><type id="nom"/></feature>
+                <feature id="gender"><type id="f"/></feature>
+                <feature id="number"><type id="sg"/></feature>
+                <token postag="adj:sg:nom.voc:f.*" postag_regexp="yes"/>
+                <token>duma</token>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="duma[duma/subst:sg:nom:f,dumać/verb:fin:sg:ter:imperf:nonrefl]"
+                 outputform="duma[duma/subst:sg:nom:f]">Toż to moja <marker>duma</marker> ludzka.</example>
+        <example type="untouched">Wiesława duma nad swoim losem.</example>
+    </rule>
+
     <rule id="ZWYKLY_INF" name="zwykły jako czasownik">
         <pattern>
             <marker><token>zwykły</token></marker>
@@ -6127,7 +6189,7 @@
             <pattern>
                 <token inflected="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1">mieć<exception scope="current">miano</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/></token>
                 <marker>
-                    <token regexp="yes">bąka|brata|broni|burzy|czci|czerwieni|ciąży|kluczy|lata|myśl[ią]|niewoli|piekł[oa]|powodzi|soli|stanie|towarzyszy|troska|zieleni|zwierza|przyjaźni|gości|rzeką|złości|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości</token>
+                    <token regexp="yes">bąka|brata|broni|burzy|czci|czerwieni|ciąży|gra|kluczy|lata|myśl[ią]|niewoli|piekł[oa]|powodzi|przysięga|soli|stanie|towarzyszy|troska|zieleni|zwierza|przyjaźni|gości|rzeką|złości|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości|złość</token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="subst.*"/>
@@ -6136,7 +6198,7 @@
         <pattern>
             <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
             <marker>
-                <token regexp="yes">bąka|brata|broni|burzy|ciąży|czci|czerwieni|kluczy|lata|myśl[ią]|niewoli|piekł[oa]|powodzi|soli|stanie|troska|towarzyszy|zieleni|zwierza|przyjaźni|gości|rzeką|złości|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości</token>
+                <token regexp="yes">bąka|brata|broni|burzy|ciąży|czci|czerwieni|gra|kluczy|lata|myśl[ią]|niewoli|piekł[oa]|powodzi|przysięga|soli|stanie|troska|towarzyszy|zieleni|zwierza|przyjaźni|gości|rzeką|złości|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości|złość</token>
             </marker>
         </pattern>
         <disambig action="filter" postag="subst.*"/>
@@ -6146,7 +6208,7 @@
         <rule>
             <pattern>
                 <marker>
-                    <token skip="-1" regexp="yes">bąka|brata|burzy|czci|czerwieni|kluczy|lata|broni|ciąży|myśl[ią]|niewoli|piekł[oa]|powodzi|soli|stanie|troska|towarzyszy|zieleni|zwierza|przyjaźni|gości|rzeką|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
+                    <token skip="-1" regexp="yes">bąka|brata|burzy|czci|czerwieni|gra|kluczy|lata|broni|ciąży|myśl[ią]|niewoli|piekł[oa]|powodzi|przysięga|soli|stanie|troska|towarzyszy|zieleni|zwierza|przyjaźni|gości|rzeką|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości|złość<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
                 </marker>
                 <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"/><exception scope="current">może</exception></token>
             </pattern>
@@ -7778,15 +7840,15 @@
                  outputform="sposób[sposób/pred]">Telefon to coś, bez czego nie <marker>sposób</marker> się obejść.</example>
     </rule>
 
-    <rule id="NIE_QUB_SPOSOB_SIE_REFL" name="nie sposób jest się + zwrotny">
+    <rule id="NIE_QUB_SPOSOB_INF" name="nie sposób jest - do końca zdania">
         <pattern>
             <marker>
                 <token postag="qub">nie</token>
                 <token skip="1" postag="pred">sposób</token>
-            <token min="0" max="1" regexp="yes">jest|było|będzie</token>
-            <token postag="qub">się</token>
-            <token postag="verb:inf.*:refl.*" postag_regexp="yes"></token>
             </marker>
+            <token skip="-1" regexp="yes">jest|było|będzie
+                <exception scope="next" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*"/></token>
+            <token postag="verb:inf.*" postag_regexp="yes"></token>
         </pattern>
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
@@ -8923,7 +8985,7 @@
     	</pattern>    	
     	<disambig action="remove"><wd lemma="lut"></wd></disambig>
     	<example type="untouched">To są zimne luty, przelutuj je.</example>
-    	<example type="ambiguous" inputform="luty[lut/subst:pl:acc:m3,lut/subst:pl:nom:m3,lut/subst:pl:voc:m3,luty/adj:sg:acc:m3:pos,luty/adj:sg:nom.voc:m1.m2.m3:pos,luty/subst:sg:acc:m3,luty/subst:sg:nom:m3,luty/subst:sg:voc:m3]" outputform="luty[luty/adj:sg:acc:m3:pos,luty/adj:sg:nom.voc:m1.m2.m3:pos,luty/subst:sg:acc:m3,luty/subst:sg:nom:m3,luty/subst:sg:voc:m3]">25 <marker>luty</marker> to data.</example>
+    	<example type="ambiguous" inputform="luty[lut/subst:pl:nom:m3,luty/subst:sg:nom:m3]" outputform="luty[luty/subst:sg:nom:m3]">25 <marker>luty</marker> to data.</example>
     </rule>
     
     <rule name="no, halo - interj" id="no_halo_interj">
