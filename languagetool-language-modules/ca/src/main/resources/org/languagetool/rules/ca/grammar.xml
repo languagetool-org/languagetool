@@ -39092,6 +39092,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="EXIGEIX_VERBS_CENTRAL" name="Exigeix formes verbals del català central">
             <rule>
                 <pattern>
+                    <token postag="VMSI[13]S03" postag_regexp="yes" regexp="yes">.*[ai]ra</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(VMSI[13]S0)3"  postag_regexp="yes" postag_replace="VMIF3S00"/></suggestion>?</message>
+                <suggestion><match no="1" postag="(VMSI[13]S0)3"  postag_regexp="yes" postag_replace="$11"/></suggestion>
+                <example correction="cantarà|cantés"><marker>cantara</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="V.*B" postag_regexp="yes" regexp="yes">.*ii<exception postag="DN.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)(.*i)i" regexp_replace="$1ï"/></suggestion>? "\1" és correcte com a forma balear (1a personal singular, present d'indicatiu).</message>
@@ -39262,6 +39270,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="EXIGEIX_VERBS_BALEARS" name="Exigeix formes verbals balears" default="off">
+            <rule>
+                <pattern>
+                    <token postag="VMSI[13]S03" postag_regexp="yes" regexp="yes">.*[ai]ra</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(VMSI[13]S0)3"  postag_regexp="yes" postag_replace="VMIF3S00"/></suggestion>?</message>
+                <suggestion><match no="1" postag="(VMSI[13]S0)3"  postag_regexp="yes" postag_replace="$17"/></suggestion>
+                <suggestion><match no="1" postag="(VMSI[13]S0)3"  postag_regexp="yes" postag_replace="$11"/></suggestion>
+                <example correction="cantarà|cantàs|cantés"><marker>cantara</marker>.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="V.{6}[CVX356]" postag_regexp="yes"><exception postag="V.{6}[0BYZ1247]|N.*|AQ.*|SPS00|.*_GN_.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">vinga|aixo</exception></token>
