@@ -2111,6 +2111,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <example>Pokład był zatłoczony ludźmi, śród których znajdowali się również  Marcin i Agnieszka.</example>
                         </rule>
 				</rulegroup>
+                <rule id="BRAK_PRZECINKA_PRZED_O_TYLE" name="Brak przecinka przed „o tyle”">
+                    <pattern>
+                        <token>o</token>
+                        <token skip='-1'>ile</token>
+                        <marker>
+                            <token>o<exception regexp='yes' scope='previous'>&interp_conj;</exception><exception postag='conj|comp:comma' postag_regexp='yes' scope='previous'/></token>
+                            <token>tyle</token>
+                        </marker>
+                    </pattern>
+                    <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion>, <match no="3"/> <match no="4"/></suggestion>.</message>
+                    <short>Błąd interpunkcyjny</short>
+                    <example correction=', o tyle'>O ile chociażby red. Agnieszka Kublik z „Gazety Wyborczej” w nudno-przewidywalny i typowy dla siebie sposób skrytykowała SLD i Włodzimierza Czarzastego<marker> o tyle</marker> komentarze przedstawicieli Partii Razem każą się nam zastanowić nad fenomenem antykomunizmu tej deklaratywnie postępowej formacji.</example>
+                    <example>O ile chociażby red. Agnieszka Kublik z „Gazety Wyborczej” w nudno-przewidywalny i typowy dla siebie sposób skrytykowała SLD i Włodzimierza Czarzastego, o tyle komentarze przedstawicieli Partii Razem każą się nam zastanowić nad fenomenem antykomunizmu tej deklaratywnie postępowej formacji.</example>
+                </rule>
 				<rulegroup id="INNYMI_SLOWY" name="Brak wydzielenia „innymi słowy”">
 						<rule>
 								<pattern>
@@ -5353,6 +5367,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule>
 		</category>
 		<category name="Błędy składniowe" type="grammar">
+            <rule id="NIEZGODNO_RZECZOWNIKW_RODZAJU_ESKIEGO" name="Niezgodność rzeczowników rodzaju żeńskiego">
+                <pattern>
+                    <token postag='SENT_START|interp.*' postag_regexp='yes'></token>
+                    <token postag='subst:pl:nom:f'><exception postag='subst:sg:nom:f|subst:sg:gen.*|adj.*' postag_regexp="yes"/><exception>śliczności</exception></token>
+                    <token postag='subst:sg:nom:f'><exception postag='subst:pl:nom:f|verb.*' postag_regexp="yes"></exception><exception postag='subst:.*gen.*' postag_regexp='yes'></exception><exception regexp='yes'>\p{Lu}\p{Ll}+</exception></token>
+                </pattern>
+                <message>Dwa rzeczowniki w mianowniku, ale w innej liczbie.</message>
+                <short>Błąd gramatyczny</short>
+                <example correction=''><marker>Komedie sytuacja</marker></example>
+                <example>Komedie sytuacyjne</example>
+                <example>— Śliczności fuzja — westchnął Jędrek.</example>
+                <example>— Wódki pani powinna wypić zaraz.</example>
+            </rule>
             <rule id="DISAGREEMENT_VERB_PPRON" name="Niezgodność formy czasownika i zaimka osobowego">
                 <pattern>
                         <token postag="SENT_START"/>
