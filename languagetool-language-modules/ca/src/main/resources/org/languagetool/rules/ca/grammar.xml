@@ -39,7 +39,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY exceptions_ASSENTAR_ASSEURE "igualtat|idea|fenomen|suport|geològi.*|pilar|bàvar|eslau|roca|ciutat|pedra|morter|tossal|muralla|castell|fonament|sòcol|plana|agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base1|categoria|colon|colonitz.*|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic|principi|conducta|establir|distribució|genital|estructura|recinte|esplanada|pla|superfície">
     <!ENTITY exceptions_BE "carn|llop|xai|degollar|esquilar|tondre|crit|animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana">
     <!ENTITY exceptions_hostatge "edifici|dieta|luxe|viatger|turista|caminant|obrir|planta">
-    <!ENTITY exceptions_MES "solar|sideral|marià|hivernal|hebreu|jueu|musulmà|islàmic|sinòdic|draconític|lunar|mitjà|tròpic|anomalístic|dedicat|consagrat|vinent|entrant|propvinent|passat|proppassat|intercalar|anterior|següent|posterior|previ">
+    <!ENTITY exceptions_MES "extra|solar|sideral|marià|hivernal|hebreu|jueu|musulmà|islàmic|sinòdic|draconític|lunar|mitjà|tròpic|anomalístic|dedicat|consagrat|vinent|entrant|propvinent|passat|proppassat|intercalar|anterior|següent|posterior|previ">
     <!ENTITY exceptions_ODRE "pell|bot|líquid|aigua|oli|llet|vi|substància|mantega|càntir|ampolla|porró|paràbola|cuir|cuiro">
     <!ENTITY exceptions_Paris "Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu|judici|juí">
     <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena">
@@ -9119,6 +9119,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rulegroup id="MB_AMB" name="*mb/amb">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">mb<exception scope="previous" postag="DN.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="[NAD].*|P[^A].*|V.*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>amb</suggestion></message>
+                <example correction="amb">Això <marker>mb</marker> qui ho fas?</example>
+                <example>300 MB donen per a molt</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                        <token regexp="yes">mb|Mb</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>MB</suggestion> (megabytes) o <suggestion>Mbit</suggestion> (megabits)?</message>
+                <example correction="MB|Mbit">Tinc 50 <marker>mb</marker></example>
+            </rule>
+        </rulegroup>
+        <rule id="PRO_PERO" name="*pro/però">
+            <pattern>
+                <marker>
+                    <token>pro<exception scope="previous" postag="SPS00|DA0MS0"/></token>
+                </marker>
+                <token postag="V.*|.*LOC_ADV.*|P[^A].*|R.*|D.*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>però</suggestion>?</message>
+            <example correction="però">M'agrada, <marker>pro</marker> no la compraré</example>
+            <example correction="Però"><marker>Pro</marker> què t'has pensat tu?</example>
+            <example correction="Però"><marker>Pro</marker> quan vindràs?</example>
+            <example correction="Però"><marker>Pro</marker> de seguida vindrà.</example>
+            <example correction="Però"><marker>Pro</marker> què diantre li passa.</example>
+            <example correction="Però"><marker>Pro</marker> aleshores quan ve?</example>
+            <example correction="Però"><marker>Pro</marker> això no ho pots fer.</example>
+            <example correction="Però"><marker>Pro</marker> la setmana que ve sí.</example>
+            <example correction="Però"><marker>Pro</marker> demà seré aquí.</example>
+            <example>treballar en pro de la pau</example>
+            <example>El pro i el contra.</example>
+            <example>El Filmmaker Pro.</example>
+        </rule>
         <rule id="ANT_ANY" name="*ant/any">
             <pattern>
                 <marker>
@@ -10357,7 +10398,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="1">nord|sud|est|oest|des|centre</token>
+                    <token regexp="yes" skip="1" inflected="yes">nord|sud|est|oest|des|centre|cap|ciutat|govern|alcalde|ministeri</token>
                     <marker>
                         <token regexp="yes">(?-i)Paris</token>
                     </marker>
@@ -13509,46 +13550,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="CONFUSIONS_ACCENT" name="Alguns errors d'accentuació: renúncia/renuncia, nomes/només">
-            <rule id="ESTA_FENT" name="*esta/està fent">
-                <pattern>
-                    <token><exception postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/></token>
+            <rule id="ESTA_BE" name="*esta bé/està bé">
+                <antipattern>
+                    <marker>
+                        <token postag="_GN_FS">esta</token>
+                        <token postag="_GN_FS" min="0"></token>
+                        <token postag="N.[FC][SN].*" postag_regexp="yes"/>
+                    </marker>
+                </antipattern>
+                <antipattern>
                     <marker>
                         <token>esta</token>
+                        <token postag="P.*" postag_regexp="yes" min="0" max="3"></token>
+                        <token postag="V.[ISM].*" postag_regexp="yes"/>
                     </marker>
-                    <token postag="V.G.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>esta<exception scope="previous" postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/></token>
+                    </marker>
                 </pattern>
-                <message>Probablement falta un accent.</message>
-                <suggestion>està</suggestion>
-                <short>Falta un accent</short>
+                <message>¿Volíeu dir <suggestion>està</suggestion>?</message>
+                <example correction="Està"><marker>Esta</marker> molt bé.</example>
+                <example correction="Està"><marker>Esta</marker> boníssim.</example>
+                <example correction="Està"><marker>Esta</marker> disponible.</example>
                 <example correction="Està"><marker>Esta</marker> escrivint la carta.</example>
+                <example correction="està">N'<marker>esta</marker> fins al capdamunt.</example>
+                <example correction="està">Li <marker>esta</marker> agraït.</example>
+                <example correction="està">Li <marker>esta</marker> agraïda.</example>
+                <example>Esta és la qüestió.</example>
+                <example>Esta és la qüestió.</example>
                 <example>I amb esta arribant al final.</example>
                 <example>I en comptes d'esta arribant al final.</example>
-            </rule>
-            <rule id="S_ESTA" name="*s'esta/s'està">
-                <pattern>
-                    <token regexp="yes">[mtsn]'</token>
-                    <marker>
-                        <token>esta</token>
-                    </marker>
-                </pattern>
-                <message>Falta un accent.</message>
-                <suggestion>està</suggestion>
-                <short>Falta un accent</short>
-                <example correction="està">N'<marker>esta</marker> fins al capdamunt.</example>
-                <example>Esta és la qüestió.</example>
-            </rule>
-            <rule id="LI_ESTA" name="*li esta/li està">
-                <pattern>
-                    <token regexp="yes">li|hi|ens|us|vos|ho</token>
-                    <marker>
-                        <token>esta</token>
-                    </marker>
-                </pattern>
-                <message>Falta un accent.</message>
-                <suggestion>està</suggestion>
-                <short>Falta un accent</short>
-                <example correction="està">Li <marker>esta</marker> agraït.</example>
-                <example>Esta és la qüestió.</example>
+                <example>Esta és la millor.</example>
+                <example>Esta es cobria amb fusta.</example>
+                <example>Esta boja ens farà la vida impossible.</example>
+                <example>Esta casa és la d'en Joan.</example>
+                <example>Esta bonica casa és la d'en Joan.</example>
+                <example>Amb l'aplicació d'esta.</example>
             </rule>
             <rule id="ORIGINARIA" name="originaria">
                 <pattern>
