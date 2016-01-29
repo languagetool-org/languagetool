@@ -16196,6 +16196,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example> ens diu què fer amb els ulls</example>
                 <example>Jo us diré què penso</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0">¿</token>
+                    <marker>
+                        <token skip="-1">que</token>
+                    </marker>
+                    <token max="2" postag="V.[ISMNG].*|_GV_" postag_regexp="yes"/>
+                    <token>?</token>
+                </pattern>
+                <message>Si equival a "quina cosa", cal escriure <suggestion>què</suggestion>.</message>
+                <example correction="Què"><marker>Que</marker> ha passat?</example>
+                <example correction="Què"><marker>Que</marker> menjaràs?</example>
+                <example>Que t'ho menjaràs tot?</example>
+                <example>Que vindràs demà?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0">¿</token>
+                    <marker>
+                        <token skip="1">que</token>
+                    </marker>
+                    <token skip="-1" regexp="yes" inflected="yes">ser|semblar|parèixer|estar</token>
+                    <token>?</token>
+                </pattern>
+                <message>Si equival a "quina cosa", cal escriure <suggestion>què</suggestion>.</message>
+                <example correction="Què"><marker>Que</marker> us sembla això que ha passat?</example>
+            </rule>
         </rulegroup>
         <rulegroup id="QUE_AMB_ACCENT" name="que/què: cal accentuar">
             <rule>
