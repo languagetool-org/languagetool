@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.tools.ContextTools;
 
 import java.io.File;
@@ -101,8 +101,8 @@ class DatabaseHandler extends ResultHandler {
         final Rule rule = match.getRule();
         insertSt.setString(2, rule.getId());
         insertSt.setString(3, rule.getCategory().getName());
-        if (rule instanceof PatternRule) {
-          final PatternRule patternRule = (PatternRule) rule;
+        if (rule instanceof AbstractPatternRule) {
+          final AbstractPatternRule patternRule = (AbstractPatternRule) rule;
           insertSt.setString(4, patternRule.getSubId());
         } else {
           insertSt.setNull(4, Types.VARCHAR);

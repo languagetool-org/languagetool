@@ -23,7 +23,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.util.List;
 
@@ -93,8 +93,8 @@ public class RuleMatchAsXmlSerializer {
 
     for (RuleMatch match : ruleMatches) {
       String subId = "";
-      if (match.getRule() instanceof PatternRule) {
-        PatternRule pRule = (PatternRule) match.getRule();
+      if (match.getRule() instanceof AbstractPatternRule) {
+        AbstractPatternRule pRule = (AbstractPatternRule) match.getRule();
         if (pRule.getSubId() != null) {
           subId = " subId=\"" + escapeXMLForAPIOutput(pRule.getSubId()) + "\" ";
         }

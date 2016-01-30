@@ -20,7 +20,7 @@ package org.languagetool.dev.wikipedia.atom;
 
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.Language;
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -81,8 +81,8 @@ class MatchDatabase {
       prepSt.setString(1, StringUtils.abbreviate(ruleMatch.getTitle(), 255));
       prepSt.setString(2, ruleMatch.getLanguage().getShortName());
       prepSt.setString(3, ruleMatch.getRule().getId());
-      if (ruleMatch.getRule() instanceof PatternRule) {
-        prepSt.setString(4, ((PatternRule)ruleMatch.getRule()).getSubId());
+      if (ruleMatch.getRule() instanceof AbstractPatternRule) {
+        prepSt.setString(4, ((AbstractPatternRule)ruleMatch.getRule()).getSubId());
       } else {
         prepSt.setString(4, null);
       }

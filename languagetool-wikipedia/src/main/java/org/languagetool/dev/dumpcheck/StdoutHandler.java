@@ -20,7 +20,7 @@ package org.languagetool.dev.dumpcheck;
 
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.tools.ContextTools;
 
 import java.util.List;
@@ -46,8 +46,8 @@ class StdoutHandler extends ResultHandler {
       for (RuleMatch match : ruleMatches) {
         String output = i + ".) Line " + (match.getLine() + 1) + ", column "
                 + match.getColumn() + ", Rule ID: " + match.getRule().getId();
-        if (match.getRule() instanceof PatternRule) {
-          final PatternRule pRule = (PatternRule) match.getRule();
+        if (match.getRule() instanceof AbstractPatternRule) {
+          final AbstractPatternRule pRule = (AbstractPatternRule) match.getRule();
           output += "[" + pRule.getSubId() + "]";
         }
         System.out.println(output);
