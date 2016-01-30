@@ -62,7 +62,7 @@ import java.util.regex.Pattern;
  * normalizing text</a>.</p>
  * 
  * <p><b>Thread-safety:</b> this class is not thread safe. Create one instance per thread,
- * but create the language only once (e.g. {@code new English()}) and use it for all
+ * but create the language only once (e.g. {@code new AmericanEnglish()}) and use it for all
  * instances of JLanguageTool.</p>
  * 
  * @see MultiThreadedJLanguageTool
