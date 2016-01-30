@@ -16196,6 +16196,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example> ens diu què fer amb els ulls</example>
                 <example>Jo us diré què penso</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="QUE_AMB_ACCENT" name="que/què: cal accentuar">
+            <rule>
+                <pattern>
+                    <token>no</token>
+                    <token>sé</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Probablement cal accentuar.</message>
+                <suggestion>què</suggestion>
+                <example correction="què">No sé <marker>que</marker> passa.</example>
+                <example>no sé què</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="1">saber</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token regexp="yes">fer|dir</token>
+                    <token regexp="yes" inflected="yes">amb|de</token>
+                </pattern>
+                <message>Probablement cal accentuar.</message>
+                <suggestion>què</suggestion>
+                <example correction="què">No sabien <marker>que</marker> fer amb allò.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -16224,34 +16252,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si equival a "quina cosa", cal escriure <suggestion>què</suggestion>.</message>
                 <example correction="Què"><marker>Que</marker> us sembla això que ha passat?</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="QUE_AMB_ACCENT" name="que/què: cal accentuar">
-            <rule>
-                <pattern>
-                    <token>no</token>
-                    <token>sé</token>
-                    <marker>
-                        <token>que</token>
-                    </marker>
-                </pattern>
-                <message>Probablement cal accentuar.</message>
-                <suggestion>què</suggestion>
-                <example correction="què">No sé <marker>que</marker> passa.</example>
-                <example>no sé què</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes" skip="1">saber</token>
-                    <marker>
-                        <token>que</token>
-                    </marker>
-                    <token regexp="yes">fer|dir</token>
-                    <token regexp="yes" inflected="yes">amb|de</token>
-                </pattern>
-                <message>Probablement cal accentuar.</message>
-                <suggestion>què</suggestion>
-                <example correction="què">No sabien <marker>que</marker> fer amb allò.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FEU" name="feu/féu">
