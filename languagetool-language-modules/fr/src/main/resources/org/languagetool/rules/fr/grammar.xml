@@ -3298,6 +3298,14 @@ though, and has since been slightly modified)-->
         <example correction="Megadeth">J’aime beaucoup <marker>Megadeath</marker>.</example>
       </rule>
       <rule>
+        <pattern>
+          <token regexp="yes">A(?:rr?[eé]|[eé]rr?)o-?smith<exception>Aerosmith</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>Aerosmith</suggestion> s’il s’agit du groupe rock américain.</message>
+        <url>https://fr.wikipedia.org/wiki/Aerosmith</url>
+        <example correction="Aerosmith"><marker>Areosmith</marker> est un groupe de rock.</example>
+      </rule>
+      <rule>
         <antipattern>
           <token>Led</token>
           <token>Zeppelin</token>
@@ -3321,6 +3329,19 @@ though, and has since been slightly modified)-->
         <message>Écrivez <suggestion>Motörhead</suggestion> s’il s’agit du groupe heavy metal.</message>
         <url>https://fr.wikipedia.org/wiki/Mot%C3%B6rhead</url>
         <example correction="Motörhead"><marker>Motor-head</marker></example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>Lynyrd</token>
+          <token>Skynyrd</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">L[iy]nn?[yae]?rds?</token>
+          <token regexp="yes">Skynn?[yae]rds?</token>
+        </pattern>
+        <message>Écrivez <suggestion>Lynyrd Skynyrd</suggestion>.</message>
+        <url>https://fr.wikipedia.org/wiki/Lynyrd_Skynyrd</url>
+        <example correction="Lynyrd Skynyrd"><marker>Lynard Skynerd</marker> est un group de rock américain.</example>
       </rule>
       <rule>
         <antipattern>
@@ -3352,6 +3373,50 @@ though, and has since been slightly modified)-->
         <message>Écrivez <suggestion>Grateful Dead</suggestion> s’il s’agit du groupe rock.</message>
         <url>https://fr.wikipedia.org/wiki/Grateful_Dead</url>
         <example correction="Grateful Dead">Un disque des <marker>Grateful-dead</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Jeff(:rey)?</token>
+          <token regexp="yes">Lynn?|Lyne</token>
+        </pattern>
+        <message>Écrivez <suggestion>\1 Lynne</suggestion> s’il s’agit du musicien de rock britannique.</message>
+        <url>https://fr.wikipedia.org/wiki/Jeff_Lynne</url>
+        <example correction="Jeff Lynne"><marker>Jeff Lynn</marker> est un musicien de rock brittanique.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>John</token>
+          <token regexp="yes">[EA]nt?-?wh?ist?l?e?<exception>Entwistle</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>John Entwistle</suggestion> s’il s’agit du bassiste du groupe The Who.</message>
+        <url>https://fr.wikipedia.org/wiki/John_Entwisle</url>
+        <example correction="John Entwistle"><marker>John Entwhistle</marker> est né en 1944.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>Micky</token>
+          <token>Dolenz</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Micke?y</token>
+          <token regexp="yes">Doll?en[sz]</token>
+        </pattern>
+        <message>Écrivez <suggestion>Micky Dolenz</suggestion> s’il s’agit l’acteur, réalisateur, pproducteur, scénariste, musicien et compositeur américain.</message>
+        <url>https://fr.wikipedia.org/wiki/Micky_Dolenz</url>
+        <example correction="Micky Dolenz"><marker>Mickey Dolenz</marker> est né en 1945.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>Alison</token>
+          <token>Krauss</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">All?iss?on</token>
+          <token regexp="yes">[KC]rauss?</token>
+        </pattern>
+        <message>Écrivez <suggestion>Alison Krauss</suggestion> s’il s’agit de la chanteuse et violoniste américaine.</message>
+        <url>https://fr.wikipedia.org/wiki/Alison_Krauss</url>
+        <example correction="Alison Krauss"><marker>Allison Krauss</marker> est née en 1971.</example>
       </rule>
       <rule>
         <pattern>
