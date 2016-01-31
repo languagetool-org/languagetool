@@ -9119,6 +9119,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="GRACIES_A" name="gràcies això/gràcies a això">
+            <pattern>
+                <token regexp="yes">gràcies|mercès?</token>
+                <token postag="DD.*|PD.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>\1 a \2</suggestion>?</message>
+            <example correction="Gràcies a això"><marker>Gràcies això</marker> ho vam aconseguir.</example>
+            <example correction="Gràcies a eixa"><marker>Gràcies eixa</marker> gestió ho vam aconseguir.</example>
+        </rule>
         <rulegroup id="MB_AMB" name="*mb/amb">
             <rule>
                 <pattern>
