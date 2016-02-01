@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.rules.IncorrectExample;
 
 /**
  * Like {@link HunspellRule}, but does not offer suggestions for incorrect words
@@ -33,8 +34,16 @@ public class HunspellNoSuggestionRule extends HunspellRule {
 
   public static final String RULE_ID = "HUNSPELL_NO_SUGGEST_RULE";
 
-  public HunspellNoSuggestionRule(final ResourceBundle messages, final Language language) {
+  public HunspellNoSuggestionRule(ResourceBundle messages, Language language) {
     super(messages, language);
+  }
+
+  /**
+   * @since 3.3
+   */
+  public HunspellNoSuggestionRule(ResourceBundle messages, Language language, IncorrectExample incorrectExample, String correctedExample) {
+    super(messages, language);
+    addExamplePair(incorrectExample, correctedExample);
   }
 
   @Override
