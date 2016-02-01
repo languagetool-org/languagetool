@@ -54,11 +54,12 @@ public class WikipediaQuickCheck {
   private static final Pattern SECURE_WIKIPEDIA_URL_REGEX = Pattern.compile("https://secure\\.wikimedia\\.org/wikipedia/(..)/wiki/(.*)");
 
   private final File ngramDir;
-  
+  private final int maxSizeBytes;
+
   private List<String> disabledRuleIds = new ArrayList<>();
 
   public WikipediaQuickCheck() {
-    this.ngramDir = null;
+    this(null, Integer.MAX_VALUE);
   }
 
   /**
@@ -66,7 +67,17 @@ public class WikipediaQuickCheck {
    * @param ngramDir directory with sub directories like 'en', 'de' etc that contain '1grams' etc directories with ngram data (Lucene indexes)
    */
   public WikipediaQuickCheck(File ngramDir) {
+    this(ngramDir, Integer.MAX_VALUE);
+  }
+
+  /**
+   * @since 3.3
+   * @param ngramDir directory with sub directories like 'en', 'de' etc that contain '1grams' etc directories with ngram data (Lucene indexes)
+   * @param maxSizeBytes the maximum bytes of XML for the methods that take an URL, longer content will throw an exception
+   */
+  public WikipediaQuickCheck(File ngramDir, int maxSizeBytes) {
     this.ngramDir = ngramDir;
+    this.maxSizeBytes = maxSizeBytes;
   }
 
   public String getMediaWikiContent(URL wikipediaUrl) throws IOException {
@@ -116,6 +127,10 @@ public class WikipediaQuickCheck {
   public MarkupAwareWikipediaResult checkPage(URL url, ErrorMarker errorMarker) throws IOException, PageNotFoundException {
     validateWikipediaUrl(url);
     final String xml = getMediaWikiContent(url);
+    if (xml.length() > maxSizeBytes) {
+      throw new RuntimeException("Sorry, the content at " + url + " is too big - this process has been limited to " + maxSizeBytes +
+              " bytes, but the content is " + xml.length() + " bytes");
+    }
     final MediaWikiContent wikiContent = getRevisionContent(xml);
     final String content = wikiContent.getContent();
     if (content.trim().isEmpty()) {
