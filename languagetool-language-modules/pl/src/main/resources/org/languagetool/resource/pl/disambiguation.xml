@@ -1909,6 +1909,60 @@
         </rule>
     </rulegroup>
 
+    <rule id="moze_by" name="może bym ->">
+        <pattern>
+            <marker>
+                <token>może</token>
+                <token inflected="yes">by</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="qub" lemma="może"/><wd pos="qub" lemma="by"/></disambig>
+        <example type="ambiguous" inputform="może[może/qub,móc/verb:fin:sg:ter:imperf:nonrefl]"
+                 outputform="może[może/qub]">To <marker>może</marker> byś coś zrobił?</example>
+    </rule>
+
+    <rule id="by_moze" name="bym może -> qub">
+        <pattern>
+            <marker>
+                <token inflected="yes">by</token>
+                <token>może</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="qub" lemma="by"/><wd pos="qub" lemma="może"/></disambig>
+        <example type="ambiguous" inputform="może[może/qub,móc/verb:fin:sg:ter:imperf:nonrefl]"
+                 outputform="może[może/qub]">To byś <marker>może</marker> coś zrobił?</example>
+    </rule>
+
+    <rule id="by_ger_fin" name="po by nie ma formy finitywnej">
+        <pattern>
+            <token inflected="yes">by</token>
+            <marker>
+                <and>
+                    <token postag_regexp="yes" postag="(ger|subst|adj).*"/>
+                    <token postag_regexp="yes" postag="verb:fin.*"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="(ger|subst|adj).*"/>
+        <example type="ambiguous" inputform="nastanie[nastać/ger:sg:nom.acc:n2:perf:aff:nonrefl,nastać/ger:sg:nom.acc:n2:perf:aff:refl,nastać/verb:fin:sg:ter:perf:nonrefl]"
+                 outputform="nastanie[nastać/ger:sg:nom.acc:n2:perf:aff:nonrefl,nastać/ger:sg:nom.acc:n2:perf:aff:refl]">Wydawało się, sam Bóg chce, by <marker>nastanie</marker> nowego porządku poprzedziła zagłada starego.</example>
+    </rule>
+
+    <rule id="pot_ger_fin" name="po by nie ma formy finitywnej">
+        <pattern>
+            <token postag="verb:pot.*" postag_regexp="yes"/>
+            <marker>
+                <and>
+                    <token postag_regexp="yes" postag="(ger|subst|adj).*"/>
+                    <token postag_regexp="yes" postag="verb:fin.*"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="(ger|subst|adj).*"/>
+        <example type="ambiguous" inputform="nastanie[nastać/ger:sg:nom.acc:n2:perf:aff:nonrefl,nastać/ger:sg:nom.acc:n2:perf:aff:refl,nastać/verb:fin:sg:ter:perf:nonrefl]"
+                 outputform="nastanie[nastać/ger:sg:nom.acc:n2:perf:aff:nonrefl,nastać/ger:sg:nom.acc:n2:perf:aff:refl]">Byłoby <marker>nastanie</marker> nowego porządku zagładą starego?</example>
+    </rule>
+
     <rule id="albo_complex" name="albo w spójniku złożonym - spójnik na pewno">
         <pattern>
             <marker><token>albo</token></marker>
@@ -3057,13 +3111,15 @@
 
     <rule id="POTRZEBA_DAT_GEN" name="potrzeba ci gen">
         <pattern>
-            <token postag="pred">potrzeba</token>
+            <token postag="pred">potrzeba<exception scope="previous" postag="verb.*(pl|sg).*" postag_regexp="yes"/><exception scope="previous">się</exception></token>
             <token postag=".*dat.*" postag_regexp="yes"/>
             <token postag=".*gen.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="ci[ci/qub,ten/adj:pl:nom.voc:m1.p1:pos,ty/ppron12:sg:dat:m1.m2.m3.f.n1.n2:sec:nakc]"
         outputform="ci[ty/ppron12:sg:dat:m1.m2.m3.f.n1.n2:sec:nakc]">PAN: Ale potrzeba <marker>ci</marker> konia.</example>
+        <example type="untouched">W elektroenergetyce zachodzi potrzeba transformacji napięcia.</example>
+
     </rule>
 
     <rule id="BRYLA_ZLOTA" name="złota jako rzeczownik">
@@ -4903,6 +4959,19 @@
         <disambig action="filter" postag="adj.*"/>
     </rule>
 
+    <rule id="WYZYNA_UPPERCASE" name="Wyżyna to nie czasownik">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Wyżyna</token>
+            </marker>
+                <token regexp="yes">\p{Lu}\p{Ll}+</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="wyżynać"/></disambig>
+        <example type="untouched">Ząbek mu się wyżyna.</example>
+        <example type="ambiguous" inputform="Wyżyna[wyżyna/subst:sg:nom:f,wyżynać/verb:fin:sg:ter:imperf:refl.nonrefl]"
+                 outputform="Wyżyna[wyżyna/subst:sg:nom:f]"><marker>Wyżyna</marker> Dekan opada ku wschodowi i zachodowi krawędziowymi górami.</example>
+    </rule>
+
     <rule id="PELNIA_ZYCIA" name="pełnią życia/księżyca to rzeczownik">
         <pattern>
             <marker>
@@ -6148,7 +6217,8 @@
     <rule id="JAK_NIE_CONJ" name="jak w funkcji innej niż spójnik">
         <pattern>
             <marker><token>jak<exception scope="previous">,</exception><exception scope="previous" postag="SENT_START"/></token></marker>
-            <token><exception>gdyby</exception></token>
+            <token skip="-1"><exception>gdyby</exception><exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/></token>
+            <token postag="SENT_END"/>
         </pattern>
         <disambig action="remove"><wd pos="conj"/></disambig>
     </rule>
@@ -6266,28 +6336,29 @@
     <rulegroup id="BRATA_SUBST" name="„brata” itp. jako rzeczownik">
         <rule>
             <pattern>
-                <token inflected="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1">mieć<exception scope="current">miano</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/></token>
+                <token inflected="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1">mieć<exception scope="current">miano</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/><exception scope="next" postag="conj">jak</exception></token>
                 <marker>
-                    <token regexp="yes">bąka|brata|broni|burzy|czci|czerwieni|ciąży|gra|kluczy|lata|myśl[ią]|niewoli|piekł[oa]|powodzi|przysięga|soli|stanie|towarzyszy|troska|zieleni|zwierza|przyjaźni|gości|rzeką|złości|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości|złość</token>
+                    <token regexp="yes">bąka|brata|broni|burzy|czci|czerwieni|ciąży|gra|kluczy|lata|myśl[ią]|niewoli|piekł[oa]|potrzeba|powodzi|przysięga|soli|stanie|towarzyszy|troska|zieleni|zwierza|przyjaźni|gości|rzeką|złości|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości|złość</token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="subst.*"/>
         </rule>
         <rule>
         <pattern>
-            <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
+            <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/><exception scope="next" postag="conj">jak</exception></token>
             <marker>
-                <token regexp="yes">bąka|brata|broni|burzy|ciąży|czci|czerwieni|gra|kluczy|lata|myśl[ią]|niewoli|piekł[oa]|powodzi|przysięga|soli|stanie|troska|towarzyszy|zieleni|zwierza|przyjaźni|gości|rzeką|złości|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości|złość</token>
+                <token regexp="yes">bąka|brata|broni|burzy|ciąży|czci|czerwieni|gra|kluczy|lata|myśl[ią]|niewoli|piekł[oa]|potrzeba|powodzi|przysięga|soli|stanie|troska|towarzyszy|zieleni|zwierza|przyjaźni|gości|rzeką|złości|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości|złość</token>
             </marker>
         </pattern>
         <disambig action="filter" postag="subst.*"/>
             <example type="ambiguous" inputform="myśli[myśl/subst:pl:acc:f,myśl/subst:pl:gen:f,myśl/subst:pl:nom:f,myśl/subst:pl:voc:f,myśl/subst:sg:dat:f,myśl/subst:sg:gen:f,myśl/subst:sg:loc:f,myśl/subst:sg:voc:f,myśleć/verb:fin:sg:ter:imperf:nonrefl,myślić/verb:fin:sg:ter:imperf:nonrefl]"
                      outputform="myśli[myśl/subst:pl:acc:f,myśl/subst:pl:gen:f,myśl/subst:pl:nom:f,myśl/subst:pl:voc:f,myśl/subst:sg:dat:f,myśl/subst:sg:gen:f,myśl/subst:sg:loc:f,myśl/subst:sg:voc:f]">Norwid to jest poeta <marker>myśli</marker>.</example>
+            <example type="untouched">Czy słyszałeś jak mój syn gra na skrzypcach?</example>
         </rule>
         <rule>
             <pattern>
                 <marker>
-                    <token skip="-1" regexp="yes">bąka|brata|burzy|czci|czerwieni|gra|kluczy|lata|broni|ciąży|myśl[ią]|niewoli|piekł[oa]|powodzi|przysięga|soli|stanie|troska|towarzyszy|zieleni|zwierza|przyjaźni|gości|rzeką|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości|złość<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
+                    <token skip="-1" regexp="yes">bąka|brata|burzy|czci|czerwieni|gra|kluczy|lata|broni|ciąży|myśl[ią]|niewoli|piekł[oa]|potrzeba|powodzi|przysięga|soli|stanie|troska|towarzyszy|zieleni|zwierza|przyjaźni|gości|rzeką|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości|złość<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/><exception scope="next" postag="conj">jak</exception></token>
                 </marker>
                 <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"/><exception scope="current">może</exception></token>
             </pattern>
@@ -6547,17 +6618,6 @@
         <disambig action="filterall"></disambig>
     </rule>
 
-    <rule id="moze_by" name="może bym ->">
-        <pattern>
-            <marker>
-                <token>może</token>
-                <token inflected="yes">by</token>
-            </marker>
-        </pattern>
-        <disambig action="replace"><wd pos="qub" lemma="może"/><wd pos="qub" lemma="by"/></disambig>
-        <example type="ambiguous" inputform="może[może/qub,móc/verb:fin:sg:ter:imperf:nonrefl]"
-                 outputform="może[może/qub]">To <marker>może</marker> byś coś zrobił?</example>
-    </rule>
 
     <rule id="PREPARE_NOM_ACC_F" name="przygotowanie szukanie orzeczenia dla r. żeńskiego">
         <pattern>

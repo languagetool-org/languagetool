@@ -5367,6 +5367,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule>
 		</category>
 		<category name="Błędy składniowe" type="grammar">
+            <rule id="NIEPOPRAWNA_FORMA_CZASOWNIKA_PO_BY" name="Niepoprawna forma czasownika po „by”">
+                <pattern>
+                    <token inflected='yes'>by</token>
+                    <marker>
+                        <token postag='verb:fin.*' postag_regexp='yes'></token>
+                    </marker>
+                </pattern>
+                <message>W tym miejscu nie powinna występować taka forma czasownika. Czy chodziło o <suggestion><match no="2" postag_regexp="yes" postag="verb:.*" postag_replace="verb:inf.*"/></suggestion>?</message>
+                <short>Błąd gramatyczny</short>
+                <example correction='rozśmieszać'>Wykorzystywano kiedyś, właśnie by <marker>rozśmiesza</marker> publiczność</example>
+                <example>Wykorzystywano kiedyś, właśnie by rozśmieszać publiczność</example>
+            </rule>
             <rule id="NIEZGODNO_RZECZOWNIKW_RODZAJU_ESKIEGO" name="Niezgodność rzeczowników rodzaju żeńskiego">
                 <pattern>
                     <token postag='SENT_START|interp.*' postag_regexp='yes'></token>
