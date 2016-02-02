@@ -109,8 +109,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</phrase>
 				<phrase id="NIE_SPOJNIK_PRZECINKOWY_OLD">
                     <token>
-                        <exception postag="subst.*voc.*|pcon.*|SENT_END|PARA_END" postag_regexp="yes"/>
-                        <exception inflected="yes" regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|by|byleby|choć|chociaż|czyliż?|dopóki|gdzie|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|dopóty|póki|dlaczego|ponieważ|zanim|któryś?|jaki|co|kto|że|iż|jak|nawiasem|niestety|a|jeśli|jeżeli|gdyby|gdy|kiedym?|jeśliby|jeżeliby|żeby|aby|ażeby|iżby|wraz|zamiast|zarówno|szczególnie|zwłaszcza|następnie|aż|czy|(?:po)?mimo|skąd|dokąd|skoro|jakby</exception>
+                        <exception postag="subst.*voc.*|pcon.*|pant.*|SENT_END|PARA_END" postag_regexp="yes"/>
+                        <exception inflected="yes" regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|by|byleby|choć|chociaż|czyliż?|dopóki|gdzie|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|dopóty|póki|dlaczego|ponieważ|zanim|któryś?|jaki|co|kto|że|iż|jak|nawiasem|niestety|a|jeśli|jeżeli|gdyby|gdy|kiedym?|jeśliby|jeżeliby|żeby|aby|ażeby|iżby|wraz|zamiast|zarówno|szczególnie|zwłaszcza|następnie|aż|czy|(?:po)?mimo|skąd|dokąd|odkąd|skoro|jakby</exception>
                         <exception postag="prep:.*" postag_regexp="yes"/>
                         <exception postag="comp:comma">nim</exception>
                     </token>
@@ -1344,6 +1344,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     <marker><token skip="-1" postag="verb:inf.*" postag_regexp="yes"><exception scope="next" regexp="yes">&interp;</exception></token></marker>
                                     <token inflected="yes" postag_regexp="yes" postag="verb:.*" regexp="yes">móc|musieć|potrafić|pozwalać|zdołać|umieć|ośmielić|powinien|gotów</token>
                                 </antipattern>
+                                <antipattern>
+                                    <token regexp="yes">powinna|powinien</token>
+                                    <marker><token regexp="yes">by[mś]</token></marker>
+                                </antipattern>
+                                <antipattern>
+                                    <token regexp="yes">powinn[ei]</token>
+                                    <marker><token regexp="yes">byś(my|cie)</token></marker>
+                                </antipattern>
 								<pattern>
 										<marker>
 												<token negate="yes" regexp="yes">&interp;|tak|chyba|gdzie|może|cóż|.*kolwiek|próżno|długo|kogo</token>
@@ -1369,6 +1377,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>Cały tydzień zastanawiali się, kogo by z nią zaprosić.</example>
                                 <example>Nie wiem, do czego by ją przyrównać, chyba do bogini.</example>
                                 <example correction="starczyło, by">Pieniędzy ledwo mu <marker>starczyło by</marker> kupić chleb i mleko.</example>
+                                <example>Powiadam wam, iż dla tej właśnie przyczyny powinni byście wierzyć.</example>
                                 <!-- błąd ortograficzny, ale na to jest inna reguła -->
                                 <example>I mnie się zdaje, że należało by strzec się każdego i wszystkiego.</example>
 						</rule>
@@ -2156,7 +2165,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<token postag="SENT_START"></token>
 								<token postag=".*voc.*" postag_regexp="yes" skip="-1"><exception postag=".*nom.*|conj|comp|pred|verb.*|adv.*|.*[pm]3" postag_regexp="yes" scope="current"></exception><exception regexp="yes">kogo|coście|Tacie</exception><exception regexp="yes" scope="next">[,-–—!\.]|mi</exception></token>
 								<marker>
-										<token><exception regexp="yes" scope="current">[,-–—!\.]</exception><exception postag=".*voc.*" postag_regexp="yes"/></token>
+										<token><exception regexp="yes" scope="current">[,-–—!\.…]</exception><exception postag=".*voc.*" postag_regexp="yes"/></token>
 								</marker>
 						</pattern>
 						<message>Prawdopodobnie brak przecinka po rzeczowniku w wołaczu. Powinno być: <suggestion>, \3</suggestion>.</message>
@@ -2168,6 +2177,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Tacie się to nie spodoba.</example>
                         <example>Anno Domini MCMXXI, 1922</example>
                         <example>Dajno mi ją, braciszku.</example>
+                        <example>Matko Boska… święty Janie, patronie… u złodzieja służę!</example>
 				</rule>
 				<rule id="JAK_I" name="Brak przecinka przed „jak i/również”">
 						<pattern>
@@ -3065,6 +3075,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>jednak</token>
                     </marker>
                 </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>jednak</token>
+                        <token>,</token>
+                    </marker>
+                    <unify><feature id="number"/><feature id="gender"/>
+                        <feature id="case"><type id="voc"/></feature>
+                        <token postag_regexp="yes" postag="adj.*"/>
+                        <token postag_regexp="yes" postag="subst.*"/>
+                    </unify>
+                        <token>,</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>jednak</token>
@@ -3077,6 +3099,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="jednak jedyna">Nie jest to <marker>jednak, jedyna</marker> dostępna strategia.</example>
                 <example>Jednak, co pisałem, miałem rację.</example>
                 <example>A jednak, jednak.</example>
+                <example>Przestrzegam cię jednak, mój synu, że nadzieja czegoś dobrego warta często więcej, niż lada lichota w ręku.</example>
             </rule>
             <rule id="W_TRAKCIE_PRZECINEK_KTOREGO" name="Zbędny przecinek w wyrażeniu „w trakcie, którego”">
                 <pattern>
@@ -10190,7 +10213,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern>
 										<token>ze<exception scope="previous" spacebefore="no" regexp="yes">&apost;</exception></token>
-										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|trz.+|dw.+|Lwow(?:a|em)|mną|mnie|snu|łzami|łzą|łba|czter.+<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"/><exception postag="verb.*" postag_regexp="yes"/></token>
+										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|trz.+|dw.+|Lwow(?:a|em)|mną|mnie|snu|łzami|łzą|łba|czter.+|czcią|drżeniem|mszy|łbem|ćwierć|lwem<exception regexp="yes">[\&quot;„\*…]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"/><exception postag="verb.*" postag_regexp="yes"/></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -10201,12 +10224,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Żegnaliśmy go ze łzami.</example>
                                 <example>To trzydzieści miast, ze Lwowem włącznie.</example>
 								<example correction="z Łodzi">Ludwik ma kochankę <marker>ze Łodzi</marker>.</example>
+                                <example>Podniósł się z fotelu i ze czcią zebrał porozdzierane kartki.</example>
 						</rule>
 						<rule>
 								<pattern>
 										<token>ze<exception scope="previous" spacebefore="no" regexp="yes">&apost;</exception></token>
-										<token regexp="yes">[\&quot;„]</token>
-										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|Lwow(?:a|em)|mną|mnie|snu|łzami|łzą|łba<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"></exception></token>
+										<token regexp="yes">[\&quot;„\*…]</token>
+										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|Lwow(?:a|em)|mną|mnie|snu|łzami|łzą|łba|czcią|drżeniem|mszy|łbem|ćwierć|lwem<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"></exception></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2\3</suggestion>.</message>
 								<short>Błąd fonetyczny</short>

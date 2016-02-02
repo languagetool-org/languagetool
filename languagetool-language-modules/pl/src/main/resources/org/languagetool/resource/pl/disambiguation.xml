@@ -3668,14 +3668,30 @@
         <pattern>
             <unify> <feature id="case"/>
                 <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*|burk" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>
-                <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
+                <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact|siebie):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
             </unify>
         </pattern>
         <disambig action="unify"/>        
         <example type="untouched">Tu mamy piękny przykład.</example>
-        <example type="untouched">Łaciny używamy na co dzień.</example>        
-        <!-- example type="ambiguous" inputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f]" outputform="mamy[mama/subst:sg:gen:f]">Idę do <marker>mamy</marker>.</example>  -->
+        <example type="untouched">Łaciny używamy na co dzień.</example>
     </rule>
+        <rule>
+            <pattern>
+                <unify> <feature id="case"/>
+                    <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*|burk" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>
+                    <unify-ignore>
+                        <token regexp="yes">[\&quot;„\*]</token>
+                    </unify-ignore>
+                    <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact|siebie):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
+                </unify>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="untouched">Tu mamy piękny przykład.</example>
+            <example type="untouched">Łaciny używamy na co dzień.</example>
+            <example type="ambiguous" inputform="ze[z/prep:acc:wok,z/prep:gen:wok,z/prep:inst:wok]" outputform="ze[z/prep:acc:wok,z/prep:gen:wok]">Niebawem oni jedni pozostali przy życiu <marker>ze</marker> *Świętego Ferdynanda*.</example>
+            <!-- example type="ambiguous" inputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f]" outputform="mamy[mama/subst:sg:gen:f]">Idę do <marker>mamy</marker>.</example>  -->
+        </rule>
+
         <rule>
             <pattern>
                 <unify> <feature id="case"/>
@@ -6680,6 +6696,18 @@
             <disambig action="filter" postag="(subst|ppron[1-3]|adj):.*:gen.*"></disambig>
             <example type="ambiguous" inputform="chłopaka[chłopak/subst:sg:acc:m1,chłopak/subst:sg:gen:m1]"
                      outputform="chłopaka[chłopak/subst:sg:gen:m1]">A przekornego <marker>chłopaka</marker> nie było.</example>
+        </rule>
+        <rule id="GEN_NIE_MA_BYLO" name='Dopełniacz przed nie ma / nie było'>
+            <pattern>
+                <marker>
+                    <token postag=".*gen.*" postag_regexp="yes"/>
+                    <token postag="qub">nie</token>
+                    <token postag_regexp="yes" postag="verb.*" regexp="yes">ma|było</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+            <example type="ambiguous" inputform="Broni[Bronia/subst:pl:gen:f,Bronia/subst:sg:dat:f,Bronia/subst:sg:gen:f,Bronia/subst:sg:loc:f,broń/subst:pl:gen:f,broń/subst:sg:dat:f,broń/subst:sg:gen:f,broń/subst:sg:loc:f,broń/subst:sg:voc:f]"
+                     outputform="Broni[Bronia/subst:pl:gen:f,Bronia/subst:sg:gen:f,broń/subst:pl:gen:f,broń/subst:sg:gen:f]"><marker>Broni</marker> nie było.</example>
         </rule>
         <rule> <!-- SKŁADNIA NEGACJI: nie + imps + subst acc|gen -->
             <pattern>
