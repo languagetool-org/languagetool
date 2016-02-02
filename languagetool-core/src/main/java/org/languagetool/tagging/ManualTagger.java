@@ -64,7 +64,7 @@ public class ManualTagger implements WordTagger {
         if (terms == null) {
           terms = new ArrayList<>();
         }
-        terms.add(new TaggedWord(parts[1], parts[2]));
+        terms.add(new TaggedWord(parts[1], parts[2].trim()));
         map.put(parts[0], terms);
       }
     }
