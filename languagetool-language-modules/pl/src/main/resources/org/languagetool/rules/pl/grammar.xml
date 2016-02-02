@@ -5283,6 +5283,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 				</rulegroup>
 				<rule type="style" id="BOWIEM_ZAS" name="„Bowiem”, „ale”, „zaś” na początku zdania">
+                        <antipattern>
+                            <marker>
+                            <token>ale</token>
+                            </marker>
+                            <token>nie</token>
+                            <token postag="SENT_END"/>
+                        </antipattern>
 						<pattern>
 								<token postag="SENT_START"></token>
 								<marker>
@@ -5295,6 +5302,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Ludwik bowiem chciał być wicepremierem.</example>
 						<example correction=""><marker>Bowiem</marker> Ludwik chciał być wicepremierem.</example>
                         <example>Lecz się sam!</example>
+                        <example>Ale nie.</example>
 				</rule>
 				<rule type="style" id="BOWIEM_ZAS_PRZECINEK" name="„bowiem” i „zaś” na początku zdania podrzędnego">
 						<pattern>
