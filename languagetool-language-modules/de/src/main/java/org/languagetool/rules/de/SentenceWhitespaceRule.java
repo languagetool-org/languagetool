@@ -21,6 +21,7 @@ package org.languagetool.rules.de;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 
@@ -45,6 +46,8 @@ public class SentenceWhitespaceRule extends org.languagetool.rules.SentenceWhite
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
     setLocQualityIssueType(ITSIssueType.Whitespace);
+    addExamplePair(Example.wrong("Hier steht ein Satz.<marker>Das</marker> ist ein weiterer Satz."),
+                   Example.fixed("Hier steht ein Satz.<marker> Das</marker> ist ein weiterer Satz."));
   }
 
   @Override
