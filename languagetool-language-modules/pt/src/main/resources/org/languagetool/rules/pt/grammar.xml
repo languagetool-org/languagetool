@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.136 2016-02-01 19:10:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.137 2016-02-03 20:25:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -210,7 +210,7 @@ $Id: grammar.xml,v 1.136 2016-02-01 19:10:00 marcoagpinto Exp $
         <marker>
             <token>um</token>
         </marker>
-		<token postag="NCFS000"><exception postag="NCFS000" negate_pos="yes"></exception></token>
+		<token postag="NCFS000"></token>
      </pattern>
      <message>Erro de concordância um/uma.</message>
      <suggestion>uma</suggestion>
@@ -225,46 +225,15 @@ $Id: grammar.xml,v 1.136 2016-02-01 19:10:00 marcoagpinto Exp $
         <marker>
             <token>uma</token>
         </marker>
-		<token postag="NCMS000"><exception postag="NCMS000" negate_pos="yes"></exception></token>
+		<token postag="NCMS000"></token>
      </pattern>
      <message>Erro de concordância uma/um.</message>
      <suggestion>um</suggestion>
      <example correction="um">Quero <marker>uma</marker> carro novo.</example>
     </rule> 		
 	
-
-    <!-- Concordance gender - UM > UMA +ADJ-->
-    <rule id="UM_UMA_ADJ" name="Erro de concordância UM-UMA +ADJ">
-      <pattern>
-        <marker>
-            <token>um</token>
-        </marker>
-		<token postag="AQ0FS0"></token>
-		<token postag="NCFS000"><exception postag="NCFS000" negate_pos="yes"></exception></token>
-     </pattern>
-     <message>Erro de concordância um/uma.</message>
-     <suggestion>uma</suggestion>
-     <example correction="uma">Quero <marker>um</marker> bonita foto dela.</example>
-    </rule> 	
-
 	
-
-    <!-- Concordance gender - UMA > UM +ADJ-->
-    <rule id="UMA_UM_ADJ" name="Erro de concordância UMA-UM +ADJ">
-      <pattern>
-        <marker>
-            <token>uma</token>
-        </marker>
-		<token postag="AQ0MS0"></token>
-		<token postag="NCMS000"><exception postag="NCMS000" negate_pos="yes"></exception></token>
-     </pattern>
-     <message>Erro de concordância uma/um.</message>
-     <suggestion>um</suggestion>
-     <example correction="um">Quero <marker>uma</marker> bonito carro novo.</example>
-    </rule> 			
-
-
-
+	
     <!-- CAPTURAR IMAGENS captar imagens -->
     <rule id="CAPTURAR_IMAGENS" name="captar imagens">
       <pattern>
