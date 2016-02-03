@@ -29,7 +29,7 @@ if [ "$result" == "FAILED" ]; then
     sleep $SLEEP
     result=$(isOkay)
     if [ "$result" == "FAILED" ]; then
-        echo "FAILED, restarting server $SERVER"
+        echo "`date` SERVER FAILED, restarting server $SERVER"
         /home/languagetool/restart-api-server$SERVER.sh
     fi
 fi
