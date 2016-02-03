@@ -29,6 +29,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 
@@ -121,6 +122,10 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
       throws IOException {
     super.setCategory(new Category("Z) Concordances en grups nominals"));
     setLocQualityIssueType(ITSIssueType.Grammar);
+    addExamplePair(Example.wrong("Anàlisis <marker>clínic</marker>."),
+        Example.fixed("Anàlisis <marker>clíniques</marker>."));
+    addExamplePair(Example.wrong("Tinc dues taules <marker>verds</marker>."),
+        Example.fixed("Tinc dues taules <marker>verdes</marker>."));
   }
 
   @Override

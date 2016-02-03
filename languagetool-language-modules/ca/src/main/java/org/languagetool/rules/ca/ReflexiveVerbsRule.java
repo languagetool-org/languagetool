@@ -31,6 +31,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
@@ -168,6 +169,10 @@ public class ReflexiveVerbsRule extends CatalanRule {
   public ReflexiveVerbsRule(ResourceBundle messages) throws IOException {
     super.setCategory(new Category("Verbs"));
     setLocQualityIssueType(ITSIssueType.Grammar);
+    addExamplePair(Example.wrong("El xiquet s'ha <marker>caigut</marker> de la bicicleta."),
+        Example.fixed("El xiquet ha <marker>caigut</marker> de la bicicleta."));
+    addExamplePair(Example.wrong("<marker>Calleu</marker>-vos."),
+        Example.fixed("<marker>Calleu</marker>."));
   }
 
   
