@@ -412,6 +412,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>Inaczej wprawdzie wyobrażałem sobie był niegdyś małżeństwo „jednego z nas” z Martą.</example>
                                 <example>Nie sposób było w takiej ciasnocie zachować wszystkie przepisy przyzwoitego urządzenia domu.</example>
                                 <example correction="">— Właśnie przejechał; <marker>pędził jak gdyby go diabli ścigali.</marker></example>
+                                <example>Rzeka Loara opływała klasztor od strony północy.</example>
 						</rule>
 						<!--powinien + exception: powinien był-->
 						<rule>
@@ -1713,14 +1714,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>Rozwiązanie	to co do zasady	 nie jest przez rząd kwestionowane.</example>
 						</rule>
 						<rule>
-								<pattern>
+                                <antipattern>
+                                    <marker>
+                                        <token>wszystko</token>
+                                        <token>co</token>
+                                    </marker>
+                                    <token>do</token>
+                                    <token regexp="yes">joty|grosza|litery</token>
+                                </antipattern>
+                                <antipattern>
+                                    <token>przede</token>
+                                    <marker>
+                                        <token>wszystkim</token>
+                                    </marker>
+                                </antipattern>
+                                <pattern>
+                                    <marker>
 										<token inflected="yes" regexp="yes">coś|wszystko</token>
 										<token inflected="yes">co</token>
+                                    </marker>
 								</pattern>
 								<message>Prawdopodobny brak przecinka. Powinno być: <suggestion>\1, \2</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
 								<example>To coś, czego nie rozumie.</example>
 								<example correction="coś, czego">To <marker>coś czego</marker> nie rozumie.</example>
+                                <example>Ale dajcie mi przede wszystkim co zjeść.</example>
+                                <example>Chłop opowiadał wszystko co do joty.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -2088,12 +2107,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example correction="powody, z">Istnieją dwa <marker>powody z</marker> uwagi na które może on tak myśleć.</example>
 						</rule>
 						<rule>
+                                <antipattern>
+                                    <token>jak</token>
+                                    <unify>
+                                        <feature id="case"><type id="nom"/></feature>
+                                        <feature id="gender"/><feature id="number"/>
+                                        <token postag="subst.*" postag_regexp="yes"/>
+                                        <marker>
+                                            <token inflected="yes">jaki</token>
+                                        </marker>
+                                    </unify>
+                                </antipattern>
 								<pattern>
 										<token postag="prep.*" postag_regexp="yes"><exception postag="qub|conj|comp|adv.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes" scope="previous">&interp;</exception></token>
 										<marker>
 												<token postag="(subst|adj|ppas).*" postag_regexp="yes"><exception regexp="yes">&interp;|mało|rzadko</exception><exception postag="conj|comp|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;" postag_regexp="yes"></exception></token>
 												<token inflected="yes" regexp="yes">który|jaki</token>
 										</marker>
+                                        <token><exception postag="SENT_END"/></token>
 								</pattern>
 								<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\2, \3</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -2101,6 +2132,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Mało który spełnia warunki formalne.</example>
 								<example>To młotek, za pomocą którego Przemysław zamęczał kotka.</example>
 								<example correction="zamieszaniu, jakie">Poinformowaliśmy o <marker>zamieszaniu jakie</marker> powstało.</example>
+                                <example>A słowa do tego jakie?</example>
+                                <example>Jak Wernyhora jaki będę gadał jeszcze długo dość.</example>
 						</rule>
                         <rule type="grammar">
                             <pattern>
@@ -5408,7 +5441,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>W tym miejscu nie powinna występować taka forma czasownika. Czy chodziło o <suggestion><match no="2" postag_regexp="yes" postag="verb:.*" postag_replace="verb:inf.*"/></suggestion>?</message>
                 <short>Błąd gramatyczny</short>
                 <example correction='rozśmieszać'>Wykorzystywano kiedyś, właśnie by <marker>rozśmiesza</marker> publiczność</example>
-                <example>Wykorzystywano kiedyś, właśnie by rozśmieszać publiczność</example>
+                <example>Wykorzystywano kiedyś, właśnie by rozśmieszać publiczność.</example>
+                <example>Wolę, abyś je pan przyniósł sam za karę.</example>
             </rule>
             <rule id="NIEZGODNO_RZECZOWNIKW_RODZAJU_ESKIEGO" name="Niezgodność rzeczowników rodzaju żeńskiego">
                 <pattern>

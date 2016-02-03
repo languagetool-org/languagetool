@@ -1938,12 +1938,12 @@
             <token inflected="yes">by</token>
             <marker>
                 <and>
-                    <token postag_regexp="yes" postag="(ger|subst|adj).*"/>
+                    <token postag_regexp="yes" postag="(ger|subst|adj|ppron|verb:praet).*"/>
                     <token postag_regexp="yes" postag="verb:fin.*"/>
                 </and>
             </marker>
         </pattern>
-        <disambig action="filter" postag="(ger|subst|adj).*"/>
+        <disambig action="filter" postag="(ger|subst|adj|ppron|verb:praet).*"/>
         <example type="ambiguous" inputform="nastanie[nastać/ger:sg:nom.acc:n2:perf:aff:nonrefl,nastać/ger:sg:nom.acc:n2:perf:aff:refl,nastać/verb:fin:sg:ter:perf:nonrefl]"
                  outputform="nastanie[nastać/ger:sg:nom.acc:n2:perf:aff:nonrefl,nastać/ger:sg:nom.acc:n2:perf:aff:refl]">Wydawało się, sam Bóg chce, by <marker>nastanie</marker> nowego porządku poprzedziła zagłada starego.</example>
     </rule>
@@ -4683,6 +4683,13 @@
             <token>rzecz</token>
         </pattern>
         <disambig action="remove"><wd lemma="rzec"/></disambig>
+    </rule>
+
+    <rule id="RZEKA" name="rzeka to prawie nigdy rzekać">
+        <pattern>
+            <token>rzeka</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="rzekać"/></disambig>
     </rule>
 
     <rule id="SPOKOJ" name="spokój to nie spokoić">
