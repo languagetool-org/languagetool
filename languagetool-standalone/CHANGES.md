@@ -26,7 +26,7 @@
   * added and improved a large number of rules, largely improved disambiguation
 
 #### Portuguese
-  * added new rules
+  * added and improved rules
     
 #### Russian
   * added new rules
