@@ -668,7 +668,7 @@
     <rule id="OD_DAWNA" name="od dawna">
         <pattern>
             <token>od</token>
-            <token min="0" max="1">jak</token>
+            <token min="0" max="1" regexp="yes">[tj]ak</token>
             <marker><token regexp="yes">dawna|niedawna|nowa</token></marker>
         </pattern>
         <disambig postag="adjp"/>
@@ -678,9 +678,9 @@
 
     <rule id="OD_JAK_DAWNA" name="od jak dawna">
         <pattern>
-            <token postag="prep:gen:nwok">od</token>
             <marker>
-                <token postag="adv">jak</token>
+                <token postag="prep:gen:nwok">od</token>
+                <token postag="adv.*" postag_regexp="yes" regexp="yes">[tj]ak</token>
             </marker>
             <token>dawna</token>
         </pattern>
@@ -2898,6 +2898,16 @@
         <disambig postag="subst:sg:gen:n2"></disambig>
     </rule>
 
+    <rule id="BRAK_GEN" name="brak z dopełniaczem">
+        <pattern>
+            <token>brak</token>
+            <marker>
+                <token postag_regexp="yes" postag=".*gen.*"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rule id="DZISIAJ_GOSCI" name="dzisiaj gości">
         <pattern>
             <marker>
@@ -3630,6 +3640,20 @@
         <example type="ambiguous" inputform="kapitana[kapitan/subst:sg:acc:m1,kapitan/subst:sg:gen:m1,kapitana/subst:sg:nom:f]"
                  outputform="kapitana[kapitan/subst:sg:gen:m1]">Czy jest żoną <marker>kapitana</marker>?</example>
     </rule>
+
+    <rule id="KAPITANA_OKRETU" name="kapitana to kapitan">
+        <pattern>
+            <marker>
+                <token postag="subst:sg.*m1" postag_regexp="yes" inflected="yes">kapitan</token>
+                <token regexp="yes" postag="subst:sg.*gen.*" postag_regexp="yes">okrętu|reprezentacji|drużyny|żeglugi|statku|kutra|policji|milicji</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">W porcie stoi kapitana.</example>
+        <example type="ambiguous" inputform="kapitana[kapitan/subst:sg:acc:m1,kapitan/subst:sg:gen:m1,kapitana/subst:sg:nom:f]"
+                 outputform="kapitana[kapitan/subst:sg:acc:m1,kapitan/subst:sg:gen:m1]">Czy zastałem <marker>kapitana</marker> okrętu?</example>
+    </rule>
+
 
 
     <rule id="PRZYRODA_SINGULARE_TANTUM" name="Przyrody to raczej singulare">

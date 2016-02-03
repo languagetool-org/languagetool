@@ -622,6 +622,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token>się</token>
                             <token>spać</token>
                         </antipattern>
+                        <antipattern>
+                            <token>spać</token>
+                            <token>się</token>
+                            <token regexp="yes">kłaść|położyć</token>
+                        </antipattern>
                         <pattern>
                             <token postag='verb:inf.*' postag_regexp='yes'><exception regexp="yes">móc|umieć|uczyć|wzdragać|silić|ośmielić|(:?za)?przestać|zacząć|zaczynać|zgadzać|zgodzić|nauczyć|pomóc|iść|musieć|pozwolić|s?próbować|(:?za)?przestawać|[bd]ać|dawać|usiłować|zdołać|zapomnieć|(:?po)?starać|wyjść|postanowić|pozwalać|kazać|chcieć|potrafić|lubić|odważ[ay]ć</exception></token>
                             <token>się</token>
@@ -631,6 +636,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <short>Błąd interpunkcyjny</short>
                         <example correction="pozbyć, się wyeliminować|pozbyć się, wyeliminować">Muszę <marker>pozbyć się wyeliminować</marker> pryszcze.</example>
                         <example>Muszę pozbyć się, wyeliminować pryszcze.</example>
+                        <example>Błagała o noc, aby spać się położyć.</example>
                     </rule>
                 </rulegroup>
                 <rule id="MULTISPOJNIKI" name="Brak przecinka przed „a więc”, „a mianowicie”...">
@@ -6580,6 +6586,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <token>temu</token>
                             </antipattern>
                             <antipattern>
+                                <marker>
+                                    <token>lat</token>
+                                </marker>
+                                <token>temu</token>
+                                <token>około</token>
+                                <token postag="num:pl:gen.*" postag_regexp="yes"></token>
+                            </antipattern>
+                            <antipattern>
                                 <token regexp="yes">(?:\d+-)?\d*[234]</token>
                                 <token>miliony</token>
                                 <marker>
@@ -6623,7 +6637,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>To zwierzę pojawia się 2–3,8 miliona lat temu.</example>
                                 <example>2 miliony lat temu zjadłem kanapkę.</example>
                                 <example>Ok. 1 mld lat temu powstały złoża kanapek.</example>
-                                <example>To znalezisko jest datowane na około 409 milionów lat temu, a może 250-200 milionów	lat temu.</example>
+                                <example>To znalezisko jest datowane na około 409 milionów lat temu, a może 250-200 milionów lat temu.</example>
+                                <example>Narodziłem się w Anglii, skąd wyjechałem lat temu około pięciu.</example>
 						</rule>
                         <rule>
                             <antipattern>
@@ -6669,7 +6684,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </rule>
                         <rule>
                             <pattern>
-                                <token postag="prep.*" postag_regexp="yes"><exception postag="prep:gen"/><exception>a</exception></token>
+                                <token postag="prep.*" postag_regexp="yes"><exception postag="prep:gen"/><exception>a</exception><exception>temu</exception></token>
                                 <marker><token>około</token>
                                 <token postag="num:pl:gen.*" postag_regexp="yes"/>
                                 </marker>
@@ -6680,6 +6695,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <example correction="">Pociąg spóźnił się o <marker>około dwóch</marker> godzin.</example>
                             <example>Pociąg spóźnił się o około dwie godziny.</example>
                             <example>Noworodki obojej płci liczono w całym królestwie, a około pięćdziesięciu w stolicy.</example>
+                            <example>Narodziłem się w Anglii, skąd wyjechałem lat temu około pięciu.</example>
                         </rule>
 				</rulegroup>
 				<rule id="WIEKSZY_JAK" name="„większy/lepszy jak” (większy/lepszy od/niż)">
@@ -10933,6 +10949,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Polecam ta metodę jak najbardziej, musisz koniecznie spróbować.</example>
 				</rule>
 				<rule id="NA_OKOLICZNOSC" name="„na okoliczność” (w sprawie)">
+                        <antipattern>
+                            <marker>
+                                <token>okoliczność</token>
+                            </marker>
+                                <token>,</token>
+                                <token regexp="yes">że|iż</token>
+                        </antipattern>
 						<pattern>
 								<token>na</token>
 								<token>okoliczność</token>
@@ -10941,6 +10964,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<short>Wyraz modny lub nadużywany</short>
 						<example>Zbigniew przesłuchiwał go w sprawie znieważenia prezydenta.</example>
 						<example correction="w sprawie|w związku z">Zbigniew przesłuchiwał go <marker>na okoliczność</marker> znieważenia prezydenta.</example>
+                        <example>Zwróciła uwagę narzeczonego na okoliczność, że przecie to sami Wielosławscy.</example>
 				</rule>
 				<rule id="NA_ODCINKU" name="„na odcinku” (w zakresie)">
 						<pattern case_sensitive="yes">
@@ -12554,6 +12578,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Do słoika pakujemy 12 ryb, w tym nie mniej niż 7 śledzi.</example>
 				</rule>
 				<rule id="OD_TAK" name="„od tak” (ot, tak)">
+                        <antipattern>
+                            <marker>
+                                <token>od</token>
+                                <token>tak</token>
+                            </marker>
+                                <token>już</token>
+                                <token>dawna</token>
+                        </antipattern>
 						<pattern>
 								<marker>
 										<token>od</token>
@@ -12566,6 +12598,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="ot, tak">Zrobiłem to <marker>od tak</marker>.</example>
 						<example>Od tak zwanych mikrobów chroni nas produkt firmy chińskiej.</example>
                         <example>Przebywają przecież z sobą od tak dawna i każda z nim rozmowa nie przestaje być największą przyjemnością.</example>
+                        <example>Benedykt od tak już dawna nie myślał.</example>
 				</rule>
 				<rulegroup id="POKARZ" name="„pokarz” (pokaż)">
 				<rule>
@@ -13987,13 +14020,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 				<rule id="CO_TYGODNIOWY" name="„co tygodniowy” itd. (cotygodniowy)">
 						<pattern>
-								<token>co</token>
+								<token><exception scope="previous">za</exception>co</token>
 								<token inflected="yes" regexp="yes">tygodniowy|miesięczny|dzienny|godzinny|miesięcznie|dziennie|tygodniowo</token>
 						</pattern>
 						<message>Prawdopodobny błąd ortograficzny: ten wyraz piszemy łącznie, tj. <suggestion>\1\2</suggestion>.</message>
 						<short>Błąd ortograficzny</short>
 						<example correction="cotygodniowo">Andrzej będzie umawiał się z Renatą przeciwko Przemysławowi <marker>co tygodniowo</marker>.</example>
 						<example>Andrzej będzie umawiał się z Renatą przeciwko Jarosławowi <marker>cotygodniowo</marker>.</example>
+                        <example>Stołownicy dostają tylko obiad, za co miesięcznie płacą trzydzieści franków.</example>
 				</rule>
 				<rule id="W_SROD" name="„w śród” (wśród)">
 						<pattern>
@@ -14838,7 +14872,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<pattern>
 								<token regexp="yes" skip="-1">równo|zarówno<exception scope="next">jak</exception></token>
 								<marker>
-										<token>jaki</token>
+										<token><exception scope="previous" regexp="yes">w|na</exception>jaki</token>
 								</marker>
 						</pattern>
 						<message>To wyrażenie ma poprawną postać: zarówno... <suggestion>jak i</suggestion>.</message>
@@ -14846,6 +14880,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="jak i">Sam program PHARE spotkał się z poważną krytyką i negatywną oceną za równo ze strony europejskiego Trybunału Obrachunkowego <marker>jaki</marker> dwukrotnie polskiej NIK.</example>
 						<example>Sam program PHARE spotkał się z poważną krytyką i negatywną oceną zarówno ze strony europejskiego Trybunału Obrachunkowego, jak i dwukrotnie polskiej NIK.</example>
 						<example>Sam program PHARE zarówno ze strony europejskiego Trybunału Obrachunkowego, jak i sądu ludowego, jaki powołał premier.</example>
+                        <example>Zawiejska, mętnej barwy blondynka z wodnistą cerą i ładnymi jak niebieskie szkiełka oczyma, była jedną z tych istot, co do których trudno zrozumieć zarówno w jaki sposób, mimo zupełnej tępoty umysłu, przedzierają się z klasy do klasy, jak i po co zmuszane są do tego syzyfowego dla nich trudu.</example>
 				</rule>
 				<rule id="PO_PRZEZ" name="„po przez” (poprzez)">
 						<pattern case_sensitive="yes">
@@ -16442,6 +16477,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="szacunku|szacunków">To koszmarny brak <marker>szacunki</marker>!</example>
                 <example>To koszmarny brak szacunku!</example>
                 <example>Naszej płci nie brak ani rozumu, ani energii, więc pozwól mi działać…</example>
+                <example>Są niewdzięczni względem Boga, jeśli brak możności zastępują dobrą chęcią.</example>
             </rule>
             <rule id="AT_HOC" name="„at hoc” (ad hoc)">
                 <pattern>
@@ -17945,7 +17981,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </antipattern>
                     <antipattern>
                         <token>od</token>
-                        <token>jak</token>
+                        <token regexp="yes">[tj]ak</token>
                         <marker>
                             <token>dawna</token>
                         </marker>
