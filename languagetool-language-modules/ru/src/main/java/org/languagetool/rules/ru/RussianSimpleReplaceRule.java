@@ -20,6 +20,7 @@ package org.languagetool.rules.ru;
 
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
+import org.languagetool.rules.Example;
 
 import java.io.IOException;
 import java.util.List;
@@ -40,7 +41,8 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   private static final Map<String, List<String>> wrongWords = load("/ru/replace.txt");
   private static final Locale RU_LOCALE = new Locale("ru");
-
+  
+  
   @Override
   protected Map<String, List<String>> getWrongWords() {
     return wrongWords;
@@ -48,6 +50,10 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   public RussianSimpleReplaceRule(final ResourceBundle messages) throws IOException {
     super(messages);
+  
+  addExamplePair(Example.wrong("<marker>Экспрессо</marker> – крепкий кофе, приготовленный из хорошо обжаренных и тонко помолотых кофейных зёрен."),
+                 Example.fixed("<marker>Эспрессо</marker> – крепкий кофе, приготовленный из хорошо обжаренных и тонко помолотых кофейных зёрен."));
+  
   }
 
   @Override
