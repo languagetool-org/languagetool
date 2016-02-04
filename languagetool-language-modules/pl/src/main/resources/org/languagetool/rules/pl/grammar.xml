@@ -5471,6 +5471,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule>
 		</category>
 		<category name="Błędy składniowe" type="grammar">
+            <rule id="NIEWLASCIA_KONCOWKA_PRZYPADKU_ORZECZNIKA" name="Niewłaściwa końcówka przypadku orzecznika">
+                <antipattern>
+                    <token regexp="yes">jest(:?e[mś])?</token>
+                    <marker>
+                    <token postag='subst:sg:nom:m1'/>
+                    </marker>
+                    <token postag="adv.*|qub" postag_regexp="yes"/>
+                    <token postag="adj:sg:nom.voc:m1.m2.m3.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>jesteś</token>
+                    <marker>
+                        <token>pan</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token postag='SENT_START|interp:comma' postag_regexp="yes"></token>
+                    <token regexp="yes">jest(:?e[mś])?</token>
+                    <marker>
+                        <token postag='subst:sg:nom:m1' regexp="yes">\p{Ll}+<exception postag="adj:sg:nom.voc:m1.m2.m3.*" postag_regexp="yes"/><exception>pan</exception><exception>powód</exception></token>
+                    </marker>
+                    <token><exception regexp="yes">\p{Lu}\p{Ll}+</exception><exception postag='subst:sg:inst:m1|adj:sg:(:?nom|inst).*|ppas:sg.*nom.*|prep.*' postag_regexp='yes'></exception></token>
+                </pattern>
+                <message>Ten wyraz powinien być prawdopodobnie w narzędniku: <suggestion><match no="3" postag="subst:sg:inst:m1"/></suggestion>.</message>
+                <example correction='artystą'>Jest <marker>artysta</marker>, a więc człowiekiem utalentowanym.</example>
+                <example>Jest artystą, a więc człowiekiem utalentowanym.</example>
+                <example>Jest pan pierwszym człowiekiem, którego usiłuję uwieść.</example>
+                <example>Jest śmiały z przyrody.</example>
+                <example>Jest pan zbyt rozdrażniony.</example>
+                <example>Jest lekarz za darmochę, więc do niego kto żyw.</example>
+            </rule>
             <rule id="NIEPOPRAWNA_FORMA_CZASOWNIKA_PO_BY" name="Niepoprawna forma czasownika po „by”">
                 <pattern>
                     <token inflected='yes'>by</token>
@@ -8344,7 +8375,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<pattern>
 										<token inflected="yes" regexp="yes">grać|odgrywać|odegrać</token>
 										<marker>
-												<token postag="(adj|ppas|pact):.*acc.*" postag_regexp="yes"></token>
+												<token postag="(adj|ppas|pact):.*(acc|nom).*" postag_regexp="yes"></token>
 												<token>znaczenie</token>
 										</marker>
 								</pattern>

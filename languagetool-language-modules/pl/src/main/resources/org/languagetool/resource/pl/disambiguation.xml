@@ -4449,6 +4449,13 @@
         <disambig action="remove"><wd lemma="dziecki"/></disambig>
     </rule>
 
+    <rule id="FARB" name="farb to nie farbić">
+        <pattern>
+            <token>farb</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="farbić"/></disambig>
+    </rule>
+
     <rule id="FURMANI" name="furmani to nie furmanić">
         <pattern>
             <token>furmani</token>
@@ -5034,6 +5041,13 @@
             <token>zdrów</token>
         </pattern>
         <disambig action="remove"><wd lemma="zdrowić"/></disambig>
+    </rule>
+
+    <rule id="zima" name="zima to nie zimać">
+        <pattern>
+            <token>zima</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="zimać"/></disambig>
     </rule>
 
     <rule id="zjadla" name="zjadła to nie zjadły">
@@ -7408,7 +7422,7 @@
                             <exception>mnie</exception>
                             <exception>nasza</exception>
                             </token>
-                        <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes">
+                        <token postag="(:?subst|adj).*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes">
                             <exception postag="verb:winien:.*" postag_regexp="yes"/>
                             <exception regexp="yes">[tj]ak[ia]</exception>
                         </token>
@@ -7418,7 +7432,7 @@
             <disambig action="unify"/>
             <example type="ambiguous" inputform="Stanowi[Stan/subst:sg:dat:m1,stan/subst:sg:dat:m3,stanowić/verb:fin:sg:ter:imperf:refl.nonrefl,stanowy/adj:pl:nom.voc:m1.p1:pos]" outputform="Stanowi[stanowić/verb:fin:sg:ter:imperf:refl.nonrefl]"><marker>Stanowi</marker> ona treść ich wyobraźni ma charakter intersubiektywny i postrzegalny także przez innych.</example>
             <example type="ambiguous" inputform="on[on/adj:sg:acc:m3:pos,on/adj:sg:nom.voc:m1.m2.m3:pos,on/ppron3:sg:nom:m1.m2.m3:ter:akc.nakc:praep.npraep]"
-                     outputform="on[on/ppron3:sg:nom:m1.m2.m3:ter:akc.nakc:praep.npraep]">Mówi <marker>on</marker> dyrdymały.</example>
+                     outputform="on[on/adj:sg:nom.voc:m1.m2.m3:pos,on/ppron3:sg:nom:m1.m2.m3:ter:akc.nakc:praep.npraep]">Mówi <marker>on</marker> dyrdymały.</example>
             <example type="untouched">A to był kostur pastuszy.</example>
             <example type="untouched">Trzeba było odbyć tak zwaną straż broni.</example>
             <example type="untouched">Ukazało się w r. 1670 to pierwsze wydanie Myśli, tzw.* wydanie Port-Royalu*.</example>
