@@ -460,9 +460,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     <marker><token>sposób</token></marker>
                                     <token>jest</token>
                                 </antipattern>
-								<pattern>
+                                <antipattern>
+                                    <token skip="-1">żal</token>
+                                    <marker>
+                                        <token>zrobiło</token>
+                                    </marker>
+                                </antipattern>
+                                <pattern>
 										<token postag="pred" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current" regexp="yes">może|widać|dość|wolno</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
-										<token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"/><exception scope="current">może</exception></token>
+										<token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"/><exception scope="current">może</exception></token>
 										<token regexp="yes">&interp_conj;</token>
 								</pattern>
 								<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym czasownikiem („\1”) a drugim („\2”).</message>
@@ -481,6 +487,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>Wiadomo ci jest, że Skyresh Bolgolam jada robaki?</example>
                                 <example>Nie sposób jest być eleganckim.</example>
                                 <example>Nawet z postawy jego żołnierzy nie można tego było wywnioskować.</example>
+                                <example>W domu jakiś rosły mężczyzna (był to Anglik świeżo osiadły w willi) wziął go ostrożnie w rękę.</example>
+                                <example>Był tak wzruszony, że pani Wąsowskiej żal go się zrobiło.</example>
 						</rule>
                         <rule>              <!-- jak/co widać na początku zdania -->
                             <antipattern>
@@ -607,7 +615,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token>spać</token>
                         </antipattern>
                     <pattern>
-                        <token postag='verb:inf.*' postag_regexp='yes'><exception regexp="yes">móc|umieć|(:?za)?przestać|s?kończyć|zacząć|zaczynać|nauczyć|pomóc|pomagać|iść|pójść|musieć|pozwolić|s?próbować|(:?za)?przestawać|dać|dawać|usiłować|zdołać|zapomnieć|starać|wyjść|postanowić|pozwalać|kazać|(:?ze)?chcieć|potrafić|lubić|mieć</exception></token>
+                        <token postag='verb:inf.*' postag_regexp='yes'><exception regexp="yes">zabronić|móc|umieć|(:?za)?przestać|s?kończyć|zacząć|zaczynać|nauczyć|pomóc|pomagać|iść|pójść|musieć|pozwolić|s?próbować|(:?za)?przestawać|dać|dawać|usiłować|zdołać|zapomnieć|starać|wyjść|postanowić|pozwalać|kazać|(:?ze)?chcieć|potrafić|lubić|mieć</exception></token>
                         <token postag='verb:inf.*' postag_regexp='yes'></token>
                     </pattern>
                     <message>Dwa bezokoliczniki nierozdzielone przecinkiem. Czy chodziło o <suggestion><match no="1"/>, <match no="2"/></suggestion>?</message>
@@ -628,7 +636,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token regexp="yes">kłaść|położyć</token>
                         </antipattern>
                         <pattern>
-                            <token postag='verb:inf.*' postag_regexp='yes'><exception regexp="yes">móc|umieć|uczyć|wzdragać|silić|ośmielić|(:?za)?przestać|zacząć|zaczynać|zgadzać|zgodzić|nauczyć|pomóc|iść|musieć|pozwolić|s?próbować|(:?za)?przestawać|[bd]ać|dawać|usiłować|zdołać|zapomnieć|(:?po)?starać|wyjść|postanowić|pozwalać|kazać|chcieć|potrafić|lubić|odważ[ay]ć</exception></token>
+                            <token postag='verb:inf.*' postag_regexp='yes'><exception regexp="yes">zabronić|móc|umieć|uczyć|wzdragać|silić|ośmielić|(:?za)?przestać|zacząć|zaczynać|zgadzać|zgodzić|nauczyć|pomóc|iść|musieć|pozwolić|s?próbować|(:?za)?przestawać|[bd]ać|dawać|usiłować|zdołać|zapomnieć|(:?po)?starać|wyjść|postanowić|pozwalać|kazać|chcieć|potrafić|lubić|odważ[ay]ć</exception></token>
                             <token>się</token>
                             <token postag='verb:inf.*' postag_regexp='yes'></token>
                         </pattern>
@@ -2204,7 +2212,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<token postag="SENT_START"></token>
 								<token postag=".*voc.*" postag_regexp="yes" skip="-1"><exception postag=".*nom.*|conj|comp|pred|verb.*|adv.*|.*[pm]3" postag_regexp="yes" scope="current"></exception><exception regexp="yes">kogo|coście|Tacie</exception><exception regexp="yes" scope="next">[,-–—!\.]|mi</exception></token>
 								<marker>
-										<token><exception regexp="yes" scope="current">[,-–—!\.…]</exception><exception postag=".*voc.*" postag_regexp="yes"/></token>
+										<token><exception regexp="yes" scope="current">[,-–—!\.…]</exception><exception postag=".*voc.*|.*sg.*gen.*" postag_regexp="yes"/>
+                                        <exception postag="UNKNOWN" regexp="yes">\p{Lu}\p{Ll}+</exception></token>
 								</marker>
 						</pattern>
 						<message>Prawdopodobnie brak przecinka po rzeczowniku w wołaczu. Powinno być: <suggestion>, \3</suggestion>.</message>
@@ -2217,6 +2226,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Anno Domini MCMXXI, 1922</example>
                         <example>Dajno mi ją, braciszku.</example>
                         <example>Matko Boska… święty Janie, patronie… u złodzieja służę!</example>
+                        <example>Władco dżungli, powiedz mi teraz: kto jest władcą dżungli?</example>
+                        <example>Panno Kaźmiro!</example>
 				</rule>
 				<rule id="JAK_I" name="Brak przecinka przed „jak i/również”">
 						<pattern>
@@ -2493,6 +2504,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">i|et</token>
                         <marker><token>contra</token></marker>
                     </antipattern>
+                    <antipattern>
+                        <token>ani</token>
+                        <marker>
+                            <token postag='prep.*' postag_regexp='yes'/>
+                            <token>,</token>
+                        </marker>
+                        <token>ani</token>
+                    </antipattern>
                     <pattern>
                         <token postag='prep.*' postag_regexp='yes'><exception postag='adv'/><exception regexp="yes">temu|wyjąwszy</exception></token>
                         <token>,</token>
@@ -2505,6 +2524,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Będzin (Bendzin), Grodno, Kalisz, Koło, Lipno…</example>
                         <example>To chyba pod tym jednym względem, że zaprawdę!</example>
                         <example>Naględziwszy się dosyć pro et contra, zakonkludowano...</example>
+                        <example>Temu, który mówi: „Nie jestem ani za, ani przeciw” — trzeba odpowiedzieć… </example>
                     </rule>
                     <rule>
                         <antipattern>
@@ -2825,6 +2845,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token>się</token>
                             <token regexp="yes">[,\.]</token>
                         </antipattern>
+                        <antipattern>
+                            <token>,</token>
+                            <token>ma</token>
+                            <token>się</token>
+                            <token>rozumieć</token>
+                            <token regexp="yes">[,\.]</token>
+                        </antipattern>
+                        <antipattern>
+                            <token>,</token>
+                            <token>rozumie</token>
+                            <token>się</token>
+                            <token regexp="yes">[,\.]</token>
+                        </antipattern>
 						<rule>
 								<pattern>
 										<token postag="SENT_START"></token>
@@ -2868,7 +2901,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <rule>
 								<pattern>
 										<token postag="SENT_START"></token>
-										<token postag="subst:sg:nom.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="current">nic|co|jak|to</exception><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy|ten|to</exception><exception postag="verb:(praet:|pot:|fin:|)sg.*ter.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"></exception></token>
+										<token postag="subst:sg:nom.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="current">nic|co|jak|to</exception><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" scope="next" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy|ten|to</exception><exception postag="verb:(praet:|pot:|fin:|)sg.*ter.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"></exception></token>
 										<marker>
 												<token>,</token>
 												<token>to</token>
@@ -2883,6 +2916,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>Hałas był wielki, to nie ulega wątpliwości.</example>
                                 <example>Pokonany, to znaczy przede wszystkim — upokorzony.</example>
                                 <example>Armia to państwo w państwie, to jedno z przekleństw naszych czasów.</example>
+                                <example>Młody jestem, to prawda…</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -10195,7 +10229,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern>
 										<token>we</token>
-										<token negate="yes" regexp="yes">w|[wf].+|Lwowie|środ(ę|y)|czwart(ek|ki)|dw.+|tr.+|mnie|znaki|drzwi(?:ach)?|krwi|śnie|dnie|mg(le|łach|ły)|łbie|czterech|czwórkę|czworo|are|mszy|łzach|lwowski.+<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"></exception></token>
+										<token negate="yes" regexp="yes">w|[wf].+|Lwowie|środ(ę|y)|czwart(ek|ki)|dw.+|tr.+|mnie|znaki|drzwi(?:ach)?|krwi|śnie|dnie|mg(le|łach|ł[yę])|łbie|czterech|czwórkę|czworo|are|mszy|łzach|ł[bz]y|lwowski.+<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"></exception></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>w \2</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -10990,11 +11024,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 </marker>
                             </unify>
                         </antipattern>
-						<pattern>
+                        <antipattern>
+                            <marker>
+                                <token inflected="yes" postag="pact.*" postag_regexp="yes">wieść</token>
+                            </marker>
+                                <token regexp="yes">aż|wprost</token>
+                                <token regexp="yes">do|na</token>
+                        </antipattern>
+                        <antipattern>
+                            <marker>
+                                <token inflected="yes" postag="pact.*" postag_regexp="yes">wieść</token>
+                            </marker>
+                            <token>za</token>
+                            <token>uzdę</token>
+                        </antipattern>
+                        <pattern>
 								<marker>
 										<token inflected="yes" postag="pact.*" postag_regexp="yes">wieść</token>
 								</marker>
-								<token><exception regexp="yes">do|ku</exception><exception postag="prep:acc:.*" postag_regexp="yes" inflected="yes">w</exception></token>
+								<token><exception regexp="yes">do|ku|psy|charty|stadko|ród|na</exception><exception postag="prep:acc:.*" postag_regexp="yes" inflected="yes">w</exception></token>
 						</pattern>
 						<message>Ten rusycyzm jest błędnie używany po polsku w znaczeniu: <suggestion><match no="1" postag="(.*):refl.nonrefl" postag_replace="$1:nonrefl">przodować</match></suggestion>,
 							<suggestion><match no="1" regexp_match="(?iu)wiodąc" regexp_replace="główn"/></suggestion>,
@@ -11009,6 +11057,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Dla zorientowania się w szlakach współczesnego Kościoła wiodących w przyszłość warto przeczytać ten artykuł.</example>
                         <example correction="Przodujące|Główne|Przewodnie|Zasadnicze|Najlepsze"><marker>Wiodące</marker> warszawskie kluby sportowe.</example>
                         <example>Ścieżka wiodąca od tego domku do lasku bambusowego wyłożona była krowami.</example>
+                        <example>Kończył się wielkimi ściekami wiodącymi aż do rzeki.</example>
 				</rule>
 				<rule id="POWIEM_TAK" name="„powiem tak”">
 						<pattern case_sensitive="yes">

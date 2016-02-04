@@ -389,6 +389,18 @@
     </rule>
  -->
 
+    <rule name="litera u/a/i" id="litera_u">
+        <pattern>
+            <token inflected="yes">litera</token>
+            <marker>
+            <token case_sensitive="yes" regexp="yes">[AUI]</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="subst:sg:nom:n2"/></disambig>
+        <example type="ambiguous" inputform="U[u/prep:gen]"
+                 outputform="U[U/subst:sg:nom:n2]">Utworzył coś w rodzaju ogromnej litery <marker>U</marker>, brzuścem dolnym zwrócone do lądu.</example>
+    </rule>
+
     <rule name="tym" id="tym">
         <pattern>
             <marker>
@@ -1948,6 +1960,21 @@
                  outputform="nastanie[nastać/ger:sg:nom.acc:n2:perf:aff:nonrefl,nastać/ger:sg:nom.acc:n2:perf:aff:refl]">Wydawało się, sam Bóg chce, by <marker>nastanie</marker> nowego porządku poprzedziła zagłada starego.</example>
     </rule>
 
+    <rule id="nim_imperf" name="po nim nie ma formy niedokonanej">
+        <pattern>
+            <token regexp="yes">(:?za)?nim</token>
+            <marker>
+                <and>
+                    <token postag_regexp="yes" postag="(ger|subst|adj|ppron|verb.*[:\.]perf.*).*"/>
+                    <token postag_regexp="yes" postag="verb:.*imperf.*"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="(ger|subst|adj|ppron|verb.*[:\.]perf.*).*"/>
+        <example type="ambiguous" inputform="je[jeść/verb:fin:sg:ter:imperf:refl.nonrefl,on/ppron3:pl:acc:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:npraep,on/ppron3:sg:acc:n1.n2:ter:akc.nakc:npraep]"
+                 outputform="je[on/ppron3:pl:acc:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:npraep,on/ppron3:sg:acc:n1.n2:ter:akc.nakc:npraep]">Świeć oczom moim, nim <marker>je</marker> bielmo gorąco pożądanej śmierci przysłoni!</example>
+    </rule>
+
     <rule id="pot_ger_fin" name="po by nie ma formy finitywnej">
         <pattern>
             <token postag="verb:pot.*" postag_regexp="yes"/>
@@ -2113,6 +2140,29 @@
         <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
                  outputform="bądź[bądź/conj]">Dojadę tam <marker>bądź</marker> rowerem bądź hulajnogą.</example>
     </rule>
+
+    <rule name="Bądź i lub jako spójnik w konstrukcji „bądź z x, bądź z y”" id="badz_koordynacja_prep">
+        <pattern>
+            <marker><token regexp="yes">bądź|lub</token></marker>
+            <unify>
+                <feature id="case"><type id="acc"/><type id="inst"/><type id="gen"/><type id="dat"/><type id="loc"/><type id="nom"/></feature>
+                <token postag="prep.*" postag_regexp="yes"/>
+                <token postag="(?:adj|pact|ppas|subst|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst|ger).*"/></token>
+                <unify-ignore>
+                    <token min="0" max="1">,</token>
+                    <token regexp="yes">bądź|lub</token>
+                </unify-ignore>
+                <token postag="prep.*" postag_regexp="yes"/>
+                <token postag="(?:adj|pact|ppas|subs|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst|ger).*"/></token>
+            </unify>
+        </pattern>
+        <disambig action="filter" postag="conj"/>
+        <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
+                 outputform="bądź[bądź/conj]">Dojadę tam <marker>bądź</marker> z Warszawy, bądź z Pcimia.</example>
+        <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
+                 outputform="bądź[bądź/conj]">Dojadę tam <marker>bądź</marker> z Pcimia bądź z Warszawy.</example>
+    </rule>
+
 
     <rule name="bądź i lub jako spójnik między liczbami" id="badz_num">
         <pattern>
@@ -2418,6 +2468,26 @@
                  outputform="niewielki[niewielki/adj:sg:nom.voc:m1.m2.m3:pos]">Był to <marker>niewielki</marker> elektromagnes.</example>
     </rule>
 
+    <rule name="był to..." id="byl_to_poadjp">
+        <pattern>
+            <unify>
+                <feature id="gender"/><feature id="number"/>
+                <token postag_regexp="yes" inflected="yes" postag="verb:praet.*">być</token>
+                <unify-ignore>
+                    <token>to</token>
+                    <token postag="prep.*" postag_regexp="yes"></token>
+                    <token postag="adjp"/>
+                </unify-ignore>
+                <token postag=".*nom[\.:].*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="untouched">Był to czasami wyjątkowo uciążliwy dureń.</example>
+        <example type="ambiguous" inputform="niewielki[niewielki/adj:sg:acc:m3:pos,niewielki/adj:sg:nom.voc:m1.m2.m3:pos]"
+                 outputform="niewielki[niewielki/adj:sg:nom.voc:m1.m2.m3:pos]">Był to od dawna <marker>niewielki</marker> elektromagnes.</example>
+    </rule>
+
+
     <rule name="to jako predykatyw" id="to_pred">
         <pattern>
                 <token postag="subst.*nom.*" postag_regexp="yes"><exception regexp="yes">to|jaki</exception><exception scope="previous" postag="prep.*" postag_regexp="yes"/></token>
@@ -2473,7 +2543,7 @@
     <rule name="uniesiona + inst > ppas" id="uniesiona_ppas_inst">
         <pattern>
             <marker>
-                <token postag="ppas:sg:nom.voc:f:perf:aff" regexp="yes">uniesiona|ośmielona|wzruszona|zdziwiona|znużona|przerażona|wyczerpana|zajęta</token>
+                <token postag="ppas:sg:nom.voc:f:perf:aff" regexp="yes">uniesiona|ośmielona|wzruszona|zdziwiona|znużona|przerażona|wyczerpana|zajęta|przeżarta|przejęta|opanowana|rozjuszona|uzbrojona|podrażniona|zmęczona|zgorszona|zalana</token>
                 <token postag_regexp="yes" postag="subst:sg:inst.*"/>
             </marker>
         </pattern>
@@ -2921,7 +2991,7 @@
     <rule id="STARA_ADJ" name="stara to przymiotnik przed rzeczownikiem r. ż.">
         <pattern>
             <token postag="adj:sg:nom.voc:f:pos">stara</token>
-            <token postag="subst:sg:nom:f|adj:sg:nom.voc:f.*" postag_regexp="yes"/>
+            <token postag="subst:sg:(:?nom|voc):f|adj:sg:nom.voc:f.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -2938,6 +3008,14 @@
         <example type="untouched">Nie chcesz, to sobie tutaj babiej!</example>
         <example type="ambiguous" inputform="Babiej[babi/adj:sg:dat:f:pos,babi/adj:sg:gen:f:pos,babi/adj:sg:loc:f:pos,babieć/verb:impt:sg:sec:imperf:nonrefl]"
                  outputform="Babiej[babi/adj:sg:gen:f:pos]">Okolice <marker>Babiej</marker> Góry</example>
+    </rule>
+
+    <rule id="moj_boze" name="mój Boże -> vocativus">
+        <pattern>
+            <token>mój</token>
+            <token>Boże</token>
+        </pattern>
+        <disambig action="replace"><wd pos="adj:sg:nom.voc:m1.m2.m3:pos"/><wd pos="subst:sg:voc:m1" lemma="Bóg"/></disambig>
     </rule>
 
     <rule id="OKAZYWAC_UCZUC" name="okazywać + uczuć -> ger">
@@ -4408,7 +4486,7 @@
 
     <rule id="JESIENI" name="jesieni to nie jesienić">
         <pattern>
-            <token>jesieni</token>
+            <token regexp="yes">jesie(:?ni|ń)</token>
         </pattern>
         <disambig action="remove"><wd lemma="jesienić"/></disambig>
     </rule>
@@ -4482,6 +4560,13 @@
             <token>maj</token>
         </pattern>
         <disambig action="remove"><wd lemma="maić"/></disambig>
+    </rule>
+
+    <rule id="MGLA" name="mgła to nie mgły">
+        <pattern>
+            <token regexp="yes">mgł[ay]</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="mgły"/></disambig>
     </rule>
 
     <rule id="MILI" name="mili to nie milić">
@@ -4900,6 +4985,14 @@
         </pattern>
         <disambig action="remove"><wd lemma="wisnąć"/></disambig>
     </rule>
+
+    <rule id="WLADA" name="włada to nie włady">
+        <pattern>
+            <token>włada</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="włady"/></disambig>
+    </rule>
+
 
     <rule id="WOLNIEJ" name="wolniej to nie wolnieć">
         <pattern>
@@ -6733,7 +6826,7 @@
                 <marker>
                     <token postag=".*gen.*" postag_regexp="yes"/>
                     <token postag="qub">nie</token>
-                    <token postag_regexp="yes" postag="verb.*" regexp="yes">ma|było</token>
+                    <token postag_regexp="yes" postag="verb.*" regexp="yes">ma(:?ją)?|było</token>
                 </marker>
             </pattern>
             <disambig action="filterall"/>
@@ -6771,6 +6864,21 @@
         </rule>
 
     </rulegroup>
+
+    <rule id="INF_INF_SUBST" name="urządzić/puścić + (inf/subst) > subst">
+        <pattern>
+            <token regexp="yes">urządzić|puścić|dojrzeć|wyrestaurować|stworzyć|wykopać</token>
+            <marker>
+            <and>
+                <token postag_regexp="yes" postag="verb:inf.*"/>
+                <token postag_regexp="yes" postag="subst.*"/>
+            </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="subst.*"/>
+        <example type="ambiguous" inputform="wieść[wieścić/verb:impt:sg:sec:imperf:refl.nonrefl,wieść/subst:sg:acc:f,wieść/subst:sg:nom:f,wieść/verb:inf:imperf:refl.nonrefl]"
+        outputform="wieść[wieść/subst:sg:acc:f,wieść/subst:sg:nom:f]">— A gdyby puścić <marker>wieść</marker>, że to Watyniusz kazał podpalić miasto?</example>
+    </rule>
 
     <rulegroup name="dopełnienia w bierniku" id="potencjalne_dopelnienie">
         <rule> <!-- verb: pl + subst: sg -->
@@ -6975,7 +7083,27 @@
     </rulegroup>
 
 
+    <rule id="DAT_SIE_ZDAWALO" name="celownik + się zdawało, że">
+        <pattern>
+            <marker>
+                <token postag="subst:.*dat.*" postag_regexp="yes"/>
+            </marker>
+            <token>się</token>
+            <token regexp="yes">zda(:?je|wało)</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
 
+    <rule id="DAT_ZDAWALO_SIE" name="celownik + zdawało się, że">
+        <pattern>
+            <marker>
+                <token postag="subst:.*dat.*" postag_regexp="yes"/>
+            </marker>
+            <token regexp="yes">zda(:?je|wało)</token>
+            <token>się</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
 
     <!-- now not that greedy :) -->
     <rulegroup name="unifikacja przymiotnika z rzeczownikiem" id="unify_adj_subst">
@@ -7822,6 +7950,20 @@
                      outputform="zaniedbany[zaniedbać/ppas:sg:nom.voc:m1.m2.m3:perf:aff]">On był <marker>zaniedbany</marker> przez rodziców.</example>
             <example type="untouched">On był niewinną ofiarą.</example>
         </rule>
+        <rule>
+            <pattern>
+            <unify><feature id="number"/>
+            <marker>
+                <token postag="adj.*nom.*" postag_regexp="yes"/>
+                <token inflected="yes" postag_regexp="yes" postag="verb.*(pri|sec).*">być</token>
+            </marker>
+            </unify>
+                <token postag="interp:comma|SENT_END" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="ambiguous" inputform="Młody[młody/adj:sg:acc:m3:pos,młody/adj:sg:nom.voc:m1.m2.m3:pos,młody/subst:sg:nom:m1,młody/subst:sg:voc:m1]"
+                     outputform="Młody[młody/adj:sg:nom.voc:m1.m2.m3:pos]"><marker>Młody</marker> jestem, to prawda…</example>
+        </rule>
     </rulegroup>
 
     <rule name="rzeczowniki z dywizem" id="unify_noun_hyphen">
@@ -8630,9 +8772,11 @@
             <marker>
                 <token>to</token>
             </marker>
+                <token><exception postag_regexp="yes" postag="verb:praet:sg:n1.n2:ter.*"/></token>
         </pattern>
         <disambig postag="pred"/>
         <example type="untouched">To jest problem.</example>
+        <example type="untouched">Będzie to znaczyło podciąć zło przy samym korzeniu.</example>
         <example type="ambiguous" inputform="to[to/subst:sg:acc:n2]"
                  outputform="to[to/pred]" >Jest <marker>to</marker> problem.</example>
     </rule>
