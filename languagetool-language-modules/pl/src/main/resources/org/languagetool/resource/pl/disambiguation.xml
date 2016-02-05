@@ -3475,6 +3475,16 @@
                  outputform="niespodziewanie[niespodziewanie/adv:pos]">W lipcu 1940, po <marker>niespodziewanie</marker> łatwym zwycięstwie nad Francją...</example>
     </rule>
 
+    <rule id="wynikac_z" name="wynikać + z => genetivus">
+        <pattern>
+            <token inflected="yes">wynikać</token>
+            <marker>
+                <token inflected="yes">z</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="prep:gen.*"/>
+    </rule>
+
     <rulegroup name="prep + czasownik -> ~ czasownik" id="prep_verb">
         <!--  przyimki zawsze z tym samym przypadkiem --> 
         <rule>
@@ -3763,6 +3773,29 @@
             -->
         </pattern>
         <disambig action="filterall"></disambig>
+    </rule>
+
+    <rule id="NEW_YORK" name="New York">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>New</token>
+            </marker>
+            <token>York</token>
+        </pattern>
+        <disambig postag="burk"/>
+    </rule>
+
+    <rule id="PREP_NEW_YORK" name="do New York">
+        <pattern case_sensitive="yes">
+        <unify> <feature id="case"/>
+            <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*|burk" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>
+            <unify-ignore>
+                <token>New</token>
+            </unify-ignore>
+            <token>York</token>
+        </unify>
+        </pattern>
+        <disambig action="unify"/>
     </rule>
 
     <rulegroup name="Przyimek z rzeczownikiem" id="PREP_SUBST">
@@ -4965,6 +4998,13 @@
         <disambig action="remove"><wd lemma="wartać"/></disambig>
     </rule>
 
+    <rule id="WASZE" name="wasze to nie waszeć">
+        <pattern>
+            <token inflected="yes">wasze</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="wasze"/></disambig>
+    </rule>
+
     <rule id="WEGLI" name="węgli to nie węglić">
         <pattern>
             <token>węgli</token>
@@ -5690,7 +5730,7 @@
     <rule id="pora_subst" name="pora na => rzeczownik">
         <pattern>
             <marker><token>pora</token></marker>
-            <token regexp="yes">na|roku</token>
+            <token regexp="yes">na|roku|dnia</token>
         </pattern>
         <disambig action="remove"><wd lemma="porać"/></disambig>
         <example type="ambiguous" inputform="Pora[por/subst:sg:acc:m2,por/subst:sg:gen:m2,por/subst:sg:gen:m3,pora/pred,pora/subst:sg:nom:f,porać/verb:fin:sg:ter:imperf:refl]"
@@ -5706,6 +5746,19 @@
         <example type="ambiguous" inputform="Pora[por/subst:sg:acc:m2,por/subst:sg:gen:m2,por/subst:sg:gen:m3,pora/pred,pora/subst:sg:nom:f,porać/verb:fin:sg:ter:imperf:refl]"
                  outputform="Pora[por/subst:sg:acc:m2,por/subst:sg:gen:m2,por/subst:sg:gen:m3,pora/pred,pora/subst:sg:nom:f]"><marker>Pora</marker> umierać!</example>
     </rule>
+
+    <rule id="pora_sucha" name="pora sucha => rzeczownik">
+        <pattern>
+            <marker>
+                    <token postag="subst:sg:nom:f">pora</token>
+                    <token postag="adj:sg:nom.voc:f:pos" regexp="yes">sucha|deszczowa</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="Pora[por/subst:sg:acc:m2,por/subst:sg:gen:m2,por/subst:sg:gen:m3,pora/pred,pora/subst:sg:nom:f,porać/verb:fin:sg:ter:imperf:refl]"
+                 outputform="Pora[pora/subst:sg:nom:f]"><marker>Pora</marker> sucha mnie nie wzrusza!</example>
+    </rule>
+
 
     <rule id="PORA" name="pora jako genetiwus od por">
         <pattern>
