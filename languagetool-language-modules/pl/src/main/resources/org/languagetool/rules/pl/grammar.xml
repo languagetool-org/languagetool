@@ -5471,7 +5471,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule>
 		</category>
 		<category name="Błędy składniowe" type="grammar">
-            <rule id="NIEWLASCIA_KONCOWKA_PRZYPADKU_ORZECZNIKA" name="Niewłaściwa końcówka przypadku orzecznika">
+            <rule id="NIEWLASCIWA_KONCOWKA_PRZYPADKU_ORZECZNIKA" name="Niewłaściwa końcówka przypadku orzecznika">
                 <antipattern>
                     <token regexp="yes">jest(:?e[mś])?</token>
                     <marker>
@@ -5486,8 +5486,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>pan</token>
                     </marker>
                 </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>jest</token>
+                    </marker>
+                    <token postag='subst:sg:nom:m1'/>
+                    <token>,</token>
+                    <token postag='subst:sg:nom:m1'/>
+                </antipattern>
                 <pattern>
-                    <token postag='SENT_START|interp:comma' postag_regexp="yes"></token>
+                    <token postag='SENT_START|interp:comma' postag_regexp="yes"><exception>&quot;</exception></token>
                     <token regexp="yes">jest(:?e[mś])?</token>
                     <marker>
                         <token postag='subst:sg:nom:m1' regexp="yes">\p{Ll}+<exception postag="adj:sg:nom.voc:m1.m2.m3.*" postag_regexp="yes"/><exception>pan</exception><exception>powód</exception></token>
@@ -5501,6 +5509,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Jest śmiały z przyrody.</example>
                 <example>Jest pan zbyt rozdrażniony.</example>
                 <example>Jest lekarz za darmochę, więc do niego kto żyw.</example>
+                <example>Jest inteligent, artysta, robotnik, chłop, prosta dziewczyna...</example>
+                <example>A "kwintesencją brytyjskiego biznesmena" jest prezes Anglo-American Conglomerate lord Hanson.</example>
             </rule>
             <rule id="NIEPOPRAWNA_FORMA_CZASOWNIKA_PO_BY" name="Niepoprawna forma czasownika po „by”">
                 <pattern>

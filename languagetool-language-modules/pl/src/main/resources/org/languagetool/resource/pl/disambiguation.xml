@@ -917,6 +917,15 @@
         <example type="untouched">Dziwny XIX w.</example>
     </rule>
 
+    <rule id="woj_brev" name="woj. pomorskie">
+        <pattern>
+            <token postag="brev:pun">woj</token>
+            <token spacebefore="no">.</token>
+            <token postag="adj.*n1.*:pos" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rule id="uznac_za_acc" name="za po uznać wymaga biernika">
         <pattern>
             <token skip="5" regexp="yes" inflected="yes">uważać|dziękować|przepraszać|uchodzić|przeprosić|uznać|uznawać|odpowiadać<exception scope="next" regexp="yes">[\p{Punct}—–„«»…&amp;&amp;[^\.]]+</exception></token>
