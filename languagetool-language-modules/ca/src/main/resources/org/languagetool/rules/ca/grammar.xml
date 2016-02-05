@@ -4929,7 +4929,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="GERUNDI_POSTERIORITAT" name="gerundi de posterioritat">
             <rule>
                 <pattern>
-                    <token postag="V.G.*" postag_regexp="yes"><exception postag="_GV_|_GN_.*" postag_regexp="yes"/><exception scope="next">que</exception></token>
+                    <token postag="V.G.*" postag_regexp="yes"><exception postag="_GV_|_GN_.*" postag_regexp="yes"/></token>
                     <token min="0">-se</token>
                     <token min="0">poc</token>
                     <token>més</token>
@@ -4944,7 +4944,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.G.*" postag_regexp="yes"><exception postag="_GV_|_GN_.*" postag_regexp="yes"/><exception scope="next">que</exception></token>
+                    <token postag="_PUNCT_.*" postag_regexp="yes"/>
+                    <token postag="V.G.*" postag_regexp="yes"><exception postag="_GV_|_GN_.*" postag_regexp="yes"/></token>
                     <token min="0">-se</token>
                     <token min="0">poc</token>
                     <token>després</token>
@@ -4954,16 +4955,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">El lladre va atracar dues joieries, <marker>fugint després</marker> amb un cotxe robat.</example>
                 <example>Estan augmentant després d'un període d'estancament.</example>
                 <example>tònica predominant després del govern de l'UCD.</example>
+                <example>I aprofitant després l'efecte del tsunami.</example>
             </rule>
-
             <rule>
                 <pattern>
-                    <token postag="V.G.*" postag_regexp="yes"><exception postag="_GV_|_GN_.*" postag_regexp="yes"/><exception scope="next">que</exception></token>
+                    <token postag="V.G.*" postag_regexp="yes"><exception postag="_GV_|_GN_.*" postag_regexp="yes"/></token>
                     <token min="0">-se</token>
                     <token>a</token>
                     <token>l</token>
                     <token>cap</token>
                     <token inflected="yes">de</token>
+                    <token postag="D[IN].*" postag_regexp="yes"/>
+                    <token regexp="yes" inflected="yes">&unitats_temps;</token>
                 </pattern>
                 <message>Construcció dubtosa: gerundi de posterioritat.</message>
                 <url>http://esadir.cat/gramatica/sintaxi/usgerundi</url>
