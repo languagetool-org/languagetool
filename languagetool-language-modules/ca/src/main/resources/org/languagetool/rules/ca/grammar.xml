@@ -7136,9 +7136,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>per a després</example>
         </rule>
         <rulegroup id="SOBRE" name="sobre">
+            <antipattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">sustentar|sostenir|recolzar|capítol|ratificar|per|comentari|observació</token>
+                    <token>sobre</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes" inflected="yes">sustentar|sostenir|recolzar|capítol|ratificar|per</exception></token>
                     <marker>
                         <token>sobre</token>
                     </marker>
@@ -9166,6 +9171,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="ANS_ANYS" name="tres *ans/anys">
+            <pattern>
+                <token postag="DN.*|SPS00|D..MP.|PP3CP000" postag_regexp="yes"></token>
+                <marker>
+                    <token>ans</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>anys</suggestion>?</message>
+            <example correction="anys">Fa tres <marker>ans</marker>.</example>
+            <example correction="anys">Fa tres milions d'<marker>ans</marker>.</example>
+            <example correction="anys">En els <marker>ans</marker> 1917-91918</example>
+            <example correction="anys">Uns <marker>ans</marker> abans</example>
+        </rule>
         <rule id="GRACIES_A" name="gràcies això/gràcies a això">
             <pattern>
                 <token regexp="yes">gràcies|mercès?</token>
