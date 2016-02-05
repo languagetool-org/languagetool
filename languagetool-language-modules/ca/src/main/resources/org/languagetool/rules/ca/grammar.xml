@@ -22455,6 +22455,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="DONAR_COMPLIMENT" name="donar compliment">
+            <pattern>
+                <token inflected="yes">donar</token>
+                <token>compliment</token>
+            </pattern>
+            <message>Castellanisme.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">acomplir</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">executar</match></suggestion>
+            <example correction="acomplir|executar">va <marker>donar compliment</marker> a la sentència.</example>
+            <example correction="acomplert|acomplit|executat">Han <marker>donat compliment</marker> a la sentència.</example>
+        </rule>
         <rule id="DARRERE_BAMBOlINES" name="darrere de les bambolines">
             <pattern>
                 <token regexp="yes">darrer[ea]|rer[ea]</token>
