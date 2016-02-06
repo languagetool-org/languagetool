@@ -18,18 +18,16 @@
  */
 package org.languagetool.rules.spelling;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
-
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tokenizers.WordTokenizer;
+
+import java.io.IOException;
+import java.util.*;
 
 /**
  * An abstract rule for spellchecking rules.
@@ -57,6 +55,7 @@ public abstract class SpellingCheckRule extends Rule {
 
   private final Set<String> wordsToBeIgnored = new HashSet<>();
   private final Set<String> wordsToBeProhibited = new HashSet<>();
+  private final CachingWordListLoader wordListLoader = new CachingWordListLoader();
 
   private boolean considerIgnoreWords = true;
   private boolean convertsCase = false;
@@ -184,13 +183,13 @@ public abstract class SpellingCheckRule extends Rule {
   }
   
   protected void init() throws IOException {
-    for (String ignoreWord : loadWords(getIgnoreFileName())) {
+    for (String ignoreWord : wordListLoader.loadWords(getIgnoreFileName())) {
       addIgnoreWords(ignoreWord, wordsToBeIgnored);
     }
-    for (String ignoreWord : loadWords(getSpellingFileName())) {
+    for (String ignoreWord : wordListLoader.loadWords(getSpellingFileName())) {
       addIgnoreWords(ignoreWord, wordsToBeIgnored);
     }
-    for (String prohibitedWord : loadWords(getProhibitFileName())) {
+    for (String prohibitedWord : wordListLoader.loadWords(getProhibitFileName())) {
       wordsToBeProhibited.addAll(expandLine(prohibitedWord));
     }
   }
@@ -245,27 +244,6 @@ public abstract class SpellingCheckRule extends Rule {
     }
   }
 
-  private List<String> loadWords(String filePath) throws IOException {
-    List<String> result = new ArrayList<>();
-    if (!JLanguageTool.getDataBroker().resourceExists(filePath)) {
-      return result;
-    }
-    try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);
-         Scanner scanner = new Scanner(inputStream, "utf-8")) {
-      while (scanner.hasNextLine()) {
-        final String line = scanner.nextLine();
-        if (isComment(line)) {
-          continue;
-        }
-        if (line.contains(" ")) {
-          throw new RuntimeException("No space expected in " + filePath + ": '" + line + "'");
-        }
-        result.add(line);
-      }
-    }
-    return result;
-  }
-
   /**
    * @param line the line as read from {@code spelling.txt}.
    * @param wordsToBeIgnored the set of words to be ignored
@@ -282,10 +260,6 @@ public abstract class SpellingCheckRule extends Rule {
    */
   protected List<String> expandLine(String line) {
     return Collections.singletonList(line);
-  }
-
-  private boolean isComment(String line) {
-    return line.startsWith("#");
   }
 
 }
