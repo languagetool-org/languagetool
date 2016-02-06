@@ -16067,6 +16067,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="DLA_MNIEJ_DLA_MNIE" name="„dla mniej” (dla mnie)">
+                <pattern>
+                    <token>dla</token>
+                    <marker>
+                        <token>mniej</token>
+                    </marker>
+                    <token><exception postag='adj:.*gen.*:pos' postag_regexp='yes'></exception></token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>mnie</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction='mnie'>Te dane nie są dla <marker>mniej</marker> żadna rewelacją — oświadczył we wtorek bp Głódź.</example>
+                <example>Te dane nie są dla mnie żadną rewelacją — oświadczył we wtorek bp Głódź.</example>
+            </rule>
             <rule id="NIE_ZABRANIE_NIE_ZABRAKNIE" name="„nie zabranie” (nie zabraknie)">
                 <pattern>
                     <token>nigdy</token>
@@ -19059,9 +19072,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Podaj mi te informacje.</example>
                 </rule>
                 <rule>
+                    <antipattern>
+                        <marker>
+                            <token>siłą</token>
+                        </marker>
+                        <token>rzeczy</token>
+                    </antipattern>
                     <pattern>
                         <marker>
-                        <token postag='adj:sg:nom.voc:f.*' postag_regexp="yes"></token>
+                        <token postag='adj:sg:nom.voc:f.*' postag_regexp="yes"><exception scope="previous">została</exception></token>
                         </marker>
                     <token regexp='yes' postag='subst:sg:inst:f'>.*ą</token>
                 </pattern>
@@ -19069,6 +19088,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Prawdopodobna literówka</short>
                 <example correction='swą'>Wynegocjowane warunki przyćmiły <marker>swa</marker> hojnością wszystkie poprzednie.</example>
                 <example>Wynegocjowane warunki przyćmiły swą hojnością wszystkie poprzednie.</example>
+                    <example>Została powołana ustawą z 24 lipca 1919 r.</example>
+                    <example>Muzyka teatralna siłą rzeczy chętnie posługuje się cytatem.</example>
                 </rule>
                 <rule>
                     <pattern>

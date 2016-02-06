@@ -2552,7 +2552,7 @@
     <rule name="uniesiona + inst > ppas" id="uniesiona_ppas_inst">
         <pattern>
             <marker>
-                <token postag="ppas:sg:nom.voc:f:perf:aff" regexp="yes">uniesiona|ośmielona|wzruszona|zdziwiona|znużona|przerażona|wyczerpana|zajęta|przeżarta|przejęta|opanowana|rozjuszona|uzbrojona|podrażniona|zmęczona|zgorszona|zalana</token>
+                <token postag="ppas:sg:nom.voc:f:perf:aff" regexp="yes">uniesiona|ośmielona|wzruszona|zdziwiona|znużona|przerażona|wyczerpana|zajęta|przeżarta|przejęta|opanowana|rozjuszona|uzbrojona|podrażniona|zmęczona|zgorszona|zalana|zainteresowana|oblana|obrażona</token>
                 <token postag_regexp="yes" postag="subst:sg:inst.*"/>
             </marker>
         </pattern>
@@ -2653,6 +2653,17 @@
         <example type="untouched">Zabawiał się muszą nóżką.</example>
         <example type="ambiguous" inputform="muszą[musieć/verb:fin:pl:ter:imperf:nonrefl,musić/verb:fin:pl:ter:imperf:refl.nonrefl,musza/subst:sg:inst:f,muszy/adj:sg:acc:f:pos,muszy/adj:sg:inst:f:pos]" outputform="muszą[musieć/verb:fin:pl:ter:imperf:nonrefl]">Oni <marker>muszą</marker> zarabiać.</example>
     </rule>
+
+    <rule id="INF_MUSZA_3" name="Muszą jako czasownik">
+        <pattern>
+            <marker><token>muszą</token></marker>
+            <token>się</token>
+        </pattern>
+        <disambig postag="verb:fin:pl:ter:imperf:nonrefl"/>
+        <example type="untouched">Zabawiał się muszą nóżką.</example>
+        <example type="ambiguous" inputform="muszą[musieć/verb:fin:pl:ter:imperf:nonrefl,musić/verb:fin:pl:ter:imperf:refl.nonrefl,musza/subst:sg:inst:f,muszy/adj:sg:acc:f:pos,muszy/adj:sg:inst:f:pos]" outputform="muszą[musieć/verb:fin:pl:ter:imperf:nonrefl]">Oni <marker>muszą</marker> się dostosować.</example>
+    </rule>
+
 
     <rule id="mosci" name="mości jako wołacz">
         <pattern>
@@ -3486,12 +3497,16 @@
 
     <rule id="wynikac_z" name="wynikać + z => genetivus">
         <pattern>
+            <token skip="-1" postag="SENT_START|interp:comma" postag_regexp="yes">
+                <exception scope="next" postag="prep:gen.*" inflected="yes" postag_regexp="yes">z</exception>
+            </token>
             <token inflected="yes">wynikać</token>
             <marker>
                 <token inflected="yes">z</token>
             </marker>
         </pattern>
         <disambig action="filter" postag="prep:gen.*"/>
+        <example type="untouched">ostateczna weryfikacja teorii poprzez konfrontację wniosków z niej wynikających z faktami.</example>
     </rule>
 
     <rulegroup name="prep + czasownik -> ~ czasownik" id="prep_verb">
@@ -4338,28 +4353,28 @@
         <disambig action="remove"><wd lemma="chęcić"/></disambig>
     </rule>
 
-    <rule id="JESIENIA" name="jesienią to nie jesienić">
+    <rule id="JESIENIA" name="jesienią to nie jesienić"> <!-- antyMorfo -->
         <pattern>
             <token>jesienią</token>
         </pattern>
         <disambig action="remove"><wd lemma="jesienić"/></disambig>
     </rule>
 
-    <rule id="SLABI" name="słabi to nie słabić">
+    <rule id="SLABI" name="słabi to nie słabić"> <!-- antyMorfo -->
         <pattern>
             <token>słabi</token>
         </pattern>
         <disambig action="remove"><wd lemma="słabić"/></disambig>
     </rule>
 
-    <rule id="BOZY" name="boży to nie bożyć">
+    <rule id="BOZY" name="boży to nie bożyć"> <!-- antyMorfo -->
         <pattern>
             <token>boży</token>
         </pattern>
         <disambig action="remove"><wd lemma="bożyć"/></disambig>
     </rule>
 
-    <rule id="CISZY" name="ciszy to nie ciszyć">
+    <rule id="CISZY" name="ciszy to nie ciszyć"> <!-- antyMorfo -->
         <pattern>
             <token>ciszy</token>
         </pattern>
@@ -5113,14 +5128,14 @@
         <disambig action="remove"><wd lemma="znajomić"/></disambig>
     </rule>
 
-    <rule id="ZOLI" name="Zoli to nie zolić">
+    <rule id="ZOLI" name="Zoli to nie zolić"> <!-- antyMorfo -->
         <pattern case_sensitive="yes">
             <token>Zoli</token>
         </pattern>
         <disambig action="remove"><wd lemma="zolić"/></disambig>
     </rule>
 
-    <rule id="zrob" name="zrób to nie zrób">
+    <rule id="zrob" name="zrób to nie zrób"> <!-- antyMorfo -->
         <pattern>
             <token postag="subst:sg:nom:m3">zrób</token>
         </pattern>
@@ -5134,7 +5149,7 @@
         <disambig action="remove"><wd lemma="zrzedły"/></disambig>
     </rule>
 
-    <rule id="ZWIEZLE" name="zwięźle to nie zwięźla">
+    <rule id="ZWIEZLE" name="zwięźle to nie zwięźla"> <!-- antyMorfo -->
         <pattern>
             <token>zwięźle</token>
         </pattern>
@@ -5148,7 +5163,7 @@
         <disambig action="remove"><wd lemma="żółcić"/></disambig>
     </rule>
 
-    <rule name="swój to nie swoić" id="SWOJ">
+    <rule name="swój to nie swoić" id="SWOJ"> <!-- antyMorfo -->
         <pattern>
             <token inflected="yes">swój</token>
         </pattern>
@@ -5193,6 +5208,50 @@
             </marker>
         </pattern>
         <disambig action="filterall"/>
+    </rule>
+
+    <rule id="POWSTALA" name="powstała jesienią > czasownik">
+        <pattern>
+            <marker>
+            <token>powstała</token>
+            </marker>
+            <token regexp="yes">jesienią|wiosną</token>
+        </pattern>
+        <disambig postag="verb:praet:sg:f:ter:perf:nonrefl"/>
+        <example type="ambiguous" inputform="powstała[powstać/verb:praet:sg:f:ter:perf:nonrefl,powstały/adj:sg:nom.voc:f:pos]"
+                 outputform="powstała[powstać/verb:praet:sg:f:ter:perf:nonrefl]">Spółka "Przekaz" <marker>powstała</marker> jesienią 1990 r.</example>
+    </rule>
+
+    <rule id="POZOSTALA" name="pozostała osobą > czasownik">
+        <pattern>
+            <marker>
+                <token>pozostała</token>
+            </marker>
+            <token postag='subst:sg:inst:f'/>
+        </pattern>
+        <disambig postag="verb:praet:sg:f:ter:perf:nonrefl"/>
+        <example type="ambiguous" inputform="pozostała[pozostać/verb:praet:sg:f:ter:perf:nonrefl,pozostały/adj:sg:nom.voc:f:pos]"
+                 outputform="pozostała[pozostać/verb:praet:sg:f:ter:perf:nonrefl]">Unia, podobnie jak jej poprzedniczka, <marker>pozostała</marker> partią wyborców o umiarkowanych poglądach.</example>
+    </rule>
+
+    <rule id="ZAPADLA" name="zapadła większością > czasownik">
+        <pattern>
+            <marker>
+                <token>zapadła</token>
+            </marker>
+            <token>większością</token>
+        </pattern>
+        <disambig postag="verb:praet:sg:f:ter:perf:refl.nonrefl"/>
+    </rule>
+
+    <rule id="PRAWA_SUBST" name="prawa jako rzeczownik">
+        <pattern>
+            <token regexp="yes" inflected="yes">moc|litera|wykładowca|wykładowczyni|egzekwowanie|teoria|światło|grunt|tworzenie|system|harmonizacja|rozumienie|interpretacja</token>
+            <marker>
+                <token>prawa</token>
+            </marker>
+        </pattern>
+        <disambig postag="subst:sg:gen:n2"/>
     </rule>
 
     <rule id="CO_TWIERDZA" name="jak/co twierdzą -> czasownik">
@@ -8412,6 +8471,29 @@
         <example type="untouched">Wraca ma ukochana.</example>
         <example type="ambiguous" inputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl,mój/adj:sg:nom.voc:f:pos]"
                  outputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]">Jak <marker>ma</marker> być zrobione zadanie 3?</example>
+    </rule>
+
+    <rule name="być ma" id="INF_MA">
+        <pattern>
+            <token postag_regexp="yes" postag="verb:inf.*"/>
+            <marker><token>ma</token></marker>
+        </pattern>
+        <disambig postag="verb:fin:sg:ter:imperf:refl.nonrefl"/>
+        <example type="untouched">Wraca ma ukochana.</example>
+        <example type="ambiguous" inputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl,mój/adj:sg:nom.voc:f:pos]"
+                 outputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]">To być <marker>ma</marker> zadanie 3?</example>
+    </rule>
+
+    <rule name="być ma" id="INF_SIE_MA">
+        <pattern>
+            <token postag_regexp="yes" postag="verb:inf.*:refl.*"/>
+            <token>się</token>
+            <marker><token>ma</token></marker>
+        </pattern>
+        <disambig postag="verb:fin:sg:ter:imperf:refl.nonrefl"/>
+        <example type="untouched">Wraca ma ukochana.</example>
+        <example type="ambiguous" inputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl,mój/adj:sg:nom.voc:f:pos]"
+                 outputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]">Sejm zajmować się <marker>ma</marker> tą sprawą.</example>
     </rule>
 
     <rule name="acc ma nom lub przecinek" id="ACC_MA_NOM">
