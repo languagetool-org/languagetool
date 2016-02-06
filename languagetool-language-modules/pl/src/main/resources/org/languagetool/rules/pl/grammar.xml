@@ -16068,17 +16068,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
             <rule id="DLA_MNIEJ_DLA_MNIE" name="„dla mniej” (dla mnie)">
+                <antipattern>
+                    <token>zarówno</token>
+                    <marker>
+                        <token>dla</token>
+                        <token>mniej</token>
+                    </marker>
+                    <token>,</token>
+                    <token>jak</token>
+                    <token>i</token>
+                    <token>bardziej</token>
+                </antipattern>
+                <antipattern>
+                    <token>zarówno</token>
+                    <marker>
+                        <token>dla</token>
+                        <token>mniej</token>
+                    </marker>
+                    <token>,</token>
+                    <token>jak</token>
+                    <token>i</token>
+                    <token>dla</token>
+                    <token>bardziej</token>
+                </antipattern>
                 <pattern>
                     <token>dla</token>
                     <marker>
                         <token>mniej</token>
                     </marker>
-                    <token><exception postag='adj:.*gen.*:pos' postag_regexp='yes'></exception></token>
+                    <token>
+                        <exception postag='adj:.*gen.*:pos|(pact|ppas).*gen.*' postag_regexp='yes'/>
+                        <exception>niż</exception>
+                    </token>
                 </pattern>
                 <message>Prawdopodobna literówka. Czy chodziło o <suggestion>mnie</suggestion>?</message>
                 <short>Prawdopodobna literówka</short>
                 <example correction='mnie'>Te dane nie są dla <marker>mniej</marker> żadna rewelacją — oświadczył we wtorek bp Głódź.</example>
                 <example>Te dane nie są dla mnie żadną rewelacją — oświadczył we wtorek bp Głódź.</example>
+                <example>Scharping obiecuje obniżenie podatków dla mniej zarabiających.</example>
+                <example>Przygotowaliśmy ofertę zarówno dla mniej, jak i bardziej wymagających użytkowników.</example>
+                <example>Dla ponad połowy jest wypoczynek, dla mniej niż jednej piątej odwiedziny u krewnych.</example>
             </rule>
             <rule id="NIE_ZABRANIE_NIE_ZABRAKNIE" name="„nie zabranie” (nie zabraknie)">
                 <pattern>
@@ -18055,11 +18084,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rule id="PROSTU" name="„prostu” (po prostu)">
                         <antipattern>
                             <token>po</token>
+                            <token regexp="yes">[&quot;„…]</token>
+                            <marker>
+                            <token postag="adjp"/>
+                            </marker>
+                        </antipattern>
+                        <antipattern>
+                            <token>po</token>
+                            <token>.</token>
+                            <token>.</token>
+                            <token>.</token>
+                            <marker>
+                                <token postag="adjp"/>
+                            </marker>
+                        </antipattern>
+                        <antipattern>
+                            <token>po</token>
                             <token postag="adjp"/>
                             <token regexp="yes">oraz|i|lub|bądź|czy|,</token>
                             <marker><token postag="adjp"/></marker>
                         </antipattern>
-                        <antipattern>
+                    <antipattern>
+                        <token>po</token>
+                        <token postag="adjp"/>
+                        <token>,</token>
+                        <marker>
+                        <token postag="adjp"/>
+                        </marker>
+                    </antipattern>
+                    <antipattern>
                             <token>po</token>
                             <token postag="adjp"/>
                             <token>,</token>
@@ -18115,6 +18168,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Czy on mówi po angielsku, francusku czy niemiecku?</example>
                         <example>Woli pan mówić po niemiecku czy angielsku?</example>
                         <example>Od jak dawna uczysz się angielskiego?</example>
+                        <example>Wstąpił na herbatę do znajomego mieszkającego po &quot;sąsiedzku&quot;, tj. 50 km dalej.</example>
+                        <example>Nie mógł się z nimi porozumieć po... bułgarsku.</example>
 				</rule>
 				<rule id="W_ODROZNIENIU_DO" name="„w odróżnieniu do” (w odróżnieniu od)">
 						<pattern>
@@ -19080,16 +19135,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </antipattern>
                     <pattern>
                         <marker>
-                        <token postag='adj:sg:nom.voc:f.*' postag_regexp="yes"><exception scope="previous">została</exception></token>
+                        <token postag='adj:sg:nom.voc:f.*' postag_regexp="yes">
+                            <exception scope="previous">została</exception>
+                            <exception scope="previous" postag="subst:sg:nom:f"/>
+                        </token>
                         </marker>
                     <token regexp='yes' postag='subst:sg:inst:f'>.*ą</token>
                 </pattern>
                 <message>Prawdopodobna literówka: <suggestion><match no="1" regexp_match="(.*)a" regexp_replace="$1ą"/></suggestion>.</message>
                 <short>Prawdopodobna literówka</short>
-                <example correction='swą'>Wynegocjowane warunki przyćmiły <marker>swa</marker> hojnością wszystkie poprzednie.</example>
-                <example>Wynegocjowane warunki przyćmiły swą hojnością wszystkie poprzednie.</example>
+                    <example correction='swą'>Wynegocjowane warunki przyćmiły <marker>swa</marker> hojnością wszystkie poprzednie.</example>
+                    <example>Wynegocjowane warunki przyćmiły swą hojnością wszystkie poprzednie.</example>
                     <example>Została powołana ustawą z 24 lipca 1919 r.</example>
                     <example>Muzyka teatralna siłą rzeczy chętnie posługuje się cytatem.</example>
+                    <example>Po dyskusji Rada Regionalna większością jednego głosu uchwaliła apel.</example>
                 </rule>
                 <rule>
                     <pattern>

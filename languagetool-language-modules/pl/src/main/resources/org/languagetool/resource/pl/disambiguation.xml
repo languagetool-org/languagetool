@@ -2552,7 +2552,7 @@
     <rule name="uniesiona + inst > ppas" id="uniesiona_ppas_inst">
         <pattern>
             <marker>
-                <token postag="ppas:sg:nom.voc:f:perf:aff" regexp="yes">uniesiona|ośmielona|wzruszona|zdziwiona|znużona|przerażona|wyczerpana|zajęta|przeżarta|przejęta|opanowana|rozjuszona|uzbrojona|podrażniona|zmęczona|zgorszona|zalana|zainteresowana|oblana|obrażona</token>
+                <token postag="ppas:sg:nom.voc:f:perf:aff" regexp="yes">uniesiona|ośmielona|wzruszona|zdziwiona|znużona|przerażona|wyczerpana|zajęta|przeżarta|przejęta|opanowana|rozjuszona|uzbrojona|podrażniona|zmęczona|zgorszona|zalana|zainteresowana|oblana|obrażona|uzasadniona|zdumiona|zniechęcona|opatrzona</token>
                 <token postag_regexp="yes" postag="subst:sg:inst.*"/>
             </marker>
         </pattern>
@@ -2781,6 +2781,28 @@
                  outputform="pęta[pęta/subst:pl:acc:p3,pęta/subst:pl:nom:p3,pęta/subst:pl:voc:p3,pęto/subst:pl:acc:n2,pęto/subst:pl:nom:n2,pęto/subst:pl:voc:n2,pęto/subst:sg:gen:n2]">Do czego służą te <marker>pęta</marker>?</example>
     </rule>
 
+
+    <rule id="cene_placa" name="cenę płacą > verb">
+        <pattern>
+            <token>cenę</token>
+            <marker>
+                <token>płacą</token>
+            </marker>
+        </pattern>
+        <disambig postag="verb:fin:pl:ter:imperf:refl.nonrefl"/>
+    </rule>
+
+    <rule id="placa_cene" name="płacą cenę > verb">
+        <pattern>
+            <marker>
+                <token>płacą</token>
+            </marker>
+            <token>cenę</token>
+        </pattern>
+        <disambig postag="verb:fin:pl:ter:imperf:refl.nonrefl"/>
+    </rule>
+
+
     <rulegroup id="powiesc" name="powieść">
         <rule>
         <pattern>
@@ -2797,7 +2819,7 @@
                 <unify>
                     <feature id="case"/><feature id="gender"><type id="f"/></feature><feature id="number"><type id="sg"/></feature>
                     <token>powieść</token>
-                    <token postag="adj.*" postag_regexp="yes"/>
+                    <token postag="adj.*" postag_regexp="yes"><exception>była</exception></token>
                 </unify>
             </pattern>
             <disambig action="unify"/>
@@ -5246,7 +5268,7 @@
 
     <rule id="PRAWA_SUBST" name="prawa jako rzeczownik">
         <pattern>
-            <token regexp="yes" inflected="yes">moc|litera|wykładowca|wykładowczyni|egzekwowanie|teoria|światło|grunt|tworzenie|system|harmonizacja|rozumienie|interpretacja</token>
+            <token regexp="yes" inflected="yes">moc|litera|wykładowca|wykładowczyni|egzekwować|teoria|światło|grunt|tworzenie|system|harmonizacja|rozumienie|interpretacja</token>
             <marker>
                 <token>prawa</token>
             </marker>
