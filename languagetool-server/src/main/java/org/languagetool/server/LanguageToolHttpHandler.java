@@ -506,26 +506,24 @@ class LanguageToolHttpHandler implements HttpHandler {
   /**
    * Create a JLanguageTool instance for a specific language, mother tongue, and rule configuration.
    *
-   * @param lang the language to be used.
+   * @param lang the language to be used
    * @param motherTongue the user's mother tongue or {@code null}
    */
   private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue, QueryParams params) throws Exception {
-    final JLanguageTool newLanguageTool = new JLanguageTool(lang, motherTongue);
+    final JLanguageTool lt = new JLanguageTool(lang, motherTongue);
     if (languageModelDir != null) {
-      newLanguageTool.activateLanguageModelRules(languageModelDir);
-    }
-    if (!params.useQuerySettings) {
-      if (rulesConfigurationFile != null) {
-        configureFromRulesFile(newLanguageTool, lang);
-      }
-      else {
-        configureFromGUI(newLanguageTool, lang);
-      }
+      lt.activateLanguageModelRules(languageModelDir);
     }
     if (params.useQuerySettings) {
-      Tools.selectRules(newLanguageTool, params.disabledRules, params.enabledRules, params.useEnabledOnly);
+      Tools.selectRules(lt, params.disabledRules, params.enabledRules, params.useEnabledOnly);
+    } else {
+      if (rulesConfigurationFile != null) {
+        configureFromRulesFile(lt, lang);
+      } else {
+        configureFromGUI(lt, lang);
+      }
     }
-    return newLanguageTool;
+    return lt;
   }
 
   private void configureFromRulesFile(JLanguageTool langTool, Language lang) throws IOException {

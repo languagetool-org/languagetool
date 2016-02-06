@@ -483,7 +483,9 @@ public class JLanguageTool {
       sentences.add(annotatedText.getPlainText());
     }
     final List<Rule> allRules = getAllRules();
-    printIfVerbose(allRules.size() + " rules activated for language " + language);
+    if (printStream != null) {
+      printIfVerbose(allRules.size() + " rules activated for language " + language);
+    }
     // Some rules have an internal state so they can do checks over sentence
     // boundaries. These need to be reset so the checks don't suddenly
     // work on different texts with the same data. However, it could be useful
