@@ -18,8 +18,12 @@
  */
 package org.languagetool.rules.spelling.morfologik;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import morfologik.speller.Speller;
 import morfologik.stemming.Dictionary;
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.StringTools;
@@ -28,11 +32,24 @@ import java.io.IOException;
 import java.nio.charset.CharacterCodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Morfologik-based spell checker.
  */
 public class MorfologikSpeller {
+
+  // Speed up the server use case, where rules get initialized for every call.
+  // See https://github.com/morfologik/morfologik-stemming/issues/69 for confirmation that
+  // Dictionary is thread-safe:
+  private static final LoadingCache<String, Dictionary> dictCache = CacheBuilder.newBuilder()
+      .expireAfterWrite(10, TimeUnit.MINUTES)
+      .build(new CacheLoader<String, Dictionary>() {
+        @Override
+        public Dictionary load(@NotNull String fileInClassPath) throws IOException {
+          return Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(fileInClassPath));
+        }
+      });
 
   private final Dictionary dictionary;
   private final Speller speller;
@@ -41,8 +58,8 @@ public class MorfologikSpeller {
    * Creates a speller with the given maximum edit distance.
    * @param fileInClassPath path in classpath to morfologik dictionary
    */
-  public MorfologikSpeller(String fileInClassPath, int maxEditDistance) throws IOException {
-    this(Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(fileInClassPath)), maxEditDistance);
+  public MorfologikSpeller(String fileInClassPath, int maxEditDistance) {
+    this(dictCache.getUnchecked(fileInClassPath), maxEditDistance);
   }
 
   /**

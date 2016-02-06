@@ -34,6 +34,9 @@
 #### Java API
   * some formerly deprecated code has been removed
 
+#### Embedded HTTPS server
+  * Speed up for input with short sentences
+
 
 
 ## 3.2 (2015-12-29)
