@@ -9174,6 +9174,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="VOLS_VOLTS" name="vols/volts">
+            <pattern>
+                <marker>
+                    <token>vols</token>
+                </marker>
+                <token skip="2">de</token>
+                <token min="0" inflected="yes">el</token> 
+                <token min="0">any</token>
+                <token postag="DN.*|_C_TEMPS" postag_regexp="yes"></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>volts</suggestion>?</message>
+            <example correction="volts">Pels <marker>vols</marker> de 1945.</example>
+            <example correction="volts">Pels <marker>vols</marker> del 1945.</example>
+            <example correction="volts">Pels <marker>vols</marker> de l'any 1945.</example>
+        </rule>
         <rule id="SOMETENT_SOTMETENT" name="sometent/sotmetent">
             <pattern>
                 <token><exception postag="SPS00"/></token>
