@@ -184,9 +184,15 @@ public abstract class SpellingCheckRule extends Rule {
   }
   
   protected void init() throws IOException {
-    loadWordsToBeIgnored(getIgnoreFileName());
-    loadWordsToBeIgnored(getSpellingFileName());
-    loadWordsToBeProhibited(getProhibitFileName());
+    for (String ignoreWord : loadWords(getIgnoreFileName())) {
+      addIgnoreWords(ignoreWord, wordsToBeIgnored);
+    }
+    for (String ignoreWord : loadWords(getSpellingFileName())) {
+      addIgnoreWords(ignoreWord, wordsToBeIgnored);
+    }
+    for (String prohibitedWord : loadWords(getProhibitFileName())) {
+      wordsToBeProhibited.addAll(expandLine(prohibitedWord));
+    }
   }
 
   /**
@@ -239,21 +245,25 @@ public abstract class SpellingCheckRule extends Rule {
     }
   }
 
-  private void loadWordsToBeIgnored(String ignoreFile) throws IOException {
-    if (!JLanguageTool.getDataBroker().resourceExists(ignoreFile)) {
-      return;
+  private List<String> loadWords(String filePath) throws IOException {
+    List<String> result = new ArrayList<>();
+    if (!JLanguageTool.getDataBroker().resourceExists(filePath)) {
+      return result;
     }
-    try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(ignoreFile);
+    try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);
          Scanner scanner = new Scanner(inputStream, "utf-8")) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine();
         if (isComment(line)) {
           continue;
         }
-        failOnSpace(ignoreFile, line);
-        addIgnoreWords(line, wordsToBeIgnored);
+        if (line.contains(" ")) {
+          throw new RuntimeException("No space expected in " + filePath + ": '" + line + "'");
+        }
+        result.add(line);
       }
     }
+    return result;
   }
 
   /**
@@ -274,31 +284,8 @@ public abstract class SpellingCheckRule extends Rule {
     return Collections.singletonList(line);
   }
 
-  private void loadWordsToBeProhibited(String prohibitFile) throws IOException {
-    if (!JLanguageTool.getDataBroker().resourceExists(prohibitFile)) {
-      return;
-    }
-    try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(prohibitFile);
-         Scanner scanner = new Scanner(inputStream, "utf-8")) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-        if (isComment(line)) {
-          continue;
-        }
-        failOnSpace(prohibitFile, line);
-        wordsToBeProhibited.addAll(expandLine(line));
-      }
-    }
-  }
-
   private boolean isComment(String line) {
     return line.startsWith("#");
-  }
-
-  private void failOnSpace(String fileName, String line) {
-    if (line.contains(" ")) {
-      throw new RuntimeException("No space expected in " + fileName + ": '" + line + "'");
-    }
   }
 
 }
