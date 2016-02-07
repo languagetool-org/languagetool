@@ -31292,11 +31292,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token><exception postag="NC.*|RG|.*LOC_ADV.*|V.[MSI].*|VS.*|_GV_|AQ.FP.|D[^R]0FP0" postag_regexp="yes"/><exception>per</exception></token>
                     <marker>
-                        <token regexp="yes">complexes|reflexes<exception postag="_GN_FP"/></token>
+                        <token regexp="yes">complexes|reflexes|annexes<exception postag="_GN_FP"/></token>
                     </marker>
                     <token><exception postag="NC.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(.+)es" regexp_replace="$1os" /></suggestion> (nom masc. pl.) en comptes de "<match no="2"/>" (adj. fem. sing.)?</message>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?-i)(.+)es" regexp_replace="$1os" /></suggestion> (nom masc. pl.) en comptes de "<match no="2"/>" (adj. fem. sing.)?</message>
                 <short>Possible confusió</short>
                 <example correction="complexos">Ell no té manies ni <marker>complexes</marker>.</example>
                 <example correction="complexos">Ell té molts <marker>complexes</marker>.</example>
@@ -31328,7 +31328,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">complexes|reflexes</token>
+                        <token regexp="yes">complexes|reflexes|annexes</token>
                     </marker>
                     <token postag="AQ.MP.|V.P..PM." postag_regexp="yes"/>
                 </pattern>
@@ -31342,7 +31342,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>grans</token>
                     <marker>
-                        <token regexp="yes">complexes|reflexes</token>
+                        <token regexp="yes">complexes|reflexes|annexes</token>
                     </marker>
                     <token><exception postag="N.F.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -31358,6 +31358,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Volíeu dir <suggestion>complex</suggestion> (nom o adj. masc. sing.) en comptes de "complexe" (del v. "complexar")?</message>
                 <example correction="complex"><marker>complexe</marker></example>
                 <example>complex</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>annexe<exception scope="previous">s'</exception></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>annex</suggestion> (nom o adj. masc. sing.) en comptes de "annexe" (del v. "annexar")?</message>
+                <example correction="annex"><marker>annexe</marker></example>
+                <example>Cal que s'annexe la documentació.</example>
             </rule>
         </rulegroup>
         <rule id="CIMENT_CEMENT" name="ciment/cement">
