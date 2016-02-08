@@ -42,6 +42,9 @@
 #### Embedded HTTPS server
   * Speed up for input with short sentences
 
+#### Wikipedia
+  * Indexing: fixed an `IllegalArgumentException` for long sentences
+    (https://github.com/languagetool-org/languagetool/issues/364)
 
 
 ## 3.2 (2015-12-29)

@@ -53,6 +53,7 @@ public final class LanguageToolFilter extends TokenFilter {
   private final OffsetAttribute offsetAtt;
   private final PositionIncrementAttribute posIncrAtt;
   private final TypeAttribute typeAtt;
+  private final StringBuilder collectedInput = new StringBuilder();
 
   private AttributeSource.State current;
   private Iterator<AnalyzedTokenReadings> tokenIter;
@@ -84,8 +85,17 @@ public final class LanguageToolFilter extends TokenFilter {
       // there are no remaining tokens from the current sentence... are there more sentences?
       if (input.incrementToken()) {
         // a new sentence is available: process it.
-        final AnalyzedSentence sentence = languageTool.getAnalyzedSentence(termAtt.toString());
-
+        String sentenceStr = termAtt.toString();
+        collectedInput.append(sentenceStr);
+        if (sentenceStr.length() >= 255) {
+          // Long sentences get split, so keep collecting data to avoid errors
+          // later. See https://github.com/languagetool-org/languagetool/issues/364
+          return true;
+        } else {
+          sentenceStr = collectedInput.toString();
+          collectedInput.setLength(0);
+        }
+        final AnalyzedSentence sentence = languageTool.getAnalyzedSentence(sentenceStr);
         final List<AnalyzedTokenReadings> tokenBuffer = Arrays.asList(sentence.getTokens());
         tokenIter = tokenBuffer.iterator();
         /*
