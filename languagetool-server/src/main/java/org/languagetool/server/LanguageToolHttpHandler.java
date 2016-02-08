@@ -382,8 +382,9 @@ class LanguageToolHttpHandler implements HttpHandler {
       try {
         matches = future.get(maxCheckTimeMillis, TimeUnit.MILLISECONDS);
       } catch (TimeoutException e) {
+        boolean cancelled = future.cancel(true);
         throw new RuntimeException("Text checking took longer than allowed maximum of " + maxCheckTimeMillis +
-                " milliseconds (handleCount: " + handleCount + ", queue size: " + workQueue.size() +
+                " milliseconds (cancelled: " + cancelled + ", handleCount: " + handleCount + ", queue size: " + workQueue.size() +
                 ", language: " + lang.getShortNameWithCountryAndVariant() +
                 ", " + text.length() + " characters of text)", e);
       }
