@@ -22,6 +22,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -261,8 +263,17 @@ public class WikipediaQuickCheck {
   }
 
   private String getContent(URL wikipediaUrl) throws IOException {
-    try (InputStream contentStream = (InputStream) wikipediaUrl.getContent()) {
-      return StringTools.streamToString(contentStream, "UTF-8");
+    try {
+      HttpURLConnection conn = (HttpURLConnection) wikipediaUrl.openConnection();
+      conn.setRequestMethod("GET");
+      conn.setConnectTimeout(30_000);
+      conn.setReadTimeout(30_000);
+      conn.connect();
+      try (InputStream contentStream = (InputStream) conn.getContent()) {
+        return StringTools.streamToString(contentStream, "UTF-8");
+      }
+    } catch (SocketTimeoutException e) {
+      throw new RuntimeException("Timeout accessing " + wikipediaUrl, e);
     }
   }
 
