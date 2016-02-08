@@ -39,6 +39,8 @@ import static org.junit.Assert.*;
 
 public class HTTPServerTest {
 
+  private static final int MAX_LENGTH = 50_000;  // needs to be in sync with server conf!
+
   @Ignore("already gets tested by sub class HTTPServerLoadTest")
   @Test
   public void testHTTPServer() throws Exception {
@@ -306,7 +308,18 @@ public class HTTPServerTest {
   protected String checkByPOST(Language lang, String text) throws IOException {
     final String postData = "language=" + lang.getShortName() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like Polish, Romanian, etc
     final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort());
-    return HTTPTools.checkAtUrlByPost(url, postData);
+    try {
+      return HTTPTools.checkAtUrlByPost(url, postData);
+    } catch (IOException e) {
+      if (text.length() > MAX_LENGTH) {
+        // this is expected, log it anyway:
+        System.err.println("Got expected error on long text (" + text.length() + " chars): " + e.getMessage());
+        return "";
+      } else {
+        System.err.println("Got error from server (" + lang.getShortNameWithCountryAndVariant() + ", " + text.length() + " chars): " + e.getMessage());
+        return "";
+      }
+    }
   }
 
 }

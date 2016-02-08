@@ -29,9 +29,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -40,7 +38,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Ignore("for interactive use; requires local Tatoeba data")
 public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
 
-  private static final int MAX_TEXT_LENGTH = 5000;
+  private static final String DATA_PATH = "/media/Data/tatoeba/";
+  private static final int MIN_TEXT_LENGTH = 1;
+  private static final int MAX_TEXT_LENGTH = 60_000;
   private static final int MAX_SLEEP_MILLIS = 10;
 
   private final Map<Language, String> langCodeToText = new HashMap<>();
@@ -50,8 +50,11 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
   @Test
   @Override
   public void testHTTPServer() throws Exception {
-    File dir = new File("/media/Data/tatoeba/");
-    for (Language language : Languages.get()) {
+    File dir = new File(DATA_PATH);
+    List<Language> languages = new ArrayList<>();
+    //languages.add(new German());
+    languages.addAll(Languages.get());
+    for (Language language : languages) {
       File file = new File(dir, "tatoeba-" + language.getShortName() + ".txt");
       if (!file.exists()) {
         System.err.println("No data found for " + language + ", language will not be tested");
@@ -61,7 +64,9 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
         System.err.println("Using " + content.length() + " bytes of data for " + language);
       }
     }
-    super.testHTTPServer();
+    System.out.println("Testing " + langCodeToText.keySet().size() + " languages and variants");
+    //super.testHTTPServer();  // start server in this JVM
+    super.doTest();  // assume server has been started manually in its own JVM
   }
 
   @Override
@@ -79,7 +84,7 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
     Language language = getRandomLanguage();
     String text = langCodeToText.get(language);
     int fromPos = random.nextInt(text.length());
-    int toPos = fromPos + random.nextInt(MAX_TEXT_LENGTH);
+    int toPos = fromPos + random.nextInt(MAX_TEXT_LENGTH) + MIN_TEXT_LENGTH;
     String textSubstring = text.substring(fromPos, Math.min(toPos, text.length()));
     long sleepTime = random.nextInt(MAX_SLEEP_MILLIS);
     try {
@@ -91,7 +96,7 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
     counter.incrementAndGet();
     checkByPOST(language, textSubstring);
     System.out.println(counter.get() + ". Sleep: " + sleepTime + "ms, Lang: " + language.getShortNameWithCountryAndVariant()
-            + ", Time: " + (System.currentTimeMillis()-startTime) + "ms");
+            + ", Length: " + textSubstring.length() + ", Time: " + (System.currentTimeMillis()-startTime) + "ms");
   }
 
   private Language getRandomLanguage() {
