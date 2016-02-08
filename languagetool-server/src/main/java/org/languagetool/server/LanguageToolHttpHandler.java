@@ -306,11 +306,32 @@ class LanguageToolHttpHandler implements HttpHandler {
   private Map<String, String> getRequestQuery(HttpExchange httpExchange, URI requestedUri) throws IOException {
     final String query;
     if ("post".equalsIgnoreCase(httpExchange.getRequestMethod())) {
-      query = StringTools.streamToString(httpExchange.getRequestBody(), ENCODING);
+      try (InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), ENCODING)) {
+        query = readerToString(isr, maxTextLength);
+      }
     } else {
       query = requestedUri.getRawQuery();
     }
     return parseQuery(query);
+  }
+
+  private String readerToString(final Reader reader, int maxTextLength) throws IOException {
+    final StringBuilder sb = new StringBuilder();
+    int readBytes = 0;
+    final char[] chars = new char[4000];
+    while (readBytes >= 0) {
+      readBytes = reader.read(chars, 0, 4000);
+      if (readBytes <= 0) {
+        break;
+      }
+      if (sb.length() > 0 && sb.length() > maxTextLength * 2) {
+        // don't stop at maxTextLength as that's the text length, but here also other parameters
+        // are included (still we need this check here so we don't OOM if someone posts a few hundred MB)...
+        throw new TextTooLongException("Your text exceeds this server's limit of " + maxTextLength + " characters.");
+      }
+      sb.append(new String(chars, 0, readBytes));
+    }
+    return sb.toString();
   }
 
   private void printListOfLanguages(HttpExchange httpExchange) throws IOException {
