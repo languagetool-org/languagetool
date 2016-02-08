@@ -786,7 +786,10 @@ public class JLanguageTool {
 
   /**
    * Get all rules for the current language that are built-in or that have been
-   * added using {@link #addRule(Rule)}.
+   * added using {@link #addRule(Rule)}. Please note that XML rules that are grouped
+   * will appear as multiple rules with the same id. To tell them apart, check if
+   * they are of type {@code AbstractPatternRule}, cast them to that type and call
+   * their {@link AbstractPatternRule#getSubId()} method.
    * @return a List of {@link Rule} objects
    */
   public List<Rule> getAllRules() {
@@ -798,7 +801,8 @@ public class JLanguageTool {
   
   /**
    * Get all active (not disabled) rules for the current language that are built-in or that 
-   * have been added using e.g. {@link #addRule(Rule)}.
+   * have been added using e.g. {@link #addRule(Rule)}. See {@link #getAllRules()} for hints
+   * about rule ids.
    * @return a List of {@link Rule} objects
    */
   public List<Rule> getAllActiveRules() {
