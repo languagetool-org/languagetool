@@ -39,6 +39,14 @@ public class GermanSynthesizerTest {
     assertThat(synth("Haus", ".*", true), is("[Häuser, Haus, Häusern, Haus, Hause, Häuser, Hauses, Häuser, Haus]"));
   }
 
+  @Test
+  public void testSynthesizeCompounds() throws IOException {
+    assertThat(synth("Regelsystem", "SUB:NOM:PLU:NEU"), is("[Regelsysteme]"));
+    assertThat(synth("Regelsystem", "SUB:DAT:PLU:NEU"), is("[Regelsystemen]"));
+    assertThat(synth("Regelsystem", ".*:PLU:.*", true), is("[Regelsysteme, Regelsystemen]"));
+    assertThat(synth("Kühlschrankversuch", ".*:PLU:.*", true), is("[Kühlschrankversuche, Kühlschrankversuchen]"));
+  }
+
   private String synth(String word, String posTag) throws IOException {
     return Arrays.toString(synthesizer.synthesize(dummyToken(word), posTag));
   }

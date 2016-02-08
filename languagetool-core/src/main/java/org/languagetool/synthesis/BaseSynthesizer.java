@@ -122,8 +122,7 @@ public class BaseSynthesizer implements Synthesizer {
       initPossibleTags();
       final Pattern p = Pattern.compile(posTag);
       final List<String> results = new ArrayList<>();
-
-      for (final String tag : possibleTags) {
+      for (String tag : possibleTags) {
         final Matcher m = p.matcher(tag);
         if (m.matches()) {
           lookup(token.getLemma(), tag, results);

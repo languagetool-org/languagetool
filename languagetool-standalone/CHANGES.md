@@ -15,6 +15,7 @@
   * updated Hunspell dictionary to version 2015.12.28
     (http://extensions.libreoffice.org/extension-center/german-de-de-frami-dictionaries etc.)
   * added Spanish false friends
+  * better suggestions for some errors that involve compounds
 
 #### Greek
   * new rule for checking correct spell of ordinal numerals
