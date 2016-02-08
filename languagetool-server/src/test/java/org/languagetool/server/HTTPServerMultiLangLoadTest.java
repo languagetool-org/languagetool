@@ -100,8 +100,7 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
   }
 
   private Language getRandomLanguage() {
-    Random rnd = new Random();
-    int randomNumber = rnd.nextInt(langCodeToText.size());
+    int randomNumber = random.nextInt(langCodeToText.size());
     int i = 0;
     for (Language lang : langCodeToText.keySet()) {
       if (i++ == randomNumber) {
