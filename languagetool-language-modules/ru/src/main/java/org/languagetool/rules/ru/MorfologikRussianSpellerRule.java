@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public final class MorfologikRussianSpellerRule extends MorfologikSpellerRule {
@@ -33,6 +34,8 @@ public final class MorfologikRussianSpellerRule extends MorfologikSpellerRule {
 
   public MorfologikRussianSpellerRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
+    addExamplePair(Example.wrong("Все счастливые семьи похожи друг на друга, <marker>каждя</marker> несчастливая семья несчастлива по-своему."),
+                   Example.fixed("Все счастливые семьи похожи друг на друга, <marker>каждая</marker> несчастливая семья несчастлива по-своему."));
   }
 
   @Override
