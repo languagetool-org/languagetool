@@ -23,6 +23,8 @@ import java.util.ResourceBundle;
 
 import org.languagetool.rules.AbstractCompoundRule;
 import org.languagetool.rules.CompoundRuleData;
+import org.languagetool.rules.Example;
+
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -42,6 +44,8 @@ public class RussianCompoundRule extends AbstractCompoundRule {
             "Эти слова должны быть написаны через дефис.",
             "Эти слова должны быть написаны слитно.",
             "Эти слова могут быть написаны через дефис или слитно.");
+    addExamplePair(Example.wrong("Собрание состоится в <marker>конференц зале</marker>."),
+                   Example.fixed("Собрание состоится в <marker>конференц-зале</marker>."));
   }
   
   @Override

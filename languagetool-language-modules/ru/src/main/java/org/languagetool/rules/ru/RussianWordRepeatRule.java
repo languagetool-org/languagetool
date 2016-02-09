@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.regex.Pattern;
+import org.languagetool.rules.Example;
 
 import org.languagetool.rules.AdvancedWordRepeatRule;
 
@@ -58,6 +59,8 @@ public class RussianWordRepeatRule extends AdvancedWordRepeatRule {
 
   public RussianWordRepeatRule(final ResourceBundle messages) {
     super(messages);
+    addExamplePair(Example.wrong("Всё смешалось в <marker>доме доме</marker> Облонских."),
+                   Example.fixed("Всё смешалось в <marker>доме</marker> Облонских."));
   }
 
   @Override
