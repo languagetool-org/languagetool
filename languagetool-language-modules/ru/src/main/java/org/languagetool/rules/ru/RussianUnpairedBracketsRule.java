@@ -24,6 +24,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 import org.languagetool.Language;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
 
 public class RussianUnpairedBracketsRule extends GenericUnpairedBracketsRule {
@@ -36,6 +37,8 @@ public class RussianUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   public RussianUnpairedBracketsRule(final ResourceBundle messages, final Language language) {
     super(messages, RU_START_SYMBOLS, RU_END_SYMBOLS);
     numerals = NUMERALS_RU;
+    addExamplePair(Example.wrong("Самоотверженный поступок Оленина <marker>(</marker>подарок Лукашке коня вызывает лишь удивление и усиливает недоверие к нему станичников."),
+                   Example.fixed("Самоотверженный поступок Оленина <marker>(</marker>подарок Лукашке коня вызывает лишь удивление и усиливает недоверие к нему станичников."));
   }
 
   @Override
