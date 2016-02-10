@@ -78,7 +78,7 @@ class ConfusionRuleEvaluator {
       ConfusionProbabilityRule foundRule = null;
       for (Rule rule : rules) {
         if (rule.getId().equals(ConfusionProbabilityRule.RULE_ID)) {
-          foundRule = (ConfusionProbabilityRule)rules.get(0);
+          foundRule = (ConfusionProbabilityRule)rule;
           break;
         }
       }
