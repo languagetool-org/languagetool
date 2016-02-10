@@ -512,7 +512,7 @@ public class CaseRule extends GermanRule {
         continue;
       }
       if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && lowercaseReadings != null
-          && lowercaseReadings.getAnalyzedToken(0).getPOSTag() == null) {
+          && (lowercaseReadings.getAnalyzedToken(0).getPOSTag() == null || analyzedToken.getToken().endsWith("innen"))) {
         continue;  // unknown word, probably a name etc
       }
       potentiallyAddUppercaseMatch(ruleMatches, tokens, i, analyzedToken, token);

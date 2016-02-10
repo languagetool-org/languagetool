@@ -78,6 +78,7 @@ public class CaseRuleTest extends TestCase {
     assertGood("Aber sein Inneres erzählte von den Geschehnissen.");
     assertGood("Ein Kaninchen, das zaubern kann.");
     assertGood("Keine Ahnung, wie ich das prüfen sollte.");
+    assertGood("Und dann noch Strafrechtsdogmatikerinnen.");
 
     assertBad("Tom ist etwas über Dreißig.");
     assertBad("Unser warten wird sich lohnen.");
