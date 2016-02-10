@@ -32,6 +32,7 @@ import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
 import org.languagetool.rules.ConfusionSet;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.ngrams.NeuralNetRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tools.StringTools;
@@ -59,12 +60,13 @@ class ConfusionRuleEvaluator {
   private static final String TOKEN = "there";
   private static final String TOKEN_HOMOPHONE = "their";
   //private static final List<Integer> EVAL_FACTORS = Arrays.asList(100);
-  private static final List<Long> EVAL_FACTORS = Arrays.asList(10L, 100L, 1_000L, 10_000L, 100_000L, 1_000_000L, 10_000_000L);
+  //private static final List<Long> EVAL_FACTORS = Arrays.asList(10L, 100L, 1_000L, 10_000L, 100_000L, 1_000_000L, 10_000_000L);
+  private static final List<Long> EVAL_FACTORS = Arrays.asList(1L);
   private static final boolean CASE_SENSITIVE = false;
   private static final int MAX_SENTENCES = 1000;
 
   private final Language language;
-  private final ConfusionProbabilityRule rule;
+  private final NeuralNetRule rule;
   private final Map<Long,EvalValues> evalValues = new HashMap<>();
 
   private boolean verbose = true;
@@ -76,10 +78,10 @@ class ConfusionRuleEvaluator {
       if (rules == null) {
         throw new RuntimeException("Language " + language + " doesn't seem to support a language model");
       }
-      ConfusionProbabilityRule foundRule = null;
+      NeuralNetRule foundRule = null;
       for (Rule rule : rules) {
-        if (rule.getId().equals(ConfusionProbabilityRule.RULE_ID)) {
-          foundRule = (ConfusionProbabilityRule)rule;
+        if (rule.getId().equals(NeuralNetRule.RULE_ID)) {
+          foundRule = (NeuralNetRule)rule;
           break;
         }
       }
