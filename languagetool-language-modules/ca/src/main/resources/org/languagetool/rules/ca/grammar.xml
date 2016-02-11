@@ -9357,14 +9357,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No s'ha posat en contacte amb mi.</example>
             </rule>
             <rule>
-                <!--<antipattern>
-                    <marker>
-                    <token postag="_GN_MS"/>
-                    <token>,</token>
-                    <token>posat</token>
-                    <token>en</token>
-                    </marker>
-                    </antipattern>-->
                 <pattern>
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"></token>
                     <marker>
@@ -9528,26 +9520,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>\1-hi</suggestion>
             <example correction="portant-hi"><marker>portant-t'hi</marker>.</example>
         </rule>
-        <rule id="ESTAN_FET" name="*estan fet/estan fent/estan fets">
+        <rulegroup id="ESTAN_FET" name="*estan fet/estan fent/estan fets">
             <antipattern>
                 <marker>
                     <token inflected="yes">ser</token>
                     <token postag="N.*" postag_regexp="yes"/>
                 </marker>
             </antipattern>
-            <pattern>
-                <token postag="V...[13]P.." postag_regexp="yes" inflected="yes" regexp="yes">estar|ser|anar|quedar|restar</token>
-                <token postag="V.P..SM." postag_regexp="yes"></token>
-            </pattern>
-            <message>Possible confusió.</message>
-            <suggestion>\1 <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.G.*"/></suggestion>
-            <suggestion>\1 <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PM."/></suggestion>
-            <example correction="estan fent|estan fets"><marker>estan fet</marker>.</example>
-            <example correction="estem documentant|estem documentats"><marker>estem documentat</marker>.</example>
-            <example>No eren pecat.</example>
-            <example>Són resultat d'una acció particular</example>
-            <example>Esteu preparat?</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token postag="V...[13]P.." postag_regexp="yes" inflected="yes" regexp="yes">estar|ser|anar|quedar|restar|continuar|seguir|romandre</token>
+                    <token postag="V.P..SM." postag_regexp="yes"></token>
+                </pattern>
+                <message>Possible confusió.</message>
+                <suggestion>\1 <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.G.*"/></suggestion>
+                <suggestion>\1 <match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PM."/></suggestion>
+                <example correction="estan fent|estan fets"><marker>estan fet</marker>.</example>
+                <example correction="estem documentant|estem documentats"><marker>estem documentat</marker>.</example>
+                <example>No eren pecat.</example>
+                <example>Són resultat d'una acció particular</example>
+                <example>Esteu preparat?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V...[13]P.." postag_regexp="yes" inflected="yes" regexp="yes">poder|voler|estar|ser|anar|continuar|seguir|romandre</token>
+                    <token regexp="yes">estar|ésser|ser|anar|quedar|restar|continuar|seguir|romandre</token>
+                    <marker>
+                        <token postag="V.P..SM." postag_regexp="yes"></token>
+                    </marker>
+                </pattern>
+                <message>Possible confusió.</message>
+                <suggestion><match no="3" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.P..PM."/></suggestion>
+                <suggestion><match no="3" postag="(V.P.*)" postag_regexp="yes" postag_replace="V.G.*"/></suggestion>
+                <example correction="demanats|demanant">podem continuar <marker>demanat</marker>.</example>
+                <example correction="callats|callant">Volen restar <marker>callat</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="VAIG_FAIG" name="vaig/faig">
             <antipattern>
                 <marker>
@@ -38029,7 +38037,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="BE_QUE_SUBJUNTIU" name="bé que + *subjuntiu/indicatiu">
             <pattern>
-                <token><exception regexp="yes" inflected="yes">o|gens|anar|venir</exception><exception postag="SPS00|RG_anteposat|PR.*|.*LOC_CONJ.*|.*LOC_ADV.*|_GV_|V.[^P].*" postag_regexp="yes"/></token>
+                <token><exception regexp="yes" inflected="yes">o|gens|anar|venir|cap</exception><exception postag="SPS00|RG_anteposat|PR.*|.*LOC_CONJ.*|.*LOC_ADV.*|_GV_|V.[^P].*" postag_regexp="yes"/></token>
                 <marker>
                     <token>bé<exception postag="_GN_MS"/></token>
                     <token skip="8">que<exception scope="next" postag="V.I.*|PR.*|CS|.*LOC_CONJ.*" postag_regexp="yes"/></token>
