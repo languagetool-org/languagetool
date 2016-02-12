@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,6 +23,7 @@ import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Experimental;
 import org.languagetool.rules.ConfusionSet;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -42,6 +43,7 @@ import java.util.ResourceBundle;
 /**
  * Prototype of a DL4J-based rule.
  */
+@Experimental
 public class NeuralNetRule extends Rule {
   
   // results with there/their:
@@ -53,14 +55,15 @@ public class NeuralNetRule extends Rule {
   private static final String BIN_FILE = "/lt/dl4j/coefficients.bin"; // TODO: load from classpath
   private static final String JSON_FILE = "/lt/dl4j/conf.json";
   private static final int CONTEXT_SIZE = 2;
+  private static final double THRESHOLD = 0.5;
 
-  private final ErrorClassifierTools tools;
+  private final NeuralNetTools tools;
   private final MultiLayerNetwork model;
   private boolean warningShown = false;
 
   public NeuralNetRule(ResourceBundle messages) throws IOException {
     super(messages);
-    tools = new ErrorClassifierTools();
+    tools = new NeuralNetTools();
     model = loadModel();
   }
 
@@ -72,24 +75,27 @@ public class NeuralNetRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> matches = new ArrayList<>();
-    for (AnalyzedTokenReadings token : sentence.getTokensWithoutWhitespace()) {
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    int pos = 0;
+    for (AnalyzedTokenReadings token : tokens) {
       float p = 0;
       String suggestion = null;
       if ("their".equalsIgnoreCase(token.getToken())) {
-        p = eval(sentence.getText(), "their");
+        p = eval(tokens, pos);
         suggestion = "there";
         //System.out.println("=>" + p + " " + sentence.getText());
       } else if ("there".equalsIgnoreCase(token.getToken())) {
-        p = eval(sentence.getText(), "there");
+        p = eval(tokens, pos);
         suggestion = "Their";
         //System.out.println("=>" + p + " " + sentence.getText());
       }
-      if (p > 0.5) {
+      if (p > THRESHOLD) {
         String message = "Statistic suggests that '" + suggestion + "' might be the correct word here. Please check. (p=" + p + ")";
         RuleMatch match = new RuleMatch(this, token.getStartPos(), token.getEndPos(), message);
         match.setSuggestedReplacement(suggestion);
         matches.add(match);
       }
+      pos++;
     }
     return matches.toArray(new RuleMatch[matches.size()]);
   }
@@ -103,9 +109,9 @@ public class NeuralNetRule extends Rule {
   public void reset() {
   }
 
-  private float eval(String sentence, String word) {
+  private float eval(AnalyzedTokenReadings[] tokens, int wordPos) {
     INDArray labels = Nd4j.create(1, 2);
-    INDArray example = tools.getSentenceVector(CONTEXT_SIZE, sentence, word);
+    INDArray example = tools.getSentenceVector(CONTEXT_SIZE, tokens, wordPos);
     DataSet testSet = new DataSet(example, labels);
     INDArray inputs = Nd4j.create(1, CONTEXT_SIZE*2+1);
     inputs.putRow(0, testSet.getFeatureMatrix());
