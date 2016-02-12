@@ -18,16 +18,14 @@
  */
 package org.languagetool.rules;
 
+import org.languagetool.tools.StringTools;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.languagetool.tools.StringTools;
 
 /**
  * Information about an error rule that matches text and the position of the match.
@@ -239,21 +237,15 @@ public class RuleMatch implements Comparable<RuleMatch> {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     RuleMatch other = (RuleMatch) o;
-    return new EqualsBuilder()
-            .append(rule.getId(), other.rule.getId())
-            .append(offsetPosition, other.offsetPosition)
-            .append(message, other.message)
-            .append(suggestedReplacements, other.suggestedReplacements)
-            .isEquals();
+    return Objects.equals(rule.getId(), other.rule.getId())
+        && Objects.equals(offsetPosition, other.offsetPosition)
+        && Objects.equals(message, other.message)
+        && Objects.equals(suggestedReplacements, other.suggestedReplacements);
   }
 
   @Override
   public int hashCode() {
-    return new HashCodeBuilder()
-            .append(rule.getId())
-            .append(offsetPosition)
-            .append(message)
-            .append(suggestedReplacements).toHashCode();
+    return Objects.hash(rule.getId(), offsetPosition, message, suggestedReplacements);
   }
 
   static class OffsetPosition extends MatchPosition {

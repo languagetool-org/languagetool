@@ -36,14 +36,14 @@ final class EquivalenceTypeLocator {
   }
 
   @Override
-  public boolean equals(final Object obj) {
-    if (this == obj) { return true; }
-    if (obj == null) { return false; }
-    if (getClass() != obj.getClass()) {
+  public boolean equals(final Object o) {
+    if (this == o) { return true; }
+    if (o == null) { return false; }
+    if (getClass() != o.getClass()) {
       return false;
     }
-    final EquivalenceTypeLocator other = (EquivalenceTypeLocator) obj;
-    return Objects.equals(feature, other.feature) &&
-            Objects.equals(type, other.type);
+    EquivalenceTypeLocator other = (EquivalenceTypeLocator) o;
+    return Objects.equals(feature, other.feature)
+        && Objects.equals(type, other.type);
   }
 }

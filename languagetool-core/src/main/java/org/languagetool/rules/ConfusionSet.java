@@ -86,16 +86,12 @@ public class ConfusionSet {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     ConfusionSet other = (ConfusionSet) o;
-    if (factor != other.factor) return false;
-    if (!set.equals(other.set)) return false;
-    return true;
+    return Objects.equals(set, other.set) && Objects.equals(factor, other.factor);
   }
 
   @Override
   public int hashCode() {
-    int result = set.hashCode();
-    result = 31 * result + (int) (factor ^ (factor >>> 32));
-    return result;
+    return Objects.hash(set, factor);
   }
   
 }

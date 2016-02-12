@@ -18,6 +18,8 @@
  */
 package org.languagetool.tagging;
 
+import java.util.Objects;
+
 /**
  * Result of {@link WordTagger}.
  * @since 2.8
@@ -49,16 +51,12 @@ public final class TaggedWord {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    TaggedWord that = (TaggedWord) o;
-    if (lemma != null ? !lemma.equals(that.lemma) : that.lemma != null) return false;
-    if (posTag != null ? !posTag.equals(that.posTag) : that.posTag != null) return false;
-    return true;
+    TaggedWord other = (TaggedWord) o;
+    return Objects.equals(lemma, other.lemma) && Objects.equals(posTag, other.posTag);
   }
 
   @Override
   public int hashCode() {
-    int result = lemma != null ? lemma.hashCode() : 0;
-    result = 31 * result + (posTag != null ? posTag.hashCode() : 0);
-    return result;
+    return Objects.hash(lemma, posTag);
   }
 }

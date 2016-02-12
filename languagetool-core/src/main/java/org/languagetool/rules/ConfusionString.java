@@ -54,16 +54,12 @@ public class ConfusionString {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    ConfusionString that = (ConfusionString) o;
-    if (!str.equals(that.str)) return false;
-    if (description != null ? !description.equals(that.description) : that.description != null) return false;
-    return true;
+    ConfusionString other = (ConfusionString) o;
+    return Objects.equals(str, other.str) && Objects.equals(description, other.description);
   }
 
   @Override
   public int hashCode() {
-    int result = str.hashCode();
-    result = 31 * result + (description != null ? description.hashCode() : 0);
-    return result;
+    return Objects.hash(str, description);
   }
 }

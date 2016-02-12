@@ -18,11 +18,9 @@
  */
 package org.languagetool;
 
-import java.util.Objects;
-
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 /**
  * A word (or punctuation, or whitespace) and its analysis (part-of-speech tag, lemma)
@@ -141,23 +139,19 @@ public final class AnalyzedToken {
 
   @Override
   public int hashCode() {
-    return new HashCodeBuilder().append(isWhitespaceBefore).append(lemma).append(posTag).append(token).toHashCode();
+    return Objects.hash(isWhitespaceBefore, lemma, posTag, token);
   }
 
   @Override
-  public boolean equals(final Object obj) {
-    if (obj == null) { return false; }
-    if (obj == this) { return true; }
-    if (obj.getClass() != getClass()) {
-      return false;
-    }
-    final AnalyzedToken rhs = (AnalyzedToken) obj;
-    return new EqualsBuilder()
-            .append(token, rhs.token)
-            .append(posTag, rhs.posTag)
-            .append(lemma, rhs.lemma)
-            .append(isWhitespaceBefore, rhs.isWhitespaceBefore)
-            .isEquals();
+  public boolean equals(final Object o) {
+    if (o == null) return false;
+    if (o == this) return true;
+    if (o.getClass() != getClass()) return false;
+    AnalyzedToken other = (AnalyzedToken) o;
+    return Objects.equals(token, other.token)
+        && Objects.equals(posTag, other.posTag)
+        && Objects.equals(lemma, other.lemma)
+        && Objects.equals(isWhitespaceBefore, other.isWhitespaceBefore);
   }
 
 }

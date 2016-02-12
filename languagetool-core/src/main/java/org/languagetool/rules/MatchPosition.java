@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules;
 
+import java.util.Objects;
+
 /**
  * @since 2.9
  */
@@ -48,17 +50,13 @@ class MatchPosition {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    MatchPosition position = (MatchPosition) o;
-    if (end != position.end) return false;
-    if (start != position.start) return false;
-    return true;
+    MatchPosition other = (MatchPosition) o;
+    return Objects.equals(start, other.start) && Objects.equals(end, other.end);
   }
 
   @Override
   public int hashCode() {
-    int result = start;
-    result = 31 * result + end;
-    return result;
+    return Objects.hash(start, end);
   }
 
 }
