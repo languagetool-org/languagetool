@@ -20,8 +20,7 @@ package org.languagetool.rules.en;
 
 import org.languagetool.tokenizers.WordTokenizer;
 
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Tokenize sentences to tokens like Google does for its ngram index. Note: there
@@ -37,10 +36,10 @@ public class GoogleStyleWordTokenizer extends WordTokenizer {
   }
   
   @Override
-  public List<String> tokenize(final String text) {
+  public List<String> tokenize(String text) {
     List<String> tokens = super.tokenize(text);
     String prev = null;
-    final Stack<String> l = new Stack<>();
+    Stack<String> l = new Stack<>();
     for (String token : tokens) {
       if ("'".equals(prev)) {
         // TODO: add more cases if needed:
