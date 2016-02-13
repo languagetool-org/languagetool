@@ -22,11 +22,9 @@
   * added new xml rules
 
 #### Polish
-  * added and improved rules
-    
-#### Polish
   * added and improved a large number of rules, largely improved disambiguation
-
+  * upgraded the tagging and synthesis dictionaries to Morfologik Polimorf 2.1
+    
 #### Portuguese
   * added and improved rules
     
