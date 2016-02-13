@@ -8634,6 +8634,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Redundanz -->
     <!-- ====================================================================== -->
     <category name="Redundanz">
+        <rulegroup id="CA_ETWA" name="Doppelung: ca. etwa">
+            <rule>
+                <pattern>
+                    <token>ca</token>
+                    <token>.</token>
+                    <token regexp="yes">etwa|ungefähr|zirka</token>
+                </pattern>
+                <message>Mögliche Doppelung</message>
+                <suggestion>ca.</suggestion>
+                <suggestion>etwa</suggestion>
+                <example correction="ca.|etwa">Ein Würfel mit 46 Millimeter Kantenlänge und einem Abstand von <marker>ca. etwa</marker> 38 cm.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>zirka</token>
+                    <token regexp="yes">etwa|ungefähr</token>
+                </pattern>
+                <message>Mögliche Doppelung</message>
+                <suggestion>zirka</suggestion>
+                <suggestion>etwa</suggestion>
+                <example correction="zirka|etwa">Ein Würfel mit 46 Millimeter Kantenlänge und einem Abstand von <marker>zirka etwa</marker> 38 cm.</example>
+            </rule>
+        </rulegroup>
         <rule id="UEBER_DARUEBER" name="Doppelung: über darüber">
             <pattern>
                 <token>über</token>
