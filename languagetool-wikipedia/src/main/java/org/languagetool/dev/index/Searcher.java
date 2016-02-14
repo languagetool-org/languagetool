@@ -362,7 +362,7 @@ public class Searcher {
     final String languageCode = args[1];
     final Language language = Languages.getLanguageForShortName(languageCode);
     final File indexDir = new File(args[2]);
-    final boolean limitSearch = args.length > 3 && "--no_limit".equals(args[3]);
+    final boolean limitSearch = !(args.length > 3 && "--no_limit".equals(args[3]));
     final Searcher searcher = new Searcher(new SimpleFSDirectory(indexDir.toPath()));
     if (!limitSearch) {
       searcher.setMaxHits(100_000);
