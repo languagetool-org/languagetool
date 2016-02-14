@@ -5460,7 +5460,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>— Nic, nic… uspokój się…</example>
 				</rule>
                 <rule id="SIE_NA_POCZATKU_ZDANIA" name="„Się” na początku zdania">
-                    <pattern>
+                    <pattern case_sensitive="yes">
                         <token postag='SENT_START'></token>
                         <token>Się</token>
                     </pattern>
@@ -5471,6 +5471,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule>
 		</category>
 		<category name="Błędy składniowe" type="grammar">
+            <rule id="IMIESLOW_ZAMIAST_GERUNDIUM" name="Niezgodność formy rzeczownika (lub imiesłowu) i przymiotnika">
+                <pattern>
+                    <marker>
+                        <token postag='ppas:pl:nom.voc:m1.p1:.*' postag_regexp="yes"></token>
+                    </marker>
+                    <token postag='adj:sg:nom.voc:n1.n2:pos.*' postag_regexp='yes'></token>
+                </pattern>
+                <message>Prawdopodobnie literówka lub błąd składniowy. Czy chodziło o <suggestion><match no="1" postag_regexp="yes" postag="ger:sg:nom.acc:n2.*"/></suggestion>?</message>
+                <short>Błąd gramatyczny lub literówka</short>
+                <example correction='znaczenie'>To jest <marker>znaczeni</marker> naturalne.</example>
+                <example>To jest znaczenie naturalne.</example>
+            </rule>
             <rule id="NIEWLASCIWA_KONCOWKA_PRZYPADKU_ORZECZNIKA" name="Niewłaściwa końcówka przypadku orzecznika">
                 <antipattern>
                     <token regexp="yes">jest(:?e[mś])?</token>
@@ -14811,6 +14823,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rulegroup>
 				<rulegroup id="SKROTY_Z_KROPKA" name="Pisownia skrótów z kropką („np.”, „inż.”)">
 						<rule>
+                                <antipattern>
+                                    <token>(</token>
+                                    <marker>
+                                        <token spacebefore="no" case_sensitive="yes" regexp="yes">[A-Z]</token>
+                                    </marker>
+                                    <token spacebefore="no">)</token>
+                                </antipattern>
                                 <pattern>
 										<marker>
 												<token postag="brev:pun"><exception negate_pos="yes" postag="brev:pun"></exception><exception regexp="yes">dr|mjr|mgr|a?bp|płk|and</exception></token>
@@ -14823,6 +14842,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>This and that</example>
                                 <example>Z takim błaznem strzelać się nie podobna, n'est–ce pas?</example>
 								<example correction="Np."><marker>Np</marker> Kowalski napisał dwa donosy.</example>
+                                <example>Stopień dysocjacji w temperaturze 4000 K wynosi niecałe 3%.</example>
+                                <example>Lista światowego dziedzictwa kulturowego (K) i przyrodniczego (P)</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -16067,6 +16088,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="Z_GODNIE" name="„z godnie z” (zgodnie z)">
+                <pattern>
+                    <marker>
+                        <token>z</token>
+                        <token>godnie</token>
+                    </marker>
+                    <token inflected="yes">z</token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>zgodnie</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction='zgodnie'>Oferowane kolekcje mogą więc liczyć na uzupełnianie ich coraz to nowymi produktami, tworzonymi <marker>z godnie</marker> z pojawiającymi się na rynku nowymi trendami..</example>
+                <example>Pogodziłem się z godnie reprezentowanymi osobami płci przeciwnej.</example>
+            </rule>
             <rule id="DLA_MNIEJ_DLA_MNIE" name="„dla mniej” (dla mnie)">
                 <antipattern>
                     <marker>
