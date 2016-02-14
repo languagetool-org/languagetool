@@ -1246,6 +1246,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_DET_NOM" name="Concordances determinant i nom">
+            <antipattern case_sensitive="yes">
+                <marker>
+                    <token>barça</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>a</token>
@@ -21388,6 +21393,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Error de puntuació</short>
             <example correction="?, i|? I">¿Vols dir<marker>? i</marker> què més?</example>
             <example>Vols dir? No m'importa.</example>
+        </rule>
+        <rule id="BARCA_MAJUSCULES" name="barça/Barça">
+            <pattern case_sensitive="yes">
+                <token postag="D..MS." postag_regexp="yes"></token>
+                <marker>
+                    <token>barça</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>Barça</suggestion> (en majúscula)?</message>
+            <example correction="Barça">En un partit del <marker>barça</marker>.</example>
+            <example correction="Barça">Un <marker>barça</marker> espectacular.</example>
         </rule>
     </category>
     <category name="Z) Errors de tipografia i puntuació" type="typographical">
