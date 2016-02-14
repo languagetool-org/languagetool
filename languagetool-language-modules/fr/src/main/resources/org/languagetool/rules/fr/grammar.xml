@@ -7286,6 +7286,26 @@ though, and has since been slightly modified)-->
         <example correction="Veuillez"><marker>Veillez</marker>, s’il vous plaît me le faire savoir.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="INTERIEUR_INTERIEURE" name="intérieur (nom) et intérieure (adj)">
+      <rule>
+        <pattern>
+          <token regexp="yes">[ld]</token>
+          <token regexp="yes">['´‘’′]</token>
+          <marker><token regexp="yes">(?:int|ext)érieure</token></marker>
+        </pattern>
+        <message>Confusion probable entre l’adjectif féminin « \3 » et le nom <suggestion><match no="3" regexp_match="re" regexp_replace="r"/></suggestion>.</message>
+        <example correction="intérieur">À l’<marker>intérieure</marker> de la maison.</example>
+        <example>La politique intérieure.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[cdls]es|[mts]on|leurs?|[nv]otre|en</token>
+          <marker><token regexp="yes">(?:int|ext)érieures?</token></marker>
+        </pattern>
+        <message>Confusion probable entre l’adjectif féminin « \2 » et le nom <suggestion><match no="2" regexp_match="re" regexp_replace="r"/></suggestion>.</message>
+        <example correction="intérieur">Dans son <marker>intérieure</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
