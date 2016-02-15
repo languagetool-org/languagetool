@@ -23603,6 +23603,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
         </rulegroup>
         -->
+        <rule id="MODALVERB_FLEKT_VERB" name="Modalverb mit flektiertem Verb">
+            <pattern>
+                <token postag_regexp="yes" postag="VER:MOD:[13]:SIN:.*"/>
+                <token postag_regexp="yes" postag="ART:.*" min="0"/>
+                <token postag_regexp="yes" postag="ADJ:.*" min="0"/>
+                <token postag_regexp="yes" postag="SUB:.*"/>
+                <marker>
+                    <token postag_regexp="yes" postag="VER:.*">
+                        <exception postag="(VER:INF:|PA[12]:).*" postag_regexp="yes"/>
+                        <exception postag="ADJ:.*" postag_regexp="yes"/>
+                        <exception regexp="yes">los|eine|trotz</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Möglicherweise muss hier die Grundform des Verbs benutzt werden.</message>
+            <suggestion><match no="5" postag="VER:INF:.*" postag_regexp="yes"/></suggestion>
+            <example correction="kaufen">Ich will ein Auto <marker>kaufe</marker>.</example>
+            <example correction="kaufen">Ich will ein kleines Auto <marker>kaufe</marker>.</example>
+            <example correction="kaufen">Ich will ein kleines Auto <marker>kaufte</marker>.</example>
+            <example correction="kaufen">Ich will ein kleines Auto <marker>kaufst</marker>.</example>
+            <example>Sie sollte des Mordes angeklagt werden.</example>
+            <example>Kann die Nachricht wahr sein?</example>
+            <example>Ich kann den Fluss schwimmend überqueren.</example>
+        </rule>
         <rule id="SENT_START_SIN_PLU" name="Nomen singular + Verb plural am Satzanfang">
             <pattern>
                 <marker>
