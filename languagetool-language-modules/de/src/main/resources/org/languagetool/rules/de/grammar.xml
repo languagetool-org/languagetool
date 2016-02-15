@@ -2742,6 +2742,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ließ">Er <marker>lies</marker> den Boden neu machen.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token skip="5">lies</token>
+                    <token>vor</token>
+                </antipattern>
                 <pattern>
                     <token postag="(EIG|SUB):.*" postag_regexp="yes"/>
                     <marker>
@@ -2750,6 +2754,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie <suggestion>ließ</suggestion> (Vergangenheitsform von 'lassen')?</message>
                 <example correction="ließ">Peter <marker>lies</marker> den Boden neu machen.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="5">lies</token>
+                    <token>vor</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>lies</token>
+                    </marker>
+                    <token postag="PRO:(PER|REF):.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Meinten Sie <suggestion>ließ</suggestion> (Vergangenheitsform von 'lassen')?</message>
+                <example correction="ließ">Peter <marker>lies</marker> sich die Haare machen.</example>
+                <example>Bitte <marker>lies</marker> ihn mir vor!</example>
             </rule>
         </rulegroup>
         <rule id="ZWEIUNDVIERZIG" name="Möglicher Tippfehler: '42 (die Antwort auf die Frage nach dem Leben, dem Universum und dem ganzen Rest)'" default="off">
