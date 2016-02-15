@@ -130,8 +130,26 @@ public class Indexer implements AutoCloseable {
 
   public void indexText(BufferedReader reader) throws IOException {
     String line;
+    StringBuilder paragraph = new StringBuilder();
     while ((line = reader.readLine()) != null) {
-      final List<String> sentences = sentenceTokenizer.tokenize(line);
+      if (!(line.equals("")) && paragraph.length() + line.length() < Integer.MAX_VALUE) {
+        paragraph.append(line).append("\n");
+      } else {
+        final List<String> sentences = sentenceTokenizer.tokenize(paragraph.toString());
+        for (String sentence : sentences) {
+          add(sentence.replaceAll(" \n"," "), null, null, -1);
+        }
+        if (paragraph.length() + line.length() >= Integer.MAX_VALUE) {
+          final List<String> last_sentences = sentenceTokenizer.tokenize(line);
+          for (String sentence : last_sentences) {
+            add(sentence, null, null, -1);
+          }
+        }
+        paragraph.setLength(0);
+      }
+    }
+    if (paragraph.length() > 0) {
+      final List<String> sentences = sentenceTokenizer.tokenize(paragraph.toString());
       for (String sentence : sentences) {
         add(sentence, null, null, -1);
       }
