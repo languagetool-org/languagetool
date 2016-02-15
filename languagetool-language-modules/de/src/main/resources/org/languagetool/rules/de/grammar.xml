@@ -108,6 +108,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category name="Mögliche Tippfehler">
+        <rule id="NACHEILEN" name="Möglicher Tippfehler: Nacheile (Nachteile)">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Nacheil(e|en)?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="3" regexp_match="Nacheil" regexp_replace="Nachteil"/></suggestion>?</message>
+            <example correction="Nachteilen">Sie setzen sich gern mit den Vor- und <marker>Nacheilen</marker> auseinander.</example>
+            <example correction="Nachteile">Die <marker>Nacheile</marker> sind bekannt.</example>
+        </rule>
         <rule id="BEIDEN" name="Möglicher Tippfehler: die beide (beiden)">
             <antipattern>
                 <token postag="PRP:.*" postag_regexp="yes"/>
