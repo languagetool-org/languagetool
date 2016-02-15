@@ -8421,7 +8421,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CONSISTIR_EN_QUE" name="consistir *en què">
             <pattern>
-                <token inflected="yes" regexp="yes">consistir|basar|insistir|fonamentar|coincidir|raure|diferenciar|diferir|estar</token>
+                <token inflected="yes" regexp="yes">consistir|basar|insistir|fonamentar|coincidir|raure|diferenciar|diferir|estar|fixar|centrar|trobar|resultar</token>
                 <token min="0" max="4" postag="RG|_PUNCT_CONT|.*LOC_ADV.*|&pronom_feble;" postag_regexp="yes"/>
                 <marker>
                     <token>en</token>
@@ -15372,6 +15372,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category name="Errors ortogràfics" type="misspelling">
+        <rule id="MHI" name="mhi/m'hi">
+            <pattern>
+                <token regexp="yes">[mtnls](hi|ho)<exception regexp="yes">[ln]ho</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(.)(.+)" regexp_replace="$1'$2"/></suggestion></message>
+            <example correction="m'hi">I <marker>mhi</marker> he acostat.</example>
+        </rule>
         <rule id="DHONDT" name="D'Hondt">
             <antipattern case_sensitive="yes">
                 <token>D'</token>
