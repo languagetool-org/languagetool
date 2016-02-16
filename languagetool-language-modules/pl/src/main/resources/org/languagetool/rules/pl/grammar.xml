@@ -6611,10 +6611,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Bo luka między teorią społeczną a praktyką jest spora - ta nadzieja okazała się płonna...</example>
 						</rule>
 						<rule>
+                            <antipattern>
+                                <token>przy</token> <!-- nazwy ulic -->
+                                <marker>
+                                    <token regexp="yes" postag_regexp="yes" postag="subst.*gen.*">\p{Lu}\p{Ll}+</token>
+                                </marker>
+                            </antipattern>
 								<pattern>
 										<token postag="prep:loc.*" postag_regexp="yes"><exception regexp="yes">na|w</exception><exception postag="prep:(?!loc).*" postag_regexp="yes"/></token>
 										<marker>
-												<token postag="subst:.*" postag_regexp="yes"><exception postag=".*loc.*|conj|comp|adv.*|num.*" postag_regexp="yes"></exception><exception regexp="yes">.*um</exception><exception postag="&lt;/?ADV&gt;" postag_regexp="yes"></exception></token>
+												<token postag="subst:.*" postag_regexp="yes">
+                                                    <exception postag=".*loc.*|conj|comp|adv.*|num.*" postag_regexp="yes">
+                                                    </exception><exception regexp="yes">.*um</exception><exception postag="&lt;/?ADV&gt;" postag_regexp="yes"></exception>
+                                                </token>
 										</marker>
 								</pattern>
 								<message>Przyimek „\1” jest używany z miejscownikiem.</message>
@@ -6623,6 +6632,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Byłem przy grobie Mickiewicza.</example>
 								<example correction="">Byłem przy <marker>grobem</marker> Mickiewicza.</example>
 								<example>Ma na myśli na przykład Józia.</example>
+                                <example>Znajdował się w głównym gmachu muzeum przy Marcinkowskiego.</example>
 						</rule>
 						<rule>
                                 <antipattern>
@@ -6741,7 +6751,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     </marker>
                             </pattern>
                             <message>Przyimek „około” wymaga dopełniacza: <suggestion><match no="2" postag_regexp="yes" postag="(.*)nom.acc.voc" postag_replace="$1gen.*"/></suggestion></message>
-                            <url>http://obcyjezykpolski.strefa.pl/?md=archive&amp;id=94</url>
+                            <url>http://obcyjezykpolski.pl/okolo/</url>
                             <short>Przyimek wymaga dopełniacza.</short>
                             <example correction="dwuset|dwustu|dwóchset">To było około <marker>dwieście</marker> psów.</example>
                             <example>To było około dwustu psów.</example>
@@ -6751,7 +6761,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </rule>
                         <rule>
                             <antipattern>
-                                <token postag="prep.*" postag_regexp="yes"><exception postag="prep:gen"/><exception>a</exception></token>
+                                <token postag="prep.*" postag_regexp="yes"><exception postag="prep:gen.*" postag_regexp="yes"/><exception>a</exception></token>
                                 <marker><token>ok</token></marker>
                                 <token>.</token>
                             </antipattern>
@@ -6763,7 +6773,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 </marker>
                             </pattern>
                             <message>Przyimek „około” wymaga dopełniacza: <suggestion><match no="3" postag_regexp="yes" postag="(.*)nom.acc.voc" postag_replace="$1gen.*"/></suggestion></message>
-                            <url>http://obcyjezykpolski.strefa.pl/?md=archive&amp;id=94</url>
+                            <url>http://obcyjezykpolski.pl/okolo/</url>
                             <short>Przyimek wymaga dopełniacza.</short>
                             <example correction="dwuset|dwustu|dwóchset">To było ok. <marker>dwieście</marker> psów.</example>
                             <example>To było ok. dwustu psów.</example>
@@ -6772,18 +6782,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </rule>
                         <rule>
                             <pattern>
-                                <token postag="prep.*" postag_regexp="yes"><exception postag="prep:gen"/><exception>a</exception><exception>temu</exception></token>
+                                <token postag="prep.*" postag_regexp="yes"><exception postag="prep:gen.*" postag_regexp="yes"/><exception>a</exception><exception>temu</exception></token>
                                 <marker><token>około</token>
                                 <token postag="num:pl:gen.*" postag_regexp="yes"/>
                                 </marker>
                             </pattern>
                             <message>„Około” po przyimku wymagającym innego przypadku niż dopełniacz traktowane jest jako partykuła, a przypadek dostosowuje się do poprzedzającego przyimka. Można też zastąpić „około” wyrażeniem „prawie” lub „mniej więcej”.</message>
-                            <url>http://obcyjezykpolski.strefa.pl/?md=archive&amp;id=94</url>
+                            <url>http://obcyjezykpolski.pl/okolo/</url>
                             <short>Ten przyimek nie wymaga dopełniacza.</short>
                             <example correction="">Pociąg spóźnił się o <marker>około dwóch</marker> godzin.</example>
                             <example>Pociąg spóźnił się o około dwie godziny.</example>
                             <example>Noworodki obojej płci liczono w całym królestwie, a około pięćdziesięciu w stolicy.</example>
                             <example>Narodziłem się w Anglii, skąd wyjechałem lat temu około pięciu.</example>
+                            <example>Współpraca argentyńsko-egipska istnieje od około pięciu lat.</example>
                         </rule>
 				</rulegroup>
 				<rule id="WIEKSZY_JAK" name="„większy/lepszy jak” (większy/lepszy od/niż)">
@@ -11309,6 +11320,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 				<rulegroup id="ZBEDNA_WIELKA_LITERA_TY" name="Zbędna wielka litera w zaimkach osobowych">
 						<rule>
+                            <antipattern case_sensitive="yes">
+                                <marker>
+                                    <token regexp="yes">M[Ii]</token>
+                                </marker>
+                                <token regexp="yes">[65]</token>
+                            </antipattern>
 								<pattern case_sensitive="yes">
 										<token regexp="yes">\p{Ll}+</token>
 										<marker>
@@ -11325,6 +11342,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Zostań z nami!</example>
                                 <example>Ten pies nie zrobi Ci krzywdy.</example>
                                 <example>Z każdym dniem kocham Cię coraz bardziej.</example>
+                            <example>Kojarzysz brytyjską agencję Mi 6?</example>
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
@@ -11409,6 +11427,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <rulegroup id="PISOWNIA_NAZW_CZASOPISM" name="Tytuły czasopism bez wielkich liter">
                     <rule>
                         <pattern case_sensitive="yes">
+                            <marker>
                             <unify>
                                 <feature id="case"/><feature id="number"><type id="sg"/></feature>
                                 <feature id="gender"/>
@@ -11416,8 +11435,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     <token regexp="yes" inflected="yes">gazeta|przegląd|dziennik|kurier|express|tygodnik|kwartalnik|rocznik</token>
                                     <token regexp="yes">\p{Lu}\p{Ll}+</token>
                                 </and>
-                                <token postag="adj.*" postag_regexp="yes" regexp="yes">\p{Ll}+<exception inflected="yes" regexp="yes">ten|swój|taki</exception></token>
+                                <token postag="adj.*" postag_regexp="yes" regexp="yes">\p{Ll}+<exception inflected="yes" regexp="yes">ten|swój|taki|pisany|intymny|telewizyjny|skłonny|północny</exception></token>
                             </unify>
+                            </marker>
+                            <token><exception regexp="yes">[„&quot;]</exception></token>
                         </pattern>
                         <message>Tytuły czasopism pisze się wielkimi literami: <suggestion><match no="1" case_conversion="startupper"/> <match
                                 no="2" case_conversion="startupper"/></suggestion>.</message>
@@ -11428,9 +11449,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Czytałem gazety ukraińskie.</example>
                         <example>Gazety francuskie nie są takie ciekawe.</example>
                         <example>Kurier ten wręczył pani Sanseverina kilka listów hrabiego.</example>
+                        <example>Gazeta holenderska &quot;De Volkskrant&quot; skomentowała oskarżenia.</example>
                     </rule>
                     <rule>
+                        <antipattern case_sensitive="yes">
+                            <token regexp="yes">\p{Lu}.*</token>
+                            <token regexp="yes">[”&quot;]</token>
+                            <token regexp="yes">[,–—\-]</token>
+                            <marker>
+                                <unify>
+                                    <feature id="case"/><feature id="number"><type id="sg"/></feature>
+                                    <feature id="gender"/>
+                                    <token regexp="yes" inflected="yes">gazeta|przegląd|dziennik|kurier|express|tygodnik|kwartalnik|rocznik</token>
+                                    <unify-ignore>
+                                        <token postag="adja"/>
+                                        <token spacebefore="no">-</token>
+                                    </unify-ignore>
+                                    <token postag="adj.*" postag_regexp="yes" regexp="yes">\p{Ll}+</token>
+                                </unify>
+                            </marker>
+                        </antipattern>
                         <pattern case_sensitive="yes">
+                            <marker>
                             <unify>
                                 <feature id="case"/><feature id="number"><type id="sg"/></feature>
                                 <feature id="gender"/>
@@ -11441,6 +11481,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 </unify-ignore>
                                 <token postag="adj.*" postag_regexp="yes" regexp="yes">\p{Ll}+</token>
                             </unify>
+                            </marker>
+                            <token><exception regexp="yes">[„&quot;]</exception></token>
                         </pattern>
                         <message>Tytuły czasopism pisze się wielkimi literami: <suggestion><match no="1" case_conversion="startupper"/> <match
                                 no="2" case_conversion="startupper"/><match no="3"/><match no="4" case_conversion="startupper"/></suggestion>.</message>
@@ -11448,6 +11490,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <short>Błąd pisowni wielką i małą literą</short>
                         <example correction="Przeglądzie Filozoficzno-Literackim">Czytałem to w „<marker>Przeglądzie filozoficzno-literackim</marker>”.</example>
                         <example>Czytałem to w „<marker>Przeglądzie Filozoficzno-Literackim</marker>”.</example>
+                        <example>W ub. r. Holendrzy kupili tygodnik ekonomiczno-finansowy &quot;Figyelo&quot;.</example>
+                        <example>Należy do niej „Słowo Ludu” - dziennik informacyjno-publicystyczny.</example>
                     </rule>
                 </rulegroup>
 				<rulegroup id="WOJ_MAZOWIECKIE" name="„województwo Mazowieckie” (województwo mazowieckie)">
@@ -11455,6 +11499,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <antipattern case_sensitive="yes">
                         <token inflected="yes">urząd<exception regexp="yes">\p{Ll}+</exception></token>
                         <token inflected="yes">marszałkowski<exception regexp="yes">\p{Ll}+</exception></token>
+                        <marker>
+                            <token>Województwa</token>
+                            <token regexp="yes" postag="adj:.*" postag_regexp="yes">\p{Lu}\p{Ll}.*kiego</token>
+                        </marker>
+                    </antipattern>
+                    <antipattern case_sensitive="yes">
+                        <token inflected="yes">sejmik<exception regexp="yes">\p{Ll}+</exception></token>
                         <marker>
                             <token>Województwa</token>
                             <token regexp="yes" postag="adj:.*" postag_regexp="yes">\p{Lu}\p{Ll}.*kiego</token>
@@ -11478,6 +11529,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   <example>Prezes komisji województwa Radoszewski także się na niej wzorował.</example>
                   <example>Do władz województwa Mazowiecki wysłał depeszę.</example>
                     <example>Urząd Marszałkowski Województwa Mazowieckiego</example>
+                    <example>A do Sejmu wejdzie radna Sejmiku Województwa Mazowieckiego Ewa Kopacz.</example>
                 </rule>
                 <rule>
                     <antipattern case_sensitive="yes">
@@ -16727,11 +16779,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wtedy zrozumieli, iż kazał im strzec się nie tego kwasu, którym zaczynia się chleb, lecz że przestrzegał ich przed nauką faryzeuszów i saduceuszów.</example>
             </rule>
             <rule id="NIE_DZIWNEGO" name="„nie dziwnego” (nic dziwnego)">
-                <pattern>
+                <antipattern>
                     <marker>
                         <token>nie</token>
                     </marker>
-                    <token postag='adj:sg:gen:m1.m2.m3.n1.n2:pos'><exception negate_pos='yes' postag='adj:.*' postag_regexp="yes"/></token>
+                    <token skip="5" postag='adj:sg:gen:m1.m2.m3.n1.n2:pos'><exception negate_pos='yes' postag='adj:.*' postag_regexp="yes"/></token>
+                    <token>,</token>
+                    <token regexp="yes">ale|jeno|lecz</token>
+                </antipattern>
+                <antipattern>
+                    <token>nigdzie</token>
+                <marker>
+                    <token>nie</token>
+                </marker>
+                    <token>zamieszkałego</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>nie<exception scope="previous" regexp="yes">[oa]|coś|na|przez|jeśli|jeżeli|dlaczego|\(</exception></token>
+                    </marker>
+                    <token postag='adj:sg:gen:m1.m2.m3.n1.n2:pos'><exception negate_pos='yes' postag='adj:.*' postag_regexp="yes"/>
+                        <exception regexp="yes">każdego|żadnego|całego|samego|[ts]wojego|mojego|[wn]aszego|jakiegoś|tego|któregokolwiek|prima</exception>
+                    </token>
                     <token><exception postag='subst:sg:gen:m.*' postag_regexp='yes'></exception></token>
                 </pattern>
                 <message>Prawdopodobna literówka. Czy chodziło o <suggestion>nic</suggestion>?</message>
@@ -16739,6 +16808,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Nic"><marker>Nie</marker> dostrzegalnego na ziemi nie odpowiada temu.</example>
                 <example>Nic dostrzegalnego na ziemi nie odpowiada temu.</example>
                 <example>To nie tego szukam.</example>
+                <example>Nie każdego stać na spłacanie kredytu.</example>
+                <example>To nie prima aprilis?</example>
+                <example>Pewno zjadła coś nie takiego.</example>
             </rule>
             <rule id="MLODU" name="„młodu” (za młodu)">
                 <pattern>
