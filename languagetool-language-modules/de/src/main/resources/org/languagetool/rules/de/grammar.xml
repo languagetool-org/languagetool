@@ -6169,6 +6169,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category name="Zusammen-/Getrenntschreibung">
+        <rule id="BEREIT_STEHEN" name="bereit stehen -> bereitstehen">
+            <pattern>
+                <token postag="SENT_START" negate_pos="yes"/>
+                <marker>
+                    <token>bereit</token>
+                    <token inflected="yes">stehen</token>
+                </marker>
+            </pattern>
+            <message>Das Verb <suggestion>\2\3</suggestion> wird zusammengeschrieben.</message>
+            <example correction="bereitstanden">Ein Schrank, in dem Bücher <marker>bereit standen</marker>.</example>
+        </rule>
         <rule id="HIER_BEI" name="hier bei -> hierbei">
             <pattern>
                 <marker>
