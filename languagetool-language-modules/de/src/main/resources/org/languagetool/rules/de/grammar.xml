@@ -11028,6 +11028,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>FIXME</message>
         </rule>
         -->
+        <!-- auskommentiert wegen dem Fehlalarm bei "Das letzte der drei Bücher" (Ellipse, daher wohl okay)
+        <rule id="DAS_KLEINES_SUBST_ADJ" name="kleingeschriebenes substantiviertes Adjektiv am Satzanfang">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token>Das</token>
+                <marker>
+                    <token postag="ADJ:.*" postag_regexp="yes"/>
+                </marker>
+                <token postag="(ADV|PRP|ART):.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Das Adjektiv scheint hier als Substantiv benutzt zu werden und muss dann großgeschrieben werden.</message>
+            <suggestion><match no="3" case_conversion="startupper" /></suggestion>
+            <example correction="Schöne">Das <marker>schöne</marker> am Wochenende ist der Samstag.</example>
+            <example correction="Schöne">Das <marker>schöne</marker> des Parks sind die Bäume.</example>
+            <example correction="Schöne">Das <marker>schöne</marker> im Park sind die Bäume.</example>
+            <example correction="Schöne">Das <marker>schöne</marker> daran ist die viele freie Zeit.</example>
+            <example>Das <marker>schöne</marker> Wochenende.</example>
+            <example>Das <marker>letzte</marker> der drei Bücher</example>
+        </rule>
+        -->
         <rulegroup id="ICH_NOMEN" name="Ich Rede (rede) etc.">
             <rule>
                 <pattern case_sensitive='yes'>
@@ -23684,7 +23704,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">der|die|das</token>
                 <marker>
-                    <token postag="VER:IMP:SIN:SFT" postag_regexp="yes" regexp="yes" case_sensitive="yes">
+                    <token postag="VER:IMP:SIN:SFT" regexp="yes" case_sensitive="yes">
                         [a-zöäü]+
                         <exception>eine</exception>
                     </token>
