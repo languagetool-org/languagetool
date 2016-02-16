@@ -6169,6 +6169,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category name="Zusammen-/Getrenntschreibung">
+        <rule id="HIER_BEI" name="hier bei -> hierbei">
+            <pattern>
+                <marker>
+                    <token>hier</token>
+                    <token>bei</token>
+                </marker>
+                <token postag_regexp="yes" postag="VER:.*"/>
+            </pattern>
+            <message>Das Adverb <suggestion>hierbei</suggestion> wird zusammengeschrieben.</message>
+            <example correction="Hierbei"><marker>Hier bei</marker> wird sich auf den Lernbereich 4 bezogen.</example>
+        </rule>
         <rule id="BEI_ZEITEN" name="bei Zeiten (beizeiten)">
             <pattern>
                 <marker>
