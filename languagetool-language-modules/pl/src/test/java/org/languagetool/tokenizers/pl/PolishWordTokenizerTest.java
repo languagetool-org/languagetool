@@ -76,6 +76,14 @@ public class PolishWordTokenizerTest extends TestCase {
     compoundTokens = wordTokenizer.tokenize("Słownik polsko-niemiecko-indonezyjski");
     assertEquals(7, compoundTokens.size());
     assertEquals("[Słownik,  , polsko, -, niemiecko, -, indonezyjski]", compoundTokens.toString());
+    // number ranges:
+    compoundTokens = wordTokenizer.tokenize("Impreza odbędzie się w dniach 1-23 maja.");
+    assertEquals(16, compoundTokens.size());
+    assertEquals("[Impreza,  , odbędzie,  , się,  , w,  , dniach,  , 1, -, 23,  , maja, .]", compoundTokens.toString());
+    // number ranges:
+    compoundTokens = wordTokenizer.tokenize("Impreza odbędzie się w dniach 1--23 maja.");
+    assertEquals(18, compoundTokens.size());
+    assertEquals("[Impreza,  , odbędzie,  , się,  , w,  , dniach,  , 1, -, , -, 23,  , maja, .]", compoundTokens.toString());
   }
 
 }

@@ -24,6 +24,7 @@
 #### Polish
   * added and improved a large number of rules, largely improved disambiguation
   * upgraded the tagging and synthesis dictionaries to Morfologik Polimorf 2.1
+  * improved tokenization of number ranges (such as 1-1234 or 1--10)
     
 #### Portuguese
   * added and improved rules

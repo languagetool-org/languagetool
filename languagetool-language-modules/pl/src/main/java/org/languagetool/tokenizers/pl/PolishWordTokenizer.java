@@ -99,17 +99,26 @@ public class PolishWordTokenizer extends WordTokenizer {
           l.add("-");
         } else if (token.charAt(0) == '-') {
           l.add("-");
-          l.add(token.substring(1, token.length()));
+          l.addAll(tokenize(token.substring(1, token.length())));
         } else if (token.contains("-")) {
           String[] tokenParts = token.split("-");
           if (prefixes.contains(tokenParts[0])
               || tagger == null) {
             l.add(token);
+          } else if (Character.isDigit(tokenParts[tokenParts.length - 1].charAt(0))) {
+            //split numbers at dash or minus sign, 1-10
+            for (int i = 0; i < tokenParts.length; i++) {
+              l.add(tokenParts[i]);
+              if (i != tokenParts.length - 1) {
+                l.add("-");
+              }
+            }
           } else {
             List<String> testedTokens = new ArrayList<>(tokenParts.length + 1);
             Collections.addAll(testedTokens, tokenParts);
             testedTokens.add(token);
             try {
+
               List<AnalyzedTokenReadings> taggedToks = tagger.tag(testedTokens);
               if (taggedToks.size() == tokenParts.length + 1
                   && !taggedToks.get(tokenParts.length).isTagged()){
