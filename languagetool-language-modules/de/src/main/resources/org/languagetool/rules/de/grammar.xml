@@ -23680,6 +23680,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
         </rulegroup>
         -->
+        <rule id="ART_KLEINES_NOMEN" name="der/die/das + kleingeschriebenes Nomen">
+            <pattern>
+                <token regexp="yes">der|die|das</token>
+                <marker>
+                    <token postag="VER:IMP:SIN:SFT" postag_regexp="yes" regexp="yes" case_sensitive="yes">
+                        [a-zöäü]+
+                        <exception>eine</exception>
+                    </token>
+                </marker>
+                <token postag="VER:.*" postag_regexp="yes" />
+            </pattern>
+            <message>Wenn es sich um ein Nomen handelt, muss es großgeschrieben werden.</message>
+            <suggestion><match no="2" case_conversion="startupper"/></suggestion>
+            <example correction="Sonne">Die <marker>sonne</marker> scheint.</example>
+            <example correction="Sonne">Denn die <marker>sonne</marker> scheint.</example>
+        </rule>
         <rule id="BEI_ANDEREN_SUB" name="'bei anderen' + ohne Dativ plural">
             <pattern>
                 <token>bei</token>
