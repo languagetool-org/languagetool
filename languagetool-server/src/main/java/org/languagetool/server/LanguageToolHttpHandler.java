@@ -324,7 +324,11 @@ class LanguageToolHttpHandler implements HttpHandler {
       if (readBytes <= 0) {
         break;
       }
-      if (sb.length() > 0 && sb.length() > maxTextLength * 2) {
+      int generousMaxLength = maxTextLength * 2;
+      if (generousMaxLength < 0) {  // might happen as it can overflow
+        generousMaxLength = Integer.MAX_VALUE;
+      }
+      if (sb.length() > 0 && sb.length() > generousMaxLength) {
         // don't stop at maxTextLength as that's the text length, but here also other parameters
         // are included (still we need this check here so we don't OOM if someone posts a few hundred MB)...
         throw new TextTooLongException("Your text exceeds this server's limit of " + maxTextLength + " characters.");
