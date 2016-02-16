@@ -2757,8 +2757,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Bitte</token>
+                    <token>lies</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>Lies</token>
+                </antipattern>
+                <antipattern>
                     <token skip="5">lies</token>
                     <token>vor</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="8">Buch</token>
+                    <token>lies</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -2769,6 +2782,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion>ließ</suggestion> (Vergangenheitsform von 'lassen')?</message>
                 <example correction="ließ">Peter <marker>lies</marker> sich die Haare machen.</example>
                 <example>Bitte <marker>lies</marker> ihn mir vor!</example>
+                <example><marker>Lies</marker> es noch einmal.</example>
             </rule>
         </rulegroup>
         <rule id="ZWEIUNDVIERZIG" name="Möglicher Tippfehler: '42 (die Antwort auf die Frage nach dem Leben, dem Universum und dem ganzen Rest)'" default="off">
