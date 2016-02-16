@@ -23680,6 +23680,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
         </rulegroup>
         -->
+        <rule id="BEI_ANDEREN_SUB" name="'bei anderen' + ohne Dativ plural">
+            <pattern>
+                <token>bei</token>
+                <token>anderen</token>
+                <marker>
+                    <token postag="SUB:.*:SIN:.*" postag_regexp="yes"><exception postag="SUB:DAT:PLU.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Muss hier möglicherweise der Plural Dativ benutzt werden?</message>
+            <suggestion><match no="3" postag_regexp="yes" postag="SUB:DAT:PLU.*" /></suggestion>
+            <example correction="Lehrern">So ging ich zwei Tage bei anderen <marker>Lehrer</marker> mit.</example>
+            <example correction="Deutschlehrern">So ging ich zwei Tage bei anderen <marker>Deutschlehrer</marker> mit.</example>
+            <example correction="Deutschlehrerinnen">So ging ich zwei Tage bei anderen <marker>Deutschlehrerin</marker> mit.</example>
+        </rule>
         <rulegroup id="MODALVERB_FLEKT_VERB" name="Modalverb mit flektiertem Verb">
             <rule>
                 <pattern>
