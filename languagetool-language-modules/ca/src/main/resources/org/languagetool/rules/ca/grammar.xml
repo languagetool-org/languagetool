@@ -8420,8 +8420,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>El lloc <marker>en què</marker> ho van trobar</example>
         </rule>
         <rule id="CONSISTIR_EN_QUE" name="consistir *en què">
+            <antipattern>
+                <marker>
+                    <token>què</token>
+                    <token regexp="yes" inflected="yes">passar|esdevenir|ocórrer|succeir</token>
+                </marker>
+            </antipattern>
             <pattern>
-                <token inflected="yes" regexp="yes">consistir|basar|insistir|fonamentar|coincidir|raure|diferenciar|diferir|estar|fixar|centrar|trobar|resultar</token>
+                <token inflected="yes" regexp="yes">èmfasi|consistir|basar|insistir|fonamentar|coincidir|raure|diferenciar|diferir|estar|fixar|centrar|trobar|resultar|assemblar|confiar|convenir|influir</token>
                 <token min="0" max="4" postag="RG|_PUNCT_CONT|.*LOC_ADV.*|&pronom_feble;" postag_regexp="yes"/>
                 <marker>
                     <token>en</token>
