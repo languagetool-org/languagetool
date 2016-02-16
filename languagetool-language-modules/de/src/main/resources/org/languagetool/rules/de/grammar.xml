@@ -23647,7 +23647,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="MODALVERB_FLEKT_VERB" name="Modalverb mit flektiertem Verb">
             <rule>
                 <pattern>
-                    <token postag_regexp="yes" postag="VER:MOD:[13]:SIN:.*"/>
+                    <token postag_regexp="yes" postag="VER:(MOD|AUX):[13]:SIN:.*"/>
                     <token postag_regexp="yes" postag="ART:.*" min="0"/>
                     <token postag_regexp="yes" postag="ADJ:.*" min="0"/>
                     <token postag_regexp="yes" postag="SUB:.*"/>
@@ -23664,6 +23664,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Möglicherweise muss hier die Grundform des Verbs benutzt werden.</message>
                 <suggestion><match no="5" postag="VER:INF:.*" postag_regexp="yes"/></suggestion>
                 <example correction="kaufen">Ich will ein Auto <marker>kaufe</marker>.</example>
+                <example correction="kaufen">Ich werde ein Auto <marker>kaufe</marker>.</example>
                 <example correction="kaufen">Ich will ein kleines Auto <marker>kaufe</marker>.</example>
                 <example correction="kaufen">Ich will ein kleines Auto <marker>kaufte</marker>.</example>
                 <example correction="kaufen">Ich will ein kleines Auto <marker>kaufst</marker>.</example>
