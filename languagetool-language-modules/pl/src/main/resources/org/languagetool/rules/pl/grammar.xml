@@ -3682,6 +3682,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     </category>
 		<category name="Błędy typograficzne" type="typographical">
+            <rule id="SPACJA_ZA_PRZECINKIEM_DZIESITNYM" name="Spacja za przecinkiem dziesiętnym">
+                <pattern>
+                    <marker>
+                        <token regexp='yes'>[1-9]\d*</token>
+                        <token>,</token>
+                        <token regexp='yes' spacebefore='yes'>\d+</token>
+                    </marker>
+                    <token regexp='yes'>tys|proc|zł|EUR</token>
+                </pattern>
+                <message>Prawdopodobnie zbędna spacja za przecinkiem w liczbie: <suggestion><match no="1"/>,<match no="3"/></suggestion>.</message>
+                <short>Zbędna spacja</short>
+                <example correction='1,9'>Wzrósł zaledwie o <marker>1, 9</marker> proc.</example>
+                <example>Wzrósł zaledwie o 1,9 proc.</example>
+            </rule>
             <rule type="whitespace" id="SPACJA_TM_R" name="Zbędna spacja przed znakiem ™ i ®">
                 <pattern>
                     <marker>
@@ -5480,12 +5494,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag='ppas:pl:nom.voc:m1.p1:.*' postag_regexp="yes"></token>
                     </marker>
-                    <token postag='adj:sg:nom.voc:n1.n2:pos.*' postag_regexp='yes'></token>
+                    <token postag='adj:sg:nom.voc:n1.n2:pos.*' postag_regexp='yes'>
+                        <exception regexp="yes">to|takie|oboje</exception>
+                        <exception postag="subst:pl:nom:m1"/>
+                    </token>
                 </pattern>
                 <message>Prawdopodobnie literówka lub błąd składniowy. Czy chodziło o <suggestion><match no="1" postag_regexp="yes" postag="ger:sg:nom.acc:n2.*"/></suggestion>?</message>
                 <short>Błąd gramatyczny lub literówka</short>
                 <example correction='znaczenie'>To jest <marker>znaczeni</marker> naturalne.</example>
                 <example>To jest znaczenie naturalne.</example>
+                <example>Zatrzymani to 40-letnia kobieta, bliska znajoma dziennikarza, oraz 40-letni rzemieślnik.</example>
             </rule>
             <rule id="NIEWLASCIWA_KONCOWKA_PRZYPADKU_ORZECZNIKA" name="Niewłaściwa końcówka przypadku orzecznika">
                 <antipattern>
