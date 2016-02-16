@@ -108,6 +108,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category name="Mögliche Tippfehler">
+        <rule id="SCHNELLE_RUND" name="'schnelle rund (schneller und)'">
+            <pattern>
+                <token postag="ADJ:.*" postag_regexp="yes" regexp="yes">.+e</token>
+                <token>rund</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>\1r und</suggestion>?</message>
+            <example correction="schneller und">Reinigen Sie Außenflächen <marker>schnelle rund</marker> müheloser als mit dem Besen.</example>
+        </rule>
         <rule id="NACHEILEN" name="Möglicher Tippfehler: Nacheile (Nachteile)">
             <pattern case_sensitive="yes">
                 <token regexp="yes">Nacheil(e|en)?</token>
