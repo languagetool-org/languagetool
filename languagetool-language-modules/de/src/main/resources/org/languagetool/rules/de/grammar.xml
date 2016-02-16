@@ -3866,6 +3866,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="vage">Er erinnert mich <marker>wage</marker> an meinen Onkel.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>Zünglein</token>
+                    <token>an</token>
+                    <token>der</token>
+                    <token>Waage</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>wage</token>
@@ -3907,6 +3913,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&verw;Meinten Sie <suggestion>Waage</suggestion>?</message>
                 <short>Mögliche Wortverwechslung</short>
                 <example correction="Waage">Der wird seine zwanzig Kilo auf die <marker>Wage</marker> bringen.</example>
+            </rule>
+            <rule>
+                <regexp mark="1">\bZünglein an der (Wage)\b</regexp>
+                <message>&verw;Meinten Sie <suggestion>Waage</suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction="Waage">Er ist das Zünglein an der <marker>Wage</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SANG_UND_KLAGLOS" name="Mögliche Wortverwechslung: klaglos/klanglos">
