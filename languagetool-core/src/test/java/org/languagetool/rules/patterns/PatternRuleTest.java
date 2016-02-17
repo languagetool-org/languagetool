@@ -99,7 +99,7 @@ public class PatternRuleTest extends TestCase {
   }
 
   private void runGrammarRuleForLanguage(Language lang) throws IOException {
-    if (skipCountryVariant(lang) && !lang.getShortNameWithCountryAndVariant().equals("ca-ES")) {
+    if (skipCountryVariant(lang)) {
       System.out.println("Skipping " + lang + " because there are no specific rules for that variant");
       return;
     }
@@ -107,6 +107,9 @@ public class PatternRuleTest extends TestCase {
   }
 
   private boolean skipCountryVariant(Language lang) {
+    if (Languages.get().get(0).equals(lang)) { // test always the first one
+      return false;
+    }
     final ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     boolean hasGrammarFiles = false;
     for (String grammarFile : getGrammarFileNames(lang)) {
