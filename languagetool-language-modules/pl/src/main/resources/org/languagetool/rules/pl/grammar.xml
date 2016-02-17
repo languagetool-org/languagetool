@@ -3647,14 +3647,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     </rulegroup>
     <rulegroup id="JEDNOSTKA_LICZBA" name="Brak spacji przed jednostką, np. 12 kg">
+        <antipattern>
+            <token regexp="yes">[\p{Lu}\d].*</token>
+            <token spacebefore="no">-</token>
+            <marker>
+                <token regexp="yes">\d.*</token>
+            </marker>
+        </antipattern>
     <rule>
       <pattern>
         <token regexp="yes">\d+([mkc]m|[Mk]Hz|[MKT]B|V)</token>
       </pattern>
       <message>Brak spacji po wartości liczbowej. Powinno być: <suggestion><match no="1" regexp_match="(\d+)(.*)" regexp_replace="$1 $2"></match></suggestion>.</message>
       <short>Zły format liczby</short>
-      <example>Ten dysk ma wielkość 120 MB.</example>
-      <example correction="500 MHz">Częstotliwość nośna to <marker>500MHz</marker>.</example>
+        <example>Ten dysk ma wielkość 120 MB.</example>
+        <example correction="500 MHz">Częstotliwość nośna to <marker>500MHz</marker>.</example>
+        <example>1600 śmigłowców szturmowych: Mi-24 i Mi-28 oraz Mi-8TB</example>
     </rule>
     <rule>
       <pattern case_sensitive="yes">
@@ -11348,6 +11356,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 </marker>
                                 <token regexp="yes">[65]</token>
                             </antipattern>
+                            <antipattern case_sensitive="yes">
+                                <marker>
+                                    <token regexp="yes">M[Ii]</token>
+                                </marker>
+                                <token spacebefore="no">-</token>
+                                <token regexp="yes">\d.*</token>
+                            </antipattern>
 								<pattern case_sensitive="yes">
 										<token regexp="yes">\p{Ll}+</token>
 										<marker>
@@ -11365,6 +11380,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>Ten pies nie zrobi Ci krzywdy.</example>
                                 <example>Z każdym dniem kocham Cię coraz bardziej.</example>
                             <example>Kojarzysz brytyjską agencję Mi 6?</example>
+                            <example>1600 śmigłowców szturmowych: Mi-24 i Mi-28 oraz Mi-8TB</example>
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
@@ -11432,6 +11448,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Po zabójstwie Marian Płoński zaalarmował milicję.</example>
                         <example>Paulina to wie.</example>
                         <example>Na Dominikanie jest dużo ludzi.</example>
+                        <example>Nie zgodził się na to Marian Krzaklewski.</example>
 				</rule>
 				<rule id="JEZYK_POLSKI" name="Pisownia nazw języków wielką literą">
 						<pattern case_sensitive="yes">
@@ -14904,6 +14921,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     </marker>
                                     <token spacebefore="no">)</token>
                                 </antipattern>
+                                <antipattern>
+                                    <token>sp</token>
+                                    <token>.</token>
+                                    <token>z</token>
+                                    <marker>
+                                        <token>oo</token>
+                                    </marker>
+                                </antipattern>
                                 <pattern>
 										<marker>
 												<token postag="brev:pun"><exception negate_pos="yes" postag="brev:pun"></exception><exception regexp="yes">dr|mjr|mgr|a?bp|płk|and</exception></token>
@@ -14918,6 +14943,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example correction="Np."><marker>Np</marker> Kowalski napisał dwa donosy.</example>
                                 <example>Stopień dysocjacji w temperaturze 4000 K wynosi niecałe 3%.</example>
                                 <example>Lista światowego dziedzictwa kulturowego (K) i przyrodniczego (P)</example>
+                                <example>— Oo, jak nabazgrane!</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -14950,7 +14976,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 							<pattern case_sensitive="yes">
 				            <token regexp="yes">((X{0,2})(V?I{0,3}|I[VX]))(-(X{0,2})(V?I{0,3}|I[VX]))?<exception postag="SENT_START"/><exception>-</exception><exception>I</exception><exception scope="previous" regexp="yes" case_sensitive="no">nr|typu</exception><exception scope="previous" inflected="yes">wiek</exception><exception scope="previous" regexp="yes" inflected="yes">\p{Lu}\p{Ll}+</exception></token>
 				            <marker><token>w</token></marker>
-				            <token><exception>.</exception><exception regexp="yes">\d{0,4}</exception></token>
+				            <token>
+                                <exception>.</exception>
+                                <exception regexp="yes">\d{0,4}</exception>
+                                <exception postag="subst:.*loc.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}+</exception>
+                            </token>
 			                 </pattern>
 			                 <message>Prawdopodobnie brak kropki: <suggestion>\2.</suggestion></message>
 			               <short>Brak kropki</short>
@@ -14965,7 +14995,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                            <example>Ukrywała szorstki i dziki wiek XI w grubości swoich murów.</example>
                            <example>Sobór laterański IV w 1215 podsumował dotychczasowe ustawodawstwo.</example>
                            <example>W cukrzycy typu II w wyspach trzustkowych odkłada się peptyd amylina.</example>
+                            <example>Oddział Celny II w Poznaniu, ul. Warszawska 183/ 185, 61-055 Poznań</example>
 						</rule>
+                        <rule>
+                            <pattern>
+                                <token>sp</token>
+                                <token>.</token>
+                                <token>z</token>
+                                <marker>
+                                    <token>oo</token>
+                                </marker>
+                            </pattern>
+                            <message>Brak kropek w skrócie: <suggestion>o.o.</suggestion></message>
+                            <url>http://sjp.pwn.pl/so/sp-z-o-o;4514375.html</url>
+                            <short>Brak kropek</short>
+                            <example correction='o.o.'>Danfoss sp. z <marker>oo</marker>, polski oddział duńskiego koncernu Danfoss</example>
+                        </rule>
 				</rulegroup>
                 <rulegroup id="OK_BEZ_KROPKI" name="„ok” (ok.)">
                     <rule>
