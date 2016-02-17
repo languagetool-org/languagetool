@@ -8406,20 +8406,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="amb què|que">L'escrupolositat <marker>amb que</marker> pintava.</example>
             <example>L'escrupolositat <marker>amb què</marker> pintava.</example>
         </rule>
-        <rule id="EN_QUE" name="en que">
-            <pattern>
-                <token>en</token>
-                <token>que</token>
-            </pattern>
-            <message>Error de sintaxi.</message>
-            <suggestion>en què</suggestion>
-            <suggestion>que</suggestion>
-            <suggestion>en el fet que</suggestion>
-            <url>http://esadir.cat/entrades/fitxa/node/prepcaiguda</url>
-            <example correction="en què|que|en el fet que">El lloc <marker>en que</marker> ho van trobar</example>
-            <example>El lloc <marker>en què</marker> ho van trobar</example>
-        </rule>
-        <rule id="CONSISTIR_EN_QUE" name="consistir *en què">
+        <rulegroup id="EN_QUE" name="en que/en què...">
+        <rule>
             <antipattern>
                 <marker>
                     <token>què</token>
@@ -8446,13 +8434,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="en el fet que|que|a fer que|a dir que">Això consisteix <marker>en què</marker> ho farà</example>
             <example>consisteix que</example>
         </rule>
-        <rule id="ESTAR_DACORD_EN_QUE" name="estar d'acord *en què">
+        <rule>
+            <pattern>
+                <token postag="V.[IS].*" postag_regexp="yes" inflected="yes" regexp="yes" skip="15">diferenciar|diferir|distingir<exception regexp="yes" scope="next">què|qual</exception></token>
+                <marker>
+                    <token>en</token>
+                    <token regexp="yes">que|què</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>en el fet que</suggestion>?</message>
+            <example correction="en el fet que">Es diferencien dels altres <marker>en què</marker> són verds.</example>
+        </rule>
+        <rule>
             <pattern>
                 <token>d'</token>
                 <token>acord</token>
                 <marker>
                     <token>en</token>
-                    <token>què</token>
+                    <token regexp="yes">què|que</token>
                 </marker>
                 <token><exception>?</exception></token>
             </pattern>
@@ -8465,7 +8464,66 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="en el fet que|que|a fer que|a dir que">Sempre estaven d'acord <marker>en què</marker> ho podrien fer</example>
             <example>Estaven d'acord que ho podrien fer.</example>
         </rule>
-        <rule id="A_QUE" name="a que">
+        <rule>
+            <pattern>
+                <token>en</token>
+                <token>que</token>
+            </pattern>
+            <message>Error de sintaxi.</message>
+            <suggestion>en què</suggestion>
+            <suggestion>que</suggestion>
+            <suggestion>en el fet que</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/prepcaiguda</url>
+            <example correction="en què|que|en el fet que">El lloc <marker>en que</marker> ho van trobar</example>
+            <example>El lloc <marker>en què</marker> ho van trobar</example>
+        </rule>
+        </rulegroup>
+        <rulegroup id="A_QUE" name="a que">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">por|temor|pànic|vistiplau</token>
+                    <token regexp="yes">a|de</token>
+                    <token regexp="yes">què|que</token>
+                </marker>
+                <token><exception>?</exception></token>
+            </pattern>
+            <message>Construcció incorrecta, si no equival a "<match no="1"/> <match no="2"/> la qual" o "<match no="1"/> <match no="2"/>l qual".</message>
+            <suggestion><match no="1"/> que</suggestion>
+            <example correction="por que">Tenia <marker>por a què</marker> vinguera.</example>
+            <example>Tenia por de què?</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>fins</token>
+                <token>a</token>
+                <token regexp="yes">que|què</token>
+            </pattern>
+            <message>Construcció incorrecta.</message>
+            <suggestion>fins que</suggestion>
+            <url>http://esadir.cat/gramatica/sintaxi/prepfinsfinsa</url>
+            <example correction="fins que">No serà <marker>fins a que</marker> vindran.</example>
+            <example>Fins que arribin.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">ajudar|col·laborar|contribuir|deure|esperar|convidar|invitar|disposar|forçar|aspirar|renunciar</token>
+                    <token regexp="yes">a|en</token>
+                    <token regexp="yes">què|que</token>
+                </marker>
+                <token><exception>?</exception></token>
+            </pattern>
+            <message>Construcció incorrecta.</message>
+            <suggestion><match no="1"/> al fet que</suggestion>
+            <suggestion><match no="1"/> que</suggestion>
+            <suggestion><match no="1"/> a fer que</suggestion>
+            <example correction="col·labora al fet que|col·labora que|col·labora a fer que">Això <marker>col·labora a què</marker> millorem.</example>
+            <example correction="degut al fet que|degut que|degut a fer que">És <marker>degut a què</marker> no li agrada.</example>
+            <example correction="esperar al fet que|esperar que|esperar a fer que">Podem <marker>esperar a què</marker> arribi.</example>
+            <example>Això és degut a què?</example>
+        </rule>
+        <rule>
             <pattern>
                 <token><exception regexp="yes">per|degut|fins</exception></token>
                 <marker>
@@ -8481,24 +8539,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="a què|que|al fet que">La qüestió <marker>a que</marker> es referia ell.</example>
             <example>La qüestió <marker>a què</marker> es referia ell.</example>
         </rule>
-        <rule id="COLLABORAR_A_QUE" name="col·laborar *a què">
-            <pattern>
-                <marker>
-                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">ajudar|col·laborar|contribuir|deure|esperar|convidar|invitar|disposar|forçar|aspirar|renunciar</token>
-                    <token regexp="yes">a|en</token>
-                    <token>què</token>
-                </marker>
-                <token><exception>?</exception></token>
-            </pattern>
-            <message>Construcció incorrecta.</message>
-            <suggestion><match no="1"/> al fet que</suggestion>
-            <suggestion><match no="1"/> que</suggestion>
-            <suggestion><match no="1"/> a fer que</suggestion>
-            <example correction="col·labora al fet que|col·labora que|col·labora a fer que">Això <marker>col·labora a què</marker> millorem.</example>
-            <example correction="degut al fet que|degut que|degut a fer que">És <marker>degut a què</marker> no li agrada.</example>
-            <example correction="esperar al fet que|esperar que|esperar a fer que">Podem <marker>esperar a què</marker> arribi.</example>
-            <example>Això és degut a què?</example>
-        </rule>
+	</rulegroup>
         <rule id="INFORMAR_DE_QUE" name="informar *de què/que">
             <pattern>
                 <marker>
@@ -8527,32 +8568,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Després que"><marker>Després de què</marker> se n'anés.</example>
             <example correction="Abans que"><marker>Abans de què</marker> se n'anés.</example>
             <example>Dubtava de què?</example>
-        </rule>
-        <rule id="POR_A_QUE" name="por *a què">
-            <pattern>
-                <marker>
-                    <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">por|temor|pànic|vistiplau</token>
-                    <token regexp="yes">a|de</token>
-                    <token>què</token>
-                </marker>
-                <token><exception>?</exception></token>
-            </pattern>
-            <message>Construcció incorrecta, si no equival a "<match no="1"/> <match no="2"/> la qual" o "<match no="1"/> <match no="2"/>l qual".</message>
-            <suggestion><match no="1"/> que</suggestion>
-            <example correction="por que">Tenia <marker>por a què</marker> vinguera.</example>
-            <example>Tenia por de què?</example>
-        </rule>
-        <rule id="FINS_A_QUE" name="fins a que">
-            <pattern>
-                <token>fins</token>
-                <token>a</token>
-                <token regexp="yes">que|què</token>
-            </pattern>
-            <message>Construcció incorrecta.</message>
-            <suggestion>fins que</suggestion>
-            <url>http://esadir.cat/gramatica/sintaxi/prepfinsfinsa</url>
-            <example correction="fins que">No serà <marker>fins a que</marker> vindran.</example>
-            <example>Fins que arribin.</example>
         </rule>
         <rule id="PER_QUE" name="per que">
             <pattern>
