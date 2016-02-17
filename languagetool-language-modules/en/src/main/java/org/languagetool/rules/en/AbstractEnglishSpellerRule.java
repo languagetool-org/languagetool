@@ -128,6 +128,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("through");
     } else if ("speach".equals(word)) {  // the replacement pairs would prefer "speak"
       return Arrays.asList("speech");
+    } else if ("icecreem".equals(word)) {
+      return Arrays.asList("ice cream");
     }
     return super.getAdditionalTopSuggestions(suggestions, word);
   }
