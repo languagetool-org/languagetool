@@ -3693,16 +3693,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule id="SPACJA_ZA_PRZECINKIEM_DZIESITNYM" name="Spacja za przecinkiem dziesiętnym">
                 <pattern>
                     <marker>
-                        <token regexp='yes'>[1-9]\d*</token>
+                        <token regexp='yes'>[1-9]\d*<exception scope="previous" inflected="yes">numer</exception></token>
                         <token>,</token>
                         <token regexp='yes' spacebefore='yes'>\d+</token>
                     </marker>
-                    <token regexp='yes'>tys|proc|zł|EUR</token>
+                    <token regexp='yes'>tys|proc|zł|EUR|USD|PLN</token>
                 </pattern>
                 <message>Prawdopodobnie zbędna spacja za przecinkiem w liczbie: <suggestion><match no="1"/>,<match no="3"/></suggestion>.</message>
                 <short>Zbędna spacja</short>
                 <example correction='1,9'>Wzrósł zaledwie o <marker>1, 9</marker> proc.</example>
                 <example>Wzrósł zaledwie o 1,9 proc.</example>
+                <example>Droga krajowa nr 5, 20 tys., pomiar ruchu z 2005 r.</example>
             </rule>
             <rule type="whitespace" id="SPACJA_TM_R" name="Zbędna spacja przed znakiem ™ i ®">
                 <pattern>
