@@ -5497,6 +5497,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule>
 		</category>
 		<category name="Błędy składniowe" type="grammar">
+            <rule id="ZLY_CZAS_GRAMATYCZNY_PO_JAKOBY" name="Zły czas gramatyczny po „jakoby”">
+                <pattern>
+                    <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"/>
+                    <token skip='-1'>jakoby
+                        <exception postag='verb:praet.*|(:?comp|interp):comma' postag_regexp='yes' scope='next'/>
+                        <exception scope="previous" postag="comp"/>
+                        <exception scope="previous" postag="conj"/>
+                        <exception scope="previous" inflected="yes" regexp="yes">jaki|który</exception>
+                    </token>
+                    <marker>
+                        <token postag='verb.*fin.*' postag_regexp='yes'><exception postag='subst.*' postag_regexp='yes'></exception></token>
+                    </marker>
+                </pattern>
+                <message>W tym zdaniu podrzędnym prawdopodobnie wymagany jest czas przeszły.</message>
+                <short>Błąd gramatyczny</short>
+                <example correction=''>Dziwne jest przypuszczenie, jakoby działanie rozumu <marker>może</marker> być zrozumiane.</example>
+                <example>Dziwne to przypuszczenie, jakoby działanie rozumu mogło być zrozumiane.</example>
+            </rule>
             <rule id="IMIESLOW_ZAMIAST_GERUNDIUM" name="Niezgodność formy rzeczownika (lub imiesłowu) i przymiotnika">
                 <pattern>
                     <marker>
@@ -16207,6 +16225,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="A_LE_ALE" name="„a le” (ale)">
+                <pattern case_sensitive='yes'>
+                    <token>,</token>
+                    <marker>
+                        <token>a</token>
+                        <token>le</token>
+                    </marker>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>ale</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction='ale'>Drugi zdążył się schować w pobliskiej klatce schodowej, <marker>a le</marker> też go złapano.</example>
+                <example>Drugi zdążył się schować w pobliskiej klatce schodowej, ale też go złapano.</example>
+                <example>Royal jeszcze bardziej zaakcentuje hasła socjalistyczne, Sarkozy - wzywać będzie do porządku, wysiłku i przedsiębiorczości, Bayrou - atakować jałową i bezsensowną wojnę domową dwóch głównych przeciwników, a Le Pen - pomstować na całą sprzedajną klasę polityczną ("oni wszyscy już mieli okazję rządzić!").</example>
+            </rule>
             <rule id="O_D_OD" name="„o d” (od)">
                 <pattern>
                     <token>o</token>
@@ -16229,6 +16261,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Prawdopodobna literówka</short>
                 <example correction='zgodnie'>Oferowane kolekcje mogą więc liczyć na uzupełnianie ich coraz to nowymi produktami, tworzonymi <marker>z godnie</marker> z pojawiającymi się na rynku nowymi trendami..</example>
                 <example>Pogodziłem się z godnie reprezentowanymi osobami płci przeciwnej.</example>
+            </rule>
+            <rule id="NIE_MNIE_NI_NIE_MNIEJ_NI" name="„nie mnie niż” (nie mniej niż)">
+                <pattern>
+                    <token>nie</token>
+                    <marker>
+                        <token>mnie</token>
+                    </marker>
+                    <token>niż</token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>mniej</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction='mniej'>Tak jak się dowiedzieliśmy, nie <marker>mnie</marker> niż 10% środków przeznaczonych na naukę zostanie przekazane na Narodowe Centrum Badań i Rozwoju.</example>
+                <example>Tak jak się dowiedzieliśmy, nie mniej niż 10% środków przeznaczonych na naukę zostanie przekazane na Narodowe Centrum Badań i Rozwoju.</example>
             </rule>
             <rule id="DLA_MNIEJ_DLA_MNIE" name="„dla mniej” (dla mnie)">
                 <antipattern>
