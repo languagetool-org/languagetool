@@ -99,7 +99,7 @@ public class PatternRuleTest extends TestCase {
   }
 
   private void runGrammarRuleForLanguage(Language lang) throws IOException {
-    if (skipCountryVariant(lang)) {
+    if (skipCountryVariant(lang) && !lang.getShortNameWithCountryAndVariant().equals("ca-ES")) {
       System.out.println("Skipping " + lang + " because there are no specific rules for that variant");
       return;
     }

@@ -44,6 +44,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY exceptions_Paris "Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu|judici|juí">
     <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena">
     <!ENTITY expressions_temps "ara|avui|hui|demà|despús-demà|ahir|despús-ahir|endemà|enguany|temporada|curs">
+    <!ENTITY expressions_durada "estona|poc|temps|moment|instant">
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
     <!ENTITY mesos_any_abrev "gen|febr|abr|jul|ag|set|oct|nov|des">
     <!ENTITY mesos_any "gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre">
@@ -4977,10 +4978,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="_PUNCT_.*" postag_regexp="yes"/>
-                    <token postag="V.G.*" postag_regexp="yes"><exception postag="_GV_|_GN_.*" postag_regexp="yes"/></token>
-                    <token min="0">-se</token>
-                    <token min="0">poc</token>
-                    <token postag="RG">després</token>
+                    <marker>
+                       <token postag="V.G.*" postag_regexp="yes"><exception postag="_GV_|_GN_.*" postag_regexp="yes"/></token>
+                       <token min="0">-se</token>
+                       <token min="0">poc</token>
+                       <token postag="RG">després</token>
+                    </marker>
                 </pattern>
                 <message>Construcció dubtosa: gerundi de posterioritat.</message>
                 <url>http://esadir.cat/gramatica/sintaxi/usgerundi</url>
@@ -4997,13 +5000,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>l</token>
                     <token>cap</token>
                     <token inflected="yes">de</token>
-                    <token postag="D[IN].*" postag_regexp="yes"/>
-                    <token regexp="yes" inflected="yes">&unitats_temps;</token>
+                    <token postag="D[IN].*" min="0" postag_regexp="yes"/>
+                    <token regexp="yes" inflected="yes">&unitats_temps;|&expressions_durada;</token>
                 </pattern>
                 <message>Construcció dubtosa: gerundi de posterioritat.</message>
                 <url>http://esadir.cat/gramatica/sintaxi/usgerundi</url>
-                <example correction="">El lladre va atracar dues joieries, <marker>fugint al cap de</marker> poc amb un cotxe robat.</example>
-                <example correction="">El lladre va atracar dues joieries, <marker>escapant-se al cap d'</marker>una estona amb un cotxe robat.</example>
+                <example correction="">El lladre va atracar dues joieries, <marker>fugint al cap de poc</marker> amb un cotxe robat.</example>
+                <example correction="">El lladre va atracar dues joieries, <marker>escapant-se al cap d'una estona</marker> amb un cotxe robat.</example>
                 <example>Estan augmentant després d'un període d'estancament.</example>
                 <example>tònica predominant després del govern de l'UCD.</example>
             </rule>
@@ -9287,7 +9290,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">mb<exception scope="previous" postag="DN.*" postag_regexp="yes"/></token>
+                        <token>mb<exception scope="previous" postag="DN.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="[NAD].*|P[^A].*|V.*" postag_regexp="yes"/>
                 </pattern>
