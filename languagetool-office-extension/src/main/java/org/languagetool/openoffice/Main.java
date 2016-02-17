@@ -207,8 +207,7 @@ public class Main extends WeakBase implements XJobExecutor,
         }
       }
       if (!langIsSupported) {
-        final String message = org.languagetool.tools.Tools.i18n(
-            MESSAGES, "language_not_supported", charLocale.Language);
+        final String message = Tools.i18n(MESSAGES, "language_not_supported", charLocale.Language);
         JOptionPane.showMessageDialog(null, message);
         return null;
       }
