@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.141 2016-02-16 20:18:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.142 2016-02-17 19:20:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -240,7 +240,7 @@ $Id: grammar.xml,v 1.141 2016-02-16 20:18:00 marcoagpinto Exp $
         <marker>
             <token>um</token>
         </marker>
-		<token postag_regexp="yes" postag="AQ0CS0|PI0FS000|PI0MS000|NCFS000"></token>
+		<token postag_regexp="yes" postag="AQ0CS0|PI0FS000|PI0MS000|NCFS000"><exception>uma</exception></token>
 		<token postag="NCFS000"><exception postag="NCMS000"></exception><exception>uma</exception></token>
      </pattern>
      <message>Erro de concordância um/uma.</message>
@@ -256,7 +256,7 @@ $Id: grammar.xml,v 1.141 2016-02-16 20:18:00 marcoagpinto Exp $
         <marker>
             <token>uma</token>
         </marker>
-		<token postag_regexp="yes" postag="AQ0CS0|PI0FS000|PI0MS000|NCMS000"></token>
+		<token postag_regexp="yes" postag="AQ0CS0|PI0FS000|PI0MS000|NCMS000"><exception>a</exception></token>
 		<token postag="NCMS000"><exception postag="NCFS000"></exception><exception>a</exception></token>
      </pattern>
      <message>Erro de concordância uma/um.</message>
@@ -2020,6 +2020,30 @@ $Id: grammar.xml,v 1.141 2016-02-16 20:18:00 marcoagpinto Exp $
 
 
 
+  <!-- MAIS MELHOR melhor -->
+    <rule id="MAIS_MELHOR" name="melhor">
+      <pattern>
+        <token>mais</token>
+        <token>melhor</token>
+      </pattern>
+      <message>Substituir «mais melhor» por <suggestion>melhor</suggestion>.</message>
+      <example correction="melhor">Esta escola é <marker>mais melhor</marker>.</example>
+    </rule>
+
+
+  
+  <!-- MAIS PIOR pior -->
+    <rule id="MAIS_PIOR" name="pior">
+      <pattern>
+        <token>mais</token>
+        <token>pior</token>
+      </pattern>
+      <message>Substituir «mais pior por <suggestion>pior</suggestion>.</message>
+      <example correction="pior">Esta escola é <marker>mais pior</marker>.</example>
+    </rule>
+	
+
+	
     <!-- MANDATO DE BUSCA mandado de busca -->
     <rule id="MANDATO_DE_BUSCA" name="mandado de busca">
       <pattern>
