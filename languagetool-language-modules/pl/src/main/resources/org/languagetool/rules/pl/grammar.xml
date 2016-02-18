@@ -1574,7 +1574,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rulegroup id="BRAK_PRZECINKA_SPOJNIK_PROSTY" name="Brak przecinka przed spójnikami prostymi (acz, aczkolwiek, choć...)">
 						<rule>
 								<pattern>
-										<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception><exception>no</exception></token>
+										<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp|interp" postag_regexp="yes"></exception><exception>no</exception></token>
 										<token regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy</token>
 								</pattern>
 								<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -1587,7 +1587,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern>
 										<marker>
-												<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
+												<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp|interp" postag_regexp="yes"></exception></token>
 												<token>dopóty</token>
 										</marker>
 										<token negate="yes">,</token>
@@ -1605,7 +1605,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 </antipattern>
 								<pattern>
 										<marker>
-												<token negate="yes" regexp="yes">&interp;|do<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception><exception>przynajmniej</exception></token>
+												<token negate="yes" regexp="yes">&interp;|do<exception postag="SENT_START|conj|comp|interp" postag_regexp="yes"></exception><exception>przynajmniej</exception></token>
 												<token regexp="yes">(do)?póki</token>
 										</marker>
 										<token><exception>czas</exception></token>
@@ -1618,6 +1618,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Nie zrobię tego, do póki nie zapłacisz całej sumy.</example>
 								<example>Nie zrobię tego, przynajmniej dopóki nie zapłacisz całej sumy.</example>
                                 <example>Precz, łotrze, nie zbliżaj się do mnie póki życia.</example>
+                                <example>(a) Dopóki żyję, szyję.</example>
 						</rule>
 						<rule>
                                 <antipattern>
@@ -1627,7 +1628,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 </antipattern>
 								<pattern>
 										<marker>
-												<token negate="yes" regexp="yes">&interp;|niby|o?to<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
+												<token negate="yes" regexp="yes">&interp;|niby|o?to<exception postag="SENT_START|conj|comp|interp" postag_regexp="yes"></exception></token>
 												<token>dlaczego</token>
 										</marker>
 										<token><exception regexp="yes">&interp;|\)</exception></token>
@@ -1641,13 +1642,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Możesz sobie mówić, że jesteś normalny, tylko dlaczego chcesz rządzić krajem?</example>
                                 <example>I oto dlaczego nie podejmę tu dowodzenia.</example>
                                 <example>Jeżeli zaś nie — to dlaczego mówi się o tym w tak alarmistycznym tonie.</example>
+                                <example>(b) Dlaczego ciemnota stoi na drodze postępu?</example>
                                 <!-- inny błąd: dla_czego -->
                                 <example>Nigdy prawie ta praktyczność nie powstaje dlaczego innego.</example>
                             <example>Takie dziecko może zrozumieć, że druga osoba chce jeść albo zamierza otworzyć drzwi (choć niekoniecznie wie dlaczego).</example>
 						</rule>
 						<rule>
 								<pattern>
-										<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
+										<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp|interp" postag_regexp="yes"></exception></token>
 										<token>ponieważ</token>
 								</pattern>
 								<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -1658,7 +1660,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 						<rule>
 								<pattern>
-										<token negate="yes" regexp="yes">&interp;|jeszcze|nawet<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
+										<token negate="yes" regexp="yes">&interp;|jeszcze|nawet<exception postag="SENT_START|conj|comp|interp" postag_regexp="yes"></exception></token>
 										<token>zanim</token>
 								</pattern>
 								<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -1670,7 +1672,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
                         <rule>
                           <pattern>
-                          <token><exception regexp="yes">&interp;</exception><exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception><exception>no</exception></token>
+                          <token><exception regexp="yes">&interp;</exception><exception postag="SENT_START|conj|comp|interp" postag_regexp="yes"></exception><exception>no</exception></token>
                           <and>
                           <token regexp="yes">chociaż(by)?|choć<exception negate_pos="yes" postag="comp|qub|comp:comma" postag_regexp="yes"/></token>
                           <token postag="comp"/>
@@ -10501,6 +10503,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		</category>
 		<category name="Błędy różne" type="uncategorized">
             <rulegroup name="Niespójny zapis daty" id="DATA_NIEMOZLIWA">
+                <rule><regexp>(3[2-9]|[4-9]\d)\.? ?(\d\d?\.|&months;) ?\d\d\d\d</regexp>
+                    <message>Jeśli to jest data, to jest błędna.</message>
+                    <example correction="">To się działo dnia <marker>32.8.2014</marker>.</example>
+                    <example correction="">To się działo dnia <marker>32 sierpnia 2014</marker>.</example>
+                </rule>
               <rule>
                 <pattern>
                     <token skip="1" inflected="yes" regexp="yes">&weekdays;<exception scope="next" negate="yes" regexp="yes">[,.\d]+</exception></token>
