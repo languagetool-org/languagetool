@@ -239,11 +239,12 @@ public class PatternRuleTest extends TestCase {
 
   private void assertIdUniqueness(Set<String> ids, Set<Class> ruleClasses, Language language, Rule rule) {
     final String ruleId = rule.getId();
-    if (ids.contains(ruleId) && !ruleClasses.contains(rule.getClass())) {
+    Class relevantClass = rule instanceof AbstractPatternRule ? AbstractPatternRule.class : rule.getClass();
+    if (ids.contains(ruleId) && !ruleClasses.contains(relevantClass)) {
       throw new RuntimeException("Rule id occurs more than once: '" + ruleId + "', language: " + language);
     }
     ids.add(ruleId);
-    ruleClasses.add(rule.getClass());
+    ruleClasses.add(relevantClass);
   }
 
   private void disableSpellingRules(JLanguageTool languageTool) {
