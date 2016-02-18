@@ -610,6 +610,36 @@
                  outputform="Ani[ani/qub]"><marker>Ani</marker> chybi kupił pstrąga.</example>
     </rule>
 
+    <rule id="ani_be_ani_me" name="ani be, ani me - wykrzykniki">
+        <pattern>
+            <token postag="conj" regexp="yes">a?ni</token>
+            <token postag="interj">be</token>
+            <token>,</token>
+            <token postag="conj" regexp="yes">a?ni</token>
+            <token postag="interj">me</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id='me_interj' name="me jako barani odgłos i wykrzyknik">
+        <pattern>
+            <marker>
+                <token>me
+                <exception scope="previous" postag="subst:pl.*acc.*:n.*|subst:sg:acc:n.*|subst:.*.*nom.*:n.*"></exception>
+                </token>
+            </marker>
+            <token>!</token>
+        </pattern>
+        <disambig postag="interj"/>
+    </rule>
+
+    <rule id="me_nie_interj" name="me jako przymiotnik">
+        <pattern>
+            <token postag="interj" negate_pos="yes">me</token>
+        </pattern>
+        <disambig action="remove"><wd pos="interj"/></disambig>
+    </rule>
+
     <rulegroup name="bez czarny" id="bez_czarny">
     	<rule>
     		<pattern>
@@ -719,6 +749,20 @@
         </pattern>
         <disambig postag="prep:acc:nwok"/>
     </rule>
+
+    <rule id="Z_BARDZO_WOLNA" name="z wolna/daleka">
+        <pattern>
+            <token postag="prep:acc:nwok">z</token>
+            <token>bardzo</token>
+            <marker>
+                <token regexp="yes">bliska|daleka|dawna|wysoka</token>
+            </marker>
+        </pattern>
+        <disambig postag="adjp"/>
+        <example type="ambiguous" inputform="wolna[wolny/adj:sg:nom.voc:f:pos]"
+                 outputform="wolna[wolny/adjp]">Szedł z bardzo <marker>wolna</marker>.</example>
+    </rule>
+
 
     <rule id="CO_GORSZA" name="co gorsza">
         <pattern>
@@ -2898,6 +2942,22 @@
             <token>Boże</token>
         </pattern>
         <disambig action="replace"><wd pos="adj:sg:nom.voc:m1.m2.m3:pos"/><wd pos="subst:sg:voc:m1" lemma="Bóg"/></disambig>
+    </rule>
+
+    <rule id="boze_bron" name="Boże broń -> vocativus">
+        <pattern>
+            <token postag="subst:sg:voc:m1">Boże</token>
+            <token postag="verb:impt:sg:sec:imperf:refl.nonrefl">broń</token>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+
+    <rule name="kozie śmierć" id="kozie_smierc">
+        <pattern>
+            <token postag="subst:sg:dat:f">kozie</token>
+            <token postag="subst:sg:nom:f">śmierć</token>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <rule id="OKAZYWAC_UCZUC" name="okazywać + uczuć -> ger">
