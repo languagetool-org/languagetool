@@ -752,10 +752,10 @@
 
     <rule id="Z_BARDZO_WOLNA" name="z wolna/daleka">
         <pattern>
-            <token postag="prep:acc:nwok">z</token>
+            <token>z</token>
             <token>bardzo</token>
             <marker>
-                <token regexp="yes">bliska|daleka|dawna|wysoka</token>
+                <token regexp="yes">bliska|daleka|dawna|wysoka|wolna</token>
             </marker>
         </pattern>
         <disambig postag="adjp"/>
@@ -3139,6 +3139,17 @@
         <disambig action="filterall"/>
     </rule>
 
+    <rule id="PRAWA_DO_GER" name="prawa do + gerundium -> rzeczownik">
+        <pattern>
+        <marker>
+            <token postag="subst.*n2" postag_regexp="yes">prawa</token>
+            <token postag="prep:gen">do</token>
+            <token postag="(ger|subst):sg:gen.*" postag_regexp="yes"/>
+        </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rule id="POTRZEBA_DAT_GEN" name="potrzeba ci gen">
         <pattern>
             <token postag="pred">potrzeba<exception scope="previous" postag="verb.*(pl|sg).*" postag_regexp="yes"/><exception scope="previous">się</exception></token>
@@ -4525,7 +4536,7 @@
 
     <rule id="PRAWA_SUBST" name="prawa jako rzeczownik">
         <pattern>
-            <token regexp="yes" inflected="yes">moc|litera|wykładowca|wykładowczyni|egzekwować|teoria|światło|grunt|tworzenie|system|harmonizacja|rozumienie|interpretacja</token>
+            <token regexp="yes" inflected="yes">moc|litera|wykładowca|wykładowczyni|egzekwować|teoria|światło|grunt|tworzenie|system|harmonizacja|rozumienie|interpretacja|spółka|obraza|reforma|powaga|źródło|nauka|nowelizacja|historyk|utrata|wykładnia|ochrona|student(:?ka)?|państwo|przepis</token>
             <marker>
                 <token>prawa</token>
             </marker>
