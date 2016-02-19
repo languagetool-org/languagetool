@@ -1572,9 +1572,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_SPOJNIK_PROSTY" name="Brak przecinka przed spójnikami prostymi (acz, aczkolwiek, choć...)">
+				    <antipattern>
+              <token postag="SENT_START"></token>
+              <token>(</token>
+              <token/>
+              <marker>
+                <token>)</token>
+              </marker>
+				    </antipattern>
 						<rule>
 								<pattern>
-										<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp|interp" postag_regexp="yes"></exception><exception>no</exception></token>
+										<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception><exception>no</exception></token>
 										<token regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|czyli|czyliż|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy</token>
 								</pattern>
 								<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -1587,7 +1595,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern>
 										<marker>
-												<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp|interp" postag_regexp="yes"></exception></token>
+												<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
 												<token>dopóty</token>
 										</marker>
 										<token negate="yes">,</token>
@@ -1605,7 +1613,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 </antipattern>
 								<pattern>
 										<marker>
-												<token negate="yes" regexp="yes">&interp;|do<exception postag="SENT_START|conj|comp|interp" postag_regexp="yes"></exception><exception>przynajmniej</exception></token>
+												<token negate="yes" regexp="yes">&interp;|do<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception><exception>przynajmniej</exception></token>
 												<token regexp="yes">(do)?póki</token>
 										</marker>
 										<token><exception>czas</exception></token>
@@ -1628,7 +1636,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 </antipattern>
 								<pattern>
 										<marker>
-												<token negate="yes" regexp="yes">&interp;|niby|o?to<exception postag="SENT_START|conj|comp|interp" postag_regexp="yes"></exception></token>
+												<token negate="yes" regexp="yes">&interp;|niby|o?to<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
 												<token>dlaczego</token>
 										</marker>
 										<token><exception regexp="yes">&interp;|\)</exception></token>
@@ -1649,7 +1657,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 						<rule>
 								<pattern>
-										<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp|interp" postag_regexp="yes"></exception></token>
+										<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
 										<token>ponieważ</token>
 								</pattern>
 								<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -1660,7 +1668,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 						<rule>
 								<pattern>
-										<token negate="yes" regexp="yes">&interp;|jeszcze|nawet<exception postag="SENT_START|conj|comp|interp" postag_regexp="yes"></exception></token>
+										<token negate="yes" regexp="yes">&interp;|jeszcze|nawet<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
 										<token>zanim</token>
 								</pattern>
 								<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -1672,7 +1680,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
                         <rule>
                           <pattern>
-                          <token><exception regexp="yes">&interp;</exception><exception postag="SENT_START|conj|comp|interp" postag_regexp="yes"></exception><exception>no</exception></token>
+                          <token><exception regexp="yes">&interp;</exception><exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception><exception>no</exception></token>
                           <and>
                           <token regexp="yes">chociaż(by)?|choć<exception negate_pos="yes" postag="comp|qub|comp:comma" postag_regexp="yes"/></token>
                           <token postag="comp"/>
@@ -1684,8 +1692,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example correction="cię, chociaż">Lubię <marker>cię chociaż</marker> musisz mi oddać pieniądze.</example>
                         <example>No chociaż zapytałeś o „dać dyla”.</example>
                         <example>Odezwij się choć raz!</example>
-            </rule>
-            
+            </rule>            
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_TEN_CO" name="Brak przecinka przed „kto” i „co”">
                     <antipattern>
@@ -4537,6 +4544,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <short>Zbędna spacja</short>                      
                       <example>Spółka z o.o.</example>
                       <example correction="z o.o.">Spółka <marker>z o. o.</marker> Jurek.</example>
+                    </rule>
+                    <rule>
+                      <pattern>
+                        <token>p</token>                        
+                        <token>.</token>
+                        <token spacebefore="yes">n</token>
+                        <token>.</token>
+                        <token>e</token>
+                      </pattern>
+                      <message>Ten skrót zapisuje się bez spacji: <suggestion>\1\2\3\4\5</suggestion>.</message>
+                      <url>http://poradnia.pwn.pl/lista.php?id=11869</url>
+                      <short>Zbędna spacja</short>                                            
+                      <example correction="p.n.e">To było w roku 241 <marker>p. n.e</marker>.</example>
+                    </rule>
+                    <rule>
+                      <pattern>
+                        <token>p</token>                        
+                        <token>.</token>
+                        <token>n</token>
+                        <token>.</token>
+                        <token spacebefore="yes">e</token>
+                      </pattern>
+                      <message>Ten skrót zapisuje się bez spacji: <suggestion>\1\2\3\4\5</suggestion>.</message>
+                      <url>http://poradnia.pwn.pl/lista.php?id=11869</url>
+                      <short>Zbędna spacja</short>                                            
+                      <example correction="p.n.e">To było w roku 241 <marker>p.n. e</marker>.</example>
                     </rule>
                   </rulegroup>
                   <rulegroup type="whitespace" id="BRAK_SPACJI_W_SKROCIE" name="Brak spacji w skrócie „dz.cyt” i „op.cit.”">
