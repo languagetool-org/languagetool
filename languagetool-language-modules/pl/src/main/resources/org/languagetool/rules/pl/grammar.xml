@@ -4288,6 +4288,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <short>Błędny zapis daty</short>
                         <example correction="60. XII w.">Szampan jest więc szybko butelkowany od lat <marker>1160.</marker></example>
                     </rule>
+                    <rule>
+                    <pattern>
+                      <unify><feature id="case"/><feature id="number"/><feature id="gender"><type id="m3"/></feature>
+                            <token inflected="yes" postag="subst:pl.*" postag_regexp="yes">rok</token>
+                            <token inflected="yes" postag="adj.*" postag_regexp="yes">zerowy</token>
+                      </unify>
+                      <token regexp="yes">((X{0,2})(V?I{0,3}|I[VX]))</token>                      
+                    </pattern>
+                    <message>Błędny zapis nazwy dekady. Poprawnie: <suggestion>pierwsza dekada \3</suggestion>.</message>
+                    <short>Błędny zapis daty</short>
+                    <example correction="Pierwsza dekada XXI"><marker>Lata zerowe XXI</marker> wieku charakteryzowały się historycznymi zmianami.</example>
+                    </rule>
                 </rulegroup>
 				<rulegroup id="POMINIECIE" name="(...) → […]">
                     <rule>
@@ -10767,8 +10779,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example correction="">Zawody odbywają się w dniach <marker>11–1 lutego</marker>.</example>
                     <example correction="">Zawody odbywają się od <marker>11 do 1 lutego</marker>.</example>
                     <example correction="">Zawody odbywają się w dniach <marker>21–10 XII</marker>.</example>
-                </rule>
-                
+                </rule>                
             </rulegroup>
             <rule name="„muzułman” (muzułmanin)" id="MUZULMAN">
               <pattern>

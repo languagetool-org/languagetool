@@ -2260,7 +2260,7 @@
         <pattern>
             <unify>
                 <feature id="case"/><feature id="gender"/><feature id="number"/>
-                <token postag="adj.*" postag_regexp="yes" regexp="yes" inflected="yes">były</token>
+                <token postag="adj.*" postag_regexp="yes" inflected="yes">były</token>
                 <token inflected="yes" postag="subst.*" postag_regexp="yes" regexp="yes">premier|prezydent|minister|wiceminister|prezes|wiceprezes|przewodnicząc[ay]|dyrektor|wicedyrektor|kierownik|kierowniczka|sekretarz|zawodnik|komisarz</token>
             </unify>
         </pattern>
@@ -6595,6 +6595,30 @@
         <disambig action="filterall"/>
     </rule>
 
+    <rule id="LATA" name="lata + data => rok">
+        <pattern>
+            <marker>
+                <token postag="subst:pl.*m3" postag_regexp="yes" inflected="yes">rok</token>
+            </marker>
+            <token regexp="yes">(:?\d\d)?\d\d</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id="LATA_UNIFY" name="lata + data => rok">
+        <pattern>
+            <unify><feature id="case"/><feature id="number"/><feature id="gender"><type id="m3"/></feature>
+                <token postag="subst:pl.*m3" postag_regexp="yes" inflected="yes">rok</token>
+                <token inflected="yes" postag="adj.*" postag_regexp="yes" regexp="yes">zerowy|dwudziesty|trzydziesty|czterdziesty|pięćdziesiąty|sześćdziesiąty|siedemdziesiąty|osiemdziesiąty|dziewięćdziesiąty</token>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="untouched">Antoni lata Tupolowem.</example>
+        <example type="ambiguous" inputform="lata[latać/verb:fin:sg:ter:imperf:nonrefl,lato/subst:pl:acc:n2,lato/subst:pl:nom:n2,lato/subst:pl:voc:n2,lato/subst:sg:gen:n2,rok/subst:pl:acc:m3,rok/subst:pl:nom:m3,rok/subst:pl:voc:m3]"
+                 outputform="lata[rok/subst:pl:acc:m3,rok/subst:pl:nom:m3,rok/subst:pl:voc:m3]">To były <marker>lata</marker> dziewięćdziesiąte!</example>
+    </rule>
+
+
     <!-- now not that greedy :) -->
     <rulegroup name="unifikacja przymiotnika z rzeczownikiem" id="unify_adj_subst">
         <rule>
@@ -6877,7 +6901,7 @@
                         <token postag="verb:fin:.*ter.*" postag_regexp="yes"><exception>je</exception><exception>mnie</exception><exception>nasza</exception><exception regexp="yes">\p{Lu}\p{Ll}+</exception></token>
                     </unify>
                 </marker>
-                <token><exception postag="verb:(?:praet|pot|fin|bedzie|imp.|pred|winien).*" postag_regexp="yes"></exception></token>
+                <token><exception postag="verb:(?:praet|pot|fin|bedzie|imp.|pred|winien).*" postag_regexp="yes"></exception><exception>zerowe</exception></token>
             </pattern>
             <disambig action="unify"/>
             <example type="ambiguous" inputform="stanowi[stan/subst:sg:dat:m3,stanowić/verb:fin:sg:ter:imperf:refl.nonrefl,stanowy/adj:pl:nom.voc:m1.p1:pos]" outputform="stanowi[stanowić/verb:fin:sg:ter:imperf:refl.nonrefl]">To, co <marker>stanowi</marker> treść ich wyobraźni ma charakter intersubiektywny i postrzegalny także przez innych.</example>
@@ -6900,7 +6924,7 @@
                             </token>
                         <token postag="(:?subst|adj).*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes">
                             <exception postag="verb:winien:.*" postag_regexp="yes"/>
-                            <exception regexp="yes">[tj]ak[ia]|ma</exception>
+                            <exception regexp="yes">[tj]ak[ia]|ma|zerowe</exception>
                         </token>
                     </unify>
                 </marker>
@@ -6945,7 +6969,7 @@
                         <token postag="verb:fin:.*ter.*" postag_regexp="yes"><exception>je</exception><exception>mnie</exception><exception>nasza</exception><exception regexp="yes">\p{Lu}\p{Ll}+</exception></token>
                     </unify>
                 </marker>
-                <token><exception postag="verb:(?:praet|pot|fin|bedzie|imp.|pred|winien).*" postag_regexp="yes"></exception></token>
+                <token><exception postag="verb:(?:praet|pot|fin|bedzie|imp.|pred|winien).*" postag_regexp="yes"></exception><exception>zerowe</exception></token>
             </pattern>
             <disambig action="unify"/>
             <example type="ambiguous" inputform="moje[mój/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,mój/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos]"
