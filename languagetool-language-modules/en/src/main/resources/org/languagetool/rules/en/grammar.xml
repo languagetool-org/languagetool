@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
         title="Easy editing stylesheet" ?>
@@ -15246,6 +15246,35 @@ USA
                 <example correction="">IGD Convention 2014 - <marker>Monday, 2014-10-31</marker></example>
                 <example>IGD Convention 2014 - <marker>Friday, 2014-10-31</marker></example>
             </rule>
+             <rule>
+                    <pattern>
+                      <token regexp="yes">&months;</token>                        
+                       <token regexp="yes">\d\d?</token>                        
+                       <token regexp="yes">[–\-]</token>
+                       <token regexp="yes">\d\d?</token>                        
+                    </pattern>
+                    <filter class="org.languagetool.rules.DateRangeChecker"
+                            args="x:\2 y:\4"/>
+                    <message>The starting day (\2) happens later than the final day (\4).</message>
+                    <short>Wrong date</short>
+                    <example>January 10 – 17, 2016</example>
+                    <example correction=""><marker>January 10 – 1</marker>, 2016.</example>                    
+             </rule>
+             <rule>
+                    <pattern>
+                      <token regexp="yes">&months;</token>                        
+                      <token>,</token>
+                       <token regexp="yes">\d\d?</token>                        
+                       <token regexp="yes">[–\-]</token>
+                       <token regexp="yes">\d\d?</token>                        
+                    </pattern>
+                    <filter class="org.languagetool.rules.DateRangeChecker"
+                            args="x:\3 y:\5"/>
+                    <message>The starting day (\3) happens later than the final day (\5).</message>
+                    <short>Wrong date</short>
+                    <example>January 10 – 17, 2016</example>
+                    <example correction=""><marker>January, 10 – 1</marker>, 2016.</example>                    
+             </rule>
         </rulegroup>
         <rulegroup id="INVALID_DATE" name="Invalid date, like 'February 31, 2014'">
             <rule>

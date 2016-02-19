@@ -7,6 +7,7 @@
 
 #### English
   * added and improved rules, improved categorization of rules
+  * added checks on date ranges
   * added a few confusion pairs like best/bets, wand/want (works only with ngram data,
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
 
@@ -25,6 +26,7 @@
   * added and improved a large number of rules, largely improved disambiguation
   * upgraded the tagging and synthesis dictionaries to Morfologik Polimorf 2.1
   * improved tokenization of number ranges (such as 1-1234 or 1--10)
+  * added checks on date ranges
     
 #### Portuguese
   * added and improved rules
