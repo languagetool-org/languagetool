@@ -47,7 +47,7 @@ public class MultiLanguageModel implements LanguageModel {
       //System.out.println(i + ". " + pProb.getProb() + " (" + pProb.getCoverage() + ")");
       // TODO: decide what's the proper way to combine the probabilities
       prob += pProb.getProb();
-      coverage += pProb.getProb();
+      coverage += pProb.getCoverage();
       occurrences += pProb.getOccurrences();
     }
     return new Probability(prob, coverage/lms.size(), occurrences);
