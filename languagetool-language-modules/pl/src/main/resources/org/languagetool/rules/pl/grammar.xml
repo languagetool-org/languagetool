@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="http://marcinmilkowski.pl/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
 <!--
@@ -10752,6 +10752,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!-- 2100 is not a leap year (divisible by 100) -->
                     <example correction=""><marker>29 lutego 2100</marker>.</example>
                 </rule>
+                <rule>
+                    <pattern>
+                        <token regexp="yes">\d\d?</token>                        
+                        <token regexp="yes">[–\-]|do</token>
+                        <token regexp="yes">\d\d?</token>
+                        <token regexp="yes">&months;|&abbrevMonths;</token>                        
+                    </pattern>
+                    <filter class="org.languagetool.rules.DateRangeChecker"
+                            args="x:\1 y:\3"/>
+                    <message>Dzień początkowy (\1) jest późniejszy niż dzień końcowy (\3).</message>
+                    <short>Niespójna data</short>
+                    <example>Zawody odbywają się w dniach 1–12 lutego.</example>
+                    <example correction="">Zawody odbywają się w dniach <marker>11–1 lutego</marker>.</example>
+                    <example correction="">Zawody odbywają się od <marker>11 do 1 lutego</marker>.</example>
+                    <example correction="">Zawody odbywają się w dniach <marker>21–10 XII</marker>.</example>
+                </rule>
+                
             </rulegroup>
             <rule name="„muzułman” (muzułmanin)" id="MUZULMAN">
               <pattern>
@@ -19580,6 +19597,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>na</token>
                         <token>jotę</token>
                     </antipattern>
+                    <antipattern>
+                        <token skip="-1" regexp="yes">jedna|pierwsza</token>
+                        <token>,</token>
+                        	<marker>
+				                  <token>druga</token>
+			                    </marker>
+                      </antipattern>
+		                  <antipattern>
+                        <token skip="-1" regexp="yes">jedna|pierwsza</token>
+                        <token>,</token>
+                        <token>a</token>
+                        	<marker>
+				                    <token>druga</token>
+			                    </marker>
+                    </antipattern>
+                    <antipattern>
+                        <token skip="-1" regexp="yes">jedna|pierwsza</token>
+                        <token>,</token>
+                        <token skip="-1">druga</token>
+                        	<marker>
+				                  <token>trzecia</token>
+			                    </marker>
+                      </antipattern>
                 <rule>
                     <pattern>
                         <token>tę</token>
@@ -19613,10 +19653,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Została powołana ustawą z 24 lipca 1919 r.</example>
                     <example>Muzyka teatralna siłą rzeczy chętnie posługuje się cytatem.</example>
                     <example>Po dyskusji Rada Regionalna większością jednego głosu uchwaliła apel.</example>
+		                <example>Życie moje rozłamało się na dwie wielkie części, z których jedna była pragnieniem rzeczy nieznanych, a druga tęsknotą za straconymi… </example>
+		                <example>Miarę brały szwaczki, gdy na ziemi leżałem: jedna stanęła mi na szyi, druga na kolanach i trzymały wyprężony sznurek, gdy tymczasem trzecia linijką na cal długą mierzyła długość sznurka.</example>
+		                <example>W budżecie zapisane były na ten rok trzy, pierwsza w lutym, druga w połowie roku, a trzecia jesienią.</example>
                 </rule>
                 <rule>
                     <pattern>
-                        <token postag='adj:sg:inst:f:pos'></token>
+                        <token postag='adj:sg:inst:f:pos'><exception postag="brev:npun.*" postag_regexp="yes"/><exception scope="previous" postag="subst:sg:inst:f"/></token>
                         <marker>
                             <token regexp='yes' postag='subst:sg:nom:f'>.*a<exception postag='subst.*:gen.*' postag_regexp='yes'></exception></token>
                         </marker>
@@ -19625,6 +19668,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <short>Prawdopodobna literówka</short>
                     <example correction='definicją'>W tej pracy nie będę się zajmował dokładną <marker>definicja</marker> czasu.</example>
                     <example>W tej pracy nie będę się zajmował dokładną definicją czasu.</example>
+                    <example>W 1991 roku zaczęła się ukazywać wydawana techniką wielobarwną edycja rumuńskiego wydania „Strażnicy”.</example>
+                    <example>Dynamika zysku przed opodatkowaniem i netto była ostatnio wyższa w Dębicy niż Stomilu.</example>
+                    <example>Robert Makłowicz "CK Kuchnia" (Wydawnictwo Znak).</example>
                 </rule>
                 <rule>
                     <pattern>
@@ -19649,7 +19695,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <pattern>
                             <token regexp='yes' postag='subst:sg:acc:f'>.*ę<exception>odrobinę</exception></token>
                             <marker>
-                                <token postag='adj:sg:nom.voc:f.*' postag_regexp='yes'></token>
+                                <token postag='adj:sg:nom.voc:f.*' postag_regexp='yes'><exception postag="adj:sg:acc:f.*" postag_regexp="yes"/></token>
                             </marker>
                                 <token><exception postag="subst:sg:nom:f|adj:sg:nom.voc:f.*" postag_regexp="yes"/></token>
                         </pattern>
@@ -19663,6 +19709,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>A za godzinę cała wioska pewno puści się w pogoń za nami.</example>
                         <example>Z Celimeną molierowską wchodzi na scenę wykwintna paryska dama, dzierżąca w dłoni berło.</example>
                         <example>Suma dochodów w drugiej książce była o połowę mniejsza niż w pierwszej.</example>
+                        <example>A jeszcze i przez całą niedzielę była także i dobra, i wesoła.</example>
+                        <example>Ponieważ system byłby rozciągnięty na inne kraje, które wpłacają dziś dużą daninę netto do budżetu UE.</example>
                     </rule>
                     <rule>
                         <pattern>
