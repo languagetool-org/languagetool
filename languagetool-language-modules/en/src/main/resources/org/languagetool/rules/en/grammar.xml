@@ -6830,6 +6830,22 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve</token>
+                    <token>not</token>
+                    <token postag="RB"><exception>no</exception><exception postag="IN|RP|CC" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|RB|JJ" postag_regexp="yes"/></token>
+                    </marker>
+                    <token><exception postag="VBG"/></token>
+                </pattern>
+                <message>Possible agreement error -- use past participle here: <suggestion><match no="4" postag="VBN"/></suggestion>.</message>
+                <short>Grammatical problem</short>
+                <example>I have always done that.</example>
+                <example correction="written">I have not always <marker>wrote</marker> that.</example>
+                <example>I have always liked her.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve</token>
                     <marker>
                         <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN"/></token>
                     </marker>
