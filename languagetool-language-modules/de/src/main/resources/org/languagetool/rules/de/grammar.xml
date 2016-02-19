@@ -23736,6 +23736,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
         </rulegroup>
         -->
+        <rule id="VERB_IST" name="Verb 1./3. Person (statt Partizip) + 'ist'">
+            <pattern>
+                <marker>
+                    <token postag="VER:[13]:SIN:PRT:NON" postag_regexp="yes"><exception postag_regexp="yes" postag="SUB:.*"></exception></token>
+                </marker>
+                <token>ist</token>
+            </pattern>
+            <message>Bitte prüfen, ob hier ein Partizip verwendet werden muss.</message>
+            <example correction="">Unklar ist, wie der Hund ins Wasser <marker>gelang</marker> ist.</example>
+        </rule>
         <rule id="ART_KLEINES_NOMEN" name="der/die/das + kleingeschriebenes Nomen">
             <pattern>
                 <token regexp="yes">der|die|das</token>
