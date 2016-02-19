@@ -8676,6 +8676,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
 
         </rulegroup>
+        <rule id="DATUM_VON_BIS" name="falsche von/bis-Reihenfolge bei Datum">
+            <pattern>
+                <marker>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">[–\-]|bis</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                </marker>
+                <token regexp="yes">&monate;|&abgekMonate;</token>
+            </pattern>
+            <filter class="org.languagetool.rules.DateRangeChecker" args="x:\1 y:\4"/>
+            <message>Das Enddatum (\4.) liegt vor dem Startdatum (\1.).</message>
+            <example correction="">Die Messe findet vom <marker>2. bis 1.</marker> Januar statt.</example>
+            <example correction="">Die Messe findet vom <marker>12. bis 11.</marker> Januar statt.</example>
+            <example correction="">Die Messe findet vom <marker>12. bis 12.</marker> Januar statt.</example>
+        </rule>
         <rule id="DOPPELUNG_JAHRE" name="'Jahre 1990 bis 1990'">
             <pattern>
                 <token regexp="yes">Jahre[ns]?</token>
