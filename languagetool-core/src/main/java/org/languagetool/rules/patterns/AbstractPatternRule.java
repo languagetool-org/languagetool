@@ -85,7 +85,7 @@ public abstract class AbstractPatternRule extends Rule {
 
   private AbstractPatternRule(String id, String description, Language language, List<PatternToken> patternTokens, Pattern regex, int regexMark, boolean getUnified) {
     this.id = Objects.requireNonNull(id, "id cannot be null");
-    this.description = Objects.requireNonNull(description, "description cannot be null");
+    this.description = Objects.requireNonNull(description, "description ('name' in XML) cannot be null");
     this.language = Objects.requireNonNull(language, "language cannot be null");
     this.getUnified = getUnified;
     if (patternTokens == null && regex == null) {
