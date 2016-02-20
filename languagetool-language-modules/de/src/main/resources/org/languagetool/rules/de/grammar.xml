@@ -23750,20 +23750,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><exception>,</exception></token>
                 <token regexp="yes">der|die|das</token>
                 <marker>
-                    <token postag_regexp="yes" postag="ADJ:.*:(IND|SOL)"><exception postag="ADJ:.*:DEF" postag_regexp="yes"/>
+                    <token postag_regexp="yes" postag="(ADJ|PA1):.*:(IND|SOL).*"><exception postag="(ADJ|PA1):.*:DEF.*" postag_regexp="yes"/>
                         <exception regexp="yes">früher|später|lieber|anderer|weniger</exception>
                     </token>
                 </marker>
                 <token postag_regexp="yes" postag="SUB:.*"/>
             </pattern>
             <message>Evtl. wir hier ein bestimmter Artikel mit einem unbestimmten Adjektiv kombiniert.</message>
-            <suggestion><match no="3" postag_regexp="yes" postag="ADJ:.*DEF"/></suggestion>
+            <suggestion><match no="3" postag_regexp="yes" postag="(ADJ|PA1):.*DEF.*"/></suggestion>
             <example correction="kommerzielle|kommerziellen|kommerziellere|kommerzielleren|kommerziellste|kommerziellsten">ROBOT ist das <marker>kommerzielles</marker> System.</example>
+            <example correction="passende|passenden">Er ist der <marker>passender</marker> Mann dazu.</example>
             <example>ROBOT ist ein <marker>kommerzielles</marker> System.</example>
             <example>Ist das <marker>japanisches</marker> Essen?</example>
             <example>Vorfälle, über die autistische Menschen berichten.</example>
             <example type="triggers_error">Damit ähnelt die Altersstruktur der <marker>europäischer</marker> Städte.</example>
-            <!--TODO: <example correction="">Er ist der <marker>passender</marker> Mann dazu.</example>-->
         </rule>
         <rule id="VERB_IST" name="Verb 1./3. Person (statt Partizip) + 'ist'">
             <pattern>
