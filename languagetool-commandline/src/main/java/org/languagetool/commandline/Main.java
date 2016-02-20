@@ -34,31 +34,26 @@ import org.languagetool.tools.Tools;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-
 import java.io.*;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static org.languagetool.tools.StringTools.*;
 
 /**
  * The command line tool to check plain text files.
- * 
- * @author Daniel Naber
  */
 class Main {
-
-  /* maximum file size to read in a single read */
-  private static final int MAX_FILE_SIZE = 64000;
 
   private final boolean verbose;
   private final boolean apiFormat;
   private final boolean taggerOnly;
   private final boolean applySuggestions;
   private final boolean autoDetect;
-  private final boolean singleLineBreakMarksParagraph;
   private final boolean listUnknownWords;
-  private final List<String> unknownWords;
   private final String[] enabledRules;
   private final String[] disabledRules;
   private final Language motherTongue;
@@ -68,7 +63,6 @@ class Main {
   private boolean bitextMode;
   private MultiThreadedJLanguageTool srcLt;
   private List<BitextRule> bRules;
-  private Rule currentRule;
 
   Main(CommandLineOptions options) throws IOException {
     this.verbose = options.isVerbose();
@@ -79,9 +73,7 @@ class Main {
     this.enabledRules = options.getEnabledRules();
     this.disabledRules = options.getDisabledRules();
     this.motherTongue = options.getMotherTongue();
-    this.singleLineBreakMarksParagraph = options.isSingleLineBreakMarksParagraph();
     this.listUnknownWords = options.isListUnknown();
-    this.unknownWords = new ArrayList<>();
     profileRules = false;
     bitextMode = false;
     srcLt = null;
@@ -172,31 +164,6 @@ class Main {
 
   private void runOnFile(final String filename, final String encoding,
       final boolean xmlFiltering) throws IOException {
-    boolean oneTime = false;
-    if (!isStdIn(filename)) {
-      if (autoDetect) {
-        Language language = detectLanguageOfFile(filename, encoding);
-        if (language == null) {
-          System.err.println("Could not detect language well enough, using English");
-          language = new English();
-        }
-        changeLanguage(language, motherTongue, disabledRules, enabledRules);
-        System.err.println("Using " + language.getName() + " for file " + filename);
-      }
-      final File file = new File(filename);
-      // run once on file if the file size < MAX_FILE_SIZE or
-      // when we use the bitext mode (we use a bitext reader
-      // instead of a direct file access)
-      oneTime = file.length() < MAX_FILE_SIZE || bitextMode;
-    }
-    if (oneTime) {
-      runOnFileInOneGo(filename, encoding, xmlFiltering);
-    } else {
-      runOnFileLineByLine(filename, encoding);
-    }
-  }
-
-  private void runOnFileInOneGo(String filename, String encoding, boolean xmlFiltering) throws IOException {
     if (bitextMode) {
       final TabBitextReader reader = new TabBitextReader(filename, encoding);
       if (applySuggestions) {
@@ -206,6 +173,20 @@ class Main {
       }
     } else {
       final String text = getFilteredText(filename, encoding, xmlFiltering);
+      if (isStdIn(filename)) {
+        System.err.println("Working on STDIN...");
+      } else {
+        System.err.println("Working on " + filename + "...");
+      }
+      if (autoDetect) {
+        Language language = detectLanguageOfString(text);
+        if (language == null) {
+          System.err.println("Could not detect language well enough, using English");
+          language = new English();
+        }
+        changeLanguage(language, motherTongue, disabledRules, enabledRules);
+        System.err.println("Using " + language.getName() + " for file " + filename);
+      }
       if (applySuggestions) {
         System.out.print(Tools.correctText(text, lt));
       } else if (profileRules) {
@@ -221,172 +202,8 @@ class Main {
     }
   }
 
-  private void runOnFileLineByLine(String filename, String encoding) throws IOException {
-    if (verbose) {
-      lt.setOutput(System.err);
-    }
-    if (!apiFormat && !applySuggestions) {
-      if (isStdIn(filename)) {
-        System.err.println("Working on STDIN...");
-      } else {
-        System.err.println("Working on " + filename + "...");
-      }
-    }
-    if (profileRules && isStdIn(filename)) {
-      throw new IllegalArgumentException("Profiling mode cannot be used with input from STDIN");
-    }
-    int runCount = 1;
-    final List<Rule> rules = lt.getAllActiveRules();
-    if (profileRules) {
-      System.out.printf("Testing %d rules\n", rules.size());
-      System.out.println("Rule ID\tTime\tSentences\tMatches\tSentences per sec.");
-      runCount = rules.size();
-    }
-    int lineOffset = 0;
-    int tmpLineOffset = 0;
-    handleLine(XmlPrintMode.START_XML, 0, new StringBuilder());
-    StringBuilder sb = new StringBuilder();
-    for (int ruleIndex = 0; !rules.isEmpty() && ruleIndex < runCount; ruleIndex++) {
-      currentRule = rules.get(ruleIndex);
-      int matches = 0;
-      long sentences = 0;
-      final long startTime = System.currentTimeMillis();
-      try (
-        InputStreamReader isr = getInputStreamReader(filename, encoding);
-        BufferedReader br = new BufferedReader(isr)
-      ) {
-        String line;
-        int lineCount = 0;
-        while ((line = br.readLine()) != null) {
-          sb.append(line);
-          lineCount++;
-          // to detect language from the first input line
-          if (lineCount == 1 && autoDetect) {
-            Language language = detectLanguageOfString(line);
-            if (language == null) {
-              System.err.println("Could not detect language well enough, using English");
-              language = new English();
-            }
-            System.err.println("Language used is: " + language.getName());
-            language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
-                    singleLineBreakMarksParagraph);
-            changeLanguage(language, motherTongue, disabledRules, enabledRules);
-          }
-          sb.append('\n');
-          tmpLineOffset++;
-
-          if (isBreakPoint(sb, line)) {
-            matches += handleLine(XmlPrintMode.CONTINUE_XML, lineOffset, sb);
-            sentences += lt.getSentenceCount();
-            if (profileRules) {
-              sentences += lt.sentenceTokenize(sb.toString()).size();
-            }
-            rememberUnknownWords();
-            sb = new StringBuilder();
-            lineOffset = tmpLineOffset;
-          }
-        }
-      } finally {
-        if (sb.length() > 0) {
-          sentences += lt.getSentenceCount();
-          if (profileRules) {
-            sentences += lt.sentenceTokenize(sb.toString()).size();
-          }
-          rememberUnknownWords();
-        }
-        matches += handleLine(XmlPrintMode.END_XML, tmpLineOffset - 1, sb);
-        printTimingInformation(rules, ruleIndex, matches, sentences, startTime);
-      }
-    }
-  }
-
-  private boolean isBreakPoint(StringBuilder sb, String line) {
-    return lt.getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara()
-        || "".equals(line) || sb.length() >= MAX_FILE_SIZE;
-  }
-
-  private void rememberUnknownWords() {
-    if (listUnknownWords && !taggerOnly) {
-      for (String word : lt.getUnknownWords()) {
-        if (!unknownWords.contains(word)) {
-          unknownWords.add(word);
-        }
-      }
-    }
-  }
-
-  private InputStreamReader getInputStreamReader(String filename, String encoding)
-          throws UnsupportedEncodingException, FileNotFoundException {
-    final InputStreamReader isr;
-    if (!isStdIn(filename)) {
-      final File file = new File(filename);
-      if (encoding != null) {
-        isr = new InputStreamReader(new BufferedInputStream(
-            new FileInputStream(file)), encoding);
-      } else {
-        isr = new InputStreamReader(new BufferedInputStream(
-            new FileInputStream(file)));
-      }
-    } else {
-      if (encoding != null) {
-        isr = new InputStreamReader(new BufferedInputStream(System.in), encoding);
-      } else {
-        isr = new InputStreamReader(new BufferedInputStream(System.in));
-      }
-    }
-    return isr;
-  }
-
   private boolean isStdIn(String filename) {
     return "-".equals(filename);
-  }
-
-  private void printTimingInformation(final List<Rule> rules,
-      final int ruleIndex, final int matches, final long sentences, final long startTime) {
-    if (!applySuggestions) {
-      final long endTime = System.currentTimeMillis();
-      final long time = endTime - startTime;
-      final float timeInSeconds = time / 1000.0f;
-      final float sentencesPerSecond = sentences / timeInSeconds;
-      if (apiFormat) {
-        System.out.println("<!--");
-      }
-      if (profileRules) {
-        System.out.printf(Locale.ENGLISH,
-            "%s\t%d\t%d\t%d\t%.1f", rules.get(ruleIndex).getId(),
-            time, sentences, matches, sentencesPerSecond);
-        System.out.println();
-      } else {
-        System.out.printf(Locale.ENGLISH,
-            "Time: %dms for %d sentences (%.1f sentences/sec)", time,
-            sentences, sentencesPerSecond);
-        System.out.println();
-      }
-      if (listUnknownWords && !apiFormat) {
-        Collections.sort(unknownWords);
-        System.out.println("Unknown words: " + unknownWords);
-      }
-      if (apiFormat) {
-        System.out.println("-->");
-      }
-    }
-  }
-
-  private int handleLine(final XmlPrintMode mode, final int lineOffset,
-      final StringBuilder sb) throws IOException {
-    int matches = 0;
-    String s = filterXML(sb.toString());
-    if (applySuggestions) {
-      System.out.print(Tools.correctText(s, lt));
-    } else if (profileRules) {
-      matches += Tools.profileRulesOnLine(s, lt, currentRule);
-    } else if (!taggerOnly) {
-      matches += CommandLineTools.checkText(s, lt, apiFormat, -1, lineOffset,
-          matches, mode, listUnknownWords, unknownWords);
-    } else {
-      CommandLineTools.tagText(s, lt);
-    }
-    return matches;
   }
 
   private void runRecursive(final String filename, final String encoding,
@@ -417,11 +234,14 @@ class Main {
     if (verbose) {
       lt.setOutput(System.err);
     }
-    if (!apiFormat && !applySuggestions) {
-      System.out.println("Working on " + filename + "...");
-    }
     // don't use StringTools.readStream() as that might add newlines which aren't there:
-    final String fileContents = streamToString(new FileInputStream(filename), encoding != null ? encoding : Charset.defaultCharset().name());
+    String fileContents;
+    String encodingName = encoding != null ? encoding : Charset.defaultCharset().name();
+    if (isStdIn(filename)) {
+      fileContents = streamToString(new BufferedInputStream(System.in), encodingName);
+    } else {
+      fileContents = streamToString(new FileInputStream(filename), encodingName);
+    }
     if (xmlFiltering) {
       return filterXML(fileContents);
     } else {

@@ -179,7 +179,7 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     final String stdout = new String(this.out.toByteArray());
     final String stderr = new String(this.err.toByteArray());
-    assertTrue(stderr.indexOf("Using English for file") == 0);
+    assertTrue(stderr.contains("Using English for file"));
     assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
 
@@ -193,7 +193,7 @@ public class MainTest extends AbstractSecurityTestCase {
     final String stdout = new String(this.out.toByteArray());
     final String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Working on STDIN...") == 0);
-    assertTrue(stderr.contains("Language used is: English"));
+    assertTrue(stderr.contains("Using English for"));
     assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
 
@@ -267,7 +267,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
-    assertEquals("This is a test.\n", output);
+    assertEquals("This is a test.", output);
   }
 
   public void testEnglishStdIn4() throws Exception {
@@ -278,7 +278,7 @@ public class MainTest extends AbstractSecurityTestCase {
     final String output = new String(this.out.toByteArray());
     assertTrue("Got: " + output, output.contains("<error fromy=\"4\" fromx=\"5\" toy=\"4\" tox=\"10\" " +
         "ruleId=\"ENGLISH_WORD_REPEAT_RULE\" msg=\"Possible typo: you repeated a word\" replacements=\"is\" " +
-        "context=\"This is is a test of language tool. \" contextoffset=\"5\" offset=\"5\" errorlength=\"5\" " +
+        "context=\"....  This is a test of of language tool.  This is is a test of language tool. \" contextoffset=\"48\" offset=\"60\" errorlength=\"5\" " +
         "category=\"Miscellaneous\" locqualityissuetype=\"duplication\"/>"));
     // note: the offset is relative to the sentence... this seems wrong - it happens because of the way
     // the command line client feeds the data into the check() methods.
@@ -294,7 +294,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
-    assertEquals("This is what I mean\nAnd you know it.\n", output);
+    assertEquals("This is what I mean\nAnd you know it.", output);
   }
 
   //first line mode
@@ -306,7 +306,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
-    assertEquals("This is what I mean\nand you know it.\n", output);
+    assertEquals("This is what I mean\nand you know it.", output);
   }
 
   public void testPolishStdInDefaultOff() throws Exception {

@@ -43,9 +43,20 @@
 #### Embedded HTTPS server
   * Speed up for input with short sentences
 
+#### Command-line
+  * Bugfix: for files >= 64,000 bytes, the position information
+    (`fromx` and `tox`) could be wrong. Also, rules that work
+    across paragraphs like the German word coherency rule wouldn't
+    work. Both bugs have been fixed but with the side-effect that
+    large files will now be loaded into memory completely. If
+    you're using LanguageTool on large files (several MB) you might
+    need to split these files now before you check them.
+    https://github.com/languagetool-org/languagetool/issues/254
+  
 #### Wikipedia
   * Indexing: fixed an `IllegalArgumentException` for long sentences
     (https://github.com/languagetool-org/languagetool/issues/364)
+
 
 
 ## 3.2 (2015-12-29)
