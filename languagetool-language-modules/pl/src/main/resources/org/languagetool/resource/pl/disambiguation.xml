@@ -2791,12 +2791,13 @@
                 <unify>
                     <feature id="case"/><feature id="gender"><type id="f"/></feature><feature id="number"><type id="sg"/></feature>
                     <token>powieść</token>
-                    <token postag="adj.*" postag_regexp="yes"><exception>była</exception></token>
+                    <token postag="adj.*" postag_regexp="yes"><exception>ma</exception><exception>była</exception></token>
                 </unify>
             </pattern>
             <disambig action="unify"/>
             <example type="ambiguous" inputform="Powieść[powieść/subst:sg:acc:f,powieść/subst:sg:nom:f,powieść/verb:inf:perf:refl.nonrefl]"
                      outputform="Powieść[powieść/subst:sg:nom:f]"><marker>Powieść</marker> ta jest interesująca.</example>
+            <example type="untouched">Powieść ma konstrukcję ramową, zaczyna się w tym samym miejscu, w którym się kończy.</example>
         </rule>
     </rulegroup>
 
@@ -3221,21 +3222,32 @@
         <pattern>
             <marker>
                 <token postag="subst.*n2" postag_regexp="yes">prawa</token>
-                <token postag="subst:sg:gen:n2">zachowania</token>
+                <token postag="subst:sg:gen:.*" postag_regexp="yes" regexp="yes">zachowania|pobytu|człowieka|poboru|pracy|jazdy|użytkowania|mniejszości|producenta|własności|dostępu</token>
             </marker>
         </pattern>
         <disambig action="filterall"/>
     </rule>
 
-    <rule id="PRAWA_DO_GER" name="prawa do + gerundium -> rzeczownik">
+    <rule id="PRAWA_DO" name="prawa do -> rzeczownik">
         <pattern>
         <marker>
             <token postag="subst.*n2" postag_regexp="yes">prawa</token>
             <token postag="prep:gen">do</token>
-            <token postag="(ger|subst):sg:gen.*" postag_regexp="yes"/>
+            <token postag=".*gen.*" postag_regexp="yes"/>
         </marker>
         </pattern>
         <disambig action="filterall"/>
+    </rule>
+
+    <rule id="prawo_cywilne" name="prawo + przymiotnik -> rzeczownik">
+        <pattern>
+            <unify>
+                <feature id="case"/><feature id="number"/><feature id="gender"><type id="n2"/></feature>
+                <token postag="subst.*" postag_regexp="yes" inflected="yes">prawo</token>
+                <token inflected="yes" postag="(:?adj|ppas).*" postag_regexp="yes" regexp="yes">cywilny|handlowy|karny|autorski|konstytucyjny|prasowy|upadłościowy|polski|energetyczny|obywatelski|europejski|materialny|procesowy|publiczny|podatkowy|wyborczy|naturalny|inwestycyjny|gospodarczy|stanowić|wspólnotowy|wykonawczy|miejscowy|konsumencki</token>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
     </rule>
 
     <rule id="POTRZEBA_DAT_GEN" name="potrzeba ci gen">
@@ -4331,6 +4343,29 @@
         </rule>
     </rulegroup>
 
+    <rule id="EMISJA_CIEPLA" name="emisja ciepła -> subst">
+        <pattern>
+            <token inflected="yes" regexp="yes">emisja|strata|dostawa|wymiana|fala|ucieczka|porcja|utrata|produkcja|cena|pompa|wymiennik</token>
+            <marker>
+                <token>ciepła</token>
+            </marker>
+        </pattern>
+        <disambig postag="subst:sg:gen:n2"/>
+        <example type="untouched">Była ciepła, miła i uczynna.</example>
+        <example type="ambiguous" inputform="ciepła[ciepło/subst:pl:acc:n2,ciepło/subst:pl:nom:n2,ciepło/subst:pl:voc:n2,ciepło/subst:sg:gen:n2,ciepły/adj:sg:nom.voc:f:pos]"
+                 outputform="ciepła[ciepło/subst:sg:gen:n2]">Wytwórnia Sprzętu Komunikacyjnego „PZL Gorzyce” w Gorzycach, właścicielka ciepłowni, zawarła z gminą umowę na dostawę <marker>ciepła</marker> m.in. do szkoły i przedszkola.</example>
+    </rule>
+
+    <rule id="KUPNA_SUBST" name="oferta kupna -> subst">
+        <pattern>
+            <token inflected="yes" regexp="yes">oferta|nadwyżka|granica|umowa|propozycja|opcja|transakcja|redukcja|rekomendacja|okazja|dogrywka|decyzja|tendencja|szansa|wola|zlecenie|przewaga|data</token>
+            <marker>
+                <token>kupna</token>
+            </marker>
+        </pattern>
+        <disambig postag="subst:sg:gen:n2"/>
+    </rule>
+
     <rule id="LUFA_DZIALA" name="lufa działa -> subst">
         <pattern>
             <token inflected="yes">lufa</token>
@@ -4353,6 +4388,12 @@
             <token inflected="yes">oboj</token>
         </pattern>
         <disambig action="remove"><wd lemma="oboj"/></disambig>
+    </rule>
+    <rule id="OPADNY" name="opadny to przestarzałe dziwactwo">
+        <pattern>
+            <token inflected="yes">opadny</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="opadny"/></disambig>
     </rule>
     <rule id="ROSNY" name="rosny to przestarzałe dziwactwo">
         <pattern>
@@ -4631,13 +4672,14 @@
 
     <rule id="PRAWA_SUBST" name="prawa jako rzeczownik">
         <pattern>
-            <token regexp="yes" inflected="yes">moc|litera|wykładowca|wykładowczyni|egzekwować|teoria|światło|grunt|tworzenie|system|harmonizacja|rozumienie|interpretacja|spółka|obraza|reforma|powaga|źródło|nauka|nowelizacja|historyk|utrata|wykładnia|ochrona|student(:?ka)?|państwo|przepis</token>
+            <token regexp="yes" inflected="yes">moc|litera|wykładowca|wykładowczyni|egzekwować|teoria|światło|grunt|tworzenie|system|harmonizacja|rozumienie|interpretacja|spółka|obraza|reforma|powaga|praktyka|źródło|nauka|nowelizacja|historyk|utrata|wykładnia|ochrona|student(:?ka)?|państwo|przepis|inflacja|rola|socjologia|doktryna|nowelizacja|zmiana|modyfikacja|realizacja|historia|kodyfikacja|norma|formuła|instytucja|parodia|domena|zasada|liberalizacja|odmowa|filozofia|omnipotencja|istota|funkcja|precyzja|egzekucja|dyktatura|ingerencja|nadinterpretacja|materia|dziedzina|kwestia|psychologia|struktura|historyk|majestat|implementacja</token>
             <marker>
                 <token>prawa</token>
             </marker>
         </pattern>
         <disambig postag="subst:sg:gen:n2"/>
     </rule>
+
 
     <rule id="CO_TWIERDZA" name="jak/co twierdzą -> czasownik">
         <pattern>
@@ -4680,6 +4722,19 @@
         <example type="untouched">Nie wiem, co tam się święci.</example>
         <example type="ambiguous" inputform="święci[święcić/verb:fin:sg:ter:imperf:refl.nonrefl,święty/adj:pl:nom.voc:m1.p1:pos,święty/subst:pl:nom:m1,święty/subst:pl:voc:m1]"
                  outputform="święci[święty/adj:pl:nom.voc:m1.p1:pos]">Co ci <marker>święci</marker> ludzie mają tam do roboty?</example>
+    </rule>
+
+    <rule id="atmosfera_swieta" name="atmosfera święta -> rzeczownik">
+        <pattern>
+            <token inflected="yes">atmosfera</token>
+            <marker>
+                <token>święta</token>
+            </marker>
+        </pattern>
+        <disambig postag="subst:sg:gen:n2"/>
+        <example type="untouched">Ona była święta.</example>
+        <example type="ambiguous" inputform="święta[święta/subst:pl:acc:p3,święta/subst:pl:nom:p3,święta/subst:pl:voc:p3,święta/subst:sg:nom:f,święta/subst:sg:voc:f,święto/subst:pl:acc:n2,święto/subst:pl:nom:n2,święto/subst:pl:voc:n2,święto/subst:sg:gen:n2,święty/adj:sg:nom.voc:f:pos]"
+                 outputform="święta[święto/subst:sg:gen:n2]">Wpisuję się do grupy widzów, którzy oglądając tę inscenizację czuli atmosferę <marker>święta</marker>.</example>
     </rule>
 
     <rule id="SKALA" name="skala jako rzeczownik">

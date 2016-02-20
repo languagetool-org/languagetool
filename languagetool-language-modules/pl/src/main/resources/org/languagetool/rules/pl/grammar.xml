@@ -4177,122 +4177,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>11 XI 1918</example>
                     <example correction="11 XI 1918"><marker>11-XI-1918</marker></example>
                 </rule>
-                <rulegroup type="locale-violation" id="DATA_DEKADY" name="Błędy zapis dekady w dacie">
-                    <rule>
-                    <pattern>
-                        <token inflected="yes" postag="subst:pl.*" postag_regexp="yes">rok</token>
-                        <marker>
-                            <token regexp="yes">19[1-9]0</token>
-                        <token>.</token>
-                        </marker>
-                    </pattern>
-                    <message>Błędnie zapisana nazwa dekady. Poprawnie: <suggestion><match no="2" regexp_match="19(.*)" regexp_replace="$1"/>. XX w.</suggestion></message>
-                    <url>https://dobryslownik.pl/kompendium/regula/462/</url>
-                    <short>Błędny zapis daty</short>
-                    <example correction="90. XX w.">Wspominam piękne lata <marker>1990.</marker></example>
-                    </rule>
+                <rulegroup type="locale-violation" id="DATA_DEKADY" name="Błędy zapis dekady w dacie">                    
                     <rule>
                         <pattern>
                             <token inflected="yes" postag="subst:pl.*" postag_regexp="yes">rok</token>
                             <marker>
-                                <token regexp="yes">18[1-9]0</token>
+                                <token regexp="yes">1\d[2-9]0</token>
                                 <token>.</token>
                             </marker>
                         </pattern>
-                        <message>Błędnie zapisana nazwa dekady. Poprawnie: <suggestion><match no="2" regexp_match="18(.*)" regexp_replace="$1"/>. XIX w.</suggestion></message>
+                        <filter class="org.languagetool.rules.pl.DecadeSpellingFilter" args="lata:\2"/>
+                        <message>Błędnie zapisana nazwa dekady. Poprawnie: <suggestion>{dekada}. {wiek} w.</suggestion></message>
                         <url>https://dobryslownik.pl/kompendium/regula/462/</url>
                         <short>Błędny zapis daty</short>
                         <example correction="40. XIX w.">Na początku lat <marker>1840.</marker> ulica Zachodnia została połączona na północy z ulicą Stodolnianą na Starym Mieście.</example>
-                    </rule>
-                    <rule>
-                        <pattern>
-                            <token inflected="yes" postag="subst:pl.*" postag_regexp="yes">rok</token>
-                            <marker>
-                                <token regexp="yes">17[1-9]0</token>
-                                <token>.</token>
-                            </marker>
-                        </pattern>
-                        <message>Błędnie zapisana nazwa dekady. Poprawnie: <suggestion><match no="2" regexp_match="17" regexp_replace=""/>. XVIII w.</suggestion></message>
-                        <url>https://dobryslownik.pl/kompendium/regula/462/</url>
-                        <short>Błędny zapis daty</short>
+                        <example correction="90. XX w.">Wspominam piękne lata <marker>1990.</marker></example>
                         <example correction="70. XVIII w.">W latach <marker>1770.</marker> Smith osiedlił sie w miejscowości wypoczynkowej Bath.</example>
-                    </rule>
-                    <rule>
-                        <pattern>
-                            <token inflected="yes" postag="subst:pl.*" postag_regexp="yes">rok</token>
-                            <marker>
-                                <token regexp="yes">16[1-9]0</token>
-                                <token>.</token>
-                            </marker>
-                        </pattern>
-                        <message>Błędnie zapisana nazwa dekady. Poprawnie: <suggestion><match no="2" regexp_match="16" regexp_replace=""/>. XVII w.</suggestion></message>
-                        <url>https://dobryslownik.pl/kompendium/regula/462/</url>
-                        <short>Błędny zapis daty</short>
                         <example correction="60. XVII w.">Szampan jest więc szybko butelkowany od lat <marker>1660.</marker></example>
-                    </rule>
-                    <rule>
-                        <pattern>
-                            <token inflected="yes" postag="subst:pl.*" postag_regexp="yes">rok</token>
-                            <marker>
-                                <token regexp="yes">15[1-9]0</token>
-                                <token>.</token>
-                            </marker>
-                        </pattern>
-                        <message>Błędnie zapisana nazwa dekady. Poprawnie: <suggestion><match no="2" regexp_match="15" regexp_replace=""/>. XVI w.</suggestion></message>
-                        <url>https://dobryslownik.pl/kompendium/regula/462/</url>
-                        <short>Błędny zapis daty</short>
                         <example correction="60. XVI w.">Szampan jest więc szybko butelkowany od lat <marker>1560.</marker></example>
-                    </rule>
-                    <rule>
-                        <pattern>
-                            <token inflected="yes" postag="subst:pl.*" postag_regexp="yes">rok</token>
-                            <marker>
-                                <token regexp="yes">14[1-9]0</token>
-                                <token>.</token>
-                            </marker>
-                        </pattern>
-                        <message>Błędnie zapisana nazwa dekady. Poprawnie: <suggestion><match no="2" regexp_match="14" regexp_replace=""/>. XV w.</suggestion></message>
-                        <url>https://dobryslownik.pl/kompendium/regula/462/</url>
-                        <short>Błędny zapis daty</short>
                         <example correction="60. XV w.">Szampan jest więc szybko butelkowany od lat <marker>1460.</marker></example>
-                    </rule>
-                    <rule>
-                        <pattern>
-                            <token inflected="yes" postag="subst:pl.*" postag_regexp="yes">rok</token>
-                            <marker>
-                                <token regexp="yes">13[1-9]0</token>
-                                <token>.</token>
-                            </marker>
-                        </pattern>
-                        <message>Błędnie zapisana nazwa dekady. Poprawnie: <suggestion><match no="2" regexp_match="13" regexp_replace=""/>. XIV w.</suggestion></message>
-                        <url>https://dobryslownik.pl/kompendium/regula/462/</url>
-                        <short>Błędny zapis daty</short>
                         <example correction="60. XIV w.">Szampan jest więc szybko butelkowany od lat <marker>1360.</marker></example>
-                    </rule>
-                    <rule>
-                        <pattern>
-                            <token inflected="yes" postag="subst:pl.*" postag_regexp="yes">rok</token>
-                            <marker>
-                                <token regexp="yes">12[1-9]0</token>
-                                <token>.</token>
-                            </marker>
-                        </pattern>
-                        <message>Błędnie zapisana nazwa dekady. Poprawnie: <suggestion><match no="2" regexp_match="12" regexp_replace=""/>. XIII w.</suggestion></message>
-                        <url>https://dobryslownik.pl/kompendium/regula/462/</url>
-                        <short>Błędny zapis daty</short>
                         <example correction="60. XIII w.">Szampan jest więc szybko butelkowany od lat <marker>1260.</marker></example>
-                    </rule>
-                    <rule>
-                        <pattern>
-                            <token inflected="yes" postag="subst:pl.*" postag_regexp="yes">rok</token>
-                            <marker>
-                                <token regexp="yes">11[1-9]0</token>
-                                <token>.</token>
-                            </marker>
-                        </pattern>
-                        <message>Błędnie zapisana nazwa dekady. Poprawnie: <suggestion><match no="2" regexp_match="11" regexp_replace=""/>. XII w.</suggestion></message>
-                        <url>https://dobryslownik.pl/kompendium/regula/462/</url>
-                        <short>Błędny zapis daty</short>
                         <example correction="60. XII w.">Szampan jest więc szybko butelkowany od lat <marker>1160.</marker></example>
                     </rule>
                     <rule>
@@ -4570,6 +4475,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <url>http://poradnia.pwn.pl/lista.php?id=11869</url>
                       <short>Zbędna spacja</short>                                            
                       <example correction="p.n.e">To było w roku 241 <marker>p.n. e</marker>.</example>
+                    </rule>
+                    <rule>
+                      <pattern>
+                        <token regexp="yes">\d+</token>                                                
+                        <marker>
+                          <token>n</token>
+                          <token>.</token>
+                          <token spacebefore="yes">e</token>
+                        </marker>
+                      </pattern>
+                      <message>Ten skrót zapisuje się bez spacji: <suggestion>\2\3\4</suggestion>.</message>
+                      <url>http://poradnia.pwn.pl/lista.php?id=11869</url>
+                      <short>Zbędna spacja</short>                                            
+                      <example correction="n.e">To było w roku 5 <marker>n. e</marker>.</example>
                     </rule>
                   </rulegroup>
                   <rulegroup type="whitespace" id="BRAK_SPACJI_W_SKROCIE" name="Brak spacji w skrócie „dz.cyt” i „op.cit.”">
@@ -19757,6 +19676,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Ponieważ system byłby rozciągnięty na inne kraje, które wpłacają dziś dużą daninę netto do budżetu UE.</example>
                     </rule>
                     <rule>
+                        <antipattern>
+                        <token>w</token>
+                        <marker>
+                          <token>miarę</token>
+                        </marker>
+                        </antipattern>                        
                         <pattern>
                             <token postag='adj:sg:acc:f.*' postag_regexp='yes' regexp="yes">.+ą</token>
                             <token postag="subst:pl:acc:f" regexp="yes">.+e<exception postag="subst:sg:.*acc.*:f" postag_regexp="yes"></exception><exception>macie</exception></token>
@@ -19765,6 +19690,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <short>Prawdopodobna literówka</short>
                         <example correction="prawdziwą informację">Podaj mi <marker>prawdziwą informacje</marker>.</example>
                         <example>Podaj mi te informacje.</example>
+                        <example>Europa w miarę bezpieczna</example>
                     </rule>
                     <rule>
                         <pattern>
@@ -19781,14 +19707,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>On będzie w stanie przywołać na pomoc w potrzebie całą dżunglę.</example>
                     </rule>
                     <rule>
+                        <antipattern>
+                        <token inflected="yes" skip="4">mieć</token>                        
+                        <token>za</token>
+                        <marker>
+                        <token>złe</token>
+                        </marker>
+                        </antipattern>
                         <pattern>
-                            <token postag='adj:pl:acc:m2.m3.f.n1.n2.p2.p3.*' postag_regexp='yes'><exception regexp="yes">jakie|one</exception></token>
+                            <token postag='adj:pl:acc:m2.m3.f.n1.n2.p2.p3.*' postag_regexp='yes'>
+                            <exception regexp="yes">jakie|one</exception>
+                            <exception postag='pact:pl:nom.acc.voc:m2.m3.f.n1.n2.p2.p3.*' postag_regexp='yes'/>
+                            </token>
                             <token postag='subst:sg:acc:f'></token>
                         </pattern>
                         <message>Niezgodna liczba przymiotnika i rzeczownika.</message>
                         <short>Prawdopodobna literówka</short>
                         <example correction=''>Wykładam psychologię na trzech uczelniach jednocześnie i jakoś ogarniam <marker>te rzeczywistość</marker>.</example>
                         <example>Wykładam psychologię na trzech uczelniach jednocześnie i jakoś ogarniam tę rzeczywistość.</example>
+                        <example>Rozpowszechniały się kulty i religie obiecujące nieśmiertelność i zbawienie.</example>
+                        <example>Czernomyrdin dał do zrozumienia, że ma mu za złe odmowę udzielenia wyraźnego poparcia Jelcynowi w dugiej turze wyborow.</example>
                     </rule>
             </rulegroup>
             <rule id="TEGO_OKRESY_TEGO_OKRESU" name="Niezgodność przypadków przymiotnika i rzeczownika rodzaju męskiego">
