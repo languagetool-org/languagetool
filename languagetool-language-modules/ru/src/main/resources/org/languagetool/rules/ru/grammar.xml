@@ -4109,6 +4109,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="не представляется возможным">Количество лошадиных сил определить <marker>не предоставляется возможным</marker>.</example>
             </rule>
         </rulegroup>
+	
+	<rulegroup default="on" id="Opublikovani_vospominanija" name="Цельные выражения: «опубликованы воспоминания»">
+            <rule>
+                <pattern>
+                    <token regexp="yes" >опубликовано|напечатано|обнародовано|издано</token>
+                    <token>воспоминание</token>
+                </pattern>
+                <message>Требуется множественное число: <suggestion><match no="1" postag="PT:(.*):.*" postag_regexp="yes" postag_replace="PT:$1:PL" /> воспоминания</suggestion>.</message>
+                <short>Требуется множественное число.</short>
+
+                <example correction="опубликованы воспоминания">В книге <marker>опубликовано воспоминание</marker> известного политика.</example>
+            </rule>
+        </rulegroup>
         
         <rulegroup default="on" id="V_K_S" name="Беглая гласная в предлогах: «в», «к», «с», «без», «из» ...">
             <rule>
