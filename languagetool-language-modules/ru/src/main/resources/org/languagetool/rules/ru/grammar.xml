@@ -4844,10 +4844,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="1">абсолютно</token>
                     <token postag="ADJ_Com:.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Излишние прилагательные в превосходной степени.</message>
+                <message>Излишние прилагательные в превосходной степени: <suggestion>\2</suggestion></message>
                 <short>Излишние прилагательные в превосходной степени.</short>
                 <example>Это всегда лучший способ подачи потрясающих идей.</example>
-                <example correction="">Это всегда <marker>абсолютно самый лучший</marker> способ подачи потрясающих идей.</example>
+                <example correction="лучший">Это всегда <marker>абсолютно самый лучший</marker> способ подачи потрясающих идей.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup default="on" id="adv_st" name="Неверное образование степени сравнения прилагательного">
+            <rule>
+                <pattern>
+                    <token>абсолютно</token>
+                    <token postag="ADJ_Sup" ></token>
+                </pattern>
+                <message>Неверное образование степени сравнения прилагательного: <suggestion>\2</suggestion></message>
+                <short>Избыточное наречие.</short>       
+                <example correction="лучше">Этот способ всегда <marker>абсолютно лучше</marker> предложенного.</example>
             </rule>
         </rulegroup>
         
