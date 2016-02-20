@@ -23736,6 +23736,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
         </rulegroup>
         -->
+        <!--
+        <rule id="SIND_NOMEN_SING" name="'sind' + Nomen singular">
+            <antipattern case_sensitive="yes">
+                <token>Sie</token>
+                <token>sind</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>sind</token>
+                    <token postag="SUB:.*SIN:.*" postag_regexp="yes">
+                        <exception postag="SUB:.*PLU:.*" postag_regexp="yes"/>
+                        <exception regexp="yes">Teil|Bestandteil|Gefahr|Vieh|Heimat|Gegenstand|Mitglied</exception>
+                    </token>
+                </marker>
+                <token regexp="yes" negate="yes">und|oder|,</token>
+            </pattern>
+            <message>...</message>
+            <example correction="">Wo <marker>sind Eigenleistung</marker> am besten möglich?</example>
+        </rule>
+        -->
         <rule id="DEF_ARTIKEL_INDEF_ADJ" name="bestimmter Artikel + unbestimmtes Adjektiv">
             <antipattern>
                 <token postag="SENT_START"></token>
