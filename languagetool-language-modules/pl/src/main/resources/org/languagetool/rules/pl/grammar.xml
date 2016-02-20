@@ -4212,6 +4212,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <short>Błędny zapis daty</short>
                     <example correction="Pierwsza dekada XXI"><marker>Lata zerowe XXI</marker> wieku charakteryzowały się historycznymi zmianami.</example>
                     </rule>
+                    <rule> <!-- TODO: inflect the suggestion? -->
+                    <pattern>                            
+                            <marker>
+                                <token inflected="yes" postag="subst:pl.*" postag_regexp="yes">rok</token>
+                                <token regexp="yes">1\d00</token>
+                                <token>.</token>
+                            </marker>
+                    </pattern>
+                    <filter class="org.languagetool.rules.pl.DecadeSpellingFilter" args="lata:\2"/>
+                    <message>Błędnie zapisana nazwa dekady. Poprawnie: <suggestion>pierwsza dekada {wiek} w.</suggestion></message>
+                        <url>https://dobryslownik.pl/kompendium/regula/462/</url>                    
+                        <short>Błędny zapis daty</short>                        
+                    <example correction="Pierwsza dekada XX w."><marker>Lata 1900.</marker> charakteryzowały się historycznymi zmianami.</example>
+                    </rule>
+                    <rule> <!-- TODO: inflect the suggestion? -->
+                    <pattern>                            
+                            <marker>
+                                <token inflected="yes" postag="subst:pl.*" postag_regexp="yes">rok</token>
+                                <token regexp="yes">1\d10</token>
+                                <token>.</token>
+                            </marker>
+                    </pattern>
+                    <filter class="org.languagetool.rules.pl.DecadeSpellingFilter" args="lata:\2"/>
+                    <message>Błędnie zapisana nazwa dekady. Poprawnie: <suggestion>druga dekada {wiek} w.</suggestion></message>
+                        <url>https://dobryslownik.pl/kompendium/regula/462/</url>                    
+                        <short>Błędny zapis daty</short>                        
+                    <example correction="Druga dekada XX w."><marker>Lata 1910.</marker> charakteryzowały się historycznymi zmianami.</example>
+                    </rule>
                 </rulegroup>
 				<rulegroup id="POMINIECIE" name="(...) → […]">
                     <rule>
@@ -19658,7 +19686,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <pattern>
                             <token regexp='yes' postag='subst:sg:acc:f'>.*ę<exception>odrobinę</exception></token>
                             <marker>
-                                <token postag='adj:sg:nom.voc:f.*' postag_regexp='yes'><exception postag="adj:sg:acc:f.*" postag_regexp="yes"/></token>
+                                <token postag='adj:sg:nom.voc:f.*' postag_regexp='yes'><exception postag="adj:sg:acc:f.*" postag_regexp="yes"/><exception>ma</exception></token>
                             </marker>
                                 <token><exception postag="subst:sg:nom:f|adj:sg:nom.voc:f.*" postag_regexp="yes"/></token>
                         </pattern>

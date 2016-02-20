@@ -4383,6 +4383,12 @@
     </rule>
 
     <!-- wyrazy do usunięcia z morfologika 2.2 -->
+    <rule id="KWIETNI" name="kwietni to archaizm">
+        <pattern>
+            <token inflected="yes">kwietni</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="kwietni"/></disambig>
+    </rule>
     <rule id="OBOJ" name="oboj to przestarzałe dziwactwo">
         <pattern>
             <token inflected="yes">oboj</token>
@@ -4587,6 +4593,16 @@
             <token>węgli</token>
         </pattern>
         <disambig action="remove"><wd lemma="węglić"/></disambig>
+    </rule>
+
+    <rule id="WZROSLA" name="wzrosła o/do -> czasownik">
+        <pattern>
+            <marker>
+                <token>wzrosła</token>
+            </marker>
+            <token regexp="yes">d?o</token>
+        </pattern>
+        <disambig action="filter" postag="verb:praet:sg:f:ter:perf:nonrefl"/>
     </rule>
 
     <rule id="ZOLCI" name="żółci to nie żółcić">
@@ -5556,7 +5572,7 @@
                 <feature id="case"/><feature id="number"><type id="sg"/></feature>
                 <feature id="gender"><type id="f"/></feature>
                 <token>jedna</token>
-                <token max="2" postag="adj.*|subst.*" postag_regexp="yes"/>
+                <token max="2" postag="adj.*|subst.*" postag_regexp="yes"><exception>ma</exception></token>
             </unify>
             </marker>
         </pattern>
@@ -7891,11 +7907,22 @@
         <pattern>
             <marker>
             <token postag="verb.*" postag_regexp="yes" inflected="yes">mieć</token>
-            <token postag="subst.*acc.*" postag_regexp="yes" regexp="yes">ochotę|wrażenie|nadzieję|moc|zamiar|pojęcie|gorączkę|rację|przeczucie|pewność|odwagę|zwyczaj|rozkaz|wątpliwości|wątpliwość|polecenie|wadę|słuszność</token>
+            <token postag="subst.*acc.*" postag_regexp="yes" regexp="yes">ochotę|wrażenie|nadzieję|moc|zamiar|pojęcie|gorączkę|rację|przeczucie|pewność|odwagę|zwyczaj|rozkaz|wątpliwości|wątpliwość|polecenie|wadę|słuszność|siedzibę</token>
             </marker>
         </pattern>
         <disambig action="filterall"/>
     </rule>
+
+    <rule name="kolokaty mieć" id="kolokaty_nominatywne_miec">
+        <pattern>
+            <marker>
+                <token postag="subst.*acc.*" postag_regexp="yes" regexp="yes">ochotę|wrażenie|nadzieję|moc|zamiar|pojęcie|gorączkę|rację|przeczucie|pewność|odwagę|zwyczaj|rozkaz|wątpliwości|wątpliwość|polecenie|wadę|słuszność|siedzibę</token>
+                <token postag="verb.*" postag_regexp="yes" inflected="yes">mieć</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
 
     <rule name="ma być" id="MA_INF">
         <pattern>
@@ -7908,6 +7935,19 @@
                  outputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]">Jak <marker>ma</marker> być zrobione zadanie 3?</example>
     </rule>
 
+    <rule name="ma być" id="MA_QUB_INF">
+        <pattern>
+            <marker><token>ma</token></marker>
+            <token postag="qub"/>
+            <token postag_regexp="yes" postag="verb:inf.*"/>
+        </pattern>
+        <disambig postag="verb:fin:sg:ter:imperf:refl.nonrefl"/>
+        <example type="untouched">Wraca ma ukochana.</example>
+        <example type="ambiguous" inputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl,mój/adj:sg:nom.voc:f:pos]"
+                 outputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]">Tak <marker>ma</marker> też być zrobione zadanie 3.</example>
+    </rule>
+
+
     <rule name="być ma" id="INF_MA">
         <pattern>
             <token postag_regexp="yes" postag="verb:inf.*"/>
@@ -7917,6 +7957,18 @@
         <example type="untouched">Wraca ma ukochana.</example>
         <example type="ambiguous" inputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl,mój/adj:sg:nom.voc:f:pos]"
                  outputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]">To być <marker>ma</marker> zadanie 3?</example>
+    </rule>
+
+    <rule name="robić coś ma" id="INF_SUBST_MA">
+        <pattern>
+            <token postag_regexp="yes" postag="verb:inf.*"/>
+            <token postag="subst.*acc.*" postag_regexp="yes"/>
+            <marker><token>ma</token></marker>
+        </pattern>
+        <disambig postag="verb:fin:sg:ter:imperf:refl.nonrefl"/>
+        <example type="untouched">Wraca ma ukochana.</example>
+        <example type="ambiguous" inputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl,mój/adj:sg:nom.voc:f:pos]"
+                 outputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]">Ułatwiać adopcję <marker>ma</marker> m.in. artykuł 118 kodeksu.</example>
     </rule>
 
     <rule name="być ma" id="INF_SIE_MA">
