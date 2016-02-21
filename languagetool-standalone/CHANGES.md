@@ -51,6 +51,7 @@
     large files will now be loaded into memory completely. If
     you're using LanguageTool on large files (several MB) you might
     need to split these files now before you check them.
+    If you need the old behavior, use the `--line-by-line` switch.
     https://github.com/languagetool-org/languagetool/issues/254
   
 #### Wikipedia
