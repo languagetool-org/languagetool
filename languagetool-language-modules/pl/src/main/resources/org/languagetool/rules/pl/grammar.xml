@@ -4056,6 +4056,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example correction="266-267|266–267">V.S. Ramachandran, dz. cyt., s. <marker>266—267</marker>.</example>
                     <example>V.S. Ramachandran, dz. cyt., s. 266-267.</example>
                 </rule>
+                <rulegroup id="DATA_BEZ_DYWIZU_ZAKRES" name="Myślnik zamiast dywizu w zakresie dat">
+                <rule>
+                    <pattern>
+                        <token regexp='yes'>\d+</token>
+                        <token>p</token>
+                        <token>.</token>
+                        <token>n</token>
+                        <token>.</token>
+                        <token>e</token>
+                        <token>.</token>
+                        <token>—</token>
+                        <token regexp='yes' spacebefore='no'>\d+n?</token>
+                    </pattern>
+                    <message>Myślnika nie używa się w oznaczeniu zakresu dat. Powinno być: <suggestion>\1 \2\3\4\5\6\7-\9</suggestion> lub <suggestion>\1 \2\3\4\5\6\7 – \9</suggestion> (z półpauzą).</message>
+                    <url>https://dobryslownik.pl/kompendium/regula/462/</url>
+                    <short>Błąd typograficzny</short>
+                    <example correction="27 p.n.e.-14|27 p.n.e. – 14">To było w latach <marker>27 p.n.e.—14</marker> n.e.</example>
+                    <example>To było w latach 27 p.n.e. – 14 n.e.</example>
+                </rule>
+                </rulegroup>
                 <rule id="X-LATEK_MYSLNIK" name="Myślnik zamiast dywizu w określeniach wieku">
                     <pattern>
                         <token regexp="yes">\d+</token>

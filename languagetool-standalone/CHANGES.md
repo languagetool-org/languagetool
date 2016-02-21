@@ -57,7 +57,9 @@
   * Indexing: fixed an `IllegalArgumentException` for long sentences
     (https://github.com/languagetool-org/languagetool/issues/364)
 
-
+#### Core code
+  * Fixed a bug while sentence and paragraph end tags were removed during 
+  disambiguation.
 
 ## 3.2 (2015-12-29)
 

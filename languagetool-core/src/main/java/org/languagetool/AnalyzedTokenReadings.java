@@ -212,9 +212,15 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     final List<AnalyzedToken> l = new ArrayList<>();
     final AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token.getPOSTag(), token.getLemma());
     tmpTok.setWhitespaceBefore(isWhitespaceBefore);
+    boolean removedSentEnd = false;
+    boolean removedParaEnd = false;
     for (AnalyzedToken anTokReading : anTokReadings) {
       if (!anTokReading.matches(tmpTok)) {
         l.add(anTokReading);
+      } else if (SENTENCE_END_TAGNAME.equals(anTokReading.getPOSTag())) {
+        removedSentEnd = true;
+      } else if (PARAGRAPH_END_TAGNAME.equals(anTokReading.getPOSTag())) {
+        removedParaEnd = true;
       }
     }
     if (l.isEmpty()) {
@@ -223,6 +229,14 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     }
     anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
     setNoRealPOStag();
+    if (removedSentEnd) {
+      isSentEnd = false;
+      setSentEnd();
+    }
+    if (removedParaEnd) {
+      isParaEnd = false;
+      setParagraphEnd();
+    }
     hasSameLemmas = areLemmasSame();
   }
 

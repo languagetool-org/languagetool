@@ -276,10 +276,11 @@ public class MainTest extends AbstractSecurityTestCase {
 
     Main.main(args);
     final String output = new String(this.out.toByteArray());
-    assertTrue("Got: " + output, output.contains("<error fromy=\"4\" fromx=\"5\" toy=\"4\" tox=\"10\" " +
-        "ruleId=\"ENGLISH_WORD_REPEAT_RULE\" msg=\"Possible typo: you repeated a word\" replacements=\"is\" " +
-        "context=\"....  This is a test of of language tool.  This is is a test of language tool. \" contextoffset=\"48\" offset=\"60\" errorlength=\"5\" " +
-        "category=\"Miscellaneous\" locqualityissuetype=\"duplication\"/>"));
+    assertTrue("Got: " + output, output.contains("<error fromy=\"4\" fromx=\"5\" toy=\"4\" " +
+        "tox=\"10\" ruleId=\"ENGLISH_WORD_REPEAT_RULE\" msg=\"Possible typo: you repeated a word\" " +
+        "replacements=\"is\" context=\"....  This is a test of of language tool.  This is is a test of language tool.  \"" +
+        " contextoffset=\"48\" offset=\"60\" errorlength=\"5\" category=\"Miscellaneous\" locqualityissuetype=\"duplication\"/>"));
+
     // note: the offset is relative to the sentence... this seems wrong - it happens because of the way
     // the command line client feeds the data into the check() methods.
   }
