@@ -262,7 +262,7 @@ class Main {
           sb.append('\n');
           tmpLineOffset++;
 
-          if (isBreakPoint(sb, line)) {
+          if (isBreakPoint(line)) {
             matches += handleLine(XmlPrintMode.CONTINUE_XML, lineOffset, sb);
             sentences += lt.getSentenceCount();
             if (profileRules) {
@@ -302,9 +302,8 @@ class Main {
         return matches;
   }
 
-  private boolean isBreakPoint(StringBuilder sb, String line) {
-    return lt.getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara()
-        || "".equals(line);
+  private boolean isBreakPoint(String line) {
+    return lt.getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara() || "".equals(line);
   }
 
   private InputStreamReader getInputStreamReader(String filename, String encoding)
