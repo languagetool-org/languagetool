@@ -4550,6 +4550,14 @@
         <disambig action="remove"><wd lemma="rzec"/></disambig>
     </rule>
 
+    <rule id="SKRAJNIE" name="skrajnie to też adv">
+        <pattern>
+            <marker><token>skrajnie</token></marker>
+            <token regexp="yes" inflected="yes">liberalny|prawicowy|lewicowy|negatywny|pesymistyczny|niebezpieczny|depresyjny|antyrządowy</token>
+        </pattern>
+        <disambig postag="adv:pos"/>
+    </rule>
+
     <rule id="TYLE_TYLI" name="tyle to nie tyli">
         <pattern><token>tyle</token></pattern>
         <disambig action="remove"><wd lemma="tyli"/></disambig>
@@ -4595,15 +4603,81 @@
         <disambig action="remove"><wd lemma="węglić"/></disambig>
     </rule>
 
-    <rule id="WZROSLA" name="wzrosła o/do -> czasownik">
+    <rule id="SPADLY" name="spadła/spadły o/do -> czasownik">
         <pattern>
             <marker>
-                <token>wzrosła</token>
+                <token regexp="yes">spadł[ay]</token>
             </marker>
             <token regexp="yes">d?o</token>
         </pattern>
-        <disambig action="filter" postag="verb:praet:sg:f:ter:perf:nonrefl"/>
+        <disambig action="filter" postag="verb:praet:.*"/>
     </rule>
+
+    <rule id="SPADLY_AZ" name="spadła/spadły aż o/do -> czasownik">
+        <pattern>
+            <marker>
+                <token regexp="yes">spadł[ay]</token>
+            </marker>
+            <token>aż</token>
+            <token regexp="yes">d?o</token>
+        </pattern>
+        <disambig action="filter" postag="verb:praet:.*"/>
+    </rule>
+
+
+    <rule id="WZROSLA" name="wzrosła o/do -> czasownik">
+        <pattern>
+            <marker>
+                <token regexp="yes">wzrosł[ay]</token>
+            </marker>
+            <token regexp="yes">d?o</token>
+        </pattern>
+        <disambig action="filter" postag="verb:praet:.*"/>
+    </rule>
+
+    <rule id="WYNIOSLA" name="wyniosła + liczba -> czasownik">
+        <pattern>
+            <marker>
+                <token>wyniosła</token>
+            </marker>
+            <token regexp="yes">\d</token>
+        </pattern>
+        <disambig action="filter" postag="verb:praet:sg:f:ter:perf:refl.nonrefl"/>
+    </rule>
+
+    <rule id="WYNIOSLA_OK" name="wyniosła + ok. -> czasownik">
+        <pattern>
+            <marker>
+                <token>wyniosła</token>
+            </marker>
+            <token>ok</token>
+            <token>.</token>
+        </pattern>
+        <disambig action="filter" postag="verb:praet:sg:f:ter:perf:refl.nonrefl"/>
+    </rule>
+
+    <rule id="WYNIOSLA_PONAD" name="wyniosła + ponad + liczba -> czasownik">
+        <pattern>
+            <marker>
+                <token>wyniosła</token>
+            </marker>
+            <token regexp="yes">ponad|łącznie|zaledwie</token>
+            <token regexp="yes">\d</token>
+        </pattern>
+        <disambig action="filter" postag="verb:praet:sg:f:ter:perf:refl.nonrefl"/>
+    </rule>
+
+
+    <rule id="WYNIOSLA_NUM" name="wyniosła + liczba -> czasownik">
+        <pattern>
+            <marker>
+                <token>wyniosła</token>
+            </marker>
+            <token postag_regexp="yes" postag="num.*"/>
+        </pattern>
+        <disambig action="filter" postag="verb:praet:sg:f:ter:perf:refl.nonrefl"/>
+    </rule>
+
 
     <rule id="ZOLCI" name="żółci to nie żółcić">
         <pattern>
@@ -6732,6 +6806,18 @@
                     </unify>
                 </marker>
                 <token><exception postag="(subst|ger).*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="unify"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <unify><feature id="case"/>
+                        <token postag="prep.*" postag_regexp="yes"/>
+                        <token postag="(?:subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr).*"/></token>
+                        <token postag="(?:adj|ppas|pact).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|ppas|pact|subst).*|SENT_END"/></token>
+                    </unify>
+                </marker>
             </pattern>
             <disambig action="unify"/>
         </rule>

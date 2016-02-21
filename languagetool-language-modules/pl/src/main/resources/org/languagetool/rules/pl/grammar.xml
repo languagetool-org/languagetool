@@ -3706,7 +3706,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>,</token>
                         <token regexp='yes' spacebefore='yes'>\d+</token>
                     </marker>
-                    <token regexp='yes'>tys|proc|zł|EUR|USD|PLN</token>
+                    <token regexp='yes'>tys|proc|zł|EUR|USD|PLN|ml[nd]</token>
                 </pattern>
                 <message>Prawdopodobnie zbędna spacja za przecinkiem w liczbie: <suggestion><match no="1"/>,<match no="3"/></suggestion>.</message>
                 <short>Zbędna spacja</short>
@@ -4067,7 +4067,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>e</token>
                         <token>.</token>
                         <token>—</token>
-                        <token regexp='yes' spacebefore='no'>\d+n?</token>
+                        <token regexp='yes'>\d+n?</token>
                     </pattern>
                     <message>Myślnika nie używa się w oznaczeniu zakresu dat. Powinno być: <suggestion>\1 \2\3\4\5\6\7-\9</suggestion> lub <suggestion>\1 \2\3\4\5\6\7 – \9</suggestion> (z półpauzą).</message>
                     <url>https://dobryslownik.pl/kompendium/regula/462/</url>
@@ -4075,6 +4075,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example correction="27 p.n.e.-14|27 p.n.e. – 14">To było w latach <marker>27 p.n.e.—14</marker> n.e.</example>
                     <example>To było w latach 27 p.n.e. – 14 n.e.</example>
                 </rule>
+                <rule>
+                    <pattern>
+                      <marker>
+                        <token regexp='yes'>\d+</token>                        
+                        <token>p</token>
+                        <token>.</token>
+                        <token>n</token>
+                        <token>.</token>
+                        <token>e</token>
+                        <token>.</token>
+                        <token>—</token>                        
+                        <token>ok</token>                        
+                        </marker>
+                        <token>.</token>
+                        <token regexp='yes'>\d+n?</token>
+                    </pattern>
+                    <message>Myślnika nie używa się w oznaczeniu zakresu dat. Powinno być:  <suggestion>\1 \2\3\4\5\6\7 – \9</suggestion> (z półpauzą).</message>
+                    <url>https://dobryslownik.pl/kompendium/regula/462/</url>
+                    <short>Błąd typograficzny</short>
+                    <example correction="27 p.n.e. – ok">To było w latach <marker>27 p.n.e.—ok</marker>. 14 n.e.</example>
+                    <example>To było w latach 27 p.n.e. – ok. 14 n.e.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                      <marker>
+                        <token regexp='yes'>\d+</token>                        
+                        <token>—</token>                        
+                        <token>ok</token>                        
+                        </marker>
+                        <token>.</token>
+                        <token regexp='yes'>\d+n?</token>
+                    </pattern>
+                    <message>Myślnika nie używa się w oznaczeniu zakresu dat ani liczb. Powinno być:  <suggestion>\1 – \3</suggestion> (z półpauzą).</message>
+                    <url>https://dobryslownik.pl/kompendium/regula/462/</url>
+                    <short>Błąd typograficzny</short>
+                    <example correction="1927 – ok">To było w latach <marker>1927 —ok</marker>. 1934</example>
+                    <example>To było w latach 1927 – ok. 1934.</example>
+                </rule>                
                 </rulegroup>
                 <rule id="X-LATEK_MYSLNIK" name="Myślnik zamiast dywizu w określeniach wieku">
                     <pattern>
@@ -10779,7 +10817,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example correction="">Zawody odbywają się w dniach <marker>11–1 lutego</marker>.</example>
                     <example correction="">Zawody odbywają się od <marker>11 do 1 lutego</marker>.</example>
                     <example correction="">Zawody odbywają się w dniach <marker>21–10 XII</marker>.</example>
-                </rule>                
+                </rule>
+                <rule>
+                  <pattern>
+                    <token regexp="yes" inflected="yes">rok|okres</token>
+                    <marker>
+                      <token regexp="yes">\d{3,4}</token>
+                      <token>–</token>
+                      <token regexp="yes">\d{3,4}</token>
+                    </marker>
+                  </pattern>
+                  <filter class="org.languagetool.rules.DateRangeChecker"
+                            args="x:\2 y:\4"/>
+                  <message>Rok początkowy (\2) jest późniejszy lub taki sam jak końcowy (\4).</message>
+                  <short>Niespójna data</short>
+                  <example correction="">Było to w latach <marker>1915–1840</marker>.</example>
+                  <example correction="">Było to w latach <marker>1915–1915</marker>.</example>
+                </rule>
+            </rulegroup>
+            <rulegroup id="ZBEDNY_MIESIAC" name="Zbędna nazwa miesiąca w zakresie dat">
+            <rule>
+            <pattern>
+              <token regexp="yes">[1-3]?\d</token>
+              <token regexp="yes">&abbrevMonths;|&months;</token>
+              <token regexp="yes">[–\-]</token>
+              <token regexp="yes">[1-3]?\d</token>
+              <token><match no="1"/></token>
+            </pattern>
+            <message>Zbędne powtórzenie nazwy miesiąca. Lepiej: <suggestion>\1–\4 \2</suggestion></message>
+            <short>Rozwlekłość</short>
+            <example correction="1–10 kwietnia">Zawody odbywają się w dniach <marker>1 kwietnia – 10 kwietnia</marker>.</example>
+            </rule>
+            <rule>
+            <pattern>
+              <token regexp="yes">[1-3]?\d</token>
+              <token regexp="yes">&abbrevMonths;|&months;</token>
+              <token>do</token>
+              <token regexp="yes">[1-3]?\d</token>
+              <token><match no="1"/></token>
+            </pattern>
+            <message>Zbędne powtórzenie nazwy miesiąca. Lepiej: <suggestion>\1 do \4 \2</suggestion></message>
+            <short>Rozwlekłość</short>
+            <example correction="1 do 10 kwietnia">Zawody odbywają się od <marker>1 kwietnia do 10 kwietnia</marker>.</example>
+            </rule>
             </rulegroup>
             <rule name="„muzułman” (muzułmanin)" id="MUZULMAN">
               <pattern>
@@ -19682,6 +19762,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>W 1991 roku zaczęła się ukazywać wydawana techniką wielobarwną edycja rumuńskiego wydania „Strażnicy”.</example>
                     <example>Dynamika zysku przed opodatkowaniem i netto była ostatnio wyższa w Dębicy niż Stomilu.</example>
                     <example>Robert Makłowicz "CK Kuchnia" (Wydawnictwo Znak).</example>
+                    <example>Jego zdaniem deklarowana dotąd przez stronę niemiecką data 1 września była ważna.</example>
                 </rule>
                 <rule>
                     <pattern>
@@ -19764,6 +19845,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </antipattern>
                         <pattern>
                             <token postag='adj:pl:acc:m2.m3.f.n1.n2.p2.p3.*' postag_regexp='yes'>
+                            <exception postag="subst:pl:nom:f" scope="previous"/>
                             <exception regexp="yes">jakie|one</exception>
                             <exception postag='pact:pl:nom.acc.voc:m2.m3.f.n1.n2.p2.p3.*' postag_regexp='yes'/>
                             </token>
