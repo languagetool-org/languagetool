@@ -43,6 +43,7 @@ public class CommandLineOptions {
   private boolean bitext = false;
   private boolean autoDetect = false;
   private boolean xmlFiltering = false;
+  private boolean lineByLine = false;
   @Nullable
   private Language language = null;
   @Nullable
@@ -83,8 +84,14 @@ public class CommandLineOptions {
     return verbose;
   }
 
+  public boolean isLineByLine() {return lineByLine; }
+
   public void setVerbose(boolean verbose) {
     this.verbose = verbose;
+  }
+
+  public void setLineByLine (boolean lineByLine) {
+    this.lineByLine = lineByLine;
   }
 
   public boolean isRecursive() {

@@ -54,6 +54,8 @@ class Main {
   private final boolean applySuggestions;
   private final boolean autoDetect;
   private final boolean listUnknownWords;
+  private final boolean lineByLineMode;
+  private final boolean singleLineBreakMarksParagraph;
   private final String[] enabledRules;
   private final String[] disabledRules;
   private final Language motherTongue;
@@ -63,6 +65,7 @@ class Main {
   private boolean bitextMode;
   private MultiThreadedJLanguageTool srcLt;
   private List<BitextRule> bRules;
+  private Rule currentRule;
 
   Main(CommandLineOptions options) throws IOException {
     this.verbose = options.isVerbose();
@@ -74,6 +77,8 @@ class Main {
     this.disabledRules = options.getDisabledRules();
     this.motherTongue = options.getMotherTongue();
     this.listUnknownWords = options.isListUnknown();
+    this.lineByLineMode = options.isLineByLine();
+    this.singleLineBreakMarksParagraph = options.isSingleLineBreakMarksParagraph();
     profileRules = false;
     bitextMode = false;
     srcLt = null;
@@ -202,6 +207,128 @@ class Main {
     }
   }
 
+  private void runOnFileLineByLine(String filename, String encoding) throws IOException {
+    System.err.println("Warning: running in line by line mode. Cross-paragraph checks will not work.\n");
+    if (verbose) {
+      lt.setOutput(System.err);
+    }
+    if (!apiFormat && !applySuggestions) {
+      if (isStdIn(filename)) {
+        System.err.println("Working on STDIN...");
+      } else {
+        System.err.println("Working on " + filename + "...");
+      }
+    }
+    if (profileRules && isStdIn(filename)) {
+      throw new IllegalArgumentException("Profiling mode cannot be used with input from STDIN");
+    }
+    int runCount = 1;
+    final List<Rule> rules = lt.getAllActiveRules();
+    if (profileRules) {
+      System.out.printf("Testing %d rules\n", rules.size());
+      System.out.println("Rule ID\tTime\tSentences\tMatches\tSentences per sec.");
+      runCount = rules.size();
+    }
+    int lineOffset = 0;
+    int tmpLineOffset = 0;
+    handleLine(XmlPrintMode.START_XML, 0, new StringBuilder());
+    StringBuilder sb = new StringBuilder();
+    for (int ruleIndex = 0; !rules.isEmpty() && ruleIndex < runCount; ruleIndex++) {
+      currentRule = rules.get(ruleIndex);
+      int matches = 0;
+      long sentences = 0;
+      final long startTime = System.currentTimeMillis();
+      try (
+          InputStreamReader isr = getInputStreamReader(filename, encoding);
+          BufferedReader br = new BufferedReader(isr)
+      ) {
+        String line;
+        int lineCount = 0;
+        while ((line = br.readLine()) != null) {
+          sb.append(line);
+          lineCount++;
+          // to detect language from the first input line
+          if (lineCount == 1 && autoDetect) {
+            Language language = detectLanguageOfString(line);
+            if (language == null) {
+              System.err.println("Could not detect language well enough, using English");
+              language = new English();
+            }
+            System.err.println("Language used is: " + language.getName());
+            language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
+                singleLineBreakMarksParagraph);
+            changeLanguage(language, motherTongue, disabledRules, enabledRules);
+          }
+          sb.append('\n');
+          tmpLineOffset++;
+
+          if (isBreakPoint(sb, line)) {
+            matches += handleLine(XmlPrintMode.CONTINUE_XML, lineOffset, sb);
+            sentences += lt.getSentenceCount();
+            if (profileRules) {
+              sentences += lt.sentenceTokenize(sb.toString()).size();
+            }
+            sb = new StringBuilder();
+            lineOffset = tmpLineOffset;
+          }
+        }
+      } finally {
+        if (sb.length() > 0) {
+          sentences += lt.getSentenceCount();
+          if (profileRules) {
+            sentences += lt.sentenceTokenize(sb.toString()).size();
+          }
+        }
+        matches += handleLine(XmlPrintMode.END_XML, tmpLineOffset - 1, sb);
+        // printTimingInformation(rules, ruleIndex, matches, sentences, startTime);
+      }
+    }
+  }
+
+  private int handleLine(final XmlPrintMode mode, final int lineOffset,
+                               final StringBuilder sb) throws IOException {
+        int matches = 0;
+        String s = filterXML(sb.toString());
+        if (applySuggestions) {
+            System.out.print(Tools.correctText(s, lt));
+          } else if (profileRules) {
+            matches += Tools.profileRulesOnLine(s, lt, currentRule);
+          } else if (!taggerOnly) {
+            matches += CommandLineTools.checkText(s, lt, apiFormat, -1, lineOffset,
+                    matches, mode, listUnknownWords, null);
+          } else {
+            CommandLineTools.tagText(s, lt);
+          }
+        return matches;
+  }
+
+  private boolean isBreakPoint(StringBuilder sb, String line) {
+    return lt.getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara()
+        || "".equals(line);
+  }
+
+  private InputStreamReader getInputStreamReader(String filename, String encoding)
+      throws UnsupportedEncodingException, FileNotFoundException {
+    final InputStreamReader isr;
+    if (!isStdIn(filename)) {
+      final File file = new File(filename);
+      if (encoding != null) {
+        isr = new InputStreamReader(new BufferedInputStream(
+            new FileInputStream(file)), encoding);
+      } else {
+        isr = new InputStreamReader(new BufferedInputStream(
+            new FileInputStream(file)));
+      }
+    } else {
+      if (encoding != null) {
+        isr = new InputStreamReader(new BufferedInputStream(System.in), encoding);
+      } else {
+        isr = new InputStreamReader(new BufferedInputStream(System.in));
+      }
+    }
+    return isr;
+  }
+
   private boolean isStdIn(String filename) {
     return "-".equals(filename);
   }
@@ -218,7 +345,11 @@ class Main {
         if (file.isDirectory()) {
           runRecursive(file.getAbsolutePath(), encoding, xmlFiltering);
         } else {
-          runOnFile(file.getAbsolutePath(), encoding, xmlFiltering);
+          if (lineByLineMode) {
+            runOnFileLineByLine(file.getAbsolutePath(), encoding);
+          } else {
+            runOnFile(file.getAbsolutePath(), encoding, xmlFiltering);
+          }
         }
       } catch (Exception e) {
         throw new RuntimeException("Could not check text in file " + file, e);
@@ -347,7 +478,11 @@ class Main {
     if (options.isRecursive()) {
       prg.runRecursive(options.getFilename(), options.getEncoding(), options.isXmlFiltering());
     } else {
-      prg.runOnFile(options.getFilename(), options.getEncoding(), options.isXmlFiltering());
+      if (options.isLineByLine()) {
+        prg.runOnFileLineByLine(options.getFilename(), options.getEncoding());
+      } else {
+        prg.runOnFile(options.getFilename(), options.getEncoding(), options.isXmlFiltering());
+      }
     }
     prg.cleanUp();
   }

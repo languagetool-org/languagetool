@@ -45,6 +45,8 @@ public class CommandLineParser {
         options.setAutoDetect(true);
       } else if (args[i].equals("-v") || args[i].equals("--verbose")) {
         options.setVerbose(true);
+      } else if (args[i].equals("--line-by-line")) {
+        options.setLineByLine(true);
       } else if (args[i].equals("-t") || args[i].equals("--taggeronly")) {
         options.setTaggerOnly(true);
         if (options.isListUnknown()) {
