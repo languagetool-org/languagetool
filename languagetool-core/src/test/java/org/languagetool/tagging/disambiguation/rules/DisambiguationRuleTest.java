@@ -50,10 +50,15 @@ public class DisambiguationRuleTest extends TestCase {
       if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
         continue;
       }
+      if (lang.isVariant()) {
+        System.out.println("Skipping variant: " + lang);
+        continue;
+      }
       System.out.println("Running disambiguation tests for " + lang.getName() + "...");
       final DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();
       final JLanguageTool languageTool = new JLanguageTool(lang);
       if (!(languageTool.getLanguage().getDisambiguator() instanceof DemoDisambiguator)) {
+        long startTime = System.currentTimeMillis();
         final String name = JLanguageTool.getDataBroker().getResourceDir() + "/" + lang.getShortName()
             + "/disambiguation.xml";
         validateRuleFile(name);
@@ -64,7 +69,8 @@ public class DisambiguationRuleTest extends TestCase {
               rule.getId(), rule.getSubId(), lang);
         }
         testDisambiguationRulesFromXML(rules, languageTool, lang);
-        System.out.println(rules.size() + " rules tested.");
+        long endTime = System.currentTimeMillis();
+        System.out.println(rules.size() + " rules tested (" + (endTime-startTime) + "ms)");
       }
     }
   }
