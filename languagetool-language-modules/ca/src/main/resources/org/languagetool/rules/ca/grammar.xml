@@ -9245,6 +9245,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rulegroup id="ANTS_ANYS" name="*ants/anys">
+            <rule>
+                <pattern>
+                    <token postag="D[IN].*" postag_regexp="yes"></token>
+                    <marker>
+                        <token>ants</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>anys</suggestion>?</message>
+                <example correction="anys">Després de 10 <marker>ants</marker>.</example>
+	    </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ants</token>
+                    </marker>
+                    <token min="0">més</token>
+                    <token regexp="yes">tard|després|avant|endavant</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>anys</suggestion>?</message>
+                <example correction="Anys"><marker>Ants</marker> després.</example>
+	    </rule>
+        </rulegroup>
         <rule id="VOLS_VOLTS" name="vols/volts">
             <pattern>
                 <marker>
