@@ -55,7 +55,7 @@ public class FrequencyIndexCreator {
   private static final String NAME_REGEX3 = "([_a-z0-9]{1,2}|other|pos|punctuation|_(ADJ|ADP|ADV|CONJ|DET|NOUN|NUM|PRON|PRT|VERB)_)";  // result of FrequencyIndexCreator with text mode
   private static final int BUFFER_SIZE = 16384;
   private static final String LT_COMPLETE_MARKER = "languagetool_index_complete";
-  private static final boolean IGNORE_POS = false;
+  private static final boolean IGNORE_POS = true;
 
   private enum Mode { PlainText, Lucene }
 
