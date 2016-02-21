@@ -41,6 +41,35 @@ USA
     <!-- Possible typo -->
     <!-- ====================================================================== -->
     <category name="Possible Typo" type="misspelling">
+        <rulegroup id="PERS_PRON_CONTRACTION" name="I'l (I'll) etc.">
+            <rule>
+                <pattern>
+                    <token regexp="yes">I|you|he|she|it|we|they</token>
+                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">l</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1\2ll</suggestion>?</message>
+                <example correction="I'll">Yes, <marker>I'l</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">you|we|they</token>
+                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">r|er</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1\2re</suggestion>?</message>
+                <example correction="we're">Yes, <marker>we'r</marker> over here.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">I|you|we|they</token>
+                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">v</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1\2ve</suggestion>?</message>
+                <example correction="we've">Yes, <marker>we'v</marker> discussed that.</example>
+            </rule>
+        </rulegroup>
         <rule id="BEAT_REGARDS" name="beat (best) regards">
             <pattern>
                 <marker>
