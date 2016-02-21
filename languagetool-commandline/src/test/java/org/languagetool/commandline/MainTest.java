@@ -280,9 +280,6 @@ public class MainTest extends AbstractSecurityTestCase {
         "tox=\"10\" ruleId=\"ENGLISH_WORD_REPEAT_RULE\" msg=\"Possible typo: you repeated a word\" " +
         "replacements=\"is\" context=\"....  This is a test of of language tool.  This is is a test of language tool.  \"" +
         " contextoffset=\"48\" offset=\"60\" errorlength=\"5\" category=\"Miscellaneous\" locqualityissuetype=\"duplication\"/>"));
-
-    // note: the offset is relative to the sentence... this seems wrong - it happens because of the way
-    // the command line client feeds the data into the check() methods.
   }
 
   //test line mode vs. para mode
