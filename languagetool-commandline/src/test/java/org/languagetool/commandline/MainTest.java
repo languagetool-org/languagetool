@@ -278,7 +278,7 @@ public class MainTest extends AbstractSecurityTestCase {
     final String output = new String(this.out.toByteArray());
     assertTrue("Got: " + output, output.contains("<error fromy=\"4\" fromx=\"5\" toy=\"4\" " +
         "tox=\"10\" ruleId=\"ENGLISH_WORD_REPEAT_RULE\" msg=\"Possible typo: you repeated a word\" " +
-        "replacements=\"is\" context=\"....  This is a test of of language tool.  This is is a test of language tool.  \"" +
+        "replacements=\"is\" context=\"....  This is a test of of language tool.  This is is a test of language tool. \"" +
         " contextoffset=\"48\" offset=\"60\" errorlength=\"5\" category=\"Miscellaneous\" locqualityissuetype=\"duplication\"/>"));
   }
 
