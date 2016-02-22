@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="http://marcinmilkowski.pl/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
 <!--
@@ -4076,6 +4076,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>To było w latach 27 p.n.e. – 14 n.e.</example>
                 </rule>
                 <rule>
+                    <antipattern>
+                        <marker>
+                            <token>ok</token>
+                            <token>.</token>
+                        </marker>
+                            <token regexp="yes">\d+</token>
+                            <token regexp="yes">tys|ml[dn]|000|zł|USD|PLN|proc</token>
+                    </antipattern>
                     <pattern>
                       <marker>
                         <token regexp='yes'>\d+</token>                        
@@ -4096,6 +4104,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <short>Błąd typograficzny</short>
                     <example correction="27 p.n.e. – ok">To było w latach <marker>27 p.n.e.—ok</marker>. 14 n.e.</example>
                     <example>To było w latach 27 p.n.e. – ok. 14 n.e.</example>
+                    <example>Liczba Polaków w Argentynie wynosiła ok. 25 tys. a w 1939 — ok. 120 tysięcy.</example>
                 </rule>
                 <rule>
                     <pattern>
@@ -10820,12 +10829,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule>
                 <rule>
                   <pattern>
-                    <token regexp="yes" inflected="yes">rok|okres</token>
+                    <token regexp="yes" inflected="yes">rok|okres<exception postag="subst:sg:.*" postag_regexp="yes" inflected="yes">rok</exception></token>
                     <marker>
                       <token regexp="yes">\d{3,4}</token>
                       <token>–</token>
                       <token regexp="yes">\d{3,4}</token>
                     </marker>
+                    <token><exception regexp="yes">tys|ml[dn]|000|zł|USD|PLN|proc</exception></token>
                   </pattern>
                   <filter class="org.languagetool.rules.DateRangeChecker"
                             args="x:\2 y:\4"/>
@@ -10833,6 +10843,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   <short>Niespójna data</short>
                   <example correction="">Było to w latach <marker>1915–1840</marker>.</example>
                   <example correction="">Było to w latach <marker>1915–1915</marker>.</example>
+                  <example>Najwięcej aborcji wykonano w roku 1962 – 272 000.</example>
                 </rule>
             </rulegroup>
             <rulegroup id="ZBEDNY_MIESIAC" name="Zbędna nazwa miesiąca w zakresie dat">
