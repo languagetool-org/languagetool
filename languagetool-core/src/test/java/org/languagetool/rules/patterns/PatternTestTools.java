@@ -44,7 +44,8 @@ public final class PatternTestTools {
   // as indicating a probable regular expression.
   private static final Pattern PROBABLE_PATTERN_PL_POS = Pattern.compile(".*([^*]\\*|[+?{}()|\\[\\]].*|\\\\d).*");
 
-  private static final Pattern CHAR_SET_PATTERN = Pattern.compile("(\\(\\?-i\\))?.*(?<!\\\\)\\[^?([^\\]]+)\\]");
+  private static final Pattern CHAR_SET_PATTERN = Pattern.compile("\\[^?([^\\]]+)\\]");
+  private static final Pattern STRICT_CHAR_SET_PATTERN = Pattern.compile("(\\(\\?-i\\))?.*(?<!\\\\)\\[^?([^\\]]+)\\]");
 
   private PatternTestTools() {
   }
@@ -352,17 +353,19 @@ public final class PatternTestTools {
     }
 
     if (isRegularExpression) {
-      final Matcher matcher = CHAR_SET_PATTERN.matcher(stringValue);
+      Matcher matcher = CHAR_SET_PATTERN.matcher(stringValue);
       if (matcher.find()) {
-        // Remove things like \p{Punct} which are irrelevant here.
-        final String s = matcher.group(2).replaceAll("\\\\p\\{[^}]*\\}", "");
-        // case sensitive if pattern contains (?-i).
-        if (s.indexOf('|') >= 0) {
-          System.err.println("The " + lang + " rule: "
-                  + ruleId + ", token [" + tokenIndex + "], contains | (pipe) in "
-                  + " regexp bracket expression [" + matcher.group(2)
-                  + "] which is unlikely to be correct.");
-        }
+        Matcher strictMatcher = STRICT_CHAR_SET_PATTERN.matcher(stringValue);  // for performance reasons, only now use the strict pattern
+        if (strictMatcher.find()) {
+          // Remove things like \p{Punct} which are irrelevant here.
+          final String s = strictMatcher.group(2).replaceAll("\\\\p\\{[^}]*\\}", "");
+          // case sensitive if pattern contains (?-i).
+          if (s.indexOf('|') >= 0) {
+            System.err.println("The " + lang + " rule: "
+                    + ruleId + ", token [" + tokenIndex + "], contains | (pipe) in "
+                    + " regexp bracket expression [" + strictMatcher.group(2)
+                    + "] which is unlikely to be correct.");
+          }
 
         /* Disabled case insensitive check for now: it gives several errors
          * in German which are minor and debatable whether it adds value.
@@ -371,18 +374,19 @@ public final class PatternTestTools {
           s = s.toLowerCase();
         }
         */
-        final char[] sorted = s.toCharArray();
-        // Sort characters in string, so finding duplicate characters can be done by
-        // looking for identical adjacent characters.
-        Arrays.sort(sorted);
-        for (int i = 1; i < sorted.length; ++i) {
-          final char c = sorted[i];
-          if ("&\\-|".indexOf(c) < 0 && sorted[i - 1] == c) {
-            System.err.println("The " + lang + " rule: "
-                    + ruleId + ", token [" + tokenIndex + "], contains "
-                    + " regexp part [" + matcher.group(2)
-                    + "] which contains duplicated char [" + c + "].");
-            break;
+          final char[] sorted = s.toCharArray();
+          // Sort characters in string, so finding duplicate characters can be done by
+          // looking for identical adjacent characters.
+          Arrays.sort(sorted);
+          for (int i = 1; i < sorted.length; ++i) {
+            final char c = sorted[i];
+            if ("&\\-|".indexOf(c) < 0 && sorted[i - 1] == c) {
+              System.err.println("The " + lang + " rule: "
+                      + ruleId + ", token [" + tokenIndex + "], contains "
+                      + " regexp part [" + strictMatcher.group(2)
+                      + "] which contains duplicated char [" + c + "].");
+              break;
+            }
           }
         }
       }
