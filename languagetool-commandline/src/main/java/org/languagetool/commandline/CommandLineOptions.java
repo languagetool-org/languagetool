@@ -84,10 +84,12 @@ public class CommandLineOptions {
     return verbose;
   }
 
-  public boolean isLineByLine() {return lineByLine; }
-
   public void setVerbose(boolean verbose) {
     this.verbose = verbose;
+  }
+
+  public boolean isLineByLine() {
+    return lineByLine;
   }
 
   public void setLineByLine (boolean lineByLine) {
