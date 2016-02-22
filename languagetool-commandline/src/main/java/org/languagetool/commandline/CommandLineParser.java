@@ -175,7 +175,9 @@ public class CommandLineParser {
             + "  --bitextrules  FILE      use external bitext XML rule file (useful only in bitext mode)\n"
             + "  --languagemodel DIR      a directory with '1grams'...'3grams' sub directories with Lucene indexes that\n"
             + "                           contain ngram occurrence counts; activates the confusion rule if supported\n"
-            + "  --xmlfilter              remove XML/HTML elements from input before checking (this is deprecated)");
+            + "  --xmlfilter              remove XML/HTML elements from input before checking (this is deprecated)\n"
+            + "  --line-by-line           work on file line by line (for development, e.g. inside an IDE)"
+    );
   }
 
   private void checkArguments(String option, int argParsingPos, String[] args) {
