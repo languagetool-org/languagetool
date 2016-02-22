@@ -173,8 +173,9 @@ public class CommandLineParser {
             + "                             it is used in addition of standard rules\n"
             + "  --falsefriends FILE      use external false friend file to be used along with the built-in rules\n"
             + "  --bitextrules  FILE      use external bitext XML rule file (useful only in bitext mode)\n"
-            + "  --languagemodel DIR      a directory with '1grams'...'3grams' sub directories with Lucene indexes that\n"
-            + "                           contain ngram occurrence counts; activates the confusion rule if supported\n"
+            + "  --languagemodel DIR      a directory with e.g. 'en' sub directory (i.e. a language code) that contains\n"
+            + "                           '1grams'...'3grams' sub directories with Lucene indexes with\n"
+            + "                           ngram occurrence counts; activates the confusion rule if supported\n"
             + "  --xmlfilter              remove XML/HTML elements from input before checking (this is deprecated)\n"
             + "  --line-by-line           work on file line by line (for development, e.g. inside an IDE)"
     );
