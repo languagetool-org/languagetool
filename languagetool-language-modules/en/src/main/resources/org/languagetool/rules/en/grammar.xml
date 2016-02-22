@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
         title="Easy editing stylesheet" ?>
@@ -13280,6 +13280,18 @@ USA
     <!-- Nonstandard Phrases -->
     <!-- ====================================================================== -->
     <category name="Nonstandard Phrases" type="misspelling">
+      <rule id="THE_QUESTION_WH" name="the question what (the question of what)">
+      <pattern>
+      <token>the</token>
+        <token>question</token>
+        <token postag='WRB|WP.*' postag_regexp='yes'><exception regexp='yes'>that|when</exception></token>
+ 		</pattern>
+ 		<message>This sounds awkward in English. The standard is <suggestion><match no="1"/> <match no="2"/> of <match no="3"/></suggestion>.</message>
+ 		<url>http://english.stackexchange.com/questions/186173/what-is-the-correct-usage-of-the-question-of</url>
+        <short>Awkward style</short>
+        <example correction='the question of how'>This thesis addresses <marker>the question how</marker> to analyze concepts.</example>
+ 		<example>This thesis addresses the question of how to analyze concepts.</example>
+		</rule>
         <rule id="IN_THE_MOMENT" name="in the moment (currently)">
             <!-- Typical mistake for German native speakers -->
             <pattern>
