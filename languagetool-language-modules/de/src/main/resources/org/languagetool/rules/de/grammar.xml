@@ -11085,6 +11085,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Das <marker>letzte</marker> der drei Bücher</example>
         </rule>
         -->
+        <rule id="SIE_KEINE_ANREDE" name="'Sie' groß, obwohl keine Anrede (unvollständig)">
+            <pattern case_sensitive="yes">
+                <token/>
+                <token/>
+                <marker>
+                    <token skip="5">Sie
+                        <exception scope="next">,</exception>
+                    </token>
+                </marker>
+                <token postag_regexp="yes" postag="VER:AUX:3:SIN:.*"></token>
+            </pattern>
+            <message>Wenn es keine Andrede ist, wird <suggestion><match no="3" case_conversion="startlower"/></suggestion> kleingeschrieben.</message>
+            <example correction="sie">Wenn <marker>Sie</marker> auch eher zurückhaltender ist...</example>
+            <example>Sie ist halt so.</example>
+            <example>Entschuldigen Sie, dass ich Sie störe.</example>
+        </rule>
         <rulegroup id="ICH_NOMEN" name="Ich Rede (rede) etc.">
             <rule>
                 <pattern case_sensitive='yes'>
