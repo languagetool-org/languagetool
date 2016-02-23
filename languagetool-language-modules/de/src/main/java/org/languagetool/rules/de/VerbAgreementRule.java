@@ -77,6 +77,10 @@ public class VerbAgreementRule extends GermanRule {
       new PatternTokenBuilder().token("das").build(),
       new PatternTokenBuilder().token("Du").build(),
       new PatternTokenBuilder().tokenRegex("anbieten|anbot").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token(",").build(),
+      new PatternTokenBuilder().posRegex("VER:MOD:2:.*").build()
     )
   );
 
