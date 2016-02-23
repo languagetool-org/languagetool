@@ -3158,10 +3158,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <!--          Два + существительное + глагол  -->
            <rule>                  
                 <pattern>
+		  <marker>
                     <token  regexp="yes">два|три|четыре<exception scope="previous" postag_regexp="yes" postag="NN.*:.*:.*:Nom"></exception><exception scope="previous" postag_regexp="yes"  postag="PNN:.*:Nom:.*" ></exception></token>
 		    <token  postag="NN:.*:Sin:R" postag_regexp="yes"></token>
-                    <token  postag="VB:Past:.*"  postag_regexp="yes" skip="1"><exception postag="VB:Past:PL" /><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"  /><exception scope="next" postag_regexp="yes" postag="NN.*:.*:.*:Nom"></exception><exception scope="next" postag_regexp="yes"  postag="PNN:.*:Nom:.*" ></exception></token>               
-                </pattern>
+                    <token  postag="VB:Past:.*"  postag_regexp="yes" skip="-1"><exception postag="VB:Past:PL" /><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"  /><exception scope="next" postag_regexp="yes" postag="NN.*:.*:.*:Nom"></exception><exception scope="next" postag_regexp="yes"  postag="PNN:.*:Nom:.*" ></exception></token>               
+                  </marker>
+		    <token regexp="yes">[.;?!,]</token>
+		</pattern>
                 <message>Существительное не согласуется с глаголом по числу: <suggestion><match no="1"></match> <match no="2"></match> <match no="3" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:PL"></match></suggestion></message>
                 
                 <short>Ошибка в согласовании по числу.</short>
@@ -3171,9 +3174,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <!--          Пять + существительное + глагол  -->
            <rule>                 
                 <pattern>
-                    <token  regexp="yes" >пять|шесть|семь|восемь|девять|десять|одиннадцать|двенадцать|тринадцать|четырнадцать|пятнадцать|шестнадцать|семнадцать|восемнадцать|девятнадцать|двадцать|двое|трое|четверо|пятеро|шестеро|семеро<exception scope="previous" postag_regexp="yes" postag="NN.*:.*:.*:Nom"></exception><exception scope="previous" postag_regexp="yes"  postag="PNN:.*:Nom:.*" ></exception></token>
+		  <marker>
+		    <token  regexp="yes" >пять|шесть|семь|восемь|девять|десять|одиннадцать|двенадцать|тринадцать|четырнадцать|пятнадцать|шестнадцать|семнадцать|восемнадцать|девятнадцать|двадцать|двое|трое|четверо|пятеро|шестеро|семеро<exception scope="previous" postag_regexp="yes" postag="NN.*:.*:.*:Nom"></exception><exception scope="previous" postag_regexp="yes"  postag="PNN:.*:Nom:.*" ></exception></token>
 		    <token  postag="NN:.*:PL:R" postag_regexp="yes"></token>
-                    <token  postag="VB:Past:.*"  postag_regexp="yes" skip="1"><exception postag="VB:Past:PL" /><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"  /><exception scope="next" postag_regexp="yes" postag="NN.*:.*:.*:Nom"></exception><exception scope="next" postag_regexp="yes"  postag="PNN:.*:Nom:.*" ></exception></token>	
+                    <token  postag="VB:Past:.*"  postag_regexp="yes" skip="-1"><exception postag="VB:Past:PL" /><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"  /><exception scope="next" postag_regexp="yes" postag="NN:.*:.*:Nom"></exception><exception scope="next" postag_regexp="yes" postag="NN.*:.*:.*:Nom"></exception><exception scope="next" postag_regexp="yes"  postag="PNN:.*:Nom:.*" ></exception></token>	
+		  </marker>
+		    <token regexp="yes">[.;?!,]</token>
 		</pattern>
                 <message>Существительное не согласуется с глаголом по числу: <suggestion><match no="1"></match> <match no="2"></match> <match no="3" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:PL"></match></suggestion></message>
                 
