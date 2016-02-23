@@ -4076,14 +4076,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>To było w latach 27 p.n.e. – 14 n.e.</example>
                 </rule>
                 <rule>
-                    <antipattern>
-                        <marker>
-                            <token>ok</token>
-                            <token>.</token>
-                        </marker>
-                            <token regexp="yes">\d+</token>
-                            <token regexp="yes">tys|ml[dn]|000|zł|USD|PLN|proc</token>
-                    </antipattern>
                     <pattern>
                       <marker>
                         <token regexp='yes'>\d+</token>                        
@@ -4104,9 +4096,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <short>Błąd typograficzny</short>
                     <example correction="27 p.n.e. – ok">To było w latach <marker>27 p.n.e.—ok</marker>. 14 n.e.</example>
                     <example>To było w latach 27 p.n.e. – ok. 14 n.e.</example>
-                    <example>Liczba Polaków w Argentynie wynosiła ok. 25 tys. a w 1939 — ok. 120 tysięcy.</example>
                 </rule>
                 <rule>
+                  <antipattern>
+                        <marker>
+                            <token>ok</token>
+                            <token>.</token>
+                        </marker>
+                            <token regexp="yes">\d+</token>
+                            <token regexp="yes">tys|ml[dn]|000|zł|USD|PLN|proc|tysięcy|tysiące|milion.*</token>
+                    </antipattern>                    
                     <pattern>
                       <marker>
                         <token regexp='yes'>\d+</token>                        
@@ -4121,6 +4120,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <short>Błąd typograficzny</short>
                     <example correction="1927 – ok">To było w latach <marker>1927 —ok</marker>. 1934</example>
                     <example>To było w latach 1927 – ok. 1934.</example>
+                    <example>Liczba Polaków w Argentynie wynosiła ok. 25 tys. a w 1939 — ok. 120 tysięcy.</example>
                 </rule>                
                 </rulegroup>
                 <rule id="X-LATEK_MYSLNIK" name="Myślnik zamiast dywizu w określeniach wieku">
@@ -7251,7 +7251,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Kupiłem półtora litra wódki.</example>
 						<example>Za półtorej godziny spotykam się z kolegą.</example>
 						<example correction="półtora">Kupiłem <marker>półtorej</marker> litra wódki.</example>
-                        <example>Minie może półtorej albo i dwie doby.</example>
+                  <example>Minie może półtorej albo i dwie doby.</example>
 				</rule>
 				<rulegroup id="UZYWAC_CO" name="„używać co” (czego)">
                         <antipattern>
