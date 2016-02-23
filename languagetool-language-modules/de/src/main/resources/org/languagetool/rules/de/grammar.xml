@@ -11085,6 +11085,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Das <marker>letzte</marker> der drei Bücher</example>
         </rule>
         -->
+        <rule id="NOMEN_KLEIN" name="der/die/das + Adjektiv + kleingeschriebenes Nomen" default="off">
+            <pattern>
+                <token regexp="yes">der|die|das</token>
+                <token postag="ADJ:NOM:.*" postag_regexp="yes">
+                    <exception postag="PA[12]:.*" postag_regexp="yes"/>
+                    <exception regexp="yes">gleiche</exception>
+                    <exception case_sensitive="yes" regexp="yes">[A-ZÖÄÜ].+</exception>
+                    <exception regexp="yes">anderen?|meisten|nächste|sieben</exception>
+                </token>
+                <marker>
+                    <token postag="VER:.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.de.UppercaseNounReadingFilter" args="token:\3"/>
+            <message>Wenn '\3' hier ein Nomen ist, wird es großgeschrieben.</message>
+            <suggestion><match no="3" case_conversion="startupper"/></suggestion>
+            <example correction="Stand">Hier mal der aktuelle <marker>stand</marker>.</example>
+        </rule>
         <rule id="SIE_KEINE_ANREDE" name="'Sie' groß, obwohl keine Anrede (unvollständig)">
             <pattern case_sensitive="yes">
                 <token/>
