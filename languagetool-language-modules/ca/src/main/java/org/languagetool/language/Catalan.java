@@ -152,5 +152,5 @@ public class Catalan extends Language {
   public LanguageMaintainedState getMaintainedState() {
     return LanguageMaintainedState.ActivelyMaintained;
   }
-
+  
 }

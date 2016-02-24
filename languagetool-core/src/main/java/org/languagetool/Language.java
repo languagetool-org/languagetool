@@ -433,5 +433,21 @@ public abstract class Language {
   public LanguageMaintainedState getMaintainedState() {
     return LanguageMaintainedState.LookingForNewMaintainer;
   }
+  
+  /*
+   * True if language should be hidden on GUI (i.e. en, de, pt, 
+   * instead of en-US, de-DE, pt-PT)
+   * @since 3.3
+   */
+  public boolean isHiddenFromGui() {
+    return hasVariant() && !isVariant() && !isTheDefaultVariant();
+  }
+
+  private boolean isTheDefaultVariant() {
+    if (getDefaultLanguageVariant() != null) {
+      return getClass().equals(getDefaultLanguageVariant().getClass());
+    }
+    return false;
+  }
 
 }

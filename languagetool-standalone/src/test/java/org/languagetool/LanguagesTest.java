@@ -136,6 +136,23 @@ public class LanguagesTest {
       }
     }
   }
+  
+  @Test
+  public void isHiddenFromGui() {
+    Assert.assertTrue(Languages.getLanguageForShortName("en").isHiddenFromGui());
+    Assert.assertTrue(Languages.getLanguageForShortName("de").isHiddenFromGui());
+    Assert.assertTrue(Languages.getLanguageForShortName("pt").isHiddenFromGui());
+
+    assertFalse(Languages.getLanguageForShortName("en-US").isHiddenFromGui());
+    assertFalse(Languages.getLanguageForShortName("de-CH").isHiddenFromGui());
+    assertFalse(Languages.getLanguageForShortName("ast").isHiddenFromGui());
+    assertFalse(Languages.getLanguageForShortName("pl").isHiddenFromGui());
+    assertFalse(Languages.getLanguageForShortName("ca-ES").isHiddenFromGui());
+    assertFalse(Languages.getLanguageForShortName("ca-ES-valencia").isHiddenFromGui());
+    assertFalse(Languages.getLanguageForShortName("de-DE-x-simple-language").isHiddenFromGui());
+    assertFalse(Languages.getLanguageForShortName("de-DE").isHiddenFromGui());
+
+  }
 
   @Test
   public void testGetLanguageForLocale() {
