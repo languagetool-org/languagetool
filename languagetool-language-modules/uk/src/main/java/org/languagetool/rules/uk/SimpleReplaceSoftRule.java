@@ -19,7 +19,9 @@
 package org.languagetool.rules.uk;
 
 import org.apache.commons.lang.StringUtils;
+import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
+import org.languagetool.rules.Category;
 
 import java.io.IOException;
 import java.util.List;
@@ -44,6 +46,7 @@ public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
 
   public SimpleReplaceSoftRule(final ResourceBundle messages) throws IOException {
     super(messages);
+    setCategory(new Category(Ukrainian.RULE_CATEGORY_STYLE));
   }
 
   @Override
