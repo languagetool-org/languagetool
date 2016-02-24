@@ -18,15 +18,14 @@
  */
 package org.languagetool.rules.uk;
 
-import org.apache.commons.lang.StringUtils;
-import org.languagetool.language.Ukrainian;
-import org.languagetool.rules.AbstractSimpleReplaceRule;
-import org.languagetool.rules.Category;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
+
+import org.apache.commons.lang.StringUtils;
+import org.languagetool.rules.AbstractSimpleReplaceRule;
+import org.languagetool.rules.ITSIssueType;
 
 /**
  * A rule that matches words for which better alternatives exist and suggests them instead.
@@ -46,7 +45,7 @@ public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
 
   public SimpleReplaceSoftRule(final ResourceBundle messages) throws IOException {
     super(messages);
-    setCategory(new Category(Ukrainian.RULE_CATEGORY_STYLE));
+    setLocQualityIssueType(ITSIssueType.Style);
   }
 
   @Override
