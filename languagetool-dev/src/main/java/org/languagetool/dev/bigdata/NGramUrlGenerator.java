@@ -32,9 +32,9 @@ import java.util.*;
  * @since 2.7
  */
 @SuppressWarnings("DynamicRegexReplaceableByCompiledPattern")
-final class ConfusionSetUrlGenerator {
+final class NGramUrlGenerator {
 
-  private ConfusionSetUrlGenerator() {}
+  private NGramUrlGenerator() {}
 
   public static void main(String[] args) throws IOException {
     String url = "http://storage.googleapis.com/books/ngrams/books/googlebooks-eng-all-4gram-20120701-<XX>.gz";
