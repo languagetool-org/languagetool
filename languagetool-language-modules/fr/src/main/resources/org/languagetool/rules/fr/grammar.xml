@@ -1997,12 +1997,13 @@ though, and has since been slightly modified)-->
     <rule id="SOUTIENT" name="soutient (soutien)">
       <pattern>
         <marker>
-          <token regexp="yes">soutient|maintient</token>
+          <token regexp="yes">soutient|maintient<exception scope="previous">se</exception></token>
         </marker>
         <token regexp="yes">d[eu]</token>
       </pattern>
       <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.*)[tT]" regexp_replace="$1"/></suggestion> ?</message>
       <example correction="soutien">Il dépend du <marker>soutient</marker> de ses parents.</example>
+      <example>La majorité se maintient de justesse.</example>
     </rule>
     <rulegroup id="ENTRAIN" name="entrain ou en train">
       <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2075</url>
