@@ -4783,13 +4783,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token inflected="yes">ser<exception inflected="yes">estar</exception></token>
                     </marker>
                     <token>a</token>
-                    <token>punt</token>
+                    <token regexp="yes">punt|disposició|règim|dieta</token>
                 </pattern>
                 <message>Val més dir: <suggestion><match no="1" postag="VS(.+)" postag_regexp="yes" postag_replace="VM$1">estar</match></suggestion>.</message>
                 <short>Construcció preferible</short>
                 <example correction="Estan"><marker>Són</marker> a punt de fer-ho</example>
                 <example>Estan a punt de fer-ho</example>
                 <example>Ha estat a punt de fer-ho</example>
+            </rule>
+            <rule id="SER_A_LABAST" name="*ser/estar a l'abast">
+                <pattern>
+                    <marker>
+                        <token inflected="yes">ser<exception inflected="yes">estar</exception></token>
+                    </marker>
+                    <token>a</token>
+                    <token regexp="yes">la|l|l'</token>
+                    <token regexp="yes">abast|venda|corrent|aguait|atur|expectativa</token>
+                </pattern>
+                <message>Val més dir: <suggestion><match no="1" postag="VS(.+)" postag_regexp="yes" postag_replace="VM$1">estar</match></suggestion>.</message>
+                <short>Construcció preferible</short>
+                <example correction="Estan"><marker>Són</marker> a l'abast de tothom.</example>
             </rule>
             <rule id="SER_EN_JOC" name="*ser/estar en joc">
                 <antipattern>
@@ -4801,7 +4814,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token inflected="yes">ser<exception inflected="yes">estar</exception></token>
                     <token>en</token>
-                    <token regexp="yes">voga|contra|joc|marxa|obres|ordre|guerra|pau|perill|crisi|vaga|dejú<exception postag="_possible_nompropi"/></token>
+                    <token regexp="yes">voga|contra|joc|marxa|obres|ordre|guerra|pau|perill|crisi|vaga|dejú|contacte|condicions|harmonia|llibertat|regla<exception postag="_possible_nompropi"/></token>
                 </pattern>
                 <message>Val més usar el verb 'estar'.</message>
                 <suggestion><match no="1" postag="VS(.+)" postag_regexp="yes" postag_replace="VM$1">estar</match> <match no="2"/> <match no="3"/></suggestion>
