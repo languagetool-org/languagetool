@@ -2978,10 +2978,20 @@
 
     <rule id="SWIATLA_GEN" name="wiązka światła > rzeczownik">
         <pattern>
-            <token inflected="yes" regexp="yes">wiązka|linia|gra|snop|smuga|smużka|refleks|promyk|plama|źródło|natężenie|błysk|plamka|łuna|słup</token>
+            <token inflected="yes" regexp="yes">wiązka|linia|gra|snop|smuga|smużka|refleks|promyk|plama|źródło|natężenie|błysk|plamka|łuna|słup|emisja|absorpcja|natura|istota|zamiana|energia</token>
             <marker><token>światła</token></marker>
         </pattern>
         <disambig postag="subst:sg:gen:n2"></disambig>
+    </rule>
+
+    <rule id="PELNY_GEN" name="pełny z dopełniaczem">
+        <pattern>
+            <token inflected="yes">pełny</token>
+            <marker>
+                <token postag_regexp="yes" postag=".*gen.*"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <rule id="BRAK_GEN" name="brak z dopełniaczem">
@@ -3002,6 +3012,16 @@
             <token>gości</token>
         </pattern>
         <disambig postag="adv"/>
+    </rule>
+
+    <rule id="SLEDZI" name="gatunek + śledzi ->rzeczownik">
+        <pattern>
+            <token inflected="yes" regexp="yes">gatunek|import|limit|tona|populacja|połów|wyginięcie</token>
+            <marker>
+                <token>śledzi</token>
+            </marker>
+        </pattern>
+        <disambig postag="subst:pl:gen:m2"/>
     </rule>
 
     <rule id="STARA_ADJ" name="stara to przymiotnik przed rzeczownikiem r. ż.">
@@ -4384,6 +4404,12 @@
     </rule>
 
     <!-- wyrazy do usunięcia z morfologika 2.2 -->
+    <rule id="DREWNY" name="drewny to archaizm">
+        <pattern>
+            <token inflected="yes">drewny</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="drewny"/></disambig>
+    </rule>
     <rule id="KWIETNI" name="kwietni to archaizm">
         <pattern>
             <token inflected="yes">kwietni</token>
@@ -4407,6 +4433,18 @@
             <token inflected="yes">rosny</token>
         </pattern>
         <disambig action="remove"><wd lemma="rosny"/></disambig>
+    </rule>
+    <rule id="ROSNIA" name="rośnia to przestarzałe dziwactwo">
+        <pattern>
+            <token inflected="yes">rośnia</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="rośnia"/></disambig>
+    </rule>
+    <rule id="STRUMIENIC" name="strumienić jest daw.">
+        <pattern>
+            <token inflected="yes">strumienić</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="strumienić"/></disambig>
     </rule>
     <rule id="WSTRZYMALY" name="wstrzymały to archaizm">
         <pattern>
@@ -4777,6 +4815,19 @@
         <disambig postag="verb:praet:sg:f:ter:perf:refl.nonrefl"/>
     </rule>
 
+    <rule id="ADJ_LIGA" name="przymiotnik + liga => rzeczonik">
+    <pattern>
+        <unify>
+            <feature id="case"/><feature id="number"/><feature id="gender"/>
+            <token postag="adj.*" postag_regexp="yes"/>
+            <token postag="subst.*" postag_regexp="yes">liga</token>
+        </unify>
+    </pattern>
+    <disambig action="unify"/>
+        <example type="ambiguous" inputform="liga[liga/subst:sg:nom:f,ligać/verb:fin:sg:ter:imperf:nonrefl,ligać/verb:fin:sg:ter:imperf:refl.nonrefl]"
+                 outputform="liga[liga/subst:sg:nom:f]">Dziś rozpoczyna kolejny sezon francuska <marker>liga</marker> piłkarska.</example>
+    </rule>
+
     <rule id="PRAWA_SUBST" name="prawa jako rzeczownik">
         <pattern>
             <token regexp="yes" inflected="yes">moc|litera|wykładowca|wykładowczyni|egzekwować|teoria|światło|grunt|tworzenie|system|harmonizacja|rozumienie|interpretacja|spółka|obraza|reforma|powaga|praktyka|źródło|nauka|nowelizacja|historyk|utrata|wykładnia|ochrona|student(:?ka)?|państwo|przepis|inflacja|rola|socjologia|doktryna|nowelizacja|zmiana|modyfikacja|realizacja|historia|kodyfikacja|norma|formuła|instytucja|parodia|domena|zasada|liberalizacja|odmowa|filozofia|omnipotencja|istota|funkcja|precyzja|egzekucja|dyktatura|ingerencja|nadinterpretacja|materia|dziedzina|kwestia|psychologia|struktura|historyk|majestat|implementacja</token>
@@ -4817,11 +4868,11 @@
 
     </rule>
 
-    <rule id="SWIECI_ADJ" name="świeci + rzeczownik => przymiotnik">
+    <rule id="SWIECI_GORSZY_ADJ" name="świeci + rzeczownik => przymiotnik">
         <pattern>
             <unify>
                 <feature id="case"/><feature id="number"/><feature id="gender"/>
-                <token postag="adj.*" postag_regexp="yes">święci</token>
+                <token postag="adj.*" postag_regexp="yes" regexp="yes">święci|gorszy</token>
                 <token postag="subst.*" postag_regexp="yes"/>
             </unify>
         </pattern>
@@ -4829,6 +4880,8 @@
         <example type="untouched">Nie wiem, co tam się święci.</example>
         <example type="ambiguous" inputform="święci[święcić/verb:fin:sg:ter:imperf:refl.nonrefl,święty/adj:pl:nom.voc:m1.p1:pos,święty/subst:pl:nom:m1,święty/subst:pl:voc:m1]"
                  outputform="święci[święty/adj:pl:nom.voc:m1.p1:pos]">Co ci <marker>święci</marker> ludzie mają tam do roboty?</example>
+        <example type="ambiguous" inputform="Gorszy[gorszyć/verb:fin:sg:ter:imperf:refl.nonrefl,zły/adj:sg:acc:m3:com,zły/adj:sg:nom.voc:m1.m2.m3:com]"
+        outputform="Gorszy[zły/adj:sg:acc:m3:com,zły/adj:sg:nom.voc:m1.m2.m3:com]"><marker>Gorszy</marker> rok miała niemiecka marka.</example>
     </rule>
 
     <rule id="atmosfera_swieta" name="atmosfera święta -> rzeczownik">
@@ -4842,6 +4895,13 @@
         <example type="untouched">Ona była święta.</example>
         <example type="ambiguous" inputform="święta[święta/subst:pl:acc:p3,święta/subst:pl:nom:p3,święta/subst:pl:voc:p3,święta/subst:sg:nom:f,święta/subst:sg:voc:f,święto/subst:pl:acc:n2,święto/subst:pl:nom:n2,święto/subst:pl:voc:n2,święto/subst:sg:gen:n2,święty/adj:sg:nom.voc:f:pos]"
                  outputform="święta[święto/subst:sg:gen:n2]">Wpisuję się do grupy widzów, którzy oglądając tę inscenizację czuli atmosferę <marker>święta</marker>.</example>
+    </rule>
+
+    <rule id="RAI" name="TV RAI => rzeczownik">
+        <pattern case_sensitive="yes">
+            <token>RAI</token>
+        </pattern>
+        <disambig action="filter" postag="subst.*n2"/>
     </rule>
 
     <rule id="SKALA" name="skala jako rzeczownik">
