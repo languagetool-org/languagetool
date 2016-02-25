@@ -3699,7 +3699,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     </category>
 		<category name="Błędy typograficzne" type="typographical">
-            <rulegroup id="SPACJA_ZA_PRZECINKIEM_DZIESITNYM" name="Spacja za przecinkiem dziesiętnym">
+          <rule id="AMP_AL_ET_AL" name="„&amp; al” (et al.)">
+          <pattern>
+            <token regexp='yes'>[\x26]</token>
+            <token>al</token>
+            <token>.</token>
+          </pattern>
+          <message>Zapis niepoprawny w języku polskim. Poprawnie: <suggestion>et al.</suggestion></message>
+          <example correction='et al.'>Ten problem opisali Sienkiewicz <marker>&amp; al.</marker></example>     
+          </rule>
+          <rulegroup id="SPACJA_ZA_PRZECINKIEM_DZIESITNYM" name="Spacja za przecinkiem dziesiętnym">
             <rule>
                 <pattern>
                     <marker>
