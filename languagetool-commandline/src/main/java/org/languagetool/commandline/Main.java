@@ -34,6 +34,7 @@ import org.languagetool.tools.Tools;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -295,7 +296,7 @@ class Main {
             matches += Tools.profileRulesOnLine(s, lt, currentRule);
           } else if (!taggerOnly) {
             matches += CommandLineTools.checkText(s, lt, apiFormat, -1, lineOffset,
-                    matches, mode, listUnknownWords, null);
+                    matches, mode, listUnknownWords, Collections.<String>emptyList());
           } else {
             CommandLineTools.tagText(s, lt);
           }
