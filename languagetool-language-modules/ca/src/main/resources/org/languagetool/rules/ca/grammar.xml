@@ -37711,15 +37711,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes">fer</token>
                 <token>explosionar</token>
             </pattern>
-            <message>S'usa sense el verb "fer".</message>
+            <message>S'usa sense el verb "fer" i no és admès per totes els diccionaris.</message>
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">explosionar</match></suggestion>
+	    <suggestion>\1 explotar</suggestion>
+	    <suggestion>\1 esclatar</suggestion>
             <url>http://esadir.cat/entrades/fitxa/node/explosionar</url>
-            <example correction="explosionar">Va <marker>fer explosionar</marker></example>
-            <example correction="Explosionà"><marker>Féu explosionar</marker></example>
+            <example correction="explosionar|fer explotar|fer esclatar">Va <marker>fer explosionar</marker></example>
+            <example correction="Explosionà|Féu explotar|Féu esclatar"><marker>Féu explosionar</marker></example>
         </rule>
         <rule id="EXPLOSIONAR" name="explosionar">
             <pattern>
-                <token inflected="yes">explosionar</token>
+                <token inflected="yes">explosionar<exception score="previous" inflected="yes">fer</exception></token>
             </pattern>
             <message>Paraula admesa només en alguns diccionaris.</message>
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">fer</match> explotar</suggestion>
