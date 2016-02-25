@@ -27901,6 +27901,43 @@ though, and has since been slightly modified)-->
       <example correction="SQLite">Android utilise <marker>Sqlite</marker>.</example>
       <example correction="SQLite">Android utilise <marker>SQLight</marker>.</example>
     </rule>
+    <rulegroup id="OPENGL" name="OpenGL">
+      <url>https://fr.wikipedia.org/wiki/OpenGL</url>
+      <rule>
+        <pattern>
+          <token regexp="yes">Open|Web</token>
+          <token>GL</token>
+        </pattern>
+        <message>Écrivez <suggestion><match no="1" case_conversion="startupper"/>GL</suggestion>.</message>
+        <example correction="OpenGL">La bibliothèque <marker>Open GL</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(?:Open|Web)Gl<exception regexp="yes">(?-i)OpenGL|WebGL</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion><match no="1" case_conversion="startupper" regexp_match="..$" regexp_replace=""/>GL</suggestion>.</message>
+        <example correction="OpenGL">La bibliothèque <marker>OpenGl</marker>.</example>
+        <example correction="OpenGL">La bibliothèque <marker>opengl</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="OPENCL" name="OpenGL">
+      <url>https://fr.wikipedia.org/wiki/OpenCL</url>
+      <rule>
+        <pattern>
+          <token regexp="yes">Open|Web</token>
+          <token>CL</token>
+        </pattern>
+        <message>Écrivez <suggestion><match no="1" case_conversion="startupper"/>CL</suggestion>.</message>
+        <example correction="OpenCL"><marker>Open CL</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(?:Open|Web)Cl<exception regexp="yes">(?-i)OpenCL|WebCL</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion><match no="1" case_conversion="startupper" regexp_match="..$" regexp_replace=""/>CL</suggestion>.</message>
+        <example correction="OpenCL"><marker>OpenCl</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="WINDOWS" name="Window → Windows">
       <pattern>
         <marker><token>Window</token></marker>
