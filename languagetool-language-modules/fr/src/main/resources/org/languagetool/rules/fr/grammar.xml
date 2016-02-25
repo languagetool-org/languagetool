@@ -3249,7 +3249,7 @@ though, and has since been slightly modified)-->
           <token>Raitt</token>
         </antipattern>
         <pattern>
-          <token regexp="yes">Bonn?(y|ie)</token>
+          <token regexp="yes">Bonn?[yi]e?</token>
           <token regexp="yes">Rai?tt?e?</token>
         </pattern>
         <message>Écrivez <suggestion>Bonnie Raitt</suggestion> s’il s’agit de la chanteuse américaine.</message>
@@ -3331,11 +3331,8 @@ though, and has since been slightly modified)-->
         <example correction="Led Zeppelin">Un disque de <marker>Lead Zeppelin</marker>.</example>
       </rule>
       <rule>
-        <antipattern>
-          <token>Motörhead</token>
-        </antipattern>
         <pattern>
-          <token regexp="yes">Mot[öo]r[-‑‐]?h?ea?d</token>
+          <token regexp="yes">Mot[öo]r[-‑‐]?h?ea?d<exception>Motörhead</exception></token>
         </pattern>
         <message>Écrivez <suggestion>Motörhead</suggestion> s’il s’agit du groupe heavy metal.</message>
         <url>https://fr.wikipedia.org/wiki/Mot%C3%B6rhead</url>
@@ -3424,7 +3421,7 @@ though, and has since been slightly modified)-->
           <token>Dolenz</token>
         </antipattern>
         <pattern>
-          <token regexp="yes">Micke?y</token>
+          <token regexp="yes">Mic?ke?[iy]</token>
           <token regexp="yes">Doll?en[sz]</token>
         </pattern>
         <message>Écrivez <suggestion>Micky Dolenz</suggestion> s’il s’agit l’acteur, réalisateur, pproducteur, scénariste, musicien et compositeur américain.</message>
@@ -3496,8 +3493,8 @@ though, and has since been slightly modified)-->
           <token>Graf</token>
         </antipattern>
         <pattern>
-          <token regexp="yes">Ste(ff?|ph)e?[iy]</token>
-          <token regexp="yes">Graff?</token>
+          <token regexp="yes">Ste(?:ff?|ph)e?[iy]e?</token>
+          <token regexp="yes">Gra(?:ff?|ph)</token>
         </pattern>
         <message>Écrivez <suggestion>Steffi Graf</suggestion> s’il s’agit de la joueuse de tennis.</message>
         <url>https://fr.wikipedia.org/wiki/Steffi_Graf</url>
@@ -3605,16 +3602,20 @@ though, and has since been slightly modified)-->
         <pattern>
           <token regexp="yes">Weird|Wierd</token>
           <token>Al</token>
-          <token regexp="yes">Yankovi[ck]h?</token>
+          <token regexp="yes">Yanc?kovi[ck]h?</token>
         </pattern>
         <message>Écrivez <suggestion>Weird Al Yankovic</suggestion> s’il s’agit du chanteur américain.</message>
         <url>https://fr.wikipedia.org/wiki/Weird_Al_Yankovic</url>
         <example correction="Weird Al Yankovic"><marker>Weird al Yankovich</marker></example>
       </rule>
       <rule>
-        <pattern>
-          <token>Barbara</token>
+        <antipattern>
+          <token>Barbra</token>
           <token>Streisand</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Barba?ra</token>
+          <token regexp="yes">Strei?ss?ande?</token>
         </pattern>
         <message>Écrivez <suggestion>Barbra Streisand</suggestion> s’il s’agit de la chanteuse américaine.</message>
         <url>https://fr.wikipedia.org/wiki/Barbra_Streisand</url>
@@ -3700,11 +3701,11 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">Joel|Ethan</token>
-          <token>Cohen</token>
+          <token regexp="yes">Joel|Ethan|frères?</token>
+          <marker><token>Cohen</token></marker>
         </pattern>
-        <message>Écrivez <suggestion>\1 Coen</suggestion> s’il s’agit du cinéaste américain.</message>
-        <example correction="Ethan Coen">Joel and <marker>Ethan Cohen</marker></example>
+        <message>Écrivez <suggestion>Coen</suggestion> s’il s’agit du cinéaste américain.</message>
+        <example correction="Coen">Joel and Ethan <marker>Cohen</marker></example>
       </rule>
       <rule>
         <pattern>
@@ -4212,8 +4213,12 @@ though, and has since been slightly modified)-->
         <example correction="Alyssa Milano"><marker>Alyssa Milanno</marker></example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Liza</token>
+          <token>Minnelli</token>
+        </antipattern>
         <pattern>
-          <token>Lisa</token>
+          <token regexp="yes">Li[sz]a</token>
           <token regexp="yes">Minn?ell?i</token>
         </pattern>
         <message>Écrivez <suggestion>Liza Minnelli</suggestion> s’il s’agit de l’actrice américaine.</message>
@@ -4433,7 +4438,7 @@ though, and has since been slightly modified)-->
         </antipattern>
         <pattern>
           <token regexp="yes">Nath?al[iy]e?</token>
-          <token regexp="yes">Poo?rt[-‑‐]?man</token>
+          <token regexp="yes">Poo?rt[-‑‐]?mann?</token>
         </pattern>
         <message>Écrivez <suggestion>Natalie Portman</suggestion> s’il s’agit de l’actrice israélo-américaine.</message>
         <url>https://fr.wikipedia.org/wiki/Natalie_Portman</url>
