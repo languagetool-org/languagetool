@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="http://marcinmilkowski.pl/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
 <!--
@@ -3699,14 +3699,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     </category>
 		<category name="Błędy typograficzne" type="typographical">
-            <rule id="SPACJA_ZA_PRZECINKIEM_DZIESITNYM" name="Spacja za przecinkiem dziesiętnym">
+            <rulegroup id="SPACJA_ZA_PRZECINKIEM_DZIESITNYM" name="Spacja za przecinkiem dziesiętnym">
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp='yes'>[1-9]\d*<exception scope="previous" inflected="yes">numer</exception></token>
                         <token>,</token>
                         <token regexp='yes' spacebefore='yes'>\d+</token>
                     </marker>
-                    <token regexp='yes'>tys|proc|zł|EUR|USD|PLN|ml[nd]</token>
+                    <token regexp='yes'>tys|proc|zł|EUR|USD|PLN|ml[nd]|[\|m]|pkt|sek|procent|litra|miliona|kg|bln|gr|tysiąca|roku</token>
                 </pattern>
                 <message>Prawdopodobnie zbędna spacja za przecinkiem w liczbie: <suggestion><match no="1"/>,<match no="3"/></suggestion>.</message>
                 <short>Zbędna spacja</short>
@@ -3714,6 +3715,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wzrósł zaledwie o 1,9 proc.</example>
                 <example>Droga krajowa nr 5, 20 tys., pomiar ruchu z 2005 r.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp='yes'>[1-9]\d*<exception scope="previous" inflected="yes">numer</exception></token>
+                        <token>,</token>
+                        <token regexp='yes' spacebefore='yes'>\d+%</token>
+                    </marker>                    
+                </pattern>
+                <message>Prawdopodobnie zbędna spacja za przecinkiem w liczbie: <suggestion><match no="1"/>,<match no="3"/></suggestion>.</message>
+                <short>Zbędna spacja</short>
+                <example correction='1,9%'>Wzrósł zaledwie o <marker>1, 9%</marker>.</example>
+                <example>Wzrósł zaledwie o 1,9 %.</example>
+            </rule>
+            </rulegroup>
             <rule type="whitespace" id="SPACJA_TM_R" name="Zbędna spacja przed znakiem ™ i ®">
                 <pattern>
                     <marker>
@@ -19795,6 +19810,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token>połowę</token>
                             <token postag="adj:sg:nom.voc:f:com"/>
                         </antipattern>
+                        <antipattern>
+                        <token>w</token>
+                        <marker>
+                          <token>miarę</token>
+                        </marker>
+                        </antipattern>
                         <pattern>
                             <token regexp='yes' postag='subst:sg:acc:f'>.*ę<exception>odrobinę</exception></token>
                             <marker>
@@ -19814,6 +19835,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Suma dochodów w drugiej książce była o połowę mniejsza niż w pierwszej.</example>
                         <example>A jeszcze i przez całą niedzielę była także i dobra, i wesoła.</example>
                         <example>Ponieważ system byłby rozciągnięty na inne kraje, które wpłacają dziś dużą daninę netto do budżetu UE.</example>
+                        <example>Trudno na razie przewidzieć, czy wzrost zapotrzebowania na zboża to tendencja w miarę trwała, czy tylko chwilowa.</example>
                     </rule>
                     <rule>
                         <antipattern>
@@ -19825,7 +19847,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       	<antipattern>
                           <token postag="subst:sg:inst:f"/>
                           <marker>
-                          	<token postag="adj:sg:inst:f:" postag_regexp="yes"/>
+                          	<token postag="adj:sg:inst:f:.*" postag_regexp="yes"/>
                           </marker>
                       	</antipattern>
                         <pattern>
@@ -20310,5 +20332,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="całe szczęście, że|na szczęście">Jestem młodym człowiekiem i <marker>na całe szczęście</marker> większość swojego życia spędziłem w demokratycznej III RP.</example>
 						<example>Jestem młodym człowiekiem i na szczęście większość swojego życia spędziłem w demokratycznej III RP.</example>
 				</rule>
+				
 		</category>
 </rules>

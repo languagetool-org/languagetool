@@ -4408,6 +4408,12 @@
         </pattern>
         <disambig action="remove"><wd lemma="rosny"/></disambig>
     </rule>
+    <rule id="WSTRZYMALY" name="wstrzymały to archaizm">
+        <pattern>
+            <token inflected="yes">wstrzymały</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="wstrzymały"/></disambig>
+    </rule>
 
 
     <rule id="KLADZIE" name="kładzie to kłaść">
@@ -4625,6 +4631,16 @@
         <disambig action="filter" postag="verb:praet:.*"/>
     </rule>
 
+    <rule id="TRWALA_AZ" name="trwała aż do -> czasownik">
+        <pattern>
+            <marker>
+                <token regexp="yes">trwał[ay]</token>
+            </marker>
+            <token>aż</token>
+            <token>do</token>
+        </pattern>
+        <disambig action="filter" postag="verb:praet:.*"/>
+    </rule>
 
     <rule id="WZROSLA" name="wzrosła o/do -> czasownik">
         <pattern>
@@ -5491,6 +5507,29 @@
         <disambig postag="subst:sg:nom:f"/>
         <example type="ambiguous" inputform="stara[star/subst:sg:gen:m3,stara/subst:sg:nom:f,stara/subst:sg:voc:f,starać/verb:fin:sg:ter:imperf:refl,stary/adj:sg:nom.voc:f:pos]"
                  outputform="stara[stara/subst:sg:nom:f]">A moja <marker>stara</marker> już się wyprawiła w drogę.</example>
+    </rule>
+
+    <rule id="STARA_SIE" name="stara się -> czasownik">
+        <pattern>
+            <token postag="verb:fin:sg:ter:imperf:refl">stara</token>
+            <token postag="qub">się</token>
+            <token postag="verb:inf.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Moja stara się myje.</example>
+        <example type="ambiguous" inputform="stara[star/subst:sg:gen:m3,stara/subst:sg:nom:f,stara/subst:sg:voc:f,starać/verb:fin:sg:ter:imperf:refl,stary/adj:sg:nom.voc:f:pos]"
+                 outputform="stara[starać/verb:fin:sg:ter:imperf:refl]">Sytuację <marker>stara</marker> się wykorzystać konserwatywna opozycja.</example>
+    </rule>
+
+    <rule id="przeszla_acc" name="przeszła + acc -> czasownik">
+        <pattern>
+            <token postag="verb:praet:sg:f:ter:perf:nonrefl">przeszła</token>
+            <token postag=".*acc.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="Przeszła[przejść/verb:praet:sg:f:ter:perf:nonrefl,przejść/verb:praet:sg:f:ter:perf:refl,przeszły/adj:sg:nom.voc:f:pos]"
+                 outputform="Przeszła[przejść/verb:praet:sg:f:ter:perf:nonrefl]"><marker>Przeszła</marker> operację.</example>
+        <example type="untouched">Przeszła zima zaskoczyła drogowców.</example>
     </rule>
 
     <rule id="ZWYKLY_ADJ" name="zwykły to przymiotnik przed rzeczownikiem">
