@@ -16,8 +16,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
-
 package org.languagetool.rules;
 
 import org.jetbrains.annotations.Nullable;
@@ -33,16 +31,17 @@ import java.util.Map;
  * can be implemented for any language.
  *
  * The parameters used in the XML file are called 'x' and 'y'.
- *
+ * @since 3.3
  */
 public class ShortenedYearRangeChecker extends RuleFilter {
+
   @Nullable
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens) {
     try {
       int x = Integer.parseInt(arguments.get("x"));
-      String century_prefix = arguments.get("x").substring(0,2);
-      int y = Integer.parseInt(century_prefix + arguments.get("y"));
+      String centuryPrefix = arguments.get("x").substring(0, 2);
+      int y = Integer.parseInt(centuryPrefix + arguments.get("y"));
       if (x >= y) {
         return new RuleMatch(match.getRule(), match.getFromPos(), match.getToPos(), match.getMessage(), match.getShortMessage());
       }
@@ -53,4 +52,5 @@ public class ShortenedYearRangeChecker extends RuleFilter {
     }
     return null;
   }
+
 }
