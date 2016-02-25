@@ -966,7 +966,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule id="DOS_DIT" name="dos dit/dits">
                 <pattern>
-                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token postag="DN.*" postag_regexp="yes"><exception regexp="yes">1|un</exception></token>
                     <marker>
                         <token>dit</token>
                     </marker>
@@ -975,6 +975,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Error de concordança</short>
                 <example correction="dits">Dos <marker>dit</marker> de front</example>
                 <example>No té ni un dit de front</example>
+                <example>Sols hi ha 1 dit</example>
             </rule>
             <rule id="NUMERAL_NOM_MAJ" name="concordança numeral + nom en majúscula">
                 <pattern>
