@@ -608,7 +608,8 @@ public class MainTest extends AbstractSecurityTestCase {
   private File writeToTempFile(String content) throws IOException {
     final File tempFile = createTempFile();
     try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(tempFile), "UTF-8"))) {
-      writer.println(content);
+      writer.print(content);
+      writer.print('\n');
     }
     return tempFile;
   }
