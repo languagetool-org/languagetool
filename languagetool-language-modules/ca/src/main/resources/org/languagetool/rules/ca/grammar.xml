@@ -3978,7 +3978,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception postag="SPS00"/></token>
                     <token inflected="yes">deure<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="VM[GP].*" postag_regexp="yes"></token>
+                        <token postag="VM[GP].*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Probablement falta un infinitiu.</message>
@@ -3989,6 +3989,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La reclamació de rendes degudes segueix els tràmits.</example>
                 <example>Deu escollits del clergat responen</example>
                 <example>dels favors que es deuen neix el trencament</example>
+                <example>A elll es deuen destacats exemples</example>
             </rule>
         </rulegroup>
         <rulegroup id="HAVER_PARTICIPI_HAVER_IMPERSONAL" name="Comprova: «haver» + participi / «haver-hi» impersonal">
@@ -9330,7 +9331,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="GRACIES_A" name="gràcies això/gràcies a això">
             <pattern>
-                <token regexp="yes">gràcies|mercès?</token>
+                <token regexp="yes">gràcies|mercès?<exception postag="D.*" postag_regexp="yes" scope="previous"/></token>
                 <token postag="DD.*|PD.*" postag_regexp="yes"></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>\1 a \2</suggestion>?</message>
@@ -10641,7 +10642,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token>a<exception scope="previous">com</exception></token>
                 <marker>
-                    <token>partit</token>
+                    <token>partit<exception postag="_possible_nompropi"/></token>
                 </marker>
                 <token regexp="yes">de|d'</token>
                 <token><exception regexp="yes">govern|oposició|dreta|esquerra|centredreta|centreesquerra</exception></token>
@@ -12375,6 +12376,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>una bona relació</example>
         </rule>
         <rule id="ENTRE_MIG_ENTREMIG" name="entre mig / entremig">
+            <antipattern>
+                <pattern>
+                    <token>mig</token>
+                    <token regexp="yes">i|o</token>
+                    <token regexp="yes">un|dos|tres|\d</token>
+                </pattern>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>entre</token>
@@ -12386,6 +12394,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Possible confusió</short>
             <example correction="entremig"><marker>entre mig</marker> de les plantes</example>
             <example>entre mig any i un any</example>
+            <example>entre mig i dos milions d'euros</example>
         </rule>
         <rule id="TEX_TEXT" name="tex / text">
             <pattern case_sensitive="yes">
@@ -26830,7 +26839,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="EMPORTAR_SE_PER_DAVANT" name="emportar-se/endur-se *per (en)davant">
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="3">endur|emportar|dur|portar</token>
+                    <token regexp="yes" inflected="yes">endur|emportar|dur|portar</token>
+                    <token min="0" max="2" postag="P.*" postag_regexp="yes"/>
                     <token>per</token>
                     <token regexp="yes">davant|endavant</token>
                 </pattern>
@@ -26846,7 +26856,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="3">endur|emportar|dur|portar</token>
+                    <token regexp="yes" inflected="yes">endur|emportar|dur|portar</token>
+                    <token min="0" max="2" postag="P.*" postag_regexp="yes"/>
                     <token>pe</token>
                     <token>l</token>
                     <token>davant</token>
@@ -28367,7 +28378,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="TREBALLAR_DUR" name="treballar *dur/de valent/intensament">
             <pattern>
-                <token inflected="yes" skip="1">treballar</token>
+                <token inflected="yes">treballar</token>
+                <token min="0" postag="RG"/>
                 <marker>
                     <token>dur</token>
                 </marker>
@@ -28379,7 +28391,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://esadir.cat/entrades/fitxa/node/duradv</url>
             <short>Expressió preferible</short>
             <example correction="intensament|de valent|fort">treballaven <marker>dur</marker></example>
-            <example>treballaven intensament</example>
+            <example>treballaven per dur l'aigua al poble</example>
         </rule>
         <rulegroup id="ALGUN_QUE_ALTRE" name="*algun que altre">
             <rule>
@@ -29490,11 +29502,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token skip="2">amb</token>
-                    <token regexp="yes" inflected="yes">nom|taulellet|forma|pilastra|orla|dent|figura|llegenda|brancal|frontó|columna|guardapols|línia|motll?ura|floró|motiu|data|imatge|arc|inscripció|dovella|decoració|timpà|relleu|escultura|ornament|ornamentació|ornamentar|decorar|garlanda|esglaó|graó|emblema|torre|pedra</token>
+                    <token regexp="yes" inflected="yes">escut|imposta|pòrtic|nom|taulellet|forma|pilastra|orla|dent|figura|llegenda|brancal|frontó|columna|guardapols|línia|motll?ura|floró|motiu|data|imatge|arc|inscripció|dovella|decoració|timpà|relleu|escultura|ornament|ornamentació|ornamentar|decorar|garlanda|esglaó|graó|emblema|torre|pedra</token>
                 </marker>
             </antipattern>
             <pattern>
-                <token><exception postag="D[^R].FS.|SPS00|A..[FC][SN].|PX.FS.*" postag_regexp="yes"/></token>
+                <token><exception postag="D[^R].FS.|SPS00|A..[FC][SN].|PX.FS.*|.*LOC_PREP.*" postag_regexp="yes"/></token>
                 <marker>
                     <token skip="3">llinda<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </marker>
@@ -30555,9 +30567,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CLOACA" name="cloaca/claveguera">
             <pattern>
-                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">intestí|excretar|digestiu|urinari|excretor|reproductor|orifici|rèptil|ocell|amfibi|musell|obertura|ou|aparellar|cua|mascle|femella|protuberància|còpula</exception></token>
+                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">coit|gònada|intestí|excretar|digestiu|urinari|excretor|reproductor|orifici|rèptil|ocell|amfibi|musell|obertura|ou|aparellar|cua|mascle|femella|protuberància|còpula</exception></token>
                 <marker>
-                    <token skip="-1" inflected="yes">cloaca<exception scope="next" regexp="yes" inflected="yes">maxima|màxima|intestí|excretar|digestiu|urinari|excretor|reproductor|orifici|rèptil|ocell|amfibi|musell|obertura|ou|aparellar|cua|mascle|femella|protuberància|còpula</exception></token>
+                    <token skip="-1" inflected="yes">cloaca<exception scope="next" regexp="yes" inflected="yes">maxima|màxima|coit|gònada|intestí|excretar|digestiu|urinari|excretor|reproductor|orifici|rèptil|ocell|amfibi|musell|obertura|ou|aparellar|cua|mascle|femella|protuberància|còpula</exception></token>
                 </marker>
                 <token postag="SENT_END"/>
             </pattern>
@@ -33297,7 +33309,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="2">ratllar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token inflected="yes" skip="2">ratllar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/><exception postag="_GN_.*|_reflexiu" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="NC[FM]S000" postag_regexp="yes" regexp="yes">.+ència|.+ància|.+itat|.+etat|.+ió|.+úria|.+itud|.+etud|amenaça|majoria|.+[aiï]sme</token> <!--  noms abstractes -->
                 </pattern>
@@ -33306,11 +33318,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="vorejant"><marker>ratllant</marker> el sarcasme</example>
                 <example>ratllava una poma</example>
                 <example>ratlles (passió)</example>
+                <example>Es ratllava amb facilitat.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="2">ratllar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token inflected="yes" skip="2">ratllar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/><exception postag="_GN_.*|_reflexiu" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="NCMS000" regexp="yes">insult|absurd</token> <!--  noms abstractes -->
                 </pattern>
@@ -35507,14 +35520,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="FER_LA_GUARDIA" name="fer (*la) guàrdia">
             <pattern>
-                <token inflected="yes" skip="1">fer<exception scope="next">servir</exception></token>
+                <token inflected="yes">fer</token>
                 <token>la</token>
                 <token>guàrdia</token>
             </pattern>
             <message>Val més dir: <suggestion><match no="1" include_skipped="all"/> guàrdia</suggestion>.</message>
             <short>Expressió preferible</short>
             <example correction="fer guàrdia">Ell no va <marker>fer la guàrdia</marker>.</example>
-            <example>Ell no va fer guàrdia.</example>
         </rule>
         <rulegroup id="EL_DIA_SEGUENT" name="el dia següent">
             <rule>
