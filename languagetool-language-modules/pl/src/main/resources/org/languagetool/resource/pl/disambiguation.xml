@@ -1178,6 +1178,7 @@
         <disambig action="filterall"/>
     </rule>
 
+
     <rule id="spraw" name="minister spraw">
         <pattern>
             <token inflected="yes">minister</token>
@@ -4403,12 +4404,28 @@
         <disambig action="remove"><wd lemma="działo"/></disambig>
     </rule>
 
+    <rule id="OSIEDLI_SUBST" name="mieszkańcy/rada osiedli => subst">
+        <pattern>
+        <token inflected="yes" regexp="yes">mieszkaniec|rada|komitet|lokator</token>
+        <marker>
+            <token>osiedli</token>
+        </marker>
+        </pattern>
+        <disambig postag="subst:pl:gen:n2"/>
+    </rule>
+
     <!-- wyrazy do usunięcia z morfologika 2.2 -->
     <rule id="DREWNY" name="drewny to archaizm">
         <pattern>
             <token inflected="yes">drewny</token>
         </pattern>
         <disambig action="remove"><wd lemma="drewny"/></disambig>
+    </rule>
+    <rule id="halac" name="halać to przest.">
+        <pattern>
+            <token inflected="yes">halać</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="halać"/></disambig>
     </rule>
     <rule id="KWIETNI" name="kwietni to archaizm">
         <pattern>
@@ -4439,6 +4456,12 @@
             <token inflected="yes">rośnia</token>
         </pattern>
         <disambig action="remove"><wd lemma="rośnia"/></disambig>
+    </rule>
+    <rule id="SOJUSZYC" name="sojuszyć to daw.">
+        <pattern>
+            <token inflected="yes">sojuszyć</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="sojuszyć"/></disambig>
     </rule>
     <rule id="STRUMIENIC" name="strumienić jest daw.">
         <pattern>
@@ -4646,6 +4669,14 @@
             <token>węgli</token>
         </pattern>
         <disambig action="remove"><wd lemma="węglić"/></disambig>
+    </rule>
+
+    <rule id="wyplata" name="wypłata odsetek -> rzeczownik">
+        <pattern>
+            <token postag="subst:sg:nom:f">wypłata</token>
+            <token regexp="yes" postag_regexp="yes" postag=".*gen.*">odsetek|pieniędzy|emerytury|renty|wynagrodzenia</token>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <rule id="SPADLY" name="spadła/spadły o/do -> czasownik">
@@ -4872,7 +4903,7 @@
         <pattern>
             <unify>
                 <feature id="case"/><feature id="number"/><feature id="gender"/>
-                <token postag="adj.*" postag_regexp="yes" regexp="yes">święci|gorszy</token>
+                <token postag="adj.*" postag_regexp="yes" regexp="yes">święci|gorszy|praska</token>
                 <token postag="subst.*" postag_regexp="yes"/>
             </unify>
         </pattern>
@@ -4882,6 +4913,19 @@
                  outputform="święci[święty/adj:pl:nom.voc:m1.p1:pos]">Co ci <marker>święci</marker> ludzie mają tam do roboty?</example>
         <example type="ambiguous" inputform="Gorszy[gorszyć/verb:fin:sg:ter:imperf:refl.nonrefl,zły/adj:sg:acc:m3:com,zły/adj:sg:nom.voc:m1.m2.m3:com]"
         outputform="Gorszy[zły/adj:sg:acc:m3:com,zły/adj:sg:nom.voc:m1.m2.m3:com]"><marker>Gorszy</marker> rok miała niemiecka marka.</example>
+    </rule>
+
+    <rule id="PRASKA_SUBST" name="rzeczownik + praska => przymiotnik">
+        <pattern>
+            <unify>
+                <feature id="gender"/><feature id="case"/><feature id="number"/>
+                <token postag="subst.*" postag_regexp="yes"/>
+                <token postag="adj.*" postag_regexp="yes">praska</token>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="praska[praska/subst:sg:nom:f,praskać/verb:fin:sg:ter:imperf:refl.nonrefl,praski/adj:sg:nom.voc:f:pos]"
+                 outputform="praska[praski/adj:sg:nom.voc:f:pos]">Najbardziej ekspansywnym rynkiem w regionie jest giełda <marker>praska</marker>.</example>
     </rule>
 
     <rule id="atmosfera_swieta" name="atmosfera święta -> rzeczownik">
@@ -5134,7 +5178,17 @@
         <disambig action="unify"/>
     </rule>
 
-    <rule id="WRECZ_QUB" name="walka wręcz ->adv">
+    <rule id="WRECZ_QUB" name="wręcz + czasownik/przymiotnik => qub">
+        <pattern>
+            <token postag="qub">wręcz</token>
+            <token postag="(:?verb|adj|qub).*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Wręcz mu nagrodę.</example>
+        <example type="ambiguous" inputform="wręcz[wręcz/adv,wręcz/qub,wręczyć/verb:impt:sg:sec:perf:refl.nonrefl]" outputform="wręcz[wręcz/qub]">Działacze związkowi <marker>wręcz</marker> się tego domagają. </example>
+    </rule>
+
+    <rule id="WALKA_WRECZ_QUB" name="walka wręcz ->adv">
         <pattern>
             <marker><token>wręcz</token></marker>
             <token postag="adv.*" postag_regexp="yes"/>

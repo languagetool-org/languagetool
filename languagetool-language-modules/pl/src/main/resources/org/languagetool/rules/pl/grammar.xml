@@ -10852,6 +10852,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example correction="">Zawody odbywają się w dniach <marker>21–10 XII</marker>.</example>
                 </rule>
                 <rule>
+                <antipattern>
+                  <marker>
+                    <token regexp="yes">\d+</token>
+                  </marker>
+                  <token>p</token>
+                  <token>.</token>
+                  <token>n</token>
+                  <token>.</token>
+                  <token>e</token>
+                </antipattern>
                   <pattern>
                     <token regexp="yes" inflected="yes">rok|okres<exception postag="subst:sg:.*" postag_regexp="yes" inflected="yes">rok</exception></token>
                     <marker>
@@ -10869,7 +10879,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   <example correction="">Było to w latach <marker>1915–1915</marker>.</example>
                   <example correction="">Było to w latach <marker>1915-1915</marker>.</example>
                   <example>Najwięcej aborcji wykonano w roku 1962 – 272 000.</example>
+                  <example>Szamszi-Adad I z Terqi (panował w latach 1814-1781 p.n.e.) założył pierwsze państwo asyryjskie.</example>
                 </rule>
+                <rule>                
+                  <pattern>                    
+                    <marker>
+                      <token regexp="yes">\d{3,4}</token>
+                      <token regexp="yes">[–\-/]</token>
+                      <token regexp="yes">\d{3,4}</token>
+                    </marker>
+                    <token>p</token>
+                    <token>.</token>
+                    <token>n</token>
+                    <token>.</token>
+                    <token>e</token>
+                  </pattern>
+                  <filter class="org.languagetool.rules.DateRangeChecker"
+                            args="x:\3 y:\1"/>
+                  <message>Rok początkowy (\1 p.n.e.) jest późniejszy lub taki sam jak końcowy (\3 p.n.e.).</message>
+                  <short>Niespójna data</short>
+                  <example correction="">Było to w latach <marker>715–1840</marker> p.n.e.</example>
+                  <example correction="">Było to w latach <marker>900–900</marker> p.n.e.</example>
+                  <example correction="">Było to w latach <marker>1000-2000</marker> p.n.e.</example>
+                  <example>Najwięcej aborcji wykonano w roku 1962 – 272 000.</example>
+                  <example>Szamszi-Adad I z Terqi (panował w latach 1814-1781 p.n.e.) założył pierwsze państwo asyryjskie.</example>
+                </rule>                
                 <rule>
                   <pattern>
                     <token regexp="yes" inflected="yes">rok|okres<exception postag="subst:sg:.*" postag_regexp="yes" inflected="yes">rok</exception></token>
