@@ -4414,6 +4414,27 @@
         <disambig postag="subst:pl:gen:n2"/>
     </rule>
 
+    <rule id="OSIEDLA_SUBST" name="mieszkańcy/rada osiedla => subst">
+        <pattern>
+            <token inflected="yes" regexp="yes">budowa|mieszkaniec|rada|komitet|lokator|centrum|koniec|model|rzecznik|przykład|wykonawca|remont|podział|brzydota|powstanie|krajobraz|projektant|mieszkanka|etap|bliskość|infrastruktura|zarząd|lokalizacja</token>
+            <marker>
+                <token>osiedla</token>
+            </marker>
+        </pattern>
+        <disambig postag="subst:sg:gen:n2"/>
+    </rule>
+
+    <rule id="OSIEDLA_UPPER" name="osiedla Za Żelazną Bramą => subst">
+        <pattern>
+            <marker>
+                <token>osiedla</token>
+            </marker>
+            <token regexp="yes">\p{Lu}\p{Ll}+|dla</token>
+        </pattern>
+        <disambig postag="subst:sg:gen:n2"/>
+    </rule>
+
+
     <!-- wyrazy do usunięcia z morfologika 2.2 -->
     <rule id="DREWNY" name="drewny to archaizm">
         <pattern>
@@ -4426,6 +4447,12 @@
             <token inflected="yes">halać</token>
         </pattern>
         <disambig action="remove"><wd lemma="halać"/></disambig>
+    </rule>
+    <rule id="KUPIA" name="kupia to przest.">
+        <pattern>
+            <token inflected="yes">kupia</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="kupia"/></disambig>
     </rule>
     <rule id="KWIETNI" name="kwietni to archaizm">
         <pattern>
@@ -4463,6 +4490,12 @@
         </pattern>
         <disambig action="remove"><wd lemma="sojuszyć"/></disambig>
     </rule>
+    <rule id="SPRZEDAJ" name="sprzedaj to przest.">
+        <pattern>
+            <token inflected="yes">sprzedaj</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="sprzedaj"/></disambig>
+    </rule>
     <rule id="STRUMIENIC" name="strumienić jest daw.">
         <pattern>
             <token inflected="yes">strumienić</token>
@@ -4476,6 +4509,13 @@
         <disambig action="remove"><wd lemma="wstrzymały"/></disambig>
     </rule>
 
+
+    <rule id="CZUJE" name="czuje to nie czuj">
+        <pattern>
+            <token>czuje</token>
+        </pattern>
+        <disambig postag="verb:fin:sg:ter:imperf:refl.nonrefl"/>
+    </rule>
 
     <rule id="KLADZIE" name="kładzie to kłaść">
         <pattern>
@@ -6003,6 +6043,23 @@
         <disambig action="unify"/>
         <example type="ambiguous" inputform="bliźni[bliźni/adj:pl:nom.voc:m1.p1:pos,bliźni/adj:sg:acc:m3:pos,bliźni/adj:sg:nom.voc:m1.m2.m3:pos,bliźni/subst:pl:nom:m1,bliźni/subst:pl:voc:m1,bliźni/subst:sg:nom:m1,bliźni/subst:sg:voc:m1,bliźnić/verb:fin:sg:ter:imperf:refl,bliźny/adj:pl:nom.voc:m1.p1:pos,bliźny/subst:pl:nom:m1,bliźny/subst:pl:voc:m1]"
                  outputform="bliźni[bliźni/subst:sg:nom:m1,bliźni/subst:sg:voc:m1]">To jest mój <marker>bliźni</marker>.</example>
+    </rule>
+
+    <rule id="WLASNE_OSIEDLA" name="osiedla jako rzeczownik">
+        <pattern>
+            <marker>
+                <unify>
+                    <feature id="case"/><feature id="number"/>
+                    <feature id="gender"><type id="n2"/></feature>
+                    <token postag="(?:adj|pact|ppas).*" postag_regexp="yes"/>
+                    <token postag="subst.*" postag_regexp="yes">osiedla</token>
+                </unify>
+            </marker>
+        </pattern>
+        <disambig action="unify"></disambig>
+        <example type="untouched">On tu osiedla imigrantów.</example>
+        <example type="ambiguous" inputform="osiedla[osiedlać/verb:fin:sg:ter:imperf:refl.nonrefl,osiedle/subst:pl:acc:n2,osiedle/subst:pl:nom:n2,osiedle/subst:pl:voc:n2,osiedle/subst:sg:gen:n2]"
+                 outputform="osiedla[osiedle/subst:pl:acc:n2,osiedle/subst:pl:nom:n2,osiedle/subst:pl:voc:n2]">Stare <marker>osiedla</marker> europejskiej ludności tworzą dziś już tylko historyczne dzielnice dla turystów.</example>
     </rule>
 
     <rule id="TAJEMNICZA_MINA" name="tajemniczą miną => rzeczownik">
@@ -10233,6 +10290,22 @@
         <disambig action="ignore_spelling"></disambig>
     </rule>
 
+    <rule id="koglimogli" name="kogli-mogli">
+        <pattern>
+            <token postag="subst:pl:gen:m3">kogli</token>
+            <token>-</token>
+            <token postag="subst:pl:gen:m3">mogli</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id="mogli" name="mogli bez kogli to czasownik (kaskada z poprzednią regułą)">
+        <pattern>
+            <token postag="verb:praet:pl:m1.p1:ter:imperf:nonrefl">mogli</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
 
     <rule id='KONSKI_ZAB' name="końskiego zębu - dobra pisownia">
       <pattern>
@@ -10326,6 +10399,17 @@
                 <token>Zdrowaś</token>
             </marker>
             <token>Maria</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="koglemmoglem" name="koglem-moglem">
+        <pattern>
+            <token>koglem</token>
+            <token>-</token>
+        <marker>
+            <token>moglem</token>
+        </marker>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
