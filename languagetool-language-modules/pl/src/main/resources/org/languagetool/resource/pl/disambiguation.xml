@@ -3677,6 +3677,28 @@
         <disambig postag="adv"/>
     </rule>
 
+    <rule id="HANDLARZE_BRONIA" name="handlarze bronią => rzeczownik">
+        <pattern>
+            <token inflected="yes" regexp="yes">handlarz|zagrożenie|władanie|gospodarowanie</token>
+            <marker><token>bronią</token></marker>
+        </pattern>
+        <disambig postag="subst:sg:inst:f"/>
+    </rule>
+
+    <rule id="BRONIA" name="bronią + przymiotnik -> rzeczownik">
+        <pattern>
+            <unify>
+                <feature id="case"/><feature id="number"/><feature id="gender"/>
+                <token>bronią</token>
+                <token postag="(?:adj|pact|ppas|subst).*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="bronią[bronić/verb:fin:pl:ter:imperf:refl.nonrefl,broń/subst:sg:inst:f]"
+                 outputform="bronią[broń/subst:sg:inst:f]">Chwalił się <marker>bronią</marker> asyryjską.</example>
+    </rule>
+
+
     <rulegroup id="MAJA_ONE_1" name="czasownik pl + one - zaimek">
         <rule>
             <pattern>
@@ -4325,19 +4347,6 @@
         <example type="untouched">Wśród autorów mamy wielu ważnych polityków.</example>
     </rule>
 
-    <rule id="BRONIA" name="bronią + przymiotnik -> rzeczownik">
-        <pattern>
-            <unify>
-                <feature id="case"/><feature id="number"/><feature id="gender"/>
-                <token>bronią</token>
-                <token postag="(?:adj|pact|ppas|subst).*" postag_regexp="yes"/>
-            </unify>
-        </pattern>
-        <disambig action="unify"/>
-        <example type="ambiguous" inputform="bronią[bronić/verb:fin:pl:ter:imperf:refl.nonrefl,broń/subst:sg:inst:f]"
-                 outputform="bronią[broń/subst:sg:inst:f]">Chwalił się <marker>bronią</marker> asyryjską.</example>
-    </rule>
-
     <rulegroup name="rzadkie rzeczowniki" id="subst_rarum">
         <rule>
             <pattern>
@@ -4523,6 +4532,13 @@
         <disambig postag="verb:fin:sg:ter:imperf:refl.nonrefl"/>
     </rule>
 
+    <rule id="dyrektorzy" name="dyrektorzy to zwykle subst">
+        <pattern>
+            <token>dyrektorzy</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="dyrektorzyć"/></disambig>
+    </rule>
+
     <rule id="IDZIE" name="idzie to nie id">
         <pattern>
             <token>idzie</token>
@@ -4633,6 +4649,13 @@
             <token>patrzy</token>
         </pattern>
         <disambig action="remove"><wd lemma="pater"/></disambig>
+    </rule>
+
+    <rule id="podoba" name="podoba to nie subst">
+        <pattern>
+            <token>podoba</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="podoba"/></disambig>
     </rule>
 
     <rule id="PORECZY_SCHODOW" name="poręczy schodów to nie poręczyć">
