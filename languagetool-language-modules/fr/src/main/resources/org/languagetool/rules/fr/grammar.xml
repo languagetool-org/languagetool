@@ -4021,12 +4021,23 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[ÉE]?mm?ann?uell?e?</token>
           <token regexp="yes">Val?s?e?</token>
         </pattern>
-        <message>Écrivez <suggestion>Manuel Valls</suggestion> s’il s’agit de l’homme politiquefrançais.</message>
+        <message>Écrivez <suggestion>Manuel Valls</suggestion> s’il s’agit de l’homme politique français.</message>
         <url>https://fr.wikipedia.org/wiki/Manuel_Valls</url>
         <example correction="Manuel Valls"><marker>Manuel Vals</marker></example>
       </rule>
-      <!-- See http://www.liberation.fr/societe/2012/11/23/sarkozy-les-juges-ont-ils-confondu-bettencourt-et-betancourt_862496
-           to see how LanguageTool can be useful. -->
+      <rule>
+        <antipattern>
+          <token>Jack</token>
+          <token>Lang</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Jack|Jac?ques?</token>
+          <token regexp="yes">Lang(?:ues?)?</token>
+        </pattern>
+        <message>Écrivez <suggestion>Jack Lang</suggestion> s’il s’agit de l’homme politique français.</message>
+        <url>https://fr.wikipedia.org/wiki/Jack_Lang</url>
+        <example correction="Jack Lang"><marker>Jacques Lang</marker></example>
+      </rule>
       <rule>
         <antipattern>
           <token>Liliane</token>
@@ -4041,8 +4052,6 @@ though, and has since been slightly modified)-->
         <example correction="Liliane Bettencourt"><marker>Lilianne Bettencourt</marker> est née en 1922.</example>
         <example correction="Liliane Bettencourt"><marker>Liliane Betencourt</marker> est née en 1922.</example>
       </rule>
-      <!-- See http://www.liberation.fr/societe/2012/11/23/sarkozy-les-juges-ont-ils-confondu-bettencourt-et-betancourt_862496
-           to see how LanguageTool can be useful. -->
       <rule>
         <antipattern>
           <token>Ingrid</token>
@@ -13923,15 +13932,6 @@ though, and has since been slightly modified)-->
       <message>« À quelque part » est un régionalisme (Québec). Employez <suggestion>quelque part</suggestion>.</message>
       <example correction="quelque part"><marker>à quelque part</marker></example>
       <example><marker>quelque part</marker></example>
-    </rule>
-    <rule id="SUCCESSEUR_A" name="successeur à">
-      <pattern>
-        <token regexp="yes">successeure?s?</token>
-        <token regexp="yes">à|au|a</token>
-      </pattern>
-      <message>« Successeur à/au » est un régionalisme (Québec). Employez <suggestion>successeur de</suggestion>.</message>
-      <example correction="successeur de"><marker>successeur à</marker></example>
-      <example><marker>successeur de</marker></example>
     </rule>
     <rule id="CACAOUI" name="cacaoui/kakawi">
       <pattern>
