@@ -7694,8 +7694,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>donar una ullada per sobre als diaris</example>
         </rule>
         <rulegroup id="CAP_ELS_CAP_ALS" name="*cap el/cap al">
-            <!--
-                i 2 el PSOE, i cap el PP.-->
+            <antipattern>
+                <marker>
+                    <token inflected="yes" skip="2">nomenar</token>
+                    <token>cap</token>
+                    <token postag="DA.*" postag_regexp="yes"/>
+                    <token><exception inflected="yes" regexp="yes">&unitats_temps;</exception><exception regexp="yes">\d+</exception></token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token><exception regexp="yes">a|hi|els|en|amb|de|per</exception><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception><exception postag=".*LOC_PREP.*" postag_regexp="yes"/></token>
@@ -7709,6 +7715,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Cap al"><marker>Cap el</marker> 1984 va passar això.</example>
                 <example correction="cap al">la confiança <marker>cap el</marker> partit</example>
                 <example correction="cap al">un sistema electoral orientat <marker>cap el</marker> ciutadà</example>
+                <example correction="cap al">El nomenà general <marker>cap el</marker> 1984.</example>
                 <example>la confiança cap als partits</example>
                 <example>que portaren a cap els comtes</example>
                 <example>on fan cap els comtes</example>
@@ -7723,10 +7730,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Porta de cap els seus servents</example>
                 <example>El seu cap el va enviar allà.</example>
             </rule>
-            <!--
-                2 el [[PSOE]], i cap el [[PP]]
-                _possible_nompropi
-                la tribu de la qual Segestes era cap el va forçar -->
             <rule>
                 <pattern>
                     <token><exception regexp="yes">a|hi|els|en|amb|de|per</exception><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception><exception postag=".*LOC_PREP.*" postag_regexp="yes"/></token>
