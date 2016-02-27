@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -55,6 +56,8 @@ public class TokenAgreementRule extends Rule {
   private static final String VIDMINOK_SUBSTR = ":v_";
   private static final Pattern REQUIRE_VIDMINOK_REGEX = Pattern.compile(":r(v_[a-z]+)");
   private static final Pattern VIDMINOK_REGEX = Pattern.compile(":(v_[a-z]+)");
+  private static final String reqAnimInanimRegex = ":r(?:in)?anim";
+  private static final Pattern REQ_ANIM_INANIM_PATTERN = Pattern.compile(reqAnimInanimRegex);
 
   private final Ukrainian ukrainian = new Ukrainian();
 
@@ -363,13 +366,13 @@ public class TokenAgreementRule extends Rule {
     return false;
   }
 
-  private boolean forwardSearch(AnalyzedTokenReadings[] tokens, int pos, String string, int maxSkip) {
-    for(int i=pos+1; i < tokens.length && i <= pos + maxSkip; i++) {
-      if( tokens[i].getAnalyzedToken(0).getToken().equalsIgnoreCase(string) )
-        return true;
-    }
-    return false;
-  }
+//  private boolean forwardSearch(AnalyzedTokenReadings[] tokens, int pos, String string, int maxSkip) {
+//    for(int i=pos+1; i < tokens.length && i <= pos + maxSkip; i++) {
+//      if( tokens[i].getAnalyzedToken(0).getToken().equalsIgnoreCase(string) )
+//        return true;
+//    }
+//    return false;
+//  }
 
   private boolean isTokenToSkip(AnalyzedTokenReadings tokenReadings) {
     for(AnalyzedToken token: tokenReadings) {
@@ -423,23 +426,42 @@ public class TokenAgreementRule extends Rule {
 
   private RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings, AnalyzedTokenReadings reqTokenReadings, List<String> posTagsToFind) {
     String tokenString = tokenReadings.getToken();
-
+    
     Synthesizer ukrainianSynthesizer = ukrainian.getSynthesizer();
 
     List<String> suggestions = new ArrayList<>();
-    String oldPosTag = tokenReadings.getAnalyzedToken(0).getPOSTag();
-    String requiredPostTagsRegEx = ":(" + StringUtils.join(posTagsToFind,"|") + ")";
-    String posTag = oldPosTag.replaceFirst(":v_[a-z]+", requiredPostTagsRegEx);
+    
+    final String requiredPostTagsRegEx = ":(" + StringUtils.join(posTagsToFind,"|") + ")";
+    for(AnalyzedToken analyzedToken: tokenReadings.getReadings()) {
+    
+      String oldPosTag = analyzedToken.getPOSTag();
+      
+      if( oldPosTag == null )
+        continue;
+      
+      String requiredPostTagsRegExToApply = requiredPostTagsRegEx;
 
-    //    System.out.println("  creating suggestion for " + tokenReadings + " / " + tokenReadings.getAnalyzedToken(0) +" and tag " + posTag);
+      Matcher matcher = REQ_ANIM_INANIM_PATTERN.matcher(oldPosTag);
+      if( matcher.find() ) {
+        requiredPostTagsRegExToApply += matcher.group(0);
+      }
+      else {
+        requiredPostTagsRegExToApply += "(?:" + reqAnimInanimRegex + ")?";
+      }
 
-    try {
-      String[] synthesized = ukrainianSynthesizer.synthesize(tokenReadings.getAnalyzedToken(0), posTag, true);
+      String posTag = oldPosTag.replaceFirst(":v_[a-z]+", requiredPostTagsRegExToApply);
 
-      //      System.out.println("Synthesized: " + Arrays.asList(synthesized));
-      suggestions.addAll( Arrays.asList(synthesized) );
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+      try {
+        String[] synthesized = ukrainianSynthesizer.synthesize(analyzedToken, posTag, true);
+
+        suggestions.addAll( Arrays.asList(synthesized) );
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    
+    if( suggestions.size() > 0 ) {  // remove duplicates
+      suggestions = new ArrayList<>(new LinkedHashSet<>(suggestions));
     }
 
     List<String> reqVidminkyNames = new ArrayList<>();
@@ -468,7 +490,7 @@ public class TokenAgreementRule extends Rule {
     String msg = MessageFormat.format("Прийменник «{0}» вимагає іншого відмінка: {1}, а знайдено: {2}", 
         reqTokenReadings.getToken(), StringUtils.join(reqVidminkyNames, ", "), StringUtils.join(foundVidminkyNames, ", "));
         
-    if( tokenString.equals("їх") ) {
+    if( tokenString.equals("їх") && requiredPostTagsRegEx != null ) {
       msg += ". Можливо тут потрібно присвійний займенник «їхній»?";
       try {
         String newYihPostag = "adj:p" + requiredPostTagsRegEx + ".*";

@@ -143,7 +143,9 @@ public class TokenAgreementRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("по церковним канонам"));
     // check match positions:
     assertEquals(1, matches.length);
-
+    List<String> replacements = matches[0].getSuggestedReplacements();
+    assertTrue("Not found церковних among: " + replacements, replacements.contains("церковних"));
+    
     // свята
     assertEmptyMatch("на Купала");
     assertEmptyMatch("на Явдохи");
