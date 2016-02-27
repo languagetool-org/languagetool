@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
         title="Easy editing stylesheet" ?>
@@ -43,10 +43,15 @@ USA
     <category name="Possible Typo" type="misspelling">
         <rule id="WONT" name="wont (won't)">
             <pattern>
-                <token>wont</token>
+                <marker>
+                <token>wont<exception scope="previous" postag="PRP$"/></token>
+                </marker>
+                <token><exception>to</exception></token>
             </pattern>
             <message>Please make sure you mean 'wont' (a habit), not <suggestion>won't</suggestion>/<suggestion>won’t</suggestion> (short for 'will not')?</message>
             <example correction="won't|won’t">No, I <marker>wont</marker> do that.</example>
+            <example>We were wont to meet at that pleasant spot.</example>
+            <example>As is his wont, Tourneur shows us only parts of the set, in logical sequence, each at the moment when, and not before, we need to see it.</example>
         </rule>
         <rulegroup id="PERS_PRON_CONTRACTION" name="I'l (I'll) etc.">
             <rule>
