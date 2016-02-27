@@ -69,16 +69,23 @@ class AutomaticConfusionRuleEvaluator {
         continue;
       }
       String[] parts = line.split(";\\s*");
-      if (parts.length != 2) {
-        System.out.println("Ignoring: " + line);
-      } else {
-        try {
-          runOnPair(evaluator, line, parts[0], parts[1]);
-        } catch (RuntimeException e) {
-          e.printStackTrace();
+      try {
+        int i = 1;
+        for (String part : parts) {
+          // compare pair-wise - maybe we should compare every item with every other item?
+          if (i < parts.length) {
+            runOnPair(evaluator, line, removeComment(part), removeComment(parts[i]));
+          }
+          i++;
         }
+      } catch (RuntimeException e) {
+        e.printStackTrace();
       }
     }
+  }
+
+  private String removeComment(String str) {
+    return str.replaceFirst("\\|.*", "");
   }
 
   private void runOnPair(ConfusionRuleEvaluator evaluator, String line, String part1, String part2) throws IOException {
