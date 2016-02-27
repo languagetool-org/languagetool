@@ -16609,6 +16609,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="MUSZA_MUSZ" name="musza (muszą)">
+             <pattern>
+              <marker>
+              <token skip='5'>musza</token>
+              </marker>
+              <token postag='verb:inf.*' postag_regexp='yes'></token>
+             </pattern>
+             <message>Prawdopodobna literówka. Czy chodziło o <suggestion>muszą</suggestion>?</message>
+             <short>Prawdopodobna literówka</short>
+             <example correction='muszą'>Przepisy zmian z 22 grudnia 2015 roku, które wpływają na efektywność Trybunału Konstytucyjnego <marker>musza</marker> zostać usunięte.</example>             
+             <example>Bawię się muszą nóżką.</example>
+            </rule>            
             <rule id="WINNY_SPOSOB_W_INNY_SPOSOB" name="„winny sposób” (w inny sposób)">
              <pattern>
               <marker>
