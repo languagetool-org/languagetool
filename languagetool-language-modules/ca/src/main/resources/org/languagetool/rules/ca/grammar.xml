@@ -15457,7 +15457,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>d'</token>
                     </marker>
-                    <token regexp="yes">[qwrtypsdfgjklñzxcvbnmçŝšś].*<exception regexp="yes">(?-i)Y[^aeiou].+|W|\p{Lu}[\p{Lu}\d\-]+</exception></token>
+                    <token regexp="yes">[qwrtypsdfgjklñzxcvbnmçŝšś].*<exception regexp="yes">(?-i)Y[^aeiou].+|W|\p{Lu}[\p{Lu}\d\-]+|Xbox|Ys</exception></token>
                 </pattern>
                 <message>No s'apostrofa.</message>
                 <suggestion>de </suggestion>
@@ -22658,6 +22658,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="SOTA_CAP_CONCETE" name="sota cap concepte">
+            <pattern>
+                <token regexp="yes">sota|baix|davall</token>
+                <token>cap</token>
+                <token>concepte</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>per cap concepte</suggestion>
+            <suggestion>en cap concepte</suggestion>
+            <suggestion>de cap manera</suggestion>
+            <example correction="per cap concepte|en cap concepte|de cap manera">No t'ho deixaré fer <marker>sota cap concepte</marker>.</example>
+        </rule>
         <rule id="DONAR_COMPLIMENT" name="donar compliment">
             <pattern>
                 <token inflected="yes">donar</token>
