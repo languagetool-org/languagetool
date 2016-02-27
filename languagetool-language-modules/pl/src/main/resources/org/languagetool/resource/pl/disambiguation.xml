@@ -3713,7 +3713,7 @@
         <rule>
             <pattern>
                 <token postag="ppron3:pl:nom:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:praep.npraep">one</token>
-                <token postag="verb.*pl.*:ter.*" postag_regexp="yes"/>
+                <token postag="verb.*pl.*:ter.*" postag_regexp="yes"><exception inflected="yes">gotów</exception></token>
             </pattern>
             <disambig action="filterall"/>
         </rule>
@@ -4910,6 +4910,49 @@
         <disambig postag="verb:praet:sg:f:ter:perf:nonrefl"/>
         <example type="ambiguous" inputform="pozostała[pozostać/verb:praet:sg:f:ter:perf:nonrefl,pozostały/adj:sg:nom.voc:f:pos]"
                  outputform="pozostała[pozostać/verb:praet:sg:f:ter:perf:nonrefl]">Unia, podobnie jak jej poprzedniczka, <marker>pozostała</marker> partią wyborców o umiarkowanych poglądach.</example>
+    </rule>
+
+    <rule id="SPOSOB_W_JAKI" name="sposób, w jaki -> rzeczownik">
+        <pattern>
+            <marker>
+                <token>sposób</token>
+            </marker>
+            <token>,</token>
+            <token>w</token>
+            <token>jaki</token>
+        </pattern>
+        <disambig action="filter" postag="subst.*"/>
+    </rule>
+
+    <rule id="SPOSOB_GER_GEN" name="sposób x-owania -> rzeczownik">
+        <pattern>
+            <marker>
+                <token>sposób</token>
+            </marker>
+            <token postag="ger:sg:gen:n2.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="subst.*"/>
+    </rule>
+
+    <rule id="SPOSOB_PPRON_GER_GEN" name="sposób jego x-owania -> rzeczownik">
+        <pattern>
+            <marker>
+                <token postag="subst.*" postag_regexp="yes">sposób</token>
+                <token postag="ppron3:.*:gen.*" postag_regexp="yes"/>
+                <token postag="ger:sg:gen:n2.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id="powstanie_gen" name="powstanie x-a > rzeczownik">
+        <pattern>
+            <marker>
+                <token postag="subst.*" postag_regexp="yes">powstanie</token>
+                <token postag=".*:gen.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <rule id="ZAPADLA" name="zapadła większością > czasownik">
@@ -7049,7 +7092,7 @@
                 <marker>
                     <unify> <feature id="number"/><feature id="gender"/> <feature id="case"/>
                         <token postag="(?:subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr).*"/></token>
-                        <token postag="(?:adj|ppas|pact).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|ppas|pact|subst).*|SENT_END"/></token>
+                        <token postag="(?:adj|ppas|pact).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|ppas|pact|subst|verb:winien).*|SENT_END"/><exception inflected="yes">winny</exception></token>
                     </unify>
                 </marker>
                 <token><exception postag="(subst|ger).*" postag_regexp="yes"/></token>
@@ -7184,6 +7227,39 @@
         <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
                  outputform="sposób[sposób/subst:sg:acc:m3]">Zrobiłem to w normalny <marker>sposób</marker>.</example>
         <example type="untouched">Acanie, sposób się do wojny!</example>
+    </rule>
+
+    <rule id="unify_sposob_qub" name="unifikacja rzeczownika „sposób">
+        <pattern>
+            <marker>
+                <unify>
+                    <feature id="number"/><feature id="gender"/><feature id="case"/>
+                    <token postag="(?:adj|pact|ppas).*" postag_regexp="yes"/>
+                    <unify-ignore><token postag="adv|qub" postag_regexp="yes"/></unify-ignore>
+                    <token>sposób</token>
+                </unify>
+            </marker>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
+                 outputform="sposób[sposób/subst:sg:acc:m3]">Zrobiłem to w taki właśnie <marker>sposób</marker>.</example>
+        <example type="untouched">Acanie, sposób się do wojny!</example>
+    </rule>
+
+    <rule id="unify_powstanie" name="unifikacja rzczownika powstanie">
+        <pattern>
+            <marker>
+                <unify>
+                    <feature id="number"><type id="sg"/></feature>
+                    <feature id="gender"><type id="n2"/></feature>
+                    <feature id="case"/>
+                    <token>powstanie</token>
+                    <token postag="(?:adj|pact|ppas).*" postag_regexp="yes"/>
+                </unify>
+            </marker>
+        </pattern>
+        <disambig action="unify"/>
+
     </rule>
 
     <rule id="idzie_o" name="idzie to czasownik z o">
@@ -8115,13 +8191,28 @@
         </rule>
     </rulegroup>
 
+    <rule id="JEST_NIE_QUB_SPOSOB" name="verb:inf + jest nie sposób">
+        <pattern>
+            <token skip="3" postag="verb:inf.*" postag_regexp="yes"></token>
+            <token regexp="yes">jest|było|będzie|byłoby</token>
+            <marker>
+                <token postag="qub">nie</token>
+                <token skip="1" postag="pred">sposób</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
+                 outputform="sposób[sposób/pred]">Być eleganckim jest nie <marker>sposób</marker>.</example>
+        <example type="untouched">Nie sposób się do wojny.</example>
+    </rule>
+
     <rule id="NIE_QUB_SPOSOB" name="nie sposób jest">
         <pattern>
             <marker>
                 <token postag="qub">nie</token>
                 <token skip="1" postag="pred">sposób</token>
             </marker>
-            <token min="0" max="1" regexp="yes">jest|było|będzie</token>
+            <token min="0" max="1" regexp="yes">jest|było|będzie|byłoby</token>
             <token postag="verb:inf.*" postag_regexp="yes"></token>
         </pattern>
         <disambig action="filterall"/>
@@ -8140,7 +8231,7 @@
                 <token postag="qub">nie</token>
                 <token skip="1" postag="pred">sposób</token>
             </marker>
-            <token skip="-1" regexp="yes">jest|było|będzie
+            <token skip="-1" regexp="yes">jest|było|będzie|byłoby
                 <exception scope="next" postag_regexp="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*"/></token>
             <token postag="verb:inf.*" postag_regexp="yes"></token>
         </pattern>

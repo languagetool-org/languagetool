@@ -169,6 +169,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token>mówiąc</token>
                         </marker>
                     </antipattern>
+                    <antipattern> <!-- inna reguła -->
+                    <token>winny</token>
+                    <marker><token>sposób</token></marker>
+                    </antipattern>
                     <antipattern> <!-- byłby ... dokonał -->
                         <unify>
                             <feature id="number"/><feature id="gender"/>
@@ -335,6 +339,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                         </token>
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1">
                                             <exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp" postag_regexp="yes" scope="current"/>
+                                            <exception inflected="yes">gotów</exception>
                                         </token>
                                         <token regexp="yes">&interp_conj;</token>
 								</pattern>
@@ -413,6 +418,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>Nie sposób było w takiej ciasnocie zachować wszystkie przepisy przyzwoitego urządzenia domu.</example>
                                 <example correction="">— Właśnie przejechał; <marker>pędził jak gdyby go diabli ścigali.</marker></example>
                                 <example>Rzeka Loara opływała klasztor od strony północy.</example>
+                                <example>Natomiast nie podoba mu się sposób, w jaki zepchnięto jego stację.</example>
+                                <example>Nie jest tajemnicą, że Fidel w taki właśnie sposób się ich pozbywa.</example>
+                                <example>Zarzuca mu się sposób zachowania charakterystyczny dla pokerzysty.</example>
+                                <example>Mają być one gotowe do 2003 roku.</example>
 						</rule>
 						<!--powinien + exception: powinien był-->
 						<rule>
@@ -458,8 +467,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <antipattern>
                                     <token>nie</token>
                                     <marker><token>sposób</token></marker>
-                                    <token>jest</token>
-                                </antipattern>
+                                    <token regexp="yes">jest|było|będzie|byłoby</token>
+                                </antipattern>                                
                                 <antipattern>
                                     <token skip="-1">żal</token>
                                     <marker>
@@ -526,6 +535,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     <token skip="-1">żal</token>
                                 </marker>
                                 <token>zrobiło</token>
+                            </antipattern>
+                            <antipattern>
+                                    <token regexp="yes">jest|było|będzie|byłoby</token>
+                                    <token>nie</token>
+                                    <marker><token>sposób</token></marker>                                    
                             </antipattern>
                               <pattern>                   
                                 <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|było|byłoby</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/><exception>widać</exception></token>
@@ -16595,6 +16609,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="WINNY_SPOSOB_W_INNY_SPOSOB" name="„winny sposób” (w inny sposób)">
+             <pattern>
+              <marker>
+              <token>winny</token>
+              <token>sposób</token>
+              </marker>
+              <token><exception>na</exception></token>
+             </pattern>
+             <message>Prawdopodobna literówka. Czy chodziło o <suggestion>w inny sposób</suggestion>?</message>
+             <short>Prawdopodobna literówka</short>
+             <example correction='w inny sposób'>Coraz częściej pojawiają się jednak politycy o swojej karierze myślący <marker>winny sposób</marker>.</example>
+             <example>Coraz częściej pojawiają się jednak politycy o swojej karierze myślący w inny sposób.</example>
+             <example>Winny sposób na grypę</example>
+            </rule>            
             <rule id="DAL_DLA" name="„dal” (dla)">
                 <antipattern>
                     <token>w</token>
