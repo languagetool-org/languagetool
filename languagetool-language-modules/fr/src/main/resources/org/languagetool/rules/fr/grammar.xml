@@ -3708,6 +3708,29 @@ though, and has since been slightly modified)-->
         <example correction="Coen">Joel and Ethan <marker>Cohen</marker></example>
       </rule>
       <rule>
+        <antipattern>
+          <token case_sensitive="yes">Leonardo</token>
+          <token case_sensitive="yes">DiCaprio</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">L[eé]onardo?</token>
+          <token regexp="yes">D[ei]Capp?rio</token>
+        </pattern>
+        <message>Écrivez <suggestion>Leonardo DiCaprio</suggestion> s’il s’agit de l’acteur américain.</message>
+        <url>https://fr.wikipedia.org/wiki/Leonardo_DiCaprio</url>
+        <example correction="Leonardo DiCaprio"><marker>Leonardo DeCaprio</marker> est né en 1974.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">L[eé]onardo?</token>
+          <token regexp="yes">D[ei]</token>
+          <token regexp="yes">Capp?rio</token>
+        </pattern>
+        <message>Écrivez <suggestion>Leonardo DiCaprio</suggestion> s’il s’agit de l’acteur américain.</message>
+        <url>https://fr.wikipedia.org/wiki/Leonardo_DiCaprio</url>
+        <example correction="Leonardo DiCaprio"><marker>Leonardo Di Caprio</marker> est né en 1974.</example>
+      </rule>
+      <rule>
         <pattern>
           <token regexp="yes">Nich?olas?<exception>Nicolas</exception></token>
           <token>Cage</token>
