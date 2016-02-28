@@ -366,6 +366,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         // only apply filter rule when it matches previous tags:
         for (int i = 0; i < whTokens[fromPos].getReadingsLength(); i++) {
           if (!whTokens[fromPos].getAnalyzedToken(i).hasNoTag() &&
+              whTokens[fromPos].getAnalyzedToken(i).getPOSTag() != null &&
               whTokens[fromPos].getAnalyzedToken(i).getPOSTag().matches(disambiguatedPOS)) {
             newPOSmatches = true;
             break;
