@@ -4699,6 +4699,13 @@
         <disambig action="replace"><wd lemma="przecie" pos="qub"/></disambig>
     </rule>
 
+    <rule id="ROSNIE" name="rośnie to raczej czasownik">
+        <pattern>
+            <token>rośnie</token>
+        </pattern>
+        <disambig postag="verb:fin:sg:ter:imperf:nonrefl"/>
+    </rule>
+
     <rule id="ROZSTROJ" name="rozstrój to nie rozstroić (AdamP)">
         <pattern>
             <token>rozstrój</token>
@@ -4711,6 +4718,13 @@
             <token>rzecz</token>
         </pattern>
         <disambig action="remove"><wd lemma="rzec"/></disambig>
+    </rule>
+
+    <rule id="STAJE" name="staje to czasownik (jeśli nie z liczebnikiem, kaskada z num_congr">
+        <pattern>
+            <token postag="verb:fin:sg:ter:.*" postag_regexp="yes">staje</token>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <rule id="STALA_ADJ" name="cena/kwatera… stała">
@@ -5315,7 +5329,7 @@
 
     <rule id="WOLI_SUBST" name="woli jako genetiwus">
         <pattern>
-            <token regexp="yes" inflected="yes">choroba|wolność|wybuch|siła|akt|słabość|potęga</token>
+            <token regexp="yes" inflected="yes">choroba|wolność|wybuch|siła|akt|słabość|potęga|oświadczenie|ograniczenie|mobilizacja|wyrażenie|czynnik|wyraz|potwierdzenie|autonomia|łamanie|osłabienie|oznaka|kwestia|deklaracja|manifestacja</token>
             <marker>
                 <token>woli</token>
             </marker>
@@ -5329,7 +5343,7 @@
                 <unify>
                     <feature id="case"/><feature id="gender"><type id="f"/></feature><feature id="number"/>
                 <token>woli</token>
-                <token>swej</token>
+                <token regexp="yes">swej|politycznej</token>
                 </unify>
             </marker>
         </pattern>

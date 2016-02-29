@@ -2799,6 +2799,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="wysilać, i tak">Nie warto się <marker>wysilać i tak</marker> ludzie tego nie docenią.</example>
 						<example>Kupiłem dwa rewolwery, procę, strzelbę, armatę i tak dalej.</example>
 				</rule>
+				<rule id="BRAK_PRZECINKA_NIC_DODAC_NIC_UJAC" name="Brak przecinka w „nic dodać, nic ująć">
+				  <pattern>
+            <token>nic</token>
+            <marker>
+            <token>dodać</token>
+            <token>nic</token>
+            </marker>
+            <token>ująć</token>
+				  </pattern>
+				  <message>Brak przecinka. Powinno być: <suggestion>\2, \3</suggestion>.</message>
+				  <example correction="dodać, nic">Nic <marker>dodać nic</marker> ująć, ciasto jest jak najbardziej wyśmienite do popołudniowej niedzielnej kawki.</example>
+				</rule>
 				<rule id="PRZECINEK_CO_DO" name="Zbędny przecinek przed „co do”">
 						<pattern>
 								<marker>
@@ -5981,6 +5993,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </antipattern>
                 <antipattern>
+                <marker>
+                <token>nic</token>
+                <token>dodać</token>
+                <token min="0" max="1">,</token>
+                <token>nic</token>
+                </marker>
+                <token>ująć</token>
+                </antipattern>
+                <antipattern>
                     <marker>
                         <token>nic</token>
                         <token regexp="yes">[,a…]</token>
@@ -6093,6 +6114,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>To nie ulegało wątpliwości, że nikt inny tylko ja miałem być jego ofiarą.</example>
                     <example>Nikt, bo myślą, żeśmy już wszystko stracili… </example>
                     <example>No nic, zobaczymy!</example>
+                    <example>Nic dodać nic ująć – właśnie teraz, pod koniec semestru interesanci tacy, jak ten na obrazku, stanowią spora część osób wyczekujących na swoją kolejkę pod dziekanatem.</example>
                 </rule>
                 <rule>
                     <antipattern>
@@ -16617,6 +16639,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+          <rule id="STAJE_PALIW" name="„staje paliw” (stacje paliw)">
+            <pattern>
+            <marker>
+            <token>staje</token>
+            </marker>
+            <token regexp="yes">benzynowe|paliw|telewizyjne|radiowe|transformatorowe|radiolokacyjne|bazowe|przekaźnikowe|nadawcze|komercyjne|nadawczo-odbiorcze|diagnostyczne|meteorologiczne|krwiodawstwa|dyskietek|kolejowe|radarowe|uzdatniania|narciarskie|dializ|paliwowe|naziemne|męki|dysków|pomp|pogotowia|satelitarne|drogi|gazowe|metra|badawcze|obsługi|prywatne|muzyczne</token>
+            </pattern>                      
+            <message>Prawdopodobna literówka. Czy chodziło o <suggestion>stacje</suggestion>?</message>
+            <short>Prawdopodobna literówka</short>
+            <example correction="stacje">Hot-dog to typowe danie typu fast-food serwowane przez wiele barów szybkiej obsługi, jak także przez zwykłe przydrożne budki czy nawet <marker>staje</marker> benzynowe.</example>
+          </rule>
           <rule id="WZROST_GOSPODARZY_WZROST_GOSPODARCZY" name="„wzrost gospodarzy” (wzrost gospodarczy)">
            <pattern>
             <token>wzrost</token>
