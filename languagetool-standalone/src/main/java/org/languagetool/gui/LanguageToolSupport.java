@@ -256,28 +256,6 @@ class LanguageToolSupport {
     }
   }
 
-  private void loadConfig() {
-    final Set<String> disabledRules = config.getDisabledRuleIds();
-    if (disabledRules != null) {
-      for (final String ruleId : disabledRules) {
-        languageTool.disableRule(ruleId);
-      }
-    }
-    final Set<String> disabledCategories = config.getDisabledCategoryNames();
-    if (disabledCategories != null) {
-      for (final String categoryName : disabledCategories) {
-        languageTool.disableCategory(categoryName);
-      }
-    }
-    final Set<String> enabledRules = config.getEnabledRuleIds();
-    if (enabledRules != null) {
-      for (String ruleName : enabledRules) {
-        languageTool.enableDefaultOffRule(ruleName);
-        languageTool.enableRule(ruleName);
-      }
-    }
-  }
-
   private void reloadLanguageTool(Language language) {
     try {
       //FIXME
@@ -290,7 +268,7 @@ class LanguageToolSupport {
       //  languageTool.shutdownWhenDone();
       //}
       languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue());
-      loadConfig();
+      Tools.configureFromRules(languageTool, config);
       if (config.getNgramDirectory() != null) {
         File ngramLangDir = new File(config.getNgramDirectory(), language.getShortName());
         if (ngramLangDir.exists()) {

@@ -105,7 +105,7 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   /**
    * Set to {@code true} if this is running behind a (reverse) proxy which
-   * sets the 'X-forwarded-for' HTTP header. The last IP address (but not local IP addresses)
+   * sets the {@code X-forwarded-for} HTTP header. The last IP address (but not local IP addresses)
    * in that header will then be used for enforcing a request limitation.
    * @since 2.8
    */
@@ -555,7 +555,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private void configureFromRulesFile(JLanguageTool langTool, Language lang) throws IOException {
     print("Using options configured in " + rulesConfigurationFile);
     // If we are explicitly configuring from rules, ignore the useGUIConfig flag
-    configureFromRules(langTool, new Configuration(rulesConfigurationFile.getParentFile(),
+    org.languagetool.gui.Tools.configureFromRules(langTool, new Configuration(rulesConfigurationFile.getParentFile(),
                        rulesConfigurationFile.getName(), lang));
   }
 
@@ -563,29 +563,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     Configuration config = new Configuration(lang);
     if (internalServer && config.getUseGUIConfig()) {
       print("Using options configured in the GUI");
-      configureFromRules(langTool, config);
-    }
-  }
-
-  private void configureFromRules(JLanguageTool langTool, Configuration config) {
-    final Set<String> disabledRules = config.getDisabledRuleIds();
-    if (disabledRules != null) {
-      for (final String ruleId : disabledRules) {
-        langTool.disableRule(ruleId);
-      }
-    }
-    final Set<String> disabledCategories = config.getDisabledCategoryNames();
-    if (disabledCategories != null) {
-      for (final String categoryName : disabledCategories) {
-        langTool.disableCategory(categoryName);
-      }
-    }
-    final Set<String> enabledRules = config.getEnabledRuleIds();
-    if (enabledRules != null) {
-      for (String ruleName : enabledRules) {
-        langTool.enableDefaultOffRule(ruleName);
-        langTool.enableRule(ruleName);
-      }
+      org.languagetool.gui.Tools.configureFromRules(langTool, config);
     }
   }
 

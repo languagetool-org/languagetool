@@ -35,6 +35,7 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.filechooser.FileFilter;
 import org.apache.commons.lang.StringUtils;
+import org.languagetool.JLanguageTool;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
@@ -188,6 +189,31 @@ public final class Tools {
     dialog.setLocation(screenSize.width / 2 - frameSize.width / 2,
             screenSize.height / 2 - frameSize.height / 2);
     dialog.setLocationByPlatform(true);
+  }
+
+  /**
+   * @since 3.3
+   */
+  public static void configureFromRules(JLanguageTool langTool, Configuration config) {
+    final Set<String> disabledRules = config.getDisabledRuleIds();
+    if (disabledRules != null) {
+      for (String ruleId : disabledRules) {
+        langTool.disableRule(ruleId);
+      }
+    }
+    final Set<String> disabledCategories = config.getDisabledCategoryNames();
+    if (disabledCategories != null) {
+      for (String categoryName : disabledCategories) {
+        langTool.disableCategory(categoryName);
+      }
+    }
+    final Set<String> enabledRules = config.getEnabledRuleIds();
+    if (enabledRules != null) {
+      for (String ruleName : enabledRules) {
+        langTool.enableDefaultOffRule(ruleName);
+        langTool.enableRule(ruleName);
+      }
+    }
   }
 
   static void showRuleInfoDialog(Component parent, String title, String message, Rule rule, ResourceBundle messages, String lang) {
