@@ -5889,6 +5889,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>tylko</token>
                     </antipattern>
                     <antipattern>
+                      <marker><token>nic</token></marker>
+                      <token>z</token>
+                      <token>tych</token>
+                      <token>rzeczy</token>
+                      <token regexp="yes">[!–—\-…,;]</token>
+                    </antipattern>
+                    <antipattern>
                         <marker><token>nic</token></marker>
                         <token regexp="yes">tylko|prócz</token>
                     </antipattern>
@@ -5916,7 +5923,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </antipattern>
                     <antipattern>
                         <marker><token>nic</token></marker>
-                        <token regexp="yes">też|więc|zatem|mniej|bardziej</token>
+                        <token regexp="yes">też|wi[ęe]c|zatem|mniej|bardziej|jednak</token>
                         <token postag="adj:sg:gen:m1.m2.m3.n1.n2:.*" postag_regexp="yes"/>
                     </antipattern>
                     <antipattern>
@@ -5940,6 +5947,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token>nigdy</token>
                             <token>nic</token>
                         </marker>
+                    </antipattern>
+                    <antipattern>
+                    <marker>
+                    <token>nigdy</token>
+                    </marker>
+                    <token>za</token>
+                    <token regexp="yes">dużo|wiele</token>
+                    </antipattern>
+                    <antipattern>
+                    <marker>
+                      <token>nigdy</token>
+                    </marker>
+                    <token regexp="yes">więcej|dość</token>
                     </antipattern>
                     <antipattern>
                         <marker>
@@ -6052,6 +6072,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   </marker>
                   <token>,</token>
                 </antipattern>
+                <antipattern>
+                <token>zupa</token>                
+                <token min="0" max="1" regexp="yes">[\-„]</token>
+                <token>nic</token>
+                </antipattern>
+                <antipattern>
+                <token>tyle</token>
+                <token>co</token>
+                <token>nic</token>                
+                </antipattern>
                 <rule>
                 <pattern>
                     <token postag='SENT_START|interp:comma' postag_regexp="yes" skip='-1'><exception scope='next'>nie</exception>
@@ -6115,6 +6145,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Nikt, bo myślą, żeśmy już wszystko stracili… </example>
                     <example>No nic, zobaczymy!</example>
                     <example>Nic dodać nic ująć – właśnie teraz, pod koniec semestru interesanci tacy, jak ten na obrazku, stanowią spora część osób wyczekujących na swoją kolejkę pod dziekanatem.</example>
+                    <example>Nic z tych rzeczy - po prostu dziura w systemie jest o wiele starsza, niż myślicie.</example>
+                    <example>Zupa nic to dla mnie taki smak z dzieciństwa, a dokładniej mówiąc z czasów przedszkola.</example>
+                    <example>Ładnych rowerów było tyle co nic.</example>
+                    <example>I przysiągłem sobie jedno – nigdy więcej prywatnej komórki do celów służbowych.</example>
                 </rule>
                 <rule>
                     <antipattern>
@@ -19130,6 +19164,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Przemysław kupił flakon perfum, więc jeśli Ludwik go poprosi, będzie mógł się wyperfumować.</example>
 								<example correction="więc">Przemysław kupił flakon perfum, <marker>wiec</marker> jeśli Ludwik go poprosi, będzie mógł się wyperfumować.</example>
 						</rule>
+						<rule>
+            <pattern>
+              <token>nic</token>
+              <marker>
+              <token>wiec</token>
+              </marker>
+              <token postag="adj:sg:gen:m1.m2.m3.n1.n2:.*" postag_regexp="yes"/>
+              </pattern>
+              <message>Prawdopodobnie chodziło o wyraz <suggestion>więc</suggestion>.</message>
+								<short>Prawdopodobna literówka</short>
+              <example correction="więc">Nic <marker>wiec</marker> dziwnego, że napastnik Fernandinho był sfrustrowany.</example>
+						</rule>
 				</rulegroup>
 				<rulegroup id="OTO_CHODZI" name="„oto chodzi/chodziło” (o to...)">
 						<rule>
@@ -19376,6 +19422,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<short>Prawdopodobna literówka</short>
 						<example correction="To jest"><marker>Ot jest</marker> uczciwy minister.</example>
 				</rule>
+				<rule id="OT_TYCH_OD_TYCH" name="„ot tych” (od tych)">
+         <pattern>
+          <token>ot</token>
+          <token inflected='yes' regexp='yes' postag='adj:pl:gen:m1.m2.m3.f.n1.n2.p1.p2.p3:pos'>ten|tamten</token>
+         </pattern>
+        <message>Prawdopodobna literówka. Czy chodziło <suggestion>od <match no="2"/></suggestion> lub <suggestion>o <match no="2"/></suggestion>?</message>
+       <short>Prawdopodobna literówka</short>
+       <example correction='od tych|o tych'>Oni są lepsi <marker>ot tych</marker>.</example>
+        <example>Oni są lepsi od tych.</example>
+        </rule>
 				<rulegroup id="PO_POROSTU" name="„po porostu/porostu/protu” (po prostu)">
 						<rule>
 								<pattern>
