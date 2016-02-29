@@ -8,7 +8,7 @@
 #### English
   * added and improved rules, improved categorization of rules
   * added checks on date ranges
-  * added a few confusion pairs like best/bets, wand/want (works only with ngram data,
+  * added about 20 confusion pairs like best/bets, wand/want (works only with ngram data,
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
 
 #### German
