@@ -12461,6 +12461,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category name="Błędy ortograficzne" type="misspelling">
+           <rule id="NIEMIA_NIE_MIA" name="„niemiał” (nie miał)">
+           <pattern>
+            <token inflected='yes' postag='verb:(:?pot|praet).*' postag_regexp='yes'>niemieć</token>
+           </pattern>
+           <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion><match no="1" regexp_match="^nie" regexp_replace="nie "/></suggestion>? Wyraz „\1” jest formą czasownika „niemieć” (= stawać się niemym).</message>
+           <short>Błąd ortograficzny</short>
+           <example correction='nie miał'>Nikt z nas <marker>niemiał</marker> o tym pojęcia.</example>           
+            </rule>
             <rule id="WGLAB_W_GBLAB" name="„wgłąb” (w głąb)">
                 <pattern>
                     <marker>
