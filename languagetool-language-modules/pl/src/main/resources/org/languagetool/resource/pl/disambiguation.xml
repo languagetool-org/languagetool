@@ -4540,6 +4540,24 @@
         <disambig action="remove"><wd lemma="dyrektorzyć"/></disambig>
     </rule>
 
+    <rule id="GOSPODARZY_NA_OJCOWIZNIE" name="gospodarzy na ojcowiźnie -> czasownik">
+        <pattern>
+            <marker>
+                <token>gospodarzy</token>
+            </marker>
+            <token>na</token>
+            <token>ojcowiźnie</token>
+        </pattern>
+        <disambig postag="verb:fin:sg:ter:imperf:refl.nonrefl"/>
+    </rule>
+
+    <rule id="GOSPODARZY_SUBST" name="gospodarzy to zwykle dopełniacz">
+        <pattern>
+            <marker><token postag="subst.*" postag_regexp="yes">gospodarzy</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="gospodarzyć"/></disambig>
+    </rule>
+
     <rule id="IDZIE" name="idzie to nie id">
         <pattern>
             <token>idzie</token>

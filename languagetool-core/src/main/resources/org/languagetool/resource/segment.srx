@@ -5,7 +5,8 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="no"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes"></okpsrx:options>
-<okpsrx:sample language="pl_two" useMappedRules="no">The next sentence is not OK. this sentence should start with an uppercase letter.
+<okpsrx:sample language="pl_two" useMappedRules="yes">Unisys Corporation zwiększyła swe zaangażowanie kapitałowe w Polsce do 6 mln dol. Stała się największym inwestorem w naszym kraju spośród głównych zagranicznych dostawców technologii informatycznej -- 
+The next sentence is not OK. this sentence should start with an uppercase letter.
 
 Natomiast kiedy zbiegały na 
 dół, ktoś powiedział w gromadzie: - Patrzcie, ta nowa ma ładny 
@@ -134,7 +135,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </rule>
 <rule break="no">
 <beforebreak>\bbr\.\p{Pe}?\s</beforebreak>
-<afterbreak></afterbreak>
+<afterbreak>[^\p{Lu}]</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\bbry[gt]\.\s</beforebreak>
@@ -239,7 +240,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <!--5 dol., dop. red., dot.-->
 <rule break="no">
 <beforebreak>\bdo[tlp]\.\s</beforebreak>
-<afterbreak></afterbreak>
+<afterbreak>[^\p{Lu}]</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\bdost\.\s</beforebreak>
