@@ -97,7 +97,6 @@ class LanguageToolSupport {
 
   /**
    * LanguageTool support for a JTextComponent
-   * 
    * @since 2.7
    */
   public LanguageToolSupport(JFrame frame, JTextComponent textComponent, UndoRedoSupport support) {
@@ -194,13 +193,13 @@ class LanguageToolSupport {
     if (!toDisable.isEmpty()) {
       languageTool.getDisabledCategories().addAll(toDisable);
       // ugly hack to trigger reInitSpellCheckIgnoreWords()
-      languageTool.disableRules(new ArrayList<String>());
+      languageTool.disableRules(new ArrayList<>());
       update = true;
     }
     if (!toEnable.isEmpty()) {
       languageTool.getDisabledCategories().removeAll(toEnable);
       // ugly hack to trigger reInitSpellCheckIgnoreWords()
-      languageTool.disableRules(new ArrayList<String>());
+      languageTool.disableRules(new ArrayList<>());
       update = true;
     }
 
@@ -562,7 +561,7 @@ class LanguageToolSupport {
     TreeMap<String, ArrayList<Rule>> categories = new TreeMap<>();
     for (Rule rule : disabledRules) {
       if (!categories.containsKey(rule.getCategory().getName())) {
-        categories.put(rule.getCategory().getName(), new ArrayList<Rule>());
+        categories.put(rule.getCategory().getName(), new ArrayList<>());
       }
       categories.get(rule.getCategory().getName()).add(rule);
     }
