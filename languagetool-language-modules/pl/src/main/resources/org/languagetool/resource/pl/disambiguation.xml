@@ -4713,6 +4713,26 @@
         <disambig action="remove"><wd lemma="rzec"/></disambig>
     </rule>
 
+    <rule id="STALA_ADJ" name="cena/kwatera… stała">
+        <pattern>
+            <token postag="subst:sg:nom:f" regexp="yes">cena|kwatera|wystawa|instytucja|opłata</token>
+            <token postag="adj:sg:nom.voc:f:pos">stała</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id="BYC_ONA_STALA_ADJ" name="być ona stała -> adj">
+        <pattern>
+            <token inflected="yes">być</token>
+            <token>ona</token>
+            <marker>
+            <token>stała</token>
+            </marker>
+        </pattern>
+        <disambig postag="adj:sg:nom.voc:f:pos"/>
+    </rule>
+
+
     <rule id="SKRAJNIE" name="skrajnie to też adv">
         <pattern>
             <marker><token>skrajnie</token></marker>
