@@ -38,7 +38,12 @@ import org.xml.sax.helpers.DefaultHandler;
 public class PatternRuleLoader extends DefaultHandler {
 
   private boolean relaxedMode = false;
+  private ClassLoader classLoader;
 
+  public void setClassLoader(ClassLoader aClassLoader) {
+    classLoader = aClassLoader;
+  }
+  
   /**
    * @param file XML file with pattern rules
    */
@@ -65,6 +70,7 @@ public class PatternRuleLoader extends DefaultHandler {
   public final List<AbstractPatternRule> getRules(final InputStream is, final String filename) throws IOException {
     try {
       final PatternRuleHandler handler = new PatternRuleHandler();
+      handler.setClassLoader(classLoader);
       handler.setRelaxedMode(relaxedMode);
       final SAXParserFactory factory = SAXParserFactory.newInstance();
       final SAXParser saxParser = factory.newSAXParser();

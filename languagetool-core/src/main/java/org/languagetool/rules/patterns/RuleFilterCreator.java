@@ -26,12 +26,24 @@ import java.lang.reflect.Constructor;
  */
 public class RuleFilterCreator {
 
+  private ClassLoader classLoader;
+  
+  public void setClassLoader(ClassLoader aClassLoader) {
+    classLoader = aClassLoader;
+  }
+  
+  private ClassLoader getClassLoader() {
+    return classLoader != null ? classLoader : RuleFilterCreator.class.getClassLoader();
+  }
+  
   /**
    * @param className fully qualified class Name of a class implementing {@link RuleFilter}
    */
   public RuleFilter getFilter(String className) {
     try {
-      Class<?> aClass = Class.forName(className);
+      // Actually, it would be better here to obtain the ClassLoader from a Language instance
+      // for which the rules are created.
+      Class<?> aClass = Class.forName(className, true, getClassLoader());
       Constructor<?>[] constructors = aClass.getConstructors();
       if (constructors.length != 1) {
         throw new RuntimeException("Constructor of filter class '"

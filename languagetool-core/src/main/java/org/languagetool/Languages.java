@@ -18,16 +18,24 @@
  */
 package org.languagetool;
 
-import org.apache.commons.lang.StringUtils;
-import org.jetbrains.annotations.Nullable;
-import org.languagetool.tools.MultiKeyProperties;
-import org.languagetool.tools.StringTools;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.tools.MultiKeyProperties;
+import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
 
 /**
  * Helper methods to list all supported languages and to get language objects
@@ -36,7 +44,7 @@ import java.util.*;
  */
 public final class Languages {
 
-  private static final List<Language> LANGUAGES = getAllLanguages();
+  private static List<Language> LANGUAGES = getAllLanguages();
   private static final String PROPERTIES_PATH = "META-INF/org/languagetool/language-module.properties";
   private static final String PROPERTIES_KEY = "languageClasses";
 
@@ -70,11 +78,15 @@ public final class Languages {
     return LANGUAGES;
   }
 
+  public static void reloadLanguages() {
+    LANGUAGES = getAllLanguages();
+  }
+  
   private static List<Language> getAllLanguages() {
     final List<Language> languages = new ArrayList<>();
     final Set<String> languageClassNames = new HashSet<>();
     try {
-      final Enumeration<URL> propertyFiles = Language.class.getClassLoader().getResources(PROPERTIES_PATH);
+      final Enumeration<URL> propertyFiles = Tools.getClassLoader().getResources(PROPERTIES_PATH);
       while (propertyFiles.hasMoreElements()) {
         final URL url = propertyFiles.nextElement();
         try (InputStream inputStream = url.openStream()) {
@@ -108,7 +120,7 @@ public final class Languages {
 
   private static Language createLanguageObjects(URL url, String className) {
     try {
-      final Class<?> aClass = Class.forName(className);
+      final Class<?> aClass = Class.forName(className, true, Tools.getClassLoader());
       final Constructor<?> constructor = aClass.getConstructor();
       return (Language) constructor.newInstance();
     } catch (ClassNotFoundException e) {
@@ -272,5 +284,4 @@ public final class Languages {
     }
     return null;
   }
-
 }
