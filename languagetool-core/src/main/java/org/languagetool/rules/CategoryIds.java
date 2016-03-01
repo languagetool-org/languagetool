@@ -25,9 +25,22 @@ package org.languagetool.rules;
 public final class CategoryIds {
 
   public static final CategoryId TYPOGRAPHY = new CategoryId("TYPOGRAPHY");
+  /** Rules about detecting uppercase words where lowercase is required and vice versa. */
   public static final CategoryId CASING = new CategoryId("CASING");
   public static final CategoryId GRAMMAR = new CategoryId("GRAMMAR");
   public static final CategoryId TYPOS = new CategoryId("TYPOS");
+  public static final CategoryId PUNCTUATION = new CategoryId("PUNCTUATION");
+  /** Words that are easily confused, like 'there' and 'their' in English. */
+  public static final CategoryId CONFUSED_WORDS = new CategoryId("CONFUSED_WORDS");
+  public static final CategoryId REDUNDANCY = new CategoryId("REDUNDANCY");
+  public static final CategoryId STYLE = new CategoryId("STYLE");
+  public static final CategoryId GENDER_NEUTRALITY = new CategoryId("GENDER_NEUTRALITY");
+  public static final CategoryId SEMANTICS = new CategoryId("SEMANTICS");
+  /** Colloquial style. */
+  public static final CategoryId COLLOQUIALISMS = new CategoryId("COLLOQUIALISMS");
+  /** Rules that only make sense when editing Wikipedia (typically turned off by default in LanguageTool). */
+  public static final CategoryId WIKIPEDIA = new CategoryId("WIKIPEDIA");
+  /** Miscellaneous rules that don't fit elsewhere. */
   public static final CategoryId MISC = new CategoryId("MISC");
 
   private CategoryIds() {
