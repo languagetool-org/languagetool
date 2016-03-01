@@ -193,8 +193,6 @@ public class JLanguageTool {
    * <li>{@code /resource}</li>
    * <li>{@code /rules}</li>
    * </ul>
-   * This method is thread-safe.
-   * 
    * @return The currently set data broker which allows to obtain
    * resources from the mentioned directories above. If no
    * data broker was set, a new {@link DefaultResourceDataBroker} will
@@ -215,8 +213,6 @@ public class JLanguageTool {
    * <li>{@code /resource}</li>
    * <li>{@code /rules}</li>
    * </ul>
-   * This method is thread-safe.
-   * 
    * @param broker The new resource broker to be used.
    * @since 1.0.1
    */
