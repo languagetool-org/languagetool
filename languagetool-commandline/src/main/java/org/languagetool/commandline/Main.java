@@ -266,19 +266,19 @@ class Main {
 
   private int handleLine(final XmlPrintMode mode, final int lineOffset,
                                final StringBuilder sb) throws IOException {
-        int matches = 0;
-        String s = filterXML(sb.toString());
-        if (options.isApplySuggestions()) {
-            System.out.print(Tools.correctText(s, lt));
-          } else if (profileRules) {
-            matches += Tools.profileRulesOnLine(s, lt, currentRule);
-          } else if (!options.isTaggerOnly()) {
-            matches += CommandLineTools.checkText(s, lt, options.isApiFormat(), -1, lineOffset,
-                    matches, mode, options.isListUnknown(), Collections.<String>emptyList());
-          } else {
-            CommandLineTools.tagText(s, lt);
-          }
-        return matches;
+    int matches = 0;
+    String s = filterXML(sb.toString());
+    if (options.isApplySuggestions()) {
+        System.out.print(Tools.correctText(s, lt));
+      } else if (profileRules) {
+        matches += Tools.profileRulesOnLine(s, lt, currentRule);
+      } else if (!options.isTaggerOnly()) {
+        matches += CommandLineTools.checkText(s, lt, options.isApiFormat(), -1, lineOffset,
+                matches, mode, options.isListUnknown(), Collections.<String>emptyList());
+      } else {
+        CommandLineTools.tagText(s, lt);
+      }
+    return matches;
   }
 
   private boolean isBreakPoint(String line) {
