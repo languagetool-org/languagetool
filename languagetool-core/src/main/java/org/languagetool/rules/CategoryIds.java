@@ -16,22 +16,20 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.en;
-
-import org.languagetool.rules.CategoryId;
+package org.languagetool.rules;
 
 /**
- * Some English category ids.
+ * Category ids.
  * @since 3.3
  */
 public final class CategoryIds {
 
+  public static final CategoryId TYPOGRAPHY = new CategoryId("TYPOGRAPHY");
   public static final CategoryId CASING = new CategoryId("CASING");
   public static final CategoryId GRAMMAR = new CategoryId("GRAMMAR");
   public static final CategoryId TYPOS = new CategoryId("TYPOS");
   public static final CategoryId MISC = new CategoryId("MISC");
-  // Note: there are more in the grammar.xml
 
-  private CategoryIds() {}
-
+  private CategoryIds() {
+  }
 }

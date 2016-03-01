@@ -23,6 +23,7 @@ import java.util.*;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.CategoryIds;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 
