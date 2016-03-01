@@ -308,11 +308,11 @@ public class CommandLineOptions {
   }
 
   /**
-   * @param arg False friends filename
+   * @param file False friends filename
    * @since 2.9
    */
-  public void setFalseFriendFile(String arg) {
-    falseFriendFile = arg;
+  public void setFalseFriendFile(String file) {
+    falseFriendFile = file;
   }
 
   /**

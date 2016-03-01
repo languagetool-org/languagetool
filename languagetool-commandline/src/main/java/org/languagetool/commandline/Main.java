@@ -46,17 +46,7 @@ import static org.languagetool.tools.StringTools.*;
  */
 class Main {
 
-  private final boolean verbose;
-  private final boolean apiFormat;
-  private final boolean taggerOnly;
-  private final boolean applySuggestions;
-  private final boolean autoDetect;
-  private final boolean listUnknownWords;
-  private final boolean lineByLineMode;
-  private final boolean singleLineBreakMarksParagraph;
-  private final String[] enabledRules;
-  private final String[] disabledRules;
-  private final Language motherTongue;
+  private final CommandLineOptions options;
   
   private MultiThreadedJLanguageTool lt;
   private boolean profileRules;
@@ -66,22 +56,12 @@ class Main {
   private Rule currentRule;
 
   Main(CommandLineOptions options) throws IOException {
-    this.verbose = options.isVerbose();
-    this.apiFormat = options.isApiFormat();
-    this.taggerOnly = options.isTaggerOnly();
-    this.applySuggestions = options.isApplySuggestions();
-    this.autoDetect = options.isAutoDetect();
-    this.enabledRules = options.getEnabledRules();
-    this.disabledRules = options.getDisabledRules();
-    this.motherTongue = options.getMotherTongue();
-    this.listUnknownWords = options.isListUnknown();
-    this.lineByLineMode = options.isLineByLine();
-    this.singleLineBreakMarksParagraph = options.isSingleLineBreakMarksParagraph();
+    this.options = options;
     profileRules = false;
     bitextMode = false;
     srcLt = null;
     bRules = null;
-    lt = new MultiThreadedJLanguageTool(options.getLanguage(), motherTongue);
+    lt = new MultiThreadedJLanguageTool(options.getLanguage(), options.getMotherTongue());
     if (options.getRuleFile() != null) {
       addExternalRules(options.getRuleFile());
     }
@@ -89,7 +69,7 @@ class Main {
       lt.activateLanguageModelRules(options.getLanguageModel());
     }
     Tools.selectRules(lt, options.getDisabledCategories(), options.getEnabledCategories(),
-            new HashSet<>(Arrays.asList(disabledRules)), new HashSet<>(Arrays.asList(enabledRules)), options.isUseEnabledOnly());
+            new HashSet<>(Arrays.asList(options.getDisabledRules())), new HashSet<>(Arrays.asList(options.getEnabledRules())), options.isUseEnabledOnly());
   }
 
   private void addExternalRules(String filename) throws IOException {
@@ -170,10 +150,10 @@ class Main {
       final boolean xmlFiltering) throws IOException {
     if (bitextMode) {
       final TabBitextReader reader = new TabBitextReader(filename, encoding);
-      if (applySuggestions) {
+      if (options.isApplySuggestions()) {
         CommandLineTools.correctBitext(reader, srcLt, lt, bRules);
       } else {
-        CommandLineTools.checkBitext(reader, srcLt, lt, bRules, apiFormat);
+        CommandLineTools.checkBitext(reader, srcLt, lt, bRules, options.isApiFormat());
       }
     } else {
       final String text = getFilteredText(filename, encoding, xmlFiltering);
@@ -182,25 +162,25 @@ class Main {
       } else {
         System.err.println("Working on " + filename + "...");
       }
-      if (autoDetect) {
+      if (options.isAutoDetect()) {
         Language language = detectLanguageOfString(text);
         if (language == null) {
           System.err.println("Could not detect language well enough, using English");
           language = new English();
         }
-        changeLanguage(language, motherTongue, disabledRules, enabledRules);
+        changeLanguage(language, options.getMotherTongue(), options.getDisabledRules(), options.getEnabledRules());
         System.err.println("Using " + language.getName() + " for file " + filename);
       }
-      if (applySuggestions) {
+      if (options.isApplySuggestions()) {
         System.out.print(Tools.correctText(text, lt));
       } else if (profileRules) {
         CommandLineTools.profileRulesOnText(text, lt);
-      } else if (!taggerOnly) {
-        CommandLineTools.checkText(text, lt, apiFormat, 0, listUnknownWords);
+      } else if (!options.isTaggerOnly()) {
+        CommandLineTools.checkText(text, lt, options.isApiFormat(), 0, options.isListUnknown());
       } else {
         CommandLineTools.tagText(text, lt);
       }
-      if (listUnknownWords && !apiFormat) {
+      if (options.isListUnknown() && !options.isApiFormat()) {
         System.out.println("Unknown words: " + lt.getUnknownWords());
       }
     }
@@ -208,10 +188,10 @@ class Main {
 
   private void runOnFileLineByLine(String filename, String encoding) throws IOException {
     System.err.println("Warning: running in line by line mode. Cross-paragraph checks will not work.\n");
-    if (verbose) {
+    if (options.isVerbose()) {
       lt.setOutput(System.err);
     }
-    if (!apiFormat && !applySuggestions) {
+    if (!options.isApiFormat() && !options.isApplySuggestions()) {
       if (isStdIn(filename)) {
         System.err.println("Working on STDIN...");
       } else {
@@ -247,7 +227,7 @@ class Main {
           sb.append(line);
           lineCount++;
           // to detect language from the first input line
-          if (lineCount == 1 && autoDetect) {
+          if (lineCount == 1 && options.isAutoDetect()) {
             Language language = detectLanguageOfString(line);
             if (language == null) {
               System.err.println("Could not detect language well enough, using English");
@@ -255,8 +235,8 @@ class Main {
             }
             System.err.println("Language used is: " + language.getName());
             language.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
-                singleLineBreakMarksParagraph);
-            changeLanguage(language, motherTongue, disabledRules, enabledRules);
+                    options.isSingleLineBreakMarksParagraph());
+            changeLanguage(language, options.getMotherTongue(), options.getDisabledRules(), options.getEnabledRules());
           }
           sb.append('\n');
           tmpLineOffset++;
@@ -288,13 +268,13 @@ class Main {
                                final StringBuilder sb) throws IOException {
         int matches = 0;
         String s = filterXML(sb.toString());
-        if (applySuggestions) {
+        if (options.isApplySuggestions()) {
             System.out.print(Tools.correctText(s, lt));
           } else if (profileRules) {
             matches += Tools.profileRulesOnLine(s, lt, currentRule);
-          } else if (!taggerOnly) {
-            matches += CommandLineTools.checkText(s, lt, apiFormat, -1, lineOffset,
-                    matches, mode, listUnknownWords, Collections.<String>emptyList());
+          } else if (!options.isTaggerOnly()) {
+            matches += CommandLineTools.checkText(s, lt, options.isApiFormat(), -1, lineOffset,
+                    matches, mode, options.isListUnknown(), Collections.<String>emptyList());
           } else {
             CommandLineTools.tagText(s, lt);
           }
@@ -343,7 +323,7 @@ class Main {
         if (file.isDirectory()) {
           runRecursive(file.getAbsolutePath(), encoding, xmlFiltering);
         } else {
-          if (lineByLineMode) {
+          if (options.isLineByLine()) {
             runOnFileLineByLine(file.getAbsolutePath(), encoding);
           } else {
             runOnFile(file.getAbsolutePath(), encoding, xmlFiltering);
@@ -360,7 +340,7 @@ class Main {
    * filtering can lead to incorrect positions in the list of matching rules.
    */
   private String getFilteredText(final String filename, final String encoding, boolean xmlFiltering) throws IOException {
-    if (verbose) {
+    if (options.isVerbose()) {
       lt.setOutput(System.err);
     }
     // don't use StringTools.readStream() as that might add newlines which aren't there:
@@ -383,7 +363,7 @@ class Main {
     try {
       lt = new MultiThreadedJLanguageTool(language, motherTongue);
       Tools.selectRules(lt, disabledRules, enabledRules);
-      if (verbose) {
+      if (options.isVerbose()) {
         lt.setOutput(System.err);
       }
     } catch (Exception e) {
@@ -494,11 +474,6 @@ class Main {
     for (String s : languages) {
       System.out.println(s);
     }
-  }
-
-  private static Language detectLanguageOfFile(final String filename, final String encoding) throws IOException {
-    final String text = readStream(new FileInputStream(filename), encoding);
-    return detectLanguageOfString(text);
   }
 
   private static Language detectLanguageOfString(final String text) {
