@@ -107,7 +107,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
-    <category name="Mögliche Tippfehler">
+    <category id="TYPOS" name="Mögliche Tippfehler">
         <rule id="SCHNELLE_RUND" name="'schnelle rund (schneller und)' etc.">
             <pattern>
                 <token postag="ADJ:.*" postag_regexp="yes" regexp="yes">.+e</token>
@@ -3600,7 +3600,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
-    <category name="Leicht zu verwechselnde Wörter">
+    <category id="WORD_CONFUSION" name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
         <rule id="WEHREND" name="wehrend (während)">
             <pattern>
@@ -5071,7 +5071,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <!-- Eigennamen -->
     <!-- ====================================================================== -->
-    <category name="Prominente/geographische Eigennamen">
+    <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
         <rulegroup id="RHEINLAND_FALZ" name="'Rheinland-Falz (Rheinland-Pfalz)'">
             <rule>
@@ -6188,7 +6188,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Zusammenschreibung -->
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
-    <category name="Zusammen-/Getrenntschreibung">
+    <category id="COMPOUNDING" name="Zusammen-/Getrenntschreibung">
         <rule id="BEREIT_STEHEN" name="bereit stehen -> bereitstehen">
             <pattern>
                 <token postag="SENT_START" negate_pos="yes"/>
@@ -8190,7 +8190,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <!-- Semantische Unstimmigkeiten -->
     <!-- ====================================================================== -->
-    <category name="Semantische Unstimmigkeiten">
+    <category id="SEMANTICS" name="Semantische Unstimmigkeiten">
         <!-- TODO eigene Kategorie für Mehrdeutigkeiten? -->
         <!-- TODO hierhin auch 'Friseuse', 'Neger', 'Zigeuner'? -->
         <rule id="FUENFTES_RAD" name="drittes (fünftes) Rad am Wagen">
@@ -8733,7 +8733,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <!-- Redundanz -->
     <!-- ====================================================================== -->
-    <category name="Redundanz">
+    <category id="REDUNDANCY" name="Redundanz">
         <rulegroup id="CA_ETWA" name="'ca. etwa'">
             <rule>
                 <pattern>
@@ -9652,7 +9652,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <!-- Umgangssprache -->
     <!-- ====================================================================== -->
-    <category name="Umgangssprache" type="register">
+    <category id="COLLOQUIALISMS" name="Umgangssprache" type="register">
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
         <rule id="SO_DERMASSEN" name="'so dermaßen (so/dermaßen)'">
             <regexp>\bso dermaßen\b</regexp>
@@ -10485,7 +10485,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <!-- Stil -->
     <!-- ====================================================================== -->
-    <category name="Stil" type="style">
+    <category id="STYLE" name="Stil" type="style">
         <rule id="NICHT_ADAEQUAT_GENUG" name="'nicht adäquat genug'">
             <regexp>\bnicht adäquat genug\b</regexp>
             <message>Meinten Sie <suggestion>nicht adäquat</suggestion>, <suggestion>inadäquat</suggestion> oder <suggestion>unpassend</suggestion>?</message>
@@ -10569,7 +10569,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <!-- Geschlechtergerechte Sprache -->
     <!-- ====================================================================== -->
-    <category name="Geschlechtergerechte Sprache" type="style">
+    <category id="GENDER_NEUTRALITY" name="Geschlechtergerechte Sprache" type="style">
         <rule id="MAENNER_VS_LEUTE" name="'Kaufleute' etc. statt 'Kaufmänner'">
             <antipattern>
                 <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel)männern?</token>
@@ -10603,7 +10603,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <!-- Korrespondenz -->
     <!-- ====================================================================== -->
-    <category name="Briefe und E-Mails">
+    <category id="CORRESPONDENCE" name="Briefe und E-Mails">
         <rulegroup id="MIT_FREUNDLICHEN_GRUESSE" name="'Mit freundlichen Grüße (Grüßen)' etc.">
             <rule>
                 <regexp>Mit freundliche? Grüßen?</regexp>
@@ -11052,7 +11052,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
-    <category name="Groß-/Kleinschreibung">
+    <category id="CASING" name="Groß-/Kleinschreibung">
         <!-- too many false alarms, we need a list of uppercase multiwords first ("Vereinigte Staaten" etc.")
         <rule id="ADJ_NOMEN" name="das Deutsche (deutsche) Volk">
             <pattern>
@@ -23686,7 +23686,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <!-- Grammatik -->
     <!-- ====================================================================== -->
-    <category name="Grammatik">
+    <category id="GRAMMAR" name="Grammatik">
         <!-- TODO: testen!!
         <rulegroup id="DIE_DER" name="'der/die' (Genitiv Plural für Substantive)">
           <rule>
@@ -25314,7 +25314,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <!-- Redewendungen -->
     <!-- ====================================================================== -->
-    <category name="Redewendungen">
+    <category id="IDIOMS" name="Redewendungen">
         <rule id="A_LA_CARTE" name="Wendung: à la carte">
             <pattern>
                 <marker>
@@ -25695,7 +25695,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
-    <category name="Zeichensetzung">
+    <category id="PUNCTUATION" name="Zeichensetzung">
         <rulegroup id="XJAEHRIG" name="Xjährig (X-jährig)">
             <url>http://www.duden.de/rechtschreibung/_jaehrig</url>
             <rule>
@@ -27070,7 +27070,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <!-- Typographie -->
     <!-- ====================================================================== -->
-    <category name="Typographie">
+    <category id="TYPOGRAPHY" name="Typographie">
         <rulegroup id="TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN" name="Typografische Anführungszeichen und Prime">
             <!-- TODO: mit  spacebefore="no/yes" öffnende und schließende Anführungszeichen unterscheiden und entsprechend vorschlagen? -->
             <!-- TODO: default="off"? An geraden Anführungszeichen ist ja nichts falsch, sie sind bloß hässlich. -->
@@ -27445,7 +27445,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <!-- Sonstiges -->
     <!-- ====================================================================== -->
-    <category name="Sonstiges">
+    <category id="MISC" name="Sonstiges">
         <!-- Funktioniert so nicht, wegen Appositionen ('Die Spezies Tulpe')
         <rule id="DEPPENLEERZEICHEN" name="Komposita ohne Bindestrich">
           <pattern mark_from="1" mark_to="-1">
@@ -27559,7 +27559,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <!-- Regeln, die nur für Wikipedia-Artikel nützlich sind -->
     <!-- ====================================================================== -->
-    <category name="Wikipedia" default="off">
+    <category id="WIKIPEDIA" name="Wikipedia" default="off">
         <rulegroup id="WISSENSCHAFTLER_BEHAUPTEN" name="'viele Wissenschaftler behaupten' (etc.)">
             <url>https://de.wikipedia.org/wiki/Wikipedia:Vermeide_hohle_Phrasen</url>
             <rule>

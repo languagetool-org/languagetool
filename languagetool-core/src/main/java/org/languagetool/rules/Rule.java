@@ -216,6 +216,7 @@ public abstract class Rule {
   }
 
   public final void setCategory(final Category category) {
+    Objects.requireNonNull(category, "category cannot be null");
     this.category = category;
   }
 

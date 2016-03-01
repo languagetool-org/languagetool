@@ -431,7 +431,7 @@ public class CaseRule extends GermanRule {
 
   public CaseRule(final ResourceBundle messages, final German german) {
     this.german = german;
-    super.setCategory(new Category(messages.getString("category_case")));
+    super.setCategory(new Category(CategoryIds.CASING, messages.getString("category_case")));
     this.tagger = (GermanTagger) german.getTagger();
     addExamplePair(Example.wrong("<marker>Das laufen</marker> fällt mir schwer."),
                    Example.fixed("<marker>Das Laufen</marker> fällt mir schwer."));

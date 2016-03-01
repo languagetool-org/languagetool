@@ -37,10 +37,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import java.io.*;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.languagetool.tools.StringTools.*;
 
@@ -91,7 +88,8 @@ class Main {
     if (options.getLanguageModel() != null) {
       lt.activateLanguageModelRules(options.getLanguageModel());
     }
-    Tools.selectRules(lt, disabledRules, enabledRules, options.isUseEnabledOnly());
+    Tools.selectRules(lt, options.getDisabledCategories(), options.getEnabledCategories(),
+            new HashSet<>(Arrays.asList(disabledRules)), new HashSet<>(Arrays.asList(enabledRules)), options.isUseEnabledOnly());
   }
 
   private void addExternalRules(String filename) throws IOException {

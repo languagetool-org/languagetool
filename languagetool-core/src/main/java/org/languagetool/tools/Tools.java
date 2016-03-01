@@ -21,6 +21,7 @@ package org.languagetool.tools;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
@@ -278,7 +279,6 @@ public final class Tools {
 
   /**
    * Enable and disable rules of the given LanguageTool instance.
-   *
    * @param lt LanguageTool object
    * @param disabledRules ids of the rules to be disabled
    * @param enabledRules ids of the rules to be enabled
@@ -289,7 +289,6 @@ public final class Tools {
 
   /**
    * Enable and disable rules of the given LanguageTool instance.
-   *
    * @param lt LanguageTool object
    * @param disabledRuleIds ids of the rules to be disabled
    * @param enabledRuleIds ids of the rules to be enabled
@@ -301,20 +300,36 @@ public final class Tools {
 
   /**
    * Enable and disable rules of the given LanguageTool instance.
-   *
    * @param lt LanguageTool object
    * @param disabledRules ids of the rules to be disabled
    * @param enabledRules ids of the rules to be enabled
    * @param useEnabledOnly if set to {@code true}, disable all rules except those enabled explicitly
+   * @deprecated use {@link #selectRules(JLanguageTool, List, List, boolean)} instead (deprecated since 3.3)
    */
-  public static void selectRules(final JLanguageTool lt, final String[] disabledRules, final String[] enabledRules, boolean useEnabledOnly) {
+  public static void selectRules(JLanguageTool lt, String[] disabledRules, String[] enabledRules, boolean useEnabledOnly) {
+    selectRules(lt, Collections.emptySet(), Collections.emptySet(), new HashSet<>(Arrays.asList(disabledRules)),
+            new HashSet<>(Arrays.asList(enabledRules)), useEnabledOnly);
+  }
+
+  /**
+   * @since 3.3
+   */
+  public static void selectRules(JLanguageTool lt, Set<CategoryId> disabledCategories, Set<CategoryId> enabledCategories,
+                                 Set<String> disabledRules, Set<String> enabledRules, boolean useEnabledOnly) {
+    for (CategoryId id : disabledCategories) {
+      lt.disableCategory(id);
+    }
+    for (CategoryId id : enabledCategories) {
+      lt.enableRuleCategory(id);
+      lt.enableDefaultOffRuleCategory(id);
+    }
     // disable rules that are disabled explicitly:
     for (final String disabledRule : disabledRules) {
       lt.disableRule(disabledRule);
     }
     // enable rules
-    if (enabledRules.length > 0) {
-      final Set<String> enabledRuleIDs = new HashSet<>(Arrays.asList(enabledRules));
+    if (enabledRules.size() > 0) {
+      Set<String> enabledRuleIDs = new HashSet<>(enabledRules);
       for (String ruleName : enabledRuleIDs) {
         lt.enableDefaultOffRule(ruleName);
         lt.enableRule(ruleName);

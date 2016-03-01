@@ -61,10 +61,11 @@ public class PatternRuleLoaderTest extends TestCase {
     assertEquals("tag inheritance from rulegroup failed", ITSIssueType.Grammar, groupRules2.get(0).getLocQualityIssueType());
 
     final Set<String> categories = getCategoryNames(rules);
-    assertEquals(3, categories.size());
+    assertEquals(4, categories.size());
     assertTrue(categories.contains("misc"));
     assertTrue(categories.contains("otherCategory"));
     assertTrue(categories.contains("Test tokens with min and max attributes"));
+    assertTrue(categories.contains("A category that's off by default"));
 
     final PatternRule demoRuleWithChunk = (PatternRule) getRuleById("DEMO_CHUNK_RULE", rules);
     final List<PatternToken> patternTokens = demoRuleWithChunk.getPatternTokens();

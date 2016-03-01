@@ -20,6 +20,7 @@ package org.languagetool.commandline;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.util.Arrays;
 
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -75,6 +76,14 @@ public class CommandLineParser {
         checkArguments("-e/--enable", i, args);
         final String rules = args[++i];
         options.setEnabledRules(rules.split(","));
+      } else if (args[i].equals("--enablecategories")) {
+        checkArguments("--enablecategories", i, args);
+        final String categories = args[++i];
+        options.setEnabledCategories(Arrays.asList(categories.split(",")));
+      } else if (args[i].equals("--disablecategories")) {
+        checkArguments("--disablecategories", i, args);
+        final String categories = args[++i];
+        options.setDisabledCategories(Arrays.asList(categories.split(",")));
       } else if (args[i].equals("-l") || args[i].equals("--language")) {
         checkArguments("-l/--language", i, args);
         options.setLanguage(getLanguage(args[++i]));
@@ -160,6 +169,8 @@ public class CommandLineParser {
             + "  -d, --disable RULES      a comma-separated list of rule ids to be disabled (use no spaces between ids)\n"
             + "  -e, --enable RULES       a comma-separated list of rule ids to be enabled (use no spaces between ids)\n"
             + "  -eo, --enabledonly       disable all rules except those enabled explicitly in -e\n"
+            + "  --enablecategories CAT   a comma-separated list of category ids to be enabled (use no spaces between ids)\n"
+            + "  --disablecategories CAT  a comma-separated list of category ids to be disabled (use no spaces between ids)\n"
             + "  -t, --taggeronly         don't check, but only print text analysis (sentences, part-of-speech tags)\n"
             + "  -u, --list-unknown       also print a summary of words from the input that LanguageTool doesn't know\n"
             + "  -b2, --bitext            check bilingual texts with a tab-separated input file,\n"

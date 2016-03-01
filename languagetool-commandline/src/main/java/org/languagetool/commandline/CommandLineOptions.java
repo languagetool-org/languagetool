@@ -20,14 +20,18 @@ package org.languagetool.commandline;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
+import org.languagetool.rules.CategoryId;
 
 import java.io.File;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Options that can be set via command line arguments.
  */
 public class CommandLineOptions {
+
+  private final Set<CategoryId> enabledCategories = new HashSet<>();
+  private final Set<CategoryId> disabledCategories = new HashSet<>();
 
   private boolean printUsage = false;
   private boolean printVersion = false;
@@ -251,6 +255,30 @@ public class CommandLineOptions {
 
   public void setEnabledRules(String[] enabledRules) {
     this.enabledRules = Objects.requireNonNull(enabledRules);
+  }
+
+  /** @since 3.3 */
+  public void setEnabledCategories(List<String> categoryIds) {
+    for (String categoryId : categoryIds) {
+      enabledCategories.add(new CategoryId(categoryId));
+    }
+  }
+
+  /** @since 3.3 */
+  public Set<CategoryId> getEnabledCategories() {
+    return Collections.unmodifiableSet(enabledCategories);
+  }
+
+  /** @since 3.3 */
+  public void setDisabledCategories(List<String> categoryIds) {
+    for (String categoryId : categoryIds) {
+      disabledCategories.add(new CategoryId(categoryId));
+    }
+  }
+
+  /** @since 3.3 */
+  public Set<CategoryId> getDisabledCategories() {
+    return Collections.unmodifiableSet(disabledCategories);
   }
 
   /** @since 2.9 */

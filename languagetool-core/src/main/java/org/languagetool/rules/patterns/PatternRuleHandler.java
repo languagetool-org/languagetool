@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang.ObjectUtils;
 import org.languagetool.Languages;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
@@ -92,10 +93,11 @@ public class PatternRuleHandler extends XMLRuleHandler {
     switch (qName) {
       case "category":
         final String catName = attrs.getValue(NAME);
+        final String catId = attrs.getValue(ID);
         Category.Location location = YES.equals(attrs.getValue(EXTERNAL)) ?
                 Category.Location.EXTERNAL : Category.Location.INTERNAL;
         final boolean onByDefault = !OFF.equals(attrs.getValue(DEFAULT));
-        category = new Category(catName, location, onByDefault);
+        category = new Category(catId != null ? new CategoryId(catId) : null, catName, location, onByDefault);
         if (attrs.getValue(TYPE) != null) {
           categoryIssueType = attrs.getValue(TYPE);
         }
@@ -630,7 +632,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
     if (category == null) {
       throw new RuntimeException("Cannot activate rule '" + id + "', it is outside of a <category>...</category>");
     }
-    if (category.isDefaultOff() && !defaultOn) {
+    if (defaultOff) {
       rule.setDefaultOff();
     }
     if (url != null && url.length() > 0) {

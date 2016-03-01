@@ -116,7 +116,9 @@ public class JLanguageTool {
   private final List<Rule> builtinRules;
   private final List<Rule> userRules = new ArrayList<>(); // rules added via addRule() method
   private final Set<String> disabledRules = new HashSet<>();
+  private final Set<CategoryId> disabledRuleCategories = new HashSet<>();
   private final Set<String> enabledRules = new HashSet<>();
+  private final Set<CategoryId> enabledRuleCategories = new HashSet<>();
   private final Set<String> disabledCategories = new HashSet<>();
 
   private final Language language;
@@ -377,11 +379,20 @@ public class JLanguageTool {
 
   /**
    * Disable the given rule category so the check methods like {@link #check(String)} won't use it.
-   * 
-   * @param categoryName the id of the category to disable - no error will be thrown if the id does not exist
+   * @param categoryName the name of the category to disable - no error will be thrown if the id does not exist
+   * @deprecated use {@link #disableCategory(CategoryId)} instead (deprecated since 3.3)
    */
   public void disableCategory(final String categoryName) {
     disabledCategories.add(categoryName);
+  }
+
+  /**
+   * Disable the given rule category so the check methods like {@link #check(String)} won't use it.
+   * @param id the id of the category to disable - no error will be thrown if the id does not exist
+   * @since 3.3
+   */
+  public void disableCategory(CategoryId id) {
+    disabledRuleCategories.add(id);
   }
 
   /**
@@ -400,11 +411,18 @@ public class JLanguageTool {
 
   /**
    * Enable a rule that is switched off by default ({@code default="off"} in the XML).
-   * 
    * @param ruleId the id of the turned off rule to enable.
    */
   public void enableDefaultOffRule(final String ruleId) {
     enabledRules.add(ruleId);
+  }
+
+  /**
+   * Enable a categories' rules that is switched off by default ({@code default="off"} in the XML).
+   * @since 3.3
+   */
+  public void enableDefaultOffRuleCategory(CategoryId id) {
+    enabledRuleCategories.add(id);
   }
 
   /**
@@ -419,12 +437,24 @@ public class JLanguageTool {
    * Note that you need to use {@link #enableDefaultOffRule(String)} for rules that
    * are off by default. This will <em>not</em> throw an exception if the given rule id 
    * doesn't exist.
-   * 
    * @param ruleId the id of the rule to enable
    */
   public void enableRule(final String ruleId) {
     if (disabledRules.contains(ruleId)) {
       disabledRules.remove(ruleId);
+    }
+  }
+
+  /**
+   * Re-enable all rules of the given category so the check methods like {@link #check(String)} will use it.
+   * Note that you need to use {@link #enableDefaultOffRuleCategory(CategoryId)} for categories that
+   * are off by default. This will <em>not</em> throw an exception if the given rule id 
+   * doesn't exist.
+   * @since 3.3
+   */
+  public void enableRuleCategory(CategoryId id) {
+    if (disabledRuleCategories.contains(id)) {
+      disabledRuleCategories.remove(id);
     }
   }
 
@@ -601,8 +631,16 @@ public class JLanguageTool {
       return true;
     }
     Category category = rule.getCategory();
-    if (category != null && disabledCategories.contains(category.getName())) {
-      return true;
+    if (category != null) {
+      if (disabledRuleCategories.contains(category.getId())) {
+        return true;
+      }
+      if (disabledCategories.contains(category.getName())) {
+        return true;
+      }
+      if (category.isDefaultOff() && !enabledRuleCategories.contains(category.getId())) {
+        return true;
+      }
     }
     return false;
   }
@@ -815,8 +853,18 @@ public class JLanguageTool {
     // work on different texts with the same data. However, it could be useful
     // to keep the state information if we're checking a continuous text.    
     for (final Rule rule : rules) {
-      boolean isDisabled = disabledRules.contains(rule.getId()) || (rule.isDefaultOff() && !enabledRules.contains(rule.getId()));
-      if (!isDisabled) {
+      Category ruleCategory = rule.getCategory();
+      boolean isCategoryDisabled = (disabledRuleCategories.contains(ruleCategory.getId()) || rule.getCategory().isDefaultOff()) && !enabledRuleCategories.contains(ruleCategory.getId());
+      boolean isRuleDisabled = disabledRules.contains(rule.getId()) || (rule.isDefaultOff() && !enabledRules.contains(rule.getId()));
+      boolean isEnabled = true;
+      if (isCategoryDisabled && enabledRules.contains(rule.getId())) {
+        isEnabled = true;
+      } else if (isCategoryDisabled) {
+        isEnabled = false;
+      } else if (isRuleDisabled) {
+        isEnabled = false;
+      }
+      if (isEnabled) {
         rulesActive.add(rule);
       }
     }    

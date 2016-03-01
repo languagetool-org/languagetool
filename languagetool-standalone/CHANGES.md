@@ -44,6 +44,9 @@
   * Speed up for input with short sentences
 
 #### Command-line
+  * new parameters `--enablecategories` and `--disablecategories`
+    to activate/deactivate all rules in a category
+    (https://github.com/languagetool-org/languagetool/issues/66)
   * Bugfix: for files >= 64,000 bytes, the position information
     (`fromx` and `tox`) could be wrong. Also, rules that work
     across paragraphs like the German word coherency rule wouldn't

@@ -110,7 +110,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </phrase>
     </phrases>
 
-    <category name="misc">
+    <category id="MISC" name="misc">
         <rule id="REGEX_DEMO_RULE" name="Find 'foo bar'">
             <regexp>(fo[ou]) bar</regexp>
             <message>Did you mean <suggestion>\1 baz</suggestion>?</message>
@@ -273,7 +273,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
 
-    <category name="otherCategory" type="addition">
+    <category id="OTHER" name="otherCategory" type="addition">
         <rule id="TEST_GO" name="another test of phrases">
             <pattern>
                 <token>foo</token>
@@ -564,7 +564,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         </category>
-    <category name="Test tokens with min and max attributes">
+    <category id="MINMAX" name="Test tokens with min and max attributes">
         <rule id="TEST_MIN_OCCURRENCE" name="Test whether minOccurrence is handled correctly">
             <pattern>
                 <token min="2">blah</token>
@@ -732,4 +732,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         -->
     </category>
+
+    <category id="DEFAULT_OFF" name="A category that's off by default" default="off">
+        <rule id="IN_OFF_CATEGORY" name="Rule 1">
+            <pattern>
+                <token>foobar</token>
+            </pattern>
+            <message>bla</message>
+            <example correction="">Some <marker>foobar</marker></example>
+        </rule>
+        <rule id="IN_OFF_CATEGORY_OFF_ITSELF" name="Rule 2" default="off">
+            <pattern>
+                <token>foobar</token>
+            </pattern>
+            <message>bla</message>
+            <example correction="">Some <marker>foobar</marker></example>
+        </rule>
+    </category>
+    
 </rules>

@@ -25,6 +25,7 @@ import org.languagetool.language.English;
 import org.languagetool.language.German;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
+import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -56,6 +57,34 @@ public class JLanguageToolTest {
     }
     List<String> ruleIds2 = getActiveRuleIds(langTool);
     assertTrue(ruleIds2.contains("DEMO_RULE_OFF"));
+  }
+
+  @Test
+  public void testEnableRulesCategories() throws Exception {
+    JLanguageTool lt = new JLanguageTool(new Demo());
+    List<String> ruleIds = getActiveRuleIds(lt);
+    assertTrue(ruleIds.contains("DEMO_RULE"));
+    assertFalse(ruleIds.contains("IN_OFF_CATEGORY"));
+    
+    lt.disableCategory(new CategoryId("MISC"));
+    List<String> ruleIds2 = getActiveRuleIds(lt);
+    assertFalse(ruleIds2.contains("DEMO_RULE"));
+    assertFalse(ruleIds2.contains("IN_OFF_CATEGORY"));
+    
+    lt.enableRuleCategory(new CategoryId("MISC"));
+    List<String> ruleIds3 = getActiveRuleIds(lt);
+    assertTrue(ruleIds3.contains("DEMO_RULE"));
+    assertFalse(ruleIds3.contains("IN_OFF_CATEGORY"));
+    
+    lt.enableDefaultOffRuleCategory(new CategoryId("DEFAULT_OFF"));
+    List<String> ruleIds4 = getActiveRuleIds(lt);
+    assertTrue(ruleIds4.contains("DEMO_RULE"));
+    assertTrue(ruleIds4.contains("IN_OFF_CATEGORY"));
+    assertFalse(ruleIds4.contains("IN_OFF_CATEGORY_OFF_ITSELF"));
+    
+    lt.enableDefaultOffRule("IN_OFF_CATEGORY_OFF_ITSELF");
+    List<String> ruleIds5 = getActiveRuleIds(lt);
+    assertTrue(ruleIds5.contains("IN_OFF_CATEGORY_OFF_ITSELF"));
   }
 
   private List<String> getActiveRuleIds(JLanguageTool langTool) {
