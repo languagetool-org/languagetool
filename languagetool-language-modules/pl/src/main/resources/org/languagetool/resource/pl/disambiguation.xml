@@ -10594,5 +10594,20 @@
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule id="ignore_numbers" name="pomijanie liczb w sprawdzaniu pisowni">
+        <pattern>
+            <token regexp="yes">\d+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="ignore_numbers_compounds" name="pomijanie liczb w sprawdzaniu pisowni wyrazów złożonych">
+        <pattern>
+            <token regexp="yes">\d+-\p{L}+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+
 
 </rules>

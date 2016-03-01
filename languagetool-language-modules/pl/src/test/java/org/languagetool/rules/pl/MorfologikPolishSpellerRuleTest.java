@@ -40,6 +40,9 @@ public class MorfologikPolishSpellerRuleTest {
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("To jest test bez jakiegokolwiek błędu.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Żółw na starość wydziela dziwną woń.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Żółw na starość wydziela dziwną woń numer 1234.")).length);
+
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("W MI-6 pracuje 15-letni agent.")).length);
     //test for "LanguageTool":
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("LanguageTool jest świetny!")).length);
 
@@ -84,6 +87,8 @@ public class MorfologikPolishSpellerRuleTest {
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("premoc")).length);
 
+    // "0" instead "o"...
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("dziwneg0")).length);
   }
 
 }
