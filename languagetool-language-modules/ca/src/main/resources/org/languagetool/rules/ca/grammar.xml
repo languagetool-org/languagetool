@@ -27928,17 +27928,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="AL_RESPECTE_DE" name="*al respecte de/respecte de">
             <pattern>
+                <token><exception regexp="yes">per|dret</exception></token>
                 <marker>
                     <token>a</token>
                     <token>l</token>
                     <token>respecte</token>
                     <token regexp="yes">de|d'</token>
                 </marker>
-                <token negate="yes">manera</token>
+                <token><exception regexp="yes">manera|part</exception></token>
             </pattern>
             <message>Expressió incorrecta.</message>
             <suggestion>respecte a</suggestion>
-            <suggestion>respecte <match no="4"/></suggestion>
+            <suggestion>respecte <match no="5"/></suggestion>
             <suggestion>pel que fa a</suggestion>
             <suggestion>quant a</suggestion>
             <example correction="Respecte a|Respecte de|Pel que fa a|Quant a"><marker>Al respecte de</marker>ls cursos de valencià</example>
@@ -31186,7 +31187,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="PROCESSAT" name="processat/processament">
             <pattern>
-                <token><exception postag="RG_anteposat|N.*" postag_regexp="yes"/><exception inflected="yes">tenir</exception></token>
+                <token><exception postag="RG_anteposat|N.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">tenir|resultar</exception></token>
                 <marker>
                     <token regexp="yes">processats?<exception postag="_GV_" /></token>
                 </marker>
@@ -31196,7 +31197,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Possible error</short>
             <example correction="processament">El <marker>processat</marker> de les imatges.</example>
             <example>Han processat l'acusat.</example>
-            <example>greix processat de pollastre</example>
+            <example>greix processat de pollastre.</example>
+            <example>És processat per la maquinària.</example>
+            <example>Va resultar processat.</example>
         </rule>
         <rule id="MELENA" name="melena / cabellera">
             <pattern>
@@ -31940,30 +31943,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="PROVAR_TASTAR" name="provar / tastar">
             <!-- es pot completar amb més paraules -->
+            <antipattern>
+                <marker>
+                    <token inflected="yes">provar</token>
+                    <token regexp="yes">de|d'|que</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="7">provar</token>
+                        <token inflected="yes" skip="7">provar<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     </marker>
                     <token inflected="yes" regexp="yes">&vocabulari_menjar;</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">tastar</match></suggestion> en lloc de "<match no="1"/>"?</message>
                 <short>Possible confusió</short>
                 <example correction="tastar">No va voler <marker>provar</marker> la carn.</example>
-                <example>doblegà el full</example>
+                <example>Provà de riure mentre agafava el vi.</example>
             </rule>
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes" skip="7">&vocabulari_menjar;</token>
                     <marker>
-                        <token inflected="yes">provar</token>
+                        <token inflected="yes">provar<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception>que</exception></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">tastar</match></suggestion> en lloc de "<match no="2"/>"?</message>
                 <short>Possible confusió</short>
                 <example correction="tastà">El vi no el <marker>provà</marker>.</example>
-                <example>Tasta el vi.</example>
+                <example>El bon vi va provar que tenia raó.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DOBLAR_DOBLEGAR" name="doblar / doblegar">
