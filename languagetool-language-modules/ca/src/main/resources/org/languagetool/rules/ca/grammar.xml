@@ -999,10 +999,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="CONCORDANCES_PRONOM_NEUTRE" name="concordances amb pronom neutre">
             <rule>
+                <antipattern>
+                    <marker>
+                        <token>tot</token>
+                        <token>i</token>
+                        <token>això</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token postag="PD0NS000"><exception postag="complement.*" postag_regexp="yes" /></token>
                     <marker>
-                        <token postag="A..FS.*|V.P..SF.?|PX.FS.*|A...P.*|V.P..P..|PX..P.*" postag_regexp="yes"><exception postag="A..[MC][SN0].*|V.P..SM.?|PX.[MC][SN0].*" postag_regexp="yes"></exception></token>
+                        <token postag="A..FS.*|V.P..SF.?|PX.FS.*|A...P.*|V.P..P..|PX..P.*" postag_regexp="yes"><exception postag="A..[MC][SN0].*|V.P..SM.?|PX.[MC][SN0].*|_GN_.*" postag_regexp="yes"></exception></token>
                     </marker>
                 </pattern>
                 <message>Error de concordança.</message>
@@ -1010,12 +1017,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Error de concordança</short>
                 <example correction="vermell">Això <marker>vermells</marker>.</example>
                 <example>Això vermell.</example>
+                <example>Va fer això diverses vegades.</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">algú|ningú<exception postag="complement.*" postag_regexp="yes" /></token>
                     <marker>
-                        <token postag="A..FS.*|V.P..SF.?|PX.FS.*|A...P.*|V.P..P..|PX..P.*" postag_regexp="yes"><exception postag="A..[MC][SN0].*|V.P..SM.?|PX.[MC][SN0].*" postag_regexp="yes"></exception></token>
+                        <token postag="A..FS.*|V.P..SF.?|PX.FS.*|A...P.*|V.P..P..|PX..P.*" postag_regexp="yes"><exception postag="A..[MC][SN0].*|V.P..SM.?|PX.[MC][SN0].*|_GN_.*" postag_regexp="yes"></exception></token>
                     </marker>
                 </pattern>
                 <message>Error de concordança.</message>
@@ -1023,6 +1031,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Error de concordança</short>
                 <example correction="altre">Algú <marker>altra</marker> ho haurà de fer.</example>
                 <example>Ningú decent.</example>
+                <example>Li ho va dir algú diverses vegades</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_DET_POSSESSIU" name="concordances determinant + possessiu (+ nom)">
