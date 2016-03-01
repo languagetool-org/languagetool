@@ -120,23 +120,16 @@ public class JLanguageTool {
   private final Set<String> enabledRules = new HashSet<>();
   private final Set<CategoryId> enabledRuleCategories = new HashSet<>();
   private final Set<String> disabledCategories = new HashSet<>();
-
   private final Language language;
   private final Language motherTongue;
 
   private PrintStream printStream;
-
   private int sentenceCount;
-
   private boolean listUnknownWords;
   private Set<String> unknownWords;  
 
   /**
-   * Constants for correct paragraph-rule handling:
-   * <ul>
-   * <li>NORMAL -  all kinds of rules run</li>
-   * <li>ONLYPARA - only paragraph-level rules</li>
-   * <li>ONLYNONPARA - only sentence-level rules</li></ul>
+   * Constants for correct paragraph-rule handling.
    */
   public enum ParagraphHandling {
     /**
@@ -263,7 +256,6 @@ public class JLanguageTool {
   /**
    * Load pattern rules from an XML file. Use {@link #addRule(Rule)} to add these
    * rules to the checking process.
-   *
    * @param filename path to an XML file in the classpath or in the filesystem - the classpath is checked first
    * @return a List of {@link PatternRule} objects
    */
@@ -284,7 +276,6 @@ public class JLanguageTool {
    * that match the current text language and the mother tongue specified in the
    * JLanguageTool constructor. Use {@link #addRule(Rule)} to add these rules to the
    * checking process.
-   *
    * @param filename path to an XML file in the classpath or in the filesystem - the classpath is checked first
    * @return a List of {@link PatternRule} objects, or an empty list if mother tongue is not set
    */
@@ -489,7 +480,6 @@ public class JLanguageTool {
   /**
    * The main check method. Tokenizes the text into sentences and matches these
    * sentences against all currently active rules.
-   * 
    * @param annotatedText The text to be checked, created with {@link AnnotatedTextBuilder}. 
    *          Call this method with the complete text to be checked. If you call it
    *          repeatedly with smaller chunks like paragraphs or sentence, those rules that work across
@@ -543,7 +533,6 @@ public class JLanguageTool {
   
   protected List<AnalyzedSentence> analyzeSentences(final List<String> sentences) throws IOException {
     final List<AnalyzedSentence> analyzedSentences = new ArrayList<>();
-    
     int j = 0;
     for (String sentence : sentences) {
       AnalyzedSentence analyzedSentence = getAnalyzedSentence(sentence);
@@ -556,7 +545,6 @@ public class JLanguageTool {
       analyzedSentences.add(analyzedSentence);
       printSentenceInfo(analyzedSentence);
     }
-    
     return analyzedSentences;
   }
 
@@ -742,7 +730,6 @@ public class JLanguageTool {
    * Tokenizes the given {@code sentence} into words and analyzes it.
    * This is the same as {@link #getAnalyzedSentence(String)} but it does not run
    * the disambiguator.
-   * 
    * @param sentence sentence to be analyzed
    * @since 0.9.8
    */
@@ -800,12 +787,10 @@ public class JLanguageTool {
 
   private Map<Integer, String> replaceSoftHyphens(List<String> tokens) {
     Pattern ignoredCharacterRegex = language.getIgnoredCharactersRegex();
-    
     final Map<Integer, String> ignoredCharsTokens = new HashMap<>();
     if (ignoredCharacterRegex == null) {
       return ignoredCharsTokens;
     }
-
     for (int i = 0; i < tokens.size(); i++) {
       if ( ignoredCharacterRegex.matcher(tokens.get(i)).find() ) {
         ignoredCharsTokens.put(i, tokens.get(i));
@@ -867,7 +852,6 @@ public class JLanguageTool {
   /**
    * Get pattern rules by Id and SubId. This returns a list because rules that use {@code <or>...</or>}
    * are internally expanded into several rules.
-   * 
    * @return a List of {@link Rule} objects
    * @since 2.3
    */
