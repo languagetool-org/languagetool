@@ -35,7 +35,7 @@ import java.util.*;
 
 /**
  * Dump the occurrences of homophone 3grams to STDOUT. Useful to have a more
- * compare file with homophone occurrences, as searching the homophones and
+ * compact file with homophone occurrences, as searching the homophones and
  * their contexts in the Lucene index requires iterating all terms and is
  * thus slow.
  * @since 2.8
