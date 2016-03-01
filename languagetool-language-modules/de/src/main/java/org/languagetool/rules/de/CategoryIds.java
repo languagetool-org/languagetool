@@ -21,6 +21,7 @@ package org.languagetool.rules.de;
 import org.languagetool.rules.CategoryId;
 
 /**
+ * Some German category ids.
  * @since 3.3
  */
 public final class CategoryIds {
