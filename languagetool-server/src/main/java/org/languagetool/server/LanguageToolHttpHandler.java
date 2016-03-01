@@ -25,12 +25,14 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.gui.Configuration;
 import org.languagetool.language.LanguageIdentifier;
+import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.tools.RuleMatchAsXmlSerializer;
@@ -152,7 +154,7 @@ class LanguageToolHttpHandler implements HttpHandler {
    * @since 3.0
    */
   void setRulesConfigurationFile(File configFile) {
-	  this.rulesConfigurationFile = configFile;
+    this.rulesConfigurationFile = configFile;
   }
 
   @Override
@@ -380,19 +382,18 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (enabledParam != null) {
       enabledRules.addAll(Arrays.asList(enabledParam.split(",")));
     }
-    
-    final String disabledParam = parameters.get("disabled");
-    final List<String> disabledRules = new ArrayList<>();
-    if (disabledParam != null) {
-      disabledRules.addAll(Arrays.asList(disabledParam.split(",")));
-    }
 
-    if (disabledRules.size() > 0 && useEnabledOnly) {
-      throw new IllegalArgumentException("You cannot specify disabled rules using enabledOnly=yes");
+    final List<String> disabledRules = getCommaSeparatedStrings("disabled", parameters);
+    final List<CategoryId> enabledCategories = getCategoryIds("enabledCategories", parameters);
+    final List<CategoryId> disabledCategories = getCategoryIds("disabledCategories", parameters);
+
+    if ((disabledRules.size() > 0 || disabledCategories.size() > 0) && useEnabledOnly) {
+      throw new IllegalArgumentException("You cannot specify disabled rules or categories using enabledOnly=yes");
     }
     
-    final boolean useQuerySettings = enabledRules.size() > 0 || disabledRules.size() > 0;
-    final QueryParams params = new QueryParams(enabledRules, disabledRules, useEnabledOnly, useQuerySettings);
+    final boolean useQuerySettings = enabledRules.size() > 0 || disabledRules.size() > 0 ||
+                                     enabledCategories.size() > 0 || disabledCategories.size() > 0;
+    final QueryParams params = new QueryParams(enabledRules, disabledRules, enabledCategories, disabledCategories, useEnabledOnly, useQuerySettings);
     
     final Future<List<RuleMatch>> future = executorService.submit(new Callable<List<RuleMatch>>() {
       @Override
@@ -435,6 +436,26 @@ class LanguageToolHttpHandler implements HttpHandler {
             + "handlers:" + handleCount + ", queue:" + workQueue.size() + ", " + matches.size() + " matches, "
             + (System.currentTimeMillis() - timeStart) + "ms, agent:" + agent
             + ", " + messageSent);
+  }
+
+  @NotNull
+  private List<String> getCommaSeparatedStrings(String paramName, Map<String, String> parameters) {
+    final String disabledParam = parameters.get(paramName);
+    final List<String> result = new ArrayList<>();
+    if (disabledParam != null) {
+      result.addAll(Arrays.asList(disabledParam.split(",")));
+    }
+    return result;
+  }
+
+  @NotNull
+  private List<CategoryId> getCategoryIds(String paramName, Map<String, String> parameters) {
+    List<String> stringIds = getCommaSeparatedStrings(paramName, parameters);
+    final List<CategoryId> ids = new ArrayList<>();
+    for (String stringId : stringIds) {
+      ids.add(new CategoryId(stringId));
+    }
+    return ids;
   }
 
   private boolean getLanguageAutoDetect(Map<String, String> parameters) {
@@ -541,7 +562,8 @@ class LanguageToolHttpHandler implements HttpHandler {
       lt.activateLanguageModelRules(languageModelDir);
     }
     if (params.useQuerySettings) {
-      Tools.selectRules(lt, params.disabledRules, params.enabledRules, params.useEnabledOnly);
+      Tools.selectRules(lt, new HashSet<>(params.disabledCategories), new HashSet<>(params.enabledCategories),
+                        new HashSet<>(params.disabledRules), new HashSet<>(params.enabledRules), params.useEnabledOnly);
     } else {
       if (rulesConfigurationFile != null) {
         configureFromRulesFile(lt, lang);
@@ -592,12 +614,17 @@ class LanguageToolHttpHandler implements HttpHandler {
   private class QueryParams {
     final List<String> enabledRules;
     final List<String> disabledRules;
+    final List<CategoryId> enabledCategories;
+    final List<CategoryId> disabledCategories;
     final boolean useEnabledOnly;
     final boolean useQuerySettings;
 
-    QueryParams(List<String> enabledRules, List<String> disabledRules, boolean useEnabledOnly, boolean useQuerySettings) {
+    QueryParams(List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
+                boolean useEnabledOnly, boolean useQuerySettings) {
       this.enabledRules = enabledRules;
       this.disabledRules = disabledRules;
+      this.enabledCategories = enabledCategories;
+      this.disabledCategories = disabledCategories;
       this.useEnabledOnly = useEnabledOnly;
       this.useQuerySettings = useQuerySettings;
     }

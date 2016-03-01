@@ -21,6 +21,7 @@ package org.languagetool.tools;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -319,9 +320,20 @@ public final class Tools {
     for (CategoryId id : disabledCategories) {
       lt.disableCategory(id);
     }
-    for (CategoryId id : enabledCategories) {
-      lt.enableRuleCategory(id);
-      lt.enableDefaultOffRuleCategory(id);
+    if (enabledCategories.size() > 0) {
+      for (CategoryId id : enabledCategories) {
+        lt.enableDefaultOffRuleCategory(id);
+        lt.enableRuleCategory(id);
+      }
+      if (useEnabledOnly) {
+        // disable all rules except those in explicitly enabled categories, if any:
+        for (Rule rule : lt.getAllRules()) {
+          Category category = rule.getCategory();
+          if (category == null || !enabledCategories.contains(category.getId())) {
+            lt.disableRule(rule.getId());
+          }
+        }
+      }
     }
     // disable rules that are disabled explicitly:
     for (final String disabledRule : disabledRules) {
@@ -329,20 +341,17 @@ public final class Tools {
     }
     // enable rules
     if (enabledRules.size() > 0) {
-      Set<String> enabledRuleIDs = new HashSet<>(enabledRules);
-      for (String ruleName : enabledRuleIDs) {
+      for (String ruleName : enabledRules) {
         lt.enableDefaultOffRule(ruleName);
         lt.enableRule(ruleName);
       }
-      // disable all rules except those enabled explicitly, if any:
       if (useEnabledOnly) {
-        List<String> rulesToBeDisabled = new ArrayList<>();
+        // disable all rules except those enabled explicitly, if any:
         for (Rule rule : lt.getAllRules()) {
-          if (!enabledRuleIDs.contains(rule.getId())) {
-            rulesToBeDisabled.add(rule.getId());
+          if (!enabledRules.contains(rule.getId())) {
+            lt.disableRule(rule.getId());
           }
         }
-        lt.disableRules(rulesToBeDisabled);
       }
     }
   }

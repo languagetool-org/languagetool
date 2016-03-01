@@ -42,6 +42,9 @@
 
 #### Embedded HTTPS server
   * Speed up for input with short sentences
+  * Added new parameters `enabledCategories` and `disabledCategories`
+    that take a comma-separated list of categories to enable/disable.
+    Fixes https://github.com/languagetool-org/languagetool/pull/326.
 
 #### Command-line
   * new parameters `--enablecategories` and `--disablecategories`
