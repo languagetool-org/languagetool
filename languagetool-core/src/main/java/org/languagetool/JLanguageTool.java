@@ -520,7 +520,7 @@ public class JLanguageTool {
     // boundaries. These need to be reset so the checks don't suddenly
     // work on different texts with the same data. However, it could be useful
     // to keep the state information if we're checking a continuous text.    
-    for (final Rule rule : allRules) {
+    for (Rule rule : allRules) {
       rule.reset();
     }
 
@@ -549,7 +549,7 @@ public class JLanguageTool {
     final List<AnalyzedSentence> analyzedSentences = new ArrayList<>();
     
     int j = 0;
-    for (final String sentence : sentences) {
+    for (String sentence : sentences) {
       AnalyzedSentence analyzedSentence = getAnalyzedSentence(sentence);
       rememberUnknownWords(analyzedSentence);
       if (++j == sentences.size()) {
@@ -599,7 +599,7 @@ public class JLanguageTool {
       int columnCount, final String sentence, final AnalyzedSentence analyzedSentence, final AnnotatedText annotatedText)
         throws IOException {
     final List<RuleMatch> sentenceMatches = new ArrayList<>();
-    for (final Rule rule : rules) {
+    for (Rule rule : rules) {
       if (rule instanceof TextLevelRule) {
         continue;
       }
@@ -614,7 +614,7 @@ public class JLanguageTool {
         continue;
       }
       final RuleMatch[] thisMatches = rule.match(analyzedSentence);
-      for (final RuleMatch element1 : thisMatches) {
+      for (RuleMatch element1 : thisMatches) {
         final RuleMatch thisMatch = adjustRuleMatchPos(element1,
             charCount, columnCount, lineCount, sentence, annotatedText);
         sentenceMatches.add(thisMatch);
@@ -652,7 +652,7 @@ public class JLanguageTool {
    * @param columnCount Current column number
    * @param lineCount Current line number
    * @param sentence The text being checked
-   * @return The RuleMatch object with adjustments.
+   * @return The RuleMatch object with adjustments
    */
   public RuleMatch adjustRuleMatchPos(final RuleMatch match, int charCount,
       int columnCount, int lineCount, final String sentence, final AnnotatedText annotatedText) {
@@ -692,9 +692,8 @@ public class JLanguageTool {
 
   protected void rememberUnknownWords(final AnalyzedSentence analyzedText) {
     if (listUnknownWords) {
-      final AnalyzedTokenReadings[] atr = analyzedText
-          .getTokensWithoutWhitespace();
-      for (final AnalyzedTokenReadings reading : atr) {
+      final AnalyzedTokenReadings[] atr = analyzedText.getTokensWithoutWhitespace();
+      for (AnalyzedTokenReadings reading : atr) {
         if (!reading.isTagged()) {
           unknownWords.add(reading.getToken());
         }
@@ -704,7 +703,6 @@ public class JLanguageTool {
 
   /**
    * Get the alphabetically sorted list of unknown words in the latest run of one of the {@link #check(String)} methods.
-   * 
    * @throws IllegalStateException if {@link #setListUnknownWords(boolean)} has been set to {@code false}
    */
   public List<String> getUnknownWords() {
@@ -734,7 +732,6 @@ public class JLanguageTool {
   /**
    * Tokenizes the given {@code sentence} into words and analyzes it,
    * and then disambiguates POS tags.
-   *
    * @param sentence sentence to be analyzed
    */
   public AnalyzedSentence getAnalyzedSentence(final String sentence) throws IOException {
@@ -852,7 +849,7 @@ public class JLanguageTool {
     // boundaries. These need to be reset so the checks don't suddenly
     // work on different texts with the same data. However, it could be useful
     // to keep the state information if we're checking a continuous text.    
-    for (final Rule rule : rules) {
+    for (Rule rule : rules) {
       Category ruleCategory = rule.getCategory();
       boolean isCategoryDisabled = (disabledRuleCategories.contains(ruleCategory.getId()) || rule.getCategory().isDefaultOff()) && !enabledRuleCategories.contains(ruleCategory.getId());
       boolean isRuleDisabled = disabledRules.contains(rule.getId()) || (rule.isDefaultOff() && !enabledRules.contains(rule.getId()));
@@ -881,7 +878,7 @@ public class JLanguageTool {
   public List<AbstractPatternRule> getPatternRulesByIdAndSubId(String Id, String subId) {
     final List<Rule> rules = getAllRules();
     final List<AbstractPatternRule> rulesById = new ArrayList<>();   
-    for (final Rule rule : rules) {
+    for (Rule rule : rules) {
       if (rule instanceof AbstractPatternRule) {
         if (rule.getId().equals(Id) && ((AbstractPatternRule) rule).getSubId().equals(subId)) {
           rulesById.add((AbstractPatternRule) rule);
@@ -967,7 +964,7 @@ public class JLanguageTool {
           ruleMatches.addAll(Arrays.asList(matches));
         }
       }
-      for (final AnalyzedSentence analyzedSentence : analyzedSentences) {
+      for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         final String sentence = sentences.get(i++);
         try {
           final List<RuleMatch> sentenceMatches =
