@@ -6189,7 +6189,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Zusammen-/Getrenntschreibung">
-        <rule id="BEREIT_STEHEN" name="bereit stehen -> bereitstehen">
+        <rule id="SEKUNDEN_SCHNELLE" name="in Sekunden schnelle (Sekundenschnelle)">
+            <pattern>
+                <token>in</token>
+                <marker>
+                    <token>Sekunden</token>
+                    <token>schnelle</token>
+                </marker>
+            </pattern>
+            <message><suggestion>Sekundenschnelle</suggestion> wird zusammengeschrieben.</message>
+            <example correction="Sekundenschnelle">Es durchsucht in <marker>Sekunden schnelle</marker> Ihre E-Mails.</example>
+        </rule>
+        <rule id="BEREIT_STEHEN" name="bereit stehen (bereitstehen)">
             <pattern>
                 <token postag="SENT_START" negate_pos="yes"/>
                 <marker>
@@ -6200,7 +6211,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Das Verb <suggestion>\2\3</suggestion> wird zusammengeschrieben.</message>
             <example correction="bereitstanden">Ein Schrank, in dem Bücher <marker>bereit standen</marker>.</example>
         </rule>
-        <rule id="HIER_BEI" name="hier bei -> hierbei">
+        <rule id="HIER_BEI" name="hier bei (hierbei)">
             <pattern>
                 <marker>
                     <token>hier</token>
@@ -11090,7 +11101,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">der|die|das</token>
                 <token postag="ADJ:NOM:.*" postag_regexp="yes">
                     <exception postag="PA[12]:.*" postag_regexp="yes"/>
-                    <exception regexp="yes">gleiche</exception>
+                    <exception>gleiche</exception>
                     <exception case_sensitive="yes" regexp="yes">[A-ZÖÄÜ].+</exception>
                     <exception regexp="yes">anderen?|meisten|nächste|sieben</exception>
                 </token>
