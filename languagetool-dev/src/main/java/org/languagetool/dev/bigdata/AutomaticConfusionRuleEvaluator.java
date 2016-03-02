@@ -22,10 +22,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TermQuery;
-import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.*;
 import org.apache.lucene.store.FSDirectory;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.English;
@@ -36,6 +33,7 @@ import org.languagetool.rules.ConfusionSetLoader;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Automatically run {@link ConfusionRuleEvaluator} on word pairs.
@@ -51,6 +49,7 @@ class AutomaticConfusionRuleEvaluator {
 
   private final IndexSearcher searcher;
   private final Map<String, List<ConfusionSet>> knownSets;
+  private int ignored = 0;
 
   AutomaticConfusionRuleEvaluator(File indexDir) throws IOException {
     DirectoryReader reader = DirectoryReader.open(FSDirectory.open(indexDir.toPath()));
@@ -82,6 +81,7 @@ class AutomaticConfusionRuleEvaluator {
         e.printStackTrace();
       }
     }
+    System.out.println("Done. Ignored items because they are already known: " + ignored);
   }
 
   private String removeComment(String str) {
@@ -90,9 +90,16 @@ class AutomaticConfusionRuleEvaluator {
 
   private void runOnPair(ConfusionRuleEvaluator evaluator, String line, String part1, String part2) throws IOException {
     for (Map.Entry<String, List<ConfusionSet>> entry : knownSets.entrySet()) {
-      if (entry.getKey().equals(part1) || entry.getKey().equals(part2)) {
-        System.out.println("Ignoring: " + part1 + "/" + part2 + ", in active confusion sets already");
-        return;
+      if (entry.getKey().equals(part1)) {
+        List<ConfusionSet> confusionSet = entry.getValue();
+        for (ConfusionSet set : confusionSet) {
+          Set<String> stringSet = set.getSet().stream().map(l -> l.getString()).collect(Collectors.toSet());
+          if (stringSet.containsAll(Arrays.asList(part1, part2))) {
+            System.out.println("Ignoring: " + part1 + "/" + part2 + ", in active confusion sets already");
+            ignored++;
+            return;
+          }
+        }
       }
     }
     System.out.println("Working on: " + line);
