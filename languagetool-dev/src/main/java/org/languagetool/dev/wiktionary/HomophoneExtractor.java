@@ -38,9 +38,12 @@ public class HomophoneExtractor {
   private void run(String filename) throws FileNotFoundException {
     try (Scanner scanner = new Scanner(new File(filename))) {
       String title = "";
+      int lineCount = 0;
+      long startTime = System.currentTimeMillis();
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
-        if (line.contains("<title>")) {
+        lineCount++;
+        if (line.contains("<title>") && line.contains("</title>")) {
           title = line.substring(line.indexOf("<title>") + 7, line.indexOf("</title>"));
         } else if (line.contains("lang=en")) {
           Matcher m = homophonePattern.matcher(line);
@@ -51,8 +54,13 @@ public class HomophoneExtractor {
             allHomophones.add(title);
             allHomophones.addAll(Arrays.asList(homophones));
             allHomophones.sort(null);
-            System.out.println(allHomophones);
+            System.out.println(String.join(", ", allHomophones));
           }
+        }
+        if (lineCount % 100_000 == 0) {
+          long endTime = System.currentTimeMillis();
+          System.err.println(lineCount  + " (" + (endTime-startTime) + "ms)...");
+          startTime = System.currentTimeMillis();
         }
       }
     }
