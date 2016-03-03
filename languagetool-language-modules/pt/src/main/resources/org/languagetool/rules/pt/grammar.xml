@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.144 2016-03-03 07:10:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.145 2016-03-03 18:20:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -33,7 +33,7 @@ $Id: grammar.xml,v 1.144 2016-03-03 07:10:00 marcoagpinto Exp $
 ****************************************
 -->
 
-<category id="MISC" name="Gramática">
+<category id="MISC" name="Gramática Geral">
 
     <!-- Concordance error plural - QUALQUER + PLURAL -->
     <rule id="QUALQUER_PLURAL" name="Erro de concordância do plural QUALQUER + PLURAL">
@@ -2019,30 +2019,6 @@ $Id: grammar.xml,v 1.144 2016-03-03 07:10:00 marcoagpinto Exp $
     </rule>
 
 
-
-  <!-- MAIS MELHOR melhor -->
-    <rule id="MAIS_MELHOR" name="melhor">
-      <pattern>
-        <token>mais</token>
-        <token>melhor</token>
-      </pattern>
-      <message>Substituir «mais melhor» por <suggestion>melhor</suggestion>.</message>
-      <example correction="melhor">Esta escola é <marker>mais melhor</marker>.</example>
-    </rule>
-
-
-  
-  <!-- MAIS PIOR pior -->
-    <rule id="MAIS_PIOR" name="pior">
-      <pattern>
-        <token>mais</token>
-        <token>pior</token>
-      </pattern>
-      <message>Substituir «mais pior por <suggestion>pior</suggestion>.</message>
-      <example correction="pior">Esta escola é <marker>mais pior</marker>.</example>
-    </rule>
-	
-
 	
     <!-- MANDATO DE BUSCA mandado de busca -->
     <rule id="MANDATO_DE_BUSCA" name="mandado de busca">
@@ -2363,21 +2339,6 @@ $Id: grammar.xml,v 1.144 2016-03-03 07:10:00 marcoagpinto Exp $
       <example correction="obrigado">O meu muito <marker>obrigada</marker> por tudo.</example>
     </rule>
 	
-
-
-    <!-- OU SEJA ou seja, -->
-    <rule id="OU_SEJA" name="ou seja">
-      <pattern>
-		<marker>
-			<token>ou</token>
-			<token>seja</token>
-		</marker>
-		<token negate="yes">,</token>
-      </pattern>
-      <message>Usar vírgula: <suggestion>\1 \2,</suggestion></message>
-      <example correction="ou seja,">Pensa primeiro, <marker>ou seja</marker> escolhe acertadamente.</example>
-    </rule>
-
 
 
     <!-- OVELHA RANHOSA ovelha ronhosa -->
@@ -2986,5 +2947,56 @@ $Id: grammar.xml,v 1.144 2016-03-03 07:10:00 marcoagpinto Exp $
 
 
 </category>
+
+
+<category id="PUNCTUATION" name="Pontuação">
+
+
+    <!-- OU SEJA ou seja, -->
+    <rule id="OU_SEJA" name="ou seja">
+      <pattern>
+		<marker>
+			<token>ou</token>
+			<token>seja</token>
+		</marker>
+		<token negate="yes">,</token>
+      </pattern>
+      <message>Usar vírgula: <suggestion>\1 \2,</suggestion></message>
+      <example correction="ou seja,">Pensa primeiro, <marker>ou seja</marker> escolhe acertadamente.</example>
+    </rule>
+	
+	
+</category>
+
+
+
+<category id="REDUNDANCY" name="Redundância">
+
+  <!-- MAIS MELHOR melhor -->
+    <rule id="MAIS_MELHOR" name="melhor">
+      <pattern>
+        <token>mais</token>
+        <token>melhor</token>
+      </pattern>
+      <message>Substituir «mais melhor» por <suggestion>melhor</suggestion>.</message>
+      <example correction="melhor">Esta escola é <marker>mais melhor</marker>.</example>
+    </rule>
+
+
+  
+  <!-- MAIS PIOR pior -->
+    <rule id="MAIS_PIOR" name="pior">
+      <pattern>
+        <token>mais</token>
+        <token>pior</token>
+      </pattern>
+      <message>Substituir «mais pior por <suggestion>pior</suggestion>.</message>
+      <example correction="pior">Esta escola é <marker>mais pior</marker>.</example>
+    </rule>
+
+	
+	
+</category>
+
 
 </rules>
