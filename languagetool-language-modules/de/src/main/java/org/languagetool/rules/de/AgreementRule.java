@@ -24,10 +24,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.German;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.CategoryIds;
-import org.languagetool.rules.Example;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.de.AnalyzedGermanToken;
@@ -175,7 +172,7 @@ public class AgreementRule extends GermanRule {
     
   public AgreementRule(final ResourceBundle messages, German language) {
     this.language = language;
-    super.setCategory(new Category(CategoryIds.GRAMMAR, messages.getString("category_grammar")));
+    super.setCategory(Categories.GRAMMAR.getCategory(messages));
     addExamplePair(Example.wrong("<marker>Der Haus</marker> wurde letztes Jahr gebaut."),
                    Example.fixed("<marker>Das Haus</marker> wurde letztes Jahr gebaut."));
   }

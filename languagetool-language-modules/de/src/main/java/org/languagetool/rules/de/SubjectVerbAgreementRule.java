@@ -24,10 +24,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.language.German;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.CategoryIds;
-import org.languagetool.rules.Example;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.tagging.de.GermanTagger;
 
 import java.io.IOException;
@@ -69,7 +66,7 @@ public class SubjectVerbAgreementRule extends GermanRule {
   private final GermanTagger tagger;
 
   public SubjectVerbAgreementRule(ResourceBundle messages, German language) {
-    super.setCategory(new Category(CategoryIds.GRAMMAR, messages.getString("category_grammar")));
+    super.setCategory(Categories.GRAMMAR.getCategory(messages));
     tagger = (GermanTagger) language.getTagger();
     for (SingularPluralPair pair : PAIRS) {
       singular.add(pair.singular);

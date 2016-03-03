@@ -52,7 +52,7 @@ public class UppercaseSentenceStartRule extends Rule {
   public UppercaseSentenceStartRule(final ResourceBundle messages,
       final Language language) {
     super(messages);
-    super.setCategory(new Category(CategoryIds.CASING, messages.getString("category_case")));
+    super.setCategory(Categories.CASING.getCategory(messages));
     this.language = language;
     setLocQualityIssueType(ITSIssueType.Typographical);
   }

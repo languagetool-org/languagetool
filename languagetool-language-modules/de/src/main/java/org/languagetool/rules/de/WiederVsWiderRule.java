@@ -24,10 +24,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.CategoryIds;
-import org.languagetool.rules.Example;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 
 /**
  * Check incorrect use of "spiegelt ... wider", namely using "wieder" instead
@@ -38,7 +35,7 @@ import org.languagetool.rules.RuleMatch;
 public class WiederVsWiderRule extends GermanRule {
 
   public WiederVsWiderRule(ResourceBundle messages) {
-    super.setCategory(new Category(CategoryIds.TYPOS, messages.getString("category_typo")));
+    super.setCategory(Categories.TYPOS.getCategory(messages));
     addExamplePair(Example.wrong("Das spiegelt die Situation in Deutschland <marker>wieder</marker>."),
                    Example.fixed("Das spiegelt die Situation in Deutschland <marker>wider</marker>."));
   }

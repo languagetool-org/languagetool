@@ -22,10 +22,7 @@ import java.util.*;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.CategoryIds;
-import org.languagetool.rules.Example;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 
 /**
  * Prüft, dass in Bindestrich-Komposita kein Leerzeichen eingefügt wird (wie z.B. in 'Diäten- Erhöhung').
@@ -35,7 +32,7 @@ import org.languagetool.rules.RuleMatch;
 public class DashRule extends GermanRule {
 
   public DashRule(final ResourceBundle messages) {
-    super.setCategory(new Category(CategoryIds.MISC, messages.getString("category_misc")));
+    super.setCategory(Categories.MISC.getCategory(messages));
     addExamplePair(Example.wrong("Bundestag beschließt <marker>Diäten- Erhöhung</marker>"),
                    Example.fixed("Bundestag beschließt <marker>Diäten-Erhöhung</marker>"));
   }

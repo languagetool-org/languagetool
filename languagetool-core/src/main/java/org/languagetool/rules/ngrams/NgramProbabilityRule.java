@@ -23,10 +23,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.Experimental;
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tokenizers.Tokenizer;
@@ -88,7 +85,7 @@ public class NgramProbabilityRule extends Rule {
 
   public NgramProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     super(messages);
-    setCategory(new Category(messages.getString("category_typo")));
+    setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.NonConformance);
     this.lm = Objects.requireNonNull(languageModel);
     this.language = Objects.requireNonNull(language);

@@ -64,7 +64,7 @@ public abstract class AbstractCompoundRule extends Rule {
   public AbstractCompoundRule(ResourceBundle messages,
                               String withHyphenMessage, String withoutHyphenMessage, String withOrWithoutHyphenMessage,
                               String shortMessage) throws IOException {
-    super.setCategory(new Category(CategoryIds.TYPOS, messages.getString("category_misc")));
+    super.setCategory(Categories.MISC.getCategory(messages));
     this.withHyphenMessage = withHyphenMessage;
     this.withoutHyphenMessage = withoutHyphenMessage;
     this.withOrWithoutHyphenMessage = withOrWithoutHyphenMessage;

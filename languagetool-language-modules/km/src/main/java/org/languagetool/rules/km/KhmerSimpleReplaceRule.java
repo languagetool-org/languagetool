@@ -20,7 +20,7 @@ package org.languagetool.rules.km;
 
 import org.languagetool.language.Khmer;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
-import org.languagetool.rules.Category;
+import org.languagetool.rules.Categories;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -45,7 +45,7 @@ public class KhmerSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   public KhmerSimpleReplaceRule(final ResourceBundle messages) throws IOException {
     super(messages, new Khmer());
-    super.setCategory(new Category(messages.getString("category_misc")));
+    super.setCategory(Categories.MISC.getCategory(messages));
   }
 
   @Override

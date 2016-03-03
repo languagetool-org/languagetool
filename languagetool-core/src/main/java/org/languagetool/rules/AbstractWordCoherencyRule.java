@@ -52,7 +52,7 @@ public abstract class AbstractWordCoherencyRule extends Rule {
   private final Map<String, RuleMatch> shouldNotAppearWord = new HashMap<>();  // e.g. aufwändig -> RuleMatch of aufwendig
 
   public AbstractWordCoherencyRule(ResourceBundle messages) throws IOException {
-    super.setCategory(new Category(messages.getString("category_misc")));
+    super.setCategory(Categories.MISC.getCategory(messages));
   }
   
   @Override

@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.rules.Category;
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -48,7 +48,7 @@ public class MixedAlphabetsRule extends Rule {
   private static final Pattern COMMON_CYR_LETTERS = Pattern.compile("[АВЕІКОРСТУХ]+");
 
   public MixedAlphabetsRule(final ResourceBundle messages) throws IOException {
-    super.setCategory(new Category(messages.getString("category_misc")));
+    super.setCategory(Categories.MISC.getCategory(messages));
   }
 
   @Override

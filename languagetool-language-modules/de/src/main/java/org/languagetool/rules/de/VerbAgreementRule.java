@@ -30,10 +30,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.German;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.CategoryIds;
-import org.languagetool.rules.Example;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
@@ -132,7 +129,7 @@ public class VerbAgreementRule extends GermanRule {
 
   public VerbAgreementRule(final ResourceBundle messages, German language) {
     this.language = language;
-    super.setCategory(new Category(CategoryIds.GRAMMAR, messages.getString("category_grammar")));
+    super.setCategory(Categories.GRAMMAR.getCategory(messages));
     addExamplePair(Example.wrong("Ich <marker>bist</marker> über die Entwicklung sehr froh."),
                    Example.fixed("Ich <marker>bin</marker> über die Entwicklung sehr froh."));
   }

@@ -20,7 +20,7 @@ package org.languagetool.rules.ro;
 
 import org.languagetool.language.Romanian;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
-import org.languagetool.rules.Category;
+import org.languagetool.rules.Categories;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -47,7 +47,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
     super(messages, new Romanian());
-    super.setCategory(new Category(messages.getString("category_misc")));
+    super.setCategory(Categories.MISC.getCategory(messages));
   }
 
   @Override

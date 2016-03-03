@@ -23,10 +23,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.German;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.CategoryIds;
-import org.languagetool.rules.Example;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.de.GermanTagger;
@@ -432,7 +429,7 @@ public class CaseRule extends GermanRule {
 
   public CaseRule(final ResourceBundle messages, final German german) {
     this.german = german;
-    super.setCategory(new Category(CategoryIds.CASING, messages.getString("category_case")));
+    super.setCategory(Categories.CASING.getCategory(messages));
     this.tagger = (GermanTagger) german.getTagger();
     addExamplePair(Example.wrong("<marker>Das laufen</marker> fällt mir schwer."),
                    Example.fixed("<marker>Das Laufen</marker> fällt mir schwer."));

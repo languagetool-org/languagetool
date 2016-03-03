@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.rules.Category;
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 
@@ -46,7 +46,7 @@ public class QuestionWhitespaceRule extends FrenchRule {
 
   public QuestionWhitespaceRule(final ResourceBundle messages) {
     // super(messages);
-    super.setCategory(new Category(messages.getString("category_misc")));
+    super.setCategory(Categories.MISC.getCategory(messages));
   }
 
   @Override

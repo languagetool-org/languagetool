@@ -44,7 +44,7 @@ public class LongSentenceRule extends Rule {
    */
   public LongSentenceRule(final ResourceBundle messages, int maxSentenceLength) {
     super(messages);
-    super.setCategory(new Category(messages.getString("category_misc")));
+    super.setCategory(Categories.MISC.getCategory(messages));
     if (maxSentenceLength <= 0) {
       throw new IllegalArgumentException("maxSentenceLength must be > 0: " + maxSentenceLength);
     }

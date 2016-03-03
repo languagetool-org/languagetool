@@ -25,7 +25,7 @@ import java.util.ResourceBundle;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
-import org.languagetool.rules.Category;
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -38,7 +38,7 @@ public class KhmerWordRepeatRule extends Rule {
 
   public KhmerWordRepeatRule(final ResourceBundle messages, final Language language) {
     super(messages);
-    super.setCategory(new Category(messages.getString("category_misc")));
+    super.setCategory(Categories.MISC.getCategory(messages));
   }
 
   @Override

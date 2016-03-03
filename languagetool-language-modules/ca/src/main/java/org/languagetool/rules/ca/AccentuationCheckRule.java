@@ -33,7 +33,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.rules.Category;
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
@@ -91,7 +91,7 @@ public class AccentuationCheckRule extends CatalanRule {
   private final Map<String, AnalyzedTokenReadings> relevantWords2;
 
   public AccentuationCheckRule(ResourceBundle messages) throws IOException {
-    super.setCategory(new Category(messages.getString("category_misc")));
+    super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
     relevantWords = loadWords(FILE_NAME);
     relevantWords2 = loadWords(FILE_NAME2);

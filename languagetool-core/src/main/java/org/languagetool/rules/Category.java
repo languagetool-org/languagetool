@@ -48,6 +48,7 @@ public final class Category {
 
   /**
    * @param name name of the category
+   * @deprecated use {@link Category(CategoryId, String)} instead (deprecated since 3.3)
    */
   public Category(String name) {
     this(name, Location.INTERNAL);
@@ -56,6 +57,7 @@ public final class Category {
   /**
    * @param name name of the category
    * @since 2.8
+   * @deprecated use {@link Category(CategoryId, String, Location)} instead (deprecated since 3.3)
    */
   public Category(String name, Location location) {
     this(name, location, true);
@@ -65,17 +67,18 @@ public final class Category {
    * Create a new category.
    * @param name name of the category
    * @since 2.9
+   * @deprecated use {@link Category(CategoryId, String, Location, boolean)} instead (deprecated since 3.3)
    */
   public Category(String name, Location location, boolean onByDefault) {
-    this.id = null;
-    this.name = name;
-    this.location = location;
-    this.defaultOff = !onByDefault;
+    this(null, name, location, onByDefault);
   }
 
-  /**
-   * @since 3.3
-   */
+  /** @since 3.3 */
+  public Category(CategoryId id, String name, Location location) {
+    this(id, name, location, true);
+  }
+
+  /** @since 3.3 */
   public Category(CategoryId id, String name, Location location, boolean onByDefault) {
     this.id = id;
     this.name = name;

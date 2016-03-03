@@ -24,7 +24,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.rules.Category;
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -54,7 +54,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
   public MorfologikSpellerRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
-    super.setCategory(new Category(messages.getString("category_typo")));
+    super.setCategory(Categories.TYPOS.getCategory(messages));
     this.conversionLocale = conversionLocale != null ? conversionLocale : Locale.getDefault();
     init();
     setLocQualityIssueType(ITSIssueType.Misspelling);

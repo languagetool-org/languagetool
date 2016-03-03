@@ -20,10 +20,7 @@ package org.languagetool.rules.pl;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.CategoryIds;
-import org.languagetool.rules.Example;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 import java.io.IOException;
@@ -89,7 +86,7 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
   public MorfologikPolishSpellerRule(ResourceBundle messages,
                                      Language language) throws IOException {
     super(messages, language);
-    setCategory(new Category(CategoryIds.TYPOS, "Prawdopodobne literówki"));
+    setCategory(Categories.TYPOS.getCategory(messages));
     addExamplePair(Example.wrong("To jest zdanie z <marker>bledem</marker>"),
                    Example.fixed("To jest zdanie z <marker>błędem</marker>."));
   }

@@ -38,7 +38,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.rules.Category;
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 
@@ -63,7 +63,7 @@ public class HunspellRule extends SpellingCheckRule {
 
   public HunspellRule(final ResourceBundle messages, final Language language) {
     super(messages, language);
-    super.setCategory(new Category(messages.getString("category_typo")));
+    super.setCategory(Categories.TYPOS.getCategory(messages));
   }
 
   @Override

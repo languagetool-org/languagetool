@@ -22,7 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.rules.Category;
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.IncorrectExample;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -138,7 +138,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
                           + tokensAsString, description, messages.getString("false_friend"));
           rule.setCorrectExamples(correctExamples);
           rule.setIncorrectExamples(incorrectExamples);
-          rule.setCategory(new Category(messages.getString("category_false_friend")));
+          rule.setCategory(Categories.FALSE_FRIENDS.getCategory(messages));
           if (defaultOff) {
             rule.setDefaultOff();
           }

@@ -38,7 +38,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Ukrainian;
-import org.languagetool.rules.Category;
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.synthesis.Synthesizer;
@@ -69,7 +69,7 @@ public class TokenAgreementRule extends Rule {
       ));
 
   public TokenAgreementRule(final ResourceBundle messages) throws IOException {
-    super.setCategory(new Category(messages.getString("category_misc")));
+    super.setCategory(Categories.MISC.getCategory(messages));
   }
 
   @Override
