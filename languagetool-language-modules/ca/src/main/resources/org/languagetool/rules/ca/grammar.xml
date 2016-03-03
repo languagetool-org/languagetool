@@ -9166,7 +9166,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="NUMERALS_INCOMPLETS" name="numerals incomplets: unè">
             <pattern>
-                <token><exception regexp="yes">mil|cent</exception></token>
+                <token><exception regexp="yes">mil|cent|.*-cents</exception></token>
                 <marker>
                     <token inflected="yes" regexp="yes">unè|dosè|tresè|quatrè</token>
                 </marker>
@@ -9178,6 +9178,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="cent uné|mil uné"><marker>uné</marker> president</example>
             <example correction="cent unena|mil unena"><marker>unena</marker> presidenta</example>
             <example>cent unè president</example>
+            <example>dos-cents quatrè president</example>
         </rule>
     </category>
     <category name="Z2) Errors de traductor automàtic">
@@ -37538,7 +37539,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">manualitats?</token>
             </pattern>
             <message>Paraula admesa només en alguns diccionaris.</message>
-            <suggestion>treball<match no="1" regexp_match="manualitat(.*)" regexp_replace="$1" /> manual<match no="1" regexp_match="manualitat(.*)" regexp_replace="$1" /></suggestion>
+            <suggestion>treball<match no="1" regexp_match="(?-i)manualitat(.*)" regexp_replace="$1" /> manual<match no="1" regexp_match="(?-i)manualitat(.*)" regexp_replace="$1" /></suggestion>
             <example correction="treballs manuals">Li agrada fer <marker>manualitats</marker>.</example>
             <example>Classe de treballs manuals</example>
         </rule>
@@ -38289,8 +38290,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="TEMPS_VERBALS_INADEQUATS" name="Temps verbals inadequats">
             <rule id="PRES_SUBJ_EN_CONDICIONALS" name="Present de subjuntiu en frases condicionals: *si conegueu">
                 <pattern>
-                    <token><exception regexp="yes">en|entre</exception></token>
-                    <token skip="2">si<exception scope="next" postag="VSSI.*|V.IP.*|_PUNCT.*" postag_regexp="yes"/><exception scope="next" inflected="yes">mateix</exception></token>
+                    <token><exception regexp="yes">en|entre|seu|per</exception></token>
+                    <token skip="2">si<exception scope="next" postag="VSSI.*|V.IP.*|_PUNCT.*" postag_regexp="yes"/><exception scope="next" inflected="yes" regexp="yes">mateix|que</exception></token>
                     <marker>
                         <token postag="V.SP.*" postag_regexp="yes"><exception postag="VSSI.*|V.IP.*|_GN_.*" postag_regexp="yes"/></token>
                     </marker>
