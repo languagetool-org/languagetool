@@ -987,6 +987,17 @@
         <disambig action="remove"><wd lemma="celujący"/></disambig>
     </rule>
 
+    <rule id="dol_brev" name="dol. to skrót">
+        <pattern>
+            <token regexp="yes">\d+|[bm]l[dn]|[\.]</token>
+            <marker>
+            <token>dol</token>
+            </marker>
+            <token>.</token>
+        </pattern>
+        <disambig action="replace"><wd lemma="dolar" pos="brev:pun"/></disambig>
+    </rule>
+
     <rule name="dzięki czemu" id="dzieki_prep_dat">
     <pattern>    		
     		<marker>
@@ -2620,7 +2631,7 @@
 
     <rule id="INF_MUSZA_2" name="Muszą jako czasownik">
         <pattern>
-            <marker><token>muszą</token></marker>
+            <marker><token skip="-1"><exception scope="next" postag="interp:comma"/> muszą</token></marker>
             <token postag="verb:inf.*" postag_regexp="yes"/>
         </pattern>
         <disambig postag="verb:fin:pl:ter:imperf:nonrefl"/>
@@ -2635,7 +2646,7 @@
         </pattern>
         <disambig postag="verb:fin:pl:ter:imperf:nonrefl"/>
         <example type="untouched">Zabawiał się muszą nóżką.</example>
-        <example type="ambiguous" inputform="muszą[musieć/verb:fin:pl:ter:imperf:nonrefl,musić/verb:fin:pl:ter:imperf:refl.nonrefl,muszy/adj:sg:acc:f:pos,muszy/adj:sg:inst:f:pos]" outputform="muszą[musieć/verb:fin:pl:ter:imperf:nonrefl]">Oni <marker>muszą</marker> się dostosować.</example>
+        <example type="ambiguous" inputform="muszą[musieć/verb:fin:pl:ter:imperf:nonrefl,musić/verb:fin:pl:ter:imperf:refl.nonrefl,muszy/adj:sg:acc:f:pos,muszy/adj:sg:inst:f:pos]" outputform="muszą[musieć/verb:fin:pl:ter:imperf:nonrefl]">Oni <marker>muszą</marker> się, chcąc nie chcąc, dostosować.</example>
     </rule>
 
 
@@ -8384,7 +8395,7 @@
         <pattern>
             <marker>
             <token postag="verb.*" postag_regexp="yes" inflected="yes">mieć</token>
-            <token postag="subst.*acc.*" postag_regexp="yes" regexp="yes">ochotę|wrażenie|nadzieję|moc|zamiar|pojęcie|gorączkę|rację|przeczucie|pewność|odwagę|zwyczaj|rozkaz|wątpliwości|wątpliwość|polecenie|wadę|słuszność|siedzibę</token>
+            <token postag="subst.*acc.*" postag_regexp="yes" regexp="yes">ochotę|wrażenie|nadzieję|moc|zamiar|pojęcie|gorączkę|rację|przeczucie|pewność|odwagę|szansę|zwyczaj|rozkaz|wątpliwości|wątpliwość|polecenie|wadę|słuszność|siedzibę</token>
             </marker>
         </pattern>
         <disambig action="filterall"/>
@@ -8400,6 +8411,16 @@
         <disambig action="filterall"/>
     </rule>
 
+    <rule name="miał być" id="MIAL_INF">
+        <pattern>
+            <marker><token skip="3"><exception scope="next" postag_regexp="yes" postag="interp:comma|verb:(sg|pl).*"/>miał</token></marker>
+            <token postag_regexp="yes" postag="verb:inf.*"/>
+        </pattern>
+        <disambig postag="verb:praet:sg:m1.m2.m3:ter:imperf:refl.nonrefl"/>
+        <example type="untouched">Wraca ma ukochana.</example>
+        <example type="ambiguous" inputform="miał[miał/subst:sg:acc:m3,miał/subst:sg:nom:m3,mieć/verb:praet:sg:m1.m2.m3:ter:imperf:refl.nonrefl]"
+                 outputform="miał[mieć/verb:praet:sg:m1.m2.m3:ter:imperf:refl.nonrefl]">Jak <marker>miał</marker> zrobić zadanie 3?</example>
+    </rule>
 
     <rule name="ma być" id="MA_INF">
         <pattern>

@@ -5985,7 +5985,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">[!–—\-…,;]</token>
                     </antipattern>
                     <antipattern>
-                        <marker><token regexp="yes">bynajmniej|nigdy</token></marker>
+                        <marker><token>nigdy</token></marker>
                         <token regexp="yes">[!–—\-…]</token>
                     </antipattern>
                     <antipattern>
@@ -6048,19 +6048,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token postag="SENT_START|interp:comma|conj" postag_regexp="yes"/>
-                    <marker><token regexp="yes">nic|nigdy|nikt|bynajmniej</token></marker>
+                    <marker><token regexp="yes">nic|nigdy|nikt</token></marker>
                     <token regexp="yes">[!–—\-,…\?]</token>
                 </antipattern>
                 <antipattern> <!-- przytoczenia wyrazu: Wyraz „nikt” ma cztery litery. -->
                     <token regexp="yes" spacebefore="yes">[„"]</token>
                     <marker>
-                    <token regexp="yes">nikt|nigdy|nic|bynajmniej</token>
+                    <token regexp="yes">nikt|nigdy|nic</token>
                     </marker>
                     <token regexp="yes" spacebefore="no">[”"]</token>
                 </antipattern>
                 <antipattern> <!-- fragmenty dialogu: „Ja na pewno nic… — odrzekł”. -->
                     <marker>
-                        <token regexp="yes">nikt|nigdy|nic|bynajmniej</token>
+                        <token regexp="yes">nikt|nigdy|nic</token>
                     </marker>
                     <token>…</token>
                     <token regexp="yes">[–—\-]</token>
@@ -6082,6 +6082,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>co</token>
                 <token>nic</token>                
                 </antipattern>
+                <antipattern>
+                <token>,</token>
+                <marker><token skip="-1"><exception scope="next" postag="verb:.*(pl|sg).*|pant.*|pcon.*" postag_regexp="yes"/>nigdy</token></marker>                
+                <token postag="interp.*" postag_regexp="yes"></token>
+                </antipattern>
                 <rule>
                 <pattern>
                     <token postag='SENT_START|interp:comma' postag_regexp="yes" skip='-1'><exception scope='next'>nie</exception>
@@ -6089,7 +6094,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" postag="ad.*:pos" postag_regexp="yes" regexp="yes">nie.*</exception>
                     </token>
                     <marker>
-                    <token regexp='yes' skip='-1'>nikt|nigdy|nic|bynajmniej<exception scope='next'>nie</exception>
+                    <token regexp='yes' skip='-1'>nikt|nigdy|nic<exception scope='next'>nie</exception>
                         <exception scope="next" postag=".*:neg.*" postag_regexp="yes"/>
                         <exception scope="next" postag="ad.*:pos" postag_regexp="yes" regexp="yes">nie.*</exception>
                         <exception scope="next" regexp="yes">[:;!]</exception>
@@ -6149,11 +6154,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Zupa nic to dla mnie taki smak z dzieciństwa, a dokładniej mówiąc z czasów przedszkola.</example>
                     <example>Ładnych rowerów było tyle co nic.</example>
                     <example>I przysiągłem sobie jedno – nigdy więcej prywatnej komórki do celów służbowych.</example>
+                    <example>Chodziło o lustrowanie pracowników sektora publicznego, nigdy prywatnego.</example>
                 </rule>
                 <rule>
                     <antipattern>
                         <marker>
-                        <token case_sensitive="yes" regexp='yes'>nikt|nigdy|nic|bynajmniej</token>
+                        <token case_sensitive="yes" regexp='yes'>nikt|nigdy|nic</token>
                         </marker>
                         <token postag="SENT_END"/>
                     </antipattern>
@@ -6164,7 +6170,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception scope="next" postag="ad.*:pos" postag_regexp="yes" regexp="yes">nie.*</exception>
                             <exception scope="next" postag="comp:comma"/>
                         </token>
-                        <token case_sensitive="yes" regexp='yes' skip='-1'>nikt|nigdy|nic|bynajmniej<exception scope='next'>nie</exception>
+                        <token case_sensitive="yes" regexp='yes' skip='-1'>nikt|nigdy|nic<exception scope='next'>nie</exception>
                             <exception scope="next" postag=".*:neg.*" postag_regexp="yes"/>
                             <exception scope="next" postag="ad.*:pos" postag_regexp="yes" regexp="yes">nie.*</exception>
                             <exception scope="next" regexp="yes">[:;!]</exception>
@@ -6173,15 +6179,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </pattern>
                     <message>W tym zdaniu brak słowa „nie”.</message>
                     <short>Błąd składniowy</short>
-                    <example correction=''><marker>Zrobiłem bynajmniej wiele.</marker></example>
+                    <example correction=''><marker>Zrobiłem nic wczoraj.</marker></example>
                     <example>Nigdy tego nie zrobiłam.</example>
                     <example>W 1996 roku stworzył Pannę Nikt w oparciu o powieść Tomka Tryzny o dorastającej dziewczynie, która przeżywa kryzys wartości.</example>
                     <example>Treść pojęć bazowych pozostaje więc aporią w ramach solipsyzmu metodologicznego; nic dziwnego zatem, że później Fodor odrzuca solipsyzm.</example>
                     <example> Don Kichot pozwolił zebrać z pola bitwy rannych i z najzimniejszą krwią jął znów maszerować tam i na powrót wzdłuż żłobu jakby nigdy nic.</example>
                     <example>Wzbogaciła niezmiernie swój zielnik i rozflirtowała się jak nigdy.</example>
                     <example>Widzicie więc, panowie, i przyznać musicie, że nic okropniejszego nad historię mego życia, że boleść moja słuszna, że wszelką przechodzi miarę, a rozpacz i szaleństwo mają usprawiedliwienie.</example>
-                    <example>Lepszy rydz niż nic, żyjże już lepiej na swojej biedzie, ale żyj.</example>
-                    <example>— Bynajmniej! — odparł Mugger głosem łagodnym.</example>
+                    <example>Lepszy rydz niż nic, żyjże już lepiej na swojej biedzie, ale żyj.</example>                    
                     <example>Nic to, że ci przy tym pociekło trochę krwi z nosa…</example>
                     <example>— Nic — odparł.</example>
                     <example>Nic prócz chwili szaleństwa, którą ja będę  błogosławił, a ty przeklinała i wstydziła się.</example>
@@ -6886,6 +6891,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="jakichś">A nie widziałeś tam <marker>jakiś</marker> dziewczyn?</example>
 				</rule>
 				<rulegroup id="PREP_CASUS" name="Przyimki z nieodpowiednimi przypadkami">
+				  <antipattern> <!-- też ndm -->
+  				  <marker>
+				  <token>sir</token>
+				    </marker>
+				  </antipattern>
 						<rule>
                                 <antipattern>    <!-- reguła: MIMO_CHODEM ma lepszą sugestię -->
                                     <token>mimo</token>
@@ -7006,6 +7016,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                           <example>W tym okresie zaprzyjaźnił się z Jean-Paulem Sartrem.</example>
                           <example>Rycerz nie cieszy się z lada jakich triumfów…</example>
                           <example>Z grubo pokrajanych porcji chleba odłamywała małe kąski.</example>
+                          <example>Odbyli rozmowy z sir Patrickiem Mayhew.</example>
                         </rule>            
 						<rule>
                             <antipattern>
