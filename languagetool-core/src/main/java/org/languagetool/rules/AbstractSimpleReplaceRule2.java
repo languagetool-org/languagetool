@@ -69,7 +69,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   public AbstractSimpleReplaceRule2(final ResourceBundle messages, Language language) throws IOException {
     super(messages);
     this.language = Objects.requireNonNull(language);
-    super.setCategory(new Category(messages.getString("category_misc")));
+    super.setCategory(new Category(CategoryIds.TYPOS, messages.getString("category_misc")));
     wrongWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(getFileName()));
   }
 

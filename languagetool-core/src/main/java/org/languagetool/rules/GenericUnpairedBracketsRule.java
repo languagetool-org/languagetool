@@ -54,7 +54,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
   public GenericUnpairedBracketsRule(String ruleId, ResourceBundle messages, List<String> startSymbols, List<String> endSymbols) {
     super(messages);
     this.ruleId = ruleId != null ? ruleId : "UNPAIRED_BRACKETS";
-    super.setCategory(new Category(messages.getString("category_misc")));
+    super.setCategory(new Category(CategoryIds.TYPOGRAPHY, messages.getString("category_misc")));
     if (startSymbols.size() != endSymbols.size()) {
       throw new IllegalArgumentException("Different number of start and end symbols: " + startSymbols + " vs. " + endSymbols);
     }

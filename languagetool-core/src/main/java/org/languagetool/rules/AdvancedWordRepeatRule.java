@@ -40,7 +40,7 @@ import org.languagetool.tools.StringTools;
 public abstract class AdvancedWordRepeatRule extends Rule {
 
   public AdvancedWordRepeatRule(final ResourceBundle messages) {
-    super.setCategory(new Category(messages.getString("category_misc")));
+    super.setCategory(new Category(CategoryIds.TYPOS, messages.getString("category_misc")));
     setDefaultOff();
     setLocQualityIssueType(ITSIssueType.Style);
   }

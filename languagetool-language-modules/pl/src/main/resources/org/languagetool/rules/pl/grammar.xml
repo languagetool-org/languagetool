@@ -135,7 +135,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</includephrases>
 				</phrase>
 		</phrases>
-		<category name="Błędy interpunkcyjne" type="typographical">
+		<category id="PUNCTUATION" name="Błędy interpunkcyjne" type="typographical">
 				<rulegroup id="ZDANIA_ZLOZONE" name="Brak przecinka w zdaniu złożonym">
                     <!-- utarte zwroty frazeologiczne pisane bez przecinków -->
                     <antipattern>
@@ -3664,7 +3664,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </rule>
 				</rulegroup>
 		</category>
-    <category name="Formatowanie liczb" type="numbers">
+    <category id="NUMBERS" name="Formatowanie liczb" type="numbers">
     <rulegroup id="FORMAT_DZIESIETNY" name="Kropka zamiast przecinka w liczbach">
     <rule>
       <pattern>
@@ -3724,7 +3724,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="67%">Badani mieszkańcy Krymu dali odpowiedź: za - 65-<marker>67 %</marker>.</example>
     </rule>
     </category>
-		<category name="Błędy typograficzne" type="typographical">
+		<category id="TYPOGRAPHY" name="Błędy typograficzne" type="typographical">
           <rule id="AMP_AL_ET_AL" name="„&amp; al” (et al.)">
           <pattern>
             <token regexp='yes'>[\x26]</token>
@@ -4680,7 +4680,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Skąd ten pomysł?</example>
                 </rule>
 		</category>
-		<category name="Błędy odmiany" type="grammar">
+		<category id="GRAMMAR" name="Błędy odmiany" type="grammar">
                 <rulegroup id="DWA_ZLOTYCH" name="„2 złotych” (2 złote)">
                     <rule>
                         <pattern>
@@ -5607,7 +5607,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 				</rulegroup>
 		</category>
-		<category name="Błędy w szyku wyrazów" type="grammar">
+		<category id="WORD_ORDER" name="Błędy w szyku wyrazów" type="grammar">
 				<rulegroup id="Z_KIMS_NA_CZELE" name="„z... na czele” (na czele z...)">
 						<rule>
 								<pattern>
@@ -5727,7 +5727,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Zobaczy się.</example>
                 </rule>
 		</category>
-		<category name="Błędy składniowe" type="grammar">
+		<category id="SYNTAX" name="Błędy składniowe" type="grammar">
             <rule id="ZLY_CZAS_GRAMATYCZNY_PO_JAKOBY" name="Zły czas gramatyczny po „jakoby”">
                 <pattern>
                     <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"/>
@@ -7629,7 +7629,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="tym">Im większa, <marker>o tyle</marker> lepiej.</example>
 				</rule>
 		</category>
-		<category name="Błędy leksykalne" type="style">
+		<category id="STYLE" name="Błędy leksykalne" type="style">
             <rule id="zarowno_jak_rowniez" name="zarówno… jak również (jak)">
                 <pattern>
                     <token skip="-1">zarówno</token>
@@ -9754,7 +9754,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example correction="ręku">On ma jakiś fach w <marker>ręce</marker>.</example>
                 </rule>
 		</category>
-		<category name="Pleonazmy" type="style">
+		<category id="REDUNDANCY" name="Pleonazmy" type="style">
                 <rule id="DOBRA_RENOMA" name="„dobra renoma” (renoma)">
                     <pattern>
                         <unify>
@@ -10596,7 +10596,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 				</rulegroup>
 		</category>
-		<category name="Błędy fonetyczne" type="misspelling">
+		<category id="PHONETICS" name="Błędy fonetyczne" type="misspelling">
 				<rulegroup id="W_WE" name="„w” przed „f/w…” i spółgłoską (we)">
 						<rule>
 								<pattern>
@@ -10781,7 +10781,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Dopiero przed drzwiami dziekanatu spojrzał na zegarek.</example>
 				</rule>
 		</category>
-		<category name="Błędy różne" type="uncategorized">
+		<category id="MISC" name="Błędy różne" type="uncategorized">
             <rulegroup name="Niespójny zapis daty" id="DATA_NIEMOZLIWA">
                 <rule><regexp>(3[2-9]|[4-9]\d)\.? ?(\d\d?\.|&months;) ?\d\d\d\d</regexp>
                     <message>Jeśli to jest data, to jest błędna.</message>
@@ -11236,7 +11236,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="zbić z pantałyku">Kazio bawił się <marker>pantałykiem</marker>.</example>
 				</rule>
 		</category>
-		<category name="Błędy rodzaju gramatycznego" type="grammar">
+		<category id="GENDER" name="Błędy rodzaju gramatycznego" type="grammar">
 				<rulegroup id="TEN_POMARANCZ" name="„ten pomarańcz” (ta pomarańcza)">
 						<rule>
 								<pattern>
@@ -11356,7 +11356,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Nie uronił ani jednego wiórka z całego opakowania.</example>
 				</rule>
 		</category>
-		<category name="Wyrazy modne i nadużywane" type="style">
+		<category id="SEMANTICS" name="Wyrazy modne i nadużywane" type="style">
                 <rulegroup id="VS" name="„vs” (kontra)">
                  <rule>
                     <pattern>
@@ -11743,7 +11743,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>W razie braku ubezpieczenia poszkodowany nie może liczyć na pomoc państwa.</example>
 				</rule>
 		</category>
-		<category name="Pisownia małą i wielką literą" type="misspelling">
+		<category id="CASING" name="Pisownia małą i wielką literą" type="misspelling">
                 <rulegroup name="Zła pisownia jednostek herc, ohm i wat" id="herc_om">
                     <rule>
                     <pattern case_sensitive="yes">
@@ -12494,7 +12494,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </rule>
             </rulegroup>
 		</category>
-		<category name="Błędy ortograficzne" type="misspelling">
+		<category id="SPELLING" name="Błędy ortograficzne" type="misspelling">
            <rule id="NIEMIA_NIE_MIA" name="„niemiał” (nie miał)">
            <pattern>
             <token inflected='yes' postag='verb:(:?pot|praet).*' postag_regexp='yes'>niemieć</token>
@@ -16616,7 +16616,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Józek upadł na zad.</example>
 				</rule>
 		</category>
-		<category name="Prawdopodobne literówki" type="misspelling">
+		<category id="TYPOS" name="Prawdopodobne literówki" type="misspelling">
         <rule id="EUROPA" name="„europa” (Europa)">
           <pattern case_sensitive="yes">
             <token inflected="yes" regexp="yes">Europa|Rzym<exception regexp="yes">\p{Lu}.+</exception></token>
@@ -20288,7 +20288,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 					<example>Ten przyrząd służy do wodzenia kursora po ekranie.</example>
 				</rule>
 		</category>
-		<category name="Błędy frazeologiczne" type="style">
+		<category id="CONFUSED_WORDS" name="Błędy frazeologiczne" type="style">
                 <rule id="NIE_ULEGA_KWESTII" name="„nie ulega kwestii” (wątpliwości)">
                 <pattern>
                   <token>nie</token>

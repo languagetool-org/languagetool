@@ -39,7 +39,7 @@ public class WordRepeatBeginningRule extends Rule {
   
   public WordRepeatBeginningRule(final ResourceBundle messages, final Language language) {
     super(messages);
-    super.setCategory(new Category(messages.getString("category_misc")));
+    super.setCategory(new Category(CategoryIds.STYLE, messages.getString("category_misc")));
     setLocQualityIssueType(ITSIssueType.Style);
   }
 

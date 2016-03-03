@@ -38,7 +38,7 @@ public class CommaWhitespaceRule extends Rule {
 
   public CommaWhitespaceRule(final ResourceBundle messages) {
     super(messages);
-    super.setCategory(new Category(messages.getString("category_misc")));
+    super.setCategory(new Category(CategoryIds.TYPOS, messages.getString("category_misc")));
     setLocQualityIssueType(ITSIssueType.Whitespace);
   }
 

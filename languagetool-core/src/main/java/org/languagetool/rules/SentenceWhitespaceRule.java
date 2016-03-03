@@ -38,7 +38,7 @@ public class SentenceWhitespaceRule extends Rule {
   
   public SentenceWhitespaceRule(ResourceBundle messages) {
     super(messages);
-    super.setCategory(new Category(messages.getString("category_misc")));
+    super.setCategory(new Category(CategoryIds.TYPOGRAPHY, messages.getString("category_misc")));
     setLocQualityIssueType(ITSIssueType.Whitespace);
   }
   

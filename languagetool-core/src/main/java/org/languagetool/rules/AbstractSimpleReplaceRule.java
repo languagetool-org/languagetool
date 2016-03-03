@@ -73,7 +73,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
   public AbstractSimpleReplaceRule(final ResourceBundle messages)
       throws IOException {
-    super.setCategory(new Category(messages.getString("category_misc")));
+    super.setCategory(new Category(CategoryIds.TYPOS, messages.getString("category_misc")));
   }
 
   @Override
