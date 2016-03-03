@@ -38,7 +38,8 @@ import java.util.regex.Pattern;
 
 import org.jetbrains.annotations.Nullable;
 
-import morfologik.tools.FSABuildTool;
+import morfologik.fsa.builders.FSABuilder;
+import morfologik.tools.DictCompile;
 import morfologik.tools.Launcher;
 
 /**
@@ -108,8 +109,8 @@ class DictionaryBuilder {
     File resultFile = new File(outputFilename);
         
     String[] buildToolOptions = {"-f", "cfsa2", "-i", tempFile.getAbsolutePath(), "-o", resultFile.getAbsolutePath()};
-    System.out.println("Running Morfologik FSABuildTool.main with these options: " + Arrays.toString(buildToolOptions));
-    FSABuildTool.main(buildToolOptions);
+    System.out.println("Running Morfologik DictCompile.main with these options: " + Arrays.toString(buildToolOptions));
+    DictCompile.main(buildToolOptions);
     System.out.println("Done. The binary dictionary has been written to " + resultFile.getAbsolutePath());
     return resultFile;
   }

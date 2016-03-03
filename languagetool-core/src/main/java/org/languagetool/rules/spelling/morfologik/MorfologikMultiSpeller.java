@@ -18,10 +18,11 @@
  */
 package org.languagetool.rules.spelling.morfologik;
 
-import morfologik.fsa.CFSA2Serializer;
 import morfologik.fsa.FSA;
-import morfologik.fsa.FSABuilder;
+import morfologik.fsa.builders.FSABuilder;
+import morfologik.fsa.builders.CFSA2Serializer;
 import morfologik.stemming.Dictionary;
+
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 
@@ -114,7 +115,7 @@ public class MorfologikMultiSpeller {
       ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());
       ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
       String infoFile = dictPath.replace(".dict", ".info");
-      Dictionary dict = Dictionary.readAndClose(fsaInStream, JLanguageTool.getDataBroker().getFromResourceDirAsStream(infoFile));
+      Dictionary dict = Dictionary.read(fsaInStream, JLanguageTool.getDataBroker().getFromResourceDirAsStream(infoFile));
       dicPathToDict.put(dictPath, dict);
       return dict;
     }

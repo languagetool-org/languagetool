@@ -18,9 +18,9 @@
  */
 package org.languagetool.rules.de;
 
-import morfologik.fsa.CFSA2Serializer;
 import morfologik.fsa.FSA;
-import morfologik.fsa.FSABuilder;
+import morfologik.fsa.builders.FSABuilder;
+import morfologik.fsa.builders.CFSA2Serializer;
 import morfologik.speller.Speller;
 import morfologik.stemming.Dictionary;
 import org.junit.Ignore;
@@ -322,7 +322,7 @@ public class GermanSpellerRuleTest {
     FSA fsa = FSABuilder.build(lines);
     ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());
     ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
-    return Dictionary.readAndClose(fsaInStream, infoFile);
+    return Dictionary.read(fsaInStream, infoFile);
   }
 
   private void assertCorrection(HunspellRule rule, String input, String... expectedTerms) throws IOException {

@@ -18,7 +18,7 @@
  */
 package org.languagetool.tools;
 
-import morfologik.tools.FSADumpTool;
+import morfologik.tools.DictDecompile;
 
 import java.io.File;
 
@@ -36,9 +36,9 @@ final class DictionaryExporter {
     String filename = args[0];
     String path = new File(filename).getAbsolutePath();
     if (path.contains("hunspell") || path.contains("spelling")) {
-      FSADumpTool.main("--raw-data", "-d", args[0]);
+      DictDecompile.main(args);
     } else {
-      FSADumpTool.main("--raw-data", "-x", "-d", args[0]);
+      DictDecompile.main(args);
     }
   }
 
