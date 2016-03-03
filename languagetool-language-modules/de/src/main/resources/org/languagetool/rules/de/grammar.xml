@@ -6189,6 +6189,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Zusammen-/Getrenntschreibung">
+        <rule id="FUSSFASSEN" name="Fußfassen (Fuß fassen)">
+            <pattern>
+                <token><exception postag="(ART|PRP):.*" postag_regexp="yes"></exception></token>
+                <marker>
+                    <token>Fußfassen</token>
+                </marker>
+            </pattern>
+            <message><suggestion>Fuß fassen</suggestion> (im Sinne von: 'sich etablieren') wird nicht zusammengeschrieben.</message>
+            <example correction="Fuß fassen">Er konnte dort schnell <marker>Fußfassen</marker>.</example>
+            <example>Erst mit dem Fußfassen der Dänen auf der Goldküste...</example>
+        </rule>
         <rule id="SEKUNDEN_SCHNELLE" name="in Sekunden schnelle (Sekundenschnelle)">
             <pattern>
                 <token>in</token>
