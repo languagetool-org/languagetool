@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.145 2016-03-03 18:20:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.146 2016-03-04 04:35:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -1110,17 +1110,19 @@ $Id: grammar.xml,v 1.145 2016-03-03 18:20:00 marcoagpinto Exp $
       <example correction="bolos-reis">Vamos comprar os <marker>bolos-rei</marker>.</example>
     </rule>
 	
-	
 
-    <!-- CENTENAS DE MILHAR centenas de milhares -->
-    <rule id="CENTENAS_DE_MILHAR" name="centenas de milhares">
+
+    <!-- DEZENAS/CENTENAS DE MILHAR dezenas/centenas de milhares -->
+    <rule id="DEZENAS_CENTENAS_DE_MILHAR" name="dezenas/centenas de milhares">
       <pattern>
-        <token>centenas</token>
+		<token regexp="yes">dezenas|centenas</token>
         <token>de</token>
-        <token>milhar</token>
+		<marker>
+			<token>milhar</token>
+		</marker>
       </pattern>
-      <message>Substituir «centenas de milhar» por <suggestion>centenas de milhares</suggestion>.</message>
-      <example correction="centenas de milhares">Existem várias <marker>centenas de milhar</marker> de militantes.</example>
+      <message>Substituir «milhar» por <suggestion>milhares</suggestion>.</message>
+      <example correction="milhares">Existem várias centenas de <marker>milhar</marker> de militantes.</example>
     </rule>
 
 
@@ -1789,31 +1791,20 @@ $Id: grammar.xml,v 1.145 2016-03-03 18:20:00 marcoagpinto Exp $
 
 
 
-    <!-- FOI SOU UM foi só um -->
-    <rule id="FOI_SOU_UM" name="foi só um">
+    <!-- FOI SOU UM/UMA foi só um/uma -->
+    <rule id="FOI_SOU_UM-UMA" name="foi só um/uma">
       <pattern>
         <token>foi</token>
-        <token>sou</token>
-        <token>um</token>
+		<marker>
+			<token>sou</token>
+		</marker>	
+		<token regexp="yes">um|uma</token>
       </pattern>
-      <message>Substituir «foi sou um» por <suggestion>foi só um</suggestion>.</message>
-      <example correction="foi só um">Na realidade <marker>foi sou um</marker> esquecimento.</example>
+      <message>Substituir «sou» por <suggestion>só</suggestion>.</message>
+      <example correction="só">Na realidade foi <marker>sou</marker> um esquecimento.</example>
     </rule>
 
-
-
-    <!-- FOI SOU UMA foi só uma -->
-    <rule id="FOI_SOU_UMA" name="foi só uma">
-      <pattern>
-        <token>foi</token>
-        <token>sou</token>
-        <token>uma</token>
-      </pattern>
-      <message>Substituir «foi sou uma» por <suggestion>foi só uma</suggestion>.</message>
-      <example correction="foi só uma">Na realidade <marker>foi sou uma</marker> falha.</example>
-    </rule>
-
-
+	
 
     <!-- FORMAS INOVADORES formas inovadoras -->
     <rule id="FORMAS_INOVADORES" name="formas inovadoras">
@@ -1838,8 +1829,32 @@ $Id: grammar.xml,v 1.145 2016-03-03 18:20:00 marcoagpinto Exp $
       <example correction="usurpação de identidade">É comum ser alvo de <marker>furto de identidade</marker> na Internet.</example>
     </rule>
 
+	
 
+    <!-- GAJA/S informal -->
+	<rule id="GAJA_GAJAS" name="gaja/gajas (informal)">
+	  <pattern>
+		<token regexp="yes">gaja|gajas</token>
+      </pattern>
+      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
+      <example correction="">Onde está a <marker>gaja</marker>?</example>
+      <example>Onde está a <marker>senhora</marker>?</example>
+	</rule>
+	
+	
 
+    <!-- GAJO/S informal -->
+	<rule id="GAJO_GAJOS" name="gajo/gajos (informal)">
+	  <pattern>
+		<token regexp="yes">gajo|gajos</token>
+      </pattern>
+      <message>Linguagem informal. Pondera usar uma expressão alternativa.</message>
+      <example correction="">Onde está o <marker>gajo</marker>?</example>
+      <example>Onde está o <marker>senhor</marker>?</example>
+	</rule>	
+
+	
+	
     <!-- GOSTO DE QUE gosto que -->
     <rule id="GOSTO_DE_QUE" name="gosto que">
       <pattern>
@@ -1886,19 +1901,6 @@ $Id: grammar.xml,v 1.145 2016-03-03 18:20:00 marcoagpinto Exp $
       </pattern>
       <message>Substituir «hás vezes» por <suggestion>às vezes</suggestion>.</message>
       <example correction="às vezes">É que <marker>hás vezes</marker> temos de tomar decisões.</example>
-    </rule>
-
-	
-	
-    <!-- HEMORRAGIA DE SANGUE hemorragia -->
-    <rule id="HEMORRAGIA_DE_SANGUE" name="hemorragia">
-      <pattern>
-        <token>hemorragia</token>
-        <token>de</token>
-		<token>sangue</token>
-      </pattern>
-      <message>Substituir «hemorragia de sangue» por <suggestion>hemorragia</suggestion>.</message>
-      <example correction="hemorragia">Uma <marker>hemorragia de sangue</marker> pode ser fatal.</example>
     </rule>
 
 	
@@ -2221,7 +2223,7 @@ $Id: grammar.xml,v 1.145 2016-03-03 18:20:00 marcoagpinto Exp $
     </rule>
 
 	
-    <!-- NOS + VERB - ós + verb -->
+    <!-- NOS + VERB - nós + verb -->
     <rule id="NOS_VERBO" name="Nós + verbo">
       <pattern>
 		<marker>
@@ -2245,16 +2247,40 @@ $Id: grammar.xml,v 1.145 2016-03-03 18:20:00 marcoagpinto Exp $
     </rule>
 
 
-    <!-- O CONTROLE o controlo -->
-    <rule id="O_CONTROLE" name="o controlo">
+	
+	<!-- CONTROLE/CONTROLO *START* -->
+	<!-- ************************* -->
+	
+	
+    <!-- O/DE/DO CONTROLE o/de/do controlo -->
+    <rule id="O_DE_DO_CONTROLE" name="o/de/do controlo">
       <pattern>
-        <token>o</token>
-        <token>controle</token>
+		<token regexp="yes">o|de|do</token>
+		<marker>
+			<token>controle</token>
+		</marker>
+		<token regexp="yes">das?|dos?|de</token>
       </pattern>
-      <message>Grafia do Brasil. Substituir «o controle» por <suggestion>o controlo</suggestion>.</message>
-      <example correction="o controlo">Perderam <marker>o controle</marker> da situação.</example>
+      <message>Grafia do Brasil. Substituir «controle» por <suggestion>controlo</suggestion>.</message>
+      <example correction="controlo">Perdeu o <marker>controle</marker> da situação.</example>
     </rule>
 
+	
+    <!-- SOB CONTROLE sob controlo -->
+    <rule id="SOB_CONTROLE" name="sob controlo">
+      <pattern>
+		<token>sob</token>
+		<marker>
+			<token>controle</token>
+		</marker>
+      </pattern>
+      <message>Grafia do Brasil. Substituir «controle» por <suggestion>controlo</suggestion>.</message>
+      <example correction="controlo">Está tudo sob <marker>controle</marker>.</example>
+    </rule>
+	
+	
+	<!-- CONTROLE/CONTROLO *END* -->
+	<!-- *********************** -->
 	
 	
 	
@@ -2548,19 +2574,6 @@ $Id: grammar.xml,v 1.145 2016-03-03 18:20:00 marcoagpinto Exp $
       </pattern>
       <message>Substituir «preste a» por <suggestion>prestes a</suggestion>.</message>
       <example correction="prestes a">Está <marker>preste a</marker> acontecer.</example>
-    </rule>
-
-
-
-    <!-- QUADRILHA DE LADRÕES quadrilha -->
-    <rule id="QUADRILHA_DE_LADRÕES" name="quadrilha">
-      <pattern>
-        <token>quadrilha</token>
-        <token>de</token>
-        <token>ladrões</token>
-      </pattern>
-      <message>Redundância. Usar apenas <suggestion>quadrilha</suggestion>.</message>
-      <example correction="quadrilha">É uma perigosa <marker>quadrilha de ladrões</marker>.</example>
     </rule>
 
 
@@ -2972,7 +2985,20 @@ $Id: grammar.xml,v 1.145 2016-03-03 18:20:00 marcoagpinto Exp $
 
 <category id="REDUNDANCY" name="Redundância">
 
-  <!-- MAIS MELHOR melhor -->
+    <!-- HEMORRAGIA DE SANGUE hemorragia -->
+    <rule id="HEMORRAGIA_DE_SANGUE" name="hemorragia">
+      <pattern>
+        <token>hemorragia</token>
+        <token>de</token>
+		<token>sangue</token>
+      </pattern>
+      <message>Substituir «hemorragia de sangue» por <suggestion>hemorragia</suggestion>.</message>
+      <example correction="hemorragia">Uma <marker>hemorragia de sangue</marker> pode ser fatal.</example>
+    </rule>
+
+
+	
+    <!-- MAIS MELHOR melhor -->
     <rule id="MAIS_MELHOR" name="melhor">
       <pattern>
         <token>mais</token>
@@ -2984,7 +3010,7 @@ $Id: grammar.xml,v 1.145 2016-03-03 18:20:00 marcoagpinto Exp $
 
 
   
-  <!-- MAIS PIOR pior -->
+    <!-- MAIS PIOR pior -->
     <rule id="MAIS_PIOR" name="pior">
       <pattern>
         <token>mais</token>
@@ -2993,8 +3019,20 @@ $Id: grammar.xml,v 1.145 2016-03-03 18:20:00 marcoagpinto Exp $
       <message>Substituir «mais pior por <suggestion>pior</suggestion>.</message>
       <example correction="pior">Esta escola é <marker>mais pior</marker>.</example>
     </rule>
-
 	
+
+
+    <!-- QUADRILHA DE LADRÕES quadrilha -->
+    <rule id="QUADRILHA_DE_LADRÕES" name="quadrilha">
+      <pattern>
+        <token>quadrilha</token>
+        <token>de</token>
+        <token>ladrões</token>
+      </pattern>
+      <message>Redundância. Usar apenas <suggestion>quadrilha</suggestion>.</message>
+      <example correction="quadrilha">É uma perigosa <marker>quadrilha de ladrões</marker>.</example>
+    </rule>
+
 	
 </category>
 
