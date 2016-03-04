@@ -2133,6 +2133,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule id="DE_MANERA_ADJ" name="de manera + adj">
                 <!-- Problem not detected by rule COMPLEX_ADJECTIVE_CONCORDANCE in some contexts-->
+                <antipattern>
+                    <marker>
+                        <token inflected="yes" regexp="yes">factor|estat</token>
+                        <token>de</token>
+                        <token>forma</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token inflected="yes">canviar</token>
+                        <token>de</token>
+                        <token>forma</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token>de</token>
                     <unify negate="yes">
@@ -12093,6 +12107,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>darrere</example>
         </rule>
         <rule id="INGENI_ENGINY_GINY" name="ingeni/enginy/giny">
+            <antipattern>
+                 <marker>
+                      <token regexp="yes">ingenis?</token>
+                      <token regexp="yes">sucrers?</token>
+                 </marker>
+            </antipattern>
             <pattern>
                 <token regexp="yes">ingenis?</token>
             </pattern>
@@ -12101,7 +12121,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" regexp_match="ingeni(s?)" regexp_replace="giny$1"/></suggestion>
             <short>Possible confusió</short>
             <example correction="enginy|giny"><marker>ingeni</marker></example>
-            <example>enginy</example>
+            <example>Dels ingenis sucrers.</example>
         </rule>
         <rule id="DOLAR" name="dolar">
             <pattern>
@@ -27346,6 +27366,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>grosso modo</example>
         </rule>
         <rulegroup id="GUST_A" name="gust a">
+            <antipattern>
+                <marker>
+                    <token>a</token>
+                    <token postag="NP.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern> 
+            <antipattern>
+                <marker>
+                    <token>a</token>
+                    <token min="0" postag="D.*" postag_regexp="yes"/>
+                    <token regexp="yes" inflected="yes">&unitats_temps;</token>
+                </marker>
+            </antipattern> 
+            <antipattern>
+                <marker>
+                    <token postag="_GN_MS" >pudor</token>
+                </marker>
+            </antipattern> 
             <rule>
                 <pattern>
                     <token inflected="yes" skip="2">fer</token>
@@ -27388,6 +27426,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="olor de">i <marker>olor a</marker> sofre</example>
                 <example>tenia olor de maduixa</example>
                 <example>començava a trobar-li el gust al sarcasme</example>
+                <example>Pel pudor a la representació del cos humà</example>
             </rule>
             <rule>
                 <pattern>
