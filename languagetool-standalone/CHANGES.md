@@ -29,7 +29,7 @@
   * added checks on date ranges
     
 #### Portuguese
-  * added and improved rules
+  * added and improved rules, improved categorization of rules 
     
 #### Russian
   * added new rules
