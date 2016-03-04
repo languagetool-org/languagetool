@@ -13474,7 +13474,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="EN_FRONT_ENFRONT" name="*en front/enfront">
             <pattern>
                 <token>en</token>
-                <token>front</token>
+                <token>front<exception postag="_possible_nompropi"/></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>enfront</suggestion>?</message>
             <short>Possible confusió</short>
@@ -29300,7 +29300,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="VIAL_VIARI" name="vial (nom)/viari (adj)">
             <pattern>
-                <token postag="NC.*" postag_regexp="yes"></token>
+                <token postag="NC.*" postag_regexp="yes"><exception regexp="yes">nous?</exception></token>
                 <token inflected="yes">vial</token>
             </pattern>
             <message>"Vial" és un nom, no un adjectiu.</message>
@@ -29308,6 +29308,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://esadir.cat/entrades/fitxa/id/2381</url>
             <example correction="Seguretat viària"><marker>Seguretat vial</marker>.</example>
             <example correction="Connexions viàries"><marker>Connexions vials</marker>.</example>
+            <example>Van construir nous vials de comunicació.</example>
         </rule>
         <rulegroup id="DESPRENDRE_DESPENDRE" name="despendre / desprendre">
             <!-- es pot completar amb més paraules -->
@@ -33308,7 +33309,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes">mitjà</token>
+                        <token regexp="yes">mitjà|mitjans</token>
                     </marker>
                     <token inflected="yes" regexp="yes">marí|terrestre|aquàtic|líquid|sòlid|gasós|semisòlid</token>
                 </pattern>
@@ -33316,7 +33317,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" postag="NC(.+)" postag_regexp="yes" postag_replace="NC$1">medi</match></suggestion>
                 <url>http://esadir.cat/entrades/fitxa/node/medi</url>
                 <example correction="medis">Els <marker>mitjans</marker> marins</example>
-                <example>El medi marí.</example>
+                <example>La temperatura mitjana terrestre.</example>
             </rule>
             <rule>
                 <pattern>
