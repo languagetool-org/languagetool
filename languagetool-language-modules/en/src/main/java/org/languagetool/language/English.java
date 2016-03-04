@@ -155,9 +155,13 @@ public class English extends Language implements AutoCloseable {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-        new CommaWhitespaceRule(messages),
+        new CommaWhitespaceRule(messages,
+                Example.wrong("We had coffee<marker> ,</marker> cheese and crackers and grapes."),
+                Example.fixed("We had coffee<marker>,</marker> cheese and crackers and grapes.")),
         new DoublePunctuationRule(messages),
-        new UppercaseSentenceStartRule(messages, this),
+        new UppercaseSentenceStartRule(messages, this,
+                Example.wrong("This house is old. <marker>it</marker> was built in 1950."),
+                Example.fixed("This house is old. <marker>It</marker> was built in 1950.")),
         new MultipleWhitespaceRule(messages, this),
         new LongSentenceRule(messages),
         new SentenceWhitespaceRule(messages),

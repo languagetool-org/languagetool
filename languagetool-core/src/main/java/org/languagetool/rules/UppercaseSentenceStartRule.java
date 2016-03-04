@@ -49,12 +49,22 @@ public class UppercaseSentenceStartRule extends Rule {
 
   private String lastParagraphString = "";
   
-  public UppercaseSentenceStartRule(final ResourceBundle messages,
-      final Language language) {
+  /** @since 3.3 */
+  public UppercaseSentenceStartRule(ResourceBundle messages, Language language, IncorrectExample incorrectExample, String correctExample) {
     super(messages);
     super.setCategory(Categories.CASING.getCategory(messages));
     this.language = language;
     setLocQualityIssueType(ITSIssueType.Typographical);
+    if (incorrectExample != null && correctExample != null) {
+      addExamplePair(incorrectExample, correctExample);
+    }
+  }
+
+  /**
+   * @deprecated use {@link #UppercaseSentenceStartRule(ResourceBundle, Language, IncorrectExample, String)} instead (deprecated since 3.3)
+   */
+  public UppercaseSentenceStartRule(ResourceBundle messages, Language language) {
+    this(messages, language, null, null);
   }
 
   @Override

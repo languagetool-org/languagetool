@@ -36,10 +36,21 @@ import static org.languagetool.tools.StringTools.isEmpty;
  */
 public class CommaWhitespaceRule extends Rule {
 
-  public CommaWhitespaceRule(final ResourceBundle messages) {
+  /** @since 3.3 */
+  public CommaWhitespaceRule(ResourceBundle messages, IncorrectExample incorrectExample, String correctExample) {
     super(messages);
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Whitespace);
+    if (incorrectExample != null && correctExample != null) {
+      addExamplePair(incorrectExample, correctExample);
+    }
+  }
+
+  /**
+   * @deprecated use {@link #CommaWhitespaceRule(ResourceBundle, IncorrectExample, String)} instead (deprecated since 3.3)
+   */
+  public CommaWhitespaceRule(ResourceBundle messages) {
+    this(messages, null, null);
   }
 
   @Override
