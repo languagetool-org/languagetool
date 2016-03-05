@@ -264,12 +264,13 @@ USA
                 <marker>
                     <token>out</token>
                 </marker>
-                <token><exception postag="IN|RP|DT|SENT_END" postag_regexp="yes"/><exception>what</exception></token>
+                <token><exception postag="IN|RP|DT|SENT_END" postag_regexp="yes"/><exception>our</exception><exception>what</exception></token>
             </pattern>
             <message>Did you mean <suggestion>our</suggestion>?</message>
             <short>Possible typo</short>
             <example correction="our">We evaluated <marker>out</marker> method by running RASP.</example>
             <example>If we take out India and China...</example>
+            <example>We lay out our proposal.</example>
         </rule>
         <rule id="YOUR_SHOULD" name="your (you) should">
             <pattern case_sensitive="yes">
@@ -6984,6 +6985,13 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="BEEN_PART_AGREEMENT" name="Agreement: 'been' or 'was' + past tense">
+        <antipattern>
+        <token>does</token>
+        <token>is</token>
+        <marker>
+          <token postag="VBP?" postag_regexp="yes"/>
+        </marker>
+        </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">been|was|were|is|are|am<exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">have|has</exception><exception postag='NNP'/></token>
@@ -7003,6 +7011,7 @@ USA
                 <example correction="done">He has been <marker>did</marker> this.</example>
                 <example>All you have to do is go and ask.</example>
                 <example>The other patrons were taxi drivers.</example>
+                <example>All she does is eat.</example>
             </rule>
             <rule>
                 <pattern>
