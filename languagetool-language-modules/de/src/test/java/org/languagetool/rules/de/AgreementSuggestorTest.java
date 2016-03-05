@@ -38,6 +38,7 @@ public class AgreementSuggestorTest {
     assertSuggestion("die/der/ART:DEF:NOM:PLU:FEM Haus/Haus/SUB:NOM:SIN:NEU", "[das Haus]");
     assertSuggestion("das/der/ART:DEF:NOM:PLU:FEM Häuser/Haus/SUB:NOM:PLU:NEU", "[die Häuser]");
     assertSuggestion("das/der/ART:DEF:NOM:PLU:FEM Häusern/Haus/SUB:DAT:PLU:NEU", "[den Häusern]");
+    assertSuggestion("dieser/dies/PRO:DEM:GEN:PLU:NEU:B/S Buch/Buch/SUB:NOM:SIN:NEU", "[dieser Bücher, dieses Buch]");
   }
 
   private void assertSuggestion(String input, String expectedSuggestions) {

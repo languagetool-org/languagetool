@@ -71,8 +71,12 @@ class AgreementSuggestor {
     if (StringTools.isEmpty(determinerDefiniteness)) {
       return Collections.emptyList();
     }
-    String correctPosTag = "ART:" + determinerDefiniteness + ":" + nounCase + ":" + nounNumber + ":" + nounGender;
-    return getDeterminerSuggestionsForPosTag(article, correctPosTag, null);
+    List<String> result = new ArrayList<>();
+    String correctPosTag1 = "ART:" + determinerDefiniteness + ":" + nounCase + ":" + nounNumber + ":" + nounGender;
+    result.addAll(getDeterminerSuggestionsForPosTag(article, correctPosTag1, null));
+    String correctPosTag2 = "PRO:DEM:" + nounCase + ":" + nounNumber + ":" + nounGender + ":B/S";
+    result.addAll(getDeterminerSuggestionsForPosTag(article, correctPosTag2, null));
+    return result;
   }
 
   private List<String> getPronounSuggestions(String nounCase, String nounNumber, String nounGender, AnalyzedToken pronoun) throws IOException {
