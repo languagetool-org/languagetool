@@ -2491,6 +2491,16 @@
                  outputform="niewielki[niewielki/adj:sg:nom.voc:m1.m2.m3:pos]">Był to od dawna <marker>niewielki</marker> elektromagnes.</example>
     </rule>
 
+    <rule name="miał być" id="MIAL_INF">
+        <pattern>
+            <marker><token skip="3"><exception scope="next" postag_regexp="yes" postag="interp:comma|verb:(sg|pl).*"/>miał</token></marker>
+            <token postag_regexp="yes" postag="verb:inf.*"/>
+        </pattern>
+        <disambig postag="verb:praet:sg:m1.m2.m3:ter:imperf:refl.nonrefl"/>
+        <example type="untouched">Wraca ma ukochana.</example>
+        <example type="ambiguous" inputform="miał[miał/subst:sg:acc:m3,miał/subst:sg:nom:m3,mieć/verb:praet:sg:m1.m2.m3:ter:imperf:refl.nonrefl]"
+                 outputform="miał[mieć/verb:praet:sg:m1.m2.m3:ter:imperf:refl.nonrefl]">Jak <marker>miał</marker> zrobić zadanie 3?</example>
+    </rule>
 
     <rule name="to jako predykatyw" id="to_pred">
         <pattern>
@@ -8409,17 +8419,6 @@
             </marker>
         </pattern>
         <disambig action="filterall"/>
-    </rule>
-
-    <rule name="miał być" id="MIAL_INF">
-        <pattern>
-            <marker><token skip="3"><exception scope="next" postag_regexp="yes" postag="interp:comma|verb:(sg|pl).*"/>miał</token></marker>
-            <token postag_regexp="yes" postag="verb:inf.*"/>
-        </pattern>
-        <disambig postag="verb:praet:sg:m1.m2.m3:ter:imperf:refl.nonrefl"/>
-        <example type="untouched">Wraca ma ukochana.</example>
-        <example type="ambiguous" inputform="miał[miał/subst:sg:acc:m3,miał/subst:sg:nom:m3,mieć/verb:praet:sg:m1.m2.m3:ter:imperf:refl.nonrefl]"
-                 outputform="miał[mieć/verb:praet:sg:m1.m2.m3:ter:imperf:refl.nonrefl]">Jak <marker>miał</marker> zrobić zadanie 3?</example>
     </rule>
 
     <rule name="ma być" id="MA_INF">
