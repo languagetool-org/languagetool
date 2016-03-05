@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 
 import org.languagetool.*;
 import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.rules.Category;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -229,10 +230,19 @@ public class PatternRuleTest extends TestCase {
     final List<Rule> allRules = languageTool.getAllRules();
     final Set<String> ids = new HashSet<>();
     final Set<Class> ruleClasses = new HashSet<>();
+    final Set<String> categoryIds = new HashSet<>();
     for (Rule rule : allRules) {
       assertIdUniqueness(ids, ruleClasses, lang, rule);
       if (rule.getId().equalsIgnoreCase("ID")) {
         System.err.println("WARNING: " + lang.getShortNameWithCountryAndVariant() + " has a rule with id 'ID', this should probably be changed");
+      }
+      Category category = rule.getCategory();
+      if (category != null && category.getId() != null) {
+        String catId = category.getId().toString();
+        if (!catId.matches("[A-Z_-]+") && !categoryIds.contains(catId)) {
+          System.err.println("WARNING: category id '" + catId + "' doesn't match expected regexp [A-Z_-]+");
+          categoryIds.add(catId);
+        }
       }
     }
   }
