@@ -917,15 +917,25 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker><token regexp="yes">peu[tx]<exception scope="previous" regexp="yes">se|on|il|elle</exception></token></marker>
-          <token regexp="yes">de?</token>
-          <token><exception regexp="yes">ailleurs|nouveau|même</exception></token>
+          <token>de</token>
+          <token><exception regexp="yes">nouveau|même</exception></token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>peu</suggestion> ?</message>
         <example correction="Peu"><marker>Peut</marker> de gens.</example>
+        <example>Il est guéri et peut de nouveau travailler.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">peu[tx]<exception scope="previous" regexp="yes">se|on|il|elle</exception></token></marker>
+          <token>d</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token><exception regexp="yes">abord|ailleurs</exception></token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>peu</suggestion> ?</message>
         <example correction="Peu"><marker>Peut</marker> d’amis.</example>
         <example>Je veux m’éloigner autant que faire se peut d’ici.</example>
         <example>On peut d’ailleurs le vérifier.</example>
-        <example>Il est guéri et peut de nouveau travailler.</example>
+        <example>Le médecin peut d’abord contacter l’entreprise.</example>
       </rule>
     </rulegroup>
     <rule id="FOR_INTERIEUR" name="fort intérieur au lieu de for intérieur">
