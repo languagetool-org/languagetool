@@ -11774,6 +11774,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="CASING" name="Pisownia małą i wielką literą" type="misspelling">
+		  <rule id="PIETA_ACHILLESOWA" name="„pięta Achillesowa” (pięta achillesowa)">
+						<pattern>
+								<unify>
+										<feature id="number"></feature>
+										<feature id="gender"></feature>
+										<feature id="case"></feature>
+										<token inflected="yes">pięta</token>
+										<token inflected="yes">achillesowy<exception regexp="yes">\p{Ll}+</exception></token>
+								</unify>
+						</pattern>
+						<message>To wyrażenie piszemy małą literą: <suggestion><match no="1"/> <match no="2" case_conversion="alllower"></match></suggestion>.</message>
+						<short>Błąd ortograficzny</short>
+						<example correction="pięta achillesowa">Ortografia to jego <marker>pięta Achillesowa</marker>.</example>
+				</rule>
                 <rulegroup name="Zła pisownia jednostek herc, ohm i wat" id="herc_om">
                     <rule>
                     <pattern case_sensitive="yes">
@@ -20609,7 +20623,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<short>Błąd frazeologiczny</short>
 						<example correction="całe szczęście, że|na szczęście">Jestem młodym człowiekiem i <marker>na całe szczęście</marker> większość swojego życia spędziłem w demokratycznej III RP.</example>
 						<example>Jestem młodym człowiekiem i na szczęście większość swojego życia spędziłem w demokratycznej III RP.</example>
-				</rule>
-				
+				</rule>				
 		</category>
 </rules>
