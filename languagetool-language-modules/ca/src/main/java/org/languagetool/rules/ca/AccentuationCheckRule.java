@@ -19,20 +19,16 @@
 package org.languagetool.rules.ca;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
@@ -46,10 +42,6 @@ import org.languagetool.tools.StringTools;
  * @author Jaume Ortolà i Font
  */
 public class AccentuationCheckRule extends CatalanRule {
-
-  private static final String FILE_NAME = "/ca/verb_senseaccent_nom_ambaccent.txt";
-  private static final String FILE_NAME2 = "/ca/verb_senseaccent_adj_ambaccent.txt";
-  private static final String FILE_ENCODING = "utf-8";
 
   /**
    * Patterns
@@ -87,14 +79,14 @@ public class AccentuationCheckRule extends CatalanRule {
   private static final Pattern LOCUCIONS = Pattern.compile(".*LOC.*");
   private static final Pattern PRONOM_FEBLE = Pattern.compile("P0.{6}|PP3CN000|PP3NN000|PP3CP000|PP3CSD00"); // Exclosos: PP3..A00 (coincideixe amb articles determinats)
 
-  private final Map<String, AnalyzedTokenReadings> relevantWords;
-  private final Map<String, AnalyzedTokenReadings> relevantWords2;
+  private static final Map<String, AnalyzedTokenReadings> relevantWords = 
+          new AccentuationDataLoader().loadWords("/ca/verb_senseaccent_nom_ambaccent.txt");
+  private static final Map<String, AnalyzedTokenReadings> relevantWords2 =
+          new AccentuationDataLoader().loadWords("/ca/verb_senseaccent_adj_ambaccent.txt");
 
   public AccentuationCheckRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
-    relevantWords = loadWords(FILE_NAME);
-    relevantWords2 = loadWords(FILE_NAME2);
   }
 
   @Override
@@ -369,34 +361,6 @@ public class AccentuationCheckRule extends CatalanRule {
       }
     }
     return matches;
-  }
-
-  /**
-   * Load words.
-   */
-  private Map<String, AnalyzedTokenReadings> loadWords(String fileName)
-      throws IOException {
-    final Map<String, AnalyzedTokenReadings> map = new HashMap<>();
-    final InputStream inputStream = JLanguageTool.getDataBroker()
-        .getFromRulesDirAsStream(fileName);
-    try (Scanner scanner = new Scanner(inputStream, FILE_ENCODING)) {
-      while (scanner.hasNextLine()) {
-        final String line = scanner.nextLine().trim();
-        if (line.isEmpty() || line.charAt(0) == '#') {  // ignore comments
-          continue;
-        }
-        final String[] parts = line.split(";");
-        if (parts.length != 3) {
-          throw new IOException("Format error in file " + fileName + ", line: "
-              + line + ", " + "expected 3 semicolon-separated parts, got "
-              + parts.length);
-        }
-        final AnalyzedToken analyzedToken = new AnalyzedToken(parts[1],
-            parts[2], null);
-        map.put(parts[0], new AnalyzedTokenReadings(analyzedToken, 0));
-      }
-    }
-    return map;
   }
 
   @Override
