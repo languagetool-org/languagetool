@@ -23,13 +23,16 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.Languages;
+import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Contributor;
+import org.languagetool.rules.ConfusionSetLoader;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -66,6 +69,7 @@ public final class RuleOverview {
     System.out.println("  <th></th>");
     System.out.println("  <th align=\"left\" width=\"60\">Java<br/>rules</th>");
     System.out.println("  <th align=\"left\" width=\"60\">False<br/>friends</th>");
+    System.out.println("  <th align=\"left\" width=\"60\">Confusion<br/>pairs</th>");
     //System.out.println("  <th valign='bottom' width=\"65\">Auto-<br/>detected</th>");
     System.out.println("  <th valign='bottom' align=\"left\" width=\"70\">Activity</th>");
     System.out.println("  <th valign='bottom' align=\"left\">Rule Maintainers</th>");
@@ -137,8 +141,9 @@ public final class RuleOverview {
       }
 
       // false friends:
-      final int count = countFalseFriendRules(falseFriendRules, lang);
-      System.out.print("<td valign=\"top\" align=\"right\">" + count + "</td>");
+      System.out.print("<td valign=\"top\" align=\"right\">" + countFalseFriendRules(falseFriendRules, lang) + "</td>");
+
+      System.out.print("<td valign=\"top\" align=\"right\">" + countConfusionPairs(lang) + "</td>");
 
       // activity:
       int commits = activity.getActivityFor(lang, 365/2);
@@ -254,6 +259,20 @@ public final class RuleOverview {
     return count;
   }
 
+  private int countConfusionPairs(Language lang) {
+    String path = "/" + lang.getShortName() + "/confusion_sets.txt";
+    ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+    if (dataBroker.resourceExists(path)) {
+      try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {
+        ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
+        return confusionSetLoader.loadConfusionSet(confusionSetStream).size();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    return 0;
+  }
+  
   private String getMaintainerInfo(Language lang) {
     final StringBuilder maintainerInfo = new StringBuilder();
     if (lang.getMaintainers() != null) {
