@@ -20,7 +20,6 @@ package org.languagetool.tools;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 
@@ -29,7 +28,7 @@ import org.apache.commons.cli.CommandLine;
  * @since public since 2.8
  */
 public final class POSDictionaryBuilder extends DictionaryBuilder {
-
+  
   public POSDictionaryBuilder(File infoFile) throws IOException {
     super(infoFile);
   }
@@ -44,22 +43,19 @@ public final class POSDictionaryBuilder extends DictionaryBuilder {
 
     if ( cmdLine.hasOption(BuilderWithFreqOptions.FREQ_OPTION) ) {
       builder.readFreqList(new File(cmdLine.getOptionValue(BuilderWithFreqOptions.FREQ_OPTION)));
-      inputFile = builder.addFreqData(inputFile);
+      inputFile = builder.addFreqData(inputFile, false);
     } 
-
     builder.build(inputFile);
   }
 
   public File build(File dictFile) throws Exception {
-    File tempFile = File.createTempFile(POSDictionaryBuilder.class.getSimpleName(), ".txt");
-    try {
-      List<String> tab2morphOptions = getTab2MorphOptions(dictFile, tempFile);
-      tab2morphOptions.add(0, "tab2morph");
-      prepare(tab2morphOptions);
-      return buildDict(tempFile);
-    } finally {
-      tempFile.delete();
-    }
+    //File tempFile = File.createTempFile(POSDictionaryBuilder.class.getSimpleName(), ".txt");
+      //List<String> tab2morphOptions = getTab2MorphOptions(dictFile, tempFile);
+      //tab2morphOptions.add(0, "fsa_compile");
+      //prepare(tab2morphOptions);
+      return buildDict(convertTabToSeparator(dictFile));
   }
+  
+  
 
 }

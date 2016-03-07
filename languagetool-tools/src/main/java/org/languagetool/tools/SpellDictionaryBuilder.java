@@ -52,7 +52,7 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
 
     if (cmdLine.hasOption(BuilderWithFreqOptions.FREQ_OPTION)) {
       builder.readFreqList(new File(cmdLine.getOptionValue(BuilderWithFreqOptions.FREQ_OPTION)));
-      inputFile = builder.addFreqData(inputFile);
+      inputFile = builder.addFreqData(inputFile, true);
     }
     
     builder.build(inputFile);
@@ -62,7 +62,7 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
     File tempFile = null;
     try {
       tempFile = tokenizeInput(plainTextDictFile);
-      return buildDict(tempFile);
+      return buildFSA(tempFile);
     } finally {
       if (tempFile != null) {
         tempFile.delete();

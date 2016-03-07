@@ -26,21 +26,22 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jetbrains.annotations.Nullable;
 
-import morfologik.fsa.builders.FSABuilder;
 import morfologik.tools.DictCompile;
-import morfologik.tools.Launcher;
+import morfologik.tools.FSACompile;
+import morfologik.tools.SerializationFormat;
 
 /**
  * Create a Morfologik binary dictionary from plain text data.
@@ -52,6 +53,8 @@ class DictionaryBuilder {
   private static final int FREQ_RANGES_IN = 256;
   private static final int FREQ_RANGES_OUT = 26; // (A-Z)
   private static final int FIRST_RANGE_CODE = 65; // character 'A', less frequent words
+  
+  SerializationFormat serializationFormat = SerializationFormat.CFSA2;
 
   private final Map<String, Integer> freqList = new HashMap<>();
   private final Pattern pFreqEntry = Pattern.compile(".*<w f=\"(\\d+)\" flags=\"(.*)\">(.+)</w>.*");
@@ -67,7 +70,7 @@ class DictionaryBuilder {
     this.outputFilename = outputFilename;
   }
 
-  protected List<String> getTab2MorphOptions(File dictFile, File outputFile) throws IOException {
+  /*protected List<String> getTab2MorphOptions(File dictFile, File outputFile) throws IOException {
     List<String> tab2morphOptions = new ArrayList<>();
     String separator = getOption("fsa.dict.separator");
     if (separator != null && !separator.trim().isEmpty()) {
@@ -103,14 +106,42 @@ class DictionaryBuilder {
   protected void prepare(List<String> tab2morphOptions) throws Exception {
     System.out.println("Running Morfologik Launcher.main with these options: " + tab2morphOptions);
     Launcher.main(tab2morphOptions.toArray(new String[tab2morphOptions.size()]));
-  }
+  }*/
+    
 
-  protected File buildDict(File tempFile) throws Exception {
+  protected File buildDict(File inputFile) throws Exception {
+    File outputFile = new File(outputFilename);
+        
+    //String[] buildToolOptions = {"-i", inputFile.getAbsolutePath(), "-o", outputFile.getAbsolutePath()};
+    //System.out.println("Running Morfologik DictCompile.main with these options: " + Arrays.toString(buildToolOptions));
+    //FSACompile.main(buildToolOptions);
+    String infoPath = inputFile.toString().replaceAll(".txt", ".info");
+    File resultFile = new File (inputFile.toString().replaceAll(".txt", ".dict"));
+    File infoFile = new File(infoPath);
+    props.store(new FileOutputStream(infoFile), ""); // save info file in the same path of input txt file and with the same name
+    new DictCompile(inputFile.toPath(), false, false, false, false, true).call();
+    
+    
+    Files.move(resultFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+    
+    System.out.println("Done. The binary dictionary has been written to " + outputFile.getAbsolutePath());
+    return outputFile;
+  }
+  
+  protected File buildFSA(File inputFile) throws Exception {
     File resultFile = new File(outputFilename);
         
-    String[] buildToolOptions = {"-f", "cfsa2", "-i", tempFile.getAbsolutePath(), "-o", resultFile.getAbsolutePath()};
-    System.out.println("Running Morfologik DictCompile.main with these options: " + Arrays.toString(buildToolOptions));
-    DictCompile.main(buildToolOptions);
+    //String[] buildToolOptions = {"-f", serializationFormat.toString(), "-i", inputFile.getAbsolutePath(), "-o", resultFile.getAbsolutePath()};
+    //System.out.println("Running Morfologik FSACompile.main with these options: " + Arrays.toString(buildToolOptions));
+    //FSACompile.main(buildToolOptions);
+    
+    new FSACompile(inputFile.toPath(),
+        resultFile.toPath(),
+        serializationFormat,
+        false,
+        false,
+        true).call();
+    
     System.out.println("Done. The binary dictionary has been written to " + resultFile.getAbsolutePath());
     return resultFile;
   }
@@ -150,7 +181,7 @@ class DictionaryBuilder {
     }
   }
   
-  protected File addFreqData(File dictFile) throws IOException {
+  protected File addFreqData(File dictFile, boolean useSeparator) throws IOException {
     if (!isOptionTrue("fsa.dict.frequency-included")) {
       throw new IOException("In order to use frequency data add the line 'fsa.dict.frequency-included=true' to the dictionary info file.");
     }
@@ -189,7 +220,13 @@ class DictionaryBuilder {
           }
           // Convert integers 0-255 to ranges A-Z, and write output 
           String freqChar = Character.toString((char) (FIRST_RANGE_CODE + normalizedFreq*FREQ_RANGES_OUT/FREQ_RANGES_IN));
-          bw.write(line + separator + freqChar + "\n");
+          //add separator only in speller dictionaries
+          if (useSeparator) { 
+            bw.write(line + separator + freqChar + "\n");  
+          } else {
+            bw.write(line + freqChar + "\n");
+          }
+          
         }
       }
       br.close();
@@ -202,4 +239,33 @@ class DictionaryBuilder {
     return tempFile;
   }
   
+  protected File convertTabToSeparator(File inputFile) throws RuntimeException, IOException {
+    File outputFile = File.createTempFile(
+        DictionaryBuilder.class.getSimpleName() + "_separator", ".txt");
+    String separator = getOption("fsa.dict.separator");
+    if (separator == null || separator.trim().isEmpty()) {
+      throw new IOException(
+          "A separator character (fsa.dict.separator) must be defined in the dictionary info file.");
+    }
+    String encoding = getOption("fsa.dict.encoding");
+    Scanner scanner = new Scanner(inputFile, encoding);
+    try (Writer out = new BufferedWriter(new OutputStreamWriter(
+        new FileOutputStream(outputFile), encoding))) {
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        String[] parts = line.split("\t");
+        if (parts.length == 3) {
+          out.write(parts[1] + separator + parts[0] + separator + parts[2]);
+          out.write("\n");
+        } else {
+          System.err
+              .println("Invalid input, expected three tab-separated columns in "
+                  + inputFile + ": " + line + " => ignoring");
+        }
+      }
+      scanner.close();
+    }
+    return outputFile;
+  }
 }
+

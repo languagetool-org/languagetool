@@ -32,9 +32,10 @@ import java.util.Arrays;
 
 public class SynthDictionaryBuilderTest extends DictionaryBuilderTestHelper {
 
-  private static final String INFO =
-    "fsa.dict.separator=+\n" +
-    "fsa.dict.encoding=cp1251\n";
+  private static final String INFO = 
+      "fsa.dict.separator=+\n" +
+      "fsa.dict.encoding=cp1251\n" +
+      "fsa.dict.encoder=SUFFIX";
   
   @Test
   @Ignore("for interactive use only")

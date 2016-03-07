@@ -59,12 +59,12 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
       Set<String> itemsToBeIgnored = getIgnoreItems(new File(infoFile.getParent(), "filter-archaic.txt"));
       Pattern ignorePosRegex = getPosTagIgnoreRegex(infoFile);
       reversedFile = reverseLineContent(plainTextDictFile, itemsToBeIgnored, ignorePosRegex);
-      List<String> tab2morphOptions = getTab2MorphOptions(reversedFile, tempFile);
+      /*List<String> tab2morphOptions = getTab2MorphOptions(reversedFile, tempFile);
       tab2morphOptions.add(0, "tab2morph");
       tab2morphOptions.add(1, "-nw");  // no warnings, needed for synth dicts
-      prepare(tab2morphOptions);
+      prepare(tab2morphOptions);*/
       writePosTagsToFile(plainTextDictFile, getTagFile(tempFile));
-      return buildDict(tempFile);
+      return buildDict(reversedFile);
     } finally {
       tempFile.delete();
       if (reversedFile != null) {
@@ -107,6 +107,10 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
 
   private File reverseLineContent(File plainTextDictFile, Set<String> itemsToBeIgnored, Pattern ignorePosRegex) throws IOException {
     File reversedFile = File.createTempFile(SynthDictionaryBuilder.class.getSimpleName() + "_reversed", ".txt");
+    String separator = getOption("fsa.dict.separator");
+    if (separator == null || separator.trim().isEmpty()) {
+      throw new IOException("A separator character (fsa.dict.separator) must be defined in the dictionary info file.");
+    }
     String encoding = getOption("fsa.dict.encoding");
     int posIgnoreCount = 0;
     Scanner scanner = new Scanner(plainTextDictFile, encoding);
@@ -124,7 +128,7 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
             posIgnoreCount++;
             continue;
           }
-          out.write(parts[1] + "|" + posTag + "\t" + parts[0]);
+          out.write(parts[0] + separator + parts[1] + "|" + posTag );
           out.write("\n");
         } else {
           System.err.println("Invalid input, expected three tab-separated columns in " + plainTextDictFile + ": " + line + " => ignoring");

@@ -19,6 +19,7 @@
 package org.languagetool.tools;
 
 import morfologik.tools.DictDecompile;
+import morfologik.tools.FSADecompile;
 
 import java.io.File;
 
@@ -34,12 +35,18 @@ final class DictionaryExporter {
       System.exit(1);
     }
     String filename = args[0];
-    String path = new File(filename).getAbsolutePath();
-    if (path.contains("hunspell") || path.contains("spelling")) {
-      DictDecompile.main(args);
+    File inputFile = new File(filename);
+    String inputPath = inputFile.toString();
+    File outpuFile = new File(filename.replace(".dict", "-dump.txt"));
+
+    if (inputPath.contains("hunspell") || inputPath.contains("spelling")) {
+      new FSADecompile(inputFile.toPath(),
+          outpuFile.toPath()).call();
     } else {
-      DictDecompile.main(args);
+      new DictDecompile(inputFile.toPath(),
+          outpuFile.toPath(), true, true);
     }
+    System.out.println("Done. The dictionary export has been written to " + outpuFile.getAbsolutePath());
   }
 
 }
