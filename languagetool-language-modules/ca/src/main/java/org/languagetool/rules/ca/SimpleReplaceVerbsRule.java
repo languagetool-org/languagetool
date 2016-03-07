@@ -81,9 +81,11 @@ public class SimpleReplaceVerbsRule extends Rule {
         .getFromRulesDirAsStream(getFileName()));
     tagger = new CatalanTagger();
     synth = new CatalanSynthesizer();
-    desinencies_1conj[0]=Pattern.compile("(.+?)(a|à|ada|ades|am|ant|ar|ara|arà|aran|aràs|aré|arem|àrem|aren|ares|areu|àreu|aria|aríem|arien|aries|aríeu|às|àssem|assen|asses|àsseu|àssim|assin|assis|àssiu|at|ats|au|ava|àvem|aven|aves|àveu|e|em|en|es|és|éssem|essen|esses|ésseu|éssim|essin|essis|éssiu|eu|i|í|in|is|o|ïs)");
-    desinencies_1conj[1]=Pattern.compile("(.+)(a|à|ada|ades|am|ant|ar|ara|arà|aran|aràs|aré|arem|àrem|aren|ares|areu|àreu|aria|aríem|arien|aries|aríeu|às|àssem|assen|asses|àsseu|àssim|assin|assis|àssiu|at|ats|au|ava|àvem|aven|aves|àveu|e|em|en|es|és|éssem|essen|esses|ésseu|éssim|essin|essis|éssiu|eu|i|í|in|is|o|ïs)");
-    
+    String s = "a|à|ada|ades|am|ant|ar|ara|arà|aran|aràs|aré|arem|àrem|aren|ares|areu|àreu|aria|aríem|arien|aries|aríeu|" +
+               "às|àssem|assen|asses|àsseu|àssim|assin|assis|àssiu|at|ats|au|ava|àvem|aven|aves|àveu|e|em|en|es|és|éssem|essen|" +
+               "esses|ésseu|éssim|essin|essis|éssiu|eu|i|í|in|is|o|ïs";
+    desinencies_1conj[0] = Pattern.compile("(.+?)(" + s + ")");
+    desinencies_1conj[1] = Pattern.compile("(.+)(" + s + ")");
   }  
 
   @Override
