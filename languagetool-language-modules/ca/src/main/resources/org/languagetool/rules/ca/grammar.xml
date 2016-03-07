@@ -9075,6 +9075,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Cent trenta.</example>
             </rule>
             <rule>
+                <pattern>
+                    <token regexp="yes">cents?</token>
+                    <token>-</token>
+                    <token regexp="yes">u|un|uns|una|unes</token>
+                </pattern>
+                <message>Sobra un guionet.</message>
+                <suggestion><match no="1"/> <match no="3"/></suggestion>
+                <example correction="Cent un"><marker>Cent-un</marker> anys.</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <marker>
                         <token>un</token>
