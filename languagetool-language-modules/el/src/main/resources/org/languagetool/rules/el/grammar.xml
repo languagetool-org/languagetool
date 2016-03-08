@@ -143,7 +143,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Πρόβλημα ορθογραφίας</short>
             <example correction="και">Το δεν γράφεται <marker>κι</marker> δε όταν ακολουθεί λέξη που αρχίζει από εξακολουθητικό σύμφωνο.</example>
             <example>Το δεν γράφεται και δε όταν ακολουθεί λέξη που αρχίζει από εξακολουθητικό σύμφωνο.</example>
-        </rule>        
+        </rule>
     </category>
     <category id="REDUNDANCY" name="Redundant Phrases">
         <rulegroup id="GREEK_REDUNDANT_1" name="ανέκαθεν">
@@ -307,8 +307,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Ελέγξτε τη στίξη</short>
                 <example correction="Κι όμως,"><marker>Κι όμως</marker> Κι όμως, κινείται!</example>
                 <example>Κι όμως, κινείται!</example>
-            </rule>        
+            </rule>
         </rulegroup>
+        <rule id="GREEK_PUNC_MULTIPLE_EXCLAMATION" name="χρήση πολλαπλών θαυμαστικών">
+            <pattern>
+                <marker>
+                    <token>!</token>
+                    <token>!</token>
+                </marker>
+            </pattern>
+            <message>Αποφύγετε τη χρήση πολλών θαυμαστικών: <suggestion>\2</suggestion></message>
+            <short>Ελέγξτε τη στίξη</short>
+            <example correction="!">Μην το ξεχάσετε<marker>!!</marker></example>
+            <example>Μην το ξεχάσετε!</example>
+        </rule>
+        <rule id="GREEK_PUNC_DOTS_INSTEAD_OF_ELLIPSIS" name="τυπογραφικά αποσιωπητικά">
+            <pattern>
+                <marker>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                </marker>
+            </pattern>
+            <message>Χρησιμοποιήστε τον χαρακτήρα <suggestion>…</suggestion></message>
+            <short>Ελέγξτε τη στίξη</short>
+            <example correction="…">Η Επιτροπή κατέβαλε κάθε προσπάθεια για να αποτρέψει την εξέλιξη αυτή, αλλά δυστυχώς<marker>...</marker></example>
+            <example>Η Επιτροπή κατέβαλε κάθε προσπάθεια για να αποτρέψει την εξέλιξη αυτή, αλλά δυστυχώς…</example>
+        </rule>
+        <rule id="GREEK_PUNC_DOT_AFTER_ELLIPSIS" name="τελεία ύστερα από αποσιωπητικά">
+            <pattern>
+                <marker>
+                    <token>…</token>
+                    <token>.</token>
+                </marker>
+            </pattern>
+            <message>Ύστερα από αποσιωπητικά, η τελεία είναι περιττή. <suggestion>…</suggestion></message>
+            <short>Ελέγξτε τη στίξη</short>
+            <example correction="…">Η Επιτροπή κατέβαλε κάθε προσπάθεια για να αποτρέψει την εξέλιξη αυτή, αλλά δυστυχώς<marker>….</marker></example>
+            <example>Η Επιτροπή κατέβαλε κάθε προσπάθεια για να αποτρέψει την εξέλιξη αυτή, αλλά δυστυχώς…</example>
+        </rule>
     </category>
     <category id="STYLE" name="Style">
         <rule id="GREEK_STYLE_AND" name="χρήση «κι» σε επίσημο λόγο">
