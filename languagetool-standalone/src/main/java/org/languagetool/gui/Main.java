@@ -38,12 +38,15 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.TextAction;
+import org.apache.commons.lang.StringUtils;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 
 /**
@@ -761,28 +764,77 @@ public final class Main {
     resultArea.setCursor(Cursor.getDefaultCursor());
   }
 
-  private void appendDisambiLog(StringBuilder sb, AnalyzedSentence sentence) {
-    final List<String> disambigLines = new ArrayList<>();
+  private boolean appendTagsWithDisambigLog(StringBuilder sb, 
+          AnalyzedSentence sentence, boolean odd) {
+
     for (AnalyzedTokenReadings t : sentence.getTokens()) {
-      if (!t.isWhitespace() && !"".equals(t.getHistoricalAnnotations())) {
-        disambigLines.add(StringTools.escapeHTML(
-                t.getHistoricalAnnotations()).trim().replace("\n", "<br>"));
+      if (t.isWhitespace() && !t.isSentenceStart()) {
+        continue;
       }
-    }
-    if(disambigLines.isEmpty()) {
-      sb.append("<br><b>");
-      sb.append(messages.getString("disambiguatorLogIsEmpty"));
-      sb.append("</b><br><br>");
-    } else {
-      sb.append("<br><b>");
-      sb.append(messages.getString("disambiguatorLog"));
-      sb.append("</b><br>");
-      for(String line: disambigLines) {
-        sb.append(line);
-        sb.append("<br>");
+      odd = !odd;
+      sb.append("<tr>");
+      sb.append("<td bgcolor=\"");
+      if(odd) {
+          sb.append("#ffffff");
       }
-      sb.append("<br>");
+      else {
+          sb.append("#f1f1f1");
+      }
+      sb.append("\">");
+      if(!t.isWhitespace()) {
+        sb.append(t.getToken());
+        sb.append("<font color='");
+        sb.append(TAG_COLOR);
+        sb.append("'>[");
+      }
+      Iterator<AnalyzedToken> iterator = t.iterator();
+      while (iterator.hasNext()) {
+        final AnalyzedToken token = iterator.next();
+        final String posTag = token.getPOSTag();
+        if (t.isSentenceStart()) {
+          sb.append(StringTools.escapeHTML("<S>"));
+        } else if (JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)) {
+          sb.append(StringTools.escapeHTML("</S>"));
+        } else if (JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posTag)) {
+          sb.append(StringTools.escapeHTML("<P/>"));
+        } else {
+          if (!t.isWhitespace()) {
+            sb.append(token);
+            if (iterator.hasNext()) {
+              sb.append(", ");
+            }
+          }
+        }
+      }
+      if (!t.isWhitespace()) {
+        if (t.getChunkTags().size() > 0) {
+          sb.append(',');
+          sb.append(StringUtils.join(t.getChunkTags(), "|"));
+        }
+        if (t.isImmunized()) {
+          sb.append("{!}");
+        }
+        sb.append("]</font>");
+      } else {
+        sb.append(' ');
+      }
+      sb.append("</td>");
+      sb.append("<td bgcolor=\"");
+      if(odd) {
+          sb.append("#ffffff");
+      }
+      else {
+          sb.append("#f1f1f1");
+      }
+      sb.append("\">");
+      if (!"".equals(t.getHistoricalAnnotations())) {
+        sb.append(StringTools.escapeHTML(t.getHistoricalAnnotations())
+                .trim().replace("\n", "<br>"));
+      }      
+      sb.append("</td>");
+      sb.append("</tr>");
     }
+    return odd;
   }
 
   private void tagTextAndDisplayResults() {
@@ -790,20 +842,39 @@ public final class Main {
     // tag text
     final List<String> sentences = langTool.sentenceTokenize(textArea.getText());
     final StringBuilder sb = new StringBuilder();
-    try {
-      for (String sent : sentences) {
-        final AnalyzedSentence analyzedText = langTool.getAnalyzedSentence(sent);
-        final String analyzedTextString = StringTools.escapeHTML(analyzedText.toString(",")).
+    if(taggerShowsDisambigLog) {
+      sb.append("<table>");
+      sb.append("<tr>");
+      sb.append("<td><b>");
+      sb.append(messages.getString("token"));
+      sb.append("</b></td>");
+      sb.append("<td><b>");
+      sb.append(messages.getString("disambiguatorLog"));
+      sb.append("</b></td>");
+      sb.append("</tr>");
+      boolean odd = true;
+      try {
+        for (String sent : sentences) {
+          final AnalyzedSentence analyzed = langTool.getAnalyzedSentence(sent);
+          odd = appendTagsWithDisambigLog(sb, analyzed, odd);
+        }
+      } catch (Exception e) {
+        sb.append(getStackTraceAsHtml(e));
+      }        
+      sb.append("</table>");
+    } else {
+      try {
+        for (String sent : sentences) {
+          final AnalyzedSentence analyzed = langTool.getAnalyzedSentence(sent);
+          final String analyzedString = StringTools.escapeHTML(analyzed.toString(",")).
                 replace("&lt;S&gt;", "&lt;S&gt;<br>").
                 replace("[", "<font color='" + TAG_COLOR + "'>[").
                 replace("]", "]</font><br>");
-        sb.append(analyzedTextString).append('\n');
-        if(taggerShowsDisambigLog) {
-          appendDisambiLog(sb, analyzedText);
+          sb.append(analyzedString).append('\n');
         }
+      } catch (Exception e) {
+        sb.append(getStackTraceAsHtml(e));
       }
-    } catch (Exception e) {
-      sb.append(getStackTraceAsHtml(e));
     }
     SwingUtilities.invokeLater(new Runnable() {
       @Override
@@ -841,7 +912,8 @@ public final class Main {
           c.insets = new Insets(4,8,8,8);
           c.fill = GridBagConstraints.NONE;
           c.anchor = GridBagConstraints.EAST;
-          JCheckBox showDisAmbig = new JCheckBox(messages.getString("ShowDisambiguatorLog"));
+          JCheckBox showDisAmbig = 
+                  new JCheckBox(messages.getString("ShowDisambiguatorLog"));
           showDisAmbig.setSelected(taggerShowsDisambigLog);
           showDisAmbig.addItemListener((ItemEvent e) -> {
               taggerShowsDisambigLog = e.getStateChange() == ItemEvent.SELECTED;
