@@ -3732,6 +3732,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     </category>
 		<category id="TYPOGRAPHY" name="Błędy typograficzne" type="typographical">
+		<rulegroup id="NIEKONSEKWETNE_PAUZY" name="Niekonsekwetne pauzy i półpauzy">
+		<rule>
+    <pattern>
+    <token skip="-1"><exception scope="next">—</exception>—</token>    
+    <token>–</token>
+    </pattern>
+    <message>Niekonsekwetnie stosowane pauzy i półpauzy. Poprawnie: <suggestion>— <match no="1" include_skipped="following"/> —</suggestion> lub <suggestion>– <match no="1" include_skipped="following"/> <match no="2"/></suggestion>.</message>
+    <example correction="— powiedział szybko —|– powiedział szybko –">To nowość <marker>— powiedział szybko –</marker> nigdy o tym nie słyszałem.</example>
+    <example correction="— powiedział —|– powiedział –">To nowość <marker>— powiedział –</marker> nigdy o tym nie słyszałem.</example>    
+		</rule>
+    <rule>
+    <pattern>
+    <token skip="-1"><exception scope="next">–</exception>–</token>    
+    <token>—</token>
+    </pattern>
+    <message>Niekonsekwetnie stosowane pauzy i półpauzy. Poprawnie: <suggestion>— <match no="1" include_skipped="following"/> —</suggestion> lub <suggestion>– <match no="1" include_skipped="following"/> –</suggestion>.</message>
+    <example correction="— powiedział szybko —|– powiedział szybko –">To nowość <marker>– powiedział szybko —</marker> nigdy o tym nie słyszałem.</example>
+    <example correction="— powiedział —|– powiedział –">To nowość <marker>– powiedział —</marker> nigdy o tym nie słyszałem.</example>    
+		</rule>
+		</rulegroup>
+		<rule id="COPYRIGHT" name="„(c)” zamiast „©”">
+		<antipattern>
+        <token>(</token>        
+        <token>a</token>
+        <token skip="-1">)</token>        
+        <token>b<exception scope="previous" negate="yes">(</exception></token>
+        <token skip="-1">)</token>
+        <marker>        
+        <token>c<exception scope="previous" negate="yes">(</exception></token>
+        <token>)</token>
+        </marker>
+		</antipattern>
+      <pattern>
+      <marker>
+        <token>(</token>        
+        <token>c</token>
+        <token>)</token>
+        </marker>
+        <token regexp="yes">\d{4}|\p{Lu}\p{Ll}+</token>
+      </pattern>		
+      <message>To oznaczenie lepiej zastąpić symbolem: <suggestion>©</suggestion></message>
+      <short>Niestandardowy zapis znaku ©</short>
+      <example correction="©">Copyright <marker>(C)</marker> Joanna Bator, 2012</example>
+      <example correction="©">Copyright <marker>(C)</marker> 2010 The Estate of Ezra Pound</example>
+      <example>To są: (a) 4 owoce, (b) 2 krowy, (c) 2015 jaj.</example>
+      <example>To są: (a) 4 owoce, (b) 2 krowy (nawet ładne), (c) 2015 jaj.</example>
+		</rule>
           <rule id="AMP_AL_ET_AL" name="„&amp; al” (et al.)">
           <pattern>
             <token regexp='yes'>[\x26]</token>
@@ -11169,7 +11216,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <pattern>
          <marker>
           <token postag='prep.*' postag_regexp='yes'></token>
-          <token postag='subst.*' postag_regexp='yes' skip='5'><exception postag="interp.*|conj" postag_regexp="yes" scope="next"/></token>
+          <token postag='subst.*' postag_regexp='yes' skip='3'><exception postag="interp.*|conj" postag_regexp="yes" scope="next"/></token>
           </marker>
         <token><match no="0"/></token>
         <token><match no="1"/></token>

@@ -10357,6 +10357,32 @@ USA
     <!-- Miscellaneous -->
     <!-- ====================================================================== -->
     <category id="MISC" name="Miscellaneous">
+    <rule id="COPYRIGHT" name="(c) instead of ©" type="typographical">
+    <antipattern>
+        <token>(</token>        
+        <token>a</token>
+        <token skip="-1">)</token>        
+        <token>b<exception scope="previous" negate="yes">(</exception></token>
+        <token skip="-1">)</token>
+        <marker>        
+        <token>c<exception scope="previous" negate="yes">(</exception></token>
+        <token>)</token>
+        </marker>
+		</antipattern>    
+      <pattern>
+      <marker>
+        <token>(</token>        
+        <token>c</token>
+        <token>)</token>
+        </marker>
+        <token regexp="yes">\d{4}|\p{Lu}\p{Ll}+</token>
+      </pattern>
+      <message>This notation is nonstandard, use this symbol instead: <suggestion>©</suggestion></message>
+      <short>Nonstandard notation of ©</short>
+      <example correction="©">Copyright <marker>(C)</marker> Joanna Bator, 2012</example>
+      <example correction="©">Copyright <marker>(C)</marker> 2010 The Estate of Ezra Pound</example>
+      <example>This is a list: (a) item, (b) 2 items, (c) 2014 items.</example>
+		</rule>
         <rulegroup type="locale-violation" id="CURRENCY" name="Position of currency symbols: '100$' ($100)">
             <rule>
                 <pattern>
