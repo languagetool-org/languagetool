@@ -148,7 +148,9 @@ public class NgramProbabilityRule extends Rule {
                 suggestions.add(prevToken.token + " " + betterAlternative.token + " " + next.token);
               }
               match.setSuggestedReplacements(suggestions);
-              matches.add(match);
+              if (acceptMatch(match, p, sentence)) {
+                matches.add(match);
+              }
             } else {
               debug("Ignoring match as all alternatives are less probable: '%s' in '%s'\n", ngram, sentence.getText());
             }
@@ -160,6 +162,14 @@ public class NgramProbabilityRule extends Rule {
       i++;
     }
     return matches.toArray(new RuleMatch[matches.size()]);
+  }
+
+  /**
+   * Overwrite this method to discard matches by returning {@code false}.
+   * @since 3.3
+   */
+  protected boolean acceptMatch(RuleMatch match, Probability p, AnalyzedSentence sentence) {
+    return true;
   }
 
   private Alternatives getBetterAlternatives(GoogleToken prevToken, String token, GoogleToken next, GoogleToken googleToken, Probability p, AnalyzedSentence sentence) throws IOException {
