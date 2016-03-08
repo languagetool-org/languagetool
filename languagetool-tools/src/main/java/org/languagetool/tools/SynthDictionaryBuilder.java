@@ -59,10 +59,6 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
       Set<String> itemsToBeIgnored = getIgnoreItems(new File(infoFile.getParent(), "filter-archaic.txt"));
       Pattern ignorePosRegex = getPosTagIgnoreRegex(infoFile);
       reversedFile = reverseLineContent(plainTextDictFile, itemsToBeIgnored, ignorePosRegex);
-      /*List<String> tab2morphOptions = getTab2MorphOptions(reversedFile, tempFile);
-      tab2morphOptions.add(0, "tab2morph");
-      tab2morphOptions.add(1, "-nw");  // no warnings, needed for synth dicts
-      prepare(tab2morphOptions);*/
       writePosTagsToFile(plainTextDictFile, getTagFile(tempFile));
       return buildDict(reversedFile);
     } finally {
