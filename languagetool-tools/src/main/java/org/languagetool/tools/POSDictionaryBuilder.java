@@ -41,7 +41,7 @@ public final class POSDictionaryBuilder extends DictionaryBuilder {
     builder.setOutputFilename(cmdLine.getOptionValue(BuilderOptions.OUTPUT_OPTION));
     File inputFile = new File(cmdLine.getOptionValue(BuilderOptions.INPUT_OPTION));
 
-    if ( cmdLine.hasOption(BuilderWithFreqOptions.FREQ_OPTION) ) {
+    if (cmdLine.hasOption(BuilderWithFreqOptions.FREQ_OPTION)) {
       builder.readFreqList(new File(cmdLine.getOptionValue(BuilderWithFreqOptions.FREQ_OPTION)));
       inputFile = builder.addFreqData(inputFile, false);
     } 
@@ -49,13 +49,7 @@ public final class POSDictionaryBuilder extends DictionaryBuilder {
   }
 
   public File build(File dictFile) throws Exception {
-    //File tempFile = File.createTempFile(POSDictionaryBuilder.class.getSimpleName(), ".txt");
-      //List<String> tab2morphOptions = getTab2MorphOptions(dictFile, tempFile);
-      //tab2morphOptions.add(0, "fsa_compile");
-      //prepare(tab2morphOptions);
       return buildDict(convertTabToSeparator(dictFile));
   }
-  
-  
 
 }

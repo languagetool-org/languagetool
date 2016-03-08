@@ -71,44 +71,6 @@ class DictionaryBuilder {
     this.outputFilename = outputFilename;
   }
 
-  /*protected List<String> getTab2MorphOptions(File dictFile, File outputFile) throws IOException {
-    List<String> tab2morphOptions = new ArrayList<>();
-    String separator = getOption("fsa.dict.separator");
-    if (separator != null && !separator.trim().isEmpty()) {
-      tab2morphOptions.add("--annotation");
-      tab2morphOptions.add(separator);
-    }
-    
-    if ((isOptionTrue("fsa.dict.uses-prefixes") || isOptionTrue("fsa.dict.uses-infixes")) &&
-         hasOption("fsa.dict.encoder")) {
-      throw new IOException(".info file must specify either fsa.dict.encoder (preferred) or fsa.dict.uses-* properties.");
-    }
-
-    if (hasOption("fsa.dict.encoder")) {
-      tab2morphOptions.add("--encoder");
-      tab2morphOptions.add(getOption("fsa.dict.encoder"));
-    } else {
-      if (isOptionTrue("fsa.dict.uses-prefixes")) {
-        tab2morphOptions.add("--encoder");
-        tab2morphOptions.add("prefix");
-      } else if (isOptionTrue("fsa.dict.uses-infixes")) {
-        tab2morphOptions.add("--encoder");
-        tab2morphOptions.add("infix");
-      }
-    }
-
-    tab2morphOptions.add("-i");
-    tab2morphOptions.add(dictFile.getAbsolutePath());
-    tab2morphOptions.add("-o");
-    tab2morphOptions.add(outputFile.getAbsolutePath());
-    return tab2morphOptions;
-  }
-
-  protected void prepare(List<String> tab2morphOptions) throws Exception {
-    System.out.println("Running Morfologik Launcher.main with these options: " + tab2morphOptions);
-    Launcher.main(tab2morphOptions.toArray(new String[tab2morphOptions.size()]));
-  }*/
-
   protected File buildDict(File inputFile) throws Exception {
     File outputFile = new File(outputFilename);
     String infoPath = inputFile.toString().replaceAll("\\.txt$", ".info");
