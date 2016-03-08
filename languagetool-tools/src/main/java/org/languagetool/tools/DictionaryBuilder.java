@@ -29,6 +29,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -107,41 +108,35 @@ class DictionaryBuilder {
     System.out.println("Running Morfologik Launcher.main with these options: " + tab2morphOptions);
     Launcher.main(tab2morphOptions.toArray(new String[tab2morphOptions.size()]));
   }*/
-    
 
   protected File buildDict(File inputFile) throws Exception {
     File outputFile = new File(outputFilename);
-        
-    //String[] buildToolOptions = {"-i", inputFile.getAbsolutePath(), "-o", outputFile.getAbsolutePath()};
-    //System.out.println("Running Morfologik DictCompile.main with these options: " + Arrays.toString(buildToolOptions));
-    //FSACompile.main(buildToolOptions);
-    String infoPath = inputFile.toString().replaceAll(".txt", ".info");
-    File resultFile = new File (inputFile.toString().replaceAll(".txt", ".dict"));
+    String infoPath = inputFile.toString().replaceAll("\\.txt$", ".info");
+    File resultFile = new File (inputFile.toString().replaceAll("\\.txt$", ".dict"));
     File infoFile = new File(infoPath);
-    props.store(new FileOutputStream(infoFile), ""); // save info file in the same path of input txt file and with the same name
-    new DictCompile(inputFile.toPath(), false, false, false, false, true).call();
-    
-    
+    // save info file in the same path of input text file and with the same name
+    props.store(new FileOutputStream(infoFile), "");
+    String[] buildOptions = {"--exit", "false",
+        "-i", inputFile.toString(), 
+        "-f", serializationFormat.toString(), 
+        "--overwrite"};
+    System.out.println("Running Morfologik DictCompile.main with these options: " + Arrays.toString(buildOptions));
+    DictCompile.main(buildOptions);
     Files.move(resultFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-    
     System.out.println("Done. The binary dictionary has been written to " + outputFile.getAbsolutePath());
     return outputFile;
   }
   
   protected File buildFSA(File inputFile) throws Exception {
     File resultFile = new File(outputFilename);
-        
-    //String[] buildToolOptions = {"-f", serializationFormat.toString(), "-i", inputFile.getAbsolutePath(), "-o", resultFile.getAbsolutePath()};
-    //System.out.println("Running Morfologik FSACompile.main with these options: " + Arrays.toString(buildToolOptions));
-    //FSACompile.main(buildToolOptions);
-    
-    new FSACompile(inputFile.toPath(),
-        resultFile.toPath(),
-        serializationFormat,
-        false,
-        false,
-        true).call();
-    
+    String[] buildOptions = {
+        "--exit", "false",
+        "-i", inputFile.toString(), 
+        "-o", resultFile.toString(),
+        "-f", serializationFormat.toString(), 
+        "--overwrite"};
+    System.out.println("Running Morfologik FSACompile.main with these options: " + Arrays.toString(buildOptions));
+    FSACompile.main(buildOptions);
     System.out.println("Done. The binary dictionary has been written to " + resultFile.getAbsolutePath());
     return resultFile;
   }
@@ -226,7 +221,6 @@ class DictionaryBuilder {
           } else {
             bw.write(line + freqChar + "\n");
           }
-          
         }
       }
       br.close();
