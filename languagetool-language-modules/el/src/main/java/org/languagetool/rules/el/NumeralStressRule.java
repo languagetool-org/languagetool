@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
@@ -85,7 +86,7 @@ public class NumeralStressRule extends Rule {
     //we know the token can not start with 0
     stressedNumber = Pattern.compile("[0-9]*[0|2-9]0");
     stressedSuffix = Pattern.compile(stressedSuffixRE.toString());
-    setCategory(new Category("Orthography"));      
+    setCategory(new Category(new CategoryId("ORTHOGRAPHY"),"Orthography"));      
     init();
   }
 
