@@ -66,9 +66,11 @@
 
 #### Core code
   * Fixed a bug while sentence and paragraph end tags were removed during 
-  disambiguation.
+    disambiguation.
   * Fixed a bug with a possible `NullPointerException` for tokens containing
-  soft hyphens that might be disambiguated.
+    soft hyphens that might be disambiguated.
+
+
 
 ## 3.2 (2015-12-29)
 
