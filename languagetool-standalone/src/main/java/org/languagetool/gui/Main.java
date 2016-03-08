@@ -44,6 +44,7 @@ import java.util.ResourceBundle;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.TextAction;
+import org.languagetool.AnalyzedTokenReadings;
 
 /**
  * A simple GUI to check texts with.
@@ -83,6 +84,7 @@ public final class Main {
   private TrayIcon trayIcon;
   private boolean closeHidesToTray;
   private boolean isInTray;
+  private boolean taggerShowsDisambigLog = false;
 
   private LanguageToolSupport ltSupport;
   private OpenAction openAction;
@@ -759,6 +761,30 @@ public final class Main {
     resultArea.setCursor(Cursor.getDefaultCursor());
   }
 
+  private void appendDisambiLog(StringBuilder sb, AnalyzedSentence sentence) {
+    final List<String> disambigLines = new ArrayList<>();
+    for (AnalyzedTokenReadings t : sentence.getTokens()) {
+      if (!t.isWhitespace() && !"".equals(t.getHistoricalAnnotations())) {
+        disambigLines.add(StringTools.escapeHTML(
+                t.getHistoricalAnnotations()).trim().replace("\n", "<br>"));
+      }
+    }
+    if(disambigLines.isEmpty()) {
+      sb.append("<br><b>");
+      sb.append(messages.getString("disambiguatorLogIsEmpty"));
+      sb.append("</b><br><br>");
+    } else {
+      sb.append("<br><b>");
+      sb.append(messages.getString("disambiguatorLog"));
+      sb.append("</b><br>");
+      for(String line: disambigLines) {
+        sb.append(line);
+        sb.append("<br>");
+      }
+      sb.append("<br>");
+    }
+  }
+
   private void tagTextAndDisplayResults() {
     final JLanguageTool langTool = ltSupport.getLanguageTool();
     // tag text
@@ -772,6 +798,9 @@ public final class Main {
                 replace("[", "<font color='" + TAG_COLOR + "'>[").
                 replace("]", "]</font><br>");
         sb.append(analyzedTextString).append('\n');
+        if(taggerShowsDisambigLog) {
+          appendDisambiLog(sb, analyzedText);
+        }
       }
     } catch (Exception e) {
       sb.append(getStackTraceAsHtml(e));
@@ -797,12 +826,14 @@ public final class Main {
           taggerArea.setEditable(false);
           GridBagConstraints c = new GridBagConstraints();
           c.gridx = 0;
+          c.gridwidth = 2;
           c.gridy = 0;
           c.weightx = 1.0;
           c.weighty = 1.0;
           c.insets = new Insets(8,8,4,8);
           c.fill = GridBagConstraints.BOTH;
           panel.add(new JScrollPane(taggerArea),c);
+          c.gridwidth = 1;
           c.gridx = 0;
           c.gridy = 1;
           c.weightx = 0.0;
@@ -810,6 +841,13 @@ public final class Main {
           c.insets = new Insets(4,8,8,8);
           c.fill = GridBagConstraints.NONE;
           c.anchor = GridBagConstraints.EAST;
+          JCheckBox showDisAmbig = new JCheckBox(messages.getString("ShowDisambiguatorLog"));
+          showDisAmbig.setSelected(taggerShowsDisambigLog);
+          showDisAmbig.addItemListener((ItemEvent e) -> {
+              taggerShowsDisambigLog = e.getStateChange() == ItemEvent.SELECTED;
+          });
+          panel.add(showDisAmbig,c);
+          c.gridx = 1;
           JButton closeButton = new JButton(
                   messages.getString("guiCloseButton"));
           closeButton.addActionListener(actionListener);
