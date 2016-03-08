@@ -56,7 +56,7 @@ public class NumeralStressRule extends Rule {
   private final Pattern stressedNumber;
   // pattern to match a stressed suffix
   private final Pattern stressedSuffix;
-  
+
   public NumeralStressRule(ResourceBundle messages) {
     super(messages);
 
@@ -65,7 +65,7 @@ public class NumeralStressRule extends Rule {
     };
     String[] stressedSfx = {
       "ός", "ού", "ό", "όν", "οί", "ών", "ούς", "ή", "ής", "ήν", "ές", "ά"
-    };    
+    };
     StringBuilder stressedSuffixRE = new StringBuilder();
     for (int i = 0; i < stressedSfx.length; i++) {
       if (i > 0) {
@@ -86,7 +86,7 @@ public class NumeralStressRule extends Rule {
     //we know the token can not start with 0
     stressedNumber = Pattern.compile("[0-9]*[0|2-9]0");
     stressedSuffix = Pattern.compile(stressedSuffixRE.toString());
-    setCategory(new Category(new CategoryId("ORTHOGRAPHY"),"Orthography"));      
+    setCategory(new Category(new CategoryId("ORTHOGRAPHY"), "Orthography"));
     init();
   }
 

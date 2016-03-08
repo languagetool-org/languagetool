@@ -354,7 +354,7 @@ public final class Main {
           languageBox.selectLanguage(detected);
         }
       }
-    });    
+    });
     ltSupport.addLanguageToolListener(new LanguageToolListener() {
       @Override
       public void languageToolEventOccurred(LanguageToolEvent event) {
@@ -376,7 +376,7 @@ public final class Main {
             statusLabel.setText(msg);
           } else {
             final String msg = org.languagetool.tools.Tools.i18n(messages, "checkDoneNoTime", event.getSource().getMatches().size());
-            statusLabel.setText(msg);              
+            statusLabel.setText(msg);
           }
         }
         else if (event.getType() == LanguageToolEvent.Type.LANGUAGE_CHANGED) {
@@ -423,11 +423,11 @@ public final class Main {
   private int getMnemonic(String key) {
     return Tools.getMnemonic(messages.getString(key));
   }
-  
+
   private KeyStroke getMenuKeyStroke(int keyEvent) {
     return KeyStroke.getKeyStroke(keyEvent, Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
   }
-  
+
   private JMenuBar createMenuBar() {
     JMenuBar menuBar = new JMenuBar();
     final JMenu fileMenu = new JMenu(getLabel("guiMenuFile"));
@@ -438,7 +438,7 @@ public final class Main {
     grammarMenu.setMnemonic(getMnemonic("guiMenuGrammar"));
     final JMenu helpMenu = new JMenu(getLabel("guiMenuHelp"));
     helpMenu.setMnemonic(getMnemonic("guiMenuHelp"));
-    
+
     fileMenu.add(openAction);
     fileMenu.add(saveAction);
     fileMenu.add(saveAsAction);
@@ -446,7 +446,7 @@ public final class Main {
     fileMenu.add(new HideAction());
     fileMenu.addSeparator();
     fileMenu.add(new QuitAction());
-    
+
     grammarMenu.add(checkAction);
     JCheckBoxMenuItem item = new JCheckBoxMenuItem(autoCheckAction);
     grammarMenu.add(item);
@@ -469,20 +469,20 @@ public final class Main {
         continue;
       }
       addLookAndFeelMenuItem(lafMenu, laf, buttonGroup);
-    }    
+    }
     grammarMenu.add(lafMenu);
-    
+
     helpMenu.add(new AboutAction());
 
     undoRedo.undoAction.putValue(Action.NAME, getLabel("guiMenuUndo"));
     undoRedo.undoAction.putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuUndo"));
     undoRedo.redoAction.putValue(Action.NAME, getLabel("guiMenuRedo"));
     undoRedo.redoAction.putValue(Action.MNEMONIC_KEY, getMnemonic("guiMenuRedo"));
-            
+
     editMenu.add(undoRedo.undoAction);
     editMenu.add(undoRedo.redoAction);
     editMenu.addSeparator();
-    
+
     Action cutAction = new DefaultEditorKit.CutAction();
     cutAction.putValue(Action.SMALL_ICON, getImageIcon("sc_cut.png"));
     cutAction.putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_cut.png"));
@@ -515,8 +515,8 @@ public final class Main {
     return menuBar;
   }
 
-  private void addLookAndFeelMenuItem(JMenu lafMenu, 
-        UIManager.LookAndFeelInfo laf, ButtonGroup buttonGroup)  
+  private void addLookAndFeelMenuItem(JMenu lafMenu,
+        UIManager.LookAndFeelInfo laf, ButtonGroup buttonGroup)
   {
     JRadioButtonMenuItem lfItem = new JRadioButtonMenuItem(new SelectLFAction(laf));
     lafMenu.add(lfItem);
@@ -856,7 +856,7 @@ public final class Main {
         // orientation each time should be set as language may is changed
         taggerDialog.applyComponentOrientation(ComponentOrientation.getOrientation(
           ((Language) languageBox.getSelectedItem()).getLocale()));
-        
+
         taggerDialog.setVisible(true);
         taggerArea.setText(HTML_FONT_START + sb + HTML_FONT_END);
       }
@@ -866,7 +866,7 @@ public final class Main {
   private void setTrayMode(boolean trayMode) {
     this.closeHidesToTray = trayMode;
   }
-  
+
   public static void main(final String[] args) {
     if (System.getSecurityManager() == null) {
       JnaTools.setBugWorkaroundProperty();
@@ -934,7 +934,7 @@ public final class Main {
     }
 
   }
-  
+
   //
   // The System Tray stuff
   //
@@ -992,7 +992,7 @@ public final class Main {
       } else if (frame.isVisible() && !frame.isActive()) {
         frame.toFront();
         restoreFromTrayAndCheck();
-      } else {        
+      } else {
         restoreFromTrayAndCheck();
       }
     }
@@ -1156,7 +1156,7 @@ public final class Main {
       showOptions();
     }
   }
-  
+
   class SelectFontAction extends AbstractAction {
 
     SelectFontAction() {
@@ -1172,7 +1172,7 @@ public final class Main {
   class SelectLFAction extends AbstractAction {
 
     private final UIManager.LookAndFeelInfo lf;
-    
+
     SelectLFAction(UIManager.LookAndFeelInfo lf) {
       super(lf.getName());
       this.lf = lf;
@@ -1233,7 +1233,7 @@ public final class Main {
       about.show();
     }
   }
- 
+
   class CheckAction extends AbstractAction {
 
     CheckAction() {
@@ -1250,7 +1250,7 @@ public final class Main {
       checkTextAndDisplayResults();
     }
   }
-  
+
   class AutoCheckAction extends AbstractAction {
 
     private boolean enable;
