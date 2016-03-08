@@ -2421,6 +2421,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="A.*" />
         </rule>
+        <rule> <!--avantatges (amb menys restriccions)-->
+            <pattern>
+                <token><exception regexp="yes">tu|ens|m'</exception></token>
+                <marker>
+                    <and>
+                        <token postag="V.[IS].2S0." postag_regexp="yes">avantatges</token>
+                        <token postag="N.*|A.*|V.P.*" postag_regexp="yes" />
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.[IS].2S0." /> <!-- les ha vistes estenent la roba -->
+            <example type="untouched">Ens avanatges en tot.</example>
+        </rule>
     </rulegroup>
     <rulegroup id="en_veu" name="en veu baixa">
         <rule>
