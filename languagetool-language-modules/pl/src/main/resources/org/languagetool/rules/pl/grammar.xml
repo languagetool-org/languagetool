@@ -3732,6 +3732,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     </category>
 		<category id="TYPOGRAPHY" name="Błędy typograficzne" type="typographical">
+		<rule id="BRAK_ODSTPU_PO_KROPCE_PRZED_CUDZYSOWEM" name="Brak odstępu po kropce przed cudzysłowem.">
+     <pattern>
+      <marker>
+      <token>.</token>
+      <token regexp='yes' spacebefore='no'>[„"»«]</token>
+      </marker>
+      <token regexp='yes' spacebefore='no'>\p{L}+</token>
+     </pattern>
+     <message>Brak odstępu: <suggestion><match no="1"/> <match no="2"/></suggestion>.</message>
+     <short>Brak odstępu</short>
+     <example correction='. „'>Zrobił to<marker>.„</marker>Naprawdę?”</example>
+     <example>Zrobił to. „Naprawdę?”</example>
+    </rule>
 		<rulegroup id="NIEKONSEKWETNE_PAUZY" name="Niekonsekwetne pauzy i półpauzy">
 		<rule>
     <pattern>
@@ -7707,6 +7720,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="STYLE" name="Błędy leksykalne" type="style">
+          <rulegroup id="W_PRZECIGU_TYGODNIA_W_CIGU" name="„w przeciągu tygodnia” (w ciągu)">
+          <rule>
+           <pattern>
+            <token>w</token>
+            <token>przeciągu</token>
+            <token regexp='yes'>miesiąca|roku|tygodnia|godziny|sekundy|minuty</token>
+           </pattern>
+           <message>Błędne wyrażenie. Poprawnie: <suggestion><match no="1"/> ciągu <match no="3"/></suggestion>.</message>
+           <url>http://portalwiedzy.onet.pl/141514,,,,w_ciagu_w_przeciagu,haslo.html</url>
+           <short>Błąd leksykalny</short>
+           <example correction='W ciągu miesiąca'><marker>W przeciągu miesiąca</marker> grupy ekstremistyczne zamordowały w Iraku ponad 50 chrześcijan.</example>
+           <example>W ciągu miesiąca grupy ekstremistyczne zamordowały w Iraku ponad 50 chrześcijan.</example>
+          </rule>
+          <rule>
+           <pattern>
+          <token>w</token>
+          <token>przeciągu</token>
+          <token postag='num:pl:gen.*' postag_regexp='yes'></token>
+          <token inflected='yes' regexp='yes' postag='subst.*gen.*' postag_regexp='yes'>miesiąc|rok|tydzień|godzina|sekunda|minuta</token>
+         </pattern>
+           <message>Błędne wyrażenie. Poprawnie: <suggestion><match no="1"/> ciągu <match no="3"/> \4</suggestion>.</message>
+           <url>http://portalwiedzy.onet.pl/141514,,,,w_ciagu_w_przeciagu,haslo.html</url>
+           <short>Błąd leksykalny</short>
+           <example correction='W ciągu dwóch miesięcy'><marker>W przeciągu dwóch miesięcy</marker> grupy ekstremistyczne zamordowały w Iraku ponad 50 chrześcijan.</example>
+           <example>W ciągu dwóch miesięcy grupy ekstremistyczne zamordowały w Iraku ponad 50 chrześcijan.</example>
+          </rule>
+          <rule>
+          <pattern>
+            <token>w</token>
+            <token>przeciągu</token>
+            <token regexp='yes'>\d+</token>
+            <token inflected='yes' regexp='yes' postag='subst.*gen.*' postag_regexp='yes'>miesiąc|rok|tydzień|godzina|sekunda|minuta</token>
+           </pattern>
+           <message>Błędne wyrażenie. Poprawnie: <suggestion><match no="1"/> ciągu <match no="3"/> \4</suggestion>.</message>
+           <url>http://portalwiedzy.onet.pl/141514,,,,w_ciagu_w_przeciagu,haslo.html</url>
+           <short>Błąd leksykalny</short>
+           <example correction='W ciągu 2 miesięcy'><marker>W przeciągu 2 miesięcy</marker> grupy ekstremistyczne zamordowały w Iraku ponad 50 chrześcijan.</example>
+           <example>W ciągu dwóch miesięcy grupy ekstremistyczne zamordowały w Iraku ponad 50 chrześcijan.</example>
+          </rule>
+          </rulegroup>
             <rule id="zarowno_jak_rowniez" name="zarówno… jak również (jak)">
                 <pattern>
                     <token skip="-1">zarówno</token>
@@ -16785,6 +16838,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+        <rule id="ANIE_A_NIE" name="„anie” (a nie)">
+         <pattern case_sensitive='yes'>
+          <token spacebefore='yes'>anie</token>
+         </pattern>
+         <message>Prawdopodobna literówka. Czy chodziło o <suggestion>a nie</suggestion>?</message>
+         <short>Prawdopodobna literówka</short>
+         <example correction='a nie'>Decyzja jest taka <marker>anie</marker> inna.</example>
+         <example>Decyzja jest taka a nie inna.</example>
+        </rule>
+        <rule id="LUN_LUB" name="„lun” (lub)">
+         <pattern case_sensitive='yes'>
+          <marker>
+          <token>lun</token>
+          </marker>
+          <token regexp='yes'>[\p{L}\d]+</token>
+         </pattern>
+         <message>Prawdopodobna literówka. Czy chodziło o <suggestion>lub</suggestion>?</message>
+         <short>Prawdopodobna literówka</short>
+         <example correction='lub'>Ta odpowiedzialność istnieje z mocy prawa, tzn. sprzedawca nie może się od niej uchylić, nie może nas zbywać, odsyłając do hurtownika, importera <marker>lun</marker> do rzeczoznawcy.</example>
+         <example>Ta odpowiedzialność istnieje z mocy prawa, tzn. sprzedawca nie może się od niej uchylić, nie może nas zbywać, odsyłając do hurtownika, importera lub do rzeczoznawcy.</example>
+         <example>Czy zdelegalizować Fa Lun Gong, największą z chińskich sekt?</example>
+         <example>„Skręcenie na trzy koła” (pian san lun): dwaj więźniowie odwróceni plecami i „do góry nogami” względem siebie, zostają skuci w taki sposób, że ręce każdego z nich przykute są do nóg drugiego.</example>
+        </rule>
           <rule id="STAJE_PALIW" name="„staje paliw” (stacje paliw)">
             <pattern>
             <marker>
@@ -17097,6 +17173,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Prawdopodobna literówka</short>
                 <example correction="tak">Co <marker>tan</marker> naprawdę daje nam ZUS?</example>
             </rule>
+            <rule id="KILKI_KILKU" name="„kilki” (kilku)">
+             <pattern>
+              <marker>
+              <token>kilki</token>
+              </marker>
+              <token postag='subst:pl:(gen|dat|inst|loc).*' postag_regexp='yes'></token>
+             </pattern>
+             <message>Prawdopodobna literówka. Czy chodziło o <suggestion>kilku</suggestion>?</message>
+             <short>Prawdopodobna literówka</short>
+             <example correction='kilku'>Kandydaci oceniani są w <marker>kilki</marker> kategoriach.</example>
+             <example>Jakubczak lokalizował właśnie: oficerskiego rozmiaru słój z ogórkami, ciosany w grube pajdy czarny chleb obłożony słoniną na szczerbatym talerzu, garść wędzonej kilki, rybki więcej paradnej.</example>
+            </rule>
             <rule id="KLIKA" name="„Klika osób” (kilka osób)">
                 <pattern>
                     <marker>
@@ -17135,11 +17223,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Prawdopodobna literówka</short>
                 <example correction='kilku'>Brakowało <marker>kliku</marker> dolców.</example>
                 <example>Brakowało kilku dolców.</example>
-            </rule>
+            </rule>            
             <rule id="KLIKU_KILKUNASTU" name="„Kliku, kilkunastu” (kilku, kilkanastu)">
                 <pattern>
                     <marker>
-                        <token>kliku</token>
+                        <token regexp="yes">kliku|kilki</token>
                     </marker>
                     <token regexp='yes'>[-—–,]</token>
                     <token regexp='yes'>kilku(?:nastu|dziesięciu)</token>
