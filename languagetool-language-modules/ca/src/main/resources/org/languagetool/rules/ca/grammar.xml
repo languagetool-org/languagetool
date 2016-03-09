@@ -9540,8 +9540,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Fou tanta la desesperació.</example>
         </rule>
         <rule id="A_CAPELLA" name="a *capella/cappella">
+            <antipattern>
+                <marker>
+                    <token regexp="yes" inflected="yes" skip="3">transformar|transformació|pas|passar|dedicar|destinar|elevar|consagrar|reduir|traslladar|convertir|conversió</token>
+                    <token>a</token>
+                    <token>capella</token>
+                </marker>
+            </antipattern>
             <pattern>
-                <token>a<exception scope="previous" regexp="yes" inflected="yes">com|dedicar|consagrar|reduir|per</exception></token>
+                <token>a<exception scope="previous" regexp="yes">com|per</exception></token>
                 <token case_sensitive="yes">capella</token>
             </pattern>
             <message>¿Volíeu dir <suggestion>a cappella</suggestion> (expressió musical en italià)?</message>
