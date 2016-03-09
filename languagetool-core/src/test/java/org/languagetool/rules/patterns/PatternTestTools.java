@@ -444,7 +444,7 @@ public final class PatternTestTools {
             // even better <token regexp="yes">[.;:]</token>
             System.err.println("The " + lang + " rule: "
                     + ruleId + ", token [" + tokenIndex + "], contains a single dot (matching any char) "
-                    + "so other single char disjunction are useless within " + "\"" + stringValue
+                    + "so other single char disjunctions are useless within " + "\"" + stringValue
                     + "\". Did you forget forget a backslash before the dot?");
           }
         }
