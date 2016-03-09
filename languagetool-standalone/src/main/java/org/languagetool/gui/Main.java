@@ -329,6 +329,7 @@ public final class Main {
     languageBox.selectLanguage(ltSupport.getLanguage());
     languageBox.setEnabled(!ltSupport.getConfig().getAutoDetect());
     autoDetectBox.setSelected(ltSupport.getConfig().getAutoDetect());
+    taggerShowsDisambigLog = ltSupport.getConfig().getTaggerShowsDisambigLog();
 
     languageBox.addItemListener(new ItemListener() {
       @Override
@@ -764,7 +765,7 @@ public final class Main {
     resultArea.setCursor(Cursor.getDefaultCursor());
   }
 
-  private boolean appendTagsWithDisambigLog(StringBuilder sb, 
+  private boolean appendTagsWithDisambigLog(StringBuilder sb,
           AnalyzedSentence sentence, boolean odd) {
 
     for (AnalyzedTokenReadings t : sentence.getTokens()) {
@@ -830,7 +831,7 @@ public final class Main {
       if (!"".equals(t.getHistoricalAnnotations())) {
         sb.append(StringTools.escapeHTML(t.getHistoricalAnnotations())
                 .trim().replace("\n", "<br>"));
-      }      
+      }
       sb.append("</td>");
       sb.append("</tr>");
     }
@@ -860,7 +861,7 @@ public final class Main {
         }
       } catch (Exception e) {
         sb.append(getStackTraceAsHtml(e));
-      }        
+      }
       sb.append("</table>");
     } else {
       try {
@@ -912,11 +913,12 @@ public final class Main {
           c.insets = new Insets(4,8,8,8);
           c.fill = GridBagConstraints.NONE;
           c.anchor = GridBagConstraints.EAST;
-          JCheckBox showDisAmbig = 
+          JCheckBox showDisAmbig =
                   new JCheckBox(messages.getString("ShowDisambiguatorLog"));
           showDisAmbig.setSelected(taggerShowsDisambigLog);
           showDisAmbig.addItemListener((ItemEvent e) -> {
               taggerShowsDisambigLog = e.getStateChange() == ItemEvent.SELECTED;
+              ltSupport.getConfig().setTaggerShowsDisambigLog(taggerShowsDisambigLog);
           });
           panel.add(showDisAmbig,c);
           c.gridx = 1;

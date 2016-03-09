@@ -51,6 +51,7 @@ public class Configuration {
   private static final String MOTHER_TONGUE_KEY = "motherTongue";
   private static final String NGRAM_DIR_KEY = "ngramDir";
   private static final String AUTO_DETECT_KEY = "autoDetect";
+  private static final String TAGGER_SHOWS_DISAMBIG_LOG_KEY = "taggerShowsDisambigLog";
   private static final String SERVER_RUN_KEY = "serverMode";
   private static final String SERVER_PORT_KEY = "serverPort";
   private static final String USE_GUI_KEY = "useGUIConfig";
@@ -75,6 +76,7 @@ public class Configuration {
   private File ngramDirectory;
   private boolean runServer;
   private boolean autoDetect;
+  private boolean taggerShowsDisambigLog;
   private boolean guiConfig;
   private String fontName;
   private int fontStyle = FONT_STYLE_INVALID;
@@ -131,10 +133,11 @@ public class Configuration {
     this.ngramDirectory = configuration.ngramDirectory;
     this.runServer = configuration.runServer;
     this.autoDetect = configuration.autoDetect;
+    this.taggerShowsDisambigLog = configuration.taggerShowsDisambigLog;
     this.guiConfig = configuration.guiConfig;
     this.fontName = configuration.fontName;
     this.fontStyle = configuration.fontStyle;
-    this.fontSize = configuration.fontSize;    
+    this.fontSize = configuration.fontSize;
     this.serverPort = configuration.serverPort;
     this.lookAndFeelName = configuration.lookAndFeelName;
     this.externalRuleDirectory = configuration.externalRuleDirectory;
@@ -190,15 +193,39 @@ public class Configuration {
   public void setMotherTongue(final Language motherTongue) {
     this.motherTongue = motherTongue;
   }
-  
+
   public boolean getAutoDetect() {
       return autoDetect;
   }
-  
+
   public void setAutoDetect(final boolean autoDetect) {
       this.autoDetect = autoDetect;
   }
-  
+
+  /**
+   * Determines whether the tagger window will also print the disambiguation
+   * log.
+   *
+   * @return true if the tagger window will print the disambiguation log,
+   * false otherwise
+   * @since 3.3
+   */
+  public boolean getTaggerShowsDisambigLog() {
+      return taggerShowsDisambigLog;
+  }
+
+  /**
+   * Enables or disables the disambiguation log on the tagger window,
+   * depending on the value of the parameter taggerShowsDisambigLog.
+   *
+   * @param taggerShowsDisambigLog If true, the tagger window will print the
+   * disambiguation log
+   * @since 3.3
+   */
+  public void setTaggerShowsDisambigLog(final boolean taggerShowsDisambigLog) {
+      this.taggerShowsDisambigLog = taggerShowsDisambigLog;
+  }
+
   public boolean getRunServer() {
     return runServer;
   }
@@ -218,7 +245,7 @@ public class Configuration {
   public boolean getUseGUIConfig() {
     return guiConfig;
   }
-  
+
   public void setServerPort(final int serverPort) {
     this.serverPort = serverPort;
   }
@@ -347,7 +374,7 @@ public class Configuration {
       disabledRuleIds.addAll(getListFromProperties(props, DISABLED_RULES_KEY + qualifier));
       enabledRuleIds.addAll(getListFromProperties(props, ENABLED_RULES_KEY + qualifier));
       disabledCategoryNames.addAll(getListFromProperties(props, DISABLED_CATEGORIES_KEY + qualifier));
-      
+
       final String languageStr = (String) props.get(LANGUAGE_KEY);
       if (languageStr != null) {
         language = Languages.getLanguageForShortName(languageStr);
@@ -360,8 +387,9 @@ public class Configuration {
       if (ngramDir != null) {
         ngramDirectory = new File(ngramDir);
       }
-            
+
       autoDetect = "true".equals(props.get(AUTO_DETECT_KEY));
+      taggerShowsDisambigLog = "true".equals(props.get(TAGGER_SHOWS_DISAMBIG_LOG_KEY));
       guiConfig = "true".equals(props.get(USE_GUI_KEY));
       runServer = "true".equals(props.get(SERVER_RUN_KEY));
 
@@ -396,7 +424,7 @@ public class Configuration {
 
       //store config for other languages
       loadConfigForOtherLanguages(lang, props);
-      
+
     } catch (FileNotFoundException e) {
       // file not found: okay, leave disabledRuleIds empty
     }
@@ -455,7 +483,7 @@ public class Configuration {
   public void saveConfiguration(final Language lang) throws IOException {
     final Properties props = new Properties();
     final String qualifier = getQualifier(lang);
-    
+
     addListToProperties(props, DISABLED_RULES_KEY + qualifier, disabledRuleIds);
     addListToProperties(props, ENABLED_RULES_KEY + qualifier, enabledRuleIds);
     addListToProperties(props, DISABLED_CATEGORIES_KEY + qualifier, disabledCategoryNames);
@@ -469,6 +497,7 @@ public class Configuration {
       props.setProperty(NGRAM_DIR_KEY, ngramDirectory.getAbsolutePath());
     }
     props.setProperty(AUTO_DETECT_KEY, Boolean.toString(autoDetect));
+    props.setProperty(TAGGER_SHOWS_DISAMBIG_LOG_KEY, Boolean.toString(taggerShowsDisambigLog));
     props.setProperty(USE_GUI_KEY, Boolean.toString(guiConfig));
     props.setProperty(SERVER_RUN_KEY, Boolean.toString(runServer));
     props.setProperty(SERVER_PORT_KEY, Integer.toString(serverPort));
@@ -483,7 +512,7 @@ public class Configuration {
     }
     if (this.lookAndFeelName != null) {
       props.setProperty(LF_NAME_KEY, lookAndFeelName);
-    }    
+    }
     if (externalRuleDirectory != null) {
       props.setProperty(EXTERNAL_RULE_DIRECTORY, externalRuleDirectory);
     }
