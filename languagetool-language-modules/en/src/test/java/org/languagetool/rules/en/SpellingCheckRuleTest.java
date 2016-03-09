@@ -23,15 +23,19 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.AmericanEnglish;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 
 public class SpellingCheckRuleTest {
 
@@ -49,6 +53,21 @@ public class SpellingCheckRuleTest {
     final List<RuleMatch> matches3 = langTool.check("This is anotherArtificialTestWordForLanguageTol.");  // note the typo
     assertEquals(1, matches3.size());
     assertEquals("[anotherArtificialTestWordForLanguageTool]", matches3.get(0).getSuggestedReplacements().toString());
+  }
+
+  @Test
+  public void testIgnorePhrases() throws IOException {
+    JLanguageTool langTool = new JLanguageTool(new AmericanEnglish());
+    assertThat(langTool.check("A test with myfoo mybar").size(), is(2));
+    for (Rule rule : langTool.getAllActiveRules()) {
+      if (rule instanceof SpellingCheckRule) {
+        ((SpellingCheckRule) rule).acceptPhrases(Arrays.asList("myfoo mybar"));
+      } else {
+        langTool.disableRule(rule.getId());
+      }
+    }
+    assertThat(langTool.check("A test with myfoo mybar").size(), is(0));
+    assertThat(langTool.check("A test with myfoo and mybar").size(), is(2));  // the words on their own are not ignored
   }
 
   @Test

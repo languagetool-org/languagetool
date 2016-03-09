@@ -39,6 +39,9 @@
 
 #### Java API
   * some formerly deprecated code has been removed
+  * added `acceptPhrases(List<String> phrases)` to `SpellingCheckRule`
+    so you can avoid false alarms on names and technical terms
+    that consist of more than one word.
 
 #### Embedded HTTPS server
   * Speed up for input with short sentences

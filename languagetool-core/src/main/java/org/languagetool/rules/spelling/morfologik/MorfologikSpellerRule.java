@@ -80,7 +80,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    final AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     //lazy init
     if (speller1 == null) {
       String binaryDict = null;
@@ -98,7 +98,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     int idx = -1;
     for (AnalyzedTokenReadings token : tokens) {
       idx++;
-      if (canBeIgnored(tokens, idx, token)) {
+      if (canBeIgnored(tokens, idx, token) || token.isImmunized()) {
         continue;
       }
       // if we use token.getToken() we'll get ignored characters inside and speller will choke
