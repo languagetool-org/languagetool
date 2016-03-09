@@ -98,7 +98,7 @@ public final class PatternTestTools {
                     + ruleId + "[" + ruleSubId + "]"
                     + " (exception in token [" + i + "])"
                     + " has no skip=\"...\" and yet contains scope=\"next\""
-                    + " so the exception never applies. "
+                    + " so the exception never applies."
                     + " Did you forget skip=\"...\"?");
           }
 
@@ -363,7 +363,7 @@ public final class PatternTestTools {
           if (s.indexOf('|') >= 0) {
             System.err.println("The " + lang + " rule: "
                     + ruleId + ", token [" + tokenIndex + "], contains | (pipe) in "
-                    + " regexp bracket expression [" + strictMatcher.group(2)
+                    + "regexp bracket expression [" + strictMatcher.group(2)
                     + "] which is unlikely to be correct.");
           }
 
@@ -383,7 +383,7 @@ public final class PatternTestTools {
             if ("&\\-|".indexOf(c) < 0 && sorted[i - 1] == c) {
               System.err.println("The " + lang + " rule: "
                       + ruleId + ", token [" + tokenIndex + "], contains "
-                      + " regexp part [" + strictMatcher.group(2)
+                      + "regexp part [" + strictMatcher.group(2)
                       + "] which contains duplicated char [" + c + "].");
               break;
             }
