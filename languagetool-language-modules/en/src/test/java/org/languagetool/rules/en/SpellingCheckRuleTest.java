@@ -33,7 +33,6 @@ import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
@@ -41,18 +40,17 @@ public class SpellingCheckRuleTest {
 
   @Test
   public void testIgnoreSuggestionsWithMorfologik() throws IOException {
-    final JLanguageTool langTool = new JLanguageTool(new AmericanEnglish());
+    JLanguageTool lt = new JLanguageTool(new AmericanEnglish());
 
-    final List<RuleMatch> matches = langTool.check("This is anArtificialTestWordForLanguageTool.");
-    assertEquals(0, matches.size());   // no error, as this word is in ignore.txt
+    assertThat(lt.check("This is anArtificialTestWordForLanguageTool.").size(), is(0));   // no error, as this word is in ignore.txt
 
-    final List<RuleMatch> matches2 = langTool.check("This is a real typoh.");
-    assertEquals(1, matches2.size());
-    assertEquals("MORFOLOGIK_RULE_EN_US", matches2.get(0).getRule().getId());
+    List<RuleMatch> matches2 = lt.check("This is a real typoh.");
+    assertThat(matches2.size(), is(1));
+    assertThat(matches2.get(0).getRule().getId(), is("MORFOLOGIK_RULE_EN_US"));
 
-    final List<RuleMatch> matches3 = langTool.check("This is anotherArtificialTestWordForLanguageTol.");  // note the typo
-    assertEquals(1, matches3.size());
-    assertEquals("[anotherArtificialTestWordForLanguageTool]", matches3.get(0).getSuggestedReplacements().toString());
+    List<RuleMatch> matches3 = lt.check("This is anotherArtificialTestWordForLanguageTol.");  // note the typo
+    assertThat(matches3.size(), is(1));
+    assertThat(matches3.get(0).getSuggestedReplacements().toString(), is("[anotherArtificialTestWordForLanguageTool]"));
   }
 
   @Test
