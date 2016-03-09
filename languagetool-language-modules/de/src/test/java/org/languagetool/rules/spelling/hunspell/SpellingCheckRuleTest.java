@@ -52,13 +52,16 @@ public class SpellingCheckRuleTest {
     assertThat(lt.check("Ein Test mit Auriensis Fantasiewortus").size(), is(2));
     for (Rule rule : lt.getAllActiveRules()) {
       if (rule instanceof SpellingCheckRule) {
-        ((SpellingCheckRule) rule).acceptPhrases(Arrays.asList("Auriensis Fantasiewortus"));
+        ((SpellingCheckRule) rule).acceptPhrases(Arrays.asList("Auriensis Fantasiewortus", "fudeldu laberwort"));
       } else {
         lt.disableRule(rule.getId());
       }
     }
     assertThat(lt.check("Ein Test mit Auriensis Fantasiewortus").size(), is(0));
     assertThat(lt.check("Ein Test mit Auriensis und Fantasiewortus").size(), is(2));  // the words on their own are not ignored
+    assertThat(lt.check("fudeldu laberwort").size(), is(0));
+    assertThat(lt.check("Fudeldu laberwort").size(), is(2));  // this behavior might need to be changed (for sentence beginning)
+    assertThat(lt.check("Fudeldu Laberwort").size(), is(2));
   }
 
 }

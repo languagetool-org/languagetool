@@ -269,7 +269,7 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   /**
-   * Accept the given phrases even though they are not in the built-in dictionary.
+   * Accept (case-sensitively) the given phrases even though they are not in the built-in dictionary.
    * Use this to avoid false alarms on e.g. names and technical terms. Unlike {@link #addIgnoreTokens(List)}
    * this can deal with phrases. A way to call this is like this:
    * <code>rule.acceptPhrases(Arrays.asList("duodenal atresia"))</code>
@@ -283,7 +283,7 @@ public abstract class SpellingCheckRule extends Rule {
       String[] parts = phrase.split(" ");
       List<PatternToken> patternTokens = new ArrayList<>();
       for (String part : parts) {
-        patternTokens.add(new PatternTokenBuilder().token(part).build());
+        patternTokens.add(new PatternTokenBuilder().csToken(part).build());
       }
       antiPatterns.add(patternTokens);
     }
