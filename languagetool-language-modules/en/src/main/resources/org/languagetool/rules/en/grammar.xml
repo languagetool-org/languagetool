@@ -13617,7 +13617,9 @@ USA
                 <example>He doesn't know where I am in the morning.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
+                <pattern>
+                <token regexp="yes">1?\d</token>
+                <marker>
                     <token>A</token>
                     <token>.</token>
                     <token>M</token>
@@ -13625,6 +13627,7 @@ USA
                     <token>in</token>
                     <token>the</token>
                     <token>morning</token>
+                </marker>
                 </pattern>
                 <message>Consider using <suggestion>A.M.</suggestion></message>
                 <short>Redundant phrase</short>
@@ -13656,7 +13659,9 @@ USA
                 <example>It's 5 PM.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
+                <pattern>
+                <token regexp="yes">1?\d</token>
+                    <marker>
                     <token>P</token>
                     <token>.</token>
                     <token>M</token>
@@ -13664,6 +13669,7 @@ USA
                     <token>in</token>
                     <token>the</token>
                     <token regexp="yes">evening|afternoon</token>
+                    </marker>
                 </pattern>
                 <message>Consider using <suggestion>P.M.</suggestion></message>
                 <short>Redundant phrase</short>
@@ -13671,13 +13677,16 @@ USA
                 <example>It's 5 P.M.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
+                <pattern>
+                <token regexp="yes">1?\d</token>
+                <marker>
                     <token>P</token>
                     <token>.</token>
                     <token>M</token>
                     <token>.</token>
                     <token>at</token>
                     <token>night</token>
+                </marker>
                 </pattern>
                 <message>Consider using <suggestion>P.M.</suggestion></message>
                 <short>Redundant phrase</short>
@@ -13724,6 +13733,16 @@ USA
             <example correction="Bonus"><marker>Added bonus</marker>: booting from cdrom.</example>
             <example>Bonus: booting from CD-ROM.</example>
         </rule>
+        <rule id="ADEQUATE_ENOUGH" name="adequate enough (adequate)">
+        <pattern>
+        <token>adequate</token>
+        <token>enough</token>
+        </pattern>
+        <message>This phrase might be redundant. Consider using <suggestion>\1</suggestion>.</message>
+        <url>http://www.dailywritingtips.com/adequate-is-adequate/</url>
+        <short>Redundant phrase</short>
+        <example correction="adequate">The Allen test is not <marker>adequate enough</marker> for the screening of hand circulation.</example>
+        </rule>      
         <rule default="off" id="ARE_ABLE_TO" name="are able to (can)">
             <pattern>
                 <token>are</token>
@@ -14154,6 +14173,15 @@ USA
             <short>Redundant phrase</short>
             <example correction="all the">She is going to <marker>all of the</marker> parks.</example>
             <example>She is going some or all of the parks.</example>
+        </rule>
+        <rule id="SELF_ADMITTED" name="self-admitted (admitted)">
+        <pattern>
+        <token>self-admitted</token>
+        </pattern>
+        <message>This phrase is redundant. Consider using <suggestion>admitted</suggestion>.</message>
+        <url>http://www.oxfordreference.com/view/10.1093/acref/9780195135084.001.0001/acref-9780195135084-e-1937</url>
+        <short>Redundant phrase</short>
+        <example correction="admitted">Springfield police arrest 'very dangerous, <marker>self-admitted</marker> gang member.'</example>
         </rule>
         <rule id="SOME_OF_THE" name="some of the (some)">
             <pattern>
