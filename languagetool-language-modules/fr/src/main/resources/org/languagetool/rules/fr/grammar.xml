@@ -8042,12 +8042,13 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token postag="D . s?p" postag_regexp="yes"/>
-          <token postag="N . p" postag_regexp="yes"/>
+          <token postag="N . p" postag_regexp="yes"><exception regexp="yes">grosses|premières</exception></token>
           <marker><token regexp="yes">abricots|acajous|anthracites|argents|aubergines|azurs|bistres|briques|bronzes|cachous|caramels|carmins|cerises|chocolats|corails|crèmes|cuivres|ébènes|émeraudes|fraises|garances|grenats|indigos|isabelles|ivoires|lavandes|magentas|marrons|moutardes|nacres|noisettes|ocres|olives|ors|oranges|outremers|pailles|pastels|pervenches|pies|pistaches|pivoines|rouilles|sables|safrans|sépias|tabacs|taupes|tomates|turquoises|vermillons</token></marker>
         </pattern>
         <message>Quand la couleur est exprimée par un nom de plante, de fruit, d’animal, de pierre ou de personne, l’invariabilité est alors de rigueur, car il s’agit de tours elliptique (de la couleur de). Voulez-vous écrire <suggestion><match no="3" regexp_match="s$" regexp_replace=""/></suggestion> ?</message>
         <example correction="marron">Des yeux <marker>marrons</marker>.</example>
         <example>Des créatures <marker>marines</marker>.</example>
+        <example>Un cageot des <marker>premières cerises</marker>.</example>
       </rule>
       <rule>
         <antipattern>
