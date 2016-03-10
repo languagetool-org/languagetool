@@ -16884,6 +16884,67 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+        <rule id="PO_UWAG_POD_UWAG" name="„po uwagę” (pod uwagę)">
+         <pattern>
+          <token>po</token>
+          <token>uwagę</token>
+         </pattern>
+         <message>Prawdopodobna literówka: czy chodziło o <suggestion>pod uwagę</suggestion>?</message>
+         <short>Prawdopodobna literówka</short>
+         <example correction='pod uwagę'>Fundusz powinien brać to <marker>po uwagę</marker> – twierdzi Roman Szełemej.</example>         
+        </rule>
+        <rulegroup id="LITY_LUTY" name="„lity” (luty)">
+				<antipattern>
+								<unify>
+										<feature id="number"></feature>
+										<feature id="gender"></feature>
+										<feature id="case"></feature>
+										<marker>
+										<token inflected="yes">lity</token>
+										</marker>
+										<token inflected="yes">drewno</token>
+								</unify>
+						</antipattern>
+        <rule>
+						<pattern>
+								<unify>
+										<feature id="number"></feature>
+										<feature id="gender"></feature>
+										<feature id="case"></feature>
+										<token inflected="yes">miesiąc</token>
+										<marker>
+										<token inflected="yes">lity</token>
+										</marker>
+								</unify>
+						</pattern>
+						<message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="2" regexp_match="lit" regexp_replace="lut"/></suggestion>?</message>
+						<short>Prawdopodobna literówka</short>
+						<example correction="lutym">Było to w miesiącu <marker>litym</marker> 2015.</example>
+						<example>W tym miesiącu litym drewnem się nie bawiłem.</example>
+				</rule>
+				<rule>
+         <pattern>
+          <token regexp='yes'>[1-2]?\d</token>
+          <marker>
+          <token>litego</token>
+          </marker>
+         </pattern>
+         <message>Czy chodziło o <suggestion>lutego</suggestion>?</message>
+         <short>Prawdopodobna literówka</short>
+         <example correction='lutego'>20 <marker>litego</marker> 2014</example>
+        </rule>
+        <rule>
+         <pattern>
+          <marker>
+          <token regexp='yes'>lity|litego|litym</token>
+          </marker>
+          <token regexp='yes'>[1-2]\d{3}|\d{2}</token>
+         </pattern>
+         <message>Czy chodziło o <suggestion><match no="1" regexp_match="lit" regexp_replace="lut"/></suggestion>?</message>
+         <short>Prawdopodobna literówka</short>
+         <example correction='lutego'>Odkładamy sprawę do <marker>litego</marker> 2014.</example>         
+        </rule>
+        </rulegroup>
         <rule id="ANIE_A_NIE" name="„anie” (a nie)">
          <pattern case_sensitive='yes'>
           <token spacebefore='yes'>anie</token>

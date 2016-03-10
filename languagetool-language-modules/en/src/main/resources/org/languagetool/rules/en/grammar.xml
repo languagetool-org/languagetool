@@ -10357,189 +10357,6 @@ USA
     <!-- Miscellaneous -->
     <!-- ====================================================================== -->
     <category id="MISC" name="Miscellaneous">
-    <rule id="TRADEMARK" name="(TM) instead of ™">
-     <pattern case_sensitive='yes'>
-      <token regexp='yes'>\p{Lu}.*</token>
-      <marker>
-      <token>(</token>
-      <token>TM</token>
-      <token>)</token>
-      </marker>
-     </pattern>
-     <message>Did you mean <suggestion>™</suggestion>?</message>
-     <short>Nonstandard notation of ™</short>
-     <example correction='™'>The new product is Executive Choice<marker>(TM)</marker> Plus.</example>
-    </rule>
-    <rule id="R_SYMBOL" name="(R) instead of ®">
-		<antipattern case_sensitive="yes">
-		    <marker>
-		    <token>(</token>        
-        <token>R</token>
-        <token skip="-1">)</token>        
-        </marker>
-        <token regexp="yes">[\p{Lu}^R]<exception scope="previous" negate="yes">(</exception></token>
-        <token skip="-1">)</token>
-		</antipattern>
-		<antipattern case_sensitive="yes">
-		    <token>(</token>        
-        <token regexp="yes">[\p{Lu}^R]</token>
-        <token skip="-1">)</token>        
-        <marker>
-        <token>R<exception scope="previous" negate="yes">(</exception></token>
-        <token skip="-1">)</token>
-        </marker>
-		</antipattern>
-     <pattern case_sensitive='yes'>
-      <token regexp='yes'>\p{Lu}.*</token>
-      <marker>
-      <token>(</token>
-      <token>R</token>
-      <token>)</token>
-      </marker>
-     </pattern>
-     <message>Did you mean <suggestion>®</suggestion>?</message>
-     <short>Nonstandard notation of ®</short>
-     <example correction='®'>Windows <marker>(R)</marker></example>
-     <example>These are Richard Burr (D) and Kay Hagan (R).</example>
-    </rule>
-    <rule id="COPYRIGHT" name="(c) instead of ©" type="typographical">
-    <antipattern>
-        <token>(</token>        
-        <token>a</token>
-        <token skip="-1">)</token>        
-        <token>b<exception scope="previous" negate="yes">(</exception></token>
-        <token skip="-1">)</token>
-        <marker>        
-        <token>c<exception scope="previous" negate="yes">(</exception></token>
-        <token>)</token>
-        </marker>
-		</antipattern>    
-      <pattern>
-      <marker>
-        <token>(</token>        
-        <token>c</token>
-        <token>)</token>
-        </marker>
-        <token regexp="yes">\d{4}|\p{Lu}\p{Ll}+</token>
-      </pattern>
-      <message>This notation is nonstandard, use this symbol instead: <suggestion>©</suggestion></message>
-      <short>Nonstandard notation of ©</short>
-      <example correction="©">Copyright <marker>(C)</marker> Joanna Bator, 2012</example>
-      <example correction="©">Copyright <marker>(C)</marker> 2010 The Estate of Ezra Pound</example>
-      <example>This is a list: (a) item, (b) 2 items, (c) 2014 items.</example>
-		</rule>
-        <rulegroup type="locale-violation" id="CURRENCY" name="Position of currency symbols: '100$' ($100)">
-            <rule>
-                <pattern>
-                    <token regexp="yes">\d+[$€£¥\u8371]</token>
-                </pattern>
-                <message>The currency mark is usually put at the beginning of the number: <suggestion><match no="1" regexp_match="(\d+)([$€£¥\u8371])" regexp_replace="$2$1"/></suggestion>.</message>
-                <short>Put currency at the beginning</short>
-                <example correction="$100">You owe me <marker>100$</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">\d+</token>
-                    <token regexp="yes">[$€£¥\u8371]</token>
-                </pattern>
-                <message>The currency mark is usually put at the beginning of the number: <suggestion>\2\1</suggestion>.</message>
-                <short>Put currency at the beginning</short>
-                <example correction="$100">You owe me <marker>100 $</marker>.</example>
-            </rule>
-        </rulegroup>
-        <rule type="whitespace" id="CURRENCY_SPACE" name="Whitespace after currency symbols: '$ 100' ($100)">
-            <pattern>
-                <token regexp="yes">[$€£¥\u8371]</token>
-                <token regexp="yes" spacebefore="yes">\d+</token>
-            </pattern>
-            <message>The currency mark is usually written without any whitespace: <suggestion>\1\2</suggestion>.</message>
-            <short>Remove whitespace</short>
-            <example correction="$100">You owe me <marker>$ 100</marker>.</example>
-        </rule>
-        <rulegroup id="EN_QUOTES" name="Smart quotes (“”)">
-            <rule>
-                <pattern>
-                    <token postag="``"/>
-                </pattern>
-                <message>Use a smart opening quote here: <suggestion>“</suggestion>.</message>
-                <url>https://en.wikipedia.org/wiki/Smart_quote#Electronic_documents</url>
-                <short>Use smart quotes</short>
-                <example correction="“">This is a (<marker>&quot;</marker>test&quot;).</example>
-                <example correction="“"><marker>&quot;</marker>Test&quot;!</example>
-                <example>“Test”!</example>
-                <example correction="“">This is another <marker>&quot;</marker>test&quot;.</example>
-            </rule>
-            <rule>
-                <antipattern> <!-- don't beautify inches -->
-                    <token postag_regexp="yes" postag="''|SENT_START" skip="-1"><exception scope="next" postag="``"/></token>
-                    <token regexp="yes">\d{1,2}(?:[-\.]\d{1,2})?</token>
-                    <marker><token postag="''"/></marker>
-                </antipattern>
-                <pattern>
-                    <token postag="''"/>
-                </pattern>
-                <message>Use a smart closing quote here: <suggestion>”</suggestion>.</message>
-                <url>https://en.wikipedia.org/wiki/Smart_quote#Electronic_documents</url>
-                <short>Use smart quotes</short>
-                <example correction="”">This is a (&quot;test<marker>&quot;</marker>)</example>
-                <example correction="”">Use a quote &quot;here<marker>&quot;</marker> to say something.</example>
-                <example correction="”">This is another &quot;test<marker>&quot;</marker>.</example>
-                <example correction="”">Achilles is mentioned in the song &quot;57821<marker>&quot;</marker>, by Janelle Monáe ft.</example>
-                <example>“Test”!</example>
-                <example>Economy class seats have a seat pitch of 31-33&quot;</example>
-                <example correction="”">American baseball player nicknamed &quot;The Animal<marker>&quot;</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>`</token>
-                    <token spacebefore="no">`</token>
-                </pattern>
-                <message>Use a smart opening quote here: <suggestion>“</suggestion>.</message>
-                <url>https://en.wikipedia.org/wiki/Smart_quote#Electronic_documents</url>
-                <short>Use smart quotes</short>
-                <example correction="“"><marker>``</marker>Test”.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>„</token>
-                </pattern>
-                <message>Possibly wrong smart opening quote: <suggestion>“</suggestion>.</message>
-                <url>https://en.wikipedia.org/wiki/„</url>
-                <example correction="“"><marker>„</marker>Test”.</example>
-            </rule>
-        </rulegroup>
-        <rule default="off" id="ELLIPSIS" name="Smart ellipsis (…)">
-            <pattern>
-                <token>.</token>
-                <token>.</token>
-                <token>.</token>
-            </pattern>
-            <message>Use typographical ellipsis character here instead: <suggestion>…</suggestion>.</message>
-            <example correction="…">This is important <marker>. . .</marker> as far as I know.</example>
-            <example>This is important – as far as I know.</example>
-            <example correction="…">This is important<marker>...</marker> as far as I know.</example>
-        </rule>
-        <rulegroup id="WRONG_APOSTROPHE" name="Wrong apostrophe character">
-            <rule>
-                <pattern>
-                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
-                    <token regexp="yes">[´`]</token>
-                    <token>t</token>
-                </pattern>
-                <message>You used an accent character instead of an apostrophe. Please use either <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>.</message>
-                <short>Accent character misused as apostrophe</short>
-                <example correction="shouldn't|shouldn’t">You <marker>shouldn´t</marker> do it!</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
-                    <token regexp="yes">[;:"]</token>
-                    <token>t</token>
-                </pattern>
-                <message>Did you mean <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>?</message>
-                <example correction="shouldn't|shouldn’t">You <marker>shouldn;t</marker> do it!</example>
-            </rule>
-        </rulegroup>
         <rule id="CONTRACTED_FORM_NOT" name="shouldn't not (shouldn't)">
             <pattern>
                 <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
@@ -17254,64 +17071,191 @@ USA
             </rule>
         </rulegroup>
     </category>
-    
-    <!-- This rule is useful only for lowercase only text after machine translation. I leave it in the
-    file because it's not so bad for such input but it shouldn't be even visible in the config dialog.
-    Maybe it should go some repository online?
-    <category id="CASING" name="Capitalization" type="typographical">
-        <rulegroup default="off" id="EN_CAPITALIZE" name="Capitalize lowercase words ('i am')">
+
+  <category id="TYPOGRAPHY" name="Typography" type="typographical">
+  <rule id="TRADEMARK" name="(TM) instead of ™">
+     <pattern case_sensitive='yes'>
+      <token regexp='yes'>\p{Lu}.*</token>
+      <marker>
+      <token>(</token>
+      <token>TM</token>
+      <token>)</token>
+      </marker>
+     </pattern>
+     <message>Did you mean <suggestion>™</suggestion>?</message>
+     <short>Nonstandard notation of ™</short>
+     <example correction='™'>The new product is Executive Choice<marker>(TM)</marker> Plus.</example>
+    </rule>
+    <rule id="R_SYMBOL" name="(R) instead of ®">
+		<antipattern case_sensitive="yes">
+		    <marker>
+		    <token>(</token>        
+        <token>R</token>
+        <token skip="-1">)</token>        
+        </marker>
+        <token regexp="yes">[\p{Lu}^R]<exception scope="previous" negate="yes">(</exception></token>
+        <token skip="-1">)</token>
+		</antipattern>
+		<antipattern case_sensitive="yes">
+		    <token>(</token>        
+        <token regexp="yes">[\p{Lu}^R]</token>
+        <token skip="-1">)</token>        
+        <marker>
+        <token>R<exception scope="previous" negate="yes">(</exception></token>
+        <token skip="-1">)</token>
+        </marker>
+		</antipattern>
+     <pattern case_sensitive='yes'>
+      <token regexp='yes'>\p{Lu}.*</token>
+      <marker>
+      <token>(</token>
+      <token>R</token>
+      <token>)</token>
+      </marker>
+     </pattern>
+     <message>Did you mean <suggestion>®</suggestion>?</message>
+     <short>Nonstandard notation of ®</short>
+     <example correction='®'>Windows <marker>(R)</marker></example>
+     <example>These are Richard Burr (D) and Kay Hagan (R).</example>
+    </rule>
+    <rule id="COPYRIGHT" name="(c) instead of ©" type="typographical">
+    <antipattern>
+        <token>(</token>        
+        <token>a</token>
+        <token skip="-1">)</token>        
+        <token>b<exception scope="previous" negate="yes">(</exception></token>
+        <token skip="-1">)</token>
+        <marker>        
+        <token>c<exception scope="previous" negate="yes">(</exception></token>
+        <token>)</token>
+        </marker>
+		</antipattern>    
+      <pattern>
+      <marker>
+        <token>(</token>        
+        <token>c</token>
+        <token>)</token>
+        </marker>
+        <token regexp="yes">\d{4}|\p{Lu}\p{Ll}+</token>
+      </pattern>
+      <message>This notation is nonstandard, use this symbol instead: <suggestion>©</suggestion></message>
+      <short>Nonstandard notation of ©</short>
+      <example correction="©">Copyright <marker>(C)</marker> Joanna Bator, 2012</example>
+      <example correction="©">Copyright <marker>(C)</marker> 2010 The Estate of Ezra Pound</example>
+      <example>This is a list: (a) item, (b) 2 items, (c) 2014 items.</example>
+		</rule>
+        <rulegroup type="locale-violation" id="CURRENCY" name="Position of currency symbols: '100$' ($100)">
             <rule>
-                <pattern case_sensitive="yes">
-                    <and>
-                        <token inflected="yes" regexp="yes">[A-Z][a-z]+</token>
-                        <token regexp="yes">[a-z]+</token>
-                    </and>
+                <pattern>
+                    <token regexp="yes">\d+[$€£¥\u8371]</token>
                 </pattern>
-                <message>The word \1 probably should be uppercase: <suggestion><match case_conversion="startupper" no="1"></match></suggestion>.</message>
-                <example correction="Susan">My name is <marker>susan</marker>.</example>
-                <example>My name is Susan.</example>
+                <message>The currency mark is usually put at the beginning of the number: <suggestion><match no="1" regexp_match="(\d+)([$€£¥\u8371])" regexp_replace="$2$1"/></suggestion>.</message>
+                <short>Put currency at the beginning</short>
+                <example correction="$100">You owe me <marker>100$</marker>.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
-                    <token>i</token>
+                <pattern>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">[$€£¥\u8371]</token>
                 </pattern>
-                <message>This should be written in uppercase: <suggestion>I</suggestion>.</message>
-                <example correction="I">Who do you think <marker>i</marker> am?</example>
-                <example>Who do you think I am?</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">&quot;|“</token>
-                    <and>
-                        <token inflected="yes" regexp="yes">[A-Z][a-z]+</token>
-                        <token regexp="yes">[a-z]+</token>
-                    </and>
-                    <marker>
-                        <token postag="NN" regexp="yes">[a-z]+</token>
-                    </marker>
-                </pattern>
-                <message>The word \3 should probably be written in uppercase: <suggestion><match case_conversion="startupper" no="3"></match></suggestion>.</message>
-                <example correction="Monthly">This is a story from “atlantic <marker>monthly</marker>”.</example>
-                <example>This is a story from “The Atlantic Monthly”.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="UNKNOWN" regexp="yes">[a-z]+</token>
-                </pattern>
-                <message>The word \1 should probably be uppercase:<suggestion><match case_conversion="startupper" no="1"></match></suggestion>.</message>
-                <example correction="Sobol">Eve <marker>sobol</marker>, Indiana</example>
-                <example>Eve Sobol, Indiana</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="NNP" regexp="yes">[a-z]+</token>
-                </pattern>
-                <message>The word \1 should probably be uppercase: <suggestion><match case_conversion="startupper" no="1"></match></suggestion>.</message>
-                <example correction="Susan">This is <marker>susan</marker>.</example>
-                <example>This is Susan.</example>
+                <message>The currency mark is usually put at the beginning of the number: <suggestion>\2\1</suggestion>.</message>
+                <short>Put currency at the beginning</short>
+                <example correction="$100">You owe me <marker>100 $</marker>.</example>
             </rule>
         </rulegroup>
-    </category>
-    -->
+        <rule type="whitespace" id="CURRENCY_SPACE" name="Whitespace after currency symbols: '$ 100' ($100)">
+            <pattern>
+                <token regexp="yes">[$€£¥\u8371]</token>
+                <token regexp="yes" spacebefore="yes">\d+</token>
+            </pattern>
+            <message>The currency mark is usually written without any whitespace: <suggestion>\1\2</suggestion>.</message>
+            <short>Remove whitespace</short>
+            <example correction="$100">You owe me <marker>$ 100</marker>.</example>
+        </rule>
+        <rulegroup id="EN_QUOTES" name="Smart quotes (“”)">
+            <rule>
+                <pattern>
+                    <token postag="``"/>
+                </pattern>
+                <message>Use a smart opening quote here: <suggestion>“</suggestion>.</message>
+                <url>https://en.wikipedia.org/wiki/Smart_quote#Electronic_documents</url>
+                <short>Use smart quotes</short>
+                <example correction="“">This is a (<marker>&quot;</marker>test&quot;).</example>
+                <example correction="“"><marker>&quot;</marker>Test&quot;!</example>
+                <example>“Test”!</example>
+                <example correction="“">This is another <marker>&quot;</marker>test&quot;.</example>
+            </rule>
+            <rule>
+                <antipattern> <!-- don't beautify inches -->
+                    <token postag_regexp="yes" postag="''|SENT_START" skip="-1"><exception scope="next" postag="``"/></token>
+                    <token regexp="yes">\d{1,2}(?:[-\.]\d{1,2})?</token>
+                    <marker><token postag="''"/></marker>
+                </antipattern>
+                <pattern>
+                    <token postag="''"/>
+                </pattern>
+                <message>Use a smart closing quote here: <suggestion>”</suggestion>.</message>
+                <url>https://en.wikipedia.org/wiki/Smart_quote#Electronic_documents</url>
+                <short>Use smart quotes</short>
+                <example correction="”">This is a (&quot;test<marker>&quot;</marker>)</example>
+                <example correction="”">Use a quote &quot;here<marker>&quot;</marker> to say something.</example>
+                <example correction="”">This is another &quot;test<marker>&quot;</marker>.</example>
+                <example correction="”">Achilles is mentioned in the song &quot;57821<marker>&quot;</marker>, by Janelle Monáe ft.</example>
+                <example>“Test”!</example>
+                <example>Economy class seats have a seat pitch of 31-33&quot;</example>
+                <example correction="”">American baseball player nicknamed &quot;The Animal<marker>&quot;</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>`</token>
+                    <token spacebefore="no">`</token>
+                </pattern>
+                <message>Use a smart opening quote here: <suggestion>“</suggestion>.</message>
+                <url>https://en.wikipedia.org/wiki/Smart_quote#Electronic_documents</url>
+                <short>Use smart quotes</short>
+                <example correction="“"><marker>``</marker>Test”.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>„</token>
+                </pattern>
+                <message>Possibly wrong smart opening quote: <suggestion>“</suggestion>.</message>
+                <url>https://en.wikipedia.org/wiki/„</url>
+                <example correction="“"><marker>„</marker>Test”.</example>
+            </rule>
+        </rulegroup>
+        <rule default="off" id="ELLIPSIS" name="Smart ellipsis (…)">
+            <pattern>
+                <token>.</token>
+                <token>.</token>
+                <token>.</token>
+            </pattern>
+            <message>Use typographical ellipsis character here instead: <suggestion>…</suggestion>.</message>
+            <example correction="…">This is important <marker>. . .</marker> as far as I know.</example>
+            <example>This is important – as far as I know.</example>
+            <example correction="…">This is important<marker>...</marker> as far as I know.</example>
+        </rule>
+        <rulegroup id="WRONG_APOSTROPHE" name="Wrong apostrophe character">
+            <rule>
+                <pattern>
+                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
+                    <token regexp="yes">[´`]</token>
+                    <token>t</token>
+                </pattern>
+                <message>You used an accent character instead of an apostrophe. Please use either <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>.</message>
+                <short>Accent character misused as apostrophe</short>
+                <example correction="shouldn't|shouldn’t">You <marker>shouldn´t</marker> do it!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
+                    <token regexp="yes">[;:"]</token>
+                    <token>t</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>?</message>
+                <example correction="shouldn't|shouldn’t">You <marker>shouldn;t</marker> do it!</example>
+            </rule>
+        </rulegroup>    
+  </category>
 
 </rules>
