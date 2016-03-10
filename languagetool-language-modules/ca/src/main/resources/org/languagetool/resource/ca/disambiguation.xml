@@ -1342,13 +1342,22 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd lemma="NP" pos="NP00000"/><wd lemma="NP" pos="NP00000"/></disambig>
         </rule>
-        <rule id="nompropi_filtra" name="nompropi filtra">
+        <rule id="nompropi3paraules_filtra" name="nom propi 3 paraules">
             <pattern>
-                <marker>
-                    <token postag="NP00000"/>
-                </marker>
+                <token postag="&lt;NP.*&gt;" postag_regexp="yes"></token>
+                <token postag="NP00000"/>
+                <token postag="&lt;/NP.*&gt;" postag_regexp="yes"></token>
             </pattern>
-            <disambig action="filter" postag="NP00000"></disambig>
+            <disambig action="filterall"/>
+        </rule>
+        <rule id="nompropi4paraules-filtra" name="nom propi 4 paraules">
+            <pattern>
+                <token postag="&lt;NP.*&gt;" postag_regexp="yes"></token>
+                <token postag="NP00000"/>
+                <token postag="NP00000"/>
+                <token postag="&lt;/NP.*&gt;" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="filterall"/>
         </rule>
     </rulegroup>
     <rulegroup id="nomcomú_multiword" name="noms comuns en multiwords">

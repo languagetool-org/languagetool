@@ -50,8 +50,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY mesos_any "gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre">
     <!ENTITY mesos_any_maj "Gener|Febrer|Març|Abril|Maig|Juny|Juliol|Agost|Setembre|Octubre|Novembre|Desembre">
     <!ENTITY mots_femenins_apostrofen "hidra|hifa|hulla|ulna|umbra|una|ungla|unça|umma|upa|urbs|urca|urna|urpa|idus|illa|inca|iva|URSS|UJI|(?-i)ICONA|ICS|Ingrid|IRA|Imma|UCI|UCE|ISO|UVI">
-    <!ENTITY mots_HAC_ASPIRADA2 "Higgs|high|Hildesheim|Hill|Hillary|Himmler|hip-hop|hippies|hippy|hipsters?|Hirado|His|Hubei|Hudson|Hunter|Husserl|Huygens|Utah">
-    <!ENTITY mots_HAC_ASPIRADA "Haarlem|haendel.*|händel.*|habermas.*|Hanuk?kà|hack.*|Harlem|Hartford|Haifa|haikus?|haima|haimes|halal|halar|hall.*|Halloweens?|Hamada|Hamas|Hamàs|hamilton.*|Hamlet.*|Hammond|Hampton|handicaps?|Hannover|Hanoi|Hans|Hansa|hardware|harolds?|Harrison|harrods?|harry|Hartmann?|Haruki|Harvard|Harz|hash.*|Havilland|hawai.*|hawk.*|Haydn.*|Hayworth|Heard|hearst|Heathrow|heav.*|hegel.*|Heidelberg|Heide[gn].*|Heilig.*|hein.*|Heisen.*|Heitz|Helen|Heming.*|henna|hennes|Henry|Hepburn|herbert.*|Herder|Hereford|Hesse|Hessen|Hewlett.*|Hezboll.+|high.*|hilbert.*|Hilda|hinden.*|hinterlands?|Hitch.*|hitler.*|hobbes.*|hobby|hobbies|Hohen.*|holdings?|hollywood.*|Holmes.*|Holstein|Hong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hooligan.*|hoover.*|hopkins|Hork.*|horst|H[ou]f.*|Houston|Howard|hubs?|Hubble|humbold.*|Hume|hunting.*|husseinit.+">
+    <!ENTITY mots_HAC_ASPIRADA2 "Higgs|high|Hildesheim|Hill|hijabs?|Hillary|Himmler|hip-hop|hippies|hippy|hipsters?|Hirado|His|Hubei|Hudson|Hunter|Husserl|Huygens|Utah|husky">
+    <!ENTITY mots_HAC_ASPIRADA "Haarlem|haendel.*|händel.*|habermas.*|Hanuk?kà|hack.*|Harlem|Hartford|Haifa|haikus?|haima|haimes|halal|halar|hall.*|Halloweens?|Hamada|Hamas|Hamàs|hamilton.*|Hamlet.*|hammams?|Hammond|Hampton|handicaps?|Hannover|Hanoi|Hans|Hansa|hardware|harolds?|Harrison|harrods?|harry|Hartmann?|Haruki|Harvard|Harz|hash.*|Havel|Havilland|hawai.*|hawk.*|Haydn.*|Hayworth|Heard|hearst|Heathrow|heav.*|hegel.*|Heidelberg|Heide[gn].*|Heilig.*|hein.*|Heisen.*|Heitz|Helen|Heming.*|henna|hennes|Henry|Hepburn|herbert.*|Herder|Hereford|Hesse|Hessen|Hewlett.*|Hezboll.+|high.*|hilbert.*|Hilda|hinden.*|hinterlands?|Hitch.*|hitler.*|hobbes.*|hobby|hobbies|Hohen.*|holdings?|hollywood.*|Holmes.*|Holstein|Hong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hooligan.*|hoover.*|hopkins|Hork.*|horst|H[ou]f.*|Houston|Howard|hubs?|Hubble|humbold.*|Hume|hunting.*|husseinit.+">
     <!ENTITY mots_SOTA "direcció|supervisió|batuta|guia|pseudònim|protecció|tutela|denominació|jurisdicció|nom|títol|domini|dominació|patronatge">
     <!ENTITY nombres_que_apostrofen "(1{1,2}|11[.\s]?\d{3}|1{1,2}\.\d{3}\.\d{3}|1{1,2}\s\d{3}\s\d{3}|1{1,2}\d{6})([,]\d+)?([&#37;&#8240;&#8241;′″]|&#176;[CFKNSEW]?)?|11[aèé]|11\.[0-5]\d">
     <!ENTITY noms_ABAIXAR_APUJAR "calefacció|impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista">
@@ -14130,13 +14130,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Això no la diferencia de les altres.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token inflected="yes">es</token>
+                        <token min="0" inflected="yes">en</token>
+                        <token>seqüencia</token>
+                    </marker>
+                </antipattern>
                 <pattern>
-                    <token regexp="yes">(circumstanci|conferenci|vivenci|instanci|intermedi)(a|es)</token>
-                </pattern>
+                    <token regexp="yes">(circumstanci|conferenci|vivenci|instanci|intermedi|seqüenci)(a|es)</token>
+               </pattern>
                 <message>Si és nom, cal accentuar. Correcte si és del verb "<match no="1" case_conversion="alllower" regexp_match="(?iu)(.*enci)(a|es)" regexp_replace="$1ar"/>".</message>
                 <suggestion><match no="1" regexp_match="(?iu)(.*)enci(a|es)" regexp_replace="$1ènci$2"/></suggestion>
                 <example correction="Conferència"><marker>Conferencia</marker> a càrrec del president.</example>
                 <example correction="Vivències"><marker>Vivencies</marker> del president.</example>
+                <example>Se seqüencia tot.</example>
+                <example>Se'n seqüencia la meitat.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -14941,9 +14950,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="DE_EL_S_APOSTROFEN" name="apostrofació: de, el">
             <antipattern>
                 <marker>
-                    <token>Picos</token>
-                    <token>de</token>
-                    <token>Europa</token>
+                    <token postag="NP.*" postag_regexp="yes">de</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token case_sensitive="yes">US</token>
+                    <token regexp="yes">Open|Army|Air|Airways|Marines?|Treasury|Bill</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>home</token>
+                    <token regexp="yes">rule|secretary|staging|aircraft|depot|office</token>
                 </marker>
             </antipattern>
             <rule>
@@ -31148,7 +31167,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">plànol</token>
                 </marker>
                 <token min="0" inflected="yes">de</token>
-                <token inflected="yes" regexp="yes">mediàtic|.*econòmic|.*social|.*polític|abstracte|personal|professional|vertical|horitzontal|oblic|teòric|pràctic|igualtat</token>
+                <token inflected="yes" regexp="yes">seqüència|mediàtic|.*econòmic|.*social|.*polític|abstracte|personal|professional|vertical|horitzontal|oblic|teòric|pràctic|igualtat</token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">pla</match></suggestion>? Exemples d'ús correcte: un plànol de Xàtiva, un plànol del castell.</message>
             <url>http://esadir.cat/entrades/fitxa/id/2157</url>
