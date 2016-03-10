@@ -3765,6 +3765,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <example correction="— powiedział —|– powiedział –">To nowość <marker>– powiedział —</marker> nigdy o tym nie słyszałem.</example>    
 		</rule>
 		</rulegroup>
+		<rule id="SYMBOL_ZNAKU_TOWAROWEGO" name="Symbol znaku towarowego">
+     <pattern case_sensitive='yes'>
+      <token regexp='yes'>\p{Lu}.*</token>
+      <marker>
+      <token>(</token>
+      <token>TM</token>
+      <token>)</token>
+      </marker>
+     </pattern>
+     <message>W tym miejscu prawdopodobnie powinien znajdować się symbol <suggestion>™</suggestion>.</message>
+     <short>Błędny zapis symbolu ™</short>
+     <example correction='™'>Nowy produkt nosi nazwę Executive Choice<marker>(TM)</marker> Plus i wybija się spośród innych podobnych ubezpieczeń mniejszą liczbą wyłączeń.</example>
+     <example>Nowy produkt nosi nazwę Executive Choice™ Plus i wybija się spośród innych podobnych ubezpieczeń mniejszą liczbą wyłączeń.</example>
+    </rule>
+    <rule id="SYMBOL_ZNAKU_TOWAROWEGO_ZASTRZEONEGO" name="Symbol znaku towarowego zastrzeżonego">
+		<antipattern case_sensitive="yes">
+		    <marker>
+		    <token>(</token>        
+        <token>R</token>
+        <token skip="-1">)</token>        
+        </marker>
+        <token regexp="yes">[\p{Lu}^R]<exception scope="previous" negate="yes">(</exception></token>
+        <token skip="-1">)</token>
+		</antipattern>
+		<antipattern case_sensitive="yes">
+		    <token>(</token>        
+        <token regexp="yes">[\p{Lu}^R]</token>
+        <token skip="-1">)</token>        
+        <marker>
+        <token>R<exception scope="previous" negate="yes">(</exception></token>
+        <token skip="-1">)</token>
+        </marker>
+		</antipattern>
+     <pattern case_sensitive='yes'>
+      <token regexp='yes'>\p{Lu}.*</token>
+      <marker>
+      <token>(</token>
+      <token>R</token>
+      <token>)</token>
+      </marker>
+     </pattern>
+     <message>W tym miejscu prawdopodobnie powinien znajdować się symbol <suggestion>®</suggestion>.</message>
+     <short>Błędny zapis symbolu ®</short>
+     <example correction='®'>Windows <marker>(R)</marker></example>
+     <example>Senatorzy reprezentujący stan to Richard Burr (D) i Kay Hagan (R).</example>
+    </rule>
 		<rule id="COPYRIGHT" name="„(c)” zamiast „©”">
 		<antipattern>
         <token>(</token>        

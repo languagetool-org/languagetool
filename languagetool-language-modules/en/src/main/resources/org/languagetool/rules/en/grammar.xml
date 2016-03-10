@@ -10357,6 +10357,51 @@ USA
     <!-- Miscellaneous -->
     <!-- ====================================================================== -->
     <category id="MISC" name="Miscellaneous">
+    <rule id="TRADEMARK" name="(TM) instead of ™">
+     <pattern case_sensitive='yes'>
+      <token regexp='yes'>\p{Lu}.*</token>
+      <marker>
+      <token>(</token>
+      <token>TM</token>
+      <token>)</token>
+      </marker>
+     </pattern>
+     <message>Did you mean <suggestion>™</suggestion>?</message>
+     <short>Nonstandard notation of ™</short>
+     <example correction='™'>The new product is Executive Choice<marker>(TM)</marker> Plus.</example>
+    </rule>
+    <rule id="R_SYMBOL" name="(R) instead of ®">
+		<antipattern case_sensitive="yes">
+		    <marker>
+		    <token>(</token>        
+        <token>R</token>
+        <token skip="-1">)</token>        
+        </marker>
+        <token regexp="yes">[\p{Lu}^R]<exception scope="previous" negate="yes">(</exception></token>
+        <token skip="-1">)</token>
+		</antipattern>
+		<antipattern case_sensitive="yes">
+		    <token>(</token>        
+        <token regexp="yes">[\p{Lu}^R]</token>
+        <token skip="-1">)</token>        
+        <marker>
+        <token>R<exception scope="previous" negate="yes">(</exception></token>
+        <token skip="-1">)</token>
+        </marker>
+		</antipattern>
+     <pattern case_sensitive='yes'>
+      <token regexp='yes'>\p{Lu}.*</token>
+      <marker>
+      <token>(</token>
+      <token>R</token>
+      <token>)</token>
+      </marker>
+     </pattern>
+     <message>Did you mean <suggestion>®</suggestion>?</message>
+     <short>Nonstandard notation of ®</short>
+     <example correction='®'>Windows <marker>(R)</marker></example>
+     <example>These are Richard Burr (D) and Kay Hagan (R).</example>
+    </rule>
     <rule id="COPYRIGHT" name="(c) instead of ©" type="typographical">
     <antipattern>
         <token>(</token>        
