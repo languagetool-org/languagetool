@@ -405,6 +405,7 @@ my @anv_lies_tud = (
   "beulkeed",
   "bevezerien",
   "bevezerion",
+  "bevezourien",
   "bevgimiourien",
   "bevgimiourion",
   "bevoniourien",
