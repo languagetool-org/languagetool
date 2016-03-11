@@ -104,9 +104,12 @@ public class RuleMatchAsXmlSerializer {
               .append(" toy=\"").append(match.getEndLine()).append('"')
               .append(" tox=\"").append(match.getEndColumn() - 1).append('"')
               .append(" ruleId=\"").append(match.getRule().getId()).append('"');
-      String msg = match.getMessage().replaceAll("</?suggestion>", "'");
       xml.append(subId);
+      String msg = match.getMessage().replaceAll("</?suggestion>", "'");
       xml.append(" msg=\"").append(escapeXMLForAPIOutput(msg)).append('"');
+      if (!match.getShortMessage().isEmpty()) {
+        xml.append(" shortmsg=\"").append(escapeXMLForAPIOutput(match.getShortMessage())).append('"');
+      }
       String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text);
       xml.append(" replacements=\"").append(escapeXMLForAPIOutput(
               String.join("#", match.getSuggestedReplacements()))).append('"');

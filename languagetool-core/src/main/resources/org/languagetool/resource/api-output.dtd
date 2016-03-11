@@ -1,6 +1,6 @@
 <!--
 Simple XML output format for the 'api' option and the HTTP 
-interface of LanguageTool (http://www.languagetool.org). Version 1.3 of the XML, 2012-11-09
+interface of LanguageTool (http://www.languagetool.org). Version 1.4 of the XML, 2016-03-11
 -->
 
 <!ELEMENT matches ((language)?, (error)*)>
@@ -29,6 +29,9 @@ interface of LanguageTool (http://www.languagetool.org). Version 1.3 of the XML,
 
 <!-- The message describing the error that will be displayed to the user. -->
 <!ATTLIST error msg CDATA #REQUIRED>
+
+<!-- An optional short version of 'msg' (added in LanguageTool 3.3). -->
+<!ATTLIST error shortmsg CDATA #IMPLIED>
 
 <!-- One or more suggestions to fix the error. If there is more than one
 suggestion, the strings are separated by a "#" character: -->

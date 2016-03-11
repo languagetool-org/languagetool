@@ -277,7 +277,7 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     final String output = new String(this.out.toByteArray());
     assertTrue("Got: " + output, output.contains("<error fromy=\"4\" fromx=\"5\" toy=\"4\" " +
-        "tox=\"10\" ruleId=\"ENGLISH_WORD_REPEAT_RULE\" msg=\"Possible typo: you repeated a word\" " +
+        "tox=\"10\" ruleId=\"ENGLISH_WORD_REPEAT_RULE\" msg=\"Possible typo: you repeated a word\" shortmsg=\"Word repetition\" " +
         "replacements=\"is\" context=\"....  This is a test of of language tool.  This is is a test of language tool. \"" +
         " contextoffset=\"48\" offset=\"60\" errorlength=\"5\" category=\"Miscellaneous\" locqualityissuetype=\"duplication\"/>"));
   }
@@ -384,7 +384,6 @@ public class MainTest extends AbstractSecurityTestCase {
     final byte[] b = test.getBytes();
     System.setIn(new ByteArrayInputStream(b));
     final String[] args = {"-l", "en", "-e", "FOO_BAR_BLABLA", "-"};
-
     Main.main(args);
     final String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: English") == 0);
@@ -392,21 +391,20 @@ public class MainTest extends AbstractSecurityTestCase {
 
   public void testEnglishFileAPI() throws Exception {
     final String[] args = {"-l", "en", "--api", getTestFilePath()};
-
     Main.main(args);
     final String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
     assertTrue(output.contains("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"10\" ruleId=\"EN_A_VS_AN\" " +
         "msg=\"Use &apos;a&apos; instead of &apos;an&apos; if the following word doesn&apos;t start with a vowel sound, e.g. &apos;a sentence&apos;, " +
-        "&apos;a university&apos;\" replacements=\"a\" context=\"This is an test.  This is a test of of language tool.  ...\" " +
+        "&apos;a university&apos;\" " +
+        "shortmsg=\"Wrong article\" " +
+        "replacements=\"a\" context=\"This is an test.  This is a test of of language tool.  ...\" " +
         "contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"Miscellaneous\" locqualityissuetype=\"misspelling\"/>"));
   }
 
   public void testGermanFileWithURL() throws Exception {
     final File input = writeToTempFile("Ward ihr zufrieden damit?");
-
     final String[] args = {"-l", "de", "--api", input.getAbsolutePath()};
-
     Main.main(args);
     final String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
@@ -423,15 +421,14 @@ public class MainTest extends AbstractSecurityTestCase {
 
   public void testPolishFileAPI() throws Exception {
     final File input = writeToTempFile("To jest świnia która się ślini.");
-
     final String[] args = {"-l", "pl", "--api", "-c", "utf-8", input.getAbsolutePath()};
-
     Main.main(args);
     final String output = new String(this.out.toByteArray(),"UTF-8");
     assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
     assertTrue(output.contains("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"20\" ruleId=\"BRAK_PRZECINKA_KTORY\""));
     //This tests whether XML encoding is actually UTF-8:
-    assertTrue(output.contains("msg=\"Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: &apos;świnia, która&apos;.\" replacements=\"świnia, która\" "));
+    assertTrue(output.contains("msg=\"Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: &apos;świnia, która&apos;.\""));
+    assertTrue(output.contains("replacements=\"świnia, która\" "));
     assertTrue(output.contains("context=\"To jest świnia która się ślini."));
     assertTrue(output.contains("contextoffset=\"8\" offset=\"8\" errorlength=\"12\" category=\"Błędy interpunkcyjne\""));
   }
@@ -446,9 +443,8 @@ public class MainTest extends AbstractSecurityTestCase {
             "Test.\n" +
             "\n" +
         "Test który wykaże błąd.");
-
+ 
     final String[] args = {"-l", "pl", "-c", "utf-8", input.getAbsolutePath()};
-
     Main.main(args);
     final String stdout = new String(this.out.toByteArray(),"UTF-8");
     final String stderr = new String(this.err.toByteArray());

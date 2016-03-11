@@ -48,6 +48,8 @@
   * Added new parameters `enabledCategories` and `disabledCategories`
     that take a comma-separated list of categories to enable/disable.
     Fixes https://github.com/languagetool-org/languagetool/pull/326.
+  * The output now contains a `shortmsg` attribute if available, which
+    is a short version of the `msg` attribute.
 
 #### Command-line
   * new parameters `--enablecategories` and `--disablecategories`

@@ -127,6 +127,16 @@ public class RuleMatchAsXmlSerializerTest {
   }
 
   @Test
+  public void testRuleMatchesWithShortMessage() throws IOException {
+    final List<RuleMatch> matches = new ArrayList<>();
+    final String text = "This is a test sentence.";
+    final RuleMatch match = new RuleMatch(new FakeRule(), 8, 10, "myMessage", "short message");
+    matches.add(match);
+    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, LANG, null);
+    assertTrue(xml.contains("shortmsg=\"short message\""));
+  }
+
+  @Test
   public void testRuleMatchesWithUrlToXML() throws IOException {
     final List<RuleMatch> matches = new ArrayList<>();
     final String text = "This is an test sentence. Here's another sentence with more text.";
