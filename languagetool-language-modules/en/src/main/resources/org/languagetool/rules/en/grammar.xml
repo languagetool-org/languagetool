@@ -13420,6 +13420,33 @@ USA
     <!-- Redundant Phrases -->
     <!-- ====================================================================== -->
     <category id="REDUNDANCY" name="Redundant Phrases" type="style">
+    <!-- English rule, 2016-03-11 -->
+        <rulegroup id="SWORN_AFFIDAVIT_AFFIDAVIT" name="sworn affidavit (affidavit)">
+        <rule>
+         <pattern>
+          <token>a</token>
+          <token>sworn</token>
+          <token>affidavit</token>
+         </pattern>
+         <message>This phrase is redundant. Consider using <suggestion>an <match no="3"/></suggestion></message>
+         <url>http://wordinfo.info/unit/4246/page:21</url>
+         <short>Redundant phrase</short>
+         <example correction='An affidavit'><marker>A sworn affidavit</marker> is a written statement made by someone under oath to tell the truth about something.</example>         
+        </rule>
+        <rule>
+         <pattern>
+          <token><exception>a</exception></token>
+          <marker>
+          <token>sworn</token>
+          <token>affidavit</token>
+          </marker>
+         </pattern>
+         <message>This phrase is redundant. Consider using <suggestion><match no="3"/></suggestion></message>
+         <url>http://wordinfo.info/unit/4246/page:21</url>
+         <short>Redundant phrase</short>
+         <example correction='affidavit'>His <marker>sworn affidavit</marker> was deposited in the post office mailbox.</example>         
+        </rule>
+        </rulegroup>
         <rule id="SUFFICIENT_ENOUGH" name="sufficient enough -> sufficient">
             <pattern>
                 <token>sufficient</token>
