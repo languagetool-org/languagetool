@@ -13420,7 +13420,32 @@ USA
     <!-- Redundant Phrases -->
     <!-- ====================================================================== -->
     <category id="REDUNDANCY" name="Redundant Phrases" type="style">
-    <!-- English rule, 2016-03-11 -->
+    <rulegroup id="FORMER_ALUMNUS_ALUMNUS" name="former alumnus (alumnus)">
+    <rule>
+     <pattern>
+      <token>a</token>
+      <token>former</token>
+      <token>alumnus</token>
+     </pattern>
+     <message>This phrase is redundant. Consider writing <suggestion>an <match no="3"/></suggestion>.</message>
+     <url>https://www.amherst.edu/news/communications/styleguide</url>
+     <short>Redundant phrase</short>
+     <example correction='an alumnus'>As the wife of <marker>a former alumnus</marker> of UCLA, I am appalled at recent events that have occurred and seemingly encouraged by the administration.</example>    
+    </rule>
+    <rule>
+     <pattern>
+      <token><exception>a</exception></token>
+      <marker>
+      <token>former</token>
+      <token>alumnus</token>
+      </marker>
+     </pattern>
+     <message>This phrase is redundant. Consider writing <suggestion><match no="3"/></suggestion>.</message>
+     <url>https://www.amherst.edu/news/communications/styleguide</url>
+     <short>Redundant phrase</short>
+     <example correction='alumnus'>The <marker>former alumnus</marker> adviser of Alpha Lambda Chapter was elected as congressman-at- large in Ohio.</example>     
+    </rule>
+    </rulegroup>
         <rulegroup id="SWORN_AFFIDAVIT_AFFIDAVIT" name="sworn affidavit (affidavit)">
         <rule>
          <pattern>
@@ -13445,6 +13470,52 @@ USA
          <url>http://wordinfo.info/unit/4246/page:21</url>
          <short>Redundant phrase</short>
          <example correction='affidavit'>His <marker>sworn affidavit</marker> was deposited in the post office mailbox.</example>         
+        </rule>
+        </rulegroup>
+        <rule id="DIRECTLY_ANTITHETICAL_ANTITHETICAL" name="directly antithetical (antithetical)">
+         <pattern>
+          <token>directly</token>
+          <token>antithetical</token>
+         </pattern>
+         <message>This phrase verges on redundancy. Consider writing <suggestion><match no="2"/></suggestion>.</message>
+         <short>Redundant phrase</short>
+         <example correction='antithetical'>The two events this week were <marker>directly antithetical</marker> to the University's values for these reasons.</example>
+         <example>The two events this week were antithetical to the University's values for these reasons.</example>
+        </rule>
+        <rule id="APPROXIMATELY_ABOUT" name="approximately about">
+         <pattern>
+          <marker>
+          <token>approximately</token>
+          <token>about</token>
+          </marker>
+          <token postag='CD'></token>
+         </pattern>
+         <message>This phrase is redundant. Consider using <suggestion><match no="1"/></suggestion>.</message>
+         <short>Redundant phrase</short>
+         <example correction='approximately'>Americans feel full of energy and healthy <marker>approximately about</marker> 19 days per month.</example>
+         <example>Americans feel full of energy and healthy approximately 19 days per month.</example>
+         <example>In reasoning about a complex system, humans reason approximately about its behavior.</example>
+        </rule>
+        <rulegroup id="ASSOCIATE_TOGETHER_ASSOCIATE" name="associate together (associate)">
+        <rule>
+         <pattern>
+          <token inflected='yes'>associate</token>
+          <token>together</token>
+          <token>in</token>
+          <token>groups</token>
+         </pattern>
+         <message>This phrase is redundant. Consider writing <suggestion><match no="1"/></suggestion>.</message>
+         <short>Redundant phrase</short>
+         <example correction='associate'>Hippos <marker>associate together in groups</marker>.</example>
+        </rule>
+        <rule>
+         <pattern>
+          <token inflected='yes'>associate</token>
+          <token>together</token>
+         </pattern>
+         <message>This phrase is redundant. Consider writing <suggestion><match no="1"/></suggestion>.</message>
+         <short>Redundant phrase</short>
+         <example correction='associated'>Poets and choregi having been <marker>associated together</marker> in pairs, there still remained the selection and appointment of the actors.</example>
         </rule>
         </rulegroup>
         <rule id="SUFFICIENT_ENOUGH" name="sufficient enough -> sufficient">
