@@ -13946,6 +13946,25 @@ USA
             <example correction="best">Top ten <marker>best ever</marker> beer names.</example>
             <example>Top ten best beer names.</example>
         </rule>
+        <rule id="TEMPORARY_BIVOUAC_BIVOUAC" name="temporary bivouac (bivouac)">
+         <pattern>
+          <token>temporary</token>
+          <token>bivouac</token>
+         </pattern>
+         <message>This phrase may be redundant. Consider writing <suggestion><match no="2"/></suggestion>.</message>
+         <short>Redundant phrase</short>
+         <example correction='bivouac'>In <marker>temporary bivouac</marker> areas (1 to 3 days), the straddle trench latrine is used unless more permanent facilities are provided for the unit.</example>         
+        </rule>
+        <rule id="BIVOUAC_CAMP_BIVOUAC" name="bivouac camp (bivouac)">
+         <pattern>
+          <token>bivouac</token>
+          <token>camp</token>
+         </pattern>
+         <message>This phrase is redundant. Consider writing <suggestion><match no="1"/></suggestion>.</message>
+         <short>Redundant phrase</short>
+         <example correction='bivouac'>A rock climber leaves a hanging <marker>bivouac camp</marker> on an Arctic cliff</example>
+         <example>A rock climber leaves a hanging bivouac on an Arctic cliff</example>
+        </rule>
         <rule id="ADJECTIVE_IN_ATTRIBUTE" name="Big in size, yellow in color, etc.">
             <pattern>
                 <token postag_regexp="yes" postag="JJ|JJR|JJS"><exception regexp="yes">similar|alone|religious|corresponding|equal|next|possible|autocratic|necessary|beautiful|rich|back|identical|more|much|second|comparable</exception><exception postag="VBN"/></token>
@@ -14061,6 +14080,18 @@ USA
             <short>Possible typo</short>
             <example correction="CD-ROM">I ordered a <marker>Cdrom</marker> with their software.</example>
             <example>I ordered a <marker>CD-ROM</marker>with their software.</example>
+        </rule>
+        <rule id="ACCUSED_OF_A_CHARGE_CHARGED_WITH" name="accused of a charge (charged with)">
+         <pattern>
+          <token>accused</token>
+          <token>of</token>
+          <token>a</token>
+          <token>charge</token>
+          <token>of</token>
+         </pattern>
+         <message>This phrase may be redundant. Consider writing: <suggestion>charged with</suggestion> instead.</message>
+         <short>Redundant phrase</short>
+         <example correction='charged with'>The Magistrate's Court in Kuala Lumpur today decided that a former model <marker>accused of a charge of</marker> public indecency is fit to stand trial.</example>
         </rule>
         <rule id="CLOSE_SCRUTINY" name="close scrutiny/proximity (scrutiny/proximity)">
             <pattern>
