@@ -190,6 +190,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * @see #getMessage()
    */
   public String getShortMessage() {
+    if (shortMessage == null) {
+      return "";  // just because this is what we have documented
+    }
     return shortMessage;
   }
 
