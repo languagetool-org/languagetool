@@ -19152,7 +19152,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Zobacz też: Kowalski i Nowak 2002.</example>
 								<example correction="też">Zobacz <marker>tez</marker>: Kowalski i Nowak 2002.</example>
 						</rule>
-				</rulegroup>
+						<rule>
+             <pattern>
+              <token postag='verb.*' postag_regexp='yes'><exception inflected='yes'>bronić</exception></token>
+              <marker>
+              <token>tez</token>
+              </marker>
+             </pattern>
+             <message>Prawdopodobna literówka. Czy chodziło o <suggestion>też</suggestion>?</message>
+             <short>Prawdopodobna literówka</short>
+             <example correction='też'>Miał <marker>tez</marker> powiedzieć, że „Faktem jest, że my musimy to robić do skutku”.</example>             
+            </rule>
+        </rulegroup>
 				<rule id="POSTANIE" name="„postanie” (powstanie)">
 						<pattern>
 								<token><exception>nie</exception></token>
