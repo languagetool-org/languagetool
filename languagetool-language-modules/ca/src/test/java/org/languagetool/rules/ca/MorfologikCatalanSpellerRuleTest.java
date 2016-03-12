@@ -287,9 +287,9 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("Excelentissim"));
         assertEquals("Excel·lentíssim", matches[0].getSuggestedReplacements().get(0));
         
-        // It needs updated Morfologik Speller
-        //matches = rule.match(langTool.getAnalyzedSentence("milisegons"));
-        //assertEquals("mil·lisegons", matches[0].getSuggestedReplacements().get(0));
+        // Needs Morfologik Speller 2.1.0
+        matches = rule.match(langTool.getAnalyzedSentence("milisegons"));
+        assertEquals("mil·lisegons", matches[0].getSuggestedReplacements().get(0));
         
         
         /*  change in Speller necessary: words of length = 4
