@@ -18,35 +18,26 @@
  */
 package org.languagetool.tools;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 
 import org.languagetool.tools.DictionaryExporter;
-import org.languagetool.tools.POSDictionaryBuilder;
 
 public class DictionaryBuilderTestHelper {
 
-  private ByteArrayOutputStream out;
-  private PrintStream stdout;
-  private PrintStream stderr;
-
   protected File exportDictionaryContents(File file) throws Exception {
-    File outputFile;
-    trackOutput();
-    try {
-      DictionaryExporter.main(new String[]{file.getAbsolutePath()});
-    } finally {
-      resetOutput();
-    }
-    outputFile = File.createTempFile(POSDictionaryBuilder.class.getSimpleName(), ".export");
-    FileOutputStream fos = new FileOutputStream(outputFile);
-    fos.write(out.toByteArray());
-    fos.close();
+    File outputFile = File.createTempFile(DictionaryExporter.class.getSimpleName(), ".export");
+    
+    String infoFile = file.toString().replaceAll("\\.dict$", ".info");
+    String[] buildOptions = {
+        "--exit", "false",
+        "-i", file.toString(), 
+        "-o", outputFile.toString(),
+        "-info", infoFile, 
+        "--overwrite"};
+    DictionaryExporter.main(buildOptions);
     return outputFile;
   }
-
+/*
   private void trackOutput() {
     this.stdout = System.out;
     this.stderr = System.err;
@@ -60,5 +51,5 @@ public class DictionaryBuilderTestHelper {
     System.setOut(this.stdout);
     System.setErr(this.stderr);
   }
-
+*/
 }

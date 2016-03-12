@@ -71,6 +71,9 @@ class DictionaryBuilder {
     this.outputFilename = outputFilename;
   }
 
+  protected String getOutputFilename() {
+    return outputFilename;
+  }
   protected File buildDict(File inputFile) throws Exception {
     File outputFile = new File(outputFilename);
     String infoPath = inputFile.toString().replaceAll("\\.txt$", ".info");
@@ -84,6 +87,7 @@ class DictionaryBuilder {
         "--overwrite"};
     System.out.println("Running Morfologik DictCompile.main with these options: " + Arrays.toString(buildOptions));
     DictCompile.main(buildOptions);
+    // move ouput file to the desired path and name
     Files.move(resultFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
     System.out.println("Done. The binary dictionary has been written to " + outputFile.getAbsolutePath());
     return outputFile;
@@ -116,7 +120,7 @@ class DictionaryBuilder {
     return props.getProperty(option) != null; 
   }
   
-  private boolean isOptionTrue(String option) {
+  protected boolean isOptionTrue(String option) {
     return hasOption(option) && "true".equals(getOption(option));
   }
   
