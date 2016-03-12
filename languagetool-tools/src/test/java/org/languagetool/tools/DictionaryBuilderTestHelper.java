@@ -37,19 +37,4 @@ public class DictionaryBuilderTestHelper {
     DictionaryExporter.main(buildOptions);
     return outputFile;
   }
-/*
-  private void trackOutput() {
-    this.stdout = System.out;
-    this.stderr = System.err;
-    this.out = new ByteArrayOutputStream();
-    final ByteArrayOutputStream err = new ByteArrayOutputStream();
-    System.setOut(new PrintStream(this.out));
-    System.setErr(new PrintStream(err));
-  }
-
-  private void resetOutput() {
-    System.setOut(this.stdout);
-    System.setErr(this.stderr);
-  }
-*/
 }
