@@ -8914,7 +8914,7 @@
             <marker>
                 <token>to</token>
             </marker>
-                <token><exception postag_regexp="yes" postag="verb:praet:sg:.*:ter.*"/></token>
+                <token postag=".*:nom.*" postag_regexp="yes"><exception postag_regexp="yes" postag="verb:praet:sg:.*:ter.*"/></token>
         </pattern>
         <disambig postag="pred"/>
         <example type="untouched">To jest problem.</example>
@@ -8922,6 +8922,7 @@
         <example type="ambiguous" inputform="to[to/subst:sg:acc:n2]"
                  outputform="to[to/pred]" >Jest <marker>to</marker> problem.</example>
         <example type="untouched">Moja była to mówiła.</example>
+        <example type="untouched">Będzie to wówczas znaczyło, że to prawda.</example>
     </rule>
 
     <rule name="być gotowym" id="byc_gotowy">
@@ -10328,6 +10329,17 @@
                 <token spacebefore="no">)</token>
             </marker>
             <token/>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="I_i_II" name="I i II"> <!-- suppress in WORD_REPEAT rule -->
+        <pattern case_sensitive="yes">
+            <marker>
+            <token>I</token>
+            <token>i</token>
+            </marker>
+            <token>II</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>
