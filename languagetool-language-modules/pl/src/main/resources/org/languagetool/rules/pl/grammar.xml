@@ -3191,6 +3191,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </antipattern>
                 <antipattern>
+                <marker>
+                <token>jednak</token>
+                <token>,</token>
+                </marker>
+                <token>nie</token>
+                <token postag="pcon.*|pant.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
                     <marker>
                         <token>jednak</token>
                         <token>,</token>
@@ -3215,6 +3223,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Jednak, co pisałem, miałem rację.</example>
                 <example>A jednak, jednak.</example>
                 <example>Przestrzegam cię jednak, mój synu, że nadzieja czegoś dobrego warta często więcej, niż lada lichota w ręku.</example>
+                <example>Sam jednak, nie będąc dualistą, uznaje te tezy.</example>
             </rule>
             <rule id="W_TRAKCIE_PRZECINEK_KTOREGO" name="Zbędny przecinek w wyrażeniu „w trakcie, którego”">
                 <pattern>
@@ -5853,6 +5862,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule>
 		</category>
 		<category id="SYNTAX" name="Błędy składniowe" type="grammar">
+        <rule id="WINIEN_AGLUTYNANT" name="Zła odmiana czasownika „powinien” w czasie przeszłym">
+					<pattern>
+            <unify>
+                <feature id="number"/><feature id="gender"/><feature id="person"/>
+                <token skip="7" inflected="yes">powinien<exception scope="next" postag="verb:(?:pot|fin|bedzie|imp[st]|pred|winien).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+                <marker>
+                    <token inflected="yes" postag_regexp="yes" postag="verb:praet.*">być</token>
+                </marker>
+            </unify>
+        </pattern>
+        <message>Prawdopodobnie zła odmiana czasownika „powinien”. Powinno być: <suggestion><match no="2" regexp_match="e?[mś]" regexp_replace=""></match></suggestion>.</message>
+        <url>https://pl.wikipedia.org/wiki/Czas_zaprzesz%C5%82y</url>
+        <short>Błędna odmiana</short>
+        <example correction="była"> Wiedziałam, że nie powinnam <marker>byłam</marker> teraz poruszać tego tematu.</example>
+        <example correction="był">Byłem w miejscach, do których nie powinienem <marker>byłem</marker> chodzić.</example>
+		    </rule>
             <rule id="ZLY_CZAS_GRAMATYCZNY_PO_JAKOBY" name="Zły czas gramatyczny po „jakoby”">
                 <pattern>
                     <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"/>
@@ -14691,12 +14716,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rulegroup>
 				<rulegroup id="LICZEBNIKI" name="Liczebniki porządkowe z końcówkami przypadków">
 						<rule>
-                                <antipattern>
-                                    <marker>
-                                    <token regexp="yes">\d+-?(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|stokrotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
-                                    </marker>
-                                    <token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia|(?-iu)I{1,3}|I?V|VI{1,3}|I?X|XI{1,2}</token>
-                                </antipattern>
+                <antipattern>
+                    <marker>
+                    <token regexp="yes">\d+-?(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|stokrotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
+                    </marker>
+                    <token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia|(?-iu)I{1,3}|I?V|VI{1,3}|I?X|XI{1,2}</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">                
+                <token regexp="yes">\p{Lu}\p{Ll}+</token>
+                <marker>
+                  <token regexp="yes">\d{4}a</token>
+                </marker>
+                <token regexp="yes">[;\)]</token>
+                </antipattern>
 								<pattern case_sensitive="yes">
 										<token regexp="yes">\d+-?(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eam]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|stokrotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
 								</pattern>
@@ -14708,9 +14740,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>20-lecie międzywojenne było okresem pełnym intryg politycznych.</example>
 								<example correction="1.">To już <marker>1-wszy</marker> raz!</example>
 								<example correction="1.">Rosjanie byli <marker>1-wsi</marker> w kosmosie.</example>
-                                <example correction="90.">Zainicjowana przez Philippe’a Turchet w latach <marker>90tych</marker>, synergologia była wielką ściemą.</example>
-                                <!-- to łapie reguła niżej -->
-                                <example>To było <marker>21go maja</marker>.</example>
+                <example correction="90.">Zainicjowana przez Philippe’a Turchet w latach <marker>90tych</marker>, synergologia była wielką ściemą.</example>
+                <!-- to łapie reguła niżej -->
+                <example>To było <marker>21go maja</marker>.</example>
+                <example>To są argumenty, o których pisano już w literaturze przedmiotu (Davidson 1992a).</example>
 						</rule>
                         <rule>
                         <pattern case_sensitive="yes">
@@ -19153,6 +19186,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example correction="też">Zobacz <marker>tez</marker>: Kowalski i Nowak 2002.</example>
 						</rule>
 						<rule>
+						<antipattern>
+						<marker>
+						<token>tez</token>
+						</marker>
+						<token postag_regexp="yes" postag="pact:pl:gen.loc:m1.m2.m3.f.n1.n2.p1.p2.p3.*"></token>
+						</antipattern>
              <pattern>
               <token postag='verb.*' postag_regexp='yes'><exception inflected='yes'>bronić</exception></token>
               <marker>
@@ -19162,6 +19201,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
              <message>Prawdopodobna literówka. Czy chodziło o <suggestion>też</suggestion>?</message>
              <short>Prawdopodobna literówka</short>
              <example correction='też'>Miał <marker>tez</marker> powiedzieć, że „Faktem jest, że my musimy to robić do skutku”.</example>             
+             <example>W ten sposób nie można uzasadnić tez dotyczących psychologicznej natury przekonań.</example>
             </rule>
         </rulegroup>
 				<rule id="POSTANIE" name="„postanie” (powstanie)">
