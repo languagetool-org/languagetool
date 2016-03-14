@@ -39,7 +39,7 @@ class ExporterOptions {
     option.setRequired(true);
     options.addOption(option);
     
-    option = new Option(INPUT_OPTION, true, "binary dictionary file (.dict extension), compiled with Morfologik.'");
+    option = new Option(INPUT_OPTION, true, "binary Morfologik dictionary file (.dict)");
     option.setRequired(true);
     options.addOption(option);
 
