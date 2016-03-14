@@ -34,11 +34,7 @@ class BuilderOptions {
   
   protected final Options options = new Options();
 
-  public BuilderOptions() {
-    init();
-  }
-  
-  private void init() {
+  BuilderOptions() {
     Option option = new Option(OUTPUT_OPTION, true, "output file");
     option.setRequired(true);
     options.addOption(option);
@@ -60,7 +56,7 @@ class BuilderOptions {
       return cmd;
     } catch (ParseException e) {
       HelpFormatter formatter = new HelpFormatter();
-      formatter.printHelp( clazz.getName(), options );
+      formatter.printHelp(clazz.getName(), options);
       System.exit(1);
       throw e; // should never happen - just to make compiler happy
     }

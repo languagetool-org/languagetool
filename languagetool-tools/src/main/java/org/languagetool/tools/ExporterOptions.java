@@ -34,11 +34,7 @@ class ExporterOptions {
   
   protected final Options options = new Options();
 
-  public ExporterOptions() {
-    init();
-  }
-  
-  private void init() {
+  ExporterOptions() {
     Option option = new Option(OUTPUT_OPTION, true, "output file");
     option.setRequired(true);
     options.addOption(option);
@@ -60,7 +56,7 @@ class ExporterOptions {
       return cmd;
     } catch (ParseException e) {
       HelpFormatter formatter = new HelpFormatter();
-      formatter.printHelp( clazz.getName(), options );
+      formatter.printHelp(clazz.getName(), options);
       System.exit(1);
       throw e; // should never happen - just to make compiler happy
     }

@@ -20,8 +20,6 @@ package org.languagetool.tools;
 
 import java.io.File;
 
-import org.languagetool.tools.DictionaryExporter;
-
 public class DictionaryBuilderTestHelper {
 
   protected File exportDictionaryContents(File file) throws Exception {

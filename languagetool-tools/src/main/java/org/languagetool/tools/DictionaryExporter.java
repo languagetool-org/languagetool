@@ -86,9 +86,9 @@ final class DictionaryExporter extends DictionaryBuilder {
     }
     boolean hasFrequency = isOptionTrue("fsa.dict.frequency-included");
     String encoding = getOption("fsa.dict.encoding");
-    Scanner scanner = new Scanner(inputFile, encoding);
-    try (Writer out = new BufferedWriter(new OutputStreamWriter(
-        new FileOutputStream(outputFile), encoding))) {
+    
+    try (Scanner scanner = new Scanner(inputFile, encoding);
+         Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), encoding))) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
         String[] parts = line.split(separator);
@@ -110,7 +110,6 @@ final class DictionaryExporter extends DictionaryBuilder {
                   + separator + " in " + inputFile + ": " + line + " => ignoring");
         }
       }
-      scanner.close();
     }
   }
 

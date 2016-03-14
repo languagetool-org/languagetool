@@ -54,8 +54,7 @@ class DictionaryBuilder {
   private static final int FREQ_RANGES_IN = 256;
   private static final int FREQ_RANGES_OUT = 26; // (A-Z)
   private static final int FIRST_RANGE_CODE = 65; // character 'A', less frequent words
-  
-  SerializationFormat serializationFormat = SerializationFormat.CFSA2;
+  private static final SerializationFormat serializationFormat = SerializationFormat.CFSA2;
 
   private final Map<String, Integer> freqList = new HashMap<>();
   private final Pattern pFreqEntry = Pattern.compile(".*<w f=\"(\\d+)\" flags=\"(.*)\">(.+)</w>.*");
@@ -74,6 +73,7 @@ class DictionaryBuilder {
   protected String getOutputFilename() {
     return outputFilename;
   }
+  
   protected File buildDict(File inputFile) throws Exception {
     File outputFile = new File(outputFilename);
     String infoPath = inputFile.toString().replaceAll("\\.txt$", ".info");
@@ -87,7 +87,7 @@ class DictionaryBuilder {
         "--overwrite"};
     System.out.println("Running Morfologik DictCompile.main with these options: " + Arrays.toString(buildOptions));
     DictCompile.main(buildOptions);
-    // move ouput file to the desired path and name
+    // move output file to the desired path and name
     Files.move(resultFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
     System.out.println("Done. The binary dictionary has been written to " + outputFile.getAbsolutePath());
     return outputFile;
@@ -208,9 +208,8 @@ class DictionaryBuilder {
           "A separator character (fsa.dict.separator) must be defined in the dictionary info file.");
     }
     String encoding = getOption("fsa.dict.encoding");
-    Scanner scanner = new Scanner(inputFile, encoding);
-    try (Writer out = new BufferedWriter(new OutputStreamWriter(
-        new FileOutputStream(outputFile), encoding))) {
+    try (Scanner scanner = new Scanner(inputFile, encoding);
+         Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), encoding))) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
         String[] parts = line.split("\t");
