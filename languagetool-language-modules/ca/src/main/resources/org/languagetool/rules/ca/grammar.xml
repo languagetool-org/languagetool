@@ -33874,15 +33874,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>un duent un bàcul</example>
                 </rule> -->
         </rulegroup>
-        <rule id="RATI_RATIO" name="*rati/ràtio">
-            <pattern>
-                <token postag="D[^R].*" postag_regexp="yes"></token>
-                <token regexp="yes">ratis?</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(D.)..(.)0" postag_regexp="yes" postag_replace="$10F$20"></match> <match no="2" regexp_match="rati(s?)" regexp_replace="ràtio$1"/></suggestion>?</message>
-            <example correction="unes ràtios"><marker>uns ratis</marker></example>
-            <example>una ràtio</example>
-        </rule>
+        <rulegroup id="RATI_RATIO" name="*rati/ràtio">
+            <rule>
+                <pattern>
+                    <token postag="D[^R].*" postag_regexp="yes"></token>
+                    <token regexp="yes">ratis?</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(D.)..(.)0" postag_regexp="yes" postag_replace="$10F$20"></match> <match no="2" regexp_match="rati(s?)" regexp_replace="ràtio$1"/></suggestion>?</message>
+                <example correction="unes ràtios"><marker>uns ratis</marker></example>
+                <example>una ràtio</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PP3..A00|PP3CP000" postag_regexp="yes"></token>
+                    <token regexp="yes">ratis?</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="PP3.(.).00" postag_regexp="yes" postag_replace="DA0F$10">el</match> <match no="2" regexp_match="rati(s?)" regexp_replace="ràtio$1"/></suggestion>?</message>
+                <example correction="la ràtio">Es defineix com <marker>la rati</marker></example>
+                <example correction="la ràtio">Es defineix com <marker>el rati</marker></example>
+                <example correction="les ràtios">Es defineix com <marker>els ratis</marker></example>
+                <example correction="les ràtios">Es defineix com <marker>les ratis</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="AGULLETES" name="*tenir agulletes">
             <pattern>
                 <token inflected="yes" skip="1">tenir</token>
