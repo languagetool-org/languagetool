@@ -42,7 +42,12 @@ final class DictionaryExporter extends DictionaryBuilder {
   }
   
   public static void main(String[] args) throws Exception {
-    CommandLine cmdLine = new ExporterOptions().parseArguments(args, DictionaryExporter.class);
+    BuilderOptions builderOptions = new BuilderOptions();
+    builderOptions.addOption(BuilderOptions.INPUT_OPTION, true, 
+        "binary Morfologik dictionary file (.dict)", true);
+    builderOptions.addOption(BuilderOptions.INFO_OPTION, true, 
+        BuilderOptions.INFO_HELP, true);
+    CommandLine cmdLine = builderOptions.parseArguments(args, DictionaryExporter.class);
     
     File binaryDictFile = new File(cmdLine.getOptionValue(BuilderOptions.INPUT_OPTION));
     File infoFile = new File(cmdLine.getOptionValue(BuilderOptions.INFO_OPTION));

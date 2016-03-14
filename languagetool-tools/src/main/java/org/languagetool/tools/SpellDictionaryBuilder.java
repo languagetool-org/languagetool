@@ -40,7 +40,14 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
   }
   
   public static void main(String[] args) throws Exception {
-    CommandLine cmdLine = new BuilderWithFreqOptions().parseArguments(args, SpellDictionaryBuilder.class);
+    BuilderOptions builderOptions = new BuilderOptions();
+    builderOptions.addOption(BuilderOptions.INPUT_OPTION, true, 
+        "plain text dictionary file, e.g. created from a Hunspell dictionary by 'unmunch'", true);
+    builderOptions.addOption(BuilderOptions.INFO_OPTION, true, 
+        BuilderOptions.INFO_HELP, true);
+    builderOptions.addOption(BuilderOptions.FREQ_OPTION, true, 
+        BuilderOptions.FREQ_HELP, false);
+    CommandLine cmdLine = builderOptions.parseArguments(args, SpellDictionaryBuilder.class);
     
     String plainTextFile = cmdLine.getOptionValue(BuilderOptions.INPUT_OPTION);
     String infoFile = cmdLine.getOptionValue(BuilderOptions.INFO_OPTION);
@@ -50,8 +57,8 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
 
     File inputFile = new File(plainTextFile);
 
-    if (cmdLine.hasOption(BuilderWithFreqOptions.FREQ_OPTION)) {
-      builder.readFreqList(new File(cmdLine.getOptionValue(BuilderWithFreqOptions.FREQ_OPTION)));
+    if (cmdLine.hasOption(BuilderOptions.FREQ_OPTION)) {
+      builder.readFreqList(new File(cmdLine.getOptionValue(BuilderOptions.FREQ_OPTION)));
       inputFile = builder.addFreqData(inputFile, true);
     }
     

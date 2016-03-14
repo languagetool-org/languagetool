@@ -41,7 +41,12 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
   }
 
   public static void main(String[] args) throws Exception {
-    CommandLine cmdLine = new BuilderOptions().parseArguments(args, SynthDictionaryBuilder.class);
+    BuilderOptions builderOptions = new BuilderOptions();
+    builderOptions.addOption(BuilderOptions.INPUT_OPTION, true, 
+        BuilderOptions.TAB_INPUT_HELP, true);
+    builderOptions.addOption(BuilderOptions.INFO_OPTION, true, 
+        BuilderOptions.INFO_HELP, true);
+    CommandLine cmdLine = builderOptions.parseArguments(args, SynthDictionaryBuilder.class);
     
     File plainTextDictFile = new File(cmdLine.getOptionValue(BuilderOptions.INPUT_OPTION));
     File infoFile = new File(cmdLine.getOptionValue(BuilderOptions.INFO_OPTION));

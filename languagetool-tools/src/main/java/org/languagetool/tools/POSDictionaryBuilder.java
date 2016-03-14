@@ -34,15 +34,22 @@ public final class POSDictionaryBuilder extends DictionaryBuilder {
   }
 
   public static void main(String[] args) throws Exception {
-    CommandLine cmdLine = new BuilderWithFreqOptions().parseArguments(args, POSDictionaryBuilder.class);
+    BuilderOptions builderOptions = new BuilderOptions();
+    builderOptions.addOption(BuilderOptions.INPUT_OPTION, true, 
+        BuilderOptions.TAB_INPUT_HELP, true);
+    builderOptions.addOption(BuilderOptions.INFO_OPTION, true, 
+        BuilderOptions.INFO_HELP, true);
+    builderOptions.addOption(BuilderOptions.FREQ_OPTION, true, 
+        BuilderOptions.FREQ_HELP, false);
+    CommandLine cmdLine = builderOptions.parseArguments(args, POSDictionaryBuilder.class);
     
     POSDictionaryBuilder builder = new POSDictionaryBuilder(new File(cmdLine.getOptionValue(BuilderOptions.INFO_OPTION)));
 
     builder.setOutputFilename(cmdLine.getOptionValue(BuilderOptions.OUTPUT_OPTION));
     File inputFile = new File(cmdLine.getOptionValue(BuilderOptions.INPUT_OPTION));
 
-    if (cmdLine.hasOption(BuilderWithFreqOptions.FREQ_OPTION)) {
-      builder.readFreqList(new File(cmdLine.getOptionValue(BuilderWithFreqOptions.FREQ_OPTION)));
+    if (cmdLine.hasOption(BuilderOptions.FREQ_OPTION)) {
+      builder.readFreqList(new File(cmdLine.getOptionValue(BuilderOptions.FREQ_OPTION)));
       inputFile = builder.addFreqData(inputFile, false);
     } 
     builder.build(inputFile);

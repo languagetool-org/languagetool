@@ -31,20 +31,25 @@ class BuilderOptions {
   public static final String INFO_OPTION = "info";
   public static final String OUTPUT_OPTION = "o";
   public static final String INPUT_OPTION = "i";
-  
+  public static final String FREQ_OPTION = "freq";
+  public static final String FREQ_HELP = "optional .xml file with a frequency wordlist, " 
+      + "see http://wiki.languagetool.org/developing-a-tagger-dictionary";
+  public static final String INFO_HELP = "*.info properties file, " 
+      + "see http://wiki.languagetool.org/developing-a-tagger-dictionary";
+  public static final String TAB_INPUT_HELP = "tab-separated plain-text dictionary file " 
+      + "with format: wordform \t lemma \t postag";
+
   protected final Options options = new Options();
 
   BuilderOptions() {
     Option option = new Option(OUTPUT_OPTION, true, "output file");
     option.setRequired(true);
     options.addOption(option);
-    
-    option = new Option(INPUT_OPTION, true, "plain text dictionary file, e.g. created from a Hunspell dictionary by 'unmunch'");
-    option.setRequired(true);
-    options.addOption(option);
-
-    option = new Option(INFO_OPTION, true, "*.info properties file, see http://wiki.languagetool.org/developing-a-tagger-dictionary");
-    option.setRequired(true);
+  }
+  
+  public void addOption(String opt, boolean hasArg, String description, boolean isRequired) {
+    Option option = new Option(opt, hasArg, description);
+    option.setRequired(isRequired);
     options.addOption(option);
   }
   
