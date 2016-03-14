@@ -52,7 +52,6 @@ class ResultArea {
   private final ResourceBundle messages;
   private final JTextPane statusPane;
   private final LanguageToolSupport ltSupport;
-  private final Object marker = new Object();
 
   private String inputText;
   private String startText;
@@ -84,17 +83,16 @@ class ResultArea {
               + org.languagetool.tools.Tools.i18n(messages, "startChecking", langName) + "..." + Main.HTML_FONT_END;
           statusPane.setText(startCheckText);
           setStartText(startCheckText);
-          if (event.getCaller() == marker) {
+          if (event.getCaller() == this) {
             statusPane.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
           }
         } else if (event.getType() == LanguageToolEvent.Type.CHECKING_FINISHED) {
+          setRunTime(event.getElapsedTime());
           inputText = event.getSource().getTextComponent().getText();
           setRuleMatches(event.getSource().getMatches());
-          if (event.getCaller() == marker || event.getCaller() == null) {
-            displayResult();
-            if (event.getCaller() == marker) {
-              statusPane.setCursor(Cursor.getDefaultCursor());
-            }
+          displayResult();
+          if (event.getCaller() == this) {
+            statusPane.setCursor(Cursor.getDefaultCursor());
           }
         } else if (event.getType() == LanguageToolEvent.Type.RULE_DISABLED || event.getType() == LanguageToolEvent.Type.RULE_ENABLED) {
           inputText = event.getSource().getTextComponent().getText();
@@ -186,16 +184,16 @@ class ResultArea {
     this.startText = startText;
   }
 
-  void setRunTime(long runTime) {
+  private void setRunTime(long runTime) {
     this.runTime = runTime;
   }
 
-  void setRuleMatches(List<RuleMatch> ruleMatches) {
+  private void setRuleMatches(List<RuleMatch> ruleMatches) {
     this.allRuleMatches = new ArrayList<>(ruleMatches);
     this.ruleMatches = new ArrayList<>(ruleMatches);
   }
 
-  void displayResult() {
+  private void displayResult() {
     ruleMatches = filterRuleMatches();
     final String ruleMatchHtml = getRuleMatchHtml(ruleMatches, inputText, startText);
     displayText(ruleMatchHtml);
@@ -249,7 +247,7 @@ class ResultArea {
         ltSupport.enableRule(ruleId);
       }
       ltSupport.getConfig().saveConfiguration(ltSupport.getLanguage());
-      ltSupport.checkImmediately(marker);
+      ltSupport.checkImmediately(this);
     }
 
     private void handleHttpClick(URL url) {

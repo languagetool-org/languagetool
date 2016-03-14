@@ -98,7 +98,6 @@ public final class Main {
   private CheckAction checkAction;
   private File currentFile;
   private UndoRedoSupport undoRedo;
-  private long startTime;
   private final JLabel statusLabel = new JLabel(" ", null, SwingConstants.RIGHT);
   private FontChooser fontChooserDialog;
 
@@ -366,7 +365,6 @@ public final class Main {
           final String msg = org.languagetool.tools.Tools.i18n(messages, "checkStart");
           statusLabel.setText(msg);
           if (event.getCaller() == getFrame()) {
-            startTime = System.currentTimeMillis();
             setWaitCursor();
             checkAction.setEnabled(false);
           }
@@ -374,17 +372,17 @@ public final class Main {
           if (event.getCaller() == getFrame()) {
             checkAction.setEnabled(true);
             unsetWaitCursor();
-            resultAreaHelper.setRunTime(System.currentTimeMillis() - startTime);
-            resultAreaHelper.displayResult();
-            final String msg = org.languagetool.tools.Tools.i18n(messages, "checkDone", event.getSource().getMatches().size(), System.currentTimeMillis() - startTime);
-            statusLabel.setText(msg);
-          } else {
+          }
+          final String msg = org.languagetool.tools.Tools.i18n(messages, "checkDone", event.getSource().getMatches().size(), event.getElapsedTime());
+          statusLabel.setText(msg);          
+        } else if (event.getType() == LanguageToolEvent.Type.LANGUAGE_CHANGED) {
+          languageBox.selectLanguage(ltSupport.getLanguage());
+        } else if (event.getType() == LanguageToolEvent.Type.RULE_ENABLED) {
+            //this will trigger a check and the result will be updated by
+            //the CHECKING_FINISHED event
+        } else if (event.getType() == LanguageToolEvent.Type.RULE_DISABLED) {
             final String msg = org.languagetool.tools.Tools.i18n(messages, "checkDoneNoTime", event.getSource().getMatches().size());
             statusLabel.setText(msg);
-          }
-        }
-        else if (event.getType() == LanguageToolEvent.Type.LANGUAGE_CHANGED) {
-          languageBox.selectLanguage(ltSupport.getLanguage());
         }
       }
     });

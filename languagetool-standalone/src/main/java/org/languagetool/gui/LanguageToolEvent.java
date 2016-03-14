@@ -31,15 +31,21 @@ class LanguageToolEvent {
     RULE_DISABLED,
     RULE_ENABLED
   }
-  
+
   private final LanguageToolSupport source;
   private final Type type;
   private final Object caller;
+  private final long elapsedTime;
 
   LanguageToolEvent(LanguageToolSupport source, Type type, Object caller) {
+    this(source, type, caller, 0);
+  }
+
+  LanguageToolEvent(LanguageToolSupport source, Type type, Object caller, long elapsedTime) {
     this.source = source;
     this.type = type;
     this.caller = caller;
+    this.elapsedTime = elapsedTime;
   }
 
   LanguageToolSupport getSource() {
@@ -53,4 +59,9 @@ class LanguageToolEvent {
   Type getType() {
     return type;
   }
+
+  long getElapsedTime() {
+    return elapsedTime;
+  }
+
 }

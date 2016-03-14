@@ -118,12 +118,21 @@ class LanguageToolSupport {
     listenerList.remove(LanguageToolListener.class, ltListener);
   }
 
+  private void fireEvent(LanguageToolEvent.Type type, Object caller, long elapsedTime) {
+    LanguageToolEvent event = new LanguageToolEvent(this, type, caller, elapsedTime);
+    fireEvent(event);
+  }
+
   private void fireEvent(LanguageToolEvent.Type type, Object caller) {
+    LanguageToolEvent event = new LanguageToolEvent(this, type, caller);
+    fireEvent(event);
+  }
+
+  private void fireEvent(LanguageToolEvent event) {
     // Guaranteed to return a non-null array
     Object[] listeners = listenerList.getListenerList();
     // Process the listeners last to first, notifying
     // those that are interested in this event
-    LanguageToolEvent event = new LanguageToolEvent(this, type, caller);
     for (int i = listeners.length - 2; i >= 0; i -= 2) {
       if (listeners[i] == LanguageToolListener.class) {
         // Lazily create the event:
@@ -736,7 +745,11 @@ class LanguageToolSupport {
         throw new RuntimeException(ex);
       }
     }
+
+    long startTime = System.currentTimeMillis();
     final List<RuleMatch> matches = this.languageTool.check(this.textComponent.getText());
+    long elapsedTime = System.currentTimeMillis() - startTime;
+
     int v = check.get();
     if (v == 0) {
       if (!SwingUtilities.isEventDispatchThread()) {
@@ -744,12 +757,12 @@ class LanguageToolSupport {
           @Override
           public void run() {
             updateHighlights(matches);
-            fireEvent(LanguageToolEvent.Type.CHECKING_FINISHED, caller);
+            fireEvent(LanguageToolEvent.Type.CHECKING_FINISHED, caller, elapsedTime);
           }
         });
       } else {
         updateHighlights(matches);
-        fireEvent(LanguageToolEvent.Type.CHECKING_FINISHED, caller);
+        fireEvent(LanguageToolEvent.Type.CHECKING_FINISHED, caller, elapsedTime);
       }
     }
     return matches;
