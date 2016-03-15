@@ -122,6 +122,9 @@
   * added `de/removed.txt` so incorrect readings of the POS tagger can be avoided without
     rebuilding the binary dictionary
 
+#### Italian
+  * added an agreement rule
+
 #### Portuguese
   * added/improved several rules
   

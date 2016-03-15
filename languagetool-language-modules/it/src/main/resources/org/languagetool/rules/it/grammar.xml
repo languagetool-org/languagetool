@@ -387,6 +387,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <!-- GRAMMATICA PREPOSIZIONI - GR_07 -->
     <category name="Grammatica - Preposizioni">
+        <rule id="CONCORDANZA_PREPOSIZIONE" name="Concordanza preposizione articolata maschile - genere parola seguente">
+            <pattern case_sensitive='yes'>
+                <token regexp='yes'>del|al|dal|nel|sul</token>
+                <token regexp='yes'>[^A-Z].*i|[a-z].*a
+                    <exception>sistema</exception>
+                    <exception>pianeta</exception>
+                    <exception>programma</exception>
+                    <exception>cinema</exception>
+                    <exception>panorama</exception>
+                    <exception>tema</exception>
+                    <exception>patriarca</exception>
+                </token>
+            </pattern>
+            <message>Concordanza preposizione articolata maschile - genere parola seguente</message>
+            <example correction=''>leader <marker>sul prodotti</marker></example>
+            <example>leader sui prodotti</example>
+        </rule>
         <rulegroup name="uso corretto" id="GR_07_001">
             <!-- da -->
             <rule>
