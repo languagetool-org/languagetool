@@ -6981,7 +6981,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token inflected='yes' regexp='yes'>caldre|servir|usar|utilitzar|emprar|aprofitar|preparar|necessari|suficient|prou<exception postag="V.P.*" postag_regexp="yes"/></token>
+                    <token inflected='yes' regexp='yes'>caldre|servir|usar|utilitzar|emprar|aprofitar|preparar|necessari|suficient|prou|perjudicial<exception postag="V.P.*" postag_regexp="yes"/></token>
                     <marker>
                         <token inflected="yes">per</token>
                     </marker>
@@ -16338,6 +16338,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category name="Z) Accents diacrítics" type="grammar">
+        <rule id="SERE" name="serè/seré">
+            <pattern>
+                <marker>
+                    <token>serè<exception postag="_possible_nompropi|_GN_MS" postag_regexp="yes"/></token>
+                </marker>
+                <token postag="RG" min="0"/>
+                <token postag="AQ.*|V.P.*|D[^N].*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>seré</suggestion> (del v. ser)?</message>
+            <example correction="seré">No <marker>serè</marker> gaire prolix.</example>
+            <example correction="seré">No <marker>serè</marker> l'únic.</example>
+            <example correction="seré">I <marker>serè</marker> molt clar.</example>
+        </rule>
         <rulegroup id="US" name="us/ús">
             <rule>
                 <pattern case_sensitive="yes">
