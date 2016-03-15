@@ -3681,6 +3681,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rulegroup>
 		</category>
     <category id="NUMBERS" name="Formatowanie liczb" type="numbers">
+    <rule id="OD_X_Y_OD_X_DO_Y" name="„od X - Y” (od X do Y)">
+     <pattern>
+      <token>od</token>
+      <token regexp='yes'>\d+</token>
+      <token><exception>do</exception><exception>:</exception><exception regexp="yes">&months;</exception></token>
+      <token regexp='yes'>\d+</token>
+     </pattern>
+     <message>Prawdopodobnie błędny zakres. Czy chodziło o: <suggestion><match no="1"/> <match no="2"/> do <match no="4"/></suggestion>?</message>
+     <short>Nietypowy zapis zakresu</short>
+     <example correction='Od 12 do 17'><marker>Od 12 – 17</marker> lutego 2016</example>     
+     <example>Jestem umówiony na 7:00.</example>
+     <example>Festiwal trwa od 10 sierpnia 2005.</example>
+    </rule>
     <rulegroup id="FORMAT_DZIESIETNY" name="Kropka zamiast przecinka w liczbach">
     <rule>
       <pattern>
@@ -5865,7 +5878,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="WINIEN_AGLUTYNANT" name="Zła odmiana czasownika „powinien” w czasie przeszłym">
 					<pattern>
             <unify>
-                <feature id="number"/><feature id="gender"/><feature id="person"/>
+                <feature id="number"/><feature id="gender"/><feature id="person"><type id="pri"/><type id="sec"/></feature>
                 <token skip="7" inflected="yes">powinien<exception scope="next" postag="verb:(?:pot|fin|bedzie|imp[st]|pred|winien).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
                 <marker>
                     <token inflected="yes" postag_regexp="yes" postag="verb:praet.*">być</token>
@@ -5877,6 +5890,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <short>Błędna odmiana</short>
         <example correction="była"> Wiedziałam, że nie powinnam <marker>byłam</marker> teraz poruszać tego tematu.</example>
         <example correction="był">Byłem w miejscach, do których nie powinienem <marker>byłem</marker> chodzić.</example>
+        <example>Powinien był bardziej uważać.</example>
 		    </rule>
             <rule id="ZLY_CZAS_GRAMATYCZNY_PO_JAKOBY" name="Zły czas gramatyczny po „jakoby”">
                 <pattern>

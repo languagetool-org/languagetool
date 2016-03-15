@@ -10649,6 +10649,17 @@ USA
     <!-- Punctuation Errors -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Punctuation Errors" type="typographical">
+        <rule id="COMMA_AFTER_A_MONTH" name="Comma after a month">
+         <pattern>
+          <token regexp='yes'>&months;</token>
+          <token>,</token>
+          <token regexp='yes'>\d{3,}</token>
+         </pattern>
+         <message>When specifying a month and year, the comma is unnecessary: <suggestion><match no="1"/> <match no="3"/></suggestion>.</message>
+         <url>http://www.thepunctuationguide.com/comma.html#dates</url>
+         <short>Spurious comma</short>
+         <example correction='February 1995'><marker>February, 1995</marker></example> 
+        </rule>
         <rule id="APOS_ARE" name="extraneous apostrophes before 'are'">
             <pattern>
                 <marker>
@@ -10660,7 +10671,7 @@ USA
             </pattern>
             <message>Did you mean the plural instead of the possessive?</message>
             <suggestion>\1\3</suggestion>
-            <short>extraneous apostrophe</short>
+            <short>Extraneous apostrophe</short>
             <example correction="cars">The <marker>car's</marker> are cheap.</example>
         </rule>
         <rule id="STATE_OF_THE_ART" name="state of the art (state-of-the-art)">
@@ -13205,6 +13216,28 @@ USA
     <!-- Nonstandard Phrases -->
     <!-- ====================================================================== -->
     <category id="NONSTANDARD_PHRASES" name="Nonstandard Phrases" type="misspelling">
+      <rule id="FROM_X_Y" name="from X - Y (from X to Y)">
+       <pattern>
+        <token>from</token>
+        <token regexp='yes'>\d+</token>
+        <token><exception>to</exception><exception>:</exception></token>
+        <token regexp='yes'>\d+</token>
+       </pattern>
+       <message>Nonstandard phrase. Did you mean: <suggestion><match no="1"/> <match no="2"/> to <match no="4"/></suggestion>?</message>
+       <short>Nonstandard phrase</short>
+       <example correction='From 12 to 17'><marker>From 12 – 17</marker> February 2016</example>       
+       <example>Ferries commence service from 7:00 am.</example>
+      </rule>
+      <rule id="MONTH_OF_XXXX" name="February of 2005 (February 2005)">
+       <pattern>
+        <token regexp='yes'>&months;</token>
+        <token>of</token>
+        <token regexp='yes'>\d{3,}</token>
+       </pattern>
+       <message>When specifying a month and year, 'of' is unnecessary: <suggestion><match no="1"/> <match no="3"/></suggestion>.</message>
+       <short>Nonstandard date</short>
+       <example correction='February 1995'><marker>February of 1995</marker></example>       
+    </rule>
       <rule id="THE_QUESTION_WH" name="the question what (the question of what)">
       <pattern>
       <token>the</token>
@@ -13420,7 +13453,7 @@ USA
     <!-- Redundant Phrases -->
     <!-- ====================================================================== -->
     <category id="REDUNDANCY" name="Redundant Phrases" type="style">
-    <rulegroup id="FORMER_ALUMNUS_ALUMNUS" name="former alumnus (alumnus)">
+    <rulegroup id="FORMER_ALUMNUS" name="former alumnus (alumnus)">
     <rule>
      <pattern>
       <token>a</token>
@@ -13446,7 +13479,7 @@ USA
      <example correction='alumnus'>The <marker>former alumnus</marker> adviser of Alpha Lambda Chapter was elected as congressman-at- large in Ohio.</example>     
     </rule>
     </rulegroup>
-        <rulegroup id="SWORN_AFFIDAVIT_AFFIDAVIT" name="sworn affidavit (affidavit)">
+        <rulegroup id="SWORN_AFFIDAVIT" name="sworn affidavit (affidavit)">
         <rule>
          <pattern>
           <token>a</token>
@@ -13472,7 +13505,7 @@ USA
          <example correction='affidavit'>His <marker>sworn affidavit</marker> was deposited in the post office mailbox.</example>         
         </rule>
         </rulegroup>
-        <rule id="DIRECTLY_ANTITHETICAL_ANTITHETICAL" name="directly antithetical (antithetical)">
+        <rule id="DIRECTLY_ANTITHETICAL" name="directly antithetical (antithetical)">
          <pattern>
           <token>directly</token>
           <token>antithetical</token>
@@ -13496,7 +13529,7 @@ USA
          <example>Americans feel full of energy and healthy approximately 19 days per month.</example>
          <example>In reasoning about a complex system, humans reason approximately about its behavior.</example>
         </rule>
-        <rulegroup id="ASSOCIATE_TOGETHER_ASSOCIATE" name="associate together (associate)">
+        <rulegroup id="ASSOCIATE_TOGETHER" name="associate together (associate)">
         <rule>
          <pattern>
           <token inflected='yes'>associate</token>
@@ -14092,6 +14125,15 @@ USA
          <message>This phrase may be redundant. Consider writing: <suggestion>charged with</suggestion> instead.</message>
          <short>Redundant phrase</short>
          <example correction='charged with'>The Magistrate's Court in Kuala Lumpur today decided that a former model <marker>accused of a charge of</marker> public indecency is fit to stand trial.</example>
+        </rule>
+        <rule id="CIRCUMSTANCES_SURROUNDING" name="circumstances surrounding (circumstances of)">
+         <pattern>
+          <token>circumstances</token>
+          <token>surrounding</token>
+         </pattern>
+         <message>This phrase is redundant. Consider writing <suggestion><match no="1"/> of</suggestion>.</message>
+         <short>Redundant phrase</short>
+         <example correction='circumstances of'>Based upon this discussion, the OIG expanded the scope of its investigation to analyze the <marker>circumstances surrounding</marker> the settlement rejected by Judge Rakoff.</example>         
         </rule>
         <rule id="CLOSE_SCRUTINY" name="close scrutiny/proximity (scrutiny/proximity)">
             <pattern>
@@ -15610,7 +15652,7 @@ USA
                 <token>lines</token>
                 <token>of</token>
             </pattern>
-            <message>Did you mean <suggestion>like</suggestion>?.</message>
+            <message>Did you mean <suggestion>like</suggestion>?</message>
             <example correction="like">I think my point is very much <marker>along the lines of</marker> his.</example>
             <example>I think my point is very much <marker>like</marker> his.</example>
         </rule>
@@ -17421,7 +17463,19 @@ USA
                 <message>Did you mean <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>?</message>
                 <example correction="shouldn't|shouldn’t">You <marker>shouldn;t</marker> do it!</example>
             </rule>
-        </rulegroup>    
+        </rulegroup>   
+        <rule id="APOSTROPHE_IN_DATES" name="Apostrophe in dates">
+         <pattern>
+          <token regexp='yes'>(:?[1-2]\d)?\d0<exception regexp='yes'>2[1-9]\d0</exception></token>
+          <token>'</token>
+          <token>s</token>
+         </pattern>
+         <message>Apostrophes aren't needed for decades: <suggestion><match no="1"/><match no="3"/></suggestion>.</message>
+         <url>http://www.monash.edu/about/editorialstyle/editing/apostrophes</url>
+         <short>Apostrophe in a decade date</short>
+         <example correction='1990s'>Hillary Clinton asked where Bernie Sanders was in the <marker>1990's</marker>.</example>         
+         <example correction='90s'>Hillary Clinton asked where Bernie Sanders was in the <marker>90's</marker>.</example>         
+        </rule> 
   </category>
 
 </rules>
