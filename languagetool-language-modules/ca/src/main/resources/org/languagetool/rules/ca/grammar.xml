@@ -9331,6 +9331,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="PEL_QUE_FA_EL" name="pel que fa *el/al">
+            <antipattern>
+                <marker>
+                    <token>fa</token>
+                    <token postag="RG.*|.*LOC_ADV.*" postag_regexp="yes" min="1" max="4"/>
+                    <token>a</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>Pe</token>
+                    <token>l</token>
+                    <token>que</token>
+                    <token>fa</token>
+                </marker>
+                <token><exception regexp="yes">a|referència</exception></token>
+            </pattern>
+            <message>Probablement falta la preposició 'a'</message>
+            <suggestion>pel que fa a</suggestion>
+            <example correction="Pel que fa a"><marker>Pel que fa</marker> aquesta qüestió.</example>
+            <example>Pel que fa més concretament a aquesta qüestió.</example>
+        </rule>
         <rulegroup id="ANTS_ANYS" name="*ants/anys">
             <rule>
                 <pattern>
@@ -22758,6 +22780,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="PEL_QUE_FA_REFERENCIA" name="pel que fa referència">
+            <pattern>
+                <token>pe</token>
+                <token>l</token>
+                <token>que</token>
+                <token>fa</token>
+                <token>referència</token>
+            </pattern>
+            <message>Construcció probablement incorrecta.</message>
+            <suggestion>pel que fa</suggestion>
+            <suggestion>amb referència</suggestion>
+            <suggestion>pel que respecta</suggestion>
+            <example correction="Pel que fa|Amb referència|Pel que respecta"><marker>Pel que fa referència</marker> a la qüestió.</example>
+        </rule>
         <rule id="TAULA_CAMILLA" name="taula camilla">
             <pattern>
                 <token regexp="yes" inflected="yes">mesa|taula</token>
