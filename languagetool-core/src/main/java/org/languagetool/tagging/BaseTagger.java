@@ -212,8 +212,8 @@ public abstract class BaseTagger implements Tagger {
     String tag = StringTools.asString(wd.getTag());
     // Remove frequency data from tags (if exists)
     // The frequency data is in the last byte after a separator
-    if (dictionary.metadata.isFrequencyIncluded() && tag.length()>2) {
-      tag = tag.substring(0, tag.length()-2);
+    if (dictionary.metadata.isFrequencyIncluded() && tag.length() > 1) {
+      tag = tag.substring(0, tag.length() - 1);
     }
     return new AnalyzedToken(
         word,
