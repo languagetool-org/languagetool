@@ -20,6 +20,7 @@ package org.languagetool.rules.spelling;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
@@ -28,6 +29,7 @@ import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
@@ -269,7 +271,8 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   /**
-   * Accept (case-sensitively) the given phrases even though they are not in the built-in dictionary.
+   * Accept (case-sensitively, unless at the start of a sentence) the given phrases even though they
+   * are not in the built-in dictionary.
    * Use this to avoid false alarms on e.g. names and technical terms. Unlike {@link #addIgnoreTokens(List)}
    * this can deal with phrases. A way to call this is like this:
    * <code>rule.acceptPhrases(Arrays.asList("duodenal atresia"))</code>
@@ -282,12 +285,41 @@ public abstract class SpellingCheckRule extends Rule {
     for (String phrase : phrases) {
       String[] parts = phrase.split(" ");
       List<PatternToken> patternTokens = new ArrayList<>();
+      int i = 0;
+      boolean startsLowercase = false;
       for (String part : parts) {
+        if (i == 0) {
+          String uppercased = StringTools.uppercaseFirstChar(part);
+          if (!uppercased.equals(part)) {
+            startsLowercase = true;
+          }
+        }
         patternTokens.add(new PatternTokenBuilder().csToken(part).build());
+        i++;
       }
       antiPatterns.add(patternTokens);
+      if (startsLowercase) {
+        antiPatterns.add(getTokensForSentenceStart(parts));
+      }
     }
     this.antiPatterns = makeAntiPatterns(antiPatterns, language);
+  }
+
+  private List<PatternToken> getTokensForSentenceStart(String[] parts) {
+    List<PatternToken> ucPatternTokens = new ArrayList<>();
+    int j = 0;
+    for (String part : parts) {
+      if (j == 0) {
+        // at sentence start, we also need to accept a phrase that starts with an uppercase char:
+        String uppercased = StringTools.uppercaseFirstChar(part);
+        ucPatternTokens.add(new PatternTokenBuilder().posRegex(JLanguageTool.SENTENCE_START_TAGNAME).build());
+        ucPatternTokens.add(new PatternTokenBuilder().csToken(uppercased).build());
+      } else {
+        ucPatternTokens.add(new PatternTokenBuilder().csToken(part).build());
+      }
+      j++;
+    }
+    return ucPatternTokens;
   }
 
   @Override

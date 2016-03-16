@@ -66,6 +66,9 @@ public class SpellingCheckRuleTest {
     }
     assertThat(langTool.check("A test with myfoo mybar").size(), is(0));
     assertThat(langTool.check("A test with myfoo and mybar").size(), is(2));  // the words on their own are not ignored
+    assertThat(langTool.check("myfoo mybar here").size(), is(0));
+    assertThat(langTool.check("Myfoo mybar here").size(), is(0));
+    assertThat(langTool.check("MYfoo mybar here").size(), is(2));
   }
 
   @Test
