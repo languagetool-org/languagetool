@@ -3572,6 +3572,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="[^V].*"></disambig>
     </rule>
+    <rule id="seu_episcopal" name="seu: nom">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes" regexp="yes">seus?</token>
+            <token postag="AQ.[CF].*" postag_regexp="yes" regexp="yes" inflected="yes">episcopal|territorial</token>
+            <token postag="AQ.[CF].*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
     <rule id="de_manera_adj" name="de manera expressa">
         <pattern>
             <token>de</token>

@@ -1132,6 +1132,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La seu antiga del partit</example>
                 <example>Les seus abandonades de les ambaixades</example>
                 <example>dels seus principals afluents</example>
+                <example>La seu episcopal gironina</example>
             </rule>
             <rule> <!-- Cas particular: La seu(a) amiga -->
                 <pattern>
@@ -6976,7 +6977,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token inflected="yes">per</token>
                     <token inflected="yes" skip="1">el</token>
-                    <token inflected="yes" regexp="yes">força|efecte|cost|fet|efectivitat|elegància|compte|gust|color|risc|fruit|límit|contingut</token>
+                    <token inflected="yes" regexp="yes">força|efecte|cost|fet|efectivitat|elegància|compte|gust|color|risc|fruit|límit|contingut|acció</token>
                 </marker>
             </antipattern>
             <rule>
@@ -9335,7 +9336,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token>fa</token>
-                    <token postag="RG.*|.*LOC_ADV.*" postag_regexp="yes" min="1" max="4"/>
+                    <token postag="RG.*|.*LOC_ADV.*|_PUNCT.*|CC" postag_regexp="yes" min="1" max="4"/>
                     <token>a</token>
                 </marker>
             </antipattern>
@@ -9352,6 +9353,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>pel que fa a</suggestion>
             <example correction="Pel que fa a"><marker>Pel que fa</marker> aquesta qüestió.</example>
             <example>Pel que fa més concretament a aquesta qüestió.</example>
+            <example>Pel que fa, però, a la pobresa energètica</example>
         </rule>
         <rulegroup id="ANTS_ANYS" name="*ants/anys">
             <rule>
@@ -16362,17 +16364,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category name="Z) Accents diacrítics" type="grammar">
         <rule id="SERE" name="serè/seré">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">temps|oratge|caràcter|dia</token>
+                    <token>serè</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="V.[^P].*|_GV_|SPS00|DA0MS0" postag_regexp="yes"/>
+                    <token min="0" max="3" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
+                    <token>serè</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>serè<exception postag="_possible_nompropi|_GN_MS" postag_regexp="yes"/></token>
                 </marker>
-                <token postag="RG" min="0"/>
+                <token postag="RG" min="0"><exception postag="CS|P[RT].*" postag_regexp="yes"/></token>
                 <token postag="AQ.*|V.P.*|D[^N].*" postag_regexp="yes"/>
             </pattern>
             <message>¿Volíeu dir <suggestion>seré</suggestion> (del v. ser)?</message>
             <example correction="seré">No <marker>serè</marker> gaire prolix.</example>
             <example correction="seré">No <marker>serè</marker> l'únic.</example>
             <example correction="seré">I <marker>serè</marker> molt clar.</example>
+            <example correction="Seré"><marker>Serè</marker> aquell iaio que ho sap tot.</example>
+            <example>Amb un to tan serè com el del president.</example>
+            <example>Feia un temps serè aquell dia</example>
+            <example>s'entén per dia serè aquell en el qual</example>
+            <example>Estava molt serè aquell dia</example>
         </rule>
         <rulegroup id="US" name="us/ús">
             <rule>
