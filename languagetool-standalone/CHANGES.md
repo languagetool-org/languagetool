@@ -8,6 +8,9 @@
   * minor change in the format of the binary dictionary: POS tag and frequency data are no 
 longer separated by a separator character.
 
+#### Dutch
+  * small rule improvements and URL updates, thanks to Koen Vervloesem
+
 #### English
   * added and improved rules, improved categorization of rules
   * added checks on date ranges
