@@ -59,7 +59,7 @@ public class SpellingCheckRuleTest {
     assertThat(langTool.check("A test with myfoo mybar").size(), is(2));
     for (Rule rule : langTool.getAllActiveRules()) {
       if (rule instanceof SpellingCheckRule) {
-        ((SpellingCheckRule) rule).acceptPhrases(Arrays.asList("myfoo mybar"));
+        ((SpellingCheckRule) rule).acceptPhrases(Arrays.asList("myfoo mybar", "Myy othertest"));
       } else {
         langTool.disableRule(rule.getId());
       }
@@ -69,6 +69,11 @@ public class SpellingCheckRuleTest {
     assertThat(langTool.check("myfoo mybar here").size(), is(0));
     assertThat(langTool.check("Myfoo mybar here").size(), is(0));
     assertThat(langTool.check("MYfoo mybar here").size(), is(2));
+    
+    assertThat(langTool.check("Myy othertest is okay").size(), is(0));
+    assertThat(langTool.check("And Myy othertest is okay").size(), is(0));
+    assertThat(langTool.check("But Myy Othertest is not okay").size(), is(2));
+    assertThat(langTool.check("But myy othertest is not okay").size(), is(2));
   }
 
   @Test
