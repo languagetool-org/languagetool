@@ -17,6 +17,9 @@ longer separated by a separator character.
   * added about 215 confusion pairs like best/bets, wand/want (works only with ngram data,
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
 
+#### French
+  * added and improved rules
+
 #### German
   * added and improved rules, improved categorization of rules
   * updated Hunspell dictionary to version 2015.12.28
