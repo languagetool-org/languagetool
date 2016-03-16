@@ -13220,13 +13220,16 @@ USA
        <pattern>
         <token>from</token>
         <token regexp='yes'>\d+</token>
-        <token><exception>to</exception><exception>:</exception></token>
+        <token><exception regexp="yes">to|until|through</exception><exception regexp="yes">[:,]</exception></token>
         <token regexp='yes'>\d+</token>
        </pattern>
        <message>Nonstandard phrase. Did you mean: <suggestion><match no="1"/> <match no="2"/> to <match no="4"/></suggestion>?</message>
        <short>Nonstandard phrase</short>
        <example correction='From 12 to 17'><marker>From 12 – 17</marker> February 2016</example>       
        <example>Ferries commence service from 7:00 am.</example>
+       <example>He partnered with Stephen T. Logan from 1841 until 1844.</example>
+       <example>Algiers lost from 30,000 to 50,000 inhabitants to the plague in 1620–21.</example>
+       <example>The population has grown from 5,000 in 1900.</example>
       </rule>
       <rule id="MONTH_OF_XXXX" name="February of 2005 (February 2005)">
        <pattern>
