@@ -7680,7 +7680,7 @@ though, and has since been slightly modified)-->
           <token postag="[DJN] .* s" postag_regexp="yes" skip="1">
             <!-- Following exception skip words both singular/plural as well as adverbs -->
             <exception negate_pos="yes" postag="A|[JNZ] .* s?p|SENT_END" postag_regexp="yes" scope="next"/>
-            <exception postag="V inf|[DJNZ] .* s?p" postag_regexp="yes" scope="current"/>
+            <exception postag="V (inf|con|ind|sub).*|[DJNZ] .* s?p" postag_regexp="yes" scope="current"/>
             <exception postag="&lt;/DE&gt;" scope="previous"/>
             <exception regexp="yes" scope="previous">et|de|du</exception>
             <exception regexp="yes">air|car|juste|même|neuf</exception>
@@ -7728,6 +7728,7 @@ though, and has since been slightly modified)-->
         <example>Certaines grenouilles peuvent <marker>même être</marker> mortelles.</example>
         <example>Le CAPES de mathématiques.</example>
         <example>Combien de fois avez-vous été amoureuses dans votre vie.</example>
+        <example>La couronne périphérique alterne falaises abruptes et plages.</example>
       </rule>
       <rule name="pluriel suivi du singulier">
         <antipattern>
