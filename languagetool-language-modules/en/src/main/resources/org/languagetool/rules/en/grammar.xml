@@ -426,7 +426,8 @@ USA
             <example correction="way">What is the fastest <marker>was</marker> to learn Spanish?</example>
             <example correction="way">What is the easiest <marker>was</marker> to learn Spanish?</example>
         </rule>
-        <rule id="ET_AL" name="et al (et al.)">
+        <rulegroup id="ET_AL" name="et al (et al.)">
+        <rule>
             <pattern>
                 <marker>
                     <token>et</token>
@@ -438,6 +439,20 @@ USA
             <short>Possible typo</short>
             <example correction="et al.">Thelen <marker>et al</marker> 2001</example>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>et</token>
+                    <token>.</token>
+                    <token>al</token>
+                    <token>.</token>
+                </marker>              
+            </pattern>
+            <message>Misplaced dot: <suggestion>\1 \3\4</suggestion></message>
+            <short>Possible typo</short>
+            <example correction="et al.">Thelen <marker>et. al.</marker> 2001</example>
+        </rule>        
+        </rulegroup>
         <rule id="ARE_STILL_THE_SOME" name="are still the some (same)">
             <pattern>
                 <token regexp="yes">are|is|was|were</token>
