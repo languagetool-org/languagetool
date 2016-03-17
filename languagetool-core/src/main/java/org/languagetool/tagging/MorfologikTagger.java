@@ -64,7 +64,7 @@ public class MorfologikTagger implements WordTagger {
       for (WordData wordData : lookup) {
         String tag = wordData.getTag() == null ? null : wordData.getTag().toString();
         // Remove frequency data from tags (if exists)
-        // The frequency data is in the last byte after a separator
+        // The frequency data is in the last byte (without a separator)
         if (dictionary.metadata.isFrequencyIncluded() && tag != null && tag.length() > 1) {
           tag = tag.substring(0, tag.length() - 1);
         }
