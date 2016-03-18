@@ -20240,7 +20240,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token negate="yes">hi</token>
                     <marker>
-                        <token regexp="yes">ha|havia<exception postag="_obligacio"/></token>
+                        <token regexp="yes">ha|havia|han|havien<exception postag="_obligacio"/></token>
                         <token>hagut<exception postag="_obligacio"/></token>
                     </marker>
                     <token><exception>esment</exception></token>
@@ -20252,6 +20252,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>ha hagut de fer-ho</example>
                 <example>ha hagut sempre de fer-ho</example>
                 <example>que havia hagut de menester alguns centenars d'anys</example>
+            </rule>
+            <rule id="HA_HAGUT_CAP" name="*ha hagut cap / hi ha hagut cap">
+                <pattern>
+                    <token negate="yes">hi</token>
+                    <marker>
+                        <token regexp="yes">ha|havia|han|havien</token>
+                        <token>hagut</token>
+                    </marker>
+                    <token regexp="yes">cap|ningú|gens|mai|ningun</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>hi <match no="2"/> hagut</suggestion>?</message>
+                <example correction="hi ha hagut">Tampoc <marker>ha hagut</marker> cap voluntat de fer-ho.</example>
+                <example correction="hi ha hagut">No <marker>ha hagut</marker> ningú capaç de fer-ho.</example>
             </rule>
             <rule id="NO_HI_SON" name="no *i/hi són, no *o/ho són">
                 <pattern>
