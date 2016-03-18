@@ -11,6 +11,9 @@ public final class Categories {
   /** Rules about detecting uppercase words where lowercase is required and vice versa. */
   public static final Categories CASING = make("CASING", "category_case");
 
+  /** Rules about spelling terms as one word or as as separate words. */
+  public static final Categories COMPOUNDING = make("COMPOUNDING", "category_compounding");
+
   public static final Categories GRAMMAR = make("GRAMMAR", "category_grammar");
 
   /** Spelling issues. */
