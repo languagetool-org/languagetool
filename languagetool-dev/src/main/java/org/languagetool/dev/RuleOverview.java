@@ -26,6 +26,8 @@ import org.languagetool.Languages;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Contributor;
 import org.languagetool.rules.ConfusionSetLoader;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
@@ -44,6 +46,10 @@ import java.util.*;
  */
 @SuppressWarnings("StringConcatenationInsideStringBufferAppend")
 public final class RuleOverview {
+  
+  enum SpellcheckSupport {
+    Full, NoSuggestion, None
+  }
 
   public static void main(final String[] args) throws IOException {
     if (args.length != 1) {
@@ -69,6 +75,7 @@ public final class RuleOverview {
     System.out.println("  <th></th>");
     System.out.println("  <th align=\"left\" width=\"60\">Java<br/>rules</th>");
     System.out.println("  <th align=\"left\" width=\"60\">False<br/>friends</th>");
+    System.out.println("  <th align=\"left\" width=\"60\">Spell<br/>check</th>");
     System.out.println("  <th align=\"left\" width=\"60\">Confusion<br/>pairs</th>");
     //System.out.println("  <th valign='bottom' width=\"65\">Auto-<br/>detected</th>");
     System.out.println("  <th valign='bottom' align=\"left\" width=\"70\">Activity</th>");
@@ -94,7 +101,7 @@ public final class RuleOverview {
       System.out.print("<tr>");
       final String langCode = lang.getShortName();
       final File langSpecificWebsite = new File(webRoot, langCode);
-      final List<String> variants = getVariants(sortedLanguages, lang);
+      final List<String> variants = getVariantNames(sortedLanguages, lang);
       String variantsText = "";
       if (variants.size() > 0) {
         variantsText = "<br/><span class='langVariants'>Variants for: " + StringUtils.join(variants, ", ") + "</span>";
@@ -140,8 +147,16 @@ public final class RuleOverview {
         overallJavaCount++;
       }
 
-      // false friends:
       System.out.print("<td valign=\"top\" align=\"right\">" + countFalseFriendRules(falseFriendRules, lang) + "</td>");
+
+      SpellcheckSupport spellcheckSupport = spellcheckSupport(lang, sortedLanguages);
+      String spellSupportStr = "";
+      if (spellcheckSupport == SpellcheckSupport.Full) {
+        spellSupportStr = "✓";
+      } else if (spellcheckSupport == SpellcheckSupport.NoSuggestion) {
+        spellSupportStr = "<span title='spell check without suggestions'>(✓)</span>";
+      }
+      System.out.print("<td valign=\"top\" align=\"right\">" + spellSupportStr + "</td>");
 
       System.out.print("<td valign=\"top\" align=\"right\">" + countConfusionPairs(lang) + "</td>");
 
@@ -204,11 +219,20 @@ public final class RuleOverview {
     return count;
   }
 
-  private List<String> getVariants(List<Language> allLanguages, Language lang) {
-    List<String> variants = new ArrayList<>();
+  private List<String> getVariantNames(List<Language> allLanguages, Language lang) {
+    List<Language> variants = getVariants(allLanguages, lang);
+    List<String> result = new ArrayList<>();
+    for (Language l : variants) {
+      result.add(l.getName().replaceAll(".*\\((.*?)\\).*", "$1").trim());
+    }
+    return result;
+  }
+
+  private List<Language> getVariants(List<Language> allLanguages, Language lang) {
+    List<Language> variants = new ArrayList<>();
     for (Language sortedLanguage : allLanguages) {
       if (sortedLanguage.isVariant() && lang.getShortName().equals(sortedLanguage.getShortName())) {
-        variants.add(sortedLanguage.getName().replaceAll(".*\\((.*?)\\).*", "$1").trim());
+        variants.add(sortedLanguage);
       }
     }
     return variants;
@@ -257,6 +281,33 @@ public final class RuleOverview {
       count++;
     }
     return count;
+  }
+
+
+  private SpellcheckSupport spellcheckSupport(Language lang, List<Language> allLanguages) throws IOException {
+    if (spellcheckSupport(lang) != SpellcheckSupport.None) {
+      return spellcheckSupport(lang);
+    }
+    List<Language> variants = getVariants(allLanguages, lang);
+    for (Language variant : variants) {
+      if (spellcheckSupport(variant) != SpellcheckSupport.None) {
+        return spellcheckSupport(variant);
+      }
+    }
+    return SpellcheckSupport.None;
+  }
+
+  private SpellcheckSupport spellcheckSupport(Language lang) throws IOException {
+    for (Rule rule : lang.getRelevantRules(JLanguageTool.getMessageBundle())) {
+      if (rule.isDictionaryBasedSpellingRule()) {
+        if (rule instanceof HunspellNoSuggestionRule) {
+          return SpellcheckSupport.NoSuggestion;
+        } else {
+          return SpellcheckSupport.Full;
+        }
+      }
+    }
+    return SpellcheckSupport.None;
   }
 
   private int countConfusionPairs(Language lang) {
