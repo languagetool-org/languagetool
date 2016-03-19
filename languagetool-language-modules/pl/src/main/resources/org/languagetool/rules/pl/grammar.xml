@@ -134,6 +134,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<phraseref idref="ACC_NOM_3"></phraseref>
 						</includephrases>
 				</phrase>
+				<phrase id="DIALOG">
+				  <token postag="SENT_START"/>
+				  <token regexp="yes">[–—]</token>
+				</phrase>
+				<phrase id="CYTAT">
+				  <token postag="SENT_START"/>
+				  <token regexp="yes">[„&quot;]</token>
+				</phrase>
+				<phrase id="DIALOG_CYTAT">
+				  <token postag="SENT_START"/>
+				  <token regexp="yes">[–—]</token>
+				  <token regexp="yes">[„&quot;]</token>
+				</phrase>
+				<phrase id="NORMALNY_SENT_START">
+				  <token postag="SENT_START"/>
+				</phrase>
+				<phrase id="SENT_START">
+				  <includephrases>
+				    <phraseref idref="NORMALNY_SENT_START"/>
+				    <phraseref idref="DIALOG"/>
+				    <phraseref idref="CYTAT"/>
+				    <phraseref idref="DIALOG_CYTAT"/>
+				  </includephrases>
+				</phrase>
 		</phrases>
 		<category id="PUNCTUATION" name="Błędy interpunkcyjne" type="typographical">
 				<rulegroup id="ZDANIA_ZLOZONE" name="Brak przecinka w zdaniu złożonym">
@@ -16958,6 +16982,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+        <rulegroup id="MINO_MIMO" name="„mino” (mimo)">
+        <rule>
+         <pattern case_sensitive='yes'>
+          <token>mino</token>
+         </pattern>
+         <message>Prawdopodobna literówka. Czy chodziło o <suggestion>mimo</suggestion>?</message>
+         <short>Prawdopodobna literówka</short>
+         <example correction='mimo'>Alergia nie zostanie stwierdzona, <marker>mino</marker> że tak naprawdę występuje.</example>
+         <example>Alergia nie zostanie stwierdzona, mimo że tak naprawdę występuje.</example>
+        </rule>
+        <rule>
+         <pattern case_sensitive='yes'>
+         <phraseref idref="SENT_START"/>
+          <marker>
+          <token>Mino</token>
+          </marker>
+          <token regexp='yes'>to|że</token>
+         </pattern>
+         <message>Prawdopodobna literówka. Czy chodziło o <suggestion>mimo</suggestion>?</message>
+         <short>Prawdopodobna literówka</short>
+         <example correction='Mimo'><marker>Mino</marker> że tak naprawdę występuje.</example>
+         <!-- TODO: help with uppercasing here! -->
+         <example correction='mimo'>— <marker>Mino</marker> że tak naprawdę występuje.</example>
+         <example correction='mimo'>— „<marker>Mino</marker> że tak naprawdę występuje” – powiedział.</example>
+         <example correction='mimo'>„<marker>Mino</marker> że tak naprawdę występuje” – powiedział.</example>         
+        </rule>
+        </rulegroup>
         <rule id="PO_UWAG_POD_UWAG" name="„po uwagę” (pod uwagę)">
          <pattern>
           <token>po</token>
@@ -16966,7 +17017,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <message>Prawdopodobna literówka: czy chodziło o <suggestion>pod uwagę</suggestion>?</message>
          <short>Prawdopodobna literówka</short>
          <example correction='pod uwagę'>Fundusz powinien brać to <marker>po uwagę</marker> – twierdzi Roman Szełemej.</example>         
-        </rule>
+        </rule>        
         <rulegroup id="LITY_LUTY" name="„lity” (luty)">
 				<antipattern>
 								<unify>

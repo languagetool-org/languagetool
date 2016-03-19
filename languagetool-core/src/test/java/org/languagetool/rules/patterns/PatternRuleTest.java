@@ -281,7 +281,7 @@ public class PatternRuleTest extends TestCase {
         final AbstractPatternRule badRule = complexRules.get(aSet);
         if (badRule != null && badRule instanceof PatternRule) {
           ((PatternRule)badRule).notComplexPhrase();
-          badRule.setMessage("The rule contains a phrase that never matched any incorrect example.");
+          badRule.setMessage("The rule contains a phrase that never matched any incorrect example.\n" + ((PatternRule) badRule).toPatternString());
           badRules.add(badRule);
         }
       }
