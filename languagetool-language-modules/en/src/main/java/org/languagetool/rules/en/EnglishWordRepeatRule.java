@@ -52,6 +52,12 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("can", tokens, position) && posIsIn(tokens, position-1, "NN")) {
       return true; // "The can can hold the water."
     }
+    if (wordRepetitionOf("blah", tokens, position)) {
+      return true;   // "blah blah"
+    }
+    if (wordRepetitionOf("yadda", tokens, position)) {
+      return true;   // "yadda yadda"
+    }
     if (wordRepetitionOf("Pago", tokens, position)) {
       return true;   // "Pago Pago"
     }
