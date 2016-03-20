@@ -14194,7 +14194,19 @@ USA
          <short>Redundant phrase</short>
          <example correction='circumstances of'>Based upon this discussion, the OIG expanded the scope of its investigation to analyze the <marker>circumstances surrounding</marker> the settlement rejected by Judge Rakoff.</example>         
         </rule>
-        <rule id="CLOSE_SCRUTINY" name="close scrutiny/proximity (scrutiny/proximity)">
+        <rulegroup id="CLOSE_SCRUTINY" name="close scrutiny/proximity (scrutiny/proximity)">
+        <rule>
+        <pattern>
+            <token>within</token>
+            <token>close</token>
+            <token>proximity</token>
+            <token>to</token>
+        </pattern>
+        <message>This is verbose. Cosider writing: <suggestion>close to</suggestion>.</message>
+        <short>Redundant phrase</short>
+        <example correction="close to">The majority of Jannali's enterprises are located <marker>within close proximity to</marker> the suburb's railway station.</example>
+        </rule>
+        <rule>            
             <pattern>
                 <token>close</token>
                 <token regexp="yes">scrutiny|proximity</token>
@@ -14203,6 +14215,7 @@ USA
             <short>Redundant phrase</short>
             <example correction="scrutiny">Their manifesto yesterday received the same <marker>close scrutiny</marker> as the other two big parties — and it was an uncomfortable experience.</example>
         </rule>
+        </rulegroup>
         <rule id="COMFORTABLE_WITH_VBG" name="comfortable with doing (comfortable doing)">
             <pattern>
                 <token>comfortable</token>
@@ -16070,7 +16083,6 @@ USA
             <example>We have arrived.</example>
         </rule>
 
-        <!-- close proximity – near -->
         <!-- combat environment – combat -->
         <!-- combined – joint -->
         <!-- commence – Begin or start -->
