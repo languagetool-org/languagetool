@@ -1011,7 +1011,7 @@ USA
                 <token>s</token>
                 <token postag="NN.*" postag_regexp="yes"/>
             </pattern>
-            <message>The apostrophe is probably in the wrong place here. Did you mean <suggestion>\1 \2\4' \5</suggestion>?</message>
+            <message>The apostrophe is probably in the wrong place here. Did you mean <suggestion>\1 \2\4\3 \5</suggestion>?</message>
             <url>http://www.quickanddirtytips.com/education/grammar/two-weeks-notice</url>
             <short>Possible typo</short>
             <example>He'll be sailing around the world in two weeks' time.</example>
@@ -5175,6 +5175,16 @@ USA
             <example correction="A soccer player kicks"><marker>A soccer players kicks</marker> a ball and scores a goal</example>
         </rule>
         -->
+        <rule id="SINGULAR_VERB_AFTER_THESE_OR_THOSE" name="Singular verb after 'these' or 'those'">
+         <pattern>
+          <token regexp='yes'>th[eo]se<exception scope="previous">of</exception></token>
+          <token postag='VBZ'></token>
+         </pattern>
+         <message>This verb is singular. Did you mean: <suggestion>This <match no="2"/></suggestion> or <suggestion><match no="1"/> <match no="2" postag="VBP"/></suggestion>?</message>
+         <short>Grammar error</short>
+         <example correction='This includes|These include'><marker>These includes</marker> the razor eyeglass and the ring and the compass.</example>
+         <example>The most common of these is dot 5, which combines with the first letter of words.</example>
+        </rule>
         <rule id="THIS_NNS_VB" name="this + plural noun + verb (these)">
             <pattern>
                 <token postag="SENT_START"/>
@@ -9686,6 +9696,37 @@ USA
             <example>Since then the corporate headquarters have moved to New York City at 1 Park Avenue in Manhattan, before moving to the Financial District to the former JP Morgan Chase headquarters at 4 New York Plaza.</example>
             <example>It's ten past six.</example>
             <example>The price of rice rose by three percent.</example>
+        </rule>        
+        <rule id="INCORRECT_POSSESSIVE_FORM_AFTER_A_NUMBER" name="Incorrect possessive form after a number">
+        <antipattern> <!-- separate rule: CD_WEEK -->
+               <token postag="CD"><exception regexp="yes">one|1</exception></token>
+                <marker>
+                <token regexp="yes">week|month|hour</token>
+                </marker>
+                <token regexp="yes">['’]</token>
+                <token>s</token>
+                <token postag="NN.*" postag_regexp="yes"/>
+        </antipattern>        
+         <pattern>
+          <token spacebefore="yes" postag="CD">
+                    <exception regexp="yes">one|thou|zero|1</exception>
+                    <exception regexp="yes">1[789]\d\d</exception><!-- exclude, might be year -->
+                    <exception regexp="yes">20[0123]\d</exception><!-- exclude, might be year -->
+                    <exception postag="NNP"/><exception scope="previous" postag="DT|PRP\$|POS" postag_regexp="yes"/>
+                    <exception regexp="yes" scope="previous">&months;|season|category|size|\$\d+</exception>
+                    <exception spacebefore="no" scope="previous">.</exception>
+                    <exception scope="previous">×</exception>
+                </token>
+          <marker>
+          <token postag='NN.*' postag_regexp='yes'><exception>NNS</exception></token>
+          <token regexp="yes">&apos;</token>
+          <token>s</token>
+          </marker>
+         </pattern>
+         <message>Incorrect singular possesive form after the number (\1). Did you mean <suggestion><match no="2"/>s</suggestion> or <suggestion><match no="2"/>s'</suggestion>?</message>
+         <short>Agreement error</short>
+         <example correction="days|days'">At the time, Guider was working just two <marker>day's</marker> drive from Narooma, in a Canberra suburb.</example>         
+         <example>1933 World's Fair</example>
         </rule>
         <rule id="CD_DOZENS_OF" name="Plural form of numbers in 'two dozens of' (two dozen)">
             <pattern>

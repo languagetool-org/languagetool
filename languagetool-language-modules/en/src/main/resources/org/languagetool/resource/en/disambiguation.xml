@@ -811,6 +811,39 @@
       <example type="ambiguous" inputform="present[present/JJ,present/NN:UN,present/VB,present/VBP]" outputform="present[present/JJ]">Those <marker>present</marker> were all moved to tears.</example>
     </rule>
     </rulegroup>
+    <rule id="THESE_NNS_VBZ" name="these + vbz/nns => nns">
+        <pattern>
+            <token regexp="yes">th[eo]se</token>
+            <marker>
+                <and>
+                    <token postag="VBZ"/>
+                    <token postag="NNS"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig postag="NNS"/>
+        <example type="untouched">These includes a razor blade.</example>
+        <example type="ambiguous"
+                 inputform="clothes[clothe/VBZ,clothes/NNS]"
+        outputform="clothes[clothes/NNS]">Those <marker>clothes</marker> suit you well.</example>
+    </rule>
+    <rule id="THESE_NNS_VBP" name="these + vbz/nns => nns">
+        <pattern>
+            <token regexp="yes">th[eo]se</token>
+            <token postag="NNS"/>
+            <marker>
+                <and>
+                    <token postag="VBP"/>
+                    <token postag="NN:.*" postag_regexp="yes"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig postag="VBP"/>
+        <example type="untouched">These includes a razor blade.</example>
+        <example type="ambiguous"
+                 inputform="suit[suit/NN:UN,suit/VB,suit/VBP]"
+                 outputform="suit[suit/VBP]">Those clothes <marker>suit</marker> you well.</example>
+    </rule>
     <rule name="AM as NNP" id="AM_NNP">
       <pattern case_sensitive="yes">
         <marker>

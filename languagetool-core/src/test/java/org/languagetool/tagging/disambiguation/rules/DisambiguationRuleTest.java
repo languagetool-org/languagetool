@@ -126,7 +126,7 @@ public class DisambiguationRuleTest extends TestCase {
         for (final DisambiguatedExample example : examples) {
 
           final String outputForms = example.getDisambiguated();
-          assertTrue("No input form found for: " + id, outputForms != null);
+          assertTrue("No output form found for: " + id, outputForms != null);
           assertTrue(outputForms.trim().length() > 0);
           final int expectedMatchStart = example.getExample().indexOf("<marker>");
           final int expectedMatchEnd = example.getExample().indexOf("</marker>") - "<marker>".length();
