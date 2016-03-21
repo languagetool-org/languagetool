@@ -79,6 +79,10 @@ public class VerbAgreementRule extends GermanRule {
     Arrays.asList(
       new PatternTokenBuilder().token(",").build(),
       new PatternTokenBuilder().posRegex("VER:MOD:2:.*").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().csToken("Soll").build(),
+      new PatternTokenBuilder().token("ich").build()
     )
   );
 

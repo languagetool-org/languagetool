@@ -150,6 +150,7 @@ public class SubjectVerbAgreementRuleTest {
   @Test
   public void testRuleWithCorrectSingularVerb() throws IOException {
     List<String> sentences = Arrays.asList(
+        "All diesen Bereichen ist gemeinsam, dass sie unterfinanziert sind.",
         "Die Katze ist schön.",
         "Die eine Katze ist schön.",
         "Eine Katze ist schön.",
