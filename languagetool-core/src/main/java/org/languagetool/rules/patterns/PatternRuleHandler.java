@@ -108,12 +108,12 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case "regexp":
         inRegex = true;
-        regex = new StringBuilder();
         regexMode = "exact".equals(attrs.getValue("type")) ? RegexpMode.EXACT : RegexpMode.SMART;
         regexCaseSensitive = attrs.getValue(CASE_SENSITIVE) != null && YES.equals(attrs.getValue(CASE_SENSITIVE));
         regexpMark = attrs.getValue(MARK) != null ? Integer.parseInt(attrs.getValue(MARK)) : 0;
         break;
       case RULE:
+        regex = new StringBuilder();
         inRule = true;
         shortMessage = new StringBuilder();
         message = new StringBuilder();
@@ -549,7 +549,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         }
         rule = new RegexPatternRule(id, name, message.toString(), suggestionsOutMsg.toString(), language, Pattern.compile(regexStr, flags), regexpMark);
       } else {
-        throw new IllegalStateException("Neither pattern tokens nor regex is set");
+        throw new IllegalStateException("Neither '<pattern>' tokens nor '<regex>' is set in rule '" + id + "'");
       }
       if (filterClassName != null && filterArgs != null) {
         RuleFilterCreator creator = new RuleFilterCreator();
