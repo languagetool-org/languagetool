@@ -59,6 +59,9 @@ longer separated by a separator character.
     Fixes https://github.com/languagetool-org/languagetool/pull/326.
   * The output now contains a `shortmsg` attribute if available, which
     is a short version of the `msg` attribute.
+  * The output now contains a `categoryid` attribute if available. It's
+    supposed not to change in future versions (while `category` might
+    change).
 
 #### Command-line
   * new parameters `--enablecategories` and `--disablecategories`

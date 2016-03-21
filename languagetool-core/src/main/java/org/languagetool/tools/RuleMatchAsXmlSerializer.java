@@ -21,6 +21,7 @@ package org.languagetool.tools;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.AbstractPatternRule;
@@ -127,6 +128,10 @@ public class RuleMatchAsXmlSerializer {
       Category category = match.getRule().getCategory();
       if (category != null) {
         xml.append(" category=\"").append(escapeXMLForAPIOutput(category.getName())).append('"');
+        CategoryId id = category.getId();
+        if (id != null) {
+          xml.append(" categoryid=\"").append(escapeXMLForAPIOutput(id.toString())).append('"');
+        }
       }
       ITSIssueType type = match.getRule().getLocQualityIssueType();
       if (type != null) {

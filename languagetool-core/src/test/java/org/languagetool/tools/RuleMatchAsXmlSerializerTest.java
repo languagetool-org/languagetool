@@ -23,10 +23,7 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.FakeLanguage;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternRule;
@@ -124,6 +121,12 @@ public class RuleMatchAsXmlSerializerTest {
             "replacements=\"\" context=\"...s is a test ...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"MyCategory\" " +
             "locqualityissuetype=\"uncategorized\"/>\n" +
             "</matches>\n"));
+
+    patternRule.setCategory(new Category(new CategoryId("CAT_ID"), "MyCategory"));
+    RuleMatch match2 = new RuleMatch(patternRule, 8, 10, "myMessage");
+    String xml2 = SERIALIZER.ruleMatchesToXml(Collections.singletonList(match2), text, 5, LANG, LANG);
+    assertTrue(xml2.contains("category=\"MyCategory\""));
+    assertTrue(xml2.contains("categoryid=\"CAT_ID\""));
   }
 
   @Test
