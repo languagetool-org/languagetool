@@ -41,7 +41,8 @@
   * added and improved rules, improved categorization of rules 
     
 #### Russian
-  * added new rules
+  * added and improved rules, improved categorization of rules
+  * added words suggested by users
   
 #### Spanish
   * added German false friends
