@@ -9706,7 +9706,16 @@ USA
                 <token regexp="yes">['’]</token>
                 <token>s</token>
                 <token postag="NN.*" postag_regexp="yes"/>
-        </antipattern>        
+        </antipattern>
+        <antipattern>
+          <token postag="CD"/>
+          <marker>
+          <token postag="NN.*" postag_regexp="yes"><exception postag="NNS"/></token>
+          </marker>
+          <token regexp="yes">&apos;</token>
+          <token>s</token>
+          <token postag="NNS"></token>
+        </antipattern>
          <pattern>
           <token spacebefore="yes" postag="CD">
                     <exception regexp="yes">one|thou|zero|1</exception>
@@ -9718,7 +9727,7 @@ USA
                     <exception scope="previous">×</exception>
                 </token>
           <marker>
-          <token postag='NN.*' postag_regexp='yes'><exception>NNS</exception></token>
+          <token postag='NN.*' postag_regexp='yes'><exception postag="NNS"/></token>
           <token regexp="yes">&apos;</token>
           <token>s</token>
           </marker>
@@ -9727,6 +9736,8 @@ USA
          <short>Agreement error</short>
          <example correction="days|days'">At the time, Guider was working just two <marker>day's</marker> drive from Narooma, in a Canberra suburb.</example>         
          <example>1933 World's Fair</example>
+         <example>He is puzzled as to why three women's names were there.</example>
+         <example>A total of 387 schools, 7 teacher's houses, and several vocational buildings had been built.</example>
         </rule>
         <rule id="CD_DOZENS_OF" name="Plural form of numbers in 'two dozens of' (two dozen)">
             <pattern>
