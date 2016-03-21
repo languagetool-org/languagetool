@@ -6108,6 +6108,12 @@ USA
                 <example>Although they can <marker>sometimes</marker> be found</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>as</token>
+                    <token>it</token>
+                    <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
+                    <token regexp="yes">is|was</token>
+                </antipattern>
                 <pattern>
                     <token postag="PRP"/>
                     <marker>
@@ -6118,6 +6124,7 @@ USA
                 <message>The adverb '\2' is usually put after the verb '\3'.</message>
                 <suggestion>\3 \2</suggestion>
                 <example correction="am sometimes">I am here and I <marker>sometimes am</marker> happy.</example>
+                <example>When it's valid (as it usually is), there's no problem.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9777,6 +9784,12 @@ USA
                 <token>regard</token>
                 <token regexp="yes">him|her|it|this|them|his|its</token>
             </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token>few</token>
+                <token/>
+                <token>as</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes">many|several|few</token>
@@ -9791,6 +9804,7 @@ USA
             <example>I have <marker>much wine</marker>.</example>
             <example correction="many ways">... which is right in <marker>many way</marker>.</example>
             <example>The state legislature gerrymandered the few Birmingham legislative seats.</example>
+            <example>A few work as technical writers, others don't.</example>
         </rule>
         <rulegroup id="DT_JJ_NO_NOUN" name="Missing noun after an adjective">
             <rule>
