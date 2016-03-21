@@ -6189,6 +6189,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Zusammen-/Getrenntschreibung">
+        <rule id="AUF_PASSEN" name="auf passen (aufpassen)">
+            <pattern>
+                <token>auf</token>
+                <token>passen</token>
+            </pattern>
+            <message><suggestion>aufpassen</suggestion> (aufmerksam sein) wird zusammengeschrieben</message>
+            <example correction="aufpassen">Da muss man schon <marker>auf passen</marker>.</example>
+        </rule>
         <rule id="FUSSFASSEN" name="Fußfassen (Fuß fassen)">
             <pattern>
                 <token><exception postag="(ART|PRP):.*" postag_regexp="yes"></exception></token>
@@ -6599,7 +6607,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token><exception postag="ZAL"/></token>
                 </pattern>
-                <message>&getrennt;: <suggestion>\2<match no="3" case_conversion="alllower"/></suggestion> sollte meist zusammen geschrieben werden, außer wenn das Wort 'Mal' besonders betont werden soll.</message>
+                <message>&getrennt;: <suggestion>\2<match no="3" case_conversion="alllower"/></suggestion> sollte meist zusammengeschrieben werden, außer wenn das Wort 'Mal' besonders betont werden soll.</message>
                 <short>&getrennt;.</short>
                 <example correction="achtmal">Wir haben es <marker>acht mal</marker> versucht.</example>
                 <example>Das haben wir doch schon <marker>drei Mal</marker> besprochen!</example>
