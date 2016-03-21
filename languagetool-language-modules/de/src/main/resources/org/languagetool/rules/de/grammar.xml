@@ -3602,6 +3602,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        <rule id="TEILNAME" name="Teilname (Teilnahme)">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Teilnamen?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="name" regexp_replace="nahme"/></suggestion>? Ein 'Teilname' wäre ein unvollständiger Name.</message>
+            <example correction="Teilnahme"><marker>Teilname</marker> nur mit schriftlicher Einladung.</example>
+        </rule>
         <rulegroup id="LIESST" name="ließt (liest)">
             <rule>
                 <pattern>
