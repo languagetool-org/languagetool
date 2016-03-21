@@ -6,7 +6,7 @@
   * added and improved rules
   * added words suggested by users
   * minor change in the format of the binary dictionary: POS tag and frequency data are no 
-longer separated by a separator character.
+    longer separated by a separator character.
 
 #### Dutch
   * small rule improvements and URL updates, thanks to Koen Vervloesem
@@ -89,9 +89,11 @@ longer separated by a separator character.
 
 #### Morfologik binary dictionaries
   * Updated Morfologik library to version 2.1.0. The tools for building 
-dictionaries (languagetool-tools) have been adapted to the new version. 
-The format of the dictionaries has not changed, except for a minor 
-change only in Catalan.
+    dictionaries (languagetool-tools) have been adapted to the new version. 
+    The format of the dictionaries has not changed, except for a minor 
+    change only in Catalan.
+
+
 
 ## 3.2 (2015-12-29)
 
