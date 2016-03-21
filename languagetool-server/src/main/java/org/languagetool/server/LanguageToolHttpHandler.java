@@ -163,9 +163,10 @@ class LanguageToolHttpHandler implements HttpHandler {
       handleCount++;
     }
     String text = null;
+    String origAddress = null;
     try {
       final URI requestedUri = httpExchange.getRequestURI();
-      final String origAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
+      origAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
       final String realAddressOrNull = getRealRemoteAddressOrNull(httpExchange);
       final String remoteAddress = realAddressOrNull != null ? realAddressOrNull : origAddress;
       // According to the Javadoc, "Closing an exchange without consuming all of the request body is
@@ -213,7 +214,11 @@ class LanguageToolHttpHandler implements HttpHandler {
         throw new RuntimeException(errorMessage);
       }
     } catch (Exception e) {
-      print("An error has occurred. Stacktrace follows:", System.err);
+      if (text != null && origAddress != null) {
+        print("An error has occurred. Access from " + origAddress + ", text length " + text.length() + ". Stacktrace follows:", System.err);
+      } else {
+        print("An error has occurred. Stacktrace follows:", System.err);
+      }
       if (verbose && text != null) {
         print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
                 StringUtils.abbreviate(text, 500), System.err);
