@@ -104,7 +104,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token postag="(P.|V.{3})[30].*" postag_regexp="yes"></token>
         </equivalence>
     </unification>
-    <category name="Semàntica" type="inconsistency">
+    <category id="SEMANTICS" name="Semàntica" type="inconsistency">
         <rule id="ANY20011_2011" name="*20011/2011">
             <pattern>
                 <token regexp="yes">de|el|en|a|l|anys?|curs(os)?|acadèmics?|&mesos_any;|&mesos_any_abrev;</token>
@@ -163,7 +163,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="A2) Variants regionals: accentuació, possessius, demostratius, pronoms" default="on"  type="locale-violation">
+    <category id="REGIONAL_NON_VERBS" name="A2) Variants regionals: accentuació, possessius, demostratius, pronoms" default="on"  type="locale-violation">
         <rulegroup id="DEMOSTRATIUS" name="demostratius 'este' i 'eixe'" >
             <rule id="EVITA_DEMOSTRATIUS_ESTE" name="Evita els demostratius 'este'">
                 <pattern>
@@ -495,7 +495,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="A3) Vocabulari d'ús restringit" type="style">
+    <category id="RESTRICTED_VOCABULARY" name="A3) Vocabulari d'ús restringit" type="style">
         <rulegroup id="VOCABULARI_VALENCIA" name="Evita vocabulari valencià: depòsit, depositar, servici">
             <rule>
                 <pattern>
@@ -572,7 +572,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="Z) Concordances en grups nominals" type="grammar">
+    <category id="CONCORDANCES_NOUNS" name="Z) Concordances en grups nominals" type="grammar">
         <rulegroup id="CONCORDANCES_NUMERALS" name="concordances en numerals">
             <!-- noms, adjectius en singular  -->
             <rule>
@@ -2759,7 +2759,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">De tots els agents <marker>públic i privats</marker></example>
             </rule>-->
     </category>
-    <category name="Z) Concordances entre subjecte, verb i complements">
+    <category id="CONCORDANCES_SUBJECT_VERB" name="Z) Concordances entre subjecte, verb i complements">
         <rulegroup id="CONCORD_SER_PARTICIPI" name="concordança ser + participi">
             <antipattern>
                 <token regexp="yes">encara|ni</token>
@@ -3202,7 +3202,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Jo anava bé en història.</example>
         </rule>
     </category>
-    <category name="Possessius" type="grammar">
+    <category id="POSSESSIVES" name="Possessius" type="grammar">
         <rulegroup id="POSSESSIU_SENSE_ARTICLE" name="possessiu sense article: de meua casa">
             <antipattern>
                 <marker>
@@ -3291,7 +3291,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="Verbs" type="grammar">
+    <category id="VERBS" name="Verbs" type="grammar">
         <rule id="SOLO_SOLC" name="*solo/solc fer">
             <pattern>
                 <marker>
@@ -5069,7 +5069,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="Determinants" type="grammar">
+    <category id="DETERMINANTS" name="Determinants" type="grammar">
         <rulegroup id="ARTICLE_EN_PAISOS" name="països que solen dur article">
             <!-- <antipattern>
                 <marker>
@@ -5264,7 +5264,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="Z) Adverbis" type="grammar">
+    <category id="ADVERBS" name="Z) Adverbis" type="grammar">
         <rule id="MOLTS_POCS" name="*molts pocs / molt pocs">
             <pattern>
                 <token regexp='yes'>molts|moltes</token>
@@ -6339,7 +6339,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Com de malament ho fem?</example>
         </rule>
     </category>
-    <category name="Z) Conjuncions" type="grammar">
+    <category id="CONJUNCTIONS" name="Z) Conjuncions" type="grammar">
         <rulegroup id="Y_CONJUNCIO" name="conjunció *y/i">
             <antipattern>
                 <marker>
@@ -6724,7 +6724,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="Preposicions" type="grammar">
+    <category id="PREPOSITIONS" name="Preposicions" type="grammar">
         <!-- <rule id="TRACTAR_DE" name="tractar de">
             <pattern>
             <marker>
@@ -6778,10 +6778,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="A_ARRAN" name="*a arran/arran">
             <antipattern>
-                <makrer>
+                <marker>
                     <token>com</token>
                     <token>a</token>
-                </makrer>
+                </marker>
             </antipattern>
             <pattern>
                 <token>a</token>
@@ -7367,11 +7367,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>
             <antipattern>
-                <maker>
+                <marker>
                     <token>a</token>
                     <token skip="1">les</token>
                     <token>ordres</token>
-                </maker>
+                </marker>
             </antipattern>
             <pattern>
                 <token inflected="yes" regexp="yes">participar|participació|participant<exception regexp="yes">participada|participats|participades</exception></token>
@@ -8904,7 +8904,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="Numerals" type="misspelling">
+    <category id="NUMERALS" name="Numerals" type="misspelling">
         <rule id="UN_U" name="un/u (ordinal)" type="grammar">
             <pattern>
                 <token>número</token>
@@ -9208,7 +9208,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>dos-cents quatrè president</example>
         </rule>
     </category>
-    <category name="Z2) Errors de traductor automàtic">
+    <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
         <rulegroup id="CANT_RODAT" name="cant rodat">
             <rule>
                 <pattern>
@@ -9332,7 +9332,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="mig">Durant tres anys i <marker>mitjà</marker>.</example>
         </rule>
     </category>
-    <category name="Z1) Confusions" type="grammar">
+    <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
         <rule id="PEL_QUE_FA_EL" name="pel que fa *el/al">
             <antipattern>
                 <marker>
@@ -12480,11 +12480,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="ENTRE_MIG_ENTREMIG" name="entre mig / entremig">
             <antipattern>
-                <pattern>
+                <marker>
                     <token>mig</token>
                     <token regexp="yes">i|o</token>
                     <token regexp="yes">un|dos|tres|\d</token>
-                </pattern>
+                </marker>
             </antipattern>
             <pattern>
                 <marker>
@@ -14536,42 +14536,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="Errors gramaticals" type="grammar">
-        <rulegroup id="TOT_I_GERUNDI" name="tot i + *gerundi/infinitiu">
-            <antipattern>
-                <marker>
-                    <token regexp="yes">-ho|de|que</token>
-                    <token>tot</token>
-                </marker>
-            </antipattern>
-            <rule>
-                <pattern>
-                    <token>tot</token>
-                    <token>i</token>
-                    <token postag="V.G.*" postag_regexp="yes"></token>
-                </pattern>
-                <message>Construcció incorrecta.</message>
-                <suggestion>tot \3</suggestion>
-                <suggestion>\3</suggestion>
-                <suggestion>tot i <match no="3" postag="V.N.*" postag_regexp="yes"></match></suggestion>
-                <example correction="Tot estant|Estant|Tot i estar"><marker>Tot i estant</marker> així.</example>
-                <example>Primer de tot i parlant clarament, vull dir que...</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>tot</token>
-                    <token>i</token>
-                    <token>havent</token>
-                </pattern>
-                <message>Construcció incorrecta.</message>
-                <suggestion>tot i haver</suggestion>
-                <suggestion>tot \3</suggestion>
-                <suggestion>\3</suggestion>
-                <example correction="Tot i haver|Tot havent|Havent"><marker>Tot i havent</marker> aparcant bé.</example>
-            </rule>
-        </rulegroup>
-    </category>
-    <category name="Repeticions" type="duplication">
+    <category id="REPETITIONS" name="Repeticions" type="duplication">
         <rule id="REPETICIO_AIXO" name="repetició: això" type="style">
             <pattern>
                 <token regexp="yes">malgrat|obstant|pesar|tot</token>
@@ -14889,7 +14854,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             </rulegroup> -->
     </category>
-    <category name="Y) Apostrofació" type="grammar">
+    <category id="APOSTROPHATION" name="Y) Apostrofació" type="grammar">
         <rulegroup id="APOSTROFACIO_SIGLES" name="apostrofació de sigles: l'R+D, la UPF">
             <rule>
                 <pattern>
@@ -15587,7 +15552,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="Errors ortogràfics" type="misspelling">
+    <category id="SPELLING" name="Errors ortogràfics" type="misspelling">
         <rule id="MHI" name="mhi/m'hi">
             <pattern>
                 <token regexp="yes">[mtnls](hi|ho)<exception regexp="yes">[ln]ho</exception></token>
@@ -16364,7 +16329,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="Z) Accents diacrítics" type="grammar">
+    <category id="DIACRITICS" name="Z) Accents diacrítics" type="grammar">
         <rule id="SERE" name="serè/seré">
             <antipattern>
                 <marker>
@@ -19047,7 +19012,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="Pronoms febles" type="grammar">
+    <category id="PRONOMS_FEBLES" name="Pronoms febles" type="grammar">
         <rulegroup id="PRONOMS_FEBLES_DUPLICATS" name="pronoms febles duplicats">
             <!-- s'hauria de generalitzar en una regla Java-->
             <rule>
@@ -20643,73 +20608,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="«lo» neutre" type="grammar">
-        <!-- es podria fer una llista molt més completa de solucions-->
-        <rulegroup id="LO_NEUTRE" name="«lo» neutre">
-            <rule>
-                <pattern>
-                    <token>lo</token>
-                    <token>que</token>
-                </pattern>
-                <message>Cal evitar el «lo neutre».</message>
-                <suggestion>el que</suggestion>
-                <suggestion>allò que</suggestion>
-                <suggestion>cosa que</suggestion>
-                <suggestion>la qual cosa</suggestion>
-                <short>Error gramatical</short>
-                <example correction="El que|Allò que|Cosa que|La qual cosa"><marker>Lo que</marker> jo et dic.</example>
-                <example><marker>El que</marker> jo et dic.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>lo</token>
-                    <token regexp="yes">més|menys</token>
-                </pattern>
-                <message>Cal evitar el «lo neutre».</message>
-                <suggestion>el</suggestion>
-                <short>Error gramatical</short>
-                <example correction="El"><marker>Lo més</marker> bonic.</example>
-                <example><marker>El més</marker> bonic.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>lo</token>
-                    <token postag="A.*" postag_regexp="yes"></token>
-                </pattern>
-                <message>Cal evitar el «lo neutre».</message>
-                <suggestion>el <match no="2" postag="A..[MC]S.*" postag_regexp="yes"></match></suggestion>
-                <suggestion>el que és <match no="2" postag="A..[MC]S.*" postag_regexp="yes"></match></suggestion>
-                <suggestion>la cosa <match no="2" postag="A..[FC]S.*" postag_regexp="yes"></match></suggestion>
-                <short>Error gramatical</short>
-                <example correction="El millor|El que és millor|La cosa millor"><marker>Lo millor</marker> és això.</example>
-                <example>El cert és això.</example>
-                <example>Tirant lo Blanc</example>
-            </rule>
-            <rule>
-                <!-- cacth-all rule-->
-                <pattern>
-                    <token>lo</token>
-                </pattern>
-                <message>Cal evitar el «lo neutre».</message>
-                <suggestion>el</suggestion>
-                <short>Error gramatical</short>
-                <example correction="El"><marker>Lo</marker> més bonic.</example>
-                <example>Tirant lo Blanc</example>
-                <example>Lo Rat Penat</example>
-                <example>Lo Rat-Penat</example>
-            </rule>
-            <rule id="LOS" name="los">
-                <pattern>
-                    <token>los<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>els</suggestion>?</message>
-                <example correction="els">Són <marker>los</marker> millors.</example>
-                <example>Són els millors.</example>
-                <example>Vinc de Los Angeles.</example>
-            </rule>
-        </rulegroup>
-    </category>
-    <category name="D1) Revisions opcionals" type="style">
+    <category id="OPTIONAL_CHECKINGS" name="D1) Revisions opcionals" type="style">
         <rule id="CONCORDANCA_PARTICIPI" name="Revisa les concordances de participi: l'ha portat/portada" default="off">
             <pattern>
                 <token regexp="yes">l'|els|les</token>
@@ -20752,7 +20651,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>S'esforça <marker>per</marker> millorar</example>
         </rule>
     </category>
-    <category name="X) Comprovacions estrictes" default="off">
+    <category id="STRICT_CHECKINGS" name="X) Comprovacions estrictes" default="off">
         <rule id="POTSER_FRASESENSEVERB" name="Revisa 'potser/pot ser' en frase sense verb" default="off">
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" postag="V.[^NPG].*" postag_regexp="yes"></exception></token>
@@ -21009,7 +20908,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example><marker>ca l'amic</marker></example>
         </rule>
     </category>
-    <category name="B) Opcions de tipografia" type="typographical">
+    <category id="TYPOGRAPHY_OPTIONS" name="B) Opcions de tipografia" type="typographical">
         <!-- TODO: separador de milers: coma o espai fi -->
         <rulegroup id="USA_COMA_DECIMALS" name="Usa la coma i no el punt en nombres decimals" default="on">
             <antipattern> <!-- més d'un punt -->
@@ -21529,7 +21428,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>És una qüestió 'important'.</example>
         </rule>
     </category>
-    <category name="E) Majúscules i minúscules" type="typographical">
+    <category id="CASING" name="E) Majúscules i minúscules" type="typographical">
         <rule id="CARRER_MAJUSCULA" name="Carrer/carrer de">
             <antipattern>
                 <token>Rambla</token>
@@ -21690,7 +21589,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Barça">Un <marker>barça</marker> espectacular.</example>
         </rule>
     </category>
-    <category name="Z) Errors de tipografia i puntuació" type="typographical">
+    <category id="TYPOGRAPHY" name="Z) Errors de tipografia i puntuació" type="typographical">
         <rule id="EVITA_APOSTROF_DECIMALS" name="Evita l'apòstrof per a indicar nombres decimals">
             <pattern>
                 <token regexp="yes">\d+|\d{1,3}([\. &#8239;&#160;]\d\d\d)+<exception scope="previous" regexp="yes">.*[º°h]</exception></token>
@@ -22815,7 +22714,104 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>amb una pedra...—, i així</example>
         </rule>
     </category>
-    <category name="Expressions incorrectes" type="grammar">
+    <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="LO_NEUTRE" name="«lo» neutre" type="grammar">
+            <!-- es podria fer una llista molt més completa de solucions-->
+            <rule>
+                <pattern>
+                    <token>lo</token>
+                    <token>que</token>
+                </pattern>
+                <message>Cal evitar el «lo neutre».</message>
+                <suggestion>el que</suggestion>
+                <suggestion>allò que</suggestion>
+                <suggestion>cosa que</suggestion>
+                <suggestion>la qual cosa</suggestion>
+                <short>Error gramatical</short>
+                <example correction="El que|Allò que|Cosa que|La qual cosa"><marker>Lo que</marker> jo et dic.</example>
+                <example><marker>El que</marker> jo et dic.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>lo</token>
+                    <token regexp="yes">més|menys</token>
+                </pattern>
+                <message>Cal evitar el «lo neutre».</message>
+                <suggestion>el</suggestion>
+                <short>Error gramatical</short>
+                <example correction="El"><marker>Lo més</marker> bonic.</example>
+                <example><marker>El més</marker> bonic.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>lo</token>
+                    <token postag="A.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Cal evitar el «lo neutre».</message>
+                <suggestion>el <match no="2" postag="A..[MC]S.*" postag_regexp="yes"></match></suggestion>
+                <suggestion>el que és <match no="2" postag="A..[MC]S.*" postag_regexp="yes"></match></suggestion>
+                <suggestion>la cosa <match no="2" postag="A..[FC]S.*" postag_regexp="yes"></match></suggestion>
+                <short>Error gramatical</short>
+                <example correction="El millor|El que és millor|La cosa millor"><marker>Lo millor</marker> és això.</example>
+                <example>El cert és això.</example>
+                <example>Tirant lo Blanc</example>
+            </rule>
+            <rule>
+                <!-- cacth-all rule-->
+                <pattern>
+                    <token>lo</token>
+                </pattern>
+                <message>Cal evitar el «lo neutre».</message>
+                <suggestion>el</suggestion>
+                <short>Error gramatical</short>
+                <example correction="El"><marker>Lo</marker> més bonic.</example>
+                <example>Tirant lo Blanc</example>
+                <example>Lo Rat Penat</example>
+                <example>Lo Rat-Penat</example>
+            </rule>
+            <rule id="LOS" name="los">
+                <pattern>
+                    <token>los<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>els</suggestion>?</message>
+                <example correction="els">Són <marker>los</marker> millors.</example>
+                <example>Són els millors.</example>
+                <example>Vinc de Los Angeles.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="TOT_I_GERUNDI" name="tot i + *gerundi/infinitiu">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">-ho|de|que</token>
+                    <token>tot</token>
+                </marker>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>tot</token>
+                    <token>i</token>
+                    <token postag="V.G.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Construcció incorrecta.</message>
+                <suggestion>tot \3</suggestion>
+                <suggestion>\3</suggestion>
+                <suggestion>tot i <match no="3" postag="V.N.*" postag_regexp="yes"></match></suggestion>
+                <example correction="Tot estant|Estant|Tot i estar"><marker>Tot i estant</marker> així.</example>
+                <example>Primer de tot i parlant clarament, vull dir que...</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>tot</token>
+                    <token>i</token>
+                    <token>havent</token>
+                </pattern>
+                <message>Construcció incorrecta.</message>
+                <suggestion>tot i haver</suggestion>
+                <suggestion>tot \3</suggestion>
+                <suggestion>\3</suggestion>
+                <example correction="Tot i haver|Tot havent|Havent"><marker>Tot i havent</marker> aparcant bé.</example>
+            </rule>
+        </rulegroup>
         <rule id="PEL_QUE_FA_REFERENCIA" name="pel que fa referència">
             <pattern>
                 <token>pe</token>
@@ -28683,7 +28679,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="D1) Llenguatge administratiu" default="off" type="style">
+    <category id="ADMINISTRATIVE_LANGUAGE" name="D1) Llenguatge administratiu" default="off" type="style">
         <rule id="EVITA_FUTUR_OBLIGACIO" name="Revisa futur d'obligació">
             <pattern>
                 <token postag="V.IF3.*" postag_regexp="yes"/>
@@ -28694,7 +28690,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>És obligatori.</example>
         </rule>
     </category>
-    <category name="C5) Formes normatives discutides: coresponsable, ressituar, termostable" type="style">
+    <category id="DISPUTED_FORMS" name="C5) Formes normatives discutides: coresponsable, ressituar, termostable" type="style">
         <rulegroup id="FORMES_NORMATIVES" name="Usa formes normatives (AVL, IEC): coresponsable, ressituar" default="on">
             <rule id="CORRESPONSABLE" name="Exigeix 'coresponsable' (i derivats)">
                 <pattern>
@@ -28763,7 +28759,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="C4) Construccions desaconsellades per alguns manuals d'estil" default="off" type="style">
+    <category id="CONDEMNED_BY_SOME" name="C4) Construccions desaconsellades per alguns manuals d'estil" default="off" type="style">
         <!-- Expressions condemnades per alguns manuals d'estil de manera no sempre justificada -->
         <!-- També: en/amb referència a -->
         <rule id="DE_CAPA_CAIGUDA" name="*de capa caiguda">
@@ -29085,7 +29081,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>aquest exercici s'ha de fer <marker>de cara enlaire</marker></example>
         </rule>
     </category>
-    <category name="Ordenació incorrecta" type="style">
+    <category id="INCORRECT_ORDER" name="Ordenació incorrecta" type="style">
         <rule id="A_DRET_I_A_TORT" name="a dret i a tort">
             <pattern>
                 <token>a</token>
@@ -29204,7 +29200,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="com corria de ràpid"><marker>com de ràpid corria</marker>!</example>
         </rule>
     </category>
-    <category name="Paraules incorrectes segons el context" type="grammar">
+    <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
         <rule id="COSSA" name="cossa">
@@ -34108,7 +34104,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ens fa molta por</example>
         </rule>
     </category>
-    <category name="C8) Formes secundàries" default="on" type="style">
+    <category id="SECONDARY_FORMS" name="C8) Formes secundàries" default="on" type="style">
         <rule id="FUSELLATGE" name="fusellatges/fuselatge">
             <pattern>
                 <token regexp="yes">fusellatges?</token>
@@ -34380,7 +34376,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Frisaven per arribar.</example>
         </rule>
     </category>
-    <category name="C7) Expressions preferibles" default="on" type="style">
+    <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
         <!--  <rule id="NO_DONAR_TEMPS" name="no donar temps/no tenir temps/no haver-hi">
             <pattern>
             <token>no</token>
@@ -36254,7 +36250,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- Acceptat per "esadir" -->
         </rule>
     </category>
-    <category name="C8) Redundàncies" type="style">
+    <category id="REDUNDANCIES" name="C8) Redundàncies" type="style">
         <rule id="DES_ENCA" name="des de ... ençà">
             <pattern>
                 <token skip="5">des<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
@@ -36468,7 +36464,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="comicis|eleccions"><marker>comicis electorals</marker>.</example>
         </rule>
     </category>
-    <category name="C1) Evita formes impròpies d'un registre formal" type="style">
+    <category id="NOT_FORMAL" name="C1) Evita formes impròpies d'un registre formal" type="style">
         <rule id="DESCOLLONAR" name="descollonar" >
             <pattern>
                 <token inflected="yes">descollonar</token>
@@ -37251,7 +37247,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>ací</example>
         </rule>
     </category>
-    <category name="C6) Evita paraules incloses només en alguns diccionaris" default="on" type="style">
+    <category id="WORDS_NOT_ACCEPTED_BY_ALL" name="C6) Evita paraules incloses només en alguns diccionaris" default="on" type="style">
         <!--  verbs valencians: caquejar -->
         <rule id="ESPAIAL" name="espaial">
             <pattern>
@@ -37975,7 +37971,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="EXPLOSIONAR" name="explosionar">
             <pattern>
-                <token inflected="yes">explosionar<exception score="previous" inflected="yes">fer</exception></token>
+                <token inflected="yes">explosionar<exception scope="previous" inflected="yes">fer</exception></token>
             </pattern>
             <message>Paraula admesa només en alguns diccionaris.</message>
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">fer</match> explotar</suggestion>
@@ -38101,7 +38097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ens revoltàrem.</example>
         </rule>
     </category>
-    <category name="C2) Qüestions estilístiques opcionals" type="style">
+    <category id="STYLE_OPTIONAL" name="C2) Qüestions estilístiques opcionals" type="style">
         <!-- Fins (a)/ Cap (a) aquest. Hi ha diferents opinions segons els llibres d'estil-->
         <rule id="CARA_ENFORA" name="*cara enfora/de cara enfora" default="off">
             <pattern>
@@ -38260,7 +38256,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Deu valer molt.</example>
         </rule>
     </category>
-    <category name="Sintaxi" type="grammar">
+    <category id="SYNTAX" name="Sintaxi" type="grammar">
         <rule id="DE_MANERA_PERMANENTMENT" name="confusió: de manera permanentment">
             <pattern>
                 <marker>
@@ -39539,7 +39535,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             </rulegroup> -->
     </category>
-    <category name="C5) Formes de plural opcionals" default="on" type="style">
+    <category id="PLURAL_OPTIONAL" name="C5) Formes de plural opcionals" default="on" type="style">
         <rule id="AQUESTOS" name="exigeix la forma 'aquests' en lloc de 'aquestos'">
             <pattern>
                 <token>aquestos</token>
@@ -39650,7 +39646,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="A1) Variants regionals: verbs" default="on"  type="locale-violation">
+    <category id="REGIONAL_VERBS" name="A1) Variants regionals: verbs" default="on"  type="locale-violation">
         <!-- Evita formes no valencianes -->
         <rulegroup id="EXIGEIX_VERBS_CENTRAL" name="Exigeix formes verbals del català central">
             <rule>
