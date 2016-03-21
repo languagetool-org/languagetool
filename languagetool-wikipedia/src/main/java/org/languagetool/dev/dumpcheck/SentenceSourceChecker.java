@@ -168,6 +168,7 @@ public class SentenceSourceChecker {
       if (propFile != null) {
         resultHandler = new DatabaseHandler(propFile, maxSentences, maxErrors);
       } else {
+        //resultHandler = new CompactStdoutHandler(maxSentences, maxErrors);
         resultHandler = new StdoutHandler(maxSentences, maxErrors);
       }
       MixingSentenceSource mixingSource = MixingSentenceSource.create(fileNames, lang, filter);
