@@ -551,12 +551,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       } else {
         throw new IllegalStateException("Neither '<pattern>' tokens nor '<regex>' is set in rule '" + id + "'");
       }
-      if (filterClassName != null && filterArgs != null) {
-        RuleFilterCreator creator = new RuleFilterCreator();
-        RuleFilter filter = creator.getFilter(filterClassName);
-        rule.setFilter(filter);
-        rule.setFilterArguments(filterArgs);
-      }
+      setRuleFilter(filterClassName, filterArgs, rule);
       prepareRule(rule);
       rules.add(rule);
     } else {

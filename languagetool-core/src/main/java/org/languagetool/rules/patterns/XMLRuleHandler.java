@@ -616,5 +616,14 @@ public class XMLRuleHandler extends DefaultHandler {
     }
     resetToken();
   }
+  
+  protected void setRuleFilter(String filterClassName, String filterArgs, AbstractPatternRule rule) {
+    if (filterClassName != null && filterArgs != null) {
+      RuleFilterCreator creator = new RuleFilterCreator();
+      RuleFilter filter = creator.getFilter(filterClassName);
+      rule.setFilter(filter);
+      rule.setFilterArguments(filterArgs);
+    }
+  }
 
 }

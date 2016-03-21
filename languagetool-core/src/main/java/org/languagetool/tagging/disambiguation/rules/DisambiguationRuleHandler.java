@@ -289,12 +289,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         if (untouchedExamples != null) {
           rule.setUntouchedExamples(untouchedExamples);
         }
-        if (filterClassName != null && filterArgs != null) {
-          RuleFilterCreator creator = new RuleFilterCreator();
-          RuleFilter filter = creator.getFilter(filterClassName);
-          rule.setFilter(filter);
-          rule.setFilterArguments(filterArgs);
-        }
+        setRuleFilter(filterClassName, filterArgs, rule);
         rules.add(rule);
         if (disambigAction == DisambiguationPatternRule.DisambiguatorAction.UNIFY && matchedTokenCount != uniCounter) {
           throw new SAXException(language.getName() + " rule error. The number unified tokens: "
