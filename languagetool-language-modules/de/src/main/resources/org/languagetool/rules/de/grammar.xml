@@ -24002,7 +24002,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"/>
                     <token postag='SUB:NOM:SIN:(MAS|FEM|NEU)' postag_regexp='yes'>
                         <exception postag_regexp="yes" postag="SUB:NOM:PLU:(MAS|FEM|NEU)"/>
-                        <exception regexp="yes">Bitte|Mal|Laut|Wein|Angst|Glück|Geld|Vorzugsweise</exception><!--TODO: alle unzählbaren Nomen-->
+                        <exception regexp="yes">Entweder|Bitte|Mal|Laut|Wein|Angst|Glück|Geld|Vorzugsweise</exception><!--TODO: alle unzählbaren Nomen-->
+                        <exception regexp="yes">&sprachadj1;</exception>
+                        <exception regexp="yes">&wochentage;</exception>
+                        <exception regexp="yes">Positiv|Negativ</exception>
                     </token>
                 </marker>
                 <token postag='VER:1:PLU:PRÄ.*' postag_regexp='yes'><exception regexp="yes">sind|spielen</exception></token>
@@ -24012,6 +24015,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=''><marker>System</marker> nutzen Verfahren wie diese.</example>
             <example><marker>Fußball</marker> spielen macht keinen Spaß.</example>
             <example><marker>Mal</marker> sehen, was jetzt passiert.</example>
+            <example>Entweder reden wir Chinesisch oder gar nicht.</example>
+            <example>Französisch sprechen fällt mir leicht.</example>
+            <example>Freitag gehen wir essen.</example>
         </rule>
         <rule id="SENT_START_PLU_SIN" name="Nomen plural + Verb singular am Satzanfang">
             <antipattern>

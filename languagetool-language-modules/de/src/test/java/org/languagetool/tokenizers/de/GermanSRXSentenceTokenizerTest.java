@@ -45,6 +45,7 @@ public class GermanSRXSentenceTokenizerTest extends TestCase {
     testSplit("Natürliche Vererbungsprozesse prägten sich erst im 18. und frühen 19. Jahrhundert aus.");
     testSplit("Das ist ja 1a. ", "Und das auch.");
     testSplit("Hallo, ich bin’s. ", "Könntest du kommen?");
+    testSplit("In der 1. Bundesliga kam es zum Eklat.");
 
     testSplit("Friedrich I., auch bekannt als Friedrich der Große.");
     testSplit("Friedrich II., auch bekannt als Friedrich der Große.");
