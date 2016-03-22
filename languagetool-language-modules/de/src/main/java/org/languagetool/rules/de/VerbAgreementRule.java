@@ -29,6 +29,7 @@ import java.util.Set;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.language.German;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternToken;
@@ -82,6 +83,23 @@ public class VerbAgreementRule extends GermanRule {
     ),
     Arrays.asList(
       new PatternTokenBuilder().csToken("Soll").build(),
+      new PatternTokenBuilder().token("ich").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().pos(JLanguageTool.SENTENCE_START_TAGNAME).build(),  // "Bin gleich wieder da"
+      new PatternTokenBuilder().csToken("Bin").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token(",").build(),  // "..., hast aber keine Ahnung!"
+      new PatternTokenBuilder().tokenRegex("bin|hast").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("er").build(),  // "egal, was er sagen wird, ..."
+      new PatternTokenBuilder().posRegex("VER:.*").build(),
+      new PatternTokenBuilder().token("wird").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("wie").build(),  // "Ein Mann wie ich braucht einen Hut"
       new PatternTokenBuilder().token("ich").build()
     )
   );

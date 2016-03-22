@@ -47,6 +47,10 @@ public class VerbAgreementRuleTest extends TestCase {
   
   public void testWrongVerb() throws IOException {
     // correct sentences:
+    assertGood("Ein Mann wie ich braucht einen Hut.");
+    assertGood("Egal, was er sagen wird, ich habe meine Entscheidung getroffen.");
+    assertGood("Du Beharrst darauf, dein Wörterbuch hätte recht, hast aber von den Feinheiten des Japanischen keine Ahnung!");
+    assertGood("Bin gleich wieder da.");
     assertGood("Wobei ich äußerst vorsichtig bin.");
     assertGood("Es ist klar, dass ich äußerst vorsichtig mit den Informationen umgehe");
     assertGood("Es ist klar, dass ich äußerst vorsichtig bin.");
