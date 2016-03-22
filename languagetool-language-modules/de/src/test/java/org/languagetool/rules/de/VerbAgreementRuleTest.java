@@ -47,6 +47,9 @@ public class VerbAgreementRuleTest extends TestCase {
   
   public void testWrongVerb() throws IOException {
     // correct sentences:
+    assertGood("Kümmere du dich mal nicht darum!");
+    assertGood("Ich weiß, was ich tun werde, falls etwas geschehen sollte.");
+    assertGood("...die dreißig Jahre jünger als ich ist.");
     assertGood("Ein Mann wie ich braucht einen Hut.");
     assertGood("Egal, was er sagen wird, ich habe meine Entscheidung getroffen.");
     assertGood("Du Beharrst darauf, dein Wörterbuch hätte recht, hast aber von den Feinheiten des Japanischen keine Ahnung!");

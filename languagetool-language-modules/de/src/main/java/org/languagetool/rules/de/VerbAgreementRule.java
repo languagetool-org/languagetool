@@ -99,8 +99,23 @@ public class VerbAgreementRule extends GermanRule {
       new PatternTokenBuilder().token("wird").build()
     ),
     Arrays.asList(
-      new PatternTokenBuilder().token("wie").build(),  // "Ein Mann wie ich braucht einen Hut"
+      new PatternTokenBuilder().tokenRegex("wie|als").build(),  // "Ein Mann wie ich braucht einen Hut"
       new PatternTokenBuilder().token("ich").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().tokenRegex("ich").build(),  // "Ich weiß, was ich tun werde, falls etwas geschehen sollte."
+      new PatternTokenBuilder().pos("VER:INF:NON").build(),
+      new PatternTokenBuilder().token("werde").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().pos("VER:IMP:SIN:SFT").build(),  // "Kümmere du dich mal nicht darum!"
+      new PatternTokenBuilder().token("du").build(),
+      new PatternTokenBuilder().token("dich").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("sei").build(),
+      new PatternTokenBuilder().token("du").build(),
+      new PatternTokenBuilder().token("selbst").build()
     )
   );
 
