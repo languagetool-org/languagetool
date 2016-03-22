@@ -44,6 +44,7 @@ public class GermanSRXSentenceTokenizerTest extends TestCase {
     testSplit("Das Schreiben ist auf den 3.10.2000 datiert.");
     testSplit("Natürliche Vererbungsprozesse prägten sich erst im 18. und frühen 19. Jahrhundert aus.");
     testSplit("Das ist ja 1a. ", "Und das auch.");
+    testSplit("Hallo, ich bin’s. ", "Könntest du kommen?");
 
     testSplit("Friedrich I., auch bekannt als Friedrich der Große.");
     testSplit("Friedrich II., auch bekannt als Friedrich der Große.");
@@ -92,7 +93,8 @@ public class GermanSRXSentenceTokenizerTest extends TestCase {
     testSplit("Stimme am lautesten heraustönte …. ", "Sobald er auf der Straße war");
 //    testSplit(new String[] { "Aber nein doch, er hörte alles nur zu deutlich! ", "\n", "… ", "›Also, wenn's so ist" });
     testSplit("»Welche Wohnung?\" ", "»Die, wo wir arbeiten.");
-    testSplit("»Nun also, wie ist's?« fragte Lushin und blickte sie fest an.");
+    testSplit("»Nun also, wie ist's?« ", "fragte Lushin und blickte sie fest an.");
+    testSplit("»Nun also, wie ist es?« ", "fragte Lushin und blickte sie fest an.");
 //    testSplit(new String[] { "gezeigt hat.« ", "… ", "Hm! " });
   }
 
