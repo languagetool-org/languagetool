@@ -5743,11 +5743,11 @@ USA
             <pattern>
                 <token regexp='yes'>a|an|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
-                    <exception regexp="yes">commit|remix</exception>
+                    <exception regexp="yes">commit|remix|long-running </exception>
                     <exception postag='VB|VBP|SENT_END|PARA_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
-            <message>Probably a wrong construction: a/the + infinitive</message>
+            <message>Maybe a wrong construction: a/the + infinitive</message>
             <example correction=""><marker>a compete</marker> catastrophe.</example>
             <example correction=""><marker>a compete</marker></example>
             <example>a complete catastrophe</example>
@@ -8015,7 +8015,7 @@ USA
                         <token postag="VBG"/>
                     </marker>
                 </pattern>
-                <message>This verb is used with infinitive: <suggestion>to <match no="2" postag="VB"/></suggestion>.</message>
+                <message>If this is used as a verb, it usually requires the infinitive: <suggestion>to <match no="2" postag="VB"/></suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example>He didn't deserve to lose his job.</example>
                 <example correction="to spend">We cannot afford <marker>spending</marker> the whole month in Alps.</example>
@@ -8028,7 +8028,7 @@ USA
                         <token postag="VBG"/>
                     </marker>
                 </pattern>
-                <message>This verb is used with infinitive: <suggestion>to <match no="3" postag="VB"/></suggestion>.</message>
+                <message>If this is used as a verb, it usually requires the infinitive: <suggestion>to <match no="3" postag="VB"/></suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example correction="to spend">We cannot afford not <marker>spending</marker> the whole month in Alps.</example>
             </rule>
