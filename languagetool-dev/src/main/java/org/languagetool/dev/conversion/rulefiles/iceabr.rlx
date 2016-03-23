@@ -1,0 +1,120 @@
+###############################################################################
+#
+#	This is a partial conversion of the rule file from the IceTagger 
+#	part-of-speech tagger for Icelandic by Hrafn Loftsson, along with 
+#       some hacked up rules from Trond Trosterud's Faroese CG and some of 
+#       our very own home-brew crack.
+#
+###############################################################################
+
+SOFT-DELIMITERS = "<,>" cm ;
+DELIMITERS = "<.>" "<:>" "<!>" "<?>" "<|>" "<$.>" "<$:>" "<$!>" "<$?>" "<$|>" sent;
+
+
+LIST BOS = (>>>) (<s>) (sent) sent ; 
+LIST EOS = (<<<) (</s>) (sent) sent ; 
+
+LIST CLB = sent cnjsub cm rel cnjcoo; 
+
+LIST Coma = (cm);
+LIST N = (n) ;
+LIST Num = (num) ("þúsund"i n) ("milljón"i n) ("milljarður"i n) ("hundrað"i n);
+LIST ProperNom = (np) ;
+LIST Adj = (adj) ;
+LIST Weak = (vei) ;
+LIST Strong = (sta) ;
+LIST Adv = (adv) ;
+LIST PersPron = (prn p1) (prn p2) (prn p3) ;
+LIST IndefPron = (prn ind);
+LIST DemPron = (prn dem) ;
+LIST Refl = (prn ref) ;
+LIST InterrPron = (prn itg) ;
+LIST PossPron = (prn pos) ;
+LIST Pron = (prn);
+LIST Prep = (pr) ;
+LIST Participle = (pp) (supn);
+LIST PP = (actv pp) ;
+LIST Inf = (inf) ;
+LIST VerbInf = (vblex inf) ;
+LIST VerbSpecAux = (vaux) ;
+LIST VerbAux = (vaux) (vbhaver) (vbser) ("verða" vblex) ("geta" vblex); ## check verða = aux ?
+LIST VerbSupine = (vblex supn) ;
+LIST VerbBe = (vbser) ;
+LIST Verb = vblex vbser vbhaver vaux;
+LIST TempsFin = (pri) (past) (prs) (pss);
+LIST TempsIrreal = (prs) (pss);
+LIST Rel = (rel) ;
+LIST Conj = cnjcoo cnjadv cnjsub ;
+LIST CC = (cnjcoo) ;
+LIST CS = (cnjsub) ;
+LIST Exclamation = (ij) ;
+LIST Article = (def) ;
+LIST Det = (det) ;
+LIST Interj = (itg) ;
+
+LIST Def = (def) ;
+LIST Indef = (ind) ;
+
+LIST Fem = (f);
+LIST Msc = (m);
+LIST Neu = (nt);
+
+LIST Sg = (sg);
+LIST Pl = (pl);
+
+LIST Nom = (nom);
+LIST Gen = (gen);
+LIST Acc = (acc);
+LIST Dat = (dat);
+
+LIST Inf = (inf);
+
+LIST GenPrep = "án"ri "auk"ri "austan"ri "innan"ri "í staö"ri "meðal"ri "megin"ri "milli"ri "millum"ri 
+               "neðan"ri "norðan"ri "ofan"ri "sakir"ri "sunnan"ri "sökum"ri "til"ri "utan"ri "vegna"ri "vestan"ri ;
+LIST AccPrep = "fyrir ofan"ri "gegnum"ri "kringum"ri "um"ri "umfram"ri "umhverfis"ri ;
+LIST DatPrep = "að"ri "af"ri "andspænis"ri "ásamt"ri "frá"ri "gagn"ri "gagnvart"ri "gegnt"ri "handa"ri 
+               "hjá"ri "meðfram"ri "mót"ri "móti"ri "nálægt"ri "undan"ri "úr"ri ;
+LIST AccDatPrep = "á"ri "eftir"ri "fyrir"ri "í"ri "með"ri "undir"ri "við"ri "yfir"ri ;
+
+LIST MODV = "ætla" "kunna" "láta" "skula" "vilja" "munu" "mega" "vera" ; #todo: translate fao to icelandic
+
+LIST ACCSUBJVERB = "bresta" "dreyma" "fýsir" "greinir" "grípa" "gruna" "hrylla" "hungra" "kitla" "klígja" "klæja" "kreppa" "langa" "lengja" "lengja# eftir" "lysta" "lægja" "misminnir" "minnir" "muna" "órar" "raga" "ráma" "reka" "saka" "setur" "skefur" "skipta" "skorta" "stoða" "sundla" "svengja" "svima" "svíða" "syfja" "undra" "vanhagar" "vanta" "varðar" "verkjar" "þrjóta" "þverra" ;
+LIST DATSUBJVERB = "auðnast" "áskotnast" "batna" "ber" "berast" "birtast" "bjóða" "blandast" "blæða" "blæða# út" "blöskra" "bragðast" "bregða" "brenna" "búa" "bætast" "daprast" "dáma" "dettta" "drjúpa" "duga" "dveljast" "dyljast" "elna" "endast" "fara" "feila" "festast" "fjölga" "fljúga" "fylgja" "fyrirgefa" "fæðast" "fækka" "förla" "gagnast" "ganga" "geðjast" "gefast" "gremjast" "greypast" "græðast" "haldast" "hefnast" "heilsast" "henta" "heppnast" "heyrast" "henta" "hlaupa" "hlekkjast" "hlotnast" "hlýnar" "hnignar" "hrakar" "hrjósa" "hugkvæmast" "hugnast" "hæfa" "hægja" "hættir" "kemur" "kólna" "kyngir" "lánast" "lást" "leiðast" "leyfast" "ljúka" "ljósta" "lærast" "misfarast" "misheppnast" "misheyrast" "nægja" "ofbjóða" "óa" "ratast" "reiknast" "réna" "rigna" "rísa" "sárna" "seinka" "sinnast" "sjatna" "sjást" "skána" "skeika" "skiljast" "skjátlast" "skola" "skrika" "snúast" "sortna" "stafa" "standa" "stígur" "stekkur" "súrna" "svelgjast" "svipa" "svíða" "sýnast" "sækjast" "sæma" "takast" "teljast" "mér" "vefjast" "vegna" "veita" "versna" "viðkoma" "viðvíkja" "vinnast" "vinnast" "vitnast" "volgna" "vökna" "yfirsjást" "ylna" "þoka" "þóknast" "líða" ("finna" midv) ("skilja" midv) "líka" "mislíka"; ## TODO: CHECK 'líða' and 'finnst'
+LIST WANTINGVERB = "vilja";
+LIST REPORTINGVERB = "segja";
+LIST TIMEADVERB = "á morgun" "í gær" "í dag";
+LIST SADV = "aldrei" "ekki" "alltaf" ; # complete
+
+LIST NAGD = nom acc gen dat;
+LIST GENDER = m f nt;
+LIST NUMBER = sg pl;
+LIST PERSON = p1 p2 p3;
+
+LIST COMMA = (",") ;
+
+SET VerbFin = Verb + TempsFin;
+
+SET NomMscFem = (n m) OR (n f) ;
+SET NomMscNeu = (n m) OR (n nt) ;
+SET NomFemNeu = (n f) OR (n nt) ;
+
+SET NOTDAT = Nom | Gen | Acc ;
+SET NOTACC = Nom | Gen | Dat ;
+SET NOTACCDAT = Nom | Gen ;
+SET OBL = Acc | Dat | Gen ;
+
+SET POST-DET = Adj | Det | N | Num | Adv ;
+SET PRE-N =  Adj | Det | (N Gen) | Num | (Pron Gen) | (Pron Dem) | CC ; # Det???
+SET NP-HEAD = N | Pron ; 
+SET WORD = N | Verb | Adj | Prep | Pron | Det | Adv | CC | CS | Interj | Num | ("\?") ;
+SET MARK =  COMMA | ("\\") | ("\;") ; #"
+SET WORDMARK = WORD | MARK ;
+
+SET NPNHA = WORDMARK - PRE-N - Adv ;
+LIST a = "a";
+
+
+SECTION
+
+SELECT Adj IF (-1 VerbBe) (NOT -2 BOS) (-2 PersPron);
+
