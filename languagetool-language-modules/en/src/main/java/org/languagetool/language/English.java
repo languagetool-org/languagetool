@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.EnglishChunker;
 import org.languagetool.languagemodel.LanguageModel;
@@ -149,7 +150,12 @@ public class English extends Language implements AutoCloseable {
 
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[] { Contributors.MARCIN_MILKOWSKI, Contributors.DANIEL_NABER };
+    return new Contributor[] { new Contributor("Mike Unwalla"), Contributors.MARCIN_MILKOWSKI, Contributors.DANIEL_NABER };
+  }
+
+  @Override
+  public LanguageMaintainedState getMaintainedState() {
+    return LanguageMaintainedState.ActivelyMaintained;
   }
 
   @Override
