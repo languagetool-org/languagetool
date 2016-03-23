@@ -38,6 +38,7 @@ class CompactStdoutHandler extends ResultHandler {
     contextTools.setContextSize(70);
     contextTools.setErrorMarkerStart("**");
     contextTools.setErrorMarkerEnd("**");
+    contextTools.setEscapeHtml(false);
   }
 
   @Override
@@ -47,7 +48,7 @@ class CompactStdoutHandler extends ResultHandler {
         String ruleId = match.getRule().getId();
         if (match.getRule() instanceof AbstractPatternRule) {
           AbstractPatternRule pRule = (AbstractPatternRule) match.getRule();
-          ruleId += "[" + pRule.getSubId() + "]";
+          ruleId = pRule.getFullId();
         }
         System.out.println(ruleId + ": " + contextTools.getContext(match.getFromPos(), match.getToPos(), sentence.getText()));
         checkMaxErrors(++errorCount);
