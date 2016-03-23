@@ -1600,7 +1600,7 @@ though, and has since been slightly modified)-->
         <example>Une tapette à tapis.</example>
         <example>Une maladie à issue fatale.</example>
         <example>Du béton à prise rapide.</example>
-        <example>Il habite à Vitré..</example>
+        <example>Il habite à Vitré.</example>
       </rule>
     </rulegroup>
     <rulegroup id="OU" name="Ou au lieux de où">
@@ -8555,6 +8555,32 @@ though, and has since been slightly modified)-->
       <message>Il manque « que » ou « qu’ » après le mot « parce ».</message>
       <example correction="">Je suis en retard <marker>parce</marker> j’ai raté mon bus.</example>
       <example>Je suis en retard parce que j’ai raté mon bus.</example>
+    </rule>
+    <rule id="A_LE" name="à la nom">
+      <pattern>
+        <marker>
+          <token>à</token>
+          <token regexp="yes">[dl]e|les</token>
+        </marker>
+        <token><exception postag="V inf|UNKNOWN" postag_regexp="yes"/></token>
+      </pattern>
+      <message>Incohérence : « à \2 » ne peut se touver que devant un infinitif.</message>
+      <example correction="">Il a gagné <marker>à le</marker> championnat.</example>
+      <example>Je n’arrive pas à le déplacer.</example>
+    </rule>
+    <rule id="DU_LE" name="du le">
+      <pattern>
+        <token>du</token>
+        <token>
+          <exception postag="[NJ].*|UNKNOWN" postag_regexp="yes"/>
+          <exception>très</exception>
+        </token>
+      </pattern>
+      <message>Incohérence : « \1 » ne peut pas se touver devant « \2 ».</message>
+      <example correction="">Je vais acheter <marker>du le</marker> jambon.</example>
+      <example>Je vais acheter du jambon.</example>
+      <example>Du bon jambon.</example>
+      <example>Du très bon jambon.</example>
     </rule>
     <rulegroup id="N_V" name="pas de verbe après : au, de, du…">
       <rule>
