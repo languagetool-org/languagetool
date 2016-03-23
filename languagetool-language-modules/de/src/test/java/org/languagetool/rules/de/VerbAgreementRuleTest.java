@@ -47,6 +47,7 @@ public class VerbAgreementRuleTest extends TestCase {
   
   public void testWrongVerb() throws IOException {
     // correct sentences:
+    assertGood("Du bist in dem Moment angekommen, als ich gegangen bin.");
     assertGood("Kümmere du dich mal nicht darum!");
     assertGood("Ich weiß, was ich tun werde, falls etwas geschehen sollte.");
     assertGood("...die dreißig Jahre jünger als ich ist.");

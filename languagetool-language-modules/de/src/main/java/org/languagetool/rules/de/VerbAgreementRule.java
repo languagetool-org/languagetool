@@ -116,6 +116,12 @@ public class VerbAgreementRule extends GermanRule {
       new PatternTokenBuilder().token("sei").build(),
       new PatternTokenBuilder().token("du").build(),
       new PatternTokenBuilder().token("selbst").build()
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("als").build(),  // "Du bist in dem Moment angekommen, als ich gegangen bin."
+      new PatternTokenBuilder().token("ich").build(),
+      new PatternTokenBuilder().posRegex("PA2:.*").build(),
+      new PatternTokenBuilder().token("bin").build()
     )
   );
 
