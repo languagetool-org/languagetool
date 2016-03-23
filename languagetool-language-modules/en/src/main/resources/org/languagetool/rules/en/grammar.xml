@@ -1023,6 +1023,67 @@ USA
             <example correction="two weeks' time">"he'll be sailing around the world in <marker>two week's time</marker>.</example>
             <example>It was ready in a week's time.</example>
         </rule>
+        <rulegroup id="CD_APOSTROPHE_S" name="Spurious apostrophe in plural forms">        
+        <rule>
+        <antipattern>
+          <token postag="CD"/>
+          <marker>
+          <token postag="NN.*" postag_regexp="yes"><exception postag="NNS"/></token>
+          </marker>
+          <token regexp="yes">&apos;</token>
+          <token>s</token>
+          <token postag="NNS"></token>
+        </antipattern>
+        <pattern>
+          <token spacebefore="yes" postag="CD">
+                    <exception regexp="yes">one|thou|zero|1</exception>
+                    <exception regexp="yes">1[789]\d\d</exception><!-- exclude, might be year -->
+                    <exception regexp="yes">20[0123]\d</exception><!-- exclude, might be year -->
+                    <exception postag="NNP"/><exception scope="previous" postag="DT|PRP\$|POS" postag_regexp="yes"/>
+                    <exception regexp="yes" scope="previous">&months;|season|category|size|\$\d+</exception>
+                    <exception spacebefore="no" scope="previous">.</exception>
+                    <exception scope="previous">×</exception>
+                </token>
+          <marker>
+          <token postag='NN.*' postag_regexp='yes' regexp="yes">^[\p{L}&amp;&amp;[^aeiuo]]+$<exception postag="NNS"/></token>
+          <token regexp="yes">&apos;</token>
+          <token>s</token>
+          </marker>
+         </pattern>
+         <message>Incorrect plural form; it does not need any apostrophe. Did you mean <suggestion><match no="2"/>s</suggestion>?</message>
+         <url>http://www.onlinegrammar.com.au/apostrophes-2/</url>
+         <short>Spurious apostrophe</short>
+         <example>1933 World's Fair</example>
+         <example>He is puzzled as to why three women's names were there.</example>
+         <example>A total of 387 schools, 7 teacher's houses, and several vocational buildings had been built.</example>
+         <example correction="CDs">I have 5 <marker>CD's</marker>.</example>
+        </rule>
+        <rule>
+        <antipattern>
+        <marker>
+        <token>s</token>        
+        </marker>        
+        <token postag="RB"/>
+        <token postag="VBG"/>
+        </antipattern>
+        <pattern>
+        <token regexp="yes">many|several|few|both|all|enough|more|fewer|some|any|no|th[eo]se</token>
+          <marker>
+          <token postag='NN.*' postag_regexp='yes'><exception postag="NNS"/></token>
+          <token regexp="yes">&apos;</token>
+          <token>s</token>
+          </marker>
+          <token><exception postag="NNS|VBG" postag_regexp="yes"/></token>
+         </pattern>
+         <message>Incorrect plural form; it does not need any apostrophe. Did you mean <suggestion><match no="2"/>s</suggestion>?</message>
+         <url>http://www.onlinegrammar.com.au/apostrophes-2/</url>
+         <short>Spurious apostrophe</short>
+         <example correction="CDs">I have many <marker>CD's</marker>.</example>        
+         <example>And several days ago, we all went to this gorgeous ranch where some millionaire's going to build a golf course.</example>
+         <example>Any technology that deals in meta-meta-models is going to be a hard sell, no matter how many analyst's reports have been written.</example>
+         <example>Some guy's probably making money on this.</example>
+        </rule>
+        </rulegroup>
         <rule id="TOT_HE" name="tot he (to the)">
             <pattern>
                 <token>tot</token>
@@ -6597,12 +6658,13 @@ USA
             <pattern>
                 <marker>
                     <token postag="SENT_START"/>
-                    <token regexp="yes">each|every</token>
+                    <token regexp="yes">each|every|n?either</token>
                 </marker>
                 <token postag="NNS"/>
                 <token postag="VB.*" postag_regexp="yes"><exception postag="NNS"/></token>
             </pattern>
-            <message>'Each' and 'every' are used with singular. Did you mean <suggestion>all</suggestion>?</message>
+            <message>'Each', 'every', 'either' and 'neither' are used with singular. Did you mean <suggestion>all</suggestion>?</message>
+            <url>http://www.grammaring.com/determiners-with-countable-and-uncountable-nouns-some-any-no-many-much-few-little-etc</url>
             <short>Grammatical problem</short>
             <example correction="All"><marker>Each</marker> children are happy.</example>
             <example><marker>Each</marker> children's services are available...</example>
@@ -9687,6 +9749,14 @@ USA
                 <token>s</token>
                 <token postag="NN.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern> <!-- another mistake -->
+            <marker>
+            <token postag="CD"/>            
+            <token postag="NNP"/>
+            </marker>
+            <token regexp="yes">&apos;</token>
+            <token>s</token>
+            </antipattern>
             <pattern>
                 <token spacebefore="yes" postag="CD">
                     <exception regexp="yes">one|thou|zero|1</exception>
@@ -9792,7 +9862,7 @@ USA
                     <exception scope="previous">×</exception>
                 </token>
           <marker>
-          <token postag='NN.*' postag_regexp='yes'><exception postag="NNS"/></token>
+          <token postag='NN.*' postag_regexp='yes'><exception postag="NNS"/><exception regexp="yes">^[\p{L}&amp;&amp;[^aeiuo]]+$</exception></token>
           <token regexp="yes">&apos;</token>
           <token>s</token>
           </marker>
@@ -9803,6 +9873,7 @@ USA
          <example>1933 World's Fair</example>
          <example>He is puzzled as to why three women's names were there.</example>
          <example>A total of 387 schools, 7 teacher's houses, and several vocational buildings had been built.</example>
+         <example>I have 5 CD's.</example>
         </rule>
         <rule id="CD_DOZENS_OF" name="Plural form of numbers in 'two dozens of' (two dozen)">
             <pattern>
