@@ -1124,6 +1124,15 @@ public class CgRuleConverter extends RuleConverter {
     return ltRule;
   }
   
+  boolean needsPattern(Token[] tokens) {
+    for (Token token : tokens) {
+      if (token.careful || token.negate || !token.exceptionString.equals("") || (token.skip == -1)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   /**
    * Helper for getRuleByType
    */
