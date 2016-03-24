@@ -1025,6 +1025,7 @@ public class CgRuleConverter extends RuleConverter {
   public List<String> getRuleByType(CgSet target, Token[] tokens, CgRule rule, String id, String name, String type) {
     ArrayList<String> ltRule = new ArrayList<>();
     TreeMap<Integer,ArrayList<Token>> tokenmap = new TreeMap<>();
+    boolean writePattern = false;
     for (Token token : tokens) {
       tokenmap = (TreeMap)smartPut(tokenmap,token.offset,token);
     }
@@ -1033,6 +1034,14 @@ public class CgRuleConverter extends RuleConverter {
       ArrayList<Token> value = tokenmap.get(key);
       // remove duplicates, so we don't have unnecessary "and"s floating around
       value = removeExtraEmptyTokens(value);
+      // if <and> is needed
+      if (value.size() != 1) {
+        writePattern = true;
+      }
+    }
+
+    if (!writePattern) {
+      writePattern = needsPattern(tokens);
     }
 
     if (name != null || id != null) {
@@ -1042,12 +1051,20 @@ public class CgRuleConverter extends RuleConverter {
     }
     
     int mark = getPositionOfTarget(tokens);
-    ltRule.add(firstIndent + "<pattern mark=\"" + mark + "\">");
+    if (writePattern) {
+      ltRule.add(firstIndent + "<pattern mark=\"" + mark + "\">");
+    } else {
+      ltRule.add(firstIndent + "<regexp mark=\"" + (mark-1) + "\">");
+    }
     for (Integer key : tokenmap.keySet()) {
       ArrayList<Token> value = tokenmap.get(key);
       if (value.size() == 1) {
         Token token = value.get(0);
-        ltRule = addCgToken(ltRule, token, secondIndentInt);
+        if (writePattern) {
+          ltRule = addCgToken(ltRule, token, secondIndentInt);
+        } else {
+          // FIXME
+        }
       }
       // if the number of tokens at the given offset is more than 1, we have to and them together
       else {
@@ -1060,7 +1077,11 @@ public class CgRuleConverter extends RuleConverter {
       }
 
     }
-    ltRule.add(firstIndent + "</pattern>");
+    if (writePattern) {
+      ltRule.add(firstIndent + "</pattern>");
+    } else {
+      ltRule.add(firstIndent + "</regexp>");
+    }
     // REMOVE
     if (type.equals("K_REMOVE")) {
       ltRule.add(firstIndent + "<disambig action=\"remove\">" + removeTarget(target) + "</disambig>");
