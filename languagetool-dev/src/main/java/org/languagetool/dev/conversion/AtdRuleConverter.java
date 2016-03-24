@@ -27,6 +27,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.nio.file.Path;
 
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
@@ -785,7 +786,7 @@ public class AtdRuleConverter extends RuleConverter {
           throw new RuntimeException("Could not load " + ENGLISH_DICT, e);
         }
         try {
-          dictLookup = new DictionaryLookup(Dictionary.read(dictFile));
+          dictLookup = new DictionaryLookup(Dictionary.read(dictFile.toPath()));
         } catch (IOException e) {
           throw new RuntimeException("Could not load " + dictFile, e);
         }
