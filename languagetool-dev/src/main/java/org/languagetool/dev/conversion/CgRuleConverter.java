@@ -1028,7 +1028,13 @@ public class CgRuleConverter extends RuleConverter {
     for (Token token : tokens) {
       tokenmap = (TreeMap)smartPut(tokenmap,token.offset,token);
     }
-    
+
+    for (Integer key : tokenmap.keySet()) {
+      ArrayList<Token> value = tokenmap.get(key);
+      // remove duplicates, so we don't have unnecessary "and"s floating around
+      value = removeExtraEmptyTokens(value);
+    }
+
     if (name != null || id != null) {
       ltRule.add("<rule id=\"" + id + "\" name=\"" + name + "\">");
     } else {
@@ -1039,8 +1045,6 @@ public class CgRuleConverter extends RuleConverter {
     ltRule.add(firstIndent + "<pattern mark=\"" + mark + "\">");
     for (Integer key : tokenmap.keySet()) {
       ArrayList<Token> value = tokenmap.get(key);
-      // remove duplicates, so we don't have unnecessary "and"s floating around
-      value = removeExtraEmptyTokens(value);
       if (value.size() == 1) {
         Token token = value.get(0);
         ltRule = addCgToken(ltRule, token, secondIndentInt);
@@ -1126,7 +1130,7 @@ public class CgRuleConverter extends RuleConverter {
   
   boolean needsPattern(Token[] tokens) {
     for (Token token : tokens) {
-      if (token.careful || token.negate || !token.exceptionString.equals("") || (token.skip == -1)) {
+      if (token.careful || token.negate || token.scanahead || token.scanbehind || !token.exceptionString.equals("") || (token.skip == -1)) {
         return true;
       }
     }
