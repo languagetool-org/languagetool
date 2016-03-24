@@ -1060,18 +1060,14 @@ public class CgRuleConverter extends RuleConverter {
       ArrayList<Token> value = tokenmap.get(key);
       if (value.size() == 1) {
         Token token = value.get(0);
-        if (writePattern) {
-          ltRule = addCgToken(ltRule, token, secondIndentInt);
-        } else {
-          // FIXME
-        }
+        ltRule = addCgToken(ltRule, token, secondIndentInt, writePattern);
       }
       // if the number of tokens at the given offset is more than 1, we have to and them together
       else {
         ltRule.add(secondIndent + "<and>");
 
         for (Token token : value) {
-          ltRule = addCgToken(ltRule, token, thirdIndentInt);
+          ltRule = addCgToken(ltRule, token, thirdIndentInt, false);
         }
         ltRule.add(secondIndent + "</and>");
       }
@@ -1080,7 +1076,10 @@ public class CgRuleConverter extends RuleConverter {
     if (writePattern) {
       ltRule.add(firstIndent + "</pattern>");
     } else {
-      ltRule.add(firstIndent + "</regexp>");
+      String tmp = ltRule.get(ltRule.size()-1);
+      tmp.concat(firstIndent + "</regexp>");
+      ltRule.remove(ltRule.size()-1);
+      ltRule.add(tmp);
     }
     // REMOVE
     if (type.equals("K_REMOVE")) {
@@ -1101,7 +1100,7 @@ public class CgRuleConverter extends RuleConverter {
   /**
    * Helper for getRuleByType
    */
-  public ArrayList<String> addCgToken(ArrayList<String> ltRule, Token token, int indent) {
+  public ArrayList<String> addCgToken(ArrayList<String> ltRule, Token token, int indent, boolean regexp) {
     String postags = postagsToString(token.postags);
     String baseforms = glueWords(cleanForms(token.baseforms));
     String surfaceforms = glueWords(cleanForms(token.surfaceforms));
@@ -1135,16 +1134,16 @@ public class CgRuleConverter extends RuleConverter {
     
     // the special case of the generic token:
     if (postags.equals("") && baseforms.equals("") && surfaceforms.equals("")) {
-      ltRule = addToken(ltRule,baseforms,postags,exceptions,careful,false,negate,skip,indent);
+      ltRule = addToken(ltRule,baseforms,postags,exceptions,careful,false,negate,skip,indent,regexp);
       return ltRule;
     }
     
     if (!baseforms.equals("")) {
-      ltRule = addToken(ltRule, baseforms, postags, exceptions, careful, true, negate, skip, indent);
+      ltRule = addToken(ltRule, baseforms, postags, exceptions, careful, true, negate, skip, indent, false);
     } else if (!surfaceforms.equals("")) {
-      ltRule = addToken(ltRule, surfaceforms, postags, exceptions, careful, false, negate, skip, indent);
+      ltRule = addToken(ltRule, surfaceforms, postags, exceptions, careful, false, negate, skip, indent, regexp);
     } else {
-      ltRule = addToken(ltRule, surfaceforms, postags, exceptions, careful, false, negate, skip, indent);
+      ltRule = addToken(ltRule, surfaceforms, postags, exceptions, careful, false, negate, skip, indent, regexp);
     }
     return ltRule;
   }

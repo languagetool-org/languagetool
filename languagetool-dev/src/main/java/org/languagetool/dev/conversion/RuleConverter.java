@@ -150,7 +150,7 @@ public abstract class RuleConverter {
      * Takes a LT rule list and elements of a token, and adds the proper <token> element to the rule list.
      */
     protected static ArrayList<String> addToken(ArrayList<String> orig, String token, String postag, String exceptions, 
-                          boolean careful, boolean inflected, boolean negate, int skip, int indent) {
+                          boolean careful, boolean inflected, boolean negate, int skip, int indent, boolean regexp) {
         String space = getSpace(indent);
         
         // fix the case of the "everything" token
@@ -200,9 +200,15 @@ public abstract class RuleConverter {
         if (!postagString.isEmpty() && negate) {
           negatePosString = " negate_pos=\"yes\"";
         }
-        
-         orig.add(space + "<token" + inflectedString + skipString + regexpString + postagString + postagRegexp + negateString + negatePosString + ">" + token + carefulString + exceptionString + "</token>");
-        
+
+        if (regexp) {
+          String tmp = orig.get(orig.size()-1);
+          tmp.concat(space + "(" + token + ")");
+          orig.remove(orig.size()-1);
+          orig.add(tmp);
+        } else {
+          orig.add(space + "<token" + inflectedString + skipString + regexpString + postagString + postagRegexp + negateString + negatePosString + ">" + token + carefulString + exceptionString + "</token>");
+        }
         return orig;
     }
     
