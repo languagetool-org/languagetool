@@ -55,12 +55,6 @@ import java.util.regex.Pattern;
  * 
  * <p>You will probably want to use the sub class {@link MultiThreadedJLanguageTool} for best performance.
  * 
- * <p><b>Unicode:</b> LanguageTool expects text in Normalization Form KC (NFKC). For example, the
- * German character 'ü' (lowercase u umlaut) must be in the string as Unicode character U+00FC,
- * not as 'u' followed by the combining diaeresis character. See 
- * <a href="https://docs.oracle.com/javase/tutorial/i18n/text/normalizerapi.html">the Oracle docs on
- * normalizing text</a>.</p>
- * 
  * <p><b>Thread-safety:</b> this class is not thread safe. Create one instance per thread,
  * but create the language only once (e.g. {@code new AmericanEnglish()}) and use it for all
  * instances of JLanguageTool.</p>
