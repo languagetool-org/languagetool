@@ -8456,11 +8456,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 										<marker>
 												<token inflected="yes" postag="verb.*" postag_regexp="yes">posiadać</token>
 										</marker>
-										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|prawo|uprawnienie|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport</token>
+										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|prawo|uprawnienie|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cechę|naturę</token>
 								</pattern>
-								<message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych. Poprawnie: <suggestion><match no="1" postag="(verb)(:fin)?(.*):(im)?perf.*" postag_regexp="yes" postag_replace="$1$2$3:$4.*|$1:fin$3:imperf.*">mieć</match></suggestion>.</message>
+								<message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych i abstrakcyjnych. Poprawnie: <suggestion><match no="1" postag="(verb)(:fin)?(.*):(im)?perf.*" postag_regexp="yes" postag_replace="$1$2$3:$4.*|$1:fin$3:imperf.*">mieć</match></suggestion>.</message>
 								<short>Błąd leksykalny</short>
 								<example correction="ma">Wzrostu około 175 cm, włosy ciemne, <marker>posiada</marker> brodę i wąsy.</example>
+						</rule>
+							<rule>
+								<pattern>
+										<marker>
+												<token inflected="yes" postag="verb.*" postag_regexp="yes">posiadać</token>
+										</marker>
+										<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+										  <token postag="adj.*" postag_regexp="yes"/>
+										  <token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|prawo|uprawnienie|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cechę|naturę</token>
+										</unify>
+								</pattern>
+								<message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych i abstrakcyjnych. Poprawnie: <suggestion><match no="1" postag="(verb)(:fin)?(.*):(im)?perf.*" postag_regexp="yes" postag_replace="$1$2$3:$4.*|$1:fin$3:imperf.*">mieć</match></suggestion>.</message>
+								<short>Błąd leksykalny</short>
+								<example correction="ma">Wzrostu około 175 cm, włosy ciemne, <marker>posiada</marker> krótką brodę i wąsy.</example>
 						</rule>
 				</rulegroup>
 				<rulegroup id="BYC_ZNAJDOWAC_SIE_W_POSIADANIU" name="„być/znajdować się w posiadaniu” (mieć, posiadać)">
@@ -11425,6 +11439,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <message>Wyrażenie <match no="1"/> <match no="2"/> występuje dwukrotnie w tym zdaniu.</message>
          <short>Powtórzenie wyrażenia przyimkowego</short>
          <example correction=''><marker>W szczególności</marker> robi nam w szczególności problemy.</example>
+        </rule>
+        <rule id="PODWOJONE_JAK_I" name="Podwojone „jak i”">
+         <pattern>
+          <token>jak</token>
+          <token skip='-1'>i<exception scope='next'>zarówno</exception></token>
+          <marker>
+          <token>jak</token>
+          <token>i</token>
+          </marker>
+         </pattern>
+         <message>Stylistyczna monotonia. Lepiej zastąpić to wyrażenie synonimem: <suggestion>a także</suggestion>, <suggestion>oraz</suggestion>, <suggestion>i</suggestion>.</message>
+         <short>Podwojone „jak i”</short>
+         <example correction='a także|oraz|i'>Ciekawy zwłaszcza w czasach gdy producentów okien tak wielu, oferta ogromna zarówno firm, jak i profili, <marker>jak i</marker> różnego rodzaju promocji i upustów.</example>         
         </rule>
 				<rulegroup id="NA_POCZ_XX" name="„na początku XX” (na początku XX wieku)">
 						<rule>
