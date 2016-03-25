@@ -7799,6 +7799,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="jak i">Wiążą się z tym zarówno zyski <marker>i</marker> zalety.</example>
 						<example>Wiążą się z tym zarówno zyski i zalety, jak i pewne wady.</example>
 				</rule>
+				<rule id="ZAROWNO_BEZ_JAK_I" name="„zarówno” bez „jak i”">
+         <pattern>
+          <marker>
+          <token skip='-1'>zarówno<exception regexp='yes' scope='next'>jak|i</exception></token>
+          </marker>
+          <token postag='SENT_END'></token>
+         </pattern>
+         <message>W tym zdaniu brakuje drugiego składnika spójnika złożonego „jak i”. Wyrazu „zarówno” nie używa się w sensie <suggestion>jednakowo</suggestion> lub <suggestion>równie</suggestion>.</message>
+         <short>Zarówno bez jak i</short>
+         <example correction='jednakowo|równie'>W tych scenariuszach był <marker>zarówno</marker> taki, w którym Leszek Miller pozostaje, scenariusz taki, w którym Leszek Miller odchodzi.</example>         
+        </rule>
+        <rule default="off" id="TAK_JAK_I_ZARWNO_JAK_I" name="„tak…, jak i” (zarówno…, jak i)">
+         <pattern>
+          <marker>
+          <token skip='-1'>tak<exception scope='next'>zarówno</exception></token>
+          </marker>
+          <token>,<exception scope='previous'>tak</exception></token>
+          <token>jak</token>
+          <token>i</token>
+         </pattern>
+         <message>Niezalecany spójnik. Wg Słownika poprawnej polszczyzny PWN powinno być: <suggestion>zarówno</suggestion>.</message>
+         <short>Niepoprawny spójnik złożony</short>
+         <example correction='zarówno'>Podstawową zasadą krasnoludzkiego gwinta było coś przypominającego licytację na targu końskim - <marker>tak</marker> intensywnością, jak i natężeniem głosu licytujących.</example>         
+        </rule>
 				<rule id="TAK_DLUGO_DOPOKI" name="„tak długo... dopóki” (dopóty, dopóki)">
 						<pattern>
 								<marker>
