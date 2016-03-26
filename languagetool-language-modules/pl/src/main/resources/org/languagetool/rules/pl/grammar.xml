@@ -4879,6 +4879,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule>
 		</category>
 		<category id="GRAMMAR" name="Błędy odmiany" type="grammar">
+                <rule id="Z_BARK" name="„z bark” (z barków)">
+                 <pattern>
+                  <token>z</token>
+                  <token>bark</token>
+                 </pattern>
+                 <message>Błędna odmiana. Powinno być: <suggestion>z barków</suggestion> (= z ramion).</message>
+                 <url>http://sjp.pwn.pl/so/bark;4413311.html</url>
+                 <short>Błędna odmiana</short>
+                 <example correction='z barków'>Mogła za cenę płacenia komornego wyjechać, mając rodziców, którzy zdjęli ciężar <marker>z bark</marker>.</example>
+                 <example>Mogła za cenę płacenia komornego wyjechać, mając rodziców, którzy zdjęli ciężar z barków.</example>
+                </rule>
                 <rulegroup id="DWA_ZLOTYCH" name="„2 złotych” (2 złote)">
                     <rule>
                         <pattern>
@@ -7880,6 +7891,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="STYLE" name="Błędy leksykalne" type="style">
+        <rule id="BARDZIEJ_LICZEBNY_LICZNIEJSZY" name="„bardziej liczebny” (liczniejszy)">
+         <pattern>
+          <token>bardziej</token>
+          <token>liczebny</token>
+         </pattern>
+         <message>Powinno być <suggestion><match no="2" regexp_match="ebn" regexp_replace="niejsz"/></suggestion>.</message>
+         <url>http://mbc.malopolska.pl/dlibra/docmetadata?id=83901&amp;from=publication</url>
+         <short>Błąd leksykalny</short>
+         <example correction='liczniejszy'>Jest mniejszy, delikatniejszy i znacznie <marker>bardziej liczebny</marker>.</example>
+         <example>Jest mniejszy, delikatniejszy i znacznie liczniejszy.</example>
+        </rule>
         <rule id="OWY_W" name="„owy” (ów)">
          <pattern>
           <token>owy<exception regexp='yes' scope='previous' spacebefore='no'>[-'’]</exception></token>
@@ -8480,7 +8502,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 										<marker>
 												<token inflected="yes" postag="verb.*" postag_regexp="yes">posiadać</token>
 										</marker>
-										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|prawo|uprawnienie|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cechę|naturę</token>
+										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|prawo|uprawnienie|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cechę|naturę|miejsce|zrozumienie|czas|braki|przygody</token>
 								</pattern>
 								<message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych i abstrakcyjnych. Poprawnie: <suggestion><match no="1" postag="(verb)(:fin)?(.*):(im)?perf.*" postag_regexp="yes" postag_replace="$1$2$3:$4.*|$1:fin$3:imperf.*">mieć</match></suggestion>.</message>
 								<short>Błąd leksykalny</short>
@@ -8493,13 +8515,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 										</marker>
 										<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
 										  <token postag="adj.*" postag_regexp="yes"/>
-										  <token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|prawo|uprawnienie|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cechę|naturę</token>
+										  <token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|prawo|uprawnienie|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cechę|naturę|miejsce|zrozumienie|czas|braki|przygody</token>
 										</unify>
 								</pattern>
 								<message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych i abstrakcyjnych. Poprawnie: <suggestion><match no="1" postag="(verb)(:fin)?(.*):(im)?perf.*" postag_regexp="yes" postag_replace="$1$2$3:$4.*|$1:fin$3:imperf.*">mieć</match></suggestion>.</message>
 								<short>Błąd leksykalny</short>
 								<example correction="ma">Wzrostu około 175 cm, włosy ciemne, <marker>posiada</marker> krótką brodę i wąsy.</example>
 						</rule>
+            <rule>
+              <pattern>
+                  <marker>
+                      <token inflected="yes" postag="verb.*" postag_regexp="yes">posiadać</token>
+                  </marker>
+                  <unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+                    <unify-ignore><token postag="adv.*" postag_regexp="yes"/></unify-ignore>
+                    <token postag="adj.*" postag_regexp="yes"/>
+                    <token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|prawo|uprawnienie|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cechę|naturę|miejsce|zrozumienie|czas|braki|przygody</token>
+                  </unify>
+              </pattern>
+              <message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych i abstrakcyjnych. Poprawnie: <suggestion><match no="1" postag="(verb)(:fin)?(.*):(im)?perf.*" postag_regexp="yes" postag_replace="$1$2$3:$4.*|$1:fin$3:imperf.*">mieć</match></suggestion>.</message>
+              <short>Błąd leksykalny</short>
+              <example correction="ma">Wzrostu około 175 cm, włosy ciemne, <marker>posiada</marker> wyjątkowo krótką brodę i wąsy.</example>
+          </rule>
 				</rulegroup>
 				<rulegroup id="BYC_ZNAJDOWAC_SIE_W_POSIADANIU" name="„być/znajdować się w posiadaniu” (mieć, posiadać)">
 						<rule>
