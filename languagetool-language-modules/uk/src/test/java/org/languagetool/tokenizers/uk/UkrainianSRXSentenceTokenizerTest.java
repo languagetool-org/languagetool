@@ -73,6 +73,7 @@ public class UkrainianSRXSentenceTokenizerTest extends TestCase {
     testSplit("Церква Св. Духа і церква св. Духа");
     testSplit("Валерій (міліціонер-пародист.  –  Авт.) стане пародистом.");
     testSplit("Сьогодні (у четвер.  - Ред.), вранці.");
+    testSplit(" ([27]див. Тиждень № 9, 2008)");
   }
   
   public void testTokenizeWithSplit() {
@@ -87,6 +88,7 @@ public class UkrainianSRXSentenceTokenizerTest extends TestCase {
     testSplit("На 0,6 °C. ", "Але ми все маємо."); //лат С 
     testSplit("На 0,6 °С. ", "Але ми все маємо."); //укр С
     testSplit("Приїхав у США. ", "Проте на другий рік.");
+    testSplit("Маємо страшне диво з див. ", "І кращого варіанту немає.");
   }
 
   private void testSplit(final String... sentences) {

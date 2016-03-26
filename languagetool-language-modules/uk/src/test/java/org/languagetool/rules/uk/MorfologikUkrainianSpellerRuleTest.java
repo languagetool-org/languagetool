@@ -72,6 +72,16 @@ public class MorfologikUkrainianSpellerRuleTest {
     assertEquals(1, matches.length);
     assertEquals("прийдешній", matches[0].getSuggestedReplacements().get(0));
 
+    // кличний для неістот
+    matches = rule.match(langTool.getAnalyzedSentence("душе"));
+
+    assertEquals(1, matches.length);
+
+    // розмовний інфінітив
+    matches = rule.match(langTool.getAnalyzedSentence("писать"));
+
+    assertEquals(1, matches.length);
+    
     // compounding
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Жакет був синьо-жовтого кольору")).length);
 

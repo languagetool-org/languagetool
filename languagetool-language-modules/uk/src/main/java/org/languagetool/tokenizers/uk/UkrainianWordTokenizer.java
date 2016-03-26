@@ -73,7 +73,10 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern ABBR_DOT_PATTERN3 = Pattern.compile("(с)\\.(-г)\\.");
   private static final Pattern ABBR_DOT_PATTERN4 = Pattern.compile("([^а-яіїєґ'-][векнпрстцч]{1,2})\\.([екмнпрстч]{1,2})\\.");
 //  private static final Pattern ABBR_DOT_PATTERN5 = Pattern.compile("(ст)\\.([ \u00A0]*[0-9]+)");
-  private static final Pattern ABBR_DOT_PATTERN6 = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]((та|й) ін|амер|англ|бл(изьк)?|вірм|грец(ьк)|див|дол|досл|доц|е|ел|жін|заст|зв|ім|івр|ісп|італ|к|кв|[1-9]-кімн|кімн|кл|коп|м|н|напр|обл|п|пен|перекл|пл|пор|поч|прибл|пров|просп|р|[Рр]ед|[Рр]еж|рр|рт|руб|с|[Сс]в|соц|співавт|ст|стол|стор|табл|тел|укр|філол|фр|франц|ч|чайн|чол|ц|шт))\\.");
+  // скорочення що не можуть бути в кінці речення
+  private static final Pattern ABBR_DOT_PATTERN6 = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-](?:амер|англ|бл(?:изьк)?|вірм|грец(?:ьк)|див|дол|досл|доц|ел|жін|заст|зв|ім|івр|ісп|італ|к|кв|[1-9]-кімн|кімн|кл|коп|м|н|напр|п|пен|перекл|пл|пор|поч|прибл|пров|просп|[Рр]ед|[Рр]еж|рт|с|[Сс]в|соц|співавт|стор|табл|тел|укр|філол|фр|франц|ч|чайн|ц))\\.(?!$)");
+  // скорочення що можуть бути в кінці речення
+  private static final Pattern ABBR_DOT_PATTERN6_2 = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]((та|й) ін|е|обл|р|рр|руб|ст|стол|стор|чол|шт))\\.");
   private static final Pattern ABBR_DOT_PATTERN7 = Pattern.compile("([ій][ \u00A0]+т)\\.([ \u00A0]*(д|п|ін))\\.");
   // Сьогодні (у четвер. - Ред.), вранці.
 //  private static final Pattern ABBR_DOT_PATTERN8 = Pattern.compile("([\\s\u00A0]+[–—-][\\s\u00A0]+(?:[Рр]ед|[Аа]вт))\\.([\\)\\]])");
@@ -147,6 +150,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
       text = ABBR_DOT_PATTERN3.matcher(text).replaceAll("$1" + ABBR_DOT_SUBST + "$2" + ABBR_DOT_SUBST);
 //      text = ABBR_DOT_PATTERN5.matcher(text).replaceAll("$1" + ABBR_DOT_SUBST + "$2");
       text = ABBR_DOT_PATTERN6.matcher(text).replaceAll("$1" + ABBR_DOT_SUBST);
+      text = ABBR_DOT_PATTERN6_2.matcher(text).replaceAll("$1" + ABBR_DOT_SUBST);
       text = ABBR_DOT_PATTERN7.matcher(text).replaceAll("$1" + ABBR_DOT_SUBST + "$2" + ABBR_DOT_SUBST);
       text = ABBR_DOT_PATTERN8.matcher(text).replaceAll("$1" + ABBR_DOT_SUBST + "$2");
     }

@@ -47,6 +47,17 @@
 #### Spanish
   * added German false friends
 
+#### Ukrainian
+  * big dictionary update:
+    * more than 202K lemmas
+    * homonyms have been properly split
+    * vocative case for inanimates has be added
+    * list of barbarism has been updated
+  * improved some rules
+  * improved sentence tokenization
+  * improved dynamic tagging for compounds
+  * some improvements for disambiguation
+
 #### Java API
   * some formerly deprecated code has been removed
   * added `acceptPhrases(List<String> phrases)` to `SpellingCheckRule`
