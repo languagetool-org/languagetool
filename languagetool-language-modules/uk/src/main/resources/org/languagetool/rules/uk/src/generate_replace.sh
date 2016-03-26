@@ -10,7 +10,7 @@ echo "# TODO: add inflection support for suggestions" >> $REPLACE_FILE
 echo "" >> $REPLACE_FILE
 
 #grep " [^^:a-z]" $spell_uk_dir/src/Dictionary/twisters.lst | sed -r 's/^([^ \/]+)(\/[a-zA-Z0-9<>]+)?( +[a-z^:_]+)? +(.*)$/\1=\4/' >> $REPLACE_FILE
-grep -h " #>" $spell_uk_dir/data/dict/twisters.lst | sed -r "s/^([а-яіїєґ'-]+).*#> *(.*)/\1=\2/i" >> $REPLACE_FILE
+grep -h " #>" $spell_uk_dir/data/dict/twisters.lst | sed -r "s/^ \+cs=//" | sed -r "s/^([а-яіїєґ'-]+).*#> *(.*)/\1=\2/i" >> $REPLACE_FILE
 
 grep "=" $REPLACE_FILE | wc -l
 
