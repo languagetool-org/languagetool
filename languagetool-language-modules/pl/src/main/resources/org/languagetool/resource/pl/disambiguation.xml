@@ -4052,7 +4052,7 @@
     <rule> <!-- złożone wyrażenia przyimkowe ze związkiem rządu: w razie, w wyniku, w rezultacie, w efekcie -->
         <pattern>
             <token>w</token>
-            <token regexp="yes">braku|ciągu|czasie|efekcie|myśl|razie|rezultacie|trakcie|wyniku|wypadku|przypadku</token>
+            <token regexp="yes">braku|ciągu|czasie|efekcie|myśl|razie|rezultacie|trakcie|wyniku|wypadku|przypadku|głębi|obrębie|środku</token>
             <marker>
                 <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
             </marker>
@@ -4061,6 +4061,18 @@
         <example type="ambiguous" inputform="stymulacji[stymulacja/subst:pl:gen:f,stymulacja/subst:sg:dat:f,stymulacja/subst:sg:gen:f,stymulacja/subst:sg:loc:f]"
                  outputform="stymulacji[stymulacja/subst:pl:gen:f,stymulacja/subst:sg:gen:f]">W wyniku <marker>stymulacji</marker> cytokinowej następuje ich swoiste uczulenie.</example>
     </rule>
+        <rule> <!-- złożone wyrażenia przyimkowe ze związkiem rządu: w razie, w wyniku, w rezultacie, w efekcie -->
+            <pattern>
+                <token>we</token>
+                <token>wnętrzu</token>
+                <marker>
+                    <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag=".*gen.*"/>
+            <example type="ambiguous" inputform="stacji[stacja/subst:pl:gen:f,stacja/subst:sg:dat:f,stacja/subst:sg:gen:f,stacja/subst:sg:loc:f]"
+                     outputform="stacji[stacja/subst:pl:gen:f,stacja/subst:sg:gen:f]">We wnętrzu <marker>stacji</marker> było przytulnie.</example>
+        </rule>
     <rule> <!-- złożone wyrażenia przyimkowe ze związkiem rządu: z powodu, z przyczyny, z wyjątkiem, z pomocą -->
             <pattern>
                 <token>z</token>

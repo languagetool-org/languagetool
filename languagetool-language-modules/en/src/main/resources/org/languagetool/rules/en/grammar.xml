@@ -12633,14 +12633,107 @@ USA
             <example correction="which">Which position is right and <marker>witch</marker> is wrong</example>
         </rule>
         <rule id="THEY_WHERE" name="where (were)">
+            <antipattern>
+                <marker>
+                  <token>there</token>
+                  <token>where</token>
+                </marker>
+                <token postag="PRP"/>
+            </antipattern>
+            <antipattern>
+                <marker>
+                  <token>there</token>
+                  <token>where</token>
+                </marker>
+                <token>there</token>
+                <token regexp="yes">is|are|were|was</token>
+            </antipattern>
+            <antipattern>
+              <token postag="PRP"/>
+              <marker>
+                  <token>there</token>
+                  <token>where</token>
+              </marker>
+            </antipattern>
+            <antipattern>
+              <token>there</token>
+              <token regexp="yes">were|are</token>
+              <token postag="JJ.*" postag_regexp="yes"/>
+              <token postag="NNS"/>
+              <marker>
+                  <token>there</token>
+                  <token>where</token>
+              </marker>
+            </antipattern>
+            <antipattern>
+              <token>there</token>
+              <token regexp="yes">was|is</token>
+              <token postag="DT"></token>
+              <token postag="JJ.*" postag_regexp="yes"/>
+              <token postag="NN|NN:.*" postag_regexp="yes"/>
+              <marker>
+                  <token>there</token>
+                  <token>where</token>
+              </marker>
+            </antipattern>
+            <antipattern>
+              <token>there</token>
+              <token regexp="yes">was|is</token>
+              <token postag="DT"></token>              
+              <token postag="NN|NN:.*" postag_regexp="yes"/>
+              <marker>
+                  <token>there</token>
+                  <token>where</token>
+              </marker>
+            </antipattern>
+            <antipattern>
+              <token>to</token>
+              <token>be</token>
+              <marker>
+                  <token>there</token>
+                  <token>where</token>
+              </marker>
+            </antipattern>
+            <antipattern>
+              <token>take</token>
+              <token postag="PRP"/>
+              <marker>
+                  <token>there</token>
+                  <token>where</token>
+              </marker>              
+            </antipattern>
+            <antipattern>              
+              <token regexp="yes">out|over|in|up</token>
+              <marker>
+                  <token>there</token>
+                  <token>where</token>
+              </marker>              
+            </antipattern>
+            <antipattern>
+              <token inflected="yes" regexp="yes">be|head|hold</token>
+              <marker>
+                  <token>there</token>
+                  <token>where</token>
+              </marker>
+            </antipattern>
             <pattern>
-                <token regexp='yes'>they|we</token>
+                <token regexp='yes'>they|we|there</token>
                 <marker>
                     <token>where</token>
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>were</suggestion>, the simple past of "to be"?</message>
             <example correction="were">It seems unlikely that they <marker>where</marker> going to achieve it.</example>
+            <example correction="were">There <marker>where</marker> major delays because of weather.</example>
+            <example>And it was from there where I drove back to camp.</example>
+            <example>Yet, are we there where our founding fathers wanted us to be?</example>
+            <example>There were public showers there where homeless people could get cleaned up.</example>
+            <example>Montreal is just happy to be there where losing is no option.</example>
+            <example>Take me there where the sky is shimmering of a flourishing shuffling.</example>
+            <example>Tell me why, I can't be there where you are...</example>
+            <example>And how many other businesses are there where the retailer has no control over price?</example>
+            <example>There was a long time there where my feelings for him was hella twisted.</example>
+            <example>Additionally, there was a couple there where a woman had her entire arm adorned with a huge elaborate tatoo.</example>
         </rule>
         <rulegroup id="ALTER_BOY" name="confusion of alter/altar">
             <rule>
