@@ -7976,7 +7976,9 @@ though, and has since been slightly modified)-->
             <exception postag="Z [em] .*" postag_regexp="yes" regexp="yes">(?-i)\p{Lu}.*</exception>
             <exception postag="V.*" postag_regexp="yes"/>
           </token>
-          <token min="0" max="1" postag="A"><exception>mais</exception></token>
+          <token min="0" max="1" postag="A">
+            <exception regexp="yes">mais|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche</exception>
+          </token>
           <token postag="J m .*|V .* m .*" postag_regexp="yes">
             <exception postag="[JNZ] [fe] .*|V .*(inf|ppr|ind|con|sub).*" postag_regexp="yes"/>
             <exception>amateur</exception>
@@ -8011,6 +8013,7 @@ though, and has since been slightly modified)-->
         <example>Non seulement ma <marker>fille mais certains</marker> de ses camarades.</example>
         <example>Une ceinture marron.</example>
         <example>L’astronomie amateur.</example>
+        <example>Je suis allé à l’école lundi passé.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_CENTAINE_DE" name="centaine de">
@@ -13685,16 +13688,6 @@ though, and has since been slightly modified)-->
       <message>« Demander une question » est un régionalisme (Québec), un anglicisme (to ask a question) et un archaïsme. Employez <suggestion>poser une question</suggestion>.</message>
       <example correction="poser une question"><marker>demander une question</marker></example>
       <example><marker>poser une question</marker></example>
-    </rule>
-    <rule id="PASSER_AU_FEU" name="passer au feu">
-      <pattern>
-        <token inflected="yes" skip="6">passer</token>
-        <token regexp="yes">aux?</token>
-        <token regexp="yes">feux?</token>
-      </pattern>
-      <message>« Passer au feu » est un régionalisme (Québec). Employez <suggestion>brûler</suggestion>, <suggestion>être incendié</suggestion>, <suggestion>être détruit par un incendie</suggestion>.</message>
-      <example correction="brûler|être incendié|être détruit par un incendie"><marker>passer au feu</marker></example>
-      <example><marker>brûler</marker></example>
     </rule>
     <rule id="A_LENDOS" name="à l’endos">
       <pattern>
