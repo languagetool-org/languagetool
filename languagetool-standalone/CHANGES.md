@@ -1,6 +1,6 @@
 # LanguageTool Change Log
 
-## 3.3 (release planned for 2016-03-28)
+## 3.3 (2016-03-28)
 
 #### Catalan
   * added and improved rules
@@ -29,7 +29,7 @@
 
 #### Greek
   * new rule for checking correct spell of ordinal numerals
-  * added new xml rules
+  * added new XML rules
 
 #### Polish
   * added and improved a large number of rules, largely improved disambiguation
