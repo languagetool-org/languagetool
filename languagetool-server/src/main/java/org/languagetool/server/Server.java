@@ -143,6 +143,7 @@ abstract class Server {
       super.afterExecute(r, t);
       if (t != null && t instanceof OutOfMemoryError) {
         // we prefer to stop instead of being in an unstable state:
+        //noinspection CallToPrintStackTrace
         t.printStackTrace();
         System.exit(1);
       }

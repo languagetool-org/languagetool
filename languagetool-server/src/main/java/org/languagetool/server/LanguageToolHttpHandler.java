@@ -627,7 +627,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     return xmlBuffer.toString();
   }
 
-  private class QueryParams {
+  private static class QueryParams {
     final List<String> enabledRules;
     final List<String> disabledRules;
     final List<CategoryId> enabledCategories;
