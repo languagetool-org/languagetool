@@ -5284,7 +5284,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<token postag="adj.*gen.*" postag_regexp="yes"></token>
 								<token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia</token>
 						</pattern>
-						<message>Niepoprawna postać daty (nie istnieje „drugi sierpień”, jedynie „drugi [dzień] sierpnia”); poprawnie: <suggestion><match no="3"></match> <match no="4"></match></suggestion>lub <suggestion>w dniu <match no="3" postag="adj:sg:loc:m1.m2.m3.n1.n2:pos"></match> <match no="4"></match></suggestion>.</message>
+						<message>Niepoprawna postać daty (nie istnieje „drugi sierpień”, jedynie „drugi [dzień] sierpnia”); poprawnie: <suggestion><match no="3"></match> <match no="4"></match></suggestion> lub <suggestion>w dniu <match no="3" postag="adj:sg:loc:m1.m2.m3.n1.n2:pos"></match> <match no="4"></match></suggestion>.</message>
 						<short>Błąd odmiany</short>
 						<example correction="drugiego sierpnia|w dniu drugim sierpnia">Przyczyna wojny był atak Saddama Husseina na Kuwejt <marker>w dniu drugiego sierpnia</marker> 1990 roku.</example>
 						<example>Przyczyna wojny był atak Saddama Husseina na Kuwejt <marker>drugiego sierpnia</marker> 1990 roku.</example>
@@ -7901,6 +7901,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="STYLE" name="Błędy leksykalne" type="style">
+        <rule id="OSIAGNAC_POSTEP" name="„osiągnąć postęp” (dokonać postępu)">
+         <pattern>
+          <token inflected='yes'>osiągnąć</token>
+          <token>postęp</token>
+         </pattern>
+         <message>Niepoprawny zwrot. Poprawnie: <suggestion><match no="1" postag=".*" postag_regexp="yes">dokonać</match> postępu</suggestion>.</message>
+         <url>http://publications.europa.eu/code/pl/pl-4101300.htm</url>
+         <short>Niepoprawny zwrot</short>
+         <example correction='dokonać postępu'>Jeszcze kilka tygodni temu mało kto wierzył, że będzie można <marker>osiągnąć postęp</marker> w zakresie zaprzestania działań wojennych w Syrii.</example>         
+        </rule>
         <rule id="BARDZIEJ_LICZEBNY_LICZNIEJSZY" name="„bardziej liczebny” (liczniejszy)">
          <pattern>
           <token>bardziej</token>
@@ -8510,32 +8520,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<rule>
 								<pattern>
 										<marker>
-												<token inflected="yes" postag="verb.*" postag_regexp="yes">posiadać</token>
+												<token inflected="yes" postag="(:?verb|pcon).*" postag_regexp="yes">posiadać</token>
 										</marker>
 										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|praw[ao]|uprawnieni[ae]|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cech[ęy]|naturę|miejsce|zrozumienie|czas|braki|przygody|osobowość|zdolnoś(:?ć|ci)|obywatelstw[ao]|status|tytuł|informacj[ęe]|wykształcenie|kwalifikacje|wartość|umiejętnoś(:?ć|ci)|dokumenty|dowody|charakter|wiedzę|właściwoś(:?ć|ci)|siostrę|brata|świadomość|strukturę|rodzinę|programy?|ochronę|funkcję|autoryzację|sił[ęy]|płynność|kompetencje|doktorat|podmiotowość|immunitet|przodków|znamię|zmysł|zęby|zalet[ęy]|etat|nazwę|wizję|wad[ęy]|wartości|swobodę|skalę|znajomości|prestiż|pracę|gwarancję|reprezentację|opinię|dozę|jakość|zwolenników|wrogów|posłuch|energię|moc|aparycję|ograniczeni[ea]|wersję|kochankę|inicjatywę|głosy?|duszę</token>
 								</pattern>
-								<message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych i abstrakcyjnych oraz osób. Poprawnie: <suggestion><match no="1" postag="(verb)(:fin)?(.*):(im)?perf.*" postag_regexp="yes" postag_replace="$1$2$3:$4.*|$1:fin$3:imperf.*">mieć</match></suggestion>.</message>
+								<message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych i abstrakcyjnych oraz osób. Poprawnie: <suggestion><match no="1" postag="(verb|pcon)(:fin)?(.*):(im)?perf.*" postag_regexp="yes" postag_replace="$1$2$3:$4.*|$1:fin$3:imperf.*">mieć</match></suggestion>.</message>
+								<url>http://sjp.pwn.pl/poradnia/haslo/posiadac;5384.html</url>
 								<short>Błąd leksykalny</short>
 								<example correction="ma">Wzrostu około 175 cm, włosy ciemne, <marker>posiada</marker> brodę i wąsy.</example>
+								<example correction="mając">Był niepozorny, <marker>posiadając</marker> wymiary krasnala.</example>
 						</rule>
 							<rule>
 								<pattern>
 										<marker>
-												<token inflected="yes" postag="verb.*" postag_regexp="yes">posiadać</token>
+												<token inflected="yes" postag="(:?verb|pcon).*" postag_regexp="yes">posiadać</token>
 										</marker>
 										<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
 										  <token postag="adj.*" postag_regexp="yes"/>
 										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|praw[ao]|uprawnieni[ae]|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cech[ęy]|naturę|miejsce|zrozumienie|czas|braki|przygody|osobowość|zdolnoś(:?ć|ci)|obywatelstw[ao]|status|tytuł|informacj[ęe]|wykształcenie|kwalifikacje|wartość|umiejętnoś(:?ć|ci)|dokumenty|dowody|charakter|wiedzę|właściwoś(:?ć|ci)|siostrę|brata|świadomość|strukturę|rodzinę|programy?|ochronę|funkcję|autoryzację|sił[ęy]|płynność|kompetencje|doktorat|podmiotowość|immunitet|przodków|znamię|zmysł|zęby|zalet[ęy]|etat|nazwę|wizję|wad[ęy]|wartości|swobodę|skalę|znajomości|prestiż|pracę|gwarancję|reprezentację|opinię|dozę|jakość|zwolenników|wrogów|posłuch|energię|moc|aparycję|ograniczeni[ea]|wersję|kochankę|inicjatywę|głosy?|duszę</token>
 										</unify>
 								</pattern>
-								<message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych i abstrakcyjnych oraz osób. Poprawnie: <suggestion><match no="1" postag="(verb)(:fin)?(.*):(im)?perf.*" postag_regexp="yes" postag_replace="$1$2$3:$4.*|$1:fin$3:imperf.*">mieć</match></suggestion>.</message>
+								<message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych i abstrakcyjnych oraz osób. Poprawnie: <suggestion><match no="1" postag="(verb|pcon)(:fin)?(.*):(im)?perf.*" postag_regexp="yes" postag_replace="$1$2$3:$4.*|$1:fin$3:imperf.*">mieć</match></suggestion>.</message>
+								<url>http://sjp.pwn.pl/poradnia/haslo/posiadac;5384.html</url>
 								<short>Błąd leksykalny</short>
 								<example correction="ma">Wzrostu około 175 cm, włosy ciemne, <marker>posiada</marker> krótką brodę i wąsy.</example>
 						</rule>
             <rule>
               <pattern>
                   <marker>
-                      <token inflected="yes" postag="verb.*" postag_regexp="yes">posiadać</token>
+                      <token inflected="yes" postag="(:?verb|pcon).*" postag_regexp="yes">posiadać</token>
                   </marker>
                   <unify><feature id="gender"/><feature id="number"/><feature id="case"/>
                     <unify-ignore><token postag="adv.*" postag_regexp="yes"/></unify-ignore>
@@ -8543,7 +8556,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|praw[ao]|uprawnieni[ae]|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cech[ęy]|naturę|miejsce|zrozumienie|czas|braki|przygody|osobowość|zdolnoś(:?ć|ci)|obywatelstw[ao]|status|tytuł|informacj[ęe]|wykształcenie|kwalifikacje|wartość|umiejętnoś(:?ć|ci)|dokumenty|dowody|charakter|wiedzę|właściwoś(:?ć|ci)|siostrę|brata|świadomość|strukturę|rodzinę|programy?|ochronę|funkcję|autoryzację|sił[ęy]|płynność|kompetencje|doktorat|podmiotowość|immunitet|przodków|znamię|zmysł|zęby|zalet[ęy]|etat|nazwę|wizję|wad[ęy]|wartości|swobodę|skalę|znajomości|prestiż|pracę|gwarancję|reprezentację|opinię|dozę|jakość|zwolenników|wrogów|posłuch|energię|moc|aparycję|ograniczeni[ea]|wersję|kochankę|inicjatywę|głosy?|duszę</token>
                   </unify>
               </pattern>
-              <message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych i abstrakcyjnych oraz osób. Poprawnie: <suggestion><match no="1" postag="(verb)(:fin)?(.*):(im)?perf.*" postag_regexp="yes" postag_replace="$1$2$3:$4.*|$1:fin$3:imperf.*">mieć</match></suggestion>.</message>
+              <message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych i abstrakcyjnych oraz osób. Poprawnie: <suggestion><match no="1" postag="(verb|pcon)(:fin)?(.*):(im)?perf.*" postag_regexp="yes" postag_replace="$1$2$3:$4.*|$1:fin$3:imperf.*">mieć</match></suggestion>.</message>
+              <url>http://sjp.pwn.pl/poradnia/haslo/posiadac;5384.html</url>
               <short>Błąd leksykalny</short>
               <example correction="ma">Wzrostu około 175 cm, włosy ciemne, <marker>posiada</marker> wyjątkowo krótką brodę i wąsy.</example>
           </rule>
@@ -9422,7 +9436,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rule id="PO_NAJMNIEJSZEJ_LINII" name="„po najmniejszej linii oporu” (po linii najmniejszego oporu)">
 						<pattern>
 								<token>po</token>
-								<token regexp="yes">najmniejszej|najniższej</token>
+								<token regexp="yes">najmniejszej|najniższej|najlżejszej</token>
 								<token>linii</token>
 								<token>oporu</token>
 						</pattern>
