@@ -8560,7 +8560,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <marker>
           <token>à</token>
-          <token regexp="yes">[dl]e|les</token>
+          <token regexp="yes">les?</token>
         </marker>
         <token><exception postag="V inf|UNKNOWN" postag_regexp="yes"/></token>
       </pattern>
@@ -8572,8 +8572,8 @@ though, and has since been slightly modified)-->
       <pattern>
         <token>du</token>
         <token>
-          <exception postag="[NJ].*|UNKNOWN" postag_regexp="yes"/>
-          <exception>très</exception>
+          <exception postag="[KNJY].*|UNKNOWN" postag_regexp="yes"/>
+          <exception regexp="yes">bien|ou|mieux|moins|plus|tout|très|(?-i)[A-Z].*|:</exception>
         </token>
       </pattern>
       <message>Incohérence : « \1 » ne peut pas se touver devant « \2 ».</message>
@@ -8581,6 +8581,7 @@ though, and has since been slightly modified)-->
       <example>Je vais acheter du jambon.</example>
       <example>Du bon jambon.</example>
       <example>Du très bon jambon.</example>
+      <example>Il écoute du Chopin.</example>
     </rule>
     <rulegroup id="N_V" name="pas de verbe après : au, de, du…">
       <rule>
