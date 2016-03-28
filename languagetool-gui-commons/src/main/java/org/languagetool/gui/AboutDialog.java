@@ -20,7 +20,6 @@ package org.languagetool.gui;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.ResourceBundle;
@@ -31,8 +30,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -76,20 +73,7 @@ public class AboutDialog {
              Runtime.getRuntime().totalMemory()/1024/1024,
              Runtime.getRuntime().freeMemory()/1024/1024));
 
-    aboutPane.addHyperlinkListener(new HyperlinkListener() {
-      @Override
-      public void hyperlinkUpdate(HyperlinkEvent e) {
-        if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-          if (Desktop.isDesktopSupported()) {
-            try {
-              Desktop.getDesktop().browse(e.getURL().toURI());
-            } catch (Exception ex) {
-              Tools.showError(ex);
-            }
-          }
-        }
-      }
-    });
+    Tools.addHyperlinkListener(aboutPane);
 
     JTextPane maintainersPane = new JTextPane();
     maintainersPane.setBackground(new Color(0, 0, 0, 0));

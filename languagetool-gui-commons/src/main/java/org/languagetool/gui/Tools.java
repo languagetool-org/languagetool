@@ -215,16 +215,9 @@ public final class Tools {
       }
     }
   }
-
-  static void showRuleInfoDialog(Component parent, String title, String message, Rule rule, ResourceBundle messages, String lang) {
-    int dialogWidth = 320;
-    JTextPane textPane = new JTextPane();
-    textPane.setEditable(false);
-    textPane.setContentType("text/html");
-    textPane.setBorder(BorderFactory.createEmptyBorder());
-    textPane.setOpaque(false);
-    textPane.setBackground(new Color(0, 0, 0, 0));
-    textPane.addHyperlinkListener(new HyperlinkListener() {
+  
+  static void addHyperlinkListener(JTextPane pane) {
+    pane.addHyperlinkListener(new HyperlinkListener() {
       @Override
       public void hyperlinkUpdate(HyperlinkEvent e) {
         if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
@@ -238,6 +231,17 @@ public final class Tools {
         }
       }
     });
+  }
+
+  static void showRuleInfoDialog(Component parent, String title, String message, Rule rule, ResourceBundle messages, String lang) {
+    int dialogWidth = 320;
+    JTextPane textPane = new JTextPane();
+    textPane.setEditable(false);
+    textPane.setContentType("text/html");
+    textPane.setBorder(BorderFactory.createEmptyBorder());
+    textPane.setOpaque(false);
+    textPane.setBackground(new Color(0, 0, 0, 0));
+    Tools.addHyperlinkListener(textPane);
     textPane.setSize(dialogWidth, Short.MAX_VALUE);
     String messageWithBold = message.replaceAll("<suggestion>", "<b>").replaceAll("</suggestion>", "</b>");
     String exampleSentences = getExampleSentences(rule, messages);
