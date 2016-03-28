@@ -129,9 +129,24 @@ abstract class Server {
   protected ThreadPoolExecutor getExecutorService(LinkedBlockingQueue<Runnable> workQueue, HTTPServerConfig config) {
     int threadPoolSize = config.getMaxCheckThreads();
     System.out.println("Setting up thread pool with " + threadPoolSize + " threads");
-    return new ThreadPoolExecutor(threadPoolSize, threadPoolSize,
-            0L, TimeUnit.MILLISECONDS,
-            workQueue);
+    return new StoppingThreadPoolExecutor(threadPoolSize, workQueue);
   }
 
+  static class StoppingThreadPoolExecutor extends ThreadPoolExecutor {
+    
+    StoppingThreadPoolExecutor(int threadPoolSize, LinkedBlockingQueue<Runnable> workQueue) {
+      super(threadPoolSize, threadPoolSize, 0L, TimeUnit.MILLISECONDS, workQueue);
+    }
+
+    @Override
+    protected void afterExecute(Runnable r, Throwable t) {
+      super.afterExecute(r, t);
+      if (t != null && t instanceof OutOfMemoryError) {
+        // we prefer to stop instead of being in an unstable state:
+        t.printStackTrace();
+        System.exit(1);
+      }
+    }
+  }
+  
 }

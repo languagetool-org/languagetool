@@ -4,6 +4,10 @@
 
  * ...
 
+#### Embedded HTTPS server
+  * changed behaviour for OutOfMemory situations: the server
+    process now stops instead of being in an unstable state 
+
 
 
 ## 3.3 (2016-03-28)

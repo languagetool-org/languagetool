@@ -404,6 +404,10 @@ class LanguageToolHttpHandler implements HttpHandler {
     final Future<List<RuleMatch>> future = executorService.submit(new Callable<List<RuleMatch>>() {
       @Override
       public List<RuleMatch> call() throws Exception {
+        // use to fake OOM in thread for testing:
+        /*if (Math.random() < 0.1) {
+          throw new OutOfMemoryError();
+        }*/
         return getRuleMatches(text, parameters, lang, motherTongue, params);
       }
     });
@@ -413,6 +417,12 @@ class LanguageToolHttpHandler implements HttpHandler {
     } else {
       try {
         matches = future.get(maxCheckTimeMillis, TimeUnit.MILLISECONDS);
+      } catch (ExecutionException e) {
+        if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
+          throw (OutOfMemoryError)e.getCause();
+        } else {
+          throw e;
+        }
       } catch (TimeoutException e) {
         boolean cancelled = future.cancel(true);
         throw new RuntimeException("Text checking took longer than allowed maximum of " + maxCheckTimeMillis +
