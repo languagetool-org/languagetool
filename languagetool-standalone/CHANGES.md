@@ -2,6 +2,9 @@
 
 ## 3.3 (2016-03-28)
 
+#### Breton
+  * small rule improvements
+
 #### Catalan
   * added and improved rules
   * added words suggested by users
@@ -16,6 +19,9 @@
   * added checks on date ranges
   * added about 215 confusion pairs like best/bets, wand/want (works only with ngram data,
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
+
+#### Esperanto
+  * improved several rules
 
 #### French
   * added and improved rules
