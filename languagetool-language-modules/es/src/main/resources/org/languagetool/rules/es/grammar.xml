@@ -26,29 +26,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
         <equivalence type="S">
-            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[SN0].*|.*_GN_.S.*" postag_regexp="yes"></token>
+            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[SN0].*|.*_GN_.S.*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="P">
-            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[PN0].*|.*_GN_.P.*" postag_regexp="yes"></token>
+            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[PN0].*|.*_GN_.P.*" postag_regexp="yes"/>
         </equivalence>
     </unification>
     <unification feature="genero">
         <equivalence type="M">
-            <token postag="(PX.|N.|[ADP].{2}|V.{5})[MC].*|.*_GN_M..*" postag_regexp="yes"></token>
+            <token postag="(PX.|N.|[ADP].{2}|V.{5})[MC].*|.*_GN_M..*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="F">
-            <token postag="(PX.|N.|[ADP].{2}|V.{5})[FC].*|.*_GN_F..*" postag_regexp="yes"></token>
+            <token postag="(PX.|N.|[ADP].{2}|V.{5})[FC].*|.*_GN_F..*" postag_regexp="yes"/>
         </equivalence>
     </unification>
     <unification feature="persona">
         <equivalence type="primera">
-            <token postag="(P.|V.{3})[10].*" postag_regexp="yes"></token>
+            <token postag="(P.|V.{3})[10].*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="segunda">
-            <token postag="(P.|V.{3})[20].*" postag_regexp="yes"></token>
+            <token postag="(P.|V.{3})[20].*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="tercera">
-            <token postag="(P.|V.{3})[30].*" postag_regexp="yes"></token>
+            <token postag="(P.|V.{3})[30].*" postag_regexp="yes"/>
         </equivalence>
     </unification>
   <category name="Ortografía (tipográficos)" type="misspelling">
@@ -164,7 +164,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
       <rule id="HAZ_PARTICIPIO">
           <antipattern>
-              <token postag_regexp="yes" postag="D.*"></token>
+              <token postag_regexp="yes" postag="D.*"/>
               <token>haz</token>
           </antipattern>
           <pattern case_sensitive="no">
@@ -474,13 +474,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="SE_SABER_SER" name="Se delante de ciertas palabas" type="misspelling">
         <antipattern>
             <token>se</token>
-            <token postag_regexp="yes" postag="(PP...0|V.[^NP]).+"></token>
+            <token postag_regexp="yes" postag="(PP...0|V.[^NP]).+"/>
         </antipattern>
         <pattern>
             <marker>
                 <token>se</token>
             </marker>
-            <token postag_regexp="yes" postag="(P....[^AD]|[DRS]|V.[NP]).+"><exception postag="SENT_END"></exception><exception>hacia</exception></token>
+            <token postag_regexp="yes" postag="(P....[^AD]|[DRS]|V.[NP]).+"><exception postag="SENT_END"/><exception>hacia</exception></token>
         </pattern>
         <message>Delante de un pronombre no dativo o acusativo, determinante, adverbio, preposición o forma verbal no personal; <suggestion>sé</suggestion> lleva tilde.</message>
         <short>sé lleva tilde delante de \2</short>
