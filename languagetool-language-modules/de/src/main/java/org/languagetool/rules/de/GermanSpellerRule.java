@@ -332,43 +332,43 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   private boolean ignoreCompoundWithIgnoredWord(String word) throws IOException{
-	  String[] words = word.split("-");
-	  if(words.length < 2) {
-		  return false;
-	  }
+    String[] words = word.split("-");
+    if(words.length < 2) {
+      return false;
+    }
 
-	  boolean hasIgnoredWord = false;
-	  List<String> toSpellCheck = new ArrayList<String>(3);
-	  String stripFirst = word.substring(words[0].length()+1);
-	  String stripLast  = word.substring(0, word.length()-words[words.length-1].length()-1);
+    boolean hasIgnoredWord = false;
+    List<String> toSpellCheck = new ArrayList<String>(3);
+    String stripFirst = word.substring(words[0].length()+1);
+    String stripLast  = word.substring(0, word.length()-words[words.length-1].length()-1);
 
-	  if(super.ignoreWord(stripFirst)) { // e.g., "Senioren-Au-pair"
-		  hasIgnoredWord = true;
-		  if(!super.ignoreWord(words[0])) {
-		    toSpellCheck.add(words[0]);
-		  }
-	  } else if(super.ignoreWord(stripLast)) { // e.g., "Au-pair-Agentur"
-		  hasIgnoredWord = true;
-		  if(!super.ignoreWord(words[words.length-1])){
-		    toSpellCheck.add(words[words.length-1]);
-		  }
-	  } else {
-		  for(int idx = 0; idx < words.length; idx++) {
-			  if(super.ignoreWord(words[idx])) {
-				  toSpellCheck.add(words[idx]);
-				  hasIgnoredWord = true;
-			  }
-		  }
-	  }
+    if(super.ignoreWord(stripFirst)) { // e.g., "Senioren-Au-pair"
+      hasIgnoredWord = true;
+      if(!super.ignoreWord(words[0])) {
+        toSpellCheck.add(words[0]);
+      }
+    } else if(super.ignoreWord(stripLast)) { // e.g., "Au-pair-Agentur"
+      hasIgnoredWord = true;
+      if(!super.ignoreWord(words[words.length-1])){
+        toSpellCheck.add(words[words.length-1]);
+      }
+    } else {
+      for(int idx = 0; idx < words.length; idx++) {
+        if(super.ignoreWord(words[idx])) {
+          toSpellCheck.add(words[idx]);
+          hasIgnoredWord = true;
+        }
+      }
+    }
 
-	  if(hasIgnoredWord) {
-		  for (String w : toSpellCheck) {
-			  if(hunspellDict.misspelled(w)) {
-				  return false;
-			  }
-		  }
-	  }
-	  return hasIgnoredWord;
+    if(hasIgnoredWord) {
+      for (String w : toSpellCheck) {
+        if(hunspellDict.misspelled(w)) {
+          return false;
+        }
+      }
+    }
+    return hasIgnoredWord;
   }
 
   private List<String> sortByReplacements(String misspelling, List<String> suggestions) {
