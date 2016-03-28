@@ -1168,6 +1168,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   </category>
 
   <category name="Concordancia" type="inconsistency">
+
+    <rule id="LAS_NUMBER_MALE" name="'las tres preceptos' etcétera">
+        <pattern>
+            <marker>
+                <token>las</token>
+            </marker>
+            <token postag='Z'/>
+            <token postag='NCMP000'/>
+        </pattern>
+        <message>concordancia gramatical</message>
+        <suggestion>los</suggestion>
+        <example correction='los'>Cumplir dos de <marker>las</marker> tres preceptos.</example>
+    </rule>
+
+    <rule id="LOS_NUMBER_FEMALE" name="'los tres preguntas' etcétera">
+        <pattern>
+            <marker>
+                <token>los</token>
+            </marker>
+            <token postag='Z'/>
+            <token postag='NCFP000'/>
+        </pattern>
+        <message>concordancia gramatical</message>
+        <suggestion>las</suggestion>
+        <example correction='las'>Cumplir dos de <marker>los</marker> tres preguntas.</example>
+    </rule>
+
     <!--CONC_NUM Concordancias de número-->
 
     <rulegroup id="CONC_NUM" name="Concordancias de número">
