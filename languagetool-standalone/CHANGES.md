@@ -4,6 +4,9 @@
 
  * ...
 
+#### Java API
+  * some formerly deprecated code has been removed
+
 #### Embedded HTTPS server
   * changed behaviour for OutOfMemory situations: the server
     process now stops instead of being in an unstable state 

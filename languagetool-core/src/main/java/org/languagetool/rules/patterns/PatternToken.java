@@ -737,13 +737,6 @@ public class PatternToken implements Cloneable {
     return exceptionList != null || previousExceptionList != null;
   }
 
-  /**
-   * @deprecated this will be removed, as it was never used (deprecated since 3.2)
-   */
-  public final boolean testWhitespace() {
-    return testWhitespace;
-  }
-
   @Override
   public final String toString() {
     final StringBuilder sb = new StringBuilder();

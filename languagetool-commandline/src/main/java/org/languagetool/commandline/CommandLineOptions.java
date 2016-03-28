@@ -58,8 +58,8 @@ public class CommandLineOptions {
   private String encoding = null;
   @Nullable
   private String filename = null;
-  private String[] disabledRules = {};
-  private String[] enabledRules = {};
+  private List<String> disabledRules = new ArrayList<>();
+  private List<String> enabledRules = new ArrayList<>();
   private boolean useEnabledOnly = false;
   @Nullable
   private String ruleFile = null;
@@ -241,19 +241,19 @@ public class CommandLineOptions {
     this.filename = filename;
   }
 
-  public String[] getDisabledRules() {
+  public List<String> getDisabledRules() {
     return disabledRules;
   }
 
-  public void setDisabledRules(String[] disabledRules) {
+  public void setDisabledRules(List<String> disabledRules) {
     this.disabledRules = Objects.requireNonNull(disabledRules);
   }
 
-  public String[] getEnabledRules() {
+  public List<String> getEnabledRules() {
     return enabledRules;
   }
 
-  public void setEnabledRules(String[] enabledRules) {
+  public void setEnabledRules(List<String> enabledRules) {
     this.enabledRules = Objects.requireNonNull(enabledRules);
   }
 

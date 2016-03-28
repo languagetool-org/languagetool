@@ -29,6 +29,7 @@ import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.BritishEnglish;
 import org.languagetool.language.English;
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -98,7 +99,7 @@ public class JLanguageToolTest extends TestCase {
     tool.disableRule("MORE_A_JJ");
     assertEquals(0, tool.check("I can give you more a detailed description.").size());
     assertEquals(1, tool.check("I've go to go.").size());
-    tool.disableCategory("Possible Typo");
+    tool.disableCategory(Categories.TYPOS.getId());
     assertEquals(0, tool.check("I've go to go.").size());
   }
 
