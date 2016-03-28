@@ -16,7 +16,7 @@ if [ $cont != "y" ]; then
   exit
 fi
 
-BASE_NAME=LanguageTool-wikipedia-3.3-SNAPSHOT
+BASE_NAME=LanguageTool-wikipedia-3.4-SNAPSHOT
 TARGET_FILE=$BASE_NAME.zip
 
 cd ../..
