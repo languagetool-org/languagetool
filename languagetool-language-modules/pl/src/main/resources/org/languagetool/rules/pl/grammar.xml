@@ -5729,8 +5729,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example correction="Pożądane"><marker>Pożądanym</marker> jest, aby szkoły były umundurowane.</example>
 								<example correction="Niewątpliwe"><marker>Niewątpliwym</marker> również jest, że Roman kocha się w Andrzeju.</example>
 								<example>Pożądane jest, aby szkoły były umundurowane.</example>
-                                <example>Bliskim jego wiadomo było, że pisze.</example>
-                                <example correction="Prawdopodobniejsze"><marker>Prawdopodobniejszym</marker> było, że zatrzymali go przemocą.</example>
+                <example>Bliskim jego wiadomo było, że pisze.</example>
+                <example correction="Prawdopodobniejsze"><marker>Prawdopodobniejszym</marker> było, że zatrzymali go przemocą.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -5743,9 +5743,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								</pattern>
 								<message>Ten wyraz powinien być w mianowniku: <suggestion><match no="2" postag="(adj|ppas|pact):sg:inst.*(:pos|:com|:aff)" postag_regexp="yes" postag_replace="$1:sg:.*nom.*:n1\.n2.*$2"></match></suggestion> (domyślnym podmiotem jest „to”).</message>
 								<short>Błąd odmiany</short>
-								<example correction="pożądane">Jest <marker>pożądanym</marker> , aby szkoły były umundurowane.</example>
+								<example correction="pożądane">Jest <marker>pożądanym</marker>, aby szkoły były umundurowane.</example>
 								<example>Jest pożądane, aby szkoły były umundurowane.</example>
 						</rule>
+								<rule>
+								<pattern>
+										<token><exception postag="(subst|ger):*sg:.*(inst|loc).*[.\:](m|n).*" postag_regexp="yes"></exception></token>
+										<marker>
+												<token postag="(adj|ppas|pact):sg:inst.*[.\:]m.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="current">tym|którym|żadnym</exception><exception postag="(subst|ger):*sg.*(inst|loc).*[.\:](m|n).*|.*(ppas|adj):sg:acc.nom.voc:n.*" postag_regexp="yes" scope="next"></exception><exception regexp="yes" scope="next">&interp;</exception></token>
+										</marker>
+										<token regexp="yes">jest|było|będzie|byłoby<exception scope="previous">wiadomo</exception></token>
+										<token>to</token>
+										<token>,</token>
+										<token inflected="yes" regexp="yes">że|iż|aby|iżby|by|żeby|jak|gdzie|dokąd|skąd|ile|który|jaki</token>
+								</pattern>
+								<message>Ten wyraz powinien być w mianowniku: <suggestion><match no="2" postag="(adj|ppas|pact):sg:inst.*(:pos|:com|:aff)" postag_regexp="yes" postag_replace="$1:sg:.*nom.*:n1\.n2.*$2"></match></suggestion> (podmiotem jest „to”).</message>
+								<short>Błąd odmiany</short>
+								<example correction="dobre">Bez wątpienia <marker>dobrym</marker> jest to, żeby szkoły były umundurowane.</example>
+								<example correction="Pożądane"><marker>Pożądanym</marker> jest to, aby szkoły były umundurowane.</example>
+								<example correction="Niewątpliwe"><marker>Niewątpliwym</marker> również jest to, że Roman kocha się w Andrzeju.</example>
+								<example>Pożądane jest, aby szkoły były umundurowane.</example>
+                <example>Bliskim jego wiadomo było, że pisze.</example>                
+						</rule>
+
 				</rulegroup>
 				<rule id="POL_RAZY" name="„pół razy” (pół raza)">
 						<pattern>
@@ -5947,6 +5967,165 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </rule>
 		</category>
 		<category id="SYNTAX" name="Błędy składniowe" type="grammar">
+		    <rulegroup id="PCON_VERB" name="Imiesłów przysłówkowy bez orzeczenia">
+		    <antipattern>
+		      <token postag="adv.*" postag_regexp="yes"/>
+		      <marker>
+		      <token>mówiąc</token>
+		      </marker>
+		      <token>,</token>
+		    </antipattern>
+		    <antipattern>
+		      <marker>
+		      <token>mówiąc</token>
+		      </marker>
+		      <token postag="adv(:pos)?" postag_regexp="yes"/>
+		      <token>,</token>
+		    </antipattern>
+		    <antipattern>
+ 		      <marker>
+		      <token>mówiąc</token>
+		      </marker>
+          <token>między</token>
+          <token>nami</token>
+		    </antipattern>
+		    <antipattern>
+		      <token>między</token>
+          <token>nami</token>
+ 		      <marker>
+		      <token>mówiąc</token>
+		      </marker>
+		    </antipattern>
+		    <antipattern>
+		      <token>nawiasem</token>
+		      <marker>
+		        <token>mówiąc</token>
+		      </marker>
+		    </antipattern>
+		    <antipattern>
+		    <unify><feature id="case"><type id="nom"/></feature><feature id="gender"/><feature id="number"/>
+		    <marker>
+          <token inflected="yes">jaki</token>
+        </marker>
+        <token postag="adj.*" postag_regexp="yes"/>
+        <token postag="subst.*" postag_regexp="yes"/>
+        </unify>
+		    </antipattern>
+		    <antipattern>
+		    <unify><feature id="case"><type id="nom"/></feature><feature id="gender"/><feature id="number"/>
+		    <marker>
+          <token inflected="yes">jaki</token>
+        </marker>
+        <unify-ignore><token regexp="yes">[„&quot;]</token></unify-ignore>        
+        <token postag="adj.*" postag_regexp="yes"/>
+        <token postag="subst.*" postag_regexp="yes"/>
+        </unify>
+		    </antipattern>
+		    <antipattern>
+		    <unify><feature id="case"><type id="nom"/></feature><feature id="gender"/><feature id="number"/>
+		    <marker>
+          <token inflected="yes">jaki</token>
+        </marker>
+        <unify-ignore><token>tu</token></unify-ignore>
+        <token postag="adj.*" postag_regexp="yes"/>
+        <token postag="subst.*" postag_regexp="yes"/>
+        </unify>
+		    </antipattern>
+		    <antipattern>
+   		    <unify><feature id="case"><type id="nom"/></feature><feature id="gender"/><feature id="number"/>
+		    <marker>
+          <token inflected="yes">jaki</token>
+        </marker>
+        <token postag="ppron3.*" postag_regexp="yes"/>
+        <token postag="adj.*" postag_regexp="yes"/>
+        </unify>
+		    </antipattern>
+		    <antipattern> <!--  Słowa „sumując” używamy na znak, że chcemy podsumować swoją wypowiedź. -->
+          <token>sumując</token>
+		    </antipattern>
+		    <antipattern>
+		      <token regexp="yes">zważywszy|począwszy|poczynając|skończywszy|kończąc</token>
+		    </antipattern>
+		    <antipattern>
+		      <token regexp="yes">lekko|nie</token>
+		      <marker>
+		      <token>licząc</token>
+		      </marker>
+		    </antipattern>
+		    <antipattern>
+		      <token>nie</token>
+		      <marker>
+		        <token>wyłączając</token>
+		      </marker>
+		    </antipattern>
+		    <antipattern>
+		    <token regexp="yes">[„&quot;]</token>
+		    <marker><token skip="-1" postag="pcon.*" postag_regexp="yes"/></marker>
+		    <token regexp="yes">[&quot;”]</token>
+		    </antipattern>
+		    <rule>
+         <pattern>
+          <token postag='SENT_START' skip='-1'><exception postag='verb.*|pred' postag_regexp='yes' scope='next'></exception></token>
+          <token postag='(:?pant|pcon).*' postag_regexp='yes' skip='-1'><exception postag='verb.*|pred' postag_regexp='yes' scope='next'></exception></token>
+          <token postag='SENT_END'>.</token>
+         </pattern>
+         <message>W tym zdaniu jest imiesłów przysłówkowy <match no="2"/>, ale nie ma czasownika w funkcji orzeczenia. Możliwe, że to tytuł, ale w takim razie zbędna jest kropka.</message>
+         <url>http://morfologik.blogspot.com/2010/03/imiesow-przysowkowy-bez-orzeczenia.html</url>
+         <short>Brak orzeczenia w zdaniu</short>
+          <example correction=''><marker>Wchodząc na afisz.</marker></example>
+          <example correction=''><marker>Kupując 2 pizze, trzecia gratis.</marker></example>
+          <example>Kupując 2 pizze, trzecią otrzymujesz gratis!</example>
+          <example>Mówiąc między nami, to moja dziewczyna.</example>
+          <example>Ściśle rzecz biorąc, pomidor to owoc.</example>
+           <example>Weszła na afisz.</example>
+           <example>Czekając na Godota</example>
+           <example>— Tak, oddając ją w ręce Markowi!</example>
+           <example>Szczerze mówiąc, za bezcen.</example>
+           <example>Mówiąc między nami, to żaba, nie kobieta.</example>
+           <example>Wówczas obaj udali się na przechadzkę triumfalną, podniósłszy głowy i porykując co chwila.</example>
+           <example>Ale, margrabio, mówiąc otwarcie, na co mi tego kłopotu?</example>
+           <example>Potem obaj umilkli, przysłuchując się skrzypiącemu pod nogami śniegowi.</example>
+           <example>Sumując — nihil novi.</example>
+           <example>Nie licząc lokomotyw, to cztery tysiące ton.</example>
+           <example>Fokker broni się od tygodnia przed bankructwem szukając potencjalnych inwestorów.</example>
+           <example>W innych krajach także, nie wyłączając Polski (mniejsza o liczby).</example>
+           <example>Niewiele, zważywszy, że jeden słony paluszek to 27 kcal.</example>
+          </rule>
+        <rule>
+        <pattern>
+          <token postag='SENT_START' skip='-1'><exception postag='verb.*|pred' postag_regexp='yes' scope='next'/><exception scope="next" regexp="yes">o?to</exception></token>
+          <token postag='(:?pant|pcon).*' postag_regexp='yes' skip='-1'><exception postag='verb.*|pred' postag_regexp='yes' scope='next'/></token>
+          <token inflected="yes" skip="-1" regexp="yes">który|jaki<exception scope="next" regexp="yes">[\?!]</exception></token>
+          <token  postag='verb.*|pred' postag_regexp='yes' skip="-1"><exception postag='verb.*|pred' postag_regexp='yes' scope='next'/></token>
+          <token postag='SENT_END'>.</token>
+         </pattern>
+         <message>W tym zdaniu jest imiesłów przysłówkowy <match no="2"/>, ale nie ma czasownika w funkcji orzeczenia.</message>
+         <url>http://morfologik.blogspot.com/2010/03/imiesow-przysowkowy-bez-orzeczenia.html</url>
+         <short>Brak orzeczenia w zdaniu</short>
+         <example correction=''><marker>Wchodząc na afisz, który wisiał na słupie.</marker></example>
+         <example>Wchodząc na afisz, który wisiał na słupie, sztuka była już znana.</example>
+         <example>„Jakim ja nikczemny i głupi!… — zawołał, uderzając się w czoło.</example>
+         <example>- Jakie śliczne kwiaty - mówił, wąchając ten lub ów z poustawianych wszędzie bukietów.</example>
+         <example>Jaki on ciężki — powiedział, kładąc go na łóżko.</example>
+         <example>- Jaki tu błogi spokój - uśmiechnęła się pani Barbara, przekładając ciążącą jej torbę do drugiej ręki i podciągając przerzucone przez ramię chustkę i żakiet.</example>
+         <example>Kiedyż to jaki „pan szczęścia” odwrócił się od tylu talarów, bojąc się zapijaczonego starego żeglarza z siną gębą i to jeszcze umarłego?</example>
+         <example>To Piotruś, który od wyjścia ze szkoły nie porzucał swego protektora, łażąc za nim w odległości kilku kroków po uliczkach i zaułkach miasteczka.</example>
+         </rule>
+        <rule>
+        <pattern>
+          <token postag='SENT_START' skip='-1'><exception postag='verb.*|pred' postag_regexp='yes' scope='next'></exception><exception scope="next" regexp="yes">o?to</exception></token>
+          <token inflected="yes" skip="-1" regexp="yes">który|jaki<exception scope="next" regexp="yes">[\?!]</exception></token>
+          <token  postag='verb.*|pred' postag_regexp='yes' skip="-1"><exception postag='verb.*|pred' postag_regexp='yes' scope='next'/></token>
+          <token postag='(:?pant|pcon).*' postag_regexp='yes' skip='-1'><exception postag='verb.*|pred' postag_regexp='yes' scope='next'/></token>
+          <token postag='SENT_END'>.</token>
+         </pattern>
+         <message>W tym zdaniu jest imiesłów przysłówkowy <match no="2"/>, ale nie ma czasownika w funkcji orzeczenia.</message>
+         <url>http://morfologik.blogspot.com/2010/03/imiesow-przysowkowy-bez-orzeczenia.html</url>
+         <short>Brak orzeczenia w zdaniu</short>
+         <example correction=''><marker>Afisz, który wisiał na słupie, będąc widocznym.</marker></example>
+         <example>Czekając na Godota</example>
+        </rule>
+        </rulegroup>
         <rule id="WINIEN_AGLUTYNANT" name="Zła odmiana czasownika „powinien” w czasie przeszłym">
 					<pattern>
             <unify>
@@ -6463,40 +6642,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Radził, żebym przyznał się do winy.</example>
                 <example correction='żebyś przyznała'>Radził, <marker>żeby przyznałaś</marker> się do winy.</example>
                 <example correction="Gdybyś zrobił"><marker>Gdybyś zrobiłeś</marker> błąd, popraw go.</example>
-            </rule>
-            <rule id="PCON_VERB" name="Brak orzeczenia po imiesłowie na -ąc">
-                <antipattern>
-                    <token regexp="yes">krótko|ściślej?|szczerze</token>
-                    <marker><token>mówiąc</token></marker>
-                    <token>,</token>
-                </antipattern>
-                <antipattern>
-                    <token>między</token>
-                    <token>nami</token>
-                    <marker><token>mówiąc</token></marker>
-                    <token>,</token>
-                </antipattern>
-                <antipattern>
-                    <marker><token>mówiąc</token></marker>
-                    <token>między</token>
-                    <token>nami</token>
-                    <token>,</token>
-                </antipattern>
-                <pattern>
-                    <token postag='SENT_START' skip='-1'><exception regexp='yes' scope='next'>[,;]</exception><exception postag='verb:.*|pred' postag_regexp='yes' scope='next'></exception></token>
-                    <token postag='pcon.*' postag_regexp='yes' skip='-1'><exception scope='next' regexp="yes">[\(\)]</exception><exception postag='verb:.*|pred' postag_regexp='yes' scope='next'/></token>
-                    <marker>
-                        <token skip='-1'>,<exception postag='verb:.*|pred' postag_regexp='yes' scope='next'/></token>
-                        <token postag='SENT_END'></token>
-                    </marker>
-                </pattern>
-                <message>Prawdopodobnie brak orzeczenia w tej części zdania, rozpoczętego od imiesłowu.</message>
-                <short>Brak orzeczenia</short>
-                <example correction=''>Kupując 2 pizze<marker>, trzecia gratis!</marker></example>
-                <example>Kupując 2 pizze, trzecią otrzymujesz gratis!</example>
-                <example>Mówiąc między nami, to moja dziewczyna.</example>
-                <example>Ściśle rzecz biorąc, pomidor to owoc.</example>
-            </rule>
+            </rule>            
                 <rule id="ZOSTALO_ZROBIONE" name="Brak zgodności czasownika z imiesłowem (np. „zostało zrobiony”)">
                     <antipattern> <!-- dokonałbym ... był -->
                         <unify>

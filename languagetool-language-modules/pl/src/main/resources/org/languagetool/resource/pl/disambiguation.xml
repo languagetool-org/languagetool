@@ -2528,17 +2528,6 @@
         <example type="untouched">Bylem tylko dostał do rączki to hrabstwo, to już wiem, że dam sobie radę...</example>
     </rule>
 
-    <rule name="to jako predykatyw - uzgodnienie" id="to_pred_nominativ">
-        <pattern>
-            <marker>
-            <token postag="subst.*nom.*" postag_regexp="yes"><exception>to</exception></token>
-            <token postag="pred">to</token>
-            <token postag="(subst|adj|ppas|pact).*nom.*" postag_regexp="yes"><exception>to</exception></token>
-            </marker>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
-
 
     <rule name="przeciw byli" id="przeciw_byli">
         <pattern>
@@ -3324,6 +3313,16 @@
         <disambig postag="subst:sg:gen:n2"/>
         <example type="ambiguous" inputform="złota[złoto/subst:pl:acc:n2,złoto/subst:pl:nom:n2,złoto/subst:pl:voc:n2,złoto/subst:sg:gen:n2,złoty/adj:sg:nom.voc:f:pos]"
         outputform="złota[złoto/subst:sg:gen:n2]">Każda chwila była na wagę <marker>złota</marker>.</example>
+    </rule>
+
+    <rule id="UDALI" name="obaj udali - czasownik">
+        <pattern>
+            <token>obaj</token>
+            <marker>
+                <token postag="verb:praet:pl:m1.p1:ter:.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <rulegroup id="NUM_CONGR" name="liczebnik ze związkiem zgody">
@@ -6492,6 +6491,14 @@
         <disambig action="remove"><wd lemma="bracia"/></disambig>
     </rule>
 
+    <rule id="broni_sie" name="broni się -> czasownik">
+        <pattern>
+            <token postag="verb:fin:sg:ter:imperf:refl.nonrefl">broni</token>
+            <token postag="qub">się</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rulegroup id="BRATA_SUBST" name="„brata” itp. jako rzeczownik">
         <rule>
             <pattern>
@@ -8000,6 +8007,96 @@
         <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
                  outputform="bądź[bądź/conj]">Restrykcyjne przepisy aborcyjne mają też niektóre terytoria rządzone, <marker>bądź</marker> podbijane.</example>
     </rule>
+
+
+    <rule name="to z większą grupą nominalną jako predykatyw" id="to_pred_2">
+        <pattern>
+            <unify><feature id="case"><type id="nom"/></feature><feature id="gender"/>
+                <feature id="number"/>
+                <token postag="subst.*" postag_regexp="yes"><exception regexp="yes">to|jaki</exception></token>
+                <token postag="adj.*" postag_regexp="yes"/>
+            </unify>
+            <marker>
+                <token>to</token>
+            </marker>
+            <token skip="-1" postag="(subst|ppas|pact|adj).*nom.*" postag_regexp="yes"><exception>to</exception>
+                <exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*" postag_regexp="yes"/></token>
+            <token postag="interp:comma|SENT_END" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="replace"><wd pos="pred"/></disambig>
+    </rule>
+
+    <rule name="to z większą grupą nominalną jako predykatyw" id="to_pred_2a">
+        <pattern>
+            <unify><feature id="case"><type id="nom"/></feature><feature id="gender"/>
+                <feature id="number"/>
+                <token postag="subst.*" postag_regexp="yes"><exception regexp="yes">to|jaki</exception></token>
+                <token postag="adj.*" postag_regexp="yes"/>
+            </unify>
+            <marker>
+                <token>to</token>
+            </marker>
+            <token postag="adv.*|qub" postag_regexp="yes"/>
+            <token skip="-1" postag="(subst|ppas|pact|adj).*nom.*" postag_regexp="yes"><exception>to</exception>
+                <exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*" postag_regexp="yes"/></token>
+            <token postag="interp:comma|SENT_END" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="replace"><wd pos="pred"/></disambig>
+    </rule>
+
+
+    <rule name="to z większą grupą nominalną jako predykatyw" id="to_pred_3">
+        <pattern>
+            <unify><feature id="case"><type id="nom"/></feature><feature id="gender"/>
+                <feature id="number"/>
+                <token postag="subst.*" postag_regexp="yes"><exception regexp="yes">to|jaki</exception></token>
+                <token postag="adj.*" postag_regexp="yes"/>
+            </unify>
+            <marker>
+                <token>to</token>
+            </marker>
+            <unify><feature id="case"><type id="nom"/></feature><feature id="gender"/>
+                <feature id="number"/>
+                <token postag="(adj|pact|ppas).*" postag_regexp="yes"><exception regexp="yes">to|jaki</exception></token>
+                <token skip="-1" postag="subst.*" postag_regexp="yes"><exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*" postag_regexp="yes"/></token>
+            </unify>
+            <token postag="interp:comma|SENT_END" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="replace"><wd pos="pred"/></disambig>
+    </rule>
+
+    <rule name="to z większą grupą nominalną jako predykatyw" id="to_pred_4">
+        <pattern>
+            <unify><feature id="case"><type id="nom"/></feature><feature id="gender"/>
+                <feature id="number"/>
+                <token postag="subst.*" postag_regexp="yes"><exception regexp="yes">to|jaki</exception></token>
+                <token postag="adj.*" postag_regexp="yes"/>
+            </unify>
+            <marker>
+                <token>to</token>
+            </marker>
+            <token postag="adv.*|qub" postag_regexp="yes"/>
+            <unify><feature id="case"><type id="nom"/></feature><feature id="gender"/>
+                <feature id="number"/>
+                <token postag="(adj|pact|ppas).*" postag_regexp="yes"><exception regexp="yes">to|jaki</exception></token>
+                <token skip="-1" postag="subst.*" postag_regexp="yes"><exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*" postag_regexp="yes"/></token>
+            </unify>
+            <token postag="interp:comma|SENT_END" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="replace"><wd pos="pred"/></disambig>
+    </rule>
+
+    <rule name="to jako predykatyw - uzgodnienie" id="to_pred_nominativ">
+        <pattern>
+            <marker>
+                <token postag="(subst|adj|pact|ppas).*nom.*" postag_regexp="yes"><exception>to</exception></token>
+                <token postag="pred">to</token>
+                <token postag="(subst|adj|ppas|pact).*nom.*" postag_regexp="yes"><exception>to</exception></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
 
 
     <rulegroup id="BYC_ADJ_ACC_NOM" name="być + przymiotnik orzecznikowy -> mianownik">
