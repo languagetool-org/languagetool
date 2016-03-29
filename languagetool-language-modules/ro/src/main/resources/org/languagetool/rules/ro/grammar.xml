@@ -59,7 +59,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <equivalence type="fara_persoana"><token postag_regexp="yes" postag="...0.*"></token></equivalence>
     </unification>
 
-    <category name="Litere inversate">
+    <category id="CAT1" name="Litere inversate">
         <rulegroup id="LITERE_INVERSATE_LA_UN" name="Litere inversate - la nu = la un">
             <rule name="la nu - la un">
                 <pattern>
@@ -148,7 +148,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="Diverse">
+    <category id="MISC" name="Diverse">
         <rule id="TRECUT_IN_NEFIINTA" name="a trece în neființă">
             <pattern>
                 <token inflected="yes">trece</token>
@@ -540,7 +540,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="ieșit">El a <marker>ieșit afară</marker>.</example>
         </rule>
     </category>
-    <category name="Ghilimele">
+    <category id="CAT2" name="Ghilimele">
         <rule id="GHILIMELE_DUBLE_INCEPUT" name="Ghilimele duble la început de propoziție: [&quot;] în loc de [„]">
             <pattern case_sensitive="no">
                 <token postag="SENT_START"/>
@@ -590,7 +590,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
 
-    <category name="Greșeli de exprimare">
+    <category id="CAT3" name="Greșeli de exprimare">
         <rule id="A_DA_SFARA_IN_TARA" name="a da sfară în țară">
             <pattern>
                 <token inflected="yes">da</token>
@@ -863,7 +863,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
 
-    <category name="Greșeli gramaticale - acord substantiv">
+    <category id="CAT4" name="Greșeli gramaticale - acord substantiv">
 
         <rule id="UN_SF_O_SF" name="un + (subst fem) - o + (subst fem)">
             <pattern>
@@ -1162,7 +1162,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Își protejează <marker>propriile soții</marker> și copiii</example>
         </rule>
     </category>
-    <category name="Greșeli gramaticale - acord adjectiv">
+    <category id="CAT5" name="Greșeli gramaticale - acord adjectiv">
         <rule id="CELOR_MAI_MULTOR" name="celor mai multor -> celor mai mulți">
             <pattern>
                 <token>celor</token>
@@ -1228,7 +1228,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="grozav de frumoase">Aceste cărți sunt <marker>grozave de frumoase</marker>.</example>
         </rule>
     </category>
-    <category name="Greșeli gramaticale - acord predicat">
+    <category id="CAT6" name="Greșeli gramaticale - acord predicat">
         <rulegroup id="SE_POT_VB" name="se pot + (verb)">
             <rule name="se pot + (verb)">
                 <pattern>
@@ -1414,7 +1414,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="se știe">Ce facem și ce vorbim <marker>se știu</marker>.</example>
         </rule>
     </category>
-    <category name="Greșeli gramaticale - acordul după caz">
+    <category id="CAT7" name="Greșeli gramaticale - acordul după caz">
         <rule id="AL_CLASEI_HULITA" name="al + (subst fem genitiv sg) + (adj acuzativ sg): al clasei hulită">
             <!-- 
 			aici este folosită forma de particiu în loc de genitiv singular articulat: varianta actuală 
@@ -1482,7 +1482,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Eu sunt un critic al <marker>ideii acesteie</marker>.</example>
         </rule>
     </category>
-    <category name="Greșeli gramaticale - acord pronume">
+    <category id="CAT8" name="Greșeli gramaticale - acord pronume">
         <rule id="ACEIASI_FEMEIE" name="aceiași + (subst feminin)">
             <pattern>
                 <token>aceiași</token>
@@ -1505,7 +1505,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
 
-    <category name="Pleonasme">
+    <category id="CAT9" name="Pleonasme">
         <rule id="ACUM_DOUA_ZILE_IN_URMA" name="acum două zile în urmă">
             <pattern>
                 <token>acum</token>
@@ -4881,7 +4881,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
 
-    <category name="Cacofonie">
+    <category id="CAT10" name="Cacofonie">
         <rule id="CACOFONIE__CA" name="cacofonie: ...ca ca...">
             <pattern case_sensitive="yes">
                 <token regexp="yes">.*c[aîă]|C[ăa]<exception regexp="yes">Biserica|biserica|aortică</exception></token>
@@ -5045,7 +5045,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
 
-    <category name="Acordul încrucișat">
+    <category id="CAT11" name="Acordul încrucișat">
         <rulegroup id="AL_CARUI_PRIETENUL__CAINE" name="(Sms) + al cărui + (Sms)">
             <rule>
                 <pattern>
@@ -5766,7 +5766,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category name="Punctuație">
+    <category id="PUNCTUATION" name="Punctuație">
         <rule id="VIRGULA_ETC" name=", etc.">
             <pattern>
                 <token>,</token>
@@ -5792,7 +5792,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>A pus -1, -2, -3.</example>
         </rule>
     </category>
-    <category name="Repetiții">
+    <category id="CAT12" name="Repetiții">
         <rule id="ETC_ETC" name="etc. etc.">
             <pattern>
                 <token>etc</token>
@@ -5817,7 +5817,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="șamd.">A spus <marker>șamd. șamd.</marker></example>
         </rule>
     </category>
-    <category name="Numeral">
+    <category id="CAT13"  name="Numeral">
         <rule id="_20_DE_PAGINI" name="20 pagini -&gt; 20 de pagini">
             <pattern>
                 <token><exception regexp="yes">,|.|cele</exception></token>
