@@ -7,7 +7,7 @@
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
 
 #### French
-  * added 4 confusion pairs like pris/prix, quand/quant (works only with ngram data,
+  * added 9 confusion pairs like pris/prix, quand/quant (works only with ngram data,
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
 
 #### Java API
