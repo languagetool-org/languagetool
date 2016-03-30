@@ -10,6 +10,10 @@
   * added 9 confusion pairs like pris/prix, quand/quant (works only with ngram data,
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
 
+#### Spanish
+  * added 14 confusion pairs like tubo/tuvo, ciento/siento (works only with ngram data,
+    see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
+
 #### Java API
   * some formerly deprecated code has been removed
 
