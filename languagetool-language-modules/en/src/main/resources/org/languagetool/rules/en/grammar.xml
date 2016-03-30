@@ -9223,7 +9223,7 @@ USA
         <rulegroup id="PRP_PAST_PART" name="Agreement error: past participle without 'have'">
             <rule>
                 <pattern>
-                    <token postag="SENT_START" skip="-1"><exception inflected="yes" postag="V.*" postag_regexp="yes" regexp="yes" scope="next">have|be</exception></token>
+                    <token postag="SENT_START" skip="-1"><exception inflected="yes" postag="V.*" postag_regexp="yes" regexp="yes" scope="next">have|be</exception><exception regexp="yes" scope="next">["“«']</exception></token>
                     <token regexp="yes">I|you|he|she|we|they</token>
                     <marker>
                         <token postag="VBN"><exception postag="VBD|VBP" postag_regexp="yes"/></token>
@@ -9232,6 +9232,8 @@ USA
                 <message>Possible grammatical error. You used a past participle without using any required verb ('be' or 'have'). Did you mean <suggestion><match no="3" postag="VBD" postag_regexp="yes"/></suggestion>?</message>
                 <example correction="did">He <marker>done</marker> it.</example>
                 <example>It was done by him.</example>
+		<example>"Haven't you seen it?"</example>
+		<example>“Haven't you seen it?”</example>
             </rule>
             <rule>
                 <pattern>
