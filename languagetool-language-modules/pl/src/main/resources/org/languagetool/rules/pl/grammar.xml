@@ -735,6 +735,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 				</rulegroup>
 				<rulegroup id="COFANIE_PRZECINKA" name="Przecinek wewnątrz spójnika złożonego">
+				    <antipattern>
+				    <marker>
+				      <token>,</token>
+				      <token>że</token>
+				    </marker>
+				    <token>tak</token>
+				    <token>powiem</token>
+				    <token>,</token>
+				    </antipattern>
 						<rule>
 								<pattern>
 										<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;</exception></token>
@@ -800,6 +809,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<short>Błąd interpunkcyjny</short>
 								<example>Poszedłem tam, mimo że nie chciałem.</example>
 								<example correction="mimo że">Poszedłem tam, mimo<marker>, że</marker> nie chciałem.</example>
+								<example>Pan jako, że tak powiem, tubylec, na pewno mógłby polecić jakiś ciekawy lokal?</example>
 						</rule>
                     <rule>
                         <pattern>
@@ -2724,19 +2734,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>— Przyjacielu, bądź pozdrowiony!</example>
                                 <example>Nie wypadało mu mówić głupstw, bądź co bądź reprezentował parlament.</example>
 						</rule>
-                    <rule>
-                        <pattern>
-                            <token skip="-1">że</token>
-                            <marker>
-                                <token>,</token>
-                                <token regexp="yes">ani|i|lub|albo|czy|oraz</token>
-                            </marker>
-                                <token>że</token>
-                        </pattern>
-                        <message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion> \3</suggestion>.</message>
-                        <short>Błąd interpunkcyjny</short>
-                        <example correction=" lub">On myśli, że tak jest ogólnie<marker>, lub</marker> że mogłoby tak być zawsze.</example>
-                    </rule>
+            <rule>
+                <pattern>
+                    <token skip="-1">że</token>
+                    <marker>
+                        <token>,</token>
+                        <token regexp="yes">ani|i|lub|albo|czy|oraz</token>
+                    </marker>
+                        <token>że</token>
+                </pattern>
+                <message>Prawdopodobnie zbędny przecinek, powinno być: <suggestion> \3</suggestion>.</message>
+                <short>Błąd interpunkcyjny</short>
+                <example correction=" lub">On myśli, że tak jest ogólnie<marker>, lub</marker> że mogłoby tak być zawsze.</example>
+            </rule>           
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_ANI" name="Brak przecinka przed powtórzonym „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
 						<rule>
@@ -3236,7 +3246,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token>jednak</token>
+                        <token regexp="yes">jednak(:?że|owoż)?</token>
                         <token>,</token>
                         <phraseref idref="NIE_SPOJNIK_PRZECINKOWY_OLD"></phraseref>
                     </marker>
@@ -3244,6 +3254,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Prawdopodobnie zbędny przecinek. Poprawnie: <suggestion>\1 \3</suggestion>.</message>
                 <example correction="Jednak miałem"><marker>Jednak, miałem</marker> rację.</example>
                 <example correction="jednak jedyna">Nie jest to <marker>jednak, jedyna</marker> dostępna strategia.</example>
+                <example correction="Jednakże warto"><marker>Jednakże, warto</marker> spróbować.</example>
                 <example>Jednak, co pisałem, miałem rację.</example>
                 <example>A jednak, jednak.</example>
                 <example>Przestrzegam cię jednak, mój synu, że nadzieja czegoś dobrego warta często więcej, niż lada lichota w ręku.</example>
@@ -3472,53 +3483,68 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="Dodatkowo miałem"><marker>Dodatkowo, miałem</marker> rację.</example>
 						<example>Dodatkowo, jak już mówiłem, miałem rację.</example>
 				</rule>
-                <rule id="WIEC_ZATEM_PRZECINEK" name="Zbędny przecinek po „więc/zatem/toteż”">
-                    <antipattern>
-                        <marker>
-                            <token>,</token>
-                            <token postag="pant:.*|pcon.*" postag_regexp="yes"/>
-                        </marker>
-                    </antipattern>
-                    <antipattern>
-                        <marker>
-                            <token>,</token>
-                            <token>nie</token>
-                            <token postag="pant:.*|pcon.*" postag_regexp="yes"/>
-                        </marker>
-                    </antipattern>
-                    <antipattern>
-                        <token>,</token>
-                        <token>zdaniem</token>
-                    </antipattern>
-                    <antipattern>
-                        <marker>
-                            <token>,</token>
-                        </marker>
-                        <token postag="adj.*voc.*" postag_regexp="yes"/>
-                        <token postag="subst:sg:voc.*" postag_regexp="yes"/>
-                    </antipattern>
-                    <antipattern case_sensitive="yes">
-                        <marker>
-                            <token>Dobrze</token>
-                            <token>więc</token>
-                        </marker>
-                    </antipattern>
-                    <pattern>
-                        <marker>
-                        <token regexp='yes'>więc|zatem|toteż</token>
-                        <token>,</token>
-                        </marker>
-                        <phraseref idref="NIE_SPOJNIK_PRZECINKOWY_OLD"></phraseref>
-                    </pattern>
-                    <message>Prawdopodobnie zbędny przecinek: <suggestion><match no="1"/></suggestion>.</message>
-                    <short>Zbędny przecinek</short>
-                    <example correction='więc'>Jest to <marker>więc,</marker> problem.</example>
-                    <example>Jest to więc problem.</example>
-                    <example>Publiczność oczekiwała od niej dłuższej arii, gdy więc, wykonawszy krótką frazę, zniknęła, znowu rozległy się gwizdy.</example>
-                    <example>A więc, Edgarze, ty również byłeś kiedyś czarodziejem?</example>
-                    <example>Tak więc, miły bratku, nie smuć się tym.</example>
-                    <example>— Dobrze więc, rzekł Kandyd, zdajmy się na wolę Opatrzności…</example>
-                </rule>
+        <rulegroup id="WIEC_ZATEM_PRZECINEK" name="Zbędny przecinek po „więc/zatem/toteż/stąd też/dlatego też”">                
+            <antipattern>
+                <marker>
+                    <token>,</token>
+                    <token postag="pant:.*|pcon.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>,</token>
+                    <token>nie</token>
+                    <token postag="pant:.*|pcon.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <token>,</token>
+                <token>zdaniem</token>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>,</token>
+                </marker>
+                <token postag="adj.*voc.*" postag_regexp="yes"/>
+                <token postag="subst:sg:voc.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <marker>
+                    <token>Dobrze</token>
+                    <token>więc</token>
+                </marker>
+            </antipattern>
+            <rule>
+            <pattern>
+                <marker>
+                <token regexp='yes'>więc|zatem|toteż</token>
+                <token>,</token>
+                </marker>
+                <phraseref idref="NIE_SPOJNIK_PRZECINKOWY_OLD"></phraseref>
+            </pattern>
+            <message>Prawdopodobnie zbędny przecinek: <suggestion><match no="1"/></suggestion>.</message>
+            <short>Zbędny przecinek</short>
+            <example correction='więc'>Jest to <marker>więc,</marker> problem.</example>
+            <example>Jest to więc problem.</example>
+            <example>Publiczność oczekiwała od niej dłuższej arii, gdy więc, wykonawszy krótką frazę, zniknęła, znowu rozległy się gwizdy.</example>
+            <example>A więc, Edgarze, ty również byłeś kiedyś czarodziejem?</example>
+            <example>Tak więc, miły bratku, nie smuć się tym.</example>
+            <example>— Dobrze więc, rzekł Kandyd, zdajmy się na wolę Opatrzności…</example>
+            </rule>
+            <rule>
+            <pattern>
+                <marker>
+                <token regexp='yes'>dlatego|stąd</token>
+                <token>też</token>
+                <token>,</token>
+                </marker>
+                <phraseref idref="NIE_SPOJNIK_PRZECINKOWY_OLD"></phraseref>
+            </pattern>
+            <message>Prawdopodobnie zbędny przecinek: <suggestion><match no="1"/> <match no="2"/></suggestion>.</message>
+            <short>Zbędny przecinek</short>
+            <example correction='Dlatego też'><marker>Dlatego też,</marker> mamy problem.</example>
+            </rule>
+        </rulegroup>
                 <rule id="I_TAK" name="Zbędny przecinek po „i tak”">
                     <antipattern>
                         <token>i</token>
@@ -5746,7 +5772,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example correction="pożądane">Jest <marker>pożądanym</marker>, aby szkoły były umundurowane.</example>
 								<example>Jest pożądane, aby szkoły były umundurowane.</example>
 						</rule>
-								<rule>
+						<rule>
 								<pattern>
 										<token><exception postag="(subst|ger):*sg:.*(inst|loc).*[.\:](m|n).*" postag_regexp="yes"></exception></token>
 										<marker>
@@ -5765,7 +5791,73 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Pożądane jest, aby szkoły były umundurowane.</example>
                 <example>Bliskim jego wiadomo było, że pisze.</example>                
 						</rule>
-
+						<rule id="test123">
+						    <antipattern>
+						    <token>,</token>
+						    <marker>
+						    <token regexp="yes">(:?ja)?kim</token>
+						    </marker>
+						    </antipattern>
+						    <antipattern>
+						    <token>,</token>
+						    <marker>
+						    <token>z</token>
+						    <token regexp="yes">(:?ja)?kim</token>
+						    </marker>
+						    </antipattern>
+						    <antipattern>
+						      <marker>
+						        <token postag="(adj|ppas|pact):sg:inst.*[.\:]m.*" postag_regexp="yes"/>
+						      </marker>
+						      <token inflected="yes">z</token>
+						    </antipattern>
+						    <antipattern>
+						      <token postag="(subst|ger|adj|ppas|pact):*sg:.*(inst|loc).*[.\:](m|n).*" postag_regexp="yes"/>
+						      <token>,</token>
+						      <marker>
+						      <token postag="(adj|ppas|pact):sg:inst.*[.\:]m.*" postag_regexp="yes" />
+						      </marker>
+						    </antipattern>
+						    <antipattern>
+						      <token postag="(subst|ger|adj|pact):*sg:.*(inst|loc).*[.\:](m|n).*" postag_regexp="yes"/>
+						      <token postag_regexp="yes" postag="adv.*"/>
+						      <marker>
+						      <token postag="(adj|ppas|pact):sg:inst.*[.\:]m.*" postag_regexp="yes" />
+						      </marker>
+						    </antipattern>
+						    <antipattern>
+						    <marker>
+						    <token>prima</token>
+						    </marker>
+						    <token>facie</token>
+						    </antipattern>
+								<pattern>
+										<token><exception postag="(subst|ger|adj|pact|ppas):*sg:.*(inst|loc).*[.\:](m|n).*" postag_regexp="yes"></exception></token>
+										<marker>
+												<token postag="(adj|ppas|pact):sg:inst.*[.\:]m.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="current">tym|którym|żadnym|aut</exception><exception postag="(subst|ger):*sg.*(acc|inst|loc).*[.\:](m|n).*|.*(ppas|adj):sg:(acc.)?nom.voc:n.*" postag_regexp="yes" scope="next"></exception><exception regexp="yes" scope="next">&interp;|wśród</exception></token>
+										</marker>
+										<token regexp="yes">jest|było|będzie|byłoby<exception scope="previous">wiadomo</exception></token>
+										<token postag="subst:sg:nom:n2"/>
+								</pattern>
+								<message>Ten wyraz powinien być w mianowniku: <suggestion><match no="2" postag="(adj|ppas|pact):sg:inst.*(:pos|:com|:aff)" postag_regexp="yes" postag_replace="$1:sg:.*nom.*:n1\.n2.*$2"></match></suggestion> (podmiotem jest „\4”).</message>
+								<short>Błąd odmiany</short>
+								<example correction="Możliwe"><marker>Możliwym</marker> jest wykorzystanie tego narzędzia.</example>
+								<example>W ten sposób na gruncie rozwiązań normatywnych zostają sformułowane generalne prawidłowości, jakim poddane  jest funkcjonowanie rynku kapitałowego w Polsce.</example>
+								<example>Jak dziś na niego głosuję, to wiem, kim on będzie jutro.</example>
+								<example>Trzecim z ubezpieczeń samochodowych jest AC, czyli auto-casco.</example>
+								<example>Kolejnym działaniem, zwiększającym zdecydowanie operatywność przekazywanych informacji jest wykorzystanie jako nośnika łączy teletransmisyjnych.</example>
+								<example>Zdecydowanie czynnikiem bardziej pozytywnym dla GPW byłoby poszerzenie rynku o spółki mocne fundamentalnie.</example>
+								<example>Walczącym potrzebne jest wsparcie, przede wszystkim moralne.</example>
+								<example>Jeszcze kilka miesięcy temu inwestorom zagranicznym było wszystko jedno, kto wygra, gdyż gospodarcze programy wyborcze obu bloków były niemal takie same.</example>
+								<example>Przykładem modelowym, wzorcowym jest objawienie Mahometa, o którym mamy dość dokładne dane.</example>
+								<example>Dwóch przebywa z tego powodu w więzieniu, przeciwko 15 innym prowadzone jest śledztwo.</example>
+								<example>Niejasne już prima facie jest sformułowanie o sprzedaży papierów wartościowych.</example>
+								<example>Mówili też o niezrozumieniu, z jakim w ich środowisku przyjmowane jest zaangażowanie na rzecz wyboru Kwaśniewskiego.</example>
+								<example>Wszystkim było wszystko jedno.</example>
+								<example>Jedynym aktem prawnym wspominającym o płatnościach za recenzję pracy jest rozporządzenie szefa MEN z lutego 1991 r.</example>
+								<example>Najbardziej istotnym wśród wymienionych czynników jest zmniejszenie spasania zbóż.</example>
+								<example>Jednym z najbardziej kontrowersyjnych i delikatnych problemów przestrzegania zasady aut dedere aut iudicare jest pytanie o stosunek obu członów alternatywy do siebie.</example>
+            </rule>
 				</rulegroup>
 				<rule id="POL_RAZY" name="„pół razy” (pół raza)">
 						<pattern>
