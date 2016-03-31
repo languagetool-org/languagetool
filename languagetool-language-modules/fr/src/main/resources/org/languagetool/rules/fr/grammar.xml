@@ -8567,7 +8567,7 @@ though, and has since been slightly modified)-->
         </marker>
         <token><exception postag="V inf|UNKNOWN" postag_regexp="yes"/></token>
       </pattern>
-      <message>Incohérence : « à \2 » ne peut se touver que devant un infinitif.</message>
+      <message>Incohérence : « à \2 » ne peut se touver que devant un infinitif.</message>
       <example correction="">Il a gagné <marker>à le</marker> championnat.</example>
       <example>Je n’arrive pas à le déplacer.</example>
     </rule>
@@ -8579,7 +8579,7 @@ though, and has since been slightly modified)-->
           <exception regexp="yes">bien|ou|mieux|moins|plus|tout|très|(?-i)[A-Z].*|:</exception>
         </token>
       </pattern>
-      <message>Incohérence : « \1 » ne peut pas se touver devant « \2 ».</message>
+      <message>Incohérence : « \1 » ne peut pas se touver devant « \2 ».</message>
       <example correction="">Je vais acheter <marker>du le</marker> jambon.</example>
       <example>Je vais acheter du jambon.</example>
       <example>Du bon jambon.</example>
@@ -9446,6 +9446,112 @@ though, and has since been slightly modified)-->
         <message>Le mot pluriel « \8 » n’est pas accordé en nombre avec le mot singulier « \2 ».</message>
         <example correction="">Elle a l’air <marker>contentes</marker>.</example>
         <example>Elle a l’air <marker>contente</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>j</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">ai|aurais|avais|aurai|aie|eus|eusse</token>
+          <token>l</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token>air</token>
+          <token min="0" max="1" postag="A"/>
+          <marker>
+            <token postag="V.* ppa .* p|J . p" postag_regexp="yes">
+              <exception postag="V.* ppa .* sp?|J . sp?" postag_regexp="yes"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Le mot pluriel « \8 » n’est pas accordé en nombre avec le pronom singulier « \1 ».</message>
+        <example correction="">J’avais l’air <marker>contents</marker>.</example>
+        <example>J’avais l’air <marker>content</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="SENT_START" skip="-1">
+            <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
+            <exception scope="next">et</exception>
+          </token>
+          <token postag="Z . sp?|N . s|R pers suj.* s|R dem.* s" postag_regexp="yes">
+            <exception postag="N . s?p" postag_regexp="yes"/>
+            <exception>on</exception>
+          </token>
+          <token>n</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token postag="V avoir.*" postag_regexp="yes"/>
+          <token regexp="yes">pas|point|guère|plus|jamais</token>
+          <token min="0" max="1" postag="A"/>
+          <token>l</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token>air</token>
+          <token min="0" max="1" postag="A"/>
+          <marker>
+            <token postag="V.* ppa .* p|J . p" postag_regexp="yes">
+              <exception postag="V.* ppa .* sp?|J . sp?" postag_regexp="yes"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Le mot pluriel « \12 » n’est pas accordé en nombre avec le mot singulier « \2 ».</message>
+        <example correction="">Elle n’a pas l’air <marker>contentes</marker>.</example>
+        <example correction="">Elle n’a pas l’air très <marker>contentes</marker>.</example>
+        <example correction="">Elle n’a pas toujours l’air <marker>contentes</marker>.</example>
+        <example>Elles n’a pas l’air <marker>contentes</marker>.</example>
+        <example>Elle n’a pas l’air <marker>contente</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="SENT_START" skip="-1">
+            <exception scope="next" postag="[NR].*sp?|V inf" postag_regexp="yes"/>
+          </token>
+          <token postag="N . p|R pers suj [13].* p|R dem.* p" postag_regexp="yes">
+            <exception postag="N . sp?" postag_regexp="yes"/>
+          </token>
+          <token postag="V avoir.*" postag_regexp="yes"/>
+          <token>l</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token>air</token>
+          <token min="0" max="1" postag="A"/>
+          <marker>
+            <token postag="V.* ppa .* s|J . s" postag_regexp="yes">
+              <exception regexp="yes">juste|même|vite</exception>
+              <exception postag="V.* ppa .* s?p|J . s?p" postag_regexp="yes"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Le mot singulier « \8 » n’est pas accordé en nombre avec le mot pluriel « \2 ».</message>
+        <example correction="">Nous avions l'air <marker>fatigué</marker>.</example>
+        <example>Nous avions l'air <marker>fatigués</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="SENT_START" skip="-1">
+            <exception scope="next" postag="[NR].*sp?|V inf" postag_regexp="yes"/>
+          </token>
+          <token postag="[NZ] . p|R pers suj [13].* p|R dem.* p" postag_regexp="yes">
+            <exception postag="[NZ] . sp?" postag_regexp="yes"/>
+          </token>
+          <token>n</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token postag="V avoir.*" postag_regexp="yes"/>
+          <token regexp="yes">pas|point|guère|plus|jamais</token>
+          <token min="0" max="1" postag="A"/>
+          <token>l</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token>air</token>
+          <token min="0" max="1" postag="A"/>
+          <marker>
+            <token postag="V.* ppa .* s|J . s" postag_regexp="yes">
+              <exception>juste</exception>
+              <exception postag="V.*  ppa .* s?p|J . s?p" postag_regexp="yes"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Le mot singulier « \12 » n’est pas accordé en nombre avec le mot pluriel « \2 ».</message>
+        <example correction="">Elles n’ont pas l’air <marker>fatiguée</marker>.</example>
+        <example correction="">Elles n’ont pas l’air très <marker>fatiguée</marker>.</example>
+        <example correction="">Elles n’ont pas encore l’air <marker>fatiguée</marker>.</example>
+        <example correction="">Elles n’ont pas encore l’air très <marker>fatiguée</marker>.</example>
+        <example>Elles n’ont pas l’air <marker>fatiguées</marker>.</example>
       </rule>
       <!-- TODO: add more cases in this rulegroup... -->
     </rulegroup>
@@ -28013,7 +28119,7 @@ though, and has since been slightly modified)-->
             <token>du</token>
           </marker>
         </pattern>
-        <message>On ne doit en aucun cas utiliser la préposition « auprès » avec le verbe « adresser ».</message>
+        <message>On ne doit en aucun cas utiliser la préposition « auprès » avec le verbe « adresser ».</message>
         <suggestion>au</suggestion>
         <example correction="au">Vous devez vous adresser <marker>auprès du</marker> responsable.</example>
         <example correction="au">Adressez-vous <marker>auprès du</marker> responsable.</example>
@@ -28028,7 +28134,7 @@ though, and has since been slightly modified)-->
             <token regexp="yes">['´‘’′]</token>
           </marker>
         </pattern>
-        <message>On ne doit en aucun cas utiliser la préposition « auprès » avec le verbe « adresser ».</message>
+        <message>On ne doit en aucun cas utiliser la préposition « auprès » avec le verbe « adresser ».</message>
         <suggestion>à</suggestion>
         <example correction="à">Le médecin m’a adressé <marker>auprès d’</marker> une de ses collègues.</example>
         <example correction="à">Le médecin m’a adressé immédiatement <marker>auprès d’</marker> une de ses collègues.</example>
@@ -28042,7 +28148,7 @@ though, and has since been slightly modified)-->
             <token>de</token>
           </marker>
         </pattern>
-        <message>On ne doit en aucun cas utiliser la préposition « auprès » avec le verbe « adresser ».</message>
+        <message>On ne doit en aucun cas utiliser la préposition « auprès » avec le verbe « adresser ».</message>
         <suggestion>à</suggestion>
         <example correction="à">Vous devez vous adresser directement <marker>auprès de</marker> votre professeur.</example>
       </rule>
@@ -28055,7 +28161,7 @@ though, and has since been slightly modified)-->
             <token>des</token>
           </marker>
         </pattern>
-        <message>On ne doit en aucun cas utiliser la préposition « auprès » avec le verbe « adresser ».</message>
+        <message>On ne doit en aucun cas utiliser la préposition « auprès » avec le verbe « adresser ».</message>
         <suggestion>aux</suggestion>
         <example correction="aux">Adressez-vous <marker>auprès des</marker> agents de sécurité.</example>
         <example correction="aux">Adressez-vous directement <marker>auprès des</marker> agents de sécurité.</example>
@@ -28069,7 +28175,7 @@ though, and has since been slightly modified)-->
           <token skip="3">qui</token>
           <token inflected="yes">adresser</token>
         </pattern>
-        <message>On ne doit en aucun cas utiliser la préposition « auprès » avec le verbe « adresser ».</message>
+        <message>On ne doit en aucun cas utiliser la préposition « auprès » avec le verbe « adresser ».</message>
         <suggestion>à</suggestion>
         <example correction="À"><marker>Auprès de</marker> qui dois-je m‘adresser ?</example>
         <example correction="à">Il ne sait pas <marker>auprès de</marker> qui s'adresser.</example>
