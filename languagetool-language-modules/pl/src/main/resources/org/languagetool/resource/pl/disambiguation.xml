@@ -4321,6 +4321,24 @@
         <example type="ambiguous" inputform="wschodnim[wschodni/adj:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,wschodni/adj:sg:inst:m1.m2.m3.n1.n2:pos,wschodni/adj:sg:loc:m1.m2.m3.n1.n2:pos]" outputform="wschodnim[wschodni/adj:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:pos]">Podstawową formą pomocy chrześcijanom <marker>wschodnim</marker> jest poznanie ich.</example>
     </rule>
 
+    <rule name="koordynacja w miejscowniku" id="LOC_COORDINATION">
+        <pattern>
+            <unify>
+                <feature id="case"><type id="loc"/></feature>
+                <feature id="gender"/>
+                <feature id="number"/>
+                <token postag="(subst|ger).*loc.*" postag_regexp="yes"/>
+                <token postag="adj.*" postag_regexp="yes"/>
+                <unify-ignore><token>,</token></unify-ignore>
+                <token postag="adj.*" postag_regexp="yes"/>
+                <unify-ignore><token regexp="yes">i|lub|czy|bądź|tydzież</token></unify-ignore>
+                <token postag="adj.*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="gminnym[gminny/adj:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,gminny/adj:sg:inst:m1.m2.m3.n1.n2:pos,gminny/adj:sg:loc:m1.m2.m3.n1.n2:pos]" outputform="gminnym[gminny/adj:sg:loc:m1.m2.m3.n1.n2:pos]">Na szczeblu wojewódzkim, powiatowym i <marker>gminnym</marker> również jest mnóstwo przykładów wykorzystywania przez polityków i urzędników swoich pozycji do celów całkowicie prywatnych.</example>
+    </rule>
+
     <rule name="dat + być + wszystko jedno" id="DAT_BYC_WSZYSTKO_JEDNO">
         <pattern>
             <marker>
@@ -9073,6 +9091,22 @@
         <example type="ambiguous" inputform="ONZ[ONZ/subst:pl:gen:m3,ONZ/subst:sg:gen:m3]" outputform="ONZ[ONZ/subst:irreg]">Do <marker>ONZ</marker> dotarło pismo z redakcji Przeglądu Wędkarskiego.</example>
     </rule>
     -->
+
+    <rule name="skróty z rozwinięciem" id="VERB_ACRONYM">
+        <pattern case_sensitive="yes">
+            <marker>
+                    <token postag="verb.*" postag_regexp="yes" regexp="yes">^\p{Lu}{3}$</token>
+            </marker>
+            <token>(</token>
+            <token regexp="yes"><match no="0" regexp_match="(.).." regexp_replace="$1.*"/></token>
+            <token regexp="yes"><match no="0" regexp_match=".(.)." regexp_replace="$1.*"/></token>
+            <token regexp="yes"><match no="0" regexp_match="..(.)" regexp_replace="$1.*"/></token>
+            <token>)</token>
+        </pattern>
+        <disambig postag="brev:npun"/>
+        <example type="ambiguous" inputform="IMA[imać/verb:fin:sg:ter:imperf:refl,imać/verb:fin:sg:ter:imperf:refl.nonrefl]"
+                 outputform="IMA[imać/brev:npun]">krystalochemiczna klasyfikacja amfiboli <marker>IMA</marker> (International Mineralogical Association)</example>
+    </rule>
 
     <rule name="wiodący w sensie właściwym" id="WIADACY_ADJ">
         <pattern>
