@@ -1205,6 +1205,16 @@
         <example type="untouched">I cannot do it.</example>
         <example type="ambiguous" inputform="t[t]" outputform="t[not/RB]">I can'<marker>t</marker> do it.</example>
     </rule>
+    <rule name="haven't => verb only" id="HAVENT">
+        <pattern>
+            <marker>
+                <token>haven</token>
+            </marker>
+            <token regexp="yes">['’]</token>
+            <token>t</token>
+        </pattern>
+        <disambig action="filter" postag="MD|VBP"/>
+    </rule>
     <rule name="re -> be" id="RE_VBP">
     	<pattern>
     		<token regexp="yes">they|we|what|who|you</token>
