@@ -214,17 +214,6 @@ class LanguageToolHttpHandler implements HttpHandler {
         throw new RuntimeException(errorMessage);
       }
     } catch (Exception e) {
-      if (text != null && remoteAddress != null) {
-        print("An error has occurred. Access from " + remoteAddress + ", text length " + text.length() + ". Stacktrace follows:", System.err);
-      } else {
-        print("An error has occurred. Stacktrace follows:", System.err);
-      }
-      if (verbose && text != null) {
-        print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
-                StringUtils.abbreviate(text, 500), System.err);
-      }
-      //noinspection CallToPrintStackTrace
-      e.printStackTrace();
       String response;
       int errorCode;
       if (e instanceof TextTooLongException) {
@@ -238,6 +227,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         response = Tools.getFullStackTrace(e);
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
       }
+      logError(text, remoteAddress, e, errorCode);
       sendError(httpExchange, errorCode, "Error: " + response);
     } finally {
       synchronized (this) {
@@ -245,6 +235,20 @@ class LanguageToolHttpHandler implements HttpHandler {
       }
       httpExchange.close();
     }
+  }
+
+  private void logError(String text, String remoteAddress, Exception e, int errorCode) {
+    if (text != null && remoteAddress != null) {
+      print("An error has occurred. Sending HTTP code " + errorCode + ". Access from " + remoteAddress + ", text length " + text.length() + ". Stacktrace follows:", System.err);
+    } else {
+      print("An error has occurred. Sending HTTP code " + errorCode + ". Stacktrace follows:", System.err);
+    }
+    if (verbose && text != null) {
+      print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
+              StringUtils.abbreviate(text, 500), System.err);
+    }
+    //noinspection CallToPrintStackTrace
+    e.printStackTrace();
   }
 
   // Call only if really needed, seems to be slow on some Windows machines.
