@@ -49,11 +49,16 @@ public class ConfusionSetLoader {
           throw new RuntimeException("Unexpected format: '" + line + "' - expected three semicolon-separated values: word1; word2; factor");
         }
         List<ConfusionString> confusionStrings = new ArrayList<>();
+        Set<String> loadedForSet = new HashSet<>();
         for (String part : Arrays.asList(parts).subList(0, parts.length-1)) {
           String[] subParts = part.split("\\|");
           String word = subParts[0];
           String description = subParts.length == 2 ? subParts[1] : null;
+          if (loadedForSet.contains(word)) {
+            throw new RuntimeException("Word appears twice in same confusion set: '" + word + "'");
+          }
           confusionStrings.add(new ConfusionString(word, description));
+          loadedForSet.add(word);
         }
         ConfusionSet confusionSet = new ConfusionSet(Long.parseLong(parts[parts.length-1]), confusionStrings);
         for (ConfusionString confusionString : confusionStrings) {
