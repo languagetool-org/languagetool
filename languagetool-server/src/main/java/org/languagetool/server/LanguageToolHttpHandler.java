@@ -219,6 +219,9 @@ class LanguageToolHttpHandler implements HttpHandler {
       if (e instanceof TextTooLongException) {
         errorCode = HttpURLConnection.HTTP_ENTITY_TOO_LARGE;
         response = e.getMessage();
+      } else if (e instanceof IllegalArgumentException) {
+        errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
+        response = e.getMessage();
       } else if (e.getCause() != null && e.getCause() instanceof TimeoutException) {
         errorCode = HttpURLConnection.HTTP_UNAVAILABLE;
         response = "Checking took longer than " + maxCheckTimeMillis/1000 + " seconds, which is this server's limit. " +

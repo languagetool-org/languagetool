@@ -19,7 +19,9 @@
 
 #### Embedded HTTPS server
   * changed behaviour for OutOfMemory situations: the server
-    process now stops instead of being in an unstable state 
+    process now stops instead of being in an unstable state
+  * missing parameters (like `text`) now cause a `400 Bad Request`
+    response (it used to produce `500 Internal Server Error`)
 
 
 
