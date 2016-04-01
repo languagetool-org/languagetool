@@ -19,17 +19,17 @@
 package org.languagetool.languagemodel;
 
 import org.junit.Test;
+import org.languagetool.rules.ngrams.FakeLanguageModel;
 import org.languagetool.rules.ngrams.Probability;
-import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-@SuppressWarnings("MagicNumber")
 public class BaseLanguageModelTest {
 
   @Test
@@ -53,42 +53,6 @@ public class BaseLanguageModelTest {
     try (FakeLanguageModel lm = new FakeLanguageModel()) {
       lm.getPseudoProbability(Collections.<String>emptyList());
     }
-  }
-
-  static class FakeLanguageModel extends BaseLanguageModel {
-    static Map<String,Integer> map = new HashMap<>();
-    FakeLanguageModel() {
-      // for "Their are new ideas to explore":
-      map.put("There are", 10);
-      map.put("There are new", 5);
-      map.put("Their are", 2);
-      map.put("Their are new", 1);
-      // for "Why is there car broken again?"
-      map.put("Why is", 50);
-      map.put("Why is there", 5);
-      map.put("Why is their", 5);
-      map.put("their car", 11);
-      map.put("their car broken", 2);
-    }
-    @Override
-    public long getCount(List<String> tokens) {
-      Integer count = map.get(String.join(" ", tokens));
-      return count == null ? 0 : count;
-    }
-    @Override
-    public long getCount(String token1) {
-      return getCount(Arrays.asList(token1));
-    }
-    @Override
-    public long getTotalTokenCount() {
-      int sum = 0;
-      for (int val : map.values()) {
-        sum += val;
-      }
-      return sum;
-    }
-    @Override
-    public void close() {}
   }
 
 }
