@@ -60,7 +60,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
 
   private boolean defaultOff;
   private boolean ruleGroupDefaultOff;
-  private boolean defaultOn;
 
   private String ruleGroupDescription;
   private int startPos = -1;
@@ -136,10 +135,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
         }
         if (inRuleGroup && ruleGroupDefaultOff) {
           defaultOff = true;
-          defaultOn = false;  // false because the rule isn't on *explicitly*
         } else {
           defaultOff = OFF.equals(attrs.getValue(DEFAULT));
-          defaultOn = ON.equals(attrs.getValue(DEFAULT));
         }
 
         correctExamples = new ArrayList<>();
@@ -465,7 +462,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
         antiPatternCounter = 0;
         ruleGroupDefaultOff = false;
         defaultOff = false;
-        defaultOn = false;
         break;
       case MARKER:
         if (inCorrectExample) {
