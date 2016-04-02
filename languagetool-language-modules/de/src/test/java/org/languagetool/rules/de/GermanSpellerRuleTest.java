@@ -88,8 +88,9 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("getrinkt", "getrunken", rule, langTool);
     assertFirstSuggestion("gespringt", "gesprungen", rule, langTool);
     assertFirstSuggestion("geruft", "gerufen", rule, langTool);
-    assertFirstSuggestion("Au-pair-Agentr", "Au-pair-Agentur", rule, langTool);
-    assertFirstSuggestion("Netflix-Flm", "Netflix-Film", rule, langTool);
+    assertFirstSuggestion("Au-pair-Agentr", "Au-pair-Agentur", rule, langTool); // "Au-pair" from spelling.txt 
+    assertFirstSuggestion("Netflix-Flm", "Netflix-Film", rule, langTool); // "Netflix" from spelling.txt
+    assertFirstSuggestion("Bund-Länder-Kommissio", "Bund-Länder-Kommission", rule, langTool);
   }
 
   @Test
@@ -131,6 +132,7 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Haupt- und Nebensatz")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Au-pair-Agentur")).length); // compound with ignored word from spelling.txt
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Netflix-Film")).length); // compound with ignored word from spelling.txt
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Bund-Länder-Kommission")).length);
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Miet und Zinseinkünfte")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Stil- und Grammatik gut")).length);
