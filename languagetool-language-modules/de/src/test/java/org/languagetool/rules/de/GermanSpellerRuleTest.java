@@ -88,6 +88,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("getrinkt", "getrunken", rule, langTool);
     assertFirstSuggestion("gespringt", "gesprungen", rule, langTool);
     assertFirstSuggestion("geruft", "gerufen", rule, langTool);
+    assertFirstSuggestion("Au-pair-Agentr", "Au-pair-Agentur", rule, langTool);
+    assertFirstSuggestion("Netflix-Flm", "Netflix-Film", rule, langTool);
   }
 
   @Test

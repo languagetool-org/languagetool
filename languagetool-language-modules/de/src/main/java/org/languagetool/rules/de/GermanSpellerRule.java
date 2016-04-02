@@ -199,7 +199,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
   
   @Override
-  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) {
+  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     String w = word.replaceFirst("\\.$", "");
     if ("unzwar".equals(w)) {
       return Collections.singletonList("und zwar");
@@ -243,6 +243,50 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     String participleSuggestion = getParticipleSuggestion(word);
     if (participleSuggestion != null) {
       return Collections.singletonList(participleSuggestion);
+    }
+    // hyphenated compounds containing ignored words (e.g., "Netflix-Flm")
+    if (suggestions.isEmpty() && word.contains("-")) {
+      String[] words = word.split("-");
+      if (words.length > 1) {
+        List<List<String>> suggestionLists = new ArrayList<List<String>>(words.length);
+        boolean hasIgnoredWord = true;
+        int startAt = 0, stopAt = words.length;
+        if (super.ignoreWord(words[0] + "-" + words[1])) { // "Au-pair-Agentr"
+          startAt = 2;
+          suggestionLists.add(Collections.singletonList(words[0] + "-" + words[1]));
+        }
+        if (super.ignoreWord(words[words.length-2] + "-" + words[words.length-1])) { // "Seniren-Au-pair"
+          stopAt = words.length-2;
+        }
+        for (int idx = startAt; idx < stopAt; idx++) {
+          if (super.ignoreWord(words[idx])) {
+            hasIgnoredWord = true;
+            suggestionLists.add(Collections.singletonList(words[idx]));
+          } else if(hunspellDict.misspelled(words[idx])) {
+            List<String> list = sortSuggestionByQuality(words[idx], super.getSuggestions(words[idx]));
+            suggestionLists.add(list);
+          } else {
+            suggestionLists.add(Collections.singletonList(words[idx]));
+          }
+        }
+        if (hasIgnoredWord) {
+          if (stopAt < words.length-1) {
+            suggestionLists.add(Collections.singletonList(words[words.length-2] + "-" + words[words.length-1]));
+          }
+          List<String> additionalSuggestions = suggestionLists.get(0);
+          for(int idx = 1; idx < suggestionLists.size(); idx++) {
+            List<String> suggestionList = suggestionLists.get(idx);
+            List<String> newList = new ArrayList<>(additionalSuggestions.size() * suggestionList.size());
+            for(int first = 0; first < additionalSuggestions.size(); first++) {
+              for(int last = 0; last < suggestionList.size(); last++) {
+                newList.add(additionalSuggestions.get(first) + "-" + suggestionList.get(last));
+              }
+            }
+            additionalSuggestions = newList;
+          }
+          return additionalSuggestions;
+        }
+      }
     }
     return Collections.emptyList();
   }
