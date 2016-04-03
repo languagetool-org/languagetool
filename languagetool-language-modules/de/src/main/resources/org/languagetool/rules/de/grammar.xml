@@ -3894,6 +3894,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Mögliche Wortverwechslung</short>
                 <example correction="Weisen">Die <marker>Waisen</marker> aus dem Morgenland sind dargestellt.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>fataler?|irgendeiner?|verschiedener?|vielerlei|[mds]einer?|ihrer?|gleicher?|ähnliche[rn]?|gewohnte[rn]?|keiner|keinster</token>
+                    <marker>
+                        <token regexp='yes' case_sensitive='yes'>Weiße|Waise</token>
+                    </marker>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>Weise</suggestion>?</message>
+                <short>Mögliche Wortverwechslung</short>
+                <example correction='Weise'>Er tat es auf seine <marker>Weiße</marker>.</example>
+                <example>In ähnlicher <marker>Weise</marker> erledigen Sie die restlichen Arbeiten.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="WAGE_VAGE" name="wage/vage">
             <rule>
