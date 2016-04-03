@@ -22747,13 +22747,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
         <rule id="TOT_I_AMB_AIXO" name="tot i amb això">
             <pattern>
-                <token>tot</token>
+                <token>tot<exception scope="previous">amb</exception></token>
                 <token>i</token>
                 <token>amb</token>
                 <token>això</token>
             </pattern>
             <message>¿Volíeu dir <suggestion>amb tot i això</suggestion>?</message>
             <example correction='amb tot i això'><marker>tot i amb això</marker></example>
+            <example>Amb tot i amb això, se'n van sortir</example>
         </rule>
         <rulegroup id="LO_NEUTRE" name="«lo» neutre" type="grammar">
             <!-- es podria fer una llista molt més completa de solucions-->
@@ -24099,7 +24100,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="justificant de recepció|confirmació de recepció|acusament de recepció"><marker>acús de rebut</marker></example>
             <example>acusament de recepció</example>
         </rule>
-        <rule id="A_LES_CLARES" name="*a les clares">
+<!--Admès per l'AVL i DCVB     <rule id="A_LES_CLARES" name="*a les clares">
             <antipattern>
                 <marker>
                     <token>clares</token>
@@ -24122,7 +24123,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>clarament</suggestion>
             <example correction="clar i ras|clar i català|a la clara|clarament">Parla <marker>a les clares</marker>.</example>
             <example>Es refereix a les clares acusacions del jutge.</example>
-        </rule>
+        </rule>-->
         <rule id="NO_SER_DE_REBUT" name="*no ser de rebut">
             <pattern>
                 <token>no</token>
@@ -25897,7 +25898,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>
             <pattern>
-                <token><exception inflected="yes" regexp="yes">plantar|fer|tenir|posar</exception><exception regexp="yes">de|la|tan|[stm]e[uv]a|[nv]ostra|aquesta|aquella|aqueixa|esta|eixa|mateixa</exception></token>
+                <token><exception inflected="yes" regexp="yes">plantar|fer|tenir|posar</exception><exception regexp="yes">mala|de|la|tan|[stm]e[uv]a|[nv]ostra|aquesta|aquella|aqueixa|esta|eixa|mateixa</exception></token>
                 <marker>
                     <token>cara</token>
                     <token>a</token>
@@ -32650,7 +32651,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes" skip="-1">acomplir</token>
                     </marker> <!-- casos dubtosos: tràmits, missió -->
-                    <token regexp="yes">voluntats?|condici(ó|ons)|profeci(a|es)|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|desigs?|desitjos|mes|mesos|setman(a|es)|requisits?</token>
+                    <token regexp="yes">voluntats?|condici(ó|ons)|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|desigs?|desitjos|mes|mesos|setman(a|es)|requisits?</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="a(.+)" regexp_replace="$1"/></suggestion> en comptes de '<match no="1"/>' (=dur a terme, executar) .</message>
                 <example correction="complir">Ahir va <marker>acomplir</marker> tres anys.</example>
@@ -32658,7 +32659,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="-1">voluntats?|condici(ó|ons)|profeci(a|es)|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|desigs?|desitjos|mes|mesos|setman(a|es)|requisits?</token>
+                    <token regexp="yes" skip="-1">voluntats?|condici(ó|ons)|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|desigs?|desitjos|mes|mesos|setman(a|es)|requisits?</token>
                     <marker>
                         <token inflected="yes">acomplir</token>
                     </marker>
