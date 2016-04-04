@@ -260,7 +260,7 @@ USA
         <rule id="CONFUSION_OF_OUR_OUT" name="confusion of our/out">
             <pattern>
                 <token>we</token>
-                <token postag="VBD|VB|VBP" postag_regexp="yes"><exception>take</exception></token>
+                <token postag="VBD|VB|VBP" postag_regexp="yes"><exception regexp="yes">take|find|go|went</exception></token>
                 <marker>
                     <token>out</token>
                 </marker>
@@ -635,6 +635,11 @@ USA
                 <example correction="form">Fill in the <marker>from</marker> as shown below.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>in</token>
+                    <token>book</token>
+                    <token>form</token>
+                </antipattern>
                 <pattern>
                     <token postag="NN.*" postag_regexp="yes"><exception postag="JJ"/></token>
                     <marker>
@@ -668,7 +673,7 @@ USA
         </rule>
         <rule id="HE_THE" name="he (the)">
             <pattern>
-                <token postag="IN"><exception regexp="yes">as|while|before|until|ago|than|after</exception></token>
+                <token postag="IN"><exception regexp="yes">as|while|before|until|ago|than|after|since</exception></token>
                 <token>he</token>
                 <token postag="NN.*" postag_regexp="yes"/>
             </pattern>
@@ -1834,7 +1839,10 @@ USA
                         <token spacebefore="no" regexp="yes">['’]</token>
                         <token>s</token>
                     </marker>
-                    <token postag="NN(S|(:UN?))?" postag_regexp="yes"><exception postag_regexp="yes" postag="JJ|VBN|CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB"/></token>
+                    <token postag="NN(S|(:UN?))?" postag_regexp="yes">
+                        <exception postag_regexp="yes" postag="JJ|VBN|CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB"/>
+                        <exception>his</exception>
+                    </token>
                 </pattern>
                 <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (=it is)?</message>
                 <short>Possible typo</short>
@@ -2084,6 +2092,13 @@ USA
             </rule>
             <!-- it's .*/JJ .*/NNS|NN::word=its \1 \2::pivots=it's,its -->
             <rule id="ITS_JJ_NNSNN" name="its JJ NN (possessive)">
+                <antipattern case_sensitive="yes">
+                    <token>It</token>
+                    <token regexp="yes">['’]</token>
+                    <token>s</token>
+                    <token>bad</token>
+                    <token>manners</token>
+                </antipattern>
                 <pattern>
                     <token>it</token>
                     <token spacebefore="no" regexp="yes">['’]</token>
@@ -2381,7 +2396,7 @@ USA
                     <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">\p{Ll}{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VBD|VBN|RB|MD|IN|JJ.*|CC|PRP|NNP.*" postag_regexp="yes"/></token>
                     <token><exception regexp="yes">\p{Punct}</exception></token>
                 </pattern>
-                <message>Possible typo: apostrophe is missing. Did you mean <suggestion><match no="3"/>'</suggestion> or <suggestion><match suppress_misspelled="yes" no="3" postag="NN(P)?S" postag_regexp="yes" postag_replace="NN$1(:U.?)?" setpos="no"/>'s</suggestion>?</message>
+                <message>Apostrophe might be missing. Did you mean <suggestion><match no="3"/>'</suggestion> or <suggestion><match suppress_misspelled="yes" no="3" postag="NN(P)?S" postag_regexp="yes" postag_replace="NN$1(:U.?)?" setpos="no"/>'s</suggestion>?</message>
                 <short>Possible typo</short>
                 <example>This is a transcript of the president's speech.</example>
                 <example>Publishers today are at loss...</example>
@@ -3047,7 +3062,10 @@ USA
         <rule id="VB_A_WHILE" name="VB a while (awhile)">
             <pattern>
                 <marker>
-                    <token postag="VB"><exception postag="VB.*" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="VB">
+                        <exception postag="VB.*" postag_regexp="yes" negate_pos="yes"/>
+                        <exception>take</exception>
+                    </token>
                     <token>a</token>
                     <token>while</token>
                 </marker>
@@ -5186,6 +5204,11 @@ USA
          <example>The most common of these is dot 5, which combines with the first letter of words.</example>
         </rule>
         <rule id="THIS_NNS_VB" name="this + plural noun + verb (these)">
+            <antipattern>
+                <token>This</token>
+                <token postag='VB.*' postag_regexp='yes'/>
+                <token postag="JJ"/>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
                 <marker>
@@ -5196,6 +5219,7 @@ USA
             </pattern>
             <message>Did you mean <suggestion>these</suggestion>?</message>
             <example correction='These'><marker>This</marker> images are beautiful.</example>
+            <example>This tastes pretty good to me.</example>
         </rule>
         <rule id="PEOPLE_VBZ" name="people + 3rd person verb">
             <pattern>
@@ -5743,11 +5767,11 @@ USA
             <pattern>
                 <token regexp='yes'>a|an|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
-                    <exception regexp="yes">commit|remix</exception>
+                    <exception regexp="yes">commit|remix|long-running </exception>
                     <exception postag='VB|VBP|SENT_END|PARA_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
-            <message>Probably a wrong construction: a/the + infinitive</message>
+            <message>Maybe a wrong construction: a/the + infinitive</message>
             <example correction=""><marker>a compete</marker> catastrophe.</example>
             <example correction=""><marker>a compete</marker></example>
             <example>a complete catastrophe</example>
@@ -5989,7 +6013,10 @@ USA
                 <token>it</token>
                 <token min="0" max="1" postag="RB"/>
                 <marker>
-                    <token postag="VBP?" postag_regexp="yes"><exception postag_regexp="yes" postag="VBD|R[BP]|IN"/></token>
+                    <token postag="VBP?" postag_regexp="yes">
+                        <exception postag_regexp="yes" postag="VBD|R[BP]|IN"/>
+                        <exception>true</exception>
+                    </token>
                 </marker>
             </pattern>
             <message>Did you mean <suggestion><match no="4" postag="VBZ"/></suggestion>?</message>
@@ -7068,7 +7095,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <token postag="NN|NNP|NN:.*" postag_regexp="yes"><exception regexp="yes">A|In|I|No|Most|Here</exception><exception postag="JJ|MD|NNS|CC|WRB|IN|VB" postag_regexp="yes"/></token>
+                    <token postag="NN|NNP|NN:.*" postag_regexp="yes"><exception regexp="yes">A|An|In|I|No|Most|Here</exception><exception postag="JJ|MD|NNS|NNPS|CC|WRB|IN|VB" postag_regexp="yes"/></token>
                     <marker>
                         <token chunk="B-VP" postag="VB|VBP" postag_regexp="yes"><exception postag="VBZ|VBN|VBD|VBG|IN|RB" postag_regexp="yes"/></token>
                     </marker>
@@ -7084,6 +7111,14 @@ USA
                 <example>Most have four limbs except for caecilians.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="RB"/>
+                    <token postag="VB.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="NN|NN:.*" postag_regexp="yes"/>
+                    <token>that</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT"><exception regexp="yes">these|those</exception></token>
@@ -7100,6 +7135,8 @@ USA
                 <example>Those wanting are the Canines.</example>
                 <example>The rest are arriving later.</example>
                 <example>The committee are all against it.</example>
+                <example>An evening glow often promises good weather.</example>
+                <example>An export pipeline that transports Caspian oil.</example>
                 <!-- example type="incorrect">The city is popular, and this marketing <marker>are</marker> bad for you.</example -->
             </rule>
             <rule>
@@ -8015,7 +8052,7 @@ USA
                         <token postag="VBG"/>
                     </marker>
                 </pattern>
-                <message>This verb is used with infinitive: <suggestion>to <match no="2" postag="VB"/></suggestion>.</message>
+                <message>If this is used as a verb, it usually requires the infinitive: <suggestion>to <match no="2" postag="VB"/></suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example>He didn't deserve to lose his job.</example>
                 <example correction="to spend">We cannot afford <marker>spending</marker> the whole month in Alps.</example>
@@ -8028,7 +8065,7 @@ USA
                         <token postag="VBG"/>
                     </marker>
                 </pattern>
-                <message>This verb is used with infinitive: <suggestion>to <match no="3" postag="VB"/></suggestion>.</message>
+                <message>If this is used as a verb, it usually requires the infinitive: <suggestion>to <match no="3" postag="VB"/></suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example correction="to spend">We cannot afford not <marker>spending</marker> the whole month in Alps.</example>
             </rule>
@@ -8338,15 +8375,23 @@ USA
                     <marker>
                         <token>this</token>
                     </marker>
-                    <token postag="NNS"><exception postag="VBZ|NN|JJ.*" postag_regexp="yes"/><exception>data</exception></token>
+                    <token postag="NNS"><exception postag="VBZ|NN|NN:UN|NN:U|JJ.*" postag_regexp="yes"/><exception>data</exception></token>
                     <token><exception postag="NNP?|NN:.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Did you mean <suggestion>these</suggestion>?</message>
                 <short>Grammatical problem</short>
                 <example correction="These"><marker>This</marker> errors are easy to fix.</example>
                 <example>This forms a sharp contract with...</example>
+                <example>I cannot lift this stone.</example>
+                <example>This fish is big.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">these|those</token>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">these|those</token>
@@ -8362,6 +8407,7 @@ USA
                 <example>This forms a sharp contract with...</example>
                 <example>These eleven authors are right.</example>
                 <example>Those illustrated are reminiscent of a circus top.</example>
+                <example>These food storage workers are called repletes.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8548,13 +8594,17 @@ USA
                 </antipattern>
                 <antipattern>
                     <token>did</token>
-                    <token>experiments</token>
+                    <token regexp="yes">experiments|wonders</token>
                 </antipattern>
                 <pattern>
                     <token><exception scope="previous" regexp="yes">than|what</exception><exception regexp="yes">free|tha[nt]|who|which|whom|a|the</exception></token>
                     <token skip="1" regexp="yes" postag="MD|VBD" postag_regexp="yes">did|will|could|can|should|would|does|ll</token>
                     <marker>
-                        <token postag="VB[DGZ]" postag_regexp="yes"><exception postag="VBP|NNP" postag_regexp="yes"/><exception inflected="yes">be</exception><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="MD|RB|VBD"/></token>
+                        <token postag="VB[DGZ]" postag_regexp="yes">
+                            <exception postag="VBP|NNP" postag_regexp="yes"/>
+                            <exception inflected="yes">be</exception>
+                            <exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="MD|RB|VBD"/>
+                        </token>
                     </marker>
                 </pattern>
                 <message>The verb '<match no="2"/>' requires the base form of the verb: <suggestion><match no="3" postag="VB"/></suggestion></message>
@@ -8704,6 +8754,13 @@ USA
             </rule>
         </rulegroup>
         <rule id="USE_TO_VERB" name="Missing past tense for 'used to...'">
+            <antipattern>
+                <token>didn</token>
+                <token regexp="yes">['’]</token>
+                <token>t</token>
+                <token>use</token>
+                <token>to</token>
+            </antipattern>
             <pattern>
                 <token><exception postag="MD"/></token>
                 <marker>
@@ -8714,6 +8771,7 @@ USA
             </pattern>
             <message>Did you mean <suggestion>used</suggestion>?</message>
             <example>It can be used to save lives</example>
+            <example>Tom didn't use to drink so much.</example>
             <example correction="used">He <marker>use</marker> to believe this.</example>
             <example correction="used">Aethera <marker>use</marker> to use this.</example>
         </rule>
@@ -9768,6 +9826,11 @@ USA
             <example>At a peak of 6 <!--note: non-breaking space --><marker>million</marker>.</example>
         </rule>
         <rule id="MUCH_COUNTABLE" name="'much' + countable noun, e.g. 'much (many) children'">
+            <antipattern>
+                <token>how</token>
+                <token>much</token>
+                <token postag="VB.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>much</token>
@@ -9777,8 +9840,13 @@ USA
             <message>Use <suggestion>many</suggestion> with countable nouns.</message>
             <short>Grammatical problem with countable noun</short>
             <example correction="many">There are <marker>much</marker> children.</example>
+            <example>How much does it cost?</example>
         </rule>
         <rule id="MANY_NN" name="Possible agreement error: 'many/several/few' + singular countable noun">
+            <antipattern case_sensitive="yes">
+                <token>Many</token>
+                <token postag="VBP"/>
+            </antipattern>
             <antipattern>
                 <token>many</token>
                 <token>regard</token>
@@ -11540,6 +11608,11 @@ USA
         </rulegroup>
         <rulegroup id="YOUR" name="your (you're)">
             <rule>
+                <antipattern>
+                    <token>your</token>
+                    <token postag="VBG"/>
+                    <token postag="RB"/>
+                </antipattern>
                 <pattern>
                     <token><exception postag="IN|VB.*" postag_regexp="yes"/><exception>t</exception></token>
                     <marker>
@@ -11553,6 +11626,7 @@ USA
                 <example correction="you're|you are">Let's see if <marker>your</marker> using multiple search servers.</example>
                 <example>Your singing puts professional singers to shame.</example>
                 <example>Your loving friend</example>
+                <example>Your timing really sucks.</example>
             </rule>
             <rule>
                 <pattern>
@@ -12913,7 +12987,9 @@ USA
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token>re</token>
                 </marker>
-                <token postag="NN|NN:U|NN:UN|NNPS|NNS" postag_regexp="yes"><exception postag="JJ"/><exception regexp="yes">one|still|right</exception></token>
+                <token postag="NN|NN:U|NN:UN|NNPS|NNS" postag_regexp="yes">
+                    <exception postag="JJ"/>
+                    <exception regexp="yes">one|still|right|in</exception></token>
                 <token><exception>enough</exception></token>
             </pattern>
             <message>Did you mean <suggestion>your</suggestion>?</message>
@@ -12928,6 +13004,7 @@ USA
             <example> You're man enough to let her play, she's experimental and confident enough to do it.</example>
             <example correction="Your"><marker>You're</marker> optimization is a good example.</example>
             <example>You're Arthur Willis.</example>
+            <example>You're in better shape than I am.</example>
         </rule>
         <rulegroup id="ACCEPT_EXCEPT" name="accept/except">
             <rule>

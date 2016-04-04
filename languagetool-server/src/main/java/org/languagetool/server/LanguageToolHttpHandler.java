@@ -163,12 +163,12 @@ class LanguageToolHttpHandler implements HttpHandler {
       handleCount++;
     }
     String text = null;
-    String origAddress = null;
+    String remoteAddress = null;
     try {
       final URI requestedUri = httpExchange.getRequestURI();
-      origAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
+      final String origAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
       final String realAddressOrNull = getRealRemoteAddressOrNull(httpExchange);
-      final String remoteAddress = realAddressOrNull != null ? realAddressOrNull : origAddress;
+      remoteAddress = realAddressOrNull != null ? realAddressOrNull : origAddress;
       // According to the Javadoc, "Closing an exchange without consuming all of the request body is
       // not an error but may make the underlying TCP connection unusable for following exchanges.",
       // so we consume the request now, even before checking for request limits:
@@ -214,8 +214,8 @@ class LanguageToolHttpHandler implements HttpHandler {
         throw new RuntimeException(errorMessage);
       }
     } catch (Exception e) {
-      if (text != null && origAddress != null) {
-        print("An error has occurred. Access from " + origAddress + ", text length " + text.length() + ". Stacktrace follows:", System.err);
+      if (text != null && remoteAddress != null) {
+        print("An error has occurred. Access from " + remoteAddress + ", text length " + text.length() + ". Stacktrace follows:", System.err);
       } else {
         print("An error has occurred. Stacktrace follows:", System.err);
       }
