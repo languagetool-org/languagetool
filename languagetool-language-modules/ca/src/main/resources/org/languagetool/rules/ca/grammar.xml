@@ -996,6 +996,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>1 concert per a violí</example>
                 <example>1/24 part d'unitat</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|l</token>
+                    <token regexp="yes">[0-9,.]+<exception regexp="yes">1(,[0+9]+)?</exception></token>
+                    <token regexp="yes">[kmc]?[mgl]|graus</token>
+                </pattern>
+                <message>Possible error de concordança</message>
+                <suggestion>\1s \2 \3</suggestion>
+                <example correction="els 70 mm">En <marker>el 70 mm</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_PRONOM_NEUTRE" name="concordances amb pronom neutre">
             <rule>
@@ -1789,6 +1799,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Error de concordança.</message>
                 <short>Error de concordança</short>
                 <example correction=""><marker>El tres homes</marker>.</example>
+                <example correction=""><marker>El 70 mm</marker> anuals.</example>
                 <example>Els tres homes.</example>
                 <example>va ser vassall seu tres anys</example>
                 <example>al nou model polític</example>

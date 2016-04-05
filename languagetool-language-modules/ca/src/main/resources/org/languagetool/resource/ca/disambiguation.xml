@@ -517,7 +517,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token regexp="yes">[1-2][0-9]{3}</token>
                 </marker>
-                <!--<token><exception postag="NC.[PN].*" postag_regexp="yes"/></token>-->
+            </pattern>
+            <disambig action="replace" postag="_C_TEMPS"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">en|el|l|l'</token>
+                <marker>
+                    <token regexp="yes">[1-9][0-9]{0,3}</token>
+                </marker>
+                <token><exception postag="NC[MC]P.*|Y" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="replace" postag="_C_TEMPS"/>
         </rule>
