@@ -1180,6 +1180,15 @@
       <example type="untouched">What it all means, I don't know.</example>
       <example type="ambiguous" inputform="means[mean/NNS,mean/VBZ,means/NN,means/NNS]" outputform="means[mean/VBZ]">To be a Christian <marker>means</marker> to say yes where I otherwise say no.</example>
     </rule>
+
+    <rule id="TO_VB_PRP" name="to + verb + prp => TO">
+        <pattern>
+            <token postag="TO">to</token>
+            <token postag="VB"/>
+            <token postag="PRP"/>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
     
     <rule name="SENT_START + pronoun + verb/NN -&gt; verb" id="SENT_START_PRP_VB_NN">
         <pattern>
