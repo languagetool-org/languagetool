@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.148 2016-03-11 13:40:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.149 2016-04-06 08:01:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -3110,7 +3110,7 @@ $Id: grammar.xml,v 1.148 2016-03-11 13:40:00 marcoagpinto Exp $
         <token>mais</token>
         <token>pior</token>
       </pattern>
-      <message>Substituir «mais pior por <suggestion>pior</suggestion>.</message>
+      <message>Substituir «mais pior» por <suggestion>pior</suggestion>.</message>
       <example correction="pior">Esta escola é <marker>mais pior</marker>.</example>
     </rule>
 	
@@ -3130,5 +3130,41 @@ $Id: grammar.xml,v 1.148 2016-03-11 13:40:00 marcoagpinto Exp $
 	
 </category>
 
+
+
+<category id="CONFUSED_WORDS" name="Confusão Palavras">
+
+<!-- TRÁS/TRAZ - POSSIBLE REPLACEMENT SUGGESTIONS ****START**** -->
+<!-- ********************************************************** -->
+    <!-- Confusion TRAZ > TRÁS -->
+    <rule id="TRAZ_TRÁS" name="Confusão traz-trás">
+		<pattern>
+			<token regexp="yes">de|para|por</token>
+			<marker>
+				<token>traz</token>	  
+			</marker>			
+		</pattern>	 	 
+		<message>Substituir «traz» por <suggestion>trás</suggestion>.</message>
+		<example correction="trás">A Ana deve viajar no banco de <marker>traz</marker>.</example>	 	 
+    </rule> 
+	
+
+	
+    <!-- Confusion TRÁS > TRAZ -->
+    <rule id="TRÁS_TRAZ" name="Confusão trás-traz">
+		<pattern>
+			<token negate="yes" regexp="yes">de|para|por</token>
+			<marker>
+				<token>trás</token>	  
+			</marker>			
+		</pattern>	 	 
+		<message>Substituir «trás» por <suggestion>traz</suggestion>.</message>
+		<example correction="traz">O Rui <marker>trás</marker> o material.</example>	 	 
+    </rule> 	
+
+<!-- TRÁS/TRAZ - POSSIBLE REPLACEMENT SUGGESTIONS *****END***** -->
+<!-- ********************************************************** -->	
+
+</category>
 
 </rules>
