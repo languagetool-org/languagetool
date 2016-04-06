@@ -32,7 +32,7 @@ public final class AnalyzedToken {
   private final String token;
   private final String posTag;
   private final String lemma;
-  private final String tokenInflected;  // used only for matching with Elements
+  private final String lemmaOrToken;  // used only for matching with Elements
 
   private boolean isWhitespaceBefore;
   private boolean hasNoPOSTag;
@@ -42,9 +42,9 @@ public final class AnalyzedToken {
     this.posTag = posTag;
     this.lemma = lemma;    
     if (lemma == null) {
-      tokenInflected = token;
+      lemmaOrToken = token;
     } else {
-      tokenInflected = lemma;
+      lemmaOrToken = lemma;
     }
     hasNoPOSTag = (posTag == null 
         || JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)
@@ -73,9 +73,10 @@ public final class AnalyzedToken {
 
   /**
    * Like {@link #getLemma()}, but returns the token if the lemma is {@code null}
+   * @deprecated deprecated since 3.4
    */
   public String getTokenInflected() {
-    return tokenInflected;
+    return lemmaOrToken;
   }
   
   public void setWhitespaceBefore(boolean whitespaceBefore) {
@@ -134,7 +135,7 @@ public final class AnalyzedToken {
   
   @Override
   public String toString() {
-    return tokenInflected + '/' + posTag;
+    return lemmaOrToken + '/' + posTag;
   }
 
   @Override

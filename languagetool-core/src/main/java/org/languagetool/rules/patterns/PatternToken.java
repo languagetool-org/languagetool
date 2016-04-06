@@ -408,7 +408,11 @@ public class PatternToken implements Cloneable {
     // enables using words with lemmas and without lemmas
     // in the same regexp with inflected="yes"
     if (inflected) {
-      return token.getTokenInflected();
+      if (token.getLemma() != null) {
+        return token.getLemma();
+      } else {
+        return token.getToken();
+      }
     }
     return token.getToken();
   }
