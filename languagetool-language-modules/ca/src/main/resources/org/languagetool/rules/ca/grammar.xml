@@ -999,8 +999,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">el|l</token>
-                    <token regexp="yes">[0-9,.]+<exception regexp="yes">1(,[0+9]+)?</exception></token>
-                    <token regexp="yes">[kmc]?[mgl]|graus</token>
+                    <token regexp="yes">[0-9,. ]+<exception regexp="yes">[.,1]</exception></token>
+                    <token regexp="yes">(?-i)[kmc]?[mg]|graus</token>
                 </pattern>
                 <message>Possible error de concordança</message>
                 <suggestion>\1s \2 \3</suggestion>
@@ -15060,7 +15060,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>de</token>
-                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|hosts?|el|els|&noms_lletres;|iure|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|V.[MSI].*|NP..000" postag_regexp="yes"/></token>
+                    <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|hosts?|el|els|&noms_lletres;|iure|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;|oro</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|V.[MSI].*|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>d'<match no="2"></match></suggestion>
@@ -15071,6 +15071,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>de atletismo</example>
                 <example>de Iugoslàvia</example>
                 <example>el 23 de agosto de 1984</example>
+                <example>de oro</example> <!-- very common in Spanish-->
                 <!-- gira al voltant de OH
                     de ARN-->
             </rule>
