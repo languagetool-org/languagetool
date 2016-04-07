@@ -1183,9 +1183,11 @@
 
     <rule id="TO_VB_PRP" name="to + verb + prp => TO">
         <pattern>
+            <marker>
             <token postag="TO">to</token>
             <token postag="VB"/>
-            <token postag="PRP"/>
+            </marker>
+            <token postag="PRP\$?|DT" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
     </rule>
