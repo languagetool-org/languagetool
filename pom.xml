@@ -29,9 +29,13 @@
       <maven.compiler.target>1.8</maven.compiler.target>
       <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
       <maven.jar.plugin>2.6</maven.jar.plugin>
+      <commons.cli.version>1.2</commons.cli.version>
+      <commons.lang.version>2.6</commons.lang.version>
+      <guava.version>18.0</guava.version>
       <junit.version>4.12</junit.version>
       <morfologik.version>2.1.0</morfologik.version>
       <languagetool.version>3.4-SNAPSHOT</languagetool.version>
+      <slf4j.version>1.7.6</slf4j.version><!-- lines up with com.optimaize.languagedetector:language-detector -->
   </properties>
   
   <build>
@@ -79,7 +83,50 @@
               
           </plugins>
       </pluginManagement>
+
+      <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-enforcer-plugin</artifactId>
+              <version>1.4.1</version>
+              <configuration>
+                  <rules>
+                      <DependencyConvergence/>
+                  </rules>
+              </configuration>
+              <executions>
+                  <execution>
+                      <id>enforce-dependency-convergence</id>
+                      <goals>
+                          <goal>enforce</goal>
+                      </goals>
+                  </execution>
+              </executions>
+          </plugin>
+      </plugins>
+
   </build>
+
+  <dependencyManagement>
+      <dependencies>
+          <dependency>
+              <groupId>commons-lang</groupId>
+              <artifactId>commons-lang</artifactId>
+              <version>${commons.lang.version}</version>
+          </dependency>
+          <dependency>
+              <groupId>com.google.guava</groupId>
+              <artifactId>guava</artifactId>
+              <version>${guava.version}</version>
+          </dependency>
+          <dependency>
+              <groupId>junit</groupId>
+              <artifactId>junit</artifactId>
+              <version>${junit.version}</version>
+              <scope>test</scope>
+          </dependency>
+      </dependencies>
+  </dependencyManagement>
 
   <distributionManagement>
     <repository>
