@@ -182,8 +182,9 @@ public final class XMLValidator {
       if (schemaUrl == null) {
         throw new IOException("XML schema not found in classpath: " + xmlSchemaPath);
       }
-      ByteArrayInputStream stream = new ByteArrayInputStream(xml.getBytes("utf-8"));
-      validateInternal(new StreamSource(stream), schemaUrl);
+      try (ByteArrayInputStream stream = new ByteArrayInputStream(xml.getBytes("utf-8"))) {
+        validateInternal(new StreamSource(stream), schemaUrl);
+      }
     } catch (SAXException e) {
       throw new RuntimeException(e);
     }

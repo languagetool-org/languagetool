@@ -22,6 +22,7 @@ package org.languagetool.rules.patterns;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -37,8 +38,8 @@ public abstract class AbstractPatternRulePerformer {
   protected AnalyzedTokenReadings[] unifiedTokens;
 
   protected AbstractPatternRulePerformer(AbstractPatternRule rule, Unifier unifier) {
-    this.rule = rule;
-    this.unifier = unifier;
+    this.rule = Objects.requireNonNull(rule);
+    this.unifier = Objects.requireNonNull(unifier);
   }
 
   protected List<PatternTokenMatcher> createElementMatchers() {
