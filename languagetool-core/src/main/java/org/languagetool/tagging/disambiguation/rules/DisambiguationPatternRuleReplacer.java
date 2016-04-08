@@ -297,13 +297,13 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
           for (int i = 0; i < newTokenReadings.length; i++) {
             String token;
             int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
-            if ("".equals(newTokenReadings[i].getToken())) { // empty token
+            if (newTokenReadings[i].getToken().isEmpty()) {
               token = whTokens[position].getToken();
             } else {
               token = newTokenReadings[i].getToken();
             }
             String lemma;
-            if (newTokenReadings[i].getLemma() == null) { // empty lemma
+            if (newTokenReadings[i].getLemma() == null) {
               lemma = token;
             } else {
               lemma = newTokenReadings[i].getLemma();

@@ -125,7 +125,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           }
           // grow if necessary
           for (int i = list.size(); i < wordCount; i++) {
-            list.add(new HashMap<String, String>());
+            list.add(new HashMap<>());
           }
           list.get(wordCount - 1).put(wrongForm, parts[1]);
         }
