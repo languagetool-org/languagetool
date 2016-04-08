@@ -9357,6 +9357,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="PODER_NO_PODER_HO" name="*poder-no/poder-ho">
+            <pattern>
+                <token postag="V.[NGM].*" postag_regexp="yes"></token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no">no</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>\1-ho</suggestion>?</message>
+            <example correction="poder-ho">No <marker>poder-no</marker> fer.</example>
+        </rule>
         <rule id="PEL_QUE_FA_EL" name="pel que fa *el/al">
             <antipattern>
                 <marker>
