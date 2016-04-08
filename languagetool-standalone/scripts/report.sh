@@ -37,4 +37,8 @@ echo "An error has occurred      : `grep -c 'An error has occurred' $TMPFILE`" >
 echo "too many requests          : `grep -c 'too many requests' $TMPFILE`" >>$OUTFILE
 echo "too many requests (Android): `grep -c 'androidspell.*too many requests' $TMPFILE`" >>$OUTFILE
 
+DATE_APACHE=`LANG=C date +"%a %b %d"`
+YEAR=`date +"%Y"`
+echo "no buffer (Apache)         : `grep \"$DATE_APACHE\" /var/log/apache2/error.log | grep $YEAR | grep -c \"No buffer space available\"`" >>$OUTFILE
+
 cat $OUTFILE | mail -a 'Content-Type: text/plain; charset=utf-8' -s "LanguageTool API Report" daniel.naber@languagetool.org
