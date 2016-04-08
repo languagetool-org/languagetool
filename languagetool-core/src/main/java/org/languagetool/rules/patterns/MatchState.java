@@ -56,7 +56,7 @@ public class MatchState {
   public MatchState(Match match, Synthesizer synthesizer) {
     this.match = match;
     this.synthesizer = synthesizer;
-    final String lemma = match.getLemma();
+    String lemma = match.getLemma();
     if (!StringUtils.isEmpty(lemma)) {
       formattedToken = new AnalyzedTokenReadings(new AnalyzedToken(lemma, match.getPosTag(), lemma), 0);
     }
@@ -78,7 +78,7 @@ public class MatchState {
    * @param index Index of the token to be formatted
    * @param next Position of the next token (the skipped tokens are the ones between the tokens[index] and tokens[next]
    */
-  public final void setToken(final AnalyzedTokenReadings[] tokens, final int index, final int next) {
+  public final void setToken(AnalyzedTokenReadings[] tokens, int index, int next) {
     int idx = index;
     if (index >= tokens.length) {
       // TODO: hacky workaround, find a proper solution. See EnglishPatternRuleTest.testBug()
@@ -87,7 +87,7 @@ public class MatchState {
     setToken(tokens[idx]);
     IncludeRange includeSkipped = match.getIncludeSkipped();
     if (next > 1 && includeSkipped != IncludeRange.NONE) {
-      final StringBuilder sb = new StringBuilder();
+      StringBuilder sb = new StringBuilder();
       if (includeSkipped == IncludeRange.FOLLOWING) {
         formattedToken = null;
       }
@@ -105,7 +105,7 @@ public class MatchState {
   }
 
   public final AnalyzedTokenReadings filterReadings() {
-    final List<AnalyzedToken> l = new ArrayList<>();
+    List<AnalyzedToken> l = new ArrayList<>();
     if (formattedToken != null) {
       if (match.isStaticLemma()) {
         matchedToken.leaveReading(new AnalyzedToken(matchedToken.getToken(),
@@ -123,13 +123,13 @@ public class MatchState {
 
       String posTag = match.getPosTag();
       if (posTag != null) {
-        final int numRead = formattedToken.getReadingsLength();
+        int numRead = formattedToken.getReadingsLength();
         if (match.isPostagRegexp()) {
           Pattern pPosRegexMatch = match.getPosRegexMatch();
           String posTagReplace = match.getPosTagReplace();
           String targetPosTag;
           for (int i = 0; i < numRead; i++) {
-            final String testTag = formattedToken.getAnalyzedToken(i).getPOSTag();
+            String testTag = formattedToken.getAnalyzedToken(i).getPOSTag();
             if (testTag != null && pPosRegexMatch.matcher(testTag).matches()) {
               targetPosTag = testTag;
               if (posTagReplace != null) {
@@ -178,13 +178,13 @@ public class MatchState {
    * @param sample the sample string used to determine how the original string looks like (used only on case preservation)
    * @return Converted string.
    */
-  String convertCase(final String s, String sample, Language lang) {
+  String convertCase(String s, String sample, Language lang) {
     return CaseConversionHelper.convertCase(match.getCaseConversionType(), s, sample, lang);
   }
 
-  private List<AnalyzedToken> getNewToken(final int numRead, final String token) {
+  private List<AnalyzedToken> getNewToken(int numRead, String token) {
     String posTag = match.getPosTag();
-    final List<AnalyzedToken> list = new ArrayList<>();
+    List<AnalyzedToken> list = new ArrayList<>();
     String lemma = "";
     for (int j = 0; j < numRead; j++) {
       String tempPosTag = formattedToken.getAnalyzedToken(j).getPOSTag();
@@ -209,7 +209,7 @@ public class MatchState {
   public final String[] toFinalString(Language lang) throws IOException {
     String[] formattedString = new String[1];
     if (formattedToken != null) {
-      final int readingCount = formattedToken.getReadingsLength();
+      int readingCount = formattedToken.getReadingsLength();
       formattedString[0] = formattedToken.getToken();
 
       Pattern pRegexMatch = match.getRegexMatch();
@@ -223,11 +223,11 @@ public class MatchState {
         if (synthesizer == null) {
           formattedString[0] = formattedToken.getToken();
         } else if (match.isPostagRegexp()) {
-          final TreeSet<String> wordForms = new TreeSet<>();
+          TreeSet<String> wordForms = new TreeSet<>();
           boolean oneForm = false;
           for (int k = 0; k < readingCount; k++) {
             if (formattedToken.getAnalyzedToken(k).getLemma() == null) {
-              final String posUnique = formattedToken.getAnalyzedToken(k).getPOSTag();
+              String posUnique = formattedToken.getAnalyzedToken(k).getPOSTag();
               if (posUnique == null) {
                 wordForms.add(formattedToken.getToken());
                 oneForm = true;
@@ -245,10 +245,10 @@ public class MatchState {
               }
             }
           }
-          final String targetPosTag = getTargetPosTag();
+          String targetPosTag = getTargetPosTag();
           if (!oneForm) {
             for (int i = 0; i < readingCount; i++) {
-              final String[] possibleWordForms = synthesizer.synthesize(
+              String[] possibleWordForms = synthesizer.synthesize(
                   formattedToken.getAnalyzedToken(i), targetPosTag, true);
               if (possibleWordForms != null) {
                 wordForms.addAll(Arrays.asList(possibleWordForms));
@@ -265,9 +265,9 @@ public class MatchState {
             formattedString = wordForms.toArray(new String[wordForms.size()]);
           }
         } else {
-          final TreeSet<String> wordForms = new TreeSet<>();
+          TreeSet<String> wordForms = new TreeSet<>();
           for (int i = 0; i < readingCount; i++) {
-            final String[] possibleWordForms = synthesizer.synthesize(formattedToken.getAnalyzedToken(i), posTag);
+            String[] possibleWordForms = synthesizer.synthesize(formattedToken.getAnalyzedToken(i), posTag);
             if (possibleWordForms != null) {
               wordForms.addAll(Arrays.asList(possibleWordForms));
             }
@@ -276,7 +276,7 @@ public class MatchState {
         }
       }
     }
-    final String original;
+    String original;
     if (match.isStaticLemma()) {
       original = matchedToken != null ? matchedToken.getToken() : "";
     } else {
@@ -289,7 +289,7 @@ public class MatchState {
     IncludeRange includeSkipped = match.getIncludeSkipped();
     if (includeSkipped != IncludeRange.NONE && skippedTokens != null
         && !skippedTokens.isEmpty()) {
-      final String[] helper = new String[formattedString.length];
+      String[] helper = new String[formattedString.length];
       for (int i = 0; i < formattedString.length; i++) {
         if (formattedString[i] == null) {
           formattedString[i] = "";
@@ -299,12 +299,12 @@ public class MatchState {
       formattedString = helper;
     }
     if (match.checksSpelling() && lang != null) {
-      final List<String> formattedStringElements = Arrays.asList(formattedString);
+      List<String> formattedStringElements = Arrays.asList(formattedString);
       // tagger-based speller
-      final List<AnalyzedTokenReadings> analyzed = lang.getTagger().tag(
+      List<AnalyzedTokenReadings> analyzed = lang.getTagger().tag(
           formattedStringElements);
       for (int i = 0; i < formattedString.length; i++) {
-        final AnalyzedToken analyzedToken = analyzed.get(i).getAnalyzedToken(0);
+        AnalyzedToken analyzedToken = analyzed.get(i).getAnalyzedToken(0);
         if (analyzedToken.getLemma() == null && analyzedToken.hasNoTag()) {
           formattedString[i] = "";
         }
@@ -328,7 +328,7 @@ public class MatchState {
 
     if (match.isStaticLemma()) {
       for (AnalyzedToken analyzedToken : matchedToken) {
-        final String tst = analyzedToken.getPOSTag();
+        String tst = analyzedToken.getPOSTag();
         if (tst != null && pPosRegexMatch.matcher(tst).matches()) {
           targetPosTag = analyzedToken.getPOSTag();
           posTags.add(targetPosTag);
@@ -341,7 +341,7 @@ public class MatchState {
       }
     } else {
       for (AnalyzedToken analyzedToken : formattedToken) {
-        final String tst = analyzedToken.getPOSTag();
+        String tst = analyzedToken.getPOSTag();
         if (tst != null && pPosRegexMatch.matcher(tst).matches()) {
           targetPosTag = analyzedToken.getPOSTag();
           posTags.add(targetPosTag);
@@ -351,8 +351,8 @@ public class MatchState {
         if (posTags.isEmpty()) {
           posTags.add(targetPosTag);
         }
-        final StringBuilder sb = new StringBuilder();
-        final int posTagLen = posTags.size();
+        StringBuilder sb = new StringBuilder();
+        int posTagLen = posTags.size();
         int l = 0;
         for (String lPosTag : posTags) {
           l++;

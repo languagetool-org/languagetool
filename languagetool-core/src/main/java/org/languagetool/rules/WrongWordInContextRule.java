@@ -52,7 +52,7 @@ public abstract class WrongWordInContextRule extends Rule {
 
   private final List<ContextWords> contextWordsSet;
 
-  public WrongWordInContextRule(final ResourceBundle messages) {
+  public WrongWordInContextRule(ResourceBundle messages) {
     super.setCategory(new Category(getCategoryString()));
     contextWordsSet = loadContextWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(getFilename()));
     setLocQualityIssueType(ITSIssueType.Misspelling);
@@ -75,12 +75,12 @@ public abstract class WrongWordInContextRule extends Rule {
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+  public RuleMatch[] match(AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     for (ContextWords contextWords: contextWordsSet) {
-      final boolean[] matchedWord = {false, false};
-      final Matcher[] matchers = {null, null};
+      boolean[] matchedWord = {false, false};
+      Matcher[] matchers = {null, null};
       matchers[0] = contextWords.words[0].matcher("");
       matchers[1] = contextWords.words[1].matcher("");
       //start searching for words
@@ -121,7 +121,7 @@ public abstract class WrongWordInContextRule extends Rule {
       }
       
       if (foundWord != -1) {
-        final boolean[] matchedContext = {false, false};
+        boolean[] matchedContext = {false, false};
         matchers[foundWord] = contextWords.contexts[foundWord].matcher("");
         matchers[notFoundWord] = contextWords.contexts[notFoundWord].matcher("");
         //start searching for context words
@@ -136,9 +136,9 @@ public abstract class WrongWordInContextRule extends Rule {
           matchedContext[notFoundWord] = matchers[notFoundWord].reset(token).find();
         }
         if (matchedContext[notFoundWord] && !matchedContext[foundWord]) {
-          final String msg = getMessage(matchedToken, matchedToken.replaceFirst(contextWords.matches[foundWord],contextWords.matches[notFoundWord]),
+          String msg = getMessage(matchedToken, matchedToken.replaceFirst(contextWords.matches[foundWord],contextWords.matches[notFoundWord]),
                   contextWords.explanations[notFoundWord], contextWords.explanations[foundWord]);
-          final RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, msg, getShortMessageString());
+          RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, msg, getShortMessageString());
           ruleMatches.add(ruleMatch);
         }
       } // if foundWord != -1
@@ -174,17 +174,17 @@ public abstract class WrongWordInContextRule extends Rule {
   /**
    * Load words, contexts, and explanations.
    */
-  private List<ContextWords> loadContextWords(final InputStream stream) {
-    final List<ContextWords> set = new ArrayList<>();
+  private List<ContextWords> loadContextWords(InputStream stream) {
+    List<ContextWords> set = new ArrayList<>();
     try (Scanner scanner = new Scanner(stream, "utf-8")) {
       while (scanner.hasNextLine()) {
-        final String line = scanner.nextLine();
+        String line = scanner.nextLine();
         if (line.trim().isEmpty() || line.charAt(0) == '#') {
           continue;
         }
-        final String[] column = line.split("\t");
+        String[] column = line.split("\t");
         if (column.length >= 6) {
-          final ContextWords contextWords = new ContextWords();
+          ContextWords contextWords = new ContextWords();
           contextWords.setWord(0, column[0]);
           contextWords.setWord(1, column[1]);
           contextWords.matches[0] = column[2];

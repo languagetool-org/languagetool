@@ -78,14 +78,14 @@ public class UppercaseSentenceStartRule extends Rule {
   }
 
   @Override
-  public final RuleMatch[] match(final AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+  public final RuleMatch[] match(AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     if (tokens.length < 2) {
       return toRuleMatchArray(ruleMatches);
     }
     int matchTokenPos = 1; // 0 = SENT_START
-    final String firstToken = tokens[matchTokenPos].getToken();
+    String firstToken = tokens[matchTokenPos].getToken();
     String secondToken = null;
     String thirdToken = null;
     // ignore quote characters:
@@ -93,7 +93,7 @@ public class UppercaseSentenceStartRule extends Rule {
       matchTokenPos = 2;
       secondToken = tokens[matchTokenPos].getToken();
     }
-    final String firstDutchToken = dutchSpecialCase(firstToken, secondToken, tokens);
+    String firstDutchToken = dutchSpecialCase(firstToken, secondToken, tokens);
     if (firstDutchToken != null) {
       thirdToken = firstDutchToken;
       matchTokenPos = 3;
@@ -135,9 +135,9 @@ public class UppercaseSentenceStartRule extends Rule {
     }
 
     if (checkToken.length() > 0) {
-      final char firstChar = checkToken.charAt(0);
+      char firstChar = checkToken.charAt(0);
       if (!preventError && Character.isLowerCase(firstChar)) {
-        final RuleMatch ruleMatch = new RuleMatch(this,
+        RuleMatch ruleMatch = new RuleMatch(this,
                 tokens[matchTokenPos].getStartPos(),
                 tokens[matchTokenPos].getEndPos(),
                 messages.getString("incorrect_case"));
@@ -149,8 +149,8 @@ public class UppercaseSentenceStartRule extends Rule {
   }
 
   @Nullable
-  private String dutchSpecialCase(final String firstToken,
-      final String secondToken, final AnalyzedTokenReadings[] tokens) {
+  private String dutchSpecialCase(String firstToken,
+      String secondToken, AnalyzedTokenReadings[] tokens) {
     if (!language.getShortName().equals("nl")) {
       return null;
     }

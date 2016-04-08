@@ -71,22 +71,22 @@ public final class Languages {
   }
 
   private static List<Language> getAllLanguages() {
-    final List<Language> languages = new ArrayList<>();
-    final Set<String> languageClassNames = new HashSet<>();
+    List<Language> languages = new ArrayList<>();
+    Set<String> languageClassNames = new HashSet<>();
     try {
-      final Enumeration<URL> propertyFiles = Language.class.getClassLoader().getResources(PROPERTIES_PATH);
+      Enumeration<URL> propertyFiles = Language.class.getClassLoader().getResources(PROPERTIES_PATH);
       while (propertyFiles.hasMoreElements()) {
-        final URL url = propertyFiles.nextElement();
+        URL url = propertyFiles.nextElement();
         try (InputStream inputStream = url.openStream()) {
           // We want to be able to read properties file with duplicate key, as produced by
           // Maven when merging files:
-          final MultiKeyProperties props = new MultiKeyProperties(inputStream);
-          final List<String> classNamesStr = props.getProperty(PROPERTIES_KEY);
+          MultiKeyProperties props = new MultiKeyProperties(inputStream);
+          List<String> classNamesStr = props.getProperty(PROPERTIES_KEY);
           if (classNamesStr == null) {
             throw new RuntimeException("Key '" + PROPERTIES_KEY + "' not found in " + url);
           }
           for (String classNames : classNamesStr) {
-            final String[] classNamesSplit = classNames.split("\\s*,\\s*");
+            String[] classNamesSplit = classNames.split("\\s*,\\s*");
             for (String className : classNamesSplit) {
               if (languageClassNames.contains(className)) {
                 // avoid duplicates - this way we are robust against problems with the maven assembly
@@ -108,8 +108,8 @@ public final class Languages {
 
   private static Language createLanguageObjects(URL url, String className) {
     try {
-      final Class<?> aClass = Class.forName(className);
-      final Constructor<?> constructor = aClass.getConstructor();
+      Class<?> aClass = Class.forName(className);
+      Constructor<?> constructor = aClass.getConstructor();
       return (Language) constructor.newInstance();
     } catch (ClassNotFoundException e) {
       throw new RuntimeException("Class '" + className + "' specified in " + url + " could not be found in classpath", e);
@@ -125,7 +125,7 @@ public final class Languages {
    * @return a Language object or {@code null} if there is no such language
    */
   @Nullable
-  public static Language getLanguageForName(final String languageName) {
+  public static Language getLanguageForName(String languageName) {
     for (Language element : LANGUAGES) {
       if (languageName.equals(element.getName())) {
         return element;
@@ -141,10 +141,10 @@ public final class Languages {
    * @return a Language object
    * @throws IllegalArgumentException if the language is not supported or if the language code is invalid
    */
-  public static Language getLanguageForShortName(final String langCode) {
-    final Language language = getLanguageForShortNameOrNull(langCode);
+  public static Language getLanguageForShortName(String langCode) {
+    Language language = getLanguageForShortNameOrNull(langCode);
     if (language == null) {
-      final List<String> codes = new ArrayList<>();
+      List<String> codes = new ArrayList<>();
       for (Language realLanguage : LANGUAGES) {
         codes.add(realLanguage.getShortNameWithCountryAndVariant());
       }
@@ -164,7 +164,7 @@ public final class Languages {
    * @return true if the language is supported
    * @throws IllegalArgumentException in some cases of an invalid language code format
    */
-  public static boolean isLanguageSupported(final String langCode) {
+  public static boolean isLanguageSupported(String langCode) {
     return getLanguageForShortNameOrNull(langCode) != null;
   }
 
@@ -174,12 +174,12 @@ public final class Languages {
    * if available.
    * @throws RuntimeException if no language was found and American English as a fallback is not available
    */
-  public static Language getLanguageForLocale(final Locale locale) {
-    final Language language = getLanguageForLanguageNameAndCountry(locale);
+  public static Language getLanguageForLocale(Locale locale) {
+    Language language = getLanguageForLanguageNameAndCountry(locale);
     if (language != null) {
       return language;
     } else {
-      final Language firstFallbackLanguage = getLanguageForLanguageNameOnly(locale);
+      Language firstFallbackLanguage = getLanguageForLanguageNameOnly(locale);
       if (firstFallbackLanguage != null) {
         return firstFallbackLanguage;
       }
@@ -193,7 +193,7 @@ public final class Languages {
   }
 
   @Nullable
-  private static Language getLanguageForShortNameOrNull(final String langCode) {
+  private static Language getLanguageForShortNameOrNull(String langCode) {
     StringTools.assureSet(langCode, "langCode");
     Language result = null;
     if (langCode.contains("-x-")) {
@@ -204,7 +204,7 @@ public final class Languages {
         }
       }
     } else if (langCode.contains("-")) {
-      final String[] parts = langCode.split("-");
+      String[] parts = langCode.split("-");
       if (parts.length == 2) { // e.g. en-US
         for (Language element : LANGUAGES) {
           if (parts[0].equalsIgnoreCase(element.getShortName())
@@ -244,7 +244,7 @@ public final class Languages {
   private static Language getLanguageForLanguageNameAndCountry(Locale locale) {
     for (Language language : LANGUAGES) {
       if (language.getShortName().equals(locale.getLanguage())) {
-        final List<String> countryVariants = Arrays.asList(language.getCountries());
+        List<String> countryVariants = Arrays.asList(language.getCountries());
         if (countryVariants.contains(locale.getCountry())) {
           return language;
         }
@@ -258,7 +258,7 @@ public final class Languages {
     // use default variant if available:
     for (Language language : LANGUAGES) {
       if (language.getShortName().equals(locale.getLanguage()) && language.hasVariant()) {
-        final Language defaultVariant = language.getDefaultLanguageVariant();
+        Language defaultVariant = language.getDefaultLanguageVariant();
         if (defaultVariant != null) {
           return defaultVariant;
         }

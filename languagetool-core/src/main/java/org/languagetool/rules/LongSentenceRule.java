@@ -42,7 +42,7 @@ public class LongSentenceRule extends Rule {
    * @param maxSentenceLength the maximum sentence length that does not yet trigger a match
    * @since 2.4
    */
-  public LongSentenceRule(final ResourceBundle messages, int maxSentenceLength) {
+  public LongSentenceRule(ResourceBundle messages, int maxSentenceLength) {
     super(messages);
     super.setCategory(Categories.MISC.getCategory(messages));
     if (maxSentenceLength <= 0) {
@@ -56,7 +56,7 @@ public class LongSentenceRule extends Rule {
   /**
    * Creates a rule with the default maximum sentence length (40 words).
    */
-  public LongSentenceRule(final ResourceBundle messages) {
+  public LongSentenceRule(ResourceBundle messages) {
     this(messages, DEFAULT_MAX_WORDS);
   }
 
@@ -72,16 +72,16 @@ public class LongSentenceRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    final String msg = MessageFormat.format(messages.getString("long_sentence_rule_msg"), maxWords);
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    String msg = MessageFormat.format(messages.getString("long_sentence_rule_msg"), maxWords);
     int numWords = 0;
     int pos = 0;
     if (tokens.length < maxWords + 1) {   // just a short-circuit
       return toRuleMatchArray(ruleMatches);
     } else {
       for (AnalyzedTokenReadings aToken : tokens) {
-        final String token = aToken.getToken();
+        String token = aToken.getToken();
         pos += token.length();  // won't match the whole offending sentence, but much of it
         if (!aToken.isSentenceStart() && !aToken.isSentenceEnd() && !NON_WORD_REGEX.matcher(token).matches()) {
           numWords++;
@@ -89,7 +89,7 @@ public class LongSentenceRule extends Rule {
       }
     }
     if (numWords > maxWords) {
-      final RuleMatch ruleMatch = new RuleMatch(this, 0, pos, msg);
+      RuleMatch ruleMatch = new RuleMatch(this, 0, pos, msg);
       ruleMatches.add(ruleMatch);
     }
     return toRuleMatchArray(ruleMatches);

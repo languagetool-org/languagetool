@@ -54,15 +54,15 @@ public class DifferentPunctuationRule extends BitextRule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sourceText, AnalyzedSentence targetText) throws IOException {
-    final AnalyzedTokenReadings[] translationTokens = targetText.getTokens();
-    final AnalyzedTokenReadings[] sourceTokens = sourceText.getTokens();
+    AnalyzedTokenReadings[] translationTokens = targetText.getTokens();
+    AnalyzedTokenReadings[] sourceTokens = sourceText.getTokens();
     AnalyzedTokenReadings lastTransTokenObj = translationTokens[translationTokens.length-1];
     String lastTransToken = lastTransTokenObj.getToken();
     if ((".".equals(lastTransToken) ||
          "?".equals(lastTransToken) ||
          "!".equals(lastTransToken)) &&
          !lastTransToken.equals(sourceTokens[sourceTokens.length-1].getToken())) {
-      final int endPos = lastTransTokenObj.getEndPos();
+      int endPos = lastTransTokenObj.getEndPos();
       return new RuleMatch[] { new RuleMatch(this, 1, endPos, getMessage()) };
     }
     return new RuleMatch[0];

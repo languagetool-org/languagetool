@@ -29,11 +29,11 @@ public final class SynthesizerTools {
     // static methods only, no public constructor
   }
 
-  public static List<String> loadWords(final InputStream stream) {
-    final List<String> result = new ArrayList<>();
+  public static List<String> loadWords(InputStream stream) {
+    List<String> result = new ArrayList<>();
     try (Scanner scanner = new Scanner(stream, "UTF-8")) {
       while (scanner.hasNextLine()) {
-        final String line = scanner.nextLine().trim();
+        String line = scanner.nextLine().trim();
         if (line.isEmpty() || line.charAt(0) == '#') {  // ignore empty lines and comments
           continue;
         }

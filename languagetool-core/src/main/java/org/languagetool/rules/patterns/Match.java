@@ -65,12 +65,12 @@ public final class Match {
   // True when the match is not in the suggestion:
   private boolean inMessageOnly;
 
-  public Match(final String posTag, final String posTagReplace,
-      final boolean postagRegexp, final String regexMatch,
-      final String regexReplace, final CaseConversion caseConversionType,
-      final boolean setPOS,
-      final boolean suppressMisspelled,
-      final IncludeRange includeSkipped) {
+  public Match(String posTag, String posTagReplace,
+      boolean postagRegexp, String regexMatch,
+      String regexReplace, CaseConversion caseConversionType,
+      boolean setPOS,
+      boolean suppressMisspelled,
+      IncludeRange includeSkipped) {
     this.posTag = posTag;
     this.postagRegexp = postagRegexp;
     this.caseConversionType = caseConversionType;
@@ -89,8 +89,8 @@ public final class Match {
    * Creates a state used for actually matching a token.
    * @since 2.3
    */
-  public MatchState createState(final Synthesizer synthesizer, final AnalyzedTokenReadings token) {
-    final MatchState state = new MatchState(this, synthesizer);
+  public MatchState createState(Synthesizer synthesizer, AnalyzedTokenReadings token) {
+    MatchState state = new MatchState(this, synthesizer);
     state.setToken(token);
     return state;
   }
@@ -99,8 +99,8 @@ public final class Match {
    * Creates a state used for actually matching a token.
    * @since 2.3
    */
-  public MatchState createState(final Synthesizer synthesizer, final AnalyzedTokenReadings[] tokens, final int index, final int next) {
-    final MatchState state = new MatchState(this, synthesizer);
+  public MatchState createState(Synthesizer synthesizer, AnalyzedTokenReadings[] tokens, int index, int next) {
+    MatchState state = new MatchState(this, synthesizer);
     state.setToken(tokens, index, next);
     return state;
   }
@@ -126,7 +126,7 @@ public final class Match {
    * specified POS regular expressions.
    * @param lemmaString String that specifies the base form.
    */
-  public void setLemmaString(final String lemmaString) {
+  public void setLemmaString(String lemmaString) {
     if (!StringTools.isEmpty(lemmaString)) {
       lemma = lemmaString;
       staticLemma = true;

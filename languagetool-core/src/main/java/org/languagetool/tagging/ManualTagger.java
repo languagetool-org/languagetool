@@ -41,12 +41,12 @@ public class ManualTagger implements WordTagger {
 
   private final Map<String, List<TaggedWord>> mapping;
 
-  public ManualTagger(final InputStream inputStream) throws IOException {
+  public ManualTagger(InputStream inputStream) throws IOException {
     mapping = loadMapping(inputStream, "utf8");
   }
 
-  private Map<String, List<TaggedWord>> loadMapping(final InputStream inputStream, final String encoding) throws IOException {
-    final Map<String, List<TaggedWord>> map = new HashMap<>();
+  private Map<String, List<TaggedWord>> loadMapping(InputStream inputStream, String encoding) throws IOException {
+    Map<String, List<TaggedWord>> map = new HashMap<>();
     try (
       InputStreamReader reader = new InputStreamReader(inputStream, encoding);
       BufferedReader br = new BufferedReader(reader)
@@ -56,7 +56,7 @@ public class ManualTagger implements WordTagger {
         if (StringTools.isEmpty(line) || line.charAt(0) == '#') {
           continue;
         }
-        final String[] parts = line.split("\t");
+        String[] parts = line.split("\t");
         if (parts.length != 3) {
           throw new IOException("Unknown line format when loading manual tagger dictionary, expected three tab-separated fields: '" + line + "'");
         }

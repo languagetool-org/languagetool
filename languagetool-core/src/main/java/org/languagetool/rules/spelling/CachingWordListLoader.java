@@ -55,7 +55,7 @@ class CachingWordListLoader {
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);
          Scanner scanner = new Scanner(inputStream, "utf-8")) {
       while (scanner.hasNextLine()) {
-        final String line = scanner.nextLine();
+        String line = scanner.nextLine();
         if (line.startsWith("#")) {
           continue;
         }

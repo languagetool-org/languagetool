@@ -60,7 +60,7 @@ public class AnnotatedText {
     if (plainTextPosition < 0) {
       throw new RuntimeException("plainTextPosition must be >= 0: " + plainTextPosition);
     }
-    final Integer origPosition = mapping.get(plainTextPosition);
+    Integer origPosition = mapping.get(plainTextPosition);
     if (origPosition != null) {
       return origPosition;
     }

@@ -51,7 +51,7 @@ public final class Tools {
    * @since 3.1
    */
   public static String i18n(ResourceBundle messages, String key, Object... messageArguments) {
-    final MessageFormat formatter = new MessageFormat("");
+    MessageFormat formatter = new MessageFormat("");
     formatter.applyPattern(messages.getString(key).replaceAll("'", "''"));
     return formatter.format(messageArguments);
   }
@@ -67,19 +67,19 @@ public final class Tools {
    * @return  The list of rule matches on the bitext.
    * @since 1.0.1
    */
-  public static List<RuleMatch> checkBitext(final String src, final String trg,
-                                            final JLanguageTool srcLt, final JLanguageTool trgLt,
-                                            final List<BitextRule> bRules) throws IOException {
-    final AnalyzedSentence srcText = srcLt.getAnalyzedSentence(src);
-    final AnalyzedSentence trgText = trgLt.getAnalyzedSentence(trg);
+  public static List<RuleMatch> checkBitext(String src, String trg,
+                                            JLanguageTool srcLt, JLanguageTool trgLt,
+                                            List<BitextRule> bRules) throws IOException {
+    AnalyzedSentence srcText = srcLt.getAnalyzedSentence(src);
+    AnalyzedSentence trgText = trgLt.getAnalyzedSentence(trg);
     List<Rule> nonBitextRules = trgLt.getAllRules();
     for (Rule rule : nonBitextRules) {
       rule.reset();
     }
-    final List<RuleMatch> ruleMatches = trgLt.checkAnalyzedSentence(JLanguageTool.ParagraphHandling.NORMAL,
+    List<RuleMatch> ruleMatches = trgLt.checkAnalyzedSentence(JLanguageTool.ParagraphHandling.NORMAL,
             nonBitextRules, 0, 0, 1, trg, trgText, null);
     for (BitextRule bRule : bRules) {
-      final RuleMatch[] curMatch = bRule.match(srcText, trgText);
+      RuleMatch[] curMatch = bRule.match(srcText, trgText);
       if (curMatch != null && curMatch.length > 0) {
         // adjust positions for bitext rules
         for (RuleMatch match : curMatch) {
@@ -108,8 +108,8 @@ public final class Tools {
    * @param target  Target language.
    * @return  List of Bitext rules
    */
-  public static List<BitextRule> getBitextRules(final Language source,
-      final Language target) throws IOException, ParserConfigurationException, SAXException {
+  public static List<BitextRule> getBitextRules(Language source,
+      Language target) throws IOException, ParserConfigurationException, SAXException {
     return getBitextRules(source, target, null);
   }
 
@@ -121,14 +121,14 @@ public final class Tools {
    * @return  List of Bitext rules
    * @since 2.9
    */
-  public static List<BitextRule> getBitextRules(final Language source,
-      final Language target, final File externalBitextRuleFile) throws IOException, ParserConfigurationException, SAXException {
-    final List<BitextRule> bRules = new ArrayList<>();
+  public static List<BitextRule> getBitextRules(Language source,
+      Language target, File externalBitextRuleFile) throws IOException, ParserConfigurationException, SAXException {
+    List<BitextRule> bRules = new ArrayList<>();
     //try to load the bitext pattern rules for the language...
-    final BitextPatternRuleLoader ruleLoader = new BitextPatternRuleLoader();          
-    final String name = "/" + target.getShortName() + "/bitext.xml";
+    BitextPatternRuleLoader ruleLoader = new BitextPatternRuleLoader();          
+    String name = "/" + target.getShortName() + "/bitext.xml";
     if (JLanguageTool.getDataBroker().ruleFileExists(name)) {
-      final InputStream is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(name);
+      InputStream is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(name);
       if (is != null) {
         bRules.addAll(ruleLoader.getRules(is, name));
       }
@@ -138,9 +138,9 @@ public final class Tools {
     }
     
     //load the false friend rules in the bitext mode:
-    final FalseFriendsAsBitextLoader fRuleLoader = new FalseFriendsAsBitextLoader();
-    final String falseFriendsFile = "/false-friends.xml";
-    final List<BitextPatternRule> rules = fRuleLoader.getFalseFriendsAsBitext(falseFriendsFile, source, target);
+    FalseFriendsAsBitextLoader fRuleLoader = new FalseFriendsAsBitextLoader();
+    String falseFriendsFile = "/false-friends.xml";
+    List<BitextPatternRule> rules = fRuleLoader.getFalseFriendsAsBitext(falseFriendsFile, source, target);
     bRules.addAll(rules);
 
     //load Java bitext rules:
@@ -151,16 +151,16 @@ public final class Tools {
   /**
    * Use reflection to add bitext rules.
    */
-  private static List<BitextRule> getAllBuiltinBitextRules(final Language language,
-      final ResourceBundle messages) {
-    final List<BitextRule> rules = new ArrayList<>();
+  private static List<BitextRule> getAllBuiltinBitextRules(Language language,
+      ResourceBundle messages) {
+    List<BitextRule> rules = new ArrayList<>();
     try {
-      final List<Class<? extends BitextRule>> classes = BitextRule.getRelevantRules();
-      for (final Class class1 : classes) {
-        final Constructor[] constructors = class1.getConstructors();
+      List<Class<? extends BitextRule>> classes = BitextRule.getRelevantRules();
+      for (Class class1 : classes) {
+        Constructor[] constructors = class1.getConstructors();
         boolean foundConstructor = false;
-        for (final Constructor constructor : constructors) {
-          final Class[] paramTypes = constructor.getParameterTypes();
+        for (Constructor constructor : constructors) {
+          Class[] paramTypes = constructor.getParameterTypes();
           if (paramTypes.length == 0) {
             rules.add((BitextRule) constructor.newInstance());
             foundConstructor = true;
@@ -194,10 +194,10 @@ public final class Tools {
   /**
    * @return the number of rule matches
    */
-  public static int profileRulesOnLine(final String contents,
-      final JLanguageTool lt, final Rule rule) throws IOException {
+  public static int profileRulesOnLine(String contents,
+      JLanguageTool lt, Rule rule) throws IOException {
     int count = 0;
-    for (final String sentence : lt.sentenceTokenize(contents)) {
+    for (String sentence : lt.sentenceTokenize(contents)) {
       count += rule.match(lt.getAnalyzedSentence(sentence)).length ;
     }
     return count;
@@ -213,8 +213,8 @@ public final class Tools {
    * @param lt Initialized LanguageTool object
    * @return Corrected text as String.
    */
-  public static String correctText(final String contents, final JLanguageTool lt) throws IOException {
-    final List<RuleMatch> ruleMatches = lt.check(contents);
+  public static String correctText(String contents, JLanguageTool lt) throws IOException {
+    List<RuleMatch> ruleMatches = lt.check(contents);
     if (ruleMatches.isEmpty()) {
       return contents;  
     }    
@@ -225,11 +225,11 @@ public final class Tools {
    * @since 2.3
    */
   public static String correctTextFromMatches(
-      final String contents, final List<RuleMatch> matches) {
-    final StringBuilder sb = new StringBuilder(contents);
-    final List<String> errors = new ArrayList<>();
+      String contents, List<RuleMatch> matches) {
+    StringBuilder sb = new StringBuilder(contents);
+    List<String> errors = new ArrayList<>();
     for (RuleMatch rm : matches) {
-      final List<String> replacements = rm.getSuggestedReplacements();
+      List<String> replacements = rm.getSuggestedReplacements();
       if (!replacements.isEmpty()) {
         errors.add(sb.substring(rm.getFromPos(), rm.getToPos()));
       }
@@ -237,7 +237,7 @@ public final class Tools {
     int offset = 0;
     int counter = 0;
     for (RuleMatch rm : matches) {
-      final List<String> replacements = rm.getSuggestedReplacements();
+      List<String> replacements = rm.getSuggestedReplacements();
       if (!replacements.isEmpty()) {
         //make sure the error hasn't been already corrected:
         if (rm.getFromPos()-offset >= 0 &&
@@ -255,9 +255,9 @@ public final class Tools {
   /**
    * Get a stacktrace as a string.
    */
-  public static String getFullStackTrace(final Throwable e) {
-    final StringWriter sw = new StringWriter();
-    final PrintWriter pw = new PrintWriter(sw);
+  public static String getFullStackTrace(Throwable e) {
+    StringWriter sw = new StringWriter();
+    PrintWriter pw = new PrintWriter(sw);
     e.printStackTrace(pw);
     return sw.toString();
   }
@@ -267,11 +267,11 @@ public final class Tools {
    * Please load files in the {@code rules} and {@code resource} directories with
    * {@link org.languagetool.databroker.ResourceDataBroker} instead.
    */
-  public static InputStream getStream(final String path) throws IOException {
+  public static InputStream getStream(String path) throws IOException {
     // the other ways to load the stream like
     // "Tools.class.getClass().getResourceAsStream(filename)"
     // don't work in a web context (using Grails):
-    final InputStream is = Tools.class.getResourceAsStream(path);
+    InputStream is = Tools.class.getResourceAsStream(path);
     if (is == null) {
       throw new IOException("Could not load file from classpath: '" + path + "'");
     }
@@ -285,7 +285,7 @@ public final class Tools {
    * @param enabledRuleIds ids of the rules to be enabled
    * @deprecated use {@link #selectRules(JLanguageTool, List, List, boolean)} instead (deprecated since 3.4)
    */
-  public static void selectRules(final JLanguageTool lt, final String[] disabledRuleIds, final String[] enabledRuleIds) {
+  public static void selectRules(JLanguageTool lt, String[] disabledRuleIds, String[] enabledRuleIds) {
     selectRules(lt, disabledRuleIds, enabledRuleIds, true);
   }
 
@@ -296,7 +296,7 @@ public final class Tools {
    * @param enabledRuleIds ids of the rules to be enabled
    * @param useEnabledOnly if set to {@code true}, disable all rules except those enabled explicitly
    */
-  public static void selectRules(final JLanguageTool lt, final List<String> disabledRuleIds, final List<String> enabledRuleIds, boolean useEnabledOnly) {
+  public static void selectRules(JLanguageTool lt, List<String> disabledRuleIds, List<String> enabledRuleIds, boolean useEnabledOnly) {
     Set<String> disabledRuleIdsSet = new HashSet<>();
     disabledRuleIdsSet.addAll(disabledRuleIds);
     Set<String> enabledRuleIdsSet = new HashSet<>();
@@ -341,7 +341,7 @@ public final class Tools {
       }
     }
     // disable rules that are disabled explicitly:
-    for (final String disabledRule : disabledRules) {
+    for (String disabledRule : disabledRules) {
       lt.disableRule(disabledRule);
     }
     // enable rules
@@ -370,12 +370,12 @@ public final class Tools {
    * @return the list of rules to be used.
    * @since 2.8
    */
-  public static List<BitextRule> selectBitextRules(final List<BitextRule> bRules, final List<String> disabledRules, final List<String> enabledRules, boolean useEnabledOnly) {
+  public static List<BitextRule> selectBitextRules(List<BitextRule> bRules, List<String> disabledRules, List<String> enabledRules, boolean useEnabledOnly) {
     List<BitextRule> newBRules = new ArrayList<>(bRules.size());
     newBRules.addAll(bRules);
     List<BitextRule> rulesToDisable = new ArrayList<>();
     if (useEnabledOnly) {
-      for (final String enabledRule : enabledRules) {
+      for (String enabledRule : enabledRules) {
         for (BitextRule b : bRules) {
           if (!b.getId().equals(enabledRule)) {
             rulesToDisable.add(b);
@@ -383,8 +383,8 @@ public final class Tools {
         }
       }
     } else {
-      for (final String disabledRule : disabledRules) {
-        for (final BitextRule b : newBRules) {
+      for (String disabledRule : disabledRules) {
+        for (BitextRule b : newBRules) {
           if (b.getId().equals(disabledRule)) {
             rulesToDisable.add(b);
           }

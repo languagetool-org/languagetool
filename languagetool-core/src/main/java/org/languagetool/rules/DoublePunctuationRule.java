@@ -32,7 +32,7 @@ import org.languagetool.AnalyzedTokenReadings;
  */
 public class DoublePunctuationRule extends Rule {
 
-  public DoublePunctuationRule(final ResourceBundle messages) {
+  public DoublePunctuationRule(ResourceBundle messages) {
     super(messages);
     super.setCategory(Categories.PUNCTUATION.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Typographical);
@@ -53,14 +53,14 @@ public class DoublePunctuationRule extends Rule {
   }
 
   @Override
-  public final RuleMatch[] match(final AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokens();
+  public final RuleMatch[] match(AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokens();
     int startPos = 0;
     int dotCount = 0;
     int commaCount = 0;
     for (int i = 1; i < tokens.length; i++) {
-      final String token = tokens[i].getToken();
+      String token = tokens[i].getToken();
       String nextToken = null;
       String prevToken = null;
       if (i < tokens.length - 1) {
@@ -79,15 +79,15 @@ public class DoublePunctuationRule extends Rule {
         startPos = tokens[i].getStartPos();
       }
       if (dotCount == 2 && !".".equals(nextToken) && !"?".equals(prevToken) && !"!".equals(prevToken)) {
-        final int fromPos = Math.max(0, startPos - 1);
-        final RuleMatch ruleMatch = new RuleMatch(this, fromPos, startPos + 1,
+        int fromPos = Math.max(0, startPos - 1);
+        RuleMatch ruleMatch = new RuleMatch(this, fromPos, startPos + 1,
             getDotMessage(), messages.getString("double_dots_short"));
         ruleMatch.setSuggestedReplacement(".");
         ruleMatches.add(ruleMatch);
         dotCount = 0;
       } else if (commaCount == 2 && !getCommaCharacter().equals(nextToken)) {
-        final int fromPos = Math.max(0, startPos - 1);
-        final RuleMatch ruleMatch = new RuleMatch(this, fromPos, startPos + 1,
+        int fromPos = Math.max(0, startPos - 1);
+        RuleMatch ruleMatch = new RuleMatch(this, fromPos, startPos + 1,
             getCommaMessage(), messages.getString("double_commas_short"));
         ruleMatch.setSuggestedReplacement(getCommaCharacter());
         ruleMatches.add(ruleMatch);

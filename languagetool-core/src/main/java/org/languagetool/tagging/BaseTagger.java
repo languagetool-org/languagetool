@@ -137,12 +137,12 @@ public abstract class BaseTagger implements Tagger {
   }
 
   @Override
-  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
+  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens)
       throws IOException {
-    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
+    List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
     for (String word : sentenceTokens) {
-      final List<AnalyzedToken> l = getAnalyzedTokens(word);
+      List<AnalyzedToken> l = getAnalyzedTokens(word);
       tokenReadings.add(new AnalyzedTokenReadings(l, pos));
       pos += word.length();
     }
@@ -150,17 +150,17 @@ public abstract class BaseTagger implements Tagger {
   }
 
   protected List<AnalyzedTokenReadings> tag(String token) throws IOException {
-    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
-    final List<AnalyzedToken> l = getAnalyzedTokens(token);
+    List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
+    List<AnalyzedToken> l = getAnalyzedTokens(token);
     tokenReadings.add(new AnalyzedTokenReadings(l, 0));
     return tokenReadings;
   }
 
   protected List<AnalyzedToken> getAnalyzedTokens(String word) {
-    final List<AnalyzedToken> result = new ArrayList<>();
-    final String lowerWord = word.toLowerCase(conversionLocale);
-    final boolean isLowercase = word.equals(lowerWord);
-    final boolean isMixedCase = StringTools.isMixedCase(word);
+    List<AnalyzedToken> result = new ArrayList<>();
+    String lowerWord = word.toLowerCase(conversionLocale);
+    boolean isLowercase = word.equals(lowerWord);
+    boolean isMixedCase = StringTools.isMixedCase(word);
     List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
     List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(lowerWord));
     //normal case:
@@ -192,23 +192,23 @@ public abstract class BaseTagger implements Tagger {
     return result;
   }
 
-  protected List<AnalyzedToken> asAnalyzedTokenList(final String word, final List<WordData> wdList) {
-    final List<AnalyzedToken> aTokenList = new ArrayList<>();
+  protected List<AnalyzedToken> asAnalyzedTokenList(String word, List<WordData> wdList) {
+    List<AnalyzedToken> aTokenList = new ArrayList<>();
     for (WordData wd : wdList) {
       aTokenList.add(asAnalyzedToken(word, wd));
     }
     return aTokenList;
   }
 
-  protected List<AnalyzedToken> asAnalyzedTokenListForTaggedWords(final String word, List<TaggedWord> taggedWords) {
-    final List<AnalyzedToken> aTokenList = new ArrayList<>();
+  protected List<AnalyzedToken> asAnalyzedTokenListForTaggedWords(String word, List<TaggedWord> taggedWords) {
+    List<AnalyzedToken> aTokenList = new ArrayList<>();
     for (TaggedWord taggedWord : taggedWords) {
       aTokenList.add(asAnalyzedToken(word, taggedWord));
     }
     return aTokenList;
   }
 
-  protected AnalyzedToken asAnalyzedToken(final String word, final WordData wd) {
+  protected AnalyzedToken asAnalyzedToken(String word, WordData wd) {
     String tag = StringTools.asString(wd.getTag());
     // Remove frequency data from tags (if exists)
     // The frequency data is in the last byte (without a separator)
@@ -226,7 +226,7 @@ public abstract class BaseTagger implements Tagger {
   }
 
   //please do not make protected, this breaks other languages
-  private void addTokens(final List<AnalyzedToken> taggedTokens, final List<AnalyzedToken> l) {
+  private void addTokens(List<AnalyzedToken> taggedTokens, List<AnalyzedToken> l) {
     if (taggedTokens != null) {
       for (AnalyzedToken at : taggedTokens) {
         l.add(at);
@@ -235,7 +235,7 @@ public abstract class BaseTagger implements Tagger {
   }
 
   @Override
-  public final AnalyzedTokenReadings createNullToken(final String token, final int startPos) {
+  public final AnalyzedTokenReadings createNullToken(String token, int startPos) {
     return new AnalyzedTokenReadings(new AnalyzedToken(token, null, null), startPos);
   }
 

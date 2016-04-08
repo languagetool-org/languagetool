@@ -87,22 +87,22 @@ public class PatternRuleHandler extends XMLRuleHandler {
   // ===========================================================
 
   @Override
-  public void startElement(final String namespaceURI, final String lName,
-                           final String qName, final Attributes attrs) throws SAXException {
+  public void startElement(String namespaceURI, String lName,
+                           String qName, Attributes attrs) throws SAXException {
     switch (qName) {
       case "category":
-        final String catName = attrs.getValue(NAME);
-        final String catId = attrs.getValue(ID);
+        String catName = attrs.getValue(NAME);
+        String catId = attrs.getValue(ID);
         Category.Location location = YES.equals(attrs.getValue(EXTERNAL)) ?
                 Category.Location.EXTERNAL : Category.Location.INTERNAL;
-        final boolean onByDefault = !OFF.equals(attrs.getValue(DEFAULT));
+        boolean onByDefault = !OFF.equals(attrs.getValue(DEFAULT));
         category = new Category(catId != null ? new CategoryId(catId) : null, catName, location, onByDefault);
         if (attrs.getValue(TYPE) != null) {
           categoryIssueType = attrs.getValue(TYPE);
         }
         break;
       case "rules":
-        final String languageStr = attrs.getValue("lang");
+        String languageStr = attrs.getValue("lang");
         language = Languages.getLanguageForShortName(languageStr);
         break;
       case "regexp":
@@ -296,8 +296,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
   }
 
   @Override
-  public void endElement(final String namespaceURI, final String sName,
-      final String qName) throws SAXException {
+  public void endElement(String namespaceURI, String sName,
+      String qName) throws SAXException {
     switch (qName) {
       case "category":
         categoryIssueType = null;
@@ -319,7 +319,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
           // not where it's defined. Thus we have to copy the elements so each use of
           // the phraseref can carry their own information:
 
-          final List<PatternToken> tmpPatternTokens = new ArrayList<>();
+          List<PatternToken> tmpPatternTokens = new ArrayList<>();
           createRules(new ArrayList<>(patternTokens), tmpPatternTokens, 0);
 
         } else {
@@ -330,7 +330,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
           }
           for (List<PatternToken> phrasePatternToken : phrasePatternTokens) {
             processElement(phrasePatternToken);
-            final List<PatternToken> tmpPatternTokens = new ArrayList<>();
+            List<PatternToken> tmpPatternTokens = new ArrayList<>();
             createRules(phrasePatternToken, tmpPatternTokens, 0);
           }
         }
@@ -375,7 +375,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
             antiId = ruleGroupId;
           }
         }
-        final DisambiguationPatternRule rule = new DisambiguationPatternRule(
+        DisambiguationPatternRule rule = new DisambiguationPatternRule(
             antiId + "_antipattern:" + antiPatternCounter,
             "antipattern", language, patternTokens, null, null,
             DisambiguationPatternRule.DisambiguatorAction.IMMUNIZE);
@@ -402,8 +402,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (inCorrectExample) {
           correctExamples.add(correctExample.toString());
         } else if (inIncorrectExample) {
-          final IncorrectExample example;
-          final List<String> corrections = new ArrayList<>();
+          IncorrectExample example;
+          List<String> corrections = new ArrayList<>();
           corrections.addAll(Arrays.asList(exampleCorrection.toString().split("\\|")));
           if (corrections.size() > 0) {
             if (exampleCorrection.toString().endsWith("|")) {  // split() will ignore trailing empty items
@@ -498,7 +498,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         //clear the features...
         equivalenceFeatures = new HashMap<>();
         //set negation on the last token only!
-        final int lastElement = patternTokens.size() - 1;
+        int lastElement = patternTokens.size() - 1;
         patternTokens.get(lastElement).setLastInUnification();
         if (uniNegation) {
           patternTokens.get(lastElement).setUniNegation();
@@ -554,7 +554,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       PatternToken patternToken = elemList.get(numElement);
       if (patternToken.hasOrGroup()) {
         for (PatternToken patternTokenOfOrGroup : patternToken.getOrGroup()) {
-          final List<PatternToken> tmpElements2 = new ArrayList<>();
+          List<PatternToken> tmpElements2 = new ArrayList<>();
           tmpElements2.addAll(tmpPatternTokens);
           tmpElements2.add((PatternToken) ObjectUtils.clone(patternTokenOfOrGroup));
           createRules(elemList, tmpElements2, numElement + 1);
@@ -584,7 +584,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
     return sb.toString();
   }
 
-  protected void prepareRule(final AbstractPatternRule rule) {
+  protected void prepareRule(AbstractPatternRule rule) {
     if (startPos != -1 && endPos != -1) {
       rule.setStartPositionCorrection(startPos);
       rule.setEndPositionCorrection(endPos - tokenCountForMarker);
@@ -607,13 +607,13 @@ public class PatternRuleHandler extends XMLRuleHandler {
       rule.setSubId("1");
     }
     caseSensitive = false;
-    for (final Match m : suggestionMatches) {
+    for (Match m : suggestionMatches) {
       rule.addSuggestionMatch(m);
     }
     if (phrasePatternTokens.size() <= 1) {
       suggestionMatches.clear();
     }
-    for (final Match m : suggestionMatchesOutMsg) {
+    for (Match m : suggestionMatchesOutMsg) {
       rule.addSuggestionMatchOutMsg(m);
     }
     suggestionMatchesOutMsg.clear();
@@ -650,8 +650,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
   }
 
   @Override
-  public void characters(final char[] buf, final int offset, final int len) {
-    final String s = new String(buf, offset, len);
+  public void characters(char[] buf, int offset, int len) {
+    String s = new String(buf, offset, len);
     if (inException) {
       exceptions.append(s);
     } else if (inToken) {

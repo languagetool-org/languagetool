@@ -57,28 +57,28 @@ public abstract class AbstractWordCoherencyRule extends Rule {
   
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     for (AnalyzedTokenReadings tmpToken : tokens) {
       String token = tmpToken.getToken();
-      final List<AnalyzedToken> readings = tmpToken.getReadings();
+      List<AnalyzedToken> readings = tmpToken.getReadings();
       // TODO: in theory we need to care about the other readings, too (affects e.g. German "Schenke" as a noun):
       if (readings.size() > 0) {
-        final String baseform = readings.get(0).getLemma();
+        String baseform = readings.get(0).getLemma();
         if (baseform != null) {
           token = baseform;
         }
       }
       if (shouldNotAppearWord.containsKey(token)) {
-        final RuleMatch otherMatch = shouldNotAppearWord.get(token);
-        final String otherSpelling = otherMatch.getMessage();
-        final String msg = getMessage(token, otherSpelling);
-        final RuleMatch ruleMatch = new RuleMatch(this, tmpToken.getStartPos(), tmpToken.getEndPos(), msg);
+        RuleMatch otherMatch = shouldNotAppearWord.get(token);
+        String otherSpelling = otherMatch.getMessage();
+        String msg = getMessage(token, otherSpelling);
+        RuleMatch ruleMatch = new RuleMatch(this, tmpToken.getStartPos(), tmpToken.getEndPos(), msg);
         ruleMatch.setSuggestedReplacement(otherSpelling);
         ruleMatches.add(ruleMatch);
       } else if (getWordMap().containsKey(token)) {
-        final String shouldNotAppear = getWordMap().get(token);
-        final RuleMatch potentialRuleMatch = new RuleMatch(this, tmpToken.getStartPos(), tmpToken.getEndPos(), token);
+        String shouldNotAppear = getWordMap().get(token);
+        RuleMatch potentialRuleMatch = new RuleMatch(this, tmpToken.getStartPos(), tmpToken.getEndPos(), token);
         shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
       }
     }

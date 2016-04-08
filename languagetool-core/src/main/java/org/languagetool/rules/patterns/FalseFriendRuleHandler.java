@@ -51,7 +51,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   private StringBuilder translation = new StringBuilder();
   private boolean inTranslation;
 
-  FalseFriendRuleHandler(final Language textLanguage, final Language motherTongue) {
+  FalseFriendRuleHandler(Language textLanguage, Language motherTongue) {
     messages = ResourceBundle.getBundle(
         JLanguageTool.MESSAGE_BUNDLE, motherTongue.getLocale());
     formatter = new MessageFormat("");
@@ -69,8 +69,8 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   // ===========================================================
 
   @Override
-  public void startElement(final String namespaceURI, final String lName,
-      final String qName, final Attributes attrs) throws SAXException {
+  public void startElement(String namespaceURI, String lName,
+      String qName, Attributes attrs) throws SAXException {
     if (qName.equals(RULE)) {
       translations.clear();
       id = attrs.getValue("id");
@@ -84,7 +84,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       incorrectExamples = new ArrayList<>();
     } else if (qName.equals(PATTERN)) {
       inPattern = true;
-      final String languageStr = attrs.getValue("lang");
+      String languageStr = attrs.getValue("lang");
       if (Languages.isLanguageSupported(languageStr)) {
         language = Languages.getLanguageForShortName(languageStr);
       }
@@ -92,9 +92,9 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       setToken(attrs);
     } else if (qName.equals(TRANSLATION)) {
       inTranslation = true;
-      final String languageStr = attrs.getValue("lang");
+      String languageStr = attrs.getValue("lang");
       if (Languages.isLanguageSupported(languageStr)) {
-        final Language tmpLang = Languages.getLanguageForShortName(languageStr);
+        Language tmpLang = Languages.getLanguageForShortName(languageStr);
         currentTranslationLanguage = tmpLang;
         if (tmpLang.equalsConsiderVariantsIfSpecified(motherTongue)) {
           translationLanguage = tmpLang;
@@ -119,21 +119,21 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   }
 
   @Override
-  public void endElement(final String namespaceURI, final String sName,
-      final String qName) throws SAXException {
+  public void endElement(String namespaceURI, String sName,
+      String qName) throws SAXException {
     switch (qName) {
       case RULE:
         if (language.equalsConsiderVariantsIfSpecified(textLanguage) && translationLanguage != null
                 && translationLanguage.equalsConsiderVariantsIfSpecified(motherTongue) && language != motherTongue
                 && !translations.isEmpty()) {
           formatter.applyPattern(messages.getString("false_friend_hint"));
-          final String tokensAsString = StringUtils.join(patternTokens, " ").replace('|', '/');
-          final Object[] messageArguments = {tokensAsString,
+          String tokensAsString = StringUtils.join(patternTokens, " ").replace('|', '/');
+          Object[] messageArguments = {tokensAsString,
                   messages.getString(textLanguage.getShortName()),
                   formatTranslations(translations),
                   messages.getString(motherTongue.getShortName())};
-          final String description = formatter.format(messageArguments);
-          final PatternRule rule = new FalseFriendPatternRule(id, language, patternTokens,
+          String description = formatter.format(messageArguments);
+          PatternRule rule = new FalseFriendPatternRule(id, language, patternTokens,
                   messages.getString("false_friend_desc") + " "
                           + tokensAsString, description, messages.getString("false_friend"));
           rule.setCorrectExamples(correctExamples);
@@ -183,7 +183,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
         break;
       case RULEGROUP:
         if (!suggestions.isEmpty()) {
-          final List<String> l = new ArrayList<>(suggestions);
+          List<String> l = new ArrayList<>(suggestions);
           suggestionMap.put(id, l);
           suggestions.clear();
         }
@@ -192,13 +192,13 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
     }
   }
 
-  private String formatTranslations(final List<StringBuilder> translations) {
+  private String formatTranslations(List<StringBuilder> translations) {
     return translations.stream().map(o -> "\"" + o + "\"").collect(Collectors.joining(", "));
   }
 
   @Override
-  public void characters(final char[] buf, final int offset, final int len) {
-    final String s = new String(buf, offset, len);
+  public void characters(char[] buf, int offset, int len) {
+    String s = new String(buf, offset, len);
     if (inToken && inPattern) {
       elements.append(s);
     } else if (inCorrectExample) {

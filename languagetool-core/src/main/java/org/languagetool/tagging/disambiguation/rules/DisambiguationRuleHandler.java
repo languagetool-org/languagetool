@@ -82,8 +82,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   // ===========================================================
 
   @Override
-  public void startElement(final String namespaceURI, final String lName,
-                           final String qName, final Attributes attrs) throws SAXException {
+  public void startElement(String namespaceURI, String lName,
+                           String qName, Attributes attrs) throws SAXException {
     switch (qName) {
       case RULE:
         id = attrs.getValue(ID);
@@ -164,7 +164,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
           includeRange = Match.IncludeRange.valueOf(attrs
                   .getValue("include_skipped").toUpperCase(Locale.ENGLISH));
         }
-        final Match mWorker = new Match(attrs.getValue(POSTAG), attrs
+        Match mWorker = new Match(attrs.getValue(POSTAG), attrs
                 .getValue("postag_replace"), YES
                 .equals(attrs.getValue(POSTAG_REGEXP)), attrs
                 .getValue("regexp_match"), attrs.getValue("regexp_replace"),
@@ -173,14 +173,14 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
                 includeRange);
         if (inDisambiguation) {
           if (attrs.getValue(NO) != null) {
-            final int refNumber = Integer.parseInt(attrs.getValue(NO));
+            int refNumber = Integer.parseInt(attrs.getValue(NO));
             refNumberSanityCheck(refNumber);
             mWorker.setTokenRef(refNumber);
             posSelector = mWorker;
           }
         } else if (inToken) {
           if (attrs.getValue(NO) != null) {
-            final int refNumber = Integer.parseInt(attrs.getValue(NO));
+            int refNumber = Integer.parseInt(attrs.getValue(NO));
             refNumberSanityCheck(refNumber);
             mWorker.setTokenRef(refNumber);
             tokenReference = mWorker;
@@ -246,11 +246,11 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   }
 
   @Override
-  public void endElement(final String namespaceURI, final String sName,
-                         final String qName) throws SAXException {
+  public void endElement(String namespaceURI, String sName,
+                         String qName) throws SAXException {
     switch (qName) {
       case RULE:
-        final DisambiguationPatternRule rule = new DisambiguationPatternRule(id,
+        DisambiguationPatternRule rule = new DisambiguationPatternRule(id,
                 name, language, patternTokens, disambiguatedPOS, posSelector,
                 disambigAction);
 
@@ -264,7 +264,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         }
         rule.setSubId(inRuleGroup ? Integer.toString(subId) : "1");
 
-        final int matchedTokenCount = endPos - startPos;
+        int matchedTokenCount = endPos - startPos;
         if (newWdList != null) {
           if (disambigAction == DisambiguationPatternRule.DisambiguatorAction.ADD || disambigAction == DisambiguationPatternRule.DisambiguatorAction.REMOVE
                   || disambigAction == DisambiguationPatternRule.DisambiguatorAction.REPLACE) {
@@ -297,7 +297,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
                   + "\n Line: " + pLocator.getLineNumber() + ", column: "
                   + pLocator.getColumnNumber() + ".");
         }
-        final boolean singleTokenCorrection = endPos - startPos > 1;
+        boolean singleTokenCorrection = endPos - startPos > 1;
         if ((!singleTokenCorrection && (disambigAction == DisambiguationPatternRule.DisambiguatorAction.FILTER || disambigAction == DisambiguationPatternRule.DisambiguatorAction.REPLACE))
                 && (matchedTokenCount > 1)) {
           throw new SAXException(
@@ -434,7 +434,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         inUnification = false;
         equivalenceFeatures = new HashMap<>();
         //set negation on the last token only!
-        final int lastElement = patternTokens.size() - 1;
+        int lastElement = patternTokens.size() - 1;
         patternTokens.get(lastElement).setLastInUnification();
         if (uniNegation) {
           patternTokens.get(lastElement).setUniNegation();
@@ -465,9 +465,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
     }
   }
 
-  private void addNewWord(final String word, final String lemma,
-                          final String pos) {
-    final AnalyzedToken newWd = new AnalyzedToken(word, pos, lemma);
+  private void addNewWord(String word, String lemma, String pos) {
+    AnalyzedToken newWd = new AnalyzedToken(word, pos, lemma);
     if (newWdList == null) {
       newWdList = new ArrayList<>();
     }
@@ -475,8 +474,8 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
   }
 
   @Override
-  public final void characters(final char[] buf, final int offset, final int len) {
-    final String s = new String(buf, offset, len);
+  public final void characters(char[] buf, int offset, int len) {
+    String s = new String(buf, offset, len);
     if (inException) {
       exceptions.append(s);
     } else if (inToken && inPattern) {

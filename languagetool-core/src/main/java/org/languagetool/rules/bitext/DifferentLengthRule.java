@@ -60,15 +60,15 @@ public class DifferentLengthRule extends BitextRule {
       AnalyzedSentence targetText) throws IOException {
    
     if (isLengthDifferent(getPureText(sourceText), getPureText(targetText))) {
-      final AnalyzedTokenReadings[] tokens = targetText.getTokens();
-      final int endPos = tokens[tokens.length - 1].getStartPos() + tokens[tokens.length - 1].getToken().length();
+      AnalyzedTokenReadings[] tokens = targetText.getTokens();
+      int endPos = tokens[tokens.length - 1].getStartPos() + tokens[tokens.length - 1].getToken().length();
       return new RuleMatch[] { new RuleMatch(this, 0, endPos, getMessage()) };
     }
     return new RuleMatch[0];
   }
   
-  private boolean isLengthDifferent(final String src, final String trg) {
-    final double skew = ((double) src.length() / (double) trg.length()) * 100.00;
+  private boolean isLengthDifferent(String src, String trg) {
+    double skew = ((double) src.length() / (double) trg.length()) * 100.00;
     return skew > MAX_SKEW || skew < MIN_SKEW;
   }
   

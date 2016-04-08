@@ -62,7 +62,7 @@ public abstract class Rule {
   /**
    * Called by rules that require a translation of their messages.
    */
-  public Rule(final ResourceBundle messages) {
+  public Rule(ResourceBundle messages) {
     this.messages = messages;
   }
 
@@ -149,7 +149,7 @@ public abstract class Rule {
    * Since LanguageTool 2.6, this also works {@link org.languagetool.rules.patterns.PatternRule}s
    * (before, it used to always return {@code false} for those).
    */
-  public boolean supportsLanguage(final Language language) {
+  public boolean supportsLanguage(Language language) {
     try {
       List<Class<? extends Rule>> relevantRuleClasses = new ArrayList<>();
       List<Rule> relevantRules = language.getRelevantRules(JLanguageTool.getMessageBundle());
@@ -186,7 +186,7 @@ public abstract class Rule {
   /**
    * Set the examples that are correct and thus do not trigger the rule.
    */
-  public final void setCorrectExamples(final List<String> correctExamples) {
+  public final void setCorrectExamples(List<String> correctExamples) {
     this.correctExamples = Objects.requireNonNull(correctExamples);
   }
 
@@ -200,7 +200,7 @@ public abstract class Rule {
   /**
    * Set the examples that are incorrect and thus do trigger the rule.
    */
-  public final void setIncorrectExamples(final List<IncorrectExample> incorrectExamples) {
+  public final void setIncorrectExamples(List<IncorrectExample> incorrectExamples) {
     this.incorrectExamples = Objects.requireNonNull(incorrectExamples);
   }
 
@@ -215,12 +215,12 @@ public abstract class Rule {
     return category;
   }
 
-  public final void setCategory(final Category category) {
+  public final void setCategory(Category category) {
     Objects.requireNonNull(category, "category cannot be null");
     this.category = category;
   }
 
-  protected final RuleMatch[] toRuleMatchArray(final List<RuleMatch> ruleMatches) {
+  protected final RuleMatch[] toRuleMatchArray(List<RuleMatch> ruleMatches) {
     return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
   }
 

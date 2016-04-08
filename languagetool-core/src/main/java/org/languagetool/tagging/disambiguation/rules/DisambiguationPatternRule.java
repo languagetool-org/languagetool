@@ -60,10 +60,10 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
    * @param disambAction the action to be executed on found token(s)
    * @since public since 2.5
    */
-  public DisambiguationPatternRule(final String id, final String description,
-                                   final Language language, final List<PatternToken> patternTokens,
-                                   final String disambiguatedPOS, final Match posSelect,
-                                   final DisambiguatorAction disambAction) {
+  public DisambiguationPatternRule(String id, String description,
+                                   Language language, List<PatternToken> patternTokens,
+                                   String disambiguatedPOS, Match posSelect,
+                                   DisambiguatorAction disambAction) {
     super(id, description, language, patternTokens, true);
     if (disambiguatedPOS == null && posSelect == null
         && disambAction != DisambiguatorAction.UNIFY
@@ -87,7 +87,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
    *          same as the number of the tokens matched and selected by
    *          {@code <marker>...</marker>} elements.
    */
-  public final void setNewInterpretations(final AnalyzedToken[] newReadings) {
+  public final void setNewInterpretations(AnalyzedToken[] newReadings) {
     newTokenReadings = newReadings.clone();
   }
 
@@ -96,12 +96,12 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
    * @param sentence {@link AnalyzedSentence} Sentence to be disambiguated.
    * @return {@link AnalyzedSentence} Disambiguated sentence (might be unchanged).
    */
-  public final AnalyzedSentence replace(final AnalyzedSentence sentence) throws IOException {
-    final DisambiguationPatternRuleReplacer replacer = new DisambiguationPatternRuleReplacer(this);
+  public final AnalyzedSentence replace(AnalyzedSentence sentence) throws IOException {
+    DisambiguationPatternRuleReplacer replacer = new DisambiguationPatternRuleReplacer(this);
     return replacer.replace(sentence);
   }
 
-  public void setExamples(final List<DisambiguatedExample> examples) {
+  public void setExamples(List<DisambiguatedExample> examples) {
     this.examples = Objects.requireNonNull(examples);
   }
 
@@ -109,7 +109,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
     return Collections.unmodifiableList(examples);
   }
 
-  public void setUntouchedExamples(final List<String> untouchedExamples) {
+  public void setUntouchedExamples(List<String> untouchedExamples) {
     this.untouchedExamples = Objects.requireNonNull(untouchedExamples);
   }
 

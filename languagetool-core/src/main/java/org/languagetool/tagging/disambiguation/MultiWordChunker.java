@@ -48,7 +48,7 @@ public class MultiWordChunker implements Disambiguator {
   /**
    * @param filename file text with multiwords and tags
    */
-  public MultiWordChunker(final String filename) {
+  public MultiWordChunker(String filename) {
     this(filename, false);
   }
   
@@ -56,7 +56,7 @@ public class MultiWordChunker implements Disambiguator {
    * @param filename file text with multiwords and tags
    * @param allowFirstCapitalized if set to {@code true}, first word of the multiword can be capitalized
    */
-  public MultiWordChunker(final String filename, boolean allowFirstCapitalized) {
+  public MultiWordChunker(String filename, boolean allowFirstCapitalized) {
     this.filename = filename;
     this.allowFirstCapitalized = allowFirstCapitalized;
   }
@@ -75,15 +75,15 @@ public class MultiWordChunker implements Disambiguator {
     Map<String, String> mFull = new HashMap<>();
 
     try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename)) {
-      final List<String> posTokens = loadWords(stream);
+      List<String> posTokens = loadWords(stream);
       for (String posToken : posTokens) {
-        final String[] tokenAndTag = posToken.split("\t");
+        String[] tokenAndTag = posToken.split("\t");
         if (tokenAndTag.length != 2) {
           throw new RuntimeException("Invalid format in " + filename + ": '" + posToken + "', expected two tab-separated parts");
         }
-        final boolean containsSpace = tokenAndTag[0].indexOf(' ') > 0;
+        boolean containsSpace = tokenAndTag[0].indexOf(' ') > 0;
         String firstToken;
-        final String[] firstTokens;
+        String[] firstTokens;
         if (!containsSpace) {
           firstTokens = new String[tokenAndTag[0].length()];
           firstToken = tokenAndTag[0].substring(0, 1);
@@ -128,12 +128,12 @@ public class MultiWordChunker implements Disambiguator {
    * @return AnalyzedSentence with additional markers.
    */
   @Override
-  public final AnalyzedSentence disambiguate(final AnalyzedSentence input) {
+  public final AnalyzedSentence disambiguate(AnalyzedSentence input) {
 
     lazyInit();
 
-    final AnalyzedTokenReadings[] anTokens = input.getTokens();
-    final AnalyzedTokenReadings[] output = anTokens;
+    AnalyzedTokenReadings[] anTokens = input.getTokens();
+    AnalyzedTokenReadings[] output = anTokens;
 
     for (int i = 0; i < anTokens.length; i++) {
       String tok = output[i].getToken();
@@ -147,10 +147,10 @@ public class MultiWordChunker implements Disambiguator {
       // If it is a capitalized word, the second time try with lowercase word.
       int myCount = 0;
       while (myCount < 2) {
-        final StringBuilder tokens = new StringBuilder();
+        StringBuilder tokens = new StringBuilder();
         int finalLen = 0;
         if (mStartSpace.containsKey(tok)) {
-          final int len = mStartSpace.get(tok);
+          int len = mStartSpace.get(tok);
           int j = i;
           int lenCounter = 0;
           while (j < anTokens.length) {
@@ -160,7 +160,7 @@ public class MultiWordChunker implements Disambiguator {
               } else {
                 tokens.append(anTokens[j].getToken());
               }
-              final String toks = tokens.toString();
+              String toks = tokens.toString();
               if (mFull.containsKey(toks)) {
                 output[i] = prepareNewReading(toks, output[i].getToken(), output[i], false);
                 output[finalLen] = prepareNewReading(toks,
@@ -188,7 +188,7 @@ public class MultiWordChunker implements Disambiguator {
             } else {
               tokens.append(anTokens[j].getToken());
             }
-            final String toks = tokens.toString();
+            String toks = tokens.toString();
             if (mFull.containsKey(toks)) {
               output[i] = prepareNewReading(toks, anTokens[i].getToken(),
                   output[i], false);
@@ -211,22 +211,22 @@ public class MultiWordChunker implements Disambiguator {
     return new AnalyzedSentence(output);
   }
 
-  private AnalyzedTokenReadings prepareNewReading(final String tokens, final String tok, final AnalyzedTokenReadings token, final boolean isLast) {
-    final StringBuilder sb = new StringBuilder();
+  private AnalyzedTokenReadings prepareNewReading(String tokens, String tok, AnalyzedTokenReadings token, boolean isLast) {
+    StringBuilder sb = new StringBuilder();
     sb.append('<');
     if (isLast) {
       sb.append('/');
     }
     sb.append(mFull.get(tokens));
     sb.append('>');
-    final AnalyzedToken tokenStart = new AnalyzedToken(tok, sb.toString(), tokens);
+    AnalyzedToken tokenStart = new AnalyzedToken(tok, sb.toString(), tokens);
     return setAndAnnotate(token, tokenStart);
   }
 
-  private AnalyzedTokenReadings setAndAnnotate(final AnalyzedTokenReadings oldReading, final AnalyzedToken newReading) {
-    final String old = oldReading.toString();
-    final String prevAnot = oldReading.getHistoricalAnnotations();
-    final AnalyzedTokenReadings newAtr = new AnalyzedTokenReadings(oldReading.getReadings(),
+  private AnalyzedTokenReadings setAndAnnotate(AnalyzedTokenReadings oldReading, AnalyzedToken newReading) {
+    String old = oldReading.toString();
+    String prevAnot = oldReading.getHistoricalAnnotations();
+    AnalyzedTokenReadings newAtr = new AnalyzedTokenReadings(oldReading.getReadings(),
             oldReading.getStartPos());
     newAtr.setWhitespaceBefore(oldReading.isWhitespaceBefore());
     newAtr.addReading(newReading);
@@ -236,12 +236,12 @@ public class MultiWordChunker implements Disambiguator {
     return newAtr;
   }
   
-  private String annotateToken(final String prevAnot, final String oldReading, final String newReading) {
+  private String annotateToken(String prevAnot, String oldReading, String newReading) {
     return prevAnot + "\nMULTIWORD_CHUNKER: " + oldReading + " -> " + newReading;
   }
 
-  private List<String> loadWords(final InputStream stream) {
-    final List<String> lines = new ArrayList<>();
+  private List<String> loadWords(InputStream stream) {
+    List<String> lines = new ArrayList<>();
     try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "UTF-8"))) {
       String line;
       while ((line = reader.readLine()) != null) {

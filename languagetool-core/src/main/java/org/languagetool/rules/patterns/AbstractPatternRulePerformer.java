@@ -42,24 +42,24 @@ public abstract class AbstractPatternRulePerformer {
   }
 
   protected List<PatternTokenMatcher> createElementMatchers() {
-    final List<PatternTokenMatcher> patternTokenMatchers = new ArrayList<>(rule.patternTokens.size());
+    List<PatternTokenMatcher> patternTokenMatchers = new ArrayList<>(rule.patternTokens.size());
     for (PatternToken pToken : rule.patternTokens) {
-      final PatternTokenMatcher matcher = new PatternTokenMatcher(pToken);
+      PatternTokenMatcher matcher = new PatternTokenMatcher(pToken);
       patternTokenMatchers.add(matcher);
     }
     return patternTokenMatchers;
   }
 
-  protected boolean testAllReadings(final AnalyzedTokenReadings[] tokens,
-      final PatternTokenMatcher matcher, final PatternTokenMatcher prevElement,
-      final int tokenNo, final int firstMatchToken, final int prevSkipNext)
+  protected boolean testAllReadings(AnalyzedTokenReadings[] tokens,
+      PatternTokenMatcher matcher, PatternTokenMatcher prevElement,
+      int tokenNo, int firstMatchToken, int prevSkipNext)
           throws IOException {
     boolean thisMatched = false;
-    final int numberOfReadings = tokens[tokenNo].getReadingsLength();
+    int numberOfReadings = tokens[tokenNo].getReadingsLength();
     matcher.prepareAndGroup(firstMatchToken, tokens, rule.getLanguage());
 
     for (int i = 0; i < numberOfReadings; i++) {
-      final AnalyzedToken matchToken = tokens[tokenNo].getAnalyzedToken(i);
+      AnalyzedToken matchToken = tokens[tokenNo].getAnalyzedToken(i);
       boolean tested = false;
       prevMatched = prevMatched || prevSkipNext > 0
           && prevElement != null
@@ -128,12 +128,12 @@ public abstract class AbstractPatternRulePerformer {
     return thisMatched;
   }
 
-  protected boolean testUnificationAndGroups(final boolean matched, final boolean lastReading,
-                                             final AnalyzedToken matchToken,
-                                             final PatternTokenMatcher elemMatcher, boolean alreadyTested) {
+  protected boolean testUnificationAndGroups(boolean matched, boolean lastReading,
+                                             AnalyzedToken matchToken,
+                                             PatternTokenMatcher elemMatcher, boolean alreadyTested) {
     boolean thisMatched = matched;
-    final boolean elemIsMatched = alreadyTested || elemMatcher.isMatched(matchToken);
-    final PatternToken elem = elemMatcher.getPatternToken();
+    boolean elemIsMatched = alreadyTested || elemMatcher.isMatched(matchToken);
+    PatternToken elem = elemMatcher.getPatternToken();
 
     if (rule.testUnification) {
       if (matched && elem.isUnified()) {

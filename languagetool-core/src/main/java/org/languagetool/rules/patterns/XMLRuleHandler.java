@@ -225,17 +225,17 @@ public class XMLRuleHandler extends DefaultHandler {
   }
 
   @Override
-  public void warning(final SAXParseException e) throws SAXException {
+  public void warning(SAXParseException e) throws SAXException {
     throw e;
   }
 
   @Override
-  public void error(final SAXParseException e) throws SAXException {
+  public void error(SAXParseException e) throws SAXException {
     throw e;
   }
 
   @Override
-  public void setDocumentLocator(final Locator locator) {
+  public void setDocumentLocator(Locator locator) {
     pLocator = locator;
     super.setDocumentLocator(locator);
   }
@@ -263,21 +263,21 @@ public class XMLRuleHandler extends DefaultHandler {
     exceptionSpaceBeforeSet = false;
   }
 
-  protected void preparePhrase(final Attributes attrs) {
+  protected void preparePhrase(Attributes attrs) {
     phraseIdRef = attrs.getValue("idref");
     if (phraseMap.containsKey(phraseIdRef)) {
-      for (final List<PatternToken> curPhrTokens : phraseMap.get(phraseIdRef)) {
-        for (final PatternToken pToken : curPhrTokens) {
+      for (List<PatternToken> curPhrTokens : phraseMap.get(phraseIdRef)) {
+        for (PatternToken pToken : curPhrTokens) {
           pToken.setPhraseName(phraseIdRef);
         }
-        final List<PatternToken> copy = (List<PatternToken>) ObjectUtils.clone(curPhrTokens);
+        List<PatternToken> copy = (List<PatternToken>) ObjectUtils.clone(curPhrTokens);
         for (PatternToken patternToken : copy) {
           patternToken.setInsideMarker(inMarker);
         }
         if (patternTokens.isEmpty()) {
           phrasePatternTokens.add(new ArrayList<>(copy));
         } else {
-          final List<PatternToken> prevList = new ArrayList<>(patternTokens);
+          List<PatternToken> prevList = new ArrayList<>(patternTokens);
           prevList.addAll(copy);
           phrasePatternTokens.add(new ArrayList<>(prevList));
           prevList.clear();
@@ -309,7 +309,7 @@ public class XMLRuleHandler extends DefaultHandler {
     phrasePatternTokens.clear();
   }
 
-  protected void startPattern(final Attributes attrs) throws SAXException {
+  protected void startPattern(Attributes attrs) throws SAXException {
     tokenCounter = 0;
     inPattern = true;
     caseSensitive = YES.equals(attrs.getValue(CASE_SENSITIVE));
@@ -321,13 +321,13 @@ public class XMLRuleHandler extends DefaultHandler {
    * 
    * @param patternTokens token list where the match element was used. It is directly changed.
    */
-  protected void processElement(final List<PatternToken> patternTokens) {
+  protected void processElement(List<PatternToken> patternTokens) {
     int counter = 0;
-    for (final PatternToken pToken : patternTokens) {
+    for (PatternToken pToken : patternTokens) {
         if (pToken.getPhraseName() != null && counter > 0 && pToken.isReferenceElement()) {
-            final int tokRef = pToken.getMatch().getTokenRef();
+            int tokRef = pToken.getMatch().getTokenRef();
             pToken.getMatch().setTokenRef(tokRef + counter - 1);
-            final String offsetToken = pToken.getString().replace("\\" + tokRef,
+            String offsetToken = pToken.getString().replace("\\" + tokRef,
                     "\\" + (tokRef + counter - 1));
             pToken.setStringElement(offsetToken);
         }
@@ -335,7 +335,7 @@ public class XMLRuleHandler extends DefaultHandler {
     }
   }
 
-  protected void setMatchElement(final Attributes attrs) throws SAXException {
+  protected void setMatchElement(Attributes attrs) throws SAXException {
     inMatch = true;
     match = new StringBuilder();
     Match.CaseConversion caseConversion = Match.CaseConversion.NONE;
@@ -348,7 +348,7 @@ public class XMLRuleHandler extends DefaultHandler {
       includeRange = Match.IncludeRange.valueOf(attrs
           .getValue("include_skipped").toUpperCase(Locale.ENGLISH));
     }
-    final Match mWorker = new Match(attrs.getValue(POSTAG), attrs.getValue("postag_replace"),
+    Match mWorker = new Match(attrs.getValue(POSTAG), attrs.getValue("postag_replace"),
         YES.equals(attrs.getValue(POSTAG_REGEXP)),
         attrs.getValue("regexp_match"), attrs.getValue("regexp_replace"),
         caseConversion, YES.equals(attrs.getValue("setpos")),
@@ -368,7 +368,7 @@ public class XMLRuleHandler extends DefaultHandler {
       suggestionsOutMsg.append(attrs.getValue("no"));
       checkNumber(attrs);
     } else if (inToken && attrs.getValue("no") != null) {
-      final int refNumber = Integer.parseInt(attrs.getValue("no"));
+      int refNumber = Integer.parseInt(attrs.getValue("no"));
       checkRefNumber(refNumber);
       mWorker.setTokenRef(refNumber);
       tokenReference = mWorker;
@@ -397,7 +397,7 @@ public class XMLRuleHandler extends DefaultHandler {
     }
   }
 
-  protected void setExceptions(final Attributes attrs) {
+  protected void setExceptions(Attributes attrs) {
     inException = true;
     exceptions = new StringBuilder();
     resetException();
@@ -450,7 +450,7 @@ public class XMLRuleHandler extends DefaultHandler {
     resetException();
   }
 
-  protected void setToken(final Attributes attrs) {
+  protected void setToken(Attributes attrs) {
     inToken = true;
 
     if (lastPhrase) {
@@ -504,12 +504,12 @@ public class XMLRuleHandler extends DefaultHandler {
    * (including '\1' and the like).
    */
   @Nullable
-  protected List<Match> addLegacyMatches(final List <Match> existingSugMatches, final String messageStr,
+  protected List<Match> addLegacyMatches(List <Match> existingSugMatches, String messageStr,
       boolean inMessage) {
     if (existingSugMatches == null || existingSugMatches.isEmpty()) {
       return new ArrayList<>();
     }
-    final List<Match> sugMatch = new ArrayList<>();
+    List<Match> sugMatch = new ArrayList<>();
     int pos = 0;
     int ind = 0;
     int matchCounter = 0;
@@ -517,7 +517,7 @@ public class XMLRuleHandler extends DefaultHandler {
       pos = messageStr.indexOf('\\', ind + 1);
       if (pos != -1 && messageStr.length() > pos && Character.isDigit(messageStr.charAt(pos + 1))) {
         if (pos == 0 || messageStr.charAt(pos - 1) != '\u0001') {
-          final Match mWorker = new Match(null, null, false, null,
+          Match mWorker = new Match(null, null, false, null,
               null, Match.CaseConversion.NONE, false, false, Match.IncludeRange.NONE);
           mWorker.setInMessageOnly(true);
           sugMatch.add(mWorker);

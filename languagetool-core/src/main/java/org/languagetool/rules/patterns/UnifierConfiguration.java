@@ -57,8 +57,8 @@ public class UnifierConfiguration {
    * @param type Type of equivalence for the feature, for example plural, first person, genitive.
    * @param elem Element specifying the equivalence.
    */
-  public final void setEquivalence(final String feature, final String type,
-                                   final PatternToken elem) {
+  public final void setEquivalence(String feature, String type,
+                                   PatternToken elem) {
 
     EquivalenceTypeLocator typeKey = new EquivalenceTypeLocator(feature, type);
     if (equivalenceTypes.containsKey(typeKey)) {
@@ -66,7 +66,7 @@ public class UnifierConfiguration {
     }
     equivalenceTypes.put(typeKey, elem);
     
-    final List<String> lTypes;
+    List<String> lTypes;
     if (equivalenceFeatures.containsKey(feature)) {
       lTypes = equivalenceFeatures.get(feature);
     } else {

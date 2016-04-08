@@ -51,13 +51,13 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence sentence) throws IOException {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
 
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    final List<Integer> tokenPositions = new ArrayList<>(tokens.length + 1);
-    final int patternSize = patternTokenMatchers.size();
-    final int limit = Math.max(0, tokens.length - patternSize + 1);
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    List<Integer> tokenPositions = new ArrayList<>(tokens.length + 1);
+    int patternSize = patternTokenMatchers.size();
+    int limit = Math.max(0, tokens.length - patternSize + 1);
     PatternTokenMatcher pTokenMatcher = null;
     int i = 0;
     int minOccurCorrection = getMinOccurrenceCorrection();
@@ -75,23 +75,23 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
       tokenPositions.clear();
       int minOccurSkip = 0;
       for (int k = 0; k < patternSize; k++) {
-        final PatternTokenMatcher prevTokenMatcher = pTokenMatcher;
+        PatternTokenMatcher prevTokenMatcher = pTokenMatcher;
         pTokenMatcher = patternTokenMatchers.get(k);
         pTokenMatcher.resolveReference(firstMatchToken, tokens, rule.getLanguage());
-        final int nextPos = i + k + skipShiftTotal - minOccurSkip;
+        int nextPos = i + k + skipShiftTotal - minOccurSkip;
         prevMatched = false;
         if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
           prevSkipNext = tokens.length - (nextPos + 1);
         }
-        final int maxTok = Math.min(nextPos + prevSkipNext, tokens.length - (patternSize - k) + minOccurCorrection);
+        int maxTok = Math.min(nextPos + prevSkipNext, tokens.length - (patternSize - k) + minOccurCorrection);
         for (int m = nextPos; m <= maxTok; m++) {
           allElementsMatch = !tokens[m].isImmunized() && testAllReadings(tokens, pTokenMatcher, prevTokenMatcher, m, firstMatchToken, prevSkipNext);
 
           if (pTokenMatcher.getPatternToken().getMinOccurrence() == 0) {
             boolean foundNext = false;
             for (int k2 = k + 1; k2 < patternSize; k2++) {
-              final PatternTokenMatcher nextElement = patternTokenMatchers.get(k2);
-              final boolean nextElementMatch = !tokens[m].isImmunized() && testAllReadings(tokens, nextElement, pTokenMatcher, m,
+              PatternTokenMatcher nextElement = patternTokenMatchers.get(k2);
+              boolean nextElementMatch = !tokens[m].isImmunized() && testAllReadings(tokens, nextElement, pTokenMatcher, m,
                   firstMatchToken, prevSkipNext);
               if (nextElementMatch) {
                 // this element doesn't match, but it's optional so accept this and continue
@@ -113,7 +113,7 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
             int skipForMax = skipMaxTokens(tokens, pTokenMatcher, firstMatchToken, prevSkipNext,
                 prevTokenMatcher, m, patternSize - k -1);
             lastMatchToken = m + skipForMax;
-            final int skipShift = lastMatchToken - nextPos;
+            int skipShift = lastMatchToken - nextPos;
             tokenPositions.add(skipShift + 1);
             prevSkipNext = translateElementNo(pTokenMatcher.getPatternToken().getSkipNext());
             skipShiftTotal += skipShift;
@@ -134,7 +134,7 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
         }
       }
       if (allElementsMatch && tokenPositions.size() == patternSize) {
-        final RuleMatch ruleMatch = createRuleMatch(tokenPositions,
+        RuleMatch ruleMatch = createRuleMatch(tokenPositions,
             tokens, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken);
         if (ruleMatch != null) {
           ruleMatches.add(ruleMatch);
@@ -148,15 +148,15 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
   }
 
   @Nullable
-  private RuleMatch createRuleMatch(final List<Integer> tokenPositions,
-      final AnalyzedTokenReadings[] tokens, final int firstMatchToken,
-      final int lastMatchToken, int firstMarkerMatchToken, int lastMarkerMatchToken) throws IOException {
-    final PatternRule rule = (PatternRule) this.rule;
-    final String errMessage = formatMatches(tokens, tokenPositions,
+  private RuleMatch createRuleMatch(List<Integer> tokenPositions,
+      AnalyzedTokenReadings[] tokens, int firstMatchToken,
+      int lastMatchToken, int firstMarkerMatchToken, int lastMarkerMatchToken) throws IOException {
+    PatternRule rule = (PatternRule) this.rule;
+    String errMessage = formatMatches(tokens, tokenPositions,
             firstMatchToken, rule.getMessage(), rule.getSuggestionMatches());
-    final String shortErrMessage = formatMatches(tokens, tokenPositions,
+    String shortErrMessage = formatMatches(tokens, tokenPositions,
         firstMatchToken, rule.getShortMessage(), rule.getSuggestionMatches());
-    final String suggestionsOutMsg = formatMatches(tokens, tokenPositions,
+    String suggestionsOutMsg = formatMatches(tokens, tokenPositions,
             firstMatchToken, rule.getSuggestionsOutMsg(), rule.getSuggestionMatchesOutMsg());
     int correctedStPos = 0;
     if (rule.startPositionCorrection > 0) {
@@ -195,13 +195,13 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
     if (lastMarkerMatchToken == -1) {
       lastMarkerMatchToken = lastMatchToken;
     }
-    final AnalyzedTokenReadings token = tokens[Math.min(lastMarkerMatchToken, tokens.length-1)];
+    AnalyzedTokenReadings token = tokens[Math.min(lastMarkerMatchToken, tokens.length-1)];
     int toPos = token.getEndPos();
     if (fromPos < toPos) { // this can happen with some skip="-1" when the last token is not matched
       //now do some spell-checking:
       if (!(errMessage.contains(PatternRuleHandler.PLEASE_SPELL_ME) && errMessage.contains(MISTAKE))) {
-        final String clearMsg = errMessage.replaceAll(PatternRuleHandler.PLEASE_SPELL_ME, "").replaceAll(MISTAKE, "");
-        final RuleMatch ruleMatch = new RuleMatch(rule, fromPos, toPos, clearMsg,
+        String clearMsg = errMessage.replaceAll(PatternRuleHandler.PLEASE_SPELL_ME, "").replaceAll(MISTAKE, "");
+        RuleMatch ruleMatch = new RuleMatch(rule, fromPos, toPos, clearMsg,
                 shortErrMessage, startsWithUppercase, suggestionsOutMsg);
         if (rule.getFilter() != null) {
           RuleFilterEvaluator evaluator = new RuleFilterEvaluator(rule.getFilter());
@@ -222,8 +222,8 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
    */
   private boolean matchPreservesCase(List<Match> suggestionMatches, String msg) {
     if (suggestionMatches != null && !suggestionMatches.isEmpty()) {
-      //final PatternRule rule = (PatternRule) this.rule;
-      final int sugStart = msg.indexOf(SUGGESTION_START_TAG) + SUGGESTION_START_TAG.length();
+      //PatternRule rule = (PatternRule) this.rule;
+      int sugStart = msg.indexOf(SUGGESTION_START_TAG) + SUGGESTION_START_TAG.length();
       for (Match sMatch : suggestionMatches) {
         if (!sMatch.isInMessageOnly() && sMatch.convertsCase()
             && msg.charAt(sugStart) == '\\') {
@@ -240,12 +240,12 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
    * @param i Current element index.
    * @return int Index translated into XML element no.
    */
-  private int translateElementNo(final int i) {
+  private int translateElementNo(int i) {
     if (!useList || i < 0) {
       return i;
     }
     int j = 0;
-    final PatternRule rule = (PatternRule) this.rule;
+    PatternRule rule = (PatternRule) this.rule;
     for (int k = 0; k < i; k++) {
       j += rule.getElementNo().get(k);
     }
@@ -261,12 +261,12 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
    * @param errorMsg String containing suggestion markup
    * @return String Formatted message.
    */
-  private String formatMatches(final AnalyzedTokenReadings[] tokenReadings,
-      final List<Integer> positions, final int firstMatchTok, final String errorMsg,
-      final List<Match> suggestionMatches) throws IOException {
+  private String formatMatches(AnalyzedTokenReadings[] tokenReadings,
+      List<Integer> positions, int firstMatchTok, String errorMsg,
+      List<Match> suggestionMatches) throws IOException {
     String errorMessage = errorMsg;
     int matchCounter = 0;
-    final int[] numbersToMatches = new int[errorMsg.length()];
+    int[] numbersToMatches = new int[errorMsg.length()];
     boolean newWay = false;
     int errLen = errorMessage.length();
     int errMarker = errorMessage.indexOf('\\');
@@ -275,14 +275,14 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
       numberFollows = StringTools.isPositiveNumber(errorMessage.charAt(errMarker + 1));
     }
     while (errMarker >= 0 && numberFollows) {
-      final int backslashPos = errorMessage.indexOf('\\');
+      int backslashPos = errorMessage.indexOf('\\');
       if (backslashPos >= 0 && StringTools.isPositiveNumber(errorMessage.charAt(backslashPos + 1))) {
         int numLen = 1;
         while (backslashPos + numLen < errorMessage.length()
             && StringTools.isPositiveNumber(errorMessage.charAt(backslashPos + numLen))) {
           numLen++;
         }
-        final int j = Integer.parseInt(errorMessage.substring(backslashPos + 1, backslashPos
+        int j = Integer.parseInt(errorMessage.substring(backslashPos + 1, backslashPos
             + numLen)) - 1;
         int repTokenPos = 0;
         int nextTokenPos = 0;
@@ -297,7 +297,7 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
           if (matchCounter < suggestionMatches.size()) {
             numbersToMatches[j] = matchCounter;
             // if token is optional remove it from suggestions:
-            final String[] matches;
+            String[] matches;
             if (j >= positions.size()) {
               matches = concatMatches(matchCounter, j, firstMatchTok + repTokenPos, tokenReadings, nextTokenPos, suggestionMatches);
             } else if (positions.get(j) != 0) {
@@ -305,8 +305,8 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
             } else {
               matches = new String[] { "" };
             }
-            final String leftSide = errorMessage.substring(0, backslashPos);
-            final String rightSide = errorMessage.substring(backslashPos + numLen);
+            String leftSide = errorMessage.substring(0, backslashPos);
+            String rightSide = errorMessage.substring(backslashPos + numLen);
             if (matches.length == 1) {
               // if we removed optional token from suggestion squeeze two spaces into one:
               if (matches[0].isEmpty() && leftSide.endsWith(" ") && rightSide.startsWith(" ")) {
@@ -341,13 +341,13 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
   }
 
   // non-private for tests
-  static String formatMultipleSynthesis(final String[] matches,
-      final String leftSide, final String rightSide) {
-    final String errorMessage;
+  static String formatMultipleSynthesis(String[] matches,
+      String leftSide, String rightSide) {
+    String errorMessage;
     String suggestionLeft = "";
     String suggestionRight = "";
     String rightSideNew = rightSide;
-    final int sPos = leftSide.lastIndexOf(SUGGESTION_START_TAG);
+    int sPos = leftSide.lastIndexOf(SUGGESTION_START_TAG);
     if (sPos >= 0) {
       suggestionLeft = leftSide.substring(sPos + SUGGESTION_START_TAG.length());
     }
@@ -356,16 +356,16 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
     } else {
       errorMessage = leftSide.substring(0, leftSide.lastIndexOf(SUGGESTION_START_TAG)) + SUGGESTION_START_TAG;
     }
-    final int rPos = rightSide.indexOf(SUGGESTION_END_TAG);
+    int rPos = rightSide.indexOf(SUGGESTION_END_TAG);
     if (rPos >= 0) {
       suggestionRight = rightSide.substring(0, rPos);
     }
     if (!StringTools.isEmpty(suggestionRight)) {
       rightSideNew = rightSide.substring(rightSide.indexOf(SUGGESTION_END_TAG));
     }
-    final int lastLeftSugEnd = leftSide.indexOf(SUGGESTION_END_TAG);
-    final int lastLeftSugStart = leftSide.lastIndexOf(SUGGESTION_START_TAG);
-    final StringBuilder sb = new StringBuilder();
+    int lastLeftSugEnd = leftSide.indexOf(SUGGESTION_END_TAG);
+    int lastLeftSugStart = leftSide.lastIndexOf(SUGGESTION_START_TAG);
+    StringBuilder sb = new StringBuilder();
     sb.append(errorMessage);
     for (int z = 0; z < matches.length; z++) {
       sb.append(suggestionLeft);
@@ -390,16 +390,16 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
    * @param tokens Array of AnalyzedTokenReadings
    * @return @String[] Array of concatenated strings
    */
-  private String[] concatMatches(final int start, final int index,
-      final int tokenIndex, final AnalyzedTokenReadings[] tokens,
-      final int nextTokenPos, final List<Match> suggestionMatches)
+  private String[] concatMatches(int start, int index,
+      int tokenIndex, AnalyzedTokenReadings[] tokens,
+      int nextTokenPos, List<Match> suggestionMatches)
           throws IOException {
     String[] finalMatch;
-    final int len = phraseLen(index);
-    final Language language = rule.language;
+    int len = phraseLen(index);
+    Language language = rule.language;
     if (len == 1) {
-      final int skippedTokens = nextTokenPos - tokenIndex;
-      final MatchState matchState = suggestionMatches.get(start).createState(language.getSynthesizer(), tokens, tokenIndex - 1, skippedTokens);
+      int skippedTokens = nextTokenPos - tokenIndex;
+      MatchState matchState = suggestionMatches.get(start).createState(language.getSynthesizer(), tokens, tokenIndex - 1, skippedTokens);
       finalMatch = matchState.toFinalString(language);
       if (suggestionMatches.get(start).checksSpelling()
           && finalMatch.length == 1
@@ -408,10 +408,10 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
         finalMatch[0] = MISTAKE;
       }
     } else {
-      final List<String[]> matchList = new ArrayList<>();
+      List<String[]> matchList = new ArrayList<>();
       for (int i = 0; i < len; i++) {
-        final int skippedTokens = nextTokenPos - (tokenIndex + i);
-        final MatchState matchState = suggestionMatches.get(start).createState(language.getSynthesizer(), tokens, tokenIndex - 1 + i, skippedTokens);
+        int skippedTokens = nextTokenPos - (tokenIndex + i);
+        MatchState matchState = suggestionMatches.get(start).createState(language.getSynthesizer(), tokens, tokenIndex - 1 + i, skippedTokens);
         matchList.add(matchState.toFinalString(language));
       }
       return combineLists(matchList.toArray(new String[matchList.size()][]),
@@ -420,9 +420,9 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
     return finalMatch;
   }
 
-  private int phraseLen(final int i) {
-    final PatternRule rule = (PatternRule) this.rule;
-    final List<Integer> elementNo = rule.getElementNo();
+  private int phraseLen(int i) {
+    PatternRule rule = (PatternRule) this.rule;
+    List<Integer> elementNo = rule.getElementNo();
     if (!useList || i > elementNo.size() - 1) {
       return 1;
     }
@@ -437,11 +437,11 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
    * @param lang Text language for adding spaces in some languages.
    * @return Combined array of String.
    */
-  private static String[] combineLists(final String[][] input,
-      final String[] output, final int r, final Language lang) {
-    final List<String> outputList = new ArrayList<>();
+  private static String[] combineLists(String[][] input,
+      String[] output, int r, Language lang) {
+    List<String> outputList = new ArrayList<>();
     if (r == input.length) {
-      final StringBuilder sb = new StringBuilder();
+      StringBuilder sb = new StringBuilder();
       for (int k = 0; k < output.length; k++) {
         sb.append(output[k]);
         if (k < output.length - 1) {
@@ -452,7 +452,7 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
     } else {
       for (int c = 0; c < input[r].length; c++) {
         output[r] = input[r][c];
-        final String[] sList = combineLists(input, output, r + 1, lang);
+        String[] sList = combineLists(input, output, r + 1, lang);
         outputList.addAll(Arrays.asList(sList));
       }
     }

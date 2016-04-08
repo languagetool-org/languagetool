@@ -66,7 +66,7 @@ public abstract class SpellingCheckRule extends Rule {
   private boolean considerIgnoreWords = true;
   private boolean convertsCase = false;
 
-  public SpellingCheckRule(final ResourceBundle messages, final Language language) {
+  public SpellingCheckRule(ResourceBundle messages, Language language) {
     super(messages);
     this.language = language;
     setLocQualityIssueType(ITSIssueType.Misspelling);

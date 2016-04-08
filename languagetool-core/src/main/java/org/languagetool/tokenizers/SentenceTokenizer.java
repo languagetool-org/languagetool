@@ -35,7 +35,7 @@ public interface SentenceTokenizer extends Tokenizer {
    * @param lineBreakParagraphs if <code>true</code>, single line breaks are assumed to end a paragraph,
    *  with <code>false</code>, only two ore more consecutive line breaks end a paragraph
    */
-  void setSingleLineBreaksMarksParagraph(final boolean lineBreakParagraphs);
+  void setSingleLineBreaksMarksParagraph(boolean lineBreakParagraphs);
 
   boolean singleLineBreaksMarksPara();
 

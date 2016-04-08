@@ -84,14 +84,14 @@ public abstract class AbstractCompoundRule extends Rule {
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+  public RuleMatch[] match(AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
     RuleMatch prevRuleMatch = null;
-    final Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<>(MAX_TERMS);
+    Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<>(MAX_TERMS);
     for (int i = 0; i < tokens.length + MAX_TERMS-1; i++) {
-      final AnalyzedTokenReadings token;
+      AnalyzedTokenReadings token;
       // we need to extend the token list so we find matches at the end of the original list:
       if (i >= tokens.length) {
         token = new AnalyzedTokenReadings(new AnalyzedToken("", "", null), prevTokens.peek().getStartPos());
@@ -106,20 +106,20 @@ public abstract class AbstractCompoundRule extends Rule {
         continue;
       }
 
-      final AnalyzedTokenReadings firstMatchToken = prevTokens.peek();
-      final List<String> stringsToCheck = new ArrayList<>();
-      final List<String> origStringsToCheck = new ArrayList<>();    // original upper/lowercase spelling
-      final Map<String, AnalyzedTokenReadings> stringToToken =
+      AnalyzedTokenReadings firstMatchToken = prevTokens.peek();
+      List<String> stringsToCheck = new ArrayList<>();
+      List<String> origStringsToCheck = new ArrayList<>();    // original upper/lowercase spelling
+      Map<String, AnalyzedTokenReadings> stringToToken =
               getStringToTokenMap(prevTokens, stringsToCheck, origStringsToCheck);
       // iterate backwards over all potentially incorrect strings to make
       // sure we match longer strings first:
       for (int k = stringsToCheck.size()-1; k >= 0; k--) {
-        final String stringToCheck = stringsToCheck.get(k);
-        final String origStringToCheck = origStringsToCheck.get(k);
+        String stringToCheck = stringsToCheck.get(k);
+        String origStringToCheck = origStringsToCheck.get(k);
         if (getCompoundRuleData().getIncorrectCompounds().contains(stringToCheck)) {
-          final AnalyzedTokenReadings atr = stringToToken.get(stringToCheck);
+          AnalyzedTokenReadings atr = stringToToken.get(stringToCheck);
           String msg = null;
-          final List<String> replacement = new ArrayList<>();
+          List<String> replacement = new ArrayList<>();
           if (!getCompoundRuleData().getNoDashSuggestion().contains(stringToCheck)) {
             replacement.add(origStringToCheck.replace(' ', '-'));
             msg = withHyphenMessage;
@@ -128,7 +128,7 @@ public abstract class AbstractCompoundRule extends Rule {
             replacement.add(mergeCompound(origStringToCheck));
             msg = withoutHyphenMessage;
           }
-          final String[] parts = stringToCheck.split(" ");
+          String[] parts = stringToCheck.split(" ");
           if (parts.length > 0 && parts[0].length() == 1) {
             replacement.clear();
             replacement.add(origStringToCheck.replace(' ', '-'));
@@ -136,7 +136,7 @@ public abstract class AbstractCompoundRule extends Rule {
           } else if (replacement.isEmpty() || replacement.size() == 2) {     // isEmpty shouldn't happen
             msg = withOrWithoutHyphenMessage;
           }
-          final RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(), atr.getEndPos(), msg, shortDesc);
+          RuleMatch ruleMatch = new RuleMatch(this, firstMatchToken.getStartPos(), atr.getEndPos(), msg, shortDesc);
           ruleMatch.setSuggestedReplacements(replacement);
           // avoid duplicate matches:
           if (prevRuleMatch != null && prevRuleMatch.getFromPos() == ruleMatch.getFromPos()) {
@@ -155,14 +155,14 @@ public abstract class AbstractCompoundRule extends Rule {
 
   private Map<String, AnalyzedTokenReadings> getStringToTokenMap(Queue<AnalyzedTokenReadings> prevTokens,
                                                                  List<String> stringsToCheck, List<String> origStringsToCheck) {
-    final StringBuilder sb = new StringBuilder();
-    final Map<String, AnalyzedTokenReadings> stringToToken = new HashMap<>();
+    StringBuilder sb = new StringBuilder();
+    Map<String, AnalyzedTokenReadings> stringToToken = new HashMap<>();
     int j = 0;
     for (AnalyzedTokenReadings atr : prevTokens) {
       sb.append(' ');
       sb.append(atr.getToken());
       if (j >= 1) {
-        final String stringToCheck = normalize(sb.toString());
+        String stringToCheck = normalize(sb.toString());
         stringsToCheck.add(stringToCheck);
         origStringsToCheck.add(sb.toString().trim());
         if (!stringToToken.containsKey(stringToCheck)) {
@@ -174,7 +174,7 @@ public abstract class AbstractCompoundRule extends Rule {
     return stringToToken;
   }
 
-  private String normalize(final String inStr) {
+  private String normalize(String inStr) {
     String str = inStr.trim().toLowerCase();
     if (str.indexOf('-') != -1 && str.indexOf(' ') != -1) {
       if (isHyphenIgnored()) {
@@ -187,8 +187,8 @@ public abstract class AbstractCompoundRule extends Rule {
     return str;
   }
 
-  private boolean isNotAllUppercase(final String str) {
-    final String[] parts = str.split(" ");
+  private boolean isNotAllUppercase(String str) {
+    String[] parts = str.split(" ");
     for (String part : parts) {
       if (isHyphenIgnored() || !"-".equals(part)) { // do not treat '-' as an upper-case word
         if (StringTools.isAllUppercase(part)) {
@@ -199,9 +199,9 @@ public abstract class AbstractCompoundRule extends Rule {
     return true;
   }
 
-  private String mergeCompound(final String str) {
-    final String[] stringParts = str.split(" ");
-    final StringBuilder sb = new StringBuilder();
+  private String mergeCompound(String str) {
+    String[] stringParts = str.split(" ");
+    StringBuilder sb = new StringBuilder();
     for (int k = 0; k < stringParts.length; k++) {
       if (isHyphenIgnored() || !"-".equals(stringParts[k])) {
         if (k == 0) {
@@ -214,8 +214,8 @@ public abstract class AbstractCompoundRule extends Rule {
     return sb.toString();
   }
 
-  private void addToQueue(final AnalyzedTokenReadings token, final Queue<AnalyzedTokenReadings> prevTokens) {
-    final boolean inserted = prevTokens.offer(token);
+  private void addToQueue(AnalyzedTokenReadings token, Queue<AnalyzedTokenReadings> prevTokens) {
+    boolean inserted = prevTokens.offer(token);
     if (!inserted) {
       prevTokens.poll();
       prevTokens.offer(token);

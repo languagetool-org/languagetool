@@ -63,11 +63,11 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
   // ===========================================================
 
   @Override
-  public void startElement(final String namespaceURI, final String lName,
-      final String qName, final Attributes attrs) throws SAXException {
+  public void startElement(String namespaceURI, String lName,
+      String qName, Attributes attrs) throws SAXException {
     switch (qName) {
       case RULES:
-        final String languageStr = attrs.getValue("targetLang");
+        String languageStr = attrs.getValue("targetLang");
         language = Languages.getLanguageForShortName(languageStr);
         break;
       case RULE:
@@ -88,18 +88,18 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
   }
 
   @Override
-  public void endElement(final String namespaceURI, final String sName,
-      final String qName) throws SAXException {
+  public void endElement(String namespaceURI, String sName,
+      String qName) throws SAXException {
     switch (qName) {
       case RULE:
         trgRule.setMessage(message.toString());
-        for (final Match m : suggestionMatches) {
+        for (Match m : suggestionMatches) {
           trgRule.addSuggestionMatch(m);
         }
         if (phrasePatternTokens.size() <= 1) {
           suggestionMatches.clear();
         }
-        final BitextPatternRule bRule = new BitextPatternRule(srcRule, trgRule);
+        BitextPatternRule bRule = new BitextPatternRule(srcRule, trgRule);
         bRule.setCorrectBitextExamples(correctExamples);
         bRule.setIncorrectBitextExamples(incorrectExamples);
         bRule.setSourceLanguage(srcLang);
@@ -121,11 +121,11 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
         if (inCorrectExample) {
           correctExamples.add(new StringPair(srcExample.getExample(), trgExample.getExample()));
         } else if (inIncorrectExample) {
-          final StringPair examplePair = new StringPair(srcExample.getExample(), trgExample.getExample());
+          StringPair examplePair = new StringPair(srcExample.getExample(), trgExample.getExample());
           if (trgExample.getCorrections().isEmpty()) {
             incorrectExamples.add(new IncorrectBitextExample(examplePair));
           } else {
-            final List<String> corrections = trgExample.getCorrections();
+            List<String> corrections = trgExample.getCorrections();
             incorrectExamples.add(new IncorrectBitextExample(examplePair, corrections));
           }
         }
@@ -144,7 +144,7 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
     if (inCorrectExample) {
       example = new IncorrectExample(correctExample.toString());
     } else if (inIncorrectExample) {
-      final String[] corrections = exampleCorrection.toString().split("\\|");
+      String[] corrections = exampleCorrection.toString().split("\\|");
       if (corrections.length > 0 && corrections[0].length() > 0) {
         example = new IncorrectExample(incorrectExample.toString(), Arrays.asList(corrections));
       } else {

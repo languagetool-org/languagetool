@@ -42,7 +42,7 @@ public final class LanguageBuilder {
   private LanguageBuilder() {
   }
 
-  public static Language makeAdditionalLanguage(final File file) throws InstantiationException, IllegalAccessException {
+  public static Language makeAdditionalLanguage(File file) throws InstantiationException, IllegalAccessException {
     return makeLanguage(file, true);
   }
 
@@ -51,14 +51,14 @@ public final class LanguageBuilder {
    * e.g. <tt>rules-de-German.xml</tt> and builds
    * a Language object for that language.
    */
-  private static Language makeLanguage(final File file, final boolean isAdditional) throws IllegalAccessException, InstantiationException {
+  private static Language makeLanguage(File file, boolean isAdditional) throws IllegalAccessException, InstantiationException {
     Objects.requireNonNull(file, "file cannot be null");
     if (!file.getName().endsWith(".xml")) {
       throw new RuleFilenameException(file);
     }
-    final String[] parts = file.getName().split("-");
-    final boolean startsWithRules = parts[0].equals("rules");
-    final boolean secondPartHasCorrectLength = parts.length == 3 &&
+    String[] parts = file.getName().split("-");
+    boolean startsWithRules = parts[0].equals("rules");
+    boolean secondPartHasCorrectLength = parts.length == 3 &&
             (parts[1].length() == "en".length() || parts[1].length() == "ast".length() || parts[1].length() == "en_US".length());
     if (!startsWithRules || !secondPartHasCorrectLength) {
       throw new RuleFilenameException(file);
@@ -112,7 +112,7 @@ public final class LanguageBuilder {
 
         @Override
         public List<String> getRuleFileNames() {
-          final List<String> ruleFiles = new ArrayList<>();
+          List<String> ruleFiles = new ArrayList<>();
           ruleFiles.add(file.getAbsolutePath());
           return ruleFiles;
         }
@@ -145,7 +145,7 @@ public final class LanguageBuilder {
 
     @Override
     public List<String> getRuleFileNames() {
-      final List<String> ruleFiles = new ArrayList<>();
+      List<String> ruleFiles = new ArrayList<>();
       ruleFiles.addAll(baseLanguage.getRuleFileNames());
       ruleFiles.add(ruleFile.getAbsolutePath());
       return ruleFiles;

@@ -123,12 +123,12 @@ public abstract class AbstractPatternRule extends Rule {
   }
 
   @Override
-  public boolean supportsLanguage(final Language language) {
+  public boolean supportsLanguage(Language language) {
     return language.equalsConsiderVariantsIfSpecified(this.language);
   }
 
   private boolean initUnifier() {
-    for (final PatternToken pToken : patternTokens) {
+    for (PatternToken pToken : patternTokens) {
       if (pToken.isUnified()) {
         return true;
       }
@@ -170,7 +170,7 @@ public abstract class AbstractPatternRule extends Rule {
     return language;
   }
 
-  public final void setStartPositionCorrection(final int startPositionCorrection) {
+  public final void setStartPositionCorrection(int startPositionCorrection) {
     this.startPositionCorrection = startPositionCorrection;
   }
 
@@ -178,7 +178,7 @@ public abstract class AbstractPatternRule extends Rule {
     return startPositionCorrection;
   }
 
-  public final void setEndPositionCorrection(final int endPositionCorrection) {
+  public final void setEndPositionCorrection(int endPositionCorrection) {
     this.endPositionCorrection = endPositionCorrection;
   }
 
@@ -215,7 +215,7 @@ public abstract class AbstractPatternRule extends Rule {
     return subId;
   }
 
-  public final void setSubId(final String subId) {
+  public final void setSubId(String subId) {
     this.subId = subId;
   }
 
@@ -255,12 +255,12 @@ public abstract class AbstractPatternRule extends Rule {
   }
 
   /** Add formatted suggestion elements. */
-  public final void addSuggestionMatch(final Match m) {
+  public final void addSuggestionMatch(Match m) {
     suggestionMatches.add(m);
   }
 
   /** Add formatted suggestion elements outside message. */
-  public final void addSuggestionMatchOutMsg(final Match m) {
+  public final void addSuggestionMatchOutMsg(Match m) {
     suggestionMatchesOutMsg.add(m);
   }
   
@@ -287,7 +287,7 @@ public abstract class AbstractPatternRule extends Rule {
   /**
    * Set the message shown to the user if this rule matches.
    */
-  public final void setMessage(final String message) {
+  public final void setMessage(String message) {
     this.message = message;
   }
 

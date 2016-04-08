@@ -29,7 +29,7 @@ class IgnoreWhitespaceFilter implements LSParserFilter {
 
   @Override
   public short acceptNode(Node nodeArg) {
-    final String textContent = nodeArg.getTextContent();
+    String textContent = nodeArg.getTextContent();
     if (textContent.trim().isEmpty()) {
       return LSParserFilter.FILTER_REJECT;
     } else {

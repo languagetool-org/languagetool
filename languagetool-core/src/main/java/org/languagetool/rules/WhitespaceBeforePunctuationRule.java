@@ -41,7 +41,7 @@ import org.languagetool.tools.StringTools;
  */
 public class WhitespaceBeforePunctuationRule extends Rule {
 
-  public WhitespaceBeforePunctuationRule(final ResourceBundle messages) {
+  public WhitespaceBeforePunctuationRule(ResourceBundle messages) {
     super(messages);
     super.setCategory(Categories.TYPOGRAPHY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Whitespace);
@@ -58,14 +58,14 @@ public class WhitespaceBeforePunctuationRule extends Rule {
   }
 
   @Override
-  public final RuleMatch[] match(final AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokens();
+  public final RuleMatch[] match(AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokens();
     boolean prevWhite = false;
     int prevLen = 0;
     for (int i = 0; i < tokens.length; i++) {
-      final String token = tokens[i].getToken();
-      final boolean isWhitespace = tokens[i].isWhitespace() || StringTools.isNonBreakingWhitespace(token)
+      String token = tokens[i].getToken();
+      boolean isWhitespace = tokens[i].isWhitespace() || StringTools.isNonBreakingWhitespace(token)
           || tokens[i].isFieldCode();
       String msg = null;
       String suggestionText = null;
@@ -90,9 +90,9 @@ public class WhitespaceBeforePunctuationRule extends Rule {
         }
       }
       if (msg != null) {
-        final int fromPos = tokens[i - 1].getStartPos();
-        final int toPos = tokens[i - 1].getStartPos() + 1 + prevLen;
-        final RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg);
+        int fromPos = tokens[i - 1].getStartPos();
+        int toPos = tokens[i - 1].getStartPos() + 1 + prevLen;
+        RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg);
         ruleMatch.setSuggestedReplacement(suggestionText);
         ruleMatches.add(ruleMatch);
       }

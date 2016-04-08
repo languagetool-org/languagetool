@@ -42,9 +42,9 @@ public final class AnalyzedSentence {
     this.tokens = tokens;
     int whCounter = 0;
     int nonWhCounter = 0;
-    final int[] mapping = new int[tokens.length + 1];
-    final List<AnalyzedTokenReadings> l = new ArrayList<>();
-    for (final AnalyzedTokenReadings token : tokens) {
+    int[] mapping = new int[tokens.length + 1];
+    List<AnalyzedTokenReadings> l = new ArrayList<>();
+    for (AnalyzedTokenReadings token : tokens) {
       if (!token.isWhitespace() || token.isSentenceStart() || token.isSentenceEnd() || token.isParagraphEnd()) {
         l.add(token);
         mapping[nonWhCounter] = whCounter;
@@ -185,7 +185,7 @@ public final class AnalyzedSentence {
   }
 
   private String toString(String readingDelimiter, boolean includeChunks) {
-    final StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder();
     for (AnalyzedTokenReadings element : tokens) {
       if (!element.isWhitespace()) {
         sb.append(element.getToken());
@@ -193,8 +193,8 @@ public final class AnalyzedSentence {
       }
       Iterator<AnalyzedToken> iterator = element.iterator();
       while (iterator.hasNext()) {
-        final AnalyzedToken token = iterator.next();
-        final String posTag = token.getPOSTag();
+        AnalyzedToken token = iterator.next();
+        String posTag = token.getPOSTag();
         if (element.isSentenceStart()) {
           sb.append("<S>");
         } else if (JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)) {
@@ -233,7 +233,7 @@ public final class AnalyzedSentence {
    * Get disambiguator actions log.
    */
   public String getAnnotations() {
-    final StringBuilder sb = new StringBuilder(40);
+    StringBuilder sb = new StringBuilder(40);
     sb.append("Disambiguator log: \n");
     for (AnalyzedTokenReadings element : tokens) {
       if (!element.isWhitespace() &&

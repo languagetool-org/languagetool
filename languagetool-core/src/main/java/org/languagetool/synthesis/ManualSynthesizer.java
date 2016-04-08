@@ -42,7 +42,7 @@ public final class ManualSynthesizer {
   private final Map<String, List<String>> mapping;
   private final Set<String> possibleTags;
 
-  public ManualSynthesizer(final InputStream inputStream) throws IOException {
+  public ManualSynthesizer(InputStream inputStream) throws IOException {
     MappingAndTags mappingAndTags = loadMapping(inputStream, "utf8");
     mapping = mappingAndTags.mapping;
     possibleTags = Collections.unmodifiableSet(mappingAndTags.tags); // lock
@@ -63,23 +63,23 @@ public final class ManualSynthesizer {
    * @return a list with all the inflected forms of the specified lemma having the specified POS tag.
    * If no inflected form is found, the function returns <code>null</code>.
    */
-  public List<String> lookup(final String lemma, final String posTag) {
+  public List<String> lookup(String lemma, String posTag) {
     return mapping.get(lemma + "|" + posTag);
   }
 
-  private MappingAndTags loadMapping(final InputStream inputStream, final String encoding) throws IOException {
-    final MappingAndTags result = new MappingAndTags();
+  private MappingAndTags loadMapping(InputStream inputStream, String encoding) throws IOException {
+    MappingAndTags result = new MappingAndTags();
     try (Scanner scanner = new Scanner(inputStream, encoding)) {
       while (scanner.hasNextLine()) {
-        final String line = scanner.nextLine();
+        String line = scanner.nextLine();
         if (StringTools.isEmpty(line) || line.charAt(0) == '#') {
           continue;
         }
-        final String[] parts = line.split("\t");
+        String[] parts = line.split("\t");
         if (parts.length != 3) {
           throw new IOException("Unknown line format when loading manual synthesizer dictionary: " + line);
         }
-        final String key = parts[1] + "|" + parts[2];
+        String key = parts[1] + "|" + parts[2];
         if (!result.mapping.containsKey(key)) {
           result.mapping.put(key, new ArrayList<String>());
         }

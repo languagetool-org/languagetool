@@ -68,7 +68,7 @@ public class XmlRuleDisambiguator implements Disambiguator {
    * @return a List of {@link DisambiguationPatternRule} objects
    */
   protected List<DisambiguationPatternRule> loadPatternRules(String filename) throws ParserConfigurationException, SAXException, IOException {
-    final DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();
+    DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();
     return ruleLoader.getRules(JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename));
   }
 

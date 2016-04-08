@@ -33,11 +33,11 @@ import java.util.List;
 public class RuleWithMaxFilter implements RuleMatchFilter {
 
   @Override
-  public final List<RuleMatch> filter(final List<RuleMatch> ruleMatches) {
+  public final List<RuleMatch> filter(List<RuleMatch> ruleMatches) {
     Collections.sort(ruleMatches);
-    final List<RuleMatch> filteredRules = new ArrayList<>();
+    List<RuleMatch> filteredRules = new ArrayList<>();
     for (int i = 0; i < ruleMatches.size(); i++) {
-      final RuleMatch match = ruleMatches.get(i);
+      RuleMatch match = ruleMatches.get(i);
       if (i < ruleMatches.size() - 1) {
         RuleMatch nextMatch = ruleMatches.get(i + 1);
         while (includes(match, nextMatch) && haveSameRule(match, nextMatch)
@@ -53,20 +53,20 @@ public class RuleWithMaxFilter implements RuleMatchFilter {
     return filteredRules;
   }
 
-  final boolean includes(final RuleMatch match, final RuleMatch nextMatch) {
+  final boolean includes(RuleMatch match, RuleMatch nextMatch) {
     if (match.getFromPos() <= nextMatch.getFromPos() && match.getToPos() >= nextMatch.getToPos()) {
       return true;
     }
     return false;
   }
 
-  private boolean haveSameRule(final RuleMatch match, final RuleMatch nextMatch) {
+  private boolean haveSameRule(RuleMatch match, RuleMatch nextMatch) {
     if (!(match.getRule() instanceof AbstractPatternRule) || !(nextMatch.getRule() instanceof AbstractPatternRule)) {
       return false;
     }
-    final String id1 = match.getRule().getId();
-    final String subId1 = ((AbstractPatternRule) match.getRule()).getSubId();
-    final String subId2 = ((AbstractPatternRule) nextMatch.getRule()).getSubId();
+    String id1 = match.getRule().getId();
+    String subId1 = ((AbstractPatternRule) match.getRule()).getSubId();
+    String subId2 = ((AbstractPatternRule) nextMatch.getRule()).getSubId();
     if (subId1 == null &&  subId2 != null) {
       return false;
     }

@@ -28,6 +28,6 @@ import java.io.IOException;
  */
 public interface RuleMatcher {
 
-  RuleMatch[] match(final AnalyzedSentence sentence) throws IOException;
+  RuleMatch[] match(AnalyzedSentence sentence) throws IOException;
     
 }

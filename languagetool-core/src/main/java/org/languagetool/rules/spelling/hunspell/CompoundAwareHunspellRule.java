@@ -57,13 +57,13 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     if (needsInit) {
       init();
     }
-    final List<String> candidates = getCandidates(word);
-    final List<String> suggestions = getCorrectWords(candidates);
+    List<String> candidates = getCandidates(word);
+    List<String> suggestions = getCorrectWords(candidates);
 
-    final List<String> noSplitSuggestions = morfoSpeller.getSuggestions(word);  // after getCorrectWords() so spelling.txt is considered
+    List<String> noSplitSuggestions = morfoSpeller.getSuggestions(word);  // after getCorrectWords() so spelling.txt is considered
     if (StringTools.startsWithUppercase(word) && !StringTools.isAllUppercase(word)) {
       // almost all words can be uppercase because they can appear at the start of a sentence:
-      final List<String> noSplitLowercaseSuggestions = morfoSpeller.getSuggestions(word.toLowerCase());
+      List<String> noSplitLowercaseSuggestions = morfoSpeller.getSuggestions(word.toLowerCase());
       int pos = noSplitSuggestions.size() == 0 ? 0 : 1;  // first item comes from getSuggestion() above, if any
       for (String suggestion : noSplitLowercaseSuggestions) {
         noSplitSuggestions.add(pos, StringTools.uppercaseFirstChar(suggestion));
@@ -76,7 +76,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
 
     filterDupes(suggestions);
     filterForLanguage(suggestions);
-    final List<String> sortedSuggestions = sortSuggestionByQuality(word, suggestions);
+    List<String> sortedSuggestions = sortSuggestionByQuality(word, suggestions);
     return sortedSuggestions.subList(0, Math.min(MAX_SUGGESTIONS, sortedSuggestions.size()));
   }
 
@@ -86,7 +86,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
 
   protected List<String> getCandidates(List<String> parts) {
     int partCount = 0;
-    final List<String> candidates = new ArrayList<>();
+    List<String> candidates = new ArrayList<>();
     for (String part : parts) {
       if (hunspellDict.misspelled(part)) {
         // assume noun, so use uppercase:
@@ -96,7 +96,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
           suggestions = morfoSpeller.getSuggestions(doUpperCase ? StringTools.lowercaseFirstChar(part) : part);
         }
         for (String suggestion : suggestions) {
-          final List<String> partsCopy = new ArrayList<>(parts);
+          List<String> partsCopy = new ArrayList<>(parts);
           if (partCount > 0 && parts.get(partCount).startsWith("-") && parts.get(partCount).length() > 1) {
             partsCopy.set(partCount, "-" + StringTools.uppercaseFirstChar(suggestion.substring(1)));
           } else if (partCount > 0 && !parts.get(partCount-1).endsWith("-")) {
@@ -122,10 +122,10 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
   }
 
   private void filterDupes(List<String> words) {
-    final Set<String> seen = new HashSet<>();
-    final Iterator<String> iterator = words.iterator();
+    Set<String> seen = new HashSet<>();
+    Iterator<String> iterator = words.iterator();
     while (iterator.hasNext()) {
-      final String word = iterator.next();
+      String word = iterator.next();
       if (seen.contains(word)) {
         iterator.remove();
       }
@@ -136,10 +136,10 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
   // avoid over-accepting words, as the Morfologik approach above might construct
   // compound words with parts that are correct but the compound is not correct (e.g. "Arbeit + Amt = Arbeitamt"):
   private List<String> getCorrectWords(List<String> wordsOrPhrases) {
-    final List<String> result = new ArrayList<>();
+    List<String> result = new ArrayList<>();
     for (String wordOrPhrase : wordsOrPhrases) {
       // this might be a phrase like "aufgrund dessen", so it needs to be split: 
-      final String[] words = tokenizeText(wordOrPhrase);
+      String[] words = tokenizeText(wordOrPhrase);
       boolean wordIsOkay = true;
       for (String word : words) {
         if (hunspellDict.misspelled(word)) {
