@@ -75,7 +75,7 @@ public final class RuleOverview {
     System.out.println("  <th></th>");
     System.out.println("  <th align=\"left\" width=\"60\">Java<br/>rules</th>");
     System.out.println("  <th align=\"left\" width=\"60\">False<br/>friends</th>");
-    System.out.println("  <th align=\"left\" width=\"60\">Spell<br/>check</th>");
+    System.out.println("  <th align=\"left\" width=\"60\">Spell<br/>check*</th>");
     System.out.println("  <th align=\"left\" width=\"60\">Confusion<br/>pairs</th>");
     //System.out.println("  <th valign='bottom' width=\"65\">Auto-<br/>detected</th>");
     System.out.println("  <th valign='bottom' align=\"left\" width=\"70\">Activity</th>");
