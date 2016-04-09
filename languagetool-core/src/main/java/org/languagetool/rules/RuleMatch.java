@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules;
 
+import org.languagetool.ApiCleanupNeeded;
 import org.languagetool.tools.StringTools;
 
 import java.util.ArrayList;
@@ -189,6 +190,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * if no such explanation is available.
    * @see #getMessage()
    */
+  @ApiCleanupNeeded("Should return an Optional")
   public String getShortMessage() {
     if (shortMessage == null) {
       return "";  // just because this is what we have documented

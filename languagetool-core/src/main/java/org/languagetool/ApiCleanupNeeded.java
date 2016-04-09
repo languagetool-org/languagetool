@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2015 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,20 +16,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.patterns;
-
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.ApiCleanupNeeded;
-import org.languagetool.rules.RuleMatch;
-
-import java.io.IOException;
+package org.languagetool;
 
 /**
- * @since 3.2
+ * An internal marker for places in the source where the API would need to be cleaned up.
  */
-public interface RuleMatcher {
-
-  @ApiCleanupNeeded("Should return an unmodifiable list")
-  RuleMatch[] match(AnalyzedSentence sentence) throws IOException;
-    
+public @interface ApiCleanupNeeded {
+  String value();
 }
