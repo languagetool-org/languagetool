@@ -120,9 +120,9 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
     super.setCategory(new Category(new CategoryId("CONCORDANCES_GRUPS_NOMINALS"), "Z) Concordances en grups nominals"));
     setLocQualityIssueType(ITSIssueType.Grammar);
     addExamplePair(Example.wrong("Anàlisis <marker>clínic</marker>."),
-        Example.fixed("Anàlisis <marker>clíniques</marker>."));
+                   Example.fixed("Anàlisis <marker>clíniques</marker>."));
     addExamplePair(Example.wrong("Tinc dues taules <marker>verds</marker>."),
-        Example.fixed("Tinc dues taules <marker>verdes</marker>."));
+                   Example.fixed("Tinc dues taules <marker>verdes</marker>."));
   }
 
   @Override
