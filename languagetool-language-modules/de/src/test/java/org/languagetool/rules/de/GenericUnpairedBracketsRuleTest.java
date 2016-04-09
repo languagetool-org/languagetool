@@ -49,7 +49,7 @@ public class GenericUnpairedBracketsRuleTest extends TestCase {
   }
 
   private void assertMatches(String input, int expectedMatches) throws IOException {
-    final RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(input)));
+    RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(input)));
     assertEquals(expectedMatches, matches.length);
   }
 }

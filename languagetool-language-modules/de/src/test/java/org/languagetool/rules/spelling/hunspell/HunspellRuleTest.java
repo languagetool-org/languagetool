@@ -41,8 +41,8 @@ public class HunspellRuleTest {
 
   @Test
   public void testRuleWithGerman() throws Exception {
-    final HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), new GermanyGerman());
-    final JLanguageTool langTool = new JLanguageTool(new German());
+    HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), new GermanyGerman());
+    JLanguageTool langTool = new JLanguageTool(new German());
     commonGermanAsserts(rule, langTool);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);
@@ -54,8 +54,8 @@ public class HunspellRuleTest {
 
   @Test
   public void testRuleWithAustrianGerman() throws Exception {
-    final HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), new AustrianGerman());
-    final JLanguageTool langTool = new JLanguageTool(new German());
+    HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), new AustrianGerman());
+    JLanguageTool langTool = new JLanguageTool(new German());
     commonGermanAsserts(rule, langTool);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);
@@ -63,8 +63,8 @@ public class HunspellRuleTest {
 
   @Test
   public void testRuleWithSwissGerman() throws Exception {
-    final HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), new SwissGerman());
-    final JLanguageTool langTool = new JLanguageTool(new German());
+    HunspellRule rule = new HunspellRule(TestTools.getMessages("de"), new SwissGerman());
+    JLanguageTool langTool = new JLanguageTool(new German());
     commonGermanAsserts(rule, langTool);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // ß not allowed in Swiss
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);  // ss is used instead of ß
@@ -88,18 +88,18 @@ public class HunspellRuleTest {
   @Ignore("just for internal performance testing, thus ignored by default")
   @Test
   public void testPerformance() throws Exception {
-    final List<Language> allLanguages = Languages.get();
+    List<Language> allLanguages = Languages.get();
     for (Language language : allLanguages) {
-      final JLanguageTool langTool = new JLanguageTool(language);
-      //final HunspellRule rule = new HunspellRule(TestTools.getMessages("German"), language);
+      JLanguageTool langTool = new JLanguageTool(language);
+      //HunspellRule rule = new HunspellRule(TestTools.getMessages("German"), language);
       langTool.check("warmup");  // make sure everything is initialized when actually testing
       langTool.check("anotherwarmup");
-      final long startTime = System.currentTimeMillis();
+      long startTime = System.currentTimeMillis();
       langTool.check("fdfds fdfdsa fdfdsb fdfdsc fdfdsd fdfdse fdfdsf fdfds fdfdsa fdfdsb fdfdsc fdfdsd fdfdse fdfdsf");
       //String[] w = {"foo", "warmup", "Rechtschreipreform", "Theatrekasse", "Zoobesuck", "Handselvertreter", "Mückenstick", "gewönlich", "Traprennen", "Autoverkehrr"};
-      //final AnalyzedSentence analyzedSentence = langTool.getAnalyzedSentence("fdfds fdfdsa fdfdsb fdfdsc fdfdsd fdfdse fdfdsf");
+      //AnalyzedSentence analyzedSentence = langTool.getAnalyzedSentence("fdfds fdfdsa fdfdsb fdfdsc fdfdsd fdfdse fdfdsf");
       //rule.match(analyzedSentence);
-      final long endTime = System.currentTimeMillis();
+      long endTime = System.currentTimeMillis();
       System.out.println((endTime-startTime) + "ms for " + language);
     }
   }
@@ -107,16 +107,16 @@ public class HunspellRuleTest {
   @Ignore("just for internal performance testing, thus ignored by default")
   @Test
   public void testCompoundAwareRulePerformance() throws IOException {
-    final ResourceBundle messages = ResourceBundle.getBundle("org.languagetool.MessagesBundle", new Locale("de"));
+    ResourceBundle messages = ResourceBundle.getBundle("org.languagetool.MessagesBundle", new Locale("de"));
     //slow:
-    //final HunspellRule rule = new HunspellRule(messages, Language.GERMANY_GERMAN);
+    //HunspellRule rule = new HunspellRule(messages, Language.GERMANY_GERMAN);
     //fast:
-    final CompoundAwareHunspellRule rule = new GermanSpellerRule(messages, new GermanyGerman());
+    CompoundAwareHunspellRule rule = new GermanSpellerRule(messages, new GermanyGerman());
     rule.init();
-    final String[] words = {"foo", "warmup", "Rechtschreipreform", "Theatrekasse", "Zoobesuck", "Handselvertreter", "Mückenstick", "gewönlich", "Traprennen", "Autoverkehrr"};
+    String[] words = {"foo", "warmup", "Rechtschreipreform", "Theatrekasse", "Zoobesuck", "Handselvertreter", "Mückenstick", "gewönlich", "Traprennen", "Autoverkehrr"};
     for (String word : words) {
-      final long startTime = System.currentTimeMillis();
-      final List<String> suggest = rule.getSuggestions(word);
+      long startTime = System.currentTimeMillis();
+      List<String> suggest = rule.getSuggestions(word);
       System.out.println((System.currentTimeMillis()-startTime) + "ms for " + word + ": " + suggest);
     }
   }

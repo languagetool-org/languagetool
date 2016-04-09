@@ -28,8 +28,8 @@ import java.io.IOException;
 public class WordCoherencyRuleTest extends TestCase {
 
   public void testRule() throws IOException {
-    final WordCoherencyRule rule = new WordCoherencyRule(TestTools.getEnglishMessages());
-    final JLanguageTool langTool = new JLanguageTool(new German());
+    WordCoherencyRule rule = new WordCoherencyRule(TestTools.getEnglishMessages());
+    JLanguageTool langTool = new JLanguageTool(new German());
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist aufwendig, aber nicht zu aufwendig.")).length);
     // as WordCoherencyRule keeps its state to check more than one sentence 
@@ -84,18 +84,18 @@ public class WordCoherencyRuleTest extends TestCase {
   }
 
   public void testCallIndependence() throws IOException {
-    final JLanguageTool langTool = new JLanguageTool(new German());
+    JLanguageTool langTool = new JLanguageTool(new German());
     assertGood("Das ist aufwendig.", langTool);
     assertGood("Aber nicht zu aufwändig.", langTool);  // this won't be noticed, the calls are independent of each other
   }
 
   private void assertError(String s, JLanguageTool langTool) throws IOException {
-    final WordCoherencyRule rule = new WordCoherencyRule(TestTools.getEnglishMessages());
+    WordCoherencyRule rule = new WordCoherencyRule(TestTools.getEnglishMessages());
     assertEquals(1, rule.match(langTool.getAnalyzedSentence(s)).length);
   }
 
   private void assertGood(String s, JLanguageTool langTool) throws IOException {
-    final WordCoherencyRule rule = new WordCoherencyRule(TestTools.getEnglishMessages());
+    WordCoherencyRule rule = new WordCoherencyRule(TestTools.getEnglishMessages());
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(s)).length);
   }
 
