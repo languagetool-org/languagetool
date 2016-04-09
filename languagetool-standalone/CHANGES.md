@@ -19,6 +19,7 @@
 
 #### Java API
   * some formerly deprecated code has been removed
+  * all rules have now a category ("Misc" if the rule doesn't specify a category)
 
 #### Embedded HTTPS server
   * changed behaviour for OutOfMemory situations: the server
