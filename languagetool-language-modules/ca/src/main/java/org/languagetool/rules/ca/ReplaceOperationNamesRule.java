@@ -35,10 +35,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tools.StringTools;
 
@@ -77,7 +74,7 @@ public class ReplaceOperationNamesRule extends Rule {
   
   public ReplaceOperationNamesRule(final ResourceBundle messages) throws IOException {
     super.setLocQualityIssueType(ITSIssueType.Style);
-    super.setCategory(new Category("C8) Formes secundàries"));
+    super.setCategory(new Category(new CategoryId("FORMES_SECUNDARIES"), "C8) Formes secundàries"));
     possibleWrongWords = loadWords(JLanguageTool.getDataBroker()
         .getFromRulesDirAsStream(getFileName()));
     synth = new CatalanSynthesizer();

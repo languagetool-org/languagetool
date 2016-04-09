@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.RuleMatch;
 
 import java.sql.SQLException;
@@ -43,7 +44,7 @@ public class MatchDatabaseTest {
     assertThat(database.list().size(), is(0));
     assertThat(database.getCheckDates().size(), is(0));
     FakeRule rule1 = new FakeRule(1);
-    rule1.setCategory(new Category("My Category"));
+    rule1.setCategory(new Category(new CategoryId("TEST_ID"), "My Category"));
     RuleMatch ruleMatch = new RuleMatch(rule1, 5, 10, "my message");
     AtomFeedItem feedItem1 = new AtomFeedItem("//id1?diff=123", "title", "summary1", new Date(10000));
     WikipediaRuleMatch wikiRuleMatch1 = new WikipediaRuleMatch(language, ruleMatch, "my context", feedItem1);

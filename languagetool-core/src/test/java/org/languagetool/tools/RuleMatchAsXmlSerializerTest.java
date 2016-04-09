@@ -108,7 +108,7 @@ public class RuleMatchAsXmlSerializerTest {
     final String text = "This is a test sentence.";
     final List<PatternToken> patternTokens = Collections.emptyList();
     final Rule patternRule = new PatternRule("MY_ID", LANG, patternTokens, "my description", "my message", "short message");
-    patternRule.setCategory(new Category("MyCategory"));
+    patternRule.setCategory(new Category(new CategoryId("TEST_ID"), "MyCategory"));
     final RuleMatch match = new RuleMatch(patternRule, 8, 10, "myMessage");
     match.setColumn(99);
     match.setEndColumn(100);
@@ -119,7 +119,7 @@ public class RuleMatchAsXmlSerializerTest {
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"MY_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is a test ...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"MyCategory\" " +
-            "locqualityissuetype=\"uncategorized\"/>\n" +
+            "categoryid=\"TEST_ID\" locqualityissuetype=\"uncategorized\"/>\n" +
             "</matches>\n"));
 
     patternRule.setCategory(new Category(new CategoryId("CAT_ID"), "MyCategory"));

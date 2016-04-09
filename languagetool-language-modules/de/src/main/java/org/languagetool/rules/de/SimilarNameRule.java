@@ -44,7 +44,7 @@ public class SimilarNameRule extends Rule {
 
   public SimilarNameRule(ResourceBundle messages) {
     super(messages);
-    super.setCategory(new Category(messages.getString("category_typo")));
+    super.setCategory(Categories.TYPOS.getCategory(messages));
     addExamplePair(Example.wrong("Angela Müller ist CEO. <marker>Miller</marker> wurde in Hamburg geboren."),
                    Example.fixed("Angela Müller ist CEO. <marker>Müller</marker> wurde in Hamburg geboren."));
     setDefaultOff();

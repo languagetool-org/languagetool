@@ -22,10 +22,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Breton;
-import org.languagetool.rules.AbstractSimpleReplaceRule;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tools.StringTools;
 
@@ -66,7 +63,7 @@ public class TopoReplaceRule extends Rule {
 
   public TopoReplaceRule(final ResourceBundle messages) throws IOException {
     super(messages);
-    super.setCategory(new Category(messages.getString("category_misc")));
+    super.setCategory(Categories.MISC.getCategory(messages));
     wrongWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(getFileName()));
   }
 

@@ -19,10 +19,7 @@
 package org.languagetool.rules.fa;
 
 import org.apache.commons.lang.StringUtils;
-import org.languagetool.rules.AbstractSimpleReplaceRule;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.Example;
-import org.languagetool.rules.ITSIssueType;
+import org.languagetool.rules.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,7 +36,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   public SimpleReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
-    super.setCategory(new Category("‫اشتباه تایپی محتمل‬"));
+    super.setCategory(Categories.CONFUSED_WORDS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("وی <marker>حاظر</marker> به همکاری شد."),
                    Example.fixed("وی <marker>حاضر</marker> به همکاری شد."));

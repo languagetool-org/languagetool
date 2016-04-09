@@ -29,10 +29,7 @@ import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.BritishEnglish;
 import org.languagetool.language.English;
-import org.languagetool.rules.Categories;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternRule;
 
@@ -179,7 +176,7 @@ public class JLanguageToolTest extends TestCase {
   }
 
   public void testOverlapFilter() throws IOException {
-    final Category category = new Category("test category");
+    final Category category = new Category(new CategoryId("TEST_ID"), "test category");
     final List<PatternToken> elements1 = Arrays.asList(new PatternToken("one", true, false, false));
     final PatternRule rule1 = new PatternRule("id1", new English(), elements1, "desc1", "msg1", "shortMsg1");
     rule1.setSubId("1");

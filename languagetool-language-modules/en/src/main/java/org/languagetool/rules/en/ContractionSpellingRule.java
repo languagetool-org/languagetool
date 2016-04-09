@@ -47,7 +47,7 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
 
   public ContractionSpellingRule(final ResourceBundle messages) throws IOException {
     super(messages);
-    super.setCategory(new Category("Possible Typo"));
+    super.setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("We <marker>havent</marker> earned anything."),
                    Example.fixed("We <marker>haven't</marker> earned anything."));
