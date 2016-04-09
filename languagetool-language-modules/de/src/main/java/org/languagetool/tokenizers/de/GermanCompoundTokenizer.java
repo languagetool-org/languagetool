@@ -56,7 +56,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
       System.out.println("Usage: " + GermanCompoundTokenizer.class.getSimpleName() + " <wordToSplit>");
       System.exit(1);
     }
-    final GermanCompoundTokenizer tokenizer = new GermanCompoundTokenizer();
+    GermanCompoundTokenizer tokenizer = new GermanCompoundTokenizer();
     System.out.println(tokenizer.tokenize(args[0]));
   }
 

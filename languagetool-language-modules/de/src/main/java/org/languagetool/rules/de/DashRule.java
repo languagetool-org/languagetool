@@ -31,7 +31,7 @@ import org.languagetool.rules.*;
  */
 public class DashRule extends GermanRule {
 
-  public DashRule(final ResourceBundle messages) {
+  public DashRule(ResourceBundle messages) {
     super.setCategory(Categories.MISC.getCategory(messages));
     addExamplePair(Example.wrong("Bundestag beschließt <marker>Diäten- Erhöhung</marker>"),
                    Example.fixed("Bundestag beschließt <marker>Diäten-Erhöhung</marker>"));
@@ -48,24 +48,24 @@ public class DashRule extends GermanRule {
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+  public RuleMatch[] match(AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     String prevToken = null;
     for (int i = 0; i < tokens.length; i++) {
-      final String token = tokens[i].getToken();
+      String token = tokens[i].getToken();
       if (tokens[i].isWhitespace()) {
         continue;
       } 
       if (prevToken != null && !prevToken.equals("-") && !prevToken.contains("--") 
           && !prevToken.contains("–-")    // first char is some special kind of dash, found in Wikipedia
           && prevToken.endsWith("-")) {
-        final char firstChar = token.charAt(0);
+        char firstChar = token.charAt(0);
         if (Character.isUpperCase(firstChar)) {
-          final String msg = "Möglicherweise fehlt ein 'und' oder ein Komma, oder es wurde nach dem Wort " +
+          String msg = "Möglicherweise fehlt ein 'und' oder ein Komma, oder es wurde nach dem Wort " +
             "ein überflüssiges Leerzeichen eingefügt. Eventuell haben Sie auch versehentlich einen Bindestrich statt eines Punktes eingefügt.";
-          final String shortMsg = "Fehlendes 'und' oder Komma oder überflüssiges Leerzeichen?";
-          final RuleMatch ruleMatch = new RuleMatch(this, tokens[i-1].getStartPos(),
+          String shortMsg = "Fehlendes 'und' oder Komma oder überflüssiges Leerzeichen?";
+          RuleMatch ruleMatch = new RuleMatch(this, tokens[i-1].getStartPos(),
               tokens[i-1].getStartPos()+prevToken.length()+1, msg, shortMsg);
           String prevTokenStr = tokens[i-1].getToken();
           ruleMatch.setSuggestedReplacements(Arrays.asList(prevTokenStr, prevTokenStr + ", "));

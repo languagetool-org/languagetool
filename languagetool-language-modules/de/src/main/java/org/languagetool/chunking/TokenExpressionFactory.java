@@ -37,8 +37,8 @@ final class TokenExpressionFactory extends ExpressionFactory<ChunkTaggedToken> {
   }
 
   @Override
-  public Expression.BaseExpression<ChunkTaggedToken> create(final String expr) {
-    final LogicExpression<ChunkTaggedToken> logicExpression = LogicExpression.compile(expr, input -> new TokenPredicate(input, caseSensitive));
+  public Expression.BaseExpression<ChunkTaggedToken> create(String expr) {
+    LogicExpression<ChunkTaggedToken> logicExpression = LogicExpression.compile(expr, input -> new TokenPredicate(input, caseSensitive));
     return new Expression.BaseExpression<ChunkTaggedToken>(expr) {
       @Override
       public boolean apply(ChunkTaggedToken token) {

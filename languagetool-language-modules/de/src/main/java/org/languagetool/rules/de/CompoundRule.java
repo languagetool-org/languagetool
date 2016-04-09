@@ -35,7 +35,7 @@ public class CompoundRule extends AbstractCompoundRule {
 
   private static final CompoundRuleData compoundData = new CompoundRuleData("/de/compounds.txt", "/de/compound-cities.txt");
  
-  public CompoundRule(final ResourceBundle messages) throws IOException {
+  public CompoundRule(ResourceBundle messages) throws IOException {
     super(messages,
             "Dieses Wort wird mit Bindestrich geschrieben.",
             "Dieses Wort wird zusammengeschrieben.",
