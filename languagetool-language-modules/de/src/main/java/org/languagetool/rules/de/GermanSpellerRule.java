@@ -248,7 +248,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     if (suggestions.isEmpty() && word.contains("-")) {
       String[] words = word.split("-");
       if (words.length > 1) {
-        List<List<String>> suggestionLists = new ArrayList<List<String>>(words.length);
+        List<List<String>> suggestionLists = new ArrayList<>(words.length);
         int startAt = 0, stopAt = words.length;
         if (super.ignoreWord(words[0] + "-" + words[1])) { // "Au-pair-Agentr"
           startAt = 2;
@@ -260,7 +260,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         for (int idx = startAt; idx < stopAt; idx++) {
           if (super.ignoreWord(words[idx])) {
             suggestionLists.add(Collections.singletonList(words[idx]));
-          } else if(hunspellDict.misspelled(words[idx])) {
+          } else if (hunspellDict.misspelled(words[idx])) {
             List<String> list = sortSuggestionByQuality(words[idx], super.getSuggestions(words[idx]));
             suggestionLists.add(list);
           } else {
@@ -271,12 +271,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           suggestionLists.add(Collections.singletonList(words[words.length-2] + "-" + words[words.length-1]));
         }
         List<String> additionalSuggestions = suggestionLists.get(0);
-        for(int idx = 1; idx < suggestionLists.size(); idx++) {
+        for (int idx = 1; idx < suggestionLists.size(); idx++) {
           List<String> suggestionList = suggestionLists.get(idx);
           List<String> newList = new ArrayList<>(additionalSuggestions.size() * suggestionList.size());
-          for(int first = 0; first < additionalSuggestions.size(); first++) {
-            for(int last = 0; last < suggestionList.size(); last++) {
-              newList.add(additionalSuggestions.get(first) + "-" + suggestionList.get(last));
+          for (String additionalSuggestion : additionalSuggestions) {
+            for (String aSuggestionList : suggestionList) {
+              newList.add(additionalSuggestion + "-" + aSuggestionList);
             }
           }
           additionalSuggestions = newList;

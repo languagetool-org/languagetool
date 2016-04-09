@@ -434,7 +434,7 @@ public class AgreementRule extends GermanRule {
   }
 
   private Set<String> getAgreementCategories(AnalyzedTokenReadings aToken) {
-    return getAgreementCategories(aToken, new HashSet<GrammarCategory>(), false);
+    return getAgreementCategories(aToken, new HashSet<>(), false);
   }
   
   /** Return Kasus, Numerus, Genus of those forms with a determiner. */

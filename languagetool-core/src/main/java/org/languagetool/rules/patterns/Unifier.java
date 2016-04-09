@@ -120,7 +120,7 @@ public class Unifier {
       unified = checkNext(aToken, uFeatures);
     } else {
       while (equivalencesMatched.size() <= tokCnt) {
-        equivalencesMatched.add(new ConcurrentHashMap<String, Set<String>>());
+        equivalencesMatched.add(new ConcurrentHashMap<>());
       }
       for (Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
         List<String> types = feat.getValue();
@@ -441,7 +441,7 @@ public class Unifier {
     tokSequence.add(analyzedTokenReadings);
     List<Map<String, Set<String>>> tokEquivs = new ArrayList<>(analyzedTokenReadings.getReadingsLength());
     Map<String, Set<String>> map = new ConcurrentHashMap<>();
-    map.put(UNIFY_IGNORE, new HashSet<String>());
+    map.put(UNIFY_IGNORE, new HashSet<>());
     for (int i = 0; i < analyzedTokenReadings.getReadingsLength(); i++) {
       tokEquivs.add(map);
     }

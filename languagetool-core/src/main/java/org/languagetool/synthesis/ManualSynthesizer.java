@@ -81,7 +81,7 @@ public final class ManualSynthesizer {
         }
         String key = parts[1] + "|" + parts[2];
         if (!result.mapping.containsKey(key)) {
-          result.mapping.put(key, new ArrayList<String>());
+          result.mapping.put(key, new ArrayList<>());
         }
         result.mapping.get(key).add(parts[0]);
         result.tags.add(parts[2]); // POS

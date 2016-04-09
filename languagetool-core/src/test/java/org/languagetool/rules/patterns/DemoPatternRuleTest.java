@@ -117,10 +117,8 @@ public class DemoPatternRuleTest extends PatternRuleTest {
   public void testSentenceStart() throws IOException {
     JLanguageTool langTool = new JLanguageTool(language);
     PatternRule pr = makePatternRule("SENT_START One");
-    RuleMatch[] matches = pr.match(langTool.getAnalyzedSentence("Not One word."));
-    assertEquals(0, matches.length);
-    matches = pr.match(langTool.getAnalyzedSentence("One word."));
-    assertEquals(1, matches.length);
+    assertEquals(0, pr.match(langTool.getAnalyzedSentence("Not One word.")).length);
+    assertEquals(1, pr.match(langTool.getAnalyzedSentence("One word.")).length);
   }
 
   public void testFormatMultipleSynthesis() throws Exception {
