@@ -73,7 +73,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
    * @return String value - inflected word.
    */
   @Override
-  public String[] synthesize(final AnalyzedToken token, final String posTag)
+  public String[] synthesize(AnalyzedToken token, String posTag)
       throws IOException {
     String aOrAn = aVsAnRule.suggestAorAn(token.getToken());
     if (ADD_DETERMINER.equals(posTag)) {
@@ -81,9 +81,9 @@ public class EnglishSynthesizer extends BaseSynthesizer {
     } else if (ADD_IND_DETERMINER.equals(posTag)) {
       return new String[] { aOrAn };
     }
-    final IStemmer synthesizer = createStemmer();
-    final List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
-    final List<String> wordForms = new ArrayList<>();
+    IStemmer synthesizer = createStemmer();
+    List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
+    List<String> wordForms = new ArrayList<>();
     for (WordData wd : wordData) {
       wordForms.add(wd.getStem().toString());
     }
@@ -97,8 +97,8 @@ public class EnglishSynthesizer extends BaseSynthesizer {
    * @since 2.5
    */
   @Override
-  public String[] synthesize(final AnalyzedToken token, final String posTag,
-      final boolean posTagRegExp) throws IOException {
+  public String[] synthesize(AnalyzedToken token, String posTag,
+      boolean posTagRegExp) throws IOException {
 
     if (posTag != null && posTagRegExp) {
       String myPosTag = posTag;
@@ -113,11 +113,11 @@ public class EnglishSynthesizer extends BaseSynthesizer {
       }
 
       initPossibleTags();
-      final Pattern p = Pattern.compile(myPosTag);
-      final List<String> results = new ArrayList<>();
+      Pattern p = Pattern.compile(myPosTag);
+      List<String> results = new ArrayList<>();
 
-      for (final String tag : possibleTags) {
-        final Matcher m = p.matcher(tag);
+      for (String tag : possibleTags) {
+        Matcher m = p.matcher(tag);
         if (m.matches()) {
           lookup(token.getLemma(), tag, results, det);
         }
@@ -130,7 +130,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
 
   private void lookup(String lemma, String posTag, List<String> results, String determiner) {
     synchronized (this) { // the stemmer is not thread-safe
-      final List<WordData> wordForms = getStemmer().lookup(lemma + "|" + posTag);
+      List<WordData> wordForms = getStemmer().lookup(lemma + "|" + posTag);
       for (WordData wd : wordForms) {
         results.add(determiner + wd.getStem());
       }

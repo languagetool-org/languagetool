@@ -33,7 +33,7 @@ public class CompoundRule extends AbstractCompoundRule {
   // static to make sure this gets loaded only once:
   private static final CompoundRuleData compoundData = new CompoundRuleData("/en/compounds.txt");
 
-  public CompoundRule(final ResourceBundle messages) throws IOException {    
+  public CompoundRule(ResourceBundle messages) throws IOException {    
     super(messages,
             "This word is normally spelled with hyphen.", 
             "This word is normally spelled as one.", 

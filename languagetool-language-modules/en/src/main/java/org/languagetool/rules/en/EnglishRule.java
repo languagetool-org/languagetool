@@ -22,8 +22,6 @@ import org.languagetool.rules.Rule;
 
 /**
  * Abstract base class for rules for the English language.
- * 
- * @author Daniel Naber
  */
 public abstract class EnglishRule extends Rule {
 

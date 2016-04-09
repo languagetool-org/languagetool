@@ -47,7 +47,7 @@ public class NewZealandReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public NewZealandReplaceRule(final ResourceBundle messages) throws IOException {
+  public NewZealandReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("A <marker>sidewalk</marker> is a path along the side of a road."),

@@ -50,7 +50,7 @@ public class AvsAnRule extends EnglishRule {
 
   private static final Pattern cleanupPattern = Pattern.compile("[^αa-zA-Z0-9\\.;,:']");
 
-  public AvsAnRule(final ResourceBundle messages) {
+  public AvsAnRule(ResourceBundle messages) {
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("The train arrived <marker>a hour</marker> ago."),
@@ -68,9 +68,9 @@ public class AvsAnRule extends EnglishRule {
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+  public RuleMatch[] match(AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     int prevTokenIndex = 0;
     for (int i = 1; i < tokens.length; i++) {  // ignoring token 0, i.e., SENT_START
       AnalyzedTokenReadings token = tokens[i];
@@ -120,7 +120,7 @@ public class AvsAnRule extends EnglishRule {
    * @param origWord Word that needs an article.
    * @return String containing the word with a determiner, or just the word if the word is an abbreviation.
    */
-  public String suggestAorAn(final String origWord) {
+  public String suggestAorAn(String origWord) {
     AnalyzedTokenReadings token = new AnalyzedTokenReadings(new AnalyzedToken(origWord, null, null), 0);
     Determiner determiner = getCorrectDeterminerFor(token);
     if (determiner == Determiner.A) {

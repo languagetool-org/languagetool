@@ -38,8 +38,7 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   private static final Pattern YEAR_NUMBER = Pattern.compile("\\d\\ds?");
   private static final Pattern ALPHA = Pattern.compile("\\p{L}+");
 
-  public EnglishUnpairedBracketsRule(final ResourceBundle messages,
-      final Language language) {
+  public EnglishUnpairedBracketsRule(ResourceBundle messages, Language language) {
     super(messages, EN_START_SYMBOLS, EN_END_SYMBOLS);
     addExamplePair(Example.wrong("<marker>\"</marker>I'm over here, she said."),
                    Example.fixed("\"I'm over here,<marker>\"</marker> she said."));
@@ -51,9 +50,9 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   }
 
   @Override
-  protected boolean isNoException(final String tokenStr,
-      final AnalyzedTokenReadings[] tokens, final int i, final int j, final boolean precSpace,
-      final boolean follSpace) {
+  protected boolean isNoException(String tokenStr,
+      AnalyzedTokenReadings[] tokens, int i, int j, boolean precSpace,
+      boolean follSpace) {
 
     //TODO: add an', o', 'till, 'tain't, 'cept, 'fore in the disambiguator
     //and mark up as contractions somehow
@@ -72,14 +71,14 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
       }
     }
 
-    final boolean superException = !super.isNoException(tokenStr, tokens, i, j, precSpace, follSpace);
+    boolean superException = !super.isNoException(tokenStr, tokens, i, j, precSpace, follSpace);
     if (superException) {
       return false;
     }
 
     if (!precSpace && follSpace || tokens[i].isSentenceEnd()) {
       // exception for English inches, e.g., 20"
-      final AnalyzedTokenReadings prevToken = tokens[i - 1];
+      AnalyzedTokenReadings prevToken = tokens[i - 1];
       if ("\"".equals(tokenStr))
            {
         if (!symbolStack.empty() && "\"".equals(symbolStack.peek().getSymbol())) {

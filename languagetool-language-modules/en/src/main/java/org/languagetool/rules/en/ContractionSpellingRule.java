@@ -45,7 +45,7 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public ContractionSpellingRule(final ResourceBundle messages) throws IOException {
+  public ContractionSpellingRule(ResourceBundle messages) throws IOException {
     super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
