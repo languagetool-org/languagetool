@@ -36,7 +36,7 @@ public class EnglishSynthesizerTest extends TestCase {
     return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
   }
 
-  public final void testSynthesizeStringString() throws IOException {
+  public void testSynthesizeStringString() throws IOException {
     EnglishSynthesizer synth = new EnglishSynthesizer();
     assertEquals(synth.synthesize(dummyToken("blablabla"),
         "blablabla").length, 0);

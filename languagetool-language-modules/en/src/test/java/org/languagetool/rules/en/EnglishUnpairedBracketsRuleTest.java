@@ -98,17 +98,17 @@ public class EnglishUnpairedBracketsRuleTest extends TestCase {
   }
 
   private void assertCorrect(String sentence) throws IOException {
-    final RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(sentence)));
+    RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(sentence)));
     assertEquals(0, matches.length);
   }
 
   private void assertIncorrect(String sentence) throws IOException {
-    final RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(sentence)));
+    RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(sentence)));
     assertEquals(1, matches.length);
   }
 
   public void testMultipleSentences() throws IOException {
-    final JLanguageTool lt = new JLanguageTool(new English());
+    JLanguageTool lt = new JLanguageTool(new English());
 
     assertEquals(0, getMatches("This is multiple sentence text that contains a bracket: "
                              + "[This is bracket. With some text.] and this continues.\n", lt));

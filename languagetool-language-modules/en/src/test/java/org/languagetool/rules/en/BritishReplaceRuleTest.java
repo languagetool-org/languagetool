@@ -59,7 +59,7 @@ public class BritishReplaceRuleTest extends TestCase {
    * @param word the word that is correct (the suggested replacement).
    */
   private void checkSimpleReplaceRule(String sentence, String word) throws IOException {
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
     assertEquals("Invalid matches.length while checking sentence: "
             + sentence, 1, matches.length);
     assertEquals("Invalid replacement count wile checking sentence: "
