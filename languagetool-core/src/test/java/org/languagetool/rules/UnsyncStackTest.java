@@ -26,7 +26,7 @@ import java.util.EmptyStackException;
 public class UnsyncStackTest extends TestCase {
 
   public void testStack() {
-    final UnsyncStack<String> stack = new UnsyncStack<>();
+    UnsyncStack<String> stack = new UnsyncStack<>();
     assertTrue(stack.empty());
     stack.push("test");
     assertEquals("test", stack.peek());

@@ -30,7 +30,7 @@ import static org.languagetool.rules.patterns.PatternToken.UNKNOWN_TAG;
 public class PatternTokenTest extends TestCase {
 
   public void testSentenceStart() {
-    final PatternToken patternToken = new PatternToken("", false, false, false);
+    PatternToken patternToken = new PatternToken("", false, false, false);
     patternToken.setPosToken(new PatternToken.PosToken(SENTENCE_START_TAGNAME, false, false));
     assertTrue(patternToken.isSentenceStart());
     patternToken.setPosToken(new PatternToken.PosToken(SENTENCE_START_TAGNAME, false, true));
@@ -40,28 +40,28 @@ public class PatternTokenTest extends TestCase {
     patternToken.setPosToken(new PatternToken.PosToken(SENTENCE_START_TAGNAME, true, true));
     assertFalse(patternToken.isSentenceStart());
 
-    final PatternToken patternToken2 = new PatternToken("bla|blah", false, true, false);
+    PatternToken patternToken2 = new PatternToken("bla|blah", false, true, false);
     patternToken2.setPosToken(new PatternToken.PosToken("foo", true, true));
     assertFalse(patternToken2.isSentenceStart());
   }
   
   public void testUnknownTag() {
-    final PatternToken patternToken = new PatternToken("", false, false, false);
+    PatternToken patternToken = new PatternToken("", false, false, false);
     patternToken.setPosToken(new PatternToken.PosToken(UNKNOWN_TAG, false, false));
     
-    final PatternToken patternToken2 = new PatternToken("", false, false, false);
+    PatternToken patternToken2 = new PatternToken("", false, false, false);
     patternToken2.setPosToken(new PatternToken.PosToken(UNKNOWN_TAG, false, true));
 
-    final PatternToken patternToken3 = new PatternToken("", false, false, false);
+    PatternToken patternToken3 = new PatternToken("", false, false, false);
     patternToken3.setPosToken(new PatternToken.PosToken(UNKNOWN_TAG + "|VBG", true, false));
     
-    final PatternToken patternToken4 = new PatternToken("", false, false, false);
+    PatternToken patternToken4 = new PatternToken("", false, false, false);
     patternToken4.setPosToken(new PatternToken.PosToken(UNKNOWN_TAG + "|VBG", true, true));
     
-    final PatternToken patternToken5 = new PatternToken("\\p{Ll}+", false, true, false);
+    PatternToken patternToken5 = new PatternToken("\\p{Ll}+", false, true, false);
     patternToken5.setPosToken(new PatternToken.PosToken(UNKNOWN_TAG, false, false));
     
-    final AnalyzedToken an = new AnalyzedToken("schword", null, null);
+    AnalyzedToken an = new AnalyzedToken("schword", null, null);
     assertTrue(patternToken.isMatched(an));
     assertFalse(patternToken2.isMatched(an));
     assertTrue(patternToken3.isMatched(an));
@@ -77,18 +77,18 @@ public class PatternTokenTest extends TestCase {
     assertTrue(patternToken4.isMatched(an));
     assertFalse(patternToken5.isMatched(an));
     
-    final AnalyzedToken anSentEnd = new AnalyzedToken("schword", SENTENCE_END_TAGNAME, null);
+    AnalyzedToken anSentEnd = new AnalyzedToken("schword", SENTENCE_END_TAGNAME, null);
     assertTrue(patternToken.isMatched(anSentEnd));
     assertFalse(patternToken2.isMatched(anSentEnd));
     assertTrue(patternToken3.isMatched(anSentEnd));
     assertFalse(patternToken4.isMatched(anSentEnd));
     assertTrue(patternToken5.isMatched(anSentEnd));
     
-    final PatternToken patternToken6 = new PatternToken("\\p{Ll}+", false, true, false);
+    PatternToken patternToken6 = new PatternToken("\\p{Ll}+", false, true, false);
     patternToken6.setPosToken(new PatternToken.PosToken(SENTENCE_END_TAGNAME, false, false));
     assertTrue(patternToken6.isMatched(anSentEnd));
     
-    final PatternToken patternToken7 = new PatternToken("\\p{Ll}+", false, true, false);
+    PatternToken patternToken7 = new PatternToken("\\p{Ll}+", false, true, false);
     patternToken7.setPosToken(new PatternToken.PosToken(SENTENCE_END_TAGNAME + "|BLABLA", true, false));
     assertTrue(patternToken7.isMatched(anSentEnd));
     
@@ -101,7 +101,7 @@ public class PatternTokenTest extends TestCase {
     assertTrue(patternToken4.isMatched(anSentEnd));
     assertFalse(patternToken5.isMatched(anSentEnd));
     
-    final AnalyzedToken anParaEnd = new AnalyzedToken("schword", PARAGRAPH_END_TAGNAME, null);
+    AnalyzedToken anParaEnd = new AnalyzedToken("schword", PARAGRAPH_END_TAGNAME, null);
     assertTrue(patternToken.isMatched(anParaEnd));
     assertFalse(patternToken2.isMatched(anParaEnd));
     assertTrue(patternToken3.isMatched(anParaEnd));
@@ -117,7 +117,7 @@ public class PatternTokenTest extends TestCase {
     assertTrue(patternToken4.isMatched(anParaEnd));
     assertFalse(patternToken5.isMatched(anParaEnd));
     
-    final AnalyzedToken anWithPOS = new AnalyzedToken("schword", "POS", null);
+    AnalyzedToken anWithPOS = new AnalyzedToken("schword", "POS", null);
     assertFalse(patternToken.isMatched(anWithPOS));
     assertTrue(patternToken2.isMatched(anWithPOS));
     assertFalse(patternToken3.isMatched(anWithPOS));

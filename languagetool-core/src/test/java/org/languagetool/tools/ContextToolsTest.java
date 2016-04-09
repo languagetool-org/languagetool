@@ -23,59 +23,59 @@ import junit.framework.TestCase;
 public class ContextToolsTest extends TestCase {
 
   public void testGetContext() throws Exception {
-    final ContextTools contextTools = new ContextTools();
-    final String context = contextTools.getContext(4, 8, "Hi, this is some nice text waiting for its error markers.");
+    ContextTools contextTools = new ContextTools();
+    String context = contextTools.getContext(4, 8, "Hi, this is some nice text waiting for its error markers.");
     assertEquals("Hi, <b><font bgcolor=\"#ff8b8b\">this</font></b> is some nice text waiting for its error...", context);
-    final String context2 = contextTools.getContext(3, 5, "xxx\n \nyyy");
+    String context2 = contextTools.getContext(3, 5, "xxx\n \nyyy");
     assertEquals("xxx<b><font bgcolor=\"#ff8b8b\">&nbsp;&nbsp;</font></b> yyy", context2);
   }
 
   public void testPlainTextContext() throws Exception {
-    final ContextTools contextTools = new ContextTools();
+    ContextTools contextTools = new ContextTools();
     contextTools.setContextSize(5);
-    final String input = "This is a test sentence. Here's another sentence with more text.";
-    final String result = contextTools.getPlainTextContext(8, 14, input);
+    String input = "This is a test sentence. Here's another sentence with more text.";
+    String result = contextTools.getPlainTextContext(8, 14, input);
     assertEquals("...s is a test sent...\n        ^^^^^^     ", result);
   }
 
   public void testPlainTextContextWithLineBreaks() throws Exception {
-    final ContextTools contextTools = new ContextTools();
+    ContextTools contextTools = new ContextTools();
     contextTools.setContextSize(5);
-    final String input = "One.\nThis is a test sentence.\nHere's another sentence.";
-    final String result = contextTools.getPlainTextContext(15, 19, input);
+    String input = "One.\nThis is a test sentence.\nHere's another sentence.";
+    String result = contextTools.getPlainTextContext(15, 19, input);
     assertEquals("...is a test sent...\n        ^^^^     ", result);
   }
 
   public void testPlainTextContextWithDosLineBreaks() throws Exception {
-    final ContextTools contextTools = new ContextTools();
+    ContextTools contextTools = new ContextTools();
     contextTools.setContextSize(5);
-    final String input = "One.\r\nThis is a test sentence.\r\nHere's another sentence.";
-    final String result = contextTools.getPlainTextContext(16, 20, input);
+    String input = "One.\r\nThis is a test sentence.\r\nHere's another sentence.";
+    String result = contextTools.getPlainTextContext(16, 20, input);
     assertEquals("...is a test sent...\n        ^^^^     ", result);
   }
 
   public void testLargerContext() throws Exception {
-    final ContextTools contextTools = new ContextTools();
+    ContextTools contextTools = new ContextTools();
     contextTools.setContextSize(100);
-    final String context = contextTools.getContext(4, 8, "Hi, this is some nice text waiting for its error markers.");
+    String context = contextTools.getContext(4, 8, "Hi, this is some nice text waiting for its error markers.");
     assertEquals("Hi, <b><font bgcolor=\"#ff8b8b\">this</font></b> is some nice text waiting for its error markers.", context);
   }
 
   public void testHtmlEscape() throws Exception {
-    final ContextTools contextTools = new ContextTools();
-    final String context1 = contextTools.getContext(0, 2, "Hi, this is <html>.");
+    ContextTools contextTools = new ContextTools();
+    String context1 = contextTools.getContext(0, 2, "Hi, this is <html>.");
     assertEquals("<b><font bgcolor=\"#ff8b8b\">Hi</font></b>, this is &lt;html&gt;.", context1);
 
     contextTools.setEscapeHtml(false);
-    final String context2 = contextTools.getContext(0, 2, "Hi, this is <html>.");
+    String context2 = contextTools.getContext(0, 2, "Hi, this is <html>.");
     assertEquals("<b><font bgcolor=\"#ff8b8b\">Hi</font></b>, this is <html>.", context2);
   }
 
   public void testMarkers() throws Exception {
-    final ContextTools contextTools = new ContextTools();
+    ContextTools contextTools = new ContextTools();
     contextTools.setErrorMarkerStart("<X>");
     contextTools.setErrorMarkerEnd("</X>");
-    final String context = contextTools.getContext(0, 2, "Hi, this is it.");
+    String context = contextTools.getContext(0, 2, "Hi, this is it.");
     assertEquals("<X>Hi</X>, this is it.", context);
   }
 

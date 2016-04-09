@@ -31,9 +31,9 @@ import org.languagetool.TestTools;
 public class DoublePunctuationRuleTest extends TestCase {
 
   public void testRule() throws IOException {
-    final DoublePunctuationRule rule = new DoublePunctuationRule(TestTools.getEnglishMessages());
+    DoublePunctuationRule rule = new DoublePunctuationRule(TestTools.getEnglishMessages());
     RuleMatch[] matches;
-    final JLanguageTool langTool = new JLanguageTool(TestTools.getDemoLanguage());
+    JLanguageTool langTool = new JLanguageTool(TestTools.getDemoLanguage());
     
     // correct sentences:
     matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence..."));

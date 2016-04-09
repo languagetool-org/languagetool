@@ -57,21 +57,21 @@ public abstract class AbstractCompoundRuleTest extends TestCase {
   public void check(int expectedErrors, String text, String[] expSuggestions) throws IOException {
     assertNotNull("Please initialize langTool!", langTool);
     assertNotNull("Please initialize 'rule'!", rule);
-    final RuleMatch[] ruleMatches = rule.match(langTool.getAnalyzedSentence(text));
+    RuleMatch[] ruleMatches = rule.match(langTool.getAnalyzedSentence(text));
     assertEquals("Expected " + expectedErrors + "errors, but got: " + Arrays.toString(ruleMatches),
             expectedErrors, ruleMatches.length);
     if (expSuggestions != null && expectedErrors != 1) {
       throw new RuntimeException("Sorry, test case can only check suggestion if there's one rule match");
     }
     if (expSuggestions != null) {
-      final RuleMatch ruleMatch = ruleMatches[0];
-      final String errorMessage =
+      RuleMatch ruleMatch = ruleMatches[0];
+      String errorMessage =
               String.format("Got these suggestions: %s, expected %s ", ruleMatch.getSuggestedReplacements(),
               Arrays.toString(expSuggestions));
       assertEquals(errorMessage, expSuggestions.length, ruleMatch.getSuggestedReplacements().size());
       int i = 0;
-      for (final Object element : ruleMatch.getSuggestedReplacements()) {
-        final String suggestion = (String) element;
+      for (Object element : ruleMatch.getSuggestedReplacements()) {
+        String suggestion = (String) element;
         assertEquals(expSuggestions[i], suggestion);
         i++;
       }

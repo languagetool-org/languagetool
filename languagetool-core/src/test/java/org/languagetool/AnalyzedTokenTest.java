@@ -24,17 +24,17 @@ import junit.framework.TestCase;
 public class AnalyzedTokenTest extends TestCase {
 
   public void testToString() {
-    final AnalyzedToken testToken = new AnalyzedToken("word", "POS", "lemma");
+    AnalyzedToken testToken = new AnalyzedToken("word", "POS", "lemma");
     assertEquals("lemma/POS", testToken.toString());
     assertEquals("lemma", testToken.getLemma());
-    final AnalyzedToken testToken2 = new AnalyzedToken("word", "POS", null);
+    AnalyzedToken testToken2 = new AnalyzedToken("word", "POS", null);
     assertEquals("word/POS", testToken2.toString());
     assertEquals(null, testToken2.getLemma());
     assertEquals("word", testToken2.getToken());
   }
   
   public void testMatches() {
-    final AnalyzedToken testToken1 = new AnalyzedToken("word", "POS", "lemma");
+    AnalyzedToken testToken1 = new AnalyzedToken("word", "POS", "lemma");
     assertFalse(testToken1.matches(new AnalyzedToken("", null, null)));
     assertTrue(testToken1.matches(new AnalyzedToken("word", null, null)));
     assertTrue(testToken1.matches(new AnalyzedToken("word", "POS", null)));
