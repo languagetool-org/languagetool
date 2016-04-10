@@ -108,7 +108,7 @@ public class HTTPServerConfig {
 
   private void parseConfigFile(File file) {
     try {
-      final Properties props = new Properties();
+      Properties props = new Properties();
       try (FileInputStream fis = new FileInputStream(file)) {
         props.load(fis);
         maxTextLength = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
@@ -267,7 +267,7 @@ public class HTTPServerConfig {
    * @throws IllegalConfigurationException if property is not set 
    */
   protected String getProperty(Properties props, String propertyName, File config) {
-    final String propertyValue = (String)props.get(propertyName);
+    String propertyValue = (String)props.get(propertyName);
     if (propertyValue == null || propertyValue.trim().isEmpty()) {
       throw new IllegalConfigurationException("Property '" + propertyName + "' must be set in " + config);
     }
@@ -275,7 +275,7 @@ public class HTTPServerConfig {
   }
 
   protected String getOptionalProperty(Properties props, String propertyName, String defaultValue) {
-    final String propertyValue = (String)props.get(propertyName);
+    String propertyValue = (String)props.get(propertyName);
     if (propertyValue == null) {
       return defaultValue;
     }

@@ -27,9 +27,9 @@ public class RequestLimiterTest {
   
   @Test
   public void testIsAccessOkay() throws Exception {
-    final RequestLimiter limiter = new RequestLimiter(3, 2);
-    final String firstIp = "192.168.10.1";
-    final String secondIp = "192.168.10.2";
+    RequestLimiter limiter = new RequestLimiter(3, 2);
+    String firstIp = "192.168.10.1";
+    String secondIp = "192.168.10.2";
     assertTrue(limiter.isAccessOkay(firstIp));
     assertTrue(limiter.isAccessOkay(firstIp));
     assertTrue(limiter.isAccessOkay(firstIp));

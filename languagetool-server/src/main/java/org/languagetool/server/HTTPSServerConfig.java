@@ -83,7 +83,7 @@ public class HTTPSServerConfig extends HTTPServerConfig {
       throw new IllegalConfigurationException("Parameter --config must be set and point to a property file");
     }
     try {
-      final Properties props = new Properties();
+      Properties props = new Properties();
       try (FileInputStream fis = new FileInputStream(config)) {
         props.load(fis);
         keystore = new File(getProperty(props, "keystore", config));

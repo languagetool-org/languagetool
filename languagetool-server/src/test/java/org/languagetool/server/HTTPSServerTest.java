@@ -40,8 +40,8 @@ public class HTTPSServerTest {
   @Test
   public void runRequestLimitationTest() throws Exception {
     HTTPTools.disableCertChecks();
-    final HTTPSServerConfig serverConfig = new HTTPSServerConfig(HTTPTools.getDefaultPort(), false, getKeystoreFile(), KEYSTORE_PASSWORD, 2, 120);
-    final HTTPSServer server = new HTTPSServer(serverConfig, false, HTTPServerConfig.DEFAULT_HOST, null);
+    HTTPSServerConfig serverConfig = new HTTPSServerConfig(HTTPTools.getDefaultPort(), false, getKeystoreFile(), KEYSTORE_PASSWORD, 2, 120);
+    HTTPSServer server = new HTTPSServer(serverConfig, false, HTTPServerConfig.DEFAULT_HOST, null);
     try {
       server.run();
       check(new German(), "foo");
@@ -59,9 +59,9 @@ public class HTTPSServerTest {
   @Test
   public void testHTTPSServer() throws Exception {
     HTTPTools.disableCertChecks();
-    final HTTPSServerConfig config = new HTTPSServerConfig(HTTPTools.getDefaultPort(), false, getKeystoreFile(), KEYSTORE_PASSWORD);
+    HTTPSServerConfig config = new HTTPSServerConfig(HTTPTools.getDefaultPort(), false, getKeystoreFile(), KEYSTORE_PASSWORD);
     config.setMaxTextLength(500);
-    final HTTPSServer server = new HTTPSServer(config, false, HTTPServerConfig.DEFAULT_HOST, null);
+    HTTPSServer server = new HTTPSServer(config, false, HTTPServerConfig.DEFAULT_HOST, null);
     try {
       server.run();
       runTests();
@@ -71,7 +71,7 @@ public class HTTPSServerTest {
   }
 
   private File getKeystoreFile() {
-    final URL keystore = HTTPSServerTest.class.getResource(KEYSTORE);
+    URL keystore = HTTPSServerTest.class.getResource(KEYSTORE);
     if (keystore == null) {
       throw new RuntimeException("Not found in classpath : " + KEYSTORE);
     }
@@ -80,25 +80,25 @@ public class HTTPSServerTest {
 
   private void runTests() throws IOException {
     try {
-      final String httpPrefix = "http://localhost:" + HTTPTools.getDefaultPort() + "/";
+      String httpPrefix = "http://localhost:" + HTTPTools.getDefaultPort() + "/";
       HTTPTools.checkAtUrl(new URL(httpPrefix + "?text=a+test&language=en"));
       fail("HTTP should not work, only HTTPS");
     } catch (SocketException expected) {}
 
-    final String httpsPrefix = "https://localhost:" + HTTPTools.getDefaultPort() + "/";
+    String httpsPrefix = "https://localhost:" + HTTPTools.getDefaultPort() + "/";
 
-    final String result = HTTPTools.checkAtUrl(new URL(httpsPrefix + "?text=a+test.&language=en"));
+    String result = HTTPTools.checkAtUrl(new URL(httpsPrefix + "?text=a+test.&language=en"));
     assertTrue("Got " + result, result.contains("UPPERCASE_SENTENCE_START"));
 
-    final StringBuilder longText = new StringBuilder();
+    StringBuilder longText = new StringBuilder();
     while (longText.length() < 490) {
       longText.append("B ");
     }
-    final String result2 = HTTPTools.checkAtUrl(new URL(httpsPrefix + "?text=" + encode(longText.toString()) + "&language=en"));
+    String result2 = HTTPTools.checkAtUrl(new URL(httpsPrefix + "?text=" + encode(longText.toString()) + "&language=en"));
     assertTrue("Got " + result2, !result2.contains("UPPERCASE_SENTENCE_START"));
     assertTrue("Got " + result2, result2.contains("PHRASE_REPETITION"));
 
-    final String overlyLongText = longText + " and some more to get over the limit of 500";
+    String overlyLongText = longText + " and some more to get over the limit of 500";
     try {
       System.out.println("=== Now checking text that is too long, please ignore the following exception ===");
       HTTPTools.checkAtUrl(new URL(httpsPrefix + "?text=" + encode(overlyLongText) + "&language=en"));
@@ -113,7 +113,7 @@ public class HTTPSServerTest {
   private String check(Language lang, String text) throws IOException {
     String urlOptions = "/?language=" + lang.getShortName();
     urlOptions += "&disabled=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
-    final URL url = new URL("https://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
+    URL url = new URL("https://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);
   }
   

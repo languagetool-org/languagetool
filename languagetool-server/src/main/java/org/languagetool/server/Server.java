@@ -57,7 +57,7 @@ abstract class Server {
    * Start the server.
    */
   public void run() {
-    final String hostName = host != null ? host : "localhost";
+    String hostName = host != null ? host : "localhost";
     System.out.println("Starting LanguageTool " + JLanguageTool.VERSION +
             " (build date: " + JLanguageTool.BUILD_DATE + ") server on " + getProtocol() + "://" + hostName + ":" + port  + "...");
     server.start();
@@ -90,8 +90,8 @@ abstract class Server {
 
   @Nullable
   protected RequestLimiter getRequestLimiterOrNull(HTTPServerConfig config) {
-    final int requestLimit = config.getRequestLimit();
-    final int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();
+    int requestLimit = config.getRequestLimit();
+    int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();
     if (requestLimit > 0 || requestLimitPeriodInSeconds > 0) {
       return new RequestLimiter(requestLimit, requestLimitPeriodInSeconds);
     }
