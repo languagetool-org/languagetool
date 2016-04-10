@@ -90,15 +90,15 @@ public class Configuration {
    * @param lang The language for the configuration, used to distinguish 
    * rules that are enabled or disabled per language.
    */
-  public Configuration(final Language lang) throws IOException {
+  public Configuration(Language lang) throws IOException {
     this(new File(System.getProperty("user.home")), CONFIG_FILE, lang);
   }
 
-  public Configuration(final File baseDir, final Language lang) throws IOException {
+  public Configuration(File baseDir, Language lang) throws IOException {
     this(baseDir, CONFIG_FILE, lang);
   }
 
-  public Configuration(final File baseDir, final String filename, final Language lang)
+  public Configuration(File baseDir, String filename, Language lang)
       throws IOException {
     if (!baseDir.isDirectory()) {
       throw new IllegalArgumentException("Not a directory: " + baseDir);
@@ -165,16 +165,16 @@ public class Configuration {
     return disabledCategoryNames;
   }
 
-  public void setDisabledRuleIds(final Set<String> ruleIDs) {
+  public void setDisabledRuleIds(Set<String> ruleIDs) {
     disabledRuleIds = ruleIDs;
     enabledRuleIds.removeAll(ruleIDs);
   }
 
-  public void setEnabledRuleIds(final Set<String> ruleIDs) {
+  public void setEnabledRuleIds(Set<String> ruleIDs) {
     enabledRuleIds = ruleIDs;
   }
 
-  public void setDisabledCategoryNames(final Set<String> categoryNames) {
+  public void setDisabledCategoryNames(Set<String> categoryNames) {
     disabledCategoryNames = categoryNames;
   }
 
@@ -182,7 +182,7 @@ public class Configuration {
     return language;
   }
 
-  public void setLanguage(final Language language) {
+  public void setLanguage(Language language) {
     this.language = language;
   }
 
@@ -190,7 +190,7 @@ public class Configuration {
     return motherTongue;
   }
 
-  public void setMotherTongue(final Language motherTongue) {
+  public void setMotherTongue(Language motherTongue) {
     this.motherTongue = motherTongue;
   }
 
@@ -198,7 +198,7 @@ public class Configuration {
       return autoDetect;
   }
 
-  public void setAutoDetect(final boolean autoDetect) {
+  public void setAutoDetect(boolean autoDetect) {
       this.autoDetect = autoDetect;
   }
 
@@ -222,7 +222,7 @@ public class Configuration {
    * disambiguation log
    * @since 3.3
    */
-  public void setTaggerShowsDisambigLog(final boolean taggerShowsDisambigLog) {
+  public void setTaggerShowsDisambigLog(boolean taggerShowsDisambigLog) {
       this.taggerShowsDisambigLog = taggerShowsDisambigLog;
   }
 
@@ -230,7 +230,7 @@ public class Configuration {
     return runServer;
   }
 
-  public void setRunServer(final boolean runServer) {
+  public void setRunServer(boolean runServer) {
     this.runServer = runServer;
   }
 
@@ -238,7 +238,7 @@ public class Configuration {
     return serverPort;
   }
 
-  public void setUseGUIConfig(final boolean useGUIConfig) {
+  public void setUseGUIConfig(boolean useGUIConfig) {
     this.guiConfig = useGUIConfig;
   }
 
@@ -246,7 +246,7 @@ public class Configuration {
     return guiConfig;
   }
 
-  public void setServerPort(final int serverPort) {
+  public void setServerPort(int serverPort) {
     this.serverPort = serverPort;
   }
 
@@ -254,7 +254,7 @@ public class Configuration {
     return externalRuleDirectory;
   }
 
-  public void setExternalRuleDirectory(final String path) {
+  public void setExternalRuleDirectory(String path) {
     externalRuleDirectory = path;
   }
 
@@ -362,28 +362,28 @@ public class Configuration {
     return errorColors;
   }
 
-  private void loadConfiguration(final Language lang) throws IOException {
+  private void loadConfiguration(Language lang) throws IOException {
 
-    final String qualifier = getQualifier(lang);
+    String qualifier = getQualifier(lang);
 
     try (FileInputStream fis = new FileInputStream(configFile)) {
 
-      final Properties props = new Properties();
+      Properties props = new Properties();
       props.load(fis);
 
       disabledRuleIds.addAll(getListFromProperties(props, DISABLED_RULES_KEY + qualifier));
       enabledRuleIds.addAll(getListFromProperties(props, ENABLED_RULES_KEY + qualifier));
       disabledCategoryNames.addAll(getListFromProperties(props, DISABLED_CATEGORIES_KEY + qualifier));
 
-      final String languageStr = (String) props.get(LANGUAGE_KEY);
+      String languageStr = (String) props.get(LANGUAGE_KEY);
       if (languageStr != null) {
         language = Languages.getLanguageForShortName(languageStr);
       }
-      final String motherTongueStr = (String) props.get(MOTHER_TONGUE_KEY);
+      String motherTongueStr = (String) props.get(MOTHER_TONGUE_KEY);
       if (motherTongueStr != null && !motherTongueStr.equals("xx")) {
         motherTongue = Languages.getLanguageForShortName(motherTongueStr);
       }
-      final String ngramDir = (String) props.get(NGRAM_DIR_KEY);
+      String ngramDir = (String) props.get(NGRAM_DIR_KEY);
       if (ngramDir != null) {
         ngramDirectory = new File(ngramDir);
       }
@@ -410,11 +410,11 @@ public class Configuration {
       }
       lookAndFeelName = (String) props.get(LF_NAME_KEY);
 
-      final String serverPortString = (String) props.get(SERVER_PORT_KEY);
+      String serverPortString = (String) props.get(SERVER_PORT_KEY);
       if (serverPortString != null) {
         serverPort = Integer.parseInt(serverPortString);
       }
-      final String extRules = (String) props.get(EXTERNAL_RULE_DIRECTORY);
+      String extRules = (String) props.get(EXTERNAL_RULE_DIRECTORY);
       if (extRules != null) {
         externalRuleDirectory = extRules;
       }
@@ -445,7 +445,7 @@ public class Configuration {
     }
   }
 
-  private String getQualifier(final Language lang) {
+  private String getQualifier(Language lang) {
     String qualifier = "";
     if (lang != null) {
       qualifier = "." + lang.getShortNameWithCountryAndVariant();
@@ -453,10 +453,10 @@ public class Configuration {
     return qualifier;
   }
 
-  private void loadConfigForOtherLanguages(final Language lang, final Properties prop) {
+  private void loadConfigForOtherLanguages(Language lang, Properties prop) {
     for (Language otherLang : Languages.get()) {
       if (!otherLang.equals(lang)) {
-        final String languageSuffix = "." + otherLang.getShortNameWithCountryAndVariant();
+        String languageSuffix = "." + otherLang.getShortNameWithCountryAndVariant();
         storeConfigKeyFromProp(prop, DISABLED_RULES_KEY + languageSuffix);
         storeConfigKeyFromProp(prop, ENABLED_RULES_KEY + languageSuffix);
         storeConfigKeyFromProp(prop, DISABLED_CATEGORIES_KEY + languageSuffix);
@@ -464,25 +464,25 @@ public class Configuration {
     }
   }
 
-  private void storeConfigKeyFromProp(final Properties prop, final String key) {
+  private void storeConfigKeyFromProp(Properties prop, String key) {
     if (prop.containsKey(key)) {
       configForOtherLanguages.put(key, prop.getProperty(key));
     }
   }
 
-  private Collection<? extends String> getListFromProperties(final Properties props, final String key) {
-    final String value = (String) props.get(key);
-    final List<String> list = new ArrayList<>();
+  private Collection<? extends String> getListFromProperties(Properties props, String key) {
+    String value = (String) props.get(key);
+    List<String> list = new ArrayList<>();
     if (value != null && !value.isEmpty()) {
-      final String[] names = value.split(DELIMITER);
+      String[] names = value.split(DELIMITER);
       list.addAll(Arrays.asList(names));
     }
     return list;
   }
 
-  public void saveConfiguration(final Language lang) throws IOException {
-    final Properties props = new Properties();
-    final String qualifier = getQualifier(lang);
+  public void saveConfiguration(Language lang) throws IOException {
+    Properties props = new Properties();
+    String qualifier = getQualifier(lang);
 
     addListToProperties(props, DISABLED_RULES_KEY + qualifier, disabledRuleIds);
     addListToProperties(props, ENABLED_RULES_KEY + qualifier, enabledRuleIds);
@@ -524,7 +524,7 @@ public class Configuration {
     }
     props.setProperty(ERROR_COLORS_KEY, sb.toString());
 
-    for (final String key : configForOtherLanguages.keySet()) {
+    for (String key : configForOtherLanguages.keySet()) {
       props.setProperty(key, configForOtherLanguages.get(key));
     }
 
@@ -533,7 +533,7 @@ public class Configuration {
     }
   }
 
-  private void addListToProperties(final Properties props, final String key, final Set<String> list) {
+  private void addListToProperties(Properties props, String key, Set<String> list) {
     if (list == null) {
       props.setProperty(key, "");
     } else {
