@@ -73,7 +73,7 @@ public final class AnyCharTokenizer extends Tokenizer {
   }
 
   @Override
-  public final boolean incrementToken() throws IOException {
+  public boolean incrementToken() throws IOException {
     this.clearAttributes();
     int length = 0;
     int start = -1;
@@ -128,11 +128,13 @@ public final class AnyCharTokenizer extends Tokenizer {
     return true;
   }
 
-  public final void end() throws IOException {
+  @Override
+  public void end() throws IOException {
     super.end();
     this.offsetAtt.setOffset(this.finalOffset, this.finalOffset);
   }
 
+  @Override
   public void reset() throws IOException {
     super.reset();
     this.bufferIndex = 0;
