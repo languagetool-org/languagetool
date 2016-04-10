@@ -61,8 +61,8 @@ public class RemoteLanguageToolTest {
     assertThat(match1.getErrorOffset(), is(12));
     // optional:
     assertThat(match1.getReplacements().get().toString(), is("[an]"));
-    assertThat(match1.getCategory().get().getName(), is("Miscellaneous"));
-    assertThat(match1.getCategory().get().getId().toString(), is("MISC"));
+    assertThat(match1.getCategory().get(), is("Miscellaneous"));
+    assertThat(match1.getCategoryId().get(), is("MISC"));
     assertThat(match1.getLocQualityIssueType().get(), is("misspelling"));
     assertThat(match1.getShortMessage().get(), is("Wrong article"));
     assertThat(match1.getUrl().isPresent(), is(false));

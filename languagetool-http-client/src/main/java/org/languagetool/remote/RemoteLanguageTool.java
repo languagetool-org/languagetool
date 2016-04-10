@@ -18,8 +18,6 @@
  */
 package org.languagetool.remote;
 
-import org.languagetool.tools.StringTools;
-
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -28,8 +26,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
-import java.io.DataOutputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -84,7 +81,7 @@ public class RemoteLanguageTool {
         }
       } else {
         try (InputStream inputStream = conn.getErrorStream()) {
-          String error = StringTools.readStream(inputStream, "utf-8");
+          String error = readStream(inputStream, "utf-8");
           throw new RuntimeException("Got error: " + error + " - HTTP response code " + conn.getResponseCode());
         }
       }
@@ -113,6 +110,18 @@ public class RemoteLanguageTool {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
+  }
+
+  private static String readStream(InputStream stream, String encoding) throws IOException {
+    StringBuilder sb = new StringBuilder();
+    try (InputStreamReader isr = new InputStreamReader(stream, encoding);
+         BufferedReader br = new BufferedReader(isr)) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        sb.append(line).append('\n');
+      }
+    }
+    return sb.toString();
   }
 
   private RemoteResult parseXml(InputStream inputStream) throws XMLStreamException {

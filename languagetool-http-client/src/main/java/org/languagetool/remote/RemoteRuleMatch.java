@@ -18,9 +18,6 @@
  */
 package org.languagetool.remote;
 
-import org.languagetool.rules.Category;
-import org.languagetool.rules.CategoryId;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -110,11 +107,13 @@ public class RemoteRuleMatch {
   }
 
   /** The error's category. */
-  public Optional<Category> getCategory() {
-    if (categoryId != null && category != null) {
-      return Optional.of(new Category(new CategoryId(categoryId), category));
-    }
-    return Optional.empty();
+  public Optional<String> getCategory() {
+    return Optional.of(category);
+  }
+
+  /** The id of the error's category. */
+  public Optional<String> getCategoryId() {
+    return Optional.of(categoryId);
   }
 
   public Optional<String> getLocQualityIssueType() {
