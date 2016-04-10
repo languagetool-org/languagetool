@@ -20,6 +20,9 @@
 #### Java API
   * some formerly deprecated code has been removed
   * all rules have now a category ("Misc" if the rule doesn't specify a category)
+  * a new module `languagetool-http-client` has been added with a class
+    `RemoteLanguageTool` that you can use to query a remote LanguageTool server
+    via HTTP or HTTPS
 
 #### Embedded HTTPS server
   * changed behaviour for OutOfMemory situations: the server
