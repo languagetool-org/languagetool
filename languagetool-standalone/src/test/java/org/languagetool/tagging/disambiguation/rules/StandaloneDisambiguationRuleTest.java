@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 public class StandaloneDisambiguationRuleTest extends TestCase {
   
   public void testDisambiguationRuleTest() throws Exception {
-    final DisambiguationRuleTest test = new DisambiguationRuleTest();
+    DisambiguationRuleTest test = new DisambiguationRuleTest();
     test.testDisambiguationRulesFromXML();
   }
   

@@ -59,7 +59,7 @@ class ResultArea {
   private List<RuleMatch> ruleMatches;    // will be filtered to not show disabled rules
   private long runTime;
 
-  ResultArea(final ResourceBundle messages, final LanguageToolSupport ltSupport, final JTextPane statusPane) {
+  ResultArea(ResourceBundle messages, LanguageToolSupport ltSupport, JTextPane statusPane) {
     this.messages = messages;
     this.ltSupport = ltSupport;
     this.statusPane = statusPane;
@@ -72,14 +72,14 @@ class ResultArea {
       @Override
       public void languageToolEventOccurred(LanguageToolEvent event) {
         if (event.getType() == LanguageToolEvent.Type.CHECKING_STARTED) {
-          final Language lang = ltSupport.getLanguage();
-          final String langName;
+          Language lang = ltSupport.getLanguage();
+          String langName;
           if (lang.isExternal()) {
             langName = lang.getTranslatedName(messages) + Main.EXTERNAL_LANGUAGE_SUFFIX;
           } else {
             langName = lang.getTranslatedName(messages);
           }
-          final String startCheckText = Main.HTML_GREY_FONT_START
+          String startCheckText = Main.HTML_GREY_FONT_START
               + org.languagetool.tools.Tools.i18n(messages, "startChecking", langName) + "..." + Main.HTML_FONT_END;
           statusPane.setText(startCheckText);
           setStartText(startCheckText);
@@ -104,26 +104,26 @@ class ResultArea {
   }
 
   private String getRuleMatchHtml(List<RuleMatch> ruleMatches, String text, String startCheckText) {
-    final ContextTools contextTools = new ContextTools();
-    final StringBuilder sb = new StringBuilder(200);
+    ContextTools contextTools = new ContextTools();
+    StringBuilder sb = new StringBuilder(200);
     if (ltSupport.getLanguage().getMaintainedState() != LanguageMaintainedState.ActivelyMaintained) {
       sb.append("<b>").append(messages.getString("unsupportedWarning")).append("</b><br><br>");
     }
     sb.append(startCheckText);
     sb.append("<br>\n");
     int i = 0;
-    for (final RuleMatch match : ruleMatches) {
-      final String output = org.languagetool.tools.Tools.i18n(messages, "result1", i + 1, match.getLine() + 1, match.getColumn());
+    for (RuleMatch match : ruleMatches) {
+      String output = org.languagetool.tools.Tools.i18n(messages, "result1", i + 1, match.getLine() + 1, match.getColumn());
       sb.append(output);
-      final String msg = match.getMessage()
+      String msg = match.getMessage()
           .replaceAll("<suggestion>", "<b>").replaceAll("</suggestion>", "</b>")
           .replaceAll("<old>", "<b>").replaceAll("</old>", "</b>");
       sb.append("<b>").append(messages.getString("errorMessage")).append("</b> ");
       sb.append(msg);
-      final RuleLink ruleLink = RuleLink.buildDeactivationLink(match.getRule());
+      RuleLink ruleLink = RuleLink.buildDeactivationLink(match.getRule());
       sb.append(" <a href=\"").append(ruleLink).append("\">").append(messages.getString("deactivateRule")).append("</a><br>\n");
       if (match.getSuggestedReplacements().size() > 0) {
-        final String replacement = String.join("; ", match.getSuggestedReplacements());
+        String replacement = String.join("; ", match.getSuggestedReplacements());
         sb.append("<b>").append(messages.getString("correctionMessage")).append("</b> ").append(replacement).append("<br>\n");
       }
       if (ITSIssueType.Misspelling == match.getRule().getLocQualityIssueType()) {
@@ -131,21 +131,21 @@ class ResultArea {
       } else {
         contextTools.setErrorMarkerStart(LT_ERROR_MARKER_START);
       }
-      final String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text);
+      String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text);
       sb.append("<b>").append(messages.getString("errorContext")).append("</b> ").append(context);
       sb.append("<br>\n");
       if (match.getRule().getUrl() != null && Desktop.isDesktopSupported()) {
         sb.append("<b>").append(messages.getString("moreInfo")).append("</b> <a href=\"");
-        final String url = match.getRule().getUrl().toString();
+        String url = match.getRule().getUrl().toString();
         sb.append(url);
-        final String shortUrl = StringUtils.abbreviate(url, 60);
+        String shortUrl = StringUtils.abbreviate(url, 60);
         sb.append("\">").append(shortUrl).append("</a><br>\n");
       }
       i++;
     }
     sb.append(Main.HTML_GREY_FONT_START);
     sb.append(getDisabledRulesHtml());
-    final String checkDone = org.languagetool.tools.Tools.i18n(messages, "checkDone", ruleMatches.size(), runTime);
+    String checkDone = org.languagetool.tools.Tools.i18n(messages, "checkDone", ruleMatches.size(), runTime);
     sb.append("<br>\n").append(checkDone);
     sb.append("<br>\n").append(messages.getString("makeLanguageToolBetter"));
     sb.append(Main.HTML_FONT_END).append("<br>\n");
@@ -153,7 +153,7 @@ class ResultArea {
   }
 
   private String getDisabledRulesHtml() {
-    final StringBuilder sb = new StringBuilder(40);
+    StringBuilder sb = new StringBuilder(40);
     sb.append(messages.getString("deactivatedRulesText"));
     int i = 0;
     int deactivatedRuleCount = 0;
@@ -161,14 +161,14 @@ class ResultArea {
       if (ruleId.trim().isEmpty()) {
         continue;
       }
-      final Rule rule = ltSupport.getRuleForId(ruleId);
+      Rule rule = ltSupport.getRuleForId(ruleId);
       if (rule == null || rule.isDefaultOff()) {
         continue;
       }
       if (i++ > 0) {
         sb.append(',');
       }
-      final RuleLink reactivationLink = RuleLink.buildReactivationLink(rule);
+      RuleLink reactivationLink = RuleLink.buildReactivationLink(rule);
       sb.append(" <a href=\"").append(reactivationLink).append("\">").append(rule.getDescription()).append("</a>");
       deactivatedRuleCount++;
     }
@@ -195,7 +195,7 @@ class ResultArea {
 
   private void displayResult() {
     ruleMatches = filterRuleMatches();
-    final String ruleMatchHtml = getRuleMatchHtml(ruleMatches, inputText, startText);
+    String ruleMatchHtml = getRuleMatchHtml(ruleMatches, inputText, startText);
     displayText(ruleMatchHtml);
   }
 
@@ -206,8 +206,8 @@ class ResultArea {
   }
 
   private List<RuleMatch> filterRuleMatches() {
-    final List<RuleMatch> filtered = new ArrayList<>();
-    final Set<String> disabledRuleIds = ltSupport.getConfig().getDisabledRuleIds();
+    List<RuleMatch> filtered = new ArrayList<>();
+    Set<String> disabledRuleIds = ltSupport.getConfig().getDisabledRuleIds();
     for (RuleMatch ruleMatch : allRuleMatches) {
       if (!disabledRuleIds.contains(ruleMatch.getRule().getId())) {
         filtered.add(ruleMatch);
@@ -224,9 +224,9 @@ class ResultArea {
     @Override
     public void hyperlinkUpdate(HyperlinkEvent e) {
       if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-        final URL url = e.getURL();
+        URL url = e.getURL();
         try {
-          final String uri = url.toURI().toString();
+          String uri = url.toURI().toString();
           if (uri.startsWith(DEACTIVATE_URL) || uri.startsWith(REACTIVATE_URL)) {
             handleRuleLinkClick(uri);
           } else {
@@ -239,8 +239,8 @@ class ResultArea {
     }
 
     private void handleRuleLinkClick(String uri) throws IOException {
-      final RuleLink ruleLink = RuleLink.getFromString(uri);
-      final String ruleId = ruleLink.getId();
+      RuleLink ruleLink = RuleLink.getFromString(uri);
+      String ruleId = ruleLink.getId();
       if (uri.startsWith(DEACTIVATE_URL)) {
         ltSupport.disableRule(ruleId);
       } else {
@@ -253,7 +253,7 @@ class ResultArea {
     private void handleHttpClick(URL url) {
       if (Desktop.isDesktopSupported()) {
         try {
-          final Desktop desktop = Desktop.getDesktop();
+          Desktop desktop = Desktop.getDesktop();
           desktop.browse(url.toURI());
         } catch (Exception ex) {
           throw new RuntimeException("Could not open URL: " + url, ex);

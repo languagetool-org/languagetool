@@ -38,6 +38,7 @@ import org.languagetool.databroker.ResourceDataBroker;
 class LanguageComboBoxRenderer extends JLabel implements ListCellRenderer<Language> {
 
   private static final Border BORDER = new EmptyBorder(1, 3, 1, 1);
+  
   private final ResourceBundle messages;
   private final String extLangSuffix;
 

@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 public class KhmerDetectorTest extends TestCase {
   
   public void testIsThisLanguage() {
-    final KhmerDetector detector = new KhmerDetector();
+    KhmerDetector detector = new KhmerDetector();
     
     assertTrue(detector.isThisLanguage("ប៉ុ"));
     assertTrue(detector.isThisLanguage("ប៉ុន្តែ​តើ"));

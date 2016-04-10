@@ -115,7 +115,7 @@ class FontChooser extends JDialog implements ActionListener,
   }
 
   private void initComponents() {
-    final KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+    KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
     getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(stroke, "Hide");
     getRootPane().getActionMap().put("Hide", new AbstractAction() {
       @Override
@@ -147,7 +147,7 @@ class FontChooser extends JDialog implements ActionListener,
     GridBagConstraints c = new GridBagConstraints();
     c.insets = new Insets(4, 4, 4, 4);
 
-    final JPanel fontPanel = new JPanel(new GridBagLayout());
+    JPanel fontPanel = new JPanel(new GridBagLayout());
 
     c.gridx = 0;
     c.gridy = 0;
@@ -250,7 +250,7 @@ class FontChooser extends JDialog implements ActionListener,
     pane.setBorder(border);
     getContentPane().add(pane, c);
 
-    final JPanel buttonPanel = new JPanel(new GridBagLayout());
+    JPanel buttonPanel = new JPanel(new GridBagLayout());
 
     c.insets = new Insets(4, 4, 4, 4);
 

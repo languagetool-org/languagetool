@@ -38,7 +38,7 @@ class ConfigThread extends Thread {
   
   private final ConfigurationDialog cfgDialog;
   
-  ConfigThread(final Language docLanguage, final Configuration config, final Main main) {
+  ConfigThread(Language docLanguage, Configuration config, Main main) {
     this.docLanguage = docLanguage;
     this.config = config;
     mainThread = main; 
@@ -48,7 +48,7 @@ class ConfigThread extends Thread {
   @Override
   public void run() {
     try {
-      final JLanguageTool langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
+      JLanguageTool langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
       cfgDialog.show(langTool.getAllRules());
       config.saveConfiguration(docLanguage);
       if (mainThread != null) {

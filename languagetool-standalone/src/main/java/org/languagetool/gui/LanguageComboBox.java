@@ -53,7 +53,7 @@ public class LanguageComboBox extends JComboBox<Language> {
   }
 
   void selectLanguage(Language language) {
-    for (final Language lang : languages) {
+    for (Language lang : languages) {
       if (lang.toString().equals(language.toString())) {
         setSelectedItem(lang);
       }
@@ -73,7 +73,7 @@ public class LanguageComboBox extends JComboBox<Language> {
       addItem(externalLanguage);
     }
     Collections.sort(languages, langComparator);
-    for (final Language language : languages) {
+    for (Language language : languages) {
       addItem(language);
     }
   }
