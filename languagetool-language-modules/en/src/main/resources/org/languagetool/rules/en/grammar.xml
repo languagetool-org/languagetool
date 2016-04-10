@@ -9718,8 +9718,13 @@ USA
             <example correction="lots of books">I have got <marker>lots of book</marker>.</example>
             <example>I have got <marker>lots of wine</marker>.</example>
         </rule>
-        <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
-            <antipattern>
+        <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">          
+          <antipattern>
+            <token regexp="yes">s?he|you|I|we|they|it</token>
+            <token inflected="yes">be</token>
+            <token postag="CD"/>
+          </antipattern>
+          <antipattern>
                 <token>top</token>
                 <token postag="CD"/>
                 <token>hit</token>
