@@ -746,7 +746,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <!-- GRAMMATICA VERBI - GR_10 -->
     <category id="CAT7" name="Grammatica - Verbi">
-	
+
+        <rule id="DOPPIO_VERBO_AUSILIARE_TERZA_PERSONA" name="Doppio verbo ausiliare terza persona">
+            <pattern>
+                <token postag='AUX:ind+pres+3+p'/>
+                <token postag='AUX:ind+pres+3+p'/>
+            </pattern>
+            <message>La frase contiene un verbo ausiliare ripetuto</message>
+            <short>Verbo ausiliare ripetuto</short>
+            <example correction=''>non <marker>sono vengono</marker> preparate con le tecnologie e le infrastrutture adatte</example>
+        </rule>
+        
 	<rulegroup name="concordanza tempi delle coordinate" id="GR_10_001">
 <!-- PB007 + -->	    
             <!-- IND PRESENTE -->
