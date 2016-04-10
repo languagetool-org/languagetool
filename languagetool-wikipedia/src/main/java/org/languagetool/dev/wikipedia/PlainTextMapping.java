@@ -51,7 +51,7 @@ public class PlainTextMapping {
     if (plainTextPosition < 1) {
       throw new RuntimeException("plainTextPosition must be > 0 - its value starts at 1");
     }
-    final Location origPosition = mapping.get(plainTextPosition);
+    Location origPosition = mapping.get(plainTextPosition);
     if (origPosition != null) {
       //System.out.println("mapping " + plainTextPosition + " to " + origPosition + " [direct]");
       return origPosition;

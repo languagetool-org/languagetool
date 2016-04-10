@@ -34,11 +34,11 @@ import org.languagetool.language.English;
 public class LanguageToolFilterTest extends BaseTokenStreamTestCase {
   
   public void testFilter() throws Exception {
-    final String input = "How to?";
+    String input = "How to?";
 
-    final Tokenizer stream = new AnyCharTokenizer();
+    Tokenizer stream = new AnyCharTokenizer();
     stream.setReader(new StringReader(input));
-    final LanguageToolFilter filter = new LanguageToolFilter(stream, new JLanguageTool(new English()), false);
+    LanguageToolFilter filter = new LanguageToolFilter(stream, new JLanguageTool(new English()), false);
     //displayTokensWithFullDetails(filter);
 
     String start = "_POS_SENT_START";
@@ -52,13 +52,13 @@ public class LanguageToolFilterTest extends BaseTokenStreamTestCase {
   }
 
   private static void displayTokensWithFullDetails(TokenStream stream) throws IOException {
-    final CharTermAttribute term = stream.addAttribute(CharTermAttribute.class);
-    final PositionIncrementAttribute posIncr = stream.addAttribute(PositionIncrementAttribute.class);
-    final OffsetAttribute offset = stream.addAttribute(OffsetAttribute.class);
-    final TypeAttribute type = stream.addAttribute(TypeAttribute.class);
+    CharTermAttribute term = stream.addAttribute(CharTermAttribute.class);
+    PositionIncrementAttribute posIncr = stream.addAttribute(PositionIncrementAttribute.class);
+    OffsetAttribute offset = stream.addAttribute(OffsetAttribute.class);
+    TypeAttribute type = stream.addAttribute(TypeAttribute.class);
     int position = 0;
     while (stream.incrementToken()) {
-      final int increment = posIncr.getPositionIncrement();
+      int increment = posIncr.getPositionIncrement();
       if (increment > 0) {
         position = position + increment;
         System.out.println();

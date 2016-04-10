@@ -35,6 +35,7 @@ public class SwebleWikipediaTextFilter implements TextMapFilter {
   private final SimpleWikiConfiguration config;
   private final Compiler compiler;
   private final PageId pageId;
+  
   private boolean enableMapping = true;
   
   public SwebleWikipediaTextFilter() {
@@ -42,7 +43,7 @@ public class SwebleWikipediaTextFilter implements TextMapFilter {
       config = new SimpleWikiConfiguration(
               "classpath:/org/languagetool/resource/dev/SimpleWikiConfiguration.xml");
       compiler = new Compiler(config);
-      final PageTitle pageTitle = PageTitle.make(config, "fileTitle");
+      PageTitle pageTitle = PageTitle.make(config, "fileTitle");
       pageId = new PageId(pageTitle, -1);
     } catch (Exception e) {
       throw new RuntimeException("Could not set up text filter", e);
@@ -52,10 +53,10 @@ public class SwebleWikipediaTextFilter implements TextMapFilter {
   @Override
   public PlainTextMapping filter(String wikiText) {
     try {
-      final CompiledPage compiledPage = compiler.postprocess(pageId, wikiText, null);
-      final TextConverter textConverter = new TextConverter(config, WRAP_COL);
+      CompiledPage compiledPage = compiler.postprocess(pageId, wikiText, null);
+      TextConverter textConverter = new TextConverter(config, WRAP_COL);
       textConverter.enableMapping(enableMapping);
-      final String plainText = (String) textConverter.go(compiledPage.getPage());
+      String plainText = (String) textConverter.go(compiledPage.getPage());
       if (enableMapping) {
         return new PlainTextMapping(plainText, textConverter.getMapping());
       } else {

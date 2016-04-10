@@ -58,8 +58,8 @@ public class Indexer implements AutoCloseable {
 
   public Indexer(Directory dir, Language language) {
     try {
-      final Analyzer analyzer = getAnalyzer(language);
-      final IndexWriterConfig writerConfig = getIndexWriterConfig(analyzer);
+      Analyzer analyzer = getAnalyzer(language);
+      IndexWriterConfig writerConfig = getIndexWriterConfig(analyzer);
       writerConfig.setOpenMode(OpenMode.CREATE);
       writer = new IndexWriter(dir, writerConfig);
       sentenceTokenizer = language.getSentenceTokenizer();
@@ -74,7 +74,7 @@ public class Indexer implements AutoCloseable {
   }
 
   static Analyzer getAnalyzer(Language language) {
-    final Map<String, Analyzer> analyzerMap = new HashMap<>();
+    Map<String, Analyzer> analyzerMap = new HashMap<>();
     analyzerMap.put(FIELD_NAME, new LanguageToolAnalyzer(new JLanguageTool(language), false));
     analyzerMap.put(FIELD_NAME_LOWERCASE, new LanguageToolAnalyzer(new JLanguageTool(language), true));
     return new PerFieldAnalyzerWrapper(new DoNotUseAnalyzer(), analyzerMap);
@@ -95,7 +95,7 @@ public class Indexer implements AutoCloseable {
   }
 
   private static void run(String textFile, String indexDir, String languageCode) throws IOException {
-    final File file = new File(textFile);
+    File file = new File(textFile);
     if (!file.exists() || !file.canRead()) {
       System.out.println("Text file '" + file.getAbsolutePath()
           + "' does not exist or is not readable, please check the path");
@@ -104,7 +104,7 @@ public class Indexer implements AutoCloseable {
     try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
       System.out.println("Indexing to directory '" + indexDir + "'...");
       try (FSDirectory directory = FSDirectory.open(new File(indexDir).toPath())) {
-        final Language language = Languages.getLanguageForShortName(languageCode);
+        Language language = Languages.getLanguageForShortName(languageCode);
         try (Indexer indexer = new Indexer(directory, language)) {
           indexer.indexText(reader);
         }
@@ -114,14 +114,14 @@ public class Indexer implements AutoCloseable {
   }
 
   public static void run(String content, Directory dir, Language language) throws IOException {
-    final BufferedReader br = new BufferedReader(new StringReader(content));
+    BufferedReader br = new BufferedReader(new StringReader(content));
     try (Indexer indexer = new Indexer(dir, language)) {
       indexer.indexText(br);
     }
   }
 
   public void indexSentence(Sentence sentence, int docCount) throws IOException {
-    final BufferedReader reader = new BufferedReader(new StringReader(sentence.getText()));
+    BufferedReader reader = new BufferedReader(new StringReader(sentence.getText()));
     String line;
     while ((line = reader.readLine()) != null) {
       add(line, sentence.getSource(), sentence.getTitle(), docCount);
@@ -135,12 +135,12 @@ public class Indexer implements AutoCloseable {
       if (!(line.equals("")) && paragraph.length() + line.length() < Integer.MAX_VALUE) {
         paragraph.append(line).append("\n");
       } else {
-        final List<String> sentences = sentenceTokenizer.tokenize(paragraph.toString());
+        List<String> sentences = sentenceTokenizer.tokenize(paragraph.toString());
         for (String sentence : sentences) {
           add(sentence.replaceAll(" \n"," "), null, null, -1);
         }
         if (paragraph.length() + line.length() >= Integer.MAX_VALUE) {
-          final List<String> last_sentences = sentenceTokenizer.tokenize(line);
+          List<String> last_sentences = sentenceTokenizer.tokenize(line);
           for (String sentence : last_sentences) {
             add(sentence, null, null, -1);
           }
@@ -149,7 +149,7 @@ public class Indexer implements AutoCloseable {
       }
     }
     if (paragraph.length() > 0) {
-      final List<String> sentences = sentenceTokenizer.tokenize(paragraph.toString());
+      List<String> sentences = sentenceTokenizer.tokenize(paragraph.toString());
       for (String sentence : sentences) {
         add(sentence, null, null, -1);
       }
@@ -161,28 +161,28 @@ public class Indexer implements AutoCloseable {
   }
 
   private void add(String sentence, String source, String title, int docCount) throws IOException {
-    final Document doc = new Document();
-    final FieldType type = new FieldType();
+    Document doc = new Document();
+    FieldType type = new FieldType();
     type.setStored(true);
     type.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
     type.setTokenized(true);
     doc.add(new Field(FIELD_NAME, sentence, type));
     doc.add(new Field(FIELD_NAME_LOWERCASE, sentence, type));
     if (docCount != -1) {
-      final FieldType countType = new FieldType();
+      FieldType countType = new FieldType();
       countType.setStored(true);
       countType.setIndexOptions(IndexOptions.NONE);
       doc.add(new Field("docCount", String.valueOf(docCount), countType));
     }
     if (title != null) {
-      final FieldType titleType = new FieldType();
+      FieldType titleType = new FieldType();
       titleType.setStored(true);
       titleType.setIndexOptions(IndexOptions.NONE);
       titleType.setTokenized(false);
       doc.add(new Field(TITLE_FIELD_NAME, title, titleType));
     }
     if (source != null) {
-      final FieldType sourceType = new FieldType();
+      FieldType sourceType = new FieldType();
       sourceType.setStored(true);
       sourceType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS_AND_OFFSETS);
       sourceType.setTokenized(false);

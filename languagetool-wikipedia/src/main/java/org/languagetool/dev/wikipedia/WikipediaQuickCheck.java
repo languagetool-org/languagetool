@@ -83,26 +83,26 @@ public class WikipediaQuickCheck {
   }
 
   public String getMediaWikiContent(URL wikipediaUrl) throws IOException {
-    final Language lang = getLanguage(wikipediaUrl);
-    final String pageTitle = getPageTitle(wikipediaUrl);
-    final String apiUrl = "https://" + lang.getShortName() + ".wikipedia.org/w/api.php?titles=" 
+    Language lang = getLanguage(wikipediaUrl);
+    String pageTitle = getPageTitle(wikipediaUrl);
+    String apiUrl = "https://" + lang.getShortName() + ".wikipedia.org/w/api.php?titles=" 
             + URLEncoder.encode(pageTitle, "utf-8") + "&action=query&prop=revisions&rvprop=content|timestamp&format=xml";
     return getContent(new URL(apiUrl));
   }
 
   public Language getLanguage(URL url) {
-    final Matcher matcher = getUrlMatcher(url.toString());
+    Matcher matcher = getUrlMatcher(url.toString());
     return Languages.getLanguageForShortName(matcher.group(1));
   }
 
   public String getPageTitle(URL url) {
-    final Matcher matcher = getUrlMatcher(url.toString());
+    Matcher matcher = getUrlMatcher(url.toString());
     return matcher.group(2);
   }
   
   private Matcher getUrlMatcher(String url) {
-    final Matcher matcher1 = WIKIPEDIA_URL_REGEX.matcher(url);
-    final Matcher matcher2 = SECURE_WIKIPEDIA_URL_REGEX.matcher(url);
+    Matcher matcher1 = WIKIPEDIA_URL_REGEX.matcher(url);
+    Matcher matcher2 = SECURE_WIKIPEDIA_URL_REGEX.matcher(url);
     if (matcher1.matches()) {
       return matcher1;
     } else if (matcher2.matches()) {
@@ -128,13 +128,13 @@ public class WikipediaQuickCheck {
    */
   public MarkupAwareWikipediaResult checkPage(URL url, ErrorMarker errorMarker) throws IOException, PageNotFoundException {
     validateWikipediaUrl(url);
-    final String xml = getMediaWikiContent(url);
+    String xml = getMediaWikiContent(url);
     if (xml.length() > maxSizeBytes) {
       throw new RuntimeException("Sorry, the content at " + url + " is too big - this process has been limited to " + maxSizeBytes +
               " bytes, but the content is " + xml.length() + " bytes");
     }
-    final MediaWikiContent wikiContent = getRevisionContent(xml);
-    final String content = wikiContent.getContent();
+    MediaWikiContent wikiContent = getRevisionContent(xml);
+    String content = wikiContent.getContent();
     if (content.trim().isEmpty()) {
       throw new PageNotFoundException("No content found at '" + url + "'");
     }
@@ -145,11 +145,11 @@ public class WikipediaQuickCheck {
   }
 
   MarkupAwareWikipediaResult checkWikipediaMarkup(URL url, MediaWikiContent wikiContent, Language language, ErrorMarker errorMarker) throws IOException {
-    final SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
-    final PlainTextMapping mapping = filter.filter(wikiContent.getContent());
-    final MultiThreadedJLanguageTool langTool = getLanguageTool(language);
-    final List<AppliedRuleMatch> appliedMatches = new ArrayList<>();
-    final List<RuleMatch> matches;
+    SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
+    PlainTextMapping mapping = filter.filter(wikiContent.getContent());
+    MultiThreadedJLanguageTool langTool = getLanguageTool(language);
+    List<AppliedRuleMatch> appliedMatches = new ArrayList<>();
+    List<RuleMatch> matches;
     try {
       matches = langTool.check(mapping.getPlainText());
     } finally {
@@ -157,11 +157,11 @@ public class WikipediaQuickCheck {
     }
     int internalErrors = 0;
     for (RuleMatch match : matches) {
-      final SuggestionReplacer replacer = errorMarker != null ? 
+      SuggestionReplacer replacer = errorMarker != null ? 
               new SuggestionReplacer(mapping, wikiContent.getContent(), errorMarker) :
               new SuggestionReplacer(mapping, wikiContent.getContent());
       try {
-        final List<RuleMatchApplication> ruleMatchApplications = replacer.applySuggestionsToOriginalText(match);
+        List<RuleMatchApplication> ruleMatchApplications = replacer.applySuggestionsToOriginalText(match);
         appliedMatches.add(new AppliedRuleMatch(match, ruleMatchApplications));
       } catch (Exception e) {
         System.err.println("Failed to apply suggestion for rule match '" + match + "' for URL " + url + ": " + e);
@@ -172,9 +172,9 @@ public class WikipediaQuickCheck {
   }
 
   public WikipediaQuickCheckResult checkPage(String plainText, Language lang) throws IOException {
-    final MultiThreadedJLanguageTool langTool = getLanguageTool(lang);
+    MultiThreadedJLanguageTool langTool = getLanguageTool(lang);
     try {
-      final List<RuleMatch> ruleMatches = langTool.check(plainText);
+      List<RuleMatch> ruleMatches = langTool.check(plainText);
       return new WikipediaQuickCheckResult(plainText, ruleMatches, lang.getShortName());
     } finally {
       langTool.shutdown();
@@ -190,9 +190,9 @@ public class WikipediaQuickCheck {
    * @param completeWikiContent the Mediawiki syntax as it comes from the API, including surrounding XML
    */
   public String getPlainText(String completeWikiContent) {
-    final MediaWikiContent wikiContent = getRevisionContent(completeWikiContent);
-    final String cleanedWikiContent = removeWikipediaLinks(wikiContent.getContent());
-    final TextMapFilter filter = new SwebleWikipediaTextFilter();
+    MediaWikiContent wikiContent = getRevisionContent(completeWikiContent);
+    String cleanedWikiContent = removeWikipediaLinks(wikiContent.getContent());
+    TextMapFilter filter = new SwebleWikipediaTextFilter();
     return filter.filter(cleanedWikiContent).getPlainText();
   }
 
@@ -200,8 +200,8 @@ public class WikipediaQuickCheck {
    * @param completeWikiContent the Mediawiki syntax as it comes from the API, including surrounding XML
    */
   public PlainTextMapping getPlainTextMapping(String completeWikiContent) {
-    final MediaWikiContent wikiContent = getRevisionContent(completeWikiContent);
-    final SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
+    MediaWikiContent wikiContent = getRevisionContent(completeWikiContent);
+    SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
     return filter.filter(wikiContent.getContent());
   }
 
@@ -219,9 +219,9 @@ public class WikipediaQuickCheck {
   }
 
   private MediaWikiContent getRevisionContent(String completeWikiContent) {
-    final SAXParserFactory factory = SAXParserFactory.newInstance();
-    final SAXParser saxParser;
-    final RevisionContentHandler handler = new RevisionContentHandler();
+    SAXParserFactory factory = SAXParserFactory.newInstance();
+    SAXParser saxParser;
+    RevisionContentHandler handler = new RevisionContentHandler();
     try {
       saxParser = factory.newSAXParser();
       saxParser.parse(new InputSource(new StringReader(completeWikiContent)), handler);
@@ -232,7 +232,7 @@ public class WikipediaQuickCheck {
   }
 
   private MultiThreadedJLanguageTool getLanguageTool(Language lang) throws IOException {
-    final MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(lang);
+    MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(lang);
     enableWikipediaRules(langTool);
     for (String disabledRuleId : disabledRuleIds) {
       langTool.disableRule(disabledRuleId);
@@ -254,7 +254,7 @@ public class WikipediaQuickCheck {
   }
 
   private void disableSpellingRules(JLanguageTool languageTool) {
-    final List<Rule> allActiveRules = languageTool.getAllActiveRules();
+    List<Rule> allActiveRules = languageTool.getAllActiveRules();
     for (Rule rule : allActiveRules) {
       if (rule.isDictionaryBasedSpellingRule()) {
         languageTool.disableRule(rule.getId());
@@ -278,8 +278,8 @@ public class WikipediaQuickCheck {
   }
 
   /*public static void mainTest(String[] args) throws IOException {
-      final TextFilter filter = new SwebleWikipediaTextFilter();
-      final String plainText = filter.filter("hallo\n* eins\n* zwei");
+      TextFilter filter = new SwebleWikipediaTextFilter();
+      String plainText = filter.filter("hallo\n* eins\n* zwei");
       System.out.println(plainText);
   }*/
     
@@ -290,9 +290,9 @@ public class WikipediaQuickCheck {
     }
     WikipediaQuickCheck check = new WikipediaQuickCheck();
     // URL examples:
-    //final String urlString = "http://de.wikipedia.org/wiki/Angela_Merkel";
-    //final String urlString = "https://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber";
-    //final String urlString = "https://secure.wikimedia.org/wikipedia/de/wiki/Gütersloh";
+    //String urlString = "http://de.wikipedia.org/wiki/Angela_Merkel";
+    //String urlString = "https://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber";
+    //String urlString = "https://secure.wikimedia.org/wikipedia/de/wiki/Gütersloh";
     String urlString = args[0];
     MarkupAwareWikipediaResult result = check.checkPage(new URL(urlString), new ErrorMarker("***", "***"));
     int errorCount = 0;
@@ -321,8 +321,8 @@ public class WikipediaQuickCheck {
     private boolean inRevision = false;
 
     @Override
-    public void startElement(final String namespaceURI, final String lName,
-        final String qName, final Attributes attrs) throws SAXException {
+    public void startElement(String namespaceURI, String lName,
+        String qName, Attributes attrs) throws SAXException {
       if ("rev".equals(qName)) {
         timestamp = attrs.getValue("timestamp");
         inRevision = true;
@@ -330,16 +330,16 @@ public class WikipediaQuickCheck {
     }
 
     @Override
-    public void endElement(final String namespaceURI, final String sName,
-        final String qName) throws SAXException {
+    public void endElement(String namespaceURI, String sName,
+        String qName) throws SAXException {
       if ("rev".equals(qName)) {
         inRevision = false;
       }
     }
     
     @Override
-    public void characters(final char[] buf, final int offset, final int len) {
-      final String s = new String(buf, offset, len);
+    public void characters(char[] buf, int offset, int len) {
+      String s = new String(buf, offset, len);
       if (inRevision) {
         revisionText.append(s);
       }

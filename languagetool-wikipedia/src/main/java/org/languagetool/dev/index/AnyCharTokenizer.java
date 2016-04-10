@@ -34,15 +34,17 @@ import java.io.IOException;
 public final class AnyCharTokenizer extends Tokenizer {
 
   private static final int MAX_WORD_LEN = Integer.MAX_VALUE; // extend the word length!
-  private int bufferIndex = 0;
-  private int dataLen = 0;
-  private int offset = 0;
-  private int finalOffset = 0;
+
   private final CharacterUtils.CharacterBuffer ioBuffer = CharacterUtils.newCharacterBuffer(4096);
   private final CharacterUtils charUtils = CharacterUtils.getInstance();
   private final CharTermAttribute termAtt = (CharTermAttribute)this.addAttribute(CharTermAttribute.class);
   private final OffsetAttribute offsetAtt = (OffsetAttribute)this.addAttribute(OffsetAttribute.class);
 
+  private int bufferIndex = 0;
+  private int dataLen = 0;
+  private int offset = 0;
+  private int finalOffset = 0;
+  
   /**
    * Construct a new AnyCharTokenizer.
    */

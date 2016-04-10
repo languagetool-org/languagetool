@@ -54,17 +54,17 @@ class DatabaseHandler extends ResultHandler {
   DatabaseHandler(File propertiesFile, int maxSentences, int maxErrors) {
     super(maxSentences, maxErrors);
 
-    final String insertSql = "INSERT INTO corpus_match " +
+    String insertSql = "INSERT INTO corpus_match " +
             "(version, language_code, ruleid, rule_category, rule_subid, rule_description, message, error_context, small_error_context, corpus_date, " +
             "check_date, sourceuri, source_type, is_visible) "+
             "VALUES (0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
 
-    final Properties dbProperties = new Properties();
+    Properties dbProperties = new Properties();
     try (FileInputStream inStream = new FileInputStream(propertiesFile)) {
       dbProperties.load(inStream);
-      final String dbUrl = getProperty(dbProperties, "dbUrl");
-      final String dbUser = getProperty(dbProperties, "dbUser");
-      final String dbPassword = getProperty(dbProperties, "dbPassword");
+      String dbUrl = getProperty(dbProperties, "dbUrl");
+      String dbUser = getProperty(dbProperties, "dbUser");
+      String dbPassword = getProperty(dbProperties, "dbPassword");
       batchSize = Integer.decode(dbProperties.getProperty("batchSize", "1"));
       conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
       insertSt = conn.prepareStatement(insertSql);
@@ -84,7 +84,7 @@ class DatabaseHandler extends ResultHandler {
   }
 
   private String getProperty(Properties prop, String key) {
-    final String value = prop.getProperty(key);
+    String value = prop.getProperty(key);
     if (value == null) {
       throw new RuntimeException("Required key '" + key + "' not found in properties");
     }
@@ -94,15 +94,15 @@ class DatabaseHandler extends ResultHandler {
   @Override
   protected void handleResult(Sentence sentence, List<RuleMatch> ruleMatches, Language language) {
     try {
-      final java.sql.Date nowDate = new java.sql.Date(new Date().getTime());
+      java.sql.Date nowDate = new java.sql.Date(new Date().getTime());
       for (RuleMatch match : ruleMatches) {
-        final String smallContext = smallContextTools.getContext(match.getFromPos(), match.getToPos(), sentence.getText());
+        String smallContext = smallContextTools.getContext(match.getFromPos(), match.getToPos(), sentence.getText());
         insertSt.setString(1, language.getShortName());
-        final Rule rule = match.getRule();
+        Rule rule = match.getRule();
         insertSt.setString(2, rule.getId());
         insertSt.setString(3, rule.getCategory().getName());
         if (rule instanceof AbstractPatternRule) {
-          final AbstractPatternRule patternRule = (AbstractPatternRule) rule;
+          AbstractPatternRule patternRule = (AbstractPatternRule) rule;
           insertSt.setString(4, patternRule.getSubId());
         } else {
           insertSt.setNull(4, Types.VARCHAR);
@@ -110,7 +110,7 @@ class DatabaseHandler extends ResultHandler {
         insertSt.setString(5, rule.getDescription());
         insertSt.setString(6, StringUtils.abbreviate(match.getMessage(), 255));
 
-        final String context = contextTools.getContext(match.getFromPos(), match.getToPos(), sentence.getText());
+        String context = contextTools.getContext(match.getFromPos(), match.getToPos(), sentence.getText());
         if (context.length() > MAX_CONTEXT_LENGTH) {
           // let's skip these strange cases, as shortening the text might leave us behind with invalid markup etc
           continue;
