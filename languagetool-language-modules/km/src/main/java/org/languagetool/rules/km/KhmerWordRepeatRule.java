@@ -36,7 +36,7 @@ import org.languagetool.rules.RuleMatch;
  */
 public class KhmerWordRepeatRule extends Rule {
 
-  public KhmerWordRepeatRule(final ResourceBundle messages, final Language language) {
+  public KhmerWordRepeatRule(ResourceBundle messages, Language language) {
     super(messages);
     super.setCategory(Categories.MISC.getCategory(messages));
   }
@@ -52,22 +52,22 @@ public class KhmerWordRepeatRule extends Rule {
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    final AnalyzedTokenReadings[] tokensWithWS = sentence.getTokens();
+  public RuleMatch[] match(AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] tokensWithWS = sentence.getTokens();
 
     String prevToken = "";
     // we start from token 1, token 0 is SENT_START 
     for (int i = 1; i < tokens.length; i++) {
-      final String token = tokens[i].getToken();
+      String token = tokens[i].getToken();
       if (isWord(token) && prevToken.equalsIgnoreCase(token) && !ignore(sentence, tokensWithWS, i)) {
-        final int prevPos = tokens[i - 1].getStartPos();
-        final int pos = tokens[i].getStartPos();
-        final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(),
+        int prevPos = tokens[i - 1].getStartPos();
+        int pos = tokens[i].getStartPos();
+        RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(),
                 messages.getString("repetition"),
                 messages.getString("desc_repetition_short"));
-        final List<String> replacements = new ArrayList<>();
+        List<String> replacements = new ArrayList<>();
         replacements.add(prevToken + " " + token); // case 1: replace zero-width space w/ real space 
         replacements.add(prevToken);               // case 2: remove repeated word - same as original suggestion 
         replacements.add(prevToken + "ៗ");        // case 3: same as case 2, just add "repetition character"
@@ -83,7 +83,7 @@ public class KhmerWordRepeatRule extends Rule {
   // avoid "..." etc. to be matched:
   private boolean isWord(String token) {
     if (token.length() == 1) {
-      final char c = token.charAt(0);
+      char c = token.charAt(0);
       if (!Character.isLetter(c)) {
         return false;
       }
@@ -91,8 +91,8 @@ public class KhmerWordRepeatRule extends Rule {
     return true;
   }
 
-  private boolean ignore(final AnalyzedSentence sentence, final AnalyzedTokenReadings[] tokensWithWhiteSpace, final int position) {
-    final int origPos = sentence.getOriginalPosition(position);
+  private boolean ignore(AnalyzedSentence sentence, AnalyzedTokenReadings[] tokensWithWhiteSpace, int position) {
+    int origPos = sentence.getOriginalPosition(position);
     if (position >= 1 && "\u0020".equals(tokensWithWhiteSpace[origPos-1].getToken())) {
       return true;
     }

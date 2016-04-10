@@ -47,7 +47,7 @@ public class PortugueseReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public PortugueseReplaceRule(final ResourceBundle messages) throws IOException {
+  public PortugueseReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("<marker>device</marker>"),

@@ -42,7 +42,7 @@ public class ChineseWordTokenizer implements Tokenizer {
       chinesdJF = CJFBeanFactory.getChineseJF();
     }
     if (seg == null) {
-      final ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+      ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
       try (InputStream coreDictIn = dataBroker.getFromResourceDirAsStream("/zh/coreDict.dct");
            InputStream bigramDictIn = dataBroker.getFromResourceDirAsStream("/zh/BigramDict.dct");
            InputStream personTaggerDctIn = dataBroker.getFromResourceDirAsStream("/zh/nr.dct");
@@ -78,7 +78,7 @@ public class ChineseWordTokenizer implements Tokenizer {
       // and return a empty List.
       return new ArrayList<>();
     }
-    final String[] list = result.split(" ");
+    String[] list = result.split(" ");
     return Arrays.asList(list);
   }
 }

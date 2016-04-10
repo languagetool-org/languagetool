@@ -34,7 +34,7 @@ public class KhmerSpaceBeforeRule extends AbstractSpaceBeforeRule {
   private static final Pattern CONJUNCTIONS = 
           Pattern.compile("ដើម្បី|និង|ពីព្រោះ", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
-  public KhmerSpaceBeforeRule(final ResourceBundle messages, final Language language) {
+  public KhmerSpaceBeforeRule(ResourceBundle messages, Language language) {
     super(messages, language);
   }
 

@@ -33,7 +33,7 @@ import org.languagetool.rules.WordRepeatBeginningRule;
  */
 public class RomanianWordRepeatBeginningRule extends WordRepeatBeginningRule {
 
-  public RomanianWordRepeatBeginningRule(final ResourceBundle messages, final Language language) {
+  public RomanianWordRepeatBeginningRule(ResourceBundle messages, Language language) {
     super(messages, language);
   }
 
@@ -53,9 +53,8 @@ public class RomanianWordRepeatBeginningRule extends WordRepeatBeginningRule {
   }
   
   @Override
-  protected boolean isAdverb(final AnalyzedTokenReadings token) {
+  protected boolean isAdverb(AnalyzedTokenReadings token) {
     boolean isAdverb = false;
-
     List<AnalyzedToken> readings = token.getReadings();
     for (AnalyzedToken analyzedToken : readings) {
       if (analyzedToken.getPOSTag() != null) {

@@ -30,10 +30,10 @@ public class ChineseTagger implements Tagger {
 
   @Override
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) throws IOException {
-    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
+    List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
     for (String word : sentenceTokens) {
-      final List<AnalyzedToken> l = new ArrayList<>();
+      List<AnalyzedToken> l = new ArrayList<>();
       AnalyzedToken at = asAnalyzedToken(word);
       l.add(at);
       tokenReadings.add(new AnalyzedTokenReadings(l, pos));
@@ -43,7 +43,7 @@ public class ChineseTagger implements Tagger {
   }
 
   @Override
-  public final AnalyzedTokenReadings createNullToken(final String token, final int startPos) {
+  public final AnalyzedTokenReadings createNullToken(String token, int startPos) {
     return new AnalyzedTokenReadings(new AnalyzedToken(token, null, null), startPos);
   }
 
@@ -52,7 +52,7 @@ public class ChineseTagger implements Tagger {
     return new AnalyzedToken(token, posTag, null);
   }
 
-  private AnalyzedToken asAnalyzedToken(final String word) {
+  private AnalyzedToken asAnalyzedToken(String word) {
     if (!word.contains("/")) {
       return new AnalyzedToken(" ", null, null);
     }

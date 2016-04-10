@@ -30,7 +30,7 @@ import org.languagetool.rules.DoublePunctuationRule;
  */
 public class PersianDoublePunctuationRule extends DoublePunctuationRule {
 
-  public PersianDoublePunctuationRule(final ResourceBundle messages) {
+  public PersianDoublePunctuationRule(ResourceBundle messages) {
     super(messages);
   }
   

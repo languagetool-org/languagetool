@@ -45,7 +45,7 @@ public class EsperantoWordTokenizer extends WordTokenizer {
    *         during tokenizing.
    */
   @Override
-  public List<String> tokenize(final String text) {
+  public List<String> tokenize(String text) {
     // TODO: find a cleaner implementation, this is a hack
 
     String replaced = text.replaceAll(
@@ -53,7 +53,7 @@ public class EsperantoWordTokenizer extends WordTokenizer {
         "$1\u0001\u0001EO_APOS1\u0001\u0001").replaceAll(
             "(?<!')\\b([a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ]+)'(?=[a-zA-ZĉĝĥĵŝŭĈĜĤĴŜŬ-])",
             "$1\u0001\u0001EO_APOS2\u0001\u0001 ");
-    final List<String> tokenList = super.tokenize(replaced);
+    List<String> tokenList = super.tokenize(replaced);
     List<String> tokens = new ArrayList<>();
 
     // Put back apostrophes and remove spurious spaces.

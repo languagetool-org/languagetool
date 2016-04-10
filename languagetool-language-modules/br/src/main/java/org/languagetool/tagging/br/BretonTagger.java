@@ -66,12 +66,12 @@ public class BretonTagger extends BaseTagger {
   // dictionary fails, it retry without the suffixes
   // -mañ, -se, -hont.
   @Override
-  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
+  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens)
   throws IOException {
     List<AnalyzedToken> taggerTokens;
     List<AnalyzedToken> lowerTaggerTokens;
     List<AnalyzedToken> upperTaggerTokens;
-    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
+    List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
 
     Matcher matcher;
@@ -81,11 +81,11 @@ public class BretonTagger extends BaseTagger {
       // This loop happens when we need to retry probing the dictionary
       // which happens rarely when trying to remove suffixes -mañ, -se, etc.
       for (;;) {
-        final List<AnalyzedToken> l = new ArrayList<>();
-        final String lowerWord = probeWord.toLowerCase(conversionLocale);
+        List<AnalyzedToken> l = new ArrayList<>();
+        String lowerWord = probeWord.toLowerCase(conversionLocale);
         taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(probeWord));
         lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(lowerWord));
-        final boolean isLowercase = probeWord.equals(lowerWord);
+        boolean isLowercase = probeWord.equals(lowerWord);
 
         // Normal case.
         addTokens(taggerTokens, l);
@@ -125,7 +125,7 @@ public class BretonTagger extends BaseTagger {
 
   }
 
-  private void addTokens(final List<AnalyzedToken> taggedTokens, final List<AnalyzedToken> l) {
+  private void addTokens(List<AnalyzedToken> taggedTokens, List<AnalyzedToken> l) {
     if (taggedTokens != null) {
       for (AnalyzedToken at : taggedTokens) {
         l.add(at);

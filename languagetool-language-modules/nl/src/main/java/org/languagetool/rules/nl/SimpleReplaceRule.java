@@ -48,7 +48,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
+  public SimpleReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
     setLocQualityIssueType(ITSIssueType.Misspelling);
     setCategory(new Category(new CategoryId("VERGISSINGEN"), "Vergissingen"));

@@ -50,7 +50,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
+  public SimpleReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
   }
 
