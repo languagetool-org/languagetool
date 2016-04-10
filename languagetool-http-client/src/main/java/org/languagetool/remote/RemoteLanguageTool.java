@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Check a text with a remote LanguageTool server.
+ * Check a text with a remote LanguageTool server via HTTP or HTTPS.
  * Our public HTTPS API and its restrictions are documented
  * <a href="http://wiki.languagetool.org/public-http-api">in our wiki</a>.
  * @since 3.4
@@ -112,7 +112,7 @@ public class RemoteLanguageTool {
     }
   }
 
-  private static String readStream(InputStream stream, String encoding) throws IOException {
+  private String readStream(InputStream stream, String encoding) throws IOException {
     StringBuilder sb = new StringBuilder();
     try (InputStreamReader isr = new InputStreamReader(stream, encoding);
          BufferedReader br = new BufferedReader(isr)) {

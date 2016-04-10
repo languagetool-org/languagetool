@@ -19,11 +19,23 @@
 package org.languagetool.remote;
 
 import org.junit.Test;
+import org.languagetool.server.HTTPSServer;
+import org.languagetool.server.HTTPSServerConfig;
 import org.languagetool.server.HTTPServer;
 import org.languagetool.server.HTTPServerConfig;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
+import java.util.Collections;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
@@ -75,7 +87,40 @@ public class RemoteLanguageToolIntegrationTest {
       server.stop();
     }
   }
-  
+
+  @Test
+  public void testClientWithHTTPS() throws MalformedURLException, KeyManagementException, NoSuchAlgorithmException {
+    disableCertChecks();
+    String keyStore = RemoteLanguageToolIntegrationTest.class.getResource("/org/languagetool/remote/test-keystore.jks").getFile();
+    HTTPSServerConfig config = new HTTPSServerConfig(new File(keyStore), "mytest");
+    HTTPSServer server = new HTTPSServer(config, false, "localhost", Collections.singleton("127.0.0.1"));
+    try {
+      server.run();
+      RemoteLanguageTool lt = new RemoteLanguageTool(new URL(serverUrl.replace("http:", "https:")));
+      assertThat(lt.check("This is a correct sentence.", "en").getMatches().size(), is(0));
+    } finally {
+      server.stop();
+    }
+  }
+
+  private void disableCertChecks() throws NoSuchAlgorithmException, KeyManagementException {
+    TrustManager[] trustAllCerts = {
+      new X509TrustManager() {
+        @Override
+        public X509Certificate[] getAcceptedIssuers() {
+          return null;
+        }
+        @Override
+        public void checkClientTrusted(X509Certificate[] certs, String authType) {}
+        @Override
+        public void checkServerTrusted(X509Certificate[] certs, String authType) {}
+      }
+    };
+    SSLContext sc = SSLContext.getInstance("SSL");
+    sc.init(null, trustAllCerts, new SecureRandom());
+    HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+  }
+
   @Test(expected=RuntimeException.class)
   public void testInvalidServer() throws MalformedURLException {
     RemoteLanguageTool lt = new RemoteLanguageTool(new URL("http://does-not-exist"));
