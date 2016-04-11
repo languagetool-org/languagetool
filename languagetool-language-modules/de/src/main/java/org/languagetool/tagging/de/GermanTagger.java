@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -86,7 +87,7 @@ public class GermanTagger extends BaseTagger {
       List<TaggedWord> taggerTokens = getWordTagger().tag(word);
       if (firstWord && taggerTokens.size() == 0 && ignoreCase) { // e.g. "Das" -> "das" at start of sentence
         taggerTokens = getWordTagger().tag(word.toLowerCase());
-        firstWord = false;
+        firstWord = StringUtils.isBlank(word);
       }
       if (taggerTokens.size() > 0) {
         l.addAll(getAnalyzedTokens(taggerTokens, word));
