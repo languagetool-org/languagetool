@@ -52,23 +52,41 @@ public class RemoteLanguageTool {
 
   /**
    * @param text the text to be checked
-   * @param fallbackLangCode the language code of that language to be assumed if language detection fails, e.g. because the text is too short
-   */
-  public RemoteResult checkWithLanguageGuessing(String text, String fallbackLangCode) {
-    return check(getUrlParams(text, fallbackLangCode) + "&autodetect=1");
-  }
-
-  /**
-   * @param text the text to be checked
    * @param langCode the language code like {@code en} or {@code en-US} - <strong>note that for some languages (like English) you
    *                 need to specify the country code (like {@code US} or {@code GB}) to get spell checking</strong>
    */
   public RemoteResult check(String text, String langCode) {
-    return check(getUrlParams(text, langCode));
+    return check(getUrlParams(text, new CheckConfigurationBuilder(langCode).build()));
   }
 
-  private String getUrlParams(String text, String langCode) {
-    return "language=" + langCode + "&text=" + text + "&useragent=java-http-client";
+  /**
+   * @param text the text to be checked
+   */
+  public RemoteResult check(String text, CheckConfiguration config) {
+    return check(getUrlParams(text, config));
+  }
+
+  private String getUrlParams(String text, CheckConfiguration config) {
+    StringBuilder params = new StringBuilder();
+    params.append("language=").append(config.getLangCode())
+          .append("&text=").append(text);
+    if (config.getMotherTongueLangCode() != null) {
+      params.append("&motherTongue=").append(config.getMotherTongueLangCode());
+    }
+    if (config.guessLanguage()) {
+      params.append("&autodetect=1");
+    }
+    if (config.getEnabledRuleIds().size() > 0) {
+      params.append("&enabled=").append(String.join(",", config.getEnabledRuleIds()));
+    }
+    if (config.enabledOnly()) {
+      params.append("&enabledOnly=yes");
+    }
+    if (config.getDisabledRuleIds().size() > 0) {
+      params.append("&disabled=").append(String.join(",", config.getDisabledRuleIds()));
+    }
+    params.append("&useragent=java-http-client");
+    return params.toString();
   }
 
   private RemoteResult check(String urlParameters) {

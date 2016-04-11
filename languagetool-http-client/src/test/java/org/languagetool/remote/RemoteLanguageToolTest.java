@@ -32,17 +32,16 @@ import static org.junit.Assert.assertThat;
 
 public class RemoteLanguageToolTest { 
 
-  @SuppressWarnings("ConstantConditions")
   @Test
   public void testResultParsing() throws IOException {
     RemoteLanguageTool lt = new FakeRemoteLanguageTool(new URL("http://fake"));
     RemoteResult result1 = lt.check("some text, reply is hard-coded anyway", "en");
     runAsserts(result1);
-    RemoteResult result2 = lt.checkWithLanguageGuessing("some text, reply is hard-coded anyway", "en");
+    CheckConfiguration config = new CheckConfigurationBuilder("en").autoDetectLanguage().build();
+    RemoteResult result2 = lt.check("some text, reply is hard-coded anyway", config);
     runAsserts(result2);
   }
 
-  @SuppressWarnings("ConstantConditions")
   private void runAsserts(RemoteResult result) {
     assertThat(result.getLanguage(), is("English (US)"));
     assertThat(result.getLanguageCode(), is("en-US"));

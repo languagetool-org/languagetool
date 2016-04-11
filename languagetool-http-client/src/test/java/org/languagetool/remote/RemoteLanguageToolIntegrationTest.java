@@ -68,14 +68,34 @@ public class RemoteLanguageToolIntegrationTest {
       assertThat(result1.getMatches().get(0).getRuleId(), is("EN_A_VS_AN"));
       assertThat(result1.getMatches().get(1).getRuleId(), is("ENGLISH_WORD_REPEAT_RULE"));
 
-      RemoteResult result2 = lt.checkWithLanguageGuessing("Ein Satz in Deutsch, mit etwas mehr Text, damit es auch geht.", "en");
-      assertThat(result2.getLanguage(), is("German (Germany)"));
-      assertThat(result2.getLanguageCode(), is("de-DE"));
-      
-      RemoteResult result3 = lt.checkWithLanguageGuessing("x", "fr");  // too short, fallback will be used
-      assertThat(result3.getLanguage(), is("French"));
-      assertThat(result3.getLanguageCode(), is("fr"));
-      
+      CheckConfiguration disabledConfig = new CheckConfigurationBuilder("en").disabledRuleIds("EN_A_VS_AN").build();
+      RemoteResult result2 = lt.check("A sentence with a error, and and another one", disabledConfig);
+      assertThat(result2.getMatches().size(), is(1));
+      assertThat(result2.getMatches().get(0).getRuleId(), is("ENGLISH_WORD_REPEAT_RULE"));
+
+      CheckConfiguration enabledConfig = new CheckConfigurationBuilder("en").enabledRuleIds("EN_A_VS_AN").build();
+      RemoteResult result3 = lt.check("A sentence with a error, and and another one", enabledConfig);
+      assertThat(result1.getMatches().size(), is(2));
+
+      CheckConfiguration enabledOnlyConfig = new CheckConfigurationBuilder("en").enabledRuleIds("EN_A_VS_AN").enabledOnly().build();
+      RemoteResult result4 = lt.check("A sentence with a error, and and another one", enabledOnlyConfig);
+      assertThat(result4.getMatches().size(), is(1));
+      assertThat(result4.getMatches().get(0).getRuleId(), is("EN_A_VS_AN"));
+
+      CheckConfiguration config1 = new CheckConfigurationBuilder("en").autoDetectLanguage().build();
+      RemoteResult result5 = lt.check("Ein Satz in Deutsch, mit etwas mehr Text, damit es auch geht.", config1);
+      assertThat(result5.getLanguage(), is("German (Germany)"));
+      assertThat(result5.getLanguageCode(), is("de-DE"));
+
+      CheckConfiguration config2 = new CheckConfigurationBuilder("fr").autoDetectLanguage().build();
+      RemoteResult result6 = lt.check("x", config2);  // too short, fallback will be used
+      assertThat(result6.getLanguage(), is("French"));
+      assertThat(result6.getLanguageCode(), is("fr"));
+
+      RemoteResult result7 = lt.check("Das Häuser ist schön.", "de");
+      assertThat(result7.getMatches().size(), is(1));
+      assertThat(result7.getMatches().get(0).getRuleId(), is("DE_AGREEMENT"));
+
       try {
         System.err.println("=== Testing invalid language code - ignore the following exception: ===");
         lt.check("foo", "xy");
