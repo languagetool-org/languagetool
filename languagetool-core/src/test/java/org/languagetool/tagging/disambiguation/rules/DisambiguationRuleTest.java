@@ -149,7 +149,7 @@ public class DisambiguationRuleTest extends TestCase {
                   .getRawAnalyzedSentence(cleanXML(example.getExample()))));
           assertTrue(
               "Disambiguated sentence is equal to the non-disambiguated sentence for rule: "
-                  + id, !cleanInput.equals(disambiguatedSent));
+                  + id + ". The sentence was: " + sent, !cleanInput.equals(disambiguatedSent));
           assertTrue(
               "Disambiguated sentence is equal to the input sentence for rule: "
                   + id + ". The sentence was: " + sent, !sent.equals(disambiguatedSent));
