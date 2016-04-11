@@ -72,8 +72,7 @@ public class CheckConfigurationBuilder {
   }
 
   public CheckConfigurationBuilder enabledRuleIds(String... ruleIds) {
-    this.enabledRuleIds = Arrays.asList(ruleIds);
-    return this;
+    return enabledRuleIds(Arrays.asList(ruleIds));
   }
 
   public CheckConfigurationBuilder enabledOnly() {
@@ -87,8 +86,7 @@ public class CheckConfigurationBuilder {
   }
   
   public CheckConfigurationBuilder disabledRuleIds(String... ruleIds) {
-    this.disabledRuleIds = Arrays.asList(ruleIds);
-    return this;
+    return disabledRuleIds(Arrays.asList(ruleIds));
   }
   
 }

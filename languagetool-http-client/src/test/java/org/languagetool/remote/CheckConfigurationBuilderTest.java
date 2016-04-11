@@ -51,4 +51,9 @@ public class CheckConfigurationBuilderTest {
     assertThat(config2.guessLanguage(), is(true));
   }
 
+  @Test(expected = IllegalStateException.class)
+  public void testInvalidConfig() {
+    new CheckConfigurationBuilder("xx").enabledOnly().build();
+  }
+
 }
