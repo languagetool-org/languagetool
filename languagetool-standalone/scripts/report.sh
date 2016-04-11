@@ -28,7 +28,7 @@ CHROME=`grep -c "chrome-extension" $TMPFILE`
 printf "Chrome Requests   : %'d\n" $CHROME >>$OUTFILE
 
 ANDROID=`grep -c "androidspell" $TMPFILE`
-printf "Android Requests   : %'d\n" $ANDROID >>$OUTFILE
+printf "Android Requests  : %'d\n" $ANDROID >>$OUTFILE
 
 echo "$DATE2;$TOTAL;$FF;$CHROME;$ANDROID" >>/home/languagetool/api/api-log.csv
 
@@ -39,6 +39,7 @@ echo "too many requests (Android): `grep -c 'androidspell.*too many requests' $T
 
 DATE_APACHE=`LANG=C date +"%a %b %d"`
 YEAR=`date +"%Y"`
-echo "no buffer (Apache)         : `grep \"$DATE_APACHE\" /var/log/apache2/error.log | grep $YEAR | grep -c \"No buffer space available\"`" >>$OUTFILE
+# note: requires a root cronjob to copy the error.log file to ~/api/apache_error.log:
+echo "no buffer (Apache)         : `grep \"$DATE_APACHE\" /home/languagetool/api/apache_error.log | grep $YEAR | grep -c \"No buffer space available\"`" >>$OUTFILE
 
 cat $OUTFILE | mail -a 'Content-Type: text/plain; charset=utf-8' -s "LanguageTool API Report" daniel.naber@languagetool.org
