@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.149 2016-04-06 08:01:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.150 2016-04-11 08:40:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -202,7 +202,22 @@ $Id: grammar.xml,v 1.149 2016-04-06 08:01:00 marcoagpinto Exp $
      <example correction="Os"><marker>O</marker> cães estão no pasto.</example>
     </rule> 	
 	
-	
+
+
+	<!-- Concordance error plural - PROCURA-SE > PROCURAM-SE -->
+    <rule id="PROCURA_SE-PROCURAM_SE" name="Erro de concordânica do plural PROCURA-SE > PROCURAM-SE">
+      <pattern>
+		<marker>
+			<token>procura-se</token>	  
+		</marker>
+		<token postag_regexp="yes"  postag="NCFP000|NCMP000|AQ0FP0|AQ0MP0"></token> 	
+     </pattern>	 	 
+     <message>Erro de concordância do plural.</message>
+     <suggestion>procuram-se</suggestion>
+     <example correction="procuram-se">Aqui <marker>procura-se</marker> pessoas sérias.</example>	 	 
+    </rule> 
+
+
 	
     <!-- Concordance gender - UM > UMA -->
     <rule id="UM_UMA" name="Erro de concordância UM-UMA">
@@ -2522,8 +2537,8 @@ $Id: grammar.xml,v 1.149 2016-04-06 08:01:00 marcoagpinto Exp $
       <example correction="aí">Vou por <marker>ai</marker> fora a cantar.</example>
     </rule>
 
-	
 
+	
     <!-- POR CAUSA QUE porque -->
     <rule id="POR_CAUSA_QUE" name="porque">
       <pattern>
