@@ -29,6 +29,8 @@
     process now stops instead of being in an unstable state
   * missing parameters (like `text`) now cause a `400 Bad Request`
     response (it used to produce `500 Internal Server Error`)
+  * to turn on language auto-detection, `autodetect=yes` can now be
+    used instead of `autodetect=1` (to be consistent with `enabledOnly=yes`)
 
 
 

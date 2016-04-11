@@ -485,9 +485,9 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (afterTheDeadlineMode) {
       return "true".equals(parameters.get("guess"));
     } else {
-      boolean autoDetect = "1".equals(parameters.get("autodetect"));
+      boolean autoDetect = "1".equals(parameters.get("autodetect")) || "yes".equals(parameters.get("autodetect"));
       if (parameters.get("language") == null && !autoDetect) {
-        throw new IllegalArgumentException("Missing 'language' parameter. Specify language or use autodetect=1 for auto-detecting the language of the input text.");
+        throw new IllegalArgumentException("Missing 'language' parameter. Specify language or use 'autodetect=yes' for auto-detecting the language of the input text.");
       }
       return autoDetect;
     }
