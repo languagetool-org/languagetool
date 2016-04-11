@@ -45,11 +45,12 @@ import static org.junit.Assert.fail;
 
 public class RemoteLanguageToolIntegrationTest {
 
-  private static final String serverUrl = "http://" + HTTPServerConfig.DEFAULT_HOST + ":" + HTTPServerConfig.DEFAULT_PORT;
+  private static final String serverUrl = "http://" + HTTPServerConfig.DEFAULT_HOST + ":" + HTTPTools.getDefaultPort();
 
   @Test
   public void testClient() throws MalformedURLException {
-    HTTPServer server = new HTTPServer();
+    HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort());
+    HTTPServer server = new HTTPServer(config);
     try {
       server.run();
       RemoteLanguageTool lt = new RemoteLanguageTool(new URL(serverUrl));
@@ -112,7 +113,7 @@ public class RemoteLanguageToolIntegrationTest {
   public void testClientWithHTTPS() throws MalformedURLException, KeyManagementException, NoSuchAlgorithmException {
     disableCertChecks();
     String keyStore = RemoteLanguageToolIntegrationTest.class.getResource("/org/languagetool/remote/test-keystore.jks").getFile();
-    HTTPSServerConfig config = new HTTPSServerConfig(new File(keyStore), "mytest");
+    HTTPSServerConfig config = new HTTPSServerConfig(HTTPTools.getDefaultPort(), false, new File(keyStore), "mytest");
     HTTPSServer server = new HTTPSServer(config, false, "localhost", Collections.singleton("127.0.0.1"));
     try {
       server.run();
