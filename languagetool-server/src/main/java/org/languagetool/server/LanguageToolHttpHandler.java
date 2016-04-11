@@ -450,6 +450,9 @@ class LanguageToolHttpHandler implements HttpHandler {
       if (motherTongue != null) {
         languageMessage += " (mother tongue: " + motherTongue.getShortNameWithCountryAndVariant() + ")";
       }
+      if (autoDetectLanguage) {
+        languageMessage += "[auto]";
+      }
     } catch (IOException exception) {
       // the client is disconnected
       messageSent = "notSent: " + exception.getMessage();
@@ -497,7 +500,6 @@ class LanguageToolHttpHandler implements HttpHandler {
     Language lang;
     if (autoDetect) {
       lang = detectLanguageOfString(text, langParam);
-      print("Auto-detected language: " + lang.getShortNameWithCountryAndVariant());
     } else {
       if (afterTheDeadlineMode) {
         lang = afterTheDeadlineLanguage;
