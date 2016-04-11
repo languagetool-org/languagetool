@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Check a text with a remote LanguageTool server via HTTP or HTTPS.
+ * Check a text using a <a href="http://wiki.languagetool.org/http-server">remote LanguageTool server</a> via HTTP or HTTPS.
  * Our public HTTPS API and its restrictions are documented
  * <a href="http://wiki.languagetool.org/public-http-api">in our wiki</a>.
  * @since 3.4

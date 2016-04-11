@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Configuration for checking a text.
+ * Configuration for checking a text with {@link RemoteLanguageTool}.
  * @since 3.4
  */
 public class CheckConfiguration {
