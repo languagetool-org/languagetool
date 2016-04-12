@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="http://marcinmilkowski.pl/print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+Polish Grammar and Typo Rules for LanguageTool
+Copyright (C) 2016 Trinity College, Dublin
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+-->
+
+<!DOCTYPE rules [
+        <!ENTITY nbsp " ">
+        <!ENTITY apost "['`’]">
+        ]>
+<rules lang="ga" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <category id="TEST" name="Test" type="typographical">
+        <rulegroup id="TESTRULES" name="Test rules">
+            <rule id="FEAR_NOT_FEARR" name="fear not fearr">
+                <pattern>
+                    <token inflected='yes' postag='Verb'>bí</token>
+                    <token>an</token>
+                    <marker>
+                        <token>fearr</token>
+                    </marker>
+                </pattern>
+                <message></message>
+                <example correction='bhí an fear ann'>bhí an <marker>fearr</marker> ann</example>
+                <example>bhí an fear ann</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CONTRACTIONS" name="Contractions">
+            <rule id="LE_ME_LIOM" name="le + mé = liom">
+                <pattern>
+                    <marker>
+                        <token>le</token>
+                        <token>mé</token>
+                    </marker>
+                </pattern>
+                <message></message>
+                <example correction='Dúirt sé liom'>Dúirt sé <marker>le mé</marker></example>
+                <example>Dúirt sé liom</example>
+            </rule>
+            <rule id="LE_TU_LEAT" name="le + tú = leat">
+                <pattern>
+                    <marker>
+                        <token>le</token>
+                        <token regexp="yes">tú|thú</token>
+                    </marker>
+                </pattern>
+                <message></message>
+                <example correction='Dúirt sé leat'>Dúirt sé <marker>le tú</marker></example>
+                <example>Dúirt sé leat</example>
+            </rule>
+        </rulegroup>
+    </category>
+</rules>
