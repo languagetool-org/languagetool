@@ -142,16 +142,15 @@ public class HTTPSServer extends Server {
       printCommonOptions();
       System.exit(1);
     }
-    boolean runInternal = false;
     try {
       HTTPSServerConfig config = new HTTPSServerConfig(args);
       try {
         HTTPSServer server;
         if (config.isPublicAccess()) {
           System.out.println("WARNING: running in public mode, LanguageTool API can be accessed without restrictions!");
-          server = new HTTPSServer(config, runInternal, null, null);
+          server = new HTTPSServer(config, false, null, null);
         } else {
-          server = new HTTPSServer(config, runInternal, DEFAULT_HOST, DEFAULT_ALLOWED_IPS);
+          server = new HTTPSServer(config, false, DEFAULT_HOST, DEFAULT_ALLOWED_IPS);
         }
         server.run();
       } catch (Exception e) {
