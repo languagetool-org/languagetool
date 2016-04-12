@@ -42,4 +42,45 @@
         </pattern>
         <disambig action="filterall"></disambig>
     </rule>
+    <rule id="MAR_GHEALL_AR" name="mar gheall ar">
+        <pattern>
+            <marker>
+                <token postag="Prep:Simp">mar</token>
+                <token postag="Noun:Masc:Com:Sg:Len">gheall</token>
+            </marker>
+            <token regexp="yes">ar|air</token>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="AR_CHOR_AR_BITH" name="ar chor ar bith">
+        <pattern>
+            <marker>
+                <token postag="Prep:Simp">ar</token>
+                <token regexp="yes" postag="Noun:Masc:Com:Sg|Noun:Masc:Com:Sg:Len" postag_regexp="yes">cor|chor</token>
+                <token postag="Prep:Simp">ar</token>
+                <token postag="Noun:Masc:Com:Sg">bith</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="AON_CHOR" name="aon chor">
+        <pattern>
+            <marker>
+                <token postag="Det:Qty">aon</token>
+                <token regexp="yes" postag="Noun:Masc:Com:Sg|Noun:Masc:Com:Sg:Len" postag_regexp="yes">cor|chor</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <!--
+    <rule id="GO_DEIMHIN" name="go deimhin">
+        <pattern>
+            <marker>
+                <token postag="Part:Ad">go</token>
+                <token postag="Adj:Base">deimhin</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    -->
 </rules>
