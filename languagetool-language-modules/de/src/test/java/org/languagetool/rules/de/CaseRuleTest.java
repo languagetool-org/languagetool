@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
 
 public class CaseRuleTest extends TestCase {
 
@@ -34,12 +34,12 @@ public class CaseRuleTest extends TestCase {
 
   @Override
   public void setUp() throws IOException {
-    rule = new CaseRule(TestTools.getMessages("de"), new German());
-    langTool = new JLanguageTool(new German());
+    rule = new CaseRule(TestTools.getMessages("de"), new GermanyGerman());
+    langTool = new JLanguageTool(new GermanyGerman());
   }
 
   public void testRuleActivation() throws IOException {
-    assertTrue(rule.supportsLanguage(new German()));
+    assertTrue(rule.supportsLanguage(new GermanyGerman()));
   }
 
   public void testRule() throws IOException {
@@ -169,6 +169,7 @@ public class CaseRuleTest extends TestCase {
     assertGood("Es hilft, die Harmonie zwischen Führer und Geführten zu stützen.");
     assertGood("Das Gebäude des Auswärtigen Amts.");
     assertGood("Das Gebäude des Auswärtigen Amtes.");
+    assertGood("   Im Folgenden beschreibe ich das Haus."); // triggers WHITESPACE_RULE, but should not trigger CASE_RULE (see github #258)
     //assertBad("Peter Peterson, dessen Namen auf griechisch Stein bedeutet.");
   }
 
