@@ -47,7 +47,10 @@ public class IrishDisambiguationRuleTest extends DisambiguationRuleTest {
 
     public void testChunker() throws IOException {
         TestTools.myAssert("As sin amach.",
-                "/[null]SENT_START As/[as]Prep:Simp sin/[sin]Pron:Dem amach[amach]Adv:Dir ./[null]null",
+                "/[null]SENT_START As/[as]Prep:Simp  /[null]null sin/[sin]Pron:Dem  /[null]null amach/[amach]Adv:Dir ./[null]null",
+                tokenizer, sentenceTokenizer, tagger, disambiguator);
+        TestTools.myAssert("Dé Luain.",
+                "/[null]SENT_START Dé/[Dé]Subst:Noun:Sg  /[null]null Luain/[Luan]Noun:Masc:Gen:Sg|Luain/[luan]Noun:Masc:Gen:Sg ./[null]null",
                 tokenizer, sentenceTokenizer, tagger, disambiguator);
     }
 
