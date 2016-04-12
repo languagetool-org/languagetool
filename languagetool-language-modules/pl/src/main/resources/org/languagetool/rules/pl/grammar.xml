@@ -9126,6 +9126,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="STYLE" name="Błędy leksykalne" type="style">
+        <rule id="W_KONTRASCIE_DO" name="„w kontraście do” (w przeciwieństwie do, w odróżnieniu od)">
+         <pattern>
+          <token>w</token>
+          <token>kontraście</token>
+          <token>do</token>
+         </pattern>
+         <message>To wyrażenie jest zwykle anglicyzmem. Najczęściej lepiej napisać: <suggestion>w przeciwieństwie do</suggestion>, <suggestion>w odróżnieniu od</suggestion>, <suggestion>na tle</suggestion>.</message>
+         <short>Anglicyzm</short>
+         <example correction='w przeciwieństwie do|w odróżnieniu od|na tle'>Medytacja <marker>w kontraście do</marker> nich może się wydawać nudna, nieciekawa.</example> 
+        </rule>
         <rule id="DODATKOWO_CO_WIECEJ" name="„dodatkowo” (co więcej)">
          <pattern case_sensitive='yes'>
           <token postag='SENT_START'></token>
