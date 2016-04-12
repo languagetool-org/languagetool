@@ -137,7 +137,7 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("буде-таки", "буде-таки/[бути]verb:imperf:futr:s:3", tokenizer, tagger);
     TestTools.myAssert("оцей-от", "оцей-от/[оцей]adj:m:v_naz:&pron:dem|оцей-от/[оцей]adj:m:v_zna:rinanim:&pron:dem", tokenizer, tagger);
     TestTools.myAssert("оттакий-то", "оттакий-то/[оттакий]adj:m:v_naz:&pron:dem:rare|оттакий-то/[оттакий]adj:m:v_zna:rinanim:&pron:dem:rare", tokenizer, tagger);
-    TestTools.myAssert("геть-то", "геть-то/[геть]adv|геть-то/[геть]part", tokenizer, tagger);
+    TestTools.myAssert("геть-то", "геть-то/[геть]adv", tokenizer, tagger);
     TestTools.myAssert("ану-бо", "ану-бо/[ану]excl|ану-бо/[ану]part", tokenizer, tagger);
     TestTools.myAssert("годі-бо", "годі-бо/[годі]predic", tokenizer, tagger);
     TestTools.myAssert("гей-но", "гей-но/[гей]excl", tokenizer, tagger);
@@ -157,6 +157,7 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("жило-було", "жило-було/[жити-бути]verb:imperf:past:n", tokenizer, tagger);
     TestTools.myAssert("учиш-учиш", "учиш-учиш/[учити-учити]verb:imperf:pres:s:2:v-u", tokenizer, tagger);
 
+    TestTools.myAssert("Га-га", "Га-га/[га-га]excl", tokenizer, tagger);
     TestTools.myAssert("вгору-вниз", "вгору-вниз/[вгору-вниз]adv:v-u", tokenizer, tagger);
 
     TestTools.myAssert("низенько-низенько", "низенько-низенько/[низенько-низенько]adv", tokenizer, tagger);
@@ -256,6 +257,14 @@ public class UkrainianTaggerTest extends TestCase {
     // бабці-Австрії
     // змагання зі слалому-гіганту
     // голосувати за Тимошенко-прем’єра
+  }
+
+  public void testDynamicTaggingSkip() throws IOException {
+    TestTools.myAssert("йо-га", "йо-га/[null]null", tokenizer, tagger);
+    TestTools.myAssert("с-г", "с-г/[null]null", tokenizer, tagger);
+//    TestTools.myAssert("де-куди", "де-куди/[null]null", tokenizer, tagger);
+    TestTools.myAssert("чи-то", "чи-то/[null]null", tokenizer, tagger);
+//    TestTools.myAssert("як-то", "як-то/[null]null", tokenizer, tagger);
   }
 
 }
