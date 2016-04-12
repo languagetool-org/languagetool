@@ -5514,9 +5514,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Powszechnie uznaje się, że technologie językowe to jedna z kluczowych dziedzin.</example>
 						<example correction="To"><marker>Te</marker> milczenie jest męczące.</example>
 						<example correction="To"><marker>Te</marker> dziecko zachowuje się grzecznie.</example>
-                        <example>Mają one coś wspólnego z jego przyjacielem Hathim.</example>
-                        <example>Wydaliśmy huczne przyjęcie.</example>
-                    <example>Umożliwiają nam one wyjaśnianie własnego zachowania retrospekcyjnie.</example>
+            <example>Mają one coś wspólnego z jego przyjacielem Hathim.</example>
+            <example>Wydaliśmy huczne przyjęcie.</example>
+            <example>Umożliwiają nam one wyjaśnianie własnego zachowania retrospekcyjnie.</example>
+            <example>Czy mogę zobaczyć pańskie prawo jazdy?</example>
 				</rule>
 				<rulegroup id="PIERWSZY_STYCZEN_1993" name="Błędna odmiana miesiąca w datach, np. 1 styczeń 2010 (1 stycznia)">
 						<rule>
@@ -7130,6 +7131,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                <example>Jednak w przypadku Wizard’s Tower oba są poprawne.</example>
                <example>Atlanta i cały stan Georgia znane są ze swojej tolerancji wobec mniejszości seksualnych.</example>
                <example>Spekulowano też, że miejsce Leszka Spalińskiego mogą zająć Tomasz Wołek lub Jarosław Gugała.</example>
+               <example>Co piątek idą się napić.</example>
             </rule>
             <rule id="NIEWLASCIWA_KONCOWKA_PRZYPADKU_ORZECZNIKA" name="Niewłaściwa końcówka przypadku orzecznika">
                 <antipattern>
@@ -7171,6 +7173,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Jest lekarz za darmochę, więc do niego kto żyw.</example>
                 <example>Jest inteligent, artysta, robotnik, chłop, prosta dziewczyna...</example>
                 <example>A "kwintesencją brytyjskiego biznesmena" jest prezes Anglo-American Conglomerate lord Hanson.</example>
+                <example>Jest bogaty, więc może sobie na wszystko pozwolić.</example>
             </rule>
             <rule id="NIEPOPRAWNA_FORMA_CZASOWNIKA_PO_BY" name="Niepoprawna forma czasownika po „by”">
                 <pattern>
@@ -9084,6 +9087,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="STYLE" name="Błędy leksykalne" type="style">
+        <rule id="NADER_WSZYSTKO_NADE_WSZYSTKO" name="„nader wszystko” (nade wszystko)">
+         <pattern>
+          <token>nader</token>
+          <marker>
+          <token>wszystko</token>
+          </marker>
+         </pattern>
+         <message>Ten wyraz pisze się: <suggestion>nade</suggestion> (nader = wyjątkowo).</message>
+         <short>Błąd leksykalny</short>
+         <example correction='nade'>Daria lubiła z nim przebywać, był szczery do bólu i nader <marker>wszystko</marker> szanował swoją rodzinę, co było godne podziwu.</example> 
+        </rule>
         <rule id="OSIAGNAC_POSTEP" name="„osiągnąć postęp” (dokonać postępu)">
          <pattern>
           <token inflected='yes'>osiągnąć</token>
@@ -18299,6 +18313,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <short>Prawdopodobna literówka</short>
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
+        </rule>
+        <rule id="WARZYWA_NA_PATELNIE" name="„warzywa na patelnie” (na patelnię)">
+         <pattern>
+          <token inflected='yes'>warzywo</token>
+          <token>na</token>
+          <marker>
+          <token>patelnie</token>
+          </marker>
+         </pattern>
+         <message>Literówka: <suggestion>patelnię</suggestion>.</message>
+         <short>Prawdopodobna literówka</short>
+         <example correction='patelnię'>Warzywa na <marker>patelnie</marker></example>
+        </rule>
+        <rule id="O_BAJ_OBAJ" name="„o baj” (obaj)">
+         <pattern>
+          <token>O</token>
+          <token>baj</token>
+         </pattern>
+         <message>Ten wyraz pisze się łącznie: <suggestion><match no="1"/><match no="2"/></suggestion>.</message>
+         <short>Literówka</short>
+         <example correction='Obaj'><marker>O baj</marker> przedkładają skuteczność ponad sztukę.</example>
         </rule>
         <rule id="OGOLNIE_RZECZ_BIORAC" name="„ogólnie rzecz biorą” (ogólnie rzecz biorąc)">
          <pattern>
