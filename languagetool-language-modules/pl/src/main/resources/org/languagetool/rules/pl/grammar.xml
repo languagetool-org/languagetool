@@ -6558,7 +6558,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               </marker>
             </antipattern>
             <antipattern> <!-- fraza nominalna mnoga: rzeczownik + spójnik + zaimek 3. os. npraep + rzeczownik -->
-              <token postag='subst:.*nom.*' postag_regexp='yes' />
+              <token postag='subst:.*nom.*|ppron3.*nom.*' postag_regexp='yes' />
               <token postag="conj"/>
               <token postag="ppron3.*gen.*:npraep" postag_regexp="yes"/>
               <marker>
@@ -6671,7 +6671,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <token postag='(subst|adj):.*:nom.*' postag_regexp='yes'/>            
               <token>,</token>
               <token>jak</token>
-              <token>i</token>
+              <token regexp="yes">i|też|również</token>
               <marker>
                 <token postag='subst:sg:nom.*' postag_regexp='yes'/>
               </marker>
@@ -6680,7 +6680,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <token postag='(subst|adj):.*:nom.*' postag_regexp='yes'/>            
               <token>,</token>
               <token>jak</token>
-              <token>i</token>            
+              <token regexp="yes">i|też|również</token>
               <marker>
                 <unify><feature id="gender"/>
                   <token postag="(adj|pact|ppas|subst):sg:nom.*" postag_regexp="yes"></token>
@@ -6884,7 +6884,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               </marker>
             </antipattern>
             <antipattern> <!-- podmiot l.m. z przeskokami -->
-            <token skip="-1" postag="subst:.*nom.*" postag_regexp="yes">
+            <token skip="-1" postag="(subst|ger):.*nom.*" postag_regexp="yes">
               <exception postag='verb.*sg.*' postag_regexp='yes' scope='next'/>
             </token>
             <token skip="10" postag="conj|interp:comma" postag_regexp="yes">
@@ -7171,6 +7171,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                <example>Atlanta i cały stan Georgia znane są ze swojej tolerancji wobec mniejszości seksualnych.</example>
                <example>Spekulowano też, że miejsce Leszka Spalińskiego mogą zająć Tomasz Wołek lub Jarosław Gugała.</example>
                <example>Co piątek idą się napić.</example>
+               <example>Nie znaczy to, żeby rząd zaprzestał pracy, to posłowie chętniej występują w roli projektodawcy.</example>
+               <example>Przedsiębiorcy podejmujący w nim działalność mogą korzystać z ulg celnych.</example>
+               <example>26 lutego w Sierra Leone mają się odbyć wybory.</example>
+               <example>Tudjman wierzy, że tylko on i jego partia są prawdziwymi obrońcami interesów narodowych.</example>
+               <example>To zrozumiałe — tak słaby rywal plus ogromny upał są wystarczającym usprawiedliwieniem.</example>
             </rule>
             <rule id="NIEWLASCIWA_KONCOWKA_PRZYPADKU_ORZECZNIKA" name="Niewłaściwa końcówka przypadku orzecznika">
                 <antipattern>
