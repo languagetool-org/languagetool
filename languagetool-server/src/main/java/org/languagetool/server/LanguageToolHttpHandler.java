@@ -313,6 +313,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       httpExchange.sendResponseHeaders(httpReturnCode, xmlResponse.getBytes(ENCODING).length);
       httpExchange.getResponseBody().write(xmlResponse.getBytes(ENCODING));
     } else {
+      setAllowOrigin(httpExchange);
       httpExchange.sendResponseHeaders(httpReturnCode, response.getBytes(ENCODING).length);
       httpExchange.getResponseBody().write(response.getBytes(ENCODING));
     }
@@ -362,6 +363,10 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   private void setCommonHeaders(HttpExchange httpExchange) {
     httpExchange.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
+    setAllowOrigin(httpExchange);
+  }
+
+  private void setAllowOrigin(HttpExchange httpExchange) {
     if (allowOriginUrl != null) {
       httpExchange.getResponseHeaders().set("Access-Control-Allow-Origin", allowOriginUrl);
     }
