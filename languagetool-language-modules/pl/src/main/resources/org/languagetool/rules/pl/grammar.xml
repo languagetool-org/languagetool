@@ -3850,6 +3850,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     </category>
 		<category id="TYPOGRAPHY" name="Błędy typograficzne" type="typographical">
+		<rulegroup id="DOUBLE_PUNCTUATION" name="">
+		<rule>
+		<antipattern>
+		  <marker>
+        <token>,</token>
+        <token skip='-1'>,</token>
+      </marker>
+      <token>’</token>
+      <token>’</token>
+     </antipattern>
+		<pattern>
+		  <token>,</token>
+		  <token>,</token>
+		</pattern>
+		<message>Dwa przecinki. Czy chodziło o <suggestion>,</suggestion>?</message>
+		<example correction=",">To było dawno<marker>,,</marker> dawno temu.</example>
+		<example>To ,,rekiny’’.</example>
+		</rule>
+		<rule>
+		<pattern>
+		  <token>.<exception postag="&lt;ELLIPSIS&gt;"/></token>
+		  <token>.<exception postag="&lt;/ELLIPSIS&gt;"/></token>
+		</pattern>
+		<message>Dwie kropki. Czy chodziło o <suggestion>.</suggestion>?</message>
+		<example correction=".">To prawda<marker>..</marker></example>
+		<example>To prawda...</example>
+		</rule>
+		</rulegroup>
+		<rule id="BLEDNE_CUDZYSOWY_TYPOGRAFICZNE" name="Błędne cudzysłowy typograficzne">
+     <pattern>
+      <token>,</token>
+      <token skip='-1'>,</token>
+      <token>’</token>
+      <token>’</token>
+     </pattern>
+     <message>Czy chodziło o <suggestion>„<match no="2" include_skipped="following"/>”</suggestion>?</message>
+     <short>Błędne cudzysłowy</short>
+     <example correction='„rekiny”'>To <marker>,,rekiny’’</marker>.</example>     
+    </rule>
 		<rule id="BRAK_ODSTPU_PO_KROPCE_PRZED_CUDZYSOWEM" name="Brak odstępu po kropce przed cudzysłowem.">
      <pattern>
       <marker>
@@ -18313,6 +18352,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <short>Prawdopodobna literówka</short>
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
+        </rule>
+        <rule id="OBRONA_REKA" name="„obroną ręką” (obronną ręką)">
+         <pattern>
+          <marker>
+          <token>obroną</token>
+          </marker>
+          <token>ręką</token>
+         </pattern>
+         <message>Czy chodziło o <suggestion>obronną</suggestion>?</message>
+         <url>http://www.wsjp.pl/index.php?id_hasla=19199</url>
+         <short>Prawdopodobna literówka</short>
+         <example correction='obronną'>Czy być może to „rekiny” z Rybnika sprawią niespodziankę na skalę krajową i wyjdą z dwumeczu <marker>obroną</marker> ręką?</example>         
         </rule>
         <rule id="WARZYWA_NA_PATELNIE" name="„warzywa na patelnie” (na patelnię)">
          <pattern>

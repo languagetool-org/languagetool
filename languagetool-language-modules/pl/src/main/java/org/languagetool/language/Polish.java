@@ -116,7 +116,6 @@ public class Polish extends Language {
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
         new CommaWhitespaceRule(messages),
-        new DoublePunctuationRule(messages),
         new UppercaseSentenceStartRule(messages, this),
         new WordRepeatRule(messages, this),
         new MultipleWhitespaceRule(messages, this),
