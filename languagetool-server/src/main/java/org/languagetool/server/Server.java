@@ -117,7 +117,7 @@ abstract class Server {
   }
   
   protected static void printCommonOptions() {
-    System.out.println("  --port, -p     port to bind to, defaults to " + DEFAULT_PORT + " if not specified");
+    System.out.println("  --port, -p PRT port to bind to, defaults to " + DEFAULT_PORT + " if not specified");
     System.out.println("  --public       allow this server process to be connected from anywhere; if not set,");
     System.out.println("                 it can only be connected from the computer it was started on");
     System.out.println("  --allow-origin ORIGIN  set the Access-Control-Allow-Origin header in the HTTP response,");
