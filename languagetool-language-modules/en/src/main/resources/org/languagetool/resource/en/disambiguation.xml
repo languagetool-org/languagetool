@@ -4009,37 +4009,6 @@
             <disambig action="filterall"/>
         </rule>
 
-        
-   <!--  the chunker fails for addresses, we need this for CD_NN -->
-    <rule name="Number + Uppercase word/no tag + uppercase word -&gt; immunize" id="CD_UPPER_UNKNOWN_NNP_UPPERCASE_SEQ">
-        <pattern case_sensitive="yes">
-        <marker>
-            <token regexp="yes">\d+<exception regexp="yes">[01]</exception></token>
-            <token postag="NNP"/>            
-            <token regexp="yes">Ave|Avenue|Street|Terrace|Square|St|Circle|Drive</token>
-         </marker>            
-        </pattern>
-        <disambig action="immunize"/>
-    </rule>        
-        
-    <rule name="Immunize votes" id="X_TO_X_VOTE">
-      <pattern>
-        <token regexp="yes">\d+</token>
-        <token>to</token>
-        <token regexp="yes">\d+</token>
-        <token>vote</token>
-      </pattern>
-      <disambig action="immunize"/>
-    </rule>
-
-    <rule name="Immunize decade" id="X0decade">
-      <pattern>
-        <token regexp="yes">\d+0</token>
-        <token>decade</token>
-      </pattern>
-      <disambig action="immunize"/>
-    </rule>
-    
     <rule name="Immunize 'no big deal'" id="NO_BIG_DEAL">
       <pattern>
       <token>no</token>
