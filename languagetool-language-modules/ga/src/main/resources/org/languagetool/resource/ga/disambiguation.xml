@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Disambiguation Rules for LanguageTool
+    Copyright (C) 2016 Trinity College, Dublin
+-->
+<rules lang="ga" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
+    <rule id="AS_SIN_AMACH" name="as sin amach">
+        <pattern>
+            <marker>
+                <token postag="Prep:Simp">as</token>
+                <token regexp="yes" postag="Pron:Dem">sin|seo</token>
+                <token postag="Adv:Dir">amach</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+</rules>
