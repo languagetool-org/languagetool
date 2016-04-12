@@ -9126,6 +9126,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="STYLE" name="Błędy leksykalne" type="style">
+        <rule id="DODATKOWO_CO_WIECEJ" name="„dodatkowo” (co więcej)">
+         <pattern case_sensitive='yes'>
+          <token postag='SENT_START'></token>
+          <marker>
+          <token>Dodatkowo</token>
+          </marker>
+          <token>,</token>
+         </pattern>
+         <message>Prawdopodobnie anglicyzm. Lepiej: <suggestion>Co więcej</suggestion>.</message>
+         <short>Anglicyzm</short>
+         <example correction='Co więcej'><marker>Dodatkowo</marker>, ta część mego umysłu, która trzymała w sobie chrześcijańskie przekonanie o sensie cierpienia, wierzyła, że to Bóg zsyła na mnie problemy w celu uwolnienia mej duszy od zła, czyli od pychy, dumy i złości.</example>         
+        </rule>
         <rule id="NADER_WSZYSTKO_NADE_WSZYSTKO" name="„nader wszystko” (nade wszystko)">
          <pattern>
           <token>nader</token>
@@ -18353,6 +18365,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+        <rule id="WIERZE_WIERZE" name="„wierze” (wierzę)">
+         <pattern>
+          <token>nie</token>
+          <marker>
+          <token>wierze</token>
+          </marker>
+         </pattern>
+         <message>Prawdopodobna literówka. Czy chodziło o <suggestion>wierzę</suggestion>?</message>
+         <short>Prawdopodobna literówka</short>
+         <example correction='wierzę'>Jeśli pani mówi, że kończyła prawo, ja w to nie <marker>wierze</marker> osobiście!</example>         
+        </rule>        
         <rule id="OBRONA_REKA" name="„obroną ręką” (obronną ręką)">
          <pattern>
           <marker>
