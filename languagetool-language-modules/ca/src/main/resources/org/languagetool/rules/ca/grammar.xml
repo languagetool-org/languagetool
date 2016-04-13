@@ -3527,17 +3527,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">se|es</token>
-                    <token postag="PP[123]C[SP][^A].*" postag_regexp="yes" skip="1"/>
+                    <token postag="PP[123]C[SP][^A].*" postag_regexp="yes"/>
+                    <token min="0" inflected="yes" regexp="yes">anar|haver|deure</token>
                     <token inflected="yes">passar</token>
                 </pattern>
                 <message>Ús pronominal incorrecte. Canvieu l'expressió o elimineu el pronom reflexiu.</message>
                 <suggestion>(descuidar-se de)</suggestion>
-                <suggestion><match no="2" include_skipped="all" regexp_match="'(.+)" regexp_replace="e$1"/> <match no="3"/> per alt</suggestion>
+                <suggestion><match no="2" regexp_match="'(.+)" regexp_replace="e$1"/> <match no="3"/> <match no="4"/> per alt</suggestion>
                 <url>http://esadir.cat/entrades/fitxa/id/1441</url>
                 <short>Ús pronominal incorrecte</short>
                 <example correction="(descuidar-se de)|li ha passat per alt">A Joan mai no <marker>se li ha passat</marker> fer això.</example>
                 <example correction="(Descuidar-se de)|Em degué passar per alt"><marker>Se'm degué passar</marker>.</example>
-                <example>No li ha passat mai pel cap.</example>
+                <example>No se'ls deixava passar mai.</example>
             </rule>
         </rulegroup>
         <rulegroup id="VERBS_NO_TRANSITIUS" name="verbs no transitius"> <!-- Ha d'anar a Java -->
