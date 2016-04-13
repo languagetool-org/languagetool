@@ -108,7 +108,7 @@ public class MixedAlphabetsRule extends Rule {
         List<String> replacements = new ArrayList<>();
         replacements.add( toLatin(tokenString) );
 
-        String msg = "Вжито кирилічні літери замість латинських на позначення латинської цифри";
+        String msg = "Вжито кирилічні літери замість латинських на позначення римської цифри";
         RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg);
         ruleMatches.add(potentialRuleMatch);
       }
