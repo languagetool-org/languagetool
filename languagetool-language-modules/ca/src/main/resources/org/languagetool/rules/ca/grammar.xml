@@ -28422,7 +28422,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="AL_POC_TEMPS" name="al poc temps">
             <pattern>
-                <token><exception inflected="yes" regexp="yes">deure|atribuir|per</exception></token>
+                <token><exception inflected="yes" regexp="yes">deure|atribuir|per|atribuïble</exception></token>
                 <marker>
                     <token>a</token>
                     <token>l</token>
@@ -33033,8 +33033,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>15 Nadals</example>
         </rule>
         <rule id="PEL_GENERAL" name="*pel general/en general">
+            <antipattern>
+                <marker>
+                    <token>pe</token>
+                    <token>l</token>
+                    <token>general</token>
+                    <token regexp="yes">de|d'</token>
+		    <token regexp="yes">\p{Lu}.+</token>
+                </marker>
+            </antipattern>
             <pattern>
-                <token><exception inflected="yes" regexp="yes">dirigir|comandar|encapçalar|derrotar|bombardejar|manar|capitanejar|liderar|vèncer</exception></token>
+                <token><exception postag="V.P.*" postag_regexp="yes"/><!--<exception inflected="yes" regexp="yes">dirigir|comandar|encapçalar|derrotar|bombardejar|manar|capitanejar|liderar|vèncer</exception>--></token>
                 <marker>
                     <token>pe</token>
                     <token>l</token>
