@@ -2679,7 +2679,7 @@
 
     <rule name="to jako predykatyw" id="to_pred">
         <pattern>
-                <token postag="subst.*nom.*" postag_regexp="yes"><exception regexp="yes">to|jaki</exception><exception scope="previous" postag="prep.*" postag_regexp="yes"/></token>
+                <token postag="(?:subst|num).*nom.*" postag_regexp="yes"><exception regexp="yes">to|jaki</exception><exception scope="previous" postag="prep.*" postag_regexp="yes"/></token>
             <marker>
                 <token>to</token>
             </marker>
@@ -2966,7 +2966,7 @@
 
     <rule id="znacznie_com" name="znacznie/dużo + com =>com">
         <pattern>
-            <token postag="adv:pos" regexp="yes">dużo|znacznie</token>
+            <token postag="adv:pos" regexp="yes">dużo|znacznie|sporo</token>
             <token postag=".*:com" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
@@ -3780,6 +3780,57 @@
         <disambig postag="subst:sg:gen:m3"/>
     </rule>
 
+    <rule id="num_wzrosly" name="liczebnik + wzrosły, spadły...">
+        <pattern>
+            <token postag='num:pl.*:rec' postag_regexp='yes'>
+                <exception regexp='yes'>jeden|pół|najmniej|tyleż?|ileż?|wiel[ue]|mało|mniej|moc|nieco</exception>
+                <exception postag='adv.*|qub' postag_regexp='yes'></exception>
+            </token>
+            <marker>
+                <and>
+                    <token postag="verb:praet:.*:ter:.*" postag_regexp="yes"/>
+                    <token postag="adj:sg:nom.voc:.*|subst:sg:nom:n2|adj:pl:nom.voc:m1.p1:pos" postag_regexp="yes"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="verb:praet:.*:ter:.*"/>
+        <example type="ambiguous" inputform="spadły[spadły/adj:sg:acc:m3:pos,spadły/adj:sg:nom.voc:m1.m2.m3:pos,spaść/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:perf:nonrefl]"
+                 outputform="spadły[spaść/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:perf:nonrefl]">Dwóch <marker>spadły</marker>: PPJ 7 (o 0,2 proc.).</example>
+    </rule>
+
+    <rule id="oboje_numcol_verbter" name="oboje byli => czasownik">
+        <pattern>
+            <token skip="5" postag="num:pl:nom.acc.voc:n1.p1.p2:rec">oboje
+                <exception scope="next" postag="(subst|ger|pact|ppas):pl:gen.*" postag_regexp="yes"/>
+            </token>
+            <marker>
+            <token postag="verb:praet:pl:m1.p1:ter.*|verb:fin:pl:ter.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id="oboje_mamy" name="oboje + mamy => czasownik">
+        <pattern>
+            <marker>
+                <token postag="num:pl:nom.acc.voc:n1.p1.p2:rec">oboje</token>
+                <token postag="verb:fin:pl:pri:imperf:refl.nonrefl">mamy</token>
+                <token postag=".*acc.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id="oboje_congr" name="oboje występuje z przymiotnikami l.m. w związku zgody!">
+        <pattern> <!-- oboje ma składnię zgody z przymiotnikiem l.m. u najlepszych pisarzy…, np. Rozeszli się, oboje zagniewani. -->
+            <marker>
+                <token>oboje</token>
+            </marker>
+            <token postag="(?:adj|ppas|pact):pl:nom.voc:m1.p1.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="replace"><wd lemma="oba" pos="num:pl:nom.voc:m1:congr"/></disambig>
+    </rule>
+
     <rule id="NAPOJ_WYROB" name="napój/wyrób + przymiotnik -> rzeczownik">
         <pattern>
             <marker>
@@ -3950,7 +4001,7 @@
        		<unify>
        			<feature id="case"/>
        			<token postag="prep:.*" postag_regexp="yes"><exception postag="prep.*|adv" negate_pos="yes" postag_regexp="yes"/></token>
-                <token postag_regexp="yes" postag="(adj|subst|ger|ppron|pact|num).*"><exception regexp="yes">pewne|mniej</exception></token>
+                <token postag_regexp="yes" postag="(adj|subst|ger|ppron|pact|num).*"><exception regexp="yes">pewne|mniej|trochę|dużo</exception></token>
        		</unify>
        	</pattern>
        	<disambig action="unify"/>
@@ -4108,6 +4159,17 @@
         <disambig action="replace"><wd lemma="Warsz" pos="subst:sg:nom.voc:m1"/></disambig>
     </rule>
 
+    <rule id="zostanie_ppas" name="zostanie + ppas => verb">
+        <pattern>
+            <marker><token>zostanie</token></marker>
+            <token postag_regexp="yes" postag="ppas.*[\.:]perf.*"/>
+        </pattern>
+        <disambig postag="verb:fin:sg:ter:perf:refl.nonrefl"/>
+        <example type="untouched">Doradziłem mu zostanie w domu.</example>
+        <example type="ambiguous" inputform="zostanie[zostać/ger:sg:nom.acc:n2:perf:aff:refl.nonrefl,zostać/verb:fin:sg:ter:perf:refl.nonrefl]"
+        outputform="zostanie[zostać/verb:fin:sg:ter:perf:refl.nonrefl]">Spośród planowanych kilkunastu stanowisk wiceprezydentów parę <marker>zostanie</marker> obsadzonych przez PC i KK.</example>
+    </rule>
+
     <rule id="PO_DZIS_DZIEN" name="po dziś dzień - wersja z ręcznie anotowanego NKJP">
         <pattern>
             <token postag="prep:acc">po</token>
@@ -4254,6 +4316,16 @@
         <disambig action="unify"></disambig>
     </rule>
 
+    <rule id="Marian" name="Marian to imię, jeśli jest nazwisko">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Marian</token>
+            </marker>
+            <token regexp="yes">\p{Lu}\p{Ll}+</token>
+        </pattern>
+        <disambig postag="subst:sg:nom:m1"/>
+    </rule>
+
     <rule id="PRZYRODA_SINGULARE_TANTUM" name="Przyrody to raczej singulare">
         <pattern>
             <token>przyrody</token>
@@ -4352,7 +4424,7 @@
         <pattern>
             <unify> <feature id="case"/>
                 <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*|burk" negate_pos="yes" postag_regexp="yes"/><exception postag="qub">co</exception></token>
-                <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact|siebie):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
+                <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact|siebie):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub|adv.*" postag_regexp="yes"/></token>
             </unify>
         </pattern>
         <disambig action="unify"/>        
@@ -4409,7 +4481,7 @@
                 <unify> <feature id="case"/>
                     <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/><exception>co</exception><exception scope="previous">co</exception></token>
                     <token postag="adj:pl.*" postag_regexp="yes" inflected="yes">ten</token>
-                    <token postag="(adj|subst|ger|ppron.*|ppas|pact):pl.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
+                    <token postag="(adj|subst|ger|ppron.*|ppas|pact|num):pl.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
                 </unify>
             </pattern>
             <disambig action="unify"/>
@@ -4489,13 +4561,14 @@
         <rule>
         <pattern>
             <unify> <feature id="case"/>
-                <token regexp="yes" postag="prep.*" postag_regexp="yes">przeciw|poza|o?koło|za|o</token>
-                <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact|siebie):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
+                <token regexp="yes" postag="prep.*" postag_regexp="yes">przeciw|poza|o?koło|za|o|zamiast</token>
+                <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact|siebie):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub|adv.*" postag_regexp="yes"/></token>
             </unify>
         </pattern>
         <disambig action="unify"/>
-        <example type="untouched">Tu mamy piękny przykład.</example>
-        <example type="untouched">Łaciny używamy na co dzień.</example>
+            <example type="untouched">Tu mamy piękny przykład.</example>
+            <example type="untouched">Łaciny używamy na co dzień.</example>
+            <example type="untouched">To za dużo powiedziane.</example>
     </rule>    
     <rule>
     	<pattern>
@@ -5354,7 +5427,7 @@
     <rule id="SKRAJNIE" name="skrajnie to też adv">
         <pattern>
             <marker><token>skrajnie</token></marker>
-            <token regexp="yes" inflected="yes">liberalny|prawicowy|lewicowy|negatywny|pesymistyczny|niebezpieczny|depresyjny|antyrządowy</token>
+            <token regexp="yes" inflected="yes">liberalny|prawicowy|lewicowy|negatywny|pesymistyczny|niebezpieczny|depresyjny|antyrządowy|nacjonalistyczny</token>
         </pattern>
         <disambig postag="adv:pos"/>
     </rule>
@@ -6593,7 +6666,7 @@
     <rule id="przeszla_acc" name="przeszła + acc -> czasownik">
         <pattern>
             <token postag="verb:praet:sg:f:ter:perf:nonrefl">przeszła</token>
-            <token postag=".*acc.*" postag_regexp="yes"/>
+            <token postag=".*acc.*" postag_regexp="yes"><exception>trochę</exception></token>
         </pattern>
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="Przeszła[przejść/verb:praet:sg:f:ter:perf:nonrefl,przejść/verb:praet:sg:f:ter:perf:refl,przeszły/adj:sg:nom.voc:f:pos]"
@@ -6698,9 +6771,9 @@
             <unify>
                 <feature id="number"/>
                 <marker>
-                    <token postag=".*nom[:\.].*" postag_regexp="yes"/>
+                    <token postag="(?:adj|pact|subst|ger|ppas).*nom[:\.].*" postag_regexp="yes"/>
                     <token postag="verb:fin.*:ter:imperf:nonrefl" inflected="yes" postag_regexp="yes">być</token>
-                    <token postag=".*nom[:\.].*" postag_regexp="yes"/>
+                    <token postag="(?:adj|pact|subst|ger|ppas).*nom[:\.].*" postag_regexp="yes"/>
                 </marker>
             </unify>
         </pattern>
@@ -6738,7 +6811,8 @@
                     <unify-ignore>
                         <token postag="conj"></token>
                     </unify-ignore>
-                    <token postag=".*nom[:\.].*" postag_regexp="yes"/>
+                    <token postag=".*nom[:\.].*" postag_regexp="yes">
+                            <exception postag="adv"/></token>
                 </marker>
             </unify>
         </pattern>
@@ -7823,7 +7897,7 @@
     </rulegroup>
 
     <rulegroup name="dopełnienia w bierniku" id="potencjalne_dopelnienie">
-        <rule> <!-- verb: pl + subst: sg -->
+        <rule> <!-- 1 verb: pl + subst: sg -->
             <pattern>
                 <token postag="verb:.*:pl.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&verb_obj_gen;|&verb_non_transitive;</exception></token>
                 <marker>
@@ -7841,7 +7915,7 @@
             <example type="ambiguous" inputform="go[on/ppron3:sg:acc:m1.m2.m3:ter:nakc:npraep,on/ppron3:sg:gen:m1.m2.m3:ter:nakc:npraep,on/ppron3:sg:gen:n1.n2:ter:nakc:npraep]"
                      outputform="go[on/ppron3:sg:acc:m1.m2.m3:ter:nakc:npraep]">Bierzcie <marker>go</marker>!</example>
         </rule>
-        <rule> <!-- subst: sg + verb: pl -->
+        <rule> <!-- 2 subst: sg + verb: pl -->
             <pattern>
                 <marker>
                     <and>
@@ -7860,7 +7934,7 @@
             <example type="ambiguous" inputform="to[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]"
                      outputform="to[ten/adj:sg:acc:n1.n2:pos,to/subst:sg:acc:n2]">Winiarze też <marker>to</marker> rozumieją.</example>
         </rule>
-        <rule> <!-- subst: sg:acc + subst:gen + verb: pl -->
+        <rule> <!-- 3 subst: sg:acc + subst:gen + verb: pl -->
             <pattern>
                 <marker>
                     <and>
@@ -7878,7 +7952,7 @@
                      outputform="ślub[ślub/subst:sg:acc:m3]">Anna z Janem <marker>ślub</marker> czystości wzięli.</example>
             <example type="untouched">Byt określa świadomość.</example>
         </rule>
-        <rule> <!-- subst: sg:acc + coś/nic + adj:gen + verb: pl -->
+        <rule> <!-- 4 subst: sg:acc + coś/nic + adj:gen + verb: pl -->
             <pattern>
                 <marker>
                     <token regexp="yes">coś|nic</token>
@@ -7892,7 +7966,7 @@
                      outputform="coś[coś/subst:sg:acc:n2]">Oni <marker>coś</marker> innego mieli na myśli.</example>
             <example type="untouched">Byt określa świadomość.</example>
         </rule>
-        <rule> <!-- subst: sg:acc + (prep + subst) + verb: pl -->
+        <rule> <!-- 5 subst: sg:acc + (prep + subst) + verb: pl -->
             <pattern>
                 <marker>
                     <and>
@@ -7911,7 +7985,7 @@
                      outputform="ślub[ślub/subst:sg:acc:m3]">Anna z Janem <marker>ślub</marker> do serca wzięli.</example>
             <example type="untouched">Byt określa świadomość.</example>
         </rule>
-        <rule> <!-- subst: sg + adv + verb: pl -->
+        <rule> <!-- 6 subst: sg + adv + verb: pl -->
             <pattern>
                 <marker>
                     <and>
@@ -7931,7 +8005,7 @@
             <example type="ambiguous" inputform="to[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]"
                      outputform="to[to/subst:sg:acc:n2]">Winiarze też <marker>to</marker> dobrze rozumieją.</example>
         </rule>
-        <rule> <!-- subst: sg + czasownik modalny :pl + verb: inf -->
+        <rule> <!-- 7 subst: sg + czasownik modalny :pl + verb: inf -->
             <pattern>
                 <marker>
                     <and>
@@ -7951,7 +8025,7 @@
             <example type="ambiguous" inputform="to[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]"
                      outputform="to[to/subst:sg:acc:n2]">Winiarze też <marker>to</marker> muszą zrozumieć.</example>
         </rule>
-        <rule> <!-- subst: sg + czasownik modalny :pl + verb: inf -->
+        <rule> <!-- 8 subst: sg + czasownik modalny :pl + verb: inf -->
             <pattern>
                 <marker>
                     <unify><feature id="gender"/><feature id="number"/>
@@ -7971,7 +8045,7 @@
                      outputform="ślub[ślub/subst:sg:acc:m3]">Anna z Janem <marker>ślub</marker> cywilny woleli wziąć.</example>
             <example type="untouched">Byt określa świadomość.</example>
         </rule>
-        <rule> <!-- subst: sg + adj / subst: gen + czasownik modalny :pl + verb: inf -->
+        <rule> <!-- 9 subst: sg + adj / subst: gen + czasownik modalny :pl + verb: inf -->
             <pattern>
                 <marker>
                     <and>
@@ -7993,7 +8067,7 @@
                      outputform="Większość[większość/subst:sg:acc:f]"><marker>Większość</marker> zawieranych transakcji muszą poprzedzać przetargi.</example>
             <example type="untouched">Byt określa świadomość.</example>
         </rule>
-        <rule> <!-- subst: sg + czasownik modalny :pl + kublik/przysłówek + verb: inf -->
+        <rule> <!-- 10 subst: sg + czasownik modalny :pl + kublik/przysłówek + verb: inf -->
             <pattern>
                 <marker>
                     <and>
@@ -8014,7 +8088,7 @@
             <example type="ambiguous" inputform="to[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]"
                      outputform="to[to/subst:sg:acc:n2]">Winiarze też <marker>to</marker> muszą nareszcie zrozumieć.</example>
         </rule>
-        <rule> <!-- subst: sg + adj: sg + verb: pl -->
+        <rule> <!-- 11 subst: sg + adj: sg + verb: pl -->
             <pattern>
                 <marker>
                     <unify><feature id="number"><type id="sg"/></feature>
@@ -8037,7 +8111,7 @@
             <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
                      outputform="sposób[sposób/subst:sg:acc:m3]">Bo <marker>sposób</marker> ten znają wszyscy zaawansowani użytkownicy.</example>
         </rule>
-        <rule> <!-- subst: sg + ppron: pl: + verb: pl -->
+        <rule> <!-- 12 subst: sg + ppron: pl: + verb: pl -->
             <pattern>
                 <marker>
                     <and>
@@ -8055,7 +8129,7 @@
             <example type="ambiguous" inputform="go[on/ppron3:sg:acc:m1.m2.m3:ter:nakc:npraep,on/ppron3:sg:gen:m1.m2.m3:ter:nakc:npraep,on/ppron3:sg:gen:n1.n2:ter:nakc:npraep]"
                      outputform="go[on/ppron3:sg:acc:m1.m2.m3:ter:nakc:npraep]">Teraz <marker>go</marker> wy wybierzecie!</example>
         </rule>
-        <rule> <!-- z przeskokiem: subst: sg + verb: pl -->
+        <rule> <!-- 13 z przeskokiem: subst: sg + verb: pl -->
         <pattern>
             <marker>
                 <and>
@@ -8070,7 +8144,7 @@
         </pattern>
         <disambig action="filter" postag="(subst|ppron[1-3]|adj):sg:acc.*"></disambig>
         </rule>
-        <rule> <!-- verb: sg + subst: pl -->
+        <rule> <!-- 14 verb: sg + subst: pl -->
             <pattern>
                 <token postag="verb:.*:sg.*" postag_regexp="yes"><exception>jednaj</exception><exception inflected="yes" regexp="yes">&verb_obj_gen;|&verb_non_transitive;</exception></token>
                 <marker>
@@ -8085,7 +8159,7 @@
                      outputform="śluby[ślub/subst:pl:acc:m3]">Anna składa <marker>śluby</marker>.</example>
             <example type="untouched">Byt określa świadomość.</example>
         </rule>
-        <rule> <!-- verb:praet:sg + subst:sg, lecz inny rodzaj-->
+        <rule> <!-- 15 verb:praet:sg + subst:sg, lecz inny rodzaj-->
             <pattern>
                 <unify negate="yes"><feature id="gender"/>
                     <token postag="verb:(praet|pot):sg.*:ter.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&verb_obj_gen;|&verb_non_transitive;</exception></token>
@@ -8106,7 +8180,7 @@
             <example type="ambiguous" inputform="świadomość[świadomość/subst:sg:acc:f,świadomość/subst:sg:nom:f]"
                      outputform="świadomość[świadomość/subst:sg:acc:f]">Byt określałby <marker>świadomość</marker>.</example>
         </rule>
-        <rule> <!-- verb:praet:pl + subst:pl, lecz inny rodzaj -->
+        <rule> <!-- 16 verb:praet:pl + subst:pl, lecz inny rodzaj -->
             <pattern>
                 <unify negate="yes"><feature id="gender"/>
                     <token postag="verb:(praet|pot):pl.*:ter.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&verb_obj_gen;|&verb_non_transitive;</exception></token>
@@ -8123,7 +8197,7 @@
                      outputform="śluby[ślub/subst:pl:acc:m3]">Anna z Janem składali <marker>śluby</marker>.</example>
             <example type="untouched">Byt określa świadomość.</example>
         </rule>
-        <rule> <!-- verb:praet:sg + subst:sg:acc/gen [potencjalne dopełnienie], lecz nie w mianowniku -->
+        <rule> <!-- 17 verb:praet:sg + subst:sg:acc/gen [potencjalne dopełnienie], lecz nie w mianowniku -->
             <pattern>
                     <token postag="verb:(praet|pot):sg.*:ter.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&verb_obj_gen;|&verb_non_transitive;</exception></token>
                     <marker>
@@ -8137,7 +8211,7 @@
             <example type="ambiguous" inputform="Rosynanta[rosynant/subst:sg:acc:m2,rosynant/subst:sg:gen:m2]"
                      outputform="Rosynanta[rosynant/subst:sg:acc:m2]">Spiął <marker>Rosynanta</marker>.</example>
         </rule>
-        <rule> <!-- verb:imps + subst/nom|gen -->
+        <rule> <!-- 18 verb:imps + subst/nom|gen -->
             <pattern>
                 <token postag="verb:(imps|inf).*|pant:.*|pcon.*" postag_regexp="yes"><exception>jednaj</exception><exception inflected="yes" regexp="yes">&verb_obj_gen;|&verb_non_transitive;</exception><exception regexp="yes">bądź|lub</exception></token>
                 <marker>
@@ -8158,7 +8232,7 @@
             <example type="ambiguous" inputform="go[on/ppron3:sg:acc:m1.m2.m3:ter:nakc:npraep,on/ppron3:sg:gen:m1.m2.m3:ter:nakc:npraep,on/ppron3:sg:gen:n1.n2:ter:nakc:npraep]"
                      outputform="go[on/ppron3:sg:acc:m1.m2.m3:ter:nakc:npraep]">Brano <marker>go</marker> na spytki.</example>
         </rule>
-        <rule> <!-- verb:imps + subst/nom|gen -->
+        <rule> <!-- 19 verb:imps + subst/nom|gen -->
             <pattern>
                 <marker>
                     <and>
@@ -8180,7 +8254,7 @@
             <example type="ambiguous" inputform="go[on/ppron3:sg:acc:m1.m2.m3:ter:nakc:npraep,on/ppron3:sg:gen:m1.m2.m3:ter:nakc:npraep,on/ppron3:sg:gen:n1.n2:ter:nakc:npraep]"
                      outputform="go[on/ppron3:sg:acc:m1.m2.m3:ter:nakc:npraep]">Tam <marker>go</marker> brano.</example>
         </rule>
-        <rule> <!-- verb pri/sec + subst/nom|gen -->
+        <rule> <!-- 20 verb pri/sec + subst/nom|gen -->
             <pattern>
                 <token postag="verb:.*(pri|sec).*" postag_regexp="yes"><exception>jednaj</exception><exception inflected="yes" regexp="yes">&verb_obj_gen;|&verb_non_transitive;</exception><exception regexp="yes">bądź|lub</exception></token>
                 <marker>
@@ -8199,7 +8273,7 @@
             <example type="ambiguous" inputform="go[on/ppron3:sg:acc:m1.m2.m3:ter:nakc:npraep,on/ppron3:sg:gen:m1.m2.m3:ter:nakc:npraep,on/ppron3:sg:gen:n1.n2:ter:nakc:npraep]"
                      outputform="go[on/ppron3:sg:acc:m1.m2.m3:ter:nakc:npraep]">Bierz <marker>go</marker> na spytki.</example>
         </rule>
-        <rule>
+        <rule>       <!-- 21 -->
             <pattern>
                 <token postag="(verb|pact).*" postag_regexp="yes"/>
                 <marker>
@@ -8208,7 +8282,7 @@
             </pattern>
             <disambig postag="subst:sg:acc:n2"/>
         </rule>
-        <rule> <!-- pact + subst -->
+        <rule> <!-- 22 pact + subst -->
             <pattern>
                 <token skip="10" postag="pact:.*" postag_regexp="yes">
                     <exception inflected="yes" regexp="yes">&verb_obj_gen;|&verb_non_transitive;</exception>
@@ -8223,13 +8297,14 @@
             </pattern>
             <disambig action="filter" postag="(subst|ppron[1-3]|adj):.*:acc.*"></disambig>
         </rule>
-        <rule> <!--  subst + pcon-->
+        <rule> <!-- 23 subst + pcon-->
             <pattern>
                 <marker>
                     <and>
                         <token skip="10" postag="(?:ppron[1-3]|subst|ger|adj):.*:acc.*" postag_regexp="yes">
                             <exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr|ppron|adj).*|SENT_END"/>
                             <exception postag="verb.*(sg|pl).*|pred|(interp|comp):comma|conj|pact.*" postag_regexp="yes" scope="next"/>
+                            <exception scope="previous" postag_regexp="yes" postag="verb.*sg.*ter.*"/>
                         </token>
                         <token postag="(?:ppron[1-3]|subst|ger|adj):.*:(nom|gen).*" postag_regexp="yes"><exception postag_regexp="yes" postag="ppron[1-3].*nom.*:akc.*"/></token>
                     </and>
@@ -8238,7 +8313,7 @@
             </pattern>
             <disambig action="filter" postag="(subst|ppron[1-3]|adj):.*:acc.*"></disambig>
         </rule>
-        <rule> <!--  pcon + subst -->
+        <rule> <!-- 24 pcon + subst -->
             <pattern>
                 <token skip="10" postag="pcon:.*" postag_regexp="yes">
                     <exception inflected="yes" regexp="yes">&verb_obj_gen;|&verb_non_transitive;</exception>
@@ -8246,12 +8321,16 @@
                 </token>
                 <marker>
                     <and>
-                        <token postag="(?:ppron[1-3]|subst|ger|adj):.*:acc.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr|ppron|adj).*|SENT_END"/></token>
+                        <token postag="(?:ppron[1-3]|subst|ger|adj):.*:acc.*" postag_regexp="yes">
+                            <exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr|ppron|adj).*|SENT_END"/>
+                            <exception scope="previous" postag_regexp="yes" postag="subst.*gen.*"/>
+                        </token>
                         <token postag="(?:ppron[1-3]|subst|ger|adj):.*:(nom|gen).*" postag_regexp="yes"><exception postag_regexp="yes" postag="ppron[1-3].*nom.*:akc.*"/></token>
                     </and>
                 </marker>
             </pattern>
             <disambig action="filter" postag="(subst|ppron[1-3]|adj):.*:acc.*"></disambig>
+            <example type="untouched">Dochodząc do oceanu atlantyckiego wyżyna tworzy wysokie, skaliste wybrzeże klifowe.</example>
         </rule>
     </rulegroup>
 
@@ -9065,6 +9144,22 @@
             <example type="untouched">Ukazało się w r. 1670 to pierwsze wydanie Myśli, tzw.* wydanie Port-Royalu*.</example>
             <example type="untouched">Może ma rację, a może nie do końca.</example>
         </rule>
+        <rule> <!-- 19 --> <!-- liczebnik główny congr w roli podmiotu -->
+            <pattern>
+                <token postag_regexp="yes" postag="num:pl:nom.*:congr"/>
+                <token postag="verb.*pl.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule> <!-- 20 --> <!-- liczebnik główny congr w roli podmiotu -->
+            <pattern>
+                <token postag_regexp="yes" postag="num:pl:nom.*:rec"/>
+                <token postag="verb.*sg.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filterall"/>
+            <example type="ambiguous" inputform="gra[gra/subst:sg:nom:f,grać/verb:fin:sg:ter:imperf:refl.nonrefl]"
+            outputform="gra[grać/verb:fin:sg:ter:imperf:refl.nonrefl]">Osiem <marker>gra</marker> w obronie.</example>
+        </rule>
     </rulegroup>
 
     <rule id="unify_ten_subst" name="unifikacja ten + rzeczownik">
@@ -9322,7 +9417,7 @@
     <rule name="to jako predykatyw - uzgodnienie" id="to_pred_nominativ">
         <pattern>
             <marker>
-                <token postag="(subst|adj|pact|ppas).*nom.*" postag_regexp="yes"><exception>to</exception></token>
+                <token postag="(subst|adj|pact|ppas|num).*nom.*" postag_regexp="yes"><exception>to</exception></token>
                 <token postag="pred">to</token>
                 <token postag="(subst|adj|ppas|pact).*nom.*" postag_regexp="yes"><exception>to</exception></token>
             </marker>
@@ -9491,7 +9586,7 @@
         <pattern>
             <unify> <feature id="case"/>
                 <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>
-                <token postag="(adj|subst|ger|ppron.*|ppas|pact|num):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
+                <token postag="(adj|subst|ger|ppron.*|ppas|pact|num):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/><exception>trochę</exception><exception>dużo</exception></token>
             </unify>
         </pattern>
         <disambig action="unify"/>        
@@ -10108,7 +10203,7 @@
         <pattern>
             <marker>
                 <token postag="verb:fin:sg:ter:imperf:refl.nonrefl">ma</token>
-                <token postag_regexp="yes" postag=".*acc.*"/>
+                <token postag_regexp="yes" postag=".*acc.*"><exception postag="adv"/></token>
             </marker>
         </pattern>
         <disambig action="filterall"/>
@@ -10116,6 +10211,21 @@
         <example type="ambiguous" inputform="Ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl,mój/adj:sg:nom.voc:f:pos]"
                  outputform="Ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]"><marker>Ma</marker> powierzchnię 462 km².</example>
     </rule>
+
+    <rule name="ma z biernikiem" id="MA_ADV_ACC">
+        <pattern>
+            <marker>
+                <token postag="verb:fin:sg:ter:imperf:refl.nonrefl">ma</token>
+                <token postag="adv.*" postag_regexp="yes"/>
+                <token postag_regexp="yes" postag=".*acc.*"><exception postag="adv"/></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Ma przyjaciółka robi na drutach.</example>
+        <example type="ambiguous" inputform="Ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl,mój/adj:sg:nom.voc:f:pos]"
+                 outputform="Ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]"><marker>Ma</marker> bardzo dużą powierzchnię 462 km².</example>
+    </rule>
+
 
     <!-- rule name="kobiety miały" id="MIALY">
         <pattern>
@@ -11164,7 +11274,9 @@
             <pattern>
               <marker>
                 <and>
-                <token postag="pred" skip="1">można</token>
+                <token postag="pred" skip="-1">można
+                    <exception scope="next" postag_regexp="yes" postag="verb.*(sg|pl).*|(interp|comp):comma"/>
+                </token>
                 <token postag="adj:sg:nom.voc:f:pos"/>
                 </and>
               </marker>
@@ -11179,7 +11291,7 @@
                 <token skip="1" postag="verb:inf.*" postag_regexp="yes"><exception scope="next" postag="(interp|comp):comma" postag_regexp="yes"/></token>
                 <marker>
                     <and>
-                        <token postag="pred" skip="1">można</token>
+                        <token postag="pred">można</token>
                         <token postag="adj:sg:nom.voc:f:pos"/>
                     </and>
                 </marker>
@@ -11194,12 +11306,12 @@
     <rulegroup name="można by/było" id="mozna_by">
         <rule>
         <pattern>
-            <marker><token>można</token></marker>
+            <marker><token skip="2">można</token></marker>
             <token regexp="yes">by(?:ło)?</token>
         </pattern>
         <disambig postag="pred"/>
         <example type="untouched">To jest można królowa.</example>
-        <example type="ambiguous" inputform="Można[można/pred,możny/adj:sg:nom.voc:f:pos]" outputform="Można[można/pred]"><marker>Można</marker> by to zrobić.</example>
+        <example type="ambiguous" inputform="Można[można/pred,możny/adj:sg:nom.voc:f:pos]" outputform="Można[można/pred]"><marker>Można</marker> by, że tak powiem, to zrobić.</example>
         <example type="ambiguous" inputform="Można[można/pred,możny/adj:sg:nom.voc:f:pos]" outputform="Można[można/pred]"><marker>Można</marker> było to zrobić.</example>
         </rule>
         <rule>
