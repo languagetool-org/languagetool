@@ -322,6 +322,7 @@ public class Hunspell {
          * Check if a word is spelled correctly
          *
          * @param word The word to check.
+         * @return true if the <code>word<code> is not correctly spelled
          */
         public boolean misspelled(String word) {
             try {

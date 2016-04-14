@@ -316,7 +316,7 @@ public final class RuleOverview {
     if (dataBroker.resourceExists(path)) {
       try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {
         ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
-        return confusionSetLoader.loadConfusionSet(confusionSetStream).size();
+        return confusionSetLoader.loadConfusionSet(confusionSetStream).size()/2;
       } catch (IOException e) {
         throw new RuntimeException(e);
       }

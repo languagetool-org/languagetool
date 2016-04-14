@@ -94,7 +94,8 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
       if( posTag != null 
             && ! posTag.equals(JLanguageTool.SENTENCE_START_TAGNAME) 
             && ! posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME) 
-            && ! posTag.contains(IPOSTag.bad.getText()) )
+            && ! posTag.contains(IPOSTag.bad.getText()) 
+            && ! (posTag.contains(":inanim") && posTag.contains(":v_kly")) )
         return true;
     }
     return false;

@@ -18,6 +18,7 @@
  */
 package org.languagetool.dev.bigdata;
 
+import org.apache.commons.lang.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -134,7 +135,7 @@ class ConfusionRuleEvaluator {
           evalValues.get(factor).trueNegatives++;
         } else if (!consideredCorrect && isCorrect) {
           evalValues.get(factor).falsePositives++;
-          println(factor + " false positive: " + displayStr);
+          println("false positive with factor " + factor + ": " + displayStr);
         } else if (consideredCorrect && !isCorrect) {
           //println("false negative: " + displayStr);
           evalValues.get(factor).falseNegatives++;
@@ -159,19 +160,20 @@ class ConfusionRuleEvaluator {
       float precision = (float)evalValues.truePositives / (evalValues.truePositives + evalValues.falsePositives);
       float recall = (float) evalValues.truePositives / (evalValues.truePositives + evalValues.falseNegatives);
       String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-      String summary = String.format(ENGLISH, "p=%.3f, r=%.3f, %d+%d, %dgrams, %s",
-              precision, recall, allTokenSentences.size(), allHomophoneSentences.size(), rule.getNGrams(), date);
+      String spaces = StringUtils.repeat(" ", 82-Long.toString(factor).length());
+      String summary = String.format(ENGLISH, "%s; %s; %d; %s # p=%.3f, r=%.3f, %d+%d, %dgrams, %s",
+              TOKEN, TOKEN_HOMOPHONE, factor, spaces, precision, recall, allTokenSentences.size(), allHomophoneSentences.size(), rule.getNGrams(), date);
       results.put(factor, new EvalResult(summary, precision, recall));
       if (verbose) {
         System.out.println();
-        System.out.printf(ENGLISH, "Factor:   %d - %d false positives, %d false negatives\n", factor, evalValues.falsePositives, evalValues.falseNegatives);
+        System.out.printf(ENGLISH, "Factor: %d - %d false positives, %d false negatives\n", factor, evalValues.falsePositives, evalValues.falseNegatives);
         //System.out.printf(ENGLISH, "Precision:    %.3f (%d false positives)\n", precision, evalValues.falsePositives);
         //System.out.printf(ENGLISH, "Recall:       %.3f (%d false negatives)\n", recall, evalValues.falseNegatives);
         //double fMeasure = FMeasure.getWeightedFMeasure(precision, recall);
         //System.out.printf(ENGLISH, "F-measure:    %.3f (beta=0.5)\n", fMeasure);
         //System.out.printf(ENGLISH, "Good Matches: %d (true positives)\n", evalValues.truePositives);
         //System.out.printf(ENGLISH, "All matches:  %d\n", evalValues.truePositives + evalValues.falsePositives);
-        System.out.printf("Summary:  " + summary + "\n");
+        System.out.printf(summary + "\n");
       }
     }
     return results;

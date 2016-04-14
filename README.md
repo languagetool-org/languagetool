@@ -10,7 +10,10 @@ and [CHANGES](https://github.com/languagetool-org/languagetool/blob/master/langu
 
 #### Contributions
 
-For technical details, see [our wiki](http://wiki.languagetool.org).
-
 [The development overview](http://wiki.languagetool.org/development-overview) describes
 how you can contribute error detection rules.
+
+See ['easy fix' issues](https://github.com/languagetool-org/languagetool/issues?q=is%3Aopen+is%3Aissue+label%3A%22easy+fix%22)
+for issues to get started.
+
+For more technical details, see [our wiki](http://wiki.languagetool.org).

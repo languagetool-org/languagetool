@@ -61,7 +61,7 @@ public class CommandLineParser {
       } else if (args[i].equals("-b2") || args[i].equals("--bitext")) {
         options.setBitext(true);
       } else if (args[i].equals("-eo") || args[i].equals("--enabledonly")) {
-        if (options.getDisabledRules().length > 0) {
+        if (options.getDisabledRules().size() > 0) {
           throw new IllegalArgumentException("You cannot specify both disabled rules and enabledonly");
         }
         options.setUseEnabledOnly();
@@ -71,11 +71,11 @@ public class CommandLineParser {
         }
         checkArguments("-d/--disable", i, args);
         final String rules = args[++i];
-        options.setDisabledRules(rules.split(","));
+        options.setDisabledRules(Arrays.asList(rules.split(",")));
       } else if (args[i].equals("-e") || args[i].equals("--enable")) {
         checkArguments("-e/--enable", i, args);
         final String rules = args[++i];
-        options.setEnabledRules(rules.split(","));
+        options.setEnabledRules(Arrays.asList(rules.split(",")));
       } else if (args[i].equals("--enablecategories")) {
         checkArguments("--enablecategories", i, args);
         final String categories = args[++i];

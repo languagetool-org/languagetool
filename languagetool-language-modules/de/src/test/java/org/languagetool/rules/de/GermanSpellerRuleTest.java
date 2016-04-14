@@ -88,6 +88,9 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("getrinkt", "getrunken", rule, langTool);
     assertFirstSuggestion("gespringt", "gesprungen", rule, langTool);
     assertFirstSuggestion("geruft", "gerufen", rule, langTool);
+    assertFirstSuggestion("Au-pair-Agentr", "Au-pair-Agentur", rule, langTool); // "Au-pair" from spelling.txt 
+    assertFirstSuggestion("Netflix-Flm", "Netflix-Film", rule, langTool); // "Netflix" from spelling.txt
+    assertFirstSuggestion("Bund-Länder-Kommissio", "Bund-Länder-Kommission", rule, langTool);
   }
 
   @Test
@@ -127,6 +130,9 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Stil-, Text- oder Grammatikprüfung")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Miet- und Zinseinkünfte")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Haupt- und Nebensatz")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Au-pair-Agentur")).length); // compound with ignored word from spelling.txt
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Netflix-Film")).length); // compound with ignored word from spelling.txt
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Bund-Länder-Kommission")).length);
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Miet und Zinseinkünfte")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Stil- und Grammatik gut")).length);
@@ -149,10 +155,13 @@ public class GermanSpellerRuleTest {
   public void testIgnoreWord() throws Exception {
     MyGermanSpellerRule ruleGermany = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertTrue(ruleGermany.doIgnoreWord("einPseudoWortFürLanguageToolTests"));  // from ignore.txt
-    assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchen"));   // from spelling.txt
-    assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchens"));  // from spelling.txt with suffix
-    assertTrue(ruleGermany.doIgnoreWord("vorgehängt"));        // from spelling.txt
-    assertTrue(ruleGermany.doIgnoreWord("vorgehängten"));      // from spelling.txt with suffix
+    assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchen"));            // from spelling.txt
+    assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchens"));           // from spelling.txt with suffix
+    assertTrue(ruleGermany.doIgnoreWord("vorgehängt"));                 // from spelling.txt
+    assertTrue(ruleGermany.doIgnoreWord("vorgehängten"));               // from spelling.txt with suffix
+    assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchen-vorgehängt")); // from spelling.txt formed compound
+    assertTrue(ruleGermany.doIgnoreWord("Wichtelmännchen-Au-pair"));    // from spelling.txt formed compound
+    assertTrue(ruleGermany.doIgnoreWord("Au-pair-Wichtelmännchen"));    // from spelling.txt formed compound
     MyGermanSpellerRule ruleSwiss = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
     assertTrue(ruleSwiss.doIgnoreWord("einPseudoWortFürLanguageToolTests"));
     assertFalse(ruleSwiss.doIgnoreWord("Ligafußball"));        // 'ß' never accepted for Swiss

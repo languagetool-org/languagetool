@@ -58,7 +58,7 @@ public class MainTest extends AbstractSecurityTestCase {
     xxRuleFile = writeToTempXMLFile("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
         "<rules lang=\"en\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
         "xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">\n" +
-             "<category name=\"trivial category\">\n" +
+             "<category id=\"CAT1\" name=\"trivial category\">\n" +
         "<rule id=\"EXAMPLE_RULE\" name=\"External rule to test\">\n" +
             "<pattern><token>language</token><token>tool</token></pattern>\n" +
             "<message>This is wrong!</message>\n" +
@@ -85,7 +85,7 @@ public class MainTest extends AbstractSecurityTestCase {
         "    ");
     bitextFile = writeToTempXMLFile("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
         "<rules targetLang=\"pl\" xsi:noNamespaceSchemaLocation=\"../bitext.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">\n" +
-        "<category name=\"idioms\">\n" +
+        "<category id=\"CAT1\" name=\"idioms\">\n" +
         "<rule lang=\"pl\" id=\"red_herring\" name=\"Red herring -> odwraca uwagę\">\n" +
         "<pattern>\n" +
         "\t<source lang=\"en\">\n" +

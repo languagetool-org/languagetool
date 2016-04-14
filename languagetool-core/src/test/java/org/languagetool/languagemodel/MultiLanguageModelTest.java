@@ -31,12 +31,14 @@ public class MultiLanguageModelTest {
   
   @Test
   public void test() {
-    LanguageModel lm1 = new FakeLanguageModel(0.5f);
-    LanguageModel lm2 = new FakeLanguageModel(0.2f);
-    MultiLanguageModel lm = new MultiLanguageModel(Arrays.asList(lm1, lm2));
-    List<String> ngram = Arrays.asList("foo", "bar", "blah");
-    assertEquals(0.7f, lm.getPseudoProbability(ngram).getProb(), 0.01f);
-    assertEquals(0.5f, lm.getPseudoProbability(ngram).getCoverage(), 0.01f);
+    try (
+      LanguageModel lm1 = new FakeLanguageModel(0.5f);
+      LanguageModel lm2 = new FakeLanguageModel(0.2f);
+      MultiLanguageModel lm = new MultiLanguageModel(Arrays.asList(lm1, lm2))) {
+      List<String> ngram = Arrays.asList("foo", "bar", "blah");
+      assertEquals(0.7f, lm.getPseudoProbability(ngram).getProb(), 0.01f);
+      assertEquals(0.5f, lm.getPseudoProbability(ngram).getCoverage(), 0.01f);
+    }
   }
 
   private static class FakeLanguageModel implements LanguageModel {

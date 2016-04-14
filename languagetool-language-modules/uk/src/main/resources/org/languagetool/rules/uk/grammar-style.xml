@@ -43,13 +43,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                   </unify>
                 </pattern>
+                <!-- TODO: when we can bind comparative forms togher again
                 <message>Замість «самий» + прикметник треба вживати найвищу ступінь з <suggestion><match no="2" postag_regexp="yes"
                                          postag="(adj.*:)comp[br](.*?)(:&amp;adjp.*)?" postag_replace="$1super$2"/></suggestion></message>
+                -->
+                <message>Замість «самий» + прикметник треба вживати найвищий ступінь</message>
                 <example>Сама прийшла</example>
                 <example>Саме такий</example>
                 <example>Саме кращий</example>
-                <example correction="Найкращий|Найкращого|Щонайкращий|Щонайкращого|Якнайкращий|Якнайкращого"><marker>Самий кращий</marker>.</example>
-                <example correction="Найгірша|Найпоганіша|Щонайгірша|Щонайпоганіша|Якнайгірша|Якнайпоганіша"><marker>Сама гірша</marker>.</example>
+                <!-- TODO: when we can bind comparative forms togher again
+                <example correction="Найкращий"><marker>Самий кращий</marker>.</example>
+                <example correction="Найгірша"><marker>Сама гірша</marker>.</example>
+                -->
+                <example correction=""><marker>Самий кращий</marker>.</example>
+                <example correction=""><marker>Сама гірша</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -61,15 +68,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
                     </token>
                 </pattern>
+                <!-- TODO: when we can bind comparative forms togher again
                 <message>Замість «самий» + прикметник треба вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
-                                         postag="(adj.*:)comp[br](.*?)(:&amp;adjp.*)?" postag_replace="$1super$2"/></suggestion></message>
+                                         postag="(adj.*):comp[br].*" postag_replace="$1:super.*"/></suggestion></message>
+                -->
+                <message>Замість «самий» + прикметник треба вживати найвищий ступінь</message>
                 <example>Самий цвіт</example>
                 <example>Саме такий</example>
                 <example>той самий страшний сон</example>
                 <example>лише самих економічних санкцій</example>
-                <example correction="Найкращий|Найкращого|Щонайкращий|Щонайкращого|Якнайкращий|Якнайкращого"><marker>Самий кращий</marker>.</example>
-                <example correction="найсильніший|найсильнішого|щонайсильніший|щонайсильнішого|якнайсильніший|якнайсильнішого">Він — <marker>самий сильний</marker>.</example>
-                <example correction="найзадоволеніший|найзадоволенішого|щонайзадоволеніший|щонайзадоволенішого|якнайзадоволеніший|якнайзадоволенішого">Він — <marker>самий задоволений</marker>.</example>
+                <!-- TODO: when we can bind comparative forms togher again
+                <example correction="Найгарніший|Найдобріший|Найкращий|Найліпший|Щонайгарніший|Щонайдобріший|Щонайкращий|Щонайліпший|Якнайгарніший|Якнайдобріший|Якнайкращий|Якнайліпший"><marker>Самий кращий</marker>.</example>
+                <example correction="найсильніший|щонайсильніший|якнайсильніший">Він — <marker>самий сильний</marker>.</example>
+                <example correction="найзадоволеніший|щонайзадоволеніший|якнайзадоволеніший">Він — <marker>самий задоволений</marker>.</example>
+                -->
+                <example correction=""><marker>Самий кращий</marker>.</example>
+                <example correction="">Він — <marker>самий сильний</marker>.</example>
+                <example correction="">Він — <marker>самий задоволений</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -90,14 +105,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   </unify>
                     <token regexp="yes">[—–-]</token>
                 </pattern>
+                <message>Замість «самий» + прикметник треба вживати найвищий ступінь</message>
+                <!-- TODO: when we can bind comparative forms togher again
                 <message>Замість «самий» + прикметник треба вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
                                          postag="(adj.*:)comp[br](.*?)(:&amp;adjp.*)?" postag_replace="$1super$2"/></suggestion></message>
+                -->
                 <example>Самий цвіт</example>
                 <example>Сама прийшла</example>
                 <example>Саме такий</example>
                 <example>Саме вони</example>
                 <example>представник саме романтичного націоналізму</example>
-                <example correction="Найкраще|Щонайкраще|Якнайкраще"><marker>Саме краще</marker> — ливарний цех.</example>
+                <!-- TODO: when we can bind comparative forms togher again
+                <example correction="Найгарніше|Найдобріше|Найкраще|Найліпше|Щонайгарніше|Щонайдобріше|Щонайкраще|Щонайліпше|Якнайгарніше|Якнайдобріше|Якнайкраще|Якнайліпше"><marker>Саме краще</marker> — ливарний цех.</example>
+                -->
+                <example correction=""><marker>Саме краще</marker> — ливарний цех.</example>
             </rule>
             <rule>
                 <pattern>
@@ -120,14 +141,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                     <token regexp="yes">що|який</token>
                 </pattern>
+                <message>Замість «самий» + прикметник треба вживати найвищий ступінь</message>
+                <!-- TODO: when we can bind comparative forms togher again
                 <message>Замість «самий» + прикметник треба вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
                                          postag="(adj.*:)comp[br](.*?)(:&amp;adjp.*)?" postag_replace="$1super$2"/></suggestion></message>
+                -->
                 <example>Самий цвіт</example>
                 <example>Сама прийшла до нього</example>
                 <example>Саме такий</example>
                 <example>Саме вони</example>
                 <example>представник саме романтичного націоналізму</example>
-                <example correction="Найкраще|Щонайкраще|Якнайкраще"><marker>Саме краще</marker>, що в нас є.</example>
+                <!-- TODO: when we can bind comparative forms togher again
+                <example correction="Найгарніше|Найдобріше|Найкраще|Найліпше|Щонайгарніше|Щонайдобріше|Щонайкраще|Щонайліпше|Якнайгарніше|Якнайдобріше|Якнайкраще|Якнайліпше"><marker>Саме краще</marker>, що в нас є.</example>
+                -->
+                <example correction=""><marker>Саме краще</marker>, що в нас є.</example>
             </rule>
             <rule>
                 <pattern>
@@ -143,7 +170,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                   </unify>
                 </pattern>
-                <message>Замість «самий перший» треба вживати найвищу ступінь: <suggestion>найперший</suggestion></message>
+                <message>Замість «самий перший» треба вживати найвищий ступінь: <suggestion>найперший</suggestion></message>
                 <example correction="Найперший"><marker>Самий перший</marker>.</example>
                 <example>самі першими втікали</example>
                 <example>найперший</example>
@@ -161,9 +188,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   </token>
                 </pattern>
                 <message>Після «більш» не може стояти вища форма прикметника</message>
+                <!-- TODO: when we can bind comparative forms togher again
                 <suggestion><match no="2"/></suggestion>
                 <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="(.*):compr(.*)" postag_replace="$1:compb$2"/></suggestion>
-                <example correction="Світліший|Більш світлий|Більш світлого"><marker>Більш світліший</marker>.</example>
+                <example correction="Світліший|Більш світлий"><marker>Більш світліший</marker>.</example>
+                -->
+                <example correction=""><marker>Більш світліший</marker>.</example>
                 <example>все закінчилось більш менш</example>
             </rule>
             <rule>
@@ -172,9 +202,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   <token postag_regexp="yes" postag="ad[jv]:.*compr.*"/>
                 </pattern>
                 <message>Після «найбільш» не може стояти вища форма прикметника</message>
+                <!-- TODO: when we can bind comparative forms togher again
                 <suggestion><match no="2" postag_regexp="yes" postag="(.*):compr(.*)" postag_replace="$1:super$2"/></suggestion>
                 <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="(.*):compr(.*)" postag_replace="$1:compb$2"/></suggestion>
-                <example correction="найцікавіших|найцікавіші|щонайцікавіших|щонайцікавіші|якнайцікавіших|якнайцікавіші|найбільш цікавих|найбільш цікаві">Серед <marker>найбільш цікавіших</marker> відповідей.</example>
+                <example correction="найцікавіших|щонайцікавіших|якнайцікавіших|найбільш цікавих">Серед <marker>найбільш цікавіших</marker> відповідей.</example>
+                -->
+                <example correction="">Серед <marker>найбільш цікавіших</marker> відповідей.</example>
             </rule>
         </rulegroup>
 <!--
@@ -194,7 +227,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup name="Більш з числівниками та іменниками часу" id="BILSHE_WITH_TIME_NOUNS">
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" postag_regexp="yes" postag="(adv|adj).*compr.*">багато|великий
+                    <token regexp="yes" inflected="yes" postag_regexp="yes">більше?|більший
                       <exception scope="previous">не</exception>
                     </token>
                     <token postag_regexp="yes" postag="numr:.*v_rod">
@@ -204,13 +237,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>З числівником замість «більше» краще вживати «понад», або «більше ніж/як»: <suggestion>понад <match no="2" postag="numr:p:v_zna"/></suggestion></message>
                 <suggestion>більш як <match no="2" postag="numr:p:v_zna"/></suggestion>
                 <suggestion>більше ніж <match no="2" postag="numr:p:v_zna"/></suggestion>
+                <example correction="понад сто|більш як сто|більше ніж сто"><marker>більше ста</marker>.</example>
                 <example>Більше одного</example>
                 <example>цюпка не більше шести кроків вдовж</example>
-                <example correction="понад сто|більш як сто|більше ніж сто"><marker>більше ста</marker>.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" postag_regexp="yes" postag="(adv|adj).*compr.*">багато|великий
+                    <token regexp="yes" inflected="yes">більше?|більший
                       <exception scope="previous">не</exception>
                     </token>
                     <token postag="number"/>
@@ -231,11 +264,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">більше?</token>
-                    <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:[mf]:v_rod">хвилина|година|день|доба|тиждень|місяць|рік</token>
+                    <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim:[mf]:v_rod">хвилина|година|день|доба|тиждень|місяць|рік</token>
                 </pattern>
-                <message>З іменником часу замість «більше» краще вживати «понад», або «ніж/як»: <suggestion>понад <match no="2" postag_regexp="yes" postag="(noun:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion></message>
-                <suggestion>більше як <match no="2" postag_regexp="yes" postag="(noun:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion>
-                <suggestion>більше ніж <match no="2" postag_regexp="yes" postag="(noun:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion>
+                <message>З іменником часу замість «більше» краще вживати «понад», або «ніж/як»: <suggestion>понад <match no="2" postag_regexp="yes" postag="(noun:inanim:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion></message>
+                <suggestion>більше як <match no="2" postag_regexp="yes" postag="(noun:inanim:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion>
+                <suggestion>більше ніж <match no="2" postag_regexp="yes" postag="(noun:inanim:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion>
                 <example>Більше галасу</example>
                 <example>Більше одного</example>
                 <example correction="понад тиждень|більше як тиждень|більше ніж тиждень"><marker>більше тижня</marker>.</example>
@@ -271,7 +304,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup name="Менше з числівниками та іменниками часу" id="MENSHE_WITH_TIME_NOUNS">
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" postag_regexp="yes" postag="(adv|adj).*compr.*">мало|малий
+                    <token regexp="yes" inflected="yes" postag_regexp="yes">менше?|менший
                       <exception scope="previous">не</exception>
                     </token>
                     <token postag_regexp="yes" postag="numr:.*v_rod">
@@ -286,7 +319,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" postag_regexp="yes" postag="(adv|adj).*compr.*">мало|малий
+                    <token regexp="yes" inflected="yes">менше?|менший
                       <exception scope="previous">не</exception>
                     </token>
                     <token postag="number"/>
@@ -303,10 +336,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">менше?</token>
-                    <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:[mf]:v_rod">хвилина|година|день|доба|тиждень|місяць|рік</token>
+                    <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim:[mf]:v_rod">хвилина|година|день|доба|тиждень|місяць|рік</token>
                 </pattern>
-                <message>З іменником часу замість «менше» краще вживати «менше ніж/як»: <suggestion>менш як <match no="2" postag_regexp="yes" postag="(noun:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion></message>
-                <suggestion>менше ніж <match no="2" postag_regexp="yes" postag="(noun:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion>
+                <message>З іменником часу замість «менше» краще вживати «менше ніж/як»: <suggestion>менш як <match no="2" postag_regexp="yes" postag="(noun:inanim:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion></message>
+                <suggestion>менше ніж <match no="2" postag_regexp="yes" postag="(noun:inanim:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion>
                 <example>Менше галасу</example>
                 <example>Менше одного</example>
                 <example correction="менш як тиждень|менше ніж тиждень"><marker>менше тижня</marker>.</example>
@@ -697,7 +730,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
        <rule>   
            <pattern>
                <marker>
-                   <token inflected="yes">головний</token>
+                   <token inflected="yes" regexp="yes">головний|(най)?головніший</token>
                    <token inflected="yes">пріоритет</token>
                </marker>
            </pattern>
@@ -722,7 +755,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
        <rule>
          <pattern>
-            <token inflected="yes" postag_regexp="yes" postag="adj.*compr.*">великий</token>
+            <token inflected="yes" postag_regexp="yes">більший</token>
             <token inflected="yes">половина</token>
          </pattern>
          <message>Правильно: <suggestion>більша частина</suggestion>, <suggestion>більш ніж половина</suggestion></message>
@@ -796,7 +829,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
        <rule>
            <pattern>
-               <token inflected="yes" regexp="yes">яскравий|гарячий|змінний|надновий|коливання|атмосфера|температура|спектр|енергія|формування|формувати|сформувати</token>
+               <token inflected="yes" regexp="yes">яскравий|гарячий|((що|як)?най)?яскравіший|((що|як)?най)?гарячіший|змінний|надновий|коливання|атмосфера|температура|спектр|енергія|формування|формувати|сформувати</token>
                <marker>
                    <token inflected="yes">зірка</token>
                </marker>
@@ -813,7 +846,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                    <token>вилитий</token> <!-- TODO: inflected ? -->
                </marker>
                    <token postag_regexp="yes" postag="adj.*" min="0" max="1"/>
-                   <token postag_regexp="yes" postag="(noun:.*anim).*"></token>
+                   <token postag_regexp="yes" postag="noun:anim.*"/>
            </pattern>
            <message>Краще: <suggestion>викапаний</suggestion></message>
            <example correction="викапаний"><marker>вилитий</marker> живий Йозеф Швейк</example>
@@ -998,7 +1031,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
        <rule>
          <pattern>
            <marker>
-            <token inflected="yes">вірний</token>
+            <token inflected="yes" regexp="yes">вірний|(най)?вірніший</token>
           </marker>
             <token inflected="yes">спосіб</token>
          </pattern>
@@ -1009,7 +1042,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
        <rule>
          <pattern>
            <marker>
-            <token inflected="yes">вірний</token>
+            <token inflected="yes" regexp="yes">вірний|(най)?вірніший</token>
           </marker>
             <token inflected="yes" regexp="yes">результат|відповідь|рішення</token>
          </pattern>

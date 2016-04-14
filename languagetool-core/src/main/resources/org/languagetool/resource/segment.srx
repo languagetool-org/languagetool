@@ -18,7 +18,7 @@ Ingevolge paragraaf 4.7.4. van het SGR is ...
 He also offers a conversion table (see Cohen, 1988, p. 123).
 Jestem zły, bo... (wpisz własną odpowiedź) drażni mnie krowa.
 Ta lektura, podobnie jak tysiące innych, dostępna jest na stronie wolnelektury.pl. Wersja lektury w opracowaniu merytorycznym i krytycznym (przypisy i motywy) dostępna jest na stronie http://wolnelektury.pl/katalog/lektura/don-kichot-z-la-manchy. 
-Kierownictwo toleruje pracę z konieczności ("Skąd wezmę innego pracownika?") i jest zadowolone. Józek D. (45 l.) T.Love. B. Szymura, Psychologia poznawcza, op. cit., s. 60, 652. Alba Mons (d. Alba Patera) Zob. Józef Piłsudski. Dzieje ludności kultury Anasazi podzielić można na dwa okresy chronologiczne: Wyplataczy koszy (100 r. p.n.e. - 700 r. n.e.) Wolny głos, czyli nowy tomik pism, Paryż 1850, wyd. następne: zobacz Wydania zbiorowe poz. 3; poz. 4, t. 2, cz. 5. Abu Simbel (rzadziej Abu Sunbul, arab. ‏أبو سمبل‎, z greckiego Syene) – miejscowość w okręgu Muhafazah w Egipcie. Krowa (wym. „krowa”). Po 1815 było z kolei stolicą rejencji bydgoskiej w obrębie Wielkiego Księstwa Poznańskiego (od 1848 r. Prowincji Poznańskiej). Powstanie upadło w 1944 r. Od tej pory nic się nie działo, aż do II poł. XIX wieku. 1700-700 l. p.n.e. Rundfunk-Sinfonieorchester Berlin (dyr. muz. Josef Stalin) Znaczny wzrost demograficzny, powodujący problemy z zaopatrzeniem w żywność, połączony z okresem tzw. Wielkiej Suszy (1276 r. n.e. - 1299 r. n.e.). Skończyło się to 1234 r. n.e. Potem było lepiej. 
+Kierownictwo toleruje pracę z konieczności ("Skąd wezmę innego pracownika?") i jest zadowolone. Józek D. (45 l.) T.Love. B. Szymura, Psychologia poznawcza, op. cit., s. 60, 652. Alba Mons (d. Alba Patera) Zob. Józef Piłsudski. Dzieje ludności kultury Anasazi podzielić można na dwa okresy chronologiczne: Wyplataczy koszy (100 r. p.n.e. - 700 r. n.e.) Wolny głos, czyli nowy tomik pism, Paryż 1850, wyd. następne: zobacz Wydania zbiorowe poz. 3; poz. 4, t. 2, cz. 5. Abu Simbel (rzadziej Abu Sunbul, arab. ‏أبو سمبل‎, z greckiego Syene) – miejscowość w okręgu Muhafazah w Egipcie. Krowa (wym. „krowa”). Po 1815 było z kolei stolicą rejencji bydgoskiej w obrębie Wielkiego Księstwa Poznańskiego (od 1848 r. Prowincji Poznańskiej). Powstanie upadło w 1944 r. Od tej pory nic się nie działo, aż do II poł. XIX wieku. 1700-700 l. p.n.e. Rundfunk-Sinfonieorchester Berlin (dyr. muz. Josef Stalin) Znaczny wzrost demograficzny, powodujący problemy z zaopatrzeniem w żywność, połączony z okresem tzw. Wielkiej Suszy (1276 r. n.e. - 1299 r. n.e.). Skończyło się to 1234 r. n.e. Potem było lepiej. Było 14 tys. 031 zł.
 
 pl.Openoffice.org
 Ad. 1, 5 ha. ziemi na Mazurach. W Biblii jest także mowa o Adzie, matce flecistów i grających na harfie (Rdz. 4, 21). 
@@ -562,7 +562,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <!--Include the incorrect form "tyś." (5 tyś. zł), 4,5tys.-->
 <rule break="no">
 <beforebreak>\b[\d,\.]*ty[sś]\.\p{Pe}?\s</beforebreak>
-<afterbreak>\p{Ll}+</afterbreak>
+<afterbreak>[\p{Ll}\d]+</afterbreak>
 </rule>
 <!--nr. 1 (z błędem)-->
 <rule break="no">
@@ -4952,7 +4952,17 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </rule>
 <!-- усталені скорочення, що не збігаються з нескороченими словами -->
 <rule break="no">
-<beforebreak>\b(ст|напр|див|табл|стор|пор|тел|буд|кв|обл|пл)\.[\s\u00A0]</beforebreak>
+<beforebreak>\b(ст|напр|табл|стор|пор|тел|буд|кв|обл|пл)\.[\s\u00A0]</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- усталені скорочення, що збігаються з нескороченими словами -->
+<rule break="no">
+<beforebreak>\b(див)\.[\s\u00A0]</beforebreak>
+<afterbreak>[\s\u00A0]*[^А-ЯІЇЄҐ]</afterbreak>
+</rule>
+<!-- скорочення в дужках -->
+<rule break="no">
+<beforebreak>(\([^)]*|\[[^\]]*|,[\s\u00A0]*)\b(див)\.[\s\u00A0]*</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- abbreviation with proper noun: проф. Грицько, о. Лісове -->

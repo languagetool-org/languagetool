@@ -26,32 +26,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
         <equivalence type="S">
-            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[SN0].*|.*_GN_.S.*" postag_regexp="yes"></token>
+            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[SN0].*|.*_GN_.S.*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="P">
-            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[PN0].*|.*_GN_.P.*" postag_regexp="yes"></token>
+            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[PN0].*|.*_GN_.P.*" postag_regexp="yes"/>
         </equivalence>
     </unification>
     <unification feature="genero">
         <equivalence type="M">
-            <token postag="(PX.|N.|[ADP].{2}|V.{5})[MC].*|.*_GN_M..*" postag_regexp="yes"></token>
+            <token postag="(PX.|N.|[ADP].{2}|V.{5})[MC].*|.*_GN_M..*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="F">
-            <token postag="(PX.|N.|[ADP].{2}|V.{5})[FC].*|.*_GN_F..*" postag_regexp="yes"></token>
+            <token postag="(PX.|N.|[ADP].{2}|V.{5})[FC].*|.*_GN_F..*" postag_regexp="yes"/>
         </equivalence>
     </unification>
     <unification feature="persona">
         <equivalence type="primera">
-            <token postag="(P.|V.{3})[10].*" postag_regexp="yes"></token>
+            <token postag="(P.|V.{3})[10].*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="segunda">
-            <token postag="(P.|V.{3})[20].*" postag_regexp="yes"></token>
+            <token postag="(P.|V.{3})[20].*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="tercera">
-            <token postag="(P.|V.{3})[30].*" postag_regexp="yes"></token>
+            <token postag="(P.|V.{3})[30].*" postag_regexp="yes"/>
         </equivalence>
     </unification>
-  <category name="Ortografía (tipográficos)" type="misspelling">
+  <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
     <!--AE_COMIDO Tiempos compuestos por «a» o «e» + participio-->
 
     <rulegroup id="AE_COMIDO" name="Tiempos compuestos 'a' o 'e' + participio">
@@ -164,7 +164,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
       <rule id="HAZ_PARTICIPIO">
           <antipattern>
-              <token postag_regexp="yes" postag="D.*"></token>
+              <token postag_regexp="yes" postag="D.*"/>
               <token>haz</token>
           </antipattern>
           <pattern case_sensitive="no">
@@ -474,13 +474,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rule id="SE_SABER_SER" name="Se delante de ciertas palabas" type="misspelling">
         <antipattern>
             <token>se</token>
-            <token postag_regexp="yes" postag="(PP...0|V.[^NP]).+"></token>
+            <token postag_regexp="yes" postag="(PP...0|V.[^NP]).+"/>
         </antipattern>
         <pattern>
             <marker>
                 <token>se</token>
             </marker>
-            <token postag_regexp="yes" postag="(P....[^AD]|[DRS]|V.[NP]).+"><exception postag="SENT_END"></exception><exception>hacia</exception></token>
+            <token postag_regexp="yes" postag="(P....[^AD]|[DRS]|V.[NP]).+"><exception postag="SENT_END"/><exception>hacia</exception></token>
         </pattern>
         <message>Delante de un pronombre no dativo o acusativo, determinante, adverbio, preposición o forma verbal no personal; <suggestion>sé</suggestion> lleva tilde.</message>
         <short>sé lleva tilde delante de \2</short>
@@ -519,7 +519,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
   </category>
 
-  <category name="Ortografía (concepto)" type="grammar">
+  <category id="CAT1" name="Ortografía (concepto)" type="grammar">
     <!-- HABER_AVER Uso incorrecto de «haber» por «a ver»-->
 
     <rulegroup id="HABER_AVER" name="Uso incorrecto de «haber» por «a ver»">
@@ -681,7 +681,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
   </category>
 
-  <category name="Gramática" type="grammar">
+  <category id="GRAMMAR" name="Gramática" type="grammar">
     <rule id="PREPOSICION_VERBO" name="Combinación imposible: preposición + verbo conjugado">
         <antipattern>
             <marker>
@@ -1167,7 +1167,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
   </category>
 
-  <category name="Concordancia" type="inconsistency">
+  <category id="CAT2" name="Concordancia" type="inconsistency">
+
+    <rule id="LAS_NUMBER_MALE" name="'las tres preceptos' etcétera">
+        <pattern>
+            <marker>
+                <token>las</token>
+            </marker>
+            <token postag='Z'/>
+            <token postag='NCMP000'/>
+        </pattern>
+        <message>concordancia gramatical</message>
+        <suggestion>los</suggestion>
+        <example correction='los'>Cumplir dos de <marker>las</marker> tres preceptos.</example>
+    </rule>
+
+    <rule id="LOS_NUMBER_FEMALE" name="'los tres preguntas' etcétera">
+        <pattern>
+            <marker>
+                <token>los</token>
+            </marker>
+            <token postag='Z'/>
+            <token postag='NCFP000'/>
+        </pattern>
+        <message>concordancia gramatical</message>
+        <suggestion>las</suggestion>
+        <example correction='las'>Cumplir dos de <marker>los</marker> tres preguntas.</example>
+    </rule>
+
+    <rule id="ALGUNA_OTRO" name="'alguna otro' -> 'alguna otra'">
+        <pattern>
+            <token>alguna</token>
+            <marker>
+                <token>otro</token>
+            </marker>
+        </pattern>
+        <message>concordancia gramatical</message>
+        <suggestion>otra</suggestion>
+        <example correction='otra'>Alguna <marker>otro</marker> error de ortografía</example>
+    </rule>
+
     <!--CONC_NUM Concordancias de número-->
 
     <rulegroup id="CONC_NUM" name="Concordancias de número">
@@ -1618,7 +1657,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
   </category>
 
-  <category default="off" name="Concordancia predicativa" type="inconsistency">
+  <category id="CAT3" default="off" name="Concordancia predicativa" type="inconsistency">
     <!-- SUJ_PRED_ATRIB_SINGULAR Concordancia (pavo es rojos) -->
 
     <rule id="SUJ_PRED_ATRIB_SINGULAR" name="Concordancia de sujeto y predicado en singular en oraciones atributivas">
@@ -1702,7 +1741,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
   </category>
 
-  <category name="Estilo" type="style">
+  <category id="CAT4" name="Estilo" type="style">
     <!-- LOOR : La forma preferida es OLOR (http://cvc.cervantes.es/alhabla/museo_horrores/museo_014.htm)-->
 
     <rule id="LOOR" name="Loor de multitudes">

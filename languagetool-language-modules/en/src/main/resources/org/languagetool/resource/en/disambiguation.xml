@@ -883,6 +883,20 @@
         </pattern>
         <disambig><match no="2" postag="VBP" postag_regexp="yes"/></disambig>
     </rule>
+    <rule name="NNS/VBZ + were/are" id="NNS_ARE_WERE">
+        <pattern>
+            <marker>
+                <and>
+                <token postag="VBZ"/>
+                <token postag="NNS"/>
+                </and>
+            </marker>
+            <token regexp="yes">were|are</token>
+        </pattern>
+        <disambig postag="NNS"/>
+        <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]"
+                 outputform="forces[force/NNS]">The armed <marker>forces</marker> are here.</example>
+    </rule>
     <rule name="are + we|you -&gt; are (verb)" id="ARE_PRP">
         <pattern>
             <marker>
@@ -1190,6 +1204,16 @@
         <disambig action="add"><wd lemma="not" pos="RB">t</wd></disambig>
         <example type="untouched">I cannot do it.</example>
         <example type="ambiguous" inputform="t[t]" outputform="t[not/RB]">I can'<marker>t</marker> do it.</example>
+    </rule>
+    <rule name="haven't => verb only" id="HAVENT">
+        <pattern>
+            <marker>
+                <token>haven</token>
+            </marker>
+            <token regexp="yes">['’]</token>
+            <token>t</token>
+        </pattern>
+        <disambig action="filter" postag="MD|VBP"/>
     </rule>
     <rule name="re -> be" id="RE_VBP">
     	<pattern>
@@ -2771,6 +2795,38 @@
             <example type="untouched">This is Bill's house.</example>
             <example type="untouched">This is your's.</example>
             <example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[be/VBZ]">Where'<marker>s</marker> Bill?</example>
+        </rule>
+        <rule name="s = POS with NNS + are/were">
+            <pattern>
+                <token postag="NN:UN?" postag_regexp="yes"/>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no">s</token>
+                <marker>
+                    <and>
+                        <token postag="JJ"/>
+                        <token postag="VBN"/>
+                    </and>
+                </marker>
+                <token postag="NNS"/>
+                <token regexp="yes">are|were</token>
+            </pattern>
+            <disambig postag="JJ"/>
+        </rule>
+        <rule name="s = POS with NN + is/was">
+            <pattern>
+                <token postag="NN:UN?" postag_regexp="yes"/>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no">s</token>
+                <marker>
+                    <and>
+                        <token postag="JJ"/>
+                        <token postag="VBN"/>
+                    </and>
+                </marker>
+                <token postag="NNP?|NN:.*" postag_regexp="yes"/>
+                <token regexp="yes">is|was</token>
+            </pattern>
+            <disambig postag="JJ"/>
         </rule>
         <rule name="s = has">
             <pattern>

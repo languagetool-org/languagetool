@@ -1,6 +1,34 @@
 # LanguageTool Change Log
 
-## 3.3 (release planned for 2016-03-28)
+## 3.4 (release planned for 2016-06-27)
+
+#### English
+  * added about 7 confusion pairs like throe/throw, raps/wraps (works only with ngram data,
+    see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
+
+#### French
+  * added 32 confusion pairs like pris/prix, quand/quant (works only with ngram data,
+    see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
+
+#### Spanish
+  * added 14 confusion pairs like tubo/tuvo, ciento/siento (works only with ngram data,
+    see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
+
+#### Java API
+  * some formerly deprecated code has been removed
+
+#### Embedded HTTPS server
+  * changed behaviour for OutOfMemory situations: the server
+    process now stops instead of being in an unstable state
+  * missing parameters (like `text`) now cause a `400 Bad Request`
+    response (it used to produce `500 Internal Server Error`)
+
+
+
+## 3.3 (2016-03-28)
+
+#### Breton
+  * small rule improvements
 
 #### Catalan
   * added and improved rules
@@ -17,6 +45,9 @@
   * added about 215 confusion pairs like best/bets, wand/want (works only with ngram data,
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
 
+#### Esperanto
+  * improved several rules
+
 #### French
   * added and improved rules
 
@@ -29,7 +60,7 @@
 
 #### Greek
   * new rule for checking correct spell of ordinal numerals
-  * added new xml rules
+  * added new XML rules
 
 #### Polish
   * added and improved a large number of rules, largely improved disambiguation
@@ -46,6 +77,17 @@
   
 #### Spanish
   * added German false friends
+
+#### Ukrainian
+  * big dictionary update:
+    * more than 202K lemmas
+    * homonyms have been properly split
+    * vocative case for inanimates has be added
+    * list of barbarism has been updated
+  * improved some rules
+  * improved sentence tokenization
+  * improved dynamic tagging for compounds
+  * some improvements for disambiguation
 
 #### Java API
   * some formerly deprecated code has been removed

@@ -214,21 +214,13 @@ class LanguageToolHttpHandler implements HttpHandler {
         throw new RuntimeException(errorMessage);
       }
     } catch (Exception e) {
-      if (text != null && remoteAddress != null) {
-        print("An error has occurred. Access from " + remoteAddress + ", text length " + text.length() + ". Stacktrace follows:", System.err);
-      } else {
-        print("An error has occurred. Stacktrace follows:", System.err);
-      }
-      if (verbose && text != null) {
-        print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
-                StringUtils.abbreviate(text, 500), System.err);
-      }
-      //noinspection CallToPrintStackTrace
-      e.printStackTrace();
       String response;
       int errorCode;
       if (e instanceof TextTooLongException) {
         errorCode = HttpURLConnection.HTTP_ENTITY_TOO_LARGE;
+        response = e.getMessage();
+      } else if (e instanceof IllegalArgumentException) {
+        errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
         response = e.getMessage();
       } else if (e.getCause() != null && e.getCause() instanceof TimeoutException) {
         errorCode = HttpURLConnection.HTTP_UNAVAILABLE;
@@ -238,6 +230,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         response = Tools.getFullStackTrace(e);
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
       }
+      logError(text, remoteAddress, e, errorCode);
       sendError(httpExchange, errorCode, "Error: " + response);
     } finally {
       synchronized (this) {
@@ -245,6 +238,20 @@ class LanguageToolHttpHandler implements HttpHandler {
       }
       httpExchange.close();
     }
+  }
+
+  private void logError(String text, String remoteAddress, Exception e, int errorCode) {
+    if (text != null && remoteAddress != null) {
+      print("An error has occurred. Sending HTTP code " + errorCode + ". Access from " + remoteAddress + ", text length " + text.length() + ". Stacktrace follows:", System.err);
+    } else {
+      print("An error has occurred. Sending HTTP code " + errorCode + ". Stacktrace follows:", System.err);
+    }
+    if (verbose && text != null) {
+      print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
+              StringUtils.abbreviate(text, 500), System.err);
+    }
+    //noinspection CallToPrintStackTrace
+    e.printStackTrace();
   }
 
   // Call only if really needed, seems to be slow on some Windows machines.
@@ -404,6 +411,10 @@ class LanguageToolHttpHandler implements HttpHandler {
     final Future<List<RuleMatch>> future = executorService.submit(new Callable<List<RuleMatch>>() {
       @Override
       public List<RuleMatch> call() throws Exception {
+        // use to fake OOM in thread for testing:
+        /*if (Math.random() < 0.1) {
+          throw new OutOfMemoryError();
+        }*/
         return getRuleMatches(text, parameters, lang, motherTongue, params);
       }
     });
@@ -413,6 +424,12 @@ class LanguageToolHttpHandler implements HttpHandler {
     } else {
       try {
         matches = future.get(maxCheckTimeMillis, TimeUnit.MILLISECONDS);
+      } catch (ExecutionException e) {
+        if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
+          throw (OutOfMemoryError)e.getCause();
+        } else {
+          throw e;
+        }
       } catch (TimeoutException e) {
         boolean cancelled = future.cancel(true);
         throw new RuntimeException("Text checking took longer than allowed maximum of " + maxCheckTimeMillis +
@@ -617,7 +634,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     return xmlBuffer.toString();
   }
 
-  private class QueryParams {
+  private static class QueryParams {
     final List<String> enabledRules;
     final List<String> disabledRules;
     final List<CategoryId> enabledCategories;

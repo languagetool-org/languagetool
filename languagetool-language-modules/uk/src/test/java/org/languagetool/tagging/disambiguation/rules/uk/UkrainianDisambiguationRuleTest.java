@@ -56,16 +56,16 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
   public void testDisambiguator() throws IOException {
 
     TestTools.myAssert("Танцювати до впаду", 
-      "/[null]SENT_START Танцювати/[танцювати]verb:inf:imperf  /[null]null до/[до впаду]<adv>|до/[до]prep:rv_rod  /[null]null " +
-      "впаду/[впасти]verb:futr:s:1:perf:xp2:v-u|впаду/[до впаду]</adv>",
+      "/[null]SENT_START Танцювати/[танцювати]verb:imperf:inf  /[null]null до/[до впаду]<adv>|до/[до]prep:rv_rod  /[null]null " +
+      "впаду/[впасти]verb:perf:futr:s:1:xp2:v-u|впаду/[до впаду]</adv>",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
     
     TestTools.myAssert("Прийшла Люба додому.", 
-      "/[null]SENT_START Прийшла/[прийти]verb:past:f:perf|Прийшла/[прийшлий]adj:f:v_naz  /[null]null Люба/[Люба]noun:f:v_naz:anim:fname|Люба/[любий]adj:f:v_naz  /[null]null додому/[додому]adv ./[null]null",
+      "/[null]SENT_START Прийшла/[прийти]verb:perf:past:f|Прийшла/[прийшлий]adj:f:v_kly|Прийшла/[прийшлий]adj:f:v_naz  /[null]null Люба/[Люба]noun:anim:f:v_naz:prop:fname|Люба/[любий]adj:f:v_kly|Люба/[любий]adj:f:v_naz  /[null]null додому/[додому]adv ./[null]null",
        tokenizer, sentenceTokenizer, tagger, demoDisambiguator);
 
     TestTools.myAssert("Прийшла Люба додому.", 
-      "/[null]SENT_START Прийшла/[прийти]verb:past:f:perf|Прийшла/[прийшлий]adj:f:v_naz  /[null]null Люба/[Люба]noun:f:v_naz:anim:fname  /[null]null додому/[додому]adv ./[null]null",
+      "/[null]SENT_START Прийшла/[прийти]verb:perf:past:f|Прийшла/[прийшлий]adj:f:v_kly|Прийшла/[прийшлий]adj:f:v_naz  /[null]null Люба/[Люба]noun:anim:f:v_naz:prop:fname  /[null]null додому/[додому]adv ./[null]null",
        tokenizer, sentenceTokenizer, tagger, disambiguator);
       
   }
@@ -73,80 +73,80 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
   public void testDisambiguatorForInitials() throws IOException {
     TestTools.myAssert("Є.Бакуліна",
       "/[null]SENT_START"
-        + " Є/[Є]noun:f:v_naz:anim:fname:abbr|Є/[Є]noun:m:v_rod:anim:fname:abbr|Є/[Є]noun:m:v_zna:anim:fname:abbr"
+        + " Є/[Є]noun:anim:f:v_naz:prop:fname:abbr|Є/[Є]noun:anim:m:v_rod:prop:fname:abbr|Є/[Є]noun:anim:m:v_zna:prop:fname:abbr"
         + " ./[null]null"
-        + " Бакуліна/[Бакулін]noun:m:v_rod:anim:lname|Бакуліна/[Бакулін]noun:m:v_zna:anim:lname|Бакуліна/[Бакуліна]noun:f:v_naz:anim:lname",
+        + " Бакуліна/[Бакулін]noun:anim:m:v_rod:prop:lname|Бакуліна/[Бакулін]noun:anim:m:v_zna:prop:lname|Бакуліна/[Бакуліна]noun:anim:f:v_naz:prop:lname",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
   
     TestTools.myAssert(" Є. Бакуліна",
         "/[null]SENT_START"
           + "  /[null]null"
-          + " Є/[Є]noun:f:v_naz:anim:fname:abbr|Є/[Є]noun:m:v_rod:anim:fname:abbr|Є/[Є]noun:m:v_zna:anim:fname:abbr"
+          + " Є/[Є]noun:anim:f:v_naz:prop:fname:abbr|Є/[Є]noun:anim:m:v_rod:prop:fname:abbr|Є/[Є]noun:anim:m:v_zna:prop:fname:abbr"
           + " ./[null]null"
           + "  /[null]null"
-          + " Бакуліна/[Бакулін]noun:m:v_rod:anim:lname|Бакуліна/[Бакулін]noun:m:v_zna:anim:lname|Бакуліна/[Бакуліна]noun:f:v_naz:anim:lname",
+          + " Бакуліна/[Бакулін]noun:anim:m:v_rod:prop:lname|Бакуліна/[Бакулін]noun:anim:m:v_zna:prop:lname|Бакуліна/[Бакуліна]noun:anim:f:v_naz:prop:lname",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert(" Є.\u00A0Бакуліна",
         "/[null]SENT_START"
           + "  /[null]null"
-          + " Є/[Є]noun:f:v_naz:anim:fname:abbr|Є/[Є]noun:m:v_rod:anim:fname:abbr|Є/[Є]noun:m:v_zna:anim:fname:abbr"
+          + " Є/[Є]noun:anim:f:v_naz:prop:fname:abbr|Є/[Є]noun:anim:m:v_rod:prop:fname:abbr|Є/[Є]noun:anim:m:v_zna:prop:fname:abbr"
           + " ./[null]null"
           + " \u00A0/[null]null"
-          + " Бакуліна/[Бакулін]noun:m:v_rod:anim:lname|Бакуліна/[Бакулін]noun:m:v_zna:anim:lname|Бакуліна/[Бакуліна]noun:f:v_naz:anim:lname",
+          + " Бакуліна/[Бакулін]noun:anim:m:v_rod:prop:lname|Бакуліна/[Бакулін]noun:anim:m:v_zna:prop:lname|Бакуліна/[Бакуліна]noun:anim:f:v_naz:prop:lname",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("Є.Л.Бакуліна",
       "/[null]SENT_START"
-        + " Є/[Є]noun:f:v_naz:anim:fname:abbr|Є/[Є]noun:m:v_rod:anim:fname:abbr|Є/[Є]noun:m:v_zna:anim:fname:abbr"
+        + " Є/[Є]noun:anim:f:v_naz:prop:fname:abbr|Є/[Є]noun:anim:m:v_rod:prop:fname:abbr|Є/[Є]noun:anim:m:v_zna:prop:fname:abbr"
         + " ./[null]null"
-        + " Л/[Л]noun:f:v_naz:anim:patr:abbr|Л/[Л]noun:m:v_rod:anim:patr:abbr|Л/[Л]noun:m:v_zna:anim:patr:abbr"
+        + " Л/[Л]noun:anim:f:v_naz:prop:patr:abbr|Л/[Л]noun:anim:m:v_rod:prop:patr:abbr|Л/[Л]noun:anim:m:v_zna:prop:patr:abbr"
         + " ./[null]null"
-        + " Бакуліна/[Бакулін]noun:m:v_rod:anim:lname|Бакуліна/[Бакулін]noun:m:v_zna:anim:lname|Бакуліна/[Бакуліна]noun:f:v_naz:anim:lname",
+        + " Бакуліна/[Бакулін]noun:anim:m:v_rod:prop:lname|Бакуліна/[Бакулін]noun:anim:m:v_zna:prop:lname|Бакуліна/[Бакуліна]noun:anim:f:v_naz:prop:lname",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
     
     TestTools.myAssert(" Є. Л. Бакуліна",
         "/[null]SENT_START"
           + "  /[null]null"
-          + " Є/[Є]noun:f:v_naz:anim:fname:abbr|Є/[Є]noun:m:v_rod:anim:fname:abbr|Є/[Є]noun:m:v_zna:anim:fname:abbr"
+          + " Є/[Є]noun:anim:f:v_naz:prop:fname:abbr|Є/[Є]noun:anim:m:v_rod:prop:fname:abbr|Є/[Є]noun:anim:m:v_zna:prop:fname:abbr"
           + " ./[null]null"
           + "  /[null]null"
-          + " Л/[Л]noun:f:v_naz:anim:patr:abbr|Л/[Л]noun:m:v_rod:anim:patr:abbr|Л/[Л]noun:m:v_zna:anim:patr:abbr"
+          + " Л/[Л]noun:anim:f:v_naz:prop:patr:abbr|Л/[Л]noun:anim:m:v_rod:prop:patr:abbr|Л/[Л]noun:anim:m:v_zna:prop:patr:abbr"
           + " ./[null]null"
           + "  /[null]null"
-          + " Бакуліна/[Бакулін]noun:m:v_rod:anim:lname|Бакуліна/[Бакулін]noun:m:v_zna:anim:lname|Бакуліна/[Бакуліна]noun:f:v_naz:anim:lname",
+          + " Бакуліна/[Бакулін]noun:anim:m:v_rod:prop:lname|Бакуліна/[Бакулін]noun:anim:m:v_zna:prop:lname|Бакуліна/[Бакуліна]noun:anim:f:v_naz:prop:lname",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     
     TestTools.myAssert(" Є. Л. Бакуліна і Г. К. Бакулін",
         "/[null]SENT_START"
           + "  /[null]null"
-          + " Є/[Є]noun:f:v_naz:anim:fname:abbr|Є/[Є]noun:m:v_rod:anim:fname:abbr|Є/[Є]noun:m:v_zna:anim:fname:abbr"
+          + " Є/[Є]noun:anim:f:v_naz:prop:fname:abbr|Є/[Є]noun:anim:m:v_rod:prop:fname:abbr|Є/[Є]noun:anim:m:v_zna:prop:fname:abbr"
           + " ./[null]null"
           + "  /[null]null"
-          + " Л/[Л]noun:f:v_naz:anim:patr:abbr|Л/[Л]noun:m:v_rod:anim:patr:abbr|Л/[Л]noun:m:v_zna:anim:patr:abbr"
+          + " Л/[Л]noun:anim:f:v_naz:prop:patr:abbr|Л/[Л]noun:anim:m:v_rod:prop:patr:abbr|Л/[Л]noun:anim:m:v_zna:prop:patr:abbr"
           + " ./[null]null"
           + "  /[null]null"
-          + " Бакуліна/[Бакулін]noun:m:v_rod:anim:lname|Бакуліна/[Бакулін]noun:m:v_zna:anim:lname|Бакуліна/[Бакуліна]noun:f:v_naz:anim:lname"
+          + " Бакуліна/[Бакулін]noun:anim:m:v_rod:prop:lname|Бакуліна/[Бакулін]noun:anim:m:v_zna:prop:lname|Бакуліна/[Бакуліна]noun:anim:f:v_naz:prop:lname"
           + "  /[null]null"
           + " і/[і]conj:coord|і/[і]part"
           + "  /[null]null"
-          + " Г/[Г]noun:m:v_naz:anim:fname:abbr"
+          + " Г/[Г]noun:anim:m:v_naz:prop:fname:abbr"
           + " ./[null]null"
           + "  /[null]null"
-          + " К/[К]noun:m:v_naz:anim:patr:abbr"
+          + " К/[К]noun:anim:m:v_naz:prop:patr:abbr"
           + " ./[null]null"
           + "  /[null]null"
-          + " Бакулін/[Бакулін]noun:m:v_naz:anim:lname",
+          + " Бакулін/[Бакулін]noun:anim:m:v_naz:prop:lname",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     // make sure we don't choke on complex test
     TestTools.myAssert("Комендант, преподобний С. С. Мокітімі, був чудовою людиною.",
-      "/[null]SENT_START Комендант/[комендант]noun:m:v_naz:anim ,/[null]null"
-      +"  /[null]null преподобний/[преподобний]adj:m:v_naz|преподобний/[преподобний]adj:m:v_zna"
+      "/[null]SENT_START Комендант/[комендант]noun:anim:m:v_naz ,/[null]null"
+      +"  /[null]null преподобний/[преподобний]adj:m:v_kly|преподобний/[преподобний]adj:m:v_naz|преподобний/[преподобний]adj:m:v_zna:rinanim"
       +"  /[null]null С/[null]null ./[null]null  /[null]null С/[null]null ./[null]null  /[null]null"
       +" Мокітімі/[null]null ,/[null]null  /[null]null"
-      +" був/[бути]verb:past:m:imperf  /[null]null чудовою/[чудовий]adj:f:v_oru:compb  /[null]null людиною/[людина]noun:f:v_oru:anim ./[null]null",
+      +" був/[бути]verb:imperf:past:m  /[null]null чудовою/[чудовий]adj:f:v_oru:compb  /[null]null людиною/[людина]noun:anim:f:v_oru ./[null]null",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
   

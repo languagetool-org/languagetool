@@ -20,9 +20,9 @@ package org.languagetool.gui;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 import javax.swing.BorderFactory;
@@ -31,10 +31,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
 import org.languagetool.Languages;
 import org.languagetool.language.Contributor;
 
@@ -69,27 +68,15 @@ public class AboutDialog {
             + "This software is licensed under the GNU Lesser General Public License.<br>"
             + "<a href=\"http://www.languagetool.org\">http://www.languagetool.org</a><br>"
             + "Java max/total/free memory: %sMB, %sMB, %sMB</p>"
-            + "<p>Maintainers of the language modules:</p><br>"
+            + "<p>Maintainers or former maintainers of the language modules -<br>"
+            + "(*) means language is unmaintained in LanguageTool:</p><br>"
             + "</html>", JLanguageTool.VERSION,
              JLanguageTool.BUILD_DATE,
              Runtime.getRuntime().maxMemory()/1024/1024,
              Runtime.getRuntime().totalMemory()/1024/1024,
              Runtime.getRuntime().freeMemory()/1024/1024));
 
-    aboutPane.addHyperlinkListener(new HyperlinkListener() {
-      @Override
-      public void hyperlinkUpdate(HyperlinkEvent e) {
-        if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-          if (Desktop.isDesktopSupported()) {
-            try {
-              Desktop.getDesktop().browse(e.getURL().toURI());
-            } catch (Exception ex) {
-              Tools.showError(ex);
-            }
-          }
-        }
-      }
-    });
+    Tools.addHyperlinkListener(aboutPane);
 
     JTextPane maintainersPane = new JTextPane();
     maintainersPane.setBackground(new Color(0, 0, 0, 0));
@@ -101,7 +88,7 @@ public class AboutDialog {
     maintainersPane.setText(getMaintainers());
 
     int maxHeight = Toolkit.getDefaultToolkit().getScreenSize().height / 2;
-    if(maintainersPane.getPreferredSize().height > maxHeight) {
+    if (maintainersPane.getPreferredSize().height > maxHeight) {
       maintainersPane.setPreferredSize(
                 new Dimension(maintainersPane.getPreferredSize().width, maxHeight));
     }
@@ -126,32 +113,35 @@ public class AboutDialog {
         }
       }
     }
-    final StringBuilder maintainersInfo = new StringBuilder();
-    maintainersInfo.append("<table border=0 cellspacing=0 cellpadding=0>");
-    for (String lang : list.keySet()) {
-      maintainersInfo.append("<tr valign=\"top\"><td>");
-      maintainersInfo.append(lang);
-      maintainersInfo.append(":</td>");
-      maintainersInfo.append("<td>&nbsp;</td>");
-      maintainersInfo.append("<td>");
+    final StringBuilder str = new StringBuilder();
+    str.append("<table border=0 cellspacing=0 cellpadding=0>");
+    for (Map.Entry<String, Language> entry : list.entrySet()) {
+      str.append("<tr valign=\"top\"><td>");
+      str.append(entry.getKey());
+      if (entry.getValue().getMaintainedState() == LanguageMaintainedState.LookingForNewMaintainer) {
+        str.append("(*)");
+      }
+      str.append(":</td>");
+      str.append("<td>&nbsp;</td>");
+      str.append("<td>");
       int i = 0;
-      Contributor[] maintainers = list.get(lang).getMaintainers();
+      Contributor[] maintainers = list.get(entry.getKey()).getMaintainers();
       if (maintainers != null) {
         for (Contributor contributor : maintainers) {
           if (i > 0) {
-            maintainersInfo.append(", ");
+            str.append(", ");
             if (i % 3 == 0) {
-              maintainersInfo.append("<br>");
+              str.append("<br>");
             }
           }
-          maintainersInfo.append(contributor.getName());
+          str.append(contributor.getName());
           i++;
         }
       }
-      maintainersInfo.append("</td></tr>");
+      str.append("</td></tr>");
     }
-    maintainersInfo.append("</table>");
-    return maintainersInfo.toString();
+    str.append("</table>");
+    return str.toString();
   }
 
 }

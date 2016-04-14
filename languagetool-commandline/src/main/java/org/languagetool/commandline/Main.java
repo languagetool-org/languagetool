@@ -69,7 +69,7 @@ class Main {
       lt.activateLanguageModelRules(options.getLanguageModel());
     }
     Tools.selectRules(lt, options.getDisabledCategories(), options.getEnabledCategories(),
-            new HashSet<>(Arrays.asList(options.getDisabledRules())), new HashSet<>(Arrays.asList(options.getEnabledRules())), options.isUseEnabledOnly());
+            new HashSet<>(options.getDisabledRules()), new HashSet<>(options.getEnabledRules()), options.isUseEnabledOnly());
   }
 
   private void addExternalRules(String filename) throws IOException {
@@ -115,13 +115,13 @@ class Main {
   }
 
   private void setBitextMode(final Language sourceLang,
-      final String[] disabledRules, final String[] enabledRules, final File bitextRuleFile) throws IOException, ParserConfigurationException, SAXException {
+      final List<String> disabledRules, final List<String> enabledRules, final File bitextRuleFile) throws IOException, ParserConfigurationException, SAXException {
     bitextMode = true;
     final Language target = lt.getLanguage();
     lt = new MultiThreadedJLanguageTool(target, null);
     srcLt = new MultiThreadedJLanguageTool(sourceLang);
-    Tools.selectRules(lt, disabledRules, enabledRules);
-    Tools.selectRules(srcLt, disabledRules, enabledRules);
+    Tools.selectRules(lt, disabledRules, enabledRules, true);
+    Tools.selectRules(srcLt, disabledRules, enabledRules, true);
     bRules = Tools.getBitextRules(sourceLang, lt.getLanguage(), bitextRuleFile);
 
     List<BitextRule> bRuleList = new ArrayList<>(bRules);
@@ -133,7 +133,7 @@ class Main {
       }
     }
     bRules = bRuleList;
-    if (enabledRules.length > 0) {
+    if (enabledRules.size() > 0) {
       bRuleList = new ArrayList<>();
       for (final String enabledRule : enabledRules) {
         for (final BitextRule bitextRule : bRules) {
@@ -359,10 +359,10 @@ class Main {
   }
 
   private void changeLanguage(Language language, Language motherTongue,
-                              String[] disabledRules, String[] enabledRules) {
+                              List<String> disabledRules, List<String> enabledRules) {
     try {
       lt = new MultiThreadedJLanguageTool(language, motherTongue);
-      Tools.selectRules(lt, disabledRules, enabledRules);
+      Tools.selectRules(lt, disabledRules, enabledRules, true);
       if (options.isVerbose()) {
         lt.setOutput(System.err);
       }
@@ -435,7 +435,7 @@ class Main {
     }
     if (prg.lt.getAllActiveRules().size() == 0) {
       throw new RuntimeException("WARNING: No rules are active. Please make sure your rule ids are correct: " +
-              Arrays.toString(options.getEnabledRules()));
+              options.getEnabledRules());
     }
     if (languageHint != null) {
       String spellHint = prg.isSpellCheckingActive() ?

@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <!-- Possible typos -->
     <!-- ====================================================================== -->
-    <category name="Possible Typos">
+    <category id="TYPOS" name="Possible Typos">
 
         <rule id="HOUY_NUNG" name="ហើយ​នឹង (ហើយ​និង)">
             <pattern>
@@ -162,7 +162,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="PRO_CHOMNAH" name="ខ្ញុំ​រាង​ចំណាស់​">
             <pattern>
-                <token postag="PRO"></token>
+                <token postag="PRO"/>
                 <token>ចំណាស់</token>
             </pattern>
             <message>Did you mean
@@ -252,7 +252,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>មក</token>
                 <marker>
                     <token>ពីរ</token>
-                    <token><exception postag="CLS"></exception></token>
+                    <token><exception postag="CLS"/></token>
                 </marker>
             </pattern>
             <message>Did you mean
@@ -269,8 +269,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
 
-    <category name="Khmer Grammar">
-
+    <category id="GRAMMAR" name="Khmer Grammar">
 
         <rule id="NOUN_POSESIVEPRONOUN" name="Possible incorrect position of noun posessed by pronoun" default="off">
             <!--We removed this rule for now, it is too greedy-->
@@ -279,7 +278,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="PRP|PRO" postag_regexp="yes"><exception regexp="yes">នេះ|នោះ</exception></token>
                     <token postag="NN"><exception>ខ្លួន</exception></token>
                 </marker>
-                <token><exception postag="CLS"></exception></token>
+                <token><exception postag="CLS"/></token>
             </pattern>
             <message>In Khmer the noun posessed precedes the pronoun. Write
                 <suggestion>\2​\1</suggestion> instead.
@@ -296,8 +295,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ADJ_NOUN" name="Possible incorrect position of adjective" default="off">
             <!--We removed this rule for now, it is too greedy-->
             <pattern>
-                <token postag="JJ"><exception postag="NUM|CLS|GEN|VB|AUX" postag_regexp="yes"></exception><exception>រៀងរាល់</exception></token>
-                <token postag="NN"><exception postag_regexp="yes" postag="GEN|PRO"></exception></token>
+                <token postag="JJ"><exception postag="NUM|CLS|GEN|VB|AUX" postag_regexp="yes"/><exception>រៀងរាល់</exception></token>
+                <token postag="NN"><exception postag_regexp="yes" postag="GEN|PRO"/></token>
             </pattern>
             <message>In Khmer the adjective follows the noun. Write
                 <suggestion>\2​\1</suggestion> instead.
@@ -314,7 +313,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="Gender_spec" name="Possible incorrect position of gender word" default="off">
             <!--We removed this rule for now, it is too greedy-->
             <pattern>
-                <token postag="GEN"></token>
+                <token postag="GEN"/>
                 <token postag="NN"><exception regexp="yes">ក្មេង|ចំណាស់</exception></token>
             </pattern>
             <message>In Khmer the gender normally follows the noun. Write
@@ -352,7 +351,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>ចង់</token>
                 </marker>
-                <token postag="NN"><exception postag="VB"></exception></token>
+                <token postag="NN"><exception postag="VB"/></token>
             </pattern>
             <message>You should write
                 <suggestion>ចង់​បាន</suggestion> instead.
@@ -371,7 +370,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>ចង់បាន</token>
                 </marker>
-                <token postag="VB"><exception postag="NN"></exception></token>
+                <token postag="VB"><exception postag="NN"/></token>
             </pattern>
             <message>You should write
                 <suggestion>ចង់</suggestion> instead.
@@ -391,7 +390,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>ចង់</token>
                     <token>បាន</token>
                 </marker>
-                <token postag="VB"><exception postag="NN"></exception></token>
+                <token postag="VB"><exception postag="NN"/></token>
             </pattern>
             <message>You should write
                 <suggestion>ចង់</suggestion> instead.
@@ -411,7 +410,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>ពី</token>
                 </marker>
-                <token postag="CLS"></token>
+                <token postag="CLS"/>
             </pattern>
             <message>You should write
                 <suggestion>ពីរ</suggestion> instead.
@@ -430,8 +429,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--This rule dies if ANY Classifier is detected after មនុស្ស + Number -->
                 <pattern>
                     <token>មនុស្ស</token>
-                    <token postag="NUM"></token>
-                    <token><exception postag="CLS"></exception></token>
+                    <token postag="NUM"/>
+                    <token><exception postag="CLS"/></token>
                 </pattern>
                 <message>You should write
                     <suggestion>\1​\2​នាក់​\3</suggestion>
@@ -452,7 +451,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--This rule is true ONLY with a classifier and dies ONLY with classifiers that cane be used with មនុស្ស + Number -->
                 <pattern>
                     <token>មនុស្ស</token>
-                    <token postag="NUM"></token>
+                    <token postag="NUM"/>
                     <token postag="CLS"><exception regexp="yes">នាក់|ក្រុម|ពួក|គូ|ចំនួន</exception></token>
                 </pattern>
                 <message>You should write
@@ -474,12 +473,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="NOUN_NENG_NOUN" name="INCORRECT USE OF ហើយ​និង with two nouns">
             <!-- Sometimes when a verb does two or more actions, that are nouns, it is fine to use ហើយ​​និង​. Once we have the ability to detect sentence structure, we can add this ទ្រង់​នឹង​ផ្តល់​អោយ​អ្នក​នូវ​កំឡាំង ហើយនិង​អំណាច​រាល់​ថ្ងៃ-->
             <pattern>
-                <token postag_regexp="yes" postag="NN|NNP|PRO|ROY"><exception postag="VB"></exception></token>
+                <token postag_regexp="yes" postag="NN|NNP|PRO|ROY"><exception postag="VB"/></token>
                 <marker>
                     <token>ហើយ</token>
                     <token>និង</token>
                 </marker>
-                <token postag_regexp="yes" postag="NN|NNP|PRO|ROY"><exception postag="VB"></exception></token>
+                <token postag_regexp="yes" postag="NN|NNP|PRO|ROY"><exception postag="VB"/></token>
             </pattern>
             <message>You should write
                 <suggestion>\3</suggestion> instead.
@@ -496,11 +495,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="NOUN_NENG_NOUN2" name="INCORRECT USE OF ហើយនិង with two nouns2">
             <!-- Sometimes when a verb does two or more actions, that are nouns, it is fine to use ហើយ​​និង​. Once we have the ability to detect sentence structure, we can add this ទ្រង់​នឹង​ផ្តល់​អោយ​អ្នក​នូវ​កំឡាំង ហើយនិង​អំណាច​រាល់​ថ្ងៃ-->
             <pattern>
-                <token postag_regexp="yes" postag="NN|NNP|PRO|ROY"><exception postag="VB"></exception></token>
+                <token postag_regexp="yes" postag="NN|NNP|PRO|ROY"><exception postag="VB"/></token>
                 <marker>
                     <token>ហើយនិង</token>
                 </marker>
-                <token postag_regexp="yes" postag="NN|NNP|PRO|ROY"><exception postag="VB"></exception></token>
+                <token postag_regexp="yes" postag="NN|NNP|PRO|ROY"><exception postag="VB"/></token>
             </pattern>
             <message>You should write
                 <suggestion>និង</suggestion> instead.
@@ -516,11 +515,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rule id="VERB_NENG_VERB" name="INCORRECT USE OF ​និង with two verbs">
             <pattern>
-                <token postag="VB"><exception postag="NN"></exception></token>
+                <token postag="VB"><exception postag="NN"/></token>
                 <marker>
                     <token>និង</token>
                 </marker>
-                <token postag="VB"><exception postag="NN"></exception></token>
+                <token postag="VB"><exception postag="NN"/></token>
             </pattern>
             <message>You should write
                 <suggestion>ហើយនិង</suggestion> instead.
@@ -541,7 +540,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>Remove ន៍ because the word is already a modified noun.
-                <suggestion><match no="2" regexp_match="(.*)(ន៍)" regexp_replace="$1"></match></suggestion>
+                <suggestion><match no="2" regexp_match="(.*)(ន៍)" regexp_replace="$1"/></suggestion>
             </message>
             <short>Remove ន៍ because the word is already a modified noun.</short>
             <example>
@@ -556,7 +555,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">(សេចក្តី|សេចក្ដី|ការ|ភាព|អំពើ)(.*)(ន៍)</token>
             </pattern>
             <message>Remove ន៍ because the word is already a modified noun.
-                <suggestion><match no="1" regexp_match="(សេចក្តី|សេចក្ដី|ការ|ភាព|អំពើ)(.*)(ន៍)" regexp_replace="$1$2"></match></suggestion>
+                <suggestion><match no="1" regexp_match="(សេចក្តី|សេចក្ដី|ការ|ភាព|អំពើ)(.*)(ន៍)" regexp_replace="$1$2"/></suggestion>
             </message>
             <short>Remove ន៍ because the word is already a modified noun.</short>
             <example>
@@ -571,7 +570,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">(សេចក្តី|សេចក្ដី|ការ|ភាព|អំពើ)(ជំនឿ|ទំនាក់ទំនង|តម្រូវការ)</token>
             </pattern>
             <message>Do not add a noun modifier to a word that is already a noun.
-                <suggestion><match no="1" regexp_match="(សេចក្តី|សេចក្ដី|ការ|ភាព|អំពើ)(ជំនឿ|ទំនាក់ទំនង|តម្រូវការ)" regexp_replace="$2"></match></suggestion>
+                <suggestion><match no="1" regexp_match="(សេចក្តី|សេចក្ដី|ការ|ភាព|អំពើ)(ជំនឿ|ទំនាក់ទំនង|តម្រូវការ)" regexp_replace="$2"/></suggestion>
             </message>
             <short>Do not add a noun modifier to a word that is already a noun.</short>
             <example>

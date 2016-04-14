@@ -214,8 +214,8 @@ public class HTTPServerTest {
         HTTPTools.checkAtUrl(url);
         fail();
       } catch (IOException expected) {
-        if (!expected.toString().contains(" 500 ")) {
-          fail("Expected exception with error 500, got: " + expected);
+        if (!expected.toString().contains(" 400 ")) {
+          fail("Expected exception with error 400, got: " + expected);
         }
       }
     } finally {
@@ -234,8 +234,8 @@ public class HTTPServerTest {
         HTTPTools.checkAtUrl(url);
         fail();
       } catch (IOException expected) {
-        if (!expected.toString().contains(" 500 ")) {
-          fail("Expected exception with error 500, got: " + expected);
+        if (!expected.toString().contains(" 400 ")) {
+          fail("Expected exception with error 400, got: " + expected);
         }
       }
     } finally {

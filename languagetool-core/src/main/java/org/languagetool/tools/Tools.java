@@ -281,11 +281,12 @@ public final class Tools {
   /**
    * Enable and disable rules of the given LanguageTool instance.
    * @param lt LanguageTool object
-   * @param disabledRules ids of the rules to be disabled
-   * @param enabledRules ids of the rules to be enabled
+   * @param disabledRuleIds ids of the rules to be disabled
+   * @param enabledRuleIds ids of the rules to be enabled
+   * @deprecated use {@link #selectRules(JLanguageTool, List, List, boolean)} instead (deprecated since 3.4)
    */
-  public static void selectRules(final JLanguageTool lt, final String[] disabledRules, final String[] enabledRules) {
-    selectRules(lt, disabledRules, enabledRules, true);
+  public static void selectRules(final JLanguageTool lt, final String[] disabledRuleIds, final String[] enabledRuleIds) {
+    selectRules(lt, disabledRuleIds, enabledRuleIds, true);
   }
 
   /**
@@ -296,7 +297,11 @@ public final class Tools {
    * @param useEnabledOnly if set to {@code true}, disable all rules except those enabled explicitly
    */
   public static void selectRules(final JLanguageTool lt, final List<String> disabledRuleIds, final List<String> enabledRuleIds, boolean useEnabledOnly) {
-    selectRules(lt, disabledRuleIds.toArray(new String[disabledRuleIds.size()]), enabledRuleIds.toArray(new String[enabledRuleIds.size()]), useEnabledOnly);
+    Set<String> disabledRuleIdsSet = new HashSet<>();
+    disabledRuleIdsSet.addAll(disabledRuleIds);
+    Set<String> enabledRuleIdsSet = new HashSet<>();
+    enabledRuleIdsSet.addAll(enabledRuleIds);
+    selectRules(lt, Collections.emptySet(), Collections.emptySet(), disabledRuleIdsSet, enabledRuleIdsSet, useEnabledOnly);
   }
 
   /**

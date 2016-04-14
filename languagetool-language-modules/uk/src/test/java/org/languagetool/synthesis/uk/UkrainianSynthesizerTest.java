@@ -34,10 +34,10 @@ public class UkrainianSynthesizerTest extends TestCase {
     assertEquals(synth.synthesize(dummyToken("щосьтамтаке"), "щосьтамтаке").length, 0);
 
 //    assertEquals("[Андрія]", Arrays.toString(synth.synthesize(dummyToken("Андрій"), "noun:m:v_rod")));
-    assertEquals("[міста]", Arrays.toString(synth.synthesize(dummyToken("місто"), "noun:n:v_rod")));
+    assertEquals("[міста]", Arrays.toString(synth.synthesize(dummyToken("місто"), "noun:inanim:n:v_rod")));
 
     //with regular expressions
-    assertEquals("[найчервонішої, червоної, червонішої, щонайчервонішої, якнайчервонішої]", Arrays.toString(
+    assertEquals("[червоної]", Arrays.toString(
             getSortedArray(synth.synthesize(dummyToken("червоний"), "adj:f:v_rod.*", true))));
     assertEquals("[червоної]", Arrays.toString(
             getSortedArray(synth.synthesize(dummyToken("червоний"), "adj:f:v_rod:compb", true))));
