@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.150 2016-04-11 08:40:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.151 2016-04-14 19:40:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -217,6 +217,39 @@ $Id: grammar.xml,v 1.150 2016-04-11 08:40:00 marcoagpinto Exp $
      <example correction="procuram-se">Aqui <marker>procura-se</marker> pessoas sérias.</example>	 	 
     </rule> 
 
+	
+	
+    <!-- Concordance gender - NECESSÁRIO > NECESSÁRIA -->
+    <rule id="NECESSÁRIO_NECESSÁRIA" name="Erro de concordância NECESSÁRIO-NECESSÁRIA">
+      <pattern>
+		<token regexp="yes">é|foi|era|fora|será|seria|seja|fosse|for</token>
+        <marker>
+			<token>necessário</token>	
+        </marker>
+		<token>uma</token>
+		<token postag="NCFS000"><exception postag_regexp="yes" postag="AQ0CS0|PI0FS000|PI0MS000|NCMS000"></exception><exception>uma</exception></token>
+     </pattern>
+	 <message>Erro de género. Usar: <suggestion>necessária</suggestion>.</message>
+     <example correction="necessária">É <marker>necessário</marker> uma festa.</example>
+    </rule> 	
+
+
+
+    <!-- Concordance gender - NECESSÁRIO > NECESSÁRIA + UMA + ADJ + NOUN -->
+    <rule id="NECESSÁRIO_NECESSÁRIA_ADJ_NOUN" name="Erro de concordância NECESSÁRIO-NECESSÁRIA + UMA + ADJ + NOUN">
+      <pattern>
+		<token regexp="yes">é|foi|era|fora|será|seria|seja|fosse|for</token>
+        <marker>
+            <token>necessário</token>
+        </marker>
+		<token>uma</token>
+		<token postag_regexp="yes" postag="AQ0CS0|PI0FS000|PI0MS000|NCFS000"><exception>uma</exception></token>
+		<token postag="NCFS000"><exception postag="NCMS000"></exception><exception>uma</exception></token>
+     </pattern>
+	 <message>Erro de género. Usar: <suggestion>necessária</suggestion>.</message>
+     <example correction="necessária">É <marker>necessário</marker> uma grande festa.</example>
+    </rule> 	
+	
 
 	
     <!-- Concordance gender - UM > UMA -->
