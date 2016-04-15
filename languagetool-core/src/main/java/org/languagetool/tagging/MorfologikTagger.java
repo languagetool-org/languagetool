@@ -48,7 +48,12 @@ public class MorfologikTagger implements WordTagger {
     this.dictUrl = Objects.requireNonNull(dictUrl);
   }
 
-  private synchronized Dictionary getDictionary() throws IOException {
+  public MorfologikTagger(Dictionary dictionary) {
+    this.dictUrl = null;
+    this.dictionary = dictionary;
+  }
+
+  public synchronized Dictionary getDictionary() throws IOException {
     if (dictionary == null) {
       dictionary = Dictionary.read(dictUrl);
     }

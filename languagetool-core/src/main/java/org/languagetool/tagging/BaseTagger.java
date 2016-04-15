@@ -79,13 +79,14 @@ public abstract class BaseTagger implements Tagger {
     this.dictionaryPath = filename;
     this.conversionLocale = locale;
     this.tagLowercaseWithUppercase = tagLowercaseWithUppercase;
-    this.wordTagger = initWordTagger(filename);
+    URL url;
     try {
-      URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(filename);
+      url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(filename);
       this.dictionary = Dictionary.read(url);
     } catch (IOException e) {
       throw new RuntimeException("Could not load dictionary from " + filename, e);
     }
+    this.wordTagger = initWordTagger();
   }
 
   /**
@@ -108,8 +109,8 @@ public abstract class BaseTagger implements Tagger {
     return wordTagger;
   }
 
-  private WordTagger initWordTagger(String filename) {
-    MorfologikTagger morfologikTagger = new MorfologikTagger(filename);
+  private WordTagger initWordTagger() {
+    MorfologikTagger morfologikTagger = new MorfologikTagger(dictionary);
     try {
       String manualRemovalFileName = getManualRemovalsFileName();
       ManualTagger removalTagger = null;
