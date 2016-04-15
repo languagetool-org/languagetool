@@ -53,7 +53,7 @@ public class MorfologikTagger implements WordTagger {
     this.dictionary = dictionary;
   }
 
-  public synchronized Dictionary getDictionary() throws IOException {
+  private synchronized Dictionary getDictionary() throws IOException {
     if (dictionary == null) {
       dictionary = Dictionary.read(dictUrl);
     }
