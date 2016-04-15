@@ -79,9 +79,8 @@ public abstract class BaseTagger implements Tagger {
     this.dictionaryPath = filename;
     this.conversionLocale = locale;
     this.tagLowercaseWithUppercase = tagLowercaseWithUppercase;
-    URL url;
     try {
-      url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(filename);
+      URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(filename);
       this.dictionary = Dictionary.read(url);
     } catch (IOException e) {
       throw new RuntimeException("Could not load dictionary from " + filename, e);
