@@ -48,7 +48,7 @@ public class BaseSynthesizer implements Synthesizer {
    * @param resourceFileName The dictionary file name.
    * @param tagFileName The name of a file containing all possible tags.
    */
-  public BaseSynthesizer(final String resourceFileName, final String tagFileName) {
+  public BaseSynthesizer(String resourceFileName, String tagFileName) {
     this.resourceFileName = resourceFileName;
     this.tagFileName = tagFileName;
     this.stemmer = createStemmer();
@@ -65,7 +65,7 @@ public class BaseSynthesizer implements Synthesizer {
       synchronized (this) {
         dict = this.dictionary;
         if (dict == null) {
-          final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(resourceFileName);
+          URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(resourceFileName);
           this.dictionary = dict = Dictionary.read(url);
         }
       }
@@ -94,7 +94,7 @@ public class BaseSynthesizer implements Synthesizer {
    */
   protected void lookup(String lemma, String posTag, List<String> results) {
     synchronized (this) { // the stemmer is not thread-safe
-      final List<WordData> wordForms = stemmer.lookup(lemma + "|" + posTag);
+      List<WordData> wordForms = stemmer.lookup(lemma + "|" + posTag);
       for (WordData wd : wordForms) {
         results.add(wd.getStem().toString());
       }
@@ -109,21 +109,21 @@ public class BaseSynthesizer implements Synthesizer {
    * @return inflected words, or an empty array if no forms were found
    */
   @Override
-  public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException {
-    final List<String> wordForms = new ArrayList<>();
+  public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
+    List<String> wordForms = new ArrayList<>();
     lookup(token.getLemma(), posTag, wordForms);
     return wordForms.toArray(new String[wordForms.size()]);
   }
 
   @Override
-  public String[] synthesize(final AnalyzedToken token, final String posTag,
-      final boolean posTagRegExp) throws IOException {
+  public String[] synthesize(AnalyzedToken token, String posTag,
+      boolean posTagRegExp) throws IOException {
     if (posTagRegExp) {
       initPossibleTags();
-      final Pattern p = Pattern.compile(posTag);
-      final List<String> results = new ArrayList<>();
+      Pattern p = Pattern.compile(posTag);
+      List<String> results = new ArrayList<>();
       for (String tag : possibleTags) {
-        final Matcher m = p.matcher(tag);
+        Matcher m = p.matcher(tag);
         if (m.matches()) {
           lookup(token.getLemma(), tag, results);
         }
@@ -134,7 +134,7 @@ public class BaseSynthesizer implements Synthesizer {
   }
 
   @Override
-  public String getPosTagCorrection(final String posTag) {
+  public String getPosTagCorrection(String posTag) {
     return posTag;
   }
 

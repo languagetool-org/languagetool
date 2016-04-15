@@ -50,7 +50,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern NOM_SING = Pattern.compile("V.[NG].*|V.P..S..|N..[SN].*|A...[SN].|PX..S...|DD..S.");
   private static final Pattern NOM_PLURAL = Pattern.compile("V.P..P..|N..[PN].*|A...[PN].|PX..P...|DD..P.");
   private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
-  private static final CatalanTagger tagger=new CatalanTagger();
+  private static final CatalanTagger tagger = new CatalanTagger();
 
   public MorfologikCatalanSpellerRule(ResourceBundle messages, Language language)
       throws IOException {

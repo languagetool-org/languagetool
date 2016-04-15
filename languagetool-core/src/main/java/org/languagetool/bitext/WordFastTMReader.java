@@ -32,7 +32,7 @@ import java.util.Iterator;
  */
 public class WordFastTMReader extends TabBitextReader {
 
-  public WordFastTMReader(final String filename, final String encoding) throws IOException {
+  public WordFastTMReader(String filename, String encoding) throws IOException {
     super(filename, encoding);
     //skip the header (first line)
     if (nextLine != null) {
@@ -43,11 +43,11 @@ public class WordFastTMReader extends TabBitextReader {
 
   @Nullable
   @Override
-  public final StringPair tab2StringPair(final String line) {
+  public final StringPair tab2StringPair(String line) {
     if (line == null) {
       return null;
     }
-    final String[] fields = line.split("\t");
+    String[] fields = line.split("\t");
     sentencePos = fields[4].length() + 1;
     return new StringPair(fields[4], fields[6]);
   }
@@ -67,7 +67,7 @@ public class WordFastTMReader extends TabBitextReader {
     @Override
     public StringPair next() {
       try {
-        final StringPair result = nextPair;
+        StringPair result = nextPair;
         if (nextLine != null) {
           nextLine = in.readLine();
           nextPair = tab2StringPair(nextLine);

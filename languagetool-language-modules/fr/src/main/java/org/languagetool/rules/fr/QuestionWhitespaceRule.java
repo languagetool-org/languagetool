@@ -44,7 +44,7 @@ public class QuestionWhitespaceRule extends FrenchRule {
   // space before and after colon ':' in URL with common schemes.
   private static final Pattern urlPattern = Pattern.compile("^(file|s?ftp|finger|git|gopher|hdl|https?|shttp|imap|mailto|mms|nntp|s?news(post|reply)?|prospero|rsync|rtspu|sips?|svn|svn\\+ssh|telnet|wais)$");
 
-  public QuestionWhitespaceRule(final ResourceBundle messages) {
+  public QuestionWhitespaceRule(ResourceBundle messages) {
     // super(messages);
     super.setCategory(Categories.MISC.getCategory(messages));
   }
@@ -60,13 +60,13 @@ public class QuestionWhitespaceRule extends FrenchRule {
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokens();
+  public RuleMatch[] match(AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokens();
     String prevToken = "";
     for (int i = 1; i < tokens.length; i++) {
-      final String token = tokens[i].getToken();
-      final boolean isWhiteBefore = tokens[i].isWhitespaceBefore()
+      String token = tokens[i].getToken();
+      boolean isWhiteBefore = tokens[i].isWhitespaceBefore()
           && !"\u00A0".equals(prevToken) && !"\u202F".equals(prevToken);
       String msg = null;
       int fixLen = 0;
@@ -129,7 +129,7 @@ public class QuestionWhitespaceRule extends FrenchRule {
         } else if (token.equals(":")
             && !prevToken.equals("\u00a0") && !prevToken.equals("\u202f")) {
           // Avoid false positive for URL like http://www.languagetool.org.
-          final Matcher matcherUrl = urlPattern.matcher(prevToken);
+          Matcher matcherUrl = urlPattern.matcher(prevToken);
           if (!matcherUrl.find()) {
             msg = "Deux-points précédés d'une espace fine insécable.";
             // non-breaking space
@@ -159,10 +159,10 @@ public class QuestionWhitespaceRule extends FrenchRule {
       }
 
       if (msg != null) {
-        final int fromPos = tokens[i - 1].getStartPos();
-        final int toPos = tokens[i - 1].getStartPos() + fixLen
+        int fromPos = tokens[i - 1].getStartPos();
+        int toPos = tokens[i - 1].getStartPos() + fixLen
             + tokens[i - 1].getToken().length();
-        final RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg,
+        RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg,
             "Insérer un espace insécable");
         if (suggestionText != null) {
           ruleMatch.setSuggestedReplacement(suggestionText);

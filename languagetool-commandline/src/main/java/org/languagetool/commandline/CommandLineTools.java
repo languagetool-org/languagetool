@@ -57,26 +57,26 @@ public final class CommandLineTools {
    * @param contents Text to tag.
    * @param lt LanguageTool instance
    */
-  public static void tagText(final String contents, final JLanguageTool lt) throws IOException {
+  public static void tagText(String contents, JLanguageTool lt) throws IOException {
     AnalyzedSentence analyzedText;
-    final List<String> sentences = lt.sentenceTokenize(contents);
-    for (final String sentence : sentences) {
+    List<String> sentences = lt.sentenceTokenize(contents);
+    for (String sentence : sentences) {
       analyzedText = lt.getAnalyzedSentence(sentence);
       System.out.println(analyzedText);
     }
   }
 
-  public static int checkText(final String contents, final JLanguageTool lt) throws IOException {
+  public static int checkText(String contents, JLanguageTool lt) throws IOException {
     return checkText(contents, lt, false, -1, 0, 0, StringTools.XmlPrintMode.NORMAL_XML, false, Collections.<String>emptyList());
   }
 
-  public static int checkText(final String contents, final JLanguageTool lt,
-                              final boolean apiFormat, final int lineOffset) throws IOException {
+  public static int checkText(String contents, JLanguageTool lt,
+                              boolean apiFormat, int lineOffset) throws IOException {
     return checkText(contents, lt, apiFormat, -1, lineOffset, 0, StringTools.XmlPrintMode.NORMAL_XML, false, Collections.<String>emptyList());
   }
   
-  public static int checkText(final String contents, final JLanguageTool lt,
-          final boolean apiFormat, final int lineOffset, final boolean listUnknownWords) throws IOException {
+  public static int checkText(String contents, JLanguageTool lt,
+          boolean apiFormat, int lineOffset, boolean listUnknownWords) throws IOException {
     return checkText(contents, lt, apiFormat, -1, lineOffset, 0, StringTools.XmlPrintMode.NORMAL_XML, listUnknownWords, Collections.<String>emptyList());
 }
 
@@ -92,15 +92,15 @@ public final class CommandLineTools {
    * @param xmlMode mode of xml printout for simple xml output
    * @return Number of rule matches to the input text.
    */
-  public static int checkText(final String contents, final JLanguageTool lt,
-                              final boolean apiFormat, int contextSize, final int lineOffset,
-                              final int prevMatches, final StringTools.XmlPrintMode xmlMode,
-                              final boolean listUnknownWords, List<String> unknownWords) throws IOException {
+  public static int checkText(String contents, JLanguageTool lt,
+                              boolean apiFormat, int contextSize, int lineOffset,
+                              int prevMatches, StringTools.XmlPrintMode xmlMode,
+                              boolean listUnknownWords, List<String> unknownWords) throws IOException {
     if (contextSize == -1) {
       contextSize = DEFAULT_CONTEXT_SIZE;
     }
-    final long startTime = System.currentTimeMillis();
-    final List<RuleMatch> ruleMatches = lt.check(contents);
+    long startTime = System.currentTimeMillis();
+    List<RuleMatch> ruleMatches = lt.check(contents);
     // adjust line numbers
     for (RuleMatch r : ruleMatches) {
       r.setLine(r.getLine() + lineOffset);
@@ -110,10 +110,10 @@ public final class CommandLineTools {
       if (listUnknownWords && xmlMode == StringTools.XmlPrintMode.NORMAL_XML) {
         unknownWords = lt.getUnknownWords();
       }
-      final RuleMatchAsXmlSerializer serializer = new RuleMatchAsXmlSerializer();
-      final String xml = serializer.ruleMatchesToXml(ruleMatches, contents,
+      RuleMatchAsXmlSerializer serializer = new RuleMatchAsXmlSerializer();
+      String xml = serializer.ruleMatchesToXml(ruleMatches, contents,
               contextSize, xmlMode, lt.getLanguage(), unknownWords);
-      final PrintStream out = new PrintStream(System.out, true, "UTF-8");
+      PrintStream out = new PrintStream(System.out, true, "UTF-8");
       out.print(xml);
     } else {
       printMatches(ruleMatches, prevMatches, contents, contextSize);
@@ -128,12 +128,12 @@ public final class CommandLineTools {
     return ruleMatches.size();
   }
 
-  private static void displayTimeStats(final long startTime,
-                                       final long sentCount, final boolean apiFormat) {
-    final long endTime = System.currentTimeMillis();
-    final long time = endTime - startTime;
-    final float timeInSeconds = time / 1000.0f;
-    final float sentencesPerSecond = sentCount / timeInSeconds;
+  private static void displayTimeStats(long startTime,
+                                       long sentCount, boolean apiFormat) {
+    long endTime = System.currentTimeMillis();
+    long time = endTime - startTime;
+    float timeInSeconds = time / 1000.0f;
+    float sentencesPerSecond = sentCount / timeInSeconds;
     if (apiFormat) {
       System.out.println("<!--");
     }
@@ -154,17 +154,17 @@ public final class CommandLineTools {
    * @param contextSize The size of contents displayed.
    * @since 1.0.1
    */
-  private static void printMatches(final List<RuleMatch> ruleMatches,
-                                   final int prevMatches, final String contents, final int contextSize) {
+  private static void printMatches(List<RuleMatch> ruleMatches,
+                                   int prevMatches, String contents, int contextSize) {
     int i = 1;
-    final ContextTools contextTools = new ContextTools();
+    ContextTools contextTools = new ContextTools();
     contextTools.setContextSize(contextSize);
-    for (final RuleMatch match : ruleMatches) {
+    for (RuleMatch match : ruleMatches) {
       Rule rule = match.getRule();
       String output = i + prevMatches + ".) Line " + (match.getLine() + 1) + ", column "
               + match.getColumn() + ", Rule ID: " + rule.getId();
       if (rule instanceof AbstractPatternRule) {
-        final AbstractPatternRule pRule = (AbstractPatternRule) rule;
+        AbstractPatternRule pRule = (AbstractPatternRule) rule;
         if (pRule.getSubId() != null) {
           output += "[" + pRule.getSubId() + "]";
         }
@@ -174,7 +174,7 @@ public final class CommandLineTools {
       msg = msg.replaceAll("<suggestion>", "'");
       msg = msg.replaceAll("</suggestion>", "'");
       System.out.println("Message: " + msg);
-      final List<String> replacements = match.getSuggestedReplacements();
+      List<String> replacements = match.getSuggestedReplacements();
       if (!replacements.isEmpty()) {
         System.out.println("Suggestion: " + String.join("; ", replacements));
       }
@@ -204,25 +204,25 @@ public final class CommandLineTools {
    * @return The number of rules matched on the bitext.
    * @since 1.0.1
    */
-  public static int checkBitext(final BitextReader reader,
-                                final JLanguageTool srcLt, final JLanguageTool trgLt,
-                                final List<BitextRule> bRules,
-                                final boolean apiFormat) throws IOException {
-    final long startTime = System.currentTimeMillis();
-    final int contextSize = DEFAULT_CONTEXT_SIZE;
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
+  public static int checkBitext(BitextReader reader,
+                                JLanguageTool srcLt, JLanguageTool trgLt,
+                                List<BitextRule> bRules,
+                                boolean apiFormat) throws IOException {
+    long startTime = System.currentTimeMillis();
+    int contextSize = DEFAULT_CONTEXT_SIZE;
+    List<RuleMatch> ruleMatches = new ArrayList<>();
     int matchCount = 0;
     int sentCount = 0;
-    final RuleMatchAsXmlSerializer serializer = new RuleMatchAsXmlSerializer();
-    final PrintStream out = new PrintStream(System.out, true, "UTF-8");
+    RuleMatchAsXmlSerializer serializer = new RuleMatchAsXmlSerializer();
+    PrintStream out = new PrintStream(System.out, true, "UTF-8");
     if (apiFormat) {
       out.print(serializer.getXmlStart(null, null));
     }
     for (StringPair srcAndTrg : reader) {
-      final List<RuleMatch> curMatches = Tools.checkBitext(
+      List<RuleMatch> curMatches = Tools.checkBitext(
               srcAndTrg.getSource(), srcAndTrg.getTarget(),
               srcLt, trgLt, bRules);
-      final List<RuleMatch> fixedMatches = new ArrayList<>();
+      List<RuleMatch> fixedMatches = new ArrayList<>();
       for (RuleMatch thisMatch : curMatches) {
         fixedMatches.add(
                 trgLt.adjustRuleMatchPos(thisMatch,
@@ -234,7 +234,7 @@ public final class CommandLineTools {
       ruleMatches.addAll(fixedMatches);
       if (fixedMatches.size() > 0) {
         if (apiFormat) {
-          final String xml = serializer.ruleMatchesToXmlSnippet(fixedMatches,
+          String xml = serializer.ruleMatchesToXmlSnippet(fixedMatches,
                   reader.getCurrentLine(), contextSize);
           out.print(xml);
         } else {
@@ -258,31 +258,31 @@ public final class CommandLineTools {
    * @param contents text to check
    * @param lt instance of LanguageTool
    */
-  public static void profileRulesOnText(final String contents,
-                                        final JLanguageTool lt) throws IOException {
-    final long[] workTime = new long[10];
-    final List<Rule> rules = lt.getAllActiveRules();
-    final int ruleCount = rules.size();
+  public static void profileRulesOnText(String contents,
+                                        JLanguageTool lt) throws IOException {
+    long[] workTime = new long[10];
+    List<Rule> rules = lt.getAllActiveRules();
+    int ruleCount = rules.size();
     System.out.printf("Testing %d rules%n", ruleCount);
     System.out.println("Rule ID\tTime\tSentences\tMatches\tSentences per sec.");
-    final List<String> sentences = lt.sentenceTokenize(contents);
+    List<String> sentences = lt.sentenceTokenize(contents);
     for (Rule rule : rules) {
       if (rule instanceof TextLevelRule) {
         continue; // profile rules for sentences only
       }
       int matchCount = 0;
       for (int k = 0; k < 10; k++) {
-        final long startTime = System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
         for (String sentence : sentences) {
           matchCount += rule.match
                   (lt.getAnalyzedSentence(sentence)).length;
         }
-        final long endTime = System.currentTimeMillis();
+        long endTime = System.currentTimeMillis();
         workTime[k] = endTime - startTime;
       }
-      final long time = median(workTime);
-      final float timeInSeconds = time / 1000.0f;
-      final float sentencesPerSecond = sentences.size() / timeInSeconds;
+      long time = median(workTime);
+      float timeInSeconds = time / 1000.0f;
+      float sentencesPerSecond = sentences.size() / timeInSeconds;
       System.out.printf(Locale.ENGLISH,
               "%s\t%d\t%d\t%d\t%.1f", rule.getId(),
               time, sentences.size(), matchCount, sentencesPerSecond);
@@ -292,7 +292,7 @@ public final class CommandLineTools {
 
   private static long median(long[] m) {
     Arrays.sort(m);
-    final int middle = m.length / 2;  // subscript of middle element
+    int middle = m.length / 2;  // subscript of middle element
     if (m.length % 2 == 1) {
       // Odd number of elements -- return the middle one.
       return m[middle];
@@ -311,14 +311,14 @@ public final class CommandLineTools {
    * @param targetLt Initialized target JLanguageTool object
    * @param bRules  List of all BitextRules to use
    */
-  public static void correctBitext(final BitextReader reader,
-                                   final JLanguageTool sourceLt, final JLanguageTool targetLt,
-                                   final List<BitextRule> bRules) throws IOException {
+  public static void correctBitext(BitextReader reader,
+                                   JLanguageTool sourceLt, JLanguageTool targetLt,
+                                   List<BitextRule> bRules) throws IOException {
     for (StringPair srcAndTrg : reader) {
-      final List<RuleMatch> curMatches = Tools.checkBitext(
+      List<RuleMatch> curMatches = Tools.checkBitext(
               srcAndTrg.getSource(), srcAndTrg.getTarget(),
               sourceLt, targetLt, bRules);
-      final List<RuleMatch> fixedMatches = new ArrayList<>();
+      List<RuleMatch> fixedMatches = new ArrayList<>();
       for (RuleMatch thisMatch : curMatches) {
         fixedMatches.add(
                 targetLt.adjustRuleMatchPos(thisMatch,
@@ -336,12 +336,11 @@ public final class CommandLineTools {
   }
 
   private static String correctTextFromMatches(
-          final String contents, final List<RuleMatch> matches) {
-    final StringBuilder sb = new StringBuilder(contents);
-    //build error list:
-    final List<String> errors = new ArrayList<>();
+          String contents, List<RuleMatch> matches) {
+    StringBuilder sb = new StringBuilder(contents);
+    List<String> errors = new ArrayList<>();
     for (RuleMatch rm : matches) {
-      final List<String> replacements = rm.getSuggestedReplacements();
+      List<String> replacements = rm.getSuggestedReplacements();
       if (!replacements.isEmpty()) {
         errors.add(sb.substring(rm.getFromPos(), rm.getToPos()));
       }
@@ -349,7 +348,7 @@ public final class CommandLineTools {
     int offset = 0;
     int counter = 0;
     for (RuleMatch rm : matches) {
-      final List<String> replacements = rm.getSuggestedReplacements();
+      List<String> replacements = rm.getSuggestedReplacements();
       if (!replacements.isEmpty()) {
         //make sure the error hasn't been already corrected:
         if (errors.get(counter).equals(sb.substring(rm.getFromPos() - offset, rm.getToPos() - offset))) {

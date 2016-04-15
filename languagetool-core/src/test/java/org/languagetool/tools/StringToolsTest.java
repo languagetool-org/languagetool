@@ -51,7 +51,7 @@ public class StringToolsTest extends TestCase {
   }
 
   public void testReadStream() throws IOException {
-    final String content = StringTools.readStream(new FileInputStream("src/test/resources/testinput.txt"), "utf-8");
+    String content = StringTools.readStream(new FileInputStream("src/test/resources/testinput.txt"), "utf-8");
     assertEquals("one\ntwo\nöäüß\nșțîâăȘȚÎÂĂ\n", content);
   }
   
@@ -127,15 +127,15 @@ public class StringToolsTest extends TestCase {
   }
 
   public void testReaderToString() throws IOException {
-    final String str = StringTools.readerToString(new StringReader("bla\nöäü"));
+    String str = StringTools.readerToString(new StringReader("bla\nöäü"));
     assertEquals("bla\nöäü", str);
-    final StringBuilder longStr = new StringBuilder();
+    StringBuilder longStr = new StringBuilder();
     for (int i = 0; i < 4000; i++) {
       longStr.append("x");
     }
     longStr.append("1234567");
     assertEquals(4007, longStr.length());
-    final String str2 = StringTools.readerToString(new StringReader(longStr.toString()));
+    String str2 = StringTools.readerToString(new StringReader(longStr.toString()));
     assertEquals(longStr.toString(), str2);
   }
 
@@ -146,7 +146,7 @@ public class StringToolsTest extends TestCase {
   }
 
   public void testListToString() {
-    final List<String> list = new ArrayList<>();
+    List<String> list = new ArrayList<>();
     list.add("foo");
     list.add("bar");
     list.add(",");

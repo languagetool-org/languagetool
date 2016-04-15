@@ -36,7 +36,7 @@ public class GermanWordRepeatRule extends WordRepeatRule {
 
   private static final Pattern PREPOSITIONS = Pattern.compile("ab|an|auf|bei|durch|für|in|mit|nach|ohne|über|von|zu");
 
-  public GermanWordRepeatRule(final ResourceBundle messages, final Language language) {
+  public GermanWordRepeatRule(ResourceBundle messages, Language language) {
     super(messages, language);
     addExamplePair(Example.wrong("In diesem Satz <marker>ist ist</marker> ein Wort doppelt."),
                    Example.fixed("In diesem Satz <marker>ist</marker> ein Wort doppelt."));
@@ -48,7 +48,7 @@ public class GermanWordRepeatRule extends WordRepeatRule {
   }
 
   @Override
-  public boolean ignore(final AnalyzedTokenReadings[] tokens, final int position) {
+  public boolean ignore(AnalyzedTokenReadings[] tokens, int position) {
     // Don't mark error for cases like:
     // "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
     // "Das Haus, in das das Kind läuft."

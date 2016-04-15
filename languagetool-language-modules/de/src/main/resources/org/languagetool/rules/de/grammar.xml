@@ -1865,12 +1865,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="E-Mail">Ich regle die Angelegenheit per <marker>Email</marker>.</example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>\b(email|eMail|e-Mail|e-mail|E-mail)</regexp>
+                <regexp case_sensitive='yes'>\b(email|eMail|e-Mail|e-mail|E-mail)s?\b</regexp>
                 <message>Meinten Sie <suggestion>E-Mail</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
                 <example correction="E-Mail">Er schickt mir eine <marker>e-mail</marker>.</example>
-                <example>Das ist <marker>Email</marker>.</example>
                 <example correction="E-Mail"><marker>eMail</marker>: ich@example.de</example>
+                <example>Woraus ist das Schild? -- Das ist <marker>Email</marker>.</example>
+                <example>Dieser dunkelgrüne emaillierte Stahlbrustpanzer.</example>
             </rule>
             <rule>
                 <regexp case_sensitive='yes'>(eMail|e-Mail|e-mail|E-mail|Email)-?([aA]dressen?|[aA]accounts?|[aA]nwendung(en)?|[cC]lients?|[kK]ontakte?|[pP]ostf[aä]ch(er|es|s)?|[pP]rogramms?|[sS]oftware)</regexp>
@@ -6250,6 +6251,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Zusammen-/Getrenntschreibung">
+        <rule id="OTTO-NORMALVERBRAUCHER" name="Otto-Normalverbraucher (Otto Normalverbraucher)">
+            <pattern>
+                <token regexp="yes">Otto-Normal(verbraucher|bürger)</token>
+            </pattern>
+            <message>Dieses Wort schreibt sich <suggestion><match no="1" regexp_match="-" regexp_replace=" "/></suggestion>, da es nach dem Muster eines Namens gebildet ist.</message>
+            <url>http://www.korrekturen.de/beliebte_fehler/otto-normalverbraucher.shtml</url>
+            <example correction="Otto Normalverbraucher"><marker>Otto-Normalverbraucher</marker> legt Wert auf günstige Preise.</example>
+        </rule>
+        <rule id="MULTI-KULTI" name="Multi-Kulti (Multikulti)">
+            <pattern>
+                <token>Multi-Kulti</token>
+            </pattern>
+            <message>Dieses Wort schreibt sich <suggestion>Multikulti</suggestion>, da es aus 'Multikulturalität' abgeleitet ist.</message>
+            <url>http://www.korrekturen.de/beliebte_fehler/multi-kulti.shtml</url>
+            <example correction="Multikulti"><marker>Multi-Kulti</marker> auf dem Stadtfest.</example>
+        </rule>
         <rule id="AUF_PASSEN" name="auf passen (aufpassen)">
             <pattern>
                 <token>auf</token>
@@ -11203,6 +11220,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="3" case_conversion="startupper"/></suggestion>
             <example correction="Stand">Hier mal der aktuelle <marker>stand</marker>.</example>
         </rule>
+        <rulegroup id="AUFS_SPIEL_SETZEN" name="aufs spiel (Spiel) setzen">
+            <rule>
+                <pattern>
+                    <token>aufs</token>
+                    <marker>
+                        <token case_sensitive="yes">spiel</token>
+                    </marker>
+                    <token inflected="yes">setzen</token>
+                </pattern>
+                <message><suggestion>Spiel</suggestion> wird in dieser Wendung großgeschrieben.</message>
+                <example correction="Spiel">Sie hat ihr Vermögen aufs <marker>spiel</marker> gesetzt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="3">setzen</token>
+                    <token>aufs</token>
+                    <marker>
+                        <token case_sensitive="yes">spiel</token>
+                    </marker>
+                </pattern>
+                <message>In der Wendung "aufs Spiel setzen" wird <suggestion>Spiel</suggestion> großgeschrieben.</message>
+                <example correction="Spiel">Sie setze ihr Vermögen aufs <marker>spiel</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="SIE_KEINE_ANREDE" name="'Sie' groß, obwohl keine Anrede (unvollständig)" default="off">
             <!-- off by default due to false alarms, e.g. "Was glauben Sie ist wahr, obwohl Sie es nicht beweisen können?" -->
             <pattern case_sensitive="yes">

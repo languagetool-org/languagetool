@@ -38,13 +38,13 @@ public abstract class AbstractLanguageConcurrencyTest {
   
   @Test
   public void testSpellCheckerFailure() throws Exception {
-    final String sampleText = createSampleText();
-    final Language language = createLanguage();
-    final int threadCount = Runtime.getRuntime().availableProcessors() * 10;
-    final int testRuns = 100;
+    String sampleText = createSampleText();
+    Language language = createLanguage();
+    int threadCount = Runtime.getRuntime().availableProcessors() * 10;
+    int testRuns = 100;
 
-    final ReadWriteLock testWaitLock = new ReentrantReadWriteLock();
-    final Lock testWriteLock = testWaitLock.writeLock();
+    ReadWriteLock testWaitLock = new ReentrantReadWriteLock();
+    Lock testWriteLock = testWaitLock.writeLock();
     testWriteLock.lock();
     
     failedTests = 0;

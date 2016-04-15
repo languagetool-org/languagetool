@@ -34,7 +34,7 @@ public class CommandLineParser {
     if (args.length < 1 || args.length > 12) {
       throw new WrongParameterNumberException();
     }
-    final CommandLineOptions options = new CommandLineOptions();
+    CommandLineOptions options = new CommandLineOptions();
     for (int i = 0; i < args.length; i++) {
       if (args[i].equals("--version")) {
         options.setPrintVersion(true);
@@ -70,19 +70,19 @@ public class CommandLineParser {
           throw new IllegalArgumentException("You cannot specify both disabled rules and enabledonly");
         }
         checkArguments("-d/--disable", i, args);
-        final String rules = args[++i];
+        String rules = args[++i];
         options.setDisabledRules(Arrays.asList(rules.split(",")));
       } else if (args[i].equals("-e") || args[i].equals("--enable")) {
         checkArguments("-e/--enable", i, args);
-        final String rules = args[++i];
+        String rules = args[++i];
         options.setEnabledRules(Arrays.asList(rules.split(",")));
       } else if (args[i].equals("--enablecategories")) {
         checkArguments("--enablecategories", i, args);
-        final String categories = args[++i];
+        String categories = args[++i];
         options.setEnabledCategories(Arrays.asList(categories.split(",")));
       } else if (args[i].equals("--disablecategories")) {
         checkArguments("--disablecategories", i, args);
-        final String categories = args[++i];
+        String categories = args[++i];
         options.setDisabledCategories(Arrays.asList(categories.split(",")));
       } else if (args[i].equals("-l") || args[i].equals("--language")) {
         checkArguments("-l/--language", i, args);

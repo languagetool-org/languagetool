@@ -1,5 +1,6 @@
 package org.languagetool.rules;
 
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -57,8 +58,8 @@ public final class Categories {
   private final String messageKey;
   
   private Categories(String id, String messageKey) {
-    this.id = id;
-    this.messageKey = messageKey;
+    this.id = Objects.requireNonNull(id);
+    this.messageKey = Objects.requireNonNull(messageKey);
   }
 
   public CategoryId getId() {

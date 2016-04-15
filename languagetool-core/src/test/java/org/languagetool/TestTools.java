@@ -53,11 +53,11 @@ public final class TestTools {
   }
 
   public static Set<Language> getLanguagesExcept(String[] langCodes) {
-    final Set<Language> languages = new HashSet<>();
+    Set<Language> languages = new HashSet<>();
     languages.addAll(Languages.getWithDemoLanguage());
     if (langCodes != null) {
       for (String langCode : langCodes) {
-        final Language lang = Languages.getLanguageForShortName(langCode);
+        Language lang = Languages.getLanguageForShortName(langCode);
         languages.remove(lang);
       }
     }
@@ -77,30 +77,30 @@ public final class TestTools {
     if (languageCode.length() > 3) {
       throw new RuntimeException("Use a character code (ISO-639 code), not a full language name: " + languageCode);
     }
-    final ResourceBundle messages = ResourceBundle.getBundle(
+    ResourceBundle messages = ResourceBundle.getBundle(
             JLanguageTool.MESSAGE_BUNDLE, new Locale(languageCode));
     return messages;
   }
 
-  public static void testSplit(final String[] sentences, final SentenceTokenizer sTokenizer) {
-    final StringBuilder inputString = new StringBuilder();
-    final List<String> input = new ArrayList<>();
+  public static void testSplit(String[] sentences, SentenceTokenizer sTokenizer) {
+    StringBuilder inputString = new StringBuilder();
+    List<String> input = new ArrayList<>();
     Collections.addAll(input, sentences);
-    for (final String s : input) {
+    for (String s : input) {
       inputString.append(s);
     }
     assertEquals(input, sTokenizer.tokenize(inputString.toString()));
   }
 
-  public static void myAssert(final String input, final String expected,
-      final Tokenizer tokenizer, final Tagger tagger) throws IOException {
-    final List<String> tokens = tokenizer.tokenize(input);
-    final List<String> noWhitespaceTokens = getNoWhitespaceTokens(tokens);
-    final List<AnalyzedTokenReadings> output = tagger.tag(noWhitespaceTokens);
-    final StringBuilder outputStr = new StringBuilder();
-    for (final Iterator<AnalyzedTokenReadings> iter = output.iterator(); iter.hasNext();) {
-      final AnalyzedTokenReadings tokenReadings = iter.next();
-      final List<String> readings = getAsStrings(tokenReadings);
+  public static void myAssert(String input, String expected,
+      Tokenizer tokenizer, Tagger tagger) throws IOException {
+    List<String> tokens = tokenizer.tokenize(input);
+    List<String> noWhitespaceTokens = getNoWhitespaceTokens(tokens);
+    List<AnalyzedTokenReadings> output = tagger.tag(noWhitespaceTokens);
+    StringBuilder outputStr = new StringBuilder();
+    for (Iterator<AnalyzedTokenReadings> iter = output.iterator(); iter.hasNext();) {
+      AnalyzedTokenReadings tokenReadings = iter.next();
+      List<String> readings = getAsStrings(tokenReadings);
       outputStr.append(String.join("|", readings));
       if (iter.hasNext()) {
         outputStr.append(" -- ");
@@ -109,26 +109,25 @@ public final class TestTools {
     assertEquals(expected, outputStr.toString());
   }
 
-  public static void myAssert(final String input, final String expected,
-      final Tokenizer tokenizer, final SentenceTokenizer sentenceTokenizer,
-      final Tagger tagger, final Disambiguator disambiguator)
+  public static void myAssert(String input, String expected,
+      Tokenizer tokenizer, SentenceTokenizer sentenceTokenizer,
+      Tagger tagger, Disambiguator disambiguator)
       throws IOException {
-    final StringBuilder outputStr = new StringBuilder();
-    final List<String> sentences = sentenceTokenizer.tokenize(input);
-    for (final String sentence : sentences) {
-      final List<String> tokens = tokenizer.tokenize(sentence);
-      final List<String> noWhitespaceTokens = getNoWhitespaceTokens(tokens);
-      final List<AnalyzedTokenReadings> aTokens = tagger
-          .tag(noWhitespaceTokens);
-      final AnalyzedTokenReadings[] tokenArray = new AnalyzedTokenReadings[tokens.size() + 1];
-      final AnalyzedToken[] startTokenArray = new AnalyzedToken[1];
+    StringBuilder outputStr = new StringBuilder();
+    List<String> sentences = sentenceTokenizer.tokenize(input);
+    for (String sentence : sentences) {
+      List<String> tokens = tokenizer.tokenize(sentence);
+      List<String> noWhitespaceTokens = getNoWhitespaceTokens(tokens);
+      List<AnalyzedTokenReadings> aTokens = tagger.tag(noWhitespaceTokens);
+      AnalyzedTokenReadings[] tokenArray = new AnalyzedTokenReadings[tokens.size() + 1];
+      AnalyzedToken[] startTokenArray = new AnalyzedToken[1];
       int toArrayCount = 0;
-      final AnalyzedToken sentenceStartToken = new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, null);
+      AnalyzedToken sentenceStartToken = new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, null);
       startTokenArray[0] = sentenceStartToken;
       tokenArray[toArrayCount++] = new AnalyzedTokenReadings(startTokenArray, 0);
       int startPos = 0;
       int noWhitespaceCount = 0;
-      for (final String tokenStr : tokens) {
+      for (String tokenStr : tokens) {
         AnalyzedTokenReadings posTag;
         if (isWord(tokenStr)) {
           posTag = aTokens.get(noWhitespaceCount);
@@ -144,11 +143,11 @@ public final class TestTools {
       AnalyzedSentence finalSentence = new AnalyzedSentence(tokenArray);
       finalSentence = disambiguator.disambiguate(finalSentence);
 
-      final AnalyzedTokenReadings[] output = finalSentence.getTokens();
+      AnalyzedTokenReadings[] output = finalSentence.getTokens();
 
       for (int i = 0; i < output.length; i++) {
-        final AnalyzedTokenReadings tokenReadings = output[i];
-        final List<String> readings = getAsStrings(tokenReadings);
+        AnalyzedTokenReadings tokenReadings = output[i];
+        List<String> readings = getAsStrings(tokenReadings);
         outputStr.append(String.join("|", readings));
         if (i < output.length - 1) {
           outputStr.append(' ');
@@ -158,9 +157,9 @@ public final class TestTools {
     assertEquals(expected, outputStr.toString());
   }
 
-  public static boolean isWord(final String token) {
+  public static boolean isWord(String token) {
     for (int i = 0; i < token.length(); i++) {
-      final char c = token.charAt(i);
+      char c = token.charAt(i);
       if (Character.isLetter(c) || Character.isDigit(c)) {
         return true;
       }
@@ -169,8 +168,8 @@ public final class TestTools {
   }
 
   public static void testDictionary(BaseTagger tagger, Language language) throws IOException {
-    final Dictionary dictionary = Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(tagger.getDictionaryPath()));
-    final DictionaryLookup lookup = new DictionaryLookup(dictionary);
+    Dictionary dictionary = Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(tagger.getDictionaryPath()));
+    DictionaryLookup lookup = new DictionaryLookup(dictionary);
     for (WordData wordData : lookup) {
       if (wordData.getTag() == null || wordData.getTag().length() == 0) {
         System.err.println("**** Warning: " + language + ": the word " + wordData.getWord() + "/" + wordData.getStem() + " lacks a POS tag in the dictionary.");
@@ -179,7 +178,7 @@ public final class TestTools {
   }
 
   private static List<String> getAsStrings(AnalyzedTokenReadings tokenReadings) {
-    final List<String> readings = new ArrayList<>();
+    List<String> readings = new ArrayList<>();
     for (AnalyzedToken analyzedToken : tokenReadings) {
       readings.add(getAsString(analyzedToken));
     }
@@ -194,9 +193,9 @@ public final class TestTools {
   }
 
   private static List<String> getNoWhitespaceTokens(List<String> tokens) {
-    final List<String> noWhitespaceTokens = new ArrayList<>();
+    List<String> noWhitespaceTokens = new ArrayList<>();
     // whitespace confuses tagger, so give it the tokens but no whitespace tokens:
-    for (final String token : tokens) {
+    for (String token : tokens) {
       if (isWord(token)) {
         noWhitespaceTokens.add(token);
       }

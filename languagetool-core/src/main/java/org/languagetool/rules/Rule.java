@@ -62,8 +62,13 @@ public abstract class Rule {
   /**
    * Called by rules that require a translation of their messages.
    */
-  public Rule(final ResourceBundle messages) {
+  public Rule(ResourceBundle messages) {
     this.messages = messages;
+    if (messages != null) {
+      setCategory(Categories.MISC.getCategory(messages));  // the default, sub classes may overwrite this
+    } else {
+      setCategory(new Category(CategoryIds.MISC, "Misc"));
+    }
   }
 
   /**
@@ -149,7 +154,7 @@ public abstract class Rule {
    * Since LanguageTool 2.6, this also works {@link org.languagetool.rules.patterns.PatternRule}s
    * (before, it used to always return {@code false} for those).
    */
-  public boolean supportsLanguage(final Language language) {
+  public boolean supportsLanguage(Language language) {
     try {
       List<Class<? extends Rule>> relevantRuleClasses = new ArrayList<>();
       List<Rule> relevantRules = language.getRelevantRules(JLanguageTool.getMessageBundle());
@@ -186,7 +191,7 @@ public abstract class Rule {
   /**
    * Set the examples that are correct and thus do not trigger the rule.
    */
-  public final void setCorrectExamples(final List<String> correctExamples) {
+  public final void setCorrectExamples(List<String> correctExamples) {
     this.correctExamples = Objects.requireNonNull(correctExamples);
   }
 
@@ -200,7 +205,7 @@ public abstract class Rule {
   /**
    * Set the examples that are incorrect and thus do trigger the rule.
    */
-  public final void setIncorrectExamples(final List<IncorrectExample> incorrectExamples) {
+  public final void setIncorrectExamples(List<IncorrectExample> incorrectExamples) {
     this.incorrectExamples = Objects.requireNonNull(incorrectExamples);
   }
 
@@ -211,16 +216,18 @@ public abstract class Rule {
     return Collections.unmodifiableList(incorrectExamples);
   }
 
+  /**
+   * @return a category (never null since LT 3.4)
+   */
   public final Category getCategory() {
     return category;
   }
 
-  public final void setCategory(final Category category) {
-    Objects.requireNonNull(category, "category cannot be null");
-    this.category = category;
+  public final void setCategory(Category category) {
+    this.category = Objects.requireNonNull(category, "category cannot be null");
   }
 
-  protected final RuleMatch[] toRuleMatchArray(final List<RuleMatch> ruleMatches) {
+  protected final RuleMatch[] toRuleMatchArray(List<RuleMatch> ruleMatches) {
     return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
   }
 

@@ -32,7 +32,7 @@ public class PreReformPortugueseCompoundRule extends AbstractCompoundRule {
 
   private static final CompoundRuleData compoundData = new CompoundRuleData("/pt/pre-reform-compounds.txt");
 
-  public PreReformPortugueseCompoundRule(final ResourceBundle messages) throws IOException {    
+  public PreReformPortugueseCompoundRule(ResourceBundle messages) throws IOException {    
     super(messages,
             "Esta palavra é hifenizada.",
             "Esta palavra é escrita em conjunto.",

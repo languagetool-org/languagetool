@@ -25,7 +25,7 @@ final class EquivalenceTypeLocator {
   private final String feature;
   private final String type;
 
-  EquivalenceTypeLocator(final String feature, final String type) {
+  EquivalenceTypeLocator(String feature, String type) {
     this.feature = feature;
     this.type = type;
   }
@@ -36,7 +36,7 @@ final class EquivalenceTypeLocator {
   }
 
   @Override
-  public boolean equals(final Object o) {
+  public boolean equals(Object o) {
     if (this == o) { return true; }
     if (o == null) { return false; }
     if (getClass() != o.getClass()) {

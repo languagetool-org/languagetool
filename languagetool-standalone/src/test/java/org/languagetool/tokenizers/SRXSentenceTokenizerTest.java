@@ -34,8 +34,8 @@ public class SRXSentenceTokenizerTest extends TestCase {
         // TODO: I don't know about these...
         continue;
       }
-      final String input = "A sentence.\u0002 And another one.";
-      final SentenceTokenizer tokenizer = new SRXSentenceTokenizer(language);
+      String input = "A sentence.\u0002 And another one.";
+      SentenceTokenizer tokenizer = new SRXSentenceTokenizer(language);
       assertEquals("Sentence not split correctly for " + language + ": '" + input + "'",
               "[A sentence.\u0002 , And another one.]", tokenizer.tokenize(input).toString());
       count++;

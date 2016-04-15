@@ -65,7 +65,7 @@ public class CommaWhitespaceRuleTest extends TestCase {
     assertMatches("This is a sentence with an orphaned full stop .", 1);
     assertMatches("This is a test with a OOo footnote\u0002, which is denoted by 0x2 in the text.", 0);
 
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("ABB (  z.B. )"));
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("ABB (  z.B. )"));
     assertEquals(2, matches.length);
     assertEquals(4, matches[0].getFromPos());
     assertEquals(6, matches[0].getToPos());

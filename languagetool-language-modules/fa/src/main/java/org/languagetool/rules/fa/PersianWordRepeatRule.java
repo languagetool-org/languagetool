@@ -32,7 +32,7 @@ import org.languagetool.rules.WordRepeatRule;
  */
 public class PersianWordRepeatRule extends WordRepeatRule {
 
-  public PersianWordRepeatRule(final ResourceBundle messages, final Language language) {
+  public PersianWordRepeatRule(ResourceBundle messages, Language language) {
     super(messages, language);
     addExamplePair(Example.wrong("این کار <marker>برای برای</marker> تو بود."),
                    Example.fixed("این کار <marker>برای</marker> تو بود."));

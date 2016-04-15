@@ -106,7 +106,7 @@ public final class Main {
   }
 
   private void loadFile() {
-    final File file = Tools.openFileDialog(frame, new PlainTextFileFilter());
+    File file = Tools.openFileDialog(frame, new PlainTextFileFilter());
     if (file == null) {  // user clicked cancel
       return;
     }
@@ -115,7 +115,7 @@ public final class Main {
 
   private void loadFile(File file) {
     try (FileInputStream inputStream = new FileInputStream(file)) {
-      final String fileContents = StringTools.readStream(inputStream, null);
+      String fileContents = StringTools.readStream(inputStream, null);
       textArea.setText(fileContents);
       currentFile = file;
       updateTitle();
@@ -126,7 +126,7 @@ public final class Main {
 
   private void saveFile(boolean newFile) {
     if (currentFile == null || newFile) {
-      final JFileChooser jfc = new JFileChooser();
+      JFileChooser jfc = new JFileChooser();
       jfc.setFileFilter(new PlainTextFileFilter());
       jfc.showSaveDialog(frame);
 
@@ -145,7 +145,7 @@ public final class Main {
   }
 
   private void addLanguage() throws InstantiationException, IllegalAccessException {
-    final LanguageManagerDialog dialog = new LanguageManagerDialog(frame, externalLanguages);
+    LanguageManagerDialog dialog = new LanguageManagerDialog(frame, externalLanguages);
     dialog.show();
     List<Language> newExtLanguages = dialog.getLanguages();
     externalLanguages.clear();
@@ -155,9 +155,9 @@ public final class Main {
   }
 
   private void showOptions() {
-    final JLanguageTool langTool = ltSupport.getLanguageTool();
-    final List<Rule> rules = langTool.getAllRules();
-    final ConfigurationDialog configDialog = ltSupport.getCurrentConfigDialog();
+    JLanguageTool langTool = ltSupport.getLanguageTool();
+    List<Rule> rules = langTool.getAllRules();
+    ConfigurationDialog configDialog = ltSupport.getCurrentConfigDialog();
     configDialog.show(rules); // this blocks until OK/Cancel is clicked in the dialog
     Configuration config = ltSupport.getConfig();
     try { //save config - needed for the server
@@ -216,7 +216,7 @@ public final class Main {
 
     frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     frame.addWindowListener(new CloseListener());
-    final URL iconUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(TRAY_ICON);
+    URL iconUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(TRAY_ICON);
     frame.setIconImage(new ImageIcon(iconUrl).getImage());
 
     textArea = new JTextArea();
@@ -227,9 +227,9 @@ public final class Main {
     undoRedo = new UndoRedoSupport(this.textArea, messages);
     frame.setJMenuBar(createMenuBar());
 
-    final GridBagConstraints buttonCons = new GridBagConstraints();
+    GridBagConstraints buttonCons = new GridBagConstraints();
 
-    final JPanel insidePanel = new JPanel();
+    JPanel insidePanel = new JPanel();
     insidePanel.setOpaque(false);
     insidePanel.setLayout(new GridBagLayout());
 
@@ -245,7 +245,7 @@ public final class Main {
     buttonCons.anchor = GridBagConstraints.LINE_START;
     insidePanel.add(languageBox, buttonCons);
 
-    final JCheckBox autoDetectBox = new JCheckBox(messages.getString("atd"));
+    JCheckBox autoDetectBox = new JCheckBox(messages.getString("atd"));
     buttonCons.gridx = 2;
     buttonCons.gridy = 0;
     buttonCons.gridwidth = GridBagConstraints.REMAINDER;
@@ -260,10 +260,10 @@ public final class Main {
     buttonCons.weightx = 1.0;
     insidePanel.add(statusLabel, buttonCons);
 
-    final Container contentPane = frame.getContentPane();
-    final GridBagLayout gridLayout = new GridBagLayout();
+    Container contentPane = frame.getContentPane();
+    GridBagLayout gridLayout = new GridBagLayout();
     contentPane.setLayout(gridLayout);
-    final GridBagConstraints cons = new GridBagConstraints();
+    GridBagConstraints cons = new GridBagConstraints();
 
     cons.gridx = 0;
     cons.gridy = 1;
@@ -310,7 +310,7 @@ public final class Main {
     cons.gridx = 0;
     cons.gridy = 2;
     cons.weighty = 5.0f;
-    final JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+    JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
             new JScrollPane(textArea), new JScrollPane(resultArea));
     splitPane.setDividerLocation(200);
     contentPane.add(splitPane, cons);
@@ -362,7 +362,7 @@ public final class Main {
       @Override
       public void languageToolEventOccurred(LanguageToolEvent event) {
         if (event.getType() == LanguageToolEvent.Type.CHECKING_STARTED) {
-          final String msg = org.languagetool.tools.Tools.i18n(messages, "checkStart");
+          String msg = org.languagetool.tools.Tools.i18n(messages, "checkStart");
           statusLabel.setText(msg);
           if (event.getCaller() == getFrame()) {
             setWaitCursor();
@@ -373,7 +373,7 @@ public final class Main {
             checkAction.setEnabled(true);
             unsetWaitCursor();
           }
-          final String msg = org.languagetool.tools.Tools.i18n(messages, "checkDone", event.getSource().getMatches().size(), event.getElapsedTime());
+          String msg = org.languagetool.tools.Tools.i18n(messages, "checkDone", event.getSource().getMatches().size(), event.getElapsedTime());
           statusLabel.setText(msg);          
         } else if (event.getType() == LanguageToolEvent.Type.LANGUAGE_CHANGED) {
           languageBox.selectLanguage(ltSupport.getLanguage());
@@ -381,7 +381,7 @@ public final class Main {
             //this will trigger a check and the result will be updated by
             //the CHECKING_FINISHED event
         } else if (event.getType() == LanguageToolEvent.Type.RULE_DISABLED) {
-            final String msg = org.languagetool.tools.Tools.i18n(messages, "checkDoneNoTime", event.getSource().getMatches().size());
+            String msg = org.languagetool.tools.Tools.i18n(messages, "checkDoneNoTime", event.getSource().getMatches().size());
             statusLabel.setText(msg);
         }
       }
@@ -432,13 +432,13 @@ public final class Main {
 
   private JMenuBar createMenuBar() {
     JMenuBar menuBar = new JMenuBar();
-    final JMenu fileMenu = new JMenu(getLabel("guiMenuFile"));
+    JMenu fileMenu = new JMenu(getLabel("guiMenuFile"));
     fileMenu.setMnemonic(getMnemonic("guiMenuFile"));
-    final JMenu editMenu = new JMenu(getLabel("guiMenuEdit"));
+    JMenu editMenu = new JMenu(getLabel("guiMenuEdit"));
     editMenu.setMnemonic(getMnemonic("guiMenuEdit"));
-    final JMenu grammarMenu = new JMenu(getLabel("guiMenuGrammar"));
+    JMenu grammarMenu = new JMenu(getLabel("guiMenuGrammar"));
     grammarMenu.setMnemonic(getMnemonic("guiMenuGrammar"));
-    final JMenu helpMenu = new JMenu(getLabel("guiMenuHelp"));
+    JMenu helpMenu = new JMenu(getLabel("guiMenuHelp"));
     helpMenu.setMnemonic(getMnemonic("guiMenuHelp"));
 
     fileMenu.add(openAction);
@@ -560,41 +560,41 @@ public final class Main {
   }
 
   private PopupMenu makePopupMenu() {
-    final PopupMenu popup = new PopupMenu();
-    final ActionListener rmbListener = new TrayActionRMBListener();
+    PopupMenu popup = new PopupMenu();
+    ActionListener rmbListener = new TrayActionRMBListener();
     // Enable or disable embedded HTTP server:
     enableHttpServerItem = new CheckboxMenuItem(Tools.getLabel(messages.getString("tray_menu_enable_server")));
     enableHttpServerItem.setState(httpServer != null && httpServer.isRunning());
     enableHttpServerItem.addItemListener(new TrayActionItemListener());
     popup.add(enableHttpServerItem);
     // Check clipboard text:
-    final MenuItem checkClipboardItem =
+    MenuItem checkClipboardItem =
             new MenuItem(Tools.getLabel(messages.getString("guiMenuCheckClipboard")));
     checkClipboardItem.addActionListener(rmbListener);
     popup.add(checkClipboardItem);
     // Open main window:
-    final MenuItem restoreItem = new MenuItem(Tools.getLabel(messages.getString("guiMenuShowMainWindow")));
+    MenuItem restoreItem = new MenuItem(Tools.getLabel(messages.getString("guiMenuShowMainWindow")));
     restoreItem.addActionListener(rmbListener);
     popup.add(restoreItem);
     // Exit:
-    final MenuItem exitItem = new MenuItem(Tools.getLabel(messages.getString("guiMenuQuit")));
+    MenuItem exitItem = new MenuItem(Tools.getLabel(messages.getString("guiMenuQuit")));
     exitItem.addActionListener(rmbListener);
     popup.add(exitItem);
     return popup;
   }
 
   private void checkClipboardText() {
-    final String s = getClipboardText();
+    String s = getClipboardText();
     textArea.setText(s);
   }
 
   private void hideToTray() {
     if (!isInTray) {
-      final SystemTray tray = SystemTray.getSystemTray();
-      final String iconPath = tray.getTrayIconSize().height > 16 ? TRAY_ICON : TRAY_SMALL_ICON;
-      final URL iconUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(iconPath);
-      final Image img = Toolkit.getDefaultToolkit().getImage(iconUrl);
-      final PopupMenu popup = makePopupMenu();
+      SystemTray tray = SystemTray.getSystemTray();
+      String iconPath = tray.getTrayIconSize().height > 16 ? TRAY_ICON : TRAY_SMALL_ICON;
+      URL iconUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(iconPath);
+      Image img = Toolkit.getDefaultToolkit().getImage(iconUrl);
+      PopupMenu popup = makePopupMenu();
       try {
         trayIcon = new TrayIcon(img, TRAY_TOOLTIP, popup);
         trayIcon.addMouseListener(new TrayActionListener());
@@ -650,10 +650,10 @@ public final class Main {
 
   private void setTrayIcon() {
     if (trayIcon != null) {
-      final SystemTray tray = SystemTray.getSystemTray();
-      final boolean httpServerRunning = httpServer != null && httpServer.isRunning();
-      final boolean smallTray = tray.getTrayIconSize().height <= 16;
-      final String iconPath;
+      SystemTray tray = SystemTray.getSystemTray();
+      boolean httpServerRunning = httpServer != null && httpServer.isRunning();
+      boolean smallTray = tray.getTrayIconSize().height <= 16;
+      String iconPath;
       if (httpServerRunning) {
         trayIcon.setToolTip(messages.getString("tray_tooltip_server_running"));
         iconPath = smallTray ? TRAY_SMALL_SERVER_ICON : TRAY_SERVER_ICON;
@@ -661,8 +661,8 @@ public final class Main {
         trayIcon.setToolTip(TRAY_TOOLTIP);
         iconPath = smallTray ? TRAY_SMALL_ICON : TRAY_ICON;
       }
-      final URL iconUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(iconPath);
-      final Image img = Toolkit.getDefaultToolkit().getImage(iconUrl);
+      URL iconUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(iconPath);
+      Image img = Toolkit.getDefaultToolkit().getImage(iconUrl);
       trayIcon.setImage(img);
     }
   }
@@ -677,7 +677,7 @@ public final class Main {
 
   // show GUI and check the text from clipboard/selection:
   private void restoreFromTrayAndCheck() {
-    final String s = getClipboardText();
+    String s = getClipboardText();
     restoreFromTray();
     textArea.setText(s);
   }
@@ -689,11 +689,11 @@ public final class Main {
       clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
     }
     String s;
-    final Transferable data = clipboard.getContents(this);
+    Transferable data = clipboard.getContents(this);
     try {
       if (data != null
           && data.isDataFlavorSupported(DataFlavor.getTextPlainUnicodeFlavor())) {
-        final DataFlavor df = DataFlavor.getTextPlainUnicodeFlavor();
+        DataFlavor df = DataFlavor.getTextPlainUnicodeFlavor();
         try (Reader sr = df.getReaderForText(data)) {
           s = StringTools.readerToString(sr);
         }
@@ -710,7 +710,7 @@ public final class Main {
     Configuration config = ltSupport.getConfig();
     if (config.getRunServer()) {
       try {
-        final HTTPServerConfig serverConfig = new HTTPServerConfig(config.getServerPort(), false);
+        HTTPServerConfig serverConfig = new HTTPServerConfig(config.getServerPort(), false);
         httpServer = new HTTPServer(serverConfig, true);
         httpServer.run();
         if (enableHttpServerItem != null) {
@@ -788,8 +788,8 @@ public final class Main {
       }
       Iterator<AnalyzedToken> iterator = t.iterator();
       while (iterator.hasNext()) {
-        final AnalyzedToken token = iterator.next();
-        final String posTag = token.getPOSTag();
+        AnalyzedToken token = iterator.next();
+        String posTag = token.getPOSTag();
         if (t.isSentenceStart()) {
           sb.append(StringTools.escapeHTML("<S>"));
         } else if (JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)) {
@@ -837,10 +837,10 @@ public final class Main {
   }
 
   private void tagTextAndDisplayResults() {
-    final JLanguageTool langTool = ltSupport.getLanguageTool();
+    JLanguageTool langTool = ltSupport.getLanguageTool();
     // tag text
-    final List<String> sentences = langTool.sentenceTokenize(textArea.getText());
-    final StringBuilder sb = new StringBuilder();
+    List<String> sentences = langTool.sentenceTokenize(textArea.getText());
+    StringBuilder sb = new StringBuilder();
     if(taggerShowsDisambigLog) {
       sb.append("<table>");
       sb.append("<tr>");
@@ -854,7 +854,7 @@ public final class Main {
       boolean odd = true;
       try {
         for (String sent : sentences) {
-          final AnalyzedSentence analyzed = langTool.getAnalyzedSentence(sent);
+          AnalyzedSentence analyzed = langTool.getAnalyzedSentence(sent);
           odd = appendTagsWithDisambigLog(sb, analyzed, odd);
         }
       } catch (Exception e) {
@@ -864,8 +864,8 @@ public final class Main {
     } else {
       try {
         for (String sent : sentences) {
-          final AnalyzedSentence analyzed = langTool.getAnalyzedSentence(sent);
-          final String analyzedString = StringTools.escapeHTML(analyzed.toString(",")).
+          AnalyzedSentence analyzed = langTool.getAnalyzedSentence(sent);
+          String analyzedString = StringTools.escapeHTML(analyzed.toString(",")).
                 replace("&lt;S&gt;", "&lt;S&gt;<br>").
                 replace("[", "<font color='" + TAG_COLOR + "'>[").
                 replace("]", "]</font><br>");
@@ -939,11 +939,11 @@ public final class Main {
     this.closeHidesToTray = trayMode;
   }
 
-  public static void main(final String[] args) {
+  public static void main(String[] args) {
     if (System.getSecurityManager() == null) {
       JnaTools.setBugWorkaroundProperty();
     }
-    final Main prg = new Main();
+    Main prg = new Main();
     if (args.length == 1 && (args[0].equals("-t") || args[0].equals("--tray"))) {
       // dock to systray on startup
       SwingUtilities.invokeLater(new Runnable() {
@@ -1015,10 +1015,10 @@ public final class Main {
     @Override
     public void itemStateChanged(ItemEvent e) {
       try {
-        final Configuration config = ltSupport.getConfig();
+        Configuration config = ltSupport.getConfig();
         if (e.getStateChange() == ItemEvent.SELECTED) {
           config.setRunServer(true);
-          final boolean serverStarted = maybeStartServer();
+          boolean serverStarted = maybeStartServer();
           enableHttpServerItem.setState(serverStarted);
           config.setRunServer(serverStarted);
           config.saveConfiguration(ltSupport.getLanguage());
@@ -1105,8 +1105,8 @@ public final class Main {
   static class PlainTextFileFilter extends FileFilter {
 
     @Override
-    public boolean accept(final File f) {
-      final boolean isTextFile = f.getName().toLowerCase().endsWith(".txt");
+    public boolean accept(File f) {
+      boolean isTextFile = f.getName().toLowerCase().endsWith(".txt");
       return isTextFile || f.isDirectory();
     }
 

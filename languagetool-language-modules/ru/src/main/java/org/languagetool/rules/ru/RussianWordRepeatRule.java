@@ -57,7 +57,7 @@ public class RussianWordRepeatRule extends AdvancedWordRepeatRule {
       .compile("&quot|&gt|&lt|&amp|[0-9].*|"
           + "M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
 
-  public RussianWordRepeatRule(final ResourceBundle messages) {
+  public RussianWordRepeatRule(ResourceBundle messages) {
     super(messages);
     addExamplePair(Example.wrong("Всё смешалось в <marker>доме доме</marker> Облонских."),
                    Example.fixed("Всё смешалось в <marker>доме</marker> Облонских."));

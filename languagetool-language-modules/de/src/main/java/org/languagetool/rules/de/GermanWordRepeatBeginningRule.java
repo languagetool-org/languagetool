@@ -36,7 +36,7 @@ import org.languagetool.rules.WordRepeatBeginningRule;
  */
 public class GermanWordRepeatBeginningRule extends WordRepeatBeginningRule {
   
-  public GermanWordRepeatBeginningRule(final ResourceBundle messages, final Language language) {
+  public GermanWordRepeatBeginningRule(ResourceBundle messages, Language language) {
     super(messages, language);
     addExamplePair(Example.wrong("Dann hatten wir Freizeit. Dann gab es Essen. <marker>Dann</marker> gingen wir schlafen."),
                    Example.fixed("Dann hatten wir Freizeit. Danach gab es Essen. <marker>Schließlich</marker> gingen wir schlafen."));
@@ -53,7 +53,7 @@ public class GermanWordRepeatBeginningRule extends WordRepeatBeginningRule {
   ));
   
   @Override
-  protected boolean isAdverb(final AnalyzedTokenReadings token) {
+  protected boolean isAdverb(AnalyzedTokenReadings token) {
     return ADVERBS.contains(token.getToken());
   }
 

@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
- * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
- * 
+/* LanguageTool, a natural language style checker
+ * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -16,13 +16,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.pt;
-
-import org.languagetool.rules.Rule;
+package org.languagetool;
 
 /**
- * Abstract base class for rules for the Portuguese language.
+ * An internal marker for places in the source where the API would need to be cleaned up.
  */
-public abstract class PortugueseRule extends Rule {
-
+public @interface ApiCleanupNeeded {
+  String value();
 }

@@ -58,7 +58,7 @@ public class SuggestionReplacer {
    * text as before.
    */
   public List<RuleMatchApplication> applySuggestionsToOriginalText(RuleMatch match) {
-    final List<String> replacements = new ArrayList<>(match.getSuggestedReplacements());
+    List<String> replacements = new ArrayList<>(match.getSuggestedReplacements());
     boolean hasRealReplacements = replacements.size() > 0;
     if (!hasRealReplacements) {
       // create a pseudo replacement with the error text itself
@@ -66,9 +66,9 @@ public class SuggestionReplacer {
       replacements.add(plainText.substring(match.getFromPos(), match.getToPos()));
     }
 
-    final List<RuleMatchApplication> ruleMatchApplications = new ArrayList<>();
-    final Location fromPosLocation = textMapping.getOriginalTextPositionFor(match.getFromPos() + 1);  // not zero-based!
-    final Location toPosLocation = textMapping.getOriginalTextPositionFor(match.getToPos() + 1);
+    List<RuleMatchApplication> ruleMatchApplications = new ArrayList<>();
+    Location fromPosLocation = textMapping.getOriginalTextPositionFor(match.getFromPos() + 1);  // not zero-based!
+    Location toPosLocation = textMapping.getOriginalTextPositionFor(match.getToPos() + 1);
 
     /*System.out.println("=========");
     System.out.println(textMapping.getMapping());
@@ -78,13 +78,13 @@ public class SuggestionReplacer {
     System.out.println(originalText);
     System.out.println("=========");*/
 
-    final int fromPos = LocationHelper.absolutePositionFor(fromPosLocation, originalText);
-    final int toPos = LocationHelper.absolutePositionFor(toPosLocation, originalText);
+    int fromPos = LocationHelper.absolutePositionFor(fromPosLocation, originalText);
+    int toPos = LocationHelper.absolutePositionFor(toPosLocation, originalText);
     for (String replacement : replacements) {
-      final String errorText = textMapping.getPlainText().substring(match.getFromPos(), match.getToPos());
+      String errorText = textMapping.getPlainText().substring(match.getFromPos(), match.getToPos());
       // the algorithm is off a bit sometimes due to the complex syntax, so consider the next whitespace:
-      final int contextFrom = findNextWhitespaceToTheLeft(originalText, fromPos);
-      final int contextTo = findNextWhitespaceToTheRight(originalText, toPos);
+      int contextFrom = findNextWhitespaceToTheLeft(originalText, fromPos);
+      int contextTo = findNextWhitespaceToTheRight(originalText, toPos);
 
       /*System.out.println(match + ":");
       System.out.println("match.getFrom/ToPos(): " + match.getFromPos() + "/" + match.getToPos());
@@ -92,8 +92,8 @@ public class SuggestionReplacer {
       System.out.println("from/toPos: " + fromPos + "/" + toPos);
       System.out.println("contextFrom/To: " + contextFrom + "/" + contextTo);*/
 
-      final String context = originalText.substring(contextFrom, contextTo);
-      final String text = originalText.substring(0, contextFrom)
+      String context = originalText.substring(contextFrom, contextTo);
+      String text = originalText.substring(0, contextFrom)
               + errorMarker.getStartMarker()
               + context
               + errorMarker.getEndMarker()
@@ -107,13 +107,13 @@ public class SuggestionReplacer {
         newContext = context;
         hasRealReplacements = false;
       }
-      final String newText = originalText.substring(0, contextFrom)
+      String newText = originalText.substring(0, contextFrom)
               // we do a simple string replacement as that works even if our mapping is off a bit:
               + errorMarker.getStartMarker()
               + newContext
               + errorMarker.getEndMarker()
               + originalText.substring(contextTo);
-      final RuleMatchApplication application;
+      RuleMatchApplication application;
       if (hasRealReplacements) {
         application = RuleMatchApplication.forMatchWithReplacement(match, text, newText, errorMarker);
       } else {

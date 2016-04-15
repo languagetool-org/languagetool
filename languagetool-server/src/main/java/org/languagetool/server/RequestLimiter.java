@@ -83,14 +83,14 @@ class RequestLimiter {
     return false;
   }
   
-  class RequestEvent {
+  static class RequestEvent {
 
     private final String ip;
     private final Date date;
 
     RequestEvent(String ip, Date date) {
       this.ip = ip;
-      this.date = date;
+      this.date = new Date(date.getTime());
     }
   }
 

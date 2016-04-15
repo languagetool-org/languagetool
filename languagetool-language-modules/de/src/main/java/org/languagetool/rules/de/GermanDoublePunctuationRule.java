@@ -30,7 +30,7 @@ import org.languagetool.rules.Example;
  */
 public class GermanDoublePunctuationRule extends DoublePunctuationRule {
   
-  public GermanDoublePunctuationRule(final ResourceBundle messages) {
+  public GermanDoublePunctuationRule(ResourceBundle messages) {
     super(messages);
     try {
       setUrl(new URL("http://www.canoo.net/services/GermanSpelling/Amtlich/Interpunktion/pgf101-105.html#pgf103"));

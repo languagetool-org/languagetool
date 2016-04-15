@@ -45,7 +45,7 @@ public class GermanSynthesizer extends BaseSynthesizer {
   }
 
   @Override
-  public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException {
+  public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
     String[] result = super.synthesize(token, posTag);
     if (result.length == 0) {
       return getCompoundForms(token, posTag, false);

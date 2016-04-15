@@ -32,15 +32,15 @@ import org.languagetool.language.Belarusian;
 public class ConfigurationTest extends TestCase {
 
   public void testSaveAndLoadConfiguration() throws Exception {
-    final File tempFile = File.createTempFile(ConfigurationTest.class.getSimpleName(), ".cfg");
+    File tempFile = File.createTempFile(ConfigurationTest.class.getSimpleName(), ".cfg");
     createConfiguration(tempFile, null);
     try {
-      final Configuration conf = new Configuration(tempFile.getParentFile(), tempFile.getName(), null);
-      final Set<String> disabledRuleIds = conf.getDisabledRuleIds();
+      Configuration conf = new Configuration(tempFile.getParentFile(), tempFile.getName(), null);
+      Set<String> disabledRuleIds = conf.getDisabledRuleIds();
       assertTrue(disabledRuleIds.contains("FOO1"));
       assertTrue(disabledRuleIds.contains("Foo2"));
       assertEquals(2, disabledRuleIds.size());
-      final Set<String> enabledRuleIds = conf.getEnabledRuleIds();
+      Set<String> enabledRuleIds = conf.getEnabledRuleIds();
       assertTrue(enabledRuleIds.contains("enabledRule"));
       assertEquals(1, enabledRuleIds.size());
     } finally {
@@ -49,14 +49,14 @@ public class ConfigurationTest extends TestCase {
   }
 
   private void createConfiguration(File configFile, Language lang) throws Exception {
-    final Configuration conf = new Configuration(configFile.getParentFile(), configFile.getName(), lang);
+    Configuration conf = new Configuration(configFile.getParentFile(), configFile.getName(), lang);
     conf.setDisabledRuleIds(new HashSet<>(Arrays.asList("FOO1", "Foo2")));
     conf.setEnabledRuleIds(new HashSet<>(Arrays.asList("enabledRule")));
     conf.saveConfiguration(lang);
   }
 
   public void testSaveAndLoadConfigurationForManyLanguages() throws Exception {
-    final File tempFile = File.createTempFile(ConfigurationTest.class.getSimpleName(), ".cfg");
+    File tempFile = File.createTempFile(ConfigurationTest.class.getSimpleName(), ".cfg");
     createConfiguration(tempFile, new AmericanEnglish());
     try {
       Configuration conf = new Configuration(tempFile.getParentFile(), tempFile.getName(),

@@ -87,7 +87,7 @@ public class MorfologikSpeller {
   }
 
   public List<String> getSuggestions(String word) {
-    final List<String> suggestions = new ArrayList<>();
+    List<String> suggestions = new ArrayList<>();
     suggestions.addAll(speller.findReplacements(word));
     suggestions.addAll(speller.replaceRunOnWords(word));
     // capitalize suggestions if necessary

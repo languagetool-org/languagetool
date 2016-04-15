@@ -56,12 +56,12 @@ public class ToolsTest extends TestCase {
   }
   
   public void testBitextCheck() throws IOException, ParserConfigurationException, SAXException {
-    final English english = new English();
-    final JLanguageTool srcTool = new JLanguageTool(english);
-    final Polish polish = new Polish();
-    final JLanguageTool trgTool = new JLanguageTool(polish);
+    English english = new English();
+    JLanguageTool srcTool = new JLanguageTool(english);
+    Polish polish = new Polish();
+    JLanguageTool trgTool = new JLanguageTool(polish);
 
-    final List<BitextRule> rules = Tools.getBitextRules(english, polish);
+    List<BitextRule> rules = Tools.getBitextRules(english, polish);
     
     int matches1 = Tools.checkBitext(
         "This is a perfectly good sentence.",

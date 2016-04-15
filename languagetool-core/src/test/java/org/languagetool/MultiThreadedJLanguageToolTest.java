@@ -42,13 +42,13 @@ public class MultiThreadedJLanguageToolTest {
   @Test
   public void testCheck() throws IOException {
     MultiThreadedJLanguageTool lt1 = new MultiThreadedJLanguageTool(new Demo());
-    final List<String> ruleMatchIds1 = getRuleMatchIds(lt1);
+    List<String> ruleMatchIds1 = getRuleMatchIds(lt1);
     assertEquals(9, ruleMatchIds1.size());
     Assert.assertEquals(4, lt1.getSentenceCount());
     lt1.shutdown();
 
     JLanguageTool lt2 = new JLanguageTool(new Demo());
-    final List<String> ruleMatchIds2 = getRuleMatchIds(lt2);
+    List<String> ruleMatchIds2 = getRuleMatchIds(lt2);
     assertEquals(ruleMatchIds1, ruleMatchIds2);
     Assert.assertEquals(4, lt1.getSentenceCount());
   }
@@ -84,9 +84,9 @@ public class MultiThreadedJLanguageToolTest {
   }
 
   private List<String> getRuleMatchIds(JLanguageTool langTool) throws IOException {
-    final String input = "A small toast. No error here. Foo go bar. First goes last there, please!";
-    final List<RuleMatch> matches = langTool.check(input);
-    final List<String> ruleMatchIds = new ArrayList<>();
+    String input = "A small toast. No error here. Foo go bar. First goes last there, please!";
+    List<RuleMatch> matches = langTool.check(input);
+    List<String> ruleMatchIds = new ArrayList<>();
     for (RuleMatch match : matches) {
       ruleMatchIds.add(match.getRule().getId());
     }

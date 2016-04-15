@@ -33,7 +33,7 @@ public class CompoundRule extends AbstractCompoundRule {
 
   private static final CompoundRuleData compoundData = new CompoundRuleData("/ro/compounds.txt");
 
-  public CompoundRule(final ResourceBundle messages) throws IOException {
+  public CompoundRule(ResourceBundle messages) throws IOException {
     super(messages,
             "Cuvântul se scrie cu cratimă.",
             "Cuvântul se scrie legat.",

@@ -24,7 +24,7 @@ import org.languagetool.rules.WrongWordInContextRule;
 
 public class DutchWrongWordInContextRule extends WrongWordInContextRule {
   
-  public DutchWrongWordInContextRule(final ResourceBundle messages) {
+  public DutchWrongWordInContextRule(ResourceBundle messages) {
     super(messages);
   }
   

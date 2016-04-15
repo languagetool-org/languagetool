@@ -77,9 +77,9 @@ public class WordTokenizer implements Tokenizer {
   }
 
   @Override
-  public List<String> tokenize(final String text) {
-    final List<String> l = new ArrayList<>();
-    final StringTokenizer st = new StringTokenizer(text, getTokenizingCharacters(), true);
+  public List<String> tokenize(String text) {
+    List<String> l = new ArrayList<>();
+    StringTokenizer st = new StringTokenizer(text, getTokenizingCharacters(), true);
     while (st.hasMoreElements()) {
       l.add(st.nextToken());
     }
@@ -97,9 +97,9 @@ public class WordTokenizer implements Tokenizer {
 
   // see rfc1738 and http://stackoverflow.com/questions/1856785/characters-allowed-in-a-url
   protected List<String> joinUrls(List<String> l) {
-    final List<String> newList = new ArrayList<>();
+    List<String> newList = new ArrayList<>();
     boolean inUrl = false;
-    final StringBuilder url = new StringBuilder();
+    StringBuilder url = new StringBuilder();
     String urlQuote = null;
     for (int i = 0; i < l.size(); i++) {
       if (urlStartsAt(i, l)) {
@@ -127,18 +127,18 @@ public class WordTokenizer implements Tokenizer {
   }
 
   private boolean urlStartsAt(int i, List<String> l) {
-    final String token = l.get(i);
+    String token = l.get(i);
     if (isProtocol(token) && l.size() > i + 3) {
-      final String nToken = l.get(i + 1);
-      final String nnToken = l.get(i + 2);
-      final String nnnToken = l.get(i + 3);
+      String nToken = l.get(i + 1);
+      String nnToken = l.get(i + 2);
+      String nnnToken = l.get(i + 3);
       if (nToken.equals(":") && nnToken.equals("/") && nnnToken.equals("/")) {
         return true;
       }
     }
     if (l.size() > i + 1) {
-      final String nToken = l.get(i);
-      final String nnToken = l.get(i + 1);
+      String nToken = l.get(i);
+      String nnToken = l.get(i + 1);
       if (nToken.equals("www") && nnToken.equals(".")) {
         return true;
       }
@@ -156,19 +156,19 @@ public class WordTokenizer implements Tokenizer {
   }
 
   private boolean urlEndsAt(int i, List<String> l, String urlQuote) {
-    final String token = l.get(i);
+    String token = l.get(i);
     if (StringTools.isWhitespace(token)) {
       return true;
     } else if (token.equals(")") || token.equals("]")) {   // this is guesswork
       return true;
     } else if (l.size() > i + 1) {
-      final String nToken = l.get(i + 1);
+      String nToken = l.get(i + 1);
       if (StringTools.isWhitespace(nToken) &&
             (token.equals(".") || token.equals(",") || token.equals(";") || token.equals(":") || token.equals("!") || token.equals("?") || token.equals(urlQuote))) {
         return true;
       }
     } else {
-      final Matcher matcher = URL_CHARS.matcher(token);
+      Matcher matcher = URL_CHARS.matcher(token);
       if (!matcher.matches()) {
         return true;
       }

@@ -29,7 +29,7 @@ import org.languagetool.rules.WordRepeatRule;
  */
 public class ItalianWordRepeatRule extends WordRepeatRule {
 
-  public ItalianWordRepeatRule(final ResourceBundle messages, final Language language) {
+  public ItalianWordRepeatRule(ResourceBundle messages, Language language) {
     super(messages, language);
   }
 

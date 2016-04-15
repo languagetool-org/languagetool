@@ -47,7 +47,7 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public BritishReplaceRule(final ResourceBundle messages) throws IOException {
+  public BritishReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("Where's the <marker>bathroom</marker> on the Enterprise?"),

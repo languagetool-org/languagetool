@@ -308,7 +308,7 @@ public class AgreementRuleTest extends TestCase {
 
   private void assertBadWithMessage(String s, String expectedErrorSubstring) throws IOException {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence(s)).length);
-    final String errorMessage = rule.match(langTool.getAnalyzedSentence(s))[0].getMessage();
+    String errorMessage = rule.match(langTool.getAnalyzedSentence(s))[0].getMessage();
     assertTrue("Got error '" + errorMessage + "', expected substring '" + expectedErrorSubstring + "'",
             errorMessage.contains(expectedErrorSubstring));
   }

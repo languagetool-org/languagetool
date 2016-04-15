@@ -36,7 +36,7 @@ import java.util.ResourceBundle;
  */
 public class MultipleWhitespaceRule extends Rule {
 
-  public MultipleWhitespaceRule(final ResourceBundle messages, final Language language) {
+  public MultipleWhitespaceRule(ResourceBundle messages, Language language) {
     super(messages);
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Whitespace);
@@ -48,14 +48,14 @@ public class MultipleWhitespaceRule extends Rule {
   }
 
   @Override
-  public final String getDescription() {
+  public String getDescription() {
     return messages.getString("desc_whitespacerepetition");
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokens();
+  public RuleMatch[] match(AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokens();
     boolean prevWhite = false;
     int prevLen = 0;
     int prevPos = 0;
@@ -63,19 +63,19 @@ public class MultipleWhitespaceRule extends Rule {
     //token no. 0 is guaranteed to be SENT_START
     int i = 1;
     while (i < tokens.length) {
-      final boolean tokenIsTab = tokens[i].getToken().equals("\t");
-      final boolean prevTokenIsLinebreak = tokens[i -1].isLinebreak();
+      boolean tokenIsTab = tokens[i].getToken().equals("\t");
+      boolean prevTokenIsLinebreak = tokens[i -1].isLinebreak();
       if ((tokens[i].isWhitespace() ||
           StringTools.isNonBreakingWhitespace(tokens[i].getToken())) && prevWhite && !tokenIsTab && !prevTokenIsLinebreak) {
-        final int pos = tokens[i -1].getStartPos();
+        int pos = tokens[i -1].getStartPos();
         while (i < tokens.length && (tokens[i].isWhitespace() ||
             StringTools.isNonBreakingWhitespace(tokens[i].getToken()))) {
           prevLen += tokens[i].getToken().length();
           i++;
         }
-        final String message = messages.getString("whitespace_repetition");
+        String message = messages.getString("whitespace_repetition");
         if (prevLen > 0) {
-          final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos + prevLen, message);
+          RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos + prevLen, message);
           ruleMatch.setSuggestedReplacement(" ");
           ruleMatches.add(ruleMatch);
         }

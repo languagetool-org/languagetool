@@ -28,7 +28,7 @@ public class TamilDetectorTest {
 
   @Test
   public void testIsThisLanguage() {
-    final TamilDetector detector = new TamilDetector();
+    TamilDetector detector = new TamilDetector();
 
     assertTrue(detector.isThisLanguage("இந்த"));
     assertTrue(detector.isThisLanguage("இ"));

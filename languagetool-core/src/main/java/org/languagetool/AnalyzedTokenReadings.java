@@ -66,15 +66,15 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   // Can be used internally to optimize matching.
   private boolean hasSameLemmas;
 
-  public AnalyzedTokenReadings(final AnalyzedToken[] tokens, final int startPos) {
+  public AnalyzedTokenReadings(AnalyzedToken[] tokens, int startPos) {
     this(Arrays.asList(tokens), startPos);
   }
 
-  public AnalyzedTokenReadings(final AnalyzedToken token, final int startPos) {
+  public AnalyzedTokenReadings(AnalyzedToken token, int startPos) {
     this(Collections.singletonList(token), startPos);
   }
 
-  public AnalyzedTokenReadings(final List<AnalyzedToken> tokens, final int startPos) {
+  public AnalyzedTokenReadings(List<AnalyzedToken> tokens, int startPos) {
     anTokReadings = tokens.toArray(new AnalyzedToken[tokens.size()]);
     this.startPos = startPos;
     token = anTokReadings[0].getToken();
@@ -88,7 +88,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     hasSameLemmas = areLemmasSame();
   }
 
-  AnalyzedTokenReadings(final AnalyzedToken token) {
+  AnalyzedTokenReadings(AnalyzedToken token) {
     this(Collections.singletonList(token), 0);
   }
 
@@ -100,7 +100,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * Get a token reading.
    * @see #getReadingsLength() getReadingsLength() for how many token readings there are
    */
-  public AnalyzedToken getAnalyzedToken(final int idx) {
+  public AnalyzedToken getAnalyzedToken(int idx) {
     return anTokReadings[idx];
   }
 
@@ -109,9 +109,9 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * 
    * @param posTag POS tag to look for
    */
-  public boolean hasPosTag(final String posTag) {
+  public boolean hasPosTag(String posTag) {
     boolean found = false;
-    for (final AnalyzedToken reading : anTokReadings) {
+    for (AnalyzedToken reading : anTokReadings) {
       if (reading.getPOSTag() != null) {
         found = posTag.equals(reading.getPOSTag());
         if (found) {
@@ -127,9 +127,9 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    *
    * @param lemma lemma POS tag to look for
    */
-  public boolean hasLemma(final String lemma) {
+  public boolean hasLemma(String lemma) {
     boolean found = false;
-    for (final AnalyzedToken reading : anTokReadings) {
+    for (AnalyzedToken reading : anTokReadings) {
       if (reading.getLemma() != null) {
         found = lemma.equals(reading.getLemma());
         if (found) {
@@ -146,7 +146,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @param posTag POS tag substring to look for
    * @since 1.8
    */
-  public boolean hasPartialPosTag(final String posTag) {
+  public boolean hasPartialPosTag(String posTag) {
     boolean found = false;
     for (AnalyzedToken reading : anTokReadings) {
       if (reading.getPOSTag() != null) {
@@ -165,7 +165,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @param posTagRegex POS tag regular expression to look for
    * @since 2.9
    */
-  public boolean matchesPosTagRegex(final String posTagRegex) {
+  public boolean matchesPosTagRegex(String posTagRegex) {
     Pattern pattern = Pattern.compile(posTagRegex);
     boolean found = false;
     for (AnalyzedToken reading : anTokReadings) {
@@ -183,8 +183,8 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * Add a new reading.
    * @param token new reading, given as {@link AnalyzedToken}
    */
-  public void addReading(final AnalyzedToken token) {
-    final List<AnalyzedToken> l = new ArrayList<>();
+  public void addReading(AnalyzedToken token) {
+    List<AnalyzedToken> l = new ArrayList<>();
     l.addAll(Arrays.asList(anTokReadings).subList(0, anTokReadings.length - 1));
     if (anTokReadings[anTokReadings.length - 1].getPOSTag() != null) {
       l.add(anTokReadings[anTokReadings.length - 1]);
@@ -208,9 +208,9 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * and an empty lemma is created.
    * @param token reading to be removed
    */
-  public void removeReading(final AnalyzedToken token) {
-    final List<AnalyzedToken> l = new ArrayList<>();
-    final AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token.getPOSTag(), token.getLemma());
+  public void removeReading(AnalyzedToken token) {
+    List<AnalyzedToken> l = new ArrayList<>();
+    AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token.getPOSTag(), token.getLemma());
     tmpTok.setWhitespaceBefore(isWhitespaceBefore);
     boolean removedSentEnd = false;
     boolean removedParaEnd = false;
@@ -245,9 +245,9 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @param token Token to be matched
    * @since 1.5
    */
-  public void leaveReading(final AnalyzedToken token) {
-    final List<AnalyzedToken> l = new ArrayList<>();
-    final AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token.getPOSTag(), token.getLemma());
+  public void leaveReading(AnalyzedToken token) {
+    List<AnalyzedToken> l = new ArrayList<>();
+    AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token.getPOSTag(), token.getLemma());
     tmpTok.setWhitespaceBefore(isWhitespaceBefore);
     for (AnalyzedToken anTokReading : anTokReadings) {
       if (anTokReading.matches(tmpTok)) {
@@ -302,7 +302,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    */
   public void setParagraphEnd() {
     if (!isParagraphEnd()) {
-      final AnalyzedToken paragraphEnd = new AnalyzedToken(getToken(),
+      AnalyzedToken paragraphEnd = new AnalyzedToken(getToken(),
           PARAGRAPH_END_TAGNAME, getAnalyzedToken(0).getLemma());
       addReading(paragraphEnd);
     }
@@ -329,7 +329,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    */
   public void setSentEnd() {
     if (!isSentenceEnd()) {
-      final AnalyzedToken sentenceEnd = new AnalyzedToken(getToken(),
+      AnalyzedToken sentenceEnd = new AnalyzedToken(getToken(),
           SENTENCE_END_TAGNAME, getAnalyzedToken(0).getLemma());
       addReading(sentenceEnd);
     }
@@ -344,7 +344,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     return startPos + token.length();
   }
 
-  public void setStartPos(final int position) {
+  public void setStartPos(int position) {
     startPos = position;
   }
 
@@ -352,7 +352,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     return token;
   }
 
-  public void setWhitespaceBefore(final boolean isWhiteSpaceBefore) {
+  public void setWhitespaceBefore(boolean isWhiteSpaceBefore) {
     isWhitespaceBefore = isWhiteSpaceBefore;
     for (AnalyzedToken aTok : anTokReadings) {
       aTok.setWhitespaceBefore(isWhiteSpaceBefore);
@@ -442,7 +442,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
 
   @Override
   public String toString() {
-    final StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder();
     sb.append(token);
     sb.append('[');
     for (AnalyzedToken element : anTokReadings) {
@@ -522,7 +522,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    final AnalyzedTokenReadings other = (AnalyzedTokenReadings) obj;
+    AnalyzedTokenReadings other = (AnalyzedTokenReadings) obj;
     return new EqualsBuilder()
       .append(anTokReadings, other.anTokReadings)
       .append(isLinebreak, other.isLinebreak)
@@ -545,7 +545,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    */
   @Override
   public Iterator<AnalyzedToken> iterator() {
-    final AtomicInteger i = new AtomicInteger(0);
+    AtomicInteger i = new AtomicInteger(0);
     return new Iterator<AnalyzedToken>() {
       @Override
       public boolean hasNext() {

@@ -45,12 +45,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </equivalence>
     </unification>
     <!-- BEGIN Errors/changes in POS tag dictionary-->
-    <!--<rule id="coldre" name="coldre">
+    <rule id="oro" name="oro">
         <pattern>
-            <token inflected="yes">coldre</token>
+            <token>oro</token>
         </pattern>
-        <disambig action="remove"><wd lemma="coldre"/></disambig>
-    </rule>-->
+        <disambig action="remove"><wd pos="NCMS000"/></disambig>
+    </rule>
     <!-- END Errors/changes in POS tag dictionary-->
     <rulegroup id="PUNTUACIO" name="signes de puntuació">
         <rule>
@@ -422,36 +422,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="replace"><wd pos="_GN_FS"/><wd pos="_GN_FS"/><wd pos="_GN_FS"/></disambig>
         </rule>
-        <!-- El + any (en xifres) -->
-        <rule>
-            <pattern>
-                <token regexp="yes">anys?|mitjan|-</token>
-                <marker>
-                    <token regexp="yes">[123456789][1234567890]{0,3}</token>
-                </marker>
-            </pattern>
-            <disambig action="replace" postag="_C_TEMPS"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">en|el|l|l'</token>
-                <marker>
-                    <token regexp="yes">[123456789][1234567890]{0,3}</token>
-                </marker>
-                <token><exception postag="NC.[PN].*" postag_regexp="yes"/></token>
-            </pattern>
-            <disambig action="replace" postag="_C_TEMPS"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes" inflected="yes">llei|final|fi|principi|començament|inici|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre</token>
-                <token>de</token>
-                <marker>
-                    <token regexp="yes">[123456789][1234567890]{0,3}</token>
-                </marker>
-            </pattern>
-            <disambig action="replace" postag="_C_TEMPS"/>
-        </rule>
         <rule>
             <pattern>
                 <token postag="DN.*" postag_regexp="yes"/>
@@ -510,6 +480,76 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token>IX</token>
             </pattern>
             <disambig action="filter" postag="A.*"/>
+        </rule>
+    </rulegroup>
+    <rule id="des_de" name="des de/que">
+        <pattern>
+            <marker>
+                <token>des</token>
+            </marker>
+            <token regexp="yes">d'|de|del|dels|que</token>
+        </pattern>
+        <disambig action="filter" postag="S.*"></disambig>
+    </rule>
+    <rulegroup id="any_en_xifres" name="El + any (en xifres)">
+        <rule>
+            <pattern>
+                <token regexp="yes">anys?|mitjan|-</token>
+                <marker>
+                    <token regexp="yes">[1-9][0-9]{0,3}</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="_C_TEMPS"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes">en|el</token>
+                <marker>
+                    <token regexp="yes">[1-2][0-9]{3}</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="_C_TEMPS"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">en|el|l</token>
+                <marker>
+                    <token regexp="yes">[1-2][0-9]{3}</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="_C_TEMPS"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">en|el|l|l'</token>
+                <marker>
+                    <token regexp="yes">[1-9][0-9]{0,3}</token>
+                </marker>
+                <token><exception postag="NC[MC]P.*|Y" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="replace" postag="_C_TEMPS"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">llei|final|fi|principi|començament|inici|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre</token>
+                <token>de</token>
+                <marker>
+                    <token regexp="yes">[123456789][1234567890]{0,3}</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="_C_TEMPS"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">llei|final|fi|principi|començament|inici|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre</token>
+                <token>de</token>
+                <token spacebefore="no">l</token>
+                <marker>
+                    <token regexp="yes">[123456789][1234567890]{0,3}</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="_C_TEMPS"/>
         </rule>
     </rulegroup>
     <rule id="ADVERBI_ANTEPOSAT" name="adverbi que es pot anteposar a adjectiu">
@@ -4534,15 +4574,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
         </pattern>
         <disambig action="filter" postag="[^V].*"></disambig>
-    </rule>
-    <rule id="des_de" name="des de/que">
-        <pattern>
-            <marker>
-                <token>des</token>
-            </marker>
-            <token regexp="yes">d'|de|del|dels|que</token>
-        </pattern>
-        <disambig action="filter" postag="S.*"></disambig>
     </rule>
     <rulegroup id="CAP1" name="cap: tractament especial (det, adj, nom, adv, verb...)">
         <!-- TODO: ampliar

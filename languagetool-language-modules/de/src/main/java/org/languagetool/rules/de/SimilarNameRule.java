@@ -44,7 +44,7 @@ public class SimilarNameRule extends Rule {
 
   public SimilarNameRule(ResourceBundle messages) {
     super(messages);
-    super.setCategory(new Category(messages.getString("category_typo")));
+    super.setCategory(Categories.TYPOS.getCategory(messages));
     addExamplePair(Example.wrong("Angela Müller ist CEO. <marker>Miller</marker> wurde in Hamburg geboren."),
                    Example.fixed("Angela Müller ist CEO. <marker>Müller</marker> wurde in Hamburg geboren."));
     setDefaultOff();
@@ -62,8 +62,8 @@ public class SimilarNameRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     for (AnalyzedTokenReadings token : tokens) {
       String word = token.getToken();
       // not tagged = too many correct words are not known so we cannot use that:
@@ -73,7 +73,7 @@ public class SimilarNameRule extends Rule {
         String similarName = similarName(word);
         if (similarName != null) {
           String msg = "'" + word + "' ähnelt dem vorher benutzten '" + similarName + "', handelt es sich evtl. um einen Tippfehler?";
-          final RuleMatch ruleMatch = new RuleMatch(this, token.getStartPos(), token.getEndPos(), msg);
+          RuleMatch ruleMatch = new RuleMatch(this, token.getStartPos(), token.getEndPos(), msg);
           ruleMatch.setSuggestedReplacement(similarName);
           ruleMatches.add(ruleMatch);
         }

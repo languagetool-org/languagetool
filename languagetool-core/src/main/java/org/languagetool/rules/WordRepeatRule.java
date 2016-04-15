@@ -33,7 +33,7 @@ import org.languagetool.Language;
  */
 public class WordRepeatRule extends Rule {
 
-  public WordRepeatRule(final ResourceBundle messages, final Language language) {
+  public WordRepeatRule(ResourceBundle messages, Language language) {
     super(messages);
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Duplication);
@@ -47,7 +47,7 @@ public class WordRepeatRule extends Rule {
    * @param position the current position in the tokens 
    * @return this implementation always returns false
    */
-  public boolean ignore(final AnalyzedTokenReadings[] tokens, final int position) {
+  public boolean ignore(AnalyzedTokenReadings[] tokens, int position) {
     return false;
   }
 
@@ -62,21 +62,21 @@ public class WordRepeatRule extends Rule {
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+  public RuleMatch[] match(AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     String prevToken = "";
     // we start from token 1, token no. 0 is guaranteed to be SENT_START
     for (int i = 1; i < tokens.length; i++) {
-      final String token = tokens[i].getToken();
+      String token = tokens[i].getToken();
       if (tokens[i].isImmunized()) {
         continue;
       }
       if (isWord(token) && prevToken.equalsIgnoreCase(token) && !ignore(tokens, i)) {
-        final String msg = messages.getString("repetition");
-        final int prevPos = tokens[i - 1].getStartPos();
-        final int pos = tokens[i].getStartPos();
-        final RuleMatch ruleMatch = createRuleMatch(prevToken, token, prevPos, pos, msg);
+        String msg = messages.getString("repetition");
+        int prevPos = tokens[i - 1].getStartPos();
+        int pos = tokens[i].getStartPos();
+        RuleMatch ruleMatch = createRuleMatch(prevToken, token, prevPos, pos, msg);
         ruleMatches.add(ruleMatch);
       }
       prevToken = token;
@@ -84,7 +84,7 @@ public class WordRepeatRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  protected RuleMatch createRuleMatch(String prevToken, String token, final int prevPos, final int pos, final String msg) {
+  protected RuleMatch createRuleMatch(String prevToken, String token, int prevPos, int pos, String msg) {
     RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos+prevToken.length(), msg, messages.getString("desc_repetition_short"));
     ruleMatch.setSuggestedReplacement(prevToken);
     return ruleMatch;
@@ -96,7 +96,7 @@ public class WordRepeatRule extends Rule {
     if (token.length() == 0) {
       isWord = false;
     } else if (token.length() == 1) {
-      final char c = token.charAt(0);
+      char c = token.charAt(0);
       if (!Character.isLetter(c)) {
         isWord = false;
       }

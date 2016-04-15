@@ -28,9 +28,9 @@ import org.languagetool.TestTools;
 public class UppercaseSentenceStartRuleTest extends TestCase {
 
   public void testRule() throws IOException {
-    final UppercaseSentenceStartRule rule = new UppercaseSentenceStartRule(TestTools.getEnglishMessages(), TestTools.getDemoLanguage());
+    UppercaseSentenceStartRule rule = new UppercaseSentenceStartRule(TestTools.getEnglishMessages(), TestTools.getDemoLanguage());
     RuleMatch[] matches;
-    final JLanguageTool langTool = new JLanguageTool(TestTools.getDemoLanguage());
+    JLanguageTool langTool = new JLanguageTool(TestTools.getDemoLanguage());
 
     // correct sentences:
     matches = rule.match(langTool.getAnalyzedSentence("a) This is a test sentence."));

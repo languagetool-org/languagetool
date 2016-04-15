@@ -47,13 +47,13 @@ public class AboutDialog {
   private final ResourceBundle messages;
   private final Component parent;
 
-  public AboutDialog(final ResourceBundle messages, Component parent) {
+  public AboutDialog(ResourceBundle messages, Component parent) {
     this.messages = messages;
     this.parent = parent;
   }
 
   public void show() {
-    final String aboutText = Tools.getLabel(messages.getString("guiMenuAbout"));
+    String aboutText = Tools.getLabel(messages.getString("guiMenuAbout"));
 
     JTextPane aboutPane = new JTextPane();
     aboutPane.setBackground(new Color(0, 0, 0, 0));
@@ -105,7 +105,7 @@ public class AboutDialog {
   }
 
   private String getMaintainers() {
-    final TreeMap<String, Language> list = new TreeMap<>();
+    TreeMap<String, Language> list = new TreeMap<>();
     for (Language lang : Languages.get()) {
       if (!lang.isVariant()) {
         if (lang.getMaintainers() != null) {
@@ -113,7 +113,7 @@ public class AboutDialog {
         }
       }
     }
-    final StringBuilder str = new StringBuilder();
+    StringBuilder str = new StringBuilder();
     str.append("<table border=0 cellspacing=0 cellpadding=0>");
     for (Map.Entry<String, Language> entry : list.entrySet()) {
       str.append("<tr valign=\"top\"><td>");

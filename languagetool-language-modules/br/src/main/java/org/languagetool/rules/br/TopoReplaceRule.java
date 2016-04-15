@@ -22,10 +22,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Breton;
-import org.languagetool.rules.AbstractSimpleReplaceRule;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tools.StringTools;
 
@@ -64,9 +61,9 @@ public class TopoReplaceRule extends Rule {
     return FILE_NAME;
   }
 
-  public TopoReplaceRule(final ResourceBundle messages) throws IOException {
+  public TopoReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
-    super.setCategory(new Category(messages.getString("category_misc")));
+    super.setCategory(Categories.MISC.getCategory(messages));
     wrongWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(getFileName()));
   }
 
@@ -130,9 +127,9 @@ public class TopoReplaceRule extends Rule {
    * @return the list of maps containing the error-corrections pairs. The n-th map contains key strings of (n+1) words.
    * @see #getWordTokenizer
    */
-  private List<Map<String, String>> loadWords(final InputStream stream)
+  private List<Map<String, String>> loadWords(InputStream stream)
           throws IOException {
-    final List<Map<String, String>> list = new ArrayList<>();
+    List<Map<String, String>> list = new ArrayList<>();
     try (
       InputStreamReader isr = new InputStreamReader(stream, getEncoding());
       BufferedReader br = new BufferedReader(isr);
@@ -144,16 +141,16 @@ public class TopoReplaceRule extends Rule {
         if (line.isEmpty() || line.charAt(0) == '#') { // ignore comments
           continue;
         }
-        final String[] parts = line.split("=");
+        String[] parts = line.split("=");
         if (parts.length != 2) {
           throw new IOException("Format error in file "
                   + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(getFileName())
                   + ", line: " + line);
         }
-        final String[] wrongForms = parts[0].split("\\|"); // multiple incorrect forms
+        String[] wrongForms = parts[0].split("\\|"); // multiple incorrect forms
         for (String wrongForm : wrongForms) {
           int wordCount = 0;
-          final List<String> tokens = getWordTokenizer().tokenize(wrongForm);
+          List<String> tokens = getWordTokenizer().tokenize(wrongForm);
           for (String token : tokens) {
             if (!StringTools.isWhitespace(token)) {
               wordCount++;
@@ -161,14 +158,14 @@ public class TopoReplaceRule extends Rule {
           }
           // grow if necessary
           for (int i = list.size(); i < wordCount; i++) {
-            list.add(new HashMap<String, String>());
+            list.add(new HashMap<>());
           }
           list.get(wordCount - 1).put(wrongForm, parts[1]);
         }
       }
     }
     // seal the result (prevent modification from outside this class)
-    final List<Map<String,String>> result = new ArrayList<>();
+    List<Map<String,String>> result = new ArrayList<>();
     for (Map<String, String> map : list) {
       result.add(Collections.unmodifiableMap(map));
     }
@@ -177,7 +174,7 @@ public class TopoReplaceRule extends Rule {
 
   private void addToQueue(AnalyzedTokenReadings token,
                           Queue<AnalyzedTokenReadings> prevTokens) {
-    final boolean inserted = prevTokens.offer(token);
+    boolean inserted = prevTokens.offer(token);
     if (!inserted) {
       prevTokens.poll();
       prevTokens.offer(token);
@@ -185,18 +182,18 @@ public class TopoReplaceRule extends Rule {
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence
+  public RuleMatch[] match(AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence
             .getTokensWithoutWhitespace();
 
-    final Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<>(wrongWords.size());
+    Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<>(wrongWords.size());
 
     for (int i = 1; i < tokens.length; i++) {
       addToQueue(tokens[i], prevTokens);
-      final StringBuilder sb = new StringBuilder();
-      final List<String> variants = new ArrayList<>();
-      final List<AnalyzedTokenReadings> prevTokensList = new ArrayList<>(prevTokens);
+      StringBuilder sb = new StringBuilder();
+      List<String> variants = new ArrayList<>();
+      List<AnalyzedTokenReadings> prevTokensList = new ArrayList<>(prevTokens);
       for (int j = prevTokensList.size() - 1; j >= 0; j--) {
         if (j != prevTokensList.size() - 1 && prevTokensList.get(j + 1).isWhitespaceBefore()) {
           sb.insert(0, " ");
@@ -204,18 +201,18 @@ public class TopoReplaceRule extends Rule {
         sb.insert(0, prevTokensList.get(j).getToken());
         variants.add(0, sb.toString());
       }
-      final int len = variants.size(); // prevTokensList and variants have now the same length
+      int len = variants.size(); // prevTokensList and variants have now the same length
       for (int j = 0; j < len; j++) {  // longest words first
-        final int crtWordCount = len - j;
+        int crtWordCount = len - j;
         if (prevTokensList.get(len - crtWordCount).isImmunized()) {
           continue;
         }
-        final String crt = variants.get(j);
-        final String crtMatch = isCaseSensitive() 
+        String crt = variants.get(j);
+        String crtMatch = isCaseSensitive() 
                               ? wrongWords.get(crtWordCount - 1).get(crt)
                               : wrongWords.get(crtWordCount- 1).get(crt.toLowerCase(getLocale()));
         if (crtMatch != null) {
-          final List<String> replacements = Arrays.asList(crtMatch.split("\\|"));
+          List<String> replacements = Arrays.asList(crtMatch.split("\\|"));
           String msg = crt + getSuggestion();
           for (int k = 0; k < replacements.size(); k++) {
             if (k > 0) {
@@ -224,9 +221,9 @@ public class TopoReplaceRule extends Rule {
             msg += "<suggestion>" + replacements.get(k) + "</suggestion>";
           }
           msg += "?";
-          final int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
-          final int endPos = prevTokensList.get(len - 1).getEndPos();
-          final RuleMatch potentialRuleMatch = new RuleMatch(this, startPos, endPos, msg, getShort());
+          int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
+          int endPos = prevTokensList.get(len - 1).getEndPos();
+          RuleMatch potentialRuleMatch = new RuleMatch(this, startPos, endPos, msg, getShort());
 
           if (!isCaseSensitive() && StringTools.startsWithUppercase(crt)) {
             for (int k = 0; k < replacements.size(); k++) {

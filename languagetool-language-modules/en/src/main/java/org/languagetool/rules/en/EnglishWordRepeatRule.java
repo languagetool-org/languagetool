@@ -30,7 +30,7 @@ import org.languagetool.rules.WordRepeatRule;
  */
 public class EnglishWordRepeatRule extends WordRepeatRule {
 
-  public EnglishWordRepeatRule(final ResourceBundle messages, final Language language) {
+  public EnglishWordRepeatRule(ResourceBundle messages, Language language) {
     super(messages, language);
     addExamplePair(Example.wrong("This <marker>is is</marker> just an example sentence."),
                    Example.fixed("This <marker>is</marker> just an example sentence."));

@@ -69,10 +69,10 @@ public class PatternRuleQueryBuilder {
    * @throws UnsupportedPatternRuleException if no query could be created for the rule
    */
   public Query buildRelaxedQuery(AbstractPatternRule rule) throws UnsupportedPatternRuleException {
-    final BooleanQuery booleanQuery = new BooleanQuery();
+    BooleanQuery booleanQuery = new BooleanQuery();
     for (PatternToken patternToken : rule.getPatternTokens()) {
       try {
-        final BooleanClause clause = makeQuery(patternToken);
+        BooleanClause clause = makeQuery(patternToken);
         booleanQuery.add(clause);
       } catch (UnsupportedPatternRuleException e) {
         //System.out.println("Ignoring because it's not supported: " + element + ": " + e);
@@ -90,18 +90,18 @@ public class PatternRuleQueryBuilder {
   private BooleanClause makeQuery(PatternToken patternToken) throws UnsupportedPatternRuleException {
     checkUnsupportedElement(patternToken);
 
-    final String termStr = patternToken.getString();
-    final String pos = patternToken.getPOStag();
+    String termStr = patternToken.getString();
+    String pos = patternToken.getPOStag();
 
-    final BooleanClause termQuery = getTermQueryOrNull(patternToken, termStr);
-    final BooleanClause posQuery = getPosQueryOrNull(patternToken, pos);
+    BooleanClause termQuery = getTermQueryOrNull(patternToken, termStr);
+    BooleanClause posQuery = getPosQueryOrNull(patternToken, pos);
 
     if (termQuery != null && posQuery != null) {
       // if both term and POS are set, we create a query where both are at the same position
       if (mustOccur(termQuery) && mustOccur(posQuery)) {
-        final SpanQuery spanQueryForTerm = asSpanQuery(termQuery);
-        final SpanQuery spanQueryForPos = asSpanQuery(posQuery);
-        final SpanQuery[] spanClauses = {spanQueryForTerm, spanQueryForPos};
+        SpanQuery spanQueryForTerm = asSpanQuery(termQuery);
+        SpanQuery spanQueryForPos = asSpanQuery(posQuery);
+        SpanQuery[] spanClauses = {spanQueryForTerm, spanQueryForPos};
         return new BooleanClause(new SpanNearQuery(spanClauses, 0, false), BooleanClause.Occur.MUST);
       } else {
         // should not happen, we always use Occur.MUST:
@@ -121,7 +121,7 @@ public class PatternRuleQueryBuilder {
     if (query.getQuery() instanceof MultiTermQuery) {
       return new SpanMultiTermQueryWrapper<>((MultiTermQuery) query.getQuery());
     } else {
-      final Set<Term> terms = new HashSet<>();
+      Set<Term> terms = new HashSet<>();
       try {
         indexSearcher.createWeight(query.getQuery(), false).extractTerms(terms);
       } catch (IOException e) {
@@ -143,14 +143,14 @@ public class PatternRuleQueryBuilder {
     if (termStr == null || termStr.isEmpty()) {
       return null;
     }
-    final Query termQuery;
-    final Term termQueryTerm = getTermQueryTerm(patternToken, termStr);
+    Query termQuery;
+    Term termQueryTerm = getTermQueryTerm(patternToken, termStr);
     if (patternToken.getNegation() || patternToken.getMinOccurrence() == 0) {
       // we need to ignore this - negation, if any, must happen at the same position
       return null;
     } else if (patternToken.isInflected() && patternToken.isRegularExpression()) {
       Term lemmaQueryTerm = getQueryTerm(patternToken, LEMMA_PREFIX + "(", simplifyRegex(termStr), ")");
-      final Query regexpQuery = getRegexQuery(lemmaQueryTerm, termStr, patternToken);
+      Query regexpQuery = getRegexQuery(lemmaQueryTerm, termStr, patternToken);
       return new BooleanClause(regexpQuery, BooleanClause.Occur.MUST);
     } else if (patternToken.isInflected() && !patternToken.isRegularExpression()) {
       /*
@@ -159,11 +159,11 @@ public class PatternRuleQueryBuilder {
       Query query = new TermQuery(lemmaQueryTerm);
       return new BooleanClause(query, BooleanClause.Occur.MUST);
       */
-      final Synthesizer synthesizer = language.getSynthesizer();
+      Synthesizer synthesizer = language.getSynthesizer();
       if (synthesizer != null) {
         try {
-          final String[] synthesized = synthesizer.synthesize(new AnalyzedToken(termStr, null, termStr), ".*", true);
-          final Query query;
+          String[] synthesized = synthesizer.synthesize(new AnalyzedToken(termStr, null, termStr), ".*", true);
+          Query query;
           if (synthesized.length == 0) {
             query = new TermQuery(termQueryTerm);
           } else {
@@ -198,8 +198,8 @@ public class PatternRuleQueryBuilder {
     if (pos == null || pos.isEmpty()) {
       return null;
     }
-    final Query posQuery;
-    final Term posQueryTerm;
+    Query posQuery;
+    Term posQueryTerm;
     if (patternToken.getPOSNegation() || patternToken.getMinOccurrence() == 0) {
       // we need to ignore this - negation, if any, must happen at the same position
       return null;
@@ -249,7 +249,7 @@ public class PatternRuleQueryBuilder {
   /** Return a query with the old (and slow, but more complete) way Lucene implements regular expressions. */
   private RegexQuery getFallbackRegexQuery(String str, PatternToken patternToken) {
     // No lowercase of str, so '\p{Punct}' doesn't become '\p{punct}':
-    final RegexQuery query = new RegexQuery(new Term(patternToken.isCaseSensitive() ? FIELD_NAME : FIELD_NAME_LOWERCASE, str));
+    RegexQuery query = new RegexQuery(new Term(patternToken.isCaseSensitive() ? FIELD_NAME : FIELD_NAME_LOWERCASE, str));
     query.setRegexImplementation(new JavaUtilRegexCapabilities(JavaUtilRegexCapabilities.FLAG_CASE_INSENSITIVE));
     return query;
   }

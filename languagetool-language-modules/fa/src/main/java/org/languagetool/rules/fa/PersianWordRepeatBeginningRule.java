@@ -34,18 +34,7 @@ import org.languagetool.rules.WordRepeatBeginningRule;
  * @since 2.7
  */
 public class PersianWordRepeatBeginningRule extends WordRepeatBeginningRule {
-  
-  public PersianWordRepeatBeginningRule(final ResourceBundle messages, final Language language) {
-    super(messages, language);
-    addExamplePair(Example.wrong("همچنین، خیابان تقریباً کاملاً مسکونی است. <marker>همچنین</marker>، به افتخار یک شاعر نامگذاری شده‌است."),
-                   Example.fixed("همچنین، خیابان تقریباً مسکونی است. <marker>این خیابان</marker> به افتخار یک شاعر نامگذاری شده‌است."));
-  }
-  
-  @Override
-  public String getId() {
-    return "PERSIAN_WORD_REPEAT_BEGINNING_RULE";
-  }
-  
+
   private static final Set<String> ADVERBS = new HashSet<>();
   static {
     ADVERBS.add("هم");
@@ -59,8 +48,19 @@ public class PersianWordRepeatBeginningRule extends WordRepeatBeginningRule {
     ADVERBS.add("چنانچه");
   }
   
+  public PersianWordRepeatBeginningRule(ResourceBundle messages, Language language) {
+    super(messages, language);
+    addExamplePair(Example.wrong("همچنین، خیابان تقریباً کاملاً مسکونی است. <marker>همچنین</marker>، به افتخار یک شاعر نامگذاری شده‌است."),
+                   Example.fixed("همچنین، خیابان تقریباً مسکونی است. <marker>این خیابان</marker> به افتخار یک شاعر نامگذاری شده‌است."));
+  }
+  
   @Override
-  protected boolean isAdverb(final AnalyzedTokenReadings token) {
+  public String getId() {
+    return "PERSIAN_WORD_REPEAT_BEGINNING_RULE";
+  }
+  
+  @Override
+  protected boolean isAdverb(AnalyzedTokenReadings token) {
     return ADVERBS.contains(token.getToken());
   }
 

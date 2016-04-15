@@ -35,10 +35,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tools.StringTools;
@@ -76,7 +73,7 @@ public class SimpleReplaceVerbsRule extends Rule {
   
   public SimpleReplaceVerbsRule(final ResourceBundle messages) throws IOException {
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
-    super.setCategory(new Category("Errors ortogràfics"));
+    super.setCategory(Categories.TYPOS.getCategory(messages));
     wrongWords = loadWords(JLanguageTool.getDataBroker()
         .getFromRulesDirAsStream(getFileName()));
     tagger = new CatalanTagger();

@@ -40,7 +40,7 @@ public class HiddenCharacterRule extends Rule {
 
   private static final Character HIDDEN_CHAR = '\u00AD'; // soft hyphen
   
-  public HiddenCharacterRule(final ResourceBundle messages) throws IOException {
+  public HiddenCharacterRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
   }
 
@@ -64,7 +64,7 @@ public class HiddenCharacterRule extends Rule {
   }
 
   @Override
-  public final RuleMatch[] match(final AnalyzedSentence sentence) {
+  public final RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 

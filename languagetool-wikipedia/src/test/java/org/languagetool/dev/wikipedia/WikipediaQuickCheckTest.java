@@ -32,14 +32,14 @@ public class WikipediaQuickCheckTest extends TestCase {
 
   // only for interactive use, as it accesses a remote API
   public void noTestCheckPage() throws IOException, PageNotFoundException {
-    final WikipediaQuickCheck check = new WikipediaQuickCheck();
-    //final String url = "http://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber";
-    //final String url = "http://de.wikipedia.org/wiki/OpenThesaurus";
-    //final String url = "http://de.wikipedia.org/wiki/Gütersloh";
-    //final String url = "http://de.wikipedia.org/wiki/Bielefeld";
-    final String url = "https://de.wikipedia.org/wiki/Augsburg";
-    final MarkupAwareWikipediaResult result = check.checkPage(new URL(url));
-    final List<AppliedRuleMatch> appliedMatches = result.getAppliedRuleMatches();
+    WikipediaQuickCheck check = new WikipediaQuickCheck();
+    //String url = "http://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber";
+    //String url = "http://de.wikipedia.org/wiki/OpenThesaurus";
+    //String url = "http://de.wikipedia.org/wiki/Gütersloh";
+    //String url = "http://de.wikipedia.org/wiki/Bielefeld";
+    String url = "https://de.wikipedia.org/wiki/Augsburg";
+    MarkupAwareWikipediaResult result = check.checkPage(new URL(url));
+    List<AppliedRuleMatch> appliedMatches = result.getAppliedRuleMatches();
     System.out.println("ruleApplications: " + appliedMatches.size());
     for (AppliedRuleMatch appliedMatch : appliedMatches) {
       System.out.println("=====");
@@ -55,18 +55,18 @@ public class WikipediaQuickCheckTest extends TestCase {
   }
 
   public void testCheckWikipediaMarkup() throws IOException {
-    final WikipediaQuickCheck check = new WikipediaQuickCheck();
-    final String markup = "== Beispiele ==\n\n" +
+    WikipediaQuickCheck check = new WikipediaQuickCheck();
+    String markup = "== Beispiele ==\n\n" +
             "Eine kleine Auswahl von Fehlern.\n\n" +
             "Das Komma ist richtig, wegen dem Leerzeichen.";
-    final MediaWikiContent wikiContent = new MediaWikiContent(markup, "2012-11-11T20:00:00");
-    final ErrorMarker errorMarker = new ErrorMarker("<err>", "</err>");
-    final MarkupAwareWikipediaResult result = check.checkWikipediaMarkup(new URL("http://fake-url.org"), wikiContent, new German(), errorMarker);
+    MediaWikiContent wikiContent = new MediaWikiContent(markup, "2012-11-11T20:00:00");
+    ErrorMarker errorMarker = new ErrorMarker("<err>", "</err>");
+    MarkupAwareWikipediaResult result = check.checkWikipediaMarkup(new URL("http://fake-url.org"), wikiContent, new German(), errorMarker);
     assertThat(result.getLastEditTimestamp(), is("2012-11-11T20:00:00"));
-    final List<AppliedRuleMatch> appliedMatches = result.getAppliedRuleMatches();
+    List<AppliedRuleMatch> appliedMatches = result.getAppliedRuleMatches();
     // even though this error has no suggestion, there's a (pseudo) correction:
     assertThat(appliedMatches.size(), is(1));
-    final AppliedRuleMatch firstAppliedMatch = appliedMatches.get(0);
+    AppliedRuleMatch firstAppliedMatch = appliedMatches.get(0);
     assertThat(firstAppliedMatch.getRuleMatchApplications().size(), is(1));
     RuleMatchApplication ruleMatchApplication = firstAppliedMatch.getRuleMatchApplications().get(0);
     assertTrue("Got: " + ruleMatchApplication.getTextWithCorrection(),
@@ -76,8 +76,8 @@ public class WikipediaQuickCheckTest extends TestCase {
   }
 
   public void testGetPlainText() {
-    final WikipediaQuickCheck check = new WikipediaQuickCheck();
-    final String filteredContent = check.getPlainText(
+    WikipediaQuickCheck check = new WikipediaQuickCheck();
+    String filteredContent = check.getPlainText(
             "<?xml version=\"1.0\"?><api><query><normalized><n from=\"Benutzer_Diskussion:Dnaber\" to=\"Benutzer Diskussion:Dnaber\" />" +
                     "</normalized><pages><page pageid=\"143424\" ns=\"3\" title=\"Benutzer Diskussion:Dnaber\"><revisions><rev xml:space=\"preserve\">\n" +
                     "Test [[Link]] Foo&amp;nbsp;bar.\n" +
@@ -86,9 +86,9 @@ public class WikipediaQuickCheckTest extends TestCase {
   }
 
   public void testGetPlainTextMapping() {
-    final WikipediaQuickCheck check = new WikipediaQuickCheck();
-    final String text = "Test [[Link]] und [[AnotherLink|noch einer]] und [http://test.org external link] Foo&amp;nbsp;bar.\n";
-    final PlainTextMapping filteredContent = check.getPlainTextMapping(
+    WikipediaQuickCheck check = new WikipediaQuickCheck();
+    String text = "Test [[Link]] und [[AnotherLink|noch einer]] und [http://test.org external link] Foo&amp;nbsp;bar.\n";
+    PlainTextMapping filteredContent = check.getPlainTextMapping(
             "<?xml version=\"1.0\"?><api><query><normalized><n from=\"Benutzer_Diskussion:Dnaber\" to=\"Benutzer Diskussion:Dnaber\" />" +
                     "</normalized><pages><page pageid=\"143424\" ns=\"3\" title=\"Benutzer Diskussion:Dnaber\"><revisions><rev xml:space=\"preserve\">" +
                     text +
@@ -106,9 +106,9 @@ public class WikipediaQuickCheckTest extends TestCase {
   }
 
   public void testGetPlainTextMappingMultiLine1() {
-    final WikipediaQuickCheck check = new WikipediaQuickCheck();
-    final String text = "Test [[Link]] und [[AnotherLink|noch einer]].\nUnd [[NextLink]] Foobar.\n";
-    final PlainTextMapping filteredContent = check.getPlainTextMapping(
+    WikipediaQuickCheck check = new WikipediaQuickCheck();
+    String text = "Test [[Link]] und [[AnotherLink|noch einer]].\nUnd [[NextLink]] Foobar.\n";
+    PlainTextMapping filteredContent = check.getPlainTextMapping(
             "<?xml version=\"1.0\"?><api><query><normalized><n from=\"Benutzer_Diskussion:Dnaber\" to=\"Benutzer Diskussion:Dnaber\" />" +
                     "</normalized><pages><page pageid=\"143424\" ns=\"3\" title=\"Benutzer Diskussion:Dnaber\"><revisions><rev xml:space=\"preserve\">" +
                     text +
@@ -129,9 +129,9 @@ public class WikipediaQuickCheckTest extends TestCase {
   }
 
   public void testGetPlainTextMappingMultiLine2() {
-    final WikipediaQuickCheck check = new WikipediaQuickCheck();
-    final String text = "Test [[Link]] und [[AnotherLink|noch einer]].\n\nUnd [[NextLink]] Foobar.\n";
-    final PlainTextMapping filteredContent = check.getPlainTextMapping(
+    WikipediaQuickCheck check = new WikipediaQuickCheck();
+    String text = "Test [[Link]] und [[AnotherLink|noch einer]].\n\nUnd [[NextLink]] Foobar.\n";
+    PlainTextMapping filteredContent = check.getPlainTextMapping(
             "<?xml version=\"1.0\"?><api><query><normalized><n from=\"Benutzer_Diskussion:Dnaber\" to=\"Benutzer Diskussion:Dnaber\" />" +
                     "</normalized><pages><page pageid=\"143424\" ns=\"3\" title=\"Benutzer Diskussion:Dnaber\"><revisions><rev xml:space=\"preserve\">" +
                     text +
@@ -151,7 +151,7 @@ public class WikipediaQuickCheckTest extends TestCase {
   }
 
   public void testRemoveInterLanguageLinks() {
-    final WikipediaQuickCheck check = new WikipediaQuickCheck();
+    WikipediaQuickCheck check = new WikipediaQuickCheck();
     assertEquals("foo  bar", check.removeWikipediaLinks("foo [[pt:Some Article]] bar"));
     assertEquals("foo [[some link]] bar", check.removeWikipediaLinks("foo [[some link]] bar"));
     assertEquals("foo [[Some Link]] bar ", check.removeWikipediaLinks("foo [[Some Link]] bar [[pt:Some Article]]"));

@@ -42,8 +42,8 @@ public final class LanguageToolAnalyzer extends Analyzer {
 
   @Override
   protected TokenStreamComponents createComponents(String s) {
-    final Tokenizer tokenizer = new AnyCharTokenizer();
-    final TokenStream result = new LanguageToolFilter(tokenizer, languageTool, toLowerCase);
+    Tokenizer tokenizer = new AnyCharTokenizer();
+    TokenStream result = new LanguageToolFilter(tokenizer, languageTool, toLowerCase);
     return new TokenStreamComponents(tokenizer, result);
   }
 

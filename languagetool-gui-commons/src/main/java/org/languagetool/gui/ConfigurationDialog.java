@@ -81,7 +81,7 @@ public class ConfigurationDialog implements ActionListener {
     DefaultMutableTreeNode root = new DefaultMutableTreeNode("Rules");
     String lastRuleId = null;
     Map<String, DefaultMutableTreeNode> parents = new TreeMap<>();
-    for (final Rule rule : rules) {
+    for (Rule rule : rules) {
       if (!parents.containsKey(rule.getCategory().getName())) {
         boolean enabled = true;
         if (config.getDisabledCategoryNames() != null && config.getDisabledCategoryNames().contains(rule.getCategory().getName())) {
@@ -126,18 +126,18 @@ public class ConfigurationDialog implements ActionListener {
     dialog = new JDialog(owner, true);
     dialog.setTitle(messages.getString("guiConfigWindowTitle"));
     // close dialog when user presses Escape key:
-    final KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
-    final ActionListener actionListener = new ActionListener() {
+    KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+    ActionListener actionListener = new ActionListener() {
       @Override
       public void actionPerformed(@SuppressWarnings("unused") ActionEvent actionEvent) {
         dialog.setVisible(false);
       }
     };
-    final JRootPane rootPane = dialog.getRootPane();
+    JRootPane rootPane = dialog.getRootPane();
     rootPane.registerKeyboardAction(actionListener, stroke,
         JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-    final JPanel checkBoxPanel = new JPanel();
+    JPanel checkBoxPanel = new JPanel();
     checkBoxPanel.setLayout(new GridBagLayout());
     GridBagConstraints cons = new GridBagConstraints();
     cons.anchor = GridBagConstraints.NORTHWEST;
@@ -162,7 +162,7 @@ public class ConfigurationDialog implements ActionListener {
     checkBoxPanel.add(configTree, cons);
     configTree.addMouseListener(getMouseAdapter());
     
-    final JPanel portPanel = new JPanel();
+    JPanel portPanel = new JPanel();
     portPanel.setLayout(new GridBagLayout());
     cons = new GridBagConstraints();
     cons.insets = new Insets(0, 4, 0, 0);
@@ -175,7 +175,7 @@ public class ConfigurationDialog implements ActionListener {
       createNonOfficeElements(cons, portPanel);
     }
 
-    final JPanel buttonPanel = new JPanel();
+    JPanel buttonPanel = new JPanel();
     buttonPanel.setLayout(new GridBagLayout());
     okButton = new JButton(Tools.getLabel(messages.getString("guiOKButton")));
     okButton.setMnemonic(Tools.getMnemonic(messages.getString("guiOKButton")));
@@ -188,7 +188,7 @@ public class ConfigurationDialog implements ActionListener {
     buttonPanel.add(okButton, cons);
     buttonPanel.add(cancelButton, cons);
 
-    final Container contentPane = dialog.getContentPane();
+    Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
     cons = new GridBagConstraints();
     cons.insets = new Insets(4, 4, 4, 4);
@@ -226,8 +226,8 @@ public class ConfigurationDialog implements ActionListener {
     dialog.pack();
     dialog.setSize(500, 500);
     // center on screen:
-    final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    final Dimension frameSize = dialog.getSize();
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    Dimension frameSize = dialog.getSize();
     dialog.setLocation(screenSize.width / 2 - frameSize.width / 2,
         screenSize.height / 2 - frameSize.height / 2);
     dialog.setLocationByPlatform(true);
@@ -349,7 +349,7 @@ public class ConfigurationDialog implements ActionListener {
   private MouseAdapter getMouseAdapter() {
     return new MouseAdapter() {
         private void handlePopupEvent(MouseEvent e) {
-          final JTree tree = (JTree) e.getSource();
+          JTree tree = (JTree) e.getSource();
           TreePath path = tree.getPathForLocation(e.getX(), e.getY());
           if (path == null) {
             return;
@@ -370,7 +370,7 @@ public class ConfigurationDialog implements ActionListener {
           }
           if (node.isLeaf()) {
             JPopupMenu popup = new JPopupMenu();
-            final JMenuItem aboutRuleMenuItem = new JMenuItem(messages.getString("guiAboutRuleMenu"));
+            JMenuItem aboutRuleMenuItem = new JMenuItem(messages.getString("guiAboutRuleMenu"));
             aboutRuleMenuItem.addActionListener(new ActionListener() {
               @Override
               public void actionPerformed(ActionEvent actionEvent) {
@@ -409,11 +409,11 @@ public class ConfigurationDialog implements ActionListener {
   @NotNull
   private JPanel getTreeButtonPanel() {
     GridBagConstraints cons;
-    final JPanel treeButtonPanel = new JPanel();
+    JPanel treeButtonPanel = new JPanel();
     cons = new GridBagConstraints();
     cons.gridx = 0;
     cons.gridy = 0;
-    final JButton expandAllButton = new JButton(messages.getString("guiExpandAll"));
+    JButton expandAllButton = new JButton(messages.getString("guiExpandAll"));
     treeButtonPanel.add(expandAllButton, cons);
     expandAllButton.addActionListener(new ActionListener() {
 
@@ -431,7 +431,7 @@ public class ConfigurationDialog implements ActionListener {
 
     cons.gridx = 1;
     cons.gridy = 0;
-    final JButton collapseAllButton = new JButton(messages.getString("guiCollapseAll"));
+    JButton collapseAllButton = new JButton(messages.getString("guiCollapseAll"));
     treeButtonPanel.add(collapseAllButton, cons);
     collapseAllButton.addActionListener(new ActionListener() {
       @Override
@@ -450,7 +450,7 @@ public class ConfigurationDialog implements ActionListener {
 
   @NotNull
   private JPanel getMotherTonguePanel(GridBagConstraints cons) {
-    final JPanel motherTonguePanel = new JPanel();
+    JPanel motherTonguePanel = new JPanel();
     motherTonguePanel.add(new JLabel(messages.getString("guiMotherTongue")), cons);
     motherTongueBox = new JComboBox<>(getPossibleMotherTongues());
     if (config.getMotherTongue() != null) {
@@ -477,10 +477,10 @@ public class ConfigurationDialog implements ActionListener {
   private JPanel getNgramPanel(GridBagConstraints cons) {
     JPanel panel = new JPanel();
     panel.add(new JLabel(messages.getString("guiNgramDir")), cons);
-    final File dir = config.getNgramDirectory();
-    final int maxDirDisplayLength = 45;
+    File dir = config.getNgramDirectory();
+    int maxDirDisplayLength = 45;
     String buttonText = dir != null ? StringUtils.abbreviate(dir.getAbsolutePath(), maxDirDisplayLength) : messages.getString("guiNgramDirSelect");
-    final JButton ngramDirButton = new JButton(buttonText);
+    JButton ngramDirButton = new JButton(buttonText);
     ngramDirButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -522,9 +522,9 @@ public class ConfigurationDialog implements ActionListener {
   }
 
   private String[] getPossibleMotherTongues() {
-    final List<String> motherTongues = new ArrayList<>();
+    List<String> motherTongues = new ArrayList<>();
     motherTongues.add(NO_MOTHER_TONGUE);
-    for (final Language lang : Languages.get()) {
+    for (Language lang : Languages.get()) {
      motherTongues.add(lang.getTranslatedName(messages));
     }
     return motherTongues.toArray(new String[motherTongues.size()]);
@@ -549,8 +549,8 @@ public class ConfigurationDialog implements ActionListener {
    * @return a Language object or <code>null</code> if the language could not be found
    */
   @Nullable
-  private Language getLanguageForLocalizedName(final String languageName) {
-    for (final Language element : Languages.get()) {
+  private Language getLanguageForLocalizedName(String languageName) {
+    for (Language element : Languages.get()) {
       if (languageName.equals(element.getTranslatedName(messages))) {
         return element;
       }
@@ -561,10 +561,10 @@ public class ConfigurationDialog implements ActionListener {
   static class CategoryComparator implements Comparator<Rule> {
 
     @Override
-    public int compare(final Rule r1, final Rule r2) {
-      final boolean hasCat = r1.getCategory() != null && r2.getCategory() != null;
+    public int compare(Rule r1, Rule r2) {
+      boolean hasCat = r1.getCategory() != null && r2.getCategory() != null;
       if (hasCat) {
-        final int res = r1.getCategory().getName().compareTo(r2.getCategory().getName());
+        int res = r1.getCategory().getName().compareTo(r2.getCategory().getName());
         if (res == 0) {
           return r1.getDescription().compareToIgnoreCase(r2.getDescription());
         }

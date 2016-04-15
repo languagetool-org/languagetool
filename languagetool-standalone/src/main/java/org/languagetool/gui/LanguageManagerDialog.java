@@ -67,7 +67,7 @@ public class LanguageManagerDialog implements ActionListener {
   public LanguageManagerDialog(Frame owner, List<Language> languages) {
     this.owner = owner;
     for (Language lang : languages) {
-      for (final String ruleFile : lang.getRuleFileNames()) {
+      for (String ruleFile : lang.getRuleFileNames()) {
         ruleFiles.add(new File(ruleFile));
       }
     }
@@ -80,18 +80,18 @@ public class LanguageManagerDialog implements ActionListener {
     
     // close dialog when user presses Escape key:
     // TODO: taken from ConfigurationDialog, avoid duplication:
-    final KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
-    final ActionListener actionListener = new ActionListener() {
+    KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+    ActionListener actionListener = new ActionListener() {
       @Override
       @SuppressWarnings("unused")
       public void actionPerformed(ActionEvent actionEvent) {
         dialog.setVisible(false); 
       }
     };
-    final JRootPane rootPane = dialog.getRootPane();
+    JRootPane rootPane = dialog.getRootPane();
     rootPane.registerKeyboardAction(actionListener, stroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
 
-    final Container contentPane = dialog.getContentPane();
+    Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
 
     list = new JList<>(ruleFiles.toArray(new File[ruleFiles.size()]));
@@ -108,7 +108,7 @@ public class LanguageManagerDialog implements ActionListener {
     cons.insets = new Insets(4, 4, 4, 4);
     cons.fill = GridBagConstraints.HORIZONTAL;
     
-    final JPanel buttonPanel = new JPanel();
+    JPanel buttonPanel = new JPanel();
     buttonPanel.setLayout(new GridBagLayout());
     addButton = new JButton(messages.getString("guiAddButton"));
     addButton.addActionListener(this);
@@ -176,7 +176,7 @@ public class LanguageManagerDialog implements ActionListener {
         ruleFiles.add(ruleFile);
         list.setListData(ruleFiles.toArray(new File[ruleFiles.size()]));
       } else {
-        final JOptionPane jop = new JOptionPane();
+        JOptionPane jop = new JOptionPane();
         JOptionPane.showMessageDialog(jop, messages.getString("guiDuplicate"),
                 messages.getString("guiWarning"), JOptionPane.WARNING_MESSAGE);
       }
@@ -196,10 +196,10 @@ public class LanguageManagerDialog implements ActionListener {
    * Return all external Languages.
    */
   List<Language> getLanguages() throws IllegalAccessException, InstantiationException {
-    final List<Language> languages = new ArrayList<>();
+    List<Language> languages = new ArrayList<>();
     for (File ruleFile : ruleFiles) {
       if (ruleFile != null) {
-        final Language newLanguage = LanguageBuilder.makeAdditionalLanguage(ruleFile);
+        Language newLanguage = LanguageBuilder.makeAdditionalLanguage(ruleFile);
         languages.add(newLanguage);
       }
     }
@@ -208,7 +208,7 @@ public class LanguageManagerDialog implements ActionListener {
   
   static class XMLFileFilter extends FileFilter {
     @Override
-    public boolean accept(final File f) {
+    public boolean accept(File f) {
       if (f.getName().startsWith("rules") && f.getName().toLowerCase().endsWith(".xml") 
               || f.isDirectory()) {
         return true;

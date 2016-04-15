@@ -53,22 +53,22 @@ public class HTTPSServerTesting {
   @Test
   public void interactiveHTTPServerTest() throws Exception {
     HTTPTools.disableCertChecks();
-    final long startTime = System.currentTimeMillis();
+    long startTime = System.currentTimeMillis();
     try {
-      final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
-      final List<Future> futures = new ArrayList<>();
+      ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
+      List<Future> futures = new ArrayList<>();
       for (int i = 0; i < THREAD_COUNT; i++) {
-        final Future<?> future = executorService.submit(new TestRunnable(i));
+        Future<?> future = executorService.submit(new TestRunnable(i));
         futures.add(future);
       }
       for (Future future : futures) {
         future.get();
       }
     } finally {
-      final long runtime = System.currentTimeMillis() - startTime;
+      long runtime = System.currentTimeMillis() - startTime;
       System.out.println("Running with " + THREAD_COUNT + " threads in " + runtime + "ms for " + checkCount + " checks");
       if (checkCount > 0) {
-        final long timePerCheck = runtime / checkCount;
+        long timePerCheck = runtime / checkCount;
         System.out.println(" => on average " + timePerCheck + "ms per check");
       }
     }
@@ -94,22 +94,22 @@ public class HTTPSServerTesting {
   }
 
   private void runTests(int threadNumber) throws IOException {
-    final List<Language> languages = Languages.get();
-    final Language lang = languages.get(rnd.nextInt(languages.size()));
-    final List<ExampleSentence> sentences = provider.getRandomSentences(lang);
-    final String text = getSentencesAsText(sentences);
-    final String data = "language=" + lang.getShortNameWithCountryAndVariant() + "&text=" + URLEncoder.encode(text, "utf-8");
-    final String resultXml = checkAtUrl(new URL(SERVER_URL), data, threadNumber);
+    List<Language> languages = Languages.get();
+    Language lang = languages.get(rnd.nextInt(languages.size()));
+    List<ExampleSentence> sentences = provider.getRandomSentences(lang);
+    String text = getSentencesAsText(sentences);
+    String data = "language=" + lang.getShortNameWithCountryAndVariant() + "&text=" + URLEncoder.encode(text, "utf-8");
+    String resultXml = checkAtUrl(new URL(SERVER_URL), data, threadNumber);
     for (ExampleSentence sentence : sentences) {
       assertTrue("Expected " + sentence.getRuleId() + " for '" + text + "' (" + sentences.size() + " sentences)", resultXml.contains(sentence.getRuleId()));
     }
   }
 
   private String getSentencesAsText(List<ExampleSentence> sentences) {
-    final StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder();
     for (ExampleSentence sentence : sentences) {
-      final String sentenceStr = sentence.getSentence().replace("<marker>", "").replace("</marker>", "");
-      final String cleanSentenceStr = sentenceStr.replaceAll("[\\n\\t]+", "");
+      String sentenceStr = sentence.getSentence().replace("<marker>", "").replace("</marker>", "");
+      String cleanSentenceStr = sentenceStr.replaceAll("[\\n\\t]+", "");
       sb.append(cleanSentenceStr);
       sb.append("\n\n");
     }
@@ -117,12 +117,12 @@ public class HTTPSServerTesting {
   }
 
   private String checkAtUrl(URL url, String data, int threadNumber) throws IOException {
-    final long startTime = System.currentTimeMillis();
-    final String startOfData = data.substring(0, Math.min(30, data.length()));
+    long startTime = System.currentTimeMillis();
+    String startOfData = data.substring(0, Math.min(30, data.length()));
     synchronized(this) {
       checkCount++;
     }
-    final String result = HTTPTools.checkAtUrlByPost(url, data);
+    String result = HTTPTools.checkAtUrlByPost(url, data);
     System.out.println(checkCount + ". [" + threadNumber + "] Got " + url + " with data (" + data.length() + " bytes) " + startOfData
             + "...: " + (System.currentTimeMillis() - startTime) + "ms");
     return result;

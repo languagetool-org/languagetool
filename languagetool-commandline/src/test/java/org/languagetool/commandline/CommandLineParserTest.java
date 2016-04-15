@@ -23,18 +23,18 @@ import junit.framework.TestCase;
 public class CommandLineParserTest extends TestCase {
 
   public void testUsage() throws Exception {
-    final CommandLineParser parser = new CommandLineParser();
+    CommandLineParser parser = new CommandLineParser();
     try {
       parser.parseOptions(new String[]{});
       fail();
     } catch (WrongParameterNumberException ignored) {}
 
-    final CommandLineOptions commandLineOptions = parser.parseOptions(new String[]{"--help"});
+    CommandLineOptions commandLineOptions = parser.parseOptions(new String[]{"--help"});
     assertTrue(commandLineOptions.isPrintUsage());
   }
 
   public void testErrors() throws Exception {
-    final CommandLineParser parser = new CommandLineParser();
+    CommandLineParser parser = new CommandLineParser();
     try {
       parser.parseOptions(new String[]{"--apply", "--taggeronly"});
       fail();
@@ -42,7 +42,7 @@ public class CommandLineParserTest extends TestCase {
   }
 
   public void testSimple() throws Exception {
-    final CommandLineParser parser = new CommandLineParser();
+    CommandLineParser parser = new CommandLineParser();
     CommandLineOptions options;
 
     options = parser.parseOptions(new String[]{"filename.txt"});

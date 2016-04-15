@@ -66,7 +66,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   // the n-th map contains key strings of (n+1) words 
   private final List<Map<String, String>> wrongWords;
   
-  public AbstractSimpleReplaceRule2(final ResourceBundle messages, Language language) throws IOException {
+  public AbstractSimpleReplaceRule2(ResourceBundle messages, Language language) throws IOException {
     super(messages);
     this.language = Objects.requireNonNull(language);
     super.setCategory(Categories.MISC.getCategory(messages));
@@ -93,9 +93,9 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
    * @param stream the stream to load.
    * @return the list of maps containing the error-corrections pairs. The n-th map contains key strings of (n+1) words.
    */
-  private List<Map<String, String>> loadWords(final InputStream stream)
+  private List<Map<String, String>> loadWords(InputStream stream)
           throws IOException {
-    final List<Map<String, String>> list = new ArrayList<>();
+    List<Map<String, String>> list = new ArrayList<>();
     try (
       InputStreamReader isr = new InputStreamReader(stream, "utf-8");
       BufferedReader br = new BufferedReader(isr)) 
@@ -107,17 +107,17 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           continue;
         }
 
-        final String[] parts = line.split("=");
+        String[] parts = line.split("=");
         if (parts.length != 2) {
           throw new IOException("Format error in file "
                   + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(getFileName())
                   + ", line: " + line);
         }
 
-        final String[] wrongForms = parts[0].split("\\|"); // multiple incorrect forms
+        String[] wrongForms = parts[0].split("\\|"); // multiple incorrect forms
         for (String wrongForm : wrongForms) {
           int wordCount = 0;
-          final List<String> tokens = language.getWordTokenizer().tokenize(wrongForm);
+          List<String> tokens = language.getWordTokenizer().tokenize(wrongForm);
           for (String token : tokens) {
             if (!StringTools.isWhitespace(token)) {
               wordCount++;
@@ -125,14 +125,14 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           }
           // grow if necessary
           for (int i = list.size(); i < wordCount; i++) {
-            list.add(new HashMap<String, String>());
+            list.add(new HashMap<>());
           }
           list.get(wordCount - 1).put(wrongForm, parts[1]);
         }
       }
     }
     // seal the result (prevent modification from outside this class)
-    final List<Map<String,String>> result = new ArrayList<>();
+    List<Map<String,String>> result = new ArrayList<>();
     for (Map<String, String> map : list) {
       result.add(Collections.unmodifiableMap(map));
     }
@@ -141,7 +141,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
 
   private void addToQueue(AnalyzedTokenReadings token,
                           Queue<AnalyzedTokenReadings> prevTokens) {
-    final boolean inserted = prevTokens.offer(token);
+    boolean inserted = prevTokens.offer(token);
     if (!inserted) {
       prevTokens.poll();
       prevTokens.offer(token);
@@ -149,17 +149,17 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+  public RuleMatch[] match(AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
-    final Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<>(wrongWords.size());
+    Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<>(wrongWords.size());
 
     for (int i = 1; i < tokens.length; i++) {
       addToQueue(tokens[i], prevTokens);
-      final StringBuilder sb = new StringBuilder();
-      final List<String> variants = new ArrayList<>();
-      final List<AnalyzedTokenReadings> prevTokensList =
+      StringBuilder sb = new StringBuilder();
+      List<String> variants = new ArrayList<>();
+      List<AnalyzedTokenReadings> prevTokensList =
               Arrays.asList(prevTokens.toArray(new AnalyzedTokenReadings[prevTokens.size()]));
       for (int j = prevTokensList.size() - 1; j >= 0; j--) {
         if (j != prevTokensList.size() - 1 && prevTokensList.get(j + 1).isWhitespaceBefore()) {
@@ -168,13 +168,13 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
         sb.insert(0, prevTokensList.get(j).getToken());
         variants.add(0, sb.toString());
       }
-      final int len = variants.size(); // prevTokensList and variants have now the same length
+      int len = variants.size(); // prevTokensList and variants have now the same length
       for (int j = 0; j < len; j++) { // longest words first
-        final String crt = variants.get(j);
-        final int crtWordCount = len - j;
-        final String crtMatch = isCaseSensitive() ? wrongWords.get(crtWordCount - 1).get(crt) : wrongWords.get(crtWordCount- 1).get(crt.toLowerCase(getLocale()));
+        String crt = variants.get(j);
+        int crtWordCount = len - j;
+        String crtMatch = isCaseSensitive() ? wrongWords.get(crtWordCount - 1).get(crt) : wrongWords.get(crtWordCount- 1).get(crt.toLowerCase(getLocale()));
         if (crtMatch != null) {
-          final List<String> replacements = Arrays.asList(crtMatch.split("\\|"));
+          List<String> replacements = Arrays.asList(crtMatch.split("\\|"));
           String msg = crt + getSuggestion();
           for (int k = 0; k < replacements.size(); k++) {
             if (k > 0) {
@@ -182,9 +182,9 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
             }
             msg += "<suggestion>" + replacements.get(k) + "</suggestion>";
           }
-          final int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
-          final int endPos = prevTokensList.get(len - 1).getEndPos();
-          final RuleMatch potentialRuleMatch = new RuleMatch(this, startPos, endPos, msg, getShort());
+          int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
+          int endPos = prevTokensList.get(len - 1).getEndPos();
+          RuleMatch potentialRuleMatch = new RuleMatch(this, startPos, endPos, msg, getShort());
 
           if (!isCaseSensitive() && StringTools.startsWithUppercase(crt)) {
             for (int k = 0; k < replacements.size(); k++) {

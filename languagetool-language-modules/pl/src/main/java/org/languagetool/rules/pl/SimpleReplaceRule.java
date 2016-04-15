@@ -25,10 +25,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang.StringUtils;
-import org.languagetool.rules.AbstractSimpleReplaceRule;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.Example;
-import org.languagetool.rules.ITSIssueType;
+import org.languagetool.rules.*;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
@@ -54,7 +51,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
     super(messages);
     setLocQualityIssueType(ITSIssueType.Misspelling);
-    setCategory(new Category("Prawdopodobne literówki"));
+    setCategory(new Category(new CategoryId("PRAWDOPODOBNE_LITEROWKI"), "Prawdopodobne literówki"));
     setCheckLemmas(false);
     addExamplePair(Example.wrong("Uspokój <marker>sei</marker>."),
                    Example.fixed("Uspokój <marker>się</marker>."));

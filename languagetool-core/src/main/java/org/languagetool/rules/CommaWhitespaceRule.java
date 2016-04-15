@@ -68,15 +68,15 @@ public class CommaWhitespaceRule extends Rule {
   }
 
   @Override
-  public final RuleMatch[] match(final AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokens();
+  public final RuleMatch[] match(AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokens();
     String prevToken = "";
     String prevPrevToken = "";
     boolean prevWhite = false;
     for (int i = 0; i < tokens.length; i++) {
-      final String token = tokens[i].getToken();
-      final boolean isWhitespace = tokens[i].isWhitespace() || StringTools.isNonBreakingWhitespace(token)
+      String token = tokens[i].getToken();
+      boolean isWhitespace = tokens[i].isWhitespace() || StringTools.isNonBreakingWhitespace(token)
           || tokens[i].isFieldCode();
       String msg = null;
       String suggestionText = null;
@@ -113,9 +113,9 @@ public class CommaWhitespaceRule extends Rule {
         }
       }
       if (msg != null) {
-        final int fromPos = tokens[i - 1].getStartPos();
-        final int toPos = tokens[i].getEndPos();
-        final RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg);
+        int fromPos = tokens[i - 1].getStartPos();
+        int toPos = tokens[i].getEndPos();
+        RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg);
         ruleMatch.setSuggestedReplacement(suggestionText);
         ruleMatches.add(ruleMatch);
       }
@@ -127,9 +127,9 @@ public class CommaWhitespaceRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private static boolean isQuoteOrHyphenOrComma(final String str) {
+  private static boolean isQuoteOrHyphenOrComma(String str) {
     if (str.length() == 1) {
-      final char c = str.charAt(0);
+      char c = str.charAt(0);
       if (c =='\'' || c == '-' || c == '”'
           || c =='’' || c == '"' || c == '“'
           || c == ',') {
@@ -139,31 +139,31 @@ public class CommaWhitespaceRule extends Rule {
     return false;
   }
 
-  private static boolean isDigitOrDot(final String str) {
+  private static boolean isDigitOrDot(String str) {
     if (isEmpty(str)) {
       return false;
     }
-    final char c = str.charAt(0);
+    char c = str.charAt(0);
     return c == '.' || Character.isDigit(c);
   }
 
-  private static boolean isLeftBracket(final String str) {
+  private static boolean isLeftBracket(String str) {
     if (isEmpty(str)) {
       return false;
     }
-    final char c = str.charAt(0);
+    char c = str.charAt(0);
     return c == '(' || c == '[' || c == '{';
   }
 
-  private static boolean isRightBracket(final String str) {
+  private static boolean isRightBracket(String str) {
     if (isEmpty(str)) {
       return false;
     }
-    final char c = str.charAt(0);
+    char c = str.charAt(0);
     return c == ')' || c == ']' || c == '}';
   }
 
-  private static boolean containsDigit(final String str) {
+  private static boolean containsDigit(String str) {
     for (int i = 0; i < str.length(); i++) {
       if (Character.isDigit(str.charAt(i))) {
         return true;

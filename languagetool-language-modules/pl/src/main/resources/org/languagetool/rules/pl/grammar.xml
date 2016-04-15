@@ -2295,6 +2295,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Władco dżungli, powiedz mi teraz: kto jest władcą dżungli?</example>
                         <example>Panno Kaźmiro!</example>
 				</rule>
+				<rule id="INTERJ_PRZECINEK" name="Brak przecinka po „no cóż”">
+				<pattern>
+				  <token>no</token>
+				  <token>cóż</token>
+				  <token><exception regexp="yes" scope="current">[,-–—!\.…]</exception></token>
+				</pattern>
+				<message>Prawdopodobnie brak przecinka. Powinno być: <suggestion>\1 \2, \3</suggestion>.</message>
+						<short>Błąd interpunkcyjny</short>
+						<example correction="no cóż, czasem">A ich przeliczniki, <marker>no cóż czasem</marker> pozostawiają wiele do życzenia.</example>
+				</rule>
 				<rule id="JAK_I" name="Brak przecinka przed „jak i/również”">
 						<pattern>
 								<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;|tyle|i|lub|albo|ani|oraz|bądź|czy|tak|podobnie</exception></token>
@@ -3840,6 +3850,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     </category>
 		<category id="TYPOGRAPHY" name="Błędy typograficzne" type="typographical">
+		<rulegroup id="DOUBLE_PUNCTUATION" name="">
+		<rule>
+		<antipattern>
+		  <marker>
+        <token>,</token>
+        <token skip='-1'>,</token>
+      </marker>
+      <token>’</token>
+      <token>’</token>
+     </antipattern>
+		<pattern>
+		  <token>,</token>
+		  <token>,</token>
+		</pattern>
+		<message>Dwa przecinki. Czy chodziło o <suggestion>,</suggestion>?</message>
+		<example correction=",">To było dawno<marker>,,</marker> dawno temu.</example>
+		<example>To ,,rekiny’’.</example>
+		</rule>
+		<rule>
+		<pattern>
+		  <token>.<exception postag="&lt;ELLIPSIS&gt;"/></token>
+		  <token>.<exception postag="&lt;/ELLIPSIS&gt;"/></token>
+		</pattern>
+		<message>Dwie kropki. Czy chodziło o <suggestion>.</suggestion>?</message>
+		<example correction=".">To prawda<marker>..</marker></example>
+		<example>To prawda...</example>
+		</rule>
+		</rulegroup>
+		<rule id="BLEDNE_CUDZYSOWY_TYPOGRAFICZNE" name="Błędne cudzysłowy typograficzne">
+     <pattern>
+      <token>,</token>
+      <token skip='-1'>,</token>
+      <token>’</token>
+      <token>’</token>
+     </pattern>
+     <message>Czy chodziło o <suggestion>„<match no="2" include_skipped="following"/>”</suggestion>?</message>
+     <short>Błędne cudzysłowy</short>
+     <example correction='„rekiny”'>To <marker>,,rekiny’’</marker>.</example>     
+    </rule>
 		<rule id="BRAK_ODSTPU_PO_KROPCE_PRZED_CUDZYSOWEM" name="Brak odstępu po kropce przed cudzysłowem.">
      <pattern>
       <marker>
@@ -5504,9 +5553,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Powszechnie uznaje się, że technologie językowe to jedna z kluczowych dziedzin.</example>
 						<example correction="To"><marker>Te</marker> milczenie jest męczące.</example>
 						<example correction="To"><marker>Te</marker> dziecko zachowuje się grzecznie.</example>
-                        <example>Mają one coś wspólnego z jego przyjacielem Hathim.</example>
-                        <example>Wydaliśmy huczne przyjęcie.</example>
-                    <example>Umożliwiają nam one wyjaśnianie własnego zachowania retrospekcyjnie.</example>
+            <example>Mają one coś wspólnego z jego przyjacielem Hathim.</example>
+            <example>Wydaliśmy huczne przyjęcie.</example>
+            <example>Umożliwiają nam one wyjaśnianie własnego zachowania retrospekcyjnie.</example>
+            <example>Czy mogę zobaczyć pańskie prawo jazdy?</example>
 				</rule>
 				<rulegroup id="PIERWSZY_STYCZEN_1993" name="Błędna odmiana miesiąca w datach, np. 1 styczeń 2010 (1 stycznia)">
 						<rule>
@@ -6449,6 +6499,684 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>To jest znaczenie naturalne.</example>
                 <example>Zatrzymani to 40-letnia kobieta, bliska znajoma dziennikarza, oraz 40-letni rzemieślnik.</example>
             </rule>
+            <rule id="NIEZGODNOSC_LICZBY_PODMIOTU_I_ORZECZENIA" name="Niezgodność liczby podmiotu i orzeczenia">
+            <antipattern> <!-- szyk przestawny -->
+              <marker>
+                <token postag='verb:fin:pl.*' postag_regexp='yes'/>
+              </marker>
+                <unify><feature id="case"><type id="nom"/></feature><feature id="gender"/><feature id="number"/>
+                <token postag="(adj|pact|ppas).*" postag_regexp="yes"/>
+                <token postag="(subst|ger).*" postag_regexp="yes"/>
+                </unify>
+            </antipattern>
+            <antipattern> <!-- zdanie podrzędne z który lub jaki w liczbnie mnogiej jako podmiotem -->
+            <token>,</token>
+            <token skip="-1" postag="adj:pl:nom.*" postag_regexp="yes" inflected="yes" regexp="yes">który|jaki<exception scope="next" postag="interp:comma|conj|pred" postag_regexp="yes"/></token>
+            <marker>
+              <token postag='verb:fin:pl:ter.*' postag_regexp='yes'/>
+            </marker>
+            </antipattern>
+            <antipattern> <!-- fraza nominalna mnoga: rzeczownik + spójnik + przymiotnik/rzeczownik + rzeczownik -->
+              <token postag='subst:.*nom.*' postag_regexp='yes' />
+              <token postag="conj"/>
+              <marker>
+              <unify><feature id="gender"/>
+              <token postag="(adj|pact|ppas|subst):sg:nom.*" postag_regexp="yes"></token>
+              <token postag="(subst|ger):sg:nom.*" postag_regexp="yes"/>
+              </unify>
+              </marker>
+            </antipattern>
+            <antipattern> <!-- fraza nominalna mnoga: rzeczownik + spójnik + przymiotnik/rzeczownik + rzeczownik -->
+              <token postag='subst:.*nom.*' postag_regexp='yes' />
+              <token postag="conj"/>              
+              <unify><feature id="gender"/>
+              <token postag="(adj|pact|ppas|subst):sg:nom.*" postag_regexp="yes"></token>
+              <token postag="(subst|ger):sg:nom.*" postag_regexp="yes"/>
+              </unify>
+              <marker>
+              <token regexp="yes" postag="subst:sg:nom.*" postag_regexp="yes">\p{Lu}\p{Ll}+</token>
+              </marker>
+            </antipattern>
+            <antipattern> <!-- fraza nominalna mnoga: rzeczownik + rzeczownik w dopełniaczu + spójnik + przymiotnik/rzeczownik + rzeczownik -->
+              <token postag='subst:.*nom.*|num:pl:nom.*rec' postag_regexp='yes' />
+              <token postag="subst.*gen.*" postag_regexp="yes"/>
+              <token postag="conj"/>
+              <marker>
+              <unify><feature id="gender"/>
+              <token postag="(adj|pact|ppas|subst):sg:nom.*" postag_regexp="yes"></token>
+              <token postag="(subst|ger):sg:nom.*" postag_regexp="yes"/>
+              </unify>
+              </marker>
+            </antipattern>
+            <antipattern> <!-- fraza nominalna mnoga: rzeczownik + rzeczownik w dopełniaczu + spójnik + zaimek 3. os. npraep + rzeczownik -->
+              <token postag='subst:.*nom.*' postag_regexp='yes' />
+              <token postag="subst:.*gen.*" postag_regexp="yes"/>
+              <token postag="conj"/>
+              <token postag="ppron3.*gen.*:npraep" postag_regexp="yes"/>
+              <marker>
+              <token postag="(subst|ger):sg:nom.*" postag_regexp="yes"/>
+              </marker>
+            </antipattern>
+            <antipattern> <!-- fraza nominalna mnoga: rzeczownik + spójnik + zaimek 3. os. npraep + rzeczownik -->
+              <token postag='subst:.*nom.*|ppron3.*nom.*' postag_regexp='yes' />
+              <token postag="conj"/>
+              <token postag="ppron3.*gen.*:npraep" postag_regexp="yes"/>
+              <marker>
+              <token postag="(subst|ger):sg:nom.*" postag_regexp="yes"/>
+              </marker>
+            </antipattern>
+            <antipattern> <!-- fraza nominalna mnoga: rzeczownik + spójnik + zaimek 3. os. npraep + rzeczownik -->
+              <token postag='subst:.*nom.*' postag_regexp='yes' />
+              <token postag="conj"/>
+              <token postag="ppron3.*gen.*:npraep" postag_regexp="yes"/>
+              <marker>
+              <token postag="(subst|ger):sg:nom.*" postag_regexp="yes"/>
+              <token postag="(subst|ger):sg:nom.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
+              </marker>
+            </antipattern>
+            <antipattern> <!-- fraza nominalna mnoga: rzeczownik + spójnik + przysłówek + przymiotnik/rzeczownik + rzeczownik -->
+              <token postag='subst:.*nom.*' postag_regexp='yes' />
+              <token postag="conj"/>
+              <token postag="adv.*" postag_regexp="yes"/>
+              <marker>
+              <unify><feature id="gender"/>
+              <token postag="(adj|pact|ppas|subst):sg:nom.*" postag_regexp="yes"></token>
+              <token postag="(subst|ger):sg:nom.*" postag_regexp="yes"/>
+              </unify>
+              </marker>
+            </antipattern>
+            <antipattern> <!-- fraza nominalna mnoga: rzeczownik + spójnik + 2 x przymiotnik/rzeczownik + rzeczownik -->
+              <token postag='subst:.*nom.*' postag_regexp='yes' />
+              <token postag="conj"/>
+              <marker>
+              <unify><feature id="gender"/>
+              <token postag="(adj|pact|ppas|subst):sg:nom.*" postag_regexp="yes"></token>
+              <token postag="(adj|pact|ppas|subst):sg:nom.*" postag_regexp="yes"></token>
+              <token postag="(subst|ger):sg:nom.*" postag_regexp="yes"/>
+              </unify>
+              </marker>
+            </antipattern>
+            <antipattern> <!-- podmiot szeregowy z zaimkiem osobowym 3. os w dopełniaczu -->
+            <token postag='subst:.*:nom.*' postag_regexp='yes'/>
+            <token>,</token>
+            <token postag="ppron3:.*:gen:.*" postag_regexp="yes"/>
+            <marker>
+            <token postag='subst:sg:nom.*' postag_regexp='yes'/>
+            </marker>            
+            </antipattern>
+            <antipattern> <!-- podmiot szeregowy z zaimkiem osobowym 3. os w dopełniaczu -->
+            <token postag='subst:.*:nom.*' postag_regexp='yes'/>
+            <token postag="conj"/>
+            <token postag="ppron3:.*:gen:.*" postag_regexp="yes"/>
+            <marker>
+            <token postag='subst:sg:nom.*' postag_regexp='yes'/>
+            </marker>            
+            </antipattern>
+            <antipattern> <!-- podmiot szeregowy z przecinkiem -->
+            <token postag='subst:.*:nom.*' postag_regexp='yes'/>
+            <token>,</token>
+            <marker>
+            <token postag='subst:sg:nom.*' postag_regexp='yes'/>
+            </marker>
+            </antipattern>
+            <antipattern> <!-- podmiot szeregowy ze spójnikiem -->
+            <token postag='subst:.*:nom.*' postag_regexp='yes'/>
+            <token postag="conj"/>
+            <marker>
+            <token postag='subst:sg:nom.*' postag_regexp='yes'/>
+            </marker>
+            </antipattern>
+            <antipattern> <!-- podmiot towarzyszący z przyimkiem "z" -->
+            <marker>
+            <token postag='subst:sg:nom.*' postag_regexp='yes' skip='-1'/>
+            </marker>
+            <token inflected="yes">z</token>
+            <token postag=".*inst.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern> <!-- podmiot towarzyszący z przyimkiem złożonym "wraz z" -->
+            <marker>
+            <token postag='subst:sg:nom.*' postag_regexp='yes' skip='-1'/>
+            </marker>
+            <token>wraz</token>
+            <token inflected="yes">z</token>            
+            </antipattern>
+            <antipattern> <!-- podmiot szeregowy ze spójnikiem ani” -->
+              <token postag='(adj|subst):.*:nom.*' postag_regexp='yes'/>            
+              <token>,</token>
+              <token>ani</token>              
+              <marker>
+                <token postag='subst:sg:nom.*' postag_regexp='yes'/>
+              </marker>            
+            </antipattern>
+            <antipattern> <!-- podmiot szeregowy ze spójnikiem ani” -->
+              <token postag='(adj|subst):.*:nom.*' postag_regexp='yes'/>            
+              <token>,</token>
+              <token>ani</token>              
+               <marker>
+              <unify><feature id="gender"/>
+              <token postag="(adj|pact|ppas|subst):sg:nom.*" postag_regexp="yes"></token>
+              <token postag="(subst|ger):sg:nom.*" postag_regexp="yes"/>
+              </unify>
+              </marker>
+            </antipattern>
+            <antipattern> <!-- podmiot szeregowy ze spójnikiem czy też, lub też, bądź też -->
+              <token postag='(subst|adj):.*:nom.*' postag_regexp='yes'/>                          
+              <token regexp="yes">bądź|czy|lub</token>
+              <token>też</token>
+              <marker>
+                <token postag='subst:sg:nom.*' postag_regexp='yes'/>
+              </marker>
+            </antipattern>
+            <antipattern> <!-- podmiot szeregowy ze spójnikiem „jak i” -->
+              <token postag='(subst|adj):.*:nom.*' postag_regexp='yes'/>            
+              <token>,</token>
+              <token>jak</token>
+              <token regexp="yes">i|też|również</token>
+              <marker>
+                <token postag='subst:sg:nom.*' postag_regexp='yes'/>
+              </marker>
+            </antipattern>
+            <antipattern> <!-- podmiot szeregowy ze spójnikiem „jak i” -->
+              <token postag='(subst|adj):.*:nom.*' postag_regexp='yes'/>            
+              <token>,</token>
+              <token>jak</token>
+              <token regexp="yes">i|też|również</token>
+              <marker>
+                <unify><feature id="gender"/>
+                  <token postag="(adj|pact|ppas|subst):sg:nom.*" postag_regexp="yes"></token>
+                  <token postag="(subst|ger):sg:nom.*" postag_regexp="yes"/>
+                </unify>
+              </marker>
+            </antipattern>
+            <antipattern> <!-- podmiot szeregowy ze spójnikiem „a także/zwłaszcza” -->
+              <token postag='subst:.*:nom.*' postag_regexp='yes'/>            
+              <token>,</token>
+              <token>a</token>
+              <token regexp="yes">także|zwłaszcza</token>
+              <marker>
+                <token postag='subst:sg:nom.*' postag_regexp='yes'/>
+              </marker>
+            </antipattern>
+            <antipattern> <!-- podmiot szeregowy ze spójnikiem „a także/zwłaszcza” i jego/jej/ich -->
+              <token postag='subst:.*:nom.*|UNKNOWN' postag_regexp='yes'/>            
+              <token>,</token>
+              <token>a</token>
+              <token regexp="yes">także|zwłaszcza</token>
+              <token postag="ppron3.*gen.*:npraep" postag_regexp="yes"/>
+              <marker>
+              <unify>
+              <feature id="gender"></feature>
+              <feature id="number"/><feature id="case"/>
+                <token postag='subst:sg:nom.*' postag_regexp='yes'/>
+                <token postag='subst:sg:nom.*' postag_regexp='yes'/>
+                <token postag='subst:sg:nom.*' postag_regexp='yes'/>
+              </unify>
+              </marker>
+            </antipattern>
+            <antipattern> <!-- podmiot szeregowy ze spójnikiem „a także/zwłaszcza” i jego/jej/ich -->
+              <token postag='subst:.*:nom.*|UNKNOWN' postag_regexp='yes'/>            
+              <token>,</token>
+              <token>a</token>
+              <token regexp="yes">także|zwłaszcza</token>
+              <token postag="ppron3.*gen.*:npraep" postag_regexp="yes"/>
+              <marker>
+              <unify>
+              <feature id="gender"></feature>
+              <feature id="number"/><feature id="case"/>
+                <token postag='subst:sg:nom.*' postag_regexp='yes'/>
+                <token postag='subst:sg:nom.*' postag_regexp='yes'/>
+              </unify>
+              </marker>
+            </antipattern>
+            <antipattern> <!-- podmiot szeregowy ze spójnikiem „a także/zwłaszcza” i jego/jej/ich -->
+              <token postag='subst:.*:nom.*|UNKNOWN' postag_regexp='yes'/>            
+              <token>,</token>
+              <token>a</token>
+              <token regexp="yes">także|zwłaszcza</token>
+              <token postag="ppron3.*gen.*:npraep" postag_regexp="yes"/>
+              <marker>
+                <token postag='subst:sg:nom.*' postag_regexp='yes'/>                  
+              </marker>
+            </antipattern>
+            <antipattern> <!-- podmiot szeregowy ze spójnikiem „a także/zwłaszcza” z „bardzo” i frazą nominalną -->
+              <token postag='subst:.*:nom.*' postag_regexp='yes'/>            
+              <token>,</token>
+              <token>a</token>
+              <token regexp="yes">także|zwłaszcza</token>
+              <token postag="adv.*" postag_regexp="yes"/>
+              <marker>
+                <unify><feature id="gender"/>
+                  <token postag="(adj|pact|ppas|subst):sg:nom.*" postag_regexp="yes"></token>
+                  <token postag="(subst|ger):sg:nom.*" postag_regexp="yes"/>
+                </unify>
+              </marker>
+            </antipattern>
+            <antipattern> <!-- podmiot szeregowy z jednym rzeczownikiem i dwoma przymiotnikami -->
+            <unify>
+            <feature id="gender"/><feature id="number"><type id="sg"/></feature>
+            <feature id="case"><type id="nom"/></feature>
+              <token postag="(adj|ppas|pact).*" postag_regexp="yes"/>
+              <unify-ignore><token postag="conj"></token></unify-ignore>
+              <token postag="(adj|ppas|pact).*" postag_regexp="yes"/>
+              <marker>
+              <token postag="(subst|ger):sg:nom.*" postag_regexp="yes"/>
+              </marker>
+            </unify>
+            </antipattern>
+            <antipattern> <!-- podmiot szeregowy z określeniem osoby / miejsca -->
+            <token postag="subst.*nom.*" postag_regexp="yes"/>
+            <token min="0" max="1" regexp="yes">\p{Lu}\p{Ll}+</token>
+            <token postag="conj"/>
+            <marker>
+            <token regexp="yes">pani|panna|pan|panicz|profesor|ksiądz</token>
+            <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            </marker>
+            </antipattern>
+            <antipattern case_sensitive="yes"> <!-- nazwy własne (np. obce lub nieodmienne) -->
+            <token postag="subst:pl:nom.*" postag_regexp="yes"/>
+              <marker>
+                <token postag='subst:sg:nom.*' postag_regexp='yes' regexp="yes">\p{Lu}\p{Ll}+|\p{Lu}+</token>
+              </marker>
+            </antipattern>
+            <antipattern case_sensitive="yes"> <!-- nazwy własne (np. obce lub nieodmienne) -->            
+            <unify><feature id="case"/> <!-- w cyklu Opera Camerata -->
+              <token postag="prep.*" postag_regexp="yes"></token>
+              <token postag="subst.*" postag_regexp="yes"></token>
+            </unify>
+              <marker>
+                <token postag='subst:sg:nom.*' postag_regexp='yes' regexp="yes">\p{Lu}\p{Ll}+</token>
+              </marker>
+            </antipattern>
+            <antipattern case_sensitive="yes"> <!-- nazwy własne (np. obce lub nieodmienne) -->            
+            <token postag="subst:pl:nom.*" postag_regexp="yes"/> <!-- wersje systemu Android -->
+            <token postag="subst:sg:gen.*" postag_regexp="yes"/>
+              <marker>
+                <token postag='subst:sg:nom.*' postag_regexp='yes' regexp="yes">\p{Lu}\p{Ll}+</token>
+              </marker>
+            </antipattern>
+            <antipattern case_sensitive="yes"> <!-- nazwy własne (np. obce lub nieodmienne: Hurley i Steve Chen) -->
+            <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            <token postag="conj"/>
+              <token regexp="yes">\p{Lu}\p{Ll}+</token>
+              <marker>
+                <token postag='subst:sg:nom.*' postag_regexp='yes' regexp="yes">\p{Lu}\p{Ll}+</token>
+              </marker>
+            </antipattern>
+            <antipattern case_sensitive="yes"> <!-- nazwy własne (np. obce lub nieodmienne: Hurley i Steve Chen) -->
+            <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            <token postag="conj"/>
+              <token regexp="yes">\p{Lu}\p{Ll}+</token>
+              <token regexp="yes">\p{Lu}\p{Ll}+</token>
+              <token regexp="yes">[\-–—]</token>
+              <marker>
+                <token postag='subst:sg:nom.*' postag_regexp='yes' regexp="yes">\p{Lu}\p{Ll}+</token>
+              </marker>
+            </antipattern>
+            <antipattern case_sensitive="yes"> <!-- nazwy własne po przyimku (np. obce lub nieodmienne) -->
+            <token skip="-1" postag="subst:pl:nom.*" postag_regexp="yes"/>
+            <unify><feature id="case"/>
+              <token postag="prep.*" postag_regexp="yes"></token>
+              <token postag="subst.*" postag_regexp="yes"></token>
+            </unify>
+              <marker>
+                <token postag='subst:sg:nom.*' postag_regexp='yes' regexp="yes">\p{Lu}\p{Ll}+|\p{Lu}+</token>
+              </marker>
+            </antipattern>
+            <antipattern case_sensitive="yes"> <!-- nazwy własne po przyimku (np. obce lub nieodmienne) -->
+            <token postag="subst:pl:nom.*" postag_regexp="yes"/>
+            <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            <unify><feature id="case"/>
+              <token postag="prep.*" postag_regexp="yes"></token>
+              <token postag="subst.*" postag_regexp="yes"></token>
+            </unify>
+              <marker>
+                <token postag='subst:sg:nom.*' postag_regexp='yes' regexp="yes">\p{Lu}\p{Ll}+</token>
+              </marker>
+            </antipattern> 
+            <antipattern> <!-- nieodmienione skróty -->
+            <token postag="subst:pl:nom.*" postag_regexp="yes"/>
+            <token postag="prep.*" postag_regexp="yes"></token>
+              <marker>
+                <token postag='subst:sg:nom.*' postag_regexp='yes' regexp="yes">\p{Lu}+</token>
+              </marker>            
+            </antipattern>
+            <antipattern> <!-- fragment nazwy własnej, np. IKEA Polska lub nazwy po skrócie, np. DT Centrum -->
+            <token regexp="yes">\p{Lu}\p{Ll}+|\p{Lu}+<exception postag="SENT_START" regexp="yes">\p{Lu}\p{Ll}+</exception></token>
+              <marker>
+                <token postag='subst:sg:nom.*' postag_regexp='yes' regexp="yes">\p{Lu}(\p{Ll}*)+</token>
+              </marker>
+            </antipattern>
+            <antipattern> <!-- fragment nazwiska obcego, np. Peter Caruana -->            
+              <marker>
+                <token postag='subst:sg:nom.*' postag_regexp='yes' regexp="yes">\p{Lu}\p{Ll}+|\p{Lu}+</token>
+              </marker>
+              <token regexp="yes" postag="UNKNOWN">\p{Lu}\p{Ll}+|\p{Lu}+</token>
+            </antipattern>
+            <antipattern> <!-- skróty tytułów przed nazwiskiem: Machała i red. Lis… -->
+            <token postag='subst:.*:nom.*' postag_regexp='yes'/>                        
+            <token postag="conj"></token>
+            <token postag="brev:pun"/>
+            <token spacebefore="no">.</token>
+            <marker>
+                <token postag='subst:sg:nom.*' postag_regexp='yes' regexp="yes">\p{Lu}\p{Ll}+</token>
+            </marker>
+            </antipattern>
+            <antipattern>
+            <token postag="subst:pl:nom.*" postag_regexp="yes"/>
+            <marker>
+              <token postag="subst.*gen.*" postag_regexp="yes"/>
+            </marker>
+            </antipattern>
+            <antipattern>
+            <token postag="subst:pl:nom.*" postag_regexp="yes"/>
+            <token regexp="yes">typu|rodzaju|pokroju|odmiany|gatunku</token>
+            <marker>
+              <token postag="subst:sg:nom.*" postag_regexp="yes"/>
+            </marker>
+            </antipattern>
+            <antipattern>
+              <token postag="(adj|subst):pl:nom.*" postag_regexp="yes"/>
+              <marker>
+              <and>
+                <token postag="subst.*acc.*" postag_regexp="yes"/>
+                <token postag='subst:sg:nom.*' postag_regexp='yes'/>
+              </and>
+              </marker>
+            </antipattern>
+            <antipattern> <!-- podmiot l.m. z przeskokami -->
+            <token skip="-1" postag="(subst|ger):.*nom.*" postag_regexp="yes">
+              <exception postag='verb.*sg.*' postag_regexp='yes' scope='next'/>
+            </token>
+            <token skip="10" postag="conj|interp:comma" postag_regexp="yes">
+              <exception postag='verb.*sg.*' postag_regexp='yes' scope='next'/>
+            </token>
+            <marker>
+              <token postag='subst:sg:nom.*' postag_regexp='yes'/>
+            </marker>
+            </antipattern>
+            <antipattern> <!-- podmiot l.m. z przeskokami -->
+            <token skip="-1" postag="subst:.*nom.*" postag_regexp="yes">
+              <exception postag='verb.*sg.*' postag_regexp='yes' scope='next'/>
+            </token>
+            <token>,</token>
+            <token skip="10" postag="comp:comma"></token>
+            <token skip="10" postag="conj|interp:comma" postag_regexp="yes">
+              <exception postag='verb.*sg.*' postag_regexp='yes' scope='next'/>
+            </token>            
+            <marker>
+              <token postag='subst:sg:nom.*' postag_regexp='yes'/>
+            </marker>
+            </antipattern>
+            <antipattern> <!-- wyraz z apostrofami i czymś po nich, np. SMS'y, Rorty'ego -->
+            <marker>
+              <token postag='subst:sg:nom.*' postag_regexp='yes'/>
+            </marker>
+              <token spacebefore="no" regexp="yes">&apost;</token>
+              <token spacebefore="no" regexp="yes">\p{L}+</token>
+            </antipattern>            
+            <antipattern> <!-- słowo w słowo -->
+            <marker>
+              <token>słowo</token>
+            </marker>
+            <token>w</token>
+            <token>słowo</token>
+            </antipattern>
+            <antipattern>
+            <token>to</token>
+            <marker>
+            <token>wszystko</token>
+            </marker>
+            </antipattern>
+            <antipattern>
+              <marker>
+                <token>jeden</token>
+              </marker>
+              <token regexp="yes">pod?|za</token>
+              <token>drugim</token>
+            </antipattern>            
+            <antipattern>
+            <token>co</token>
+              <marker>
+                <token>prawda</token>
+              </marker>
+            </antipattern>
+            <antipattern>
+            <marker>
+              <token>joint</token>
+            </marker>
+            <token>venture</token>
+            </antipattern>
+            <antipattern>
+            <marker>
+            <token>cóż</token>
+            <token>to</token>
+            <token>za</token>
+            <token postag='subst:sg:nom.*' postag_regexp='yes' />
+            </marker>
+            </antipattern>
+            <antipattern>
+            <marker>
+            <token>numer</token>
+            </marker>
+              <token postag="num:pl.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+            <marker>
+            <token>summa</token>
+            </marker>
+            <token regexp="yes">cum|summ?arum</token>
+            </antipattern>
+            <antipattern> <!-- czasownik zwrotny + podmiot w l.mn. -->
+            <marker>
+              <token postag='verb:fin:pl:ter.*:refl.*' postag_regexp="yes"></token>
+            </marker>
+            <token>się</token>
+            <token postag="ppron3:pl:nom.*|subst:pl:nom.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern> <!-- czasownik + ci, którzy -->
+            <marker>
+              <token postag='verb:fin:pl:ter.*' postag_regexp="yes"/>
+            </marker>
+            <unify>
+              <feature id="case"><type id="nom"/></feature>
+              <feature id="gender"/>
+              <feature id="number"><type id="pl"/></feature>
+            <token postag="adj:pl:nom.*" postag_regexp="yes" inflected="yes">ten</token>
+            <unify-ignore>
+              <token>,</token>
+            </unify-ignore>
+            <token inflected="yes">który</token>
+            </unify>
+            </antipattern>
+            <antipattern> <!-- czasownik + ci, którzy -->
+            <marker>
+              <token postag='verb:fin:pl:ter.*' postag_regexp="yes"/>
+            </marker>
+            <unify>
+              <feature id="case"><type id="nom"/></feature>
+              <feature id="gender"/>
+              <feature id="number"><type id="pl"/></feature>
+            <token postag="adj:pl:nom.*" postag_regexp="yes" inflected="yes">ten</token>            
+            <token inflected="yes">wszystek</token>
+            </unify>
+            </antipattern>
+            <antipattern> <!-- czasownik + liczba wymagająca mianownika + podmiot w l.mn. -->
+            <marker>
+              <token postag='verb:fin:pl:ter.*' postag_regexp="yes"></token>
+            </marker>
+            <token regexp="yes">\d*[2-4]</token>
+            <token postag="subst:pl:nom.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern> <!-- podmiot l.m. z przeskokami, po prawej stronie czasownika -->
+            <marker>
+              <token skip="-1" postag='verb:fin:pl:ter.*' postag_regexp="yes">
+                <exception postag='verb.*(sg|pl).*' postag_regexp='yes' scope='next'/>
+              </token>
+            </marker>
+            <token skip="-1" postag="subst:sg.*nom.*" postag_regexp="yes">
+              <exception postag='verb.*(sg|pl).*' postag_regexp='yes' scope='next'/>
+            </token>
+            <token skip="10" postag="conj|interp:comma" postag_regexp="yes">
+              <exception postag='verb.*(sg|pl).*' postag_regexp='yes' scope='next'/>
+            </token>
+              <token postag='subst:sg:nom.*' postag_regexp='yes'/>
+            </antipattern>
+            <antipattern> <!-- czasownik + liczba wymagająca mianownika + podmiot w l.mn. -->
+            <marker>
+              <token skip="10" postag='verb:fin:pl:ter.*' postag_regexp="yes">
+                <exception postag="(interp|comp):comma|pred|verb.*sg.*" postag_regexp="yes" scope="next"/>                
+              </token>
+            </marker>
+            <token postag="ppron3:pl:nom.*|subst:pl:nom.*" postag_regexp="yes"/>
+            </antipattern>            
+            <antipattern> <!-- czasownik + m.in. + podmiot -->
+            <marker>
+              <token postag='verb:fin:pl:ter.*' postag_regexp="yes"></token>
+            </marker>
+            <token>m</token>
+            <token>.</token>
+            <token>in</token>
+            <token>.</token>
+            <token postag="subst:.*:nom.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern> <!-- czasownik + kublik / przysłówek + podmiot w l.mn. -->
+            <marker>
+              <token postag='verb:fin:pl:ter.*' postag_regexp="yes"></token>
+            </marker>
+            <token postag="adv.*|qub" postag_regexp="yes"/>
+            <unify><feature id="gender"/><feature id="number"><type id="pl"/></feature>
+              <token postag="adj:pl:nom.*" postag_regexp="yes"/>
+              <token postag="subst:pl:nom.*" postag_regexp="yes"/>
+            </unify>
+            </antipattern>
+            <pattern>
+                <marker>
+                <token postag='subst:sg:nom.*' postag_regexp='yes' skip='-1'>
+                  <exception regexp="yes">\p{Lu}+|Android|plus|niż|[tc]o|cóż|nic|juz|czyż|państwo|ksiądz|tatuś|matka|ojciec|proboszcz|kanonik|królowa|król</exception>
+                  <exception postag='verb.*sg.*|ppron3:pl:.*|conj|comp.*|interp.*|subst:pl:nom.*|pred|num:pl:nom.*' postag_regexp='yes' scope='next'/>
+                  <exception postag='adj:pl:nom.*' postag_regexp='yes' scope='next' inflected="yes" regexp="yes">jeden|drugi</exception>
+                  <exception postag='subst:pl:nom.*|adv.*|qub' postag_regexp='yes'/>
+                  <exception postag='conj' scope='previous'/>
+                  <exception postag="prep:nom.*" postag_regexp="yes" scope="previous"/>
+                  <exception regexp="yes" scope="previous" spacebefore="no">&apost;|\-</exception>
+                  <exception scope="previous" regexp="yes">the|van|del?</exception>
+                </token>
+                <token postag='verb:fin:pl:ter.*' postag_regexp='yes'>
+                  <exception postag="subst.*" postag_regexp="yes"/>
+                  <exception regexp="yes" scope="previous">[234]|[2-9][234]|\d[02-9][234]</exception>
+                  </token>
+                </marker>
+                <token ><exception postag='(subst|num):pl:nom.*|ppron3:pl:nom.*' postag_regexp='yes'></exception><exception>:</exception></token>
+               </pattern>
+               <message>Podmiot „<match no="1"/>” jest niezgodny z liczbą orzeczenia „<match no="2"/>”. Niepoprawna liczba któregoś z wyrazu lub brak przecinka.</message>
+               <short>Niezgodność liczby podmiotu i orzeczenia</short>
+               <example correction=''><marker>Dociekanie nie są</marker> kluczowe.</example>
+               <example correction=""><marker>Sierpień w mobilnych okienkach upłyną</marker> pod znakiem awarii Marketplace.</example>
+               <example>Dociekania nie są kluczowe.</example>
+               <example>Wiesz, co jedzą twoje dzieci?</example>
+               <example>Śniadanie jemy w kuchni.</example>
+               <example>Co wy sądzicie?</example>
+               <example>Winiarze też to rozumieją.</example>
+               <example>Bałem się, że jak zemdleję, to rękę odetną.</example>
+               <example>Właśnie dzięki temu, że książka ta powstała w 1973 roku możemy obserwować...</example>
+               <example>Nic te hasła nie mówią osobom postronnym.</example>
+               <example>— Weźmiemy dwu, sklep rozszerzymy, będzie wspaniały.</example>
+               <example>— Jego dostojność namiestnik i moja matka bardzo lubią śpiew.</example>
+               <example>Przebąkiwano, że i on niedługo już tu będzie „popasał”, że lada dzień skończą się i jego „rządy”.</example>
+               <example>Jakby nie dość było tej zapory dla słońca, czyjaś ręka rozwiesiła jeszcze w oknach kapy kolorowe, które blask dzienny prawie zupełnie tłumią.</example>
+               <example>W każde święto uczniowie wraz z domownikami odczytują głośno żywoty świętych i śpiewają pieśni nabożne.</example>
+               <example>„Matka, małżonka, ojciec na śmierć mnie wzywają!”</example>
+               <example>Porwać Ligię wydawało mu się rzeczą możliwą i tego był prawie pewien, ale również pewien był, że wobec nauki on sam, jego męstwo, jego potęga są niczym i że z nią sobie nie poradzi.</example>
+               <example>Po wszystkich znać było, iż lada chwila oczekują czegoś nadzwyczajnego.</example>
+               <example>Więc twoje wczorajsze chrześcijaństwo i twoja dawniejsza filozofia pozwalają ci wierzyć w Merkurego?</example>
+               <example>Niech Bóg i wielki święty Mikołaj mają cię w swej opiece!</example>
+               <example>Gdyby Petroniusz był pewien, że Winicjusz z Ligią są już za bramami miasta, byłby odrzekł: „Ożenił się z twego pozwolenia i wyjechał”.</example>
+               <example>Wilczur wraz z Jemiołem zamieszkają w przybudówce.</example>
+               <example>Tak samo w teatrze, sceny malujące zadowolenie bez obawy są mdłe, toż samo ostateczna nędza bez nadziei i miłość brutalna, i bezlitosne okrucieństwo.</example>
+               <example>I to wszystko gadają o nim dziś.</example>
+               <example>Po pierwszym Napoleonie znajdzie się jakiś drugi, a gdyby i ten źle skończył, przyjdzie następny, dopóki jeden po drugim nie uporządkują świata.</example>
+               <example>Windows Phone’om rzeczywiście do szczęścia nie są potrzebne “wielordzeniówki”.</example>
+               <example>Aplikacje co jakiś czas się zawieszają.</example>
+               <example>Aplikacja, jak i sama usługa są darmowe.</example>
+               <example>Lekkie rozczarowanie mogą czuć jedynie posiadacze Lumi 610.</example>
+               <example>Raz spadają pojedynczo, innym razem większymi grupami.</example>
+               <example>Po prostu po zetknięciu z takim elementem prędkość traktora maleje do zera, jednak ani pojazd, ani dany element nie zostają uszkodzone.</example>
+               <example>Obok niego co pewien czas przelatują różnego rodzaju insekty.</example>
+               <example>Klimat poczują jedynie miłośnicy serii.</example>
+               <example>Rozwiązanie to sprawia, że gra mimo swojej prostoty nie nudzi się, a kolejne poziomy raz za razem zaskakują.</example>
+               <example>Żaden obraz, ani żadna myśl poety nie giną w jego wyrazistej dykcji.</example>
+               <example>Perfumy co prawda rozwijają się na skórze.</example>
+               <example>Owocowa i czekoladowa nuta lekko przygasają.</example>
+               <example>Zarówno kampania reklamowa, jak i samo opakowanie należą do najlepszych, jakie miałem przyjemność widzieć w tym roku.</example>
+               <example>Syryjskie wzgórza Golan są bezprawnie okupowane przez Izrael od 1967 r.</example>
+               <example>Ciemne piwo, melasa i przyprawy, a zwłaszcza bardzo duża dawka imbiru sprawiają, że ciasto jest niezwykle smaczne.</example>
+               <example>Hmmm, dlaczego producenci marek luksusowych mają to w nosie?</example>
+               <example>Zamiast odwoływać się w swojej pracy do wartości dziennikarskich, red. Machała i red. Lis wyznaczają — jak mówi ten pierwszy — nowe granice reklamy natywnej (sic!).</example>
+               <example>Potem syn Wojtuś za kolejne przestępstwo pod wpływem alkoholu w warunkach zawieszenia kary trafia do pudła – przez jakiś czas siedzą nawet w tym samym wiezieniu.</example>
+               <example>A ich przeliczniki, no cóż czasem pozostawiają wiele do życzenia.</example>
+               <example>Podsumowując: doskonałe ciasto i bardzo wysoka jakość składników sprawiają, że w kategorii sieciowych pizzerii Pizza Hut nie ma w Kielcach konkurencji.</example>
+               <example>Do Nyköping z lotniska Sztokholm Skavsta jeżdżą dwa autobusy 515 i 715, które kursują mniej więcej co pół godziny.</example>
+               <example>Najtańsze urządzenia z systemem Android zazwyczaj mają wgraną jego starszą wersję.</example>
+               <example>Brakuje wielu opcji grupowania znanych z videoprezentacji prototypu, kupki ikon nie są tak ładnie poskładane… </example>
+               <example>Gumowe wykończenia robota pomagają trochę amortyzować te nieprzewidziane kontakty.</example>
+               <example>Właściciele takich stron często ponad rzetelność wpisów stawiają sobie korzyści majątkowe.</example>
+               <example>Chad Hurley i Steve Chen twierdzą, że serwis nie pozostanie w stanie wegetacji.</example>
+               <example>Nowe mikroprocesory Intela z serii Atom pojawią się w latach 2012 – 2014.</example>
+               <example>Nowsze wersje systemu Android są załatane pod kątem dwóch powyższych luk.</example>
+               <example>Konwersacja czy też powiadomienie o innej aktywności wyświetlą się w chmurce.</example>
+               <example>— To państwo nie mieszkają w pałacu?</example>
+               <example>Tak słowo w słowo opowiadają to zdarzenie ci, co je dobrze znają.</example>
+               <example>Tam się ksiądz proboszcz rozmówią.</example>
+               <example>Dalej, spiesz się, słychać już zewsząd muzykę; wesele pewno odprawią rano przed upałem.</example>
+               <example>Walka jest tutaj tak zażarta, ponieważ na wzgórzach Golan decydują się losy obu stron, samo ich istnienie.</example>
+               <example>Pani Couture i panna Wiktoryna nie zgorszą się waszymi swobodnymi żarcikami.</example>
+               <example>Budzimy się z tego snu chorzy i smutni i używanie tego napoju staje się przyczyną chorób, które życie nasze czynią nieprzyjemnym i krótkim.</example>
+               <example>Mnóstwo sztuk umieją, tylko teraz zmęczeni są trochę, więc ich nie chcę pokazywać.</example>
+               <example>Nie wolno źrebiętom tknąć ani ziarenka owsa okrom pewnych dni, póki osiemnastego roku nie dosięgły, również mleko dostają bardzo rzadko.</example>
+               <example>Las mi rąbią, zboże spasają, na pastwiska włażą…</example>
+               <example>Czyli także i ci słuchacze młodzież do dobrego prowadzą?</example>
+               <example>Kotik podążał za nimi uradowany wielce i zdumiony, że krowy morskie coś w ogóle umieją.</example>
+               <example>Zresztą cóż mnie obchodzą jego przywileje!</example>
+               <example>Oficjalny optymizm prezesa banku centralnego podważają jednak eksperci.</example>
+               <example>Pogoda ducha i włoskie słońce są jedyną obroną przed stresem.</example>
+               <example>Obecnie obrót akcjami spółek z NFI prowadzą 33 biura.</example>
+               <example>Wnioski te dla zarządu BGŻ nie są jednak zbyt optymistyczne.</example>
+               <example>— Składki dla ZUS nie są na bieżąco odprowadzane, bo mamy zablokowane konta, a nie mogę robić wpłat gotówką, bo to są za duże kwoty i obowiązuje przymus przelewów.</example>
+               <example>Stosunkowo wysoki koszt druku i jego szybkość są tu głównymi przeszkodami.</example>
+               <example>Nastula, a także jego trener Wojciech Borowiak są nad wyraz spokojni i czekają tylko na chwilę, kiedy wszystko rozstrzyga się po ich myśli.</example>
+               <example>Żebyśmy mogli za kilka lat powiedzieć, że spory typu budowa supermarketu nie wchodzą w grę, że nie mamy w ogóle tego typu problemów — powiedział.</example>
+               <example>Większość zawieranych transakcji muszą poprzedzać przetargi.</example>
+               <example>Udział w nim wezmą m.in. pełnomocnik rządu ds. integracji europejskiej i pomocy zagranicznej oraz przedstawiciel Unii Europejskiej w Polsce.</example>
+               <example>Większość swoich dochodów przeznaczają oni na żywność, a to wspiera krajową produkcję — powiedział minister Pietrewicz.</example>
+               <example>Sałatki z uwagi na małą ich ilość nie dominują w żaden sposób, podkreślają jedynie smak.</example>
+               <example>Lekki wiatr, upalna pogoda i związana z nią przedłużająca się susza powodują coraz większy — wręcz katastrofalny — spadek wilgotności ściółki leśnej.</example>
+               <example>Codziennie w jakiś niewytłumaczalny sposób znikają.</example>
+               <example>Jeśli krewetki plus grzanka są dla Was niewystarczające – przygotowane w ten sam sposób dodajemy do już usmażonych tzw. warzyw na patelnię.</example>
+               <example>SMS’y rozliczane są poza abonamentem.</example>
+               <example>Moc antybiotyków i przemiła atmosfera dają radę zwalczyć dolegliwości.</example>
+               <example>Dyrektywy UEFA są klarowne.</example>
+               <example>Czy wolno jednak serio zakładać, że oligopol w LM naruszą ci, którzy nigdy nie posmakowali nawet ćwierćfinału?</example>
+               <example>Samoloty Federal Express mogą korzystać z lotnisk w Tokio i Osace w drodze na Tajwan.</example>
+               <example>I że kolejny skok frekwencyjny mogą spowodować tylko głębokie zmiany na rynku kinowym.</example>
+               <example>Zarówno premier Joe Bossano, jak i 39-letni lider socjaldemokratów Peter Caruana są zgodni co do celu: uważają, że Gibraltar powinien stać się bardziej samodzielny.</example>
+               <example>Jak już  informowaliśmy, o 75 proc. akcji DT Centrum starają się dwa konsorcja.</example>
+               <example>W cyklu Opera Camerata pojawią się polska prapremiera „L'Olimpiade” Vivaldiego (styczeń 1997), „Chopin” Giacomo Orefice (10 maj 1997), „Pan wojewoda” Rimskiego-Korsakowa...</example>
+               <example>Wymyślają, pytają się, czas bałamucą, a tu i nic tak osobliwego do gadania nie ma!</example>
+               <example>— Oho, odmówiłbym księciu Alby, a majstra Piotra pomieścił — odrzecze gospodarz — jest tu dosyć ludzi, co za widzenie dobrze zapłacą.</example>
+               <example>Dziś tematem numer jeden są wczorajsze fałszywe alarmy o podłożonych, w 22 instytucjach na terenie całej Polski, bombach.</example>
+               <example>Okres jego sportowej pomyślności można rozciągnąć jeszcze na karierę zawodniczą.</example>
+               <example>Przemysław Czapliński, Janusz Tazbir, Adam Zagajewski, Joanna Tokarska – Bakir, bp Grzegorz Ryś i Agata Bielik – Robson wskazują, jak bardzo zmienił się model polskości na przestrzeni dwudziestu trzech lat od momentu transformacji ustrojowej.</example>
+               <example>Fakt, że jest za darmo, oraz dobra reklama wystarczają, by nazwać grę świetną.</example>
+               <example>Jednak w przypadku Wizard’s Tower oba są poprawne.</example>
+               <example>Atlanta i cały stan Georgia znane są ze swojej tolerancji wobec mniejszości seksualnych.</example>
+               <example>Spekulowano też, że miejsce Leszka Spalińskiego mogą zająć Tomasz Wołek lub Jarosław Gugała.</example>
+               <example>Co piątek idą się napić.</example>
+               <example>Nie znaczy to, żeby rząd zaprzestał pracy, to posłowie chętniej występują w roli projektodawcy.</example>
+               <example>Przedsiębiorcy podejmujący w nim działalność mogą korzystać z ulg celnych.</example>
+               <example>26 lutego w Sierra Leone mają się odbyć wybory.</example>
+               <example>Tudjman wierzy, że tylko on i jego partia są prawdziwymi obrońcami interesów narodowych.</example>
+               <example>To zrozumiałe — tak słaby rywal plus ogromny upał są wystarczającym usprawiedliwieniem.</example>
+            </rule>
             <rule id="NIEWLASCIWA_KONCOWKA_PRZYPADKU_ORZECZNIKA" name="Niewłaściwa końcówka przypadku orzecznika">
                 <antipattern>
                     <token regexp="yes">jest(:?e[mś])?</token>
@@ -6489,6 +7217,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Jest lekarz za darmochę, więc do niego kto żyw.</example>
                 <example>Jest inteligent, artysta, robotnik, chłop, prosta dziewczyna...</example>
                 <example>A "kwintesencją brytyjskiego biznesmena" jest prezes Anglo-American Conglomerate lord Hanson.</example>
+                <example>Jest bogaty, więc może sobie na wszystko pozwolić.</example>
             </rule>
             <rule id="NIEPOPRAWNA_FORMA_CZASOWNIKA_PO_BY" name="Niepoprawna forma czasownika po „by”">
                 <pattern>
@@ -6842,6 +7571,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Ładnych rowerów było tyle co nic.</example>
                     <example>I przysiągłem sobie jedno – nigdy więcej prywatnej komórki do celów służbowych.</example>
                     <example>Chodziło o lustrowanie pracowników sektora publicznego, nigdy prywatnego.</example>
+                    <example>Patent już mają.</example>
                 </rule>
                 <rule>
                     <antipattern>
@@ -7654,24 +8384,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Upił się po przegranym meczu przez New York Islanders.</example>
                     		<example>W tym samym czasie prace artystki znalazły uznanie za granicą.</example>
 						</rule>
-                        <rule>
-                          <pattern>                          
-                            <token regexp="yes">ze?</token>
-                            <marker>
-                            <token postag="subst:.*" postag_regexp="yes"><exception postag=".*(inst|acc|gen).*|adv:pos" postag_regexp="yes"/><exception>lada</exception></token>
-                           </marker>
-                           <token><exception spacebefore="no">-</exception></token>
-                          </pattern>
-                          <message>Przyimek „\1” jest używany z biernikiem, dopełniaczem lub narzędnikiem.</message>
-                          <short>Przyimek wymaga biernika, dopełniacza lub narzędnika</short>
-                          <example>Wszystko z pewnością jest w porządku.</example>
-                          <example correction="">Wszystko z <marker>pewnościach</marker> jest w porządku.</example>
-                          <example>Według spisu z 2010 roku 68,5% mieszkańców stanowiła ludność biała.</example>
-                          <example>W tym okresie zaprzyjaźnił się z Jean-Paulem Sartrem.</example>
-                          <example>Rycerz nie cieszy się z lada jakich triumfów…</example>
-                          <example>Z grubo pokrajanych porcji chleba odłamywała małe kąski.</example>
-                          <example>Odbyli rozmowy z sir Patrickiem Mayhew.</example>
-                        </rule>            
+            <rule>
+              <pattern>                          
+                <token inflected="yes">z<exception scope="previous" regexp="yes">wraz|razem</exception></token>
+                <marker>
+                <token postag="subst:.*" postag_regexp="yes"><exception postag=".*(inst|acc|gen).*|adv:pos" postag_regexp="yes"/><exception>lada</exception></token>
+               </marker>
+               <token><exception spacebefore="no">-</exception></token>
+              </pattern>
+              <message>Przyimek „\1” jest używany z biernikiem, dopełniaczem lub narzędnikiem.</message>
+              <short>Przyimek wymaga biernika, dopełniacza lub narzędnika</short>
+              <example>Wszystko z pewnością jest w porządku.</example>
+              <example correction="">Wszystko z <marker>pewnościach</marker> jest w porządku.</example>
+              <example>Według spisu z 2010 roku 68,5% mieszkańców stanowiła ludność biała.</example>
+              <example>W tym okresie zaprzyjaźnił się z Jean-Paulem Sartrem.</example>
+              <example>Rycerz nie cieszy się z lada jakich triumfów…</example>
+              <example>Z grubo pokrajanych porcji chleba odłamywała małe kąski.</example>
+              <example>Odbyli rozmowy z sir Patrickiem Mayhew.</example>
+            </rule>
+            <rule>
+              <antipattern case_sensitive="yes">
+              <marker><token>Pol</token></marker>
+              <token>Potem</token>
+              </antipattern>              
+              <antipattern case_sensitive="yes">
+              <token inflected="yes">partia</token>
+              <marker><token>Razem</token></marker>
+              </antipattern>
+               <pattern>
+                  <token regexp="yes">wraz|razem</token>
+                  <token inflected="yes">z</token>
+                  <marker>
+                  <token postag="(adj|pact|ppas|subst):.*" postag_regexp="yes"><exception postag=".*inst.*|adv:pos" postag_regexp="yes"/><exception>lada</exception></token>
+                 </marker>
+                 <token><exception spacebefore="no">-</exception></token>
+                </pattern>
+                <message>Przyimek „\1 \2” jest używany z narzędnikiem.</message>
+                <short>Przyimek wymaga narzędnika</short>                
+                <example correction="">Byłem tam wraz z <marker>psa</marker>.</example>                                                                                
+                <example>Poksiński zarzucił także Kulikowi, iż wraz z por. Mikołajem Majem, por. Lucjanem Bajraszewskim i płk. Stanisławem Zarakowskim stosował długotrwałe przesłuchania.</example>
+                <example>Przedstawiciel partii Razem z Kalisza pojechał do Rzeszowa.</example>
+            </rule>            
 						<rule>
                             <antipattern>
                                 <token skip="4" postag="num:pl:nom.acc.*" postag_regexp="yes"></token>
@@ -8255,7 +9008,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="jak i">Wiążą się z tym zarówno zyski <marker>i</marker> zalety.</example>
 						<example>Wiążą się z tym zarówno zyski i zalety, jak i pewne wady.</example>
 				</rule>
-				<rule id="ZAROWNO_BEZ_JAK_I" name="„zarówno” bez „jak i”">
+				<rulegroup id="ZAROWNO_BEZ_JAK_I" name="„zarówno” bez „jak i”">
+				<rule>
          <pattern>
           <marker>
           <token skip='-1'>zarówno<exception regexp='yes' scope='next'>jak|i</exception></token>
@@ -8266,6 +9020,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <short>Zarówno bez jak i</short>
          <example correction='jednakowo|równie'>W tych scenariuszach był <marker>zarówno</marker> taki, w którym Leszek Miller pozostaje, scenariusz taki, w którym Leszek Miller odchodzi.</example>         
         </rule>
+        <rule>
+        <antipattern>
+        <marker>
+          <token>,</token>
+          <token>jak</token>
+        </marker>
+        <token>i</token>
+        </antipattern>
+        <antipattern>
+        <marker>
+        <token>,</token>
+        <token skip="-1">jak</token>
+        </marker>
+        <token>,</token>
+        <token>jak</token>
+        <token>i</token>
+        </antipattern>
+        <antipattern>        
+        <token>,</token>
+        <token>jak</token>
+        <token skip="-1">i</token>
+        <marker>
+        <token>,</token>
+        <token>jak</token>
+        </marker>
+        </antipattern>
+         <pattern>
+          <token skip='-1'>zarówno</token>
+          <token>,</token>
+          <marker>
+            <token skip="-1">jak</token>
+          </marker>
+          <token postag='SENT_END'></token>
+         </pattern>
+         <message>W tym zdaniu brakuje drugiego składnika spójnika złożonego: <suggestion>jak i</suggestion>.</message>
+         <short>Zarówno bez jak i</short>
+         <example correction='jak i'>Zarówno premier Joe Bossano, <marker>jak</marker> 39-letni lider socjaldemokratów Peter Caruana są zgodni co do celu: uważają, że Gibraltar powinien stać się bardziej samodzielny.</example>         
+         <example correction="jak i">Zarówno premier Joe Bossano, <marker>jak</marker> wiadomo od lat, jak 39-letni lider socjaldemokratów Peter Caruana są zgodni co do celu: uważają, że Gibraltar powinien stać się bardziej samodzielny.</example>
+         <example>Zarówno premier Joe Bossano, jak wiadomo od lat, jak i 39-letni lider socjaldemokratów Peter Caruana są zgodni co do celu: uważają, że Gibraltar powinien stać się bardziej samodzielny.</example>
+        </rule>        
+        </rulegroup>
         <rule default="off" id="TAK_JAK_I_ZARWNO_JAK_I" name="„tak…, jak i” (zarówno…, jak i)">
          <pattern>
           <marker>
@@ -8336,6 +9131,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				</rule>
 		</category>
 		<category id="STYLE" name="Błędy leksykalne" type="style">
+        <rule id="W_KONTRASCIE_DO" name="„w kontraście do” (w przeciwieństwie do, w odróżnieniu od)">
+         <pattern>
+          <token>w</token>
+          <token>kontraście</token>
+          <token>do</token>
+         </pattern>
+         <message>To wyrażenie jest zwykle anglicyzmem. Najczęściej lepiej napisać: <suggestion>w przeciwieństwie do</suggestion>, <suggestion>w odróżnieniu od</suggestion>, <suggestion>na tle</suggestion>.</message>
+         <short>Anglicyzm</short>
+         <example correction='w przeciwieństwie do|w odróżnieniu od|na tle'>Medytacja <marker>w kontraście do</marker> nich może się wydawać nudna, nieciekawa.</example> 
+        </rule>
+        <rule id="DODATKOWO_CO_WIECEJ" name="„dodatkowo” (co więcej)">
+         <pattern case_sensitive='yes'>
+          <token postag='SENT_START'></token>
+          <marker>
+          <token>Dodatkowo</token>
+          </marker>
+          <token>,</token>
+         </pattern>
+         <message>Prawdopodobnie anglicyzm. Lepiej: <suggestion>Co więcej</suggestion>.</message>
+         <short>Anglicyzm</short>
+         <example correction='Co więcej'><marker>Dodatkowo</marker>, ta część mego umysłu, która trzymała w sobie chrześcijańskie przekonanie o sensie cierpienia, wierzyła, że to Bóg zsyła na mnie problemy w celu uwolnienia mej duszy od zła, czyli od pychy, dumy i złości.</example>         
+        </rule>
+        <rule id="NADER_WSZYSTKO_NADE_WSZYSTKO" name="„nader wszystko” (nade wszystko)">
+         <pattern>
+          <token>nader</token>
+          <marker>
+          <token>wszystko</token>
+          </marker>
+         </pattern>
+         <message>Ten wyraz pisze się: <suggestion>nade</suggestion> (nader = wyjątkowo).</message>
+         <short>Błąd leksykalny</short>
+         <example correction='nade'>Daria lubiła z nim przebywać, był szczery do bólu i nader <marker>wszystko</marker> szanował swoją rodzinę, co było godne podziwu.</example> 
+        </rule>
         <rule id="OSIAGNAC_POSTEP" name="„osiągnąć postęp” (dokonać postępu)">
          <pattern>
           <token inflected='yes'>osiągnąć</token>
@@ -13348,6 +14176,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category id="SPELLING" name="Błędy ortograficzne" type="misspelling">
+          <rule id="MISZ_MASZ_MISZMASZ" name="„misz masz” (miszmasz)">
+           <pattern>
+            <token>misz</token>
+            <token>masz</token>
+           </pattern>
+           <message>Ten wyraz pisze się łącznie: <suggestion><match no="1"/><match no="2"/></suggestion>.</message>
+           <url>http://portalwiedzy.onet.pl/140771,,,,miszmasz_mirszmasz_misz_masz,haslo.html</url>
+           <short>Błąd ortograficzny</short>
+           <example correction='Miszmasz'><marker>Misz masz</marker> 5 września</example>           
+          </rule>
            <rule id="NIEMIA_NIE_MIA" name="„niemiał” (nie miał)">
            <pattern>
             <token inflected='yes' postag='verb:(:?pot|praet).*' postag_regexp='yes'>niemieć</token>
@@ -17541,6 +18379,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <short>Prawdopodobna literówka</short>
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
+        </rule>
+        <rule id="WIERZE_WIERZE" name="„wierze” (wierzę)">
+         <pattern>
+          <token>nie</token>
+          <marker>
+          <token>wierze</token>
+          </marker>
+         </pattern>
+         <message>Prawdopodobna literówka. Czy chodziło o <suggestion>wierzę</suggestion>?</message>
+         <short>Prawdopodobna literówka</short>
+         <example correction='wierzę'>Jeśli pani mówi, że kończyła prawo, ja w to nie <marker>wierze</marker> osobiście!</example>         
+        </rule>        
+        <rule id="OBRONA_REKA" name="„obroną ręką” (obronną ręką)">
+         <pattern>
+          <marker>
+          <token>obroną</token>
+          </marker>
+          <token>ręką</token>
+         </pattern>
+         <message>Czy chodziło o <suggestion>obronną</suggestion>?</message>
+         <url>http://www.wsjp.pl/index.php?id_hasla=19199</url>
+         <short>Prawdopodobna literówka</short>
+         <example correction='obronną'>Czy być może to „rekiny” z Rybnika sprawią niespodziankę na skalę krajową i wyjdą z dwumeczu <marker>obroną</marker> ręką?</example>         
+        </rule>
+        <rule id="WARZYWA_NA_PATELNIE" name="„warzywa na patelnie” (na patelnię)">
+         <pattern>
+          <token inflected='yes'>warzywo</token>
+          <token>na</token>
+          <marker>
+          <token>patelnie</token>
+          </marker>
+         </pattern>
+         <message>Literówka: <suggestion>patelnię</suggestion>.</message>
+         <short>Prawdopodobna literówka</short>
+         <example correction='patelnię'>Warzywa na <marker>patelnie</marker></example>
+        </rule>
+        <rule id="O_BAJ_OBAJ" name="„o baj” (obaj)">
+         <pattern>
+          <token>O</token>
+          <token>baj</token>
+         </pattern>
+         <message>Ten wyraz pisze się łącznie: <suggestion><match no="1"/><match no="2"/></suggestion>.</message>
+         <short>Literówka</short>
+         <example correction='Obaj'><marker>O baj</marker> przedkładają skuteczność ponad sztukę.</example>
         </rule>
         <rule id="OGOLNIE_RZECZ_BIORAC" name="„ogólnie rzecz biorą” (ogólnie rzecz biorąc)">
          <pattern>

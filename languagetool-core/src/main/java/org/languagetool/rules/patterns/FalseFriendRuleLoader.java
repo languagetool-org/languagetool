@@ -46,7 +46,7 @@ public class FalseFriendRuleLoader extends DefaultHandler {
    * @param file XML file with false friend rules
    * @since 2.3
    */
-  public final List<AbstractPatternRule> getRules(final File file, final Language language, final Language motherTongue) throws IOException {
+  public final List<AbstractPatternRule> getRules(File file, Language language, Language motherTongue) throws IOException {
     try (InputStream inputStream = new FileInputStream(file)) {
       return getRules(inputStream, language, motherTongue);
     } catch (ParserConfigurationException | SAXException e) {
@@ -54,33 +54,33 @@ public class FalseFriendRuleLoader extends DefaultHandler {
     }
   }
 
-  public final List<AbstractPatternRule> getRules(final InputStream stream,
-      final Language textLanguage, final Language motherTongue)
+  public final List<AbstractPatternRule> getRules(InputStream stream,
+      Language textLanguage, Language motherTongue)
       throws ParserConfigurationException, SAXException, IOException {
-    final FalseFriendRuleHandler handler = new FalseFriendRuleHandler(
+    FalseFriendRuleHandler handler = new FalseFriendRuleHandler(
         textLanguage, motherTongue);
-    final SAXParserFactory factory = SAXParserFactory.newInstance();
-    final SAXParser saxParser = factory.newSAXParser();
+    SAXParserFactory factory = SAXParserFactory.newInstance();
+    SAXParser saxParser = factory.newSAXParser();
     saxParser.getXMLReader().setFeature(
             "http://apache.org/xml/features/nonvalidating/load-external-dtd",
             false);
     saxParser.parse(stream, handler);
-    final List<AbstractPatternRule> rules = handler.getRules();
+    List<AbstractPatternRule> rules = handler.getRules();
     // Add suggestions to each rule:
-    final ResourceBundle messages = ResourceBundle.getBundle(
+    ResourceBundle messages = ResourceBundle.getBundle(
             JLanguageTool.MESSAGE_BUNDLE, motherTongue.getLocale());
-    final MessageFormat msgFormat = new MessageFormat(messages.getString("false_friend_suggestion"));
-    for (final AbstractPatternRule rule : rules) {
-      final List<String> suggestions = handler.getSuggestionMap().get(rule.getId());
+    MessageFormat msgFormat = new MessageFormat(messages.getString("false_friend_suggestion"));
+    for (AbstractPatternRule rule : rules) {
+      List<String> suggestions = handler.getSuggestionMap().get(rule.getId());
       if (suggestions != null) {
-        final String[] msg = { formatSuggestions(suggestions) };
+        String[] msg = { formatSuggestions(suggestions) };
         rule.setMessage(rule.getMessage() + " " + msgFormat.format(msg));
       }
     }
     return rules;
   }
 
-  private String formatSuggestions(final List<String> l) {
+  private String formatSuggestions(List<String> l) {
     return l.stream().map(o -> "<suggestion>" + o + "</suggestion>").collect(Collectors.joining(", "));
   }
 

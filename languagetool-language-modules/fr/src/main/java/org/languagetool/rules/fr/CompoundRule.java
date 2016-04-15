@@ -32,7 +32,7 @@ public class CompoundRule extends AbstractCompoundRule {
 
   private static final CompoundRuleData compoundData = new CompoundRuleData("/fr/compounds.txt");
 
-  public CompoundRule(final ResourceBundle messages) throws IOException {
+  public CompoundRule(ResourceBundle messages) throws IOException {
     super(messages,
             "Écrivez avec un trait d’union.",
             "Écrivez avec un mot seul sans espace ni trait d’union.",

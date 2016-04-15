@@ -50,7 +50,7 @@ public class AnalyzedGermanToken {
       determination = null;
       return;
     }
-    final String[] parts = posTag.split(":");
+    String[] parts = posTag.split(":");
     POSType tempType = null;
     Kasus tempCasus = null;
     Numerus tempNumerus = null;

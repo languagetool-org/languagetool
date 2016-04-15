@@ -188,7 +188,7 @@ public class German extends Language implements AutoCloseable {
   public CompoundWordTokenizer getNonStrictCompoundSplitter() {
     if (compoundTokenizer == null) {
       try {
-        final GermanCompoundTokenizer tokenizer = new GermanCompoundTokenizer(false);  // there's a spelling mistake in (at least) one part, so strict mode wouldn't split the word
+        GermanCompoundTokenizer tokenizer = new GermanCompoundTokenizer(false);  // there's a spelling mistake in (at least) one part, so strict mode wouldn't split the word
         compoundTokenizer = word -> new ArrayList<>(tokenizer.tokenize(word));
       } catch (IOException e) {
         throw new RuntimeException("Could not set up German compound splitter", e);

@@ -52,16 +52,16 @@ public class PatternRuleMatcherTest {
 
   @Test
   public void testMatch() throws Exception {
-    final PatternRuleMatcher matcher = new PatternRuleMatcher(getPatternRule("my test"), false);
+    PatternRuleMatcher matcher = new PatternRuleMatcher(getPatternRule("my test"), false);
     assertPartialMatch("This is my test.", matcher);
     assertNoMatch("This is no test.", matcher);
   }
 
   @Test
   public void testZeroMinOccurrences() throws Exception {
-    final PatternToken patternTokenB = makeElement("b");
+    PatternToken patternTokenB = makeElement("b");
     patternTokenB.setMinOccurrence(0);
-    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), patternTokenB, makeElement("c"));  // regex syntax: a b? c
+    PatternRuleMatcher matcher = getMatcher(makeElement("a"), patternTokenB, makeElement("c"));  // regex syntax: a b? c
     assertNoMatch("b a", matcher);
     assertNoMatch("c a b", matcher);
     assertPartialMatch("b a c", matcher);
@@ -70,7 +70,7 @@ public class PatternRuleMatcherTest {
     assertCompleteMatch("a c", matcher);
     assertCompleteMatch("a b c", matcher);
     assertNoMatch("a X c", matcher);
-    final RuleMatch[] matches = getMatches("a b c FOO a b c FOO a c a b c", matcher);
+    RuleMatch[] matches = getMatches("a b c FOO a b c FOO a c a b c", matcher);
     //......................................^^^^^.....^^^^^.....^^^.^^^^^
     assertThat(matches.length, is(4));
     assertPosition(matches[0], 0, 5);
@@ -109,10 +109,10 @@ public class PatternRuleMatcherTest {
 
   @Test
   public void testZeroMinOccurrences2() throws Exception {
-    final PatternToken patternTokenB = makeElement("b");
+    PatternToken patternTokenB = makeElement("b");
     patternTokenB.setMinOccurrence(0);
     // regex syntax: a b? c d e
-    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), patternTokenB, makeElement("c"), makeElement("d"), makeElement("e"));
+    PatternRuleMatcher matcher = getMatcher(makeElement("a"), patternTokenB, makeElement("c"), makeElement("d"), makeElement("e"));
     assertCompleteMatch("a b c d e", matcher);
     assertCompleteMatch("a c d e", matcher);
     assertNoMatch("a d", matcher);
@@ -122,10 +122,10 @@ public class PatternRuleMatcherTest {
 
   @Test
   public void testZeroMinOccurrences3() throws Exception {
-    final PatternToken patternTokenC = makeElement("c");
+    PatternToken patternTokenC = makeElement("c");
     patternTokenC.setMinOccurrence(0);
     // regex syntax: a b c? d e
-    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), makeElement("b"), patternTokenC, makeElement("d"), makeElement("e"));
+    PatternRuleMatcher matcher = getMatcher(makeElement("a"), makeElement("b"), patternTokenC, makeElement("d"), makeElement("e"));
     assertCompleteMatch("a b c d e", matcher);
     assertCompleteMatch("a b d e", matcher);
     assertPartialMatch("a b c d e x", matcher);
@@ -136,22 +136,22 @@ public class PatternRuleMatcherTest {
 
   @Test
   public void testZeroMinOccurrences4() throws Exception {
-    final PatternToken patternTokenA = makeElement("a");
+    PatternToken patternTokenA = makeElement("a");
     patternTokenA.setMinOccurrence(0);
-    final PatternToken patternTokenC = makeElement("c");
+    PatternToken patternTokenC = makeElement("c");
     patternTokenC.setMinOccurrence(0);
     // regex syntax: a? b c? d e
-    final PatternRuleMatcher matcher = getMatcher(patternTokenA, makeElement("b"), patternTokenC, makeElement("d"), makeElement("e"));
-    final RuleMatch[] matches = getMatches("a b c d e", matcher);
+    PatternRuleMatcher matcher = getMatcher(patternTokenA, makeElement("b"), patternTokenC, makeElement("d"), makeElement("e"));
+    RuleMatch[] matches = getMatches("a b c d e", matcher);
     assertThat(matches.length, is(1));  // just the longest match...
     assertPosition(matches[0], 0, 9);
   }
 
   @Test
   public void testZeroMinOccurrencesWithEmptyElement() throws Exception {
-    final PatternToken patternTokenB = makeElement(null);
+    PatternToken patternTokenB = makeElement(null);
     patternTokenB.setMinOccurrence(0);
-    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), patternTokenB, makeElement("c"));  // regex syntax: a .? c
+    PatternRuleMatcher matcher = getMatcher(makeElement("a"), patternTokenB, makeElement("c"));  // regex syntax: a .? c
     assertNoMatch("b a", matcher);
     assertNoMatch("c a b", matcher);
     assertPartialMatch("b a c", matcher);
@@ -160,7 +160,7 @@ public class PatternRuleMatcherTest {
     assertCompleteMatch("a c", matcher);
     assertCompleteMatch("a b c", matcher);
     assertCompleteMatch("a X c", matcher);
-    final RuleMatch[] matches = getMatches("a b c FOO a X c", matcher);
+    RuleMatch[] matches = getMatches("a b c FOO a X c", matcher);
     //......................................^^^^^.....^^^^^
     assertThat(matches.length, is(2));
     assertPosition(matches[0], 0, 5);
@@ -169,7 +169,7 @@ public class PatternRuleMatcherTest {
 
   @Test
   public void testZeroMinOccurrencesWithSuggestion() throws Exception {
-    final PatternToken patternTokenB = makeElement("b");
+    PatternToken patternTokenB = makeElement("b");
     patternTokenB.setMinOccurrence(0);
     
     List<PatternToken> patternTokens = Arrays.asList(makeElement("a"), patternTokenB, makeElement("c"));   // regex: a b? c
@@ -189,10 +189,10 @@ public class PatternRuleMatcherTest {
   @Test
   @Ignore("min can only be 0 or 1 so far")
   public void testTwoMinOccurrences() throws Exception {
-    final PatternToken patternTokenB = makeElement("b");
+    PatternToken patternTokenB = makeElement("b");
     patternTokenB.setMinOccurrence(2);
     patternTokenB.setMaxOccurrence(3);
-    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), patternTokenB, makeElement("c"));  // regex: a b{2,3} c
+    PatternRuleMatcher matcher = getMatcher(makeElement("a"), patternTokenB, makeElement("c"));  // regex: a b{2,3} c
     assertCompleteMatch("a b b c", matcher);
     assertCompleteMatch("a b b b c", matcher);
     assertNoMatch("a c", matcher);
@@ -201,10 +201,10 @@ public class PatternRuleMatcherTest {
 
   @Test
   public void testZeroMinTwoMaxOccurrences() throws Exception {
-    final PatternToken patternTokenB = makeElement("b");
+    PatternToken patternTokenB = makeElement("b");
     patternTokenB.setMinOccurrence(0);
     patternTokenB.setMaxOccurrence(2);
-    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), patternTokenB, makeElement("c"));
+    PatternRuleMatcher matcher = getMatcher(makeElement("a"), patternTokenB, makeElement("c"));
     assertCompleteMatch("a c", matcher);
     assertCompleteMatch("a  b c", matcher);
     assertCompleteMatch("a  b b c", matcher);
@@ -213,9 +213,9 @@ public class PatternRuleMatcherTest {
 
   @Test
   public void testTwoMaxOccurrencesWithAnyToken() throws Exception {
-    final PatternToken anyPatternToken = makeElement(null);
+    PatternToken anyPatternToken = makeElement(null);
     anyPatternToken.setMaxOccurrence(2);
-    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), anyPatternToken, makeElement("c"));
+    PatternRuleMatcher matcher = getMatcher(makeElement("a"), anyPatternToken, makeElement("c"));
     assertCompleteMatch("a b c", matcher);
     assertCompleteMatch("a b b c", matcher);
     assertNoMatch("a b b b c", matcher);
@@ -223,9 +223,9 @@ public class PatternRuleMatcherTest {
 
   @Test
   public void testThreeMaxOccurrencesWithAnyToken() throws Exception {
-    final PatternToken anyPatternToken = makeElement(null);
+    PatternToken anyPatternToken = makeElement(null);
     anyPatternToken.setMaxOccurrence(3);
-    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), anyPatternToken, makeElement("c"));
+    PatternRuleMatcher matcher = getMatcher(makeElement("a"), anyPatternToken, makeElement("c"));
     assertCompleteMatch("a b c", matcher);
     assertCompleteMatch("a b b c", matcher);
     assertCompleteMatch("a b b b c", matcher);
@@ -234,10 +234,10 @@ public class PatternRuleMatcherTest {
 
   @Test
   public void testZeroMinTwoMaxOccurrencesWithAnyToken() throws Exception {
-    final PatternToken anyPatternToken = makeElement(null);
+    PatternToken anyPatternToken = makeElement(null);
     anyPatternToken.setMinOccurrence(0);
     anyPatternToken.setMaxOccurrence(2);
-    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), anyPatternToken, makeElement("c"));
+    PatternRuleMatcher matcher = getMatcher(makeElement("a"), anyPatternToken, makeElement("c"));
     assertNoMatch("a b", matcher);
     assertNoMatch("b c", matcher);
     assertNoMatch("c", matcher);
@@ -250,9 +250,9 @@ public class PatternRuleMatcherTest {
 
   @Test
   public void testTwoMaxOccurrences() throws Exception {
-    final PatternToken patternTokenB = makeElement("b");
+    PatternToken patternTokenB = makeElement("b");
     patternTokenB.setMaxOccurrence(2);
-    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), patternTokenB);
+    PatternRuleMatcher matcher = getMatcher(makeElement("a"), patternTokenB);
     assertNoMatch("a a", matcher);
     assertCompleteMatch("a b", matcher);
     assertCompleteMatch("a b b", matcher);
@@ -260,11 +260,11 @@ public class PatternRuleMatcherTest {
     assertPartialMatch("a b b c", matcher);
     assertPartialMatch("x a b b", matcher);
 
-    final RuleMatch[] matches1 = getMatches("a b b b", matcher);
+    RuleMatch[] matches1 = getMatches("a b b b", matcher);
     assertThat(matches1.length, is(1));
     assertPosition(matches1[0], 0, 5);
 
-    final RuleMatch[] matches2 = getMatches("a b b b foo a b b", matcher);
+    RuleMatch[] matches2 = getMatches("a b b b foo a b b", matcher);
     assertThat(matches2.length, is(2));
     assertPosition(matches2[0], 0, 5);
     assertPosition(matches2[1], 12, 17);
@@ -272,54 +272,54 @@ public class PatternRuleMatcherTest {
 
   @Test
   public void testThreeMaxOccurrences() throws Exception {
-    final PatternToken patternTokenB = makeElement("b");
+    PatternToken patternTokenB = makeElement("b");
     patternTokenB.setMaxOccurrence(3);
-    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), patternTokenB);  // regex: a b{1,3}
+    PatternRuleMatcher matcher = getMatcher(makeElement("a"), patternTokenB);  // regex: a b{1,3}
     assertNoMatch("a a", matcher);
     assertCompleteMatch("a b", matcher);
     assertCompleteMatch("a b b", matcher);
     assertCompleteMatch("a b b b", matcher);
     assertPartialMatch("a b b b b", matcher);
 
-    final RuleMatch[] matches1 = getMatches("a b b b b", matcher);
+    RuleMatch[] matches1 = getMatches("a b b b b", matcher);
     assertThat(matches1.length, is(1));
     assertPosition(matches1[0], 0, 7);
   }
 
   @Test
   public void testOptionalWithoutExplicitMarker() throws Exception {
-    final PatternToken patternTokenA = makeElement("a");
-    final PatternToken patternTokenB = makeElement("b");
+    PatternToken patternTokenA = makeElement("a");
+    PatternToken patternTokenB = makeElement("b");
     patternTokenB.setMinOccurrence(0);
-    final PatternToken patternTokenC = makeElement("c");
-    final PatternRuleMatcher matcher = getMatcher(patternTokenA, patternTokenB, patternTokenC);  // regex syntax: a .? c
+    PatternToken patternTokenC = makeElement("c");
+    PatternRuleMatcher matcher = getMatcher(patternTokenA, patternTokenB, patternTokenC);  // regex syntax: a .? c
 
-    final RuleMatch[] matches1 = getMatches("A B C ZZZ", matcher);
+    RuleMatch[] matches1 = getMatches("A B C ZZZ", matcher);
     assertThat(matches1.length, is(1));
     assertPosition(matches1[0], 0, 5);
 
-    final RuleMatch[] matches2 = getMatches("A C ZZZ", matcher);
+    RuleMatch[] matches2 = getMatches("A C ZZZ", matcher);
     assertThat(matches2.length , is(1));
     assertPosition(matches2[0], 0, 3);
   }
 
   @Test
   public void testOptionalWithExplicitMarker() throws Exception {
-    final PatternToken patternTokenA = makeElement("a");
+    PatternToken patternTokenA = makeElement("a");
     patternTokenA.setInsideMarker(true);
-    final PatternToken patternTokenB = makeElement("b");
+    PatternToken patternTokenB = makeElement("b");
     patternTokenB.setMinOccurrence(0);
     patternTokenB.setInsideMarker(true);
-    final PatternToken patternTokenC = makeElement("c");
+    PatternToken patternTokenC = makeElement("c");
     patternTokenC.setInsideMarker(false);
-    final PatternRuleMatcher matcher = getMatcher(patternTokenA, patternTokenB, patternTokenC);  // regex syntax: (a .?) c
+    PatternRuleMatcher matcher = getMatcher(patternTokenA, patternTokenB, patternTokenC);  // regex syntax: (a .?) c
 
-    final RuleMatch[] matches1 = getMatches("A B C ZZZ", matcher);
+    RuleMatch[] matches1 = getMatches("A B C ZZZ", matcher);
     //.......................................^^^--
     assertThat(matches1.length , is(1));
     assertPosition(matches1[0], 0, 3);
 
-    final RuleMatch[] matches2 = getMatches("A C ZZZ", matcher);
+    RuleMatch[] matches2 = getMatches("A C ZZZ", matcher);
     //.......................................^--
     assertThat(matches2.length , is(1));
     assertPosition(matches2[0], 0, 1);
@@ -327,21 +327,21 @@ public class PatternRuleMatcherTest {
 
   @Test
   public void testOptionalAnyTokenWithExplicitMarker() throws Exception {
-    final PatternToken patternTokenA = makeElement("a");
+    PatternToken patternTokenA = makeElement("a");
     patternTokenA.setInsideMarker(true);
-    final PatternToken patternTokenB = makeElement(null);
+    PatternToken patternTokenB = makeElement(null);
     patternTokenB.setMinOccurrence(0);
     patternTokenB.setInsideMarker(true);
-    final PatternToken patternTokenC = makeElement("c");
+    PatternToken patternTokenC = makeElement("c");
     patternTokenC.setInsideMarker(false);
-    final PatternRuleMatcher matcher = getMatcher(patternTokenA, patternTokenB, patternTokenC);  // regex syntax: (a .?) c
+    PatternRuleMatcher matcher = getMatcher(patternTokenA, patternTokenB, patternTokenC);  // regex syntax: (a .?) c
 
-    final RuleMatch[] matches1 = getMatches("A x C ZZZ", matcher);
+    RuleMatch[] matches1 = getMatches("A x C ZZZ", matcher);
     //.......................................^^^--
     assertThat(matches1.length , is(1));
     assertPosition(matches1[0], 0, 3);
 
-    final RuleMatch[] matches2 = getMatches("A C ZZZ", matcher);
+    RuleMatch[] matches2 = getMatches("A C ZZZ", matcher);
     //.......................................^--
     assertThat(matches2.length , is(1));
     assertPosition(matches2[0], 0, 1);
@@ -349,21 +349,21 @@ public class PatternRuleMatcherTest {
 
   @Test
   public void testOptionalAnyTokenWithExplicitMarker2() throws Exception {
-    final PatternToken patternTokenA = makeElement("the");
+    PatternToken patternTokenA = makeElement("the");
     patternTokenA.setInsideMarker(true);
-    final PatternToken patternTokenB = makeElement(null);
+    PatternToken patternTokenB = makeElement(null);
     patternTokenB.setMinOccurrence(0);
     patternTokenB.setInsideMarker(true);
-    final PatternToken patternTokenC = makeElement("bike");
+    PatternToken patternTokenC = makeElement("bike");
     patternTokenC.setInsideMarker(false);
-    final PatternRuleMatcher matcher = getMatcher(patternTokenA, patternTokenB, patternTokenC);  // regex syntax: (a .?) c
+    PatternRuleMatcher matcher = getMatcher(patternTokenA, patternTokenB, patternTokenC);  // regex syntax: (a .?) c
 
-    final RuleMatch[] matches1 = getMatches("the nice bike ZZZ", matcher);
+    RuleMatch[] matches1 = getMatches("the nice bike ZZZ", matcher);
     //.......................................^^^^^^^^-----
     assertThat(matches1.length , is(1));
     assertPosition(matches1[0], 0, 8);
 
-    final RuleMatch[] matches2 = getMatches("the bike ZZZ", matcher);
+    RuleMatch[] matches2 = getMatches("the bike ZZZ", matcher);
     //.......................................^^^-----
     assertThat(matches2.length, is(1));
     assertPosition(matches2[0], 0, 3);
@@ -371,9 +371,9 @@ public class PatternRuleMatcherTest {
 
   @Test
   public void testUnlimitedMaxOccurrences() throws Exception {
-    final PatternToken patternTokenB = makeElement("b");
+    PatternToken patternTokenB = makeElement("b");
     patternTokenB.setMaxOccurrence(-1);
-    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), patternTokenB, makeElement("c"));
+    PatternRuleMatcher matcher = getMatcher(makeElement("a"), patternTokenB, makeElement("c"));
     assertNoMatch("a c", matcher);
     assertNoMatch("a b", matcher);
     assertNoMatch("b c", matcher);
@@ -384,34 +384,34 @@ public class PatternRuleMatcherTest {
 
   @Test
   public void testMaxTwoAndThreeOccurrences() throws Exception {
-    final PatternToken patternTokenA = makeElement("a");
+    PatternToken patternTokenA = makeElement("a");
     patternTokenA.setMaxOccurrence(2);
-    final PatternToken patternTokenB = makeElement("b");
+    PatternToken patternTokenB = makeElement("b");
     patternTokenB.setMaxOccurrence(3);
-    final PatternRuleMatcher matcher = getMatcher(patternTokenA, patternTokenB);  // regex: a{1,2} b{1,3}
+    PatternRuleMatcher matcher = getMatcher(patternTokenA, patternTokenB);  // regex: a{1,2} b{1,3}
     assertCompleteMatch("a b", matcher);
     assertCompleteMatch("a b b", matcher);
     assertCompleteMatch("a b b b", matcher);
     assertNoMatch("a a", matcher);
     assertNoMatch("a x b b b", matcher);
-    final RuleMatch[] matches2 = getMatches("a a b", matcher);
+    RuleMatch[] matches2 = getMatches("a a b", matcher);
     assertThat(matches2.length , is(1)); // just the longest match
     assertPosition(matches2[0], 0, 5);
 
-    final RuleMatch[] matches3 = getMatches("a a b b", matcher);
+    RuleMatch[] matches3 = getMatches("a a b b", matcher);
     assertThat(matches3.length , is(1));
     assertPosition(matches3[0], 0, 7); // again, only the longest match
 
-    final RuleMatch[] matches4 = getMatches("a a b b b", matcher);
+    RuleMatch[] matches4 = getMatches("a a b b b", matcher);
     assertThat(matches4.length , is(1));
     assertPosition(matches4[0], 0, 9);
   }
 
   @Test
   public void testInfiniteSkip() throws Exception {
-    final PatternToken patternTokenA = makeElement("a");
+    PatternToken patternTokenA = makeElement("a");
     patternTokenA.setSkipNext(-1);
-    final PatternRuleMatcher matcher = getMatcher(patternTokenA, makeElement("b"));
+    PatternRuleMatcher matcher = getMatcher(patternTokenA, makeElement("b"));
     assertCompleteMatch("a b", matcher);
     assertCompleteMatch("a x b", matcher);
     assertCompleteMatch("a x x b", matcher);
@@ -420,14 +420,14 @@ public class PatternRuleMatcherTest {
 
   @Test
   public void testInfiniteSkipWithMatchReference() throws Exception {
-    final PatternToken patternTokenAB = new PatternToken("a|b", false, true, false);
+    PatternToken patternTokenAB = new PatternToken("a|b", false, true, false);
     patternTokenAB.setSkipNext(-1);
-    final PatternToken patternTokenC = makeElement("\\0");
+    PatternToken patternTokenC = makeElement("\\0");
     Match match = new Match(null, null, false, null, null, Match.CaseConversion.NONE, false, false, Match.IncludeRange.NONE);
     match.setTokenRef(0);
     match.setInMessageOnly(true);
     patternTokenC.setMatch(match);
-    final PatternRuleMatcher matcher = getMatcher(patternTokenAB, patternTokenC);
+    PatternRuleMatcher matcher = getMatcher(patternTokenAB, patternTokenC);
     assertCompleteMatch("a a", matcher);
     assertCompleteMatch("b b", matcher);
     assertCompleteMatch("a x a", matcher);
@@ -442,12 +442,12 @@ public class PatternRuleMatcherTest {
     assertNoMatch("a x x b", matcher);
     assertNoMatch("b x x a", matcher);
 
-    final RuleMatch[] matches = getMatches("a foo a and b foo b", matcher);
+    RuleMatch[] matches = getMatches("a foo a and b foo b", matcher);
     assertThat(matches.length , is(2));
     assertPosition(matches[0], 0, 7);
     assertPosition(matches[1], 12, 19);
 
-    final RuleMatch[] matches2 = getMatches("xx a b x x x b a", matcher);
+    RuleMatch[] matches2 = getMatches("xx a b x x x b a", matcher);
     assertThat(matches2.length , is(1));
     assertPosition(matches2[0], 3, 16);
   }
@@ -478,19 +478,19 @@ public class PatternRuleMatcherTest {
   }
 
   private void assertNoMatch(String input, PatternRuleMatcher matcher) throws IOException {
-    final RuleMatch[] matches = getMatches(input, matcher);
+    RuleMatch[] matches = getMatches(input, matcher);
     assertThat(matches.length , is(0));
   }
 
   private void assertPartialMatch(String input, PatternRuleMatcher matcher) throws IOException {
-    final RuleMatch[] matches = getMatches(input, matcher);
+    RuleMatch[] matches = getMatches(input, matcher);
     assertThat(matches.length , is(1));
     assertTrue("Expected partial match, got '" + matches[0] + "' for '" + input + "'",
         matches[0].getFromPos() > 0 || matches[0].getToPos() < input.length());
   }
 
   private void assertCompleteMatch(String input, PatternRuleMatcher matcher) throws IOException {
-    final RuleMatch[] matches = getMatches(input, matcher);
+    RuleMatch[] matches = getMatches(input, matcher);
     assertThat("Got matches: " + Arrays.toString(matches), matches.length , is(1));
     assertThat("Wrong start position", matches[0].getFromPos(), is(0));
     assertThat("Wrong end position", matches[0].getToPos(), is(input.length()));
@@ -501,7 +501,7 @@ public class PatternRuleMatcherTest {
   }
 
   private PatternRule getPatternRule(String pattern) {
-    final String[] parts = pattern.split(" ");
+    String[] parts = pattern.split(" ");
     List<PatternToken> patternTokens = new ArrayList<>();
     for (String part : parts) {
       patternTokens.add(new PatternToken(part, false, false, false));

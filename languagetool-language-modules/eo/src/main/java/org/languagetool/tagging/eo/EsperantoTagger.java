@@ -76,8 +76,8 @@ public class EsperantoTagger implements Tagger {
   /**
    * Load list of words from UTF-8 file (one word per line).
    */
-  private Set<String> loadWords(final InputStream stream) throws IOException {
-    final Set<String> words = new HashSet<>();
+  private Set<String> loadWords(InputStream stream) throws IOException {
+    Set<String> words = new HashSet<>();
     try (
       InputStreamReader isr = new InputStreamReader(stream, "UTF-8");
       BufferedReader br = new BufferedReader(isr)
@@ -133,8 +133,8 @@ public class EsperantoTagger implements Tagger {
 
     // This loop executes only once for most verbs (or very few times).
     for (;;) {
-      final boolean isTransitive   = setTransitiveVerbs.contains(verb);
-      final boolean isIntransitive = setIntransitiveVerbs.contains(verb);
+      boolean isTransitive   = setTransitiveVerbs.contains(verb);
+      boolean isIntransitive = setIntransitiveVerbs.contains(verb);
 
       if (isTransitive) {
         return isIntransitive ? "tn" : "tr";
@@ -149,13 +149,13 @@ public class EsperantoTagger implements Tagger {
       // a verb with a known transitivity.  For example, given a verb
       // "malŝategi", we will probe "malŝategi", "ŝategi" "ŝati"
       // and then finally find out that "ŝati" is transitive.
-      final Matcher matcherPrefix = patternPrefix.matcher(verb);
+      Matcher matcherPrefix = patternPrefix.matcher(verb);
       if (matcherPrefix.find()) {
         // Remove a prefix and try again.
         verb = matcherPrefix.group(1);
         continue;
       }
-      final Matcher matcherSuffix = patternSuffix.matcher(verb);
+      Matcher matcherSuffix = patternSuffix.matcher(verb);
       if (matcherSuffix.find()) {
         // Remove a suffix and try again.
         verb = matcherSuffix.group(1) + "i";
@@ -167,21 +167,21 @@ public class EsperantoTagger implements Tagger {
   }
 
   @Override
-  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) throws IOException {
+  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) throws IOException {
 
     lazyInit();
     Matcher matcher;
 
-    final List<AnalyzedTokenReadings> tokenReadings = 
+    List<AnalyzedTokenReadings> tokenReadings = 
       new ArrayList<>();
     for (String word : sentenceTokens) {
-      final List<AnalyzedToken> l = new ArrayList<>();
+      List<AnalyzedToken> l = new ArrayList<>();
 
       // No Esperanto word is made of one letter only. This check avoids
       // spurious tagging as single letter words "A", "O", "E", etc.
       if (word.length() > 1) {
-        final String lWord = word.toLowerCase();
-        final List<TaggedWord> manualTags = manualTagger.tag(lWord);
+        String lWord = word.toLowerCase();
+        List<TaggedWord> manualTags = manualTagger.tag(lWord);
 
         if (manualTags.size() > 0) {
           // This is a closed word for which we know its lemmas and tags.
@@ -196,14 +196,14 @@ public class EsperantoTagger implements Tagger {
 
           // Tiu, kiu (tabelvortoj).
           if ((matcher = patternTabelvorto.matcher(lWord)).find()) {
-            final String type1Group = matcher.group(1).substring(0, 1).toLowerCase();
-            final String type2Group = matcher.group(2);
-            final String plGroup    = matcher.group(3);
-            final String accGroup   = matcher.group(4);
-            final String type3Group = matcher.group(5);
-            final String type;
-            final String plural;
-            final String accusative;
+            String type1Group = matcher.group(1).substring(0, 1).toLowerCase();
+            String type2Group = matcher.group(2);
+            String plGroup    = matcher.group(3);
+            String accGroup   = matcher.group(4);
+            String type3Group = matcher.group(5);
+            String type;
+            String plural;
+            String accusative;
 
             if (accGroup == null) {
               accusative = "xxx";
@@ -254,9 +254,9 @@ public class EsperantoTagger implements Tagger {
 
           // Verbs.
           } else if ((matcher = patternVerb.matcher(lWord)).find()) {
-            final String verb = matcher.group(1) + "i";
-            final String tense = matcher.group(2);
-            final String transitive = findTransitivity(verb);
+            String verb = matcher.group(1) + "i";
+            String tense = matcher.group(2);
+            String transitive = findTransitivity(verb);
 
             l.add(new AnalyzedToken(word, "V " + transitive + " " + tense, verb));
 
@@ -268,13 +268,13 @@ public class EsperantoTagger implements Tagger {
           // Participle (can be combined with other tags).
           if ((matcher = patternParticiple.matcher(lWord)).find()) {
             if (!setNonParticiple.contains(matcher.group(1))) {
-              final String verb = matcher.group(2) + "i";
-              final String aio = matcher.group(3);
-              final String antAt = matcher.group(4).equals("n") ? "n" : "-";
-              final String aoe = matcher.group(5);
-              final String plural = matcher.group(6).equals("j") ? "pl" : "np";
-              final String accusative = matcher.group(7).equals("n") ? "akz" : "nak";
-              final String transitive = findTransitivity(verb);
+              String verb = matcher.group(2) + "i";
+              String aio = matcher.group(3);
+              String antAt = matcher.group(4).equals("n") ? "n" : "-";
+              String aoe = matcher.group(5);
+              String plural = matcher.group(6).equals("j") ? "pl" : "np";
+              String accusative = matcher.group(7).equals("n") ? "akz" : "nak";
+              String transitive = findTransitivity(verb);
 
               l.add(new AnalyzedToken(word, "C " + accusative + " " + plural + " " +
                                       transitive + " " + aio + " " + antAt + " " + aoe,

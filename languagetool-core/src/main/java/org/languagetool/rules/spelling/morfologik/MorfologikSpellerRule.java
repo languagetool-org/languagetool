@@ -79,8 +79,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     //lazy init
     if (speller1 == null) {
       String binaryDict = null;
@@ -102,14 +102,14 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         continue;
       }
       // if we use token.getToken() we'll get ignored characters inside and speller will choke
-      final String word = token.getAnalyzedToken(0).getToken();
+      String word = token.getAnalyzedToken(0).getToken();
       if (tokenizingPattern() == null) {
         ruleMatches.addAll(getRuleMatches(word, token.getStartPos()));
       } else {
         int index = 0;
-        final Matcher m = tokenizingPattern().matcher(word);
+        Matcher m = tokenizingPattern().matcher(word);
         while (m.find()) {
-          final String match = word.subSequence(index, m.start()).toString();
+          String match = word.subSequence(index, m.start()).toString();
           ruleMatches.addAll(getRuleMatches(match, token.getStartPos() + index));
           index = m.end();
         }
@@ -172,10 +172,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     return true;
   }
 
-  protected List<RuleMatch> getRuleMatches(final String word, final int startPos) throws IOException {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
+  protected List<RuleMatch> getRuleMatches(String word, int startPos) throws IOException {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
     if (isMisspelled(speller1, word) || isProhibited(word)) {
-      final RuleMatch ruleMatch = new RuleMatch(this, startPos, startPos
+      RuleMatch ruleMatch = new RuleMatch(this, startPos, startPos
           + word.length(), messages.getString("spelling"),
           messages.getString("desc_spelling_short"));
       List<String> suggestions = speller1.getSuggestions(word);

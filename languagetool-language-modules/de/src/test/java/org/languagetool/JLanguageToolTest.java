@@ -29,7 +29,7 @@ import java.util.List;
 public class JLanguageToolTest extends TestCase {
 
   public void testGerman() throws IOException {
-    final JLanguageTool tool = new JLanguageTool(new German());
+    JLanguageTool tool = new JLanguageTool(new German());
     assertEquals(0, tool.check("Ein Test, der keine Fehler geben sollte.").size());
     assertEquals(1, tool.check("Ein Test Test, der Fehler geben sollte.").size());
     tool.setListUnknownWords(true);
@@ -40,7 +40,7 @@ public class JLanguageToolTest extends TestCase {
   }
 
   public void testGermanyGerman() throws IOException {
-    final JLanguageTool tool = new JLanguageTool(new GermanyGerman());
+    JLanguageTool tool = new JLanguageTool(new GermanyGerman());
     assertEquals(0, tool.check("Ein Test, der keine Fehler geben sollte.").size());
     assertEquals(1, tool.check("Ein Test Test, der Fehler geben sollte.").size());
     tool.setListUnknownWords(true);
@@ -51,10 +51,10 @@ public class JLanguageToolTest extends TestCase {
   }
 
   public void testPositionsWithGerman() throws IOException {
-    final JLanguageTool tool = new JLanguageTool(new German());
-    final List<RuleMatch> matches = tool.check("Stundenkilometer");
+    JLanguageTool tool = new JLanguageTool(new German());
+    List<RuleMatch> matches = tool.check("Stundenkilometer");
     assertEquals(1, matches.size());
-    final RuleMatch match = matches.get(0);
+    RuleMatch match = matches.get(0);
     assertEquals(0, match.getLine());
     assertEquals(1, match.getColumn());
   }

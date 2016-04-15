@@ -48,7 +48,7 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule {
     return wrongWords;
   }
 
-  public RussianSimpleReplaceRule(final ResourceBundle messages) throws IOException {
+  public RussianSimpleReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
   
   addExamplePair(Example.wrong("<marker>Экспрессо</marker> – крепкий кофе, приготовленный из хорошо обжаренных и тонко помолотых кофейных зёрен."),

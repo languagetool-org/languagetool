@@ -58,12 +58,12 @@ public class ManualTaggerAdapterTest extends TestCase {
   }
 
   public void testMultipleLemma() throws Exception {
-    final List<String> l = Arrays.asList("inflectedform3");
-    final List<AnalyzedTokenReadings> analyzedTokenReadings = tagger.tag(l);
+    List<String> l = Arrays.asList("inflectedform3");
+    List<AnalyzedTokenReadings> analyzedTokenReadings = tagger.tag(l);
     assertNotNull(analyzedTokenReadings);
     assertEquals(1, analyzedTokenReadings.size());
 
-    final AnalyzedTokenReadings analyzedTokenReading = analyzedTokenReadings.get(0);
+    AnalyzedTokenReadings analyzedTokenReading = analyzedTokenReadings.get(0);
     assertEquals("inflectedform3", analyzedTokenReading.getToken());
     assertNotNull(analyzedTokenReading.getReadings());
     assertEquals(4, analyzedTokenReading.getReadingsLength());
@@ -92,11 +92,11 @@ public class ManualTaggerAdapterTest extends TestCase {
   }
 
   public void testMultiplePOS() throws Exception {
-    final List<String> l = Arrays.asList("inflectedform2");
-    final List<AnalyzedTokenReadings> analyzedTokenReadings = tagger.tag(l);
+    List<String> l = Arrays.asList("inflectedform2");
+    List<AnalyzedTokenReadings> analyzedTokenReadings = tagger.tag(l);
     assertNotNull(analyzedTokenReadings);
     assertEquals(1, analyzedTokenReadings.size());
-    final AnalyzedTokenReadings analyzedTokenReading = analyzedTokenReadings.get(0);
+    AnalyzedTokenReadings analyzedTokenReading = analyzedTokenReadings.get(0);
     assertEquals("inflectedform2", analyzedTokenReading.getToken());
     assertNotNull(analyzedTokenReading.getReadings());
     assertEquals(3,analyzedTokenReading.getReadingsLength());
@@ -119,8 +119,8 @@ public class ManualTaggerAdapterTest extends TestCase {
   }
 
   public void testMultipleWords() throws Exception {
-    final List<String> l = Arrays.asList("inflectedform2", "inflectedform3");
-    final List<AnalyzedTokenReadings> analyzedTokenReadings = tagger.tag(l);
+    List<String> l = Arrays.asList("inflectedform2", "inflectedform3");
+    List<AnalyzedTokenReadings> analyzedTokenReadings = tagger.tag(l);
     assertNotNull(analyzedTokenReadings);
     assertEquals(2, analyzedTokenReadings.size());
 

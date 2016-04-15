@@ -19,6 +19,7 @@
 package org.languagetool.rules.patterns;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.ApiCleanupNeeded;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -28,6 +29,7 @@ import java.io.IOException;
  */
 public interface RuleMatcher {
 
-  RuleMatch[] match(final AnalyzedSentence sentence) throws IOException;
+  @ApiCleanupNeeded("Should return an unmodifiable list")
+  RuleMatch[] match(AnalyzedSentence sentence) throws IOException;
     
 }

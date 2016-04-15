@@ -28,16 +28,15 @@ import java.util.Comparator;
 class ErrorPositionComparator implements Comparator<SingleProofreadingError> {
 
   @Override
-  public int compare(final SingleProofreadingError match1,
-      final SingleProofreadingError match2) {
+  public int compare(SingleProofreadingError match1, SingleProofreadingError match2) {
     if (match1.aSuggestions.length == 0 && match2.aSuggestions.length > 0) {
       return 1;
     }
     if (match2.aSuggestions.length == 0 && match1.aSuggestions.length > 0) {
       return -1;
     }
-    final int error1pos = match1.nErrorStart;
-    final int error2pos = match2.nErrorStart;
+    int error1pos = match1.nErrorStart;
+    int error2pos = match2.nErrorStart;
     if (error1pos > error2pos) {
       return 1;
     } else if (error1pos < error2pos) {

@@ -28,11 +28,11 @@ public class WordTokenizerTest extends TestCase {
   private final WordTokenizer wordTokenizer = new WordTokenizer();
   
   public void testTokenize() {
-    final WordTokenizer wordTokenizer = new WordTokenizer();
-    final List <String> tokens = wordTokenizer.tokenize("This is\u00A0a test");
+    WordTokenizer wordTokenizer = new WordTokenizer();
+    List <String> tokens = wordTokenizer.tokenize("This is\u00A0a test");
     assertEquals(tokens.size(), 7);
     assertEquals("[This,  , is, \u00A0, a,  , test]", tokens.toString());
-    final List <String> tokens2 = wordTokenizer.tokenize("This\rbreaks");
+    List <String> tokens2 = wordTokenizer.tokenize("This\rbreaks");
     assertEquals(3, tokens2.size());
     assertEquals("[This, \r, breaks]", tokens2.toString());
   }
@@ -85,7 +85,7 @@ public class WordTokenizerTest extends TestCase {
   }
 
   private String tokenize(String text) {
-    final List<String> tokens = wordTokenizer.tokenize(text);
+    List<String> tokens = wordTokenizer.tokenize(text);
     return String.join("|", tokens);
   }
   

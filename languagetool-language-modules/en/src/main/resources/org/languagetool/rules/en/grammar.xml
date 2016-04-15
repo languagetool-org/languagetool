@@ -9719,7 +9719,29 @@ USA
             <example>I have got <marker>lots of wine</marker>.</example>
         </rule>
         <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
-            <antipattern>
+          <antipattern case_sensitive="yes">
+          <marker>
+              <token regexp="yes">\d+<exception regexp="yes">[01]</exception></token>
+              <token postag="NNP"/>            
+              <token regexp="yes">Ave|Avenue|Street|Terrace|Square|St|Circle|Drive</token>
+           </marker>            
+          </antipattern>    
+          <antipattern>
+            <token regexp="yes">\d+0</token>
+            <token>decade</token>
+          </antipattern>
+          <antipattern>
+            <token regexp="yes">\d+</token>
+            <token>to</token>
+            <token regexp="yes">\d+</token>
+            <token>vote</token>
+          </antipattern>      
+         <antipattern>
+            <token regexp="yes">s?he|you|I|we|they|it</token>
+            <token inflected="yes">be</token>
+            <token postag="CD"/>
+          </antipattern>
+          <antipattern>
                 <token>top</token>
                 <token postag="CD"/>
                 <token>hit</token>
@@ -10891,6 +10913,28 @@ USA
     <!-- Punctuation Errors -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Punctuation Errors" type="typographical">
+        <rule id="MISSING_COMMA_AFTER_INTRODUCTORY_PHRASE" name="Missing comma after introductory phrase">
+        <antipattern>
+        <marker>
+        <token>at</token>
+        <token>least</token>
+        </marker>
+        </antipattern>
+         <pattern>
+          <token postag='SENT_START'></token>
+          <token postag='IN'></token>
+          <marker>
+          <token postag='NN.*' postag_regexp='yes'></token>
+          <token regexp="yes" case_sensitive="yes">I|you|s?he|it|we|they</token> <!-- not PRP: exclude 'me', 'himself...' -->
+          </marker>
+         </pattern>
+         <message>The comma is probably missing here: <suggestion><match no="3"/>, <match no="4"/></suggestion>.</message>
+         <url>http://englishplus.com/grammar/00000074.htm</url>
+         <short>Missing comma</short>
+         <example correction='years, I'>For <marker>years I</marker> have been travelling.</example>         
+         <example>At least they believed me.</example>
+         <example>To see you is always a great pleasure.</example>
+        </rule>
         <rule id="COMMA_AFTER_A_MONTH" name="Comma after a month">
          <pattern>
           <token regexp='yes'>&months;</token>
@@ -13036,6 +13080,7 @@ USA
             <example>But Baptist beliefs can vary.</example>
             <example correction="believe">We <marker>belief</marker> that this is wrong.</example>
             <example correction="believes">He <marker>beliefs</marker> that this is wrong.</example>
+            <example>Joan of Arc refused to renounce her belief that the voice she heard was from God.</example>
         </rule>
         <rulegroup id="PROVE_PROOF" name="prove (proof)">
             <rule>

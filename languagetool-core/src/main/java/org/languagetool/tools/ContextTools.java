@@ -31,8 +31,8 @@ public class ContextTools {
   public ContextTools() {
   }
 
-  public String getContext(final int fromPos, final int toPos, final String contents) {
-    final String text = contents.replace('\n', ' ');
+  public String getContext(int fromPos, int toPos, String contents) {
+    String text = contents.replace('\n', ' ');
     // calculate context region:
     int startContent = fromPos - contextSize;
     String prefix = "...";
@@ -44,24 +44,24 @@ public class ContextTools {
       startContent = 0;
     }
     int endContent = toPos + contextSize;
-    final int textLength = text.length();
+    int textLength = text.length();
     if (endContent > textLength) {
       postfix = "";
       endContent = textLength;
     }
-    final StringBuilder marker = getMarker(fromPos, toPos, textLength + prefix.length());
+    StringBuilder marker = getMarker(fromPos, toPos, textLength + prefix.length());
     // now build context string plus marker:
-    final StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder();
     sb.append(prefix);
     sb.append(text.substring(startContent, endContent));
-    final String markerStr = markerPrefix
+    String markerStr = markerPrefix
         + marker.substring(startContent, endContent);
     sb.append(postfix);
-    final int startMark = markerStr.indexOf('^');
-    final int endMark = markerStr.lastIndexOf('^');
+    int startMark = markerStr.indexOf('^');
+    int endMark = markerStr.lastIndexOf('^');
     String result = sb.toString();
     if (escapeHtml) {
-      final String escapedErrorPart = StringTools.escapeHTML(result.substring(startMark, endMark + 1))
+      String escapedErrorPart = StringTools.escapeHTML(result.substring(startMark, endMark + 1))
               .replace(" ", "&nbsp;");   // make sure whitespace errors are visible
       result = StringTools.escapeHTML(result.substring(0, startMark))
           + errorMarkerStart
@@ -80,8 +80,8 @@ public class ContextTools {
    * given string region. Ignores {@link #setEscapeHtml(boolean)}.
    * @since 2.3
    */
-  public String getPlainTextContext(final int fromPos, final int toPos, final String contents) {
-    final String text = contents.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ');
+  public String getPlainTextContext(int fromPos, int toPos, String contents) {
+    String text = contents.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ');
     // calculate context region:
     int startContent = fromPos - contextSize;
     String prefix = "...";
@@ -97,7 +97,7 @@ public class ContextTools {
       postfix = "";
       endContent = text.length();
     }
-    final StringBuilder marker = getMarker(fromPos, toPos, text.length() + prefix.length());
+    StringBuilder marker = getMarker(fromPos, toPos, text.length() + prefix.length());
     // now build context string plus marker:
     return prefix + text.substring(startContent, endContent) + postfix + '\n' + markerPrefix + marker.substring(startContent, endContent);
   }
@@ -133,7 +133,7 @@ public class ContextTools {
 
   private StringBuilder getMarker(int fromPos, int toPos, int textLength) {
     // make "^" marker. inefficient but robust implementation:
-    final StringBuilder marker = new StringBuilder();
+    StringBuilder marker = new StringBuilder();
     for (int i = 0; i < textLength; i++) {
       if (i >= fromPos && i < toPos) {
         marker.append('^');

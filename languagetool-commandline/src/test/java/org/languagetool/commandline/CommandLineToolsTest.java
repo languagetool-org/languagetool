@@ -41,7 +41,7 @@ public class CommandLineToolsTest extends TestCase {
     this.stdout = System.out;
     this.stderr = System.err;
     this.out = new ByteArrayOutputStream();
-    final ByteArrayOutputStream err = new ByteArrayOutputStream();
+    ByteArrayOutputStream err = new ByteArrayOutputStream();
     System.setOut(new PrintStream(this.out));
     System.setErr(new PrintStream(err));
   }
@@ -54,7 +54,7 @@ public class CommandLineToolsTest extends TestCase {
   }
 
   public void testCheck() throws IOException, ParserConfigurationException, SAXException {
-    final JLanguageTool tool = new JLanguageTool(TestTools.getDemoLanguage());
+    JLanguageTool tool = new JLanguageTool(TestTools.getDemoLanguage());
 
     int matches = CommandLineTools.checkText("Foo.", tool);
     String output = new String(this.out.toByteArray());

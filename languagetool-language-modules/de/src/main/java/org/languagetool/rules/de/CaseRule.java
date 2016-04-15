@@ -428,7 +428,7 @@ public class CaseRule extends GermanRule {
   private final GermanTagger tagger;
   private final German german;
 
-  public CaseRule(final ResourceBundle messages, final German german) {
+  public CaseRule(ResourceBundle messages, German german) {
     this.german = german;
     super.setCategory(Categories.CASING.getCategory(messages));
     this.tagger = (GermanTagger) german.getTagger();
@@ -456,14 +456,14 @@ public class CaseRule extends GermanRule {
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence sentence) throws IOException {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     
     boolean prevTokenIsDas = false;
     for (int i = 0; i < tokens.length; i++) {
       //Note: defaulting to the first analysis is only save if we only query for sentence start
-      final String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
+      String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
       if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME)) {
         continue;
       }
@@ -476,8 +476,8 @@ public class CaseRule extends GermanRule {
       if (i > 0 && isSalutation(tokens[i-1].getToken())) {   // e.g. "Frau Stieg" could be a name, ignore
         continue;
       }
-      final AnalyzedTokenReadings analyzedToken = tokens[i];
-      final String token = analyzedToken.getToken();
+      AnalyzedTokenReadings analyzedToken = tokens[i];
+      String token = analyzedToken.getToken();
 
       markLowerCaseNounErrors(ruleMatches, tokens, i, analyzedToken);
 
@@ -596,10 +596,10 @@ public class CaseRule extends GermanRule {
       // e.g. essen -> Essen
       if (Character.isLowerCase(token.charAt(0)) && !substVerbenExceptions.contains(token) && tokenReadings.hasPartialPosTag("VER:INF")
               && !tokenReadings.isIgnoredBySpeller() && !tokenReadings.isImmunized()) {
-        final String msg = "Substantivierte Verben werden großgeschrieben.";
-        final RuleMatch ruleMatch = new RuleMatch(this, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg);
-        final String word = tokenReadings.getToken();
-        final String fixedWord = StringTools.uppercaseFirstChar(word);
+        String msg = "Substantivierte Verben werden großgeschrieben.";
+        RuleMatch ruleMatch = new RuleMatch(this, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg);
+        String word = tokenReadings.getToken();
+        String fixedWord = StringTools.uppercaseFirstChar(word);
         ruleMatch.setSuggestedReplacement(fixedWord);
         ruleMatches.add(ruleMatch);
       }
@@ -625,10 +625,10 @@ public class CaseRule extends GermanRule {
         !isSpecialCase(i, tokens) &&
         !isAdjectiveAsNoun(i, tokens) &&
         !isExceptionPhrase(i, tokens)) {
-      final String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen großgeschrieben";
-      final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(), tokens[i].getEndPos(), msg);
-      final String word = tokens[i].getToken();
-      final String fixedWord = Character.toLowerCase(word.charAt(0)) + word.substring(1);
+      String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen großgeschrieben";
+      RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(), tokens[i].getEndPos(), msg);
+      String word = tokens[i].getToken();
+      String fixedWord = Character.toLowerCase(word.charAt(0)) + word.substring(1);
       ruleMatch.setSuggestedReplacement(fixedWord);
       ruleMatches.add(ruleMatch);
     }
@@ -751,10 +751,10 @@ public class CaseRule extends GermanRule {
 
   private boolean isExceptionPhrase(int i, AnalyzedTokenReadings[] tokens) {
     for (String phrase : myExceptionPhrases) {
-      final String[] parts = phrase.split(" ");
+      String[] parts = phrase.split(" ");
       for (int j = 0; j < parts.length; j++) {
         if (tokens[i].getToken().matches(parts[j])) {
-          final int startIndex = i-j;
+          int startIndex = i-j;
           if (compareLists(tokens, startIndex, startIndex+parts.length-1, parts)) {
             return true;
           }

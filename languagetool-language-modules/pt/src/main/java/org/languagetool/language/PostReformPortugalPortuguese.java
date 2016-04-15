@@ -46,7 +46,7 @@ public class PostReformPortugalPortuguese extends PortugalPortuguese {
 
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
-    final List<Rule> filteredRules = new ArrayList<>();
+    List<Rule> filteredRules = new ArrayList<>();
     for (Rule rule : super.getRelevantRules(messages)) {
       if (rule.getClass() != PreReformPortugueseCompoundRule.class) {
         filteredRules.add(rule);

@@ -38,16 +38,16 @@ public class MultiKeyProperties {
   public MultiKeyProperties(InputStream inStream) {
     try (Scanner scanner = new Scanner(inStream)) {
       while (scanner.hasNextLine()) {
-        final String line = scanner.nextLine().trim();
+        String line = scanner.nextLine().trim();
         if (line.startsWith("#") || line.isEmpty()) {
           continue;
         }
-        final String[] parts = line.split("\\s*=\\s*");
+        String[] parts = line.split("\\s*=\\s*");
         if (parts.length != 2) {
           continue;
         }
-        final String key = parts[0];
-        final String value = parts[1];
+        String key = parts[0];
+        String value = parts[1];
         List<String> list = properties.get(key);
         if (list == null) {
           list = new ArrayList<>();

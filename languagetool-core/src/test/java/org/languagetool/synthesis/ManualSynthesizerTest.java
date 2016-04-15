@@ -33,7 +33,7 @@ public class ManualSynthesizerTest extends TestCase {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    final String data = 
+    String data = 
       "# some test data\n" +
       "InflectedForm11\tLemma1\tPOS1\n" +
       "InflectedForm121\tLemma1\tPOS2\n" +

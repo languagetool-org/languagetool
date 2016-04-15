@@ -97,13 +97,13 @@ public class JLanguageToolTest {
 
   @Test
   public void testGetMessageBundle() throws Exception {
-    final ResourceBundle bundle1 = JLanguageTool.getMessageBundle(new German());
+    ResourceBundle bundle1 = JLanguageTool.getMessageBundle(new German());
     assertThat(bundle1.getString("de"), is("Deutsch"));
 
-    final ResourceBundle bundle2 = JLanguageTool.getMessageBundle(english);
+    ResourceBundle bundle2 = JLanguageTool.getMessageBundle(english);
     assertThat(bundle2.getString("de"), is("German"));
 
-    final ResourceBundle bundle3 = JLanguageTool.getMessageBundle(new AmericanEnglish());
+    ResourceBundle bundle3 = JLanguageTool.getMessageBundle(new AmericanEnglish());
     assertThat(bundle3.getString("de"), is("German"));
   }
 

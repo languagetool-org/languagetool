@@ -31,9 +31,9 @@ import org.languagetool.TestTools;
 public class MultipleWhitespaceRuleTest extends TestCase {
 
   public void testRule() throws IOException {
-    final MultipleWhitespaceRule rule = new MultipleWhitespaceRule(TestTools.getEnglishMessages(), TestTools.getDemoLanguage());
+    MultipleWhitespaceRule rule = new MultipleWhitespaceRule(TestTools.getEnglishMessages(), TestTools.getDemoLanguage());
     RuleMatch[] matches;
-    final JLanguageTool langTool = new JLanguageTool(TestTools.getDemoLanguage());
+    JLanguageTool langTool = new JLanguageTool(TestTools.getDemoLanguage());
 
     // correct sentences:
     matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence."));

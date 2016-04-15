@@ -32,19 +32,19 @@ public final class AnalyzedToken {
   private final String token;
   private final String posTag;
   private final String lemma;
-  private final String tokenInflected;  // used only for matching with Elements
+  private final String lemmaOrToken;  // used only for matching with Elements
 
   private boolean isWhitespaceBefore;
   private boolean hasNoPOSTag;
 
-  public AnalyzedToken(final String token, final String posTag, final String lemma) {
+  public AnalyzedToken(String token, String posTag, String lemma) {
     this.token = Objects.requireNonNull(token, "token cannot be null");
     this.posTag = posTag;
     this.lemma = lemma;    
     if (lemma == null) {
-      tokenInflected = token;
+      lemmaOrToken = token;
     } else {
-      tokenInflected = lemma;
+      lemmaOrToken = lemma;
     }
     hasNoPOSTag = (posTag == null 
         || JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)
@@ -73,9 +73,10 @@ public final class AnalyzedToken {
 
   /**
    * Like {@link #getLemma()}, but returns the token if the lemma is {@code null}
+   * @deprecated deprecated since 3.4
    */
   public String getTokenInflected() {
-    return tokenInflected;
+    return lemmaOrToken;
   }
   
   public void setWhitespaceBefore(boolean whitespaceBefore) {
@@ -91,7 +92,7 @@ public final class AnalyzedToken {
    * @return true if all of the non-null values (lemma, POS, token) of AnalyzedToken match this token
    * @since 1.5
    */
-  public boolean matches(final AnalyzedToken an) {
+  public boolean matches(AnalyzedToken an) {
     if (this.equals(an)) {
       return true;
     }
@@ -134,7 +135,7 @@ public final class AnalyzedToken {
   
   @Override
   public String toString() {
-    return tokenInflected + '/' + posTag;
+    return lemmaOrToken + '/' + posTag;
   }
 
   @Override
@@ -143,7 +144,7 @@ public final class AnalyzedToken {
   }
 
   @Override
-  public boolean equals(final Object o) {
+  public boolean equals(Object o) {
     if (o == null) return false;
     if (o == this) return true;
     if (o.getClass() != getClass()) return false;

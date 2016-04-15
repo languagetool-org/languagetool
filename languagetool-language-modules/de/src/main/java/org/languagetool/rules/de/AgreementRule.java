@@ -170,7 +170,7 @@ public class AgreementRule extends GermanRule {
     "Uhr"   // "um ein Uhr"
   ));
     
-  public AgreementRule(final ResourceBundle messages, German language) {
+  public AgreementRule(ResourceBundle messages, German language) {
     this.language = language;
     super.setCategory(Categories.GRAMMAR.getCategory(messages));
     addExamplePair(Example.wrong("<marker>Der Haus</marker> wurde letztes Jahr gebaut."),
@@ -188,13 +188,13 @@ public class AgreementRule extends GermanRule {
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
+  public RuleMatch[] match(AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     for (int i = 0; i < tokens.length; i++) {
       //defaulting to the first reading
       //TODO: check for all readings
-      final String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
+      String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
       if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME)) {
         continue;
       }
@@ -202,12 +202,12 @@ public class AgreementRule extends GermanRule {
         continue;
       }
 
-      final AnalyzedTokenReadings tokenReadings = tokens[i];
-      final boolean relevantPronoun = isRelevantPronoun(tokens, i);
+      AnalyzedTokenReadings tokenReadings = tokens[i];
+      boolean relevantPronoun = isRelevantPronoun(tokens, i);
      
       boolean ignore = couldBeRelativeClause(tokens, i);
       if (i > 0) {
-        final String prevToken = tokens[i-1].getToken().toLowerCase();
+        String prevToken = tokens[i-1].getToken().toLowerCase();
         if ((tokens[i].getToken().equals("eine") || tokens[i].getToken().equals("einen"))
             && (prevToken.equals("der") || prevToken.equals("die") || prevToken.equals("das") || prevToken.equals("des") || prevToken.equals("dieses"))) {
           // TODO: "der eine Polizist" -> nicht ignorieren, sondern "der polizist" checken; "auf der einen Seite"
@@ -250,14 +250,14 @@ public class AgreementRule extends GermanRule {
               // avoid false alarm for e.g. "weniger farbenprächtig als das anderer Papageien"
               continue;
             }
-            final RuleMatch ruleMatch = checkDetAdjNounAgreement(tokens[i],
+            RuleMatch ruleMatch = checkDetAdjNounAgreement(tokens[i],
                 nextToken, tokens[i+2]);
             if (ruleMatch != null) {
               ruleMatches.add(ruleMatch);
             }
           }
         } else if (GermanHelper.hasReadingOfType(nextToken, POSType.NOMEN) && !"Herr".equals(nextToken.getToken())) {
-          final RuleMatch ruleMatch = checkDetNounAgreement(tokens[i], tokens[i+1]);
+          RuleMatch ruleMatch = checkDetNounAgreement(tokens[i], tokens[i+1]);
           if (ruleMatch != null) {
             ruleMatches.add(ruleMatch);
           }
@@ -288,10 +288,10 @@ public class AgreementRule extends GermanRule {
   }
 
   private boolean isRelevantPronoun(AnalyzedTokenReadings[] tokens, int pos) {
-    final AnalyzedTokenReadings analyzedToken = tokens[pos];
+    AnalyzedTokenReadings analyzedToken = tokens[pos];
     boolean relevantPronoun = GermanHelper.hasReadingOfType(analyzedToken, POSType.PRONOMEN);
     // avoid false alarms:
-    final String token = tokens[pos].getToken();
+    String token = tokens[pos].getToken();
     if (pos > 0 && tokens[pos-1].getToken().equalsIgnoreCase("vor") && tokens[pos].getToken().equalsIgnoreCase("allem")) {
       relevantPronoun = false;
     } else if (PRONOUNS_TO_BE_IGNORED.contains(token.toLowerCase())) {
@@ -307,7 +307,7 @@ public class AgreementRule extends GermanRule {
     if (pos >= 1) {
       // avoid false alarm: "Das Wahlrecht, das Frauen zugesprochen bekamen." etc:
       comma = tokens[pos-1].getToken().equals(",");
-      final String term = tokens[pos].getToken().toLowerCase();
+      String term = tokens[pos].getToken().toLowerCase();
       relPronoun = REL_PRONOUN.contains(term);
       if (comma && relPronoun) {
         return true;
@@ -316,9 +316,9 @@ public class AgreementRule extends GermanRule {
     if (pos >= 2) {
       // avoid false alarm: "Der Mann, in dem quadratische Fische schwammen."
       comma = tokens[pos-2].getToken().equals(",");
-      final String term1 = tokens[pos-1].getToken().toLowerCase();
-      final String term2 = tokens[pos].getToken().toLowerCase();
-      final boolean prep = PREPOSITIONS.contains(term1);
+      String term1 = tokens[pos-1].getToken().toLowerCase();
+      String term2 = tokens[pos].getToken().toLowerCase();
+      boolean prep = PREPOSITIONS.contains(term1);
       relPronoun = REL_PRONOUN.contains(term2);
       return comma && prep && relPronoun;
     }
@@ -326,35 +326,35 @@ public class AgreementRule extends GermanRule {
   }
 
   @Nullable
-  private RuleMatch checkDetNounAgreement(final AnalyzedTokenReadings token1,
-      final AnalyzedTokenReadings token2) {
+  private RuleMatch checkDetNounAgreement(AnalyzedTokenReadings token1,
+      AnalyzedTokenReadings token2) {
     if (NOUNS_TO_BE_IGNORED.contains(token2.getToken())) {
       return null;
     }
     if (token2.isImmunized()) {
       return null;
     }
-    final Set<String> set1 = getAgreementCategories(token1);
+    Set<String> set1 = getAgreementCategories(token1);
     if (set1 == null) {
       return null;  // word not known, assume it's correct
     }
-    final Set<String> set2 = getAgreementCategories(token2);
+    Set<String> set2 = getAgreementCategories(token2);
     if (set2 == null) {
       return null;
     }
     set1.retainAll(set2);
     RuleMatch ruleMatch = null;
     if (set1.size() == 0 && !isException(token1, token2)) {
-      final List<String> errorCategories = getCategoriesCausingError(token1, token2);
-      final String errorDetails = errorCategories.size() > 0 ?
+      List<String> errorCategories = getCategoriesCausingError(token1, token2);
+      String errorDetails = errorCategories.size() > 0 ?
               String.join(" und ", errorCategories) : "Kasus, Genus oder Numerus";
-      final String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel und Nomen " +
+      String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel und Nomen " +
             "bezüglich " + errorDetails + ".";
-      final String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich " + errorDetails;
+      String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich " + errorDetails;
       ruleMatch = new RuleMatch(this, token1.getStartPos(),
               token2.getEndPos(), msg, shortMsg);
-      final AgreementSuggestor suggestor = new AgreementSuggestor(language.getSynthesizer(), token1, token2);
-      final List<String> suggestions = suggestor.getSuggestions();
+      AgreementSuggestor suggestor = new AgreementSuggestor(language.getSynthesizer(), token1, token2);
+      List<String> suggestions = suggestor.getSuggestions();
       ruleMatch.setSuggestedReplacements(suggestions);
     }
     return ruleMatch;
@@ -366,8 +366,8 @@ public class AgreementRule extends GermanRule {
   }
 
   private List<String> getCategoriesCausingError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
-    final List<String> categories = new ArrayList<>();
-    final List<GrammarCategory> categoriesToCheck = Arrays.asList(GrammarCategory.KASUS, GrammarCategory.GENUS, GrammarCategory.NUMERUS);
+    List<String> categories = new ArrayList<>();
+    List<GrammarCategory> categoriesToCheck = Arrays.asList(GrammarCategory.KASUS, GrammarCategory.GENUS, GrammarCategory.NUMERUS);
     for (GrammarCategory category : categoriesToCheck) {
       if (agreementWithCategoryRelaxation(token1, token2, category)) {
         categories.add(category.displayName);
@@ -376,34 +376,34 @@ public class AgreementRule extends GermanRule {
     return categories;
   }
 
-  private RuleMatch checkDetAdjNounAgreement(final AnalyzedTokenReadings token1,
-      final AnalyzedTokenReadings token2, final AnalyzedTokenReadings token3) {
-    final Set<String> set = retainCommonCategories(token1, token2, token3);
+  private RuleMatch checkDetAdjNounAgreement(AnalyzedTokenReadings token1,
+      AnalyzedTokenReadings token2, AnalyzedTokenReadings token3) {
+    Set<String> set = retainCommonCategories(token1, token2, token3);
     RuleMatch ruleMatch = null;
     if (set == null || set.size() == 0) {
       // TODO: more detailed error message:
-      final String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und " +
+      String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und " +
             "Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +
             "statt 'mein kleines Haus'";
-      final String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich Kasus, Numerus oder Genus";
+      String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich Kasus, Numerus oder Genus";
       ruleMatch = new RuleMatch(this, token1.getStartPos(), token3.getEndPos(), msg, shortMsg);
     }
     return ruleMatch;
   }
 
-  private boolean agreementWithCategoryRelaxation(final AnalyzedTokenReadings token1,
-                                                  final AnalyzedTokenReadings token2, final GrammarCategory categoryToRelax) {
-    final Set<GrammarCategory> categoryToRelaxSet;
+  private boolean agreementWithCategoryRelaxation(AnalyzedTokenReadings token1,
+                                                  AnalyzedTokenReadings token2, GrammarCategory categoryToRelax) {
+    Set<GrammarCategory> categoryToRelaxSet;
     if (categoryToRelax != null) {
       categoryToRelaxSet = Collections.singleton(categoryToRelax);
     } else {
       categoryToRelaxSet = Collections.emptySet();
     }
-    final Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet, true);
+    Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet, true);
     if (set1 == null) {
       return true;  // word not known, assume it's correct
     }
-    final Set<String> set2 = getAgreementCategories(token2, categoryToRelaxSet, true);
+    Set<String> set2 = getAgreementCategories(token2, categoryToRelaxSet, true);
     if (set2 == null) {
       return true;      
     }
@@ -412,19 +412,19 @@ public class AgreementRule extends GermanRule {
   }
 
   @Nullable
-  private Set<String> retainCommonCategories(final AnalyzedTokenReadings token1,
-                                             final AnalyzedTokenReadings token2, final AnalyzedTokenReadings token3) {
-    final Set<GrammarCategory> categoryToRelaxSet = Collections.emptySet();
-    final Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet, true);
+  private Set<String> retainCommonCategories(AnalyzedTokenReadings token1,
+                                             AnalyzedTokenReadings token2, AnalyzedTokenReadings token3) {
+    Set<GrammarCategory> categoryToRelaxSet = Collections.emptySet();
+    Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet, true);
     if (set1 == null) {
       return null;  // word not known, assume it's correct
     }
-    final boolean skipSol = !VIELE_WENIGE_LOWERCASE.contains(token1.getToken().toLowerCase());
-    final Set<String> set2 = getAgreementCategories(token2, categoryToRelaxSet, skipSol);
+    boolean skipSol = !VIELE_WENIGE_LOWERCASE.contains(token1.getToken().toLowerCase());
+    Set<String> set2 = getAgreementCategories(token2, categoryToRelaxSet, skipSol);
     if (set2 == null) {
       return null;
     }
-    final Set<String> set3 = getAgreementCategories(token3, categoryToRelaxSet, true);
+    Set<String> set3 = getAgreementCategories(token3, categoryToRelaxSet, true);
     if (set3 == null) {
       return null;
     }
@@ -433,20 +433,20 @@ public class AgreementRule extends GermanRule {
     return set1;
   }
 
-  private Set<String> getAgreementCategories(final AnalyzedTokenReadings aToken) {
-    return getAgreementCategories(aToken, new HashSet<GrammarCategory>(), false);
+  private Set<String> getAgreementCategories(AnalyzedTokenReadings aToken) {
+    return getAgreementCategories(aToken, new HashSet<>(), false);
   }
   
   /** Return Kasus, Numerus, Genus of those forms with a determiner. */
-  private Set<String> getAgreementCategories(final AnalyzedTokenReadings aToken, Set<GrammarCategory> omit, boolean skipSol) {
-    final Set<String> set = new HashSet<>();
-    final List<AnalyzedToken> readings = aToken.getReadings();
+  private Set<String> getAgreementCategories(AnalyzedTokenReadings aToken, Set<GrammarCategory> omit, boolean skipSol) {
+    Set<String> set = new HashSet<>();
+    List<AnalyzedToken> readings = aToken.getReadings();
     for (AnalyzedToken tmpReading : readings) {
       if (skipSol && tmpReading.getPOSTag() != null && tmpReading.getPOSTag().endsWith(":SOL")) {
         // SOL = alleinstehend - needs to be skipped so we find errors like "An der roter Ampel."
         continue;
       }
-      final AnalyzedGermanToken reading = new AnalyzedGermanToken(tmpReading);
+      AnalyzedGermanToken reading = new AnalyzedGermanToken(tmpReading);
       if (reading.getCasus() == null && reading.getNumerus() == null &&
           reading.getGenus() == null) {
         continue;
@@ -489,7 +489,7 @@ public class AgreementRule extends GermanRule {
 
   private String makeString(GermanToken.Kasus casus, GermanToken.Numerus num, GermanToken.Genus gen,
       GermanToken.Determination determination, Set<GrammarCategory> omit) {
-    final List<String> l = new ArrayList<>();
+    List<String> l = new ArrayList<>();
     if (casus != null && !omit.contains(GrammarCategory.KASUS)) {
       l.add(casus.toString());
     }

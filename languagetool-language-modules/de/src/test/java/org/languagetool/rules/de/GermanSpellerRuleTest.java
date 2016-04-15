@@ -53,7 +53,7 @@ public class GermanSpellerRuleTest {
 
   @Test
   public void testSortSuggestion() throws Exception {
-    final GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertThat(rule.sortSuggestionByQuality("fehler", Arrays.asList("Fehler", "fehl er", "fehle r")).toString(),
             is("[Fehler, fehl er]"));
     assertThat(rule.sortSuggestionByQuality("mülleimer", Arrays.asList("Mülheimer", "-mülheimer", "Melkeimer", "Mühlheimer", "Mülleimer")).toString(),
@@ -62,7 +62,7 @@ public class GermanSpellerRuleTest {
 
   @Test
   public void testProhibited() throws Exception {
-    final GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     rule.getSuggestions("");  // needed to force a proper init
     assertTrue(rule.isProhibited("Standart-Test"));
     assertTrue(rule.isProhibited("Weihnachtfreier"));
@@ -71,8 +71,8 @@ public class GermanSpellerRuleTest {
 
   @Test
   public void testGetAdditionalTopSuggestions() throws Exception {
-    final GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
-    final JLanguageTool langTool = new JLanguageTool(GERMAN_DE);
+    GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    JLanguageTool langTool = new JLanguageTool(GERMAN_DE);
     RuleMatch[] matches1 = rule.match(langTool.getAnalyzedSentence("konservierungsstoffe"));
     assertThat(matches1[0].getSuggestedReplacements().toString(), is("[Konservierungsstoffe]"));
     RuleMatch[] matches2 = rule.match(langTool.getAnalyzedSentence("konservierungsstoffstatistik"));
@@ -120,8 +120,8 @@ public class GermanSpellerRuleTest {
 
   @Test
   public void testDashAndHyphen() throws Exception {
-    final HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
-    final JLanguageTool langTool = new JLanguageTool(GERMAN_DE);
+    HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    JLanguageTool langTool = new JLanguageTool(GERMAN_DE);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ist doch - gut")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ist doch -- gut")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Stil- und Grammatikprüfung gut")).length);
@@ -180,8 +180,8 @@ public class GermanSpellerRuleTest {
   // note: copied from HunspellRuleTest
   @Test
   public void testRuleWithGermanyGerman() throws Exception {
-    final HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
-    final JLanguageTool langTool = new JLanguageTool(GERMAN_DE);
+    HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    JLanguageTool langTool = new JLanguageTool(GERMAN_DE);
     commonGermanAsserts(rule, langTool);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);
@@ -192,9 +192,9 @@ public class GermanSpellerRuleTest {
   // note: copied from HunspellRuleTest
   @Test
   public void testRuleWithAustrianGerman() throws Exception {
-    final AustrianGerman language = new AustrianGerman();
-    final HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), language);
-    final JLanguageTool langTool = new JLanguageTool(language);
+    AustrianGerman language = new AustrianGerman();
+    HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), language);
+    JLanguageTool langTool = new JLanguageTool(language);
     commonGermanAsserts(rule, langTool);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // umlauts
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);
@@ -203,9 +203,9 @@ public class GermanSpellerRuleTest {
   // note: copied from HunspellRuleTest
   @Test
   public void testRuleWithSwissGerman() throws Exception {
-    final SwissGerman language = new SwissGerman();
-    final HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), language);
-    final JLanguageTool langTool = new JLanguageTool(language);
+    SwissGerman language = new SwissGerman();
+    HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), language);
+    JLanguageTool langTool = new JLanguageTool(language);
     commonGermanAsserts(rule, langTool);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der äußere Übeltäter.")).length);  // ß not allowed in Swiss
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der äussere Übeltäter.")).length);  // ss is used instead of ß
@@ -229,7 +229,7 @@ public class GermanSpellerRuleTest {
   
   @Test
   public void testGetSuggestions() throws Exception {
-    final HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
 
     assertCorrection(rule, "Hauk", "Haus", "Haut");
     assertCorrection(rule, "Eisnbahn", "Einbahn", "Eisbahn", "Eisenbahn"); 
@@ -298,7 +298,7 @@ public class GermanSpellerRuleTest {
 
   @Test
   public void testGetSuggestionOrder() throws Exception {
-    final HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertCorrectionsByOrder(rule, "heisst", "heißt");  // "heißt" should be first
     assertCorrectionsByOrder(rule, "heissen", "heißen");
     assertCorrectionsByOrder(rule, "müßte", "müsste");
@@ -335,14 +335,14 @@ public class GermanSpellerRuleTest {
   }
 
   private void assertCorrection(HunspellRule rule, String input, String... expectedTerms) throws IOException {
-    final List<String> suggestions = rule.getSuggestions(input);
+    List<String> suggestions = rule.getSuggestions(input);
     for (String expectedTerm : expectedTerms) {
       assertTrue("Not found: '" + expectedTerm + "' in: " + suggestions, suggestions.contains(expectedTerm));
     }
   }
   
   private void assertCorrectionsByOrder(HunspellRule rule, String input, String... expectedTerms) throws IOException {
-    final List<String> suggestions = rule.getSuggestions(input);
+    List<String> suggestions = rule.getSuggestions(input);
     int i = 0;
     for (String expectedTerm : expectedTerms) {
       assertTrue("Not found at position " + i + ": '" + expectedTerm + "' in: " + suggestions, suggestions.get(i).equals(expectedTerm));

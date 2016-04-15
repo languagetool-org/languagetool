@@ -38,8 +38,8 @@ public class Main {
     if (args.length == 0) {
       printUsageAndExit();
     } else {
-      final String[] remainingArgs = Arrays.copyOfRange(args, 1, args.length);
-      final String command = args[0];
+      String[] remainingArgs = Arrays.copyOfRange(args, 1, args.length);
+      String command = args[0];
       switch (command) {
         case "check-data":
           SentenceSourceChecker.main(remainingArgs);

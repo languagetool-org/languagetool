@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 public class StandaloneBitextPatternRuleTest extends TestCase {
 
   public void testBitextPatternRuleTest() throws Exception {
-    final BitextPatternRuleTest test = new BitextPatternRuleTest();
+    BitextPatternRuleTest test = new BitextPatternRuleTest();
     test.testBitextRulesFromXML();
   }
 

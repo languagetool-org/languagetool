@@ -19,6 +19,7 @@
 package org.languagetool.tokenizers.de;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import de.danielnaber.jwordsplitter.GermanWordSplitter;
@@ -39,6 +40,8 @@ public class GermanCompoundTokenizer implements Tokenizer {
   
   public GermanCompoundTokenizer(boolean strictMode) throws IOException {
     wordSplitter = new GermanWordSplitter(false);
+    // add exceptions here so we don't need to update JWordSplitter for every exception we find:  
+    wordSplitter.addException("Maskerade", Collections.singletonList("Maskerade"));
     wordSplitter.setStrictMode(strictMode);
     wordSplitter.setMinimumWordLength(3);
   }
@@ -53,7 +56,7 @@ public class GermanCompoundTokenizer implements Tokenizer {
       System.out.println("Usage: " + GermanCompoundTokenizer.class.getSimpleName() + " <wordToSplit>");
       System.exit(1);
     }
-    final GermanCompoundTokenizer tokenizer = new GermanCompoundTokenizer();
+    GermanCompoundTokenizer tokenizer = new GermanCompoundTokenizer();
     System.out.println(tokenizer.tokenize(args[0]));
   }
 

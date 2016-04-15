@@ -73,7 +73,7 @@ public class AvsAnRuleTest extends TestCase {
     assertIncorrect("A unintersting ...");
     assertIncorrect("A hour's work ...");
     assertIncorrect("Going to a \"industry party\".");
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("It was a uninteresting talk with an long sentence."));
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("It was a uninteresting talk with an long sentence."));
     assertEquals(2, matches.length);
 
     // With uppercase letters:
@@ -105,12 +105,12 @@ public class AvsAnRuleTest extends TestCase {
   }
 
   private void assertCorrect(String sentence) throws IOException {
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
     assertEquals(0, matches.length);
   }
 
   private void assertIncorrect(String sentence) throws IOException {
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
     assertEquals(1, matches.length);
   }
 
@@ -151,7 +151,7 @@ public class AvsAnRuleTest extends TestCase {
 
   public void testPositions() throws IOException {
     RuleMatch[] matches;
-    final JLanguageTool langTool = new JLanguageTool(new English());
+    JLanguageTool langTool = new JLanguageTool(new English());
     // no quotes etc.:
     matches = rule.match(langTool.getAnalyzedSentence("a industry standard."));
     assertEquals(0, matches[0].getFromPos());

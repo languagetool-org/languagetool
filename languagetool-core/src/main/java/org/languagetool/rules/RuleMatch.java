@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules;
 
+import org.languagetool.ApiCleanupNeeded;
 import org.languagetool.tools.StringTools;
 
 import java.util.ArrayList;
@@ -88,7 +89,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     this.message = message;
     this.shortMessage = shortMessage;
     // extract suggestion from <suggestion>...</suggestion> in message:
-    final Matcher matcher = SUGGESTION_PATTERN.matcher(message + suggestionsOutMsg);
+    Matcher matcher = SUGGESTION_PATTERN.matcher(message + suggestionsOutMsg);
     int pos = 0;
     while (matcher.find(pos)) {
       pos = matcher.end();
@@ -107,12 +108,13 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * Set the line number in which the match occurs (zero-based).
    */
-  public void setLine(final int fromLine) {
+  public void setLine(int fromLine) {
     linePosition = new LinePosition(fromLine, linePosition.getEnd());
   }
 
   /**
    * Get the line number in which the match occurs (zero-based).
+   * @deprecated rely on {@link #getFromPos()} instead (deprecated since 3.4)
    */
   public int getLine() {
     return linePosition.getStart();
@@ -121,12 +123,13 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * Set the line number in which the match ends (zero-based).
    */
-  public void setEndLine(final int endLine) {
+  public void setEndLine(int endLine) {
     linePosition = new LinePosition(linePosition.getStart(), endLine);
   }
 
   /**
    * Get the line number in which the match ends (zero-based).
+   * @deprecated rely on {@link #getToPos()} instead (deprecated since 3.4)
    */
   public int getEndLine() {
     return linePosition.getEnd();
@@ -135,12 +138,13 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * Set the column number in which the match occurs (zero-based).
    */
-  public void setColumn(final int column) {
+  public void setColumn(int column) {
     this.columnPosition = new ColumnPosition(column, columnPosition.getEnd());
   }
 
   /**
    * Get the column number in which the match occurs (zero-based).
+   * @deprecated rely on {@link #getFromPos()} instead (deprecated since 3.4)
    */
   public int getColumn() {
     return columnPosition.getStart();
@@ -149,12 +153,13 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * Set the column number in which the match ends (zero-based).
    */
-  public void setEndColumn(final int endColumn) {
+  public void setEndColumn(int endColumn) {
     this.columnPosition = new ColumnPosition(columnPosition.getStart(), endColumn);
   }
 
   /**
    * Get the column number in which the match ends (zero-based).
+   * @deprecated rely on {@link #getToPos()} instead (deprecated since 3.4)
    */
   public int getEndColumn() {
     return columnPosition.getEnd();
@@ -189,6 +194,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * if no such explanation is available.
    * @see #getMessage()
    */
+  @ApiCleanupNeeded("Should return an Optional")
   public String getShortMessage() {
     if (shortMessage == null) {
       return "";  // just because this is what we have documented
@@ -199,9 +205,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * @see #getSuggestedReplacements()
    */
-  public void setSuggestedReplacement(final String replacement) {
+  public void setSuggestedReplacement(String replacement) {
     Objects.requireNonNull(replacement, "replacement may be empty but not null");
-    final List<String> replacements = new ArrayList<>();
+    List<String> replacements = new ArrayList<>();
     replacements.add(replacement);
     setSuggestedReplacements(replacements);
   }
@@ -209,7 +215,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * @see #getSuggestedReplacements()
    */
-  public void setSuggestedReplacements(final List<String> replacements) {
+  public void setSuggestedReplacements(List<String> replacements) {
     this.suggestedReplacements = Objects.requireNonNull(replacements, "replacements may be empty but not null");
   }
 
@@ -230,7 +236,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   /** Compare by start position. */
   @Override
-  public int compareTo(final RuleMatch other) {
+  public int compareTo(RuleMatch other) {
     Objects.requireNonNull(other);
     return Integer.compare(getFromPos(), other.getFromPos());
   }

@@ -75,7 +75,7 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
   }
 
   private void writeMetaDocuments() throws IOException {
-    final Document doc = new Document();
+    Document doc = new Document();
     doc.add(new StringField(MAX_DOC_COUNT_FIELD, MAX_DOC_COUNT_FIELD_VAL, Field.Store.YES));
     doc.add(new StringField(MAX_DOC_COUNT_VALUE, sentenceCount + "", Field.Store.YES));
     indexer.add(doc);
@@ -90,12 +90,12 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
       System.out.println("\t<maxSentences> maximum number of sentences to be indexed, use 0 for no limit");
       System.exit(1);
     }
-    final List<String> dumpFilesNames = Arrays.asList(args[0].split(","));
-    final File indexDir = new File(args[1]);
-    final String languageCode = args[2];
-    final int maxSentences = Integer.parseInt(args[3]);
+    List<String> dumpFilesNames = Arrays.asList(args[0].split(","));
+    File indexDir = new File(args[1]);
+    String languageCode = args[2];
+    int maxSentences = Integer.parseInt(args[3]);
 
-    final Language language = Languages.getLanguageForShortName(languageCode);
+    Language language = Languages.getLanguageForShortName(languageCode);
     if (maxSentences == 0) {
       System.out.println("Going to index contents from " + dumpFilesNames);
     } else {
@@ -103,9 +103,9 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
     }
     System.out.println("Output index dir: " + indexDir);
     
-    final long start = System.currentTimeMillis();
+    long start = System.currentTimeMillis();
     try (FSDirectory fsDirectory = FSDirectory.open(indexDir.toPath())) {
-      final SentenceSourceIndexer indexer = new SentenceSourceIndexer(fsDirectory, language, maxSentences);
+      SentenceSourceIndexer indexer = new SentenceSourceIndexer(fsDirectory, language, maxSentences);
       try {
         indexer.run(dumpFilesNames, language);
       } catch (DocumentLimitReachedException e) {
@@ -115,8 +115,8 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
         indexer.close();
       }
     }
-    final long end = System.currentTimeMillis();
-    final float minutes = (end - start) / (float)(1000 * 60);
+    long end = System.currentTimeMillis();
+    float minutes = (end - start) / (float)(1000 * 60);
     System.out.printf("Indexing took %.2f minutes\n", minutes);
   }
 

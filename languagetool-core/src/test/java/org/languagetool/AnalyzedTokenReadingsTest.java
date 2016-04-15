@@ -50,16 +50,16 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     //and get isSentStart == true
     tokenReadings.addReading(new AnalyzedToken("word", "SENT_START", null));
     assertEquals(false, tokenReadings.isSentenceStart());
-    final AnalyzedToken aTok = new AnalyzedToken("word", "POS", "lemma");
+    AnalyzedToken aTok = new AnalyzedToken("word", "POS", "lemma");
     aTok.setWhitespaceBefore(true);
     tokenReadings = new AnalyzedTokenReadings(aTok);       
     assertEquals(aTok, tokenReadings.getAnalyzedToken(0));
-    final AnalyzedToken aTok2 = new AnalyzedToken("word", "POS", "lemma");
+    AnalyzedToken aTok2 = new AnalyzedToken("word", "POS", "lemma");
     assertTrue(!aTok2.equals(tokenReadings.getAnalyzedToken(0)));
-    final AnalyzedToken aTok3 = new AnalyzedToken("word", "POS", "lemma");
+    AnalyzedToken aTok3 = new AnalyzedToken("word", "POS", "lemma");
     aTok3.setWhitespaceBefore(true);
     assertEquals(aTok3, tokenReadings.getAnalyzedToken(0));
-    final AnalyzedTokenReadings testReadings = new AnalyzedTokenReadings(aTok3);
+    AnalyzedTokenReadings testReadings = new AnalyzedTokenReadings(aTok3);
     testReadings.removeReading(aTok3);
     assertTrue(testReadings.getReadingsLength()==1);
     assertEquals("word", testReadings.getToken());
@@ -75,15 +75,15 @@ public class AnalyzedTokenReadingsTest extends TestCase {
   }
 
   public void testToString() {
-    final AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS", "lemma"));
+    AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS", "lemma"));
     assertEquals("word[lemma/POS*]", tokenReadings.toString());
-    final AnalyzedToken aTok2 = new AnalyzedToken("word", "POS2", "lemma2");
+    AnalyzedToken aTok2 = new AnalyzedToken("word", "POS2", "lemma2");
     tokenReadings.addReading(aTok2);
     assertEquals("word[lemma/POS*,lemma2/POS2*]", tokenReadings.toString());
   }
 
   public void testHasPosTag() {
-    final AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS:FOO:BAR", "lemma"));
+    AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS:FOO:BAR", "lemma"));
     assertTrue(tokenReadings.hasPosTag("POS:FOO:BAR"));
     assertFalse(tokenReadings.hasPosTag("POS:FOO:bar"));
     assertFalse(tokenReadings.hasPosTag("POS:FOO"));
@@ -91,7 +91,7 @@ public class AnalyzedTokenReadingsTest extends TestCase {
   }
 
   public void testHasPartialPosTag() {
-    final AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS:FOO:BAR", "lemma"));
+    AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS:FOO:BAR", "lemma"));
     assertTrue(tokenReadings.hasPartialPosTag("POS:FOO:BAR"));
     assertTrue(tokenReadings.hasPartialPosTag("POS:FOO:"));
     assertTrue(tokenReadings.hasPartialPosTag("POS:FOO"));
@@ -104,7 +104,7 @@ public class AnalyzedTokenReadingsTest extends TestCase {
   }
   
   public void testMatchesPosTagRegex() {
-    final AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS:FOO:BAR", "lemma"));
+    AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS:FOO:BAR", "lemma"));
     assertTrue(tokenReadings.matchesPosTagRegex("POS:FOO:BAR"));
     assertTrue(tokenReadings.matchesPosTagRegex("POS:...:BAR"));
     assertTrue(tokenReadings.matchesPosTagRegex("POS:[A-Z]+:BAR"));
@@ -114,7 +114,7 @@ public class AnalyzedTokenReadingsTest extends TestCase {
   }
 
   public void testIteration() {
-    final AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(Arrays.asList(
+    AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(Arrays.asList(
               new AnalyzedToken("word1", null, null),
               new AnalyzedToken("word2", null, null)), 0);
     int i = 0;

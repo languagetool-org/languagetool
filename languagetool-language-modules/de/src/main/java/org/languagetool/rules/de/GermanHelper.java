@@ -43,7 +43,7 @@ public final class GermanHelper {
           return false;
         }
       }
-      final AnalyzedGermanToken germanToken = new AnalyzedGermanToken(token);
+      AnalyzedGermanToken germanToken = new AnalyzedGermanToken(token);
       if (germanToken.getType() == type) {
         return true;
       }

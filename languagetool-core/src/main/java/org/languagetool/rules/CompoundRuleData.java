@@ -65,7 +65,7 @@ public class CompoundRuleData {
     return Collections.unmodifiableSet(onlyDashSuggestion);
   }
 
-  private void loadCompoundFile(final String path) throws IOException {
+  private void loadCompoundFile(String path) throws IOException {
     try (
       InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
       InputStreamReader reader = new InputStreamReader(stream, "utf-8");
@@ -91,7 +91,7 @@ public class CompoundRuleData {
   }
 
   private void validateLine(String path, String line) throws IOException {
-    final String[] parts = line.split(" ");
+    String[] parts = line.split(" ");
     if (parts.length == 1) {
       throw new RuntimeException("Not a compound in file " + path + ": " + line);
     }

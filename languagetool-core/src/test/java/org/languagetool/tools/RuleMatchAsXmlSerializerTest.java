@@ -50,10 +50,10 @@ public class RuleMatchAsXmlSerializerTest {
 
   @Test
   public void testLanguageAttributes() throws IOException {
-    final String xml1 = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, NORMAL_XML, LANG, Collections.<String>emptyList());
+    String xml1 = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, NORMAL_XML, LANG, Collections.<String>emptyList());
     assertTrue(xml1.contains("shortname=\"xx-XX\""));
     assertTrue(xml1.contains("name=\"Testlanguage\""));
-    final String xml2 = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, LANG, new FakeLanguage());
+    String xml2 = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, LANG, new FakeLanguage());
     assertTrue(xml2.contains("shortname=\"xx-XX\""));
     assertTrue(xml2.contains("name=\"Testlanguage\""));
     assertTrue(xml2.contains("shortname=\"yy\""));
@@ -80,46 +80,46 @@ public class RuleMatchAsXmlSerializerTest {
 
   @Test
   public void testRuleMatchesToXML() throws IOException {
-    final List<RuleMatch> matches = new ArrayList<>();
-    final String text = "This is an test sentence. Here's another sentence with more text.";
-    final FakeRule rule = new FakeRule();
-    final RuleMatch match = new RuleMatch(rule, 8, 10, "myMessage");
+    List<RuleMatch> matches = new ArrayList<>();
+    String text = "This is an test sentence. Here's another sentence with more text.";
+    FakeRule rule = new FakeRule();
+    RuleMatch match = new RuleMatch(rule, 8, 10, "myMessage");
     match.setColumn(99);
     match.setEndColumn(100);
     match.setLine(44);
     match.setEndLine(45);
     matches.add(match);
-    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_XML, LANG, Collections.<String>emptyList());
+    String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_XML, LANG, Collections.<String>emptyList());
     assertTrue(xml.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
-    final Pattern matchesPattern =
+    Pattern matchesPattern =
             Pattern.compile(".*<matches software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\" buildDate=\".*?\">.*", Pattern.DOTALL);
-    final Matcher matcher = matchesPattern.matcher(xml);
+    Matcher matcher = matchesPattern.matcher(xml);
     assertTrue("Did not find expected '<matches>' element, got: " + xml, matcher.matches());
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" " +
-            "locqualityissuetype=\"misspelling\"/>\n" +
+            "category=\"Misc\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>\n" +
             "</matches>\n"));
   }
 
   @Test
   public void testRuleMatchesToXMLWithCategory() throws IOException {
-    final List<RuleMatch> matches = new ArrayList<>();
-    final String text = "This is a test sentence.";
-    final List<PatternToken> patternTokens = Collections.emptyList();
-    final Rule patternRule = new PatternRule("MY_ID", LANG, patternTokens, "my description", "my message", "short message");
-    patternRule.setCategory(new Category("MyCategory"));
-    final RuleMatch match = new RuleMatch(patternRule, 8, 10, "myMessage");
+    List<RuleMatch> matches = new ArrayList<>();
+    String text = "This is a test sentence.";
+    List<PatternToken> patternTokens = Collections.emptyList();
+    Rule patternRule = new PatternRule("MY_ID", LANG, patternTokens, "my description", "my message", "short message");
+    patternRule.setCategory(new Category(new CategoryId("TEST_ID"), "MyCategory"));
+    RuleMatch match = new RuleMatch(patternRule, 8, 10, "myMessage");
     match.setColumn(99);
     match.setEndColumn(100);
     match.setLine(44);
     match.setEndLine(45);
     matches.add(match);
-    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, LANG, LANG);
+    String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, LANG, LANG);
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"MY_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is a test ...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"MyCategory\" " +
-            "locqualityissuetype=\"uncategorized\"/>\n" +
+            "categoryid=\"TEST_ID\" locqualityissuetype=\"uncategorized\"/>\n" +
             "</matches>\n"));
 
     patternRule.setCategory(new Category(new CategoryId("CAT_ID"), "MyCategory"));
@@ -131,19 +131,19 @@ public class RuleMatchAsXmlSerializerTest {
 
   @Test
   public void testRuleMatchesWithShortMessage() throws IOException {
-    final List<RuleMatch> matches = new ArrayList<>();
-    final String text = "This is a test sentence.";
-    final RuleMatch match = new RuleMatch(new FakeRule(), 8, 10, "myMessage", "short message");
+    List<RuleMatch> matches = new ArrayList<>();
+    String text = "This is a test sentence.";
+    RuleMatch match = new RuleMatch(new FakeRule(), 8, 10, "myMessage", "short message");
     matches.add(match);
-    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, LANG, null);
+    String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, LANG, null);
     assertTrue(xml.contains("shortmsg=\"short message\""));
   }
 
   @Test
   public void testRuleMatchesWithUrlToXML() throws IOException {
-    final List<RuleMatch> matches = new ArrayList<>();
-    final String text = "This is an test sentence. Here's another sentence with more text.";
-    final RuleMatch match = new RuleMatch(new FakeRule() {
+    List<RuleMatch> matches = new ArrayList<>();
+    String text = "This is an test sentence. Here's another sentence with more text.";
+    RuleMatch match = new RuleMatch(new FakeRule() {
       @Override
       public URL getUrl() {
         try {
@@ -158,29 +158,29 @@ public class RuleMatchAsXmlSerializerTest {
     match.setLine(44);
     match.setEndLine(45);
     matches.add(match);
-    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_XML, LANG, Collections.<String>emptyList());
+    String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_XML, LANG, Collections.<String>emptyList());
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" url=\"http://server.org?id=1&amp;foo=bar\" " +
-            "locqualityissuetype=\"misspelling\"/>\n" +
+            "category=\"Misc\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>\n" +
             "</matches>\n"));
   }
 
   @Test
   public void testRuleMatchesToXMLEscapeBug() throws IOException {
-    final List<RuleMatch> matches = new ArrayList<>();
-    final String text = "This is \"an test sentence. Here's another sentence with more text.";
-    final RuleMatch match = new RuleMatch(new FakeRule(), 9, 11, "myMessage");
+    List<RuleMatch> matches = new ArrayList<>();
+    String text = "This is \"an test sentence. Here's another sentence with more text.";
+    RuleMatch match = new RuleMatch(new FakeRule(), 9, 11, "myMessage");
     match.setColumn(99);
     match.setEndColumn(100);
     match.setLine(44);
     match.setEndLine(45);
     matches.add(match);
-    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_XML, LANG, Collections.<String>emptyList());
+    String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, NORMAL_XML, LANG, Collections.<String>emptyList());
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"... is &quot;an test...\" contextoffset=\"8\" offset=\"9\" errorlength=\"2\" " +
-            "locqualityissuetype=\"misspelling\"/>\n" +
+            "category=\"Misc\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>\n" +
             "</matches>\n"));
   }
 

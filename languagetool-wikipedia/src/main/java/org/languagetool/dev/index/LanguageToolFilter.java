@@ -73,7 +73,7 @@ public final class LanguageToolFilter extends TokenFilter {
   public boolean incrementToken() throws IOException {
 
     if (posStack.size() > 0) {
-      final String pop = posStack.pop();
+      String pop = posStack.pop();
       restoreState(current);
       termAtt.append(pop);
       posIncrAtt.setPositionIncrement(0);
@@ -95,8 +95,8 @@ public final class LanguageToolFilter extends TokenFilter {
           sentenceStr = collectedInput.toString();
           collectedInput.setLength(0);
         }
-        final AnalyzedSentence sentence = languageTool.getAnalyzedSentence(sentenceStr);
-        final List<AnalyzedTokenReadings> tokenBuffer = Arrays.asList(sentence.getTokens());
+        AnalyzedSentence sentence = languageTool.getAnalyzedSentence(sentenceStr);
+        List<AnalyzedTokenReadings> tokenBuffer = Arrays.asList(sentence.getTokens());
         tokenIter = tokenBuffer.iterator();
         /*
          * it should not be possible to have a sentence with 0 words, check just in case. returning
@@ -112,7 +112,7 @@ public final class LanguageToolFilter extends TokenFilter {
 
     // It must clear attributes, as it is creating new tokens.
     clearAttributes();
-    final AnalyzedTokenReadings tr = tokenIter.next();
+    AnalyzedTokenReadings tr = tokenIter.next();
 
     // add POS tag for sentence start.
     if (tr.isSentenceStart()) {

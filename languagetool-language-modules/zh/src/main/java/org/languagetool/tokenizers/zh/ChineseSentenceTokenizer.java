@@ -31,9 +31,9 @@ public class ChineseSentenceTokenizer implements SentenceTokenizer {
   @Override
   public List<String> tokenize(String text) {
 
-    final SentenceSeg ss = new SentenceSeg(text);
-    final List<Sentence> sens = ss.getSens();
-    final List<String> list = new ArrayList<>();
+    SentenceSeg ss = new SentenceSeg(text);
+    List<Sentence> sens = ss.getSens();
+    List<String> list = new ArrayList<>();
 
     for (Sentence sen : sens) {
       String str = sen.getContent();

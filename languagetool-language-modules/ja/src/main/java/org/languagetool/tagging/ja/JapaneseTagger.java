@@ -30,7 +30,7 @@ public class JapaneseTagger implements Tagger {
 
   @Override
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) throws IOException {
-    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>(sentenceTokens.size());
+    List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>(sentenceTokens.size());
     int pos = 0;
 
     for (String word : sentenceTokens) {
@@ -43,7 +43,7 @@ public class JapaneseTagger implements Tagger {
   }
 
   @Override
-  public final AnalyzedTokenReadings createNullToken(final String token, final int startPos) {
+  public final AnalyzedTokenReadings createNullToken(String token, int startPos) {
     return new AnalyzedTokenReadings(new AnalyzedToken(token, null, null), startPos);
   }
 
@@ -52,7 +52,7 @@ public class JapaneseTagger implements Tagger {
     return new AnalyzedToken(token, posTag, null);
   }
 
-  private AnalyzedToken asAnalyzedToken(final String word) {
+  private AnalyzedToken asAnalyzedToken(String word) {
     String[] parts = word.split(" ");
     if (parts.length != 3) {
       return new AnalyzedToken(" ", null, null);

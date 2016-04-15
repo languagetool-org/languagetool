@@ -71,7 +71,7 @@ public class PatternRule extends AbstractPatternRule {
     int cnt = 0;
     int loopCnt = 0;
     boolean tempUseList = false;
-    for (final PatternToken pToken : this.patternTokens) {
+    for (PatternToken pToken : this.patternTokens) {
       if (pToken.isPartOfPhrase()) {
         curName = pToken.getPhraseName();
         if (StringTools.isEmpty(prevName) || prevName.equals(curName)) {
@@ -100,16 +100,16 @@ public class PatternRule extends AbstractPatternRule {
     inflectedRuleTokens = getSet(true);
   }
   
-  public PatternRule(final String id, final Language language,
-      final List<PatternToken> patternTokens, final String description,
-      final String message, final String shortMessage) {
+  public PatternRule(String id, Language language,
+      List<PatternToken> patternTokens, String description,
+      String message, String shortMessage) {
     this(id, language, patternTokens, description, message, shortMessage, "");
   }
 
-  public PatternRule(final String id, final Language language,
-      final List<PatternToken> patternTokens, final String description,
-      final String message, final String shortMessage, final String suggestionsOutMsg,
-      final boolean isMember) {
+  public PatternRule(String id, Language language,
+      List<PatternToken> patternTokens, String description,
+      String message, String shortMessage, String suggestionsOutMsg,
+      boolean isMember) {
     this(id, language, patternTokens, description, message, shortMessage, suggestionsOutMsg);
     this.isMemberOfDisjunctiveSet = isMember;
   }
@@ -133,7 +133,7 @@ public class PatternRule extends AbstractPatternRule {
    * @since 0.9.2
    */
   public final String toPatternString() {
-    final List<String> strList = new ArrayList<>();
+    List<String> strList = new ArrayList<>();
     for (PatternToken patternPatternToken : patternTokens) {
       strList.add(patternPatternToken.toString());
     }
@@ -149,7 +149,7 @@ public class PatternRule extends AbstractPatternRule {
   }
 
   @Override
-  public final RuleMatch[] match(final AnalyzedSentence sentence) throws IOException {
+  public final RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     try {
       RuleMatcher matcher;
       if (patternTokens != null) {

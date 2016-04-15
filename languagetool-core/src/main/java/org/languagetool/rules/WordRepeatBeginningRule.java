@@ -37,7 +37,7 @@ public class WordRepeatBeginningRule extends Rule {
   private String lastToken = "";
   private String beforeLastToken = "";
   
-  public WordRepeatBeginningRule(final ResourceBundle messages, final Language language) {
+  public WordRepeatBeginningRule(ResourceBundle messages, Language language) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
@@ -63,17 +63,17 @@ public class WordRepeatBeginningRule extends Rule {
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+  public RuleMatch[] match(AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     
     if (tokens.length > 3) {
-      final AnalyzedTokenReadings analyzedToken = tokens[1];
-      final String token = analyzedToken.getToken();
+      AnalyzedTokenReadings analyzedToken = tokens[1];
+      String token = analyzedToken.getToken();
       // avoid "..." etc. to be matched:
       boolean isWord = true;
       if (token.length() == 1) {
-        final char c = token.charAt(0);
+        char c = token.charAt(0);
         if (!Character.isLetter(c)) {
           isWord = false;
         }
@@ -81,7 +81,7 @@ public class WordRepeatBeginningRule extends Rule {
       
       if (isWord && lastToken.equals(token)
           && !isException(token) && !isException(tokens[2].getToken()) && !isException(tokens[3].getToken())) {
-        final String shortMsg;
+        String shortMsg;
         if (isAdverb(analyzedToken)) {
           shortMsg = messages.getString("desc_repetition_beginning_adv");
         } else if (beforeLastToken.equals(token)) {
@@ -91,10 +91,10 @@ public class WordRepeatBeginningRule extends Rule {
         }
           
         if (!shortMsg.isEmpty()) {
-          final String msg = shortMsg + " " + messages.getString("desc_repetition_beginning_thesaurus");
-          final int startPos = analyzedToken.getStartPos();
-          final int endPos = startPos + token.length();
-          final RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, msg, shortMsg);
+          String msg = shortMsg + " " + messages.getString("desc_repetition_beginning_thesaurus");
+          int startPos = analyzedToken.getStartPos();
+          int endPos = startPos + token.length();
+          RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, msg, shortMsg);
           ruleMatches.add(ruleMatch);
         }
       }

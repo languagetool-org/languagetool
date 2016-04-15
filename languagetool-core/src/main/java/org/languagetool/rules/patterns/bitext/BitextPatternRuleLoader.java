@@ -34,13 +34,12 @@ import java.util.List;
  */
 public class BitextPatternRuleLoader extends DefaultHandler {
 
-  public final List<BitextPatternRule> getRules(final InputStream is,
-      final String filename) throws IOException {
-    final List<BitextPatternRule> rules;
+  public final List<BitextPatternRule> getRules(InputStream is, String filename) throws IOException {
+    List<BitextPatternRule> rules;
     try {
-      final BitextPatternRuleHandler handler = new BitextPatternRuleHandler();
-      final SAXParserFactory factory = SAXParserFactory.newInstance();
-      final SAXParser saxParser = factory.newSAXParser();
+      BitextPatternRuleHandler handler = new BitextPatternRuleHandler();
+      SAXParserFactory factory = SAXParserFactory.newInstance();
+      SAXParser saxParser = factory.newSAXParser();
       saxParser.getXMLReader().setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
       saxParser.parse(is, handler);
       rules = handler.getBitextRules();

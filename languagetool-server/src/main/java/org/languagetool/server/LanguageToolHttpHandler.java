@@ -165,16 +165,16 @@ class LanguageToolHttpHandler implements HttpHandler {
     String text = null;
     String remoteAddress = null;
     try {
-      final URI requestedUri = httpExchange.getRequestURI();
-      final String origAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
-      final String realAddressOrNull = getRealRemoteAddressOrNull(httpExchange);
+      URI requestedUri = httpExchange.getRequestURI();
+      String origAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
+      String realAddressOrNull = getRealRemoteAddressOrNull(httpExchange);
       remoteAddress = realAddressOrNull != null ? realAddressOrNull : origAddress;
       // According to the Javadoc, "Closing an exchange without consuming all of the request body is
       // not an error but may make the underlying TCP connection unusable for following exchanges.",
       // so we consume the request now, even before checking for request limits:
-      final Map<String, String> parameters = getRequestQuery(httpExchange, requestedUri);
+      Map<String, String> parameters = getRequestQuery(httpExchange, requestedUri);
       if (requestLimiter != null && !requestLimiter.isAccessOkay(remoteAddress)) {
-        final String errorMessage = "Error: Access from " + remoteAddress +
+        String errorMessage = "Error: Access from " + remoteAddress +
                 " (useragent: " + parameters.get("useragent") + ") denied - too many requests." +
                 " Allowed maximum requests: " + requestLimiter.getRequestLimit() +
                 " requests per " + requestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
@@ -209,7 +209,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           checkText(text, httpExchange, parameters);
         }
       } else {
-        final String errorMessage = "Error: Access from " + StringTools.escapeXML(origAddress) + " denied";
+        String errorMessage = "Error: Access from " + StringTools.escapeXML(origAddress) + " denied";
         sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
         throw new RuntimeException(errorMessage);
       }
@@ -313,13 +313,14 @@ class LanguageToolHttpHandler implements HttpHandler {
       httpExchange.sendResponseHeaders(httpReturnCode, xmlResponse.getBytes(ENCODING).length);
       httpExchange.getResponseBody().write(xmlResponse.getBytes(ENCODING));
     } else {
+      setAllowOrigin(httpExchange);
       httpExchange.sendResponseHeaders(httpReturnCode, response.getBytes(ENCODING).length);
       httpExchange.getResponseBody().write(response.getBytes(ENCODING));
     }
   }
 
   private Map<String, String> getRequestQuery(HttpExchange httpExchange, URI requestedUri) throws IOException {
-    final String query;
+    String query;
     if ("post".equalsIgnoreCase(httpExchange.getRequestMethod())) {
       try (InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), ENCODING)) {
         query = readerToString(isr, maxTextLength);
@@ -330,10 +331,10 @@ class LanguageToolHttpHandler implements HttpHandler {
     return parseQuery(query);
   }
 
-  private String readerToString(final Reader reader, int maxTextLength) throws IOException {
-    final StringBuilder sb = new StringBuilder();
+  private String readerToString(Reader reader, int maxTextLength) throws IOException {
+    StringBuilder sb = new StringBuilder();
     int readBytes = 0;
-    final char[] chars = new char[4000];
+    char[] chars = new char[4000];
     while (readBytes >= 0) {
       readBytes = reader.read(chars, 0, 4000);
       if (readBytes <= 0) {
@@ -355,19 +356,23 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   private void printListOfLanguages(HttpExchange httpExchange) throws IOException {
     setCommonHeaders(httpExchange);
-    final String response = getSupportedLanguagesAsXML();
+    String response = getSupportedLanguagesAsXML();
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
   }
 
   private void setCommonHeaders(HttpExchange httpExchange) {
     httpExchange.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
+    setAllowOrigin(httpExchange);
+  }
+
+  private void setAllowOrigin(HttpExchange httpExchange) {
     if (allowOriginUrl != null) {
       httpExchange.getResponseHeaders().set("Access-Control-Allow-Origin", allowOriginUrl);
     }
   }
 
-  private Language detectLanguageOfString(final String text, final String fallbackLanguage) {
+  private Language detectLanguageOfString(String text, String fallbackLanguage) {
     Language lang = identifier.detectLanguage(text);
     if (lang == null) {
       lang = Languages.getLanguageForShortName(fallbackLanguage != null ? fallbackLanguage : "en");
@@ -378,37 +383,37 @@ class LanguageToolHttpHandler implements HttpHandler {
     return lang;
   }
 
-  private void checkText(final String text, final HttpExchange httpExchange, final Map<String, String> parameters) throws Exception {
-    final long timeStart = System.currentTimeMillis();
+  private void checkText(String text, HttpExchange httpExchange, Map<String, String> parameters) throws Exception {
+    long timeStart = System.currentTimeMillis();
     if (text.length() > maxTextLength) {
       throw new TextTooLongException("Your text exceeds this server's limit of " + maxTextLength +
               " characters (it's " + text.length() + " characters). Please submit a shorter text.");
     }
     //print("Check start: " + text.length() + " chars, " + langParam);
-    final boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
-    final Language lang = getLanguage(text, parameters.get("language"), autoDetectLanguage);
-    final String motherTongueParam = parameters.get("motherTongue");
-    final Language motherTongue = motherTongueParam != null ? Languages.getLanguageForShortName(motherTongueParam) : null;
-    final boolean useEnabledOnly = "yes".equals(parameters.get("enabledOnly"));
-    final String enabledParam = parameters.get("enabled");
-    final List<String> enabledRules = new ArrayList<>();
+    boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
+    Language lang = getLanguage(text, parameters.get("language"), autoDetectLanguage);
+    String motherTongueParam = parameters.get("motherTongue");
+    Language motherTongue = motherTongueParam != null ? Languages.getLanguageForShortName(motherTongueParam) : null;
+    boolean useEnabledOnly = "yes".equals(parameters.get("enabledOnly"));
+    String enabledParam = parameters.get("enabled");
+    List<String> enabledRules = new ArrayList<>();
     if (enabledParam != null) {
       enabledRules.addAll(Arrays.asList(enabledParam.split(",")));
     }
 
-    final List<String> disabledRules = getCommaSeparatedStrings("disabled", parameters);
-    final List<CategoryId> enabledCategories = getCategoryIds("enabledCategories", parameters);
-    final List<CategoryId> disabledCategories = getCategoryIds("disabledCategories", parameters);
+    List<String> disabledRules = getCommaSeparatedStrings("disabled", parameters);
+    List<CategoryId> enabledCategories = getCategoryIds("enabledCategories", parameters);
+    List<CategoryId> disabledCategories = getCategoryIds("disabledCategories", parameters);
 
     if ((disabledRules.size() > 0 || disabledCategories.size() > 0) && useEnabledOnly) {
       throw new IllegalArgumentException("You cannot specify disabled rules or categories using enabledOnly=yes");
     }
     
-    final boolean useQuerySettings = enabledRules.size() > 0 || disabledRules.size() > 0 ||
+    boolean useQuerySettings = enabledRules.size() > 0 || disabledRules.size() > 0 ||
                                      enabledCategories.size() > 0 || disabledCategories.size() > 0;
-    final QueryParams params = new QueryParams(enabledRules, disabledRules, enabledCategories, disabledCategories, useEnabledOnly, useQuerySettings);
+    QueryParams params = new QueryParams(enabledRules, disabledRules, enabledCategories, disabledCategories, useEnabledOnly, useQuerySettings);
     
-    final Future<List<RuleMatch>> future = executorService.submit(new Callable<List<RuleMatch>>() {
+    Future<List<RuleMatch>> future = executorService.submit(new Callable<List<RuleMatch>>() {
       @Override
       public List<RuleMatch> call() throws Exception {
         // use to fake OOM in thread for testing:
@@ -418,7 +423,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         return getRuleMatches(text, parameters, lang, motherTongue, params);
       }
     });
-    final List<RuleMatch> matches;
+    List<RuleMatch> matches;
     if (maxCheckTimeMillis < 0) {
       matches = future.get();
     } else {
@@ -443,12 +448,15 @@ class LanguageToolHttpHandler implements HttpHandler {
     String xmlResponse = getXmlResponse(text, lang, motherTongue, matches);
     String messageSent = "sent";
     String languageMessage = lang.getShortNameWithCountryAndVariant();
-    final String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
+    String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
     try {
       httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, xmlResponse.getBytes(ENCODING).length);
       httpExchange.getResponseBody().write(xmlResponse.getBytes(ENCODING));
       if (motherTongue != null) {
         languageMessage += " (mother tongue: " + motherTongue.getShortNameWithCountryAndVariant() + ")";
+      }
+      if (autoDetectLanguage) {
+        languageMessage += "[auto]";
       }
     } catch (IOException exception) {
       // the client is disconnected
@@ -463,8 +471,8 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   @NotNull
   private List<String> getCommaSeparatedStrings(String paramName, Map<String, String> parameters) {
-    final String disabledParam = parameters.get(paramName);
-    final List<String> result = new ArrayList<>();
+    String disabledParam = parameters.get(paramName);
+    List<String> result = new ArrayList<>();
     if (disabledParam != null) {
       result.addAll(Arrays.asList(disabledParam.split(",")));
     }
@@ -474,7 +482,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   @NotNull
   private List<CategoryId> getCategoryIds(String paramName, Map<String, String> parameters) {
     List<String> stringIds = getCommaSeparatedStrings(paramName, parameters);
-    final List<CategoryId> ids = new ArrayList<>();
+    List<CategoryId> ids = new ArrayList<>();
     for (String stringId : stringIds) {
       ids.add(new CategoryId(stringId));
     }
@@ -485,19 +493,18 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (afterTheDeadlineMode) {
       return "true".equals(parameters.get("guess"));
     } else {
-      boolean autoDetect = "1".equals(parameters.get("autodetect"));
+      boolean autoDetect = "1".equals(parameters.get("autodetect")) || "yes".equals(parameters.get("autodetect"));
       if (parameters.get("language") == null && !autoDetect) {
-        throw new IllegalArgumentException("Missing 'language' parameter. Specify language or use autodetect=1 for auto-detecting the language of the input text.");
+        throw new IllegalArgumentException("Missing 'language' parameter. Specify language or use 'autodetect=yes' for auto-detecting the language of the input text.");
       }
       return autoDetect;
     }
   }
 
   private Language getLanguage(String text, String langParam, boolean autoDetect) {
-    final Language lang;
+    Language lang;
     if (autoDetect) {
       lang = detectLanguageOfString(text, langParam);
-      print("Auto-detected language: " + lang.getShortNameWithCountryAndVariant());
     } else {
       if (afterTheDeadlineMode) {
         lang = afterTheDeadlineLanguage;
@@ -510,9 +517,9 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   private List<RuleMatch> getRuleMatches(String text, Map<String, String> parameters, Language lang,
                                          Language motherTongue, QueryParams params) throws Exception {
-    final String sourceText = parameters.get("srctext");
+    String sourceText = parameters.get("srctext");
     if (sourceText == null) {
-      final JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params);
+      JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params);
       return lt.check(text);
     } else {
       if (parameters.get("motherTongue") == null) {
@@ -521,9 +528,9 @@ class LanguageToolHttpHandler implements HttpHandler {
       print("Checking bilingual text, with source length " + sourceText.length() +
           " and target length " + text.length() + " (characters), source language " +
           motherTongue + " and target language " + lang.getShortNameWithCountryAndVariant());
-      final JLanguageTool sourceLt = getLanguageToolInstance(motherTongue, null, params);
-      final JLanguageTool targetLt = getLanguageToolInstance(lang, null, params);
-      final List<BitextRule> bRules = Tools.selectBitextRules(Tools.getBitextRules(motherTongue, lang),
+      JLanguageTool sourceLt = getLanguageToolInstance(motherTongue, null, params);
+      JLanguageTool targetLt = getLanguageToolInstance(lang, null, params);
+      List<BitextRule> bRules = Tools.selectBitextRules(Tools.getBitextRules(motherTongue, lang),
           params.disabledRules, params.enabledRules, params.useEnabledOnly);
       return Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
     }
@@ -540,23 +547,23 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private Map<String, String> parseQuery(String query) throws UnsupportedEncodingException {
-    final Map<String, String> parameters = new HashMap<>();
+    Map<String, String> parameters = new HashMap<>();
     if (query != null) {
-      final String[] pairs = query.split("[&]");
-      final Map<String, String> parameterMap = getParameterMap(pairs);
+      String[] pairs = query.split("[&]");
+      Map<String, String> parameterMap = getParameterMap(pairs);
       parameters.putAll(parameterMap);
     }
     return parameters;
   }
 
   private Map<String, String> getParameterMap(String[] pairs) throws UnsupportedEncodingException {
-    final Map<String, String> parameters = new HashMap<>();
+    Map<String, String> parameters = new HashMap<>();
     for (String pair : pairs) {
-      final int delimPos = pair.indexOf('=');
+      int delimPos = pair.indexOf('=');
       if (delimPos != -1) {
-        final String param = pair.substring(0, delimPos);
-        final String key = URLDecoder.decode(param, ENCODING);
-        final String value = URLDecoder.decode(pair.substring(delimPos + 1), ENCODING);
+        String param = pair.substring(0, delimPos);
+        String key = URLDecoder.decode(param, ENCODING);
+        String value = URLDecoder.decode(pair.substring(delimPos + 1), ENCODING);
         parameters.put(key, value);
       }
     }
@@ -568,8 +575,8 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private static void print(String s, PrintStream outputStream) {
-    final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    final String now = dateFormat.format(new Date());
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    String now = dateFormat.format(new Date());
     outputStream.println(now + " " + s);
   }
 
@@ -580,7 +587,7 @@ class LanguageToolHttpHandler implements HttpHandler {
    * @param motherTongue the user's mother tongue or {@code null}
    */
   private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue, QueryParams params) throws Exception {
-    final JLanguageTool lt = new JLanguageTool(lang, motherTongue);
+    JLanguageTool lt = new JLanguageTool(lang, motherTongue);
     if (languageModelDir != null) {
       lt.activateLanguageModelRules(languageModelDir);
     }
@@ -623,9 +630,9 @@ class LanguageToolHttpHandler implements HttpHandler {
    * @return an XML document listing all supported languages
    */
   public static String getSupportedLanguagesAsXML() {
-    final List<Language> languages = new ArrayList<>(Languages.get());
+    List<Language> languages = new ArrayList<>(Languages.get());
     Collections.sort(languages, (o1, o2) -> o1.getName().compareTo(o2.getName()));
-    final StringBuilder xmlBuffer = new StringBuilder("<?xml version='1.0' encoding='" + ENCODING + "'?>\n<languages>\n");
+    StringBuilder xmlBuffer = new StringBuilder("<?xml version='1.0' encoding='" + ENCODING + "'?>\n<languages>\n");
     for (Language lang : languages) {
       xmlBuffer.append(String.format("\t<language name=\"%s\" abbr=\"%s\" abbrWithVariant=\"%s\"/> \n", lang.getName(),
               lang.getShortName(), lang.getShortNameWithCountryAndVariant()));

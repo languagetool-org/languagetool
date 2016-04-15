@@ -19,6 +19,7 @@
 package org.languagetool.rules.ca;
 
 import org.languagetool.rules.AbstractSimpleReplaceRule;
+import org.languagetool.rules.Categories;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.ITSIssueType;
 
@@ -49,7 +50,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   
   public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
     super(messages);
-    super.setCategory(new Category("Errors ortogràfics"));
+    super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
     this.setIgnoreTaggedWords();
   }  

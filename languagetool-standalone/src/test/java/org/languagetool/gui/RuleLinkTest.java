@@ -27,25 +27,25 @@ import org.languagetool.rules.WordRepeatRule;
 public class RuleLinkTest extends TestCase {
 
   public void testBuildDeactivationLink() {
-    final Language language = new English();
-    final RuleLink ruleLink = RuleLink.buildDeactivationLink(new WordRepeatRule(TestTools.getMessages(language.getShortName()), language));
+    Language language = new English();
+    RuleLink ruleLink = RuleLink.buildDeactivationLink(new WordRepeatRule(TestTools.getMessages(language.getShortName()), language));
     assertEquals("WORD_REPEAT_RULE", ruleLink.getId());
     assertEquals("http://languagetool.org/deactivate/WORD_REPEAT_RULE", ruleLink.toString());
   }
 
   public void testBuildReactivationLink() {
-    final Language language = new English();
-    final RuleLink ruleLink = RuleLink.buildReactivationLink(new WordRepeatRule(TestTools.getMessages(language.getShortName()), language));
+    Language language = new English();
+    RuleLink ruleLink = RuleLink.buildReactivationLink(new WordRepeatRule(TestTools.getMessages(language.getShortName()), language));
     assertEquals("WORD_REPEAT_RULE", ruleLink.getId());
     assertEquals("http://languagetool.org/reactivate/WORD_REPEAT_RULE", ruleLink.toString());
   }
 
   public void testGetFromString() {
-    final RuleLink ruleLink1 = RuleLink.getFromString("http://languagetool.org/reactivate/FOO_BAR_ID");
+    RuleLink ruleLink1 = RuleLink.getFromString("http://languagetool.org/reactivate/FOO_BAR_ID");
     assertEquals("FOO_BAR_ID", ruleLink1.getId());
     assertEquals("http://languagetool.org/reactivate/FOO_BAR_ID", ruleLink1.toString());
 
-    final RuleLink ruleLink2 = RuleLink.getFromString("http://languagetool.org/deactivate/FOO_BAR_ID2");
+    RuleLink ruleLink2 = RuleLink.getFromString("http://languagetool.org/deactivate/FOO_BAR_ID2");
     assertEquals("FOO_BAR_ID2", ruleLink2.getId());
     assertEquals("http://languagetool.org/deactivate/FOO_BAR_ID2", ruleLink2.toString());
   }

@@ -27,5 +27,5 @@ import java.util.EventListener;
  */
 interface LanguageToolListener extends EventListener {
 
-  public void languageToolEventOccurred(LanguageToolEvent event);
+  void languageToolEventOccurred(LanguageToolEvent event);
 }

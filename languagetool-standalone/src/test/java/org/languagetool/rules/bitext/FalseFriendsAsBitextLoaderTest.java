@@ -37,14 +37,14 @@ import java.util.List;
 public class FalseFriendsAsBitextLoaderTest extends TestCase {
 
   public void testHintsForPolishTranslators() throws IOException, ParserConfigurationException, SAXException {
-    final Polish polish = new Polish();
-    final English english = new English();
-    final JLanguageTool langTool = new JLanguageTool(english, polish);
-    final JLanguageTool trgTool = new JLanguageTool(polish);
+    Polish polish = new Polish();
+    English english = new English();
+    JLanguageTool langTool = new JLanguageTool(english, polish);
+    JLanguageTool trgTool = new JLanguageTool(polish);
     
-    final FalseFriendsAsBitextLoader ruleLoader = new FalseFriendsAsBitextLoader();
-    final String name = "/false-friends.xml";
-    final List<BitextPatternRule> rules = ruleLoader.
+    FalseFriendsAsBitextLoader ruleLoader = new FalseFriendsAsBitextLoader();
+    String name = "/false-friends.xml";
+    List<BitextPatternRule> rules = ruleLoader.
     getFalseFriendsAsBitext(name, english, polish);
     
     assertErrors(1, rules, "This is an absurd.", "To absurd.", langTool, trgTool);       
@@ -53,12 +53,12 @@ public class FalseFriendsAsBitextLoaderTest extends TestCase {
     assertErrors(0, rules, "This is not actual.", "To nie jest rzeczywiste.", langTool, trgTool);
   }
   
-  private List<RuleMatch> check(final List<BitextPatternRule> bRules, 
-      final String src, final String trg, 
-      final JLanguageTool srcTool, final JLanguageTool trgTool) throws IOException {
-    final List<RuleMatch> allMatches = new ArrayList<>();
+  private List<RuleMatch> check(List<BitextPatternRule> bRules, 
+      String src, String trg, 
+      JLanguageTool srcTool, JLanguageTool trgTool) throws IOException {
+    List<RuleMatch> allMatches = new ArrayList<>();
     for (BitextPatternRule bRule : bRules) {
-     final RuleMatch[] matches = match(bRule, src, trg, srcTool, trgTool);
+     RuleMatch[] matches = match(bRule, src, trg, srcTool, trgTool);
      if (matches != null) {
        Collections.addAll(allMatches, matches);
      }
@@ -66,18 +66,18 @@ public class FalseFriendsAsBitextLoaderTest extends TestCase {
     return allMatches;
   }
   
-  private RuleMatch[] match(final BitextPatternRule rule, final String src, final String trg,
-      final JLanguageTool srcLanguageTool,
-      final JLanguageTool trgLanguageTool) throws IOException {
-    final AnalyzedSentence srcText = srcLanguageTool.getAnalyzedSentence(src);
-    final AnalyzedSentence trgText = trgLanguageTool.getAnalyzedSentence(trg);
+  private RuleMatch[] match(BitextPatternRule rule, String src, String trg,
+      JLanguageTool srcLanguageTool,
+      JLanguageTool trgLanguageTool) throws IOException {
+    AnalyzedSentence srcText = srcLanguageTool.getAnalyzedSentence(src);
+    AnalyzedSentence trgText = trgLanguageTool.getAnalyzedSentence(trg);
     return rule.match(srcText, trgText);    
   }
   
   private void assertErrors(int errorCount, 
-      final List<BitextPatternRule> rules, 
-      final String src, final String trg, JLanguageTool srcTool, JLanguageTool trgTool) throws IOException {
-    final List<RuleMatch> matches = check(rules, src, trg, srcTool, trgTool);
+      List<BitextPatternRule> rules, 
+      String src, String trg, JLanguageTool srcTool, JLanguageTool trgTool) throws IOException {
+    List<RuleMatch> matches = check(rules, src, trg, srcTool, trgTool);
     assertEquals(errorCount, matches.size());
   }   
 }

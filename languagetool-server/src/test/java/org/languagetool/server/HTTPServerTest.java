@@ -44,7 +44,7 @@ public class HTTPServerTest {
   @Ignore("already gets tested by sub class HTTPServerLoadTest")
   @Test
   public void testHTTPServer() throws Exception {
-    final HTTPServer server = new HTTPServer();
+    HTTPServer server = new HTTPServer();
     assertFalse(server.isRunning());
     try {
       server.run();
@@ -58,22 +58,22 @@ public class HTTPServerTest {
 
   void runTests() throws IOException, SAXException, ParserConfigurationException {
     // no error:
-    final String matchAttr = "software=\"LanguageTool\" version=\"[1-9].*?\" buildDate=\".*?\"";
-    final String emptyResultPattern = "<\\?xml version=\"1.0\" encoding=\"UTF-8\"\\?>\n<matches " + matchAttr + ">\n(<!--.*?-->\n)?<language shortname=\"de\" name=\"German\"/>\n</matches>\n";
-    final German german = new German();
-    final String result1 = check(german, "");
+    String matchAttr = "software=\"LanguageTool\" version=\"[1-9].*?\" buildDate=\".*?\"";
+    String emptyResultPattern = "<\\?xml version=\"1.0\" encoding=\"UTF-8\"\\?>\n<matches " + matchAttr + ">\n(<!--.*?-->\n)?<language shortname=\"de\" name=\"German\"/>\n</matches>\n";
+    German german = new German();
+    String result1 = check(german, "");
     assertTrue("Got " + result1 + ", expected " + emptyResultPattern, result1.matches(emptyResultPattern));
-    final String result2 = check(german, "Ein kleiner test");
+    String result2 = check(german, "Ein kleiner test");
     assertTrue("Got " + result2 + ", expected " + emptyResultPattern, result2.matches(emptyResultPattern));
     // one error:
     assertTrue(check(german, "ein kleiner test.").contains("UPPERCASE_SENTENCE_START"));
     // two errors:
-    final String result = check(german, "ein kleiner test. Und wieder Erwarten noch was: \u00f6\u00e4\u00fc\u00df.");
+    String result = check(german, "ein kleiner test. Und wieder Erwarten noch was: \u00f6\u00e4\u00fc\u00df.");
     assertTrue("Got result without 'UPPERCASE_SENTENCE_START': " + result, result.contains("UPPERCASE_SENTENCE_START"));
     assertTrue("Got result without 'WIEDER_WILLEN': " + result, result.contains("WIEDER_WILLEN"));
     assertTrue("Expected special chars, got: '" + result + "'",
             result.contains("\u00f6\u00e4\u00fc\u00df"));   // special chars are intact
-    final XMLValidator validator = new XMLValidator();
+    XMLValidator validator = new XMLValidator();
     validator.validateXMLString(result, JLanguageTool.getDataBroker().getResourceDir() + "/api-output.dtd", "matches");
     validator.checkSimpleXMLString(result);
     //System.err.println(result);
@@ -82,18 +82,18 @@ public class HTTPServerTest {
     assertTrue(!check(german, "bla <script>").contains("<script>"));
 
     // other tests for special characters
-    final String germanSpecialChars = check(german, "ein kleiner test. Und wieder Erwarten noch was: öäüß+ öäüß.");
+    String germanSpecialChars = check(german, "ein kleiner test. Und wieder Erwarten noch was: öäüß+ öäüß.");
     assertTrue("Expected special chars, got: '" + germanSpecialChars + "'", germanSpecialChars.contains("öäüß+"));
-    final String romanianSpecialChars = check(new Romanian(), "bla bla șțîâă șțîâă și câteva caractere speciale");
+    String romanianSpecialChars = check(new Romanian(), "bla bla șțîâă șțîâă și câteva caractere speciale");
     assertTrue("Expected special chars, got: '" + romanianSpecialChars + "'", romanianSpecialChars.contains("șțîâă"));
-    final Polish polish = new Polish();
-    final String polishSpecialChars = check(polish, "Mówiła długo, żeby tylko mówić mówić długo.");
+    Polish polish = new Polish();
+    String polishSpecialChars = check(polish, "Mówiła długo, żeby tylko mówić mówić długo.");
     assertTrue("Expected special chars, got: '" + polishSpecialChars+ "'", polishSpecialChars.contains("mówić"));
     // test http POST
     assertTrue(checkByPOST(new Romanian(), "greșit greșit").contains("greșit"));
     // test supported language listing
-    final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/Languages");
-    final String languagesXML = StringTools.streamToString((InputStream) url.getContent(), "UTF-8");
+    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/Languages");
+    String languagesXML = StringTools.streamToString((InputStream) url.getContent(), "UTF-8");
     if (!languagesXML.contains("Romanian") || !languagesXML.contains("English")) {
       fail("Error getting supported languages: " + languagesXML);
     }
@@ -101,7 +101,7 @@ public class HTTPServerTest {
       fail("Error getting supported languages: " + languagesXML);
     }
     // tests for "&" character
-    final English english = new English();
+    English english = new English();
     assertTrue(check(english, "Me & you you").contains("&"));
     // tests for mother tongue (copy from link {@link FalseFriendRuleTest})   
     assertTrue(check(english, german, "We will berate you").contains("BERATE"));
@@ -113,12 +113,12 @@ public class HTTPServerTest {
     assertTrue(!bitextCheck(polish, english, "This is something else.", "To jest frywolne.").contains("FRIVOLOUS"));
     
     //test for no changed if no options set
-    final String[] nothing = {};
+    String[] nothing = {};
     assertEquals(check(english, german, "We will berate you"), 
         checkWithOptions(english, german, "We will berate you", nothing, nothing, false));
     
     //disabling
-    final String[] disableAvsAn = {"EN_A_VS_AN"};
+    String[] disableAvsAn = {"EN_A_VS_AN"};
     assertTrue(!checkWithOptions(
             english, german, "This is an test", nothing, disableAvsAn, false).contains("an test"));
 
@@ -134,7 +134,7 @@ public class HTTPServerTest {
     
     
     //test if two rules get enabled as well
-    final String[] twoRules = {"EN_A_VS_AN", "BERATE"};
+    String[] twoRules = {"EN_A_VS_AN", "BERATE"};
     
     String resultEn = checkWithOptions(
             english, german, "This is an test. We will berate you.", twoRules, nothing, false);
@@ -158,7 +158,7 @@ public class HTTPServerTest {
     assertTrue("Result: " + result5, result5.contains("TRANSLATION_LENGTH"));
     assertFalse("Result: " + result5, result5.contains("\"-2\""));
 
-    final String[] disableTranslationLen = {"TRANSLATION_LENGTH"};
+    String[] disableTranslationLen = {"TRANSLATION_LENGTH"};
     String result6 = bitextCheckDisabled(polish, english, "a", "This is a very long text. Really!", disableTranslationLen);
     assertFalse("Result: " + result6, result6.contains("TRANSLATION_LENGTH"));
   }
@@ -167,7 +167,7 @@ public class HTTPServerTest {
   public void testTimeout() throws Exception {
     HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort(), false);
     config.setMaxCheckTimeMillis(1);
-    final HTTPServer server = new HTTPServer(config, false);
+    HTTPServer server = new HTTPServer(config, false);
     try {
       server.run();
       try {
@@ -186,7 +186,7 @@ public class HTTPServerTest {
 
   @Test
   public void testAccessDenied() throws Exception {
-    final HTTPServer server = new HTTPServer(new HTTPServerConfig(HTTPTools.getDefaultPort()), false, new HashSet<String>());
+    HTTPServer server = new HTTPServer(new HTTPServerConfig(HTTPTools.getDefaultPort()), false, new HashSet<String>());
     try {
       server.run();
       try {
@@ -205,12 +205,12 @@ public class HTTPServerTest {
   
   @Test
   public void testEnabledOnlyParameter() throws Exception {
-    final HTTPServer server = new HTTPServer(new HTTPServerConfig(HTTPTools.getDefaultPort()), false);
+    HTTPServer server = new HTTPServer(new HTTPServerConfig(HTTPTools.getDefaultPort()), false);
     try {
       server.run();
       try {
         System.out.println("=== Testing 'enabledOnly parameter' now, please ignore the following exception ===");
-        final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/?text=foo&language=en-US&disabled=EN_A_VS_AN&enabledOnly=yes");
+        URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/?text=foo&language=en-US&disabled=EN_A_VS_AN&enabledOnly=yes");
         HTTPTools.checkAtUrl(url);
         fail();
       } catch (IOException expected) {
@@ -225,12 +225,12 @@ public class HTTPServerTest {
 
   @Test
   public void testMissingLanguageParameter() throws Exception {
-    final HTTPServer server = new HTTPServer(new HTTPServerConfig(HTTPTools.getDefaultPort()), false);
+    HTTPServer server = new HTTPServer(new HTTPServerConfig(HTTPTools.getDefaultPort()), false);
     try {
       server.run();
       try {
         System.out.println("=== Testing 'missing language parameter' now, please ignore the following exception ===");
-        final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/?text=foo");
+        URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/?text=foo");
         HTTPTools.checkAtUrl(url);
         fail();
       } catch (IOException expected) {
@@ -250,7 +250,7 @@ public class HTTPServerTest {
     if (motherTongue != null) {
       urlOptions += "&motherTongue=" + motherTongue.getShortName();
     }
-    final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
+    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);
   }
 
@@ -264,7 +264,7 @@ public class HTTPServerTest {
     if (disabled.length > 0) {
       urlOptions += "&disabled=" + StringUtils.join(disabled, ",");
     }
-    final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
+    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);
   }
 
@@ -278,7 +278,7 @@ public class HTTPServerTest {
     if (motherTongue != null) {
       urlOptions += "&motherTongue=" + motherTongue.getShortName();
     }
-    final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
+    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);
   }
 
@@ -298,7 +298,7 @@ public class HTTPServerTest {
     if (useEnabledOnly) {
       urlOptions += "&enabledOnly=yes";
     }
-    final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
+    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);
   }
   
@@ -306,8 +306,8 @@ public class HTTPServerTest {
    * Same as {@link #check(Language, String)} but using HTTP POST method instead of GET
    */
   protected String checkByPOST(Language lang, String text) throws IOException {
-    final String postData = "language=" + lang.getShortName() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like Polish, Romanian, etc
-    final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort());
+    String postData = "language=" + lang.getShortName() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like Polish, Romanian, etc
+    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort());
     try {
       return HTTPTools.checkAtUrlByPost(url, postData);
     } catch (IOException e) {

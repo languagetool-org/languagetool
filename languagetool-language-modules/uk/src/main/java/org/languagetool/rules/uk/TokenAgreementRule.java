@@ -68,7 +68,7 @@ public class TokenAgreementRule extends Rule {
       "ім'я", "прізвище"
       ));
 
-  public TokenAgreementRule(final ResourceBundle messages) throws IOException {
+  public TokenAgreementRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
   }
 
@@ -94,7 +94,7 @@ public class TokenAgreementRule extends Rule {
   }
 
   @Override
-  public final RuleMatch[] match(final AnalyzedSentence text) {
+  public final RuleMatch[] match(AnalyzedSentence text) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();    
     boolean insideMultiword = false;
@@ -431,8 +431,8 @@ public class TokenAgreementRule extends Rule {
 
     List<String> suggestions = new ArrayList<>();
     
-    final String requiredPostTagsRegEx = ":(" + StringUtils.join(posTagsToFind,"|") + ")";
-    for(AnalyzedToken analyzedToken: tokenReadings.getReadings()) {
+    String requiredPostTagsRegEx = ":(" + StringUtils.join(posTagsToFind,"|") + ")";
+    for (AnalyzedToken analyzedToken: tokenReadings.getReadings()) {
     
       String oldPosTag = analyzedToken.getPOSTag();
       

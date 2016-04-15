@@ -31,7 +31,7 @@ public class CompoundRule extends AbstractCompoundRule {
 
   private static final CompoundRuleData compoundData = new CompoundRuleData("/nl/compounds.txt");
 
-  public CompoundRule(final ResourceBundle messages) throws IOException {
+  public CompoundRule(ResourceBundle messages) throws IOException {
     super(messages,
             "Hier wordt een koppelteken verwacht.",
             "Dit woord hoort waarschijnlijk aaneengeschreven.",

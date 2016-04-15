@@ -65,11 +65,11 @@ public class HTTPSServer extends Server {
       } else {
         server = HttpsServer.create(new InetSocketAddress(host, port), 0);
       }
-      final SSLContext sslContext = getSslContext(config.getKeystore(), config.getKeyStorePassword());
-      final HttpsConfigurator configurator = getConfigurator(sslContext);
+      SSLContext sslContext = getSslContext(config.getKeystore(), config.getKeyStorePassword());
+      HttpsConfigurator configurator = getConfigurator(sslContext);
       ((HttpsServer)server).setHttpsConfigurator(configurator);
-      final RequestLimiter limiter = getRequestLimiterOrNull(config);
-      final LinkedBlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();
+      RequestLimiter limiter = getRequestLimiterOrNull(config);
+      LinkedBlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();
       httpHandler = new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally, limiter, workQueue);
       httpHandler.setMaxTextLength(config.getMaxTextLength());
       httpHandler.setAllowOriginUrl(config.getAllowOriginUrl());
@@ -85,25 +85,25 @@ public class HTTPSServer extends Server {
       executorService = getExecutorService(workQueue, config);
       server.setExecutor(executorService);
     } catch (BindException e) {
-      final ResourceBundle messages = JLanguageTool.getMessageBundle();
-      final String message = Tools.i18n(messages, "https_server_start_failed", host, Integer.toString(port));
+      ResourceBundle messages = JLanguageTool.getMessageBundle();
+      String message = Tools.i18n(messages, "https_server_start_failed", host, Integer.toString(port));
       throw new PortBindingException(message, e);
     } catch (Exception e) {
-      final ResourceBundle messages = JLanguageTool.getMessageBundle();
-      final String message = Tools.i18n(messages, "https_server_start_failed_unknown_reason", host, Integer.toString(port));
+      ResourceBundle messages = JLanguageTool.getMessageBundle();
+      String message = Tools.i18n(messages, "https_server_start_failed_unknown_reason", host, Integer.toString(port));
       throw new RuntimeException(message, e);
     }
   }
 
   private SSLContext getSslContext(File keyStoreFile, String passPhrase) {
     try (FileInputStream keyStoreStream = new FileInputStream(keyStoreFile)) {
-      final KeyStore keystore = KeyStore.getInstance("JKS");
+      KeyStore keystore = KeyStore.getInstance("JKS");
       keystore.load(keyStoreStream, passPhrase.toCharArray());
-      final KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
+      KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
       kmf.init(keystore, passPhrase.toCharArray());
-      final TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
+      TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
       tmf.init(keystore);
-      final SSLContext sslContext = SSLContext.getInstance("TLS");
+      SSLContext sslContext = SSLContext.getInstance("TLS");
       sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
       return sslContext;
     } catch (Exception e) {
@@ -111,12 +111,12 @@ public class HTTPSServer extends Server {
     }
   }
 
-  private HttpsConfigurator getConfigurator(final SSLContext sslContext) {
+  private HttpsConfigurator getConfigurator(SSLContext sslContext) {
     return new HttpsConfigurator(sslContext) {
           @Override
           public void configure (HttpsParameters params) {
-            final SSLContext context = getSSLContext();
-            final SSLParameters sslParams = context.getDefaultSSLParameters();
+            SSLContext context = getSSLContext();
+            SSLParameters sslParams = context.getDefaultSSLParameters();
             params.setNeedClientAuth(false);
             params.setSSLParameters(sslParams);
           }
@@ -142,16 +142,15 @@ public class HTTPSServer extends Server {
       printCommonOptions();
       System.exit(1);
     }
-    final boolean runInternal = false;
     try {
-      final HTTPSServerConfig config = new HTTPSServerConfig(args);
+      HTTPSServerConfig config = new HTTPSServerConfig(args);
       try {
-        final HTTPSServer server;
+        HTTPSServer server;
         if (config.isPublicAccess()) {
           System.out.println("WARNING: running in public mode, LanguageTool API can be accessed without restrictions!");
-          server = new HTTPSServer(config, runInternal, null, null);
+          server = new HTTPSServer(config, false, null, null);
         } else {
-          server = new HTTPSServer(config, runInternal, DEFAULT_HOST, DEFAULT_ALLOWED_IPS);
+          server = new HTTPSServer(config, false, DEFAULT_HOST, DEFAULT_ALLOWED_IPS);
         }
         server.run();
       } catch (Exception e) {

@@ -29,10 +29,7 @@ import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.BritishEnglish;
 import org.languagetool.language.English;
-import org.languagetool.rules.Categories;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternRule;
 
@@ -70,7 +67,7 @@ public class JLanguageToolTest extends TestCase {
   }
 
   public void testEnglish() throws IOException {
-    final JLanguageTool tool = new JLanguageTool(new English());
+    JLanguageTool tool = new JLanguageTool(new English());
     assertEquals(0, tool.check("A test that should not give errors.").size());
 
     //more error-free sentences to deal with possible regressions
@@ -104,27 +101,27 @@ public class JLanguageToolTest extends TestCase {
   }
 
   public void testPositionsWithEnglish() throws IOException {
-    final JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
-    final List<RuleMatch> matches = tool.check("A sentence with no period\n" +
+    JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
+    List<RuleMatch> matches = tool.check("A sentence with no period\n" +
         "A sentence. A typoh.");
     assertEquals(1, matches.size());
-    final RuleMatch match = matches.get(0);
+    RuleMatch match = matches.get(0);
     assertEquals(1, match.getLine());
     assertEquals(15, match.getColumn());
   }
 
   public void testPositionsWithEnglishTwoLineBreaks() throws IOException {
-    final JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
-    final List<RuleMatch> matches = tool.check("This sentence.\n\n" +
+    JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
+    List<RuleMatch> matches = tool.check("This sentence.\n\n" +
         "A sentence. A typoh.");
     assertEquals(1, matches.size());
-    final RuleMatch match = matches.get(0);
+    RuleMatch match = matches.get(0);
     assertEquals(2, match.getLine());
     assertEquals(14, match.getColumn());   // TODO: should actually be 15, as in testPositionsWithEnglish()
   }
 
   public void testAnalyzedSentence() throws IOException {
-    final JLanguageTool tool = new JLanguageTool(new English());
+    JLanguageTool tool = new JLanguageTool(new English());
     //test soft-hyphen ignoring:
     assertEquals("<S> This[this/DT,B-NP-singular|E-NP-singular] " +
         "is[be/VBZ,B-VP] a[a/DT,B-NP-singular] " +
@@ -136,7 +133,7 @@ public class JLanguageToolTest extends TestCase {
   }
 
   public void testParagraphRules() throws IOException {
-    final JLanguageTool tool = new JLanguageTool(new English());
+    JLanguageTool tool = new JLanguageTool(new English());
 
     //run normally
     List<RuleMatch> matches1 = tool.check("(This is an quote.\n It ends in the second sentence.");
@@ -163,15 +160,15 @@ public class JLanguageToolTest extends TestCase {
   }
 
   public void testWhitespace() throws IOException {
-    final JLanguageTool tool = new JLanguageTool(new English());
-    final AnalyzedSentence raw = tool.getRawAnalyzedSentence("Let's do a \"test\", do you understand?");
-    final AnalyzedSentence cooked = tool.getAnalyzedSentence("Let's do a \"test\", do you understand?");
+    JLanguageTool tool = new JLanguageTool(new English());
+    AnalyzedSentence raw = tool.getRawAnalyzedSentence("Let's do a \"test\", do you understand?");
+    AnalyzedSentence cooked = tool.getAnalyzedSentence("Let's do a \"test\", do you understand?");
     //test if there was a change
     assertFalse(raw.equals(cooked));
     //see if nothing has been deleted
     assertEquals(raw.getTokens().length, cooked.getTokens().length);
     int i = 0;
-    for (final AnalyzedTokenReadings atr : raw.getTokens()) {
+    for (AnalyzedTokenReadings atr : raw.getTokens()) {
       assertEquals(atr.isWhitespaceBefore(),
           cooked.getTokens()[i].isWhitespaceBefore());
       i++;
@@ -179,29 +176,29 @@ public class JLanguageToolTest extends TestCase {
   }
 
   public void testOverlapFilter() throws IOException {
-    final Category category = new Category("test category");
-    final List<PatternToken> elements1 = Arrays.asList(new PatternToken("one", true, false, false));
-    final PatternRule rule1 = new PatternRule("id1", new English(), elements1, "desc1", "msg1", "shortMsg1");
+    Category category = new Category(new CategoryId("TEST_ID"), "test category");
+    List<PatternToken> elements1 = Arrays.asList(new PatternToken("one", true, false, false));
+    PatternRule rule1 = new PatternRule("id1", new English(), elements1, "desc1", "msg1", "shortMsg1");
     rule1.setSubId("1");
     rule1.setCategory(category);
 
-    final List<PatternToken> elements2 = Arrays.asList(new PatternToken("one", true, false, false), new PatternToken("two", true, false, false));
-    final PatternRule rule2 = new PatternRule("id1", new English(), elements2, "desc2", "msg2", "shortMsg2");
+    List<PatternToken> elements2 = Arrays.asList(new PatternToken("one", true, false, false), new PatternToken("two", true, false, false));
+    PatternRule rule2 = new PatternRule("id1", new English(), elements2, "desc2", "msg2", "shortMsg2");
     rule2.setSubId("2");
     rule2.setCategory(category);
 
-    final JLanguageTool tool = new JLanguageTool(new English());
+    JLanguageTool tool = new JLanguageTool(new English());
     tool.addRule(rule1);
     tool.addRule(rule2);
 
-    final List<RuleMatch> ruleMatches1 = tool.check("And one two three.");
+    List<RuleMatch> ruleMatches1 = tool.check("And one two three.");
     assertEquals("one overlapping rule must be filtered out", 1, ruleMatches1.size());
     assertEquals("msg1", ruleMatches1.get(0).getMessage());
 
-    final String sentence = "And one two three.";
-    final AnalyzedSentence analyzedSentence = tool.getAnalyzedSentence(sentence);
-    final List<Rule> bothRules = new ArrayList<Rule>(Arrays.asList(rule1, rule2));
-    final List<RuleMatch> ruleMatches2 = tool.checkAnalyzedSentence(ParagraphHandling.NORMAL, bothRules, 0, 0, 0, sentence, analyzedSentence);
+    String sentence = "And one two three.";
+    AnalyzedSentence analyzedSentence = tool.getAnalyzedSentence(sentence);
+    List<Rule> bothRules = new ArrayList<>(Arrays.asList(rule1, rule2));
+    List<RuleMatch> ruleMatches2 = tool.checkAnalyzedSentence(ParagraphHandling.NORMAL, bothRules, 0, 0, 0, sentence, analyzedSentence);
     assertEquals("one overlapping rule must be filtered out", 1, ruleMatches2.size());
     assertEquals("msg1", ruleMatches2.get(0).getMessage());
   }

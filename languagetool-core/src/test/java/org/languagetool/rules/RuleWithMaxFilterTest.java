@@ -34,46 +34,46 @@ public class RuleWithMaxFilterTest extends TestCase {
   private static final Language language = TestTools.getDemoLanguage();
 
   public void testFilter() {
-    final List<PatternToken> fakePatternTokens = new ArrayList<>();
-    final PatternRule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
-    final PatternRule rule2 = new PatternRule("id1", language, fakePatternTokens, "desc2", "msg2", "shortMsg2");
-    final RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
-    final RuleMatch match2 = new RuleMatch(rule2, 15, 25, "Match2");
-    final RuleWithMaxFilter filter = new RuleWithMaxFilter();
+    List<PatternToken> fakePatternTokens = new ArrayList<>();
+    PatternRule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
+    PatternRule rule2 = new PatternRule("id1", language, fakePatternTokens, "desc2", "msg2", "shortMsg2");
+    RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
+    RuleMatch match2 = new RuleMatch(rule2, 15, 25, "Match2");
+    RuleWithMaxFilter filter = new RuleWithMaxFilter();
     List<RuleMatch> filteredMatches1 = filter.filter(Arrays.asList(match1, match2));
     assertEquals(2, filteredMatches1.size());
-    final RuleMatch match3 = new RuleMatch(rule2, 11, 19, "Match3");
+    RuleMatch match3 = new RuleMatch(rule2, 11, 19, "Match3");
     List<RuleMatch> filteredMatches2 = filter.filter(Arrays.asList(match1, match3));
     assertEquals(1, filteredMatches2.size());
   }
 
   public void testNoFilteringIfNotOverlapping() {
-    final List<PatternToken> fakePatternTokens = new ArrayList<>();
-    final PatternRule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
-    final PatternRule rule2 = new PatternRule("id1", language, fakePatternTokens, "desc2", "msg2", "shortMsg2");
-    final RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
-    final RuleMatch match2 = new RuleMatch(rule2, 21, 25, "Match2");
-    final RuleWithMaxFilter filter = new RuleWithMaxFilter();
-    final List<RuleMatch> filteredMatches = filter.filter(Arrays.asList(match1, match2));
+    List<PatternToken> fakePatternTokens = new ArrayList<>();
+    PatternRule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
+    PatternRule rule2 = new PatternRule("id1", language, fakePatternTokens, "desc2", "msg2", "shortMsg2");
+    RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
+    RuleMatch match2 = new RuleMatch(rule2, 21, 25, "Match2");
+    RuleWithMaxFilter filter = new RuleWithMaxFilter();
+    List<RuleMatch> filteredMatches = filter.filter(Arrays.asList(match1, match2));
     assertEquals(2, filteredMatches.size());
   }
 
   public void testNoFilteringIfDifferentRulegroups() {
-    final List<PatternToken> fakePatternTokens = new ArrayList<>();
-    final Rule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
-    final Rule rule2 = new PatternRule("id2", language, fakePatternTokens, "desc2", "msg2", "shortMsg2");
-    final RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
-    final RuleMatch match2 = new RuleMatch(rule2, 15, 25, "Match2");
-    final RuleWithMaxFilter filter = new RuleWithMaxFilter();
+    List<PatternToken> fakePatternTokens = new ArrayList<>();
+    Rule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
+    Rule rule2 = new PatternRule("id2", language, fakePatternTokens, "desc2", "msg2", "shortMsg2");
+    RuleMatch match1 = new RuleMatch(rule1, 10, 20, "Match1");
+    RuleMatch match2 = new RuleMatch(rule2, 15, 25, "Match2");
+    RuleWithMaxFilter filter = new RuleWithMaxFilter();
     List<RuleMatch> filteredMatches1 = filter.filter(Arrays.asList(match1, match2));
     assertEquals(2, filteredMatches1.size());
-    final RuleMatch match3 = new RuleMatch(rule2, 11, 19, "Match3");
+    RuleMatch match3 = new RuleMatch(rule2, 11, 19, "Match3");
     List<RuleMatch> filteredMatches2 = filter.filter(Arrays.asList(match1, match3));
     assertEquals(2, filteredMatches2.size());
   }
 
   public void testOverlaps() {
-    final RuleWithMaxFilter filter = new RuleWithMaxFilter();
+    RuleWithMaxFilter filter = new RuleWithMaxFilter();
 
     assertTrue(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(10, 20)));
     assertFalse(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(5, 11)));

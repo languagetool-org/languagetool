@@ -29,21 +29,21 @@ import org.languagetool.language.Ukrainian;
 public class MultiWordChunkerTest extends TestCase {
 
   public void testDisambiguate() throws Exception {
-    final Disambiguator chunker = new MultiWordChunker("/pl/multiwords.txt");
-    final JLanguageTool lt = new JLanguageTool(new English());
-    final AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("A test... More.");
-    final AnalyzedSentence disambiguated = chunker.disambiguate(analyzedSentence);
-    final AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
+    Disambiguator chunker = new MultiWordChunker("/pl/multiwords.txt");
+    JLanguageTool lt = new JLanguageTool(new English());
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("A test... More.");
+    AnalyzedSentence disambiguated = chunker.disambiguate(analyzedSentence);
+    AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
     assertTrue(tokens[4].getReadings().toString().contains("<ELLIPSIS>"));
     assertTrue(tokens[6].getReadings().toString().contains("</ELLIPSIS>"));
   }
   
   public void testDisambiguateMultiSpace() throws Exception {
-      final Disambiguator chunker = new MultiWordChunker("/uk/multiwords.txt");
-      final JLanguageTool lt = new JLanguageTool(new Ukrainian());
-      final AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("для  годиться.");
-      final AnalyzedSentence disambiguated = chunker.disambiguate(analyzedSentence);
-      final AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
+      Disambiguator chunker = new MultiWordChunker("/uk/multiwords.txt");
+      JLanguageTool lt = new JLanguageTool(new Ukrainian());
+      AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("для  годиться.");
+      AnalyzedSentence disambiguated = chunker.disambiguate(analyzedSentence);
+      AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
       assertTrue(tokens[1].getReadings().toString().contains("<adv>"));
       assertTrue(tokens[4].getReadings().toString().contains("</adv>"));
     }
