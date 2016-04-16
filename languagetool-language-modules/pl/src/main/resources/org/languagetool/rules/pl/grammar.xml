@@ -6208,6 +6208,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </marker>
           </unify>
         </antipattern>
+        <antipattern> <!-- rzeczowniki l. poj. z przeskokami + który/jaki w l. m. -->
+          <unify negate="yes"><feature id="gender"/>
+            <token skip="-1" postag="(?:subst|ger):sg:.*" postag_regexp="yes">
+              <exception postag='verb.*sg.*' postag_regexp='yes' scope='next'/>
+            </token>
+            <unify-ignore>
+            <token skip="10" postag="conj|interp:comma" postag_regexp="yes">
+              <exception postag='verb.*sg.*' postag_regexp='yes' scope='next'/>
+            </token>
+            </unify-ignore>
+            <token skip="-1" postag='(?:subst|ger):sg:.*' postag_regexp='yes'/>
+            </unify>
+            <marker>
+              <token inflected='yes' regexp='yes' postag="adj:pl.*(?:m3|n2).*" postag_regexp="yes">który|jaki</token>
+            </marker>          
+        </antipattern>                
         <antipattern> <!-- ten, który -->
         <unify><feature id="gender"/><feature id="number"/>
         <token postag="(?:adj|pact|ppron|num:pl).*" postag_regexp="yes"/>
@@ -6217,8 +6233,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </marker>
         </unify>
         </antipattern>
-        <antipattern> <!-- nieznane nazwy własne -->
-        <token regexp="yes" postag="UNKNOWN">\p{Lu}\p{Ll}+</token>
+        <antipattern> <!-- nieznane nazwy własne i skróty -->
+        <token regexp="yes" postag="UNKNOWN">\p{Lu}\p{Ll}+|\p{Lu}+\d+?</token>
         <token>,</token>
         <token min="0" max="1" postag="prep.*" postag_regexp="yes"/>
         <marker>
@@ -6295,6 +6311,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </marker>
         <token>to</token>
         </antipattern>
+        <antipattern> <!-- żebyś wiedział, jaką on ma bibliotekę -->
+        <token postag="interp:comma|prep:.*" postag_regexp="yes"/>
+        <unify>
+          <feature id="gender"/><feature id="number"/><feature id="case"/>
+          <marker>
+          <token skip="-1" inflected="yes">jaki
+            <exception postag="interp:comma" scope="next"/>
+          </token>
+          </marker>        
+          <token postag="(?:subst|ger|depr):.*" postag_regexp="yes"/>
+        </unify>
+        </antipattern>
         <antipattern> <!-- jaki jako podmiot z „być” i „bywać” -->
         <unify><feature id="number"/>
         <marker>      
@@ -6302,6 +6330,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </marker>
           <token inflected="yes" regexp="yes" postag="verb.*" postag_regexp="yes">by(?:wa)?ć</token>
         </unify>
+        </antipattern>
+        <antipattern>
+        <marker>
+          <token skip="-1" inflected='yes' regexp='yes'>który|jaki</token>
+        </marker>
+        <token>?</token>        
         </antipattern>
          <pattern>
          <marker>
@@ -6360,6 +6394,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>H. Potters dodała, że maksymalny pułap inwestycyjny Funduszu w Ruchu wynosi 15 mln USD, jednak nie chciała wymienić kwoty, którą zapłaciłaby za polskiego dystrybutora prasy ani też wielkości udziałów, które kupiłaby.</example>
          <example>Ostatecznie przygotował on wstępny projekt, na którego podstawie wzniesiono budynek główny i skrzydło wschodnie.</example>
          <example>To tytuł jednej z przedstawionych grafik, w której oddał odczucie.</example>
+         <example>I skoczył ku domowi, w którego sieni słychać było śmiejące się głosy i huk obracanych żaren.</example>
+         <example>Wraz z nią tym samym ciągiem prowadzi A59, która za Birmingham skręca na północny wschód.</example>
+         <example>— Marta, którego z nas wolisz?</example>
+         <example>— Pojutrze o której mogę przyjść?</example>
+         <example>A gdybyś pan jeszcze wiedział, jaką ona ma bibliotekę, co czyta…</example>
+         <example>Stamtąd trzeba nam się wywodzić, a nie z przestrzeni i czasu, których nie umielibyśmy zapełnić.</example>
         </rule>
 
         <rule id="NIEZGODNOSC_PRZYPADKU_PO_LICZEBNIKU" name="Niezgodność przypadku po liczebniku">
