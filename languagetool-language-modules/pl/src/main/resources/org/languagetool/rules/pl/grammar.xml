@@ -6172,13 +6172,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <unify><feature id="gender"/><feature id="number"/>
         <token inflected="yes">jeden</token>        
         <unify-ignore>
-          <token inflected="yes" regexp="yes">z|spośród</token>
-          <token skip="-1" postag="(?:subst|ger|adj|pact|ppas):pl:gen:.*" postag_regexp="yes"/>
+          <token inflected="yes" regexp="yes">z|spośród|wśród</token>
+          <token skip="-1" postag="(?:subst|ger|adj|pact|ppas|ppron\d+|num):pl:gen.*" postag_regexp="yes"/>
         </unify-ignore>
         <marker>
           <token inflected='yes' regexp='yes'>który|jaki</token>
         </marker>
         </unify>
+        </antipattern>
+        <antipattern> <!-- która ze szkół -->
+          <unify>
+          <feature id="gender"/>
+          <marker>
+            <token inflected="yes">który</token>
+          </marker>
+          <unify-ignore>
+            <token skip="2" inflected="yes">z</token>            
+          </unify-ignore>
+          <token postag="(?:subst|adj|pact|ppas|depr|ger|ppron\d+|num):pl:gen.*" postag_regexp="yes"/>
+          </unify>
         </antipattern>
         <antipattern> <!-- rzeczowniki l. poj. z przeskokami + który/jaki w l. m. -->
           <unify><feature id="gender"/>
@@ -6292,9 +6304,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </unify>
         </antipattern>
          <pattern>
+         <marker>
           <token inflected='yes' regexp='yes'>który|jaki
             <exception postag="SENT_START" scope="previous"/>
           </token>
+          </marker>
+          <token><exception>?</exception></token>
          </pattern>
          <message>W zdaniu nadrzędnym nie ma rzeczownika ani zaimka pasującego rodzajem i liczbą do tego wyrazu: <match no="1"/>.</message>
          <short>Niezgodność rodzaju lub liczby zdania podrzędnego</short>
@@ -6335,6 +6350,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>A mimo to zepsucie człowieka jest takie, iż jeszcze to prawo wydaje mu się twardym; i to jest jedna z głównych przyczyn, która zbuntowała przeciw Kościołowi znaczną część Europy.</example>
          <example>Jak Grubba bierze wolny dzień, nie boją się drużyny polskiej wszystkie przedszkolne starszaki, które przyjechały na mistrzostwa świata, nie mówiąc o ich wychowawcach.</example>
          <example>Do siedziby pisma trafił dotąd jeden polityk, który chciał się dowiedzieć, jak mu się powiedzie w kampanii prezydenckiej.</example>
+         <example>Na razie nie można wyrokować, która ze szkół jest lepsza, a która gorsza.</example>
+         <example>Helmut Kohl zapowiedział swój przyjazd do Manchesteru na mecz Niemcy — Włochy, który może zdecydować, która z tych drużyn awansuje do ćwierćfinału.</example>
+         <example>Dla Polski jest ważne, który z nich wygra.</example>
+         <example>Dla Polski ma ogromne znaczenie, który z dwóch faworytów wygra.</example>
+         <example>Resztę, czyli ponad 99 procent posiada PZU SA, którego z kolei właścicielem pozostaje Skarb Państwa reprezentowany przez ministra finansów.</example>
+         <example>Na przykład, jakich?</example>
+         <example>Podstawowym pytaniem jest teraz, którą z wyżej wymienionych linii pokona wykres.</example>
+         <example>H. Potters dodała, że maksymalny pułap inwestycyjny Funduszu w Ruchu wynosi 15 mln USD, jednak nie chciała wymienić kwoty, którą zapłaciłaby za polskiego dystrybutora prasy ani też wielkości udziałów, które kupiłaby.</example>
+         <example>Ostatecznie przygotował on wstępny projekt, na którego podstawie wzniesiono budynek główny i skrzydło wschodnie.</example>
+         <example>To tytuł jednej z przedstawionych grafik, w której oddał odczucie.</example>
         </rule>
 
         <rule id="NIEZGODNOSC_PRZYPADKU_PO_LICZEBNIKU" name="Niezgodność przypadku po liczebniku">
