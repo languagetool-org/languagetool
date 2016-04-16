@@ -22771,6 +22771,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="AUTOIMMOLAR" name="autoimmolar">
+            <pattern>
+                <token inflected="yes">autoimmolar</token>
+            </pattern>
+            <message>Verb mal construït.</message>
+            <url>http://esadir.cat/entrades/fitxa/node/autoimmolar-se</url>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">immolar</match></suggestion>
+            <example correction="immolà">s'<marker>autoimmolà</marker></example>
+        </rule>
         <rule id="TOT_I_AMB_AIXO" name="tot i amb això">
             <pattern>
                 <token>tot<exception scope="previous">amb</exception></token>
