@@ -2011,16 +2011,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						</rule>
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_KTORY" name="Brak przecinka przed „który” i „jaki”">
-                        <antipattern>
-                            <unify>
-                                <feature id="case"/><feature id="gender"/><feature id="number"/>
-                                <marker>
-                                    <token inflected="yes" postag="adj.*" postag_regexp="yes" regexp="yes">jaki|który</token>
-                                </marker>
-                                <token skip="-1" postag="(?:adj|subst|num:pl):.*" postag_regexp="yes"><exception inflected="yes">były</exception><exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/></token>
-                            </unify>
-                            <token postag="SENT_END|interp:comma" postag_regexp="yes"/>
-                        </antipattern>
+            <antipattern>
+                <unify>
+                    <feature id="case"/><feature id="gender"/><feature id="number"/>
+                    <marker>
+                        <token inflected="yes" postag="adj.*" postag_regexp="yes" regexp="yes">jaki|który</token>
+                    </marker>
+                    <token skip="-1" postag="(?:adj|subst|num:pl):.*" postag_regexp="yes"><exception inflected="yes">były</exception><exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/></token>
+                </unify>
+                <token postag="SENT_END|interp:comma" postag_regexp="yes"/>
+            </antipattern>
 						<rule>
 								<pattern>
 										<token negate="yes">,<exception regexp="yes">&interp;</exception><exception postag="conj|comp|SENT_START" postag_regexp="yes"></exception></token>
@@ -6162,7 +6162,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ZDANIE_PODRZEDNE_Z_KTORY_LUB_JAKI" name="Zdanie podrzędne z „który” lub „jaki” niepasujące do nadrzędnego">
         <antipattern> <!-- zwykły rządzący rzeczownik -->
         <unify><feature id="gender"/><feature id="number"/>
-        <token skip="-1" postag="(?:subst|ger):.*" postag_regexp="yes"/>
+        <token skip="-1" postag="(?:subst|ger|depr):.*" postag_regexp="yes"/>
         <marker>
           <token inflected='yes' regexp='yes'>który|jaki</token>
         </marker>
@@ -6173,7 +6173,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token inflected="yes">jeden</token>        
         <unify-ignore>
           <token inflected="yes" regexp="yes">z|spośród</token>
-          <token skip="-1" postag="(?:subst|ger):pl:gen:.*" postag_regexp="yes"/>
+          <token skip="-1" postag="(?:subst|ger|adj|pact|ppas):pl:gen:.*" postag_regexp="yes"/>
         </unify-ignore>
         <marker>
           <token inflected='yes' regexp='yes'>który|jaki</token>
@@ -6198,7 +6198,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <antipattern> <!-- ten, który -->
         <unify><feature id="gender"/><feature id="number"/>
-        <token postag="adj.*|ppron.*|num:pl.*" postag_regexp="yes"/>
+        <token postag="(?:adj|pact|ppron|num:pl).*" postag_regexp="yes"/>
         <unify-ignore><token skip="-1">,</token></unify-ignore>
         <marker>
           <token inflected='yes' regexp='yes'>który|jaki</token>
@@ -6329,6 +6329,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>Był jakiś furman w Warszawie i jego brat dróżnik na Kolei Warszawsko–Wiedeńskiej, którzy błogosławili Wokulskiego.</example>
          <example>Lepiej niż ja musicie Wy wiedzieć, drodzy Państwo, którzy podobno umieściliście u niego swój kapitalik.</example>
          <example>Jakikolwiek stan sobie wyobrazić, jeśli się gromadzi wszystkie dobra, jakie możemy posiąść, godność króla jest najpiękniejszym stanowiskiem na ziemi.</example>
+         <example>Tu możecie posłuchać syreny, której dźwięk oznaczał początek nalotów na Jugosławię.</example>
+         <example>Potem przyszła druga fala odwiedzających, którzy pod pozorem podziękowania mu za oddane usługi chcieli zaspokoić ciekawość i zobaczyć, jak wygląda ten niegdyś silny człowiek.</example>
+         <example>— Mam żonę i dzieci — mówił dalej — służyłem dziesięć lat, oczekując wciąż jak głupiec jaki — komendantury.</example>
+         <example>A mimo to zepsucie człowieka jest takie, iż jeszcze to prawo wydaje mu się twardym; i to jest jedna z głównych przyczyn, która zbuntowała przeciw Kościołowi znaczną część Europy.</example>
+         <example>Jak Grubba bierze wolny dzień, nie boją się drużyny polskiej wszystkie przedszkolne starszaki, które przyjechały na mistrzostwa świata, nie mówiąc o ich wychowawcach.</example>
+         <example>Do siedziby pisma trafił dotąd jeden polityk, który chciał się dowiedzieć, jak mu się powiedzie w kampanii prezydenckiej.</example>
         </rule>
 
         <rule id="NIEZGODNOSC_PRZYPADKU_PO_LICZEBNIKU" name="Niezgodność przypadku po liczebniku">
