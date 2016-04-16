@@ -2,6 +2,10 @@
 
 ## 3.4 (release planned for 2016-06-27)
 
+#### Catalan
+  * added and improved rules
+  * added words suggested by users
+ 
 #### English
   * added about 15 confusion pairs like throe/throw, raps/wraps (works only with ngram data,
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
