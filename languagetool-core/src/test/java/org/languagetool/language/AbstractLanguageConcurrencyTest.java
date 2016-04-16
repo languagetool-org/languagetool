@@ -25,6 +25,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -36,6 +37,7 @@ public abstract class AbstractLanguageConcurrencyTest {
 
   volatile int failedTests;
   
+  @Ignore("too slow to run every time")
   @Test
   public void testSpellCheckerFailure() throws Exception {
     String sampleText = createSampleText();
