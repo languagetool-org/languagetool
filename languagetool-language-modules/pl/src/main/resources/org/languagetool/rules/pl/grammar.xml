@@ -6170,7 +6170,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <antipattern> <!-- jeden z: zmiana liczby rzeczownika głównego -->
         <unify><feature id="gender"/><feature id="number"/>
-        <token inflected="yes">jeden</token>        
+        <token inflected="yes" regexp="yes">jeden|ten|ów</token>        
         <unify-ignore>
           <token inflected="yes" regexp="yes">z|spośród|wśród</token>
           <token skip="-1" postag="(?:subst|ger|adj|pact|ppas|ppron\d+|num):pl:gen.*" postag_regexp="yes"/>
@@ -6221,13 +6221,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token skip="-1" postag='(?:subst|ger):sg:.*' postag_regexp='yes'/>
             </unify>
             <marker>
-              <token inflected='yes' regexp='yes' postag="adj:pl.*(?:m3|n2).*" postag_regexp="yes">który|jaki</token>
+              <token inflected='yes' regexp='yes' postag="adj:pl.*(?:m1|n2).*" postag_regexp="yes">który|jaki</token>
             </marker>          
         </antipattern>                
         <antipattern> <!-- ten, który -->
         <unify><feature id="gender"/><feature id="number"/>
         <token postag="(?:adj|pact|ppron|num:pl).*" postag_regexp="yes"/>
-        <unify-ignore><token skip="-1">,</token></unify-ignore>
+        <unify-ignore>
+          <token min="0" max="1" postag="qub"/>
+          <token skip="-1">,</token>
+        </unify-ignore>
         <marker>
           <token inflected='yes' regexp='yes'>który|jaki</token>
         </marker>
@@ -6286,8 +6289,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag="(?:adj|pact|ppas):.*" postag_regexp="yes"/>
           <token postag="(?:subst|ger):.*" postag_regexp="yes"/>
         </unify>
-        </antipattern>
-        <antipattern> <!-- jaki ładny chłopiec! -->
+        </antipattern>        
+        <antipattern> <!-- jaki ładny i zadbany chłopiec! -->
           <unify><feature id="gender"/><feature id="number"/><feature id="case"/>
             <marker>
               <token inflected='yes'>jaki</token>
@@ -6297,6 +6300,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag="(?:adj|pact|ppas):.*" postag_regexp="yes"/>
           <token postag="(?:subst|ger):.*" postag_regexp="yes"/>
         </unify>
+        </antipattern>
+        <antipattern> <!-- jaka ja jestem szczęśliwa! -->
+        <unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+            <marker>
+              <token inflected='yes'>jaki</token>
+            </marker>
+            <unify-ignore>
+            <token postag="ppron\d+.*nom.*" postag_regexp="yes"/>
+            <token skip="5" postag="verb.*" postag_regexp="yes" inflected="yes">być
+              <exception postag="interp:comma" scope="next"/>
+            </token>
+            </unify-ignore>
+            <token postag="adj.*" postag_regexp="yes"/>
+            </unify>
         </antipattern>
         <antipattern> <!-- supozycja materialna -->
           <token>„</token>
@@ -6312,6 +6329,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token>to</token>
         </antipattern>
         <antipattern> <!-- żebyś wiedział, jaką on ma bibliotekę -->
+        <token postag="interp:comma|prep:.*|conj" postag_regexp="yes"/>
+        <unify>
+          <feature id="number"/><feature id="gender"/><feature id="case"/>          
+          <marker>
+          <token skip="-1" inflected="yes">jaki
+            <exception postag="interp:comma" scope="next"/>
+          </token>
+          </marker>
+          <token postag="(?:subst|ger|depr):.*" postag_regexp="yes"/>
+        </unify>
+        </antipattern>
+        <antipattern> <!-- Don Juan zapytał go, jakie w tej *chwili* ma *zamiary* i dokąd jedzie. -->
         <token postag="interp:comma|prep:.*" postag_regexp="yes"/>
         <unify>
           <feature id="gender"/><feature id="number"/><feature id="case"/>
@@ -6319,8 +6348,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token skip="-1" inflected="yes">jaki
             <exception postag="interp:comma" scope="next"/>
           </token>
-          </marker>        
-          <token postag="(?:subst|ger|depr):.*" postag_regexp="yes"/>
+          </marker>
+          <unify-ignore>
+          <token skip="-1" postag="(?:subst|ger|depr):.*" postag_regexp="yes">
+            <exception postag="interp:comma" scope="next"/>
+          </token>
+          </unify-ignore>
+          <token skip="-1" postag="(?:subst|ger|depr):.*" postag_regexp="yes"/>
         </unify>
         </antipattern>
         <antipattern> <!-- jaki jako podmiot z „być” i „bywać” -->
@@ -6337,13 +6371,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </marker>
         <token>?</token>        
         </antipattern>
+        <antipattern>
+        <marker>
+          <token>jakich</token>
+        </marker>
+        <token regexp="yes">(?:nie)?wiel[eu]|mało</token>
+        </antipattern>
+        <antipattern>
+        <token>o</token>
+        <marker>
+          <token>której</token>
+        </marker>
+        <token>godzinie</token>
+        </antipattern>
          <pattern>
          <marker>
           <token inflected='yes' regexp='yes'>który|jaki
             <exception postag="SENT_START" scope="previous"/>
+            <exception inflected="yes" scope="previous" regexp="yes">jeśli|gdy|gdzie|ażeby|że</exception>
           </token>
           </marker>
-          <token><exception>?</exception></token>
+          <token><exception regexp="yes">[?…\.!”]</exception></token>
          </pattern>
          <message>W zdaniu nadrzędnym nie ma rzeczownika ani zaimka pasującego rodzajem i liczbą do tego wyrazu: <match no="1"/>.</message>
          <short>Niezgodność rodzaju lub liczby zdania podrzędnego</short>
@@ -6400,6 +6448,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>— Pojutrze o której mogę przyjść?</example>
          <example>A gdybyś pan jeszcze wiedział, jaką ona ma bibliotekę, co czyta…</example>
          <example>Stamtąd trzeba nam się wywodzić, a nie z przestrzeni i czasu, których nie umielibyśmy zapełnić.</example>
+         <example>Oczy jego rzucały snopy skier, skakał ciągle dookoła węża, bacząc jednak pilnie, by nie przekroczyć odległości, z której gad mógłby go dosięgnąć.</example>
+         <example>Jest to tchórz, jakich mało.</example>
+         <example>— Jakaż ty jesteś… bez serca… jaka… bez serca… — wśród łkania powtarzała Nina.</example>
+         <!-- dwa rodzaje jako l.mn.: -->
+         <example>Starzec i jego córka, którzy zdawali się żyć jedynie wzrokiem, usłyszeli dźwięk ostróg oraz szczęk szabel rozlegający się pod przysionkiem pałacu.</example>
+         <example>- Pożycz mi jaką.</example>
+         <example>Don Juan zapytał go, jakie w tej chwili ma zamiary i dokąd jedzie.</example>
+         <example>— W chederze… jeszcze jaka!</example>
+         <example>A jaka mocna, jakiej kompleksji i jaki ma głos!</example>
+         <example>Z wolna to zdenerwowanie udzielało się tym nawet, którzy nie obawiali się żadnych złych wieści.</example>
+         <example>— Tatusiu, jaka ja jestem szczęśliwa!</example>
+         <example>Bruno rzucił się do jej stóp, zaklinając, aby nie powiedziała hrabiemu, o której godzinie przybył.</example>
+         <example>Ta i owa z miluchnych dziewcząt, którą Fabrycy zostawił dwunastoletnim dzieckiem, była dziś wspaniałą kobietą w pełni rozkwitu najbujniejszej młodości.</example>
+         <example>Ten z niewolników, który ją odnajdzie, ma obiecaną wolność.</example>
+         <example>Choć teraz i Żydówki psują się: gdy która zbogaci się, zaraz zaczyna mówić tylko po francusku, targować się i grymasić.</example>
         </rule>
 
         <rule id="NIEZGODNOSC_PRZYPADKU_PO_LICZEBNIKU" name="Niezgodność przypadku po liczebniku">
