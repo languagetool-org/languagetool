@@ -6170,7 +6170,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <antipattern> <!-- jeden z: zmiana liczby rzeczownika głównego -->
         <unify><feature id="gender"/><feature id="number"/>
-        <token inflected="yes" regexp="yes">jeden|ten|ów</token>        
+        <token inflected="yes" regexp="yes">jeden|ten|ów|każdy</token>        
         <unify-ignore>
           <token inflected="yes" regexp="yes">z|spośród|wśród</token>
           <token skip="-1" postag="(?:subst|ger|adj|pact|ppas|ppron\d+|num):pl:gen.*" postag_regexp="yes"/>
@@ -6237,7 +6237,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </unify>
         </antipattern>
         <antipattern> <!-- nieznane nazwy własne i skróty -->
-        <token regexp="yes" postag="UNKNOWN">\p{Lu}\p{Ll}+|\p{Lu}+\d+?</token>
+        <token regexp="yes" postag="UNKNOWN">\p{Lu}\p{Ll}+|[\p{Lu}\d]+</token>
         <token>,</token>
         <token min="0" max="1" postag="prep.*" postag_regexp="yes"/>
         <marker>
@@ -6384,6 +6384,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </marker>
         <token>godzinie</token>
         </antipattern>
+        <antipattern>
+        <token>byle</token>
+        <marker>
+          <token inflected="yes">jaki</token>
+        </marker>
+        </antipattern>
          <pattern>
          <marker>
           <token inflected='yes' regexp='yes'>który|jaki
@@ -6396,6 +6402,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <message>W zdaniu nadrzędnym nie ma rzeczownika ani zaimka pasującego rodzajem i liczbą do tego wyrazu: <match no="1"/>.</message>
          <short>Niezgodność rodzaju lub liczby zdania podrzędnego</short>
          <example correction=''>Były to rozmowy, <marker>która</marker> nie miała sensu.</example>
+         <example correction="">Po raz pierwszy od wielu lat stanął na jego na czele człowiek, <marker>która</marker> dba o interesy instytucji, jej rozwój i przyszłość.</example>
+         <example correction="">Po jego aresztowaniu policja odnalazła samochód, <marker>którymi</marker> przyjechał z Colorado Springs.</example>
          <example>Były to rozmowy, które nie miały sensu.</example>
          <example>Jakie to nudne!…</example>
          <example>— Który wydobył rachunki sklepowe…</example>
@@ -6463,6 +6471,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>Ta i owa z miluchnych dziewcząt, którą Fabrycy zostawił dwunastoletnim dzieckiem, była dziś wspaniałą kobietą w pełni rozkwitu najbujniejszej młodości.</example>
          <example>Ten z niewolników, który ją odnajdzie, ma obiecaną wolność.</example>
          <example>Choć teraz i Żydówki psują się: gdy która zbogaci się, zaraz zaczyna mówić tylko po francusku, targować się i grymasić.</example>
+         <example>Drugim zdarzeniem, o którym mniej się mówiło i pisało, a które mogło mieć nie mniejsze znaczenie, było posiedzenie Fed.</example>
+         <example>Chodzimy do więzień, by wysłuchać każdego z osadzonych, który życzy sobie z nami rozmawiać.</example>
+         <example>I to nie byle jaka, bo sama Sharon Stone.</example>
+         <example>Nie możemy teraz osłabiać drużyny, która i tak jest już wystarczająco słaba przez osobę trenera.</example>
+         <example>Nic, nawet dębu, po którego stuletniej korze ześlizgiwały się wstęgi piorunów.</example>
+         <example>Kiedym był pewny, że Gilberta przyjdzie na Pole Elizejskie, doznawałem radości, która mi się zdawała jedynie mglistym przeczuciem wielkiego szczęścia.</example>
         </rule>
 
         <rule id="NIEZGODNOSC_PRZYPADKU_PO_LICZEBNIKU" name="Niezgodność przypadku po liczebniku">
