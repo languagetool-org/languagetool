@@ -9777,33 +9777,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="callats|callant">Volen restar <marker>callat</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="VAIG_FAIG" name="vaig/faig">
-            <antipattern>
-                <marker>
-                    <token postag="DI.*" postag_regexp="yes"/>
-                    <token regexp="yes">vegada|volta|col?p|dia</token>
-                </marker>
-            </antipattern>
-            <antipattern>
-                <marker>
+        <rulegroup id="VAIG_FAIG" name="vaig/faig">
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token postag="DI.*" postag_regexp="yes"/>
+                        <token regexp="yes">vegada|volta|col?p|dia</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token postag="_GN_.*" postag_regexp="yes"/>
+                        <token>pendent</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token><exception>hi</exception></token>
+                    <marker>
+                        <token>vaig</token>
+                    </marker>
                     <token postag="_GN_.*" postag_regexp="yes"/>
-                    <token>pendent</token>
-                </marker>
-            </antipattern>
-            <pattern>
-                <token><exception>hi</exception></token>
-                <marker>
-                    <token>vaig</token>
-                </marker>
-                <token postag="_GN_.*" postag_regexp="yes"/>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>faig</suggestion>?</message>
-            <example correction="Faig"><marker>Vaig</marker> una ullada.</example>
-            <example>Hi vaig una vegada al mes.</example>
-            <example>Vaig molt cansat.</example>
-            <example>Vaig una vegada al mes al gimnàs.</example>
-            <example>Vaig massa pendent del rellotge.</example>
-        </rule>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>faig</suggestion>?</message>
+                <example correction="Faig"><marker>Vaig</marker> una ullada.</example>
+                <example>Hi vaig una vegada al mes.</example>
+                <example>Vaig molt cansat.</example>
+                <example>Vaig una vegada al mes al gimnàs.</example>
+                <example>Vaig massa pendent del rellotge.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token>vaig</token>
+                        <token>a</token>
+                        <token postag="V.N.*" postag_regexp="yes"/>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">ho|en|et|em|el|la|li|els|les|'l|'ls</token>
+                    <marker>
+                        <token>vaig<exception postag="_GV_"/></token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>faig</suggestion>?</message>
+                <suggestion>veig</suggestion> 
+                <example correction="faig|veig">Jo ho <marker>vaig</marker> sempre.</example>
+                <example correction="faig|veig">Jo li'l <marker>vaig</marker> sempre.</example>
+                <example>Jo ho vaig fer.</example>
+                <example>Jo ho vaig fent.</example>
+                <example>Em vaig a dutxar.</example>
+                <example>Jo li'ls vaig portar.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ATENDRE_ATENIR" name="ens *atenem/atenim a">
             <rule>
                 <pattern>
