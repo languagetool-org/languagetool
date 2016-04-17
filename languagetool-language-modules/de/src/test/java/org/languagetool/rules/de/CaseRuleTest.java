@@ -170,6 +170,7 @@ public class CaseRuleTest extends TestCase {
     assertGood("Das Gebäude des Auswärtigen Amts.");
     assertGood("Das Gebäude des Auswärtigen Amtes.");
     assertGood("   Im Folgenden beschreibe ich das Haus."); // triggers WHITESPACE_RULE, but should not trigger CASE_RULE (see github #258)
+    assertGood("\"Im Folgenden beschreibe ich das Haus.\""); //triggers TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN, but should not trigger CASE_RULE 
     //assertBad("Peter Peterson, dessen Namen auf griechisch Stein bedeutet.");
   }
 
