@@ -2132,6 +2132,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>Jest to niewielki elektromagnes, <marker>uzwojenie którego</marker> łączymy ze źródłem prądu.</example>
 						</rule>
 						<rule>
+              <antipattern> <!-- jakie trzy tysiące -->
+              <unify>
+              <feature id="gender"/><feature id="number"/><feature id="case"/>
+                <marker>
+                <token inflected="yes">jaki</token>
+                </marker>
+                <unify-ignore>
+                <token postag="num:pl.*" postag_regexp="yes"/>
+                </unify-ignore>
+                <token postag="subst.*" postag_regexp="yes"/>
+              </unify>
+              </antipattern>            
 								<pattern>
 										<token><exception>,</exception><exception postag="conj|comp|adv.*" postag_regexp="yes"></exception></token>
 										<token postag="prep.*" postag_regexp="yes"></token>
@@ -2144,6 +2156,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Mało który spełnia warunki formalne.</example>
 								<example>To młotek, za pomocą którego Przemysław zamęczał kotka.</example>
 								<example correction="coś, na którego bazie">To <marker>coś na bazie którego</marker> Jurek zbuduje imperium.</example>
+								<example>Po upływie jakiej pół godziny dojechaliśmy do miejsca, w którym się szczelina kończyła.</example>
 						</rule>
 						<rule>
                                 <antipattern>
@@ -6371,6 +6384,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </marker>
         <token>?</token>        
         </antipattern>
+        <antipattern> <!-- jakie trzy tysiące -->
+        <unify>
+        <feature id="gender"/><feature id="number"/><feature id="case"/>
+          <marker>
+          <token inflected="yes">jaki</token>
+          </marker>
+          <unify-ignore>
+          <token postag="num:pl.*" postag_regexp="yes"/>
+          </unify-ignore>
+          <token postag="subst.*" postag_regexp="yes"/>
+        </unify>
+        </antipattern>
         <antipattern>
         <marker>
           <token>jakich</token>
@@ -6477,6 +6502,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>Nie możemy teraz osłabiać drużyny, która i tak jest już wystarczająco słaba przez osobę trenera.</example>
          <example>Nic, nawet dębu, po którego stuletniej korze ześlizgiwały się wstęgi piorunów.</example>
          <example>Kiedym był pewny, że Gilberta przyjdzie na Pole Elizejskie, doznawałem radości, która mi się zdawała jedynie mglistym przeczuciem wielkiego szczęścia.</example>
+         <example>Po upływie jakiej pół godziny dojechaliśmy do miejsca, w którym się szczelina kończyła.</example>
         </rule>
 
         <rule id="NIEZGODNOSC_PRZYPADKU_PO_LICZEBNIKU" name="Niezgodność przypadku po liczebniku">
