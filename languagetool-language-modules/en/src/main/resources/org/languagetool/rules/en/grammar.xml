@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
         title="Easy editing stylesheet" ?>
@@ -13609,6 +13609,22 @@ USA
             <message>Did you mean <suggestion>nice</suggestion> (=pleasant)?</message>
             <short>Commonly confused word</short>
             <example correction="nice">I wish you a <marker>niece</marker> holiday.</example>
+        </rule>
+        <rule id="SLIGHT_OF_HAND" name="slight (sleight) of hand">
+            <pattern>
+                <marker>
+                    <token regexp="yes">slight|slights</token>
+                </marker>
+                <token>of</token>
+                <token>hand</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">sleight</match></suggestion>?</message>
+            <url>http://public.wsu.edu/~brians/errors/slight.html</url>
+            <short>Commonly confused word</short>
+            <example correction="sleight">This is where the <marker>slight</marker> of hand comes in.</example>
+            <example correction="sleights">At the show, we saw many marvellous <marker>slights</marker> of hand.</example>
+            <example correction="Sleights"><marker>Slights</marker> of hand are a clever trick.</example>
+            <example><marker>Sleight</marker> of hand is also known as prestidigitation.</example>
         </rule>
     </category>
 
