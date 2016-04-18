@@ -33806,16 +33806,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <marker>
                     <token>en</token>
-                    <token>contes</token>
+                    <token regexp="yes">contes?</token>
                     <token regexp="yes">de|d'</token>
                 </marker>
                 <token><exception regexp="yes">\p{Lu}.+|fades|prínceps|terror|por</exception></token>
             </pattern>
             <message>¿Volíeu dir: <suggestion>en comptes <match no="3"/></suggestion>?</message>
-            <example correction="en comptes d'"><marker>en contes d'</marker>ell</example>
+            <suggestion>en compte <match no="3"/></suggestion>
+            <example correction="en comptes d'|en compte d'"><marker>en contes d'</marker>ell</example>
             <example>en comptes de</example>
             <example>en contes de Pere Calders</example>
             <example>en contes de terror</example>
+        </rule>
+        <rule id="EN_COMTES_DE" name="en contes de">
+            <pattern>
+                <marker>
+                    <token>en</token>
+                    <token regexp="yes">comtes?</token>
+                    <token regexp="yes">de|d'</token>
+                </marker>
+                <token><exception regexp="yes">\p{Lu}.+</exception></token>
+            </pattern>
+            <message>¿Volíeu dir: <suggestion>en comptes <match no="3"/></suggestion>?</message>
+            <suggestion>en compte <match no="3"/></suggestion>
+            <example correction="en comptes d'|en compte d'"><marker>en comtes d'</marker>ell</example>
+            <example>Es van convertir en comtes de Barcelona</example>
         </rule>
         <rule id="CERCAT_TANCA_CLOS" name="cercat/tanca, clos">
             <pattern>
