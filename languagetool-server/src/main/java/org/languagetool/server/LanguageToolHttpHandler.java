@@ -230,7 +230,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         response = Tools.getFullStackTrace(e);
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
       }
-      logError(text, remoteAddress, e, errorCode);
+      logError(text, remoteAddress, e, errorCode, httpExchange);
       sendError(httpExchange, errorCode, "Error: " + response);
     } finally {
       synchronized (this) {
@@ -240,12 +240,14 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
   }
 
-  private void logError(String text, String remoteAddress, Exception e, int errorCode) {
+  private void logError(String text, String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange) {
+    String message = "An error has occurred, sending HTTP code " + errorCode + ". ";
     if (text != null && remoteAddress != null) {
-      print("An error has occurred. Sending HTTP code " + errorCode + ". Access from " + remoteAddress + ", text length " + text.length() + ". Stacktrace follows:", System.err);
-    } else {
-      print("An error has occurred. Sending HTTP code " + errorCode + ". Stacktrace follows:", System.err);
+      message += "Access from " + remoteAddress + ", text length " + text.length() + ". ";
     }
+    message += "HTTP user agent: " + httpExchange.getRequestHeaders().getFirst("User-Agent") + ", ";
+    message += "Stacktrace follows:";
+    print(message, System.err);
     if (verbose && text != null) {
       print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
               StringUtils.abbreviate(text, 500), System.err);
