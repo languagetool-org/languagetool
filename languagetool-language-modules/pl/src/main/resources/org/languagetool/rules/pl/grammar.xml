@@ -6183,9 +6183,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <antipattern> <!-- jeden z: zmiana liczby rzeczownika głównego -->
         <unify><feature id="gender"/><feature id="number"/>
-        <token inflected="yes" regexp="yes">jeden|ten|ów|każdy</token>        
+        <token inflected="yes" regexp="yes">jeden|ten|ów|każdy|żaden|największy</token>        
         <unify-ignore>
           <token inflected="yes" regexp="yes">z|spośród|wśród</token>
+          <token min="0" max="1" regexp="yes">jego|jej|ich|naszych|waszych|twoich|moich</token>
           <token skip="-1" postag="(?:subst|ger|adj|pact|ppas|ppron\d+|num):pl:gen.*" postag_regexp="yes"/>
         </unify-ignore>
         <marker>
@@ -6241,7 +6242,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <unify><feature id="gender"/><feature id="number"/>
         <token postag="(?:adj|pact|ppron|num:pl).*" postag_regexp="yes"/>
         <unify-ignore>
-          <token min="0" max="1" postag="qub"/>
+          <token min="0" max="1" postag="qub|conj" postag_regexp="yes"/>
           <token skip="-1">,</token>
         </unify-ignore>
         <marker>
@@ -6503,6 +6504,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>Nic, nawet dębu, po którego stuletniej korze ześlizgiwały się wstęgi piorunów.</example>
          <example>Kiedym był pewny, że Gilberta przyjdzie na Pole Elizejskie, doznawałem radości, która mi się zdawała jedynie mglistym przeczuciem wielkiego szczęścia.</example>
          <example>Po upływie jakiej pół godziny dojechaliśmy do miejsca, w którym się szczelina kończyła.</example>
+         <example>Tym zaś, którzy kąśliwie wypominają Magdzie Fronczewskiej rodzinne plecy, radzę spróbować zaśpiewać piosenkę „Gdybyś”, którą wykonywała w Opolu.</example>
+         <example>Żaden z jego zawodników, który wcześniej decydował o wygranych drużyny, tym razem niczym specjalnym się nie wyróżniał.</example>
         </rule>
 
         <rule id="NIEZGODNOSC_PRZYPADKU_PO_LICZEBNIKU" name="Niezgodność przypadku po liczebniku">
