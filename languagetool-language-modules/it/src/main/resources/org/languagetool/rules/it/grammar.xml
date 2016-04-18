@@ -387,6 +387,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <!-- GRAMMATICA PREPOSIZIONI - GR_07 -->
     <category id="CAT5" name="Grammatica - Preposizioni">
+        <rulegroup id="ARTICOLATA_SOSTANTIVO" name="Concordanza preposizione articolata - sostantivo">
+            <rule>
+                <pattern>
+                    <token postag='ARTPRE-M:p'/>
+                    <token postag='NOUN-M:s'><exception postag="NOUN-M:p"/></token>
+                </pattern>
+                <message>La preposizione articolata non concorda con il sostantivo che la segue</message>
+                <example type="correct">Il libro <marker>degli amici</marker>.</example>
+                <example type="incorrect">Il libro <marker>degli amico</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag='ARTPRE-M:s'/>
+                    <token postag='NOUN-M:p'><exception postag="NOUN-M:s"/></token>
+                </pattern>
+                <message>La preposizione articolata non concorda con il sostantivo che la segue</message>
+                <example type="correct">Il libro <marker>dell'amico amici</marker>.</example>
+                <example type="incorrect">Il libro <marker>dello amici</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag='ARTPRE-F:p'/>
+                    <token postag='NOUN-F:s'><exception postag="NOUN-F:p"/></token>
+                </pattern>
+                <message>La preposizione articolata non concorda con il sostantivo che la segue</message>
+                <example type="correct">Il libro <marker>dell'amica</marker>.</example>
+                <example type="incorrect">Il libro <marker>delle amica</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag='ARTPRE-F:s'/>
+                    <token postag='NOUN-F:p'><exception postag="NOUN-F:s"/></token>
+                </pattern>
+                <message>La preposizione articolata non concorda con il sostantivo che la segue</message>
+                <example type="correct">Il libro <marker>dell'amica</marker>.</example>
+                <example type="incorrect">Il libro <marker>della amiche</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="CONCORDANZA_PREPOSIZIONE" name="Concordanza preposizione articolata maschile - genere parola seguente">
             <pattern case_sensitive='yes'>
                 <token regexp='yes'>del|al|dal|nel|sul</token>
