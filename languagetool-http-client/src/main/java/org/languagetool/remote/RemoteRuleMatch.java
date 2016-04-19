@@ -152,4 +152,8 @@ public class RemoteRuleMatch {
     this.locQualityIssueType = locQualityIssueType;
   }
 
+  @Override
+  public String toString() {
+    return ruleId + "@" + offset + "-" + (offset + errorLength);
+  }
 }

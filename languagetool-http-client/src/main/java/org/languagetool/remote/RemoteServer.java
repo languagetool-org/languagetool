@@ -57,4 +57,9 @@ public class RemoteServer {
     return buildDate;
   }
 
+  @Override
+  public String toString() {
+    return software + "/" + version + "/" + buildDate;
+  }
+
 }
