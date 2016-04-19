@@ -86,7 +86,7 @@ public class RemoteLanguageToolIntegrationTest {
 
       CheckConfiguration enabledConfig = new CheckConfigurationBuilder("en").enabledRuleIds("EN_A_VS_AN").build();
       RemoteResult result3 = lt.check("A sentence with a error, and and another one", enabledConfig);
-      assertThat(result1.getMatches().size(), is(2));
+      assertThat(result3.getMatches().size(), is(2));
 
       CheckConfiguration enabledOnlyConfig = new CheckConfigurationBuilder("en").enabledRuleIds("EN_A_VS_AN").enabledOnly().build();
       RemoteResult result4 = lt.check("A sentence with a error, and and another one", enabledOnlyConfig);
