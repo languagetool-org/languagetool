@@ -18,6 +18,7 @@
  */
 package org.languagetool.remote;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.server.HTTPSServer;
 import org.languagetool.server.HTTPSServerConfig;
@@ -47,6 +48,14 @@ public class RemoteLanguageToolIntegrationTest {
 
   private static final String serverUrl = "http://" + HTTPServerConfig.DEFAULT_HOST + ":" + HTTPTools.getDefaultPort();
 
+  @Test
+  @Ignore("for interactive use only")
+  public void testPublicServer() throws MalformedURLException {
+    RemoteLanguageTool lt = new RemoteLanguageTool(new URL("https://languagetool.org:8081"));
+    RemoteResult matches = lt.check("This is an test.", "en");
+    System.out.println("matches: " + matches);
+  }
+  
   @Test
   public void testClient() throws MalformedURLException {
     HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort());
