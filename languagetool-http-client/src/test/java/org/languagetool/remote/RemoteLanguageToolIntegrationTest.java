@@ -67,6 +67,7 @@ public class RemoteLanguageToolIntegrationTest {
       assertThat(lt.check("Sentence wiht a typo not detected.", "en").getMatches().size(), is(0));
       assertThat(lt.check("Sentence wiht a typo detected.", "en-US").getMatches().size(), is(1));
       assertThat(lt.check("A sentence with a error.", "en").getMatches().size(), is(1));
+      assertThat(lt.check("Test escape: %", "en").getMatches().size(), is(0));
 
       RemoteResult result1 = lt.check("A sentence with a error, and and another one", "en");
       assertThat(result1.getLanguage(), is("English"));

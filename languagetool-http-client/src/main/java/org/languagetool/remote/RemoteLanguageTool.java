@@ -30,6 +30,7 @@ import java.io.*;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,25 +69,40 @@ public class RemoteLanguageTool {
 
   private String getUrlParams(String text, CheckConfiguration config) {
     StringBuilder params = new StringBuilder();
-    params.append("language=").append(config.getLangCode())
-          .append("&text=").append(text);
+    append(params, "language", config.getLangCode());
+    append(params, "text", text);
     if (config.getMotherTongueLangCode() != null) {
-      params.append("&motherTongue=").append(config.getMotherTongueLangCode());
+      append(params, "motherTongue", config.getMotherTongueLangCode());
     }
     if (config.guessLanguage()) {
-      params.append("&autodetect=1");
+      append(params, "autodetect", "1");
     }
     if (config.getEnabledRuleIds().size() > 0) {
-      params.append("&enabled=").append(String.join(",", config.getEnabledRuleIds()));
+      append(params, "enabled", String.join(",", config.getEnabledRuleIds()));
     }
     if (config.enabledOnly()) {
-      params.append("&enabledOnly=yes");
+      append(params, "enabledOnly", "yes");
     }
     if (config.getDisabledRuleIds().size() > 0) {
-      params.append("&disabled=").append(String.join(",", config.getDisabledRuleIds()));
+      append(params, "disabled", String.join(",", config.getDisabledRuleIds()));
     }
-    params.append("&useragent=java-http-client");
+    append(params, "useragent", "java-http-client");
     return params.toString();
+  }
+
+  private void append(StringBuilder params, String paramName, String paramValue) {
+    if (params.length() > 0) {
+      params.append("&");
+    }
+    params.append(paramName).append("=").append(encode(paramValue));
+  }
+
+  private String encode(String text) {
+    try {
+      return URLEncoder.encode(text, "utf-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private RemoteResult check(String urlParameters) {
