@@ -6181,6 +6181,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </marker>
         </unify>
         </antipattern>
+        <antipattern> <!-- „taki” z prawej strony po przecinku -->
+        <unify><feature id="gender"/><feature id="number"/>
+        <marker>
+          <token skip="-1" inflected='yes' regexp='yes'>który|jaki</token>
+        </marker>
+        <unify-ignore>
+        <token regexp="yes" skip="-1">[,–—]</token>
+        </unify-ignore>
+        <token inflected="yes" regexp="yes">taki|ten</token>
+        </unify>
+        </antipattern>
+        <antipattern>
+        <unify><feature id="gender"/><feature id="number"/>
+        <token skip="-1" postag="adj.*" postag_regexp="yes" inflected="yes" regexp="yes">ten|taki</token>
+        <marker>
+          <token inflected='yes' regexp='yes'>który|jaki</token>
+        </marker>
+        </unify>
+        </antipattern>
         <antipattern> <!-- jeden z: zmiana liczby rzeczownika głównego -->
         <unify><feature id="gender"/><feature id="number"/>
         <token inflected="yes" regexp="yes">jeden|ten|ów|każdy|żaden|największy</token>        
@@ -6238,7 +6257,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <token inflected='yes' regexp='yes' postag="adj:pl.*(?:m1|n2).*" postag_regexp="yes">który|jaki</token>
             </marker>          
         </antipattern>                
-        <antipattern> <!-- ten, który -->
+        <antipattern> <!-- -owy, który -->
         <unify><feature id="gender"/><feature id="number"/>
         <token postag="(?:adj|pact|ppron|num:pl).*" postag_regexp="yes"/>
         <unify-ignore>
@@ -6510,6 +6529,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>Dzisiaj dziesięciu największych odbiera 75 proc. produkcji, która trafia potem do Warszawy, Trójmiasta i w Toruńskie — mówi dyrektor.</example>
          <example>Zezwolił na to minister edukacji, który już na początku roku szkolnego dopuścił możliwość odrobienia tego dnia w innym terminie.</example>
          <example>Musi być uwzględniony okres kary, którą skazany już wcześniej odbył.</example>
+         <example>Prawdę ludzie mówią, że z jakim przestajesz, takim się sam stajesz.</example>
+         <example>- Mam takiego - mówił - który jeszcze pracował u mojego ojca.</example>
         </rule>
 
         <rule id="NIEZGODNOSC_PRZYPADKU_PO_LICZEBNIKU" name="Niezgodność przypadku po liczebniku">
