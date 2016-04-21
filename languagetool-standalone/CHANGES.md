@@ -17,7 +17,11 @@
 
 #### German
   * added some rules
-
+  
+#### Polish
+  * added and improved rules
+  * removed some false alarms
+  
 #### Portuguese
   * added some rules
 
@@ -39,8 +43,7 @@
     response (it used to produce `500 Internal Server Error`)
   * to turn on language auto-detection, `autodetect=yes` can now be
     used instead of `autodetect=1` (to be consistent with `enabledOnly=yes`)
-
-
+ 
 
 ## 3.3 (2016-03-28)
 
