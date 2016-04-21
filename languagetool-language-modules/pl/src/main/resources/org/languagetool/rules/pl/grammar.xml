@@ -2117,7 +2117,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 </antipattern>
 								<pattern>
 										<marker>
-												<token postag="subst.*" postag_regexp="yes"><exception postag="prep.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes">&interp;|mało|rzadko</exception><exception postag="conj|comp|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;" postag_regexp="yes"></exception></token>
+												<token postag="subst.*" postag_regexp="yes"><exception postag="prep.*" postag_regexp="yes" scope="previous"/><exception regexp="yes">&interp;|mało|rzadko|co</exception><exception postag="conj|comp|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;" postag_regexp="yes"></exception></token>
 												<token inflected="yes" regexp="yes">który|jaki</token>
 										</marker>
 										<token><exception regexp="yes">&interp;|\)</exception></token>
@@ -2128,6 +2128,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Mało który spełnia warunki formalne.</example>
 								<example>To młotek, za pomocą którego Przemysław zamęczał kotka.</example>
 								<example correction="Marek, którego">To <marker>Marek którego</marker> Jurek nienawidzi.</example>
+								<example>Wiecznie bukiety wiążą, a co który zwiąże, to miotła.</example>
                                 <!-- niżej jest reguła, która wykrywa błędny szyk w zdaniu poniższym: -->
                                 <example>Jest to niewielki elektromagnes, <marker>uzwojenie którego</marker> łączymy ze źródłem prądu.</example>
 						</rule>
@@ -6202,7 +6203,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <antipattern> <!-- jeden z: zmiana liczby rzeczownika głównego -->
         <unify><feature id="gender"/><feature id="number"/>
-        <token inflected="yes" regexp="yes">jeden|ten|ów|każdy|żaden|największy</token>        
+        <token inflected="yes" regexp="yes">jeden|ten|ów|każdy|żaden</token>        
+        <unify-ignore>
+          <token inflected="yes" regexp="yes">z|spośród|wśród</token>
+          <token min="0" max="1" regexp="yes">jego|jej|ich|naszych|waszych|twoich|moich</token>
+          <token skip="-1" postag="(?:subst|ger|adj|pact|ppas|ppron\d+|num):pl:gen.*" postag_regexp="yes"/>
+        </unify-ignore>
+        <marker>
+          <token inflected='yes' regexp='yes'>który|jaki</token>
+        </marker>
+        </unify>
+        </antipattern>
+        <antipattern> <!-- adj:sup z  zmiana liczby rzeczownika głównego -->
+        <unify><feature id="gender"/><feature id="number"/>
+        <token postag="adj.*:sup" postag_regexp="yes"/>
         <unify-ignore>
           <token inflected="yes" regexp="yes">z|spośród|wśród</token>
           <token min="0" max="1" regexp="yes">jego|jej|ich|naszych|waszych|twoich|moich</token>
@@ -6348,10 +6362,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token postag="adj.*" postag_regexp="yes"/>
             </unify>
         </antipattern>
+        <antipattern> <!-- jaka ona piękna! -->
+        <unify><feature id="gender"/><feature id="number"/><feature id="case"/>
+            <marker>
+              <token inflected='yes'>jaki</token>
+            </marker>
+            <unify-ignore>
+            <token postag="ppron\d+.*nom.*" postag_regexp="yes"/>
+            </unify-ignore>
+            <token postag="adj.*" postag_regexp="yes"/>
+            </unify>
+        </antipattern>
         <antipattern> <!-- supozycja materialna -->
           <token>„</token>
             <marker>
-              <token inflected='yes' regexp='yes'>który|jaki</token>          
+              <token inflected='yes' regexp='yes'>który|jaki</token>
             </marker>
           <token>”</token>
         </antipattern>
@@ -6439,7 +6464,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <marker>
           <token inflected='yes' regexp='yes'>który|jaki
             <exception postag="SENT_START" scope="previous"/>
-            <exception inflected="yes" scope="previous" regexp="yes">jeśli|gdy|gdzie|ażeby|że</exception>
+            <exception inflected="yes" scope="previous" regexp="yes">jeśli|gdy|gdzie|ażeby|że|co</exception>
           </token>
           </marker>
           <token><exception regexp="yes">[?…\.!”]</exception></token>
@@ -6533,6 +6558,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>- Mam takiego - mówił - który jeszcze pracował u mojego ojca.</example>
          <example>— Panie Boże, który byłeś zawżdy moim opiekunem i obrońcą, widzisz oto nieszczęście, które dybie na mnie.</example>
          <example>Chciałbym twą boską małżonkę pożegnać jeszcze słowy, którymi powitałem ją niegdyś w domu Aulusów: „Różnym ja się, przeróżnym napatrzył narodom, a równej tobie nie znam.”</example>
+         <example>— W drodze ciągle mówiła o tobie: „Jaki on ładny!”</example>
+         <example>— I ty najwierniejszy z giermków, którego dobroć szersza od brody mojego giermka Trifaldina, zaklinam cię, o najszlachetniejszy giermku!</example>
         </rule>
 
         <rule id="NIEZGODNOSC_PRZYPADKU_PO_LICZEBNIKU" name="Niezgodność przypadku po liczebniku">

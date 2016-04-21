@@ -2192,6 +2192,26 @@
         <disambig postag="conj"/>
     </rule>
 
+    <rule id="albo_qub" name="albo na początku zdania => kublik">
+        <pattern case_sensitive="yes">
+            <token postag="SENT_START"/>
+            <token min="0" max="2" regexp="yes">[–—„&quot;]</token>
+            <marker>
+                <token>Albo</token>
+            </marker>
+        </pattern>
+        <disambig postag="qub"/>
+        <example type="ambiguous" inputform="Albo[Albo/comp:comma,alba/subst:sg:voc:f,albo/conj,albo/qub]" outputform="Albo[albo/qub]"><marker>Albo</marker> nie.</example>
+        <example type="ambiguous" inputform="Albo[Albo/comp:comma,alba/subst:sg:voc:f,albo/conj,albo/qub]" outputform="Albo[albo/qub]">—„<marker>Albo</marker> nie”.</example>
+    </rule>
+
+    <rule id="albo_niequb" name="w innych sytuacjach albo -> conj">
+        <pattern>
+            <token postag="conj">albo</token>
+        </pattern>
+        <disambig action="filter" postag="comp:comma|conj"/>
+    </rule>
+
     <rule id="ALE_ALE" name="Ale, ale jako wykrzyknik (za Innym słownikiem)">
         <pattern case_sensitive="yes">
             <token postag="SENT_START"/>
@@ -4124,7 +4144,7 @@
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes">[,ia—–]</token>
+                <token regexp="yes">[,ia—–]|albo|lub|bądź</token>
                 <unify><feature id="case"/>
                 <token postag="prep.*" postag_regexp="yes"/>
                 <unify-ignore>
@@ -4135,6 +4155,21 @@
                 </unify>
             </pattern>
             <disambig action="filterall"/>
+        </rule>
+        <rule> <!-- kaskada dwuetapowa -->
+            <pattern>
+                <token regexp="yes">[,ia—–]|albo|lub|bądź</token>
+                <marker>
+                <unify><feature id="case"/>
+                    <token postag="prep.*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <token postag="adj.*gen.*" postag_regexp="yes" inflected="yes">który</token>
+                    </unify-ignore>
+                    <token postag="(?:subst|depr|ger|adj|pact|ppas):.*" postag_regexp="yes"/>
+                </unify>
+                </marker>
+            </pattern>
+            <disambig action="unify"/>
         </rule>
     </rulegroup>
 
@@ -4966,11 +5001,11 @@
         <pattern>
             <marker>
             <token postag="subst.*" postag_regexp="yes" inflected="yes" regexp="yes">teoria|proces|opis|obraz|widok|światło</token>
-            <token postag="subst:sg.*gen.*" postag_regexp="yes"/></marker>
+            <token postag="subst:.*gen.*" postag_regexp="yes"/></marker>
         </pattern>
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="względności[względność/subst:pl:acc:f,względność/subst:pl:gen:f,względność/subst:pl:nom:f,względność/subst:pl:voc:f,względność/subst:sg:dat:f,względność/subst:sg:gen:f,względność/subst:sg:loc:f,względność/subst:sg:voc:f]"
-                 outputform="względności[względność/subst:sg:gen:f]">Nie lubię teorii <marker>względności</marker>.</example>
+                 outputform="względności[względność/subst:pl:gen:f,względność/subst:sg:gen:f]">Nie lubię teorii <marker>względności</marker>.</example>
     </rule>
 
     <rule id="NP_GEN_skutek" name="skutek x-a">
