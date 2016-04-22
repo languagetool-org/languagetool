@@ -178,7 +178,8 @@ public class English extends Language implements AutoCloseable {
         new AvsAnRule(messages),
         new EnglishWordRepeatBeginningRule(messages, this),
         new CompoundRule(messages),
-        new ContractionSpellingRule(messages)
+        new ContractionSpellingRule(messages),
+        new EnglishNeuralNetRule(messages)  // TODO: move to getRelevantLanguageModelRules() ??
     );
   }
 
@@ -186,8 +187,7 @@ public class English extends Language implements AutoCloseable {
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Arrays.<Rule>asList(
         new EnglishConfusionProbabilityRule(messages, languageModel, this),
-        new EnglishNgramProbabilityRule(messages, languageModel, this),
-        new NeuralNetRule(messages)
+        new EnglishNgramProbabilityRule(messages, languageModel, this)
     );
   }
 

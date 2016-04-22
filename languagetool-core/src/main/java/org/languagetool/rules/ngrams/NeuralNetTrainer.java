@@ -58,14 +58,9 @@ import java.util.List;
 @Experimental
 public abstract class NeuralNetTrainer {
 
-  static final String BIN_FILE = "/lt/dl4j/coefficients.bin";
-  static final String JSON_FILE = "/lt/dl4j/conf.json";
-
-  //private static final String CORRECT_SENTENCES = "/home/dnaber/sentences-their-there10K.txt";
-  //private static final String INCORRECT_SENTENCES = "/home/dnaber/sentences-their-there-incorrect10K.txt";
-  //private static final String CORRECT_SENTENCES = "/home/dnaber/sentences-their10K.txt";
-  //private static final String INCORRECT_SENTENCES = "/home/dnaber/sentences-their-incorrect10K.txt";
-  private static final String CORRECT_SENTENCES = "/home/dnaber/sentences-there10K.txt";
+  private static final String BIN_OUTPUT          = "/tmp/coefficients.bin";
+  private static final String JSON_OUTPUT         = "/tmp/conf.json";
+  private static final String CORRECT_SENTENCES   = "/home/dnaber/sentences-there10K.txt";
   private static final String INCORRECT_SENTENCES = "/home/dnaber/sentences-there-incorrect10K.txt";
   private static final int CONTEXT_SIZE = 2;   // to the left and to the right so that 2*CONTEXT_SIZE+1 tokens are considered
 
@@ -160,11 +155,11 @@ public abstract class NeuralNetTrainer {
   }
 
   private void saveModel(MultiLayerNetwork model) throws IOException {
-    OutputStream fos = Files.newOutputStream(Paths.get(BIN_FILE));
-    try (DataOutputStream dos = new DataOutputStream(fos)) {
+    try (OutputStream fos = Files.newOutputStream(Paths.get(BIN_OUTPUT));
+         DataOutputStream dos = new DataOutputStream(fos)) {
       Nd4j.write(model.params(), dos);
     }
-    FileUtils.write(new File(JSON_FILE), model.getLayerWiseConfigurations().toJson());
+    FileUtils.write(new File(JSON_OUTPUT), model.getLayerWiseConfigurations().toJson());
   }
 
   private class ErrorDataFetcher extends BaseDataFetcher {
@@ -206,7 +201,7 @@ public abstract class NeuralNetTrainer {
           if (word1Pos == -1 && word2Pos == -1) {
             throw new RuntimeException("Expected words ('" + word1 + "' or '" + word2 + "') not found: " + sentence);
           }
-          INDArray in = tools.getSentenceVector(CONTEXT_SIZE, tokens, word1Pos != -1 ? word1Pos : word2Pos);
+          INDArray in = tools.getContextVector(CONTEXT_SIZE, tokens, word1Pos != -1 ? word1Pos : word2Pos);
           INDArray out = FeatureUtil.toOutcomeVector(correct ? 1 : 0, 2);
           toConvert.add(new DataSet(in, out));
           //System.out.println(correct + " " + sentence.replaceAll("(there|their)", "***$1***"));

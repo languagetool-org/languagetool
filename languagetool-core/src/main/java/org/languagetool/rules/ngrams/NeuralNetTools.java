@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 @Experimental
 class NeuralNetTools {
 
+  // get from http://nlp.stanford.edu/projects/glove/:
   private static final String WORD_EMBEDDINGS = "/media/Data/word-embeddings/glove/glove.6B.100d-top50K.txt";
 
   private final InMemoryLookupTable lookupTable;
@@ -23,7 +24,7 @@ class NeuralNetTools {
     this.lookupTable = getWordEmbeddings();
   }
   
-  InMemoryLookupTable getWordEmbeddings() {
+  private InMemoryLookupTable getWordEmbeddings() {
     System.out.println("Loading embeddings...");
     try {
       Pair<InMemoryLookupTable, VocabCache> pair = WordVectorSerializer.loadTxt(new File(WORD_EMBEDDINGS));
@@ -34,14 +35,16 @@ class NeuralNetTools {
     }
   }
 
-  INDArray getSentenceVector(int contextSize, AnalyzedTokenReadings[] tokens, int wordPos) {
-    INDArray in = Nd4j.createComplex(1, contextSize*2+1);
+  INDArray getContextVector(int contextSize, AnalyzedTokenReadings[] tokens, int wordPos) {
+    INDArray in = Nd4j.createComplex(1, contextSize*2+1);  // TODO: does createComplex() make sense here?
     int pos = 0;
     for (int j = wordPos - contextSize; j <= wordPos + contextSize; j++) {
       INDArray vector = getTokenVector(tokens, j);
-      in.put(pos, vector);
+      in.put(pos, vector);  // TODO: this seems wrong, only the first value of 100 dimensions is used
       pos++;
     }
+    //System.out.println("----------");
+    //System.out.println(in);
     return in;
   }
 
@@ -55,7 +58,9 @@ class NeuralNetTools {
     } else {
       token = tokens[j].getToken();
     }
-    return lookupTable.vector(token);
+    INDArray vector = lookupTable.vector(token);
+    //System.out.println("Vector for " + token + ": " + vector);
+    return vector;
   }
 
 }

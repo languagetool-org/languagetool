@@ -1,0 +1,101 @@
+{
+  "backprop" : false,
+  "backpropType" : "Standard",
+  "confs" : [ {
+    "layer" : {
+      "dense" : {
+        "activationFunction" : "relu",
+        "adamMeanDecay" : 0.9,
+        "adamVarDecay" : 0.999,
+        "biasInit" : 0.0,
+        "dist" : {
+          "normal" : {
+            "mean" : 0.001,
+            "std" : 1.0
+          }
+        },
+        "dropOut" : 0.0,
+        "gradientNormalization" : "None",
+        "gradientNormalizationThreshold" : 1.0,
+        "l1" : 0.0,
+        "l2" : 0.0,
+        "layerName" : "genisys",
+        "learningRate" : 0.10000000149011612,
+        "learningRateAfter" : { },
+        "lrScoreBasedDecay" : 0.0,
+        "momentum" : 0.5,
+        "momentumAfter" : { },
+        "nin" : 5,
+        "nout" : 100,
+        "rho" : 0.0,
+        "rmsDecay" : 0.95,
+        "updater" : "SGD",
+        "weightInit" : "XAVIER"
+      }
+    },
+    "maxNumLineSearchIterations" : 5,
+    "miniBatch" : true,
+    "minimize" : true,
+    "numIterations" : 30,
+    "optimizationAlgo" : "STOCHASTIC_GRADIENT_DESCENT",
+    "seed" : 123,
+    "stepFunction" : null,
+    "timeSeriesLength" : 1,
+    "useDropConnect" : false,
+    "useRegularization" : false,
+    "useSchedules" : false,
+    "variables" : [ "W", "b" ]
+  }, {
+    "layer" : {
+      "output" : {
+        "activationFunction" : "softmax",
+        "adamMeanDecay" : 0.9,
+        "adamVarDecay" : 0.999,
+        "biasInit" : 0.0,
+        "customLossFunction" : null,
+        "dist" : {
+          "normal" : {
+            "mean" : 0.001,
+            "std" : 1.0
+          }
+        },
+        "dropOut" : 0.0,
+        "gradientNormalization" : "None",
+        "gradientNormalizationThreshold" : 1.0,
+        "l1" : 0.0,
+        "l2" : 0.0,
+        "layerName" : "genisys",
+        "learningRate" : 0.10000000149011612,
+        "learningRateAfter" : { },
+        "lossFunction" : "NEGATIVELOGLIKELIHOOD",
+        "lrScoreBasedDecay" : 0.0,
+        "momentum" : 0.5,
+        "momentumAfter" : { },
+        "nin" : 100,
+        "nout" : 2,
+        "rho" : 0.0,
+        "rmsDecay" : 0.95,
+        "updater" : "SGD",
+        "weightInit" : "ZERO"
+      }
+    },
+    "maxNumLineSearchIterations" : 5,
+    "miniBatch" : true,
+    "minimize" : true,
+    "numIterations" : 30,
+    "optimizationAlgo" : "STOCHASTIC_GRADIENT_DESCENT",
+    "seed" : 123,
+    "stepFunction" : null,
+    "timeSeriesLength" : 1,
+    "useDropConnect" : false,
+    "useRegularization" : false,
+    "useSchedules" : false,
+    "variables" : [ "W", "b" ]
+  } ],
+  "dampingFactor" : 100.0,
+  "inputPreProcessors" : { },
+  "pretrain" : true,
+  "redistributeParams" : false,
+  "tbpttBackLength" : 20,
+  "tbpttFwdLength" : 20
+}
