@@ -163,7 +163,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("Rule ID: EXAMPLE_RULE"));
   }
 
-  public void testEnglishFile() throws Exception {
+  /*public void testEnglishFile() throws Exception {
     String[] args = {"-l", "en", getTestFilePath()};
 
     Main.main(args);
@@ -171,7 +171,7 @@ public class MainTest extends AbstractSecurityTestCase {
     String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: English") == 0);
     assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
-  }
+  }*/
 
   public void testEnglishFileAutoDetect() throws Exception {
     String[] args = {"-adl", getTestFilePath()};

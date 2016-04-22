@@ -18,17 +18,18 @@ class NeuralNetTools {
   // get from http://nlp.stanford.edu/projects/glove/:
   private static final String WORD_EMBEDDINGS = "/media/Data/word-embeddings/glove/glove.6B.100d-top50K.txt";
 
-  private final InMemoryLookupTable lookupTable;
-
+  private static final InMemoryLookupTable lookupTable = getWordEmbeddings();
+  
   NeuralNetTools() {
-    this.lookupTable = getWordEmbeddings();
   }
   
-  private InMemoryLookupTable getWordEmbeddings() {
+  private static InMemoryLookupTable getWordEmbeddings() {
     System.out.println("Loading embeddings...");
     try {
+      long startTime = System.currentTimeMillis();
       Pair<InMemoryLookupTable, VocabCache> pair = WordVectorSerializer.loadTxt(new File(WORD_EMBEDDINGS));
-      System.out.println("Loaded embeddings...");
+      long time = System.currentTimeMillis() - startTime;
+      System.out.println("Loaded embeddings (" + time + "ms)");
       return pair.getFirst();
     } catch (FileNotFoundException e) {
       throw new RuntimeException(e);
