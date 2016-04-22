@@ -3821,6 +3821,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="312,12"><marker>312.12</marker> zł</example>
     </rule>
     </rulegroup>
+    <rule id="LICZBA_DZIESIETNA_ZE_SPACJA" name="Zbędna spacja po przecinku w liczbie dziesiętnej">
+    <pattern>
+        <marker>
+        <token regexp="yes">\d+
+            <exception scope="previous" regexp="yes">\d+|[\-–—,]|nr</exception>
+            <!-- Biblia -->
+            <exception scope="previous" regexp="yes">\p{Lu}\p{Ll}{1,2}|Sofoniasz|Amos|Aggeusz|Ezechiel|Królowie|J|Ozeasz|Joel|Jeremiasz|Izajasz</exception>
+        </token>
+        <token>,</token>
+        <token regexp="yes" spacebefore="yes">\d+%?</token>
+        </marker>
+        <token><exception regexp="yes">\d+|[\-,r]</exception></token>
+    </pattern>
+    <message>Prawdopodobnie zbędna spacja w liczebniku dziesiętnym: <suggestion>\1\2\3</suggestion>?</message>
+    <short>Błąd typogrficzny</short>
+    <example correction="1,5">Film trwał <marker>1, 5</marker> godziny.</example>
+    <example>W związku z tym Peralta wydał obowiązującą do dziś ustawę (ustawa nr 9, 1963 r.)</example>
+    </rule>
     <rulegroup id="JEDNOSTKA_LICZBA" name="Brak spacji przed jednostką, np. 12 kg">
         <antipattern>
             <token regexp="yes">[\p{Lu}\d].*</token>
