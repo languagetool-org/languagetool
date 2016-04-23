@@ -43,7 +43,10 @@
     response (it used to produce `500 Internal Server Error`)
   * to turn on language auto-detection, `autodetect=yes` can now be
     used instead of `autodetect=1` (to be consistent with `enabledOnly=yes`)
- 
+
+#### Rule Syntax
+  * groups of rules and categories are now required to have non-empty names
+   to avoid user confusion
 
 ## 3.3 (2016-03-28)
 

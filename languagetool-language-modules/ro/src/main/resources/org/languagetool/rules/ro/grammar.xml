@@ -85,17 +85,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La <marker>nu</marker> mai puțin de un metru.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="LITERE_INVERSATE_AL_LA">
-            <rule name="al + (subst acuzativ)/(subst neart) - al + (subst genitiv)/al + (subst neart)">
-
+        <rulegroup id="LITERE_INVERSATE_AL_LA" name="al + (subst acuzativ)/(subst neart) - al + (subst genitiv)/al + (subst neart)">
+            <rule>
                 <pattern case_sensitive="yes">
                     <marker>
                         <token>al</token>
-                        <token postag_regexp="yes" postag="S(n|f)s3anc000"><exception postag="N(.*)|G(.*)|Sfs3gac000|Sns3gac000" postag_regexp="yes"></exception><exception regexp="yes">[A-Z,ĂÎȘȚ](.*)</exception></token>
+                        <token postag_regexp="yes" postag="S(n|f)s3anc000"><exception postag="N(.*)|G(.*)|Sfs3gac000|Sns3gac000" postag_regexp="yes"/><exception regexp="yes">[A-Z,ĂÎȘȚ](.*)</exception></token>
                     </marker>
                     <token><exception>-</exception></token>
                 </pattern>
-                <message>Ați dorit să scrieți <suggestion><match no="1"></match> <match no="2" postag="Sfs3gac000|Sns3gac000" postag_regexp="yes"></match></suggestion> sau <suggestion>la <match no="2"></match></suggestion>?</message>
+                <message>Ați dorit să scrieți <suggestion><match no="1"/> <match no="2" postag="Sfs3gac000|Sns3gac000" postag_regexp="yes"/></suggestion> sau <suggestion>la <match no="2"></match></suggestion>?</message>
 
                 <example>Recensământ <marker>al populației</marker>.</example>
                 <example correction="al populației|la populație">ceea ce a fost <marker>al populație</marker> dat.</example>
@@ -6003,7 +6002,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="al doisprezecelea">Irinel a ieșit <marker>al douăsprezecelea</marker>.</example>
             <example>Irinel a ajuns al doisprezecelea.</example>
         </rule>
-        <rulegroup id="CELEI_DE_A_TREIA_ZI">
+        <rulegroup id="CELEI_DE_A_TREIA_ZI" name="celei de-a treia zi -&gt; zile">
             <rule name="celei de-a treia zi -&gt; zile">
                 <pattern>
                     <token>celei</token>
@@ -6035,7 +6034,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>A ajuns abia în zori celei de a treia zile.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CELEI_DE_A_TREIA_ZILE_TORIDA">
+        <rulegroup id="CELEI_DE_A_TREIA_ZILE_TORIDA" name="celei de a treia zile toridă -> toride">
             <rule name="celei de a treia zile toridă -> toride">
                 <pattern>
                     <token>celei</token>
