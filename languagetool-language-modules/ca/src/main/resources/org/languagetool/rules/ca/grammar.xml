@@ -13889,8 +13889,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>mig</token>
                 </pattern>
                 <message>Error ortogràfic.</message>
-                <example correction=""><marker>al vell mig</marker></example>
-                <example>al bell mig</example>
+                <suggestion>al bell mig</suggestion>
+                <example correction="al bell mig"><marker>al vell mig</marker></example>
             </rule>
             <rule id="DE_VELL_NOU" name="de *vell/bell nou/antuvi">
                 <pattern>
@@ -13901,7 +13901,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Error ortogràfic.</message>
                 <suggestion>de bell \3</suggestion>
                 <example correction="de bell antuvi"><marker>de vell antuvi</marker></example>
-                <example>de bell nou</example>
             </rule>
         </rulegroup>
         <rulegroup id="BABA_BAVA" name="baba/bava">
@@ -18557,6 +18556,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>ES</token>
                     <token spacebefore="no">-</token>
+                </marker>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <marker>
+                    <token>ES</token>
+                    <token regexp="yes">\p{Ll}.*</token>
                 </marker>
             </antipattern>
             <antipattern case_sensitive="yes">
