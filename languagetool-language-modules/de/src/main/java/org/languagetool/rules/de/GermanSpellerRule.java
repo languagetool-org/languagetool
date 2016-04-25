@@ -34,6 +34,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
@@ -94,6 +95,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @Override
+  protected void init() throws IOException {
+    super.init();
+    String pattern = "(" + nonWordPattern.pattern() + "|(?<=\\d)\\-|\\-(?=\\d+))";
+    nonWordPattern = Pattern.compile(pattern);
+    needsInit = false;
   }
 
   @Override
