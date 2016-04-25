@@ -227,7 +227,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         response = "Checking took longer than " + maxCheckTimeMillis/1000 + " seconds, which is this server's limit. " +
                    "Please make sure you have selected the proper language or consider submitting a shorter text.";
       } else {
-        response = Tools.getFullStackTrace(e);
+        response = "Internal Error. Please contact the site administrator.";
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
       }
       logError(text, remoteAddress, e, errorCode, httpExchange);
