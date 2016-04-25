@@ -4682,6 +4682,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token inflected="yes" skip="2">donar<exception scope="next" postag="SPS00"/></token>
                     </marker>
                     <token postag="D..MS.*" postag_regexp="yes"/>
+                    <token min="0">gran</token>
                     <token>pas</token>
                 </pattern>
                 <message>Val més usar el verb "fer".</message>
@@ -5137,7 +5138,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token><exception regexp="yes">[(,;:]</exception></token> <!-- <exception postag="SENT_START"/> -->
+                    <token><exception regexp="yes">[(,;:]|mateixos</exception></token> <!-- <exception postag="SENT_START"/> -->
                     <marker>
                         <token>Estats<exception scope="previous" postag="DA.*" postag_regexp="yes"/></token>
                         <token>Units</token>
@@ -10123,7 +10124,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>
             <pattern>
-                <token>a</token>
+                <token>a<exception scope="before">com</exception></token>
                 <token>costat</token>
             </pattern>
             <message>Possible confusió.</message>
@@ -11064,12 +11065,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token inflected="yes">constar</token>
                 </marker>
-                <token postag="V.N.*" postag_regexp="yes"/>
+                <token postag="V.N.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">costar</match></suggestion>?</message>
             <short>Possible confusió</short>
             <example correction="costava">A mi em <marker>constava</marker> veure-ho.</example>
             <example>Em costava veure-ho.</example>
+            <example>La constant solar</example>
         </rule>
         <rule id="COMTE" name="*compte/*conte/comte d'Urgell">
             <antipattern>
@@ -13337,7 +13339,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ABASTAMENT_A_BASTAMENT" name="abastament / a bastament">
             <rule>
                 <pattern>
-                    <token postag="SPS00" negate_pos="yes"/>
+                    <token><exception postag="SPS00|CC" postag_regexp="yes"/></token>
                     <marker>
                         <token>abastament<exception postag="_GN_MS"/></token>
                     </marker>
@@ -13352,7 +13354,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SPS00" negate_pos="yes"/>
+                    <token><exception postag="SPS00|CC" postag_regexp="yes"/></token>
                     <marker>
                         <token>abastament<exception postag="_GN_MS"/></token>
                     </marker>
@@ -37857,14 +37859,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="barraques|barracons|bars|barets|quioscs|quiosquets|paradetes">Cal tancar els <marker>xiringuitos</marker>.</example>
             <example>Cal tancar totes les paradetes</example>
         </rule>
-        <rule id="MANUALITAT" name="manualitat">
+        <rule id="MANUALITATS" name="manualitats">
             <pattern>
-                <token regexp="yes">manualitats?</token>
+                <token>manualitats</token>
             </pattern>
             <message>Paraula admesa només en alguns diccionaris.</message>
-            <suggestion>treball<match no="1" regexp_match="(?-i)manualitat(.*)" regexp_replace="$1" /> manual<match no="1" regexp_match="(?-i)manualitat(.*)" regexp_replace="$1" /></suggestion>
+            <suggestion>treballs manuals</suggestion>
             <example correction="treballs manuals">Li agrada fer <marker>manualitats</marker>.</example>
-            <example>Classe de treballs manuals</example>
+        </rule>
+        <rule id="MANUALITAT" name="manualitat">
+            <pattern>
+                <token>manualitat</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion>treball manual</suggestion>
+            <example correction="treball manual">Fa una <marker>manualitat</marker>.</example>
         </rule>
         <rule id="EXITOS" name="exitós" default="off">
             <pattern>
