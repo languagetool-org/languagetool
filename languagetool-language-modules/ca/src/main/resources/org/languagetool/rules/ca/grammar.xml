@@ -5355,7 +5355,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>gens</token>
                 </marker>
-                <token postag="NC.[CS].*" postag_regexp="yes"><exception postag="AQ.*|RG.*" postag_regexp="yes"/></token>
+                <token postag="NC.[CS].*" postag_regexp="yes"><exception postag="AQ.*|RG.*" postag_regexp="yes"/><exception>diana</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>gens de</suggestion>?</message>
             <example correction="gens de">No serà <marker>gens</marker> faena.</example>
@@ -27054,8 +27054,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token regexp="yes">diferents?</token>
-                    <token skip="4">a</token>
-                    <token regexp="yes" inflected="yes">territori|nord|sud|banda|lloc|si|país</token>
+                    <token skip="3">a</token>
+                    <token regexp="yes" inflected="yes">voltant|territori|nord|sud|banda|lloc|si|país</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">diferents?</token>
+                    <token>a</token>
+                    <token regexp="yes">més|causa|nivell|banda|part</token>
                 </marker>
             </antipattern>
             <antipattern>
@@ -27068,7 +27075,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">diferents?</token>
-                    <token>a</token>
+                    <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
                     <token spacebefore="no">l</token>
                 </pattern>
                 <message>Incorrecte si equival a <suggestion>\1 del</suggestion>.</message>
@@ -27080,7 +27087,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">diferents?</token>
-                    <token>a</token>
+                    <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
                     <token spacebefore="no">ls</token>
                 </pattern>
                 <message>Incorrecte si equival a <suggestion>\1 dels</suggestion>.</message>
@@ -27091,7 +27098,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">diferents?</token>
-                    <token>a</token>
+                    <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
                     <token regexp="yes">[^aeiouhàéèíòóú].*<exception>cada</exception><exception postag="NP..G..|V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Incorrecte si equival a <suggestion>\1 de <match no="3"></match></suggestion>.</message>
@@ -27104,7 +27111,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">diferents?</token>
-                    <token>a</token>
+                    <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
                     <token regexp="yes">[aeiouhàéèíòóú].*<exception postag="NP..G..|V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Incorrecte si equival a <suggestion>\1 d'<match no="3"></match></suggestion>.</message>
