@@ -10684,6 +10684,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token inflected="yes" regexp="yes">tenir|fer|passar|causar|sofrir|patir</token>
+                    <token min="0" regexp="yes">molta|força|gaire</token>
                     <token>por</token>
                 </marker>
             </antipattern>
@@ -11148,7 +11149,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="QUEST" name="quest/aquest">
             <pattern>
-                <token inflected="yes" regexp="yes">questa|quest<exception postag="_possible_nompropi"/></token>
+                <token inflected="yes" regexp="yes">questa|quest<exception postag="_possible_nompropi"/><exception scope="previous" regexp="yes">el|seu</exception></token>
             </pattern>
             <message>"\1" és una paraula d'ús poc habitual. ¿Volíeu dir <suggestion>a\1</suggestion>?</message>
             <short>Possible confusió</short>
@@ -13164,7 +13165,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token>per</token>
-                        <token skip="4">què<exception scope="next" postag="V.[IN].*" postag_regexp="yes"/><exception scope="next" regexp="yes">que|quals?|què|qui</exception></token>
+                        <token skip="4">què<exception scope="next" postag="V.[IN].*|CC|CS" postag_regexp="yes"/><exception scope="next" regexp="yes">que|quals?|què|qui</exception></token>
                     </marker>
                     <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -13175,6 +13176,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Per què no usem simplement HTML?</example>
                 <example>Per què un crustaci que tingués boca no sobreviuria?</example>
                 <example>Per què no deixar que continuï?</example>
+                <exampole>No sé perquè, però diguin el que diguin...</exampole>
             </rule>
         </rulegroup>
         <rule id="ALA_A_LA" name="*ala ciutat/a la ciutat">
