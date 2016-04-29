@@ -2448,6 +2448,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- <example correction="comuna">Un cau de gent <marker>comú</marker>.</example> -->
             </rule>
             <rule id="ESTRATEGA" name="estrateg -a, raposde -a, psiquiatre -a">
+                <antipattern>
+                    <marker>
+                        <token regexp="yes" skip="1">metgessa|filòsofa|poetessa|política|escriptora|traductora|escultora|pintora</token>
+                        <token inflected="yes" postag="NCF.*" postag_regexp="yes" regexp="yes">estrateg|rapsode|psiquiatre</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token inflected="yes" postag="NCF.*" postag_regexp="yes" regexp="yes" skip="1">estrateg|rapsode|psiquiatre</token>
+                        <token regexp="yes">metgessa|filòsofa|poetessa|política|escriptora|traductora|escultora|pintora</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" postag="NCF.*" postag_regexp="yes" regexp="yes">estrateg|rapsode|psiquiatre<exception postag="_GN_F." postag_regexp="yes"/></token>
                 </pattern>
@@ -3547,7 +3559,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">el|la|l'</token>
-                    <token inflected="yes" regexp="yes">telefonar|abellir|agradar|pegar|xocar|sobreviure</token>
+                    <token inflected="yes" regexp="yes">telefonar|abellir|agradar|pegar|xocar|sobreviure<exception>pegàs</exception></token>
                 </pattern>
                 <message>Aquest verb és intransitiu.</message>
                 <suggestion>li <match no="2"/></suggestion>
@@ -10132,7 +10144,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>
             <pattern>
-                <token>a<exception scope="before">com</exception></token>
+                <token>a<exception scope="previous">com</exception></token>
                 <token>costat</token>
             </pattern>
             <message>Possible confusió.</message>
@@ -11090,7 +11102,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <marker>
-                    <token>sindicatura</token>
+                    <token regexp="yes" inflected="yes">sindicatura|tribunal|cambra</token>
                     <token>de</token>
                     <token>comptes</token>
                 </marker>
@@ -13418,6 +13430,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>punt</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token>hora</token>
+                    <token regexp="yes" skip="1">en|a</token>
+                    <token regexp="yes">què|que|qual</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">anar|rellotge|campan.*|fins</exception></token>
                 <marker>
@@ -13425,7 +13444,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>l'</token>
                     <token>hora</token>
                 </marker>
-                <token skip="-1"><exception regexp="yes">de|d'|i|baixa</exception><exception postag="A.0[FC]S0|V.P.*SF.?" postag_regexp="yes"/><exception scope="next" inflected="yes" regexp="yes">rellotge|campan.*</exception></token>
+                <token skip="-1"><exception regexp="yes">de|d'|i|baixa|H|\d+|nona|punta</exception><exception postag="A.0[FC]S0|V.P.*SF.?|DN.*" postag_regexp="yes"/><exception scope="next" inflected="yes" regexp="yes">rellotge|campan.*</exception></token>
                 <token postag="SENT_END"/>
             </pattern>
             <message>Si volíeu dir "al mateix temps", cal escriure <suggestion>alhora</suggestion>.</message>
@@ -23560,14 +23579,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token regexp="yes" inflected="yes">difícil|fàcil|complex|complicar</token>
-                    <token>de</token>
+                    <token min="0">de</token>
                     <token>precisar</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="RG"/>
+                    <token inflected="yes">precís</token>
+                </marker>
+            </antipattern>
             <pattern>
-                <token inflected="yes">precisar<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous">més</exception></token>
+                <token inflected="yes">precisar<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous">més</exception><exception regexp="yes">precises|precisada|precisades|precisats?</exception></token>
                 <token inflected="yes">de</token>
-                <token><exception inflected="yes" regexp="yes">manera|quin</exception></token>
+                <token><exception inflected="yes" regexp="yes">manera|quin|forma|moment</exception></token>
             </pattern>
             <message>Ús probablement incorrecte.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">requerir</match> \3</suggestion>
@@ -30837,6 +30862,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ella és la padrina.</example>
         </rule>
         <rule id="VAL" name="val!/entesos!">
+            <antipattern>
+                <marker>
+                    <token>val</token>
+                    <token spacebefore="no">-</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                 <marker>
@@ -34889,7 +34920,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="A_MEITAT_DE" name="a meitat de/a mitjan">
             <pattern>
                 <token>a</token>
-                <token>meitat</token>
+                <token regexp="yes">meitat|mitat</token>
                 <token regexp="yes">de|d'</token>
                 <token min="0" postag="DA.*" postag_regexp="yes"/>
                 <token postag="A.*|N.*" postag_regexp="yes"/>
