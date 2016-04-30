@@ -174,12 +174,12 @@ class LanguageToolHttpHandler implements HttpHandler {
       // so we consume the request now, even before checking for request limits:
       Map<String, String> parameters = getRequestQuery(httpExchange, requestedUri);
       if (requestLimiter != null && !requestLimiter.isAccessOkay(remoteAddress)) {
-        String errorMessage = "Error: Access from " + remoteAddress +
-                " (useragent: " + parameters.get("useragent") + ") denied - too many requests." +
+        String errorMessage = "Error: Access from " + remoteAddress + " denied - too many requests." +
                 " Allowed maximum requests: " + requestLimiter.getRequestLimit() +
                 " requests per " + requestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
         sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
-        print(errorMessage);
+        print(errorMessage + " - useragent: " + parameters.get("useragent") +
+              " - HTTP UserAgent: " + getHttpUserAgent(httpExchange));
         return;
       }
       if (maxWorkQueueSize != 0 && workQueue.size() > maxWorkQueueSize) {
@@ -227,7 +227,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         response = "Checking took longer than " + maxCheckTimeMillis/1000 + " seconds, which is this server's limit. " +
                    "Please make sure you have selected the proper language or consider submitting a shorter text.";
       } else {
-        response = Tools.getFullStackTrace(e);
+        response = "Internal Error. Please contact the site administrator.";
         errorCode = HttpURLConnection.HTTP_INTERNAL_ERROR;
       }
       logError(text, remoteAddress, e, errorCode, httpExchange);
@@ -245,7 +245,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (text != null && remoteAddress != null) {
       message += "Access from " + remoteAddress + ", text length " + text.length() + ". ";
     }
-    message += "HTTP user agent: " + httpExchange.getRequestHeaders().getFirst("User-Agent") + ", ";
+    message += "HTTP user agent: " + getHttpUserAgent(httpExchange) + ", ";
     message += "Stacktrace follows:";
     print(message, System.err);
     if (verbose && text != null) {
@@ -254,6 +254,10 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
     //noinspection CallToPrintStackTrace
     e.printStackTrace();
+  }
+
+  private String getHttpUserAgent(HttpExchange httpExchange) {
+    return httpExchange.getRequestHeaders().getFirst("User-Agent");
   }
 
   // Call only if really needed, seems to be slow on some Windows machines.

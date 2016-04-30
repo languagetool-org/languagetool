@@ -59,7 +59,7 @@ public class HunspellRule extends SpellingCheckRule {
 
   private static final String NON_ALPHABETIC = "[^\\p{L}]";
 
-  private Pattern nonWordPattern;
+  protected Pattern nonWordPattern;
 
   public HunspellRule(ResourceBundle messages, Language language) {
     super(messages, language);
