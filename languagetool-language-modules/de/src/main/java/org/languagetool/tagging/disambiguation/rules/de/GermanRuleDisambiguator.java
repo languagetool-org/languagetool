@@ -22,13 +22,13 @@ package org.languagetool.tagging.disambiguation.rules.de;
 import java.io.IOException;
 
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.language.German;
+import org.languagetool.language.GermanyGerman;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
 public class GermanRuleDisambiguator implements Disambiguator {
   
-  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new German());
+  private final Disambiguator disambiguator = new XmlRuleDisambiguator(new GermanyGerman());
 
   @Override
   public final AnalyzedSentence disambiguate(AnalyzedSentence input)
