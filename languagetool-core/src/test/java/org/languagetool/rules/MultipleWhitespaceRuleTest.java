@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules;
 
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 
@@ -30,6 +31,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class MultipleWhitespaceRuleTest {
 
+  @Test
   public void testRule() throws IOException {
     MultipleWhitespaceRule rule = new MultipleWhitespaceRule(TestTools.getEnglishMessages(), TestTools.getDemoLanguage());
     RuleMatch[] matches;

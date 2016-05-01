@@ -18,10 +18,13 @@
  */
 package org.languagetool;
 
+import org.junit.Test;
+
 import java.io.IOException;
 
 public class ValidateFalseFriendsXmlTest {
 
+  @Test
   public void testFalseFriendsXML() throws IOException {
     System.out.println("Validating false-friends.xml...");
     XMLValidator validator = new XMLValidator();

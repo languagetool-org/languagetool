@@ -153,6 +153,7 @@ public class PatternRuleTest {
     }
   }
 
+  @Test
   public void runTestForLanguage(Language lang) throws IOException {
     validatePatternFile(lang);
     System.out.print("Running pattern rule tests for " + lang.getName() + "... ");
@@ -267,6 +268,7 @@ public class PatternRuleTest {
     }
   }
 
+  @Test
   public void testGrammarRulesFromXML(List<AbstractPatternRule> rules,
                                       JLanguageTool languageTool,
                                       JLanguageTool allRulesLanguageTool, Language lang) throws IOException {

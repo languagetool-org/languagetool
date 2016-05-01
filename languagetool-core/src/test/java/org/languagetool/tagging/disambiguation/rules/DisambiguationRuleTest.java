@@ -19,6 +19,7 @@
 
 package org.languagetool.tagging.disambiguation.rules;
 
+import org.junit.Test;
 import org.languagetool.*;
 import org.languagetool.rules.patterns.PatternTestTools;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
@@ -39,6 +40,7 @@ public class DisambiguationRuleTest {
    * To be called from standalone or language modules - calling it here in core doesn't make
    * much sense actually as we don't have any languages.
    */
+  @Test
   public void testDisambiguationRulesFromXML() throws Exception {
     testDisambiguationRulesFromXML(null);
   }

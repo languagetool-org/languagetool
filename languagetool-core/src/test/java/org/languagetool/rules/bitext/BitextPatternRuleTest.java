@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.bitext;
 
+import org.junit.Test;
 import org.languagetool.*;
 import org.languagetool.bitext.StringPair;
 import org.languagetool.rules.Rule;
@@ -38,7 +39,8 @@ public class BitextPatternRuleTest {
   /**
    * To be called from standalone - calling it here in core doesn't make
    * much sense actually as we don't have any languages.
-   */  
+   */
+  @Test
   public void testBitextRulesFromXML() throws IOException {
     testBitextRulesFromXML(null);
   }
