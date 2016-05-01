@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.ca;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
@@ -26,20 +27,23 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * @author Jaume Ortolà
  */
-public class ReplaceOperationNamesRuleTest extends TestCase {
+public class ReplaceOperationNamesRuleTest {
 
   private ReplaceOperationNamesRule rule;
   private JLanguageTool langTool;
 
-  @Override
+  @Before
   public void setUp() throws IOException {
     rule = new ReplaceOperationNamesRule(TestTools.getEnglishMessages());
     langTool = new JLanguageTool(new Catalan());
   }
 
+  @Test
   public void testRule() throws IOException {
 
     // correct sentences:
@@ -107,6 +111,7 @@ public class ReplaceOperationNamesRuleTest extends TestCase {
     assertEquals(1, matches.length);
   }
 
+  @Test
   public void testPositions() throws IOException {
     final AccentuationCheckRule rule = new AccentuationCheckRule(TestTools.getEnglishMessages());
     final RuleMatch[] matches;

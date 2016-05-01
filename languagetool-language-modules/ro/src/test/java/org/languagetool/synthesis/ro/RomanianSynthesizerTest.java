@@ -18,15 +18,17 @@
  */
 package org.languagetool.synthesis.ro;
 
+import org.junit.Test;
+import org.languagetool.AnalyzedToken;
+
 import java.io.IOException;
 import java.util.Arrays;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-import org.languagetool.AnalyzedToken;
+public class RomanianSynthesizerTest {
 
-public class RomanianSynthesizerTest extends TestCase {
-
+  @Test
   public final void testSynthesizeStringString() throws IOException {
     RomanianSynthesizer synth = new RomanianSynthesizer();
     assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);

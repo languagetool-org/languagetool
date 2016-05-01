@@ -18,7 +18,7 @@
  */
 package org.languagetool.tools;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Polish;
 import org.languagetool.rules.RuleMatch;
@@ -28,8 +28,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.List;
 
-public class ToolsTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class ToolsTest {
+
+  @Test
   public void testCheck() throws IOException, ParserConfigurationException, SAXException {
     final JLanguageTool tool = new JLanguageTool(new Polish());
 
@@ -41,6 +44,7 @@ public class ToolsTest extends TestCase {
     assertEquals("WORD_REPEAT_RULE", matches2.get(0).getRule().getId());
   }
 
+  @Test
   public void testCorrect() throws IOException, ParserConfigurationException, SAXException {
     JLanguageTool tool = new JLanguageTool(new Polish());
 

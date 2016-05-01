@@ -20,9 +20,7 @@ package org.languagetool;
 
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
-public class ValidateFalseFriendsXmlTest extends TestCase {
+public class ValidateFalseFriendsXmlTest {
 
   public void testFalseFriendsXML() throws IOException {
     System.out.println("Validating false-friends.xml...");

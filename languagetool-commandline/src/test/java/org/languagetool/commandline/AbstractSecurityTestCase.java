@@ -18,19 +18,17 @@
  */
 package org.languagetool.commandline;
 
-import java.security.Permission;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
-import junit.framework.TestCase;
+import java.security.Permission;
 
 /**
  * @author Charlie Collins (Maven Test Example from
  * http://www.screaming-penguin.com/node/7570)
  */
-public class AbstractSecurityTestCase extends TestCase {
-
-  public AbstractSecurityTestCase(String name) {
-    super(name);
-  }
+public class AbstractSecurityTestCase {
 
   protected static class ExitException extends SecurityException {
     private static final long serialVersionUID = 1L;
@@ -60,19 +58,18 @@ public class AbstractSecurityTestCase extends TestCase {
     }
   }
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() throws Exception {
     System.setSecurityManager(new NoExitSecurityManager());
   }
 
-  @Override
-  protected void tearDown() throws Exception {
+  @After
+  public void tearDown() throws Exception {
     System.setSecurityManager(null);
-    super.tearDown();
   }
 
   //get rid of JUnit warning for this helper class
+  @Test
   public void testSomething() {
   }
 

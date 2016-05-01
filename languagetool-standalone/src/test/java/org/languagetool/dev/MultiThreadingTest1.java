@@ -32,7 +32,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static junit.framework.TestCase.fail;
+import static org.junit.Assert.fail;
 
 /**
  * Test for multiple languages in multiple threads.

@@ -20,6 +20,8 @@ package org.languagetool.tagging.disambiguation.rules.en;
 
 import java.io.IOException;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
@@ -38,7 +40,7 @@ public class EnglishDisambiguationRuleTest extends DisambiguationRuleTest {
   private XmlRuleDisambiguator disambiguator;
   private DemoDisambiguator disamb2;
   
-  @Override
+  @Before
   public void setUp() {
     tagger = new EnglishTagger();
     tokenizer = new WordTokenizer();
@@ -47,6 +49,7 @@ public class EnglishDisambiguationRuleTest extends DisambiguationRuleTest {
     disamb2 = new DemoDisambiguator(); 
   }
 
+  @Test
   public void testChunker() throws IOException {
     TestTools.myAssert("I cannot have it.",
         "/[null]SENT_START I/[I]PRP  /[null]null cannot/[can]MD  /[null]null have/[have]VB  /[null]null it/[it]PRP ./[null]null", 

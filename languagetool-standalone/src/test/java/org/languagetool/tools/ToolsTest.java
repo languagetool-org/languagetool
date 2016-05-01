@@ -18,7 +18,9 @@
  */
 package org.languagetool.tools;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.English;
 import org.languagetool.language.Polish;
@@ -32,14 +34,16 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 
-public class ToolsTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+public class ToolsTest {
 
   private PrintStream stdout;
   private PrintStream stderr;
 
-  @Override
+  @Before
   public void setUp() throws Exception {
-    super.setUp();
     this.stdout = System.out;
     this.stderr = System.err;
     ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -48,13 +52,13 @@ public class ToolsTest extends TestCase {
     System.setErr(new PrintStream(err));
   }
 
-  @Override
+  @After
   public void tearDown() throws Exception {
-    super.tearDown();
     System.setOut(this.stdout);
     System.setErr(this.stderr);
   }
-  
+
+  @Test
   public void testBitextCheck() throws IOException, ParserConfigurationException, SAXException {
     English english = new English();
     JLanguageTool srcTool = new JLanguageTool(english);

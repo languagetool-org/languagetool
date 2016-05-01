@@ -19,11 +19,12 @@
 
 package org.languagetool.tagging.zh;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.zh.ChineseWordTokenizer;
+
+import java.io.IOException;
 
 /**
  * The test of ChineseTagger.
@@ -33,17 +34,18 @@ import org.languagetool.tokenizers.zh.ChineseWordTokenizer;
  * @author Jiamin Zheng
  * @author Zihao Li
  */
-public class ChineseTaggerTest extends TestCase {
+public class ChineseTaggerTest {
 
   private ChineseTagger tagger;
   private ChineseWordTokenizer tokenizer;
 
-  @Override
+  @Before
   public void setUp() {
     tagger = new ChineseTagger();
     tokenizer = new ChineseWordTokenizer();
   }
 
+  @Test
   public void testTagger() throws IOException {
 
     TestTools.myAssert(

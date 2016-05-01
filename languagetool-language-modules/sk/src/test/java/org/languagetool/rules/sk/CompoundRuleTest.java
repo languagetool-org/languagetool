@@ -20,6 +20,8 @@ package org.languagetool.rules.sk;
 
 import java.io.IOException;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Slovak;
@@ -27,13 +29,13 @@ import org.languagetool.rules.AbstractCompoundRuleTest;
 
 public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() throws Exception {
     langTool = new JLanguageTool(new Slovak());
     rule = new CompoundRule(TestTools.getEnglishMessages());
   }
-  
+
+  @Test
   public void testRule() throws IOException {
     // correct:
     check(0, "česko-slovenský");

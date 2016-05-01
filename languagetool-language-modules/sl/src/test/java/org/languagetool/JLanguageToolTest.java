@@ -18,13 +18,16 @@
  */
 package org.languagetool;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.language.Slovenian;
 
 import java.io.IOException;
 
-public class JLanguageToolTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class JLanguageToolTest {
+
+  @Test
   public void testSlovenian() throws IOException {
     final JLanguageTool tool = new JLanguageTool(new Slovenian());
     assertEquals(1, tool.check("Kupil je npr. jajca, moko in mleko.").size());

@@ -19,20 +19,25 @@
 
 package org.languagetool.tokenizers.uk;
 
+import org.junit.Test;
+
 import java.util.Arrays;
 import java.util.List;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-public class UkrainianWordTokenizerTest extends TestCase {
+public class UkrainianWordTokenizerTest {
   private final UkrainianWordTokenizer w = new UkrainianWordTokenizer();
 
+  @Test
   public void testTokenizeUrl() {
     String url = "http://youtube.com:80/herewego?start=11&quality=high%3F";
     List<String> testList = w.tokenize(url);
     assertEquals(Arrays.asList(url), testList);
   }
-  
+
+  @Test
   public void testNumbers() {
     List<String> testList = w.tokenize("300 грн на балансі");
     assertEquals(Arrays.asList("300", " ", "грн", " ", "на", " ", "балансі"), testList);
@@ -56,7 +61,8 @@ public class UkrainianWordTokenizerTest extends TestCase {
     testList = w.tokenize("вчора о 7.30 ранку");
     assertEquals(Arrays.asList("вчора", " ", "о", " ", "7.30", " ", "ранку"), testList);
   }
-  
+
+  @Test
   public void testTokenize() {
     List<String> testList = w.tokenize("Вони прийшли додому.");
     assertEquals(Arrays.asList("Вони", " ", "прийшли", " ", "додому", "."), testList);
@@ -85,7 +91,8 @@ public class UkrainianWordTokenizerTest extends TestCase {
     testList = w.tokenize("— Гм.");
     assertEquals(Arrays.asList("—", " ", "Гм", "."), testList);
   }
-  
+
+  @Test
   public void testAbbreviations() {
     List<String> testList = w.tokenize("Засідав І.Єрмолюк.");
     assertEquals(Arrays.asList("Засідав", " ", "І", ".", "Єрмолюк", "."), testList);

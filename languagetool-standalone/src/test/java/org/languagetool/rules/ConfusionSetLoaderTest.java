@@ -29,7 +29,8 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
-import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertTrue;
+
 
 public class ConfusionSetLoaderTest {
   

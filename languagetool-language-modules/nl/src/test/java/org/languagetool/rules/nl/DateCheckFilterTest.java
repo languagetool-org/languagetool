@@ -24,8 +24,8 @@ import org.languagetool.rules.RuleMatch;
 import java.util.HashMap;
 import java.util.Map;
 
-import static junit.framework.Assert.assertNull;
-import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class DateCheckFilterTest {
 

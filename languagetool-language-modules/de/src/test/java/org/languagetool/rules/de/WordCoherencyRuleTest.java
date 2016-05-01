@@ -18,15 +18,18 @@
  */
 package org.languagetool.rules.de;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
 
 import java.io.IOException;
 
-public class WordCoherencyRuleTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class WordCoherencyRuleTest {
+
+  @Test
   public void testRule() throws IOException {
     WordCoherencyRule rule = new WordCoherencyRule(TestTools.getEnglishMessages());
     JLanguageTool langTool = new JLanguageTool(new German());
@@ -83,6 +86,7 @@ public class WordCoherencyRuleTest extends TestCase {
     //assertError("Testketchup und Testketschup", langTool);
   }
 
+  @Test
   public void testCallIndependence() throws IOException {
     JLanguageTool langTool = new JLanguageTool(new German());
     assertGood("Das ist aufwendig.", langTool);
@@ -99,6 +103,7 @@ public class WordCoherencyRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(s)).length);
   }
 
+  @Test
   public void testRuleCompleteTexts() throws IOException {
     JLanguageTool lt = new JLanguageTool(new German());
 

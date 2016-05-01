@@ -18,18 +18,20 @@
  */
 package org.languagetool.rules.pl;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.WordRepeatRule;
 
-public class WordRepeatRuleTest extends TestCase {
+import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
+
+public class WordRepeatRuleTest {
+
+  @Test
   public void testRulePolish() throws IOException {
     final Polish polish = new Polish();
     final WordRepeatRule rule = new WordRepeatRule(TestTools.getEnglishMessages(), polish);

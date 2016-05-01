@@ -20,6 +20,8 @@ package org.languagetool.rules.ro;
 
 import java.io.IOException;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Romanian;
@@ -30,13 +32,13 @@ import org.languagetool.rules.AbstractCompoundRuleTest;
  */
 public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() throws Exception {
     langTool = new JLanguageTool(new Romanian());
     rule = new CompoundRule(TestTools.getMessages("ro"));
   }
 
+  @Test
   public void testRule() throws IOException {
     // correct sentences:
     check(0, "Au plecat câteșitrei.");

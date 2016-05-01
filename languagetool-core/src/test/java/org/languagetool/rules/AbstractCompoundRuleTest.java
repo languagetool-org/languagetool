@@ -18,12 +18,14 @@
  */
 package org.languagetool.rules;
 
+import org.junit.Before;
+import org.languagetool.JLanguageTool;
+
 import java.io.IOException;
 import java.util.Arrays;
 
-import junit.framework.TestCase;
-
-import org.languagetool.JLanguageTool;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Abstract test case for CompoundRule.
@@ -31,18 +33,12 @@ import org.languagetool.JLanguageTool;
  *    
  * @author Daniel Naber
  */
-public abstract class AbstractCompoundRuleTest extends TestCase {
+public abstract class AbstractCompoundRuleTest {
 
   // the object used for checking text against different rules
   protected JLanguageTool langTool;
   // the rule that checks that compounds (if in the list) are not written as separate words. Language specific.
   protected AbstractCompoundRule rule;
-
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
-    // concrete classes will initialize langTool and rule variables here.
-  }
 
   public void check(int expectedErrors, String text) throws IOException {
     check(expectedErrors, text, null);

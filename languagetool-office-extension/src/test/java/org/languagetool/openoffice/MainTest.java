@@ -18,14 +18,17 @@
  */
 package org.languagetool.openoffice;
 
-import junit.framework.TestCase;
-
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.lang.Locale;
 import com.sun.star.linguistic2.ProofreadingResult;
+import org.junit.Test;
 
-public class MainTest extends TestCase {
-  
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+public class MainTest {
+
+  @Test
   public void testDoProofreading() {
     Main prog = new Main(null);
     Main.setTestMode(true);
@@ -52,8 +55,8 @@ public class MainTest extends TestCase {
     assertEquals(24, paRes2.nStartOfNextSentencePosition);
     assertEquals(0, paRes2.nStartOfSentencePosition);
   }
-  
 
+  @Test
   public void testVariants() {
     Main prog = new Main(null);
     Main.setTestMode(true);
@@ -78,6 +81,7 @@ public class MainTest extends TestCase {
     //assertEquals(1, paRes.aErrors.length);
   }
 
+  @Test
   public void testCleanFootnotes() {
     Main prog = new Main(null);
     Main.setTestMode(true);

@@ -18,28 +18,31 @@
  */
 package org.languagetool.tagging.ru;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Russian;
 import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.IOException;
 
-public class RussianTaggerTest extends TestCase {
+public class RussianTaggerTest {
     
   private RussianTagger tagger;
   private WordTokenizer tokenizer;
       
-  @Override
+  @Before
   public void setUp() {
     tagger = new RussianTagger();
     tokenizer = new WordTokenizer();
   }
 
+  @Test
   public void testDictionary() throws IOException {
     TestTools.testDictionary(tagger, new Russian());
   }
-  
+
+  @Test
   public void testTagger() throws IOException {
     TestTools.myAssert("Все счастливые семьи похожи друг на друга,  каждая  несчастливая  семья несчастлива по-своему.",
         "Все/[весь]PADJ:PL:Nom|Все/[весь]PADJ:PL:V|Все/[все]PNN:PL:Nom|Все/[все]PNN:PL:V|Все/[все]PNN:Sin:Nom|Все/[все]PNN:Sin:V -- счастливые/[счастливый]ADJ:PL:Nom|счастливые/[счастливый]ADJ:PL:V -- семьи/[семья]NN:Fem:PL:Nom|семьи/[семья]NN:Fem:PL:V|семьи/[семья]NN:Fem:Sin:R -- похожи/[похожий]ADJ_Short:PL -- друг/[друг]NN:Masc:Sin:Nom -- на/[на]PREP -- друга/[друг]NN:Masc:Sin:R|друга/[друг]NN:Masc:Sin:V -- каждая/[каждый]PADJ:Fem:Nom -- несчастливая/[несчастливый]ADJ:Fem:Nom -- семья/[семья]NN:Fem:Sin:Nom -- несчастлива/[несчастливый]ADJ_Short:Fem -- по-своему/[по-своему]ADV", tokenizer, tagger);        

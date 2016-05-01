@@ -18,7 +18,7 @@
  */
 package org.languagetool.tokenizers.de;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -26,10 +26,11 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 /**
  * @author Daniel Naber
  */
-public class GermanSRXSentenceTokenizerTest extends TestCase {
+public class GermanSRXSentenceTokenizerTest {
 
   private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new German());
 
+  @Test
   public void testTokenize() {
     // NOTE: sentences here need to end with a space character so they
     // have correct whitespace when appended:

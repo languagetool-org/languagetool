@@ -19,7 +19,7 @@
 
 package org.languagetool.rules.uk;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
@@ -28,9 +28,12 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 import java.util.Arrays;
 
+import static org.junit.Assert.assertEquals;
 
-public class SimpleReplaceRuleTest extends TestCase {
 
+public class SimpleReplaceRuleTest {
+
+  @Test
   public void testRule() throws IOException {
     SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages());
 

@@ -18,15 +18,17 @@
  */
 package org.languagetool.language;
 
-import java.io.File;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
-public class LanguageBuilderTest extends TestCase {
-  
+import java.io.File;
+
+import static org.junit.Assert.*;
+
+public class LanguageBuilderTest {
+
+  @Test
   public void testMakeAdditionalLanguage() throws Exception {
     Language language = LanguageBuilder.makeAdditionalLanguage(new File("rules-xy-Fakelanguage.xml"));
     assertEquals("Fakelanguage", language.getName());
@@ -35,6 +37,7 @@ public class LanguageBuilderTest extends TestCase {
     assertTrue(language.isExternal());
   }
 
+  @Test
   public void testIllegalFileName() throws Exception {
     try {
       LanguageBuilder.makeAdditionalLanguage(new File("foo"));

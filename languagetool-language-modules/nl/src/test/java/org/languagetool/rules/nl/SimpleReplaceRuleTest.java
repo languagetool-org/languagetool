@@ -19,29 +19,31 @@
 
 package org.languagetool.rules.nl;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Dutch;
 import org.languagetool.rules.RuleMatch;
 
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
+
 /**
  */
-public class SimpleReplaceRuleTest extends TestCase {
+public class SimpleReplaceRuleTest {
 
   private SimpleReplaceRule rule;
   private JLanguageTool langTool;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() throws Exception {
     rule = new SimpleReplaceRule(TestTools.getMessages("nl"));
     langTool = new JLanguageTool(new Dutch());
   }
 
+  @Test
   public void testRule() throws IOException {
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("all right")).length);

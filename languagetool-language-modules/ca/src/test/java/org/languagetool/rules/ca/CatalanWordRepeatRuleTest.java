@@ -19,8 +19,7 @@
 
 package org.languagetool.rules.ca;
 
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
@@ -28,11 +27,14 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
-public class CatalanWordRepeatRuleTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class CatalanWordRepeatRuleTest {
 
   /*
    * Test method for 'org.languagetool.rules.ca.CatalanWordRepeatRule.match(AnalyzedSentence)'
    */
+  @Test
   public void testRule() throws IOException {
     final CatalanWordRepeatRule rule = new CatalanWordRepeatRule(TestTools.getMessages("ca"), new Catalan());
     RuleMatch[] matches;

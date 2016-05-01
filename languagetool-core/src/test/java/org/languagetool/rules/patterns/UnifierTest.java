@@ -19,20 +19,19 @@
 
 package org.languagetool.rules.patterns;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 
-public class UnifierTest extends TestCase {
+import java.util.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+public class UnifierTest {
 
   // trivial unification = test if the character case is the same
+  @Test
   public void testUnificationCase() {
     UnifierConfiguration unifierConfig = new UnifierConfiguration();
     PatternToken elLower = new PatternToken("\\p{Ll}+", true, true, false);
@@ -112,6 +111,7 @@ public class UnifierTest extends TestCase {
   }
 
   // slightly non-trivial unification = test if the grammatical number is the same
+  @Test
   public void testUnificationNumber() {
     UnifierConfiguration unifierConfig = new UnifierConfiguration();
     unifierConfig.setEquivalence("number", "singular",
@@ -181,6 +181,7 @@ public class UnifierTest extends TestCase {
   }
 
   //slightly non-trivial unification = test if the grammatical number & gender is the same
+  @Test
   public void testUnificationNumberGender() {
     UnifierConfiguration unifierConfig = new UnifierConfiguration();
 
@@ -223,6 +224,7 @@ public class UnifierTest extends TestCase {
   }
 
   // checks if all tokens share the same set of features to be unified
+  @Test
   public void testMultipleFeats() {
     UnifierConfiguration unifierConfig = new UnifierConfiguration();
     unifierConfig.setEquivalence("number", "singular",
@@ -356,7 +358,7 @@ public class UnifierTest extends TestCase {
 
   }
 
-
+  @Test
   public void testMultipleFeatsWithMultipleTypes() {
     UnifierConfiguration unifierConfig = new UnifierConfiguration();
     unifierConfig.setEquivalence("number", "singular",
@@ -433,6 +435,7 @@ public class UnifierTest extends TestCase {
     return pToken;
   }
 
+  @Test
   public void testNegation() {
     UnifierConfiguration unifierConfig = new UnifierConfiguration();
     unifierConfig.setEquivalence("number", "singular",
@@ -560,6 +563,7 @@ public class UnifierTest extends TestCase {
     uni.reset();
   }
 
+  @Test
   public void testAddNeutralElement() {
     UnifierConfiguration unifierConfig = new UnifierConfiguration();
     unifierConfig.setEquivalence("number", "singular",

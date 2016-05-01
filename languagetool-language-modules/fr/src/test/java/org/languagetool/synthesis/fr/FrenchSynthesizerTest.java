@@ -18,17 +18,18 @@
  */
 package org.languagetool.synthesis.fr;
 
+import org.junit.Test;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.synthesis.FrenchSynthesizer;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-import org.languagetool.AnalyzedToken;
+public class FrenchSynthesizerTest {
 
-public class FrenchSynthesizerTest extends TestCase {
-
+  @Test
   public final void testSynthesizeStringString() throws IOException {
     FrenchSynthesizer synth = new FrenchSynthesizer();
     assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);

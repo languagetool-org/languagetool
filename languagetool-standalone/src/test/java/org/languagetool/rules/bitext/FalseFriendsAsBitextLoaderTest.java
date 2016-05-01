@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.bitext;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.English;
@@ -34,8 +34,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class FalseFriendsAsBitextLoaderTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class FalseFriendsAsBitextLoaderTest {
+
+  @Test
   public void testHintsForPolishTranslators() throws IOException, ParserConfigurationException, SAXException {
     Polish polish = new Polish();
     English english = new English();

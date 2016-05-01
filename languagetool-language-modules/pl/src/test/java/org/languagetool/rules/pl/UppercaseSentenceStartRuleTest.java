@@ -18,14 +18,17 @@
  */
 package org.languagetool.rules.pl;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Polish;
 
 import java.io.IOException;
 
-public class UppercaseSentenceStartRuleTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class UppercaseSentenceStartRuleTest {
+
+  @Test
   public void testPolishSpecialCases() throws IOException {
     final JLanguageTool lt = new JLanguageTool(new Polish());
     assertEquals(0, lt.check("Zdanie.").size());

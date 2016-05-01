@@ -20,7 +20,7 @@ package org.languagetool.rules.patterns;
 
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertNotNull;
 
 public class RuleFilterCreatorTest {
 

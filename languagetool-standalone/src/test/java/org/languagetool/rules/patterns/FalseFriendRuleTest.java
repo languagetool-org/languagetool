@@ -18,14 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.*;
 import org.languagetool.rules.RuleMatch;
@@ -33,8 +26,16 @@ import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
 import org.languagetool.rules.en.MorfologikBritishSpellerRule;
 import org.xml.sax.SAXException;
 
-public class FalseFriendRuleTest extends TestCase {
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
+public class FalseFriendRuleTest {
+
+  @Test
   public void testHintsForGermanSpeakers() throws IOException, ParserConfigurationException, SAXException {
     JLanguageTool langTool = new JLanguageTool(new English(), new German());
     List<RuleMatch> matches = assertErrors(1, "We will berate you.", langTool);
@@ -45,6 +46,7 @@ public class FalseFriendRuleTest extends TestCase {
     assertEquals("[boss, chief]", matches2.get(0).getSuggestedReplacements().toString());
   }
 
+  @Test
   public void testHintsForGermanSpeakersWithVariant() throws IOException, ParserConfigurationException, SAXException {
     JLanguageTool langTool = new JLanguageTool(new BritishEnglish(), new SwissGerman());
     List<RuleMatch> matches = assertErrors(1, "We will berate you.", langTool);
@@ -55,6 +57,7 @@ public class FalseFriendRuleTest extends TestCase {
     assertEquals("[boss, chief]", matches2.get(0).getSuggestedReplacements().toString());
   }
 
+  @Test
   public void testHintsForDemoLanguage() throws IOException, ParserConfigurationException, SAXException {
     JLanguageTool langTool1 = new JLanguageTool(new BritishEnglish(), new German());
     langTool1.disableRule(MorfologikBritishSpellerRule.RULE_ID);
@@ -71,6 +74,7 @@ public class FalseFriendRuleTest extends TestCase {
     assertErrors(0, "And forDemoOnly.", langTool3);
   }
 
+  @Test
   public void testHintsForEnglishSpeakers() throws IOException, ParserConfigurationException, SAXException {
     JLanguageTool langTool = new JLanguageTool(new German(), new English());
     assertErrors(1, "Man sollte ihn nicht so beraten.", langTool);
@@ -78,6 +82,7 @@ public class FalseFriendRuleTest extends TestCase {
     assertErrors(1, "Ich gehe in Blubbstadt zur Hochschule.", langTool);
   }
 
+  @Test
   public void testHintsForPolishSpeakers() throws IOException, ParserConfigurationException, SAXException {
     JLanguageTool langTool = new JLanguageTool(new English() {
       @Override

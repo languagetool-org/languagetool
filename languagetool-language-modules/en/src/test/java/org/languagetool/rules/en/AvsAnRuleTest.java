@@ -18,10 +18,8 @@
  */
 package org.languagetool.rules.en;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -29,19 +27,24 @@ import org.languagetool.TestTools;
 import org.languagetool.language.English;
 import org.languagetool.rules.RuleMatch;
 
-import static org.languagetool.rules.en.AvsAnRule.*;
+import java.io.IOException;
 
-public class AvsAnRuleTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import static org.languagetool.rules.en.AvsAnRule.Determiner;
+
+public class AvsAnRuleTest {
 
   private AvsAnRule rule;
   private JLanguageTool langTool;
 
-  @Override
+  @Before
   public void setUp() throws IOException {
     rule = new AvsAnRule(TestTools.getEnglishMessages());
     langTool = new JLanguageTool(new English());
   }
 
+  @Test
   public void testRule() throws IOException {
 
     // correct sentences:
@@ -114,6 +117,7 @@ public class AvsAnRuleTest extends TestCase {
     assertEquals(1, matches.length);
   }
 
+  @Test
   public void testSuggestions() throws IOException {
     assertEquals("a string", rule.suggestAorAn("string"));
     assertEquals("a university", rule.suggestAorAn("university"));
@@ -123,6 +127,7 @@ public class AvsAnRuleTest extends TestCase {
     assertEquals("a historical", rule.suggestAorAn("historical"));
   }
 
+  @Test
   public void testGetCorrectDeterminerFor() throws IOException {
     assertEquals(Determiner.A, getDeterminerFor("string"));
     assertEquals(Determiner.A, getDeterminerFor("university"));
@@ -142,6 +147,7 @@ public class AvsAnRuleTest extends TestCase {
     return rule.getCorrectDeterminerFor(token);
   }
 
+  @Test
   public void testGetCorrectDeterminerForException() throws IOException {
     try {
       rule.getCorrectDeterminerFor(null);
@@ -149,6 +155,7 @@ public class AvsAnRuleTest extends TestCase {
     } catch (NullPointerException ignored) {}
   }
 
+  @Test
   public void testPositions() throws IOException {
     RuleMatch[] matches;
     JLanguageTool langTool = new JLanguageTool(new English());
