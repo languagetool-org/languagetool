@@ -18,32 +18,36 @@
  */
 package org.languagetool.tagging.en;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
 import org.languagetool.tokenizers.WordTokenizer;
 
-public class EnglishTaggerTest extends TestCase {
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+
+public class EnglishTaggerTest {
 
   private EnglishTagger tagger;
   private WordTokenizer tokenizer;
   
-  @Override
+  @Before
   public void setUp() {
     tagger = new EnglishTagger();
     tokenizer = new WordTokenizer();
   }
-  
+
+  @Test
   public void testDictionary() throws IOException {
     TestTools.testDictionary(tagger, new English());
   }
 
+  @Test
   public void testTagger() throws IOException {
     TestTools.myAssert("This is a big house.",
         "This/[this]DT|This/[this]PDT -- is/[be]VBZ -- a/[a]DT -- big/[big]JJ|big/[big]RB -- house/[house]NN|house/[house]VB|house/[house]VBP", tokenizer, tagger);
@@ -58,7 +62,8 @@ public class EnglishTaggerTest extends TestCase {
     TestTools.myAssert("It has become difficult.",
         "It/[it]PRP -- has/[have]VBZ -- become/[become]VB|become/[become]VBN|become/[become]VBP -- difficult/[difficult]JJ", tokenizer, tagger); 
   }
-  
+
+  @Test
   public void testLemma() throws IOException {
     EnglishTagger tagger = new EnglishTagger();
     List<String> words = new ArrayList<>();

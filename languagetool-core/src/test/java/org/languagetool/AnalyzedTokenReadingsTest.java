@@ -19,15 +19,16 @@
 
 package org.languagetool;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
-public class AnalyzedTokenReadingsTest extends TestCase {
+public class AnalyzedTokenReadingsTest {
 
+  @Test
   public void testNewTags() {
     AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS", "lemma"));
     assertEquals(false, tokenReadings.isLinebreak());
@@ -74,6 +75,7 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     assertTrue(!testReadings.hasPosTag("POS"));
   }
 
+  @Test
   public void testToString() {
     AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS", "lemma"));
     assertEquals("word[lemma/POS*]", tokenReadings.toString());
@@ -82,6 +84,7 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     assertEquals("word[lemma/POS*,lemma2/POS2*]", tokenReadings.toString());
   }
 
+  @Test
   public void testHasPosTag() {
     AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS:FOO:BAR", "lemma"));
     assertTrue(tokenReadings.hasPosTag("POS:FOO:BAR"));
@@ -90,6 +93,7 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     assertFalse(tokenReadings.hasPosTag("xaz"));
   }
 
+  @Test
   public void testHasPartialPosTag() {
     AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS:FOO:BAR", "lemma"));
     assertTrue(tokenReadings.hasPartialPosTag("POS:FOO:BAR"));
@@ -102,7 +106,8 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     assertFalse(tokenReadings.hasPartialPosTag("POS:foo:BAR"));
     assertFalse(tokenReadings.hasPartialPosTag("xaz"));
   }
-  
+
+  @Test
   public void testMatchesPosTagRegex() {
     AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(new AnalyzedToken("word", "POS:FOO:BAR", "lemma"));
     assertTrue(tokenReadings.matchesPosTagRegex("POS:FOO:BAR"));
@@ -113,6 +118,7 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     assertFalse(tokenReadings.matchesPosTagRegex("POS:FOO:BARX"));
   }
 
+  @Test
   public void testIteration() {
     AnalyzedTokenReadings tokenReadings = new AnalyzedTokenReadings(Arrays.asList(
               new AnalyzedToken("word1", null, null),

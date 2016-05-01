@@ -18,28 +18,31 @@
  */
 package org.languagetool.tagging.it;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Italian;
 import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.IOException;
 
-public class ItalianTaggerTest extends TestCase {
+public class ItalianTaggerTest {
 
   private ItalianTagger tagger;
   private WordTokenizer tokenizer;
 
-  @Override
+  @Before
   public void setUp() {
     tagger = new ItalianTagger();
     tokenizer = new WordTokenizer();
   }
 
+  @Test
   public void testDictionary() throws IOException {
     TestTools.testDictionary(tagger, new Italian());
   }
-  
+
+  @Test
   public void testTagger() throws IOException {
     TestTools.myAssert("Non c'è linguaggio senza inganno.",
         "Non/[non]ADV -- c/[C]NPR -- è/[essere]AUX:ind+pres+3+s|è/[essere]VER:ind+pres+3+s -- linguaggio/[linguaggio]NOUN-M:s -- senza/[senza]CON|senza/[senza]PRE -- inganno/[ingannare]VER:ind+pres+1+s|inganno/[inganno]NOUN-M:s", tokenizer, tagger);

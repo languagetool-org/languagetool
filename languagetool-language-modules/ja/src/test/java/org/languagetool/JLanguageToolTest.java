@@ -18,13 +18,16 @@
  */
 package org.languagetool;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.language.Japanese;
 
 import java.io.IOException;
 
-public class JLanguageToolTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class JLanguageToolTest {
+
+  @Test
   public void testJapanese() throws IOException {
     final JLanguageTool tool = new JLanguageTool(new Japanese());
     assertEquals(0, tool.check("エラーを含まないテスト文です。").size());

@@ -19,7 +19,7 @@
 
 package org.languagetool.rules.pl;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
@@ -27,8 +27,11 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
-public class PolishWordRepeatRuleTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class PolishWordRepeatRuleTest {
+
+  @Test
   public void testRule() throws IOException {
     final PolishWordRepeatRule rule = new PolishWordRepeatRule(TestTools.getEnglishMessages());
     RuleMatch[] matches;

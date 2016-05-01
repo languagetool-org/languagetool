@@ -18,10 +18,13 @@
  */
 package org.languagetool.commandline;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class CommandLineParserTest extends TestCase {
+import static org.junit.Assert.*;
 
+public class CommandLineParserTest {
+
+  @Test
   public void testUsage() throws Exception {
     CommandLineParser parser = new CommandLineParser();
     try {
@@ -33,6 +36,7 @@ public class CommandLineParserTest extends TestCase {
     assertTrue(commandLineOptions.isPrintUsage());
   }
 
+  @Test
   public void testErrors() throws Exception {
     CommandLineParser parser = new CommandLineParser();
     try {
@@ -41,6 +45,7 @@ public class CommandLineParserTest extends TestCase {
     } catch (IllegalArgumentException ignored) {}
   }
 
+  @Test
   public void testSimple() throws Exception {
     CommandLineParser parser = new CommandLineParser();
     CommandLineOptions options;

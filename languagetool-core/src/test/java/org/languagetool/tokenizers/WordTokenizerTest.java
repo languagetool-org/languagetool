@@ -19,14 +19,17 @@
 
 package org.languagetool.tokenizers;
 
+import org.junit.Test;
+
 import java.util.List;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
-public class WordTokenizerTest extends TestCase {
+public class WordTokenizerTest {
 
   private final WordTokenizer wordTokenizer = new WordTokenizer();
-  
+
+  @Test
   public void testTokenize() {
     WordTokenizer wordTokenizer = new WordTokenizer();
     List <String> tokens = wordTokenizer.tokenize("This is\u00A0a test");
@@ -37,6 +40,7 @@ public class WordTokenizerTest extends TestCase {
     assertEquals("[This, \r, breaks]", tokens2.toString());
   }
 
+  @Test
   public void testIsUrl() {
     assertTrue(WordTokenizer.isUrl("www.languagetool.org"));
     assertTrue(WordTokenizer.isUrl("http://www.languagetool.org"));
@@ -44,7 +48,8 @@ public class WordTokenizerTest extends TestCase {
     assertFalse(WordTokenizer.isUrl("languagetool.org"));  // not detected yet
     assertFalse(WordTokenizer.isUrl("something-else"));
   }
-  
+
+  @Test
   public void testUrlTokenize() {
     assertEquals("This| |http://foo.org| |blah", tokenize("This http://foo.org blah"));
     assertEquals("This| |http://foo.org| |and| |ftp://bla.com| |blah", tokenize("This http://foo.org and ftp://bla.com blah"));
@@ -57,12 +62,14 @@ public class WordTokenizerTest extends TestCase {
     assertEquals("foo| |https://joe:passwd@example.net:8080/index.html?action=x&session=A54C6FE2#info| |bar",
           tokenize("foo https://joe:passwd@example.net:8080/index.html?action=x&session=A54C6FE2#info bar"));
   }
-  
+
+  @Test
   public void testUrlTokenizeWithQuote() {
     assertEquals("This| |'|http://foo.org|'| |blah", tokenize("This 'http://foo.org' blah"));
     assertEquals("This| |\"|http://foo.org|\"| |blah", tokenize("This \"http://foo.org\" blah"));
   }
-  
+
+  @Test
   public void testUrlTokenizeWithAppendedCharacter() {
     assertEquals("foo| |(|http://ex.net/p?a=x#i|)| |bar", tokenize("foo (http://ex.net/p?a=x#i) bar"));
     assertEquals("foo| |http://ex.net/p?a=x#i|,| |bar", tokenize("foo http://ex.net/p?a=x#i, bar"));
@@ -72,6 +79,7 @@ public class WordTokenizerTest extends TestCase {
     assertEquals("foo| |http://ex.net/p?a=x#i|!| |bar", tokenize("foo http://ex.net/p?a=x#i! bar"));
   }
 
+  @Test
   public void testIncompleteUrlTokenize() {
     assertEquals("http|:|/", tokenize("http:/"));
     assertEquals("http://", tokenize("http://"));

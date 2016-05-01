@@ -18,29 +18,31 @@
  */
 package org.languagetool.tagging.uk;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
 
-public class UkrainianTaggerTest extends TestCase {
+import java.io.IOException;
+
+public class UkrainianTaggerTest {
     
   private UkrainianTagger tagger;
   private UkrainianWordTokenizer tokenizer;
       
-  @Override
+  @Before
   public void setUp() {
     tagger = new UkrainianTagger();
     tokenizer = new UkrainianWordTokenizer();
   }
 
+  @Test
   public void testDictionary() throws IOException {
     TestTools.testDictionary(tagger, new Ukrainian());
   }
-  
+
+  @Test
   public void testTagger() throws IOException {
 
     // one-way case sensitivity
@@ -73,6 +75,7 @@ public class UkrainianTaggerTest extends TestCase {
         expected, tokenizer, tagger);
   }
 
+  @Test
   public void testNumberTagging() throws IOException {
     TestTools.myAssert("101,234", "101,234/[101,234]number", tokenizer, tagger);
     TestTools.myAssert("3,5-5,6% 7° 7,4°С", "3,5-5,6%/[3,5-5,6%]number -- 7°/[7°]number -- 7,4°С/[7,4°С]number", tokenizer, tagger);
@@ -83,7 +86,8 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("о 15.33", "о/[о]excl|о/[о]prep:rv_zna:rv_mis -- 15.33/[15.33]time", tokenizer, tagger);
     TestTools.myAssert("О 1:05", "О/[о]excl|О/[о]prep:rv_zna:rv_mis -- 1:05/[1:05]time", tokenizer, tagger);
   }
-  
+
+  @Test
   public void testTaggingWithDots() throws IOException {
     TestTools.myAssert("300 р. до н. е.", 
       "300/[300]number -- р./[р.]noun:inanim:f:v_dav:nv:np:abbr|р./[р.]noun:inanim:f:v_mis:nv:np:abbr|р./[р.]noun:inanim:f:v_naz:nv:np:abbr|р./[р.]noun:inanim:f:v_oru:nv:np:abbr"
@@ -120,7 +124,8 @@ public class UkrainianTaggerTest extends TestCase {
 //      "Є.Бакуліна[Бакулін]noun:anim:m:v_rod:prop:lname|Є.Бакуліна[Бакулін]noun:anim:m:v_zna:prop:lname",
 //       tokenizer, tagger);
   }
-  
+
+  @Test
   public void testDynamicTagging() throws IOException {
     TestTools.myAssert("г-г-г", "г-г-г/[null]null", tokenizer, tagger);
     
@@ -259,6 +264,7 @@ public class UkrainianTaggerTest extends TestCase {
     // голосувати за Тимошенко-прем’єра
   }
 
+  @Test
   public void testDynamicTaggingSkip() throws IOException {
     TestTools.myAssert("йо-га", "йо-га/[null]null", tokenizer, tagger);
     TestTools.myAssert("с-г", "с-г/[null]null", tokenizer, tagger);

@@ -19,12 +19,15 @@
 
 package org.languagetool.tokenizers.br;
 
+import org.junit.Test;
+
 import java.util.List;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-public class BretonWordTokenizerTest extends TestCase {
+public class BretonWordTokenizerTest {
 
+  @Test
   public void testTokenize() {
     final BretonWordTokenizer wordTokenizer = new BretonWordTokenizer();
     List <String> tokens = wordTokenizer.tokenize("Test c'h");

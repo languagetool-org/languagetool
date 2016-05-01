@@ -19,16 +19,17 @@
 
 package org.languagetool.rules.patterns;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 
-import static org.languagetool.JLanguageTool.PARAGRAPH_END_TAGNAME;
-import static org.languagetool.JLanguageTool.SENTENCE_END_TAGNAME;
-import static org.languagetool.JLanguageTool.SENTENCE_START_TAGNAME;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.languagetool.JLanguageTool.*;
 import static org.languagetool.rules.patterns.PatternToken.UNKNOWN_TAG;
 
-public class PatternTokenTest extends TestCase {
+public class PatternTokenTest {
 
+  @Test
   public void testSentenceStart() {
     PatternToken patternToken = new PatternToken("", false, false, false);
     patternToken.setPosToken(new PatternToken.PosToken(SENTENCE_START_TAGNAME, false, false));
@@ -44,7 +45,8 @@ public class PatternTokenTest extends TestCase {
     patternToken2.setPosToken(new PatternToken.PosToken("foo", true, true));
     assertFalse(patternToken2.isSentenceStart());
   }
-  
+
+  @Test
   public void testUnknownTag() {
     PatternToken patternToken = new PatternToken("", false, false, false);
     patternToken.setPosToken(new PatternToken.PosToken(UNKNOWN_TAG, false, false));

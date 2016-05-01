@@ -18,7 +18,7 @@
  */
 package org.languagetool;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.tools.StringTools;
 
 import java.io.File;
@@ -29,8 +29,9 @@ import java.util.*;
 /**
  * Check if the translations seem to be complete.
  */
-public class TranslationTest extends TestCase {
+public class TranslationTest {
 
+  @Test
   public void testTranslationKeyExistence() throws IOException {
     // use English version as the reference:
     File englishFile = getEnglishTranslationFile();
@@ -58,6 +59,7 @@ public class TranslationTest extends TestCase {
     }
   }
 
+  @Test
   public void testTranslationsAreNotEmpty() throws IOException {
     for (Language lang : Languages.get()) {
       File file1 = getTranslationFile(lang);

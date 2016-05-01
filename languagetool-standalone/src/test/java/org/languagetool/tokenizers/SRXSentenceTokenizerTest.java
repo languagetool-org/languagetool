@@ -18,12 +18,16 @@
  */
 package org.languagetool.tokenizers;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
-public class SRXSentenceTokenizerTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
+public class SRXSentenceTokenizerTest {
+
+  @Test
   public void testOfficeFootnoteTokenize() {
     int count = 0;
     for (Language language : Languages.get()) {

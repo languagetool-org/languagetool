@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.ru;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Russian;
@@ -33,13 +35,13 @@ import java.io.IOException;
  */
 public class RussianCompoundRuleTest extends AbstractCompoundRuleTest {
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() throws Exception {
     langTool = new JLanguageTool(new Russian());
     rule = new RussianCompoundRule(TestTools.getEnglishMessages());
   }
-  
+
+  @Test
   public void testRule() throws IOException {
     // correct sentences:
     check(0, "Он вышел из-за дома.");

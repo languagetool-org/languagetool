@@ -18,19 +18,22 @@
  */
 package org.languagetool.gui;
 
+import org.junit.Test;
+import org.languagetool.Language;
+import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.Belarusian;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import org.languagetool.Language;
-import org.languagetool.language.AmericanEnglish;
-import org.languagetool.language.Belarusian;
+public class ConfigurationTest {
 
-public class ConfigurationTest extends TestCase {
-
+  @Test
   public void testSaveAndLoadConfiguration() throws Exception {
     File tempFile = File.createTempFile(ConfigurationTest.class.getSimpleName(), ".cfg");
     createConfiguration(tempFile, null);
@@ -55,6 +58,7 @@ public class ConfigurationTest extends TestCase {
     conf.saveConfiguration(lang);
   }
 
+  @Test
   public void testSaveAndLoadConfigurationForManyLanguages() throws Exception {
     File tempFile = File.createTempFile(ConfigurationTest.class.getSimpleName(), ".cfg");
     createConfiguration(tempFile, new AmericanEnglish());

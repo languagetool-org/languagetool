@@ -18,14 +18,15 @@
  */
 package org.languagetool.tagging.disambiguation.rules;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * Calls a test from core, because only here in stand-alone all languages 
  * are available.
  */
-public class StandaloneDisambiguationRuleTest extends TestCase {
-  
+public class StandaloneDisambiguationRuleTest {
+
+  @Test
   public void testDisambiguationRuleTest() throws Exception {
     DisambiguationRuleTest test = new DisambiguationRuleTest();
     test.testDisambiguationRulesFromXML();

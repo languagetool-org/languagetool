@@ -25,9 +25,9 @@ import org.languagetool.language.German;
 
 import java.io.IOException;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class SentenceWhitespaceRuleTest {
 

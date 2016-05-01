@@ -19,15 +19,19 @@
 
 package org.languagetool.bitext;
 
+import org.junit.Test;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-public class TabBitextReaderTest extends TestCase {
+public class TabBitextReaderTest {
 
+  @Test
   public void testReader() throws Exception {
     // Create a simple plain text file.
     File input = File.createTempFile("input", "txt");  
