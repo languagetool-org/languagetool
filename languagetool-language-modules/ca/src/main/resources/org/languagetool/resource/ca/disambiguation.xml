@@ -10,7 +10,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!ENTITY exceptions_TE "aigua|arròs|cacau|cacauet|caf[èé]|cautxú|cervesa|cítric|coca-cola|cotó|espècies|farigola|fruita|infusió|llet|malta?|melmelada|mill|oli|ordi|pastes|pastís|pastisset|poliol|quina|raïm|sucre|tabac|torrada|xocolat[ae]">
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
     <!ENTITY masculi_inusual "policia|justícia|part[123]">
-    <!ENTITY nom_o_verb "dejuni|escultura|escola|vaticini|queixa|tinta|plaga|cometa2|cursa|país|domini|equilibri|termini|cap|dosi|tema|imperi|barri|sonda|porta|resta|ment|capa|demanda|esperança|manca|marca|marxa|mida|mostra|obra|ou|orquestra|profeta|programa|terra|meta">
+    <!ENTITY nom_o_verb "poeta|dejuni|escultura|escola|vaticini|queixa|tinta|plaga|cometa2|cursa|país|domini|equilibri|termini|cap|dosi|tema|imperi|barri|sonda|porta|resta|ment|capa|demanda|esperança|manca|marca|marxa|mida|mostra|obra|ou|orquestra|profeta|programa|terra|meta">
     <!ENTITY nom_seguitde_nompropi "informe|senyor|estàndard|tipus|adreça|imperi|profeta|balneari|projecte|corrent|estany|cometa2|mont|pare|premi|cas|cursa|concurs|quadre|taula|novel·la|obra|riu|estil|programa|orquestra|escola|registre|finca|sonda|rosa|tema">
     <!ENTITY unitats_temps "molt|poc|temps|temporada|jornada|estona|mil·lisegon|segon|minut|hora|dia|jorn|setmana|mes|any|lustre|dècada|decenni|segle|mil·lenni">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
@@ -1367,6 +1367,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filterall"/>
     </rule>
     <rulegroup id="nompropi_multiword" name="noms propis en multiwords">
+        <rule id="nompropi2paraules_filtra" name="nom propi 3 paraules">
+            <pattern>
+                <token postag="&lt;NP.*&gt;" postag_regexp="yes"></token>
+                <token postag="&lt;/NP.*&gt;" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
         <rule id="nompropi3paraules" name="nom propi 3 paraules">
             <pattern>
                 <token postag="&lt;NP.*&gt;" postag_regexp="yes"></token>
@@ -2272,6 +2279,34 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token><exception regexp="yes">bé|,</exception></token>
         </pattern>
         <disambig action="remove" postag="CC" />
+    </rule>
+    <rule id="vol_noverb" name="vol no verb">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">vols?</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </and>
+            </marker>
+            <token regexp="yes">xàrter|charter|comercials?|transoceànics?|privats?</token>
+        </pattern>
+        <disambig action="remove" postag="V.*"/>
+    </rule>
+    <rule id="vol" name="vol no nom">
+        <pattern>
+            <token><exception postag="D.*|A.*|V.P.*|SENT_START|SPS00|.*LOC_.*|PX.*" postag_regexp="yes"/><exception regexp="yes" inflected="yes">haver|tenir</exception></token>
+            <marker>
+                <and>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">vols?</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                </and>
+            </marker>
+            <token><exception regexp="yes">de|d'</exception></token>
+        </pattern>
+        <disambig action="remove" postag="N.*"/>
+        <example type="untouched"><marker>Vols</marker> transoceànics</example>
+        <example type="untouched">de <marker>vols</marker> transoceànics</example>
+        <example type="untouched">Encara hi ha <marker>vols</marker> avui?</example>
     </rule>
     <rule id="es_la" name="prevenció en error: es/és la">
         <pattern>

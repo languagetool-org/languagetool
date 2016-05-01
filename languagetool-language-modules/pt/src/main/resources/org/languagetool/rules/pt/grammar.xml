@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.152 2016-04-22 13:50:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.153 2016-04-27 04:50:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -3135,7 +3135,35 @@ $Id: grammar.xml,v 1.152 2016-04-22 13:50:00 marcoagpinto Exp $
       <message>Usar vírgula: <suggestion>\1 \2,</suggestion></message>
       <example correction="ou seja,">Pensa primeiro, <marker>ou seja</marker> escolhe acertadamente.</example>
     </rule>
+
+
+
+    <!-- COMMA BEFORE WORDS #1 -->
+    <rule id="COMMA_1" name="Vírgula antes #1">
+      <pattern>	  
+		<marker>
+			<token><exception regexp="yes">[,;:–—\(]</exception></token>	
+		</marker>
+		<token regexp="yes">mas|porém|contudo|entretanto|todavia</token>
+      </pattern>
+      <message>Usar vírgula: <suggestion>\1,</suggestion></message>
+	  <example correction="chocolate,">Eu adoro <marker>chocolate</marker> mas faz engordar.</example>
+    </rule>
+
+
 	
+    <!-- COMMA BEFORE WORDS #2 -->
+    <rule id="COMMA_2" name="Vírgula antes #2">
+      <pattern>	  
+		<marker>
+			<token><exception regexp="yes">[,;:–—\(]</exception></token>
+	    </marker>
+		<token>no</token>
+		<token>entanto</token>	 
+      </pattern>
+      <message>Usar vírgula: <suggestion>\1,</suggestion></message>
+	  <example correction="chocolate,">Eu adoro <marker>chocolate</marker> no entanto faz engordar.</example>
+    </rule>	
 	
 </category>
 
@@ -3190,7 +3218,6 @@ $Id: grammar.xml,v 1.152 2016-04-22 13:50:00 marcoagpinto Exp $
       <message>Redundância. Usar apenas <suggestion>quadrilha</suggestion>.</message>
       <example correction="quadrilha">É uma perigosa <marker>quadrilha de ladrões</marker>.</example>
     </rule>
-
 	
 </category>
 
