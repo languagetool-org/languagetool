@@ -18,22 +18,24 @@
  */
 package org.languagetool.rules;
 
+import org.junit.Test;
+import org.languagetool.Language;
+import org.languagetool.TestTools;
+import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.PatternToken;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import junit.framework.TestCase;
-
-import org.languagetool.Language;
-import org.languagetool.TestTools;
-import org.languagetool.rules.patterns.PatternToken;
-import org.languagetool.rules.patterns.PatternRule;
+import static org.junit.Assert.*;
 
 @SuppressWarnings("MagicNumber")
-public class SameRuleGroupFilterTest extends TestCase {
+public class SameRuleGroupFilterTest {
 
   private static final Language language = TestTools.getDemoLanguage();
 
+  @Test
   public void testFilter() {
     List<PatternToken> fakePatternTokens = new ArrayList<>();
     PatternRule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
@@ -46,6 +48,7 @@ public class SameRuleGroupFilterTest extends TestCase {
     assertEquals("Match1", filteredMatches.get(0).getMessage());
   }
 
+  @Test
   public void testNoFilteringIfNotOverlapping() {
     List<PatternToken> fakePatternTokens = new ArrayList<>();
     PatternRule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
@@ -57,6 +60,7 @@ public class SameRuleGroupFilterTest extends TestCase {
     assertEquals(2, filteredMatches.size());
   }
 
+  @Test
   public void testNoFilteringIfDifferentRulegroups() {
     List<PatternToken> fakePatternTokens = new ArrayList<>();
     Rule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
@@ -68,6 +72,7 @@ public class SameRuleGroupFilterTest extends TestCase {
     assertEquals(2, filteredMatches.size());
   }
 
+  @Test
   public void testOverlaps() {
     SameRuleGroupFilter filter = new SameRuleGroupFilter();
 

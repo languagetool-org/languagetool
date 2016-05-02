@@ -32,17 +32,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY estacions "primavera|estiu|tardor|hivern">
     <!ENTITY excep_exceptions_BE "ben|prou|tan|que|si|ara|molt|per|i|o|ni|més|['-].+">
     <!ENTITY exceptions_A_DIT_HA_DIT "concedir|crèdit|selecció|subvenció|atorgar|designar|designació|contractar|contractació|plaça|assignar|assignació|nomenar|nomenament|col·locar|col·locació|ajudicar|adjudicació|càrrec">
-    <!ENTITY exceptions_A_L_ANY "tornar|arribar|equivaler|equivalent|portar|atribuir|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir|proper|pròxim|pertànyer|remetre|previ|referència|referent|prèviament">
+    <!ENTITY exceptions_A_L_ANY "esperar|tornar|arribar|equivaler|equivalent|portar|atribuir|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir|proper|pròxim|pertànyer|remetre|previ|referència|referent|prèviament">
     <!ENTITY exceptions_AL_FRONT "(?-i)clapa|picar|matar|pelat|pelada|arruga|cabellera|cabell|cop|suor|petó|bes|besada|visera|taca|ditada|cara|mirada|lepra|cendra|marca|marcar|batalla|besar|voluntari|corona|bony|militar|enviar|caos|disparar|mocador|lligar|incorpor.*|ferir|expressió|cicatriu|exèrcit|mobilitzar|aigua|clavar|mà|col?p|guerra|soldat|desaparèixer|afusell.*|empreson.*|reclut.*|morir|mort|vidu|orfe|viudo|traum.*">
     <!ENTITY exceptions_ALS_TRES_MESOS "per|fins|cap|arribada|arribar|corresponent|proper|pròxim|inferior|superior|referència|següent|posterior|anterior|acostar|aproximar|apropar|correspondre">
     <!ENTITY exceptions_A_MANS_DE "espoli|espoliació|anar|sotmetre|submissió|desapoderar|desapoderament|sofrir|vèncer|pallissa|apallissar|desgastar|parar|passar|arribar|retornar|tornar|perdre|morir|pèrdua|matança|mort1|patir|vexació|vexar|tortura|torturar|derrota|derrotar|fi2|assassinar|assassinat|saqueig|saquejar">
     <!ENTITY exceptions_ASSENTAR_ASSEURE "igualtat|idea|fenomen|suport|geològi.*|pilar|bàvar|eslau|roca|ciutat|pedra|morter|tossal|muralla|castell|fonament|sòcol|plana|agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base1|categoria|colon|colonitz.*|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic|principi|conducta|establir|distribució|genital|estructura|recinte|esplanada|pla|superfície">
-    <!ENTITY exceptions_BE "pota|cuixa|costella|intestí|ovella|camell|caball|bou|pell|caldo|brou|carn|llop|xai|degollar|esquilar|tondre|crit|animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana">
+    <!ENTITY exceptions_BE "rostit|rostir|cabrit|pota|cuixa|costella|intestí|ovella|camell|caball|bou|pell|caldo|brou|carn|llop|xai|degollar|esquilar|tondre|crit|animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana">
     <!ENTITY exceptions_hostatge "edifici|dieta|luxe|viatger|turista|caminant|obrir|planta">
     <!ENTITY exceptions_MES "extra|solar|sideral|marià|hivernal|hebreu|jueu|musulmà|islàmic|sinòdic|draconític|lunar|mitjà|tròpic|anomalístic|dedicat|consagrat|vinent|entrant|propvinent|passat|proppassat|intercalar|anterior|següent|posterior|previ">
     <!ENTITY exceptions_ODRE "pell|bot|líquid|aigua|oli|llet|vi|substància|mantega|càntir|ampolla|porró|paràbola|cuir|cuiro">
     <!ENTITY exceptions_Paris "Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu|judici|juí">
     <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena">
+    <!ENTITY exceptions_SON "descans|estrès|estrés|cansament|fatiga|mareig|alegria|somnambulisme|esbarjo|estupor|gana|fam|anorèxia|vigília">
     <!ENTITY expressions_temps "ara|avui|hui|demà|despús-demà|ahir|despús-ahir|endemà|enguany|temporada|curs">
     <!ENTITY expressions_durada "estona|poc|temps|moment|instant">
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
@@ -2448,6 +2449,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- <example correction="comuna">Un cau de gent <marker>comú</marker>.</example> -->
             </rule>
             <rule id="ESTRATEGA" name="estrateg -a, raposde -a, psiquiatre -a">
+                <antipattern>
+                    <marker>
+                        <token regexp="yes" skip="1">metgessa|filòsofa|poetessa|política|escriptora|traductora|escultora|pintora</token>
+                        <token inflected="yes" postag="NCF.*" postag_regexp="yes" regexp="yes">estrateg|rapsode|psiquiatre</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token inflected="yes" postag="NCF.*" postag_regexp="yes" regexp="yes" skip="1">estrateg|rapsode|psiquiatre</token>
+                        <token regexp="yes">metgessa|filòsofa|poetessa|política|escriptora|traductora|escultora|pintora</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" postag="NCF.*" postag_regexp="yes" regexp="yes">estrateg|rapsode|psiquiatre<exception postag="_GN_F." postag_regexp="yes"/></token>
                 </pattern>
@@ -2833,7 +2846,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-                        <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|diada|col?p|volta|vegada|pic|&noms_collectius;|quin|mateix|quant</exception><exception regexp="yes">.*%</exception></token>
+                        <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|diada|col?p|volta|vegada|pic|&noms_collectius;|quin|mateix|quant|resta</exception><exception regexp="yes">.*%</exception></token>
                         <token min="0">no</token>
                         <token postag="VM[IS].3P.." postag_regexp="yes"><exception postag="V.[ISM]..S..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|poder|deure|caldre|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer</exception></token>
                     </marker>
@@ -2865,7 +2878,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"/>
                     <marker>
                         <token postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">quin|quant</exception></token>
-                        <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|mateix|quin|quant</exception></token>
+                        <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|mateix|quin|quant|resta</exception></token>
                         <token min="0">no</token>
                         <token postag="VM[IS].3S.." postag_regexp="yes"><exception postag="V.[ISM]..P..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|poder|deure|caldre|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer</exception><exception>vinga</exception></token>
                     </marker>
@@ -2889,7 +2902,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-                        <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|&noms_collectius;|quin|mateix|quant</exception><exception regexp="yes">.*%</exception></token>
+                        <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|&noms_collectius;|quin|mateix|quant|resta</exception><exception regexp="yes">.*%</exception></token>
                         <token min="0">no</token>
                         <token postag="VA[IS].3P.." postag_regexp="yes"><exception postag="V.[ISM]..S..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
                         <token postag="VM[NP].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">ser|poder|deure|caldre|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer</exception></token>
@@ -2921,7 +2934,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"/>
                     <marker>
                         <token postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">quin|quant</exception></token>
-                        <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|mateix|quin|quant</exception></token>
+                        <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|mateix|quin|quant|resta</exception></token>
                         <token min="0">no</token>
                         <token postag="VA[IS].3S.." postag_regexp="yes"><exception postag="V.[ISM]..P..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
                         <token postag="VM[NP].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">ser|poder|deure|caldre|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer</exception></token>
@@ -2961,7 +2974,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-                        <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|&noms_collectius;|quin|mateix|quant</exception><exception regexp="yes">.*%</exception></token>
+                        <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|&noms_collectius;|quin|mateix|quant|resta</exception><exception regexp="yes">.*%</exception></token>
                         <token min="0">no</token>
                         <token postag="V.[IS].3P.." postag_regexp="yes" regexp="yes" inflected="yes" skip="-1">ser|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer<exception postag="V.[ISM]..S..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" postag="_GN_.P|N..P.*|DN.*|NCCN.*|D...P." postag_regexp="yes"/></token>
                     </marker>
@@ -2976,6 +2989,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La seva passió eren les maduixes</example>
                 <example>Aquell parell eren bons.</example>
                 <example>Esment especial mereixen els seus treballs</example>
+                <example>La resta són incoatius</example>
             </rule>
             <rule>
                 <antipattern>
@@ -2987,7 +3001,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"/>
                     <marker>
                         <token postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">quin|quant</exception></token>
-                        <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|mateix|quant|quin</exception></token>
+                        <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|mateix|quant|quin|resta</exception></token>
                         <token min="0">no</token>
                         <token postag="V.[IS].3S.." postag_regexp="yes" inflected="yes" regexp="yes" skip="-1">ser|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer<exception postag="V.[ISM]..P..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" postag="_GN_.S|N..S.*|D...s." postag_regexp="yes"/></token>
                     </marker>
@@ -3546,7 +3560,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">el|la|l'</token>
-                    <token inflected="yes" regexp="yes">telefonar|abellir|agradar|pegar|xocar|sobreviure</token>
+                    <token inflected="yes" regexp="yes">telefonar|abellir|agradar|pegar|xocar|sobreviure<exception>pegàs</exception></token>
                 </pattern>
                 <message>Aquest verb és intransitiu.</message>
                 <suggestion>li <match no="2"/></suggestion>
@@ -4682,6 +4696,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token inflected="yes" skip="2">donar<exception scope="next" postag="SPS00"/></token>
                     </marker>
                     <token postag="D..MS.*" postag_regexp="yes"/>
+                    <token min="0">gran</token>
                     <token>pas</token>
                 </pattern>
                 <message>Val més usar el verb "fer".</message>
@@ -4872,14 +4887,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token inflected="yes">ser<exception inflected="yes">estar</exception></token>
-                    <token>en</token>
-                    <token regexp="yes">voga|contra|joc|marxa|obres|ordre|guerra|pau|perill|crisi|vaga|dejú|contacte|condicions|harmonia|llibertat|regla<exception postag="_possible_nompropi"/></token>
+                    <token>en</token> <!--contra,obres,ordre,condicions TODO: en condicions de-->
+                    <token regexp="yes">voga|joc|marxa|guerra|pau|perill|crisi|vaga|dejú|contacte|harmonia|llibertat|regla<exception postag="_possible_nompropi"/></token>
                 </pattern>
                 <message>Val més usar el verb 'estar'.</message>
                 <suggestion><match no="1" postag="VS(.+)" postag_regexp="yes" postag_replace="VM$1">estar</match> <match no="2"/> <match no="3"/></suggestion>
                 <short>Construcció preferible</short>
-                <example correction="estaven en ordre">Les coses <marker>eren en ordre</marker>.</example>
-                <example>Estan en marxa</example>
+                <example correction="estaven en marxa">Les coses <marker>eren en marxa</marker>.</example>
                 <example>Han estat en perill des de fa temps.</example>
                 <example>Mentre hi hagi diner públic d’altres Estats en joc</example>
             </rule>
@@ -5137,7 +5151,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token><exception regexp="yes">[(,;:]</exception></token> <!-- <exception postag="SENT_START"/> -->
+                    <token><exception regexp="yes">[(,;:]|mateixos</exception></token> <!-- <exception postag="SENT_START"/> -->
                     <marker>
                         <token>Estats<exception scope="previous" postag="DA.*" postag_regexp="yes"/></token>
                         <token>Units</token>
@@ -5354,7 +5368,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>gens</token>
                 </marker>
-                <token postag="NC.[CS].*" postag_regexp="yes"><exception postag="AQ.*|RG.*" postag_regexp="yes"/></token>
+                <token postag="NC.[CS].*" postag_regexp="yes"><exception postag="AQ.*|RG.*" postag_regexp="yes"/><exception>diana</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>gens de</suggestion>?</message>
             <example correction="gens de">No serà <marker>gens</marker> faena.</example>
@@ -7164,6 +7178,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="COM_COM_A" name="*com / com a">
             <!-- en quins casos es poden usar tots els temps verbals, no sols el participi? -->
+            <antipattern>
+                <marker>
+                    <token inflected="yes" skip="1">haver</token>
+                    <token>vist</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">&seguits_per_COM_A;<exception scope="previous" regexp="yes">tan|tants?</exception><exception scope="next" postag="[NAV].*|_PUNCT.*" postag_regexp="yes"/></token>
@@ -7171,7 +7191,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>com<exception scope="previous" regexp="yes">tals?|molt</exception></token>
                     </marker>
                     <token min="0" regexp="yes">['"‘“«]</token>
-                    <token postag="[AN].*|_possible_nompropi|UNKNOWN" postag_regexp="yes"><exception>a</exception><exception inflected="yes" regexp="yes">el|un|tot|il|gli|los|le|the</exception><exception regexp="yes">['"‘“«]</exception></token>
+                    <token postag="[AN].*|_possible_nompropi|UNKNOWN" postag_regexp="yes"><exception>a</exception><exception inflected="yes" regexp="yes">el|un|tot|il|gli|los|le|the</exception><exception regexp="yes">['"‘“«]|las</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <url>http://esadir.cat/gramatica/sintaxi/advcomcoma</url>
@@ -7198,6 +7218,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>centres de recerca de reconegut prestigi com PERA</example>
                 <example>amb altres reconeguts pintors com Carle van Loo</example>
                 <example>tant des del punt de vista legal com doctrinal,</example>
+                <example>Ha vist com actors xinesos hi actuaven.</example>
             </rule>
             <!-- marques de prestigi reconegudes com Lancôme, Chanel i Versace.
                 artistes ja coneguts com ...
@@ -7685,6 +7706,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="SOTA" name="ús abusiu de 'sota'">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">per|a|de</token>
+                    <token regexp="yes">sota|baix</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -9495,9 +9522,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="PRO_PERO" name="*pro/però">
             <pattern>
                 <marker>
-                    <token>pro<exception scope="previous" postag="SPS00|DA0MS0"/></token>
+                    <token>pro<exception scope="previous" postag="SPS00|DA0MS0"/><exception postag="_possible_nompropi"/></token>
                 </marker>
-                <token postag="V.*|.*LOC_ADV.*|P[^A].*|R.*|D.*" postag_regexp="yes"/>
+                <token postag="V.*|.*LOC_ADV.*|P[^A].*|R.*|D.*" postag_regexp="yes"><exception regexp="yes">amnistia|llibertat|disminuïts</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>però</suggestion>?</message>
             <example correction="però">M'agrada, <marker>pro</marker> no la compraré</example>
@@ -10093,12 +10120,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="BEN_BE" name="ben/bé">
             <pattern>
-                <token>ben<exception postag="_possible_nompropi"></exception></token>
-                <token postag="NC.*" postag_regexp="yes"><exception postag="AQ.*|V.P.*|_possible_nompropi|RG|.*LOC_ADV.*|PX.*|V.N.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+|veritat</exception></token>
+                <marker>
+                    <token>ben<exception postag="_possible_nompropi"></exception></token>
+                </marker>
+                <token postag="NC.*" postag_regexp="yes"><exception postag="AQ.*|V.P.*|_possible_nompropi|RG|.*LOC_ADV.*|PX.*|V.N.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+|veritat|passat|nen|infant</exception></token>
             </pattern>
             <message>Possible confusió.</message>
             <suggestion>bé</suggestion>
-            <example correction="bé">Medi rural o <marker>ben medi</marker> urbà.</example>
+            <example correction="bé">Medi rural o <marker>ben</marker> medi urbà.</example>
             <example>Cridaven ben fort.</example>
             <example>No era ben bé això.</example>
             <example>Era ben seu.</example>
@@ -10123,7 +10152,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>
             <pattern>
-                <token>a</token>
+                <token>a<exception scope="previous">com</exception></token>
                 <token>costat</token>
             </pattern>
             <message>Possible confusió.</message>
@@ -10663,6 +10692,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token inflected="yes" regexp="yes">tenir|fer|passar|causar|sofrir|patir</token>
+                    <token min="0" regexp="yes">molta|força|gaire</token>
                     <token>por</token>
                 </marker>
             </antipattern>
@@ -11064,12 +11094,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token inflected="yes">constar</token>
                 </marker>
-                <token postag="V.N.*" postag_regexp="yes"/>
+                <token postag="V.N.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">costar</match></suggestion>?</message>
             <short>Possible confusió</short>
             <example correction="costava">A mi em <marker>constava</marker> veure-ho.</example>
             <example>Em costava veure-ho.</example>
+            <example>La constant solar</example>
         </rule>
         <rule id="COMTE" name="*compte/*conte/comte d'Urgell">
             <antipattern>
@@ -11080,7 +11111,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <marker>
-                    <token>sindicatura</token>
+                    <token regexp="yes" inflected="yes">sindicatura|tribunal|cambra</token>
                     <token>de</token>
                     <token>comptes</token>
                 </marker>
@@ -11126,7 +11157,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="QUEST" name="quest/aquest">
             <pattern>
-                <token inflected="yes" regexp="yes">questa|quest<exception postag="_possible_nompropi"/></token>
+                <token inflected="yes" regexp="yes">questa|quest<exception postag="_possible_nompropi"/><exception scope="previous" regexp="yes">el|seu</exception></token>
             </pattern>
             <message>"\1" és una paraula d'ús poc habitual. ¿Volíeu dir <suggestion>a\1</suggestion>?</message>
             <short>Possible confusió</short>
@@ -12592,8 +12623,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token><exception regexp="yes">el|un</exception></token>
                 <marker>
-                    <token>cap</token> <!-- Eliminat: lletra -->
-                    <token regexp="yes" inflected="yes">cot|baix|alt|buit|damunt|davant|davanter|davall|ficat|ficar|fluix|girar|foguer|jup|moix</token>
+                    <token>cap<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token> <!-- Eliminat: lletra, alt -->
+                    <token regexp="yes" inflected="yes">cot|baix|buit|damunt|davant|davanter|davall|ficat|ficar|fluix|girar|foguer|jup|moix<exception postag=".*LOC_ADV.*" postag_regexp="yes"/><exception regexp="yes">baixa|cota|gira</exception></token>
                 </marker>
             </pattern>
             <message>¿Volíeu dir <suggestion>cap<match no="3"/></suggestion>?</message>
@@ -12601,21 +12632,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="capcot">Se n'anà <marker>cap cot</marker>.</example>
             <example>amb el cap cot</example>
             <example>un cap buit no pot adquirir saviesa</example>
+            <example>pel cap baix</example>
         </rule>
         <rule id="LLIURAMENT_LLIUREMENT" name="lliurament/lliurement">
             <antipattern>
                 <marker>
                     <token inflected="yes">fer</token>
                     <token>lliurament</token>
+                    <!--<token>a</token>-->
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>lliurament</token>
                     <token>a</token>
+                    <token>domicili</token>
                 </marker>
             </antipattern>
             <pattern>
-                <token><exception regexp="yes">de|amb|en</exception></token>
+                <token><exception regexp="yes">de|amb|en|o|i</exception><exception postag="SENT_START"/></token>
                 <marker>
                     <token>lliurament<exception postag="_GN_MS"/></token>
                 </marker>
-                <token><exception regexp="yes">de|d'</exception></token>
+                <token><exception regexp="yes">de|d'|i|o</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>lliurement</suggestion> (= amb llibertat) en lloc de "lliurament" (= acció de lliurar)?</message>
             <short>Possible confusió</short>
@@ -12623,6 +12662,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>El lliurament es va fer amb normalitat.</example>
             <example>Va negociar el lliurament de Granada.</example>
             <example>Curs de fotografia amb lliurament de premis </example>
+            <example>Lliurament i avaluació</example>
         </rule>
         <rule id="EM_VIST" name="em vist">
             <!-- La regla general no troba error perquè s'interpreta que 'vist' és del verb vestir: jo em vist = jo em vestisc -->
@@ -13133,7 +13173,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token>per</token>
-                        <token skip="4">què<exception scope="next" postag="V.[IN].*" postag_regexp="yes"/><exception scope="next" regexp="yes">que|quals?|què|qui</exception></token>
+                        <token skip="4">què<exception scope="next" postag="V.[IN].*|CC|CS" postag_regexp="yes"/><exception scope="next" regexp="yes">que|quals?|què|qui</exception></token>
                     </marker>
                     <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -13144,6 +13184,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Per què no usem simplement HTML?</example>
                 <example>Per què un crustaci que tingués boca no sobreviuria?</example>
                 <example>Per què no deixar que continuï?</example>
+                <exampole>No sé perquè, però diguin el que diguin...</exampole>
             </rule>
         </rulegroup>
         <rule id="ALA_A_LA" name="*ala ciutat/a la ciutat">
@@ -13263,17 +13304,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception>la</exception></token>
+                    <token><exception regexp="yes">la|seva|seua</exception></token>
                     <marker>
                         <token>darrera</token>
                     </marker>
                     <token regexp="yes">seu|seua|seva</token>
                 </pattern>
-                <message>Cal escriure <suggestion>darrere</suggestion>.</message>
+                <message>Cal escriure <suggestion>darrere</suggestion>. Correcte si equival a "última".</message>
                 <short>Possible confusió</short>
                 <example correction="darrere">Anava <marker>darrera</marker> seu .</example>
                 <example>Anava darrere seu.</example>
                 <example>Fou la darrera seu del govern revolucionari.</example>
+                <example>Aquella va ser la seva darrera seua.</example>
             </rule>
         </rulegroup>
         <rule id="ES_VA_FA_CARREC" name="es *va/fa càrrec"> <!--  es va/fa servir/sentir? -->
@@ -13337,7 +13379,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ABASTAMENT_A_BASTAMENT" name="abastament / a bastament">
             <rule>
                 <pattern>
-                    <token postag="SPS00" negate_pos="yes"/>
+                    <token><exception postag="SPS00|CC" postag_regexp="yes"/></token>
                     <marker>
                         <token>abastament<exception postag="_GN_MS"/></token>
                     </marker>
@@ -13352,7 +13394,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SPS00" negate_pos="yes"/>
+                    <token><exception postag="SPS00|CC" postag_regexp="yes"/></token>
                     <marker>
                         <token>abastament<exception postag="_GN_MS"/></token>
                     </marker>
@@ -13399,6 +13441,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>punt</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token>hora</token>
+                    <token regexp="yes" skip="1">en|a</token>
+                    <token regexp="yes">què|que|qual</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">anar|rellotge|campan.*|fins</exception></token>
                 <marker>
@@ -13406,7 +13455,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>l'</token>
                     <token>hora</token>
                 </marker>
-                <token skip="-1"><exception regexp="yes">de|d'|i|baixa</exception><exception postag="A.0[FC]S0|V.P.*SF.?" postag_regexp="yes"/><exception scope="next" inflected="yes" regexp="yes">rellotge|campan.*</exception></token>
+                <token skip="-1"><exception regexp="yes">de|d'|i|baixa|H|\d+|nona|punta</exception><exception postag="A.0[FC]S0|V.P.*SF.?|DN.*" postag_regexp="yes"/><exception scope="next" inflected="yes" regexp="yes">rellotge|campan.*</exception></token>
                 <token postag="SENT_END"/>
             </pattern>
             <message>Si volíeu dir "al mateix temps", cal escriure <suggestion>alhora</suggestion>.</message>
@@ -13579,8 +13628,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="DONS_DONCS" name="*dons/doncs">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">favors|virtuts|valors</token>
+                    <token regexp="yes">i|o|ni|,</token>  
+                    <token>dons</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>dons</token>
+                    <token regexp="yes">i|o|ni|,</token>  
+                    <token regexp="yes">favors|virtuts|valors</token>
+                </marker>
+            </antipattern>
             <pattern>
-                <token><exception inflected="yes" regexp="yes">repartir|oferir|presentar|ofrenar|intercanviar|bescanviar|de</exception></token>
+                <token><exception inflected="yes" regexp="yes">repartir|oferir|presentar|ofrenar|intercanviar|bescanviar|de|demanar|en|fer</exception></token>
                 <marker>
                     <token>dons<exception postag="_GN_MP"/></token>
                 </marker>
@@ -13889,8 +13952,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>mig</token>
                 </pattern>
                 <message>Error ortogràfic.</message>
-                <example correction=""><marker>al vell mig</marker></example>
-                <example>al bell mig</example>
+                <suggestion>al bell mig</suggestion>
+                <example correction="al bell mig"><marker>al vell mig</marker></example>
             </rule>
             <rule id="DE_VELL_NOU" name="de *vell/bell nou/antuvi">
                 <pattern>
@@ -13901,7 +13964,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Error ortogràfic.</message>
                 <suggestion>de bell \3</suggestion>
                 <example correction="de bell antuvi"><marker>de vell antuvi</marker></example>
-                <example>de bell nou</example>
             </rule>
         </rulegroup>
         <rulegroup id="BABA_BAVA" name="baba/bava">
@@ -14536,7 +14598,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception>no</exception></token>
+                    <token><exception regexp="yes">no|ho</exception></token>
                     <marker>
                         <token>pot</token>
                         <token skip="4">ser<exception scope="next" postag="CC|CS|A.*|V.P.*|_GN_.*" postag_regexp="yes"/><exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
@@ -14556,7 +14618,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"></token>
                     <marker>
-                        <token>pot<exception scope="previous" regexp="yes">no|que|qui|què|quan|on|com</exception><exception scope="previous" postag="RG_anteposat"/></token>
+                        <token>pot<exception scope="previous" regexp="yes">ho|no|que|qui|què|quan|on|com</exception><exception scope="previous" postag="RG_anteposat"/></token>
                         <token>ser</token>
                     </marker>
                     <token postag="SENT_END"><exception>:</exception></token>
@@ -14569,6 +14631,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>per a ser tot el que naturalment pot ser.</example>
                 <example>Vés a saber de qui pot ser.</example>
                 <example>És estrany: com pot ser?</example>
+                <example>I explica de quantes maneres ho pot ser.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ALMENYS" name="al menys/almenys">
@@ -16305,6 +16368,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="CONTRACCIONS" name="contraccions">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">d'|per|a</token>
+                    <token postag="&lt;NP.*" postag_regexp="yes" regexp="yes">Els?</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">de|d'</token>
@@ -16718,9 +16787,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token>feu</token>
-                    <token>clic</token>
+                    <token regexp="yes">clic|ducal|hereditari|imperial</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">principal|tradicional|antic|nou|mateix|esmentat|mencionat|important|gran|petit|major|un|ser|esdevenir</token>
+                    <token>feu</token>
+                </marker>
+            </antipattern>
+
             <rule>
                 <pattern>
                     <token skip="1" postag="P0300000|PP3.S000|_GN_.S|N..S.*" postag_regexp="yes"><exception postag="D.0MS0|PX3MS0C0|DP3CSP|complement.*" postag_regexp="yes"/><exception scope="next" postag="_PUNCT.*|CC|CS" postag_regexp="yes"/><exception>antic</exception></token>
@@ -16746,6 +16822,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="SON" name="son/són">
+            <antipattern>
+                <marker>
+                    <token>son</token>
+                    <token regexp="yes">i|o|ni|,|-</token>
+                    <token regexp="yes">&exceptions_SON;</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">&exceptions_SON;</token>
+                    <token regexp="yes">i|o|ni|,|-</token>
+                    <token>son</token>
+                </marker>
+            </antipattern>
             <!-- Cal millorar la regla, perquè ja no es considera determinant i no funciona la regla de concordança per a detectar error-->
             <rule>
                 <pattern>
@@ -16786,6 +16876,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>una restricció sostinguda del son de quatre hores al dia</example>
                 <example>per fer-li venir son</example>
                 <!--
+
+
                     Converses sobre els aliments, begudes, vestits, son i descans, jocs.
                     Estrès, son, cansament, fatiga.
                     Alegria, mareig, son.
@@ -17397,12 +17489,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="NC.*" postag_regexp="yes"/></token>
+                    <token><exception postag="NC.*" postag_regexp="yes"/><exception>més</exception></token>
                     <marker>
                         <token inflected="yes">net</token>
                     </marker>
                     <token inflected="yes">de</token>
-                    <token regexp="yes">\p{Lu}[\p{Ll}·'-]+</token>
+                    <token regexp="yes">\p{Lu}[\p{Ll}·'-]+<exception postag="NP..G.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>S'accentua quan és nom.</message>
                 <suggestion><match no="2" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>
@@ -17410,6 +17502,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La taxa neta de CO2.</example>
                 <example>net de CO2</example>
                 <example>El benefici net de Banc de Madrid.</example>
+                <example>El llac més net d'Alemanya</example>
             </rule>
             <rule>
                 <pattern>
@@ -17961,7 +18054,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">cada|un|altre|algun|cert</exception><exception postag="AO.*" postag_regexp="yes"/></token>
+                    <token><exception regexp="yes">cada|un|altre|algun|cert</exception><exception postag="AO.*|DD.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>mes</token>
                     </marker>
@@ -18557,6 +18650,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>ES</token>
                     <token spacebefore="no">-</token>
+                </marker>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <marker>
+                    <token>ES</token>
+                    <token regexp="yes">\p{Ll}.*</token>
                 </marker>
             </antipattern>
             <antipattern case_sensitive="yes">
@@ -21969,7 +22068,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="COMA_ETC" name="coma abans de 'etc.'">
             <pattern>
-                <token><exception regexp="yes">[,;]|llarg|i</exception><exception postag="SENT_START"/></token>
+                <token><exception regexp="yes">[,;\(\[]|llarg|extens|i</exception><exception postag="SENT_START"/></token>
                 <token regexp="yes">(?-i)etc|etcètera</token>
             </pattern>
             <message>Probablement falta una coma.</message>
@@ -23109,7 +23208,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="FA_ANYS_ENRERE" name="*fa tres anys enrere">
             <pattern>
-                <token skip="2" regexp="yes">fa|feia</token>
+                <token skip="2" regexp="yes">fa|feia<exception scope="next">que</exception></token>
                 <token regexp="yes" inflected="yes">&unitats_temps;</token>
                 <token regexp="yes">enrere|endarrere</token>
             </pattern>
@@ -23117,6 +23216,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" include_skipped="all"/> \2</suggestion>
             <suggestion><match no="1" include_skipped="following"/> \2 \3</suggestion>
             <example correction="fa tres anys|tres anys enrere"><marker>fa tres anys enrere</marker>.</example>
+            <example>els mateixos si fa no fa que un segle enrere</example>
         </rule>
         <rule id="RISC_DE_VIDA" name="Risc de vida">
             <pattern>
@@ -23514,14 +23614,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token regexp="yes" inflected="yes">difícil|fàcil|complex|complicar</token>
-                    <token>de</token>
+                    <token min="0">de</token>
                     <token>precisar</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="RG"/>
+                    <token inflected="yes">precís</token>
+                </marker>
+            </antipattern>
             <pattern>
-                <token inflected="yes">precisar<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous">més</exception></token>
+                <token inflected="yes">precisar<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous">més</exception><exception regexp="yes">precises|precisada|precisades|precisats?</exception></token>
                 <token inflected="yes">de</token>
-                <token><exception inflected="yes" regexp="yes">manera|quin</exception></token>
+                <token><exception inflected="yes" regexp="yes">manera|quin|forma|moment</exception></token>
             </pattern>
             <message>Ús probablement incorrecte.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">requerir</match> \3</suggestion>
@@ -25113,7 +25219,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="P0.0.*" postag_regexp="yes" skip="1"/>
                     <token skip="3" inflected="yes">fer</token>
                     <marker>
-                        <token>l'</token>
+                        <token>l'<exception postag="SPS00" scope="previous"/></token>
                         <token>amo</token>
                     </marker>
                     <token regexp="yes">de|d'</token>
@@ -25121,14 +25227,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Expressió preferible.</message>
                 <suggestion>amo</suggestion>
                 <example correction="amo">Es va fer <marker>l'amo</marker> del país.</example>
-                <example>Es va fer amo del país.</example>
+                <example>Es fa amic de l'amo d'una llibreria.</example>
             </rule>
             <rule>
                 <pattern>
                     <token inflected="yes">fer</token>
                     <token postag="P0.0.*" postag_regexp="yes" skip="3"/>
                     <marker>
-                        <token>l'</token>
+                        <token>l'<exception postag="SPS00" scope="previous"/></token>
                         <token>amo</token>
                     </marker>
                     <token regexp="yes">de|d'</token>
@@ -25969,7 +26075,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>
             <pattern>
-                <token><exception inflected="yes" regexp="yes">plantar|fer|tenir|posar</exception><exception regexp="yes">mala|de|la|tan|[stm]e[uv]a|[nv]ostra|aquesta|aquella|aqueixa|esta|eixa|mateixa</exception></token>
+                <token><exception inflected="yes" regexp="yes">plantar|fer|tenir|posar</exception><exception regexp="yes">mala|de|la|tan|[stm]e[uv]a|[nv]ostra|aquesta|aquella|aqueixa|esta|eixa|mateixa|una</exception></token>
                 <marker>
                     <token>cara</token>
                     <token>a</token>
@@ -27014,8 +27120,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token regexp="yes">diferents?</token>
-                    <token skip="4">a</token>
-                    <token regexp="yes" inflected="yes">territori|nord|sud|banda|lloc|si|país</token>
+                    <token skip="3">a</token>
+                    <token regexp="yes" inflected="yes">voltant|territori|nord|sud|banda|lloc|si|país</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">diferents?</token>
+                    <token>a</token>
+                    <token regexp="yes">més|causa|nivell|banda|part</token>
                 </marker>
             </antipattern>
             <antipattern>
@@ -27028,7 +27141,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">diferents?</token>
-                    <token>a</token>
+                    <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
                     <token spacebefore="no">l</token>
                 </pattern>
                 <message>Incorrecte si equival a <suggestion>\1 del</suggestion>.</message>
@@ -27040,7 +27153,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">diferents?</token>
-                    <token>a</token>
+                    <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
                     <token spacebefore="no">ls</token>
                 </pattern>
                 <message>Incorrecte si equival a <suggestion>\1 dels</suggestion>.</message>
@@ -27051,7 +27164,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">diferents?</token>
-                    <token>a</token>
+                    <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
                     <token regexp="yes">[^aeiouhàéèíòóú].*<exception>cada</exception><exception postag="NP..G..|V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Incorrecte si equival a <suggestion>\1 de <match no="3"></match></suggestion>.</message>
@@ -27064,7 +27177,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">diferents?</token>
-                    <token>a</token>
+                    <token>a<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
                     <token regexp="yes">[aeiouhàéèíòóú].*<exception postag="NP..G..|V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Incorrecte si equival a <suggestion>\1 d'<match no="3"></match></suggestion>.</message>
@@ -27961,19 +28074,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="AL_TERRA" name="al terra">
             <pattern>
-                <token><exception regexp="yes">per|relació|quant</exception></token>
+                <token><exception regexp="yes" inflected="yes">per|relació|quant|paral·lel|respecte|perpendicular</exception></token>
                 <marker>
                     <token>a</token>
                     <token spacebefore="no">l</token>
                     <token>terra</token>
                 </marker>
-                <token><exception postag="AQ.[MC][SN].|V.P..SM." postag_regexp="yes"/><exception regexp="yes">de|d'</exception></token>
+                <token><exception postag="AQ.[MC][SN].|V.P..SM." postag_regexp="yes"/><exception regexp="yes">de|d'|que</exception></token>
             </pattern>
             <message>Cal dir <suggestion>a terra</suggestion>.</message>
-            <short>Expressió incorrecta</short>
+            <url>http://esadir.cat/entrades/fitxa/id/1692</url>
             <example correction="a terra">Hi ha coses <marker>al terra</marker>.</example>
             <example>Els taulons per al terra.</example>
-            <!-- al terra que trepitgem en caminar -->
+            <example>Amb les cuixes paral·leles al terra.</example>
+            <example>al terra que trepitgem en caminar</example>
         </rule>
         <rule id="PER_DE_PROMPTE" name="per de prompte">
             <pattern>
@@ -29572,14 +29686,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes">en</token>
+                    <token>se</token>
+                    <token>'n</token>
                     <marker>
                         <token inflected="yes">despendre</token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desprendre</match></suggestion>? 'Despendre' vol dir 'gastar'.</message>
+                <message>¿Volíeu dir <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desprendre</match></suggestion>? 'Despendre' vol dir 'gastar'.</message>
                 <short>Possible confusió</short>
                 <example correction="desprendran">Se'n <marker>despendran</marker> problemes greus.</example>
+                <example>Important en despesa sanitària</example>
             </rule>
         </rulegroup>
         <rule id="ODRE" name="odre">
@@ -30782,6 +30898,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ella és la padrina.</example>
         </rule>
         <rule id="VAL" name="val!/entesos!">
+            <antipattern>
+                <marker>
+                    <token>val</token>
+                    <token spacebefore="no">-</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                 <marker>
@@ -31325,7 +31447,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes" inflected="yes" skip="2">abrigar|albergar</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">esperança|dubte|inquietud|sospita|intenció|pla</token>
+                    <token regexp="yes" inflected="yes">esperança|dubte|inquietud|sospita|intenció|pla<exception regexp="yes">plana|planes</exception></token>
                 </pattern>
                 <message>Ús inapropiat en el sentit de <suggestion><match no="1" postag="(V.[^M].*)." postag_regexp="yes" postag_replace="$1.">tenir</match></suggestion>.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">alimentar</match></suggestion>
@@ -31336,7 +31458,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="3">esperança|dubte|inquietud|sospita|intenció|pla</token>
+                    <token regexp="yes" inflected="yes" skip="3">esperança|dubte|inquietud|sospita|intenció|pla<exception regexp="yes">plana|planes</exception></token>
                     <marker>
                         <token regexp="yes" inflected="yes">abrigar|albergar</token>
                     </marker>
@@ -34834,7 +34956,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="A_MEITAT_DE" name="a meitat de/a mitjan">
             <pattern>
                 <token>a</token>
-                <token>meitat</token>
+                <token regexp="yes">meitat|mitat</token>
                 <token regexp="yes">de|d'</token>
                 <token min="0" postag="DA.*" postag_regexp="yes"/>
                 <token postag="A.*|N.*" postag_regexp="yes"/>
@@ -37310,6 +37432,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">in|di|della|nella</token>
                     <token>musica</token>
                 </antipattern>
+                <antipattern> <!-- Italiano -->
+                    <token regexp="yes">dramma|commedia</token>
+                    <token>per</token>
+                    <token>musica</token>
+                </antipattern>
                 <pattern>
                     <token postag_regexp="yes" regexp="yes">music|musica|musiques</token> <!-- musics -->
                 </pattern>
@@ -37849,14 +37976,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="barraques|barracons|bars|barets|quioscs|quiosquets|paradetes">Cal tancar els <marker>xiringuitos</marker>.</example>
             <example>Cal tancar totes les paradetes</example>
         </rule>
-        <rule id="MANUALITAT" name="manualitat">
+        <rule id="MANUALITATS" name="manualitats">
             <pattern>
-                <token regexp="yes">manualitats?</token>
+                <token>manualitats</token>
             </pattern>
             <message>Paraula admesa només en alguns diccionaris.</message>
-            <suggestion>treball<match no="1" regexp_match="(?-i)manualitat(.*)" regexp_replace="$1" /> manual<match no="1" regexp_match="(?-i)manualitat(.*)" regexp_replace="$1" /></suggestion>
+            <suggestion>treballs manuals</suggestion>
             <example correction="treballs manuals">Li agrada fer <marker>manualitats</marker>.</example>
-            <example>Classe de treballs manuals</example>
+        </rule>
+        <rule id="MANUALITAT" name="manualitat">
+            <pattern>
+                <token>manualitat</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion>treball manual</suggestion>
+            <example correction="treball manual">Fa una <marker>manualitat</marker>.</example>
         </rule>
         <rule id="EXITOS" name="exitós" default="off">
             <pattern>
@@ -38521,7 +38655,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>tot</token>
                     <token>i</token>
-                    <token skip="8">que<exception scope="next" postag="V.I.*|PR.*|CS|.*LOC_CONJ.*" postag_regexp="yes"/></token>
+                    <token skip="8">que<exception scope="next" postag="V.I.*|PR.*|CS|.*LOC_CONJ.*" postag_regexp="yes"/><exception scope="next" regexp="yes">[;)]</exception></token>
                     <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*|_GN_.*|_possible_nompropi" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
@@ -38550,11 +38684,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Per bé que són diferents</example>
         </rule>
         <rule id="BE_QUE_SUBJUNTIU" name="bé que + *subjuntiu/indicatiu">
+            <antipattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">semblar|parèixer|trobar</token>
+                    <token min="0" postag="&pronom_feble;" postag_regexp="yes"/>
+                    <token>bé</token>
+                </marker>
+            </antipattern>
             <pattern>
-                <token><exception regexp="yes" inflected="yes">o|gens|anar|venir|cap</exception><exception postag="SPS00|RG_anteposat|PR.*|.*LOC_CONJ.*|.*LOC_ADV.*|_GV_|V.[^P].*" postag_regexp="yes"/></token>
+                <token><exception regexp="yes" inflected="yes">o|gens|anar|venir|cap|un</exception><exception postag="SPS00|RG_anteposat|PR.*|.*LOC_CONJ.*|.*LOC_ADV.*|_GV_|V.[^P].*" postag_regexp="yes"/></token>
                 <marker>
                     <token>bé<exception postag="_GN_MS"/></token>
-                    <token skip="8">que<exception scope="next" postag="V.I.*|PR.*|CS|.*LOC_CONJ.*" postag_regexp="yes"/></token>
+                    <token skip="8">que<exception scope="next" postag="V.I.*|PR.*|CS|.*LOC_CONJ.*" postag_regexp="yes"/><exception scope="next">;</exception></token>
                     <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*|_GN_.*|_possible_nompropi" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
@@ -38568,6 +38709,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Que bé que hàgiu vingut.</example>
             <example>no va veure ben bé que fos ella</example>
             <example>Quin dia va bé que vinguin?</example>
+            <example>sense semblar-li bé que fessin teràpia</example>
             <!-- I sobretot a preocupar-nos tots de treballar, bé que es rebaixin les hores de treball, bé que el treballador es pugui jubilar més jove que no pas ara, bé que els sous siguin suficients -->
         </rule>
         <rulegroup id="ALGUN_CAP" name="no hi ha esperança *alguna/cap esperança">

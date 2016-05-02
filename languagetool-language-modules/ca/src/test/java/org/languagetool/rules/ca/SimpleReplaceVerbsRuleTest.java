@@ -19,7 +19,8 @@
 
 package org.languagetool.rules.ca;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
@@ -27,21 +28,23 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * @author Jaume Ortolà
  */
-public class SimpleReplaceVerbsRuleTest extends TestCase {
+public class SimpleReplaceVerbsRuleTest {
 
   private SimpleReplaceVerbsRule rule;
   private JLanguageTool langTool;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() throws Exception {
     rule = new SimpleReplaceVerbsRule(TestTools.getMessages("ca"));
     langTool = new JLanguageTool(new Catalan());
   }
 
+  @Test
   public void testRule() throws IOException {
 
     // correct sentences:

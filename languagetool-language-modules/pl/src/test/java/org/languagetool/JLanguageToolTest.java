@@ -18,19 +18,21 @@
  */
 package org.languagetool;
 
+import org.junit.Test;
+import org.languagetool.language.Polish;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.AbstractPatternRule;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-import org.languagetool.language.Polish;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.AbstractPatternRule;
+public class JLanguageToolTest {
 
-public class JLanguageToolTest extends TestCase {
-
+  @Test
   public void testPolish() throws IOException {
     final Polish noXmlRulesPolish = new Polish() {
       @Override

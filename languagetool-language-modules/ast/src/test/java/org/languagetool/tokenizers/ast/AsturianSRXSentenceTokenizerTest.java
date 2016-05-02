@@ -18,15 +18,16 @@
  */
 package org.languagetool.tokenizers.ast;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Asturian;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
-public class AsturianSRXSentenceTokenizerTest extends TestCase {
+public class AsturianSRXSentenceTokenizerTest {
 
   private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Asturian());
 
+  @Test
   public void testTokenize() {
     testSplit("De secute, los hackers de Minix aportaron idegues y códigu al núcleu Linux, y güey recibiera contribuciones de miles de programadores. ",
               "Torvalds sigue lliberando nueves versiones del núcleu, consolidando aportes d'otros programadores y faciendo cambios el mesmu.");

@@ -18,10 +18,10 @@
  */
 package org.languagetool.tools;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.languagetool.FakeLanguage;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
-import org.languagetool.FakeLanguage;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -29,11 +29,14 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.*;
+
 /**
  * @author Daniel Naber
  */
-public class StringToolsTest extends TestCase {
+public class StringToolsTest {
 
+  @Test
   public void testAssureSet() {
     try {
       StringTools.assureSet("", "varName");
@@ -50,11 +53,13 @@ public class StringToolsTest extends TestCase {
     StringTools.assureSet("foo", "varName");
   }
 
+  @Test
   public void testReadStream() throws IOException {
     String content = StringTools.readStream(new FileInputStream("src/test/resources/testinput.txt"), "utf-8");
     assertEquals("one\ntwo\nöäüß\nșțîâăȘȚÎÂĂ\n", content);
   }
-  
+
+  @Test
   public void testIsAllUppercase() {
     assertTrue(StringTools.isAllUppercase("A"));
     assertTrue(StringTools.isAllUppercase("ABC"));
@@ -67,7 +72,8 @@ public class StringToolsTest extends TestCase {
     assertFalse(StringTools.isAllUppercase("a"));
     assertFalse(StringTools.isAllUppercase("abc"));
   }
-  
+
+  @Test
   public void testIsMixedCase() {
     assertTrue(StringTools.isMixedCase("AbC"));
     assertTrue(StringTools.isMixedCase("MixedCase"));
@@ -80,7 +86,8 @@ public class StringToolsTest extends TestCase {
     assertFalse(StringTools.isMixedCase("!"));
     assertFalse(StringTools.isMixedCase("Word"));
   }
-  
+
+  @Test
   public void testIsCapitalizedWord() {
     assertTrue(StringTools.isCapitalizedWord("Abc"));
     assertTrue(StringTools.isCapitalizedWord("Uppercase"));
@@ -93,6 +100,7 @@ public class StringToolsTest extends TestCase {
     assertFalse(StringTools.isCapitalizedWord("wOrD"));
   }
 
+  @Test
   public void testStartsWithUppercase() {
     assertTrue(StringTools.startsWithUppercase("A"));
     assertTrue(StringTools.startsWithUppercase("ÄÖ"));
@@ -102,6 +110,7 @@ public class StringToolsTest extends TestCase {
     assertFalse(StringTools.startsWithUppercase("-"));
   }
 
+  @Test
   public void testUppercaseFirstChar() {
     assertEquals(null, StringTools.uppercaseFirstChar(null));
     assertEquals("", StringTools.uppercaseFirstChar(""));
@@ -114,6 +123,7 @@ public class StringToolsTest extends TestCase {
     assertEquals("'''", StringTools.uppercaseFirstChar("'''"));
   }
 
+  @Test
   public void testLowercaseFirstChar() {
     assertEquals(null, StringTools.lowercaseFirstChar(null));
     assertEquals("", StringTools.lowercaseFirstChar(""));
@@ -126,6 +136,7 @@ public class StringToolsTest extends TestCase {
     assertEquals("'''", StringTools.lowercaseFirstChar("'''"));
   }
 
+  @Test
   public void testReaderToString() throws IOException {
     String str = StringTools.readerToString(new StringReader("bla\nöäü"));
     assertEquals("bla\nöäü", str);
@@ -139,12 +150,14 @@ public class StringToolsTest extends TestCase {
     assertEquals(longStr.toString(), str2);
   }
 
+  @Test
   public void testEscapeXMLandHTML() {
     assertEquals("foo bar", StringTools.escapeXML("foo bar"));
     assertEquals("!ä&quot;&lt;&gt;&amp;&amp;", StringTools.escapeXML("!ä\"<>&&"));
     assertEquals("!ä&quot;&lt;&gt;&amp;&amp;", StringTools.escapeHTML("!ä\"<>&&"));
   }
 
+  @Test
   public void testListToString() {
     List<String> list = new ArrayList<>();
     list.add("foo");
@@ -154,6 +167,7 @@ public class StringToolsTest extends TestCase {
     assertEquals("foo\tbar\t,", String.join("\t", list));
   }
 
+  @Test
   public void testTrimWhitespace() {
     try {
       assertEquals(null, StringTools.trimWhitespace(null));
@@ -169,6 +183,7 @@ public class StringToolsTest extends TestCase {
     assertEquals("1234,56", StringTools.trimWhitespace("1  234,56"));
   }
 
+  @Test
   public void testAddSpace() {
     Language demoLanguage = TestTools.getDemoLanguage();
     assertEquals(" ", StringTools.addSpace("word", demoLanguage));
@@ -180,7 +195,8 @@ public class StringToolsTest extends TestCase {
     assertEquals(" ", StringTools.addSpace("!", new FakeLanguage("fr")));
     assertEquals("", StringTools.addSpace("!", new FakeLanguage("de")));
   }
-  
+
+  @Test
   public void testIsWhitespace() {
     assertEquals(true, StringTools.isWhitespace("  "));
     assertEquals(true, StringTools.isWhitespace("\t"));
@@ -194,18 +210,21 @@ public class StringToolsTest extends TestCase {
     // narrow nbsp:
     assertEquals(true, StringTools.isWhitespace("\u202F"));
   }
-  
+
+  @Test
   public void testIsPositiveNumber() {
     assertEquals(true, StringTools.isPositiveNumber('3'));
     assertEquals(false, StringTools.isPositiveNumber('a'));
   }
-  
+
+  @Test
   public void testIsEmpty() {
     assertEquals(true, StringTools.isEmpty(""));
     assertEquals(true, StringTools.isEmpty(null));
     assertEquals(false, StringTools.isEmpty("a"));
   }
 
+  @Test
   public void testFilterXML() {
     assertEquals("test", StringTools.filterXML("test"));
     assertEquals("<<test>>", StringTools.filterXML("<<test>>"));
@@ -213,6 +232,7 @@ public class StringToolsTest extends TestCase {
     assertEquals("A sentence with a test", StringTools.filterXML("A sentence with a <em>test</em>"));
   }
 
+  @Test
   public void testAsString() {
     assertNull(StringTools.asString(null));
     assertEquals("foo!", "foo!");

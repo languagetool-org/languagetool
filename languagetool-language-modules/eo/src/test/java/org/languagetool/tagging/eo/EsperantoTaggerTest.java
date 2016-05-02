@@ -18,24 +18,25 @@
  */
 package org.languagetool.tagging.eo;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.WordTokenizer;
 
-public class EsperantoTaggerTest extends TestCase {
+import java.io.IOException;
+
+public class EsperantoTaggerTest {
   
   private EsperantoTagger tagger;
   private WordTokenizer tokenizer;
 
-  @Override
+  @Before
   public void setUp() {
     tagger = new EsperantoTagger();
     tokenizer = new WordTokenizer();
   }
 
+  @Test
   public void testTagger() throws IOException {
     TestTools.myAssert("Tio estas simpla testo",
         "Tio/[null]T nak np t o -- estas/[esti]V nt as -- simpla/[simpla]A nak np -- testo/[testo]O nak np", tokenizer, tagger);

@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.en;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
@@ -27,12 +27,15 @@ import org.languagetool.rules.WordRepeatRule;
 
 import java.io.IOException;
 
-public class WordRepeatRuleTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class WordRepeatRuleTest {
 
   private final English english = new English();
   private final WordRepeatRule rule = new WordRepeatRule(TestTools.getEnglishMessages(), english);
   private final JLanguageTool langTool = new JLanguageTool(english);
 
+  @Test
   public void testRule() throws IOException {
     assertMatches("This is a test sentence.", 0);
     assertMatches("This is a test sentence...", 0);

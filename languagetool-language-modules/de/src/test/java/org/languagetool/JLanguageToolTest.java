@@ -18,7 +18,7 @@
  */
 package org.languagetool;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
@@ -26,8 +26,11 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 import java.util.List;
 
-public class JLanguageToolTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class JLanguageToolTest {
+
+  @Test
   public void testGerman() throws IOException {
     JLanguageTool tool = new JLanguageTool(new German());
     assertEquals(0, tool.check("Ein Test, der keine Fehler geben sollte.").size());
@@ -39,6 +42,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals("[I, can, description, detailed, give, more, you]", tool.getUnknownWords().toString());    
   }
 
+  @Test
   public void testGermanyGerman() throws IOException {
     JLanguageTool tool = new JLanguageTool(new GermanyGerman());
     assertEquals(0, tool.check("Ein Test, der keine Fehler geben sollte.").size());
@@ -50,6 +54,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals("[I, can, description, detailed, give, more, you]", tool.getUnknownWords().toString());
   }
 
+  @Test
   public void testPositionsWithGerman() throws IOException {
     JLanguageTool tool = new JLanguageTool(new German());
     List<RuleMatch> matches = tool.check("Stundenkilometer");

@@ -19,7 +19,7 @@
 
 package org.languagetool.rules.bitext;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.FakeLanguage;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
@@ -27,8 +27,11 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
-public class DifferentPunctuationRuleTest extends TestCase {
-  
+import static org.junit.Assert.assertEquals;
+
+public class DifferentPunctuationRuleTest {
+
+  @Test
   public void testRule() throws IOException {
     DifferentPunctuationRule rule = new DifferentPunctuationRule();
     RuleMatch[] matches;

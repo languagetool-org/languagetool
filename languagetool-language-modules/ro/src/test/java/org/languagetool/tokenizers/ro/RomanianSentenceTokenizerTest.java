@@ -18,8 +18,8 @@
  */
 package org.languagetool.tokenizers.ro;
 
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.language.Romanian;
@@ -29,7 +29,7 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 /**
  * @author Ionuț Păduraru
  */
-public class RomanianSentenceTokenizerTest extends TestCase {
+public class RomanianSentenceTokenizerTest {
 
   Language lang = new Romanian();
   // accept \n as paragraph:
@@ -37,12 +37,13 @@ public class RomanianSentenceTokenizerTest extends TestCase {
   // accept only \n\n as paragraph:
   private final SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer(lang);
 
-  @Override
+  @Before
   public final void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);
     stokenizer2.setSingleLineBreaksMarksParagraph(false);
   }
 
+  @Test
   public final void testTokenize() {
 
     testSplit("Aceasta este o propozitie fara diacritice. ");

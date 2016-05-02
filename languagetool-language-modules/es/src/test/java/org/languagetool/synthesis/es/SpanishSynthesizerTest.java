@@ -19,15 +19,17 @@
 
 package org.languagetool.synthesis.es;
 
+import org.junit.Test;
+import org.languagetool.AnalyzedToken;
+
 import java.io.IOException;
 import java.util.Arrays;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-import org.languagetool.AnalyzedToken;
+public class SpanishSynthesizerTest {
 
-public class SpanishSynthesizerTest extends TestCase {
- 
+  @Test
   public final void testSynthesizeStringString() throws IOException {
     SpanishSynthesizer synth = new SpanishSynthesizer();
     assertEquals(synth.synthesize(dummyToken("blablabla"),

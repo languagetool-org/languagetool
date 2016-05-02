@@ -18,34 +18,35 @@
  */
 package org.languagetool.rules.de;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
 import org.languagetool.rules.RuleMatch;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * @author Daniel Naber
  */
-public class AgreementRuleTest extends TestCase {
+public class AgreementRuleTest {
 
   private AgreementRule rule;
   private JLanguageTool langTool;
   
-  @Override
+  @Before
   public void setUp() throws IOException {
     rule = new AgreementRule(TestTools.getMessages("de"), new German());
     langTool = new JLanguageTool(new German());
   }
-  
+
+  @Test
   public void testDetNounRule() throws IOException {
     // correct sentences:
     assertGood("So ist es in den USA.");
@@ -230,6 +231,7 @@ public class AgreementRuleTest extends TestCase {
     //assertBad("Es sind der Frau.");
   }
 
+  @Test
   public void testVieleWenige() throws IOException {
     assertGood("Zusammenschluss mehrerer dörflicher Siedlungen an einer Furt");
     assertGood("Für einige markante Szenen");
@@ -243,7 +245,8 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Es kam zur Fusion der genannten und noch einiger weiterer Unternehmen.");
     assertGood("Zu dieser Fragestellung gibt es viele unterschiedliche Meinungen.");
   }
-  
+
+  @Test
   public void testDetNounRuleErrorMessages() throws IOException {
     // check detailed error messages:
     assertBadWithMessage("Das Fahrrads.", "bezüglich Kasus");
@@ -254,7 +257,8 @@ public class AgreementRuleTest extends TestCase {
     //TODO: input is actually correct
     assertBadWithMessage("Bei dem Papierabzüge von Digitalbildern bestellt werden.", "bezüglich Kasus, Genus oder Numerus.");
   }
-  
+
+  @Test
   public void testRegression() throws IOException {
       JLanguageTool lt = new JLanguageTool(new German());
       // used to be not detected > 1.0.1:
@@ -262,7 +266,8 @@ public class AgreementRuleTest extends TestCase {
       List<RuleMatch> matches = lt.check(str);
       assertEquals(1, matches.size());
   }
-  
+
+  @Test
   public void testDetAdjNounRule() throws IOException {
     // correct sentences:
     assertGood("Das ist der riesige Tisch.");

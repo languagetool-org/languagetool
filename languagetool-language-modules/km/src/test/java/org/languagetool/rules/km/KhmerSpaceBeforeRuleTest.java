@@ -18,17 +18,21 @@
  */
 package org.languagetool.rules.km;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Khmer;
+
 import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Nathan Wells
  */
-public class KhmerSpaceBeforeRuleTest extends TestCase {
+public class KhmerSpaceBeforeRuleTest {
 
+  @Test
   public void testSpaceBeforeRule() throws IOException {
     final Khmer language = new Khmer();
     KhmerSpaceBeforeRule rule = new KhmerSpaceBeforeRule(TestTools.getEnglishMessages(), language);

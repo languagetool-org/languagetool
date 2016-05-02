@@ -18,6 +18,8 @@
  */
 package org.languagetool.tagging.ro;
 
+import org.junit.Test;
+
 /**
  * These tests are kept to make sure UTF-8 dictionaries are correctly read.
  * Prior to morfologik 1.1.4 some words containing diacritics were not correctly
@@ -58,6 +60,7 @@ public class RomanianTaggerDiacriticsTest extends AbstractRomanianTaggerTest {
    * instead of "merge". If the dictionary is used from
    * command-line(/fsa_morph -d ...), the correct lemma is returned.
    */
+  @Test
   public void testTaggerMerseseram() throws Exception {
     // these tests are using "test_diacritics.dict"
     assertHasLemmaAndPos("făcusem", "face", "004");
@@ -66,6 +69,7 @@ public class RomanianTaggerDiacriticsTest extends AbstractRomanianTaggerTest {
     assertHasLemmaAndPos("merseserăm", "merge", "002");
   }
 
+  @Test
   public void testTaggerCuscaCutit() throws Exception {
     // these tests are using "test_diacritics.dict"
     // all these are correct, they are here just to prove that "some" words

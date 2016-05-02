@@ -18,14 +18,17 @@
  */
 package org.languagetool.gui;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
 import org.languagetool.rules.WordRepeatRule;
 
-public class RuleLinkTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class RuleLinkTest {
+
+  @Test
   public void testBuildDeactivationLink() {
     Language language = new English();
     RuleLink ruleLink = RuleLink.buildDeactivationLink(new WordRepeatRule(TestTools.getMessages(language.getShortName()), language));
@@ -33,6 +36,7 @@ public class RuleLinkTest extends TestCase {
     assertEquals("http://languagetool.org/deactivate/WORD_REPEAT_RULE", ruleLink.toString());
   }
 
+  @Test
   public void testBuildReactivationLink() {
     Language language = new English();
     RuleLink ruleLink = RuleLink.buildReactivationLink(new WordRepeatRule(TestTools.getMessages(language.getShortName()), language));
@@ -40,6 +44,7 @@ public class RuleLinkTest extends TestCase {
     assertEquals("http://languagetool.org/reactivate/WORD_REPEAT_RULE", ruleLink.toString());
   }
 
+  @Test
   public void testGetFromString() {
     RuleLink ruleLink1 = RuleLink.getFromString("http://languagetool.org/reactivate/FOO_BAR_ID");
     assertEquals("FOO_BAR_ID", ruleLink1.getId());

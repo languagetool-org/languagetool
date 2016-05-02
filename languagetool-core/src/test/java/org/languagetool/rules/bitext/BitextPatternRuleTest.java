@@ -18,13 +18,7 @@
  */
 package org.languagetool.rules.bitext;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Set;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.*;
 import org.languagetool.bitext.StringPair;
 import org.languagetool.rules.Rule;
@@ -33,12 +27,20 @@ import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.bitext.BitextPatternRule;
 import org.languagetool.rules.patterns.bitext.BitextPatternRuleLoader;
 
-public class BitextPatternRuleTest extends TestCase {
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.Set;
+
+import static org.junit.Assert.*;
+
+public class BitextPatternRuleTest {
 
   /**
    * To be called from standalone - calling it here in core doesn't make
    * much sense actually as we don't have any languages.
-   */  
+   */
+  @Test
   public void testBitextRulesFromXML() throws IOException {
     testBitextRulesFromXML(null);
   }

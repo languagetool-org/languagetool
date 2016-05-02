@@ -18,10 +18,13 @@
  */
 package org.languagetool.tools;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class ContextToolsTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class ContextToolsTest {
+
+  @Test
   public void testGetContext() throws Exception {
     ContextTools contextTools = new ContextTools();
     String context = contextTools.getContext(4, 8, "Hi, this is some nice text waiting for its error markers.");
@@ -30,6 +33,7 @@ public class ContextToolsTest extends TestCase {
     assertEquals("xxx<b><font bgcolor=\"#ff8b8b\">&nbsp;&nbsp;</font></b> yyy", context2);
   }
 
+  @Test
   public void testPlainTextContext() throws Exception {
     ContextTools contextTools = new ContextTools();
     contextTools.setContextSize(5);
@@ -38,6 +42,7 @@ public class ContextToolsTest extends TestCase {
     assertEquals("...s is a test sent...\n        ^^^^^^     ", result);
   }
 
+  @Test
   public void testPlainTextContextWithLineBreaks() throws Exception {
     ContextTools contextTools = new ContextTools();
     contextTools.setContextSize(5);
@@ -46,6 +51,7 @@ public class ContextToolsTest extends TestCase {
     assertEquals("...is a test sent...\n        ^^^^     ", result);
   }
 
+  @Test
   public void testPlainTextContextWithDosLineBreaks() throws Exception {
     ContextTools contextTools = new ContextTools();
     contextTools.setContextSize(5);
@@ -54,6 +60,7 @@ public class ContextToolsTest extends TestCase {
     assertEquals("...is a test sent...\n        ^^^^     ", result);
   }
 
+  @Test
   public void testLargerContext() throws Exception {
     ContextTools contextTools = new ContextTools();
     contextTools.setContextSize(100);
@@ -61,6 +68,7 @@ public class ContextToolsTest extends TestCase {
     assertEquals("Hi, <b><font bgcolor=\"#ff8b8b\">this</font></b> is some nice text waiting for its error markers.", context);
   }
 
+  @Test
   public void testHtmlEscape() throws Exception {
     ContextTools contextTools = new ContextTools();
     String context1 = contextTools.getContext(0, 2, "Hi, this is <html>.");
@@ -71,6 +79,7 @@ public class ContextToolsTest extends TestCase {
     assertEquals("<b><font bgcolor=\"#ff8b8b\">Hi</font></b>, this is <html>.", context2);
   }
 
+  @Test
   public void testMarkers() throws Exception {
     ContextTools contextTools = new ContextTools();
     contextTools.setErrorMarkerStart("<X>");

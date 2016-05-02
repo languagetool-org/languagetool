@@ -19,7 +19,8 @@
 
 package org.languagetool.rules.en;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
@@ -29,17 +30,20 @@ import org.languagetool.rules.TextLevelRule;
 import java.io.IOException;
 import java.util.Collections;
 
-public class EnglishUnpairedBracketsRuleTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class EnglishUnpairedBracketsRuleTest {
 
   private TextLevelRule rule;
   private JLanguageTool langTool;
 
-  @Override
+  @Before
   public void setUp() throws IOException {
     rule = new EnglishUnpairedBracketsRule(TestTools.getEnglishMessages(), new English());
     langTool = new JLanguageTool(new English());
   }
 
+  @Test
   public void testRule() throws IOException {
 
     // correct sentences:
@@ -107,6 +111,7 @@ public class EnglishUnpairedBracketsRuleTest extends TestCase {
     assertEquals(1, matches.length);
   }
 
+  @Test
   public void testMultipleSentences() throws IOException {
     JLanguageTool lt = new JLanguageTool(new English());
 

@@ -18,15 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.String;
-import java.util.*;
-import java.util.regex.Pattern;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.*;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.Category;
@@ -36,10 +28,18 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+import java.util.regex.Pattern;
+
+import static org.junit.Assert.*;
+
 /**
  * @author Daniel Naber
  */
-public class PatternRuleTest extends TestCase {
+public class PatternRuleTest {
 
   // A test sentence should only be a single sentence - if that's not the case it can
   // happen that rules are checked as being correct that in reality will never match.
@@ -53,6 +53,7 @@ public class PatternRuleTest extends TestCase {
     // there's no test here - the languages are supposed to extend this class and call runGrammarRulesFromXmlTest() 
   }
 
+  @Test
   public void testSupportsLanguage() {
     FakeLanguage fakeLanguage1 = new FakeLanguage("yy");
     FakeLanguage fakeLanguage2 = new FakeLanguage("zz");

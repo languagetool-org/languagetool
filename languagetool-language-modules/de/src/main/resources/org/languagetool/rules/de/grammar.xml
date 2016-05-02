@@ -1586,15 +1586,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>1 <marker>Hertz</marker> ist definiert als 1/s.</example>
             </rule>
             <rule>
-                <!-- TODO add some typical phrases, 'Frequenz von' ... -->
                 <pattern>
-                    <token regexp="yes">von|mit|als|Frequenz</token>
-                    <token regexp="yes">[0-9]+</token>
+                    <token regexp="yes">[0-9]*,?[0-9]+</token>
                     <marker>
                         <token>Herz</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>Hertz</suggestion> (Einheit der Frequenz) statt 'Herz' (Organ)?</message>
+                <message>Meinten Sie <suggestion>Hertz</suggestion> (Einheit der Frequenz; abgekürzt: Hz) statt 'Herz' (Organ)?</message>
                 <url>http://www.duden.de/rechtschreibung/Hertz</url>
                 <example>1 <marker>Hertz</marker> ist definiert als 1/s.</example>
                 <example correction="Hertz">Mit einer Frequenz von 10 <marker>Herz</marker>.</example>

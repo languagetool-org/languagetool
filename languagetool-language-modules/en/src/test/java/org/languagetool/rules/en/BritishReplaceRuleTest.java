@@ -19,27 +19,29 @@
 
 package org.languagetool.rules.en;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.BritishEnglish;
 import org.languagetool.rules.RuleMatch;
 
-public class BritishReplaceRuleTest extends TestCase {
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
+
+public class BritishReplaceRuleTest {
 
   private BritishReplaceRule rule;
   private JLanguageTool langTool;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() throws Exception {
     rule = new BritishReplaceRule(TestTools.getMessages("en"));
     langTool = new JLanguageTool(new BritishEnglish());
   }
 
+  @Test
   public void testRule() throws IOException {
 
     // correct sentences:

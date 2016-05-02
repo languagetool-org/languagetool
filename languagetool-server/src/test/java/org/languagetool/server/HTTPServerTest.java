@@ -186,7 +186,7 @@ public class HTTPServerTest {
 
   @Test
   public void testAccessDenied() throws Exception {
-    HTTPServer server = new HTTPServer(new HTTPServerConfig(HTTPTools.getDefaultPort()), false, new HashSet<String>());
+    HTTPServer server = new HTTPServer(new HTTPServerConfig(HTTPTools.getDefaultPort()), false, new HashSet<>());
     try {
       server.run();
       try {

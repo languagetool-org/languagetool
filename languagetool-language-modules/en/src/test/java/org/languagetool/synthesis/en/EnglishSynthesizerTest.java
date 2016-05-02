@@ -19,14 +19,15 @@
 
 package org.languagetool.synthesis.en;
 
+import org.junit.Test;
+import org.languagetool.AnalyzedToken;
+
 import java.io.IOException;
 import java.util.Arrays;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-import org.languagetool.AnalyzedToken;
-
-public class EnglishSynthesizerTest extends TestCase {
+public class EnglishSynthesizerTest {
 
   private AnalyzedToken dummyToken(String tokenStr, String tokenLemma) {
     return new AnalyzedToken(tokenStr, tokenStr, tokenLemma);
@@ -36,6 +37,7 @@ public class EnglishSynthesizerTest extends TestCase {
     return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
   }
 
+  @Test
   public void testSynthesizeStringString() throws IOException {
     EnglishSynthesizer synth = new EnglishSynthesizer();
     assertEquals(synth.synthesize(dummyToken("blablabla"),

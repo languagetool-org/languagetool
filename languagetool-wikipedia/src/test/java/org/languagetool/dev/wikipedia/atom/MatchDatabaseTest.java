@@ -28,8 +28,8 @@ import org.languagetool.rules.RuleMatch;
 import java.sql.SQLException;
 import java.util.Date;
 
-import static junit.framework.Assert.assertNull;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 public class MatchDatabaseTest {

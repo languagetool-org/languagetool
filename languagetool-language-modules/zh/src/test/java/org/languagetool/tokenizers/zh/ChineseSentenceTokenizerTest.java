@@ -19,8 +19,7 @@
 
 package org.languagetool.tokenizers.zh;
 
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
@@ -32,10 +31,11 @@ import org.languagetool.tokenizers.SentenceTokenizer;
  * @author Jiamin Zheng
  * @author Zihao Li
  */
-public class ChineseSentenceTokenizerTest extends TestCase {
+public class ChineseSentenceTokenizerTest {
 
   private final SentenceTokenizer stokenizer = new ChineseSentenceTokenizer();
 
+  @Test
   public void testTokenize() {
 
     String t1 = "他说：";
@@ -71,6 +71,7 @@ public class ChineseSentenceTokenizerTest extends TestCase {
 
   }
 
+  @Test
   public void testTokenize2() {
     testSplit("Linux是一種自由和開放源碼的類UNIX操作系統。",
               "该操作系统的内核由林纳斯·托瓦兹在1991年10月5日首次发布。",

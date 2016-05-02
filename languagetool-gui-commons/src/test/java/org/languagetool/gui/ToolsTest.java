@@ -18,10 +18,13 @@
  */
 package org.languagetool.gui;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class ToolsTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class ToolsTest {
+
+  @Test
   public void testShortenComment() {
     String testString = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod tempor incidunt.";
     String testStringShortened = "Lorem ipsum dolor sit amet, consectetur (adipisici elit), sed eiusmod tempor incidunt.";
@@ -37,15 +40,18 @@ public class ToolsTest extends TestCase {
     assertEquals(testVeryLongStringShortened, shortenedVeryLongString);
   }
 
+  @Test
   public void testGetLabel() {
     assertEquals("This is a Label", Tools.getLabel("This is a &Label"));
     assertEquals("Bits & Pieces", Tools.getLabel("Bits && Pieces"));
   }
 
+  @Test
   public void testGetOOoLabel() {
     assertEquals("Bits & Pieces", Tools.getLabel("Bits && Pieces"));
   }
 
+  @Test
   public void testGetMnemonic() {
     assertEquals('F', Tools.getMnemonic("&File"));
     assertEquals('O', Tools.getMnemonic("&OK"));

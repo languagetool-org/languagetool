@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.ITSIssueType;
@@ -30,8 +30,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class PatternRuleLoaderTest extends TestCase {
+import static org.junit.Assert.*;
 
+public class PatternRuleLoaderTest {
+
+  @Test
   public void testGetRules() throws Exception {
     PatternRuleLoader prg = new PatternRuleLoader();
     String name = "/xx/grammar.xml";

@@ -978,6 +978,7 @@ public final class Main {
       });
     } else {
       printUsage();
+      System.exit(1);
     }
   }
 

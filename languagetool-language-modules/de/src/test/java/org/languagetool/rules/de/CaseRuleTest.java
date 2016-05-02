@@ -18,30 +18,34 @@
  */
 package org.languagetool.rules.de;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.GermanyGerman;
 
-public class CaseRuleTest extends TestCase {
+import java.io.IOException;
+
+import static org.junit.Assert.*;
+
+public class CaseRuleTest {
 
   private CaseRule rule;
   private JLanguageTool langTool;
 
-  @Override
+  @Before
   public void setUp() throws IOException {
     rule = new CaseRule(TestTools.getMessages("de"), new GermanyGerman());
     langTool = new JLanguageTool(new GermanyGerman());
   }
 
+  @Test
   public void testRuleActivation() throws IOException {
     assertTrue(rule.supportsLanguage(new GermanyGerman()));
   }
 
+  @Test
   public void testRule() throws IOException {
 
     // correct sentences:
@@ -182,6 +186,7 @@ public class CaseRuleTest extends TestCase {
     assertEquals("Did not find expected error in: '" + input + "'", 1, rule.match(langTool.getAnalyzedSentence(input)).length);
   }
 
+  @Test
   public void testSubstantivierteVerben() throws IOException {
     // correct sentences:
     assertGood("Das fahrende Auto.");
@@ -228,6 +233,7 @@ public class CaseRuleTest extends TestCase {
     // TODO: detect all the cases not preceded with 'das'
   }
 
+  @Test
   public void testPhraseExceptions() throws IOException {
     // correct sentences:
     assertGood("Das gilt ohne Wenn und Aber.");
@@ -243,7 +249,8 @@ public class CaseRuleTest extends TestCase {
     // error not found here as it's in the XML rules:
     //assertBad("Das gilt ohne wenn und aber.");
   }
-  
+
+  @Test
   public void testCompareLists() throws IOException {
     AnalyzedSentence sentence1 = langTool.getAnalyzedSentence("Hier ein Test");
     assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 2, new String[]{"", "Hier", "ein"}));

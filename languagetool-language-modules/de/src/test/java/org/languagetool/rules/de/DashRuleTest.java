@@ -18,17 +18,20 @@
  */
 package org.languagetool.rules.de;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
 
 import java.io.IOException;
 
-public class DashRuleTest extends TestCase {
+import static org.junit.Assert.assertEquals;
+
+public class DashRuleTest {
 
   private final DashRule rule = new DashRule(TestTools.getMessages("de"));
 
+  @Test
   public void testRule() throws IOException {
     JLanguageTool lt = new JLanguageTool(new German());
 

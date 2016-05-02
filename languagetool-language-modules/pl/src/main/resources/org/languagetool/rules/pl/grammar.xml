@@ -3820,7 +3820,78 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>300.000 zł</example>
       <example correction="312,12"><marker>312.12</marker> zł</example>
     </rule>
+    <rule>
+      <pattern>
+      <marker>
+        <token>0<exception scope="previous" inflected="yes">wersja</exception>
+        <exception scope="previous">.</exception></token>
+        <token spacebefore="no">.</token>
+        <token regexp="yes">\d+</token>
+      </marker>        
+      </pattern>
+      <message>Prawdopodobnie niepoprawny format liczby dziesiętnej. Czy powinno być <suggestion>\1,\3</suggestion>?</message>
+      <short>Zły format liczby</short>
+      <example>300.000 zł</example>
+      <example correction="0,5">Wynik wynosi <marker>0.5</marker>.</example>
+      <example>W wydaniu 7.0.1 dodana została wtyczka Camera RAW.</example>
+    </rule>
     </rulegroup>
+    <rule id="LICZBA_DZIESIETNA_ZE_SPACJA" name="Zbędna spacja po przecinku w liczbie dziesiętnej">
+    <antipattern>
+    <token regexp="yes">poz|wyd|pol|cz</token>
+    <token spacebefore="no">.</token>
+    <marker><token regexp="yes">\d+</token></marker>
+    </antipattern>
+    <antipattern>
+    <marker>
+      <token regexp="yes">\d+</token>
+    </marker>
+    <token>i</token>
+    <token regexp="yes">\d+</token>
+    <token><exception>,</exception></token>
+    </antipattern>
+    <antipattern>
+    <marker><token regexp="yes">\d+</token></marker>
+    <token regexp="yes">[x×]</token>
+    <token regexp="yes">\d+</token>
+    </antipattern>
+    <antipattern>
+    <marker>
+      <token regexp="yes">\d+</token>
+      <token spacebefore="no">.</token>
+      <token regexp="yes">\d+</token>
+    </marker>
+    </antipattern>
+    <antipattern> <!-- liczby dziesiętne z kropką lub cokolwiek, co nie może być liczbą dziesiętną -->
+    <marker><token regexp="yes">\d+</token></marker>
+    <token spacebefore="no">.</token>
+    <token regexp="yes">\d+.*|\p{L}</token>
+    </antipattern>
+    <pattern>
+        <marker>
+        <token regexp="yes">\d+
+            <exception scope="previous" regexp="yes">\d+|[\-–—,/:]|nr|pkt|w</exception>
+            <exception scope="previous" inflected="yes" regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</exception>
+            <!-- Biblia -->
+            <exception scope="previous" regexp="yes">\p{Lu}\p{Ll}{1,2}|Sofoniasz|Amos|Aggeusz|Ezechiel|Królowie|J|Ozeasz|Joel|Jeremiasz|Izajasz</exception>
+        </token>
+        <token>,</token>
+        <token regexp="yes" spacebefore="yes">\d+%?</token>
+        </marker>
+        <token><exception regexp="yes">\d+|[\-,r/:]|tomy</exception></token>
+    </pattern>
+    <message>Prawdopodobnie zbędna spacja w liczebniku dziesiętnym: <suggestion>\1\2\3</suggestion>?</message>
+    <short>Błąd typogrficzny</short>
+    <example correction="1,5">Film trwał <marker>1, 5</marker> godziny.</example>
+    <example>W związku z tym Peralta wydał obowiązującą do dziś ustawę (ustawa nr 9, 1963 r.)</example>
+    <example>Wygrała 6:4, 3:6, 6:3.</example>
+    <example>Biblioteka Narodowa, sygn.: 2676, 2981.</example>
+    <example>Ankyra była miejscem kilku ważnych synodów (w 314, 358 i 375).</example>
+    <example>Chrystus podtrzymywany przez anioła - ok. 1645, 137 x 100 cm, Prado, Madryt</example>
+    <example>„Kwartalnik Historyczny”, R.112, cz. 3, 2005.</example>
+    <example>Współrzędne CIE XYZ wynoszące (0.310, 0.316, 0.374)</example>
+    <example>Gdy doszło do niej w czerwcu 1994, 4.4BSD Lite zostało wypuszczone na rynek.</example>
+    </rule>
     <rulegroup id="JEDNOSTKA_LICZBA" name="Brak spacji przed jednostką, np. 12 kg">
         <antipattern>
             <token regexp="yes">[\p{Lu}\d].*</token>
@@ -3865,7 +3936,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     </category>
 		<category id="TYPOGRAPHY" name="Błędy typograficzne" type="typographical">
-		<rulegroup id="DOUBLE_PUNCTUATION" name="">
+		<rulegroup id="DOUBLE_PUNCTUATION" name="Podwójne kropki lub przecinki">
 		<rule>
 		<antipattern>
 		  <marker>
@@ -6562,7 +6633,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>— I ty najwierniejszy z giermków, którego dobroć szersza od brody mojego giermka Trifaldina, zaklinam cię, o najszlachetniejszy giermku!</example>
         </rule>
 
-        <rule id="NIEZGODNOSC_PRZYPADKU_PO_LICZEBNIKU" name="Niezgodność przypadku po liczebniku">
+        <rulegroup id="NIEZGODNOSC_PRZYPADKU_PO_LICZEBNIKU" name="Niezgodność przypadku po liczebniku">
+        <rule>
         <antipattern>
           <token>za</token>
           <token postag='num:pl.*:rec' postag_regexp='yes'/>
@@ -6757,6 +6829,88 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>- A byle okazał się tylko przyzwoitym człowiekiem, to pal sześć owe zyski.</example>
          <example>To rzekłszy, wydobył złożony we czworo papier i odczytał coś, czego chłopi wprawdzie nie rozumieli, ale radowali się bardzo.</example>
         </rule>
+        <rule>
+        <antipattern>
+        <token postag="brev:pun"/>
+        <token>.</token>
+        <marker>
+        <token regexp="yes">\d+</token>
+        </marker>
+        </antipattern>
+        <antipattern> <!-- 1,5 godziny -->
+        <token regexp="yes">\$?\d+</token>
+        <token regexp="yes">[,/:×\-x—–\|]</token>
+        <marker>
+          <token regexp="yes">\d+</token>
+        </marker>
+        </antipattern>
+        <antipattern> <!-- XX-123 -->
+        <token regexp="yes">\p{L}+</token>
+        <token spacebefore="no">-</token>
+        <marker>
+        <token regexp="yes" spacebefore="no">\d+</token>
+        </marker>
+        </antipattern>
+        <antipattern>
+        <token postag="SENT_START"/> <!-- numery podrozdziałów itp. -->
+        <token min="0" max="1" regexp="yes">[—–]</token>
+        <marker>        
+        <token regexp="yes">\d+</token>
+        </marker>
+        <token regexp="yes">\p{Lu}\p{Ll}+</token>
+        </antipattern>
+        <antipattern> <!-- liczby dziesiętne, regiony fizycznogeograficzne -->
+        <token regexp="yes">\d+</token>
+        <token spacebefore="no">.</token>
+        <marker><token regexp="yes">\d+</token></marker>
+        </antipattern>
+        <antipattern>
+        <token inflected="yes">rok</token>
+        <token regexp="yes">\d+</token>
+        <token regexp="yes">[i–—]|do</token>
+        <marker><token regexp="yes">\d+</token></marker>
+        </antipattern>
+          <pattern>
+                <token regexp="yes">\d*[5-9]|\d+0|1[1-9]
+                    <exception scope="previous" inflected="yes" regexp="yes">wersja|edycja|miejsce|rok|godzina|\p{Lu}\p{Ll}+|styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</exception>
+                    <exception regexp="yes">[12]\d{3}</exception>
+                    <exception scope="previous" postag="prep.*|brev:npun" postag_regexp="yes"/>
+                    <exception scope="previous" regexp="yes">&months;|[:=#]|&apost;|\d+|\p{Ll}\p{Lu}.*|\p{Lu}+|\p{Lu}\p{Ll}+\p{Lu}\p{Ll}+</exception>                    
+                </token>
+                <marker>
+                    <token postag='(subst|ger|adj|pact|ppas).*nom.*' postag_regexp='yes'>
+                    <exception postag='.*:pl:gen.*' postag_regexp='yes'/>
+                    <exception postag='prep.*|num.*|adv.*' postag_regexp='yes'/>
+                    <!-- jako liczebnik porzadkowy -->
+                    <exception regexp="yes">miejsce|urodziny|minuta|edycja|rocznica|brygady</exception>
+                    <exception regexp="yes">to|plus|emerytury|fot|\p{Lu}+|(?:po)?dzielone|maj|lis|paź|lut|sie</exception>
+                    <!-- there's another rule, PIERWSZY_STYCZEN, for this: -->
+                    <exception regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</exception>
+                    <exception inflected="yes" regexp="yes">minutowy|letni|godzinny|calowy|watowy|sekundowy|dniowy|centymetrowy|wieczny|procentowy|stopniowy|miesięczny|kilogramowy|(?:kilo)?metrowy|gigabajtowy|bitowy|osobowy|warstwowy|literowy|milionowy|roczek|&numord;</exception>
+                    </token>
+                </marker>
+            </pattern>
+          <message>Po tym liczebniku (<match no="1"/>) powinien prawdopodobnie występować dopełniacz.</message>
+         <url>http://grzegorj.w.interiowo.pl/gram/pl/liczeb02.html</url>
+         <short>Błąd składniowy</short>
+          <example correction="">Mam 15 <marker>baloniki</marker>.</example>
+          <example correction="">Bieg ukończyło 98 <marker>osoby</marker>, w tym zaledwie 12 kobiet.</example>
+          <example>To było w roku 1923.</example>
+          <example>W 69 Izraelczycy zaczęli atakować obozy w dolinie Jordanu i wtedy uchodźcy musieli przenieść się pod Amman.</example>
+          <example>„Wariat jestem” — pomyślał, jednakże znowu uważnie przeczytał zaproszenie: 15 lipca br. o godz. 8 wieczór.</example>
+          <example>Pozostawić do podwojenia objętości (około 1, 5 godziny).</example>
+          <example>Choć do ukończenia budowy daleko, to świątynia została już konsekrowana - 7 listopada 2010 papież Benedykt XVI podniósł ją do godności bazyliki mniejszej.</example>
+          <example>Windows 8 pobrany 16 milionów razy?</example>
+          <example>Namiary: Puławska 48 (wejście od ul. Dąbrowskiego), 02-559 Warszawa, Poland</example>
+          <example>CP-150 działa w dwóch zakresach (900/1800 MHz), ma wbudowany Bluetooth 2.</example>          
+          <example>W roku 1994 ujawniono z kolei, że w latach 1985 — 86 Komórka Antyterrorystyczna prowadziła nielegalny podsłuch telefoniczny kilkuset znanych polityków</example>
+          <example>Drugi test polegał na sprawdzeniu, jak Jabra GO 6430 radzi sobie jako zestaw słuchawkowy dla telefonu.</example>
+          <example>Można zatem wywieść, że kryterium objęcia danej organizacji lekarskiej zakazem przewidzianym w art. 58 Prawa farmaceutycznego stanowi automatyzm lub łatwość przepływu korzyści z majątku organizacji do majątku osobistego konkretnego lekarza.</example>
+          <example>513.45 Beskid Śląski (czes. Slezské Beskydy)</example>
+          <example>Pomiędzy rokiem 600 i 900 miasto było wielokrotnie zajmowane.</example>
+        </rule>
+        </rulegroup>
+        
         <rule id="IMIESLOW_POMYLONY_PODMIOT" name="Imiesłów przysłówkowy z innym podmiotem niż orzeczenie główne">        
 		    <antipattern>
 		      <token postag="adv.*" postag_regexp="yes"/>
@@ -14776,6 +14930,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category id="SPELLING" name="Błędy ortograficzne" type="misspelling">
+          <rule id="LICZBA_BEZ_DYWIZU_Z_PRZYMIOTNIKIEM" name="Brak dywizu w wyrazie zawierającym liczbę">
+          <antipattern>
+          <token>w</token>
+          <marker><token regexp="yes">[12]\d{3}</token></marker>
+          </antipattern>
+          <pattern>
+              <token regexp="yes">\d+</token>
+              <token inflected="yes" regexp="yes">minutowy|letni|godzinny|calowy|watowy|sekundowy|dniowy|centymetrowy|wieczny|procentowy|stopniowy|miesięczny|kilogramowy|(?:kilo)?metrowy|gigabajtowy|bitowy|osobowy|warstwowy|literowy|milionowy|roczek</token>
+          </pattern>
+          <message>Prawdopodobnie brak dywizu w tym wyrazie: <suggestion>\1-\2</suggestion>?</message>
+          <url>http://ulalupinska.pl/kreski-w-jezyku-polskim/#zapisy-liczbowo-slownec</url>
+          <short>Błąd ortograficzny</short>
+          <example correction="5-minutowy">Ledwo zniosłem jego <marker>5 minutowy</marker> atak kaszlu.</example>
+          <example>w Chinach w związku z organizowanymi tam w 2008 letnimi Igrzyskami Olimpijskimi.</example>
+          </rule>
           <rule id="MISZ_MASZ_MISZMASZ" name="„misz masz” (miszmasz)">
            <pattern>
             <token>misz</token>

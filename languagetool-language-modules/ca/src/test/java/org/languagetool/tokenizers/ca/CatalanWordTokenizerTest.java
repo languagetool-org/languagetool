@@ -19,12 +19,15 @@
 
 package org.languagetool.tokenizers.ca;
 
+import org.junit.Test;
+
 import java.util.List;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-public class CatalanWordTokenizerTest extends TestCase {
+public class CatalanWordTokenizerTest {
 
+  @Test
   public void testTokenize() {
     CatalanWordTokenizer wordTokenizer = new CatalanWordTokenizer();
     List<String> tokens;

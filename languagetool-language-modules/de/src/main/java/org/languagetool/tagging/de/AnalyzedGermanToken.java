@@ -18,6 +18,8 @@
  */
 package org.languagetool.tagging.de;
 
+import java.util.regex.Pattern;
+
 import org.languagetool.AnalyzedToken;
 import org.languagetool.tagging.de.GermanToken.Genus;
 import org.languagetool.tagging.de.GermanToken.Kasus;
@@ -39,10 +41,12 @@ public class AnalyzedGermanToken {
   private final Numerus numerus;
   private final Genus genus;
   private final Determination determination;
+  private final Pattern SPLIT_REGEX = Pattern.compile(":");
 
   public AnalyzedGermanToken(AnalyzedToken token) {
     String posTag = token.getPOSTag();
-    if (posTag == null || posTag.split(":").length < 3) {
+    String [] parts;
+    if (posTag == null || (parts = SPLIT_REGEX.split(posTag)).length < 3) {
       type = null;
       casus = null;
       numerus = null;
@@ -50,7 +54,6 @@ public class AnalyzedGermanToken {
       determination = null;
       return;
     }
-    String[] parts = posTag.split(":");
     POSType tempType = null;
     Kasus tempCasus = null;
     Numerus tempNumerus = null;

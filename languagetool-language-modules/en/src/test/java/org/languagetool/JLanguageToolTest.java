@@ -18,22 +18,23 @@
  */
 package org.languagetool;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.BritishEnglish;
 import org.languagetool.language.English;
 import org.languagetool.rules.*;
-import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.PatternToken;
 
-public class JLanguageToolTest extends TestCase {
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.*;
+
+public class JLanguageToolTest {
 
   // used on http://languagetool.org/java-api/
   public void demoCodeForHomepage() throws IOException {
@@ -66,6 +67,7 @@ public class JLanguageToolTest extends TestCase {
     }
   }
 
+  @Test
   public void testEnglish() throws IOException {
     JLanguageTool tool = new JLanguageTool(new English());
     assertEquals(0, tool.check("A test that should not give errors.").size());
@@ -100,6 +102,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(0, tool.check("I've go to go.").size());
   }
 
+  @Test
   public void testPositionsWithEnglish() throws IOException {
     JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
     List<RuleMatch> matches = tool.check("A sentence with no period\n" +
@@ -110,6 +113,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(15, match.getColumn());
   }
 
+  @Test
   public void testPositionsWithEnglishTwoLineBreaks() throws IOException {
     JLanguageTool tool = new JLanguageTool(new AmericanEnglish());
     List<RuleMatch> matches = tool.check("This sentence.\n\n" +
@@ -120,6 +124,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(14, match.getColumn());   // TODO: should actually be 15, as in testPositionsWithEnglish()
   }
 
+  @Test
   public void testAnalyzedSentence() throws IOException {
     JLanguageTool tool = new JLanguageTool(new English());
     //test soft-hyphen ignoring:
@@ -132,6 +137,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals("<S> </S><P/> ", tool.getAnalyzedSentence("\n").toString());
   }
 
+  @Test
   public void testParagraphRules() throws IOException {
     JLanguageTool tool = new JLanguageTool(new English());
 
@@ -159,6 +165,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(2, tool.getSentenceCount());
   }
 
+  @Test
   public void testWhitespace() throws IOException {
     JLanguageTool tool = new JLanguageTool(new English());
     AnalyzedSentence raw = tool.getRawAnalyzedSentence("Let's do a \"test\", do you understand?");
@@ -175,6 +182,7 @@ public class JLanguageToolTest extends TestCase {
     }
   }
 
+  @Test
   public void testOverlapFilter() throws IOException {
     Category category = new Category(new CategoryId("TEST_ID"), "test category");
     List<PatternToken> elements1 = Arrays.asList(new PatternToken("one", true, false, false));

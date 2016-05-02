@@ -18,15 +18,16 @@
  */
 package org.languagetool.tokenizers.lt;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Lithuanian;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
-public class LithuanianSRXSentenceTokenizerTest extends TestCase {
+public class LithuanianSRXSentenceTokenizerTest {
 
   private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Lithuanian());
 
+  @Test
   public void testTokenize() {
     testSplit("Linux – laisvos operacinės sistemos branduolio (kernel) pavadinimas. ",
               "Dažnai taip sutrumpintai vadinama ir bendrai visa Unix-tipo operacinė sistema naudojanti Linux branduolį kartu su sisteminėmis programomis bei bibliotekomis iš GNU projekto.");

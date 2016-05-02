@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.fa;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Persian;
@@ -27,18 +29,20 @@ import org.languagetool.rules.patterns.PatternRuleTest;
 
 import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
+
 public class WordCoherencyRuleTest extends PatternRuleTest {
 
   private JLanguageTool langTool;
   private Rule rule;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() throws Exception {
     langTool = new JLanguageTool(new Persian());
     rule = new WordCoherencyRule(TestTools.getMessages("fa"));
   }
 
+  @Test
   public void testRules() throws IOException {
     RuleMatch[] matches;
 

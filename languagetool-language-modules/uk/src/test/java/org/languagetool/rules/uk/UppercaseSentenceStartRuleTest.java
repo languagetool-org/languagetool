@@ -18,19 +18,21 @@
  */
 package org.languagetool.rules.uk;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 
-public class UppercaseSentenceStartRuleTest extends TestCase {
+import java.io.IOException;
+import java.util.ArrayList;
 
+import static org.junit.Assert.assertEquals;
+
+public class UppercaseSentenceStartRuleTest {
+
+  @Test
   public void testUkrainian() throws IOException {
     final Ukrainian ukrainian = new Ukrainian();
     final UppercaseSentenceStartRule rule = new UppercaseSentenceStartRule(TestTools.getEnglishMessages(), ukrainian);

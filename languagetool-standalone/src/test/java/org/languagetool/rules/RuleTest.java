@@ -18,20 +18,23 @@
  */
 package org.languagetool.rules;
 
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 
-public class RuleTest extends TestCase {
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+public class RuleTest {
+
+  @Test
   public void testJavaRules() throws IOException {
     Set<String> ids = new HashSet<>();
     Set<Class> ruleClasses = new HashSet<>();

@@ -18,18 +18,20 @@
  */
 package org.languagetool.rules;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
+
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Marcin Milkowski
  */
-public class MultipleWhitespaceRuleTest extends TestCase {
+public class MultipleWhitespaceRuleTest {
 
+  @Test
   public void testRule() throws IOException {
     MultipleWhitespaceRule rule = new MultipleWhitespaceRule(TestTools.getEnglishMessages(), TestTools.getDemoLanguage());
     RuleMatch[] matches;

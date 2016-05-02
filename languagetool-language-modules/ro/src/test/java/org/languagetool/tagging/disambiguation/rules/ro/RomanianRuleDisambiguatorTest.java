@@ -18,10 +18,8 @@
  */
 package org.languagetool.tagging.disambiguation.rules.ro;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Romanian;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
@@ -31,7 +29,9 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.ro.RomanianWordTokenizer;
 
-public class RomanianRuleDisambiguatorTest extends TestCase {
+import java.io.IOException;
+
+public class RomanianRuleDisambiguatorTest {
 
   private RomanianTagger tagger;
   private RomanianWordTokenizer tokenizer;
@@ -39,7 +39,7 @@ public class RomanianRuleDisambiguatorTest extends TestCase {
   private XmlRuleDisambiguator disambiguator;
   private DemoDisambiguator disamb2;
 
-  @Override
+  @Before
   public void setUp() {
     tagger = new RomanianTagger();
     tokenizer = new RomanianWordTokenizer();
@@ -49,6 +49,7 @@ public class RomanianRuleDisambiguatorTest extends TestCase {
     disamb2 = new DemoDisambiguator();
   }
 
+  @Test
   public void testCare1() throws IOException {
     TestTools
             .myAssert(
@@ -63,6 +64,7 @@ public class RomanianRuleDisambiguatorTest extends TestCase {
 
   }
 
+  @Test
   public void testEsteO() throws IOException {
     TestTools
             .myAssert(
@@ -82,6 +84,7 @@ public class RomanianRuleDisambiguatorTest extends TestCase {
 
   }
 
+  @Test
   public void testDezambiguizareVerb() throws IOException {
     TestTools
             .myAssert(
