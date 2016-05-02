@@ -19,17 +19,19 @@
 
 package org.languagetool.rules.bitext;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.FakeLanguage;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
 
-public class DifferentLengthRuleTest extends TestCase {
-  
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
+
+public class DifferentLengthRuleTest {
+
+  @Test
   public void testRule() throws IOException {
     DifferentLengthRule rule = new DifferentLengthRule();
     RuleMatch[] matches;

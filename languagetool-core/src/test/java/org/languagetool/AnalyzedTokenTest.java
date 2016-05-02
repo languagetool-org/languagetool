@@ -19,10 +19,13 @@
 
 package org.languagetool;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class AnalyzedTokenTest extends TestCase {
+import static org.junit.Assert.*;
 
+public class AnalyzedTokenTest {
+
+  @Test
   public void testToString() {
     AnalyzedToken testToken = new AnalyzedToken("word", "POS", "lemma");
     assertEquals("lemma/POS", testToken.toString());
@@ -32,7 +35,8 @@ public class AnalyzedTokenTest extends TestCase {
     assertEquals(null, testToken2.getLemma());
     assertEquals("word", testToken2.getToken());
   }
-  
+
+  @Test
   public void testMatches() {
     AnalyzedToken testToken1 = new AnalyzedToken("word", "POS", "lemma");
     assertFalse(testToken1.matches(new AnalyzedToken("", null, null)));

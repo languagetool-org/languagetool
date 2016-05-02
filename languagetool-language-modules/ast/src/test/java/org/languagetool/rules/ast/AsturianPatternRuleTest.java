@@ -18,12 +18,14 @@
  */
 package org.languagetool.rules.ast;
 
+import org.junit.Test;
 import org.languagetool.rules.patterns.PatternRuleTest;
 
 import java.io.IOException;
 
 public class AsturianPatternRuleTest extends PatternRuleTest {
-  
+
+  @Test
   public void testRules() throws IOException {
     runGrammarRulesFromXmlTest();
   }

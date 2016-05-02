@@ -19,7 +19,7 @@
 
 package org.languagetool.rules.ru;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Russian;
@@ -27,8 +27,11 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
-public class RussianSimpleReplaceRuleTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class RussianSimpleReplaceRuleTest {
+
+  @Test
   public void testRule() throws IOException {
     RussianSimpleReplaceRule rule = new RussianSimpleReplaceRule(TestTools.getMessages("ru"));
 

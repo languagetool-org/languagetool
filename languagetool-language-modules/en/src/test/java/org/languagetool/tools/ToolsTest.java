@@ -18,7 +18,7 @@
  */
 package org.languagetool.tools;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.English;
 import org.xml.sax.SAXException;
@@ -26,8 +26,11 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
-public class ToolsTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class ToolsTest {
+
+  @Test
   public void testCorrect() throws IOException, ParserConfigurationException, SAXException {
     JLanguageTool tool = new JLanguageTool(new English());
     assertEquals("This is a test.", Tools.correctText("This is an test.", tool));

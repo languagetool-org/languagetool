@@ -19,18 +19,16 @@
 
 package org.languagetool.tokenizers.uk;
 
-import java.util.Arrays;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
-public class UkrainianSRXSentenceTokenizerTest extends TestCase {
+public class UkrainianSRXSentenceTokenizerTest {
 
   private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Ukrainian());
 
+  @Test
   public final void testTokenize() {
     testSplit("Це просте речення.");
     testSplit("Вони приїхали в Париж. ", "Але там їм геть не сподобалося.");
@@ -75,7 +73,8 @@ public class UkrainianSRXSentenceTokenizerTest extends TestCase {
     testSplit("Сьогодні (у четвер.  - Ред.), вранці.");
     testSplit(" ([27]див. Тиждень № 9, 2008)");
   }
-  
+
+  @Test
   public void testTokenizeWithSplit() {
     testSplit("Всього 33 тис.", "А можей й більше");
     testSplit("Їх було 7,5 млн.", "В кожного була сорочка.");

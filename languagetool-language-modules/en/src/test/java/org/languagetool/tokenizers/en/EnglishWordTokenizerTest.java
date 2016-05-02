@@ -19,12 +19,15 @@
 
 package org.languagetool.tokenizers.en;
 
+import org.junit.Test;
+
 import java.util.List;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-public class EnglishWordTokenizerTest extends TestCase {
+public class EnglishWordTokenizerTest {
 
+  @Test
   public void testTokenize() {
     final EnglishWordTokenizer wordTokenizer = new EnglishWordTokenizer();
     final List <String> tokens = wordTokenizer.tokenize("This is\u00A0a test");

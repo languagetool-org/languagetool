@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
@@ -28,18 +29,24 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 public class DemoPatternRuleTest extends PatternRuleTest {
 
   private static final Language language = TestTools.getDemoLanguage();
-  
+
+  @Test
   public void testRules() throws IOException {
     runTestForLanguage(new Demo());
   }
 
+  @Test
   public void testGrammarRulesFromXML2() throws IOException {
     new PatternRule("-1", language, Collections.<PatternToken>emptyList(), "", "", "");
   }
 
+  @Test
   public void testMakeSuggestionUppercase() throws IOException {
     JLanguageTool langTool = new JLanguageTool(language);
 
@@ -56,6 +63,7 @@ public class DemoPatternRuleTest extends PatternRuleTest {
     assertEquals("We", replacements.get(1));
   }
 
+  @Test
   public void testRule() throws IOException {
     PatternRule pr;
     RuleMatch[] matches;
@@ -114,6 +122,7 @@ public class DemoPatternRuleTest extends PatternRuleTest {
     assertEquals(1, matches.length);
   }
 
+  @Test
   public void testSentenceStart() throws IOException {
     JLanguageTool langTool = new JLanguageTool(language);
     PatternRule pr = makePatternRule("SENT_START One");
@@ -121,6 +130,7 @@ public class DemoPatternRuleTest extends PatternRuleTest {
     assertEquals(1, pr.match(langTool.getAnalyzedSentence("One word.")).length);
   }
 
+  @Test
   public void testFormatMultipleSynthesis() throws Exception {
     String[] suggestions1 = { "blah blah", "foo bar" };
     assertEquals(

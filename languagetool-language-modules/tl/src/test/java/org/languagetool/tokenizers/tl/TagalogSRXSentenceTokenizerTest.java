@@ -18,15 +18,16 @@
  */
 package org.languagetool.tokenizers.tl;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Tagalog;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
-public class TagalogSRXSentenceTokenizerTest extends TestCase {
+public class TagalogSRXSentenceTokenizerTest {
 
   private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Tagalog());
 
+  @Test
   public void testTokenize() {
     testSplit("Ang Linux ay isang operating system kernel para sa mga operating system na humahalintulad sa Unix. ",
               "Isa ang Linux sa mga pinaka-prominanteng halimbawa ng malayang software at pagsasagawa ng open source; " +

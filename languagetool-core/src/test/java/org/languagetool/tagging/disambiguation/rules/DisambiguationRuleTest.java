@@ -19,27 +19,28 @@
 
 package org.languagetool.tagging.disambiguation.rules;
 
+import org.junit.Test;
+import org.languagetool.*;
+import org.languagetool.rules.patterns.PatternTestTools;
+import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import javax.xml.parsers.ParserConfigurationException;
+import static org.junit.Assert.*;
 
-import junit.framework.TestCase;
-
-import org.languagetool.*;
-import org.languagetool.rules.patterns.PatternTestTools;
-import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
-import org.xml.sax.SAXException;
-
-public class DisambiguationRuleTest extends TestCase {
+public class DisambiguationRuleTest {
 
   /**
    * To be called from standalone or language modules - calling it here in core doesn't make
    * much sense actually as we don't have any languages.
    */
+  @Test
   public void testDisambiguationRulesFromXML() throws Exception {
     testDisambiguationRulesFromXML(null);
   }

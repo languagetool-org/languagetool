@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.sv;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Swedish;
@@ -27,13 +29,13 @@ import java.io.IOException;
 
 public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() throws Exception {
     langTool = new JLanguageTool(new Swedish());
     rule = new CompoundRule(TestTools.getEnglishMessages());
   }
-  
+
+  @Test
   public void testRule() throws IOException {
     // correct:
     check(0, "skit-bra");

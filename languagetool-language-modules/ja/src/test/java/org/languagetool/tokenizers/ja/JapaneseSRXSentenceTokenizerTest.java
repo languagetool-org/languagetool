@@ -19,16 +19,16 @@
 
 package org.languagetool.tokenizers.ja;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Japanese;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
-public class JapaneseSRXSentenceTokenizerTest extends TestCase {
+public class JapaneseSRXSentenceTokenizerTest {
 
   private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Japanese());
 
-
+  @Test
   public void testTokenize() {
     testSplit("これはテスト用の文です。");
     testSplit("これはテスト用の文です。", "追加のテスト用の文です。");

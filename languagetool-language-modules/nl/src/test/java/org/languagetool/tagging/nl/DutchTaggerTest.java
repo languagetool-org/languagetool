@@ -18,28 +18,31 @@
  */
 package org.languagetool.tagging.nl;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Dutch;
 import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.IOException;
 
-public class DutchTaggerTest extends TestCase {
+public class DutchTaggerTest {
     
   private DutchTagger tagger;
   private WordTokenizer tokenizer;
       
-  @Override
+  @Before
   public void setUp() {
     tagger = new DutchTagger();
     tokenizer = new WordTokenizer();
   }
 
+  @Test
   public void testDictionary() throws IOException {
     TestTools.testDictionary(tagger, new Dutch());
   }
-  
+
+  @Test
   public void testTagger() throws IOException {
     TestTools.myAssert("Dit is een Nederlandse zin om het programma'tje te testen.",
         "Dit/[dit]DTh -- is/[zijn]VB3 -- een/[een]DTe|een/[een]NM|een/[een]NM1|een/[een]NN1d -- Nederlandse/[Nederlandse]NN1 -- zin/[zin]NN1d|zin/[zinnen]VB1 -- om/[om]PRom -- het/[het]DTh -- programma/[programma]NN1h -- tje/[null]null -- te/[te]PRte -- testen/[test]NN2|testen/[testen]VBi", tokenizer, tagger);        

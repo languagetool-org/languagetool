@@ -19,12 +19,15 @@
 
 package org.languagetool.tokenizers.ja;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.List;
 
-public class JapaneseWordTokenizerTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class JapaneseWordTokenizerTest {
+
+  @Test
   public void testTokenize() {
     JapaneseWordTokenizer w = new JapaneseWordTokenizer();
     List<String> testList = w.tokenize("これはペンです。");

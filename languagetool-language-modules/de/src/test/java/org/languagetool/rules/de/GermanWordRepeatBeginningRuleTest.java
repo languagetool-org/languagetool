@@ -18,18 +18,20 @@
  */
 package org.languagetool.rules.de;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.German;
+
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Markus Brenneis
  */
-public class GermanWordRepeatBeginningRuleTest extends TestCase {
+public class GermanWordRepeatBeginningRuleTest {
 
+  @Test
   public void testRule() throws IOException {
     JLanguageTool langTool = new JLanguageTool(new German());
     // correct sentences:

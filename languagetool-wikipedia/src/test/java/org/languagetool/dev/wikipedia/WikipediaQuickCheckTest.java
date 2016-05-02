@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev.wikipedia;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.language.German;
 
 import java.io.IOException;
@@ -26,9 +26,9 @@ import java.net.URL;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
-public class WikipediaQuickCheckTest extends TestCase {
+public class WikipediaQuickCheckTest {
 
   // only for interactive use, as it accesses a remote API
   public void noTestCheckPage() throws IOException, PageNotFoundException {
@@ -54,6 +54,7 @@ public class WikipediaQuickCheckTest extends TestCase {
     }
   }
 
+  @Test
   public void testCheckWikipediaMarkup() throws IOException {
     WikipediaQuickCheck check = new WikipediaQuickCheck();
     String markup = "== Beispiele ==\n\n" +
@@ -75,6 +76,7 @@ public class WikipediaQuickCheckTest extends TestCase {
     assertThat(ruleMatchApplication.getCorrectedErrorContext(12), is("st richtig, <err>wegen dem</err> Leerz"));
   }
 
+  @Test
   public void testGetPlainText() {
     WikipediaQuickCheck check = new WikipediaQuickCheck();
     String filteredContent = check.getPlainText(
@@ -85,6 +87,7 @@ public class WikipediaQuickCheckTest extends TestCase {
     assertEquals("Test Link Foo\u00A0bar.", filteredContent);
   }
 
+  @Test
   public void testGetPlainTextMapping() {
     WikipediaQuickCheck check = new WikipediaQuickCheck();
     String text = "Test [[Link]] und [[AnotherLink|noch einer]] und [http://test.org external link] Foo&amp;nbsp;bar.\n";
@@ -105,6 +108,7 @@ public class WikipediaQuickCheckTest extends TestCase {
     assertEquals(15, filteredContent.getOriginalTextPositionFor(11).column);
   }
 
+  @Test
   public void testGetPlainTextMappingMultiLine1() {
     WikipediaQuickCheck check = new WikipediaQuickCheck();
     String text = "Test [[Link]] und [[AnotherLink|noch einer]].\nUnd [[NextLink]] Foobar.\n";
@@ -128,6 +132,7 @@ public class WikipediaQuickCheckTest extends TestCase {
     assertEquals(2, filteredContent.getOriginalTextPositionFor(27).column);
   }
 
+  @Test
   public void testGetPlainTextMappingMultiLine2() {
     WikipediaQuickCheck check = new WikipediaQuickCheck();
     String text = "Test [[Link]] und [[AnotherLink|noch einer]].\n\nUnd [[NextLink]] Foobar.\n";
@@ -150,6 +155,7 @@ public class WikipediaQuickCheckTest extends TestCase {
     assertEquals(1, filteredContent.getOriginalTextPositionFor(28).column);
   }
 
+  @Test
   public void testRemoveInterLanguageLinks() {
     WikipediaQuickCheck check = new WikipediaQuickCheck();
     assertEquals("foo  bar", check.removeWikipediaLinks("foo [[pt:Some Article]] bar"));

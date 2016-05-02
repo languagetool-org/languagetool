@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.de;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
@@ -29,22 +30,23 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * @author Markus Brenneis
  */
-public class VerbAgreementRuleTest extends TestCase {
+public class VerbAgreementRuleTest {
 
   private VerbAgreementRule rule;
   private JLanguageTool langTool;
   
-  @Override
+  @Before
   public void setUp() throws IOException {
     rule = new VerbAgreementRule(TestTools.getMessages("de"), new German());
     langTool = new JLanguageTool(new German());
   }
-  
+
+  @Test
   public void testWrongVerb() throws IOException {
     // correct sentences:
     assertGood("Du bist in dem Moment angekommen, als ich gegangen bin.");
@@ -88,7 +90,8 @@ public class VerbAgreementRuleTest extends TestCase {
     assertBad("Solltest ihr das machen?", "Subjekt und Prädikat (Solltest)");
     assertBad("Weiter befindest sich im Osten die Gemeinde Dorf.");
   }
-  
+
+  @Test
   public void testWrongVerbSubject() throws IOException {
     // correct sentences:
     assertGood("Auch morgen lebe ich.");

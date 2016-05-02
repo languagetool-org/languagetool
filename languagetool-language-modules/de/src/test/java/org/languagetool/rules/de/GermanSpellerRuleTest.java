@@ -40,11 +40,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class GermanSpellerRuleTest {
 

@@ -18,14 +18,17 @@
  */
 package org.languagetool.rules.en;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.English;
 
 import java.io.IOException;
 
-public class UppercaseSentenceStartRuleTest extends TestCase {
+import static org.junit.Assert.assertEquals;
 
+public class UppercaseSentenceStartRuleTest {
+
+  @Test
   public void testRule() throws IOException {
     JLanguageTool lt = new JLanguageTool(new English());
     assertEquals(0, lt.check("In Nov. next year.").size());

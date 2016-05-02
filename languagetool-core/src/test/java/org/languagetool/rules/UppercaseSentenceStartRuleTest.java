@@ -18,15 +18,17 @@
  */
 package org.languagetool.rules;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 
-public class UppercaseSentenceStartRuleTest extends TestCase {
+import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
+
+public class UppercaseSentenceStartRuleTest {
+
+  @Test
   public void testRule() throws IOException {
     UppercaseSentenceStartRule rule = new UppercaseSentenceStartRule(TestTools.getEnglishMessages(), TestTools.getDemoLanguage());
     RuleMatch[] matches;

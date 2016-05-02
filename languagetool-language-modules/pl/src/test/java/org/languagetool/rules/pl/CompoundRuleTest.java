@@ -22,21 +22,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
 import org.languagetool.rules.AbstractCompoundRuleTest;
 import org.languagetool.rules.RuleMatch;
 
+import static org.junit.Assert.assertEquals;
+
 public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() throws Exception {
     langTool = new JLanguageTool(new Polish());
     rule = new CompoundRule(TestTools.getEnglishMessages());
   }
 
+  @Test
   public void testRule() throws IOException {
     // correct sentences:
     check(0, "Nie róbmy nic na łapu-capu.");
@@ -45,6 +49,7 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(1, "bim bom", new String[]{"bim-bom"});
   }
 
+  @Test
   public void testCompoundFile() throws IOException {
     final MorfologikPolishSpellerRule spellRule =
         new MorfologikPolishSpellerRule (TestTools.getMessages("pl"), new Polish());

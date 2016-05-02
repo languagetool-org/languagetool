@@ -20,6 +20,8 @@ package org.languagetool.tagging.disambiguation;
 
 import java.io.IOException;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
@@ -30,19 +32,20 @@ import org.languagetool.tokenizers.ca.CatalanWordTokenizer;
 
 public class CatalanDisambiguationRuleTest extends DisambiguationRuleTest {
       
-    private CatalanTagger tagger;
-    private CatalanWordTokenizer tokenizer;
-    private SentenceTokenizer sentenceTokenizer;
-    private MultiWordChunker disambiguator;
-      
-    @Override
-    public void setUp() {
-      tagger = new CatalanTagger();
-      tokenizer = new CatalanWordTokenizer();
-      sentenceTokenizer = new SRXSentenceTokenizer(new Catalan());
-      disambiguator = new MultiWordChunker("/ca/multiwords.txt", true);
-    }
-    
+  private CatalanTagger tagger;
+  private CatalanWordTokenizer tokenizer;
+  private SentenceTokenizer sentenceTokenizer;
+  private MultiWordChunker disambiguator;
+
+  @Before
+  public void setUp() {
+    tagger = new CatalanTagger();
+    tokenizer = new CatalanWordTokenizer();
+    sentenceTokenizer = new SRXSentenceTokenizer(new Catalan());
+    disambiguator = new MultiWordChunker("/ca/multiwords.txt", true);
+  }
+
+  @Test
   public void testChunker() throws IOException {
     TestTools
     .myAssert(

@@ -18,18 +18,19 @@
  */
 package org.languagetool.tokenizers;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
 
-public class EnglishSRXSentenceTokenizerTest extends TestCase {
+public class EnglishSRXSentenceTokenizerTest {
 
   // accept \n as paragraph:
   private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(new English());
   // accept only \n\n as paragraph:
   private final SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer(new English());
 
-  @Override
+  @Before
   public void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);  
     stokenizer2.setSingleLineBreaksMarksParagraph(false);  
@@ -37,6 +38,7 @@ public class EnglishSRXSentenceTokenizerTest extends TestCase {
 
   // NOTE: sentences here need to end with a space character so they
   // have correct whitespace when appended:
+  @Test
   public void testTokenize() {
     // incomplete sentences, need to work for on-thy-fly checking of texts:
     testSplit("Here's a");

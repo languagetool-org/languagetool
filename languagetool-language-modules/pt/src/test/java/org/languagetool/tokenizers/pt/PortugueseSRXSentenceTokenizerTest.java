@@ -18,15 +18,16 @@
  */
 package org.languagetool.tokenizers.pt;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Portuguese;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
-public class PortugueseSRXSentenceTokenizerTest extends TestCase {
+public class PortugueseSRXSentenceTokenizerTest {
 
   private final SRXSentenceTokenizer tokenizer = new SRXSentenceTokenizer(new Portuguese());
 
+  @Test
   public void testTokenize() {
     // NOTE: sentences here need to end with a space character so they
     // have correct whitespace when appended:

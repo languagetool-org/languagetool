@@ -19,11 +19,14 @@
 
 package org.languagetool;
 
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import junit.framework.TestCase;
 
-public class AnalyzedSentenceTest extends TestCase {
+public class AnalyzedSentenceTest {
 
+  @Test
   public void testToString() {
     AnalyzedTokenReadings[] words = new AnalyzedTokenReadings[3];
     words[0] = new AnalyzedTokenReadings(new AnalyzedToken("", "SENT_START", null));
@@ -34,6 +37,7 @@ public class AnalyzedSentenceTest extends TestCase {
     assertEquals("<S> word[lemma/POS].[./INTERP,</S>]", sentence.toString());
   }
 
+  @Test
   public void testCopy() {
     AnalyzedTokenReadings[] words = new AnalyzedTokenReadings[3];
     words[0] = new AnalyzedTokenReadings(new AnalyzedToken("", "SENT_START", null));

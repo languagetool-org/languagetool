@@ -18,14 +18,15 @@
  */
 package org.languagetool.rules.bitext;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
  * Calls a test from core, because only here in stand-alone all languages 
  * are available.
  */
-public class StandaloneBitextPatternRuleTest extends TestCase {
+public class StandaloneBitextPatternRuleTest {
 
+  @Test
   public void testBitextPatternRuleTest() throws Exception {
     BitextPatternRuleTest test = new BitextPatternRuleTest();
     test.testBitextRulesFromXML();

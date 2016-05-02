@@ -19,18 +19,20 @@
 
 package org.languagetool.synthesis.pt;
 
+import org.junit.Test;
+import org.languagetool.AnalyzedToken;
+
 import java.io.IOException;
 import java.util.Arrays;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-import org.languagetool.AnalyzedToken;
-
-public class PortugueseSynthesizerTest extends TestCase {
+public class PortugueseSynthesizerTest {
   private AnalyzedToken dummyToken(String tokenStr) {
     return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
   }
 
+  @Test
   public final void testSynthesizeString() throws IOException {
     PortugueseSynthesizer synth = new PortugueseSynthesizer();
     assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
