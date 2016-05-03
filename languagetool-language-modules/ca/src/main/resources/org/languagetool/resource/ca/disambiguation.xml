@@ -3846,7 +3846,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="N.*" postag_regexp="yes"/>
-                        <token postag="V.P.*" postag_regexp="yes"><exception regexp="yes">dits?|ratllats?|escrits?|fets?|acabats?|col·locats?|duta|portada|dutes|portades|deixats?|deixad(a|es)|estat|posat</exception></token>
+                        <token postag="V.P.*" postag_regexp="yes"><exception regexp="yes">pres|dits?|ratllats?|escrits?|fets?|acabats?|col·locats?|duta|portada|dutes|portades|deixats?|deixad(a|es)|estat|posat</exception></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="[^V].*"/>
+        </rule>
+        <rule> <!-- excepcions: no hi va haver necessitat -->
+            <pattern>
+                <token skip="1">haver</token>
+                <marker>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="V.P.*" postag_regexp="yes"><exception regexp="yes">pres|dits?|ratllats?|escrits?|fets?|acabats?|col·locats?|duta|portada|dutes|portades|deixats?|deixad(a|es)|estat|posat</exception></token>
                     </and>
                 </marker>
             </pattern>
