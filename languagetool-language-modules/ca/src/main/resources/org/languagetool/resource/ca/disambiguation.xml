@@ -3854,9 +3854,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule> <!-- excepcions: no hi va haver necessitat -->
             <pattern>
-                <token>va</token>
                 <token>haver</token>
-                <token min="0">-hi</token>
+                <token>-hi</token>
                 <marker>
                     <and>
                         <token postag="N.*" postag_regexp="yes"/>
@@ -3866,6 +3865,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="[^V].*"/>
         </rule>
+        <rule> <!-- excepcions: no hi va haver necessitat -->
+            <pattern>
+                <token>hi</token>
+                <token regexp="yes">van?|varen</token>
+                <token>haver</token>
+                <marker>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="V.P.*" postag_regexp="yes"><exception regexp="yes">pres|dits?|ratllats?|escrits?|fets?|acabats?|col·locats?|duta|portada|dutes|portades|deixats?|deixad(a|es)|estat|posat</exception></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="[^V].*"/>
+        </rule>
+
         <rule> <!-- permet comprovar errors amb 'heure': hagueu fet -->
             <pattern>
                 <token inflected="yes">heure</token>
