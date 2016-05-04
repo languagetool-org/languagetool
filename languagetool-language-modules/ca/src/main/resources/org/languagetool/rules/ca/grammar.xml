@@ -18868,14 +18868,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="DONA" name="dona/dóna">
             <antipattern>
-                <token>homes</token>
-                <token regexp="yes">i|o</token>
+                <token regexp="yes">homes|nens|infants|nenes|xiquets|xiquetes|nois|noies</token>
+                <token regexp="yes">i|o|ni|-|que</token>
                 <token>dones</token>
             </antipattern>
             <antipattern>
+                <token>dones</token>
+                <token regexp="yes">i|o|ni|-|que</token>
+                <token regexp="yes">homes|nens|infants|nenes|xiquets|xiquetes|nois|noies</token>
+            </antipattern>
+            <antipattern>
                 <token>dona</token>
-                <token regexp="yes">i|o|ni|,</token>
-                <token regexp="yes">home|donzella</token>
+                <token regexp="yes">i|o|ni|,|-</token>
+                <token regexp="yes">home|donzella|nen|nena|infant|noi|noia|xiquet|xiqueta</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">home|donzella|nen|nena|infant|noi|noia|xiquet|xiqueta</token>
+                <token regexp="yes">i|o|ni|,|-</token>
+                <token>dona</token>
             </antipattern>
             <rule>
                 <pattern>
