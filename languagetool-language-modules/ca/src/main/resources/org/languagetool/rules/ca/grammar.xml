@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY context_PASTAR "aigua|bol|canyella|cera|coca|dit|farina|ingredient|llet|llevat|llimona|mà|mantega|massa|min|minuts|mona|oli|ou|panificadora|sucre">
     <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
     <!ENTITY context_FALLAR "sentència|veredicte|premi|tribunal|jutges?|jurat|favor|instruir|procés|dispositiva|jutjar|sentenciar">
-    <!ENTITY context_FER_SE_AMB "títol|triomf|victòria|alcaldia|presidència|nombre|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit">
+    <!ENTITY context_FER_SE_AMB "títol|triomf|victòria|alcaldia|presidència|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit">
     <!ENTITY context_MUSICA "arranjador|orquestrador|orquestrar|saxòfon|saxofon|oboè|trompeta|trompa|trombó|timbala|timbal|percussió|compondre|interpretar|compositor|orquestra|director|banda|piano|corda|vent|fusta|peça|obra|simfonia|suite|obertura|òpera|metall|violí|flauta|clarinet|viola|violoncel|contrabaix|guitarra|intermezzo">
     <!ENTITY context_ROTAR_GIRAR "angle1|grau|girar|objecte|triangle|quadrat|polígon|eix|gravetat|minut|segon|sentit|agulla|rellotge|planeta|Terra|rotació|aparell|oest|est|magnètic|òrbita|pilota">
     <!ENTITY dies_setmana_abrev "dl|dt|dc|dj|dv|ds|dg">
@@ -25343,8 +25343,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token postag="P0.0.*" postag_regexp="yes" skip="1"/>
-                        <token skip="2" inflected="yes">fer<exception scope="next" postag="AQ.*|_GN_.*" postag_regexp="yes"/></token>
-                        <token skip="7">amb<exception scope="next" regexp="yes">,|cap</exception></token>
+                        <token skip="2" inflected="yes">fer<exception scope="next" postag="AQ.*|_GN_.*|V.N.*" postag_regexp="yes"/></token>
+                        <token skip="7">amb<exception scope="next" regexp="yes">,|cap|col·laboració</exception><exception scope="next" postag="C.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">&context_FER_SE_AMB;<exception scope="previous">a</exception></token>
                 </pattern>
@@ -25368,8 +25368,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token inflected="yes">fer</token>
-                        <token postag="P0.0.*" postag_regexp="yes" skip="2"/>
-                        <token skip="7">amb</token>
+                        <token postag="P0.0.*" postag_regexp="yes" skip="2"><exception scope="next" postag="AQ.*|_GN_.*|V.N.*" postag_regexp="yes"/></token>
+                        <token skip="7">amb<exception scope="next" regexp="yes">,|cap|col·laboració</exception><exception scope="next" postag="C.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">&context_FER_SE_AMB;<exception scope="previous">a</exception></token>
                 </pattern>
