@@ -6573,23 +6573,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Algú pot pensar, doncs vaja, ¡quin descobriment!</example>
             <!-- Ja sé que tot això us sembla exagerat; doncs el que sentireu encara ho és més -->
         </rule>
-        <rule id="NO_OBSTANT" name="no obstant/això no obstant">
-            <pattern>
-                <token><exception>això</exception></token>
-                <marker>
+        <rulegroup id="NO_OBSTANT" name="no obstant/això no obstant">
+            <rule>
+                <pattern>
                     <token>no</token>
                     <token>obstant</token>
-                </marker>
-                <token>,</token>
-            </pattern>
-            <message>Com a conjunció, és preferible usar una altra expressió. Correcte com a loc. prepositiva (=malgrat).</message>
-            <suggestion>això no obstant</suggestion>
-            <suggestion>no obstant això</suggestion>
-            <suggestion>tanmateix</suggestion>
-            <short>Expressió preferible</short>
-            <example correction="Això no obstant|No obstant això|Tanmateix"><marker>No obstant</marker>, vingué.</example>
-            <example>Això no obstant, vingué.</example>
-        </rule>
+                    <token>açò</token>
+                </pattern>
+                <message>Expressió inadequada (vg. DNV).</message>
+                <suggestion>no obstant això</suggestion>
+                <suggestion>això no obstant</suggestion>
+                <suggestion>tanmateix</suggestion>
+                <example correction="no obstant això|això no obstant|tanmateix"><marker>no obstant açò</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>açò</token>
+                    <token>no</token>
+                    <token>obstant</token>
+                </pattern>
+                <message>Expressió inadequada (vg. DNV).</message>
+                <suggestion>això no obstant</suggestion>
+                <suggestion>no obstant això</suggestion>
+                <suggestion>tanmateix</suggestion>
+                <example correction="això no obstant|no obstant això|tanmateix"><marker>açò no obstant</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">això|açò</exception></token>
+                    <marker>
+                        <token>no</token>
+                        <token>obstant</token>
+                    </marker>
+                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Com a conjunció, és preferible usar una altra expressió. Correcte com a loc. prepositiva (=malgrat).</message>
+                <suggestion>això no obstant</suggestion>
+                <suggestion>no obstant això</suggestion>
+                <suggestion>tanmateix</suggestion>
+                <short>Expressió preferible</short>
+                <example correction="Això no obstant|No obstant això|Tanmateix"><marker>No obstant</marker>, vingué.</example>
+                <example>Això no obstant, vingué.</example>
+            </rule>
+        </rulegroup>
         <rule id="CONFORME_CONJUNCIO" name="*conforme (conjunció)">
             <pattern>
                 <token><exception postag="V.[SI].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">ser|estar|anar|quedar|restar</exception></token>
