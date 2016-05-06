@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!DOCTYPE rules [
     <!ENTITY adjectius_TE_INFUSIO "descafeïnat|mòlt|jove|conegut|preparat|empaquetat|xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
     <!ENTITY adverbis_temps_lloc "entra(t|ts|da|des)|passa(t|ts|da|des)|tocad(a|es)|arran|enfront|per|durant|llavors|tard|aviat|pròximament|properament|prompte|avui|abans|després|hui|ara|demà|ahir|despús-ahir|despús-demà|aquí|ací|allí|allà|ahí|aleshores|recentment|posteriorment|mai">
+    <!ENTITY caracters_ignora "[“‘«&#34;']">
     <!ENTITY context_ALOS "Isil|Àneu|Pallars|Sobirà">
     <!ENTITY context_PASTAR "aigua|bol|canyella|cera|coca|dit|farina|ingredient|llet|llevat|llimona|mà|mantega|massa|min|minuts|mona|oli|ou|panificadora|sucre">
     <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
@@ -15169,7 +15170,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion><match no="1"/> l'<match no="3"></match></suggestion>
-                <short>Error ortogràfic</short>
                 <example correction="a l'1">fins <marker>al 1</marker> de febrer</example>
                 <example correction="a l'1">fins <marker>al 1</marker>, al 2 i al 3 de febrer</example>
                 <example correction="a l'1%">fins <marker>al 1%</marker>.</example>
@@ -15186,19 +15186,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>per l'<match no="3"></match></suggestion>
-                <short>Error ortogràfic</short>
                 <example correction="per l'1"><marker>pel 1</marker> de febrer</example>
                 <example>anem pel 1.400</example>
             </rule>
             <rule>
                 <pattern>
                     <token>de</token>
+		    <token min="0" regexp="yes">&caracters_ignora;</token>
                     <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|hosts?|ouija|el|els|&noms_lletres;|iure|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;|oro</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|V.[MSI].*|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
-                <suggestion>d'<match no="2"></match></suggestion>
-                <short>Error ortogràfic</short>
+                <suggestion>d'<match no="2"/><match no="3"></match></suggestion>
                 <example correction="d'ortografia"><marker>de ortografia</marker></example>
+                <example correction="d'«ortografia"><marker>de «ortografia</marker></example>
                 <example>de Hollywood</example>
                 <example>de Hubble</example>
                 <example>de atletismo</example>
@@ -15211,12 +15211,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>el<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
+		    <token min="0" regexp="yes">&caracters_ignora;</token>
                     <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|o|i|host|ió|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception inflected="yes" regexp="yes">&verbs_no_apostrofen;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
-                <suggestion>l'<match no="2"></match></suggestion>
-                <short>Error ortogràfic</short>
+                <suggestion>l'<match no="2"/><match no="3"></match></suggestion>
                 <example correction="l'home"><marker>el home</marker></example>
+                <example correction="l'&#34;home"><marker>el "home</marker>"</example>
                 <example>el Hubble</example>
                 <example>el atletismo</example>
                 <example>el iugoslau</example>
@@ -15238,7 +15239,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si és un article personal masculí, cal apostrofar. Correcte si és una preposició.</message>
                 <suggestion>n'<match no="3"></match></suggestion>
-                <short>Possible error</short>
                 <example correction="N'Antoni"><marker>En Antoni</marker>.</example>
                 <example>en Harrison Ford</example>
                 <example>el premi recaigué en Eudard.</example>
@@ -15251,13 +15251,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>de</token>
                         <token spacebefore="no">l</token>
+                        <token min="0" regexp="yes">&caracters_ignora;</token>
                         <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Cal apostrofar.</message>
-                <suggestion>de l'<match no="4"></match></suggestion>
-                <short>Error ortogràfic</short>
+                <suggestion>de l'<match no="4"/><match no="5"></match></suggestion>
                 <example correction="de l'home"><marker>del home</marker></example>
+                <example correction="de l'&#34;home"><marker>del "home</marker>"</example>
                 <example>de l'home</example>
                 <example>del Hubble</example>
                 <example>del atletismo</example>
@@ -15268,12 +15269,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>a</token>
                     <token spacebefore="no">l</token>
+                    <token min="0" regexp="yes">&caracters_ignora;</token>
                     <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
-                <suggestion>a l'<match no="3"></match></suggestion>
-                <short>Error ortogràfic</short>
+                <suggestion>a l'<match no="3"/><match no="4"/></suggestion>
                 <example correction="a l'home"><marker>al home</marker></example>
+                <example correction="a l'&#34;home"><marker>al "home</marker>"</example>
                 <example>al Hubble</example>
                 <example>al atletismo</example>
                 <example>el iugoslau</example>
@@ -15283,12 +15285,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>pe</token>
                     <token spacebefore="no">l</token>
+                    <token min="0" regexp="yes">&caracters_ignora;</token>
                     <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
-                <suggestion>per l'<match no="3"></match></suggestion>
+                <suggestion>per l'<match no="3"/><match no="4"/></suggestion>
                 <short>Error ortogràfic</short>
                 <example correction="per l'home"><marker>pel home</marker></example>
+                <example correction="per l'&#34;home"><marker>pel "home</marker>"</example>
                 <example>pel Hubble</example>
                 <example>el iugoslau</example>
             </rule>
