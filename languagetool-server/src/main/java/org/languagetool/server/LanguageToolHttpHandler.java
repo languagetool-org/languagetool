@@ -378,13 +378,28 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
   }
 
-  private Language detectLanguageOfString(String text, String fallbackLanguage) {
+  Language detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants) {
     Language lang = identifier.detectLanguage(text);
     if (lang == null) {
       lang = Languages.getLanguageForShortName(fallbackLanguage != null ? fallbackLanguage : "en");
     }
-    if (lang.getDefaultLanguageVariant() != null) {
-      lang = lang.getDefaultLanguageVariant();
+    if (preferredVariants.size() > 0) {
+      for (String preferredVariant : preferredVariants) {
+        if (!preferredVariant.contains("-")) {
+          throw new IllegalArgumentException("Invalid format for 'preferredvariant', expected a dash as in 'en-GB': '" + preferredVariant + "'");
+        }
+        String preferredVariantLang = preferredVariant.split("-")[0];
+        if (preferredVariantLang.equals(lang.getShortName())) {
+          lang = Languages.getLanguageForShortName(preferredVariant);
+          if (lang == null) {
+            throw new IllegalArgumentException("Invalid 'prefereredvariant', no such language/variant found: '" + preferredVariant + "'");
+          }
+        }
+      }
+    } else {
+      if (lang.getDefaultLanguageVariant() != null) {
+        lang = lang.getDefaultLanguageVariant();
+      }
     }
     return lang;
   }
@@ -397,7 +412,16 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
     //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
-    Language lang = getLanguage(text, parameters.get("language"), autoDetectLanguage);
+    List<String> preferredVariants;
+    if (parameters.get("preferredvariants") != null) {
+      preferredVariants = Arrays.asList(parameters.get("preferredvariants").split(",\\s*"));
+      if (!autoDetectLanguage) {
+        throw new IllegalArgumentException("You specified 'preferredvariants' but you didn't specify 'autodetect=yes'");
+      }
+    } else {
+      preferredVariants = Collections.emptyList();
+    }
+    Language lang = getLanguage(text, parameters.get("language"), autoDetectLanguage, preferredVariants);
     String motherTongueParam = parameters.get("motherTongue");
     Language motherTongue = motherTongueParam != null ? Languages.getLanguageForShortName(motherTongueParam) : null;
     boolean useEnabledOnly = "yes".equals(parameters.get("enabledOnly"));
@@ -507,10 +531,10 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
   }
 
-  private Language getLanguage(String text, String langParam, boolean autoDetect) {
+  private Language getLanguage(String text, String langParam, boolean autoDetect, List<String> preferredVariants) {
     Language lang;
     if (autoDetect) {
-      lang = detectLanguageOfString(text, langParam);
+      lang = detectLanguageOfString(text, langParam, preferredVariants);
     } else {
       if (afterTheDeadlineMode) {
         lang = afterTheDeadlineLanguage;

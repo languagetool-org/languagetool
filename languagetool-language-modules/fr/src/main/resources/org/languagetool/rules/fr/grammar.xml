@@ -7408,6 +7408,50 @@ though, and has since been slightly modified)-->
         <example correction="intérieur">Dans son <marker>intérieure</marker>.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="FABRICANT_FABRIQUANT" name="fabricant (nom) et fabriquant (participe présent)">
+      <url>http://www.projet-voltaire.fr/blog/regle-orthographe/%C2%AB-fabricant-%C2%BB-ou-%C2%AB-fabriquant-%C2%BB</url>
+      <rule>
+        <pattern>
+          <token regexp="yes">un|ce|du|[mts]on|leur|[nv]otre</token>
+          <marker><token>fabriquant</token></marker>
+        </pattern>
+        <message>Confusion probable entre <suggestion>fabricant</suggestion> (nom) et « fabriquant » (participe passé).</message>
+        <example correction="fabricant">Un <marker>fabriquant</marker> français.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[dc]es|de|nombreux|plusieurs|quelques|certains</token>
+          <marker><token>fabriquants</token></marker>
+        </pattern>
+        <message>Confusion probable entre <suggestion>fabricants</suggestion> (nom) et « fabriquants » (participe passé).</message>
+        <example correction="fabricants">Des <marker>fabriquants</marker> français.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">fabriquants?</token></marker>
+          <token>de</token>
+        </pattern>
+        <message>Confusion probable entre <suggestion><match no="1" regexp_match="qu" regexp_replace="c"/></suggestion> (nom) et « \1 » (participe passé).</message>
+        <example correction="fabricants"><marker>fabriquants</marker> de pièces détachées.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">les?<exception scope="previous">en</exception></token>
+          <marker><token regexp="yes">fabriquants?</token></marker>
+        </pattern>
+        <message>Confusion probable entre <suggestion><match no="2" regexp_match="qu" regexp_replace="c"/></suggestion> (nom) et « \2 » (participe passé).</message>
+        <example correction="fabricant">Le <marker>fabriquant</marker> français.</example>
+        <example>En le <marker>fabricant</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">en|se</token>
+          <marker><token>fabricant</token></marker>
+        </pattern>
+        <message>Confusion probable entre « fabricant » (nom) et <suggestion>fabriquant</suggestion> (participe passé).</message>
+        <example correction="fabriquant">C’est en <marker>fabricant</marker>, que l’on devient fabricant.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category id="CAT_ELISION" name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
