@@ -7571,12 +7571,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 Caldria separar verbs i noms per a tractar-los de manera lleugerament diferent:
                 una tarda, en sortir de classe-->
             <rule>
-                <pattern>
-                    <token inflected="yes" regexp="yes" skip="3">primer|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|centrar|complaença|complaure|confiar|convertir|creença|creure|delit|delitar|entestar|entossudir|entretenir|equivocar|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|part|participació|participant|participar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar<exception scope="next" postag="V.P.*|C.*|AQ.*|V.G.*" postag_regexp="yes"/><exception scope="next" regexp="yes">divisió|lloc|podi|victòria|premi|títol|cop|volta|vegada|de|d'|per|pe|a|-hi|[:;(,]</exception><exception regexp="yes">\d.*</exception><exception postag="_possible_nompropi"/><exception scope="next" postag="_C_TEMPS|V.[IS].*" postag_regexp="yes"/></token>
+                <antipattern>
+                    <marker>
+                        <token inflected="yes">estar</token>
+                        <token>en</token>
+                        <token>poder</token>
+                    </marker>
+                </antipattern> 
+                <pattern> <!--eliminat: equivocar, part (hauria de ser prendre part),|participació|participant|participar-->
+                    <token inflected="yes" regexp="yes" skip="3">primer|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|centrar|complaença|complaure|confiar|convertir|creença|creure|delit|delitar|entestar|entossudir|entretenir|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar<exception scope="next" postag="V.P.*|C.*|AQ.*|V.G.*" postag_regexp="yes"/><exception scope="next" regexp="yes">així|ronda|divisió|lloc|podi|victòria|premi|títol|cop|volta|vegada|de|d'|per|pe|a|-hi|[:;(,]</exception><exception regexp="yes">\d.*|(?-i)Primera</exception><exception postag="_possible_nompropi"/><exception scope="next" postag="_C_TEMPS|V.[IS].*" postag_regexp="yes"/></token>
                     <marker>
                         <token>en</token>
                     </marker>
-                    <token postag="V.N.*" postag_regexp="yes"><exception postag="_GN_MS"/></token>
+                    <token postag="V.N.*" postag_regexp="yes"><exception postag="_GN_MS"/><exception regexp="yes">regular|titular|militar|néixer|nàixer</exception></token>
                 </pattern>
                 <message>Probablement cal canviar la preposició.</message>
                 <suggestion>a</suggestion>
@@ -7597,6 +7604,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>convertir-se en ésser humà</example>
                 <example>Les primeres presenten efervescència en tirar-hi un àcid.</example>
                 <example>Fou campió de Primera Divisió en guanyar tots els partits.</example>
+                <example>Es va convertir en titular.</example>
                 <!-- ¿quin tipus de menú ens pot interessar en dissenyar un sistema automàtic?
                     va cometre una greu equivocació en voler alterar les pràctiques
                     convertir-se en militar/titular
@@ -16637,12 +16645,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">vegada|volta|pic|col?p</token>
                     <token>més</token>
                 </antipattern>
+                <antipattern>
+                    <token>què</token>
+                    <token min="0" inflected="yes">voler</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">ja|fins|més|els|mentre|tant|sense|malgrat|sinó|sí|tal|fets?</token>
+                        <token regexp="yes">encara|ja|fins|més|els|mentre|tant|sense|malgrat|sinó|sí|tal|fets?</token>
                         <token>què</token>
                     </marker>
-                    <token><exception postag="V.N.*" postag_regexp="yes"/><exception>?</exception></token>
+                    <token><exception>?</exception></token>
                 </pattern>
                 <message>No s'ha d'accentuar.</message>
                 <suggestion><match no="1"/> que</suggestion>
@@ -16651,6 +16664,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="més que">La <marker>més què</marker> probable reelecció.</example>
                 <example>Són els què?</example>
                 <example>No saben ja què fer.</example>
+                <example>No saben encara què volen fer.</example>              
                 <example>comprovem una vegada més què passa</example>
             </rule>
             <rule>
