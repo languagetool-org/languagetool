@@ -605,20 +605,60 @@ though, and has since been slightly modified)-->
         <pattern>
           <marker><token regexp="yes">cotes?</token></marker>
           <token>de</token>
-          <token regexp="yes">porcs?|bœuf|boeuf|veaux?</token>
+          <token regexp="yes">porcs?|bœuf|boeuf|veaux?|Bretagne</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>côte</suggestion> ?</message>
         <example correction="côte">Une <marker>cote</marker> de veau.</example>
       </rule>
       <rule>
         <pattern>
-          <marker><token>Cote</token></marker>
+          <marker><token>cote</token></marker>
           <token>d</token>
           <token regexp="yes">['´‘’′]</token>
-          <token regexp="yes">Azur|Ivoire|Or</token>
+          <token regexp="yes">Albâtre|Azur|Ivoire|Or|Opale|Émeraude</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>Côte</suggestion> ?</message>
         <example correction="Côte">La <marker>Cote</marker> d’Azur.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">fractures?|radiographies?</token>
+          <token regexp="yes">des?</token>
+          <marker><token>cotes</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="o" regexp_replace="ô"/></suggestion> ?</message>
+        <example correction="côtes">Une fracture des <marker>cotes</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">cotes?</token></marker>
+          <token regexp="yes">(brisée|cassée|fêlée|fracturée|surnuméraire|rocheuse|adriatique|américaine|atlantiques?|basque|bretonne|française|belge|espagnole|italienne|africaine|méditeranéenne|pacifique|raide|occidentale|fractale)s?|nord|sud|ouest</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="o" regexp_replace="ô"/></suggestion> ?</message>
+        <example correction="côtes">Une <marker>cotes</marker> fracturée.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">avoir</token>
+          <token min="0" max="1" regexp="yes">encore|toujours</token>
+          <token>la</token>
+          <marker><token>côte</token></marker>
+        </pattern>
+        <message>Confusion probable entre <suggestion>cote</suggestion> et « côte ».</message>
+        <example correction="cote">Il a la <marker>côte</marker> auprès des filles.</example>
+        <example correction="cote">Il a encore la <marker>côte</marker> auprès des filles.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>n</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token inflected="yes">avoir</token>
+          <token regexp="yes">pas|plus</token>
+          <token>la</token>
+          <marker><token>côte</token></marker>
+        </pattern>
+        <message>Confusion probable entre <suggestion>cote</suggestion>> et « côte ».</message>
+        <example correction="cote">Il n’a plus la <marker>côte</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="CA_SA" name="ÇA au lieu de SA">
