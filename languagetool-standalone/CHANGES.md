@@ -43,6 +43,11 @@
     response (it used to produce `500 Internal Server Error`)
   * to turn on language auto-detection, `autodetect=yes` can now be
     used instead of `autodetect=1` (to be consistent with `enabledOnly=yes`)
+  * New parameter `preferredvariants` to specify which variant is preferred
+    when the language is auto-detected: Example:
+    `autodetect=yes&preferredvariants=en-GB,de-AT` - if English text is detected,
+    British English will be used, if German text is detected, German (Austria)
+    will be used.
 
 #### Rule Syntax
   * groups of rules and categories are now required to have non-empty names
