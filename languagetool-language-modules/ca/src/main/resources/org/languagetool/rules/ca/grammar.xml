@@ -13717,7 +13717,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="DONS_DONCS" name="*dons/doncs">
             <antipattern>
                 <marker>
-                    <token regexp="yes">favors|virtuts|valors</token>
+                    <token regexp="yes">favors|virtuts|valors|béns|gràcies|miracles</token>
                     <token regexp="yes">i|o|ni|,</token>  
                     <token>dons</token>
                 </marker>
@@ -13726,11 +13726,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>dons</token>
                     <token regexp="yes">i|o|ni|,</token>  
-                    <token regexp="yes">favors|virtuts|valors</token>
+                    <token regexp="yes">favors|virtuts|valors|béns|gràcies|miracles</token>
                 </marker>
             </antipattern>
             <pattern>
-                <token><exception inflected="yes" regexp="yes">repartir|oferir|presentar|ofrenar|intercanviar|bescanviar|de|demanar|en|fer</exception></token>
+                <token><exception inflected="yes" regexp="yes">a|sense|repartir|oferir|presentar|ofrenar|intercanviar|bescanviar|de|demanar|en|fer</exception></token>
                 <marker>
                     <token>dons<exception postag="_GN_MP"/></token>
                 </marker>
@@ -27228,20 +27228,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="DIFERENT_A" name="diferent a">
             <antipattern>
                 <marker>
-                    <token regexp="yes">diferents?</token>
+                    <token regexp="yes">diferents?|distints?|distinta|distintes</token>
                     <token postag=".*LOC_.*" postag_regexp="yes">a</token>
                 </marker>
             </antipattern>
             <antipattern>
                 <marker>
-                    <token regexp="yes">diferents?</token>
+                    <token regexp="yes">diferents?|distints?|distinta|distintes</token>
                     <token skip="3">a</token>
                     <token regexp="yes" inflected="yes">voltant|territori|nord|sud|banda|lloc|si|país</token>
                 </marker>
             </antipattern>
             <antipattern>
                 <marker>
-                    <token regexp="yes">diferents?</token>
+                    <token regexp="yes">diferents?|distints?|distinta|distintes</token>
                     <token>a</token>
                     <token regexp="yes">més|causa|nivell|banda|part</token>
                 </marker>
@@ -27250,7 +27250,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>de</token>
                     <token regexp="yes">manera|forma</token>
-                    <token>diferent</token>
+                    <token regexp="yes">diferent|distinta</token>
                 </marker>
             </antipattern>
             <rule>
@@ -27299,6 +27299,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Possible error</short>
                 <example correction="diferent d'aquest">un resultat <marker>diferent a aquest</marker></example>
             </rule>
+        <rule id="DISTINT_A_DIFERENT_DE" name="*distint a / diferent de">
+            <!--  Falses alarmes? -->
+            <pattern>
+                <token inflected="yes">distint</token>
+                <token regexp="yes">(?-i)a</token>
+            </pattern>
+            <message>Amb valor comparatiu val més dir <suggestion><match no="1" postag="AQ..(.)0" postag_regexp="yes" postag_replace="AQ0C$10">diferent</match> de</suggestion>. Correcte si equival a "<match no="1"/> en".</message>
+            <example correction="diferent de">un entorn <marker>distint a</marker> l'actual</example>
+            <example correction="diferents de">Sostenien postures polítiques <marker>distintes a</marker> les de Marx.</example>
+            <example>un entorn diferent de l'actual</example>
+            <example correction="diferent de">l'existència de la ment com a realitat <marker>distinta a</marker>l cervell.</example> <!-- dubtós -->
+            <example>l'existència de la ment com a realitat distinta en el cervell.</example>
+        </rule>
         </rulegroup>
         <rulegroup id="A_DIFERENCIA_AMB_DE" name="a diferència *amb/de">
             <rule>
@@ -33147,19 +33160,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ho va fer amb les pròpies mans.</example>
             </rule>
         </rulegroup>
-        <rule id="DISTINT_A_DIFERENT_DE" name="*distint a / diferent de">
-            <!--  Falses alarmes? -->
-            <pattern>
-                <token inflected="yes">distint</token>
-                <token regexp="yes">(?-i)a</token>
-            </pattern>
-            <message>Amb valor comparatiu val més dir <suggestion><match no="1" postag="AQ..(.)0" postag_regexp="yes" postag_replace="AQ0C$10">diferent</match> de</suggestion>. Correcte si equival a "<match no="1"/> en".</message>
-            <example correction="diferent de">un entorn <marker>distint a</marker> l'actual</example>
-            <example correction="diferents de">Sostenien postures polítiques <marker>distintes a</marker> les de Marx.</example>
-            <example>un entorn diferent de l'actual</example>
-            <example correction="diferent de">l'existència de la ment com a realitat <marker>distinta a</marker>l cervell.</example> <!-- dubtós -->
-            <example>l'existència de la ment com a realitat distinta en el cervell.</example>
-        </rule>
         <rulegroup id="DESCONTENT" name="descontent (adj. no subst.)"> <!-- Però: el descontent = la persona descontenta -->
             <rule>
                 <pattern>
