@@ -128,7 +128,84 @@ USA
             <suggestion>licences</suggestion>
             <example correction="licences">Please show me your <marker>licenses</marker>.</example>
         </rule>
-
+        <rule  id="TRUNK_BOOT" name="trunk/boot (of car)">
+            <antipattern>
+                <token>car</token>
+                <token regexp="yes" skip="-1">boots?</token>
+                <token regexp="yes">trunks?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="-1">trunks?</token>
+                <token>car</token>
+                <token regexp="yes">boots?</token>
+            </antipattern>
+            <antipattern>
+                <token>car</token>
+                <token regexp="yes">’|'</token>
+                <token>s</token>
+                <token skip="-1">boot</token>
+                <token regexp="yes">trunks?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="-1">trunks?</token>
+                <token>car</token>
+                <token regexp="yes">’|'</token>
+                <token>s</token>
+                <token>boot</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">boots?</token>
+                <token>of</token>
+                <token postag_regexp="yes" postag="DT|PDT" />
+                <token inflected="yes" skip="-1">car</token>
+                <token regexp="yes">trunks?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="-1">trunks?</token>
+                <token regexp="yes">boots?</token>
+                <token>of</token>
+                <token postag_regexp="yes" postag="DT|PDT" />
+                <token inflected="yes">car</token>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">elephant|river|swimming|tree</exception></token>
+                <marker>
+                    <token regexp="yes" skip="-1">trunk|trunks<exception scope="next" inflected="yes" regexp="yes">elephant|river|swimming|tree</exception></token>
+                </marker>
+                <token postag="SENT_END"><exception scope="current" inflected="yes" regexp="yes">elephant|river|swimming|tree</exception></token>
+            </pattern>
+            <message>In the context of cars (automobiles), '<match no="2"/>' is American English. For British English use <suggestion><match no="2" postag="(.*)" postag_replace="$1">boot</match></suggestion>.</message>
+            <url>https://en.wikipedia.org/wiki/Trunk_%28car%29</url>
+            <short>AmE/BrE: trunk/boot</short>
+            <example type="incorrect" correction="boot">The automobile has a small <marker>trunk</marker>.</example>
+            <example type="incorrect" correction="boots">Automobiles that have large <marker>trunks</marker> are usually expensive.</example>
+            <example type="incorrect" correction="Boots"><marker>Trunks</marker> on some automobiles are at the front.</example>
+            <example type="incorrect" correction="boot">This Volkswagen has a large <marker>trunk</marker>.</example>
+            <example type="incorrect" correction="boots">Volkswagens and Chryslers usually have large <marker>trunks</marker>.</example>
+            <example type="correct">The elephant's <marker>trunk</marker> is long.</example>
+            <example type="correct">This tree <marker>trunk</marker> is large.</example>
+            <example type="correct">The <marker>trunks</marker> of some trees were damaged during the storm.</example>
+            <example type="correct">The arterial <marker>trunks</marker> of some rivers are ...</example>
+            <example type="correct"><marker>Trunks</marker> (swimming) of various colours are available from ...</example>
+            <example type="correct">If the electrical <marker>trunking</marker> on the car is ...</example>
+            <example type="correct">Put the <marker>trunk</marker> into the car boot.</example>
+            <example type="correct">The car boot contained <marker>trunks</marker> of many colours.</example>
+            <example type="correct">The car boots contained <marker>trunks</marker> of many sizes.</example>
+            <example type="correct">Put these items into the boot of the car: <marker>trunk</marker>, table, chair, kitchen sink.</example>
+            <example type="correct">Put the <marker>trunks</marker> into the boot of the car.</example>
+            <example type="correct">The lace on this <marker>boot</marker> is frayed.</example>
+            <example type="correct">The car boot contained a <marker>trunk</marker> and a ...</example>
+            <example type="correct">The car's boot contained a <marker>trunk</marker> and a ...</example>
+            <example type="correct">The <marker>trunks</marker> were in our car’s boot.</example>
+            <!-- <example type="correct">The boot of this Volkswagen contains a large <marker>trunk</marker>.</example>-->
+            <!-- <example type="correct">The boots of Volkswagens are sufficiently large to contain 2 or 3 <marker>trunks</marker>.</example>-->
+            <!-- <example type="correct">The <marker>trunk</marker> was in the Ford.</example>-->
+            <!-- <example type="correct">Mr Ford has a large blue <marker>trunk</marker>.</example>-->
+            <!-- <example type="correct">The <marker>trunk</marker> was on the back seat of the Ford.</example>-->
+            <!-- <example type="correct">The abandoned car contained a stolen <marker>trunk</marker>.</example>-->
+            <!-- <example type="correct">The Chrysler's boot contained a <marker>trunk</marker> and a ...</example>-->
+            <!-- <example type="correct">Some cars' boots can contain <marker>trunks</marker> of enormous size.</example>-->
+        </rule>
     </category>
 
 </rules>
