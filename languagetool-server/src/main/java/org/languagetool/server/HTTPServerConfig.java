@@ -101,6 +101,9 @@ public class HTTPServerConfig {
           break;
         case "--allow-origin":
           allowOriginUrl = args[++i];
+          if (allowOriginUrl.startsWith("--")) {
+            throw new IllegalArgumentException("Missing argument for '--allow-origin'");
+          }
           break;
       }
     }
