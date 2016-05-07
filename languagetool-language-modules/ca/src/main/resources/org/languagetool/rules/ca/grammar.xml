@@ -39,6 +39,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY exceptions_A_MANS_DE "espoli|espoliació|anar|sotmetre|submissió|desapoderar|desapoderament|sofrir|vèncer|pallissa|apallissar|desgastar|parar|passar|arribar|retornar|tornar|perdre|morir|pèrdua|matança|mort1|patir|vexació|vexar|tortura|torturar|derrota|derrotar|fi2|assassinar|assassinat|saqueig|saquejar">
     <!ENTITY exceptions_ASSENTAR_ASSEURE "igualtat|idea|fenomen|suport|geològi.*|pilar|bàvar|eslau|roca|ciutat|pedra|morter|tossal|muralla|castell|fonament|sòcol|plana|agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base1|categoria|colon|colonitz.*|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic|principi|conducta|establir|distribució|genital|estructura|recinte|esplanada|pla|superfície">
     <!ENTITY exceptions_BE "rostit|rostir|cabrit|pota|cuixa|costella|intestí|ovella|camell|caball|bou|pell|caldo|brou|carn|llop|xai|degollar|esquilar|tondre|crit|animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana">
+    <!ENTITY exceptions_CLOACA "embrionari|neonatal|cèl·lula|inflamació|estómac|vertebrat|oxigen|mamífer|dorsal|reproductiu|vestigial|fluid|coit|gònada|intestí|excretar|digestiu|urinari|excretor|reproductor|orifici|rèptil|ocell|amfibi|musell|obertura|ou|aparellar|cua|mascle|femella|protuberància|còpula">
     <!ENTITY exceptions_hostatge "edifici|dieta|luxe|viatger|turista|caminant|obrir|planta">
     <!ENTITY exceptions_MES "extra|solar|sideral|marià|hivernal|hebreu|jueu|musulmà|islàmic|sinòdic|draconític|lunar|mitjà|tròpic|anomalístic|dedicat|consagrat|vinent|entrant|propvinent|passat|proppassat|intercalar|anterior|següent|posterior|previ">
     <!ENTITY exceptions_ODRE "pell|bot|líquid|aigua|oli|llet|vi|substància|mantega|càntir|ampolla|porró|paràbola|cuir|cuiro">
@@ -1886,6 +1887,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_TOT" name="concordances amb 'tot'">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">abans|primer|sobre|damunt</token>
+                    <token regexp="yes">de|que</token>
+                    <token inflected="yes">tot</token>
+		</marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>-ho</token>
+                    <token>tot</token>
+		</marker>
+            </antipattern>
             <rule id="CONCORDANCES_TOTS_AQUESTS" name="concordances: tots aquests, totes tres">
                 <pattern>
                     <unify negate="yes">
@@ -9443,6 +9457,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Volíeu dir <suggestion>mig</suggestion>?</message>
             <example correction="mig">Durant tres anys i <marker>mitjà</marker>.</example>
         </rule>
+        <rule id="CRIDAR_ANOMENAR" name="cridar/anomenar">
+            <pattern>
+                <token postag="_PUNCT.*|SENTSTART" postag_regexp="yes"></token>
+                <marker>
+                    <token postag="V.P.*" postag_regexp="yes" inflected="yes">cridar</token>
+                </marker>
+                <token><exception>a</exception></token>
+            </pattern>
+            <message>Possible castellanisme.</message>
+            <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">anomenar</match></suggestion>
+            <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">dir</match></suggestion>
+            <example correction="anomenat|dit">El Joan, <marker>cridat</marker> el manco.</example>
+            <example>que va ser cridat a sortir fora</example>
+        </rule>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
         <rule id="FRUIT" name="fruït/fruit">
@@ -10832,12 +10860,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token skip="1">amb</token>
-                    <token regexp="yes">detall|enginy|gràcia</token>
+                    <token regexp="yes">detall|enginy|gràcia|humor</token>
                 </marker>
             </antipattern>
             <pattern>
                 <marker>
-                    <token inflected="yes">contar<exception scope="previous" postag="&pronom_feble;" postag_regexp="yes"/></token>
+                    <token inflected="yes">contar<exception scope="previous" postag="&pronom_feble;" postag_regexp="yes"/><exception>contes</exception></token>
                 </marker>
                 <token>amb</token>
             </pattern>
@@ -31118,9 +31146,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="CLOACA" name="cloaca/claveguera">
             <pattern>
-                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">coit|gònada|intestí|excretar|digestiu|urinari|excretor|reproductor|orifici|rèptil|ocell|amfibi|musell|obertura|ou|aparellar|cua|mascle|femella|protuberància|còpula</exception></token>
+                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&exceptions_CLOACA;</exception></token>
                 <marker>
-                    <token skip="-1" inflected="yes">cloaca<exception scope="next" regexp="yes" inflected="yes">maxima|màxima|coit|gònada|intestí|excretar|digestiu|urinari|excretor|reproductor|orifici|rèptil|ocell|amfibi|musell|obertura|ou|aparellar|cua|mascle|femella|protuberància|còpula</exception></token>
+                    <token skip="-1" inflected="yes">cloaca<exception scope="next" regexp="yes" inflected="yes">maxima|màxima|&exceptions_CLOACA;</exception></token>
                 </marker>
                 <token postag="SENT_END"/>
             </pattern>
