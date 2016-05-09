@@ -19,7 +19,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!DOCTYPE rules [
     <!ENTITY adjectius_TE_INFUSIO "descafeïnat|mòlt|jove|conegut|preparat|empaquetat|xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
     <!ENTITY adverbis_temps_lloc "entra(t|ts|da|des)|passa(t|ts|da|des)|tocad(a|es)|arran|enfront|per|durant|llavors|tard|aviat|pròximament|properament|prompte|avui|abans|després|hui|ara|demà|ahir|despús-ahir|despús-demà|aquí|ací|allí|allà|ahí|aleshores|recentment|posteriorment|mai">
-    <!ENTITY cometes_obertura "[“‘«&#34;']">
     <!ENTITY context_ALOS "Isil|Àneu|Pallars|Sobirà">
     <!ENTITY context_PASTAR "aigua|bol|canyella|cera|coca|dit|farina|ingredient|llet|llevat|llimona|mà|mantega|massa|min|minuts|mona|oli|ou|panificadora|sucre">
     <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
@@ -9458,20 +9457,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Volíeu dir <suggestion>mig</suggestion>?</message>
             <example correction="mig">Durant tres anys i <marker>mitjà</marker>.</example>
         </rule>
-        <rule id="CRIDAR_ANOMENAR" name="cridar/anomenar">
-            <pattern>
-                <token postag="_PUNCT.*|SENTSTART" postag_regexp="yes"></token>
+        <rulegroup id="CRIDAR_ANOMENAR" name="cridar/anomenar">
+            <antipattern>
                 <marker>
-                    <token postag="V.P.*" postag_regexp="yes" inflected="yes">cridar</token>
+                   <token inflected="yes">cridar</token>
+                   <token min="0" max="4" postag="RG.*|.*LOC_ADV.*|_PUNCT_CONT" postag_regexp="yes"/>
+                   <token regexp="yes" inflected="yes">per|a|des|de</token>
                 </marker>
-                <token><exception>a</exception></token>
-            </pattern>
-            <message>Possible castellanisme.</message>
-            <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">anomenar</match></suggestion>
-            <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">dir</match></suggestion>
-            <example correction="anomenat|dit">El Joan, <marker>cridat</marker> el manco.</example>
-            <example>que va ser cridat a sortir fora</example>
-        </rule>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="_PUNCT.*|SENTSTART" postag_regexp="yes"></token>
+                    <marker>
+                        <token postag="V.P.*" postag_regexp="yes" inflected="yes">cridar</token>
+                    </marker>
+                </pattern>
+                <message>Possible castellanisme.</message>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">anomenar</match></suggestion>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">dir</match></suggestion>
+                <example correction="anomenat|dit">El Joan, <marker>cridat</marker> el manco.</example>
+                <example>que va ser cridat a sortir fora</example>
+                <example>En Joan, cridat per ell.</example>
+                <example>En Joan, cridat pel rei.</example>
+                <example>Joana, cridada des de l'Argentina.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception inflected="yes">haver</exception></token>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes">cridar</token>
+                    </marker>
+                    <token regexp="yes">\p{Lu}.*|[“‘«'"]</token>
+                </pattern>
+                <message>Possible castellanisme.</message>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anomenar</match></suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dir</match></suggestion>
+                <example correction="anomenat|dit">El Joan era <marker>cridat</marker> Manco.</example>
+                <example correction="anomenat|dit">El Joan era <marker>cridat</marker> "Manco".</example>
+                <example>i havia cridat David</example>
+            </rule>
+        </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
         <rule id="FRUIT" name="fruït/fruit">
@@ -13472,7 +13497,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>relació</token>
                         <token regexp="yes">de|d'</token>
                     </marker>
-                    <token><exception postag="NC.*" postag_regexp="yes"/><exception regexp="yes">&cometes_obertura;</exception></token>
+                    <token><exception postag="NC.*" postag_regexp="yes"/><exception postag="_cometes_obertura"/></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>en relació amb</suggestion>?</message>
                 <suggestion>en relació a</suggestion>
@@ -15272,7 +15297,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>de</token>
-		    <token min="0" regexp="yes">&cometes_obertura;</token>
+                    <token postag="_cometes_obertura" min="0"/>
                     <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|hosts?|ouija|el|els|&noms_lletres;|iure|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;|oro</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|V.[MSI].*|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
@@ -15291,7 +15316,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>el<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
-		    <token min="0" regexp="yes">&cometes_obertura;</token>
+                    <token postag="_cometes_obertura" min="0"/>
                     <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].*|o|i|host|ió|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception inflected="yes" regexp="yes">&verbs_no_apostrofen;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
@@ -15331,7 +15356,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>de</token>
                         <token spacebefore="no">l</token>
-                        <token min="0" regexp="yes">&cometes_obertura;</token>
+                        <token postag="_cometes_obertura" min="0"/>
                         <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -15349,7 +15374,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>a</token>
                     <token spacebefore="no">l</token>
-                    <token min="0" regexp="yes">&cometes_obertura;</token>
+                    <token postag="_cometes_obertura" min="0"/>
                     <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
@@ -15365,7 +15390,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>pe</token>
                     <token spacebefore="no">l</token>
-                    <token min="0" regexp="yes">&cometes_obertura;</token>
+                    <token postag="_cometes_obertura" min="0"/>
                     <token regexp="yes">h?[aeiouàèéíòóú].*<exception regexp="yes">h?[ui][aeioàèéóòu].+|o|i|host|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;</exception><exception postag="AO.*|hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
@@ -33151,6 +33176,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="ajornament">Decidiren un <marker>aplaçament</marker>.</example>
             <example>L'ajornament fou inevitable.</example>
         </rule>
+        <rulegroup id="MATEIX_INCORRECTE" name="*les causes del mateix/les seves causes">
+            <rule>
+                <pattern>
+                    <marker>
+                    <token postag="SPS00">de</token>
+                    <token postag="DA.*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">mateixa?</token>
+                    </marker>
+                    <token regexp="yes">[.;,]</token>
+                </pattern>
+                <message>Construcció probablement incorrecta.</message>
+                <suggestion>d'<match no="2" postag="DA.(..)." postag_regexp="yes" postag_replace="DD.$1.">aquest</match></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/2029</url>
+                <example correction="d'aquest">Les causes <marker>del mateix</marker>.</example>
+                <example correction="d'aquesta">Les causes <marker>de la mateixa</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                    <token postag="SPS00"><exception>de</exception></token>
+                    <token postag="DA.*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">mateixa?</token>
+                    </marker>
+                    <token regexp="yes">[.;,]</token>
+                </pattern>
+                <message>Construcció probablement incorrecta.</message>
+                <suggestion>\1 <match no="2" postag="DA.(..)." postag_regexp="yes" postag_replace="DD.$1.">aquest</match></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/2029</url>
+                <example correction="entre aquestes">Són les millors <marker>entre les mateixes</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PROPI_MATEIX" name="el *propi/mateix president">
             <rule>
                 <pattern>
