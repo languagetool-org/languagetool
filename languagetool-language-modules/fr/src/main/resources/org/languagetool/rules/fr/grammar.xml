@@ -632,7 +632,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker><token regexp="yes">cotes?</token></marker>
-          <token regexp="yes">(brisée|cassée|fêlée|fracturée|surnuméraire|rocheuse|adriatique|américaine|californienne|atlantiques?|basque|bretonne|landaise|normande|française|belge|espagnole|italienne|portugaise|africaine|méditerranéenne|pacifique|raide|occidentale|fractale)s?|nord|sud|ouest</token>
+          <token regexp="yes">(brisée|cassée|fêlée|fracturée|surnuméraire|rocheuse|adriatique|américaine|californienne|atlantiques?|basque|bretonne|landaise|normande|vendéenne|française|belge|espagnole|italienne|portugaise|africaine|méditerranéenne|pacifique|raide|occidentale|fractale)s?|nord|sud|ouest</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="o" regexp_replace="ô"/></suggestion> ?</message>
         <example correction="côtes">Une <marker>cotes</marker> fracturée.</example>
@@ -7455,7 +7455,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">un|ce|du|[mts]on|leur|[nv]otre</token>
           <marker><token>fabriquant</token></marker>
         </pattern>
-        <message>Confusion probable entre <suggestion>fabricant</suggestion> (nom) et « fabriquant » (participe passé).</message>
+        <message>Confusion probable entre <suggestion>fabricant</suggestion> (nom) et « fabriquant » (participe présent).</message>
         <example correction="fabricant">Un <marker>fabriquant</marker> français.</example>
       </rule>
       <rule>
@@ -7463,7 +7463,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[dc]es|de|nombreux|plusieurs|quelques|certains</token>
           <marker><token>fabriquants</token></marker>
         </pattern>
-        <message>Confusion probable entre <suggestion>fabricants</suggestion> (nom) et « fabriquants » (participe passé).</message>
+        <message>Confusion probable entre <suggestion>fabricants</suggestion> (nom) et « fabriquants » (participe présent).</message>
         <example correction="fabricants">Des <marker>fabriquants</marker> français.</example>
       </rule>
       <rule>
@@ -7471,7 +7471,7 @@ though, and has since been slightly modified)-->
           <marker><token regexp="yes">fabriquants?</token></marker>
           <token>de</token>
         </pattern>
-        <message>Confusion probable entre <suggestion><match no="1" regexp_match="qu" regexp_replace="c"/></suggestion> (nom) et « \1 » (participe passé).</message>
+        <message>Confusion probable entre <suggestion><match no="1" regexp_match="qu" regexp_replace="c"/></suggestion> (nom) et « \1 » (participe présent).</message>
         <example correction="fabricants"><marker>fabriquants</marker> de pièces détachées.</example>
       </rule>
       <rule>
@@ -7479,17 +7479,36 @@ though, and has since been slightly modified)-->
           <token regexp="yes">les?<exception scope="previous">en</exception></token>
           <marker><token regexp="yes">fabriquants?</token></marker>
         </pattern>
-        <message>Confusion probable entre <suggestion><match no="2" regexp_match="qu" regexp_replace="c"/></suggestion> (nom) et « \2 » (participe passé).</message>
+        <message>Confusion probable entre <suggestion><match no="2" regexp_match="qu" regexp_replace="c"/></suggestion> (nom) et « \2 » (participe présent).</message>
         <example correction="fabricant">Le <marker>fabriquant</marker> français.</example>
         <example>En le <marker>fabricant</marker>.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">en|se</token>
+          <token regexp="yes">en|[mts]e|la|les</token>
           <marker><token>fabricant</token></marker>
         </pattern>
-        <message>Confusion probable entre « fabricant » (nom) et <suggestion>fabriquant</suggestion> (participe passé).</message>
+        <message>Confusion probable entre « fabricant » (nom) et <suggestion>fabriquant</suggestion> (participe présent).</message>
         <example correction="fabriquant">C’est en <marker>fabricant</marker>, que l’on devient fabricant.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="CONVAINCANT_CONVAINQUANT" name="convaincant (adjectif) et convainquant (participe présent)">
+      <url>http://www.projet-voltaire.fr/blog/regle-orthographe/%C2%AB-convaincant-%C2%BB-ou-%C2%AB-convainquant-%C2%BB</url>
+      <rule>
+        <pattern>
+          <token regexp="yes">en|[mts]e|la|les</token>
+          <marker><token>convaincant</token></marker>
+        </pattern>
+        <message>Confusion probable entre « convaincant » (adjectif) et <suggestion>convainquant</suggestion> (participe présent).</message>
+        <example correction="convainquant">Il a réussi en <marker>convaincant</marker> ses collègues.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">être|plôtot|assez|très|plus|moins</token>
+          <marker><token>convainquant</token></marker>
+        </pattern>
+        <message>Confusion probable entre <suggestion>convaincant</suggestion> (adjectif) et « convainquant » (participe présent).</message>
+        <example correction="convaincant">Son argument est assez <marker>convainquant</marker>.</example>
       </rule>
     </rulegroup>
   </category>
