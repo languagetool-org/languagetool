@@ -9389,25 +9389,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">York|The|Angeles|and|Comic|Musical|plaça</token>
                     <marker>
-                        <token regexp="yes">Estafis|Estafes</token>
+                        <token regexp="yes">Estaf[ie]s?</token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>Times</suggestion>?</message>
-                <short>Error de traducció automàtica</short>
+                <message>Possible error de traducció automàtica</message>
+                <suggestion><match no="2" regexp_match="(?-i).*[ie](s?)" regexp_replace="Time$1"/></suggestion>
                 <example correction="Times">New York <marker>Estafis</marker>.</example>
-                <example>Una casa com la que tenen ells.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">Estafis|Estafes</token>
+                        <token regexp="yes">Estaf[ie]s?</token>
                     </marker>
-                    <token regexp="yes">Square|Online</token>
+                    <token regexp="yes">Square|Online|Books?</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>Times</suggestion>.</message>
-                <short>Error de traducció automàtica</short>
-                <example correction="Times"><marker>Estafes</marker> Square.</example>
-                <example>Times Square.</example>
+                <message>Possible error de traducció automàtica</message>
+                <suggestion><match no="1" regexp_match="(?-i).*[ie](s?)" regexp_replace="Time$1"/></suggestion>
+                <example correction="Time"><marker>Estafi</marker> Books.</example>
+                <example>Estafes històriques.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">Estafis?</token>
+                    </marker>
+                </pattern>
+                <message>Possible error de traducció automàtica</message>
+                <suggestion><match no="1" regexp_match="(?-i).*[ie](s?)" regexp_replace="Time$1"/></suggestion>
+                <example correction="Times"><marker>Estafis</marker> Square.</example>
+                <example correction="Time">La revista <marker>Estafi</marker>.</example>
+                <example>Estafes històriques.</example>
             </rule>
         </rulegroup>
         <rule id="COM_EL_QUAL" name="com el *qual/que">
