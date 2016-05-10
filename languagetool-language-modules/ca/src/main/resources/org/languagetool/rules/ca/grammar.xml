@@ -9496,6 +9496,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="anomenat|dit">El Joan era <marker>cridat</marker> "Manco".</example>
                 <example>i havia cridat David</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>mal</token>
+                    <marker>
+                        <token postag="V.P.*" postag_regexp="yes" inflected="yes">cridar</token>
+                    </marker>
+                </pattern>
+                <message>Possible castellanisme.</message>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">anomenar</match></suggestion>
+                <example correction="anomenat">El mal <marker>cridat</marker> patriotisme.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CRIDADA" name="cridada">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>la</token>
+                        <token>cridada</token>
+                    </marker>
+                    <token><exception>a</exception></token>
+                </pattern>
+                <message>Possible castellanisme.</message>
+                <suggestion>l'anomenada</suggestion>
+                <suggestion>la trucada</suggestion>
+                <suggestion>la telefonada</suggestion>
+                <suggestion>la crida</suggestion>
+                <suggestion>el crit</suggestion>
+                <example correction="l'anomenada|la trucada|la telefonada|la crida|el crit">Va rebre <marker>la cridada</marker>.</example>
+                <exemple>Ella va ser la cridada a governar el món.</exemple>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>una</token>
+                    <token>cridada</token>
+                </pattern>
+                <message>Possible castellanisme.</message>
+                <suggestion>una trucada</suggestion>
+                <suggestion>una telefonada</suggestion>
+                <suggestion>una anomenada</suggestion>
+                <example correction="una trucada|una telefonada|una anomenada">Va rebre <marker>una cridada</marker>.</example>
+            </rule>
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
@@ -29756,36 +29797,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Vint|Cinc">Taverna dels <marker>Cint</marker> Roures.</example>
                 <example>El Cint</example>
                 <example>barranc del Cint</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="CRIDADA" name="cridada">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>la</token>
-                        <token>cridada</token>
-                    </marker>
-                    <token><exception>a</exception></token>
-                </pattern>
-                <message>Possible castellanisme.</message>
-                <suggestion>l'anomenada</suggestion>
-                <suggestion>la trucada</suggestion>
-                <suggestion>la telefonada</suggestion>
-                <suggestion>la crida</suggestion>
-                <suggestion>el crit</suggestion>
-                <example correction="l'anomenada|la trucada|la telefonada|la crida|el crit">Va rebre <marker>la cridada</marker>.</example>
-                <exemple>Ella va ser la cridada a governar el món.</exemple>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>una</token>
-                    <token>cridada</token>
-                </pattern>
-                <message>Possible castellanisme.</message>
-                <suggestion>una trucada</suggestion>
-                <suggestion>una telefonada</suggestion>
-                <suggestion>una anomenada</suggestion>
-                <example correction="una trucada|una telefonada|una anomenada">Va rebre <marker>una cridada</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ENCONTRA" name="encontra">
