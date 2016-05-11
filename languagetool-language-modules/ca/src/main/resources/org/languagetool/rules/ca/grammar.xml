@@ -33203,8 +33203,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token regexp="yes">més|,|;</token>
-                     <token postag="SPS00">de</token>
-                     <token postag="DA.*" postag_regexp="yes"/>
+                    <token postag="SPS00">de</token>
+                    <token postag="DA.*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">mateixa?</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token inflected="yes">parlar</token>
+                    <token min="0" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
+                    <token postag="SPS00">de</token>
+                    <token postag="DA.*" postag_regexp="yes"/>
                     <token inflected="yes" regexp="yes">mateixa?</token>
                 </marker>
             </antipattern>
@@ -33222,6 +33231,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>http://esadir.cat/entrades/fitxa/id/2029</url>
                 <example correction="d'aquest">Les causes <marker>del mateix</marker>.</example>
                 <example correction="d'aquesta">Les causes <marker>de la mateixa</marker>.</example>
+                <example>Parlaven sempre del mateix.</example>
             </rule>
             <rule>
                 <pattern>
