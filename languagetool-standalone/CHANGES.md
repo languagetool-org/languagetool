@@ -57,6 +57,10 @@
 
   * detect encoding of files with BOM header
 
+#### Command-line
+
+  * detect encoding of files with BOM header when there is no `encoding` parameter
+
 ## 3.3 (2016-03-28)
 
 #### Breton

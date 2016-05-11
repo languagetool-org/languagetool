@@ -38,6 +38,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
+import org.apache.commons.io.ByteOrderMark;
+import org.apache.commons.io.input.BOMInputStream;
 
 import static org.languagetool.tools.StringTools.*;
 
@@ -285,12 +287,19 @@ class Main {
   }
 
   private InputStreamReader getInputStreamReader(String filename, String encoding)
-      throws UnsupportedEncodingException, FileNotFoundException {
+      throws UnsupportedEncodingException, FileNotFoundException, IOException {
     InputStreamReader isr;
     String charsetName = encoding != null ? encoding : Charset.defaultCharset().name();
     InputStream is = System.in;
     if (!isStdIn(filename)) {
       is = new FileInputStream(new File(filename));
+      BOMInputStream bomIn = new BOMInputStream(is, true, ByteOrderMark.UTF_8,
+        ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE,
+        ByteOrderMark.UTF_32BE,ByteOrderMark.UTF_32LE);
+      if(bomIn.hasBOM() && encoding == null) {
+        charsetName = bomIn.getBOMCharsetName();
+      }
+      is = bomIn;
     }
     isr = new InputStreamReader(new BufferedInputStream(is), charsetName);
     return isr;
