@@ -9335,6 +9335,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="EST_AQUEST" name="est (punt cardinal) / aquest">
+            <antipattern>
+                <marker>
+                    <token skip="1">est</token>
+                    <token regexp="yes">oest|nord|sud</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes" skip="1">oest|nord|sud</token>
+                    <token>est</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"></token>
+                <marker>
+                    <token>est</token>
+                </marker>
+            </pattern>
+            <message>Possible error de traducció automàtica</message>
+            <suggestion>aquest</suggestion>
+            <example correction="aquest">Al costat d'<marker>est</marker>.</example>
+            <example>d'est a oest</example>
+            <example>d'oest a est</example>
+        </rule>
         <rulegroup id="CANT_RODAT" name="cant rodat">
             <rule>
                 <pattern>
@@ -33236,7 +33261,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                    <token postag="SPS00">entre<exception>de</exception></token>
+                    <token postag="SPS00">entre</token>
                     <token postag="DA.*" postag_regexp="yes"/>
                     <token inflected="yes" regexp="yes">mateixa?</token>
                     </marker>
