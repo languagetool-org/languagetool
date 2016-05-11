@@ -53,6 +53,10 @@
   * groups of rules and categories are now required to have non-empty names
    to avoid user confusion
 
+#### GUI (stand-alone version)
+
+  * detect encoding of files with BOM header
+
 ## 3.3 (2016-03-28)
 
 #### Breton

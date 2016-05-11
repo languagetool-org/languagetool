@@ -37,6 +37,7 @@ import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -45,6 +46,9 @@ import java.util.ResourceBundle;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.TextAction;
+import org.apache.commons.io.ByteOrderMark;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.input.BOMInputStream;
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -97,6 +101,7 @@ public final class Main {
 
   private CheckAction checkAction;
   private File currentFile;
+  private ByteOrderMark BOM;
   private UndoRedoSupport undoRedo;
   private final JLabel statusLabel = new JLabel(" ", null, SwingConstants.RIGHT);
   private FontChooser fontChooserDialog;
@@ -115,7 +120,19 @@ public final class Main {
 
   private void loadFile(File file) {
     try (FileInputStream inputStream = new FileInputStream(file)) {
-      String fileContents = StringTools.readStream(inputStream, null);
+      BOMInputStream bomIn = new BOMInputStream(inputStream, false,
+        ByteOrderMark.UTF_8, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE,
+        ByteOrderMark.UTF_32BE, ByteOrderMark.UTF_32LE);
+      String charsetName;
+      if (bomIn.hasBOM() == false) {
+        // No BOM found
+        BOM = null;
+        charsetName = null;
+      } else {
+        BOM = bomIn.getBOM();
+        charsetName = BOM.getCharsetName();
+      }
+      String fileContents = StringTools.readStream(bomIn, charsetName);
       textArea.setText(fileContents);
       currentFile = file;
       updateTitle();
@@ -135,10 +152,16 @@ public final class Main {
         return;
       }
       currentFile = file;
+      BOM = null;
       updateTitle();
     }
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(currentFile))) {
-      writer.write(textArea.getText());
+    try {
+      if(BOM != null) {
+        FileUtils.writeByteArrayToFile(currentFile, BOM.getBytes());
+        FileUtils.write(currentFile, textArea.getText(), BOM.getCharsetName(), true);
+      } else {
+        FileUtils.write(currentFile, textArea.getText(), Charset.defaultCharset());
+      }
     } catch (IOException ex) {
       Tools.showError(ex);
     }
@@ -197,11 +220,16 @@ public final class Main {
   }
 
   private void updateTitle() {
-    if (currentFile == null) {
-      frame.setTitle("LanguageTool " + JLanguageTool.VERSION);
-    } else {
-      frame.setTitle(currentFile.getName() + " - LanguageTool " + JLanguageTool.VERSION);
+    StringBuilder sb = new StringBuilder();
+    if(currentFile != null) {
+      sb.append(currentFile.getName());
+      if(BOM != null) {
+        sb.append(" (").append(BOM.getCharsetName()).append(')');
+      }
+      sb.append(" - ");
     }
+    sb.append("LanguageTool ").append(JLanguageTool.VERSION);
+    frame.setTitle(sb.toString());
   }
 
   private void createGUI() {
