@@ -287,22 +287,12 @@ class Main {
   private InputStreamReader getInputStreamReader(String filename, String encoding)
       throws UnsupportedEncodingException, FileNotFoundException {
     InputStreamReader isr;
+    String charsetName = encoding != null ? encoding : Charset.defaultCharset().name();
+    InputStream is = System.in;
     if (!isStdIn(filename)) {
-      File file = new File(filename);
-      if (encoding != null) {
-        isr = new InputStreamReader(new BufferedInputStream(
-            new FileInputStream(file)), encoding);
-      } else {
-        isr = new InputStreamReader(new BufferedInputStream(
-            new FileInputStream(file)));
-      }
-    } else {
-      if (encoding != null) {
-        isr = new InputStreamReader(new BufferedInputStream(System.in), encoding);
-      } else {
-        isr = new InputStreamReader(new BufferedInputStream(System.in));
-      }
+      is = new FileInputStream(new File(filename));
     }
+    isr = new InputStreamReader(new BufferedInputStream(is), charsetName);
     return isr;
   }
 
