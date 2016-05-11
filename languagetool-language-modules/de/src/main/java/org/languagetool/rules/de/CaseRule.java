@@ -67,6 +67,11 @@ public class CaseRule extends GermanRule {
       token("Her")
     ),
     Arrays.asList(
+      token("Auf"),
+      token("und"),
+      token("Ab")
+    ),
+    Arrays.asList(
       // "... weshalb ihr das wissen wollt."
       pos("VER:INF:NON"),
       pos("VER:MOD:2:PLU:PRÄ")
