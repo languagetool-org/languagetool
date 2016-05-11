@@ -101,7 +101,7 @@ public final class Main {
 
   private CheckAction checkAction;
   private File currentFile;
-  private ByteOrderMark BOM;
+  private ByteOrderMark bom;
   private UndoRedoSupport undoRedo;
   private final JLabel statusLabel = new JLabel(" ", null, SwingConstants.RIGHT);
   private FontChooser fontChooserDialog;
@@ -126,11 +126,11 @@ public final class Main {
       String charsetName;
       if (bomIn.hasBOM() == false) {
         // No BOM found
-        BOM = null;
+        bom = null;
         charsetName = null;
       } else {
-        BOM = bomIn.getBOM();
-        charsetName = BOM.getCharsetName();
+        bom = bomIn.getBOM();
+        charsetName = bom.getCharsetName();
       }
       String fileContents = StringTools.readStream(bomIn, charsetName);
       textArea.setText(fileContents);
@@ -152,13 +152,13 @@ public final class Main {
         return;
       }
       currentFile = file;
-      BOM = null;
+      bom = null;
       updateTitle();
     }
     try {
-      if(BOM != null) {
-        FileUtils.writeByteArrayToFile(currentFile, BOM.getBytes());
-        FileUtils.write(currentFile, textArea.getText(), BOM.getCharsetName(), true);
+      if(bom != null) {
+        FileUtils.writeByteArrayToFile(currentFile, bom.getBytes());
+        FileUtils.write(currentFile, textArea.getText(), bom.getCharsetName(), true);
       } else {
         FileUtils.write(currentFile, textArea.getText(), Charset.defaultCharset());
       }
@@ -223,8 +223,8 @@ public final class Main {
     StringBuilder sb = new StringBuilder();
     if(currentFile != null) {
       sb.append(currentFile.getName());
-      if(BOM != null) {
-        sb.append(" (").append(BOM.getCharsetName()).append(')');
+      if(bom != null) {
+        sb.append(" (").append(bom.getCharsetName()).append(')');
       }
       sb.append(" - ");
     }
