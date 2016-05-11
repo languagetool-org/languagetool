@@ -9496,16 +9496,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token><exception inflected="yes">haver</exception></token>
                     <marker>
-                        <token postag="V.*" postag_regexp="yes" inflected="yes">cridar</token>
+                        <token postag="V.P.*" postag_regexp="yes" inflected="yes">cridar</token>
                     </marker>
-                    <token regexp="yes">\p{Lu}.*|[“‘«'"]</token>
+                    <token regexp="yes" spacebefore="yes">\p{Lu}.*|[“‘«'"]</token>
                 </pattern>
                 <message>Possible castellanisme.</message>
-                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">anomenar</match></suggestion>
-                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dir</match></suggestion>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">anomenar</match></suggestion>
+                <suggestion><match no="2" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">dir</match></suggestion>
                 <example correction="anomenat|dit">El Joan era <marker>cridat</marker> Manco.</example>
                 <example correction="anomenat|dit">El Joan era <marker>cridat</marker> "Manco".</example>
                 <example>i havia cridat David</example>
+                <example>-Atenció -va cridar Tom.</example>
             </rule>
             <rule>
                 <pattern>
@@ -33225,7 +33226,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                    <token postag="SPS00"><exception>de</exception></token>
+                    <token postag="SPS00">entre<exception>de</exception></token>
                     <token postag="DA.*" postag_regexp="yes"/>
                     <token inflected="yes" regexp="yes">mateixa?</token>
                     </marker>
@@ -33235,6 +33236,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 <match no="2" postag="DA.(..)." postag_regexp="yes" postag_replace="DD.$1.">aquest</match></suggestion>
                 <url>http://esadir.cat/entrades/fitxa/id/2029</url>
                 <example correction="entre aquestes">Són les millors <marker>entre les mateixes</marker>.</example>
+                <example>Tots hem passat pel mateix.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PROPI_MATEIX" name="el *propi/mateix president">
