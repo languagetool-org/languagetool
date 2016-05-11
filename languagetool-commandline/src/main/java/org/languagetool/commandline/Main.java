@@ -332,17 +332,13 @@ class Main {
       lt.setOutput(System.err);
     }
     // don't use StringTools.readStream() as that might add newlines which aren't there:
-    String fileContents;
-    String encodingName = encoding != null ? encoding : Charset.defaultCharset().name();
-    if (isStdIn(filename)) {
-      fileContents = streamToString(new BufferedInputStream(System.in), encodingName);
-    } else {
-      fileContents = streamToString(new FileInputStream(filename), encodingName);
-    }
-    if (xmlFiltering) {
-      return filterXML(fileContents);
-    } else {
-      return fileContents;
+    try (InputStreamReader reader = getInputStreamReader(filename, encoding)) {
+      String fileContents = readerToString(reader);
+      if (xmlFiltering) {
+        return filterXML(fileContents);
+      } else {
+        return fileContents;
+      }
     }
   }
 
