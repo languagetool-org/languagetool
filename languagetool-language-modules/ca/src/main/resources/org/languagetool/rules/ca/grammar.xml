@@ -3665,7 +3665,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>a</token>
                     <token min="0" spacebefore="no">l</token>
-                    <token regexp="yes">damunt|davall|sota|sobre|final|partir|mesura|conseqüencia</token>
+                    <token regexp="yes">damunt|davall|sota|sobre|final|partir|mesura|conseqüència</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>a</token>
+                    <token spacebefore="no">l</token>
+                    <token>mateix</token>
+                    <token>temps</token>
                 </marker>
             </antipattern>
             <rule>
@@ -5723,7 +5731,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </antipattern>
                 <pattern>
-                    <token><exception regexp="yes">per|un</exception></token>
+                    <token><exception regexp="yes">per|un|altre</exception></token>
                     <marker>
                         <token>tant<exception postag="allow_tant|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>
@@ -5746,6 +5754,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tant econòmicament com financera.</example>
                 <example>Tant nacionals com estrangers.</example>
                 <example>Feia temps que no gaudia tant davant la pantalla.</example>
+                <example>Ha de fer altre tant al seu torn.</example>
                 <!--No es pot resoldre:
                     Ja no s'encomana tant socialment.
                     no l'escanyin tant econòmicament -->
@@ -6664,7 +6673,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token skip="2">sinó<exception scope="next" regexp="yes">que|també|perquè|com|on|què|qui|si</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
+                        <token skip="2">sinó<exception scope="next" regexp="yes">que|també|perquè|com|on|què|qui|si|quins|quines</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="V.[^NGP].*" postag_regexp="yes"></token>
                 </pattern>
@@ -6729,7 +6738,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </antipattern>
                 <pattern>
-                    <token postag="RN|PT.*" postag_regexp="yes" skip="-1"><exception>com</exception><exception scope="next" regexp="yes">sinó|perquè</exception></token>
+                    <token postag="RN|PT.*" postag_regexp="yes" skip="-1"><exception regexp="yes">com|quan</exception><exception scope="next" regexp="yes">sinó|perquè</exception></token>
                     <marker>
                         <token>si<exception scope="previous">com</exception></token>
                         <token skip="-1">no<exception postag="V.[MSI].*" postag_regexp="yes" scope="next"/></token>
@@ -19000,6 +19009,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>És manifesta la seva incompetència.</example>
             </rule>
             <rule id="ES_POT" name="es pot">
+                <antipattern>
+                     <marker>
+                         <token>porta</token>
+                         <token inflected="yes">de</token>
+                         <token regexp="yes">entrada|sortida|eixida</token>
+                     </marker>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>és</token>
@@ -19017,6 +19033,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>avui és cau de nombrosos limícoles</example>
                 <example>És reserva de la biosfera</example>
                 <example>La ciutat és Fes.</example>
+                <example>És porta d'entrada de mercaderies asiàtiques.</example>
                 <!-- és crema salmó (color), és plasma (física), és creu llatina
                     és veu principal -->
             </rule>
