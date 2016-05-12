@@ -68,6 +68,7 @@ public class ConfigurationDialog implements ActionListener {
   private JTextField serverPortField;
   private JTree configTree;
   private JCheckBox serverSettingsCheckbox;
+  private final List<JPanel> extraPanels = new ArrayList<>();
 
   public ConfigurationDialog(Frame owner, boolean insideOffice, Configuration config) {
     this.owner = owner;
@@ -75,6 +76,19 @@ public class ConfigurationDialog implements ActionListener {
     this.original = config;
     this.config = original.copy(original);
     messages = JLanguageTool.getMessageBundle();
+  }
+
+  /**
+   * Add extra JPanel to this dialog.
+   * 
+   * If the panel implements {@see SavablePanel}, this dialog will call
+   * {@link SavablePanel#save} after the user clicks OK.
+   * 
+   * @param panel the JPanel to be added to this dialog
+   * @since 3.4
+   */
+  public void addExtraPanel(JPanel panel) {
+    extraPanels.add(panel);
   }
 
   private DefaultMutableTreeNode createTree(List<Rule> rules) {
@@ -218,6 +232,12 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     cons.anchor = GridBagConstraints.WEST;
     contentPane.add(portPanel, cons);
+
+    for(JPanel extra : extraPanels) {
+      cons.gridy++;
+      cons.anchor = GridBagConstraints.WEST;
+      contentPane.add(extra, cons);
+    }
 
     cons.gridy++;
     cons.anchor = GridBagConstraints.EAST;
@@ -535,6 +555,11 @@ public class ConfigurationDialog implements ActionListener {
     if (e.getSource() == okButton) {
       if (original != null) {
         original.restoreState(config);
+      }
+      for(JPanel extra : extraPanels) {
+        if(extra instanceof SavablePanel) {
+          ((SavablePanel) extra).save();
+        }
       }
       dialog.setVisible(false);
     } else if (e.getSource() == cancelButton) {
