@@ -9589,6 +9589,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="ASSEMBLA" name="aseembla/assemblea">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">s'|se</token>
+                    <token min="0" postag="&pronom_feble;" postag_regexp="yes"/>
+                    <token>assembla</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token>assembla</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>assemblea</suggestion>?</message>
+            <example correction="assemblea">L'<marker>assembla</marker>.</example>
+            <example>S'hi assembla molt.</example>
+            <example>Se'ns assembla molt.</example>
+        </rule>
+        <rule id="ASSEMBLES" name="aseembles/assemblees">
+            <antipattern>
+                <marker>
+                    <token>t'</token>
+                    <token min="0">hi</token>
+                    <token>assembles</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token>assembles</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>assemblees</suggestion>?</message>
+            <example correction="assemblees">Les <marker>assembles</marker>.</example>
+            <example>T'hi assembles molt.</example>
+            <example>T'assembles molt a ell.</example>
+        </rule>
         <rule id="FRUIT" name="fruït/fruit">
             <pattern>
                 <token regexp="yes">fruïts?<exception scope="previous" postag="VA.*" postag_regexp="yes" inflected="yes">haver</exception><exception scope="previous">havent</exception></token>
