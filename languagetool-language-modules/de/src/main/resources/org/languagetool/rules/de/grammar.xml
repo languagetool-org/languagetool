@@ -6234,23 +6234,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="RAF" name="'Rote Armee Fraktion'">
             <rule>
-                <regexp>Rote[nr] Armee Fraktion</regexp>
-                <message>Meinten Sie <suggestion>Rote Armee Fraktion</suggestion>? Dies ist eine feste Wendung, die wie ein Eigenname behandelt wird.</message>
-                <example correction="Rote Armee Fraktion">Mitglieder der <marker>Roten Armee Fraktion</marker></example>
-            </rule>
-            <rule>
                 <pattern>
-                    <token>Rote</token>
+                    <token regexp='yes'>Rote(n)?</token>
                     <token regexp="yes">Arme.*<exception>Armee</exception></token>
                     <token>Fraktion</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>Rote Armee Fraktion</suggestion>?</message>
+                <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/> Armee Fraktion</suggestion>? (Hinweis: Der Duden empfiehlt die wenig verbreitete Schreibweise 'Rote-Armee-Fraktion'.)</message>
+                <url>http://www.duden.de/rechtschreibung/Rote_Armee_Fraktion</url>
                 <example correction="Rote Armee Fraktion">Mitglieder der <marker>Rote Arme Fraktion</marker></example>
                 <example correction="Rote Armee Fraktion">Mitglieder der <marker>Rote Armen Fraktion</marker></example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>rote Armee Fraktion</regexp>
-                <message>Meinten Sie <suggestion>Rote Armee Fraktion</suggestion>? Dies ist eine feste Wendung.</message>
+                <regexp case_sensitive='yes'>rote(n)? Armee Fraktion</regexp>
+                <message>Meinten Sie <suggestion>Rote\1 Armee Fraktion</suggestion>? Dies ist eine feste Wendung. (Hinweis: Der Duden empfiehlt die wenig verbreitete Schreibweise 'Rote-Armee-Fraktion'.)</message>
+                <url>http://www.duden.de/rechtschreibung/Rote_Armee_Fraktion</url>
                 <example correction="Rote Armee Fraktion">Mitglieder der <marker>rote Armee Fraktion</marker></example>
             </rule>
         </rulegroup>
@@ -17000,6 +16997,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- http://www.duden.de/sprachwissen/rechtschreibregeln/namen#K150
                  Alle zu einem mehrteiligen Namen gehörenden Adjektive, Partizipien, Pronomen und Zahlwörter schreibt man groß <§ 60>. -->
             <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">roten?</token>
+                    <token>Armee</token>
+                    <token>Fraktion</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">roten?</token>
                     <token>Armee</token>
