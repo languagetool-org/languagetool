@@ -3664,8 +3664,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token>a</token>
-                    <token min="0" spacebefore="no">l</token>
-                    <token regexp="yes">damunt|davall|sota|sobre|final|partir|mesura|conseqüència</token>
+                    <token min="0" regexp="yes">l|la</token>
+                    <token regexp="yes">fi|damunt|davall|sota|sobre|final|partir|mesura|conseqüència</token>
                 </marker>
             </antipattern>
             <antipattern>
@@ -3674,6 +3674,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">l</token>
                     <token>mateix</token>
                     <token>temps</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>se</token>
+                    <token skip="3">li</token>
+                    <token postag="DA.*" postag_regexp="yes"></token>
+                    <token inflected="yes" regexp="yes">braç|cama|mà</token>
                 </marker>
             </antipattern>
             <rule>
@@ -3709,7 +3717,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception>se</exception></token>
+                    <token><!--<exception>se</exception>--></token>
                     <marker>
                         <token>li</token>
                         <token postag="V.[^MNGP].*" postag_regexp="yes" inflected="yes" regexp="yes">haver|anar<exception regexp="yes">v.+</exception></token>
@@ -3725,7 +3733,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception>se</exception></token>
+                    <token><!--<exception>se</exception>--></token>
                     <marker>
                         <token>li</token>
                         <token postag="V.[^MNGP].*" postag_regexp="yes" inflected="yes" regexp="yes">anar|fer<exception regexp="yes">a.+</exception></token>
@@ -9346,6 +9354,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="PATEIX_PART" name="*parteix/part">
+            <pattern>
+                <token>la</token>
+                <marker>
+                    <token regexp="yes">parteix|partix</token>
+                </marker>
+                <token><exception postag="D[AD].*|SPS00" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Possible error de traductor automàtic.</message>
+            <suggestion>part</suggestion>
+            <example correction="part">A la <marker>parteix</marker> nord la ciutat.</example>
+            <example>La parteix en dues meitats.</example>
+        </rule>
+        <rule id="PATEIX_INTENGRANT" name="*parteix/part integrant">
+            <pattern>
+                <marker>
+                    <token regexp="yes">parteix|partix</token>
+                </marker>
+                <token>integrant</token>
+            </pattern>
+            <message>Possible error de traductor automàtic.</message>
+            <suggestion>part</suggestion>
+            <example correction="part">A la <marker>parteix</marker> integrant.</example>
+            <example>La parteix en dues meitats.</example>
+        </rule>
         <rule id="EST_AQUEST" name="est (punt cardinal) / aquest">
             <antipattern>
                 <marker>
@@ -9589,6 +9622,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="EM_EN" name="*em/en aquesta">
+            <pattern>
+                <marker>
+                    <token>em</token>
+                </marker>
+                <token postag="D[AD].*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>en</suggestion>?</message>
+            <example correction="En"><marker>Em</marker> aquesta situació.</example>
+            <example correction="En"><marker>Em</marker> eixe context.</example>
+        </rule>
         <rule id="ASSEMBLA" name="aseembla/assemblea">
             <antipattern>
                 <marker>
@@ -10524,6 +10568,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Sabem que ocasiones sempre problemes.</example>
             <example>Sabem que sovint ocasiones sempre problemes.</example>
             <example>Sabem que a vegades ocasiones sempre problemes.</example>
+        </rule>
+        <rule id="RELACIONES" name="relaciones/relacions">
+            <pattern>
+                <token><exception regexp="yes">tu|si|quan|que|las|y|sus</exception></token>
+                <marker>
+                    <token>relaciones</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>relacions</suggestion>? "Relaciones" és correcte com a 2a p. sing. del present de "relacionar".</message>
+            <suggestion>relacionades</suggestion>
+            <suggestion>relacionen</suggestion>
+            <suggestion>relacionés</suggestion>
+            <example correction="relacions|relacionades|relacionen|relacionés">En <marker>relaciones</marker>.</example>
         </rule>
         <rule id="DAIXO" name="daixò/d'això">
             <pattern>
