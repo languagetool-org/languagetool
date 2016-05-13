@@ -9354,6 +9354,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="MATI_DEMA" name="*matí/demà">
+            <pattern>
+                <token postag="V.[^P].*|_GV_" postag_regexp="yes"></token>
+                <marker>
+                    <token>matí</token>
+                </marker>
+            </pattern>
+            <message>Possible error de traductor automàtic.</message>
+            <suggestion>demà</suggestion>
+            <example correction="demà">Veurem què passa <marker>matí</marker></example>
+            <example correction="demà">Acull <marker>matí</marker> 30.000 espectadors</example>
+            <example>Demà al matí.</example>
+        </rule>
         <rule id="TRADUCCIO_SENSE_DESAMBIGUAR" name="traducció sense desambiguar: aaa|bbb">
             <pattern>
                 <token><exception postag="SENT_START|_PUNCT.*" postag_regexp="yes"/><exception regexp="yes">[-\|]</exception></token>
@@ -37430,7 +37443,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <marker>
-                    <token regexp="yes" inflected="yes">necessitat|sort|avinentesa|deure|fama|capacitat|mania|costum|gana|desig|manera|esperança|oportunitat|possibilitat|alegria</token>
+                    <token regexp="yes" inflected="yes">necessitat|sort|avinentesa|deure|fama|capacitat|mania|costum|gana|desig|manera|esperança|oportunitat|possibilitat|alegria|probabilitat</token>
                     <token inflected="yes">tenir</token>
                 </marker>
             </antipattern>
