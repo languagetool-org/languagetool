@@ -39,7 +39,7 @@ class LocalStorage {
 
   private static final String VENDOR_ID = "languagetool.org";
   private static final String APPLICATION_ID = "LanguageTool";
-  private File directory = null;
+  private final File directory;
 
   LocalStorage() {
     String userHome = null;
@@ -104,10 +104,13 @@ class LocalStorage {
     if (directory == null) {
       return;
     }
-    try (XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(
+    synchronized(directory) {
+      try (XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(
             new FileOutputStream(new File(directory, name))))) {
-      encoder.writeObject(obj);
-    } catch (FileNotFoundException ex) {
+        encoder.writeObject(obj);
+      } catch (FileNotFoundException ex) {
+        Tools.showError(ex);
+      }
     }
   }
 
@@ -116,14 +119,22 @@ class LocalStorage {
     if (directory == null) {
       return result;
     }
-    try (XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(
+    synchronized(directory) {
+      try (XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(
             new FileInputStream(new File(directory, name))))) {
-      try {
-        return clazz.cast(decoder.readObject());
-      } catch (ClassCastException e) {
-        return null;
+        try {
+          return clazz.cast(decoder.readObject());
+        } catch (ClassCastException ex) {
+          Tools.showError(ex);
+          return null;
+        } catch (Exception ex) {
+          //probably user messed up with files
+          Tools.showError(ex);
+          return null;
+        }
+      } catch (FileNotFoundException ex) {
+        //ignore, we have not saved yet a property with this name
       }
-    } catch (FileNotFoundException ex) {
     }
     return result;
   }
