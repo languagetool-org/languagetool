@@ -39,9 +39,11 @@ import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
@@ -111,6 +113,7 @@ public final class Main {
   private final CircularFifoQueue<String> recentFiles = new CircularFifoQueue<>(MAX_RECENT_FILES);
   private JMenu recentFilesMenu;
   private final LocalStorage localStorage;
+  private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
 
   private Main(LocalStorage localStorage) {
     this.localStorage = localStorage;
@@ -193,7 +196,7 @@ public final class Main {
   private void showOptions() {
     JLanguageTool langTool = ltSupport.getLanguageTool();
     List<Rule> rules = langTool.getAllRules();
-    ConfigurationDialog configDialog = ltSupport.getCurrentConfigDialog();
+    ConfigurationDialog configDialog = getCurrentConfigDialog();
     configDialog.show(rules); // this blocks until OK/Cancel is clicked in the dialog
     Configuration config = ltSupport.getConfig();
     try { //save config - needed for the server
@@ -1473,4 +1476,15 @@ public final class Main {
     return new ImageIcon(image);
   }
 
+  private ConfigurationDialog getCurrentConfigDialog() {
+    Language language = ltSupport.getLanguage();
+    ConfigurationDialog configDialog;
+    if (configDialogs.containsKey(language)) {
+      configDialog = configDialogs.get(language);
+    } else {
+      configDialog = new ConfigurationDialog(frame, false, ltSupport.getConfig());
+      configDialogs.put(language, configDialog);
+    }
+    return configDialog;
+  }
 }
