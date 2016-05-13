@@ -56,6 +56,7 @@
 #### GUI (stand-alone version)
 
   * detect encoding of files with BOM header
+  * add new menu to open recent files
 
 #### Command-line
 
