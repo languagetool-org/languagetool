@@ -10812,9 +10812,14 @@ USA
             </rule>
         </rulegroup>
         <rule id="DT_PRP" name="The you (you)">
+            <antipattern>
+                <token regexp="yes">an|the</token>
+                <token regexp="yes">(?-i)It</token>
+                <token inflected="yes">girl</token>
+            </antipattern>
             <pattern>
                 <token postag="DT" inflected="yes" regexp="yes">a|the</token>
-                <token postag="PRP\$?" postag_regexp="yes"><exception regexp="yes">(?iu)US|[Oo][Nn][Ee]</exception></token>
+                <token postag="PRP\$?" postag_regexp="yes"><exception regexp="yes" case_sensitive="yes">US|IT|one|ONE</exception></token>
             </pattern>
             <message>Possible typo. Did you mean <suggestion>\1</suggestion> or <suggestion>\2</suggestion>?</message>
             <short>Possible typo</short>
@@ -10824,6 +10829,17 @@ USA
             <example>Asphalte in its natural state from the mine at Pyrimont Seysell in France.</example>
             <example correction="The|My"><marker>The my</marker> search could return docs.</example>
             <example correction="the|my">The dots in <marker>the my</marker> life.</example>
+            <example correction="the|it">If <marker>the it</marker> em is missing, stop the test.</example>
+            <example correction="the|Us">I will go to <marker>the Us</marker> next month.</example>
+            <example correction="an|it">If you frequently write incorrectly spelled text <marker>an it</marker> causes a problem for the readers, use LT.</example>
+            <example>Surely, '<marker>the ONe</marker>' is a typing error.</example>
+            <example type="triggers_error"><marker>The One</marker> is a 2001 American science fiction action-martial arts film [https://en.wikipedia.org/wiki/The_One_(2001_film)].</example>
+            <example>I will go to the <marker>US</marker> next month.</example>
+            <example>The telecoms sector fell by 1% and the <marker>IT</marker> sector fell by 2.5%.</example>
+            <example>This is not an <marker>IT</marker> problem.</example>
+            <example>Olivia certainly is the <marker>It</marker> girl [https://en.wikipedia.org/wiki/It_girl].</example>
+            <example>And now, live on stage, <marker>the one</marker> and only, the incomparable, Kermit the Frog!</example>
+            <example>This is your chance of a lifetime! For <marker>A ONE</marker> DAY ONLY SALE of exclusive jewellery, visit our store.</example>
         </rule>
         <rule id="AN_ANOTHER" name="an another (an/another)">
             <pattern>
