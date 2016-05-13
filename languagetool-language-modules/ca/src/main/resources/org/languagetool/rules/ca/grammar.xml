@@ -9354,6 +9354,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="TRADUCCIO_SENSE_DESAMBIGUAR" name="traducció sense desambiguar: aaa|bbb">
+            <pattern>
+                <token><exception postag="SENT_START|_PUNCT.*" postag_regexp="yes"/><exception regexp="yes">[-\|]</exception></token>
+                <token spacebefore="no">|</token>
+                <token spacebefore="no"><exception postag="_PUNCT.*" postag_regexp="yes"/><exception regexp="yes">[-\|]</exception></token>
+            </pattern>
+            <message>Possible error de traductor automàtic.</message>
+            <suggestion>\1</suggestion>
+            <suggestion>\3</suggestion>
+            <example correction="cadirat|carreus"><marker>cadirat|carreus</marker></example>
+        </rule>
+        <rule id="DES_D_ENRERE" name="*des d'enrere/des de darrere">
+            <pattern>
+                <token>des</token>
+                <token>d'</token>
+                <token regexp="yes">arrere|enrere|endarrere</token>
+            </pattern>
+            <message>Possible error de traductor automàtic.</message>
+            <suggestion>des de darrere</suggestion>
+            <example correction="Des de darrere"><marker>Des d'arrere</marker>.</example>
+        </rule>
         <rule id="PATEIX_PART" name="*parteix/part">
             <pattern>
                 <token>la</token>
