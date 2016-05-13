@@ -1165,6 +1165,78 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
       <example>La que sí quiera, puede venir.</example>
     </rule>
+    
+    <rulegroup id="SINO_SI_NO" name="sino/si no">
+      <antipattern>
+        <marker>
+          <token regexp="yes">o|y</token>
+          <token min="0">,</token>
+          <token>si</token>
+          <token>no</token>
+        </marker>
+      </antipattern>
+      <rule> <!-- TODO: This rule needs better disambiguation of nouns/verbs after "sino/si no"-->
+        <antipattern> 
+          <marker>
+            <token>si</token>
+            <token>no</token>
+            <token>?</token>
+          </marker>
+        </antipattern>
+        <pattern>
+          <token postag="RN|PT.*" postag_regexp="yes" skip="-1"><exception regexp="yes">como|cuando</exception><exception scope="next" regexp="yes">sino|porque</exception></token>
+          <marker>
+            <token>si<exception scope="previous">como</exception></token>
+            <token skip="-1">no<exception postag="V.[MSI].*" postag_regexp="yes" scope="next"/></token>
+          </marker>
+          <token postag="SENT_END|_PUNCT.*" postag_regexp="yes"></token>
+        </pattern>
+        <message>Posible confusión.</message>
+        <suggestion>sino</suggestion>
+        <example correction="sino">No lo hizo él <marker>si no</marker> su primo.</example>
+        <example correction="sino">No lo hizo él <marker>si no</marker> su hermano.</example>
+        <example>No iré  si no para de llover.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token skip="2">sino<exception scope="next" regexp="yes">que|también|porque|como|cómo|donde|qué|quien|quién|si|quienes|quiénes|,|;|cuando|según</exception></token>
+          </marker>
+          <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag="V.[^NGP].*" negate_pos="yes" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Posible confusión.</message>
+        <suggestion>si no</suggestion>
+        <example correction="Si no"><marker>Sino</marker> vienes, será peor.</example>
+        <example correction="si no">¿Qué podía hacer <marker>sino</marker> quería resignarme?</example>
+        <example>No es así, sino de otra manera.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="RN|PT.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="RN|PT.*" postag_regexp="yes"/></token>
+          <marker>
+            <token>si</token>
+            <token>no</token>
+          </marker>
+          <token regexp="yes">que|también|porque|donde|como|cuando|quien|quién|quienes|quiénes</token>
+        </pattern>
+        <message>Posible confusión.</message>
+        <suggestion>sino</suggestion>
+        <short>Possible confusió</short>
+        <example correction="sino">No quiero que venga, <marker>si no</marker> que no vuelva por aquí. </example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">no|ni|ninguno|nadie|nunca|raramente|sin|tampoco</exception><exception scope="next" postag="RN|PT.*" postag_regexp="yes"/></token>
+          <marker>
+            <token>sino</token>
+          </marker>
+        </pattern>
+        <message>Posible confusión.</message>
+        <suggestion>si no</suggestion>
+        <example correction="si no">La mayoría, <marker>sino</marker> todas, son tóxicas.</example>
+        <example>Él no solo es valiente sino sabio.</example>
+      </rule>
+    </rulegroup>    
   </category>
 
   <category id="CAT2" name="Concordancia" type="inconsistency">
