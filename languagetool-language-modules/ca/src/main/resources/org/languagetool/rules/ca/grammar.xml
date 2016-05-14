@@ -10605,6 +10605,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Sabem que a vegades ocasiones sempre problemes.</example>
         </rule>
         <rule id="RELACIONES" name="relaciones/relacions">
+            <antipattern>
+                <marker>
+                    <token postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">en|les</exception></token>
+                    <token>relaciones</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token><exception regexp="yes">tu|si|quan|que|las|y|sus</exception></token>
                 <marker>
@@ -10616,6 +10622,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>relacionen</suggestion>
             <suggestion>relacionés</suggestion>
             <example correction="relacions|relacionades|relacionen|relacionés">En <marker>relaciones</marker>.</example>
+            <example correction="relacions|relacionades|relacionen|relacionés">Les <marker>relaciones</marker> diplomàtiques.</example>
+            <example>Quan t'hi relaciones, ho entens tot.</example>
         </rule>
         <rule id="DAIXO" name="daixò/d'això">
             <pattern>
