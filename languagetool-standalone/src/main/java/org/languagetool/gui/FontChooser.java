@@ -66,6 +66,9 @@ class FontChooser extends JDialog implements ActionListener,
   private static final Integer[] fontSizesArray = {
     6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 22, 24, 26, 28, 32
   };
+  private static final String ACTION_COMMAND_OK = "OK";
+  private static final String ACTION_COMMAND_CANCEL = "CANCEL";  
+  private static final String ACTION_COMMAND_RESET = "RESET";  
   private String[] fontStylesArray;
 
   private final ResourceBundle messages;
@@ -264,7 +267,7 @@ class FontChooser extends JDialog implements ActionListener,
             messages.getString("FontChooser.reset")));
     resetButton.setMnemonic(Tools.getMnemonic(
             messages.getString("FontChooser.reset")));
-    resetButton.setActionCommand("RESET");
+    resetButton.setActionCommand(ACTION_COMMAND_RESET);
     resetButton.addActionListener(this);
     buttonPanel.add(resetButton, c);
 
@@ -278,7 +281,7 @@ class FontChooser extends JDialog implements ActionListener,
             messages.getString("guiCancelButton")));
     cancelButton.setMnemonic(Tools.getMnemonic(
             messages.getString("guiCancelButton")));
-    cancelButton.setActionCommand("CANCEL");
+    cancelButton.setActionCommand(ACTION_COMMAND_CANCEL);
     cancelButton.addActionListener(this);
     buttonPanel.add(cancelButton, c);
 
@@ -288,7 +291,7 @@ class FontChooser extends JDialog implements ActionListener,
             messages.getString("guiOKButton")));
     okButton.setMnemonic(Tools.getMnemonic(
             messages.getString("guiOKButton")));
-    okButton.setActionCommand("OK");
+    okButton.setActionCommand(ACTION_COMMAND_OK);
     okButton.addActionListener(this);
     buttonPanel.add(okButton, c);
 
@@ -311,12 +314,12 @@ class FontChooser extends JDialog implements ActionListener,
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    if ("CANCEL".equals(e.getActionCommand())) {
+    if (ACTION_COMMAND_CANCEL.equals(e.getActionCommand())) {
       this.selectedFont = null;
       setVisible(false);
-    } else if ("OK".equals(e.getActionCommand())) {
+    } else if (ACTION_COMMAND_OK.equals(e.getActionCommand())) {
       setVisible(false);
-    } else if ("RESET".equals(e.getActionCommand())) {
+    } else if (ACTION_COMMAND_RESET.equals(e.getActionCommand())) {
       setDefaultFont();
     }
   }
