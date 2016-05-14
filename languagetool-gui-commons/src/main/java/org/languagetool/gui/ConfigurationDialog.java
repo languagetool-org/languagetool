@@ -52,6 +52,8 @@ import java.util.List;
 public class ConfigurationDialog implements ActionListener {
 
   private static final String NO_MOTHER_TONGUE = "---";
+  private static final String ACTION_COMMAND_OK = "OK";
+  private static final String ACTION_COMMAND_CANCEL = "CANCEL";
   private static final int MAX_PORT = 65536;
 
   private final ResourceBundle messages;
@@ -60,10 +62,7 @@ public class ConfigurationDialog implements ActionListener {
   private final Frame owner;
   private final boolean insideOffice;
 
-  private JButton okButton;
-  private JButton cancelButton;
   private JDialog dialog;
-  private JComboBox<String> motherTongueBox;
   private JCheckBox serverCheckbox;
   private JTextField serverPortField;
   private JTree configTree;
@@ -191,11 +190,13 @@ public class ConfigurationDialog implements ActionListener {
 
     JPanel buttonPanel = new JPanel();
     buttonPanel.setLayout(new GridBagLayout());
-    okButton = new JButton(Tools.getLabel(messages.getString("guiOKButton")));
+    JButton okButton = new JButton(Tools.getLabel(messages.getString("guiOKButton")));
     okButton.setMnemonic(Tools.getMnemonic(messages.getString("guiOKButton")));
+    okButton.setActionCommand(ACTION_COMMAND_OK);
     okButton.addActionListener(this);
-    cancelButton = new JButton(Tools.getLabel(messages.getString("guiCancelButton")));
+    JButton cancelButton = new JButton(Tools.getLabel(messages.getString("guiCancelButton")));
     cancelButton.setMnemonic(Tools.getMnemonic(messages.getString("guiCancelButton")));
+    cancelButton.setActionCommand(ACTION_COMMAND_CANCEL);
     cancelButton.addActionListener(this);
     cons = new GridBagConstraints();
     cons.insets = new Insets(0, 4, 0, 0);
@@ -472,7 +473,7 @@ public class ConfigurationDialog implements ActionListener {
   private JPanel getMotherTonguePanel(GridBagConstraints cons) {
     JPanel motherTonguePanel = new JPanel();
     motherTonguePanel.add(new JLabel(messages.getString("guiMotherTongue")), cons);
-    motherTongueBox = new JComboBox<>(getPossibleMotherTongues());
+    JComboBox<String> motherTongueBox = new JComboBox<>(getPossibleMotherTongues());
     if (config.getMotherTongue() != null) {
       motherTongueBox.setSelectedItem(config.getMotherTongue().getTranslatedName(messages));
     }
@@ -552,7 +553,7 @@ public class ConfigurationDialog implements ActionListener {
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    if (e.getSource() == okButton) {
+    if (ACTION_COMMAND_OK.equals(e.getActionCommand())) {
       if (original != null) {
         original.restoreState(config);
       }
@@ -562,7 +563,7 @@ public class ConfigurationDialog implements ActionListener {
         }
       }
       dialog.setVisible(false);
-    } else if (e.getSource() == cancelButton) {
+    } else if (ACTION_COMMAND_CANCEL.equals(e.getActionCommand())) {
       dialog.setVisible(false);
     }
   }
