@@ -2850,6 +2850,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>I la resta elegits per sufragi universal.</example>
                 <!-- La forma corrent de figurar-los és ajaguts. -->
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.[SI].3P.*" postag_regexp="yes" inflected="yes" regexp="yes">anar|haver</token>
+                    <token postag="V.[PN].*" postag_regexp="yes" inflected="yes" regexp="yes">ser|estar|restar|quedar|romandre</token>
+                    <token postag="VMP.*S.." postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <suggestion><match no="1" postag="(V.[SI].3)P(.*)" postag_regexp="yes" postag_replace="$1S$2"/> \2 \3</suggestion>
+                <suggestion>\1 \2 <match no="3" postag="(VMP.*)S(..)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
+                <example correction="Va ser atribuït|Van ser atribuïts"><marker>Van ser atribuït</marker>.</example>
+                <example correction="Hagi sigut atribuïda|Hagin sigut atribuïdes"><marker>Hagin sigut atribuïda</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.[SI].3S.*" postag_regexp="yes" inflected="yes" regexp="yes">anar|haver</token>
+                    <token postag="V.[PN].*" postag_regexp="yes" inflected="yes" regexp="yes">ser|estar|restar|quedar|romandre</token>
+                    <token postag="VMP.*P.." postag_regexp="yes"/>
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <suggestion>\1 \2 <match no="3" postag="(VMP.*)P(..)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
+                <suggestion><match no="1" postag="(V.[SI].3)S(.*)" postag_regexp="yes" postag_replace="$1P$2"/> \2 \3</suggestion>
+                <example correction="Ha estat atribuït|Han estat atribuïts"><marker>Ha estat atribuïts</marker>.</example>
+                <example correction="Va ser feta|Van ser fetes|Varen ser fetes"><marker>Va ser fetes</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CONCORD_SUBJECTE_VERB" name="concordança subjecte verb.">
             <antipattern>
