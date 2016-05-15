@@ -35,6 +35,7 @@
   * a new module `languagetool-http-client` has been added with a class
     `RemoteLanguageTool` that you can use to query a remote LanguageTool server
     via HTTP or HTTPS
+  * removed the public modifier from `LanguageComboBox`
 
 #### Embedded HTTPS server
   * changed behaviour for OutOfMemory situations: the server

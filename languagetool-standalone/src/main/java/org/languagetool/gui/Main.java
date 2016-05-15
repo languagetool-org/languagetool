@@ -189,7 +189,8 @@ public final class Main {
     List<Language> newExtLanguages = dialog.getLanguages();
     externalLanguages.clear();
     externalLanguages.addAll(newExtLanguages);
-    languageBox.populateLanguageBox(externalLanguages);
+    languageBox.setModel(LanguageComboBoxModel.create(messages,
+            EXTERNAL_LANGUAGE_SUFFIX, false, externalLanguages, null));
     languageBox.selectLanguage(ltSupport.getLanguage());
   }
 
@@ -283,8 +284,9 @@ public final class Main {
     buttonCons.anchor = GridBagConstraints.LINE_START;
     insidePanel.add(new JLabel(messages.getString("textLanguage") + " "), buttonCons);
 
-    languageBox = new LanguageComboBox(messages, EXTERNAL_LANGUAGE_SUFFIX);
-    languageBox.setRenderer(new LanguageComboBoxRenderer(messages, EXTERNAL_LANGUAGE_SUFFIX));
+    //create a ComboBox with flags, do not include hidden languages
+    languageBox = LanguageComboBox.create(messages, EXTERNAL_LANGUAGE_SUFFIX,
+            true, false);
     buttonCons.gridx = 1;
     buttonCons.gridy = 0;
     buttonCons.anchor = GridBagConstraints.LINE_START;
@@ -382,7 +384,7 @@ public final class Main {
           // we cannot re-use the existing LT object anymore
           frame.applyComponentOrientation(
                   ComponentOrientation.getOrientation(Locale.getDefault()));
-          Language lang = (Language) languageBox.getSelectedItem();
+          Language lang = languageBox.getSelectedLanguage();
           ComponentOrientation componentOrientation =
             ComponentOrientation.getOrientation(lang.getLocale());
           textArea.applyComponentOrientation(componentOrientation);
@@ -997,7 +999,7 @@ public final class Main {
         }
         // orientation each time should be set as language may is changed
         taggerDialog.applyComponentOrientation(ComponentOrientation.getOrientation(
-                ((Language) languageBox.getSelectedItem()).getLocale()));
+                languageBox.getSelectedLanguage().getLocale()));
 
         taggerDialog.setVisible(true);
         taggerArea.setText(HTML_FONT_START + sb + HTML_FONT_END);

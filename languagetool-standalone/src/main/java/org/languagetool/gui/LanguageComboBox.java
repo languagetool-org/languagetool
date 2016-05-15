@@ -19,62 +19,54 @@
 package org.languagetool.gui;
 
 import java.awt.ComponentOrientation;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javax.swing.ComboBoxModel;
 
 import javax.swing.JComboBox;
 
 import org.languagetool.Language;
-import org.languagetool.Languages;
 
 /**
  * Combo box with list of available languages.
  */
-public class LanguageComboBox extends JComboBox<Language> {
+class LanguageComboBox extends JComboBox<LanguageAdapter> {
 
-  private final List<Language> languages = new ArrayList<>();
-  private final LanguageComparator langComparator;
-
-  public LanguageComboBox(ResourceBundle messages, String extLangSuffix) {
-    this.langComparator = new LanguageComparator(messages, extLangSuffix);
-    populateLanguageBox();
+  static LanguageComboBox create(ResourceBundle messages, String extLangSuffix,
+          boolean withFlag, boolean includeHidden) {
+    return create(messages, extLangSuffix, withFlag, includeHidden, null);
   }
 
-  final void populateLanguageBox(List<Language> externalLanguages) {
-    removeAllItems();
-    initAllLanguages(externalLanguages);
-  }
+  static LanguageComboBox create(ResourceBundle messages, String extLangSuffix,
+          boolean withFlag, boolean includeHidden, LanguageAdapter first) {
+    LanguageComboBox combo = new LanguageComboBox();
+    combo.setModel(LanguageComboBoxModel.create(messages, extLangSuffix, includeHidden, null, first));
+    if(withFlag) {
+      combo.setRenderer(new LanguageComboBoxRenderer(messages, extLangSuffix));
+    }
+    return combo;
+  }  
 
-  final void populateLanguageBox() {
-    populateLanguageBox(Collections.<Language>emptyList());
+  private LanguageComboBox() {
+    applyComponentOrientation(ComponentOrientation.getOrientation(Locale.getDefault()));
   }
 
   void selectLanguage(Language language) {
-    for (Language lang : languages) {
-      if (lang.toString().equals(language.toString())) {
-        setSelectedItem(lang);
+    ComboBoxModel<LanguageAdapter> model = getModel();
+    for(int i = 0; i < model.getSize(); i++) {
+      LanguageAdapter adapter = model.getElementAt(i);
+      if(adapter.getLanguage() == null) {
+        continue;
       }
+      if (adapter.getLanguage().toString().equals(language.toString())) {
+        setSelectedItem(adapter);
+        break;
+      }      
     }
   }
 
-  private void initAllLanguages(List<Language> externalLanguages) {
-    applyComponentOrientation(
-      ComponentOrientation.getOrientation(Locale.getDefault()));
-    languages.clear();
-    for (Language language : Languages.get()) {  // the method returns both built-in and external languages
-      if (!language.isHiddenFromGui()) {
-        languages.add(language);
-      }
-    }
-    for (Language externalLanguage : externalLanguages) {
-      addItem(externalLanguage);
-    }
-    Collections.sort(languages, langComparator);
-    for (Language language : languages) {
-      addItem(language);
-    }
+  Language getSelectedLanguage() {
+    LanguageAdapter adapter = (LanguageAdapter) getSelectedItem();
+    return adapter.getLanguage();
   }
 }
