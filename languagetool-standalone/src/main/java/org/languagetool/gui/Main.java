@@ -1016,6 +1016,10 @@ public final class Main {
       JnaTools.setBugWorkaroundProperty();
     }
     LocalStorage localStorage = new LocalStorage();
+    LocaleBean bean = localStorage.loadProperty("gui.locale", LocaleBean.class);
+    if(bean != null) {
+      Locale.setDefault(bean.asLocale());
+    }
     Main prg = new Main(localStorage);
     if (args.length == 1 && (args[0].equals("-t") || args[0].equals("--tray"))) {
       // dock to systray on startup
@@ -1485,6 +1489,7 @@ public final class Main {
       configDialog = configDialogs.get(language);
     } else {
       configDialog = new ConfigurationDialog(frame, false, ltSupport.getConfig());
+      configDialog.addExtraPanel(new GuiLangConfigPanel(messages, localStorage));
       configDialogs.put(language, configDialog);
     }
     return configDialog;

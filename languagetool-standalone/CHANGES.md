@@ -58,6 +58,7 @@
 
   * detect encoding of files with BOM header
   * add new menu to open recent files
+  * add new configuration option to allow user to select the GUI language
 
 #### Command-line
 
