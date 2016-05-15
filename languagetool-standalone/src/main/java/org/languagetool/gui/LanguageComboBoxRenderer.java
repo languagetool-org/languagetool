@@ -51,11 +51,11 @@ class LanguageComboBoxRenderer extends JLabel implements ListCellRenderer<Langua
   }
 
   private String getTranslatedName(Language language) {
+    String name = language.getTranslatedName(messages);
     if (language.isExternal()) {
-      return language.getName() + extLangSuffix;
-    } else {
-      return language.getTranslatedName(messages);
+      name += extLangSuffix;
     }
+    return name;
   }
 
   @Override
