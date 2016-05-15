@@ -26,8 +26,13 @@ package org.languagetool.gui;
  * @author Panagiotis Minos
  * @since 3.4
  */
-public interface SavablePanel {
+interface SavablePanel {
 
+    /**
+     * Called when {@link ConfigurationDialog} is about to be shown.
+     */
+    public void componentShowing();
+    
     /**
      * Invoke the save operation.
      */

@@ -86,7 +86,7 @@ public class ConfigurationDialog implements ActionListener {
    * @param panel the JPanel to be added to this dialog
    * @since 3.4
    */
-  public void addExtraPanel(JPanel panel) {
+  void addExtraPanel(JPanel panel) {
     extraPanels.add(panel);
   }
 
@@ -252,6 +252,11 @@ public class ConfigurationDialog implements ActionListener {
     dialog.setLocation(screenSize.width / 2 - frameSize.width / 2,
         screenSize.height / 2 - frameSize.height / 2);
     dialog.setLocationByPlatform(true);
+    for(JPanel extra : this.extraPanels) {
+      if(extra instanceof SavablePanel) {
+        ((SavablePanel) extra).componentShowing();
+      }
+    }
     dialog.setVisible(true);
   }
 
