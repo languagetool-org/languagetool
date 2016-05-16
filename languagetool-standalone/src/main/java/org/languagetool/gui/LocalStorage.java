@@ -39,6 +39,7 @@ class LocalStorage {
 
   private static final String VENDOR_ID = "languagetool.org";
   private static final String APPLICATION_ID = "LanguageTool";
+  
   private final File directory;
 
   LocalStorage() {
@@ -115,9 +116,8 @@ class LocalStorage {
   }
 
   <T> T loadProperty(String name, Class<T> clazz) {
-    T result = null;
     if (directory == null) {
-      return result;
+      return null;
     }
     synchronized(directory) {
       try (XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(
@@ -136,7 +136,7 @@ class LocalStorage {
         //ignore, we have not saved yet a property with this name
       }
     }
-    return result;
+    return null;
   }
 
 }
