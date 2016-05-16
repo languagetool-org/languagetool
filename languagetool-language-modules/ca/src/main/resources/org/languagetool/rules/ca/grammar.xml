@@ -9383,6 +9383,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="DESPRES_DE_RERE" name="*any després d'any/any rere any">
+            <pattern>
+                <token regexp="yes">&unitats_temps;</token>
+                <token>després</token>
+                <token regexp="yes">de|d'</token>
+                <token><match no="0"/></token>
+            </pattern>
+            <message>Possible error de traductor automàtic.</message>
+            <suggestion>\1 rere \1</suggestion>
+            <example correction="any rere any">Ho van fer <marker>any després d'any</marker>.</example>
+        </rule>
         <rule id="MATI_DEMA" name="*matí/demà">
             <pattern>
                 <token postag="V.[^P].*|_GV_" postag_regexp="yes"><exception>el</exception></token>
