@@ -27,6 +27,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.languagetool.Languages;
@@ -40,14 +41,19 @@ import org.languagetool.Languages;
 class GuiLangConfigPanel extends JPanel implements SavablePanel, ItemListener {
 
   private final LocalStorage storage;
+  private final ResourceBundle messages;
   private final LanguageComboBox languageBox;
   private final LanguageAdapter system;
+  private final JLabel needsRestartLabel = new JLabel("");
+  private boolean needsRestart = false;
   private LanguageAdapter guiLang = null;
 
   GuiLangConfigPanel(ResourceBundle messages, LocalStorage storage) {
     super(new GridBagLayout());
     applyComponentOrientation(
       ComponentOrientation.getOrientation(Locale.getDefault()));
+    setBorder(BorderFactory.createTitledBorder(messages.getString("guiLanguage")));
+    this.messages = messages;    
     this.storage = storage;
     system = new LanguageAdapter(messages.getString("guiLanguageSystem"));
     //create a ComboBox with flags, do not include hidden languages,
@@ -55,28 +61,23 @@ class GuiLangConfigPanel extends JPanel implements SavablePanel, ItemListener {
     languageBox = LanguageComboBox.create(messages, "", true, false, system);
 
     GridBagConstraints c = new GridBagConstraints();
-    c.insets = new Insets(2, 4, 2, 0);
+    c.insets = new Insets(2, 2, 2, 2);
     c.gridx = 0;
     c.gridy = 0;
-    add(new JLabel(messages.getString("guiLanguage")), c);
-    c.insets = new Insets(2, 4, 2, 0);
-    c.gridx = 1;
+    c.weightx = 1;
+    c.anchor = GridBagConstraints.LINE_START;
     add(languageBox, c);
-    c.insets = new Insets(2, 4, 2, 0);
-    c.gridx = 0;
     c.gridy = 1;
-    c.gridwidth = 2;
-
     c.fill = GridBagConstraints.HORIZONTAL;
-    JLabel warn = new JLabel("<html>" + messages.getString("quiLanguageNeedsRestart"));
-    warn.setForeground(Color.red);
-    add(warn, c);
+    add(needsRestartLabel, c);
   }
 
   @Override
   public void itemStateChanged(ItemEvent e) {
     if (e.getStateChange() == ItemEvent.SELECTED) {
       guiLang = (LanguageAdapter) e.getItem();
+      needsRestartLabel.setText(messages.getString("quiLanguageNeedsRestart"));
+      needsRestartLabel.setForeground(Color.red);      
     }
   }
 
@@ -92,6 +93,7 @@ class GuiLangConfigPanel extends JPanel implements SavablePanel, ItemListener {
     if (guiLang == null) {
       return;
     }
+    needsRestart = true;    
     if (guiLang.getLanguage() != null) {
       storage.saveProperty("gui.locale", new LocaleBean(
               guiLang.getLanguage().getLocaleWithCountryAndVariant()));
@@ -101,6 +103,10 @@ class GuiLangConfigPanel extends JPanel implements SavablePanel, ItemListener {
   }
 
   private void loadOption() {
+    guiLang = null;
+    if (!needsRestart) {
+      needsRestartLabel.setText("");
+    }    
     LocaleBean lang = storage.loadProperty("gui.locale", LocaleBean.class);
     if (lang != null) {
       Locale l = lang.asLocale();
