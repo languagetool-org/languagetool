@@ -234,12 +234,14 @@ public class ConfigurationDialog implements ActionListener {
     cons.anchor = GridBagConstraints.WEST;
     contentPane.add(portPanel, cons);
 
+    cons.fill = GridBagConstraints.HORIZONTAL;
+    cons.anchor = GridBagConstraints.WEST;
     for(JPanel extra : extraPanels) {
       cons.gridy++;
-      cons.anchor = GridBagConstraints.WEST;
       contentPane.add(extra, cons);
     }
 
+    cons.fill = GridBagConstraints.NONE;
     cons.gridy++;
     cons.anchor = GridBagConstraints.EAST;
     contentPane.add(buttonPanel, cons);
