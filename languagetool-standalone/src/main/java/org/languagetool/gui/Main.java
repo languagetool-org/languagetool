@@ -114,6 +114,7 @@ public final class Main {
   private JMenu recentFilesMenu;
   private final LocalStorage localStorage;
   private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
+  private JSplitPane splitPane;
 
   private Main(LocalStorage localStorage) {
     this.localStorage = localStorage;
@@ -357,9 +358,8 @@ public final class Main {
     cons.gridx = 0;
     cons.gridy = 2;
     cons.weighty = 5.0f;
-    JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+    splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
             new JScrollPane(textArea), new JScrollPane(resultArea));
-    splitPane.setDividerLocation(200);
     contentPane.add(splitPane, cons);
 
     cons.fill = GridBagConstraints.HORIZONTAL;
@@ -462,6 +462,22 @@ public final class Main {
     frame.pack();
     frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     frame.setLocationByPlatform(true);
+    splitPane.setDividerLocation(200);
+    MainWindowStateBean state =
+            localStorage.loadProperty("gui.state", MainWindowStateBean.class);
+    if(state != null) {
+      if(state.getBounds() != null) {
+        frame.setBounds(state.getBounds());
+        ResizeComponentListener.setBoundsProperty(frame, state.getBounds());
+      }
+      if(state.getDividerLocation() != null) {
+        splitPane.setDividerLocation(state.getDividerLocation());
+      }
+      if(state.getState() != null) {
+        frame.setExtendedState(state.getState());
+      }
+    }
+    ResizeComponentListener.attachToWindow(frame);
     maybeStartServer();
   }
 
@@ -715,6 +731,13 @@ public final class Main {
     } catch (IOException e) {
       Tools.showError(e);
     }
+
+    MainWindowStateBean bean = new MainWindowStateBean();
+    bean.setBounds(ResizeComponentListener.getBoundsProperty(frame));
+    bean.setState(frame.getExtendedState());
+    bean.setDividerLocation(this.splitPane.getDividerLocation());
+    localStorage.saveProperty("gui.state", bean);
+
     frame.setVisible(false);
     JLanguageTool.removeTemporaryFiles();
     System.exit(0);
