@@ -1090,12 +1090,7 @@ public final class Main {
     System.out.println("    file:       a plain text file to load on startup");
   }
 
-  private class ControlReturnTextCheckingListener implements KeyListener {
-
-    @Override
-    public void keyTyped(KeyEvent e) {}
-    @Override
-    public void keyReleased(KeyEvent e) {}
+  private class ControlReturnTextCheckingListener extends KeyAdapter {
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -1156,7 +1151,7 @@ public final class Main {
 
   }
 
-  class TrayActionListener implements MouseListener {
+  class TrayActionListener extends MouseAdapter {
 
     @Override
     public void mouseClicked(@SuppressWarnings("unused")MouseEvent e) {
@@ -1170,36 +1165,14 @@ public final class Main {
       }
     }
 
-    @Override
-    public void mouseEntered(@SuppressWarnings("unused") MouseEvent e) {}
-    @Override
-    public void mouseExited(@SuppressWarnings("unused")MouseEvent e) {}
-    @Override
-    public void mousePressed(@SuppressWarnings("unused")MouseEvent e) {}
-    @Override
-    public void mouseReleased(@SuppressWarnings("unused")MouseEvent e) {}
-
   }
 
-  class CloseListener implements WindowListener {
+  class CloseListener extends WindowAdapter {
 
     @Override
     public void windowClosing(@SuppressWarnings("unused")WindowEvent e) {
       quitOrHide();
     }
-
-    @Override
-    public void windowActivated(@SuppressWarnings("unused")WindowEvent e) {}
-    @Override
-    public void windowClosed(@SuppressWarnings("unused")WindowEvent e) {}
-    @Override
-    public void windowDeactivated(@SuppressWarnings("unused")WindowEvent e) {}
-    @Override
-    public void windowDeiconified(@SuppressWarnings("unused")WindowEvent e) {}
-    @Override
-    public void windowIconified(@SuppressWarnings("unused")WindowEvent e) {}
-    @Override
-    public void windowOpened(@SuppressWarnings("unused")WindowEvent e) {}
 
   }
 
