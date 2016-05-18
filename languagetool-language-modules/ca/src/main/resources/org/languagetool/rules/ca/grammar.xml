@@ -14577,7 +14577,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="PP.*|P0.*" postag_regexp="yes"></token>
+                    <token postag="PP.*|P0.*" postag_regexp="yes" regexp="yes">[^-'].*</token>
                     <marker>
                         <token regexp="yes">(re|de|pro)núnci(a|es)</token>
                     </marker>
@@ -14586,6 +14586,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" regexp_match="(?iu)(re|de|pro)núnci(a|es)" regexp_replace="$1nunci$2"></match></suggestion>
                 <example correction="denuncia">El delicte que ell <marker>denúncia</marker>.</example>
                 <example>El delicte que ell denuncia.</example>
+                <example>No va haver-hi denúncia contra ells.</example>
             </rule>
             <rule>
                 <pattern>
@@ -39926,7 +39927,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">vaig|vas|va|anem|aneu|van</token> <!-- potser és més probable amb uns que amb altres -->
                         <token>a</token>
-                        <token regexp="yes">contar|explicar|tractar|ser|ésser|esser|dir|tenir|tindre|passar|resoldre|fallar|errar|encetar|començar|acabar</token> <!-- veure, mirar -->
+                        <token regexp="yes">notar|contar|explicar|tractar|ser|ésser|esser|dir|tenir|tindre|passar|resoldre|fallar|errar|encetar|començar|acabar</token> <!-- veure, mirar -->
                     </marker>
                 </pattern>
                 <message>Expressió incorrecta si no indica moviment. Elimineu el verb anar i useu el present o el futur.</message>
