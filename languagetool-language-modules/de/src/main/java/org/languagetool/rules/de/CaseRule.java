@@ -505,6 +505,10 @@ public class CaseRule extends GermanRule {
         if (isPrevProbablyRelativePronoun(tokens, i)) {
           continue;
         }
+        if (isVerbFollowedByRelativeClause(i, tokens)) {
+          // avoid false alarm for "Er kann ihr das bieten, was sie verdient."
+          continue;
+        }
         potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token, nextTokenIsPersonalPronoun);
       }
       prevTokenIsDas = nounIndicators.contains(tokens[i].getToken().toLowerCase());
@@ -750,6 +754,13 @@ public class CaseRule extends GermanRule {
     if (hasCityPrefix) {
       AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
       return nextReadings != null && (!nextReadings.isTagged() || nextReadings.hasPartialPosTag("EIG"));
+    }
+    return false;
+  }
+
+  private boolean isVerbFollowedByRelativeClause(int i, AnalyzedTokenReadings[] tokens) {
+    if (i < tokens.length - 2 && hasPartialTag(tokens[i], "VER")) {
+      return ",".equals(tokens[i+1].getToken()) && "was".equals(tokens[i+2].getToken());
     }
     return false;
   }

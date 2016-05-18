@@ -83,6 +83,7 @@ public class CaseRuleTest {
     assertGood("Ein Kaninchen, das zaubern kann.");
     assertGood("Keine Ahnung, wie ich das prüfen sollte.");
     assertGood("Und dann noch Strafrechtsdogmatikerinnen.");
+    assertGood("Er kann ihr das bieten, was sie verdient.");
 
     assertBad("Tom ist etwas über Dreißig.");
     assertBad("Unser warten wird sich lohnen.");
