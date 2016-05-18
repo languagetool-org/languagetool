@@ -15,11 +15,14 @@ if [ "$WORD" = "" ]; then
 fi
 
 
-#MFL_CMD="java -jar ./mfl/morfologik-tools-*-standalone.jar"
-MFL_CMD="mfl"
+#CP=`ls mfl/*.jar | tr '\n' ':'`
+echo $CP
+MFL_CMD="java -jar mfl/morfologik-tools-2.1.1-SNAPSHOT.jar"
+#MFL_CMD="mfl"
 
 if [ "$BASE" = "1" ]; then
-    $MFL_CMD fsa_dump -x -d ../ukrainian.dict | iconv -f cp1251 | grep -E "\s($WORD)\s"
+    $MFL_CMD fsa_dump -i ../ukrainian.dict -o - | iconv -f cp1251 | grep -E "\s($WORD)\s"
 else
-    $MFL_CMD fsa_dump -x -d ../ukrainian.dict | iconv -f cp1251 | grep -E "^($WORD)\s"
+    $MFL_CMD fsa_dump -i ../ukrainian.dict -o tmp
+#    $MFL_CMD fsa_dump -i ../ukrainian.dict -o - | iconv -f cp1251 | grep -E "^($WORD)\s"
 fi

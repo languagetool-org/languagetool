@@ -38,7 +38,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="previous" regexp="yes" inflected="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
                     </token>
                     <token postag_regexp="yes" postag="adj.*:(compr).*">
-                        <exception postag_regexp="yes" postag="(noun|verb).*"></exception>
+                        <exception postag_regexp="yes" postag="(verb).*"></exception>
                         <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
                     </token>
                   </unify>
@@ -64,7 +64,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="previous" regexp="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
                     </token>
                     <token postag_regexp="yes" postag="adj.*:v_(naz|zna).*:comp.*">
-                        <exception postag_regexp="yes" postag="(noun|verb).*"></exception>
+                        <exception postag_regexp="yes" postag="(verb).*"></exception>
                         <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
                     </token>
                 </pattern>
@@ -98,7 +98,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="previous" regexp="yes" inflected="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
                     </token>
                     <token postag_regexp="yes" postag="adj.*:(comp).*">
-                        <exception postag_regexp="yes" postag="(noun|verb).*"></exception>
+                        <exception postag_regexp="yes" postag="(verb).*"></exception>
                         <exception regexp="yes">(дуже|мала)</exception>
                     </token>
                     </marker>
@@ -132,7 +132,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="previous" regexp="yes" inflected="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
                     </token>
                     <token postag_regexp="yes" postag="adj.*:(comp).*">
-                        <exception postag_regexp="yes" postag="(noun|verb).*"></exception>
+                        <exception postag_regexp="yes" postag="(verb).*"></exception>
                         <exception regexp="yes">(дуже|мала)</exception>
                         <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
                     </token>
@@ -1104,6 +1104,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     </rulegroup>
 
+
+<!-- ідея цікава, але не має чіткого правила: 
+    http://r2u.org.ua/guides/synyavsky/synaksa_drugoriadni_pary
+    
+    <rulegroup name="Родовий додатку після не+дієслово" id="V_ROD_AFTER_NEGATVE_VERB">
+        <rule>
+            <pattern>
+               <token>не</token>
+                <token postag_regexp="yes" postag="verb:.*">
+                  <exception postag_regexp="yes" postag="verb:rev:.*"/>
+                  <exception negate_pos="yes" postag_regexp="yes" postag="verb:.*"/>
+                </token>
+               <marker>
+                <token postag_regexp="yes" postag=".*:v_zna.*">
+                  <exception negate_pos="yes" postag_regexp="yes" postag=".*:(v_zna|v_naz|v_kly).*|verb.*"/>
+                </token>
+               </marker>
+            </pattern>
+            <message>Заперечення вимагає поставити іменник у родовий відмінок</message>
+            <suggestion><match no="3" postag_regexp="yes" postag="(.*)v_zna(?::r(?:in)?anim)?(.*)" postag_replace="$1v_rod$2"/></suggestion>
+            <url>http://mova.ga/notes/3608/rodovyj-vidminok-pislya-zaperechennya</url>
+            <example correction="зборів">не збирайте <marker>збори</marker>.</example>
+            <example correction="книжки">не купив <marker>книжку</marker>.</example>
+            <example correction="дозволу">не даю <marker>дозвіл</marker>.</example>
+            <example correction="всіх">не записуємо <marker>всі</marker> слова.</example>
+            <example correction="доньки">мати не пускає <marker>доньку</marker>.</example>
+            <example>збирайте збори</example>
+            <example>мати пускає доньку.</example>
+            <example>не світився ліхтар.</example>
+        </rule>
+	</rulegroup>
+-->
   </category>
 
 </rules>

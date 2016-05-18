@@ -72,7 +72,6 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
     TestTools.myAssert("Прийшла Люба додому.", 
       "/[null]SENT_START Прийшла/[прийти]verb:perf:past:f|Прийшла/[прийшлий]adj:f:v_kly|Прийшла/[прийшлий]adj:f:v_naz  /[null]null Люба/[Люба]noun:anim:f:v_naz:prop:fname  /[null]null додому/[додому]adv ./[null]null",
        tokenizer, sentenceTokenizer, tagger, disambiguator);
-      
   }
 
   @Test
@@ -148,8 +147,9 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
 
     // make sure we don't choke on complex test
     TestTools.myAssert("Комендант, преподобний С. С. Мокітімі, був чудовою людиною.",
-      "/[null]SENT_START Комендант/[комендант]noun:anim:m:v_naz ,/[null]null"
+      "/[null]SENT_START Комендант/[Комендант]noun:anim:m:v_naz:prop:lname|Комендант/[комендант]noun:anim:m:v_naz ,/[null]null"
       +"  /[null]null преподобний/[преподобний]adj:m:v_kly|преподобний/[преподобний]adj:m:v_naz|преподобний/[преподобний]adj:m:v_zna:rinanim"
+      +"|преподобний/[преподобний]noun:anim:m:v_kly|преподобний/[преподобний]noun:anim:m:v_naz"
       +"  /[null]null С/[null]null ./[null]null  /[null]null С/[null]null ./[null]null  /[null]null"
       +" Мокітімі/[null]null ,/[null]null  /[null]null"
       +" був/[бути]verb:imperf:past:m  /[null]null чудовою/[чудовий]adj:f:v_oru:compb  /[null]null людиною/[людина]noun:anim:f:v_oru ./[null]null",

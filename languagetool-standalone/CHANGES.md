@@ -39,6 +39,13 @@
   * added words suggested by users
   * added and improved rules
 
+#### Ukrainian
+  * big dictionary update (thousands of new words and many fixes)
+  * compound tagger improvements
+  * several new rules and many improvements to existing ones
+  * new token inflection agreement rule (still work-in-progress so turned off by default)
+  * new replacement suggestions for barbarisms
+
 #### Java API
   * some formerly deprecated code has been removed
   * all rules have now a category ("Misc" if the rule doesn't specify a category)
