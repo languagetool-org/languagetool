@@ -25,7 +25,7 @@ import java.awt.event.ComponentEvent;
 import javax.swing.JFrame;
 
 /**
- * A class that listens a window for resize events and saves it's bounds.
+ * A class that listens a window for resize events and saves its bounds.
  *
  * @author Panagiotis Minos
  * @since 3.4
