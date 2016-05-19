@@ -124,6 +124,9 @@ public class AgreementRuleTest {
     assertGood("Die Beibehaltung des Art. 1 ist geplant.");
     assertGood("Die Verschiebung des bisherigen Art. 1 ist geplant.");
 
+    assertGood("In diesem Fall hatte das Vorteile.");
+    assertGood("So hat das Konsequenzen.");
+
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");
     assertGood("Der Mann, in dem quadratische Fische schwammen.");
