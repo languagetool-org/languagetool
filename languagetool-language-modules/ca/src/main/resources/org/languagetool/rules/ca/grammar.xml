@@ -35142,6 +35142,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="COMPTAR_AMB_TENIR" name="comptar amb/tenir">
+            <pattern>
+                <marker>
+                    <token inflected="yes">comptar</token>
+                    <token skip="3">amb</token>
+                </marker>
+                <token postag="N.*|V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">població|habitant|batejar</token>
+            </pattern>
+            <message>Val més usar una altra expressió.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">tenir</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/comptaramb</url>
+            <example correction="Tenia"><marker>Comptava amb</marker> 3.500 batejats.</example>
+        </rule>
         <!--  <rule id="NO_DONAR_TEMPS" name="no donar temps/no tenir temps/no haver-hi">
             <pattern>
             <token>no</token>
