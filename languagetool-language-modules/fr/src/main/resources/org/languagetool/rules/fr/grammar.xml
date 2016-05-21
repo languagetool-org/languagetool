@@ -7471,7 +7471,7 @@ though, and has since been slightly modified)-->
           <marker><token regexp="yes">fabriquants?</token></marker>
           <token>de</token>
         </pattern>
-        <message>Confusion probable entre <suggestion><match no="1" regexp_match="qu" regexp_replace="c"/></suggestion> (nom) et « \1 » (participe présent).</message>
+        <message>Confusion probable entre <suggestion><match no="1" regexp_match="qu" regexp_replace="c"/></suggestion> (nom) et « \1 » (participe présent).</message>
         <example correction="fabricants"><marker>fabriquants</marker> de pièces détachées.</example>
       </rule>
       <rule>
@@ -7479,7 +7479,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">les?<exception scope="previous">en</exception></token>
           <marker><token regexp="yes">fabriquants?</token></marker>
         </pattern>
-        <message>Confusion probable entre <suggestion><match no="2" regexp_match="qu" regexp_replace="c"/></suggestion> (nom) et « \2 » (participe présent).</message>
+        <message>Confusion probable entre <suggestion><match no="2" regexp_match="qu" regexp_replace="c"/></suggestion> (nom) et « \2 » (participe présent).</message>
         <example correction="fabricant">Le <marker>fabriquant</marker> français.</example>
         <example>En le <marker>fabricant</marker>.</example>
       </rule>
@@ -7499,7 +7499,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">en|[mts]e|la|les</token>
           <marker><token>convaincant</token></marker>
         </pattern>
-        <message>Confusion probable entre « convaincant » (adjectif) et <suggestion>convainquant</suggestion> (participe présent).</message>
+        <message>Confusion probable entre « convaincant » (adjectif) et <suggestion>convainquant</suggestion> (participe présent).</message>
         <example correction="convainquant">Il a réussi en <marker>convaincant</marker> ses collègues.</example>
       </rule>
       <rule>
@@ -8555,6 +8555,19 @@ though, and has since been slightly modified)-->
         <example>Il m’a sans cesse répété de me taire.</example>
         <example>Il est sans doute arrivé.</example>
       </rule>
+      <rule>
+         <pattern>
+          <token inflected="yes" regexp="yes">&lt;/[MTS]E&gt;|[mts]e</token>
+          <marker>
+            <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*é</token>
+          </marker>
+        </pattern>
+        <message>Incohérence entre le verbe « \2 » et « \1 ».</message>
+        <example correction="">Je veux te <marker>préparé</marker></example>
+        <example>Je veux te préparer</example>
+        <example>Luc est quant à lui condamné.</example>
+      </rule>
+
       <rule>
         <pattern>
           <token regexp="yes">afin|avant</token>
