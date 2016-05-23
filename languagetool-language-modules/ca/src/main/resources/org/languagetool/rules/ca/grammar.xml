@@ -9700,6 +9700,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="DEMA" name="dema/demà">
+            <pattern>
+                <marker>
+                    <token>dema</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>demà</suggestion> (adverbi) en comptes de "dema" (nom femení poc usual)?</message>
+            <example correction="demà">Vindré <marker>dema</marker>.</example>
+        </rule>
         <rule id="ATENTA_ATEMPTA" name="atenta/atempta">
             <pattern>
                 <marker>
@@ -34541,7 +34550,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">els|ls|les</token>
-                    <token>demés</token>
+                    <token regexp="yes">demés|demes</token>
                 </pattern>
                 <message>Cal dir: <suggestion><match no="1"/> altres</suggestion>.</message>
                 <example correction="els altres"><marker>els demés</marker></example>
@@ -34550,7 +34559,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>la</token>
-                    <token>demés</token>
+                    <token regexp="yes">demés|demes</token>
                 </pattern>
                 <message>Cal dir: <suggestion>l'altra</suggestion>.</message>
                 <example correction="l'altra"><marker>la demés</marker> gent</example>
@@ -34559,7 +34568,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">el|l</token>
-                    <token>demés</token>
+                    <token regexp="yes">demés|demes</token>
                 </pattern>
                 <message>Cal dir: <suggestion>l'altre</suggestion>, <suggestion>la resta</suggestion>.</message>
                 <example correction="l'altre|la resta"><marker>el demés</marker> no importa</example>
@@ -34569,7 +34578,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>pe</token>
                     <token>l</token>
-                    <token>demés</token>
+                    <token regexp="yes">demés|demes</token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion>fora d'això</suggestion>
@@ -34581,7 +34590,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">i|o</token>
-                    <token>demés</token>
+                    <token regexp="yes">demés|demes</token>
                 </pattern>
                 <message>Cal dir: <suggestion><match no="1"/> altres</suggestion>.</message>
                 <example correction="i altres"><marker>i demés</marker></example>
@@ -34590,7 +34599,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>a</token>
-                    <token>demés</token>
+                    <token regexp="yes">demés|demes</token>
                 </pattern>
                 <message>Cal dir: <suggestion>a més</suggestion>.</message>
                 <example correction="a més"><marker>a demés</marker></example>
@@ -34600,7 +34609,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>a</token>
                     <token>de</token>
-                    <token>més</token>
+                    <token regexp="yes">més|mes</token>
                 </pattern>
                 <message>Cal dir: <suggestion>a més</suggestion>.</message>
                 <example correction="a més"><marker>a de més</marker></example>
@@ -34609,7 +34618,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>demés</token>
+                        <token regexp="yes">demés|demes</token>
                     </marker>
                     <token postag="N..S.*" postag_regexp="yes"/>
                 </pattern>
@@ -34621,7 +34630,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>demés</token>
+                        <token regexp="yes">demés|demes</token>
                     </marker>
                     <token postag="N..P.*" postag_regexp="yes"/>
                 </pattern>
