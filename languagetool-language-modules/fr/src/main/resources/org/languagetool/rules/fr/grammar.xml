@@ -657,7 +657,7 @@ though, and has since been slightly modified)-->
           <token>la</token>
           <marker><token>côte</token></marker>
         </pattern>
-        <message>Confusion probable entre <suggestion>cote</suggestion>> et « côte ».</message>
+        <message>Confusion probable entre <suggestion>cote</suggestion> et « côte ».</message>
         <example correction="cote">Il n’a plus la <marker>côte</marker>.</example>
       </rule>
     </rulegroup>
@@ -7509,6 +7509,27 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Confusion probable entre <suggestion>convaincant</suggestion> (adjectif) et « <match no="2" regexp_match="qu" regexp_replace="c"/> » (participe présent).</message>
         <example correction="convaincant">Son argument est assez <marker>convainquant</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="COLIS_COLI" name="colis et coli">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes" skip="3">affranchir|attendre|dédouaner|dédouanement|déposer|égarer|emballage|emballer|envoyer|envoi|(ré)?expédier|(ré)?expédition|(re)?fermer|(dé)?livrer|livraison|(ré?)?ouvrir|(ré?)?ouverture|perdre|pesage|peser|porter|réception|recevoir|transporter|transport|suivre|suivi|dans</token>
+          <marker><token>coli</token></marker>
+        </pattern>
+        <message>Confusion probable entre « coli » (mot rare) et <suggestion>colis</suggestion> (paquet).</message>
+        <example correction="colis">J’ai expédié ton <marker>coli</marker>.</example>
+        <example>Escherichia coli est une bactérie intestinale.</example>
+        <example>Il habite à Coli en Italie.</example>
+        <example>Un coli est un officier de police dans la Chine impérialle.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>coli</token></marker>
+          <token regexp="yes">(délivré|égaré|livré|suspect|piégé|neutralisé)s?</token>
+        </pattern>
+        <message>Confusion probable entre « coli » (mot rare) et <suggestion>colis</suggestion> (paquet).</message>
+        <example correction="colis">Un <marker>coli</marker> suspect.</example>
       </rule>
     </rulegroup>
   </category>
