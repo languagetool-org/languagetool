@@ -154,9 +154,10 @@ abstract class TextChecker {
       languageMessage += "[auto]";
     }
     String agent = parameters.get("useragent") != null ? parameters.get("useragent") : "-";
+    String clazz = this.getClass().getSimpleName();
     print("Check done: " + text.length() + " chars, " + languageMessage + ", " + referrer + ", "
             + "handlers:" + handleCount + ", " + matches.size() + " matches, "
-            + (System.currentTimeMillis() - timeStart) + "ms, agent:" + agent
+            + (System.currentTimeMillis() - timeStart) + "ms, class: " + clazz + ", agent:" + agent
             + ", " + messageSent);
   }
 
