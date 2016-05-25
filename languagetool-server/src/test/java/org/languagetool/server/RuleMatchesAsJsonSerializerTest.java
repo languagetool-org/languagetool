@@ -56,7 +56,7 @@ public class RuleMatchesAsJsonSerializerTest {
     assertTrue(json.contains("\"FAKE_ID\""));
     assertTrue(json.contains("\"This is ...\""));
     assertTrue(json.contains("\"http://foobar.org/blah\""));
-    assertTrue(json.contains("\"Addition\""));
+    assertTrue(json.contains("\"addition\""));
   }
   
   @Test
