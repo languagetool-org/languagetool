@@ -28,7 +28,6 @@ import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
-import org.languagetool.tools.RuleMatchAsXmlSerializer;
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
@@ -36,21 +35,30 @@ import java.net.HttpURLConnection;
 import java.util.*;
 import java.util.concurrent.*;
 
-import static org.languagetool.server.ServerTools.*;
+import static org.languagetool.server.ServerTools.print;
 
 /**
  * @since 3.4
  */
 abstract class TextChecker {
 
+  protected abstract void setHeaders(HttpExchange httpExchange);
   protected abstract String getResponse(String text, Language lang, Language motherTongue, List<RuleMatch> matches);
-
+  @NotNull
+  protected abstract List<String> getPreferredVariants(Map<String, String> parameters);
+  protected abstract Language getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants);
+  protected abstract boolean getLanguageAutoDetect(Map<String, String> parameters);
+  @NotNull
+  protected abstract List<String> getEnabledRuleIds(Map<String, String> parameters);
+  @NotNull
+  protected abstract List<String> getDisabledRuleIds(Map<String, String> parameters);
+    
   protected static final int CONTEXT_SIZE = 40; // characters
 
+  protected final HTTPServerConfig config;
+
   private static final String ENCODING = "UTF-8";
-  private static final String XML_CONTENT_TYPE = "text/xml; charset=UTF-8";
   
-  private final HTTPServerConfig config;
   private final boolean internalServer;
   private final LanguageIdentifier identifier;
   private final ExecutorService executorService;
@@ -74,26 +82,14 @@ abstract class TextChecker {
     }
     //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
-    List<String> preferredVariants;
-    if (parameters.get("preferredvariants") != null) {
-      preferredVariants = Arrays.asList(parameters.get("preferredvariants").split(",\\s*"));
-      if (!autoDetectLanguage) {
-        throw new IllegalArgumentException("You specified 'preferredvariants' but you didn't specify 'autodetect=yes'");
-      }
-    } else {
-      preferredVariants = Collections.emptyList();
-    }
-    Language lang = getLanguage(text, parameters.get("language"), autoDetectLanguage, preferredVariants);
+    List<String> preferredVariants = getPreferredVariants(parameters);
+    Language lang = getLanguage(text, parameters, preferredVariants);
     String motherTongueParam = parameters.get("motherTongue");
     Language motherTongue = motherTongueParam != null ? Languages.getLanguageForShortName(motherTongueParam) : null;
-    boolean useEnabledOnly = "yes".equals(parameters.get("enabledOnly"));
-    String enabledParam = parameters.get("enabled");
-    List<String> enabledRules = new ArrayList<>();
-    if (enabledParam != null) {
-      enabledRules.addAll(Arrays.asList(enabledParam.split(",")));
-    }
+    boolean useEnabledOnly = "yes".equals(parameters.get("enabledOnly")) || "true".equals(parameters.get("enabledOnly"));
+    List<String> enabledRules = getEnabledRuleIds(parameters);
 
-    List<String> disabledRules = getCommaSeparatedStrings("disabled", parameters);
+    List<String> disabledRules = getDisabledRuleIds(parameters);
     List<CategoryId> enabledCategories = getCategoryIds("enabledCategories", parameters);
     List<CategoryId> disabledCategories = getCategoryIds("disabledCategories", parameters);
 
@@ -136,7 +132,7 @@ abstract class TextChecker {
       }
     }
 
-    setCommonHeaders(httpExchange, XML_CONTENT_TYPE, config.allowOriginUrl);
+    setHeaders(httpExchange);
     String xmlResponse = getResponse(text, lang, motherTongue, matches);
     String messageSent = "sent";
     String languageMessage = lang.getShortNameWithCountryAndVariant();
@@ -159,32 +155,6 @@ abstract class TextChecker {
             + "handlers:" + handleCount + ", " + matches.size() + " matches, "
             + (System.currentTimeMillis() - timeStart) + "ms, agent:" + agent
             + ", " + messageSent);
-  }
-
-  private boolean getLanguageAutoDetect(Map<String, String> parameters) {
-    if (config.getMode() == HTTPServerConfig.Mode.AfterTheDeadline) {
-      return "true".equals(parameters.get("guess"));
-    } else {
-      boolean autoDetect = "1".equals(parameters.get("autodetect")) || "yes".equals(parameters.get("autodetect"));
-      if (parameters.get("language") == null && !autoDetect) {
-        throw new IllegalArgumentException("Missing 'language' parameter. Specify language or use 'autodetect=yes' for auto-detecting the language of the input text.");
-      }
-      return autoDetect;
-    }
-  }
-
-  private Language getLanguage(String text, String langParam, boolean autoDetect, List<String> preferredVariants) {
-    Language lang;
-    if (autoDetect) {
-      lang = detectLanguageOfString(text, langParam, preferredVariants);
-    } else {
-      if (config.getMode() == HTTPServerConfig.Mode.AfterTheDeadline) {
-        lang = config.getAfterTheDeadlineLanguage();
-      } else {
-        lang = Languages.getLanguageForShortName(langParam);
-      }
-    }
-    return lang;
   }
 
   private List<RuleMatch> getRuleMatches(String text, Map<String, String> parameters, Language lang,
@@ -219,7 +189,7 @@ abstract class TextChecker {
   }
 
   @NotNull
-  private List<String> getCommaSeparatedStrings(String paramName, Map<String, String> parameters) {
+  protected List<String> getCommaSeparatedStrings(String paramName, Map<String, String> parameters) {
     String disabledParam = parameters.get(paramName);
     List<String> result = new ArrayList<>();
     if (disabledParam != null) {
@@ -236,13 +206,13 @@ abstract class TextChecker {
     if (preferredVariants.size() > 0) {
       for (String preferredVariant : preferredVariants) {
         if (!preferredVariant.contains("-")) {
-          throw new IllegalArgumentException("Invalid format for 'preferredvariant', expected a dash as in 'en-GB': '" + preferredVariant + "'");
+          throw new IllegalArgumentException("Invalid format for 'preferredVariants', expected a dash as in 'en-GB': '" + preferredVariant + "'");
         }
         String preferredVariantLang = preferredVariant.split("-")[0];
         if (preferredVariantLang.equals(lang.getShortName())) {
           lang = Languages.getLanguageForShortName(preferredVariant);
           if (lang == null) {
-            throw new IllegalArgumentException("Invalid 'prefereredvariant', no such language/variant found: '" + preferredVariant + "'");
+            throw new IllegalArgumentException("Invalid 'preferredVariants', no such language/variant found: '" + preferredVariant + "'");
           }
         }
       }

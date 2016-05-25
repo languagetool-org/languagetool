@@ -18,25 +18,87 @@
  */
 package org.languagetool.server;
 
+import com.sun.net.httpserver.HttpExchange;
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.RuleMatch;
 
-import java.util.List;
+import java.util.*;
+
+import static org.languagetool.server.ServerTools.setCommonHeaders;
 
 /**
  * Checker for v2 of the API, which returns JSON.
  * @since 3.4
  */
 class V2TextChecker extends TextChecker {
-  
+
+  private static final String JSON_CONTENT_TYPE = "application/json";
+
   V2TextChecker(HTTPServerConfig config, boolean internalServer) {
     super(config, internalServer);
+  }
+
+  @Override
+  protected void setHeaders(HttpExchange httpExchange) {
+    setCommonHeaders(httpExchange, JSON_CONTENT_TYPE, config.allowOriginUrl);
   }
 
   @Override
   protected String getResponse(String text, Language lang, Language motherTongue, List<RuleMatch> matches) {
     RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer();
     return serializer.ruleMatchesToJson(matches, text, CONTEXT_SIZE, lang, motherTongue);
+  }
+
+  @NotNull
+  @Override
+  protected List<String> getEnabledRuleIds(Map<String, String> parameters) {
+    String enabledParam = parameters.get("enabledRules");
+    List<String> enabledRules = new ArrayList<>();
+    if (enabledParam != null) {
+      enabledRules.addAll(Arrays.asList(enabledParam.split(",")));
+    }
+    return enabledRules;
+  }
+
+  @NotNull
+  @Override
+  protected List<String> getDisabledRuleIds(Map<String, String> parameters) {
+    return getCommaSeparatedStrings("disabledRules", parameters);
+  }
+
+  @Override
+  protected boolean getLanguageAutoDetect(Map<String, String> parameters) {
+    return "auto".equals(parameters.get("language"));
+  }
+
+  @Override
+  @NotNull
+  protected Language getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants) {
+    Language lang;
+    String langParam = parameters.get("language");
+    if (getLanguageAutoDetect(parameters)) {
+      lang = detectLanguageOfString(text, langParam, preferredVariants);
+    } else {
+      lang = Languages.getLanguageForShortName(langParam);
+    }
+    return lang;
+  }
+
+  @Override
+  @NotNull
+  protected List<String> getPreferredVariants(Map<String, String> parameters) {
+    List<String> preferredVariants;
+    if (parameters.get("preferredVariants") != null) {
+      preferredVariants = Arrays.asList(parameters.get("preferredVariants").split(",\\s*"));
+      if (!"auto".equals(parameters.get("language"))) {
+        throw new IllegalArgumentException("You specified 'preferredVariants' but you didn't specify 'language=auto'");
+      }
+    } else {
+      preferredVariants = Collections.emptyList();
+    }
+    return preferredVariants;
   }
 
 }

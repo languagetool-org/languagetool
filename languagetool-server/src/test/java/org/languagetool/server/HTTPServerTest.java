@@ -254,14 +254,11 @@ public class HTTPServerTest {
     assertTrue("Result: " + result4, result4.contains("EN_A_VS_AN"));
     assertFalse("Result: " + result4, result4.contains("BERATE"));
 
-    //check disabling bitext rules:
-    String result5 = bitextCheckDisabled(polish, english, "a", "To jest okropnie długi tekst, naprawdę!", nothing);
-    assertTrue("Result: " + result5, result5.contains("TRANSLATION_LENGTH"));
-    assertFalse("Result: " + result5, result5.contains("\"-2\""));
+    String result5 = checkV2(null, "This is a test of the language detection.");
+    assertTrue("Result: " + result5, result5.contains("\"en-US\""));
 
-    String[] disableTranslationLen = {"TRANSLATION_LENGTH"};
-    String result6 = bitextCheckDisabled(polish, english, "a", "This is a very long text. Really!", disableTranslationLen);
-    assertFalse("Result: " + result6, result6.contains("TRANSLATION_LENGTH"));
+    String result6 = checkV2(null, "This is a test of the language detection.", "&preferredVariants=de-DE,en-GB");
+    assertTrue("Result: " + result6, result6.contains("\"en-GB\""));
   }
 
   @Test
@@ -271,15 +268,6 @@ public class HTTPServerTest {
     HTTPServer server = new HTTPServer(config, false);
     try {
       server.run();
-      try {
-        System.out.println("=== Testing timeout now, please ignore the following exception ===");
-        checkV1(new GermanyGerman(), "Einq Tesz miit fieln Fehlan, desshalb sehee laagnsam bee dr Rechtschriebpürfung");
-        fail("Check was expected to be stopped because it took too long");
-      } catch (IOException expected) {
-        if (!expected.toString().contains(" 503 ")) {
-          fail("Expected exception with error 503, got: " + expected);
-        }
-      }
       try {
         System.out.println("=== Testing timeout now, please ignore the following exception ===");
         checkV2(new GermanyGerman(), "Einq Tesz miit fieln Fehlan, desshalb sehee laagnsam bee dr Rechtschriebpürfung");
@@ -392,40 +380,35 @@ public class HTTPServerTest {
   }
 
   private String checkV2(Language lang, String text) throws IOException {
-    return checkV2(lang, null, text);
+    return checkV2(lang, (Language)null, text);
   }
 
   protected String checkV1(Language lang, Language motherTongue, String text) throws IOException {
-    return check("/", lang, motherTongue, text);
+    return check("/", lang, motherTongue, text, "");
   }
 
   protected String checkV2(Language lang, Language motherTongue, String text) throws IOException {
-    return check("/v2/check", lang, motherTongue, text);
+    return check("/v2/check", lang, motherTongue, text, "");
   }
 
-  private String check(String urlPrefix, Language lang, Language motherTongue, String text) throws IOException {
-    String urlOptions = urlPrefix + "?language=" + lang.getShortName();
+  private String checkV2(Language lang, String text, String parameters) throws IOException {
+    return check("/v2/check", lang, null, text, parameters);
+  }
+
+  private String check(String urlPrefix, Language lang, Language motherTongue, String text, String parameters) throws IOException {
+    String urlOptions = urlPrefix + "?language=" + (lang == null ? "auto" : lang.getShortName());
     urlOptions += "&disabled=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     if (motherTongue != null) {
       urlOptions += "&motherTongue=" + motherTongue.getShortName();
     }
+    urlOptions += parameters;
     URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);
   }
 
   private String checkWithOptions(Language lang, Language motherTongue, String text,
                                   String[] enabledRules, String[] disabledRules, boolean useEnabledOnly) throws IOException {
-    return checkWithOptions("/", lang, motherTongue, text, enabledRules, disabledRules, useEnabledOnly);
-  }
-  
-  private String checkWithOptionsV2(Language lang, Language motherTongue, String text,
-                                  String[] enabledRules, String[] disabledRules, boolean useEnabledOnly) throws IOException {
-    return checkWithOptions("/v2/check", lang, motherTongue, text, enabledRules, disabledRules, useEnabledOnly);
-  }
-  
-  private String checkWithOptions(String urlPrefix, Language lang, Language motherTongue, String text,
-                                  String[] enabledRules, String[] disabledRules, boolean useEnabledOnly) throws IOException {
-    String urlOptions = urlPrefix + "?language=" + lang.getShortName();
+    String urlOptions = "/?language=" + lang.getShortName();
     urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     if (motherTongue != null) {
       urlOptions += "&motherTongue=" + motherTongue.getShortName();
@@ -435,6 +418,26 @@ public class HTTPServerTest {
     }
     if (enabledRules.length > 0) {
       urlOptions += "&enabled=" + StringUtils.join(enabledRules, ",");
+    }
+    if (useEnabledOnly) {
+      urlOptions += "&enabledOnly=yes";
+    }
+    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
+    return HTTPTools.checkAtUrl(url);
+  }
+  
+  private String checkWithOptionsV2(Language lang, Language motherTongue, String text,
+                                  String[] enabledRules, String[] disabledRules, boolean useEnabledOnly) throws IOException {
+    String urlOptions = "/v2/check?language=" + lang.getShortName();
+    urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
+    if (motherTongue != null) {
+      urlOptions += "&motherTongue=" + motherTongue.getShortName();
+    }
+    if (disabledRules.length > 0) {
+      urlOptions += "&disabledRules=" + StringUtils.join(disabledRules, ",");
+    }
+    if (enabledRules.length > 0) {
+      urlOptions += "&enabledRules=" + StringUtils.join(enabledRules, ",");
     }
     if (useEnabledOnly) {
       urlOptions += "&enabledOnly=yes";
