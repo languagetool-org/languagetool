@@ -259,6 +259,9 @@ public class HTTPServerTest {
 
     String result6 = checkV2(null, "This is a test of the language detection.", "&preferredVariants=de-DE,en-GB");
     assertTrue("Result: " + result6, result6.contains("\"en-GB\""));
+
+    String result7 = checkV2(null, "x");  // too short for auto-fallback, will use fallback
+    assertTrue("Result: " + result7, result7.contains("\"en-US\""));
   }
 
   @Test
