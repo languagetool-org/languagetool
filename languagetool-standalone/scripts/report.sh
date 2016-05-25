@@ -43,6 +43,9 @@ echo "too many requests (Android): `grep -c 'too many requests.*androidspell' $T
 #echo "TextTooLongException : `grep -c 'TextTooLongException' $TMPFILE`" >>$OUTFILE
 #echo "TimeoutException     : `grep -c 'java.util.concurrent.TimeoutException' $TMPFILE`" >>$OUTFILE
 
+echo "Top HTTP error codes:" >>$OUTFILE
+grep "An error has occurred" /tmp/log.temp|sed 's/.*HTTP code \([0-9]\+\)..*/HTTP code \1/'|sort |uniq -c| sort -r -n >>$OUTFILE
+
 echo "" >>$OUTFILE
 echo "v1 API                     : `grep -c 'V1TextChecker' $TMPFILE`" >>$OUTFILE
 echo "v2 API                     : `grep -c 'V2TextChecker' $TMPFILE`" >>$OUTFILE
