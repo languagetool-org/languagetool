@@ -9700,6 +9700,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="AFI_A_FI" name="afí de/a fi de">
+            <pattern>
+                <marker>
+                    <token>afí<exception postag="_GN_MS"/></token>
+                </marker>
+                <token inflected="yes">de</token>
+                <or>
+                    <token>bé</token>
+                    <token postag="V.N.*" postag_regexp="yes"></token>
+                </or>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>a fi</suggestion>?</message>
+            <example correction="a fi">Ho feien <marker>afí</marker> de bé.</example>
+            <example correction="a fi">Ho feien <marker>afí</marker> de pagar aviat.</example>
+            <example>Era un subespai afí de dimensió 4.</example>
+        </rule>
+        <rule id="ACOMPTE" name="acompte/a compte">
+            <pattern>
+                <token>acompte<exception postag="D..MS." postag_regexp="yes" scope="previous"/></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>a compte</suggestion>?</message>
+            <example correction="a compte">queden <marker>acompte</marker>.</example>
+            <example>Considera-ho un acompte.</example>
+        </rule>
+        <rule id="APETICIO" name="apetició/a petició">
+            <pattern>
+                <token>apetició</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>a petició</suggestion>? "Apetició" existeix com a nom femení, però és d'ús rar.</message>
+            <example correction="a petició">Ho vaig fer <marker>apetició</marker> dels amics.</example>
+        </rule>
         <rule id="DEMA" name="dema/demà">
             <pattern>
                 <marker>
@@ -14291,6 +14322,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>A manera d'apunt</example>
                 <!-- a partir del meu apunt
                     Tinc el meu a punt.  -->
+            </rule>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token>aposta</token>
+                        <token min="0" max="4" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
+                        <token inflected="yes">per</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token><exception postag="SPS00"/><exception postag="&pronom_feble;" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>aposta<exception postag="_possible_nompropi|_GN_FS" postag_regexp="yes"/></token>
+                    </marker>
+                    <token><exception inflected="yes">per</exception><exception>fort</exception></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>a posta</suggestion>?</message>
+                <example correction="a posta">Ho fa <marker>aposta</marker>.</example>
+                <example>Va fer una aposta temerària.</example>
+                <example>Va fer una bona aposta.</example>
+                <example>Joc d'aposta.</example>
+                <example>s'aposta clarament</example>
+                <example>Aposta també per l'esport</example>
+                <example>Aposta fort per l'ascens.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MOL_MOLT" name="*mol(s)/molt(s)">
