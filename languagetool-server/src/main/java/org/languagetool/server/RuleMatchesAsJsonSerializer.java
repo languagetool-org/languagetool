@@ -129,6 +129,11 @@ class RuleMatchesAsJsonSerializer {
       }
     }
     g.writeStringField("description", match.getRule().getDescription());
+    if (match.getRule().getUrl() != null) {
+      g.writeArrayFieldStart("urls");  // currently only one, but keep it extensible
+      g.writeString(match.getRule().getUrl().toString());
+      g.writeEndArray();
+    }
     writeCategory(g, match.getRule().getCategory());
     g.writeEndObject();
   }

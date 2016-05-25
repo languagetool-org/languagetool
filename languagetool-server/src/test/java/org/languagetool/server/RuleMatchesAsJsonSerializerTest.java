@@ -26,6 +26,8 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
@@ -52,6 +54,7 @@ public class RuleMatchesAsJsonSerializerTest {
     assertTrue(json.contains("\"My rule description\""));
     assertTrue(json.contains("\"FAKE_ID\""));
     assertTrue(json.contains("\"This is ...\""));
+    assertTrue(json.contains("\"http://foobar.org/blah\""));
   }
   
   @Test
@@ -67,6 +70,13 @@ public class RuleMatchesAsJsonSerializerTest {
   }
   
   static class FakeRule extends Rule {
+    FakeRule() {
+      try {
+        setUrl(new URL("http://foobar.org/blah"));
+      } catch (MalformedURLException e) {
+        throw new RuntimeException(e);
+      }
+    }
     @Override
     public String getId() {
       return "FAKE_ID";
