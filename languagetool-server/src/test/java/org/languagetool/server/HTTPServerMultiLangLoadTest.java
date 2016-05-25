@@ -80,7 +80,7 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
   }
 
   @Override
-  void runTests() throws IOException, SAXException, ParserConfigurationException {
+  void runTestsV2() throws IOException, SAXException, ParserConfigurationException {
     Language language = getRandomLanguage();
     String text = langCodeToText.get(language);
     int fromPos = random.nextInt(text.length());

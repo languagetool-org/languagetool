@@ -63,7 +63,7 @@ class ApiV2 {
       }
       textChecker.checkText(text, httpExchange, parameters, -1);
     } else {
-      throw new RuntimeException("Unsupported action: " + path);
+      throw new RuntimeException("Unsupported action: '" + path + "'");
     }
   }
 
