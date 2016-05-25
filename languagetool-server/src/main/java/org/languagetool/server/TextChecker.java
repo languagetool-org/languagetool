@@ -94,7 +94,10 @@ abstract class TextChecker {
     List<CategoryId> disabledCategories = getCategoryIds("disabledCategories", parameters);
 
     if ((disabledRules.size() > 0 || disabledCategories.size() > 0) && useEnabledOnly) {
-      throw new IllegalArgumentException("You cannot specify disabled rules or categories using enabledOnly=yes");
+      throw new IllegalArgumentException("You cannot specify disabled rules or categories using enabledOnly=true");
+    }
+    if (enabledRules.size() == 0 && enabledCategories.size() == 0 && useEnabledOnly) {
+      throw new IllegalArgumentException("You must specify enabled rules or categories when using enabledOnly=true");
     }
 
     boolean useQuerySettings = enabledRules.size() > 0 || disabledRules.size() > 0 ||
