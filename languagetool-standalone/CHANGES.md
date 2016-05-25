@@ -49,6 +49,8 @@
     `autodetect=yes&preferredvariants=en-GB,de-AT` - if English text is detected,
     British English will be used, if German text is detected, German (Austria)
     will be used.
+  * Code refactorings: methods have been removed without being deprecated first,
+    e.g. in `LanguageToolHttpHandler`
 
 #### Rule Syntax
   * groups of rules and categories are now required to have non-empty names

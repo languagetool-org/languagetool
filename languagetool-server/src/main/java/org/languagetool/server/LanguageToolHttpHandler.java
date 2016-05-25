@@ -45,7 +45,8 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final Set<String> allowedIps;  
   private final RequestLimiter requestLimiter;
   private final LinkedBlockingQueue<Runnable> workQueue;
-  private final TextChecker textChecker;
+  private final TextChecker textCheckerV1;
+  private final TextChecker textCheckerV2;
   private final HTTPServerConfig config;
   private final boolean afterTheDeadlineMode;
   private final Set<String> ownIps;
@@ -61,12 +62,13 @@ class LanguageToolHttpHandler implements HttpHandler {
       this.ownIps = new HashSet<>();
     }
     afterTheDeadlineMode = config.getMode() == HTTPServerConfig.Mode.AfterTheDeadline;
-    this.textChecker = new TextChecker(config, internal);
+    this.textCheckerV1 = new V1TextChecker(config, internal);
+    this.textCheckerV2 = new V2TextChecker(config, internal);
   }
 
   /** @since 2.6 */
   void shutdown() {
-    textChecker.shutdownNow();
+    textCheckerV1.shutdownNow();
   }
 
   @Override
@@ -101,7 +103,11 @@ class LanguageToolHttpHandler implements HttpHandler {
         return;
       }
       if (allowedIps == null || allowedIps.contains(origAddress)) {
-        if (requestedUri.getRawPath().endsWith("/Languages")) {
+        if (requestedUri.getRawPath().startsWith("/v2/")) {
+          ApiV2 apiV2 = new ApiV2(textCheckerV2, config.getAllowOriginUrl());
+          String pathWithoutVersion = requestedUri.getRawPath().substring("/v2/".length());
+          apiV2.handleRequest(pathWithoutVersion, httpExchange, parameters);
+        } else if (requestedUri.getRawPath().endsWith("/Languages")) {
           // request type: list known languages
           printListOfLanguages(httpExchange);
         } else {
@@ -118,7 +124,7 @@ class LanguageToolHttpHandler implements HttpHandler {
               throw new IllegalArgumentException("Missing 'text' parameter");
             }
           }
-          textChecker.checkText(text, httpExchange, parameters, handleCount);
+          textCheckerV1.checkText(text, httpExchange, parameters, handleCount);
         }
       } else {
         String errorMessage = "Error: Access from " + StringTools.escapeXML(origAddress) + " denied";

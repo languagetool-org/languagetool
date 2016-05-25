@@ -41,11 +41,14 @@ import static org.languagetool.server.ServerTools.*;
 /**
  * @since 3.4
  */
-class TextChecker {
+abstract class TextChecker {
+
+  protected abstract String getResponse(String text, Language lang, Language motherTongue, List<RuleMatch> matches);
+
+  protected static final int CONTEXT_SIZE = 40; // characters
 
   private static final String ENCODING = "UTF-8";
   private static final String XML_CONTENT_TYPE = "text/xml; charset=UTF-8";
-  private static final int CONTEXT_SIZE = 40; // characters
   
   private final HTTPServerConfig config;
   private final boolean internalServer;
@@ -134,22 +137,22 @@ class TextChecker {
     }
 
     setCommonHeaders(httpExchange, XML_CONTENT_TYPE, config.allowOriginUrl);
-    String xmlResponse = getXmlResponse(text, lang, motherTongue, matches);
+    String xmlResponse = getResponse(text, lang, motherTongue, matches);
     String messageSent = "sent";
     String languageMessage = lang.getShortNameWithCountryAndVariant();
     String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
     try {
       httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, xmlResponse.getBytes(ENCODING).length);
       httpExchange.getResponseBody().write(xmlResponse.getBytes(ENCODING));
-      if (motherTongue != null) {
-        languageMessage += " (mother tongue: " + motherTongue.getShortNameWithCountryAndVariant() + ")";
-      }
-      if (autoDetectLanguage) {
-        languageMessage += "[auto]";
-      }
     } catch (IOException exception) {
       // the client is disconnected
       messageSent = "notSent: " + exception.getMessage();
+    }
+    if (motherTongue != null) {
+      languageMessage += " (mother tongue: " + motherTongue.getShortNameWithCountryAndVariant() + ")";
+    }
+    if (autoDetectLanguage) {
+      languageMessage += "[auto]";
     }
     String agent = parameters.get("useragent") != null ? parameters.get("useragent") : "-";
     print("Check done: " + text.length() + " chars, " + languageMessage + ", " + referrer + ", "
@@ -202,16 +205,6 @@ class TextChecker {
       List<BitextRule> bRules = Tools.selectBitextRules(Tools.getBitextRules(motherTongue, lang),
               params.disabledRules, params.enabledRules, params.useEnabledOnly);
       return Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
-    }
-  }
-
-  private String getXmlResponse(String text, Language lang, Language motherTongue, List<RuleMatch> matches) {
-    if (config.getMode() == HTTPServerConfig.Mode.AfterTheDeadline) {
-      AtDXmlSerializer serializer = new AtDXmlSerializer();
-      return serializer.ruleMatchesToXml(matches, text);
-    } else {
-      RuleMatchAsXmlSerializer serializer = new RuleMatchAsXmlSerializer();
-      return serializer.ruleMatchesToXml(matches, text, CONTEXT_SIZE, lang, motherTongue);
     }
   }
 
