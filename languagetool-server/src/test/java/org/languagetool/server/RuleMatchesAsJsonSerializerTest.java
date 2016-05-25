@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -55,6 +56,7 @@ public class RuleMatchesAsJsonSerializerTest {
     assertTrue(json.contains("\"FAKE_ID\""));
     assertTrue(json.contains("\"This is ...\""));
     assertTrue(json.contains("\"http://foobar.org/blah\""));
+    assertTrue(json.contains("\"Addition\""));
   }
   
   @Test
@@ -71,6 +73,7 @@ public class RuleMatchesAsJsonSerializerTest {
   
   static class FakeRule extends Rule {
     FakeRule() {
+      setLocQualityIssueType(ITSIssueType.Addition);
       try {
         setUrl(new URL("http://foobar.org/blah"));
       } catch (MalformedURLException e) {
