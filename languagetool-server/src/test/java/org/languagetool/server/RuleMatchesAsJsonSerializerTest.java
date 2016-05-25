@@ -37,7 +37,7 @@ public class RuleMatchesAsJsonSerializerTest {
 
   private final RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer();
   private final List<RuleMatch> matches = Arrays.asList(
-          new RuleMatch(new FakeRule(), 1, 3, "My Message")
+          new RuleMatch(new FakeRule(), 1, 3, "My Message, use <suggestion>foo</suggestion> instead")
   );
 
   @Test
@@ -50,7 +50,7 @@ public class RuleMatchesAsJsonSerializerTest {
     assertTrue(json.contains("\"English\""));
     assertTrue(json.contains("\"en\""));
     // Matches:
-    assertTrue(json.contains("\"My Message\""));
+    assertTrue(json.contains("\"My Message, use <suggestion>foo</suggestion> instead\""));
     assertTrue(json.contains("\"My rule description\""));
     assertTrue(json.contains("\"FAKE_ID\""));
     assertTrue(json.contains("\"This is ...\""));
