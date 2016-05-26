@@ -9385,6 +9385,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="TARDA_TARD" name="més *tarda/tard">
+            <pattern>
+                <token>més</token>
+                <marker>
+                    <token regexp="yes">tarda|vesprada</token>
+                </marker>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion>tard</suggestion>
+            <example correction="tard">Ell arribarà més <marker>vesprada</marker>.</example>
+        </rule>
+        <rule id="MOLTS_UNS_ALTRES" name="molts *uns altres">
+            <pattern>
+                <marker>
+                    <token>molts</token>
+                    <token>uns</token>
+                    <token>altres</token>
+                </marker>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion>molts altres</suggestion>
+            <example correction="Molts altres"><marker>Molts uns altres</marker> diuen que sí.</example>
+        </rule>
         <rule id="DESPRES_DE_RERE" name="*any després d'any/any rere any">
             <pattern>
                 <token><exception postag="SENT_START"/></token>
