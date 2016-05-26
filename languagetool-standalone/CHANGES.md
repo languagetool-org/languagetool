@@ -23,7 +23,7 @@
   * removed some false alarms
   
 #### Portuguese
-  * added some rules
+  * added and improved rules
 
 #### Spanish
   * added 14 confusion pairs like tubo/tuvo, ciento/siento (works only with ngram data,
