@@ -18,6 +18,9 @@
 #### German
   * added some rules
   
+#### Greek
+  * added some rules
+
 #### Polish
   * added and improved rules
   * removed some false alarms
