@@ -14324,28 +14324,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     Tinc el meu a punt.  -->
             </rule>
             <rule>
-                <antipattern>
+                <!--<antipattern>
                     <marker>
                         <token>aposta</token>
                         <token min="0" max="4" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
                         <token inflected="yes">per</token>
                     </marker>
-                </antipattern>
+                </antipattern>-->
                 <pattern>
-                    <token><exception postag="SPS00"/><exception postag="&pronom_feble;" postag_regexp="yes"/></token>
+                    <token inflected="yes" skip="2">fer</token>
                     <marker>
-                        <token>aposta<exception postag="_possible_nompropi|_GN_FS" postag_regexp="yes"/></token>
+                        <token>aposta<exception postag="_possible_nompropi|_GN_FS" postag_regexp="yes"/><exception scope="previous" postag="SPS00"/><exception scope="previous" postag="&pronom_feble;" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception inflected="yes">per</exception><exception>fort</exception></token>
+                    <token><exception>fort</exception></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>a posta</suggestion>?</message>
                 <example correction="a posta">Ho fa <marker>aposta</marker>.</example>
+                <example correction="a posta">Ho fa <marker>aposta</marker> per fer-se l'important.</example>
                 <example>Va fer una aposta temerària.</example>
                 <example>Va fer una bona aposta.</example>
                 <example>Joc d'aposta.</example>
                 <example>s'aposta clarament</example>
                 <example>Aposta també per l'esport</example>
                 <example>Aposta fort per l'ascens.</example>
+                <example>que aposta a favor de les forces del mal</example>
+                <example>—aposta molt personal de Tony Blair—</example>
             </rule>
         </rulegroup>
         <rulegroup id="MOL_MOLT" name="*mol(s)/molt(s)">
@@ -34700,8 +34703,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>de més</suggestion>? "Demés" és correcte quan equival a "a més d'això", però poc usual.</message>
+                <suggestion>a més</suggestion>
                 <suggestion>altres</suggestion>
-                <example correction="de més|altres">Hi havia menjar <marker>demés</marker>.</example>
+                <example correction="de més|a més|altres">Hi havia menjar <marker>demés</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ACORDE" name="acorde">
