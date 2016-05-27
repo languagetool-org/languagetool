@@ -134,7 +134,9 @@ class RuleMatchesAsJsonSerializer {
     g.writeStringField("issueType", match.getRule().getLocQualityIssueType().toString());
     if (match.getRule().getUrl() != null) {
       g.writeArrayFieldStart("urls");  // currently only one, but keep it extensible
-      g.writeString(match.getRule().getUrl().toString());
+      g.writeStartObject();
+      g.writeStringField("value", match.getRule().getUrl().toString());
+      g.writeEndObject();
       g.writeEndArray();
     }
     writeCategory(g, match.getRule().getCategory());
