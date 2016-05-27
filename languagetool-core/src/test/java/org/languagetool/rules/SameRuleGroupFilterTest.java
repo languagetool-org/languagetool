@@ -88,7 +88,7 @@ public class SameRuleGroupFilterTest {
   }
 
   private RuleMatch makeRuleMatch(int fromPos, int toPos) {
-    return new RuleMatch(null, fromPos, toPos, "FakeMatch1");
+    return new RuleMatch(new FakeRule(), fromPos, toPos, "FakeMatch1");
   }
 
 }
