@@ -79,7 +79,7 @@ public class RemoteLanguageToolTest {
     }
 
     @Override
-    HttpURLConnection getConnection(byte[] postData) {
+    HttpURLConnection getConnection(byte[] postData, URL baseUrl) {
       URL fakeUrl;
       try {
         fakeUrl = new URL("https://fake");

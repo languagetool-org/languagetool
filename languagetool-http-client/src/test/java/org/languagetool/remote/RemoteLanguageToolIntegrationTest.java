@@ -43,12 +43,12 @@ import static org.junit.Assert.*;
 
 public class RemoteLanguageToolIntegrationTest {
 
-  private static final String serverUrl = "http://" + HTTPServerConfig.DEFAULT_HOST + ":" + HTTPTools.getDefaultPort() + "/v2/check";
+  private static final String serverUrl = "http://" + HTTPServerConfig.DEFAULT_HOST + ":" + HTTPTools.getDefaultPort();
 
   @Test
   @Ignore("for interactive use only")
   public void testPublicServer() throws MalformedURLException {
-    RemoteLanguageTool lt = new RemoteLanguageTool(new URL("https://languagetool.org/api/v2/check"));
+    RemoteLanguageTool lt = new RemoteLanguageTool(new URL("https://languagetool.org/api"));
     RemoteResult matches = lt.check("This is an test.", "en");
     System.out.println("matches: " + matches);
   }

@@ -22,10 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.*;
-import java.net.ConnectException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +38,19 @@ import java.util.Objects;
 @SuppressWarnings("unchecked")
 public class RemoteLanguageTool {
 
+  private static final String V2_CHECK = "/v2/check";
+  
   private final ObjectMapper mapper = new ObjectMapper();
-  private final URL serverUrl;
+  private final URL serverBaseUrl;
 
-  public RemoteLanguageTool(URL serverUrl) {
-    this.serverUrl = Objects.requireNonNull(serverUrl);
+  /**
+   * @param serverBaseUrl for example {@code https://languagetool.org/api} or {@code http://localhost:8081} (not ending in slash)
+   */
+  public RemoteLanguageTool(URL serverBaseUrl) {
+    if (serverBaseUrl.toString().endsWith("/")) {
+      throw new IllegalArgumentException("Server base URL must not end with '/': " + serverBaseUrl);
+    }
+    this.serverBaseUrl = Objects.requireNonNull(serverBaseUrl);
   }
 
   /**
@@ -105,7 +110,13 @@ public class RemoteLanguageTool {
 
   private RemoteResult check(String urlParameters) {
     byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
-    HttpURLConnection conn = getConnection(postData);
+    URL checkUrl;
+    try {
+      checkUrl = new URL(serverBaseUrl + V2_CHECK);
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
+    }
+    HttpURLConnection conn = getConnection(postData, checkUrl);
     try {
       if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
         try (InputStream inputStream = conn.getInputStream()) {
@@ -118,7 +129,7 @@ public class RemoteLanguageTool {
         }
       }
     } catch (ConnectException e) {
-      throw new RuntimeException("Could not connect to server at " + serverUrl, e);
+      throw new RuntimeException("Could not connect to server at " + serverBaseUrl, e);
     } catch (Exception e) {
       throw new RuntimeException(e);
     } finally {
@@ -126,9 +137,9 @@ public class RemoteLanguageTool {
     }
   }
 
-  HttpURLConnection getConnection(byte[] postData) {
+  HttpURLConnection getConnection(byte[] postData, URL baseUrl) {
     try {
-      HttpURLConnection conn = (HttpURLConnection) serverUrl.openConnection();
+      HttpURLConnection conn = (HttpURLConnection) baseUrl.openConnection();
       conn.setDoOutput(true);
       conn.setInstanceFollowRedirects(false);
       conn.setRequestMethod("POST");
