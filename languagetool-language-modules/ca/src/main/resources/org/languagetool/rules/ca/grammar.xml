@@ -4711,6 +4711,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
+                        <token inflected="yes" skip="3">donar<exception scope="next">curs</exception><exception scope="next" postag="SPS00"/></token>
+                    </marker>
+                    <token regexp="yes">mica|poc|xic</token>
+                    <token>de</token>
+                    <token regexp="yes">fàstic|ràbia|por|llàstima|set|calor|pena<exception postag="DN.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Val més usar el verb "fer".</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/4086</url>
+                <example correction="fa">A mi em <marker>dóna</marker> una mica de ràbia</example>
+                <example>feia vergonya</example>
+                <example>que ens donin set homes descendents seus.</example>
+                <example>va donar curs a la pena</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                         <token inflected="yes" skip="3">donar<exception postag="_reflexiu"/><exception scope="next" postag="SPS00"/></token>
                     </marker>
                     <token>vergonya</token>
@@ -30019,11 +30036,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="DECA_DEGA" name="decà/degà">
+            <pattern>
+                <token inflected="yes">decà</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NCM.*)" postag_regexp="yes" postag_replace="$1">degà</match></suggestion>? "Decà" (menys usual) s'usa en astronomia i química.</message>
+            <example correction="degà"><marker>decà</marker>.</example>
+            <example correction="degans"><marker>decans</marker>.</example>
+        </rule>
         <rule id="ALTELL" name="altell">
             <pattern>
                 <token>altell</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion>dalts</suggestion>? "Altell" té un sentit menys habitual ("petita elevació").</message>
+            <message>¿Volíeu dir <suggestion>dalts</suggestion>? "Altell" és menys habitual ("petita elevació").</message>
             <suggestion>entresolat</suggestion>
             <suggestion>sostremort</suggestion>
             <suggestion>alts</suggestion>
