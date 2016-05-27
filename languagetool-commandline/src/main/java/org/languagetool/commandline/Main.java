@@ -38,6 +38,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.util.stream.Collectors;
+
 import org.apache.commons.io.ByteOrderMark;
 import org.apache.commons.io.input.BOMInputStream;
 
@@ -427,8 +429,10 @@ class Main {
       }
     }
     if (prg.lt.getAllActiveRules().size() == 0) {
-      throw new RuntimeException("WARNING: No rules are active. Please make sure your rule ids are correct: " +
-              options.getEnabledRules());
+      List<String> catIds = options.getEnabledCategories().stream().map(i -> i.toString()).collect(Collectors.toList());
+      throw new RuntimeException("No rules are active. Please make sure your rule ids " +
+              "(" + options.getEnabledRules() + ") and " +
+              "category ids (" + catIds + ") are correct");
     }
     if (languageHint != null) {
       String spellHint = prg.isSpellCheckingActive() ?
