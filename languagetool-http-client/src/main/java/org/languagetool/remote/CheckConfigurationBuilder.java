@@ -44,6 +44,15 @@ public class CheckConfigurationBuilder {
     this.langCode = Objects.requireNonNull(langCode);
   }
 
+  /**
+   * A configuration that causes the server to automatically detected the text language.
+   * Note that this requires at least a few sentences of text to work reliably.
+   */
+  public CheckConfigurationBuilder() {
+    this.langCode = null;
+    this.autoDetectLanguage = true;
+  }
+
   public CheckConfiguration build() {
     if (enabledOnly && enabledRuleIds.size() == 0) {
       throw new IllegalStateException("You cannot use 'enabledOnly' when you haven't set rule ids to be enabled");
@@ -53,16 +62,6 @@ public class CheckConfigurationBuilder {
 
   public CheckConfigurationBuilder setMotherTongueLangCode(String motherTongueLangCode) {
     this.motherTongueLangCode = motherTongueLangCode;
-    return this;
-  }
-
-  /**
-   * The server should try to automatically detected the text language - note that even if
-   * this is set to true, the language specified in the constructor might still be used, namely if language
-   * detection fails, e.g. because the text is too short
-   */
-  public CheckConfigurationBuilder autoDetectLanguage() {
-    this.autoDetectLanguage = true;
     return this;
   }
 

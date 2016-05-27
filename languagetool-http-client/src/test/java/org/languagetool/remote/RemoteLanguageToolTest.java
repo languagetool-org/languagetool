@@ -19,6 +19,7 @@
 package org.languagetool.remote;
 
 import org.junit.Test;
+import org.languagetool.tools.StringTools;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -34,12 +35,15 @@ public class RemoteLanguageToolTest {
 
   @Test
   public void testResultParsing() throws IOException {
-    RemoteLanguageTool lt = new FakeRemoteLanguageTool(new URL("http://fake"));
+    RemoteLanguageTool lt = new FakeRemoteLanguageTool("response.json");
     RemoteResult result1 = lt.check("some text, reply is hard-coded anyway", "en");
     runAsserts(result1);
-    CheckConfiguration config = new CheckConfigurationBuilder("en").autoDetectLanguage().build();
+    CheckConfiguration config = new CheckConfigurationBuilder().build();
     RemoteResult result2 = lt.check("some text, reply is hard-coded anyway", config);
     runAsserts(result2);
+    RemoteLanguageTool lt2 = new FakeRemoteLanguageTool("response-with-url.json");
+    RemoteResult result3 = lt2.check("some text, reply is hard-coded anyway", config);
+    assertThat(result3.getMatches().get(0).getUrl().get(), is("https://fake.org/foo"));
   }
 
   private void runAsserts(RemoteResult result) {
@@ -47,18 +51,16 @@ public class RemoteLanguageToolTest {
     assertThat(result.getLanguageCode(), is("en-US"));
     assertThat(result.getRemoteServer().getSoftware(), is("LanguageTool"));
     assertThat(result.getRemoteServer().getVersion(), is("3.4-SNAPSHOT"));
-    assertThat(result.getRemoteServer().getBuildDate(), is("2016-04-07 22:01"));
+    assertThat(result.getRemoteServer().getBuildDate().get(), is("2016-05-27 12:04"));
     assertThat(result.getMatches().size(), is(1));
     RemoteRuleMatch match1 = result.getMatches().get(0);
-    // required:
     assertThat(match1.getRuleId(), is("EN_A_VS_AN"));
-    assertThat(match1.getMessage(), is("Use 'an' instead of 'a' if the following word starts with a vowel sound, e.g. 'an article', 'an hour'"));
+    assertThat(match1.getMessage(), is("Use \"an\" instead of 'a' if the following word starts with a vowel sound, e.g. 'an article', 'an hour'"));
     assertThat(match1.getRuleSubId().isPresent(), is(false));
     assertThat(match1.getContext(), is("It happened a hour ago."));
     assertThat(match1.getContextOffset(), is(12));
     assertThat(match1.getErrorLength(), is(1));
     assertThat(match1.getErrorOffset(), is(12));
-    // optional:
     assertThat(match1.getReplacements().get().toString(), is("[an]"));
     assertThat(match1.getCategory().get(), is("Miscellaneous"));
     assertThat(match1.getCategoryId().get(), is("MISC"));
@@ -67,10 +69,13 @@ public class RemoteLanguageToolTest {
     assertThat(match1.getUrl().isPresent(), is(false));
   }
 
-  static class FakeRemoteLanguageTool extends RemoteLanguageTool {
+  private static class FakeRemoteLanguageTool extends RemoteLanguageTool {
 
-    FakeRemoteLanguageTool(URL serverUrl) {
-      super(serverUrl);
+    private final String jsonFile;
+
+    FakeRemoteLanguageTool(String jsonFile) throws MalformedURLException {
+      super(new URL("http://fake"));
+      this.jsonFile = jsonFile;
     }
 
     @Override
@@ -88,14 +93,7 @@ public class RemoteLanguageToolTest {
         @Override public int getResponseCode() { return HTTP_OK; }
         @Override
         public InputStream getInputStream() throws IOException {
-          String response = "<matches software=\"LanguageTool\" version=\"3.4-SNAPSHOT\" buildDate=\"2016-04-07 22:01\">" +
-                            "<language shortname=\"en-US\" name=\"English (US)\"/>" +
-                            "<error fromy=\"0\" fromx=\"12\" toy=\"0\" tox=\"13\" ruleId=\"EN_A_VS_AN\"" +
-                            "  msg=\"Use 'an' instead of 'a' if the following word starts with a vowel sound, e.g. 'an article', 'an hour'\"" +
-                            "  shortmsg=\"Wrong article\" replacements=\"an\" context=\"It happened a hour ago.\" " +
-                            "  contextoffset=\"12\" offset=\"12\" errorlength=\"1\" category=\"Miscellaneous\" " +
-                            "  categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>" +
-                            "</matches>";
+          String response = StringTools.readStream(RemoteLanguageToolTest.class.getResourceAsStream("/org/languagetool/remote/" + jsonFile), "utf-8");
           return new ByteArrayInputStream(response.getBytes());
         }
       };
