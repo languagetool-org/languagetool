@@ -103,7 +103,9 @@ class RuleMatchesAsJsonSerializer {
   private void writeReplacements(JsonGenerator g, RuleMatch match) throws IOException {
     g.writeArrayFieldStart("replacements");
     for (String replacement : match.getSuggestedReplacements()) {
-      g.writeString(replacement);
+      g.writeStartObject();
+      g.writeStringField("value", replacement);
+      g.writeEndObject();
     }
     g.writeEndArray();
   }
