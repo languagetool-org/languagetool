@@ -89,7 +89,10 @@ class RuleMatchesAsJsonSerializer {
     g.writeArrayFieldStart("matches");
     for (RuleMatch match : matches) {
       g.writeStartObject();
-      g.writeStringField("message", match.getMessage().replace("<suggestion>", "\"").replace("</suggestion>", "\""));
+      g.writeStringField("message", cleanSuggestion(match.getMessage()));
+      if (match.getShortMessage() != null) {
+        g.writeStringField("shortMessage", cleanSuggestion(match.getShortMessage()));
+      }
       writeReplacements(g, match);
       g.writeNumberField("offset", match.getFromPos());
       g.writeNumberField("length", match.getToPos()-match.getFromPos());
@@ -100,6 +103,10 @@ class RuleMatchesAsJsonSerializer {
     g.writeEndArray();
   }
 
+  private String cleanSuggestion(String s) throws IOException {
+    return s.replace("<suggestion>", "\"").replace("</suggestion>", "\"");
+  }
+  
   private void writeReplacements(JsonGenerator g, RuleMatch match) throws IOException {
     g.writeArrayFieldStart("replacements");
     for (String replacement : match.getSuggestedReplacements()) {
