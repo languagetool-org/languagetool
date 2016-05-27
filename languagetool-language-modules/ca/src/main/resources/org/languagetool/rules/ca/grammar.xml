@@ -9740,6 +9740,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="UNIFORMA" name="uniforma/uniforme">
+            <pattern>
+                <token>uniforma</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>uniforme</suggestion> (adj. o nom) en comptes de "uniforma" (v. uniformar)?</message>
+            <example correction="uniforme">De manera <marker>uniforma</marker>.</example>
+        </rule>
         <rule id="FEN_FENT" name="*fen/fent">
             <pattern>
                 <marker>
@@ -31978,6 +31985,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>amb cada núm. de Súpers!</example>
                 <example>L'últim núm. de Visions</example>
                 <example>Va ser núm. u de vendes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">número</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">abstracte|aleatori|algèbric|cardinal|complex|compost|concret|decimal|diàdic|dígit|enter|figurat|fraccionari|imaginari|imperfecte|irracional|mixt|natural|negatiu|ordinal|parell|perfecte|positiu|primer|quadrat|racional|real|amigable|coprimer|senar|sencer|heterogeni|piramidal|pitagòric|poligonal|transcendent|transfinit|trencat|característic</token>
+                </pattern>
+                <message>Com a terme matemàtic cal dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">nombre</match></suggestion>.</message>
+                <example correction="nombres">Són <marker>números</marker> racionals.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BAIXAR_ABAIXAR" name="Comprova: abaixar/baixar ">
