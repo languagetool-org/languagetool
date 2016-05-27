@@ -51,7 +51,7 @@ public class RuleMatchesAsJsonSerializerTest {
     assertTrue(json.contains("\"English\""));
     assertTrue(json.contains("\"en\""));
     // Matches:
-    assertTrue(json.contains("\"My Message, use <suggestion>foo</suggestion> instead\""));
+    assertTrue(json.contains("\"My Message, use \\\"foo\\\" instead\""));
     assertTrue(json.contains("\"My rule description\""));
     assertTrue(json.contains("\"FAKE_ID\""));
     assertTrue(json.contains("\"This is ...\""));

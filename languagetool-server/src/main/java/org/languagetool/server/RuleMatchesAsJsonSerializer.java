@@ -89,7 +89,7 @@ class RuleMatchesAsJsonSerializer {
     g.writeArrayFieldStart("matches");
     for (RuleMatch match : matches) {
       g.writeStartObject();
-      g.writeStringField("message", match.getMessage());
+      g.writeStringField("message", match.getMessage().replace("<suggestion>", "\"").replace("</suggestion>", "\""));
       writeReplacements(g, match);
       g.writeNumberField("offset", match.getFromPos());
       g.writeNumberField("length", match.getToPos()-match.getFromPos());
