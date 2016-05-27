@@ -81,6 +81,9 @@ class V2TextChecker extends TextChecker {
     if (getLanguageAutoDetect(parameters)) {
       lang = detectLanguageOfString(text, null, preferredVariants);
     } else {
+      if (langParam == null) {
+        throw new IllegalArgumentException("Missing 'language' parameter");
+      }
       lang = Languages.getLanguageForShortName(langParam);
     }
     return lang;
