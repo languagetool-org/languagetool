@@ -1514,12 +1514,19 @@ RB => Règles Brutes
       <disambig postag="N f p"/>
     </rule>
   </rulegroup>
+  <rule id="A_PRESENT" name="à présent">
+    <pattern>
+      <token>à</token>
+      <marker><token>présent</token></marker>
+    </pattern>
+    <disambig postag="A"/>
+  </rule>
   <rule id="EN_PERMANENCE" name="en permanence">
     <pattern>
       <token>en</token>
-      <marker><token>permanence</token></marker>
+      <marker><token regexp="yes">permanence|rien</token></marker>
     </pattern>
-    <disambig postag="N e s"/>
+    <disambig postag="A"/>
   </rule>
   <rule id="RAYONS_X" name="rayons X">
     <pattern>
