@@ -89,6 +89,9 @@ class V2TextChecker extends TextChecker {
     if (parameters.get("preferredvariants") != null) {
       throw new IllegalArgumentException("You specified 'preferredvariants' but the parameter is now called 'preferredVariants' (uppercase 'V') in v2 of the API");
     }
+    if (parameters.get("autodetect") != null) {
+      throw new IllegalArgumentException("You specified 'autodetect' but automatic language detection is now activated with 'language=auto' in v2 of the API");
+    }
   }
   
   @Override
