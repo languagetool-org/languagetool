@@ -400,7 +400,7 @@ public class HTTPServerTest {
 
   private String check(String urlPrefix, Language lang, Language motherTongue, String text, String parameters) throws IOException {
     String urlOptions = urlPrefix + "?language=" + (lang == null ? "auto" : lang.getShortName());
-    urlOptions += "&disabled=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
+    urlOptions += "&disabledRules=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     if (motherTongue != null) {
       urlOptions += "&motherTongue=" + motherTongue.getShortName();
     }

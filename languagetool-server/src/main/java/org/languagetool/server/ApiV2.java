@@ -57,11 +57,7 @@ class ApiV2 {
       httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
       httpExchange.getResponseBody().write(response.getBytes(ENCODING));
     } else if (path.equals("check")) {
-      String text = parameters.get("text");
-      if (text == null) {
-        throw new IllegalArgumentException("Missing 'text' parameter");
-      }
-      textChecker.checkText(text, httpExchange, parameters, -1);
+      textChecker.checkText(parameters.get("text"), httpExchange, parameters, -1);
     } else {
       throw new RuntimeException("Unsupported action: '" + path + "'");
     }

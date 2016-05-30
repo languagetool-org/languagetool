@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tools.StringTools;
 
 import java.util.*;
 
@@ -74,6 +75,23 @@ class V2TextChecker extends TextChecker {
   }
 
   @Override
+  protected void checkParams(Map<String, String> parameters) {
+    super.checkParams(parameters);
+    if (StringTools.isEmpty(parameters.get("language"))) {
+      throw new IllegalArgumentException("Missing 'language' parameter");
+    }
+    if (parameters.get("enabled") != null) {
+      throw new IllegalArgumentException("You specified 'enabled' but the parameter is now called 'enabledRules' in v2 of the API");
+    }
+    if (parameters.get("disabled") != null) {
+      throw new IllegalArgumentException("You specified 'disabled' but the parameter is now called 'disabledRules' in v2 of the API");
+    }
+    if (parameters.get("preferredvariants") != null) {
+      throw new IllegalArgumentException("You specified 'preferredvariants' but the parameter is now called 'preferredVariants' (uppercase 'V') in v2 of the API");
+    }
+  }
+  
+  @Override
   @NotNull
   protected Language getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants) {
     Language lang;
@@ -81,9 +99,6 @@ class V2TextChecker extends TextChecker {
     if (getLanguageAutoDetect(parameters)) {
       lang = detectLanguageOfString(text, null, preferredVariants);
     } else {
-      if (langParam == null) {
-        throw new IllegalArgumentException("Missing 'language' parameter");
-      }
       lang = Languages.getLanguageForShortName(langParam);
     }
     return lang;

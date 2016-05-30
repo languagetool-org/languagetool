@@ -75,6 +75,7 @@ abstract class TextChecker {
   }
   
   void checkText(String text, HttpExchange httpExchange, Map<String, String> parameters, int handleCount) throws Exception {
+    checkParams(parameters);
     long timeStart = System.currentTimeMillis();
     if (text.length() > config.maxTextLength) {
       throw new TextTooLongException("Your text exceeds this server's limit of " + config.maxTextLength +
@@ -159,6 +160,12 @@ abstract class TextChecker {
             + "handlers:" + handleCount + ", " + matches.size() + " matches, "
             + (System.currentTimeMillis() - timeStart) + "ms, class: " + clazz + ", agent:" + agent
             + ", " + messageSent);
+  }
+
+  protected void checkParams(Map<String, String> parameters) {
+    if (parameters.get("text") == null) {
+      throw new IllegalArgumentException("Missing 'text' parameter");
+    }
   }
 
   private List<RuleMatch> getRuleMatches(String text, Map<String, String> parameters, Language lang,
