@@ -167,7 +167,7 @@ public class MatchState {
       anTkRead.setChunkTags(formattedToken.getChunkTags());
     }
     if (formattedToken.isImmunized()) {
-     anTkRead.immunize();
+      anTkRead.immunize();
     }
     return anTkRead;
   }
@@ -322,7 +322,7 @@ public class MatchState {
   // on the other hand, many POS tags = too many suggestions?
   public final String getTargetPosTag() {
     String targetPosTag = match.getPosTag();
-    final List<String> posTags = new ArrayList<>();
+    List<String> posTags = new ArrayList<>();
     Pattern pPosRegexMatch = match.getPosRegexMatch();
     String posTagReplace = match.getPosTagReplace();
 
