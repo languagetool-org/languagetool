@@ -30413,13 +30413,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Si és una operació tècnica cal dir <suggestion>duplicació</suggestion>.</message>
             <example correction="duplicació">Una botiga que fa <marker>duplicat</marker> de claus.</example>
         </rule>
-        <rule id="FAROLA" name="farola/fanal">
-            <pattern>
-                <token inflected="yes">farola</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1000">fanal</match></suggestion>? "Farola" és sinònim de "far".</message>
-            <example correction="fanals">Les <marker>faroles</marker>.</example>
-        </rule>
+        <rulegroup id="FAROLA" name="farola/fanal">
+            <rule>
+                <pattern>
+                    <token>farola</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>fanal</suggestion>? "Farola" és sinònim de "far".</message>
+                <example correction="fanal">La <marker>farola</marker>.</example>
+                <example correction="fanal">Tipus <marker>farola</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>faroles</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>fanals</suggestion>? "Farola" és sinònim de "far".</message>
+                <example correction="fanals">Les <marker>faroles</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PART_COMUNICAT" name="part/comunicat">
             <rule>
                 <pattern>
@@ -40140,7 +40150,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">vaig|vas|va|anem|aneu|van</token> <!-- potser és més probable amb uns que amb altres -->
                         <token>a</token>
-                        <token regexp="yes">fer|utilitzar|usar|notar|contar|explicar|tractar|ser|ésser|esser|dir|tenir|tindre|passar|resoldre|fallar|errar|encetar|començar|acabar</token> <!-- veure, mirar -->
+                        <token regexp="yes">utilitzar|usar|notar|contar|explicar|tractar|ser|ésser|esser|dir|tenir|tindre|passar|resoldre|fallar|errar|encetar|començar|acabar</token> <!-- veure, mirar -->
                     </marker>
                 </pattern>
                 <message>Expressió incorrecta si no indica moviment. Elimineu el verb anar i useu el present o el futur.</message>
