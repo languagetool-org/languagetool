@@ -9,12 +9,14 @@ DATE2=`date +"%Y-%m-%d"`
 #DATE1=20160331
 #DATE2=2016-03-31
 TMPFILE=/tmp/log.temp
+TMPFILE_ALL=/tmp/log-all.temp
 OUTFILE=/tmp/statusmail.txt
 
 echo "Daily LanguageTool API Report $DATE2" >$OUTFILE
 echo "" >>$OUTFILE
 
 grep -h "$DATE2 " log-[0-9]-$DATE1*.txt log-1.txt log-2.txt >$TMPFILE
+cat log-[0-9]-$DATE1*.txt log-1.txt log-2.txt >$TMPFILE_ALL
 
 TOTAL=`grep -c "Check done:" $TMPFILE`
 printf "Total text checks : %'d\n" $TOTAL >>$OUTFILE
@@ -45,6 +47,10 @@ echo "too many requests (Android): `grep -c 'too many requests.*androidspell' $T
 
 echo "Top HTTP error codes:" >>$OUTFILE
 grep "An error has occurred" /tmp/log.temp|sed 's/.*HTTP code \([0-9]\+\)..*/HTTP code \1/'|sort |uniq -c| sort -r -n >>$OUTFILE
+
+echo "" >>$OUTFILE
+echo "Top 10 Errors:" >>$OUTFILE
+grep 'Could not check sentence' $TMPFILE_ALL | grep -v "Caused by:" | uniq -c | sort -n -r | head -n 10 >>$OUTFILE
 
 echo "" >>$OUTFILE
 echo "v1 API                     : `grep -c 'V1TextChecker' $TMPFILE`" >>$OUTFILE
