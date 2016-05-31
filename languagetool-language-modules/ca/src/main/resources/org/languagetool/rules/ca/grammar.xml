@@ -5177,6 +5177,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>tònica predominant després del govern de l'UCD.</example>
             </rule>
         </rulegroup>
+        <rule id="PODIEN_CONCORRE" name="podien *concorre/concórrer">
+            <pattern>
+                <token postag="V.*" postag_regexp="yes"></token>
+                <token postag="V.M.*"  postag_regexp="yes"><exception negate_pos="yes" postag="V.M.*"  postag_regexp="yes"/></token>
+            </pattern>
+            <message>Combinació de temps verbals probablement incorrecta</message>
+            <example correction=""><marker>permetien concorre</marker>-hi.</example>
+            <example correction=""><marker>podien corre</marker>-hi.</example>
+        </rule>
+        <rule id="ESPERANT_US_AGRADI" name="esperem (que) us agradi)">
+            <pattern>
+                <marker>
+                    <token postag="V.*|N.*" postag_regexp="yes" regexp="yes" inflected="yes">esperar|desitjar|esperant|voler</token>
+                </marker>
+                <token postag="&pronom_feble;" postag_regexp="yes" min="0"/>
+                <token postag="V.S.*"  postag_regexp="yes"/>
+            </pattern>
+            <message>Probablement falta un 'que'.</message>
+            <suggestion><match no="1"/> que</suggestion>
+            <example correction="esperem que"><marker>esperem</marker> us agradi.</example>
+            <example correction="esperant que"><marker>esperant</marker> us agradi.</example>
+            <example correction="esperem que"><marker>esperem</marker> vingueu.</example>
+            <example correction="espera que">que s'<marker>espera</marker> entri en funcionament.</example>
+            <example>Tothom esperava que guanyés.</example>
+        </rule>
     </category>
     <category id="DETERMINANTS" name="Determinants" type="grammar">
         <rulegroup id="ARTICLE_EN_PAISOS" name="països que solen dur article">
@@ -16301,6 +16326,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="prêt-à-porter"><marker>prêt- à-porter</marker>.</example>
             <example>prêt-à-porter</example>
         </rule>
+        <rule id="DEJA_VU" name="déjà vu">
+            <antipattern>
+                <token>déjà</token>
+                <token>vu</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">d[eèé]j[aàá]</token>
+                <token min="0">-</token>
+                <token regexp="yes">v[uú]</token>
+            </pattern>
+            <message>Error ortogràfic.</message>
+            <suggestion>déjà vu</suggestion>
+            <example correction="déjà vu"><marker>dejà-vu</marker>.</example>
+        </rule>
         <rulegroup id="VERBS_NOMSPROPIS" name="verbs / noms propis: Barbara, Macàs, Adoram">
             <rule>
                 <pattern>
@@ -23497,6 +23536,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="ELS_TOTS_ELS" name="els tots els">
+            <pattern>
+                <token postag="DA.*" postag_regexp="yes"></token>
+                <token inflected="yes">tot</token>
+                <token postag="DA.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Possible error.</message>
+            <example correction="">de<marker>ls tots els</marker> casos.</example>
+            <example>presa com un tot</example>
+            <example>no m'agrada del tot</example>
+        </rule>
         <rule id="AUTOIMMOLAR" name="autoimmolar">
             <pattern>
                 <token inflected="yes">autoimmolar</token>
@@ -31278,6 +31328,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>altura</suggestion>
                 <example correction="altesa|altura">Amb <marker>alçada</marker> de mires.</example>
                 <example>Amb altesa de mires.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">alçada|alçària</token>
+                    </marker>
+                    <token min="0">de</token>
+                    <token min="0" postag="D.*" postag_regexp="yes"/>
+                    <token postag="[NA].*" postag_regexp="yes" regexp="yes" inflected="yes">ull|carrer</token>
+                </pattern>
+                <message>Probablement cal dir <suggestion>altura</suggestion>.</message>
+                <example correction="altura">A l'<marker>alçada</marker> dels ulls.</example>
+                <example correction="altura">A aquella <marker>alçària</marker> del carrer.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ALCADA_ALTURA" name="alçada / altura">
