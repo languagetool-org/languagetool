@@ -41,17 +41,22 @@
   * removed the public modifier from `LanguageComboBox`
 
 #### Embedded HTTPS server
+  * The existing HTTP/HTTPS API will be replaced by a new one
+    that returns JSON. This version of LanguageTool supports
+    both APIs. The new API is prefixed with `/v2/`.
+    It is documented at https://languagetool.org/http-api/swagger-ui/#/default.
+    Please do not use the old XML-based HTTP API anymore. 
+    Information about migrating from the old to the new API
+    can be found at https://languagetool.org/http-api/migration.php
   * changed behaviour for OutOfMemory situations: the server
     process now stops instead of being in an unstable state
   * missing parameters (like `text`) now cause a `400 Bad Request`
     response (it used to produce `500 Internal Server Error`)
-  * to turn on language auto-detection, `autodetect=yes` can now be
-    used instead of `autodetect=1` (to be consistent with `enabledOnly=yes`)
   * New parameter `preferredvariants` to specify which variant is preferred
     when the language is auto-detected: Example:
     `autodetect=yes&preferredvariants=en-GB,de-AT` - if English text is detected,
     British English will be used, if German text is detected, German (Austria)
-    will be used.
+    will be used. In the new API, the parameter is called `preferredVariants`.
   * Code refactorings: methods have been removed without being deprecated first,
     e.g. in `LanguageToolHttpHandler`
 
