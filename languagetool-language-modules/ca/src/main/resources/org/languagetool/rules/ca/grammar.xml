@@ -15310,6 +15310,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>A diferència dels dels ocells.</example>
                 <example>Puja pas a pas a les ruïnes</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token>hi</token>
+                        <token>ha</token>
+                        <token/>
+                        <token>i</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token><exception postag="SENT_START|_PUNCT.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">o|i|ni|,</token>
+                    <token><match no="0"/></token>
+                </pattern>
+                <message>Paraula repetida.</message>
+                <suggestion>\1</suggestion>
+                <example correction="monitors">Hi ha <marker>monitors o monitors</marker>.</example>
+                <example>Hi ha casos i casos.</example>
+                <example>Hi ha monitors o monitores.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="DOS_ARTICLES" name="Dos articles seguits: *la l'aparició">
             <rule>
