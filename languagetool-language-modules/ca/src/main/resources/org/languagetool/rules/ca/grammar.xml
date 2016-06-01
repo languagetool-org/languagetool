@@ -5179,18 +5179,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="PODIEN_CONCORRE" name="podien *concorre/concórrer">
             <pattern>
-                <token postag="V.[^N].*" postag_regexp="yes"></token>
+                <token postag="V.[^N].*" postag_regexp="yes" regexp="yes" inflected="yes">poder|voler|permetre|deixar</token>
                 <token postag="V.M.*"  postag_regexp="yes"><exception negate_pos="yes" postag="V.M.*"  postag_regexp="yes"/></token>
             </pattern>
             <message>Combinació de temps verbals probablement incorrecta</message>
             <example correction=""><marker>permetien concorre</marker>-hi.</example>
             <example correction=""><marker>podien corre</marker>-hi.</example>
             <example>Abans d'eixir posa't la gorra.</example>
+            <example>Quan estiguis desesperat vés al carrer.</example>
         </rule>
         <rule id="ESPERANT_US_AGRADI" name="esperem (que) us agradi)">
             <pattern>
                 <marker>
-                    <token postag="V.*|N.*" postag_regexp="yes" regexp="yes" inflected="yes">esperar|desitjar|esperant|voler|sol·licitar|requerir|reclamar|pregar</token>
+                    <token postag="V.I.*|N.*" postag_regexp="yes" regexp="yes" inflected="yes">esperar|desitjar|esperant|sol·licitar|pregar</token>
                 </marker>
                 <token postag="&pronom_feble;" postag_regexp="yes" min="0"/>
                 <token postag="V.S.*"  postag_regexp="yes"/>
@@ -5203,6 +5204,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="espera que">que s'<marker>espera</marker> entri en funcionament.</example>
             <example correction="preguem que"><marker>preguem</marker> disculpeu les molèsties</example>
             <example>Tothom esperava que guanyés.</example>
+            <example>Com si l'únic que desitgés fos allò.</example>
         </rule>
     </category>
     <category id="DETERMINANTS" name="Determinants" type="grammar">
