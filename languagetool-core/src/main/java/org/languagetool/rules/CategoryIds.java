@@ -40,6 +40,7 @@ public final class CategoryIds {
   public static final CategoryId COLLOQUIALISMS = new CategoryId("COLLOQUIALISMS");
   /** Rules that only make sense when editing Wikipedia (typically turned off by default in LanguageTool). */
   public static final CategoryId WIKIPEDIA = new CategoryId("WIKIPEDIA");
+  public static final CategoryId BARBARISM = new CategoryId("BARBARISM");
   /** Miscellaneous rules that don't fit elsewhere. */
   public static final CategoryId MISC = new CategoryId("MISC");
 
