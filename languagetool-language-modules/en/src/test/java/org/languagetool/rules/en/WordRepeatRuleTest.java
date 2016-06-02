@@ -39,7 +39,10 @@ public class WordRepeatRuleTest {
   public void testRule() throws IOException {
     assertMatches("This is a test sentence.", 0);
     assertMatches("This is a test sentence...", 0);
-    
+
+    // make sure we ignore immunized tokens
+    assertMatches("And side to side and top to bottom...", 0);
+
     assertMatches("This this is a test sentence.", 1);
     assertMatches("This is a test sentence sentence.", 1);
     assertMatches("This is is a a test sentence sentence.", 3);
