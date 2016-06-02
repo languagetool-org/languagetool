@@ -40,6 +40,8 @@ public final class CategoryIds {
   public static final CategoryId COLLOQUIALISMS = new CategoryId("COLLOQUIALISMS");
   /** Rules that only make sense when editing Wikipedia (typically turned off by default in LanguageTool). */
   public static final CategoryId WIKIPEDIA = new CategoryId("WIKIPEDIA");
+  /** A words or expressions that are badly formed according to traditional philological rules, 
+   * for example a word formed from elements of different languages */
   public static final CategoryId BARBARISM = new CategoryId("BARBARISM");
   /** Miscellaneous rules that don't fit elsewhere. */
   public static final CategoryId MISC = new CategoryId("MISC");
