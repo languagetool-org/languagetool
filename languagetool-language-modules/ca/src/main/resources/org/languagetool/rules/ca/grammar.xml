@@ -32918,6 +32918,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="desvelats|descoberts|revelats">Tots els misteris <marker>desvetllats</marker> per ell.</example>
                 <example>Desvetlla't, no ens rebutgis per sempre.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">segons|com</token>
+                    <token inflected="yes" regexp="yes" min="0">haver|anar</token>
+                    <marker>
+                        <token inflected="yes" skip="5" regexp="yes">desvetl?lar</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desvelar</match></suggestion> en comptes de "<match no="3" case_conversion="alllower"/>" (= perdre la son, suscitar)?</message>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">descobrir</match></suggestion>
+                <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">revelar</match></suggestion>
+                <example correction="desvela|descobreix|revela">Segons <marker>desvetlla</marker> avui la premsa.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="FALLAR" name="fallar">
             <antipattern>
