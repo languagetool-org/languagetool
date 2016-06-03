@@ -47,7 +47,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena">
     <!ENTITY exceptions_SON "descans|estrès|estrés|cansament|fatiga|mareig|alegria|somnambulisme|esbarjo|estupor|gana|fam|anorèxia|vigília">
     <!ENTITY expressions_temps "ara|avui|hui|demà|despús-demà|ahir|despús-ahir|endemà|enguany|temporada|curs">
-    <!ENTITY expressions_durada "estona|poc|temps|moment|instant">
+    <!ENTITY expressions_durada "estona|poc|temps|moment|instant|període">
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
     <!ENTITY mesos_any_abrev "gen|febr|abr|jul|ag|set|oct|nov|des">
     <!ENTITY mesos_any "gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre">
@@ -9431,6 +9431,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="PARA_QUE" name="para/per a què">
+            <pattern>
+                <token>para</token>
+                <token>què</token>
+            </pattern>
+            <message>Possible error de traductor automàtic.</message>
+            <suggestion>per a què</suggestion>
+            <example correction="Per a què"><marker>Para què</marker> serveix?</example>
+        </rule>
+        <rule id="FINALITATS_FI" name="*finalitats/la fi/finals">
+            <pattern>
+                <marker>
+                    <token>finalitats</token>
+                </marker>
+                <token>de</token>
+                <token min="0" postag="DA.*" postag_regexp="yes"/>
+                <token min="0" regexp="yes">mateixa?</token>
+                <token regexp="yes">&unitats_temps;|[XIV]+|s|&expressions_durada;|&expressions_temps;|\d+|&mesos_any;|dictadura|guerra|primera|segona</token>
+            </pattern>
+            <message>Possible error de traductor automàtic.</message>
+            <suggestion>la fi</suggestion>
+            <suggestion>finals</suggestion>
+            <example correction="la fi|finals">fins a <marker>finalitats</marker> de segle.</example>
+            <example correction="la fi|finals">fins a <marker>finalitats</marker> de la mateixa dècada.</example>
+            <example correction="la fi|finals">fins a <marker>finalitats</marker> del XIX.</example>
+            <example correction="la fi|finals">fins a <marker>finalitats</marker> del s. XIX.</example>
+            <example correction="la fi|finals">fins a <marker>finalitats</marker> de la II Guerra Mundial.</example>
+        </rule>
+        <rule id="REVESTEIXI_REVISTA" name="*revesteixi/revista">
+            <pattern>
+                <marker>
+                    <token>la</token>
+                    <token regexp="yes">revestisca|revesteixi</token>
+                </marker>
+                <token><exception inflected="yes">de</exception></token>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion>la revista</suggestion>
+            <example correction="la revista">que <marker>la revesteixi</marker> Science publica avui</example>
+            <example>que la revestisca de poders</example>
+	</rule>
         <rule id="TARDA_TARD" name="més *tarda/tard">
             <pattern>
                 <token>més</token>
@@ -9540,7 +9581,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>
             <pattern>
-                <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"></token>
+                <token postag="SPS00|.*LOC_PREP.*|SENT_START" postag_regexp="yes"></token>
                 <marker>
                     <token>est</token>
                 </marker>
@@ -9548,6 +9589,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Possible error de traducció automàtica</message>
             <suggestion>aquest</suggestion>
             <example correction="aquest">Al costat d'<marker>est</marker>.</example>
+            <example correction="Aquest"><marker>Est</marker>, ofès i desesperat.</example>
             <example>d'est a oest</example>
             <example>d'oest a est</example>
             <example>"d'est (1 200 mm) a oest (2 000 mm).</example>
