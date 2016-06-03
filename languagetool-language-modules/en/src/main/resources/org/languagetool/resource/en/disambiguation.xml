@@ -1041,7 +1041,7 @@
     <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/MD]">Yes, we <marker>can</marker>!</example>
      </rule>
     </rulegroup>
-  
+
     <rulegroup id="CAN_NN" name="can as a noun">
     <rule>
       <pattern>
@@ -1070,17 +1070,47 @@
     </rule>
     <rule>
       <pattern>
-        <token postag="DT"><exception postag="PDT" /><exception>these</exception></token>
+        <token postag="DT"><exception postag="PDT" /><exception regexp="yes">each|some|these</exception></token>
         <marker>
           <token>can</token>
         </marker>
       </pattern>
       <disambig postag="NN"/>
       <example type="untouched">You can!</example>
+      <example type="untouched">There are 3 hangars. Each <marker>can</marker> accommodate the largest aircraft.</example>
+      <example type="untouched">For example, some <marker>can</marker> accommodate the largest aircraft and other hangars cannot.</example>
+      <example type="untouched">All <marker>can</marker> accommodate small aircraft.</example>
       <example type="ambiguous" inputform="can[can/MD]" outputform="can[can/NN]">The <marker>can</marker> can hold the water.</example>
     </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>can</token>
+        </marker>
+        <token postag="MD"/>
+      </pattern>
+      <disambig postag="NN"/>
+      <example type="untouched">There are 3 hangars. Each <marker>can</marker> accommodate the largest aircraft.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> might be dirty.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> must not be dirty.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>can</token>
+        </marker>
+        <token regexp="yes">is|was|will|were</token>
+      </pattern>
+      <disambig postag="NN"/>
+      <example type="untouched">You <marker>can</marker> be happy without money.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> is dirty.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> was not dirty.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">This <marker>can</marker> will be used to demonstrate problem.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">If this <marker>can</marker> were to fall, there would be much damage to the equipment.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">This <marker>can</marker> were dirty. [Non-standard English]</example>
+    </rule>
     </rulegroup>
-  
+
     <!-- useful for this/these rule, e.g., in this circumstances -->
     <rule name="preposition + 'this' + verb 3sg/NNS -&gt; nns" id="IN_VBZ_NNS">
         <pattern>
