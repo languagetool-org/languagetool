@@ -33915,24 +33915,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="grolleres|bastes|tosques">unes idees <marker>burdes</marker> </example>
             <example>pensament barroer</example>
         </rule>
-        <rule id="FONDO" name="fondo (adj. no subst.)">
-            <pattern case_sensitive="yes">
+        <rulegroup id="FONDO" name="fondo (adj. no subst.)">
+            <rule>
+                <pattern case_sensitive="yes">
                 <token><exception postag="N.*|RG|VS.*" postag_regexp="yes"/><exception inflected="yes">respirar</exception></token>
-                <marker>
-                    <token regexp="yes">fondos?</token>
-                </marker>
-                <token><exception postag="N.*" postag_regexp="yes"/></token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>fons</suggestion> (nom)? 'Fondo' sol ser adjectiu o adverbi. Pot ser correcte com a substantiu en geografia.</message>
-            <example correction="fons">el <marker>fondo</marker> de la crisi d’Europa</example>
-            <example>el més fondo</example>
-            <example>un pou molt fondo</example>
-            <example>el pou fondo</example>
-            <example>el fondo sentiment</example>
-            <example>parc natural del Fondo d'Elx</example>
-            <example>que allà era fondo</example>
-            <example>Va respirar fondo</example>
-        </rule>
+                    <marker>
+                        <token regexp="yes">fondos?</token>
+                    </marker>
+                    <token><exception postag="N.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>fons</suggestion> (nom)? 'Fondo' sol ser adjectiu o adverbi. Pot ser correcte com a substantiu en geografia.</message>
+                <example correction="fons">el <marker>fondo</marker> de la crisi d’Europa</example>
+                <example>el més fondo</example>
+                <example>un pou molt fondo</example>
+                <example>el pou fondo</example>
+                <example>el fondo sentiment</example>
+                <example>parc natural del Fondo d'Elx</example>
+                <example>que allà era fondo</example>
+                <example>Va respirar fondo</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token>Fondo</token>
+                        <token>de</token>
+                        <token>Cultura</token>
+                        <token>Económica</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token><exception regexp="yes">camí|barranc</exception></token>
+                    <marker>
+                        <token regexp="yes">(?-i)Fondo</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">de|per</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>Fons</suggestion>? 'Fondo' sol ser adjectiu o adverbi. Pot ser correcte com a substantiu en geografia.</message>
+                <example correction="Fons">El <marker>Fondo</marker> de Liquiditat</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="FONS" name="fons (subst. no adj.)">
             <rule>
                 <pattern case_sensitive="yes">
