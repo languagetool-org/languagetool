@@ -1030,6 +1030,18 @@
     <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/MD]">This <marker>can</marker> only be eliminated.</example>
     </rule>
     <rule>
+        <pattern>
+            <marker>
+                <token>can</token>
+            </marker>
+            <token regexp="yes">['’]</token>
+            <token>t</token>
+        </pattern>
+        <disambig postag="MD"/>
+        <example type="untouched">Ignore the usual <marker>cant</marker> from the politicians.</example>
+        <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/MD]">So this too <marker>can</marker>'t be used.</example>
+    </rule>
+    <rule>
     <pattern>
             <token postag="SENT_START|[:;,]" postag_regexp="yes"/>
             <token regexp="yes">I|you|he|she|we|they</token>
