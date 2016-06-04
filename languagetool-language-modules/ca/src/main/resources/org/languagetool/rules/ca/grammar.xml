@@ -9811,6 +9811,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="PORTIC_SI_ALTRES" name="pòrtic *si altres (error típic en la Viquipèdia)">
+            <pattern>
+                <marker>
+                    <token postag="NC.S.*" postag_regexp="yes"></token>
+                    <token>si</token>
+                </marker>
+                <token postag="AQ.*|NC.*|V.P.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Possible confusió.</message>
+            <suggestion><match no="1" postag="(NC.)S.*" postag_regexp="yes" postag_replace="$1P.*"/> i</suggestion>
+            <example correction="pòrtics i">De <marker>pòrtic si</marker> finestres.</example>
+            <example correction="portes i">De <marker>porta si</marker> altres coses.</example>
+        </rule>
         <rule id="UNIFORMA" name="uniforma/uniforme">
             <pattern>
                 <token>uniforma</token>
