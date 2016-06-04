@@ -21,14 +21,12 @@ package org.languagetool.server;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 public class TextCheckerTest {
 
-  private final LinkedBlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();
   private final String english = "This is clearly an English text, should be easy to detect.";
   private final TextChecker checker = new V1TextChecker(new HTTPServerConfig(), false);
 
