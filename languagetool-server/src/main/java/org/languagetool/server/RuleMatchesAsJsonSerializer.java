@@ -41,8 +41,7 @@ import java.util.List;
 class RuleMatchesAsJsonSerializer {
 
   private static final int API_VERSION = 1;
-  private static final String STATUS = "-- EXPERIMENTAL, DO NOT YET RELY ON THE FORMAT -- " +
-          "please provide feedback at https://github.com/languagetool-org/languagetool/issues/410";
+  private static final String STATUS = "";
   private static final String START_MARKER = "__languagetool_start_marker";
 
   private final JsonFactory factory = new JsonFactory();
