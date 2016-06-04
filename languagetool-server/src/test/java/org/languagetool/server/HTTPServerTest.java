@@ -60,7 +60,7 @@ public class HTTPServerTest {
   void runTestsV1() throws IOException, SAXException, ParserConfigurationException {
     // no error:
     String matchAttr = "software=\"LanguageTool\" version=\"[1-9].*?\" buildDate=\".*?\"";
-    String emptyResultPattern = "<\\?xml version=\"1.0\" encoding=\"UTF-8\"\\?>\n<matches " + matchAttr + ">\n(<!--.*?-->\n)?<language shortname=\"de\" name=\"German\"/>\n</matches>\n";
+    String emptyResultPattern = "<\\?xml version=\"1.0\" encoding=\"UTF-8\"\\?>\n<!--.*-->\n<!--.*-->\n<!--.*-->\n<matches " + matchAttr + ">\n(<!--.*?-->\n)?<language shortname=\"de\" name=\"German\"/>\n</matches>\n";
     German german = new German();
     String result1 = checkV1(german, "");
     assertTrue("Got " + result1 + ", expected " + emptyResultPattern, result1.matches(emptyResultPattern));

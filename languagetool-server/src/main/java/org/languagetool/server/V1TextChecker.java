@@ -36,6 +36,12 @@ import static org.languagetool.server.ServerTools.setCommonHeaders;
 class V1TextChecker extends TextChecker {
 
   private static final String XML_CONTENT_TYPE = "text/xml; charset=UTF-8";
+  
+  static String getDeprecationWarning() {
+    return "<!-- ***** -->\n" +
+           "<!-- WARNING: this API is deprecated and will be turned off - see https://languagetool.org/http-api/migration.php for details -->\n" +
+           "<!-- ***** -->";
+  }
 
   V1TextChecker(HTTPServerConfig config, boolean internalServer) {
     super(config, internalServer);
@@ -53,7 +59,8 @@ class V1TextChecker extends TextChecker {
       return serializer.ruleMatchesToXml(matches, text);
     } else {
       RuleMatchAsXmlSerializer serializer = new RuleMatchAsXmlSerializer();
-      return serializer.ruleMatchesToXml(matches, text, CONTEXT_SIZE, lang, motherTongue);
+      String xml = serializer.ruleMatchesToXml(matches, text, CONTEXT_SIZE, lang, motherTongue);
+      return xml.replaceFirst("\\?>", "?>\n" + getDeprecationWarning());
     }
   }
 

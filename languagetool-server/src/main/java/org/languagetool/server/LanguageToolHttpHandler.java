@@ -322,7 +322,9 @@ class LanguageToolHttpHandler implements HttpHandler {
   public static String getSupportedLanguagesAsXML() {
     List<Language> languages = new ArrayList<>(Languages.get());
     Collections.sort(languages, (o1, o2) -> o1.getName().compareTo(o2.getName()));
-    StringBuilder xmlBuffer = new StringBuilder("<?xml version='1.0' encoding='" + ENCODING + "'?>\n<languages>\n");
+    StringBuilder xmlBuffer = new StringBuilder("<?xml version='1.0' encoding='" + ENCODING + "'?>\n");
+    xmlBuffer.append(V1TextChecker.getDeprecationWarning());
+    xmlBuffer.append("\n<languages>\n");
     for (Language lang : languages) {
       xmlBuffer.append(String.format("\t<language name=\"%s\" abbr=\"%s\" abbrWithVariant=\"%s\"/> \n", lang.getName(),
               lang.getShortName(), lang.getShortNameWithCountryAndVariant()));
