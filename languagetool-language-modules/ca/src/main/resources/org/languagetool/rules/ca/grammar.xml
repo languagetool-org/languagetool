@@ -7727,6 +7727,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>en</token>
                     </marker>
+                    <token postag="_cometes_obertura" min="0"/>
+                    <token min="0">no</token>
                     <token postag="V.N.*" postag_regexp="yes"><exception postag="_GN_MS"/></token>
                 </pattern>
                 <message>Probablement cal canviar la preposició.</message>
@@ -7734,6 +7736,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>http://esadir.cat/entrades/fitxa/node/prepcancaig</url>
                 <short>Canvi de preposició</short>
                 <example correction="a">Consisteix, precisament, <marker>en</marker> demostrar-ho.</example>
+                <example correction="a">Consisteix <marker>en</marker> "no quedar-se parat".</example>
                 <example>el corrent no augmentarà en augmentar la tensió</example>
             </rule>
         </rulegroup>
@@ -16523,14 +16526,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>reprendre</example>
             </rule>
         </rulegroup>
-        <rule id="noFreeling" name="Mots que no apareixen en el diccionari Freeling" default="off">
+        <rule id="NO_POSTAG" name="Mots que no apareixen en el diccionari" default="off">
             <pattern>
-                <token postag="UNKNOWN" regexp="yes">..+<exception regexp="yes">\p{Lu}\p{Ll}*</exception></token>
+                <token postag="UNKNOWN" regexp="yes">..+<!--<exception regexp="yes">\p{Lu}.*</exception>--></token>
             </pattern>
-            <message>No apareix en el diccionari Freeling.</message>
-            <short>No apareix en el diccionari Freeling</short>
+            <message>No apareix en el diccionari.</message>
             <example correction=""><marker>asdgadfgafg</marker>.</example>
-            <example><marker>estat</marker>.</example>
         </rule>
         <rule id="PERO_ALLO" name="*peró/però alló/allò">
             <pattern>
