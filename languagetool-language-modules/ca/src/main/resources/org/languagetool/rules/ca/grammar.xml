@@ -9815,9 +9815,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <marker>
                     <token postag="NC.S.*" postag_regexp="yes"></token>
-                    <token>si</token>
+                    <token>si<exception postag="_possible_nompropi"/></token>
                 </marker>
-                <token postag="AQ.*|NC.*|V.P.*" postag_regexp="yes"><exception regexp="yes">bemoll|sostingut|major|menor|vols?|no|doble|mateix</exception></token>
+                <token postag="AQ.*|NC.*|V.P.*" postag_regexp="yes"><exception regexp="yes">bemoll|sostingut|major|menor|vols?|no|doble|mateix</exception><excetion postag="V.[^P].*" postag_regexp="yes"/></token>
             </pattern>
             <message>Possible confusió.</message>
             <suggestion><match no="1" postag="(NC.)S.*" postag_regexp="yes" postag_replace="$1P.*"/> i</suggestion>
