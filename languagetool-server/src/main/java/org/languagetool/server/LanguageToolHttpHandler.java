@@ -119,6 +119,9 @@ class LanguageToolHttpHandler implements HttpHandler {
             }
             text = text.replaceAll("</p>", "\n\n").replaceAll("<.*?>", "");  // clean up HTML, position changes don't matter for AtD
           } else {
+            if (requestedUri.getRawPath().contains("/v2/")) {
+              throw new IllegalArgumentException("You have '/v2/' in your path, but not at the root. Try an URL like 'http://server/v2/...' ");
+            }
             text = parameters.get("text");
             if (text == null) {
               throw new IllegalArgumentException("Missing 'text' parameter");
