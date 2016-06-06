@@ -31103,8 +31103,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token inflected="yes">càmera</token>
                     </marker>
-                    <token min="0" inflected="yes">de</token>
-                    <token inflected="yes" regexp="yes">lord|agrari|comercial|comerç|legislatiu|representatiu|diputat|representant|insonoritzar|anecoic|frigorífic|cuirassar|funerari|hiperbàric|autonòmica|alt|baix</token>
+                    <token inflected="yes">de</token>
+                    <token min="0" postag="DA.*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">lord|comerç|diputat|representant</token>
+                </pattern>
+                <message>Paraula incorrecta en aquest context.</message>
+                <suggestion><match no="1" postag="NC.(.*)" postag_regexp="yes" postag_replace="NCF$1">cambra</match></suggestion>
+                <example correction="Cambra"><marker>Càmera</marker> dels diputats.</example>
+                <example>Una càmera d'alta resolució.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">càmera</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">agrari|comercial|legislatiu|representatiu|insonoritzar|anecoic|frigorífic|cuirassar|funerari|hiperbàric|autonòmic|alt|baix|regional</token>
                 </pattern>
                 <message>Paraula incorrecta en aquest context.</message>
                 <suggestion><match no="1" postag="NC.(.*)" postag_regexp="yes" postag_replace="NCF$1">cambra</match></suggestion>
@@ -31116,7 +31129,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Cambra"><marker>Càmera</marker> cuirassada.</example>
                 <example correction="Cambra"><marker>Càmera</marker> alta.</example>
                 <example correction="Cambra"><marker>Càmera</marker> baixa.</example>
-                <example>A la cambra de representants.</example>
+                <example correction="Cambra"><marker>Càmera</marker> autonòmica.</example>
+                <example>Una càmera d'alta resolució.</example>
             </rule>
             <rule>
                 <pattern>
