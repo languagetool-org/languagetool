@@ -40348,13 +40348,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ANAR_A_INFINITIU" name="anar a + infintiu" default="on">
             <!--  false alarms?? -->
             <rule>
+                <antipattern>
+                    <marker>
+                        <token>aneu</token>
+                        <token>a</token>
+                        <token>saber</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token><exception inflected="yes" regexp="yes">en|hi</exception></token>
                     <marker>
-                        <token regexp="yes">vaig|vas|va|anem|aneu|van</token> <!-- potser és més probable amb uns que amb altres -->
+                        <token regexp="yes">vaig|vas|va|anem|aneu|van</token> <!-- potser és més probable amb uns que amb altres -->  <!--dubtós: morir-->
                         <token>a</token>
-                        <!--<token regexp="yes">abreujar|abreviar|acabar|acceptar|alimentar|analitzar|aparéixer|aparèixer|arribar|assentar|calcular|caracteritzar|començar|comportar|comprovar|comptar|constituir|construir|contar|convertir|cremar|declarar|dedicar|definir|demostrar|descriure|dibuixar|dir|donar|durar|encertar|encetar|entrar|errar|esser|ésser|establir|estendre|exigir|explicar|fallar|finalitzar|formar|gastar|gustar|incorporar|intervenir|llegir|lliurar|mantenir|mantindre|menjar|millorar|mostrar|nevar|notar|obtenir|obtindre|oferir|pagar|passar|ploure|presentar|produir|provar|realitzar|recollir|refer|rescatar|resoldre|ressorgir|ser|substituir|succeir|suïcidar|tallar|tardar|tenir|tindre|tocar|tornar|tractar|transmetre|traslladar|travessar|trigar|trobar|trucar|unir|usar|utilitzar</token>-->
-                        <token postag="V.N.*" postag_regexp="yes"><exception regexp="yes">abocar|abordar|abraçar|ajudar|ballar|buscar|caçar|cantar|cercar|combatre|combregar|comprar|córrer|desaiguar|desembocar|dinar|dormir|dutxar|esquiar|estudiar|fer|jugar|lluitar|mirar|nedar|nadar|parar|patinar|socórrer|treballar|veure|visitar|viure</exception></token>
+                        <!--<token regexp="yes">abreujar|abreviar|acabar|acceptar|alimentar|analitzar|aparéixer|aparèixer|arribar|assentar|calcular|caracteritzar|cedir|començar|comportar|comprovar|comptar|confirmar|conferir|constituir|construir|contar|convertir|cremar|cridar|declarar|dedicar|definir|demostrar|descriure|dibuixar|dir|donar|durar|encertar|encetar|entrar|errar|esser|ésser|establir|estendre|exigir|explicar|fallar|finalitzar|formar|gastar|gustar|incorporar|intervenir|limitar|llegir|lliurar|mantenir|mantindre|menjar|millorar|morir|mostrar|nevar|notar|obtenir|obtindre|oferir|pagar|passar|ploure|preparar|presentar|produir|provar|realitzar|recollir|refer|reproduir|rescatar|resoldre|ressorgir|ser|substituir|succeir|suïcidar|tallar|tardar|tenir|tindre|tocar|tornar|tractar|transmetre|traslladar|travessar|trigar|trobar|trucar|unir|usar|utilitzar</token>-->
+                        <token postag="V.N.*" postag_regexp="yes"><exception regexp="yes">abocar|abordar|abraçar|ajudar|ballar|banyar|berenar|buscar|caçar|calfar|cantar|cercar|combatre|combregar|comprar|córrer|desaiguar|desguassar|desdejunar|desembocar|dinar|dormir|dutxar|escalfar|esmorzar|esquiar|estudiar|fer|jugar|lluitar|mirar|nedar|nadar|parar|parlar|patinar|pescar|raure|seure|socórrer|sopar|treballar|veure|visitar|viure</exception></token>
                     </marker>
                 </pattern>
                 <message>Expressió incorrecta si no indica moviment. Elimineu el verb anar i useu el present o el futur.</message>
