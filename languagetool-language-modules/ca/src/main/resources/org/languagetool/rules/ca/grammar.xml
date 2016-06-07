@@ -13681,20 +13681,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">que|ho</exception></token>
+                    <token><exception>ho</exception><!--<exception regexp="yes">que|ho</exception>--></token>
                     <token inflected="yes" regexp="yes">no|voler|desitjar</token>
                     <token inflected="yes" regexp="yes">saber|entendre|comprendre</token>
                     <marker>
                         <token>perquè</token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>per què</suggestion>?</message>
+                <message>¿Volíeu dir <suggestion>per què</suggestion> (= per quina raó)?</message>
                 <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
                 <short>Possible confusió</short>
                 <example correction="per què">No sé <marker>perquè</marker> passa.</example>
                 <example correction="per què">Vull saber <marker>perquè</marker> passa.</example>
                 <example correction="per què">Rajoy no entén <marker>perquè</marker> se'n sorprenen.</example>
-                <example>Coses que no sabíem perquè eren poc freqüents.</example>
+                <example correction="per què">que no entenen <marker>perquè</marker> se'n van.</example>
+                <!--<example>Coses que no sabíem perquè eren poc freqüents.</example>-->
             </rule>
             <rule>
                 <pattern>
@@ -30185,6 +30186,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="REQUERIMENT_REQUISIT" name="requeriment/requisit">
+            <pattern>
+                <marker>
+                    <token inflected="yes">requeriment</token>
+                </marker>
+                <token inflected="yes" regexp="yes">tècnic|tecnològic|científic|funcional</token>
+            </pattern>
+            <message>Possible anglicisme.</message>
+            <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">requisit</match></suggestion>
+            <example correction="requisits">Els <marker>requeriments</marker> tècnics.</example>
+        </rule>
         <rule id="DECA_DEGA" name="decà/degà">
             <pattern>
                 <token inflected="yes">decà</token>
@@ -40360,8 +40372,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">vaig|vas|va|anem|aneu|van</token> <!-- potser és més probable amb uns que amb altres -->  <!--dubtós: morir-->
                         <token>a</token>
-                        <!--<token regexp="yes">abreujar|abreviar|acabar|acceptar|alimentar|analitzar|aparéixer|aparèixer|arribar|assentar|calcular|caracteritzar|cedir|començar|comportar|comprovar|comptar|confirmar|conferir|constituir|construir|contar|convertir|cremar|cridar|declarar|dedicar|definir|demostrar|descriure|dibuixar|dir|donar|durar|encertar|encetar|entrar|errar|esser|ésser|establir|estendre|exigir|explicar|fallar|finalitzar|formar|gastar|gustar|incorporar|intervenir|limitar|llegir|lliurar|mantenir|mantindre|menjar|millorar|morir|mostrar|nevar|notar|obtenir|obtindre|oferir|pagar|passar|ploure|preparar|presentar|produir|provar|realitzar|recollir|refer|reproduir|rescatar|resoldre|ressorgir|ser|substituir|succeir|suïcidar|tallar|tardar|tenir|tindre|tocar|tornar|tractar|transmetre|traslladar|travessar|trigar|trobar|trucar|unir|usar|utilitzar</token>-->
-                        <token postag="V.N.*" postag_regexp="yes"><exception regexp="yes">abocar|abordar|abraçar|ajudar|ballar|banyar|berenar|buscar|caçar|calfar|cantar|cercar|combatre|combregar|comprar|córrer|desaiguar|desguassar|desdejunar|desembocar|dinar|dormir|dutxar|escalfar|esmorzar|esquiar|estudiar|fer|jugar|lluitar|mirar|nedar|nadar|parar|parlar|patinar|pescar|raure|seure|socórrer|sopar|treballar|veure|visitar|viure</exception></token>
+                        <!--<token regexp="yes">abreujar|abreviar|acabar|acceptar|alimentar|analitzar|aparéixer|aparèixer|arribar|assentar|calcular|caracteritzar|cedir|començar|comportar|comprovar|comptar|confirmar|conferir|constituir|construir|contar|convertir|cremar|cridar|declarar|dedicar|definir|demostrar|descriure|dibuixar|dir|donar|durar|encertar|encetar|entrar|errar|esser|ésser|establir|estendre|exigir|explicar|fallar|finalitzar|formar|gastar|gustar|incorporar|intervenir|limitar|llegir|lliurar|mantenir|mantindre|marcar|menjar|millorar|morir|mostrar|nevar|notar|obtenir|obtindre|oferir|pagar|passar|perdre|potenciar|ploure|potenciar|preparar|presentar|produir|provar|realitzar|recollir|refer|reproduir|rescatar|resoldre|ressorgir|ser|substituir|succeir|suïcidar|tallar|tardar|tenir|tindre|tocar|tornar|tractar|transmetre|traslladar|travessar|trigar|trobar|trucar|unir|usar|utilitzar</token>-->
+                        <token postag="V.N.*" postag_regexp="yes"><exception regexp="yes">abocar|abordar|abraçar|ajudar|asseure|ballar|banyar|berenar|buscar|caçar|calfar|cantar|cercar|combatre|combregar|comprar|córrer|desaiguar|desguassar|desdejunar|desembocar|dinar|dormir|dutxar|escalfar|esmorzar|esquiar|estudiar|fer|jugar|lluitar|mirar|nedar|nadar|parar|parlar|patinar|pescar|raure|seure|socórrer|sopar|treballar|veure|visitar|viure</exception></token>
                     </marker>
                 </pattern>
                 <message>Expressió incorrecta si no indica moviment. Elimineu el verb anar i useu el present o el futur.</message>
