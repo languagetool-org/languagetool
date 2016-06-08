@@ -23653,6 +23653,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="DONAR_AMB" name="donar amb la resposta">
+            <pattern>
+                <marker>
+                    <token inflected="yes">donar</token>
+                    <token>amb</token>
+                </marker>
+                <token min="0" max="2" postag="D.*|A.*" postag_regexp="yes"/>
+                <token regexp="yes" inflected="yes">baula|solució|resposta|resolució</token>
+            </pattern>
+            <message>Castellanisme</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">trobar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">encertar</match></suggestion>
+            <example correction="trobar|encertar">No va saber <marker>donar amb</marker> la resposta.</example>
+            <example correction="trobar|encertar">No va saber <marker>donar amb</marker> solucions bones.</example>
+            <example correction="trobaren|encertaren">No <marker>donaren amb</marker> una resposta satisfactòria.</example>
+        </rule>
+        <rule id="DONAR_EN_EL_CLAU" name="donar en el clau">
+            <pattern>
+                <token inflected="yes">donar</token>
+                <token>en</token>
+                <token>el</token>
+                <token>clau</token>
+            </pattern>
+            <message>Castellanisme</message>
+            <suggestion>(encertar-la)</suggestion>
+            <suggestion>(endevinar la tecla)</suggestion>
+            <suggestion>(tocar-hi de mig a mig)</suggestion>
+            <example correction="(encertar-la)|(endevinar la tecla)|(tocar-hi de mig a mig)">No va saber <marker>donar en el clau</marker>.</example>
+        </rule>
         <rule id="ELS_TOTS_ELS" name="els tots els">
             <pattern>
                 <token postag="DA.*" postag_regexp="yes"></token>
@@ -27049,6 +27078,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Seguim endavant amb el pla</example>
         </rule>
         <rulegroup id="UNA_VIDA_PER_ENDAVANT" name="Una vida *per endavant/al davant">
+            <antipattern>
+                <marker>
+                    <token>per</token>
+                    <token>davant</token>
+                    <token inflected="yes">de</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes" skip="3" inflected="yes">minut|dia|nit|repte|vida|futur|camí|dies|any|mes|dècada|feina|faena|tasca|hora<exception scope="next" inflected="yes">passar</exception></token>
