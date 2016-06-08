@@ -10670,6 +10670,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>Güelfa</token>
                     </marker>
                 </antipattern>
+                <antipattern case_sensitive="yes">
+                    <marker>
+                        <token>Veles</token>
+                        <token>e</token>
+                        <token regexp="yes">[vV]ents</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token><exception regexp="yes">la|vocal</exception></token>
                     <marker>
@@ -10685,6 +10692,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction='i|en|el|es'>Els mínims que <marker>e</marker> posa</example>
                 <example correction='i|en|el|es'>No amaguen errors <marker>e</marker> intenten aprendre d'ells.</example>
                 <example>Serveix per a demostrar que pi i e són transcendents.</example>
+                <example>Veles e vents han mos desigs complir</example>
             </rule>
         </rulegroup>
         <rule id="BEN_BE" name="ben/bé">
@@ -39537,12 +39545,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>que</token>
                     <token postag="P.*" postag_regexp="yes"/>
-                    <token inflected="yes">esperar</token>
+                    <token inflected="yes" regexp="yes">esperar|evitar</token>
                     <token>que</token>
                 </marker>
             </antipattern>
             <pattern>
-                <token postag='V.IP.*|V.G.*' postag_regexp='yes' inflected='yes' skip='4'>esperar<exception scope="next" postag="_PUNCT.*|CC|N.*|DI.*|NP.*|_possible_nompropi|V.[^P].*" postag_regexp="yes"></exception><exception scope="previous" postag="P0[12].{5}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>
+                <token postag='V.IP.*|V.[NG].*' postag_regexp='yes' inflected='yes' skip='4' regexp="yes">esperar|evitar<exception scope="next" postag="_PUNCT.*|CC|N.*|DI.*|NP.*|_possible_nompropi|V.[^P].*" postag_regexp="yes"></exception><exception scope="previous" postag="P0[12].{5}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>
                 <token skip='5'>que<exception scope="next">que</exception><exception scope="next" postag="C.*|V.S.*|V.IF.*|_PUNCT.*" postag_regexp="yes"/><exception scope="previous">fins</exception></token>
                 <marker>
                     <token postag='V.IP.*' postag_regexp='yes'><exception postag='V.S.*|N.*|_possible_nompropi|V.IC.*' postag_regexp='yes'/></token>
@@ -39558,6 +39566,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="arribe|arribi">S'espera que la sonda <marker>arriba</marker> aviat.</example>
             <example correction="amplie|ampliï">esperen que el gas de lutita <marker>amplii</marker> el subministrament</example>
             <example correction="pugueu">S'espera que al final <marker>podeu</marker> venir.</example>
+            <example correction="duguen|duguin">per a evitar que les esquerres <marker>duen</marker> avant el seu programa.</example>
             <example>S'espera que la sonda Cassini arribi aviat.</example>
             <example>S'espera que la sonda arribi aviat.</example>
             <example>Espero que pugueu venir.</example>
