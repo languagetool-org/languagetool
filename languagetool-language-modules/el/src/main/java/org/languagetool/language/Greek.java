@@ -75,14 +75,18 @@ public class Greek extends Language {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-            new CommaWhitespaceRule(messages),
+            new CommaWhitespaceRule(messages, 
+                    Example.wrong("Το κόμμα χωρίζει προτάσεις<marker> ,</marker> όρους προτάσεων και φράσεις."),
+                    Example.fixed("Το κόμμα χωρίζει προτάσεις<marker>,</marker> όρους προτάσεων και φράσεις.")),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule("EL_UNPAIRED_BRACKETS", messages,
                     Arrays.asList("[", "(", "{", "“", "\"", "«"),
                     Arrays.asList("]", ")", "}", "”", "\"", "»")),
             new LongSentenceRule(messages),
             new MorfologikGreekSpellerRule(messages, this),
-            new UppercaseSentenceStartRule(messages, this),
+            new UppercaseSentenceStartRule(messages, this,
+                    Example.wrong("Η τελεία είναι σημείο στίξης. <marker>δείχνει</marker> το τέλος μίας πρότασης."),
+                    Example.fixed("Η τελεία είναι σημείο στίξης. <marker>Δείχνει</marker> το τέλος μίας πρότασης.")),
             new MultipleWhitespaceRule(messages, this),
             new WordRepeatBeginningRule(messages, this),
             new WordRepeatRule(messages, this),

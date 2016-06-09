@@ -20,6 +20,8 @@ package org.languagetool.tagging.disambiguation.rules.uk;
 
 import java.io.IOException;
 
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -34,6 +36,8 @@ import org.languagetool.tagging.uk.UkrainianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
 
+import static org.junit.Assert.assertTrue;
+
 public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
   
   private UkrainianTagger tagger;
@@ -43,7 +47,7 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
   private DemoDisambiguator demoDisambiguator;
   private Disambiguator chunker;
 
-  @Override
+  @Before
   public void setUp() {
     tagger = new UkrainianTagger();
     tokenizer = new UkrainianWordTokenizer();
@@ -53,6 +57,7 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
     chunker = new MultiWordChunker("/uk/multiwords.txt", true);
   }
 
+  @Test
   public void testDisambiguator() throws IOException {
 
     TestTools.myAssert("Танцювати до впаду", 
@@ -69,7 +74,8 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
        tokenizer, sentenceTokenizer, tagger, disambiguator);
       
   }
-  
+
+  @Test
   public void testDisambiguatorForInitials() throws IOException {
     TestTools.myAssert("Є.Бакуліна",
       "/[null]SENT_START"
@@ -149,7 +155,8 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
       +" був/[бути]verb:imperf:past:m  /[null]null чудовою/[чудовий]adj:f:v_oru:compb  /[null]null людиною/[людина]noun:anim:f:v_oru ./[null]null",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
-  
+
+  @Test
   public void testChunker() throws Exception {
     JLanguageTool lt = new JLanguageTool(new Ukrainian());
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Для  годиться.");

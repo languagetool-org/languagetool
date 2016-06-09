@@ -19,18 +19,20 @@
 
 package org.languagetool.synthesis.ru;
 
+import org.junit.Test;
+import org.languagetool.AnalyzedToken;
+
 import java.io.IOException;
 import java.util.Arrays;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-import org.languagetool.AnalyzedToken;
-
-public class RussianSynthesizerTest extends TestCase {
+public class RussianSynthesizerTest {
   private AnalyzedToken dummyToken(String tokenStr) {
     return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
   }
 
+  @Test
   public final void testSynthesizeString() throws IOException {
     RussianSynthesizer synth = new RussianSynthesizer();
     assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);

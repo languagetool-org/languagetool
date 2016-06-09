@@ -18,10 +18,7 @@
  */
 package org.languagetool.rules.pl;
 
-import java.util.Arrays;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.Polish;
@@ -30,7 +27,11 @@ import org.languagetool.rules.patterns.Match.CaseConversion;
 import org.languagetool.rules.patterns.Match.IncludeRange;
 import org.languagetool.rules.patterns.MatchState;
 
-public class MatchTest extends TestCase {
+import java.util.Arrays;
+
+import static org.junit.Assert.assertEquals;
+
+public class MatchTest {
 
   private AnalyzedTokenReadings getAnalyzedTokenReadings(String token, String posTag, String lemma) {
     return new AnalyzedTokenReadings(new AnalyzedToken(token, posTag, lemma), 0);
@@ -46,6 +47,7 @@ public class MatchTest extends TestCase {
     return match;
   }
 
+  @Test
   public void testSpeller() throws Exception {
     //tests with synthesizer
     Match match = getMatch("POS1", "POS2", true);

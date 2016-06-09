@@ -19,6 +19,7 @@
 package org.languagetool.remote;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Information about the remote server as returned by the server's XML response.
@@ -33,7 +34,7 @@ public class RemoteServer {
   RemoteServer(String software, String version, String buildDate) {
     this.software = Objects.requireNonNull(software);
     this.version = Objects.requireNonNull(version);
-    this.buildDate = Objects.requireNonNull(buildDate);
+    this.buildDate = buildDate;
   }
 
   /**
@@ -51,10 +52,15 @@ public class RemoteServer {
   }
 
   /**
-   * @return the build date of the version
+   * @return the build date of the version or null (in case this isn't a real build but runs in an IDE etc.)
    */
-  public String getBuildDate() {
-    return buildDate;
+  public Optional<String> getBuildDate() {
+    return Optional.ofNullable(buildDate);
+  }
+
+  @Override
+  public String toString() {
+    return software + "/" + version + "/" + buildDate;
   }
 
 }

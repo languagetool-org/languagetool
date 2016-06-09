@@ -29,6 +29,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import org.apache.commons.cli.CommandLine;
 
@@ -96,7 +97,7 @@ final class DictionaryExporter extends DictionaryBuilder {
          Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), encoding))) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
-        String[] parts = line.split(separator);
+        String[] parts = line.split(Pattern.quote(separator));
         if (parts.length == 3) {
           if (hasFrequency) { // remove frequency data in the last byte
             parts[2] = parts[2].substring(0, parts[2].length() - 1);

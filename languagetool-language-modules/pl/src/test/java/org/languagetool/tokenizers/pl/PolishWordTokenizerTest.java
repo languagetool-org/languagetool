@@ -19,15 +19,17 @@
 
 package org.languagetool.tokenizers.pl;
 
-import java.util.List;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.language.Polish;
 
-public class PolishWordTokenizerTest extends TestCase {
+import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
+public class PolishWordTokenizerTest {
+
+  @Test
   public void testTokenize() {
     final PolishWordTokenizer wordTokenizer = new PolishWordTokenizer();
     final List<String> tokens = wordTokenizer.tokenize("To jest\u00A0 test");

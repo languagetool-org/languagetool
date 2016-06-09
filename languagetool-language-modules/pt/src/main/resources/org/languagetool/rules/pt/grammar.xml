@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.150 2016-04-11 08:40:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.155 2016-05-10 8:00:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -217,6 +217,39 @@ $Id: grammar.xml,v 1.150 2016-04-11 08:40:00 marcoagpinto Exp $
      <example correction="procuram-se">Aqui <marker>procura-se</marker> pessoas sérias.</example>	 	 
     </rule> 
 
+	
+	
+    <!-- Concordance gender - NECESSÁRIO > NECESSÁRIA -->
+    <rule id="NECESSÁRIO_NECESSÁRIA" name="Erro de concordância NECESSÁRIO-NECESSÁRIA">
+      <pattern>
+		<token regexp="yes">é|foi|era|fora|será|seria|seja|fosse|for</token>
+        <marker>
+			<token>necessário</token>	
+        </marker>
+		<token>uma</token>
+		<token postag="NCFS000"><exception postag_regexp="yes" postag="AQ0CS0|PI0FS000|PI0MS000|NCMS000"></exception><exception>uma</exception></token>
+     </pattern>
+	 <message>Erro de género. Usar: <suggestion>necessária</suggestion>.</message>
+     <example correction="necessária">É <marker>necessário</marker> uma festa.</example>
+    </rule> 	
+
+
+
+    <!-- Concordance gender - NECESSÁRIO > NECESSÁRIA + UMA + ADJ + NOUN -->
+    <rule id="NECESSÁRIO_NECESSÁRIA_ADJ_NOUN" name="Erro de concordância NECESSÁRIO-NECESSÁRIA + UMA + ADJ + NOUN">
+      <pattern>
+		<token regexp="yes">é|foi|era|fora|será|seria|seja|fosse|for</token>
+        <marker>
+            <token>necessário</token>
+        </marker>
+		<token>uma</token>
+		<token postag_regexp="yes" postag="AQ0CS0|PI0FS000|PI0MS000|NCFS000"><exception>uma</exception></token>
+		<token postag="NCFS000"><exception postag="NCMS000"></exception><exception>uma</exception></token>
+     </pattern>
+	 <message>Erro de género. Usar: <suggestion>necessária</suggestion>.</message>
+     <example correction="necessária">É <marker>necessário</marker> uma grande festa.</example>
+    </rule> 	
+	
 
 	
     <!-- Concordance gender - UM > UMA -->
@@ -1892,7 +1925,7 @@ $Id: grammar.xml,v 1.150 2016-04-11 08:40:00 marcoagpinto Exp $
       <example correction="guarda-chuvas">Abram os <marker>guardas-chuvas</marker>.</example>
     </rule>
 
-	
+
 
     <!-- HÁ n SEGUNDOS/MINUTOS/HORAS/DIAS/MESES/ANOS ATRÁS (remove "ATRÁS") -->
     <rule id="HÁ-ATRÁS" name="há n tempo atrás">
@@ -1905,6 +1938,22 @@ $Id: grammar.xml,v 1.150 2016-04-11 08:40:00 marcoagpinto Exp $
 	  <message>Com o verbo haver não é necessário usar "atrás": <suggestion>\1 \2 \3</suggestion>.</message>
 	  <example correction="Há n segundos"><marker>Há n segundos atrás</marker>.</example>
     </rule>
+
+
+	
+    <!-- À QUASE há quase -->
+    <rule id="À_QUASE" name="há quase">
+      <pattern>
+		<marker>
+			<token>à</token>		
+			<token>quase</token>
+		</marker>	
+		<token></token>
+        <token regexp="yes">segundos?|minutos?|horas?|dias?|mês|meses|anos?</token>
+      </pattern>
+	  <message>Substituir «à quase» por <suggestion>há quase</suggestion>.</message>
+	  <example correction="há quase">Conheço a Ana <marker>à quase</marker> 30 anos.</example>
+    </rule>	
 
 	
 
@@ -2595,6 +2644,35 @@ $Id: grammar.xml,v 1.150 2016-04-11 08:40:00 marcoagpinto Exp $
 
 
 
+    <!-- PREÇOS ECONÓMICOS preços baixos -->
+    <rule id="PREÇOS_ECONÓMICOS" name="preços baixos">
+      <pattern>
+		<token>preços</token>
+		<marker>
+            <token>económicos</token>
+        </marker>         
+      </pattern>
+      <message>Substituir «económicos» por <suggestion>baixos</suggestion>.</message>
+      <example correction="baixos">Temos muitos preços <marker>económicos</marker> na loja.</example>
+    </rule>
+
+
+
+    <!-- PREÇOS + ADJ + ECONÓMICOS preços + adj + baixos -->
+    <rule id="PREÇOS_ADJ_ECONÓMICOS" name="preços + adj + baixos">
+      <pattern>
+		<token>preços</token>
+		<token postag="RG"></token> 
+		<marker>
+            <token>económicos</token>
+        </marker>         
+      </pattern>
+      <message>Substituir «económicos» por <suggestion>baixos</suggestion>.</message>
+      <example correction="baixos">Temos preços bastante <marker>económicos</marker> na loja.</example>
+    </rule>
+
+
+
     <!-- PRESTE A prestes a -->
     <rule id="PRESTE_A" name="prestes a">
       <pattern>
@@ -2739,8 +2817,8 @@ $Id: grammar.xml,v 1.150 2016-04-11 08:40:00 marcoagpinto Exp $
 	<rule id="CONFUSÃO_VESTIR_CALÇAR" name="confusão vestir/calçar">
 	  <pattern>
         <token regexp="yes">vestir|vestiu|veste|vestiste</token>
-        <token regexp="yes">os|o|a|as</token>
-        <token regexp="yes">sapato|sapatos|chinelo|chinelos|meia|meias|luva|luvas|bota|botas|peúga|peúgas|ténis|sapatilha|sapatilhas</token>
+        <token regexp="yes">os?|as?|um|uns|umas?</token>
+        <token regexp="yes">sapatos?|chinelos?|meias?|luvas?|botas?|peúgas?|ténis|sapatilhas?</token>
       </pattern>
       <message>Usa o verbo calçar</message>
       <example correction=""><marker>Vestir os sapatos</marker>.</example>
@@ -3086,7 +3164,35 @@ $Id: grammar.xml,v 1.150 2016-04-11 08:40:00 marcoagpinto Exp $
       <message>Usar vírgula: <suggestion>\1 \2,</suggestion></message>
       <example correction="ou seja,">Pensa primeiro, <marker>ou seja</marker> escolhe acertadamente.</example>
     </rule>
+
+
+
+    <!-- COMMA BEFORE WORDS #1 -->
+    <rule id="COMMA_1" name="Vírgula antes #1">
+      <pattern>	  
+		<marker>
+			<token><exception regexp="yes">[,;:–—\(]</exception></token>	
+		</marker>
+		<token regexp="yes">mas|porém|contudo|entretanto|todavia</token>
+      </pattern>
+      <message>Usar vírgula: <suggestion>\1,</suggestion></message>
+	  <example correction="chocolate,">Eu adoro <marker>chocolate</marker> mas faz engordar.</example>
+    </rule>
+
+
 	
+    <!-- COMMA BEFORE WORDS #2 -->
+    <rule id="COMMA_2" name="Vírgula antes #2">
+      <pattern>	  
+		<marker>
+			<token><exception regexp="yes">[,;:–—\(]</exception></token>
+	    </marker>
+		<token>no</token>
+		<token>entanto</token>	 
+      </pattern>
+      <message>Usar vírgula: <suggestion>\1,</suggestion></message>
+	  <example correction="chocolate,">Eu adoro <marker>chocolate</marker> no entanto faz engordar.</example>
+    </rule>	
 	
 </category>
 
@@ -3141,7 +3247,6 @@ $Id: grammar.xml,v 1.150 2016-04-11 08:40:00 marcoagpinto Exp $
       <message>Redundância. Usar apenas <suggestion>quadrilha</suggestion>.</message>
       <example correction="quadrilha">É uma perigosa <marker>quadrilha de ladrões</marker>.</example>
     </rule>
-
 	
 </category>
 

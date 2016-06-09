@@ -18,6 +18,7 @@
  */
 package org.languagetool.remote;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.server.HTTPSServer;
 import org.languagetool.server.HTTPSServerConfig;
@@ -37,16 +38,21 @@ import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.util.Collections;
 
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class RemoteLanguageToolIntegrationTest {
 
   private static final String serverUrl = "http://" + HTTPServerConfig.DEFAULT_HOST + ":" + HTTPTools.getDefaultPort();
 
+  @Test
+  @Ignore("for interactive use only")
+  public void testPublicServer() throws MalformedURLException {
+    RemoteLanguageTool lt = new RemoteLanguageTool(new URL("https://languagetool.org/api"));
+    RemoteResult matches = lt.check("This is an test.", "en");
+    System.out.println("matches: " + matches);
+  }
+  
   @Test
   public void testClient() throws MalformedURLException {
     HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort());
@@ -58,13 +64,13 @@ public class RemoteLanguageToolIntegrationTest {
       assertThat(lt.check("Sentence wiht a typo not detected.", "en").getMatches().size(), is(0));
       assertThat(lt.check("Sentence wiht a typo detected.", "en-US").getMatches().size(), is(1));
       assertThat(lt.check("A sentence with a error.", "en").getMatches().size(), is(1));
+      assertThat(lt.check("Test escape: %", "en").getMatches().size(), is(0));
 
       RemoteResult result1 = lt.check("A sentence with a error, and and another one", "en");
       assertThat(result1.getLanguage(), is("English"));
       assertThat(result1.getLanguageCode(), is("en"));
       assertThat(result1.getRemoteServer().getSoftware(), is("LanguageTool"));
       assertNotNull(result1.getRemoteServer().getVersion());
-      assertNotNull(result1.getRemoteServer().getBuildDate());
       assertThat(result1.getMatches().size(), is(2));
       assertThat(result1.getMatches().get(0).getRuleId(), is("EN_A_VS_AN"));
       assertThat(result1.getMatches().get(1).getRuleId(), is("ENGLISH_WORD_REPEAT_RULE"));
@@ -76,22 +82,22 @@ public class RemoteLanguageToolIntegrationTest {
 
       CheckConfiguration enabledConfig = new CheckConfigurationBuilder("en").enabledRuleIds("EN_A_VS_AN").build();
       RemoteResult result3 = lt.check("A sentence with a error, and and another one", enabledConfig);
-      assertThat(result1.getMatches().size(), is(2));
+      assertThat(result3.getMatches().size(), is(2));
 
       CheckConfiguration enabledOnlyConfig = new CheckConfigurationBuilder("en").enabledRuleIds("EN_A_VS_AN").enabledOnly().build();
       RemoteResult result4 = lt.check("A sentence with a error, and and another one", enabledOnlyConfig);
       assertThat(result4.getMatches().size(), is(1));
       assertThat(result4.getMatches().get(0).getRuleId(), is("EN_A_VS_AN"));
 
-      CheckConfiguration config1 = new CheckConfigurationBuilder("en").autoDetectLanguage().build();
+      CheckConfiguration config1 = new CheckConfigurationBuilder().build();
       RemoteResult result5 = lt.check("Ein Satz in Deutsch, mit etwas mehr Text, damit es auch geht.", config1);
       assertThat(result5.getLanguage(), is("German (Germany)"));
       assertThat(result5.getLanguageCode(), is("de-DE"));
 
-      CheckConfiguration config2 = new CheckConfigurationBuilder("fr").autoDetectLanguage().build();
+      CheckConfiguration config2 = new CheckConfigurationBuilder().build();
       RemoteResult result6 = lt.check("x", config2);  // too short, fallback will be used
-      assertThat(result6.getLanguage(), is("French"));
-      assertThat(result6.getLanguageCode(), is("fr"));
+      assertThat(result6.getLanguage(), is("English (US)"));
+      assertThat(result6.getLanguageCode(), is("en-US"));
 
       RemoteResult result7 = lt.check("Das Häuser ist schön.", "de");
       assertThat(result7.getMatches().size(), is(1));

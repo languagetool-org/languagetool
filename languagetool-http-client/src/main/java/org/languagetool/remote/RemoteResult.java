@@ -56,4 +56,8 @@ public class RemoteResult {
     return remoteServer;
   }
 
+  @Override
+  public String toString() {
+    return matches.toString();
+  }
 }

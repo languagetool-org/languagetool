@@ -105,7 +105,7 @@
       <disambig action="immunize"/>
     </rule>
     
-    <!-- oficially not written with the apostrophe -->
+    <!-- officially not written with the apostrophe -->
     <rule id="HUMAN_RIGHTS_COUNCIL" name="Human Rights Council">
       <pattern case_sensitive="yes">
         <token>Human</token>
@@ -1030,6 +1030,18 @@
     <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/MD]">This <marker>can</marker> only be eliminated.</example>
     </rule>
     <rule>
+        <pattern>
+            <marker>
+                <token>can</token>
+            </marker>
+            <token regexp="yes">['’]</token>
+            <token>t</token>
+        </pattern>
+        <disambig postag="MD"/>
+        <example type="untouched">Ignore the usual <marker>cant</marker> from the politicians.</example>
+        <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/MD]">So this too <marker>can</marker>'t be used.</example>
+    </rule>
+    <rule>
     <pattern>
             <token postag="SENT_START|[:;,]" postag_regexp="yes"/>
             <token regexp="yes">I|you|he|she|we|they</token>
@@ -1041,7 +1053,7 @@
     <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/MD]">Yes, we <marker>can</marker>!</example>
      </rule>
     </rulegroup>
-  
+
     <rulegroup id="CAN_NN" name="can as a noun">
     <rule>
       <pattern>
@@ -1070,17 +1082,47 @@
     </rule>
     <rule>
       <pattern>
-        <token postag="DT"><exception postag="PDT" /><exception>these</exception></token>
+        <token postag="DT"><exception postag="PDT" /><exception regexp="yes">each|some|these</exception></token>
         <marker>
           <token>can</token>
         </marker>
       </pattern>
       <disambig postag="NN"/>
       <example type="untouched">You can!</example>
+      <example type="untouched">There are 3 hangars. Each <marker>can</marker> accommodate the largest aircraft.</example>
+      <example type="untouched">For example, some <marker>can</marker> accommodate the largest aircraft and other hangars cannot.</example>
+      <example type="untouched">All <marker>can</marker> accommodate small aircraft.</example>
       <example type="ambiguous" inputform="can[can/MD]" outputform="can[can/NN]">The <marker>can</marker> can hold the water.</example>
     </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>can</token>
+        </marker>
+        <token postag="MD"/>
+      </pattern>
+      <disambig postag="NN"/>
+      <example type="untouched">There are 3 hangars. Each <marker>can</marker> accommodate the largest aircraft.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> might be dirty.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> must not be dirty.</example>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>can</token>
+        </marker>
+        <token regexp="yes">is|was|will|were</token>
+      </pattern>
+      <disambig postag="NN"/>
+      <example type="untouched">You <marker>can</marker> be happy without money.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> is dirty.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">The <marker>can</marker> was not dirty.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">This <marker>can</marker> will be used to demonstrate problem.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">If this <marker>can</marker> were to fall, there would be much damage to the equipment.</example>
+      <example type="ambiguous" inputform="can[can/MD,can/NN,can/VB,can/VBP]" outputform="can[can/NN]">This <marker>can</marker> were dirty. [Non-standard English]</example>
+    </rule>
     </rulegroup>
-  
+
     <!-- useful for this/these rule, e.g., in this circumstances -->
     <rule name="preposition + 'this' + verb 3sg/NNS -&gt; nns" id="IN_VBZ_NNS">
         <pattern>
@@ -4009,37 +4051,6 @@
             <disambig action="filterall"/>
         </rule>
 
-        
-   <!--  the chunker fails for addresses, we need this for CD_NN -->
-    <rule name="Number + Uppercase word/no tag + uppercase word -&gt; immunize" id="CD_UPPER_UNKNOWN_NNP_UPPERCASE_SEQ">
-        <pattern case_sensitive="yes">
-        <marker>
-            <token regexp="yes">\d+<exception regexp="yes">[01]</exception></token>
-            <token postag="NNP"/>            
-            <token regexp="yes">Ave|Avenue|Street|Terrace|Square|St|Circle|Drive</token>
-         </marker>            
-        </pattern>
-        <disambig action="immunize"/>
-    </rule>        
-        
-    <rule name="Immunize votes" id="X_TO_X_VOTE">
-      <pattern>
-        <token regexp="yes">\d+</token>
-        <token>to</token>
-        <token regexp="yes">\d+</token>
-        <token>vote</token>
-      </pattern>
-      <disambig action="immunize"/>
-    </rule>
-
-    <rule name="Immunize decade" id="X0decade">
-      <pattern>
-        <token regexp="yes">\d+0</token>
-        <token>decade</token>
-      </pattern>
-      <disambig action="immunize"/>
-    </rule>
-    
     <rule name="Immunize 'no big deal'" id="NO_BIG_DEAL">
       <pattern>
       <token>no</token>

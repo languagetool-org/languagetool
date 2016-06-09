@@ -19,15 +19,19 @@
 
 package org.languagetool.bitext;
 
+import org.junit.Test;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-public class WordFastTMReaderTest extends TestCase {
+public class WordFastTMReaderTest {
 
+  @Test
   public void testReader() throws Exception {
     // Create a simple WordFast text memory.
     File input = File.createTempFile("input", ".txt");  

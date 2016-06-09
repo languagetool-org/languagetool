@@ -19,6 +19,10 @@
 package org.languagetool.commandline;
 
 import org.apache.commons.lang.StringUtils;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -31,7 +35,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 /**
  * Tests the basic features of the command-line interface.
@@ -50,8 +54,7 @@ public class MainTest extends AbstractSecurityTestCase {
   private PrintStream stdout;
   private PrintStream stderr;
 
-  public MainTest(String testName) throws IOException {
-    super(testName);
+  public MainTest() throws IOException {
     enTestFile = writeToTempFile("This is an test.\n\n" +
         "This is a test of of language tool.\n\n" +
         "This is is a test of language tool.");
@@ -109,7 +112,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   }
 
-  @Override
+  @Before
   public void setUp() throws Exception {
     super.setUp();
     this.stdout = System.out;
@@ -120,13 +123,14 @@ public class MainTest extends AbstractSecurityTestCase {
     System.setErr(new PrintStream(this.err));
   }
 
-  @Override
+  @After
   public void tearDown() throws Exception {
-    super.tearDown();
     System.setOut(this.stdout);
     System.setErr(this.stderr);
+    super.tearDown();
   }
 
+  @Test
   public void testUsageMessage() throws Exception {
     try {
       String[] args = {"-h"};
@@ -139,6 +143,7 @@ public class MainTest extends AbstractSecurityTestCase {
     }
   }
 
+  @Test
   public void testPrintLanguages() throws Exception {
     try {
       String[] args = {"--list"};
@@ -153,6 +158,7 @@ public class MainTest extends AbstractSecurityTestCase {
     }
   }
 
+  @Test
   public void testFileWithExternalRule() throws Exception {
     //note: we pretend this is Breton because the English language tool is already initialized
     String[] args = {"-l", "br", "--rulefile", getRuleFilePath(), getTestFilePath()};
@@ -163,6 +169,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("Rule ID: EXAMPLE_RULE"));
   }
 
+  @Test
   public void testEnglishFile() throws Exception {
     String[] args = {"-l", "en", getTestFilePath()};
 
@@ -173,6 +180,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
 
+  @Test
   public void testEnglishFileAutoDetect() throws Exception {
     String[] args = {"-adl", getTestFilePath()};
 
@@ -183,6 +191,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
 
+  @Test
   public void testEnglishStdInAutoDetect() throws Exception {
     String test = "This is an test.";
     byte[] b = test.getBytes();
@@ -197,6 +206,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
 
+  @Test
   public void testStdInWithExternalFalseFriends() throws Exception {
     String test = "Láska!\n";
     byte[] b = test.getBytes();
@@ -211,6 +221,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("Rule ID: LASKA"));
   }
 
+  @Test
   public void testEnglishFileVerbose() throws Exception {
     String[] args = {"-l", "en", "-v", getTestFilePath()};
 
@@ -223,6 +234,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue("Got: " + tagText, tagText.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>,O]"));
   }
 
+  @Test
   public void testEnglishFileApplySuggestions() throws Exception {
     String[] args = {"-l", "en", "--apply", getTestFilePath()};
 
@@ -233,6 +245,7 @@ public class MainTest extends AbstractSecurityTestCase {
         "This is a test of language tool.")); // \r\n in Windows tests at the end...
   }
 
+  @Test
   public void testEnglishStdIn1() throws Exception {
     String test = "This is an test.";
     byte[] b = test.getBytes();
@@ -246,6 +259,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
 
+  @Test
   public void testEnglishStdIn2() throws Exception {
     String test = "This is an test.";
     byte[] b = test.getBytes();
@@ -259,6 +273,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
   }
 
+  @Test
   public void testEnglishStdIn3() throws Exception {
     String test = "This is an test.";
     byte[] b = test.getBytes();
@@ -270,6 +285,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertEquals("This is a test.", output);
   }
 
+  @Test
   public void testEnglishStdIn4() throws Exception {
     System.setIn(new FileInputStream(enTestFile));
     String[] args = {"-l", "en", "--api", "-"};
@@ -284,6 +300,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   //test line mode vs. para mode
   //first line mode
+  @Test
   public void testEnglishLineMode() throws Exception {
     String test = "This is what I mean\nand you know it.";
     byte[] b = test.getBytes();
@@ -296,6 +313,7 @@ public class MainTest extends AbstractSecurityTestCase {
   }
 
   //first line mode
+  @Test
   public void testEnglishParaMode() throws Exception {
     String test = "This is what I mean\nand you know it.";
     byte[] b = test.getBytes();
@@ -307,6 +325,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertEquals("This is what I mean\nand you know it.", output);
   }
 
+  @Test
   public void testPolishStdInDefaultOff() throws Exception {
     String test = "To jest test, który zrobiłem, który mi się podoba.";
     byte[] b = test.getBytes();
@@ -321,18 +340,21 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("1.) Line 1, column 31, Rule ID: PL_WORD_REPEAT"));
   }
 
+  @Test
   public void testPolishApiStdInDefaultOff() throws Exception {
     String test = "To jest test, który zrobiłem, który mi się podoba.";
     byte[] b = test.getBytes();
     System.setIn(new ByteArrayInputStream(b));
-    String[] args = {"--api", "-l", "pl", "-e", "PL_WORD_REPEAT", "-"};
+    String[] args = {"--api", "-l", "pl", "-eo", "-e", "PL_WORD_REPEAT", "-"};
     Main.main(args);
     String output = new String(this.out.toByteArray());
+//    assertThat("asdf", is(output));
     assertThat(StringUtils.countMatches(output, "<error "), is(1));
     assertThat(StringUtils.countMatches(output, "<matches "), is(1));
     assertThat(StringUtils.countMatches(output, "</matches>"), is(1));  // https://github.com/languagetool-org/languagetool/issues/251
   }
 
+  @Test
   public void testPolishApiStdInDefaultOffNoErrors() throws Exception {
     String test = "To jest test.";
     byte[] b = test.getBytes();
@@ -345,6 +367,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertThat(StringUtils.countMatches(output, "</matches>"), is(1));
   }
 
+  @Test
   public void testPolishSpelling() throws Exception {
     String test = "Zwuasdac?";
     byte[] b = test.getBytes();
@@ -359,6 +382,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("1.) Line 1, column 1, Rule ID: MORFOLOGIK_RULE_PL_PL"));
   }
 
+  @Test
   public void testEnglishFileRuleDisabled() throws Exception {
     String[] args = {"-l", "en", "-d", "EN_A_VS_AN", getTestFilePath()};
 
@@ -369,6 +393,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(!stdout.contains("Rule ID: EN_A_VS_AN"));
   }
 
+  @Test
   public void testEnglishFileRuleEnabled() throws Exception {
     String[] args = {"-l", "en", "-e", "EN_A_VS_AN", getTestFilePath()};
 
@@ -379,6 +404,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("Rule ID: EN_A_VS_AN"));
   }
 
+  @Test
   public void testEnglishFileFakeRuleEnabled() throws Exception {
     String test = "Zwuasdac?";
     byte[] b = test.getBytes();
@@ -389,6 +415,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stderr.indexOf("Expected text language: English") == 0);
   }
 
+  @Test
   public void testEnglishFileAPI() throws Exception {
     String[] args = {"-l", "en", "--api", getTestFilePath()};
     Main.main(args);
@@ -402,6 +429,7 @@ public class MainTest extends AbstractSecurityTestCase {
         "contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"misspelling\"/>"));
   }
 
+  @Test
   public void testGermanFileWithURL() throws Exception {
     File input = writeToTempFile("Ward ihr zufrieden damit?");
     String[] args = {"-l", "de", "--api", input.getAbsolutePath()};
@@ -419,6 +447,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output2.contains("More info: http://www.korrekturen.de/beliebte_fehler/ward.shtml"));
   }
 
+  @Test
   public void testPolishFileAPI() throws Exception {
     File input = writeToTempFile("To jest świnia która się ślini.");
     String[] args = {"-l", "pl", "--api", "-c", "utf-8", input.getAbsolutePath()};
@@ -433,6 +462,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.contains("contextoffset=\"8\" offset=\"8\" errorlength=\"12\" category=\"Błędy interpunkcyjne\""));
   }
 
+  @Test
   public void testPolishLineNumbers() throws Exception {
     File input = writeToTempFile(
         "Test.\n" +
@@ -452,6 +482,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("Line 8, column 1, Rule ID: BRAK_PRZECINKA_KTORY"));
   }
 
+  @Test
   public void testEnglishTagger() throws Exception {
     String[] args = {"-l", "en", "--taggeronly", getTestFilePath()};
     Main.main(args);
@@ -461,6 +492,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue("Got: " + stdout, stdout.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>,O]"));
   }
 
+  @Test
   public void testBitextMode() throws Exception {
     File input = writeToTempFile(
         "This is not actual.\tTo nie jest aktualne.\n" +
@@ -477,6 +509,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("Line 3, column 3, Rule ID: TRANSLATION_LENGTH"));
   }
 
+  @Test
   public void testBitextModeWithDisabledRule() throws Exception {
     File input = writeToTempFile(
         "this is not actual.\tTo nie jest aktualne.\n" +
@@ -493,6 +526,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertFalse(stdout.contains("Rule ID: TRANSLATION_LENGTH"));
   }
 
+  @Test
   public void testBitextModeWithEnabledRule() throws Exception {
     File input = writeToTempFile(
         "this is not actual.\tTo nie jest aktualne.\n" +
@@ -509,6 +543,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("Rule ID: TRANSLATION_LENGTH"));
   }
 
+  @Test
   public void testBitextModeApply() throws Exception {
     File input = writeToTempFile("There is a dog.\tNie ma psa.");
     String[] args = {"-l", "pl", "--bitext", "-m", "en", "--apply", input.getAbsolutePath()};
@@ -517,6 +552,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.startsWith("Istnieje psa."));
   }
 
+  @Test
   public void testBitextWithExternalRule() throws Exception {
     File input = writeToTempFile("This is a red herring.\tTo jest czerwony śledź.");
     String[] args = {"-l", "pl", "-c", "UTF-8", "--bitext", "-m", "en", "--bitextrules",
@@ -526,7 +562,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue("red_herring rule should be in the output" + output, output.contains("Rule ID: red_herring"));
   }
 
-
+  @Test
   public void testListUnknown() throws Exception {
     String[] args = {"-l", "pl", "-u", getTestFilePath()};
     Main.main(args);
@@ -536,6 +572,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("Unknown words: [., This, an, is, language, of, tool]"));
   }
 
+  @Test
   public void testNoListUnknown() throws Exception {
     String[] args = {"-l", "pl", getTestFilePath()};
     Main.main(args);
@@ -545,6 +582,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(!stdout.contains("Unknown words: [This, an, is]"));
   }
 
+  @Test
   public void testLangWithCountryVariant() throws Exception {
     File input = writeToTempFile("This is modelling.");
     String[] args = {"-l", "en-US", input.getAbsolutePath()};
@@ -555,6 +593,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("MORFOLOGIK_RULE_EN_US"));
   }
 
+  @Test
   public void testValencianCatalan() throws Exception {
     File input = writeToTempFile("Que sigui així.");
     String[] args = {"-l", "ca-ES-valencia", input.getAbsolutePath()};
@@ -565,6 +604,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("EXIGEIX_VERBS_VALENCIANS"));
   }
 
+  @Test
   public void testCatalan() throws Exception {
     File input = writeToTempFile("Que siga així.");
     String[] args = {"-l", "ca-ES", input.getAbsolutePath()};
@@ -575,6 +615,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("EXIGEIX_VERBS_CENTRAL"));
   }
 
+  @Test
   public void testCatalan2() throws Exception {
     File input = writeToTempFile("Que siga així.");
     String[] args = {"-l", "ca", input.getAbsolutePath()};
@@ -585,6 +626,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stdout.contains("EXIGEIX_VERBS_CENTRAL"));
   }
 
+  @Test
   public void testNoXmlFilteringByDefault() throws Exception {
     File input = writeToTempFile("This < is is > filtered.");
     String[] args = {input.getAbsolutePath()};
@@ -593,6 +635,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.contains("ENGLISH_WORD_REPEAT_RULE"));
   }
 
+  @Test
   public void testXmlFiltering() throws Exception {
     File input = writeToTempFile("This < is is > filtered.");
     String[] args = {"--xmlfilter", input.getAbsolutePath()};

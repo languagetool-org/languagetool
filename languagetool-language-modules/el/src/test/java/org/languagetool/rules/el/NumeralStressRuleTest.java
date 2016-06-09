@@ -18,12 +18,16 @@
  */
 package org.languagetool.rules.el;
 
-import java.io.IOException;
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Greek;
 import org.languagetool.rules.RuleMatch;
+
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * NumeralStressRule TestCase.
@@ -31,17 +35,18 @@ import org.languagetool.rules.RuleMatch;
  * @author Panagiotis Minos
  * @since 3.3
  */
-public class NumeralStressRuleTest extends TestCase {
+public class NumeralStressRuleTest {
 
   private NumeralStressRule rule;
   private JLanguageTool langTool;
 
-  @Override
+  @Before
   public void setUp() throws IOException {
     rule = new NumeralStressRule(TestTools.getMessages("el"));
     langTool = new JLanguageTool(new Greek());
   }
 
+  @Test
   public void testRule() throws IOException {
 
     assertCorrect("1ος");

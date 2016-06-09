@@ -19,14 +19,17 @@
 
 package org.languagetool.tokenizers.nl;
 
+import org.junit.Test;
+
 import java.util.List;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-public class DutchWordTokenizerTest extends TestCase {
+public class DutchWordTokenizerTest {
 
   private final DutchWordTokenizer wordTokenizer = new DutchWordTokenizer();
 
+  @Test
   public void testTokenize() {
     assertTokenize("This is\u00A0a test",
                    "[This,  , is,  , a,  , test]");

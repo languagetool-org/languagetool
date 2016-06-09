@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
         title="Easy editing stylesheet" ?>
@@ -5412,6 +5412,10 @@ USA
             </pattern>
             <message>Did you mean <suggestion><match no="2" postag="NN:UN|NN" postag_regexp="yes" postag_replace="NNS"/></suggestion>?</message>
             <example correction="languages">I think some <marker>language</marker> are more complicated than others.</example>
+            <example correction="cans">Some <marker>can</marker> are dirty.</example>
+            <example>For example, some <marker>can</marker> accommodate the largest aircraft and other hangars cannot.</example>
+            <example>If some <marker>can</marker> contains oily water, check the pump for leaks.</example>
+            <example>This <marker>can</marker> is dirty.</example>
         </rule>
         <rule id="IS_CAUSE_BY" name="is cause (caused) by">
             <pattern>
@@ -9718,8 +9722,25 @@ USA
             <example correction="lots of books">I have got <marker>lots of book</marker>.</example>
             <example>I have got <marker>lots of wine</marker>.</example>
         </rule>
-        <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">          
+        <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
+          <antipattern case_sensitive="yes">
+          <marker>
+              <token regexp="yes">\d+<exception regexp="yes">[01]</exception></token>
+              <token postag="NNP"/>            
+              <token regexp="yes">Ave|Avenue|Street|Terrace|Square|St|Circle|Drive</token>
+           </marker>            
+          </antipattern>    
           <antipattern>
+            <token regexp="yes">\d+0</token>
+            <token>decade</token>
+          </antipattern>
+          <antipattern>
+            <token regexp="yes">\d+</token>
+            <token>to</token>
+            <token regexp="yes">\d+</token>
+            <token>vote</token>
+          </antipattern>      
+         <antipattern>
             <token regexp="yes">s?he|you|I|we|they|it</token>
             <token inflected="yes">be</token>
             <token postag="CD"/>
@@ -10795,9 +10816,14 @@ USA
             </rule>
         </rulegroup>
         <rule id="DT_PRP" name="The you (you)">
+            <antipattern>
+                <token regexp="yes">an|the</token>
+                <token regexp="yes">(?-i)It</token>
+                <token inflected="yes">girl</token>
+            </antipattern>
             <pattern>
                 <token postag="DT" inflected="yes" regexp="yes">a|the</token>
-                <token postag="PRP\$?" postag_regexp="yes"><exception regexp="yes">(?iu)US|[Oo][Nn][Ee]</exception></token>
+                <token postag="PRP\$?" postag_regexp="yes"><exception regexp="yes" case_sensitive="yes">US|IT|one|ONE</exception></token>
             </pattern>
             <message>Possible typo. Did you mean <suggestion>\1</suggestion> or <suggestion>\2</suggestion>?</message>
             <short>Possible typo</short>
@@ -10807,6 +10833,17 @@ USA
             <example>Asphalte in its natural state from the mine at Pyrimont Seysell in France.</example>
             <example correction="The|My"><marker>The my</marker> search could return docs.</example>
             <example correction="the|my">The dots in <marker>the my</marker> life.</example>
+            <example correction="the|it">If <marker>the it</marker> em is missing, stop the test.</example>
+            <example correction="the|Us">I will go to <marker>the Us</marker> next month.</example>
+            <example correction="an|it">If you frequently write incorrectly spelled text <marker>an it</marker> causes a problem for the readers, use LT.</example>
+            <example>Surely, '<marker>the ONe</marker>' is a typing error.</example>
+            <example type="triggers_error"><marker>The One</marker> is a 2001 American science fiction action-martial arts film [https://en.wikipedia.org/wiki/The_One_(2001_film)].</example>
+            <example>I will go to the <marker>US</marker> next month.</example>
+            <example>The telecoms sector fell by 1% and the <marker>IT</marker> sector fell by 2.5%.</example>
+            <example>This is not an <marker>IT</marker> problem.</example>
+            <example>Olivia certainly is the <marker>It</marker> girl [https://en.wikipedia.org/wiki/It_girl].</example>
+            <example>And now, live on stage, <marker>the one</marker> and only, the incomparable, Kermit the Frog!</example>
+            <example>This is your chance of a lifetime! For <marker>A ONE</marker> DAY ONLY SALE of exclusive jewellery, visit our store.</example>
         </rule>
         <rule id="AN_ANOTHER" name="an another (an/another)">
             <pattern>
@@ -11636,6 +11673,7 @@ USA
             <example>He succeeded almost too well.</example>
             <example>It is too narrow.</example>
             <example>I too have a son; he's 40 now.</example>
+            <example>So this too <marker>can</marker>'t be used to prove the thoery.</example>
         </rule>
         <rulegroup id="TO_TOO" name="to/two (too) late/soon/much">
             <rule>
@@ -13592,6 +13630,22 @@ USA
             <message>Did you mean <suggestion>nice</suggestion> (=pleasant)?</message>
             <short>Commonly confused word</short>
             <example correction="nice">I wish you a <marker>niece</marker> holiday.</example>
+        </rule>
+        <rule id="SLIGHT_OF_HAND" name="slight (sleight) of hand">
+            <pattern>
+                <marker>
+                    <token regexp="yes">slight|slights</token>
+                </marker>
+                <token>of</token>
+                <token>hand</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">sleight</match></suggestion>?</message>
+            <url>http://public.wsu.edu/~brians/errors/slight.html</url>
+            <short>Commonly confused word</short>
+            <example correction="sleight">This is where the <marker>slight</marker> of hand comes in.</example>
+            <example correction="sleights">At the show, we saw many marvellous <marker>slights</marker> of hand.</example>
+            <example correction="Sleights"><marker>Slights</marker> of hand are a clever trick.</example>
+            <example><marker>Sleight</marker> of hand is also known as prestidigitation.</example>
         </rule>
     </category>
 
@@ -15600,20 +15654,34 @@ USA
             <short>Redundant phrase</short>
             <example correction="little|bit">He was a <marker>little bit</marker> late.</example>
         </rule>
+        <rule id="FREE_GIFT" name="free gift">
+            <pattern>
+                <token>free</token>
+                <token regexp="yes">gifts?</token>
+            </pattern>
+            <message>This phrase is redundant. Consider using <suggestion><match no="2"/></suggestion>.</message>
+            <url>https://en.wikipedia.org/wiki/Pleonasm</url>
+            <short>Redundant phrase</short>
+            <example type="incorrect" correction="gift">Receive a <marker>free gift</marker> with every purchase.</example>
+            <example type="incorrect" correction="gifts">Compare the best phone deals with <marker>free gifts</marker>, from tablets and TVs to …</example>
+            <example type="incorrect" correction="Gifts"><marker>Free gifts</marker> for you to keep!</example>
+            <example type="correct">Receive a <marker>gift</marker> with every purchase.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
-        <rule id="FILTHY_WORDS" name="Filthy words">
-        <pattern>
-          <token inflected="yes" regexp="yes">shit|piss|fuck|cunt|cocksucker|motherfucker|tits|fart|turd|twat</token>
-        </pattern>
-        <message>This word is considered offensive.</message>
-        <url>https://youtu.be/kyBH5oNQOS0</url>
-        <short>Taboo word</short>
-        <example correction=""><marker>Fuck</marker> you!</example>
+        <rule id="PROFANITY" name="Profanity">
+            <pattern>
+                <token inflected="yes" regexp="yes">shit|piss|fuck|cunt|cocksucker|motherfucker|tits|fart|turd|twat</token>
+            </pattern>
+            <message>This word is considered offensive.</message>
+            <url>https://en.wikipedia.org/wiki/Profanity</url>
+            <short>Profanity</short>
+            <example type="incorrect" correction=""><marker>Piss</marker> off!</example>
+            <example type="correct">Go away!</example>
         </rule>
         <rule id="NEEDS_FIXED" name="'Needs fixed' type construction">
             <pattern>

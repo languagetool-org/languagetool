@@ -37,14 +37,22 @@ import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.TextAction;
+import org.apache.commons.collections4.queue.CircularFifoQueue;
+import org.apache.commons.io.ByteOrderMark;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.input.BOMInputStream;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -70,6 +78,7 @@ public final class Main {
 
   private static final int WINDOW_WIDTH = 600;
   private static final int WINDOW_HEIGHT = 550;
+  private static final int MAX_RECENT_FILES = 8;
 
   private final ResourceBundle messages;
   private final List<Language> externalLanguages = new ArrayList<>();
@@ -97,11 +106,18 @@ public final class Main {
 
   private CheckAction checkAction;
   private File currentFile;
+  private ByteOrderMark bom;
   private UndoRedoSupport undoRedo;
   private final JLabel statusLabel = new JLabel(" ", null, SwingConstants.RIGHT);
   private FontChooser fontChooserDialog;
+  private final CircularFifoQueue<String> recentFiles = new CircularFifoQueue<>(MAX_RECENT_FILES);
+  private JMenu recentFilesMenu;
+  private final LocalStorage localStorage;
+  private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
+  private JSplitPane splitPane;
 
-  private Main() {
+  private Main(LocalStorage localStorage) {
+    this.localStorage = localStorage;
     messages = JLanguageTool.getMessageBundle();
   }
 
@@ -115,10 +131,28 @@ public final class Main {
 
   private void loadFile(File file) {
     try (FileInputStream inputStream = new FileInputStream(file)) {
-      String fileContents = StringTools.readStream(inputStream, null);
+      BOMInputStream bomIn = new BOMInputStream(inputStream, false,
+              ByteOrderMark.UTF_8, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE,
+              ByteOrderMark.UTF_32BE, ByteOrderMark.UTF_32LE);
+      String charsetName;
+      if (bomIn.hasBOM() == false) {
+        // No BOM found
+        bom = null;
+        charsetName = null;
+      } else {
+        bom = bomIn.getBOM();
+        charsetName = bom.getCharsetName();
+      }
+      String fileContents = StringTools.readStream(bomIn, charsetName);
       textArea.setText(fileContents);
       currentFile = file;
       updateTitle();
+      if(recentFiles.contains(file.getAbsolutePath())) {
+        recentFiles.remove(file.getAbsolutePath());
+      }
+      recentFiles.add(file.getAbsolutePath());
+      localStorage.saveProperty("recentFiles", recentFiles);
+      updateRecentFilesMenu();
     } catch (IOException e) {
       Tools.showError(e);
     }
@@ -135,10 +169,16 @@ public final class Main {
         return;
       }
       currentFile = file;
+      bom = null;
       updateTitle();
     }
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(currentFile))) {
-      writer.write(textArea.getText());
+    try {
+      if(bom != null) {
+        FileUtils.writeByteArrayToFile(currentFile, bom.getBytes());
+        FileUtils.write(currentFile, textArea.getText(), bom.getCharsetName(), true);
+      } else {
+        FileUtils.write(currentFile, textArea.getText(), Charset.defaultCharset());
+      }
     } catch (IOException ex) {
       Tools.showError(ex);
     }
@@ -150,14 +190,15 @@ public final class Main {
     List<Language> newExtLanguages = dialog.getLanguages();
     externalLanguages.clear();
     externalLanguages.addAll(newExtLanguages);
-    languageBox.populateLanguageBox(externalLanguages);
+    languageBox.setModel(LanguageComboBoxModel.create(messages,
+            EXTERNAL_LANGUAGE_SUFFIX, false, externalLanguages, null));
     languageBox.selectLanguage(ltSupport.getLanguage());
   }
 
   private void showOptions() {
     JLanguageTool langTool = ltSupport.getLanguageTool();
     List<Rule> rules = langTool.getAllRules();
-    ConfigurationDialog configDialog = ltSupport.getCurrentConfigDialog();
+    ConfigurationDialog configDialog = getCurrentConfigDialog();
     configDialog.show(rules); // this blocks until OK/Cancel is clicked in the dialog
     Configuration config = ltSupport.getConfig();
     try { //save config - needed for the server
@@ -197,14 +238,20 @@ public final class Main {
   }
 
   private void updateTitle() {
-    if (currentFile == null) {
-      frame.setTitle("LanguageTool " + JLanguageTool.VERSION);
-    } else {
-      frame.setTitle(currentFile.getName() + " - LanguageTool " + JLanguageTool.VERSION);
+    StringBuilder sb = new StringBuilder();
+    if(currentFile != null) {
+      sb.append(currentFile.getName());
+      if(bom != null) {
+        sb.append(" (").append(bom.getCharsetName()).append(')');
+      }
+      sb.append(" - ");
     }
+    sb.append("LanguageTool ").append(JLanguageTool.VERSION);
+    frame.setTitle(sb.toString());
   }
 
   private void createGUI() {
+    loadRecentFiles();
     frame = new JFrame("LanguageTool " + JLanguageTool.VERSION);
 
     setLookAndFeel();
@@ -238,8 +285,9 @@ public final class Main {
     buttonCons.anchor = GridBagConstraints.LINE_START;
     insidePanel.add(new JLabel(messages.getString("textLanguage") + " "), buttonCons);
 
-    languageBox = new LanguageComboBox(messages, EXTERNAL_LANGUAGE_SUFFIX);
-    languageBox.setRenderer(new LanguageComboBoxRenderer(messages, EXTERNAL_LANGUAGE_SUFFIX));
+    //create a ComboBox with flags, do not include hidden languages
+    languageBox = LanguageComboBox.create(messages, EXTERNAL_LANGUAGE_SUFFIX,
+            true, false);
     buttonCons.gridx = 1;
     buttonCons.gridy = 0;
     buttonCons.anchor = GridBagConstraints.LINE_START;
@@ -310,9 +358,8 @@ public final class Main {
     cons.gridx = 0;
     cons.gridy = 2;
     cons.weighty = 5.0f;
-    JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+    splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
             new JScrollPane(textArea), new JScrollPane(resultArea));
-    splitPane.setDividerLocation(200);
     contentPane.add(splitPane, cons);
 
     cons.fill = GridBagConstraints.HORIZONTAL;
@@ -336,8 +383,8 @@ public final class Main {
         if (e.getStateChange() == ItemEvent.SELECTED) {
           // we cannot re-use the existing LT object anymore
           frame.applyComponentOrientation(
-            ComponentOrientation.getOrientation(Locale.getDefault()));
-          Language lang = (Language) languageBox.getSelectedItem();
+                  ComponentOrientation.getOrientation(Locale.getDefault()));
+          Language lang = languageBox.getSelectedLanguage();
           ComponentOrientation componentOrientation =
             ComponentOrientation.getOrientation(lang.getLocale());
           textArea.applyComponentOrientation(componentOrientation);
@@ -374,15 +421,15 @@ public final class Main {
             unsetWaitCursor();
           }
           String msg = org.languagetool.tools.Tools.i18n(messages, "checkDone", event.getSource().getMatches().size(), event.getElapsedTime());
-          statusLabel.setText(msg);          
+          statusLabel.setText(msg);
         } else if (event.getType() == LanguageToolEvent.Type.LANGUAGE_CHANGED) {
           languageBox.selectLanguage(ltSupport.getLanguage());
         } else if (event.getType() == LanguageToolEvent.Type.RULE_ENABLED) {
-            //this will trigger a check and the result will be updated by
-            //the CHECKING_FINISHED event
+          //this will trigger a check and the result will be updated by
+          //the CHECKING_FINISHED event
         } else if (event.getType() == LanguageToolEvent.Type.RULE_DISABLED) {
-            String msg = org.languagetool.tools.Tools.i18n(messages, "checkDoneNoTime", event.getSource().getMatches().size());
-            statusLabel.setText(msg);
+          String msg = org.languagetool.tools.Tools.i18n(messages, "checkDoneNoTime", event.getSource().getMatches().size());
+          statusLabel.setText(msg);
         }
       }
     });
@@ -415,6 +462,22 @@ public final class Main {
     frame.pack();
     frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     frame.setLocationByPlatform(true);
+    splitPane.setDividerLocation(200);
+    MainWindowStateBean state =
+            localStorage.loadProperty("gui.state", MainWindowStateBean.class);
+    if(state != null) {
+      if(state.getBounds() != null) {
+        frame.setBounds(state.getBounds());
+        ResizeComponentListener.setBoundsProperty(frame, state.getBounds());
+      }
+      if(state.getDividerLocation() != null) {
+        splitPane.setDividerLocation(state.getDividerLocation());
+      }
+      if(state.getState() != null) {
+        frame.setExtendedState(state.getState());
+      }
+    }
+    ResizeComponentListener.attachToWindow(frame);
     maybeStartServer();
   }
 
@@ -444,6 +507,10 @@ public final class Main {
     fileMenu.add(openAction);
     fileMenu.add(saveAction);
     fileMenu.add(saveAsAction);
+    recentFilesMenu = new JMenu(getLabel("guiMenuRecentFiles"));
+    recentFilesMenu.setMnemonic(getMnemonic("guiMenuRecentFiles"));
+    fileMenu.add(recentFilesMenu);
+    updateRecentFilesMenu();
     fileMenu.addSeparator();
     fileMenu.add(new HideAction());
     fileMenu.addSeparator();
@@ -517,13 +584,34 @@ public final class Main {
     return menuBar;
   }
 
+  private void updateRecentFilesMenu() {
+    recentFilesMenu.removeAll();
+    String[] files = recentFiles.toArray(new String[recentFiles.size()]);
+    ArrayUtils.reverse(files);
+    for(String filename : files) {
+      recentFilesMenu.add(new RecentFileAction(new File(filename)));
+    }
+  }
+
+  private void loadRecentFiles() {
+    CircularFifoQueue<String> l = localStorage.loadProperty("recentFiles", CircularFifoQueue.class);
+    if(l != null) {
+      for(String name : l) {
+        File f = new File(name);
+        if(f.exists() && f.isFile()) {
+          recentFiles.add(name);
+        }
+      }
+    }
+  }
+
   private void addLookAndFeelMenuItem(JMenu lafMenu,
         UIManager.LookAndFeelInfo laf, ButtonGroup buttonGroup)
   {
     JRadioButtonMenuItem lfItem = new JRadioButtonMenuItem(new SelectLFAction(laf));
     lafMenu.add(lfItem);
     buttonGroup.add(lfItem);
-    if (laf.getName().equals(UIManager.getLookAndFeel().getName())) {
+    if (laf.getClassName().equals(UIManager.getLookAndFeel().getClass().getName())) {
       buttonGroup.setSelected(lfItem.getModel(), true);
     }
   }
@@ -643,6 +731,13 @@ public final class Main {
     } catch (IOException e) {
       Tools.showError(e);
     }
+
+    MainWindowStateBean bean = new MainWindowStateBean();
+    bean.setBounds(ResizeComponentListener.getBoundsProperty(frame));
+    bean.setState(frame.getExtendedState());
+    bean.setDividerLocation(this.splitPane.getDividerLocation());
+    localStorage.saveProperty("gui.state", bean);
+
     frame.setVisible(false);
     JLanguageTool.removeTemporaryFiles();
     System.exit(0);
@@ -692,7 +787,7 @@ public final class Main {
     Transferable data = clipboard.getContents(this);
     try {
       if (data != null
-          && data.isDataFlavorSupported(DataFlavor.getTextPlainUnicodeFlavor())) {
+              && data.isDataFlavorSupported(DataFlavor.getTextPlainUnicodeFlavor())) {
         DataFlavor df = DataFlavor.getTextPlainUnicodeFlavor();
         try (Reader sr = df.getReaderForText(data)) {
           s = StringTools.readerToString(sr);
@@ -745,8 +840,8 @@ public final class Main {
 
   private String getStackTraceAsHtml(Exception e) {
     return "<br><br><b><font color=\"red\">"
-         + org.languagetool.tools.Tools.getFullStackTrace(e).replace("\n", "<br/>")
-         + "</font></b><br>";
+            + org.languagetool.tools.Tools.getFullStackTrace(e).replace("\n", "<br/>")
+            + "</font></b><br>";
   }
 
   private void setWaitCursor() {
@@ -774,10 +869,10 @@ public final class Main {
       sb.append("<tr>");
       sb.append("<td bgcolor=\"");
       if(odd) {
-          sb.append("#ffffff");
+        sb.append("#ffffff");
       }
       else {
-          sb.append("#f1f1f1");
+        sb.append("#f1f1f1");
       }
       sb.append("\">");
       if(!t.isWhitespace()) {
@@ -798,12 +893,12 @@ public final class Main {
           sb.append(StringTools.escapeHTML("<P/>"));
         } else {
           if (!t.isWhitespace()) {
-            sb.append(token);
-            if (iterator.hasNext()) {
-              sb.append(", ");
-            }
+          sb.append(token);
+          if (iterator.hasNext()) {
+            sb.append(", ");
           }
         }
+      }
       }
       if (!t.isWhitespace()) {
         if (t.getChunkTags().size() > 0) {
@@ -820,10 +915,10 @@ public final class Main {
       sb.append("</td>");
       sb.append("<td bgcolor=\"");
       if(odd) {
-          sb.append("#ffffff");
+        sb.append("#ffffff");
       }
       else {
-          sb.append("#f1f1f1");
+        sb.append("#f1f1f1");
       }
       sb.append("\">");
       if (!"".equals(t.getHistoricalAnnotations())) {
@@ -866,9 +961,9 @@ public final class Main {
         for (String sent : sentences) {
           AnalyzedSentence analyzed = langTool.getAnalyzedSentence(sent);
           String analyzedString = StringTools.escapeHTML(analyzed.toString(",")).
-                replace("&lt;S&gt;", "&lt;S&gt;<br>").
-                replace("[", "<font color='" + TAG_COLOR + "'>[").
-                replace("]", "]</font><br>");
+                  replace("&lt;S&gt;", "&lt;S&gt;<br>").
+                  replace("[", "<font color='" + TAG_COLOR + "'>[").
+                  replace("]", "]</font><br>");
           sb.append(analyzedString).append('\n');
         }
       } catch (Exception e) {
@@ -915,8 +1010,8 @@ public final class Main {
                   new JCheckBox(messages.getString("ShowDisambiguatorLog"));
           showDisAmbig.setSelected(taggerShowsDisambigLog);
           showDisAmbig.addItemListener((ItemEvent e) -> {
-              taggerShowsDisambigLog = e.getStateChange() == ItemEvent.SELECTED;
-              ltSupport.getConfig().setTaggerShowsDisambigLog(taggerShowsDisambigLog);
+            taggerShowsDisambigLog = e.getStateChange() == ItemEvent.SELECTED;
+            ltSupport.getConfig().setTaggerShowsDisambigLog(taggerShowsDisambigLog);
           });
           panel.add(showDisAmbig,c);
           c.gridx = 1;
@@ -927,7 +1022,7 @@ public final class Main {
         }
         // orientation each time should be set as language may is changed
         taggerDialog.applyComponentOrientation(ComponentOrientation.getOrientation(
-          ((Language) languageBox.getSelectedItem()).getLocale()));
+                languageBox.getSelectedLanguage().getLocale()));
 
         taggerDialog.setVisible(true);
         taggerArea.setText(HTML_FONT_START + sb + HTML_FONT_END);
@@ -943,7 +1038,12 @@ public final class Main {
     if (System.getSecurityManager() == null) {
       JnaTools.setBugWorkaroundProperty();
     }
-    Main prg = new Main();
+    LocalStorage localStorage = new LocalStorage();
+    LocaleBean bean = localStorage.loadProperty("gui.locale", LocaleBean.class);
+    if(bean != null) {
+      Locale.setDefault(bean.asLocale());
+    }
+    Main prg = new Main(localStorage);
     if (args.length == 1 && (args[0].equals("-t") || args[0].equals("--tray"))) {
       // dock to systray on startup
       SwingUtilities.invokeLater(new Runnable() {
@@ -978,6 +1078,7 @@ public final class Main {
       });
     } else {
       printUsage();
+      System.exit(1);
     }
   }
 
@@ -989,12 +1090,7 @@ public final class Main {
     System.out.println("    file:       a plain text file to load on startup");
   }
 
-  private class ControlReturnTextCheckingListener implements KeyListener {
-
-    @Override
-    public void keyTyped(KeyEvent e) {}
-    @Override
-    public void keyReleased(KeyEvent e) {}
+  private class ControlReturnTextCheckingListener extends KeyAdapter {
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -1045,7 +1141,7 @@ public final class Main {
         quit();
       } else {
         JOptionPane.showMessageDialog(null, "Unknown action: "
-            + e.getActionCommand(), "Error", JOptionPane.ERROR_MESSAGE);
+                + e.getActionCommand(), "Error", JOptionPane.ERROR_MESSAGE);
       }
     }
 
@@ -1055,7 +1151,7 @@ public final class Main {
 
   }
 
-  class TrayActionListener implements MouseListener {
+  class TrayActionListener extends MouseAdapter {
 
     @Override
     public void mouseClicked(@SuppressWarnings("unused")MouseEvent e) {
@@ -1069,36 +1165,14 @@ public final class Main {
       }
     }
 
-    @Override
-    public void mouseEntered(@SuppressWarnings("unused") MouseEvent e) {}
-    @Override
-    public void mouseExited(@SuppressWarnings("unused")MouseEvent e) {}
-    @Override
-    public void mousePressed(@SuppressWarnings("unused")MouseEvent e) {}
-    @Override
-    public void mouseReleased(@SuppressWarnings("unused")MouseEvent e) {}
-
   }
 
-  class CloseListener implements WindowListener {
+  class CloseListener extends WindowAdapter {
 
     @Override
     public void windowClosing(@SuppressWarnings("unused")WindowEvent e) {
       quitOrHide();
     }
-
-    @Override
-    public void windowActivated(@SuppressWarnings("unused")WindowEvent e) {}
-    @Override
-    public void windowClosed(@SuppressWarnings("unused")WindowEvent e) {}
-    @Override
-    public void windowDeactivated(@SuppressWarnings("unused")WindowEvent e) {}
-    @Override
-    public void windowDeiconified(@SuppressWarnings("unused")WindowEvent e) {}
-    @Override
-    public void windowIconified(@SuppressWarnings("unused")WindowEvent e) {}
-    @Override
-    public void windowOpened(@SuppressWarnings("unused")WindowEvent e) {}
 
   }
 
@@ -1375,10 +1449,45 @@ public final class Main {
     }
   }
 
+  class RecentFileAction extends AbstractAction {
+
+    private final File file;
+
+    RecentFileAction(File file) {
+      super(file.getName());
+      this.file = file;
+      putValue(Action.SHORT_DESCRIPTION, file.getAbsolutePath());
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      if(file.exists()) {
+        loadFile(file);
+      } else {
+        JOptionPane.showMessageDialog(frame, messages.getString("guiFileNotFound"),
+                messages.getString("dialogTitleError"), JOptionPane.ERROR_MESSAGE);
+        recentFiles.remove(file.getAbsolutePath());
+        updateRecentFilesMenu();
+      }
+    }
+  }
+
   private ImageIcon getImageIcon(String filename) {
     Image image = Toolkit.getDefaultToolkit().getImage(
             JLanguageTool.getDataBroker().getFromResourceDirAsUrl(filename));
     return new ImageIcon(image);
   }
 
+  private ConfigurationDialog getCurrentConfigDialog() {
+    Language language = ltSupport.getLanguage();
+    ConfigurationDialog configDialog;
+    if (configDialogs.containsKey(language)) {
+      configDialog = configDialogs.get(language);
+    } else {
+      configDialog = new ConfigurationDialog(frame, false, ltSupport.getConfig());
+      configDialog.addExtraPanel(new GuiLangConfigPanel(messages, localStorage));
+      configDialogs.put(language, configDialog);
+    }
+    return configDialog;
+  }
 }

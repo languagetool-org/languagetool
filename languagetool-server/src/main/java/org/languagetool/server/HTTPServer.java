@@ -96,17 +96,7 @@ public class HTTPServer extends Server {
       server = HttpServer.create(address, 0);
       RequestLimiter limiter = getRequestLimiterOrNull(config);
       LinkedBlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();
-      httpHandler = new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally, limiter, workQueue);
-      httpHandler.setMaxTextLength(config.getMaxTextLength());
-      httpHandler.setAllowOriginUrl(config.getAllowOriginUrl());
-      httpHandler.setMaxCheckTimeMillis(config.getMaxCheckTimeMillis());
-      httpHandler.setTrustXForwardForHeader(config.getTrustXForwardForHeader());
-      if (config.getMode() == HTTPServerConfig.Mode.AfterTheDeadline) {
-        httpHandler.setAfterTheDeadlineMode(config.getAfterTheDeadlineLanguage());
-      }
-      httpHandler.setLanguageModel(config.getLanguageModelDir());
-      httpHandler.setMaxWorkQueueSize(config.getMaxWorkQueueSize());
-      httpHandler.setRulesConfigurationFile(config.getRulesConfigFile());
+      httpHandler = new LanguageToolHttpHandler(config, allowedIps, runInternally, limiter, workQueue);
       server.createContext("/", httpHandler);
       executorService = getExecutorService(workQueue, config);
       server.setExecutor(executorService);
@@ -126,23 +116,22 @@ public class HTTPServer extends Server {
   }
 
   public static void main(String[] args) {
-    if (args.length > 5 || usageRequested(args)) {
+    if (args.length > 7 || usageRequested(args)) {
       System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [--config propertyFile] [--port|-p port] [--public]");
-      System.out.println("  --config file  a Java property file (one key=value entry per line) with values for:");
+      System.out.println("  --config FILE  a Java property file (one key=value entry per line) with values for:");
       printCommonConfigFileOptions();
       printCommonOptions();
       System.exit(1);
     }
-    boolean runInternal = false;
     HTTPServerConfig config = new HTTPServerConfig(args);
     try {
       HTTPServer server;
       System.out.println("WARNING: running in HTTP mode, consider using " + HTTPSServer.class.getName() + " for encrypted connections");
       if (config.isPublicAccess()) {
         System.out.println("WARNING: running in public mode, LanguageTool API can be accessed without restrictions!");
-        server = new HTTPServer(config, runInternal, null, null);
+        server = new HTTPServer(config, false, null, null);
       } else {
-        server = new HTTPServer(config, runInternal, DEFAULT_HOST, DEFAULT_ALLOWED_IPS);
+        server = new HTTPServer(config, false, DEFAULT_HOST, DEFAULT_ALLOWED_IPS);
       }
       server.run();
     } catch (Exception e) {

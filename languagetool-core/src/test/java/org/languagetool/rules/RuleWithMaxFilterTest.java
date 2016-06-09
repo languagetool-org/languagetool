@@ -18,21 +18,24 @@
  */
 package org.languagetool.rules;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
-import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.PatternToken;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.Assert.*;
+
 @SuppressWarnings("MagicNumber")
-public class RuleWithMaxFilterTest extends TestCase {
+public class RuleWithMaxFilterTest {
 
   private static final Language language = TestTools.getDemoLanguage();
 
+  @Test
   public void testFilter() {
     List<PatternToken> fakePatternTokens = new ArrayList<>();
     PatternRule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
@@ -47,6 +50,7 @@ public class RuleWithMaxFilterTest extends TestCase {
     assertEquals(1, filteredMatches2.size());
   }
 
+  @Test
   public void testNoFilteringIfNotOverlapping() {
     List<PatternToken> fakePatternTokens = new ArrayList<>();
     PatternRule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
@@ -58,6 +62,7 @@ public class RuleWithMaxFilterTest extends TestCase {
     assertEquals(2, filteredMatches.size());
   }
 
+  @Test
   public void testNoFilteringIfDifferentRulegroups() {
     List<PatternToken> fakePatternTokens = new ArrayList<>();
     Rule rule1 = new PatternRule("id1", language, fakePatternTokens, "desc1", "msg1", "shortMsg1");
@@ -72,6 +77,7 @@ public class RuleWithMaxFilterTest extends TestCase {
     assertEquals(2, filteredMatches2.size());
   }
 
+  @Test
   public void testOverlaps() {
     RuleWithMaxFilter filter = new RuleWithMaxFilter();
 
@@ -87,7 +93,7 @@ public class RuleWithMaxFilterTest extends TestCase {
   }
 
   private RuleMatch makeRuleMatch(int fromPos, int toPos) {
-    return new RuleMatch(null, fromPos, toPos, "FakeMatch1");
+    return new RuleMatch(new FakeRule(), fromPos, toPos, "FakeMatch1");
   }
 
 }

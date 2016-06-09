@@ -38,6 +38,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import org.apache.commons.io.ByteOrderMark;
+import org.apache.commons.io.input.BOMInputStream;
 
 import static org.languagetool.tools.StringTools.*;
 
@@ -285,24 +289,21 @@ class Main {
   }
 
   private InputStreamReader getInputStreamReader(String filename, String encoding)
-      throws UnsupportedEncodingException, FileNotFoundException {
+      throws UnsupportedEncodingException, FileNotFoundException, IOException {
     InputStreamReader isr;
+    String charsetName = encoding != null ? encoding : Charset.defaultCharset().name();
+    InputStream is = System.in;
     if (!isStdIn(filename)) {
-      File file = new File(filename);
-      if (encoding != null) {
-        isr = new InputStreamReader(new BufferedInputStream(
-            new FileInputStream(file)), encoding);
-      } else {
-        isr = new InputStreamReader(new BufferedInputStream(
-            new FileInputStream(file)));
+      is = new FileInputStream(new File(filename));
+      BOMInputStream bomIn = new BOMInputStream(is, true, ByteOrderMark.UTF_8,
+        ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE,
+        ByteOrderMark.UTF_32BE,ByteOrderMark.UTF_32LE);
+      if(bomIn.hasBOM() && encoding == null) {
+        charsetName = bomIn.getBOMCharsetName();
       }
-    } else {
-      if (encoding != null) {
-        isr = new InputStreamReader(new BufferedInputStream(System.in), encoding);
-      } else {
-        isr = new InputStreamReader(new BufferedInputStream(System.in));
-      }
+      is = bomIn;
     }
+    isr = new InputStreamReader(new BufferedInputStream(is), charsetName);
     return isr;
   }
 
@@ -342,17 +343,13 @@ class Main {
       lt.setOutput(System.err);
     }
     // don't use StringTools.readStream() as that might add newlines which aren't there:
-    String fileContents;
-    String encodingName = encoding != null ? encoding : Charset.defaultCharset().name();
-    if (isStdIn(filename)) {
-      fileContents = streamToString(new BufferedInputStream(System.in), encodingName);
-    } else {
-      fileContents = streamToString(new FileInputStream(filename), encodingName);
-    }
-    if (xmlFiltering) {
-      return filterXML(fileContents);
-    } else {
-      return fileContents;
+    try (InputStreamReader reader = getInputStreamReader(filename, encoding)) {
+      String fileContents = readerToString(reader);
+      if (xmlFiltering) {
+        return filterXML(fileContents);
+      } else {
+        return fileContents;
+      }
     }
   }
 
@@ -432,8 +429,10 @@ class Main {
       }
     }
     if (prg.lt.getAllActiveRules().size() == 0) {
-      throw new RuntimeException("WARNING: No rules are active. Please make sure your rule ids are correct: " +
-              options.getEnabledRules());
+      List<String> catIds = options.getEnabledCategories().stream().map(i -> i.toString()).collect(Collectors.toList());
+      throw new RuntimeException("No rules are active. Please make sure your rule ids " +
+              "(" + options.getEnabledRules() + ") and " +
+              "category ids (" + catIds + ") are correct");
     }
     if (languageHint != null) {
       String spellHint = prg.isSpellCheckingActive() ?

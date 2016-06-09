@@ -101,6 +101,9 @@ public class HTTPServerConfig {
           break;
         case "--allow-origin":
           allowOriginUrl = args[++i];
+          if (allowOriginUrl.startsWith("--")) {
+            throw new IllegalArgumentException("Missing argument for '--allow-origin'");
+          }
           break;
       }
     }
@@ -117,6 +120,9 @@ public class HTTPServerConfig {
         requestLimitPeriodInSeconds = Integer.parseInt(getOptionalProperty(props, "requestLimitPeriodInSeconds", "0"));
         trustXForwardForHeader = Boolean.valueOf(getOptionalProperty(props, "trustXForwardForHeader", "false"));
         maxWorkQueueSize = Integer.parseInt(getOptionalProperty(props, "maxWorkQueueSize", "0"));
+        if (maxWorkQueueSize < 0) {
+          throw new IllegalArgumentException("Max queue size must be >= 0: " + maxWorkQueueSize);
+        }
         String langModel = getOptionalProperty(props, "languageModel", null);
         if (langModel != null) {
           languageModelDir = new File(langModel);
@@ -161,7 +167,9 @@ public class HTTPServerConfig {
   }
 
   /**
-   * URL of server whose visitors may request data via Ajax, or {@code *} (= anyone) or {@code null} (= no support for CORS).
+   * Value to set as the "Access-Control-Allow-Origin" http header. {@code null}
+   * will not return that header at all. With {@code *} your server can be used from any other web site
+   * from Javascript/Ajax (search Cross-origin resource sharing (CORS) for details).
    */
   @Nullable
   public String getAllowOriginUrl() {
@@ -239,7 +247,12 @@ public class HTTPServerConfig {
     return maxCheckThreads;
   }
 
-  /** @since 2.8 */
+  /**
+   * Set to {@code true} if this is running behind a (reverse) proxy which
+   * sets the {@code X-forwarded-for} HTTP header. The last IP address (but not local IP addresses)
+   * in that header will then be used for enforcing a request limitation.
+   * @since 2.8
+   */
   void setTrustXForwardForHeader(boolean trustXForwardForHeader) {
     this.trustXForwardForHeader = trustXForwardForHeader;
   }

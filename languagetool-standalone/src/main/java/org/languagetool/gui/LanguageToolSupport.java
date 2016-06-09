@@ -73,7 +73,6 @@ class LanguageToolSupport {
   private final JTextComponent textComponent;
   private final EventListenerList listenerList = new EventListenerList();
   private final ResourceBundle messages;
-  private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
   private final List<RuleMatch> ruleMatches;
   private final List<Span> documentSpans;
 
@@ -147,18 +146,6 @@ class LanguageToolSupport {
 
   List<RuleMatch> getMatches() {
     return this.ruleMatches;
-  }
-
-  ConfigurationDialog getCurrentConfigDialog() {
-    Language language = this.languageTool.getLanguage();
-    ConfigurationDialog configDialog;
-    if (configDialogs.containsKey(language)) {
-      configDialog = configDialogs.get(language);
-    } else {
-      configDialog = new ConfigurationDialog(frame, false, config);
-      configDialogs.put(language, configDialog);
-    }
-    return configDialog;
   }
 
   void reloadConfig() {

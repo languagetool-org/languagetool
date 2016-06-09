@@ -361,10 +361,12 @@ public final class PatternTestTools {
           String s = strictMatcher.group(2).replaceAll("\\\\p\\{[^}]*\\}", "");
           // case sensitive if pattern contains (?-i).
           if (s.indexOf('|') >= 0) {
-            System.err.println("The " + lang + " rule: "
-                    + ruleId + ", token [" + tokenIndex + "], contains | (pipe) in "
-                    + "regexp bracket expression [" + strictMatcher.group(2)
-                    + "] which is unlikely to be correct.");
+            if (!(s.indexOf('|') >= 1 && s.charAt(s.indexOf('|') -1) == '\\')){ //don't warn if it's escaped
+              System.err.println("The " + lang + " rule: "
+                  + ruleId + ", token [" + tokenIndex + "], contains | (pipe) in "
+                  + "regexp bracket expression [" + strictMatcher.group(2)
+                  + "] which is unlikely to be correct.");
+            }
           }
 
         /* Disabled case insensitive check for now: it gives several errors

@@ -18,21 +18,23 @@
  */
 package org.languagetool.rules.patterns;
 
-import java.io.ByteArrayInputStream;
-import java.io.FilePermission;
-import java.security.*;
-import java.util.*;
-
-import junit.framework.TestCase;
-
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 
-public class PatternRuleLoaderTest extends TestCase {
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import static org.junit.Assert.*;
+
+public class PatternRuleLoaderTest {
+
+  @Test
   public void testGetRules() throws Exception {
     PatternRuleLoader prg = new PatternRuleLoader();
     String name = "/xx/grammar.xml";
@@ -92,19 +94,6 @@ public class PatternRuleLoaderTest extends TestCase {
     assertNull("http://fake-server.org/rule-group-url", nextRule.getUrl());
   }
 
-  public void testPermissionManager() throws Exception {
-    Policy.setPolicy(new MyPolicy());
-    System.setSecurityManager(new SecurityManager());
-    try {
-      PatternRuleLoader loader = new PatternRuleLoader();
-      // do not crash if Authenticator.setDefault() is forbidden,
-      // see https://github.com/languagetool-org/languagetool/issues/255
-      loader.getRules(new ByteArrayInputStream("<rules lang='xx'></rules>".getBytes("utf-8")), "fakeName");
-    } finally {
-      System.setSecurityManager(null);
-    }
-  }
-
   private Set<String> getCategoryNames(List<AbstractPatternRule> rules) {
     Set<String> categories = new HashSet<>();
     for (AbstractPatternRule rule : rules) {
@@ -130,42 +119,6 @@ public class PatternRuleLoaderTest extends TestCase {
       }
     }
     return result;
-  }
-
-  static class MyPolicy extends Policy {
-    @Override
-    public PermissionCollection getPermissions(CodeSource codesource) {
-      PermissionCollection perms = new MyPermissionCollection();
-      perms.add(new RuntimePermission("setIO"));
-      perms.add(new RuntimePermission("setSecurityManager"));
-      perms.add(new FilePermission("<<ALL FILES>>", "read"));
-      return perms;
-    }
-  }
-
-  static class MyPermissionCollection extends PermissionCollection {
-    private final List<Permission> perms = new ArrayList<>();
-    @Override
-    public void add(Permission p) {
-      perms.add(p);
-    }
-    @Override
-    public boolean implies(Permission p) {
-      for (Permission perm : perms) {
-        if (perm.implies(p)) {
-          return true;
-        }
-      }
-      return false;
-    }
-    @Override
-    public Enumeration<Permission> elements() {
-      return Collections.enumeration(perms);
-    }
-    @Override
-    public boolean isReadOnly() {
-      return false;
-    }
   }
 
 }

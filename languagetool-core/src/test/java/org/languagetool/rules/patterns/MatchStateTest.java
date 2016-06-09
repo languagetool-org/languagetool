@@ -21,8 +21,8 @@ package org.languagetool.rules.patterns;
 import org.junit.Test;
 import org.languagetool.FakeLanguage;
 
-import static junit.framework.Assert.assertNull;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 public class MatchStateTest {

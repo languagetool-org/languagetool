@@ -50,7 +50,7 @@ public class HTTPSServerTest {
         System.out.println("=== Testing too many requests now, please ignore the following error ===");
         String result = check(new German(), "foo");
         fail("Expected exception not thrown, got this result instead: '" + result + "'");
-      } catch (IOException expected) {}
+      } catch (IOException ignored) {}
     } finally {
       server.stop();
     }
@@ -83,7 +83,7 @@ public class HTTPSServerTest {
       String httpPrefix = "http://localhost:" + HTTPTools.getDefaultPort() + "/";
       HTTPTools.checkAtUrl(new URL(httpPrefix + "?text=a+test&language=en"));
       fail("HTTP should not work, only HTTPS");
-    } catch (SocketException expected) {}
+    } catch (SocketException ignored) {}
 
     String httpsPrefix = "https://localhost:" + HTTPTools.getDefaultPort() + "/";
 

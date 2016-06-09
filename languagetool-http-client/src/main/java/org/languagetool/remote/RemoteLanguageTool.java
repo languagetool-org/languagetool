@@ -18,22 +18,15 @@
  */
 package org.languagetool.remote;
 
-import javax.xml.namespace.QName;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamConstants;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.Attribute;
-import javax.xml.stream.events.StartElement;
-import javax.xml.stream.events.XMLEvent;
 import java.io.*;
-import java.net.ConnectException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -42,12 +35,22 @@ import java.util.Objects;
  * <a href="http://wiki.languagetool.org/public-http-api">in our wiki</a>.
  * @since 3.4
  */
+@SuppressWarnings("unchecked")
 public class RemoteLanguageTool {
 
-  private final URL serverUrl;
+  private static final String V2_CHECK = "/v2/check";
+  
+  private final ObjectMapper mapper = new ObjectMapper();
+  private final URL serverBaseUrl;
 
-  public RemoteLanguageTool(URL serverUrl) {
-    this.serverUrl = Objects.requireNonNull(serverUrl);
+  /**
+   * @param serverBaseUrl for example {@code https://languagetool.org/api} or {@code http://localhost:8081} (not ending in slash)
+   */
+  public RemoteLanguageTool(URL serverBaseUrl) {
+    if (serverBaseUrl.toString().endsWith("/")) {
+      throw new IllegalArgumentException("Server base URL must not end with '/': " + serverBaseUrl);
+    }
+    this.serverBaseUrl = Objects.requireNonNull(serverBaseUrl);
   }
 
   /**
@@ -68,34 +71,56 @@ public class RemoteLanguageTool {
 
   private String getUrlParams(String text, CheckConfiguration config) {
     StringBuilder params = new StringBuilder();
-    params.append("language=").append(config.getLangCode())
-          .append("&text=").append(text);
+    append(params, "text", text);
     if (config.getMotherTongueLangCode() != null) {
-      params.append("&motherTongue=").append(config.getMotherTongueLangCode());
+      append(params, "motherTongue", config.getMotherTongueLangCode());
     }
     if (config.guessLanguage()) {
-      params.append("&autodetect=1");
+      append(params, "language", "auto");
+    } else {
+      append(params, "language", config.getLangCode().orElse("auto"));
     }
     if (config.getEnabledRuleIds().size() > 0) {
-      params.append("&enabled=").append(String.join(",", config.getEnabledRuleIds()));
+      append(params, "enabledRules", String.join(",", config.getEnabledRuleIds()));
     }
     if (config.enabledOnly()) {
-      params.append("&enabledOnly=yes");
+      append(params, "enabledOnly", "yes");
     }
     if (config.getDisabledRuleIds().size() > 0) {
-      params.append("&disabled=").append(String.join(",", config.getDisabledRuleIds()));
+      append(params, "disabledRules", String.join(",", config.getDisabledRuleIds()));
     }
-    params.append("&useragent=java-http-client");
+    append(params, "useragent", "java-http-client");
     return params.toString();
+  }
+
+  private void append(StringBuilder params, String paramName, String paramValue) {
+    if (params.length() > 0) {
+      params.append("&");
+    }
+    params.append(paramName).append("=").append(encode(paramValue));
+  }
+
+  private String encode(String text) {
+    try {
+      return URLEncoder.encode(text, "utf-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private RemoteResult check(String urlParameters) {
     byte[] postData = urlParameters.getBytes(StandardCharsets.UTF_8);
-    HttpURLConnection conn = getConnection(postData);
+    URL checkUrl;
+    try {
+      checkUrl = new URL(serverBaseUrl + V2_CHECK);
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
+    }
+    HttpURLConnection conn = getConnection(postData, checkUrl);
     try {
       if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
         try (InputStream inputStream = conn.getInputStream()) {
-          return parseXml(inputStream);
+          return parseJson(inputStream);
         }
       } else {
         try (InputStream inputStream = conn.getErrorStream()) {
@@ -104,7 +129,7 @@ public class RemoteLanguageTool {
         }
       }
     } catch (ConnectException e) {
-      throw new RuntimeException("Could not connect to server at " + serverUrl, e);
+      throw new RuntimeException("Could not connect to server at " + serverBaseUrl, e);
     } catch (Exception e) {
       throw new RuntimeException(e);
     } finally {
@@ -112,9 +137,9 @@ public class RemoteLanguageTool {
     }
   }
 
-  HttpURLConnection getConnection(byte[] postData) {
+  HttpURLConnection getConnection(byte[] postData, URL baseUrl) {
     try {
-      HttpURLConnection conn = (HttpURLConnection) serverUrl.openConnection();
+      HttpURLConnection conn = (HttpURLConnection) baseUrl.openConnection();
       conn.setDoOutput(true);
       conn.setInstanceFollowRedirects(false);
       conn.setRequestMethod("POST");
@@ -142,71 +167,76 @@ public class RemoteLanguageTool {
     return sb.toString();
   }
 
-  private RemoteResult parseXml(InputStream inputStream) throws XMLStreamException {
+  private RemoteResult parseJson(InputStream inputStream) throws XMLStreamException, IOException {
+    Map map = mapper.readValue(inputStream, Map.class);
+    Map<String, String> languageObj = (Map<String, String>) map.get("language");
+    String language = languageObj.get("name");
+    String languageCode = languageObj.get("code");
+    Map<String, String> software = (Map<String, String>) map.get("software");
+    RemoteServer remoteServer = new RemoteServer(software.get("name"), software.get("version"), software.get("buildDate"));
+    List matches = (ArrayList) map.get("matches");
     List<RemoteRuleMatch> result = new ArrayList<>();
-    String language = null;
-    String languageCode = null;
-    RemoteServer remoteServer = null;
-    XMLInputFactory factory = XMLInputFactory.newInstance();
-    XMLEventReader reader = factory.createXMLEventReader(inputStream);
-    while (reader.hasNext()) {
-      XMLEvent event = reader.nextEvent();
-      if (event.getEventType() == XMLStreamConstants.START_ELEMENT) {
-        String elementName = event.asStartElement().getName().getLocalPart();
-        switch (elementName) {
-          case "matches":
-            StartElement matches = event.asStartElement();
-            remoteServer = new RemoteServer(get(matches, "software"), get(matches, "version"), get(matches, "buildDate"));
-            break;
-          case "language":
-            StartElement langElem = event.asStartElement();
-            language = get(langElem, "name");
-            languageCode = get(langElem, "shortname");
-            break;
-          case "error":
-            StartElement error = event.asStartElement();
-            result.add(getMatch(error));
-            break;
-        }
-      }
+    for (Object match : matches) {
+      RemoteRuleMatch remoteMatch = getMatch((Map<String, Object>)match);
+      result.add(remoteMatch);
     }
     return new RemoteResult(language, languageCode, result, remoteServer);
   }
 
-  private RemoteRuleMatch getMatch(StartElement error) {
-    String ruleId = get(error, "ruleId");
-    int offset = Integer.parseInt(get(error, "offset"));
-    int errorLength = Integer.parseInt(get(error, "errorlength"));
-    int contextOffset = Integer.parseInt(get(error, "contextoffset"));
-    RemoteRuleMatch match = new RemoteRuleMatch(ruleId, get(error, "msg"), get(error, "context"), contextOffset, offset, errorLength);
-    match.setShortMsg(getOrNull(error, "shortmsg"));
-    match.setRuleSubId(getOrNull(error, "subId"));
-    match.setShortMsg(getOrNull(error, "shortmsg"));
-    match.setUrl(getOrNull(error, "url"));
-    match.setCategory(getOrNull(error, "category"));
-    match.setCategoryId(getOrNull(error, "categoryid"));
-    match.setLocQualityIssueType(getOrNull(error, "locqualityissuetype"));
-    String replacements = getOrNull(error, "replacements");
-    if (replacements != null) {
-      match.setReplacements(Arrays.asList(replacements.split("#")));
+  private RemoteRuleMatch getMatch(Map<String, Object> match) {
+    Map<String, Object> rule = (Map<String, Object>) match.get("rule");
+    int offset = (int) getRequired(match, "offset");
+    int errorLength = (int) getRequired(match, "length");
+    
+    Map<String, Object> context = (Map<String, Object>) match.get("context");
+    int contextOffset = (int) getRequired(context, "offset");
+    RemoteRuleMatch remoteMatch = new RemoteRuleMatch(getRequiredString(rule, "id"), getRequiredString(match, "message"),
+            getRequiredString(context, "text"), contextOffset, offset, errorLength);
+    remoteMatch.setShortMsg(getOrNull(match, "shortMessage"));
+    remoteMatch.setRuleSubId(getOrNull(rule, "subId"));
+    remoteMatch.setLocQualityIssueType(getOrNull(rule, "issueType"));
+    List<String> urls = getValueList(rule, "urls");
+    if (urls.size() > 0) {
+      remoteMatch.setUrl(urls.get(0));
     }
-    return match;
+    Map<String, Object> category = (Map<String, Object>) rule.get("category");
+    remoteMatch.setCategory(getOrNull(category, "name"));
+    remoteMatch.setCategoryId(getOrNull(category, "id"));
+
+    remoteMatch.setReplacements(getValueList(match, "replacements"));
+    return remoteMatch;
   }
 
-  private String get(StartElement elem, String attributeName) {
-    Attribute val = elem.getAttributeByName(new QName(attributeName));
+  private Object getRequired(Map<String, Object> elem, String propertyName) {
+    Object val = elem.get(propertyName);
     if (val != null) {
-      return val.getValue();
+      return val;
     }
-    throw new RuntimeException("XML element " + elem + " doesn't contain required attribute '" + attributeName  + "'");
+    throw new RuntimeException("JSON item " + elem + " doesn't contain required property '" + propertyName + "'");
   }
-  
-  private String getOrNull(StartElement elem, String attributeName) {
-    Attribute val = elem.getAttributeByName(new QName(attributeName));
+
+  private String getRequiredString(Map<String, Object> elem, String propertyName) {
+    return (String) getRequired(elem, propertyName);
+  }
+
+  private String getOrNull(Map<String, Object> elem, String propertyName) {
+    Object val = elem.get(propertyName);
     if (val != null) {
-      return val.getValue();
+      return (String) val;
     }
     return null;
+  }
+
+  private List<String> getValueList(Map<String, Object> match, String propertyName) {
+    List<Object> matches = (List<Object>) match.get(propertyName);
+    List<String> l = new ArrayList<>();
+    if (matches != null) {
+      for (Object o : matches) {
+        Map<String, Object> item = (Map<String, Object>) o;
+        l.add((String) item.get("value"));
+      }
+    }
+    return l;
   }
   
 }

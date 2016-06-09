@@ -71,6 +71,10 @@ public class AgreementRule extends GermanRule {
       new PatternTokenBuilder().token("das").build(),
       new PatternTokenBuilder().token("Zufall").build()
     ),
+    Arrays.asList( // "So hatte das Vorteile|Auswirkungen|Konsequenzen..."
+      new PatternTokenBuilder().tokenRegex("(?i:hat(te)?)").build(),
+      new PatternTokenBuilder().token("das").build()
+    ),
     Arrays.asList(
       new PatternTokenBuilder().token("von").build(),
       new PatternTokenBuilder().tokenRegex("(vielen|allen)").build(),

@@ -31,7 +31,7 @@ public class CheckConfigurationTest {
   public void test() {
     CheckConfiguration config = new CheckConfiguration("en", null, false, 
             Collections.emptyList(), false, Collections.emptyList());
-    assertThat(config.getLangCode(), is("en"));
+    assertThat(config.getLangCode().get(), is("en"));
     assertNull(config.getMotherTongueLangCode());
     assertThat(config.getEnabledRuleIds().size(), is(0));
     assertThat(config.enabledOnly(), is(false));
@@ -40,7 +40,7 @@ public class CheckConfigurationTest {
   }
 
   @SuppressWarnings("ResultOfObjectAllocationIgnored")
-  @Test(expected = NullPointerException.class)
+  @Test(expected = IllegalArgumentException.class)
   public void testNull() {
     new CheckConfiguration(null, null, false, null, false, null);
   }

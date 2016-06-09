@@ -18,26 +18,30 @@
  */
 package org.languagetool.rules.de;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.German;
 
 import java.io.IOException;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * @author Markus Brenneis
  */
-public class GermanWrongWordInContextRuleTest extends TestCase {
+public class GermanWrongWordInContextRuleTest {
 
   private JLanguageTool langTool;
   private GermanWrongWordInContextRule rule;
   
-  @Override
+  @Before
   public void setUp() throws IOException {
     langTool = new JLanguageTool(new German());
     rule = new GermanWrongWordInContextRule(null);
   }
-  
+
+  @Test
   public void testRule() throws IOException {
     // Laiche/Leiche
     assertBad("Eine Laiche ist ein toter Körper.");

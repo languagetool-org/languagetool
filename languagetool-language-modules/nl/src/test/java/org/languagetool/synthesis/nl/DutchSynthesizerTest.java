@@ -19,15 +19,17 @@
 
 package org.languagetool.synthesis.nl;
 
+import org.junit.Test;
+import org.languagetool.AnalyzedToken;
+
 import java.io.IOException;
 import java.util.Arrays;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-import org.languagetool.AnalyzedToken;
+public class DutchSynthesizerTest {
 
-public class DutchSynthesizerTest extends TestCase {
-
+  @Test
   public final void testSynthesizeStringString() throws IOException {
     DutchSynthesizer synth = new DutchSynthesizer();
     assertEquals(synth.synthesize(dummyToken("blablabla"), 

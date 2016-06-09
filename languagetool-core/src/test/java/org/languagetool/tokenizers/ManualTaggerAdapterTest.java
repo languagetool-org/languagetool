@@ -18,21 +18,24 @@
  */
 package org.languagetool.tokenizers;
 
-import java.io.ByteArrayInputStream;
-import java.util.Arrays;
-import java.util.List;
-
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tagging.Tagger;
 
+import java.io.ByteArrayInputStream;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 /**
  * @author Ionuț Păduraru
  */
-public class ManualTaggerAdapterTest extends TestCase {
+public class ManualTaggerAdapterTest {
 
   private static final String TEST_DATA =
           "# some test data\n" +
@@ -51,12 +54,12 @@ public class ManualTaggerAdapterTest extends TestCase {
 
   protected Tagger tagger;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() throws Exception {
     tagger = new ManualTaggerAdapter(new ManualTagger(new ByteArrayInputStream(TEST_DATA.getBytes("UTF-8"))));
   }
 
+  @Test
   public void testMultipleLemma() throws Exception {
     List<String> l = Arrays.asList("inflectedform3");
     List<AnalyzedTokenReadings> analyzedTokenReadings = tagger.tag(l);
@@ -91,6 +94,7 @@ public class ManualTaggerAdapterTest extends TestCase {
     assertEquals("POS3d", analyzedToken.getPOSTag());
   }
 
+  @Test
   public void testMultiplePOS() throws Exception {
     List<String> l = Arrays.asList("inflectedform2");
     List<AnalyzedTokenReadings> analyzedTokenReadings = tagger.tag(l);
@@ -118,6 +122,7 @@ public class ManualTaggerAdapterTest extends TestCase {
     assertEquals("lemma2", analyzedToken.getLemma());
   }
 
+  @Test
   public void testMultipleWords() throws Exception {
     List<String> l = Arrays.asList("inflectedform2", "inflectedform3");
     List<AnalyzedTokenReadings> analyzedTokenReadings = tagger.tag(l);

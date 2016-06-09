@@ -18,24 +18,27 @@
  */
 package org.languagetool.rules;
 
-import java.io.IOException;
-
-import junit.framework.TestCase;
-
+import org.junit.Before;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 
-public class CommaWhitespaceRuleTest extends TestCase {
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
+
+public class CommaWhitespaceRuleTest {
 
   private CommaWhitespaceRule rule;
   private JLanguageTool langTool;
   
-  @Override
+  @Before
   public void setUp() throws IOException {
     rule = new CommaWhitespaceRule(TestTools.getEnglishMessages());
     langTool = new JLanguageTool(TestTools.getDemoLanguage());
   }
-  
+
+  @Test
   public void testRule() throws IOException {
     assertMatches("This is a test sentence.", 0);
     assertMatches("This, is, a test sentence.", 0);

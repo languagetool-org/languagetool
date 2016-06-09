@@ -197,17 +197,10 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <disambig action="ignore_spelling"/>
     </rule>
 
-    <rule name="Sauce hollandaise" id="SAUCE_HOLLANDAISE">
+    <rule name="Saucen" id="SAUCEN">
         <pattern>
             <token>Sauce</token>
-            <token>hollandaise</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-
-    <rule name="G7-Gipfel" id="Gx-GIPFEL">
-        <pattern>
-            <token regexp="yes">G[78]-Gipfel</token>
+            <token regexp='yes'>hollandaise|béarnaise|bordelaise|Bolognese|Béchamel</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -234,6 +227,14 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token>Alamos</token>
         </pattern>
         <disambig action="immunize"/>
+    </rule>
+
+    <rule name="Valleys" id="VALLEYS">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Death|Silicon</token>
+            <token>Valley</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
     </rule>
 
     <rule name="Oak Ridge" id="OAK_RIDGE">
@@ -324,13 +325,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-    <rule name="x-Jährige" id="x-JAEHRIGE">
-        <pattern>
-            <!-- "Zeit seines Lebens hat der 76-Jährige keine Häuser gebaut." (aber: hat der 76-jährige Architekt...) -->
-            <token regexp="yes">\d+-Jährigen?</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
+
     <rule name="Ein und Alles" id="EIN_UND_ALLES">
         <pattern>
             <!-- http://canoo.net/blog/2008/11/14/zum-einen-zum-anderen/ -->
@@ -346,14 +341,6 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token>à</token>
             <token>la</token>
             <token>carte</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
-
-    <rule name="Ave Maria" id="AVE_MARIA">
-        <pattern>
-            <token>Ave</token>
-            <token>Maria</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -413,6 +400,49 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern>
             <token>Cui</token>
             <token>Bono</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="In- und Ausland" id="IN_UND_AUSLAND">
+        <pattern>
+            <token>In-</token>
+            <token regexp='yes'>und|oder|beziehungsweise</token>
+            <token>Ausland</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="in- und ausländisch" id="IN_UND_AUSLAENDISCH">
+        <pattern>
+            <token>in-</token>
+            <token regexp='yes'>und|oder|beziehungsweise</token>
+            <token regexp='yes'>ausländisch(e|er|es|em|en)?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Memento mori" id="MEMENTO_MORI">
+        <pattern>
+            <token>Memento</token>
+            <token>mori</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="Fair Play" id="FAIR_PLAY">
+        <!-- http://www.korrekturen.de/wortliste/fair_play.shtml -->
+        <pattern case_sensitive="yes">
+            <token>Fair</token>
+            <token>Play</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    
+    <rule name="University of" id="UNIVERSITY_OF">
+        <pattern case_sensitive="yes">
+            <token>University</token>
+            <token>of</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

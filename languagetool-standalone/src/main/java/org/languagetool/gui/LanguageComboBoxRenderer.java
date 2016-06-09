@@ -35,7 +35,7 @@ import org.languagetool.databroker.ResourceDataBroker;
  *
  * @author Panagiotis Minos
  */
-class LanguageComboBoxRenderer extends JLabel implements ListCellRenderer<Language> {
+class LanguageComboBoxRenderer extends JLabel implements ListCellRenderer<LanguageAdapter> {
 
   private static final Border BORDER = new EmptyBorder(1, 3, 1, 1);
   
@@ -51,15 +51,15 @@ class LanguageComboBoxRenderer extends JLabel implements ListCellRenderer<Langua
   }
 
   private String getTranslatedName(Language language) {
+    String name = language.getTranslatedName(messages);
     if (language.isExternal()) {
-      return language.getName() + extLangSuffix;
-    } else {
-      return language.getTranslatedName(messages);
+      name += extLangSuffix;
     }
+    return name;
   }
 
   @Override
-  public Component getListCellRendererComponent(JList list, Language lang, int index, boolean isSelected, boolean cellHasFocus) {
+  public Component getListCellRendererComponent(JList list, LanguageAdapter adapter, int index, boolean isSelected, boolean cellHasFocus) {
     setComponentOrientation(list.getComponentOrientation());
     if (isSelected) {
       setBackground(list.getSelectionBackground());
@@ -68,21 +68,29 @@ class LanguageComboBoxRenderer extends JLabel implements ListCellRenderer<Langua
       setBackground(list.getBackground());
       setForeground(list.getForeground());
     }
-    setText(getTranslatedName(lang));
-    String langTag = lang.getLocaleWithCountryAndVariant().toLanguageTag();
-    String country = lang.getLocaleWithCountryAndVariant().getCountry().toLowerCase();
-    ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+    if(adapter != null) {
+      Language lang = adapter.getLanguage();
+      if(lang != null) {
+        setText(getTranslatedName(lang));
+        String langTag = lang.getLocaleWithCountryAndVariant().toLanguageTag();
+        String country = lang.getLocaleWithCountryAndVariant().getCountry().toLowerCase();
+        ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
 
-    String filename = "flags/bytag/" + langTag + ".png";
-    if (!dataBroker.resourceExists(filename)) {
-      filename = "flags/" + country + ".png";
-    }
-    if (!dataBroker.resourceExists(filename)) {
-      filename = "flags/empty.png";
-    }
+        String filename = "flags/bytag/" + langTag + ".png";
+        if (!dataBroker.resourceExists(filename)) {
+          filename = "flags/" + country + ".png";
+        }
+        if (!dataBroker.resourceExists(filename)) {
+          filename = "flags/empty.png";
+        }
 
-    ImageIcon icon = new ImageIcon(dataBroker.getFromResourceDirAsUrl(filename));
-    setIcon(icon);
+        ImageIcon icon = new ImageIcon(dataBroker.getFromResourceDirAsUrl(filename));
+        setIcon(icon);
+      } else {
+          setText(adapter.getValue());
+          setIcon(null);
+      }
+    }
     setEnabled(list.isEnabled());
     setFont(list.getFont());
     setBorder(BORDER);

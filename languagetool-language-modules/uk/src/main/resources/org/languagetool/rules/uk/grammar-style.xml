@@ -448,7 +448,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>в</token>
                     </marker>
-                    <token regexp="yes">[28вфvfw].*|[бгґжзйклнпрчсмцшщхqwrpsghkjlzxcbnm]ь?[вфvfw].*</token> <!-- виняток: тв, дв -->
+                    <token regexp="yes">[28вфvfw].*|[бгґджзйклмнпрстчцшщхqwrpsghkjlzxcbnm]ь?[вфvfw].*
+                      <exception postag_regexp="yes" postag=".*:abbr"/>
+                    </token>
                 </pattern>
                 <message>Перед словами, що починаються на в, ф або збігом приголосних із в, ф пишемо у: <suggestion>у</suggestion> \2</message>
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
@@ -456,11 +458,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="У"><marker>В</marker> вольєрі сталася пожежа.</example>
                 <example correction="у">Наприклад, <marker>в</marker> фанерних будинках.</example>
                 <example correction="у">парад <marker>в</marker> зворотному напрямку</example>
+                <example correction="у">таких ознак <marker>в</marker> двійнятах</example>
                 <example>у вівторок.</example>
                 <example>Сьогодні у Львові.</example>
                 <example>перевагу в швидкості</example>
                 <example>сингулярності в квантовій</example>
-                <example>таких ознак в двійнятах</example>
+                <example>В МВС.</example>
             </rule>
 <!--
             <rule>

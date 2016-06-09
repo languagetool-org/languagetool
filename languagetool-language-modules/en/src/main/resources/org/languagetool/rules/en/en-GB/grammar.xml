@@ -23,112 +23,189 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
 USA
 -->
 <rules lang="en-GB" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<category id="AMERICAN_ENGLISH" name="American English phrases" type="locale-violation">
-		<rule id="ZIP_CODE_POSTCODE" name="zip code/postcode">
-			<pattern>
-				<token>zip</token>
-				<token>code</token>
-			</pattern>
-			<message>This expression is common for American English. Did you mean <suggestion>postcode</suggestion>?</message>
-			<url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
-			<example correction="postcode">Please enter your <marker>zip code</marker>.</example>
-		</rule>
-		<rule id="APARTMENT-FLAT" name="apartment/flat">
-			<pattern>
-				<token>apartment</token>
-			</pattern>
-			<message>This word is common for American English. Did you mean <suggestion>flat</suggestion>?</message>
-			<url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
-			<example correction="flat">I just bought an <marker>apartment</marker>?</example>
-		</rule>
-		<rule id="BAND-AID_PLASTER" name="band-aid/plaster">
-			<pattern>
-				<token>band-aid</token>
-			</pattern>
-			<message>This word is common for American English. Did you mean <suggestion>plaster</suggestion>?</message>
-			<url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
-			<example correction="plaster">Where's the <marker>band-aid</marker>?</example>
-		</rule>
-		<rule id="GROUND_VS_MINCED" name="ground beef/minced beef">
-			<pattern>
-				<marker>
-					<token>ground</token>
-				</marker>
-				<token>beef</token>
-			</pattern>
-			<message>This word is common for American English. Did you mean <suggestion>minced</suggestion>?</message>
-			<url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
-			<example correction="minced">Do vegetarians eat <marker>ground</marker> beef?</example>
-		</rule>
-		<rule id="FIRST_GROUND_FLOOR" name="first floor/ground floor">
-			<pattern>
-				<marker>
-					<token>first</token>
-				</marker>
-				<token>floor</token>
-			</pattern>
-			<message>This word is common for American English. Did you mean <suggestion>ground</suggestion>?</message>
-			<url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
-			<example correction="ground">The room is on the <marker>first</marker> floor.</example>
-		</rule>
-		<rule id="VACUUM_CLEANER_HOOVER" name="vacuum cleaner/hoover">
-			<pattern>
-				<token>vacuum</token>
-				<token inflected="yes">cleaner</token>
-			</pattern>
-			<message>This expression is common for American English. Did you mean <suggestion>hoover</suggestion>?</message>
-			<url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
-			<example correction="hoover">Buy me a <marker>vacuum cleaner</marker>.</example>
-			<example>All I need is a hoover.</example>
-		</rule>
-		<rule id="MOVIE_THEATER_CINEMA" name="movie theater/cinema">
-			<pattern>
-				<token>movie</token>
-				<token inflected="yes">theater</token>
-			</pattern>
-			<message>This expression is common for American English. Did you mean <suggestion>cinema</suggestion>?</message>
-			<url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
-			<example correction="cinema">Let's go to a <marker>movie theater</marker>.</example>
-			<example>Edward Norton – not appearing in a cinema near you.</example>
-		</rule>
-		<rule id="GOT_GOTTEN" name="gotten/got">
-			<pattern>
-				<marker>
-					<token>gotten</token>
-				</marker>
-				<token><exception>up</exception></token>
-			</pattern>
-			<message>In the UK, the word 'gotten' is usually no longer used. Did you mean <suggestion>got</suggestion>?</message>
-			<url>http://public.wsu.edu/~brians/errors/got.html</url>
-			<example>He's gotten up on the wrong side of bed.</example>
-			<example correction="got">He has <marker>gotten</marker> some food.</example>
-		</rule>
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <category id="AMERICAN_ENGLISH" name="American English phrases" type="locale-violation">
+        <rule id="ZIP_CODE_POSTCODE" name="zip code/postcode">
+            <pattern>
+                <token>zip</token>
+                <token>code</token>
+            </pattern>
+            <message>This expression is common for American English. Did you mean <suggestion>postcode</suggestion>?</message>
+            <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+            <example correction="postcode">Please enter your <marker>zip code</marker>.</example>
+        </rule>
+        <rule id="APARTMENT-FLAT" name="apartment/flat">
+            <pattern>
+                <token>apartment</token>
+            </pattern>
+            <message>This word is common for American English. Did you mean <suggestion>flat</suggestion>?</message>
+            <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+            <example correction="flat">I just bought an <marker>apartment</marker>?</example>
+        </rule>
+        <rule id="BAND-AID_PLASTER" name="band-aid/plaster">
+            <pattern>
+                <token>band-aid</token>
+            </pattern>
+            <message>This word is common for American English. Did you mean <suggestion>plaster</suggestion>?</message>
+            <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+            <example correction="plaster">Where's the <marker>band-aid</marker>?</example>
+        </rule>
+        <rule id="GROUND_VS_MINCED" name="ground beef/minced beef">
+            <pattern>
+                <marker>
+                    <token>ground</token>
+                </marker>
+                <token>beef</token>
+            </pattern>
+            <message>This word is common for American English. Did you mean <suggestion>minced</suggestion>?</message>
+            <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+            <example correction="minced">Do vegetarians eat <marker>ground</marker> beef?</example>
+        </rule>
+        <rule id="FIRST_GROUND_FLOOR" name="first floor/ground floor">
+            <pattern>
+                <marker>
+                    <token>first</token>
+                </marker>
+                <token>floor</token>
+            </pattern>
+            <message>This word is common for American English. Did you mean <suggestion>ground</suggestion>?</message>
+            <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+            <example correction="ground">The room is on the <marker>first</marker> floor.</example>
+        </rule>
+        <rule id="VACUUM_CLEANER_HOOVER" name="vacuum cleaner/hoover">
+            <pattern>
+                <token>vacuum</token>
+                <token inflected="yes">cleaner</token>
+            </pattern>
+            <message>This expression is common for American English. Did you mean <suggestion>hoover</suggestion>?</message>
+            <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+            <example correction="hoover">Buy me a <marker>vacuum cleaner</marker>.</example>
+            <example>All I need is a hoover.</example>
+        </rule>
+        <rule id="MOVIE_THEATER_CINEMA" name="movie theater/cinema">
+            <pattern>
+                <token>movie</token>
+                <token inflected="yes">theater</token>
+            </pattern>
+            <message>This expression is common for American English. Did you mean <suggestion>cinema</suggestion>?</message>
+            <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
+            <example correction="cinema">Let's go to a <marker>movie theater</marker>.</example>
+            <example>Edward Norton – not appearing in a cinema near you.</example>
+        </rule>
+        <rule id="GOT_GOTTEN" name="gotten/got">
+            <pattern>
+                <marker>
+                    <token>gotten</token>
+                </marker>
+                <token><exception>up</exception></token>
+            </pattern>
+            <message>In the UK, the word 'gotten' is usually no longer used. Did you mean <suggestion>got</suggestion>?</message>
+            <url>http://public.wsu.edu/~brians/errors/got.html</url>
+            <example>He's gotten up on the wrong side of bed.</example>
+            <example correction="got">He has <marker>gotten</marker> some food.</example>
+        </rule>
         <rule id="GAS_PETROL" name="gas/petrol" default="off"> <!-- This rule needs more exceptions to be usable -->
             <pattern>
-				<token>gas<exception scope="previous">natural</exception></token>
+                <token>gas<exception scope="previous">natural</exception></token>
             </pattern>
             <message>With the meaning of "gasoline", in British English is more common to use <suggestion>petrol</suggestion>.</message>
             <example>Natural gas.</example>
             <example correction="petrol">More <marker>gas</marker>.</example>
         </rule>
-		<rule id="LICENCE_LICENSE_NOUN_SINGULAR" name="License/Licence (noun)">
-			<pattern>
-				<token negate_pos="yes" postag="VB|VBD|VBG|VBN|VBP|VBZ" postag_regexp="yes">license</token>
-			</pattern>
-			<message><match no="1"/> must be spelled with a "c" when used as a noun in British English.</message>
-			<suggestion>licence</suggestion>
-			<example correction="licence">Please show me your <marker>license</marker>.</example>
-		</rule>
-		<rule id="LICENCE_LICENSE_NOUN_PLURAL" name="Licenses/Licences (noun)">
-			<pattern>
-				<token negate_pos="yes" postag="VB|VBD|VBG|VBN|VBP|VBZ" postag_regexp="yes">licenses</token>
-			</pattern>
-			<message><match no="1"/> must be spelled with a "c" when used as a noun in British English.</message>
-			<suggestion>licences</suggestion>
-			<example correction="licences">Please show me your <marker>licenses</marker>.</example>
-		</rule>
-
-	</category>
+        <rule id="LICENCE_LICENSE_NOUN_SINGULAR" name="License/Licence (noun)">
+            <pattern>
+                <token negate_pos="yes" postag="VB|VBD|VBG|VBN|VBP|VBZ" postag_regexp="yes">license</token>
+            </pattern>
+            <message><match no="1"/> must be spelled with a "c" when used as a noun in British English.</message>
+            <suggestion>licence</suggestion>
+            <example correction="licence">Please show me your <marker>license</marker>.</example>
+        </rule>
+        <rule id="LICENCE_LICENSE_NOUN_PLURAL" name="Licenses/Licences (noun)">
+            <pattern>
+                <token negate_pos="yes" postag="VB|VBD|VBG|VBN|VBP|VBZ" postag_regexp="yes">licenses</token>
+            </pattern>
+            <message><match no="1"/> must be spelled with a "c" when used as a noun in British English.</message>
+            <suggestion>licences</suggestion>
+            <example correction="licences">Please show me your <marker>licenses</marker>.</example>
+        </rule>
+        <rule  id="TRUNK_BOOT" name="trunk/boot (of car)">
+            <antipattern>
+                <token>car</token>
+                <token regexp="yes" skip="-1">boots?</token>
+                <token regexp="yes">trunks?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="-1">trunks?</token>
+                <token>car</token>
+                <token regexp="yes">boots?</token>
+            </antipattern>
+            <antipattern>
+                <token>car</token>
+                <token regexp="yes">’|'</token>
+                <token>s</token>
+                <token skip="-1">boot</token>
+                <token regexp="yes">trunks?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="-1">trunks?</token>
+                <token>car</token>
+                <token regexp="yes">’|'</token>
+                <token>s</token>
+                <token>boot</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">boots?</token>
+                <token>of</token>
+                <token postag_regexp="yes" postag="DT|PDT" />
+                <token inflected="yes" skip="-1">car</token>
+                <token regexp="yes">trunks?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="-1">trunks?</token>
+                <token regexp="yes">boots?</token>
+                <token>of</token>
+                <token postag_regexp="yes" postag="DT|PDT" />
+                <token inflected="yes">car</token>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">elephant|river|swimming|tree</exception></token>
+                <marker>
+                    <token regexp="yes" skip="-1">trunk|trunks<exception scope="next" inflected="yes" regexp="yes">elephant|river|swimming|tree</exception></token>
+                </marker>
+                <token postag="SENT_END"><exception scope="current" inflected="yes" regexp="yes">elephant|river|swimming|tree</exception></token>
+            </pattern>
+            <message>In the context of cars (automobiles), '<match no="2"/>' is American English. For British English use <suggestion><match no="2" postag="(.*)" postag_replace="$1">boot</match></suggestion>.</message>
+            <url>https://en.wikipedia.org/wiki/Trunk_%28car%29</url>
+            <short>AmE/BrE: trunk/boot</short>
+            <example type="incorrect" correction="boot">The automobile has a small <marker>trunk</marker>.</example>
+            <example type="incorrect" correction="boots">Automobiles that have large <marker>trunks</marker> are usually expensive.</example>
+            <example type="incorrect" correction="Boots"><marker>Trunks</marker> on some automobiles are at the front.</example>
+            <example type="incorrect" correction="boot">This Volkswagen has a large <marker>trunk</marker>.</example>
+            <example type="incorrect" correction="boots">Volkswagens and Chryslers usually have large <marker>trunks</marker>.</example>
+            <example type="correct">The elephant's <marker>trunk</marker> is long.</example>
+            <example type="correct">This tree <marker>trunk</marker> is large.</example>
+            <example type="correct">The <marker>trunks</marker> of some trees were damaged during the storm.</example>
+            <example type="correct">The arterial <marker>trunks</marker> of some rivers are ...</example>
+            <example type="correct"><marker>Trunks</marker> (swimming) of various colours are available from ...</example>
+            <example type="correct">If the electrical <marker>trunking</marker> on the car is ...</example>
+            <example type="correct">Put the <marker>trunk</marker> into the car boot.</example>
+            <example type="correct">The car boot contained <marker>trunks</marker> of many colours.</example>
+            <example type="correct">The car boots contained <marker>trunks</marker> of many sizes.</example>
+            <example type="correct">Put these items into the boot of the car: <marker>trunk</marker>, table, chair, kitchen sink.</example>
+            <example type="correct">Put the <marker>trunks</marker> into the boot of the car.</example>
+            <example type="correct">The lace on this <marker>boot</marker> is frayed.</example>
+            <example type="correct">The car boot contained a <marker>trunk</marker> and a ...</example>
+            <example type="correct">The car's boot contained a <marker>trunk</marker> and a ...</example>
+            <example type="correct">The <marker>trunks</marker> were in our car’s boot.</example>
+            <!-- <example type="correct">The boot of this Volkswagen contains a large <marker>trunk</marker>.</example>-->
+            <!-- <example type="correct">The boots of Volkswagens are sufficiently large to contain 2 or 3 <marker>trunks</marker>.</example>-->
+            <!-- <example type="correct">The <marker>trunk</marker> was in the Ford.</example>-->
+            <!-- <example type="correct">Mr Ford has a large blue <marker>trunk</marker>.</example>-->
+            <!-- <example type="correct">The <marker>trunk</marker> was on the back seat of the Ford.</example>-->
+            <!-- <example type="correct">The abandoned car contained a stolen <marker>trunk</marker>.</example>-->
+            <!-- <example type="correct">The Chrysler's boot contained a <marker>trunk</marker> and a ...</example>-->
+            <!-- <example type="correct">Some cars' boots can contain <marker>trunks</marker> of enormous size.</example>-->
+        </rule>
+    </category>
 
 </rules>

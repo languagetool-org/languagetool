@@ -30,20 +30,19 @@ public class CheckConfigurationBuilderTest {
   @Test
   public void test() {
     CheckConfiguration config1 = new CheckConfigurationBuilder("xx").build();
-    assertThat(config1.getLangCode(), is("xx"));
+    assertThat(config1.getLangCode().get(), is("xx"));
     assertNull(config1.getMotherTongueLangCode());
     assertThat(config1.getEnabledRuleIds().size(), is(0));
     assertThat(config1.enabledOnly(), is(false));
     assertThat(config1.guessLanguage(), is(false));
 
-    CheckConfiguration config2 = new CheckConfigurationBuilder("wrong-code")
+    CheckConfiguration config2 = new CheckConfigurationBuilder()
             .setMotherTongueLangCode("mm")
             .enabledOnly()
-            .autoDetectLanguage()
             .enabledRuleIds(Arrays.asList("RULE1", "RULE2"))
             .disabledRuleIds(Arrays.asList("RULE3", "RULE4"))
             .build();
-    assertThat(config2.getLangCode(), is("wrong-code"));  // we cannot detect the problem here
+    assertFalse(config2.getLangCode().isPresent());
     assertThat(config2.getMotherTongueLangCode(), is("mm"));
     assertThat(config2.getEnabledRuleIds().toString(), is("[RULE1, RULE2]"));
     assertThat(config2.getDisabledRuleIds().toString(), is("[RULE3, RULE4]"));

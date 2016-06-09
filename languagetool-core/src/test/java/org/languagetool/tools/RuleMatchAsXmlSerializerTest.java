@@ -37,9 +37,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.languagetool.tools.StringTools.XmlPrintMode.*;
 
 @SuppressWarnings("MagicNumber")

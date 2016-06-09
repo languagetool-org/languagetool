@@ -20,6 +20,7 @@ package org.languagetool.remote;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Configuration for checking a text with {@link RemoteLanguageTool}.
@@ -35,7 +36,13 @@ public class CheckConfiguration {
   private final List<String> disabledRuleIds;
   
   CheckConfiguration(String langCode, String motherTongueLangCode, boolean guessLanguage, List<String> enabledRuleIds, boolean enabledOnly, List<String> disabledRuleIds) {
-    this.langCode = Objects.requireNonNull(langCode);
+    if (langCode == null && !guessLanguage) {
+      throw new IllegalArgumentException("No language was set but language guessing was not activated either");
+    }
+    if (langCode != null && guessLanguage) {
+      throw new IllegalArgumentException("Language was set but language guessing was also activated");
+    }
+    this.langCode = langCode;
     this.motherTongueLangCode = motherTongueLangCode;
     this.guessLanguage = guessLanguage;
     this.enabledRuleIds = Objects.requireNonNull(enabledRuleIds);
@@ -43,8 +50,8 @@ public class CheckConfiguration {
     this.disabledRuleIds = Objects.requireNonNull(disabledRuleIds);
   }
 
-  public String getLangCode() {
-    return langCode;
+  public Optional<String> getLangCode() {
+    return Optional.ofNullable(langCode);
   }
 
   public String getMotherTongueLangCode() {

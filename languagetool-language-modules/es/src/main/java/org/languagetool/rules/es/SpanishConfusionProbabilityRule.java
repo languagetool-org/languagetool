@@ -20,6 +20,7 @@ package org.languagetool.rules.es;
 
 import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
 
 import java.util.ResourceBundle;
@@ -31,9 +32,8 @@ public class SpanishConfusionProbabilityRule extends ConfusionProbabilityRule {
 
   public SpanishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     super(messages, languageModel, language);
-    // TODO: add example:
-    //addExamplePair(Example.wrong("<marker>wrong</marker> word in sentence"),
-    //               Example.fixed("<marker>correct</marker> word in sentence"));
+    addExamplePair(Example.wrong("El proyecto no <marker>tubo</marker> una buena acogida."),
+                   Example.fixed("El proyecto no <marker>tuvo</marker> una buena acogida."));
   }
 
 }

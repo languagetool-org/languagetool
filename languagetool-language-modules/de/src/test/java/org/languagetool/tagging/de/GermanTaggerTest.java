@@ -18,10 +18,10 @@
  */
 package org.languagetool.tagging.de;
 
-import junit.framework.TestCase;
 import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.WordData;
+import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -29,9 +29,12 @@ import org.languagetool.JLanguageTool;
 import java.io.IOException;
 import java.util.*;
 
-@SuppressWarnings("ConstantConditions")
-public class GermanTaggerTest extends TestCase {
+import static org.junit.Assert.*;
 
+@SuppressWarnings("ConstantConditions")
+public class GermanTaggerTest {
+
+  @Test
   public void testTagger() throws IOException {
     GermanTagger tagger = new GermanTagger();
     
@@ -104,6 +107,7 @@ public class GermanTaggerTest extends TestCase {
   }
 
   // make sure we use the version of the POS data that was extended with post spelling reform data
+  @Test
   public void testExtendedTagger() throws IOException {
     GermanTagger tagger = new GermanTagger();
 
@@ -117,6 +121,7 @@ public class GermanTaggerTest extends TestCase {
     assertEquals("muss[müssen/VER:MOD:1:SIN:PRÄ, müssen/VER:MOD:3:SIN:PRÄ]", toSortedString(tagger.lookup("muss")));
   }
 
+  @Test
   public void testTaggerBaseforms() throws IOException {
     GermanTagger tagger = new GermanTagger();
     
@@ -137,6 +142,7 @@ public class GermanTaggerTest extends TestCase {
     assertEquals("Haus", readings3.get(2).getLemma());
   }
 
+  @Test
   public void testTag() throws IOException {
     GermanTagger tagger = new GermanTagger();
     List<String> upperCaseWord = Arrays.asList("Das");
@@ -146,6 +152,7 @@ public class GermanTaggerTest extends TestCase {
     assertTrue(readings2.toString().startsWith("[Das[der/ART:"));
   }
 
+  @Test
   public void testTagWithManualDictExtension() throws IOException {
     // words not originally in Morphy but added in LT 1.8 (moved from added.txt to german.dict)
     GermanTagger tagger = new GermanTagger();
@@ -154,6 +161,7 @@ public class GermanTaggerTest extends TestCase {
         "Wichtigtuerin/SUB:DAT:PLU:FEM*,Wichtigtuerin/SUB:GEN:PLU:FEM*,Wichtigtuerin/SUB:NOM:PLU:FEM*]]", readings.toString());
   }
 
+  @Test
   public void testDictionary() throws IOException {
     Dictionary dictionary = Dictionary.read(
         JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/de/german.dict"));

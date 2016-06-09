@@ -1586,15 +1586,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>1 <marker>Hertz</marker> ist definiert als 1/s.</example>
             </rule>
             <rule>
-                <!-- TODO add some typical phrases, 'Frequenz von' ... -->
                 <pattern>
-                    <token regexp="yes">von|mit|als|Frequenz</token>
-                    <token regexp="yes">[0-9]+</token>
+                    <token regexp="yes">[0-9]*,?[0-9]+</token>
                     <marker>
                         <token>Herz</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>Hertz</suggestion> (Einheit der Frequenz) statt 'Herz' (Organ)?</message>
+                <message>Meinten Sie <suggestion>Hertz</suggestion> (Einheit der Frequenz; abgekürzt: Hz) statt 'Herz' (Organ)?</message>
                 <url>http://www.duden.de/rechtschreibung/Hertz</url>
                 <example>1 <marker>Hertz</marker> ist definiert als 1/s.</example>
                 <example correction="Hertz">Mit einer Frequenz von 10 <marker>Herz</marker>.</example>
@@ -3618,6 +3616,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        <rule id="ZEIT_UND_MUSE" name="Zeit und Muse (Muße)">
+            <pattern>
+                <token>Zeit</token>
+                <token>und</token>
+                <marker>
+                    <token>Muse</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>Muße</suggestion> (= innere Ruhe, Muse = Inspiration eines Künstlers)?</message>
+            <url>http://www.korrekturen.de/beliebte_fehler/zeit_und_muse.shtml</url>
+            <example correction='Muße'>Zeit und <marker>Muse</marker></example>
+        </rule>
         <rule id="LIEHT" name="lieht (liegt)">
             <pattern>
                 <token>lieht</token>
@@ -6224,23 +6234,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="RAF" name="'Rote Armee Fraktion'">
             <rule>
-                <regexp>Rote[nr] Armee Fraktion</regexp>
-                <message>Meinten Sie <suggestion>Rote Armee Fraktion</suggestion>? Dies ist eine feste Wendung, die wie ein Eigenname behandelt wird.</message>
-                <example correction="Rote Armee Fraktion">Mitglieder der <marker>Roten Armee Fraktion</marker></example>
-            </rule>
-            <rule>
                 <pattern>
-                    <token>Rote</token>
+                    <token regexp='yes'>Rote(n)?</token>
                     <token regexp="yes">Arme.*<exception>Armee</exception></token>
                     <token>Fraktion</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>Rote Armee Fraktion</suggestion>?</message>
+                <message>Meinten Sie <suggestion><match case_conversion="startupper" no="1"/> Armee Fraktion</suggestion>? (Hinweis: Der Duden empfiehlt die wenig verbreitete Schreibweise 'Rote-Armee-Fraktion'.)</message>
+                <url>http://www.duden.de/rechtschreibung/Rote_Armee_Fraktion</url>
                 <example correction="Rote Armee Fraktion">Mitglieder der <marker>Rote Arme Fraktion</marker></example>
                 <example correction="Rote Armee Fraktion">Mitglieder der <marker>Rote Armen Fraktion</marker></example>
             </rule>
             <rule>
-                <regexp case_sensitive='yes'>rote Armee Fraktion</regexp>
-                <message>Meinten Sie <suggestion>Rote Armee Fraktion</suggestion>? Dies ist eine feste Wendung.</message>
+                <regexp case_sensitive='yes'>rote(n)? Armee Fraktion</regexp>
+                <message>Meinten Sie <suggestion>Rote\1 Armee Fraktion</suggestion>? Dies ist eine feste Wendung. (Hinweis: Der Duden empfiehlt die wenig verbreitete Schreibweise 'Rote-Armee-Fraktion'.)</message>
+                <url>http://www.duden.de/rechtschreibung/Rote_Armee_Fraktion</url>
                 <example correction="Rote Armee Fraktion">Mitglieder der <marker>rote Armee Fraktion</marker></example>
             </rule>
         </rulegroup>
@@ -16990,6 +16997,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- http://www.duden.de/sprachwissen/rechtschreibregeln/namen#K150
                  Alle zu einem mehrteiligen Namen gehörenden Adjektive, Partizipien, Pronomen und Zahlwörter schreibt man groß <§ 60>. -->
             <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">roten?</token>
+                    <token>Armee</token>
+                    <token>Fraktion</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">roten?</token>
                     <token>Armee</token>
@@ -23942,6 +23954,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="PRP.*" postag_regexp="yes"/>
                 <token regexp="yes">der|die|das</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">hat|hatte</token>
+                <token>das</token>
+            </antipattern>
             <pattern>
                 <token><exception>,</exception></token>
                 <token regexp="yes">der|die|das</token>
@@ -23952,13 +23968,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token postag_regexp="yes" postag="SUB:.*"/>
             </pattern>
-            <message>Evtl. wir hier ein bestimmter Artikel mit einem unbestimmten Adjektiv kombiniert.</message>
+            <message>Eventuell wird hier ein bestimmter Artikel mit einem unbestimmten Adjektiv kombiniert.</message>
             <suggestion><match no="3" postag_regexp="yes" postag="(ADJ|PA1):.*DEF.*"/></suggestion>
             <example correction="kommerzielle|kommerziellen|kommerziellere|kommerzielleren|kommerziellste|kommerziellsten">ROBOT ist das <marker>kommerzielles</marker> System.</example>
             <example correction="passende|passenden">Er ist der <marker>passender</marker> Mann dazu.</example>
             <example>ROBOT ist ein <marker>kommerzielles</marker> System.</example>
             <example>Ist das <marker>japanisches</marker> Essen?</example>
             <example>Vorfälle, über die autistische Menschen berichten.</example>
+            <example>Dabei hatte das fatale Konsequenzen.</example>
             <example type="triggers_error">Damit ähnelt die Altersstruktur der <marker>europäischer</marker> Städte.</example>
         </rule>
         <rule id="VERB_IST" name="Verb 1./3. Person (statt Partizip) + 'ist'">
@@ -24745,6 +24762,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">der|die|das</token>
                     <token>anderer</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">hat|hatte</token>
+                    <token>das</token>
+                </antipattern>
                 <pattern>
                     <token negate="yes">,</token>
                     <marker>
@@ -24775,6 +24796,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ist <marker>das reines</marker> Gold?</example>
                 <example>Aikido ist eine der schwerer erlernbaren Kampfkünste.</example>
                 <example>Durch die rege Bautätigkeit hat der Bausektor eine wichtige Rolle erlangt.</example>
+                <example>In diesem Fall hatte das fatale Konsequenzen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ADJ_PRAEDIKATIV" name="Starke, schwache oder gemischte Adjektiv-Flexion statt prädikativer, z.B. 'sich normale (normal) entwickeln'">
