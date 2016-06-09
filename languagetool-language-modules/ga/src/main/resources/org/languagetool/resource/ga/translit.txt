@@ -1,0 +1,22 @@
+# Transform input to normalized form NFC, and to lowercase.
+
+:: NFC () ;
+:: Lower () ;
+
+$slender = [eiéí] ; 
+$broad = [aouáóú] ;
+
+$cons = [bcdfghjklmnpqrstvwxyz] ; 
+
+adh } a > aɪ ;
+a } [:^L:] > ə ;
+adh } $cons > aɪ ;
+abht > aʊt̪ ;
+amhr > aʊɹ ;
+[:^L:] } amh > aʊ ;
+é > eː ;
+[é] } a > ə ;
+n } $slender > nʲ ;
+
+# Exception
+[:^L:] { is } [:^L:] > ɪs ;
