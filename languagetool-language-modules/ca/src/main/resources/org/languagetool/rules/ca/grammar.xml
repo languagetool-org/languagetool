@@ -2358,9 +2358,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>mig</token>
                     </marker>
                 </antipattern>
-                <pattern>
+                <pattern case_sensitive="yes">
                     <marker>
-                        <token>mig<exception postag="_allow_mig"/><exception postag="allow_masculine"/></token>
+                        <token regexp="yes">[Mm]ig<exception postag="_allow_mig"/><exception postag="allow_masculine"/></token>
                     </marker>
                     <token postag="N.FS.*" postag_regexp="yes"><exception postag="_GN_MS|V.P.*|AQ.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -2385,14 +2385,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <marker>
-                        <token inflected="yes" regexp="yes">traure|treure|llevar</token>
-                        <token>de</token>
+                        <token>mig</token>
+                        <token>fons</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">de|pe|a</token>
                         <token>l</token>
                         <token>mig</token>
                     </marker>
                 </antipattern>
-                <pattern>
-                    <token>mig<exception postag="_allow_mig"/></token>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Mm]ig<exception postag="_allow_mig"/></token>
                     <token postag="N..P.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Error de concordança.</message>
@@ -2403,6 +2408,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Un i mig anys després.</example>
                 <example>mig planys i mig compliments</example>
                 <example>mig planys mig compliments</example>
+                <example>Estaven mig obertes o mig tancades?</example>
             </rule>
             <rule id="ANTIPODES" name="als antípodes">
                 <pattern>
@@ -5192,6 +5198,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Quan estiguis desesperat vés al carrer.</example>
         </rule>
         <rule id="ESPERANT_US_AGRADI" name="esperem (que) us agradi)">
+            <antipattern>
+               <marker>
+                   <token>que</token>
+                   <token postag="&pronom_feble;" postag_regexp="yes" min="0"/>
+                   <token postag="V.I.*|N.*" postag_regexp="yes" regexp="yes" inflected="yes">esperar|desitjar|esperant|sol·licitar|pregar</token>
+                   <token inflected="yes">poder</token>
+               </marker>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="V.I.*|N.*" postag_regexp="yes" regexp="yes" inflected="yes">esperar|desitjar|esperant|sol·licitar|pregar</token>
@@ -5202,13 +5216,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Probablement falta un 'que'.</message>
             <suggestion><match no="1"/> que</suggestion>
             <example correction="esperem que"><marker>esperem</marker> us agradi.</example>
+            <example correction="Esperem que"><marker>Esperem</marker> pugueu venir aviat.</example>
             <example correction="esperant que"><marker>esperant</marker> us agradi.</example>
             <example correction="esperem que"><marker>esperem</marker> vingueu.</example>
             <example correction="espera que">que s'<marker>espera</marker> entri en funcionament.</example>
             <example correction="preguem que"><marker>preguem</marker> disculpeu les molèsties</example>
             <example>Tothom esperava que guanyés.</example>
             <example>Com si l'únic que desitgés fos allò.</example>
-            <!--<example>que els reforços que esperaven poguessin arribar</example>-->
+            <example>que els reforços que esperaven poguessin arribar</example>
+            <example>que els centre que ho desitgen puguen fer proves finals</example>
         </rule>
     </category>
     <category id="DETERMINANTS" name="Determinants" type="grammar">
@@ -8236,6 +8252,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>fins</token>
                     </marker>
                 </antipattern>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">molt|ben</token>
+                        <token regexp="yes">&adverbis_temps_lloc;</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>fins</token>
@@ -8257,6 +8279,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Fins ahir.</example>
                 <example>Va publicar fins poc abans de la seva mort.</example>
                 <example>Fins mai més</example>
+                <example>Fins molt recentment</example>
                 <!-- fins bastant entrats els segles;
                     fins aproximadament pel març del 1869
                     fins poc més amunt del santuari-->
@@ -23653,6 +23676,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="PINTAR_BASTOS" name="pintar bastos">
+            <pattern>
+                <token inflected="yes">pintar</token>
+                <token>bastos</token>
+            </pattern>
+            <message>Castellanisme innecessari.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="($1)">anar</match> mal dades</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="($1)">venir</match> mal dades</suggestion>
+            <example correction="Anaven mal dades|Venien mal dades"><marker>Pintaven bastos</marker>.</example>
+        </rule>
         <rule id="DONAR_AMB" name="donar amb la resposta">
             <pattern>
                 <marker>
@@ -29007,6 +29040,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>passar a poc a poc dels bullits als rostits</example>
             </rule>
             <rule>
+                <antipattern>
+                     <marker>
+                         <token>de</token>
+                         <token min="0" postag="DA.*" postag_regexp="yes"/>
+                         <token regexp="yes" inflected="yes">ciutat|centre|poble|punt|vila|marxa|camí</token>
+                     </marker>
+                </antipattern>
                 <pattern>
                     <token>a<exception postag="LOC_ADV"/></token>
                     <unify><feature id="nombre"/><feature id="genere"/>
@@ -29021,6 +29061,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>http://esadir.cat/entrades/fitxa/node/apocde</url>
                 <example correction="pocs dies abans que|pocs dies després que"><marker>a pocs dies que</marker> Torres declari</example>
                 <example>poc abans de casar-se</example>
+                <example>A pocs minuts del centre de la ciutat</example>
+                <example>A pocs dies de marxa</example>
             </rule>
         </rulegroup>
         <rule id="PUR_I_DUR" name="*pur i dur">
@@ -31575,6 +31617,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Deixa-ho a la bústia</example>
         </rule>
         <rule id="BILLO_BILIO" name="billó / bilió">
+            <antipattern>
+                 <marker>
+                      <token inflected="yes" regexp="yes" skip="1">dobler|quatern|ral|moneda|escut|diner|blanc|peça</token>
+                      <token>de</token>
+                      <token inflected="yes">billó</token>
+                 </marker>
+            </antipattern>
             <pattern>
                 <token inflected="yes">billó</token>
             </pattern>
@@ -35606,6 +35655,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="MAREJAR_LA_PERDIU" name="marejar la perdiu">
+            <pattern>
+                <token inflected="yes">marejar</token>
+                <token>la</token>
+                <token>perdiu</token>
+            </pattern>
+            <message>Val més usar una altra expressió.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="($1)">fer</match> passar (algú) amb cançons</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="($1)">fer</match> passar (algú) amb raons</suggestion>
+            <example correction="feien passar (algú) amb cançons|feien passar (algú) amb raons">Sempre <marker>marejaven la perdiu</marker>.</example>
+        </rule>
         <rule id="COMPTAR_AMB_TENIR" name="comptar amb/tenir">
             <pattern>
                 <marker>
