@@ -2454,6 +2454,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Veig que saps molt d'història antiga.</example>
             </rule>
             <rule id="CONCORDANCA_GRIS" name="errors freqüents: gris/grisa">
+                <antipattern>
+                    <marker>
+                         <token>gris</token>
+                         <token regexp="yes">fosc|clar|blavenc|blavós|groguenc|marró|pàl·lid|perla|pissarra|plata|platejat|terrós</token>
+                    </marker>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token postag="N.F[SN].*|_GN_FS" postag_regexp="yes"><exception postag="_GN_MS"/></token>
                     <marker>
@@ -7281,7 +7287,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>per<exception scope="previous" inflected="yes" regexp="yes">formar|produir|acompanyar</exception></token>
                 </marker>
-                <token regexp="yes" inflected="yes">orquestra|orgue|clavicèmbal|clave|clavicordi|instrument|piano|veu|violí|soprano|mezzosoprano|oboè|guitarra|violoncel|cello|timbales|percussió|vent|corda|metall|tenor|baríton|contralt|flauta|clarinet|trompeta|trombó|tuba|bombardí|arpa|trompa</token>
+                <token regexp="yes" inflected="yes">banda|orquestra|orgue|clavicèmbal|clave|clavicordi|instrument|piano|veu|violí|soprano|mezzosoprano|oboè|guitarra|violoncel|cello|timbales|percussió|vent|corda|metall|tenor|baríton|contralt|flauta|clarinet|trompeta|trombó|tuba|bombardí|arpa|trompa</token>
             </pattern>
             <message>Probablement cal dir <suggestion>per a</suggestion>.</message>
             <example correction="Per a">Música <marker>per</marker> oboè.</example>
@@ -10113,11 +10119,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="PRO_PERO" name="*pro/però">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">de|en</token>
+                    <token>pro</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <marker>
-                    <token>pro<exception scope="previous" postag="SPS00|DA0MS0"/><exception postag="_possible_nompropi"/></token>
+                    <token>pro<exception scope="previous" postag="SPS00|DA0MS0"/><exception postag="_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
                 </marker>
-                <token postag="V.*|.*LOC_ADV.*|P[^A].*|R.*|D.*" postag_regexp="yes"><exception regexp="yes">amnistia|llibertat|disminuïts</exception></token>
+                <token postag="V.*|.*LOC_ADV.*|P[^A].*|R.*|D.*" postag_regexp="yes"><exception regexp="yes">amnistia|llibertats?|disminuïts|damnificats|tractats?|mercats?</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>però</suggestion>?</message>
             <example correction="però">M'agrada, <marker>pro</marker> no la compraré</example>
@@ -11499,11 +11511,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>i</token>
                 </marker>
-                <token postag="V.*|&pronom_feble;" postag_regexp="yes"></token>
+                <token postag="V.[SI].*|&pronom_feble;" postag_regexp="yes"></token>
             </pattern>
-            <message>¿Volíeu dir <suggestion>ho</suggestion>?</message>
+            <message>¿Volíeu dir <suggestion>hi</suggestion>?</message>
             <short>Possible confusió</short>
-            <example correction="ho">Crec que <marker>i</marker> vaig anar la setmana passada.</example>
+            <example correction="hi">Crec que <marker>i</marker> vaig anar la setmana passada.</example>
             <example>Crec que hi vaig anar la setmana passada.</example>
             <example>Va dir no sé què i se'n va anar.</example>
         </rule>
@@ -17414,13 +17426,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <marker>
                         <token>què</token>
-                        <token regexp="yes">caram|carat|carai|carall|dimonis|collons|més</token>
+                        <token regexp="yes">coi|caram|carat|carai|carall|dimonis|collons|més</token>
                     </marker>
                 </antipattern>
                 <antipattern>
                     <marker>
                         <token>què</token>
-                        <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
+                        <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"><exception regexp="yes">[-].+</exception></token>
                         <token postag="V.[SI].*" postag_regexp="yes"></token>
                     </marker>
                 </antipattern>
@@ -17450,6 +17462,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Pensem què han representat</example>
                 <example> ens diu què fer amb els ulls</example>
                 <example>Jo us diré què penso</example>
+                <example>Calia explicar què se'n feia dels excedents</example>
             </rule>
         </rulegroup>
         <rulegroup id="QUE_AMB_ACCENT" name="que/què: cal accentuar">
@@ -29044,7 +29057,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                      <marker>
                          <token>de</token>
                          <token min="0" postag="DA.*" postag_regexp="yes"/>
-                         <token regexp="yes" inflected="yes">ciutat|centre|poble|punt|vila|marxa|camí</token>
+                         <token regexp="yes" inflected="yes">ciutat|centre|poble|punt|vila|marxa|camí|plaça</token>
                      </marker>
                 </antipattern>
                 <pattern>
@@ -31979,6 +31992,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>El servei de rodalies de Renfe.</example>
         </rule>
         <rule id="PUES_DONCS" name="*pues/doncs">
+            <antipattern>
+                <marker>
+                    <token>pues</token>
+                    <token skip="1">de</token>
+                    <token regexp="yes" inflected="yes">guitarra|bandúrria|coure</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token><exception postag="SPS00|CC" postag_regexp="yes"/><exception inflected="yes" regexp="yes">tenir|semblar|com</exception></token>
                 <marker>
