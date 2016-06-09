@@ -150,4 +150,27 @@
         </pattern>
         <disambig action="filterall"></disambig>
     </rule>
+    <rule name="de Valera" id="de_Valera">
+        <pattern>
+            <marker><token>de</token></marker>
+            <token regexp="yes">Valera|Brún|hÍde|Niro|Róiste|Cléir|Spáinn</token>
+        </pattern>
+        <disambig postag="Part:Pat"/>
+    </rule>
+    <rule name="leath uair" id="leath_uair">
+        <pattern>
+            <marker><token>leath</token></marker>
+            <token postag="Noun:.*" postag_regexp="yes"></token>
+        </pattern>
+        <disambig postag="Det:Qty"/>
+    </rule>
+    <rule id="NI_FHEICIM" name="ní fheicim">
+        <pattern>
+            <marker>
+                <token postag="Part:Vb:Neg">ní</token>
+                <token postag="(?:C[UMC]:)?Verb:.*:Neg.*" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
 </rules>
