@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="TESTRULES" name="Test rules">
             <rule id="FEAR_NOT_FEARR" name="fear not fearr">
                 <pattern>
-                    <token inflected='yes' postag='Verb:.*' postag_regexp="yes"></token>
+                    <token inflected='yes' postag='(?:C[UMC]:)?Verb:.*' postag_regexp="yes"></token>
                     <token>an</token>
                     <marker>
                         <token>fearr</token>
@@ -350,5 +350,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Bhí cáca milis acusan</example>
             </rule>
         </rulegroup>
+<!--
+        <rulegroup id="VBPERS_PRN" name="Personal verb + pronoun">
+            <rule id="TAIM_ME" name="táim mé">
+                <pattern>
+                    <marker>
+                        <token inflected='yes' postag='(?:C[UMC]:)?Verb:.*:1P:Sg.*' postag_regexp="yes"></token>
+                        <token>mé</token>
+                    </marker>
+                </pattern>
+                <message>Is féidir “\1” nó “\2” a úsáid</message>
+                <example correction='táim ag teacht'><marker>táim mé</marker> ag teacht</example>
+                <example>tá me ag teacht</example>
+            </rule>
+        </rulegroup>
+-->
     </category>
 </rules>
