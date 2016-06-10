@@ -67,15 +67,15 @@ final class DictionaryExporter extends DictionaryBuilder {
       String[] buildOptions = {
           "--exit", "false",
           "-i", binaryDictFile.toString(), 
-          "-o", tmpOutputFile.toString(),
-          "--overwrite"};
+          "-o", tmpOutputFile.toString()
+      };
       System.out.println("Running Morfologik FSADecompile.main with these options: " + Arrays.toString(buildOptions));
       FSADecompile.main(buildOptions);      
     } else {
       String[] buildOptions = {"--exit", "false",
           "-i", binaryDictFile.toString(), 
-          "-o", tmpOutputFile.toString(),
-          "--overwrite"};
+          "-o", tmpOutputFile.toString()
+      };
       System.out.println("Running Morfologik DictDecompile.main with these options: " + Arrays.toString(buildOptions));
       DictDecompile.main(buildOptions);
     }
