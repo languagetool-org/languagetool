@@ -17500,6 +17500,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>què</suggestion>
                 <example correction="què">No sabien <marker>que</marker> fer amb allò.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.[ISM].*|_GV_" postag_regexp="yes"/>
+                    <token postag="RG" min="0"/>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token postag="V.I.*" postag_regexp="yes" inflected="yes">voler</token>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>què</suggestion> (= quina cosa)?</message>
+                <example correction="què">No sap <marker>que</marker> vol?</example>
+                <example correction="què">No sabia <marker>que</marker> volia?</example>
+                <example correction="què">No sabia mai <marker>que</marker> volia?</example>
+                <example correction="què">No sabia mai <marker>que</marker> volia?</example>
+                <example>Pregunta el que vulguis.</example>
+                <example>El safrà que volia.</example>
+            </rule>
             <!--<rule>
                 <pattern>
                 <token postag="SENT_START"/>
