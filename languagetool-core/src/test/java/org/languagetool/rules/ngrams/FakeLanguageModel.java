@@ -43,6 +43,11 @@ public class FakeLanguageModel extends LuceneSingleIndexLanguageModel {
     map.put("Why is their", 5);
     map.put("their car", 11);
     map.put("their car broken", 2);
+    // for um/im (German):
+    map.put("_START_ Um", 10);
+    map.put("_START_ Im", 1);
+    map.put("_START_ Um dabei", 20);
+    map.put("_START_ Im dabei", 0);
   }
 
   @Override

@@ -190,11 +190,11 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   private ConfusionString getConfusionString(Set<ConfusionString> confusionSet, GoogleToken token) {
     for (ConfusionString s : confusionSet) {
-      if (s.getString().equals(token.token)) {
+      if (s.getString().equalsIgnoreCase(token.token)) {
         return s;
       }
     }
-    throw new RuntimeException("Not found in set: " + token);
+    throw new RuntimeException("Not found in set '" + confusionSet + "': " + token);
   }
 
   private ConfusionString getBetterAlternativeOrNull(GoogleToken token, List<GoogleToken> tokens, ConfusionString otherWord, long factor) {

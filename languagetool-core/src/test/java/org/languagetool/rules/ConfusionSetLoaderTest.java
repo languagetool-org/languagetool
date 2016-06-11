@@ -40,7 +40,7 @@ public class ConfusionSetLoaderTest {
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/yy/confusion_sets.txt")) {
       ConfusionSetLoader loader = new ConfusionSetLoader();
       Map<String, List<ConfusionSet>> map = loader.loadConfusionSet(inputStream);
-      assertThat(map.size(), is(8));
+      assertThat(map.size(), is(10));
 
       assertThat(map.get("there").size(), is(1));
       assertThat(map.get("there").get(0).getFactor(), is(10L));

@@ -37,13 +37,13 @@ public class BaseLanguageModelTest {
     try (FakeLanguageModel lm = new FakeLanguageModel()) {
       Probability prob1 = lm.getPseudoProbability(Arrays.asList("no", "data", "here"));
       double delta = 0.001;
-      assertEquals(0.010, prob1.getProb(), delta);  // artificially not zero
+      assertEquals(0.0081, prob1.getProb(), delta);  // artificially not zero
       assertThat(prob1.getCoverage(), is(0.0f));
       Probability prob2 = lm.getPseudoProbability(Arrays.asList("1", "2", "3", "4"));
-      assertEquals(0.010, prob2.getProb(), delta);  // artificially not zero
+      assertEquals(0.0081, prob2.getProb(), delta);  // artificially not zero
       assertThat(prob2.getCoverage(), is(0.0f));
       Probability prob3 = lm.getPseudoProbability(Arrays.asList("There", "are"));
-      assertEquals(0.119, prob3.getProb(), delta);
+      assertEquals(0.089, prob3.getProb(), delta);
       assertThat(prob3.getCoverage(), is(0.5f));
     }
   }
