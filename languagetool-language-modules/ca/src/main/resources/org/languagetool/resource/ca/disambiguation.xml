@@ -1730,6 +1730,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="Y" />
         </rule>
     </rulegroup>
+    <rule id="ES_CASA" name="es casa">
+        <pattern>
+            <token regexp="yes">em|et|el|ens|us|vos|els|es</token>
+            <marker>
+                <token postag="V.*" postag_regexp="yes">casa</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="[^V].*" />
+    </rule>
     <rulegroup id="nom_seguitde_nompropi" name="nom seguit de nom propi: el mont Or">
         <rule>
             <pattern>
@@ -1742,6 +1751,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="filter" postag="[^V].*" />
+            <example type="untouched">Amb qui es <marker>casa</marker> Lídia?</example>
         </rule>
         <rule>
             <pattern>

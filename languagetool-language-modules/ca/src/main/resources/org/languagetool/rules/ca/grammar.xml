@@ -26,6 +26,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY context_FER_SE_AMB "títol|triomf|victòria|alcaldia|presidència|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit">
     <!ENTITY context_MUSICA "arranjador|orquestrador|orquestrar|saxòfon|saxofon|oboè|trompeta|trompa|trombó|timbala|timbal|percussió|compondre|interpretar|compositor|orquestra|director|banda|piano|corda|vent|fusta|peça|obra|simfonia|suite|obertura|òpera|metall|violí|flauta|clarinet|viola|violoncel|contrabaix|guitarra|intermezzo">
     <!ENTITY context_ROTAR_GIRAR "angle1|grau|girar|objecte|triangle|quadrat|polígon|eix|gravetat|minut|segon|sentit|agulla|rellotge|planeta|Terra|rotació|aparell|oest|est|magnètic|òrbita|pilota">
+    <!ENTITY context_SORTEJAR "entrebanc|envestida|adversari|competidor|pressió|sanció|oposició|obstacle|barrera|porter|defensa|problema|contratemps|dificultat|accident|parany|trampa|perill|risc|negatiu|pregunta|escull|congost|riu|pas|difícil|tàctica|trava|il·legalització|càstig|pena|atac|bloqueig">
     <!ENTITY dies_setmana_abrev "dl|dt|dc|dj|dv|ds|dg">
     <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
     <!ENTITY espais "&#8239;| |&#8201;|&#160;">
@@ -6921,6 +6922,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PREPOSITIONS" name="Preposicions" type="grammar">
+        <rule id="DE_2001" name="de/del 2001">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">\d+</token>
+                    <token inflected="yes">de</token>
+                    <token regexp="yes">&mesos_any;</token>
+                    <token>de</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>de</token>
+                    <token regexp="yes">\d+</token>
+                    <token>a</token>
+                    <token regexp="yes">\d+</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token>de</token>
+                <token regexp="yes">20[0-9][0-9]</token>
+            </pattern>
+            <message>Normalment s'escriu amb article.</message>
+            <suggestion>del \2</suggestion>
+            <url>http://esadir.cat/gramatica/sintaxi/remartmesany</url>
+            <example correction="del 2010">és <marker>de 2010</marker>.</example>
+            <example>de 2001 a 2015</example>
+            <example>23 de febrer de 2003</example>
+        </rule>
         <!-- <rule id="TRACTAR_DE" name="tractar de">
             <pattern>
             <marker>
@@ -7277,7 +7306,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>http://www.cece.gva.es/polin/docs/webhelp/Gramatica/Morfologia/Preposicions/per_a.html</url>
                 <short>Conjunció</short>
                 <example correction="perquè">Són necessaris <marker>per tal que</marker> canviï tot.</example>
-                <example>Són necessaries perquè canviï tot.</example>
             </rule>
         </rulegroup>
         <rule id="PER_PER_A_PIANO" name="per/per a piano">
@@ -27108,14 +27136,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="TREURE_ENDAVANT" name="treure endavant">
             <pattern>
                 <marker>
-                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">traure|treure</token>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">treure</token>
                 </marker>
+                <token min="0" max="3" postag="_GN_.*" postag_regexp="yes"/>
                 <token regexp="yes">avant|endavant</token>
             </pattern>
-            <message>Expressió incorrecta. Cal dir: <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" setpos="yes">tirar</match></suggestion>.</message>
-            <short>Expressió incorrecta</short>
-            <example correction="Tirar"><marker>Treure</marker> endavant el pla.</example>
-            <example>Tirar endavant el pla.</example>
+            <message>Expressió incorrecta.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1" setpos="yes">tirar</match></suggestion>
+            <example correction="tirat">Han <marker>tret</marker> endavant el pla.</example>
+            <example correction="tirar">La necessitat de ><marker>traure</marker> la llei endavant.</example>
         </rule>
         <rule id="SORTIR_ENDAVANT" name="sortir/eixir endavant">
             <pattern>
@@ -31362,22 +31391,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="tempestuosa">Situació <marker>turmentosa</marker></example>
             <example>situació tempestuosa</example>
         </rule>
-        <rule id="SORTEJAR" name="sortejar/esquivar">
-            <pattern>
-                <marker>
-                    <token inflected="yes" skip="4">sortejar</token>
-                </marker>
-                <token regexp="yes" inflected="yes">entrebanc|envestida|adversari|competidor|pressió|sanció|oposició|obstacle|barrera|porter|defensa|problema|contratemps|dificultat|accident|parany|trampa|perill|risc|negatiu|pregunta|escull|congost|riu|pas|difícil|tàctica|trava|il·legalització|càstig|pena|atac|bloqueig</token>
-            </pattern>
-            <message>Ús incorrecte.</message>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">esquivar</match></suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">eludir</match></suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">evitar</match></suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">superar</match></suggestion>
+        <rulegroup id="SORTEJAR" name="sortejar/esquivar">
             <url>http://esadir.cat/entrades/fitxa/node/sortejar</url>
-            <example correction="Esquivaren|Eludiren|Evitaren|Superaren"><marker>Sortejaren</marker> tots els obstacles.</example>
-            <example>Esquivaren els problemes</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="4">sortejar</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">&context_SORTEJAR;</token>
+                </pattern>
+                <message>Ús incorrecte.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">esquivar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">eludir</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">evitar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">superar</match></suggestion>
+                <example correction="Esquivaren|Eludiren|Evitaren|Superaren"><marker>Sortejaren</marker> tots els obstacles.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes" skip="4">&context_SORTEJAR;</token>
+                    <marker>
+                        <token inflected="yes">sortejar</token>
+                    </marker>
+                </pattern>
+                <message>Ús incorrecte.</message>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">esquivar</match></suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">eludir</match></suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">evitar</match></suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">superar</match></suggestion>
+                <example correction="esquivaren|eludiren|evitaren|superaren">Els problemes no els <marker>sortejaren</marker>.</example>
+                <example correction="esquivar|eludir|evitar|superar">Els obstacles a <marker>sortejar</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="REVELAR_REBELLAR" name="*revelar/rebel·lar">
             <pattern>
                 <marker>
@@ -40521,6 +40566,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="ANAR_A_INFINITIU" name="anar a + infintiu" default="on">
             <!--  false alarms?? -->
+            <url>http://esadir.cat/entrades/fitxa/id/1564</url>
             <rule>
                 <antipattern>
                     <marker>
@@ -40541,7 +40587,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Expressió incorrecta si no indica moviment. Elimineu el verb anar i useu el present o el futur.</message>
                 <!-- Cal el postag del primer i el lema del segon
                     <suggestion><match no="1" postag="V.IP(..)0" postag_regexp="yes" postag_replace="yes"></match> </suggestion> -->
-                <url>http://esadir.cat/entrades/fitxa/id/1564</url>
                 <example correction="">Li <marker>vaig a dir</marker> que no pot ser.</example>
                 <example correction="">Què creus que <marker>va a passar</marker>.</example>
                 <example correction="">Crec que <marker>va a ésser</marker> molt difícil.</example>
@@ -40551,6 +40596,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>que hi van a passar els caps de setmana</example>
                 <example>Me'n vaig a mirar.</example>
                 <example>Van a l'escola.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">qui|com|què</token>
+                    <token regexp="yes">m'|t'|li|ens|us|els|s'</token>
+                    <token min="0">ho</token>
+                    <marker>
+                        <token postag="VMII.*" postag_regexp="yes" inflected="yes">anar</token>
+                        <token>a</token>
+                    </marker>
+                    <token regexp="yes">dir|pensar|creure</token>
+                </pattern>
+                <message>Expressió probablement incorrecta</message>
+                <suggestion><match no="4" postag="VMII(.*)" postag_regexp="yes" postag_replace="VAII$1">haver</match> de</suggestion>
+                <example correction="havia de">Qui ens ho <marker>anava a</marker> dir?</example>
+                <example correction="havia de">Com m'<marker>anava a</marker> pensar això?</example>
+                <example correction="havien de">Per què s'ho <marker>anaven a</marker> pensar, això?</example>
+                <example correction="havíem de">Com ens ho <marker>anàvem a</marker> pensar?</example>
+                <example correction="havies de">Per què t'<marker>anaves a</marker> pensar que aniria així?</example>
             </rule>
             <!-- <rule>
                 <pattern>
