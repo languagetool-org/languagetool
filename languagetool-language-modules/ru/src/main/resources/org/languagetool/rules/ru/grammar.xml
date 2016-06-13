@@ -1341,6 +1341,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>                   
         </rulegroup>
         
+        
+         <rulegroup id="Logical_prazdnoe_prazdnichnoe" name="Ошибки в употреблении: «праздничное» или «праздное»">
+          
+            <rule>      
+                <pattern>
+                    <token inflected="yes">праздничный</token>
+                    <token inflected="yes">жизнь</token>
+                </pattern>
+                <message>Логическая ошибка: <suggestion><match no="1" regexp_match="(празднич)(.*)" regexp_replace="празд$2" /> <match no="2"  /></suggestion>?</message>
+                
+                <short>Логическая ошибка.</short>
+                <example correction="праздную жизнь">Человек ведет  <marker>праздничную жизнь</marker>.</example>
+                <example>Человек ведет праздную жизнь.</example>
+            </rule>  
+              <rule>      
+                <pattern>
+                    <token inflected="yes">праздный</token>
+                    <token inflected="yes">настроение</token>
+                </pattern>
+                <message>Логическая ошибка: <suggestion><match no="1" regexp_match="(празд)(.*)" regexp_replace="празднич$2" /> <match no="2"  /></suggestion>?</message>
+                
+                <short>Логическая ошибка.</short>
+                <example correction="праздничное настроение">У меня сегодня <marker>праздное настроение</marker>.</example>
+                <example>У меня сегодня праздничное настроение.</example>
+            </rule>                     
+        </rulegroup>
+        
         <rule id="Linguistics_hrabry" name="Лингвистические ошибки «храбрая (или смелая) мысль, решение, идея»">
             <pattern>
                 <token inflected="yes" >храбрый</token>
