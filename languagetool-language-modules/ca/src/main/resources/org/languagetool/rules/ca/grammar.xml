@@ -9913,6 +9913,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="SEMBLAR_ASSEMBLAR" name="semblar-se / assemblar-se">
+            <pattern>
+                <and>
+                    <token inflected="yes">semblar</token>
+                    <token postag="_reflexiu"/>
+                </and>
+            </pattern>
+            <message>Si és reflexiu, probablement cal usar el verb "assemblar-se".</message>
+            <suggestion><match no ="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">assemblar</match></suggestion>
+            <example correction="assembles">Et <marker>sembles</marker> a ell.</example>
+            <example correction="assembles">T'hi <marker>sembles</marker> molt.</example>
+            <example correction="assembleu">Us <marker>sembleu</marker> molt.</example>
+            <example correction="assemblen">No se <marker>semblen</marker> gens.</example>
+            <example>Què et sembla?</example>
+        </rule>
         <rule id="PORTIC_SI_ALTRES" name="pòrtic *si altres (error típic en la Viquipèdia)">
             <pattern>
                 <marker>
