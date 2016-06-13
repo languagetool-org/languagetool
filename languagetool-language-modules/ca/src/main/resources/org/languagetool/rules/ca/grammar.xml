@@ -2698,7 +2698,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">parella?</token>
                     <token regexp="yes">de|d'</token>
                     <marker>
-                        <token postag="NC.S.*" postag_regexp="yes"><exception>engegada</exception></token> <!--  caldria veure quin tipus de noms... -->
+                        <token postag="NC.S.*" postag_regexp="yes"><exception regexp="yes">engegada|ball</exception></token> <!--  caldria veure quin tipus de noms... -->
                     </marker>
                 </pattern>
                 <message>Falta un nom en plural.</message>
@@ -2708,6 +2708,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>un parell d'engegada alt</example>
                 <example>Són parella de fet.</example>
                 <example>Eren una parella de mitjana edat.</example>
+                <example>La seva parella de ball.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9508,6 +9509,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="TAN_COM_A" name="tan... *com a/com">
+            <pattern>
+                <marker>
+                    <token>tan</token>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes"></token>
+                    <token>com</token>
+                    <token>a</token>
+                </marker>
+                <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion>\1 \2 \3</suggestion>
+            <example correction="tan obligat com">És <marker>tan obligat com a</marker> pesat.</example>
+        </rule>
         <rule id="PANSA_A" name="*pansa a/passa a">
             <pattern>
                 <token>pansa<exception postag="_GN_FS"/></token>
@@ -17524,6 +17539,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">ja|no|potser</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">semblar|parèixer|creure|pensar|dir|afirmar</token>
+                    <token>que</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>no</token>
@@ -17552,7 +17573,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.[ISM].*|_GV_" postag_regexp="yes"/>
+                    <token postag="V.[ISM].*|_GV_" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <token postag="RG" min="0"/>
                     <marker>
                         <token>que</token>
@@ -17567,6 +17588,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="què">No sabia mai <marker>que</marker> volia?</example>
                 <example>Pregunta el que vulguis.</example>
                 <example>El safrà que volia.</example>
+                <example>Semblava que voldrien.</example>
+                <example>L'escola que volem.</example>
             </rule>
             <!--<rule>
                 <pattern>
@@ -40635,7 +40658,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">qui|com|què</token>
+                    <token regexp="yes">qui|com</token>
                     <token regexp="yes">m'|t'|li|ens|us|els|s'</token>
                     <token min="0">ho</token>
                     <marker>
@@ -40648,9 +40671,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="4" postag="VMII(.*)" postag_regexp="yes" postag_replace="VAII$1">haver</match> de</suggestion>
                 <example correction="havia de">Qui ens ho <marker>anava a</marker> dir?</example>
                 <example correction="havia de">Com m'<marker>anava a</marker> pensar això?</example>
-                <example correction="havien de">Per què s'ho <marker>anaven a</marker> pensar, això?</example>
+                <!--<example correction="havien de">Per què s'ho <marker>anaven a</marker> pensar, això?</example>-->
                 <example correction="havíem de">Com ens ho <marker>anàvem a</marker> pensar?</example>
-                <example correction="havies de">Per què t'<marker>anaves a</marker> pensar que aniria així?</example>
+                <!--<example correction="havies de">Per què t'<marker>anaves a</marker> pensar que aniria així?</example>-->
+                <example>Què m'anàveu a dir?</example>
             </rule>
             <!-- <rule>
                 <pattern>
@@ -40745,7 +40769,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Té una penya blaugrana on pots veure partits del Barça.</example>
                 <example>Si s'han de mostrar les adreces web a l'editor</example>
                 <example>El valor alfa calculat</example>
-                <example> la democràcia directa via referèndum</example>
+                <example>La democràcia directa via referèndum.</example>
+                <example>Crea constantment associacions ciutadanes.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FALTA_ELEMENT_ENTRE_GN" name="Falta un element entre grups nominals" default="off">
