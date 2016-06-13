@@ -6939,9 +6939,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\d+</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token>més</token>
+                    <token>de</token>
+                </marker>
+            </antipattern>
             <pattern>
-                <token>de</token>
-                <token regexp="yes">20[0-9][0-9]</token>
+                <marker>
+                    <token>de</token>
+                    <token regexp="yes">20[0-9][0-9]</token>
+                </marker>
+                <token><exception postag="NC.P.*|Y" postag_regexp="yes"/></token>
             </pattern>
             <message>Normalment s'escriu amb article.</message>
             <suggestion>del \2</suggestion>
@@ -6949,6 +6958,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="del 2010">és <marker>de 2010</marker>.</example>
             <example>de 2001 a 2015</example>
             <example>23 de febrer de 2003</example>
+            <example>És una àrea de 2010 ha.</example>
+            <example>És de 2000 anys aC.</example>
         </rule>
         <!-- <rule id="TRACTAR_DE" name="tractar de">
             <pattern>
