@@ -33,6 +33,11 @@
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data)
   * upgraded Hunspell dictionary to 2.1
 
+#### Russian
+  * rebuild spellchecker dictionary
+  * added words suggested by users
+  * improved some rules
+
 #### Java API
   * some formerly deprecated code has been removed
   * all rules have now a category ("Misc" if the rule doesn't specify a category)
