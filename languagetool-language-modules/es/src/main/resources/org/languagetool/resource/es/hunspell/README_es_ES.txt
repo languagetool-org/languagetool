@@ -1,14 +1,13 @@
   ****************************************************************************
   **                                                                        **
-  **  Diccionario para corrección ortográfica en español de OpenOffice.org  **
+  **          Diccionario para corrección ortográfica en español de         **
+  **                      Apache OpenOffice/LibreOffice                     **
   **                                                                        **
   ****************************************************************************
-  **  VERSIÓN GENÉRICA - Contiene todas las palabras válidas, de todas      **
-  **                     las localizaciones del español de España y         **
-  **                     América Latina.                                    **
+  **  VERSIÓN GENÉRICA PARA TODAS LAS LOCALIZACIONES                        **
   ****************************************************************************
 
-                                   Versión 0.2
+                                   Versión 2.1
 
 SUMARIO
 
@@ -22,13 +21,12 @@ SUMARIO
 1. AUTOR
 
    Este diccionario ha sido desarrollado inicialmente por Santiago Bosio;
-quien actualmente coordina el desarrollo de todos los diccionarios localizados,
-y mantiene el diccionario para la localización Argentina (es_AR).
+quien actualmente coordina el desarrollo de todos los diccionarios localizados.
 
    Si desea contactar al autor, por favor envíe sus mensajes mediante correo
 electrónico a:
 
-	sbosio <en> openoffice <punto> org
+	santiago.bosio <en> gmail <punto> com
         (reemplace <en> por @ y <punto> por . al enviar su mensaje)
 
    El diccionario es un desarrollo completamente nuevo, y NO ESTÁ BASADO en el
@@ -39,24 +37,20 @@ formato de MySpell por Richard Holt.
 2. LICENCIA
 
    Este diccionario para corrección ortográfica, integrado por el fichero
-de afijos (es_XX.aff) y la lista de palabras (es_XX.dic) se distribuye bajo
-licencia GNU LGPL (Lesser General Public License). Puede obtener una copia de
-la licencia original (en inglés) en la siguiente dirección:
-
-	http://www.gnu.org/licenses/lgpl.txt
-
+de afijos y la lista de palabras (es_ANY[.aff|.dic]) se distribuye
+bajo un triple esquema de licencias disjuntas: GNU GPL versión 3 o posterior,
+GNU LGPL versión 3 o posterior, ó MPL versión 1.1 o posterior. Puede
+seleccionar libremente bajo cuál de estas licencias utilizará este diccionario.
+Encontrará copias de las licencias adjuntas en este mismo paquete.
 
 3. INSTALACIÓN
 
-   La forma recomendada de instalar sus diccionarios en OpenOffice.org 2.0, es
-utilizando el Asistente. Lo encontrará en el menú Archivo -> Asistentes, bajo
-la opción "Instalar diccionarios nuevos". Este asistente permite instalar los
-diccionarios descargándolos directamente de Internet, o utilizando un paquete
-de diccionario comprimido (en ZIP) que haya descargado previamente. El
-asistente realiza automáticamente las modificaciones en los ficheros de
-configuración.
+   En Apache OpenOffice/LibreOffice, utilice el administrador de
+extensiones, seleccionando para instalar directamente el fichero con
+extensión ".oxt".
 
-   Si desea realizar una instalación manual siga estas instrucciones:
+   Para instalar en OpenOffice.org versión 1.x ó 2.x, deberá realizar una
+instalación manual siguiendo estas instrucciones:
 
 a) Copie el fichero de afijos y la lista de palabras en la carpeta de
    instalación de diccionarios.
@@ -65,7 +59,7 @@ a) Copie el fichero de afijos y la lista de palabras en la carpeta de
 manera que esté disponible para todos los usuarios, copiando los ficheros al
 directorio de diccionarios de la suite. Este directorio depende de la
 plataforma de instalación. Podrá ubicarlo si ingresa en el ítem Opciones
-del menú Herramientas. Despliegue la primer lista, etiquetada "OpenOffice.org"
+del menú Herramientas. Despliegue la primera lista, etiquetada "OpenOffice.org"
 y seleccione el ítem Rutas. La carpeta donde debe copiar los ficheros se
 denomina "ooo", y la encontrará bajo el directorio que figura en la lista de
 rutas con el tipo "Lingüística".
@@ -151,7 +145,8 @@ abiertos).
 
    Si necesitara ayuda para realizar cualquiera de estos pasos, envíe un
 mensaje al encargado de mantenimiento del diccionario, o a las listas de
-correo del proyecto OpenOffice.org en español (http://es.openoffice.org/).
+correo del proyecto Apache OpenOffice en español
+(http://www.openoffice.org/es/soporte/listas.html).
 
 
 4. COLABORACIÓN
@@ -178,6 +173,17 @@ creación de este diccionario. Se agradece especialmente a:
    - Carlos Dávila.
    - Román Gelbort.
    - J. Eduardo Moreno.
+   - Gonzalo Higuera Díaz.
+   - Ricardo Palomares Martínez.
+   - Sergio Medina.
+   - Ismael Olea.
+   - Alejandro Moreno.
+   - Alexandro Colorado.
+   - Andrés Sánchez.
+   - Juan Rafael Fernández García.
+   - eksperimental.
+   - Ezequiel (ezeperez26).
+   - KNTRO.
+   - Ricardo Berlasso.
    - y a todos los integrantes de la comunidad en español que proponen mejoras
      a este diccionario.
-
