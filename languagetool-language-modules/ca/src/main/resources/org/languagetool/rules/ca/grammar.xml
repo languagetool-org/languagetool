@@ -1422,6 +1422,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Per a ambdues fou decisiva la seva intervenció</example>
                 <example>I per tant resta una tasca de recopilació</example>
                 <example>Quina creus que és la pròxima instrucció?</example>
+                <example>És molt fi.</example>
                 <!-- <example>influí molt Assíria</example> -->
                 <!-- <example>ser admesos com a tals Alemanya, el Japó,</example> -->
             </rule>
@@ -2698,7 +2699,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">parella?</token>
                     <token regexp="yes">de|d'</token>
                     <marker>
-                        <token postag="NC.S.*" postag_regexp="yes"><exception regexp="yes">engegada|ball</exception></token> <!--  caldria veure quin tipus de noms... -->
+                        <token postag="NC.S.*" postag_regexp="yes"><exception regexp="yes">engegada|ball</exception><exception postag="_possible_nompropi"/></token> <!--  caldria veure quin tipus de noms... -->
                     </marker>
                 </pattern>
                 <message>Falta un nom en plural.</message>
@@ -2709,6 +2710,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Són parella de fet.</example>
                 <example>Eren una parella de mitjana edat.</example>
                 <example>La seva parella de ball.</example>
+                <example>La parella de Piqué</example>
             </rule>
             <rule>
                 <pattern>
@@ -9519,7 +9521,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
             </pattern>
-            <message>Possible error de traducció automàtica.</message>
+            <message>Possible error de traducció automàtica. Correcte si "com a" equival a "en qualitat de, en concepte de".</message>
             <suggestion>\1 \2 \3</suggestion>
             <example correction="tan obligat com">És <marker>tan obligat com a</marker> pesat.</example>
         </rule>
@@ -11822,6 +11824,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>per</token>
                     <token regexp="yes">comptes?</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>a</token>
+                    <token>compte</token>
                 </marker>
             </antipattern>
             <antipattern>
@@ -25552,7 +25560,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Expressió incorrecta.</message>
             <suggestion>a mitjà termini</suggestion>
             <example correction="a mitjà termini"><marker>a mitjan termini</marker></example>
-            <example>a mitjà termini</example>
         </rule>
         <rulegroup id="ENSEGUIDA" name="enseguida">
             <rule>
@@ -26427,18 +26434,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="A_MIG_TERMINI" name="a mig termini">
             <pattern>
-                <token>a</token>
+                <token regexp="yes">a|el</token>
                 <token min="0" max="2" regexp="yes">llarg|curt|i|o|ni</token>
                 <marker>
                     <token>mig</token>
                 </marker>
-                <token min="0" max="3" regexp="yes">a|llarg|curt|i|o|ni</token>
+                <token min="0" max="4" regexp="yes">a|llarg|curt|i|o|ni|el|en</token>
                 <token>termini</token>
             </pattern>
             <message>Expressió incorrecta.</message>
             <suggestion>mitjà</suggestion>
             <example correction="mitjà">a <marker>mig</marker> termini</example>
             <example correction="mitjà">a <marker>mig</marker> i a llarg termini</example>
+            <example correction="mitjà">en el <marker>mig</marker> i en el llarg termini</example>
         </rule>
         <rule id="PESAT_PESANT" name="pesat_pesant">
             <pattern>

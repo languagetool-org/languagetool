@@ -50,8 +50,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
            <token>fi</token>
        </pattern>
        <disambig action="remove"><wd pos="RG"/></disambig>
-   </rule>
-    <!-- END Errors/changes in POS tag dictionary-->
+    </rule>
+   <rule id="Lleopart" name="Lleopart">
+        <pattern case_sensitive="yes">
+           <token>Lleopart</token>
+       </pattern>
+       <disambig action="remove"><wd pos="NPCNSP0"/></disambig>
+    </rule>
+   <!-- END Errors/changes in POS tag dictionary-->
     <rulegroup id="PUNTUACIO" name="signes de puntuació">
         <rule>
             <pattern>
@@ -7120,6 +7126,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="AQ.*|NC.*|SPS.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="R.*"></disambig>
+        </rule>
+        <rule id="molt_fi" name="molt fi">
+            <pattern>
+                <marker>
+                    <token postag="RG.*" postag_regexp="yes" regexp="yes">molt|poc|tan|força|massa|tot</token>
+                    <token postag="AQ.*" postag_regexp="yes">fi</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
         </rule>
         <rule id="aa3" name="aa1">
             <pattern>
