@@ -3856,6 +3856,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <!-- haver + participi. mogut per "han després/desprès"-->
     <rulegroup id="haver_participi" name="haver + participi">
+        <rule>
+            <pattern>
+                <token inflected="yes">haver</token>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">sortida|eixida</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="[^V].*"/>
+        </rule>
         <!-- elimina 'hajar' -->
         <rule>
             <pattern>
@@ -3907,12 +3916,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="[^V].*"/>
         </rule>
-
         <rule> <!-- permet comprovar errors amb 'heure': hagueu fet -->
             <pattern>
-                <token inflected="yes">heure</token>
+                <token inflected="yes">heure<exception inflected="yes">haver</exception></token>
                 <marker>
-                    <token postag="V.P.*" postag_regexp="yes"><exception>després</exception></token>
+                    <token postag="V.P.*" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <disambig action="filter" postag="V.P.*"></disambig>
