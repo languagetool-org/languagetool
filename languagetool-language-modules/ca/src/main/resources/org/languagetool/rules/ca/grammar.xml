@@ -75,7 +75,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY unitats_temps "segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|decenni|segle|mil·lenni|mil·lenari">
     <!ENTITY verbs_no_apostrofen "halar|ioditzar|iotitzar|iodurar|iodar">
     <!ENTITY verbs_no_intrans_consonant "perjudicar|concernir|cansar|preocupar|molestar|sorprendre">
-    <!ENTITY verbs_no_intrans_vocal "informar|afectar|assessorar|emprenyar|empipar|espantar|apassionar|atr[ae]ure|ajudar|acusar">
+    <!ENTITY verbs_no_intrans_vocal "informar|afectar|assessorar|emprenyar|empipar|entrevistar|espantar|apassionar|atr[ae]ure|ajudar|acusar">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
     <!ENTITY verbs_balears_ES "adès|avès|exprès|ingrès|procès|profès|progrès|regrès|reingrès|revès|travès">
     <!ENTITY vocabulari_menjar "xocolata|xocolate|allioli|aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
@@ -26269,7 +26269,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token skip="2" inflected="yes">acabar</token>
                         <token skip="4">amb</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">discriminació|abús|frau|plaga|pesta|infecció|situació|vida|exempció|excepció</token>
+                    <token regexp="yes" inflected="yes">discriminació|abús|frau|plaga|pesta|infecció|situació|vida|exempció|excepció|precarietat</token>
                 </pattern>
                 <message>Expressió incorrecta si vol dir <suggestion>(posar fi a)</suggestion>.</message>
                 <suggestion>(eliminar)</suggestion>
@@ -28287,24 +28287,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>una bèstia disposada a escombrar-lo.</example>
             </rule>
         </rulegroup>
-        <rule id="EN_LLOC_DE" name="en lloc/enlloc">
-            <pattern>
-                <token><exception>parla</exception></token>
-                <marker>
-                    <token>enlloc</token>
-                </marker>
-                <token inflected="yes">de</token>
-                <token><exception postag="NP..G.*" postag_regexp="yes"/></token>
-                <token><exception regexp="yes" inflected="yes">edifici|mapa|món|terra|planeta|país|plana|camp|continent|territori</exception><exception postag="NP..G.*" postag_regexp="yes"/></token>
-            </pattern>
-            <message>Si voleu dir "en comptes de", cal escriure <suggestion>en lloc</suggestion>.</message>
-            <short>Expressió incorrecta</short>
-            <example correction="En lloc"><marker>Enlloc</marker> d'això, fes allò.</example>
-            <example>No ho trobaràs enlloc del món.</example>
-            <example>no t'aturis enlloc d'Egipte</example>
-            <example>i enlloc dels camps no es veu l'asfòdel</example>
-            <example>No es parla enlloc d'esllavissades.</example>
-        </rule>
+        <rulegroup id="EN_LLOC_DE" name="en lloc/enlloc">
+            <rule>
+                <pattern>
+                    <token><exception>parla</exception></token>
+                    <marker>
+                        <token>enlloc</token>
+                    </marker>
+                    <token inflected="yes">de</token>
+                    <token><exception postag="NP..G.*" postag_regexp="yes"/></token>
+                    <token><exception regexp="yes" inflected="yes">edifici|mapa|món|terra|planeta|país|plana|camp|continent|territori</exception><exception postag="NP..G.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si voleu dir "en comptes de", cal escriure <suggestion>en lloc</suggestion>.</message>
+                <short>Expressió incorrecta</short>
+                <example correction="En lloc"><marker>Enlloc</marker> d'això, fes allò.</example>
+                <example>No ho trobaràs enlloc del món.</example>
+                <example>no t'aturis enlloc d'Egipte</example>
+                <example>i enlloc dels camps no es veu l'asfòdel</example>
+                <example>No es parla enlloc d'esllavissades.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NP..G.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>enlloc</token>
+                    </marker>
+                    <token inflected="yes">de</token>
+                    <token postag="NP..G.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si voleu dir "en comptes de", cal escriure <suggestion>en lloc</suggestion>.</message>
+                <example correction="en lloc">Va anar a París <marker>enlloc</marker> de Roma.</example>
+            </rule>
+        </rulegroup>
         <rule id="EN_LLOC" name="*en lloc/enlloc">
             <antipattern>
                 <marker>
