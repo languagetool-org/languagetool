@@ -1269,9 +1269,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>в связи с этим</example>
         </rule>
         
+        <rulegroup id="Logical_skritij_skritnij" name="Логические ошибки «скрытый/скрытный»">
+           <!-- скрытый/скрытный   -->
+            <rule>      
+                <pattern>
+                    <token inflected="yes">скрытный</token>
+                    <token inflected="yes" regexp="yes">проводка|признак</token>
+                </pattern>
+                <message>Логическая ошибка: <suggestion><match no="1" regexp_match="(скрытн)(.*)" regexp_replace="скрыт$2" /> <match no="2"  /></suggestion>?</message>
+                
+                <short>Логическая ошибка.</short>
+                <example correction="скрытая проводка">В комнате выполнена <marker>скрытная проводка</marker>.</example>
+               
+            </rule>
+            <rule>      
+                <pattern>
+                    <token inflected="yes">скрытый</token>
+                    <token inflected="yes" regexp="yes">характер|человек</token>
+                </pattern>
+                <message>Логическая ошибка: <suggestion><match no="1" regexp_match="(скрыт)(.*)" regexp_replace="скрытн$2" /> <match no="2"  /></suggestion>?</message>
+                
+                <short>Логическая ошибка.</short>
+                <example correction="скрытный характер">У этого человека очень <marker>скрытый характер</marker>.</example>
+            </rule>
+        </rulegroup>  
         
-        <rulegroup id="Logical_odel_nadel" name="Логические ошибки «одеть (или надеть)»">
-            <!-- TODO скрытый/скрытный   -->
+        <rulegroup id="Logical_odel_nadel" name="Логические ошибки «одеть/надеть»">
             <rule>      
                 <pattern>
                     <token inflected="yes">одеть</token>
