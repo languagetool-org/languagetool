@@ -9207,6 +9207,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Pregunta pel què i pel com</example>
             </rule>
         </rulegroup>
+        <rule id="PROVAR_A_DE" name="provar *a/de fer">
+            <pattern>
+                <token inflected="yes">provar</token>
+                <token>a</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Probablement cal usar la preposició "de".</message>
+            <suggestion>\1 de \3</suggestion>
+            <example correction="Proveu de fer"><marker>Proveu a fer</marker>-ho.</example>
+            <example>No n'hi ha cap prova a la Bíblia.</example>
+        </rule>
     </category>
     <category id="NUMERALS" name="Numerals" type="misspelling">
         <rule id="UN_U" name="un/u (ordinal)" type="grammar">
@@ -33499,7 +33510,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token inflected="yes">provar</token>
-                    <token regexp="yes">de|d'|que</token>
+                    <token regexp="yes">a|de|d'|que</token>
                 </marker>
             </antipattern>
             <rule>
