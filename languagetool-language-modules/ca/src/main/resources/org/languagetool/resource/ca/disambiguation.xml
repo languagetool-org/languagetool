@@ -3738,6 +3738,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="ser_participi" name="ser + participi">
         <rule>
             <pattern>
+                <token postag="V.[NISM].*" postag_regexp="yes" inflected="yes">ser</token>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes">mentida</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
                 <unify>
                     <feature id="nombre"/>
                     <token postag="V.[NISM].*" postag_regexp="yes" inflected="yes" regexp="yes">ser|estar|venir</token>
