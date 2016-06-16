@@ -6555,6 +6555,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="E_U_CONJUNCIO" name="França *e/i Itàlia; dona *u/o home">
             <rule>
+                <antipattern case_sensitive="yes">
+                    <marker>
+                        <token>Veles</token>
+                        <token>e</token>
+                        <token regexp="yes">[vV]ents</token>
+                    </marker>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token postag="N.*" postag_regexp="yes"/>
                     <marker>
@@ -9937,8 +9944,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>a</token>
             </pattern>
             <message>¿Volíeu dir <suggestion>afí</suggestion> (=que té afinitat)?</message>
-            <example correction=''>Una persona <marker>a fi</marker> al partit.</example>
-            <example>Una persona afí al partit</example>
+            <example correction="afí">Una persona <marker>a fi</marker> al partit.</example>
         </rule>
         <rule id="SEMBLAR_ASSEMBLAR" name="semblar-se / assemblar-se">
             <antipattern>
@@ -31530,6 +31536,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>situació tempestuosa</example>
         </rule>
         <rulegroup id="SORTEJAR" name="sortejar/esquivar">
+            <antipattern>
+                <marker>
+                    <token inflected="yes" skip="4">sortejar</token>
+                    <token regexp="yes" inflected="yes">entrada|viatge</token>
+                </marker>
+            </antipattern>
             <url>http://esadir.cat/entrades/fitxa/node/sortejar</url>
             <rule>
                 <pattern>
@@ -31559,6 +31571,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">superar</match></suggestion>
                 <example correction="esquivaren|eludiren|evitaren|superaren">Els problemes no els <marker>sortejaren</marker>.</example>
                 <example correction="esquivar|eludir|evitar|superar">Els obstacles a <marker>sortejar</marker>.</example>
+                <example>Entre els qui contesten bé les preguntes se sortejaran dues entrades per al concert.</example>
             </rule>
         </rulegroup>
         <rule id="REVELAR_REBELLAR" name="*revelar/rebel·lar">
