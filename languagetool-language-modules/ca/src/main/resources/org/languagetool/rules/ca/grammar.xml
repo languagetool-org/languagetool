@@ -9935,6 +9935,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rulegroup id="BEURE_VEURE" name="beure/veure">
+            <antipattern>
+                <marker>
+                    <token regexp="yes" inflected="yes" skip="6">menjar|aigua|vi|líquid|galet|porró|got|vas|ampolla|botella|càntir|bóta</token>
+                    <token inflected="yes">beure</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token inflected="yes" skip="6">beure</token>
+                    <token regexp="yes" inflected="yes">menjar|aigua|vi|líquid|galet|porró|got|vas|ampolla|botella|càntir|bóta</token>
+                </marker>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">beure</token>
+                    </marker>
+                    <token>que</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">veure</match></suggestion> (=percebre amb la vista)?</message>
+                <example correction="veure">Vaig <marker>beure</marker> que arribaríem tard.</example>
+                <example correction="veig">Si <marker>bec</marker> que arribem tard.</example>
+                <example>Una forma de menjar i beure que entusiasma.</example>
+                <example>Beure a galet: una forma de beure que </example>
+            </rule>
+        </rulegroup>
         <rule id="A_FI_AFI" name="A_FI_AFI">
             <pattern>
                 <marker>
