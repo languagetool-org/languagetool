@@ -33,7 +33,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.tools.StringTools;
 
 /**
- * Rule for detecting same words in the sentence but not just in a row
+ * Rule for detecting same words in the sentence but not just in a row. This rule is off by default.
  *
  * @author Marcin Miłkowski
  */
@@ -133,7 +133,6 @@ public abstract class AdvancedWordRepeatRule extends Rule {
               inflectedWords.add(tokens[i].getToken());
             }
           }
-
         }
       }
 
