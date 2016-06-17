@@ -105,7 +105,7 @@ public class ConfigurationDialog implements ActionListener {
         parents.put(rule.getCategory().getName(), categoryNode);
       }
       if (!rule.getId().equals(lastRuleId)) {
-        RuleNode ruleNode = new RuleNode(rule, getState(rule));
+        RuleNode ruleNode = new RuleNode(rule, getEnabledState(rule));
         parents.get(rule.getCategory().getName()).add(ruleNode);
       }
       lastRuleId = rule.getId();
@@ -113,7 +113,7 @@ public class ConfigurationDialog implements ActionListener {
     return root;
   }
 
-  private boolean getState(Rule rule) {
+  private boolean getEnabledState(Rule rule) {
     boolean ret = true;
 
     if (config.getDisabledRuleIds().contains(rule.getId())) {
