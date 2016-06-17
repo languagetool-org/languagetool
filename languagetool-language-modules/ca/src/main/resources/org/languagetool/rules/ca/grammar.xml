@@ -9935,6 +9935,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="PUBIC_PUBLIC" name="púbic/públic">
+            <pattern>
+                <!--<token inflected="yes" regexp="yes">espai|domini|relació|servei|administració|biblioteca|corporació|dret|educació|empresa|esfera|obra|opinió|sector|col·legi|escola|art|deute|enemic|jardí|ordre|transport|ens|interès|tresor|poder</token>-->
+                <token><exception inflected="yes" regexp="yes">símfisi|artèria|vena|escabiosi|espina|os|pèl|zona|regió|borrissol|triangle|vellós|arc|poll|moixí</exception></token>
+                <marker>
+                    <token inflected="yes">púbic</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?-i)(púb)(.*)" regexp_replace="$1l$2"/></suggestion>?</message>
+            <example correction="públics">En espais <marker>púbics</marker>.</example>
+            <example correction="públiques">Treballa en relacions <marker>púbiques</marker>.</example>
+            <example>El pèl púbic</example>
+        </rule>
         <rulegroup id="BEURE_VEURE" name="beure/veure">
             <antipattern>
                 <marker>
