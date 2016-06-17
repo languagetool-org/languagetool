@@ -194,8 +194,7 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testEnglishStdInAutoDetect() throws Exception {
     String test = "This is an test.";
-    byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"-adl"};
 
     Main.main(args);
@@ -209,8 +208,7 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testStdInWithExternalFalseFriends() throws Exception {
     String test = "Láska!\n";
-    byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"-l", "sk", "--falsefriends", getExternalFalseFriends(), "-m", "pl", "-"};
 
     Main.main(args);
@@ -248,8 +246,7 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testEnglishStdIn1() throws Exception {
     String test = "This is an test.";
-    byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"-l", "en"};
 
     Main.main(args);
@@ -262,8 +259,7 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testEnglishStdIn2() throws Exception {
     String test = "This is an test.";
-    byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"-l", "en", "-"};
 
     Main.main(args);
@@ -276,8 +272,7 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testEnglishStdIn3() throws Exception {
     String test = "This is an test.";
-    byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"-l", "en", "-a", "-"};
 
     Main.main(args);
@@ -303,8 +298,7 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testEnglishLineMode() throws Exception {
     String test = "This is what I mean\nand you know it.";
-    byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"-l", "en", "-a", "-b", "-"};
 
     Main.main(args);
@@ -316,8 +310,7 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testEnglishParaMode() throws Exception {
     String test = "This is what I mean\nand you know it.";
-    byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"-l", "en", "-a", "-"};
 
     Main.main(args);
@@ -328,8 +321,7 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testPolishStdInDefaultOff() throws Exception {
     String test = "To jest test, który zrobiłem, który mi się podoba.";
-    byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"-l", "pl", "-e", "PL_WORD_REPEAT", "-"};
 
     Main.main(args);
@@ -343,12 +335,10 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testPolishApiStdInDefaultOff() throws Exception {
     String test = "To jest test, który zrobiłem, który mi się podoba.";
-    byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"--api", "-l", "pl", "-eo", "-e", "PL_WORD_REPEAT", "-"};
     Main.main(args);
     String output = new String(this.out.toByteArray());
-//    assertThat("asdf", is(output));
     assertThat(StringUtils.countMatches(output, "<error "), is(1));
     assertThat(StringUtils.countMatches(output, "<matches "), is(1));
     assertThat(StringUtils.countMatches(output, "</matches>"), is(1));  // https://github.com/languagetool-org/languagetool/issues/251
@@ -357,8 +347,7 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testPolishApiStdInDefaultOffNoErrors() throws Exception {
     String test = "To jest test.";
-    byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"--api", "-l", "pl", "-e", "PL_WORD_REPEAT", "-"};
     Main.main(args);
     String output = new String(this.out.toByteArray());
@@ -370,8 +359,7 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testPolishSpelling() throws Exception {
     String test = "Zwuasdac?";
-    byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"-l", "pl", "-e", "MORFOLOGIK_RULE_PL_PL", "-"};
 
     Main.main(args);
@@ -407,8 +395,7 @@ public class MainTest extends AbstractSecurityTestCase {
   @Test
   public void testEnglishFileFakeRuleEnabled() throws Exception {
     String test = "Zwuasdac?";
-    byte[] b = test.getBytes();
-    System.setIn(new ByteArrayInputStream(b));
+    System.setIn(new ByteArrayInputStream(test.getBytes()));
     String[] args = {"-l", "en", "-e", "FOO_BAR_BLABLA", "-"};
     Main.main(args);
     String stderr = new String(this.err.toByteArray());
