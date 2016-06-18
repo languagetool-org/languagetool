@@ -7151,7 +7151,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ACOSTUMAR_A" name="acostumar *(a)">
             <pattern>
                 <marker>
-                    <token inflected='yes' regexp="yes">acostumar|tornar</token>
+                    <token inflected='yes' regexp="yes">acostumar|tornar|ajudar</token>
                 </marker>
                 <token min="0" max="2" postag="RN|RG" postag_regexp="yes"/>
                 <token postag='V.N.*' postag_regexp='yes'></token>
@@ -7162,6 +7162,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Acostumen a"><marker>Acostumen</marker> no venir tard.</example>
             <example correction="acostumat a">Està <marker>acostumat</marker> venir tard.</example>
             <example correction="tornar a">Li tocarà <marker>tornar</marker> guanyar.</example>
+            <example correction="ajudar a">Pretén <marker>ajudar</marker> cobrir.</example>
             <example>acostumen a no tenir gaires ancoratges</example>
             <example>acostumen a venir tard</example>
             <example>poc acostumada es va allargassar</example>
@@ -16891,6 +16892,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Error ortogràfic</short>
                 <example correction="no-res">El <marker>no res</marker>.</example>
                 <example>El no-res.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">nous?</token>
+                        <token inflected="yes">ric</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>nou-\2</suggestion>?</message>
+                <example correction="nou-rics">Eren uns <marker>nous rics</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MOTS_SENSE_GUIONETS" name="mots sense guionets: *vist-i-plau,...">
@@ -32172,7 +32183,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>contra</token>
                 </pattern>
                 <message>Possible castellanisme.</message>
-                <suggestion><match no="1" regexp_match="torn(.*)" regexp_replace="gir$1"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?-i)torn(.*)" regexp_replace="gir$1"/></suggestion>
                 <example correction="giraren">Es <marker>tornaren</marker> contra nosaltres.</example>
             </rule>
             <rule>
@@ -32187,9 +32198,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>contra</token>
                 </pattern>
                 <message>Possible castellanisme.</message>
-                <suggestion><match no="2" regexp_match="torn(.*)" regexp_replace="gir$1"/></suggestion>
+                <suggestion><match no="2" regexp_match="(?-i)torn(.*)" regexp_replace="gir$1"/></suggestion>
                 <example correction="girar">Es va <marker>tornar</marker> contra nosaltres.</example>
                 <example>Després va tornar contra Pomepu.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">tornar</token>
+                    </marker>
+                    <token>la</token>
+                    <token regexp="yes">vista|cara</token>
+                    <!--<token regexp="yes">enrere|arrere|endarrere</token>-->
+                </pattern>
+                <message>Possible castellanisme.</message>
+                <suggestion><match no="1" regexp_match="(?-i)torn(.*)" regexp_replace="gir$1"/></suggestion>
+                <example correction="giraren">Llavors <marker>tornaren</marker> la vista enrere.</example>
             </rule>
         </rulegroup>
         <rule id="POST_DE_LA_LLUM" name="*post/pal de la llum">
