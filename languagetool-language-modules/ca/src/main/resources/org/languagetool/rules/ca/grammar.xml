@@ -7409,7 +7409,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>com<exception scope="previous" regexp="yes">tals?|molt</exception></token>
                     </marker>
                     <token min="0" regexp="yes">['"‘“«]</token>
-                    <token postag="[AN].*|_possible_nompropi|UNKNOWN" postag_regexp="yes"><exception>a</exception><exception inflected="yes" regexp="yes">el|un|tot|il|gli|los|le|the</exception><exception regexp="yes">['"‘“«]|las</exception></token>
+                    <token postag="[AN].*|_possible_nompropi|UNKNOWN" postag_regexp="yes"><exception>a</exception><exception inflected="yes" regexp="yes">el|un|tot</exception><exception regexp="yes">['"‘“«]|las|il|gli|los|le|the</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <url>http://esadir.cat/gramatica/sintaxi/advcomcoma</url>
@@ -7437,6 +7437,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>amb altres reconeguts pintors com Carle van Loo</example>
                 <example>tant des del punt de vista legal com doctrinal,</example>
                 <example>Ha vist com actors xinesos hi actuaven.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>es</token>
+                    <token min="0" regexp="yes">van?</token>
+                    <token inflected="yes">conèixer</token>
+                    <marker>
+                        <token>com</token>
+                    </marker>
+                    <token min="0" regexp="yes">['"‘“«]</token>
+                    <token postag="[AN].*|_possible_nompropi|UNKNOWN" postag_regexp="yes"><exception>a</exception><exception inflected="yes" regexp="yes">el|un|tot</exception><exception regexp="yes">['"‘“«]|las|il|gli|los|le|the</exception></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>com a</suggestion>?</message>
+                <example correction="com a">Es coneixia <marker>com</marker> lehendakari.</example>
+                <example correction="com a">Es van conèixer <marker>com</marker> lehendakaris.</example>
+                <example>Es coneixien com The Gladiators.</example>
             </rule>
             <!-- marques de prestigi reconegudes com Lancôme, Chanel i Versace.
                 artistes ja coneguts com ...
@@ -8246,6 +8262,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Fins a València.</example>
             </rule>
             <rule id="FINS_1996" name="*fins/fins a 1996">
+                <antipattern>
+                    <marker>
+                        <token postag="DI.*" postag_regexp="yes"/>
+                        <token regexp="yes">&adverbis_temps_lloc;</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>fins</token>
@@ -8270,6 +8292,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Fins a"><marker>Fins</marker> 4 metres.</example>
                 <example>Fins a 4 metres.</example>
                 <example>Fins 2,3 minuts després.</example>
+                <example>Fins molt recentment.</example>
+                <example>Fins molt aviat.</example>
             </rule>
             <rule id="FINS_INFINITIU" name="*fins + infinitiu / fins a">
                 <pattern>
@@ -9936,6 +9960,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="AFORA_A_FORA" name="afora/a fora">
+            <pattern>
+                <token>afora</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>a fora</suggestion> en comptes de "afora" (del verb aforar)?</message>
+            <example correction="a fora">I <marker>afora</marker>, el gos.</example>
+        </rule>
         <rule id="PUBIC_PUBLIC" name="púbic/públic">
             <pattern>
                 <!--<token inflected="yes" regexp="yes">espai|domini|relació|servei|administració|biblioteca|corporació|dret|educació|empresa|esfera|obra|opinió|sector|col·legi|escola|art|deute|enemic|jardí|ordre|transport|ens|interès|tresor|poder</token>-->
@@ -23900,6 +23931,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="OLORAR_A" name="*olorar a/fer olor de">
+            <pattern>
+                <marker>
+                <token inflected="yes">olorar</token>
+                    <token>a</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> olor de</suggestion>?</message>
+            <example correction="feien olor de">Els xiquets <marker>oloraven a</marker> colònia.</example>
+        </rule>
         <rule id="PINTAR_BASTOS" name="pintar bastos">
             <pattern>
                 <token inflected="yes">pintar</token>
