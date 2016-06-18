@@ -2170,7 +2170,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- Problem not detected by rule COMPLEX_ADJECTIVE_CONCORDANCE in some contexts-->
                 <antipattern>
                     <marker>
-                        <token inflected="yes" regexp="yes">factor|estat</token>
+                        <token inflected="yes" regexp="yes">factor|estat|defecte</token>
                         <token>de</token>
                         <token>forma</token>
                     </marker>
@@ -6526,7 +6526,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token>y</token>
+                        <token>y<exception postag="NP.*" postag_regexp="yes"/></token>
                     </marker>
                     <token><exception>=</exception></token>
                 </pattern>
@@ -6537,6 +6537,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>y=x2</example>
                 <example>entre x i y</example>
                 <example>(x,y)</example>
+                <example>Hospital Ramón y Cajal</example>
             </rule>
             <rule>
                 <pattern>
@@ -8850,7 +8851,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes">traduir|èmfasi|consistir|basar|insistir|fonamentar|coincidir|raure|diferenciar|diferir|estar|fixar|centrar|trobar|resultar|assemblar|confiar|convenir|influir</token>
+                    <token inflected="yes" regexp="yes">traduir|èmfasi|consistir|basar|insistir|fonamentar|coincidir|raure|diferenciar|diferir|estar|fixar|centrar|trobar|resultar|assemblar|confiar|convenir|influir<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <token min="0" max="4" postag="RG|_PUNCT_CONT|.*LOC_ADV.*|&pronom_feble;" postag_regexp="yes"/>
                     <marker>
                         <token>en</token>
@@ -8866,7 +8867,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="en el fet que|que|a fer que|a dir que">Això consisteix fonamentalment <marker>en què</marker> ho farà</example>
                 <example correction="en el fet que|que|a fer que|a dir que">Això consisteix, fonamentalment, <marker>en què</marker> ho farà</example>
                 <example correction="en el fet que|que|a fer que|a dir que">Això consisteix <marker>en què</marker> ho farà</example>
-                <example>consisteix que</example>
+                <example>Van comprovar el greu estat en què es trobava la instal·lació.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9977,6 +9978,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="A_FI_AFI" name="A_FI_AFI">
             <pattern>
+                <token><exception regexp="yes" inflected="yes">principi|inici|començament</exception></token>
                 <marker>
                     <token>a</token>
                     <token>fi</token>
@@ -10014,12 +10016,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="NC.S.*" postag_regexp="yes"></token>
                     <token>si<exception postag="_possible_nompropi"/></token>
                 </marker>
-                <token postag="AQ.*|NC.*|V.P.*" postag_regexp="yes"><exception regexp="yes">bemoll|sostingut|major|menor|vols?|no|doble|mateix</exception><excetion postag="V.[^P].*" postag_regexp="yes"/></token>
+                <token postag="AQ..[PN].|NC.[PN].*|V.P..P.." postag_regexp="yes"><exception regexp="yes">bemoll|sostingut|major|menor|vols?|no|doble|mateix</exception><excetion postag="V.[^P].*" postag_regexp="yes"/></token>
             </pattern>
             <message>Possible confusió.</message>
             <suggestion><match no="1" postag="(NC.)S.*" postag_regexp="yes" postag_replace="$1P.*"/> i</suggestion>
             <example correction="pòrtics i">De <marker>pòrtic si</marker> finestres.</example>
             <example correction="portes i">De <marker>porta si</marker> altres coses.</example>
+            <example>Eludirà la presió si paga una multa.</example>
         </rule>
         <rule id="UNIFORMA" name="uniforma/uniforme">
             <pattern>
@@ -40903,6 +40906,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El valor alfa calculat</example>
                 <example>La democràcia directa via referèndum.</example>
                 <example>Crea constantment associacions ciutadanes.</example>
+                <example>En el seu quaranta aniversari.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FALTA_ELEMENT_ENTRE_GN" name="Falta un element entre grups nominals" default="off">
@@ -41607,24 +41611,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="EXIGEIX_VERBS_ISC" name="Exigeix terminacions verbals en -isc" default="off">
             <rule>
                 <pattern>
-                    <token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[aeiou]e(sc|sca|sques|squen)<exception inflected="yes" regexp="yes">.*escar</exception></token>
+                    <token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[aeiou]e(sc|sca|sques|squen)</token>
                 </pattern>
                 <message>Esteu usant terminacions verbals en -isc.</message>
                 <suggestion><match no="1" regexp_match="(.+[aeiou])e(sc|sca|sques|squen)" regexp_replace="$1ï$2" /></suggestion>
                 <example correction="agraïsca">Que ell ens ho <marker>agraesca</marker>.</example>
-                <example>bresquen</example>
-                <example>engresques</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[^aeiouü]e(sc|sca|sques|squen)<exception inflected="yes" regexp="yes">.*[éè]ixer</exception></token>
+                    <token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[^aeiouü]e(sc|sca|sques|squen)<exception inflected="yes" regexp="yes">.*[éè]ixer</exception><exception inflected="yes" regexp="yes">.*escar</exception></token>
                 </pattern>
                 <message>Esteu usant terminacions verbals en -isc.</message>
                 <suggestion><match no="1" regexp_match="(.+[^aeiou])e(sc|sca|sques|squen)" regexp_replace="$1i$2" /></suggestion>
                 <example correction="oferisca">Que ell ens ho <marker>oferesca</marker>.</example>
                 <example>Servisca.</example>
                 <example>Que cresca, acresquen, meresca i sobrecresques.</example>
-                <example>Argüesca.</example>
+                <example>bresquen</example>
+                <example>engresques</example>
             </rule>
             <rule>
                 <pattern>
@@ -41633,7 +41636,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Esteu usant terminacions verbals en -isc.</message>
                 <suggestion><match no="1" regexp_match="(.+)üe(sc|sca|sques|squen)" regexp_replace="$1uï$2" /></suggestion>
                 <example correction="arguïsca">Que ell ens ho <marker>argüesca</marker>.</example>
-                <example>Que ho arguïsquen.</example>
             </rule>
         </rulegroup>
         <rulegroup id="EXIGEIX_VERBS_ESC" name="Exigeix terminacions verbals en -esc" default="off">
