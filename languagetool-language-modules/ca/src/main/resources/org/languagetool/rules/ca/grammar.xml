@@ -23949,6 +23949,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>”</suggestion>
             <example correction="—|«|»|“|”">Ara i ací <marker>„</marker>sempre.</example>
         </rule>
+        <rule id="PUNT_EN_UNITATS" name="unitats sense punt: *km./km">
+            <pattern>
+                <marker>
+                    <token regexp="yes">(?-i)k?(g|m)</token>
+                    <token>.</token>
+                </marker>
+                <token regexp="yes">\p{Ll}.*</token>
+            </pattern>
+            <message>Les unitats s'escriuen sense punt.</message>
+            <suggestion>\1</suggestion>
+            <example correction="km">Està a 20 <marker>km.</marker> al nord de la ciutat.</example>
+        </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
         <rule id="OLORAR_A" name="*olorar a/fer olor de">
