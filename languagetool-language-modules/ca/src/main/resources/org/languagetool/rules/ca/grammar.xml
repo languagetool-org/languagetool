@@ -8876,7 +8876,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes">traduir|èmfasi|consistir|basar|insistir|fonamentar|coincidir|raure|diferenciar|diferir|estar|fixar|centrar|trobar|resultar|assemblar|confiar|convenir|influir<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token inflected="yes" regexp="yes">traduir|èmfasi|consistir|basar|insistir|fonamentar|coincidir|raure|diferenciar|diferir|estar|fixar|centrar|trobar|resultar|assemblar|confiar|convenir|influir<exception postag="_GN_.*" postag_regexp="yes">estat</exception></token>
                     <token min="0" max="4" postag="RG|_PUNCT_CONT|.*LOC_ADV.*|&pronom_feble;" postag_regexp="yes"/>
                     <marker>
                         <token>en</token>
@@ -22749,7 +22749,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\d{1,2}|des</token>
                     <token regexp="yes">de|d'</token>
                     <marker>
-                        <token regexp="yes">(?-i)Gener|Febrer|Març|Abril|Maig|Juny|Juliol|Agost|Setembre|Octubre|Novembre|Desembre</token>
+                        <token regexp="yes">(?-i)&mesos_any_maj;</token>
                     </marker>
                     <token regexp="yes" skip="1">de|d'</token>
                     <token regexp="yes">\d{3,4}|any</token>
@@ -22769,7 +22769,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">per</token>
                     <token min="0" postag="D.*" postag_regexp="yes"/>
                     <marker>
-                        <token regexp="yes">(?-i)Gener|Febrer|Març|Abril|Maig|Juny|Juliol|Agost|Setembre|Octubre|Novembre|Desembre</token>
+                        <token regexp="yes">(?-i)&mesos_any_maj;</token>
                     </marker>
                 </pattern>
                 <message>En les dates els mesos de l'any s'escriuen en minúsucula: <suggestion><match no="3" case_conversion="alllower" /></suggestion>.</message>
@@ -22801,6 +22801,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Volíeu dir <suggestion>Barça</suggestion> (en majúscula)?</message>
             <example correction="Barça">En un partit del <marker>barça</marker>.</example>
             <example correction="Barça">Un <marker>barça</marker> espectacular.</example>
+        </rule>
+        <rule id="K_MINUSCULA" name="*Km/km">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">K[mgplLWB]</token>
+            </pattern>
+            <message>S'escriu en minúscula.</message>
+            <suggestion><match no="1" case_conversion="startlower" /></suggestion>
+            <example correction="km">A 30 <marker>Km</marker> de distància.</example>
+            <example correction="kW">120 <marker>KW</marker> de potència</example>
         </rule>
     </category>
     <category id="TYPOGRAPHY" name="Z) Errors de tipografia i puntuació" type="typographical">
@@ -23948,6 +23957,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes">olorar</token>
                     <token>a</token>
                 </marker>
+                <token><exception regexp="yes">intervals|estones</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> olor de</suggestion>?</message>
             <example correction="feien olor de">Els xiquets <marker>oloraven a</marker> colònia.</example>
@@ -31886,6 +31896,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Probablement cal dir <suggestion>altura</suggestion>.</message>
                 <example correction="altura">A l'<marker>alçada</marker> dels ulls.</example>
                 <example correction="altura">A aquella <marker>alçària</marker> del carrer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>l'</token>
+                    <marker>
+                        <token regexp="yes">alçada|alçària</token>
+                    </marker>
+                    <token>de</token>
+                    <token postag="DA.*" postag_regexp="yes" min="0"/>
+                    <token postag="_possible_nompropi"></token>
+                </pattern>
+                <message>probablement cal dir <suggestion>altura</suggestion>.</message>
+                <example correction="altura">A l'<marker>alçada</marker> de Llíria.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ALCADA_ALTURA" name="alçada / altura">
