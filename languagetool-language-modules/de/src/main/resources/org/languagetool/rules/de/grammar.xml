@@ -3628,6 +3628,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://www.korrekturen.de/beliebte_fehler/zeit_und_muse.shtml</url>
             <example correction='Muße'>Zeit und <marker>Muse</marker></example>
         </rule>
+        <rule id="WAR_WAHR" name="war (wahr)">
+            <antipattern>
+                <token>gewesen</token>
+                <token>war</token>
+            </antipattern>
+            <antipattern>
+                <token>zu</token>
+                <token>sein</token>
+                <token>war</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" postag="VER:.*" postag_regexp="yes">sein</token>
+                <token>,</token>
+                <token>war</token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes" postag="VER:.*" postag_regexp="yes">sein</token>
+                <token/><!-- added this token to avoid conflict with rulegroup WAHR_WERDEN -->
+                <marker>
+                    <token>war</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein') &odkomma;?</message>
+            <example correction="wahr">Das ist nicht <marker>war</marker>.</example>
+            <example>Ist das <marker>wahr</marker>?</example>
+        </rule>
         <rule id="LIEHT" name="lieht (liegt)">
             <pattern>
                 <token>lieht</token>
