@@ -30625,6 +30625,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="PAREIXER_PARER" name="parèixer/parer">
+            <pattern>
+                <token regexp="yes" inflected="yes">canvi|canviar|mudar</token>
+                <token>de</token>
+                <marker>
+                    <token regexp="yes">parèixer|paréixer</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>parer</suggestion>?</message>
+            <example correction="parer">Canvis de <marker>parèixer</marker>.</example>
+        </rule>
         <rule id="REQUERIMENT_REQUISIT" name="requeriment/requisit">
             <pattern>
                 <marker>
