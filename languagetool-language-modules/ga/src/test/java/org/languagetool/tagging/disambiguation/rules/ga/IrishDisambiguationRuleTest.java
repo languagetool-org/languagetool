@@ -52,6 +52,9 @@ public class IrishDisambiguationRuleTest extends DisambiguationRuleTest {
         TestTools.myAssert("Dé Luain.",
                 "/[null]SENT_START Dé/[Dé]Subst:Noun:Sg  /[null]null Luain/[Luan]Noun:Masc:Gen:Sg|Luain/[luan]Noun:Masc:Gen:Sg ./[null]null",
                 tokenizer, sentenceTokenizer, tagger, disambiguator);
+        TestTools.myAssert("á haistriú.",
+                "/[null]SENT_START á/[do]Prep:Poss:3P:Sg:Fem:Obj  /[null]null haistriú/[aistriú]Verbal:Noun:VTI:hPref ./[null]null",
+                tokenizer, sentenceTokenizer, tagger, disambiguator);
     }
 
 }

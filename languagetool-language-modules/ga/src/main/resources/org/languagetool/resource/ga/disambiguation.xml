@@ -20,7 +20,7 @@
             <pattern>
                 <marker>
                     <token postag="Part:Nm">a</token>
-                    <token regexp="yes" postag="Num:Card:hPref">haon|hocht</token>
+                    <token regexp="yes" postag="Num:Card:hPref">haon|hochtó|hocht</token>
                 </marker>
             </pattern>
             <disambig action="filterall"></disambig>
@@ -127,6 +127,35 @@
                 <marker>
                     <token postag="Prep:Poss:3P:Pl:Obj">á</token>
                     <token postag="Verbal:Noun:VT:Ecl">n-úsáid</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="A_VERBAL_NOUN_VOWEL" name="á [verbal noun]">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Prep:Poss:3P:Sg:Masc:Obj">á</token>
+                    <token postag="Verbal:Noun:VT(I|D)?:Len" postag_regexp="yes" regexp="yes">[aeiouáéíóú].*</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Prep:Poss:3P:Sg:Fem:Obj">á</token>
+                    <token postag="Verbal:Noun:VT(I|D)?:hPref" postag_regexp="yes" regexp="yes">h[aeiouáéíóú].*</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Prep:Poss:3P:Pl:Obj">á</token>
+                    <token postag="Verbal:Noun:VT(I|D)?:Ecl" postag_regexp="yes" regexp="yes">n-[aeiouáéíóú].*</token>
                 </marker>
             </pattern>
             <disambig action="filterall"></disambig>
