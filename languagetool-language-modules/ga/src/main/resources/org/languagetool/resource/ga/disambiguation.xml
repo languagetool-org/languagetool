@@ -193,11 +193,22 @@
         </pattern>
         <disambig postag="Det:Qty"/>
     </rule>
+    <!-- the NI_FHEICIM rule interferes, put this first-->
+    <rule id="COP_MAITH_LE" name="is maith le">
+        <pattern>
+            <marker>
+                <token postag="Cop:.*" postag_regexp="yes"></token>
+                <token postag="Adj:Base(:Len)?" postag_regexp="yes" regexp="yes">maith|mhaith</token>
+                <token postag="Prep:Rel|Pron:Prep.*|Prep:Poss.*" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
     <rule id="NI_FHEICIM" name="ní fheicim">
         <pattern>
             <marker>
                 <token postag="Part:Vb:Neg">ní</token>
-                <token postag="(?:C[UMC]:)?Verb:.*:Neg.*" postag_regexp="yes"></token>
+                <token postag="(?:C[UMC]:)?Verb:.*:Neg.*" postag_regexp="yes"><exception regexp="yes">mh?aith</exception><exception scope="next" postag="Prep:Rel|Pron:Prep:.*" postag_regexp="yes">le</exception></token>
             </marker>
         </pattern>
         <disambig action="filterall"></disambig>
