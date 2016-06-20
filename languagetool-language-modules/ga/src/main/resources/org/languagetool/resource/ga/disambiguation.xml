@@ -322,4 +322,24 @@
         <disambig action="add"><wd pos="Num:Rom"></wd></disambig>
     </rule>
 -->
+    <rulegroup id="GO_ADJ" name="go ADJ">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>go</token>
+                </marker>
+                <token postag="Adj(:.*)?" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="Part:Ad"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>go</token>
+                </marker>
+                <token postag="Adj(:.*)?" postag_regexp="yes" negate_pos="yes"/>
+            </pattern>
+            <disambig action="remove" postag="Part:Ad"/>
+        </rule>
+    </rulegroup>
 </rules>
