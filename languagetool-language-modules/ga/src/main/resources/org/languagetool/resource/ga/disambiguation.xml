@@ -34,6 +34,24 @@
             </pattern>
             <disambig action="filterall"></disambig>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>a</token>
+                </marker>
+                <token regexp="yes">[0-9]+</token>
+            </pattern>
+            <disambig action="filter" postag="Part:Nm"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>a</token>
+                <marker>
+                    <token regexp="yes">[0-9]+</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="Num:Dig"/></disambig>
+        </rule>
     </rulegroup>
     <rule id="DE_HAOINE" name="Dé hAoine">
         <pattern>
