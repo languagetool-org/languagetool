@@ -204,6 +204,15 @@
         </pattern>
         <disambig action="filterall"></disambig>
     </rule>
+    <rule id="NI_IMPERATIVE" name="ní imperative">
+        <pattern>
+            <token postag="Part:Vb:Neg">ní</token>
+            <marker>
+                <token postag="(?:C[UMC]:)?Verb:.*:Imper.*" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="(?:C[UMC]:)?Verb:.*:Imper.*"/>
+    </rule>
     <rule id="NI_FHEICIM" name="ní fheicim">
         <pattern>
             <marker>
