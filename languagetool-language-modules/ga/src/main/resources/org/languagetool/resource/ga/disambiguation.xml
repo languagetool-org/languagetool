@@ -181,11 +181,13 @@
     </rulegroup>
     <rule name="ar mhaithe le" id="ar_mhaithe_le">
         <pattern>
-            <token>ar</token>
-            <marker><token>mhaithe</token></marker>
-            <token>le</token>
+            <marker>
+                <token postag="Prep:Simp">ar</token>
+                <token postag="Noun:Fem:Com:Sg:Len">mhaithe</token>
+                <token postag="Prep:Rel|Pron:Prep.*|Prep:Poss.*" postag_regexp="yes" inflected="yes">le</token>
+            </marker>
         </pattern>
-        <disambig postag="Noun:Fem:Com:Sg:Len"/>
+        <disambig action="filterall"/>
     </rule>
     <rule id="LE_CUNAMH_DE" name="le cúnamh Dé">
         <pattern>
