@@ -9974,6 +9974,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="TAN_SOL_TAN_SOLS" name="tan sol/tan sols">
+            <antipattern>
+                <marker>
+                    <token inflected="yes" regexp="yes" skip="1">sentir|deixar</token>
+                    <token>tan</token>
+                    <token>sol</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token>tan</token>
+                <token>sol</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>tan sols</suggestion>?</message>
+            <example correction="tan sols">Eren <marker>tan sol</marker> quatre.</example>
+            <example>Ja no se sent tan sol.</example>
+            <example>No em deixis tan sol.</example>
+            <example>No m'agrada sentir-me tan sol.</example>
+        </rule>
         <rule id="AFORA_A_FORA" name="afora/a fora">
             <pattern>
                 <token>afora</token>
