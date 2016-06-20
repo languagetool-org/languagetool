@@ -342,19 +342,20 @@
             <disambig action="remove" postag="Part:Ad"/>
         </rule>
     </rulegroup>
+    <!--
     <rulegroup id="AN_DA" name="an dá">
         <rule>
             <pattern>
-                <token postag=".*:Art.*" postag_regexp="yes"/>
+                <token postag="(.*:)?Art.*" postag_regexp="yes" negate_pos="yes"/>
                 <marker>
                     <token>dá</token>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="Num:Card:Def"/>
+            <disambig action="remove" postag="Num:Card:Def"/>
         </rule>
         <rule>
             <pattern>
-                <token postag=".*:Art.*" postag_regexp="yes" negate_pos="yes"/>
+                <token postag="(.*:)?Art.*" postag_regexp="yes"/>
                 <marker>
                     <token>dá</token>
                 </marker>
@@ -362,4 +363,5 @@
             <disambig action="filter" postag="Num:Card:Def"/>
         </rule>
     </rulegroup>
+    -->
 </rules>
