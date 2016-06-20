@@ -9558,6 +9558,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="ESTAVELLA_ESTRELLA" name="estavella estrella">
+            <pattern>
+                <token postag="N.*" postag_regexp="yes"></token>
+                <marker>
+                    <token>estavella</token>
+                </marker>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion>estrella</suggestion>
+            <example correction="estrella">És l'aler <marker>estavella</marker> de l'equip.</example>
+            <example>S'estavella contra la paret.</example>
+        </rule>
         <rule id="TAN_COM_A" name="tan... *com a/com">
             <pattern>
                 <marker>
@@ -18814,7 +18826,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="MES" name="mes/més">
             <antipattern>
-                <token regexp="yes">/|mateix</token>
+                <token regexp="yes">/|mateix|mitjan</token>
                 <marker>
                     <token>mes</token>
                 </marker>
@@ -36267,8 +36279,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>
             <pattern>
-                <token>per</token>
-                <token>suposat</token>
+                <marker>
+                    <token>per</token>
+                    <token>suposat</token>
+                </marker>
+                <token><exception regexp="yes">finançament|robatori</exception></token>
             </pattern>
             <message>Val més usar una altra expressió.</message>
             <suggestion>per descomptat</suggestion>
@@ -36278,6 +36293,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="per descomptat|i tant|ja ho crec|naturalment">No, <marker>per suposat</marker>.</example>
             <example>No ho donis per suposat</example>
             <example>No ho donis mai per suposat</example>
+            <example>Encausat per suposat finançament il·legal.</example>
         </rule>
         <rule id="VAGI_PER_ENDAVANT" name="*Vagi per (en)davant que">
             <pattern>
