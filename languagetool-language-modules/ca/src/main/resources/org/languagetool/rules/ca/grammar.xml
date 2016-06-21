@@ -4855,7 +4855,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="V.*" postag_regexp="yes" inflected="yes" skip="3">fer<exception scope="next" postag="V.[NMSI].*" postag_regexp="yes"/><exception scope="next">que</exception></token>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" skip="3">fer<exception scope="next" postag="V.[NMSI].*" postag_regexp="yes"/><exception scope="next" regexp="yes">que|miques</exception></token>
                     </marker>
                     <token regexp="yes">col?ps?<exception scope="previous" regexp="yes">a|de|cada|aquest|sol</exception><exception postag="_loc_unavegada"/></token>
                     <token regexp="yes">de|d'</token>
@@ -4867,7 +4867,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Donau|Doneu"><marker>Feu</marker>-hi un colp d'ull</example>
                 <example correction="dóna">Rajoy <marker>fa</marker> un altre cop de porta.</example>
                 <example>Va pegar-li una puntada de peu</example>
-                <example>estava fet a cops de martell</example>
+                <example>Estava fet a cops de martell</example>
                 <example>l'únic que feia era, un cop tretes les bobines cremades dels estators,</example>
                 <example>Farà bona collita de cops</example>
                 <example>fas morir d'un cop tot aquest poble</example>
@@ -4880,6 +4880,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>es feia d'un sol cop</example>
                 <example>ho va fer un cop.</example>
                 <example>Llavors farem un cop de cap.</example>
+                <example>El fa miques amb un cop de puny.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9558,6 +9559,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="BARREJAR_ESPECULAR" name="barrejar/especular">
+            <pattern>
+                <marker>
+                    <token inflected="yes">barrejar</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">considerar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">especular</match> sobre</suggestion>
+            <example correction="Consideren|Especulen sobre"><marker>Barregen</marker> introduir canvis en la llei.</example>
+        </rule>
         <rule id="ESTAVELLA_ESTRELLA" name="estavella estrella">
             <pattern>
                 <token postag="N.*" postag_regexp="yes"></token>
@@ -32309,20 +32322,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="pals">Mira els <marker>postes</marker> de llum</example>
             <example>pal de la llum</example>
         </rule>
-        <rule id="MINORISTA" name="minorista/detallista">
-            <pattern>
-                <marker>
-                    <token inflected="yes">minorista</token>
-                </marker>
-                <token><exception inflected="yes" regexp="yes">&ordes;</exception></token>
-            </pattern>
-            <message>Incorrecte en el sentit de <suggestion><match no="1" regexp_match=".*(a|es)" regexp_replace="detallist$1"/></suggestion>. "Minorista" existeix com a terme eclesiàstic.</message>
-            <suggestion>al detall</suggestion>
-            <suggestion>a la menuda</suggestion>
-            <short>Paraula dubtosa</short>
-            <example correction="detallista|al detall|a la menuda">Del comerç <marker>minorista</marker>.</example>
-            <example>Un minorista franciscà.</example>
-        </rule>
         <rule id="PECO" name="peçó/mugró/peduncle/lòbul">
             <pattern>
                 <token inflected="yes">peçó</token>
@@ -35806,6 +35805,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="SECONDARY_FORMS" name="C8) Formes secundàries" default="on" type="style">
+        <rule id="MINORISTA" name="minorista/detallista">
+            <pattern>
+                <marker>
+                    <token inflected="yes">minorista</token>
+                </marker>
+                <token><exception inflected="yes" regexp="yes">&ordes;</exception></token>
+            </pattern>
+            <message>En el sentit de <suggestion><match no="1" regexp_match=".*(a|es)" regexp_replace="detallist$1"/></suggestion> no és acceptat per tots els diccionaris.</message>
+            <suggestion>al detall</suggestion>
+            <suggestion>a la menuda</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/2048</url>
+            <example correction="detallista|al detall|a la menuda">Del comerç <marker>minorista</marker>.</example>
+            <example>Un minorista franciscà.</example>
+        </rule>
         <rule id="FUSELLATGE" name="fusellatges/fuselatge">
             <pattern>
                 <token regexp="yes">fusellatges?</token>
