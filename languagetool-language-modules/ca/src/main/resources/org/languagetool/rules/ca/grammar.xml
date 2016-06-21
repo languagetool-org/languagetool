@@ -23983,10 +23983,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="PUNT_EN_UNITATS" name="unitats sense punt: *km./km">
             <pattern>
                 <marker>
-                    <token regexp="yes">(?-i)k?(g|m)</token>
+                    <token regexp="yes">(?-i)k?(g|m)|cm|ha</token>
                     <token>.</token>
                 </marker>
-                <token regexp="yes">\p{Ll}.*</token>
+                <token regexp="yes">\p{Ll}.*|[,;]</token>
             </pattern>
             <message>Les unitats s'escriuen sense punt.</message>
             <suggestion>\1</suggestion>
@@ -32278,7 +32278,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Possible castellanisme.</message>
                 <suggestion><match no="2" regexp_match="(?-i)torn(.*)" regexp_replace="gir$1"/></suggestion>
                 <example correction="girar">Es va <marker>tornar</marker> contra nosaltres.</example>
-                <example>Després va tornar contra Pomepu.</example>
+                <example>Després va tornar contra Pompeu.</example>
             </rule>
             <rule>
                 <pattern>
@@ -32286,12 +32286,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token inflected="yes">tornar</token>
                     </marker>
                     <token>la</token>
-                    <token regexp="yes">vista|cara|mirada|ulls</token>
+                    <token regexp="yes">vista|cara|ulls</token>
                     <!--<token regexp="yes">enrere|arrere|endarrere</token>-->
                 </pattern>
                 <message>És un castellanisme si equival a <suggestion><match no="1" regexp_match="(?-i)torn(.*)" regexp_replace="gir$1"/></suggestion>.</message>
                 <suggestion><match no="1" regexp_match="(?-i)torn(.*)" regexp_replace="tomb$1"/></suggestion>
                 <example correction="giraren|tombaren">Llavors <marker>tornaren</marker> la vista enrere.</example>
+                <example>Llavors li va tornar la mirada.</example>
             </rule>
         </rulegroup>
         <rule id="POST_DE_LA_LLUM" name="*post/pal de la llum">
