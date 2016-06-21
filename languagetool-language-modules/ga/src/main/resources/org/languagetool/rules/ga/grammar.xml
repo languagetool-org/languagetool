@@ -350,7 +350,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Bhí cáca milis acusan</example>
             </rule>
         </rulegroup>
-<!--
         <rulegroup id="VBPERS_PRN" name="Personal verb + pronoun">
             <rule id="TAIM_ME" name="táim mé">
                 <pattern>
@@ -359,12 +358,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>mé</token>
                     </marker>
                 </pattern>
-                <message>Is féidir “\1” nó “\2” a úsáid</message>
+                <message>Is féidir “<match no="1"/>” nó “<match no="1" postag="(:[123]P:(?:Sg|Pl))" postag_regexp="yes" postag_replace=""/> <match
+                        no="2"/>” a úsáid</message>
                 <example correction='táim ag teacht'><marker>táim mé</marker> ag teacht</example>
-                <example>tá me ag teacht</example>
+                <example type="correct">Tá mé ag teacht</example>
+                <example type="correct">Táim ag teacht</example>
             </rule>
         </rulegroup>
--->
         <rulegroup id="NUMBERS" name="Numbers">
             <rule id="A_AON" name="a aon">
                 <pattern>
@@ -373,7 +373,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">aon|ocht</token>
                     </marker>
                 </pattern>
-                <message>An “h\2” a bhí i gceist agat?</message>
+                <message>An “h<match no="2"/>” a bhí i gceist agat?</message>
                 <example correction='a haon'>a <marker>aon</marker></example>
             </rule>
         </rulegroup>
