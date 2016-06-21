@@ -1269,9 +1269,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>в связи с этим</example>
         </rule>
         
+        <rulegroup id="Logical_skritij_skritnij" name="Логические ошибки «скрытый/скрытный»">
+           <!-- скрытый/скрытный   -->
+            <rule>      
+                <pattern>
+                    <token inflected="yes">скрытный</token>
+                    <token inflected="yes" regexp="yes">проводка|признак</token>
+                </pattern>
+                <message>Логическая ошибка: <suggestion><match no="1" regexp_match="(скрытн)(.*)" regexp_replace="скрыт$2" /> <match no="2"  /></suggestion>?</message>
+                
+                <short>Логическая ошибка.</short>
+                <example correction="скрытая проводка">В комнате выполнена <marker>скрытная проводка</marker>.</example>
+               
+            </rule>
+            <rule>      
+                <pattern>
+                    <token inflected="yes">скрытый</token>
+                    <token inflected="yes" regexp="yes">характер|человек</token>
+                </pattern>
+                <message>Логическая ошибка: <suggestion><match no="1" regexp_match="(скрыт)(.*)" regexp_replace="скрытн$2" /> <match no="2"  /></suggestion>?</message>
+                
+                <short>Логическая ошибка.</short>
+                <example correction="скрытный характер">У этого человека очень <marker>скрытый характер</marker>.</example>
+            </rule>
+        </rulegroup>  
         
-        <rulegroup id="Logical_odel_nadel" name="Логические ошибки «одеть (или надеть)»">
-            <!-- TODO скрытый/скрытный   -->
+        <rulegroup id="Logical_odel_nadel" name="Логические ошибки «одеть/надеть»">
             <rule>      
                 <pattern>
                     <token inflected="yes">одеть</token>
@@ -1339,6 +1362,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Он надел майку.</example>
                 <example>Он одел Ивана.</example>
             </rule>                   
+        </rulegroup>
+        
+        
+         <rulegroup id="Logical_prazdnoe_prazdnichnoe" name="Ошибки в употреблении: «праздничное» или «праздное»">
+          
+            <rule>      
+                <pattern>
+                    <token inflected="yes">праздничный</token>
+                    <token inflected="yes">жизнь</token>
+                </pattern>
+                <message>Логическая ошибка: <suggestion><match no="1" regexp_match="(празднич)(.*)" regexp_replace="празд$2" /> <match no="2"  /></suggestion>?</message>
+                
+                <short>Логическая ошибка.</short>
+                <example correction="праздную жизнь">Человек ведет  <marker>праздничную жизнь</marker>.</example>
+                <example>Человек ведет праздную жизнь.</example>
+            </rule>  
+              <rule>      
+                <pattern>
+                    <token inflected="yes">праздный</token>
+                    <token inflected="yes">настроение</token>
+                </pattern>
+                <message>Логическая ошибка: <suggestion><match no="1" regexp_match="(празд)(.*)" regexp_replace="празднич$2" /> <match no="2"  /></suggestion>?</message>
+                
+                <short>Логическая ошибка.</short>
+                <example correction="праздничное настроение">У меня сегодня <marker>праздное настроение</marker>.</example>
+                <example>У меня сегодня праздничное настроение.</example>
+            </rule>                     
         </rulegroup>
         
         <rule id="Linguistics_hrabry" name="Лингвистические ошибки «храбрая (или смелая) мысль, решение, идея»">
@@ -2652,7 +2702,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Мальчик немного бледный.</example>
             <example>Мальчик бледноват</example>
         </rule>
-         
+       
+          <rule id="prosit_proshenija" name="Выражение «просить прощения»">
+            <pattern>
+                <token inflected="yes">просить</token>
+                <token>прощение</token>
+            </pattern>
+            <message>Правильно: <suggestion>\1 прощения</suggestion>.</message>         
+            <short>Правильно: «просить прощения».</short>
+            <example correction="просил прощения">Он <marker>просил прощение</marker>.</example>
+      
+        </rule>  
            
         <rule id="skuchat_za" name="Грамматические ошибки «скучать за ... »">
             <pattern>
@@ -3625,7 +3685,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" >встречу|счёт|счет</token>  <!--<exception scope="next" postag_regexp="yes" postag="*.:R"></exception>  в-->
                     </marker>
                     <token>
-                        <exception  postag="PREP"></exception><exception  regexp="yes" inflected="yes">поставщик|заказчик|контрагент|покупатель|продавец|исполнитель</exception>
+                        <exception  postag="PREP"></exception><exception postag_regexp="yes" postag="VB:.*"></exception><exception  regexp="yes" inflected="yes">поставщик|заказчик|контрагент|покупатель|продавец|исполнитель|денежный</exception>
                     </token>
                 </pattern>
                 <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
@@ -4966,12 +5026,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 -->
                 <pattern>
                     <token>не</token>
-                    <token postag_regexp="yes" regexp="yes">(не)[а-я](.*)<exception regexp="yes">незнаком(.*)|немец(.*)|ненавид(.*)|нескольк(.*)</exception></token>
+                    <token postag_regexp="yes" regexp="yes">(не)[а-я](.*)<exception regexp="yes">незнаком(.*)|немец(.*)|ненавид(.*)|нескольк(.*)|нес(.*)</exception></token>
                 </pattern>
                 <message>Не ставьте два «не» подряд, если это не оправдано смыслом предложения.</message>
                 <short>Не ставьте два «не» подряд.</short>
                 <example>Эта книга интересная.</example>
                 <example>Это не только не критично, но и оправданно.</example>
+                <example>Это не несёт никакой нагрузки.</example>
                 <example correction="">Эта книга <marker>не неинтересная</marker>.</example>
             </rule>
         </rulegroup>

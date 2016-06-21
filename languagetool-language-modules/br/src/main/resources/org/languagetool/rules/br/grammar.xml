@@ -7681,6 +7681,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="EGILE_EBEN" name="egile pe eben">
+      <rule>
+        <pattern>
+          <token>eus</token>
+          <token>an</token>
+          <token>eil</token>
+          <token postag="N f .*" postag_regexp="yes"><exception postag="N [em] .*" postag_regexp="yes"/></token>
+          <token>d’</token>
+          <marker><token>egile</token></marker>
+        </pattern>
+        <message>Implijit <suggestion>eben</suggestion> gant ar ger benel «\4».</message>
+        <example correction="eben">Eus an eil garzh d’<marker>egile</marker>.</example>
+        <example>Eus an eil kleuz d’egile.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>eus</token>
+          <token>an</token>
+          <token>eil</token>
+          <token postag="N m .*" postag_regexp="yes"><exception postag="N [ef] .*" postag_regexp="yes"/></token>
+          <token>d’</token>
+          <marker><token>eben</token></marker>
+        </pattern>
+        <message>Implijit <suggestion>egile</suggestion> gant ar ger gourel «\4».</message>
+        <example correction="egile">Eus an eil kleuz d’<marker>eben</marker>.</example>
+        <example>Eus an eil garzh d’eben.</example>
+      </rule>
+    </rulegroup>
+
     <rule id="ABAOE_BLOAVEZHIOU_ZO" name="abaoe bloavezhioù zo → abaoe bloavezhioù">
       <pattern>
         <token>abaoe</token>

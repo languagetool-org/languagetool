@@ -619,6 +619,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="war">Ich <marker>was</marker> ein Idiot.</example>
             <example>Ich fand die Idee gut, <marker>was</marker> ein Fehler war.</example>
         </rule>
+        <rule id="VIELLEICHT" name="viel leicht (vielleicht)">
+            <pattern>
+                <token>viel</token>
+                <token>leicht</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>vielleicht</suggestion>?</message>
+            <example correction='Vielleicht'><marker>Viel leicht</marker> kann er es besser.</example>
+            <example>Das ist vielleicht ihre beste Arbeit</example>
+        </rule>
         <rule id="ETWAS_ZAHL" name="'etwas (etwa) [Zahl]'">
             <pattern>
                 <marker>
@@ -3627,6 +3636,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion>Muße</suggestion> (= innere Ruhe, Muse = Inspiration eines Künstlers)?</message>
             <url>http://www.korrekturen.de/beliebte_fehler/zeit_und_muse.shtml</url>
             <example correction='Muße'>Zeit und <marker>Muse</marker></example>
+        </rule>
+        <rule id="WAR_WAHR" name="war (wahr)">
+            <antipattern>
+                <token>gewesen</token>
+                <token>war</token>
+            </antipattern>
+            <antipattern>
+                <token>zu</token>
+                <token>sein</token>
+                <token>war</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" postag="VER:.*" postag_regexp="yes">sein</token>
+                <token regexp='yes'>,|und|oder</token>
+                <token>war</token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes" postag="VER:.*" postag_regexp="yes">sein</token>
+                <token/><!-- added this token to avoid conflict with rulegroup WAHR_WERDEN -->
+                <marker>
+                    <token>war</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein') &odkomma;?</message>
+            <example correction="wahr">Das ist nicht <marker>war</marker>.</example>
+            <example>Ist das <marker>wahr</marker>?</example>
         </rule>
         <rule id="LIEHT" name="lieht (liegt)">
             <pattern>
@@ -11478,7 +11513,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <!-- hier allgemein Adjekte zu matchen führt zu vielen Fehlalarmen,
                          z.B. bei "Amerikanische Küchen sind größer als japanische." -->
-                    <token regexp="yes" case_sensitive="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes|zehntes|elftes|zwölftes</token>
+                    <token regexp="yes" case_sensitive="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes|zehntes|elftes|zwölftes|nächstes</token>
                 </marker>
                 <token regexp="yes" case_sensitive="yes">[a-zöäü]+<exception postag="ADJ:.*" postag_regexp="yes" /><exception postag="PA2:.*" postag_regexp="yes" /><exception postag="UNKNOWN"/></token>
             </pattern>

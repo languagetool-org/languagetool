@@ -4741,7 +4741,7 @@ USA
             </pattern>
             <message>Did you mean <suggestion>wing and a prayer</suggestion>?</message>
             <example correction="wing and a prayer">The Lakers appeared to be hanging on a <marker>whim and a prayer</marker>.</example>
-            <example>The Lakers appeared to be hanging on a whing and a prayer.</example>
+            <example>The Lakers appeared to be hanging on a wing and a prayer.</example>
         </rule>
         <!-- year end and year out::word=year in and year out::filter=none -->
         <rule id="YEAR_END_AND_YEAR_OUT" name="year end (in) and year out">
@@ -6436,7 +6436,7 @@ USA
             <example>What it does: increases rate of gain and improves feed efficiency.</example>
             <example>Does Lincoln Mills suggest that if Congress granted jurisdiction over interstate divorce cases, the federal courts would be authorized to fashion a national law for the dissolution of marriages?</example>
             <example>Everyone also who does what is just (righteous) has been born of him.</example>
-            <example>It seems like as technologies emerge, I love to jump on the bandwagon around the end of the urlLink early adopters phase -- and then it either does or doesn't integrate well with my life.</example>
+            <example>It seems like as technologies emerge, I love to jump on the bandwagon around the end of the early adopters phase -- and then it either does or doesn't integrate well with my life.</example>
             <example>The only reason Bobby does it is because he knows I would SMACK him if he didn't.</example>
         </rule>
         <rule id="A_RB_NN" name="Adverb instead of an adjective">
@@ -10830,7 +10830,7 @@ USA
             <example>The cat is on the mat.</example>
             <example correction="the|he">Strode past the now frightened man, entered <marker>the he</marker> house.</example>
             <example>It was an impulse when she was here in Me'a She'arim.</example>
-            <example>Asphalte in its natural state from the mine at Pyrimont Seysell in France.</example>
+            <example>Asphalt in its natural state from the mine at Pyrimont Seysell in France.</example>
             <example correction="The|My"><marker>The my</marker> search could return docs.</example>
             <example correction="the|my">The dots in <marker>the my</marker> life.</example>
             <example correction="the|it">If <marker>the it</marker> em is missing, stop the test.</example>
@@ -11673,7 +11673,7 @@ USA
             <example>He succeeded almost too well.</example>
             <example>It is too narrow.</example>
             <example>I too have a son; he's 40 now.</example>
-            <example>So this too <marker>can</marker>'t be used to prove the thoery.</example>
+            <example>So this too <marker>can</marker>'t be used to prove the theory.</example>
         </rule>
         <rulegroup id="TO_TOO" name="to/two (too) late/soon/much">
             <rule>
@@ -12811,7 +12811,7 @@ USA
             <example>Tell me why, I can't be there where you are...</example>
             <example>And how many other businesses are there where the retailer has no control over price?</example>
             <example>There was a long time there where my feelings for him was hella twisted.</example>
-            <example>Additionally, there was a couple there where a woman had her entire arm adorned with a huge elaborate tatoo.</example>
+            <example>Additionally, there was a couple there where a woman had her entire arm adorned with a huge elaborate tattoo.</example>
         </rule>
         <rulegroup id="ALTER_BOY" name="confusion of alter/altar">
             <rule>
@@ -13867,16 +13867,24 @@ USA
             <short>Nonstandard phrase</short>
             <example correction="whipped cream">Whip cream until it becomes <marker>whip cream</marker>.</example>
         </rule>
-        <rule id="IN_REGARD_TO" name="in regards to (regarding, with regard to)">
+        <rule id="IN_OR_WITH_REGARDS_TO_OF" name="in/with regards to/of (regarding, with regard to)">
             <pattern>
-                <token>in</token>
+                <token regexp="yes">in|with</token>
                 <token>regards</token>
                 <token regexp="yes">to|of</token>
             </pattern>
-            <message>Use simply <suggestion>regarding</suggestion> or <suggestion>with regard to</suggestion>.</message>
+            <message>Use <suggestion>in regard to</suggestion>, <suggestion>with regard to</suggestion>, or more simply <suggestion>regarding</suggestion>.</message>
+            <url>http://public.wsu.edu/~brians/errors/regards.html</url>
             <short>Nonstandard phrase</short>
-            <example correction="regarding|with regard to">Please be aware of the following changes <marker>in regards to</marker> this program.</example>
+            <example correction="in regard to|with regard to|regarding">Please be aware of the following changes <marker>in regards to</marker> this program.</example>
+            <example correction="in regard to|with regard to|regarding">But, they would assist in some way <marker>with regards to</marker> the criminal prosecution.</example>
+            <example correction="In regard to|With regard to|Regarding"><marker>With regards to</marker> America, we must not forget that the…</example>
+            <example correction="in regard to|with regard to|regarding">The hotel is satisfactory <marker>in regards of</marker> quality and price.</example>
             <example>Please be aware of the following changes in this program.</example>
+            <example>But, they would assist in some way <marker>with regard to</marker> the criminal prosecution.</example>
+            <example>But, they would assist in some way <marker>in regard to</marker> the criminal prosecution.</example>
+            <example>But, they would assist in some way <marker>regarding</marker> the criminal prosecution.</example>
+<!--        <example>I hope this letter finds you well. Love Mike. P.S. <marker>With regards to</marker> Susan.</example> -->
         </rule>
         <rule id="VERY_KNOWN" name="very known (very well-known, well-known)">
             <pattern>
@@ -14542,8 +14550,8 @@ USA
             <message>Consider using <suggestion>\1</suggestion>.</message>
             <short>Redundant phrase</short>
             <example correction="CD">I ordered a <marker>CD disk</marker> with their software.</example>
-            <example>I ordered a <marker>CD</marker>with their software.</example>
-            <example>I ordered a <marker>DVD</marker>with their software.</example>
+            <example>I ordered a <marker>CD</marker> with their software.</example>
+            <example>I ordered a <marker>DVD</marker> with their software.</example>
         </rule>
         <rule id="CDROM" name="CD disc (CD)">
             <pattern case_sensitive="yes">
@@ -14552,7 +14560,7 @@ USA
             <message>Consider using <suggestion>CD-ROM</suggestion>.</message>
             <short>Possible typo</short>
             <example correction="CD-ROM">I ordered a <marker>Cdrom</marker> with their software.</example>
-            <example>I ordered a <marker>CD-ROM</marker>with their software.</example>
+            <example>I ordered a <marker>CD-ROM</marker> with their software.</example>
         </rule>
         <rule id="ACCUSED_OF_A_CHARGE_CHARGED_WITH" name="accused of a charge (charged with)">
          <pattern>
@@ -16790,29 +16798,8 @@ USA
 
         <!-- inquire – person -->
 
-        <!-- in regard(s) to – regarding, about, concerning, on -->
-        <rulegroup id="IN_REGARD_OR_REGARDS_TO" name="in/with regard(s) to (regarding, about, concerning, to)">
-            <rule>
-                <pattern>
-                    <token regexp="yes">in|with</token>
-                    <token>regards</token>
-                    <token>to</token>
-                </pattern>
-                <message>Regards with "s" is correct only in salutations despite common misuse. Did you mean <suggestion>in regard to</suggestion>, or even better: <suggestion>regarding</suggestion>, <suggestion>concerning</suggestion>, or <suggestion>about</suggestion>?</message>
-                <example correction="in regard to|regarding|concerning|about">This reply is <marker>in regards to</marker> your message earlier this week.</example>
-                <example>This reply is <marker>concerning</marker> your message earlier this week.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">in|with</token>
-                    <token>regard</token>
-                    <token>to</token>
-                </pattern>
-                <message>Standard English and not outright wrong, but did you mean <suggestion>regarding</suggestion>, <suggestion>concerning</suggestion>, or <suggestion>about</suggestion>?</message>
-                <example correction="regarding|concerning|about">This reply is <marker>in regard to</marker> your message earlier this week.</example>
-                <example>This reply is <marker>concerning</marker> your message earlier this week.</example>
-            </rule>
-        </rulegroup>
+        <!-- in regard(s) to – regarding, about, concerning, on. Refer to WITH_OR_IN_REFERENCE_OR_REGARD_TO -->
+
         <!-- in relation to – about, with, to -->
         <!-- in some instances – sometimes -->
         <!-- inside of – inside -->
@@ -17556,17 +17543,35 @@ USA
         <!-- with a view to – by, from -->
 
         <!-- with reference to, with regard to – about, of, on, for -->
-        <rule id="WITH_REFERENCE_OR_REGARD_TO" name="with reference to, with regard to (about, of, on, for)">
+        <rule id="WITH_OR_IN_REFERENCE_OR_REGARD_TO" name="with/in reference to, with/in regard to (about, of, on, for, concerning, regarding)">
             <pattern>
-                <token>in</token>
+                <token regexp="yes">with|in</token>
                 <token regexp="yes">reference|regard</token>
                 <token>to</token>
             </pattern>
-            <message>Replace with shorter <suggestion>about</suggestion>, <suggestion>of</suggestion>, <suggestion>on</suggestion>, or <suggestion>for</suggestion></message>
-            <example correction="about|of|on|for">Statement <marker>in reference to</marker> the book.</example>
+            <message>Replace with shorter <suggestion>about</suggestion>, <suggestion>of</suggestion>, <suggestion>on</suggestion>, <suggestion>for</suggestion>, <suggestion>concerning</suggestion>, or <suggestion>regarding</suggestion>.</message>
+            <example correction="about|of|on|for|concerning|regarding">Statement <marker>in reference to</marker> the book.</example>
             <example>Statement <marker>on</marker> the book.</example>
-            <example correction="about|of|on|for">What shall we do <marker>in regard to</marker> the dinner?</example>
+            <example correction="about|of|on|for|concerning|regarding">What shall we do <marker>in regard to</marker> the dinner?</example>
+            <example correction="about|of|on|for|concerning|regarding">What shall we do <marker>with regard to</marker> the dinner?</example>
             <example>What shall we do <marker>about</marker> the dinner?</example>
+            <example>What shall we do <marker>regarding</marker> the dinner?</example>
+            <example correction="about|of|on|for|concerning|regarding">This reply is <marker>in regard to</marker> your message earlier this week.</example>
+            <example>This reply <marker>concerns</marker> your message earlier this week.</example>
+            <example>This reply is <marker>about</marker> your message earlier this week.</example>
+            <example correction="About|Of|On|For|Concerning|Regarding"><marker>With regard to</marker> your letter last week, …</example>
+            <example><marker>Regarding</marker> your letter last week, …</example>
+            <example correction="about|of|on|for|concerning|regarding">Misunderstanding can arise <marker>in reference to</marker> how a person becomes certified or credentialed.</example>
+            <example>Misunderstanding can arise <marker>about</marker> how a person becomes certified or credentialed.</example>
+            <example>Misunderstanding can arise <marker>regarding</marker> how a person becomes certified or credentialed.</example>
+            <example correction="about|of|on|for|concerning|regarding">The veterinary clinic gets many calls from children <marker>with regard to</marker> lost pets.</example>
+            <example>The veterinary clinic gets many calls from children <marker>concerning</marker> lost pets.</example>
+            <example>The veterinary clinic gets many calls from children <marker>regarding</marker> lost pets.</example>
+            <example>The veterinary clinic gets many calls from children <marker>about</marker> lost pets.</example>
+            <example correction="about|of|on|for|concerning|regarding">This test is important <marker>with regard to</marker> the new rules.</example>
+            <example>This test is important <marker>for</marker> the new rules.</example>
+            <example correction="about|of|on|for|concerning|regarding">Before you do a test <marker>with regard to</marker> a rule, always include a correct example and an incorrect example.</example>
+            <example>Before you do a test <marker>of</marker> a rule, always include a correct example and an incorrect example.</example>
         </rule>
 
         <!-- with respect to – on, about -->

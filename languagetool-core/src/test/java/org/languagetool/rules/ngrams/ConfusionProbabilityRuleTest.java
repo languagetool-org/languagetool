@@ -53,6 +53,7 @@ public class ConfusionProbabilityRuleTest {
       }
     };
     assertGood("Their are new ideas to explore.", ruleWithException);
+    assertMatch("İm dabei gut auszusehen.");  // bug with the special char 'İ' which, when lowercased becomes  a regular 'i'
   }
 
   @Test
