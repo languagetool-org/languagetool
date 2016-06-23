@@ -372,6 +372,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
     <rulegroup id="VERBO_TILDE" name="Verbos con o sin tilde">
+
+        <rule id="ESTA_PARTICIPIO" name="*esta/está + participio">
+            <pattern>
+                <marker>
+                    <token>esta</token>
+                </marker>
+                <token min="0" postag="RG"/>
+                <token postag="V.P..S[FM]" postag_regexp="yes"><exception postag="NCFS000"/></token>
+            </pattern>
+            <message>Si es del verbo estar, se escribe <suggestion>está</suggestion>.</message>
+            <example correction="Está"><marker>Esta</marker> cansada.</example>
+            <example correction="Está"><marker>Esta</marker> muy cansada.</example>
+            <example correction="Está"><marker>Esta</marker> agotado.</example>
+            <example>Esta revista es antigua.</example>
+            <example>Esta comida es buena.</example>
+        </rule>
+
         <!-- LO_SE lo sé-->
         <short>El verbo lleva tilde.</short>
         <rule id="LO_SE" name="lo se (sé)">
