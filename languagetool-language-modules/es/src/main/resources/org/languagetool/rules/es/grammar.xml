@@ -1057,7 +1057,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </antipattern>
       <pattern>
           <marker>
-              <token inflected='yes' postag='V.[IS].3P.' postag_regexp='yes'>haber</token>
+              <token inflected='yes' postag='V.[IS].3P.' postag_regexp='yes'>haber<exception>han</exception></token> <!-- "han" no se usa como plural de "hay"-->
           </marker>
           <token regexp='yes'>.+<exception postag='V.P.+|PP3.*|UNKNOWN' postag_regexp='yes'/></token>
       </pattern>
@@ -1067,7 +1067,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Hubo varios disparos</example>
       <example>Hubiera sido peor si no vienen.</example>
       <example>Ellos habían nacido para jugar.</example>
+      <example>De la dinastía Han.</example> 
   </rule>
+
+    <rule id="HABER_GERUNDIO" name="han *realizando/realizado">
+        <pattern>
+            <token postag="VA.*" postag_regexp="yes" inflected="yes">haber</token>
+            <marker>
+                <token postag="V.[NG].*" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <message>Falta un participio o la preposición 'de'.</message>
+        <suggestion><match no="2" postag="V.P..SM" postag_regexp="yes"/></suggestion>
+        <suggestion>de <match no="2" postag="V.N.*" postag_regexp="yes"/></suggestion>
+        <example correction="realizado|de realizar">No se han <marker>realizando</marker>.</example>
+        <example correction="realizado|de realizar">No se han <marker>realizar</marker>.</example>
+        <example correction="defendido|de defender">Habían <marker>defendiendo</marker> el resultado.</example>
+    </rule>
 
     <!--PP_SE: te se -> se te-->
 
