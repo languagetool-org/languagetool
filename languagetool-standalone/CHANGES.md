@@ -37,7 +37,7 @@
 #### Russian
   * rebuild spellchecker dictionary
   * added words suggested by users
-  * improved some rules
+  * added and improved rules
 
 #### Java API
   * some formerly deprecated code has been removed
