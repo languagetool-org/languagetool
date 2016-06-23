@@ -1072,9 +1072,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="HABER_GERUNDIO" name="han *realizando/realizado">
         <pattern>
-            <token postag="VA.*" postag_regexp="yes" inflected="yes">haber</token>
+            <token postag="VA.*" postag_regexp="yes" inflected="yes">haber<exception>hay</exception></token>
             <marker>
-                <token postag="V.[NG].*" postag_regexp="yes"></token>
+                <token postag="V.[NG].*|V.IS.*" postag_regexp="yes"></token>
             </marker>
         </pattern>
         <message>Falta un participio o la preposición 'de'.</message>
@@ -1083,6 +1083,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="realizado|de realizar">No se han <marker>realizando</marker>.</example>
         <example correction="realizado|de realizar">No se han <marker>realizar</marker>.</example>
         <example correction="defendido|de defender">Habían <marker>defendiendo</marker> el resultado.</example>
+        <example correction="encontrado|de encontrar">Se han <marker>encontraron</marker> indicios.</example>
     </rule>
 
     <!--PP_SE: te se -> se te-->
