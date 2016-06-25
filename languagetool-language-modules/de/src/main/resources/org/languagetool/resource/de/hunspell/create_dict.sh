@@ -15,7 +15,9 @@ fi
 
 REPO=/home/dnaber/.m2/repository
 LT_VERSION=3.3-SNAPSHOT
-FREQ_FILE=/lt/frequency-data/freeWordFreqsGaia/de_free_gaia.xml
+# get frequency data from https://github.com/mozilla-b2g/gaia/tree/master/apps/keyboard/js/imes/latin/dictionaries -
+# this is optional, remove "-freq $FREQ_FILE" below for not using frequencies:
+FREQ_FILE=de_wordist.xml
 INPUT_ENCODING=latin1
 OUTPUT_ENCODING=utf8
 TEMP_FILE=/tmp/lt-dictionary.dump
@@ -40,7 +42,6 @@ mvn clean package -DskipTests &&
  recode $INPUT_ENCODING..$OUTPUT_ENCODING | grep -v "^#" | hunspell -d $DIC_NO_SUFFIX -G -l >$TEMP_FILE
 
 java -cp $CPATH:languagetool-standalone/target/LanguageTool-*/LanguageTool-*/languagetool.jar \
-  org.languagetool.tools.SpellDictionaryBuilder -i $TEMP_FILE -info $INFO_FILE -o $OUTPUT_FILE \
-  -freq $FREQ_FILE
+  org.languagetool.tools.SpellDictionaryBuilder -i $TEMP_FILE -info $INFO_FILE -o $OUTPUT_FILE -freq $FREQ_FILE
 
 rm $TEMP_FILE
