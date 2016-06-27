@@ -1,5 +1,10 @@
 # LanguageTool Change Log
 
+## 3.5 (release planned for 2016-09-29)
+
+* ...
+
+
 ## 3.4 (2016-06-27)
 
 #### Catalan
