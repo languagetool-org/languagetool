@@ -97,7 +97,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
       if (startWithUppercase) {
         replacement = StringTools.uppercaseFirstChar(replacement);
       }
-      suggestedReplacements.add(replacement);
+      if (!suggestedReplacements.contains(replacement)) {
+        suggestedReplacements.add(replacement);
+      }
     }
   }
 

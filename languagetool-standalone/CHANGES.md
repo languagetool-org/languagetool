@@ -2,7 +2,8 @@
 
 ## 3.5 (release planned for 2016-09-29)
 
-* ...
+#### General
+  * Bugfix: avoid repeating the same suggestion
 
 
 ## 3.4 (2016-06-27)
