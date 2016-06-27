@@ -22,6 +22,7 @@ import org.apache.commons.io.IOUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.patterns.AbstractPatternRule;
@@ -35,6 +36,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Finds and removes "useless" examples sentences. "Useless" are sentences
@@ -61,7 +63,7 @@ final class UselessExampleFinder {
       if (!(rule instanceof PatternRule)) {
         continue;
       }
-      List<String> correctExamples = rule.getCorrectExamples();
+      List<CorrectExample> correctExamples = rule.getCorrectExamples();
       List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
       for (IncorrectExample incorrectExample : incorrectExamples) {
         checkCorrections(rule, correctExamples, incorrectExample, xmlLines);
@@ -74,7 +76,8 @@ final class UselessExampleFinder {
     }
   }
 
-  private void checkCorrections(Rule rule, List<String> correctExamples, IncorrectExample incorrectExample, List<String> xmlLines) {
+  private void checkCorrections(Rule rule, List<CorrectExample> correctExamplesObjs, IncorrectExample incorrectExample, List<String> xmlLines) {
+    List<String> correctExamples = correctExamplesObjs.stream().map(k -> k.getExample()).collect(Collectors.toList());
     List<String> corrections = incorrectExample.getCorrections();
     for (String correction : corrections) {
       String fixedSentence = incorrectExample.getExample().replaceAll("<marker>.*?</marker>", "<marker>" + correction.replace("$", "\\$") + "</marker>");

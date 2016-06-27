@@ -21,10 +21,7 @@ package org.languagetool.rules.patterns;
 import org.junit.Test;
 import org.languagetool.*;
 import org.languagetool.databroker.ResourceDataBroker;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.IncorrectExample;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.*;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
@@ -447,12 +444,12 @@ public class PatternRuleTest {
 
   private void testCorrectSentences(JLanguageTool languageTool, JLanguageTool allRulesLanguageTool,
                                     Language lang, AbstractPatternRule rule) throws IOException {
-    List<String> goodSentences = rule.getCorrectExamples();
+    List<CorrectExample> goodSentences = rule.getCorrectExamples();
     // necessary for XML Pattern rules containing <or>
     List<AbstractPatternRule> rules = allRulesLanguageTool.getPatternRulesByIdAndSubId(rule.getId(), rule.getSubId());
-    for (String goodSentence : goodSentences) {
+    for (CorrectExample goodSentenceObj : goodSentences) {
       // enable indentation use
-      goodSentence = goodSentence.replaceAll("[\\n\\t]+", "");
+      String goodSentence = goodSentenceObj.getExample().replaceAll("[\\n\\t]+", "");
       goodSentence = cleanXML(goodSentence);
       assertTrue(lang + ": Empty correct example in rule " + rule.getFullId(), goodSentence.trim().length() > 0);
       boolean isMatched = false;

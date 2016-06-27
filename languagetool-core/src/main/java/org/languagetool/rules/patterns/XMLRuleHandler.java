@@ -28,6 +28,7 @@ import org.apache.commons.lang.ObjectUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.chunking.ChunkTag;
+import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.Attributes;
@@ -105,7 +106,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected StringBuilder elements;
   protected StringBuilder exceptions;
 
-  protected List<String> correctExamples = new ArrayList<>();
+  protected List<CorrectExample> correctExamples = new ArrayList<>();
   protected List<IncorrectExample> incorrectExamples = new ArrayList<>();
 
   protected boolean inPattern;

@@ -23,6 +23,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.Categories;
+import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.IncorrectExample;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -169,7 +170,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
         break;
       case EXAMPLE:
         if (inCorrectExample) {
-          correctExamples.add(correctExample.toString());
+          correctExamples.add(new CorrectExample(correctExample.toString()));
         } else if (inIncorrectExample) {
           incorrectExamples.add(new IncorrectExample(incorrectExample.toString()));
         }

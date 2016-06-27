@@ -28,10 +28,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.languagetool.Languages;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.CategoryId;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.IncorrectExample;
+import org.languagetool.rules.*;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -400,7 +397,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case EXAMPLE:
         if (inCorrectExample) {
-          correctExamples.add(correctExample.toString());
+          correctExamples.add(new CorrectExample(correctExample.toString()));
         } else if (inIncorrectExample) {
           IncorrectExample example;
           List<String> corrections = new ArrayList<>();

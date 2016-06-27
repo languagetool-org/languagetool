@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2008 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2016 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,41 +18,29 @@
  */
 package org.languagetool.rules;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 /**
- * A text, typically a sentence, that contains an error.
- * @since 0.9.2
+ * @since 3.5
  */
-public final class IncorrectExample extends ExampleSentence {
+public abstract class ExampleSentence {
 
-  private final List<String> corrections;
+  protected final String example;
 
-  public IncorrectExample(String example) {
-    this(example, Collections.<String>emptyList());
+  public ExampleSentence(String example) {
+    this.example = Objects.requireNonNull(example);
   }
 
   /**
-   * @since 2.9
+   * Return the example, typically one sentence.
    */
-  public IncorrectExample(String example, List<String> corrections) {
-    super(example);
-    this.corrections = Collections.unmodifiableList(new ArrayList<>(corrections));
+  public String getExample() {
+    return example;
   }
 
-  /**
-   * Return the possible corrections.
-   */
-  public List<String> getCorrections() {
-    return corrections;
-  }
-  
   @Override
   public String toString() {
-    return example + " " + corrections;
+    return example;
   }
 
 }

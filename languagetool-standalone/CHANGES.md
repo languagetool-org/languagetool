@@ -5,6 +5,10 @@
 #### General
   * Bugfix: avoid repeating the same suggestion
 
+#### Java API
+  * `Rule.getCorrectExamples()` now returns a list of `CorrectExample`s
+    instead of a list of `String`s.
+
 
 ## 3.4 (2016-06-27)
 
