@@ -964,7 +964,7 @@ public class JLanguageTool {
             }
           }
         } catch (Exception e) {
-          throw new RuntimeException("Could not check sentence: '"
+          throw new RuntimeException("Could not check sentence (language: " + language + "): '"
                   + StringUtils.abbreviate(analyzedSentence.toTextString(), 200) + "'", e);
         }
       }
