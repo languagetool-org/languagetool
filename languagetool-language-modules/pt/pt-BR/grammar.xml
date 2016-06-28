@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../print.xsl" 
+title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../rules.css" 
+title="Easy editing stylesheet" ?>
+<!--
+Portuguese Brazilian - Grammar and Typo Rules for LanguageTool.
+Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
+-->
+<rules lang="pt-BR" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<!--ERROS QUE PODEM SER ENCONTRANDOS EM TEXTOS-->
+
+	<category id="MISC" name="Gramática Geral">
+	
+	<!-- CONFUNDIR MENSAGEM POR MEMSAGEM -->
+	
+		<!-- Confusion MENSAGEM != MEMSAGEM -->
+		<rule id="MEMSAGEM_MENSAGEM" name="Troca MEMSAGEM por MENSAGEM">
+			<pattern>
+				<marker>
+					<token>memsagem</token>
+				</marker>	
+			</pattern>
+			<message>Substitua mensagem por <suggestion>mensagem</suggestion>.</message>
+			<example correction="mensagem">Desculpe a minha <marker>memsagem</marker>.</example>
+		</rule>
+		
+	<!-- FIM MENSAGEM POR MEMSAGEM -->
+	<!-- ********************************************************** -->
+	<!-- CONFUNDIR EQUIPE POR EQUIPA/AS -->
+		
+		<rule id="EQUIPA" name="equipe">
+			<pattern>
+				<marker>
+					<token>equipa</token>
+				</marker>
+			</pattern>
+			<message>Substituir «equipa» por <suggestion>equipe</suggestion>.</message>
+			<example correction="equipe">Devemos trabalhar em <marker>equipa</marker>.</example>
+		</rule>
+		
+		<rule id="EQUIPAS" name="equipes">
+			<pattern>
+				<marker>
+					<token>equipas</token>
+				</marker>
+			</pattern>
+			<message>Substituir «equipas» por <suggestion>equipes</suggestion>.</message>
+			<example correction="equipes">Devemos trabalhar em <marker>equipas</marker>.</example>
+		</rule>
+		
+		
+		
+	<!-- FIM EQUIPE POR EQUIPE/AS -->
+	<!-- ********************************************************** -->
+	<!-- CONFUNDIR MANUTENÇÃO POR MANUTENSÃO/ES -->
+	
+		<rule id="MANUTENSÃO" name="manutenção">
+			<pattern>
+				<marker>
+					<token>manutensão</token>
+				</marker>	
+			</pattern>
+			<message>Substitua «manutensão» por <suggestion>manutenção</suggestion>.</message>
+			<example correction="manutenção">Eu levei meu computador para a <marker>manutensão</marker>.</example>
+		</rule>
+		
+		<rule id="MANUTENSÕES" name="manutenções">
+			<pattern>
+				<marker>
+					<token>manutensões</token>
+				</marker>	
+			</pattern>
+			<message>Substitua «manutensões» por <suggestion>manutenções</suggestion>.</message>
+			<example correction="manutenççoes">Meus dispostivos passaram por <marker>manutensões</marker>.</example>
+		</rule>
+		
+	<!-- FIM MANUTENÇÃO POR MANUITNESÃO/ES -->
+	<!-- ********************************************************** -->	
+	<!-- CONFUNDIR ESPECIFICAR POR ESPESIFICAR/RAM -->
+		
+		<rule id="ESPESIFICAR" name="especificar">
+			<pattern>
+				<marker>
+					<token>espesificar</token>
+				</marker>	
+			</pattern>
+			<message>Substitua «espesificar» por <suggestion>especificar</suggestion>.</message>
+			<example correction="especificar">Vamos <marker>espesificar</marker> os requisitos para o cliente.</example>
+		</rule>
+		
+		<rule id="ESPESIFICARAM" name="especificaram">
+			<pattern>
+				<marker>
+					<token>espesificaram</token>
+				</marker>	
+			</pattern>
+			<message>Substitua «espesificaram» por <suggestion>especificaram</suggestion>.</message>
+			<example correction="especificaram">Vocês <marker>espesificaram</marker> os requisitos para o cliente.</example>
+		</rule>
+	
+	<!-- FIM ESPECIFICAR POR ESPECIFICAR/RAM -->
+	<!-- ********************************************************** -->
+	<!-- CONFUNDIR A GENTE POR AGENTE -->
+		
+		<rule id="AGENTE" name="a gente">
+			<pattern>
+				<token negate="yes" regexp="yes">o|a|um</token>
+				<marker>
+					<token>agente</token>	  
+				</marker>		
+			</pattern>
+			<message>Substitua «agente» por <suggestion>a gente</suggestion>.</message>
+			<example correction="a gente"><marker>A gente</marker> completou o questionário.</example>
+		</rule>
+	
+	<!-- FIM A GENTE POR AGENTE -->
+	<!-- ********************************************************** -->
+	<!-- CONFUNDIR A GENTE POR AGENTE -->
+		
+		<rule id="AGENTE" name="a gente">
+			<pattern>
+				<token negate="yes" regexp="yes">o|a|um</token>
+				<marker>
+					<token>agente</token>	  
+				</marker>		
+			</pattern>
+			<message>Substitua «agente» por <suggestion>a gente</suggestion>.</message>
+			<example correction="a gente"><marker>A gente</marker> completou o questionário.</example>
+		</rule>
+	
+	<!-- FIM A GENTE POR AGENTE -->
+	<!-- ********************************************************** -->
+	<!-- CONFUNDIR FAÇO POR FASSO -->
+		
+		<rule id="FASSO" name="faço">
+			<pattern>
+				<marker>
+					<token>fasso</token>	  
+				</marker>		
+			</pattern>
+			<message>Substitua «fasso» por <suggestion>faço</suggestion>.</message>
+			<example correction="faço">Eu<marker>fasso</marker> os serviços domésticos.</example>
+		</rule>
+	
+	<!-- FIM FAÇO POR FASSO -->
+	<!-- ********************************************************** -->
+	<!-- CONFUNDIR MAIS(QUANTIDADE) POR MAS(CONJUNÇÃO) -->
+		
+		<rule id="MAS" name="mais">
+			<pattern>
+				<token negate="yes" regexp="yes">quanto|quero</token>
+				<marker>
+					<token>mas</token>	  
+				</marker>		
+			</pattern>
+			<message>Substitua «mas» por <suggestion>mais</suggestion>.</message>
+			<example correction="mais">Quanto <marker>mas</marker> eu falo, pior fica.</example>
+		</rule>
+		
+		<rule id="QUERO_MAS" name="quero mais">
+			<pattern>
+				<token>quero</token>
+				<token>mas</token>
+				<token>de</token>
+				<token>você</token>
+			</pattern>
+			<message>Substitua «quero mas de você» por <suggestion>quero mais de você</suggestion>.</message>
+			<example correction="quero mais de você">Eu <marker>quero mas de você</marker>.</example>
+		</rule>
+	
+	<!-- FIM MAIS(QUANTIDADE) POR MAS(CONJUNÇÃO) -->
+	<!-- ********************************************************** -->
+	<!-- CONFUNDIR ABENÇOE POR ABENÇÕE -->
+		
+		<rule id="ABENÇÕE" name="abençoe">
+			<pattern>
+				<marker>
+					<token>abençõe</token>	  
+				</marker>		
+			</pattern>
+			<message>Substitua «abençõe» por <suggestion>abençoe</suggestion>.</message>
+			<example correction="abençoe">Deus te <marker>abençoe</marker>.</example>
+		</rule>
+	
+	<!-- FIM ABENÇOE POR ABENÇÕE -->
+	<!-- ********************************************************** -->
+	<!-- CONFUNDIR ME POR MIM ANTES DE VERBO -->
+		
+		<rule id="MIM" name="me">
+			<pattern>
+				<token>mim</token>
+				<token regexp="yes">faça?|fazer?|não?|ajuda?|ajudar?|lembra?|lembrar?|vou?|digo?|beijar?</token>		
+			</pattern>
+			<message>O pronome «mim» não deve ser usado antes de um verbo, use <suggestion>me</suggestion>.</message>
+			<example correction="me"><marker>Mim</marker> ajuda por favor.</example>
+		</rule>
+		
+		
+	<!-- FIM ME POR MIM ANTES DE VERBO -->
+	<!-- ********************************************************** -->
+	
+	<!-- CONFUNDIR COM CERTEZA POR COMCERTEZA/CONCERTEZA -->
+		
+		<rule id="COMCERTEZA" name="com certeza">
+			<pattern>
+				<marker>
+					<token>comcerteza</token>
+				</marker>
+			</pattern>
+			<message>Substitua «comcerteza» por <suggestion>com certeza</suggestion>.</message>
+			<example correction="com certeza"><marker>Comcerteza</marker> eu vou na festa.</example>
+		</rule>
+		
+		<rule id="CONCERTEZA" name="com certeza">
+			<pattern>
+				<marker>
+					<token>concerteza</token>
+				</marker>
+			</pattern>
+			<message>Substitua «concerteza» por <suggestion>com certeza</suggestion>.</message>
+			<example correction="com certeza"><marker>Concerteza</marker> eu vou na festa.</example>
+		</rule>
+		
+	<!-- CONFUNDIR COM CERTEZA POR COMCERTEZA/CONCERTEZA -->
+	<!-- ********************************************************** -->
+	<!-- CONFUNDIR MENOS POR MENAS -->
+		
+		<rule id="MENAS" name="menos">
+			<pattern>
+				<marker>
+					<token>menas</token>	  
+				</marker>		
+			</pattern>
+			<message>O Advérbio <suggestion>menos</suggestion> não sofre alteração de gênero.</message>
+			<example correction="Menos"><marker>Menas</marker> chances de vencer.</example>
+		</rule>
+		
+	
+	<!-- FIM MENOS POR MENAS -->
+	<!-- ********************************************************** -->
+	<!-- CONFUNDIR ÀS VEZES POR AS VEZES || AS VESES -->
+		
+		<rule id="AS_VEZES" name="às vezes">
+			<pattern>
+				<marker>
+					<token>as</token>
+					<token>vezes</token>					
+				</marker>		
+			</pattern>
+			<message>Substitua «as vezes» por <suggestion>às vezes</suggestion>.</message>
+			<example correction="às vezes"><marker>As vezes</marker> precisamos ter calma.</example>
+		</rule>
+		
+		<rule id="AS_VESES" name="às vezes">
+			<pattern>
+				<marker>
+					<token>as</token>
+					<token>veses</token>					
+				</marker>		
+			</pattern>
+			<message>Substitua «as veses» por <suggestion>às vezes</suggestion>.</message>
+			<example correction="às vezes"><marker>As veses</marker> precisamos ter calma.</example>
+		</rule>
+	
+	<!-- FIM ÀS VEZES POR AS VEZES || AS VESES -->
+	<!-- ********************************************************** -->
+	<!-- CONFUNDIR NADA A VER POR NADA HAVER -->
+		
+		<rule id="NADA_HAVER" name="nada a ver">
+			<pattern>
+				<marker>
+					<token>nada</token>
+					<token>haver</token>					
+				</marker>		
+			</pattern>
+			<message>Substitua «nada haver» por <suggestion>nada a ver</suggestion>.</message>
+			<example correction="nada a ver">Essa história é <marker>nada haver</marker>.</example>
+		</rule>
+	
+	<!-- FIM NADA A VER POR NADA HAVER -->
+	<!-- ********************************************************** -->
+	<!-- CONFUNDIR DE REPENTE POR DERREPENTE || DEREPENTE -->
+		
+		<rule id="DERREPENTE" name="de repente">
+			<pattern>
+				<marker>
+					<token>derrepente</token>				
+				</marker>		
+			</pattern>
+			<message>Substitua «derrepente» por <suggestion>de repente</suggestion>.</message>
+			<example correction="de repente"><marker>Derrepente</marker>você apareceu.</example>
+		</rule>
+		
+		<rule id="DEREPENTE" name="de repente">
+			<pattern>
+				<marker>
+					<token>derepente</token>				
+				</marker>		
+			</pattern>
+			<message>Substitua «derepente» por <suggestion>de repente</suggestion>.</message>
+			<example correction="de repente"><marker>Derepente</marker>você apareceu.</example>
+		</rule>
+	
+	<!-- FIM NADA A VER POR NADA HAVER || DEREPENTE -->
+	<!-- ********************************************************** -->
+	
+<!-- FIM DAS REGRAS DESENVOLVIDAS -->
+</category>
+
+</rules>
