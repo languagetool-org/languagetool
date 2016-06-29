@@ -13,24 +13,10 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 
 	<category id="MISC" name="Gramática Geral">
 	
-	<!-- CONFUNDIR MENSAGEM POR MEMSAGEM -->
-	
-		<!-- Confusion MENSAGEM != MEMSAGEM -->
-		<rule id="MEMSAGEM_MENSAGEM" name="Troca MEMSAGEM por MENSAGEM">
-			<pattern>
-				<marker>
-					<token>memsagem</token>
-				</marker>	
-			</pattern>
-			<message>Substitua mensagem por <suggestion>mensagem</suggestion>.</message>
-			<example correction="mensagem">Desculpe a minha <marker>memsagem</marker>.</example>
-		</rule>
-		
-	<!-- FIM MENSAGEM POR MEMSAGEM -->
 	<!-- ********************************************************** -->
 	<!-- CONFUNDIR EQUIPE POR EQUIPA/AS -->
 		
-		<rule id="EQUIPA" name="equipe">
+		<rule id="EQUIPA_BR" name="equipe">
 			<pattern>
 				<marker>
 					<token>equipa</token>
@@ -40,7 +26,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 			<example correction="equipe">Devemos trabalhar em <marker>equipa</marker>.</example>
 		</rule>
 		
-		<rule id="EQUIPAS" name="equipes">
+		<rule id="EQUIPAS_BR" name="equipes">
 			<pattern>
 				<marker>
 					<token>equipas</token>
@@ -51,36 +37,11 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 		</rule>
 		
 		
-		
 	<!-- FIM EQUIPE POR EQUIPE/AS -->
 	<!-- ********************************************************** -->
-	<!-- CONFUNDIR MANUTENÇÃO POR MANUTENSÃO/ES -->
-	
-		<rule id="MANUTENSÃO" name="manutenção">
-			<pattern>
-				<marker>
-					<token>manutensão</token>
-				</marker>	
-			</pattern>
-			<message>Substitua «manutensão» por <suggestion>manutenção</suggestion>.</message>
-			<example correction="manutenção">Eu levei meu computador para a <marker>manutensão</marker>.</example>
-		</rule>
-		
-		<rule id="MANUTENSÕES" name="manutenções">
-			<pattern>
-				<marker>
-					<token>manutensões</token>
-				</marker>	
-			</pattern>
-			<message>Substitua «manutensões» por <suggestion>manutenções</suggestion>.</message>
-			<example correction="manutenççoes">Meus dispostivos passaram por <marker>manutensões</marker>.</example>
-		</rule>
-		
-	<!-- FIM MANUTENÇÃO POR MANUITNESÃO/ES -->
-	<!-- ********************************************************** -->	
 	<!-- CONFUNDIR ESPECIFICAR POR ESPESIFICAR/RAM -->
 		
-		<rule id="ESPESIFICAR" name="especificar">
+		<rule id="ESPESIFICAR_BR" name="especificar">
 			<pattern>
 				<marker>
 					<token>espesificar</token>
@@ -90,7 +51,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 			<example correction="especificar">Vamos <marker>espesificar</marker> os requisitos para o cliente.</example>
 		</rule>
 		
-		<rule id="ESPESIFICARAM" name="especificaram">
+		<rule id="ESPESIFICARAM_BR" name="especificaram">
 			<pattern>
 				<marker>
 					<token>espesificaram</token>
@@ -104,22 +65,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 	<!-- ********************************************************** -->
 	<!-- CONFUNDIR A GENTE POR AGENTE -->
 		
-		<rule id="AGENTE" name="a gente">
-			<pattern>
-				<token negate="yes" regexp="yes">o|a|um</token>
-				<marker>
-					<token>agente</token>	  
-				</marker>		
-			</pattern>
-			<message>Substitua «agente» por <suggestion>a gente</suggestion>.</message>
-			<example correction="a gente"><marker>A gente</marker> completou o questionário.</example>
-		</rule>
-	
-	<!-- FIM A GENTE POR AGENTE -->
-	<!-- ********************************************************** -->
-	<!-- CONFUNDIR A GENTE POR AGENTE -->
-		
-		<rule id="AGENTE" name="a gente">
+		<rule id="AGENTE_BR" name="a gente">
 			<pattern>
 				<token negate="yes" regexp="yes">o|a|um</token>
 				<marker>
@@ -134,7 +80,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 	<!-- ********************************************************** -->
 	<!-- CONFUNDIR FAÇO POR FASSO -->
 		
-		<rule id="FASSO" name="faço">
+		<rule id="FASSO_BR" name="faço">
 			<pattern>
 				<marker>
 					<token>fasso</token>	  
@@ -148,7 +94,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 	<!-- ********************************************************** -->
 	<!-- CONFUNDIR MAIS(QUANTIDADE) POR MAS(CONJUNÇÃO) -->
 		
-		<rule id="MAS" name="mais">
+		<rule id="MAS_BR" name="mais">
 			<pattern>
 				<token negate="yes" regexp="yes">quanto|quero</token>
 				<marker>
@@ -159,7 +105,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 			<example correction="mais">Quanto <marker>mas</marker> eu falo, pior fica.</example>
 		</rule>
 		
-		<rule id="QUERO_MAS" name="quero mais">
+		<rule id="QUERO_MAS_BR" name="quero mais">
 			<pattern>
 				<token>quero</token>
 				<token>mas</token>
@@ -174,7 +120,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 	<!-- ********************************************************** -->
 	<!-- CONFUNDIR ABENÇOE POR ABENÇÕE -->
 		
-		<rule id="ABENÇÕE" name="abençoe">
+		<rule id="ABENCOE_BR" name="abençoe">
 			<pattern>
 				<marker>
 					<token>abençõe</token>	  
@@ -188,7 +134,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 	<!-- ********************************************************** -->
 	<!-- CONFUNDIR ME POR MIM ANTES DE VERBO -->
 		
-		<rule id="MIM" name="me">
+		<rule id="MIM_BR" name="me">
 			<pattern>
 				<token>mim</token>
 				<token regexp="yes">faça?|fazer?|não?|ajuda?|ajudar?|lembra?|lembrar?|vou?|digo?|beijar?</token>		
@@ -203,7 +149,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 	
 	<!-- CONFUNDIR COM CERTEZA POR COMCERTEZA/CONCERTEZA -->
 		
-		<rule id="COMCERTEZA" name="com certeza">
+		<rule id="COMCERTEZA_BR" name="com certeza">
 			<pattern>
 				<marker>
 					<token>comcerteza</token>
@@ -213,7 +159,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 			<example correction="com certeza"><marker>Comcerteza</marker> eu vou na festa.</example>
 		</rule>
 		
-		<rule id="CONCERTEZA" name="com certeza">
+		<rule id="CONCERTEZA_BR" name="com certeza">
 			<pattern>
 				<marker>
 					<token>concerteza</token>
@@ -227,7 +173,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 	<!-- ********************************************************** -->
 	<!-- CONFUNDIR MENOS POR MENAS -->
 		
-		<rule id="MENAS" name="menos">
+		<rule id="MENAS_BR" name="menos">
 			<pattern>
 				<marker>
 					<token>menas</token>	  
@@ -242,7 +188,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 	<!-- ********************************************************** -->
 	<!-- CONFUNDIR ÀS VEZES POR AS VEZES || AS VESES -->
 		
-		<rule id="AS_VEZES" name="às vezes">
+		<rule id="AS_VEZES_BR" name="às vezes">
 			<pattern>
 				<marker>
 					<token>as</token>
@@ -253,7 +199,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 			<example correction="às vezes"><marker>As vezes</marker> precisamos ter calma.</example>
 		</rule>
 		
-		<rule id="AS_VESES" name="às vezes">
+		<rule id="AS_VESES_BR" name="às vezes">
 			<pattern>
 				<marker>
 					<token>as</token>
@@ -268,7 +214,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 	<!-- ********************************************************** -->
 	<!-- CONFUNDIR NADA A VER POR NADA HAVER -->
 		
-		<rule id="NADA_HAVER" name="nada a ver">
+		<rule id="NADA_HAVER_BR" name="nada a ver">
 			<pattern>
 				<marker>
 					<token>nada</token>
@@ -283,7 +229,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 	<!-- ********************************************************** -->
 	<!-- CONFUNDIR DE REPENTE POR DERREPENTE || DEREPENTE -->
 		
-		<rule id="DERREPENTE" name="de repente">
+		<rule id="DERREPENTE_BR" name="de repente">
 			<pattern>
 				<marker>
 					<token>derrepente</token>				
@@ -293,7 +239,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 			<example correction="de repente"><marker>Derrepente</marker>você apareceu.</example>
 		</rule>
 		
-		<rule id="DEREPENTE" name="de repente">
+		<rule id="DEREPENTE_BR" name="de repente">
 			<pattern>
 				<marker>
 					<token>derepente</token>				
