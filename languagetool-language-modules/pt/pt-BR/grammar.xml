@@ -6,6 +6,21 @@ title="Easy editing stylesheet" ?>
 <!--
 Portuguese Brazilian - Grammar and Typo Rules for LanguageTool.
 Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+
 -->
 <rules lang="pt-BR" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -13,67 +28,17 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 
 	<category id="MISC" name="Gramática Geral">
 	
-	<!-- ********************************************************** -->
-	<!-- CONFUNDIR EQUIPE POR EQUIPA/AS -->
-		
-		<rule id="EQUIPA_BR" name="equipe">
-			<pattern>
-				<marker>
-					<token>equipa</token>
-				</marker>
-			</pattern>
-			<message>Substituir «equipa» por <suggestion>equipe</suggestion>.</message>
-			<example correction="equipe">Devemos trabalhar em <marker>equipa</marker>.</example>
-		</rule>
-		
-		<rule id="EQUIPAS_BR" name="equipes">
-			<pattern>
-				<marker>
-					<token>equipas</token>
-				</marker>
-			</pattern>
-			<message>Substituir «equipas» por <suggestion>equipes</suggestion>.</message>
-			<example correction="equipes">Devemos trabalhar em <marker>equipas</marker>.</example>
-		</rule>
-		
-		
-	<!-- FIM EQUIPE POR EQUIPE/AS -->
-	<!-- ********************************************************** -->
-	<!-- CONFUNDIR ESPECIFICAR POR ESPESIFICAR/RAM -->
-		
-		<rule id="ESPESIFICAR_BR" name="especificar">
-			<pattern>
-				<marker>
-					<token>espesificar</token>
-				</marker>	
-			</pattern>
-			<message>Substitua «espesificar» por <suggestion>especificar</suggestion>.</message>
-			<example correction="especificar">Vamos <marker>espesificar</marker> os requisitos para o cliente.</example>
-		</rule>
-		
-		<rule id="ESPESIFICARAM_BR" name="especificaram">
-			<pattern>
-				<marker>
-					<token>espesificaram</token>
-				</marker>	
-			</pattern>
-			<message>Substitua «espesificaram» por <suggestion>especificaram</suggestion>.</message>
-			<example correction="especificaram">Vocês <marker>espesificaram</marker> os requisitos para o cliente.</example>
-		</rule>
-	
-	<!-- FIM ESPECIFICAR POR ESPECIFICAR/RAM -->
-	<!-- ********************************************************** -->
 	<!-- CONFUNDIR A GENTE POR AGENTE -->
 		
 		<rule id="AGENTE_BR" name="a gente">
 			<pattern>
-				<token negate="yes" regexp="yes">o|a|um</token>
+				<token regexp="yes">com|como|quanto|mais|mas</token>
 				<marker>
 					<token>agente</token>	  
 				</marker>		
 			</pattern>
 			<message>Substitua «agente» por <suggestion>a gente</suggestion>.</message>
-			<example correction="a gente"><marker>A gente</marker> completou o questionário.</example>
+			<example correction="a gente">Você vai com <marker>agente</marker> naquela festa.</example>
 		</rule>
 	
 	<!-- FIM A GENTE POR AGENTE -->
@@ -87,7 +52,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 				</marker>		
 			</pattern>
 			<message>Substitua «fasso» por <suggestion>faço</suggestion>.</message>
-			<example correction="faço">Eu<marker>fasso</marker> os serviços domésticos.</example>
+			<example correction="faço">Eu <marker>fasso</marker> os serviços domésticos.</example>
 		</rule>
 	
 	<!-- FIM FAÇO POR FASSO -->
@@ -96,7 +61,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 		
 		<rule id="MAS_BR" name="mais">
 			<pattern>
-				<token negate="yes" regexp="yes">quanto|quero</token>
+				<token regexp="yes">quanto|quero</token>
 				<marker>
 					<token>mas</token>	  
 				</marker>		
@@ -127,7 +92,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 				</marker>		
 			</pattern>
 			<message>Substitua «abençõe» por <suggestion>abençoe</suggestion>.</message>
-			<example correction="abençoe">Deus te <marker>abençoe</marker>.</example>
+			<example correction="abençoe">Deus te <marker>abençõe</marker>.</example>
 		</rule>
 	
 	<!-- FIM ABENÇOE POR ABENÇÕE -->
@@ -136,12 +101,15 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 		
 		<rule id="MIM_BR" name="me">
 			<pattern>
-				<token>mim</token>
-				<token regexp="yes">faça?|fazer?|não?|ajuda?|ajudar?|lembra?|lembrar?|vou?|digo?|beijar?</token>		
+			    <marker>
+			        <token>mim</token>
+			    </marker>
+				<token regexp="yes">faça|fazer|ajuda|ajudar|lembra|lembrar|vou|irei|irá|digo|direi|dizer|beijar</token>
 			</pattern>
 			<message>O pronome «mim» não deve ser usado antes de um verbo, use <suggestion>me</suggestion>.</message>
-			<example correction="me"><marker>Mim</marker> ajuda por favor.</example>
+			<example correction="me">Você consegue <marker>mim</marker> ajudar.</example>
 		</rule>
+
 		
 		
 	<!-- FIM ME POR MIM ANTES DE VERBO -->
@@ -156,7 +124,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 				</marker>
 			</pattern>
 			<message>Substitua «comcerteza» por <suggestion>com certeza</suggestion>.</message>
-			<example correction="com certeza"><marker>Comcerteza</marker> eu vou na festa.</example>
+			<example correction="com certeza">Eu irei na festa <marker>comcerteza</marker>.</example>
 		</rule>
 		
 		<rule id="CONCERTEZA_BR" name="com certeza">
@@ -166,7 +134,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 				</marker>
 			</pattern>
 			<message>Substitua «concerteza» por <suggestion>com certeza</suggestion>.</message>
-			<example correction="com certeza"><marker>Concerteza</marker> eu vou na festa.</example>
+			<example correction="com certeza">Eu irei <marker>concerteza</marker> na sua festa.</example>
 		</rule>
 		
 	<!-- CONFUNDIR COM CERTEZA POR COMCERTEZA/CONCERTEZA -->
@@ -196,7 +164,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 				</marker>		
 			</pattern>
 			<message>Substitua «as vezes» por <suggestion>às vezes</suggestion>.</message>
-			<example correction="às vezes"><marker>As vezes</marker> precisamos ter calma.</example>
+			<example correction="às vezes">Eu <marker>as vezes</marker> fico triste.</example>
 		</rule>
 		
 		<rule id="AS_VESES_BR" name="às vezes">
@@ -207,7 +175,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 				</marker>		
 			</pattern>
 			<message>Substitua «as veses» por <suggestion>às vezes</suggestion>.</message>
-			<example correction="às vezes"><marker>As veses</marker> precisamos ter calma.</example>
+			<example correction="às vezes">Eu <marker>as veses</marker> não tenho calma.</example>
 		</rule>
 	
 	<!-- FIM ÀS VEZES POR AS VEZES || AS VESES -->
@@ -236,7 +204,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 				</marker>		
 			</pattern>
 			<message>Substitua «derrepente» por <suggestion>de repente</suggestion>.</message>
-			<example correction="de repente"><marker>Derrepente</marker>você apareceu.</example>
+			<example correction="de repente">E <marker>derrepente</marker> você apareceu.</example>
 		</rule>
 		
 		<rule id="DEREPENTE_BR" name="de repente">
@@ -246,7 +214,7 @@ Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
 				</marker>		
 			</pattern>
 			<message>Substitua «derepente» por <suggestion>de repente</suggestion>.</message>
-			<example correction="de repente"><marker>Derepente</marker>você apareceu.</example>
+			<example correction="de repente">Você <marker>derepente</marker> apareceu.</example>
 		</rule>
 	
 	<!-- FIM NADA A VER POR NADA HAVER || DEREPENTE -->
