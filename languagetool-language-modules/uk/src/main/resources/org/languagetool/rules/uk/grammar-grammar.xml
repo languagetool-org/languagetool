@@ -895,7 +895,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
 
-        <rule id="WORD_REPEAT" name="Повторення слова">
+        <rule id="PIV_WITH_HOURS" name="Вживання «пів» з годинами">
             <pattern>
               <token>пів</token>
               <token postag_regexp="yes" postag="adj:f:v_rod.*" regexp="yes" inflected="yes">&hours;</token>
@@ -904,7 +904,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>(о) пів до <match no="2" postag_regexp="yes" postag="adj:f:v_rod.*"/></suggestion>
             <example correction="(о) пів на першу|(о) пів до першої"><marker>пів першої</marker> приїхав і він</example>
             <example>пів на першу приїхав і він</example>
-          </rule>
+        </rule>
+
+        <rule id="U_YEAR" name="У XXXX року">
+            <pattern>
+              <token regexp="yes">[ув]</token>
+              <token regexp="yes">[0-9]{4}</token>
+              <token>року</token>
+            </pattern>
+            <message>Правильно: <suggestion><match no="1"/> <match no="2"/> році</suggestion></message>
+            <suggestion><match no="2"/> року</suggestion>
+            <example correction="в 2010 році|2010 року">ще <marker>в 2010 року</marker></example>
+            <example>в 60-х роках</example>
+        </rule>
 
     </category>
 
