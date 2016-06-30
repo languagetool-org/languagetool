@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="../print.xsl" 
-title="Pretty print" ?>
-<?xml-stylesheet type="text/css" href="../rules.css" 
-title="Easy editing stylesheet" ?>
+<?xml-stylesheet type="text/xsl" href="../print.xsl"
+		title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../rules.css"
+		title="Easy editing stylesheet" ?>
 <!--
 Portuguese Brazilian - Grammar and Typo Rules for LanguageTool.
 Copyright (c) 2016 Matheus Otavio Poletto (https://github.com/MatheusPoletto).
@@ -24,52 +24,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <rules lang="pt-BR" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-<!--ERROS QUE PODEM SER ENCONTRANDOS EM TEXTOS-->
+	<!--ERROS QUE PODEM SER ENCONTRANDOS EM TEXTOS-->
 
 	<category id="MISC" name="Gramática Geral">
-	
-	<!-- CONFUNDIR A GENTE POR AGENTE -->
-		
+
+		<!-- CONFUNDIR A GENTE POR AGENTE -->
+
 		<rule id="AGENTE_BR" name="a gente">
 			<pattern>
 				<token regexp="yes">com|como|quanto|mais|mas</token>
 				<marker>
-					<token>agente</token>	  
-				</marker>		
+					<token>agente</token>
+				</marker>
 			</pattern>
 			<message>Substitua «agente» por <suggestion>a gente</suggestion>.</message>
 			<example correction="a gente">Você vai com <marker>agente</marker> naquela festa.</example>
 		</rule>
-	
-	<!-- FIM A GENTE POR AGENTE -->
-	<!-- ********************************************************** -->
-	<!-- CONFUNDIR FAÇO POR FASSO -->
-		
+
+		<!-- FIM A GENTE POR AGENTE -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR FAÇO POR FASSO -->
+
 		<rule id="FASSO_BR" name="faço">
 			<pattern>
 				<marker>
-					<token>fasso</token>	  
-				</marker>		
+					<token>fasso</token>
+				</marker>
 			</pattern>
 			<message>Substitua «fasso» por <suggestion>faço</suggestion>.</message>
 			<example correction="faço">Eu <marker>fasso</marker> os serviços domésticos.</example>
 		</rule>
-	
-	<!-- FIM FAÇO POR FASSO -->
-	<!-- ********************************************************** -->
-	<!-- CONFUNDIR MAIS(QUANTIDADE) POR MAS(CONJUNÇÃO) -->
-		
+
+		<!-- FIM FAÇO POR FASSO -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR MAIS(QUANTIDADE) POR MAS(CONJUNÇÃO) -->
+
 		<rule id="MAS_BR" name="mais">
 			<pattern>
 				<token regexp="yes">quanto|quero</token>
 				<marker>
-					<token>mas</token>	  
-				</marker>		
+					<token>mas</token>
+				</marker>
 			</pattern>
 			<message>Substitua «mas» por <suggestion>mais</suggestion>.</message>
 			<example correction="mais">Quanto <marker>mas</marker> eu falo, pior fica.</example>
 		</rule>
-		
+
 		<rule id="QUERO_MAS_BR" name="quero mais">
 			<pattern>
 				<token>quero</token>
@@ -80,43 +80,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 			<message>Substitua «quero mas de você» por <suggestion>quero mais de você</suggestion>.</message>
 			<example correction="quero mais de você">Eu <marker>quero mas de você</marker>.</example>
 		</rule>
-	
-	<!-- FIM MAIS(QUANTIDADE) POR MAS(CONJUNÇÃO) -->
-	<!-- ********************************************************** -->
-	<!-- CONFUNDIR ABENÇOE POR ABENÇÕE -->
-		
+
+		<!-- FIM MAIS(QUANTIDADE) POR MAS(CONJUNÇÃO) -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR ABENÇOE POR ABENÇÕE -->
+
 		<rule id="ABENCOE_BR" name="abençoe">
 			<pattern>
 				<marker>
-					<token>abençõe</token>	  
-				</marker>		
+					<token>abençõe</token>
+				</marker>
 			</pattern>
 			<message>Substitua «abençõe» por <suggestion>abençoe</suggestion>.</message>
 			<example correction="abençoe">Deus te <marker>abençõe</marker>.</example>
 		</rule>
-	
-	<!-- FIM ABENÇOE POR ABENÇÕE -->
-	<!-- ********************************************************** -->
-	<!-- CONFUNDIR ME POR MIM ANTES DE VERBO -->
-		
+
+		<!-- FIM ABENÇOE POR ABENÇÕE -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR ME POR MIM ANTES DE VERBO -->
+
 		<rule id="MIM_BR" name="me">
 			<pattern>
-			    <marker>
-			        <token>mim</token>
-			    </marker>
+				<marker>
+					<token>mim</token>
+				</marker>
 				<token regexp="yes">faça|fazer|ajuda|ajudar|lembra|lembrar|vou|irei|irá|digo|direi|dizer|beijar</token>
 			</pattern>
 			<message>O pronome «mim» não deve ser usado antes de um verbo, use <suggestion>me</suggestion>.</message>
 			<example correction="me">Você consegue <marker>mim</marker> ajudar.</example>
 		</rule>
 
-		
-		
-	<!-- FIM ME POR MIM ANTES DE VERBO -->
-	<!-- ********************************************************** -->
-	
-	<!-- CONFUNDIR COM CERTEZA POR COMCERTEZA/CONCERTEZA -->
-		
+
+
+		<!-- FIM ME POR MIM ANTES DE VERBO -->
+		<!-- ********************************************************** -->
+
+		<!-- CONFUNDIR COM CERTEZA POR COMCERTEZA/CONCERTEZA -->
+
 		<rule id="COMCERTEZA_BR" name="com certeza">
 			<pattern>
 				<marker>
@@ -126,7 +126,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 			<message>Substitua «comcerteza» por <suggestion>com certeza</suggestion>.</message>
 			<example correction="com certeza">Eu irei na festa <marker>comcerteza</marker>.</example>
 		</rule>
-		
+
 		<rule id="CONCERTEZA_BR" name="com certeza">
 			<pattern>
 				<marker>
@@ -136,91 +136,292 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 			<message>Substitua «concerteza» por <suggestion>com certeza</suggestion>.</message>
 			<example correction="com certeza">Eu irei <marker>concerteza</marker> na sua festa.</example>
 		</rule>
-		
-	<!-- CONFUNDIR COM CERTEZA POR COMCERTEZA/CONCERTEZA -->
-	<!-- ********************************************************** -->
-	<!-- CONFUNDIR MENOS POR MENAS -->
-		
+
+		<!-- CONFUNDIR COM CERTEZA POR COMCERTEZA/CONCERTEZA -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR MENOS POR MENAS -->
+
 		<rule id="MENAS_BR" name="menos">
 			<pattern>
 				<marker>
-					<token>menas</token>	  
-				</marker>		
+					<token>menas</token>
+				</marker>
 			</pattern>
 			<message>O Advérbio <suggestion>menos</suggestion> não sofre alteração de gênero.</message>
 			<example correction="Menos"><marker>Menas</marker> chances de vencer.</example>
 		</rule>
-		
-	
-	<!-- FIM MENOS POR MENAS -->
-	<!-- ********************************************************** -->
-	<!-- CONFUNDIR ÀS VEZES POR AS VEZES || AS VESES -->
-		
+
+
+		<!-- FIM MENOS POR MENAS -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR ÀS VEZES POR AS VEZES || AS VESES -->
+
 		<rule id="AS_VEZES_BR" name="às vezes">
 			<pattern>
 				<marker>
 					<token>as</token>
-					<token>vezes</token>					
-				</marker>		
+					<token>vezes</token>
+				</marker>
 			</pattern>
 			<message>Substitua «as vezes» por <suggestion>às vezes</suggestion>.</message>
 			<example correction="às vezes">Eu <marker>as vezes</marker> fico triste.</example>
 		</rule>
-		
+
 		<rule id="AS_VESES_BR" name="às vezes">
 			<pattern>
 				<marker>
 					<token>as</token>
-					<token>veses</token>					
-				</marker>		
+					<token>veses</token>
+				</marker>
 			</pattern>
 			<message>Substitua «as veses» por <suggestion>às vezes</suggestion>.</message>
 			<example correction="às vezes">Eu <marker>as veses</marker> não tenho calma.</example>
 		</rule>
-	
-	<!-- FIM ÀS VEZES POR AS VEZES || AS VESES -->
-	<!-- ********************************************************** -->
-	<!-- CONFUNDIR NADA A VER POR NADA HAVER -->
-		
+
+		<!-- FIM ÀS VEZES POR AS VEZES || AS VESES -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR NADA A VER POR NADA HAVER -->
+
 		<rule id="NADA_HAVER_BR" name="nada a ver">
 			<pattern>
 				<marker>
 					<token>nada</token>
-					<token>haver</token>					
-				</marker>		
+					<token>haver</token>
+				</marker>
 			</pattern>
 			<message>Substitua «nada haver» por <suggestion>nada a ver</suggestion>.</message>
 			<example correction="nada a ver">Essa história é <marker>nada haver</marker>.</example>
 		</rule>
-	
-	<!-- FIM NADA A VER POR NADA HAVER -->
-	<!-- ********************************************************** -->
-	<!-- CONFUNDIR DE REPENTE POR DERREPENTE || DEREPENTE -->
-		
+
+		<!-- FIM NADA A VER POR NADA HAVER -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR DE REPENTE POR DERREPENTE || DEREPENTE -->
+
 		<rule id="DERREPENTE_BR" name="de repente">
 			<pattern>
 				<marker>
-					<token>derrepente</token>				
-				</marker>		
+					<token>derrepente</token>
+				</marker>
 			</pattern>
 			<message>Substitua «derrepente» por <suggestion>de repente</suggestion>.</message>
 			<example correction="de repente">E <marker>derrepente</marker> você apareceu.</example>
 		</rule>
-		
+
 		<rule id="DEREPENTE_BR" name="de repente">
 			<pattern>
 				<marker>
-					<token>derepente</token>				
-				</marker>		
+					<token>derepente</token>
+				</marker>
 			</pattern>
 			<message>Substitua «derepente» por <suggestion>de repente</suggestion>.</message>
 			<example correction="de repente">Você <marker>derepente</marker> apareceu.</example>
 		</rule>
-	
-	<!-- FIM NADA A VER POR NADA HAVER || DEREPENTE -->
-	<!-- ********************************************************** -->
-	
-<!-- FIM DAS REGRAS DESENVOLVIDAS -->
-</category>
+
+		<!-- FIM NADA A VER POR NADA HAVER || DEREPENTE -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR ÀS|À POR AS|A ANTES DA INDICAÇÃO PONTUAL DE HORAS|TERRA FIRME -->
+
+		<rule id="AS_PONTUAL_BR" name="Usar às pontual">
+			<pattern>
+				<marker>
+					<token>As</token>
+				</marker>
+				<token regexp="yes">uma|duas|três|quatro|cinco|seis|sete|oito|nove|dez|onze|doze</token>
+			</pattern>
+			<message>Substitua «as» por <suggestion>às</suggestion> se estiver fazendo indicação pontual de hora.</message>
+			<example correction="Às"><marker>As</marker> duas da tarde.</example>
+		</rule>
+
+		<rule id="A_TERRA_FIRME_BR" name="Usar à terra firme">
+			<pattern>
+				<marker>
+					<token>a</token>
+				</marker>
+				<token regexp="yes">terra</token>
+			</pattern>
+			<message>Substitua «a» por <suggestion>à</suggestion> se estiver usando a palavra terra no sentido chão firme.</message>
+			<example correction="à">Já chegaram <marker>a</marker> terra.</example>
+		</rule>
+
+		<!-- FIM ÀS|À POR AS|A ANTES DA INDICAÇÃO PONTUAL DE HORAS|TERRA FIRME -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR QUER SE POR QUER -->
+
+		<rule id="QUER_SE_BR" name="Quer">
+			<pattern>
+				<token>quer</token>
+				<token>se</token>
+			</pattern>
+			<message>Substitua «quer se» por <suggestion>quer</suggestion>.</message>
+			<example correction="quer">Ela <marker>quer se</marker> aparecer para todos.</example>
+		</rule>
+
+		<!-- FIM QUER SE POR QUER -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR DORMIU NO POR DORMIU AO -->
+
+		<rule id="DORMIU_NO_BR" name="Dormiu ao">
+			<pattern>
+				<token>dormiu</token>
+				<token>no</token>
+			</pattern>
+			<message>Substitua «dormiu no» por <suggestion>dormiu ao</suggestion>. Dormir a(preposição) com o respectivo artigo(o ou a)</message>
+			<example correction="dormiu ao">O motorista <marker>dormiu no</marker> volante.</example>
+		</rule>
+
+		<!-- FIM DORMIU NO POR DORMIU AO -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR PARASITO|S POR PARASITA|S QUANDO FOR PESSOA|ANIMAL -->
+
+		<rule id="PARASITO_BR" name="Parasita">
+			<pattern>
+				<token regexp="yes">um|autêntico|uma|de</token>
+				<marker>
+					<token>parasita</token>
+				</marker>
+			</pattern>
+			<message>Substitua «parasita» por <suggestion>parasito</suggestion> se estiver se referindo a pessoas ou animais.</message>
+			<example correction="parasito">Raquel age como um <marker>parasita</marker> da mãe.</example>
+		</rule>
+
+
+		<rule id="PARASITOS_BR" name="Parasita">
+			<pattern>
+				<token regexp="yes">um|autênticos|uma|de</token>
+				<marker>
+					<token>parasitas</token>
+				</marker>
+			</pattern>
+			<message>Substitua «parasitas» por <suggestion>parasitos</suggestion> se estiver se referindo a pessoas ou animais.</message>
+			<example correction="parasitos">Há sujeitos que são autênticos <marker>parasitas</marker> da sociedade.</example>
+		</rule>
+
+		<!-- FIM PARASITO|S POR PARASITA|S QUANDO FOR PESSOA|ANIMAL -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR ALERTA POR ALERTAS -->
+
+		<rule id="ALERTAS_BR" name="Alerta">
+			<pattern>
+				<marker>
+					<token>alertas</token>
+				</marker>
+			</pattern>
+			<message>Alerta é invariável para indicar número ou gênero com exceção de quando está acompanhado de um artigo (Ex: os).
+				Substitua «alertas» por <suggestion>alerta</suggestion>.</message>
+			<example correction="alerta">O comandante nos disse que ficássemos <marker>alertas</marker>.</example>
+		</rule>
+
+		<!-- FIM ALERTA POR ALERTAS -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR MENOR DE IDADE POR MENOR -->
+
+		<rule id="MENOR_IDADE_BR" name="Menor de idade">
+			<pattern>
+				<token>de</token>
+				<token>menor</token>
+				<token>.</token>
+			</pattern>
+			<message>Substitua «de menor.» por <suggestion>menor de idade.</suggestion></message>
+			<example correction="menor de idade.">A polícia não pode prendê-lo porque ele é <marker>de menor.</marker></example>
+		</rule>
+
+		<!-- FIM MENOR DE IDADE POR MENOR -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR O|A 3o, 4o, 5o por Os|As -->
+
+		<rule id="OS_PARAGRAFOS_BR" name="Usar o">
+			<pattern>
+				<marker>
+					<token>os</token>
+				</marker>
+				<token regexp="yes">2º|3º|4º|5º</token>
+			</pattern>
+			<message>Substitua «os» por <suggestion>o</suggestion>.</message>
+			<example correction="o">O juiz leu <marker>os</marker> 3º, 4º e 5º parágrafos.</example>
+		</rule>
+
+		<rule id="AS_PARAGRAFOS_BR" name="Usar a">
+			<pattern>
+				<marker>
+					<token>as</token>
+				</marker>
+				<token regexp="yes">2ª|3ª|4ª|5ª</token>
+			</pattern>
+			<message>Substitua «as» por <suggestion>a</suggestion>.</message>
+			<example correction="a">Este cartório serve <marker>as</marker> 2ª e 3ª varas de família.</example>
+		</rule>
+
+		<!-- FIM O|A 3o, 4o, 5o por Os|As -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR MIL POR UM MIL -->
+
+		<rule id="UM_MIL_BR" name="Mil">
+			<pattern>
+				<token>um</token>
+				<token>mil</token>
+			</pattern>
+			<message>Substitua «um mil» por <suggestion>mil</suggestion>.</message>
+			<example correction="mil">Ganho apenas <marker>um mil</marker> reais por mês.</example>
+		</rule>
+
+		<!-- FIM MIL POR UM MIL -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR TODA A AGUARDENTE POR TODO O -->
+
+		<rule id="O_AGUARDENTE_BR" name="A aguardente">
+			<pattern>
+				<token>todo</token>
+				<token>o</token>
+				<token>aguardente</token>
+			</pattern>
+			<message>Aguardente é uma palavra do gênero feminino. Substitua «todo o aguardente» por <suggestion>toda a aguardente</suggestion>.</message>
+			<example correction="toda a aguardente">Ele bebeu <marker>todo o aguardente</marker> que havia na garrafa.</example>
+		</rule>
+
+		<!-- FIM TODA A AGUARDENTE POR TODO O -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR NÃO É ADEQUEADO POR ÁDEQUA -->
+
+		<rule id="ADEQUA_BR" name="Não é adequado">
+			<pattern>
+				<token>não</token>
+				<token>se</token>
+				<token>ádequa</token>
+			</pattern>
+			<message>Substitua «não se ádequa» por <suggestion>não é adequado</suggestion>.</message>
+			<example correction="não é adequado">Você <marker>não se ádequa</marker> a vaga.</example>
+		</rule>
+
+		<!-- FIM NÃO É ADEQUEADO POR ÁDEQUA -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR CHEGAMOS A POR CHEGAMOS EM -->
+
+		<rule id="CHEGAMOS_EM_BR" name="Chegamos a">
+			<pattern>
+				<token>chegamos</token>
+				<token>em</token>
+			</pattern>
+			<message>O verbo de movimento chegar exige a preposição A. Substitua «chegamos em» por <suggestion>chegamos a</suggestion>.</message>
+			<example correction="chegamos a">Nós <marker>chegamos em</marker> São Paulo.</example>
+		</rule>
+
+		<!-- FIM CHEGAMOS A POR CHEGAMOS EM -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR ONDE POR AONDE -->
+
+		<rule id="AONDE_BR" name="Onde">
+			<pattern>
+				<token>aonde</token>
+				<token>você</token>
+			</pattern>
+			<message>Aonde só é utilizado com verbos de movimento. Substitua «aonde você» por <suggestion>onde você</suggestion>.</message>
+			<example correction="onde você">Ele me disse <marker>aonde você</marker> está.</example>
+		</rule>
+
+		<!-- FIM ONDE POR AONDE -->
+		<!-- ********************************************************** -->
+
+		<!-- FIM DAS REGRAS DESENVOLVIDAS -->
+	</category>
 
 </rules>
