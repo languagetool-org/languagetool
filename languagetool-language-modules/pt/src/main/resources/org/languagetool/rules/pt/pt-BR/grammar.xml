@@ -420,8 +420,211 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
 		<!-- FIM ONDE POR AONDE -->
 		<!-- ********************************************************** -->
+		<!-- CONFUNDIR ANEXOS POR ANEXO QUANDO É PLURAL -->
+	
+		<rule id="ANEXO_P_BR" name="Anexos">
+			<pattern>
+				<token>anexo</token>
+				<token>os</token>
+			</pattern>
+				<message>Anexo é um adjeito e deve concordar em gênero e número. Substitua «anexo os» por <suggestion>anexos os</suggestion>.</message>
+				<example correction="anexos os">Segue em <marker>anexo os</marker> documentos solicitados.</example>
+		</rule>
+		
+		<!-- FIM ANEXOS POR ANEXO QUANDO É PLURAL -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR ESTÁ QUITE COM ESTÁ QUITES SINGULAR -->
+		
+		<rule id="QUITE_P_BR" name="está quite">
+			<pattern>
+				<token>está</token>
+				<token>quites</token>
+			</pattern>
+			<message>Quite deve concordar com o substantivo que se refere. Substitua «está quites» por <suggestion>está quite</suggestion>.</message>
+			<example correction="está quite">O contribuente <marker>está quites</marker> com a receita federal.</example>
+		</rule>
+	
+		<!-- FIM ESTÁ QUITE COM ESTÁ QUITES SINGULAR -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR A MEU VER COM AO MEU VER -->
+		
+		<rule id="AO_MEU_VER_BR" name="A meu ver">
+			<pattern>
+				<token>Ao</token>
+				<token>meu</token>
+				<token>ver</token>
+			</pattern>
+			<message>Substitua «ao meu ver» por <suggestion>a meu ver</suggestion>.</message>
+			<example correction="A meu ver"><marker>Ao meu ver</marker>, o evento foi um sucesso.</example>
+		</rule>
+	
+		<!-- FIM A MEU VER COM AO MEU VER -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR SOMOS COM SOMOS EM -->
+		
+		<rule id="SOMOS_EM_BR" name="Somos">
+			<pattern>
+				<token>Somos</token>
+				<token>em</token>
+			</pattern>
+			<message>Substitua «somos em» por <suggestion>somos</suggestion>.</message>
+			<example correction="Somos"><marker>Somos em</marker> cinco auditores na empresa.</example>
+		</rule>
+	
+		<!-- FIM SOMOS COM SOMOS EM -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR A FIM (FINALIDADE) COM AFIM (ADJETIVO) -->
+		
+		<rule id="AFIM_BR" name="a fim">
+			<pattern>
+				<token>afim</token>
+				<token>de</token>
+			</pattern>
+			<message>Afim deve ser usado como adjetivo.Substitua «afim de» por <suggestion>a fim</suggestion>.</message>
+			<example correction="a fim">Nós viemos <marker>afim de</marker> discutir o projeto.</example>
+		</rule>
+	
+		<!-- FIM A FIM (FINALIDADE) COM AFIM(ADJEITO) -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR CHEGARAM A POR CHEGARAM EM (VERBO DE MOVIMENTO EXIGE A) -->
+		
+		<rule id="CHEGARAM_EM_BR" name="Chegaram a">
+			<pattern>
+				<token>chegaram</token>
+				<token>em</token>
+			</pattern>
+			<message>Verbos de movimento exigem a preposição A. Substitua «chegaram em» por <suggestion>chegaram a</suggestion>.</message>
+			<example correction="chegaram a">Os atletas <marker>chegaram em</marker> Curitiba na noite passada.</example>
+		</rule>
+	
+		<!-- FIM CHEGARAM A POR CHEGARAM EM (VERBO DE MOVIMENTO EXIGE A) -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR EXISTEM (VARIOS) COM EXISTE (UM) -->
+		
+		<rule id="EXISTE_VARIOS_BR" name="Existem varios">
+			<pattern>
+					<marker>
+						<token>existe</token>
+					</marker>
+					<token regexp="yes">vários|muitos</token>
+				</pattern>
+			<message>O verbo existir admite plural. Substitua «existe» por <suggestion>existem</suggestion>.</message>
+			<example correction="Existem"><marker>Existe</marker> muitos problemas nesta empresa.</example>
+		</rule>
+	
+		<!-- FIM EXISTEM (VARIOS) COM EXISTE (UM) -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR ASSISTIU AO (SENTIDO DE VER) ASSISTIU O -->
+		
+		<rule id="ASSISTIU_O_BR" name="Assistiu ao">
+			<pattern>
+					<token>assistiu</token>
+					<token>o</token>
+			</pattern>
+			<message>O verbo assistir no sentido de ver exige a preposição a. Substitua «assistiu o» por <suggestion>assistiu ao</suggestion>.</message>
+			<example correction="assistiu ao">Ele <marker>assistiu o</marker> o filme.</example>
+		</rule>
+	
+		<!-- FIM ASSISTIU AO (SENTIDO DE VER) ASSISTIU O -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR ENTRAR COM ENTRAR DENTRO -->
+		
+		<rule id="ENTRAR_DENTRO_BR" name="Entrar">
+			<pattern>
+					<token>entrar</token>
+					<token>dentro</token>
+			</pattern>
+			<message>Substitua «entrar dentro» por <suggestion>entrar</suggestion>.</message>
+			<example correction="Entrar"><marker>Entrar dentro</marker> na casa.</example>
+		</rule>
+	
+		<!-- FIM ENTRAR COM ENTRAR DENTRO -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR HAVIA MUITAS COM HAVIAM MUITAS -->
+		
+		<rule id="HAVIAM_MUITAS_BR" name="Havia muitas">
+			<pattern>
+					<token>haviam</token>
+					<token>muitas</token>
+			</pattern>
+			<message>Se o verbo haver está no sentido de existir, substitua «haviam muitas» por <suggestion>havia muitas</suggestion>.</message>
+			<example correction="Havia muitas"><marker>Haviam muitas</marker> pessoas no local.</example>
+		</rule>
+	
+		<!-- FIM HAVIA MUITAS COM HAVIAM MUITAS -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR NA RUA COM À RUA -->
+		
+		<rule id="A_RUA_BR" name="Na rua">
+			<pattern>
+					<token regexp="yes">residente|vive|estabelecido</token>
+					<marker>
+						<token>à</token>
+						<token>rua</token>
+					</marker>
+				</pattern>
+			<message>Substitua «à rua» por <suggestion>na rua</suggestion>.</message>
+			<example correction="na rua">José, residente <marker>à rua</marker> Estados Unidos.</example>
+		</rule>
+	
+		<!-- FIM NA RUA COM À RUA -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR CAIU (AUMENTAR E DIMINUIR) COM CAIU EM -->
+		
+		<rule id="CAIU_EM_BR" name="Caiu">
+			<pattern>
+					<token>caiu</token>
+					<token>em</token>
+			</pattern>
+			<message>O verbo cair no sentido aumentar e diminuir não admite a preposição em. Substitua «caiu em» por <suggestion>caiu</suggestion>.</message>
+			<example correction="caiu">O lucro <marker>caiu em</marker> 10%.</example>
+		</rule>
+	
+		<!-- FIM CAIU (AUMENTAR E DIMINUIR) COM CAIU EM -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR CONSISTE EM POR CONSISTE DE -->
+		
+		<rule id="CONSISTE_DE_BR" name="Consiste em">
+			<pattern>
+					<token>consiste</token>
+					<token>de</token>
+			</pattern>
+			<message>Consistir é um verbo transitivo indireto e requer a preposição em. Substitua «consiste de» por <suggestion>consiste em</suggestion>.</message>
+			<example correction="consiste em">A seleção <marker>consiste de</marker> cinco etapas.</example>
+		</rule>
+	
+		<!-- FIM CONSISTE EM POR CONSISTE DE -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR DAQUI A COM DAQUI -->
+		
+		<rule id="DAQUI_BR" name="Daqui a">
+			<pattern>
+				<marker>
+					<token>daqui</token>
+				</marker>
+				<token negate="yes">a</token>
+			</pattern>
+			<message>O advérbio daqui é usado para indicar lugar ou tempo e pede a preposição a. Substitua «daqui» por <suggestion>daqui a</suggestion>.</message>
+			<example correction="daqui a">Farei o pagamento <marker>daqui</marker> 5 dias.</example>
+		</rule>
+	
+		<!-- FIM DAQUI A COM DAQUI -->
+		<!-- ********************************************************** -->
+		<!-- CONFUNDIR QUANTO ANTES COM O QUANTO ANTES  -->
+		
+		<rule id="O_QUANTO_ANTES_BR" name="Quanto antes">
+			<pattern>
+					<token>o</token>
+					<token>quanto</token>
+					<token>antes</token>
+			</pattern>
+			<message>Antes da locução adverbial quanto antes não se usa artigo definido o. Substitua «o quanto antes» por <suggestion>quanto antes</suggestion>.</message>
+			<example correction="quanto antes">Voltarei ao escritório <marker>o quanto antes</marker>.</example>
+		</rule>
+	
+		<!-- FIM QUANTO ANTES COM O QUANTO ANTES  -->
+		<!-- ********************************************************** -->
 
 		<!-- FIM DAS REGRAS DESENVOLVIDAS -->
 	</category>
-
 </rules>
