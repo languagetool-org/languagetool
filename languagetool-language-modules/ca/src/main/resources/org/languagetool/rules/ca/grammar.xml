@@ -26073,15 +26073,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="TENIR_EN_COMTE_CONTE" name="tenir en comte/conte/compte">
             <pattern>
-                <token inflected="yes" skip="1">tenir</token>
+                <token inflected="yes">tenir</token>
+                <token postag="RG" min="0"/>
                 <marker>
                     <token>en</token>
-                    <token regexp="yes">co[mn]te</token>
+                    <token regexp="yes">co[mn]te|compta</token>
                 </marker>
             </pattern>
             <message>¿Volíeu dir <suggestion>en compte</suggestion>?</message>
             <short>Possible confusió</short>
             <example correction="en compte">tenir sempre <marker>en comte</marker></example>
+            <example correction="en compte">tenir sempre <marker>en compta</marker></example>
             <example>tenir en compte</example>
         </rule>
         <rule id="ANAR_AMB_COMTE_CONTE" name="anar amb comte/conte/compte">
