@@ -1,6 +1,6 @@
 #!/bin/sh
 
-./generate_replace.sh
+#./generate_replace.sh
 
 export PATH=$PATH:~/bin
 PWD=`pwd`

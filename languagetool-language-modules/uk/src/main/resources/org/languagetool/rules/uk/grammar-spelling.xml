@@ -307,6 +307,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
+          <token case_sensitive="yes">смт</token>
+          <token>.</token>
+        </pattern>
+        <message>Стягнені скорочення та метричні одиниці пишуться без крапки: <suggestion><match no="1"/></suggestion></message>
+        <example correction="смт">розташовано у <marker>смт.</marker> Луків.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token regexp="yes">[0-9,-]+|кв\.|куб\.</token>
           <marker>
             <token case_sensitive="yes">м</token>
@@ -336,6 +344,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="рр.">70-80 <marker>р.р.</marker></example>
       </rule>
     </rulegroup>
+    
+    <rulegroup id="NUMBER_TONN" name="Числівник + тонн">
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="num.*"/>
+          <marker>
+            <token>тон</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>тонн</suggestion></message>
+        <example correction="тонн">1600 <marker>тон</marker></example>
+        <example correction="тонн">п'ять <marker>тон</marker></example>
+      </rule>
+    </rulegroup>
+
 <!--
     <rulegroup id="LAT_CYR" name="Латиниця/кирилиця">
       <rule>

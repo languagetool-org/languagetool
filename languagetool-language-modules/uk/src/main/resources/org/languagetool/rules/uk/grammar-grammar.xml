@@ -918,6 +918,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>в 60-х роках</example>
         </rule>
 
+<!-- too many false positives
+        <rule id="YIH_YIHNIH" name="«Їх» замість «їхні»">
+            <antipattern>
+              <token>,</token>
+              <token>що</token>
+              <token>їх</token>
+            </antipattern>
+            <antipattern>
+              <token postag_regexp="yes" postag="verb.*"/>
+              <token>їх</token>
+              <token postag_regexp="yes" postag="noun.*:v_oru.*"/>
+            </antipattern>
+            <pattern>
+              <marker>
+                <token>їх</token>
+              </marker>
+              <token postag_regexp="yes" postag="noun.*">
+                <exception postag_regexp="yes" postag="noun.*pron.*|verb.*|conj.*|predic.*"></exception>
+              </token>
+            </pattern>
+            <message>Правильно: <suggestion>їхні</suggestion></message>
+            <example correction="їхні">в <marker>їх</marker> виробах</example>
+            <example>Там їх пов’язали</example>
+            <example>що їх він промовив того дня</example>
+            <example>переконав їх дати</example>
+            <example>Ми вибрали їх як безпосередній тягар</example>
+            <example>як їх треба озброювати</example>
+            <example>з трьома вимогами, що їх уряд ставить до АНК</example>
+            <example>ми вважали їх дверима</example>
+        </rule>
+-->
     </category>
 
 </rules>
