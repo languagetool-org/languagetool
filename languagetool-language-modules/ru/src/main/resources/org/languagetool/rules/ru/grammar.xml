@@ -5023,8 +5023,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=",">Я не заметил<marker>, что</marker> находится ли он в комнате.</example>
             </rule>
         </rulegroup>
-        
-        
+        <rulegroup default="on" id="B_S_kosvr" name="Большая или маленькая буква в цитате при передаче косвенной речи">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>,</token>
+                    <marker>
+                        <token>что</token>
+                        <token regexp="yes">["«]</token>
+                        <token regexp="yes">[А-Я].*<exception postag_regexp="yes" postag="NNN:.*|NNF:.*|NNP:.*"></exception></token>
+                    </marker>
+                    <token></token>
+                </pattern>
+                <message>Использование большой буквы в цитате при передаче косвенной речи является ошибкой: <suggestion><match no="2"></match> <match no="3"></match><match no="4" case_conversion="alllower"></match></suggestion></message>
+                <short>Требуется маленькая буква.</short>
+                <example>Как сказал А.П. Чехов, что «в человеке должно быть все прекрасно».</example>
+                <example correction="что «в">Как сказал А.П. Чехов, <marker>что «В</marker> человеке должно быть все прекрасно».</example>
+            </rule>
+        </rulegroup>
         
         <rulegroup default="on" id="bolee_ili_menee_k" name="Словосочетание «более или менее конкретны»">
             <rule>
