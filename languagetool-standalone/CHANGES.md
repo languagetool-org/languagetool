@@ -2,6 +2,10 @@
 
 ## 3.5 (release planned for 2016-09-29)
 
+#### Russian
+  * added some rules
+  * added words suggested by users
+
 #### General
   * Bugfix: avoid repeating the same suggestion
 
