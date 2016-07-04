@@ -37,7 +37,6 @@ import java.util.List;
  * Write rule matches and some meta information as JSON.
  * @since 3.4
  */
-@Experimental
 class RuleMatchesAsJsonSerializer {
 
   private static final int API_VERSION = 1;
