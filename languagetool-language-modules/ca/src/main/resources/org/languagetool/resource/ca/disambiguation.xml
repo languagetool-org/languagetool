@@ -2611,14 +2611,23 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="N.*" />
         </rule>
     </rulegroup>
+    <rule id="en_sec" name="en sec"> <!-- Exception to next rule -->
+        <pattern>
+            <token>en</token>
+            <marker>
+                <token>sec</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="A.*" />
+    </rule>
     <rule id="en_persona" name="en persona"> <!-- Exception to next rule -->
         <pattern>
             <token>en</token>
             <marker>
-                <token regexp="yes">persona|vers|sec</token>
+                <token regexp="yes">persona|vers</token>
             </marker>
         </pattern>
-        <disambig action="filter" postag="N.*|A.*" />
+        <disambig action="filter" postag="N.*" />
     </rule>
     <rulegroup id="TerPersPresSing" name="verb tercera persona present singular ">
         <!-- també qualsevol nom comú o nom+adj ??-->
