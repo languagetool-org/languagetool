@@ -10003,6 +10003,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="MARACA_MARCA" name="*maraca/marca">
+            <antipattern>
+                <marker>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token skip="-1" inflected="yes" regexp="yes">castanyola|matraca|plat|xilòfon|percussió|pandereta|sonall|sonar|tocar|sacsejar|agitar</token>
+                    <token postag="SENT_END"/>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">mara(ca|ques)</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)mara(ca|ques)" regexp_replace="mar$1"/></suggestion> en comptes de "<match no="1"/>" (instrument musical)?</message>
+            <example correction="marca">Posa una <marker>maraca</marker> a la paraula.</example>
+            <example correction="marques">Poseu <marker>maraques</marker>.</example>
+            <example>Tocava les maraques.</example>
+        </rule>
         <rule id="TAN_SOL_TAN_SOLS" name="tan sol/tan sols">
             <antipattern>
                 <marker>
