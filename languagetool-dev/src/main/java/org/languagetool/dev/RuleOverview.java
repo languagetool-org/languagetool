@@ -175,9 +175,7 @@ public final class RuleOverview {
       String maintainerInfo = getMaintainerInfo(lang);
       String maintainerText;
       boolean greyOutMaintainer = false;
-      if (langCode.equals("pt")) {
-        maintainerText = "<span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for a maintainer for Brazilian Portuguese</a></span> - ";
-      } else if (lang.getMaintainedState() != LanguageMaintainedState.ActivelyMaintained) {
+      if (lang.getMaintainedState() != LanguageMaintainedState.ActivelyMaintained) {
         maintainerText = "<span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for maintainer</a></span> - ";
         greyOutMaintainer = true;
       } else {
