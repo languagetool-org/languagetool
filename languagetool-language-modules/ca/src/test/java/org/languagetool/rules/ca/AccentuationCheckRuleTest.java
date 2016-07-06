@@ -96,6 +96,7 @@ public class AccentuationCheckRuleTest {
     assertCorrect("La magnífica conservació del palau.");
 
     // errors:
+    assertIncorrect("L'ultima consideració.");
     assertIncorrect("Com s'ha dit les primaries autonòmiques s'han ajornat");
     assertIncorrect("Com sabeu les primaries s'han ajornat");
     assertIncorrect("Les continues al·lusions a la victòria.");
