@@ -15295,16 +15295,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>que el rei Pere secundaria els seus moviments guerrers</example>
             </rule>
             <rule>
-                <pattern>
-                    <token><exception postag="P.*" postag_regexp="yes"/><exception>contribuent</exception></token>
+                <antipattern>
                     <marker>
-                        <token regexp="yes">tributari(a|es)</token>
+                        <token postag="P.*|N.*|_GN_*" postag_regexp="yes"/>
+                        <token regexp="yes">(prim|secund)ari(a|es)</token>
+                        <token postag="D.*" postag_regexp="yes"/>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">(prim|secund)ari(a|es)</token>
+                </pattern>
+                <message>Si és un adjectiu cal accentuar. Correcte si és del verb "<match no="1" regexp_match="(?iu)(prim|secund).*" regexp_replace="$1ar" case_conversion="alllower"/>".</message>
+                <suggestion><match no="1" regexp_match="(?iu)(prim|secund)a(.*)" regexp_replace="$1à$2" case_conversion="alllower"/></suggestion>
+                <example correction="secundàries">Les eleccions primàries i <marker>secundaries</marker>.</example>
+                <example correction="secundària">Escola Primària i <marker>Secundaria</marker>.</example>
+                <example>que el rei Pere secundaria els seus moviments guerrers</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">ultim(a|es)</token>
+                        <token postag="D.*" postag_regexp="yes"/>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">ultim(a|es)</token>
                     </marker>
                 </pattern>
-                <message>Si és adjectiu, s'ha d'accentuar. Correcte si és del verb "<match no="2" case_conversion="alllower" regexp_match="(?iu)(.*ar)i(a|es)" regexp_replace="$1"/>".</message>
-                <suggestion><match no="2" regexp_match="(?iu)(.*)ari(a|es)" regexp_replace="$1àri$2"/></suggestion>
-                <example correction="tributària">En matèria <marker>tributaria</marker>.</example>
-                <example>li tributaria un culte semblant</example>
+                <message>Si és adjectiu, s'ha d'accentuar. Correcte si és del verb "ultimar".</message>
+                <suggestion><match no="1" regexp_match="(?iu)ultim(a|es)" regexp_replace="últim$1"/></suggestion>
+                <example correction="Últimes"><marker>Ultimes</marker> oportunitats.</example>
+                <example>La comissió ultima els preparatius.</example>
             </rule>
             <rule>
                 <pattern>
