@@ -15318,15 +15318,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="D.*" postag_regexp="yes"/>
                     </marker>
                 </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>ultima</token>
+                        <token>ratio</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token><exception postag=".*(FS|SF).*" postag_regexp="yes"/></token>
+                        <token>ultima</token>
+                        <token><exception postag=".*(FS|SF).*" postag_regexp="yes"/></token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token><exception postag=".*(FP|PF).*" postag_regexp="yes"/></token>
+                        <token>ultimes</token>
+                        <token><exception postag=".*(FP|PF).*" postag_regexp="yes"/></token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">ultim(a|es)</token>
+                        <token regexp="yes">ultim(a|es)<exception scope="previous" regexp="yes">qui|que|què|quals?</exception></token>
                     </marker>
                 </pattern>
                 <message>Si és adjectiu, s'ha d'accentuar. Correcte si és del verb "ultimar".</message>
                 <suggestion><match no="1" regexp_match="(?iu)ultim(a|es)" regexp_replace="últim$1"/></suggestion>
                 <example correction="Últimes"><marker>Ultimes</marker> oportunitats.</example>
+                <example correction="Última"><marker>Ultima</marker> oferta.</example>
                 <example>La comissió ultima els preparatius.</example>
+                <example>El PSOE ultima per la seva banda una altra proposta.</example>
+                <example>El projecte que ultima Joan David.</example>
             </rule>
             <rule>
                 <pattern>
