@@ -101,14 +101,16 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
           translationLanguage = tmpLang;
         }
       }
-    } else if (qName.equals(EXAMPLE)
-        && attrs.getValue(TYPE).equals("correct")) {
-      inCorrectExample = true;
+    } else if (qName.equals(EXAMPLE)) {
       correctExample = new StringBuilder();
-    } else if (qName.equals(EXAMPLE)
-        && attrs.getValue(TYPE).equals("incorrect")) {
-      inIncorrectExample = true;
       incorrectExample = new StringBuilder();
+      if (attrs.getValue(TYPE).equals("incorrect")) {
+        inIncorrectExample = true;
+      } else if (attrs.getValue(TYPE).equals("correct")) {
+        inCorrectExample = true;
+      } else if (attrs.getValue(TYPE).equals("triggers_error")) {
+        throw new RuntimeException("'triggers_error' is not supported for false friend XML");
+      }
     } else if (qName.equals(MESSAGE)) {
       inMessage = true;
       message = new StringBuilder();

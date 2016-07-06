@@ -271,6 +271,7 @@ public class PatternRuleTest {
     for (AbstractPatternRule rule : rules) {
       testCorrectSentences(languageTool, allRulesLanguageTool, lang, rule);
       testBadSentences(languageTool, allRulesLanguageTool, lang, complexRules, rule);
+      testErrorTriggeringSentences(languageTool, lang, rule);
     }
     if (!complexRules.isEmpty()) {
       Set<String> set = complexRules.keySet();
@@ -391,6 +392,17 @@ public class PatternRuleTest {
                   + rule.getId() + " also matched " + match.getRule().getId());
       }*/
 
+    }
+  }
+
+  private void testErrorTriggeringSentences(JLanguageTool languageTool, Language lang,
+                                            AbstractPatternRule rule) throws IOException {
+    for (ErrorTriggeringExample example : rule.getErrorTriggeringExamples()) {
+      String sentence = cleanXML(example.getExample());
+      List<RuleMatch> matches = getMatches(rule, sentence, languageTool);
+      if (matches.size() == 0) {
+        fail(lang + ": " + rule.getFullId() + ": Example sentence marked with 'triggers_error' didn't actually trigger an error: '" + sentence + "'");
+      }
     }
   }
 

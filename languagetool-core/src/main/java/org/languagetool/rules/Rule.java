@@ -50,6 +50,7 @@ public abstract class Rule {
 
   private List<CorrectExample> correctExamples = new ArrayList<>();
   private List<IncorrectExample> incorrectExamples = new ArrayList<>();
+  private List<ErrorTriggeringExample> errorTriggeringExamples = new ArrayList<>();
   private ITSIssueType locQualityIssueType = ITSIssueType.Uncategorized;
   private Category category;
   private URL url;
@@ -214,6 +215,22 @@ public abstract class Rule {
    */
   public final List<IncorrectExample> getIncorrectExamples() {
     return Collections.unmodifiableList(incorrectExamples);
+  }
+
+  /**
+   * Set the examples that are correct but still trigger the rule due to an issue with the rule.
+   * @since 3.5
+   */
+  public final void setErrorTriggeringExamples(List<ErrorTriggeringExample> examples) {
+    this.errorTriggeringExamples = Objects.requireNonNull(examples);
+  }
+
+  /**
+   * Get the examples that are correct but still trigger the rule due to an issue with the rule.
+   * @since 3.5
+   */
+  public final List<ErrorTriggeringExample> getErrorTriggeringExamples() {
+    return Collections.unmodifiableList(this.errorTriggeringExamples);
   }
 
   /**

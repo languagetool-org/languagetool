@@ -29,6 +29,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.CorrectExample;
+import org.languagetool.rules.ErrorTriggeringExample;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.Attributes;
@@ -99,6 +100,7 @@ public class XMLRuleHandler extends DefaultHandler {
 
   protected StringBuilder correctExample = new StringBuilder();
   protected StringBuilder incorrectExample = new StringBuilder();
+  protected StringBuilder errorTriggerExample = new StringBuilder();
   protected StringBuilder exampleCorrection = new StringBuilder();
   protected StringBuilder message = new StringBuilder();
   protected StringBuilder suggestionsOutMsg = new StringBuilder();
@@ -108,10 +110,12 @@ public class XMLRuleHandler extends DefaultHandler {
 
   protected List<CorrectExample> correctExamples = new ArrayList<>();
   protected List<IncorrectExample> incorrectExamples = new ArrayList<>();
+  protected List<ErrorTriggeringExample> errorTriggeringExamples = new ArrayList<>();
 
   protected boolean inPattern;
   protected boolean inCorrectExample;
   protected boolean inIncorrectExample;
+  protected boolean inErrorTriggerExample;
   protected boolean inMessage;
   protected boolean inSuggestion;
   protected boolean inMatch;

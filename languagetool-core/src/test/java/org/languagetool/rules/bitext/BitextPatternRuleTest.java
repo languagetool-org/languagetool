@@ -141,8 +141,8 @@ public class BitextPatternRuleTest {
     JLanguageTool srcTool = new JLanguageTool(rule.getSourceLanguage());
     List<StringPair> goodSentences = rule.getCorrectBitextExamples();
     for (StringPair goodSentence : goodSentences) {
-      assertTrue(cleanSentence(goodSentence.getSource()).trim().length() > 0);
-      assertTrue(cleanSentence(goodSentence.getTarget()).trim().length() > 0);
+      assertTrue("Got good sentence: '" + goodSentence.getSource() + "'", cleanSentence(goodSentence.getSource()).trim().length() > 0);
+      assertTrue("Got good sentence: '" + goodSentence.getTarget() + "'", cleanSentence(goodSentence.getTarget()).trim().length() > 0);
       assertFalse(lang + ": Did not expect error in: " + goodSentence
               + " (Rule: " + rule + ")",
               match(rule, goodSentence.getSource(), goodSentence.getTarget(),
