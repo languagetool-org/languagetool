@@ -40167,23 +40167,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="SYNTAX" name="Sintaxi" type="grammar">
         <rule id="COMA_SUBJECTE_PREDICAT" name="coma innecessària entre subjecte i predicat">
-            <pattern>
-                <token postag="SENT_START"/>
-                <token max="4" postag="_GN_.*|N.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|diada|col?p|volta|vegada|pic</exception></token>
+            <antipattern>
                 <marker>
+                   <token>és</token>
+                   <token>a</token>
+                   <token>dir</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                   <token>és</token>
+                   <token>clar</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START"/> <!--convé separar el cas de Nom sol-->
+                <marker>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token max="4" postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|diada|col?p|volta|vegada|pic</exception></token>
                     <token>,</token>
                     <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"/>
-                    <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_nompropi|N.*" postag_regexp="yes"/></token>
+                    <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_nompropi|N.*|V.P.*|V.I.1[PS].*|AQ.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">dir|suposar|afirmar|creure</exception></token>
                 </marker>
             </pattern>
-            <message>Probablement sobra la coma entre subjecte i predicat</message>
-            <suggestion>\5</suggestion>
-            <example correction="va">El Joan<marker>, va</marker> cap a casa.</example>
-            <example correction="va">Joan<marker>, se'n va</marker> cap a casa.</example>
+            <message>Probablement sobra la coma entre subjecte i predicat.</message>
+            <example correction=""><marker>El Joan, va</marker> cap a casa.</example>
+            <example correction=""><marker>Aquesta discussió bizantina, hi és</marker> sempre present.</example>
             <example>El 1918, van partir cap al sud.</example>
             <example>Joan, vine cap ací.</example>
-            <example>L'any passat va ser un èxit.</example>
             <example>La primavera anterior, havia estat a Venècia.</example>
+            <example>Menja menjar ràpid, mor de seguida.</example>
+            <example>Aquest paisatge, ric en or, és espectacular.</example>
+            <example>George, t'he de dir una cosa.</example>
+            <!--<example type="trigers_error">Aquesta sang, baixa en oxigen,</example>-->
         </rule>
         <rule id="DE_MANERA_PERMANENTMENT" name="confusió: de manera permanentment">
             <pattern>
