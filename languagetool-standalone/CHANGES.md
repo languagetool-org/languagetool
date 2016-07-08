@@ -2,6 +2,10 @@
 
 ## 3.5 (release planned for 2016-09-29)
 
+#### English
+  * added confusion pair talking/taking (works only with ngram data,
+    see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
+
 #### Russian
   * added some rules
   * added words suggested by users
