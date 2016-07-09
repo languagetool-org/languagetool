@@ -40192,11 +40192,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                    <token>clar</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                   <token postag="SENT_START" skip="-1"/>
+                   <token regexp="yes">[!?]</token>
+                </marker>
+            </antipattern>
            <antipattern>
                 <marker>
                    <token>,</token>
                    <token min="0" postag="VA.*" postag_regexp="yes"/>
-                   <token inflected="yes" regexp="yes">dir|suposar|afirmar|creure|escriure|caldre|pensar</token>
+                   <token inflected="yes" regexp="yes">dir|suposar|afirmar|creure|escriure|caldre|pensar|meditar</token>
                 </marker>
             </antipattern> 
            <pattern>
@@ -40206,7 +40212,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token max="4" postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|diada|col?p|volta|vegada|pic</exception></token>
                     <token>,</token>
                     <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"/>
-                    <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_nompropi|N.*|V.P.*|V.I.1[PS].*|AQ.*" postag_regexp="yes"/></token>
+                    <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_nompropi|N.*|V.P.*|V.I.1[PS].*|AQ.*|V.M.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <message>Probablement sobra la coma entre subjecte i predicat.</message>
@@ -40219,6 +40225,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Menja menjar ràpid, mor de seguida.</example>
             <example>Aquest paisatge, ric en or, és espectacular.</example>
             <example>George, t'he de dir una cosa.</example>
+            <example>Els altres, veniu amb mi.</example>
+            <example>Aquest mètode, és prou segur?</example>
             <!--<example type="trigers_error">Aquesta sang, baixa en oxigen,</example>-->
         </rule>
         <rule id="DE_MANERA_PERMANENTMENT" name="confusió: de manera permanentment">
