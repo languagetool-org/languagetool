@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.160 2016-06-14 11:27:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.161 2016-07-10 20:30:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -1299,21 +1299,8 @@ $Id: grammar.xml,v 1.160 2016-06-14 11:27:00 marcoagpinto Exp $
       <example>Sou um gestor <marker>com determinação</marker>.</example>
 	</rule>
 
-
-
-    <!-- DE ALTO ABAIXO de alto a baixo -->
-    <rule id="DE_ALTO_ABAIXO" name="de alto a baixo">
-      <pattern>
-        <token>de</token>
-        <token>alto</token>
-        <token>abaixo</token>
-      </pattern>
-      <message>Substituir «de alto abaixo» por <suggestion>de alto a baixo</suggestion>.</message>
-      <example correction="de alto a baixo">Ele olhou-me <marker>de alto abaixo</marker>.</example>
-    </rule>
-
-
-
+	
+	
     <!-- DE CALCULO de cálculo -->
     <rule id="DE_CALCULO" name="de cálculo">
       <pattern>
@@ -1341,21 +1328,23 @@ $Id: grammar.xml,v 1.160 2016-06-14 11:27:00 marcoagpinto Exp $
       <example correction="decerto">Isso irá <marker>de certo</marker> lesar os trabalhadores.</example>
     </rule>
 
+	
 
-
-    <!-- DE CIMA ABAIXO de cima a baixo -->
-    <rule id="DE_CIMA_ABAIXO" name="de cima a baixo">
+    <!-- DE CIMA/ALTO ABAIXO de cima/alto a baixo -->
+    <rule id="DE_CIMA-ALTO_ABAIXO" name="de cima/alto a baixo">
       <pattern>
-        <token>de</token>
-        <token>cima</token>
-        <token>abaixo</token>
+		<token>de</token>
+		<token regexp="yes">cima|alto</token>
+		 <marker>
+            <token>abaixo</token>
+         </marker>
       </pattern>
-      <message>Substituir «de cima abaixo» por <suggestion>de cima a baixo</suggestion>.</message>
-      <example correction="de cima a baixo">Ele olhou-me <marker>de cima abaixo</marker>.</example>
+      <message>Substituir «abaixo» por <suggestion>a baixo</suggestion>.</message>
+      <example correction="a baixo">Ela observou o Rui de alto <marker>abaixo</marker>.</example>
     </rule>
-
-
-
+	
+	
+	
     <!-- DE FORMA A QUE para que -->
     <rule id="DE_FORMA_A_QUE" name="para que">
       <pattern>
@@ -3332,6 +3321,20 @@ $Id: grammar.xml,v 1.160 2016-06-14 11:27:00 marcoagpinto Exp $
 
 <category id="CONFUSED_WORDS" name="Confusão Palavras">
 
+	<!-- Confusion CONTANTO > CONTANDO -->
+    <rule id="CONTANTO_CONTANDO" name="Confusão contanto-contando">
+		<pattern>			
+			<marker>
+				<token>contanto</token>	  
+			</marker>			
+			<token>com</token>	  
+		</pattern>	 	 
+		<message>Substituir «contanto» por <suggestion>contando</suggestion>.</message>
+		<example correction="contando">Isto já <marker>contanto</marker> com o jantar.</example>	 	 
+    </rule> 
+
+
+	
 <!-- TRÁS/TRAZ - POSSIBLE REPLACEMENT SUGGESTIONS ****START**** -->
 <!-- ********************************************************** -->
     <!-- Confusion TRAZ > TRÁS -->
