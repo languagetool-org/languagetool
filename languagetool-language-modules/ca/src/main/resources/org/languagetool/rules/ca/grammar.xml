@@ -24787,22 +24787,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="(ficar-s'ho) a la butxaca|(guanyar) la partida">Va <marker>emportar-se el gat a l'aigua</marker>.</example>
             <example>Va caure el gat a l'aigua.</example>
         </rule>
-        <rule id="ESTENDRE_LA_MA" name="estendre la mà/oferir diàleg">
-            <pattern>
-                <token inflected="yes" regexp="yes">tendir|estendre</token>
-                <token>la</token>
-                <token>mà</token>
-            </pattern>
-            <message>En sentit figurat, cal usar una altra expressió.</message>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">allargar</match> la mà</suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match> la mà</suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">oferir</match> diàleg</suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">oferir</match> consens</suggestion>
-            <url>http://esadir.cat/entrades/fitxa/node/maestesa</url>
-            <short>Ús incorrecte</short>
-            <example correction="Allarguen la mà|Donen la mà|Ofereixen diàleg|Ofereixen consens"><marker>Estenen la mà</marker>.</example>
-            <example>Ofereixen diàleg.</example>
-        </rule>
         <rule id="EN_BOGA" name="en *boga/voga">
             <pattern>
                 <token>en</token>
@@ -31739,6 +31723,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Basteixen|Aixequen|Alcen"><marker>Tendeixen</marker> ponts.</example>
             <example>Basteixen ponts de diàleg.</example>
         </rule>
+        <rule id="TENDIR_LA_MA" name="tendir la mà/oferir diàleg">
+            <pattern>
+                <token inflected="yes">tendir</token>
+                <token>la</token>
+                <token>mà</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">allargar</match> la mà</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match> la mà</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">oferir</match> diàleg</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">oferir</match> consens</suggestion>
+            <example correction="Allarguen la mà|Donen la mà|Ofereixen diàleg|Ofereixen consens"><marker>Tendeixen la mà</marker>.</example>
+            <example>Ofereixen diàleg.</example>
+        </rule>
         <rule id="ERMOS_BELL" name="*ermós/bell">
             <pattern>
                 <token inflected="yes">ermós</token>
@@ -36259,6 +36257,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="ESTENDRE_LA_MA" name="estendre la mà/oferir diàleg">
+            <pattern>
+                <token inflected="yes" regexp="yes">estendre</token>
+                <token>la</token>
+                <token>mà</token>
+            </pattern>
+            <message>Val més usar usar una altra expressió.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">allargar</match> la mà</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match> la mà</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">oferir</match> diàleg</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">oferir</match> consens</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/estendre_la_ma</url>
+            <example correction="Allarguen la mà|Donen la mà|Ofereixen diàleg|Ofereixen consens"><marker>Estenen la mà</marker>.</example>
+            <example>Ofereixen diàleg.</example>
+        </rule>
         <rule id="MAREJAR_LA_PERDIU" name="marejar la perdiu">
             <pattern>
                 <token inflected="yes">marejar</token>
