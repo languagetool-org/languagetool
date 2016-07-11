@@ -5255,6 +5255,22 @@ USA
             <example>Their jobs are as safe as houses.</example>
             <example>Let's save the environment!</example>
         </rule>
+        <rule id="MASTERS" name="masters (master’s) degree/dissertation/thesis">
+            <pattern>
+                <marker>
+                    <token>masters</token>
+                </marker>
+                <token inflected="yes" regexp="yes">degree|dissertation|thesis</token>
+            </pattern>
+            <message>For an academic degree, use <suggestion><match no="1" regexp_match="(Master|master)s" regexp_replace="$1’s"/></suggestion>.</message>
+            <url>https://en.wikipedia.org/wiki/Master%27s_degree</url>
+            <short>Possible typo</short>
+            <example correction="master’s">His <marker>masters</marker> degree is excellent.</example>
+            <example correction="master’s">I must submit my <marker>masters</marker> dissertation before 27 June.</example>
+            <example correction="Master’s"><marker>Masters</marker> theses and dissertations are not easy to write.</example>
+            <example>These musicians are <marker>masters</marker> of their art.</example>
+            <example>My <marker>masters</marker> was a difficult degree.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
