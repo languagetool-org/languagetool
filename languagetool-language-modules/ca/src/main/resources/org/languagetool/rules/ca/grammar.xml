@@ -25,6 +25,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY context_FALLAR "sentència|veredicte|premi|tribunal|jutges?|jurat|favor|instruir|procés|dispositiva|jutjar|sentenciar">
     <!ENTITY context_FER_SE_AMB "propietat|títol|triomf|victòria|alcaldia|presidència|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit">
     <!ENTITY context_MUSICA "arranjador|orquestrador|orquestrar|saxòfon|saxofon|oboè|trompeta|trompa|trombó|timbala|timbal|percussió|compondre|interpretar|compositor|orquestra|director|banda|piano|corda|vent|fusta|peça|obra|simfonia|suite|obertura|òpera|metall|violí|flauta|clarinet|viola|violoncel|contrabaix|guitarra|intermezzo">
+    <!ENTITY context_PERJUDICI "dany|econòmic|causar|provocar">
+    <!ENTITY context_PREJUDICI "estereotip|injust|moral|tòpic">
     <!ENTITY context_ROTAR_GIRAR "angle1|grau|girar|objecte|triangle|quadrat|polígon|eix|gravetat|minut|segon|sentit|agulla|rellotge|planeta|Terra|rotació|aparell|oest|est|magnètic|òrbita|pilota">
     <!ENTITY context_SORTEJAR "entrebanc|envestida|adversari|competidor|pressió|sanció|oposició|obstacle|barrera|porter|defensa|problema|contratemps|dificultat|accident|parany|trampa|perill|risc|negatiu|pregunta|escull|congost|riu|pas|difícil|tàctica|trava|il·legalització|càstig|pena|atac|bloqueig">
     <!ENTITY context_TRON "abandonar|Abu|Abd|abdicar|aC|accedir|acceptar|accés|accessió|aconseguir|acord|acostar|actitud|Adonies|Aegon|Aerys|aixecar|ajudar|ajut|Aleix|Alfons|aliança|altar|altesa|Amadeu|ambaixador|amic|anglès|ànima|Anjou|Antíoc|any|apoderar|Aragó|arca|Armènia|arxiduc|ascensió|aspirant|assassinar|assassinat|assemblea|asseure|associar|assolir|aurià|Àustria|Barcelona|bastard|belga|Berenguer|bisbe|Bonaparte|Borbó|braç|britànic|cadira|Calàbria|camarlenc|campanya|candidat|candidatura|canvi|capa|capital|captiu|Carles|carlí|càrrec|casar|casament|Castella|català|Catalunya|cavaller|cedir|ceptre|civil|Cleòpatra|cobert|col·locar|compartir|comtal|comte|comtessa|consell|conseller|conservar|Constantí|Constantinoble|construir|convertir|corona|coronació|coronar|cort|cosí|costar|crear|daurar|David|dedicar|definitivament|deposar|derrotar|descendència|descendents?|desposseir|déu|diamantí|dignitat|dinastia|dirigir|domini|dret|duc|Eduard|elevar|Elisabet|emperador|emperadriu|Enric|entrada|enviat|envair|escambell|Escòcia|esdevenir|Església|Espanya|espanyol|espasa|espera|esperit|esplendor|espòs|esquerre|estrada|exemple|exèrcit|èxit|família|favor|Felip|ferm|Ferran|fidel|fidelitat|fill|França|francès|Franco|Frederic|futur|Galbatorix|Gal·les|Garib|gemma|germà|gloriós|govern|governar|gràcies|graó|guanyar|guàrdia|guerra|Guillem|Habsburg|Hassan|Henry|heretar|hereu|hereva|història|Hongria|ibn|imperi|imperial|infant|infanta|instal·lar|intent|invadir|invasió|Isabel|Israel|Itàlia|ivori|Jahvè|Joan|Joffrey|Josep|jove|Judà|jueu|juliol|juntament|jura|justícia|Khan|Lannister|legítim|línia|llei|Lleó|llibertat|llibre|lliurar|Lluís|lluita|Londres|Macedònia|Madrid|majestat|malaltia|Mallorca|mantell|mantenir|marbre|mare|Margarida|Maria|Maximilià|matar|matrimoni|meitat|Mehmet|militar|Miquel|monarca|monarquia|Montserrat|morir|motiu|Muhammad|muller|nan|Napoleó|Nàpols|Nasuada|Navarra|nebot|Ned|Neró|nét|noble|nombre|nomenar|observar|obtenir|ocasió|ocupar|oficial|oposició|opositor|or|Orik|Orleans|pacte|país|palau|pare|Parma|partidari|pavelló|pecat|perdre|Pere|perla|persa|persona|pesta|pla|política|Polònia|port|Portugal|possessió|presentar|president|pretendent|pretensió|primogènit|príncep|princesa|proclamar|promesa|propi|Provença|Ptolemeu|pujar|querubí|raça|Ramon|rebel|reclamar|reconèixer|recordar|recuperar|regència|regent|regnar|regnat|regne|rei|reial|reialme|reina|renúncia|renunciar|restablir|retorn|reverència|revolta|Ricard|Robert|romà|Rússia|sacerdot|sala|saló|Salomó|santuari|Savoia|seda|segle|senyor|servent|seure|signar|Sicília|Síria|situació|sobirania|sobirà|soldà|Stannis|Stephen|súbdit|succeir|successió|successor|Suècia|sultà|sultan|superior|suport|tapís|Targaryen|tarima|temple|Teresa|territori|títol|tothom|tractat|Trastàmara|tropa|túnica|turc|unir|Urgell|usurpador|usurpar|València|vacant|valer|vellut|vestit|vidu|Viena|visir|victòria|viudo|vós">
@@ -30796,6 +30798,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tron">Va accedir al <marker>tro</marker>.</example>
             </rule>
 	</rulegroup>
+        <rulegroup id="PREJUDICI_PERJUDICI" name="prejudici/perjudici">
+            <antipattern>
+                <marker>
+                    <token skip="7" regexp="yes" inflected="yes">prejudici|prejuí</token>
+                    <token postag="[VNA].*" postag_regexp="yes" inflected="yes" regexp="yes">&context_PREJUDICI;</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="[VNA].*" postag_regexp="yes" skip="7" inflected="yes" regexp="yes">&context_PREJUDICI;</token>
+                    <token regexp="yes" inflected="yes">prejudici|prejuí</token>
+                </marker>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="6" regexp="yes" inflected="yes">prejudici|prejuí</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">&context_PERJUDICI;</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)pre(.*)" regexp_replace="per$1"/></suggestion>?</message>
+                <example correction="perjuís">Hi hagué molts <marker>prejuís</marker> econòmics.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="6" inflected="yes" regexp="yes">&context_PERJUDICI;</token>
+                    <marker>
+                        <token regexp="yes" inflected="yes">prejudici|prejuí</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?-i)pre(.*)" regexp_replace="per$1"/></suggestion>?</message>
+                <example correction="perjudicis">Molts danys i <marker>prejudicis</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">en|sens|sense</token>
+                    <marker>
+                        <token regexp="yes">prejudici|perjuí</token>
+                    </marker>
+                    <token inflected="yes">de</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?-i)pre(.*)" regexp_replace="per$1"/></suggestion>?</message>
+                <example correction="perjudici">Ho fa sens <marker>prejudici</marker> d'altres possibilitats.</example>
+            </rule>
+	</rulegroup>
         <rule id="ABASSEGADOR" name="*abassegador/contundent,aclaparador">
             <pattern>
                 <token regexp="yes" inflected="yes" skip="4">victòria|triomf|resultat|èxit|majoria|domini|atac|predomini|efecte|influència</token>
@@ -36259,7 +36306,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
         <rule id="ESTENDRE_LA_MA" name="estendre la mà/oferir diàleg">
             <pattern>
-                <token inflected="yes" regexp="yes">estendre</token>
+                <token inflected="yes">estendre</token>
                 <token>la</token>
                 <token>mà</token>
             </pattern>
