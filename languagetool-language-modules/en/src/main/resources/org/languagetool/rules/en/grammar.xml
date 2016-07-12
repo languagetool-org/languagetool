@@ -3750,12 +3750,18 @@ USA
         </rule>
         <!-- free reign::word=free rein::pivots=reign,rein::options=reign,rein -->
         <rule id="FREE_REIGN" name="free reign (rein)">
+            <antipattern>
+                <token postag="NNP"/>
+                <token postag="NNP"/>
+            </antipattern>
             <pattern>
                 <token>free</token>
                 <token>reign</token>
             </pattern>
             <message>Did you mean <suggestion>free rein</suggestion>?</message>
             <example correction="free rein">The famous actor was given <marker>free reign</marker> over the city.</example>
+            <example>The famous actor was given <marker>free rein</marker> over the city.</example>
+            <example><marker>Free Reign Entertainment</marker> (www.freereign.net) supplies video games.</example>
         </rule>
         <!-- lead roll::word=lead role::pivots=roll,role::options=roll,role -->
         <rule id="LEAD_ROLL" name="lead roll (role)">
