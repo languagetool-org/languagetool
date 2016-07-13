@@ -1227,11 +1227,13 @@
         <pattern>
             <marker>
             <token postag="TO">to</token>
-            <token postag="VB"/>
+            <token postag="VB"><exception postag="NNP"/></token>
             </marker>
             <token postag="PRP\$?|DT" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
+        <example type="untouched">Peter admits to <marker>Ken</marker> that he isn't sure they are ready.</example>
+        <example type="ambiguous" inputform="bill[bill/NN,bill/VB,bill/VBP]" outputform="bill[bill/VB]">I admit to <marker>bill</marker> the customer incorrectly.</example>
     </rule>
     
     <rule name="SENT_START + pronoun + verb/NN -&gt; verb" id="SENT_START_PRP_VB_NN">
