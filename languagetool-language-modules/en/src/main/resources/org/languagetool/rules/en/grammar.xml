@@ -8718,7 +8718,14 @@ USA
                 </antipattern>
                 <antipattern>
                     <token>did</token>
-                    <token regexp="yes">experiments|wonders</token>
+                    <token regexp="yes">experiments|wonders</token><!-- Do not use chunk, because that causes failure of "He did walks to his house" -->
+                </antipattern>
+                <antipattern>
+                    <token>did</token>
+                    <and>
+                      <token chunk="B-NP-singular"/>
+                      <token postag="VBG"/>
+                    </and>
                 </antipattern>
                 <pattern>
                     <token><exception scope="previous" regexp="yes">than|what</exception><exception regexp="yes">free|tha[nt]|who|which|whom|a|the</exception></token>
@@ -8746,6 +8753,9 @@ USA
                 <example correction="have">I would definitely <marker>has</marker> that.</example>
                 <example>Warnings did go ignored.</example>
                 <example correction="designate">A proposed northern bypass of Birmingham will <marker>designated</marker> as I-422.</example>
+                <example>She did <marker>experiments</marker> to test the efficacy of the medication.</example>
+                <example correction="test">She did <marker>testing</marker> the samples.</example>
+                <example>She did <marker>testing</marker> for a TV show.</example>
             </rule>
             <rule>
                 <pattern>
