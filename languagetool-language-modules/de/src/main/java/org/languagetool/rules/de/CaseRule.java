@@ -605,7 +605,7 @@ public class CaseRule extends GermanRule {
       // e.g. essen -> Essen
       if (Character.isLowerCase(token.charAt(0)) && !substVerbenExceptions.contains(token) && tokenReadings.hasPartialPosTag("VER:INF")
               && !tokenReadings.isIgnoredBySpeller() && !tokenReadings.isImmunized()) {
-        String msg = "Substantivierte Verben werden großgeschrieben.";
+        String msg = "Falls es sich um ein substantiviertes Verb handelt, wird es großgeschrieben.";
         RuleMatch ruleMatch = new RuleMatch(this, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg);
         String word = tokenReadings.getToken();
         String fixedWord = StringTools.uppercaseFirstChar(word);
