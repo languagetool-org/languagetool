@@ -1412,6 +1412,10 @@ USA
             </rule>
         </rulegroup>
         <rule id="NUT_NOT" name="nut (not)">
+            <antipattern>
+                <token regexp="yes">areca|beech|betel|brazil|cashew|kola|macadamia|monkey|palm|barrel|cage|clip-on|collar|coupling|flange|hex|split|wing</token><!-- Only a subset that are unlikely to cause false negatives. -->
+                <token>nut</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>nut</token>
@@ -1422,6 +1426,12 @@ USA
             <short>Possible typo</short>
             <example>I love nut oil!</example>
             <example correction="not">I'm <marker>nut</marker> sure.</example>
+            <example correction="not">Mr. Butcher, I am very annoyed with you. This is beef <marker>nut</marker> lamb, and I am sure that I asked you for lamb.</example>
+            <example correction="not">But surely, this wine is red <marker>nut</marker> white!</example>
+            <example correction="not">Make sure that the template you use is hexagonal <marker>nut</marker> square.</example>
+            <example>Since 2007, <marker>Brazil nut</marker> production in the area has increased 20%.</example>
+            <example>This new <marker>monkey nut</marker> sampling system is excellent.</example>
+            <example>The <marker>barrel nut</marker> test device caused problems.</example>
         </rule>
         <rule id="AND_SO_ONE" name="and so one (on)">
             <pattern>
