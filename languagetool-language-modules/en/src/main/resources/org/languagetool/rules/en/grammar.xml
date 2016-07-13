@@ -6216,6 +6216,11 @@ USA
                 <example>It was <marker>ever</marker> thus.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>as</token>
+                    <token>always</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
                 <pattern>
                     <token><exception postag="VB.*|MD" postag_regexp="yes"/></token>
                     <marker>
@@ -6226,6 +6231,7 @@ USA
                 <message>The adverb '\2' is usually not used at the end of a sentence.</message>
                 <example correction="">I am happy <marker>always</marker>.</example>
                 <example>I am <marker>always</marker> happy.</example>
+                <example>The band emerged triumphant, <marker>as always</marker>.</example>
             </rule>
             <rule>
                 <pattern>
