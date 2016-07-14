@@ -3625,6 +3625,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        <rule id="DAS_FUERCHTEN_LERNEN" name="das Fürchten lernen (lehren)">
+            <pattern>
+                <token>das</token>
+                <token>Fürchten</token>
+                <marker>
+                    <token inflected='yes'>lernen</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie die Wendung "das Fürchten <suggestion>lehren</suggestion>"?</message>
+            <example correction='lehren'>das Fürchten <marker>lernen</marker></example>
+            <example>das Fürchten lehren</example>
+        </rule>
         <rule id="ZEIT_UND_MUSE" name="Zeit und Muse (Muße)">
             <pattern>
                 <token>Zeit</token>
