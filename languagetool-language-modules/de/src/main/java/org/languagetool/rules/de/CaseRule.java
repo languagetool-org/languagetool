@@ -67,6 +67,11 @@ public class CaseRule extends GermanRule {
       token("Her")
     ),
     Arrays.asList(
+      token("Bares"),
+      token("ist"),
+      token("Wahres")
+    ),
+    Arrays.asList(
       token("Auf"),
       token("und"),
       token("Ab")
@@ -137,6 +142,8 @@ public class CaseRule extends GermanRule {
     sentenceStartExceptions.add(".");
   }
 
+  private static final Set<String> UNDEFINED_QUANTIFIERS = new HashSet<>(Arrays.asList(
+      "viel", "nichts", "wenig" ));
   /*
    * These are words that Morphy only knows as non-nouns (or not at all).
    * The proper solution is to add all those to our Morphy data, but as a simple
@@ -742,8 +749,9 @@ public class CaseRule extends GermanRule {
 
   private boolean isAdjectiveAsNoun(int i, AnalyzedTokenReadings[] tokens) {
     AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
+    boolean isUndefQuantifier = prevToken != null && (UNDEFINED_QUANTIFIERS.contains(prevToken.getToken().toLowerCase()));
     boolean isPrevDeterminer = prevToken != null && (prevToken.hasPartialPosTag("ART") || prevToken.hasPartialPosTag("PRP"));
-    if (!isPrevDeterminer) {
+    if (!isPrevDeterminer && !isUndefQuantifier) {
       return false;
     }
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
