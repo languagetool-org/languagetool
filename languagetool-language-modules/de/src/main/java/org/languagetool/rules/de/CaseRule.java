@@ -72,6 +72,21 @@ public class CaseRule extends GermanRule {
       token("Ab")
     ),
     Arrays.asList(
+      token("Lug"),
+      token("und"),
+      token("Trug")
+    ),
+    Arrays.asList(
+      token("Treu"),
+      token("und"),
+      token("Glauben")
+    ),
+    Arrays.asList(
+      token("Speis"),
+      token("und"),
+      token("Trank")
+    ),
+    Arrays.asList(
       // "... weshalb ihr das wissen wollt."
       pos("VER:INF:NON"),
       pos("VER:MOD:2:PLU:PRÄ")
@@ -345,6 +360,8 @@ public class CaseRule extends GermanRule {
     languages.add("Altpersisch");
     languages.add("Amerikanisch");
     languages.add("Arabisch");
+    languages.add("Armenisch");
+    languages.add("Baskisch");
     languages.add("Chinesisch");
     languages.add("Dänisch");
     languages.add("Deutsch");
@@ -357,6 +374,7 @@ public class CaseRule extends GermanRule {
     languages.add("Hocharabisch");
     languages.add("Hochchinesisch");
     languages.add("Hochdeutsch");
+    languages.add("Isländisch");
     languages.add("Holländisch");
     languages.add("Italienisch");
     languages.add("Japanisch");
@@ -365,6 +383,7 @@ public class CaseRule extends GermanRule {
     languages.add("Koreanisch");
     languages.add("Kroatisch");
     languages.add("Lateinisch");
+    languages.add("Lettisch");
     languages.add("Luxemburgisch");
     languages.add("Mittelhochdeutsch");
     languages.add("Neuhochdeutsch");
@@ -379,6 +398,7 @@ public class CaseRule extends GermanRule {
     languages.add("Serbisch");
     languages.add("Serbokroatisch");
     languages.add("Slawisch");
+    languages.add("Slowenisch");
     languages.add("Spanisch");
     languages.add("Tschechisch");
     languages.add("Türkisch");
@@ -730,7 +750,7 @@ public class CaseRule extends GermanRule {
     for (AnalyzedToken reading : tokens[i].getReadings()) {
       String posTag = reading.getPOSTag();
       // ignore "die Ausgewählten" but not "die Ausgewählten Leute":
-      if (posTag != null && posTag.contains(":ADJ") && !hasNounReading(nextReadings)) {
+      if ((posTag == null || posTag.contains("ADJ")) && !hasNounReading(nextReadings)) {
         return true;
       }
     }
