@@ -81,6 +81,7 @@ public class VerbAgreementRuleTest {
     assertGood("/usr/bin/firefox");
     assertGood("Das sind Leute, die viel mehr als ich wissen.");
     assertGood("Das ist mir nicht klar, kannst ja mal beim Kunden nachfragen.");
+    assertGood("So tes\u00ADtest Du das mit dem soft hyphen.");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");

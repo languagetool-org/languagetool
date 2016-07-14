@@ -356,6 +356,9 @@ public class VerbAgreementRule extends GermanRule {
     }
     for (AnalyzedToken analyzedToken : tokenReadings) {
       final String postag = analyzedToken.getPOSTag();
+      if (postag == null) {
+        continue;
+      }
       if (postag.contains("_END")) { // ignore SENT_END and PARA_END
         continue;
       }
