@@ -42,7 +42,7 @@ public class GermanDoublePunctuationRule extends DoublePunctuationRule {
   }
   
   @Override
-  public final String getId() {
+  public String getId() {
     return "DE_DOUBLE_PUNCTUATION";
   }
 
