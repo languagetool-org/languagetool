@@ -2,9 +2,17 @@
 
 ## 3.5 (release planned for 2016-09-29)
 
+#### Catalan
+  * added and improved rules
+  * added words suggested by users
+
 #### English
   * added confusion pair talking/taking (works only with ngram data,
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
+
+#### German
+  * added a rule
+  * fixed several false alarms
 
 #### Russian
   * added some rules
