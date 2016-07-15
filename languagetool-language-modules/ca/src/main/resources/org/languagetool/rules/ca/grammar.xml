@@ -9563,6 +9563,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rulegroup id="ELECTE_ELEGIT" name="confusion of bed/bad">
+            <rule>
+                <pattern>
+                    <token inflected="yes">ser</token>
+                    <marker>
+                        <token postag="AQ0.S0" postag_regexp="yes" inflected="yes">electe</token>
+                    </marker>
+                </pattern>
+                <message>Possible error de traducció automàtica</message>
+                <suggestion><match no="2" postag="AQ0(.)S0" postag_regexp="yes" postag_replace="VMP00S$10">elegir</match></suggestion>
+                <example correction="elegit">Va ser <marker>electe</marker> president.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">ser</token>
+                    <marker>
+                        <token>electes</token>
+                    </marker>
+                </pattern>
+                <message>Possible error de traducció automàtica</message>
+                <suggestion>elegits</suggestion>
+                <example correction="elegits">Van ser <marker>electes</marker> diputats.</example>
+            </rule>
+        </rulegroup>
         <rule id="QUI_ANES_VA_SER" name="qui *anés/va ser">
             <pattern>
                 <token>,</token>
@@ -9842,7 +9866,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ESTAFIS_TIMES" name="New York Estafis/Times">
             <rule>
                 <pattern>
-                    <token regexp="yes">York|The|Angeles|and|Comic|Musical|plaça</token>
+                    <token regexp="yes">York|The|Angeles|and|Comic|Musical|plaça|Financial</token>
                     <marker>
                         <token regexp="yes">Estaf[ie]s?</token>
                     </marker>
