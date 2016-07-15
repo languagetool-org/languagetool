@@ -9195,6 +9195,16 @@ USA
                 <example>What's he going to do?</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token chunk="B-NP-singular"/><!-- Medical -->
+                    <token postag="NNP" chunk="E-NP-singular"/><!-- Center -->
+                </antipattern>
+
+                <antipattern>
+                    <token chunk="I-NP-singular"/><!-- only -->
+                    <token postag="NNP" chunk="I-NP-singular"/><!-- Philippine -->
+                    <token chunk="E-NP-singular"/><!-- company -->
+                </antipattern>
                 <pattern>
                     <token>
                         <exception regexp="yes">(that|ha[ds]|will|must|could|can|should|would|does|did|may|might|t|let)</exception>
@@ -9219,8 +9229,9 @@ USA
                 <example>Richard J. Hughes made his Morris County debut in his bid for the Democratic gubernatorial elections.</example>
                 <example>... last night got its seven-concert Beethoven cycle at Carnegie Hall off to a good start.</example>
                 <example>... and through knowing Him better to become happier and more effective people.</example>
-                <!-- TODO: Fix false-positive: The library and Medical Center are to the north.-->
-                <!-- The present Federal program of vocational education began in 1917. -->
+                <example>The library and <marker>Medical Center</marker> are to the north.</example>
+                <example>The present <marker>Federal program</marker> of vocational education began in 1917.</example>
+                <example>Before 2009, it was the only <marker>Philippine company</marker> to do so.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
