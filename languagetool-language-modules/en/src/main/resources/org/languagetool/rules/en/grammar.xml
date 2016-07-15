@@ -13712,21 +13712,41 @@ USA
     <!-- ====================================================================== -->
     <category id="NONSTANDARD_PHRASES" name="Nonstandard Phrases" type="misspelling">
       <rule id="FROM_X_Y" name="from X - Y (from X to Y)">
+       <antipattern><!-- https://en.wikipedia.org/wiki/Foot_(unit) -->
+        <token regexp='yes'>\d+</token>
+        <token spacebefore='no' regexp='yes'>[′'’]</token><!--- prime, single straight quote, single curly quote -->
+        <token regexp='yes'>\d+</token>
+        <token spacebefore='no' regexp='yes'>[″"”]</token><!-- double prime, straight double quote, double curly quote -->
+       </antipattern>
+       <antipattern>
+        <token regexp='yes'>\d+</token>
+        <token spacebefore='yes'>.</token>
+        <token spacebefore='no' regexp='yes'>\d+</token>
+        <token regexp='yes'>bullets?</token>
+       </antipattern>
        <pattern>
         <token>from</token>
         <token regexp='yes'>\d+</token>
-        <token><exception regexp="yes">to|until|through|&months;|&abbrevMonths;</exception><exception regexp="yes">[:,]</exception></token>
+        <token><exception regexp="yes">to|until|through|ft|in|&months;|&abbrevMonths;</exception><exception spacebefore="no" regexp="yes">[:,.]</exception></token>
         <token regexp='yes'>\d+</token>
        </pattern>
        <message>Nonstandard phrase. Did you mean: <suggestion><match no="1"/> <match no="2"/> to <match no="4"/></suggestion>?</message>
        <short>Nonstandard phrase</short>
        <example correction='From 12 to 17'><marker>From 12 – 17</marker> February 2016</example>
+       <example correction='from 1 to 22'>Rates of sea level rise range <marker>from 1 . 22</marker> mm per year to 2.14 mm per year.</example><!-- Do not ignore typographic errors -->
        <example>Ferries commence service from 7:00 am.</example>
        <example>He partnered with Stephen T. Logan from 1841 until 1844.</example>
        <example>Algiers lost from 30,000 to 50,000 inhabitants to the plague in 1620–21.</example>
        <example>The population has grown from 5,000 in 1900.</example>
        <example>Starting <marker>from 22 May 2016</marker>, we will do the new tests.</example>
        <example><marker>From 21 Feb 2014</marker> and until further notice, we will do the new tests.</example>
+       <example>Rates of sea level rise range <marker>from 1.22</marker> mm per year to 2.14 mm per year.</example>
+       <example>The values range <marker>from 5,55</marker> mm to approximately 7 mm.</example><!-- https://en.wikipedia.org/wiki/Decimal_mark -->
+       <example>The depth varies <marker>from 2'7"</marker> approximately to 3 feet exactly.</example>
+       <example>The depth varies <marker>from 2′ 9″</marker> approximately to 3 feet exactly.</example>
+       <example>The height is <marker>from 3 ft 8 in</marker> (approx) to 4 feet exactly.</example>
+       <example>The gradient of the mountain road varies <marker>from 3 in 10</marker> to a maximum of 4 in 10.</example>
+       <example><marker>From 1 .22</marker> bullet, the forensic team solved the crime.</example><!-- Possibly bad style, but not an error for this rule -->
       </rule>
       <rule id="MONTH_OF_XXXX" name="February of 2005 (February 2005)">
        <pattern>
