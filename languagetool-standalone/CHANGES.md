@@ -7,6 +7,7 @@
   * added words suggested by users
 
 #### English
+  * added and improved rules
   * added confusion pair talking/taking (works only with ngram data,
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
 
