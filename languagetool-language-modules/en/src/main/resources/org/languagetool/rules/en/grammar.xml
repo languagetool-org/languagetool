@@ -6721,7 +6721,7 @@ USA
                     <token postag="SENT_START"/>
                     <token regexp="yes">each|every|n?either</token>
                 </marker>
-                <token postag="NNS"/>
+                <token postag="NNS"><exception postag="NN"/></token>
                 <token postag="VB.*" postag_regexp="yes"><exception postag="NNS"/></token>
             </pattern>
             <message>'Each', 'every', 'either' and 'neither' are used with singular. Did you mean <suggestion>all</suggestion>?</message>
@@ -6730,6 +6730,7 @@ USA
             <example correction="All"><marker>Each</marker> children are happy.</example>
             <example><marker>Each</marker> children's services are available...</example>
             <example><marker>Each</marker> children services are available...</example>
+            <example><marker>Each</marker> series revolves around a group of magical girls.</example>
         </rule>
         <rulegroup id="AGREEMENT_SENT_START" name="Possible agreement error: plural noun + singular verb">
             <rule>
