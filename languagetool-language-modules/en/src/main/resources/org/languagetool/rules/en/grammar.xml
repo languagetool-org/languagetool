@@ -18030,17 +18030,19 @@ USA
             </rule>
         </rulegroup>   
         <rule id="APOSTROPHE_IN_DATES" name="Apostrophe in dates">
-         <pattern>
-          <token regexp='yes'>(:?[1-2]\d)?\d0<exception regexp='yes'>2[1-9]\d0</exception></token>
-          <token>'</token>
-          <token>s</token>
-         </pattern>
-         <message>Apostrophes aren't needed for decades: <suggestion><match no="1"/><match no="3"/></suggestion>.</message>
-         <url>http://www.monash.edu/about/editorialstyle/editing/apostrophes</url>
-         <short>Apostrophe in a decade date</short>
-         <example correction='1990s'>Hillary Clinton asked where Bernie Sanders was in the <marker>1990's</marker>.</example>         
-         <example correction='90s'>Hillary Clinton asked where Bernie Sanders was in the <marker>90's</marker>.</example>         
-        </rule> 
+            <pattern>
+                <token spacebefore="yes" regexp='yes'>(:?[1-2]\d)?\d0<exception regexp='yes'>2[1-9]\d0</exception></token>
+                <token regexp="yes">['’]</token>
+                <token>s</token>
+            </pattern>
+            <message>Apostrophes aren't needed for decades: <suggestion><match no="1"/><match no="3"/></suggestion>.</message>
+            <url>http://www.monash.edu/about/editorialstyle/editing/apostrophes</url>
+            <short>Apostrophe in a decade date</short>
+            <example correction='1990s'>Hillary Clinton asked where Bernie Sanders was in the <marker>1990's</marker>.</example>
+            <example correction='90s'>Hillary Clinton asked where Bernie Sanders was in the <marker>90's</marker>.</example>
+            <example correction='1990s'>Where were you in the <marker>1990’s</marker>?</example>
+            <example>Disc wheels replaced the <marker>Alvis 12/70</marker>'s wire wheels and are fitted with larger tyres.</example>
+        </rule>
   </category>
 
 </rules>
