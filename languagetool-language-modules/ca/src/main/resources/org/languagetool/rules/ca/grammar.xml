@@ -9563,6 +9563,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="QUALSEVOL_UN_ALTRE" name="qualsevol *(un) altre">
+            <pattern>
+                <token>qualsevol</token>
+                <token regexp="yes">una?</token>
+                <token regexp="yes">altr[ea]</token>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion>\1 \3</suggestion>
+            <example correction="qualsevol altre">De <marker>qualsevol un altre</marker>.</example>
+        </rule>
         <rulegroup id="ELECTE_ELEGIT" name="confusion of bed/bad">
             <rule>
                 <pattern>
@@ -26536,6 +26546,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="FER_SE_AMB" name="fer-se amb">
+            <url>http://esadir.cat/entrades/fitxa/id/1913</url>
             <antipattern>
                 <marker>
                     <token>acord</token>
@@ -26552,6 +26563,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">&context_FER_SE_AMB;<exception scope="previous">a</exception></token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
+                <suggestion>(aconseguir)</suggestion>
                 <suggestion>(apoderar-se de)</suggestion>
                 <suggestion>(fer seu)</suggestion>
                 <suggestion>(prendre)</suggestion>
@@ -26560,9 +26572,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>(controlar)</suggestion>
                 <suggestion>(arreplegar)</suggestion>
                 <suggestion>(adquirir)</suggestion>
-                <url>http://esadir.cat/entrades/fitxa/id/1913</url>
-                <example correction="(Apoderar-se de)|(Fer seu)|(Prendre)|(Prendre possessió de)|(Emparar-se de)|(Controlar)|(Arreplegar)|(Adquirir)"><marker>Es va fer amb</marker> la Copa del Rei.</example>
-                <example correction="(Apoderar-se de)|(Fer seu)|(Prendre)|(Prendre possessió de)|(Emparar-se de)|(Controlar)|(Arreplegar)|(Adquirir)"><marker>Ens vam fer amb</marker> el poder.</example>
+                <suggestion>(comprar)</suggestion>
+                <suggestion>(guanyar)</suggestion>
+                <suggestion>(atrapar)</suggestion>
+                <example correction="(Aconseguir)|(Apoderar-se de)|(Fer seu)|(Prendre)|(Prendre possessió de)|(Emparar-se de)|(Controlar)|(Arreplegar)|(Adquirir)|(Comprar)|(Guanyar)|(Atrapar)"><marker>Es va fer amb</marker> la Copa del Rei.</example>
+                <example correction="(Aconseguir)|(Apoderar-se de)|(Fer seu)|(Prendre)|(Prendre possessió de)|(Emparar-se de)|(Controlar)|(Arreplegar)|(Adquirir)|(Comprar)|(Guanyar)|(Atrapar)"><marker>Ens vam fer amb</marker> el poder.</example>
                 <example>Es va fer extensiva amb plans d'acció territorial.</example>
                 <example>Es fa d'acord amb el pes polític de cada partit.</example>
                 <example>M'he fet un embolic amb el títol del llibre.</example>
@@ -26578,6 +26592,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">&context_FER_SE_AMB;<exception scope="previous">a</exception></token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
+                <suggestion>(aconseguir)</suggestion>
                 <suggestion>(apoderar-se de)</suggestion>
                 <suggestion>(fer seu)</suggestion>
                 <suggestion>(prendre)</suggestion>
@@ -26586,8 +26601,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>(controlar)</suggestion>
                 <suggestion>(arreplegar)</suggestion>
                 <suggestion>(adquirir)</suggestion>
-                <url>http://esadir.cat/entrades/fitxa/id/1913</url>
-                <example correction="(apoderar-se de)|(fer seu)|(prendre)|(prendre possessió de)|(emparar-se de)|(controlar)|(arreplegar)|(adquirir)">Va <marker>fer-se amb</marker> el govern.</example>
+                <suggestion>(comprar)</suggestion>
+                <suggestion>(guanyar)</suggestion>
+                <suggestion>(atrapar)</suggestion>
+                <example correction="(aconseguir)|(apoderar-se de)|(fer seu)|(prendre)|(prendre possessió de)|(emparar-se de)|(controlar)|(arreplegar)|(adquirir)|(comprar)|(guanyar)|(atrapar)">Va <marker>fer-se amb</marker> el govern.</example>
                 <example>mai no podria fer-se amb aquella gent, mai no podria mirar-los</example>
             </rule>
         </rulegroup>
