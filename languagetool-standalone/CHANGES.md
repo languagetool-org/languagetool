@@ -12,7 +12,7 @@
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
 
 #### German
-  * added a rule
+  * added rules
   * fixed several false alarms
 
 #### Russian
