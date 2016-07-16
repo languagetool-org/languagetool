@@ -147,7 +147,7 @@ public class CaseRule extends GermanRule {
   }
 
   private static final Set<String> UNDEFINED_QUANTIFIERS = new HashSet<>(Arrays.asList(
-      "viel", "nichts", "wenig" ));
+      "viel", "nichts", "wenig", "zuviel" ));
   /*
    * These are words that Morphy only knows as non-nouns (or not at all).
    * The proper solution is to add all those to our Morphy data, but as a simple
@@ -535,6 +535,10 @@ public class CaseRule extends GermanRule {
           }
           if (tokens[i + 1].isSentenceEnd()) {
             // avoid false alarm for "So sollte das funktionieren." (might also remove true alarms...)
+            continue;
+          }
+          if (prevTokenIsDas && tokens[i+1].equals("die")) {
+            // avoid false alarm for "Das wissen die meisten."
             continue;
           }
         }
