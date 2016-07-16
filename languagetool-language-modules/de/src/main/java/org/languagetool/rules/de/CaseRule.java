@@ -372,6 +372,7 @@ public class CaseRule extends GermanRule {
     languages.add("Amerikanisch");
     languages.add("Arabisch");
     languages.add("Armenisch");
+    languages.add("Bairisch");
     languages.add("Baskisch");
     languages.add("Chinesisch");
     languages.add("Dänisch");
@@ -381,12 +382,13 @@ public class CaseRule extends GermanRule {
     languages.add("Französisch");
     languages.add("Frühneuhochdeutsch");
     languages.add("Germanisch");
+    languages.add("Georgisch");
     languages.add("Griechisch");
     languages.add("Hocharabisch");
     languages.add("Hochchinesisch");
     languages.add("Hochdeutsch");
-    languages.add("Isländisch");
     languages.add("Holländisch");
+    languages.add("Isländisch");
     languages.add("Italienisch");
     languages.add("Japanisch");
     languages.add("Jiddisch");
@@ -401,9 +403,12 @@ public class CaseRule extends GermanRule {
     languages.add("Niederländisch");
     languages.add("Norwegisch");
     languages.add("Persisch");
+    languages.add("Plattdeutsch");
     languages.add("Polnisch");
     languages.add("Portugiesisch");
     languages.add("Russisch");
+    languages.add("Sächsisch");
+    languages.add("Schwäbisch");
     languages.add("Schwedisch");
     languages.add("Schweizerisch");
     languages.add("Serbisch");
@@ -754,9 +759,13 @@ public class CaseRule extends GermanRule {
   private boolean isAdjectiveAsNoun(int i, AnalyzedTokenReadings[] tokens) {
     AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
     boolean isUndefQuantifier = prevToken != null && (UNDEFINED_QUANTIFIERS.contains(prevToken.getToken().toLowerCase()));
-    boolean isPrevDeterminer = prevToken != null && (prevToken.hasPartialPosTag("ART") || prevToken.hasPartialPosTag("PRP"));
+    boolean isPrevDeterminer = prevToken != null && (prevToken.hasPartialPosTag("ART") || prevToken.hasPartialPosTag("PRP") || prevToken.hasPartialPosTag("ZAL"));
     if (!isPrevDeterminer && !isUndefQuantifier) {
-      return false;
+      AnalyzedTokenReadings prevPrevToken = i > 1 && prevToken.hasPartialPosTag("ADJ") ? tokens[i-2] : null;
+      // Another check to avoid false alarms for "ein politischer Revolutionär"
+      if (prevPrevToken == null || !(prevPrevToken.hasPartialPosTag("ART") || prevPrevToken.hasPartialPosTag("PRP") || prevToken.hasPartialPosTag("ZAL"))) {
+        return false;
+      }
     }
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     for (AnalyzedToken reading : tokens[i].getReadings()) {
