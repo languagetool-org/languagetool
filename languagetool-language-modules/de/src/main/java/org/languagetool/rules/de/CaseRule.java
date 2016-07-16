@@ -62,6 +62,10 @@ public class CaseRule extends GermanRule {
       regex("Staaten|Königreiche?s?")
     ),
     Arrays.asList(
+      token("Den"),
+      token("Haag")
+    ),
+    Arrays.asList(
       token("Hin"),
       token("und"),
       token("Her")
