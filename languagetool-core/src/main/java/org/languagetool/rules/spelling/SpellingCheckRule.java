@@ -112,7 +112,7 @@ public abstract class SpellingCheckRule extends Rule {
    */
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     List<String> moreSuggestions = new ArrayList<>();
-    if ("Languagetool".equals(word) && !suggestions.contains(LANGUAGETOOL)) {
+    if (("Languagetool".equals(word) || "languagetool".equals(word)) && !suggestions.contains(LANGUAGETOOL)) {
       moreSuggestions.add(LANGUAGETOOL);
     }
     return moreSuggestions;
