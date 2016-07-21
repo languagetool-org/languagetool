@@ -5554,17 +5554,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>referents al com, al quant i al què</example>
             <!-- Quant tinga coses fetes,  -->
         </rule>
-        <rule id="QUAN_QUANT" name="*quan/quant de temps">
-            <pattern>
-                <marker>
-                    <token>quan</token>
-                    <token regexp="yes">de|d'</token>
-                </marker>
-                <token regexp="yes">temps|valor|pes|vent</token> <!-- altres paraules?-->
-            </pattern>
-            <message>¿Volíeu dir <suggestion>quant \2</suggestion>?</message>
-            <example correction="Quant de"><marker>Quan de</marker> temps tardarem?</example>
-        </rule>
+        <rulegroup id="QUAN_QUANT" name="*quan/quant">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>quan</token>
+                        <token regexp="yes" min="0">de|d'</token>
+                    </marker>
+                    <token regexp="yes">temps|valor|pes|vent</token> <!-- altres paraules?-->
+                </pattern>
+                <message>¿Volíeu dir <suggestion>quant de</suggestion>?</message>
+                <suggestion>quant</suggestion>
+                <example correction="Quant de|Quant"><marker>Quan de</marker> temps tardarem?</example>
+                <example correction="Quant de|Quant"><marker>Quan</marker> temps tardarem?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>quan</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">durar|trigar|tardar<exception inflected="yes">dur</exception></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>quant</suggestion> (= quant de temps)?</message>
+                <example correction="quant">No sabem <marker>quan</marker> durarà.</example>
+                <example correction="Quant"><marker>Quan</marker> dura la pel·lícula?</example>
+                <example>T'ho direm quan duràs els resultats.</example>
+            </rule>
+        </rulegroup>
         <rule id="CONCORDANCA_MILLOR" name="CONCORDANCA_MILLOR">
             <pattern>
                 <marker>
@@ -16593,11 +16609,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>l'</token>
+                    <token postag="_cometes_obertura" min="0"/>
                     <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host|ouija<exception regexp="yes">&mots_femenins_apostrofen;</exception><exception postag="_GN_M.*|_GV_" postag_regexp="yes" /></token>
                 </pattern>
                 <message>No s'apostrofa.</message>
-                <suggestion>la <match no="2"></match></suggestion>
-                <short>Error ortogràfic</short>
+                <suggestion>la <match no="3"/></suggestion>
                 <example correction="la universitat"><marker>l'universitat</marker></example>
                 <example correction="la uixera"><marker>l'uixera</marker></example>
                 <example correction="la iodització"><marker>l'iodització</marker></example>
@@ -16618,6 +16634,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token>l'</token>
+                        <token postag="_cometes_obertura" min="0"/>
                         <and>
                             <token postag="_GN_FS" regexp="yes">h?[ui].+|host|ouija<exception regexp="yes">&mots_femenins_apostrofen;</exception></token>
                             <token postag="_GN_MS" />
@@ -16626,8 +16643,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="_GN_FS"><exception postag="_GN_MS|D.*|V.[MSI].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>No s'apostrofa.</message>
-                <suggestion>la <match no="2"></match></suggestion>
-                <short>Error ortogràfic</short>
+                <suggestion>la <match no="3"/></suggestion>
                 <example correction="la intel·lectual"><marker>l'intel·lectual</marker> valenciana</example>
                 <example correction="la important"><marker>l'important</marker> tasca de pol·linitzar</example>
                 <example>la intel·lectual valenciana</example>
@@ -16655,11 +16671,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token>la<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
+                    <token postag="_cometes_obertura" min="0"/>
                     <token regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+([aeiou]s?|[ei]n)|urbs|URSS|UJI|11a<exception regexp="yes">ouija|host|ira|inxa|[aeiou]|efa|hac|ela|ema|en|ena|ene|er|erra|erre|essa|una|&mots_HAC_ASPIRADA;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/><exception regexp="yes">(?-i)Haia|UdA</exception></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
-                <suggestion>l'<match no="2"></match></suggestion>
-                <short>Error ortogràfic</short>
+                <suggestion>l'<match no="3"/></suggestion>
                 <example correction="l'ombra"><marker>la ombra</marker></example>
                 <example correction="l'umma"><marker>la umma</marker></example>
                 <example correction="l'urca"><marker>la urca</marker></example>
