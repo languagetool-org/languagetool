@@ -30835,6 +30835,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="PASTEL" name="tons *pastís/pastel">
+            <pattern>
+                <token inflected="yes" regexp="yes">to|color|tonalitat</token>
+                <marker>
+                    <token>pastís</token>
+                </marker>
+            </pattern>
+            <message>Referit a una tècnica de pintura cal dir <suggestion>pastel</suggestion>?</message>
+            <example correction="pastel">En colors <marker>pastís</marker>.</example>
+        </rule>
         <rulegroup id="TRO_TRON" name="tro/tron">
             <antipattern>
                 <marker>
