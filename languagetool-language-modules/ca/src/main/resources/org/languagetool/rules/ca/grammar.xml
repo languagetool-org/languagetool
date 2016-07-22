@@ -377,7 +377,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">(me|te|se)v(a|es)</token>
             </pattern>
             <message>Esteu usant possessius amb u.</message>
-            <suggestion><match no="1" regexp_match="(?-i)(me|te|se)v(a|es)" regexp_replace="$1u$2"></match></suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)(me|te|se)v(a|es)" regexp_replace="$1u$2"></match></suggestion>
             <example correction="meua">La <marker>meva</marker> amiga.</example>
             <example>La <marker>meua</marker> amiga.</example>
         </rule>
@@ -386,7 +386,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">(me|te|se)u(a|es)</token>
             </pattern>
             <message>Esteu usant possessius amb v.</message>
-            <suggestion><match no="1" regexp_match="(?-i)(me|te|se)u(a|es)" regexp_replace="$1v$2"></match></suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)(me|te|se)u(a|es)" regexp_replace="$1v$2"></match></suggestion>
             <example correction="meva">La <marker>meua</marker> amiga.</example>
         </rule>
         <rulegroup id="EVITA_PRONOMS_VALENCIANS" name="Evita les combinacions de pronoms valencianes (li'l, li'ls, li la, li les)" default="off">
@@ -9898,7 +9898,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Possible error de traducció automàtica</message>
-                <suggestion><match no="2" regexp_match="(?-i).*[ie](s?)" regexp_replace="Time$1"/></suggestion>
+                <suggestion><match no="2" regexp_match="(?iu).*[ie](s?)" regexp_replace="Time$1"/></suggestion>
                 <example correction="Times">New York <marker>Estafis</marker>.</example>
             </rule>
             <rule>
@@ -9909,7 +9909,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">Square|Online|Books?</token>
                 </pattern>
                 <message>Possible error de traducció automàtica</message>
-                <suggestion><match no="1" regexp_match="(?-i).*[ie](s?)" regexp_replace="Time$1"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu).*[ie](s?)" regexp_replace="Time$1"/></suggestion>
                 <example correction="Time"><marker>Estafi</marker> Books.</example>
                 <example>Estafes històriques.</example>
             </rule>
@@ -9920,7 +9920,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Possible error de traducció automàtica</message>
-                <suggestion><match no="1" regexp_match="(?-i).*[ie](s?)" regexp_replace="Time$1"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu).*[ie](s?)" regexp_replace="Time$1"/></suggestion>
                 <example correction="Times"><marker>Estafis</marker> Square.</example>
                 <example correction="Time">La revista <marker>Estafi</marker>.</example>
                 <example>Estafes històriques.</example>
@@ -10080,7 +10080,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">mara(ca|ques)</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)mara(ca|ques)" regexp_replace="mar$1"/></suggestion> en comptes de "<match no="1"/>" (instrument musical)?</message>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)mara(ca|ques)" regexp_replace="mar$1"/></suggestion> en comptes de "<match no="1"/>" (instrument musical)?</message>
             <example correction="marca">Posa una <marker>maraca</marker> a la paraula.</example>
             <example correction="marques">Poseu <marker>maraques</marker>.</example>
             <example>Tocava les maraques.</example>
@@ -10118,7 +10118,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">púbic</token>
                 </marker>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?-i)(púb)(.*)" regexp_replace="$1l$2"/></suggestion>?</message>
+            <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?iu)(púb)(.*)" regexp_replace="$1l$2"/></suggestion>?</message>
             <example correction="públics">En espais <marker>púbics</marker>.</example>
             <example correction="públiques">Treballa en relacions <marker>púbiques</marker>.</example>
             <example>El pèl púbic</example>
@@ -10324,7 +10324,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">fruïts?<exception scope="previous" postag="VA.*" postag_regexp="yes" inflected="yes">haver</exception><exception scope="previous">havent</exception></token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)fruït(s?)" regexp_replace="fruit$1"/></suggestion>? "Fruït" és el participi del verb fruir.</message>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)fruït(s?)" regexp_replace="fruit$1"/></suggestion>? "Fruït" és el participi del verb fruir.</message>
             <example correction="fruits">Els <marker>fruïts</marker> de la seva feina.</example>
             <example>Havent fruït d'un bon menjar.</example>
             <example>Havien fruït d'un bon menjar.</example>
@@ -10541,7 +10541,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">peròs|sinós<exception postag="_GN_MP"/></token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)(.*)s" regexp_replace="$1"/></suggestion>?</message>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)(.*)s" regexp_replace="$1"/></suggestion>?</message>
             <example correction="Però"><marker>Peròs</marker> què passa.</example>
             <example>tots els peròs</example>
             <example>tots els seus peròs</example>
@@ -10627,7 +10627,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0">-</token>
                 <token regexp="yes">thanks?</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion>\1 <match no="3" regexp_match="(?-i)thank(s?)" regexp_replace="tank$1"/></suggestion>?</message>
+            <message>¿Volíeu dir <suggestion>\1 <match no="3" regexp_match="(?iu)thank(s?)" regexp_replace="tank$1"/></suggestion>?</message>
             <example correction="think tanks">Els <marker>think thanks</marker>.</example>
         </rule>
         <rule id="TOT_SEGUIR" name="tot *seguir/seguit">
@@ -30904,7 +30904,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token inflected="yes" regexp="yes">&context_PERJUDICI;</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)pre(.*)" regexp_replace="per$1"/></suggestion> (=dany, detriment)?</message>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)pre(.*)" regexp_replace="per$1"/></suggestion> (=dany, detriment)?</message>
                 <example correction="perjuís">Hi hagué molts <marker>prejuís</marker> econòmics.</example>
             </rule>
             <rule>
@@ -30914,7 +30914,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes" inflected="yes">prejudici|prejuí</token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?-i)pre(.*)" regexp_replace="per$1"/></suggestion> (=dany, detriment)?</message>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?iu)pre(.*)" regexp_replace="per$1"/></suggestion> (=dany, detriment)?</message>
                 <example correction="perjudicis">Molts danys i <marker>prejudicis</marker>.</example>
             </rule>
             <rule>
@@ -30925,7 +30925,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token inflected="yes">de</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?-i)pre(.*)" regexp_replace="per$1"/></suggestion> (=dany, detriment)?</message>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?iu)pre(.*)" regexp_replace="per$1"/></suggestion> (=dany, detriment)?</message>
                 <example correction="perjudici">Ho fa sens <marker>prejudici</marker> d'altres possibilitats.</example>
             </rule>
 	</rulegroup>
@@ -30986,7 +30986,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected="yes">cossa</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)cos(.+)" regexp_replace="co$1"/></suggestion> (sentits més habituals) en comptes de "<match no="1"/>" (sentits menys habituals)?</message>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)cos(.+)" regexp_replace="co$1"/></suggestion> (sentits més habituals) en comptes de "<match no="1"/>" (sentits menys habituals)?</message>
             <example correction="coses">Això són altres <marker>cosses</marker>.</example>
         </rule>
         <rule id="ANTES" name="antes/abans">
@@ -32573,7 +32573,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>contra</token>
                 </pattern>
                 <message>Possible castellanisme.</message>
-                <suggestion><match no="1" regexp_match="(?-i)torn(.*)" regexp_replace="gir$1"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)torn(.*)" regexp_replace="gir$1"/></suggestion>
                 <example correction="giraren">Es <marker>tornaren</marker> contra nosaltres.</example>
             </rule>
             <rule>
@@ -32588,7 +32588,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>contra</token>
                 </pattern>
                 <message>Possible castellanisme.</message>
-                <suggestion><match no="2" regexp_match="(?-i)torn(.*)" regexp_replace="gir$1"/></suggestion>
+                <suggestion><match no="2" regexp_match="(?iu)torn(.*)" regexp_replace="gir$1"/></suggestion>
                 <example correction="girar">Es va <marker>tornar</marker> contra nosaltres.</example>
                 <example>Després va tornar contra Pompeu.</example>
             </rule>
@@ -32601,8 +32601,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">vista|cara|ulls</token>
                     <!--<token regexp="yes">enrere|arrere|endarrere</token>-->
                 </pattern>
-                <message>És un castellanisme si equival a <suggestion><match no="1" regexp_match="(?-i)torn(.*)" regexp_replace="gir$1"/></suggestion>.</message>
-                <suggestion><match no="1" regexp_match="(?-i)torn(.*)" regexp_replace="tomb$1"/></suggestion>
+                <message>És un castellanisme si equival a <suggestion><match no="1" regexp_match="(?iu)torn(.*)" regexp_replace="gir$1"/></suggestion>.</message>
+                <suggestion><match no="1" regexp_match="(?iu)torn(.*)" regexp_replace="tomb$1"/></suggestion>
                 <example correction="giraren|tombaren">Llavors <marker>tornaren</marker> la vista enrere.</example>
                 <example>Llavors li va tornar la mirada.</example>
             </rule>
@@ -33177,7 +33177,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected="yes">porgar</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)po(.+)" regexp_replace="pu$1"/></suggestion> (sentits més habituals) en comptes de "<match no="1"/>" (sentits menys habituals)?</message>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)po(.+)" regexp_replace="pu$1"/></suggestion> (sentits més habituals) en comptes de "<match no="1"/>" (sentits menys habituals)?</message>
             <example correction="purgar">Cal <marker>porgar</marker>-lo.</example>
             <example>purgar</example>
         </rule>
@@ -33185,7 +33185,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token inflected="yes">cimentar</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)ciment(.+)" regexp_replace="fonament$1"/></suggestion> (sentits més habituals) en comptes de "<match no="1"/>" (sentits menys habituals)?</message>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)ciment(.+)" regexp_replace="fonament$1"/></suggestion> (sentits més habituals) en comptes de "<match no="1"/>" (sentits menys habituals)?</message>
             <suggestion><match no="1" regexp_match="ciment(.+)" regexp_replace="pos$1"/> els fonaments</suggestion>
             <example correction="fonamentéssim|poséssim els fonaments">Calia que <marker>cimentéssim</marker> bé la casa.</example>
         </rule>
@@ -33565,7 +33565,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token><exception postag="NC.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?-i)(.+)es" regexp_replace="$1os" /></suggestion> (nom masc. pl.) en comptes de "<match no="2"/>" (adj. fem. sing.)?</message>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?iu)(.+)es" regexp_replace="$1os" /></suggestion> (nom masc. pl.) en comptes de "<match no="2"/>" (adj. fem. sing.)?</message>
                 <short>Possible confusió</short>
                 <example correction="complexos">Ell no té manies ni <marker>complexes</marker>.</example>
                 <example correction="complexos">Ell té molts <marker>complexes</marker>.</example>
@@ -34242,7 +34242,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token inflected="yes" regexp="yes">&context_MUSICA;</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)instrumentalitz(.*)" regexp_replace="instrument$1"/></suggestion> (terme usat en música)?</message>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)instrumentalitz(.*)" regexp_replace="instrument$1"/></suggestion> (terme usat en música)?</message>
                 <example correction="instrumentar">Va <marker>instrumentalitzar</marker> la peça per a banda de vent.</example>
                 <example correction="instrumentació">La <marker>instrumentalització</marker> de les simfonies és brillant.</example>
                 <example>El president va instrumentalitzar el partit.</example>
@@ -34254,7 +34254,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token inflected="yes" skip="15" regexp="yes">instrumentalitzar|instrumentalització|instrumentalitzador</token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?-i)instrumentalitz(.*)" regexp_replace="instrument$1"/></suggestion> (terme usat en música)?</message>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(?iu)instrumentalitz(.*)" regexp_replace="instrument$1"/></suggestion> (terme usat en música)?</message>
                 <example correction="instrumentà">El compositor la <marker>instrumentalitzà</marker> al seu gust.</example>
             </rule>
         </rulegroup>
@@ -36123,7 +36123,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">fusellatges?</token>
             </pattern>
             <message>Forma impròpia.</message>
-            <suggestion><match no="1" regexp_match="(?-i)fusellatge(s?)" regexp_replace="fuselatge$1"/></suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)fusellatge(s?)" regexp_replace="fuselatge$1"/></suggestion>
             <example correction="fuselatges"><marker>fusellatges</marker>.</example>
         </rule>
         <rule id="MIDAR" name="midar">
@@ -36140,7 +36140,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="[AVN].*" postag_regexp="yes" regexp="yes">(en)?costip.*</token>
             </pattern>
             <message>Forma col·loquial, no admesa per la majoria de diccionaris.</message>
-            <suggestion><match no="1" regexp_match="(?-i)((en)?)costip(.*)" regexp_replace="constip$3"/></suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)((en)?)costip(.*)" regexp_replace="constip$3"/></suggestion>
             <url>http://esadir.cat/entrades/fitxa/id/5810</url>
             <example correction="constipat">Estic <marker>encostipat</marker>.</example>
             <example correction="constipar">Es va <marker>costipar</marker>.</example>
@@ -41860,7 +41860,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="V.*B" postag_regexp="yes" regexp="yes">.*ii<exception postag="DN.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)(.*i)i" regexp_replace="$1ï"/></suggestion>? "\1" és correcte com a forma balear (1a personal singular, present d'indicatiu).</message>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)(.*i)i" regexp_replace="$1ï"/></suggestion>? "\1" és correcte com a forma balear (1a personal singular, present d'indicatiu).</message>
                 <example correction="enviï"><marker>envii</marker></example>
                 <example>Climent VII, antipapa d'Avinyó.</example>
             </rule>
@@ -41868,7 +41868,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="V.*B" postag_regexp="yes" regexp="yes">&verbs_balears_ES;</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)(.*)ès" regexp_replace="$1és"/></suggestion>? "\1" és correcte com a forma balear (1a personal singular, present d'indicatiu).</message>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)(.*)ès" regexp_replace="$1és"/></suggestion>? "\1" és correcte com a forma balear (1a personal singular, present d'indicatiu).</message>
                 <example correction="procés">El <marker>procès</marker></example>
             </rule>
             <rule>
@@ -41993,7 +41993,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="V.*B" postag_regexp="yes" regexp="yes">&verbs_balears_ES;</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?-i)(.*)ès" regexp_replace="$1és"/></suggestion>? "\1" és correcte com a forma balear (1a personal singular, present d'indicatiu).</message>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)(.*)ès" regexp_replace="$1és"/></suggestion>? "\1" és correcte com a forma balear (1a personal singular, present d'indicatiu).</message>
                 <example correction="procés">El <marker>procès</marker></example>
             </rule>
             <rule>
