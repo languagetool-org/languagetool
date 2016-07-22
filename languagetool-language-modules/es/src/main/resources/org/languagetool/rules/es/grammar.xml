@@ -522,6 +522,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Depende de lo hacia abajo que apuntes.</example>
     </rule>
     
+    <rulegroup id="AUN" name="aún/anun">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>aún</token>
+                </marker>
+                <token>así</token>
+            </pattern>
+            <message>Solo se acentúan cuando equivale a "todavía".</message>
+            <suggestion>aun</suggestion>
+            <url>http://www.fundeu.es/recomendacion/aun-asi-y-aun-asi-no-son-lo-mismo-1130/</url>
+            <example correction="Aun"><marker>Aún</marker> así, lo consiguieron.</example>
+            <!--<example>Siguen aún así.</example>-->
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>aun</token>
+                </marker>
+                <token>no</token>
+                <token><exception postag="V.G.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Se acentúan si equivale a "todavía".</message>
+            <suggestion>aún</suggestion>
+            <example correction="Aún"><marker>Aun</marker> no está claro.</example>
+            <example>Aun no siendo así, es fantástico.</example>
+        </rule>
+    </rulegroup>
+    
     <rule id="A_PUNTO_DE" name="*apunto de/a punto de">
       <pattern>
         <marker>
