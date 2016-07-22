@@ -2089,4 +2089,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
  
   </category>
+  
+    <category id="CAMBIOS_NORMA" name="cambios en las normas lingüísticas">
+        <rule id="SOLO" name="sólo/solo">
+            <pattern>
+                <token>sólo</token>
+            </pattern>
+            <message>La tidle es innecesaria según la norma actual.</message>
+            <suggestion>solo</suggestion>
+            <suggestion>solamente</suggestion>
+            <suggestion>únicamente</suggestion>
+            <url>http://www.rae.es/consultas/el-adverbio-solo-y-los-pronombres-demostrativos-sin-tilde</url>
+            <example correction="solo|solamente|únicamente">Y <marker>sólo</marker> tiene tres.</example>
+        </rule>
+        <rule id="ESTE" name="éste/este">
+            <pattern>
+                <token regexp="yes">ést(e|a|os|as)</token>
+            </pattern>
+            <message>La tidle es innecesaria según la norma actual. Se puede usar en caso de ambigüedad.</message>
+            <suggestion><match no="1" regexp_match="(?iu)é(.*)" regexp_replace="e$1"/></suggestion>
+            <url>http://www.rae.es/consultas/el-adverbio-solo-y-los-pronombres-demostrativos-sin-tilde</url>
+            <example correction="Este"><marker>Éste</marker> es el camino.</example>
+            <example correction="este">En relación con <marker>éste</marker>.</example>
+        </rule>
+    </category>    
 </rules>
