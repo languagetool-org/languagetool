@@ -5569,6 +5569,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Quant de|Quant"><marker>Quan</marker> temps tardarem?</example>
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token>fins</token>
+                        <token>quan</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>quan</token>
@@ -5579,6 +5585,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="quant">No sabem <marker>quan</marker> durarà.</example>
                 <example correction="Quant"><marker>Quan</marker> dura la pel·lícula?</example>
                 <example>T'ho direm quan duràs els resultats.</example>
+                <example>Fins quan dura el carnet jove.</example>
             </rule>
         </rulegroup>
         <rule id="CONCORDANCA_MILLOR" name="CONCORDANCA_MILLOR">
@@ -16613,7 +16620,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host|ouija<exception regexp="yes">&mots_femenins_apostrofen;</exception><exception postag="_GN_M.*|_GV_" postag_regexp="yes" /></token>
                 </pattern>
                 <message>No s'apostrofa.</message>
-                <suggestion>la <match no="3"/></suggestion>
+                <suggestion>la <match no="2"/><match no="3"/></suggestion>
                 <example correction="la universitat"><marker>l'universitat</marker></example>
                 <example correction="la uixera"><marker>l'uixera</marker></example>
                 <example correction="la iodització"><marker>l'iodització</marker></example>
@@ -16643,7 +16650,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="_GN_FS"><exception postag="_GN_MS|D.*|V.[MSI].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>No s'apostrofa.</message>
-                <suggestion>la <match no="3"/></suggestion>
+                <suggestion>la <match no="2"/><match no="3"/></suggestion>
                 <example correction="la intel·lectual"><marker>l'intel·lectual</marker> valenciana</example>
                 <example correction="la important"><marker>l'important</marker> tasca de pol·linitzar</example>
                 <example>la intel·lectual valenciana</example>
@@ -16675,7 +16682,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+([aeiou]s?|[ei]n)|urbs|URSS|UJI|11a<exception regexp="yes">ouija|host|ira|inxa|[aeiou]|efa|hac|ela|ema|en|ena|ene|er|erra|erre|essa|una|&mots_HAC_ASPIRADA;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/><exception regexp="yes">(?-i)Haia|UdA</exception></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
-                <suggestion>l'<match no="3"/></suggestion>
+                <suggestion>l'<match no="2"/><match no="3"/></suggestion>
                 <example correction="l'ombra"><marker>la ombra</marker></example>
                 <example correction="l'umma"><marker>la umma</marker></example>
                 <example correction="l'urca"><marker>la urca</marker></example>
