@@ -538,8 +538,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!--<example>Siguen aún así.</example>-->
         </rule>
         <rule>
+            <antipattern>
+                <marker>
+                   <token regexp="yes">más|menos|mejor|peor</token>
+                   <token min="0" postag="A.*|RG" postag_regexp="yes"/>
+                   <token>aún</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                   <token regexp="yes">más|menos|mejor|peor</token>
+                   <token regexp="yes">.+mente</token> <!-- falta añadir adverbios acabaods en -mente en el tagger-->
+                   <token>aún</token>
+                </marker>
+            </antipattern>
             <pattern>
-                <token><exception regexp="yes">más|menos|mejor|peor</exception></token>
                 <marker>
                     <token>aún</token>
                 </marker>
@@ -550,6 +563,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Aun"><marker>Aún</marker> si estas no tienen efecto.</example>
             <example>Mejor aún si es así.</example>
             <example>Más aún si es así.</example>
+            <example>Decae más rápidamente aún si nos salimos del disco.</example>
         </rule>
         <!-- AUN > AÚN -->
         <rule>
