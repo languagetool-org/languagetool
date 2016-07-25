@@ -3877,6 +3877,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token inflected="yes">donar</token>
+                <marker>
+                    <token>veu</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token inflected="yes">posar</token>
                 <token>en</token>
                 <marker>
@@ -9235,6 +9244,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="V.N.*" postag_regexp="yes"></token>
+                        <token postag="N.*" postag_regexp="yes"></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*|_GN_.*"></disambig>
+        </rule>
+        <rule><!-- excepcions a la regla següent -->
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="_GN_.*" postag_regexp="yes">deure</token>
                         <token postag="N.*" postag_regexp="yes"></token>
                     </and>
                 </marker>
