@@ -15,6 +15,9 @@
   * added rules
   * fixed several false alarms
 
+#### Portuguese
+  * added and improved rules
+
 #### Russian
   * added some rules
   * added words suggested by users
