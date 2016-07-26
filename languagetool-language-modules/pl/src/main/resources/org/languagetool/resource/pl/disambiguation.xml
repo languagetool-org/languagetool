@@ -769,7 +769,7 @@
             <marker>
                 <token regexp="yes">niemal|prawie|ponad</token>
             </marker>
-            <token regexp="yes">\d+</token>
+            <token regexp="yes">\d+%?</token>
         </pattern>
         <disambig postag="qub"/>
     </rule>
@@ -3917,10 +3917,27 @@
         <pattern>
             <token regexp="yes">\d+%</token>
             <marker>
-                <token postag="(?:adj|ger|subst|pact|ppas):pl.*gen.*" postag_regexp="yes"/>
+                <token postag="(?:adj|ger|subst|pact|ppas):.*gen.*" postag_regexp="yes"/>
             </marker>
         </pattern>
         <disambig action="filterall"/>
+    </rule>
+
+    <rule id="num_proc_verb" name="po liczbie procentowej wystąpi raczej czasownik, jeśli to niezgodny rzeczownik lub przymiotnik">
+        <pattern>
+        <token regexp="yes">\d+%</token>
+        <marker>
+            <and>
+                <token postag="verb:.*(sg|pl).*" postag_regexp="yes"/>
+                <token postag="(?:adj|subst):.*nom.*" postag_regexp="yes">
+                    <exception postag="adj:.*:com|(?:adj|subst).*gen.*" postag_regexp="yes"/>
+                </token>
+            </and>
+        </marker>
+        </pattern>
+        <disambig action="filter" postag="verb:.*(sg|pl).*"/>
+        <example type="untouched">Produkt był o 10% gorszy.</example>
+        <example type="ambiguous" inputform="wzrosła[wzrosnąć/verb:praet:sg:f:ter:perf:nonrefl,wzrosły/adj:sg:nom.voc:f:pos,wzrość/verb:praet:sg:f:ter:perf:nonrefl]" outputform="wzrosła[wzrosnąć/verb:praet:sg:f:ter:perf:nonrefl,wzrość/verb:praet:sg:f:ter:perf:nonrefl]">Mimo to dopiero po pojawieniu się serwisu genialnego imiennika z 42% do 88% <marker>wzrosła</marker> liczba firm korzystających z social media do celów marketingowych.</example>
     </rule>
 
     <rule id="sto_gram" name="sto gram wódki">
@@ -7614,6 +7631,14 @@
         <pattern>
             <token postag="verb:fin:sg:ter:imperf:refl.nonrefl">broni</token>
             <token postag="qub">się</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id="sie_stanie" name="się stanie -> czasownik">
+        <pattern>
+            <token postag="qub">się</token>
+            <token postag="verb:fin:sg:ter:perf:refl">stanie</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
