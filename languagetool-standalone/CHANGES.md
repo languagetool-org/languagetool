@@ -19,7 +19,7 @@
   * added and improved rules
  
 #### Portuguese Brazilian
-  * added and improved rules
+  * added rules
 
 #### Russian
   * added some rules
