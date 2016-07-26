@@ -215,9 +215,9 @@ public abstract class SpellingCheckRule extends Rule {
   /**
    * Get the name of the spelling file, which lists words to be accepted
    * and used for suggestions, even when the spell checker would not accept them.
-   * @since 2.9
+   * @since 2.9, public since 3.5
    */
-  protected String getSpellingFileName() {
+  public String getSpellingFileName() {
     return language.getShortName() + SPELLING_FILE;
   }
 
