@@ -9587,9 +9587,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="ENCARA_AIXI" name="*encara (i) així/així i tot">
+            <pattern>
+                <token postag="SENT_START|_PUNCT.*|C.*" postag_regexp="yes"/>
+                <marker>
+                    <token>encara</token>
+                    <token min="0">i</token>
+                    <token>així</token>
+                </marker>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion>així i tot</suggestion>
+            <example correction="Així i tot"><marker>Encara i així</marker>, van guanyar.</example>
+            <example correction="així i tot">Però <marker>encara així</marker>, van guanyar.</example>
+            <example>Més gran encara i així successivament.</example>
+        </rule>
         <rule id="QUALSEVOL_UN_ALTRE" name="qualsevol *(un) altre">
             <pattern>
-                <token>qualsevol</token>
+                <token regexp="yes">qualsevol|tal</token>
                 <token regexp="yes">una?</token>
                 <token regexp="yes">altr[ea]</token>
             </pattern>
