@@ -5002,7 +5002,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Иван Иванович</example>
                 <example correction="">Иван <marker>Иваныч</marker>.</example>
             </rule>
-        </rulegroup>       
+        </rulegroup>
+        
+        <rule id="KTO_VB_PL" name="Местоимение «кто» и глагол">
+            <pattern>
+                <token>кто</token>
+                <token postag="VB:.*:PL" postag_regexp="yes"><exception postag_regexp="yes" negate_pos="yes" postag="VB:.*:PL"></exception></token>
+            </pattern>
+            <message>Местоимение «кто» употребляется только с глаголами в форме единственного числа:<suggestion><match no="1"></match> <match no="2" postag_regexp="yes" postag="VB:(.*):PL" postag_replace="VB:Past:Masc" ></match></suggestion></message>
+            <short>Глагол употребляется в ед. числе.</short>
+            <example correction="кто ходил">Все, <marker>кто ходили</marker> в лес, остались довольны походом.</example>
+            <example>Все, кто ходил в лес, остались довольны походом.</example>
+        </rule>         
+                                                  
         <rulegroup default="on" id="chto_li" name="Употребление союза «что» в придаточной части при наличии «ли»">
             <rule>
                 <pattern>
