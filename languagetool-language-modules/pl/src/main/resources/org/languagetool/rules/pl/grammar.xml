@@ -19207,6 +19207,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+        <rule id="CO_SIE_STALY" name="„co się stały” (co się stało)">
+         <pattern>
+          <token skip='1'>co<exception regexp='yes' negate='yes' scope='next'>by|się</exception></token>
+          <token>się</token>
+          <marker>
+          <token>stały</token>
+          </marker>
+         </pattern>
+         <message>Czy chodziło o <suggestion>stało</suggestion>?</message>
+         <short>Prawdopodobna literówka</short>
+         <example correction='stało'>A co by się <marker>stały</marker>, jakbyś polubiła swoje wady?</example>
+         <example correction='stało'>Co się <marker>stały</marker>?</example>
+        </rule>
         <rule id="WIERZE_WIERZE" name="„wierze” (wierzę)">
          <pattern>
           <token>nie</token>
