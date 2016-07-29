@@ -170,6 +170,29 @@
         <example type="ambiguous" inputform=",[,]" outputform=",[,/interp:comma]">To jest coś<marker>,</marker> co wiedziałem od dawna.</example>
     </rule>
 
+    <rule name="cudzysłowy bez zdania w środku" id="quote_no_interp_1">
+        <pattern>
+            <marker><token skip="-1">„<exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*|pred" postag_regexp="yes"/></token>
+            </marker>
+            <token spacebefore="no">”</token>
+        </pattern>
+        <disambig action="replace"><wd pos="interp"/></disambig>
+        <example type="untouched">Napisał „Gdzie pachną bzy”.</example>
+        <example type="ambiguous" inputform="„[„/interp:comma]" outputform="„[„/interp]">On był <marker>„</marker>wyjątkowo” wredny.</example>
+    </rule>
+
+    <rule name="cudzysłowy bez zdania w środku" id="quote_no_interp_2">
+        <pattern>
+            <token skip="-1">„<exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*|pred" postag_regexp="yes"/></token>
+            <marker>
+                <token spacebefore="no">”</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="interp"/></disambig>
+        <example type="untouched">Napisał „Gdzie pachną bzy”.</example>
+        <example type="ambiguous" inputform="”[”/interp:comma]" outputform="”[”/interp]">On był „wyjątkowo<marker>”</marker> wredny.</example>
+    </rule>
+
     <rule id="TO_CONJ" name="to jako spójnik skoordynowany z gdyby i jeśli">
         <pattern>
             <token skip="-1" regexp="yes">(?:gdyby|jeśli|jeżeli|jakby).*</token>
@@ -10015,6 +10038,39 @@
         <disambig action="filterall"/>
     </rule>
 
+    <rule id="byc_praet_nom" name="być w czasie przeszłym + orzecznik => unifikacja">
+        <pattern>
+            <unify><feature id="number"/><feature id="gender"/>
+                <marker>
+                    <token inflected="yes">być</token>
+                    <token postag="(?:adj|ppas):.*nom.*" postag_regexp="yes"/>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="zaniedbany[zaniedbany/adj:sg:acc:m3:pos,zaniedbany/adj:sg:nom.voc:m1.m2.m3:pos,zaniedbać/ppas:sg:acc:m3:perf:aff,zaniedbać/ppas:sg:nom.voc:m1.m2.m3:perf:aff]"
+                 outputform="zaniedbany[zaniedbany/adj:sg:nom.voc:m1.m2.m3:pos,zaniedbać/ppas:sg:nom.voc:m1.m2.m3:perf:aff]">On był <marker>zaniedbany</marker>.</example>
+        <example type="untouched">On był niewinną ofiarą.</example>
+    </rule>
+
+    <rule id="byc_adv_praet_nom" name="być w czasie przeszłym + orzecznik => unifikacja">
+        <pattern>
+            <unify><feature id="number"/><feature id="gender"/>
+                <marker>
+                    <token inflected="yes">być</token>
+                    <unify-ignore>
+                        <token postag="adv.*|qub" postag_regexp="yes"/>
+                    </unify-ignore>
+                    <token postag="(?:adj|ppas):.*nom.*" postag_regexp="yes"/>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="zaniedbany[zaniedbany/adj:sg:acc:m3:pos,zaniedbany/adj:sg:nom.voc:m1.m2.m3:pos,zaniedbać/ppas:sg:acc:m3:perf:aff,zaniedbać/ppas:sg:nom.voc:m1.m2.m3:perf:aff]"
+                 outputform="zaniedbany[zaniedbany/adj:sg:nom.voc:m1.m2.m3:pos,zaniedbać/ppas:sg:nom.voc:m1.m2.m3:perf:aff]">On był bardzo <marker>zaniedbany</marker>.</example>
+        <example type="untouched">On był niewinną ofiarą.</example>
+    </rule>
+
     <rulegroup id="BYC_ADJ_ACC_NOM" name="być + przymiotnik orzecznikowy -> mianownik">
         <rule>
             <pattern>
@@ -10030,8 +10086,8 @@
                 <token postag="SENT_END|(?:interp|comp):comma" postag_regexp="yes"/>
             </pattern>
             <disambig action="unify"/>
-            <example type="ambiguous" inputform="winny[winny/adj:sg:acc:m3:pos,winny/adj:sg:nom.voc:m1.m2.m3:pos]"
-                     outputform="winny[winny/adj:sg:nom.voc:m1.m2.m3:pos]">On był <marker>winny</marker>.</example>
+            <example type="ambiguous" inputform="miły[miły/adj:sg:acc:m3:pos,miły/adj:sg:nom.voc:m1.m2.m3:pos,miły/subst:sg:nom:m1,miły/subst:sg:voc:m1]"
+                     outputform="miły[miły/adj:sg:nom.voc:m1.m2.m3:pos]">Jest <marker>miły</marker>.</example>
             <example type="untouched">On był niewinną ofiarą.</example>
         </rule>
         <rule>
@@ -10039,16 +10095,13 @@
                 <unify><feature id="number"/>
                     <marker>
                         <token inflected="yes">być</token>
-                        <and>
-                            <token postag="ppas:.*nom.*" postag_regexp="yes"/>
-                            <token postag="ppas:.*acc.*" postag_regexp="yes"/>
-                        </and>
+                        <token postag="ppas:.*nom.*" postag_regexp="yes"/>
                     </marker>
                 </unify>
                 <token inflected="yes">przez</token>
             </pattern>
             <disambig action="unify"/>
-            <example type="ambiguous" inputform="zaniedbany[zaniedbany/adj:sg:acc:m3:pos,zaniedbany/adj:sg:nom.voc:m1.m2.m3:pos,zaniedbać/ppas:sg:acc:m3:perf:aff,zaniedbać/ppas:sg:nom.voc:m1.m2.m3:perf:aff]"
+            <example type="ambiguous" inputform="zaniedbany[zaniedbany/adj:sg:nom.voc:m1.m2.m3:pos,zaniedbać/ppas:sg:nom.voc:m1.m2.m3:perf:aff]"
                      outputform="zaniedbany[zaniedbać/ppas:sg:nom.voc:m1.m2.m3:perf:aff]">On był <marker>zaniedbany</marker> przez rodziców.</example>
             <example type="untouched">On był niewinną ofiarą.</example>
         </rule>
@@ -10088,6 +10141,7 @@
         <example type="untouched">Pokazały się owoce nauki i wyniki poszybowały w górę.</example>
         <example type="untouched">Zacisnął zęby i ramiona zwarłszy, zatrzymał w piersiach tchnienie.</example>
     </rule>
+
 
     <rule name="Bądź i lub jako spójnik" id="badz_koordynacja_subst_verb_refl">
         <pattern>
@@ -10171,17 +10225,18 @@
                  outputform="ci[ten/adj:pl:nom.voc:m1.p1:pos]">A <marker>ci</marker>, ujrzawszy królewnę, zjedli krzesło.</example>
     </rule>
 
+
     <!-- specjalnie robimy to drugi raz... to jest kaskada! -->
-    <rule name="Przyimek z rzeczownikiem po unifikacji" id="PREP_SUBST_2">    
+    <rule name="Przyimek z rzeczownikiem po unifikacji" id="PREP_SUBST_2">
         <pattern>
             <unify> <feature id="case"/>
                 <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>
                 <token postag="(?:adj|subst|ger|ppron.*|ppas|pact|num):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/><exception>trochę</exception><exception>dużo</exception></token>
             </unify>
         </pattern>
-        <disambig action="unify"/>        
+        <disambig action="unify"/>
         <example type="untouched">Tu mamy piękny przykład.</example>
-        <example type="untouched">Łaciny używamy na co dzień.</example>        
+        <example type="untouched">Łaciny używamy na co dzień.</example>
         <!-- example type="ambiguous" inputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f]" outputform="mamy[mama/subst:sg:gen:f]">Idę do <marker>mamy</marker>.</example>  -->
     </rule>
 
