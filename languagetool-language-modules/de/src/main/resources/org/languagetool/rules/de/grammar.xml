@@ -334,8 +334,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token inflected='yes'>[be]ruhen</token>
                 </marker>
-                <token postag='PRO:PER:NOM:.*' postag_regexp='yes' min='0'></token>
-                <token postag='PRO:REF:AKK:.*' postag_regexp='yes'></token>
+                <token postag='PRO:PER:NOM:.*' postag_regexp='yes' min='0'/>
+                <token postag='PRO:REF:AKK:.*' postag_regexp='yes'/>
             </pattern>
             <message>Sollte hier eine Form des Verbs 'berufen' stehen?</message>
             <example correction=''>Dabei <marker>beruhe</marker> ich mich auf meine Rechte.</example>
@@ -4273,7 +4273,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>geboren</token>
                 </antipattern>
                 <pattern>
-                    <token postag='ART:.*' postag_regexp='yes'></token>
+                    <token postag='ART:.*' postag_regexp='yes'/>
                     <marker>
                         <token>tot</token>
                     </marker>
@@ -6358,7 +6358,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="FUSSFASSEN" name="Fußfassen (Fuß fassen)">
             <pattern>
-                <token><exception postag="(ART|PRP):.*" postag_regexp="yes"></exception></token>
+                <token><exception postag="(ART|PRP):.*" postag_regexp="yes"/></token>
                 <marker>
                     <token>Fußfassen</token>
                 </marker>
@@ -11346,7 +11346,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next">,</exception>
                     </token>
                 </marker>
-                <token postag_regexp="yes" postag="VER:AUX:3:SIN:.*"></token>
+                <token postag_regexp="yes" postag="VER:AUX:3:SIN:.*"/>
             </pattern>
             <message>Wenn es keine Andrede ist, wird <suggestion><match no="3" case_conversion="startlower"/></suggestion> kleingeschrieben.</message>
             <example correction="sie">Wenn <marker>Sie</marker> auch eher zurückhaltender ist...</example>
@@ -24031,7 +24031,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         -->
         <rule id="DEF_ARTIKEL_INDEF_ADJ" name="bestimmter Artikel + unbestimmtes Adjektiv">
             <antipattern>
-                <token postag="SENT_START"></token>
+                <token postag="SENT_START"/>
                 <token>ist</token>
                 <token regexp="yes">der|die|das</token>
             </antipattern>
@@ -24066,7 +24066,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="VERB_IST" name="Verb 1./3. Person (statt Partizip) + 'ist'">
             <pattern>
                 <marker>
-                    <token postag="VER:[13]:SIN:PRT:NON" postag_regexp="yes"><exception postag_regexp="yes" postag="SUB:.*"></exception></token>
+                    <token postag="VER:[13]:SIN:PRT:NON" postag_regexp="yes"><exception postag_regexp="yes" postag="SUB:.*"/></token>
                 </marker>
                 <token>ist</token>
             </pattern>
@@ -24221,7 +24221,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag='SUB:.+' postag_regexp='yes'/>
                 <token regexp="yes">eines|einer</token>
                 <marker>
-                    <token postag='SUB:.+' postag_regexp='yes'><exception postag='SUB:GEN:.+' postag_regexp='yes'></exception></token>
+                    <token postag='SUB:.+' postag_regexp='yes'><exception postag='SUB:GEN:.+' postag_regexp='yes'/></token>
                 </marker>
             </pattern>
             <message>Hier sollte vermutlich der Genitiv benutzt werden.</message>
@@ -24230,7 +24230,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ZU_KOMMA_ALS" name="zu, als dass">
             <pattern>
                 <token>zu</token>
-                <token postag='ADJ:PRD:GRU'></token>
+                <token postag='ADJ:PRD:GRU'/>
                 <token>,</token>
                 <marker>
                     <token>als</token>
