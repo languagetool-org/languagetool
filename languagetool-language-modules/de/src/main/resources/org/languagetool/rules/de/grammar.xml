@@ -8927,6 +8927,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Redundanz -->
     <!-- ====================================================================== -->
     <category id="REDUNDANCY" name="Redundanz">
+        <rule id="DOPPELUNG_MODALVERB" name="Wiederholdung von Modalverben">
+            <pattern>
+                <token postag_regexp="yes" postag="VER:MOD:.*"/>
+                <token postag_regexp="yes" postag="VER:MOD:.*"/>
+            </pattern>
+            <message>Möglicher Tippfehler: zwei Modalverben hintereinander</message>
+            <suggestion>\1, \2</suggestion>
+            <suggestion>\1</suggestion>
+            <suggestion>\2</suggestion>
+            <example correction="muss, kann|muss|kann">Das <marker>muss kann</marker> nicht sein.</example>
+        </rule>
         <rulegroup id="CA_ETWA" name="'ca. etwa'">
             <rule>
                 <pattern>
