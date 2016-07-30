@@ -1405,6 +1405,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     
     <category id="PUNCTUATION" name="Пунктуация">
+    	<rule default="on" id="Utochnenie_dejstvija" name="Уточнение действия">
+    	    <pattern case_sensitive="no">
+            	<token>таким</token>
+    	        <token>образом</token>
+    	        <token regexp="yes">что|чтобы|как</token>
+    	    </pattern>
+    	    <message>Пропущена запятая:<suggestion>\1 \2, \3</suggestion>.</message>
+    	    <short>Пропущена запятая.</short>
+    	    <example correction="таким образом, что">Это сделано <marker>таким образом что</marker> и не найти.</example>
+    	    <example>Таким образом, что слово есть, что его нет - без разницы.</example>
+    	</rule>
         <rulegroup default="on" id="Prep_i" name="Пропущена запятая перед предлогом «и» в сложном предложении">
             <rule>     
                 <pattern>
