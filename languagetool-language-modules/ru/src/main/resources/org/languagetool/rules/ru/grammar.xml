@@ -1405,6 +1405,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     
     <category id="PUNCTUATION" name="Пунктуация">
+    	<rule default="on id="Utochnenie" name="Уточнение действия">
+    	    <pattern case_sensitive="no">
+            	<token>таким</token>
+    	        <token>образом</token>
+    	        <token regexp="yes">что|чтобы|как</token>
+    	    </pattern>
+    	    <message>Пропущена запятая:<suggestion>\1 \2, \3</suggestion>.</message>
+    	    <short>Пропущена запятая.</short>
+    	    <example correction="таким образом, что">Это сделано <marker>таким образом что</marker> и не найти.</example>
+    	    <example> Таким образом, что слово есть, что его нет - без разницы.</example>
+    	</rule>
         <rulegroup default="on" id="Prep_i" name="Пропущена запятая перед предлогом «и» в сложном предложении">
             <rule>     
                 <pattern>
@@ -6285,6 +6296,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     
+        <rule>
+    	    <pattern case_sensitive="no">
+            	<token>из</token>
+            	<token regexp="yes">за|под</token>
+    	    </pattern>
+    	    <message>Предлог пишется через дефис:<suggestion>\1-\2</suggestion>.</message>
+    	    <url>http://rus.stackexchange.com/questions/6922/%D0%9F%D0%BE-%D0%BD%D0%B0%D0%B4-%D0%BB%D0%B5%D1%81%D0%BE%D0%BC</url>
+    	    <short>Предлог пишется через дефис.</short>
+    	    <example correction="Из-за"><marker>Из за</marker>  острова на стрежень...</example>
+    	    <example> Из-под полы торчал наган.</example>
+    	    <example> Ситуация вышла из-под контроля.</example>
+    	</rule>
+    	
+        <rule>
+            <pattern case_sensitive="no">
+                <token regexp="yes">какой|какая|какое|какому|какие|каким|кому|кто|что|такому|где|зачем|как|когда|куда|откуда|чего|отчего|почему|сколько</token>
+                <token spacebefore="yes" regexp="yes">то|либо|нибудь</token>
+            </pattern>
+            <message>Частица "-\2" пишется через дефис:<suggestion>\1-\2</suggestion>.</message>
+            <short>Предлог пишется через дефис.</short>
+            <example correction="Какое-то"><marker>Какое то</marker> время было тихо.</example>
+            <example> Появился какой-то человек.</example>
+            <!-- TODO exception Будет мысль дельная какая, то сразу говори! -->
+        </rule>
+        
+    	<rule>
+            <pattern case_sensitive="no">
+                <token>по<exception case_sensitive="yes">ПО</exception></token>
+                <token regexp="yes">за|над</token>
+            </pattern>
+            <message>Предлог пишется через дефис:<suggestion>\1-\2</suggestion>.</message>
+            <url>http://rus.stackexchange.com/questions/6922/%D0%9F%D0%BE-%D0%BD%D0%B0%D0%B4-%D0%BB%D0%B5%D1%81%D0%BE%D0%BC</url>
+            <short>Предлог пишется через дефис.</short>
+            <example correction="По-над"><marker>По над</marker> крышей метель завывает.</example>
+            <example> Чичиков скорее за шапку да по-за спиною капитана-исправника выскользнул на крыльцо.</example>
+        </rule>
 
         <rulegroup id="Obrazovanije_slozhnyh_slov" name="Образование сложных слов">
             <rule>   
