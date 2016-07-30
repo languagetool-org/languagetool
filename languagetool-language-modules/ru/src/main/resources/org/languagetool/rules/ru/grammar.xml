@@ -6296,6 +6296,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     	    <example> Из-под полы торчал наган.</example>
     	    <example> Ситуация вышла из-под контроля.</example>
     	</rule>
+    	
+        <rule>
+            <pattern case_sensitive="no">
+                <token regexp="yes">какой|какая|какое|какие</token>
+                <token spacebefore="yes" regexp="yes">то|либо|нибудь</token>
+            </pattern>
+            <message>Частица "-\2" пишется через дефис:<suggestion>\1-\2</suggestion>.</message>
+            <short>Предлог пишется через дефис.</short>
+            <example correction="Какое-то"><marker>Какое то</marker> время было тихо.</example>
+            <example> Появился какой-то человек.</example>
+            <!-- TODO exception Будет мысль дельная какая, то сразу говори! -->
+        </rule>
+        
     	<rule>
             <pattern case_sensitive="no">
                 <token>по<exception case_sensitive="yes">ПО</exception></token>
