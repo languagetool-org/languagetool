@@ -1984,6 +1984,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <example>Tworzą mimo to jak gdyby rodzinę.</example>
                   </rule>
                 </rulegroup>
+            <rule id="BRAK_PRZECINKA_PRZED_GDZIE" name="Brak przecinka przed „gdzie”">
+             <pattern>
+              <marker>
+              <token inflected='yes' regexp='yes'>tam|miejsce</token>
+              <token>gdzie</token>
+              </marker>
+              <token><exception postag="SENT_END"/></token>
+              <token><exception postag='comma:interp.*|SENT_END' postag_regexp='yes'/></token>
+             </pattern>
+             <message>Prawdopodobnie brak przecinka: <suggestion><match no="1"/>, <match no="2"/></suggestion>.</message>
+             <short>Błąd interpunkcyjny</short>
+             <example correction='Tam, gdzie'><marker>Tam gdzie</marker> nie ma dróg, jadę sam.</example>
+            </rule>                
 				<rulegroup id="KTOS_CZYJ" name="Brak przecinka przed „czyj”">
 						<rule>
 								<pattern case_sensitive="no">
