@@ -8936,8 +8936,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>können</token>
                 <token inflected="yes">müssen</token>
             </antipattern>
+            <antipattern>
+                <token>wollen</token>
+                <token inflected="yes">können</token>
+            </antipattern>
             <pattern>
-                <token postag_regexp="yes" postag="VER:MOD:.*"/>
+                <token postag_regexp="yes" postag="VER:MOD:.*"><exception inflected="yes">lassen</exception></token>
                 <token postag_regexp="yes" postag="VER:MOD:.*"/>
             </pattern>
             <message>Möglicher Tippfehler: zwei Modalverben hintereinander</message>
@@ -8946,6 +8950,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>\2</suggestion>
             <example correction="muss, kann|muss|kann">Das <marker>muss kann</marker> nicht sein.</example>
             <example>Ein Roboter, zu dem man eine emotionale Bindung eingehen <marker>können soll</marker>.</example>
+            <example>Drachen steigen <marker>lassen kann</marker> gefährlich sein.</example>
         </rule>
         <rulegroup id="CA_ETWA" name="'ca. etwa'">
             <rule>
