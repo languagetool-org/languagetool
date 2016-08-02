@@ -235,7 +235,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<marker>
 					<token>a</token>
 				</marker>
-				<token regexp="yes">terra</token>
+				<token regexp="yes">terra?</token>
 			</pattern>
 			<message>Substitua «a» por <suggestion>à</suggestion> se estiver usando a palavra terra no sentido chão firme.</message>
 			<example correction="à">Já chegaram <marker>a</marker> terra.</example>
@@ -660,6 +660,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		</rule>
 	
 		<!-- FIM DUZENTOS GRAMAS NUMERAL COM DUZENTAS GRAMAS -->
+		<!-- ********************************************************** -->
+		
+		<!-- VERBO FAZER SENTIDO TEMPORAL É IMPESSOAL-->
+		
+		<rule id="FAZEM_TEMPO" name="Faz tempo">
+			<pattern>
+					<marker>
+						<token>Fazem</token>
+					</marker>
+					<token regexp="yes">um|dois|três|quatro|cinco|seis|sete|oito|nove|dez|onze|doze</token>
+					<token regexp="yes">anos?|meses?|dias?</token>
+				</pattern>
+			<message>O verbo fazer no sentido temporal é impessoal. Substitua «Fazem» por <suggestion>Faz</suggestion>.</message>
+			<example correction="Faz"><marker>Fazem</marker> dez anos que não vemos tantas mudanças.</example>
+		</rule>
+	
+		<!-- FIM VERBO FAZER SENTIDO TEMPORAL É IMPESSOAL-->
 		<!-- ********************************************************** -->
 		
 	</category>
