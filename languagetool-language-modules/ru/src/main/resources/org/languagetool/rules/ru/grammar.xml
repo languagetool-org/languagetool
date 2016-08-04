@@ -5206,7 +5206,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Кнопка выбора пути файла для сохранения цвета фона.</example>
                 <example correction="">Кнопка <marker>выбора файла сохранения цвета фона</marker>.</example>
             </rule>
-        </rulegroup>   
+       </rulegroup>
+       <rule default="on" id="prep_prep" name="Два предлога подряд">
+           <pattern case_sensitive="yes">
+               <token postag="PREP"><exception negate_pos="yes" postag="PREP"></exception><exception regexp="yes">ПО|По|К</exception></token>
+               <token postag="PREP"><exception negate_pos="yes" postag="PREP"></exception><exception regexp="yes">ПО|По|К</exception></token>
+           </pattern>
+           <message>Два предлога подряд: <suggestion>\1</suggestion> или <suggestion>\2</suggestion></message>
+           <short>Два предлога подряд</short>
+           <example correction="на|в">Кошка выпрыгнула <marker>на в</marker> окно.</example>
+       </rule>   
        <rulegroup default="on" id="kommentirovat_prep" name="Словосочетание «комментировать» + предлог">
             <rule>
                 <pattern>
