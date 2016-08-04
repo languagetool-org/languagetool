@@ -89,7 +89,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY meindein "&lsqb;mds&rsqb;ein|unser|euer|ihr">
     <!ENTITY verbendirekterede "befehlen|behaupten|denken|fragen|rufen|sagen|versichern|flüstern|sprechen">
     <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt|empört|entrüstet|erbost">
-    <!ENTITY fragewoerter "inwiefern|wann|warum|was|wem|wen|wer|weshalb|weswegen|wie|wieso|wo|wodurch|woher|wohin|wonach|woran|worauf|woraus|worüber|worunter|wozu">
+    <!ENTITY fragewoerter "inwiefern|inwieweit|wann|warum|was|wem|wen|wer|weshalb|weswegen|wie|wieso|wo|wodurch|wofür|woher|wohin|womit|wonach|woran|worauf|woraus|worüber|worunter|wozu">
     <!--
     for local testing of an external file - also see below:
     <!ENTITY UserRules SYSTEM "file:///lt/git/languagetool/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar-test.xml">
@@ -317,6 +317,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Der"><marker>Dar</marker> Betrag muss bis Sonntag überwiesen werden.</example>
             </rule>
         </rulegroup>
+        <rule id="SIEHE_SEHE" name="siehe/sehe">
+            <pattern>
+                <token>ich</token>
+                <marker>
+                    <token>siehe</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>sehe</suggestion>?</message>
+            <example correction='sehe'>Soweit ich <marker>siehe</marker>, ist alles in Ordnung.</example>
+            <example>Siehe Seite 3.</example>
+            <example>Ich sehe dich.</example>
+        </rule>
+        <rule id="BERUHEN_BERUFEN" name="beruhen/berufen">
+            <pattern>
+                <marker>
+                    <token inflected='yes'>[be]ruhen</token><!-- not a regex, this is actually in the data -->
+                </marker>
+                <token postag='PRO:PER:NOM:.*' postag_regexp='yes' min='0'/>
+                <token postag='PRO:REF:AKK:.*' postag_regexp='yes'/>
+            </pattern>
+            <message>Sollte hier eine Form des Verbs 'berufen' stehen?</message>
+            <example correction=''>Dabei <marker>beruhe</marker> ich mich auf meine Rechte.</example>
+            <example correction=''>Ich <marker>beruhe</marker> mich auf meine Rechte.</example>
+            <example>Seine Folgerung <marker>beruht</marker> auf falschen Annahmen.</example>
+            <example>Sie <marker>berief sich</marker> auf das Grundgesetz.</example>
+            <example>Dabei beriefen sie sich auf das Grundgesetz.</example>
+        </rule>
         <rulegroup id="UEBERLASEN_UEBERLASSEN" name="'sich selbst überlasen (überlassen)' u.ä.">
             <rule>
                 <pattern>
@@ -618,6 +645,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion>war</suggestion>?</message>
             <example correction="war">Ich <marker>was</marker> ein Idiot.</example>
             <example>Ich fand die Idee gut, <marker>was</marker> ein Fehler war.</example>
+        </rule>
+        <rule id="VIELLEICHT" name="viel leicht (vielleicht)">
+            <pattern>
+                <token>viel</token>
+                <token>leicht</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>vielleicht</suggestion>?</message>
+            <example correction='Vielleicht'><marker>Viel leicht</marker> kann er es besser.</example>
+            <example>Das ist vielleicht ihre beste Arbeit.</example>
         </rule>
         <rule id="ETWAS_ZAHL" name="'etwas (etwa) [Zahl]'">
             <pattern>
@@ -3616,6 +3652,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        <rule id="DAS_FUERCHTEN_LERNEN" name="das Fürchten lernen (lehren)">
+            <pattern>
+                <token>das</token>
+                <token>Fürchten</token>
+                <marker>
+                    <token inflected='yes'>lernen</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie die Wendung "das Fürchten <suggestion>lehren</suggestion>"?</message>
+            <example correction='lehren'>das Fürchten <marker>lernen</marker></example>
+            <example>das Fürchten lehren</example>
+        </rule>
         <rule id="ZEIT_UND_MUSE" name="Zeit und Muse (Muße)">
             <pattern>
                 <token>Zeit</token>
@@ -3627,6 +3675,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion>Muße</suggestion> (= innere Ruhe, Muse = Inspiration eines Künstlers)?</message>
             <url>http://www.korrekturen.de/beliebte_fehler/zeit_und_muse.shtml</url>
             <example correction='Muße'>Zeit und <marker>Muse</marker></example>
+        </rule>
+        <rule id="WAR_WAHR" name="war (wahr)">
+            <antipattern>
+                <token>gewesen</token>
+                <token>war</token>
+            </antipattern>
+            <antipattern>
+                <token>zu</token>
+                <token>sein</token>
+                <token>war</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" postag="VER:.*" postag_regexp="yes">sein</token>
+                <token regexp='yes'>,|und|oder</token>
+                <token>war</token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes" postag="VER:.*" postag_regexp="yes">sein</token>
+                <token/><!-- added this token to avoid conflict with rulegroup WAHR_WERDEN -->
+                <marker>
+                    <token>war</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein') &odkomma;?</message>
+            <example correction="wahr">Das ist nicht <marker>war</marker>.</example>
+            <example>Ist das <marker>wahr</marker>?</example>
         </rule>
         <rule id="LIEHT" name="lieht (liegt)">
             <pattern>
@@ -4199,7 +4273,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>geboren</token>
                 </antipattern>
                 <pattern>
-                    <token postag='ART:.*' postag_regexp='yes'></token>
+                    <token postag='ART:.*' postag_regexp='yes'/>
                     <marker>
                         <token>tot</token>
                     </marker>
@@ -6284,7 +6358,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="FUSSFASSEN" name="Fußfassen (Fuß fassen)">
             <pattern>
-                <token><exception postag="(ART|PRP):.*" postag_regexp="yes"></exception></token>
+                <token><exception postag="(ART|PRP):.*" postag_regexp="yes"/></token>
                 <marker>
                     <token>Fußfassen</token>
                 </marker>
@@ -8853,6 +8927,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Redundanz -->
     <!-- ====================================================================== -->
     <category id="REDUNDANCY" name="Redundanz">
+        <rule id="DOPPELUNG_MODALVERB" name="Wiederholdung von Modalverben">
+            <antipattern>
+                <token>können</token>
+                <token inflected="yes">sollen</token>
+            </antipattern>
+            <antipattern>
+                <token>können</token>
+                <token inflected="yes">müssen</token>
+            </antipattern>
+            <antipattern>
+                <token>wollen</token>
+                <token inflected="yes">können</token>
+            </antipattern>
+            <pattern>
+                <token postag_regexp="yes" postag="VER:MOD:.*"><exception inflected="yes">lassen</exception></token>
+                <token postag_regexp="yes" postag="VER:MOD:.*"/>
+            </pattern>
+            <message>Möglicher Tippfehler: zwei Modalverben hintereinander</message>
+            <suggestion>\1, \2</suggestion>
+            <suggestion>\1</suggestion>
+            <suggestion>\2</suggestion>
+            <example correction="muss, kann|muss|kann">Das <marker>muss kann</marker> nicht sein.</example>
+            <example>Ein Roboter, zu dem man eine emotionale Bindung eingehen <marker>können soll</marker>.</example>
+            <example>Drachen steigen <marker>lassen kann</marker> gefährlich sein.</example>
+        </rule>
         <rulegroup id="CA_ETWA" name="'ca. etwa'">
             <rule>
                 <pattern>
@@ -11261,7 +11360,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next">,</exception>
                     </token>
                 </marker>
-                <token postag_regexp="yes" postag="VER:AUX:3:SIN:.*"></token>
+                <token postag_regexp="yes" postag="VER:AUX:3:SIN:.*"/>
             </pattern>
             <message>Wenn es keine Andrede ist, wird <suggestion><match no="3" case_conversion="startlower"/></suggestion> kleingeschrieben.</message>
             <example correction="sie">Wenn <marker>Sie</marker> auch eher zurückhaltender ist...</example>
@@ -11478,7 +11577,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <!-- hier allgemein Adjekte zu matchen führt zu vielen Fehlalarmen,
                          z.B. bei "Amerikanische Küchen sind größer als japanische." -->
-                    <token regexp="yes" case_sensitive="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes|zehntes|elftes|zwölftes</token>
+                    <token regexp="yes" case_sensitive="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes|zehntes|elftes|zwölftes|nächstes</token>
                 </marker>
                 <token regexp="yes" case_sensitive="yes">[a-zöäü]+<exception postag="ADJ:.*" postag_regexp="yes" /><exception postag="PA2:.*" postag_regexp="yes" /><exception postag="UNKNOWN"/></token>
             </pattern>
@@ -23946,7 +24045,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         -->
         <rule id="DEF_ARTIKEL_INDEF_ADJ" name="bestimmter Artikel + unbestimmtes Adjektiv">
             <antipattern>
-                <token postag="SENT_START"></token>
+                <token postag="SENT_START"/>
                 <token>ist</token>
                 <token regexp="yes">der|die|das</token>
             </antipattern>
@@ -23981,7 +24080,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="VERB_IST" name="Verb 1./3. Person (statt Partizip) + 'ist'">
             <pattern>
                 <marker>
-                    <token postag="VER:[13]:SIN:PRT:NON" postag_regexp="yes"><exception postag_regexp="yes" postag="SUB:.*"></exception></token>
+                    <token postag="VER:[13]:SIN:PRT:NON" postag_regexp="yes"><exception postag_regexp="yes" postag="SUB:.*"/></token>
                 </marker>
                 <token>ist</token>
             </pattern>
@@ -23996,6 +24095,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         [a-zöäü]+
                         <exception>eine</exception>
                         <exception postag_regexp="yes" postag="ADJ:.*"/>
+                        <exception postag="ADV:MOD"/>
                     </token>
                 </marker>
                 <token postag="VER:.*" postag_regexp="yes" />
@@ -24005,6 +24105,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Sonne">Die <marker>sonne</marker> scheint.</example>
             <example correction="Sonne">Denn die <marker>sonne</marker> scheint.</example>
             <example>Sie verachtet Menschen, die <marker>faul</marker> sind.</example>
+            <example>Die Dame, die <marker>offenbar</marker> gestürzt war, schrie laut.</example>
         </rule>
         <rule id="BEI_ANDEREN_SUB" name="'bei anderen' + ohne Dativ plural">
             <pattern>
@@ -24134,7 +24235,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag='SUB:.+' postag_regexp='yes'/>
                 <token regexp="yes">eines|einer</token>
                 <marker>
-                    <token postag='SUB:.+' postag_regexp='yes'><exception postag='SUB:GEN:.+' postag_regexp='yes'></exception></token>
+                    <token postag='SUB:.+' postag_regexp='yes'><exception postag='SUB:GEN:.+' postag_regexp='yes'/></token>
                 </marker>
             </pattern>
             <message>Hier sollte vermutlich der Genitiv benutzt werden.</message>
@@ -24143,7 +24244,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ZU_KOMMA_ALS" name="zu, als dass">
             <pattern>
                 <token>zu</token>
-                <token postag='ADJ:PRD:GRU'></token>
+                <token postag='ADJ:PRD:GRU'/>
                 <token>,</token>
                 <marker>
                     <token>als</token>
@@ -27259,12 +27360,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Geht-ja-überhaupt-gar-nicht-Einstellung">Du mit deiner <marker>„Geht ja überhaupt gar nicht“-Einstellung</marker>!</example>
             </rule>
         </rulegroup>
+        <rule id="INDIREKTE_FRAGE" name="indirekte Frage">
+            <antipattern>
+                <token>ob</token>
+                <token postag='.*GEN.*' postag_regexp='yes'/>
+            </antipattern>
+            <antipattern>
+                <token>ob</token>
+                <token postag='UNKNOWN'/>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token regexp='yes'>&fragewoerter;</token>
+                <token/>
+                <token regexp='yes' case_sensitive='yes'>inwiefern|inwieweit|ob|wann|warum|wem|wen|wer|weshalb|weswegen|wessen|wieso|wo|wodurch|woher|wohin|wofür|womit|woran|worau|wovon|wozu</token>
+            </antipattern>
+            <antipattern>
+                <token>und</token>
+                <token regexp='yes'>&fragewoerter;</token>
+                <token/>
+                <token regexp='yes' case_sensitive='yes'>inwiefern|inwieweit|ob|wann|warum|wem|wen|wer|weshalb|weswegen|wessen|wieso|wo|wodurch|woher|wohin|wofür|womit|woran|worau|wovon|wozu</token>
+            </antipattern>
+            <pattern>
+                <token postag='VER:.*' postag_regexp='yes'><exception>mal</exception></token>
+                <token regexp='yes' min='0'>nicht|bereits|schon|vielleicht|noch|mich|dich|sich|euch|uns|sie|ihn|dann|schließlich|endlich</token>
+                <marker>
+                    <token regexp='yes' case_sensitive='yes'>inwiefern|inwieweit|ob|wann|warum|wem|wen|wer|weshalb|weswegen|wessen|wieso|wo|wodurch|woher|wohin|wofür|womit|woran|worau|wovon|wozu</token>
+                </marker>
+                <token><exception postag="PKT"/></token>
+            </pattern>
+            <message>Indirekte Fragen werden mit Komma vom Hauptsatz abgetrennt. Meinten Sie <suggestion>, \3</suggestion>?</message>
+            <short>Möglicherweise fehlendes Komma</short>
+            <example correction=', ob'>Er fragt<marker> ob</marker> das ginge.</example>
+            <example correction=', wer'>Ich erkundigte mich<marker> wer</marker> das sei.</example>
+            <example>Er konnte hören, wen sie anrief.</example>
+            <example>Ich bin erstaunt ob deiner schnellen Antwort.</example>
+            <example>Er zitterte ob Marias Schlagfertigkeit.</example>
+            <example>Wer hat wann wovon erfahren und wer hat wann was entschieden?</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
     <!-- Typographie -->
     <!-- ====================================================================== -->
     <category id="TYPOGRAPHY" name="Typographie">
+        <rule id="FALSCHE_VERWENDUNG_DES_BINDESTRICHS" name="Mögliche falsche Verwendung des Bindestrichs">
+            <regexp> - </regexp>
+            <message>Meinten Sie den Gedankenstrich?</message>
+            <suggestion> – </suggestion>
+            <url>http://typefacts.com/artikel/grundlagen/bindestrich-gedankenstrich</url>
+            <example correction=' – '>Das Abendmahl<marker> - </marker>sonst nur in einem Kloster in Mailand zu bewundern</example>
+            <example>Frau Müller-Lüdenscheidt</example>
+        </rule>
         <rulegroup id="TYPOGRAFISCHE_ANFUEHRUNGSZEICHEN" name="Typografische Anführungszeichen und Prime">
             <!-- TODO: mit  spacebefore="no/yes" öffnende und schließende Anführungszeichen unterscheiden und entsprechend vorschlagen? -->
             <!-- TODO: default="off"? An geraden Anführungszeichen ist ja nichts falsch, sie sind bloß hässlich. -->

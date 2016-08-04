@@ -37,6 +37,7 @@ import javax.swing.filechooser.FileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.CorrectExample;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.patterns.FalseFriendPatternRule;
@@ -275,15 +276,15 @@ public final class Tools {
 
   private static String getExampleSentences(Rule rule, ResourceBundle messages) {
     StringBuilder examples = new StringBuilder(200);
-    java.util.List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
+    List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
     if (incorrectExamples.size() > 0) {
       String incorrectExample = incorrectExamples.iterator().next().getExample();
       String sentence = incorrectExample.replace("<marker>", "<span style='background-color:#ff8080'>").replace("</marker>", "</span>");
       examples.append("<br/>").append(sentence).append("&nbsp;<span style='color:red;font-style:italic;font-weight:bold'>x</span>");
     }
-    java.util.List<String> correctExamples = rule.getCorrectExamples();
+    List<CorrectExample> correctExamples = rule.getCorrectExamples();
     if (correctExamples.size() > 0) {
-      String correctExample = correctExamples.iterator().next();
+      String correctExample = correctExamples.iterator().next().getExample();
       String sentence = correctExample.replace("<marker>", "<span style='background-color:#80ff80'>").replace("</marker>", "</span>");
       examples.append("<br/>").append(sentence).append("&nbsp;<span style='color:green'>✓</span>");
     } else if (incorrectExamples.size() > 0) {

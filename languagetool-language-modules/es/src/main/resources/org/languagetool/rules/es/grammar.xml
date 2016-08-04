@@ -372,8 +372,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
     <rulegroup id="VERBO_TILDE" name="Verbos con o sin tilde">
-        <!-- LO_SE lo sé-->
+
         <short>El verbo lleva tilde.</short>
+
+        <rule id="ESTA_PARTICIPIO" name="*esta/está + participio">
+            <pattern>
+                <marker>
+                    <token>esta</token>
+                </marker>
+                <token min="0" postag="RG"/>
+                <token postag="V.P..S[FM]" postag_regexp="yes"><exception postag="NCFS000"/></token>
+            </pattern>
+            <message>Si es del verbo estar, se escribe <suggestion>está</suggestion>.</message>
+            <example correction="Está"><marker>Esta</marker> cansada.</example>
+            <example correction="Está"><marker>Esta</marker> muy cansada.</example>
+            <example correction="Está"><marker>Esta</marker> agotado.</example>
+            <example>Esta revista es antigua.</example>
+            <example>Esta comida es buena.</example>
+        </rule>
+
+        <!-- LO_SE lo sé-->
+
         <rule id="LO_SE" name="lo se (sé)">
             <pattern>
                 <token regexp="yes">l[oae]</token>
@@ -502,6 +521,116 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="hacía">Esa bota la <marker>hacia</marker> otra compañía.</example>
         <example>Depende de lo hacia abajo que apuntes.</example>
     </rule>
+    
+    <rulegroup id="AUN" name="aún/anun">
+        <!-- AÚN > AUN -->
+        <rule>
+            <pattern>
+                <marker>
+                    <token>aún</token>
+                </marker>
+                <token>así</token>
+            </pattern>
+            <message>Solo se acentúan cuando equivale a "todavía".</message>
+            <suggestion>aun</suggestion>
+            <url>http://www.fundeu.es/recomendacion/aun-asi-y-aun-asi-no-son-lo-mismo-1130/</url>
+            <example correction="Aun"><marker>Aún</marker> así, lo consiguieron.</example>
+            <!--<example>Siguen aún así.</example>-->
+        </rule>
+        <rule>
+            <antipattern>
+                <marker>
+                   <token regexp="yes">más|menos|mejor|peor</token>
+                   <token min="0" postag="A.*|RG" postag_regexp="yes"/>
+                   <token>aún</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                   <token regexp="yes">más|menos|mejor|peor</token>
+                   <token regexp="yes">.+mente</token> <!-- falta añadir adverbios acabaods en -mente en el tagger-->
+                   <token>aún</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>aún</token>
+                </marker>
+                <token regexp="yes">si|cuando</token>
+            </pattern>
+            <message>Solo se acentúan cuando equivale a "todavía".</message>
+            <suggestion>aun</suggestion>
+            <example correction="Aun"><marker>Aún</marker> si estas no tienen efecto.</example>
+            <example>Mejor aún si es así.</example>
+            <example>Más aún si es así.</example>
+            <example>Decae más rápidamente aún si nos salimos del disco.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>ni</token>
+                <marker>
+                    <token>aún</token>
+                </marker>
+            </pattern>
+            <message>Solo se acentúan cuando equivale a "todavía".</message>
+            <suggestion>aun</suggestion>
+            <example correction="aun">ni <marker>aún</marker> la mitad</example>
+        </rule>
+        <!-- AUN > AÚN -->
+        <rule>
+            <pattern>
+                <token regexp="yes">más|menos|mejor|peor</token>
+                <marker>
+                    <token>aun</token>
+                </marker>
+            </pattern>
+            <message>Se acentúan si equivale a "todavía".</message>
+            <suggestion>aún</suggestion>
+            <example correction="aún">Más <marker>aun</marker> si estas no tienen efecto.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>aun</token>
+                </marker>
+                <token regexp="yes">no|más</token>
+                <token><exception postag="V.G.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Se acentúan si equivale a "todavía".</message>
+            <suggestion>aún</suggestion>
+            <example correction="Aún"><marker>Aun</marker> no está claro.</example>
+            <example correction="aún">Es <marker>aun</marker> más grande de lo que pensaba.</example>
+            <example>Aun no siendo así, es fantástico.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>aun</token>
+                </marker>
+                <token min="0" postag="PP.*" postag_regexp="yes"/>
+                <token postag="V.I.*" postag_regexp="yes"><exception postag="RG|N.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Se acentúan si equivale a "todavía".</message>
+            <suggestion>aún</suggestion>
+            <example correction="Aún"><marker>Aun</marker> pensaba que sí.</example>
+            <example correction="Aún"><marker>Aun</marker> se desconoce.</example>
+            <example>Aun enfermo, fue a la escuela.</example>
+            <example>Aun así, me lo pasé bien.</example>   
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.[SI].*" postag_regexp="yes"><exception postag="RG|N.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token>aun</token>
+                </marker>
+                <token><exception>si</exception></token>
+            </pattern>
+            <message>Se acentúan si equivale a "todavía".</message>
+            <suggestion>aún</suggestion>
+            <example correction="aún">Pensaba <marker>aun</marker> lo mismo.</example>
+            <example>No me importaría aun si ella no viene.</example>
+        </rule>
+    </rulegroup>
     
     <rule id="A_PUNTO_DE" name="*apunto de/a punto de">
       <pattern>
@@ -1038,17 +1167,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </antipattern>
       <pattern>
           <marker>
-              <token inflected='yes' postag='V.[IS].3P.' postag_regexp='yes'>haber</token>
+              <token inflected='yes' postag='V.[IS].3P.' postag_regexp='yes'>haber<exception>han</exception></token> <!-- "han" no se usa como plural de "hay"-->
           </marker>
           <token regexp='yes'>.+<exception postag='V.P.+|PP3.*|UNKNOWN' postag_regexp='yes'/></token>
       </pattern>
       <message>Se conjuga el verbo Haber en plural para la tercera persona sólo si va seguido del participio de un verbo. <suggestion><match no="1" postag="V(.{3})3P(.)" postag_regexp="yes" postag_replace="V$13S$2"/></suggestion></message>
       <short>Verbo haber en plural sin participio.</short>
       <example correction="Hubo"><marker>Hubieron</marker> varios disparos</example>
+      <example correction="Había"><marker>Habían</marker> como mínimo cinco.</example>
       <example>Hubo varios disparos</example>
       <example>Hubiera sido peor si no vienen.</example>
       <example>Ellos habían nacido para jugar.</example>
+      <example>De la dinastía Han.</example> 
   </rule>
+
+    <rule id="HABER_GERUNDIO" name="han *realizando/realizado">
+        <pattern>
+            <token postag="VA.*" postag_regexp="yes" inflected="yes">haber<exception>hay</exception></token>
+            <marker>
+                <token postag="V.*" postag_regexp="yes"><exception postag="V.P..SM|[^V].*|VMP0000" postag_regexp="yes"/></token>
+            </marker>
+        </pattern>
+        <message>Falta un participio o la preposición 'de'.</message>
+        <suggestion><match no="2" postag="V.P..SM" postag_regexp="yes"/></suggestion>
+        <suggestion>de <match no="2" postag="V.N.*" postag_regexp="yes"/></suggestion>
+        <example correction="realizado|de realizar">No se han <marker>realizando</marker>.</example>
+        <example correction="realizado|de realizar">No se han <marker>realizada</marker>.</example>
+        <example correction="realizado|de realizar">No se han <marker>realizar</marker>.</example>
+        <example correction="defendido|de defender">Habían <marker>defendiendo</marker> el resultado.</example>
+        <example correction="encontrado|de encontrar">Se han <marker>encontraron</marker> indicios.</example>
+        <example correction="considerado|de considerar">Se han <marker>consideran</marker> indicios.</example>
+        <example>Entre lo que hay consideramos que sí.</example>
+        <example>Habían considerado la cuestión.</example>
+        <example>Que haya malentendidos.</example>
+        <example>Había como mínimo cinco.</example>
+        <example>Allí no ha llovido.</example>
+    </rule>
 
     <!--PP_SE: te se -> se te-->
 
@@ -1814,6 +1968,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   </category>
 
   <category id="CAT4" name="Estilo" type="style">
+
+        <rule id="OROGRAFIA_DEL_TERRENO" name="redundancia: orografía del terreno">
+            <pattern>
+                <token>orografía</token>
+                <token>del</token>
+                <token>terreno</token>
+            </pattern>
+            <message>Redundancia.</message>
+            <suggestion>orografía</suggestion>
+            <url>http://www.fundeu.es/recomendacion/orografia-del-terreno-expresion-redundante-60/</url>
+            <example correction="orografía">La <marker>orografía del terreno</marker> complica las tareas de extinción.</example>
+        </rule>
+
     <!-- LOOR : La forma preferida es OLOR (http://cvc.cervantes.es/alhabla/museo_horrores/museo_014.htm)-->
 
     <rule id="LOOR" name="Loor de multitudes">
@@ -2015,6 +2182,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="contra corriente|a contracorriente">Ir <marker>a contra corriente</marker></example>
       </rule>
     </rulegroup>
-    
+   
+    <rule id="TAL_ES_ASI" name="*tal es así/tanto es así">
+        <pattern>
+            <token>tal</token>
+            <token>es</token>
+            <token>así</token>
+            <token min="0">,</token>
+            <token>que</token>
+        </pattern>
+        <message>Expresión incorrecta</message>
+        <suggestion>tanto es así que</suggestion>
+        <suggestion>tan es así que</suggestion>
+        <url>http://www.fundeu.es/recomendacion/tan-es-asi-y-no-tal-es-asi/</url>
+        <example correction="Tanto es así que|Tan es así que"><marker>Tal es así que</marker> los resultados fueron positivos.</example>
+    </rule>
+ 
   </category>
+  
+    <category id="CAMBIOS_NORMA" name="cambios en las normas lingüísticas">
+        <rule id="SOLO" name="sólo/solo">
+            <pattern>
+                <token>sólo</token>
+            </pattern>
+            <message>La tidle es innecesaria según la norma actual.</message>
+            <suggestion>solo</suggestion>
+            <suggestion>solamente</suggestion>
+            <suggestion>únicamente</suggestion>
+            <url>http://www.rae.es/consultas/el-adverbio-solo-y-los-pronombres-demostrativos-sin-tilde</url>
+            <example correction="solo|solamente|únicamente">Y <marker>sólo</marker> tiene tres.</example>
+        </rule>
+        <rule id="ESTE" name="éste/este">
+            <pattern>
+                <token regexp="yes">ést(e|a|os|as)</token>
+            </pattern>
+            <message>La tidle es innecesaria según la norma actual. Se puede usar en caso de ambigüedad.</message>
+            <suggestion><match no="1" regexp_match="(?iu)é(.*)" regexp_replace="e$1"/></suggestion>
+            <url>http://www.rae.es/consultas/el-adverbio-solo-y-los-pronombres-demostrativos-sin-tilde</url>
+            <example correction="Este"><marker>Éste</marker> es el camino.</example>
+            <example correction="este">En relación con <marker>éste</marker>.</example>
+        </rule>
+    </category>    
 </rules>

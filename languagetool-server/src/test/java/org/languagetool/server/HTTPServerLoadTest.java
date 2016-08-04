@@ -22,6 +22,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -60,7 +61,7 @@ public class HTTPServerLoadTest extends HTTPServerTest {
     }
   }
 
-  protected void doTest() throws InterruptedException, java.util.concurrent.ExecutionException {
+  protected void doTest() throws InterruptedException, ExecutionException {
     ExecutorService executorService = Executors.newFixedThreadPool(getThreadCount());
     List<Future> futures = new ArrayList<>();
     for (int i = 0; i < getThreadCount(); i++) {
@@ -91,7 +92,8 @@ public class HTTPServerLoadTest extends HTTPServerTest {
       for (int i = 0; i < getRepeatCount(); i++) {
         runningTests.incrementAndGet();
         try {
-          runTests();
+          runTestsV1();
+          runTestsV2();
         } catch (Exception e) {
           throw new RuntimeException(e);
         } finally {

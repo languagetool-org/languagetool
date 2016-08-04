@@ -131,6 +131,7 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
         }
         inCorrectExample = false;
         inIncorrectExample = false;
+        inErrorTriggerExample = false;
         break;
       default:
         super.endElement(namespaceURI, sName, qName);
@@ -150,6 +151,8 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
       } else {
         example = new IncorrectExample(incorrectExample.toString());
       }
+    } else if (inErrorTriggerExample) {
+      throw new RuntimeException("'triggers_error' is not supported for bitext XML");
     }
     correctExample = new StringBuilder();
     incorrectExample = new StringBuilder();

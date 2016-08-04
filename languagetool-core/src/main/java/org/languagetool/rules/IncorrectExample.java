@@ -27,9 +27,8 @@ import java.util.Objects;
  * A text, typically a sentence, that contains an error.
  * @since 0.9.2
  */
-public final class IncorrectExample {
+public final class IncorrectExample extends ExampleSentence {
 
-  private final String example;
   private final List<String> corrections;
 
   public IncorrectExample(String example) {
@@ -40,15 +39,8 @@ public final class IncorrectExample {
    * @since 2.9
    */
   public IncorrectExample(String example, List<String> corrections) {
-    this.example = Objects.requireNonNull(example);
+    super(example);
     this.corrections = Collections.unmodifiableList(new ArrayList<>(corrections));
-  }
-
-  /**
-   * Return the example that contains the error.
-   */
-  public String getExample() {
-    return example;
   }
 
   /**

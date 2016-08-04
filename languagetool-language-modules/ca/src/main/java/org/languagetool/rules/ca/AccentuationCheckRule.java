@@ -60,10 +60,10 @@ public class AccentuationCheckRule extends CatalanRule {
   private static final Pattern NOM_FS = Pattern.compile("NC[FC][SN].*");
   private static final Pattern NOM_MP = Pattern.compile("NC[MC][PN].*");
   private static final Pattern NOM_FP = Pattern.compile("NC[FC][PN].*");
-  private static final Pattern ADJECTIU_MS = Pattern.compile("AQ.[MC][SN].*|V.P..SM.?|PX.MS.*");
-  private static final Pattern ADJECTIU_FS = Pattern.compile("AQ.[FC][SN].*|V.P..SF.?|PX.FS.*");
-  private static final Pattern ADJECTIU_MP = Pattern.compile("AQ.[MC][PN].*|V.P..PM.?|PX.MP.*");
-  private static final Pattern ADJECTIU_FP = Pattern.compile("AQ.[FC][PN].*|V.P..PF.?|PX.FP.*");
+  private static final Pattern ADJECTIU_MS = Pattern.compile("A..[MC][SN].*|V.P..SM.?|PX.MS.*");
+  private static final Pattern ADJECTIU_FS = Pattern.compile("A..[FC][SN].*|V.P..SF.?|PX.FS.*");
+  private static final Pattern ADJECTIU_MP = Pattern.compile("A..[MC][PN].*|V.P..PM.?|PX.MP.*");
+  private static final Pattern ADJECTIU_FP = Pattern.compile("A..[FC][PN].*|V.P..PF.?|PX.FP.*");
   private static final Pattern INFINITIU = Pattern.compile("V.N.*");
   private static final Pattern VERB_CONJUGAT = Pattern.compile("V.[^NGP].*|_GV_");
   private static final Pattern PARTICIPI_MS = Pattern.compile("V.P.*SM.?");

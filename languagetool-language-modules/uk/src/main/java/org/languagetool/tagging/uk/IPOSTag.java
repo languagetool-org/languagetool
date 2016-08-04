@@ -25,7 +25,7 @@ public enum IPOSTag {
   verb("verb"),
   adv("adv"),
   part("part"),
-  excl("excl"),
+  intj("intj"),
   numr("numr"),
   number("number"),
   date("date"),

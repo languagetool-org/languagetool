@@ -70,7 +70,8 @@ public class Portuguese extends Language {
   @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {
-            new Contributor("Marco A.G. Pinto", "http://www.marcoagpinto.com/")
+            new Contributor("Marco A.G. Pinto", "http://www.marcoagpinto.com/"),
+            new Contributor("Matheus Poletto")
     };
   }
 

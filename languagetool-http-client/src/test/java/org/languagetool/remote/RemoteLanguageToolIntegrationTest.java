@@ -48,7 +48,7 @@ public class RemoteLanguageToolIntegrationTest {
   @Test
   @Ignore("for interactive use only")
   public void testPublicServer() throws MalformedURLException {
-    RemoteLanguageTool lt = new RemoteLanguageTool(new URL("https://languagetool.org:8081"));
+    RemoteLanguageTool lt = new RemoteLanguageTool(new URL("https://languagetool.org/api"));
     RemoteResult matches = lt.check("This is an test.", "en");
     System.out.println("matches: " + matches);
   }
@@ -71,7 +71,6 @@ public class RemoteLanguageToolIntegrationTest {
       assertThat(result1.getLanguageCode(), is("en"));
       assertThat(result1.getRemoteServer().getSoftware(), is("LanguageTool"));
       assertNotNull(result1.getRemoteServer().getVersion());
-      assertNotNull(result1.getRemoteServer().getBuildDate());
       assertThat(result1.getMatches().size(), is(2));
       assertThat(result1.getMatches().get(0).getRuleId(), is("EN_A_VS_AN"));
       assertThat(result1.getMatches().get(1).getRuleId(), is("ENGLISH_WORD_REPEAT_RULE"));
@@ -90,15 +89,15 @@ public class RemoteLanguageToolIntegrationTest {
       assertThat(result4.getMatches().size(), is(1));
       assertThat(result4.getMatches().get(0).getRuleId(), is("EN_A_VS_AN"));
 
-      CheckConfiguration config1 = new CheckConfigurationBuilder("en").autoDetectLanguage().build();
+      CheckConfiguration config1 = new CheckConfigurationBuilder().build();
       RemoteResult result5 = lt.check("Ein Satz in Deutsch, mit etwas mehr Text, damit es auch geht.", config1);
       assertThat(result5.getLanguage(), is("German (Germany)"));
       assertThat(result5.getLanguageCode(), is("de-DE"));
 
-      CheckConfiguration config2 = new CheckConfigurationBuilder("fr").autoDetectLanguage().build();
+      CheckConfiguration config2 = new CheckConfigurationBuilder().build();
       RemoteResult result6 = lt.check("x", config2);  // too short, fallback will be used
-      assertThat(result6.getLanguage(), is("French"));
-      assertThat(result6.getLanguageCode(), is("fr"));
+      assertThat(result6.getLanguage(), is("English (US)"));
+      assertThat(result6.getLanguageCode(), is("en-US"));
 
       RemoteResult result7 = lt.check("Das Häuser ist schön.", "de");
       assertThat(result7.getMatches().size(), is(1));

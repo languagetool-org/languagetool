@@ -45,9 +45,9 @@ public class UppercaseSentenceStartRuleTest {
     assertEquals(1, matches[0].getSuggestedReplacements().size());
     assertEquals("Автор", matches[0].getSuggestedReplacements().get(0));
     
-    assertEquals(new ArrayList<RuleMatch>(), lt.check("Це список з декількох рядків:\n\nрядок 1,\n\nрядок 2,\n\nрядок 3."));
-    assertEquals(0, lt.check("Це список з декількох рядків:\n\nрядок 1;\n\nрядок 2;\n\nрядок 3.").size());
-    assertEquals(0, lt.check("Це список з декількох рядків:\n\n 1) рядок 1;\n\n2) рядок 2;\n\n3)рядок 3.").size());
+    assertEquals(new ArrayList<RuleMatch>(), lt.check("Цей список з декількох рядків:\n\nрядок 1,\n\nрядок 2,\n\nрядок 3."));
+    assertEquals(0, lt.check("Цей список з декількох рядків:\n\nрядок 1;\n\nрядок 2;\n\nрядок 3.").size());
+    assertEquals(0, lt.check("Цей список з декількох рядків:\n\n 1) рядок 1;\n\n2) рядок 2;\n\n3)рядок 3.").size());
   }
 
 }

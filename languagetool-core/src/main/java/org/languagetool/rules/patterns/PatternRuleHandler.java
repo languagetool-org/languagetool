@@ -28,10 +28,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.languagetool.Languages;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.CategoryId;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.IncorrectExample;
+import org.languagetool.rules.*;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -141,6 +138,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
 
         correctExamples = new ArrayList<>();
         incorrectExamples = new ArrayList<>();
+        errorTriggeringExamples = new ArrayList<>();
         suggestionMatches.clear();
         suggestionMatchesOutMsg.clear();
         if (attrs.getValue(TYPE) != null) {
@@ -199,7 +197,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
             exampleCorrection.append(attrs.getValue("correction"));
           }
         } else if ("triggers_error".equals(typeVal)) {
-          // ignore
+          inErrorTriggerExample = true;
+          errorTriggerExample = new StringBuilder();
         } else {
           // no attribute implies the sentence is a correct example
           inCorrectExample = true;
@@ -264,6 +263,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
           incorrectExample.append(MARKER_TAG);
         } else if (inCorrectExample) {
           correctExample.append(MARKER_TAG);
+        } else if (inErrorTriggerExample) {
+          errorTriggerExample.append(MARKER_TAG);
         } else if (inPattern || inAntiPattern) {
           startPos = tokenCounter;
           inMarker = true;
@@ -400,7 +401,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case EXAMPLE:
         if (inCorrectExample) {
-          correctExamples.add(correctExample.toString());
+          correctExamples.add(new CorrectExample(correctExample.toString()));
         } else if (inIncorrectExample) {
           IncorrectExample example;
           List<String> corrections = new ArrayList<>();
@@ -414,11 +415,15 @@ public class PatternRuleHandler extends XMLRuleHandler {
             example = new IncorrectExample(incorrectExample.toString());
           }
           incorrectExamples.add(example);
+        } else if (inErrorTriggerExample) {
+          errorTriggeringExamples.add(new ErrorTriggeringExample(errorTriggerExample.toString()));
         }
         inCorrectExample = false;
         inIncorrectExample = false;
+        inErrorTriggerExample = false;
         correctExample = new StringBuilder();
         incorrectExample = new StringBuilder();
+        errorTriggerExample = new StringBuilder();
         exampleCorrection = new StringBuilder();
         break;
       case MESSAGE:
@@ -468,6 +473,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
           correctExample.append("</marker>");
         } else if (inIncorrectExample) {
           incorrectExample.append("</marker>");
+        } else if (inErrorTriggerExample) {
+          errorTriggerExample.append("</marker>");
         } else if (inPattern || inAntiPattern) {
           endPos = tokenCountForMarker;
           inMarker = false;
@@ -593,6 +600,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
     endPos = -1;
     rule.setCorrectExamples(correctExamples);
     rule.setIncorrectExamples(incorrectExamples);
+    rule.setErrorTriggeringExamples(errorTriggeringExamples);
     rule.setCategory(category);
     if (!rulegroupAntiPatterns.isEmpty()) {
       rule.setAntiPatterns(rulegroupAntiPatterns);
@@ -660,6 +668,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
       correctExample.append(s);
     } else if (inIncorrectExample) {
       incorrectExample.append(s);
+    } else if (inErrorTriggerExample) {
+      errorTriggerExample.append(s);
     } else if (inMatch) {
       match.append(s);
     } else if (inMessage) {

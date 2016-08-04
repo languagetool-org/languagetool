@@ -18,143 +18,57 @@
  */
 package org.languagetool.server;
 
-import java.io.*;
-import java.net.*;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.*;
-
-import org.apache.commons.lang.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.gui.Configuration;
-import org.languagetool.language.LanguageIdentifier;
-import org.languagetool.rules.CategoryId;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.bitext.BitextRule;
-import org.languagetool.tools.RuleMatchAsXmlSerializer;
-import org.languagetool.tools.StringTools;
-import org.languagetool.tools.Tools;
-
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.Language;
+import org.languagetool.Languages;
+import org.languagetool.tools.StringTools;
 
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeoutException;
+
+import static org.languagetool.server.ServerTools.print;
 import static org.languagetool.tools.StringTools.escapeForXmlContent;
 
 class LanguageToolHttpHandler implements HttpHandler {
 
-  private static final String CONTENT_TYPE_VALUE = "text/xml; charset=UTF-8";
+  private static final String XML_CONTENT_TYPE = "text/xml; charset=UTF-8";
   private static final String ENCODING = "utf-8";
-  private static final int CONTEXT_SIZE = 40; // characters
 
   private static int handleCount = 0;
 
   private final Set<String> allowedIps;  
-  private final boolean verbose;
-  private final boolean internalServer;
   private final RequestLimiter requestLimiter;
   private final LinkedBlockingQueue<Runnable> workQueue;
-  private final ExecutorService executorService;
-  private final LanguageIdentifier identifier;
-
-  private long maxCheckTimeMillis = -1;
-  private int maxTextLength = Integer.MAX_VALUE;
-  private String allowOriginUrl;
-  private boolean afterTheDeadlineMode;
-  private Language afterTheDeadlineLanguage;
-  private File languageModelDir;
-  private int maxWorkQueueSize;
-  private boolean trustXForwardForHeader = false;
-  private Set<String> ownIps;
-  private File rulesConfigurationFile = null;
+  private final TextChecker textCheckerV1;
+  private final TextChecker textCheckerV2;
+  private final HTTPServerConfig config;
+  private final boolean afterTheDeadlineMode;
+  private final Set<String> ownIps;
   
-  /**
-   * Create an instance. Call {@link #shutdown()} when done.
-   * @param verbose print the input text in case of exceptions
-   * @param allowedIps set of IPs that may connect or <tt>null</tt> to allow any IP
-   * @param requestLimiter may be null
-   */
-  LanguageToolHttpHandler(boolean verbose, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, LinkedBlockingQueue<Runnable> workQueue) {
-    this.verbose = verbose;
+  LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, LinkedBlockingQueue<Runnable> workQueue) {
+    this.config = config;
     this.allowedIps = allowedIps;
-    this.internalServer = internal;
     this.requestLimiter = requestLimiter;
     this.workQueue = workQueue;
-    this.executorService = Executors.newCachedThreadPool();
-    this.identifier = new LanguageIdentifier();
+    if (config.getTrustXForwardForHeader()) {
+      this.ownIps = getServersOwnIps();
+    } else {
+      this.ownIps = new HashSet<>();
+    }
+    afterTheDeadlineMode = config.getMode() == HTTPServerConfig.Mode.AfterTheDeadline;
+    this.textCheckerV1 = new V1TextChecker(config, internal);
+    this.textCheckerV2 = new V2TextChecker(config, internal);
   }
 
   /** @since 2.6 */
   void shutdown() {
-    executorService.shutdownNow();
-  }
-
-  void setMaxTextLength(int maxTextLength) {
-    this.maxTextLength = maxTextLength;
-  }
-
-  /**
-   * Maximum time allowed per check in milliseconds. If the checking takes longer, it will stop with
-   * an exception. Use {@code -1} for no limit.
-   * @since 2.6
-   */
-  void setMaxCheckTimeMillis(long maxCheckTimeMillis) {
-    this.maxCheckTimeMillis = maxCheckTimeMillis;
-  }
-
-  /**
-   * Set to {@code true} if this is running behind a (reverse) proxy which
-   * sets the {@code X-forwarded-for} HTTP header. The last IP address (but not local IP addresses)
-   * in that header will then be used for enforcing a request limitation.
-   * @since 2.8
-   */
-  void setTrustXForwardForHeader(boolean trustXForwardForHeader) {
-    this.trustXForwardForHeader = trustXForwardForHeader;
-    if (trustXForwardForHeader) {
-      this.ownIps = getServersOwnIps();
-    }
-  }
-
-  /**
-   * Value to set as the "Access-Control-Allow-Origin" http header. Use {@code null}
-   * to not return that header at all. Use {@code *} to run a server that any other web site
-   * can use from Javascript/Ajax (search Cross-origin resource sharing (CORS) for details).
-   */
-  void setAllowOriginUrl(String allowOriginUrl) {
-    this.allowOriginUrl = allowOriginUrl;
-  }
-
-  /** @since 2.7 */
-  void setAfterTheDeadlineMode(Language defaultLanguage) {
-    System.out.println("Running in After the Deadline mode, default language: " + defaultLanguage);
-    this.afterTheDeadlineMode = true;
-    this.afterTheDeadlineLanguage = defaultLanguage;
-  }
-
-  /** @since 2.7 */
-  void setLanguageModel(File languageModelDir) {
-    this.languageModelDir = languageModelDir;
-  }
-
-  /**
-   * @param size maximum queue size - if the queue is larger, the user will get an error. Use {@code 0} for no limit.
-   * @since 2.9
-   */
-  void setMaxWorkQueueSize(int size) {
-    if (size < 0) {
-      throw new IllegalArgumentException("Max queue size must be >= 0: " + size);
-    }
-    this.maxWorkQueueSize = size;
-  }
-
-  /**
-   * @since 3.0
-   */
-  void setRulesConfigurationFile(File configFile) {
-    this.rulesConfigurationFile = configFile;
+    textCheckerV1.shutdownNow();
   }
 
   @Override
@@ -182,14 +96,18 @@ class LanguageToolHttpHandler implements HttpHandler {
               " - HTTP UserAgent: " + getHttpUserAgent(httpExchange));
         return;
       }
-      if (maxWorkQueueSize != 0 && workQueue.size() > maxWorkQueueSize) {
+      if (config.getMaxWorkQueueSize() != 0 && workQueue.size() > config.getMaxWorkQueueSize()) {
         String response = "Error: There are currently too many parallel requests. Please try again later.";
-        print(response + " Queue size: " + workQueue.size() + ", maximum size: " + maxWorkQueueSize);
+        print(response + " Queue size: " + workQueue.size() + ", maximum size: " + config.getMaxWorkQueueSize());
         sendError(httpExchange, HttpURLConnection.HTTP_UNAVAILABLE, "Error: " + response);
         return;
       }
       if (allowedIps == null || allowedIps.contains(origAddress)) {
-        if (requestedUri.getRawPath().endsWith("/Languages")) {
+        if (requestedUri.getRawPath().startsWith("/v2/")) {
+          ApiV2 apiV2 = new ApiV2(textCheckerV2, config.getAllowOriginUrl());
+          String pathWithoutVersion = requestedUri.getRawPath().substring("/v2/".length());
+          apiV2.handleRequest(pathWithoutVersion, httpExchange, parameters);
+        } else if (requestedUri.getRawPath().endsWith("/Languages")) {
           // request type: list known languages
           printListOfLanguages(httpExchange);
         } else {
@@ -201,12 +119,15 @@ class LanguageToolHttpHandler implements HttpHandler {
             }
             text = text.replaceAll("</p>", "\n\n").replaceAll("<.*?>", "");  // clean up HTML, position changes don't matter for AtD
           } else {
+            if (requestedUri.getRawPath().contains("/v2/")) {
+              throw new IllegalArgumentException("You have '/v2/' in your path, but not at the root. Try an URL like 'http://server/v2/...' ");
+            }
             text = parameters.get("text");
             if (text == null) {
               throw new IllegalArgumentException("Missing 'text' parameter");
             }
           }
-          checkText(text, httpExchange, parameters);
+          textCheckerV1.checkText(text, httpExchange, parameters, handleCount);
         }
       } else {
         String errorMessage = "Error: Access from " + StringTools.escapeXML(origAddress) + " denied";
@@ -224,7 +145,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         response = e.getMessage();
       } else if (e.getCause() != null && e.getCause() instanceof TimeoutException) {
         errorCode = HttpURLConnection.HTTP_UNAVAILABLE;
-        response = "Checking took longer than " + maxCheckTimeMillis/1000 + " seconds, which is this server's limit. " +
+        response = "Checking took longer than " + config.getMaxCheckTimeMillis()/1000 + " seconds, which is this server's limit. " +
                    "Please make sure you have selected the proper language or consider submitting a shorter text.";
       } else {
         response = "Internal Error. Please contact the site administrator.";
@@ -248,7 +169,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     message += "HTTP user agent: " + getHttpUserAgent(httpExchange) + ", ";
     message += "Stacktrace follows:";
     print(message, System.err);
-    if (verbose && text != null) {
+    if (config.isVerbose() && text != null) {
       print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
               StringUtils.abbreviate(text, 500), System.err);
     }
@@ -287,7 +208,7 @@ class LanguageToolHttpHandler implements HttpHandler {
    */
   @Nullable
   private String getRealRemoteAddressOrNull(HttpExchange httpExchange) {
-    if (trustXForwardForHeader) {
+    if (config.getTrustXForwardForHeader()) {
       List<String> forwardedIpsStr = httpExchange.getRequestHeaders().get("X-forwarded-for");
       if (forwardedIpsStr != null) {
         String allForwardedIpsStr = StringUtils.join(forwardedIpsStr, ", ");
@@ -319,7 +240,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       httpExchange.sendResponseHeaders(httpReturnCode, xmlResponse.getBytes(ENCODING).length);
       httpExchange.getResponseBody().write(xmlResponse.getBytes(ENCODING));
     } else {
-      setAllowOrigin(httpExchange);
+      ServerTools.setAllowOrigin(httpExchange, config.getAllowOriginUrl());
       httpExchange.sendResponseHeaders(httpReturnCode, response.getBytes(ENCODING).length);
       httpExchange.getResponseBody().write(response.getBytes(ENCODING));
     }
@@ -329,7 +250,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     String query;
     if ("post".equalsIgnoreCase(httpExchange.getRequestMethod())) {
       try (InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), ENCODING)) {
-        query = readerToString(isr, maxTextLength);
+        query = readerToString(isr, config.getMaxTextLength());
       }
     } else {
       query = requestedUri.getRawQuery();
@@ -361,219 +282,10 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private void printListOfLanguages(HttpExchange httpExchange) throws IOException {
-    setCommonHeaders(httpExchange);
+    ServerTools.setCommonHeaders(httpExchange, XML_CONTENT_TYPE, config.getAllowOriginUrl());
     String response = getSupportedLanguagesAsXML();
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
-  }
-
-  private void setCommonHeaders(HttpExchange httpExchange) {
-    httpExchange.getResponseHeaders().set("Content-Type", CONTENT_TYPE_VALUE);
-    setAllowOrigin(httpExchange);
-  }
-
-  private void setAllowOrigin(HttpExchange httpExchange) {
-    if (allowOriginUrl != null) {
-      httpExchange.getResponseHeaders().set("Access-Control-Allow-Origin", allowOriginUrl);
-    }
-  }
-
-  Language detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants) {
-    Language lang = identifier.detectLanguage(text);
-    if (lang == null) {
-      lang = Languages.getLanguageForShortName(fallbackLanguage != null ? fallbackLanguage : "en");
-    }
-    if (preferredVariants.size() > 0) {
-      for (String preferredVariant : preferredVariants) {
-        if (!preferredVariant.contains("-")) {
-          throw new IllegalArgumentException("Invalid format for 'preferredvariant', expected a dash as in 'en-GB': '" + preferredVariant + "'");
-        }
-        String preferredVariantLang = preferredVariant.split("-")[0];
-        if (preferredVariantLang.equals(lang.getShortName())) {
-          lang = Languages.getLanguageForShortName(preferredVariant);
-          if (lang == null) {
-            throw new IllegalArgumentException("Invalid 'prefereredvariant', no such language/variant found: '" + preferredVariant + "'");
-          }
-        }
-      }
-    } else {
-      if (lang.getDefaultLanguageVariant() != null) {
-        lang = lang.getDefaultLanguageVariant();
-      }
-    }
-    return lang;
-  }
-
-  private void checkText(String text, HttpExchange httpExchange, Map<String, String> parameters) throws Exception {
-    long timeStart = System.currentTimeMillis();
-    if (text.length() > maxTextLength) {
-      throw new TextTooLongException("Your text exceeds this server's limit of " + maxTextLength +
-              " characters (it's " + text.length() + " characters). Please submit a shorter text.");
-    }
-    //print("Check start: " + text.length() + " chars, " + langParam);
-    boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
-    List<String> preferredVariants;
-    if (parameters.get("preferredvariants") != null) {
-      preferredVariants = Arrays.asList(parameters.get("preferredvariants").split(",\\s*"));
-      if (!autoDetectLanguage) {
-        throw new IllegalArgumentException("You specified 'preferredvariants' but you didn't specify 'autodetect=yes'");
-      }
-    } else {
-      preferredVariants = Collections.emptyList();
-    }
-    Language lang = getLanguage(text, parameters.get("language"), autoDetectLanguage, preferredVariants);
-    String motherTongueParam = parameters.get("motherTongue");
-    Language motherTongue = motherTongueParam != null ? Languages.getLanguageForShortName(motherTongueParam) : null;
-    boolean useEnabledOnly = "yes".equals(parameters.get("enabledOnly"));
-    String enabledParam = parameters.get("enabled");
-    List<String> enabledRules = new ArrayList<>();
-    if (enabledParam != null) {
-      enabledRules.addAll(Arrays.asList(enabledParam.split(",")));
-    }
-
-    List<String> disabledRules = getCommaSeparatedStrings("disabled", parameters);
-    List<CategoryId> enabledCategories = getCategoryIds("enabledCategories", parameters);
-    List<CategoryId> disabledCategories = getCategoryIds("disabledCategories", parameters);
-
-    if ((disabledRules.size() > 0 || disabledCategories.size() > 0) && useEnabledOnly) {
-      throw new IllegalArgumentException("You cannot specify disabled rules or categories using enabledOnly=yes");
-    }
-    
-    boolean useQuerySettings = enabledRules.size() > 0 || disabledRules.size() > 0 ||
-                                     enabledCategories.size() > 0 || disabledCategories.size() > 0;
-    QueryParams params = new QueryParams(enabledRules, disabledRules, enabledCategories, disabledCategories, useEnabledOnly, useQuerySettings);
-    
-    Future<List<RuleMatch>> future = executorService.submit(new Callable<List<RuleMatch>>() {
-      @Override
-      public List<RuleMatch> call() throws Exception {
-        // use to fake OOM in thread for testing:
-        /*if (Math.random() < 0.1) {
-          throw new OutOfMemoryError();
-        }*/
-        return getRuleMatches(text, parameters, lang, motherTongue, params);
-      }
-    });
-    List<RuleMatch> matches;
-    if (maxCheckTimeMillis < 0) {
-      matches = future.get();
-    } else {
-      try {
-        matches = future.get(maxCheckTimeMillis, TimeUnit.MILLISECONDS);
-      } catch (ExecutionException e) {
-        if (e.getCause() != null && e.getCause() instanceof OutOfMemoryError) {
-          throw (OutOfMemoryError)e.getCause();
-        } else {
-          throw e;
-        }
-      } catch (TimeoutException e) {
-        boolean cancelled = future.cancel(true);
-        throw new RuntimeException("Text checking took longer than allowed maximum of " + maxCheckTimeMillis +
-                " milliseconds (cancelled: " + cancelled + ", handleCount: " + handleCount + ", queue size: " + workQueue.size() +
-                ", language: " + lang.getShortNameWithCountryAndVariant() +
-                ", " + text.length() + " characters of text)", e);
-      }
-    }
-    
-    setCommonHeaders(httpExchange);
-    String xmlResponse = getXmlResponse(text, lang, motherTongue, matches);
-    String messageSent = "sent";
-    String languageMessage = lang.getShortNameWithCountryAndVariant();
-    String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
-    try {
-      httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, xmlResponse.getBytes(ENCODING).length);
-      httpExchange.getResponseBody().write(xmlResponse.getBytes(ENCODING));
-      if (motherTongue != null) {
-        languageMessage += " (mother tongue: " + motherTongue.getShortNameWithCountryAndVariant() + ")";
-      }
-      if (autoDetectLanguage) {
-        languageMessage += "[auto]";
-      }
-    } catch (IOException exception) {
-      // the client is disconnected
-      messageSent = "notSent: " + exception.getMessage();
-    }
-    String agent = parameters.get("useragent") != null ? parameters.get("useragent") : "-";
-    print("Check done: " + text.length() + " chars, " + languageMessage + ", " + referrer + ", "
-            + "handlers:" + handleCount + ", queue:" + workQueue.size() + ", " + matches.size() + " matches, "
-            + (System.currentTimeMillis() - timeStart) + "ms, agent:" + agent
-            + ", " + messageSent);
-  }
-
-  @NotNull
-  private List<String> getCommaSeparatedStrings(String paramName, Map<String, String> parameters) {
-    String disabledParam = parameters.get(paramName);
-    List<String> result = new ArrayList<>();
-    if (disabledParam != null) {
-      result.addAll(Arrays.asList(disabledParam.split(",")));
-    }
-    return result;
-  }
-
-  @NotNull
-  private List<CategoryId> getCategoryIds(String paramName, Map<String, String> parameters) {
-    List<String> stringIds = getCommaSeparatedStrings(paramName, parameters);
-    List<CategoryId> ids = new ArrayList<>();
-    for (String stringId : stringIds) {
-      ids.add(new CategoryId(stringId));
-    }
-    return ids;
-  }
-
-  private boolean getLanguageAutoDetect(Map<String, String> parameters) {
-    if (afterTheDeadlineMode) {
-      return "true".equals(parameters.get("guess"));
-    } else {
-      boolean autoDetect = "1".equals(parameters.get("autodetect")) || "yes".equals(parameters.get("autodetect"));
-      if (parameters.get("language") == null && !autoDetect) {
-        throw new IllegalArgumentException("Missing 'language' parameter. Specify language or use 'autodetect=yes' for auto-detecting the language of the input text.");
-      }
-      return autoDetect;
-    }
-  }
-
-  private Language getLanguage(String text, String langParam, boolean autoDetect, List<String> preferredVariants) {
-    Language lang;
-    if (autoDetect) {
-      lang = detectLanguageOfString(text, langParam, preferredVariants);
-    } else {
-      if (afterTheDeadlineMode) {
-        lang = afterTheDeadlineLanguage;
-      } else {
-        lang = Languages.getLanguageForShortName(langParam);
-      }
-    }
-    return lang;
-  }
-
-  private List<RuleMatch> getRuleMatches(String text, Map<String, String> parameters, Language lang,
-                                         Language motherTongue, QueryParams params) throws Exception {
-    String sourceText = parameters.get("srctext");
-    if (sourceText == null) {
-      JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params);
-      return lt.check(text);
-    } else {
-      if (parameters.get("motherTongue") == null) {
-        throw new IllegalArgumentException("Missing 'motherTongue' parameter for bilingual checks");
-      }
-      print("Checking bilingual text, with source length " + sourceText.length() +
-          " and target length " + text.length() + " (characters), source language " +
-          motherTongue + " and target language " + lang.getShortNameWithCountryAndVariant());
-      JLanguageTool sourceLt = getLanguageToolInstance(motherTongue, null, params);
-      JLanguageTool targetLt = getLanguageToolInstance(lang, null, params);
-      List<BitextRule> bRules = Tools.selectBitextRules(Tools.getBitextRules(motherTongue, lang),
-          params.disabledRules, params.enabledRules, params.useEnabledOnly);
-      return Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
-    }
-  }
-
-  private String getXmlResponse(String text, Language lang, Language motherTongue, List<RuleMatch> matches) {
-    if (afterTheDeadlineMode) {
-      AtDXmlSerializer serializer = new AtDXmlSerializer();
-      return serializer.ruleMatchesToXml(matches, text);
-    } else {
-      RuleMatchAsXmlSerializer serializer = new RuleMatchAsXmlSerializer();
-      return serializer.ruleMatchesToXml(matches, text, CONTEXT_SIZE, lang, motherTongue);
-    }
   }
 
   private Map<String, String> parseQuery(String query) throws UnsupportedEncodingException {
@@ -600,55 +312,6 @@ class LanguageToolHttpHandler implements HttpHandler {
     return parameters;
   }
 
-  private static void print(String s) {
-    print(s, System.out);
-  }
-
-  private static void print(String s, PrintStream outputStream) {
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    String now = dateFormat.format(new Date());
-    outputStream.println(now + " " + s);
-  }
-
-  /**
-   * Create a JLanguageTool instance for a specific language, mother tongue, and rule configuration.
-   *
-   * @param lang the language to be used
-   * @param motherTongue the user's mother tongue or {@code null}
-   */
-  private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue, QueryParams params) throws Exception {
-    JLanguageTool lt = new JLanguageTool(lang, motherTongue);
-    if (languageModelDir != null) {
-      lt.activateLanguageModelRules(languageModelDir);
-    }
-    if (params.useQuerySettings) {
-      Tools.selectRules(lt, new HashSet<>(params.disabledCategories), new HashSet<>(params.enabledCategories),
-                        new HashSet<>(params.disabledRules), new HashSet<>(params.enabledRules), params.useEnabledOnly);
-    } else {
-      if (rulesConfigurationFile != null) {
-        configureFromRulesFile(lt, lang);
-      } else {
-        configureFromGUI(lt, lang);
-      }
-    }
-    return lt;
-  }
-
-  private void configureFromRulesFile(JLanguageTool langTool, Language lang) throws IOException {
-    print("Using options configured in " + rulesConfigurationFile);
-    // If we are explicitly configuring from rules, ignore the useGUIConfig flag
-    org.languagetool.gui.Tools.configureFromRules(langTool, new Configuration(rulesConfigurationFile.getParentFile(),
-                       rulesConfigurationFile.getName(), lang));
-  }
-
-  private void configureFromGUI(JLanguageTool langTool, Language lang) throws IOException {
-    Configuration config = new Configuration(lang);
-    if (internalServer && config.getUseGUIConfig()) {
-      print("Using options configured in the GUI");
-      org.languagetool.gui.Tools.configureFromRules(langTool, config);
-    }
-  }
-
   /**
    * Construct an XML string containing all supported languages. <br/>The XML format looks like this:<br/><br/>
    * &lt;languages&gt;<br/>
@@ -662,32 +325,15 @@ class LanguageToolHttpHandler implements HttpHandler {
   public static String getSupportedLanguagesAsXML() {
     List<Language> languages = new ArrayList<>(Languages.get());
     Collections.sort(languages, (o1, o2) -> o1.getName().compareTo(o2.getName()));
-    StringBuilder xmlBuffer = new StringBuilder("<?xml version='1.0' encoding='" + ENCODING + "'?>\n<languages>\n");
+    StringBuilder xmlBuffer = new StringBuilder("<?xml version='1.0' encoding='" + ENCODING + "'?>\n");
+    xmlBuffer.append(V1TextChecker.getDeprecationWarning());
+    xmlBuffer.append("\n<languages>\n");
     for (Language lang : languages) {
       xmlBuffer.append(String.format("\t<language name=\"%s\" abbr=\"%s\" abbrWithVariant=\"%s\"/> \n", lang.getName(),
               lang.getShortName(), lang.getShortNameWithCountryAndVariant()));
     }
     xmlBuffer.append("</languages>\n");
     return xmlBuffer.toString();
-  }
-
-  private static class QueryParams {
-    final List<String> enabledRules;
-    final List<String> disabledRules;
-    final List<CategoryId> enabledCategories;
-    final List<CategoryId> disabledCategories;
-    final boolean useEnabledOnly;
-    final boolean useQuerySettings;
-
-    QueryParams(List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
-                boolean useEnabledOnly, boolean useQuerySettings) {
-      this.enabledRules = enabledRules;
-      this.disabledRules = disabledRules;
-      this.enabledCategories = enabledCategories;
-      this.disabledCategories = disabledCategories;
-      this.useEnabledOnly = useEnabledOnly;
-      this.useQuerySettings = useQuerySettings;
-    }
   }
 
 }

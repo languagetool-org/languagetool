@@ -93,7 +93,7 @@ public class AbstractEnglishSpellerRuleTest {
     assertTrue("Expected at least one suggestion for '" + text + "'", suggestions.size() > 0);
     int i = 0;
     for (String expectedSuggestion : expectedSuggestions) {
-      assertThat("Expected suggestion '" + expectedSuggestion + "' not found in suggestions"
+      assertThat("Expected suggestion '" + expectedSuggestion + "' not found at position " + i + " in suggestions: "
               + suggestions, suggestions.get(i), is(expectedSuggestion));
       i++;
     }

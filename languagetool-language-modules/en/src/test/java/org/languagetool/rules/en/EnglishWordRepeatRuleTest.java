@@ -45,7 +45,7 @@ public class EnglishWordRepeatRuleTest {
     assertGood("It was said that that lady was an actress.");
     assertGood("Kurosawa's three consecutive movies after Seven Samurai had not managed to capture Japanese audiences in the way that that film had.");
     assertGood("The can can hold the water.");
-    assertBad("I can can hold the ladder.");
+    assertBad("I will will hold the ladder.");
     assertBad("You can feel confident that that this administration will continue to support a free and open Internet.");
     assertBad("This is is a test.");
   }

@@ -19,6 +19,7 @@
 package org.languagetool.rules.de;
 
 import org.junit.Test;
+import org.languagetool.rules.FakeRule;
 import org.languagetool.rules.RuleMatch;
 
 import java.util.Calendar;
@@ -32,7 +33,7 @@ import static org.junit.Assert.assertThat;
 
 public class DateCheckFilterTest {
 
-  private final RuleMatch match = new RuleMatch(null, 0, 10, "message");
+  private final RuleMatch match = new RuleMatch(new FakeRule(), 0, 10, "message");
   private final DateCheckFilter filter = new DateCheckFilter();
 
   @Test

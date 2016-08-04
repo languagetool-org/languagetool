@@ -24,6 +24,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
+@SuppressWarnings("ResultOfObjectAllocationIgnored")
 public class HTTPSServerConfigTest {
 
   @Test

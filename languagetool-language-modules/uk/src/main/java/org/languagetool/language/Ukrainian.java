@@ -30,6 +30,7 @@ import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.CommaWhitespaceRule;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.uk.HiddenCharacterRule;
@@ -38,6 +39,7 @@ import org.languagetool.rules.uk.MorfologikUkrainianSpellerRule;
 import org.languagetool.rules.uk.SimpleReplaceRule;
 import org.languagetool.rules.uk.SimpleReplaceSoftRule;
 import org.languagetool.rules.uk.TokenAgreementRule;
+import org.languagetool.rules.uk.TokenInflectionAgreementRule;
 import org.languagetool.rules.uk.UkrainianWordRepeatRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.uk.UkrainianSynthesizer;
@@ -143,7 +145,9 @@ public class Ukrainian extends Language {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-        new CommaWhitespaceRule(messages),
+        new CommaWhitespaceRule(messages,
+            Example.wrong("Ми обідали борщем<marker> ,</marker> пловом і салатом."),
+            Example.fixed("Ми обідали борщем<marker>,</marker> пловом і салатом")),
         // TODO: does not handle !.. and ?..
         //            new DoublePunctuationRule(messages),
         new MorfologikUkrainianSpellerRule(messages, this),
@@ -156,6 +160,7 @@ public class Ukrainian extends Language {
         new SimpleReplaceRule(messages),
         new SimpleReplaceSoftRule(messages),
         new TokenAgreementRule(messages),
+        new TokenInflectionAgreementRule(messages),
         new HiddenCharacterRule(messages)
     );
   }

@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
 <!DOCTYPE rules [
     <!ENTITY interp "[\p{Punct}\-–−—―„«»…’&amp;&amp;[^\)]]+">
+    <!ENTITY interp_no_quote "[\p{Punct}&amp;&amp;[^\)]]+">
     <!ENTITY conj "bądź|czy|ani|lub|albo|oraz|i">
     <!ENTITY interp_conj "&interp;|&conj;">
     <!ENTITY nbsp " ">
@@ -1589,7 +1590,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 												<token negate="yes" regexp="yes">,|od|chyba|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że|czasie|czasach|czasu|chwili|wypadku|przypadku|razie|przecież|rzadko|mało|przynajmniej|któż|wówczas<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception><exception regexp="yes">&interp;</exception></token>
 												<token postag="comp">kiedy</token>
 										</marker>
-										<token><exception regexp="yes">&interp;|niekiedy|indziej</exception></token>
+										<token><exception regexp="yes">&interp_no_quote;|niekiedy|indziej</exception></token>
 								</pattern>
 								<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -1606,7 +1607,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 												<token negate="yes" regexp="yes">,|od|chyba|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że|czasie|czasach|wypadku|przypadku|razie|przecież|przynajmniej|wówczas|tylko<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception><exception regexp="yes">&interp;</exception></token>
 												<token>gdy</token>
 										</marker>
-										<token><exception regexp="yes">&interp;</exception></token>
+										<token><exception regexp="yes">&interp_no_quote;</exception></token>
 								</pattern>
 								<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -1614,6 +1615,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Kupuj zapałki, przynajmniej gdy chcesz zapalać ogniska.</example>
                                 <example>Czemuż nie umarłam, mając szesnaście lat, wówczas gdy chciałam się zabić!</example>
 								<example correction="domu, gdy">Przemysław wstąpił do <marker>domu gdy</marker> poczuł brak Przemysławki.</example>
+								<example correction="znajdujemy, gdy">Co <marker>znajdujemy gdy</marker> „spoglądamy” wewnątrz?</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -1982,6 +1984,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <example>Tworzą mimo to jak gdyby rodzinę.</example>
                   </rule>
                 </rulegroup>
+            <rule id="BRAK_PRZECINKA_PRZED_GDZIE" name="Brak przecinka przed „gdzie”">
+             <pattern>
+              <marker>
+              <token inflected='yes' regexp='yes'>tam|miejsce</token>
+              <token>gdzie</token>
+              </marker>
+              <token><exception postag="SENT_END"/></token>
+              <token><exception postag='comma:interp.*|SENT_END' postag_regexp='yes'/></token>
+             </pattern>
+             <message>Prawdopodobnie brak przecinka: <suggestion><match no="1"/>, <match no="2"/></suggestion>.</message>
+             <short>Błąd interpunkcyjny</short>
+             <example correction='Tam, gdzie'><marker>Tam gdzie</marker> nie ma dróg, jadę sam.</example>
+            </rule>                
 				<rulegroup id="KTOS_CZYJ" name="Brak przecinka przed „czyj”">
 						<rule>
 								<pattern case_sensitive="no">
@@ -3835,63 +3850,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="0,5">Wynik wynosi <marker>0.5</marker>.</example>
       <example>W wydaniu 7.0.1 dodana została wtyczka Camera RAW.</example>
     </rule>
-    </rulegroup>
-    <rule id="LICZBA_DZIESIETNA_ZE_SPACJA" name="Zbędna spacja po przecinku w liczbie dziesiętnej">
-    <antipattern>
-    <token regexp="yes">poz|wyd|pol|cz</token>
-    <token spacebefore="no">.</token>
-    <marker><token regexp="yes">\d+</token></marker>
-    </antipattern>
-    <antipattern>
-    <marker>
-      <token regexp="yes">\d+</token>
-    </marker>
-    <token>i</token>
-    <token regexp="yes">\d+</token>
-    <token><exception>,</exception></token>
-    </antipattern>
-    <antipattern>
-    <marker><token regexp="yes">\d+</token></marker>
-    <token regexp="yes">[x×]</token>
-    <token regexp="yes">\d+</token>
-    </antipattern>
-    <antipattern>
-    <marker>
-      <token regexp="yes">\d+</token>
-      <token spacebefore="no">.</token>
-      <token regexp="yes">\d+</token>
-    </marker>
-    </antipattern>
-    <antipattern> <!-- liczby dziesiętne z kropką lub cokolwiek, co nie może być liczbą dziesiętną -->
-    <marker><token regexp="yes">\d+</token></marker>
-    <token spacebefore="no">.</token>
-    <token regexp="yes">\d+.*|\p{L}</token>
-    </antipattern>
-    <pattern>
-        <marker>
-        <token regexp="yes">\d+
-            <exception scope="previous" regexp="yes">\d+|[\-–—,/:]|nr|pkt|w</exception>
-            <exception scope="previous" inflected="yes" regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</exception>
-            <!-- Biblia -->
-            <exception scope="previous" regexp="yes">\p{Lu}\p{Ll}{1,2}|Sofoniasz|Amos|Aggeusz|Ezechiel|Królowie|J|Ozeasz|Joel|Jeremiasz|Izajasz</exception>
-        </token>
-        <token>,</token>
-        <token regexp="yes" spacebefore="yes">\d+%?</token>
-        </marker>
-        <token><exception regexp="yes">\d+|[\-,r/:]|tomy</exception></token>
-    </pattern>
-    <message>Prawdopodobnie zbędna spacja w liczebniku dziesiętnym: <suggestion>\1\2\3</suggestion>?</message>
-    <short>Błąd typogrficzny</short>
-    <example correction="1,5">Film trwał <marker>1, 5</marker> godziny.</example>
-    <example>W związku z tym Peralta wydał obowiązującą do dziś ustawę (ustawa nr 9, 1963 r.)</example>
-    <example>Wygrała 6:4, 3:6, 6:3.</example>
-    <example>Biblioteka Narodowa, sygn.: 2676, 2981.</example>
-    <example>Ankyra była miejscem kilku ważnych synodów (w 314, 358 i 375).</example>
-    <example>Chrystus podtrzymywany przez anioła - ok. 1645, 137 x 100 cm, Prado, Madryt</example>
-    <example>„Kwartalnik Historyczny”, R.112, cz. 3, 2005.</example>
-    <example>Współrzędne CIE XYZ wynoszące (0.310, 0.316, 0.374)</example>
-    <example>Gdy doszło do niej w czerwcu 1994, 4.4BSD Lite zostało wypuszczone na rynek.</example>
-    </rule>
+    </rulegroup>    
     <rulegroup id="JEDNOSTKA_LICZBA" name="Brak spacji przed jednostką, np. 12 kg">
         <antipattern>
             <token regexp="yes">[\p{Lu}\d].*</token>
@@ -4092,6 +4051,62 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
           <rulegroup id="SPACJA_ZA_PRZECINKIEM_DZIESITNYM" name="Spacja za przecinkiem dziesiętnym">
             <rule>
+              <antipattern>
+              <token regexp="yes">poz|wyd|pol|cz</token>
+              <token spacebefore="no">.</token>
+              <marker><token regexp="yes">\d+</token></marker>
+              </antipattern>
+              <antipattern>
+              <marker>
+                <token regexp="yes">\d+</token>
+              </marker>
+              <token>i</token>
+              <token regexp="yes">\d+</token>
+              <token><exception>,</exception></token>
+              </antipattern>
+              <antipattern>
+              <marker><token regexp="yes">\d+</token></marker>
+              <token regexp="yes">[x×]</token>
+              <token regexp="yes">\d+</token>
+              </antipattern>
+              <antipattern>
+              <marker>
+                <token regexp="yes">\d+</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">\d+</token>
+              </marker>
+              </antipattern>
+              <antipattern> <!-- liczby dziesiętne z kropką lub cokolwiek, co nie może być liczbą dziesiętną -->
+              <marker><token regexp="yes">\d+</token></marker>
+              <token spacebefore="no">.</token>
+              <token regexp="yes">\d+.*|\p{L}</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                  <token regexp="yes">\d+
+                      <exception scope="previous" regexp="yes">\d+|[\-–—,/:]|nr|pkt|w</exception>
+                      <exception scope="previous" inflected="yes" regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</exception>
+                      <!-- Biblia -->
+                      <exception scope="previous" regexp="yes">\p{Lu}\p{Ll}{1,2}|Sofoniasz|Amos|Aggeusz|Ezechiel|Królowie|J|Ozeasz|Joel|Jeremiasz|Izajasz</exception>
+                  </token>
+                  <token>,</token>
+                  <token regexp="yes" spacebefore="yes">\d+</token>
+                  </marker>
+                  <token><exception regexp="yes">\d+|[\-,r/:]|tomy</exception></token>
+              </pattern>
+              <message>Prawdopodobnie zbędna spacja w liczebniku dziesiętnym: <suggestion>\1\2\3</suggestion>?</message>
+              <short>Błąd typogrficzny</short>
+              <example correction="1,5">Film trwał <marker>1, 5</marker> godziny.</example>
+              <example>W związku z tym Peralta wydał obowiązującą do dziś ustawę (ustawa nr 9, 1963 r.)</example>
+              <example>Wygrała 6:4, 3:6, 6:3.</example>
+              <example>Biblioteka Narodowa, sygn.: 2676, 2981.</example>
+              <example>Ankyra była miejscem kilku ważnych synodów (w 314, 358 i 375).</example>
+              <example>Chrystus podtrzymywany przez anioła - ok. 1645, 137 x 100 cm, Prado, Madryt</example>
+              <example>„Kwartalnik Historyczny”, R.112, cz. 3, 2005.</example>
+              <example>Współrzędne CIE XYZ wynoszące (0.310, 0.316, 0.374)</example>
+              <example>Gdy doszło do niej w czerwcu 1994, 4.4BSD Lite zostało wypuszczone na rynek.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp='yes'>[1-9]\d*<exception scope="previous" inflected="yes">numer</exception></token>
@@ -4109,7 +4124,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp='yes'>[1-9]\d*<exception scope="previous" inflected="yes">numer</exception></token>
+                        <token regexp='yes'>[1-9]\d*</token>
                         <token>,</token>
                         <token regexp='yes' spacebefore='yes'>\d+%</token>
                     </marker>                    
@@ -6908,6 +6923,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>Można zatem wywieść, że kryterium objęcia danej organizacji lekarskiej zakazem przewidzianym w art. 58 Prawa farmaceutycznego stanowi automatyzm lub łatwość przepływu korzyści z majątku organizacji do majątku osobistego konkretnego lekarza.</example>
           <example>513.45 Beskid Śląski (czes. Slezské Beskydy)</example>
           <example>Pomiędzy rokiem 600 i 900 miasto było wielokrotnie zajmowane.</example>
+        </rule>
+        <rule>
+        <antipattern> <!-- w 100% udana -->
+        <token regexp="yes">w|na</token>
+        <token regexp="yes">\d+%</token>
+        <marker>
+          <token postag="(?:ppas|adj|pact).*" postag_regexp="yes"/>
+        </marker>
+        </antipattern>
+        <antipattern> <!-- w 100% udana -->
+        <token regexp="yes">w|na</token>
+        <token regexp="yes">\d+</token>
+        <token>,</token>
+        <token regexp="yes">\d+%</token>
+        <marker>
+          <token postag="(?:ppas|adj|pact).*" postag_regexp="yes"/>
+        </marker>        
+        </antipattern>
+        <antipattern>
+        <token>100%</token>
+        <token>pewność</token>
+        </antipattern>
+        <antipattern>
+        <token>100%</token>
+        <marker>
+          <token postag="(?:ppas|adj|pact).*" postag_regexp="yes"/>
+        </marker>        
+        <token regexp="yes">[;:,\.!]</token>
+        </antipattern>
+        <pattern>
+              <token regexp="yes">\d+%<exception scope="previous">o</exception></token>
+                <marker>
+                    <token postag='(subst|ger|adj|pact|ppas).*nom.*' postag_regexp='yes' regexp="yes">\p{Ll}+
+                    <exception postag='.*gen.*' postag_regexp='yes'/>
+                    <exception postag="adj.*:com" postag_regexp="yes"/>
+                    <exception regexp="yes">[tc]o|wzrost|zysk|podatek|udział|skok|spadek|ma|każdy|wszystko|nikt|nic|off|zwiększenie|przewaga</exception>
+                    </token>
+                </marker>
+          </pattern>
+          <message>Wyraz po wartości procentowej (\2) przypuszczalnie powinien być w dopełniaczu.</message>
+          <example correction="">Mam 1,5% <marker>chleb</marker>.</example>
+          <example>8% Prawo i Sprawiedliwość – 30.</example>
+          <example>A przy okresie 15-letnim nawet ponad 30% niższy.</example>
+          <example>Kupno towaru przez internet u pewnego dilera jest w 99,99999% bezpieczne, nie mniej niż w sklepie stacjonarnym.</example>
+          <example>15% to inwestorzy, którzy inaczej dzielą inwestycje.</example>
+          <example>Szampon to RENE FURTERER OKARA przedłużający o 80% trwałość koloru włosów farbowanych.</example>
         </rule>
         </rulegroup>
         
@@ -10539,7 +10600,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 										<marker>
 												<token inflected="yes" postag="(:?verb|pcon).*" postag_regexp="yes">posiadać</token>
 										</marker>
-										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|praw[ao]|uprawnieni[ae]|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cech[ęy]|naturę|miejsce|zrozumienie|czas|braki|przygody|osobowość|zdolnoś(:?ć|ci)|obywatelstw[ao]|status|tytuł|informacj[ęe]|wykształcenie|kwalifikacje|wartość|umiejętnoś(:?ć|ci)|dokumenty|dowody|charakter|wiedzę|właściwoś(:?ć|ci)|siostrę|brata|świadomość|strukturę|rodzinę|programy?|ochronę|funkcję|autoryzację|sił[ęy]|płynność|kompetencje|doktorat|podmiotowość|immunitet|przodków|znamię|zmysł|zęby|zalet[ęy]|etat|nazwę|wizję|wad[ęy]|wartości|swobodę|skalę|znajomości|prestiż|pracę|gwarancję|reprezentację|opinię|dozę|jakość|zwolenników|wrogów|posłuch|energię|moc|aparycję|ograniczeni[ea]|wersję|kochankę|inicjatywę|głosy?|duszę</token>
+										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|praw[ao]|uprawnieni[ae]|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cech[ęy]|naturę|miejsce|zrozumienie|czas|braki|przygody|osobowość|zdolnoś(:?ć|ci)|obywatelstw[ao]|status|tytuł|informacj[ęe]|wykształcenie|kwalifikacje|wartość|umiejętnoś(:?ć|ci)|dokumenty|dowody|charakter|wiedzę|właściwoś(:?ć|ci)|siostrę|brata|świadomość|strukturę|rodzinę|programy?|ochronę|funkcję|autoryzację|sił[ęy]|płynność|kompetencje|doktorat|podmiotowość|immunitet|przodków|znamię|zmysł|zęby|zalet[ęy]|etat|nazwę|wizję|wad[ęy]|wartości|swobodę|skalę|znajomości|prestiż|pracę|gwarancję|reprezentację|opinię|dozę|jakość|zwolenników|wrogów|posłuch|energię|moc|aparycję|ograniczeni[ea]|wersję|kochankę|inicjatywę|głosy?|duszę|dostęp|kompetencj[eę]</token>
 								</pattern>
 								<message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych i abstrakcyjnych oraz osób. Poprawnie: <suggestion><match no="1" postag="(verb|pcon)(:fin)?(.*):(im)?perf.*" postag_regexp="yes" postag_replace="$1$2$3:$4.*|$1:fin$3:imperf.*">mieć</match></suggestion>.</message>
 								<url>http://sjp.pwn.pl/poradnia/haslo/posiadac;5384.html</url>
@@ -10554,7 +10615,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 										</marker>
 										<unify><feature id="gender"/><feature id="number"/><feature id="case"/>
 										  <token postag="adj.*" postag_regexp="yes"/>
-										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|praw[ao]|uprawnieni[ae]|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cech[ęy]|naturę|miejsce|zrozumienie|czas|braki|przygody|osobowość|zdolnoś(:?ć|ci)|obywatelstw[ao]|status|tytuł|informacj[ęe]|wykształcenie|kwalifikacje|wartość|umiejętnoś(:?ć|ci)|dokumenty|dowody|charakter|wiedzę|właściwoś(:?ć|ci)|siostrę|brata|świadomość|strukturę|rodzinę|programy?|ochronę|funkcję|autoryzację|sił[ęy]|płynność|kompetencje|doktorat|podmiotowość|immunitet|przodków|znamię|zmysł|zęby|zalet[ęy]|etat|nazwę|wizję|wad[ęy]|wartości|swobodę|skalę|znajomości|prestiż|pracę|gwarancję|reprezentację|opinię|dozę|jakość|zwolenników|wrogów|posłuch|energię|moc|aparycję|ograniczeni[ea]|wersję|kochankę|inicjatywę|głosy?|duszę</token>
+										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|praw[ao]|uprawnieni[ae]|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cech[ęy]|naturę|miejsce|zrozumienie|czas|braki|przygody|osobowość|zdolnoś(:?ć|ci)|obywatelstw[ao]|status|tytuł|informacj[ęe]|wykształcenie|kwalifikacje|wartość|umiejętnoś(:?ć|ci)|dokumenty|dowody|charakter|wiedzę|właściwoś(:?ć|ci)|siostrę|brata|świadomość|strukturę|rodzinę|programy?|ochronę|funkcję|autoryzację|sił[ęy]|płynność|kompetencje|doktorat|podmiotowość|immunitet|przodków|znamię|zmysł|zęby|zalet[ęy]|etat|nazwę|wizję|wad[ęy]|wartości|swobodę|skalę|znajomości|prestiż|pracę|gwarancję|reprezentację|opinię|dozę|jakość|zwolenników|wrogów|posłuch|energię|moc|aparycję|ograniczeni[ea]|wersję|kochankę|inicjatywę|głosy?|duszę|dostęp|kompetencj[eę]</token>
 										</unify>
 								</pattern>
 								<message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych i abstrakcyjnych oraz osób. Poprawnie: <suggestion><match no="1" postag="(verb|pcon)(:fin)?(.*):(im)?perf.*" postag_regexp="yes" postag_replace="$1$2$3:$4.*|$1:fin$3:imperf.*">mieć</match></suggestion>.</message>
@@ -10570,7 +10631,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                   <unify><feature id="gender"/><feature id="number"/><feature id="case"/>
                     <unify-ignore><token postag="adv.*" postag_regexp="yes"/></unify-ignore>
                     <token postag="adj.*" postag_regexp="yes"/>
-										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|praw[ao]|uprawnieni[ae]|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cech[ęy]|naturę|miejsce|zrozumienie|czas|braki|przygody|osobowość|zdolnoś(:?ć|ci)|obywatelstw[ao]|status|tytuł|informacj[ęe]|wykształcenie|kwalifikacje|wartość|umiejętnoś(:?ć|ci)|dokumenty|dowody|charakter|wiedzę|właściwoś(:?ć|ci)|siostrę|brata|świadomość|strukturę|rodzinę|programy?|ochronę|funkcję|autoryzację|sił[ęy]|płynność|kompetencje|doktorat|podmiotowość|immunitet|przodków|znamię|zmysł|zęby|zalet[ęy]|etat|nazwę|wizję|wad[ęy]|wartości|swobodę|skalę|znajomości|prestiż|pracę|gwarancję|reprezentację|opinię|dozę|jakość|zwolenników|wrogów|posłuch|energię|moc|aparycję|ograniczeni[ea]|wersję|kochankę|inicjatywę|głosy?|duszę</token>
+										<token regexp="yes">brodę|wąsy|bilet|wymiary|klimatyzację|rekord|inicjatywę|praw[ao]|uprawnieni[ae]|kwalifikacje|informacje|wykształcenie|dziecko|umiejętność|przewagę|znaczenie|sens|słuszność|możliwość|możliwości|doświadczenie|koncepcję|znajomość|paszport|strukturę|cech[ęy]|naturę|miejsce|zrozumienie|czas|braki|przygody|osobowość|zdolnoś(:?ć|ci)|obywatelstw[ao]|status|tytuł|informacj[ęe]|wykształcenie|kwalifikacje|wartość|umiejętnoś(:?ć|ci)|dokumenty|dowody|charakter|wiedzę|właściwoś(:?ć|ci)|siostrę|brata|świadomość|strukturę|rodzinę|programy?|ochronę|funkcję|autoryzację|sił[ęy]|płynność|kompetencje|doktorat|podmiotowość|immunitet|przodków|znamię|zmysł|zęby|zalet[ęy]|etat|nazwę|wizję|wad[ęy]|wartości|swobodę|skalę|znajomości|prestiż|pracę|gwarancję|reprezentację|opinię|dozę|jakość|zwolenników|wrogów|posłuch|energię|moc|aparycję|ograniczeni[ea]|wersję|kochankę|inicjatywę|głosy?|duszę|dostęp|kompetencj[eę]</token>
                   </unify>
               </pattern>
               <message>Niepoprawne jest łączenie czasownika „posiadać” z nazwami rzeczy drobnych i abstrakcyjnych oraz osób. Poprawnie: <suggestion><match no="1" postag="(verb|pcon)(:fin)?(.*):(im)?perf.*" postag_regexp="yes" postag_replace="$1$2$3:$4.*|$1:fin$3:imperf.*">mieć</match></suggestion>.</message>
@@ -14930,6 +14991,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup>
 		</category>
 		<category id="SPELLING" name="Błędy ortograficzne" type="misspelling">
+          <rule id="KOD_MORSA_KOD_MORSEA" name="„kod Morsa” (kod Morse’a)">
+           <pattern>
+            <token inflected='yes' regexp='yes'>kod|alfabet</token>
+            <token>morsa</token>
+           </pattern>
+           <message>Czy chodziło o <suggestion><match no="1"/> Morse’a</suggestion>?</message>
+           <url>https://pl.wikipedia.org/wiki/Kod_Morse%E2%80%99a</url>
+           <short>Błąd ortograficzny</short>
+           <example correction='kodzie Morse’a'>Napisałem to w <marker>kodzie Morsa</marker>.</example>
+          </rule>
           <rule id="LICZBA_BEZ_DYWIZU_Z_PRZYMIOTNIKIEM" name="Brak dywizu w wyrazie zawierającym liczbę">
           <antipattern>
           <token>w</token>
@@ -19148,6 +19219,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <short>Prawdopodobna literówka</short>
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
+        </rule>
+        <rule id="W_PRZEPADKU_W_PRZYPADKU" name="„W przepadku” (w przypadku)">
+         <pattern>
+          <marker>
+          <token>przepadku</token>
+          </marker>
+          <token><exception>mienia</exception></token>
+         </pattern>
+         <message>Czy chodziło o <suggestion>przypadku</suggestion>?</message>
+         <short>Prawdopodobna literówka</short>
+         <example correction='przypadku'>W <marker>przepadku</marker> Polski wystarczy podać tylko przykład paliw.</example> 
+        </rule>
+        <rule id="CO_SIE_STALY" name="„co się stały” (co się stało)">
+         <pattern>
+          <token skip='1'>co<exception regexp='yes' negate='yes' scope='next'>by|się</exception></token>
+          <token>się</token>
+          <marker>
+          <token>stały</token>
+          </marker>
+         </pattern>
+         <message>Czy chodziło o <suggestion>stało</suggestion>?</message>
+         <short>Prawdopodobna literówka</short>
+         <example correction='stało'>A co by się <marker>stały</marker>, jakbyś polubiła swoje wady?</example>
+         <example correction='stało'>Co się <marker>stały</marker>?</example>
         </rule>
         <rule id="WIERZE_WIERZE" name="„wierze” (wierzę)">
          <pattern>

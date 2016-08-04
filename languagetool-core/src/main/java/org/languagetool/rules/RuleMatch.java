@@ -81,12 +81,12 @@ public class RuleMatch implements Comparable<RuleMatch> {
    */
   public RuleMatch(Rule rule, int fromPos, int toPos, String message, String shortMessage, 
       boolean startWithUppercase, String suggestionsOutMsg) {
-    this.rule = rule;
+    this.rule = Objects.requireNonNull(rule);
     if (toPos <= fromPos) {
       throw new RuntimeException("fromPos (" + fromPos + ") must be less than toPos (" + toPos + ")");
     }
     this.offsetPosition = new OffsetPosition(fromPos, toPos);
-    this.message = message;
+    this.message = Objects.requireNonNull(message);
     this.shortMessage = shortMessage;
     // extract suggestion from <suggestion>...</suggestion> in message:
     Matcher matcher = SUGGESTION_PATTERN.matcher(message + suggestionsOutMsg);
@@ -97,7 +97,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
       if (startWithUppercase) {
         replacement = StringTools.uppercaseFirstChar(replacement);
       }
-      suggestedReplacements.add(replacement);
+      if (!suggestedReplacements.contains(replacement)) {
+        suggestedReplacements.add(replacement);
+      }
     }
   }
 

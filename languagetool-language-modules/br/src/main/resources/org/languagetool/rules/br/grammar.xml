@@ -2579,7 +2579,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token postag="K.*" postag_regexp="yes">
-            <exception regexp="yes">[tdz]ri|[bpf]evar|[pbf]emp|nav|[mv]il</exception>
+            <exception regexp="yes">[tdz]ri|[bpf]evar|[pbf]emp|nav|[mv]il|eil</exception>
           </token>
           <marker>
             <token regexp="yes">[bp]loaz</token>
@@ -2590,6 +2590,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Daou vloaz</example>
         <example>Tri bloaz</example>
         <example>Daou vil bloaz</example>
+        <example>Bep eil bloaz</example>
       </rule>
       <rule>
         <pattern>
@@ -3833,12 +3834,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="AD_DU_ON" name="a-du on → a-du emaon">
       <rule>
         <pattern>
-          <token>a-du</token>
+          <token regexp="yes">asambles|a-(?:dreuz|du|enep|gevret)|e-giz</token>
           <marker>
             <token inflected="yes" postag="V pres .*" postag_regexp="yes">bezañ<exception>eo</exception></token>
           </marker>
         </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>ema\2</suggestion>?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>ema\2</suggestion>? (CHALM C7,1,4,4)</message>
         <example correction="emaout">A-du <marker>out</marker>?</example>
         <example>A-du emaout?</example>
       </rule>
@@ -7678,6 +7679,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="hounnezh|honnezh">Keniterv piv eo <marker>hennezh</marker>?</example>
         <example>Keniterv piv eo hounnezh?</example>
         <example>Keniterv piv eo honnezh?</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="EGILE_EBEN" name="egile pe eben">
+      <rule>
+        <pattern>
+          <token>eus</token>
+          <token>an</token>
+          <token>eil</token>
+          <token postag="N f .*" postag_regexp="yes"><exception postag="N [em] .*" postag_regexp="yes"/></token>
+          <token>d’</token>
+          <marker><token>egile</token></marker>
+        </pattern>
+        <message>Implijit <suggestion>eben</suggestion> gant ar ger benel «\4».</message>
+        <example correction="eben">Eus an eil garzh d’<marker>egile</marker>.</example>
+        <example>Eus an eil kleuz d’egile.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>eus</token>
+          <token>an</token>
+          <token>eil</token>
+          <token postag="N m .*" postag_regexp="yes"><exception postag="N [ef] .*" postag_regexp="yes"/></token>
+          <token>d’</token>
+          <marker><token>eben</token></marker>
+        </pattern>
+        <message>Implijit <suggestion>egile</suggestion> gant ar ger gourel «\4».</message>
+        <example correction="egile">Eus an eil kleuz d’<marker>eben</marker>.</example>
+        <example>Eus an eil garzh d’eben.</example>
       </rule>
     </rulegroup>
 

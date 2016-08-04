@@ -70,6 +70,7 @@ public class WordRepeatRule extends Rule {
     for (int i = 1; i < tokens.length; i++) {
       String token = tokens[i].getToken();
       if (tokens[i].isImmunized()) {
+      	prevToken = "";
         continue;
       }
       if (isWord(token) && prevToken.equalsIgnoreCase(token) && !ignore(tokens, i)) {

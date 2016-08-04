@@ -171,8 +171,7 @@ public final class CommandLineTools {
       }
       System.out.println(output);
       String msg = match.getMessage();
-      msg = msg.replaceAll("<suggestion>", "'");
-      msg = msg.replaceAll("</suggestion>", "'");
+      msg = msg.replaceAll("</?suggestion>", "'");
       System.out.println("Message: " + msg);
       List<String> replacements = match.getSuggestedReplacements();
       if (!replacements.isEmpty()) {

@@ -39,7 +39,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>У цього овоча напівгіркий присмак.</example>
       </rule>
     </rulegroup>
-
+<!--
     <rulegroup id="SLOVA_Z_RAZOM" name="Слова з префіксами разом">
       <rule>   
         <pattern>
@@ -55,28 +55,66 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>анти-Забужко</example>
       </rule>
     </rulegroup>
-
-    <rulegroup id="PRYKM_Z_RAZOM" name="Прикметники з префіксами разом">
-      <rule>   
+-->
+    <rulegroup id="SLOVA_BEZ_DEFISU" name="Слова без дефісу">
+      <rule>
+        <antipattern>
+          <token regexp="yes">[«"“„]</token>
+          <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</token>
+          <token regexp="yes">[»"”“]</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes" postag_regexp="yes" postag="adj.*">(багато|мульти)[-–].*</token>
+          <token regexp="yes">(авіа|авто|агро|анти|біо|вело|водо|газо|геліо|гео|гідро|гіпер|давньо|древньо|екзо|екстра|електро|зоо|ізо|квазі|кіно|космо|контр|лже|макро|мета|метео|мікро|мілі|моно|мото|мульти|нео|псевдо|пост|радіо|рентгено|стерео|супер|теле|транс|турбо|ультра|фоно|фото)[-–][а-яіїєґ][^-]{2,}
+            <exception inflected="yes" regexp="yes">геліо-кадмієвий|водо-водяний|супер-пупер.*|водо-водо.*</exception>
+            <exception regexp="yes">контр[-–]адмір.*</exception>
+            <exception case_sensitive="yes" regexp="yes">.+[–-][А-ЯІЇЄҐ].*</exception>
+          </token>
         </pattern>
         <message>Пишеться разом <suggestion><match no="1" regexp_match="(.*)[-–](.*)" regexp_replace="$1$2"/></suggestion></message>
+        <url>http://www.pravopys.net/#search=25-33</url>
+        <short>Правильно писати разом</short>
+        <example correction="мультивалютний"><marker>мульти-валютний</marker> обмін.</example>
+        <example correction="ультрагіркий">У цього овоча <marker>ультра-гіркий</marker> присмак.</example>
+        <example correction="Квазісмішний"><marker>Квазі-смішний</marker> жарт.</example>
+        <example>анти-Забужко</example>
+        <example>мета-2013</example>
+        <example>на «Супер-нова»</example>
+        <example>не багато-не мало</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">(багато|високо|мало|низько)[-–][а-яіїєґ][^-]{2,}
+            <exception regexp="yes">багато[–-](пре)?багато|високо[–-](пре)?високо|низько[–-]низ(ен)?ько|мало[–-]помалу|мало[–-]мало</exception>
+            <!-- TODO: exception for everything tagged -->
+            <exception regexp="yes">(багато|мало)[–-](хто|кому|кого|ким|що|чого|чому|чим|багато|мало|коли|де)</exception>
+            <exception case_sensitive="yes" regexp="yes">.+[–-][А-ЯІЇЄҐ].*</exception>
+          </token>
+        </pattern>
+        <message>Пишеться разом <suggestion><match no="1" regexp_match="(.*)[-–](.*)" regexp_replace="$1$2"/></suggestion></message>
+        <url>http://www.pravopys.net/#search=25-33</url>
         <short>Правильно писати разом</short>
         <example correction="Багатоповерховий"><marker>Багато-поверховий</marker> будинок.</example>
-        <!--
-        <example correction="мультивалютний"><marker>мульти-валютний</marker> обмін.</example>
-        -->
+        <example>багато-багато</example>
+        <example>багато-кому</example>
+        <example>мало-багато</example>
+        <example>високо-високо</example>
+        <example>мало-не</example>
+        <example>село Мало-Янисоль</example>
+        <example>Високо-Литовськ</example>
+        <example>мало-коли</example>    <!-- пишеться окремо -->
       </rule>
     </rulegroup>
 
     <rulegroup id="PIV_Z_VLASN_NAZV" name="пів- з усіма власними назвами пишемо через дефіс">
-      <!-- TODO: use proper noun tag to make it generic -->
       <rule>   
         <pattern>
          <marker>
           <token>пів</token>
+          <!--
           <token regexp="yes">Європи|Києва|України|Польщі|Росії|Харкова|Америки|Австралії|Туреччини|Австрії|Відня|Китаю|Кореї|Франції|Іспанії|Італії|Угорщини|Москви|Казані|Швейцарії</token>
+          -->
+          <token postag_regexp="yes" postag="noun:.*:v_rod.*:prop.*"></token>
          </marker>
         </pattern>
         <message>«пів» з усіма власними назвами пишемо через дефіс: <suggestion><match no="1"/>-<match no="2"/></suggestion></message>
@@ -269,6 +307,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <pattern>
+          <token case_sensitive="yes">смт</token>
+          <token>.</token>
+        </pattern>
+        <message>Стягнені скорочення та метричні одиниці пишуться без крапки: <suggestion><match no="1"/></suggestion></message>
+        <example correction="смт">розташовано у <marker>смт.</marker> Луків.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token regexp="yes">[0-9,-]+|кв\.|куб\.</token>
           <marker>
             <token case_sensitive="yes">м</token>
@@ -298,6 +344,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="рр.">70-80 <marker>р.р.</marker></example>
       </rule>
     </rulegroup>
+    
+    <rulegroup id="NUMBER_TONN" name="Числівник + тонн">
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="num.*"/>
+          <marker>
+            <token>тон</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>тонн</suggestion></message>
+        <example correction="тонн">1600 <marker>тон</marker></example>
+        <example correction="тонн">п'ять <marker>тон</marker></example>
+      </rule>
+    </rulegroup>
+
 <!--
     <rulegroup id="LAT_CYR" name="Латиниця/кирилиця">
       <rule>

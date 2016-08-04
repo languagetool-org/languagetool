@@ -38,7 +38,8 @@ import static org.languagetool.rules.en.AvsAnData.getWordsRequiringAn;
  *   <li><i>an</i> if the next word starts with a vowel
  *   <li><i>a</i> if the next word does not start with a vowel
  * </ul>
- *  This rule loads some exceptions from external files (e.g. for <i>an hour</i>).
+ *  This rule loads some exceptions from external files {@code det_a.txt} and
+ *  {@code det_an.txt} (e.g. for <i>an hour</i>).
  * 
  * @author Daniel Naber
  */

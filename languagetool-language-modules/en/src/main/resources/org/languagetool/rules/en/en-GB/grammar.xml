@@ -61,27 +61,6 @@ USA
             <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
             <example correction="minced">Do vegetarians eat <marker>ground</marker> beef?</example>
         </rule>
-        <rule id="FIRST_GROUND_FLOOR" name="first floor/ground floor">
-            <pattern>
-                <marker>
-                    <token>first</token>
-                </marker>
-                <token>floor</token>
-            </pattern>
-            <message>This word is common for American English. Did you mean <suggestion>ground</suggestion>?</message>
-            <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
-            <example correction="ground">The room is on the <marker>first</marker> floor.</example>
-        </rule>
-        <rule id="VACUUM_CLEANER_HOOVER" name="vacuum cleaner/hoover">
-            <pattern>
-                <token>vacuum</token>
-                <token inflected="yes">cleaner</token>
-            </pattern>
-            <message>This expression is common for American English. Did you mean <suggestion>hoover</suggestion>?</message>
-            <url>http://www.learnenglish.de/mistakes/USvsBrEnglish.html</url>
-            <example correction="hoover">Buy me a <marker>vacuum cleaner</marker>.</example>
-            <example>All I need is a hoover.</example>
-        </rule>
         <rule id="MOVIE_THEATER_CINEMA" name="movie theater/cinema">
             <pattern>
                 <token>movie</token>
@@ -174,7 +153,7 @@ USA
                 </marker>
                 <token postag="SENT_END"><exception scope="current" inflected="yes" regexp="yes">elephant|river|swimming|tree</exception></token>
             </pattern>
-            <message>In the context of cars (automobiles), '<match no="2"/>' is American English. For British English use <suggestion><match no="2" postag="(.*)" postag_replace="$1">boot</match></suggestion>.</message>
+            <message>In the context of cars (automobiles), '<match no="2"/>' is American English. For British English use <suggestion><match no="2" postag="(NN.*)" postag_replace="$1">boot</match></suggestion>.</message>
             <url>https://en.wikipedia.org/wiki/Trunk_%28car%29</url>
             <short>AmE/BrE: trunk/boot</short>
             <example type="incorrect" correction="boot">The automobile has a small <marker>trunk</marker>.</example>
@@ -197,14 +176,14 @@ USA
             <example type="correct">The car boot contained a <marker>trunk</marker> and a ...</example>
             <example type="correct">The car's boot contained a <marker>trunk</marker> and a ...</example>
             <example type="correct">The <marker>trunks</marker> were in our car’s boot.</example>
-            <!-- <example type="correct">The boot of this Volkswagen contains a large <marker>trunk</marker>.</example>-->
-            <!-- <example type="correct">The boots of Volkswagens are sufficiently large to contain 2 or 3 <marker>trunks</marker>.</example>-->
-            <!-- <example type="correct">The <marker>trunk</marker> was in the Ford.</example>-->
-            <!-- <example type="correct">Mr Ford has a large blue <marker>trunk</marker>.</example>-->
-            <!-- <example type="correct">The <marker>trunk</marker> was on the back seat of the Ford.</example>-->
-            <!-- <example type="correct">The abandoned car contained a stolen <marker>trunk</marker>.</example>-->
-            <!-- <example type="correct">The Chrysler's boot contained a <marker>trunk</marker> and a ...</example>-->
-            <!-- <example type="correct">Some cars' boots can contain <marker>trunks</marker> of enormous size.</example>-->
+            <example type="triggers_error">The boot of this Volkswagen contains a large <marker>trunk</marker>.</example>
+            <example type="triggers_error">The boots of Volkswagens are sufficiently large to contain 2 or 3 <marker>trunks</marker>.</example>
+            <example type="triggers_error">The <marker>trunk</marker> was in the Ford.</example>
+            <example type="triggers_error">Mr Ford has a large blue <marker>trunk</marker>.</example>
+            <example type="triggers_error">The <marker>trunk</marker> was on the back seat of the Ford.</example>
+            <example type="triggers_error">The abandoned car contained a stolen <marker>trunk</marker>.</example>
+            <example type="triggers_error">The Chrysler's boot contained a <marker>trunk</marker> and a ...</example>
+            <example type="triggers_error">Some cars' boots can contain <marker>trunks</marker> of enormous size.</example>
         </rule>
     </category>
 

@@ -49,26 +49,27 @@ public class HTTPServerTest {
     try {
       server.run();
       assertTrue(server.isRunning());
-      runTests();
+      runTestsV1();
+      runTestsV2();
     } finally {
       server.stop();
       assertFalse(server.isRunning());
     }
   }
 
-  void runTests() throws IOException, SAXException, ParserConfigurationException {
+  void runTestsV1() throws IOException, SAXException, ParserConfigurationException {
     // no error:
     String matchAttr = "software=\"LanguageTool\" version=\"[1-9].*?\" buildDate=\".*?\"";
-    String emptyResultPattern = "<\\?xml version=\"1.0\" encoding=\"UTF-8\"\\?>\n<matches " + matchAttr + ">\n(<!--.*?-->\n)?<language shortname=\"de\" name=\"German\"/>\n</matches>\n";
+    String emptyResultPattern = "<\\?xml version=\"1.0\" encoding=\"UTF-8\"\\?>\n<!--.*-->\n<!--.*-->\n<!--.*-->\n<matches " + matchAttr + ">\n(<!--.*?-->\n)?<language shortname=\"de\" name=\"German\"/>\n</matches>\n";
     German german = new German();
-    String result1 = check(german, "");
+    String result1 = checkV1(german, "");
     assertTrue("Got " + result1 + ", expected " + emptyResultPattern, result1.matches(emptyResultPattern));
-    String result2 = check(german, "Ein kleiner test");
+    String result2 = checkV1(german, "Ein kleiner test");
     assertTrue("Got " + result2 + ", expected " + emptyResultPattern, result2.matches(emptyResultPattern));
     // one error:
-    assertTrue(check(german, "ein kleiner test.").contains("UPPERCASE_SENTENCE_START"));
+    assertTrue(checkV1(german, "ein kleiner test.").contains("UPPERCASE_SENTENCE_START"));
     // two errors:
-    String result = check(german, "ein kleiner test. Und wieder Erwarten noch was: \u00f6\u00e4\u00fc\u00df.");
+    String result = checkV1(german, "ein kleiner test. Und wieder Erwarten noch was: \u00f6\u00e4\u00fc\u00df.");
     assertTrue("Got result without 'UPPERCASE_SENTENCE_START': " + result, result.contains("UPPERCASE_SENTENCE_START"));
     assertTrue("Got result without 'WIEDER_WILLEN': " + result, result.contains("WIEDER_WILLEN"));
     assertTrue("Expected special chars, got: '" + result + "'",
@@ -79,15 +80,15 @@ public class HTTPServerTest {
     //System.err.println(result);
     // make sure XML chars are escaped in the result to avoid invalid XML
     // and XSS attacks:
-    assertTrue(!check(german, "bla <script>").contains("<script>"));
+    assertTrue(!checkV1(german, "bla <script>").contains("<script>"));
 
     // other tests for special characters
-    String germanSpecialChars = check(german, "ein kleiner test. Und wieder Erwarten noch was: öäüß+ öäüß.");
+    String germanSpecialChars = checkV1(german, "ein kleiner test. Und wieder Erwarten noch was: öäüß+ öäüß.");
     assertTrue("Expected special chars, got: '" + germanSpecialChars + "'", germanSpecialChars.contains("öäüß+"));
-    String romanianSpecialChars = check(new Romanian(), "bla bla șțîâă șțîâă și câteva caractere speciale");
+    String romanianSpecialChars = checkV1(new Romanian(), "bla bla șțîâă șțîâă și câteva caractere speciale");
     assertTrue("Expected special chars, got: '" + romanianSpecialChars + "'", romanianSpecialChars.contains("șțîâă"));
     Polish polish = new Polish();
-    String polishSpecialChars = check(polish, "Mówiła długo, żeby tylko mówić mówić długo.");
+    String polishSpecialChars = checkV1(polish, "Mówiła długo, żeby tylko mówić mówić długo.");
     assertTrue("Expected special chars, got: '" + polishSpecialChars+ "'", polishSpecialChars.contains("mówić"));
     // test http POST
     assertTrue(checkByPOST(new Romanian(), "greșit greșit").contains("greșit"));
@@ -102,11 +103,11 @@ public class HTTPServerTest {
     }
     // tests for "&" character
     English english = new English();
-    assertTrue(check(english, "Me & you you").contains("&"));
+    assertTrue(checkV1(english, "Me & you you").contains("&"));
     // tests for mother tongue (copy from link {@link FalseFriendRuleTest})   
-    assertTrue(check(english, german, "We will berate you").contains("BERATE"));
-    assertTrue(check(german, english, "Man sollte ihn nicht so beraten.").contains("BERATE"));
-    assertTrue(check(polish, english, "To jest frywolne.").contains("FRIVOLOUS"));
+    assertTrue(checkV1(english, german, "We will berate you").contains("BERATE"));
+    assertTrue(checkV1(german, english, "Man sollte ihn nicht so beraten.").contains("BERATE"));
+    assertTrue(checkV1(polish, english, "To jest frywolne.").contains("FRIVOLOUS"));
       
     //tests for bitext
     assertTrue(bitextCheck(polish, english, "This is frivolous.", "To jest frywolne.").contains("FRIVOLOUS"));
@@ -114,7 +115,7 @@ public class HTTPServerTest {
     
     //test for no changed if no options set
     String[] nothing = {};
-    assertEquals(check(english, german, "We will berate you"), 
+    assertEquals(checkV1(english, german, "We will berate you"), 
         checkWithOptions(english, german, "We will berate you", nothing, nothing, false));
     
     //disabling
@@ -163,6 +164,106 @@ public class HTTPServerTest {
     assertFalse("Result: " + result6, result6.contains("TRANSLATION_LENGTH"));
   }
 
+  void runTestsV2() throws IOException, SAXException, ParserConfigurationException {
+    // no error:
+    String emptyResultPattern = ".*\"matches\":\\[\\].*";
+    German german = new German();
+    String result1 = checkV2(german, "");
+    assertTrue("Got " + result1 + ", expected " + emptyResultPattern, result1.matches(emptyResultPattern));
+    String result2 = checkV2(german, "Ein kleiner test");
+    assertTrue("Got " + result2 + ", expected " + emptyResultPattern, result2.matches(emptyResultPattern));
+    // one error:
+    assertTrue(checkV2(german, "ein kleiner test.").contains("UPPERCASE_SENTENCE_START"));
+    // two errors:
+    String result = checkV2(german, "ein kleiner test. Und wieder Erwarten noch was: \u00f6\u00e4\u00fc\u00df.");
+    assertTrue("Got result without 'UPPERCASE_SENTENCE_START': " + result, result.contains("UPPERCASE_SENTENCE_START"));
+    assertTrue("Got result without 'WIEDER_WILLEN': " + result, result.contains("WIEDER_WILLEN"));
+    assertTrue("Expected special chars, got: '" + result + "'",
+            result.contains("\u00f6\u00e4\u00fc\u00df"));   // special chars are intact
+    assertTrue(checkV2(german, "bla <script>").contains("<script>"));  // no escaping of '<' and '>' needed, unlike in XML
+
+    // other tests for special characters
+    String germanSpecialChars = checkV2(german, "ein kleiner test. Und wieder Erwarten noch was: öäüß+ öäüß.");
+    assertTrue("Expected special chars, got: '" + germanSpecialChars + "'", germanSpecialChars.contains("öäüß+"));
+    String romanianSpecialChars = checkV2(new Romanian(), "bla bla șțîâă șțîâă și câteva caractere speciale");
+    assertTrue("Expected special chars, got: '" + romanianSpecialChars + "'", romanianSpecialChars.contains("șțîâă"));
+    Polish polish = new Polish();
+    String polishSpecialChars = checkV2(polish, "Mówiła długo, żeby tylko mówić mówić długo.");
+    assertTrue("Expected special chars, got: '" + polishSpecialChars+ "'", polishSpecialChars.contains("mówić"));
+    // test http POST
+    assertTrue(checkByPOST(new Romanian(), "greșit greșit").contains("greșit"));
+    // test supported language listing
+    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/Languages");
+    String languagesXML = StringTools.streamToString((InputStream) url.getContent(), "UTF-8");
+    if (!languagesXML.contains("Romanian") || !languagesXML.contains("English")) {
+      fail("Error getting supported languages: " + languagesXML);
+    }
+    if (!languagesXML.contains("abbr=\"de\"") || !languagesXML.contains("abbrWithVariant=\"de-DE\"")) {
+      fail("Error getting supported languages: " + languagesXML);
+    }
+    // tests for "&" character
+    English english = new English();
+    assertTrue(checkV2(english, "Me & you you").contains("&"));
+    // tests for mother tongue (copy from link {@link FalseFriendRuleTest})   
+    assertTrue(checkV2(english, german, "We will berate you").contains("BERATE"));
+    assertTrue(checkV2(german, english, "Man sollte ihn nicht so beraten.").contains("BERATE"));
+    assertTrue(checkV2(polish, english, "To jest frywolne.").contains("FRIVOLOUS"));
+      
+    //tests for bitext
+    assertTrue(bitextCheck(polish, english, "This is frivolous.", "To jest frywolne.").contains("FRIVOLOUS"));
+    assertTrue(!bitextCheck(polish, english, "This is something else.", "To jest frywolne.").contains("FRIVOLOUS"));
+    
+    //test for no changed if no options set
+    String[] nothing = {};
+    assertEquals(checkV2(english, german, "We will berate you"), 
+        checkWithOptionsV2(english, german, "We will berate you", nothing, nothing, false));
+    
+    //disabling
+    String[] disableAvsAn = {"EN_A_VS_AN"};
+    assertTrue(!checkWithOptionsV2(
+            english, german, "This is an test", nothing, disableAvsAn, false).contains("an test"));
+
+    //enabling
+    assertTrue(checkWithOptionsV2(
+            english, german, "This is an test", disableAvsAn, nothing, false).contains("an test"));
+    //should also mean _NOT_ disabling all other rules...
+    assertTrue(checkWithOptionsV2(
+            english, german, "We will berate you", disableAvsAn, nothing, false).contains("BERATE"));
+    //..unless explicitly stated.
+    assertTrue(!checkWithOptionsV2(
+        english, german, "We will berate you", disableAvsAn, nothing, true).contains("BERATE"));
+    
+    
+    //test if two rules get enabled as well
+    String[] twoRules = {"EN_A_VS_AN", "BERATE"};
+    
+    String resultEn = checkWithOptionsV2(
+            english, german, "This is an test. We will berate you.", twoRules, nothing, false);
+    assertTrue("Result: " + resultEn, resultEn.contains("EN_A_VS_AN"));
+    assertTrue("Result: " + resultEn, resultEn.contains("BERATE"));
+
+    //check two disabled options
+    String result3 = checkWithOptionsV2(
+            english, german, "This is an test. We will berate you.", nothing, twoRules, false);
+    assertFalse("Result: " + result3, result3.contains("EN_A_VS_AN"));
+    assertFalse("Result: " + result3, result3.contains("BERATE"));
+    
+    //two disabled, one enabled, so enabled wins
+    String result4 = checkWithOptionsV2(
+            english, german, "This is an test. We will berate you.", disableAvsAn, twoRules, false);
+    assertTrue("Result: " + result4, result4.contains("EN_A_VS_AN"));
+    assertFalse("Result: " + result4, result4.contains("BERATE"));
+
+    String result5 = checkV2(null, "This is a test of the language detection.");
+    assertTrue("Result: " + result5, result5.contains("\"en-US\""));
+
+    String result6 = checkV2(null, "This is a test of the language detection.", "&preferredVariants=de-DE,en-GB");
+    assertTrue("Result: " + result6, result6.contains("\"en-GB\""));
+
+    String result7 = checkV2(null, "x");  // too short for auto-fallback, will use fallback
+    assertTrue("Result: " + result7, result7.contains("\"en-US\""));
+  }
+
   @Test
   public void testTimeout() throws Exception {
     HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort(), false);
@@ -172,7 +273,7 @@ public class HTTPServerTest {
       server.run();
       try {
         System.out.println("=== Testing timeout now, please ignore the following exception ===");
-        check(new GermanyGerman(), "Einq Tesz miit fieln Fehlan, desshalb sehee laagnsam bee dr Rechtschriebpürfung");
+        checkV2(new GermanyGerman(), "Einq Tesz miit fieln Fehlan, desshalb sehee laagnsam bee dr Rechtschriebpürfung");
         fail("Check was expected to be stopped because it took too long");
       } catch (IOException expected) {
         if (!expected.toString().contains(" 503 ")) {
@@ -191,7 +292,16 @@ public class HTTPServerTest {
       server.run();
       try {
         System.out.println("=== Testing 'access denied' check now, please ignore the following exception ===");
-        check(new German(), "no ip address allowed, so this cannot work");
+        checkV1(new German(), "no ip address allowed, so this cannot work");
+        fail();
+      } catch (IOException expected) {
+        if (!expected.toString().contains(" 403 ")) {
+          fail("Expected exception with error 403, got: " + expected);
+        }
+      }
+      try {
+        System.out.println("=== Testing 'access denied' check now, please ignore the following exception ===");
+        checkV2(new German(), "no ip address allowed, so this cannot work");
         fail();
       } catch (IOException expected) {
         if (!expected.toString().contains(" 403 ")) {
@@ -268,16 +378,33 @@ public class HTTPServerTest {
     return HTTPTools.checkAtUrl(url);
   }
 
-  private String check(Language lang, String text) throws IOException {
-    return check(lang, null, text);
+  private String checkV1(Language lang, String text) throws IOException {
+    return checkV1(lang, null, text);
   }
 
-  protected String check(Language lang, Language motherTongue, String text) throws IOException {
-    String urlOptions = "/?language=" + lang.getShortName();
-    urlOptions += "&disabled=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
+  private String checkV2(Language lang, String text) throws IOException {
+    return checkV2(lang, (Language)null, text);
+  }
+
+  protected String checkV1(Language lang, Language motherTongue, String text) throws IOException {
+    return check("/", lang, motherTongue, text, "");
+  }
+
+  protected String checkV2(Language lang, Language motherTongue, String text) throws IOException {
+    return check("/v2/check", lang, motherTongue, text, "");
+  }
+
+  private String checkV2(Language lang, String text, String parameters) throws IOException {
+    return check("/v2/check", lang, null, text, parameters);
+  }
+
+  private String check(String urlPrefix, Language lang, Language motherTongue, String text, String parameters) throws IOException {
+    String urlOptions = urlPrefix + "?language=" + (lang == null ? "auto" : lang.getShortName());
+    urlOptions += "&disabledRules=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     if (motherTongue != null) {
       urlOptions += "&motherTongue=" + motherTongue.getShortName();
     }
+    urlOptions += parameters;
     URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);
   }
@@ -302,8 +429,28 @@ public class HTTPServerTest {
     return HTTPTools.checkAtUrl(url);
   }
   
+  private String checkWithOptionsV2(Language lang, Language motherTongue, String text,
+                                  String[] enabledRules, String[] disabledRules, boolean useEnabledOnly) throws IOException {
+    String urlOptions = "/v2/check?language=" + lang.getShortName();
+    urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
+    if (motherTongue != null) {
+      urlOptions += "&motherTongue=" + motherTongue.getShortName();
+    }
+    if (disabledRules.length > 0) {
+      urlOptions += "&disabledRules=" + StringUtils.join(disabledRules, ",");
+    }
+    if (enabledRules.length > 0) {
+      urlOptions += "&enabledRules=" + StringUtils.join(enabledRules, ",");
+    }
+    if (useEnabledOnly) {
+      urlOptions += "&enabledOnly=yes";
+    }
+    URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
+    return HTTPTools.checkAtUrl(url);
+  }
+  
   /**
-   * Same as {@link #check(Language, String)} but using HTTP POST method instead of GET
+   * Same as {@link #checkV1(Language, String)} but using HTTP POST method instead of GET
    */
   protected String checkByPOST(Language lang, String text) throws IOException {
     String postData = "language=" + lang.getShortName() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like Polish, Romanian, etc

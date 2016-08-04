@@ -37,7 +37,7 @@ import static org.languagetool.tools.StringTools.isEmpty;
 public class CommaWhitespaceRule extends Rule {
 
   /** @since 3.3 */
-  public CommaWhitespaceRule(ResourceBundle messages, IncorrectExample incorrectExample, String correctExample) {
+  public CommaWhitespaceRule(ResourceBundle messages, IncorrectExample incorrectExample, CorrectExample correctExample) {
     super(messages);
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Whitespace);

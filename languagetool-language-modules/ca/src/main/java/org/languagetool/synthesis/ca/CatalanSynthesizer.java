@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import morfologik.stemming.IStemmer;
 import morfologik.stemming.WordData;
@@ -122,7 +123,14 @@ public class CatalanSynthesizer extends BaseSynthesizer {
       final boolean posTagRegExp) throws IOException {
     if (posTagRegExp) {
       initPossibleTags();
-      Pattern p = Pattern.compile(posTag);
+      Pattern p = null;
+      try {
+        p = Pattern.compile(posTag);
+      } catch (PatternSyntaxException e) {
+        System.err.println("WARNING: Error trying to synthesize POS tag "
+            + posTag + " from token " + token.getToken() + ".");
+        return null;
+      }
       final List<String> results = new ArrayList<>();
       for (final String tag : possibleTags) {
         final Matcher m = p.matcher(tag);

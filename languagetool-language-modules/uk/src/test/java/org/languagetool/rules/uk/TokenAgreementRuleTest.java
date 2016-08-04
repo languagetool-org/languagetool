@@ -167,6 +167,12 @@ public class TokenAgreementRuleTest {
     assertEmptyMatch("спиралося на місячної давнини рішення");
     assertEmptyMatch("На середньої довжини шубу");
 
+    assertEmptyMatch("При різного роду процесах");
+  
+    //TODO:
+//    assertEmptyMatch("Так висловлюються про екс-першого віце-спікера.");
+
+    
     matches = rule.match(langTool.getAnalyzedSentence("спиралося на місячної давнини рішенням"));
     assertEquals(1, matches.length);
 

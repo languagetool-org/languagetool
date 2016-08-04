@@ -1,13 +1,46 @@
 # LanguageTool Change Log
 
-## 3.4 (release planned for 2016-06-27)
+## 3.5 (release planned for 2016-09-29)
+
+#### Catalan
+  * added and improved rules
+  * added words suggested by users
+
+#### English
+  * added and improved rules
+  * added confusion pair talking/taking (works only with ngram data,
+    see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
+
+#### German
+  * added rules
+  * fixed several false alarms
+
+#### Portuguese
+  * added and improved rules
+ 
+#### Portuguese Brazilian
+  * added rules
+
+#### Russian
+  * added some rules
+  * added words suggested by users
+
+#### General
+  * Bugfix: avoid repeating the same suggestion
+
+#### Java API
+  * `Rule.getCorrectExamples()` now returns a list of `CorrectExample`s
+    instead of a list of `String`s.
+
+
+## 3.4 (2016-06-27)
 
 #### Catalan
   * added and improved rules
   * added words suggested by users
  
 #### English
-  * added about 24 confusion pairs like throe/throw, raps/wraps (works only with ngram data,
+  * added about 33 confusion pairs such as throe/throw, raps/wraps (works only with ngram data,
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
 
 #### French
@@ -17,53 +50,76 @@
 
 #### German
   * added some rules
+  * improved handling of hyphenated compound words
   
+#### Greek
+  * added some rules
+
 #### Polish
   * added and improved rules
   * removed some false alarms
   
 #### Portuguese
-  * added some rules
+  * added and improved rules
 
 #### Spanish
   * added 14 confusion pairs like tubo/tuvo, ciento/siento (works only with ngram data,
-    see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
+    see http://wiki.languagetool.org/finding-errors-using-n-gram-data)
+  * upgraded Hunspell dictionary to 2.1
+
+#### Russian
+  * rebuilt spellchecker dictionary
+  * added words suggested by users
+  * added and improved rules
+
+#### Ukrainian
+  * big dictionary update (thousands of new words and many fixes)
+  * compound tagger improvements
+  * several new rules and many improvements to existing ones
+  * new token inflection agreement rule (still work-in-progress so turned off by default)
+  * new replacement suggestions for barbarisms
 
 #### Java API
   * some formerly deprecated code has been removed
-  * all rules have now a category ("Misc" if the rule doesn't specify a category)
+  * all rules now have a category ("Misc" if the rule doesn't specify a category)
   * a new module `languagetool-http-client` has been added with a class
     `RemoteLanguageTool` that you can use to query a remote LanguageTool server
     via HTTP or HTTPS
   * removed the public modifier from `LanguageComboBox`
 
 #### Embedded HTTPS server
-  * changed behaviour for OutOfMemory situations: the server
+  * The existing HTTP/HTTPS API will be replaced by a new one
+    that returns JSON. This version of LanguageTool supports
+    both APIs. The new API is prefixed with `/v2/`.
+    It is documented at https://languagetool.org/http-api/swagger-ui/#/default.
+    Please do not use the old XML-based HTTP API anymore. 
+    Information about migrating from the old to the new API
+    can be found at https://languagetool.org/http-api/migration.php
+  * Changed behaviour for OutOfMemory situations: the server
     process now stops instead of being in an unstable state
-  * missing parameters (like `text`) now cause a `400 Bad Request`
+  * Missing parameters (like `text`) now cause a `400 Bad Request`
     response (it used to produce `500 Internal Server Error`)
-  * to turn on language auto-detection, `autodetect=yes` can now be
-    used instead of `autodetect=1` (to be consistent with `enabledOnly=yes`)
-  * New parameter `preferredvariants` to specify which variant is preferred
+  * New parameter `preferredVariants` to specify which variant is preferred
     when the language is auto-detected: Example:
-    `autodetect=yes&preferredvariants=en-GB,de-AT` - if English text is detected,
+    `language=auto&preferredVariants=en-GB,de-AT` - if English text is detected,
     British English will be used, if German text is detected, German (Austria)
     will be used.
+  * Code refactorings: methods have been removed without being deprecated first,
+    e.g. in `LanguageToolHttpHandler`
 
 #### Rule Syntax
   * groups of rules and categories are now required to have non-empty names
-   to avoid user confusion
+    to avoid user confusion
 
 #### GUI (stand-alone version)
-
   * detect encoding of files with BOM header
   * add new menu to open recent files
   * add new configuration option to allow user to select the GUI language
   * preserve GUI state between program restarts
 
 #### Command-line
-
   * detect encoding of files with BOM header when there is no `encoding` parameter
+
 
 ## 3.3 (2016-03-28)
 

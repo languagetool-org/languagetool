@@ -144,8 +144,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="και">Το δεν γράφεται <marker>κι</marker> δε όταν ακολουθεί λέξη που αρχίζει από εξακολουθητικό σύμφωνο.</example>
             <example>Το δεν γράφεται και δε όταν ακολουθεί λέξη που αρχίζει από εξακολουθητικό σύμφωνο.</example>
         </rule>
+        <rule id="GREEK_ART_MASC_MISSING_N" name="τελικό ν αρσενικού άρθρου" type="grammar">
+            <pattern>
+                <marker>
+                    <token>το</token>
+                </marker>
+                    <token postag="N:MASC:SG:ACC"/>
+            </pattern>
+            <message>Το τελικό ν του αρσενικού άρθρου διατηρείται στον γραπτό λόγο. Χρησιμοποιήστε <suggestion>τον</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example correction="τον">Πιθανόν να εξαφανίστηκε επειδή δεν άντεξε <marker>το</marker> ανταγωνισμό με τον ανατομικά ανώτερο σμιλόδοντα.</example>
+            <example>Αποφεύγουν τον ανταγωνισμό με το να καταλαμβάνουν διαφορετικούς τομείς του βροχοδάσους.</example>
+        </rule>
+        <rule id="GREEK_ART_FEM_MISSING_N" name="τελικό ν θηλυκού άρθρου (τn → την)" type="grammar">
+            <pattern>
+                <marker>
+                    <token>τη</token>
+                </marker>
+                <token postag="N:FEM:SG:ACC" regexp="yes">[αειηυοωάέίήύόώϊϋΐΰκπτξψ].*|γκ.*|μπ.*|ντ.*|τσ.*|τζ.*</token>
+            </pattern>
+            <message>Το τελικό ν διατηρείται στον γραπτό λόγο, όταν η επόμενη λέξη αρχίζει από φωνήεν ή από ένα από τα: κ, π, τ, γκ, μπ, ντ, τσ, τζ, ξ, ψ. Χρησιμοποιήστε <suggestion>την</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example correction="την">Το Σιν Φέιν ψηφίζει υπέρ της συνεργασίας του με <marker>τη</marker> αστυνομία για πρώτη φορά στην ιστορία του κόμματος.</example>
+            <example>Το Σιν Φέιν ψηφίζει υπέρ της συνεργασίας του με την αστυνομία για πρώτη φορά στην ιστορία του κόμματος.</example>
+        </rule>
+        <rule id="GREEK_ART_FEM_EXTRA_N" name="τελικό ν θηλυκού άρθρου (τnν → τη)" type="grammar">
+            <pattern>
+                <marker>
+                    <token>την</token>
+                </marker>
+                <token postag="N:FEM:SG:ACC">
+                    <exception regexp="yes">[αειηυοωάέίήύόώϊϋΐΰκπτξψ].*|γκ.*|μπ.*|ντ.*|τσ.*|τζ.*</exception>
+                </token>
+            </pattern>
+            <message>Το τελικό ν διατηρείται στον γραπτό λόγο, μόνο όταν η επόμενη λέξη αρχίζει από φωνήεν ή από ένα από τα : κ, π, τ, γκ, μπ, ντ, τσ, τζ, ξ, ψ. Χρησιμοποιήστε <suggestion>τη</suggestion></message>
+            <short>Πρόβλημα ορθογραφίας</short>
+            <example correction="τη">Για <marker>την</marker> λειτουργία της αναπνοής υπάρχει σε κάθε οργανισμό ξεχωριστό σύστημα οργάνων</example>
+            <example>Για τη λειτουργία της αναπνοής υπάρχει σε κάθε οργανισμό ξεχωριστό σύστημα οργάνων</example>
+        </rule>
     </category>
     <category id="REDUNDANCY" name="Redundant Phrases">
+        <rule id="GREEK_MORE_ADJ_COMP" name="«πιο» πριν από επίθετο σε συγκριτικό βαθμό" type="grammar">
+            <pattern>
+                <marker>
+                    <token>πιο</token>
+                    <token postag_regexp="yes" postag="ADJ:COMP:.*"/>
+                </marker>
+            </pattern>
+            <message>Το επίθετο <suggestion>\2</suggestion> είναι σε συγκριτικό βαθμό και εμπεριέχει την έννοια του «πιο».</message>
+            <short>Λάθος πλεονασμού</short>
+            <example correction="ισχυρότερα">Όσο μεγαλύτερη ροπή θέλουμε να μεταφέρουμε τόσο <marker>πιο ισχυρότερα</marker> και περισσότερα πρέπει να είναι τα ελατήρια.</example>
+            <example>Όσο μεγαλύτερη ροπή θέλουμε να μεταφέρουμε τόσο ισχυρότερα και περισσότερα πρέπει να είναι τα ελατήρια.</example>
+        </rule>
         <rulegroup id="GREEK_REDUNDANT_1" name="ανέκαθεν">
             <rule>
                 <pattern>

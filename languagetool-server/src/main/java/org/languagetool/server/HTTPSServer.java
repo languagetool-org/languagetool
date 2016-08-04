@@ -70,17 +70,7 @@ public class HTTPSServer extends Server {
       ((HttpsServer)server).setHttpsConfigurator(configurator);
       RequestLimiter limiter = getRequestLimiterOrNull(config);
       LinkedBlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();
-      httpHandler = new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally, limiter, workQueue);
-      httpHandler.setMaxTextLength(config.getMaxTextLength());
-      httpHandler.setAllowOriginUrl(config.getAllowOriginUrl());
-      httpHandler.setMaxCheckTimeMillis(config.getMaxCheckTimeMillis());
-      httpHandler.setTrustXForwardForHeader(config.getTrustXForwardForHeader());
-      if (config.getMode() == HTTPServerConfig.Mode.AfterTheDeadline) {
-        httpHandler.setAfterTheDeadlineMode(config.getAfterTheDeadlineLanguage());
-      }
-      httpHandler.setLanguageModel(config.getLanguageModelDir());
-      httpHandler.setMaxWorkQueueSize(config.getMaxWorkQueueSize());
-      httpHandler.setRulesConfigurationFile(config.getRulesConfigFile());
+      httpHandler = new LanguageToolHttpHandler(config, allowedIps, runInternally, limiter, workQueue);
       server.createContext("/", httpHandler);
       executorService = getExecutorService(workQueue, config);
       server.setExecutor(executorService);

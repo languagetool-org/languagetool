@@ -95,6 +95,7 @@ public class MorfologikUkrainianSpellerRuleTest {
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("банд-формування.")).length);
 
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("учбово-виховного")).length);
 
     // abbreviations
 
