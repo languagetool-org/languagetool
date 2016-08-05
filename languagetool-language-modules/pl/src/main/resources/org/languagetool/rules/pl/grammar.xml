@@ -2094,9 +2094,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                         <token postag="(subst|adj):.*" postag_regexp="yes"/>
                                     </unify>
                                 </antipattern>
+                                <antipattern case_sensitive="yes">
+                                <token postag="SENT_START"/>
+                                <marker>
+                                <token postag="UNKNOWN" regexp="yes">.{1,3}</token>                                
+                                <token regexp="yes">[KJ]\p{Ll}+</token>
+                                </marker>
+                                </antipattern>
 								<pattern>
 										<marker>
-												<token negate="yes">,<exception postag="prep.*|SENT_START" postag_regexp="yes" scope="previous"></exception><exception regexp="yes">&interp;|mało|rzadko</exception><exception postag="conj|comp|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;|subst.*" postag_regexp="yes"></exception></token>
+												<token negate="yes">,<exception postag="prep.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes">&interp;|mało|rzadko</exception><exception postag="conj|comp|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;|subst.*" postag_regexp="yes"></exception></token>
 												<token inflected="yes" regexp="yes">który|jaki</token>
 										</marker>
 										<token><exception regexp="yes">&interp;|\)</exception><exception>”</exception></token>
@@ -2119,6 +2126,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>A wartość jego połowę przynajmniej jakiego królestwa wynosi.</example>
                                 <example correction="ważne, która">Nie jest <marker>ważne która</marker> drużyna wygrywa mecz.</example>
                                 <example>1 Jakie mam prawo mówić o opiniach i życzeniach tych nie do końca jeszcze świadomych przodków?</example>
+                                <example correction="Wybierz, który"><marker>Wybierz który</marker> chcesz.</example>
 						</rule>
 						<rule>
                                <antipattern>
