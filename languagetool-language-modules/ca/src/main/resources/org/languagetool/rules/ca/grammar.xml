@@ -40395,14 +40395,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                    <token postag="SENT_START" skip="-1"/>
                    <token regexp="yes">[!?]</token>
                 </marker>
-            </antipattern>
+           </antipattern>
            <antipattern>
                 <marker>
                    <token>,</token>
                    <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"/>
                    <token inflected="yes" regexp="yes">dir|suposar|afirmar|creure|escriure|caldre|pensar|meditar|assenyalar|assegurar|explicar</token>
                 </marker>
-            </antipattern> 
+           </antipattern> 
            <antipattern>
                 <marker>
                    <token>,</token>
@@ -40410,7 +40410,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                    <token postag="VA.*" postag_regexp="yes"/>
                    <token inflected="yes" regexp="yes">dir|suposar|afirmar|creure|escriure|caldre|pensar|meditar|assenyalar|assegurar|explicar</token>
                 </marker>
-            </antipattern> 
+           </antipattern> 
+           <antipattern>
+                <marker>
+                   <token postag="_GN_.P" postag_regexp="yes"/>
+                   <token>,</token>
+                   <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"/>
+                   <token postag="V....S.." postag_regexp="yes"/>
+                </marker>
+           </antipattern> 
+           <antipattern>
+                <marker>
+                   <token postag="_GN_.S" postag_regexp="yes"/>
+                   <token>,</token>
+                   <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"/>
+                   <token postag="V....P.." postag_regexp="yes"/>
+                </marker>
+           </antipattern> 
            <pattern>
                 <token postag="SENT_START"/> <!--convé separar el cas de Nom sol-->
                 <marker>
@@ -40438,6 +40454,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>L'objectiu, ens ha dit, és salvar vides.</example>
             <example>L'objectiu, ens va dir, és salvar vides.</example>
             <example>L'aplicació, activa des de l'octubre</example>
+            <example>Els peixos marins, va xiuxiuejar.</example>
             <!--<example type="trigers_error">Aquesta sang, baixa en oxigen,</example>-->
         </rule>
         <rule id="DE_MANERA_PERMANENTMENT" name="confusió: de manera permanentment">
