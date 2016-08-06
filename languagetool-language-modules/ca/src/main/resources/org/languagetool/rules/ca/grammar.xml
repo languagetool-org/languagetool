@@ -2732,7 +2732,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule id="CONFUSIO_NOMBRE" name="Confusions de nombre: catequesis, diesis">
                 <pattern>
-                    <token regexp="yes">catequesis|diesis|deisis|eneuresis|èmesis|catarsis|praxis|fibrosis|psicosis|.*sintaxis|.*praxis<exception postag="_GN_FP"/></token>
+                    <token regexp="yes">catequesis|diesis|deisis|eneuresis|èmesis|catarsis|praxis|fibrosis|psicosis|.*sintaxis|.*praxis|.*diàlisis<exception postag="_GN_FP"/></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)(.+)s" regexp_replace="$1"/></suggestion> (singular) en comptes de "<match no="1"/>" (plural)?</message>
                 <short>Possible confusió</short>
@@ -10097,7 +10097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token postag="SENT_START" skip="-1"/>
-                    <token skip="-1" inflected="yes" regexp="yes">castanyola|matraca|plat|xilòfon|percussió|pandereta|sonall|sonar|tocar|sacsejar|agitar</token>
+                    <token skip="-1" inflected="yes" regexp="yes">castanyola|matraca|plat|xilòfon|percussió|pandereta|sonall|sonar|tocar|sacsejar|agitar|bongo|orquestra|orquestrina|bateria</token>
                     <token postag="SENT_END"/>
                 </marker>
             </antipattern>
@@ -20221,22 +20221,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="D.*|_GN.*" postag_regexp="yes" negate_pos="yes"></token>
-                    <marker>
-                        <token regexp="yes">dona|dones</token>
-                    </marker>
-                    <token regexp="yes">compte|ajuda|valor|lloc|inici|accés</token>
-                    <!-- són nom i verb-->
-                </pattern>
-                <message>S'accentua quan és del verb "donar".</message>
-                <suggestion><match no="2" regexp_match=".+(a|es)" regexp_replace="dón$1"></match></suggestion>
-                <short>Accent diacrític</short>
-                <example correction="dóna">Ell <marker>dona</marker> compte al banquer.</example>
-                <example>Ell dóna compte al banquer.</example>
-                <example>Donar a les dones accés al crèdit.</example>
-            </rule>
-            <rule>
-                <pattern>
                     <token><exception postag="SPS00"/></token>
                     <marker>
                         <token regexp="yes">dona|dones<exception postag="_GN_F.|_possible_nompropi" postag_regexp="yes"/></token>
@@ -20357,6 +20341,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La dona com a objecte.</example>
             </rule>
         </rulegroup>
+        <rule id="DONA_COMPTE" name="dona/dóna compte">
+            <pattern>
+                <token><exception postag="D.*|_GN.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token regexp="yes">dona|dones</token>
+                </marker>
+                <token regexp="yes">compte|ajuda|valor|lloc|inici|accés</token>
+                <!-- són nom i verb-->
+            </pattern>
+            <message>S'accentua quan és del verb "donar".</message>
+            <suggestion><match no="2" regexp_match=".+(a|es)" regexp_replace="dón$1"></match></suggestion>
+            <example correction="dóna">Ell <marker>dona</marker> compte al banquer.</example>
+            <example correction="dóna">I en <marker>dona</marker> compte al jutge.</example>
+            <example>Donar a les dones accés al crèdit.</example>
+        </rule>
         <rulegroup id="SOC" name="soc/sóc">
             <rule>
                 <pattern case_sensitive="yes">
@@ -35615,6 +35614,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" inflected="yes">magnitud|major|menor|militar</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">assumpte|afer|causa|motiu|problema|qüestió</token>
+                    <token>d'</token>
+                    <token>ordre</token>
+                    <token>religiós</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">ordres?</token>
@@ -35626,6 +35633,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="orde franciscà">l'<marker>ordre franciscana</marker></example>
                 <example correction="orde franciscà">l'<marker>ordre franciscà</marker></example>
                 <example correction="ordes majors">va rebre els <marker>ordres majors</marker></example>
+                <example>Va ser per motius d'ordre religiós.</example>
             </rule>
             <rule>
                 <pattern>
@@ -40392,7 +40400,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                    <token>,</token>
                    <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"/>
-                   <token inflected="yes" regexp="yes">dir|suposar|afirmar|creure|escriure|caldre|pensar|meditar|assenyalar|assegurar</token>
+                   <token inflected="yes" regexp="yes">dir|suposar|afirmar|creure|escriure|caldre|pensar|meditar|assenyalar|assegurar|explicar</token>
                 </marker>
             </antipattern> 
            <antipattern>
@@ -40400,7 +40408,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                    <token>,</token>
                    <token min="0" max="3" postag="&pronom_feble;" postag_regexp="yes"/>
                    <token postag="VA.*" postag_regexp="yes"/>
-                   <token inflected="yes" regexp="yes">dir|suposar|afirmar|creure|escriure|caldre|pensar|meditar|assenyalar|assegurar</token>
+                   <token inflected="yes" regexp="yes">dir|suposar|afirmar|creure|escriure|caldre|pensar|meditar|assenyalar|assegurar|explicar</token>
                 </marker>
             </antipattern> 
            <pattern>
@@ -40429,6 +40437,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>L'objectiu, ens diu, és salvar vides.</example>
             <example>L'objectiu, ens ha dit, és salvar vides.</example>
             <example>L'objectiu, ens va dir, és salvar vides.</example>
+            <example>L'aplicació, activa des de l'octubre</example>
             <!--<example type="trigers_error">Aquesta sang, baixa en oxigen,</example>-->
         </rule>
         <rule id="DE_MANERA_PERMANENTMENT" name="confusió: de manera permanentment">
