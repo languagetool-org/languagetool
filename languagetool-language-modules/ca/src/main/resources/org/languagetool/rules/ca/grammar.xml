@@ -10097,7 +10097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token postag="SENT_START" skip="-1"/>
-                    <token skip="-1" inflected="yes" regexp="yes">castanyola|matraca|plat|xilòfon|percussió|pandereta|sonall|sonar|tocar|sacsejar|agitar|bongo|orquestra|orquestrina|bateria</token>
+                    <token skip="-1" inflected="yes" regexp="yes">castanyola|matraca|plat|xilòfon|percussió|pandereta|sonall|sonar|tocar|sacsejar|agitar|bongo|orquestra|orquestrina|bateria|ball</token>
                     <token postag="SENT_END"/>
                 </marker>
             </antipattern>
@@ -26611,17 +26611,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token>amb</token>
-                    <token>càrrec</token>
+                    <token regexp="yes">càrrec|ajuda|ajut|control</token>
                 </marker>
             </antipattern>
             <rule>
                 <pattern>
                     <marker>
                         <token postag="P0.0.*" postag_regexp="yes" skip="1"/>
-                        <token skip="2" inflected="yes">fer<exception scope="next" postag="AQ.*|_GN_.*|V.N.*" postag_regexp="yes"/><exception scope="next">col·laboració</exception></token>
+                        <token skip="2" inflected="yes">fer<exception scope="next" postag="AQ.*|_GN_.*|V.N.*" postag_regexp="yes"/><exception scope="next" regexp="yes">col·laboració|milionari</exception></token>
                         <token skip="7">amb<exception scope="next" regexp="yes">,|cap|col·laboració</exception><exception scope="next" postag="C.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">&context_FER_SE_AMB;<exception scope="previous">a</exception></token>
+                    <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">&context_FER_SE_AMB;<exception scope="previous" regexp="yes">a|de</exception></token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion>(aconseguir)</suggestion>
@@ -30962,7 +30962,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">en|sens|sense</token>
                     <marker>
-                        <token regexp="yes">prejudici|perjuí</token>
+                        <token regexp="yes">prejudici|prejuí</token>
                     </marker>
                     <token inflected="yes">de</token>
                 </pattern>
