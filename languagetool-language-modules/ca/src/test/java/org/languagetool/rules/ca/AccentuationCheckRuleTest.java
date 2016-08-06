@@ -47,6 +47,7 @@ public class AccentuationCheckRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
+    assertCorrect("—I continues mantenint que això va succeir");
     assertCorrect("No hi ha ningú aquí que begui vi?");
     assertCorrect("Va tocar l'ària da capo de les variacions Goldberg.");
     assertCorrect("A ponent continua la serra de Fontpobra");
