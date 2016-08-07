@@ -137,9 +137,9 @@ public class RemoteLanguageTool {
     }
   }
 
-  HttpURLConnection getConnection(byte[] postData, URL baseUrl) {
+  HttpURLConnection getConnection(byte[] postData, URL url) {
     try {
-      HttpURLConnection conn = (HttpURLConnection) baseUrl.openConnection();
+      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
       conn.setDoOutput(true);
       conn.setInstanceFollowRedirects(false);
       conn.setRequestMethod("POST");
