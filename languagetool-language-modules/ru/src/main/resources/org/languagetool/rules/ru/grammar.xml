@@ -3708,6 +3708,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Как будто"><marker>Какбудто</marker> время остановилось.</example>
             </rule>
         </rulegroup>
+        <rulegroup default="on" id="Pravopisanie_po-prezhnemu" name="Правописание слов «по-прежнему» или «по прежнему»">    
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>по</token>
+                        <token>прежнему</token>
+                    </marker>
+                    <token regexp="yes">[,.]</token>
+                    <token><exception postag="NN:Masc:Sin:D"></exception></token>
+                </pattern>
+                <message>Слово пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example correction="по-прежнему">Я поступлю <marker>по прежнему</marker>, как бы вы меня ни уговаривали.</example>
+            </rule>
+             <rule>
+                <pattern>
+                    <marker>
+                        <token>по-прежнему</token>
+                    </marker>
+                    <token postag="NN:Masc:Sin:D"></token>                   
+                    <token regexp="yes">[,.;]</token>                
+                </pattern>
+                <message>Слова пишутся раздельно: <suggestion>по прежнему</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example correction="по прежнему">Я спускаюсь к речке <marker>по-прежнему</marker> пути, знакомому с самого детства.</example>
+            </rule>
+        </rulegroup>
         <rulegroup default="on" id="Pravopisanie_slitno1" name="Правописание слов «наверху», «внизу» ...">
     
 
