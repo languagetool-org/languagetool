@@ -4337,7 +4337,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="no" >в</token>
+                    <token>в</token>
                     <token regexp="yes" case_sensitive="yes" >В[бвгджзклмнпрстфхчшщ].*</token>
                 </pattern>
                 <message>Правильная форма предлога: <suggestion>во \2</suggestion>.</message>
@@ -4400,14 +4400,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token case_sensitive="no" >с</token>
-                    <token regexp="yes" case_sensitive="yes" >С[бвгджзклмнпрстфхчшщ].*</token>
+                    <token>с</token>
+                    <token regexp="yes" case_sensitive="yes" >С[бвгджзклмнпрстфхчшщ].*<exception>СвДП</exception></token>
                 </pattern>
                 <message>Неправильная форма предлога. Исправление: <suggestion>со \2</suggestion>.</message>
                 <short>Неправильная форма предлога.</short>
-                <example>Cо Степаном я знаком</example>
+                <example>Co Степаном я знаком</example>
                 <example correction="Со Смирновым"><marker>С Смирновым</marker> я знаком.</example>
                 <example correction="со Степаном"> Я встретился <marker>с Степаном</marker>.</example>
+                <!-- <example correction="со СвДП"> ХСС делила власть <marker>с СвДП</marker>.</example> -->
             </rule>
         </rulegroup>
         <rulegroup default="on" id="Vo_izbezhanie" name="Правописание предлога «во избежание»">
