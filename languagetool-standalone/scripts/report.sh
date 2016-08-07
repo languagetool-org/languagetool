@@ -25,10 +25,13 @@ TOTALHOME=`grep "Check done:" $TMPFILE | grep -c languagetool.org`
 printf "Checks from lt.org: %'d\n" $TOTALHOME >>$OUTFILE
 
 FF=`grep -c "languagetoolfx"  $TMPFILE`
-printf "Firefox Requests  : %'d\n" $FF >>$OUTFILE
+printf "LanguageToolFx Req: %'d\n" $FF >>$OUTFILE
 
 CHROME=`grep -c "chrome-extension" $TMPFILE`
 printf "Chrome Requests   : %'d\n" $CHROME >>$OUTFILE
+
+WEBEXT=`grep -c "webextension" $TMPFILE`
+printf "WebExtension Req  : %'d\n" $WEBEXT >>$OUTFILE
 
 ANDROID=`grep -c "androidspell" $TMPFILE`
 printf "Android Requests  : %'d\n" $ANDROID >>$OUTFILE
@@ -36,7 +39,10 @@ printf "Android Requests  : %'d\n" $ANDROID >>$OUTFILE
 CLIENT=`grep -c "java-http-client" $TMPFILE`
 printf "Java Client Req   : %'d\n" $CLIENT >>$OUTFILE
 
-echo "$DATE2;$TOTAL;$FF;$CHROME;$ANDROID" >>/home/languagetool/api/api-log.csv
+SUBLIME=`grep -c ":sublime" $TMPFILE`
+printf "Sublime Requests  : %'d\n" $SUBLIME >>$OUTFILE
+
+echo "$DATE2;$TOTAL;$FF;$CHROME;$ANDROID;$CLIENT;$SUBLIME;$WEBEXT" >>/home/languagetool/api/api-log.csv
 
 echo "" >>$OUTFILE
 echo "An error has occurred      : `grep -c 'An error has occurred' $TMPFILE`" >>$OUTFILE
