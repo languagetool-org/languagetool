@@ -3727,17 +3727,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>по</token>
-                        <token>прежнему</token>
+                        <token regexp="yes" >по|По</token>
+                        <token  postag="ADJ:Masc:D" />
                     </marker>
-                    <token regexp="yes">[,.]</token>
-                    <token><exception postag="NN:Masc:Sin:D"></exception></token>
+                    <token>,</token>
+                    <token skip="-1">
+                        <exception scope="next" postag_regexp="yes" postag="NN:Masc:.*:D|NN:Neut:.*:D" />
+                    </token>
+                    <token postag="SENT_END" />
                 </pattern>
                 <message>Слово пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
                 <short>Пишется слитно.</short>
+                <example correction="по-зимнему">Я оделся <marker>по зимнему</marker>, так как было холодно.</example>
+                <example correction="по-хорошему">Давай <marker>по хорошему</marker>, иначе будет грустно.</example>
                 <example correction="по-прежнему">Я поступлю <marker>по прежнему</marker>, как бы вы меня ни уговаривали.</example>
+                <example correction="по-прежнему">Я поступлю <marker>по прежнему</marker>, как меня не уговаривай и чем меня не заманивай в эту ловушку.</example>
             </rule>
-             <rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" >по|По</token>
+                        <token  postag="ADJ:Masc:D">
+                            <exception regexp="yes">английскому|немецкому|французскому|испанскому|португальскому|голландскому|датскому|китайскому|японскому|арабскому|индийскому|армянскому|грузинскому</exception>
+                        </token>
+                    </marker>
+                    <token>.</token>
+                </pattern>
+                <message>Слово пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example correction="по-зимнему">Я оделся <marker>по зимнему</marker>.</example>
+                <example correction="по-хорошему">Давай <marker>по хорошему</marker>.</example>
+                <example correction="по-прежнему">Я поступлю <marker>по прежнему</marker>.</example>
+            </rule>
+            <rule>
                 <pattern>
                     <marker>
                         <token>по-прежнему</token>
