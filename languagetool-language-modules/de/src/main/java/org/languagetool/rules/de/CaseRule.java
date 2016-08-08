@@ -368,6 +368,7 @@ public class CaseRule extends GermanRule {
     // TODO: alle Sprachen
     languages.add("Angelsächsisch");
     languages.add("Afrikanisch");
+    languages.add("Albanisch");
     languages.add("Altarabisch");
     languages.add("Altchinesisch");
     languages.add("Altgriechisch");
@@ -378,31 +379,38 @@ public class CaseRule extends GermanRule {
     languages.add("Armenisch");
     languages.add("Bairisch");
     languages.add("Baskisch");
+    languages.add("Bengalisch");
+    languages.add("Bulgarisch");
     languages.add("Chinesisch");
     languages.add("Dänisch");
     languages.add("Deutsch");
     languages.add("Englisch");
+    languages.add("Estnisch");
     languages.add("Finnisch");
     languages.add("Französisch");
     languages.add("Frühneuhochdeutsch");
     languages.add("Germanisch");
     languages.add("Georgisch");
     languages.add("Griechisch");
+    languages.add("Hebräisch");
     languages.add("Hocharabisch");
     languages.add("Hochchinesisch");
     languages.add("Hochdeutsch");
     languages.add("Holländisch");
+    languages.add("Indonesisch");
     languages.add("Isländisch");
     languages.add("Italienisch");
     languages.add("Japanisch");
     languages.add("Jiddisch");
     languages.add("Jugoslawisch");
+    languages.add("Kantonesisch");
     languages.add("Koreanisch");
     languages.add("Kroatisch");
     languages.add("Lateinisch");
     languages.add("Lettisch");
     languages.add("Luxemburgisch");
     languages.add("Mittelhochdeutsch");
+    languages.add("Mongolisch");
     languages.add("Neuhochdeutsch");
     languages.add("Niederländisch");
     languages.add("Norwegisch");
@@ -410,6 +418,8 @@ public class CaseRule extends GermanRule {
     languages.add("Plattdeutsch");
     languages.add("Polnisch");
     languages.add("Portugiesisch");
+    languages.add("Rätoromanisch");
+    languages.add("Rumänisch");
     languages.add("Russisch");
     languages.add("Sächsisch");
     languages.add("Schwäbisch");
@@ -418,12 +428,20 @@ public class CaseRule extends GermanRule {
     languages.add("Serbisch");
     languages.add("Serbokroatisch");
     languages.add("Slawisch");
+    languages.add("Slowakisch");
     languages.add("Slowenisch");
     languages.add("Spanisch");
+    languages.add("Tamilisch");
+    languages.add("Tibetisch");
     languages.add("Tschechisch");
+    languages.add("Tschetschenisch");
     languages.add("Türkisch");
+    languages.add("Turkmenisch");
+    languages.add("Uigurisch");
     languages.add("Ukrainisch");
     languages.add("Ungarisch");
+    languages.add("Usbekisch");
+    languages.add("Vietnamesisch");
     languages.add("Weißrussisch");
   }
   
