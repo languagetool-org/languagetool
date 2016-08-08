@@ -3715,7 +3715,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>с</token>
                         <token>одной</token>
                     </marker>        
-                    <token><exception   postag_regexp="yes" postag="NN:Fem:Sin:T|NN:Fem:Sin:R|ADJ:.*|ABR|PT:.*|PREP|CONJ|ADV "></exception><exception>[,"«.;:]</exception><exception>ВПП</exception></token>
+                    <token><exception   postag_regexp="yes" postag="NN:Fem:Sin:T|NN:Fem:Sin:R|ADJ:.*|ABR|PT:.*|PREP|CONJ|ADV "></exception><exception regexp="yes">[,"«.;:]</exception><exception>ВПП</exception></token>
                 </pattern>
                 <message>Пропущено слово.</message>
                 <short>Пропущено слово.</short>
@@ -3727,7 +3727,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes" >по|По</token>
+                        <token>по</token>
                         <token  postag="ADJ:Masc:D" />
                     </marker>
                     <token>,</token>
@@ -3746,7 +3746,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes" >по|По</token>
+                        <token>по</token>
                         <token  postag="ADJ:Masc:D">
                             <exception regexp="yes">черному|чёрному|белому|красному|синему|желтому|жёлтому|русскому|английскому|немецкому|французскому|испанскому|португальскому|голландскому|датскому|китайскому|японскому|арабскому|индийскому|армянскому|грузинскому|польскому|чешскому</exception>
                         </token>
@@ -3762,7 +3762,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes" >по|По</token>
+                        <token>по</token>
                         <token  postag="ADJ:Masc:D">
                             <exception regexp="yes">черному|чёрному|белому|красному|синему|желтому|жёлтому|русскому|английскому|немецкому|французскому|испанскому|португальскому|голландскому|датскому|китайскому|японскому|арабскому|индийскому|армянскому|грузинскому|польскому|чешскому</exception>
                         </token>
@@ -3786,7 +3786,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes" >по|По</token>
+                        <token>по</token>
                         <token  postag="ADJ:Masc:D">
                             <exception regexp="yes">черному|чёрному|белому|красному|синему|желтому|жёлтому|русскому|английскому|немецкому|французскому|испанскому|португальскому|голландскому|датскому|китайскому|японскому|арабскому|индийскому|армянскому|грузинскому|польскому|чешскому</exception>
                         </token>
@@ -4437,7 +4437,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>в</token>
+                    <or>
                     <token regexp="yes" case_sensitive="yes" >в[бвгджзклмнпрстфхчшщ].*</token>
+                    <token regexp="yes" case_sensitive="yes" >Втор.*</token>
+                    </or>
                 </pattern>
                 <message>Неправильная форма предлога: <suggestion>во \2</suggestion>.</message>
                 <short>Беглая гласная.</short>
