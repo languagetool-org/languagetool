@@ -3746,6 +3746,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
+                        <token regexp="yes" >по|По</token>
+                        <token  postag="ADJ:Masc:D">
+                            <exception regexp="yes">английскому|немецкому|французскому|испанскому|португальскому|голландскому|датскому|китайскому|японскому|арабскому|индийскому|армянскому|грузинскому</exception>
+                        </token>
+                    </marker>
+                    <token>.</token>
+                </pattern>
+                <message>Слово пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example correction="по-зимнему">Я оделся <marker>по зимнему</marker>.</example>
+                <example correction="по-хорошему">Давай <marker>по хорошему</marker>.</example>
+                <example correction="по-прежнему">Я поступлю <marker>по прежнему</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                         <token>по-прежнему</token>
                     </marker>
                     <token postag="NN:Masc:Sin:D"></token>                   
