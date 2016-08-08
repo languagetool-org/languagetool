@@ -4442,10 +4442,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" case_sensitive="yes" >Втор.*</token>
                     </or>
                 </pattern>
-                <message>Неправильная форма предлога: <suggestion>во \2</suggestion>.</message>
+                <message>Правильная форма предлога: <suggestion>во \2</suggestion>.</message>
                 <short>Беглая гласная.</short>
                 <example>Хождение во власть.</example>
                 <example correction="во власть">Хождение <marker>в власть</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>в</token>
+                    <token regexp="yes" case_sensitive="yes" >В[бвгджзклмнпрстфхчшщ].*</token>
+                </pattern>
+                <message>Правильная форма предлога: <suggestion>во \2</suggestion>.</message>
+                <short>Беглая гласная.</short>
+                <example>Жить во Владивостоке.</example>
+                <example correction="во Владимир">Приехал <marker>в Владимир</marker>.</example>
+                <example correction="Во Внуково"><marker>В Внуково</marker> я успел.</example>
             </rule>
             <rule>
                 <pattern>
@@ -4498,6 +4509,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Неправильная форма предлога.</short>
                 <example>Кошка спрыгнула со шкафа.</example>
                 <example correction="со шкафа">Кошка спрыгнула <marker>с шкафа</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>с</token>
+                    <token regexp="yes" case_sensitive="yes" >С[бвгджзклмнпрстфхчшщ].*<exception>СвДП</exception></token>
+                </pattern>
+                <message>Неправильная форма предлога. Исправление: <suggestion>со \2</suggestion>.</message>
+                <short>Неправильная форма предлога.</short>
+                <example>Co Степаном я знаком</example>
+                <example correction="Со Смирновым"><marker>С Смирновым</marker> я знаком.</example>
+                <example correction="со Степаном"> Я встретился <marker>с Степаном</marker>.</example>
+                <!-- <example correction="со СвДП"> ХСС делила власть <marker>с СвДП</marker>.</example> -->
             </rule>
         </rulegroup>
         <rulegroup default="on" id="Vo_izbezhanie" name="Правописание предлога «во избежание»">
