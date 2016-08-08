@@ -148,6 +148,10 @@ public class CaseRule extends GermanRule {
 
   private static final Set<String> UNDEFINED_QUANTIFIERS = new HashSet<>(Arrays.asList(
       "viel", "nichts", "wenig", "zuviel" ));
+
+  private static final Set<String> INTERROGATIVE_PARTICLES = new HashSet<>(Arrays.asList(
+      "was", "wodurch", "wofür", "womit", "woran", "worauf", "woraus", "wovon" ));
+
   /*
    * These are words that Morphy only knows as non-nouns (or not at all).
    * The proper solution is to add all those to our Morphy data, but as a simple
@@ -805,7 +809,7 @@ public class CaseRule extends GermanRule {
 
   private boolean isVerbFollowedByRelativeClause(int i, AnalyzedTokenReadings[] tokens) {
     if (i < tokens.length - 2 && hasPartialTag(tokens[i], "VER")) {
-      return ",".equals(tokens[i+1].getToken()) && "was".equals(tokens[i+2].getToken());
+      return ",".equals(tokens[i+1].getToken()) && INTERROGATIVE_PARTICLES.contains(tokens[i+2].getToken());
     }
     return false;
   }
