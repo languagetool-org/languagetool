@@ -9387,6 +9387,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                          <example>Ostatnio jednak zobaczyliśmy owsiankę w menu jednego z super turbo bistro w cenie 15 złotych.</example>
                         </rule>
 				</rulegroup>
+				<rule id="O" name="„o”">
+				<antipattern>
+				  <token>o</token> <!-- o której los się martwię -->
+				  <marker>
+				    <token inflected="yes" postag="adj.*gen.*" postag_regexp="yes">który</token>
+				  </marker>
+				  <token postag=".*acc.*|.*loc.*" postag_regexp="yes"/>
+				</antipattern>
+        <antipattern> <!-- o lat kilkanaście -->
+				  <token>o</token>
+				  <marker>
+				    <token postag=".*pl:gen.*" postag_regexp="yes"/>
+				  </marker>
+				  <token postag="num:.*acc.*:rec" postag_regexp="yes"/>
+				</antipattern>
+				<antipattern> <!-- o lat kilkanaście -->
+				  <token>o</token>
+				  <marker>
+				    <token postag=".*pl:gen.*" postag_regexp="yes"/>
+				  </marker>
+          <token postag="adv:pos|qub" postag_regexp="yes"/>
+				  <token postag="num:.*acc.*:rec" postag_regexp="yes"/>
+				</antipattern>
+				<antipattern case_sensitive="yes">
+				<token>O</token>
+				<token>Jezus</token>
+				</antipattern>
+         <pattern>
+          <token postag="prep.*" postag_regexp="yes">o</token>
+          <marker>
+          <token postag='(:?subst|adj|ppas|pact|gen).*' postag_regexp='yes'><exception postag='(:?subst|adj|ppas|pact|gen)(.*acc.*|.*[vl]oc.*)' postag_regexp='yes'></exception></token>
+          </marker>
+         </pattern>
+         <message>Ten przyimek jest używany z biernikiem lub narzędnikiem.</message>
+         <short>Przyimek wymaga biernika lub narzędnika</short>
+         <example correction=''>Dowód Turinga nie mówi nic o <marker>prędkością</marker>.</example>
+         <example>Dowód Turinga nie mówi nic o prędkości.</example>
+         <example>O łajdak!</example>
+         <example>Przeżył go o lat niemal dwadzieścia.</example>
+         <example>Nie wiem, o której dziewczynie mówisz.</example>
+        </rule>
 				<rule id="WIEKSZY_JAK" name="„większy/lepszy jak” (większy/lepszy od/niż)">
 						<pattern>
 								<token postag="adj.*:com" postag_regexp="yes"><exception inflected="yes" scope="previous">nie|nic</exception></token>

@@ -720,6 +720,14 @@
     	</rule>
     </rulegroup>
 
+    <rule id="o_tak" name="o tak -> adv">
+        <pattern>
+            <token>o</token>
+            <marker><token>tak</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="taka"/></disambig>
+    </rule>
+
     <rule id="wraz_z" name="wraz z => burk">
         <pattern>
             <marker>
@@ -1021,6 +1029,23 @@
         <disambig postag="prep:gen:nwok"></disambig>
         <example type="untouched">Od rok 2000 jestem nieruchawy.</example>
         <example type="ambiguous" inputform="Od[Oda/subst:pl:gen:f,od/prep:gen:nwok,oda/subst:pl:gen:f]" outputform="Od[od/prep:gen:nwok]"><marker>Od</marker> roku 2000 jestem nieruchawy.</example>
+    </rule>
+
+    <rule id="ciagle" name="ciągle to nie ciągło">
+        <pattern>
+            <token>ciągle</token>
+        </pattern>
+        <disambig postag="adv:pos"/>
+    </rule>
+
+    <rule id="nader" name="nader =>adv">
+        <pattern>
+            <marker>
+                <token>nader</token>
+            </marker>
+            <token postag="(adj|ppas|pact).*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="adv"/>
     </rule>
 
     <rule name="przede wszystkim" id="przede_wszystkim">
@@ -1760,6 +1785,16 @@
     		<example type="untouched">O „Gwiazdorze” powiedział coś ciekawego.</example>
     		<example type="ambiguous" inputform="O[o/interj,o/prep:acc,o/prep:loc,ocean/brev:pun,ojciec/brev:pun]" outputform="O[o/interj]"><marker>O</marker>, idzie kościelny!</example>
     	</rule>
+        <rule>
+            <pattern>
+                <marker><token>o</token></marker>
+                <token/>
+                <token>!</token>
+            </pattern>
+            <disambig postag="interj"/>
+            <example type="untouched">O „Gwiazdorze” powiedział coś ciekawego.</example>
+            <example type="ambiguous" inputform="O[o/interj,o/prep:acc,o/prep:loc,ocean/brev:pun,ojciec/brev:pun]" outputform="O[o/interj]"><marker>O</marker> łajdak!</example>
+        </rule>
     	<rule>
     		<pattern>
     		<marker><token>o</token></marker>
@@ -1769,12 +1804,30 @@
     		<example type="untouched">Porozmawiajmy o literaturze.</example>
     		<example type="ambiguous" inputform="O[o/interj,o/prep:acc,o/prep:loc,ocean/brev:pun,ojciec/brev:pun]" outputform="O[ojciec/brev:pun]"><marker>O</marker>. Pio nie jadał pierogów.</example>
     	</rule>
+        <rule>
+            <pattern>
+            <marker>
+                    <token postag="interj">o</token>
+            <token postag=".*voc.*" postag_regexp="yes"><exception postag=".*acc.*|.*loc.*" postag_regexp="yes"/></token>
+            </marker>
+            </pattern>
+            <disambig action="filterall"/>
+            <example type="ambiguous" inputform="o[o/interj,o/prep:acc,o/prep:loc,ocean/brev:pun,ojciec/brev:pun]" outputform="o[o/interj]">Ale <marker>o</marker> bogowie i boginie!</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="interj">o</token>
+                <token postag="adv">tam</token>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
       <rule>
         <pattern>
         <marker>
         <token postag="prep.*" postag_regexp="yes">o</token>
         </marker>
-        <token><exception regexp="yes">.|\p{Lu}\p{Ll}.*</exception></token>
+        <token><exception regexp="yes">.|\p{Lu}\p{Ll}.*</exception>
+            </token>
       </pattern>
       <disambig action="remove" postag="brev:pun|interj"/>
       <example type="untouched">To jest o. Pio.</example>
