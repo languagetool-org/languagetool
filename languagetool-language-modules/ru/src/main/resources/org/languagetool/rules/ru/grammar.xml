@@ -32,7 +32,66 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 ]>
 
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
+
+    <unification feature="number">
+        <equivalence type="Sin">
+            <token postag=".*:Sin:.*" postag_regexp="yes"></token>
+        </equivalence>
+        <equivalence type="PL">
+            <token postag=".*:PL:.*" postag_regexp="yes"></token>
+        </equivalence>
+        
+    </unification>
+     
+    <unification feature="case">
+        <equivalence type="Nom">
+            <token postag=".*:.*:Nom" postag_regexp="yes"></token>
+        </equivalence>
+        <equivalence type="R">
+            <token postag=".*:.*:R" postag_regexp="yes"></token>
+        </equivalence>
+        <equivalence type="D">
+            <token postag=".*:.*:D" postag_regexp="yes"></token>
+        </equivalence>
+        <equivalence type="V">
+            <token postag=".*:.*:V" postag_regexp="yes"></token>
+        </equivalence>
+        <equivalence type="T">
+            <token postag=".*:.*:T" postag_regexp="yes"></token>
+        </equivalence>
+        <equivalence type="P">
+            <token postag=".*:.*:P" postag_regexp="yes"></token>
+        </equivalence>
+        		
+    </unification> 
+       
+    <unification feature="gender">
+        <equivalence type="Masc">
+            <token postag=".*:Masc(.*)" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="Fem">
+            <token postag=".*:Fem(.*)" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="Neut">
+            <token postag=".*:Neut(.*)" postag_regexp="yes"/>
+        </equivalence>
+				
+    </unification>
     
+    <unification feature="person">
+        <equivalence type="P1">
+            <token postag=".*:.*:.*:P1" postag_regexp="yes"></token>
+        </equivalence>
+        <equivalence type="P2">
+            <token postag=".*:.*:.*:P2" postag_regexp="yes"></token>
+        </equivalence>
+        <equivalence type="P3">
+            <token postag=".*:.*:.*:P3" postag_regexp="yes"></token>
+        </equivalence>
+        
+    </unification>
+    
+       
     <category id="LOGIC" name="Логические ошибки">
           <rulegroup id="INVALID_DATE" name="Неверная дата, например «31 февраля 2014»">
             <rule>
