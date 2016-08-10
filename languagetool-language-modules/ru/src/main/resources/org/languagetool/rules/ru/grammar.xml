@@ -3868,17 +3868,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="по-хорошему">Давай <marker>по хорошему</marker> разберёмся.</example>
                 <example correction="по-прежнему">Я поступлю <marker>по прежнему</marker> отчаянно.</example>
             </rule>
+
             <rule>
                 <pattern>
                     <marker>
-                        <token>по-прежнему</token>
+                        <token postag="ADV" regexp="yes" skip="1">по-.*<exception regexp="yes">по-моему|по-твоему|по-нашему|по-вашему|по-разному</exception></token>
                     </marker>
-                    <token postag="NN:Masc:Sin:D"></token>                   
-                    <token regexp="yes">[,.;]</token>                
+                    <token skip="-1"  postag_regexp="yes" postag="NN:Masc:Sin:D|NN:Neut:Sin:D">
+                    <!--<exception>IP-адресу</exception>-->
+                    </token>
+                    <token postag="SENT_END" />                
                 </pattern>
-                <message>Слова пишутся раздельно: <suggestion>по прежнему</suggestion>.</message>
+                <message>Слова пишутся раздельно: <suggestion>по <match no="1" regexp_match="([пП]о-)(.*)" regexp_replace="$2"></match></suggestion>.</message>
                 <short>Пишется слитно.</short>
+                <example correction="по прежнему">Я спускаюсь к речке <marker>по-прежнему</marker>, знакомому с самого детства, пути.</example>
                 <example correction="по прежнему">Я спускаюсь к речке <marker>по-прежнему</marker> пути, знакомому с самого детства.</example>
+                <example> По-моему, снегу осталось лежать совсем не долго.</example>
+                <example> Как, по-вашему, снегу лежать еще долго?</example>
+                <example correction="по весеннему">Лисица проваливалась <marker>по-весеннему</marker> снегу.</example>
+                <example> Россия, по-прежнему, стоит в ряду развивающихся стран.</example>
+                <!--<example correction="по весеннему">Лисица проваливалась <marker>по-весеннему</marker>, совсем талому снегу.</example>-->
             </rule>
         </rulegroup>
         <rulegroup default="on" id="Pravopisanie_slitno1" name="Правописание слов «наверху», «внизу» ...">
