@@ -3229,10 +3229,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <!--           NN:Masc:Sin:Nom   VB:Past:Masc   -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag="NN:Fem:Sin:Nom"></exception><exception scope="next" postag="NN:Neut:Sin:Nom"></exception> <exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception></token>
+                        <unify negate="yes">
+                                    <feature id="number"> 
+                                        <type id="PL"/>
+                                    </feature>
                     <marker>
                         <token postag="NN:Masc:Sin:Nom"><exception negate_pos="yes" postag="NN:Masc:Sin:Nom"></exception></token>
                         <token postag="VB:Past:.*" postag_regexp="yes" skip="-1"><exception postag="VB:Past:Masc"></exception><exception postag="VB:Past:PL"></exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception> <exception scope="next" postag="NN:Fem:Sin:Nom"></exception><exception scope="next" postag="NN:Neut:Sin:Nom"></exception></token>
                     </marker>
+                    </unify>
                     <token regexp="yes">[.;]</token>
                 </pattern>         
                 <message>Существительное не согласуется с глаголом по роду: <suggestion><match no="2"></match> <match no="3" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:Masc"></match></suggestion></message>
