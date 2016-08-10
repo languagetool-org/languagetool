@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.166 2016-08-03 08:28:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.167 2016-08-10 08:00:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -2403,8 +2403,22 @@ $Id: grammar.xml,v 1.166 2016-08-03 08:28:00 marcoagpinto Exp $
 	<!-- O FACTO DA/DAS/DO/DOS *END* -->
 	<!-- ***************************** -->
 	
-
 	
+
+     <!-- O MAS o mais -->
+    <rule id="O_MAS" name="o mais">
+      <pattern>
+		<token>o</token>
+        <marker>
+			<token>mas</token>
+		</marker>	
+		 <token postag_regexp="yes" postag="RG|AQ0MS0|AQ0CS0"></token> 
+     </pattern>
+      <message>Substituir «mas» por <suggestion>mais</suggestion>.</message>
+      <example correction="mais">Quero resultados o <marker>mas</marker> rapidamente possível</example>
+    </rule>	
+
+
 
     <!-- O MESMO DO QUE o mesmo que -->
     <rule id="O_MESMO_DO_QUE" name="o mesmo que">
@@ -3196,7 +3210,7 @@ $Id: grammar.xml,v 1.166 2016-08-03 08:28:00 marcoagpinto Exp $
     <rule id="COMMA_1" name="Vírgula antes #1">
       <pattern>	  
 		<marker>
-			<token><exception regexp="yes">[,;:–—\(]</exception></token>	
+			<token><exception regexp="yes">[,;:–—\(]</exception><exception>o</exception></token>	
 		</marker>
 		<token regexp="yes">mas|porém|contudo|entretanto|todavia</token>
       </pattern>
