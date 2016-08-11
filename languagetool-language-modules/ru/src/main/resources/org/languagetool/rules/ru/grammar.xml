@@ -4966,9 +4966,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup default="on" id="PREP_V_and_Noun" name="Предлог «в» и существительное">
             <rule>
             <pattern>
-                <!--              PREP при -> NN:.:.:V или NN:.:.P   -->
+                <!--              PREP при -> NN:.:.:V или NN:.:.P  исключение для "в учителя",... -->
                 <token>в</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:(P|V)" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token> 
+                <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:(P|V)" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception><exception postag=" NN:.*:PL:Nom" postag_regexp="yes"></exception></token> 
             </pattern>
             <message>Предлог «в» предполагает употребление существительного в винительном или предложном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:P"></match></suggestion> или <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match></suggestion> </message>
             <short>Требуется винительный или предложный падеж.</short>
