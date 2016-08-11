@@ -70,6 +70,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY monate "Januar|Jänner|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember">
     <!ENTITY abgekMonate "Jan|Jän|Feb|Febr|Mär|Apr|Jun|Jul|Aug|Sep|Sept|Okt|Nov|Dez">
     <!ENTITY tageszeitangabenklein "abend|morgen|mittag|nachmittag|nacht|vormittag">
+    <!ENTITY zeiteinheitensing "Millisekunde|Hundertstelsekunde|Zehntelsekunde|Sekunde|Minute|Stunde|Tag|Woche|Monat|Semester|Halbjahr|Jahr|Jahrzehnt|Jahrhundert|Jahrtausend|Jahrmillion">
     <!ENTITY zeiteinheiten "Millisekunden|Hundertstelsekunden|Zehntelsekunden|Sekunden|Minuten|Minütchen|Stunden|Stündchen|Tagen|Wochen|Monaten|Semestern|Halbjahren|Jahren|Jahrzehnten|Jahrhunderten|Jahrtausenden|Jahrmillionen">
     <!ENTITY also "also|folglich|demnach|deshalb|mithin|somit">
     <!ENTITY fast "annähernd|beinahe?|fast|nahezu|ungefähr">
@@ -24052,6 +24053,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Wo <marker>sind Eigenleistung</marker> am besten möglich?</example>
         </rule>
         -->
+        <rulegroup id="PRAESENS_EINST" name="Präsens + 'einst' etc.">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag='VER:.*:PRÄ:.*' postag_regexp='yes'>
+                            <exception regexp='yes' inflected="yes">sein|haben|einen?|scheinen</exception>
+                            <exception postag_regexp="yes" postag="(PA2|SUB):.*"/>
+                        </token>
+                    </marker>
+                    <token regexp='yes'>einst|seinerzeit|damals</token>
+                </pattern>
+                <message>Meinten Sie die Vergangenheitsform?</message>
+                <example correction=''>Sie <marker>starten</marker> einst eine eigene Firma.</example>
+                <example>Sie starteten einst eine eigene Firma.</example>
+                <example>CDU-Kanzler Kiesinger war vor Amtsantritt einst NSDAP-Mitglied gewesen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag='VER:.*:PRÄ:.*' postag_regexp='yes'>
+                            <exception regexp='yes' inflected="yes">sein|haben|einen?|scheinen</exception>
+                            <exception postag_regexp="yes" postag="(PA2|SUB):.*"/>
+                        </token>
+                    </marker>
+                    <token regexp='yes'>letzte[sn]?|vorige[sn]?</token>
+                    <token regexp='yes'>&zeiteinheiten;|&zeiteinheitensing;</token>
+                </pattern>
+                <message>Meinten Sie die Vergangenheitsform?</message>
+                <example correction=''>Sie <marker>starten</marker> letzten Monat eine eigene Firma.</example>
+                <example>Sie starteten letzten Monat eine eigene Firma.</example>
+            </rule>
+        </rulegroup>
         <rule id="DEF_ARTIKEL_INDEF_ADJ" name="bestimmter Artikel + unbestimmtes Adjektiv">
             <antipattern>
                 <token postag="SENT_START"/>
