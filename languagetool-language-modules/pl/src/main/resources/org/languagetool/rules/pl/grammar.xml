@@ -1024,7 +1024,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 </antipattern>
                                 <pattern>
 										<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;</exception><exception regexp="yes">[ia]|lub|albo</exception></token>
-										<token inflected="yes" regexp="yes" spacebefore="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to|jednak</token>
+										<token inflected="yes" regexp="yes" spacebefore="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to|jednak
+										  <exception postag="(:?subst|adj).*" postag_regexp="yes" inflected="yes">to</exception>
+										</token>
 										<token>,</token>
 										<token inflected="yes" regexp="yes">jeśli|jeżeli|gdyby|jeżeliby|jeśliby|gdy|kiedy</token>
 								</pattern>
@@ -1032,11 +1034,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<short>Błąd interpunkcyjny</short>
 								<example correction="odejdę, nawet jeśli">Naprawdę <marker>odejdę nawet, jeśli</marker> pójdzie się myć.</example>
 								<example>Naprawdę odejdę, <marker>nawet jeśli</marker> pójdzie się myć.</example>
-                                <example>Mimo to, jeśli przez dłuższy czas kulka pada na pole czerwone, rośnie w nas chęć obstawienia czarnych w kolejnym rzucie.</example>
-                                <example>Zrobiłbym to, gdybym mógł.</example>
-                                <example>Sam najlepiej przekonasz się o tym, gdy zawieziesz ode mnie list, cały wierszem.</example>
-                                <example>I miłe są te kobiety, przy których, kiedy im człowiek w najlepszej wierze oddaje…</example>
-                                <example>— Dlaczegóż to, jeżeli łaska?…</example>
+                <example>Mimo to, jeśli przez dłuższy czas kulka pada na pole czerwone, rośnie w nas chęć obstawienia czarnych w kolejnym rzucie.</example>
+                <example>Zrobiłbym to, gdybym mógł.</example>
+                <example>Sam najlepiej przekonasz się o tym, gdy zawieziesz ode mnie list, cały wierszem.</example>
+                <example>I miłe są te kobiety, przy których, kiedy im człowiek w najlepszej wierze oddaje…</example>
+                <example>— Dlaczegóż to, jeżeli łaska?…</example>
+                <example>Te dwie hipotezy różnią się zasadniczo jedynie tym, kiedy poszczególne wrażenia zostały odczute.</example>
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
