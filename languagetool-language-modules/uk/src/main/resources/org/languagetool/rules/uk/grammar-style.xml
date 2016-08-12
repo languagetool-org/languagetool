@@ -1104,6 +1104,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     </rulegroup>
 
+    <rulegroup id="ZHE_ZH" name="Же/ж">
+      <rule>
+        <pattern>
+          <token regexp="yes">.*[бвгґджзйклмнпрстфхцчшщ]</token>
+          <marker>
+            <token case_sensitive="yes">ж</token>
+          </marker>
+        </pattern>
+        <message>Після приголосної пишемо <suggestion>же</suggestion></message>
+        <example correction="же">Гуляй <marker>ж</marker> усюди.</example>
+        <example>Прийди ж сюди.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">.*[аеєиіїоюя]</token>
+          <marker>
+            <token>же</token>
+          </marker>
+        </pattern>
+        <message>Після голосної пишемо <suggestion>ж</suggestion></message>
+        <example correction="ж">Йди <marker>же</marker> звідси.</example>
+        <example>Тікай же звідси.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="BY_B" name="Би/б">
+      <url>http://pravopys.net/sections/82/</url>
+      <rule>
+        <pattern>
+          <token regexp="yes">.*[бвгґджзйклмнпрстфхцчшщ]</token>
+          <marker>
+            <token case_sensitive="yes">б</token>
+          </marker>
+        </pattern>
+        <message>Після приголосної пишемо <suggestion>би</suggestion></message>
+        <example correction="би">Гуляв <marker>б</marker> усюди.</example>
+        <example>Гуділи б голосно.</example>
+      </rule>
+      <rule>
+        <antipattern>
+            <token>би</token>
+            <token regexp="yes">[бпдткґ].*|[бвгґджзйклмнпрстфхцчшщ]{2}.*</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">.*[баеєиіїоюя]</token>
+          <marker>
+            <token>би</token>
+          </marker>
+        </pattern>
+        <message>Після голосної пишемо <suggestion>б</suggestion></message>
+        <example correction="б">їхали <marker>би</marker> автобусом.</example>
+        <example correction="б">Вбила <marker>би</marker>.</example>
+        <example>Тікав би звідси.</example>
+        <example>Могло би бути.</example>
+        <example>Стався би скандал.</example>
+      </rule>
+    </rulegroup>
+
 
 <!-- ідея цікава, але не має чіткого правила: 
     http://r2u.org.ua/guides/synyavsky/synaksa_drugoriadni_pary
