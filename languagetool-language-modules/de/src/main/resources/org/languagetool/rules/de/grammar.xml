@@ -109,6 +109,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="ETWAS_DASS" name="', etwas dass (, etwa dass)'">
+            <pattern>
+                <token>,</token>
+                <marker>
+                    <token>etwas</token>
+                    <token>dass</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>etwa dass</suggestion>?</message>
+            <example correction='etwa dass'>Sie gaben auf Nachfrage Hinweise dazu, <marker>etwas dass</marker> ihr Nachname darin vorkomme.</example>
+        </rule>
+        <rule id="EIN_ODER_MEHRMALS" name="ein- oder mehrmals (ein oder mehrmals)">
+            <pattern>
+                <token>ein-</token>
+                <token>oder</token>
+                <token>mehrmals</token>
+            </pattern>
+            <message>Die korrekte Schreibweise dieser Wendung lautet <suggestion>ein oder mehrmals</suggestion>.</message>
+            <url>http://www.korrekturen.de/beliebte_fehler/ein-_oder_mehrmals.shtml</url>
+            <example correction='ein oder mehrmals'>28 Prozent der Europäer konsumieren <marker>ein- oder mehrmals</marker> pro Woche Soja oder Sojagetränke.</example>
+        </rule>
         <rule id="SCHNELLE_RUND" name="'schnelle rund (schneller und)' etc.">
             <pattern>
                 <token postag="ADJ:.*" postag_regexp="yes" regexp="yes">.+e</token>
@@ -6333,6 +6354,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Zusammen-/Getrenntschreibung">
+        <rule id="SICHER_GESTELLT" name="sicher gestellt (sichergestellt)">
+            <pattern>
+                <token>sicher</token>
+                <token>gestellt</token>
+            </pattern>
+            <message><suggestion>sichergestellt</suggestion> im Sinne von "beschlagnahmt" oder "garantiert" wird zusammengeschreiben.</message>
+            <example correction='sichergestellt'>Angenehme Wärme wird durch die Gasheizung <marker>sicher gestellt</marker>.</example>
+        </rule>
         <rule id="DRUMHERUM_REDEN" name="drumherum reden (drum herumreden)">
             <pattern>
                 <token>drumherum</token>
@@ -11318,6 +11347,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Das <marker>letzte</marker> der drei Bücher</example>
         </rule>
         -->
+        <rule id="RECHTENS" name="'Rechtens (rechtens)'">
+            <pattern>
+                <token case_sensitive="yes">Rechtens</token>
+            </pattern>
+            <message><suggestion><match no="1" case_conversion="startlower"/></suggestion> (zu Recht; rechtmäßig) wird kleingeschrieben</message>
+            <url>http://www.korrekturen.de/wortliste/rechtens.shtml</url>
+            <example correction="rechtens">Der Angeklagte wurde <marker>Rechtens</marker> verurteilt.</example>
+        </rule>
+        <rule id="SEIT_BEGINN" name="'seit beginn (seit Beginn)'">
+            <pattern>
+                <token regexp='yes'>seit|von</token>
+                <marker>
+                    <token case_sensitive='yes'>beginn</token>
+                </marker>
+            </pattern>
+            <message><suggestion>Beginn</suggestion> scheint hier ein Nomen zu sein und muss daher großgeschrieben werden.</message>
+            <example correction='Beginn'>Die Software steht seit <marker>beginn</marker> unter dieser Lizenz."</example>
+        </rule>
         <rule id="NOMEN_KLEIN" name="der/die/das + Adjektiv + kleingeschriebenes Nomen" default="off">
             <pattern>
                 <token regexp="yes">der|die|das</token>
