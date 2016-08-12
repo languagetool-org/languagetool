@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.language.AmericanEnglish;
@@ -36,20 +37,24 @@ import static org.junit.Assert.*;
 
 public class JLanguageToolTest {
 
-  // used on http://languagetool.org/java-api/
+  @Ignore("not a test, but used on http://wiki.languagetool.org/java-api")
+  @Test
   public void demoCodeForHomepage() throws IOException {
     JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
+    // comment in to use statistical ngram data:
+    //langTool.activateLanguageModelRules(new File("/data/google-ngram-data"));
     List<RuleMatch> matches = langTool.check("A sentence with a error in the Hitchhiker's Guide tot he Galaxy");
     for (RuleMatch match : matches) {
-      System.out.println("Potential error at line " +
-          match.getLine() + ", column " +
-          match.getColumn() + ": " + match.getMessage());
-      System.out.println("Suggested correction: " +
+      System.out.println("Potential error at characters " +
+          match.getFromPos() + "-" + match.getToPos() + ": " +
+          match.getMessage());
+      System.out.println("Suggested correction(s): " +
           match.getSuggestedReplacements());
     }
   }
 
-  // used on http://languagetool.org/java-spell-checker/
+  @Ignore("not a test, but used on http://wiki.languagetool.org/java-spell-checker")
+  @Test
   public void spellCheckerDemoCodeForHomepage() throws IOException {
     JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
     for (Rule rule : langTool.getAllRules()) {
@@ -59,9 +64,9 @@ public class JLanguageToolTest {
     }
     List<RuleMatch> matches = langTool.check("A speling error");
     for (RuleMatch match : matches) {
-      System.out.println("Potential typo at line " +
-          match.getLine() + ", column " +
-          match.getColumn() + ": " + match.getMessage());
+      System.out.println("Potential typo at characters " +
+          match.getFromPos() + "-" + match.getToPos() + ": " +
+          match.getMessage());
       System.out.println("Suggested correction(s): " +
           match.getSuggestedReplacements());
     }
