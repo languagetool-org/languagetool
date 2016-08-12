@@ -6354,6 +6354,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Zusammen-/Getrenntschreibung">
+        <rule id="SATT_HABEN" name="'satt haben (satthaben)'">
+            <pattern>
+                <token>satt</token>
+                <token inflected="yes">haben</token>
+            </pattern>
+            <message><suggestion>\1\2</suggestion> wird zusammengeschrieben</message>
+            <url>http://www.korrekturen.de/wortliste/satthaben.shtml</url>
+            <example correction="satthaben">Kein Wunder, dass die Zuschauer das Fernsehen <marker>satt haben</marker>.</example>
+            <example correction="satthat">Kein Wunder, dass er das Fernsehen <marker>satt hat</marker>.</example>
+        </rule>
         <rule id="SICHER_GESTELLT" name="sicher gestellt (sichergestellt)">
             <pattern>
                 <token>sicher</token>
@@ -24791,7 +24801,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token>in</token>
+                    <token regexp="yes">in|auf|bei</token>
                     <token>was</token>
                     <token>für</token>
                     <token>einem</token>
@@ -24812,6 +24822,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Das ist für <marker>dem Bild</marker>.</example>
                 <example correction="">Das ist für <marker>deinem Mann</marker>.</example>
                 <example>Und das, ohne dem Leser eine bestimmte Lösung aufzudrängen.</example>
+                <example>Auf was für einem Rechner und Betriebssystem passiert das?</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
