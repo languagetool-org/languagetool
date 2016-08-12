@@ -5028,6 +5028,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>В университете лаборатории созданы при кафедре и факультете.</example>
             <example correction="при кафедре и факультете">В университете лаборатории созданы <marker>при кафедре и факультет</marker>.</example>
         </rule>
+                <rule>
+            <pattern>
+                <!--              PREP при -> NN:.*:P   -->
+                <token>при</token>
+                <token postag="NN:.*:.*:P" postag_regexp="yes"></token>
+                <token>,</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes">
+                    <exception postag="NN:.*:.*:P" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                </token>
+            </pattern>
+            <message>Предлог «при» предполагает употребление существительного в предложном падеже:
+                <suggestion><match no="1"></match> <match no="2"></match><match no="3"></match> <match no="4" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:P"></match></suggestion>
+            </message>
+            <short>Требуется предложный падеж.</short>
+            <example>В университете лаборатории созданы при кафедре, факультете.</example>
+            <example correction="при кафедре, факультете">В университете лаборатории созданы <marker>при кафедре, факультет</marker>.</example>
+        </rule>
         </rulegroup>
         <rule default="on" id="PREP_Pri_and_ADJ" name="Предлог «при» и прилагательное">
             <pattern>
