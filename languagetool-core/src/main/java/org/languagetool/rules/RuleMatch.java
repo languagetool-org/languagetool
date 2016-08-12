@@ -139,6 +139,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   /**
    * Set the column number in which the match occurs (zero-based).
+   * @deprecated (deprecated since 3.5)
    */
   public void setColumn(int column) {
     this.columnPosition = new ColumnPosition(column, columnPosition.getEnd());
@@ -154,6 +155,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   /**
    * Set the column number in which the match ends (zero-based).
+   * @deprecated (deprecated since 3.5)
    */
   public void setEndColumn(int endColumn) {
     this.columnPosition = new ColumnPosition(columnPosition.getStart(), endColumn);
