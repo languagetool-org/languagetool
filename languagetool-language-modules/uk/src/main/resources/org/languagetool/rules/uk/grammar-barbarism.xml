@@ -1008,6 +1008,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>давно вже включене у всесвітню спадщину людства</example>
        </rule>
 
+       <rule id="POPEREDZHATY" name="Попереджати">
+         <pattern>
+           <marker>
+             <token inflected="yes" regexp="yes">попереджати|попередити|попередивши|попереджуючи</token>
+           </marker>
+           <token postag_regexp="yes" postag="(adj|num).*" min="0"/>
+           <!-- Знадто загально, видає багато фальшивих помилок, мусимо зробити перелік слів
+           <token postag_regexp="yes" postag="noun:inanim.*:v_zna.*">
+             <exception postag_regexp="yes" postag=".*:(prop)"/>
+           </token>
+           -->
+           <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim.*:(v_zna|v_rod).*"
+           >біда|вибух|.*вбивство|виникнення|випадок|відмова|втручання|вчинок|диверсія|дія|забудова|завдання|загострення|загроза|затоплення|захворювання|захоплення|зловживання|злочин|зростання|катастрофа|конфліа|криза|насильство|наслідок|нашестя|небезпека|обстріл|пандемія|підрив|(право)?порушення|поширення|провокація|прояв|розвиток|розповсюдження|ситуація|сповзання|спроба|тенденція|теракт|формування|хвороба</token>
+         </pattern>
+         <message>Правильно: <suggestion>запобігати</suggestion></message>
+         <example correction="запобігати">Співробітники СБУ <marker>попередили</marker> екологічну катастрофу.</example>
+         <example correction="Запобігати"><marker>Попередивши</marker> злочин пішли далі.</example>
+         <example>Вони попередили його про наступ.</example>
+       </rule>
+
     </rulegroup>
     
     <rulegroup id="NON_LEXEM_BORROWING_ADJ" name="Кальки: прикметники">
