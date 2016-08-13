@@ -11072,6 +11072,18 @@ USA
             <example correction="Friday,">We will meet <marker>Friday</marker> July 15.</example>
             <example>He was born on Friday, August 12, 2016.</example>
         </rule>
+        <rule id="FOR_NOUN_SAKE" name="for heaven's sake">
+            <pattern>
+                <token>for</token>
+                <token regexp="yes" postag="NN.*" postag_regexp="yes">[a-zA-Z]+</token>
+                <token>sake</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1 <match no="2" regexp_match="s\b" regexp_replace=""/>’s sake</suggestion> or <suggestion>\1 \2’ sake</suggestion>?</message>
+            <example correction="For heaven’s sake|For heavens’ sake"><marker>For heavens sake</marker>!</example>
+            <example correction="For goodnes’s sake|For goodness’ sake"><marker>For goodness sake</marker>!</example>
+            <example>For Christ’s sake!</example>
+            <example>For pity’s sake!</example>
+        </rule>
         <rule id="APOS_ARE" name="extraneous apostrophes before 'are'">
             <pattern>
                 <marker>
