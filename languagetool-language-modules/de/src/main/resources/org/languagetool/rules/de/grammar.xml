@@ -3674,6 +3674,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        <rule id="WIDER_MIT" name="'wider mit (wieder mit)'">
+            <pattern>
+                <marker>
+                   <token>wider</token>
+                </marker>
+                <token regexp="yes">mit|auf</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>wieder</suggestion>?</message>
+            <example correction='wieder'>Aber demnächst geht es ja <marker>wider</marker> mit dem alten Kunden weiter.</example>
+        </rule>
         <rule id="DAS_FUERCHTEN_LERNEN" name="das Fürchten lernen (lehren)">
             <pattern>
                 <token>das</token>
@@ -6354,6 +6364,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Zusammen-/Getrenntschreibung">
+        <rule id="BIS_LANG" name="'bis lang (bislang)'">
+            <pattern>
+                <marker>
+                    <token>bis</token>
+                    <token>lang</token>
+                </marker>
+                <token postag_regexp="yes" postag="VER.*"/>
+            </pattern>
+            <message><suggestion>bislang</suggestion> im Sinne von "bisher" wird zusammengeschrieben.</message>
+            <example correction='Bislang'><marker>Bis lang</marker> wurde hier noch kein Fuchs gesichtet.</example>
+        </rule>
         <rule id="SATT_HABEN" name="'satt haben (satthaben)'">
             <pattern>
                 <token>satt</token>
@@ -24110,6 +24131,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Wo <marker>sind Eigenleistung</marker> am besten möglich?</example>
         </rule>
         -->
+        <rule id="MEINES_NICHT_GENITIV" name="'meines' etc + Nicht-Genitiv Nomen">
+            <pattern>
+                <token regexp='yes'>meines|deines|seines|ihres|unseres|eures</token>
+                <marker>
+                    <token postag='SUB.*' postag_regexp='yes'><exception postag='SUB:GEN:SIN.*' postag_regexp='yes'></exception></token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie den Genitiv?</message>
+            <suggestion><match no="2" postag="SUB:GEN:SIN.*" postag_regexp="yes"/></suggestion>
+            <example correction='Fahrrades|Fahrrads'>Dort drüben liegt der Reifen meines <marker>Fahrrad</marker>.</example>
+        </rule>
         <rule id="FUER_IMP_SUB" name="'für' + Imperativ + Nomen">
             <pattern>
                 <token>für</token>
