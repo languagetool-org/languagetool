@@ -8452,6 +8452,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="SEMANTICS" name="Semantische Unstimmigkeiten">
         <!-- TODO eigene Kategorie für Mehrdeutigkeiten? -->
         <!-- TODO hierhin auch 'Friseuse', 'Neger', 'Zigeuner'? -->
+        <rule id="ZAHL_LANG_NOMEN" name="Zahl + 'lang/breit' etc. (fehlende Einheit)">
+            <pattern>
+                <marker>
+                    <token regexp="yes">\d+</token>
+                </marker>
+                <token regexp="yes" inflected="yes">lang|hoch|breit</token>
+                <token postag="SUB.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Fehlt nach der Zahl möglicherweise eine Einheit?</message>
+            <example correction=''>Die <marker>5000</marker> lange Strecke schaffte sie in fünf Wochen.</example>
+            <example correction=''>Die <marker>2</marker> hohe Hürde wurde ihm zum Verhängnis.</example>
+        </rule>
         <rule id="FUENFTES_RAD" name="drittes (fünftes) Rad am Wagen">
             <regexp>(dritte|drittes) (Rad) (am) (Wagen)</regexp>
             <message>Die Redewendung im Sinne von 'überflüssig; fehl am Platz' lautet <suggestion><match no="1" regexp_match="dritt" regexp_replace="fünft"/> Rad am Wagen</suggestion>.</message>
