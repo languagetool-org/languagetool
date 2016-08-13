@@ -721,10 +721,30 @@
     </rulegroup>
 
 
+    <rule id="na_per" name="na per => prep">
+        <pattern>
+            <marker>
+            <token postag="prep:acc">na</token>
+            <token postag="prep:nom">per</token>
+            </marker>
+            <token min="0" regexp="yes">[«»„&quot;]</token>
+            <token postag=".*nom.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rule id="na_potem" name="na potem -> adv">
         <pattern>
             <token postag="prep:acc">na</token>
             <token postag="adv">potem</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id="na_szybko" name="na szybko, sypko -> adv:pos">
+        <pattern>
+            <token postag="prep:acc">na</token>
+            <token postag="adv:pos" regexp="yes">szybko|sypko</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -747,12 +767,37 @@
 
     <rule id="szybko_adv" name="szybko + adj => adv">
         <pattern>
-            <token postag="adv:pos">szybko</token>
+            <token postag="adv:pos" regexp="yes">szybko|grubo</token>
             <token postag="(?:adj|pact|ppas).*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
     </rule>
 
+    <rule id="gora_num" name="góra jako qub">
+        <pattern>
+            <marker><token>góra</token></marker>
+            <token postag="num.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="qub"/>
+    </rule>
+
+    <rule id="gora_num_234" name="góra jako qub">
+        <pattern>
+            <marker><token>góra</token></marker>
+            <token regexp="yes">\d*[234]</token>
+            <token postag=".*:pl:nom.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="qub"/>
+    </rule>
+
+    <rule id="gora_num_59" name="góra jako qub">
+        <pattern>
+            <marker><token>góra</token></marker>
+            <token regexp="yes">\d*[5-9]|\d+0|1[1-9]</token>
+            <token postag=".*:pl:gen.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="qub"/>
+    </rule>
 
     <rule id="wraz_z" name="wraz z => burk">
         <pattern>
@@ -3001,6 +3046,16 @@
         <disambig action="remove"><wd pos="burk"/></disambig>
     </rule>
 
+    <rule id="MAIN_STREET" name="Main Street">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Main</token>
+            </marker>
+            <token>Street</token>
+        </pattern>
+        <disambig action="replace"><wd pos="burk" lemma="Main"/></disambig>
+    </rule>
+
     <rule id="SAO_PAULO" name="Sao Paulo => burk">
         <pattern case_sensitive="yes">
             <token>Sao</token>
@@ -4295,7 +4350,9 @@
                     <unify-ignore>
                         <token postag="adj.*gen.*" postag_regexp="yes" inflected="yes">który</token>
                     </unify-ignore>
-                    <token postag="(?:subst|depr|ger|adj|pact|ppas):.*" postag_regexp="yes"/>
+                    <token postag="(?:subst|depr|ger|adj|pact|ppas):.*" postag_regexp="yes">
+                        <exception  postag="(?:subst|depr|ger|adj|pact|ppas):.*nom.*" postag_regexp="yes"></exception> <!-- podmiot? -->
+                    </token>
                 </unify>
                 </marker>
             </pattern>
@@ -11767,6 +11824,14 @@
         <example type="untouched">Ks. Lemański jada pomidory z biskupem.</example>
         <example type="ambiguous" inputform="KS[ksiądz/brev:pun,książę/brev:pun]" outputform="KS[klub sportowy/brev:npun]">Takim klubem był <marker>KS</marker> Admira w Poznaniu.</example>
     </rule>
+    <rule id="MIN_BREV" name="min jako skrót">
+        <pattern>
+            <marker><token>min</token></marker>
+            <token spacebefore="no">.<exception postag="SENT_END"/></token>
+        </pattern>
+        <disambig postag="brev:pun"/>
+        <example type="ambiguous" inputform="min[mina/subst:pl:gen:f,minimum/brev:pun,minuta/brev:npun]" outputform="min[minimum/brev:pun]">Dokładnie mieszamy, po czym odstawiamy na <marker>min</marker>. 30 minut, by smaki się połączyły.</example>
+    </rule>
     <rule id="OK_BREV" name="ok jako skrót">
         <pattern>
             <marker><token>ok</token></marker>
@@ -11774,6 +11839,14 @@
         </pattern>
         <disambig postag="brev:pun"/>
         <example type="ambiguous" inputform="ok[oko/subst:pl:gen:n2,około/brev:pun]" outputform="ok[około/brev:pun]">Naraziło go to na ostre ataki ze strony Seweryna Goszczyńskiego i Leszka Dunina Borkowskiego, w wyniku których zaprzestał publikowania swoich utworów, pisując do szuflady przez <marker>ok</marker>. 18 lat.</example>
+    </rule>
+    <rule id="OS_BREV" name="os jako skrót">
+        <pattern>
+            <marker><token>os</token></marker>
+            <token spacebefore="no">.<exception postag="SENT_END"/></token>
+        </pattern>
+        <disambig postag="brev:pun"/>
+        <example type="ambiguous" inputform="os[osa/subst:pl:gen:f,osiedle/brev:pun]" outputform="os[osiedle/brev:pun]">Jest to to jezioro zwane Balaton, położone na <marker>os</marker>. Bartodzieje.</example>
     </rule>
     <rule name="R - nie rok" id="NON_START_POS_R">
     	<pattern case_sensitive="yes">
