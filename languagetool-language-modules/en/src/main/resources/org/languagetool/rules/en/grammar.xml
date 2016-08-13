@@ -11028,6 +11028,50 @@ USA
          <short>Spurious comma</short>
          <example correction='February 1995'><marker>February, 1995</marker></example> 
         </rule>
+        <rule id="MISSING_COMMA_BETWEEN_DAY_AND_YEAR" name="Missing comma between day of month and year">
+            <pattern>
+                <marker>
+                    <token regexp="yes">&months;</token>
+                    <token regexp="yes">[0123]?[0-9]</token>
+                </marker>
+                <token regexp="yes">[0-9]{4}</token>
+            </pattern>
+            <message>Commas set off the year in a month-day-year date: <suggestion>\1 \2,</suggestion>.</message>
+            <short>Missing comma</short>
+            <url>http://www.thepunctuationguide.com/comma.html#dates</url>
+            <example correction="October 18,">My birtday is <marker>October 18</marker> 1983.</example>
+            <example>He died on <marker>April 1,</marker> 1888.</example>
+        </rule>
+        <rule id="MISSING_COMMA_AFTER_YEAR" name="Missing comma after year">
+            <pattern>
+                <token regexp="yes">&months;</token>
+                <token regexp="yes">[0123]?[0-9]</token>
+                <token min="0">,</token>
+                <marker>
+                    <token regexp="yes">[0-9]{4}</token>
+                </marker>
+                <token regexp="yes">[a-z]+</token>
+            </pattern>
+            <message>Commas set off the year in a month-day-year date: <suggestion>\4,</suggestion>.</message>
+            <short>Missing comma</short>
+            <url>http://www.thepunctuationguide.com/comma.html#dates</url>
+            <example correction="2011,">The meeting scheduled for July 10, <marker>2011</marker> was canceled.</example>
+            <example>My birtday is October 8, <marker>1983,</marker> but I usually do not celebrate.</example>
+        </rule>
+        <rule id="MISSING_COMMA_AFTER_WEEKDAY" name="Missing comma after weekday">
+            <pattern>
+                <marker>
+                    <token regexp="yes">&weekdays;</token>
+                </marker>
+                <token regexp="yes">&months;</token>
+                <token regexp="yes">[0123]?[0-9]</token>
+            </pattern>
+            <message>Commas set off the month in a weekday-month-day date: <suggestion>\1,</suggestion>.</message>
+            <short>Missing comma</short>
+            <url>http://www.thepunctuationguide.com/comma.html#dates</url>
+            <example correction="Friday,">We will meet <marker>Friday</marker> July 15.</example>
+            <example>He was born on Friday, August 12, 2016.</example>
+        </rule>
         <rule id="APOS_ARE" name="extraneous apostrophes before 'are'">
             <pattern>
                 <marker>
@@ -12182,6 +12226,14 @@ USA
             <message>Did you mean <suggestion>\1 peek</suggestion> (=preview)?</message>
             <short>Possible typo</short>
             <example correction="sneak peek">Yahoo has released a <marker>sneak peak</marker> into Yahoo! BrowserPlus.</example>
+        </rule>
+        <rule id="CONFUSION_OF_ANOTHER_IN_OTHER" name="confusion of another/in other">
+            <pattern>
+                <token>another</token>
+                <token>words</token>
+            </pattern>
+            <message>Did you mean <suggestion>in other words</suggestion>?</message>
+            <example correction="in other words">Let me say this <marker>another words</marker>.</example>
         </rule>
         <rule id="CONFUSION_OF_SOBBER_SOBER" name="sobber (sober)">
             <pattern>
