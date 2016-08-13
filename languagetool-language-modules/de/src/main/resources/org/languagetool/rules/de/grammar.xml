@@ -24110,6 +24110,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Wo <marker>sind Eigenleistung</marker> am besten möglich?</example>
         </rule>
         -->
+        <rule id="FUER_IMP_SUB" name="'für' + Imperativ + Nomen">
+            <pattern>
+                <token>für</token>
+                <marker>
+                    <token postag='VER:IMP:PLU:SFT'/>
+                </marker>
+                <token postag='SUB:.*PLU.*' postag_regexp='yes'/>
+            </pattern>
+            <message>Bitte Wortform prüfen: muss hier ein Partizip stehen?</message>
+            <example correction=''>Das ist dann ja für <marker>bezahlt</marker> Leute, richtig?</example>
+        </rule>
         <rulegroup id="PRAESENS_EINST" name="Präsens + 'einst' etc.">
             <rule>
                 <pattern>
