@@ -165,11 +165,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           
           
         </rulegroup>
-        <rule id="Slovosoch_interesnaja_kniga" name="Словосочетание «Интересная книга»">
+        <rule id="Slovosoch_interesnaja_kniga" name="Опечатка «Интересная/интересую»">
             <pattern>
 		<token postag="VB:.*" postag_regexp="yes"></token>
                 <token>интересую</token>
-                <token>книгу</token>
+                <token postag="NN:.*:Sin:V" postag_regexp="yes"></token>
             </pattern>
             <message>Опечатка: <suggestion>\1 интересную \3</suggestion></message>
             <short>Опечатка</short>
