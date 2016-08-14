@@ -2607,6 +2607,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="GRAMMAR" name="Грамматика">
         
+      <rulegroup id="Sklonenije_NUM_NN" name="Склонение числительное + существительное">
+            <!-- исключения один, два, три, четыре -->
+        <rule>
+            <pattern>
+                    <token postag="NumC:Nom" ><exception regexp="yes">один|два|три|четыре|столько|сколько</exception></token>
+                    <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:PL:R"  postag_regexp="yes"/></token>
+            </pattern>
+            <message>Числительное не согласуется с существительным по падежу: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):.*:.*" postag_replace="NN:$1:PL:R" /></suggestion>.</message>
+            <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
+            <short>Неверное склонение.</short>
+            <example correction="пять карандашей" >В коробке лежало <marker>пять карандаша</marker>.</example>
+            <example>В коробке лежало пять карандашей.</example>
+         </rule>
+        </rulegroup>   
+        
         <rulegroup id="Sklonenije_chislitelnih" name="Склонение количественных числительных">
             <!-- Склонение количественных числительных (Т) -->
          <rule>
