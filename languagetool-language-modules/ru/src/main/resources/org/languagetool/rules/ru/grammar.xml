@@ -3118,8 +3118,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!--           ADJ:Masc   NN:Masc    -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:Masc:Sin:.*"></exception></token>
                     <marker>
+                       <unify>
+                          <feature id="case"> 
+                          </feature>
                         <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:Masc:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:Masc:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Masc:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
+                      </unify>
                     </marker>
                     <token regexp="yes">[.;]</token>
                 </pattern>               
@@ -3134,8 +3138,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!--           ADJ:Fem   NN:Fem    -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:Fem:Sin:.*"></exception></token>
                     <marker>
+                     <unify>
+                            <feature id="case"> 
+                            </feature>
                         <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:Fem:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:Fem:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Fem:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
+                     </unify>
                     </marker>
                     <token regexp="yes">[.;]</token>
                 </pattern>               
@@ -3150,8 +3158,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!--           ADJ:Neut   NN:Neut    -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:Neut:Sin:.*"></exception></token>
                     <marker>
+                      <unify>
+                          <feature id="case"> 
+                          </feature>
                         <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:Neut:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:Neut:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Neut:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
+                      </unify>
                     </marker>
                     <token regexp="yes">[.;]</token>
                 </pattern>
@@ -3168,12 +3180,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:.*"></exception></token>
                     <marker>
+                        <unify>
+                          <feature id="case"> 
+                          </feature>
                         <token postag="ADJ:PL:.*" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:PL:.*" postag_regexp="yes"></exception> <exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception>  </token>
                         <token postag="NN:.*:.*:.*" skip="-1" postag_regexp="yes"><exception postag="NN:.*:PL:.*" postag_regexp="yes"></exception><exception postag="NN:.*:PL:.*" scope="next" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="next" regexp="yes">и|[\p{Punct}]</exception></token>
+                        </unify>
                     </marker>
                     <token regexp="yes">[.;]</token>
                 </pattern>
-                
+                  
                 <message>Прилагательное не согласуется с существительным по числу.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D0%BF%D1%80%D0%B8%D0%BB%D0%B0%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
                 <short>Грамматическая ошибка в согласовании по числу.</short>
@@ -3185,8 +3201,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!--           ADJ:!PL   NN:.*:Sin    -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:Sin:.*"></exception></token>
                     <marker>
+                       <unify>
+                          <feature id="case"> 
+                          </feature>
                         <token postag="ADJ:.*:(.*)" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:.*:(.*)" postag_regexp="yes"></exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="previous">и|или|но|да</exception></token>
                         <token postag="NN:.*:.*:.*" skip="-1" postag_regexp="yes"><exception postag="NN:.*:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="next" regexp="yes">и|[\p{Punct}]</exception></token>
+                       </unify>
                     </marker>
                     <token regexp="yes">[.;]</token>
                 </pattern>     
@@ -3266,16 +3286,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <!--           NN:Masc:Sin:Nom   VB:Past:Masc   -->
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="NN:Fem:Sin:Nom"></exception><exception scope="next" postag="NN:Neut:Sin:Nom"></exception> <exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception></token>
-                        <unify negate="yes">
-                                    <feature id="number"> 
-                                        <type id="PL"/>
-                                    </feature>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="NN:Fem:Sin:Nom"></exception><exception scope="next" postag="NN:Neut:Sin:Nom"></exception> <exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception></token>           
                     <marker>
                         <token postag="NN:Masc:Sin:Nom"><exception negate_pos="yes" postag="NN:Masc:Sin:Nom"></exception></token>
                         <token postag="VB:Past:.*" postag_regexp="yes" skip="-1"><exception postag="VB:Past:Masc"></exception><exception postag="VB:Past:PL"></exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception> <exception scope="next" postag="NN:Fem:Sin:Nom"></exception><exception scope="next" postag="NN:Neut:Sin:Nom"></exception></token>
                     </marker>
-                    </unify>
                     <token regexp="yes">[.;]</token>
                 </pattern>         
                 <message>Существительное не согласуется с глаголом по роду: <suggestion><match no="2"></match> <match no="3" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:Masc"></match></suggestion></message>
