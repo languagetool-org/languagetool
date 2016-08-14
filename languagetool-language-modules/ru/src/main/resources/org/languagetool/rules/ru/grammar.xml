@@ -167,13 +167,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="Slovosoch_interesnaja_kniga" name="Словосочетание «Интересная книга»">
             <pattern>
+		<token postag="VB:.*" postag_regexp="yes"></token>
                 <token>интересую</token>
                 <token>книгу</token>
             </pattern>
-            <message>Опечатка: <suggestion>интересную \2</suggestion></message>
+            <message>Опечатка: <suggestion>\1 интересную \3</suggestion></message>
             <short>Опечатка</short>
-            <example correction='интересную книгу'><marker>интересую книгу</marker></example>
-            <example>интересную книгу</example>
+            <example correction="купил интересную книгу"><marker>купил интересую книгу</marker></example>
+            <example>прочесть интересную книгу</example>
         </rule>
 	<rulegroup id="na_poverku" name="Логические ошибки «на поверку/на проверку»">
             <rule> 
