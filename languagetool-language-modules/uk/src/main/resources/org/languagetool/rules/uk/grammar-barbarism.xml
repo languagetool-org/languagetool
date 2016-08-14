@@ -972,22 +972,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example correction="дізнаватися|довідуватися">Ми почали <marker>наводити довідки</marker> далі</example>
        </rule>
 
-       <rule>
+       <rule id="POPEREDZHATY_VS_ZAPOBIHATY" name="Попереджати/запобігати">
          <pattern>
-           <token regexp="yes" inflected="yes">попередж(ув)?ати|попередити|попередж[ау]ючи|попереджавши|попередивши|попереджений|попередж[ае]ння</token>
+           <token regexp="yes" inflected="yes">попереджувати|попереджати|попередити|попередж[ау]ючи|попереджавши|попередивши|попереджений|попередж[ае]ння</token>
            <token postag_regexp="yes" postag="adj.*(v_zna|v_rod).*" min="0"/>
+           <!-- Знадто загально, видає багато фальшивих помилок, мусимо зробити перелік слів
+           <token postag_regexp="yes" postag="noun:inanim.*:v_zna.*">
+             <exception postag_regexp="yes" postag=".*:(prop)"/>
+           </token>
+           -->
            <!--
            <token regexp="yes" inflected="yes" postag_regexp="yes" postag=".*(v_zna|v_rod).*">біда|виникання|виникнення|випадок|завдання|загострення|загроза|замах|захоплення|зловживання|злочин|злочинність|зростання|катастрофа|конфлікт|криза|насильство|наслідок|небезпека|передача|.*порушення|поширення|провокація|проникання|проникнення|розвиток|розповсюдження|ситуація|скоєння|спроба|тенденція|теракт|торгівля|ускладнення|хвороба|формування</token>
            -->
-           <token regexp="yes" inflected="yes" postag_regexp="yes" postag=".*(v_zna|v_rod).*">.+[аеєя]ння|біда|випадок|загроза|замах|злочин|злочинність|катастрофа|конфлікт|криза|насильство|наслідок|небезпека|передача|провокація|розвиток|ситуація|скоєння|спроба|тенденція|теракт|торгівля|хвороба
+           <token regexp="yes" inflected="yes" postag_regexp="yes" postag=".*(v_zna|v_rod).*"
+           >.+[аеєя]ння|біда|.*вбивство|вибух|випадок|відмова|вчинок|диверсія|дія|забудова|загроза|замах|злочин|злочинність|катастрофа|конфлікт|криза|насильство|наслідок|нашестя|небезпека|обстріл|пандемія|передача|підрив|провокація|прояв|розвиток|ситуація|скоєння|спроба|тенденція|теракт|торгівля|хвороба
              <exception regexp="yes">командування|відділення|населення|дослідження|засідання</exception>
            </token>
          </pattern>
          <message>Правильно: <suggestion>запобігати <match no="2" postag_regexp="yes" postag="(adj.*)v_...(.*)" postag_replace="$1v_dav$2"/> <match no="3" postag_regexp="yes" postag="(noun.*)v_...(.*)" postag_replace="$1v_dav$2"/></suggestion></message>
          <example correction="запобігати поширенню">дозволить <marker>попередити поширення</marker> інфекційних захворювань</example>
+         <example correction="запобігати екологічній катастрофі">Співробітники СБУ <marker>попередили екологічну катастрофу</marker>.</example>
+         <example correction="Запобігати злочинові|Запобігати злочину"><marker>Попередивши злочин</marker> пішли далі.</example>
+         <example correction="запобігати біді"><marker>попередити біду</marker> завжди легше</example>
+         <example>Вони попередили його про наступ.</example>
        </rule>
 
-       <rule>
+       <rule id="ZAKLYUCHATY_VS_UKLADADY" name="Заключати/укладати">
          <pattern>
            <token regexp="yes" inflected="yes">заключати|заключити|заключа(вши|ючи)|заключивши|заключений</token>
            <token postag_regexp="yes" postag="adj.*(v_zna|v_rod).*" min="0"/>
@@ -997,7 +1007,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example correction="укладати договір (умову)|умовлятися (домовлятися)">Вони <marker>заключили трирічний договір</marker>.</example>
        </rule>
 
-       <rule>
+       <rule id="VKLYUCHATY_VS_MISTYTY" name="Включати/містити">
          <pattern>
            <token inflected="yes" regexp="yes">включати|включити</token>
            <token regexp="yes">[ву]</token>
@@ -1006,26 +1016,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <message>Правильно: <suggestion>містити</suggestion>, <suggestion>мати (в собі)</suggestion>, <suggestion>охоплювати</suggestion></message>
          <example correction="містити|мати (в собі)|охоплювати"> ще <marker>включила в себе</marker> й сором’язливість</example>
          <example>давно вже включене у всесвітню спадщину людства</example>
-       </rule>
-
-       <rule id="POPEREDZHATY" name="Попереджати">
-         <pattern>
-           <marker>
-             <token inflected="yes" regexp="yes">попереджати|попередити|попередивши|попереджуючи</token>
-           </marker>
-           <token postag_regexp="yes" postag="(adj|num).*" min="0"/>
-           <!-- Знадто загально, видає багато фальшивих помилок, мусимо зробити перелік слів
-           <token postag_regexp="yes" postag="noun:inanim.*:v_zna.*">
-             <exception postag_regexp="yes" postag=".*:(prop)"/>
-           </token>
-           -->
-           <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim.*:(v_zna|v_rod).*"
-           >біда|вибух|.*вбивство|виникнення|випадок|відмова|втручання|вчинок|диверсія|дія|забудова|завдання|загострення|загроза|затоплення|захворювання|захоплення|зловживання|злочин|зростання|катастрофа|конфліа|криза|насильство|наслідок|нашестя|небезпека|обстріл|пандемія|підрив|(право)?порушення|поширення|провокація|прояв|розвиток|розповсюдження|ситуація|сповзання|спроба|тенденція|теракт|формування|хвороба</token>
-         </pattern>
-         <message>Правильно: <suggestion>запобігати</suggestion></message>
-         <example correction="запобігати">Співробітники СБУ <marker>попередили</marker> екологічну катастрофу.</example>
-         <example correction="Запобігати"><marker>Попередивши</marker> злочин пішли далі.</example>
-         <example>Вони попередили його про наступ.</example>
        </rule>
 
     </rulegroup>
@@ -1839,10 +1829,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
        <rule>
          <pattern>
            <token inflected="yes" regexp="yes">приносити|принести|принесений</token>
+           <token postag_regexp="yes" postag="adj.*" min="0"/>
            <token>вибачення</token>
           </pattern>
          <message>Правильно: <suggestion>перепрошувати</suggestion></message>
          <example correction="перепрошувати">газета веж <marker>принесла вибачення</marker>.</example>
+         <example correction="перепрошувати"><marker>принесу глибокі вибачення</marker>.</example>
          <example>Просити вибачення</example>
        </rule>
     </rulegroup>
