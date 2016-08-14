@@ -5170,6 +5170,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example><marker>Управляющий предприятием</marker> общественного питания.</example>
             <example correction="Управляющий предприятием|Управляющий предприятиями|Управляющий предприятьем|Управляющий предприятьями"><marker>Управляющий предприятия</marker> общественного питания.</example>
         </rule>
+	
+	<rule default="on" id="plit_lodkoj" name="Словосочетание «плыть лодкой» --> «плыть на лодке»">
+            <pattern case_sensitive="no">
+                <!--          -->
+                <token regexp="yes" inflected="yes">летать|плыть</token>
+                <token regexp="yes">лодкой|вертолётом|кораблём|самолётом</token>
+            </pattern>
+            <message>Существительное \1 предполагает употребление зависимого слова в предложном падеже:
+                <suggestion><match no="1"></match> на <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:P"></match></suggestion></message>
+            <short>Требуется предложный падеж.</short>
+           
+            <example correction="плыть на лодке"><marker>плыть лодкой</marker></example>
+        </rule>
         
         <rule default="on" id="vopreki_NN" name="Предлог «вопреки» + существительное">
             <pattern case_sensitive="no">
