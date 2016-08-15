@@ -20,9 +20,9 @@ For more technical details, see [our wiki](http://wiki.languagetool.org).
 
 #### How to build from source
 
-Before start: you will need to clone from GitHub (warning, 300+ MB download) and install Java 8 and Apache Maven
+Before start: you will need to clone from GitHub (warning, 300+ MB download) and install Java 8 and Apache Maven.
 
-In root project folder run:
+In the root project folder, run:
 
     mvn clean test
 
@@ -30,14 +30,14 @@ In root project folder run:
 
     ./build.sh languagetool-standalone package -DskipTests
 
-test the result in languagetool-standalone/target/
+Test the result in `languagetool-standalone/target/`.
 
     ./build.sh languagetool-wikipedia package -DskipTests
 
-test the result in languagetool-wikipedia/target
+Test the result in `languagetool-wikipedia/target`.
 
     ./build.sh languagetool-office-extension package -DskipTests
 
-test the result in languagetool-office-extension/target, rename the *zip to *oxt and to install it in LibreOffice/OpenOffice
+Test the result in `languagetool-office-extension/target`, rename the `*.zip` to `*.oxt` to install it in LibreOffice/OpenOffice.
 
-Now you can use the bleeding edge development copy of LanguageTool *.jar files, be aware that it can contain regressions or troublesome issues.
+Now you can use the bleeding edge development copy of LanguageTool `*.jar` files, be aware that it might contain regressions.
