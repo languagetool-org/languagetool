@@ -751,7 +751,7 @@
 
     <rule id="o_tak" name="o tak -> adv">
         <pattern>
-            <token regexp="yes">o|na</token>
+            <token regexp="yes">o|na|nad</token>
             <marker><token>tak</token></marker>
         </pattern>
         <disambig action="remove"><wd lemma="taka"/></disambig>
@@ -767,7 +767,7 @@
 
     <rule id="szybko_adv" name="szybko + adj => adv">
         <pattern>
-            <token postag="adv:pos" regexp="yes">szybko|grubo</token>
+            <token postag="adv:pos|qub" postag_regexp="yes" regexp="yes">szybko|grubo|prawie</token>
             <token postag="(?:adj|pact|ppas).*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
