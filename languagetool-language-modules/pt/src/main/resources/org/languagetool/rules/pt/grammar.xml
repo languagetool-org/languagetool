@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.168 2016-08-11 20:18:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.169 2016-08-15 14:57:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -3342,8 +3342,21 @@ $Id: grammar.xml,v 1.168 2016-08-11 20:18:00 marcoagpinto Exp $
       <example correction="cerejal">Que grande <marker>cerejal de cerejeiras</marker>.</example>
     </rule>
 
-	
-	
+
+
+	<!-- Verb EXPORTAR + PARA FORA > Verb exportar -->	
+	<rule id="EXPORTAR_PARA_FORA" name="exportar">
+		<pattern>
+			<token regexp="yes">exportei|exportaste|exportou|exportar|exportaram|exportarem|exportámos|exportamos|exportam|exportarmos</token>
+			<token>para</token>
+			<token>fora</token>
+		</pattern>
+		<message>Substituir «\1 para fora»  por <suggestion>\1</suggestion>.</message>
+ 		<example correction="exportou">O país <marker>exportou para fora</marker> menos este ano.</example>
+ 	</rule>
+
+
+
     <!-- HEMORRAGIA DE SANGUE hemorragia -->
     <rule id="HEMORRAGIA_DE_SANGUE" name="hemorragia">
       <pattern>
