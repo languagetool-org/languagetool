@@ -558,7 +558,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="BOLSHAJA_POLOVINA" name="Словосочетание «большая/меньшая половина»">
-            <rule> 
+            <rule>
                 <pattern>
                     <token regexp="yes" >большая|меньшая</token>
                     <token>половина</token>
@@ -617,8 +617,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Языковая избыточность.</short>
                 <example correction="сделать заказ"><marker>заказать заказ</marker></example>
             </rule>
-        </rulegroup>        
-                    
+        </rulegroup>
+        <rulegroup id="PODARIT_PODAROK" name="Тавтология «подарить подарок»">        
+              <rule> 
+                <pattern>
+                    <token inflected="yes">подарить</token>
+                    <token>подарок</token>                  
+                </pattern>
+                <message>Языковая избыточность (плеоназм): <suggestion><match no="1" regexp_match="подари(.*)" regexp_replace="вручи$1"></match> <match no="2"/></suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+                <short>Тавтология.</short>
+                <example correction="вручил подарок">Он <marker>подарил подарок</marker>.</example>
+            </rule>
+            </rulegroup>   
            <rulegroup id="SPUSKATSJA_VNIZ" name="Тавтология «спускаться вниз»">
             <rule> 
                 <pattern>
@@ -658,6 +669,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Суть"><marker>Главная суть</marker> рассказа</example>
             </rule>
         </rulegroup>    
+
+        <rulegroup id="DUMU_DUMAT" name="Тавтология «думу думать»">
+            <rule> 
+                <pattern>
+                    <token>думу</token>
+                    <token inflected="yes">думать</token>                  
+                </pattern>
+                <message>Языковая избыточность (плеоназм): <suggestion>\2</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+                <short>Тавтология.</short>
+                <example correction="думали">Они <marker>думу думали</marker>.</example>
+            </rule>
+            <rule> 
+                <pattern>
+                    <token>работу</token>
+                    <token inflected="yes">работать</token>                  
+                </pattern>
+                <message>Языковая избыточность (плеоназм): <suggestion>\2</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+                <short>Тавтология.</short>
+                <example correction="работали">Они <marker>работу работали</marker>.</example>
+            </rule>
+            <rule> 
+                <pattern>
+                    <token>шутки</token>
+                    <token inflected="yes">шутить</token>                  
+                </pattern>
+                <message>Языковая избыточность (плеоназм): <suggestion>\2</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+                <short>Тавтология.</short>
+                <example correction="шутили">Они <marker>шутки шутили</marker>.</example>
+            </rule>
+        </rulegroup>    
+
+
+        <rulegroup id="KRUG_KRUGLIJ" name="Тавтология «круг круглый»">
+            <rule> 
+                <pattern>
+                    <token>круг</token>
+                    <token>круглый</token>                  
+                </pattern>
+                <message>Языковая избыточность (плеоназм): <suggestion>\1</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+                <short>Тавтология.</short>
+                <example correction="круг"><marker>круг круглый</marker></example>
+            </rule>
+            <rule> 
+                <pattern>
+                    <token>масло</token>
+                    <token>масляное</token>                  
+                </pattern>
+                <message>Языковая избыточность (плеоназм): <suggestion>\1</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+                <short>Тавтология.</short>
+                <example correction="масло"><marker>масло масляное</marker></example>
+            </rule>
+        </rulegroup> 
+
 
         <rulegroup id="TOLPA_LUDEJ" name="Тавтология «толпа людей»">
             <rule> 
