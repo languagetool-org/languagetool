@@ -751,7 +751,7 @@
 
     <rule id="o_tak" name="o tak -> adv">
         <pattern>
-            <token regexp="yes">o|na|nad</token>
+            <token regexp="yes">[wo]|na|nad</token>
             <marker><token>tak</token></marker>
         </pattern>
         <disambig action="remove"><wd lemma="taka"/></disambig>
@@ -759,8 +759,8 @@
 
     <rule id="tak_adv" name="tak + adj => adv">
         <pattern>
-            <token postag="adv">tak</token>
-            <token postag="adj.*:pos" postag_regexp="yes"/>
+            <token postag="adv:pos">tak</token>
+            <token postag="adj.*:pos|verb.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -3029,6 +3029,17 @@
         <disambig action="remove"><wd lemma="zakupić"/></disambig>
     </rule>
 
+    <rule id="GRAND_HOTEL" name="Grand Hotel -> pierwszy człon to burkinostka">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Grand</token>
+            </marker>
+            <token inflected="yes">hotel</token>
+        </pattern>
+        <disambig action="replace"><wd pos="burk" lemma="Grand"/></disambig>
+    </rule>
+
+
     <rule id="LAS_BURK" name="Las Vegas">
         <pattern case_sensitive="yes">
             <marker>
@@ -3054,6 +3065,17 @@
             <token>Street</token>
         </pattern>
         <disambig action="replace"><wd pos="burk" lemma="Main"/></disambig>
+    </rule>
+
+
+    <rule id="NEW_BURK" name="New York">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>New</token>
+            </marker>
+            <token inflected="yes" regexp="yes">York|Age</token>
+        </pattern>
+        <disambig postag="burk"/>
     </rule>
 
     <rule id="SAO_PAULO" name="Sao Paulo => burk">
