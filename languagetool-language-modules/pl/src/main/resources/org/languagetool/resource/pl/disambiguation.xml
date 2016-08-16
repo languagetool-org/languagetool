@@ -8881,7 +8881,7 @@
         </rule>
         <rule>       <!-- 21 -->
             <pattern>
-                <token postag="(verb|pact).*" postag_regexp="yes"/>
+                <token postag="(verb|pact).*" postag_regexp="yes"><exception inflected="yes" postag=".*:ter.*" postag_regexp="yes">być</exception></token>
                 <marker>
                     <token>to</token>
                 </marker>
@@ -11446,6 +11446,24 @@
         <example type="ambiguous" inputform="wiodącą[wieść/pact:sg:acc.inst:f:imperf:aff:refl.nonrefl]" outputform="wiodącą[wieść/adj:sg:acc.inst:f:pos]">Szedłem drogą <marker>wiodącą</marker> w stronę wioski.</example>
     </rule>
 
+    <rule name="Jest to qub nom-> to/pred (wg NKJP manualnie anotowany)" id="TO_QUB_PREDYKATYW">
+        <pattern>
+            <token regexp="yes" postag="verb.*" postag_regexp="yes">jest|będzie|był[oa]?</token>
+            <marker>
+                <token>to</token>
+            </marker>
+            <token postag="qub"/>
+            <token postag=".*:nom.*" postag_regexp="yes"><exception postag_regexp="yes" postag="verb:praet:sg:.*:ter.*"/></token>
+        </pattern>
+        <disambig action="replace"><wd pos="pred" lemma="to"/></disambig>
+        <example type="untouched">To jest problem.</example>
+        <example type="untouched">Będzie to znaczyło podciąć zło przy samym korzeniu.</example>
+        <example type="ambiguous" inputform="to[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]"
+                 outputform="to[to/pred]" >Jest <marker>to</marker> tylko problem.</example>
+        <example type="untouched">Moja była to mówiła.</example>
+        <example type="untouched">Będzie to wówczas znaczyło, że to prawda.</example>
+    </rule>
+
     <rule name="Jest to -> to/pred (wg NKJP manualnie anotowany)" id="TO_PREDYKATYW">
         <pattern>
             <token regexp="yes" postag="verb.*" postag_regexp="yes">jest|będzie|był[oa]?</token>
@@ -11454,10 +11472,10 @@
             </marker>
                 <token postag=".*:nom.*" postag_regexp="yes"><exception postag_regexp="yes" postag="verb:praet:sg:.*:ter.*"/></token>
         </pattern>
-        <disambig postag="pred"/>
+        <disambig action="replace"><wd pos="pred" lemma="to"/></disambig>
         <example type="untouched">To jest problem.</example>
         <example type="untouched">Będzie to znaczyło podciąć zło przy samym korzeniu.</example>
-        <example type="ambiguous" inputform="to[to/subst:sg:acc:n2]"
+        <example type="ambiguous" inputform="to[ten/adj:sg:nom.voc:n1.n2:pos]"
                  outputform="to[to/pred]" >Jest <marker>to</marker> problem.</example>
         <example type="untouched">Moja była to mówiła.</example>
         <example type="untouched">Będzie to wówczas znaczyło, że to prawda.</example>
