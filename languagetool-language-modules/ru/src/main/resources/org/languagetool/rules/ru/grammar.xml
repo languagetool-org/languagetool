@@ -161,15 +161,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           
           
         </rulegroup>
-        <rule id="Slovosoch_interesnaja_kniga" name="Словосочетание «Интересная книга»">
+        <rule id="Slovosoch_interesnaja_kniga" name="Опечатка «Интересная/интересую»">
             <pattern>
+		<token postag="VB:.*" postag_regexp="yes"></token>
                 <token>интересую</token>
-                <token>книгу</token>
+                <token postag="NN:.*:Sin:V" postag_regexp="yes"></token>
             </pattern>
-            <message>Опечатка: <suggestion>интересную \2</suggestion></message>
+            <message>Опечатка: <suggestion>\1 интересную \3</suggestion></message>
             <short>Опечатка</short>
-            <example correction='интересную книгу'><marker>интересую книгу</marker></example>
-            <example>интересную книгу</example>
+            <example correction="купил интересную книгу"><marker>купил интересую книгу</marker></example>
+            <example>прочесть интересную книгу</example>
         </rule>
 	<rulegroup id="na_poverku" name="Логические ошибки «на поверку/на проверку»">
             <rule> 
@@ -564,6 +565,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>меньшая часть</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ISKLUCHIT_ISKLUCHENIE" name="Тавтология «исключить исключение»">
+            <rule> 
+                <pattern>
+                    <token inflected="yes" >исключить</token>
+                    <token>исключение</token>
+                </pattern>
+                <message>Языковая избыточность: <suggestion><match no="1" regexp_match="исключи(.*)" regexp_replace="убра$1"></match> <match no="2"/></suggestion>?</message>         
+                <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>     
+                <short>Языковая избыточность.</short>
+                <example correction="убрать исключение"><marker>исключить исключение</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="POTREBOVAT_TREBOVANIE" name="Тавтология «потребовать требование»">
+            <rule> 
+                <pattern>
+                    <token inflected="yes" >потребовать</token>
+                    <token>требование</token>
+                </pattern>
+                <message>Языковая избыточность: <suggestion><match no="1" regexp_match="потребова(.*)" regexp_replace="заяви$1"></match> <match no="2"/></suggestion>?</message>         
+                <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>     
+                <short>Языковая избыточность.</short>
+                <example correction="заявить требование"><marker>потребовать требование</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="POJELAT_JELANIE" name="Тавтология «пожелать желание»">
+            <rule> 
+                <pattern>
+                    <token inflected="yes" >пожелать</token>
+                    <token>желание</token>
+                </pattern>
+                <message>Языковая избыточность: <suggestion><match no="1" regexp_match="пожела(.*)" regexp_replace="загада$1"></match> <match no="2"/></suggestion>?</message>         
+                <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>     
+                <short>Языковая избыточность.</short>
+                <example correction="загадать желание"><marker>пожелать желание</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ZAKAZAT_ZAKAZ" name="Тавтология «заказать заказ»">
+            <rule> 
+                <pattern>
+                    <token inflected="yes" >заказать</token>
+                    <token>заказ</token>
+                </pattern>
+                <message>Языковая избыточность: <suggestion><match no="1" regexp_match="заказа(.*)" regexp_replace="сдела$1"></match> <match no="2"/></suggestion>?</message>         
+                <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>     
+                <short>Языковая избыточность.</short>
+                <example correction="сделать заказ"><marker>заказать заказ</marker></example>
+            </rule>
+        </rulegroup>        
+                    
            <rulegroup id="SPUSKATSJA_VNIZ" name="Тавтология «спускаться вниз»">
             <rule> 
                 <pattern>
@@ -2603,6 +2653,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="GRAMMAR" name="Грамматика">
         
+      <rulegroup id="Sklonenije_NUM_NN" name="Склонение числительное + существительное">
+            <!-- исключения один, два, три, четыре -->
+        <rule>
+            <pattern>
+                    <token postag="NumC:Nom" ><exception regexp="yes">одни|один|одно|одна|две|два|три|четыре|столько|сколько|несколько|много|немного|немало|мало|сто|тысяча</exception></token>
+                    <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:PL:R"  postag_regexp="yes"/></token>
+            </pattern>
+            <message>Числительное не согласуется с существительным по падежу: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):.*:.*" postag_replace="NN:$1:PL:R" /></suggestion>.</message>
+            <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
+            <short>Неверное склонение.</short>
+            <example correction="пять карандашей" >В коробке лежало <marker>пять карандаша</marker>.</example>
+            <example>В коробке лежало пять карандашей.</example>
+            <example>Это позволило в несколько раз расширить диапазон длин волн.</example>
+         </rule>
+         <rule>
+            <pattern>
+                    <token>один</token>
+                    <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:Sin:Nom"  postag_regexp="yes"/></token>
+            </pattern>
+            <message>Числительное не согласуется с существительным по падежу: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):.*:.*" postag_replace="NN:$1:Sin:Nom" /></suggestion>.</message>
+            <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
+            <short>Неверное склонение.</short>
+            <example correction="один карандаш" >В коробке лежал <marker>один карандаша</marker>.</example>
+            <example>В коробке лежал один карандаш.</example>
+         </rule>
+         <rule>
+            <pattern>
+                    <token regexp="yes">два|три|четыре</token>
+                    <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"/><exception postag="NN:.*:Sin:R"  postag_regexp="yes"/></token>
+            </pattern>
+            <message>Числительное не согласуется с существительным по падежу: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):.*:.*" postag_replace="NN:$1:Sin:R" /></suggestion>.</message>
+            <url>https://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5#.D0.A1.D0.BA.D0.BB.D0.BE.D0.BD.D0.B5.D0.BD.D0.B8.D0.B5_.D0.B8.D0.BC.D1.91.D0.BD_.D1.87.D0.B8.D1.81.D0.BB.D0.B8.D1.82.D0.B5.D0.BB.D1.8C.D0.BD.D1.8B.D1.85</url>
+            <short>Неверное склонение.</short>
+            <example correction="три карандаша" >В коробке лежало <marker>три карандаш</marker>.</example>
+            <example>В коробке лежало два карандаша.</example>
+         </rule>
+        </rulegroup>   
+        
         <rulegroup id="Sklonenije_chislitelnih" name="Склонение количественных числительных">
             <!-- Склонение количественных числительных (Т) -->
          <rule>
@@ -3076,8 +3164,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!--           ADJ:Masc   NN:Masc    -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:Masc:Sin:.*"></exception></token>
                     <marker>
+                       <unify>
+                          <feature id="case"> 
+                          </feature>
                         <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:Masc:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:Masc:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Masc:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
+                      </unify>
                     </marker>
                     <token regexp="yes">[.;]</token>
                 </pattern>               
@@ -3092,8 +3184,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!--           ADJ:Fem   NN:Fem    -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:Fem:Sin:.*"></exception></token>
                     <marker>
+                     <unify>
+                            <feature id="case"> 
+                            </feature>
                         <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:Fem:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:Fem:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Fem:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
+                     </unify>
                     </marker>
                     <token regexp="yes">[.;]</token>
                 </pattern>               
@@ -3108,8 +3204,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!--           ADJ:Neut   NN:Neut    -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:Neut:Sin:.*"></exception></token>
                     <marker>
+                      <unify>
+                          <feature id="case"> 
+                          </feature>
                         <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:Neut:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:Neut:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Neut:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
+                      </unify>
                     </marker>
                     <token regexp="yes">[.;]</token>
                 </pattern>
@@ -3126,12 +3226,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:.*"></exception></token>
                     <marker>
+                        <unify>
+                          <feature id="case"> 
+                          </feature>
                         <token postag="ADJ:PL:.*" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:PL:.*" postag_regexp="yes"></exception> <exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception>  </token>
                         <token postag="NN:.*:.*:.*" skip="-1" postag_regexp="yes"><exception postag="NN:.*:PL:.*" postag_regexp="yes"></exception><exception postag="NN:.*:PL:.*" scope="next" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="next" regexp="yes">и|[\p{Punct}]</exception></token>
+                        </unify>
                     </marker>
                     <token regexp="yes">[.;]</token>
                 </pattern>
-                
+                  
                 <message>Прилагательное не согласуется с существительным по числу.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D0%BF%D1%80%D0%B8%D0%BB%D0%B0%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
                 <short>Грамматическая ошибка в согласовании по числу.</short>
@@ -3143,8 +3247,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!--           ADJ:!PL   NN:.*:Sin    -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:Sin:.*"></exception></token>
                     <marker>
+                       <unify>
+                          <feature id="case"> 
+                          </feature>
                         <token postag="ADJ:.*:(.*)" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:.*:(.*)" postag_regexp="yes"></exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="previous">и|или|но|да</exception></token>
                         <token postag="NN:.*:.*:.*" skip="-1" postag_regexp="yes"><exception postag="NN:.*:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="next" regexp="yes">и|[\p{Punct}]</exception></token>
+                       </unify>
                     </marker>
                     <token regexp="yes">[.;]</token>
                 </pattern>     
@@ -3224,16 +3332,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <!--           NN:Masc:Sin:Nom   VB:Past:Masc   -->
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="NN:Fem:Sin:Nom"></exception><exception scope="next" postag="NN:Neut:Sin:Nom"></exception> <exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception></token>
-                        <unify negate="yes">
-                                    <feature id="number"> 
-                                        <type id="PL"/>
-                                    </feature>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="NN:Fem:Sin:Nom"></exception><exception scope="next" postag="NN:Neut:Sin:Nom"></exception> <exception scope="next" postag_regexp="yes" postag="PNN:.*"></exception></token>           
                     <marker>
                         <token postag="NN:Masc:Sin:Nom"><exception negate_pos="yes" postag="NN:Masc:Sin:Nom"></exception></token>
                         <token postag="VB:Past:.*" postag_regexp="yes" skip="-1"><exception postag="VB:Past:Masc"></exception><exception postag="VB:Past:PL"></exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception> <exception scope="next" postag="NN:Fem:Sin:Nom"></exception><exception scope="next" postag="NN:Neut:Sin:Nom"></exception></token>
                     </marker>
-                    </unify>
                     <token regexp="yes">[.;]</token>
                 </pattern>         
                 <message>Существительное не согласуется с глаголом по роду: <suggestion><match no="2"></match> <match no="3" postag="VB:Past:.*" postag_regexp="yes" postag_replace="VB:Past:Masc"></match></suggestion></message>
@@ -5112,6 +5215,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Требуется творительный падеж.</short>
             <example><marker>Управляющий предприятием</marker> общественного питания.</example>
             <example correction="Управляющий предприятием|Управляющий предприятиями|Управляющий предприятьем|Управляющий предприятьями"><marker>Управляющий предприятия</marker> общественного питания.</example>
+        </rule>
+	
+	<rule default="on" id="plit_lodkoj" name="Словосочетание «плыть лодкой» --> «плыть на лодке»">
+            <pattern case_sensitive="no">
+                <!--          -->
+                <token regexp="yes" inflected="yes">летать|плыть</token>
+                <token regexp="yes">лодкой|вертолётом|кораблём|самолётом</token>
+            </pattern>
+            <message>Существительное \1 предполагает употребление зависимого слова в предложном падеже:
+                <suggestion><match no="1"></match> на <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:P"></match></suggestion></message>
+            <short>Требуется предложный падеж.</short>
+           
+            <example correction="плыть на лодке"><marker>плыть лодкой</marker></example>
         </rule>
         
         <rule default="on" id="vopreki_NN" name="Предлог «вопреки» + существительное">

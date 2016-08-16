@@ -11398,6 +11398,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://www.korrekturen.de/wortliste/rechtens.shtml</url>
             <example correction="rechtens">Der Angeklagte wurde <marker>Rechtens</marker> verurteilt.</example>
         </rule>
+        <rule id="WILLKOMMEN_GROSS" name="herzlich Willkommen (willkommen)">
+            <pattern>
+                <token>herzlich</token>
+                <marker>
+                    <token case_sensitive='yes'>Willkommen</token>
+                </marker>
+            </pattern>
+            <message><suggestion><match no="2" case_conversion="startlower"/></suggestion> scheint hier ein Adjektiv zu sein und muss daher kleingeschrieben werden.</message>
+            <url>http://www.duden.de/rechtschreibung/willkommen</url>
+            <example correction='willkommen'>Herzlich <marker>Willkommen</marker> auf meiner Homepage!</example>
+        </rule>
         <rule id="SEIT_BEGINN" name="'seit beginn (seit Beginn)'">
             <pattern>
                 <token regexp='yes'>seit|von</token>
@@ -11406,7 +11417,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message><suggestion>Beginn</suggestion> scheint hier ein Nomen zu sein und muss daher großgeschrieben werden.</message>
-            <example correction='Beginn'>Die Software steht seit <marker>beginn</marker> unter dieser Lizenz."</example>
+            <example correction='Beginn'>Die Software steht seit <marker>beginn</marker> unter dieser Lizenz.</example>
         </rule>
         <rule id="NOMEN_KLEIN" name="der/die/das + Adjektiv + kleingeschriebenes Nomen" default="off">
             <pattern>
@@ -25775,6 +25786,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Meinten Sie die aus dem Französischen stammende Wendung <suggestion>à la carte</suggestion>?</message>
             <example correction="à la carte">Wir essen heute <marker>a la carte</marker>.</example>
+        </rule>
+        <rule id="ZUM_VORSCHEIN" name="Wendung: zum Vorschein bringen">
+            <pattern>
+                <token>zum</token>
+                <marker>
+                    <token>Vorscheinen</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie die Wendung 'zum <suggestion>Vorschein</suggestion> bringen/kommen'?</message>
+            <url>http://www.duden.de/rechtschreibung/Vorschein</url>
+            <example correction="Vorschein">Es kamen löchrige Socken zum <marker>Vorscheinen</marker>.</example>
         </rule>
         <rule id="GESETZT_DEN_FALL" name="Wendung: 'gesetzt den Fall'">
             <pattern case_sensitive='yes'>

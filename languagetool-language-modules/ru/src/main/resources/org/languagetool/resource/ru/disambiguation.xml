@@ -28,7 +28,7 @@ Copyright (C) 2009-2012 Yakov Reztsov
     <!-- disambiguation for nouns' -->
     <rule name="NOUN_V" id="NOUN_V">
         <pattern>
-            <token regexp="yes" skip="1">в|на|сквозь|через</token>
+            <token regexp="yes" skip="1">в|на|сквозь|через<exception scope="next" postag="Num.*" postag_regexp="yes"></exception></token>
             <marker>
                 <and>
                     <token postag="NN:.*:.*:Nom" postag_regexp="yes"></token>

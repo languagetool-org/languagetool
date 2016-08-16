@@ -9051,7 +9051,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="najbliżej">Przemysław jest <marker>najbardziej najbliżej</marker> Lecha.</example>
 				</rule>
 				<rule id="ROZUMIEC_POD" name="Błąd związku rządu: „rozumieć coś pod czymś” (przez coś)">
-						<!-- FIXME: podpowiedź nie uwzględnia odmiany -->
+				  <antipattern>
+				  <marker><token skip="1">pod</token></marker>
+				  <token>względem</token>
+				  </antipattern>  
+						<!-- FIXME: podpowiedź nie uwzględnia odmiany -->						
 						<pattern>
 								<token negate="yes" skip="1">przez</token>
 								<token inflected="yes" skip="5">rozumieć<exception regexp="yes" scope="next">przez|,</exception></token>
@@ -9064,6 +9068,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example correction="przez">Rozumiał czasem <marker>pod</marker> tym pojęciem wolę.</example>
 						<example>Kartezjusz rozumiał czasem przez to pojęcie wolę.</example>
 						<example>Kartezjusz rozumiał przez to wolę, pod którą podciągał inne pojęcia.</example>
+						<example>Zwierz rozumie też zachwyt nad jej rolą pod tym względem.</example>
 				</rule>
 				<rule id="INNY_JAK" name="„inny jak” (inny niż)">
 						<pattern>
@@ -9397,6 +9402,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                           </marker>
                           <token postag=".*acc.*|.*loc.*" postag_regexp="yes"/>
                         </antipattern>
+                        <antipattern>
+                          <token>o</token> <!-- o ich los się martwię -->
+                          <marker>
+                            <token postag="ppron.*gen.*" postag_regexp="yes"/>
+                          </marker>
+                          <token postag=".*acc.*|.*loc.*" postag_regexp="yes"/>
+                        </antipattern>
                         <antipattern> <!-- o lat kilkanaście -->
                           <token>o</token>
                           <marker>
@@ -9426,7 +9438,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                          <pattern>
                           <token postag="prep.*" postag_regexp="yes">o</token>
                           <marker>
-                          <token postag='(:?subst|adj|ppas|pact|ger):.*' postag_regexp='yes'><exception postag='(:?subst|adj|ppas|pact|ger):(.*acc.*|.*[vl]oc.*)' postag_regexp='yes'></exception></token>
+                          <token postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):.*' postag_regexp='yes'><exception postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):(.*acc.*|.*[vl]oc.*)' postag_regexp='yes'></exception></token>
                           </marker>
                          </pattern>
                          <message>Ten przyimek jest używany z biernikiem lub miejscownikiem.</message>
@@ -9437,18 +9449,89 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                          <example>Przeżył go o lat niemal dwadzieścia.</example>
                          <example>Nie wiem, o której dziewczynie mówisz.</example>
                          <example>Większość Azji Zachodniej stanowią obszary o wyżynno-górzystym ułożeniu terenu.</example>
+                         <example>Nasze przekonanie o nim może być kruche.</example>
                         </rule>
+                        <rule> <!-- „na”: z miejscownikiem lub biernikiem -->
+                          <antipattern> <!-- na lat kilkanaście -->
+                            <token>na</token>
+                            <marker>
+                              <token postag=".*pl:gen.*" postag_regexp="yes"/>
+                            </marker>
+                            <token postag="num:.*acc.*:rec" postag_regexp="yes"/>
+                          </antipattern>
+                          <antipattern> <!-- na lat 5 -->
+                            <token>na</token>
+                            <marker>
+                              <token postag=".*pl:gen.*" postag_regexp="yes"/>
+                            </marker>
+                            <token regexp="yes">\d*[5-9]|\d+0|1[1-9]</token>
+                          </antipattern>
+                          <antipattern>
+                            <marker>
+                            <token>na</token>
+                            <token>koń</token>
+                            </marker>
+                          </antipattern>
+                          <antipattern>
+                            <marker>
+                            <unify><feature id="case"><type id="loc"/><type id="acc"/></feature>
+                            <token>na</token>
+                            <unify-ignore><token postag="adj.*gen.*" postag_regexp="yes" inflected="yes">który</token></unify-ignore>
+                            <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                            </unify>
+                            </marker>
+                          </antipattern>
+                          <antipattern>
+                          <token>na</token> <!-- na ich los nie narzekam -->
+                          <marker>
+                            <token postag="ppron.*gen.*" postag_regexp="yes"/>
+                          </marker>
+                          <token postag=".*acc.*|.*loc.*" postag_regexp="yes"/>
+                        </antipattern>
+                          <antipattern case_sensitive="yes">
+                          <marker>
+                          <token>na</token>
+                          <token>Anioł</token>
+                          </marker>
+                          <token>Pański</token>
+                          </antipattern>
+                          <antipattern> <!-- jest inna reguła -->
+                            <token>na</token>
+                            <marker>
+                                  <token>tą</token>
+                            </marker>
+                            <token postag="subst:pl:acc:f" regexp="yes">.+e<exception postag="subst:sg:acc:f"></exception></token>
+                          </antipattern>
+                       <pattern>
+                        <token postag="prep.*" postag_regexp="yes">na</token>
+                        <marker>
+                        <token postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):.*' postag_regexp='yes'>
+                          <exception postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):(.*acc.*|.*loc.*)' postag_regexp='yes'></exception>
+                          <exception>stojaka</exception>
+                          </token>
+                        </marker>
+                       </pattern>
+                       <message>Ten przyimek jest używany z biernikiem lub miejscownikiem.</message>
+                       <short>Przyimek wymaga biernika lub miejscownika</short>
+                       <example correction=''>Nie zależy mi na <marker>prędkością</marker>.</example>         
+                       <example>Wąwóz, dość przy ujściu szeroki, zmieniał się w zamkniętą z obu boków pionowymi skałami kotlinkę, na której dnie rosło kilka drzew.</example>
+                       <example>Następnie odmówił z Kubańczykami modlitwę na Anioł Pański i pobłogosławił kamień węgielny.</example>
+                       <example>Czy autobus numer 19 jedzie na Main Street?</example>
+                       <example>Dotkliwie przeżyła pierwsze (1935) aresztowania syna i męża (zwolniono ich po tygodniu), a potem drugie (1938) syna, skazanego wkrótce w pierwszej instancji na 10 lat obozu, a ostatecznie na lat 5.</example>
+                       <example>Ja jestem z nim na per świnia.</example>
+                       <example>W kuchni na stojaka zjada kanapki, nawet nie popijając.</example>
+                      </rule>
 				</rulegroup>
-				<rule id="NA" name="„na”">
-            <antipattern> <!-- na lat kilkanaście -->
-              <token>na</token>
+				<rule id="NAD" name="„nad”">
+				    <antipattern> <!-- nie miał więcej nad lat kilkanaście -->
+              <token inflected="yes">nad</token>
               <marker>
                 <token postag=".*pl:gen.*" postag_regexp="yes"/>
               </marker>
               <token postag="num:.*acc.*:rec" postag_regexp="yes"/>
             </antipattern>
             <antipattern> <!-- na lat 5 -->
-              <token>na</token>
+              <token inflected="yes">nad</token>
               <marker>
                 <token postag=".*pl:gen.*" postag_regexp="yes"/>
               </marker>
@@ -9456,52 +9539,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
               <marker>
-              <token>na</token>
-              <token>koń</token>
+              <unify><feature id="case"><type id="inst"/><type id="acc"/></feature>
+              <token inflected="yes">nad</token>
+              <unify-ignore><token postag="adj.*gen.*" postag_regexp="yes" inflected="yes">który</token></unify-ignore>
+              <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+              </unify>
               </marker>
             </antipattern>
             <antipattern>
               <marker>
-              <unify><feature id="case"><type id="loc"/><type id="acc"/></feature>
-              <token>na</token>
-              <unify-ignore><token postag="adj.*gen.*" postag_regexp="yes" inflected="yes">który</token></unify-ignore>
-              <token postag="(:?subst|adj|ger|ppas|pact):.*" postag_regexp="yes"/>
+              <unify><feature id="case"><type id="inst"/><type id="acc"/></feature>
+              <token inflected="yes">nad</token>
+              <unify-ignore><token postag="ppron.*gen.*" postag_regexp="yes"/></unify-ignore>
+              <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
               </unify>
               </marker>
             </antipattern>
-            <antipattern case_sensitive="yes">
-            <marker>
-            <token>na</token>
-            <token>Anioł</token>
-            </marker>
-            <token>Pański</token>
-            </antipattern>
-            <antipattern> <!-- jest inna reguła -->
-              <token>na</token>
-              <marker>
-										<token>tą</token>
-              </marker>
-              <token postag="subst:pl:acc:f" regexp="yes">.+e<exception postag="subst:sg:acc:f"></exception></token>
-            </antipattern>
-         <pattern>
-          <token postag="prep.*" postag_regexp="yes">na</token>
+				  <pattern>
+          <token inflected="yes" postag="prep.*" postag_regexp="yes">nad<exception scope="previous">z</exception></token>
           <marker>
-          <token postag='(:?subst|adj|ppas|pact|ger):.*' postag_regexp='yes'>
-            <exception postag='(:?subst|adj|ppas|pact|ger):(.*acc.*|.*loc.*)' postag_regexp='yes'></exception>
-            <exception>stojaka</exception>
+          <token postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):.*' postag_regexp='yes'>
+            <exception postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):(.*acc.*|.*inst.*)' postag_regexp='yes'></exception>                          
             </token>
           </marker>
          </pattern>
-         <message>Ten przyimek jest używany z biernikiem lub miejscownikiem.</message>
+         <message>Ten przyimek jest używany z biernikiem lub narzędnikiem.</message>
          <short>Przyimek wymaga biernika lub miejscownika</short>
-         <example correction=''>Nie zależy mi na <marker>prędkością</marker>.</example>         
-         <example>Wąwóz, dość przy ujściu szeroki, zmieniał się w zamkniętą z obu boków pionowymi skałami kotlinkę, na której dnie rosło kilka drzew.</example>
-         <example>Następnie odmówił z Kubańczykami modlitwę na Anioł Pański i pobłogosławił kamień węgielny.</example>
-         <example>Czy autobus numer 19 jedzie na Main Street?</example>
-         <example>Dotkliwie przeżyła pierwsze (1935) aresztowania syna i męża (zwolniono ich po tygodniu), a potem drugie (1938) syna, skazanego wkrótce w pierwszej instancji na 10 lat obozu, a ostatecznie na lat 5.</example>
-         <example>Ja jestem z nim na per świnia.</example>
-         <example>W kuchni na stojaka zjada kanapki, nawet nie popijając.</example>
-        </rule>
+         <example correction=''>Stałem nad <marker>przepaściach</marker>.</example>
+         <!-- inna reguła -->
+         <example>Z nad tej marchwi wyłonił się królik.</example>
+				</rule>
 				<rule id="WIEKSZY_JAK" name="„większy/lepszy jak” (większy/lepszy od/niż)">
 						<pattern>
 								<token postag="adj.*:com" postag_regexp="yes"><exception inflected="yes" scope="previous">nie|nic</exception></token>
