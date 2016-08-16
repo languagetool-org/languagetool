@@ -3126,7 +3126,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		        <!-- <match no="2" postag="NN:Fem:.*" postag_regexp="yes"/> -->
 		        <!-- </suggestion> -->
 		        </message>
-		        <short>Грамматическая ошибка в согласовании падежей.</short>
+		        <short>Грамматическая ошибка в согласовании числа.</short>
 		        <example>Крепкие столы.</example>
 		        <example>Умные уже тут.</example>
 		        <example>Мы чужие друг другу.</example>
@@ -3139,6 +3139,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		        <example>После выходных проверю что сделано.</example>
 		        <!-- <example>Необходимы консультации как в двустороннем, так и в многостороннем форматах для успеха.</example> -->
 		        <example correction=""><marker>Железные кровать</marker>.</example>
+                <example>Вдали виднелись красивые сосны.</example>
+                <example correction="">Вдали виднелись <marker>красивые ёлка</marker>.</example>
+                <example>Мебель сделана из красивой сосны.</example>
+                <example correction="">Столы сделаны из <marker>красивой сосен</marker>.</example>
 
 	        </rule>
             <rule>
@@ -3303,51 +3307,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Вдали виднелось синее небо.</example>
                 <example correction="синее небо">Вдали виднелось <marker>синий небо</marker>.</example>
             </rule>
-            
-            <rule>
-                <pattern>
-                    <!--           ADJ:PL   NN:.*:PL    -->
-
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:.*"></exception></token>
-                    <marker>
-                        <unify>
-                          <feature id="case"> 
-                          </feature>
-                        <token postag="ADJ:PL:.*" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:PL:.*" postag_regexp="yes"></exception> <exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception>  </token>
-                        <token postag="NN:.*:.*:.*" skip="-1" postag_regexp="yes"><exception postag="NN:.*:PL:.*" postag_regexp="yes"></exception><exception postag="NN:.*:PL:.*" scope="next" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="next" regexp="yes">и|[\p{Punct}]</exception></token>
-                        </unify>
-                    </marker>
-                    <token regexp="yes">[.;]</token>
-                </pattern>
-                  
-                <message>Прилагательное не согласуется с существительным по числу.</message>
-                <url>http://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D0%BF%D1%80%D0%B8%D0%BB%D0%B0%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
-                <short>Грамматическая ошибка в согласовании по числу.</short>
-                <example>Вдали виднелись красивые сосны.</example>
-                <example correction="">Вдали виднелись <marker>красивые ёлка</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <!--           ADJ:!PL   NN:.*:Sin    -->
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:Sin:.*"></exception></token>
-                    <marker>
-                       <unify>
-                          <feature id="case"> 
-                          </feature>
-                        <token postag="ADJ:.*:(.*)" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:.*:(.*)" postag_regexp="yes"></exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="previous">и|или|но|да</exception></token>
-                        <token postag="NN:.*:.*:.*" skip="-1" postag_regexp="yes"><exception postag="NN:.*:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="next" regexp="yes">и|[\p{Punct}]</exception></token>
-                       </unify>
-                    </marker>
-                    <token regexp="yes">[.;]</token>
-                </pattern>     
-                <message>Прилагательное не согласуется с существительным по числу: <suggestion><match no="2" postag="ADJ:.*:(.*)" postag_regexp="yes" postag_replace="ADJ:PL:$1"></match> <match no="3"></match></suggestion></message>
-                <url>http://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D0%BF%D1%80%D0%B8%D0%BB%D0%B0%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
-                <short>Грамматическая ошибка в согласовании по числу.</short>
-                <example>Мебель сделана из красивой сосны.</example>
-                <example correction="красивых сосен">Столы сделаны из <marker>красивой сосен</marker>.</example>
-            </rule>
-            
-            
             
         </rulegroup>
         
