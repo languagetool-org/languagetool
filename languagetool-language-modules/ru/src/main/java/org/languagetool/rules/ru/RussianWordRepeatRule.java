@@ -43,6 +43,10 @@ public class RussianWordRepeatRule extends AdvancedWordRepeatRule {
     tempSet.add("а");
     tempSet.add("на");
     tempSet.add("в");
+    tempSet.add("минута");
+    tempSet.add("друг");
+    tempSet.add("час");
+    tempSet.add("секунда");
     EXC_WORDS = Collections.unmodifiableSet(tempSet);
   }
   /**
