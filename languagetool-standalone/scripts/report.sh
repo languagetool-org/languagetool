@@ -30,7 +30,16 @@ printf "LanguageToolFx Req: %'d\n" $FF >>$OUTFILE
 CHROME=`grep -c "chrome-extension" $TMPFILE`
 printf "Chrome Requests   : %'d\n" $CHROME >>$OUTFILE
 
-WEBEXT=`grep -c "webextension" $TMPFILE`
+WEBEXTFF=`grep -c "webextension-firefox" $TMPFILE`
+printf "WebExtension FF   : %'d\n" $WEBEXTFF >>$OUTFILE
+
+WEBEXTCHROME=`grep -c "webextension-chrome" $TMPFILE`
+printf "WebExtension Chr. : %'d\n" $WEBEXTCHROME >>$OUTFILE
+
+WEBEXTUNKNOWN=`grep -c "webextension-unknown" $TMPFILE`
+printf "WebExtension unkn.: %'d\n" $WEBEXTUNKNOWN >>$OUTFILE
+
+WEBEXT=`grep -c "webextension," $TMPFILE`
 printf "WebExtension Req  : %'d\n" $WEBEXT >>$OUTFILE
 
 ANDROID=`grep -c "androidspell" $TMPFILE`
