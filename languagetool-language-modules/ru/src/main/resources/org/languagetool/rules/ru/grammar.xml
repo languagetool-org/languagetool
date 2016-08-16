@@ -3089,10 +3089,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 			        <marker>
 				        <unify negate="yes">
 					        <feature id="number"/>
-					        <token postag="ADJ:.*"
+					        <token skip="10" postag="ADJ:.*"
 					               postag_regexp="yes">
 						        <exception scope="previous"
 						                   regexp="yes">,|и</exception>
+						        <exception scope="next" postag="ADJ:.*:T|ADV|PT:.*|NN:.*"
+						                   postag_regexp='yes'/>
 						        <exception postag="ADJ:.*:T|ADV|PT:.*|NN:.*"
 						                   postag_regexp='yes'/>
 						        <exception regexp="yes">полн.*|&color;|&nation;|&time;|&human;|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее</exception>
