@@ -180,6 +180,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="купил интересную книгу"><marker>купил интересую книгу</marker></example>
             <example>прочесть интересную книгу</example>
         </rule>
+        <rule id="Slovosoch_v_proshlom" name="Опечатка «в прошлом/в пошлом»">
+            <pattern>
+		<marker>
+                <token>в</token>
+                <token>пошлом</token>
+                </marker>
+                <token postag="VB:.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Опечатка: <suggestion>\1 прошлом</suggestion></message>
+            <short>Опечатка</short>
+            <example correction="в прошлом">Хотя <marker>в пошлом</marker> были предложены решения, мы только сегодня имеем результат.</example>
+            <example>Хотя в пошломбыли предложены решения, мы только сегодня имеем результат.</example>
+        </rule>
 	<rulegroup id="na_poverku" name="Логические ошибки «на поверку/на проверку»">
             <rule> 
                 <pattern>
