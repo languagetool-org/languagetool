@@ -3135,7 +3135,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            </rule>
         </rulegroup>
            
-        <rulegroup default="on" id="SoglasovanieG" name="Согласование существительного с прилагательным по роду/числу">
+        <rulegroup default="on" id="Soglasovanie_ADJ_NN" name="Согласование прилагательного с существительным">
 	        <rule id="Unify_Adj_NN_number">
 		        <pattern>
 			        <marker>
@@ -3311,110 +3311,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Эта <marker>пушистая кошкой</marker> грелась.</example>
                 <example>Вдали виднелось синее небо.</example>
                 <example correction="">Вдали виднелось <marker>синее неба</marker>.</example>
+                <example>Добротная усадьба.</example>
+                <example correction=""><marker>Добротная усадьбе</marker>.</example>
+                <example>Нет крепкого сна.</example>
+                <example correction="">Нет <marker>крепкому сна</marker>.</example>
+                <example>Вода стекала по мягкому жёлобу.</example>
+                <example correction="">Вода стекала по <marker>мягкого жёлобу</marker>.</example>
+                <example>Мы увидели бурную реку.</example>
+                <example correction="">Мы увидели <marker>бурной реку</marker>.</example>
+                <example>Они справились с бурной рекой</example>
+                <example correction="">Они справились с <marker>бурную рекой</marker>.</example>
+                <example>Они думали о родном доме.</example>
+                <example correction="">Они думали о <marker>родного доме</marker>.</example>
 	        </rule>
         </rulegroup>
 
-        <rulegroup default="on" id="SoglasovanieP" name="Согласование падежей">
-	        <rule>
-                <pattern>
-                    <!--           ADJ:.*:Nom   NN:.*:.*:Nom    -->
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:.*:Nom"></exception></token>
-                    <marker>
-                        <token postag="ADJ:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:.*:Nom" postag_regexp="yes"></exception><exception scope="previous" postag_regexp="yes" postag="NN:.*"></exception></token>
-                        <token postag="NN:(.*):(.*):.*" skip="-1" postag_regexp="yes"><exception postag="NN:.*:.*:Nom" postag_regexp="yes"></exception><exception scope="next" postag="NN:.*:.*:Nom" postag_regexp="yes"></exception></token>
-                    </marker>
-                    <token regexp="yes">[.;]</token>
-                </pattern>
-                <message>Прилагательное не согласуется с существительным по падежу: <suggestion><match no="2"></match> <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:Nom"></match></suggestion></message>
-                <url>http://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D0%BF%D1%80%D0%B8%D0%BB%D0%B0%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
-                <short>Грамматическая ошибка в согласовании падежей.</short>
-                <example>Добротная усадьба.</example>
-                <example correction="Добротная усадьба"><marker>Добротная усадьбе</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    
-                    <!--           ADJ:.*:R   NN:.*:.*:R    -->
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:.*:R"></exception></token>
-                    <marker>
-                        <token postag="ADJ:(.*):.*" postag_regexp="yes"><exception postag="ADJ:.*:R" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:(.*):.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*" postag_regexp="yes"></exception></token>
-                        <token postag="NN:.*:.*:R" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:R" postag_regexp="yes"></exception><exception negate_pos="yes" scope="next" postag="NN:.*:.*:R" postag_regexp="yes"></exception></token>
-                    </marker>
-                    <token regexp="yes">[.;]</token>
-                </pattern>               
-                <message>Прилагательное не согласуется с существительным по падежу: <suggestion><match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:R"></match> <match no="3"></match></suggestion></message>
-                <url>http://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D0%BF%D1%80%D0%B8%D0%BB%D0%B0%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
-                <short>Грамматическая ошибка в согласовании падежей.</short>
-                <example>Нет крепкого сна.</example>
-                <example correction="крепкого сна">Нет <marker>крепкому сна</marker>.</example>
-            </rule>
-            
-            <rule>
-                <pattern>
-                    <!--           ADJ:.*:D   NN:.*:.*:D    -->
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:.*:D"></exception></token>
-                    <marker>
-                        <token postag="ADJ:(.*):.*" postag_regexp="yes"><exception postag="ADJ:.*:D" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:(.*):.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*" postag_regexp="yes"></exception></token>
-                        <token postag="NN:.*:.*:D" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:D" postag_regexp="yes"></exception><exception negate_pos="yes" scope="next" postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>
-                    </marker>
-                    <token regexp="yes">[.;]</token>
-                </pattern>                
-                <message>Прилагательное не согласуется с существительным по падежу: <suggestion><match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:D"></match> <match no="3"></match></suggestion></message>
-                <url>http://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D0%BF%D1%80%D0%B8%D0%BB%D0%B0%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
-                <short>Грамматическая ошибка в согласовании падежей.</short>
-                <example>Вода стекала по мягкому жёлобу.</example>
-                <example correction="мягкому жёлобу">Вода стекала по <marker>мягкого жёлобу</marker>.</example>
-            </rule>
-            
-            <rule>
-                <pattern>
-                    <!--           ADJ:.*:V   NN:.*:.*:V    -->
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:.*:V"></exception></token>
-                    <marker>
-                        <token postag="ADJ:(.*):.*" postag_regexp="yes"><exception postag="ADJ:.*:V" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:(.*):.*" postag_regexp="yes"></exception><exception scope="previous" postag_regexp="yes" postag="NN:.*"></exception></token>
-                        <token postag="NN:.*:.*:V" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception negate_pos="yes" scope="next" postag="NN:.*:.*:V" postag_regexp="yes"></exception></token>
-                    </marker>
-                    <token regexp="yes">[.;]</token>
-                </pattern>               
-                <message>Прилагательное не согласуется с существительным по падежу: <suggestion><match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:V"></match> <match no="3"></match></suggestion></message>
-                <url>http://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D0%BF%D1%80%D0%B8%D0%BB%D0%B0%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
-                <short>Грамматическая ошибка в согласовании падежей.</short>
-                <example>Мы увидели бурную реку.</example>
-                <example correction="бурную реку">Мы увидели <marker>бурной реку</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <!--           ADJ:.*:T   NN:.*:.*:T    -->
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:.*:T"></exception></token>
-                    <marker>
-                        <token postag="ADJ:(.*):.*" postag_regexp="yes"><exception postag="ADJ:.*:T" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:(.*):.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*" postag_regexp="yes"></exception></token>
-                        <token postag="NN:.*:.*:T" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:T" postag_regexp="yes"></exception><exception negate_pos="yes" scope="next" postag="NN:.*:.*:T" postag_regexp="yes"></exception></token>
-                    </marker>
-                    <token regexp="yes">[.;]</token>
-                </pattern>                
-                <message>Прилагательное не согласуется с существительным по падежу: <suggestion><match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:T"></match> <match no="3"></match></suggestion></message>
-                <url>http://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D0%BF%D1%80%D0%B8%D0%BB%D0%B0%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
-                <short>Грамматическая ошибка в согласовании падежей.</short>
-                <example>Они справились с бурной рекой</example>
-                <example correction="бурной рекой|бурною рекой">Они справились с <marker>бурную рекой</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <!--           ADJ:.*:P   NN:.*:.*:P    -->
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:.*:.*:P"></exception></token>
-                    <marker>
-                        <token postag="ADJ:(.*):.*" postag_regexp="yes"><exception postag="ADJ:.*:P" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:(.*):.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*" postag_regexp="yes"></exception></token>
-                        <token postag="NN:.*:.*:P" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception negate_pos="yes" scope="next" postag="NN:.*:.*:P" postag_regexp="yes"></exception></token>
-                    </marker>
-                    <token regexp="yes">[.;]</token>
-                </pattern>
-                <message>Прилагательное не согласуется с существительным по падежу: <suggestion><match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:P"></match> <match no="3"></match></suggestion></message>
-                <url>http://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D0%BF%D1%80%D0%B8%D0%BB%D0%B0%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
-                <short>Грамматическая ошибка в согласовании падежей.</short>
-                <example>Они думали о родном доме.</example>
-                <example correction="родном доме">Они думали о <marker>родного доме</marker>.</example>
-            </rule>
-        </rulegroup>
         
         <rulegroup default="on" id="SoglasovaniePNN_Verb" name="Согласование подлежащего (местоимения) со сказуемым">
             <rule>
