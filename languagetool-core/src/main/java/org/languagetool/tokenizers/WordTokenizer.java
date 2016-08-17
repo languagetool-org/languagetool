@@ -111,10 +111,11 @@ public class WordTokenizer implements Tokenizer {
    * @since 3.5
    */
   protected List<String> joinEMails(List<String> list) {
-    String text = "";
+    StringBuilder sb = new StringBuilder();
     for(String str : list) {
-      text += str;
+      sb.append(str);
     }
+    String text = sb.toString();
     if (E_MAIL.matcher(text).find()) {
       Matcher matcher = E_MAIL.matcher(text);
       List<String> l = new ArrayList<>();
