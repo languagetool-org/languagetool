@@ -43,12 +43,16 @@ public class RussianWordRepeatRule extends AdvancedWordRepeatRule {
     tempSet.add("а");
     tempSet.add("на");
     tempSet.add("в");
+    tempSet.add("минута");
+    tempSet.add("друг");
+    tempSet.add("час");
+    tempSet.add("секунда");
     EXC_WORDS = Collections.unmodifiableSet(tempSet);
   }
   /**
    * Excluded part of speech classes.
    */
-  private static final Pattern EXC_POS = Pattern.compile("INTERJECTION|PRDC|PNN:.*");
+  private static final Pattern EXC_POS = Pattern.compile("INTERJECTION|PRDC|CONJ|PARTICLE|PNN:.*");
 
   /**
    * Excluded non-words (special symbols, Roman numerals etc.)

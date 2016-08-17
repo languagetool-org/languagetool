@@ -12245,14 +12245,18 @@ USA
         </rule>
         <rule id="FOR_ALL_INTENSIVE_PURPOSES" name="for all intensive purposes (for all intents and purposes)">
             <pattern>
-                <token>for</token>
+                <token regexp="yes">for|to</token>
                 <token>all</token>
-                <token>intensive</token>
+                <token regexp="yes">intensive|intense</token>
+                <token min="0">and</token>
                 <token>purposes</token>
             </pattern>
             <message>Did you mean <suggestion>\1 all intents and purposes</suggestion>?</message>
             <short>Possible typo</short>
             <example correction="for all intents and purposes">Well, not all of it, but <marker>for all intensive purposes</marker>, I read it.</example>
+            <example correction="To all intents and purposes"><marker>To all intensive and purposes</marker> the case is closed.</example>
+            <example correction="for all intents and purposes">Well, not all of it, but <marker>for all intense purposes</marker>, I read it.</example>
+            <example correction="To all intents and purposes"><marker>To all intense and purposes</marker> the case is closed.</example>
         </rule>
         <rulegroup id="KNOW_NOW" name="know (now)">
             <rule>
