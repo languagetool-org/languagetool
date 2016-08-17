@@ -40,6 +40,7 @@ public class WordTokenizer implements Tokenizer {
 
   private static final List<String> PROTOCOLS = Collections.unmodifiableList(Arrays.asList("http", "https", "ftp"));
   private static final Pattern URL_CHARS = Pattern.compile("[a-zA-Z0-9/%$-_.+!*'(),\\?]+");
+  private static final Pattern E_MAIL = Pattern.compile("\\b[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))\\b");
 
   private static final String TOKENIZING_CHARACTERS = "\u0020\u00A0\u115f" +
       "\u1160\u1680"
@@ -73,6 +74,10 @@ public class WordTokenizer implements Tokenizer {
     return false;
   }
 
+  public static boolean isEMail(String token) {
+    return E_MAIL.matcher(token).matches();
+  }
+
   public WordTokenizer() {
   }
 
@@ -93,6 +98,41 @@ public class WordTokenizer implements Tokenizer {
    */
   public String getTokenizingCharacters() {
     return TOKENIZING_CHARACTERS;
+  }
+
+  protected List<String> joinEMails(List<String> list) {
+	  String text = "";
+	  for(String str : list) {
+		  text += str;
+	  }
+	  if (E_MAIL.matcher(text).find()) {
+        Matcher matcher = E_MAIL.matcher(text);
+        StringTokenizer st;
+        List<String> l = new ArrayList<>();
+	    int currentPosition = 0, start, end;
+	    while (matcher.find()) {
+	      start = matcher.start();
+	      end = matcher.end();
+	      if ( currentPosition < start ) {
+	        String substring = text.substring(currentPosition, start);
+	        st = new StringTokenizer(substring, getTokenizingCharacters(), true);
+	        while (st.hasMoreElements()) {
+	          l.add(st.nextToken());
+	        }
+	      }
+	      l.add(matcher.group());
+	      currentPosition = end;
+	    }
+	    if (currentPosition < text.length() - 1) {
+	      String substring = text.substring(currentPosition, text.length());
+	      st = new StringTokenizer(substring, getTokenizingCharacters(), true);
+	      while (st.hasMoreElements()) {
+	        l.add(st.nextToken());
+	      }
+	    }
+	    return l;
+	  }
+	  return list;
   }
 
   // see rfc1738 and http://stackoverflow.com/questions/1856785/characters-allowed-in-a-url
