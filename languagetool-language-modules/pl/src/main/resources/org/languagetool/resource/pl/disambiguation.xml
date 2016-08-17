@@ -428,7 +428,7 @@
         <pattern>
             <token inflected="yes">litera</token>
             <marker>
-            <token case_sensitive="yes" regexp="yes">[AUI]</token>
+            <token case_sensitive="yes" regexp="yes">[AUIW]</token>
             </marker>
         </pattern>
         <disambig action="replace"><wd pos="subst:sg:nom:n2"/></disambig>
@@ -1181,6 +1181,20 @@
             <token postag="adj.*n1.*:pos" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
+    </rule>
+
+    <rule id="WOJ_BREV_ADJA" name="woj jako skrót">
+        <pattern>
+            <marker>
+                <token postag="brev:pun">woj</token>
+                <token spacebefore="no">.<exception postag="SENT_END"/></token>
+                <token postag="adja"/>
+                <token spacebefore="no">-</token>
+                <token postag="adj.*n1.*:pos" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="woj[woj/subst:sg:nom:m1,województwo/brev:pun,wojo/subst:pl:gen:n2]" outputform="woj[województwo/brev:pun]">Antonia - wieś w <marker>woj</marker>. warmińsko-mazurskim.</example>
     </rule>
 
     <rule id="uznac_za_acc" name="za po uznać wymaga biernika">
@@ -3685,9 +3699,11 @@
         <pattern>
             <token postag="subst:sg:nom.*(?:[mn]2|m3)" postag_regexp="yes"><exception postag_regexp="yes" postag="subst:sg:nom.*m1"/></token>
             <marker><token>myśli</token></marker>
+            <token><exception>sobie</exception></token>
         </pattern>
         <disambig postag="subst:sg:gen:f"/>
         <example type="untouched">Filozof myśli.</example>
+        <example type="untouched">Oto pluszowy miś myśli sobie, jak miło byłoby zjeść trochę miodu na śniadanie.</example>
         <example type="ambiguous" inputform="myśli[myśl/subst:pl:acc:f,myśl/subst:pl:gen:f,myśl/subst:pl:nom:f,myśl/subst:pl:voc:f,myśl/subst:sg:dat:f,myśl/subst:sg:gen:f,myśl/subst:sg:loc:f,myśl/subst:sg:voc:f,myśleć/verb:fin:sg:ter:imperf:nonrefl,myślić/verb:fin:sg:ter:imperf:nonrefl]"
                  outputform="myśli[myśl/subst:sg:gen:f]">Łączyło je samo tylko czyste uczucie i porozumienie <marker>myśli</marker>.</example>
     </rule>
@@ -4970,6 +4986,37 @@
             <example type="untouched">Łaciny używamy na co dzień.</example>
             <example type="ambiguous" inputform="impertynencji[impertynencja/subst:pl:gen:f,impertynencja/subst:sg:dat:f,impertynencja/subst:sg:gen:f,impertynencja/subst:sg:loc:f,impertynencje/subst:pl:gen:p3]"
                      outputform="impertynencji[impertynencja/subst:pl:gen:f,impertynencja/subst:sg:gen:f,impertynencje/subst:pl:gen:p3]">Posunął się do mniej lub dalej idącej <marker>impertynencji</marker>.</example>
+        </rule>
+
+        <rule id="prep_ppron_adja_adj">
+            <pattern>
+                <unify><feature id="case"><type id="loc"/><type id="gen"/><type id="dat"/><type id="inst"/><type id="acc"/></feature>
+                    <token postag="prep.*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <token postag="ppron.*gen.*" postag_regexp="yes"/>
+                        <token postag="adja"/>
+                        <token spacebefore="no">-</token>
+                    </unify-ignore>
+                    <token spacebefore="no" postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                </unify>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="ambiguous" inputform="niemieckich[niemiecki/adj:pl:acc:m1.p1:pos,niemiecki/adj:pl:gen:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,niemiecki/adj:pl:loc:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,niemiecki/subst:pl:gen:m3,niemiecki/subst:pl:loc:m3]" outputform="niemieckich[niemiecki/adj:pl:gen:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,niemiecki/subst:pl:gen:m3]">Piszę do jego polsko-<marker>niemieckich</marker> towarzyszy broni.</example>
+        </rule>
+
+        <rule id="prep_adja_adj">
+            <pattern>
+                <unify><feature id="case"><type id="loc"/><type id="gen"/><type id="dat"/><type id="inst"/><type id="acc"/></feature>
+                    <token postag="prep.*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <token postag="adja"/>
+                        <token spacebefore="no">-</token>
+                    </unify-ignore>
+                    <token spacebefore="no" postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                </unify>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="ambiguous" inputform="niemieckich[niemiecki/adj:pl:acc:m1.p1:pos,niemiecki/adj:pl:gen:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,niemiecki/adj:pl:loc:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,niemiecki/subst:pl:gen:m3,niemiecki/subst:pl:loc:m3]" outputform="niemieckich[niemiecki/adj:pl:gen:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,niemiecki/subst:pl:gen:m3]">Piszę do polsko-<marker>niemieckich</marker> towarzyszy broni.</example>
         </rule>
 
         <rule id="PREP_ADV_ADJ_ADJ_SUBST">
@@ -7387,6 +7434,16 @@
                  outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">Chyba <marker>jedna</marker> musiała być spokojna.</example>
     </rule>
 
+    <rule id="gen_dlugosci" name="adj:gen + długości ->gen">
+        <pattern>
+            <token postag="adj:sg:gen:f.*" postag_regexp="yes"/>
+            <token postag="subst:sg:gen:f">długości</token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Nici o nieskończonej długości</example>
+        <example type="ambiguous" inputform="nieskończonej[nieskończony/adj:sg:dat:f:pos,nieskończony/adj:sg:gen:f:pos,nieskończony/adj:sg:loc:f:pos,skończyć/ppas:sg:gen.dat.loc:f:perf:neg]" outputform="nieskończonej[nieskończony/adj:sg:gen:f:pos]">Te nici były <marker>nieskończonej</marker> długości.</example>
+    </rule>
+
     <rule id="dusze1" name="duszę + verb transitive = > dusza">
         <pattern>
             <marker>
@@ -8126,6 +8183,23 @@
             <marker><token>oka</token></marker>
         </pattern>
         <disambig postag="subst:sg:gen:n1"/>
+    </rule>
+
+    <rule id="na_stole" name="na stole">
+        <pattern>
+            <token postag="prep:loc">na</token>
+            <token postag="subst:sg:loc:m3">stole</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id="pewny_byc_gen" name="pewny + być + gen">
+        <pattern>
+            <token inflected="yes" postag="adj.*nom.*" postag_regexp="yes">pewny</token>
+            <token inflected="yes">być</token>
+            <token postag="(subst|adj).*gen.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <rule id="RADZI_BY_INF" name="radzi jako pred">

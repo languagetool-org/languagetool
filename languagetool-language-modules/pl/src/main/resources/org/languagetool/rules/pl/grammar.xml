@@ -358,9 +358,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <antipattern>
                                     <token>gotów</token>
                                 </antipattern>
+                                <antipattern>
+                                  <token postag="subst:sg:nom:n2">to<exception scope="previous" regexp="yes">jak|gdzie</exception></token>
+                                  <marker>
+                                  <token postag="verb:fin:sg:ter:imperf:nonrefl">jest</token>
+                                  </marker>
+                                </antipattern>
                                         <pattern>
                             <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1">
-                                                    <exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;|verb:winien.*" postag_regexp="yes" scope="current"/>
+                                                    <exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_ZNACZY&gt;|verb:winien.*" postag_regexp="yes" scope="current"/>
                                                     <exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception>
                                                 </token>
                             <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1">
@@ -2365,7 +2371,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token skip="-1">im</token>
                             <token postag="(adj|adv).*:com" postag_regexp="yes" skip="-1"></token>
                         <marker>
-                            <token>tym<exception scope="previous">,</exception></token>
+                            <token>tym<exception scope="previous" regexp="yes">[i,a]|czy|bądź|ani|lub|albo|oraz</exception></token>
                         </marker>
                             <token postag="(adj|adv).*:com" postag_regexp="yes"></token>
                     </pattern>
@@ -2373,13 +2379,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <short>Błąd interpunkcyjna</short>
                     <example>Im większa, tym lepiej.</example>
                     <example correction=", tym">Im większa<marker> tym</marker> lepiej.</example>
+                    <example>Im jest ono szersze, tym bogatsze są detale, dokładniej rozróżnialne są pragnienia, a tym gorzej jest, gdy pragnienia zostają udaremnione.</example>
                 </rule>
                 <rule>
                     <pattern>
                         <token skip="-1">im</token>
                         <token postag="(adj|adv).*:com" postag_regexp="yes" skip="-1"></token>
                         <marker>
-                            <token>tym<exception scope="previous">,</exception></token>
+                            <token>tym<exception scope="previous" regexp="yes">[i,a]|czy|bądź|ani|lub|albo|oraz</exception></token>
                         </marker>
                         <token regexp="yes">więcej|mniej</token>
                     </pattern>
@@ -8473,7 +8480,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction='żebyś przyznała'>Radził, <marker>żeby przyznałaś</marker> się do winy.</example>
                 <example correction="Gdybyś zrobił"><marker>Gdybyś zrobiłeś</marker> błąd, popraw go.</example>
             </rule>            
-                <rule id="ZOSTALO_ZROBIONE" name="Brak zgodności czasownika z imiesłowem (np. „zostało zrobiony”)">
+                <rulegroup id="ZOSTALO_ZROBIONE" name="Brak zgodności czasownika z imiesłowem (np. „zostało zrobiony”)">
                     <antipattern> <!-- dokonałbym ... był -->
                         <unify>
                             <feature id="number"/><feature id="gender"/>
@@ -8499,7 +8506,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </antipattern>
                     <antipattern> <!-- to jest zamiast unifikacji: wyjątek może trochę zbyt hojnie napisany, ale inaczej trzeba by mieć 2 x 9 reguł, pfuj -->
                         <marker>
-                        <token inflected='yes' postag='verb:praet:.*:ter.*' postag_regexp='yes'>być</token>
+                        <token inflected='yes' postag='verb:(praet|pot):.*:ter.*' postag_regexp='yes'>być</token>
                         </marker>
                         <token skip="10" postag='ppas:.*inst.*' postag_regexp='yes'><exception scope="next" postag="(?:comp|interp):comma" postag_regexp="yes"/></token>
                         <token postag_regexp="yes" postag="subst.*inst.*"/>
@@ -8511,10 +8518,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <marker><token inflected='yes' regexp='yes' postag='verb:praet:.*:.*:ter.*' postag_regexp='yes'>zostać|zostawać|być</token></marker>
                         </unify>
                     </antipattern>
+                <rule>
                     <pattern>
                     <unify negate="yes">
                         <feature id="gender"/><feature id="number"/>
-                        <token inflected='yes' regexp='yes' postag='verb:praet:.*:.*:ter.*' postag_regexp='yes'>zostać|zostawać|być</token>
+                        <token inflected='yes' regexp='yes' postag='verb:(praet|pot):.*:.*:ter.*' postag_regexp='yes'>zostać|zostawać|być</token>
                         <token postag='ppas:.*' postag_regexp='yes'><exception postag="ppas:pl:gen.loc.*" postag_regexp="yes"/></token>
                     </unify>
                 </pattern>
@@ -8529,6 +8537,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example>Odpowiedzi moje na jego zapytania były niewyczerpaną rozmów materią.</example>
                     <example>Kolumbowie jako sztuka o powstaniu warszawskim poprzedzeni zostali zorganizowaną nagonką polityczną reakcyjnego odłamu Polonii.</example>
                 </rule>
+                <rule>
+                    <antipattern>
+                    <unify><feature id="gender"/><feature id="number"/>
+                        <token inflected='yes' regexp='yes' postag='verb:(praet|pot):.*:.*:ter.*' postag_regexp='yes'>zostać|zostawać|być</token>
+                        <token postag="(adj|subst).*nom.*" postag_regexp="yes"/>
+                    </unify>
+                    </antipattern>
+                    <pattern>
+                    <unify negate="yes">
+                        <feature id="gender"/><feature id="number"/>
+                        <token postag='ppas:.*nom.*' postag_regexp='yes'><exception postag="ppas:pl:gen.loc.*" postag_regexp="yes"/></token>
+                        <token inflected='yes' regexp='yes' postag='verb:(praet|pot):.*:.*:ter.*' postag_regexp='yes'>zostać|zostawać|być</token>
+                    </unify>
+                </pattern>
+                    <message>Forma imiesłowu („\1”) nie jest zgodna z formą czasownika („\2”).</message>
+                    <short>Błąd gramatyczny</short>
+                    <example correction=""><marker>Zrobiony zostało</marker>.</example>
+                    <example>Kilka osób zostało zabitych.</example>
+                    <example>Został zrobiony.</example>
+                    <example>Spostrzegła była rozkochane spojrzenie.</example>
+                    <example>Daleko w przestrzeni widać było przymglony las Meudon.</example>
+                    <example>Eurycjusz nie był zmyśloną postacią.</example>
+                    <example>Odpowiedzi moje na jego zapytania były niewyczerpaną rozmów materią.</example>
+                    <example>Kolumbowie jako sztuka o powstaniu warszawskim poprzedzeni zostali zorganizowaną nagonką polityczną reakcyjnego odłamu Polonii.</example>
+                    <example>Na stole przygotowane było śniadanie.</example>
+                    <example>Pewien był wygranej, więc przyglądał się.</example>
+                    <example>Ale Darci był przezorny.</example>
+                    <example>Tu wszyscy poczęli mówić, jaką tragedią niesłychaną byłby obraz takiego miasta.</example>
+                    <example>Te nici były nieskończonej długości.</example>
+                </rule>
+                </rulegroup>
                 <rule id="KTOS_KTOREGO" name="„ktoś, którego” (czyjego, kogo)">
                     <pattern>
                         <token>ktoś</token>
@@ -9419,6 +9458,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                           </marker>
                           <token postag=".*acc.*|.*loc.*" postag_regexp="yes"/>
                         </antipattern>
+                        <antipattern> <!-- o jej północno-zachodniej części -->
+                        <marker>
+                        <unify><feature id="case"><type id="loc"/><type id="acc"/></feature>
+                        <token>o</token>
+                        <unify-ignore>
+                        <token postag="ppron.*gen.*" postag_regexp="yes"/>
+                        <token postag="adja"/>
+                        <token spacebefore="no">-</token>
+                        </unify-ignore>
+                        <token spacebefore="no" postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
                         <antipattern> <!-- o lat kilkanaście -->
                           <token>o</token>
                           <marker>
@@ -9488,6 +9540,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token>na</token>
                             <unify-ignore><token postag="adj.*gen.*" postag_regexp="yes" inflected="yes">który</token></unify-ignore>
                             <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                            </unify>
+                            </marker>
+                          </antipattern>
+                          <antipattern> <!-- na jej północno-zachodniej części -->
+                            <marker>
+                            <unify><feature id="case"><type id="loc"/><type id="acc"/></feature>
+                            <token inflected="yes">na</token>
+                            <unify-ignore>
+                            <token postag="ppron.*gen.*" postag_regexp="yes"/>
+                            <token postag="adja"/>
+                            <token spacebefore="no">-</token>
+                            </unify-ignore>
+                            <token spacebefore="no" postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
                             </unify>
                             </marker>
                           </antipattern>
@@ -9564,6 +9629,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </unify>
                         </marker>
                       </antipattern>
+                      <antipattern> <!-- nad jej północno-zachodnią częścią -->
+                        <marker>
+                        <unify><feature id="case"><type id="inst"/><type id="acc"/></feature>
+                        <token inflected="yes">nad</token>
+                        <unify-ignore>
+                        <token postag="ppron.*gen.*" postag_regexp="yes"/>
+                        <token postag="adja"/>
+                        <token spacebefore="no">-</token>
+                        </unify-ignore>
+                        <token spacebefore="no" postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
                     <pattern>
                     <token inflected="yes" postag="prep.*" postag_regexp="yes">nad<exception scope="previous">z</exception></token>
                     <marker>
@@ -9612,6 +9690,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </unify>
                         </marker>
                       </antipattern>
+                      <antipattern> <!-- w jej północno-zachodniej części -->
+                        <marker>
+                        <unify><feature id="case"><type id="loc"/><type id="acc"/></feature>
+                        <token inflected="yes">w</token>
+                        <unify-ignore>
+                        <token postag="ppron.*gen.*" postag_regexp="yes"/>
+                        <token postag="adja"/>
+                        <token spacebefore="no">-</token>
+                        </unify-ignore>
+                        <token spacebefore="no" postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
                       <antipattern> <!-- inna reguła -->
                       <token>w</token>
                       <token>/</token>
@@ -9631,6 +9722,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                <example correction=''>To się działo w <marker>twoi</marker> mózgu.</example>
                <example>W Victorii było zamknięte, w Grand Hotelu także.</example>
                <example>Wykonujemy zalewę z w/w składników.</example>
+               <example>Obszary nizinne występują w jej północno-zachodniej części.</example>
+               <example>W średniowieczu pojawia się litera W powstała z podwojonego V oznaczającego samogłoskę /U/.</example>
         </rule> 
 				<rule id="WIEKSZY_JAK" name="„większy/lepszy jak” (większy/lepszy od/niż)">
 						<pattern>
@@ -19474,6 +19567,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <short>Prawdopodobna literówka</short>
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
+        </rule>
+        <rule id="OGROMY_OGROMNY" name="„ogromy” (ogromny)">
+         <pattern>
+          <marker>
+          <token>ogromy</token>
+          </marker>
+          <token postag='subst:sg:(acc|nom):m3|subst:sg:nom:m[21]' postag_regexp='yes'></token>
+         </pattern>
+         <message>Prawdopodobna literówka. Czy chodziło o <suggestion>ogromny</suggestion>?</message>
+         <short>Prawdopodobna literówka</short>
+         <example correction='ogromny'>Patrzę na <marker>ogromy</marker> dom.</example>
+         <example>Patrzę na ogromny dom.</example>
         </rule>
         <rule id="W_PRZEPADKU_W_PRZYPADKU" name="„W przepadku” (w przypadku)">
          <pattern>
