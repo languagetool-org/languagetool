@@ -88,7 +88,7 @@ public class WordTokenizer implements Tokenizer {
     while (st.hasMoreElements()) {
       l.add(st.nextToken());
     }
-    return joinUrls(joinEMails(l));
+    return joinEMailsAndUrls(l);
   }
 
   /**
@@ -100,38 +100,42 @@ public class WordTokenizer implements Tokenizer {
     return TOKENIZING_CHARACTERS;
   }
 
+  protected List<String> joinEMailsAndUrls(List<String> list) {
+    return joinUrls(joinEMails(list));
+  }
+  
   protected List<String> joinEMails(List<String> list) {
-	  String text = "";
-	  for(String str : list) {
-		  text += str;
-	  }
-	  if (E_MAIL.matcher(text).find()) {
-        Matcher matcher = E_MAIL.matcher(text);
-        List<String> l = new ArrayList<>();
+    String text = "";
+    for(String str : list) {
+      text += str;
+    }
+    if (E_MAIL.matcher(text).find()) {
+      Matcher matcher = E_MAIL.matcher(text);
+      List<String> l = new ArrayList<>();
 	    int currentPosition = 0, start, end;
 	    while (matcher.find()) {
-	      start = matcher.start();
-	      end = matcher.end();
-	      if ( currentPosition < start ) {
-	        String substring = text.substring(currentPosition, start);
-	        StringTokenizer st = new StringTokenizer(substring, getTokenizingCharacters(), true);
-	        while (st.hasMoreElements()) {
-	          l.add(st.nextToken());
-	        }
-	      }
-	      l.add(matcher.group());
-	      currentPosition = end;
-	    }
-	    if (currentPosition < text.length() - 1) {
-	      String substring = text.substring(currentPosition, text.length());
-	      StringTokenizer st = new StringTokenizer(substring, getTokenizingCharacters(), true);
-	      while (st.hasMoreElements()) {
-	        l.add(st.nextToken());
-	      }
-	    }
-	    return l;
-	  }
-	  return list;
+        start = matcher.start();
+        end = matcher.end();
+        if ( currentPosition < start ) {
+          String substring = text.substring(currentPosition, start);
+          StringTokenizer st = new StringTokenizer(substring, getTokenizingCharacters(), true);
+          while (st.hasMoreElements()) {
+            l.add(st.nextToken());
+          }
+        }
+        l.add(matcher.group());
+        currentPosition = end;
+      }
+      if (currentPosition < text.length() - 1) {
+        String substring = text.substring(currentPosition, text.length());
+        StringTokenizer st = new StringTokenizer(substring, getTokenizingCharacters(), true);
+        while (st.hasMoreElements()) {
+          l.add(st.nextToken());
+        }
+      }
+      return l;
+    }
+    return list;
   }
 
   // see rfc1738 and http://stackoverflow.com/questions/1856785/characters-allowed-in-a-url

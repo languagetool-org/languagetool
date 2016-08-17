@@ -190,7 +190,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
         l.addAll(wordsToAdd(s));
       }
     }
-    return joinUrls(l);
+    return joinEMailsAndUrls(l);
   }
 
   /* Splits a word containing hyphen(-) if it doesn't exist in the dictionary. */
