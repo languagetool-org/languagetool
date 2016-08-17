@@ -39,8 +39,11 @@ Copyright (C) 2009-2012 Yakov Reztsov
         <disambig><match no="2" postag="NN:.*:.*:V" postag_regexp="yes"></match></disambig>
     </rule>
     <rule name="NOUN_V2" id="NOUN_V2">
-        <pattern>
-            <token regexp="yes" skip="1">за|под</token>
+	    <pattern>
+		    <!-- TODO за боль should be NN:Fem:Sin:Nom  -->
+		    <!-- Что за головная боль! -->
+            <!-- <token regexp="yes" skip="1">за|под</token> -->
+            <token  skip="1">под</token>
             <marker>
                 <and>
                     <token postag="NN:.*:.*:Nom" postag_regexp="yes"></token>
@@ -95,7 +98,10 @@ Copyright (C) 2009-2012 Yakov Reztsov
         <pattern>
             <!-- с  - родительный, винительный, творительный -->
             <!-- под  - винительный, творительный   -->
-            <token regexp="yes">под|подо|над|перед</token>
+            <!-- TODO проливной is ADJ:.*:V -->
+            <!-- 		    Я не хочу попасть под проливной дождь. -->
+            <!-- <token regexp="yes">под|подо|над|перед</token> -->
+            <token regexp="yes">подо|над|перед</token>
             <marker>
                 <and>
                     <token postag="ADJ:.*:R" postag_regexp="yes"></token>
@@ -107,7 +113,12 @@ Copyright (C) 2009-2012 Yakov Reztsov
     </rule>
     <rule name="ADJ_V" id="ADJ_V">
         <pattern>
-            <token regexp="yes">в|за|на|под|сквозь|через</token>
+            <!-- TODO improve за -->
+            <!-- Что за странный парень! Should leave ADJ:.*:Nom -->
+            <!-- TODO в законные should be ADJ:PL:Nom  -->
+            <!-- Берёшь ли ты, Мэри, этого мужчину в законные мужья и клянёшься любить -->
+            <!-- <token regexp="yes">в|за|на|под|сквозь|через</token> -->
+            <token regexp="yes">на|под|сквозь|через</token>
             <marker>
                 <and>
                     <token postag="ADJ:.*:Nom" postag_regexp="yes"></token>
@@ -118,8 +129,11 @@ Copyright (C) 2009-2012 Yakov Reztsov
         <disambig><match no="2" postag="ADJ:.*:V" postag_regexp="yes"></match></disambig>
     </rule>
     <rule name="ADJ_V2" id="ADJ_V2">
-        <pattern>
-            <token regexp="yes">за|под</token>
+	    <pattern>
+		    <!-- TODO милые should stay .*:Nom -->
+	        <!-- Что они за милые щеночки! -->
+	        <!-- <token regexp="yes">за|под</token> -->
+            <token>под</token>
             <marker>
                 <and>
                     <token postag="ADJ:.*:Nom" postag_regexp="yes"></token>
