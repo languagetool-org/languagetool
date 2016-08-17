@@ -143,6 +143,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
            token.isImmunized() ||
            token.isIgnoredBySpeller() ||
            isUrl(token.getToken()) ||
+           isEMail(token.getToken()) ||
            (ignoreTaggedWords && token.isTagged()) ||
            ignoreToken(tokens, idx);
   }

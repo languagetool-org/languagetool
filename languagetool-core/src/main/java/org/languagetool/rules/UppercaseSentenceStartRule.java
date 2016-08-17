@@ -130,7 +130,7 @@ public class UppercaseSentenceStartRule extends Rule {
       preventError = true;
     }
     
-    if (isUrl(checkToken)) {
+    if (isUrl(checkToken) || isEMail(checkToken)) {
       preventError = true;
     }
 
@@ -171,6 +171,6 @@ public class UppercaseSentenceStartRule extends Rule {
   }
 
   protected boolean isEMail(String token) {
-    return WordTokenizer.isUrl(token);
+    return WordTokenizer.isEMail(token);
   }
 }

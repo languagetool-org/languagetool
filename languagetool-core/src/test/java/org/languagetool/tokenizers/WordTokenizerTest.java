@@ -50,6 +50,16 @@ public class WordTokenizerTest {
   }
 
   @Test
+  public void testIsEMail() {
+    assertTrue(WordTokenizer.isEMail("martin.mustermann@test.de"));
+    assertTrue(WordTokenizer.isEMail("martin.mustermann@test.languagetool.de"));
+    assertTrue(WordTokenizer.isEMail("martin-mustermann@test.com"));
+    assertFalse(WordTokenizer.isEMail("@test.de"));
+    assertFalse(WordTokenizer.isEMail("f.test@test"));
+    assertFalse(WordTokenizer.isEMail("f@t.t"));
+  }
+
+  @Test
   public void testUrlTokenize() {
     assertEquals("This| |http://foo.org| |blah", tokenize("This http://foo.org blah"));
     assertEquals("This| |http://foo.org| |and| |ftp://bla.com| |blah", tokenize("This http://foo.org and ftp://bla.com blah"));

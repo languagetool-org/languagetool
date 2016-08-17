@@ -147,7 +147,7 @@ public class HunspellRule extends SpellingCheckRule {
     AnalyzedTokenReadings[] sentenceTokens = getSentenceWithImmunization(sentence).getTokens();
     for (int i = 1; i < sentenceTokens.length; i++) {
       String token = sentenceTokens[i].getToken();
-      if (isUrl(token) || sentenceTokens[i].isImmunized() || sentenceTokens[i].isIgnoredBySpeller()) {
+      if (isUrl(token) || isEMail(token) || sentenceTokens[i].isImmunized() || sentenceTokens[i].isIgnoredBySpeller()) {
         // replace URLs and immunized tokens with whitespace to ignore them for spell checking:
         for (int j = 0; j < token.length(); j++) {
           sb.append(' ');

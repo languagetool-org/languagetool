@@ -88,7 +88,7 @@ public class WordTokenizer implements Tokenizer {
     while (st.hasMoreElements()) {
       l.add(st.nextToken());
     }
-    return joinUrls(l);
+    return joinUrls(joinEMails(l));
   }
 
   /**
