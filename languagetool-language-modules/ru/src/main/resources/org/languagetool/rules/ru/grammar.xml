@@ -5358,6 +5358,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Южнокорейский консорциум может поучаствовать в проекте.</example>
             <example correction="поучаствовать">Южнокорейский консорциум может <marker>по участвовать</marker> в проекте.</example>
         </rule>
+        <rule id="Potok_and_Noun" name="Словосочетание «поток» и существительное">
+	        <pattern>
+	            <token inflected="yes" regexp="yes">поток|направление<and><exception scope="previous" postag="VB:.*" postag_regexp="yes" /><exception regexp="yes">поток(ом|ами)</exception></and><and><exception scope="previous" postag="ADJ:.*:P|PADJ:.*:P" postag_regexp="yes" /><exception regexp="yes">направлен(ии|иях)</exception></and></token>
+                <token postag_regexp="yes" postag="NN:.*">
+                <exception postag_regexp="yes" postag="NN:.*:(R|T)"></exception>
+                <exception negate="yes" case_sensitive="yes" regexp="yes">[а-я].*</exception>
+                </token>
+            </pattern>
+            <message>После слов "поток" и "направление"
+            существительные используются в родительном и творительном падеже.</message>
+            <short>Словосочетание «поток» и существительное</short>
+            <example correction=""><marker>Направление движению</marker></example>
+            <example correction="">По <marker>направлению движению</marker></example>
+            <example correction="">Линия <marker>потока энергия</marker></example>
+            <example correction=""> <marker>Поток энергия</marker></example>
+            <example>Указал направление рукой</example>
+            <example>Поток энергии</example>
+            <example>Поток стрелой устремился вниз с горы</example>
+            <example>Направление Голова</example>
+        </rule>
         
         <rule id="V_TECHENII" name="Словосочетание «в течении реки»">
             <pattern>
