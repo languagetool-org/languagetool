@@ -191,7 +191,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Опечатка: <suggestion>\1 прошлом</suggestion></message>
             <short>Опечатка</short>
             <example correction="в прошлом">Хотя <marker>в пошлом</marker> были предложены решения, мы только сегодня имеем результат.</example>
-            <example>Хотя в пошлом были предложены решения, мы только сегодня имеем результат.</example>
+            <example>Хотя в прошлом были предложены решения, мы только сегодня имеем результат.</example>
         </rule>
 	<rulegroup id="na_poverku" name="Логические ошибки «на поверку/на проверку»">
             <rule> 
@@ -4271,6 +4271,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="невзирая на">Премия в этом году состоялась <marker>не взирая на</marker> кризис.</example>
             </rule>
         </rulegroup>
+        <rule id="TO_JE" name="«Тоже/то же">
+            <pattern>
+                <token>тоже<exception postag="NN:.*:.*:.*" postag_regexp="yes" scope="previous"></exception></token>
+                <token postag="NN:Neut:.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Пишется раздельно</message>
+            <short>Пишется раздельно.</short>
+            <example correction="">Буду в <marker>тоже время</marker>.</example>
+            <example>Буду в то же время.</example>
+            <example>Сосна тоже дерево, только хвойное.</example>
+        </rule>
+        
+        
         <rulegroup default="on" id="i_tak_dalee" name="«И так далее»">
             <rule>
                 <pattern case_sensitive="no">
@@ -5373,14 +5386,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="Potok_and_Noun" name="Словосочетание «поток» и существительное">
 	        <pattern>
-	            <token inflected="yes" regexp="yes">поток|направление<and><exception scope="previous" postag="VB:.*" postag_regexp="yes" /><exception regexp="yes">поток(ом|ами)</exception></and><and><exception scope="previous" postag="ADJ:.*:P|PADJ:.*:P" postag_regexp="yes" /><exception regexp="yes">направлен(ии|иях)</exception></and></token>
+	            <token inflected="yes" regexp="yes">поток|направление<exception scope="previous" postag="VB:.*" postag_regexp="yes" /><exception regexp="yes">поток(ом|ами)</exception><exception scope="previous" postag="ADJ:.*:P|PADJ:.*:P" postag_regexp="yes" /><exception regexp="yes">направлен(ии|иях)</exception></token>
                 <token postag_regexp="yes" postag="NN:.*">
                 <exception postag_regexp="yes" postag="NN:.*:(R|T)"></exception>
                 <exception negate="yes" case_sensitive="yes" regexp="yes">[а-я].*</exception>
                 </token>
             </pattern>
-            <message>После слов "поток" и "направление"
-            существительные используются в родительном и творительном падеже.</message>
+            <message>После слов "поток" и "направление" существительные используются в родительном и творительном падеже.</message>
             <short>Словосочетание «поток» и существительное</short>
             <example correction=""><marker>Направление движению</marker></example>
             <example correction="">По <marker>направлению движению</marker></example>
