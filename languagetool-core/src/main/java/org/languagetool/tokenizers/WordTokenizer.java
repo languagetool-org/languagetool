@@ -74,6 +74,9 @@ public class WordTokenizer implements Tokenizer {
     return false;
   }
 
+  /**
+   * @since 3.5
+   */
   public static boolean isEMail(String token) {
     return E_MAIL.matcher(token).matches();
   }
@@ -103,7 +106,10 @@ public class WordTokenizer implements Tokenizer {
   protected List<String> joinEMailsAndUrls(List<String> list) {
     return joinUrls(joinEMails(list));
   }
-  
+
+  /**
+   * @since 3.5
+   */
   protected List<String> joinEMails(List<String> list) {
     String text = "";
     for(String str : list) {
