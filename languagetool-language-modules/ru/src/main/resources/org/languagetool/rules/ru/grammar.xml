@@ -3064,7 +3064,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            </rule>
         </rulegroup>
            
-        <rulegroup default="on" id="SoglasovanieP" name="Согласование падежей">
+        <rulegroup default="on" id="SoglasovanieG" name="Согласование существительного с прилагательным по роду/числу">
 	        <rule id="Unify_Adj_NN_number">
 		        <pattern>
 			        <marker>
@@ -3076,7 +3076,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						                   regexp="yes">,|и</exception>
 						        <exception postag="ADJ:.*:T|ADV|PT:.*|NN:.*"
 						                   postag_regexp='yes'/>
-						        <exception regexp="yes">полн.*|&color;|&nation;|&time;|&human;|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
+						        <exception regexp="yes">полн.*|&nation;|&time;|&human;|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
 					        </token>
 					        <token postag="NN:.*" postag_regexp="yes">
 						        <exception regexp="yes">друг|уже</exception>
@@ -3136,11 +3136,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						                   regexp="yes">,<!-- |и --></exception>
 						        <exception postag="ADJ:.*:T|ADV|PT:.*|NN:.*|ADJ_Sup"
 						                   postag_regexp='yes'/>
-						        <exception regexp="yes">полн.*|&color;|&nation;|&time;|&human;|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|мобильного<!-- |зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное --></exception>
+						        <exception regexp="yes">полн.*|&nation;|&time;|&human;|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|мобильного<!-- |зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное --></exception>
 						        <exception case_sensitive="yes">Божию</exception>
 					        </token>
 					        <token postag="NN:.*" postag_regexp="yes">
-						        <exception regexp="yes">друг|уже|уж|при|мировой|молодой|куплю|байке|лажа|лазанью</exception>
+						        <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
 						        <exception case_sensitive="yes">Tом</exception>
 						        <exception regexp="yes">&dual;</exception>
 					        </token>
@@ -3165,6 +3165,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		        <example>Белый стул.</example>
 		        <example>Больных гриппом просим не входить.</example>
 		        <example>Если загорелся зелёный машинам, то можно ехать.</example>
+		        <example>Если загорелся зелёный кошке, то ехать нельзя.</example>
 		        <example>Преподавать русский инострацам сложно.</example>
 		        <example>Корзина была полная ягод.</example>
 		        <example>Воспользуемся средним чисел а и б.</example>
@@ -3175,8 +3176,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Мебель сделана из красивой сосны.</example>
                 <example correction="">Столы сделаны из <marker>красивой дубов</marker>.</example>
                 <example correction=""><marker>Твердолобая тори</marker>.</example>
+                <example>Был построен добротный дом.</example>
+                <example correction="">Был построен <marker>добротная дом</marker>.</example>
+                <example>Пушистая кошка грелась на солнышке.</example>
+                <example correction="">Эта <marker>пушистое кошка</marker> грелась.</example>
+                <example>Вдали виднелось синее небо.</example>
+                <example correction="">Вдали виднелось <marker>синий небо</marker>.</example>
 	        </rule>
-	        
+        </rulegroup>
+
+        <rulegroup default="on" id="SoglasovanieP" name="Согласование падежей">
 	        <rule>
                 <pattern>
                     <!--           ADJ:.*:Nom   NN:.*:.*:Nom    -->
@@ -3276,70 +3285,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Они думали о родном доме.</example>
                 <example correction="родном доме">Они думали о <marker>родного доме</marker>.</example>
             </rule>
-        </rulegroup>
-        <rulegroup default="on" id="SoglasovanieG" name="Согласование существительного с прилагательным по роду/числу">
-            <rule>
-                
-                <pattern>
-                    <!--           ADJ:Masc   NN:Masc    -->
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:Masc:Sin:.*"></exception></token>
-                    <marker>
-                       <unify>
-                          <feature id="case"> 
-                          </feature>
-                        <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:Masc:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
-                        <token postag="NN:Masc:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Masc:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
-                      </unify>
-                    </marker>
-                    <token regexp="yes">[.;]</token>
-                </pattern>               
-                <message>Прилагательное не согласуется с существительным по роду: <suggestion><match no="2" postag="ADJ:.*:(.*)" postag_regexp="yes" postag_replace="ADJ:Masc:$1"></match> <match no="3"></match></suggestion></message>
-                <url>http://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D0%BF%D1%80%D0%B8%D0%BB%D0%B0%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
-                <short>Грамматическая ошибка в согласовании по роду.</short>
-                <example>Был построен добротный дом.</example>
-                <example correction="добротный дом">Был построен <marker>добротная дом</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>  
-                    <!--           ADJ:Fem   NN:Fem    -->
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:Fem:Sin:.*"></exception></token>
-                    <marker>
-                     <unify>
-                            <feature id="case"> 
-                            </feature>
-                        <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:Fem:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
-                        <token postag="NN:Fem:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Fem:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
-                     </unify>
-                    </marker>
-                    <token regexp="yes">[.;]</token>
-                </pattern>               
-                <message>Прилагательное не согласуется с существительным по роду: <suggestion><match no="2" postag="ADJ:.*:(.*)" postag_regexp="yes" postag_replace="ADJ:Fem:$1"></match> <match no="3"></match></suggestion></message>
-                <url>http://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D0%BF%D1%80%D0%B8%D0%BB%D0%B0%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
-                <short>Грамматическая ошибка в согласовании по роду.</short>
-                <example>Пушистая кошка грелась на солнышке.</example>
-                <example correction="пушистая кошка|пушистую кошка">Эта <marker>пушистое кошка</marker> грелась.</example>
-            </rule>
-            <rule>
-                <pattern>  
-                    <!--           ADJ:Neut   NN:Neut    -->
-                    <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:Neut:Sin:.*"></exception></token>
-                    <marker>
-                      <unify>
-                          <feature id="case"> 
-                          </feature>
-                        <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:Neut:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
-                        <token postag="NN:Neut:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Neut:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
-                      </unify>
-                    </marker>
-                    <token regexp="yes">[.;]</token>
-                </pattern>
-                <message>Прилагательное не согласуется с существительным по роду: <suggestion><match no="2" postag="ADJ:.*:(.*)" postag_regexp="yes" postag_replace="ADJ:Neut:$1"></match> <match no="3"></match></suggestion></message>
-                <url>http://ru.wikipedia.org/wiki/%D0%98%D0%BC%D1%8F_%D0%BF%D1%80%D0%B8%D0%BB%D0%B0%D0%B3%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D0%B2_%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5</url>
-                <short>Грамматическая ошибка в согласовании по роду.</short>
-                <example>Вдали виднелось синее небо.</example>
-                <example correction="синее небо">Вдали виднелось <marker>синий небо</marker>.</example>
-            </rule>
-            
         </rulegroup>
         
         <rulegroup default="on" id="SoglasovaniePNN_Verb" name="Согласование подлежащего (местоимения) со сказуемым">
