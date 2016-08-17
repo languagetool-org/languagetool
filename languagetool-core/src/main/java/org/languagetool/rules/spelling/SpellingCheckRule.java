@@ -189,6 +189,10 @@ public abstract class SpellingCheckRule extends Rule {
   protected boolean isUrl(String token) {
     return WordTokenizer.isUrl(token);
   }
+
+  protected boolean isEMail(String token) {
+    return WordTokenizer.isEMail(token);
+  }
   
   protected void init() throws IOException {
     for (String ignoreWord : wordListLoader.loadWords(getIgnoreFileName())) {

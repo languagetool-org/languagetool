@@ -107,7 +107,6 @@ public class WordTokenizer implements Tokenizer {
 	  }
 	  if (E_MAIL.matcher(text).find()) {
         Matcher matcher = E_MAIL.matcher(text);
-        StringTokenizer st;
         List<String> l = new ArrayList<>();
 	    int currentPosition = 0, start, end;
 	    while (matcher.find()) {
@@ -115,7 +114,7 @@ public class WordTokenizer implements Tokenizer {
 	      end = matcher.end();
 	      if ( currentPosition < start ) {
 	        String substring = text.substring(currentPosition, start);
-	        st = new StringTokenizer(substring, getTokenizingCharacters(), true);
+	        StringTokenizer st = new StringTokenizer(substring, getTokenizingCharacters(), true);
 	        while (st.hasMoreElements()) {
 	          l.add(st.nextToken());
 	        }
@@ -125,7 +124,7 @@ public class WordTokenizer implements Tokenizer {
 	    }
 	    if (currentPosition < text.length() - 1) {
 	      String substring = text.substring(currentPosition, text.length());
-	      st = new StringTokenizer(substring, getTokenizingCharacters(), true);
+	      StringTokenizer st = new StringTokenizer(substring, getTokenizingCharacters(), true);
 	      while (st.hasMoreElements()) {
 	        l.add(st.nextToken());
 	      }

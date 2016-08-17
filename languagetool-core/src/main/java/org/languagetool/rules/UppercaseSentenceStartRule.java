@@ -170,4 +170,7 @@ public class UppercaseSentenceStartRule extends Rule {
     return WordTokenizer.isUrl(token);
   }
 
+  protected boolean isEMail(String token) {
+    return WordTokenizer.isUrl(token);
+  }
 }
