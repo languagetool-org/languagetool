@@ -13772,6 +13772,18 @@ USA
     <!-- Nonstandard Phrases -->
     <!-- ====================================================================== -->
     <category id="NONSTANDARD_PHRASES" name="Nonstandard Phrases" type="misspelling">
+      <rule id="I_NEVER_HAVE_BEEN" name="I never have been (I have never been)">
+          <pattern>
+              <token>I</token>
+              <marker>
+                  <token>never</token>
+                  <token>have</token>
+              </marker>
+              <token>been</token>
+          </pattern>
+          <message>Althoug not incorrect, the word order <suggestion>have never</suggestion> is preferred by native speakers.</message>
+          <example correction='have never'>I <marker>never have</marker> been to London.</example>
+      </rule>
       <rule id="FROM_X_Y" name="from X - Y (from X to Y)">
        <antipattern><!-- https://en.wikipedia.org/wiki/Foot_(unit) -->
         <token regexp='yes'>\d+</token>
