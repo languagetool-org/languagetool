@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.169 2016-08-15 14:57:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.170 2016-08-18 04:30:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -1950,32 +1950,30 @@ $Id: grammar.xml,v 1.169 2016-08-15 14:57:00 marcoagpinto Exp $
     <!-- HÁ n SEGUNDOS/MINUTOS/HORAS/DIAS/SEMANAS/MESES/ANOS ATRÁS (remove "ATRÁS") -->
     <rule id="HÁ-ATRÁS" name="há n tempo atrás">
       <pattern>
-		<token>há</token>
-		<token></token>
+        <token skip="-1">há</token>
         <token regexp="yes">segundos?|minutos?|horas?|dias?|semanas?|mês|meses|anos?</token>
-		<token>atrás</token>
+        <token>atrás</token>
       </pattern>
-	  <message>Com o verbo haver não é necessário usar "atrás": <suggestion>\1 \2 \3</suggestion>.</message>
-	  <example correction="Há n segundos"><marker>Há n segundos atrás</marker>.</example>
+      <message>Com o verbo haver não é necessário usar "atrás": <suggestion><match no="1" include_skipped="all"/> <match no="2"/></suggestion>.</message>
+      <example correction="Há n segundos"><marker>Há n segundos atrás</marker>.</example>
     </rule>
 
 
-	
+
     <!-- À QUASE há quase -->
     <rule id="À_QUASE" name="há quase">
       <pattern>
 		<marker>
 			<token>à</token>		
-			<token>quase</token>
-		</marker>	
-		<token></token>
-        <token regexp="yes">segundos?|minutos?|horas?|dias?|mês|meses|anos?</token>
+		</marker>			
+		<token skip="-1">quase</token>		
+        <token regexp="yes">segundos?|minutos?|horas?|dias?|semanas?|mês|meses|anos?</token>
       </pattern>
-	  <message>Substituir «à quase» por <suggestion>há quase</suggestion>.</message>
-	  <example correction="há quase">Conheço a Ana <marker>à quase</marker> 30 anos.</example>
+	  <message>Substituir «à» por <suggestion>há</suggestion>.</message>
+	  <example correction="há">Conheço a Ana <marker>à</marker> quase 30 anos.</example>
     </rule>	
 
-	
+
 
     <!-- HÁS VEZES às vezes -->
     <rule id="HÁS_VEZES" name="às vezes">
