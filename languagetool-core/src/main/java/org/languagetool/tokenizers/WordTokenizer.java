@@ -130,7 +130,7 @@ public class WordTokenizer implements Tokenizer {
         l.add(matcher.group());
         currentPosition = end;
       }
-      if (currentPosition < text.length() - 1) {
+      if (currentPosition < text.length()) {
         String substring = text.substring(currentPosition, text.length());
         l.addAll(tokenize(substring));
       }

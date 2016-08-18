@@ -31,6 +31,12 @@ public class CatalanWordTokenizerTest {
   public void testTokenize() {
     CatalanWordTokenizer wordTokenizer = new CatalanWordTokenizer();
     List<String> tokens;
+    tokens = wordTokenizer.tokenize("L'origen de name@example.com.");
+    assertEquals(tokens.size(), 7);
+    assertEquals("[L', origen,  , de,  , name@example.com, .]", tokens.toString());
+    tokens = wordTokenizer.tokenize("L'origen de name@example.com i de name2@example.com.");
+    assertEquals(tokens.size(), 13);
+    assertEquals("[L', origen,  , de,  , name@example.com,  , i,  , de,  , name2@example.com, .]", tokens.toString());
     tokens = wordTokenizer.tokenize("L'\"ala bastarda\".");
     assertEquals(tokens.size(), 7);
     assertEquals("[L', \", ala,  , bastarda, \", .]", tokens.toString());
