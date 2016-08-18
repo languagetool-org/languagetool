@@ -3087,7 +3087,7 @@
             <marker>
                 <token>New</token>
             </marker>
-            <token inflected="yes" regexp="yes">York|Age</token>
+            <token inflected="yes" regexp="yes">Bedford|Delhi|York|Age|Hampshire|Jersey|Haven|Town|London</token>
         </pattern>
         <disambig postag="burk"/>
     </rule>
@@ -5087,7 +5087,7 @@
     <rule> <!-- złożone wyrażenie przyimkowe ze związkiem rządu: na mocy, na podstawie-->
             <pattern>
                 <token>na</token>
-                <token regexp="yes">mocy|podstawie|spodzie|działanie</token>
+                <token regexp="yes">czele|kształt|mocy|podstawie|rzecz|spodzie|działanie|zewnątrz</token>
                 <marker>
                     <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
                 </marker>
@@ -5099,7 +5099,7 @@
     <rule> <!-- złożone wyrażenia przyimkowe ze związkiem rządu: w razie, w wyniku, w rezultacie, w efekcie -->
         <pattern>
             <token>w</token>
-            <token regexp="yes">braku|ciągu|czasie|efekcie|myśl|razie|rezultacie|trakcie|wyniku|wypadku|przypadku|głębi|obrębie|środku</token>
+            <token regexp="yes">braku|celu|ciągu|czasie|efekcie|formie|imię|imieniu|miarę|myśl|postaci|razie|rezultacie|trakcie|wyniku|wypadku|przypadku|głębi|obrębie|środku</token>
             <marker>
                 <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
             </marker>
@@ -5123,7 +5123,7 @@
     <rule> <!-- złożone wyrażenia przyimkowe ze związkiem rządu: z powodu, z przyczyny, z wyjątkiem, z pomocą -->
             <pattern>
                 <token>z</token>
-                <token regexp="yes">nadejściem|początkiem|pomocą|powodu|przyczyny|wyjątkiem</token>
+                <token regexp="yes">nadejściem|początkiem|pomocą|powodu|przyczyny|tytułu|wyjątkiem|wyłączeniem</token>
                 <marker>
                     <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
                 </marker>
@@ -5135,7 +5135,7 @@
      <rule> <!-- złożone wyrażenie przyimkowe ze związkiem rządu: za pomocą -->
       <pattern>
             <token>za</token>
-                <token>pomocą</token>
+                <token regexp="yes">pomocą|pośrednictwem|sprawą</token>
                 <marker>
                     <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
                 </marker>
@@ -5147,7 +5147,7 @@
      <rule> <!-- złożone wyrażenia przyimkowe ze związkiem rządu: pod pretekstem, pod względem -->
             <pattern>
                 <token>pod</token>
-                <token regexp="yes">pretekstem|względem</token>
+                <token regexp="yes">kątem|redakcją|pretekstem|względem|wezwaniem</token>
                 <marker>
                     <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
                 </marker>
@@ -11968,13 +11968,21 @@
         <disambig postag="brev:pun"/>
         <example type="ambiguous" inputform="ok[oko/subst:pl:gen:n2,około/brev:pun]" outputform="ok[około/brev:pun]">Naraziło go to na ostre ataki ze strony Seweryna Goszczyńskiego i Leszka Dunina Borkowskiego, w wyniku których zaprzestał publikowania swoich utworów, pisując do szuflady przez <marker>ok</marker>. 18 lat.</example>
     </rule>
-    <rule id="OS_BREV" name="os jako skrót">
+    <rule id="OS_PROC_BREV" name="os, proc, red jako skrót">
         <pattern>
-            <marker><token>os</token></marker>
+            <marker><token regexp="yes">os|proc|red</token></marker>
             <token spacebefore="no">.<exception postag="SENT_END"/></token>
         </pattern>
         <disambig postag="brev:pun"/>
         <example type="ambiguous" inputform="os[osa/subst:pl:gen:f,osiedle/brev:pun]" outputform="os[osiedle/brev:pun]">Jest to to jezioro zwane Balaton, położone na <marker>os</marker>. Bartodzieje.</example>
+    </rule>
+    <rule id="w_proc" name="w proc. => brev">
+        <pattern>
+            <token>w</token>
+            <marker><token>proc</token></marker>
+            <token spacebefore="no">.</token>
+        </pattern>
+        <disambig postag="brev:pun"/>
     </rule>
     <rule name="R - nie rok" id="NON_START_POS_R">
     	<pattern case_sensitive="yes">

@@ -3233,7 +3233,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <pattern>
                         <marker>
                             <token inflected='yes' regexp='yes'>sprawdz[ia]ć|wiedzieć|(?:za|s)?pytać|(?:wy|za)?pytywać|z?wątpić|napisać|mówić|orzec|ustalić</token>
-                            <token><exception regexp="yes">[,——:…;]</exception></token>
+                            <token><exception regexp="yes">[,–—:…;]</exception></token>
                             <token>czy</token>
                         </marker>                            
                         </pattern>
@@ -9699,10 +9699,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                    <example correction=''>Stałem nad <marker>przepaściach</marker>.</example>
                    <!-- inna reguła -->
                    <example>Z nad tej marchwi wyłonił się królik.</example>
-                  </rule>
-        </rulegroup>
-        <rule id="W" name="„w”">
-               <antipattern> <!-- uporał się z tym w lat kilkanaście -->
+                  </rule>        
+                  <rule>
+                  <antipattern> <!-- uporał się z tym w lat kilkanaście -->
                         <token inflected="yes">w</token>
                         <marker>
                           <token postag=".*pl:gen.*" postag_regexp="yes"/>
@@ -9752,6 +9751,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <token>/</token>
                       <marker><token>w</token></marker>
                       </antipattern>
+                      <antipattern> <!-- ust: brev:pun -->
+                      <token>w</token>
+                      <marker>
+                        <token>ust</token>
+                      </marker>
+                      <token spacebefore="no">.</token>
+                      <token regexp="yes">\d.*</token>
+                      </antipattern>
               <pattern>
                 <token inflected="yes" postag="prep.*" postag_regexp="yes">w</token>
                 <marker>
@@ -9768,7 +9775,69 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                <example>Wykonujemy zalewę z w/w składników.</example>
                <example>Obszary nizinne występują w jej północno-zachodniej części.</example>
                <example>W średniowieczu pojawia się litera W powstała z podwojonego V oznaczającego samogłoskę /U/.</example>
-        </rule> 
+               <example>art. 16 w ust. 1 w pkt 25 w lit.</example>
+              </rule> 
+        </rulegroup>
+        <rule id="POD" name="„pod”"> <!-- pod -->
+                      <antipattern> <!-- podchodził pod lat kilkanaście -->
+                        <token inflected="yes">pod</token>
+                        <marker>
+                          <token postag=".*pl:gen.*" postag_regexp="yes"/>
+                        </marker>
+                        <token postag="num:.*acc.*:rec" postag_regexp="yes"/>
+                      </antipattern>
+                      <antipattern> <!-- pod lat 5 -->
+                        <token inflected="yes">pod</token>
+                        <marker>
+                          <token postag=".*pl:gen.*" postag_regexp="yes"/>
+                        </marker>
+                        <token regexp="yes">\d*[5-9]|\d+0|1[1-9]</token>
+                      </antipattern>
+                      <antipattern>
+                        <marker>
+                        <unify><feature id="case"><type id="inst"/><type id="acc"/></feature>
+                        <token inflected="yes">pod</token>
+                        <unify-ignore><token postag="adj.*gen.*" postag_regexp="yes" inflected="yes">który</token></unify-ignore>
+                        <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
+                      <antipattern>
+                        <marker>
+                        <unify><feature id="case"><type id="inst"/><type id="acc"/></feature>
+                        <token inflected="yes">pod</token>
+                        <unify-ignore><token postag="ppron.*gen.*" postag_regexp="yes"/></unify-ignore>
+                        <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
+                      <antipattern> <!-- nad jej północno-zachodnią częścią -->
+                        <marker>
+                        <unify><feature id="case"><type id="inst"/><type id="acc"/></feature>
+                        <token inflected="yes">pod</token>
+                        <unify-ignore>
+                        <token postag="ppron.*gen.*" postag_regexp="yes"/>
+                        <token postag="adja"/>
+                        <token spacebefore="no">-</token>
+                        </unify-ignore>
+                        <token spacebefore="no" postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
+                    <pattern>
+                    <token inflected="yes" postag="prep.*" postag_regexp="yes">pod<exception scope="previous">z</exception></token>
+                    <marker>
+                    <token postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):.*' postag_regexp='yes'>
+                      <exception postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):(.*acc.*|.*inst.*)' postag_regexp='yes'></exception>                          
+                      </token>
+                    </marker>
+                   </pattern>
+                   <message>Ten przyimek jest używany z biernikiem lub narzędnikiem.</message>
+                   <short>Przyimek wymaga biernika lub narzędnika</short>
+                   <example correction=''>Stałem pod <marker>sklepie</marker>.</example>
+                   <!-- inna reguła -->
+                   <example>Z pod tej marchwi wyłonił się królik.</example>
+                  </rule>
 				<rule id="WIEKSZY_JAK" name="„większy/lepszy jak” (większy/lepszy od/niż)">
 						<pattern>
 								<token postag="adj.*:com" postag_regexp="yes"><exception inflected="yes" scope="previous">nie|nic</exception></token>
