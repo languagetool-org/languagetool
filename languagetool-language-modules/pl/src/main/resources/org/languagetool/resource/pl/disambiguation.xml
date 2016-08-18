@@ -9565,9 +9565,11 @@
             <pattern>
                 <token skip="-1" postag="verb:.*(?:sg|pl|imp[st]).*|pred" postag_regexp="yes"><exception scope="next" postag_regexp="yes" postag="interp:comma|comp:comma|conj"/></token>
                 <marker>
-                    <token>może</token>
+                    <token skip="-1">może
+                        <exception scope="next" postag="verb:inf.*" postag_regexp="yes" />
+                    </token>
                 </marker>
-                <token><exception postag="verb:inf.*" postag_regexp="yes" /></token>
+                <token postag="SENT_END|.*comma" postag_regexp="yes"/>
             </pattern>
             <disambig action="replace"><wd pos="qub" lemma="może"/></disambig>
             <example type="ambiguous" inputform="może[może/qub,móc/verb:fin:sg:ter:imperf:nonrefl]"
