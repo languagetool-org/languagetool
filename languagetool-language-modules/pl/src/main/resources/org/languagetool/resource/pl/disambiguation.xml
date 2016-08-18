@@ -4791,6 +4791,18 @@
         <disambig postag="prep:acc"/>
     </rule>
 
+    <rule id="MIMO_ACC_UNIFY" name="Mimo z biernikiem">
+        <pattern>
+            <marker>
+                <token postag="prep:acc" regexp="yes">(?:po)?mimo</token>
+                <token postag=".*acc.*" postag_regexp="yes"><exception postag=".*gen.*" postag_regexp="yes"></exception></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Pomimo tego był niewzruszony.</example>
+        <example type="ambiguous" inputform="wszystko[wszystko/adv,wszystko/subst:sg:acc:n2,wszystko/subst:sg:nom:n2]" outputform="wszystko[wszystko/subst:sg:acc:n2]">Faktem mimo <marker>wszystko</marker> pozostaje, że ten produkt jest lepszy.</example>
+    </rule>
+
     <rule id="MIMO_TO" name="mimo to">
         <pattern>
             <marker>
