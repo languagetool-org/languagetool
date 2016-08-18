@@ -2165,7 +2165,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">конечно|несомненно|вероятно|кажется|однако</token>
                     </marker>
-                    <token negate="yes" regexp="yes"><exception regexp= "yes" >если|же|ж</exception>[\p{Punct}]|-|—</token>
+                    <token negate="yes" regexp="yes" skip="-1"><exception regexp= "yes" >если|же|ж</exception><exception scope="next" postag_regexp="yes" postag="VB:.*"></exception>[\p{Punct}]|-|—</token>
+                    <token regexp="yes">[.,:;!?]</token>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\2,</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -2174,6 +2175,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Я поеду в город, однако если будут пробки, то я заночую в мотеле.</example>
                 <!--  todo: "однако если" не требует запятой
                   перед "если", если конструкция с "если" содержит "то"  -->
+                <example>Они умолкли, однако не успокоились.</example>
+                <example>Перестрелка затихла, однако ядра и бомбы продолжали летать сюда, как и отсюда.</example>          
                 <example correction="конечно,">Эта работа, <marker>конечно</marker> представляет огромную научную ценность.</example>
             </rule>
             <rule>
