@@ -24215,6 +24215,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="DONAR_CONTER" name="donar-se conter/adonar-se">
+            <pattern>
+                <token inflected="yes" skip="1">donar</token>
+                <token>conter</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">adonar</match></suggestion>?</message>
+            <example correction="adones">No et <marker>dónes conter</marker>?</example>
+        </rule>
         <rule id="OLORAR_A" name="*olorar a/fer olor de">
             <pattern>
                 <marker>
