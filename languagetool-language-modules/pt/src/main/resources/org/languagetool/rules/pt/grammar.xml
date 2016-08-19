@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.170 2016-08-18 04:30:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.171 2016-08-19 20:00:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -2528,6 +2528,23 @@ $Id: grammar.xml,v 1.170 2016-08-18 04:30:00 marcoagpinto Exp $
 		<example correction="ónus" type="incorrect">O <marker>anos</marker> da prova é nosso.</example>  
 	</rule>
 
+	
+	
+    <!-- O MAIS + ADJ-PLURAL + POSSÍVEIS - o mais adj-plural possível -->
+    <rule id="O_MAIS_ADJ-PLURAL_POSSÍVEIS" name="Erro de concordância do plural - possíveis-possível">
+      <pattern>
+		<token>o</token>	
+		<token>mais</token>	
+		<token postag="AQ0CP0"></token>	
+		<marker>
+			<token>possíveis</token>	  
+		</marker>
+     </pattern>	 	 
+     <message>Erro de concordância do plural.</message>
+     <suggestion>possível</suggestion>
+     <example correction="possível">Faz perguntas o mais abrangentes <marker>possíveis</marker>.</example>	 	 
+    </rule> 	
+	
 	
 	
     <!-- PARA ALÉM DISSO além disso -->
