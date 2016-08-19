@@ -616,7 +616,7 @@ public class JLanguageTool {
       if (disabledCategories.contains(category.getName())) {
         return true;
       }
-      if (category.isDefaultOff() && !enabledRuleCategories.contains(category.getId())) {
+      if (category.isDefaultOff() && !enabledRuleCategories.contains(category.getId()) && !enabledRules.contains(rule.getId())) {
         return true;
       }
     }
