@@ -1989,7 +1989,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                         <token regexp="yes">[\?,;]</token>
                       </antipattern>
-                  <pattern>                                                            
+                  <pattern>
                       <token/>
                       <marker>
                       <token postag="subst:sg.*" postag_regexp="yes" inflected="yes">to<exception postag="qub|conj" postag_regexp="yes"/><exception scope="previous">mimo</exception></token>
@@ -3219,7 +3219,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <rule>
                         <pattern>
                         <marker>
-                            <token inflected='yes' regexp='yes'>sprawdz[ia]ć|wiedzieć|(?:za|s)?pytać|(?:wy|za)?pytywać|z?wątpić|napisać|mówić|orzec|ustalić</token>
+                            <token inflected='yes' regexp='yes'>sprawdz[ia]ć|wiedzieć|(?:za|s)?pytać|(?:wy|za)?pytywać|z?wątpić|napisać|mówić|orzec|ustalić|słuchać|rozważać|sądzić|(?:po)?myśleć|wyjaśnia?ć|rozstrzygnąć|pokazać|dyskutować|słyszeć</token>
                             <token>czy</token>
                         </marker>
                         </pattern>
@@ -3229,19 +3229,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Musisz sprawdzić, czy to prawda.</example>
                         <example>Ustalone czy nie, działo się to od wieków.</example>
                     </rule>
-                    <rule>                    
+                    <rule>
                         <pattern>
                         <marker>
-                            <token inflected='yes' regexp='yes'>sprawdz[ia]ć|wiedzieć|(?:za|s)?pytać|(?:wy|za)?pytywać|z?wątpić|napisać|mówić|orzec|ustalić</token>
-                            <token><exception regexp="yes">[,–—:…;]</exception></token>
+                            <token inflected='yes' regexp='yes'>sprawdz[ia]ć|wiedzieć|(?:za|s)?pytać|(?:wy|za)?pytywać|z?wątpić|napisać|mówić|orzec|ustalić|słuchać|rozważać|sądzić|(?:po)?myśleć|wyjaśnia?ć|rozstrzygnąć|pokazać|dyskutować|słyszeć</token>
+                            <token>
+                              <exception regexp="yes">[,–—:…;]</exception>
+                              <exception postag=".*nom.*" postag_regexp="yes"/>
+                            </token>
                             <token>czy</token>
-                        </marker>                            
+                        </marker>
                         </pattern>
                         <message>Prawdopodobny brak przecinka. Poprawnie: <suggestion><match no="1"/> <match no="2"/>, <match no="3"/></suggestion>.</message>
                         <short>Brak przecinka</short>
                         <example correction="spytać ich, czy">Musisz <marker>spytać ich czy</marker> to prawda.</example>
                         <example>Musisz sprawdzić, czy to prawda.</example>
                         <example>Mówiłem to czy nie?</example>
+                        <example>Przy losowaniu metodą rzucania monetą pada zwykle pytanie orzeł czy reszka?</example>
                     </rule>
                 </rulegroup>
 				<rule id="PRZECINEK_OTOZ" name="Zbędny przecinek po „otóż”">
@@ -9778,16 +9782,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                <example>art. 16 w ust. 1 w pkt 25 w lit.</example>
               </rule> 
         </rulegroup>
-        <rule id="POD" name="„pod”"> <!-- pod -->
+        <rule id="POD" name="„pod”"> <!-- pod, przed -->
                       <antipattern> <!-- podchodził pod lat kilkanaście -->
-                        <token inflected="yes">pod</token>
+                        <token inflected="yes" regexp="yes">pod|przed</token>
                         <marker>
                           <token postag=".*pl:gen.*" postag_regexp="yes"/>
                         </marker>
                         <token postag="num:.*acc.*:rec" postag_regexp="yes"/>
                       </antipattern>
                       <antipattern> <!-- pod lat 5 -->
-                        <token inflected="yes">pod</token>
+                        <token inflected="yes" regexp="yes">pod|przed</token>
                         <marker>
                           <token postag=".*pl:gen.*" postag_regexp="yes"/>
                         </marker>
@@ -9796,7 +9800,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <antipattern>
                         <marker>
                         <unify><feature id="case"><type id="inst"/><type id="acc"/></feature>
-                        <token inflected="yes">pod</token>
+                        <token inflected="yes" regexp="yes">pod|przed</token>
                         <unify-ignore><token postag="adj.*gen.*" postag_regexp="yes" inflected="yes">który</token></unify-ignore>
                         <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
                         </unify>
@@ -9805,16 +9809,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <antipattern>
                         <marker>
                         <unify><feature id="case"><type id="inst"/><type id="acc"/></feature>
-                        <token inflected="yes">pod</token>
-                        <unify-ignore><token postag="ppron.*gen.*" postag_regexp="yes"/></unify-ignore>
-                        <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                        <token inflected="yes" regexp="yes">pod|przed</token>
+                        <unify-ignore><token>pani</token></unify-ignore>
+                        <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]|num):.*" postag_regexp="yes"/>
                         </unify>
                         </marker>
                       </antipattern>
-                      <antipattern> <!-- nad jej północno-zachodnią częścią -->
+                      <antipattern>
                         <marker>
                         <unify><feature id="case"><type id="inst"/><type id="acc"/></feature>
-                        <token inflected="yes">pod</token>
+                        <token inflected="yes" regexp="yes">pod|przed</token>
+                        <unify-ignore><token postag="ppron.*gen.*" postag_regexp="yes"/></unify-ignore>
+                        <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]|num):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
+                      <antipattern> <!-- przed jej północno-zachodnią częścią -->
+                        <marker>
+                        <unify><feature id="case"><type id="inst"/><type id="acc"/></feature>
+                        <token inflected="yes" regexp="yes">pod|przed</token>
                         <unify-ignore>
                         <token postag="ppron.*gen.*" postag_regexp="yes"/>
                         <token postag="adja"/>
@@ -9825,7 +9838,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </marker>
                       </antipattern>
                     <pattern>
-                    <token inflected="yes" postag="prep.*" postag_regexp="yes">pod<exception scope="previous">z</exception></token>
+                    <token inflected="yes" postag="prep.*" postag_regexp="yes" regexp="yes">pod|przed<exception scope="previous">z</exception></token>
                     <marker>
                     <token postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):.*' postag_regexp='yes'>
                       <exception postag='(:?subst|adj|ppas|pact|ger|ppron[1-3]):(.*acc.*|.*inst.*)' postag_regexp='yes'></exception>                          
@@ -9835,8 +9848,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                    <message>Ten przyimek jest używany z biernikiem lub narzędnikiem.</message>
                    <short>Przyimek wymaga biernika lub narzędnika</short>
                    <example correction=''>Stałem pod <marker>sklepie</marker>.</example>
+                   <example correction=''>Stałem przed <marker>sklepie</marker>.</example>
+                   <example>Jakie są uwagi pod pani adresem?</example>
+                   <example>Przed Grand Prix Wielkiej Brytanii</example>
+                   <example>Orkiestra PFB pod dyr. J. Maksymiuka — Długi Targ</example>
+                   <example>Takie podejście chroni NIK i kontrolowanego przed ew. pomyłkami.</example>
+                   <example>Park jest wyjątkowo przepełniony w pierwszy weekend października (długi weekend z okazji Columbus Day, Dnia Krzysztofa Kolumba), a przed jego pięcioma bramami tworzą się długie kolejki samochodów.</example>
+                   <example>Oficjalna północ pod Big Benem</example>
                    <!-- inna reguła -->
                    <example>Z pod tej marchwi wyłonił się królik.</example>
+                   <example>Z przed tej marchwi wyłonił się królik.</example>                   
                   </rule>
 				<rule id="WIEKSZY_JAK" name="„większy/lepszy jak” (większy/lepszy od/niż)">
 						<pattern>
