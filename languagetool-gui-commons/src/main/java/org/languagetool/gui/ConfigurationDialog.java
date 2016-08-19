@@ -350,8 +350,10 @@ public class ConfigurationDialog implements ActionListener {
             }
           } else {
             if (o.isEnabled()) {
+              config.getEnabledRuleIds().add(o.getRule().getId());
               config.getDisabledRuleIds().remove(o.getRule().getId());
             } else {
+              config.getEnabledRuleIds().remove(o.getRule().getId());
               config.getDisabledRuleIds().add(o.getRule().getId());
             }
           }
