@@ -112,27 +112,29 @@ public class WordTokenizer implements Tokenizer {
    */
   protected List<String> joinEMails(List<String> list) {
     StringBuilder sb = new StringBuilder();
-    for(int i = 0; i < list.size(); i++) {
+    for (int i = 0; i < list.size(); i++) {
       sb.append(list.get(i));
     }
     String text = sb.toString();
     if (E_MAIL.matcher(text).find()) {
       Matcher matcher = E_MAIL.matcher(text);
       List<String> l = new ArrayList<>();
-	    int currentPosition = 0, start, end;
-	    while (matcher.find()) {
+      int currentPosition = 0, start, end, idx = 0;
+      while (matcher.find()) {
         start = matcher.start();
         end = matcher.end();
-        if ( currentPosition < start ) {
-          String substring = text.substring(currentPosition, start);
-          l.addAll(tokenize(substring));
+        while (currentPosition < end) {
+          if (currentPosition < start) {
+            l.add(list.get(idx));
+          } else if (currentPosition == start) {
+            l.add(matcher.group());
+          }
+          currentPosition += list.get(idx).length();
+          idx++;
         }
-        l.add(matcher.group());
-        currentPosition = end;
       }
       if (currentPosition < text.length()) {
-        String substring = text.substring(currentPosition, text.length());
-        l.addAll(tokenize(substring));
+        l.addAll(list.subList(idx, list.size()));
       }
       return l;
     }
