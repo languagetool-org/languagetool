@@ -819,6 +819,13 @@
         <disambig action="filterall"/>
     </rule>
 
+    <rule id="znad_inst" name="znad tylko z dopełniaczem!">  <!-- polimorf bug -->
+        <pattern>
+            <token inflected="yes">znad</token>
+        </pattern>
+        <disambig action="filter" postag="prep:gen.*"/>
+    </rule>
+
     <rule id="coz_za" name="cóż (to) za => qub">
         <pattern>
             <token postag="subst:sg:nom:n2" regexp="yes">cóż|co</token>
@@ -4230,6 +4237,16 @@
             <token postag="(?:adj|ppas|pact):pl:nom.voc:m1.p1.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="replace"><wd lemma="oba" pos="num:pl:nom.voc:m1:congr"/></disambig>
+    </rule>
+
+    <rule id="jaki_mamy" name="jaki + mamy => czasownik">
+        <pattern>
+            <marker>
+                <token postag="adj.*acc.*" postag_regexp="yes" inflected="yes">jaki</token>
+                <token postag="verb:fin:pl:pri:imperf:refl.nonrefl">mamy</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <rule id="NAPOJ_WYROB" name="napój/wyrób + przymiotnik -> rzeczownik">
