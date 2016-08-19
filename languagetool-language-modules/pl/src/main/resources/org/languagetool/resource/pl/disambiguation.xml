@@ -761,7 +761,7 @@
 
     <rule id="o_tak" name="o tak -> adv">
         <pattern>
-            <token regexp="yes">[wo]|na|nad|przed</token>
+            <token regexp="yes">[wo]|na|nad|przed|pod</token>
             <marker><token>tak</token></marker>
         </pattern>
         <disambig action="remove"><wd lemma="taka"/></disambig>
@@ -770,7 +770,7 @@
     <rule id="tak_adv" name="tak + adj => adv">
         <pattern>
             <token postag="adv:pos">tak</token>
-            <token postag="ad[jv].*:pos|verb.*" postag_regexp="yes"/>
+            <token postag="ad[jv].*:pos|verb.*|ppas.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
     </rule>
