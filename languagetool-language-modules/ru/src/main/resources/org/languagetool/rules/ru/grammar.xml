@@ -3153,11 +3153,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            
         <rulegroup default="on" id="Soglasovanie_ADJ_NN" name="Согласование прилагательного с существительным">
 	        <antipattern>
-		        <token case_sensitive="yes" regexp="yes">[А-Я].+<exception postag="CONJ|PREP" postag_regexp="yes" /></token>
-		        <token case_sensitive="yes" regexp="yes">[А-Я].+<exception postag="CONJ|PREP" postag_regexp="yes" /></token>
+		        <marker>
+			        <token case_sensitive="yes" regexp="yes">[А-Я].+<exception postag="CONJ|PREP" postag_regexp="yes" /></token>
+			        <token case_sensitive="yes" regexp="yes">[А-Я].+<exception postag="CONJ|PREP" postag_regexp="yes" /></token>
+		        </marker>
 	        </antipattern>
 	        <antipattern>
-		        <token case_sensitive="yes" regexp="yes">[А-Я].*[А-Я].*</token>
+		        <marker>
+			        <token case_sensitive="yes" regexp="yes">[А-Я].*[А-Я].*</token>
+		        </marker>
 	        </antipattern>
 	        <rule id="Unify_Adj_NN_number">
 		        <pattern>
@@ -3170,10 +3174,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						                   regexp="yes">,|и</exception>
 						        <exception postag="ADJ:.*:T|ADV|PT:.*|NN:.*"
 						                   postag_regexp='yes'/>
-						        <exception regexp="yes">полн.*|&nation;|&time;|&human;|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
+						        <exception regexp="yes">полн.*|&human;|&nation;|&time;|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
 					        </token>
 					        <token postag="(NN|NNN):.*" postag_regexp="yes">
 						        <exception postag="CONJ|PREP" postag_regexp="yes" />
+						        <!-- <and> --> <!-- TODO  remove &human; from previous token-->
+							    <!--     <exception scope="previous" -->
+							    <!--                regexp="yes">&human;</exception> -->
+							    <!--     <exception postag="(NN|NNN):.*:Nom" postag_regexp="yes" /> -->
+						        <!-- </and> -->
 						        <exception regexp="yes">друг|уже|были|дай</exception>
 						        <exception regexp="yes">&dual;</exception> <!-- TODO remove after adding PL tags -->
 					        </token>
@@ -3218,14 +3227,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 					               postag_regexp="yes">
 						        <exception scope="previous"
 						                   regexp="yes">,<!-- |и --></exception>
-						        <exception postag="ADJ:.*:T|ADV|PT:.*|NN:.*|ADJ_Sup"
-						                   postag_regexp='yes'/>
-						        <exception regexp="yes">полн.*|&nation;|&time;|&human;|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|мобильного<!-- |зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное --></exception>
+						        <exception
+						            postag="ADJ:.*:T|ADV|PT:.*|NN:.*|ADJ_Sup"
+						            postag_regexp="yes"/>
+						        <!-- <exception
+						             postag="ADV|PT:.*|NN:.*|ADJ_Sup"
+						             postag_regexp='yes'/>
+						        --> <!-- TODO -->
+						        <exception regexp="yes">полн.*|&human;|&nation;|&time;|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|мобильного<!-- |зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное --></exception>
 						        <exception case_sensitive="yes">Божию</exception>
 					        </token>
 					        <token postag="(NN|NNN):.*" postag_regexp="yes">
-						        <exception postag="CONJ|PREP" postag_regexp="yes" />
+						        <exception postag="CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
 						        <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью|были|дай</exception>
+						        <!-- <and> --> <!-- TODO  remove &human; from previous token-->
+						        <!-- <and> -->
+							    <!--     <exception postag="(NN|NNN):.*:Nom" postag_regexp="yes" /> -->
+							    <!--     <exception scope="previous" -->
+							    <!--                regexp="yes">&human;</exception> -->
+						        <!-- </and> -->
 						        <exception case_sensitive="yes">Tом</exception>
 						        <exception regexp="yes">&dual;</exception>
 					        </token>
@@ -3269,35 +3289,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Вдали виднелось <marker>синий небо</marker>.</example>
 	        </rule>
 
-	        <!-- <rule id="test" name="test"> -->
-		    <!--     <pattern> -->
-			<!--         <token postag="ADJ:.*:T" postag_regexp='yes'> -->
-			<!-- 	        <exception postag="ADJ:.*:T" -->
-			<!-- 	                   postag_regexp='yes' negate_pos='yes'/> -->
-			<!--         </token> -->
-			<!--         <token postag="(NN|NNN):.*:Nom" postag_regexp='yes' /> -->
-		    <!--     </pattern> -->
-		    <!--     <message>Test</message> -->
-		    <!--     <example correction="">Ставшие <marker>хрестоматийными слова</marker> «Природой здесь нам суждено в Европу прорубить окно», которые А. С. Пушкин вкладывает в уста Петра I — лишь риторически эффектная фраза.</example> -->
-	        <!-- </rule> -->
+<!-- <rule id="test" name="test"> -->
+<!-- 	<pattern> -->
+<!-- 		<token postag="ADJ:.*:T" postag_regexp='yes'> -->
+<!-- 			<exception postag="ADJ:.*:T" -->
+<!-- 			           postag_regexp='yes' negate_pos='yes'/> -->
+<!-- 		</token> -->
+<!-- 		<token postag="(NN|NNN):.*:Nom" postag_regexp='yes' /> -->
+<!-- 	</pattern> -->
+<!-- 	<message>Test</message> -->
+<!-- 	<example correction="">Ставшие <marker>хрестоматийными слова</marker> «Природой здесь нам суждено в Европу прорубить окно», которые А. С. Пушкин вкладывает в уста Петра I — лишь риторически эффектная фраза.</example> -->
+<!-- </rule> -->
 	        <rule id="Unify_Adj_NN_case">
-		        <antipattern>
-			        <token postag="ADJ:.*:T" postag_regexp='yes'>
-				        <exception postag="ADJ:.*:T"
-				                   postag_regexp='yes' negate_pos='yes'/>
-			        </token>
-			        <token postag="(NN|NNN):.*:Nom" postag_regexp='yes' />
-		        </antipattern>
+		        <antipattern> <!-- begin problematic antipattern -->
+			        <marker>
+				        <token postag="ADJ:.*:T" postag_regexp='yes'>
+					        <exception postag="ADJ:.*:T"
+					                   postag_regexp='yes' negate_pos='yes'/>
+				        </token>
+				        <token postag="(NN|NNN):.*:Nom" postag_regexp='yes' />
+			        </marker>
+		        </antipattern> <!-- end problematic antipattern -->
 		        
 		        <antipattern>
-			        <token inflected="yes" postag="ADJ:.*:Nom"
-			               postag_regexp='yes'>cвойственный</token>
-			        <token postag="(NN|NNN):.*:D" postag_regexp='yes' />
+			        <marker>
+				        <token inflected="yes" postag="ADJ:.*:Nom"
+				               postag_regexp='yes'>cвойственный</token>
+				        <token postag="(NN|NNN):.*:D" postag_regexp='yes' />
+			        </marker>
 		        </antipattern>
 		        <antipattern>
-			        <token>,</token>
-			        <token>а</token>
-			        <token>позднее</token>
+			        <marker>
+				        <token>,</token>
+				        <token>а</token>
+				        <token>позднее</token>
+			        </marker>
 		        </antipattern>
 		        <pattern>
 			        <marker>
@@ -3308,7 +3334,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						        <exception scope="previous"
 						                   regexp="yes">,</exception>
 						        <exception postag="PT:.*|ADV|NN:.*" postag_regexp="yes" />
-						        <exception regexp="yes">полн.*|&nation;|&time;|&human;|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|возможным|невозможным|собственн(ом|ый)|активн(ым|ыми)|сборной|большее|меньшее</exception>
+						        <exception regexp="yes">полн.*|&nation;|&time;|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|возможным|невозможным|собственн(ом|ый)|активн(ым|ыми)|сборной|большее|меньшее</exception>
 						        <exception postag="ADJ:Masc:.*"
 						                   postag_regexp="yes" regexp="yes">
 							        &color;|мобильн.*
@@ -3318,6 +3344,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 					        <token postag="NN:.*|NNN:.*" postag_regexp="yes">
 						        <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью</exception>
 						        <exception postag="VB:.*|CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
+						        <!-- <and> -->
+							    <!--     <exception scope="previous" -->
+							    <!--            regexp="yes">&human;</exception> -->
+							    <!--     <exception postag="(NN|NNN):.*:Nom" postag_regexp="yes" /> -->
+						        <!-- </and> -->
+<!-- 						        делала	делать VB:Past:Fem  -->
+<!-- политически   -->
+<!-- приемлемой	приемлемый  -->
+<!-- ADJ:Fem:D  -->
+<!-- ADJ:Fem:P  -->
+<!-- ADJ:Fem:R  -->
+<!-- ADJ:Fem:T  -->
+<!-- отмену	отмена  -->
+<!-- NN:Fem:Sin:V  -->
 						        <!-- Слова без буквы ё имеют неправильный падеж -->
 						        <exception regexp="yes">жилье|белье|щеткой|стерней|сырье</exception>
 						        <exception case_sensitive="yes">Tом</exception>
@@ -3337,7 +3377,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		        <message>Прилагательное не согласуется с
 		        существительным по падежу:
 		        </message>
+		        <!-- begin problematic example -->
 		        <!-- <example>Ставшие хрестоматийными слова «Природой здесь нам суждено в Европу прорубить окно», которые А. С. Пушкин вкладывает в уста Петра I — лишь риторически эффектная фраза.</example> -->
+		        <!-- end problematic example -->
+		        <!-- <example correction="">Я терпеть не могу эту <marker>глупою женщину</marker>.</example> -->
 		        <example>Среди них наибольшей известностью пользовались простые шутки.</example>
 		        <example>Среди них большей известностью пользовались простые шутки.</example>
 		        <example>Крепкие столы.</example>
