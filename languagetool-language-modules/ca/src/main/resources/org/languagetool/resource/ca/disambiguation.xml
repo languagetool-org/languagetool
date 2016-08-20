@@ -61,7 +61,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="PUNTUACIO" name="signes de puntuació">
         <rule>
             <pattern>
-                <token regexp="yes">[.;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;\-]</token>
+                <token regexp="yes">[.;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;•\-]</token>
             </pattern>
             <disambig action="add"><wd pos="_PUNCT"></wd></disambig>
         </rule>
@@ -11606,6 +11606,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token skip="4" regexp="yes" inflected="yes">distingir|diferenciar|separar|destriar</token>
+                <marker>
+                    <token>de</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="_no_relatiu"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token skip="1" regexp="yes" inflected="yes">exemple</token>
                 <marker>
                     <token>de</token>
                 </marker>

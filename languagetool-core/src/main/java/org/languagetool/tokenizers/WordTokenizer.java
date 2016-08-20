@@ -40,7 +40,7 @@ public class WordTokenizer implements Tokenizer {
 
   private static final List<String> PROTOCOLS = Collections.unmodifiableList(Arrays.asList("http", "https", "ftp"));
   private static final Pattern URL_CHARS = Pattern.compile("[a-zA-Z0-9/%$-_.+!*'(),\\?]+");
-  private static final Pattern E_MAIL = Pattern.compile("\\b[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))\\b");
+  private static final Pattern E_MAIL = Pattern.compile("(?<!:)\\b[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))\\b(?!:)");
 
   private static final String TOKENIZING_CHARACTERS = "\u0020\u00A0\u115f" +
       "\u1160\u1680"
@@ -112,33 +112,29 @@ public class WordTokenizer implements Tokenizer {
    */
   protected List<String> joinEMails(List<String> list) {
     StringBuilder sb = new StringBuilder();
-    for(String str : list) {
-      sb.append(str);
+    for (int i = 0; i < list.size(); i++) {
+      sb.append(list.get(i));
     }
     String text = sb.toString();
     if (E_MAIL.matcher(text).find()) {
       Matcher matcher = E_MAIL.matcher(text);
       List<String> l = new ArrayList<>();
-	    int currentPosition = 0, start, end;
-	    while (matcher.find()) {
+      int currentPosition = 0, start, end, idx = 0;
+      while (matcher.find()) {
         start = matcher.start();
         end = matcher.end();
-        if ( currentPosition < start ) {
-          String substring = text.substring(currentPosition, start);
-          StringTokenizer st = new StringTokenizer(substring, getTokenizingCharacters(), true);
-          while (st.hasMoreElements()) {
-            l.add(st.nextToken());
+        while (currentPosition < end) {
+          if (currentPosition < start) {
+            l.add(list.get(idx));
+          } else if (currentPosition == start) {
+            l.add(matcher.group());
           }
+          currentPosition += list.get(idx).length();
+          idx++;
         }
-        l.add(matcher.group());
-        currentPosition = end;
       }
-      if (currentPosition < text.length() - 1) {
-        String substring = text.substring(currentPosition, text.length());
-        StringTokenizer st = new StringTokenizer(substring, getTokenizingCharacters(), true);
-        while (st.hasMoreElements()) {
-          l.add(st.nextToken());
-        }
+      if (currentPosition < text.length()) {
+        l.addAll(list.subList(idx, list.size()));
       }
       return l;
     }

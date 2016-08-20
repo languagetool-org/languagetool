@@ -403,6 +403,16 @@
         </pattern>
         <disambig postag="qub"/>
     </rule>
+
+    <rule id="prawie_rokiem" name="przed prawie rokiem, półwiekiem, miesiącem... => qub">
+        <pattern>
+            <token postag="prep:inst:nwok">przed</token>
+            <token postag="qub">prawie</token>
+            <token postag="subst:sg:inst.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rule name="ciemku" id="ciemku">
         <pattern>
             <marker>
@@ -751,7 +761,7 @@
 
     <rule id="o_tak" name="o tak -> adv">
         <pattern>
-            <token regexp="yes">[wo]|na|nad</token>
+            <token regexp="yes">[wo]|na|nad|przed|pod</token>
             <marker><token>tak</token></marker>
         </pattern>
         <disambig action="remove"><wd lemma="taka"/></disambig>
@@ -760,7 +770,7 @@
     <rule id="tak_adv" name="tak + adj => adv">
         <pattern>
             <token postag="adv:pos">tak</token>
-            <token postag="adj.*:pos|verb.*" postag_regexp="yes"/>
+            <token postag="ad[jv].*:pos|verb.*|ppas.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -807,6 +817,13 @@
             </marker>
         </pattern>
         <disambig action="filterall"/>
+    </rule>
+
+    <rule id="znad_inst" name="znad tylko z dopełniaczem!">  <!-- polimorf bug -->
+        <pattern>
+            <token inflected="yes">znad</token>
+        </pattern>
+        <disambig action="filter" postag="prep:gen.*"/>
     </rule>
 
     <rule id="coz_za" name="cóż (to) za => qub">
@@ -872,6 +889,16 @@
                 <token regexp="yes">niemal|prawie|ponad</token>
             </marker>
             <token regexp="yes">\d+%?</token>
+        </pattern>
+        <disambig postag="qub"/>
+    </rule>
+
+    <rule name="prawie + liczebnik -> qub" id="prawie_numeral">
+        <pattern>
+            <marker>
+                <token regexp="yes">niemal|prawie|ponad</token>
+            </marker>
+            <token postag_regexp="yes" postag="num:.*"/>
         </pattern>
         <disambig postag="qub"/>
     </rule>
@@ -1107,6 +1134,13 @@
             <token>ciągle</token>
         </pattern>
         <disambig postag="adv:pos"/>
+    </rule>
+
+    <rule id="raczej" name="raczej to prawie na pewno kublik">
+        <pattern>
+            <token>raczej</token>
+        </pattern>
+        <disambig postag="qub"/>
     </rule>
 
     <rule id="nader" name="nader =>adv">
@@ -3043,12 +3077,12 @@
         <disambig action="remove"><wd lemma="zakupić"/></disambig>
     </rule>
 
-    <rule id="GRAND_HOTEL" name="Grand Hotel -> pierwszy człon to burkinostka">
+    <rule id="GRAND_HOTEL" name="Grand Hotel, Grand Prix -> pierwszy człon to burkinostka">
         <pattern case_sensitive="yes">
             <marker>
                 <token>Grand</token>
             </marker>
-            <token inflected="yes">hotel</token>
+            <token inflected="yes" regexp="yes">hotel|prix</token>
         </pattern>
         <disambig action="replace"><wd pos="burk" lemma="Grand"/></disambig>
     </rule>
@@ -3087,7 +3121,7 @@
             <marker>
                 <token>New</token>
             </marker>
-            <token inflected="yes" regexp="yes">York|Age</token>
+            <token inflected="yes" regexp="yes">Bedford|Delhi|York|Age|Hampshire|Jersey|Haven|Town|London</token>
         </pattern>
         <disambig postag="burk"/>
     </rule>
@@ -4205,6 +4239,16 @@
         <disambig action="replace"><wd lemma="oba" pos="num:pl:nom.voc:m1:congr"/></disambig>
     </rule>
 
+    <rule id="jaki_mamy" name="jaki + mamy => czasownik">
+        <pattern>
+            <marker>
+                <token postag="adj.*acc.*" postag_regexp="yes" inflected="yes">jaki</token>
+                <token postag="verb:fin:pl:pri:imperf:refl.nonrefl">mamy</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rule id="NAPOJ_WYROB" name="napój/wyrób + przymiotnik -> rzeczownik">
         <pattern>
             <marker>
@@ -4791,6 +4835,18 @@
         <disambig postag="prep:acc"/>
     </rule>
 
+    <rule id="MIMO_ACC_UNIFY" name="Mimo z biernikiem">
+        <pattern>
+            <marker>
+                <token postag="prep:acc" regexp="yes">(?:po)?mimo</token>
+                <token postag=".*acc.*" postag_regexp="yes"><exception postag=".*gen.*" postag_regexp="yes"></exception></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Pomimo tego był niewzruszony.</example>
+        <example type="ambiguous" inputform="wszystko[wszystko/adv,wszystko/subst:sg:acc:n2,wszystko/subst:sg:nom:n2]" outputform="wszystko[wszystko/subst:sg:acc:n2]">Faktem mimo <marker>wszystko</marker> pozostaje, że ten produkt jest lepszy.</example>
+    </rule>
+
     <rule id="MIMO_TO" name="mimo to">
         <pattern>
             <marker>
@@ -5075,7 +5131,7 @@
     <rule> <!-- złożone wyrażenie przyimkowe ze związkiem rządu: na mocy, na podstawie-->
             <pattern>
                 <token>na</token>
-                <token regexp="yes">mocy|podstawie|spodzie|działanie</token>
+                <token regexp="yes">czele|kształt|mocy|podstawie|rzecz|spodzie|działanie|zewnątrz</token>
                 <marker>
                     <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
                 </marker>
@@ -5084,10 +5140,22 @@
             <example type="ambiguous" inputform="stymulacji[stymulacja/subst:pl:gen:f,stymulacja/subst:sg:dat:f,stymulacja/subst:sg:gen:f,stymulacja/subst:sg:loc:f]"
                      outputform="stymulacji[stymulacja/subst:pl:gen:f,stymulacja/subst:sg:gen:f]">Na mocy <marker>stymulacji</marker> cytokinowej następuje ich swoiste uczulenie.</example>
     </rule>
+        <rule> <!-- złożone wyrażenie przyimkowe ze związkiem rządu: przy pomocy, przy użyciu-->
+            <pattern>
+                <token>przy</token>
+                <token regexp="yes">pomocy|użyciu</token>
+                <marker>
+                    <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag=".*gen.*"/>
+            <example type="ambiguous" inputform="stymulacji[stymulacja/subst:pl:gen:f,stymulacja/subst:sg:dat:f,stymulacja/subst:sg:gen:f,stymulacja/subst:sg:loc:f]"
+                     outputform="stymulacji[stymulacja/subst:pl:gen:f,stymulacja/subst:sg:gen:f]">Przy użyciu <marker>stymulacji</marker> cytokinowej następuje ich swoiste uczulenie.</example>
+        </rule>
     <rule> <!-- złożone wyrażenia przyimkowe ze związkiem rządu: w razie, w wyniku, w rezultacie, w efekcie -->
         <pattern>
             <token>w</token>
-            <token regexp="yes">braku|ciągu|czasie|efekcie|myśl|razie|rezultacie|trakcie|wyniku|wypadku|przypadku|głębi|obrębie|środku</token>
+            <token regexp="yes">braku|celu|ciągu|czasie|efekcie|formie|imię|imieniu|miarę|myśl|postaci|razie|rezultacie|trakcie|wyniku|wypadku|przypadku|głębi|obrębie|środku</token>
             <marker>
                 <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
             </marker>
@@ -5111,7 +5179,7 @@
     <rule> <!-- złożone wyrażenia przyimkowe ze związkiem rządu: z powodu, z przyczyny, z wyjątkiem, z pomocą -->
             <pattern>
                 <token>z</token>
-                <token regexp="yes">nadejściem|początkiem|pomocą|powodu|przyczyny|wyjątkiem</token>
+                <token regexp="yes">nadejściem|początkiem|pomocą|powodu|przyczyny|tytułu|wyjątkiem|wyłączeniem</token>
                 <marker>
                     <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
                 </marker>
@@ -5123,7 +5191,7 @@
      <rule> <!-- złożone wyrażenie przyimkowe ze związkiem rządu: za pomocą -->
       <pattern>
             <token>za</token>
-                <token>pomocą</token>
+                <token regexp="yes">pomocą|pośrednictwem|sprawą</token>
                 <marker>
                     <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
                 </marker>
@@ -5135,7 +5203,7 @@
      <rule> <!-- złożone wyrażenia przyimkowe ze związkiem rządu: pod pretekstem, pod względem -->
             <pattern>
                 <token>pod</token>
-                <token regexp="yes">pretekstem|względem</token>
+                <token regexp="yes">kątem|redakcją|pretekstem|względem|wezwaniem</token>
                 <marker>
                     <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
                 </marker>
@@ -9553,9 +9621,11 @@
             <pattern>
                 <token skip="-1" postag="verb:.*(?:sg|pl|imp[st]).*|pred" postag_regexp="yes"><exception scope="next" postag_regexp="yes" postag="interp:comma|comp:comma|conj"/></token>
                 <marker>
-                    <token>może</token>
+                    <token skip="-1">może
+                        <exception scope="next" postag="verb:inf.*" postag_regexp="yes" />
+                    </token>
                 </marker>
-                <token><exception postag="verb:inf.*" postag_regexp="yes" /></token>
+                <token postag="SENT_END|.*comma" postag_regexp="yes"/>
             </pattern>
             <disambig action="replace"><wd pos="qub" lemma="może"/></disambig>
             <example type="ambiguous" inputform="może[może/qub,móc/verb:fin:sg:ter:imperf:nonrefl]"
@@ -11954,13 +12024,21 @@
         <disambig postag="brev:pun"/>
         <example type="ambiguous" inputform="ok[oko/subst:pl:gen:n2,około/brev:pun]" outputform="ok[około/brev:pun]">Naraziło go to na ostre ataki ze strony Seweryna Goszczyńskiego i Leszka Dunina Borkowskiego, w wyniku których zaprzestał publikowania swoich utworów, pisując do szuflady przez <marker>ok</marker>. 18 lat.</example>
     </rule>
-    <rule id="OS_BREV" name="os jako skrót">
+    <rule id="OS_PROC_BREV" name="os, proc, red, dyr, ew jako skrót">
         <pattern>
-            <marker><token>os</token></marker>
+            <marker><token regexp="yes">ew|os|proc|red|dyr</token></marker>
             <token spacebefore="no">.<exception postag="SENT_END"/></token>
         </pattern>
         <disambig postag="brev:pun"/>
         <example type="ambiguous" inputform="os[osa/subst:pl:gen:f,osiedle/brev:pun]" outputform="os[osiedle/brev:pun]">Jest to to jezioro zwane Balaton, położone na <marker>os</marker>. Bartodzieje.</example>
+    </rule>
+    <rule id="w_proc" name="w proc. => brev">
+        <pattern>
+            <token>w</token>
+            <marker><token>proc</token></marker>
+            <token spacebefore="no">.</token>
+        </pattern>
+        <disambig postag="brev:pun"/>
     </rule>
     <rule name="R - nie rok" id="NON_START_POS_R">
     	<pattern case_sensitive="yes">
@@ -12189,7 +12267,17 @@
         <example type="ambiguous" inputform="no[no/interj,no/qub,no/subst:pl:acc:n2,no/subst:pl:dat:n2,no/subst:pl:gen:n2,no/subst:pl:inst:n2,no/subst:pl:loc:n2,no/subst:pl:nom:n2,no/subst:pl:voc:n2,no/subst:sg:acc:n2,no/subst:sg:dat:n2,no/subst:sg:gen:n2,no/subst:sg:inst:n2,no/subst:sg:loc:n2,no/subst:sg:nom:n2,no/subst:sg:voc:n2]"
                  outputform="no[no/subst:sg:loc:n2]">W teatrze <marker>no</marker> maska to omote.</example>
     </rule>
-    
+
+    <rule name="Big Ben" id="BIG_BEN">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Big</token>
+            </marker>
+            <token inflected="yes">Ben</token>
+        </pattern>
+        <disambig action="replace"><wd pos="burk" lemma="Big"/></disambig>
+    </rule>
+
     <rule name="Tel Awiw" id="TEL_AWIW">
     	<pattern case_sensitive="yes">
     		<marker>
@@ -12208,6 +12296,30 @@
             <token inflected="yes" regexp="yes">Leone|Nevada</token>
         </pattern>
         <disambig postag="burk"/>
+    </rule>
+
+    <rule id="sir_X" name="Sir X = > ndm">
+        <!-- tu można by kopiować w sumie znacznik z następnego wyrazu, ale nie da się napisać takiej reguły -->
+        <pattern>
+            <marker>
+                <token>sir</token>
+            </marker>
+            <token postag="subst.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}+
+            <exception postag="subst:sg:nom:m1"/>
+            </token>
+        </pattern>
+        <disambig postag="burk"></disambig>
+        <example type="untouched">To jest Sir Karl Popper.</example>
+    </rule>
+
+    <rule name="OS X" id="OS_X">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>OS</token>
+            </marker>
+            <token>X</token>
+        </pattern>
+        <disambig action="replace"><wd pos="burk" lemma="OS"/></disambig>
     </rule>
     
     <rule name="n.e." id="NE_BREV">
