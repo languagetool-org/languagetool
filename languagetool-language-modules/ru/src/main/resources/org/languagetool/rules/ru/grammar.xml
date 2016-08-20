@@ -3302,11 +3302,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!-- </rule> -->
 	        <rule id="Unify_Adj_NN_case">
 		        <antipattern> <!-- begin problematic antipattern -->
-			        <marker>
 				        <token postag="ADJ:.*:T" postag_regexp='yes'>
 					        <exception postag="ADJ:.*:T"
 					                   postag_regexp='yes' negate_pos='yes'/>
 				        </token>
+                    <marker>
 				        <token postag="(NN|NNN):.*:Nom" postag_regexp='yes' />
 			        </marker>
 		        </antipattern> <!-- end problematic antipattern -->
@@ -3367,7 +3367,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 			        </marker>
 			        <or>
 				        <token>
-					        <exception regexp="yes">[\p{Punct}]</exception>
+					        <exception regexp="yes">[\p{Punct}«»]</exception>
 					        <exception postag="NN:.*" postag_regexp="yes"/>
 					        <exception>щеткой</exception>
 				        </token>
@@ -3378,7 +3378,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		        существительным по падежу:
 		        </message>
 		        <!-- begin problematic example -->
-		        <!-- <example>Ставшие хрестоматийными слова «Природой здесь нам суждено в Европу прорубить окно», которые А. С. Пушкин вкладывает в уста Петра I — лишь риторически эффектная фраза.</example> -->
+		        <example>Ставшие хрестоматийными слова «Природой здесь нам суждено в Европу прорубить окно», которые А. С. Пушкин вкладывает в уста Петра I — лишь риторически эффектная фраза.</example>
 		        <!-- end problematic example -->
 		        <!-- <example correction="">Я терпеть не могу эту <marker>глупою женщину</marker>.</example> -->
 		        <example>Среди них наибольшей известностью пользовались простые шутки.</example>
