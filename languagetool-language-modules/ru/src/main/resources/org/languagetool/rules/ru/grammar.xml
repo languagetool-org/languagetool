@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY nation "русск.*|прусск.*|австрийск.*|английск.*|немецк.*|французск.*|испанск.*|португальск.*|голландск.*|датск.*|китайск.*|японск.*|арабск.*|индийск.*|армянск.*|грузинск.*|польск.*|чешск.*|венгерск.*|греческ.*|лишн.*"> <!-- язык, человек -->
 <!ENTITY time "будущ.*|прошл.*|прошедш.*|послед.*|наст.*|следующ.*|текущ.*"> <!-- время,раз -->
 <!ENTITY human "учён.*|учен.*|ленив.*|умн.*|глуп.*|храбр.*|трусл.*|смел.*|быстр.*|медленн.*|здоров.*|больн.*|слаб.*|нищ.*|мертв.*|мёртв.*|полицейск.*|взросл.*|достойн.*|правоверн.*|несовершеннолетн.*|небольш.*|счастлив.*|главн.*|свят.*|верующ.*|сужен.*|бедн.*|стар.*|молод.*|разн.*|сыт.*|голодн.*|знаменит.*|одержим.*|чист.*|рабоч.*|подконтрольн.*|противоположн.*|праздн.*|тороплив.*|недовольн.*|голый|голая|голые|голому|голой|голым|горбат.*|отвратительн.*|посторонн.*|извест.*|странн.*|пеш.*|бережён.*|бережен.*"> <!-- человек,люди,людей -->
-<!ENTITY dual "брата|сына|cапога|курса|помощника|фактора|языка|парня|закона|сестры|жены|угла|дня|вопроса|звезды|телефона|любовника|зуба|переводчика|господина|типа|участка|фильма|яблока|вида|прогноза|вектора|села|представителя|вдоха|человека|корабля|спутника|пчелы|шара|билета|ответа|брака|канала|лицея|соседа|ресторана|скворечника|часа|вкуса|кабеля|вулкана|хребта|гиганта|варианта|пресса|обеда|рода|стула|взноса|слезы|приступа|отца|экзамена|стекла|игрока|писаки|военных|этапа|причины|коллеги|вагин|героя|друга|вождя|паек|телеканала|коридора|терминала|Венеры|маршрута|храма|юл|олушей|бедра|дубов"> <!-- два,двое,пара -->
+<!ENTITY dual "урока|брата|сына|cапога|курса|помощника|фактора|языка|парня|закона|сестры|жены|угла|дня|вопроса|звезды|телефона|любовника|зуба|переводчика|господина|типа|участка|фильма|яблока|вида|прогноза|вектора|села|представителя|вдоха|человека|корабля|спутника|пчелы|шара|билета|ответа|брака|канала|лицея|соседа|ресторана|скворечника|часа|вкуса|кабеля|вулкана|хребта|гиганта|варианта|пресса|обеда|рода|стула|взноса|слезы|приступа|отца|экзамена|стекла|игрока|писаки|военных|этапа|причины|коллеги|вагин|героя|друга|вождя|паек|телеканала|коридора|терминала|Венеры|маршрута|храма|юл|олушей|бедра|дубов|художника"> <!-- два,двое,пара -->
 ]>
 
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -3163,7 +3163,88 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 			        <token case_sensitive="yes" regexp="yes">[А-Я].*[А-Я].*</token>
 		        </marker>
 	        </antipattern>
+	        <antipattern>
+		        <token regexp="yes">&human;</token>
+		        <marker>
+			        <token postag="(NN|NNN):.*:(Nom|R)"
+			               postag_regexp="yes" />
+		        </marker>
+	        </antipattern>
+	        <antipattern>
+		        <token regexp="yes">&time;</token>
+		        <marker>
+			        <token postag="(NN|NNN):.*:*"
+			               postag_regexp="yes" />
+		        </marker>
+	        </antipattern>
+	        <antipattern>
+		        <token regexp="yes">&human;</token>
+		        <marker>
+			        <token postag="(NN|NNN):.*:T|ADV"
+			               postag_regexp="yes">
+				        <exception postag="(NN|NNN):.*:T|ADV"
+				                   postag_regexp="yes" negate_pos='yes'/> 
+			        </token>
+		        </marker>
+	        </antipattern>
+
+	        <antipattern>
+		        <marker>
+			        <token regexp="yes" postag="ADJ:.*"
+			               postag_regexp="yes">&nation;</token>
+		        </marker>
+	        </antipattern>
+	        <antipattern>		        
+		        <marker>
+			        <token postag="(NN|NNN):.*" postag_regexp="yes"
+			               regexp="yes">&dual;</token>
+		        </marker>
+	        </antipattern> <!-- TODO remove after adding PL tags -->
+
+	        <antipattern>
+		        <marker>
+			        <token postag="VB:INF" />
+			        <token postag="ADJ:.*"
+			               postag_regexp="yes"/>
+			        <token postag="(NN|NNN):.*"
+			               postag_regexp="yes"/>			        
+		        </marker>
+	        </antipattern>
+
+	        <!-- <antipattern> -->
+		    <!--     <marker> -->
+			<!--         <unify> -->
+			<!-- 	        <feature id="number"/> -->
+			<!-- 	        <token postag="VB:Past:.*" postag_regexp="yes" /> -->
+			<!-- 	        <token postag="ADJ:.*:T" postag_regexp="yes"/> -->
+			<!--         </unify> -->
+			<!--         <token postag="(NN|NNN):.*:Nom" postag_regexp="yes"/>			         -->
+		    <!--     </marker> -->
+	        <!-- </antipattern> -->
+
+	        <!-- <antipattern> -->
+		    <!--     <marker> -->
+			<!--         <unify> -->
+			<!-- 	        <feature id="number"/>			         -->
+			<!-- 	        <token postag="PT:Past:.*" postag_regexp="yes" /> -->
+			<!-- 	        <token postag="ADJ:.*:T" postag_regexp="yes"/> -->
+			<!--         </unify> -->
+			<!--         <token postag="(NN|NNN):.*" postag_regexp="yes"/>			         -->
+		    <!--     </marker> -->
+	        <!-- </antipattern> -->
+
+
 	        <rule id="Unify_Adj_NN_number">
+		        <antipattern>
+			        <token regexp="yes">&human;</token>
+			        <marker>
+				        <token postag="(NN|NNN):.*:T"
+				               postag_regexp="yes">
+					        <exception postag="(NN|NNN):.*:T"
+					                   postag_regexp="yes" negate_pos='yes'/> 
+				        </token>
+			        </marker>
+		        </antipattern>
 		        <pattern>
 			        <marker>
 				        <unify negate="yes">
@@ -3178,23 +3259,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 					        </token>
 					        <token postag="(NN|NNN):.*" postag_regexp="yes">
 						        <exception postag="CONJ|PREP" postag_regexp="yes" />
-						        <!-- <and> --> <!-- TODO  remove &human; from previous token-->
-							    <!--     <exception scope="previous" -->
-							    <!--                regexp="yes">&human;</exception> -->
-							    <!--     <exception postag="(NN|NNN):.*:Nom" postag_regexp="yes" /> -->
-						        <!-- </and> -->
-						        <exception regexp="yes">друг|уже|были|дай</exception>
-						        <exception regexp="yes">&dual;</exception> <!-- TODO remove after adding PL tags -->
+						        <exception regexp="yes">друг|уже|были|дай|гей</exception>
 					        </token>
 				        </unify>				        
 			        </marker>
-			        <or>
-				        <token>
-					        <exception regexp="yes">и|[\p{Punct}]</exception>
-					        <exception postag="NN:.*" postag_regexp="yes"/>
-				        </token>
-				        <token postag="SENT_END" />
-			        </or>
+			        <token>
+				        <exception regexp="yes">и|[«»",]</exception>
+				        <exception postag="NN:.*" postag_regexp="yes"/>
+			        </token>
 		        </pattern>
 
 		        <message>Прилагательное не согласуется с
@@ -3202,6 +3274,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		        </message>
 		        <short>Грамматическая ошибка в согласовании числа.</short>
 		        <example>Крепкие столы.</example>
+		        <example>Суеверие — это религия слабых духом.</example>
+		        <example>Счастливые часов не наблюдают.</example>
+		        <example>Смелого пуля боится.</example>
+		        <example>Быть умным Николаю мешала лень.</example>
 		        <example>Умные уже тут.</example>
 		        <example>Мы чужие друг другу.</example>
 		        <example>Белый стул.</example>
@@ -3239,7 +3315,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 					        </token>
 					        <token postag="(NN|NNN):.*" postag_regexp="yes">
 						        <exception postag="CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
-						        <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью|были|дай</exception>
+						        <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью|были|дай|гей</exception>
 						        <!-- <and> --> <!-- TODO  remove &human; from previous token-->
 						        <!-- <and> -->
 							    <!--     <exception postag="(NN|NNN):.*:Nom" postag_regexp="yes" /> -->
@@ -3247,22 +3323,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 							    <!--                regexp="yes">&human;</exception> -->
 						        <!-- </and> -->
 						        <exception case_sensitive="yes">Tом</exception>
-						        <exception regexp="yes">&dual;</exception>
 					        </token>
 				        </unify>				        
 			        </marker>
-			        <or>
-				        <token>
-					        <exception regexp="yes">и|[\p{Punct}]</exception>
-					        <exception postag="NN:.*" postag_regexp="yes"/>
-				        </token>
-				        <token postag="SENT_END" />
-			        </or>
+			        <token>
+				        <exception regexp="yes">и|[«»",]</exception>
+				        <exception postag="NN:.*" postag_regexp="yes"/>
+			        </token>
 		        </pattern>
 		        <message>Прилагательное не согласуется с
 		        существительным по роду:
 		        </message>
 		        <example>Крепкие столы.</example>
+		        <example>Суеверие — это религия слабых духом.</example>
+		        <example>Счастливые часов не наблюдают.</example>
+		        <example>Смелого пуля боится.</example>
+		        <example>Быть умным Николаю мешала лень.</example>
 		        <example>Крепкий стол.</example>
 		        <example>Крепкая ограда.</example>
 		        <example>Умные уже тут.</example>
@@ -3289,19 +3365,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Вдали виднелось <marker>синий небо</marker>.</example>
 	        </rule>
 
-<rule id="test" name="test">
-	<pattern>
-		<token postag="ADJ:.*:T" postag_regexp='yes'>
-			<exception postag="ADJ:.*:T"
-			           postag_regexp='yes' negate_pos='yes'/>
-		</token>
-		<token postag="(NN|NNN):.*:Nom" postag_regexp='yes' />
-	</pattern>
-	<message>Test</message>
-	<example correction=""> <marker>хрестоматийными слова</marker></example>
-</rule>
+
 	        <rule id="Unify_Adj_NN_case">
-		        <antipattern> <!-- begin problematic antipattern -->
+		        <antipattern>
 				        <token postag="ADJ:.*:T" postag_regexp='yes'>
 					        <exception postag="ADJ:.*:T"
 					                   postag_regexp='yes' negate_pos='yes'/>
@@ -3309,16 +3375,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
 				        <token postag="(NN|NNN):.*:Nom" postag_regexp='yes' />
 			        </marker>
-		        </antipattern> <!-- end problematic antipattern -->
-
+		        </antipattern>
 		        <antipattern>
-			        <marker>
-				        <token regexp="yes">&human;</token>
-				        <token postag="(NN|NNN):.*:Nom"
-				               postag_regexp="yes" />
+			        
+				        <token postag="ADJ:.*:T" postag_regexp='yes'>
+					        <exception postag="ADJ:.*:T"
+					                   postag_regexp='yes' negate_pos='yes'/>
+				        </token>
+                    <marker>
+				        <token postag="(NN|NNN):.*:Nom" postag_regexp='yes' />
 			        </marker>
 		        </antipattern>
-
+		        
 <!-- 						        делала	делать VB:Past:Fem  -->
 <!-- политически   -->
 <!-- приемлемой	приемлемый  -->
@@ -3365,29 +3433,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						        <!-- Слова без буквы ё имеют неправильный падеж -->
 						        <exception regexp="yes">жилье|белье|щеткой|стерней|сырье</exception>
 						        <exception case_sensitive="yes">Tом</exception>
-						        <exception regexp="yes">&dual;</exception>
 					        </token>
 				        </unify>				        
 			        </marker>
-			        <or>
-				        <token>
-					        <exception regexp="yes">[\p{Punct}«»]</exception>
-					        <exception postag="NN:.*" postag_regexp="yes"/>
-					        <exception>щеткой</exception>
-				        </token>
-				        <token postag="SENT_END" />
-			        </or>
+			        <token>
+				        <exception regexp="yes">[«»",]</exception>
+				        <exception postag="NN:.*" postag_regexp="yes"/>
+				        <exception>щеткой</exception>
+			        </token>
 		        </pattern>
 		        <message>Прилагательное не согласуется с
 		        существительным по падежу:
 		        </message>
-		        <!-- begin problematic example -->
 		        <example>Ставшие хрестоматийными слова «Природой здесь нам суждено в Европу прорубить окно», которые А. С. Пушкин вкладывает в уста Петра I — лишь риторически эффектная фраза.</example>
-		        <!-- end problematic example -->
-		        <!-- <example correction="">Я терпеть не могу эту <marker>глупою женщину</marker>.</example> -->
+		        <example correction="">Я терпеть не могу эту <marker>глупою женщину</marker>.</example>
 		        <example>Среди них наибольшей известностью пользовались простые шутки.</example>
 		        <example>Среди них большей известностью пользовались простые шутки.</example>
 		        <example>Крепкие столы.</example>
+		        <example>Суеверие — это религия слабых духом.</example>
+		        <example>Счастливые часов не наблюдают.</example>
+		        <example>Смелого пуля боится.</example>
+		        <example>Быть умным Николаю мешала лень.</example>
 		        <example>Крепкий стол.</example>
 		        <example>Крепкая ограда.</example>
 		        <example>Умные уже тут.</example>
