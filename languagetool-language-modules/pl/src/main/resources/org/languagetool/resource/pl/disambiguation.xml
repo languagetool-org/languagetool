@@ -761,10 +761,18 @@
 
     <rule id="o_tak" name="o tak -> adv">
         <pattern>
-            <token regexp="yes">[wo]|na|nad|przed|pod</token>
+            <token regexp="yes">[wo]|na|nad|przed|pod|pomiędzy</token>
             <marker><token>tak</token></marker>
         </pattern>
         <disambig action="remove"><wd lemma="taka"/></disambig>
+    </rule>
+
+    <rule id="tak_num" name="tak + num => adv">
+        <pattern>
+            <token postag="adv:pos">tak</token>
+            <token postag="num:pl.*" postag_regexp="yes" inflected="yes" regexp="yes">wiele|mało</token>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <rule id="tak_adv" name="tak + adj => adv">
