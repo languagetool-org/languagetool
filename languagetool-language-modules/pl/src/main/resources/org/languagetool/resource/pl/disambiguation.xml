@@ -761,10 +761,18 @@
 
     <rule id="o_tak" name="o tak -> adv">
         <pattern>
-            <token regexp="yes">[wo]|na|nad|przed|pod</token>
+            <token regexp="yes">[wo]|na|nad|przed|pod|pomiędzy</token>
             <marker><token>tak</token></marker>
         </pattern>
         <disambig action="remove"><wd lemma="taka"/></disambig>
+    </rule>
+
+    <rule id="tak_num" name="tak + num => adv">
+        <pattern>
+            <token postag="adv:pos">tak</token>
+            <token postag="num:pl.*" postag_regexp="yes" inflected="yes" regexp="yes">wiele|mało</token>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <rule id="tak_adv" name="tak + adj => adv">
@@ -777,7 +785,7 @@
 
     <rule id="szybko_adv" name="szybko + adj => adv">
         <pattern>
-            <token postag="adv:pos|qub" postag_regexp="yes" regexp="yes">szybko|grubo|prawie</token>
+            <token postag="adv:pos|qub" postag_regexp="yes" regexp="yes">szybko|grubo|prawie|płytko</token>
             <token postag="(?:adj|pact|ppas).*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
@@ -2147,10 +2155,12 @@
 
     <rule name="Na wskroś" id="na_wskros_burk">
         <pattern>
-            <token>na</token>
-            <marker><token regexp="yes">wskr[oó]ś</token></marker>
+            <marker>
+                <token postag="prep:acc">na</token>
+                <token regexp="yes" postag="burk">wskr[oó]ś</token>
+            </marker>
         </pattern>
-        <disambig postag="burk"></disambig>
+        <disambig action="filterall"></disambig>
         <example type="untouched">Szedł wskroś krzewów.</example>
         <example type="ambiguous" inputform="wskroś[wskroś/burk,wskroś/prep:gen]" outputform="wskroś[wskroś/burk]">Przebijał mu na <marker>wskroś</marker> tarczę.</example>
     </rule>
@@ -3704,6 +3714,12 @@
                  outputform="chłodną[chłodny/adj:sg:inst:f:pos]">Zrywał się wiatr nasycony <marker>chłodną</marker> wilgocią.</example>
     </rule>
 
+    <rule id="IDZIE" name="idzie to nie id">
+        <pattern>
+            <token>idzie</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="id"/></disambig>
+    </rule>
 
     <rule name="kozie śmierć" id="kozie_smierc">
         <pattern>
@@ -5815,13 +5831,6 @@
             <marker><token postag="subst.*" postag_regexp="yes">gospodarzy</token></marker>
         </pattern>
         <disambig action="remove"><wd lemma="gospodarzyć"/></disambig>
-    </rule>
-
-    <rule id="IDZIE" name="idzie to nie id">
-        <pattern>
-            <token>idzie</token>
-        </pattern>
-        <disambig action="remove"><wd lemma="id"/></disambig>
     </rule>
 
     <rule id="KLADZIE" name="kładzie to kłaść">
