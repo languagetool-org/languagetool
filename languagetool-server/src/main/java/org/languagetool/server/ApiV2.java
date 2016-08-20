@@ -58,6 +58,16 @@ class ApiV2 {
       httpExchange.getResponseBody().write(response.getBytes(ENCODING));
     } else if (path.equals("check")) {
       textChecker.checkText(parameters.get("text"), httpExchange, parameters, -1);
+    } else if (path.equals("log")) {
+      // used so the client (especially the browser add-ons) can report internal issues:
+      String message = parameters.get("message");
+      if (message.length() > 250) {
+        message = message.substring(0, 250) + "...";
+      }
+      ServerTools.print("Log message from client: " + message + " - User-Agent: " + httpExchange.getRequestHeaders().get("User-Agent"));
+      String response = "OK";
+      httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
+      httpExchange.getResponseBody().write(response.getBytes(ENCODING));
     } else {
       throw new RuntimeException("Unsupported action: '" + path + "'");
     }
