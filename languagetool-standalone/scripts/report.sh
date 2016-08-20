@@ -71,6 +71,11 @@ echo "" >>$OUTFILE
 echo "v1 API                     : `grep -c 'V1TextChecker' $TMPFILE`" >>$OUTFILE
 echo "v2 API                     : `grep -c 'V2TextChecker' $TMPFILE`" >>$OUTFILE
 
+echo "" >>$OUTFILE
+echo "Up to 50 client errors sent to the server:" >>$OUTFILE
+grep "Log message from client:" $TMPFILE | head -n 50 >>$OUTFILE
+echo "Total client errors: `grep -c "Log message from client:" $TMPFILE`" >>$OUTFILE
+
 DATE_APACHE=`LANG=C date +"%a %b %d"`
 YEAR=`date +"%Y"`
 # note: requires a root cronjob to copy the error.log file to ~/api/apache_error.log:
