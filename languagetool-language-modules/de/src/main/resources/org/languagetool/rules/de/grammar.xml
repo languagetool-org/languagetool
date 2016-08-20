@@ -8461,6 +8461,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="SEMANTICS" name="Semantische Unstimmigkeiten">
         <!-- TODO eigene Kategorie für Mehrdeutigkeiten? -->
         <!-- TODO hierhin auch 'Friseuse', 'Neger', 'Zigeuner'? -->
+        <rule id="LATEINISCHE_TAENZE" name="lateinische (lateinamerikanische) Tänze">
+            <pattern>
+                <marker>
+                    <token inflected='yes'>lateinisch</token>
+                </marker>
+                <token inflected='yes'>Tanz</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="lateinisch" regexp_replace="lateinamerikanisch"/></suggestion>?</message>
+            <example correction='lateinamerikanische'>Abends werden Salsa und andere <marker>lateinische</marker> Tänze um 20 Uhr getanzt.</example>
+            <example correction='lateinamerikanischen'>die Geschichte der <marker>lateinischen</marker> Tänze</example>
+        </rule>        
         <rule id="ZAHL_LANG_NOMEN" name="Zahl + 'lang/breit' etc. (fehlende Einheit)">
             <pattern>
                 <marker>
