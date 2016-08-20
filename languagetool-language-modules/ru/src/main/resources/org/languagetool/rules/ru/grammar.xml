@@ -3336,22 +3336,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						        <exception
 						            postag="ADJ:.*:T|ADV|PT:.*|NN:.*|ADJ_Sup"
 						            postag_regexp="yes"/>
-						        <!-- <exception
-						             postag="ADV|PT:.*|NN:.*|ADJ_Sup"
-						             postag_regexp='yes'/>
-						        --> <!-- TODO -->
-						        <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|мобильного<!-- |зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное --></exception>
+						        <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|мобильного</exception>
 						        <exception case_sensitive="yes">Божию</exception>
 					        </token>
 					        <token postag="(NN|NNN):.*" postag_regexp="yes">
 						        <exception postag="CONJ|PREP|ADV|ADJ:.*" postag_regexp="yes" />
 						        <exception regexp="yes">друг|уже|уж|при|после|весь|мировой|молодой|куплю|байке|лажа|лазанью|были|дай|гей</exception>
-						        <!-- <and> --> <!-- TODO  remove &human; from previous token-->
-						        <!-- <and> -->
-							    <!--     <exception postag="(NN|NNN):.*:Nom" postag_regexp="yes" /> -->
-							    <!--     <exception scope="previous" -->
-							    <!--                regexp="yes">&human;</exception> -->
-						        <!-- </and> -->
 						        <exception case_sensitive="yes">Tом</exception>
 					        </token>
 				        </unify>				        
@@ -3387,7 +3377,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		        <example>Воспользуемся средним чисел а и б.</example>
 		        <example>После выходных работник смотрелся не важно.</example>
 		        <example correction=""><marker>Железный кровать</marker>.</example>
-        <!--        <example>Вдали виднелись красивые сосны.</example>  -->
+               <example>Вдали виднелись красивые сосны.</example>
                 <example correction="">Вдали виднелись <marker>красивый ёлка</marker>.</example>
                 <example>Мебель сделана из красивой сосны.</example>
                 <example correction="">Столы сделаны из <marker>красивая деревьев</marker>.</example>
@@ -3422,16 +3412,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 			        </marker>
 		        </antipattern>
 		        
-<!-- 						        делала	делать VB:Past:Fem  -->
-<!-- политически   -->
-<!-- приемлемой	приемлемый  -->
-<!-- ADJ:Fem:D  -->
-<!-- ADJ:Fem:P  -->
-<!-- ADJ:Fem:R  -->
-<!-- ADJ:Fem:T  -->
-<!-- отмену	отмена  -->
-<!-- NN:Fem:Sin:V  -->
-
 		        <antipattern>
 			        <marker>
 				        <token inflected="yes" postag="ADJ:.*:Nom"
@@ -3513,10 +3493,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>При императрице Екатерине Великой Россия успешно воевала с Турцией</example>
                 <example>При Ярославе Мудром митрополит впервые был избран из числа русских священников</example>
                 <example>В бассейне Нижней Таймыры есть такие объекты как Река Мамонта</example>
-
                 <!-- <example correction="">Столы сделаны из <marker>красивых куски</marker> древесины.</example> -->
                 <!-- <example correction="">Столы сделаны из <marker>красивых деревья</marker>.</example> -->
-
                 <example>Был построен добротный дом.</example>
                 <example correction="">Был построен <marker>добротный дому</marker>.</example>
                 <example>Пушистая кошка грелась на солнышке.</example>
