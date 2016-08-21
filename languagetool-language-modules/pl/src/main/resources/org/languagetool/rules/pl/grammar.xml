@@ -634,25 +634,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                         <example>Będą umrzeć musieli.</example>
                                 </rule>
                     <rule>
-                                        <antipattern>
-                                            <marker><token regexp="yes">trzeba|można|wolno|trza|sposób</token></marker>
-                                            <token min="0" max="2" postag="siebie|qub|ppron.*|subst.*|adv" postag_regexp="yes"></token>
-                                            <token>będzie</token>
-                                        </antipattern>
+                        <antipattern>
+                            <marker><token regexp="yes">trzeba|można|wolno|trza|sposób|warto</token></marker>
+                            <token min="0" max="2" postag="siebie|qub|ppron.*|subst.*|adv" postag_regexp="yes"></token>
+                            <token>będzie</token>
+                        </antipattern>
                         <pattern>
                             <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|adv:.*|prep.*|qub|conj|comp|verb:praet.*imperf.*|verb:inf.*|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|dość</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
                             <token postag="verb:bedzie.*|pcon:imperf.*" postag_regexp="yes" regexp="yes" skip="-1">będ.*</token>
                             <token regexp="yes">&interp_conj;</token>
                         </pattern>
-                        <message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym czasownikiem („\1”) a drugim („\2”).</message>
+                        <message>W tym zdaniu złdożonym brakuje przecinka lub spójnika między jednym czasownikiem („\1”) a drugim („\2”).</message>
                         <short>Błąd interpunkcyjny</short>
                         <example>Marek pomagał będzie Jurkowi odrabiać lekcje za Romana.</example>
                         <example>Trzeba będzie pomóc Jurkowi odrabiać lekcje za Romana.</example>
                         <example>Marek będzie pomagał Jurkowi odrabiać lekcje za Romana.</example>
                         <example correction="">Jurek <marker>pomoże Romanowi odrabiać lekcje a Marek będzie szukać okularów.</marker></example>
-                                        <example>Trzeba to będzie sparzyć kipiątkiem i podrzucić kurom...</example>
-                                    <example correction="">Analiza, która <marker>zignorowała stronę doświadczeniową będzie jedynie analizą czegoś nieistotnego.</marker></example>
-                                        <example>Telefon to coś, bez czego nie sposób będzie się obejść.</example>
+                        <example>Trzeba to będzie sparzyć kipiątkiem i podrzucić kurom...</example>
+                        <example correction="">Analiza, która <marker>zignorowała stronę doświadczeniową będzie jedynie analizą czegoś nieistotnego.</marker></example>
+                        <example>Telefon to coś, bez czego nie sposób będzie się obejść.</example>
+                        <example>Na bazie rozmów telefonicznych podczas przerw lunchowych (samochodem pod McDonald’s i potem w przerwach pomiędzy kęsami dzwonienie z zeszytem przed sobą) selekcjonowałem te, które uznałem, że warto będzie zobaczyć.</example>
                     </rule>
                 </rulegroup>
                 <rule id="BRAK_PRZECINKA_PRZED_IMIESLOWEM_PRZYSLOWKOWYM" name="Brak przecinka przed imiesłowem -ąc lub -wszy">
@@ -9198,14 +9199,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rulegroup id="PREP_CASUS" name="Przyimki z nieodpowiednimi przypadkami">
 				  <antipattern> <!-- też ndm -->
   				  <marker>
-				  <token>sir</token>
+				      <token>sir</token>
 				    </marker>
 				  </antipattern>
+				  <antipattern> <!-- też ndm -->
+  				  <marker>
+				      <token>McDonald</token>
+				    </marker>
+				    <token regexp="yes">['’]</token>
+				    <token>s</token>
+				  </antipattern>
 						<rule>
-                                <antipattern>    <!-- reguła: MIMO_CHODEM ma lepszą sugestię -->
-                                    <token>mimo</token>
-                                    <token>chodem</token>
-                                </antipattern>
+                <antipattern>    <!-- reguła: MIMO_CHODEM ma lepszą sugestię -->
+                    <token>mimo</token>
+                    <token>chodem</token>
+                </antipattern>
 								<pattern>
 										<token postag="prep:gen.*" postag_regexp="yes"><exception regexp="yes">doń|(?:za)?miast|[zw]ewnątrz</exception><exception postag="prep:(?!gen).*|adv" postag_regexp="yes"/></token>
 										<marker>
@@ -9750,6 +9758,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <marker>
                         <unify><feature id="case"><type id="inst"/><type id="acc"/></feature>
                         <token inflected="yes" regexp="yes">nad|pod|pomiędzy|przed</token>
+                        <unify-ignore>
+                          <token postag="adj.*gen.*" postag_regexp="yes" inflected="yes">który</token>
+                          <token min="0" max="1" postag="verb.*" postag_regexp="yes"/>
+                        </unify-ignore>
+                        <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]):.*" postag_regexp="yes"/>
+                        </unify>
+                        </marker>
+                      </antipattern>
+                      <antipattern>
+                        <marker>
+                        <unify><feature id="case"><type id="inst"/><type id="acc"/></feature>
+                        <token inflected="yes" regexp="yes">nad|pod|pomiędzy|przed</token>
                         <unify-ignore><token>pani</token></unify-ignore>
                         <token postag="(:?subst|adj|ger|ppas|pact|ppron[1-3]|num):.*" postag_regexp="yes"/>
                         </unify>
@@ -9789,13 +9809,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                    <short>Przyimek wymaga biernika lub narzędnika</short>
                    <example correction=''>Stałem pod <marker>sklepie</marker>.</example>
                    <example correction=''>Stałem przed <marker>sklepie</marker>.</example>
-                  <example correction=''>Stałem nad <marker>przepaściach</marker>.</example>
+                   <example correction=''>Stałem nad <marker>przepaściach</marker>.</example>
                    <example>Jakie są uwagi pod pani adresem?</example>
                    <example>Przed Grand Prix Wielkiej Brytanii</example>
                    <example>Orkiestra PFB pod dyr. J. Maksymiuka — Długi Targ</example>
                    <example>Takie podejście chroni NIK i kontrolowanego przed ew. pomyłkami.</example>
                    <example>Park jest wyjątkowo przepełniony w pierwszy weekend października (długi weekend z okazji Columbus Day, Dnia Krzysztofa Kolumba), a przed jego pięcioma bramami tworzą się długie kolejki samochodów.</example>
                    <example>Oficjalna północ pod Big Benem</example>
+                   <example>W tym momencie w mojej lodówce stoi „wegański” smalec, pod którego jestem wrażeniem.</example>
+                   <example>Na bazie rozmów telefonicznych podczas przerw lunchowych (samochodem pod McDonald’s i potem w przerwach pomiędzy kęsami dzwonienie z zeszytem przed sobą) selekcjonowałem te, które uznałem, że warto będzie zobaczyć.</example>
                    <!-- inna reguła -->
                    <example>Z pod tej marchwi wyłonił się królik.</example>
                    <example>Z przed tej marchwi wyłonił się królik.</example>                   

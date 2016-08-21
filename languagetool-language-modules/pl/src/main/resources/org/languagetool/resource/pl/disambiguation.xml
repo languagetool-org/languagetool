@@ -4423,13 +4423,27 @@
             <example type="ambiguous" inputform="mocy[moc/subst:pl:gen:f,moc/subst:sg:dat:f,moc/subst:sg:gen:f,moc/subst:sg:loc:f,moc/subst:sg:voc:f]"
                      outputform="mocy[moc/subst:sg:loc:f]">Po niemal całonocnych negocjacjach o czwartej nad ranem zostało podpisane rosyjsko-czeczeńskie porozumienie, na którego <marker>mocy</marker> wczoraj zakończono działania zbrojne w zbuntowanej republice.</example>
         </rule>
+        <rule> <!-- dodajemy fikcyjny znacznik, żeby oznaczyć ewentualną nadrzędność -->
+            <pattern>
+                <unify><feature id="gender"/><feature id="number"/>
+                    <token skip="-1" postag="(?:subst|ger|depr):.*" postag_regexp="yes"/>
+                    <marker>
+                        <token inflected='yes' regexp='yes'>który|jaki</token>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="add"><wd pos="subord"/></disambig>
+        </rule>
         <rule>
             <pattern>
                 <token regexp="yes">[,ia—–]|albo|lub|bądź</token>
                 <unify><feature id="case"/>
                 <token postag="prep.*" postag_regexp="yes"/>
                 <unify-ignore>
+                    <and>
                     <token postag="adj.*gen.*" postag_regexp="yes" inflected="yes">który</token>
+                    <token postag="subord"/>
+                    </and>
                     <token min="0" max="1" postag="verb.*" postag_regexp="yes" inflected="yes" regexp="yes">&verb_non_transitive;</token>
                 </unify-ignore>
                 <token postag="(?:subst|depr|ger|adj|pact|ppas):.*" postag_regexp="yes">
@@ -4446,7 +4460,10 @@
                 <unify><feature id="case"/>
                     <token postag="prep.*" postag_regexp="yes"/>
                     <unify-ignore>
-                        <token postag="adj.*gen.*" postag_regexp="yes" inflected="yes">który</token>
+                        <and>
+                            <token postag="adj.*gen.*" postag_regexp="yes" inflected="yes">który</token>
+                            <token postag="subord"/>
+                        </and>
                     </unify-ignore>
                     <token postag="(?:subst|depr|ger|adj|pact|ppas):.*" postag_regexp="yes">
                         <exception  postag="(?:subst|depr|ger|adj|pact|ppas):.*nom.*" postag_regexp="yes"></exception> <!-- podmiot? -->
@@ -4455,6 +4472,12 @@
                 </marker>
             </pattern>
             <disambig action="unify"/>
+        </rule>
+        <rule>   <!-- czyszczenie znacznika "subord" -->
+            <pattern>
+                <token postag="subord"></token>
+            </pattern>
+            <disambig action="remove"><wd pos="subord"/></disambig>
         </rule>
     </rulegroup>
 
