@@ -368,7 +368,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="проявить заботу"><marker>оказать заботу</marker></example>
             </rule>
           </rulegroup>
-           <rulegroup id="predprinjat_meri" name="Логические ошибки «предпринять меры»">
+          <rulegroup id="povisit_svoi_krugozor" name="Логические ошибки «повысить свой кругозор»">
+            <rule>
+                <pattern>
+                    <token inflected="yes">повысить</token>
+                    <token>свой</token>
+                    <token>кругозор</token>
+                </pattern>              
+                <message>Должно быть: <suggestion><match no="1" regexp_match="повыс(.*)" regexp_replace="расшир$1"></match> <match no="2"></match> <match no="3"></match></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="расширить свой кругозор"><marker>повысить свой кругозор</marker></example>
+            </rule>
+          </rulegroup>
+          <rulegroup id="predprinjat_meri" name="Логические ошибки «предпринять меры»">
             <rule>
                 <pattern>
                     <token inflected="yes">предпринять</token>
