@@ -357,6 +357,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="скрепя сердце"><marker>скрипя сердцем</marker></example>
             </rule>
           </rulegroup>
+          <rulegroup id="okazat_zabotu" name="Логические ошибки «оказать заботу»">
+            <rule> <!--  TODO   add inflected  -->
+                <pattern>
+                    <token>оказать</token>
+                    <token>заботу</token>
+                </pattern>              
+                <message>Должно быть: <suggestion>проявить <match no="2"></match></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="проявить заботу"><marker>оказать заботу</marker></example>
+            </rule>
+          </rulegroup>
+           <rulegroup id="predprinjat_meri" name="Логические ошибки «предпринять меры»">
+            <rule>
+                <pattern>
+                    <token inflected="yes">предпринять</token>
+                    <token>меры</token>
+                </pattern>              
+                <message>Должно быть: <suggestion><match no="1" regexp_match="предприн(.*)" regexp_replace="прин$1"></match> <match no="2"></match></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="принять меры"><marker>предпринять меры</marker></example>
+                <example correction="принял меры"><marker>предпринял меры</marker></example>
+            </rule>
+          </rulegroup>
+          <rulegroup id="bolshinstvo_vremeni" name="Логические ошибки «большинство времени»">
+            <rule> 
+                <pattern>
+                    <token>большинство</token>
+                    <token>времени</token>
+                </pattern>              
+                <message>Должно быть: <suggestion>болшая часть <match no="2"></match></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="болшая часть времени"><marker>большинство времени</marker></example>
+            </rule>
+          </rulegroup>
           <rulegroup id="na_ladan_dishit" name="Логические ошибки «на ладан дышит»">
             <rule> 
                 <pattern>
