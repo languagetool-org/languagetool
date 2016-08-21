@@ -64,7 +64,7 @@ class ApiV2 {
       if (message.length() > 250) {
         message = message.substring(0, 250) + "...";
       }
-      ServerTools.print("Log message from client: " + message + " - User-Agent: " + httpExchange.getRequestHeaders().get("User-Agent"));
+      ServerTools.print("Log message from client: " + message + " - User-Agent: " + httpExchange.getRequestHeaders().getFirst("User-Agent"));
       String response = "OK";
       httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
       httpExchange.getResponseBody().write(response.getBytes(ENCODING));
