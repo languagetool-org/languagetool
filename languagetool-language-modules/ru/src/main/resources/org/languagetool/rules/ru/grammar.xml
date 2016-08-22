@@ -386,10 +386,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">предпринять</token>
                     <token>меры</token>
                 </pattern>              
-                <message>Должно быть: <suggestion><match no="1" regexp_match="предприн(.*)" regexp_replace="прин$1"></match> <match no="2"></match></suggestion>?</message>
+                <message>Должно быть: <suggestion><match no="1" regexp_match="[Пп]редприн(.*)" regexp_replace="прин$1"></match> <match no="2"></match></suggestion>?</message>
                 <short>Логическая ошибка.</short>
                 <example correction="принять меры"><marker>предпринять меры</marker></example>
                 <example correction="принял меры"><marker>предпринял меры</marker></example>
+            </rule>
+          </rulegroup>
+          <rulegroup id="predstavlennie_neudobstva" name="Логические ошибки «представленные неудобства»">
+            <rule>
+                <pattern>
+                    <token regexp="yes">предоставленные|представленные</token>
+                    <token>неудобства</token>
+                </pattern>              
+                <message>Должно быть: <suggestion>доставленные <match no="2"></match></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="доставленные неудобства">Мы приносим свои искренние извинения за <marker>представленные неудобства</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">предоставленные|представленные</token>
+                    <token></token>
+                    <token>неудобства</token>
+                </pattern>              
+                <message>Должно быть: <suggestion>доставленные <match no="2"></match> <match no="3"></match></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="доставленные вам неудобства">Мы приносим свои искренние извинения за <marker>представленные вам неудобства</marker>.</example>
+            </rule>
+          </rulegroup>
+          <rulegroup id="vziskivat_uscherb" name="Логические ошибки «взыскивать ущерб»">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">взыскивать|взыскать</token>
+                    <token>ущерб</token>
+                </pattern>              
+                <message>Должно быть: <suggestion><match no="1"></match> деньги за причинённый <match no="2"></match></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="взыскал деньги за причинённый ущерб"><marker>взыскал ущерб</marker></example>
             </rule>
           </rulegroup>
             <rulegroup id="sorvat_ovacii" name="Логические ошибки «сорвать овации»">
