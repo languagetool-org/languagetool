@@ -153,6 +153,7 @@ class AutomaticConfusionRuleEvaluator {
   public static void main(String[] args) throws IOException {
     if (args.length != 3) {
       System.out.println("Usage: " + AutomaticConfusionRuleEvaluator.class.getSimpleName() + " <confusionPairCandidates> <exampleSentenceIndexDir> <ngramDir>");
+      System.out.println("   <confusionPairCandidates> is a semicolon-separated list of words (one pair per line)");
       System.out.println("   <exampleSentenceIndexDir> is a Lucene index created by TextIndexCreator");
       System.exit(1);
     }
