@@ -375,7 +375,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>свой</token>
                     <token>кругозор</token>
                 </pattern>              
-                <message>Должно быть: <suggestion><match no="1" regexp_match="повыс(.*)" regexp_replace="расшир$1"></match> <match no="2"></match> <match no="3"></match></suggestion>?</message>
+                <message>Должно быть: <suggestion><match no="1" regexp_match="[Пп]овыс(.*)" regexp_replace="расшир$1"></match> <match no="2"></match> <match no="3"></match></suggestion>?</message>
                 <short>Логическая ошибка.</short>
                 <example correction="расширить свой кругозор"><marker>повысить свой кругозор</marker></example>
             </rule>
@@ -988,6 +988,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Логическая ошибка.</short>
             <example correction="цены выросли">На рынке <marker>подорожали цены</marker></example>
             <example>На рынке цены выросли</example>
+          </rule>
+          <rule>  
+            <pattern>
+                <token>дорогие</token>
+                <token>цены</token>
+            </pattern>
+            <message>Логическая ошибка: <suggestion>высокие цены</suggestion>?</message>
+            <short>Логическая ошибка.</short>
+            <example correction="высокие цены">На рынке сегодня были <marker>дорогие цены</marker>.</example>
+          </rule>
+          <rule>  
+            <pattern>
+                <token regexp="yes">деш[её]вые</token>
+                <token>цены</token>
+            </pattern>
+            <message>Логическая ошибка: <suggestion>низкие цены</suggestion>?</message>
+            <short>Логическая ошибка.</short>
+            <example correction="низкие цены">На рынке сегодня были <marker>дешёвые цены</marker>.</example>
           </rule>
           <rule>
             <pattern>
