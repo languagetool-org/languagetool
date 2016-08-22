@@ -644,7 +644,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <token postag="verb:bedzie.*|pcon:imperf.*" postag_regexp="yes" regexp="yes" skip="-1">będ.*</token>
                             <token regexp="yes">&interp_conj;</token>
                         </pattern>
-                        <message>W tym zdaniu złdożonym brakuje przecinka lub spójnika między jednym czasownikiem („\1”) a drugim („\2”).</message>
+                        <message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym czasownikiem („\1”) a drugim („\2”).</message>
                         <short>Błąd interpunkcyjny</short>
                         <example>Marek pomagał będzie Jurkowi odrabiać lekcje za Romana.</example>
                         <example>Trzeba będzie pomóc Jurkowi odrabiać lekcje za Romana.</example>
@@ -4635,6 +4635,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <message>To słowo należy pisać bez spacji i z dywizem: <suggestion>\1-\3</suggestion>.</message>
                     <short>Błąd typograficzny</short>
                     <example correction="19-latek">To był <marker>19 — latek</marker></example>
+                </rule>
+                <rule id="X-LATEK" name="Dywiz ze spacją w określeniach wieku (np. 25 - latek)">
+                 <pattern case_sensitive='yes'>
+                  <token regexp='yes'>[1-9]\d*</token>
+                  <token spacebefore='yes'>-</token>
+                  <or>
+                  <token regexp='yes' spacebefore='yes'>lat(?:ce|ek|ków|k[ąęaiou]|kach|kami|kiem|kom|kowie?)</token>
+                  <token regexp="yes" spacebefore="yes">le(?:ci[eau]?|ci[eo]m|cia(?:ch|mi))</token>
+                  <token inflected="yes" spacebefore="yes" regexp="yes">letni|majowy|złotowy|procentowy|dolarowy|liniowy|bitowy</token>
+                  </or>
+                 </pattern>
+                 <message>Prawdopodobna zbędna spacja: <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>.</message>
+                 <url>http://sjp.pwn.pl/zasady/;629548</url>
+                 <short>Zbędna spacja</short>
+                 <example correction='25-latek'>To jest <marker>25 - latek</marker>.</example>                 
+                 <example correction="25-letni">To jest <marker>25 - letni</marker> mężczyzna.</example>
+                 <example correction="70-lecie">To było nasze <marker>70 - lecie</marker></example>
                 </rule>
                 <rule id="MYSLNIK_ZAMIAST_DYWIZU_WYLICZENIE" name="Myślnik zamiast dywizu w wyliczeniu">
                     <pattern>
@@ -13580,7 +13597,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<short>Błąd fonetyczny</short>
 								<example>Ludwik ma randkę z Przemysławem we wtorek.</example>
 								<example correction="we wtorek">Ludwik ma randkę z Przemysławem <marker>w wtorek</marker>.</example>
-                                <example>To jedenaście punktów radykalnej naprawy sytuacji w ww. czasopismach.</example>
+                <example>To jedenaście punktów radykalnej naprawy sytuacji w ww. czasopismach.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -13645,10 +13662,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Ludwik ma kochankę ze Świecia</example>
 								<example>To przedni wyrób z ZSRR.</example>
 								<example correction="ze Świecia">Ludwik ma kochankę <marker>z Świecia</marker>.</example>
-                                <example>Żyjemy tylko z wpływów z biletów.</example>
-                                <example>Może nas czekać walka z wtórnym analfabetyzmem.</example>
-                                <example>To wszystko wynika z wpływu wywieranego na odbiorców.</example>
-                                <example>Noc z wtorku na środę</example>
+                <example>Żyjemy tylko z wpływów z biletów.</example>
+                <example>Może nas czekać walka z wtórnym analfabetyzmem.</example>
+                <example>To wszystko wynika z wpływu wywieranego na odbiorców.</example>
+                <example>Noc z wtorku na środę</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -13675,9 +13692,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Dostaniesz ze trzy tysiące premii za ten donos.</example>
 								<example>Nawet Horacy drwił ze &quot;szkodliwego hazardu&quot;.</example>
 								<example>Żegnaliśmy go ze łzami.</example>
-                                <example>To trzydzieści miast, ze Lwowem włącznie.</example>
+								<example>To trzydzieści miast, ze Lwowem włącznie.</example>
 								<example correction="z Łodzi">Ludwik ma kochankę <marker>ze Łodzi</marker>.</example>
-                                <example>Podniósł się z fotelu i ze czcią zebrał porozdzierane kartki.</example>
+                <example>Podniósł się z fotelu i ze czcią zebrał porozdzierane kartki.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -13695,15 +13712,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<rule id="OD_MNIE" name="„od/bez mnie” (ode/beze mnie)">
 						<pattern>
 								<marker>
-										<token regexp="yes">od|bez</token>
+										<token regexp="yes">od|bez|s?pod</token>
 								</marker>
-								<token>mnie</token>
+								<token regexp="yes">mnie|mną</token>
 						</pattern>
 						<message>Ten przyimek należy zapisać tak: <suggestion>\1e</suggestion>.</message>
 						<short>Błąd fonetyczny</short>
 						<example>Jak będziesz w szpitalu wariatów, pozdrów Antoniego ode mnie!</example>
 						<example correction="ode">Jak będziesz w szpitalu wariatów, pozdrów Antoniego <marker>od</marker> mnie!</example>
 						<example correction="beze">Możesz <marker>bez</marker> mnie żyć...</example>
+						<example correction="spode">Nie wyrywaj krzesła <marker>spod</marker> mnie.</example>
 				</rule>
 				<rule id="ODE_CZEGO" name="„ode czego” (od czego)">
 						<pattern>
@@ -13716,6 +13734,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<short>Błąd fonetyczny</short>
 						<example>Jak będziesz w szpitalu wariatów, pozdrów Antoniego od Aleksandra!</example>
 						<example correction="od|odę">Jak będziesz w szpitalu wariatów, pozdrów Antoniego <marker>ode</marker> Aleksandra!</example>
+				</rule>
+				<rule id="SPOD_LBA" name="„spod łba” (spode łba)">
+						<pattern>
+								<marker>
+										<token>spod</token>
+								</marker>
+								<token>łba</token>
+						</pattern>
+						<message>Ten przyimek należy zapisać tak: <suggestion>\1e</suggestion>.</message>
+						<short>Błąd fonetyczny</short>
+						<example>Jak będziesz w szpitalu wariatów, pozdrów Antoniego ode mnie!</example>
+						<example correction="spode">Nie patrz na mnie <marker>spod</marker> łba!</example>						
+				</rule>
+				<rule id="SPODE_CZEGO" name="„spode czego” (spod czego)">
+						<pattern>
+								<marker>
+										<token>spode</token>
+								</marker>
+								<token><exception regexp="yes">mnie|łba</exception></token>
+						</pattern>
+						<message>Ten przyimek należy zapisać tak: <suggestion>spod</suggestion>.</message>
+						<short>Błąd fonetyczny</short>
+						<example>Patrzył na mnie spode łba.</example>
+						<example correction="spod">Wylazł <marker>spode</marker> kamienia.</example>
+				</rule>
+				<rule id="PODE_CZEGO" name="„pode czego” (pod czego)">
+						<pattern>
+								<marker>
+										<token>pode</token>
+								</marker>
+								<token><exception regexp="yes">mnie|mną</exception></token>
+						</pattern>
+						<message>Ten przyimek należy zapisać tak: <suggestion>pod</suggestion>.</message>
+						<short>Błąd fonetyczny</short>
+						<example>Kopał dołki pode mną.</example>
+						<example correction="pod">Włazł <marker>pode</marker> kamień.</example>
 				</rule>
 				<rule id="BEZE_CZEGO" name="„beze czego” (bez czego)">
 						<pattern>
