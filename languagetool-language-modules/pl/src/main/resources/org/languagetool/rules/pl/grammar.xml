@@ -13747,17 +13747,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						<example>Jak będziesz w szpitalu wariatów, pozdrów Antoniego ode mnie!</example>
 						<example correction="spode">Nie patrz na mnie <marker>spod</marker> łba!</example>						
 				</rule>
-				<rule id="SPODE_CZEGO" name="„spode czego” (spod czego)">
+				<rule id="SPODE_CZEGO" name="„spode/znade czego” (spod/znad czego)">
 						<pattern>
 								<marker>
-										<token>spode</token>
+										<token regexp="yes">spode|znade</token>
 								</marker>
 								<token><exception regexp="yes">mnie|łba</exception></token>
 						</pattern>
-						<message>Ten przyimek należy zapisać tak: <suggestion>spod</suggestion>.</message>
+						<message>Ten przyimek należy zapisać tak: <suggestion><match no="1" regexp_match="e" regexp_replace=""/></suggestion>.</message>
 						<short>Błąd fonetyczny</short>
 						<example>Patrzył na mnie spode łba.</example>
 						<example correction="spod">Wylazł <marker>spode</marker> kamienia.</example>
+						<example>Atleta, podejrzliwie znade łba wysuwając antenki, szedł za nimi.</example>
 				</rule>
 				<rule id="PODE_CZEGO" name="„pode czego” (pod czego)">
 						<pattern>
