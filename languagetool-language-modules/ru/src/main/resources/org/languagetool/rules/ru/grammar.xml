@@ -3396,18 +3396,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		        </marker>
 	        </antipattern>
 
-	        <rule  id="Unify_Adj_NN_number">  <!-- sdf -->
-		        <antipattern>
-			        <token regexp="yes">&human;</token>
-			        <marker>
-				        <token postag="(NN|NNN):.*:T"
-				               postag_regexp="yes">
-					        <exception postag="(NN|NNN):.*:T"
-					                   postag_regexp="yes" negate_pos='yes'/> 
-				        </token>
-			        </marker>
-		        </antipattern>
-
+	        <rule  id="Unify_Adj_NN_number">
 		        <pattern>
 			        <marker>
 				        <unify negate="yes">
@@ -3416,13 +3405,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 					               postag_regexp="yes">
 						        <exception scope="previous"
 						                   regexp="yes">,|и|-|—</exception>
-						        <exception postag="ADJ:.*:T|ADV|PT:.*|NN:.*"
+						        <exception postag="ADV|ADJ_Sup|PT:.*|NN:.*"
 						                   postag_regexp='yes'/>
 						        <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
 					        </token>
 					        <token postag="(NN|NNN):.*" postag_regexp="yes">
-						        <exception postag="CONJ|PREP" postag_regexp="yes" />
-						        <exception regexp="yes">друг|уже|были|дай|гей</exception>
+						        <exception postag="CONJ|PREP|ADV" postag_regexp="yes" />
+						        <exception regexp="yes">друг|уже|были|дай|гей|стряпней|стерней</exception>
 					        </token>
 				        </unify>				        
 			        </marker>
@@ -3473,7 +3462,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						        <exception scope="previous"
 						                   regexp="yes">,|-|—</exception>
 						        <exception
-						            postag="ADJ:.*:T|ADV|PT:.*|NN:.*|ADJ_Sup"
+						            postag="ADV|ADJ_Sup|PT:.*|NN:.*"
 						            postag_regexp="yes"/>
 						        <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|мобильного</exception>
 						        <exception case_sensitive="yes">Божию</exception>
@@ -3504,6 +3493,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		        <example>Нам объявят необходимыми игры на свежем воздухе.</example>
 		        <example>Для оставшихся неготовыми лодок соорудили бокс.</example>
 		        <example>Для оставшейся неготовой лодки соорудили бокс.</example>
+		        <example>Вестминстер — место пребывания короля, а позднее парламента.</example>
 		        <example>Крепкий стол.</example>
 		        <example>Крепкая ограда.</example>
 		        <example>Умные уже тут.</example>
@@ -3570,7 +3560,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 					               postag_regexp="yes">
 						        <exception scope="previous"
 						                   regexp="yes">,|-|—</exception>
-						        <exception postag="PT:.*|ADV|NN:.*" postag_regexp="yes" />
+						        <exception postag="PT:.*|ADV|ADJ_Sup|NN:.*" postag_regexp="yes" />
 						        <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|возможным|невозможным|собственн(ом|ый)|активн(ым|ыми)|сборной|большее|меньшее</exception>
 						        <exception postag="ADJ:Masc:.*"
 						                   postag_regexp="yes" regexp="yes">
@@ -3613,6 +3603,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		        <example>Нам объявят необходимыми игры на свежем воздухе.</example>
 		        <example>Для оставшихся неготовыми лодок соорудили бокс.</example>
 		        <example>Для оставшейся неготовой лодки соорудили бокс.</example>
+		        <example>Вестминстер — место пребывания короля, а позднее парламента.</example>
 		        <example>Крепкий стол.</example>
 		        <example>Крепкая ограда.</example>
 		        <example>Умные уже тут.</example>
@@ -3639,7 +3630,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Пушистая кошка грелась на солнышке.</example>
                 <example correction="">Эта <marker>пушистая кошкой</marker> грелась.</example>
                 <example>Вдали виднелось синее небо.</example>
-                <example correction="">Вдали виднелось <marker>синее неба</marker>.</example>
+                <example>Оно смотрелось синее неба.</example>
                 <example>Добротная усадьба.</example>
                 <example correction=""><marker>Добротная усадьбе</marker>.</example>
                 <example>Нет крепкого сна.</example>
