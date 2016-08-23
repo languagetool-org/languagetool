@@ -189,7 +189,10 @@ public class English extends Language implements AutoCloseable {
     );
   }
 
-  /** @since 2.7 */
+  /**
+   * Closes the language model, if any. 
+   * @since 2.7 
+   */
   @Override
   public void close() throws Exception {
     if (languageModel != null) {

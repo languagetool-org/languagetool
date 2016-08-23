@@ -142,7 +142,10 @@ public class French extends Language implements AutoCloseable {
     );
   }
 
-  /** @since 3.1 */
+  /**
+   * Closes the language model, if any. 
+   * @since 3.1
+   */
   @Override
   public void close() throws Exception {
     if (languageModel != null) {
