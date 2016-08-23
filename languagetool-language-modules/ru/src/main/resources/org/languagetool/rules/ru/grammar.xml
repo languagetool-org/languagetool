@@ -357,6 +357,95 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="скрепя сердце"><marker>скрипя сердцем</marker></example>
             </rule>
           </rulegroup>
+          <rulegroup id="okazat_zabotu" name="Логические ошибки «оказать заботу»">
+            <rule> <!--  TODO   add inflected  -->
+                <pattern>
+                    <token>оказать</token>
+                    <token>заботу</token>
+                </pattern>              
+                <message>Должно быть: <suggestion>проявить <match no="2"></match></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="проявить заботу"><marker>оказать заботу</marker></example>
+            </rule>
+          </rulegroup>
+          <rulegroup id="povisit_svoi_krugozor" name="Логические ошибки «повысить свой кругозор»">
+            <rule>
+                <pattern>
+                    <token inflected="yes">повысить</token>
+                    <token>свой</token>
+                    <token>кругозор</token>
+                </pattern>              
+                <message>Должно быть: <suggestion><match no="1" regexp_match="[Пп]овыс(.*)" regexp_replace="расшир$1"></match> <match no="2"></match> <match no="3"></match></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="расширить свой кругозор"><marker>повысить свой кругозор</marker></example>
+            </rule>
+          </rulegroup>
+          <rulegroup id="predprinjat_meri" name="Логические ошибки «предпринять меры»">
+            <rule>
+                <pattern>
+                    <token inflected="yes">предпринять</token>
+                    <token>меры</token>
+                </pattern>              
+                <message>Должно быть: <suggestion><match no="1" regexp_match="[Пп]редприн(.*)" regexp_replace="прин$1"></match> <match no="2"></match></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="принять меры"><marker>предпринять меры</marker></example>
+                <example correction="принял меры"><marker>предпринял меры</marker></example>
+            </rule>
+          </rulegroup>
+          <rulegroup id="predstavlennie_neudobstva" name="Логические ошибки «представленные неудобства»">
+            <rule>
+                <pattern>
+                    <token regexp="yes">предоставленные|представленные</token>
+                    <token>неудобства</token>
+                </pattern>              
+                <message>Должно быть: <suggestion>доставленные <match no="2"></match></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="доставленные неудобства">Мы приносим свои искренние извинения за <marker>представленные неудобства</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">предоставленные|представленные</token>
+                    <token></token>
+                    <token>неудобства</token>
+                </pattern>              
+                <message>Должно быть: <suggestion>доставленные <match no="2"></match> <match no="3"></match></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="доставленные вам неудобства">Мы приносим свои искренние извинения за <marker>представленные вам неудобства</marker>.</example>
+            </rule>
+          </rulegroup>
+          <rulegroup id="vziskivat_uscherb" name="Логические ошибки «взыскивать ущерб»">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">взыскивать|взыскать</token>
+                    <token>ущерб</token>
+                </pattern>              
+                <message>Должно быть: <suggestion><match no="1"></match> деньги за причинённый <match no="2"></match></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="взыскал деньги за причинённый ущерб"><marker>взыскал ущерб</marker></example>
+            </rule>
+          </rulegroup>
+            <rulegroup id="sorvat_ovacii" name="Логические ошибки «сорвать овации»">
+            <rule>
+                <pattern>
+                    <token inflected="yes">сорвать</token>
+                    <token>овации</token>
+                </pattern>              
+                <message>Должно быть: <suggestion><match no="1"></match> аплодисменты</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="сорвал аплодисменты">Артист <marker>сорвал овации</marker>.</example>
+            </rule>
+          </rulegroup>
+          <rulegroup id="bolshinstvo_vremeni" name="Логические ошибки «большинство времени»">
+            <rule> 
+                <pattern>
+                    <token>большинство</token>
+                    <token>времени</token>
+                </pattern>              
+                <message>Должно быть: <suggestion>болшая часть <match no="2"></match></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="болшая часть времени"><marker>большинство времени</marker></example>
+            </rule>
+          </rulegroup>
           <rulegroup id="na_ladan_dishit" name="Логические ошибки «на ладан дышит»">
             <rule> 
                 <pattern>
@@ -931,6 +1020,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Логическая ошибка.</short>
             <example correction="цены выросли">На рынке <marker>подорожали цены</marker></example>
             <example>На рынке цены выросли</example>
+          </rule>
+          <rule>  
+            <pattern>
+                <token>дорогие</token>
+                <token>цены</token>
+            </pattern>
+            <message>Логическая ошибка: <suggestion>высокие цены</suggestion>?</message>
+            <short>Логическая ошибка.</short>
+            <example correction="высокие цены">На рынке сегодня были <marker>дорогие цены</marker>.</example>
+          </rule>
+          <rule>  
+            <pattern>
+                <token regexp="yes">деш[её]вые</token>
+                <token>цены</token>
+            </pattern>
+            <message>Логическая ошибка: <suggestion>низкие цены</suggestion>?</message>
+            <short>Логическая ошибка.</short>
+            <example correction="низкие цены">На рынке сегодня были <marker>дешёвые цены</marker>.</example>
           </rule>
           <rule>
             <pattern>

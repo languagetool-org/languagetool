@@ -23,6 +23,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
 USA
 -->
 <!--suppress CheckTagEmptyBody -->
+
+<!DOCTYPE rules [
+        <!ENTITY weekdays "Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday">
+        <!ENTITY abbrevWeekdays "Mon|Mo|Tue|Tu|Wed|We|Thu|Th|Fri|Fr|Sat|Sa|Sun|Su">
+        <!ENTITY months "January|February|March|April|May|June|July|August|September|October|November|December">
+        <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec">
+        ]>
+
 <rules lang="en-US" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <!-- ====================================================================== -->
@@ -44,6 +52,25 @@ USA
           </rule>
     </category>
 
+    <category id="AMERICAN_ENGLISH_STYLE" name="American English Style" type="style">
+        <rule id="MISSING_COMMA_AFTER_YEAR" name="Potentially missing comma after year">
+            <pattern>
+                <token regexp="yes">&months;</token>
+                <token regexp="yes">[0123]?[0-9]</token>
+                <token min="0">,</token>
+                <marker>
+                    <token regexp="yes">[0-9]{4}</token>
+                </marker>
+                <token regexp="yes">[a-z]+</token>
+            </pattern>
+            <message>Some style guides suggest that commas should set off the year in a month-day-year date: <suggestion>\4,</suggestion>.</message>
+            <url>http://www.thepunctuationguide.com/comma.html#dates</url>
+            <short>Potentially missing comma</short>
+            <example correction="2011,">The meeting scheduled for July 10, <marker>2011</marker> was canceled.</example>
+            <example>My birthday is October 8, <marker>1983,</marker> but I usually do not celebrate.</example>
+        </rule>
+    </category>
+    
     <category id="BRITISH_ENGLISH" name="British English phrases" type="locale-violation">
         <rule id="GROUND_FIRST_FLOOR" name="ground floor/first floor">
             <pattern>
