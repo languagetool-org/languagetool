@@ -3396,18 +3396,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		        </marker>
 	        </antipattern>
 
-	        <rule  id="Unify_Adj_NN_number">  <!-- sdf -->
-		        <antipattern>
-			        <token regexp="yes">&human;</token>
-			        <marker>
-				        <token postag="(NN|NNN):.*:T"
-				               postag_regexp="yes">
-					        <exception postag="(NN|NNN):.*:T"
-					                   postag_regexp="yes" negate_pos='yes'/> 
-				        </token>
-			        </marker>
-		        </antipattern>
-
+	        <rule  id="Unify_Adj_NN_number">
 		        <pattern>
 			        <marker>
 				        <unify negate="yes">
@@ -3416,13 +3405,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 					               postag_regexp="yes">
 						        <exception scope="previous"
 						                   regexp="yes">,|и|-|—</exception>
-						        <exception postag="ADJ:.*:T|ADV|ADJ_Sup|PT:.*|NN:.*"
+						        <exception postag="ADV|ADJ_Sup|PT:.*|NN:.*"
 						                   postag_regexp='yes'/>
 						        <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
 					        </token>
 					        <token postag="(NN|NNN):.*" postag_regexp="yes">
-						        <exception postag="CONJ|PREP" postag_regexp="yes" />
-						        <exception regexp="yes">друг|уже|были|дай|гей</exception>
+						        <exception postag="CONJ|PREP|ADV" postag_regexp="yes" />
+						        <exception regexp="yes">друг|уже|были|дай|гей|стряпней|стерней</exception>
 					        </token>
 				        </unify>				        
 			        </marker>
@@ -3473,7 +3462,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 						        <exception scope="previous"
 						                   regexp="yes">,|-|—</exception>
 						        <exception
-						            postag="ADJ:.*:T|ADV|ADJ_Sup|PT:.*|NN:.*"
+						            postag="ADV|ADJ_Sup|PT:.*|NN:.*"
 						            postag_regexp="yes"/>
 						        <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|мобильного</exception>
 						        <exception case_sensitive="yes">Божию</exception>
