@@ -63,7 +63,7 @@ final class AllConfusionRulesEvaluator {
     if (args.length >= 4) {
       inputsFiles.add(args[3]);
     }
-    ConfusionRuleEvaluator eval = new ConfusionRuleEvaluator(lang, languageModel);
+    ConfusionRuleEvaluator eval = new ConfusionRuleEvaluator(lang, languageModel, false);
     eval.setVerboseMode(false);
     ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/confusion_sets.txt");
