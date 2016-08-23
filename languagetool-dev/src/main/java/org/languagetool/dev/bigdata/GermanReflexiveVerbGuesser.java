@@ -47,14 +47,12 @@ final class GermanReflexiveVerbGuesser {
     System.out.println("Anzahl Lemma | mich/uns/euch ... | ... mich/uns/euch | Lemma");
     try (LuceneLanguageModel lm = new LuceneLanguageModel(indexTopDir)) {
       for (String lemma : lemmas) {
-        String[] thirdPsSinArray = synthesizer.synthesize(new AnalyzedToken(lemma, "VER:INF:NON", lemma), "VER:3:SIN:PRÄ:NON");
-        if (thirdPsSinArray.length == 0) {
-          thirdPsSinArray = synthesizer.synthesize(new AnalyzedToken(lemma, "VER:INF:NON", lemma), "VER:3:SIN:PRÄ:NON:NEB");
-        }
-        //System.out.println(lemma + " -> " + Arrays.toString(thirdPsSin));
+        String[] firstPsSinArray = synthesizer.synthesize(new AnalyzedToken(lemma, "VER:INF:NON", lemma), "VER:1:SIN:PRÄ.*", true);
+        String[] thirdPsSinArray = synthesizer.synthesize(new AnalyzedToken(lemma, "VER:INF:NON", lemma), "VER:3:SIN:PRÄ.*", true);
+        String firstPsSin = firstPsSinArray.length > 0 ? firstPsSinArray[0] : null;
         String thirdPsSin = thirdPsSinArray.length > 0 ? thirdPsSinArray[0] : null;
-        long reflexiveCount1 = count1(lm, lemma, thirdPsSin);
-        long reflexiveCount2 = count2(lm, lemma, thirdPsSin);
+        long reflexiveCount1 = count1(lm, lemma, firstPsSin, thirdPsSin);
+        long reflexiveCount2 = count2(lm, lemma, firstPsSin, thirdPsSin);
         long lemmaCount = lm.getCount(lemma);
         float factor1 = ((float)reflexiveCount1 / lemmaCount) * 100.0f;
         float factor2 = ((float)reflexiveCount2 / lemmaCount) * 100.0f;
@@ -65,9 +63,9 @@ final class GermanReflexiveVerbGuesser {
     }
   }
 
-  private long count1(LuceneLanguageModel lm, String lemma, String thirdPsSin) {
+  private long count1(LuceneLanguageModel lm, String lemma, String firstPsSin, String thirdPsSin) {
     return
-      lm.getCount(asList("mich", lemma))
+      lm.getCount(asList("mich", firstPsSin))
       //+ lm.getCount(asList("dich", sing2))
       + lm.getCount(asList("sich", thirdPsSin))
       + lm.getCount(asList("uns", lemma))
@@ -75,9 +73,9 @@ final class GermanReflexiveVerbGuesser {
       + lm.getCount(asList("sich", lemma));
   }
 
-  private long count2(LuceneLanguageModel lm, String lemma, String thirdPsSin) {
+  private long count2(LuceneLanguageModel lm, String lemma, String firstPsSin, String thirdPsSin) {
     return
-      lm.getCount(asList(lemma, "mich"))
+      lm.getCount(asList(firstPsSin, "mich"))
       //+ lm.getCount(asList(sing2, "dich"))
       + lm.getCount(asList(thirdPsSin, "sich"))
       + lm.getCount(asList(lemma, "uns"))
