@@ -940,20 +940,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="крохотный"><marker>очень крохотный</marker></example>
             </rule>
         </rulegroup>  
-        <rulegroup id="po_povodu_togo" name="Канцелярский штамп: «по поводу того»">
-            <rule> 
-                <pattern>
-                    <token>по</token>                  
-                    <token>поводу</token>
-                    <token>того</token>
-                </pattern>
-                <message>Канцелярский штамп: <suggestion>о том</suggestion>?</message>
-                <short>Канцелярский штамп</short>
-                <example correction="о том">Девчата болтали <marker>по поводу того</marker>, как прекрасна летняя ночь.</example>
-            </rule>
-        </rulegroup>
-                                                                                                                                                                                        
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
         <rulegroup id="BLIZKIJ_BLIZHNIJ" name="Употребление слов «близкий/ближний»">
             <rule> 
                 <pattern>
@@ -5884,7 +5871,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Иван <marker>Иваныч</marker>.</example>
             </rule>
         </rulegroup>
-        
+        <rulegroup id="po_povodu_togo" name="Канцелярский штамп: «по поводу того»" default="off">
+            <rule> 
+                <pattern>
+                    <token>по</token>                  
+                    <token>поводу</token>
+                    <token>того</token>
+                </pattern>
+                <message>Канцелярский штамп: <suggestion>о том</suggestion>?</message>
+                <short>Канцелярский штамп</short>
+                <example correction="о том">Девчата болтали <marker>по поводу того</marker>, как прекрасна летняя ночь.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="tak_skazat" name="Слова-паразиты: «так сказать»" default="off">
+            <rule> 
+                <pattern>
+                    <token>,</token>
+                    <token>так</token>                  
+                    <token>сказать</token>
+                    <token>,</token>
+                </pattern>
+                <message>Слова-паразиты. <suggestion></suggestion></message>
+                <short>Слова-паразиты</short>
+                <example correction="">Каждый напиток имеет<marker>, так сказать,</marker> свое значение.</example>
+            </rule>
+        </rulegroup>                         
+        <rulegroup id="kak_bi" name="Слова-паразиты: «как бы»" default="off">
+            <rule> 
+                <pattern>
+                    <token>как<exception scope="previous" regexp="yes">,|и|то</exception></token>                  
+                    <token>бы</token>
+                </pattern>
+                <message>Слова-паразиты. <suggestion></suggestion></message>
+                <short>Слова-паразиты</short>
+                <example correction="">Он тебе <marker>как бы</marker> нравится?</example>
+            </rule>
+        </rulegroup>                                                                                                                                                                                              
         <rule id="KTO_VB_PL" name="Местоимение «кто» и глагол">
             <pattern>
                 <token>кто</token>
