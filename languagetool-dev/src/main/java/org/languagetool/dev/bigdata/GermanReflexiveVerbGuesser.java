@@ -44,7 +44,7 @@ final class GermanReflexiveVerbGuesser {
   private void run(File indexTopDir, File lemmaListFile) throws IOException {
     List<String> lemmas = Files.readAllLines(lemmaListFile.toPath());
     //System.out.println("mich ... | ... mich | Anzahl Lemma | Lemma");
-    System.out.println("Anzahl Lemma | mich/uns/euch ... | ... mich/uns/euch | Lemma");
+    System.out.println("Durchschnitt Prozent | Anzahl Lemma | mich/uns/euch ... | ... mich/uns/euch | Lemma");
     try (LuceneLanguageModel lm = new LuceneLanguageModel(indexTopDir)) {
       for (String lemma : lemmas) {
         String[] firstPsSinArray = synthesizer.synthesize(new AnalyzedToken(lemma, "VER:INF:NON", lemma), "VER:1:SIN:PRÄ.*", true);
@@ -56,20 +56,23 @@ final class GermanReflexiveVerbGuesser {
         long lemmaCount = lm.getCount(lemma);
         float factor1 = ((float)reflexiveCount1 / lemmaCount) * 100.0f;
         float factor2 = ((float)reflexiveCount2 / lemmaCount) * 100.0f;
+        float avgFactor = (factor1 + factor2) / 2;
         //System.out.printf("%.2f%% %.2f%% " + reflexiveCount1 + " " + reflexiveCount2 + " " + lemmaCount + " " + lemma + "\n", factor1, factor2);
         //System.out.printf("%.2f%% %.2f%% " + lemmaCount + " " + lemma + "\n", factor1, factor2);
-        System.out.printf("%d %.2f%% %.2f%% %s\n", lemmaCount, factor1, factor2, lemma);
+        System.out.printf("%.2f %d %.2f%% %.2f%% %s\n", avgFactor, lemmaCount, factor1, factor2, lemma);
       }
     }
   }
 
   private long count1(LuceneLanguageModel lm, String lemma, String firstPsSin, String thirdPsSin) {
     return
-      lm.getCount(asList("mich", firstPsSin))
+      lm.getCount(asList("mich", firstPsSin))  // "wenn ich mich schäme"
+      + lm.getCount(asList("mich", lemma))     // "ich muss mich schämen"
       //+ lm.getCount(asList("dich", sing2))
       + lm.getCount(asList("sich", thirdPsSin))
+      + lm.getCount(asList("sich", lemma))
       + lm.getCount(asList("uns", lemma))
-      //+ lm.getCount(asList("euch", plu2))
+      + lm.getCount(asList("euch", lemma))
       + lm.getCount(asList("sich", lemma));
   }
 
