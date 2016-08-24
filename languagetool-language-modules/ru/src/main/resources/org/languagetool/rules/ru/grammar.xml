@@ -6044,13 +6044,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
        </rulegroup>
        <rule default="on" id="prep_prep" name="Два предлога подряд">
-           <pattern case_sensitive="yes">
-               <token postag="PREP"><exception negate_pos="yes" postag="PREP"></exception><exception regexp="yes">ПО|По|К|ИЗО</exception></token>
-               <token postag="PREP"><exception negate_pos="yes" postag="PREP"></exception><exception regexp="yes">[А-Я].*</exception></token>
-           </pattern>
+	        <antipattern>
+		        <marker>
+			        <token postag="SENT_START" negate_pos="yes"/>
+			        <token case_sensitive="yes" regexp="yes">По|Изо|С|В|К|[А-ЯЁ][А-ЯЁ]*</token>
+		        </marker>
+	        </antipattern>
+	        <pattern>
+		        <marker>
+			        <token postag="PREP">
+				        <exception postag="PREP|ABR" negate_pos="yes"  postag_regexp="yes"/>
+				        <exception case_sensitive="yes" regexp="yes">[А-ЯЁ][А-ЯЁ]*</exception>
+				        <exception regexp="yes">насчёт|насчет|ради|перед</exception>
+			        </token> 
+			        <token postag="PREP">
+				        <exception postag="PREP|ABR" negate_pos="yes" postag_regexp="yes"/>
+				        <exception case_sensitive="yes" regexp="yes">По|Изо|С|В|К|[А-ЯЁ][А-ЯЁ]*</exception>
+				        <exception regexp="yes">без|перед</exception>
+			        </token>
+		        </marker>
+		        <token><exception>.</exception></token>
+	        </pattern>
            <message>Два предлога подряд: <suggestion>\1</suggestion> или <suggestion>\2</suggestion></message>
            <short>Два предлога подряд</short>
+           <example>Разбил в аварии перед у машины</example>
+           <example correction="на|под">Тарелка <marker>на под</marker> блюдо.</example>
            <example correction="на|в">Кошка прыгнула <marker>на в</marker> окно.</example>
+           <example correction="в|к">Я уверен, что всё изменится <marker>в к</marker> лучшему.</example>
        </rule>   
        <rulegroup default="on" id="kommentirovat_prep" name="Словосочетание «комментировать» + предлог">
             <rule>
@@ -7744,7 +7764,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
 
 
-<rulegroup id="Tavtologija" name="Тавтология">
+        
+        <rulegroup id="Tavtologija" name="Тавтология">
 
 
             <rule>   
