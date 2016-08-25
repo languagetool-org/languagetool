@@ -8,7 +8,7 @@
 
 #### English
   * added and improved rules
-  * added confusion pair talking/taking (works only with ngram data,
+  * added about 30 confusion pairs like talking/taking (works only with ngram data,
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
   * added category MISUSED_TERMS_EU_PUBLICATIONS
 
