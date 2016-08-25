@@ -5,6 +5,62 @@
 -->
 <rules lang="uk"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
+	<unification feature="number">
+		<equivalence type="s">
+			<token postag=".*:[smnf]:.*" postag_regexp="yes"></token>
+		</equivalence>
+		<equivalence type="p">
+			<token postag=".*:p:.*" postag_regexp="yes"></token>
+		</equivalence>
+	</unification>
+	<unification feature="gender">
+		<equivalence type="f">
+			<token postag=".*:f:.*" postag_regexp="yes" />
+		</equivalence>
+		<equivalence type="m">
+			<token postag=".*:m:.*" postag_regexp="yes" />
+		</equivalence>
+		<equivalence type="n">
+			<token postag=".*:n:.*" postag_regexp="yes" />
+		</equivalence>
+		<equivalence type="pl">
+			<token postag=".*:p:.*" postag_regexp="yes" />
+		</equivalence>
+	</unification>
+	<unification feature="case">
+		<equivalence type="v_naz">
+			<token postag=".*:v_naz.*" postag_regexp="yes"></token>
+		</equivalence>
+		<equivalence type="v_rod">
+			<token postag=".*:v_rod.*" postag_regexp="yes"></token>
+		</equivalence>
+		<equivalence type="v_dav">
+			<token postag=".*:v_dav.*" postag_regexp="yes"></token>
+		</equivalence>
+		<equivalence type="v_zna">
+			<token postag=".*:v_zna.*" postag_regexp="yes"></token>
+		</equivalence>
+		<equivalence type="v_oru">
+			<token postag=".*:v_oru.*" postag_regexp="yes"></token>
+		</equivalence>
+		<equivalence type="v_mis">
+			<token postag=".*:v_mis.*" postag_regexp="yes"></token>
+		</equivalence>
+		<equivalence type="v_kly">
+			<token postag=".*:v_kly.*" postag_regexp="yes"></token>
+		</equivalence>
+	</unification>
+	<unification feature="person">
+		<equivalence type="pri">
+			<token postag=".*:1.*"></token>
+		</equivalence>
+		<equivalence type="sec">
+			<token postag=".*:2.*"></token>
+		</equivalence>
+		<equivalence type="tri">
+			<token postag=".*:3.*"></token>
+		</equivalence>
+	</unification>
 
 
     <rule name="Кличний для неістот" id="V_KLY_FOR_INANIM">
@@ -753,6 +809,63 @@
         <example type="untouched">червоне - зелене</example>
     </rule>
     
+    <!-- TODO: this rule may be a bit too greedy, but most of the time it's right -->
+    <rule name="Іменник та прикметник «робочий»" id="NOUN_OR_ADJ_ROBOCHYI">
+        <pattern>
+          <unify>
+            <feature id="gender"/>
+            <feature id="case"/>
+
+            <marker>
+              <token inflected="yes">робочий</token>
+            </marker>
+            <token postag_regexp="yes" postag="noun:inanim.*"/>
+            <!-- stricter
+            <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim.*">день|сила|група|місце|час|зустріч|рука</token>
+            -->
+          </unify>
+        </pattern>
+        <disambig><match no="1" postag="adj.*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous"
+            inputform="робочий[робочий/adj:m:v_kly,робочий/adj:m:v_naz,робочий/adj:m:v_zna:rinanim,робочий/noun:anim:m:v_kly,робочий/noun:anim:m:v_naz]"
+            outputform="робочий[робочий/adj:m:v_kly,робочий/adj:m:v_naz,робочий/adj:m:v_zna:rinanim]"
+            >Прийшов у <marker>робочий</marker> кабінет.</example>
+        <example type="untouched">Робочий не хотів працювати.</example>
+    </rule>
+
+<!-- TOOD: redo when dictionary updated
+    <rule name="Числівник, як іменник годин 1" id="NUMR_AS_HOUR_NOUN1">
+        <pattern>
+          <marker>
+            <token regexp="yes" inflected="yes" postag_regexp="yes" postag="adj:f:v_(naz|rod|zna|mis).*">(перший|другий|третій|четвертий|п'ятий|шостий|сьомий|восьмий|дев'ятий|десятий|одинадцятий|дванадцятий)</token>
+          </marker>
+          <token regexp="yes">(ранку|дня|вечора|ночі|пополудні)</token>
+        </pattern>
+        <disambig><match no="1" postag_regexp="yes" postag="adj:(f:v_...)(:r(in)?anim)?.*" postag_replace="noun:inanim:$1"/></disambig>
+        <example type="ambiguous" 
+            inputform="першу[перший/adj:f:v_zna:compb:&amp;_numr]"
+            outputform="першу[перший/noun:inanim:f:v_zna]">На <marker>першу</marker> дня.</example>
+        <example type="ambiguous" 
+            inputform="шостій[шостий/adj:f:v_mis:compb:&amp;_numr]"
+            outputform="шостій[шостий/noun:inanim:f:v_mis]">О <marker>шостій</marker> ранку.</example>
+        <example type="untouched">На першу сходинку.</example>
+    </rule>
+    <rule name="Числівник, як іменник годин 2" id="NUMR_AS_HOUR_NOUN2">
+        <pattern>
+          <token>о</token>
+          <marker>
+            <token regexp="yes">(першій|другій|третій|четвертій|п'ятій|шостій|сьомій|восьмій|дев'ятій|десятій|одинадцятій|дванадцятій)</token>
+          </marker>
+          <token><exception>годині</exception></token>
+        </pattern>
+        <disambig><match no="1" postag_regexp="yes" postag="adj:(f:v_...)(:r(in)?anim)?.*" postag_replace="noun:inanim:f:v_mis"/></disambig>
+        <example type="ambiguous" 
+            inputform="першій[перший/adj:f:v_dav:compb:&amp;_numr,перший/adj:f:v_mis:compb:&amp;_numr]"
+            outputform="першій[перший/noun:inanim:f:v_mis,перший/noun:inanim:f:v_mis]">О <marker>першій</marker> все засинає.</example>
+        <example type="untouched">На першій сходинці.</example>
+        <example type="untouched">О першій годині.</example>
+    </rule>
+-->
 <!-- 
     <rule name="Розмовні форми інфінітиву (лишити)" id="VERB_INF_COLL_LEAVE">
         <pattern>
