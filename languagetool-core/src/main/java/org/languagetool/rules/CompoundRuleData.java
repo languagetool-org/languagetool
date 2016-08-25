@@ -80,12 +80,12 @@ public class CompoundRuleData {
         validateLine(path, line);
         if (line.endsWith("+")) {
           line = removeLastCharacter(line);
-          noDashSuggestion.add(line.toLowerCase());
+          noDashSuggestion.add(line);
         } else if (line.endsWith("*")) {
           line = removeLastCharacter(line);
-          onlyDashSuggestion.add(line.toLowerCase());
+          onlyDashSuggestion.add(line);
         }
-        incorrectCompounds.add(line.toLowerCase());
+        incorrectCompounds.add(line);
       }
     }
   }
