@@ -43,15 +43,18 @@ final class GermanReflexiveVerbGuesser {
   
   private void run(File indexTopDir, File lemmaListFile) throws IOException {
     List<String> lemmas = Files.readAllLines(lemmaListFile.toPath());
-    //System.out.println("mich ... | ... mich | Anzahl Lemma | Lemma");
     System.out.println("Durchschnitt Prozent | Anzahl Lemma | mich/uns/euch ... | ... mich/uns/euch | Lemma");
     try (LuceneLanguageModel lm = new LuceneLanguageModel(indexTopDir)) {
       for (String lemma : lemmas) {
+        //if (!lemma.equals("reklamieren")) { continue; }
+        //if (!lemma.equals("hertreiben")) { continue; }
         String[] firstPsSinArray = synthesizer.synthesize(new AnalyzedToken(lemma, "VER:INF:NON", lemma), "VER:1:SIN:PRÄ.*", true);
         String[] thirdPsSinArray = synthesizer.synthesize(new AnalyzedToken(lemma, "VER:INF:NON", lemma), "VER:3:SIN:PRÄ.*", true);
         String firstPsSin = firstPsSinArray.length > 0 ? firstPsSinArray[0] : null;
         String thirdPsSin = thirdPsSinArray.length > 0 ? thirdPsSinArray[0] : null;
-        long reflexiveCount1 = count1(lm, lemma, firstPsSin, thirdPsSin);
+        long reflexiveCount1 = count1(lm, lemma, firstPsSin, thirdPsSin) 
+                               - counterExamples("für", lm, lemma, firstPsSin, thirdPsSin)
+                               - counterExamples("vor", lm, lemma, firstPsSin, thirdPsSin);
         long reflexiveCount2 = count2(lm, lemma, firstPsSin, thirdPsSin);
         long lemmaCount = lm.getCount(lemma);
         float factor1 = ((float)reflexiveCount1 / lemmaCount) * 100.0f;
@@ -70,15 +73,24 @@ final class GermanReflexiveVerbGuesser {
       + lm.getCount(asList("mich", lemma))     // "ich muss mich schämen"
       //+ lm.getCount(asList("dich", sing2))
       + lm.getCount(asList("sich", thirdPsSin))
-      + lm.getCount(asList("sich", lemma))
       + lm.getCount(asList("uns", lemma))
       + lm.getCount(asList("euch", lemma))
       + lm.getCount(asList("sich", lemma));
   }
 
+  private long counterExamples(String term, LuceneLanguageModel lm, String lemma, String firstPsSin, String thirdPsSin) {
+    return
+      lm.getCount(asList(term, "mich", firstPsSin))  // "für mich reklamiere"
+      + lm.getCount(asList(term, "mich", lemma))     // "... für mich reklamieren"
+      + lm.getCount(asList(term, "sich", thirdPsSin))
+      + lm.getCount(asList(term, "uns", lemma))
+      + lm.getCount(asList(term, "euch", lemma))
+      + lm.getCount(asList(term, "sich", lemma));
+  }
+
   private long count2(LuceneLanguageModel lm, String lemma, String firstPsSin, String thirdPsSin) {
     return
-      lm.getCount(asList(firstPsSin, "mich"))
+      lm.getCount(asList(firstPsSin, "mich"))  // "schäme mich"
       //+ lm.getCount(asList(sing2, "dich"))
       + lm.getCount(asList(thirdPsSin, "sich"))
       + lm.getCount(asList(lemma, "uns"))
