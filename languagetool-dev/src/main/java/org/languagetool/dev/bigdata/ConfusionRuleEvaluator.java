@@ -58,7 +58,7 @@ class ConfusionRuleEvaluator {
 
   private static final String TOKEN = "there";
   private static final String TOKEN_HOMOPHONE = "their";
-  //private static final List<Integer> EVAL_FACTORS = Arrays.asList(100);
+  private static final boolean CASE_SENSITIVE = false;
   private static final List<Long> EVAL_FACTORS = Arrays.asList(10L, 100L, 1_000L, 10_000L, 100_000L, 1_000_000L, 10_000_000L);
   private static final int MAX_SENTENCES = 1000;
 
@@ -263,7 +263,7 @@ class ConfusionRuleEvaluator {
     if (args.length >= 4) {
       inputsFiles.add(args[3]);
     }
-    ConfusionRuleEvaluator generator = new ConfusionRuleEvaluator(lang, languageModel, false);
+    ConfusionRuleEvaluator generator = new ConfusionRuleEvaluator(lang, languageModel, CASE_SENSITIVE);
     generator.run(inputsFiles, TOKEN, TOKEN_HOMOPHONE, MAX_SENTENCES, EVAL_FACTORS);
     long endTime = System.currentTimeMillis();
     System.out.println("\nTime: " + (endTime-startTime)+"ms");
