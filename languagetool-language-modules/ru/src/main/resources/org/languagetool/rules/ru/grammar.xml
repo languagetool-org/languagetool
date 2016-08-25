@@ -5280,6 +5280,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	            </marker>
             </antipattern>
             <!-- А маленькая, всеми обижаемая мартышка хочешь не хочешь должна была сбиться в коллектив. -->
+            <antipattern>
+		            <marker>
+			            <token>был</token>
+			            <token postag="PT:Past:Masc"/>
+		            </marker>
+            </antipattern>
+            <antipattern>
+		            <marker>
+			            <token>было</token>
+			            <token postag="PT:Past:Neut"/>
+		            </marker>
+            </antipattern>
+            <antipattern>
+		            <marker>
+			            <token>была</token>
+			            <token postag="PT:Past:Fem"/>
+		            </marker>
+            </antipattern>
+            <antipattern>
+		            <marker>
+			            <token>были</token>
+			            <token postag="PT:Past:PL"/>
+		            </marker>
+            </antipattern>
+            <antipattern>
+		            <marker>
+			            <token>будет</token>
+			            <token postag="PT:Past:(Masc|Fem|Neut)"/>
+		            </marker>
+            </antipattern>
+            <antipattern>
+		            <marker>
+			            <token>будут</token>
+			            <token postag="PT:Past:PL"/>
+		            </marker>
+            </antipattern>
 
             <!-- <antipattern> -->
 	        <!--     <unify> -->
@@ -5319,11 +5355,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--     VB:.*  VB:.* (VB:INF)            -->
                 <token postag="VB:.*" postag_regexp="yes">
 	                <exception postag="VB:INF"/>
-	                <exception postag_regexp="yes" negate_pos="yes" postag="VB:.*"/>
+	                <exception postag_regexp="yes" negate_pos="yes" postag="(VB|PT|DPT):.*"/>
                 </token>
                 <token postag="VB:.*" postag_regexp="yes">
                     <exception postag="VB:INF"/>
-	                <exception postag_regexp="yes" negate_pos="yes" postag="VB:.*"/>
+	                <exception postag_regexp="yes" negate_pos="yes" postag="(VB|PT|DPT):.*"/>
                 </token>
             </pattern>
             <message>Два глагола в личной форме подряд. Второй глагол должен быть в неопределённой форме: <suggestion><match no="1"></match> <match no="2" postag="VB:.*" postag_regexp="yes" postag_replace="VB:INF"></match></suggestion></message>
