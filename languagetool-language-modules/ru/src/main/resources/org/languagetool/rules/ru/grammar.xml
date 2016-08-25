@@ -85,13 +85,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     
     <unification feature="person">
         <equivalence type="P1">
-            <token postag=".*:.*:.*:P1" postag_regexp="yes"></token>
+            <token postag=".*:P1" postag_regexp="yes"></token>
         </equivalence>
         <equivalence type="P2">
-            <token postag=".*:.*:.*:P2" postag_regexp="yes"></token>
+            <token postag=".*:P2" postag_regexp="yes"></token>
         </equivalence>
         <equivalence type="P3">
-            <token postag=".*:.*:.*:P3" postag_regexp="yes"></token>
+            <token postag=".*:P3" postag_regexp="yes"></token>
+        </equivalence>
+    </unification>
+
+    <unification feature="tense">
+        <equivalence type="INF">
+            <token postag=".*:INF(:.*)*" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="IMP">
+            <token postag=".*:IMP(:.*)*" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="Fut">
+            <token postag=".*:Fut(:.*)*" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="Past">
+            <token postag=".*:Past(:.*)*" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="Real">
+            <token postag=".*:Real(:.*)*" postag_regexp="yes"/>
         </equivalence>
     </unification>
     
@@ -5184,28 +5202,141 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         
         <rule default="on" id="Verb_and_Verb" name="Глагол и глагол">
-            <pattern case_sensitive="yes">
+            <antipattern>
+	            <marker>
+		            <!-- TODO should be a work chunk СONJ (similar to
+		                 однако, только) -->
+		            <!-- e.g. как папало is a ADV word chunk -->
+		            <token>чёрт</token>
+		            <token regexp="yes">возьми|побери</token>
+	            </marker>
+            </antipattern>
+	        <!-- Что чёрт возьми происходит? -->
+            <antipattern>
+	            <marker>
+		            <!-- TODO should be a work chunk ADV (similar to хорошо) -->
+		            <!-- e.g. как папало is a ADV word chunk -->
+		            <token>как</token>
+		            <token>следует</token>
+	            </marker>
+            </antipattern>
+            <!-- Как следует попарился. -->
+            <antipattern>
+	            <marker>
+		            <!-- TODO should be a work chunk ADV (similar to хорошо) -->
+		            <!-- e.g. как папало is a ADV word chunk -->
+		            <token>будь</token>
+		            <token>здоров</token>
+	            </marker>
+            </antipattern>
+            <!-- Закладывает будь здоров! -->
+            <antipattern>
+	            <marker>
+		            <!-- TODO should be a work chunk ADV (similar to скоро) -->
+		            <!-- e.g. как папало is a ADV word chunk -->
+		            <token>того</token>
+		            <token>и</token>
+		            <token>гляди</token>
+	            </marker>
+            </antipattern>
+            <!-- Мороженое того и гляди растает, давай уже съедим его. -->
+            <antipattern>
+	            <marker>
+		            <!-- Во что бы то ни стало -->
+		            <!-- Во что бы ни стало -->
+		            <!-- TODO should be a work chunk ADV (similar to обязательно) -->
+		            <token>ни</token>
+		            <token>стало</token>
+	            </marker>
+            </antipattern>
+            <!-- Во что бы то ни стало заскочи посмотреть на нас. -->
+            <antipattern>
+	            <marker>
+		            <!-- TODO пущай simialr пусть -->
+		            <!-- TODO хули simialr чего, зачем - should have ADV tag-->
+		            <token regexp="yes">пущай|хули</token>
+	            </marker>
+            </antipattern>
+            <!-- Я его на бочку с порохом посадил, пущай полетает! -->
+            <antipattern>
+	            <marker>
+		            <token regexp="yes">давай|давайте</token>
+		            <token postag="VB:Fut:.*" postag_regexp="yes"/>
+	            </marker>
+            </antipattern>
+            <!-- Сколько тебе не хватает на куртку? Давай добавлю? -->
+            <antipattern>
+	            <marker>
+		            <token regexp="yes">хочешь|хотите</token>
+		            <token postag="VB:IMP:.*" postag_regexp="yes"/>
+	            </marker>
+            </antipattern>
+            <!-- Хочешь верь, хочешь нет. -->
+            <antipattern>
+	            <marker>
+		            <token regexp="yes">хочешь|хотите</token>
+		            <token>не</token>
+		            <token regexp="yes">хочешь|хотите</token>
+	            </marker>
+            </antipattern>
+            <!-- А маленькая, всеми обижаемая мартышка хочешь не хочешь должна была сбиться в коллектив. -->
+
+            <!-- <antipattern> -->
+	        <!--     <unify> -->
+		    <!--         <feature id="tense"/> -->
+		    <!--         <marker> -->
+			<!--             <token postag="VB:.*" postag_regexp="yes"/> -->
+			<!--             <token postag="VB:.*" postag_regexp="yes"/> -->
+		    <!--         </marker> -->
+	        <!--     </unify> -->
+            <!-- </antipattern> -->
+
+            <antipattern>
+		            <marker>
+			            <token postag="VB:IMP:.*" postag_regexp="yes"/>
+			            <token postag="VB:IMP:.*" postag_regexp="yes"/>
+		            </marker>
+            </antipattern>
+            <antipattern>
+		            <marker>
+			            <token postag="VB:Fut:.*" postag_regexp="yes"/>
+			            <token postag="VB:Fut:.*" postag_regexp="yes"/>
+		            </marker>
+            </antipattern>
+            <antipattern>
+		            <marker>
+			            <token postag="VB:Real:.*" postag_regexp="yes"/>
+			            <token postag="VB:Real:.*" postag_regexp="yes"/>
+		            </marker>
+            </antipattern>
+            <antipattern>
+		            <marker>
+			            <token postag="VB:Past:.*" postag_regexp="yes"/>
+			            <token postag="VB:Past:.*" postag_regexp="yes"/>
+		            </marker>
+            </antipattern>
+            <pattern>
                 <!--     VB:.*  VB:.* (VB:INF)            -->
-       <!--         <token postag="VB:.*" postag_regexp="yes" regexp="yes">[а-яё].*<exception postag="VB:INF"></exception>
-                    <exception postag_regexp="yes" negate_pos="yes" postag="VB:.*"></exception><exception postag="ADV"></exception>
-                    <exception regexp="yes">трём|давай|давайте|иди</exception>
-                </token>   -->
-                <token regexp="yes">будет|стало</token>
                 <token postag="VB:.*" postag_regexp="yes">
-                    <exception postag="VB:INF"></exception>
-                    <exception postag_regexp="yes" negate_pos="yes" postag="VB:.*"></exception>
-                    <exception>трём</exception>
+	                <exception postag="VB:INF"/>
+	                <exception postag_regexp="yes" negate_pos="yes" postag="VB:.*"/>
+                </token>
+                <token postag="VB:.*" postag_regexp="yes">
+                    <exception postag="VB:INF"/>
+	                <exception postag_regexp="yes" negate_pos="yes" postag="VB:.*"/>
                 </token>
             </pattern>
             <message>Два глагола в личной форме подряд. Второй глагол должен быть в неопределённой форме: <suggestion><match no="1"></match> <match no="2" postag="VB:.*" postag_regexp="yes" postag_replace="VB:INF"></match></suggestion></message>
             <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BA%D0%B0%D0%B7%D1%83%D0%B5%D0%BC%D0%BE%D0%B5#.D0.A1.D0.BE.D1.81.D1.82.D0.B0.D0.B2.D0.BD.D0.BE.D0.B5_.D0.B3.D0.BB.D0.B0.D0.B3.D0.BE.D0.BB.D1.8C.D0.BD.D0.BE.D0.B5_.D1.81.D0.BA.D0.B0.D0.B7.D1.83.D0.B5.D0.BC.D0.BE.D0.B5</url>
-            <short>Ошибка в примыкани.</short>
+            <short>Ошибка в примыкании.</short>
             <example>Здесь будет строиться всё больше жилья.</example>
             <example>И как попало расселись на траве.</example>
             <example>В этой области мы не знаем ничего, давайте создадим модель и поэкспериментируем.</example>
+            <example>Думал собраться пойти купить выпить.</example>
             <example correction="будет строиться">Здесь <marker>будет строится</marker> всё больше жилья.</example>
         </rule>
-    <rule default="on" id="Verb_tsa_and_ttsya" name="Правописание «-тся» и «-ться» в глаголах">
+
+        <rule default="on" id="Verb_tsa_and_ttsya" name="Правописание «-тся» и «-ться» в глаголах">
             <pattern>
                 <!--     VB:.*         -->
                 <token skip="-1">нужно<exception  scope="next" regexp="yes">[,:;]</exception></token>
