@@ -175,7 +175,7 @@ public abstract class AbstractCompoundRule extends Rule {
   }
 
   private String normalize(String inStr) {
-    String str = inStr.trim().toLowerCase();
+    String str = inStr.trim();
     if (str.indexOf('-') != -1 && str.indexOf(' ') != -1) {
       if (isHyphenIgnored()) {
         // e.g. "E-Mail Adresse" -> "E Mail Adresse" so the error can be detected:
@@ -207,7 +207,7 @@ public abstract class AbstractCompoundRule extends Rule {
         if (k == 0) {
           sb.append(stringParts[0]);
         } else {
-          sb.append(stringParts[k].toLowerCase());
+          sb.append(stringParts[k]);
         }
       }
     }
