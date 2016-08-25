@@ -103,6 +103,7 @@ public class TokenInflectionAgreementRuleTest {
 
     // time
     assertEmptyMatch("о шостій ранку");
+    assertEmptyMatch("дванадцята дня");
     assertEmptyMatch("Ставши 2003-го прем’єром");
     
     // this, that...
@@ -183,8 +184,10 @@ public class TokenInflectionAgreementRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("зелена яблуко."));
     assertEquals(1, matches.length);
 
-    
-    
+// not disambiguated yet
+//    matches = rule.match(langTool.getAnalyzedSentence("— робочій день."));
+//    assertEquals(1, matches.length);
+
   }
 
   private void assertEmptyMatch(String text) throws IOException {

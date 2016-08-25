@@ -142,7 +142,7 @@ public class TokenInflectionAgreementRule extends Rule {
             }
             
             // кількох десятих відсотка
-            if( Arrays.asList("десятий", "сотий", "тисячний").contains(token.getLemma().toLowerCase())
+            if( Arrays.asList("десятий", "сотий", "тисячний", "мільйонний", "мільярдний").contains(token.getLemma().toLowerCase())
                   && adjPosTag.matches(".*:[fp]:.*") ) {
             	adjTokenReadings.clear();
             	break;
@@ -208,7 +208,7 @@ public class TokenInflectionAgreementRule extends Rule {
               	adjTokenReadings.clear();
               	break;
             }
-            
+
           }
           else if ( adjPosTag.equals(JLanguageTool.SENTENCE_END_TAGNAME) ) {
             continue;
@@ -224,6 +224,7 @@ public class TokenInflectionAgreementRule extends Rule {
       
       
       // see if we can check
+//      System.out.println("Check for noun: " + tokenReadings);
             
       ArrayList<AnalyzedToken> slaveTokenReadings = new ArrayList<>(); 
       for (AnalyzedToken token: tokenReadings) {
@@ -261,7 +262,7 @@ public class TokenInflectionAgreementRule extends Rule {
           	 slaveTokenReadings.clear();
              break;
            }
-           else if( numrPresent && Arrays.asList("ранок", "вечір", "ніч").contains(token.getLemma()) ) {
+           else if( numrPresent && Arrays.asList("ранок", "день", "вечір", "ніч", "пополудень").contains(token.getLemma()) && token.getPOSTag().contains("v_rod") ) {
           	 slaveTokenReadings.clear();
              break;
            }
