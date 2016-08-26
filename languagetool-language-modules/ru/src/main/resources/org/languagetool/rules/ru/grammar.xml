@@ -214,7 +214,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="в прошлом">Хотя <marker>в пошлом</marker> были предложены решения, мы только сегодня имеем результат.</example>
             <example>Хотя в прошлом были предложены решения, мы только сегодня имеем результат.</example>
-          </rule>    
+          </rule>
+          <rule>
+            <pattern>
+		<marker>
+                <token regexp="yes">на|в</token>
+                <token>пошлой</token>
+                </marker>
+                <token regexp="yes" inflected="yes">неделя|серия</token>
+            </pattern>
+            <message>Опечатка: <suggestion>\1 прошлой</suggestion></message>
+            <short>Опечатка</short>
+            <example correction="На прошлой"><marker>На пошлой</marker> неделе были предложены верные решения.</example>
+            <example>На прошлой неделе были предложены верные решения.</example>
+          </rule>        
         </rulegroup>
 	<rulegroup id="na_poverku" name="Логические ошибки «на поверку/на проверку»">
             <rule> 
@@ -5928,7 +5941,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <exception negate="yes" case_sensitive="yes" regexp="yes">[а-я].*</exception>
                 </token>
             </pattern>
-            <message>После слов "поток" и "направление" существительные используются в родительном и творительном падеже.</message>
+            <message>После слов «поток» и «направление» существительные употребляются в родительном и творительном падеже.</message>
             <short>Словосочетание «поток» и существительное</short>
             <example correction=""><marker>Направление движению</marker></example>
             <example correction="">По <marker>направлению движению</marker></example>
