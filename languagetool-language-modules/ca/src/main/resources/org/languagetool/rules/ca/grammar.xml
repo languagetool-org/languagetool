@@ -10088,6 +10088,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="MARCO_MARC" name="condicions *marco/marc">
+            <antipattern>
+                <marker>
+                    <token skip="-1" regexp="yes" inflected="yes">&parts_dia;|&unitats_temps;</token>
+                    <token postag="VMIP1S0C" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token postag="N.*|_GN_.*" postag_regexp="yes"></token>
+                    <token postag="VMIP1S0C" postag_regexp="yes"><exception postag="VMIP1S0C" postag_regexp="yes" negate_pos="yes"/></token>
+                </marker>
+                <token><exception postag="(C|PR|PT|DT|DE).*" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Reviseu aquesta construcció.</message>
+            <example correction="">Les <marker>condicions marco</marker>.</example>
+            <example>Les condicions penso que són correctes.</example>
+            <example>El ferro</example>
+            <example>Cada dia penso el mateix.</example>
+            <example>Els dies de pluja marco el calendari.</example>
+        </rule>
         <rule id="VALLES" name="Vallés/Vallès">
             <pattern>
                 <token postag="DA0MS0"></token>
