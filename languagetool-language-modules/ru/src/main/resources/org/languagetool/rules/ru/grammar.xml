@@ -227,7 +227,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="На прошлой"><marker>На пошлой</marker> неделе были предложены верные решения.</example>
             <example>На прошлой неделе были предложены верные решения.</example>
-          </rule>        
+          </rule>
+          <rule>
+            <pattern>
+		<marker>
+                <token regexp="yes">на|в</token>
+                <token>пошлые</token>
+                </marker>
+                <token inflected="yes">каникулы</token>
+            </pattern>
+            <message>Опечатка: <suggestion>\1 прошлые</suggestion></message>
+            <short>Опечатка</short>
+            <example correction="На прошлые"><marker>На пошлые</marker> каникулы мы ездили в горы.</example>
+          </rule>                
         </rulegroup>
 	<rulegroup id="na_poverku" name="Логические ошибки «на поверку/на проверку»">
             <rule> 
