@@ -5425,6 +5425,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Думал собраться пойти купить выпить.</example>
             <example correction="будет строиться">Здесь <marker>будет строится</marker> всё больше жилья.</example>
         </rule>
+        <rule default="on" id="Verb_and_PT" name="Глагол и причастие">
+            <pattern>
+                <token>получится</token>
+                <token postag="PT:.*" postag_regexp="yes"><exception postag="ADJ:.*" postag_regexp="yes"></exception></token>
+            </pattern>
+  
+        <message>Глагол и причастие подряд. Вероятно, опечатка: <suggestion><match no="1"></match> <match no="2" postag="PT:.*" postag_regexp="yes" postag_replace="VB:INF"></match></suggestion></message>
+            <short>Вероятно, опечатка</short>
+            <example correction="получится найти">Применение численных методов оптимизации никогда не может гарантировать, что <marker>получится найден</marker> глобальный экстремум.</example>
+            <example>Применение численных методов оптимизации никогда не может гарантировать, что получится найти глобальный экстремум.</example>
+        </rule>
 
         <rule default="on" id="Verb_tsa_and_ttsya" name="Правописание «-тся» и «-ться» в глаголах">
             <pattern>
