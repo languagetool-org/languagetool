@@ -5493,16 +5493,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="Verb_and_NomDT" name="Глагол предполагает падеж">
 	        <pattern>
 		        <marker>
-			        <token inflected="yes" regexp="yes">отвечать|сообщать</token>
-			        <token skip="1" postag="(PT|NN|NNN|ADJ):.*" postag_regexp="yes">
+			        <token skip="1" inflected="yes"
+			               regexp="yes">отвечать|сообщать
+			        <exception scope="next" postag="PREP" />
+			        </token>
+			        <token postag="(PT|NN|NNN):.*" postag_regexp="yes">
 				        <exception postag=".*:(Nom|D|T)|.*:(Masc|Fem|Neut)|PREP" postag_regexp="yes"></exception>
 				        <exception regexp="yes">уже|ли</exception>
-				        <exception regexp="yes">правду|неправду|ерунду|бессмыслицу|неделю</exception>
-				        <exception scope="next" regexp="yes">правду|неправду|ерунду|бессмыслицу|неделю</exception>
+				        <exception regexp="yes">правду|неправду|ерунду|бессмыслицу|неделю|дату</exception>
 			        </token>
 		        </marker>
 	        </pattern>
 	        <message>Глагол \1 предполагает после себя именительный, дательный или творительный падеж.</message>
+	        <example>Однако, по сути, директива № 1 от 21 июня реально всего лишь (и прежде всего) сообщала вероятную дату нападения Германии.</example>
+	        <example correction="">Не <marker>сообщай виноватых людей</marker> о празднике.</example>
 	        <example correction="">Не <marker>сообщай людей</marker> о празднике.</example>
         </rule>
 
