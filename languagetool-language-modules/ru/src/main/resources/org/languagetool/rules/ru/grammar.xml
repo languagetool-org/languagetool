@@ -6897,45 +6897,68 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
 
     <rule id="Latin_letters" name="Использование аналогичных по написанию латинских букв">
+	    <antipattern>
+		    <token regexp="yes">[а-яё]+</token>
+	    </antipattern>
+	    <antipattern>
+		    <token regexp="yes">(?!.*[а-яё]).*</token>
+	    </antipattern>
+	    <antipattern>
+		    <token regexp="yes">(?!.*[А-ЯЁ]).*</token>
+	    </antipattern>
+	    <!-- <antipattern> -->
+		<!--     <token negate="yes" regexp="yes">\b[а-яё]+\b</token> -->
+	    <!-- </antipattern> -->
+	    <!-- <antipattern> -->
+		<!--     <regexp negate="yes"> regexp="yes">\b[а-яё]+\b</regexp> -->
+	    <!-- </antipattern> -->
 	    <pattern>
-		    <token regexp="yes">\p{L}\p{L}+
-		    <exception regexp="yes">[а-яё]+</exception>
-		    <exception regexp="yes">[a-z]+</exception>
-		    </token>
+		    <marker>
+		    <token regexp="yes">\p{L}\p{L}+</token>
+		    </marker>
 	    </pattern>
-	    <message>Возможно нужна буква из кириллицы вместо аналогичной по начетанию латинской</message>
+	    <message>Возможно нужна буква из кириллицы вместо аналогичной по начетанию латинской или наоборот.</message>
 	    <example correction="">Книга <marker>прo</marker> Львов.</example>
 	    <example correction=""> <marker>Kо</marker> мне приехали.</example>
+	    <example>«Far East Network» не передаёт местные новости.</example>
+	    <example>В XXI веке.</example>
+	    <example>имеют температуру менее минус 0,8 ºC на севере</example>
 	    <example correction=""> <marker>Bне</marker> леса шумно.</example>
 	    <example correction=""> Буду <marker>cо</marker> своими шутками.</example>
     </rule>
 
     <rule id="Latin_single_letter" name="Использование аналогичных по написанию латинских букв">
 	    <antipattern>
-		    <token  regexp="yes">o|b|c|k</token>
+		    <token  regexp="yes">a|o|b|c|k</token>
 		    <token regexp="yes">’|\+|=|-|#</token>
 	    </antipattern>
 	    <antipattern>
 		    <token regexp="yes">’|\+|=|-|#</token>
-		    <token  regexp="yes">o|b|c|k</token>
+		    <token  regexp="yes">a|o|b|c|k</token>
 	    </antipattern>
 	    <antipattern>
-		    <token skip="1" regexp="yes">o|b|c|k</token>
+		    <token skip="1" regexp="yes">a|o|b|c|k</token>
 		    <token regexp="yes">\p{L}+<exception regexp="yes">[а-яё]+</exception></token>
 	    </antipattern>
+
 	    <antipattern>
 		    <token skip="1" regexp="yes">\p{L}+<exception regexp="yes">[а-яё]+</exception></token>
-		    <token regexp="yes">o|b|c|k</token>
+		    <token regexp="yes">a|o|b|c|k</token>
+	    </antipattern>
+	    <antipattern>
+		    <token regexp="yes" case_sensitive="yes">A|O|B|b|C|k|K
+		    <exception scope="previous" postag="SENT_START"/>
+		    </token>
 	    </antipattern>
 
 	    <pattern>
-		    <token  regexp="yes">o|b|c|k</token>
+		    <token  regexp="yes">a|o|b|c|k</token>
 	    </pattern>
-	    <message>Возможно нужна буква из кириллицы вместо аналогичной по начетанию латинской</message>
+	    <message>Возможно нужна буква из кириллицы вместо аналогичной по начетанию латинской или наоборот.</message>
 	    <example correction="">Книга <marker>o</marker> Львове.</example>
-	    <example correction=""> <marker>K</marker> тебе приехали.</example>
-	    <example correction=""> <marker>B</marker> лесу тихо.</example>
-	    <example correction=""> Буду <marker>c</marker> подарками.</example>
+	    <example correction=""><marker>K</marker> тебе приехали.</example>
+	    <example correction=""><marker>B</marker> лесу тихо.</example>
+	    <example correction="">Буду <marker>c</marker> подарками.</example>
     </rule>
 
     <category id="CASING" name="Заглавные буквы">
