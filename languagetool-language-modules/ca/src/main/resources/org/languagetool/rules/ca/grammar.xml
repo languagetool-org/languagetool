@@ -72,7 +72,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY precedits_per_COM_A "models?|directora?|directore?s|editor(s|a|es)?|efecte|instituci(ó|ons)|elements?|avantatges?|municipi|excepci(ó|ons)|exemples?|causa|causes|ostatges?|conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens|administrador[ae]?s?">
     <!ENTITY precedits_per_TAN "bo|prompte|savi|espectacular|alt|ample|estret|complex|comú|divers|eficaç|efectiu|fals|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer|exagerat|ràpid|(in)?capacita(ts?|da|des)|necessaris?|necessàri(a|es)">
     <!ENTITY precedits_per_TANT "no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
-    <!ENTITY seguits_per_COM_A "acceptar|justificar|caracteritzar|qualificar|figurar|conèixer|definir|veure|entendre|interpretar|percebre|etiquetar|pintar">
+    <!ENTITY seguits_per_COM_A "reconèixer|acceptar|justificar|caracteritzar|qualificar|figurar|conèixer|definir|veure|entendre|interpretar|percebre|etiquetar|pintar">
     <!ENTITY sigles_apostrofen "(?-i)MI5|MI6|FM|FP|FBI|FMI|IEC|IES|IEA|NBA|NBC|SPD|FTP|F1|IAE|LSD|FDP|FMLN|IPC|IRA|IRPF|NPD|SME|SMI|Sporting|SPLA|Spartak?">
     <!ENTITY sigles_no_apostrofen "(?-i)SGAE|FNAC|ITV|Scala">
     <!ENTITY unitats "mm|cm|dm|m|km|d|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|K|pts|ptes|[£€$]">
@@ -7435,6 +7435,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token inflected="yes" regexp="yes">astre|estrella|mestre|prestigi|nom|persona|personalitat|personatge|escultor|obra|empreses|actor|artista|pintor|autor|DJ|sèrie|escriptor|novel·lista|nom</token>
+                        <token min="0" postag="RG|_GN.*" postag_regexp="yes"/>
+                        <token postag="V.P.*" postag_regexp="yes" inflected="yes">reconèixer</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <and>
+                            <token postag="V.P.*" postag_regexp="yes" inflected="yes">reconèixer</token>
+                            <token postag="_GN_.*" postag_regexp="yes"/>
+                        </and>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>noms</token>
+                        <token>coneguts</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token postag="V.P.*" skip="1" postag_regexp="yes" regexp="yes" inflected="yes">&seguits_per_COM_A;<exception scope="previous" regexp="yes">tan|tants?</exception><exception scope="next" postag="[NAV].*|_PUNCT.*" postag_regexp="yes"/></token>
                     <marker>
@@ -7456,7 +7477,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>hem vist com es promovia una literatura</example>
                 <example>tant des del punt de vista teòric com pràctic</example>
                 <!-- per fer: <example correction="com a">El perceben <marker>com</marker> normal.</example> -->
-                <!-- noms coneguts com Fidel García Berlanga, Miguel de Córdova -->
+                <example>Noms coneguts com Fidel García Berlanga, Miguel de Córdova</example>
                 <example correction="com a">Conegut <marker>com</marker> "lleonès medieval"</example>
                 <example>És conegut com "el millor pastisser del món".</example>
                 <example>Conegut com "el mirador de la comtessa".</example>
@@ -7469,6 +7490,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>amb altres reconeguts pintors com Carle van Loo</example>
                 <example>tant des del punt de vista legal com doctrinal,</example>
                 <example>Ha vist com actors xinesos hi actuaven.</example>
+                <example>Artites japonesos reconeguts com Hin Xaun.</example>
             </rule>
             <rule>
                 <pattern>
