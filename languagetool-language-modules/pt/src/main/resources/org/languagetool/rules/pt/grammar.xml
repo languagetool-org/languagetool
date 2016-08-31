@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.172 2016-08-25 19:31:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.173 2016-08-31 12:43:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -1643,15 +1643,17 @@ $Id: grammar.xml,v 1.172 2016-08-25 19:31:00 marcoagpinto Exp $
 
 
 
-    <!-- EM VÊS DE em vez de -->
-    <rule id="EM_VÊS_DE" name="em vez de">
+    <!-- EM VÊS DE/DA/DAS/DO/ODS em vez de/da/das/do/dos -->
+    <rule id="EM_VÊS_DE_DA_DAS_DO_DOS" name="em vez de-da-das-do-dos">
       <pattern>
         <token>em</token>
-        <token>vês</token>
-        <token>de</token>
+		<marker>
+			<token>vês</token>
+		</marker>		
+        <token regexp="yes">de|das?|dos?</token>
       </pattern>
-      <message>Substituir «em vês de» por <suggestion>em vez de</suggestion>.</message>
-      <example correction="em vez de">Ele falou <marker>em vês de</marker> escrever.</example>
+      <message>Substituir «vês» por <suggestion>vez</suggestion>.</message>
+      <example correction="vez">Ele falou em <marker>vês</marker> de escrever.</example>
     </rule>
 
 
