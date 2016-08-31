@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY dual "урока|брата|сына|cапога|курса|помощника|фактора|языка|парня|закона|сестры|жены|угла|дня|вопроса|звезды|телефона|любовника|зуба|переводчика|господина|типа|участка|фильма|яблока|вида|прогноза|вектора|села|представителя|вдоха|человека|корабля|спутника|пчелы|шара|билета|ответа|брака|канала|лицея|соседа|ресторана|скворечника|часа|вкуса|кабеля|вулкана|хребта|гиганта|варианта|пресса|обеда|рода|стула|взноса|слезы|приступа|отца|экзамена|стекла|игрока|писаки|военных|этапа|причины|коллеги|вагин|героя|друга|вождя|паек|телеканала|коридора|терминала|Венеры|маршрута|храма|юл|олушей|бедра|дубов|художника|полка|лозунга|законопроекта|органа|блока|заказника|банка|изолятора|департамента|говора|района|порта|символа|брокера|парка|стола|магазина"> <!-- два,двое,пара -->
 <!ENTITY prep_v "институте|кино|Крым|Крыму|мастерской|спортзале|театре|техникуме|университете|цехе|цирке|школе|экспедицию"> <!-- words that require 'в' instead of 'на' as a preposition -->
 <!ENTITY prep_na "балет|заводе|Кавказ|концерт|почте|фабрике|факультете"> <!-- words that require 'на' instead of 'в' as a preposition -->
-<!ENTITY missing_yo "жилье|белье|битье|щеткой|стерней|сырье|ружье|копье|чутье|офицерье|рытье|цевье|острие|вранье|дутье"
+<!ENTITY missing_yo "жилье|белье|битье|щеткой|стерней|сырье|ружье|фоторужье|копье|чутье|офицерье|рытье|цевье|острие|вранье|дутье|нытье|звезды">
 ]>
 
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -5509,20 +5509,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 			               regexp="yes">отвечать|сообщать|говорить|понимать|думать|слушать|нюхать|смотреть|терпеть|обидеть|ощущать|осязать|обнимать|ходить|сидеть|лежать|причинять
 			            <exception postag="PT:.*|DPT:.*" postag_regexp="yes" />
 			            <exception scope="next" regexp="yes">,|:|-|—|«|»|"|[0-9]+.*</exception>
-			            <exception scope="next" postag="ADJ_Sup|ADV|PREP|VB:.*|Num:.*" postag_regexp="yes" />
+			            <exception scope="next" postag="ADJ_Sup|ADV|PREP|VB:.*|Num:.*|NumC:.*" postag_regexp="yes" />
 			            <exception scope="next" postag=".*:(Nom|D|T|V)(:.*)*|.*:(Masc|Fem|Neut)|PREP" postag_regexp="yes"></exception>
-				        <exception>нет</exception>
+				        <exception scope="next">нет</exception>
 				     </token>
-			        <token postag="(PT|NN|NNN):.*" postag_regexp="yes">
+			        <token skip="1" postag="(PT|NN|NNN):.*" postag_regexp="yes">
 				        <exception postag=".*:(Nom|D|T|V)(:.*)*|.*:(Masc|Fem|Neut)(:Sin|:PL)*|PREP|ADJ_Sup" postag_regexp="yes"></exception>
-				        <exception regexp="yes">уже|ли|&missing_yo;|карате|саке|процентов</exception>
+				        <exception regexp="yes">уже|ли|&missing_yo;|карате|саке|боке|процентов</exception>
 				        <exception>дат</exception>
+				        <exception scope="next" postag="Num:.*|NumC:.*" postag_regexp="yes"/>
+			            <exception scope="next" regexp="yes">[0-9]+.*|[IVXLCM]+.*</exception>
 			        </token>
 		        </marker>
 		        <token><exception postag="Num:.*" postag_regexp="yes"/></token>
 	        </pattern>
-	        <message>Глагол "\1" предполагает после себя предлог перед
-	        родительным и предложным падежом (например: без, о, на, в).</message>
+	        <message>Глагол "\1" предполагает после себя предлог перед родительным и предложным падежом (например: без, о, на, в) или запятую.</message>
 	        <example>Однако, по сути, директива № 1 от 21 июня реально всего лишь (и прежде всего) сообщала вероятную дату нападения Германии.</example>
 	        <example correction="">Не <marker>сообщайте людях</marker> о празднике.</example>
 	        <example correction="">Ложка <marker>лежала столе</marker>.</example>
@@ -5576,7 +5577,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 			        </token>
 			        <token postag="(PT|NN|NNN):.*" postag_regexp="yes">
 				        <exception postag=".*:(Nom|D|T|V|R)(:.*)*|.*:(Masc|Fem|Neut)(:Sin|:PL)*|PREP|ADJ_Sup|ADJ:.*|ADV|PARTICLE" postag_regexp="yes"></exception>
-				        <exception regexp="yes">уже|ли|&missing_yo;</exception>
+				        <exception regexp="yes">уже|ли|&missing_yo;|карате|саке|боке</exception>
 				        <exception>дат</exception>
 			        </token>
 		        </marker>
@@ -6894,7 +6895,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>       
     </category>
-    
+
+    <rule id="Latin_letters" name="Использование аналогичных по написанию латинских букв">
+	    <pattern>
+		    <token regexp="yes">\p{L}\p{L}+
+		    <exception regexp="yes">[а-яё]+</exception>
+		    <exception regexp="yes">[a-z]+</exception>
+		    </token>
+	    </pattern>
+	    <message>Возможно нужна буква из кириллицы вместо аналогичной по начетанию латинской</message>
+	    <example correction="">Книга <marker>прo</marker> Львов.</example>
+	    <example correction=""> <marker>Kо</marker> мне приехали.</example>
+	    <example correction=""> <marker>Bне</marker> леса шумно.</example>
+	    <example correction=""> Буду <marker>cо</marker> своими шутками.</example>
+    </rule>
+
+    <rule id="Latin_single_letter" name="Использование аналогичных по написанию латинских букв">
+	    <antipattern>
+		    <token  regexp="yes">o|b|c|k</token>
+		    <token regexp="yes">’|\+|=|-|#</token>
+	    </antipattern>
+	    <antipattern>
+		    <token regexp="yes">’|\+|=|-|#</token>
+		    <token  regexp="yes">o|b|c|k</token>
+	    </antipattern>
+	    <antipattern>
+		    <token skip="1" regexp="yes">o|b|c|k</token>
+		    <token regexp="yes">\p{L}+<exception regexp="yes">[а-яё]+</exception></token>
+	    </antipattern>
+	    <antipattern>
+		    <token skip="1" regexp="yes">\p{L}+<exception regexp="yes">[а-яё]+</exception></token>
+		    <token regexp="yes">o|b|c|k</token>
+	    </antipattern>
+
+	    <pattern>
+		    <token  regexp="yes">o|b|c|k</token>
+	    </pattern>
+	    <message>Возможно нужна буква из кириллицы вместо аналогичной по начетанию латинской</message>
+	    <example correction="">Книга <marker>o</marker> Львове.</example>
+	    <example correction=""> <marker>K</marker> тебе приехали.</example>
+	    <example correction=""> <marker>B</marker> лесу тихо.</example>
+	    <example correction=""> Буду <marker>c</marker> подарками.</example>
+    </rule>
+
     <category id="CASING" name="Заглавные буквы">
         
         <rule default="on" id="Cap_Letters_Name" name="Имя">
