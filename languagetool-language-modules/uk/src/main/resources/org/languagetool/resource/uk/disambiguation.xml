@@ -832,6 +832,38 @@
             >Прийшов у <marker>робочий</marker> кабінет.</example>
         <example type="untouched">Робочий не хотів працювати.</example>
     </rule>
+    
+    <!-- TODO: this rule may be a bit too greedy, but most of the time it's right -->
+    <rule name="Рік і рок 1" id="RIK_VS_ROK_1">
+        <pattern>
+          <token regexp="yes">[12][0-9]{3}</token>
+          <marker>
+            <token>року</token>
+          </marker>
+        </pattern>
+        <disambig><match no="1">рік</match></disambig>
+        <example type="ambiguous"
+            inputform="року[рок/noun:inanim:m:v_dav,рок/noun:inanim:m:v_mis,рок/noun:inanim:m:v_rod,рік/noun:inanim:m:v_dav,рік/noun:inanim:m:v_mis,рік/noun:inanim:m:v_rod]"
+            outputform="року[рік/noun:inanim:m:v_dav,рік/noun:inanim:m:v_mis,рік/noun:inanim:m:v_rod]"
+            >з 2003 <marker>року</marker>.</example>
+        <example type="untouched">від класичної та етнічної до авангардного року.</example>
+        <example type="untouched">позаминулого року.</example>
+    </rule>
+    <rule name="Рік і рок 2" id="RIK_VS_ROK_2">
+        <pattern>
+          <token regexp="yes">(поза)?минулого|цього|наступого</token>
+          <marker>
+            <token>року</token>
+          </marker>
+        </pattern>
+        <disambig><match no="1" postag="noun:inanim:m:v_rod">рік</match></disambig>
+        <example type="ambiguous"
+            inputform="року[рок/noun:inanim:m:v_dav,рок/noun:inanim:m:v_mis,рок/noun:inanim:m:v_rod,рік/noun:inanim:m:v_dav,рік/noun:inanim:m:v_mis,рік/noun:inanim:m:v_rod]"
+            outputform="року[рік/noun:inanim:m:v_rod]"
+            >з грудня минулого <marker>року</marker>.</example>
+        <example type="untouched">від класичної та етнічної до авангардного року.</example>
+        <example type="untouched">з 2003 року.</example>
+    </rule>
 
 <!-- TOOD: redo when dictionary updated
     <rule name="Числівник, як іменник годин 1" id="NUMR_AS_HOUR_NOUN1">

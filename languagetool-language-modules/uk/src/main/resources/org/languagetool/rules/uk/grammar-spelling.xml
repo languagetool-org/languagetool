@@ -106,7 +106,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rulegroup id="PIV_Z_VLASN_NAZV" name="пів- з усіма власними назвами пишемо через дефіс">
+    <rulegroup id="PIV_WITH_PROPER_NOUN" name="пів- з усіма власними назвами пишемо через дефіс">
       <rule>   
         <pattern>
          <marker>
@@ -173,6 +173,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="WORDS_WITH_DASH" name="Слова через дефіс">
+      <rule>
+        <antipattern>
+          <token>що</token>
+          <token>буде</token>
+        </antipattern>
+        <antipattern>
+          <token>як</token>
+          <token>є</token>
+        </antipattern>
+        <antipattern>
+          <token>будь</token>
+          <token>що</token>
+          <token>,</token>
+          <token>а</token>
+        </antipattern>
+        <pattern>
+          <token>будь</token>
+          <token regexp="yes">де|що|як|хто|чий|коли|який|котрий</token>
+        </pattern>
+        <message>Це слово пишеться через дефіс: <suggestion>\1-\2</suggestion></message>
+        <example correction="будь-де">І в нас і <marker>будь де</marker>.</example>
+        <example>будь що буде</example>
+<!--        <example>будь як усі</example> -->
+        <example>будь як є</example>
+        <example>Будь що, а першого вересня</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">де|хто|коли|який|котрий</token>
+          <token>будь</token>
+        </pattern>
+        <message>Це слово пишеться через дефіс: <suggestion>\1-\2</suggestion></message>
+        <example correction="де-будь">І в нас і <marker>де будь</marker>.</example>
+        <example>Колись ви казали, що будь у вас друге життя...</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>все</token>
+          <token>таки</token>
+        </pattern>
+        <message>Це слово пишеться через дефіс: <suggestion>\1-\2</suggestion></message>
+        <example correction="все-таки">Ви <marker>все таки</marker> вирішили піддатися спокусі.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>пліч</token>
+          <token>о</token>
+          <token>пліч</token>
+        </pattern>
+        <message>Це слово пишеться через дефіс: <suggestion>\1-\2-\3</suggestion></message>
+        <example correction="пліч-о-пліч">і <marker>пліч о пліч</marker> билися зі своїми.</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="DIGITS_AND_LETTERS" name="Цифри та літери">
       <rule>
         <antipattern>
@@ -183,9 +238,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <marker>
             <token regexp="yes">[А-ЯІЇЄҐа-яіїєґ'-][а-яіїєґ]+[0-9]+[^а-яіїєґ]+
-	          <exception regexp="yes">([кдсмн]|мк)?м[23]</exception>
-	          <exception regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ-]+[0-9]+</exception>
-	        </token>
+              <exception regexp="yes">([кдсмн]|мк)?м[23]</exception>
+              <exception regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ-]+[0-9]+</exception>
+            </token>
           </marker>
         </pattern>
         <message>Відсутній дефіс або пробіл між словом і числом</message>
@@ -199,26 +254,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>ми скористалися службою «Інфо300»</example>
         <example>АН4774087</example>
       </rule>
-      <rule id="UPPER_INDEX_FOR_M" name="Верхній індекс для метрів">
-        <pattern>
-          <token regexp="yes">([кдсмн]|мк)?м[23]</token>
-        </pattern>
-        <message>Можливо потрібен верхній індекс?</message>
-        <suggestion><match no="1" regexp_match="([а-я]+)([23])" regexp_replace="$1²"/></suggestion>
-        <suggestion><match no="1" regexp_match="([а-я]+)([23])" regexp_replace="$1³"/></suggestion>
-        <example correction="км²|км³">900 тис. <marker>км2</marker></example>
-        <example correction="м²|м³">900 <marker>м3</marker></example>
-        <example>20 скм3</example>
-      </rule>
-      <rule id="DEGREES_FOR_C" name="Знак градусів">
-        <pattern>
-			<token case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</token>	<!-- both lat and cyr o and C -->
-        </pattern>
-        <message>Можливо потрібен знак градуса?</message>
-        <suggestion><match no="1" regexp_match="([+-]?[0-9,-]*[0-9])[оo][СC]" regexp_replace="$1°C"/></suggestion>
-        <example correction="27°C">температура знизиться до <marker>27оC</marker>.</example>
-        <example>20 ОС</example>
-      </rule>
+      
       <rule>
         <pattern>
           <marker>
@@ -283,6 +319,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>від 27 грудня 1978 року за №44у—279 вирок</example>
       </rule>
     </rulegroup>
+
+    <rule id="UPPER_INDEX_FOR_M" name="Верхній індекс для метрів">
+      <pattern>
+        <token regexp="yes">([кдсмн]|мк)?м[23]</token>
+      </pattern>
+      <message>Можливо потрібен верхній індекс?</message>
+      <suggestion><match no="1" regexp_match="([а-я]+)([23])" regexp_replace="$1²"/></suggestion>
+      <suggestion><match no="1" regexp_match="([а-я]+)([23])" regexp_replace="$1³"/></suggestion>
+      <example correction="км²|км³">900 тис. <marker>км2</marker></example>
+      <example correction="м²|м³">900 <marker>м3</marker></example>
+      <example>20 скм3</example>
+    </rule>
+
+    <rule id="DEGREES_FOR_C" name="Знак градусів">
+      <pattern>
+	<token case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</token>	<!-- both lat and cyr o and C -->
+      </pattern>
+      <message>Можливо потрібен знак градуса?</message>
+      <suggestion><match no="1" regexp_match="([+-]?[0-9,-]*[0-9])[оo][СC]" regexp_replace="$1°C"/></suggestion>
+      <example correction="27°C">температура знизиться до <marker>27оC</marker>.</example>
+      <example>20 ОС</example>
+    </rule>
 
     <rulegroup id="ABBREVIATIONS" name="Скорочення">
     <!-- TODO: c - секунда, c. - село/сторінка; м — метр, м. — місто; т - тонна, т. - точка -->
@@ -359,18 +417,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-<!--
-    <rulegroup id="LAT_CYR" name="Латиниця/кирилиця">
-      <rule>
-        <pattern>
-          <token regexp="yes">група|турнір|гепатит</token>
-          <token case_sensitive="yes" regexp="yes">[АВСЕ]</token>
-        </pattern>
-        <message>Вжито кирилічну літеру замість <suggestion>рр.</suggestion></message>
-        <example correction="рр.">70-80 <marker>р.р.</marker></example>
-      </rule>
-    </rulegroup>
--->
+    <rule id="VYSHIDNYI_VYHIDNYI" name="Висхідний замість вихідний">
+      <pattern>
+        <marker>
+          <token inflected="yes">висхідний</token>
+        </marker>
+        <token inflected="yes" regexp="yes">позиція|положення|пункт|точка</token>
+      </pattern>
+      <message>Ви мали на увазі: <suggestion>вихідний</suggestion>?</message>
+      <example correction="вихідний">Поверталися на <marker>висхідну</marker> позицію.</example>
+    </rule>
+
+    <rule id="HRYVNA_HRYVNIA" name="Гривна замість гривня">
+      <antipattern>
+        <token inflected="yes" regexp="yes" skip="-1">браслет|плести|прикраса|прикрашати|шия</token>
+        <token inflected="yes">гривна
+          <exception inflected="yes">гривня</exception>
+        </token>
+      </antipattern>
+      <antipattern>
+        <token inflected="yes" skip="-1">гривна
+          <exception inflected="yes">гривня</exception>
+        </token>
+        <token inflected="yes" regexp="yes">браслет|плести|прикраса|прикрашати|шия</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token inflected="yes">гривна
+            <exception inflected="yes">гривня</exception>
+          </token>
+        </marker>
+      </pattern>
+      <message>Ви мали на увазі: <suggestion>гривня</suggestion>?</message>
+      <example correction="гривня">Заробив 7 млн <marker>гривен</marker>.</example>
+      <example>девальвація гривні</example>
+      <example>На шиї він мав золоту гривну, на пальцях – золоті персні</example>
+      <example>«гривна» — це давня нашийна прикраса.</example>
+    </rule>
+
   </category>
 
 </rules>
