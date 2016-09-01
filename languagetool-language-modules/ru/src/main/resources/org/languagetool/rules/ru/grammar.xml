@@ -276,16 +276,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         
         
         <rulegroup id="uroven_uvelichilsja" name="Логические ошибки «уровень повысился/увеличился»">
-            <!-- TODO:   добавить    <token min="0" max="3"></token>  -->          
+            <!-- TODO:   добавить    <token min="0" max="3"></token> - исправлено другим способом skip="3"-->          
             <rule> 
                 <pattern>
-                    <token>уровень</token>
-                    <token></token>
+                    <token skip="3">уровень</token>
                     <token>увеличился</token>
                 </pattern>
-                <message>Имелось в виду: <suggestion>\1 \2 повысился</suggestion>?</message>
+                <message>Имелось в виду: <suggestion><match no="1" include_skipped="all" /> повысился</suggestion>?</message>
                 <short>Логическая ошибка.</short>
                 <example correction="Уровень воды повысился"><marker>Уровень воды увеличился</marker>.</example>
+                <example correction="Уровень воды в реке повысился"><marker>Уровень воды в реке увеличился</marker>.</example>
                 <example>Уровень воды в озере повысился.</example>
             </rule>
              <rule> 
