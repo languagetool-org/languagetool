@@ -38,7 +38,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY prep_na "балет|заводе|Кавказ|концерт|почте|фабрике|факультете"> <!-- words that require 'на' instead of 'в' as a preposition -->
 <!ENTITY missing_yo "жилье|белье|битье|щеткой|стерней|сырье|ружье|фоторужье|копье|чутье|офицерье|рытье|цевье|острие|вранье|дутье|нытье|звезды">
 ]>
-
+<!-- «» -->
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
     <unification feature="number">
@@ -6890,11 +6890,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Это только <marker>теест</marker> проверка.</example>
             </rule>
         </rulegroup>       
-    
 
     <rule id="Latin_letters" name="Использование аналогичных по написанию латинских букв">
 	    <antipattern>
-		    <token regexp="yes">[а-яё]+</token>
+		    <token regexp="yes">[а-яёіїäѣóáéýs’*қәңөєүўҰαΔӀғʌtјЂћњљƣg]+</token>
 	    </antipattern>
 	    <antipattern>
 		    <token regexp="yes">(?!.*[а-яё]).*</token>
@@ -6933,12 +6932,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		    <token  regexp="yes">a|o|b|c|k</token>
 	    </antipattern>
 	    <antipattern>
-		    <token skip="1" regexp="yes">a|o|b|c|k</token>
+		    <token skip="3" regexp="yes">a|o|b|c|k</token>
 		    <token regexp="yes">\p{L}+<exception regexp="yes">[а-яё]+</exception></token>
 	    </antipattern>
 
 	    <antipattern>
-		    <token skip="1" regexp="yes">\p{L}+<exception regexp="yes">[а-яё]+</exception></token>
+		    <token skip="3" regexp="yes">\p{L}+<exception regexp="yes">[а-яё]+</exception></token>
 		    <token regexp="yes">a|o|b|c|k</token>
 	    </antipattern>
 	    <antipattern>
@@ -6957,6 +6956,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	    <example correction="">Буду <marker>c</marker> подарками.</example>
     </rule>
     </category>
+
     <category id="CASING" name="Заглавные буквы">
         
         <rule default="on" id="Cap_Letters_Name" name="Имя">
