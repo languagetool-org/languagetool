@@ -31,10 +31,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <rules lang="uk" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
-    <category name="Граматика" id="GRAMMAR">
+    <category id="GRAMMAR" name="Граматика">
 
-        <rulegroup name="Узгодженість частин речення" id="CONSISTENCY_VERB">
-            <rule>
+            <rule id="PREP_BEFORE_VERB" name="Прийменник перед дієсловом">
                 <antipattern>
                    <token regexp="yes">о?крім|замість|(за)?для|(за)?ради|замість</token>
                    <token postag_regexp="yes" postag="verb.*inf.*"/>
@@ -74,6 +73,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="грати">потрапляти <marker>за грати</marker>.</example>
             </rule>
 
+        <rulegroup id="MODAL_WORD" name="Узгодження з модальними словами">
             <rule>
                 <antipattern>
                   <token regexp="yes">чим|як|скільки|тільки</token>
@@ -155,8 +155,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
 
-        <rulegroup name="Узгодженість відмінків з прийменниками" id="CONSISTENCY_VIDM_prep">
-            <rule>
+            <rule id="ZGIDNO_Z" name="Згідно з">
                 <pattern>
                     <token>згідно</token>
                     <marker>
@@ -171,10 +170,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>згідно зі статутом</example>
                 <example>згідно з правилом</example>
             </rule>
-        </rulegroup>
 
-        <rulegroup name="Узгодженість відмінків з іменниками" id="CONSISTENCY_VIDM_noun">
-            <rule>
+            <rule id="ZAVIDUVACH" name="Завідувач">
                 <pattern>
                   <token inflected="yes" regexp="yes">завідувач|завідувачка|зав|зав\.</token>
                   <marker>
@@ -193,9 +190,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="сьомого відділу">завідувачки <marker>сьомим відділом</marker></example>
                 <example>завідувачем ним же створеної</example>
             </rule>
-        </rulegroup>
 
-        <rulegroup name="Узгодженість відмінків з дієсловами" id="CONSISTENCY_VIDM_AFTER_VERBS">
+        <rulegroup id="NAVCHATY_CHOGO" name="Навчати чого">
             <rule>
                 <pattern>
                   <token inflected="yes" regexp="yes">навч[иа]ти|навча(вши|ючи)|навчивши</token>
@@ -274,7 +270,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
 
-        <rulegroup name="Узгодженість числа іменників з числівниками" id="CONSISTENCY_NOUN_NUMERIC">
+        <rulegroup id="CONSISTENCY_NOUN_NUMERIC" name="Узгодженість числа іменників з числівниками">
             <rule>
                 <pattern>
                   <token postag_regexp="yes" postag="num.*">
@@ -516,7 +512,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
 
-        <rulegroup name="Узгодженість роду іменників з числівниками" id="CONSISTENCY_NOUN_NUMERIC_GENDER">
+        <rulegroup id="PIVTORA_WITH_NOUNS" name="Узгодженість «півтора» з іменниками">
             <rule>
                 <pattern>
                    <marker>
@@ -613,7 +609,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
 
 
-        <rulegroup name="Час" id="TIME">
+        <rulegroup id="TIME" name="Час">
           <rule>
             <pattern>
               <token>пів</token>
@@ -735,8 +731,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
         </rulegroup>
 
+        <rule id="U_YEAR" name="У XXXX року">
+            <pattern>
+              <token regexp="yes">[ув]</token>
+              <token regexp="yes">[0-9]{4}</token>
+              <token>року</token>
+            </pattern>
+            <message>Правильно: <suggestion><match no="1"/> <match no="2"/> році</suggestion></message>
+            <suggestion><match no="2"/> року</suggestion>
+            <example correction="в 2010 році|2010 року">ще <marker>в 2010 року</marker></example>
+            <example>в 60-х роках</example>
+        </rule>
 
-        <rulegroup name="Пасивний предикат або пасивний атрибут (ev. апозиція) з інструменталем дієвої особи" id="PASSIVE_PREDICATE">
+        <rulegroup id="PASSIVE_PREDICATE" name="Пасивний предикат або пасивний атрибут (ev. апозиція) з інструменталем дієвої особи">
             <rule>
                 <pattern>
                     <token postag_regexp="yes" postag="noun.*v_zna.*|adj:n:v_zna:&amp;pron:(gen|dem).*"/>
@@ -783,63 +790,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                  -->
             </rule>
         </rulegroup>
-<!--
-        <rulegroup name="Узгодженість" id="CONISTENCY">
-            <rule>
-                <pattern>
-                   <unify negate="yes">
-                        <feature id="gender"></feature>
-                        <feature id="number"></feature>
-                        <feature id="case"></feature>
-                        <token postag_regexp="yes" postag="adj:.*"></token>
-                        <token postag_regexp="yes" postag="noun:.*"></token>
-                    </unify>
-                </pattern>
-                <message>Неузгоджений рід/число/відмінок</message>
-                <example>Синя яхта</example>
-                <example>Гарні вірші</example>
-                <example type="incorrect"><marker>Синій яхта</marker>.</example>
-            </rule>
-        </rulegroup>
--->
-<!--
-        <rulegroup name="Узгодженість відмінку" id="CONISTENCY_VIDM_1">
-            <rule>
-                <pattern>
-                    <token postag="prep:rv_rod"></token>
-                    <token postag_regexp="yes" postag="(noun|adj):v_[^r].*"></token>
-                </pattern>
-                <message>Прийменник вимагає родового відмінку <suggestion>\2</suggestion></message>
-                <example>Для відтінку.</example>
-                <example>Для синього відтінку.</example>
-                <example type="incorrect"><marker>Для відтінок</marker>.</example>
-            </rule>
-        </rulegroup>
--->
-<!--
-        <rulegroup name="Узгодженість роду" id="CONISTENCY_GENDER">
-                <rule>
-                    <pattern>
-                        <token postag_regexp="yes" postag="adj:m:.*">
-                            <exception postag_regexp="yes" postag="adj:[^m]:.*"/>
-                        </token>
-                        <token postag_regexp="yes" postag="noun:[^m]:.*">
-                            <exception postag_regexp="yes" postag="noun:m:.*"/>
-                        </token>
-                    </pattern>
-                    <message>Неузгодженість роду</message>
-                    <example>абонентське абонування</example>
-                    <example>холодне серце</example>
-                    <example>холодним вітром</example>
-                    <example>холодним серцем</example>
-                    <example type="incorrect"><marker>абонентський абонування</marker>.</example>
-                    <example type="incorrect"><marker>холодним водою</marker>.</example>
-                </rule>
-        </rulegroup>
--->
     </category>
 
-    <category id="CAT1" name="Логічні помилки">
+    <category id="LOGICAL_ERRORS" name="Логічні помилки">
           <rulegroup id="INVALID_DATE" name="Неправильна дата, наприклад '31 лютого 2014'">
             <rule>
                 <pattern>
@@ -895,60 +848,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
 
-        <rule id="PIV_WITH_HOURS" name="Вживання «пів» з годинами">
-            <pattern>
-              <token>пів</token>
-              <token postag_regexp="yes" postag="adj:f:v_rod.*" regexp="yes" inflected="yes">&hours;</token>
-            </pattern>
-            <message>Правильно: <suggestion>(о) пів на <match no="2" postag_regexp="yes" postag="adj:f:v_zna.*"/></suggestion></message>
-            <suggestion>(о) пів до <match no="2" postag_regexp="yes" postag="adj:f:v_rod.*"/></suggestion>
-            <example correction="(о) пів на першу|(о) пів до першої"><marker>пів першої</marker> приїхав і він</example>
-            <example>пів на першу приїхав і він</example>
-        </rule>
-
-        <rule id="U_YEAR" name="У XXXX року">
-            <pattern>
-              <token regexp="yes">[ув]</token>
-              <token regexp="yes">[0-9]{4}</token>
-              <token>року</token>
-            </pattern>
-            <message>Правильно: <suggestion><match no="1"/> <match no="2"/> році</suggestion></message>
-            <suggestion><match no="2"/> року</suggestion>
-            <example correction="в 2010 році|2010 року">ще <marker>в 2010 року</marker></example>
-            <example>в 60-х роках</example>
-        </rule>
-
-<!-- too many false positives
-        <rule id="YIH_YIHNIH" name="«Їх» замість «їхні»">
-            <antipattern>
-              <token>,</token>
-              <token>що</token>
-              <token>їх</token>
-            </antipattern>
-            <antipattern>
-              <token postag_regexp="yes" postag="verb.*"/>
-              <token>їх</token>
-              <token postag_regexp="yes" postag="noun.*:v_oru.*"/>
-            </antipattern>
-            <pattern>
-              <marker>
-                <token>їх</token>
-              </marker>
-              <token postag_regexp="yes" postag="noun.*">
-                <exception postag_regexp="yes" postag="noun.*pron.*|verb.*|conj.*|predic.*"></exception>
-              </token>
-            </pattern>
-            <message>Правильно: <suggestion>їхні</suggestion></message>
-            <example correction="їхні">в <marker>їх</marker> виробах</example>
-            <example>Там їх пов’язали</example>
-            <example>що їх він промовив того дня</example>
-            <example>переконав їх дати</example>
-            <example>Ми вибрали їх як безпосередній тягар</example>
-            <example>як їх треба озброювати</example>
-            <example>з трьома вимогами, що їх уряд ставить до АНК</example>
-            <example>ми вважали їх дверима</example>
-        </rule>
--->
     </category>
 
 </rules>

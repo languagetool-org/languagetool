@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
   <category name="Стиль" id="STYLE" type="style">
-    <rulegroup name="Самий з прикметниками" id="SAMYI">
+    <rulegroup id="SAMYI_WITH_ADJ" name="Самий з прикметниками">
         <!-- TODO: якщо робити це правило загальним фальшивих помилок більше ніж правильних позначень,
                    тож поки що обмежимося лише двома більш-менш стабільними випадками 
             -->
@@ -31,7 +31,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                   <unify>
                    <feature id="gender"/>
-                   <feature id="number"/>
                    <feature id="case"/>
                       
                     <token inflected="yes">самий
@@ -90,7 +89,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                   <unify>
                    <feature id="gender"/>
-                   <feature id="number"/>
                    <feature id="case"/>
                       
                     <marker>
@@ -124,7 +122,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                   <unify>
                    <feature id="gender"/>
-                   <feature id="number"/>
                    <feature id="case"/>
                       
                     <marker>
@@ -160,7 +157,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                   <unify>
                    <feature id="gender"/>
-                   <feature id="number"/>
                    <feature id="case"/>
                     <token inflected="yes">самий
                         <exception scope="previous" regexp="yes" inflected="yes">(той|же?|чим)</exception>
@@ -179,7 +175,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
 
-        <rulegroup name="Більш з прикметниками" id="BILSH_WITH_ADJ">
+        <rulegroup id="BILSH_WITH_ADJ" name="Більш з прикметниками">
             <rule>
                 <pattern>
                   <token>більш</token>
@@ -224,7 +220,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
 -->
-        <rulegroup name="Більш з числівниками та іменниками часу" id="BILSHE_WITH_TIME_NOUNS">
+        <rulegroup id="BILSHE_WITH_TIME_NOUNS" name="Більш з числівниками та іменниками часу">
             <rule>
                 <pattern>
                     <token regexp="yes" inflected="yes" postag_regexp="yes">більше?|більший
@@ -301,7 +297,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             -->
 	    </rulegroup>
 
-        <rulegroup name="Менше з числівниками та іменниками часу" id="MENSHE_WITH_TIME_NOUNS">
+        <rulegroup id="MENSHE_WITH_TIME_NOUNS" name="Менше з числівниками та іменниками часу">
             <rule>
                 <pattern>
                     <token regexp="yes" inflected="yes" postag_regexp="yes">менше?|менший
@@ -351,6 +347,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
     </rulegroup>
 
+
+       <rule id="STARSHE_N_ROKIV" name="Старше N років">
+         <pattern>
+              <token regexp="yes">старше|молодше</token>
+              <marker>
+                <token postag_regexp="yes" postag="noun.*:(v_rod|nv).*">
+                  <exception postag_regexp="yes" postag="noun.*:n:(v_naz|v_zna|nv).*|numr.*"></exception>
+                  <exception>років</exception>
+                </token>
+              </marker>
+         </pattern>
+         <message>Правильно: <suggestion>за <match no="2" postag_regexp="yes" postag="(.*):(?:v_rod|nv)(.*)" postag_replace="$1:(v_zna|nv)$2"/></suggestion></message>
+         <suggestion>від <match no="2"/></suggestion>
+         <suggestion>ніж <match no="2" postag_regexp="yes" postag="(.*):(?:v_rod|nv)(.*)" postag_replace="$1:(v_naz|nv)$2"/></suggestion>
+         <example correction="за сестру|від сестри|ніж сестра">він старше <marker>сестри</marker> на 3 роки</example>
+         <example correction="за місто|від міста|ніж місто">він старше <marker>міста</marker> на 3 роки</example>
+         <example correction="За Родольфо|Від Родольфо|Ніж Родольфо">він старше <marker>Родольфо</marker> на 3 роки</example>
+         <example>старше авто</example>
+         <example>старше покоління</example>
+         <example>старше п'яти</example>
+       </rule>
+
 <!--
     <rulegroup name="Канцелярзми" id="KANZ">
        <rule>   
@@ -392,7 +410,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 -->
 
-    <rulegroup name="Милозвучність прийменників в/у" id="EUPHONY_PREP_V_U">
+    <rulegroup id="EUPHONY_PREP_V_U" name="Милозвучність прийменників в/у">
     
     <!--
     перед голосним - в
@@ -502,7 +520,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
 <!--
-    <rulegroup name="Милозвучність в/у на початку слова" id="EUPHONY_WORD_START_V_U">
+    <rulegroup id="EUPHONY_WORD_START_V_U" name="Милозвучність в/у на початку слова">
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">.*[^у][вф]</token>
@@ -534,7 +552,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
     </rulegroup>
 -->
-    <rulegroup name="Милозвучність" id="EUPHONY_OTHER">
+    <rulegroup id="EUPHONY_CONJ_I_Y" name="Милозвучність">
             <!-- TODO: і-/й- на початку слів лише для іти/йти, імовірність/ймовірність, імення/ймення, іменувати/йменуватися??? -->
 
             <!-- сполучники і/й -->
@@ -609,8 +627,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="й|та">увійти <marker>і</marker> обідати</example>
                 <example>сісти і їхати</example>
             </rule>
+    </rulegroup>
 
             <!-- сполучники зі/із/з -->
+    <rulegroup id="EUPHONY_PREP_Z_IZ_ZI" name="Милозвучність">
             <rule>
                 <pattern>
                     <marker>
@@ -701,7 +721,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            <pattern>
              <unify>
                <feature id="gender"/>
-               <feature id="number"/>
                <feature id="case"/>
 
                <marker>
@@ -765,6 +784,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example correction="Більша частина|Більш ніж половина"><marker>Більшої половини</marker> класу</example>
          <example>Більш ніж половина</example>
        </rule>
+
        <rule>
          <pattern>
            <token inflected="yes">вільний</token>
@@ -774,7 +794,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example correction="Вільної"><marker>Вільної вакансії</marker></example>
          <example><marker>вакансію</marker></example>
        </rule>
-
     </rulegroup>
 
     <rulegroup id="NETOCHNE_VZHYVANNYA" name="Неточне вживання слів">
@@ -837,36 +856,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                    <token inflected="yes">зірка</token>
                </marker>
            </pattern>
-           <message>Краще: <suggestion>зоря</suggestion></message>
+           <message>Правильно: <suggestion>зоря</suggestion></message>
            <example correction="зоря">яскравіша <marker>зірка</marker></example>
            <example>п'ятикутна зірка</example>
            <example>яскравіша зоря</example>
-       </rule>
-
-       <rule>
-           <pattern>
-               <marker>
-                   <token>вилитий</token> <!-- TODO: inflected ? -->
-               </marker>
-                   <token postag_regexp="yes" postag="adj.*" min="0" max="1"/>
-                   <token postag_regexp="yes" postag="noun:anim.*"/>
-           </pattern>
-           <message>Краще: <suggestion>викапаний</suggestion></message>
-           <example correction="викапаний"><marker>вилитий</marker> живий Йозеф Швейк</example>
-           <example correction="викапаний"><marker>вилитий</marker> я у молодості</example>
-           <example>вилитий у бронзі</example>
-           <example>вилитий бруд</example>
-       </rule>
-       <rule>
-           <pattern>
-               <token>як</token>
-               <marker>
-                   <token>вилитий</token>
-               </marker>
-           </pattern>
-           <message>Краще: <suggestion>викапаний</suggestion></message>
-           <example correction="викапаний">як <marker>вилитий</marker></example>
-           <example>як викапаний</example>
        </rule>
 
        <rule>
@@ -902,7 +895,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                <marker>
                    <token inflected="yes">виключення</token>
                    <token>з</token>
-                   <token>правила</token>
+                   <token regexp="yes">правила?</token>
                </marker>
            </pattern>
            <message>Неточно вжите слово. Ви мали на увазі <suggestion>виняток з правила</suggestion>?</message>
@@ -915,7 +908,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            <pattern>
                <marker>
                    <token inflected="yes">засіб</token>
-                   <token inflected="yes">життя</token>
+                   <token>життя</token>
                </marker>
            </pattern>
            <message>Неточно вжите слово. Ви мали на увазі <suggestion>спосіб життя</suggestion>?</message>
@@ -1056,10 +1049,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
        <rule>
          <pattern>
+            <token regexp="yes">після|перед</token>
+            <marker>
+              <token inflected="yes">їжа</token>
+            </marker>
+         </pattern>
+         <message>Правильно: <suggestion>їда</suggestion></message>
+         <url>http://mova.kreschatic.kiev.ua/9.htm</url>
+         <example correction="їда">Випиту склянку після <marker>їжі</marker>.</example>
+         <example>Багато їжи.</example>
+       </rule>
+
+    </rulegroup>
+
+    <rulegroup id="VOYENNYI_VS_VIYSKOVY" name="Воєнний і військовий">
+       <rule>
+         <pattern>
           <marker>
             <token inflected="yes">воєнний</token>
           </marker>
-          <token inflected="yes" regexp="yes">присяга|трибунал|училище|частина|звання|лікар|стан</token>
+          <token inflected="yes" regexp="yes">звання|лікар|присяга|справа|стан|трибунал|училище|форма|частина</token>
          </pattern>
          <message>Правильно: <suggestion>військовий</suggestion></message>
          <example correction="військовий">Пішов до <marker>воєнного</marker> училища.</example>
@@ -1069,9 +1078,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <pattern>
            <unify>
              <feature id="gender"/>
-             <feature id="number"/>
              <feature id="case"/>
-     
+
                <marker>
                  <token inflected="yes">військовий</token>
                </marker>
@@ -1083,14 +1091,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>військовий аташе</example>
          <example>російські військові час від часу</example>
        </rule>
+    </rulegroup>
 
-       <rule>
+       <rule id="LAVKA" name="Лавка">
          <pattern>
            <unify>
              <feature id="gender"/>
-             <feature id="number"/>
              <feature id="case"/>
-     
+
                <token inflected="yes" regexp="yes">бакалійний|виновий|сувенірний|купецький|книжковий|різноманітні|в|у</token>
                <marker>
                  <token inflected="yes">лавка</token>
@@ -1102,7 +1110,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>паркова лавка</example>
        </rule>
 
-    </rulegroup>
 
     <rulegroup id="ZHE_ZH" name="Же/ж">
       <rule>
