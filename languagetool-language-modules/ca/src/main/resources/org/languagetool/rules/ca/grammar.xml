@@ -7437,7 +7437,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <marker>
-                        <token inflected="yes" regexp="yes">astre|estrella|mestre|prestigi|nom|persona|personalitat|personatge|escultor|obra|empreses|actor|artista|pintor|autor|DJ|sèrie|escriptor|novel·lista|nom</token>
+                        <token inflected="yes" regexp="yes">astre|estrella|mestre|prestigi|nom|persona|personalitat|personatge|escultor|obra|empreses|actor|artista|pintor|autor|DJ|sèrie|escriptor|novel·lista</token>
                         <token min="0" postag="RG|_GN.*" postag_regexp="yes"/>
                         <token postag="V.P.*" postag_regexp="yes" inflected="yes">reconèixer</token>
                     </marker>
@@ -36873,13 +36873,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">meitat|mitat</token>
                 <token regexp="yes">de|d'</token>
                 <token min="0" postag="DA.*" postag_regexp="yes"/>
-                <token postag="A.*|N.*" postag_regexp="yes"/>
+                <token postag="A.*|N.*" postag_regexp="yes"><exception>preu</exception></token>
             </pattern>
             <message>Expressió preferible.</message>
             <suggestion>a mitjan \5</suggestion>
             <example correction="A mitjan segle"><marker>A meitat del segle</marker>.</example>
             <example correction="A mitjan camí"><marker>A meitat de camí</marker>.</example>
             <example>A la meitat del segle.</example>
+            <example>M'ho va vendre a meitat de preu.</example>
         </rule>
         <rule id="COLZE_A_COLZE" name="colze a colze">
             <pattern>
