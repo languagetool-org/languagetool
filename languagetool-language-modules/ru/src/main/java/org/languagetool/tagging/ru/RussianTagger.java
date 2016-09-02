@@ -18,9 +18,19 @@
  */
 package org.languagetool.tagging.ru;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Locale;
+import java.util.List;
+
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
 
 import org.languagetool.tagging.BaseTagger;
+
+import org.languagetool.tools.StringTools;
+
+
 
 /**  Part-of-speech tagger.
  * Russian dictionary originally developed by www.aot.ru and licensed under LGPL.
@@ -36,4 +46,28 @@ public class RussianTagger extends BaseTagger {
   public RussianTagger() {
     super("/ru/russian.dict", new Locale("ru"));
   }
+
+
+
+
+   @Override
+  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens)
+      throws IOException {
+    List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
+    int pos = 0;
+    for (String word : sentenceTokens) {
+        if (word.length() > 1) {
+          word = word.replace("ó", "о");
+          word = word.replace("á", "а");
+          word = word.replace("é", "е");
+          word = word.replace("ý", "у");
+        }
+      List<AnalyzedToken> l = getAnalyzedTokens(word);
+      tokenReadings.add(new AnalyzedTokenReadings(l, pos));
+      pos += word.length();
+    }
+    return tokenReadings;
+  }
+
+
 }
