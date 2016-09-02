@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
@@ -46,6 +47,11 @@ public class Russian extends Language implements AutoCloseable {
   private Synthesizer synthesizer;
   private SentenceTokenizer sentenceTokenizer;
   private LuceneLanguageModel languageModel;
+
+  @Override
+  public Pattern getIgnoredCharactersRegex() {
+    return Pattern.compile("[\u00AD\u0301\u0300]");
+  }
 
   @Override
   public String getName() {

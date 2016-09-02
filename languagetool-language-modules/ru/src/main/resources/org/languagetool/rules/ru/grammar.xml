@@ -6874,26 +6874,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     
     <category id="SPELL" name="Проверка орфографии">
         
-        <rulegroup default="off" id="Unknown_words" name="Поиск неизвестных слов (без вариантов замены)">
+        <rulegroup default="on" id="Unknown_words" name="Поиск неизвестных слов (без вариантов замены)">
             <rule>
+	            <antipattern>
+		            <marker>
+			            <token case_sensitive="yes" regexp="yes">[А-ЯЁ][А-ЯЁ]+</token>
+		            </marker>
+	            </antipattern>
+	            <antipattern>
+	                    <token postag="UNKNOWN"
+	                               regexp="yes">[а-яё]+</token>
+	                    <token>.</token>
+	            </antipattern>
                 <pattern>
                     <marker>
-                        <token postag="UNKNOWN" regexp="yes">[а-яё]([а-яё].*)</token>
+	                    <token postag="UNKNOWN"
+	                           regexp="yes">[а-яё]+</token>
                     </marker>
                     <token></token>
                 </pattern>
-                <message>Слова нет в словаре LanguageTool.</message>
+                <message>Слова нет в словаре LanguageTool. Предложить слово в словарь можно на сайте https://github.com/languagetool-org/languagetool/issues/new
+                </message>
                 <url>http://www.languagetool.org/ru</url>
                 <short>Нет в словаре.</short>
                 <example>Проверка текста.</example>
+                <example>Прове́рка текста.</example>
+                <example>ул. Ленина</example>
                 <example>Проверка текста и т.п.</example>
                 <example correction="">Это только <marker>теест</marker> проверка.</example>
             </rule>
         </rulegroup>       
 
-    <rule id="Latin_letters" name="Использование аналогичных по написанию латинских букв">
+        <rule id="Latin_letters" name="Использование аналогичных по написанию латинских букв">
 	    <antipattern>
-		    <token regexp="yes">[а-яёіїäѣóáéýs’*қәңөєүўҰαΔӀғʌtјЂћњљƣg]+</token>
+		    <token regexp="yes">[а-яёіїäѣs’*қәңөєүўҰαΔӀғʌtјЂћњљƣg]+</token>
 	    </antipattern>
 	    <antipattern>
 		    <token regexp="yes">(?!.*[а-яё]).*</token>
@@ -6912,11 +6926,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		    <token regexp="yes">\p{L}\p{L}+</token>
 		    </marker>
 	    </pattern>
-	    <message>Возможно нужна буква из кириллицы вместо аналогичной по начетанию латинской или наоборот.</message>
+	    <message>Возможно нужна буква из кириллицы вместо аналогичной  по начетанию латинской или наоборот. Для обозначения ударения используйте символ U+0301 в кодировке Юникод вместо букв из других алфавитов.</message>
+	    <short>Возможно нужна буква из кириллицы вместо аналогичной по начетанию латинской или наоборот.</short>
+	    <url>https://ru.wikipedia.org/wiki/%D0%97%D0%BD%D0%B0%D0%BA_%D1%83%D0%B4%D0%B0%D1%80%D0%B5%D0%BD%D0%B8%D1%8F#.D0.92.D0.B2.D0.BE.D0.B4_.D0.B7.D0.BD.D0.B0.D0.BA.D0.B0_.D1.81_.D0.BA.D0.BB.D0.B0.D0.B2.D0.B8.D0.B0.D1.82.D1.83.D1.80.D1.8B</url>
 	    <example correction="">Книга <marker>прo</marker> Львов.</example>
 	    <example correction=""> <marker>Kо</marker> мне приехали.</example>
 	    <example>«Far East Network» не передаёт местные новости.</example>
 	    <example>В XXI веке.</example>
+	    <example>о̀колозе́мный</example>
 	    <example>имеют температуру менее минус 0,8 ºC на севере</example>
 	    <example correction=""> <marker>Bне</marker> леса шумно.</example>
 	    <example correction=""> Буду <marker>cо</marker> своими шутками.</example>
