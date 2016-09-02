@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.173 2016-08-31 12:43:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.174 2016-09-02 12:38:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -342,6 +342,21 @@ $Id: grammar.xml,v 1.173 2016-08-31 12:43:00 marcoagpinto Exp $
       <example correction="captar">Vamos <marker>capturar</marker> imagens.</example>
     </rule>
 	
+	
+	
+	<!-- DAÍ de aí -->
+    <rule id="DAÍ" name="de aí">
+      <pattern>
+        <token postag="VMN0000"></token>
+        <marker>
+            <token>daí</token>
+        </marker>
+        <token postag="VMN0000"></token>
+     </pattern>
+      <message>Substituir «daí» por <suggestion>de aí</suggestion>.</message>
+      <example correction="de aí">A partir <marker>daí</marker> deduzir o que fazer.</example>
+	</rule> 
+
 
 	
     <!-- DE/DA MATRICULA de/da matrícula -->
@@ -1643,7 +1658,7 @@ $Id: grammar.xml,v 1.173 2016-08-31 12:43:00 marcoagpinto Exp $
 
 
 
-    <!-- EM VÊS DE/DA/DAS/DO/ODS em vez de/da/das/do/dos -->
+    <!-- EM VÊS DE/DA/DAS/DO/DOS em vez de/da/das/do/dos -->
     <rule id="EM_VÊS_DE_DA_DAS_DO_DOS" name="em vez de-da-das-do-dos">
       <pattern>
         <token>em</token>
