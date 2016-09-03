@@ -5,7 +5,6 @@ from subprocess import call
 import re
 import enchant
 
-
 pos_LT = {
     'A':'ADJ',#	прилагательное
     'ADV':'ADV',#	наречие
@@ -196,7 +195,7 @@ i=0
 with open('need-tag.txt', 'r') as data_file:
     for data_line in data_file:
         # i += 1
-        # if i > 200: break
+        # if i > 100: break
         if ' ' in data_line:
             if "..." in data_line[:3]:
                 data_line = data_line.split(" ",1)[1]
@@ -224,16 +223,12 @@ with open('out.txt','r') as new_file:
             stop = line.rfind("^")+1
             news.add(prev_line[start:stop])
         prev_line = line
-    
 print(len(news))
 
 with open('new-tag.txt','w') as new_file:
     for word in news:
         new_file.write(word+"\n")
-    new_file.write("ушла\n")
-    new_file.write("ушли\n")
-    new_file.write("уйдём\n")
-        
+
 os.system("./mystem -nwi --eng-gr new-tag.txt mout.txt")
 
 mystems = []
@@ -241,7 +236,7 @@ with open('mout.txt','r') as new_file:
     for line in new_file:
         if not "?" in line:
             mystems.append(line)
-#mystems.sort()
+mystems.sort()
 with open('final-tags.txt','w') as final:
     for word in mystems:
         token = word.split("{",1)[0]
@@ -259,6 +254,11 @@ with open('final-tags.txt','w') as final:
                 final.write(token+"\t"+current_lemma+"\t"+pos_tag+"\n")
             else:
                 print(token+"\t"+current_lemma+"\t"+pos_tag+" <== "+gramma)
+
+# mystems.sort()
+# with open('final-tags.txt','w') as final:
+#     for word in mystems:
+#         final.write(word)
 
 with open('final.txt','w') as final:
     for word in mystems:

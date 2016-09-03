@@ -12488,7 +12488,7 @@ USA
             <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
             <rule>
                 <pattern>
-                    <token regexp="yes">could|can|they</token>
+                    <token regexp="yes">could|can|cannot|(?-i)I|you|we|they|he|she|it</token>
                     <marker>
                         <token>breath</token>
                     </marker>
@@ -12496,7 +12496,11 @@ USA
                 <message>Did you mean <suggestion>breathe</suggestion>? '\2' is a noun.</message>
                 <short>Possible grammatical error</short>
                 <example correction="breathe">I could <marker>breath</marker>.</example>
+                <example correction="breathe">I cannot <marker>breath</marker>.</example>
+                <example correction="breathe">Can you <marker>breath</marker>?</example>
+                <example>If I <marker>breathe</marker> slowly and deeply, I start to relax.</example>
                 <example>They breathe slowly.</example>
+                <example>Do tests for these: i <marker>breath</marker>, ii heartbeat, iii ...</example>
             </rule>
             <rule>
                 <pattern>
@@ -13752,6 +13756,24 @@ USA
             <example correction="sleights">At the show, we saw many marvellous <marker>slights</marker> of hand.</example>
             <example correction="Sleights"><marker>Slights</marker> of hand are a clever trick.</example>
             <example><marker>Sleight</marker> of hand is also known as prestidigitation.</example>
+        </rule>
+        <rule id="ROUTE_OF_THE_PROBLEM" name="route (root) of the problem">
+            <pattern>
+                <marker>
+                    <token postag_regexp="yes" postag="NN(:UN|S)" regexp="yes">routes?</token>
+                </marker>
+                <token>of</token>
+                <token>the</token>
+                <token regexp="yes">problems?</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">root</match></suggestion> (=source, cause)?</message>
+            <short>Commonly confused word</short>
+            <example correction="root">The <marker>route</marker> of the problems is unknown.</example>
+            <example correction="roots">The <marker>routes</marker> of the problem are not yet known.</example>
+            <example correction="Root">'The <marker>Route</marker> of the Problem' on page 26 gives more information.</example>
+            <example correction="Roots"><marker>Routes</marker> of the Problem on page 31 gives more information.</example>
+            <example>The <marker>root</marker> of the problem is the unnecessary complexity of the rules.</example>
+            <example type="triggers_error">'The Route of the Problem' is a music track (http://runescape.wikia.com/wiki/The_Route_of_the_Problem).</example>
         </rule>
     </category>
 
