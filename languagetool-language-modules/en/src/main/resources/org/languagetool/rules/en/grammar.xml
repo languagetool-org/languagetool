@@ -13753,6 +13753,24 @@ USA
             <example correction="Sleights"><marker>Slights</marker> of hand are a clever trick.</example>
             <example><marker>Sleight</marker> of hand is also known as prestidigitation.</example>
         </rule>
+        <rule id="ROUTE_OF_THE_PROBLEM" name="route (root) of the problem">
+            <pattern>
+                <marker>
+                    <token postag_regexp="yes" postag="NN(:UN|S)" regexp="yes">routes?</token>
+                </marker>
+                <token>of</token>
+                <token>the</token>
+                <token regexp="yes">problems?</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" postag_regexp="yes" postag="NN(S)|NN:UN" postag_replace="NN$1">root</match></suggestion> (=source, cause)?</message>
+            <short>Commonly confused word</short>
+            <example correction="root">The <marker>route</marker> of the problems is unknown.</example>
+            <example correction="roots">The <marker>routes</marker> of the problem are not yet known.</example>
+            <example correction="Root">'The <marker>Route</marker> of the Problem' on page 26 gives more information.</example>
+            <example correction="Roots"><marker>Routes</marker> of the Problem on page 31 gives more information.</example>
+            <example>The <marker>root</marker> of the problem is the unnecessary complexity of the rules.</example>
+            <example type="triggers_error">'The Route of the Problem' is a music track (http://runescape.wikia.com/wiki/The_Route_of_the_Problem).</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
