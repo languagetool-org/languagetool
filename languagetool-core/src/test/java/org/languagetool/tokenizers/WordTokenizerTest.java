@@ -35,9 +35,17 @@ public class WordTokenizerTest {
     List <String> tokens = wordTokenizer.tokenize("This is\u00A0a test");
     assertEquals(tokens.size(), 7);
     assertEquals("[This,  , is, \u00A0, a,  , test]", tokens.toString());
-    List <String> tokens2 = wordTokenizer.tokenize("This\rbreaks");
-    assertEquals(3, tokens2.size());
-    assertEquals("[This, \r, breaks]", tokens2.toString());
+    tokens = wordTokenizer.tokenize("This\rbreaks");
+    assertEquals(3, tokens.size());
+    assertEquals("[This, \r, breaks]", tokens.toString());
+    tokens = wordTokenizer.tokenize("dev.all@languagetool.org");
+    assertEquals(1, tokens.size());
+    tokens = wordTokenizer.tokenize("dev.all@languagetool.org.");
+    assertEquals(2, tokens.size());
+    tokens = wordTokenizer.tokenize("dev.all@languagetool.org:");
+    assertEquals(2, tokens.size());
+    tokens = wordTokenizer.tokenize("Schreiben Sie Hr. Meier (meier@mail.com).");
+    assertEquals(tokens.size(), 13);
   }
 
   @Test

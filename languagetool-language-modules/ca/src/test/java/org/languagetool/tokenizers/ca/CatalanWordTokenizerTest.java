@@ -35,9 +35,8 @@ public class CatalanWordTokenizerTest {
     assertEquals(tokens.size(), 1);
     tokens = wordTokenizer.tokenize("name@example.com.");
     assertEquals(tokens.size(), 2);
-    //TODO: doesn't work
-    //tokens = wordTokenizer.tokenize("name@example.com:");
-    //assertEquals(tokens.size(), 2);
+    tokens = wordTokenizer.tokenize("name@example.com:");
+    assertEquals(tokens.size(), 2);
     tokens = wordTokenizer.tokenize("L'origen de name@example.com.");
     assertEquals(tokens.size(), 7);
     assertEquals("[L', origen,  , de,  , name@example.com, .]", tokens.toString());

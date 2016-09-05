@@ -40,7 +40,7 @@ public class WordTokenizer implements Tokenizer {
 
   private static final List<String> PROTOCOLS = Collections.unmodifiableList(Arrays.asList("http", "https", "ftp"));
   private static final Pattern URL_CHARS = Pattern.compile("[a-zA-Z0-9/%$-_.+!*'(),\\?]+");
-  private static final Pattern E_MAIL = Pattern.compile("(?<!:)\\b[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))\\b(?!:)");
+  private static final Pattern E_MAIL = Pattern.compile("(?<!:)\\b[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))\\b");
 
   private static final String TOKENIZING_CHARACTERS = "\u0020\u00A0\u115f" +
       "\u1160\u1680"
