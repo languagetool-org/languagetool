@@ -5305,6 +5305,48 @@ USA
             <example correction="A soccer player kicks"><marker>A soccer players kicks</marker> a ball and scores a goal</example>
         </rule>
         -->
+        <rule id="WHO_VERB" name="Who + verb (who know's/knows)">
+            <pattern>
+                <token>who</token>
+                <token postag="VB.*|NN.*" postag_regexp="yes"><exception postag="NNP"/></token>
+                <token regexp='yes'>['´]</token>
+                <token>s</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1 \2s</suggestion>?</message>
+            <example correction="Who cares"><marker>Who care's</marker>?</example>
+            <example correction="Who knows"><marker>Who know's</marker>?</example>
+            <example>I wonder where Tom is and who he's with.</example>
+            <example>I found out who Tom's father is.</example>
+        </rule>
+        <rule id="TOO_ADJECTIVE_TO" name="too ADJECTIVE to">
+            <pattern>
+                <token>to</token>
+                <token postag="JJ"><exception postag_regexp="yes" postag="NN|NN:UN|VB.*"/></token>
+                <token min="0">,</token>
+                <token>to</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1o \2 \4</suggestion>?</message>
+            <example correction="too good to">This is <marker>to good to</marker> be true.</example>
+            <example>She is <marker>too sad to</marker> celebrate.</example>
+            <example>My mother went <marker>to town to</marker> get some bread.</example>
+            <example>It is next to impossible to make him stop smoking.</example>
+        </rule>
+        <rule id="BASE_FORM" name="base form after I/you/we/they">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token regexp='yes'>i|you|we|they</token>
+                <token regexp='yes' min="0" postag="RB">[a-z]+ly</token>
+                <marker><token postag="VBZ"><exception postag="NNS"/><exception>kids</exception><exception>guys</exception></token></marker>
+            </pattern>
+            <message>Possible agreement error -- use base form here: <suggestion><match no="4" postag="VBP"/></suggestion>.</message>
+            <example correction="like">I really <marker>likes</marker> cats.</example>
+            <example correction="do">I <marker>does</marker> not know about it.</example>
+            <example>He secretly <marker>loves</marker> you.</example>
+            <example>They <marker>seem</marker> to like you.</example>
+            <example>We parents sometimes become blind.</example>
+            <example>You kids must be hungry.</example>
+            <example>You guys wait here.</example>
+        </rule>
         <rule id="SINGULAR_VERB_AFTER_THESE_OR_THOSE" name="Singular verb after 'these' or 'those'">
          <pattern>
           <token regexp='yes'>th[eo]se<exception scope="previous">of</exception></token>
@@ -11636,6 +11678,55 @@ USA
                 <example correction="from">Are human beings any different <marker>then</marker> animals?</example>
             </rule>
         </rulegroup>
+        <rule id="THAT_BEING_SAID" name="confusion: That being sad (said)">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token>That</token>
+                <token>being</token>
+                <token regexp="yes">sa[dt]</token>
+            </pattern>
+            <message>Did you mean <suggestion>That being said</suggestion>?</message>
+            <example correction="That being said"><marker>That being sad</marker> ...</example>
+        </rule>
+        <rule id="SAID_SAD" name="confusion sad/said">
+            <pattern>
+                <token><exception postag="VB.*" postag_regexp="yes"/></token>
+                <token postag="PRP"><exception postag="PRP$"/></token>
+                <token min="0" regexp="yes">has|have</token>
+                <marker><token>sad</token></marker>
+            </pattern>
+            <message>Did you mean <suggestion>said</suggestion>?</message>
+            <example correction="said">She <marker>sad</marker> that she was tired.</example>
+            <example correction="said">This is exactly what you have <marker>sad</marker> yesterday.</example>
+            <example>Are you sad?</example>
+            <example>He brought us sad news.</example>
+        </rule>
+        <rule id="IN_ON_VACATION" name="in (on) vacation">
+            <pattern>
+                <token inflected="yes">be</token>
+                <token regexp="yes" min="0" postag="RB">[a-z]+ly</token>
+                <marker>
+                    <token postag="IN"><exception>on</exception></token>
+                    <token>vacation</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>on vacation</suggestion>?</message>
+            <example correction="on vacation">He is probably <marker>in vacation</marker> right now.</example>
+            <example correction="on vacation">I'm <marker>at vacation</marker> at the seaside.</example>
+            <example>Where did you go for vacation?</example>
+        </rule>
+        <rule id="MUST_MOST" name="confusion of must/most">
+            <pattern>
+                <marker>
+                    <token regexp="yes">m[iu]st</token>
+                    <token>of</token>
+                </marker>
+                <token><exception>course</exception></token>
+            </pattern>
+            <message>Did you mean <suggestion>most of</suggestion>?</message>
+            <example correction="most of">I do this <marker>must of</marker> the time.</example>
+            <example>There must of course be a relationship between translating and making poems of your own.</example>
+        </rule>
         <rulegroup id="PEACE_PIECE" name="peace (piece)">
             <rule>
                 <pattern>
@@ -15888,6 +15979,13 @@ USA
             <message>Use only in informal register. In other registers, <suggestion>invitation</suggestion> should be used.</message>
             <short>Slang</short>
             <example correction="invitation">Is that an <marker>invite</marker>...?</example>
+        </rule>
+        <rule id="IRREGARDLESS" name="irregardless (regardless)">
+            <pattern>
+                <token>irregardless</token>
+            </pattern>
+            <message>'Irregardless' is acceptable in casual and nonstandard writing at best. In formal style you should use <suggestion>regardless</suggestion>.</message>
+            <example correction="Regardless"><marker>Irregardless</marker> of what he says, do it!</example>
         </rule>
         <rule default="off" id="And" name="Sentence starting with 'And' or 'But'">
             <pattern>
