@@ -63,6 +63,19 @@ public class RussianTagger extends BaseTagger {
           word = word.replace("у́", "у");
           word = word.replace("и́", "и");
           word = word.replace("ы́", "ы");
+	  word = word.replace("э́", "э");
+	  word = word.replace("ю́", "ю");
+	  word = word.replace("я́", "я");
+	  word = word.replace("о̀", "о");
+          word = word.replace("а̀", "а");
+          word = word.replace("ѐ", "е");
+          word = word.replace("у̀", "у");
+          word = word.replace("ѝ", "и");
+          word = word.replace("ы̀", "ы");
+	  word = word.replace("э̀", "э");
+	  word = word.replace("ю̀", "ю");
+	  word = word.replace("я̀", "я");
+	  word = word.replace("ʼ", "ъ");
         }
       List<AnalyzedToken> l = getAnalyzedTokens(word);
       tokenReadings.add(new AnalyzedTokenReadings(l, pos));
