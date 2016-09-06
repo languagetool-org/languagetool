@@ -47,7 +47,7 @@ public class CommaWhitespaceRule extends Rule {
   }
 
   /**
-   * @deprecated use {@link #CommaWhitespaceRule(ResourceBundle, IncorrectExample, String)} instead (deprecated since 3.3)
+   * @deprecated use {@link #CommaWhitespaceRule(ResourceBundle, IncorrectExample, CorrectExample)} instead (deprecated since 3.3)
    */
   public CommaWhitespaceRule(ResourceBundle messages) {
     this(messages, null, null);
