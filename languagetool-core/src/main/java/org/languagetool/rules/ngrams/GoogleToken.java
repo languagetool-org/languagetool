@@ -41,15 +41,12 @@ class GoogleToken {
   final Set<AnalyzedToken> posTags;
 
   GoogleToken(String token, int startPos, int endPos) {
-    this.token = token;
-    this.startPos = startPos;
-    this.endPos = endPos;
-    posTags = Collections.emptySet();
+    this(token, startPos, endPos, Collections.emptySet());
   }
 
   @Experimental
   GoogleToken(String token, int startPos, int endPos, Set<AnalyzedToken> posTags) {
-    this.token = token;
+    this.token = "’".equals(token) ? "'" : token;  // Google seems to have indexed the apostrophe always like this
     this.startPos = startPos;
     this.endPos = endPos;
     this.posTags = posTags;
