@@ -9810,6 +9810,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>molts altres</suggestion>
             <example correction="Molts altres"><marker>Molts uns altres</marker> diuen que sí.</example>
         </rule>
+        <rule id="ENTRE_UNS_ALTRES" name="entre *uns altres">
+            <pattern>
+                <token>,</token>
+                <marker>
+                    <token>entre</token>
+                    <token regexp="yes">uns|unes</token>
+                    <token>altres</token>
+                </marker>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion>entre altres</suggestion>
+            <example correction="entre altres">Les causes va ser, <marker>entre unes altres</marker>, l'altura i la densitat.</example>
+        </rule>
         <rule id="DESPRES_DE_RERE" name="*any després d'any/any rere any">
             <pattern>
                 <token><exception postag="SENT_START|_PUNCT.*" postag_regexp="yes"/></token>
