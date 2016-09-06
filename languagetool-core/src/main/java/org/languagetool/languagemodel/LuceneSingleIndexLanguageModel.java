@@ -198,6 +198,7 @@ public class LuceneSingleIndexLanguageModel extends BaseLanguageModel {
         String countStr = luceneSearcher.reader.document(scoreDoc.doc).get("count");
         result += Long.parseLong(countStr);
       }
+      //System.out.println(term + " -> " + result);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
