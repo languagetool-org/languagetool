@@ -47,6 +47,8 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.CategoryId;
 
 /**
  * Support for associating a LanguageTool instance and a JTextComponent
@@ -175,24 +177,43 @@ class LanguageToolSupport {
       update = true;
     }
 
-    Set<String> disabledCategories = config.getDisabledCategoryNames();
-    if (disabledCategories == null) {
-      disabledCategories = Collections.emptySet();
+    Set<String> disabledCategoryNames = config.getDisabledCategoryNames();
+    if (disabledCategoryNames == null) {
+      disabledCategoryNames = Collections.emptySet();
     }
-    common = new HashSet<>(disabledCategories);
-    common.retainAll(languageTool.getDisabledCategories());
-    toDisable = new HashSet<>(disabledCategories);
-    toDisable.removeAll(common);
-    toEnable = new HashSet<>(languageTool.getDisabledCategories());
-    toEnable.removeAll(common);
+    Set<CategoryId> disabledCategories = new HashSet<>();
+    Map<CategoryId, Category> langCategories = languageTool.getCategories();
+    
+    for(CategoryId id : langCategories.keySet()) {
+      String categoryName = langCategories.get(id).getName();
+      if(disabledCategoryNames.contains(categoryName)) {
+        disabledCategories.add(id);
+      }
+    }
 
-    if (!toDisable.isEmpty()) {
-      languageTool.getDisabledCategories().addAll(toDisable);
-      // ugly hack to trigger reInitSpellCheckIgnoreWords()
-      update = true;
+    Set<CategoryId> ltDisabledCategories = new HashSet<>();
+    for(CategoryId id : langCategories.keySet()) {
+      if(languageTool.isCategoryDisabled(id)) {
+        ltDisabledCategories.add(id);
+      }
     }
-    if (!toEnable.isEmpty()) {
-      languageTool.getDisabledCategories().removeAll(toEnable);
+    
+    HashSet<CategoryId> commonCat = new HashSet<>(disabledCategories);
+    commonCat.retainAll(ltDisabledCategories);
+
+    HashSet<CategoryId> toDisableCat = new HashSet<>(disabledCategories);
+    toDisableCat.removeAll(common);
+
+    HashSet<CategoryId> toEnableCat = new HashSet<>(ltDisabledCategories);
+    toEnableCat.removeAll(common);
+
+    for(CategoryId id : toDisableCat) {
+      languageTool.disableCategory(id);
+    }
+    for(CategoryId id : toEnableCat) {
+      languageTool.enableRuleCategory(id);
+    }      
+    if (!toDisableCat.isEmpty() || !toEnable.isEmpty()) {
       // ugly hack to trigger reInitSpellCheckIgnoreWords()
       update = true;
     }
