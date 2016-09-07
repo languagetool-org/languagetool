@@ -421,9 +421,7 @@ public class JLanguageTool {
    * @param ruleId the id of the rule to enable
    */
   public void enableRule(String ruleId) {
-    if (disabledRules.contains(ruleId)) {
-      disabledRules.remove(ruleId);
-    }
+    disabledRules.remove(ruleId);
   }
 
   /**
@@ -434,9 +432,7 @@ public class JLanguageTool {
    * @since 3.3
    */
   public void enableRuleCategory(CategoryId id) {
-    if (disabledRuleCategories.contains(id)) {
-      disabledRuleCategories.remove(id);
-    }
+    disabledRuleCategories.remove(id);
   }
 
   /**
