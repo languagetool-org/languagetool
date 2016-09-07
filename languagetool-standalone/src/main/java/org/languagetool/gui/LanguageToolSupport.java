@@ -202,10 +202,10 @@ class LanguageToolSupport {
     commonCat.retainAll(ltDisabledCategories);
 
     HashSet<CategoryId> toDisableCat = new HashSet<>(disabledCategories);
-    toDisableCat.removeAll(common);
+    toDisableCat.removeAll(commonCat);
 
     HashSet<CategoryId> toEnableCat = new HashSet<>(ltDisabledCategories);
-    toEnableCat.removeAll(common);
+    toEnableCat.removeAll(commonCat);
 
     for(CategoryId id : toDisableCat) {
       languageTool.disableCategory(id);
@@ -213,7 +213,7 @@ class LanguageToolSupport {
     for(CategoryId id : toEnableCat) {
       languageTool.enableRuleCategory(id);
     }      
-    if (!toDisableCat.isEmpty() || !toEnable.isEmpty()) {
+    if (!toDisableCat.isEmpty() || !toEnableCat.isEmpty()) {
       // ugly hack to trigger reInitSpellCheckIgnoreWords()
       update = true;
     }
@@ -223,8 +223,8 @@ class LanguageToolSupport {
       enabledRules = Collections.emptySet();
     }
     for (String ruleName : enabledRules) {
-      languageTool.enableDefaultOffRule(ruleName);
       languageTool.enableRule(ruleName);
+      update = true;
     }
 
     if (update) {
