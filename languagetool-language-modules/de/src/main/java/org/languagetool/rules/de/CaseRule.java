@@ -547,19 +547,20 @@ public class CaseRule extends GermanRule {
       boolean isBaseform = analyzedToken.getReadingsLength() >= 1 && analyzedToken.hasLemma(token);
       if ((analyzedToken.getAnalyzedToken(0).getPOSTag() == null || GermanHelper.hasReadingOfType(analyzedToken, GermanToken.POSType.VERB))
           && isBaseform) {
-        boolean nextTokenIsPersonalPronoun = false;
+        boolean nextTokenIsPersonalOrReflexivePronoun = false;
         if (i < tokens.length - 1) {
+          AnalyzedTokenReadings nextToken = tokens[i + 1];
           // avoid false alarm for "Das haben wir getan." etc:
-          nextTokenIsPersonalPronoun = tokens[i + 1].hasPartialPosTag("PRO:PER") || tokens[i + 1].getToken().equals("Sie");
-          if (tokens[i + 1].hasLemma("lassen")) {
+          nextTokenIsPersonalOrReflexivePronoun = nextToken.hasPartialPosTag("PRO:PER") || nextToken.getToken().equals("sich") || nextToken.getToken().equals("Sie");
+          if (nextToken.hasLemma("lassen")) {
             // avoid false alarm for "Ihr sollt mich das wissen lassen."
             continue;
           }
-          if (tokens[i + 1].isSentenceEnd()) {
+          if (nextToken.isSentenceEnd()) {
             // avoid false alarm for "So sollte das funktionieren." (might also remove true alarms...)
             continue;
           }
-          if (prevTokenIsDas && tokens[i+1].equals("die")) {
+          if (prevTokenIsDas && nextToken.equals("die")) {
             // avoid false alarm for "Das wissen die meisten."
             continue;
           }
@@ -571,7 +572,7 @@ public class CaseRule extends GermanRule {
           // avoid false alarm for "Er kann ihr das bieten, was sie verdient."
           continue;
         }
-        potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token, nextTokenIsPersonalPronoun);
+        potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token, nextTokenIsPersonalOrReflexivePronoun);
       }
       prevTokenIsDas = nounIndicators.contains(tokens[i].getToken().toLowerCase());
       if (hasNounReading(analyzedToken)) {  // it's the spell checker's task to check that nouns are uppercase
@@ -662,8 +663,8 @@ public class CaseRule extends GermanRule {
     return false;
   }
 
-  private void potentiallyAddLowercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings tokenReadings, boolean prevTokenIsDas, String token, boolean nextTokenIsPersonalPronoun) {
-    if (prevTokenIsDas && !nextTokenIsPersonalPronoun) {
+  private void potentiallyAddLowercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings tokenReadings, boolean prevTokenIsDas, String token, boolean nextTokenIsPersonalOrReflexivePronoun) {
+    if (prevTokenIsDas && !nextTokenIsPersonalOrReflexivePronoun) {
       // e.g. essen -> Essen
       if (Character.isLowerCase(token.charAt(0)) && !substVerbenExceptions.contains(token) && tokenReadings.hasPartialPosTag("VER:INF")
               && !tokenReadings.isIgnoredBySpeller() && !tokenReadings.isImmunized()) {
