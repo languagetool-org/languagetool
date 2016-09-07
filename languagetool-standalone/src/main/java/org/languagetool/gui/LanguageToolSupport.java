@@ -189,13 +189,11 @@ class LanguageToolSupport {
     if (!toDisable.isEmpty()) {
       languageTool.getDisabledCategories().addAll(toDisable);
       // ugly hack to trigger reInitSpellCheckIgnoreWords()
-      languageTool.disableRules(new ArrayList<>());
       update = true;
     }
     if (!toEnable.isEmpty()) {
       languageTool.getDisabledCategories().removeAll(toEnable);
       // ugly hack to trigger reInitSpellCheckIgnoreWords()
-      languageTool.disableRules(new ArrayList<>());
       update = true;
     }
 
