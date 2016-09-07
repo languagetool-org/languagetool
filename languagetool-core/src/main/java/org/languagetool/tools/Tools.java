@@ -327,7 +327,6 @@ public final class Tools {
     }
     if (enabledCategories.size() > 0) {
       for (CategoryId id : enabledCategories) {
-        lt.enableDefaultOffRuleCategory(id);
         lt.enableRuleCategory(id);
       }
       if (useEnabledOnly) {
@@ -347,7 +346,6 @@ public final class Tools {
     // enable rules
     if (enabledRules.size() > 0) {
       for (String ruleName : enabledRules) {
-        lt.enableDefaultOffRule(ruleName);
         lt.enableRule(ruleName);
       }
       if (useEnabledOnly) {

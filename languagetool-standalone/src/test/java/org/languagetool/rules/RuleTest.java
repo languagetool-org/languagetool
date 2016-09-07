@@ -111,8 +111,6 @@ public class RuleTest {
       lt.disableRule(rule.getId());
     }
     lt.enableRule(ruleToActivate.getId());
-    //make sure that the rule that is by default off is on
-    lt.enableDefaultOffRule(ruleToActivate.getId());
   }
 
   private String cleanMarkers(String example) {

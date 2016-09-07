@@ -211,7 +211,6 @@ public final class Tools {
     Set<String> enabledRules = config.getEnabledRuleIds();
     if (enabledRules != null) {
       for (String ruleName : enabledRules) {
-        langTool.enableDefaultOffRule(ruleName);
         langTool.enableRule(ruleName);
       }
     }

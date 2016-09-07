@@ -305,7 +305,6 @@ public class Main extends WeakBase implements XJobExecutor,
         // copy as the config thread may access this as well
         List<String> list = new ArrayList<>(enabledRuleIds);
         for (String ruleName : list) {
-          langTool.enableDefaultOffRule(ruleName);
           langTool.enableRule(ruleName);
         }
       }
