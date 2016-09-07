@@ -330,5 +330,16 @@ public abstract class SpellingCheckRule extends Rule {
   public List<DisambiguationPatternRule> getAntiPatterns() {
     return antiPatterns;
   }
+  
+  /**
+   * Checks whether a word starts with an ignored word (check is case-sensitive).
+   * @param word - entire word
+   * @return length of the ignored word (i.e., return value is 0, if the word does not start with an ignored word)  
+   * @since 3.5
+   */
+  protected int startsWithIgnoredWord(String word) {
+    Optional<String> match = wordsToBeIgnored.stream().filter(s -> word.startsWith(s)).findFirst();
+    return match.isPresent() ? match.get().length() : 0;
+  }
 
 }
