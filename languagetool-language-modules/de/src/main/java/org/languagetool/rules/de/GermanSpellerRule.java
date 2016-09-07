@@ -404,8 +404,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } else {
       for (String word1 : words) {
         if (super.ignoreWord(word1)) {
-          toSpellCheck.add(word1);
           hasIgnoredWord = true;
+        } else {
+          toSpellCheck.add(word1);
         }
       }
     }
