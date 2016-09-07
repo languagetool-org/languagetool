@@ -200,8 +200,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     boolean ignore = super.ignoreWord(words, idx);
     boolean ignoreUncapitalizedWord = !ignore && idx == 0 && super.ignoreWord(WordUtils.uncapitalize(words.get(0)));
     boolean ignoreByHyphen = false, ignoreHyphenatedCompound = false;
-    if (!ignore && !ignoreUncapitalizedWord && words.get(idx).contains("-")) {
-      ignoreByHyphen = words.get(idx).endsWith("-") && ignoreByHangingHyphen(words, idx);
+    if (!ignore && !ignoreUncapitalizedWord) {
+      if(words.get(idx).contains("-")) {
+        ignoreByHyphen = words.get(idx).endsWith("-") && ignoreByHangingHyphen(words, idx);
+      }
       ignoreHyphenatedCompound = !ignoreByHyphen && ignoreCompoundWithIgnoredWord(words.get(idx));
     }
     return ignore || ignoreUncapitalizedWord || ignoreByHyphen || ignoreHyphenatedCompound;
@@ -383,6 +385,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private boolean ignoreCompoundWithIgnoredWord(String word) throws IOException{
     String[] words = word.split("-");
     if (words.length < 2) {
+      int end = super.startsWithIgnoredWord(word);
+      if(end > 0) {
+        String partialWord = word.substring(end);
+        return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(WordUtils.capitalize(partialWord));
+      }
       return false;
     }
 
