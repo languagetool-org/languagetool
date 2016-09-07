@@ -28,6 +28,7 @@
 
 #### General
   * Bugfix: avoid repeating the same suggestion
+  * Enhancement: ignore e-mail addresses
 
 #### Java API
   * `Rule.getCorrectExamples()` now returns a list of `CorrectExample`s
