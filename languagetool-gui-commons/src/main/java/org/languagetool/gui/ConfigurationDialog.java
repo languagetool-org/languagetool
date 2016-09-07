@@ -100,9 +100,6 @@ public class ConfigurationDialog implements ActionListener {
         if (config.getDisabledCategoryNames() != null && config.getDisabledCategoryNames().contains(rule.getCategory().getName())) {
           enabled = false;
         }
-        if (rule.getCategory().isDefaultOff()) {
-          enabled = false;
-        }
         DefaultMutableTreeNode categoryNode = new CategoryNode(rule.getCategory(), enabled);
         root.add(categoryNode);
         parents.put(rule.getCategory().getName(), categoryNode);
@@ -350,10 +347,8 @@ public class ConfigurationDialog implements ActionListener {
             }
           } else {
             if (o.isEnabled()) {
-              config.getEnabledRuleIds().add(o.getRule().getId());
               config.getDisabledRuleIds().remove(o.getRule().getId());
             } else {
-              config.getEnabledRuleIds().remove(o.getRule().getId());
               config.getDisabledRuleIds().add(o.getRule().getId());
             }
           }
