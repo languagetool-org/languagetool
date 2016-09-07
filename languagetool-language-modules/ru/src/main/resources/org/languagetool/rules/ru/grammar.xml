@@ -6419,16 +6419,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Не грубости ради, но для порядка.</example>
             <example>А с XII в. — шнеккеры.</example>
         </rule>
-        <rule id="PNN_ON_END" name="Местоимение в конце предложения" default="off">
+        <rule id="PNN_ON_END" name="Местоимение в конце предложения">
             <!--      Заканчивать предложение местоимением – дурной стиль, не для этого оно.  -->
             <pattern case_sensitive="yes">
-                <token regexp="yes">он|она|оно</token>
-                 <token>.<exception postag='SENT_END' negate_pos='yes'></exception></token>
+                <token regexp="yes">он|она|оно<exception postag='VB:.*' postag_regexp='yes' scope='previous'></exception></token>
+                <token>.<exception postag='SENT_END' negate_pos='yes'></exception></token>
             </pattern>
             <message>Местоимение в конце предложения.</message>
             <short>Местоимение в конце предложения.</short>
             <example correction=''>Не для этого <marker>оно.</marker></example>
             <example>Оно не для этого.</example>
+            <example>Ты ужасный человек, - сказала она.</example>
         </rule>
         
        <rulegroup default="on" id="noun_genitive_3" name="Более 4 существительных в родительном падеже подряд">
