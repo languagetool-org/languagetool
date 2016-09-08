@@ -184,27 +184,27 @@ class LanguageToolSupport {
     Set<CategoryId> disabledCategories = new HashSet<>();
     Map<CategoryId, Category> langCategories = languageTool.getCategories();
     
-    for(CategoryId id : langCategories.keySet()) {
+    for (CategoryId id : langCategories.keySet()) {
       String categoryName = langCategories.get(id).getName();
-      if(disabledCategoryNames.contains(categoryName)) {
+      if (disabledCategoryNames.contains(categoryName)) {
         disabledCategories.add(id);
       }
     }
 
     Set<CategoryId> ltDisabledCategories = new HashSet<>();
-    for(CategoryId id : langCategories.keySet()) {
-      if(languageTool.isCategoryDisabled(id)) {
+    for (CategoryId id : langCategories.keySet()) {
+      if (languageTool.isCategoryDisabled(id)) {
         ltDisabledCategories.add(id);
       }
     }
     
-    HashSet<CategoryId> commonCat = new HashSet<>(disabledCategories);
+    Set<CategoryId> commonCat = new HashSet<>(disabledCategories);
     commonCat.retainAll(ltDisabledCategories);
 
-    HashSet<CategoryId> toDisableCat = new HashSet<>(disabledCategories);
+    Set<CategoryId> toDisableCat = new HashSet<>(disabledCategories);
     toDisableCat.removeAll(commonCat);
 
-    HashSet<CategoryId> toEnableCat = new HashSet<>(ltDisabledCategories);
+    Set<CategoryId> toEnableCat = new HashSet<>(ltDisabledCategories);
     toEnableCat.removeAll(commonCat);
 
     for(CategoryId id : toDisableCat) {
