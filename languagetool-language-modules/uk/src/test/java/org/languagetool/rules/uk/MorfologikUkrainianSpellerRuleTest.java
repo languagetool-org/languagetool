@@ -123,6 +123,13 @@ public class MorfologikUkrainianSpellerRuleTest {
 
     match = rule.match(langTool.getAnalyzedSentence("100 кв м"));
     assertEquals(1, Arrays.asList(match).size());
+
+    match = rule.match(langTool.getAnalyzedSentence("2 раза"));
+    assertEquals(1, Arrays.asList(match).size());
+
+    match = rule.match(langTool.getAnalyzedSentence("півтора раза"));
+    assertEquals(0, match.length);
+
   }
 
 }

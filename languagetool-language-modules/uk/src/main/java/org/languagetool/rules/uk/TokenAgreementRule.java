@@ -235,6 +235,11 @@ public class TokenAgreementRule extends Rule {
             reqTokenReadings = null;
             continue;
           }
+          // handled by xml rule
+          if( token.equals("манер") ) {
+            reqTokenReadings = null;
+            continue;
+          }
         }
 
         if( prep.equalsIgnoreCase("з") ) {

@@ -43,8 +43,8 @@ public class MixedAlphabetsRule extends Rule {
   private static final Pattern LIKELY_LATIN_NUMBER = Pattern.compile("[XVIХІ]{2,8}");
   private static final Pattern LATIN_NUMBER_WITH_CYRILLICS = Pattern.compile("Х{1,3}І{1,3}|І{1,3}Х{1,3}|Х{2,3}|І{2,3}");
   private static final Pattern MIXED_ALPHABETS = Pattern.compile(".*([a-zA-Z]'?[а-яіїєґА-ЯІЇЄҐ]|[а-яіїєґА-ЯІЇЄҐ]'?[a-zA-Z]).*");
-  private static final Pattern CYRILLIC_ONLY = Pattern.compile(".*[бвгґдєжзйїлнпфцчшщьюяБГҐДЄЖЗИЙЇЛПФЦЧШЩЬЮЯ].*");
-  private static final Pattern LATIN_ONLY = Pattern.compile(".*[bdfghjlqrsvzDFGLNQRSUVZ].*");
+  private static final Pattern CYRILLIC_ONLY = Pattern.compile(".*[бвгґдєжзийїлнпфцчшщьюяБГҐДЄЖЗИЙЇЛПФЦЧШЩЬЮЯ].*");
+  private static final Pattern LATIN_ONLY = Pattern.compile(".*[bdfghjlqrstvzDFGJLNQRSUVZ].*");
   private static final Pattern COMMON_CYR_LETTERS = Pattern.compile("[АВЕІКОРСТУХ]+");
 
   public MixedAlphabetsRule(ResourceBundle messages) throws IOException {

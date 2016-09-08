@@ -73,6 +73,8 @@ public class UkrainianTaggerTest {
   
     TestTools.myAssert("Майже два роки тому Люба разом із чоловіком Степаном виїхали туди на проживання.",
         expected, tokenizer, tagger);
+        
+    assertNotTagged("раза");
   }
 
   @Test

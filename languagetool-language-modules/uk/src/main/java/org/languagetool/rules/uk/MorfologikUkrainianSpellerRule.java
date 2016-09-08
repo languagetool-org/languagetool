@@ -81,7 +81,8 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
       }
     }
     
-    if( word.contains("-") || word.contains("\u2011") || word.endsWith(".") ) {
+    if( word.contains("-") || word.contains("\u2011") || word.endsWith(".") 
+            || word.equalsIgnoreCase("раза") ) {
       return hasGoodTag(tokens[idx]);
     }
 

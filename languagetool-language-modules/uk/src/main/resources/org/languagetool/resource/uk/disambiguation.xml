@@ -63,6 +63,24 @@
 	</unification>
 
 
+    <rule name="Раза з дробовими числівниками" id="RAZA_WITH_FRACTIONS">
+      <pattern>
+        <token regexp="yes">[0-9]+,[1-9]+|півтора</token>
+        <marker>
+          <token>раза</token>
+        </marker>
+      </pattern>
+      <disambig action="add"><wd lemma="раз" pos="noun:inanim:m:v_rod"/></disambig>
+      <example type="ambiguous"
+            inputform="раза[раза]"
+            outputform="раза[раз/noun:inanim:m:v_rod]">Аж в півтора <marker>раза</marker>.</example>
+      <example type="ambiguous"
+            inputform="раза[раза]"
+            outputform="раза[раз/noun:inanim:m:v_rod]">Аж в 1,2 <marker>раза</marker>.</example>
+      <example type="untouched">От така за раза.</example>
+    </rule>
+
+
     <rule name="Кличний для неістот" id="V_KLY_FOR_INANIM">
         <pattern>
           <and>

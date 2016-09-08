@@ -2338,36 +2338,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
 
-    <rulegroup id="CONTROL_ZA_NAD" name="Контроль: за і над">
-      <rule>
-          <pattern>
-              <token inflected="yes">контроль</token>
-              <marker>
-                <token>за</token>
-              </marker>
-              <token regexp="yes">фінансами|підприємством</token>
-          </pattern>
-          <message>При іменниках не дієслівного походження вживаємо <suggestion>над</suggestion></message>
-          <short>Тут «контроль над»</short>
-          <example correction="над">Здійснювати контроль <marker>за</marker> фінансами</example>
-          <example correction="над">Здійснювати контроль <marker>за</marker> підприємством</example>
-          <example>Здійснювати контроль над фінансами</example>
-      </rule>
-      <rule>
-          <pattern>
-              <token inflected="yes">контроль</token>
-              <marker>
-                <token>над</token>
-              </marker>
-              <token regexp="yes">використанням|реалізацією|роботою</token>
-          </pattern>
-          <message>При віддієслівних іменниках, що означають дію, вживається <suggestion>за</suggestion></message>
-          <short>Тут «контроль за»</short>
-          <example correction="за">Контроль <marker>над</marker> роботою підприємства</example>
-          <example>Контроль за роботою підприємства</example>
-      </rule>
-    </rulegroup>
-
       <rule id="ZA_VYMOGOYU" name="За вимогою">
          <pattern>
             <marker>
@@ -2569,6 +2539,124 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <suggestion>де наше не пропадало</suggestion>
       <example correction="що буде те (то) й буде|хай буде, що буде|хай (най) діється (буде), що хоче|де наше не пропадало">А там <marker>будь що буде</marker>.</example>
     </rule>
+
+    <rulegroup id="ROKOVYI_FATALNYI" name="Роковий замість фатальний">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">роковий</token>
+          </marker>
+          <token inflected="yes" regexp="yes">день|випадок|жінка</token>
+        </pattern>
+        <message>Краще: <suggestion><match no="1">фатальний</match></suggestion></message>
+        <suggestion><match no="1">нещасний</match></suggestion>
+        <suggestion><match no="1">судний</match></suggestion>
+        <example correction="фатальний|нещасний|судний">В той <marker>роковий</marker> день.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">стати</token>
+          <marker>
+            <token inflected="yes">роковий</token>
+          </marker>
+        </pattern>
+        <message>Краще: <suggestion><match no="2">фатальний</match></suggestion></message>
+        <suggestion><match no="2">нещасний</match></suggestion>
+        <suggestion><match no="2">судний</match></suggestion>
+        <example correction="фатальний|нещасний|судний">Він стане <marker>роковим</marker>.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="V_JAKOSTI" name="В якості">
+      <rule>
+        <antipattern>
+          <token>можна</token>
+          <token min="0">не</token>
+          <token>сумніватися</token>
+        </antipattern>
+        <pattern>
+          <marker>
+              <token>в</token>
+              <token>якості</token>
+              <token postag_regexp="yes" postag="adj.*:v_rod.*" min="0"/>
+              <token postag_regexp="yes" postag="noun.*:v_rod.*"/>
+          </marker>
+          <token>можна</token>
+        </pattern>
+        <message>Правильно: як хто/що, як кого, за кого/що</message>
+        <suggestion>як <match no="3" postag_regexp="yes" postag="adj.*:v_zna.*"/> <match no="4" postag_regexp="yes" postag="noun.*:v_zna.*"/></suggestion>
+        <suggestion>як <match no="3" postag_regexp="yes" postag="(adj.*:)v_rod(.*)" postag_replace="$1v_zna(:r(in)?anim)?$2"/> <match no="4" postag_regexp="yes" postag="(noun:.*)v_rod(.*)" postag_replace="$1v_zna$2"/></suggestion>
+        <suggestion>за <match no="3" postag_regexp="yes" postag="(adj.*:)v_rod(.*)" postag_replace="$1v_zna(:r(in)?anim)?$2"/> <match no="4" postag_regexp="yes" postag="(noun:.*)v_rod(.*)" postag_replace="$1v_zna$2"/></suggestion>
+        <example correction="Як їжу|За їжу"><marker>В якості їжі</marker> можна використовувати...</example>
+        <example correction="Як їжу|За їжу"><marker>В якості їжі</marker> можна не пропонувати...</example>
+        <example>в якості їжі можна не сумніватися</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>в</token>
+          <token>якості</token>
+          <token regexp="yes">кого|чого</token>
+        </pattern>
+        <message>Правильно: як хто/що, як кого, за кого/що, ким/чим</message>
+        <suggestion>як <match no="3" postag_regexp="yes" postag="(noun:.*)v_rod(.*)" postag_replace="$1v_zna$2"/></suggestion>
+        <suggestion>як <match no="3" postag_regexp="yes" postag="(noun:.*)v_rod(.*)" postag_replace="$1v_naz$2"/></suggestion>
+        <suggestion>за <match no="3" postag_regexp="yes" postag="(noun:.*)v_rod(.*)" postag_replace="$1v_zna$2"/></suggestion>
+        <suggestion><match no="3" postag_regexp="yes" postag="(noun:.*)v_rod(.*)" postag_replace="$1v_oru$2"/></suggestion>
+        <example correction="як кого|як хто|за кого|ким">І <marker>в якості кого</marker> їх викликають на допит.</example>
+        <example correction="як віщо|як що|за віщо|за що|чим">І <marker>в якості чого</marker> цей прилад використовують.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token regexp="yes" inflected="yes">і|відмінність|впевнитися|впевнений|(за)?сумніватися|запевнити|переконати(ся)?|полягати|різниця|с[кт]ільки|сумнів</token>
+          <token>в</token>
+          <token>якості</token>
+        </antipattern>
+        <antipattern>
+          <token>проблема</token>
+          <token min="0">не</token>
+          <token>в</token>
+          <token>якості</token>
+        </antipattern>
+        <pattern>
+          <token>в</token>
+          <token>якості</token>
+          <unify>
+            <feature id="case"/>
+            <feature id="gender"/>
+            <token postag_regexp="yes" postag="adj.*:v_rod.*" min="0"/>
+            <token postag_regexp="yes" postag="noun.*:v_rod.*">
+              <exception regexp="yes">кого|чого|апратури|виконання|вина?|виробництва|віри|вологи|горілки|закон(у|ів)|зростання|навчання|нагляду|надання|напоїв|обладнання|озброєн(ня|ь)|освіти|підготовки|підробк(и|ок)|правосуддя|продук(ту|тів|ції)|процедури?|роботи|спиртного|споживання|тексту|товару|управління</exception>
+            </token>
+          </unify>
+        </pattern>
+        <message>Правильно: як хто/що, як кого, за кого/що, ким/чим</message>
+        <!--
+        <suggestion>як <match no="3" postag_regexp="yes" postag="(adj.*:)v_rod(.*)" postag_replace="$1v_naz$2"/> <match no="4" postag_regexp="yes" postag="(noun:.*)v_rod(.*)" postag_replace="$1v_naz$2"/></suggestion>
+        <suggestion>як <match no="3" postag_regexp="yes" postag="(adj.*:)v_rod(.*)" postag_replace="$1v_zna(:r(in)?anim)?$2"/> <match no="4" postag_regexp="yes" postag="(noun:.*)v_rod(.*)" postag_replace="$1v_zna$2"/></suggestion>
+        <suggestion>за <match no="3" postag_regexp="yes" postag="(adj.*:)v_rod(.*)" postag_replace="$1v_zna(:r(in)?anim)?$2"/> <match no="4" postag_regexp="yes" postag="(noun:.*)v_rod(.*)" postag_replace="$1v_zna$2"/></suggestion>
+        <suggestion><match no="3" postag_regexp="yes" postag="(adj.*:)v_rod(.*)" postag_replace="$1v_oru$2"/> <match no="4" postag_regexp="yes" postag="(noun:.*)v_rod(.*)" postag_replace="$1v_oru$2"/></suggestion>
+         -->
+        <!--
+        <example correction="як орнамент|за орнамент| орнаментом">використовуючи хризантеми <marker>в якості орнаменту</marker>.</example>
+        <example correction="як солідна підтримка|як солідну підтримку|за солідну підтримку|солідною підтримкою">виступає <marker>в якості солідної підтримки</marker>.</example>
+        <example correction="як тренер|як тренера|за тренера| тренером">Хочу спробувати себе <marker>в якості тренера</marker>.</example>
+        <example correction="як справжнє свідок|як справжній свідок">Проходячи <marker>в якості справжнього свідка</marker>.</example>
+         -->
+        <example correction="">використовуючи хризантеми <marker>в якості орнаменту</marker>.</example>
+        <example correction="">виступає <marker>в якості солідної підтримки</marker>.</example>
+        <example correction="">спробувати себе <marker>в якості тренера</marker>.</example>
+        <example correction="">Проходячи <marker>в якості справжнього свідка</marker>.</example>
+        <example correction="">Проходячи <marker>в якості справжнього свідка</marker>.</example>
+        <example>пересвідчитися в якості та безпечності продуктів</example>
+        <example>пересвідчитися в якості створюваної руками засуджених Дніпродзержинської колонії продукції</example>
+        <example>впевнитися в якості того або іншого товару</example>
+        <example>головна концепція якої полягає в якості надання послуг</example>
+        <example>проблема не в якості тексту</example>
+        <example>проблема не в якості їхнього антрациту</example>
+        <example>в складності, і в якості виконування стрибків</example>
+        <!-- TODO: <example>Суспільство утрачає за такої системи як у плюралізмі, так і в якості суспільних дискусій.</example> -->
+      </rule>
+    </rulegroup>
 
     <rulegroup id="NON_LEXEM_BORROWING_PHRAS" name="Кальки: фрази">
 
@@ -3667,6 +3755,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
        </rule>
 
     </rulegroup>
+
+    <rule id="NA_MANER" name="На манер">
+      <pattern>
+        <token>на</token>
+        <token>манер</token>
+      </pattern>
+      <message>Правильно: <suggestion>на манір</suggestion></message>
+      <suggestion>на кшталт</suggestion>
+      <suggestion>на штиб</suggestion>
+      <suggestion>на взір</suggestion>
+      <suggestion>на штиль</suggestion>
+      <suggestion>кшталтом</suggestion>
+      <suggestion>штибом</suggestion>
+      <suggestion>способом</suggestion>
+      <suggestion>робом</suggestion>
+      <suggestion>ладом</suggestion>
+      <example correction="на манір|на кшталт|на штиб|на взір|на штиль|кшталтом|штибом|способом|робом|ладом">уніфікували <marker>на манер</marker> інших елементів.</example>
+    </rule>
 
   </category>
 
