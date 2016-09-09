@@ -43,9 +43,9 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.ContextTools;
 
 /**
- * Area where the result of text checking is displayed.
+ * Helper for the JTextPane where the result of text checking is displayed.
  */
-class ResultArea {
+class ResultAreaHelper {
   private static final String EMPTY_PARA = "<p class=\"small\"></p>";
   private static final String HEADER = "header";
   private static final String MAIN = "maincontent";
@@ -77,7 +77,7 @@ class ResultArea {
 
   private long runTime;
 
-  ResultArea(ResourceBundle messages, LanguageToolSupport ltSupport, JTextPane statusPane) {
+  ResultAreaHelper(ResourceBundle messages, LanguageToolSupport ltSupport, JTextPane statusPane) {
     this.messages = messages;
     this.ltSupport = ltSupport;
     this.statusPane = statusPane;

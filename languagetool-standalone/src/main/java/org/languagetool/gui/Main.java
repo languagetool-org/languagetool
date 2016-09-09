@@ -87,7 +87,7 @@ public final class Main {
   private JTextPane taggerArea;
   private JTextArea textArea;
   private JTextPane resultArea;
-  private ResultArea resultAreaHelper;
+  private ResultAreaHelper resultAreaHelper;
   private LanguageComboBox languageBox;
   private CheckboxMenuItem enableHttpServerItem;
   private HTTPServer httpServer;
@@ -370,7 +370,7 @@ public final class Main {
     contentPane.add(insidePanel, cons);
 
     ltSupport = new LanguageToolSupport(this.frame, this.textArea, this.undoRedo);
-    resultAreaHelper = new ResultArea(messages, ltSupport, resultArea);
+    resultAreaHelper = new ResultAreaHelper(messages, ltSupport, resultArea);
     languageBox.selectLanguage(ltSupport.getLanguage());
     languageBox.setEnabled(!ltSupport.getConfig().getAutoDetect());
     autoDetectBox.setSelected(ltSupport.getConfig().getAutoDetect());
