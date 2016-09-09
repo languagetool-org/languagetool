@@ -53,10 +53,7 @@ class ResultArea {
   private final JTextPane statusPane;
   private final LanguageToolSupport ltSupport;
 
-  private String inputText;
   private String startText;
-  private List<RuleMatch> allRuleMatches;
-  private List<RuleMatch> ruleMatches;    // will be filtered to not show disabled rules
   private long runTime;
 
   ResultArea(ResourceBundle messages, LanguageToolSupport ltSupport, JTextPane statusPane) {
@@ -80,7 +77,8 @@ class ResultArea {
             langName = lang.getTranslatedName(messages);
           }
           String startCheckText = Main.HTML_GREY_FONT_START
-              + org.languagetool.tools.Tools.i18n(messages, "startChecking", langName) + "..." + Main.HTML_FONT_END;
+              + org.languagetool.tools.Tools.i18n(messages, "startChecking", langName)
+              + "..." + Main.HTML_FONT_END;
           statusPane.setText(startCheckText);
           setStartText(startCheckText);
           if (event.getCaller() == this) {
@@ -88,16 +86,15 @@ class ResultArea {
           }
         } else if (event.getType() == LanguageToolEvent.Type.CHECKING_FINISHED) {
           setRunTime(event.getElapsedTime());
-          inputText = event.getSource().getTextComponent().getText();
-          setRuleMatches(event.getSource().getMatches());
-          displayResult();
+          String inputText = event.getSource().getTextComponent().getText();
+          displayResult(inputText, event.getSource().getMatches());
           if (event.getCaller() == this) {
             statusPane.setCursor(Cursor.getDefaultCursor());
           }
-        } else if (event.getType() == LanguageToolEvent.Type.RULE_DISABLED || event.getType() == LanguageToolEvent.Type.RULE_ENABLED) {
-          inputText = event.getSource().getTextComponent().getText();
-          setRuleMatches(event.getSource().getMatches());
-          displayResult();
+        } else if (event.getType() == LanguageToolEvent.Type.RULE_DISABLED
+                || event.getType() == LanguageToolEvent.Type.RULE_ENABLED) {
+          String inputText = event.getSource().getTextComponent().getText();
+          displayResult(inputText, event.getSource().getMatches());
         }
       }
     });
@@ -188,14 +185,9 @@ class ResultArea {
     this.runTime = runTime;
   }
 
-  private void setRuleMatches(List<RuleMatch> ruleMatches) {
-    this.allRuleMatches = new ArrayList<>(ruleMatches);
-    this.ruleMatches = new ArrayList<>(ruleMatches);
-  }
-
-  private void displayResult() {
-    ruleMatches = filterRuleMatches();
-    String ruleMatchHtml = getRuleMatchHtml(ruleMatches, inputText, startText);
+  private void displayResult(String inputText, List<RuleMatch> matches) {
+    List<RuleMatch> filtered = filterRuleMatches(matches);
+    String ruleMatchHtml = getRuleMatchHtml(filtered, inputText, startText);
     displayText(ruleMatchHtml);
   }
 
@@ -205,10 +197,10 @@ class ResultArea {
     statusPane.setCaretPosition(0);
   }
 
-  private List<RuleMatch> filterRuleMatches() {
+  private List<RuleMatch> filterRuleMatches(List<RuleMatch> matches) {
     List<RuleMatch> filtered = new ArrayList<>();
     Set<String> disabledRuleIds = ltSupport.getConfig().getDisabledRuleIds();
-    for (RuleMatch ruleMatch : allRuleMatches) {
+    for (RuleMatch ruleMatch : matches) {
       if (!disabledRuleIds.contains(ruleMatch.getRule().getId())) {
         filtered.add(ruleMatch);
       }
