@@ -34,6 +34,8 @@
   * `Rule.getCorrectExamples()` now returns a list of `CorrectExample`s
     instead of a list of `String`s.
 
+#### GUI (stand-alone version)
+  * add new menu item for showing/hiding the result area
 
 ## 3.4 (2016-06-27)
 

@@ -101,6 +101,7 @@ public final class Main {
   private SaveAction saveAction;
   private SaveAsAction saveAsAction;
   private AutoCheckAction autoCheckAction;
+  private ShowResultAction showResultAction;
 
   private CheckAction checkAction;
   private File currentFile;
@@ -113,6 +114,7 @@ public final class Main {
   private final LocalStorage localStorage;
   private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
   private JSplitPane splitPane;
+  private final JPanel mainPanel = new JPanel();
 
   private Main(LocalStorage localStorage) {
     this.localStorage = localStorage;
@@ -258,6 +260,7 @@ public final class Main {
     saveAsAction = new SaveAsAction();
     checkAction = new CheckAction();
     autoCheckAction = new AutoCheckAction(true);
+    showResultAction = new ShowResultAction(true);
 
     frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     frame.addWindowListener(new CloseListener());
@@ -358,7 +361,9 @@ public final class Main {
     cons.weighty = 5.0f;
     splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
             new JScrollPane(textArea), new JScrollPane(resultArea));
-    contentPane.add(splitPane, cons);
+    mainPanel.setLayout(new GridLayout(0,1));
+    contentPane.add(mainPanel, cons);
+    mainPanel.add(splitPane);
 
     cons.fill = GridBagConstraints.HORIZONTAL;
     cons.gridx = 0;
@@ -517,6 +522,8 @@ public final class Main {
     grammarMenu.add(checkAction);
     JCheckBoxMenuItem item = new JCheckBoxMenuItem(autoCheckAction);
     grammarMenu.add(item);
+    JCheckBoxMenuItem showResult = new JCheckBoxMenuItem(showResultAction);
+    grammarMenu.add(showResult);
     grammarMenu.add(new CheckClipboardAction());
     grammarMenu.add(new TagTextAction());
     grammarMenu.add(new AddRulesAction());
@@ -733,7 +740,14 @@ public final class Main {
     MainWindowStateBean bean = new MainWindowStateBean();
     bean.setBounds(ResizeComponentListener.getBoundsProperty(frame));
     bean.setState(frame.getExtendedState());
-    bean.setDividerLocation(this.splitPane.getDividerLocation());
+    Component comp = mainPanel.getComponent(0);
+    if(comp instanceof JSplitPane) {
+      bean.setDividerLocation(((JSplitPane)comp).getDividerLocation());
+    } else {
+      MainWindowStateBean old = 
+        localStorage.loadProperty("gui.state", MainWindowStateBean.class);
+      bean.setDividerLocation(old.getDividerLocation());
+    }
     localStorage.saveProperty("gui.state", bean);
 
     frame.setVisible(false);
@@ -1026,6 +1040,30 @@ public final class Main {
         taggerArea.setText(HTML_FONT_START + sb + HTML_FONT_END);
       }
     });
+  }
+
+  private void setResultAreaVisible(boolean enable) {
+    if (enable) {
+      this.mainPanel.removeAll();
+      mainPanel.add(this.splitPane);
+      splitPane.setTopComponent(new JScrollPane(textArea));
+      splitPane.setDividerLocation(200);
+      MainWindowStateBean state
+              = localStorage.loadProperty("gui.state", MainWindowStateBean.class);
+      if (state != null && state.getDividerLocation() != null) {
+        splitPane.setDividerLocation(state.getDividerLocation());
+      }
+      ResultAreaHelper.enable(resultArea);
+    } else {
+      MainWindowStateBean bean = new MainWindowStateBean();
+      bean.setDividerLocation(splitPane.getDividerLocation());
+      localStorage.saveProperty("gui.state", bean);
+      this.mainPanel.removeAll();
+      splitPane.setTopComponent(null);
+      mainPanel.add(new JScrollPane(textArea));
+      ResultAreaHelper.disable(resultArea);
+    }
+    mainPanel.validate();
   }
 
   private void setTrayMode(boolean trayMode) {
@@ -1467,6 +1505,27 @@ public final class Main {
         recentFiles.remove(file.getAbsolutePath());
         updateRecentFilesMenu();
       }
+    }
+  }
+
+  class ShowResultAction extends AbstractAction {
+
+    private boolean enable;
+
+    ShowResultAction(boolean initial) {
+      super(getLabel("guiShowResultArea"));
+      putValue(Action.SHORT_DESCRIPTION, messages.getString("guiShowResultArea"));
+      putValue(Action.LONG_DESCRIPTION, messages.getString("guiShowResultArea"));
+      putValue(Action.MNEMONIC_KEY, getMnemonic("guiShowResultArea"));
+      enable = initial;
+      putValue(Action.SELECTED_KEY, enable);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      enable = !enable;
+      putValue(Action.SELECTED_KEY, enable);
+      setResultAreaVisible(enable);
     }
   }
 
