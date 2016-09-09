@@ -30,6 +30,9 @@ import java.util.Set;
 import javax.swing.JTextPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Element;
+import javax.swing.text.html.HTMLDocument;
 
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.Language;
@@ -43,7 +46,26 @@ import org.languagetool.tools.ContextTools;
  * Area where the result of text checking is displayed.
  */
 class ResultArea {
-
+  private static final String EMPTY_PARA = "<p class=\"small\"></p>";
+  private static final String HEADER = "header";
+  private static final String MAIN = "maincontent";
+  private static final String TEMPLATE = "<html>\n"
+          + "  <head>\n"
+          + "     <style type=\"text/css\">\n"
+          + "       #" + HEADER + " {  }\n"
+          + "       #" + MAIN + " { }\n"
+          + "       p { font-family: Arial,Helvetica; padding: 1px; margin: 1px }\n"
+          + "       p.small { font-size: 1px; }\n"
+          + "       p.grayed { font-family: Arial,Helvetica; color: #666666 }\n"
+          + "     </style>\n"
+          + "  </head>\n"
+          + "  <body>\n"
+          + "    <div id=\"" + HEADER + "\">\n"
+          + "    </div>\n"
+          + "    <div id=\"" + MAIN + "\">\n"
+          + "    </div>\n"
+          + "  </body>\n"
+          + "</html>";
   private static final String DEACTIVATE_URL = "http://languagetool.org/deactivate/";
   private static final String REACTIVATE_URL = "http://languagetool.org/reactivate/";
   private static final String LT_ERROR_MARKER_START = "<b><font bgcolor=\"#d7d7ff\">";
@@ -53,7 +75,6 @@ class ResultArea {
   private final JTextPane statusPane;
   private final LanguageToolSupport ltSupport;
 
-  private String startText;
   private long runTime;
 
   ResultArea(ResourceBundle messages, LanguageToolSupport ltSupport, JTextPane statusPane) {
@@ -61,7 +82,8 @@ class ResultArea {
     this.ltSupport = ltSupport;
     this.statusPane = statusPane;
     statusPane.setContentType("text/html");
-    statusPane.setText(Main.HTML_GREY_FONT_START + messages.getString("resultAreaText") + Main.HTML_FONT_END);
+    statusPane.setText(TEMPLATE);
+    setHeader(messages.getString("resultAreaText"));
     statusPane.setEditable(false);
     statusPane.addHyperlinkListener(new MyHyperlinkListener());
     statusPane.setTransferHandler(new RetainLineBreakTransferHandler());
@@ -76,11 +98,10 @@ class ResultArea {
           } else {
             langName = lang.getTranslatedName(messages);
           }
-          String startCheckText = Main.HTML_GREY_FONT_START
-              + org.languagetool.tools.Tools.i18n(messages, "startChecking", langName)
-              + "..." + Main.HTML_FONT_END;
-          statusPane.setText(startCheckText);
-          setStartText(startCheckText);
+          String msg = org.languagetool.tools.Tools.i18n(
+                  messages, "startChecking", langName) + "...";
+          setHeader(msg);
+          setMain(EMPTY_PARA);
           if (event.getCaller() == this) {
             statusPane.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
           }
@@ -100,16 +121,56 @@ class ResultArea {
     });
   }
 
-  private String getRuleMatchHtml(List<RuleMatch> ruleMatches, String text, String startCheckText) {
+  private void setHeader(String txt) {
+    HTMLDocument d = (HTMLDocument) statusPane.getDocument();
+    Element e = d.getElement(HEADER);
+    try {
+      d.setInnerHTML(e, "<p class=\"grayed\">" + txt + "</p>");
+    } catch (BadLocationException ex) {
+      Tools.showError(ex);
+    } catch (IOException ex) {
+      Tools.showError(ex);
+    }
+  }
+
+  private void setMain(String html) {
+    HTMLDocument d = (HTMLDocument) statusPane.getDocument();
+    Element e = d.getElement(MAIN);
+    try {
+      d.setInnerHTML(e, html);
+    } catch (BadLocationException ex) {
+      Tools.showError(ex);
+    } catch (IOException ex) {
+      Tools.showError(ex);
+    }
+  }
+
+  private void appendMain(String html) {
+    HTMLDocument d = (HTMLDocument) statusPane.getDocument();
+    Element e = d.getElement(MAIN);
+    try {
+      d.insertBeforeEnd(e, html);
+    } catch (BadLocationException ex) {
+      Tools.showError(ex);
+    } catch (IOException ex) {
+      Tools.showError(ex);
+    }
+  }
+
+  private void getRuleMatchHtml(List<RuleMatch> ruleMatches, String text) {
     ContextTools contextTools = new ContextTools();
     StringBuilder sb = new StringBuilder(200);
     if (ltSupport.getLanguage().getMaintainedState() != LanguageMaintainedState.ActivelyMaintained) {
-      sb.append("<b>").append(messages.getString("unsupportedWarning")).append("</b><br><br>");
+      sb.append("<p><b>").append(messages.getString("unsupportedWarning"))
+              .append("</b></p>\n");
+    } else {
+      sb.append(EMPTY_PARA);
     }
-    sb.append(startCheckText);
-    sb.append("<br>\n");
+    setMain(sb.toString());
+    sb.setLength(0);
     int i = 0;
     for (RuleMatch match : ruleMatches) {
+      sb.append("<p>");
       String output = org.languagetool.tools.Tools.i18n(messages, "result1", i + 1, match.getLine() + 1, match.getColumn());
       sb.append(output);
       String msg = match.getMessage()
@@ -130,23 +191,28 @@ class ResultArea {
       }
       String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text);
       sb.append("<b>").append(messages.getString("errorContext")).append("</b> ").append(context);
-      sb.append("<br>\n");
       if (match.getRule().getUrl() != null && Desktop.isDesktopSupported()) {
+        sb.append("<br>\n");
         sb.append("<b>").append(messages.getString("moreInfo")).append("</b> <a href=\"");
         String url = match.getRule().getUrl().toString();
         sb.append(url);
         String shortUrl = StringUtils.abbreviate(url, 60);
-        sb.append("\">").append(shortUrl).append("</a><br>\n");
+        sb.append("\">").append(shortUrl).append("</a>\n");
       }
+      sb.append("</p>");
       i++;
+      appendMain(sb.toString());
+      sb.setLength(0);
     }
-    sb.append(Main.HTML_GREY_FONT_START);
+    sb.append("<p class=\"grayed\">");
     sb.append(getDisabledRulesHtml());
-    String checkDone = org.languagetool.tools.Tools.i18n(messages, "checkDone", ruleMatches.size(), runTime);
+    String checkDone = org.languagetool.tools.Tools.i18n(messages, "checkDone",
+            ruleMatches.size(), runTime);
     sb.append("<br>\n").append(checkDone);
     sb.append("<br>\n").append(messages.getString("makeLanguageToolBetter"));
-    sb.append(Main.HTML_FONT_END).append("<br>\n");
-    return sb.toString();
+    sb.append("<br>\n");
+    sb.append("</p>");
+    appendMain(sb.toString());
   }
 
   private String getDisabledRulesHtml() {
@@ -166,7 +232,8 @@ class ResultArea {
         sb.append(',');
       }
       RuleLink reactivationLink = RuleLink.buildReactivationLink(rule);
-      sb.append(" <a href=\"").append(reactivationLink).append("\">").append(rule.getDescription()).append("</a>");
+      sb.append(" <a href=\"").append(reactivationLink).append("\">")
+              .append(rule.getDescription()).append("</a>");
       deactivatedRuleCount++;
     }
     sb.append("<br>");
@@ -177,23 +244,13 @@ class ResultArea {
     }
   }
 
-  private void setStartText(String startText) {
-    this.startText = startText;
-  }
-
   private void setRunTime(long runTime) {
     this.runTime = runTime;
   }
 
   private void displayResult(String inputText, List<RuleMatch> matches) {
     List<RuleMatch> filtered = filterRuleMatches(matches);
-    String ruleMatchHtml = getRuleMatchHtml(filtered, inputText, startText);
-    displayText(ruleMatchHtml);
-  }
-
-  private void displayText(String text) {
-    // TODO: use a JTable for faster rendering
-    statusPane.setText(Main.HTML_FONT_START + text + Main.HTML_FONT_END);
+    getRuleMatchHtml(filtered, inputText);
     statusPane.setCaretPosition(0);
   }
 

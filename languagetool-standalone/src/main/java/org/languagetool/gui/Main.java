@@ -65,9 +65,8 @@ import org.languagetool.AnalyzedTokenReadings;
 public final class Main {
 
   static final String EXTERNAL_LANGUAGE_SUFFIX = " (ext.)";
-  static final String HTML_FONT_START = "<font face='Arial,Helvetica'>";
-  static final String HTML_FONT_END = "</font>";
-  static final String HTML_GREY_FONT_START = "<font face='Arial,Helvetica' color='#666666'>";
+  private static final String HTML_FONT_START = "<font face='Arial,Helvetica'>";
+  private static final String HTML_FONT_END = "</font>";
 
   private static final String TRAY_ICON = "/TrayIcon.png";
   private static final String TRAY_SERVER_ICON = "/TrayIconWithServer.png";
