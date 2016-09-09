@@ -45,7 +45,9 @@ import org.languagetool.tools.ContextTools;
 /**
  * Helper for the JTextPane where the result of text checking is displayed.
  */
-class ResultAreaHelper {
+class ResultAreaHelper implements LanguageToolListener, HyperlinkListener {
+
+  private static final String KEY = "org.languagetool.gui.ResultAreaHelper";
   private static final String EMPTY_PARA = "<p class=\"small\"></p>";
   private static final String HEADER = "header";
   private static final String MAIN = "maincontent";
@@ -76,49 +78,105 @@ class ResultAreaHelper {
   private final LanguageToolSupport ltSupport;
 
   private long runTime;
+  private final Object lock = new Object();
+  private boolean enabled = false;
 
-  ResultAreaHelper(ResourceBundle messages, LanguageToolSupport ltSupport, JTextPane statusPane) {
+  static void install(ResourceBundle messages, LanguageToolSupport ltSupport, JTextPane pane) {
+    Object prev = pane.getClientProperty(KEY);
+    if (prev != null && prev instanceof ResultAreaHelper) {
+      enable(pane);
+      return;
+    }
+    ResultAreaHelper helper = new ResultAreaHelper(messages, ltSupport, pane);
+    pane.putClientProperty(KEY, helper);
+  }
+
+  static void enable(JTextPane pane) {
+    Object helper = pane.getClientProperty(KEY);
+    if (helper != null && helper instanceof ResultAreaHelper) {
+      ((ResultAreaHelper) helper).enable();
+    }
+  }
+
+  static void disable(JTextPane pane) {
+    Object helper = pane.getClientProperty(KEY);
+    if (helper != null && helper instanceof ResultAreaHelper) {
+      ((ResultAreaHelper) helper).disable();
+    }
+  }
+
+  static void uninstall(JTextPane pane) {
+    Object helper = pane.getClientProperty(KEY);
+    if (helper != null && helper instanceof ResultAreaHelper) {
+      ((ResultAreaHelper) helper).disable();
+      pane.putClientProperty(KEY, null);
+    }
+  }
+
+  private ResultAreaHelper(ResourceBundle messages, LanguageToolSupport ltSupport, JTextPane statusPane) {
     this.messages = messages;
     this.ltSupport = ltSupport;
     this.statusPane = statusPane;
     statusPane.setContentType("text/html");
-    statusPane.setText(TEMPLATE);
-    setHeader(messages.getString("resultAreaText"));
     statusPane.setEditable(false);
-    statusPane.addHyperlinkListener(new MyHyperlinkListener());
     statusPane.setTransferHandler(new RetainLineBreakTransferHandler());
-    ltSupport.addLanguageToolListener(new LanguageToolListener() {
-      @Override
-      public void languageToolEventOccurred(LanguageToolEvent event) {
-        if (event.getType() == LanguageToolEvent.Type.CHECKING_STARTED) {
-          Language lang = ltSupport.getLanguage();
-          String langName;
-          if (lang.isExternal()) {
-            langName = lang.getTranslatedName(messages) + Main.EXTERNAL_LANGUAGE_SUFFIX;
-          } else {
-            langName = lang.getTranslatedName(messages);
-          }
-          String msg = org.languagetool.tools.Tools.i18n(
-                  messages, "startChecking", langName) + "...";
-          setHeader(msg);
-          setMain(EMPTY_PARA);
-          if (event.getCaller() == this) {
-            statusPane.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-          }
-        } else if (event.getType() == LanguageToolEvent.Type.CHECKING_FINISHED) {
-          setRunTime(event.getElapsedTime());
-          String inputText = event.getSource().getTextComponent().getText();
-          displayResult(inputText, event.getSource().getMatches());
-          if (event.getCaller() == this) {
-            statusPane.setCursor(Cursor.getDefaultCursor());
-          }
-        } else if (event.getType() == LanguageToolEvent.Type.RULE_DISABLED
-                || event.getType() == LanguageToolEvent.Type.RULE_ENABLED) {
-          String inputText = event.getSource().getTextComponent().getText();
-          displayResult(inputText, event.getSource().getMatches());
-        }
+    enable();
+  }
+
+  private void enable() {
+    synchronized (lock) {
+      if (enabled) {
+        return;
       }
-    });
+      enabled = true;
+      statusPane.setText(TEMPLATE);
+      setHeader(messages.getString("resultAreaText"));
+      statusPane.addHyperlinkListener(this);
+      ltSupport.addLanguageToolListener(this);
+    }
+  }
+
+  private void disable() {
+    synchronized (lock) {
+      if (!enabled) {
+        return;
+      }
+      enabled = false;
+      statusPane.setText(TEMPLATE);
+      statusPane.removeHyperlinkListener(this);
+      ltSupport.removeLanguageToolListener(this);
+    }
+  }
+
+  @Override
+  public void languageToolEventOccurred(LanguageToolEvent event) {
+    if (event.getType() == LanguageToolEvent.Type.CHECKING_STARTED) {
+      Language lang = ltSupport.getLanguage();
+      String langName;
+      if (lang.isExternal()) {
+        langName = lang.getTranslatedName(messages) + Main.EXTERNAL_LANGUAGE_SUFFIX;
+      } else {
+        langName = lang.getTranslatedName(messages);
+      }
+      String msg = org.languagetool.tools.Tools.i18n(
+              messages, "startChecking", langName) + "...";
+      setHeader(msg);
+      setMain(EMPTY_PARA);
+      if (event.getCaller() == this) {
+        statusPane.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+      }
+    } else if (event.getType() == LanguageToolEvent.Type.CHECKING_FINISHED) {
+      setRunTime(event.getElapsedTime());
+      String inputText = event.getSource().getTextComponent().getText();
+      displayResult(inputText, event.getSource().getMatches());
+      if (event.getCaller() == this) {
+        statusPane.setCursor(Cursor.getDefaultCursor());
+      }
+    } else if (event.getType() == LanguageToolEvent.Type.RULE_DISABLED
+            || event.getType() == LanguageToolEvent.Type.RULE_ENABLED) {
+      String inputText = event.getSource().getTextComponent().getText();
+      displayResult(inputText, event.getSource().getMatches());
+    }
   }
 
   private void setHeader(String txt) {
@@ -265,48 +323,42 @@ class ResultAreaHelper {
     return filtered;
   }
 
-  private class MyHyperlinkListener implements HyperlinkListener {
-
-    private MyHyperlinkListener() {
-    }
-
-    @Override
-    public void hyperlinkUpdate(HyperlinkEvent e) {
-      if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-        URL url = e.getURL();
-        try {
-          String uri = url.toURI().toString();
-          if (uri.startsWith(DEACTIVATE_URL) || uri.startsWith(REACTIVATE_URL)) {
-            handleRuleLinkClick(uri);
-          } else {
-            handleHttpClick(url);
-          }
-        } catch (Exception ex) {
-          throw new RuntimeException("Could not handle URL click: " + url, ex);
+  @Override
+  public void hyperlinkUpdate(HyperlinkEvent e) {
+    if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+      URL url = e.getURL();
+      try {
+        String uri = url.toURI().toString();
+        if (uri.startsWith(DEACTIVATE_URL) || uri.startsWith(REACTIVATE_URL)) {
+          handleRuleLinkClick(uri);
+        } else {
+          handleHttpClick(url);
         }
+      } catch (Exception ex) {
+        throw new RuntimeException("Could not handle URL click: " + url, ex);
       }
     }
+  }
 
-    private void handleRuleLinkClick(String uri) throws IOException {
-      RuleLink ruleLink = RuleLink.getFromString(uri);
-      String ruleId = ruleLink.getId();
-      if (uri.startsWith(DEACTIVATE_URL)) {
-        ltSupport.disableRule(ruleId);
-      } else {
-        ltSupport.enableRule(ruleId);
-      }
-      ltSupport.getConfig().saveConfiguration(ltSupport.getLanguage());
-      ltSupport.checkImmediately(this);
+  private void handleRuleLinkClick(String uri) throws IOException {
+    RuleLink ruleLink = RuleLink.getFromString(uri);
+    String ruleId = ruleLink.getId();
+    if (uri.startsWith(DEACTIVATE_URL)) {
+      ltSupport.disableRule(ruleId);
+    } else {
+      ltSupport.enableRule(ruleId);
     }
+    ltSupport.getConfig().saveConfiguration(ltSupport.getLanguage());
+    ltSupport.checkImmediately(this);
+  }
 
-    private void handleHttpClick(URL url) {
-      if (Desktop.isDesktopSupported()) {
-        try {
-          Desktop desktop = Desktop.getDesktop();
-          desktop.browse(url.toURI());
-        } catch (Exception ex) {
-          throw new RuntimeException("Could not open URL: " + url, ex);
-        }
+  private void handleHttpClick(URL url) {
+    if (Desktop.isDesktopSupported()) {
+      try {
+        Desktop desktop = Desktop.getDesktop();
+        desktop.browse(url.toURI());
+      } catch (Exception ex) {
+        throw new RuntimeException("Could not open URL: " + url, ex);
       }
     }
   }
