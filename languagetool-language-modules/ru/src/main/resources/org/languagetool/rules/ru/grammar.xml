@@ -6239,6 +6239,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="о том">Девчата болтали <marker>по поводу того</marker>, как прекрасна летняя ночь.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="vozmojno_oshibayas" name="Слова-паразиты: «возможно ошибаясь»">
+            <rule> 
+                <pattern>
+                    <token>,</token>
+                    <token>возможно</token>                  
+                    <token regexp="yes">ошибаясь|ошибаюсь</token>
+                    <token>,</token>
+                </pattern>
+                <message>Слова-паразиты. <suggestion></suggestion></message>
+                <short>Слова-паразиты</short>
+                <example correction="">Я<marker>, возможно ошибаясь,</marker> могу предложить способ решения.</example>
+            </rule>
+        </rulegroup> 
         <rulegroup id="tak_skazat" name="Слова-паразиты: «так сказать»" default="off">
             <rule> 
                 <pattern>
