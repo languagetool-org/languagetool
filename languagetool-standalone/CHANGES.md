@@ -10,16 +10,16 @@
   * added and improved rules
   * added about 30 confusion pairs like talking/taking (works only with ngram data,
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
-  * added category MISUSED_TERMS_EU_PUBLICATIONS
+  * added category `MISUSED_TERMS_EU_PUBLICATIONS`
 
 #### German
   * added rules
   * fixed several false alarms
 
-#### Portuguese
+#### Portuguese (European)
   * added and improved rules
  
-#### Portuguese Brazilian
+#### Portuguese (Brazilian)
   * added rules
 
 #### Russian
@@ -35,7 +35,9 @@
     instead of a list of `String`s.
 
 #### GUI (stand-alone version)
+  * speed up for long texts with many errors (#530)
   * add new menu item for showing/hiding the result area
+
 
 ## 3.4 (2016-06-27)
 
