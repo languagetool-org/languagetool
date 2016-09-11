@@ -4757,6 +4757,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=", такая как">Погода дождливая<marker>, такая, как</marker> в Лондоне.</example>
             <example>Погода дождливая, такая как в Лондоне.</example>
           </rule>
+          <rule>
+            <pattern>
+                <token postag_regexp="yes" postag="NN:.*"></token>
+                <marker>
+                <token>,</token>
+                <token regexp="yes">такой|такая|такие|такое|таких</token>
+                <token>,</token>
+                <token>как</token>
+                </marker>
+            </pattern>
+            <message>Запятая не нужна:<suggestion><match no="2"/> <match no="3"/> <match no="5"/></suggestion></message>
+    <!--    <url>http://new.gramota.ru/spravka/punctum?layout=item&id=58_722</url>   -->
+            <short>Запятая не нужна</short>
+            <example correction=", такие как">Туристы посетили старинные города<marker>, такие, как</marker> Новгород и Владимир.</example>
+            <example>Туристы посетили старинные города, такие как Новгород и Владимир.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token postag_regexp="yes" postag="NN:.*"></token>    
+                  <token>,</token>
+                  <marker>
+                      <token regexp="yes">такой|такая|такие|такое|таких</token>
+                      <token>как</token>
+                  </marker>
+              </antipattern>
+              <antipattern>
+                  <token postag_regexp="yes" postag="ADJ:.*"></token>
+                  <token>,</token>
+                  <marker>
+                      <token regexp="yes">такой|такая|такие|такое|таких</token>
+                      <token>как</token>
+                  </marker>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token regexp="yes">такой|такая|такие|такое|таких</token>
+                      <token>как</token>
+                  </marker>
+              </pattern>
+            <message>Пропущена запятая:<suggestion><match no="1"/>, <match no="2"/></suggestion></message>
+    <!--    <url>http://new.gramota.ru/spravka/punctum?layout=item&id=58_722</url>   -->
+            <short>Нужна запятая</short>
+            <example correction="такой, как">Но не <marker>такой как</marker> обычно.</example>
+            <example>Но не такой, как обычно.</example>
+            <example>Туристы посетили старинные города, такие как Новгород и Владимир.</example>
+            <example>Погода дождливая, такая как в Лондоне.</example>
+          </rule>
         </rulegroup>
         <rulegroup default="on" id="Ni_to_ni_drugoe" name="Сложный союз «ни то, ни другое»">
             <rule>
