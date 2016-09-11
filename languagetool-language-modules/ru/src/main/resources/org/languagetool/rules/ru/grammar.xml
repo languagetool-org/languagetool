@@ -4740,6 +4740,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Запятая не нужна</short>
             <example correction="так же как">Мы, <marker>так же, как</marker> и наши товарищи, любим заниматься спортом.</example>
         </rule>
+        <rulegroup id="TAKIH_KAK" name="Сложный союз «таких как»" default="off">
+            <!-- TODO: improve rule -->
+          <rule>
+            <pattern>
+                <marker>
+                <token>таких</token>
+                <token >,</token>
+                <token>как</token>
+                </marker>
+            </pattern>
+            <message>Запятая не нужна:<suggestion><match no="1"/> <match no="3"/></suggestion></message>
+
+            <short>Запятая не нужна</short>
+            <example correction="таких как">Людей <marker>таких, как</marker> он ещё поискать надо.</example>
+          </rule>
+        </rulegroup>
         <rulegroup default="on" id="Ni_to_ni_drugoe" name="Сложный союз «ни то, ни другое»">
             <rule>
                 <pattern case_sensitive="no">
