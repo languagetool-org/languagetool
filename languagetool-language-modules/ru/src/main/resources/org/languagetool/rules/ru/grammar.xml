@@ -6351,10 +6351,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>возможно</token>                  
                     <token regexp="yes">ошибаясь|ошибаюсь</token>
                     <token>,</token>
+                    <token></token>
                 </pattern>
-                <message>Слова-паразиты. <suggestion></suggestion></message>
+                <message>Слова-паразиты. <suggestion>\5</suggestion></message>
                 <short>Слова-паразиты</short>
-                <example correction="">Я<marker>, возможно ошибаясь,</marker> могу предложить способ решения.</example>
+                <example correction="могу">Я<marker>, возможно ошибаясь, могу</marker> предложить способ решения.</example>
             </rule>
         </rulegroup> 
         <rulegroup id="tak_skazat" name="Слова-паразиты: «так сказать»" default="off">
@@ -6364,10 +6365,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>так</token>                  
                     <token>сказать</token>
                     <token>,</token>
+                    <token></token>
                 </pattern>
-                <message>Слова-паразиты. <suggestion></suggestion></message>
+                <message>Слова-паразиты. <suggestion>\5</suggestion></message>
                 <short>Слова-паразиты</short>
-                <example correction="">Каждый напиток имеет<marker>, так сказать,</marker> свое значение.</example>
+                <example correction="свое">Каждый напиток имеет<marker>, так сказать, свое</marker> значение.</example>
             </rule>
         </rulegroup>                         
         <rulegroup id="kak_bi" name="Слова-паразиты: «как бы»" default="off">
@@ -6375,10 +6377,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>как<exception scope="previous" regexp="yes">,|и|то</exception></token>                  
                     <token>бы</token>
+                    <token></token>
                 </pattern>
-                <message>Слова-паразиты. <suggestion></suggestion></message>
+                <message>Слова-паразиты. <suggestion>\3</suggestion></message>
                 <short>Слова-паразиты</short>
-                <example correction="">Он тебе <marker>как бы</marker> нравится?</example>
+                <example correction="нравится">Он тебе <marker>как бы нравится</marker>?</example>
             </rule>
         </rulegroup>
 
