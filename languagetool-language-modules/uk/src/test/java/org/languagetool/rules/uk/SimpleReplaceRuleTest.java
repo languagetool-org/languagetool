@@ -70,5 +70,9 @@ public class SimpleReplaceRuleTest {
 
     matches = rule.match(langTool.getAnalyzedSentence("щедроти"));
     assertEquals(0, matches.length);
+
+    matches = rule.match(langTool.getAnalyzedSentence("Задля благоустрою."));
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("упорядковувати", "упорядкувати", "упоряджати", "упорядити", "доброустрій", "порядок", "добрий лад"), matches[0].getSuggestedReplacements());
   }
 }

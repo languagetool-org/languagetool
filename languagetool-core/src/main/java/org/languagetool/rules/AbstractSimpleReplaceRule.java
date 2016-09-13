@@ -18,14 +18,20 @@
  */
 package org.languagetool.rules;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.tools.StringTools;
-
-import java.io.IOException;
-import java.util.*;
 
 /**
  * A rule that matches words which should not be used and suggests
@@ -106,6 +112,10 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
     for (AnalyzedTokenReadings tokenReadings : tokens) {
 
+      // short for SENT_START
+      if( JLanguageTool.SENTENCE_START_TAGNAME.equals(tokenReadings.getAnalyzedToken(0).getPOSTag()) )
+        continue;
+
       //this rule is used mostly for spelling, so ignore both immunized
       // and speller-ignorable rules
       if (tokenReadings.isImmunized() || tokenReadings.isIgnoredBySpeller()) {
@@ -118,23 +128,29 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
       }
       String tokenString = cleanup(originalTokenStr);
 
-      if (!getWrongWords().containsKey(tokenString) && checkLemmas) {
-        for (AnalyzedToken analyzedToken : tokenReadings.getReadings()) {
-          String lemma = analyzedToken.getLemma();
-          if (lemma != null) {
-            lemma = cleanup(lemma);
-            if (getWrongWords().containsKey(lemma)) {
-              tokenString = lemma;
-              break;
-            }
-          }
-        }
-      }
-
       // try first with the original word, then with the all lower-case version
       List<String> possibleReplacements = getWrongWords().get(originalTokenStr);
       if (possibleReplacements == null) {
         possibleReplacements = getWrongWords().get(tokenString);
+      }
+
+      if (possibleReplacements == null && checkLemmas) {
+        possibleReplacements = new ArrayList<>();
+
+        List<String> lemmas = new ArrayList<>();
+        for (AnalyzedToken analyzedToken : tokenReadings.getReadings()) {
+          String lemma = analyzedToken.getLemma();
+          if (lemma != null && getWrongWords().containsKey(lemma) && ! lemmas.contains(lemma) ) {
+            lemmas.add(cleanup(lemma));
+          }
+        }
+
+        for (String lemma: lemmas) {
+          List<String> replacements = getWrongWords().get(lemma);
+          possibleReplacements.addAll(replacements);
+        }
+
+        possibleReplacements = possibleReplacements.stream().distinct().collect(Collectors.toList());
       }
 
       if (possibleReplacements != null && possibleReplacements.size() > 0) {
