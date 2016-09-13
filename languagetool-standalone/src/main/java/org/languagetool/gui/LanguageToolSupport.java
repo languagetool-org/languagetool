@@ -454,7 +454,6 @@ class LanguageToolSupport {
     }
     if (rule.isDefaultOff()) {
       config.getEnabledRuleIds().add(ruleId);
-      languageTool.enableDefaultOffRule(ruleId);
     } else {
       config.getDisabledRuleIds().remove(ruleId);
     }
