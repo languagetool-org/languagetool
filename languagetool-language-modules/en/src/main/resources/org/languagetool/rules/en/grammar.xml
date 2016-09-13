@@ -11678,6 +11678,18 @@ USA
                 <example correction="from">Are human beings any different <marker>then</marker> animals?</example>
             </rule>
         </rulegroup>
+        <rule id="CONFUSION_OF_HART_HEART" name="confusion of hard/heart">
+            <pattern>
+                <token>at</token>
+                <token>the</token>
+                <marker>
+                    <token regexp="yes">he?ard|hart</token>
+                </marker>
+                <token>of</token>
+            </pattern>
+            <message>Did you mean <suggestion>heart</suggestion>?</message>
+            <example correction="heart">The questions of training and pay lie at the <marker>hard</marker> of the staffing problems.</example>
+        </rule>
         <rule id="THAT_BEING_SAID" name="confusion: That being sad (said)">
             <pattern>
                 <token postag="SENT_START"/>
@@ -14344,7 +14356,7 @@ USA
                 <token postag="JJ"><exception regexp="yes">big|certain|preparatory|good|modern|christian|agglutinative|unsterile|particular|humanlike|military</exception></token>
                 <token regexp="yes">manner|style|way|fashion|mode</token>
             </pattern>
-            <message>Consider replacing "\1 \2 \3 \4" with adverb for "\3"; eg, "in a hasty manner" with "hastily".</message>
+            <message>Consider replacing "\1 \2 \3 \4" with adverb for "\3"; e.g., "in a hasty manner" with "hastily".</message>
             <short>Possible wordiness</short>
             <example correction="">He came <marker>in a hasty manner</marker>.</example>
             <example>He came hastily.</example>
