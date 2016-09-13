@@ -4843,7 +4843,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Но не такой же, как обычно.</example>
             <example>Туристы посетили старинные города, такие же как Новгород и Владимир.</example>
             <example>Погода дождливая, такая же как в Лондоне.</example>
+          </rule>          
+          <rule>
+            <pattern>
+                <token regexp="yes">такой|такая|такие|такое|таких</token>
+                <token min="0" max="1">же</token>
+                <token>,</token>
+                <marker>
+                <token>как</token>
+                <token></token>
+                </marker>
+                <token postag="ADV"></token>
+            </pattern>
+            <message>Запятая не нужна:<suggestion><match no="4"/> <match no="5"/>,</suggestion></message>
+    <!--    <url>http://new.gramota.ru/spravka/punctum?layout=item&id=58_722</url>   -->
+            <short>Запятая не нужна</short>
+            <example correction="как он,">Людей таких, <marker>как он</marker> ещё поискать надо.</example>
+            <example correction="как он,">Людей таких же, <marker>как он</marker> ещё поискать надо.</example>
+            <example>Людей таких, как он, ещё поискать надо.</example>      
           </rule>
+                 
         </rulegroup>
         <rulegroup default="on" id="Ni_to_ni_drugoe" name="Сложный союз «ни то, ни другое»">
             <rule>
