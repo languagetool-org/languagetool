@@ -212,11 +212,6 @@ public class SentenceSourceChecker {
     for (String ruleId : ruleIds) {
       languageTool.enableRule(ruleId);
     }
-    for (Rule rule : languageTool.getAllRules()) {
-      if (rule.isDefaultOff()) {
-        languageTool.enableDefaultOffRule(rule.getId());
-      }
-    }
     warnOnNonExistingRuleIds(ruleIds, languageTool);
     System.out.println("Only these rules are enabled: " + Arrays.toString(ruleIds));
   }
