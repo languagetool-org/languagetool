@@ -16247,6 +16247,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup> -->
     </category>
     <category id="APOSTROPHATION" name="Y) Apostrofació" type="grammar">
+        <rule id="QUE_S_QUE_ES" name="*que's diu/que es diu">
+            <pattern>
+                <token><exception postag="&pronom_feble;|V.[MN].*" postag_regexp="yes"/></token>
+                <token postag="&pronom_feble;" postag_regexp="yes" regexp="yes">'.*<exception postag="allow_saxon_genitive"/></token>
+            </pattern>
+            <message>Apostrofació incorrecta.</message>
+            <suggestion>\1 <match no="2" regexp_match="'(.*)" regexp_replace="e$1"/></suggestion>
+            <example correction="què et"><marker>què't</marker> pensaves?</example>
+            <example>M'alegro de veure't.</example>
+            <example>Se'ns amaga tot.</example>
+            <example>Acabaria per casar-s'hi</example>
+            <example>PC World's</example>
+            <example>Done'm el que em toca.</example>
+        </rule>
         <rulegroup id="APOSTROFACIO_SIGLES" name="apostrofació de sigles: l'R+D, la UPF">
             <rule>
                 <pattern>
