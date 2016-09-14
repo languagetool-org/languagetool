@@ -6355,6 +6355,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Иван <marker>Иваныч</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="PARTICLE_JE" name="Избыточная частица «же»" default="off">
+            <antipattern>
+                <token regexp="yes" skip="-1">«|что</token>
+                <token>же</token>
+            </antipattern>
+            <pattern>
+                <token><exception regexp="yes">почему|потому|давай|сейчас|где|тут|меня|тебя|откуда|отсюда</exception><exception postag="PNN:.*|PADJ:.*|PARTICLE" postag_regexp="yes"></exception></token>
+                <token>же</token>
+            </pattern>
+            <message>Избыточная частица «же»: <suggestion>\1</suggestion></message>
+            <short>Избыточная частица</short>
+            <example correction="Псков"><marker>Псков же</marker> стал провинциальным городом.</example>
+            <example>Псков стал провинциальным городом.</example>
+            <example>«Псков же стал провинциальным городом».</example>
+            <example>Экскурсовод сказал, что Псков же стал провинциальным городом.</example>
+            <example>Удалось подобрать ту же цветовую гамму.</example> 
+        </rule>
         <rulegroup id="po_povodu_togo" name="Канцелярский штамп: «по поводу того»" default="off">
             <rule> 
                 <pattern>
