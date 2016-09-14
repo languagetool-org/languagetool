@@ -742,61 +742,66 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ISKLUCHIT_ISKLUCHENIE" name="Тавтология «исключить исключение»">
             <rule> 
                 <pattern>
-                    <token inflected="yes" >исключить</token>
-                    <token>исключение</token>
+                    <token inflected="yes" skip="-1">исключить</token>
+                    <token inflected="yes">исключение</token>
                 </pattern>
-                <message>Языковая избыточность: <suggestion><match no="1" regexp_match="исключи(.*)" regexp_replace="убра$1"></match> <match no="2"/></suggestion>?</message>         
+                <message>Языковая избыточность: <suggestion><match no="1" regexp_match="исключи(.*)" regexp_replace="убра$1" include_skipped="all"></match> <match no="2"/></suggestion>?</message>         
                 <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>     
                 <short>Языковая избыточность.</short>
                 <example correction="убрать исключение"><marker>исключить исключение</marker></example>
+                <example correction="убрать то исключение"><marker>исключить то исключение</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="POTREBOVAT_TREBOVANIE" name="Тавтология «потребовать требование»">
             <rule> 
                 <pattern>
-                    <token inflected="yes" >потребовать</token>
-                    <token>требование</token>
+                    <token inflected="yes" skip="-1">потребовать</token>
+                    <token inflected="yes" >требование</token>
                 </pattern>
-                <message>Языковая избыточность: <suggestion><match no="1" regexp_match="потребова(.*)" regexp_replace="заяви$1"></match> <match no="2"/></suggestion>?</message>         
+                <message>Языковая избыточность: <suggestion><match no="1" regexp_match="потребова(.*)" regexp_replace="заяви$1" include_skipped="all"></match> <match no="2"/></suggestion>?</message>         
                 <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>     
                 <short>Языковая избыточность.</short>
                 <example correction="заявить требование"><marker>потребовать требование</marker></example>
+                <example correction="заявить денежное требование"><marker>потребовать денежное требование</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="POJELAT_JELANIE" name="Тавтология «пожелать желание»">
             <rule> 
                 <pattern>
-                    <token inflected="yes" >пожелать</token>
-                    <token>желание</token>
+                    <token inflected="yes" skip="-1">пожелать</token>
+                    <token inflected="yes" >желание</token>
                 </pattern>
-                <message>Языковая избыточность: <suggestion><match no="1" regexp_match="пожела(.*)" regexp_replace="загада$1"></match> <match no="2"/></suggestion>?</message>         
+                <message>Языковая избыточность: <suggestion><match no="1" regexp_match="пожела(.*)" regexp_replace="загада$1" include_skipped="all"></match> <match no="2"/></suggestion>?</message>         
                 <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>     
                 <short>Языковая избыточность.</short>
                 <example correction="загадать желание"><marker>пожелать желание</marker></example>
+                <example correction="загадать заветное желание"><marker>пожелать заветное желание</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="ZAKAZAT_ZAKAZ" name="Тавтология «заказать заказ»">
             <rule> 
                 <pattern>
-                    <token inflected="yes" >заказать</token>
-                    <token>заказ</token>
+                    <token inflected="yes" skip="-1" >заказать</token>
+                    <token inflected="yes">заказ</token>
                 </pattern>
-                <message>Языковая избыточность: <suggestion><match no="1" regexp_match="заказа(.*)" regexp_replace="сдела$1"></match> <match no="2"/></suggestion>?</message>         
+                <message>Языковая избыточность: <suggestion><match no="1" regexp_match="заказа(.*)" regexp_replace="сдела$1" include_skipped="all"></match> <match no="2"/></suggestion>?</message>         
                 <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>     
                 <short>Языковая избыточность.</short>
                 <example correction="сделать заказ"><marker>заказать заказ</marker></example>
+                <example correction="сделать важный заказ"><marker>заказать важный заказ</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="PODARIT_PODAROK" name="Тавтология «подарить подарок»">        
               <rule> 
                 <pattern>
-                    <token inflected="yes">подарить</token>
-                    <token>подарок</token>                  
+                    <token inflected="yes" skip="-1">подарить</token>
+                    <token inflected="yes">подарок</token>                  
                 </pattern>
-                <message>Языковая избыточность (плеоназм): <suggestion><match no="1" regexp_match="подари(.*)" regexp_replace="вручи$1"></match> <match no="2"/></suggestion>?</message>
+                <message>Языковая избыточность (плеоназм): <suggestion><match no="1" regexp_match="подари(.*)" regexp_replace="вручи$1" include_skipped="all"></match> <match no="2"/></suggestion>?</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
                 <short>Тавтология.</short>
                 <example correction="вручил подарок">Он <marker>подарил подарок</marker>.</example>
+                <example correction="вручил долгожданный подарок">Он <marker>подарил долгожданный подарок</marker>.</example>
             </rule>
             </rulegroup>   
            <rulegroup id="SPUSKATSJA_VNIZ" name="Тавтология «спускаться вниз»">
