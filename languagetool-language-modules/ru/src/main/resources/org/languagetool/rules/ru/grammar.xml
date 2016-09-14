@@ -4849,19 +4849,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" max="1">же</token>
                 <token>,</token>
                 <marker>
-                <token>как</token>
-                <token></token>
+                    <token skip="-1">как</token>
+                    <token postag="PNN:.*|NN.*" postag_regexp="yes"><exception regexp="yes">этот|эта|это|эти|те|тот|та|то</exception></token>
                 </marker>
                 <token postag="ADV"></token>
             </pattern>
-            <message>Пропущена запятая:<suggestion><match no="4"/> <match no="5"/>,</suggestion></message>
+            <message>Пропущена запятая:<suggestion><match no="4" include_skipped="all"/> <match no="5"/>,</suggestion></message>
             <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_722</url>
             <short>Нужна запятая</short>
             <example correction="как он,">Людей таких, <marker>как он</marker> ещё поискать надо.</example>
+            <example correction="как этот парень,">Людей таких же, <marker>как этот парень</marker> ещё поискать.</example>
             <example correction="как он,">Людей таких же, <marker>как он</marker> ещё поискать надо.</example>
             <example>Людей таких, как он, ещё поискать надо.</example>      
-          </rule>
-                 
+          </rule> 
         </rulegroup>
         <rulegroup default="on" id="Ni_to_ni_drugoe" name="Сложный союз «ни то, ни другое»">
             <rule>
