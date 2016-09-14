@@ -17632,11 +17632,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>extra</token>
                     <token min="0">-</token>
-                    <token postag_="A.*" postag_regexp="yes"/>
+                    <or>
+                        <token postag="A.*" postag_regexp="yes"/>
+                        <token postag="RG" regexp="yes">.+ment</token>
+                        <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">radi|versió</token>
+                    </or>
                 </pattern>
                 <message>S'escriu junt sense guionet.</message>
                 <suggestion><match no="1"></match><match no="3"/></suggestion>
                 <example correction="extraescolars">activitats <marker>extra escolars</marker></example>
+                <example correction="extraradi">Viu a l'<marker>extra-radi</marker></example>
+                <example correction="extrajudicialment"><marker>extra judicialment</marker></example>
+                <example>Cal cremar les calories extra.</example>
             </rule>
             <rule>
                 <pattern>
@@ -35614,7 +35621,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token>,</token>
             </pattern>
-            <message>'Escaure' no és pronominal en aquest context.</message>
+            <message>Probablement 'escaure' no és pronominal en aquest context.</message>
             <suggestion>si escau</suggestion>
             <suggestion>si és procedent</suggestion>
             <example correction="si escau|si és procedent">aprovar, <marker>si s'escau</marker>, la declaració</example>
@@ -35628,7 +35635,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token negate="yes" regexp="yes">de|d'</token>
             </pattern>
-            <message>Expressió incorrecta.</message>
+            <message>Expressió probablement incorrecta.</message>
             <suggestion>si és procedent</suggestion>
             <suggestion>si escau</suggestion>
             <example correction="si és procedent|si escau">aprovar, <marker>si procedeix</marker>, l'acta</example>
