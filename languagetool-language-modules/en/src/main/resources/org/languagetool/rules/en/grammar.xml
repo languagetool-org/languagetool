@@ -8979,29 +8979,37 @@ USA
                 <pattern>
                     <token skip="1">I<exception scope="previous" regexp="yes">Phase|Am</exception></token>
                     <marker>
-                        <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP"/><exception>is</exception></token>
+                        <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|MD"/><exception>is</exception><exception scope="previous">need</exception></token>
                     </marker>
                 </pattern>
                 <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"/></suggestion></message>
                 <example correction="work">I <marker>works</marker> here.</example>
+                <example correction="work">I cannot <marker>works</marker> here.</example>
                 <example>We <marker>make</marker> a lot of mistakes.</example>
                 <example>Phase I corresponds to the small-deformation regime.</example>
                 <example>Am I nuts?</example>
                 <example correction="have">I rarely <marker>has</marker> a bad day.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>need</token>
+                    <token>is</token>
+                </antipattern>
                 <pattern>
-                    <token skip="1" regexp="yes" postag="PRP">we|they</token>
+                    <token skip="1" regexp="yes" postag="PRP">we|they<exception scope="previous">Are</exception></token>
                     <marker>
-                        <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|DT"/></token>
+                        <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|DT|MD"/></token>
                     </marker>
                     <token><exception regexp="yes">['’]</exception></token>
                 </pattern>
                 <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"/></suggestion></message>
                 <example correction="work">They <marker>works</marker> here.</example>
+                <example correction="work">They cannot <marker>works</marker> here.</example>
                 <example correction="work">They always <marker>works</marker> here.</example>
                 <example correction="mean">They all <marker>means</marker> the same.</example>
                 <example>We <marker>make</marker> a lot of mistakes.</example>
+                <example>Are they <marker>friends</marker>?</example>
+                <example>All we need is love.</example>
                 <example>Phase I corresponds to the small-deformation regime.</example>
             </rule>
             <rule>
@@ -9017,10 +9025,16 @@ USA
                 <example correction="don't">We <marker>doesn't</marker> believe so.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token skip="-1">What</token>
+                    <token>you</token>
+                    <token>is</token>
+                </antipattern>
                 <pattern>
                     <token skip="1" postag="PRP">you<exception scope="previous" postag="IN"/><exception scope="next" postag="PRP"/></token>
                     <marker>
-                        <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|DT"/></token>
+                        <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|DT"/><exception>guys</exception></token>
                     </marker>
                     <token><exception regexp="yes">['’]</exception></token>
                 </pattern>
@@ -9031,6 +9045,7 @@ USA
                 <example>Be sure the man nearest you is awake.</example>
                 <example>You guys remember that.</example>
                 <example>How many times do I have to tell you he isn't here?</example>
+                <example>What I have told you is true.</example>
             </rule>
             <rule>
                 <pattern>
