@@ -4480,14 +4480,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>на</token>
                     <token regexp="yes" >встречу|счёт|счет</token>  <!--<exception scope="next" postag_regexp="yes" postag="*.:R"></exception>  в-->
                     </marker>
-                    <token>
-                        <exception  postag="PREP"></exception><exception postag_regexp="yes" postag="VB:.*"></exception><exception  regexp="yes" inflected="yes">поставщик|заказчик|контрагент|покупатель|продавец|исполнитель|денежный</exception>
-                    </token>
+                    <token><exception  postag="PREP"></exception><exception postag_regexp="yes" postag="VB:.*"></exception><exception>,</exception><exception  regexp="yes" inflected="yes">поставщик|заказчик|контрагент|покупатель|продавец|исполнитель|денежный</exception></token>
                 </pattern>
                 <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
                 <short>Пишется слитно.</short>
                 <example>Деньги переведены <marker>на счёт</marker> в банке.</example>
-                  <example>Деньги переведены <marker>на счёт</marker> поставщика.</example>
+                <example>Деньги переведены <marker>на счёт</marker> поставщика.</example>
                 <example>Я иду <marker>на встречу</marker> с другом.</example>
                 <example correction="навстречу">Они шли <marker>на встречу</marker> друг другу.</example>
                 <example correction="насчёт">Тебе следует быть осторожным <marker>на счёт</marker> того, чтобы пойти в поход.</example>
@@ -6108,10 +6106,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         
         
-        <rule default="off" id="upravlauchij_NN" name="Словосочетание «управляющий», ... + существительное">
+        <rule id="upravlauchij_NN" name="Словосочетание «управляющий», ... + существительное">
             <pattern case_sensitive="no">
                 <!--    Управляющий предприятием    NN:.*:.*:T       -->
-                <token regexp="yes" inflected="yes">управляющий|командующий|заведующий</token>
+                <or>
+                  <token regexp="yes" inflected="yes">командующий|заведующий</token>
+                  <token regexp="yes">управляющий|управляющего|управляющему|управляющим|управляющем</token>
+                </or>
                 <token postag="NN:.*:.*:R" postag_regexp="yes">
                     <exception postag="NN:.*:.*:T" postag_regexp="yes"></exception>
                     <exception inflected="yes" regexp="yes">символ|команда|компания|инструкция</exception>
@@ -6121,6 +6122,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:T"></match></suggestion></message>
             <short>Требуется творительный падеж.</short>
             <example><marker>Управляющий предприятием</marker> общественного питания.</example>
+            <example><marker>Управляющая организация</marker>.</example>
             <example correction="Управляющий предприятием|Управляющий предприятиями|Управляющий предприятьем|Управляющий предприятьями"><marker>Управляющий предприятия</marker> общественного питания.</example>
         </rule>
 	
@@ -6207,7 +6209,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="Potok_and_Noun" name="Словосочетание «поток» и существительное">
 	        <pattern>
-	            <token inflected="yes" regexp="yes">поток|направление<exception scope="previous" postag="VB:.*" postag_regexp="yes" /><exception regexp="yes">поток(ом|ами)</exception><exception scope="previous" postag="ADJ:.*:P|PADJ:.*:P" postag_regexp="yes" /><exception regexp="yes">направлен(ии|иях)</exception></token>
+	            <token inflected="yes" regexp="yes">поток|направление<exception scope="previous" postag="VB:.*" postag_regexp="yes" /><exception regexp="yes">поток(ом|ами)</exception><exception scope="previous" postag="ADJ:.*:P|PADJ:.*:P" postag_regexp="yes" /><exception regexp="yes">направлен(ии|иях|ия)</exception></token>
                 <token postag_regexp="yes" postag="NN:.*">
                 <exception postag_regexp="yes" postag="NN:.*:(R|T)"></exception>
                 <exception negate="yes" case_sensitive="yes" regexp="yes">[а-я].*</exception>
@@ -6223,6 +6225,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Поток энергии</example>
             <example>Поток стрелой устремился вниз с горы</example>
             <example>Направление Голова</example>
+            <example>Не позднее двух дней со дня направления участнику разъяснения.</example>
         </rule>
         
         <rule id="V_TECHENII" name="Словосочетание «в течении реки»">
