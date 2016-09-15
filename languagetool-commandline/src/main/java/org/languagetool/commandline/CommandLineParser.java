@@ -177,7 +177,7 @@ public class CommandLineParser {
             + "  -u, --list-unknown       also print a summary of words from the input that LanguageTool doesn't know\n"
             + "  -b2, --bitext            check bilingual texts with a tab-separated input file,\n"
             + "                           see http://languagetool.wikidot.com/checking-translations-bilingual-texts\n"
-            + "  --api                    print results as XML\n"
+            + "  --api                    print results as XML (deprecated, please use the JSON API in server mode)\n"
             + "  -p, --profile            print performance measurements\n"
             + "  -v, --verbose            print text analysis (sentences, part-of-speech tags) to STDERR\n"
             + "  --version                print LanguageTool version number and exit\n"
@@ -190,7 +190,7 @@ public class CommandLineParser {
             + "  --languagemodel DIR      a directory with e.g. 'en' sub directory (i.e. a language code) that contains\n"
             + "                           '1grams'...'3grams' sub directories with Lucene indexes with\n"
             + "                           ngram occurrence counts; activates the confusion rule if supported\n"
-            + "  --xmlfilter              remove XML/HTML elements from input before checking (this is deprecated)\n"
+            + "  --xmlfilter              remove XML/HTML elements from input before checking (deprecated)\n"
             + "  --line-by-line           work on file line by line (for development, e.g. inside an IDE)"
     );
   }

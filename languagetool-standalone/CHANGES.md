@@ -38,6 +38,11 @@
   * speed up for long texts with many errors (#530)
   * add new menu item for showing/hiding the result area
 
+#### Command-line
+  * deprecated the `--api` option - we recommend using LanguageTool
+    in server mode (JSON API), which is faster as it has no start up
+    overhead for each call
+
 
 ## 3.4 (2016-06-27)
 
