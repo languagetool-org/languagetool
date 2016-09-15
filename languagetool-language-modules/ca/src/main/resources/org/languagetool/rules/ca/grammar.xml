@@ -16247,20 +16247,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rulegroup> -->
     </category>
     <category id="APOSTROPHATION" name="Y) Apostrofació" type="grammar">
-        <rule id="QUE_S_QUE_ES" name="*que's diu/que es diu">
-            <pattern>
-                <token><exception postag="&pronom_feble;|V.[MN].*" postag_regexp="yes"/></token>
-                <token postag="&pronom_feble;" postag_regexp="yes" regexp="yes">'.*<exception postag="allow_saxon_genitive"/></token>
-            </pattern>
-            <message>Apostrofació incorrecta.</message>
-            <suggestion>\1 <match no="2" regexp_match="'(.*)" regexp_replace="e$1"/></suggestion>
-            <example correction="què et"><marker>què't</marker> pensaves?</example>
-            <example>M'alegro de veure't.</example>
-            <example>Se'ns amaga tot.</example>
-            <example>Acabaria per casar-s'hi</example>
-            <example>PC World's</example>
-            <example>Done'm el que em toca.</example>
-        </rule>
         <rulegroup id="APOSTROFACIO_SIGLES" name="apostrofació de sigles: l'R+D, la UPF">
             <rule>
                 <pattern>
@@ -20703,6 +20689,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="PRONOMS_FEBLES_SOLTS" name="Comprova pronoms febles solts: *li cantar">
             <!-- pronom feble solt: caldria diferenciar dos casos: posposat i anteposat-->
+            <antipattern>
+                <marker>
+                    <token regexp="yes">don|won|isn|can|ain|doesn</token>
+                    <token>'t</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">it|she|he|that|nobody|everybody|who|there</token>
+                    <token>'s</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>de</token>
+                    <token>'n</token>
+                    <token>Haut</token>
+                </marker>
+            </antipattern>
+            <rule id="DE_N" name="*de'n /d'en">
+                <pattern>
+                    <token>de</token>
+                    <token>'n</token>
+                </pattern>
+                <message>Cal escriure <suggestion>d'en</suggestion>?</message>
+                <example correction="d'en">És <marker>de'n</marker> Pep.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token><exception postag="&pronom_feble;|V.[MNG].*" postag_regexp="yes"/><exception regexp="yes">digue|espreme|convence|(re)?coneixe|ve</exception></token>
@@ -20767,6 +20780,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Pronoms febles solts.</message>
                 <example correction="">Cal conduit<marker>-se-me-la</marker>.</example>
+            </rule>
+            <rule id="QUE_S_QUE_ES" name="*que's diu/que es diu">
+                <pattern>
+                    <token postag="[VANRPDCS].*" postag_regexp="yes"><exception postag="&pronom_feble;|V.[MN].*" postag_regexp="yes"/></token>
+                    <token postag="&pronom_feble;" postag_regexp="yes" regexp="yes">'.*<exception postag="allow_saxon_genitive"/></token>
+                </pattern>
+                <message>Apostrofació incorrecta.</message>
+                <suggestion>\1 <match no="2" regexp_match="'(.*)" regexp_replace="e$1"/></suggestion>
+                <example correction="què et"><marker>què't</marker> pensaves?</example>
+                <example>M'alegro de veure't.</example>
+                <example>Se'ns amaga tot.</example>
+                <example>Acabaria per casar-s'hi</example>
+                <example>PC World's</example>
+                <example>Done'm el que em toca.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRONOMS_FEBLES_TEMPS_VERBAL" name="Comprova temps verbal (infinitiu, gerundi, imperatiu): *diguéssim-li-ho">
