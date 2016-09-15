@@ -34,6 +34,7 @@ import static org.languagetool.tools.StringTools.*;
  * Generate XML to represent matching rules.
  * 
  * @since 2.5 (as 'RuleAsXmlSerializer' up to 3.1)
+ * @deprecated don't use for new use cases, the only place this should still be used is for the API mode of the command-line client (deprecated since 3.5) 
  */
 public class RuleMatchAsXmlSerializer {
 
