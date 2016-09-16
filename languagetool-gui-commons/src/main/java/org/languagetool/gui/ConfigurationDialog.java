@@ -339,7 +339,7 @@ public class ConfigurationDialog implements ActionListener {
         node = (DefaultMutableTreeNode) node.getChildAt(index);
         if (node instanceof RuleNode) {
           RuleNode o = (RuleNode) node;
-          if (o.getRule().isDefaultOff()) {
+          if (o.getRule().isDefaultOff() || o.getRule().getCategory().isDefaultOff()) {
             if (o.isEnabled()) {
               config.getEnabledRuleIds().add(o.getRule().getId());
             } else {
