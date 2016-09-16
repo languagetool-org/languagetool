@@ -8645,11 +8645,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <rulegroup id="Parnoje_upotrebl_NI" name="Парное употребление частицы «НИ»">
             <rule>   
                 <pattern>
+                      <marker>
                         <token>не</token>
                         <token postag_regexp = "yes" postag ="NN:.*:.*:.*|PNN:.*:.*"></token>
                         <token>,</token>
                         <token>не</token>
                         <token postag_regexp = "yes" postag ="NN:.*:.*:.*|PNN:.*:.*"></token>
+                      </marker>
+                      <token negate="yes">и</token>
                 </pattern>
                 <message>Здесь необходимо парное употребление частицы «ни»:<suggestion>ни \2\3 ни \5</suggestion></message>
                 <short>Правильно два «НИ»</short>
@@ -8658,24 +8661,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>   
                 <pattern>
+                      <marker>
                         <token>не</token>
                         <token postag="VB:INF" />
                         <token>,</token>
                         <token>не</token>
                         <token postag="VB:INF" />
+                      </marker>
+                      <token negate="yes">и</token>
                 </pattern>
                 <message>Здесь необходимо парное употребление частицы «ни»:<suggestion>ни \2\3 ни \5</suggestion></message>
                 <short>Правильно два «НИ»</short>
                 <example correction="ни видеть, ни знать">Не хочу его <marker>не видеть, не знать</marker>.</example>
                 <example>Не хочу его ни видеть, ни знать.</example>
+                <example>Не устанавливать, не подключать и не пользоваться электробытовыми приборами.</example>
             </rule>   
             <rule>   
                 <pattern>
+                      <marker>                  
                         <token>не</token>
                         <token postag="Ord:.*:.*" postag_regexp="yes"/>
                         <token>,</token>
                         <token>не</token>
                         <token postag="Ord:.*:.*" postag_regexp="yes"/>
+                      </marker>
+                      <token negate="yes">и</token>
                 </pattern>
                 <message>Здесь необходимо парное употребление частицы «ни»:<suggestion>ни \2\3 ни \5</suggestion></message>
                 <short>Правильно два «НИ»</short>
@@ -8684,11 +8694,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>   
             <rule>   
                 <pattern>
+                      <marker>
                         <token>не</token>
                         <token postag="ADJ_Short:.*" postag_regexp="yes"/>
                         <token>,</token>
                         <token>не</token>
                         <token postag="ADJ_Short:.*" postag_regexp="yes"/>
+                      </marker>
+                      <token negate="yes">и</token>
                 </pattern>
                 <message>Здесь необходимо парное употребление частицы «ни»:<suggestion>ни \2\3 ни \5</suggestion></message>
                 <short>Правильно два «НИ»</short>
