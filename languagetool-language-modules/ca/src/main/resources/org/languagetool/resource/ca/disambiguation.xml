@@ -3608,7 +3608,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token regexp="yes" inflected="yes">&verbs_TE_INFUSIO;</token>
-                <token min="0" postag="D.*|&pronom_feble;" postag_regexp="yes"/>
+                <token min="0" postag="D.*|RG|&pronom_feble;" postag_regexp="yes"/>
                 <marker>
                     <token>te</token>
                 </marker>
@@ -6161,7 +6161,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule> <!-- Donem preferència a l'adjectiu en casos ambigus: força comuns-->
             <pattern>
-                <token><exception postag="D[^R].FS." postag_regexp="yes"/></token>
+                <token><exception postag="D[^R].FS." postag_regexp="yes"/><exception postag="&pronom_feble;" postag_regexp="yes" regexp="yes">[^'-].*</exception></token>
                 <marker>
                     <token postag="RG">força</token>
                 </marker>
@@ -6171,7 +6171,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token><exception postag="D[^R].FS." postag_regexp="yes"/></token>
+                <token><exception postag="D[^R].FS." postag_regexp="yes"/><exception postag="&pronom_feble;" postag_regexp="yes" regexp="yes">[^'-].*</exception></token>
                 <marker>
                     <token postag="DI0CN0">força</token>
                 </marker>
@@ -11616,7 +11616,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token skip="1" regexp="yes" inflected="yes">exemple</token>
+                <token skip="1" inflected="yes">exemple</token>
                 <marker>
                     <token>de</token>
                 </marker>
