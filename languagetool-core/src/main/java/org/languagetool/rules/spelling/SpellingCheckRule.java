@@ -332,14 +332,21 @@ public abstract class SpellingCheckRule extends Rule {
   }
   
   /**
-   * Checks whether a <code>word<code> starts with an ignored word (check is case-sensitive).
+   * Checks whether a <code>word<code> starts with an ignored word
    * @param word - entire word
+   * @param caseSensitive - determines whether the check is case-sensitive
    * @return length of the ignored word (i.e., return value is 0, if the word does not start with an ignored word).
    * If there are several matches from the set of ignored words, the length of the longest matching word is returned.
    * @since 3.5
    */
-  protected int startsWithIgnoredWord(String word) {
-    Optional<String> match = wordsToBeIgnored.stream().filter(s -> word.startsWith(s)).max(Comparator.naturalOrder());
+  protected int startsWithIgnoredWord(String word, boolean caseSensitive) {
+    Optional<String> match;
+    if(caseSensitive) {
+      match = wordsToBeIgnored.stream().filter(s -> word.startsWith(s)).max(Comparator.naturalOrder()); 
+    } else {
+      String lowerCaseWord = word.toLowerCase();
+      match = wordsToBeIgnored.stream().filter(s -> lowerCaseWord.startsWith(s.toLowerCase())).max(Comparator.naturalOrder());
+    }
     return match.isPresent() ? match.get().length() : 0;
   }
 

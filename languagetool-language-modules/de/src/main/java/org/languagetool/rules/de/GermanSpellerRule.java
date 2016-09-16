@@ -385,10 +385,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private boolean ignoreCompoundWithIgnoredWord(String word) throws IOException{
     String[] words = word.split("-");
     if (words.length < 2) {
-      int end = super.startsWithIgnoredWord(word);
+      int end = super.startsWithIgnoredWord(word, true);
       if(end > 0) {
         String partialWord = word.substring(end);
-        return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(WordUtils.capitalize(partialWord));
+        if(!hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(WordUtils.capitalize(partialWord))) {
+          return true;
+        } else if(end > 2 && partialWord.startsWith("s")) {
+          // word has possibly a Fugen-s between words; e.g., "Helizitätsoperator"
+          partialWord = partialWord.substring(1);
+          return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(WordUtils.capitalize(partialWord));
+        }
       }
       return false;
     }

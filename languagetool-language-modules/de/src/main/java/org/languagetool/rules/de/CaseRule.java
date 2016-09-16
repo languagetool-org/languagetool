@@ -96,14 +96,24 @@ public class CaseRule extends GermanRule {
       token("Trank")
     ),
     Arrays.asList(
+        token("Sang"),
+        token("und"),
+        token("Klang")
+    ),
+    Arrays.asList(
       // "... weshalb ihr das wissen wollt."
       pos("VER:INF:NON"),
       pos("VER:MOD:2:PLU:PRÄ")
     ),
     Arrays.asList(
       // "... wie ich das prüfen sollte."
-      pos("VER:INF:SFT"),
+      posRegex("VER:INF:.*"),
       posRegex("VER:MOD:.*")
+    ),
+    Arrays.asList(
+        // "... wie ich das prüfen würde."
+        posRegex("VER:INF:.*"),
+        posRegex("VER:AUX:.:(SIN|PLU)")
     )
   );
 
@@ -215,6 +225,8 @@ public class CaseRule extends GermanRule {
     "Ähnliches",   // je nach Kontext groß (TODO), z.B. "Er hat Ähnliches erlebt" 
     "Allerlei",
     "Anklang",
+    "Passionsfrucht",
+    "Verlobter",
     "Anstrich",
     "Armes",
     "Aus",    // "vor dem Aus stehen"
