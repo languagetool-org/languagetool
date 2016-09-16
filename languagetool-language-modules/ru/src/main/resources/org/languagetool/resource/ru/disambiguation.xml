@@ -56,6 +56,21 @@ Copyright (C) 2009-2012 Yakov Reztsov
         </pattern>
         <disambig><match no="2" postag="NN:.*:.*:V" postag_regexp="yes"></match></disambig>
     </rule>
+    <rule name="NOUN_V3" id="NOUN_V3">
+	    <pattern>	 
+		    <!-- Что за головная боль! -->
+  	            <!-- Add exception for : "Что за + NN:.*:.*:Nom" -->
+            <token  negate="yes">что</token>
+            <token  skip="1">за</token>
+            <marker>
+                <and>
+                    <token postag="NN:.*:.*:Nom" postag_regexp="yes"></token>
+                    <token postag="NN:.*:.*:V" postag_regexp="yes"><exception postag="NN:.*:.*:T" postag_regexp="yes"></exception></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig><match no="2" postag="NN:.*:.*:V" postag_regexp="yes"></match></disambig>
+    </rule>
     <rule name="NOUN_R" id="NOUN_R">
         <pattern>
             <!-- без  - родительный  -->
@@ -113,6 +128,22 @@ Copyright (C) 2009-2012 Yakov Reztsov
             </marker>
         </pattern>
         <disambig><match no="2" postag="ADJ:.*:T" postag_regexp="yes"></match></disambig>
+    </rule>
+    <rule name="ADJ_T1" id="ADJ_T1">
+        <pattern>
+            <!-- под  - винительный, творительный   -->
+            <!-- TODO проливной is ADJ:.*:V -->
+            <!-- 		    Я не хочу попасть под проливной дождь. -->
+            <!-- Удаляем только неверный postag, остальные не трогаем.   -->
+            <token>под</token>
+            <marker>
+                <and>
+                    <token postag="ADJ:.*:R" postag_regexp="yes"></token>
+                    <token postag="ADJ:.*:T" postag_regexp="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="ADJ:.*:R"></disambig>
     </rule>
     <rule name="ADJ_V" id="ADJ_V">
         <pattern>
