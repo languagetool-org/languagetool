@@ -2017,6 +2017,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token><exception>hi</exception></token>
                 <marker>
                     <token regexp="yes">h[ea]</token>
                 </marker>
@@ -3173,6 +3174,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="replace" postag="AQ0FP0" />
         </rule>
     </rulegroup>
+    <!-- verb imperatiu, infinitiu o gerundi seguit de pronom-->
+    <rule id="VERB_PP" name="verb seguit de pronom">
+        <pattern>
+            <marker>
+                <token postag="V.[MNG].*" postag_regexp="yes"></token>
+            </marker>
+            <token postag="&pronom_feble;" postag_regexp="yes" regexp="yes" spacebefore="no">['-].+</token>
+        </pattern>
+        <disambig action="filter" postag="V.[MNG].*|_GV_|_loc_nosequi|_perfet|_obligacio"/>
+    </rule>
     <rule id="nAdverbi" name="no adverbi">
         <!--  paraules comunes que no solen ser adverbi gairebé mai -->
         <pattern>
@@ -6324,16 +6335,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="[^V].*"/>
         </rule>
     </rulegroup>
-    <!-- verb imperatiu, infinitiu o gerundi seguit de pronom-->
-    <rule id="VERB_PP" name="verb seguit de pronom">
-        <pattern>
-            <marker>
-                <token postag="V.[MNG].*" postag_regexp="yes"></token>
-            </marker>
-            <token postag="&pronom_feble;" postag_regexp="yes" regexp="yes" spacebefore="no">['-].+</token>
-        </pattern>
-        <disambig action="filter" postag="V.[MNG].*|_GV_|_loc_nosequi|_perfet|_obligacio"/>
-    </rule>
     <rulegroup id="DDN" name="Det + Det + nom">
         <rule>
             <pattern>
