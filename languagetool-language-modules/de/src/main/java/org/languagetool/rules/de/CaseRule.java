@@ -225,7 +225,6 @@ public class CaseRule extends GermanRule {
     "Ähnliches",   // je nach Kontext groß (TODO), z.B. "Er hat Ähnliches erlebt" 
     "Allerlei",
     "Anklang",
-    "Passionsfrucht",
     "Verlobter",
     "Anstrich",
     "Armes",
@@ -564,16 +563,12 @@ public class CaseRule extends GermanRule {
           AnalyzedTokenReadings nextToken = tokens[i + 1];
           // avoid false alarm for "Das haben wir getan." etc:
           nextTokenIsPersonalOrReflexivePronoun = nextToken.hasPartialPosTag("PRO:PER") || nextToken.getToken().equals("sich") || nextToken.getToken().equals("Sie");
-          if (nextToken.hasLemma("lassen")) {
-            // avoid false alarm for "Ihr sollt mich das wissen lassen."
-            continue;
-          }
           if (nextToken.isSentenceEnd()) {
             // avoid false alarm for "So sollte das funktionieren." (might also remove true alarms...)
             continue;
           }
-          if (prevTokenIsDas && nextToken.equals("die")) {
-            // avoid false alarm for "Das wissen die meisten."
+          if (prevTokenIsDas && (nextToken.getToken().equals("die") ||  nextToken.getToken().equals("zu"))) {
+            // avoid false alarm for "Das wissen die meisten." / "Um das sagen zu können, ..."
             continue;
           }
         }

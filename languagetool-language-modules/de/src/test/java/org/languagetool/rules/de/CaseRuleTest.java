@@ -87,6 +87,7 @@ public class CaseRuleTest {
     assertGood("Das fragen sich mittlerweile viele.");
     assertGood("Ich habe gehofft, dass du das sagen würdest.");
     assertGood("Eigentlich hätte ich das wissen müssen.");
+    assertGood("Mir tut es wirklich leid, Ihnen das sagen zu müssen.");
 
     assertBad("Tom ist etwas über Dreißig.");
     assertBad("Unser warten wird sich lohnen.");
