@@ -57,16 +57,17 @@ public final class MorfologikRussianSpellerRule extends MorfologikSpellerRule {
 
   @Override
   protected boolean ignoreToken(AnalyzedTokenReadings[] tokens, int idx) throws IOException {
-    List<String> words = new ArrayList<>();
-    for (AnalyzedTokenReadings token : tokens) {
-      words.add(token.getToken());
-    }
     String word = tokens[idx].getToken();  
     // don't check words that don't have  letters
       if (!RUSSIAN_LETTERS.matcher(word).matches()) {
         return true;
       }
-
+      
+    List<String> words = new ArrayList<>();
+    for (AnalyzedTokenReadings token : tokens) {
+      words.add(token.getToken());
+    }
+    
     return ignoreWord(words, idx);
   }
  
