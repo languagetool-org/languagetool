@@ -76,12 +76,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       new Replacement("F", "Ph"),
       new Replacement("Ph", "F")
   );
-  
+
   private final LineExpander lineExpander = new LineExpander();
   private final GermanCompoundTokenizer compoundTokenizer;
   private final GermanWordSplitter splitter;
   private final Synthesizer synthesizer;
   private final Tagger tagger;
+
+  // according to http://www.spiegel.de/kultur/zwiebelfisch/zwiebelfisch-der-gebrauch-des-fugen-s-im-ueberblick-a-293195.html
+  private static final Set<String> ENDINGS_NEEDING_FUGEN_S = new HashSet<>(Arrays.asList(
+      "tum", "ling", "ion", "tät", "keit", "schaft", "sicht", "ung", "en" ));
 
   public GermanSpellerRule(ResourceBundle messages, German language) {
     super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language));
@@ -388,15 +392,17 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     String[] words = word.split("-");
     if (words.length < 2) {
       int end = super.startsWithIgnoredWord(word, true);
-      if(end > 0) {
-        String partialWord = word.substring(end);
-        if(!hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(WordUtils.capitalize(partialWord))) {
-          return true;
-        } else if(end > 2 && partialWord.startsWith("s")) {
-          // word has possibly a Fugen-s between words; e.g., "Helizitätsoperator"
+      if(end < 3) {
+        return false;
+      }
+      String ignoredWord = word.substring(0, end);
+      String partialWord = word.substring(end);
+      boolean needFugenS = ENDINGS_NEEDING_FUGEN_S.stream().anyMatch(ending -> ignoredWord.endsWith(ending));
+      if(!needFugenS) {
+          return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(WordUtils.capitalize(partialWord));
+      } else if(needFugenS && partialWord.startsWith("s")) {
           partialWord = partialWord.substring(1);
           return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(WordUtils.capitalize(partialWord));
-        }
       }
       return false;
     }
