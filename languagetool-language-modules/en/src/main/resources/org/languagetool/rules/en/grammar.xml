@@ -3864,6 +3864,19 @@ USA
             <message>Did you mean <suggestion><match no="1"/> <match no="2"/> than</suggestion>?</message>
             <example correction="better companies than">There were <marker>better companies then</marker> GE and Google.</example>
         </rule>
+        <rule id="COMPARISONS_AS_ADJECTIVE_AS" name="comparison 'as ... as' (no comparative/superlative)">
+            <pattern>
+                <token>as</token>
+                <marker>
+                    <token postag="JJ." postag_regexp="yes"/>
+                </marker>
+                <token>as</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="2" postag="JJ"/></suggestion>?</message>
+            <url>http://dictionary.cambridge.org/us/grammar/british-grammar/as-as</url>
+            <example correction="good">We must do our job as <marker>best</marker> as we can.</example>
+            <example>She’s not singing as loudly as she can.</example>
+        </rule>
         <!-- to .* then by::word=\0 \1 than \3::pivots=then,than::options=then,than -->
         <rule id="TO__THEN_BY" name="to blank then (than) by">
             <pattern>
