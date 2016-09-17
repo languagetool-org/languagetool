@@ -20,8 +20,13 @@
 package org.languagetool.rules.ru;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
@@ -31,6 +36,8 @@ public final class MorfologikRussianSpellerRule extends MorfologikSpellerRule {
   public static final String RULE_ID = "MORFOLOGIK_RULE_RU_RU";
 
   private static final String RESOURCE_FILENAME = "/ru/hunspell/ru_RU.dict";
+  
+  private static final Pattern RUSSIAN_LETTERS = Pattern.compile(".*[а-яёА-ЯЁ].*");
 
   public MorfologikRussianSpellerRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
@@ -48,4 +55,20 @@ public final class MorfologikRussianSpellerRule extends MorfologikSpellerRule {
     return RULE_ID;
   }
 
+  @Override
+  protected boolean ignoreToken(AnalyzedTokenReadings[] tokens, int idx) throws IOException {
+  List<String> words = new ArrayList<>();
+  for (AnalyzedTokenReadings token : tokens) {
+     words.add(token.getToken());
+  }
+   String word = tokens[idx].getToken();  
+   // don't check words that don't have  letters
+      if (!RUSSIAN_LETTERS.matcher(word).matches()) {
+          return true;
+      }
+
+    return ignoreWord(words, idx);
+  }
+
+  
 }
