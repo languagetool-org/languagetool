@@ -60,6 +60,7 @@ Copyright (C) 2009-2012 Yakov Reztsov
 	    <pattern>	 
 		    <!-- Что за головная боль! -->
   	            <!-- Add exception for : "Что за + NN:.*:.*:Nom" -->
+                    <!-- Однако дворец был возрождён за два года.  за + два + NN:.*:.*:R" -->
             <token  negate="yes">что</token>
             <token  skip="1">за</token>
             <marker>
@@ -69,7 +70,8 @@ Copyright (C) 2009-2012 Yakov Reztsov
                 </and>
             </marker>
         </pattern>
-        <disambig><match no="2" postag="NN:.*:.*:V" postag_regexp="yes"></match></disambig>
+        <disambig action="remove" postag="NN:.*:.*:Nom"></disambig>
+  <!--  <disambig><match no="2" postag="NN:.*:.*:V" postag_regexp="yes"></match></disambig>  -->
     </rule>
     <rule name="NOUN_R" id="NOUN_R">
         <pattern>
