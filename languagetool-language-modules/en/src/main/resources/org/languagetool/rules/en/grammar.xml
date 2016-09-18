@@ -5331,6 +5331,21 @@ USA
             <example>I wonder where Tom is and who he's with.</example>
             <example>I found out who Tom's father is.</example>
         </rule>
+        <rule id="OBJECTIVE_CASE" name="objective case after with(out)/at/to/...">
+            <pattern>
+            <marker>
+                <token postag_regexp="yes" postag="TO|RP"/>
+                <token regexp="yes">I|he|she|we|they</token>
+            </marker>
+            <token postag="SENT_END"/>
+            </pattern>
+            <message>Did you mean <suggestion>\1 me</suggestion>, <suggestion>\1 her</suggestion>, <suggestion>\1 him</suggestion>, <suggestion>\1 us</suggestion>, or <suggestion>\1 them</suggestion>?</message>
+            <example correction="to me|to her|to him|to us|to them">Give it <marker>to I</marker>.</example>
+            <example correction="with me|with her|with him|with us|with them">Come <marker>with I</marker>.</example>
+            <example>I feel safe <marker>with him</marker>.</example>
+            <example>Look <marker>at her</marker>!</example>
+            <example>I have no time to put my books in order before I go.</example>
+        </rule>
         <rule id="TOO_ADJECTIVE_TO" name="too ADJECTIVE to">
             <pattern>
                 <token>to</token>
