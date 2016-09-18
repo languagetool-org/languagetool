@@ -192,7 +192,7 @@ i=0
 with open('need-tag.txt', 'r') as data_file:
     for data_line in data_file:
         # i += 1
-        # if i > 100: break
+        # if i > 10000: break
         if ' ' in data_line:
             if "..." in data_line[:3]:
                 data_line = data_line.split(" ",1)[1]
@@ -236,6 +236,16 @@ with open('final-tags.txt','w') as final:
 	    for data in morph.parse(word):
 	        if type(data.methods_stack[0][0]) is not pymorphy2.units.by_lookup.DictionaryAnalyzer:
 		        continue
+	        if len(data.methods_stack) > 1:
+		        if type(data.methods_stack[1][0]) is pymorphy2.units.by_analogy.UnknownPrefixAnalyzer:
+			        continue
+		        if type(data.methods_stack[1][0]) is not pymorphy2.units.by_analogy.KnownPrefixAnalyzer:
+			        print(data.methods_stack)
+			        continue
+		        if len(data.methods_stack) > 2:
+			        if type(data.methods_stack[2][0]) is not pymorphy2.units.by_analogy.KnownPrefixAnalyzer:
+				        print(data.methods_stack)
+				        continue
 	        token = data.word
 	        current_lemma = data.normal_form
 	        gramma = data.tag
@@ -243,8 +253,8 @@ with open('final-tags.txt','w') as final:
 	        if pos_tag in all_tags:
 	            final.write(token+"\t"+current_lemma+"\t"+pos_tag+"\n")
 	        else:
-	            print(token+"\t"+current_lemma+"\t"+pos_tag+" <== "+str(gramma))
-
+		        #print(token+"\t"+current_lemma+"\t"+pos_tag+" <== "+str(gramma))
+		        iasda = 0
 # # mystems.sort()
 # # with open('final-tags.txt','w') as final:
 # #     for word in mystems:
