@@ -1837,7 +1837,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>        
         </rulegroup>        
         
-        
+        <rulegroup  id="Kogda_to1" name="Знаки препинания в сложном предложении «Когда ... , то ему ...»">
+            <rule>  <!-- Когда человек хочет что-то получить, то ему надо чем-то пожертвовать. -->
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token skip="-1">Когда</token>
+                      <marker>
+                        <token skip="1">то<exception scope="previous" >,</exception><exception scope="previous" >–</exception></token>
+                        <token regexp="yes">ему|ей|им</token>
+                      </marker>          
+                </pattern>
+                <message>Нужна запяты или тире: <suggestion>, \3 \4</suggestion> или <suggestion> – \3 \4</suggestion> </message>
+                <short>Нужна запятая или тире</short>
+                <example correction=", то ему| – то ему">Когда человек хочет что-то получить<marker> то ему</marker> надо чем-то пожертвовать.</example>
+            </rule>
+        </rulegroup>
+               
         <rule default="on" id="ABREV_DOT" name="Точка после сокращений">
             <pattern case_sensitive="yes">
                 <marker>
