@@ -6,66 +6,66 @@ import re
 import enchant
 
 pos_LT = {
-    'ADJF':'ADJ',#	прилагательное
-    'ADJS':'ADJ_Short',#	краткая форма
-    'COMP':'ADJ_Sup',#	сравнительная
-    'ADVB':'ADV',#	наречие
+    'ADJF':'ADJ',#    прилагательное
+    'ADJS':'ADJ_Short',#    краткая форма
+    'COMP':'ADJ_Sup',#    сравнительная
+    'ADVB':'ADV',#    наречие
     'GRND':'DPT',#  деепричастие
     'PRTF':'PT', # причастие (полное)
     'PRTS':'PT_Short', # краткое причастие - SHORT PARTICIPLE
-    'PRED':'none',#	предикатив	некогда
-    'INTJ':'INTERJECTION',#	междометие
-    'NUMR':'NumC',#	числительное
-    'NPRO':'PNN',#	местоимение-существительное
-    'PREP':'PREP',#	предлог
-    'CONJ':'CONJ',#	союз
-    'PRCL':'PARTICLE',#	частица
-    'NOUN':'NN',#	существительное
+    'PRED':'none',#    предикатив    некогда
+    'INTJ':'INTERJECTION',#    междометие
+    'NUMR':'NumC',#    числительное
+    'NPRO':'PNN',#    местоимение-существительное
+    'PREP':'PREP',#    предлог
+    'CONJ':'CONJ',#    союз
+    'PRCL':'PARTICLE',#    частица
+    'NOUN':'NN',#    существительное
     'INFN':'VB',#   глагол (инфинитив)
-	'VERB':'VB'}#	глагол
+    'VERB':'VB'}#    глагол
 
 pos_other_LT=[
-'ADJ',#	полная форма
-'PADJ',#	притяжательные прилагательные
-'ADJ_Comp',#	превосходная
-'NNN',#	имя собственное
-'NNP',#	отчество
-'NNF'#	фамилия
+'ADJ',#    полная форма
+'PADJ',#    притяжательные прилагательные
+'ADJ_Comp',#    превосходная
+'NNN',#    имя собственное
+'NNP',#    отчество
+'NNF'#    фамилия
               ]
 
 tense_LT ={
-    'pres':'Real',#	настоящее
-    'futr':'Fut',#	непрошедшее
-    'past':'Past',#	прошедшее
-    'INFN':'INF',#	инфинитив
-    'impr':'IMP'#	повелительное наклонение
+    'pres':'Real',#    настоящее
+    'futr':'Fut',#    непрошедшее
+    'past':'Past',#    прошедшее
+    'INFN':'INF',#    инфинитив
+    'impr':'IMP'#    повелительное наклонение
 }
 
 case_LT={
     #Падеж
-    'nomn':'Nom',#	именительный
-    'gent':'R',#	родительный
-    'datv':'D',#	дательный
-    'accs':'V',#	винительный
-    'ablt':'T',#	творительный
-    'loct':'P',#	предложный
-    'gen2':'R',#	партитив (второй родительный)
+    'nomn':'Nom',#    именительный
+    'gent':'R',#    родительный
+    'datv':'D',#    дательный
+    'accs':'V',#    винительный
+    'ablt':'T',#    творительный
+    'loct':'P',#    предложный
+    'gen2':'R',#    партитив (второй родительный)
     'acc2':'V',#
-    'loc2':'P',#	местный (второй предложный)
-    'voct':'none'#	звательный
+    'loc2':'P',#    местный (второй предложный)
+    'voct':'none'#    звательный
 }
 
 number_LT ={
     #Число
-    'sing':'Sin',#	единственное число
-    'plur':'PL'#	множественное число
+    'sing':'Sin',#    единственное число
+    'plur':'PL'#    множественное число
 }
 
 person_LT={
     #Лицо глагола
-    '1per':'P1',#	1-е лицо
-    '2per':'P2',#	2-е лицо
-    '3per':'P3'#	3-е лицо
+    '1per':'P1',#    1-е лицо
+    '2per':'P2',#    2-е лицо
+    '3per':'P3'#    3-е лицо
 }
 
 gender_LT={
@@ -86,7 +86,6 @@ other_LT={
 'poss':'PADJ',#	притяжательные прилагательные
 #Степень сравнения
 'Supr':'ADJ_Comp',#	превосходная
-'comp':'ADJ_S',#	сравнительная
 #Вид
 'ipf':'',#	несовершенный
 'pf':'',#	совершенный
@@ -109,9 +108,9 @@ other_LT={
 'obsc':'',#	обсценная лексика
 'Patr':'NNP',#	отчество
 'praed':'',#	предикатив
-'inform':'Talk',#	разговорная форма
+'Infr':'Talk',#	разговорная форма
 'rare':'',#	редко встречающееся слово
-'abbr':'ABR',#	сокращение
+'Abbr':'ABR',#	сокращение
 'obsol':'',#	устаревшая форма
 'Surn':'NNF'#	фамилия
 }
@@ -192,7 +191,7 @@ i=0
 with open('need-tag.txt', 'r') as data_file:
     for data_line in data_file:
         # i += 1
-        # if i > 10000: break
+        # if i > 100: break
         if ' ' in data_line:
             if "..." in data_line[:3]:
                 data_line = data_line.split(" ",1)[1]
@@ -226,35 +225,36 @@ print(len(news))
 # sudo pip install pymorphy2[fast]
 import pymorphy2
 morph = pymorphy2.MorphAnalyzer()
-news.add("люди")
 news = list(news)
+# news.append("сапог")
 news.sort()
 pytags = []
 
-with open('final-tags.txt','w') as final:
+missed_tags = 0
+with open('final-tags-pymorph.txt','w') as final:
     for word in news:
-	    for data in morph.parse(word):
-	        if type(data.methods_stack[0][0]) is not pymorphy2.units.by_lookup.DictionaryAnalyzer:
-		        continue
-	        if len(data.methods_stack) > 1:
-		        if type(data.methods_stack[1][0]) is pymorphy2.units.by_analogy.UnknownPrefixAnalyzer:
-			        continue
-		        if type(data.methods_stack[1][0]) is not pymorphy2.units.by_analogy.KnownPrefixAnalyzer:
-			        print(data.methods_stack)
-			        continue
-		        if len(data.methods_stack) > 2:
-			        if type(data.methods_stack[2][0]) is not pymorphy2.units.by_analogy.KnownPrefixAnalyzer:
-				        print(data.methods_stack)
-				        continue
-	        token = data.word
-	        current_lemma = data.normal_form
-	        gramma = data.tag
-	        pos_tag = convert_gramma(gramma)
-	        if pos_tag in all_tags:
-	            final.write(token+"\t"+current_lemma+"\t"+pos_tag+"\n")
-	        else:
-		        #print(token+"\t"+current_lemma+"\t"+pos_tag+" <== "+str(gramma))
-		        iasda = 0
+        for data in morph.parse(word):
+            if type(data.methods_stack[0][0]) is not pymorphy2.units.by_lookup.DictionaryAnalyzer:
+                continue
+            if len(data.methods_stack) > 1:
+                if type(data.methods_stack[1][0]) is pymorphy2.units.by_analogy.UnknownPrefixAnalyzer:
+                    continue
+                if type(data.methods_stack[1][0]) is not pymorphy2.units.by_analogy.KnownPrefixAnalyzer:
+                    print("Unexpected method stack: ", data.methods_stack)
+                    continue
+                if len(data.methods_stack) > 2:
+                    if type(data.methods_stack[2][0]) is not pymorphy2.units.by_analogy.KnownPrefixAnalyzer:
+                        print("Unexpected method stack: ", data.methods_stack)
+                        continue
+            token = data.word
+            current_lemma = data.normal_form
+            gramma = data.tag
+            pos_tag = convert_gramma(gramma)
+            if pos_tag in all_tags:
+                final.write(token+"\t"+current_lemma+"\t"+pos_tag+"\n")
+            else:
+                print(token+"\t"+current_lemma+"\t"+pos_tag+" <== "+str(gramma))
+                missed_tags += 1
 # # mystems.sort()
 # # with open('final-tags.txt','w') as final:
 # #     for word in mystems:
@@ -263,3 +263,4 @@ with open('final-tags.txt','w') as final:
 # with open('final.txt','w') as final:
 #     for word in mystems:
 #         final.write(word.split("{",1)[0]+"\n")
+print("Detected dictionary tags, missing in LT:", missed_tags)

@@ -224,7 +224,7 @@ with open('out.txt','r') as new_file:
             news.add(prev_line[start:stop])
         prev_line = line
 print(len(news))
-
+# news.add("сапог")
 with open('new-tag.txt','w') as new_file:
     for word in news:
         new_file.write(word+"\n")
@@ -237,7 +237,8 @@ with open('mout.txt','r') as new_file:
         if not "?" in line:
             mystems.append(line)
 mystems.sort()
-with open('final-tags.txt','w') as final:
+missed_tags = 0
+with open('final-tags-mystem.txt','w') as final:
     for word in mystems:
         token = word.split("{",1)[0]
         descs = word.split("{",1)[1].split("|")
@@ -254,12 +255,9 @@ with open('final-tags.txt','w') as final:
                 final.write(token+"\t"+current_lemma+"\t"+pos_tag+"\n")
             else:
                 print(token+"\t"+current_lemma+"\t"+pos_tag+" <== "+gramma)
+                missed_tags += 1
 
-# mystems.sort()
-# with open('final-tags.txt','w') as final:
-#     for word in mystems:
-#         final.write(word)
-
-with open('final.txt','w') as final:
+with open('final-mystem.txt','w') as final:
     for word in mystems:
         final.write(word.split("{",1)[0]+"\n")
+print("Detected dictionary tags, missing in LT:", missed_tags)
