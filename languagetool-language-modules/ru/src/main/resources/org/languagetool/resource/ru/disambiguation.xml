@@ -27,11 +27,9 @@ Copyright (C) 2009-2012 Yakov Reztsov
 
     <!-- disambiguation for nouns' -->
     <rule name="NOUN_V" id="NOUN_V">
-	    <pattern>
-		    <!-- TODO город should be Nom -->
-		    <!-- Здесь нет больниц, нам нужно поехать в ближайший город. -->
-            <!-- <token regexp="yes" skip="1">в|на|сквозь|через<exception scope="next" postag="Num.*" postag_regexp="yes"></exception></token> -->
-            <token regexp="yes" skip="1">на|сквозь|через<exception scope="next" postag="Num.*" postag_regexp="yes"></exception></token>
+        <pattern>		   
+            <!-- Здесь нет больниц, нам нужно поехать в ближайший город.  "Город" только NN:.*:.*:V  -->
+            <token regexp="yes" skip="1">в|на|сквозь|через<exception scope="next" postag="Num.*" postag_regexp="yes"></exception></token>
             <marker>
                 <and>
                     <token postag="NN:.*:.*:Nom" postag_regexp="yes"></token>
@@ -42,10 +40,7 @@ Copyright (C) 2009-2012 Yakov Reztsov
         <disambig><match no="2" postag="NN:.*:.*:V" postag_regexp="yes"></match></disambig>
     </rule>
     <rule name="NOUN_V2" id="NOUN_V2">
-	    <pattern>
-		    <!-- TODO за боль should be NN:Fem:Sin:Nom  -->
-		    <!-- Что за головная боль! -->
-            <!-- <token regexp="yes" skip="1">за|под</token> -->
+        <pattern>
             <token  skip="1">под</token>
             <marker>
                 <and>
@@ -57,10 +52,10 @@ Copyright (C) 2009-2012 Yakov Reztsov
         <disambig><match no="2" postag="NN:.*:.*:V" postag_regexp="yes"></match></disambig>
     </rule>
     <rule name="NOUN_V3" id="NOUN_V3">
-	    <pattern>	 
-		    <!-- Что за головная боль! -->
-  	            <!-- Add exception for : "Что за + NN:.*:.*:Nom" -->
-                    <!-- Однако дворец был возрождён за два года.  за + два + NN:.*:.*:R" -->
+        <pattern>	 
+            <!-- Что за головная боль! -->
+            <!-- Add exception for : "Что за + NN:.*:.*:Nom" -->
+            <!-- Однако дворец был возрождён за два года.  за + два + NN:.*:.*:R" -->
             <token  negate="yes">что</token>
             <token  skip="1">за</token>
             <marker>
@@ -117,10 +112,7 @@ Copyright (C) 2009-2012 Yakov Reztsov
     <rule name="ADJ_T" id="ADJ_T">
         <pattern>
             <!-- с  - родительный, винительный, творительный -->
-            <!-- под  - винительный, творительный   -->
-            <!-- TODO проливной is ADJ:.*:V -->
-            <!-- 		    Я не хочу попасть под проливной дождь. -->
-            <!-- <token regexp="yes">под|подо|над|перед</token> -->
+            <!-- под (подо)  - винительный, творительный   -->
             <token regexp="yes">подо|над|перед</token>
             <marker>
                 <and>
@@ -135,7 +127,7 @@ Copyright (C) 2009-2012 Yakov Reztsov
         <pattern>
             <!-- под  - винительный, творительный   -->
             <!-- TODO проливной is ADJ:.*:V -->
-            <!-- 		    Я не хочу попасть под проливной дождь. -->
+            <!-- Я не хочу попасть под проливной дождь. -->
             <!-- Удаляем только неверный postag, остальные не трогаем.   -->
             <token>под</token>
             <marker>
@@ -151,10 +143,9 @@ Copyright (C) 2009-2012 Yakov Reztsov
         <pattern>
             <!-- TODO improve за -->
             <!-- Что за странный парень! Should leave ADJ:.*:Nom -->
-            <!-- TODO в законные should be ADJ:PL:Nom  -->
-            <!-- Берёшь ли ты, Мэри, этого мужчину в законные мужья и клянёшься любить -->
+            <!-- Берёшь ли ты, Мэри, этого мужчину в законные мужья и клянёшься любить.   в законные is ADJ:PL:V  -->
             <!-- <token regexp="yes">в|за|на|под|сквозь|через</token> -->
-            <token regexp="yes">на|под|сквозь|через</token>
+            <token regexp="yes">в|на|под|сквозь|через</token>
             <marker>
                 <and>
                     <token postag="ADJ:.*:Nom" postag_regexp="yes"></token>
@@ -165,10 +156,10 @@ Copyright (C) 2009-2012 Yakov Reztsov
         <disambig><match no="2" postag="ADJ:.*:V" postag_regexp="yes"></match></disambig>
     </rule>
     <rule name="ADJ_V2" id="ADJ_V2">
-	    <pattern>
-		    <!-- TODO милые should stay .*:Nom -->
-	        <!-- Что они за милые щеночки! -->
-	        <!-- <token regexp="yes">за|под</token> -->
+        <pattern>
+            <!-- TODO милые should stay .*:Nom -->
+            <!-- Что они за милые щеночки! -->
+            <!-- <token regexp="yes">за|под</token> -->
             <token>под</token>
             <marker>
                 <and>
