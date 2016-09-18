@@ -1851,6 +1851,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Нужна запятая или тире</short>
                 <example correction=", то ему| – то ему">Когда человек хочет что-то получить<marker> то ему</marker> надо чем-то пожертвовать.</example>
             </rule>
+            <rule>  <!-- Когда человек хочет что-то получить, ему надо чем-то пожертвовать. -->
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token skip="-1">Когда</token>
+                    <marker>
+                        <token skip="-1" regexp="yes">ему|ей|им<exception scope="previous" >,</exception><exception scope="previous" >–</exception><exception scope="previous"  postag="VB:INF" negate_pos="yes"  postag_regexp="yes"></exception></token>
+                    </marker>
+                    <token postag="VB:.*" postag_regexp="yes" ></token>        
+                </pattern>
+                <message>Нужна запяты или тире: <suggestion>, \3</suggestion> или <suggestion> – \3</suggestion> </message>
+                <short>Нужна запятая или тире</short>
+                <example correction=", ему| – ему">Когда человек хочет что-то получить<marker> ему</marker> надо чем-то пожертвовать.</example>
+            </rule>
         </rulegroup>
                
         <rule default="on" id="ABREV_DOT" name="Точка после сокращений">
