@@ -5,7 +5,7 @@
 #  1) Only python3 (for ease of UTF-8 support)
 #  # Not used  2) pyenchant for spellcheck
 #  #                 sudo pip3 install pyenchant
-#  3) sudo pip install pymorphy2[fast]
+#  3) sudo pip3 install pymorphy2[fast]
 #  4) copy script to the folder, that contains LT git repo with a build. So that path to "languagetool/languagetool-standalone/target/LanguageTool-3.5-SNAPSHOT/LanguageTool-3.5-SNAPSHOT/languagetool-commandline.jar" should be valid to run LT.
 #  5) copy Russian tagset to "all_tags.txt"
 #       cp languagetool/languagetool-language-modules/ru/src/main/resources/org/languagetool/resource/ru/tags_russian.txt all_tags.txt
