@@ -1843,11 +1843,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"></token>
                     <token skip="-1">Когда</token>
                       <marker>
-                        <token skip="1">то<exception scope="previous" >,</exception><exception scope="previous" >–</exception></token>
+                        <token skip="1">то<exception scope="previous" >,</exception><exception scope="previous" regexp="yes">–|-</exception></token>
                         <token regexp="yes">ему|ей|им</token>
                       </marker>          
                 </pattern>
-                <message>Нужна запяты или тире: <suggestion>, \3 \4</suggestion> или <suggestion> – \3 \4</suggestion> </message>
+                <message>Нужна запятая или тире: <suggestion>, \3 \4</suggestion> или <suggestion> – \3 \4</suggestion> </message>
                 <short>Нужна запятая или тире</short>
                 <example correction=", то ему| – то ему">Когда человек хочет что-то получить<marker> то ему</marker> надо чем-то пожертвовать.</example>
             </rule>
@@ -1856,11 +1856,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"></token>
                     <token skip="-1">Когда</token>
                     <marker>
-                        <token skip="-1" regexp="yes">ему|ей|им<exception scope="previous" >,</exception><exception scope="previous" >–</exception><exception scope="previous"  postag="VB:INF" negate_pos="yes"  postag_regexp="yes"></exception></token>
+                        <token skip="-1" regexp="yes">ему|ей|им<exception scope="previous" >,</exception><exception scope="previous" regexp="yes">–|-</exception><exception scope="previous"  postag="VB:INF" negate_pos="yes"  postag_regexp="yes"></exception></token>
                     </marker>
                     <token postag="VB:.*" postag_regexp="yes" ></token>        
                 </pattern>
-                <message>Нужна запяты или тире: <suggestion>, \3</suggestion> или <suggestion> – \3</suggestion> </message>
+                <message>Нужна запятая или тире: <suggestion>, \3</suggestion> или <suggestion> – \3</suggestion> </message>
                 <short>Нужна запятая или тире</short>
                 <example correction=", ему| – ему">Когда человек хочет что-то получить<marker> ему</marker> надо чем-то пожертвовать.</example>
             </rule>
@@ -1871,11 +1871,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token skip="-1">Если</token>
                     <token postag_regexp="yes" postag="VB:.*"></token>
                       <marker>
-                        <token skip="1">то<exception scope="previous" >,</exception><exception scope="previous" >–</exception></token>
+                        <token skip="1">то<exception scope="previous" >,</exception><exception scope="previous" regexp="yes">–|-</exception></token>
                         <token postag_regexp="yes" postag="VB:.*"></token>
                       </marker>          
                 </pattern>
-                <message>Нужна запяты или тире: <suggestion>, \4 \5</suggestion> или <suggestion> – \4 \5</suggestion> </message>
+                <message>Нужна запятая или тире: <suggestion>, \4 \5</suggestion> или <suggestion> – \4 \5</suggestion> </message>
                 <short>Нужна запятая или тире</short>
                 <example correction=", то говори| – то говори">Если ты позвонил<marker> то говори</marker>.</example>
             </rule>
