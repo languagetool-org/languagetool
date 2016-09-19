@@ -10146,6 +10146,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="OSCAR" name="Oscar/Òscar">
+            <antipattern>
+                <marker>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token inflected="yes" regexp="yes" skip="-1">nominar|nominació|guanyar|candidat|acadèmia|pel·lícula|film|director|actor|actriu|cine|cinema|Hollywood|premi|guardó|guardonar</token>
+                    <token postag="SENT_END"/>
+                </marker>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">Oscars?<exception scope="previous" postag="DN.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">doble|triple</exception></token>
+                </marker>
+                <token><exception regexp="yes">a|Lewis|Niemeyer|Wilde</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>Òscar</suggestion> (nom propi en català) en lloc de "Oscar" (en anglès)?</message>
+            <example correction="Òscar">Es diu <marker>Oscar</marker>.</example>
+        </rule>
         <rule id="FAIXI_FACI" name="faxi/faci">
             <pattern>
                 <token regexp="yes">faixis?</token>
