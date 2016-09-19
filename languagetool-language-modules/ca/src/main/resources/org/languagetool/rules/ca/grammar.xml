@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY context_FALLAR "TSJ.*|recurs|judici|juí|sentència|veredicte|premi|tribunal|jutges?|jurat|favor|instruir|procés|dispositiva|jutjar|sentenciar">
     <!ENTITY context_FER_SE_AMB "soli|tron|càrrec|fitxa|fitxatge|oferta|superoferta|multinacional|servei|propietat|títol|triomf|victòria|alcaldia|presidència|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit|titularitat|Oscar|mallot">
     <!ENTITY context_MUSICA "arranjador|orquestrador|orquestrar|saxòfon|saxofon|oboè|trompeta|trompa|trombó|timbala|timbal|percussió|compondre|interpretar|compositor|orquestra|director|banda|piano|corda|vent|fusta|peça|obra|simfonia|suite|obertura|òpera|metall|violí|flauta|clarinet|viola|violoncel|contrabaix|guitarra|intermezzo">
+    <!ENTITY context_OSCAR "nominar|nominació|guanyar|candidat|acadèmia|pel·lícula|film|director|actor|actriu|cine|cinema|Hollywood|premi|guardó|guardonar|guió">
     <!ENTITY context_PERJUDICI "accedir|accés|acord|acordar|actuació|actualització|actualitzar|addicional|adjudicació|administració|administratiu|alienar|alteració|annex|apartar|aplicable|aprovació|aprovar|article|aspirant|assegurança|atorgar|autorització|avaria|benefici|cancel·lació|cancel·lar|captació|causant|causar|certificar|clàusula|col·legiar|comerç|compensació|compensar|competència|competent|compliment|comportar|comptabilitat|cònjuge|conseqüència|contenciós|contracte|contractar|contractual|control|convocar|convocatòria|correspondre|cost|creditor|dany|declinar|decret|delegació|demandant|departament|derivar|devolució|disciplinari|disposició|documentació|dret|econòmic|efectuar|elèctric|emissió|emprendre|enllaçar|enunciatiu|escaure|especialitat|estabilitat|establiment|establir|estatut|euro|exclusiu|execució|exercici|eximir|expedient|extingir|extracció|fallada|finca|funcionament|greu|horari|il·legítim|il·lícit|immoble|import|impugnar|imputable|incompliment|incomplir|incórrer|indemnització|indemnitzar|indirecte|inexacte|informació|infracció|infringir|ingrés|inspecció|instal·lació|interposar|interrupció|irreparable|jurídic|lamentar|legal|legislació|lesió|lesiu|llei|llicència|municipal|municipi|navegador|negligent|normatiu|notificació|notificar|obligació|obtenir|ocasionar|operatiu|oportú|ordenació|òrgan|organisme|pagament|pagar|patrimonial|pèrdua|petició|planejament|prestació|procediment|processal|produir|propietari|propietat|protecció|proveïdor|reclamació|reclamar|refondre|reglament|regular|reial|reparació|reparar|reposició|resolució|responsabilitat|responsable|retard|retribució|sanció|sectorial|seguretat|servei|sofrir|sòl|sol·licitar|subministrar|subvenció|suposar|suspensió|tabac|tercer|termini|titular|titularitat|tramitar|transferència|trànsit|treballador|tributari|urbanització|vulnerar">
     <!ENTITY context_PREJUDICI "actitud|amor|aprendre|apriorisme|arrelar|àtom|barrera|carregar|complex|concepció|contemporani|convidar|creença|crític|cristià|curiositat|deixar|descobrir|desprendre|despullar|discriminació|discurs|diversitat|dona|emoció|envers|escoltar|esquema|estereotip|etiqueta|ètic|ètnic|experiència|feminisme|feminista|formulari|gènere|gent|gitano|història|homosexualitat|humor|idea|ideològic|ignorància|immigrant|intercultural|jove|llegir|mirada|mite|moral|món|novel·la|odi|orgull|parlar|passió|pensament|pensar|perpetuar|personatge|por|preconcebre|racial|racisme|realitat|religiós|rumor|sentiment|sexista|sorprendre|tabú|tòpic|trencar|vell|veritat|visió">
     <!ENTITY context_ROTAR_GIRAR "angle1|grau|girar|objecte|triangle|quadrat|polígon|eix|gravetat|minut|segon|sentit|agulla|rellotge|planeta|Terra|rotació|aparell|oest|est|magnètic|òrbita|pilota">
@@ -10150,18 +10151,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <marker>
                     <token postag="SENT_START" skip="-1"/>
-                    <token inflected="yes" regexp="yes" skip="-1">nominar|nominació|guanyar|candidat|acadèmia|pel·lícula|film|director|actor|actriu|cine|cinema|Hollywood|premi|guardó|guardonar</token>
+                    <token inflected="yes" regexp="yes" skip="-1">&context_OSCAR;</token>
                     <token postag="SENT_END"/>
                 </marker>
             </antipattern>
             <pattern>
                 <marker>
-                    <token regexp="yes">Oscars?<exception scope="previous" postag="DN.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">doble|triple</exception></token>
+                    <token>Oscar<exception scope="previous" postag="DN.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">doble|triple</exception></token>
                 </marker>
                 <token><exception regexp="yes">a|Lewis|Niemeyer|Wilde</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>Òscar</suggestion> (nom propi en català) en lloc de "Oscar" (en anglès)?</message>
             <example correction="Òscar">Es diu <marker>Oscar</marker>.</example>
+            <example>Un Oscar a Hollywood.</example>
         </rule>
         <rule id="FAIXI_FACI" name="faxi/faci">
             <pattern>
