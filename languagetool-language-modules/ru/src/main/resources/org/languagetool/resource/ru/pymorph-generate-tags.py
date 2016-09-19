@@ -1,5 +1,28 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
+# 
+# Usage:
+#  1) Only python3 (for ease of UTF-8 support)
+#  # Not used  2) pyenchant for spellcheck
+#  #                 sudo pip3 install pyenchant
+#  3) sudo pip install pymorphy2[fast]
+#  4) copy script to the folder, that contains LT git repo with a build. So that path to "languagetool/languagetool-standalone/target/LanguageTool-3.5-SNAPSHOT/LanguageTool-3.5-SNAPSHOT/languagetool-commandline.jar" should be valid to run LT.
+#  5) copy Russian tagset to "all_tags.txt"
+#       cp languagetool/languagetool-language-modules/ru/src/main/resources/org/languagetool/resource/ru/tags_russian.txt all_tags.txt
+#  6) put any text, which includes tagged and untagged words to "need-tag.txt" file. This can be, e.g. an outpuh of testing "Unkonwn_words" rule against wikipedia.
+#  7) run the script, the output, ready to be included to LT should be written to final-tags-pymorph.txt
+#
+#  How it works:
+#  1) Read the input need-tag.txt, split into words.
+#  2) Remove truncated words from rule check (starting or ending with "...")
+#  3) Remove words with non-cyrillic letters.
+#  4) Remove duplicated words, save the list in "unique-tag.txt" file.
+#  5) Run LT unkonwn_words rulecheck again.
+#  6) Take only marked words from the output.
+#  7) Run pymorph2 to get the grammar form of the word, convert it into LT format
+#  8) Check against all_tags.txt, output tags to STDOUT that do not fit any valid tag
+#  9) save result (all words with valid tags) in final-tags-pymorph.txt
+
 import os
 from subprocess import call
 import re
@@ -185,7 +208,7 @@ def convert_gramma(gramma):
 
 
 
-d = enchant.Dict("ru_RU")
+# d = enchant.Dict("ru_RU")
 words = set()
 i=0
 with open('need-tag.txt', 'r') as data_file:
