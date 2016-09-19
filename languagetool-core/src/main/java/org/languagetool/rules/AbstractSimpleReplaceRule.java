@@ -147,7 +147,9 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
         for (String lemma: lemmas) {
           List<String> replacements = getWrongWords().get(lemma);
-          possibleReplacements.addAll(replacements);
+          if (replacements != null) {
+            possibleReplacements.addAll(replacements);
+          }
         }
 
         possibleReplacements = possibleReplacements.stream().distinct().collect(Collectors.toList());
