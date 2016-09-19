@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
+# 
+# Usage:
+#    See pymorph-generate-tags.py script for details.
+
 import os
 from subprocess import call
 import re
-import enchant
+# import enchant
+
+
 
 pos_LT = {
     'A':'ADJ',#	прилагательное
@@ -189,7 +195,7 @@ def convert_gramma(gramma):
 
 
 
-d = enchant.Dict("ru_RU")
+# d = enchant.Dict("ru_RU")
 words = set()
 i=0
 with open('need-tag.txt', 'r') as data_file:
