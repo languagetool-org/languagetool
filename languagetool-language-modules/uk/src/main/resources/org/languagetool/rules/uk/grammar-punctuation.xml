@@ -119,6 +119,91 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="літери, але">Вгадав всі <marker>літери але</marker> не зміг прочитати слово.</example>
             </rule>
         </rulegroup>
+
+        <rulegroup name="Зайва кома" id="NO_COMMA_NEEDED">
+          <rule>
+            <pattern>
+              <token postag_regexp="yes" postag="verb.*"/>
+              <token>,</token>
+              <token>як</token>
+              <token>рак</token>
+            </pattern>
+            <message>Зайва кома: <suggestion>\1 \3 \4</suggestion></message>
+            <url>http://pravopys.net/sections/118/</url>
+            <example correction="почервонів як рак"><marker>почервонів, як рак</marker>.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token postag_regexp="yes" postag="verb.*"/>
+              <token>,</token>
+              <token>як</token>
+              <token>з</token>
+              <token>відра</token>
+            </pattern>
+            <message>У сталих фразеологічних зворотах перед порівняльним сполучником кома не ставиться</message>
+            <suggestion>\1 \3 \4 \5</suggestion>
+            <url>http://pravopys.net/sections/118/</url>
+            <example correction="лив як з відра">Дощ <marker>лив, як з відра</marker>.</example>
+          </rule>
+          <!-- 
+          <rule>
+            <pattern>
+              <token regexp="yes">більше?|менше?|довше?|кортоше?</token>
+              <token>,</token>
+              <token regexp="yes">ніж|як</token>
+            </pattern>
+            <message>Не ставиться кома перед як, ніж у виразах (не) більш як, (не) раніше ніж, (не) довше ніж…</message>
+            <suggestion>\1 \3</suggestion>
+            <url>http://pravopys.net/sections/118/</url>
+            <example correction="більш як">Сидів <marker>більш, як</marker> півгодини.</example>
+            <example correction="довше ніж">Роботи вистачало не <marker>довше, ніж</marker> на два дні.</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token>як</token>
+              <token postag_regexp="yes" postag="noun.*:v_zna.*"/>
+              <token inflected="yes">бути</token>
+            </antipattern>
+            <pattern>
+              <token postag_regexp="yes" postag="noun.*"/>
+              <token>,</token>
+              <token>як</token>
+              <token postag_regexp="yes" postag="noun.*:v_zna.*">
+                <exception postag_regexp="yes" postag=".*(pron|prop).*"/>
+                <exception postag_regexp="yes" postag="noun.*:v_zna.*" negate_pos="yes"/>
+                <exception>слід</exception> 
+              </token>
+            </pattern>
+            <message>Звороти, що вводяться в речення за допомогою сполучника як і мають значення «у ролі кого, чого», комою не виділяються</message>
+            <suggestion>\1 \3 \4</suggestion>
+            <url>http://pravopys.net/sections/118/</url>
+            <example correction="відповідь як згоду">Сприймаємо вашу <marker>відповідь, як згоду</marker>.</example>
+            <example>витіснення зі сфери публічного застосування, як це робить документ</example>
+            <example>опису того, як Власенко та інші адвокати зневажали суддю</example>
+            <example>про те, як слід поводитися</example>
+            <example>вдався до таких крайніх дій, як зрив засідань</example>
+            <example>ще не висохло чорнило на паперах, як угоду було залито кров’ю</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token postag_regexp="yes" postag="verb.*"/>
+              <token>,</token>
+              <token regexp="yes">як|мов|ніби</token>
+              <token postag_regexp="yes" postag="noun.*">
+                <exception postag_regexp="yes" postag="noun.*" negate_pos="yes"/>
+                <exception postag_regexp="yes" postag=".*(pron|prop).*"/>
+              </token>
+            </pattern>
+            <message>Іменна частина складеного присудка, приєднана з допомогою сполучників як, мов, ніби тощо, комою не відокремлюється</message>
+            <suggestion>\1 \3 \4</suggestion>
+            <url>http://pravopys.net/sections/118/</url>
+            <example correction="зробилися як лід">Руки <marker>зробилися, як лід</marker>.</example>
+            <example>пам'ятав, як ніс рушницю</example>
+            <example>так робив, як вона каже</example>
+          </rule>
+           -->
+        </rulegroup>
+
 <!--
    На жаль правило впирається в семантичний рівень, можна хіба що спробувати ловити перед числом або числівником
         <rulegroup name="Зайва кома в оборотах «більш ніж…»" id="NO_COMMA_BEFORE_NIZH">

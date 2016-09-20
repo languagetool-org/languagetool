@@ -715,6 +715,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
     </rulegroup>
 
+    <rulegroup id="EUPHONY_PREP_O_OB" name="Милозвучність: о/об">
+      <rule>
+        <antipattern>
+          <token postag="SENT_START"/>
+          <token>о</token>
+          <token postag_regexp="yes" postag="noun.*v_kly.*" regexp="yes">о.*
+            <exception postag_regexp="yes" postag="noun.*v_(zna|mis).*"/>
+          </token>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token>о</token>
+          </marker>
+          <token regexp="yes">о.*|11(-.*)</token>
+        </pattern>
+        <message>Перед слів на «о» вживаємо об: <suggestion>об</suggestion> \2</message>
+        <example correction="Об"><marker>О</marker> одинадцятій.</example>
+        <example correction="об">Прибуває <marker>о</marker> 11-й.</example>
+        <example>О Олівере!</example>
+        <example>прокричав «о боже праведний!»</example>
+      </rule>
+    </rulegroup>
+
 
     <rulegroup id="PLEONAZM" name="Плеоназм">
        <rule>   

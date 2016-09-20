@@ -39,23 +39,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>У цього овоча напівгіркий присмак.</example>
       </rule>
     </rulegroup>
-<!--
-    <rulegroup id="SLOVA_Z_RAZOM" name="Слова з префіксами разом">
-      <rule>   
-        <pattern>
-          <token case_sensitive="yes" regexp="yes">([Аа]нти|[Гг]іпер|[Ее]кстра|[Кк]вазі|[Кк]онтр|[Пп]севдо|[Пп]ост|[Тт]ранс|[Уу]льтра)[-–][а-яіїєґ].*
-            <exception regexp="yes">[Кк]онтр[-–]адмір.*</exception>
-          </token>
-        </pattern>
-        <message>Пишеться разом <suggestion><match no="1" regexp_match="(.*)[-–](.*)" regexp_replace="$1$2"/></suggestion></message>
-        <url>http://www.pravopys.net/#search=25-33</url>
-        <short>Правильно писати разом</short>
-        <example correction="ультрагіркий">У цього овоча <marker>ультра-гіркий</marker> присмак.</example>
-        <example correction="Квазісмішний"><marker>Квазі-смішний</marker> жарт.</example>
-        <example>анти-Забужко</example>
-      </rule>
-    </rulegroup>
--->
+
     <rulegroup id="SLOVA_BEZ_DEFISU" name="Слова без дефісу">
       <rule>
         <antipattern>
@@ -64,8 +48,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">[»"”“]</token>
         </antipattern>
         <pattern>
-          <token regexp="yes">(авіа|авто|агро|анти|біо|вело|водо|газо|геліо|гео|гідро|гіпер|давньо|древньо|екзо|екстра|електро|зоо|ізо|квазі|кіно|космо|контр|лже|макро|мета|метео|мікро|мілі|моно|мото|мульти|нео|псевдо|пост|радіо|рентгено|стерео|супер|теле|транс|турбо|ультра|фоно|фото)[-–][а-яіїєґ][^-]{2,}
-            <exception inflected="yes" regexp="yes">геліо-кадмієвий|водо-водяний|супер-пупер.*|водо-водо.*</exception>
+          <token regexp="yes">(авіа|авто|агро|анти|аудіо|біо|вело|відео|водо|газо|геліо|гео|гідро|гіпер|давньо|древньо|екзо|екстра|електро|зоо|ізо|квазі|кіно|космо|контр|лже|макро|мета|метео|мікро|мілі|моно|мото|мульти|нео|псевдо|пост|радіо|рентгено|стерео|супер|теле|транс|турбо|ультра|фоно|фото)[-–][а-яіїєґ][^-]{2,}
+            <exception inflected="yes" regexp="yes">аудіо-відео|геліо-кадмієвий|водо-водяний|супер-пупер.*|водо-водо.*</exception>
             <exception regexp="yes">контр[-–]адмір.*</exception>
             <exception case_sensitive="yes" regexp="yes">.+[–-][А-ЯІЇЄҐ].*</exception>
           </token>
@@ -76,6 +60,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="мультивалютний"><marker>мульти-валютний</marker> обмін.</example>
         <example correction="ультрагіркий">У цього овоча <marker>ультра-гіркий</marker> присмак.</example>
         <example correction="Квазісмішний"><marker>Квазі-смішний</marker> жарт.</example>
+        <example correction="гідроаеропорт"><marker>гідро-аеропорт</marker>.</example>
         <example>анти-Забужко</example>
         <example>мета-2013</example>
         <example>на «Супер-нова»</example>
@@ -352,7 +337,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token regexp="yes">(авт\.|ред\.)</token>
         </antipattern>
         <pattern>
-          <token case_sensitive="yes" regexp="yes">[мк]?г|мкг|грн|год|крб|м?л|млн|млрд|[мнсдк]м|мкм|[нм]с|мкс|смт|хв</token>
+          <token case_sensitive="yes" regexp="yes">[мк]?г|мкг|грн|год|крб|м?л|млн|млрд|[мнсдк]м|мкм|[нм]с|мкс|смт|трлн|хв</token>
           <token negate_pos="yes" postag="SENT_END">.</token>
         </pattern>
         <message>Стягнені скорочення та метричні одиниці пишуться без крапки: <suggestion><match no="1"/></suggestion></message>

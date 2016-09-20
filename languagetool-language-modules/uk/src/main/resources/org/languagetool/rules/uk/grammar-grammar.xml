@@ -790,6 +790,67 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                  -->
             </rule>
         </rulegroup>
+
+        <rule id="VIDMINA_CHOLOVICHYH_PRIZVYSCH" name="Відмінювання чоловічих прізвищ">
+          <antipattern>
+            <token postag_regexp="yes" postag="noun.*:f.*:fname.*"/>
+            <token regexp="yes">і|й|та</token>
+            <token postag_regexp="yes" postag="noun.*:m.*:fname.*"/>
+            <token postag_regexp="yes" postag="noun.*:lname.*"/>
+          </antipattern>
+          <pattern>
+            <token postag_regexp="yes" postag="noun.*:m.*:fname.*">
+              <exception postag_regexp="yes" postag="noun.*:m:v_(naz|kly).*:fname.*"/>
+              <exception postag_regexp="yes" postag="noun.*:f.*:fname.*"/>
+              <exception regexp="yes">Тому|Ніколи</exception>
+              <exception postag_regexp="yes" postag="noun.*:prop(?!:fname).*"/>
+              <exception scope="previous" inflected="yes" regexp="yes">король|отець|патріарх</exception>
+            </token>
+            <marker>
+              <token postag_regexp="yes" postag="noun.*:m:v_naz.*:lname.*">
+                <exception postag_regexp="yes" postag="noun.*:m:v_[^n].*:lname.*"/>
+                <exception postag_regexp="yes" postag="noun.*:m:v_naz.*:fname.*"/>
+                <!--
+                <exception postag_regexp="yes" postag="noun.*:prop(?!:lname).*"/>
+                -->
+              </token>
+            </marker>
+          </pattern>
+          <message>Чоловіче прізвище відмінюється разом з іменем</message>
+          <!-- 
+          <suggestion><match no="1" postag_regexp="yes" postag="(noun.*:m.*:)fname(.*)" postag_replace="$1lname.*">\2</match></suggestion>
+           -->
+          <url>http://pravopys.kiev.ua/pravopys.aspx?SectionID=1765</url>
+          <example correction="">Бульвар Тараса <marker>Шевченко</marker></example>
+          <example correction="">прийшов до Андрія <marker>Громико</marker> секретар.</example>
+          <example>Прийшов Тарас Шевченко</example>
+          <example>Картина Жені Шевченко</example>
+          <example>Тому Путін цілком здатен...</example>
+          <example>Ніколи Ковтуненко не був паном</example>
+          <example>У Києві Шлемкевич працював секретарем</example>
+          <example>Ну, будь здоровий, Семене Гурко!</example>
+          <example>агент Сергія Шандор Варга</example>
+          <example>Син Павла Мартин теж став бурмистром</example>
+          <example>після смерті короля Данила Галич почав утрачати свою велич</example>
+          <example>...на Донеччину Московського Патріарха Кирила Янукович ходив за ним по п’ятах</example>
+          <example>спитав у отця Харитона Казанцев</example>
+
+          <!-- Лишаємо для іншого правила -->
+          <example>Подружжю Наталі та Сергія Гедзь судилося вписати свої імена...</example>
+          <example>виготовлені Людмилою і Мирославом Куць</example>
+          <example>Людмили та Юрія Миськів</example>
+
+          <!-- Важко розрізнити на граматичному рівні
+          <example>Прибіг до Єремії Тишкевич</example>
+          <example>охолодив Арсена Метелиця</example>
+          <example>де    колись приймав Андрія Донець</example>
+          <example>За нею увійшов Андрій, за Андрієм Рибалко</example>
+          <example>У партії з Анандом Пономарьов розіграв</example>
+          <example>як підвів Миколу Марчук</example>
+          <example>під наглядом Петера Йоханссон став</example>
+          -->
+        </rule>
+
     </category>
 
     <category id="LOGICAL_ERRORS" name="Логічні помилки">
