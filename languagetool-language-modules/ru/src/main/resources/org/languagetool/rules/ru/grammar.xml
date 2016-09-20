@@ -4518,12 +4518,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Пишется слитно.</short>
                 <example correction="заместо">Это новое оборудование можно  использовать <marker>за место</marker> старого.</example>
             </rule>
+            <!--TODO: навстречу   -->
             <rule>
-                <!-- навстречу насчёт   -->
+                <!--насчёт   -->      
                 <pattern case_sensitive="no">
                     <marker>
                     <token>на</token>
-                    <token regexp="yes" >встречу|счёт|счет</token>  <!--<exception scope="next" postag_regexp="yes" postag="*.:R"></exception>  в-->
+                    <token regexp="yes" >счёт|счет</token>  <!--<exception scope="next" postag_regexp="yes" postag="*.:R"></exception>  в-->
                     </marker>
                     <token><exception  postag="PREP"></exception><exception postag_regexp="yes" postag="VB:.*"></exception><exception>,</exception><exception  regexp="yes" inflected="yes">поставщик|заказчик|контрагент|покупатель|продавец|исполнитель|денежный|([0-9]*)</exception></token>
                     <token><exception  regexp="yes" >([0-9]*)[0-9.]</exception></token> 
@@ -4534,8 +4535,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Деньги переведены <marker>на счёт</marker> 00000000000000.</example>
                 <example>Деньги переведены <marker>на счёт</marker> Visa 11111111111111.</example>
                 <example>Деньги переведены <marker>на счёт</marker> поставщика.</example>
-                <example>Я иду <marker>на встречу</marker> с другом.</example>
-                <example correction="навстречу">Они шли <marker>на встречу</marker> друг другу.</example>
+       <!--     <example>Я иду <marker>на встречу</marker> с другом.</example>
+                <example correction="навстречу">Они шли <marker>на встречу</marker> друг другу.</example>  -->
                 <example correction="насчёт">Тебе следует быть осторожным <marker>на счёт</marker> того, чтобы пойти в поход.</example>
             </rule>
             <rule>
