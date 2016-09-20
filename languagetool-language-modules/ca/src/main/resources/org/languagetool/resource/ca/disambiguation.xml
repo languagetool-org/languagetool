@@ -7406,6 +7406,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="via_no_prep" name="via no preposició">
+        <pattern>
+            <token postag="D..FS." postag_regexp="yes"/>
+            <marker>
+                <token postag="NCFS000">via</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N.*|_GN_.*"></disambig>
+    </rule>
     <rule id="PREP_VERB" name="no Verb conjugat darrere de preposició">
         <!-- "de sumes": "sumes" no és verb. Mogut per "En forma part". Mogut amunt per "d'escriptura comú"
             Excep: per dintre sou, el vers diu -->
