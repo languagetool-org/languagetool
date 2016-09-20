@@ -39,7 +39,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.lucene.util.CollectionUtil;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
@@ -55,10 +54,9 @@ class CompoundTagger {
   private static final String TAG_ANIM = ":anim";
   private static final String TAG_INANIM = ":inanim";
   private static final String NV_TAG = ":nv";
-  private static final String COMPB_TAG = ":compb";
 //  private static final String V_U_TAG = ":v-u";
-  private static final Pattern EXTRA_TAGS = Pattern.compile("(:(v-u|np|ns|bad|slang|rare|xp[1-9]))+");
-//  private static final Pattern EXTRA_TAGS_DOUBLE = Pattern.compile("(:(nv|np|ns))+");
+  private static final Pattern EXTRA_TAGS = Pattern.compile(":bad");
+  private static final Pattern EXTRA_TAGS_DROP = Pattern.compile(":(compb|np|ns|slang|rare|xp[1-9])");
   private static final Pattern NOUN_SING_V_ROD_REGEX = Pattern.compile("noun.*?:[mfn]:v_rod.*");
   private static final Pattern NOUN_V_NAZ_REGEX = Pattern.compile("noun.*?:.:v_naz.*");
   private static final Pattern SING_REGEX_F = Pattern.compile(":[mfn]:");
@@ -87,10 +85,10 @@ class CompoundTagger {
   );
 
   private static final List<String> LEFT_INVALID = Arrays.asList(
-    "авіа", "авто", "агро", "біо", "вело", "водо", "газо", "геліо", "гео", "гідро", "давньо", "древньо", "екзо",
+    "авіа", "авто", "агро", "анти", "аудіо", "біо", "вело", "відео", "водо", "газо", "геліо", "гео", "гідро", "давньо", "древньо", "екзо",
     "екстра", "електро", "зоо", "ізо", "квазі", "кіно", "космо", "контр", "лже", "максимально", "мінімально", "макро", "мета",
-    "метео", "мікро", "мілі", "моно", "мото", "мульти", "напів", "нео", "палео", "псевдо", "радіо",
-    "рентгено", "соціо", "стерео", "супер", "теле", "термо", "турбо", "фоно", "фото"
+    "метео", "мікро", "мілі", "моно", "мото", "мульти", "напів", "нео", "палео", "пост", "псевдо", "радіо",
+    "рентгено", "соціо", "стерео", "супер", "теле", "термо", "турбо", "ультра", "фоно", "фото"
   );
 
   private static final List<String> LEFT_O_ADJ_INVALID = Arrays.asList(
@@ -189,7 +187,9 @@ class CompoundTagger {
       List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(leftAnalyzedTokens.size());
       for (AnalyzedToken analyzedToken : leftAnalyzedTokens) {
         String posTag = analyzedToken.getPOSTag();
-        if( posTag != null && leftTagRegex.matcher(posTag).matches() ) {
+        if( posTag != null &&
+            (leftWord.equals("дуже") && posTag.contains("adv")) 
+             || (leftTagRegex.matcher(posTag).matches()) ) {
           newAnalyzedTokens.add(new AnalyzedToken(word, posTag, analyzedToken.getLemma()));
         }
       }
@@ -253,7 +253,10 @@ class CompoundTagger {
 
     // exclude: Малишко-це, відносини-коли
 
-    if( ! leftWord.equalsIgnoreCase(rightWord) && PosTagHelper.hasPosTag(rightAnalyzedTokens, "(part|conj).*|.*:&pron.*") )
+    List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
+
+    if( ! leftWord.equalsIgnoreCase(rightWord) && PosTagHelper.hasPosTag(rightAnalyzedTokens, "(part|conj).*|.*:&pron.*") 
+        && ! (PosTagHelper.hasPosTag(leftAnalyzedTokens, "numr.*") && PosTagHelper.hasPosTag(rightAnalyzedTokens, "numr.*")) )
       return null;
 
 
@@ -296,7 +299,6 @@ class CompoundTagger {
       if( leftWdList.isEmpty() )
         return null;
       
-      List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
       return cityAvenueMatch(word, leftAnalyzedTokens);
     }
 
@@ -304,7 +306,7 @@ class CompoundTagger {
 
     // don't allow: Донець-кий, зовнішньо-економічний, мас-штаби
 
-    List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
+//    List<AnalyzedToken> leftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(leftWord, leftWdList);
     
     // allow га-га!
 
@@ -379,13 +381,15 @@ class CompoundTagger {
         leftPosTag = leftPosTag.replace(NV_TAG, "");
       }
 
-      Matcher matcher = EXTRA_TAGS.matcher(leftPosTag);
+      Matcher matcher = EXTRA_TAGS_DROP.matcher(leftPosTag);
+      if( matcher.find() ) {
+        leftPosTag = matcher.replaceAll("");
+      }
+
+      matcher = EXTRA_TAGS.matcher(leftPosTag);
       if( matcher.find() ) {
         leftPosTagExtra += matcher.group();
         leftPosTag = matcher.replaceAll("");
-      }
-      if( leftPosTag.contains(COMPB_TAG) ) {
-        leftPosTag = leftPosTag.replace(COMPB_TAG, "");
       }
 
       for (AnalyzedToken rightAnalyzedToken : rightAnalyzedTokens) {
@@ -404,12 +408,14 @@ class CompoundTagger {
           }
         }
 
-        Matcher matcherR = EXTRA_TAGS.matcher(rightPosTag);
+        Matcher matcherR = EXTRA_TAGS_DROP.matcher(rightPosTag);
         if( matcherR.find() ) {
           rightPosTag = matcherR.replaceAll("");
         }
-        if( rightPosTag.contains(COMPB_TAG) ) {
-          rightPosTag = rightPosTag.replace(COMPB_TAG, "");
+
+        matcherR = EXTRA_TAGS.matcher(rightPosTag);
+        if( matcherR.find() ) {
+          rightPosTag = matcherR.replaceAll("");
         }
         
         if (leftPosTag.equals(rightPosTag) 
@@ -777,7 +783,8 @@ class CompoundTagger {
 //      taggedFile = Files.createFile(tagged2File);
 //      taggedDebugWriter = Files.newBufferedWriter(tagged2File, Charset.defaultCharset());
     } catch (IOException ex) {
-      throw new RuntimeException(ex);
+//      throw new RuntimeException(ex);
+      System.err.println("Failed to open debug compounds file");
     }
   }
 
