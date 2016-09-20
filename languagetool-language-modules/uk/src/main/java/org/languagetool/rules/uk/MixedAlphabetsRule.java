@@ -42,7 +42,7 @@ public class MixedAlphabetsRule extends Rule {
 
   private static final Pattern LIKELY_LATIN_NUMBER = Pattern.compile("[XVIХІ]{2,8}");
   private static final Pattern LATIN_NUMBER_WITH_CYRILLICS = Pattern.compile("Х{1,3}І{1,3}|І{1,3}Х{1,3}|Х{2,3}|І{2,3}");
-  private static final Pattern MIXED_ALPHABETS = Pattern.compile(".*([a-zA-Z]'?[а-яіїєґА-ЯІЇЄҐ]|[а-яіїєґА-ЯІЇЄҐ]'?[a-zA-Z]).*");
+  private static final Pattern MIXED_ALPHABETS = Pattern.compile(".*([a-zA-ZïáÁéÉíÍḯḮóÓúýÝ]'?[а-яіїєґА-ЯІЇЄҐ]|[а-яіїєґА-ЯІЇЄҐ]'?[a-zA-ZïáÁéÉíÍḯḮóÓúýÝ]).*");
   private static final Pattern CYRILLIC_ONLY = Pattern.compile(".*[бвгґдєжзийїлнпфцчшщьюяБГҐДЄЖЗИЙЇЛПФЦЧШЩЬЮЯ].*");
   private static final Pattern LATIN_ONLY = Pattern.compile(".*[bdfghjlqrstvzDFGJLNQRSUVZ].*");
   private static final Pattern COMMON_CYR_LETTERS = Pattern.compile("[АВЕІКОРСТУХ]+");
@@ -157,8 +157,10 @@ public class MixedAlphabetsRule extends Rule {
 
   private static final Map<Character, Character> toLatMap = new HashMap<>();
   private static final Map<Character, Character> toCyrMap = new HashMap<>();
-  private static final String cyrChars = "аеікморстухАВЕІКМНОРСТУХ";
-  private static final String latChars = "aeikmopctyxABEIKMHOPCTYX";
+  private static final String cyrChars = "аеіїкморстухАВЕІКМНОРСТУХ";
+  private static final String latChars = "aeiïkmopctyxABEIKMHOPCTYX";
+  private static final String[] umlauts = { "á", "Á", "é", "É", "í", "Í", "ḯ", "Ḯ", "ó", "Ó", "ú", "ý", "Ý" };
+  private static final String[] umlautsReplace = { "а́", "А́", "е́", "Е́", "і́", "І́", "ї́", "Ї́", "о́", "О́", "и́", "у́", "У́" };
 
   static {
     for (int i = 0; i < cyrChars.length(); i++) {
@@ -170,6 +172,9 @@ public class MixedAlphabetsRule extends Rule {
   private static String toCyrillic(String word) {
     for (Map.Entry<Character, Character> entry : toCyrMap.entrySet()) {
       word = word.replace(entry.getKey(), entry.getValue());
+    }
+    for(int i=0; i<umlauts.length; i++) {
+      word = word.replace(umlauts[i], umlautsReplace[i]);
     }
     return word;
   }
