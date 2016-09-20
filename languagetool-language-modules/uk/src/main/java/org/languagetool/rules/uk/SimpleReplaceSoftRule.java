@@ -19,6 +19,8 @@
 package org.languagetool.rules.uk;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -29,14 +31,21 @@ import org.languagetool.rules.ITSIssueType;
 
 /**
  * A rule that matches words for which better alternatives exist and suggests them instead.
- * 
+ * On top of generic replacement list supports allowed word contexts, e.g.
+ * спасіння=ctx: релігія,поезія|рятування|...
  * Loads the relevant words from <code>rules/uk/replace_soft.txt</code>.
+ * 
+ * TODO: AbstractSimpleReplaceRule loads context as part of suggestion list
+ * and to be able to merge contexts for different lemmas we need to extract context out
+ * of suggestions list on every match. We may need to write our own replacement loader to make it right.
  * 
  * @author Andriy Rysin
  */
 public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
 
-  private static final Map<String, List<String>> wrongWords = load("/uk/replace_soft.txt");
+  private static final String CONTEXT_PREFIX = "ctx:";
+  private static Map<String, List<String>> wrongWords = load("/uk/replace_soft.txt");
+
 
   @Override
   protected Map<String, List<String>> getWrongWords() {
@@ -65,8 +74,20 @@ public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return tokenStr + " - нерекомендоване слово, кращий варіант: "
-        + StringUtils.join(replacements, ", ") + ".";
+    ContextRepl repl = findContext(replacements);
+    String replaceText = StringUtils.join(repl.replacements, ", ");
+
+    // this is a bit ugly as we're modifying original list
+    replacements.retainAll(repl.replacements);
+    
+    if( repl.contexts.size() > 0 ) {
+      return "«" + tokenStr + "» вживається лише в таких контекстах: " 
+          + StringUtils.join(repl.contexts, ", ")
+          + ", можливо ви мали на увазі: " + replaceText + "?";
+    }
+
+    return tokenStr + " — нерекомендоване слово, кращий варіант: "
+        + replaceText + ".";
   }
 
   @Override
@@ -74,4 +95,26 @@ public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
     return false;
   }
 
+  
+
+  private static ContextRepl findContext(List<String> replacements) {
+    ContextRepl contextRepl = new ContextRepl();
+    
+    for (String replacement: replacements) {
+      if( replacement.startsWith(CONTEXT_PREFIX) ) {
+        contextRepl.contexts.addAll(Arrays.asList(replacement.replace(CONTEXT_PREFIX, "").trim().split(", *")));
+      }
+      else {
+        contextRepl.replacements.add(replacement);
+      }
+    }
+    
+    return contextRepl;
+  }
+
+  private static final class ContextRepl {
+    final List<String> contexts = new ArrayList<>();
+    final List<String> replacements = new ArrayList<>();
+  }
+  
 }

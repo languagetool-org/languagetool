@@ -58,11 +58,6 @@ public class SimpleReplaceRuleTest {
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("Нападник", "Нападальний", "Нападний"), matches[0].getSuggestedReplacements());
 
-    //refl
-    matches = rule.match(langTool.getAnalyzedSentence("відображаються"));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("показуватися", "зображатися", "відбиватися"), matches[0].getSuggestedReplacements());
-
     // test ignoreTagged
     matches = rule.match(langTool.getAnalyzedSentence("щедрота"));
     assertEquals(1, matches.length);
@@ -70,9 +65,5 @@ public class SimpleReplaceRuleTest {
 
     matches = rule.match(langTool.getAnalyzedSentence("щедроти"));
     assertEquals(0, matches.length);
-
-    matches = rule.match(langTool.getAnalyzedSentence("Задля благоустрою."));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("упорядковувати", "упорядкувати", "упоряджати", "упорядити", "доброустрій", "порядок", "добрий лад"), matches[0].getSuggestedReplacements());
   }
 }
