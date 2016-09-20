@@ -398,9 +398,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       String ignoredWord = word.substring(0, end);
       String partialWord = word.substring(end);
       boolean needFugenS = ENDINGS_NEEDING_FUGEN_S.stream().anyMatch(ending -> ignoredWord.endsWith(ending));
-      if(!needFugenS) {
+      if(!needFugenS && partialWord.length() > 1) {
           return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(WordUtils.capitalize(partialWord));
-      } else if(needFugenS && partialWord.startsWith("s")) {
+      } else if(needFugenS && partialWord.startsWith("s") && partialWord.length() > 2) {
           partialWord = partialWord.substring(1);
           return !hunspellDict.misspelled(partialWord) || !hunspellDict.misspelled(WordUtils.capitalize(partialWord));
       }
