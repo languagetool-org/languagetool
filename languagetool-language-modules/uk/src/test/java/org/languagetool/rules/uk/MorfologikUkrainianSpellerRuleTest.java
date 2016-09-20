@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.uk;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -132,4 +132,35 @@ public class MorfologikUkrainianSpellerRuleTest {
 
   }
 
+  @Test
+  public void testProhibitedSuggestions() throws IOException {
+    MorfologikUkrainianSpellerRule rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian());
+    JLanguageTool langTool = new JLanguageTool(new Ukrainian());
+    
+    RuleMatch[] match = rule.match(langTool.getAnalyzedSentence("онлайннавчання"));
+    assertEquals(1, match.length);
+
+//    assertEquals(Arrays.asList("онлайн-навчання"), match[0].getSuggestedReplacements());
+    
+    match = rule.match(langTool.getAnalyzedSentence("авіабегемот"));
+    assertEquals(1, match.length);
+
+    assertTrue("Should be empty: " + match[0].getSuggestedReplacements().toString(), match[0].getSuggestedReplacements().isEmpty());
+
+    match = rule.match(langTool.getAnalyzedSentence("вело-маршрут"));
+    assertEquals(1, match.length);
+
+    assertEquals(Arrays.asList("веломаршрут"), match[0].getSuggestedReplacements());
+
+    match = rule.match(langTool.getAnalyzedSentence("відео-маршрут"));
+    assertEquals(1, match.length);
+
+    assertEquals(new ArrayList<String>(), match[0].getSuggestedReplacements());
+
+    match = rule.match(langTool.getAnalyzedSentence("вело-бегемот"));
+    assertEquals(1, match.length);
+
+    assertTrue("Unexpected suggestions: " + match[0].getSuggestedReplacements().toString(), match[0].getSuggestedReplacements().isEmpty());
+  }  
+  
 }
