@@ -26,6 +26,12 @@
   * added some rules
   * added words suggested by users
 
+#### Ukrainian
+  * added ~6k new words
+  * added many new grammar and styling rules
+  * added many new barbarism replacement suggestions
+  * improved dynamic word tagging
+
 #### General
   * Bugfix: avoid repeating the same suggestion
   * Enhancement: ignore e-mail addresses
