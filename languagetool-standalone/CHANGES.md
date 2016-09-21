@@ -23,6 +23,7 @@
   * added rules
 
 #### Russian
+  * now possible checking the texts with the signs of stress
   * added and improved many new grammar and style rules
   * added words suggested by users
   * impoved disambiguation rules
