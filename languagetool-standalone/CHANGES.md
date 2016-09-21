@@ -23,8 +23,10 @@
   * added rules
 
 #### Russian
-  * added some rules
+  * added and improved many new grammar and style rules
   * added words suggested by users
+  * impoved disambiguation rules
+  * for review, test and improve rules, feedback in bugtracker thanks to Konstantin Ladutenko
 
 #### Ukrainian
   * added ~6k new words
