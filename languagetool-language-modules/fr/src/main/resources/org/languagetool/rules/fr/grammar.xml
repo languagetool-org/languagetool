@@ -7546,13 +7546,11 @@ though, and has since been slightly modified)-->
         <example correction="souris">La <marker>sourie</marker> d’agneau est un morceau de viande.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="COURANT_COURENT" name="courant et courent">
-      <rule>
-        <regexp mark="1">\b(courent)[  ](?:alternatif|continu|[ée]lectrique|marin|océanique|triphasé|d[’´'‛′‘e](?:air|atmosphérique|eau|[eé]quatorial||foucault|marée|surface))</regexp>
-        <message>Confusion probable entre le nom <suggestion>courant</suggestion> et le verbe conjugué « courent ».</message>
-        <example correction="courant">Le <marker>courent</marker> électrique.</example>
-      </rule>
-    </rulegroup>
+    <rule id="COURANT_COURENT" name="courant et courent">
+      <regexp mark="1">\b(courent)[  ](?:alternatif|atmosphérique|continu|[ée]lectrique|marin|océanique|triphasé|d[’´'‛′‘e](?:air|eau|[eé]quatorial|foucault|marée|surface))</regexp>
+      <message>Confusion probable entre le nom <suggestion>courant</suggestion> et le verbe conjugué « courent ».</message>
+      <example correction="courant">Le <marker>courent</marker> électrique.</example>
+    </rule>
   </category>
   <category id="CAT_ELISION" name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
