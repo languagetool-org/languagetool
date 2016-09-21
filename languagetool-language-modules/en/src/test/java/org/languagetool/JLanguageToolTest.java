@@ -27,6 +27,7 @@ import org.languagetool.language.English;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,6 +71,19 @@ public class JLanguageToolTest {
       System.out.println("Suggested correction(s): " +
           match.getSuggestedReplacements());
     }
+  }
+
+  @Ignore("not a test, but used on http://wiki.languagetool.org/java-spell-checker")
+  @Test
+  public void spellCheckerDemoCodeForHomepageWithAddedWords() throws IOException {
+    JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
+    for (Rule rule : langTool.getAllRules()) {
+      if (rule instanceof SpellingCheckRule) {
+        ((SpellingCheckRule) rule).addIgnoreTokens(Arrays.asList("myspecialword", "anotherspecialword"));
+      }
+    }
+    List<RuleMatch> matches = langTool.check("These are myspecialword and anotherspecialword");
+    System.out.println(matches.size() + " matches");   // => "0 matches"
   }
 
   @Test
