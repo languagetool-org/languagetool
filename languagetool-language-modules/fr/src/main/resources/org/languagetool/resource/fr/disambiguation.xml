@@ -65,22 +65,23 @@ RB => Règles Brutes
     <disambig postag="A"/>
   </rule>
 
-  <rule id="LE_LA_PR_OBJ" name="le/la pronom objet">
-    <pattern>
-      <token regexp="yes">je|tu|ils?|ne</token>
-      <marker><token regexp="yes">l[ae]?|les</token></marker>
-      <token postag="V.*" postag_regexp="yes"/>
-    </pattern>
-    <disambig action="filter" postag="R pers.*"/>
-  </rule>
-
-  <rule name="de le" id="DE_LE">
-    <pattern>
-      <token>de</token>
-      <marker><token>le</token></marker>
-    </pattern>
-    <disambig action="filter" postag="R.*"/>
-  </rule>
+  <rulegroup id="LE_LA_PR_OBJ" name="le/la pronom objet">
+    <rule>
+      <pattern>
+        <token regexp="yes">je|tu|ils?|ne</token>
+        <marker><token regexp="yes">l[ae]?|les</token></marker>
+        <token postag="V.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="R pers.*"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">à|de</token>
+        <marker><token>les?</token></marker>
+      </pattern>
+      <disambig action="filter" postag="R.*"/>
+    </rule>
+  </rulegroup>
 
   <rule name="UN" id="un">
     <pattern><token>un</token></pattern>
