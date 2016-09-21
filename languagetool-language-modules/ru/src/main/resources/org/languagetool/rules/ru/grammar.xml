@@ -5936,6 +5936,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Он подошёл к зелёному дому.</example>
             <example correction="к зелёному|зелёный">Он подошёл <marker>к зелёный</marker> дому.</example>
         </rule>
+        <rule default="on" id="PREP_K_and_Num" name="Предлог «к» и числительное">
+            <pattern>
+                <!--              PREP к, ко -> Num:.*:D   -->
+                <token regexp="yes">к|ко</token>
+                <token postag="Num:.*:.*" postag_regexp="yes">
+                    <exception postag="Num:.*:D" postag_regexp="yes"></exception>
+                    <exception postag="Num:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                </token>
+            </pattern>
+            <message>Предлог «к» предполагает употребление числительного в дательном падеже: <suggestion><match no="1"></match> <match no="2" postag="Num:(.*):.*" postag_regexp="yes" postag_replace="Num:$1:D"></match></suggestion></message>
+            <short>Требуется дательный падеж.</short>
+            <example>Один к двум.</example>
+            <example correction="к двум">Один <marker>к два</marker>.</example>
+        </rule>
         
         <rule default="on" id="PREP_V_VS_NA" name="Предлог «в» или предлог «на» и существительное">
             <pattern>
