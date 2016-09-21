@@ -2176,14 +2176,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- Вводные слова: итак, следовательно, во-первых, наконец, между прочим, ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—<exception postag="SENT_START"></exception><exception regexp="yes">[аА]</exception></token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|[«"]<exception postag="SENT_START"></exception><exception regexp="yes">[аА]</exception></token>
                     <token regexp="yes">итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых</token>
-                    <token negate="yes" regexp="yes">,|далее</token>
+                    <token negate="yes" regexp="yes">,|далее|[»]</token>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\1, \2, \3</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Пропущена запятая.</short>
                 <example>Эта работа, во-первых, представляет огромную научную ценность.</example>
+                <example>Вводное слово «во-вторых».</example>
                 <example>Эта работа была выполнена полностью, <marker>а следовательно,</marker> должна быть рассмотрена в первую очередь.</example>
                 <example correction="работа, во-первых, представляет">Эта <marker>работа во-первых представляет</marker> огромную научную ценность.</example>
             </rule>
@@ -3594,9 +3595,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				        <exception postag="NN:.*" postag_regexp="yes"/>
 			        </token>
 		        </pattern>
-		        <message>Прилагательное не согласуется с
-		        существительным по роду:
-		        </message>
+		        <message>Прилагательное не согласуется с существительным по роду.</message>
 		        <example>Крепкие столы.</example>
 		        <example>Суеверие — это религия слабых духом.</example>
 		        <example>Счастливые часов не наблюдают.</example>
@@ -3698,7 +3697,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				        <exception>щеткой</exception>
 			        </token>
 		        </pattern>
-		        <message>Прилагательное не согласуется с существительным по падежу:</message>
+		        <message>Прилагательное не согласуется с существительным по падежу.</message>
 		        <example>Ставшие хрестоматийными слова «Природой здесь нам суждено в Европу прорубить окно», которые А. С. Пушкин вкладывает в уста Петра I — лишь риторически эффектная фраза.</example>
 		        <example correction="">Я терпеть не могу эту <marker>глупою женщину</marker>.</example>
 		        <example>Временными правительства называли журналисты.</example>
