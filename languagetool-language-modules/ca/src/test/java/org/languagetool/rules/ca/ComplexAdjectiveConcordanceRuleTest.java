@@ -71,7 +71,8 @@ public class ComplexAdjectiveConcordanceRuleTest {
      */
     // (en especial si hi ha un adverbi entremig: en algun grau més distintes
     //assertCorrect("Es van somriure l'una a l'altra encara dretes, suades i panteixants,");
-//    assertCorrect("una combinació de dos o més metalls obtinguda generalment");
+    //assertCorrect("una combinació de dos o més metalls obtinguda generalment");
+    assertCorrect("La raó sol allunyar-se dels extrems");
     assertCorrect("L'URL introduït");
     assertCorrect("Som els més antisistema");
     assertCorrect("En un entorn de prova segur");
