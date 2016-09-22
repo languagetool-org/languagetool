@@ -84,6 +84,11 @@ public class AgreementRule extends GermanRule {
       new PatternTokenBuilder().token("einer").build(),
       new PatternTokenBuilder().token("jeden").build(),
       new PatternTokenBuilder().posRegex("SUB:GEN:.*").build()  // "Kern einer jeden Tragödie..."
+    ),
+    Arrays.asList(
+      new PatternTokenBuilder().token("kein").build(),
+      new PatternTokenBuilder().token("schöner").build(),
+      new PatternTokenBuilder().token("Land").build()  // https://de.wikipedia.org/wiki/Kein_sch%C3%B6ner_Land
     )
   );
 
