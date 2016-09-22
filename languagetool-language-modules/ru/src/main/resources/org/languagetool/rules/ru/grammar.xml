@@ -5941,13 +5941,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">к|ко</token>
                 <token postag="Num:.*:.*" postag_regexp="yes">
                     <exception postag="Num:.*:D" postag_regexp="yes"></exception>
-                    <exception postag="Num:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
+                    <exception  postag="PADJ:.*:D" postag_regexp="yes"/>
                 </token>
             </pattern>
             <message>Предлог «к» предполагает употребление числительного в дательном падеже: <suggestion><match no="1"></match> <match no="2" postag="Num:(.*):.*" postag_regexp="yes" postag_replace="Num:$1:D"></match></suggestion></message>
             <short>Требуется дательный падеж.</short>
             <example>Один к двум.</example>
             <example correction="к двум">Один <marker>к два</marker>.</example>
+            <example correction="к одному">Один <marker>к один</marker>.</example>
         </rule>
         
         <rule default="on" id="PREP_V_VS_NA" name="Предлог «в» или предлог «на» и существительное">
