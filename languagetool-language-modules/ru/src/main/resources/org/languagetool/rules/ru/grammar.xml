@@ -5935,7 +5935,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Он подошёл к зелёному дому.</example>
             <example correction="к зелёному|зелёный">Он подошёл <marker>к зелёный</marker> дому.</example>
         </rule>
-        <rule default="on" id="PREP_K_and_Num" name="Предлог «к» и числительное">
+        <rulegroup default="on" id="PREP_K_and_Num" name="Предлог «к» и числительное">
+          <rule>
             <pattern>
                 <!--              PREP к, ко -> Num:.*:D   -->
                 <token regexp="yes">к|ко</token>
@@ -5950,7 +5951,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="к двум">Один <marker>к два</marker>.</example>
             <example correction="к одному">Один <marker>к один</marker>.</example>
         </rule>
-        
+        <rule>
+          <pattern>
+                <!--              PREP к, ко -> NumC:D   -->
+                <token regexp="yes">к|ко</token>
+                <token postag="NumC:.*" postag_regexp="yes"><exception postag="NumC:D" ></exception></token>
+            </pattern>
+            <message>Предлог «к» предполагает употребление числительного в дательном падеже: <suggestion><match no="1"></match> <match no="2" postag="NumC:.*" postag_regexp="yes" postag_replace="NumC:D"></match></suggestion></message>
+            <short>Требуется дательный падеж.</short>
+            <example correction="к трём">Один <marker>к тремя</marker>.</example>
+        </rule>
+        </rulegroup>
         <rule default="on" id="PREP_V_VS_NA" name="Предлог «в» или предлог «на» и существительное">
             <pattern>
                 <!--              PREP в (or PREP на)  + Noun   -->
