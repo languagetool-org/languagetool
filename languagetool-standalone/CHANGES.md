@@ -12,6 +12,12 @@
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
   * added category `MISUSED_TERMS_EU_PUBLICATIONS`
 
+#### Esperanto
+  * added and improved rules
+
+#### French
+  * added and improved rules
+
 #### German
   * added rules
   * fixed several false alarms
@@ -26,7 +32,7 @@
   * now possible checking the texts with the signs of stress
   * added and improved many new grammar and style rules
   * added words suggested by users
-  * impoved disambiguation rules
+  * improved disambiguation rules
   * for review, test and improve rules, feedback in bugtracker thanks to Konstantin Ladutenko
 
 #### Ukrainian
