@@ -330,8 +330,14 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("де-куди", "де-куди/[null]null", tokenizer, tagger);
     TestTools.myAssert("чи-то", "чи-то/[null]null", tokenizer, tagger);
 //    TestTools.myAssert("як-то", "як-то/[як-то]conj:subord:bad", tokenizer, tagger);
+
+
+    // \n may happen in words when we have soft-hyphen wrap: \u00AD\n
+    // in this case we strip \u00AD but leave \n in the word
+    // but this may not happen often, need research if we need this
+//    TestTools.myAssert("стін\nку", "", tokenizer, tagger);
   }
-  
+
   private void assertNotTagged(String word) throws IOException {
   	TestTools.myAssert(word, word+"/[null]null", tokenizer, tagger);
   }

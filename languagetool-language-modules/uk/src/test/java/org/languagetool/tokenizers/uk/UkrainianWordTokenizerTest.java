@@ -90,6 +90,12 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("— Гм.");
     assertEquals(Arrays.asList("—", " ", "Гм", "."), testList);
+
+    testList = w.tokenize("стін\u00ADку");
+    assertEquals(Arrays.asList("стін\u00ADку"), testList);
+
+    testList = w.tokenize("стін\u00AD\nку");
+    assertEquals(Arrays.asList("стін\u00AD\nку"), testList);
   }
 
   @Test

@@ -91,6 +91,8 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final String ELLIPSIS2_SUBST = "\uE101";
   private static final String ELLIPSIS3 = "?..";
   private static final String ELLIPSIS3_SUBST = "\uE102";
+  private static final String SOFT_HYPHEN_WRAP = "\u00AD\n";
+  private static final String SOFT_HYPHEN_WRAP_SUBST = "\uE103";
   // url
   private static final Pattern URL_PATTERN = Pattern.compile("^(https?|ftp)://[^\\s/$.?#].[^\\s]*$", Pattern.CASE_INSENSITIVE);
   private static final int URL_START_REPLACE_CHAR = 0xE300;
@@ -163,6 +165,10 @@ public class UkrainianWordTokenizer implements Tokenizer {
       text = BRACE_IN_WORD_PATTERN.matcher(text).replaceAll("$1" + LEFT_BRACE_SUBST + "$2" + RIGHT_BRACE_SUBST);
     }
 
+    if( text.contains(SOFT_HYPHEN_WRAP) ) {
+      text = text.replace(SOFT_HYPHEN_WRAP, SOFT_HYPHEN_WRAP_SUBST);
+    }
+
 //    if( text.contains(" ") ) {
 //      text = DECIMAL_SPACE_PATTERN.matcher(text).replaceAll("$1" + DECIMAL_SPACE_SUBST + "$2");
 //    }
@@ -186,10 +192,12 @@ public class UkrainianWordTokenizer implements Tokenizer {
       token = token.replace(COLON_DOT_SUBST, ':');
       token = token.replace(LEFT_BRACE_SUBST, '(');
       token = token.replace(RIGHT_BRACE_SUBST, ')');
-      token = token.replaceAll(ELLIPSIS_SUBST, ELLIPSIS);
-      token = token.replaceAll(ELLIPSIS2_SUBST, ELLIPSIS2);
-      token = token.replaceAll(ELLIPSIS3_SUBST, ELLIPSIS3);
+      token = token.replace(ELLIPSIS_SUBST, ELLIPSIS);
+      token = token.replace(ELLIPSIS2_SUBST, ELLIPSIS2);
+      token = token.replace(ELLIPSIS3_SUBST, ELLIPSIS3);
 //      token = token.replaceAll(""+BREAKING_DOT_SUBST, "");
+
+      token = token.replace(SOFT_HYPHEN_WRAP_SUBST, SOFT_HYPHEN_WRAP);
 
       if( ! urls.isEmpty() ) {
         for(Entry<String, String> entry : urls.entrySet()) {
@@ -205,14 +213,6 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
   private static String cleanup(String text) {
     text = text.replace('’', '\'').replace('ʼ', '\'').replace('‘', '\'');
-
-//    if( text.contains("\u0301") || text.contains("\u00AD") ) {
-//      text = text.replace("\u0301", "").replace("\u00AD", "");
-//    }
-
-//    while( text.contains("\u0301") || text.contains("\u00AD") ) {
-//      text = IGNORE_CHARS_PATTERN.matcher(text).replaceAll("$1$3");
-//    }
 
     return text;
   }

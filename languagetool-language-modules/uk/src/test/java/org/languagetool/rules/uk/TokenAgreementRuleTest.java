@@ -214,10 +214,6 @@ public class TokenAgreementRuleTest {
   
   @Test
   public void testSpecialChars() throws IOException {
-    TokenAgreementRule rule = new TokenAgreementRule(TestTools.getMessages("uk"));
-
-    JLanguageTool langTool = new JLanguageTool(new Ukrainian());
-
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("по не́рвам, по мо\u00ADстам, по воротам"));
     // check match positions:
     assertEquals(3, matches.length);
@@ -235,6 +231,15 @@ public class TokenAgreementRuleTest {
 
     assertEquals(27, matches[2].getFromPos());
     assertEquals(Arrays.asList("воротах", "воротях", "ворота"), matches[2].getSuggestedReplacements());
+  }
+
+  @Test
+  public void testUnusualCharacters() throws IOException {
+    String txt = "о стін\u00AD\nку";
+
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(txt));
+    assertEquals(0, matches.length);
+
   }
 
 }
