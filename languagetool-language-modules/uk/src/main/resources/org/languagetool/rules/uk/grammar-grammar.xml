@@ -358,6 +358,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         <rulegroup id="CONSISTENCY_NOUN_NUMERIC_WHOLE" name="Узгодженість числа іменників з цілими числівниками">
             <rule>
+              <pattern>
+                <token regexp="yes">два|дві|три|чотири|.*[2-9]?[234]</token>
+                <token>з</token>
+                <token regexp="yes">половиною|третиною|чвертю</token>
+                <token postag_regexp="yes" postag="adj.*" min="0"/>
+                <marker>
+                  <token postag_regexp="yes" postag="noun.*?:[fm]:v_rod.*">
+                    <exception postag_regexp="yes" postag="noun.*?:p:v_naz.*"/>
+                    <exception>людини</exception>  <!-- until we fix the lemma -->
+                  </token>
+                </marker>
+              </pattern>
+              <message>Після числівника, що закінчується на 2-4 іменник має стояти в називному відмінку множини: <suggestion><match no="5" postag="noun.*?:p:v_naz.*" postag_regexp="yes"/></suggestion></message>
+              <url>http://mova.kreschatic.kiev.ua/228.htm</url>
+              <example correction="тижні">24 з половиною <marker>тижня</marker></example>
+              <example correction="тижні">24 з половиною довгих <marker>тижня</marker></example>
+              <example>двадцять три з половиною дні</example>
+              <example>дві з половиною тисячі</example>
+              <example>Дві з половиною людини</example>
+            </rule>
+            <rule>
                 <antipattern>
                     <token regexp="yes">соті|десяті|.*[234]</token>
                     <token case_sensitive="yes" postag_regexp="yes" postag="noun.*?:m:v_rod.*" regexp="yes">[А-ЯІЇЄҐ].*</token>
@@ -420,6 +441,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- adj/v_rod + noun/v_naz -->
                 <example>Дві людських руки</example>
                 <example>Два білих горнятка</example>
+            </rule>
+            <rule>
+              <pattern>
+                <token regexp="yes" inflected="yes">п'ять|шість|сім|вісім|дев'ять|десять|.*надцять|двадцять|тридцять|сорок|.*десят|дев'яносто|сотня|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|дев'ятсот|тисяча|мільйон|мільярд</token>
+                <token>з</token>
+                <token regexp="yes">половиною|третиною|чвертю</token>
+                <token postag_regexp="yes" postag="adj.*" min="0"/>
+                <marker>
+                  <token postag_regexp="yes" postag="noun:(in)?anim:m:v_naz.*" regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|бар|бер|ват|вольт|солдат|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)
+                    <exception case_sensitive="yes">ВАТ</exception>
+                  </token>
+                </marker>
+              </pattern>
+              <message>Після числівника що закінчується на 5-9 або 0 іменник має стояти в родовому відмінку множини: <suggestion><match no="5" postag="noun:(in)?anim:p:v_rod.*" postag_regexp="yes"/></suggestion></message>
+              <example correction="мілібарів">десять з чвертю <marker>мілібар</marker></example>
+              <example correction="солдатів">дві сотні з половиною <marker>солдат</marker></example>
+              <example correction="солдатів">дві сотні з половиною хоробрих <marker>солдат</marker></example>
+              <example>п'ять з половиною <marker>разів</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -790,7 +829,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <exception postag_regexp="yes" postag="noun.*:f.*:fname.*"/>
               <exception regexp="yes">Тому|Ніколи</exception>
               <exception postag_regexp="yes" postag="noun.*:prop(?!:fname).*"/>
-              <exception scope="previous" inflected="yes" regexp="yes">король|отець|патріарх</exception>
+              <exception scope="previous" inflected="yes" regexp="yes">король|отець|патріарх|святий</exception>
             </token>
             <marker>
               <token postag_regexp="yes" postag="noun.*:m:v_naz.*:lname.*">
@@ -809,6 +848,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <url>http://pravopys.kiev.ua/pravopys.aspx?SectionID=1765</url>
           <example correction="">Бульвар Тараса <marker>Шевченко</marker></example>
           <example correction="">прийшов до Андрія <marker>Громико</marker> секретар.</example>
+          <example correction="">прийшов до Петра <marker>Порошенко</marker> секретар.</example>
           <example>Прийшов Тарас Шевченко</example>
           <example>Картина Жені Шевченко</example>
           <example>Тому Путін цілком здатен...</example>
@@ -820,6 +860,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>після смерті короля Данила Галич почав утрачати свою велич</example>
           <example>...на Донеччину Московського Патріарха Кирила Янукович ходив за ним по п’ятах</example>
           <example>спитав у отця Харитона Казанцев</example>
+          <example>у соборі Святого Петра Ющенко</example>
 
           <!-- Лишаємо для іншого правила -->
           <example>Подружжю Наталі та Сергія Гедзь судилося вписати свої імена...</example>

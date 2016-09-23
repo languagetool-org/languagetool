@@ -306,6 +306,20 @@
         <example type="untouched">Чули її добре.</example>
     </rule>
 
+    <rule name="Петра з українськими прізвищами" id="PETRA_FNAME_MASC">
+      <pattern case_sensitive="yes">
+        <marker>
+          <token regexp="yes">Петр[аіу]</token>
+        </marker>
+        <token inflected="yes" regexp="yes" postag_regexp="yes" postag="noun.*:lname.*">.*енко|.*[ую]к</token>
+      </pattern>
+      <disambig action="remove" postag="noun:anim:f.*:fname.*"/>
+      <example type="ambiguous" 
+          inputform="Петра[Петра/noun:anim:f:v_naz:prop:fname,Петро/noun:anim:m:v_rod:prop:fname,Петро/noun:anim:m:v_zna:prop:fname]" 
+          outputform="Петра[Петро/noun:anim:m:v_rod:prop:fname,Петро/noun:anim:m:v_zna:prop:fname]">Приїхали до <marker>Петра</marker> Порошенка.</example>
+      <example type="untouched">Обдурила Петра Марка — не вийшла за нього.</example>
+    </rule>
+
     <rule name="Лютого" id="LYUTYI">
         <pattern>
           <token regexp="yes">[1-9]|[12][0-9]</token>
