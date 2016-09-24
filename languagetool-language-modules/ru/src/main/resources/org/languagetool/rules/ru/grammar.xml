@@ -2642,6 +2642,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
+        <rulegroup default="on" id="NO_VVODNOE_VIR" name="Словосочетания не являющиеся вводными">
+            <!-- Выражения в начале предложения не выделяются запятыми.
+            Для того чтобы
+            С тех пор как
+            После того как
+            Несмотря на то что
+            В случае если
+            По мере того как
+            До того как
+            Вместо того чтобы
+            Тем более что
+            Перед тем как
+            Тем не менее
+            Причём
+            В то время как
+            -->
+            <rule>
+                <pattern> 
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>Для</token>
+                        <token>того</token>          
+                        <token>чтобы</token>
+                        <token>,</token>
+                    </marker>
+                </pattern>
+                <message>Выражение не является вводным. Запятые не нужны:<suggestion>\2 \3 \4</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Запятые не нужны.</short>
+                <example>Для того чтобы желе застыло, нужно его около часа подержать в холодильнике.</example>
+                <example correction="Для того чтобы"><marker>Для того чтобы,</marker> желе застыло, нужно его около часа подержать в холодильнике.</example>
+            </rule>
+        
+        </rulegroup>
+        
         <rulegroup default="on" id="NO_NE_KAK" name="«Почти как», «не как», ...">
             <!--Перед сравнительным оборотом стоит "не" или слова: совсем, совершенно, почти, именно  ->> запятая не ставится.
             -->
