@@ -2690,7 +2690,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- Запятая не ставится в цельных выражениях:
             и то и се,  
             ни то ни се,  
-            ни свет ни заря,  
+            ни свет ни заря,
+            ни дать ни взять,  
             и так и сяк,  
             и туда и сюда,  
             ни рыба ни мясо,  
@@ -2713,10 +2714,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>ни</token>
-                    <token regexp="yes">свет|рыба|жив</token>
+                    <token regexp="yes">свет|рыба|жив|дать</token>
                     <token>,</token>
                     <token>ни</token>
-                    <token regexp="yes">заря|мясо|мертв|мёртв</token>
+                    <token regexp="yes">заря|мясо|мертв|мёртв|взять</token>
                 </pattern>
                 <message>Запятая не нужна:<suggestion>\1 \2 \4 \5</suggestion>.</message>
                 <short>Запятая не нужна.</short>
@@ -2740,7 +2741,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             
         </rulegroup>
-       
+        <rulegroup default="on" id="VSE_KAK_NA_PODBOR" name="Цельные выражения: «все как на подбор», ...">
+            <!-- Запятая не ставится в цельных выражениях:
+            все как на подбор,
+	    ... ,
+            дрожит как осиновый лист 
+            -->
+            <rule>
+                <pattern>
+                    <token>все</token>
+                    <token>,</token>
+                    <token>как</token>
+                    <token>на</token>
+                    <token>подбор</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4 \5</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example>Все как на подбор, с ними дядька черномор.</example>
+                <example correction="Все как на подбор"><marker>Все, как на подбор</marker>, с ними дядька черномор.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">дрожать</token>
+                    <token>,</token>
+                    <token>как</token>
+                    <token>осиновый</token>
+                    <token>лист</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4 \5</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example>Он дрожит как осиновый лист.</example>
+                <example correction="дрожит как осиновый лист">Он <marker>дрожит, как осиновый лист</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup default="on" id="NEIZVESTNO_KTO" name="Цельные выражения: «неизвестно кто», ...">
             <!-- Запятая не ставится в цельных выражениях:
             неизвестно кто,
