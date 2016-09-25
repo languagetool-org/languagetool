@@ -2650,8 +2650,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             * После того как
             * До того как
             * По мере того как
-            Тем более что
-            Перед тем как
+            * Тем более что
+            * Перед тем как
             * Тем не менее
             * Причём
             * В то время как
@@ -2755,7 +2755,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="После того как"><marker>После того, как</marker> я вздремнул, взошла луна.</example>
                 <example correction="До того как"><marker>До того, как</marker> я вздремнул, взошла луна.</example>
             </rule>   
-                       
+                      
             <rule>
                 <pattern> 
                     <token postag="SENT_START"></token>
@@ -2823,6 +2823,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Запятая обычно не ставится.</short>
                 <example>По мере того как он ее слушал, насмешливая улыбка показывалась на его губах.</example>
                 <example correction="По мере того как"><marker>По мере того, как</marker> он ее слушал, насмешливая улыбка показывалась на его губах.</example>
+            </rule>
+            <rule>
+                <pattern> 
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>Перед</token>  
+                        <token>тем</token>
+                        <token>как</token>
+                        <token>,</token>
+                    </marker>
+                </pattern>
+                <message>Выражение не является вводным. Запятые не нужны:<suggestion>\2 \3 \4</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Запятые не нужны.</short>
+                <example>Перед тем как в стакан налить крутой кипяток, в него опускают ложку.</example>
+                <example correction="Перед тем как"><marker>Перед тем как,</marker> в стакан налить крутой кипяток, в него опускают ложку.</example>
+            </rule>
+            <rule>
+                <pattern> 
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>Тем</token>  
+                        <token>более</token>
+                        <token>что</token>
+                        <token>,</token>
+                    </marker>
+                </pattern>
+                <message>Выражение не является вводным. Запятые не нужны:<suggestion>\2 \3 \4</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Запятые не нужны.</short>
+                <example>Тем более что мыши являются переносчиком серьезных заболеваний.</example>
+                <example correction="Тем более что"><marker>Тем более что,</marker> мыши являются переносчиком серьезных заболеваний.</example>
+            </rule>
+            <rule>
+                <pattern> 
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>Тем</token>  
+                        <token>более</token>
+                        <token>,</token>
+                        <token>что</token>
+                    </marker>
+                </pattern>
+                <message>Сложный союз в начале предложения. Запятая обычно не ставится:<suggestion>\2 \3 \5</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_730</url>
+                <short>Запятая обычно не ставится.</short>
+                <example>Тем более что мыши являются переносчиком серьезных заболеваний.</example>
+                <example correction="Тем более что"><marker>Тем более, что</marker> мыши являются переносчиком серьезных заболеваний.</example>
             </rule>
             <rule>
                 <pattern> 
