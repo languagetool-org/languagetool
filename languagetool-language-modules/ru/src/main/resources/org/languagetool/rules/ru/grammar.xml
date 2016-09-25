@@ -3007,7 +3007,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup default="on" id="VSE_KAK_NA_PODBOR" name="Цельные выражения: «все как на подбор», ...">
             <!-- Запятая не ставится в цельных выражениях:
             все как на подбор,
-	    ... ,
+	    бледный как полотно (как смерть), пристать как с ножом к горлу,
+            блестеть как зеркало, седой как лунь, остановиться как вкопанный,
+            вертеться как белка в колесе, кататься как сыр в масле, голодный как волк (как собака),
+            идти как на казнь, лететь как стрела, красный как рак, знать как свои пять пальцев,
+            сидеть как на иголках, гол как сокол, чувствовать себя как дома, 
+            нужен как воздух, упасть как подкошенный, упрям как осел, развеяться как дым,
+            ударить как обухом по голове, ходить как в воду опущенный и др.
             дрожит как осиновый лист 
             -->
             <rule>
@@ -3035,6 +3041,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Запятая не нужна.</short>
                 <example>Он дрожит как осиновый лист.</example>
                 <example correction="дрожит как осиновый лист">Он <marker>дрожит, как осиновый лист</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>нужен</token>
+                    <token>,</token>
+                    <token>как</token>
+                    <token>воздух</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example>Он нужен как воздух.</example>
+                <example correction="нужен как воздух">Он <marker>нужен, как воздух</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">упасть</token>
+                    <token>,</token>
+                    <token>как</token>
+                    <token>подкошенный</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example>Он упал как подкошенный.</example>
+                <example correction="упал как подкошенный">Он <marker>упал, как подкошенный</marker>.</example>
+            </rule>
+             <rule>
+                <pattern>
+                    <token inflected="yes">упрямый</token>
+                    <token>,</token>
+                    <token>как</token>
+                    <token regexp="yes">осёл|осел</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example>Он упрям как осёл.</example>
+                <example correction="упрям как осёл">Он <marker>упрям, как осёл</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup default="on" id="NEIZVESTNO_KTO" name="Цельные выражения: «неизвестно кто», ...">
