@@ -2642,27 +2642,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rulegroup default="on" id="NO_VVODNOE_VIR" name="Словосочетания не являющиеся вводными">
+        <rulegroup default="on" id="COMPLEX_SOUZ_PUNCT_START_S" name="Сложный союз в начале предложения">
             <!-- Выражения в начале предложения не выделяются запятыми.
-            Для того чтобы
-            С тех пор как
-            После того как
+            * Для того чтобы
+            * Вместо того чтобы            
+            * С тех пор как
+            * После того как
+            * До того как
             Несмотря на то что
             В случае если
             По мере того как
-            До того как
-            Вместо того чтобы
             Тем более что
             Перед тем как
             Тем не менее
             Причём
-            В то время как
+            * В то время как
             -->
             <rule>
                 <pattern> 
                     <token postag="SENT_START"></token>
                     <marker>
-                        <token>Для</token>
+                        <token regexp="yes">Для|Вместо</token>
                         <token>того</token>          
                         <token>чтобы</token>
                         <token>,</token>
@@ -2678,7 +2678,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern> 
                     <token postag="SENT_START"></token>
                     <marker>
-                        <token>Для</token>
+                        <token regexp="yes">Для|Вместо</token>
                         <token>того</token>          
                         <token>,</token>
                         <token>чтобы</token>
@@ -2728,7 +2728,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern> 
                     <token postag="SENT_START"></token>
                     <marker>
-                        <token>После</token>
+                        <token regexp="yes">После|До</token>
                         <token>того</token>          
                         <token>как</token>
                         <token>,</token>
@@ -2744,7 +2744,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern> 
                     <token postag="SENT_START"></token>
                     <marker>
-                        <token>После</token>
+                        <token regexp="yes">После|До</token>
                         <token>того</token>
                         <token>,</token>          
                         <token>как</token>
@@ -2755,6 +2755,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Запятые не нужны.</short>
                 <example>После того как я вздремнул, взошла луна.</example>
                 <example correction="После того как"><marker>После того, как</marker> я вздремнул, взошла луна.</example>
+                <example correction="До того как"><marker>До того, как</marker> я вздремнул, взошла луна.</example>
             </rule>   
                        
             <rule>
