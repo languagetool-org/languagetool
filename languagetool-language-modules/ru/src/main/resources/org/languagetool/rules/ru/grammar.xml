@@ -2724,6 +2724,73 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>С тех пор как желе застыло, нужно его около часа подержать в холодильнике.</example>
                 <example correction="С тех пор как"><marker>С тех пор, как</marker> желе застыло, нужно его около часа подержать в холодильнике.</example>
             </rule>
+            <rule>
+                <pattern> 
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>После</token>
+                        <token>того</token>          
+                        <token>как</token>
+                        <token>,</token>
+                    </marker>
+                </pattern>
+                <message>Выражение не является вводным. Запятые не нужны:<suggestion>\2 \3 \4</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Запятые не нужны.</short>
+                <example>После того как я вздремнул, взошла луна.</example>
+                <example correction="После того как"><marker>После того как,</marker>я вздремнул, взошла луна.</example>
+            </rule>          
+            <rule>
+                <pattern> 
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>После</token>
+                        <token>того</token>
+                        <token>,</token>          
+                        <token>как</token>
+                    </marker>
+                </pattern>
+                <message>Сложный союз в начале предложения. Запятые не нужны:<suggestion>\2 \3 \5</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_593</url>
+                <short>Запятые не нужны.</short>
+                <example>После того как я вздремнул, взошла луна.</example>
+                <example correction="После того как"><marker>После того, как</marker> я вздремнул, взошла луна.</example>
+            </rule>   
+                       
+            <rule>
+                <pattern> 
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>В</token>
+                        <token>то</token>          
+                        <token>время</token>
+                        <token>как</token>
+                        <token>,</token>
+                    </marker>
+                </pattern>
+                <message>Выражение не является вводным. Запятые не нужны:<suggestion>\2 \3 \4 \5</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Запятые не нужны.</short>
+                <example>В то время как я вздремнул, взошла луна.</example>
+                <example correction="В то время как"><marker>В то время как,</marker>я вздремнул, взошла луна.</example>
+            </rule>
+            <rule>
+                <pattern> 
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>В</token>
+                        <token>то</token>          
+                        <token>время</token>
+                        <token>,</token>
+                        <token>как</token>
+                    </marker>
+                </pattern>
+                <message>Сложный союз в начале предложения. Запятые не нужны:<suggestion>\2 \3 \4 \6</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_127</url>
+                <short>Запятые не нужны.</short>
+                <example>В то время как я вздремнул, взошла луна.</example>
+                <example correction="В то время как"><marker>В то время, как</marker> я вздремнул, взошла луна.</example>
+            </rule>
         </rulegroup>
         
         <rulegroup default="on" id="NO_NE_KAK" name="«Почти как», «не как», ...">
