@@ -9614,18 +9614,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
-        <rule id="PP_PAG" name="PP/Pàg.">
-            <pattern case_sensitive="yes">
-                <marker>
-                    <token>Pàg</token>
-                </marker>
-                <token postag="SENT_END">.</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>PP</suggestion> (sigles de Partit Popular)?</message>
-            <example correction="PP">És militant del <marker>Pàg</marker>.</example>
-            <example>Vegeu la pàg. 26.</example>
-            <example>Pàg. 23-24.</example>
-        </rule>
         <rule id="ALGUNA_COSA_QUE" name="*alguna cosa que/cosa que" default="off">
             <antipattern>
                 <marker>
@@ -9645,6 +9633,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>cosa que</suggestion>
             <example correction="cosa que">Ho va fer, <marker>alguna cosa que</marker> ens va molestar.</example>
             <example>Que portin, sempre, alguna cosa que ens commogui.</example>
+        </rule>
+        <rule id="CAMBRA_QUART" name="*cambra/quart d'hora">
+            <pattern>
+                <marker>
+                    <token inflected="yes">cambra</token>
+                </marker>
+                <token>d'</token>
+                <token>hora</token>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion>quart</suggestion>
+            <example correction="quart">Una <marker>cambra</marker> d'hora.</example>
+        </rule>
+        <rule id="PP_PAG" name="PP/Pàg.">
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>Pàg</token>
+                </marker>
+                <token postag="SENT_END">.</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>PP</suggestion> (sigles de Partit Popular)?</message>
+            <example correction="PP">És militant del <marker>Pàg</marker>.</example>
+            <example>Vegeu la pàg. 26.</example>
+            <example>Pàg. 23-24.</example>
+        </rule>
+        <rule id="ADRECA_DIRECCIO" name="*adreça/direcció">
+            <pattern>
+                <marker>
+                    <token inflected="yes">adreça</token>
+                </marker>
+                <token postag="SPS00|D.*" postag_regexp="yes" max="2" min="1"/>
+                <token regexp="yes">inter(í|ina|ins|ines)|partits?|moviments?|\p{Lu}+</token>
+            </pattern>
+            <message>Possible error de traducció automàtica.</message>
+            <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">direcció</match></suggestion>
+            <example correction="direcció">Forma part de l'<marker>adreça</marker> del PSOE.</example>
+            <example correction="direccions">Les <marker>adreces</marker> dels partits.</example>
         </rule>
         <!--<rule id="ENCARA_AIXI" name="*encara (i) així/així i tot" default="off">
             <pattern>
@@ -37217,7 +37242,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="EL_SUFICIENTMENT" name="el suficientment">
             <pattern>
                 <token regexp="yes">el|lo</token>
-                <token>suficientment</token>
+                <token regexp="yes">suficientment|bastant</token>
             </pattern>
             <message>Probablement val més dir <suggestion>prou</suggestion>.</message>
             <url>http://esadir.cat/entrades/fitxa/id/2312</url>
