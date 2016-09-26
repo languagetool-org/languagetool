@@ -3077,7 +3077,127 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Запятая не нужна:<suggestion>\1 \3 \4</suggestion>.</message>
                 <short>Запятая не нужна.</short>
                 <example correction="остановился как вкопанный">Трамвай <marker>остановился, как вкопанный</marker>.</example>
+            </rule>          
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">вертеться|кружиться|крутиться</token>
+                    <token>,</token>
+                    <token>как</token>
+                    <token>белка</token>
+                    <token>в</token>
+                    <token>колесе</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4 \5 \6</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example correction="вертелась как белка в колесе">Она <marker>вертелась, как белка в колесе</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">кататься</token>
+                    <token>,</token>
+                    <token>как</token>
+                    <token>сыр</token>
+                    <token>в</token>
+                    <token>масле</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4 \5 \6</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example correction="каталась как сыр в масле">Она <marker>каталась, как сыр в масле</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">голодный</token>
+                    <token>,</token>
+                    <token>как</token>
+                    <token regexp="yes">волк|собака</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example correction="голодный как волк">Она <marker>голодный, как волк</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">идти</token>
+                    <token>,</token>
+                    <token>как</token>
+                    <token>на</token>
+                    <token>казнь</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4 \5</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example correction="идёт как на казнь">Он <marker>идёт, как на казнь</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">лететь</token>
+                    <token>,</token>
+                    <token>как</token>
+                    <token>стрела</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example correction="летела как стрела">Машина <marker>летела, как стрела</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">красный</token>
+                    <token>,</token>
+                    <token>как</token>
+                    <token>рак</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example correction="красный как рак">Банщик был <marker>красный, как рак</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">знать</token>
+                    <token postag_regexp="yes" postag="NN:.*"></token>
+                    <token>,</token>
+                    <token>как</token>
+                    <token>свои</token>
+                    <token>пять</token>
+                    <token>пальцев</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \2 \4 \5 \6 \7</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example correction="знает математику как свои пять пальцев">Она <marker>знает математику, как свои пять пальцев</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">сидеть</token>
+                    <token>,</token>
+                    <token>как</token>
+                    <token>на</token>
+                    <token>иголках</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4 \5</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example correction="сидела как на иголках">Она <marker>сидела, как на иголках</marker>.</example>
+            </rule>       
+            <rule>
+                <pattern>
+                    <token>гол</token>
+                    <token>,</token>
+                    <token>как</token>
+                    <token>сокол</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example correction="гол как сокол">Он был <marker>гол, как сокол</marker>.</example>
+            </rule>
+             <rule>
+                <pattern>
+                    <token inflected="yes">чувствовать</token>
+                    <token>себя</token> 
+                    <token>,</token>           
+                    <token>как</token>
+                    <token>дома</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \2 \4 \5</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example correction="Чувствуйте себя как дома"><marker>Чувствуйте себя, как дома</marker>!</example>
+            </rule>       
             <rule>
                 <pattern>
                     <token>нужен</token>
@@ -3089,6 +3209,68 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Запятая не нужна.</short>
                 <example>Он нужен как воздух.</example>
                 <example correction="нужен как воздух">Он <marker>нужен, как воздух</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">пристать</token>
+                    <token>,</token>
+                    <token>как</token>
+                    <token>с</token>
+                    <token>ножом</token>
+                    <token>к</token>
+                    <token>горлу</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4 \5 \6 \7</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example correction="пристала как с ножом к горлу">Она <marker>пристала, как с ножом к горлу</marker>.</example>
+            </rule>
+            
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">бледный|побледнеть</token>
+                    <token>,</token>
+                    <token>как</token>
+                    <token regexp="yes">полотно|смерть</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example correction="побледнев как полотно">Вдруг он опустил дуло пистолета и, <marker>побледнев, как полотно</marker>, повернулся к своему секунданту.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">упасть</token>
+                    <token>,</token>
+                    <token>как</token>
+                    <token>снег</token>
+                    <token>на</token>
+                    <token>голову</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4 \5 \6</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example correction="упала как снег на голову">Она <marker>упала, как снег на голову</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">лить</token>
+                    <token>,</token>
+                    <token>как</token>
+                    <token>из</token>
+                    <token>ведра</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4 \5</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example correction="лил как из ведра">Дождь <marker>лил, как из ведра</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">развеяться</token>
+                    <token>,</token>
+                    <token>как</token>
+                    <token>дым</token>
+                </pattern>
+                <message>Запятая не нужна:<suggestion>\1 \3 \4</suggestion>.</message>
+                <short>Запятая не нужна.</short>
+                <example correction="развеялись как дым">Сомнения <marker>развеялись, как дым</marker>.</example>
             </rule>
             <rule>
                 <pattern>
