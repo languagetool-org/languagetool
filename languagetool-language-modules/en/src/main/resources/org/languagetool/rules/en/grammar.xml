@@ -5441,6 +5441,9 @@ USA
         </rule>
         -->
         <rule id="I_MOVING" name="personal pronoun + gerund">
+            <antipattern case_sensitive="yes">
+                <token>IT</token>
+            </antipattern>
             <pattern>
                 <token><exception regexp="yes">am|are|is|t|re|was|were|with|without|of|in|to|much|find</exception><exception postag="VBP|VBD|VB|VBZ|VBG|VBN" postag_regexp="yes"/></token>
                 <token regexp="yes">I|you|he|she|it|we|they</token>
@@ -6199,7 +6202,7 @@ USA
             <pattern>
                 <!-- 't': from "doesn't" etc -->
                 <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|did|be|is|were|was|that|about|of|lest|whether|surrounding</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make|let</exception><exception postag="IN"/></token>
-                <token>it</token>
+                <token regexp="yes" case_sensitive="yes">[Ii]t</token>
                 <token min="0" max="1" postag="RB"/>
                 <marker>
                     <token postag="VBP?" postag_regexp="yes">
@@ -12265,6 +12268,10 @@ USA
             </rule>
         </rulegroup>
         <rule id="ADVICE_ADVISE" name="advice (advise)" type="grammar">
+            <antipattern case_sensitive="yes">
+                <token>IT</token>
+                <token>advice</token>
+            </antipattern>
             <pattern>
                 <token postag="PRP"><exception postag="PRP" negate_pos="yes"/><exception scope="previous" inflected="yes" regexp="yes">offer|give</exception></token>
                 <marker>
