@@ -9736,18 +9736,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Volia que fos ell qui anés al carrer.</example>
             <example>o el qui anés ben proveït</example>
         </rule>
-        <rule id="BARREJAR_ESPECULAR" name="barrejar/especular">
-            <pattern>
-                <marker>
-                    <token inflected="yes">barrejar</token>
-                </marker>
-                <token postag="V.N.*" postag_regexp="yes"></token>
-            </pattern>
-            <message>Possible error de traducció automàtica.</message>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">considerar</match></suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">especular</match> sobre</suggestion>
-            <example correction="Consideren|Especulen sobre"><marker>Barregen</marker> introduir canvis en la llei.</example>
-        </rule>
+        <rulegroup id="BARREJAR_ESPECULAR" name="barrejar/especular">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">barrejar</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Possible error de traducció automàtica.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">considerar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">especular</match> sobre</suggestion>
+                <example correction="Consideren|Especulen sobre"><marker>Barregen</marker> introduir canvis en la llei.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="1">barrejar</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">possibilitat|hipòtesi</token>
+                </pattern>
+                <message>Possible error de traducció automàtica.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">considerar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">especular</match> sobre</suggestion>
+                <example correction="considera|especula sobre">La policia <marker>barreja</marker> tres hipòtesis.</example>
+            </rule>
+        </rulegroup>
         <rule id="ESTAVELLA_ESTRELLA" name="estavella estrella">
             <pattern>
                 <token postag="N.*" postag_regexp="yes"></token>
