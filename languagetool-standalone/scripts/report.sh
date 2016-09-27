@@ -71,10 +71,30 @@ echo "" >>$OUTFILE
 echo "v1 API                     : `grep -c 'V1TextChecker' $TMPFILE`" >>$OUTFILE
 echo "v2 API                     : `grep -c 'V2TextChecker' $TMPFILE`" >>$OUTFILE
 
+#echo "" >>$OUTFILE
+#echo "Up to 50 client errors sent to the server:" >>$OUTFILE
+#grep "Log message from client:" $TMPFILE | head -n 50 >>$OUTFILE
+#echo "Total client errors: `grep -c "Log message from client:" $TMPFILE`" >>$OUTFILE
+
 echo "" >>$OUTFILE
-echo "Up to 50 client errors sent to the server:" >>$OUTFILE
-grep "Log message from client:" $TMPFILE | head -n 50 >>$OUTFILE
-echo "Total client errors: `grep -c "Log message from client:" $TMPFILE`" >>$OUTFILE
+echo "Client errors:" >>$OUTFILE
+TMPFILE_ALL=/tmp/log-all-client-errors.temp
+
+cat log-[12].txt log-[0-9]-$DATE1*.txt log-1.txt log-2.txt | grep "$DATE2" | grep "Log message from client:" >$TMPFILE_ALL
+
+echo -n "siteNotSupported: " >>$OUTFILE
+grep -c "siteNotSupported" $TMPFILE_ALL >>$OUTFILE
+
+echo -n "freshInstallReload: " >>$OUTFILE
+grep -c "freshInstallReload" $TMPFILE_ALL >>$OUTFILE
+
+echo -n "Exception and failing fallback in checkText: " >>$OUTFILE
+grep -c "Exception and failing fallback in checkText:" $TMPFILE_ALL >>$OUTFILE
+
+echo -n "couldNotCheckText: " >>$OUTFILE
+grep -c "couldNotCheckText" $TMPFILE_ALL >>$OUTFILE
+
+
 
 DATE_APACHE=`LANG=C date +"%a %b %d"`
 YEAR=`date +"%Y"`
