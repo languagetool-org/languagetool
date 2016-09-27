@@ -8681,7 +8681,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.[MSING].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">necessitar|necessitat|requerir|requerit<exception postag="_GN_.*|NC.*" postag_regexp="yes"/></token>
                     <token min="0" max="6" postag="_PUNCT_CONT|RG.*|.*LOC_ADV.*|.*LOC_CONJ.*" postag_regexp="yes"><exception regexp="yes">més|menys|dins|dintre|fora|prop</exception></token>
                     <marker>
-                        <token regexp="yes">de|d'<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
+                        <token regexp="yes">de|d'<exception postag=".*LOC_.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">final|fi</exception></token>
                         <token><exception regexp="yes">l|ls|cada|nou|fet|manera|part|forma|què|qui(ns|na|nes)?|mi</exception><exception postag="PP.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
@@ -8736,7 +8736,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.[MSING].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">necessitar|necessitat|requerir|requerit<exception postag="_GN_.*|NC.*" postag_regexp="yes"/></token>
                     <token min="0" max="6" postag="_PUNCT_CONT|RG.*|.*LOC_ADV.*|.*LOC_CONJ.*" postag_regexp="yes"><exception regexp="yes">més|menys|dins|dintre|fora|prop</exception></token>
                     <marker>
-                        <token>de<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
+                        <token>de<exception postag=".*LOC_.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">final|fi</exception></token>
                         <token regexp="yes" spacebefore="no">ls?</token>
                     </marker>
                 </pattern>
@@ -27720,7 +27720,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>
             <pattern>
-                <token><exception regexp="yes">mala|de|la|tan|[stm]e[uv]a|[nv]ostra|aquesta|aquella|aqueixa|esta|eixa|mateixa|una</exception></token>
+                <token><exception regexp="yes">en|mala|de|la|tan|[stm]e[uv]a|[nv]ostra|aquesta|aquella|aqueixa|esta|eixa|mateixa|una</exception></token>
                 <marker>
                     <token>cara</token>
                     <token>a</token>
@@ -27741,6 +27741,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>plantar-li cara a Facebook</example>
             <example>Planta'ls cara al carrer.</example>
             <example>Li ha costat cara al financer.</example>
+            <example>Ho va tirar en cara al seu rival.</example>
             <!-- <example>aquesta doctrina, cara a sant Pau,</example> -->
         </rule>
         <rule id="DE_CARES_A" name="de cares a">
@@ -42466,6 +42467,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="exigix">Ell ens <marker>exigeix</marker> un resultat.</example>
             <example correction="encoixix">Ell <marker>encoixeix</marker>.</example>
             <example correction="estatuïx">Ell <marker>estatueix</marker>.</example>
+            <example correction="aconseguixen">Ell <marker>aconsegueixen</marker>.</example>
             <example>Coneixen, neixen, peixen, deixen, esqueixen, enreixen.</example>
         </rule>
         <rule id="EXIGEIX_VERBS_EIX" name="Exigeix terminacions verbals en -eix" default="off">
@@ -42478,24 +42480,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="exigeix">Ell ens <marker>exigix</marker> un resultat.</example>
             <example correction="encoixeix">Ell <marker>encoixix</marker>.</example>
             <example correction="argüeix">Ell <marker>arguïx</marker>.</example>
+            <example correction="aconsegueix">Ell <marker>aconseguix</marker>.</example>
             <example>Ix, cruix, cruixen, amoixen, desixen, es fixen, pixen.</example>
         </rule>
         <rulegroup id="EXIGEIX_VERBS_ISC" name="Exigeix terminacions verbals en -isc" default="off">
             <rule>
                 <pattern>
-                    <token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[aeiou]e(sc|sca|sques|squen)</token>
+                    <token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[aeiou]e(sc|sca|sques|squen)<exception regexp="yes">.+[qg]ue(sc|sca|sques|squen)</exception></token>
                 </pattern>
                 <message>Esteu usant terminacions verbals en -isc.</message>
                 <suggestion><match no="1" regexp_match="(.+[aeiou])e(sc|sca|sques|squen)" regexp_replace="$1ï$2" /></suggestion>
                 <example correction="agraïsca">Que ell ens ho <marker>agraesca</marker>.</example>
+                <example>aconseguesca</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[^aeiouü]e(sc|sca|sques|squen)<exception inflected="yes" regexp="yes">.*[éè]ixer</exception><exception inflected="yes" regexp="yes">.*escar</exception></token>
+                    <token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+([^aeiouü]|[qg]u)e(sc|sca|sques|squen)<exception inflected="yes" regexp="yes">.*[éè]ixer</exception><exception inflected="yes" regexp="yes">.*escar</exception></token>
                 </pattern>
                 <message>Esteu usant terminacions verbals en -isc.</message>
-                <suggestion><match no="1" regexp_match="(.+[^aeiou])e(sc|sca|sques|squen)" regexp_replace="$1i$2" /></suggestion>
+                <suggestion><match no="1" regexp_match="(.+)e(sc|sca|sques|squen)" regexp_replace="$1i$2" /></suggestion>
                 <example correction="oferisca">Que ell ens ho <marker>oferesca</marker>.</example>
+                <example correction="aconseguisca"><marker>aconseguesca</marker>.</example>
+                <example correction="afranquisca"><marker>afranquesca</marker>.</example>
                 <example>Servisca.</example>
                 <example>Que cresca, acresquen, meresca i sobrecresques.</example>
                 <example>bresquen</example>
@@ -42519,6 +42525,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" regexp_match="(.+)[iï](sc|sca|sques|squen)" regexp_replace="$1e$2" /></suggestion>
                 <example correction="agraesca">Que ell ens ho <marker>agraïsca</marker>.</example>
                 <example correction="servesquen">Que ell ens ho <marker>servisquen</marker>.</example>
+                <example correction="aconseguesca"><marker>aconseguisca</marker>.</example>
+                <example correction="afranquesca"><marker>afranquisca</marker>.</example>
                 <example>Visc a la Rambla i envisc pardals.</example>
                 <example>Que argüesca i arguïsca.</example>
                 <example>desenllefisquen, arrisquen</example>
