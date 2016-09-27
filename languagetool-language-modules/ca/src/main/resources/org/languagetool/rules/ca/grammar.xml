@@ -9661,7 +9661,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ADRECA_DIRECCIO" name="*adreça/direcció">
             <pattern>
                 <marker>
-                    <token inflected="yes">adreça</token>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes">adreça</token>
                 </marker>
                 <token postag="SPS00|D.*" postag_regexp="yes" max="2" min="1"/>
                 <token regexp="yes">inter(í|ina|ins|ines)|partits?|moviments?|\p{Lu}+</token>
@@ -9670,6 +9670,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">direcció</match></suggestion>
             <example correction="direcció">Forma part de l'<marker>adreça</marker> del PSOE.</example>
             <example correction="direccions">Les <marker>adreces</marker> dels partits.</example>
+            <example>S'adreça al NW.</example>
         </rule>
         <!--<rule id="ENCARA_AIXI" name="*encara (i) així/així i tot" default="off">
             <pattern>
