@@ -9635,6 +9635,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="cosa que">Ho va fer, <marker>alguna cosa que</marker> ens va molestar.</example>
             <example>Que portin, sempre, alguna cosa que ens commogui.</example>
         </rule>
+        <rule id="BENVOLGUT_ESTIMAT" name="longitud *benvolguda/estimada">
+            <pattern>
+                <unify>
+                    <feature id="nombre" />
+                    <feature id="genere" />
+                    <token postag="NC.*|AQ.*" postag_regexp="yes"/>
+                    <marker>
+                        <token inflected="yes">benvolgut</token>
+                    </marker>
+                </unify>
+            </pattern>
+            <message>Possible error de traductor automàtic. ¿Volíeu dir <suggestion><match no="2" postag="AQ.(.)(.)." postag_regexp="yes" postag_replace="V.P..$2$1.">estimar</match></suggestion> (avaluar, calcular)?</message>
+            <example correction="estimada">La longitud <marker>benvolguda</marker>.</example>
+            <example correction="estimada">La línia divisòria <marker>benvolguda</marker>.</example>
+            <example>Un benvolgut amic.</example>
+            <example>Benvolgut amic:</example>
+        </rule>
         <rule id="CAMBRA_QUART" name="*cambra/quart d'hora">
             <pattern>
                 <marker>
