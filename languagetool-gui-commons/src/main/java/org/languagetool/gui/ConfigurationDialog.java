@@ -100,6 +100,9 @@ public class ConfigurationDialog implements ActionListener {
         if (config.getDisabledCategoryNames() != null && config.getDisabledCategoryNames().contains(rule.getCategory().getName())) {
           enabled = false;
         }
+        if(rule.getCategory().isDefaultOff()) {
+          enabled = false;
+        }
         DefaultMutableTreeNode categoryNode = new CategoryNode(rule.getCategory(), enabled);
         root.add(categoryNode);
         parents.put(rule.getCategory().getName(), categoryNode);
@@ -344,7 +347,7 @@ public class ConfigurationDialog implements ActionListener {
               config.getEnabledRuleIds().add(o.getRule().getId());
             } else {
               config.getEnabledRuleIds().remove(o.getRule().getId());
-            }
+              }
           } else {
             if (o.isEnabled()) {
               config.getDisabledRuleIds().remove(o.getRule().getId());
@@ -359,9 +362,9 @@ public class ConfigurationDialog implements ActionListener {
             config.getDisabledCategoryNames().remove(o.getCategory().getName());
           } else {
             config.getDisabledCategoryNames().add(o.getCategory().getName());
-          }
-        }
-      }
+                }
+              }
+            }
       @Override
       public void treeNodesInserted(TreeModelEvent e) {}
       @Override
