@@ -17774,6 +17774,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </antipattern>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token>d'</token>
+                        <token>al</token>
+                        <token spacebfore="no">-</token>
+                        <token spacebefore="no" regexp="yes">\p{Lu}.*</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">de|d'</token>
                     <token regexp="yes" case_sensitive="yes">el|al<exception postag="_possible_nompropi"/></token>
@@ -17782,6 +17790,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="del"><marker>de el</marker> camí</example>
                 <example correction="del"><marker>d'al</marker> voltant</example>
                 <example>l'article d'El Mundo</example>
+                <example>en la madrassa d'al-Ḥallāwāya</example>
             </rule>
             <rule>
                 <pattern>
