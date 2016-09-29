@@ -345,9 +345,11 @@ public class ConfigurationDialog implements ActionListener {
           if (o.getRule().isDefaultOff() || o.getRule().getCategory().isDefaultOff()) {
             if (o.isEnabled()) {
               config.getEnabledRuleIds().add(o.getRule().getId());
+              config.getDisabledRuleIds().remove(o.getRule().getId());
             } else {
               config.getEnabledRuleIds().remove(o.getRule().getId());
-              }
+              config.getDisabledRuleIds().add(o.getRule().getId());
+            }
           } else {
             if (o.isEnabled()) {
               config.getDisabledRuleIds().remove(o.getRule().getId());
@@ -362,9 +364,9 @@ public class ConfigurationDialog implements ActionListener {
             config.getDisabledCategoryNames().remove(o.getCategory().getName());
           } else {
             config.getDisabledCategoryNames().add(o.getCategory().getName());
-                }
-              }
-            }
+          }
+        }
+      }
       @Override
       public void treeNodesInserted(TreeModelEvent e) {}
       @Override
