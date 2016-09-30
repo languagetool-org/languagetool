@@ -1,6 +1,6 @@
 # LanguageTool Change Log
 
-## 3.5 (release planned for 2016-09-29)
+## 3.5 (2016-09-30)
 
 #### Catalan
   * added and improved rules
@@ -23,6 +23,9 @@
   * added rules
   * fixed several false alarms
 
+#### Polish
+  * added and improved rules
+
 #### Portuguese (European)
   * added and improved rules
  
@@ -35,6 +38,9 @@
   * added words suggested by users
   * improved disambiguation rules
   * for review, test and improve rules, feedback in bugtracker thanks to Konstantin Ladutenko
+
+#### Spanish
+  * added and improved rules
 
 #### Ukrainian
   * added ~6k new words
@@ -55,9 +61,10 @@
   * add new menu item for showing/hiding the result area
 
 #### Command-line
-  * deprecated the `--api` option - we recommend using LanguageTool
+  * Deprecated the `--api` option - we recommend using LanguageTool
     in server mode (JSON API), which is faster as it has no start up
-    overhead for each call
+    overhead for each call. See https://languagetool.org/http-api/swagger-ui/#/default
+    for a documentation of the new API.
 
 
 ## 3.4 (2016-06-27)
