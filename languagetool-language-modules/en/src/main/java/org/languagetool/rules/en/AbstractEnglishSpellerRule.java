@@ -115,7 +115,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   }
 
   /**
-   * @throws IOException 
    * @since 2.7
    */
   @Override

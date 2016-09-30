@@ -332,7 +332,7 @@ public abstract class SpellingCheckRule extends Rule {
   }
   
   /**
-   * Checks whether a <code>word<code> starts with an ignored word
+   * Checks whether a <code>word</code> starts with an ignored word
    * @param word - entire word
    * @param caseSensitive - determines whether the check is case-sensitive
    * @return length of the ignored word (i.e., return value is 0, if the word does not start with an ignored word).
