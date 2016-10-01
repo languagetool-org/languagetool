@@ -62,8 +62,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       this.ownIps = new HashSet<>();
     }
     afterTheDeadlineMode = config.getMode() == HTTPServerConfig.Mode.AfterTheDeadline;
-    this.textCheckerV1 = new V1TextChecker(config, internal);
-    //this.textCheckerV1 = new V1EOLTextChecker(config, internal);
+    this.textCheckerV1 = new V1EOLTextChecker(config, internal);
     this.textCheckerV2 = new V2TextChecker(config, internal);
   }
 

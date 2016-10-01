@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
 public class TextCheckerTest {
 
   private final String english = "This is clearly an English text, should be easy to detect.";
-  private final TextChecker checker = new V1TextChecker(new HTTPServerConfig(), false);
+  private final TextChecker checker = new V2TextChecker(new HTTPServerConfig(), false);
 
   @Test
   public void testDetectLanguageOfString() {

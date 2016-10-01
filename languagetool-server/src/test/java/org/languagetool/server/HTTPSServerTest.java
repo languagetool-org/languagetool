@@ -85,7 +85,7 @@ public class HTTPSServerTest {
       fail("HTTP should not work, only HTTPS");
     } catch (SocketException ignored) {}
 
-    String httpsPrefix = "https://localhost:" + HTTPTools.getDefaultPort() + "/";
+    String httpsPrefix = "https://localhost:" + HTTPTools.getDefaultPort() + "/v2/check";
 
     String result = HTTPTools.checkAtUrl(new URL(httpsPrefix + "?text=a+test.&language=en"));
     assertTrue("Got " + result, result.contains("UPPERCASE_SENTENCE_START"));

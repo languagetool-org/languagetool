@@ -1,5 +1,13 @@
 # LanguageTool Change Log
 
+## 3.6 (release planned for 2016-12-28)
+
+#### HTTP API
+ * The old API has been deactivated, as documented at
+   https://languagetool.org/http-api/migration.php - it
+   now returns a pseudo error pointing to the migration page
+
+
 ## 3.5 (2016-09-30)
 
 #### Catalan

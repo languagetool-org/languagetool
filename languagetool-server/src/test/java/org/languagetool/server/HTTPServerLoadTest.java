@@ -92,7 +92,6 @@ public class HTTPServerLoadTest extends HTTPServerTest {
       for (int i = 0; i < getRepeatCount(); i++) {
         runningTests.incrementAndGet();
         try {
-          runTestsV1();
           runTestsV2();
         } catch (Exception e) {
           throw new RuntimeException(e);
