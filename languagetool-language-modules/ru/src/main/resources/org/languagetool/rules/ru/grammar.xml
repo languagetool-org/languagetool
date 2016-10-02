@@ -259,6 +259,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Сдайте тетради на проверку!</example>
             </rule>          
         </rulegroup>
+        <rulegroup id="VODJANOJ_VODNIJ" name="Логические ошибки «водяной/водный»">
+            <rule> 
+                <pattern>
+                    <token inflected="yes">водяной</token>
+                    <token inflected="yes" regexp="yes">спорт|поло|транспорт|туризм|процедуры</token>
+                </pattern>              
+                <message>Имелось в виду <suggestion><match no="1" regexp_match="водян(.*)" regexp_replace="водн$1" /> <match no="2" /></suggestion>?</message>
+                <url>https://ru.wiktionary.org/wiki/%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B9</url>
+                <short>Логическая ошибка.</short>
+                <example correction="водным спортом">Спортсмены занимались <marker>водяным спортом</marker>.</example>
+            </rule>
+            <rule> 
+                <pattern>
+                    <token inflected="yes">водный</token>
+                    <token inflected="yes" regexp="yes">жук|букашка|часы|мельница|дело|лилия|цветок|турбина|электростанция|лыжа|отопление|насос</token>
+                </pattern>              
+                <message>Имелось в виду <suggestion><match no="1" regexp_match="водн(.*)" regexp_replace="водян$1" /> <match no="2" /></suggestion>?</message>
+                <url>https://ru.wiktionary.org/wiki/%D0%B2%D0%BE%D0%B4%D1%8F%D0%BD%D0%BE%D0%B9</url>
+                <short>Логическая ошибка.</short>
+                <example correction="водяных лыжах">Спортсмены катались на <marker>водных лыжах</marker>.</example>
+            </rule>                   
+        </rulegroup>
         
 	<rulegroup id="obschie_toscki_soprikosnovenija" name="Логические ошибки «общие точки соприкосновения»">
             <rule> 
