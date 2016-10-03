@@ -5300,6 +5300,43 @@ USA
             <example>These musicians are <marker>masters</marker> of their art.</example>
             <example>My <marker>masters</marker> was a difficult degree.</example>
         </rule>
+        <rule id="TOO_CARDINAL_NUMBER" name="too CARDINAL NUMBER">
+            <antipattern>
+                <token>too</token>
+                <token spacebefore="yes" regexp="yes">(:?[1-2]\d)?\d0<exception>1000</exception></token>
+                <token regexp="yes">['’]</token>
+                <token>s</token>
+            </antipattern>
+            <pattern>
+                <token>too</token>
+                <token postag="CD"></token>
+            </pattern>
+            <message>Did you mean <suggestion>to <match no="2"/></suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="to ten">We are expanding <marker>too ten</marker> new locations.</example>
+            <example correction="to 37">The average time increased from 30 <marker>too 37</marker> seconds.</example>
+            <example correction="To twenty-three"><marker>Too twenty-three</marker> students, we award a special prize this year.</example>
+            <example correction="to 1000">The frequency quickly increases <marker>too 1000</marker>'s of Hertz.</example>
+            <example correction="to 1000">Most rules are applicably only to a few problems. This rule is applicable <marker>too 1000</marker>'s.</example>
+            <example>We are expanding <marker>to ten</marker> new locations.</example>
+            <example>I don't like the style. It's <marker>too 1990</marker>'s for me.</example>
+        </rule>
+        <rule id="TOO_DETERMINER" name="too DETERMINER">
+            <pattern>
+                <token>too</token>
+                <token postag_regexp="yes" postag="DT|PDT"><exception regexp="yes">many|much</exception></token>
+            </pattern>
+            <message>Did you mean <suggestion>to <match no="2"/></suggestion>?</message>
+            <short>Possible typo</short>
+            <example correction="to all">We expanded <marker>too all</marker> proposed new locations.</example>
+            <example correction="to all">We expanded <marker>too all</marker> the proposed new locations.</example>
+            <example correction="to the">Give the bone <marker>too the</marker> dog.</example>
+            <example>We expanded <marker>to all</marker> proposed new locations.</example>
+            <example><marker>Too much</marker> information is as bad as not enough information.</example>
+            <example>LanguageTool users can be annoyed if they get <marker>too many</marker> incorrect warnings.</example>
+            <example type="triggers_error">How I wish that I'd gone with her <marker>too all</marker> those years ago. [Missing comma between 'too' and 'all'.]</example>
+<!-- TODO. --><example>The company is expanding <marker>too dozens</marker> of new locations.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
