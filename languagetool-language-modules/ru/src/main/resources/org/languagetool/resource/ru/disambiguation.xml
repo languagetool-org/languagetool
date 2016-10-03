@@ -206,6 +206,19 @@ Copyright (C) 2009-2012 Yakov Reztsov
         </pattern>
         <disambig><match no="2" postag="ADJ:.*:P" postag_regexp="yes"></match></disambig>
     </rule>
+    <rule name="ADJ_P2_NOUN" id="ADJ_P2_NOUN">
+        <pattern>
+            <token>на</token>
+            <marker>
+                <and>
+                    <token postag="ADJ:.*:V" postag_regexp="yes"></token>
+                    <token postag="ADJ:.*:P" postag_regexp="yes"></token>
+                </and>
+            </marker>
+            <token postag="NN:.*:.*:P" postag_regexp="yes"></token>
+        </pattern>
+        <disambig><match no="2" postag="ADJ:.*:P" postag_regexp="yes"></match></disambig>
+    </rule>
     <!-- To do -->
     <rule name="ADV_OB1" id="ADV_OB1">
         <pattern>
