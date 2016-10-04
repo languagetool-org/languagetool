@@ -187,9 +187,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Конференция состоится в <marker>понедельник, 7.10.2014</marker> г.</example>
                 <example>Конференция состоится во <marker>вторник, 7.10.2014</marker> г.</example>
             </rule>
-          
-          
         </rulegroup>
+        <rule id="perehodny_peshehod" name="Опечатка «пешеходный переход»">
+            <pattern>
+		<token>переходный</token>
+                <token>пешеход</token>
+            </pattern>
+            <message>Опечатка: <suggestion>пешеходный переход</suggestion></message>
+            <short>Опечатка</short>
+            <example correction="пешеходный переход"><marker>переходный пешеход</marker></example>
+        </rule>
         <rule id="Slovosoch_interesnaja_kniga" name="Опечатка «Интересная/интересую»">
             <pattern>
 		<token postag="VB:.*" postag_regexp="yes"></token>
@@ -5150,7 +5157,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>по</token>
 			<token  postag="ADJ:Masc:D" case_sensitive="yes">
-                            <exception regexp="yes">[А-Я].*|черному|чёрному|белому|красному|синему|желтому|жёлтому|русскому|прусскому|австрийскому|английскому|немецкому|французскому|испанскому|португальскому|голландскому|датскому|китайскому|японскому|арабскому|индийскому|армянскому|грузинскому|польскому|чешскому</exception>
+                            <exception regexp="yes">[А-Я].*|минимальному|максимальному|черному|чёрному|белому|красному|синему|желтому|жёлтому|русскому|прусскому|австрийскому|английскому|немецкому|французскому|испанскому|португальскому|голландскому|датскому|китайскому|японскому|арабскому|индийскому|армянскому|грузинскому|польскому|чешскому</exception>
                         </token>
                     </marker>
                     <token skip="-1">
@@ -5165,6 +5172,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="по-зимнему">Я оделся <marker>по зимнему</marker> тепло.</example>
                 <example correction="по-хорошему">Давай <marker>по хорошему</marker> разберёмся.</example>
                 <example correction="по-прежнему">Я поступлю <marker>по прежнему</marker> отчаянно.</example>
+                <example>Отсутствие ограничений по минимальному объему закупок.</example>
             </rule>
 
             <rule>
