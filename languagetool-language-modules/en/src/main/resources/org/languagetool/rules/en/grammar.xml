@@ -11374,22 +11374,33 @@ USA
             </rule>
         </rulegroup>
 
-        <rulegroup default="off" name="Warn when the serial comma is not used (incomplete)" id="SERIAL_COMMA_ON">
+        <rulegroup default="on" name="Warn when the serial comma is not used" id="SERIAL_COMMA_ON">
             <rule>
-                <!-- This rule detects the simplest case:
-                   Noun, Noun and Noun -->
+                <antipattern>
+                    <token skip="-1">and</token>
+                    <token regexp="yes">,|and</token>
+                </antipattern>
                 <pattern>
-                    <token postag_regexp="yes" postag="NN.*"/>
-                    <token>,</token>
-                    <marker>
-                        <token postag_regexp="yes" postag="NN.*"/>
-                        <token regexp="yes">and|or</token>
-                    </marker>
-                    <token postag_regexp="yes" postag="NN.*"/>
+                      <token postag="NN.*" postag_regexp="yes"><exception scope="previous">and</exception></token>
+                      <token>,</token>
+                      <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most|in|at|with</token>
+                      <marker>
+                          <token postag="NN.*" postag_regexp="yes"/>
+                          <token regexp="yes">and|or</token>
+                      </marker>
+                      <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most|in|at|with</token>
+                      <token postag="NN.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>The serial comma is missing: <suggestion>\3, \4</suggestion>.</message>
-                <example>The pen, <marker>pencil, and</marker> book are on the desk.</example>
-                <example correction="pencil, and">The pen, <marker>pencil and</marker> book are on the desk.</example>
+                <message>The serial comma (Oxford comma, Harvard comma) is missing. Use: <suggestion>\4, \5</suggestion></message>
+                <url>https://en.wikipedia.org/wiki/Serial_comma</url>
+                <short>Serial comma: missing</short>
+                <example correction="German, and">She speaks Spanish, <marker>German and</marker> French.</example>
+                <example correction="president, and">She took a photograph of her parents, the <marker>president and</marker> the vice president.</example>
+                <example correction="water, or">Would you like tea, coffee, <marker>water or</marker> wine?</example>
+                <example correction="car, or">How will you go to the city? Will you use my car, your <marker>car or</marker> the train?</example>
+                <example>She speaks Spanish, <marker>German, and</marker> French.</example>
+                <example>Irina, a singer and actress, was born in Poland.</example>
+                <example>I like both chips and <marker>eggs and pie</marker> and peas.</example><!-- TODO -->
             </rule>
         </rulegroup>
         <rulegroup default="off" name="Warn when the serial comma is used (incomplete)" id="SERIAL_COMMA_OFF">
