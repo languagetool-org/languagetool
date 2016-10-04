@@ -251,20 +251,34 @@
         <example type="untouched">Едгара по полю.</example>
     </rule>
 
+    <rule name="Однолітерні скорочення лише з малої" id="SINGLE_CHAR_ABBR_NO_CAPS">
+        <pattern>
+          <token case_sensitive="yes" postag_regexp="yes" postag=".*:abbr.*" regexp="yes">[А-ЯІЇЄҐ]\.
+            <exception postag_regexp="yes" postag=".*(fname|patr).*"/>
+          </token>
+        </pattern>
+        <disambig action="remove" postag=".*"/>
+        <example type="ambiguous" 
+            inputform="С.[с./noun:inanim:n:v_dav:nv:np:abbr,с./noun:inanim:n:v_mis:nv:np:abbr,с./noun:inanim:n:v_naz:nv:np:abbr,с./noun:inanim:n:v_oru:nv:np:abbr,с./noun:inanim:n:v_rod:nv:np:abbr,с./noun:inanim:n:v_zna:nv:np:abbr]" 
+            outputform="С.[С.]"><marker>С.</marker> Мокітмі.</example>
+        <example type="ambiguous" 
+            inputform="С.[с./noun:inanim:n:v_dav:nv:np:abbr,с./noun:inanim:n:v_mis:nv:np:abbr,с./noun:inanim:n:v_naz:nv:np:abbr,с./noun:inanim:n:v_oru:nv:np:abbr,с./noun:inanim:n:v_rod:nv:np:abbr,с./noun:inanim:n:v_zna:nv:np:abbr]" 
+            outputform="С.[С.]"><marker>С.</marker> Макаров.</example>
+    </rule>
+<!-- 
     <rule name="Скорочення та ініціали" id="ABBR_VS_INITIALS">
         <pattern>
-          <token case_sensitive="yes" postag_regexp="yes" postag=".*:abbr.*" regexp="yes">[А-ЯІЇЄҐ]
+          <token case_sensitive="yes" postag_regexp="yes" postag=".*:abbr.*" regexp="yes">[А-ЯІЇЄҐ]\.
             <exception postag_regexp="yes" postag=".*:(fname|patr).*"></exception>
           </token>
-          <token>.</token>
         </pattern>
         <disambig action="remove" postag=".*:abbr.*"/>
         <example type="ambiguous" 
-            inputform="С[с/noun:inanim:f:v_dav:nv:abbr,с/noun:inanim:f:v_mis:nv:abbr,с/noun:inanim:f:v_naz:nv:abbr,с/noun:inanim:f:v_oru:nv:abbr,с/noun:inanim:f:v_rod:nv:abbr,с/noun:inanim:f:v_zna:nv:abbr,с/noun:inanim:p:v_dav:nv:abbr,с/noun:inanim:p:v_mis:nv:abbr,с/noun:inanim:p:v_naz:nv:abbr,с/noun:inanim:p:v_oru:nv:abbr,с/noun:inanim:p:v_rod:nv:abbr,с/noun:inanim:p:v_zna:nv:abbr]" 
-            outputform="С[С]"><marker>С</marker>. Макаров.</example>
-        <example type="untouched">100 м батерфляєм.</example>
+            inputform="С.[с./noun:inanim:f:v_dav:nv:abbr,с./noun:inanim:f:v_mis:nv:abbr,с./noun:inanim:f:v_naz:nv:abbr,с./noun:inanim:f:v_oru:nv:abbr,с./noun:inanim:f:v_rod:nv:abbr,с./noun:inanim:f:v_zna:nv:abbr,с./noun:inanim:p:v_dav:nv:abbr,с./noun:inanim:p:v_mis:nv:abbr,с./noun:inanim:p:v_naz:nv:abbr,с./noun:inanim:p:v_oru:nv:abbr,с./noun:inanim:p:v_rod:nv:abbr,с./noun:inanim:p:v_zna:nv:abbr]" 
+            outputform="С.[С.]"><marker>С.</marker> Макаров.</example>
+        <example type="untouched">С. Вабля.</example>
     </rule>
-
+-->
     
     <rule name="Слова з великої літери в середині речення - це іменники або прикметники" id="DIS_PROPER_NOUN_INSIDE_SENTENCE">
         <pattern case_sensitive="yes">
@@ -322,7 +336,7 @@
 
     <rule name="Лютого" id="LYUTYI">
         <pattern>
-          <token regexp="yes">[1-9]|[12][0-9]</token>
+          <token regexp="yes">[1-9]|[12][0-9]|[12]?[0-9][—–-][12]?[0-9]</token>
           <marker>
             <token>лютого</token>
           </marker>

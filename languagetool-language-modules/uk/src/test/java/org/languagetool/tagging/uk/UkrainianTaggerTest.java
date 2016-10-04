@@ -80,6 +80,7 @@ public class UkrainianTaggerTest {
   @Test
   public void testNumberTagging() throws IOException {
     TestTools.myAssert("101,234", "101,234/[101,234]number", tokenizer, tagger);
+    TestTools.myAssert("101 234", "101 234/[101 234]number", tokenizer, tagger);
     TestTools.myAssert("3,5-5,6% 7° 7,4°С", "3,5-5,6%/[3,5-5,6%]number -- 7°/[7°]number -- 7,4°С/[7,4°С]number", tokenizer, tagger);
     TestTools.myAssert("XIX", "XIX/[XIX]number", tokenizer, tagger);
 
@@ -122,9 +123,9 @@ public class UkrainianTaggerTest {
 //        +"Ред./[ред.]noun:inanim:f:v_dav:nv:abbr|Ред./[ред.]noun:inanim:f:v_mis:nv:abbr|Ред./[ред.]noun:inanim:f:v_naz:nv:abbr|Ред./[ред.]noun:inanim:f:v_oru:nv:abbr|Ред./[ред.]noun:inanim:f:v_rod:nv:abbr|Ред./[ред.]noun:inanim:f:v_zna:nv:abbr|Ред./[ред.]noun:inanim:m:v_naz:abbr|Ред./[ред.]noun:inanim:p:v_dav:nv:abbr|Ред./[ред.]noun:inanim:p:v_mis:nv:abbr|Ред./[ред.]noun:inanim:p:v_naz:nv:abbr|Ред./[ред.]noun:inanim:p:v_oru:nv:abbr|Ред./[ред.]noun:inanim:p:v_rod:nv:abbr|Ред./[ред.]noun:inanim:p:v_zna:nv:abbr -- вранці/[вранці]adv",
 //         tokenizer, tagger);
 
-//    TestTools.myAssert("Є.Бакуліна.",
-//      "Є.Бакуліна[Бакулін]noun:anim:m:v_rod:prop:lname|Є.Бакуліна[Бакулін]noun:anim:m:v_zna:prop:lname",
-//       tokenizer, tagger);
+    TestTools.myAssert("Є. Бакуліна.",
+      "Є./[null]null -- Бакуліна/[Бакулін]noun:anim:m:v_rod:prop:lname|Бакуліна/[Бакулін]noun:anim:m:v_zna:prop:lname|Бакуліна/[Бакуліна]noun:anim:f:v_naz:prop:lname",
+       tokenizer, tagger);
   }
 
   @Test

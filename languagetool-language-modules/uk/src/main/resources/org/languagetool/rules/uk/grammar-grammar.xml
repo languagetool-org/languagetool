@@ -356,6 +356,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
 
+        <rulegroup id="CONSISTENCY_NUMERIC_FRACTIONAL" name="Узгодженість дробових числівників">
+            <rule>
+                <pattern>
+                  <token regexp="yes">дві|три|чотири</token>
+                  <marker>
+                    <token regexp="yes">десятих|сотих|тисячних|третіх|четвертих</token>
+                  </marker>
+                </pattern>
+                <message>У дробовому числівнику після два, три, чотири має йти десяті, соті…</message>
+                <suggestion><match no="2" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:p:v_naz$2"/></suggestion>
+                <example correction="десяті">дві <marker>десятих</marker></example>
+                <example correction="соті">три <marker>сотих</marker></example>
+                <!-- TODO: false positive
+                <example>перше місце, три других і чотири третіх</example>
+                -->
+            </rule>
+        </rulegroup>
+
+
         <rulegroup id="CONSISTENCY_NOUN_NUMERIC_WHOLE" name="Узгодженість числа іменників з цілими числівниками">
             <rule>
               <pattern>
@@ -378,15 +397,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example>дві з половиною тисячі</example>
               <example>Дві з половиною людини</example>
             </rule>
+
             <rule>
                 <antipattern>
                     <token regexp="yes">соті|десяті|.*[234]</token>
                     <token case_sensitive="yes" postag_regexp="yes" postag="noun.*?:m:v_rod.*" regexp="yes">[А-ЯІЇЄҐ].*</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">на|о|з</token>
+                    <token regexp="yes">[12][0-9]?[—–-][12][0-9]?</token>
+                    <token regexp="yes">дня|ночі|ранку|вечора</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[0-9]+[—–-][0-9]+</token>
+                    <token regexp="yes">рівня|ступеня|вище|нижче</token>
+                </antipattern>
                 <pattern>
-                    <token regexp="yes">два|дві|обидва|обидві|три|чотири|[^,.№:-]*[2-9]?[234]
+                    <token postag_regexp="yes" postag=".*num.*" regexp="yes">два|дві|обидва|обидві|три|чотири|[^,]*[2-9]?[234]
                       <exception postag_regexp="yes" postag="date|time"/>
-                      <exception scope="previous" regexp="yes">[:/№]|статт[яі]|пункті?|частин[аи]|[а-яіїєґ]+\.|\.</exception> <!-- ст.,ч.,п. тощо -->
+                      <exception scope="previous" regexp="yes">[:/.№]|статт[яі]|пункті?|частин[аи]|[а-яіїєґ]+\.|\.</exception> <!-- ст.,ч.,п. тощо -->
                     </token>
                     <token postag_regexp="yes" postag="adj.*" min="0">
                       <exception regexp="yes">третіх|четвертих</exception>
@@ -406,6 +435,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="тижні">24 <marker>тижня</marker></example>
                 <example correction="автомобілі">обидва <marker>автомобіля</marker></example>
                 <example correction="автомобілі">обидва синіх <marker>автомобіля</marker></example>
+                <example>о 12-14 дня</example>
+                <example>1-2 рівня</example>
+                <example>5-7 ступеня</example>
+                <example>вдень 12-14 вище нуля</example>
+                <example>а 12-14 лютого Рада має прийняти</example>
                 <example>два Києва</example>
                 <example>двадцять три вулики</example>
                 <example>двадцять три дні</example>
@@ -462,9 +496,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">п'ять|шість|сім|вісім|дев'ять|нуль|десять|двадцять|тридцять|сорок|.*десят|дев'яносто|сотня|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|дев'ятсот|тисяча|мільйон|мільярд|([0-9]*[05-9]|[0-9]+11)
+                    <token regexp="yes" inflected="yes">п'ять|шість|сім|вісім|дев'ять|нуль|десять|двадцять|тридцять|сорок|.*десят|дев'яносто|сотня|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|дев'ятсот|тисяча|мільйон|мільярд|([0-9 ]*[05-9]|[0-9 ]+11)
                       <exception postag_regexp="yes" postag=".*:v_oru.*"/>
-                      <exception scope="previous" regexp="yes">[:./№«]</exception>
+                      <exception scope="previous" regexp="yes">[:./№]</exception>
                       <exception regexp="yes">(1[0-9]{3}|20[0-2][0-9])</exception>
                     </token>
                     <token postag_regexp="yes" postag="adj.*" min="0"/>
@@ -515,8 +549,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">([1-9][0-9]*)[02-9]1
-                      <exception scope="previous" regexp="yes">[:./$№«]</exception>
+                    <token regexp="yes">([1-9][0-9 \u00A0]*)[02-9]1
+                      <exception scope="previous" regexp="yes">[:./№]</exception>
                       <exception regexp="yes">(1[0-9]{3}|20[0-2][0-9])</exception>
                     </token>
                     <token postag_regexp="yes" postag="adj.*" min="0">
@@ -531,6 +565,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Після числівника що закінчується на 1 іменник має стояти в однині</message>
                 <example type="incorrect">271 <marker>депутатів</marker> проголосовали</example>
+                <example type="incorrect">1 271 <marker>депутатів</marker> проголосовали</example>
                 <example type="incorrect">всього 441 <marker>рази</marker>.</example>
                 <example>11 депутатів проголосовали</example>
                 <example>на тлі претендента 001 доходи великої родини</example>
