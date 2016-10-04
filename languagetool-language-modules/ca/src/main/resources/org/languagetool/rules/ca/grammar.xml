@@ -1700,7 +1700,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <marker>
                         <token skip="3" postag="D[DAI].*" postag_regexp="yes"/>
-                        <token inflected="yes" regexp="yes">&estacions;|&mesos_any;|&parts_dia;|&unitats_temps;|vegada|volta|pic|col?p</token>
+                        <token inflected="yes" regexp="yes">&estacions;|&mesos_any;|&parts_dia;|&unitats_temps;|&dies_setmana;|vegada|volta|pic|col?p</token>
                     </marker>
                 </antipattern>
                 <pattern>
@@ -1720,7 +1720,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception regexp="yes">[\d-]+</exception></token>
                 </pattern>
                 <message>Error de concordança.</message>
-                <short>Error de concordança</short>
                 <example correction=""><marker>Acabada les</marker> festes, se n'anaren</example>
                 <example correction="">duraran tot el matí, <marker>vist la</marker> quantitat de gent que hi havia.</example>
                 <example>Acabada la festa, se n'anaren.</example>
@@ -1730,6 +1729,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Arribat la primavera passada</example>
                 <example>Va dir el Joan, irritat una altra vegada</example>
                 <example>Explicava a tothom que li havien «embenat els ulls» i l'havien «ensibornat».</example>
+                <example>la reunió, celebrada aquest dimarts</example>
             </rule>
             <rule> <!-- Per al cas: passats els anys -->
                 <pattern>
@@ -1745,7 +1745,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Error de concordança.</message>
-                <short>Error de concordança</short>
                 <example correction=""><marker>Passats l'</marker>any, se n'anaren</example>
                 <example>Passat l'any, se n'anaren.</example>
             </rule>
@@ -1761,7 +1760,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </unify>
                 </pattern>
                 <message>Possible falta de concordança.</message>
-                <short>Concordança de gènere i nombre dubtosa</short>
                 <example correction=""><marker>Els un</marker>.</example>
                 <example correction=""><marker>Quin una</marker>.</example>
                 <example>Els uns.</example>
@@ -1798,7 +1796,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="_GN_F." postag_regexp="yes"><exception postag="_GN_M." postag_regexp="yes"></exception><exception postag="D.*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Error de concordança.</message>
-                <short>Error de concordança</short>
                 <example correction=""><marker>Els tres culleres</marker>.</example>
                 <example>Les tres culleres.</example>
                 <example>expulsarà de davant teu set nacions</example>
@@ -1811,7 +1808,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="_GN_.P" postag_regexp="yes"><exception postag="_GN_.S" postag_regexp="yes"></exception><exception postag="D.*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Error de concordança.</message>
-                <short>Error de concordança</short>
                 <example correction=""><marker>El tres homes</marker>.</example>
                 <example correction=""><marker>El 70 mm</marker> anuals.</example>
                 <example>Els tres homes.</example>
@@ -1825,7 +1821,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="_GN_M." postag_regexp="yes"><exception postag="_GN_F." postag_regexp="yes"></exception><exception postag="D.*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Error de concordança.</message>
-                <short>Error de concordança</short>
                 <example correction=""><marker>Totes tres ganivets</marker>.</example>
                 <example>tots tres ganivets.</example>
             </rule>
@@ -1836,7 +1831,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="_GN_F." postag_regexp="yes"><exception postag="_GN_M." postag_regexp="yes"></exception><exception postag="D.*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Error de concordança.</message>
-                <short>Error de concordança</short>
                 <example correction=""><marker>tots tres culleres</marker>.</example>
                 <example>totes tres culleres.</example>
             </rule>
@@ -1847,7 +1841,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="_GN_.P" postag_regexp="yes"><exception postag="_GN_.S" postag_regexp="yes"></exception><exception postag="D.*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Error de concordança.</message>
-                <short>Error de concordança</short>
                 <example correction=""><marker>tot tres culleres</marker>.</example>
                 <example>totes tres culleres.</example>
             </rule>
@@ -1858,7 +1851,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="_GN_M." postag_regexp="yes"><exception postag="_GN_F." postag_regexp="yes"></exception><exception postag="D.*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Error de concordança.</message>
-                <short>Error de concordança</short>
                 <example correction=""><marker>Les altres ganivets</marker>.</example>
                 <example>Els altres ganivets.</example>
             </rule>
@@ -1869,7 +1861,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="_GN_F." postag_regexp="yes"><exception postag="_GN_M." postag_regexp="yes"></exception><exception postag="D.*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Error de concordança.</message>
-                <short>Error de concordança</short>
                 <example correction=""><marker>Els altres culleres</marker>.</example>
                 <example>Les altres culleres.</example>
             </rule>
@@ -1880,7 +1871,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="_GN_M." postag_regexp="yes"><exception postag="_GN_F." postag_regexp="yes"></exception><exception postag="D.*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Error de concordança.</message>
-                <short>Error de concordança</short>
                 <example correction=""><marker>Algunes altres ganivets</marker>.</example>
                 <example>Alguns altres ganivets.</example>
             </rule>
@@ -1891,7 +1881,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="_GN_F." postag_regexp="yes"><exception postag="_GN_M." postag_regexp="yes"></exception><exception postag="D.*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Error de concordança.</message>
-                <short>Error de concordança</short>
                 <example correction=""><marker>Alguns altres culleres</marker>.</example>
                 <example>Algunes altres culleres.</example>
             </rule>
@@ -32142,9 +32131,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="ESTORAR" name="estorar/astorar">
             <pattern>
-                <token inflected="yes">estorar<exception postag="_GN.*" postag_regexp="yes"/></token>
+                <token inflected="yes">estorar<exception postag="_GN.*|N.*" postag_regexp="yes"/></token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">astorar</match></suggestion>. "Estorar" vol dir "posar estores, catifes".</message>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">astorar</match></suggestion>? "Estorar" vol dir "posar estores, catifes".</message>
             <example correction="astorà">S'<marker>estorà</marker> moltíssim.</example>
             <example correction="astora">No m'<marker>estora</marker> gens.</example>
             <example>Una estora d'espart.</example>
