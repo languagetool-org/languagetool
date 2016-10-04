@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.177 2016-09-15 10:17:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.178 2016-10-04 19:08:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -387,7 +387,37 @@ $Id: grammar.xml,v 1.177 2016-09-15 10:17:00 marcoagpinto Exp $
       <example correction="de aí">A partir <marker>daí</marker> deduzir o que fazer.</example>
 	</rule> 
 
+	
 
+    <!-- DE PRESSA - depressa -->
+    <rule id="DE_PRESSA" name="depressa">
+      <pattern>
+		<token postag_regexp="yes" postag="NCMS000|NCMN000|AQ0CS0|AQ0MS0"></token>
+        <marker>
+            <token>de</token>
+			<token>pressa</token>
+        </marker>		
+     </pattern>
+     <message>Substituir «de pressa» por <suggestion>depressa</suggestion>.</message>
+     <example correction="depressa">Ele lê muito <marker>de pressa</marker>.</example>
+    </rule> 	
+
+	
+	
+    <!-- DE VAGAR - devagar -->
+    <rule id="DE_VAGAR" name="devagar">
+      <pattern>
+		<token postag_regexp="yes" postag="NCMS000|NCMN000|AQ0CS0|AQ0MS0"></token>
+        <marker>
+            <token>de</token>
+			<token>vagar</token>
+        </marker>		
+     </pattern>
+     <message>Substituir «de vagar» por <suggestion>devagar</suggestion>.</message>
+     <example correction="devagar">Ele lê muito <marker>de vagar</marker>.</example>
+    </rule> 		
+
+	
 	
     <!-- DE/DA MATRICULA de/da matrícula -->
     <rule id="DE_DA_MATRICULA" name="de-da matrícula">
