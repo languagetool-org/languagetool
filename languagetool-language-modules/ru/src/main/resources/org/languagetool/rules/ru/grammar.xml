@@ -1892,7 +1892,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     
     <category id="PUNCTUATION" name="Пунктуация">
-    	<rule default="on" id="Utochnenie_dejstvija" name="Уточнение действия">
+    	<rule default="on" id="takim_obrazom_chto" name="Запятая после «таким образом»">
     	    <pattern case_sensitive="no">
             	<token>таким</token>
     	        <token>образом</token>
@@ -1902,6 +1902,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     	    <short>Пропущена запятая.</short>
     	    <example correction="таким образом, что">Это сделано <marker>таким образом что</marker> и не найти.</example>
     	    <example>Таким образом, что слово есть, что его нет - без разницы.</example>
+    	</rule>
+        <rule default="on" id="comma_and_to_jest" name="Запятая перед «то есть»">
+    	    <pattern case_sensitive="no">
+            	<token negate="yes">,</token>
+    	        <token>то</token>
+    	        <token>есть</token>
+    	    </pattern>
+    	    <message>Пропущена запятая:<suggestion>\1, \2 \3</suggestion>.</message>
+    	    <short>Пропущена запятая.</short>
+    	    <example correction="сабель, то есть">К Тамбову подступали две с половиной тысячи <marker>сабель то есть</marker> всего три полка.</example>
     	</rule>
         <rulegroup default="on" id="Prep_i" name="Пропущена запятая перед предлогом «и» в сложном предложении">
             <rule>
