@@ -1905,7 +1905,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     	</rule>
         <rule default="on" id="comma_and_to_jest" name="Запятая перед «то есть»">
     	    <pattern case_sensitive="no">
-            	<token negate="yes">,</token>
+            	<token regexp="yes" negate="yes">[,]|тогда|[\p{Punct}]|[)»]|-|—|–|<exception postag="SENT_START" /></token>
     	        <token>то</token>
     	        <token>есть</token>
     	    </pattern>
