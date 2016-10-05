@@ -6410,7 +6410,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	        <example correction="">Не <marker>сообщайте людях</marker> о празднике.</example>
 	        <example correction="">Ложка <marker>лежала столе</marker>.</example>
         </rule>
-
+        <rule id="Verb_izbezhat_NN" name="Глагол избежать + существительное">
+            <pattern>
+                <marker>
+                    <token inflected="yes" >избежать</token>
+                    <token postag="NN:.*:Sin:V" postag_regexp="yes"></token>
+                </marker>
+                <token postag="NN:.*" postag_regexp="yes"  negate_pos="yes"/>
+            </pattern>
+            <message>Глагол "\1" предполагает после себя существительное в родительном падеже: <suggestion><match no="1"></match> <match no="2" postag_regexp="yes" postag="NN:(.*):(.*):V" postag_replace="NN:$1:$2:R"  ></match></suggestion></message>
+            <short>Требуется родительный падеж</short>
+            <example correction="избежал встречи">Он <marker>избежал встречу</marker>.</example>
+        </rule>
         <rule id="Verb_and_wo_P" name="Глагол предполагает падеж">
 	        <antipattern>
 		        <marker>
