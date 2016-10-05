@@ -389,7 +389,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>уравнять в правах</example>
             </rule>                     
         </rulegroup>
-        
+        <rulegroup id="bolotnij_bolotistiy" name="Логические ошибки «болотный/болотистый»">         
+            <rule> 
+                <pattern>
+                   <token inflected="yes">болотный</token>
+                   <token regexp="yes">лес|луг|долина|территория|поле|пойма|чек|лиман|опушка</token>
+                </pattern>
+                <message>Имелось в виду: <suggestion><match no="1" regexp_match="болотн(.*)" regexp_replace="болотист$1" /> <match no="2" /></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="болотистая территория">Здесь располагается <marker>болотная территория</marker>.</example>
+            </rule>
+            <rule> 
+                <pattern>
+                   <token inflected="yes">болотистый</token>
+                   <token regexp="yes">газ|лихорадка|лунь|козёл|козел|олень|дуб</token>
+                </pattern>
+                <message>Имелось в виду: <suggestion><match no="1" regexp_match="болотист(.*)" regexp_replace="болотн$1" /> <match no="2" /></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="болотный газ">Из воды выходил <marker>болотистый газ</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="vlasti_priderjashie" name="Логические ошибки «власти предержащие»">
             <rule> 
                 <pattern>
