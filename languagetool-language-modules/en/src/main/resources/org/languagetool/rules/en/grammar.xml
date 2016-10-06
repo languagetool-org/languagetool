@@ -11374,33 +11374,104 @@ USA
             </rule>
         </rulegroup>
 
-        <rulegroup default="on" name="Warn when the serial comma is not used" id="SERIAL_COMMA_ON">
+        <rulegroup default="off" name="Warn when the serial comma is not used (incomplete)" id="SERIAL_COMMA_ON">
             <rule>
                 <antipattern>
-                    <token skip="-1">and</token>
-                    <token regexp="yes">,|and</token>
+                    <token skip="-1" regexp="yes">and|or</token>
+                    <token regexp="yes">,|and|or</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="RBR|RBS" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token regexp="yes">and|or</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="NNP"/>
+                    <token regexp="yes">,</token>
+                    <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
+                    <token postag="NN.*" postag_regexp="yes"><exception postag="NNP"></exception></token>
+                    <token regexp="yes">and|or</token>
+                </antipattern>
+                <antipattern>
+                    <token>on</token>
+                    <token>the</token>
+                    <token>other</token>
+                    <token>hand</token>
+                    <token>,</token>
+                    <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token regexp="yes">and|or</token>
+                </antipattern>
+<!--                <antipattern> This antipattern causes too many false negatives
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" skip="-1">While|Since|After|With|In|Here|Despite</token>
+                    <token>,</token>
+                    <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token regexp="yes">and|or</token>
+                </antipattern>-->
                 <pattern>
                       <token postag="NN.*" postag_regexp="yes"><exception scope="previous">and</exception></token>
                       <token>,</token>
-                      <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most|in|at|with</token>
+                      <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
                       <marker>
                           <token postag="NN.*" postag_regexp="yes"/>
                           <token regexp="yes">and|or</token>
                       </marker>
-                      <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most|in|at|with</token>
+                      <token regexp="yes" min="0">my|your|his|her|our|their|a|an|the|these|those|some|many|most</token>
                       <token postag="NN.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>The serial comma (Oxford comma, Harvard comma) is missing. Use: <suggestion>\4, \5</suggestion></message>
+                <message>Style preference: the serial comma (Oxford comma, Harvard comma) is missing. Use: <suggestion>\4, \5</suggestion></message>
                 <url>https://en.wikipedia.org/wiki/Serial_comma</url>
-                <short>Serial comma: missing</short>
+                <short>Style: serial comma is missing</short>
                 <example correction="German, and">She speaks Spanish, <marker>German and</marker> French.</example>
                 <example correction="president, and">She took a photograph of her parents, the <marker>president and</marker> the vice president.</example>
                 <example correction="water, or">Would you like tea, coffee, <marker>water or</marker> wine?</example>
                 <example correction="car, or">How will you go to the city? Will you use my car, your <marker>car or</marker> the train?</example>
                 <example>She speaks Spanish, <marker>German, and</marker> French.</example>
-                <example>Irina, a singer and actress, was born in Poland.</example>
-                <example>I like both chips and <marker>eggs and pie</marker> and peas.</example><!-- TODO -->
+                <example>Irina, a <marker>singer and</marker> actress, was born in Poland.</example>
+                <example>They became polarised into two camps, with <marker>Marx and</marker> Bakunin as their respective figureheads.</example>
+                <example>The International Time Bureau began a time scale, <marker>Tm or</marker> AM, in July 1955, using both local caesium clocks and ...</example>
+                <example>Generally who visits their parents the most, <marker>sons or</marker> daughters?</example>
+                <example type="triggers_error">While he was growing up, his <marker>father and</marker> Nick Bollettieri trained him in this way.</example>
+                <example>While air, <marker>water and</marker> food are necessary for life, we cannot so easily categorize the prerequisites of happiness.</example>
+                <example type="triggers_error">Since being introduced by Portuguese in the 16th century, <marker>maize and</marker> manioc have replaced traditional African...</example>
+                <example>Since rice, <marker>maize and</marker> manioc have replaced traditional African foods, the ...</example>
+                <example>Which do you like better, <marker>summer or</marker> winter?</example>
+                <example type="triggers_error">With the rise of space tourism, <marker>NASA and</marker> the Russian Federal Space Agency agreed to use...</example>
+                <example>With cats, <marker>dogs and</marker> rabbits as the most popular pets for children, we find that ...</example>
+                <example>On the other hand, <marker>consonants and</marker> vowels are written as independent letters.</example>
+                <example type="triggers_error">In spite of their various differences, <marker>Joan and</marker> Ann are friends.</example>
+                <example>In Art, <marker>Music and</marker> Literature, these themes are common.</example>
+                <example type="triggers_error">In addition to buses, <marker>Calgary and Edmonton</marker> operate light rail transit systems.</example>
+                <example>In addition to buses, <marker>trams and</marker> taxis, popular modes of transport are ...</example>
+                <example>It was Branchus, <marker>son or</marker> lover of Apollo.</example>
+                <example>His father was Hermann Einstein, a <marker>salesman and</marker> engineer.</example>
+                <example>Recorded by Ptolemy, the <marker>geographer and</marker> astronomer from Alexandria</example>
+                <example>... and according to Alberta Economic Development, <marker>Calgary and</marker> Edmonton both host over four million visitors.</example>
+                <example type="triggers_error">According to Alberta Economic Development, <marker>Calgary and</marker> Edmonton both host over four million visitors.</example>
+                <example>I like both chips and <marker>eggs and</marker> pie and peas.</example><!-- TODO. False negative -->
+                <example>Art, <marker>literature and</marker> film.</example><!-- TODO. False negative -->
+                <example>Gulf Air, Air Arabia, Air India, <marker>PIA and others</marker> also provide services to Afghanistan.</example><!-- TODO. False negative -->
+                <example>... minorities of Christians, Buddhist, Parsi, <marker>Sikhs and</marker> Hindus.</example><!-- TODO. False negative -->
+                <example>Art is used in rituals, performances and dances as a decoration or symbol.</example><!-- TODO. False negative -->
+                <example>Legislative power is vested in the President, the government and parliament.</example><!-- TODO. False negative -->
+                <example>Stocking, George, Jr. (Race, <marker>Culture and</marker> Evolution).</example>
+                <example type="triggers_error">This music focuses on themes in love, <marker>religious and</marker> epic.</example><!-- In this context, religous is an adjective that modifies 'love'. It is not a noun. -->
+                <example type="triggers_error">But in some jurisdictions, the <marker>state or</marker> prosecution may appeal "as of right" from a trial.</example>
+                <example type="triggers_error">Likewise, in some jurisdictions, the <marker>state or</marker> prosecution may appeal an issue of law "by leave".</example>
+                <example type="triggers_error">Meanwhile, <marker>plains and</marker> foothills are characterized by high solar radiation.</example>
+                <example type="triggers_error">Chapter 2: Albedo, a <marker>whitening or</marker> leucosis</example>
+                <example type="triggers_error">Barnett, <marker>William and</marker> John Hoopes (editors).</example>
+                <example type="triggers_error">... breeding site, the males usually arriving first, <marker>calling and</marker> setting up territories.</example>
+                <example type="triggers_error">Carl Jung, <marker>Man and</marker> His Symbols.</example>
+                <example type="triggers_error">... his first visit to Paris as a gift to his hosts, <marker>Robert and</marker> Mabel Schirmer.</example>
+                <example type="triggers_error">Whenever an army is raised for common defense, <marker>colonels and</marker> military ranks below colonel will be named by the...</example>
+                <example type="triggers_error">Which is the capital of the United States, <marker>Washington or</marker> New York?</example>
+                <example type="triggers_error">Which would you like to have with your bread, <marker>butter or</marker> cheese?</example>
+                <example type="triggers_error">... yields are around 2 t/ha, African under 1 t/ha, <marker>Egypt and</marker> Arabia up to 3.5 to 4 t/ha with irrigation.</example>
             </rule>
         </rulegroup>
         <rulegroup default="off" name="Warn when the serial comma is used (incomplete)" id="SERIAL_COMMA_OFF">
