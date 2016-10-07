@@ -7551,6 +7551,25 @@ though, and has since been slightly modified)-->
       <message>Confusion probable entre le nom <suggestion>courant</suggestion> et le verbe conjugué « courent ».</message>
       <example correction="courant">Le <marker>courent</marker> électrique.</example>
     </rule>
+    <rulegroup id="RENNE_RENNES" name="Renne et Rennes">
+      <rule>
+        <pattern>
+          <token regexp="yes">à|depuis|vers<exception scope="previous" inflected="yes">traineau</exception></token>
+          <marker><token case_sensitive="yes">Renne</token></marker>
+        </pattern>
+        <message>Confusion probable entre la ville de <suggestion>Rennes</suggestion> en Bretagne et le mamifère « renne ».</message>
+        <example correction="Rennes">J'habite à <marker>Renne</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">académie|aéroport|autobus|bassin|blason|bibliothèque|bonjour|bus|canton|campus|centre(-ville)?|CHU|cité|coucou|commune|être|festival|histoire|HLM|industrie|INSA|maire|mairie|métro|métropole|nord(-est|-ouest)?|opéra|originaire|ouest|prison|quartier|salut|technopole|ville|gare|sud(-est|-ouest)?|rempart|rocade|rue|tourisme|tramway|université|urbain|venir</token>
+          <token>de</token>
+          <marker><token case_sensitive="yes">Renne</token></marker>
+        </pattern>
+        <message>Confusion probable entre la ville de <suggestion>Rennes</suggestion> en Bretagne et le mamifère « renne ».</message>
+        <example correction="Rennes">La gare de <marker>Renne</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category id="CAT_ELISION" name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
