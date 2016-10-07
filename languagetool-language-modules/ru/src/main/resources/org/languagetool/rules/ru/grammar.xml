@@ -7214,6 +7214,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Экскурсовод сказал, что Псков же стал провинциальным городом.</example>
             <example>Удалось подобрать ту же цветовую гамму.</example> 
         </rule>
+        <rule id="PARTICLE_JE_J" name="Употребление частиц «же» и «ж»">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[а-яёА-ЯЁ]*[бвгджзйклмнпрстфхчц]</token>
+                <token>ж</token>
+                <token regexp="yes" negate="yes">[,.;/]</token>
+            </pattern>
+            <message>Частица «Ж» употребляется только после слов, оканчивающихся на гласный звук: <suggestion>\1 же \3</suggestion></message>
+            <short>Требуется частица «же»</short>
+            <example correction="Иван же не"><marker>Иван ж не</marker> приехал.</example>
+            <example>Иван же не приехал.</example>
+            <example>Ольга ж не приехала.</example>
+        </rule>
         <rulegroup id="po_povodu_togo" name="Канцелярский штамп: «по поводу того»" default="off">
             <rule> 
                 <pattern>
