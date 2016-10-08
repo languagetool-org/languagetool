@@ -276,6 +276,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Сдайте тетради на проверку!</example>
             </rule>          
         </rulegroup>
+        <rulegroup id="INFORMATIVNIJ_INFORMACIONNIJ" name="Логические ошибки «информативный/информационный»">
+            <rule>
+                <pattern>
+                    <token inflected="yes">информативный</token>
+                    <token inflected="yes" regexp="yes">служба|отдел</token>
+                </pattern>              
+                <message>Имелось в виду <suggestion><match no="1"  regexp_match="информативн(.*)"  regexp_replace="информационн$2" >информационный</match> <match no="2" /></suggestion>?</message>
+                <url>https://ru.wiktionary.org/wiki/%D0%B8%D0%BD%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D1%8B%D0%B9</url>
+                <short>Логическая ошибка.</short>
+                <example correction="информационный отдел">По всем вопросам обращайтесь в <marker>информативный отдел</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VODJANOJ_VODNIJ" name="Логические ошибки «водяной/водный»">
             <rule>
                 <pattern>
