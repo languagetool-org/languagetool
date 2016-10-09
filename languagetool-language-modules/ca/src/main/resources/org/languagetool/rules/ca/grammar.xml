@@ -31167,6 +31167,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="TERROSOS_TERROSSOS" name="terrosos/terrossos">
+            <pattern>
+                <token postag="D..MP.|PX.MP.*" postag_regexp="yes"></token>
+                <marker>
+                    <token>terrosos</token>
+                </marker>
+            </pattern>
+            <message>Si és el pl. del n. "terròs", cal escriure <suggestion>terrossos</suggestion>. Correcte si ve de "terrós".</message>
+            <example correction="terrossos">Els seus <marker>terrosos</marker>.</example>
+            <example correction="terrossos">Els <marker>terrosos</marker> del camp.</example>
+        </rule>
         <rule id="PASTEL" name="tons *pastís/pastel">
             <pattern>
                 <token inflected="yes" regexp="yes">to|color|tonalitat</token>
