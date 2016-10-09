@@ -25,12 +25,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   <category name="Орфографія" id="SPELLING">
 
     <rulegroup id="SLOVA_Z_NAPIV_RAZOM" name="Слова з напів- пишемо разом">
-      <rule>   
+      <rule>
         <pattern>
-         <marker>
-          <token>напів</token>
-          <token postag_regexp="yes" postag="(noun|adj|adv).*"></token>
-         </marker>
+          <marker>
+            <token>напів</token>
+            <token postag_regexp="yes" postag="(noun|adj|adv).*"></token>
+          </marker>
         </pattern>
         <message>Слова з «напів» пишемо разом <suggestion>напів<match no="2"/></suggestion></message>
         <short>Правильно писати разом</short>
@@ -91,56 +91,56 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-      <rule id="PIV_WITH_PROPER_NOUN" name="пів- з власними назвами">
-        <pattern>
-         <marker>
+    <rule id="PIV_WITH_PROPER_NOUN" name="пів- з власними назвами">
+      <pattern>
+        <marker>
           <token>пів</token>
           <!--
-          <token regexp="yes">Європи|Києва|України|Польщі|Росії|Харкова|Америки|Австралії|Туреччини|Австрії|Відня|Китаю|Кореї|Франції|Іспанії|Італії|Угорщини|Москви|Казані|Швейцарії</token>
+              <token regexp="yes">Європи|Києва|України|Польщі|Росії|Харкова|Америки|Австралії|Туреччини|Австрії|Відня|Китаю|Кореї|Франції|Іспанії|Італії|Угорщини|Москви|Казані|Швейцарії</token>
           -->
           <token postag_regexp="yes" postag="noun:.*:v_rod.*:prop.*"></token>
-         </marker>
-        </pattern>
-        <message>«пів» з усіма власними назвами пишемо через дефіс: <suggestion><match no="1"/>-<match no="2"/></suggestion></message>
-        <short>Правильно писати через дефіс</short>
-        <example correction="пів-Європи">Снігопади паралізували <marker>пів Європи</marker>.</example>
-        <example correction="пів-Євро́пи">Снігопади паралізували <marker>пів Євро́пи</marker>.</example>
-        <example>Снігопади паралізували пів-Європи.</example>
-      </rule>
+        </marker>
+      </pattern>
+      <message>«пів» з усіма власними назвами пишемо через дефіс: <suggestion><match no="1"/>-<match no="2"/></suggestion></message>
+      <short>Правильно писати через дефіс</short>
+      <example correction="пів-Європи">Снігопади паралізували <marker>пів Європи</marker>.</example>
+      <example correction="пів-Євро́пи">Снігопади паралізували <marker>пів Євро́пи</marker>.</example>
+      <example>Снігопади паралізували пів-Європи.</example>
+    </rule>
 
-      <rule id="PIV_BEFORE_IOTIZED" name="пів' перед йотованими">
-        <pattern>
-         <marker>
+    <rule id="PIV_BEFORE_IOTIZED" name="пів' перед йотованими">
+      <pattern>
+        <marker>
           <token>пів</token>
           <token case_sensitive="yes" regexp="yes">[яюєї].*</token>
-         </marker>
-        </pattern>
-        <message>«пів» із загальними назвами на я, ю, є, ї пишемо через апостроф. Ви мали на увазі <suggestion>пів'<match no="2"/></suggestion>?</message>
-        <short>Правильно «пів'яблука» тощо</short>
-        <example correction="пів'яблука">З'їсти <marker>пів яблука</marker>.</example>
-        <example>З'їсти пів'яблука.</example>
-        <example correction="Пів'їдальні"><marker>Пів їдальні</marker> займали столи.</example>
-        <example>Пів'їдальні займали столи. </example>
-        <example correction="пів'юаня">Вартість квитка – <marker>пів юаня</marker>.</example>
-        <example>Вартість квитка – пів'юаня.</example>
-        <example>об'їздив пів Європи</example>
-      </rule>
+        </marker>
+      </pattern>
+      <message>«пів» із загальними назвами на я, ю, є, ї пишемо через апостроф. Ви мали на увазі <suggestion>пів'<match no="2"/></suggestion>?</message>
+      <short>Правильно «пів'яблука» тощо</short>
+      <example correction="пів'яблука">З'їсти <marker>пів яблука</marker>.</example>
+      <example>З'їсти пів'яблука.</example>
+      <example correction="Пів'їдальні"><marker>Пів їдальні</marker> займали столи.</example>
+      <example>Пів'їдальні займали столи. </example>
+      <example correction="пів'юаня">Вартість квитка – <marker>пів юаня</marker>.</example>
+      <example>Вартість квитка – пів'юаня.</example>
+      <example>об'їздив пів Європи</example>
+    </rule>
 
     <rulegroup id="ALT_SPELLING" name="Альтернативний правопис">
       <rule>
-      <pattern>
-        <token postag_regexp="yes" postag=".*:alt.*">
-         <exception negate_pos="yes" postag_regexp="yes" postag=".*:alt.*|SENT_END|SENT_START" />
-        </token>
-      </pattern>
-      <message>Слово написане не за чинним правописом</message>
-      <example correction=""><marker>проєкту</marker></example>
-      <example correction=""><marker>хемія</marker></example>
-      <example>проекту</example>
-      <!-- TODO: fix marker position -->
-      <example correction=""><marker>хе́мі</marker>я</example>
-      <example>хоче прорости</example>
-      <example>проекту</example>
+        <pattern>
+          <token postag_regexp="yes" postag=".*:alt.*">
+            <exception negate_pos="yes" postag_regexp="yes" postag=".*:alt.*|SENT_END|SENT_START" />
+          </token>
+        </pattern>
+        <message>Слово написане не за чинним правописом</message>
+        <example correction=""><marker>проєкту</marker></example>
+        <example correction=""><marker>хемія</marker></example>
+        <example>проекту</example>
+        <!-- TODO: fix marker position -->
+        <example correction=""><marker>хе́мі</marker>я</example>
+        <example>хоче прорости</example>
+        <example>проекту</example>
       </rule>
     </rulegroup>
 
@@ -149,8 +149,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token regexp="yes">[а-яіїєґ]+[—–][а-яіїєґ]+</token>
         </pattern>
-        <message>Риска всередині слова. Всередині слова вживайте дефіс: <suggestion><match no="1" regexp_match="(.*)[—–](.*)" regexp_replace="$1-$2"/></suggestion
-        >, між словами виокремлюйте риску пробілами: <suggestion><match no="1" regexp_match="(.*)[—–](.*)" regexp_replace="$1 — $2"/></suggestion></message>
+        <message>Риска всередині слова. Всередині слова вживайте дефіс: <suggestion><match no="1" regexp_match="(.*)[—–](.*)" regexp_replace="$1-$2"/></suggestion>, між словами виокремлюйте риску пробілами: <suggestion><match no="1" regexp_match="(.*)[—–](.*)" regexp_replace="$1 — $2"/></suggestion></message>
         <example correction="січень-лютий|січень — лютий"><marker>січень—лютий</marker></example>
         <example correction="яскраво-рожевий|яскраво — рожевий"><marker>яскраво–рожевий</marker></example>
         <example correction="Вовка-Волкова|Вовка — Волкова"><marker>Вовка—Волкова</marker></example>
@@ -180,7 +179,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Це слово пишеться через дефіс: <suggestion>\1-\2</suggestion></message>
         <example correction="будь-де">І в нас і <marker>будь де</marker>.</example>
         <example>будь що буде</example>
-<!--        <example>будь як усі</example> -->
+        <!--        <example>будь як усі</example> -->
         <example>будь як є</example>
         <example>Будь що, а першого вересня</example>
       </rule>
@@ -215,9 +214,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="DIGITS_AND_LETTERS" name="Цифри та літери">
       <rule>
         <antipattern>
-            <token>«</token>
-            <token regexp="yes">[А-ЯІЇЄҐа-яіїєґ'-][а-яіїєґ]+[0-9]+[^а-яіїєґ]+</token>
-            <token>»</token>
+          <token>«</token>
+          <token regexp="yes">[А-ЯІЇЄҐа-яіїєґ'-][а-яіїєґ]+[0-9]+[^а-яіїєґ]+</token>
+          <token>»</token>
         </antipattern>
         <pattern>
           <marker>
@@ -238,12 +237,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>ми скористалися службою «Інфо300»</example>
         <example>АН4774087</example>
       </rule>
-      
+
       <rule>
         <pattern>
           <marker>
             <token regexp="yes">[А-ЯІЇЄҐа-яіїєґ'-][а-яіїєґ]+[0-9]+[а-яіїєґ]+
-	        </token>
+            </token>
           </marker>
         </pattern>
         <message>Цифри всередині слова</message>
@@ -254,30 +253,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       <rule>
         <antipattern>
-            <token regexp="yes">[А-ЯІЇЄҐ].*</token>
-         	<token regexp="yes">,</token>
-            <token regexp="yes">[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*</token>
+          <token regexp="yes">[А-ЯІЇЄҐ].*</token>
+          <token regexp="yes">,</token>
+          <token regexp="yes">[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*</token>
         </antipattern>
         <antipattern>
-            <token regexp="yes">номер.*|нумерац.*|[/№]</token>
-            <token regexp="yes">[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*</token>
+          <token regexp="yes">номер.*|нумерац.*|[/№]</token>
+          <token regexp="yes">[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*</token>
         </antipattern>
         <antipattern>
-            <token>«</token>
-            <token regexp="yes">[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*</token>
-            <token>»</token>
+          <token>«</token>
+          <token regexp="yes">[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*</token>
+          <token>»</token>
         </antipattern>
         <antipattern>
-            <token regexp="yes">[0-9]{1,3}[а-яіїєґ]?</token>
-            <token regexp="yes">,|і|та</token>
-            <token regexp="yes">[0-9]{1,3}[а-яіїєґ]</token>
+          <token regexp="yes">[0-9]{1,3}[а-яіїєґ]?</token>
+          <token regexp="yes">,|і|та</token>
+          <token regexp="yes">[0-9]{1,3}[а-яіїєґ]</token>
         </antipattern>
         <pattern>
           <marker>
             <token regexp="yes">[$+-]?[0-9,-]*[0-9,][а-яіїєґ'][а-яіїєґ'-]*\.?
-            	<exception case_sensitive="yes">1С</exception>
-            	<exception regexp="yes">[0-9]+'</exception>
-            	<exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</exception>	<!-- both lat and cyr o and C -->
+              <exception case_sensitive="yes">1С</exception>
+              <exception regexp="yes">[0-9]+'</exception>
+              <exception case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</exception>	<!-- both lat and cyr o and C -->
             </token>
           </marker>
         </pattern>
@@ -318,7 +317,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rule id="DEGREES_FOR_C" name="Знак градусів">
       <pattern>
-	<token case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</token>	<!-- both lat and cyr o and C -->
+        <token case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</token>	<!-- both lat and cyr o and C -->
       </pattern>
       <message>Можливо потрібен знак градуса?</message>
       <suggestion><match no="1" regexp_match="([+-]?[0-9,-]*[0-9])[оo][СC]" regexp_replace="$1°C"/></suggestion>
@@ -327,13 +326,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
 
     <rulegroup id="ABBREVIATIONS" name="Скорочення">
-    <!-- TODO: c - секунда, c. - село/сторінка; м — метр, м. — місто; т - тонна, т. - точка -->
+      <!-- TODO: c - секунда, c. - село/сторінка; м — метр, м. — місто; т - тонна, т. - точка -->
       <url>http://www.library.ukma.edu.ua/fileadmin/documents/Bibliography/26_DCTU3582-97.pdf</url>
       <rule>
         <antipattern>
-            <token>.</token>
-            <token regexp="yes">[—–-]</token>
-            <token regexp="yes">(авт\.|ред\.)</token>
+          <token>.</token>
+          <token regexp="yes">[—–-]</token>
+          <token regexp="yes">(авт\.|ред\.)</token>
         </antipattern>
         <pattern>
           <token case_sensitive="yes" regexp="yes">[мк]?г|мкг|грн|год|крб|м?л|млн|млрд|[мнсдк]м|мкм|[нм]с|мкс|смт|трлн|хв</token>
@@ -374,8 +373,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Листи надсилайте на адресу: 79026    м. Львів, вул. Володимира Великого</example>
         <!-- TODO: важко розрізнити секунди від села від сторінки -->
         <!--
-        <example correction="с">Останніх 37,8 <marker>с.</marker> шляху.</example>
-        <example>Проїхали с. Веселе.</example>
+            <example correction="с">Останніх 37,8 <marker>с.</marker> шляху.</example>
+            <example>Проїхали с. Веселе.</example>
         -->
       </rule>
       <rule>
@@ -389,46 +388,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
 
     <rulegroup id="TON_VS_TONN" name="Тон/тонн">
-    <!--
-      <rule>
-        <pattern>
+      <!--
+          <rule>
+          <pattern>
           <token postag_regexp="yes" postag="num.*"/>
           <marker>
-            <token>тон</token>
+          <token>тон</token>
+          </marker>
+          </pattern>
+          <message>Правильно: <suggestion>тонн</suggestion></message>
+          <example correction="тонн">1600 <marker>тон</marker></example>
+          <example correction="тонн">п'ять <marker>тон</marker></example>
+          </rule>
+      -->
+      <rule>
+        <pattern>
+          <!--
+              <token regexp="yes" inflected="yes">п'ять|шість|сім|вісім|дев'ять|нуль|десять|двадцять|тридцять|сорок|.*десят|дев'яносто|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|сотня|тисяча|мільйон|мільярд|тис.|млн|млрд|([0-9-]*[05-9]|[0-9-]+11)
+          -->
+          <or>
+            <token regexp="yes" inflected="yes">тис.|млн|млрд</token>
+            <token postag_regexp="yes" postag=".*num.*">
+              <exception postag_regexp="yes" postag=".*:v_oru.*"/>
+              <exception scope="previous" regexp="yes">[:./№«]</exception>
+              <exception regexp="yes">(1[0-9]{3}|20[0-2][0-9])</exception>
+              <exception regexp="yes">один|перший</exception>
+            </token>
+          </or>
+          <marker>
+            <token regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?тон</token>
           </marker>
         </pattern>
-        <message>Правильно: <suggestion>тонн</suggestion></message>
-        <example correction="тонн">1600 <marker>тон</marker></example>
+        <message>Ви мали на увазі: <suggestion><match no="2"/>н</suggestion>?</message>
+        <example correction="кілотонн">10 <marker>кілотон</marker></example>
+        <example correction="тонн">10 <marker>тон</marker></example>
         <example correction="тонн">п'ять <marker>тон</marker></example>
-      </rule>
-    -->
-      <rule>
-          <pattern>
-            <!--
-            <token regexp="yes" inflected="yes">п'ять|шість|сім|вісім|дев'ять|нуль|десять|двадцять|тридцять|сорок|.*десят|дев'яносто|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|сотня|тисяча|мільйон|мільярд|тис.|млн|млрд|([0-9-]*[05-9]|[0-9-]+11)
-            -->
-            <or>
-              <token regexp="yes" inflected="yes">тис.|млн|млрд</token>
-              <token postag_regexp="yes" postag=".*num.*">
-                <exception postag_regexp="yes" postag=".*:v_oru.*"/>
-                <exception scope="previous" regexp="yes">[:./№«]</exception>
-                <exception regexp="yes">(1[0-9]{3}|20[0-2][0-9])</exception>
-                <exception regexp="yes">один|перший</exception>
-              </token>
-            </or>
-            <marker>
-              <token regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?тон</token>
-            </marker>
-          </pattern>
-          <message>Ви мали на увазі: <suggestion><match no="2"/>н</suggestion>?</message>
-          <example correction="кілотонн">10 <marker>кілотон</marker></example>
-          <example correction="тонн">10 <marker>тон</marker></example>
-          <example correction="тонн">п'ять <marker>тон</marker></example>
-          <example correction="тонн">72-78 <marker>тон</marker></example>
-          <example correction="тонн">кілька <marker>тон</marker></example>
-          <example>лише один тон</example>
-          <example>10 тонн</example>
-          <example>10 тонів</example>
+        <example correction="тонн">72-78 <marker>тон</marker></example>
+        <example correction="тонн">кілька <marker>тон</marker></example>
+        <example>лише один тон</example>
+        <example>10 тонн</example>
+        <example>10 тонів</example>
       </rule>
     </rulegroup>
 

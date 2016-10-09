@@ -31,880 +31,881 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <rules lang="uk" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
-    <category id="GRAMMAR" name="Граматика">
+  <category id="GRAMMAR" name="Граматика">
 
-            <rule id="PREP_BEFORE_VERB" name="Прийменник перед дієсловом">
-                <antipattern>
-                   <token regexp="yes">о?крім|замість|(за)?для|(за)?ради|замість</token>
-                   <token postag_regexp="yes" postag="verb.*inf.*"/>
-                </antipattern>
-                <antipattern>
-                   <token case_sensitive="no">о</token>
-                   <token postag_regexp="yes" postag="verb.*impr.*"/>
-                </antipattern>
-                <antipattern>
-                   <token inflected="yes" regexp="yes">група|турнір|гепатит</token>
-                   <token case_sensitive="yes" regexp="yes">[А-Я]</token>
-                </antipattern>
-                <pattern>
-                    <token postag_regexp="yes" postag="prep.*">
-                        <exception negate_pos="yes" postag_regexp="yes" postag="prep.*" />
-                    </token>
-                    <token postag_regexp="yes" postag="verb.*">
-                        <exception negate_pos="yes" postag_regexp="yes" postag="verb.*" />
-                    </token>
-                </pattern>
-                <message>Прийменник \1 перед дієсловом <suggestion>\2</suggestion></message>
-                <example>Їм треба їхати.</example>
-                <example>Їм треба в'їхати.</example>
-                <example>Просто взяти.</example>
-                <example>Справедливості заради скажемо</example>
-                <example>Справедливості заради хочеться зауважити</example>
-                <example>Просто неба.</example>
-                <example>Це більше задля годиться</example>
-                <example>задля годиться</example>
-                <example>не залишається нічого іншого, крім чекати.</example>
-                <example>Наїхали на Мела Гібсона</example>
-                <example>О покладіть мені квіти</example>
-                <example>заради скажемо</example>
-                <example>кількість захворювань на гепатит В зменшилась у вісім разів.</example>
-                <example correction="їхати">Їм треба <marker>в їхати</marker>.</example>
-                <example correction="будь"><marker>для будь</marker> кого</example>
-                <example correction="грати">потрапляти <marker>за грати</marker>.</example>
-            </rule>
+    <rule id="PREP_BEFORE_VERB" name="Прийменник перед дієсловом">
+      <antipattern>
+        <token regexp="yes">о?крім|замість|(за)?для|(за)?ради|замість</token>
+        <token postag_regexp="yes" postag="verb.*inf.*"/>
+      </antipattern>
+      <antipattern>
+        <token case_sensitive="no">о</token>
+        <token postag_regexp="yes" postag="verb.*impr.*"/>
+      </antipattern>
+      <antipattern>
+        <token inflected="yes" regexp="yes">група|турнір|гепатит</token>
+        <token case_sensitive="yes" regexp="yes">[А-Я]</token>
+      </antipattern>
+      <pattern>
+        <token postag_regexp="yes" postag="prep.*">
+          <exception negate_pos="yes" postag_regexp="yes" postag="prep.*" />
+        </token>
+        <token postag_regexp="yes" postag="verb.*">
+          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*" />
+        </token>
+      </pattern>
+      <message>Прийменник \1 перед дієсловом <suggestion>\2</suggestion></message>
+      <example>Їм треба їхати.</example>
+      <example>Їм треба в'їхати.</example>
+      <example>Просто взяти.</example>
+      <example>Справедливості заради скажемо</example>
+      <example>Справедливості заради хочеться зауважити</example>
+      <example>Просто неба.</example>
+      <example>Це більше задля годиться</example>
+      <example>задля годиться</example>
+      <example>не залишається нічого іншого, крім чекати.</example>
+      <example>Наїхали на Мела Гібсона</example>
+      <example>О покладіть мені квіти</example>
+      <example>заради скажемо</example>
+      <example>кількість захворювань на гепатит В зменшилась у вісім разів.</example>
+      <example correction="їхати">Їм треба <marker>в їхати</marker>.</example>
+      <example correction="будь"><marker>для будь</marker> кого</example>
+      <example correction="грати">потрапляти <marker>за грати</marker>.</example>
+    </rule>
 
-        <rulegroup id="MODAL_WORD" name="Узгодження з модальними словами">
-            <rule>
-                <antipattern>
-                  <token regexp="yes">чим|як|скільки|тільки</token>
-                  <token inflected="yes">можна</token>
-                </antipattern>
-                <pattern>
-                    <token regexp="yes" inflected="yes">варто|годі|можна|повинно|треба
-                        <exception scope="previous" regexp="yes">кого</exception>
-                    </token>
-                    <token regexp="yes" min="0">було|буде</token>
-                  <marker>
-                    <token postag_regexp="yes" postag="verb.*">
-                        <exception postag_regexp="yes" postag="verb.*:inf.*"/>
-                        <exception negate_pos="yes" postag_regexp="yes" postag="verb.*"/>
-                        <exception regexp="yes">було|буде</exception>
-                    </token>
-                  </marker>
-                </pattern>
-                <message>Дієслово після модального слова має йти інфінітивом: <suggestion><match no="3" postag_regexp="yes" postag="verb.*:inf.*"/></suggestion></message>
-                <example>Повинен їхати</example>
-                <example>Йому треба писати</example>
-                <example>Чи варто їм таке писати?</example>
-                <example>Чи варто було їм таке писати?</example>
-                <example>Треба буде таке писати</example>
-                <example>В кого треба видалено.</example>
-                <example>можна буде встояти.</example>
-                <example>Не можна встоять.</example>
-                <example>суспільство повинно довірять не лише програмі дій</example>
-                <example correction="писати">Треба <marker>писав</marker>.</example>
-                <example correction="сподіватись|сподіватися">І тому варто <marker>сподіваюся</marker>, що це спрацює.</example>
-                <example correction="бути">розвиватися взагалі більше не треба, варто <marker>були</marker> тільки галасливо-крикливим і наглим</example>
-            </rule>
-            <rule>
-                <antipattern>
-                  <token regexp="yes">чим|як|скільки|тільки|наскільки</token>
-                  <token inflected="yes">могти</token>
-                </antipattern>
-                <pattern>
-                    <token regexp="yes" inflected="yes">бажати|благати|братися|могти|мусити|старатися
-                        <exception>може</exception>
-                        <exception postag_regexp="yes" postag="(advp|insert).*"/>
-                        <exception scope="previous" regexp="yes">кого</exception>
-                    </token>
-                    <token inflected="yes" postag_regexp="yes" postag="verb:imperf:(past|futr).*" min="0">бути</token>
-                    <!-- 
-                    <token postag_regexp="yes" min="0" postag="noun.*:v_dav.*"/>
-                    <token postag_regexp="yes" min="0" postag=".*pron:dem.*"/>
-                     -->
-                  <marker>
-                    <token postag_regexp="yes" postag="verb.*">
-                        <exception postag_regexp="yes" postag="verb.*:inf.*"/>
-                        <exception negate_pos="yes" postag_regexp="yes" postag="verb.*"/>
-                        <exception inflected="yes" postag_regexp="yes" postag="verb:imperf:(past|futr).*">бути</exception>
-                    </token>
-                  </marker>
-                </pattern>
-                <message>Дієслово після модального слова має йти інфінітивом: <suggestion><match no="3" postag_regexp="yes" postag="verb.*:inf.*"/></suggestion></message>
-                <example>чи може мав важливіші справи</example>
-                <example>Він як міг уникав спонтанного спілкування.</example>
-                <example>І чим могли допомагали відновлювати.</example>
-                <example correction="відбуватись|відбуватися">Могли <marker>відбувалися</marker> лише за рахунок надлюдських зусиль.</example>
-            </rule>
-            <rule>
-                <pattern>
-                  <token inflected="yes" postag_regexp="yes" postag="adj:.:v_naz.*">повинний</token>
-                  <token inflected="yes" postag_regexp="yes" postag="verb:imperf:(past|futr).*" min="0">бути</token>
-                  <marker>
-                    <token postag_regexp="yes" postag="verb.*">
-                        <exception postag_regexp="yes" postag="verb.*:inf.*"/>
-                        <exception negate_pos="yes" postag_regexp="yes" postag="verb.*"/>
-                        <exception inflected="yes" postag_regexp="yes" postag="verb:imperf:(past|futr).*">бути</exception>
-                    </token>
-                  </marker>
-                </pattern>
-                <message>Дієслово після модального слова має йти інфінітивом: <suggestion><match no="3" postag_regexp="yes" postag="verb.*:inf.*"/></suggestion></message>
-                <example>Повинен їхати</example>
-                <example>І вони на всьому готовому живуть.</example>
-                <example correction="писати">Повинен <marker>писатиме</marker>.</example>
-            </rule>
-        </rulegroup>
-
-            <rule id="ZGIDNO_Z" name="Згідно з">
-                <pattern>
-                    <token>згідно</token>
-                    <marker>
-                    <token postag_regexp="yes" postag="(noun|adj|prep).*">
-                        <exception regexp="yes">з|зі|із</exception>
-                    </token>
-                    </marker>
-                </pattern>
-                <message>Згідно з чим</message>
-                <example correction="">згідно <marker>статуту</marker></example>
-                <example correction="">згідно <marker>до</marker> правила</example>
-                <example>згідно зі статутом</example>
-                <example>згідно з правилом</example>
-            </rule>
-
-            <rule id="ZAVIDUVACH" name="Завідувач">
-                <pattern>
-                  <token inflected="yes" regexp="yes">завідувач|завідувачка|зав|зав\.</token>
-                  <marker>
-                    <token postag_regexp="yes" postag="adj.*v_oru.*" min="0"/>
-                    <token postag_regexp="yes" postag="noun.*v_oru.*">
-                      <exception postag_regexp="yes" postag="noun.*v_rod.*|.*pron.*"/>
-                    </token>
-                  </marker>
-                </pattern>
-                <message>Завідувач(ка) чого</message>
-                <suggestion><match no="2" postag_regexp="yes" postag="(adj.*)v_oru(.*)" postag_replace="$1v_rod$2"/> <match no="3" postag_regexp="yes" postag="(noun.*)v_oru(.*)" postag_replace="$1v_rod$2"/></suggestion>
-                <!-- TODO: change code to remove space -->
-                <example correction="відділу">завідувача <marker>відділом</marker></example>
-                <example correction="відділу">зав <marker>відділом</marker></example>
-<!--                <example correction=" відділу">зав. <marker>відділом</marker></example> -->
-                <example correction="сьомого відділу">завідувачки <marker>сьомим відділом</marker></example>
-                <example>завідувачем ним же створеної</example>
-            </rule>
-
-        <rulegroup id="NAVCHATY_CHOGO" name="Навчати чого">
-            <rule>
-                <pattern>
-                  <token inflected="yes" regexp="yes">навч[иа]ти|навча(вши|ючи)|навчивши</token>
-                  <token postag_regexp="yes" postag="noun:anim.*:v_zna.*|noun.*v_zna.*pron:pers.*" min="0"/>
-                  <marker>
-                    <token postag_regexp="yes" postag="noun:inanim:.:v_dav.*|adj.*v_dav.*">
-                      <exception postag_regexp="yes" postag="noun:.*:v_(rod|zna|oru).*|noun:anim.*:v_naz.*|adv.*"/>
-                    </token>
-                  </marker>
-                  <token>
-                     <exception>нікому</exception> <!-- не вірити -->
-                  </token>
-                </pattern>
-                <message>Навчати чого</message>
-                <example correction="">навчати <marker>математиці</marker>.</example>
-                <example correction="">навчати <marker>елементарній</marker> математиці.</example>
-                <example correction="">навчати учнів <marker>елементарній</marker> математиці.</example>
-                <example correction="">навчати їх <marker>елементарній</marker> математиці.</example>
-                <example correction="">навчати <marker>цьому</marker> виду спорту.</example>
-                <example correction="">навчали <marker>улюбленому</marker> заняттю.</example>
-                <example correction="">навчити <marker>всьому</marker>.</example>
-                <!-- TODO: 
-                <example correction="">навчали <marker>необхідним</marker> навикам.</example>
-                <example correction="">Вас хтось навчив <marker>цим</marker> рухам?</example>
-                <example correction="">навчають незнайомим словам.</example>
-                 -->
-                <example>навчати математики</example>
-                <example>навчати елементарної математики</example>
-                <example>навчати фаху</example>
-                <example>навчати їх</example>
-                <example>навчило її нікому не вірити</example>
-                <example>Чого навчила вас ця поразка?</example>
-                <example>якого мене навчили друзі.</example>
-                <!-- TODO:
-               	<example>Цьому мав би навчити попередній досвід.</example>
-                 -->
-            </rule>
-            <rule>
-                <pattern>
-                  <token inflected="yes" regexp="yes">навч[иа]тися|навча(вши|ючи)сь|навчившись</token>
-                  <marker>
-	                  <token postag_regexp="yes" postag="noun:inanim.*:v_dav.*|adj.*v_dav.*"> <!--TODO: всьому|цьому -->
-	                    <exception postag_regexp="yes" postag="(noun|adj):.*:v_(rod|zna|oru).*|noun:anim.*|adv.*"/>
-	                    <exception>самому</exception>
-	                  </token>
-                  </marker>
-                  <token>
-   	                 <exception>нікому</exception> <!-- не вірити -->
-       	          </token>
-                </pattern>
-                <message>Навчати чого</message>
-                <example correction="">навчатися <marker>математиці</marker>.</example>
-                <example correction="">навчатися <marker>елементарній</marker> математиці.</example>
-                <example correction="">навчатися <marker>цьому</marker> виду спорту.</example>
-                <example correction="">навчалися <marker>улюбленому</marker> заняттю.</example>
-                <example correction="">навчитися <marker>всьому</marker>.</example>
-                <example correction="">навчитися <marker>цій</marker> екзотиці.</example>
-                <example correction="">не навчилися <marker>нічому</marker>.</example>
-                <example correction="">не навчилися <marker>дечому</marker>.</example>
-                <!-- TODO: 
-                <example correction="">навчитись <marker>тим</marker> технологіям</example>
-                <example correction="">навчилися високим стандартам життя</example>
-                <example correction="">навчитись східним танцям</example>
-                <example correction="">навчилася бойовим мистецтвам</example>
-                <example correction="">Мир нехай навчається добру</example>
-                 -->
-                <example>Куди піти навчатись ентузіастам із фотоапаратами.</example>
-                <example>навчалися індійці.</example>
-                <example>навчаються китайці.</example>
-                <example>навчатися досі</example>
-                <example>навчилася нікому не вірити</example>
-                <example>Але довго навчатися йому не довелося.</example>
-                <example>навчатися власним коштом.</example>
-                <example>не маючи можливості навчатися самому.</example>
-                <example>доведеться таки навчитися цим провокаціям протистояти.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="CONSISTENCY_NOUN_NUMERIC_FRACTIONAL" name="Узгодженість числа іменників з дробовими числівниками">
-            <rule>
-                <pattern>
-                  <token postag_regexp="yes" postag="num.*">
-                    <exception scope="previous">на</exception>
-                  </token>
-                  <token regexp="yes">десятих|сотих|тисячних|третіх|треті|четвертих|чверті|четверті</token>
-                  <marker>
-                    <token postag_regexp="yes" postag="noun:inanim:.:.*">
-                      <exception postag_regexp="yes" postag="noun:inanim:[mfnp]:v_rod.*"/>
-                      <exception regexp="yes">гра|біографій|витрат|голосів|грошей|занять|заяв|інвестицій|локомотивів|мінус|місць|плюс|потреб|потужностей|рейсів|сімей|смертей|фірм|шлюбів|творів|.*господарств|експонатів|країн|країн-.*</exception>
-                    </token>
-                  </marker>
-                </pattern>
-                <message>Після дробового числівника іменник має стояти в родовому відмінку однини</message>
-                <suggestion><match no="3" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:[mnf]:v_rod$2"/></suggestion>
-                <example correction="відсотка">два десятих <marker>відсотки</marker></example>
-                <example correction="відсотка">дві третіх <marker>відсотки</marker></example>
-                <example correction="відсотка">три четверті <marker>відсотки</marker></example>
-                <example>дві десяті відсотка</example>
-                <example>через десяті руки</example>
-                <example>дві третіх країн-членів</example>
-                <example>дві десяті мм</example>
-                <example>три чверті місць</example>
-                <example>три чверті їх слухати неможливо</example>
-                <example>на три чверті він ними був заповнений</example>
-                <example>три чверті громадян</example>
-                <example>усі три чверті гра була рівною</example>
-            </rule>
-            <rule>
-                <antipattern>
-                  <token regexp="yes">[12][0-9]{3},[12][0-9]{3}</token>
-                  <token regexp="yes">рр\.</token>
-                </antipattern>
-                <pattern>
-                  <token regexp="yes">.*,[1-46-9]+</token> <!-- ,5 - виняток: 4,5 роки може читатися як «чотири з половиною роки» -->
-                  <marker>
-                    <token postag_regexp="yes" postag="noun.*?:.:.*">
-                      <exception postag_regexp="yes" postag="noun.*?:[mfn]:v_rod.*|.*pron.*|adv.*"/>
-                      <exception regexp="yes">тис|куб|кал|рази|разу|раз|разів</exception>
-                      <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
-                    </token>
-                  </marker>
-                </pattern>
-                <message>Після десяткового дробу іменник має стояти в родовому відмінку однини: <suggestion><match no="2" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:[mnf]:v_rod$2"/></suggestion></message>
-                <example correction="кілограма">2,4 <marker>кілограми</marker></example>
-                <example correction="мільйона">2,4 <marker>мільйони</marker></example>
-                <example>або у 2,2 <marker>раз</marker>.</example> <!-- handled by rule below -->
-                <example>або у 2,2 <marker>рази</marker>.</example> <!-- handled by rule below -->
-                <example>33,77 тонни</example>
-                <example>2,19 бала</example>
-                <example>33,77 мм</example>
-                <example>33,77 тис</example>
-                <example>33,5 роки</example>
-                <example>33,5 Терещенко</example>
-                <example>1998,1999 рр.</example> <!-- should have space after comma, see next rule -->
-                <example>із результатом 28,91 вона посіла третє місце</example>
-                <example>Становлять відповідно 0,5 і 0,3 її оцінки.</example>
-                <example>це на 0,21 краще за попередній рекорд світу.</example>
-            </rule>
-            <rule>
-              <pattern>
-                <token regexp="yes">[12][0-9]{3},[12][0-9]{3}</token>
-              </pattern>
-              <message>Можливо пропущена кома між роками?</message>
-              <example correction=""><marker>1975,2002</marker></example>
-              <example>33,22</example>
-            </rule>
-            <rule>
-                <pattern>
-                  <token regexp="yes">.*,[1-9]+</token>
-                  <marker>
-                    <token regexp="yes">раз|рази|разу|разів</token>
-                  </marker>
-                </pattern>
-                <message>Після десяткового дробу вживаємо «раза»</message>
-                <suggestion>раза</suggestion>
-                <url>http://www.kulturamovy.org.ua/KM/pdfs/mix/61-12-65-26.pdf</url>
-                <example correction="раза">або у 2,2 <marker>раз</marker>.</example>
-                <example correction="раза">або у 2,2 <marker>рази</marker>.</example>
-                <example correction="раза">або у 2,2 <marker>раз</marker>.</example>
-                <example>або у 2,2 раза.</example>
-                <example>або у 2 рази.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="CONSISTENCY_NUMERIC_FRACTIONAL" name="Узгодженість дробових числівників">
-            <rule>
-                <pattern>
-                  <token regexp="yes">дві|три|чотири</token>
-                  <marker>
-                    <token regexp="yes">десятих|сотих|тисячних|третіх|четвертих</token>
-                  </marker>
-                </pattern>
-                <message>У дробовому числівнику після два, три, чотири має йти десяті, соті…</message>
-                <suggestion><match no="2" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:p:v_naz$2"/></suggestion>
-                <example correction="десяті">дві <marker>десятих</marker></example>
-                <example correction="соті">три <marker>сотих</marker></example>
-                <!-- TODO: false positive
-                <example>перше місце, три других і чотири третіх</example>
-                -->
-            </rule>
-        </rulegroup>
-
-
-        <rulegroup id="CONSISTENCY_NOUN_NUMERIC_WHOLE" name="Узгодженість числа іменників з цілими числівниками">
-            <rule>
-              <pattern>
-                <token regexp="yes">два|дві|три|чотири|.*[2-9]?[234]</token>
-                <token>з</token>
-                <token regexp="yes">половиною|третиною|чвертю</token>
-                <token postag_regexp="yes" postag="adj.*" min="0"/>
-                <marker>
-                  <token postag_regexp="yes" postag="noun.*?:[fm]:v_rod.*">
-                    <exception postag_regexp="yes" postag="noun.*?:p:v_naz.*"/>
-                    <exception>людини</exception>  <!-- until we fix the lemma -->
-                  </token>
-                </marker>
-              </pattern>
-              <message>Після числівника, що закінчується на 2-4 іменник має стояти в називному відмінку множини: <suggestion><match no="5" postag="noun.*?:p:v_naz.*" postag_regexp="yes"/></suggestion></message>
-              <url>http://mova.kreschatic.kiev.ua/228.htm</url>
-              <example correction="тижні">24 з половиною <marker>тижня</marker></example>
-              <example correction="тижні">24 з половиною довгих <marker>тижня</marker></example>
-              <example>двадцять три з половиною дні</example>
-              <example>дві з половиною тисячі</example>
-              <example>Дві з половиною людини</example>
-            </rule>
-
-            <rule>
-                <antipattern>
-                    <token regexp="yes">соті|десяті|.*[234]</token>
-                    <token case_sensitive="yes" postag_regexp="yes" postag="noun.*?:m:v_rod.*" regexp="yes">[А-ЯІЇЄҐ].*</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">на|о|з</token>
-                    <token regexp="yes">[12][0-9]?[—–-][12][0-9]?</token>
-                    <token regexp="yes">дня|ночі|ранку|вечора</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">[0-9]+[—–-][0-9]+</token>
-                    <token regexp="yes">рівня|ступеня|вище|нижче</token>
-                </antipattern>
-                <pattern>
-                    <token postag_regexp="yes" postag=".*num.*" regexp="yes">два|дві|обидва|обидві|три|чотири|[^,]*[2-9]?[234]
-                      <exception postag_regexp="yes" postag="date|time"/>
-                      <exception scope="previous" regexp="yes">[:/.№]|статт[яі]|пункті?|частин[аи]|[а-яіїєґ]+\.|\.</exception> <!-- ст.,ч.,п. тощо -->
-                    </token>
-                    <token postag_regexp="yes" postag="adj.*" min="0">
-                      <exception regexp="yes">третіх|четвертих</exception>
-                      <exception postag_regexp="yes" postag="noun:.*?:p:v_naz.*"/>
-                    </token>
-                    <marker>
-                        <token postag_regexp="yes" postag="noun.*?:m:v_rod.*" regexp="yes">.*[ая]
-                            <exception postag_regexp="yes" postag="noun.*?:p:v_naz.*|noun.*:m:v_rod.*:prop.*"/>
-                            <exception regexp="yes">січня|березня|квітня|травня|червня|липня|серпня|вересня|жовтня|листопада|грудня</exception>
-                            <exception regexp="yes">друга|брата|дуба|дядька|чоловіка|берега|.*нина</exception>
-                        </token>
-                    </marker>
-                </pattern>
-                <message>Після числівника, що закінчується на 2-4 іменник має стояти в називному відмінку множини: <suggestion><match no="3" postag="noun.*?:p:v_naz.*" postag_regexp="yes"/></suggestion></message>
-                <url>http://mova.kreschatic.kiev.ua/228.htm</url>
-                <example correction="вулики">двадцять три <marker>вулика</marker></example>
-                <example correction="тижні">24 <marker>тижня</marker></example>
-                <example correction="автомобілі">обидва <marker>автомобіля</marker></example>
-                <example correction="автомобілі">обидва синіх <marker>автомобіля</marker></example>
-                <example>о 12-14 дня</example>
-                <example>1-2 рівня</example>
-                <example>5-7 ступеня</example>
-                <example>вдень 12-14 вище нуля</example>
-                <example>а 12-14 лютого Рада має прийняти</example>
-                <example>два Києва</example>
-                <example>двадцять три вулики</example>
-                <example>двадцять три дні</example>
-                <example>три чверті</example>
-                <example>співвласника ДБК-3 Петра Шелюка</example>
-                <example>1/2 шилінга</example>
-                <example>після поразки 0:2 Базилевича</example>
-                <example>три головні завдання</example>
-                <example>2,2 мільйона</example>
-                <example>три століття</example>
-                <example>три роки тому</example>
-                <example>дві третіх шлунка</example>
-                <example>1992 року</example>
-                <example>три тис. грн.</example>
-                <example>3 липня 1998р.</example>
-                <example>ст. 33 документа</example>
-                <example>статті 43 Закону</example>
-                <example>заспівали дві пісні короля футболу</example>
-                <example>випередивши на дві соті Давида Ньясу з Катару</example>
-                <example>двадцять два слобожанина</example>
-                <example>сорок три киянина</example>
-                <example>два імені</example>
-                <example>три галченяти</example>
-                <example>чотири племені</example>
-                <example>чотири друга</example>
-                <example>22 рази</example>
-                <!-- двоїна: http://irbis-nbuv.gov.ua/cgi-bin/irbis_nbuv/cgiirbis_64.exe?C21COM=2&I21DBN=UJRN&P21DBN=UJRN&IMAGE_FILE_DOWNLOAD=1&Image_file_name=PDF/Ukrm_2011_2_8.pdf -->
-                <example>2 друга</example>
-                <example>2 брата</example>
-                <example>2 чоловіка</example>
-                <example>2 дядька</example>
-                <example>2 берега</example>
-                <!-- adj/v_rod + noun/v_naz -->
-                <example>Дві людських руки</example>
-                <example>Два білих горнятка</example>
-            </rule>
-
-            <rule>
-              <pattern>
-                <token regexp="yes" inflected="yes">п'ять|шість|сім|вісім|дев'ять|десять|.*надцять|двадцять|тридцять|сорок|.*десят|дев'яносто|сотня|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|дев'ятсот|тисяча|мільйон|мільярд</token>
-                <token>з</token>
-                <token regexp="yes">половиною|третиною|чвертю</token>
-                <token postag_regexp="yes" postag="adj.*" min="0"/>
-                <marker>
-                  <token postag_regexp="yes" postag="noun:(in)?anim:m:v_naz.*" regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|бар|бер|ват|вольт|солдат|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)
-                    <exception case_sensitive="yes">ВАТ</exception>
-                  </token>
-                </marker>
-              </pattern>
-              <message>Після числівника що закінчується на 5-9 або 0 іменник має стояти в родовому відмінку множини: <suggestion><match no="5" postag="noun:(in)?anim:p:v_rod.*" postag_regexp="yes"/></suggestion></message>
-              <example correction="мілібарів">десять з чвертю <marker>мілібар</marker></example>
-              <example correction="солдатів">дві сотні з половиною <marker>солдат</marker></example>
-              <example correction="солдатів">дві сотні з половиною хоробрих <marker>солдат</marker></example>
-              <example>п'ять з половиною <marker>разів</marker></example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes" inflected="yes">п'ять|шість|сім|вісім|дев'ять|нуль|десять|двадцять|тридцять|сорок|.*десят|дев'яносто|сотня|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|дев'ятсот|тисяча|мільйон|мільярд|([0-9 ]*[05-9]|[0-9 ]+11)
-                      <exception postag_regexp="yes" postag=".*:v_oru.*"/>
-                      <exception scope="previous" regexp="yes">[:./№]</exception>
-                      <exception regexp="yes">(1[0-9]{3}|20[0-2][0-9])</exception>
-                    </token>
-                    <token postag_regexp="yes" postag="adj.*" min="0"/>
-                    <marker>
-                        <!--
-                        <token postag_regexp="yes" postag="noun:m:v_naz.*" regexp="yes">.*[бвгґджйзклмнпрстфхцчшщ]ь?
-                            <exception scope="previous">хвилин за</exception>
-                            <exception postag_regexp="yes" postag="noun:p:v_rod.*|verb.*|predic.*"/>
-                            <exception regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].*</exception>
-                            <exception regexp="yes">раз|чоловік|тис|куб|як|абзац|клас|канал|номер|плюс|поверх|пункт</exception>
-                        </token>
-                        -->
-                        <token postag_regexp="yes" postag="noun:(in)?anim:m:v_naz.*" regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|бар|бер|ват|вольт|солдат|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)
-                          <exception case_sensitive="yes">ВАТ</exception>
-                        </token>
-                    </marker>
-                </pattern>
-                <message>Після числівника що закінчується на 5-9 або 0 іменник має стояти в родовому відмінку множини: <suggestion><match no="3" postag="noun:(in)?anim:p:v_rod.*" postag_regexp="yes"/></suggestion></message>
-                <!--
-                <example correction="грамів">сто <marker>грам</marker></example>
-                <example correction="грамів">100 <marker>грам</marker></example>
-                -->
-                <example correction="байтів">10 <marker>байт</marker></example>
-                <example correction="мілібарів">10 <marker>мілібар</marker></example>
-                <example correction="солдатів">дві сотні <marker>солдат</marker></example>
-                <example correction="солдатів">дві сотні хоробрих <marker>солдат</marker></example>
-                <example correction="солдатів">п'ять <marker>солдат</marker></example>
-                <example>п'ять <marker>раз</marker></example>
-                <example>хвилин за 10 спікер увійшов</example>
-                <example>до 16 вхід заборонено</example>
-                <example>в 40 став наймолодшим</example>
-                <example>50 тис. людей</example>
-                <example>сто грамів</example>
-                <example>100 грамів</example>
-                <example>10 разів</example>
-                <example>10 раз</example>
-                <example>10 номер</example>
-                <example>У 2008 президент</example>
-                <example>10 плюс 5</example>
-                <example>о 17.15 патріарх буде в місті</example>
-                <example>«5 канал»</example>
-                <example>у свої сімдесят два роки</example>
-                <example>на виборах-2007 Блок Литвина</example>
-                <example>127 Шевченко Євген Валерійович</example>
-                <example>керував сотнею німець</example>
-                <example>комендантом сотні став Віталій</example>
-                <example>ці мільйони слід шукати там</example>
-            </rule>
-
-            <rule>
-                <pattern>
-                    <token regexp="yes">([1-9][0-9 \u00A0]*)[02-9]1
-                      <exception scope="previous" regexp="yes">[:./№]</exception>
-                      <exception regexp="yes">(1[0-9]{3}|20[0-2][0-9])</exception>
-                    </token>
-                    <token postag_regexp="yes" postag="adj.*" min="0">
-                      <exception postag_regexp="yes" postag="noun.*?:[mfn]:.*"/>
-                    </token>
-                    <marker>
-                        <token postag_regexp="yes" postag="noun.*?:p:.*">
-                          <exception postag_regexp="yes" postag=".*:[mfn]:.*|.*pron:pers.*|adv.*"/>
-                          <exception regexp="yes">рр\.</exception>
-                        </token>
-                    </marker>
-                </pattern>
-                <message>Після числівника що закінчується на 1 іменник має стояти в однині</message>
-                <example type="incorrect">271 <marker>депутатів</marker> проголосовали</example>
-                <example type="incorrect">1 271 <marker>депутатів</marker> проголосовали</example>
-                <example type="incorrect">всього 441 <marker>рази</marker>.</example>
-                <example>11 депутатів проголосовали</example>
-                <example>на тлі претендента 001 доходи великої родини</example>
-                <example>27 депутатів проголосовали</example>
-                <example>проти 441 зараз.</example>
-                <example>залишилася 781 тонна пестицидів.</example>
-                <example>В 1999-2001 рр. він був секретарем.</example>
-                <example>В 604-562 або 561 рр. до н.е.</example>
-                <example>Про знеструмлення будинків 10 та 101 нас не повідомили.</example>
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="PIVTORA_WITH_NOUNS" name="Узгодженість «півтора» з іменниками">
-            <rule>
-                <pattern>
-                   <marker>
-                    <token>півтора</token>
-                   </marker>
-                   <token postag_regexp="yes" postag="noun.*?:f:.*">
-                      <exception postag_regexp="yes" postag="noun.*?:[nm]:(nv|v_rod).*"/>
-                   </token>
-                </pattern>
-                <message>В жіночому роді правильно: <suggestion>півтори</suggestion></message>
-                <example correction="півтори"><marker>півтора</marker> доби</example>
-                <example correction="півтори"><marker>півтора</marker> тисячі</example>
-                <example>півтори доби</example>
-            </rule>
-            <rule>
-                <pattern>
-                   <token regexp="yes">півтор[аи]</token>
-                   <marker>
-                     <token postag_regexp="yes" postag="(noun.*?|adj):p:.*">
-                        <exception postag_regexp="yes" postag="(noun.*?|adj):[nmf]:v_rod.*"/>
-                        <exception inflected="yes">раз</exception>  <!-- special case in the rule below -->
-                        <exception regexp="yes">десятих|сотих|тисячних</exception>
-                     </token>
-                   </marker>
-                </pattern>
-                <message>Після «півтора» треба вживати родовий однини</message>
-                <!--  <match no="2" postag_regexp="yes" postag="adj:p:.*" postag_replace="adj:[mnf]:v_rod.*"/>  -->
-                <suggestion><match no="3" postag_regexp="yes" postag="((noun|adj).*?):p:.*" postag_replace="$1:[mnf]:v_rod.*"/></suggestion>
-                <example correction="відра">півтора <marker>відер</marker></example>
-                <example correction="повного|повної">півтора <marker>повних</marker> відер</example>
-                <example correction="сотні">півтори <marker>сотень</marker></example>
-                <example correction="мільярда">півтора <marker>мільярди</marker></example>
-                <example correction="останнього|останньої">півтора <marker>останніх</marker> століття</example>
-                <example>півтора літра</example>
-                <example>півтора рази</example> <!-- ingore this mistake here, it'll be caght by rule below -->
-                <example>півтора тисячі</example> <!-- ingore this mistake here, it'll be caght by rule above -->
-                <example>якихось півтори десятих</example>
-            </rule>
-            <rule>
-                <pattern>
-                   <token>півтора</token>
-                   <marker>
-                     <token postag_regexp="yes" postag="noun.*?:[mn]:.*">
-                        <exception postag_regexp="yes" postag="noun.*?:[nmfp]:(nv|v_rod).*"/>
-                        <exception inflected="yes">раз</exception>  <!-- special case in the rule below -->
-                     </token>
-                   </marker>
-                </pattern>
-                <message>Після «півтора» треба вживати родовий однини: <suggestion><match no="2" postag_regexp="yes" postag="(noun.*?:[mn]):v_...(.*)" postag_replace="$1:v_rod$2"/></suggestion></message>
-                <example correction="копальника">півтора <marker>копальнику</marker></example>
-                <example correction="відра">півтора <marker>відрі</marker></example>
-                <example correction="десятка">півтора <marker>десятку</marker></example>
-                <example>півтора літра</example>
-                <example>півтора рази</example> <!-- ingore this mistake here, it'll be caght by rule below -->
-            </rule>
-            <rule>
-                <pattern>
-                   <token regexp="yes">півтор[аи]</token>
-                   <marker>
-                     <token regexp="yes">раз|рази|разу|разів</token>
-                   </marker>
-                </pattern>
-                <message>Після «півтора» треба вживати родовий однини: «півтора раза»</message>
-                <suggestion>раза</suggestion>
-                <url>http://www.kulturamovy.org.ua/KM/pdfs/mix/61-12-65-26.pdf</url>
-                <example correction="раза">півтора <marker>раз</marker>.</example>
-                <example correction="раза">півтора <marker>рази</marker>.</example>
-                <example correction="раза">півтора <marker>раз</marker>.</example>
-                <example>півтора кілограма</example>
-                <example>або у 2 рази.</example>
-            </rule>
-            <rule>
-                <pattern>
-                   <marker>
-                     <token>півтори</token>
-                   </marker>
-                   <token postag_regexp="yes" postag="noun.*?:[mn]:.*">
-                      <exception postag_regexp="yes" postag="noun.*?:[fp]:(nv|v_rod).*"/>
-                   </token>
-                </pattern>
-                <message>В чоловічому та середньому роді правильно: «<suggestion>півтора</suggestion>»</message>
-                <example correction="півтора"><marker>півтори</marker> відра</example>
-                <example correction="півтора"><marker>півтори</marker> кухля</example>
-                <example>півтора відра</example>
-                <example>півтори доби</example>
-                <example>півтора кухля</example>
-                <example>півтори сотні</example> <!-- ingore this mistake here, it'll be caght by rule above -->
-            </rule>
-        </rulegroup>
-
-        <rulegroup id="TIME" name="Час">
-          <rule>
-            <pattern>
-              <token>пів</token>
-              <token postag_regexp="yes" postag="adj:f:v_rod.*" regexp="yes" inflected="yes">&hours;</token>
-            </pattern>
-            <message>Правильно: <suggestion>(о) пів на <match no="2" postag_regexp="yes" postag="adj:f:v_zna.*"/></suggestion></message>
-            <suggestion>(о) пів до <match no="2" postag_regexp="yes" postag="adj:f:v_rod.*"/></suggestion>
-            <example correction="(о) пів на першу|(о) пів до першої"><marker>пів першої</marker> приїхав і він</example>
-            <example>пів на першу приїхав і він</example>
-          </rule>
-
-          <rule>
-            <pattern>
-              <marker>
-                <token regexp="yes">[ву]</token>
-              </marker>
-              <token postag_regexp="yes" postag="adj:f:v_mis.*" regexp="yes" inflected="yes">&hours;</token>
-              <token>годині</token>
-            </pattern>
-            <message>Правильно: <suggestion>о</suggestion></message>
-            <example correction="о">аж <marker>у</marker> третій годині ночі</example>
-            <example>аж о третій годині ночі</example>
-          </rule>
-          <rule>
-            <pattern>
-              <marker>
-                <token regexp="yes">[ву]</token>
-              </marker>
-              <token regexp="yes">[1-9]-і?й|[12][0-9]-і?й</token>
-              <token>годині</token>
-            </pattern>
-            <message>Правильно: <suggestion>о</suggestion></message>
-            <example correction="о">аж <marker>у</marker> 10-й годині ночі</example>
-            <example>аж о 5-ій годині ночі</example>
-          </rule>
-          <rule>
-            <pattern>
-              <token regexp="yes">[ву]</token>
-              <token postag_regexp="yes" postag="num.*"/>
-              <token>годин</token>
-              <token postag_regexp="yes" postag="num.*"/>
-              <token postag_regexp="yes" postag="num.*" min="0"/>
-              <token>хвилин</token>
-            </pattern>
-            <message>Правильно: <suggestion>о <match no="2"/> <match no="3"/>і <match no="4"/> <match no="5"/> <match no="6"/></suggestion></message>
-            <suggestion><match no="2"/> <match no="3"/> до <match no="4"/></suggestion>
-            <example correction="о п'ять годині двадцять п'ять хвилин|п'ять годин до двадцять"><marker>в п'ять годин двадцять п'ять хвилин</marker></example>
-            <example>п'ять хвилин на дев'яту</example>
-          </rule>
-
-          <rule>
-            <pattern>
-<!--
-              <token postag_regexp="yes" postag="num.*"/>
--->
-              <token postag_regexp="yes" postag="adj:f:v_mis.*" regexp="yes" inflected="yes">&hours;</token>
-              <token>годині</token>
-              <marker>
-                <token postag_regexp="yes" postag="num.*" min="0"/>
-                <token postag_regexp="yes" postag="adj.*"/>
-                <token>хвилині</token>
-              </marker>
-            </pattern>
-            <message>Правильно: <suggestion>…надцять хвилин</suggestion></message>
-            <example correction="…надцять хвилин">о першій годині <marker>двадцятій хвилині</marker></example>
-            <example correction="…надцять хвилин">о першій годині <marker>тридцять п'ятій хвилині</marker></example>
-            <example>о першій годині двадцять п'ять хвилин</example>
-          </rule>
-          <rule>
-            <pattern>
-              <token regexp="yes">[1-9]-і?й|[12][0-9]-і?й</token>
-              <token>годині</token>
-              <marker>
-                <token postag_regexp="yes" postag="num.*" min="0"/>
-                <token postag_regexp="yes" postag="adj.*"/>
-                <token>хвилині</token>
-              </marker>
-            </pattern>
-            <message>Правильно: <suggestion>…надцять хвилин</suggestion></message>
-            <example correction="…надцять хвилин">о 10-й годині <marker>двадцять п'ятій хвилині</marker></example>
-            <example>о 10-й годині двадцять п'ять хвилин</example>
-          </rule>
-          <rule>
-            <pattern>
-              <token>без</token>
-              <token postag_regexp="yes" postag="num.*" min="1" max="2"/>
-              <token min="0">хвилин</token>
-              <token postag_regexp="yes" postag="adj:f:v_naz.*" regexp="yes" inflected="yes">&hours;</token>
-            </pattern>
-            <message>Правильно: <suggestion>за <match no="2" postag_regexp="yes" postag="numr:p:v_naz.*"/> <match no="3"/> <match no="4"/></suggestion></message>
-            <suggestion><match no="2" postag_regexp="yes" postag="numr:p:v_naz.*"/> <match no="3"/> до <match no="4" postag_regexp="yes" postag="adj:f:v_rod.*"/></suggestion>
-            <example correction="за десять третя|десять до третьої"><marker>без десяти третя</marker></example>
-            <example correction="за двадцять хвилин третя|двадцять хвилин до третьої"><marker>без двадцяти хвилин третя</marker></example>
-            <example correction="за двоє хвилин сьома|двоє хвилин до сьомої"><marker>без двадцяти двох хвилин сьома</marker></example>
-            <example>за десять хвилин третя</example>
-          </rule>
-          <rule>
-            <antipattern>
-              <token postag_regexp="yes" postag="adj:f:v_rod.*" regexp="yes" inflected="yes">&hours;</token>
-              <token regexp="yes">половини|треті|чверті|частини</token>
-            </antipattern>
-            <pattern>
-              <token postag_regexp="yes" postag="num.*" min="1" max="2"/>
-              <token>хвилин</token>
-              <marker>
-                <token postag_regexp="yes" postag="adj:f:v_rod.*" regexp="yes" inflected="yes">&hours;</token>
-              </marker>
-            </pattern>
-            <!-- TODO: use java code to get previous hour?? -->
-            <message>Правильно: <suggestion>по [<match no="3" postag_regexp="yes" postag="adj:f:v_mis.*"/> - 1 година]</suggestion></message>
-            <suggestion>на <match no="3" postag_regexp="yes" postag="adj:f:v_zna.*"/></suggestion>
-            <example correction="по [третій - 1 година]|на третю">п'ять хвилин <marker>третьої</marker></example>
-            <example correction="по [дев'ятій - 1 година]|на дев'яту">5 хвилин <marker>дев'ятої</marker></example>
-            <example correction="по [сьомій - 1 година]|на сьому">двадцять п'ять хвилин <marker>сьомої</marker></example>
-            <example>п'ять хвилин по восьмій</example>
-            <example>п'ять хвилин на дев'яту</example>
-            <example>11 хвилин другої половини зустрічі</example>
-            <example>11 хвилин сьомої частини</example>
-          </rule>
-        </rulegroup>
-
-        <rule id="U_YEAR" name="У XXXX року">
-            <pattern>
-              <token regexp="yes">[ув]</token>
-              <token regexp="yes">[0-9]{4}</token>
-              <token>року</token>
-            </pattern>
-            <message>Правильно: <suggestion><match no="1"/> <match no="2"/> році</suggestion></message>
-            <suggestion><match no="2"/> року</suggestion>
-            <example correction="в 2010 році|2010 року">ще <marker>в 2010 року</marker></example>
-            <example>в 60-х роках</example>
-        </rule>
-
-        <rulegroup id="PASSIVE_PREDICATE" name="Пасивний предикат або пасивний атрибут (ev. апозиція) з інструменталем дієвої особи">
-            <rule>
-                <pattern>
-                    <token postag_regexp="yes" postag="noun.*v_zna.*|adj:n:v_zna:&amp;pron:(gen|dem).*"/>
-                    <marker>
-                    <token postag_regexp="yes" postag="verb.*:impers.*">
-                      <exception regexp="yes">визнано|названо|призначено|.*обрано|обумовлено|.*укомплектовано|зумовлено</exception>
-                    </token>
-                    <token postag_regexp="yes" postag="adj.*v_oru.*" min="0" max="2">
-                      <exception regexp="yes">тим|таким</exception>
-                    </token>
-                    <token postag_regexp="yes" postag="noun:anim.*v_oru.*|.*v_oru.*pron:pers.*">
-                      <exception negate_pos="yes" postag_regexp="yes" postag="noun:anim.*v_oru.*.*|.*v_oru.*pron:pers.*"/>
-                      <exception postag_regexp="yes" postag="&lt;(adv|insert)&gt;"/>
-                      <exception regexp="yes">тим|таким|персоною|днями|цими</exception>
-                    </token>
-                    <!-- TODO: особа-діяч може бути не лише :anim
-                    <token postag_regexp="yes" postag="noun.*v_oru.*"/>
-                    -->
-                    </marker>
-                </pattern>
-                <message>Невластива мові конструкція: пасивний предикат</message>
-                <url>http://kurylo.wikidot.com/3-nevlastyva-ukrainskii-movi-konstruktsiia:pasyvnyi-predykat</url>
-                <example>Користувача авторизовано.</example>
-                <example>Листа написано Келлі.</example>
-                <example>Справу порушено за фактом.</example>
-                <example>Наказ підписано синьою ручкою.</example>
-                <example>церковні терміни використано тією мірою.</example>
-                <example>це викликано тим, що</example>
-                <example>його обрано президентом</example>
-                <example>документ виписано таким чином</example>
-                <example>Яку роль відведено Ульянченко</example>
-                <example correction="">Справу <marker>порушено прокурором</marker>.</example>
-                <example correction="">Справу <marker>порушено генеральним прокурором</marker>.</example>
-                <example correction="">Це <marker>зроблено шановним академіком</marker>.</example>
-                <example correction="">Громадянство <marker>отримано ним</marker> законно.</example>
-                <!-- TODO: див. вище
-                <example correction="">Справу <marker>порушено судом</marker></example>
-                <example type="incorrect">Справу <marker>порушено міським судом</marker></example>
-                -->
-                <example correction="">Користувача <marker>авторизовано адміністратором</marker>.</example>
-                <!-- 
-                <example correction="">Все <marker>зроблено самими учасниками</marker></example>
-                <example correction="">Потепління <marker>ускладнено нашою недолугою діяльністю</marker></example>
-                 -->
-            </rule>
-        </rulegroup>
-
-        <rule id="VIDMINA_CHOLOVICHYH_PRIZVYSCH" name="Відмінювання чоловічих прізвищ">
-          <antipattern>
-            <token postag_regexp="yes" postag="noun.*:f.*:fname.*"/>
-            <token regexp="yes">і|й|та</token>
-            <token postag_regexp="yes" postag="noun.*:m.*:fname.*"/>
-            <token postag_regexp="yes" postag="noun.*:lname.*"/>
-          </antipattern>
-          <pattern>
-            <token postag_regexp="yes" postag="noun.*:m.*:fname.*">
-              <exception postag_regexp="yes" postag="noun.*:m:v_(naz|kly).*:fname.*"/>
-              <exception postag_regexp="yes" postag="noun.*:f.*:fname.*"/>
-              <exception regexp="yes">Тому|Ніколи</exception>
-              <exception postag_regexp="yes" postag="noun.*:prop(?!:fname).*"/>
-              <exception scope="previous" inflected="yes" regexp="yes">король|отець|патріарх|святий</exception>
+    <rulegroup id="MODAL_WORD" name="Узгодження з модальними словами">
+      <rule>
+        <antipattern>
+          <token regexp="yes">чим|як|скільки|тільки</token>
+          <token inflected="yes">можна</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes" inflected="yes">варто|годі|можна|повинно|треба
+            <exception scope="previous" regexp="yes">кого</exception>
+          </token>
+          <token regexp="yes" min="0">було|буде</token>
+          <marker>
+            <token postag_regexp="yes" postag="verb.*">
+              <exception postag_regexp="yes" postag="verb.*:inf.*"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*"/>
+              <exception regexp="yes">було|буде</exception>
             </token>
-            <marker>
-              <token postag_regexp="yes" postag="noun.*:m:v_naz.*:lname.*">
-                <exception postag_regexp="yes" postag="noun.*:m:v_[^n].*:lname.*"/>
-                <exception postag_regexp="yes" postag="noun.*:m:v_naz.*:fname.*"/>
-                <!--
+          </marker>
+        </pattern>
+        <message>Дієслово після модального слова має йти інфінітивом: <suggestion><match no="3" postag_regexp="yes" postag="verb.*:inf.*"/></suggestion></message>
+        <example>Повинен їхати</example>
+        <example>Йому треба писати</example>
+        <example>Чи варто їм таке писати?</example>
+        <example>Чи варто було їм таке писати?</example>
+        <example>Треба буде таке писати</example>
+        <example>В кого треба видалено.</example>
+        <example>можна буде встояти.</example>
+        <example>Не можна встоять.</example>
+        <example>суспільство повинно довірять не лише програмі дій</example>
+        <example correction="писати">Треба <marker>писав</marker>.</example>
+        <example correction="сподіватись|сподіватися">І тому варто <marker>сподіваюся</marker>, що це спрацює.</example>
+        <example correction="бути">розвиватися взагалі більше не треба, варто <marker>були</marker> тільки галасливо-крикливим і наглим</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token regexp="yes">чим|як|скільки|тільки|наскільки</token>
+          <token inflected="yes">могти</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes" inflected="yes">бажати|благати|братися|могти|мусити|старатися
+            <exception>може</exception>
+            <exception postag_regexp="yes" postag="(advp|insert).*"/>
+            <exception scope="previous" regexp="yes">кого</exception>
+          </token>
+          <token inflected="yes" postag_regexp="yes" postag="verb:imperf:(past|futr).*" min="0">бути</token>
+          <!--
+              <token postag_regexp="yes" min="0" postag="noun.*:v_dav.*"/>
+              <token postag_regexp="yes" min="0" postag=".*pron:dem.*"/>
+          -->
+          <marker>
+            <token postag_regexp="yes" postag="verb.*">
+              <exception postag_regexp="yes" postag="verb.*:inf.*"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*"/>
+              <exception inflected="yes" postag_regexp="yes" postag="verb:imperf:(past|futr).*">бути</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Дієслово після модального слова має йти інфінітивом: <suggestion><match no="3" postag_regexp="yes" postag="verb.*:inf.*"/></suggestion></message>
+        <example>чи може мав важливіші справи</example>
+        <example>Він як міг уникав спонтанного спілкування.</example>
+        <example>І чим могли допомагали відновлювати.</example>
+        <example correction="відбуватись|відбуватися">Могли <marker>відбувалися</marker> лише за рахунок надлюдських зусиль.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" postag_regexp="yes" postag="adj:.:v_naz.*">повинний</token>
+          <token inflected="yes" postag_regexp="yes" postag="verb:imperf:(past|futr).*" min="0">бути</token>
+          <marker>
+            <token postag_regexp="yes" postag="verb.*">
+              <exception postag_regexp="yes" postag="verb.*:inf.*"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*"/>
+              <exception inflected="yes" postag_regexp="yes" postag="verb:imperf:(past|futr).*">бути</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Дієслово після модального слова має йти інфінітивом: <suggestion><match no="3" postag_regexp="yes" postag="verb.*:inf.*"/></suggestion></message>
+        <example>Повинен їхати</example>
+        <example>І вони на всьому готовому живуть.</example>
+        <example correction="писати">Повинен <marker>писатиме</marker>.</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="ZGIDNO_Z" name="Згідно з">
+      <pattern>
+        <token>згідно</token>
+        <marker>
+          <token postag_regexp="yes" postag="(noun|adj|prep).*">
+            <exception regexp="yes">з|зі|із</exception>
+          </token>
+        </marker>
+      </pattern>
+      <message>Згідно з чим</message>
+      <example correction="">згідно <marker>статуту</marker></example>
+      <example correction="">згідно <marker>до</marker> правила</example>
+      <example>згідно зі статутом</example>
+      <example>згідно з правилом</example>
+    </rule>
+
+    <rule id="ZAVIDUVACH" name="Завідувач">
+      <pattern>
+        <token inflected="yes" regexp="yes">завідувач|завідувачка|зав|зав\.</token>
+        <marker>
+          <token postag_regexp="yes" postag="adj.*v_oru.*" min="0"/>
+          <token postag_regexp="yes" postag="noun.*v_oru.*">
+            <exception postag_regexp="yes" postag="noun.*v_rod.*|.*pron.*"/>
+          </token>
+        </marker>
+      </pattern>
+      <message>Завідувач(ка) чого</message>
+      <suggestion><match no="2" postag_regexp="yes" postag="(adj.*)v_oru(.*)" postag_replace="$1v_rod$2"/> <match no="3" postag_regexp="yes" postag="(noun.*)v_oru(.*)" postag_replace="$1v_rod$2"/></suggestion>
+      <!-- TODO: change code to remove space -->
+      <example correction="відділу">завідувача <marker>відділом</marker></example>
+      <example correction="відділу">зав <marker>відділом</marker></example>
+      <!--                <example correction=" відділу">зав. <marker>відділом</marker></example> -->
+      <example correction="сьомого відділу">завідувачки <marker>сьомим відділом</marker></example>
+      <example>завідувачем ним же створеної</example>
+    </rule>
+
+    <rulegroup id="NAVCHATY_CHOGO" name="Навчати чого">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">навч[иа]ти|навча(вши|ючи)|навчивши</token>
+          <token postag_regexp="yes" postag="noun:anim.*:v_zna.*|noun.*v_zna.*pron:pers.*" min="0"/>
+          <marker>
+            <token postag_regexp="yes" postag="noun:inanim:.:v_dav.*|adj.*v_dav.*">
+              <exception postag_regexp="yes" postag="noun:.*:v_(rod|zna|oru).*|noun:anim.*:v_naz.*|adv.*"/>
+            </token>
+          </marker>
+          <token>
+            <exception>нікому</exception> <!-- не вірити -->
+          </token>
+        </pattern>
+        <message>Навчати чого</message>
+        <example correction="">навчати <marker>математиці</marker>.</example>
+        <example correction="">навчати <marker>елементарній</marker> математиці.</example>
+        <example correction="">навчати учнів <marker>елементарній</marker> математиці.</example>
+        <example correction="">навчати їх <marker>елементарній</marker> математиці.</example>
+        <example correction="">навчати <marker>цьому</marker> виду спорту.</example>
+        <example correction="">навчали <marker>улюбленому</marker> заняттю.</example>
+        <example correction="">навчити <marker>всьому</marker>.</example>
+        <!-- TODO:
+            <example correction="">навчали <marker>необхідним</marker> навикам.</example>
+            <example correction="">Вас хтось навчив <marker>цим</marker> рухам?</example>
+            <example correction="">навчають незнайомим словам.</example>
+        -->
+        <example>навчати математики</example>
+        <example>навчати елементарної математики</example>
+        <example>навчати фаху</example>
+        <example>навчати їх</example>
+        <example>навчило її нікому не вірити</example>
+        <example>Чого навчила вас ця поразка?</example>
+        <example>якого мене навчили друзі.</example>
+        <!-- TODO:
+            <example>Цьому мав би навчити попередній досвід.</example>
+        -->
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">навч[иа]тися|навча(вши|ючи)сь|навчившись</token>
+          <marker>
+            <token postag_regexp="yes" postag="noun:inanim.*:v_dav.*|adj.*v_dav.*">
+              <!--TODO: всьому|цьому -->
+              <exception postag_regexp="yes" postag="(noun|adj):.*:v_(rod|zna|oru).*|noun:anim.*|adv.*"/>
+              <exception>самому</exception>
+            </token>
+          </marker>
+          <token>
+            <exception>нікому</exception> <!-- не вірити -->
+          </token>
+        </pattern>
+        <message>Навчати чого</message>
+        <example correction="">навчатися <marker>математиці</marker>.</example>
+        <example correction="">навчатися <marker>елементарній</marker> математиці.</example>
+        <example correction="">навчатися <marker>цьому</marker> виду спорту.</example>
+        <example correction="">навчалися <marker>улюбленому</marker> заняттю.</example>
+        <example correction="">навчитися <marker>всьому</marker>.</example>
+        <example correction="">навчитися <marker>цій</marker> екзотиці.</example>
+        <example correction="">не навчилися <marker>нічому</marker>.</example>
+        <example correction="">не навчилися <marker>дечому</marker>.</example>
+        <!-- TODO:
+            <example correction="">навчитись <marker>тим</marker> технологіям</example>
+            <example correction="">навчилися високим стандартам життя</example>
+            <example correction="">навчитись східним танцям</example>
+            <example correction="">навчилася бойовим мистецтвам</example>
+            <example correction="">Мир нехай навчається добру</example>
+        -->
+        <example>Куди піти навчатись ентузіастам із фотоапаратами.</example>
+        <example>навчалися індійці.</example>
+        <example>навчаються китайці.</example>
+        <example>навчатися досі</example>
+        <example>навчилася нікому не вірити</example>
+        <example>Але довго навчатися йому не довелося.</example>
+        <example>навчатися власним коштом.</example>
+        <example>не маючи можливості навчатися самому.</example>
+        <example>доведеться таки навчитися цим провокаціям протистояти.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="CONSISTENCY_NOUN_NUMERIC_FRACTIONAL" name="Узгодженість числа іменників з дробовими числівниками">
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="num.*">
+            <exception scope="previous">на</exception>
+          </token>
+          <token regexp="yes">десятих|сотих|тисячних|третіх|треті|четвертих|чверті|четверті</token>
+          <marker>
+            <token postag_regexp="yes" postag="noun:inanim:.:.*">
+              <exception postag_regexp="yes" postag="noun:inanim:[mfnp]:v_rod.*"/>
+              <exception regexp="yes">гра|біографій|витрат|голосів|грошей|занять|заяв|інвестицій|локомотивів|мінус|місць|плюс|потреб|потужностей|рейсів|сімей|смертей|фірм|шлюбів|творів|.*господарств|експонатів|країн|країн-.*</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Після дробового числівника іменник має стояти в родовому відмінку однини</message>
+        <suggestion><match no="3" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:[mnf]:v_rod$2"/></suggestion>
+        <example correction="відсотка">два десятих <marker>відсотки</marker></example>
+        <example correction="відсотка">дві третіх <marker>відсотки</marker></example>
+        <example correction="відсотка">три четверті <marker>відсотки</marker></example>
+        <example>дві десяті відсотка</example>
+        <example>через десяті руки</example>
+        <example>дві третіх країн-членів</example>
+        <example>дві десяті мм</example>
+        <example>три чверті місць</example>
+        <example>три чверті їх слухати неможливо</example>
+        <example>на три чверті він ними був заповнений</example>
+        <example>три чверті громадян</example>
+        <example>усі три чверті гра була рівною</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token regexp="yes">[12][0-9]{3},[12][0-9]{3}</token>
+          <token regexp="yes">рр\.</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">.*,[1-46-9]+</token> <!-- ,5 - виняток: 4,5 роки може читатися як «чотири з половиною роки» -->
+          <marker>
+            <token postag_regexp="yes" postag="noun.*?:.:.*">
+              <exception postag_regexp="yes" postag="noun.*?:[mfn]:v_rod.*|.*pron.*|adv.*"/>
+              <exception regexp="yes">тис|куб|кал|рази|разу|раз|разів</exception>
+              <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Після десяткового дробу іменник має стояти в родовому відмінку однини: <suggestion><match no="2" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:[mnf]:v_rod$2"/></suggestion></message>
+        <example correction="кілограма">2,4 <marker>кілограми</marker></example>
+        <example correction="мільйона">2,4 <marker>мільйони</marker></example>
+        <example>або у 2,2 <marker>раз</marker>.</example> <!-- handled by rule below -->
+        <example>або у 2,2 <marker>рази</marker>.</example> <!-- handled by rule below -->
+        <example>33,77 тонни</example>
+        <example>2,19 бала</example>
+        <example>33,77 мм</example>
+        <example>33,77 тис</example>
+        <example>33,5 роки</example>
+        <example>33,5 Терещенко</example>
+        <example>1998,1999 рр.</example> <!-- should have space after comma, see next rule -->
+        <example>із результатом 28,91 вона посіла третє місце</example>
+        <example>Становлять відповідно 0,5 і 0,3 її оцінки.</example>
+        <example>це на 0,21 краще за попередній рекорд світу.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[12][0-9]{3},[12][0-9]{3}</token>
+        </pattern>
+        <message>Можливо пропущена кома між роками?</message>
+        <example correction=""><marker>1975,2002</marker></example>
+        <example>33,22</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">.*,[1-9]+</token>
+          <marker>
+            <token regexp="yes">раз|рази|разу|разів</token>
+          </marker>
+        </pattern>
+        <message>Після десяткового дробу вживаємо «раза»</message>
+        <suggestion>раза</suggestion>
+        <url>http://www.kulturamovy.org.ua/KM/pdfs/mix/61-12-65-26.pdf</url>
+        <example correction="раза">або у 2,2 <marker>раз</marker>.</example>
+        <example correction="раза">або у 2,2 <marker>рази</marker>.</example>
+        <example correction="раза">або у 2,2 <marker>раз</marker>.</example>
+        <example>або у 2,2 раза.</example>
+        <example>або у 2 рази.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="CONSISTENCY_NUMERIC_FRACTIONAL" name="Узгодженість дробових числівників">
+      <rule>
+        <pattern>
+          <token regexp="yes">дві|три|чотири</token>
+          <marker>
+            <token regexp="yes">десятих|сотих|тисячних|третіх|четвертих</token>
+          </marker>
+        </pattern>
+        <message>У дробовому числівнику після два, три, чотири має йти десяті, соті…</message>
+        <suggestion><match no="2" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:p:v_naz$2"/></suggestion>
+        <example correction="десяті">дві <marker>десятих</marker></example>
+        <example correction="соті">три <marker>сотих</marker></example>
+        <!-- TODO: false positive
+            <example>перше місце, три других і чотири третіх</example>
+        -->
+      </rule>
+    </rulegroup>
+
+
+    <rulegroup id="CONSISTENCY_NOUN_NUMERIC_WHOLE" name="Узгодженість числа іменників з цілими числівниками">
+      <rule>
+        <pattern>
+          <token regexp="yes">два|дві|три|чотири|.*[2-9]?[234]</token>
+          <token>з</token>
+          <token regexp="yes">половиною|третиною|чвертю</token>
+          <token postag_regexp="yes" postag="adj.*" min="0"/>
+          <marker>
+            <token postag_regexp="yes" postag="noun.*?:[fm]:v_rod.*">
+              <exception postag_regexp="yes" postag="noun.*?:p:v_naz.*"/>
+              <exception>людини</exception>  <!-- until we fix the lemma -->
+            </token>
+          </marker>
+        </pattern>
+        <message>Після числівника, що закінчується на 2-4 іменник має стояти в називному відмінку множини: <suggestion><match no="5" postag="noun.*?:p:v_naz.*" postag_regexp="yes"/></suggestion></message>
+        <url>http://mova.kreschatic.kiev.ua/228.htm</url>
+        <example correction="тижні">24 з половиною <marker>тижня</marker></example>
+        <example correction="тижні">24 з половиною довгих <marker>тижня</marker></example>
+        <example>двадцять три з половиною дні</example>
+        <example>дві з половиною тисячі</example>
+        <example>Дві з половиною людини</example>
+      </rule>
+
+      <rule>
+        <antipattern>
+          <token regexp="yes">соті|десяті|.*[234]</token>
+          <token case_sensitive="yes" postag_regexp="yes" postag="noun.*?:m:v_rod.*" regexp="yes">[А-ЯІЇЄҐ].*</token>
+        </antipattern>
+        <antipattern>
+          <token regexp="yes">на|о|з</token>
+          <token regexp="yes">[12][0-9]?[—–-][12][0-9]?</token>
+          <token regexp="yes">дня|ночі|ранку|вечора</token>
+        </antipattern>
+        <antipattern>
+          <token regexp="yes">[0-9]+[—–-][0-9]+</token>
+          <token regexp="yes">рівня|ступеня|вище|нижче</token>
+        </antipattern>
+        <pattern>
+          <token postag_regexp="yes" postag=".*num.*" regexp="yes">два|дві|обидва|обидві|три|чотири|[^,]*[2-9]?[234]
+            <exception postag_regexp="yes" postag="date|time"/>
+            <exception scope="previous" regexp="yes">[:/.№]|статт[яі]|пункті?|частин[аи]|[а-яіїєґ]+\.|\.</exception> <!-- ст.,ч.,п. тощо -->
+          </token>
+          <token postag_regexp="yes" postag="adj.*" min="0">
+            <exception regexp="yes">третіх|четвертих</exception>
+            <exception postag_regexp="yes" postag="noun:.*?:p:v_naz.*"/>
+          </token>
+          <marker>
+            <token postag_regexp="yes" postag="noun.*?:m:v_rod.*" regexp="yes">.*[ая]
+              <exception postag_regexp="yes" postag="noun.*?:p:v_naz.*|noun.*:m:v_rod.*:prop.*"/>
+              <exception regexp="yes">січня|березня|квітня|травня|червня|липня|серпня|вересня|жовтня|листопада|грудня</exception>
+              <exception regexp="yes">друга|брата|дуба|дядька|чоловіка|берега|.*нина</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Після числівника, що закінчується на 2-4 іменник має стояти в називному відмінку множини: <suggestion><match no="3" postag="noun.*?:p:v_naz.*" postag_regexp="yes"/></suggestion></message>
+        <url>http://mova.kreschatic.kiev.ua/228.htm</url>
+        <example correction="вулики">двадцять три <marker>вулика</marker></example>
+        <example correction="тижні">24 <marker>тижня</marker></example>
+        <example correction="автомобілі">обидва <marker>автомобіля</marker></example>
+        <example correction="автомобілі">обидва синіх <marker>автомобіля</marker></example>
+        <example>о 12-14 дня</example>
+        <example>1-2 рівня</example>
+        <example>5-7 ступеня</example>
+        <example>вдень 12-14 вище нуля</example>
+        <example>а 12-14 лютого Рада має прийняти</example>
+        <example>два Києва</example>
+        <example>двадцять три вулики</example>
+        <example>двадцять три дні</example>
+        <example>три чверті</example>
+        <example>співвласника ДБК-3 Петра Шелюка</example>
+        <example>1/2 шилінга</example>
+        <example>після поразки 0:2 Базилевича</example>
+        <example>три головні завдання</example>
+        <example>2,2 мільйона</example>
+        <example>три століття</example>
+        <example>три роки тому</example>
+        <example>дві третіх шлунка</example>
+        <example>1992 року</example>
+        <example>три тис. грн.</example>
+        <example>3 липня 1998р.</example>
+        <example>ст. 33 документа</example>
+        <example>статті 43 Закону</example>
+        <example>заспівали дві пісні короля футболу</example>
+        <example>випередивши на дві соті Давида Ньясу з Катару</example>
+        <example>двадцять два слобожанина</example>
+        <example>сорок три киянина</example>
+        <example>два імені</example>
+        <example>три галченяти</example>
+        <example>чотири племені</example>
+        <example>чотири друга</example>
+        <example>22 рази</example>
+        <!-- двоїна: http://irbis-nbuv.gov.ua/cgi-bin/irbis_nbuv/cgiirbis_64.exe?C21COM=2&I21DBN=UJRN&P21DBN=UJRN&IMAGE_FILE_DOWNLOAD=1&Image_file_name=PDF/Ukrm_2011_2_8.pdf -->
+        <example>2 друга</example>
+        <example>2 брата</example>
+        <example>2 чоловіка</example>
+        <example>2 дядька</example>
+        <example>2 берега</example>
+        <!-- adj/v_rod + noun/v_naz -->
+        <example>Дві людських руки</example>
+        <example>Два білих горнятка</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">п'ять|шість|сім|вісім|дев'ять|десять|.*надцять|двадцять|тридцять|сорок|.*десят|дев'яносто|сотня|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|дев'ятсот|тисяча|мільйон|мільярд</token>
+          <token>з</token>
+          <token regexp="yes">половиною|третиною|чвертю</token>
+          <token postag_regexp="yes" postag="adj.*" min="0"/>
+          <marker>
+            <token postag_regexp="yes" postag="noun:(in)?anim:m:v_naz.*" regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|бар|бер|ват|вольт|солдат|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)
+              <exception case_sensitive="yes">ВАТ</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Після числівника що закінчується на 5-9 або 0 іменник має стояти в родовому відмінку множини: <suggestion><match no="5" postag="noun:(in)?anim:p:v_rod.*" postag_regexp="yes"/></suggestion></message>
+        <example correction="мілібарів">десять з чвертю <marker>мілібар</marker></example>
+        <example correction="солдатів">дві сотні з половиною <marker>солдат</marker></example>
+        <example correction="солдатів">дві сотні з половиною хоробрих <marker>солдат</marker></example>
+        <example>п'ять з половиною <marker>разів</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">п'ять|шість|сім|вісім|дев'ять|нуль|десять|двадцять|тридцять|сорок|.*десят|дев'яносто|сотня|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|дев'ятсот|тисяча|мільйон|мільярд|([0-9 ]*[05-9]|[0-9 ]+11)
+            <exception postag_regexp="yes" postag=".*:v_oru.*"/>
+            <exception scope="previous" regexp="yes">[:./№]</exception>
+            <exception regexp="yes">(1[0-9]{3}|20[0-2][0-9])</exception>
+          </token>
+          <token postag_regexp="yes" postag="adj.*" min="0"/>
+          <marker>
+            <!--
+                <token postag_regexp="yes" postag="noun:m:v_naz.*" regexp="yes">.*[бвгґджйзклмнпрстфхцчшщ]ь?
+                <exception scope="previous">хвилин за</exception>
+                <exception postag_regexp="yes" postag="noun:p:v_rod.*|verb.*|predic.*"/>
+                <exception regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].*</exception>
+                <exception regexp="yes">раз|чоловік|тис|куб|як|абзац|клас|канал|номер|плюс|поверх|пункт</exception>
+                </token>
+            -->
+            <token postag_regexp="yes" postag="noun:(in)?anim:m:v_naz.*" regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|бар|бер|ват|вольт|солдат|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)
+              <exception case_sensitive="yes">ВАТ</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Після числівника що закінчується на 5-9 або 0 іменник має стояти в родовому відмінку множини: <suggestion><match no="3" postag="noun:(in)?anim:p:v_rod.*" postag_regexp="yes"/></suggestion></message>
+        <!--
+            <example correction="грамів">сто <marker>грам</marker></example>
+            <example correction="грамів">100 <marker>грам</marker></example>
+        -->
+        <example correction="байтів">10 <marker>байт</marker></example>
+        <example correction="мілібарів">10 <marker>мілібар</marker></example>
+        <example correction="солдатів">дві сотні <marker>солдат</marker></example>
+        <example correction="солдатів">дві сотні хоробрих <marker>солдат</marker></example>
+        <example correction="солдатів">п'ять <marker>солдат</marker></example>
+        <example>п'ять <marker>раз</marker></example>
+        <example>хвилин за 10 спікер увійшов</example>
+        <example>до 16 вхід заборонено</example>
+        <example>в 40 став наймолодшим</example>
+        <example>50 тис. людей</example>
+        <example>сто грамів</example>
+        <example>100 грамів</example>
+        <example>10 разів</example>
+        <example>10 раз</example>
+        <example>10 номер</example>
+        <example>У 2008 президент</example>
+        <example>10 плюс 5</example>
+        <example>о 17.15 патріарх буде в місті</example>
+        <example>«5 канал»</example>
+        <example>у свої сімдесят два роки</example>
+        <example>на виборах-2007 Блок Литвина</example>
+        <example>127 Шевченко Євген Валерійович</example>
+        <example>керував сотнею німець</example>
+        <example>комендантом сотні став Віталій</example>
+        <example>ці мільйони слід шукати там</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">([1-9][0-9 \u00A0]*)[02-9]1
+            <exception scope="previous" regexp="yes">[:./№]</exception>
+            <exception regexp="yes">(1[0-9]{3}|20[0-2][0-9])</exception>
+          </token>
+          <token postag_regexp="yes" postag="adj.*" min="0">
+            <exception postag_regexp="yes" postag="noun.*?:[mfn]:.*"/>
+          </token>
+          <marker>
+            <token postag_regexp="yes" postag="noun.*?:p:.*">
+              <exception postag_regexp="yes" postag=".*:[mfn]:.*|.*pron:pers.*|adv.*"/>
+              <exception regexp="yes">рр\.</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Після числівника що закінчується на 1 іменник має стояти в однині</message>
+        <example type="incorrect">271 <marker>депутатів</marker> проголосовали</example>
+        <example type="incorrect">1 271 <marker>депутатів</marker> проголосовали</example>
+        <example type="incorrect">всього 441 <marker>рази</marker>.</example>
+        <example>11 депутатів проголосовали</example>
+        <example>на тлі претендента 001 доходи великої родини</example>
+        <example>27 депутатів проголосовали</example>
+        <example>проти 441 зараз.</example>
+        <example>залишилася 781 тонна пестицидів.</example>
+        <example>В 1999-2001 рр. він був секретарем.</example>
+        <example>В 604-562 або 561 рр. до н.е.</example>
+        <example>Про знеструмлення будинків 10 та 101 нас не повідомили.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="PIVTORA_WITH_NOUNS" name="Узгодженість «півтора» з іменниками">
+      <rule>
+        <pattern>
+          <marker>
+            <token>півтора</token>
+          </marker>
+          <token postag_regexp="yes" postag="noun.*?:f:.*">
+            <exception postag_regexp="yes" postag="noun.*?:[nm]:(nv|v_rod).*"/>
+          </token>
+        </pattern>
+        <message>В жіночому роді правильно: <suggestion>півтори</suggestion></message>
+        <example correction="півтори"><marker>півтора</marker> доби</example>
+        <example correction="півтори"><marker>півтора</marker> тисячі</example>
+        <example>півтори доби</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">півтор[аи]</token>
+          <marker>
+            <token postag_regexp="yes" postag="(noun.*?|adj):p:.*">
+              <exception postag_regexp="yes" postag="(noun.*?|adj):[nmf]:v_rod.*"/>
+              <exception inflected="yes">раз</exception>  <!-- special case in the rule below -->
+              <exception regexp="yes">десятих|сотих|тисячних</exception>
+            </token>
+          </marker>
+        </pattern>
+        <message>Після «півтора» треба вживати родовий однини</message>
+        <!--  <match no="2" postag_regexp="yes" postag="adj:p:.*" postag_replace="adj:[mnf]:v_rod.*"/>  -->
+        <suggestion><match no="3" postag_regexp="yes" postag="((noun|adj).*?):p:.*" postag_replace="$1:[mnf]:v_rod.*"/></suggestion>
+        <example correction="відра">півтора <marker>відер</marker></example>
+        <example correction="повного|повної">півтора <marker>повних</marker> відер</example>
+        <example correction="сотні">півтори <marker>сотень</marker></example>
+        <example correction="мільярда">півтора <marker>мільярди</marker></example>
+        <example correction="останнього|останньої">півтора <marker>останніх</marker> століття</example>
+        <example>півтора літра</example>
+        <example>півтора рази</example> <!-- ingore this mistake here, it'll be caght by rule below -->
+        <example>півтора тисячі</example> <!-- ingore this mistake here, it'll be caght by rule above -->
+        <example>якихось півтори десятих</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>півтора</token>
+          <marker>
+            <token postag_regexp="yes" postag="noun.*?:[mn]:.*">
+              <exception postag_regexp="yes" postag="noun.*?:[nmfp]:(nv|v_rod).*"/>
+              <exception inflected="yes">раз</exception>  <!-- special case in the rule below -->
+            </token>
+          </marker>
+        </pattern>
+        <message>Після «півтора» треба вживати родовий однини: <suggestion><match no="2" postag_regexp="yes" postag="(noun.*?:[mn]):v_...(.*)" postag_replace="$1:v_rod$2"/></suggestion></message>
+        <example correction="копальника">півтора <marker>копальнику</marker></example>
+        <example correction="відра">півтора <marker>відрі</marker></example>
+        <example correction="десятка">півтора <marker>десятку</marker></example>
+        <example>півтора літра</example>
+        <example>півтора рази</example> <!-- ingore this mistake here, it'll be caght by rule below -->
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">півтор[аи]</token>
+          <marker>
+            <token regexp="yes">раз|рази|разу|разів</token>
+          </marker>
+        </pattern>
+        <message>Після «півтора» треба вживати родовий однини: «півтора раза»</message>
+        <suggestion>раза</suggestion>
+        <url>http://www.kulturamovy.org.ua/KM/pdfs/mix/61-12-65-26.pdf</url>
+        <example correction="раза">півтора <marker>раз</marker>.</example>
+        <example correction="раза">півтора <marker>рази</marker>.</example>
+        <example correction="раза">півтора <marker>раз</marker>.</example>
+        <example>півтора кілограма</example>
+        <example>або у 2 рази.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>півтори</token>
+          </marker>
+          <token postag_regexp="yes" postag="noun.*?:[mn]:.*">
+            <exception postag_regexp="yes" postag="noun.*?:[fp]:(nv|v_rod).*"/>
+          </token>
+        </pattern>
+        <message>В чоловічому та середньому роді правильно: «<suggestion>півтора</suggestion>»</message>
+        <example correction="півтора"><marker>півтори</marker> відра</example>
+        <example correction="півтора"><marker>півтори</marker> кухля</example>
+        <example>півтора відра</example>
+        <example>півтори доби</example>
+        <example>півтора кухля</example>
+        <example>півтори сотні</example> <!-- ingore this mistake here, it'll be caght by rule above -->
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="TIME" name="Час">
+      <rule>
+        <pattern>
+          <token>пів</token>
+          <token postag_regexp="yes" postag="adj:f:v_rod.*" regexp="yes" inflected="yes">&hours;</token>
+        </pattern>
+        <message>Правильно: <suggestion>(о) пів на <match no="2" postag_regexp="yes" postag="adj:f:v_zna.*"/></suggestion></message>
+        <suggestion>(о) пів до <match no="2" postag_regexp="yes" postag="adj:f:v_rod.*"/></suggestion>
+        <example correction="(о) пів на першу|(о) пів до першої"><marker>пів першої</marker> приїхав і він</example>
+        <example>пів на першу приїхав і він</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[ву]</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:f:v_mis.*" regexp="yes" inflected="yes">&hours;</token>
+          <token>годині</token>
+        </pattern>
+        <message>Правильно: <suggestion>о</suggestion></message>
+        <example correction="о">аж <marker>у</marker> третій годині ночі</example>
+        <example>аж о третій годині ночі</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[ву]</token>
+          </marker>
+          <token regexp="yes">[1-9]-і?й|[12][0-9]-і?й</token>
+          <token>годині</token>
+        </pattern>
+        <message>Правильно: <suggestion>о</suggestion></message>
+        <example correction="о">аж <marker>у</marker> 10-й годині ночі</example>
+        <example>аж о 5-ій годині ночі</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token postag_regexp="yes" postag="num.*"/>
+          <token>годин</token>
+          <token postag_regexp="yes" postag="num.*"/>
+          <token postag_regexp="yes" postag="num.*" min="0"/>
+          <token>хвилин</token>
+        </pattern>
+        <message>Правильно: <suggestion>о <match no="2"/> <match no="3"/>і <match no="4"/> <match no="5"/> <match no="6"/></suggestion></message>
+        <suggestion><match no="2"/> <match no="3"/> до <match no="4"/></suggestion>
+        <example correction="о п'ять годині двадцять п'ять хвилин|п'ять годин до двадцять"><marker>в п'ять годин двадцять п'ять хвилин</marker></example>
+        <example>п'ять хвилин на дев'яту</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <!--
+              <token postag_regexp="yes" postag="num.*"/>
+          -->
+          <token postag_regexp="yes" postag="adj:f:v_mis.*" regexp="yes" inflected="yes">&hours;</token>
+          <token>годині</token>
+          <marker>
+            <token postag_regexp="yes" postag="num.*" min="0"/>
+            <token postag_regexp="yes" postag="adj.*"/>
+            <token>хвилині</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>…надцять хвилин</suggestion></message>
+        <example correction="…надцять хвилин">о першій годині <marker>двадцятій хвилині</marker></example>
+        <example correction="…надцять хвилин">о першій годині <marker>тридцять п'ятій хвилині</marker></example>
+        <example>о першій годині двадцять п'ять хвилин</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[1-9]-і?й|[12][0-9]-і?й</token>
+          <token>годині</token>
+          <marker>
+            <token postag_regexp="yes" postag="num.*" min="0"/>
+            <token postag_regexp="yes" postag="adj.*"/>
+            <token>хвилині</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>…надцять хвилин</suggestion></message>
+        <example correction="…надцять хвилин">о 10-й годині <marker>двадцять п'ятій хвилині</marker></example>
+        <example>о 10-й годині двадцять п'ять хвилин</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>без</token>
+          <token postag_regexp="yes" postag="num.*" min="1" max="2"/>
+          <token min="0">хвилин</token>
+          <token postag_regexp="yes" postag="adj:f:v_naz.*" regexp="yes" inflected="yes">&hours;</token>
+        </pattern>
+        <message>Правильно: <suggestion>за <match no="2" postag_regexp="yes" postag="numr:p:v_naz.*"/> <match no="3"/> <match no="4"/></suggestion></message>
+        <suggestion><match no="2" postag_regexp="yes" postag="numr:p:v_naz.*"/> <match no="3"/> до <match no="4" postag_regexp="yes" postag="adj:f:v_rod.*"/></suggestion>
+        <example correction="за десять третя|десять до третьої"><marker>без десяти третя</marker></example>
+        <example correction="за двадцять хвилин третя|двадцять хвилин до третьої"><marker>без двадцяти хвилин третя</marker></example>
+        <example correction="за двоє хвилин сьома|двоє хвилин до сьомої"><marker>без двадцяти двох хвилин сьома</marker></example>
+        <example>за десять хвилин третя</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token postag_regexp="yes" postag="adj:f:v_rod.*" regexp="yes" inflected="yes">&hours;</token>
+          <token regexp="yes">половини|треті|чверті|частини</token>
+        </antipattern>
+        <pattern>
+          <token postag_regexp="yes" postag="num.*" min="1" max="2"/>
+          <token>хвилин</token>
+          <marker>
+            <token postag_regexp="yes" postag="adj:f:v_rod.*" regexp="yes" inflected="yes">&hours;</token>
+          </marker>
+        </pattern>
+        <!-- TODO: use java code to get previous hour?? -->
+        <message>Правильно: <suggestion>по [<match no="3" postag_regexp="yes" postag="adj:f:v_mis.*"/> - 1 година]</suggestion></message>
+        <suggestion>на <match no="3" postag_regexp="yes" postag="adj:f:v_zna.*"/></suggestion>
+        <example correction="по [третій - 1 година]|на третю">п'ять хвилин <marker>третьої</marker></example>
+        <example correction="по [дев'ятій - 1 година]|на дев'яту">5 хвилин <marker>дев'ятої</marker></example>
+        <example correction="по [сьомій - 1 година]|на сьому">двадцять п'ять хвилин <marker>сьомої</marker></example>
+        <example>п'ять хвилин по восьмій</example>
+        <example>п'ять хвилин на дев'яту</example>
+        <example>11 хвилин другої половини зустрічі</example>
+        <example>11 хвилин сьомої частини</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="U_YEAR" name="У XXXX року">
+      <pattern>
+        <token regexp="yes">[ув]</token>
+        <token regexp="yes">[0-9]{4}</token>
+        <token>року</token>
+      </pattern>
+      <message>Правильно: <suggestion><match no="1"/> <match no="2"/> році</suggestion></message>
+      <suggestion><match no="2"/> року</suggestion>
+      <example correction="в 2010 році|2010 року">ще <marker>в 2010 року</marker></example>
+      <example>в 60-х роках</example>
+    </rule>
+
+    <rulegroup id="PASSIVE_PREDICATE" name="Пасивний предикат або пасивний атрибут (ev. апозиція) з інструменталем дієвої особи">
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="noun.*v_zna.*|adj:n:v_zna:&amp;pron:(gen|dem).*"/>
+          <marker>
+            <token postag_regexp="yes" postag="verb.*:impers.*">
+              <exception regexp="yes">визнано|названо|призначено|.*обрано|обумовлено|.*укомплектовано|зумовлено</exception>
+            </token>
+            <token postag_regexp="yes" postag="adj.*v_oru.*" min="0" max="2">
+              <exception regexp="yes">тим|таким</exception>
+            </token>
+            <token postag_regexp="yes" postag="noun:anim.*v_oru.*|.*v_oru.*pron:pers.*">
+              <exception negate_pos="yes" postag_regexp="yes" postag="noun:anim.*v_oru.*.*|.*v_oru.*pron:pers.*"/>
+              <exception postag_regexp="yes" postag="&lt;(adv|insert)&gt;"/>
+              <exception regexp="yes">тим|таким|персоною|днями|цими</exception>
+            </token>
+            <!-- TODO: особа-діяч може бути не лише :anim
+                <token postag_regexp="yes" postag="noun.*v_oru.*"/>
+            -->
+          </marker>
+        </pattern>
+        <message>Невластива мові конструкція: пасивний предикат</message>
+        <url>http://kurylo.wikidot.com/3-nevlastyva-ukrainskii-movi-konstruktsiia:pasyvnyi-predykat</url>
+        <example>Користувача авторизовано.</example>
+        <example>Листа написано Келлі.</example>
+        <example>Справу порушено за фактом.</example>
+        <example>Наказ підписано синьою ручкою.</example>
+        <example>церковні терміни використано тією мірою.</example>
+        <example>це викликано тим, що</example>
+        <example>його обрано президентом</example>
+        <example>документ виписано таким чином</example>
+        <example>Яку роль відведено Ульянченко</example>
+        <example correction="">Справу <marker>порушено прокурором</marker>.</example>
+        <example correction="">Справу <marker>порушено генеральним прокурором</marker>.</example>
+        <example correction="">Це <marker>зроблено шановним академіком</marker>.</example>
+        <example correction="">Громадянство <marker>отримано ним</marker> законно.</example>
+        <!-- TODO: див. вище
+            <example correction="">Справу <marker>порушено судом</marker></example>
+            <example type="incorrect">Справу <marker>порушено міським судом</marker></example>
+        -->
+        <example correction="">Користувача <marker>авторизовано адміністратором</marker>.</example>
+        <!--
+            <example correction="">Все <marker>зроблено самими учасниками</marker></example>
+            <example correction="">Потепління <marker>ускладнено нашою недолугою діяльністю</marker></example>
+        -->
+      </rule>
+    </rulegroup>
+
+    <rule id="VIDMINA_CHOLOVICHYH_PRIZVYSCH" name="Відмінювання чоловічих прізвищ">
+      <antipattern>
+        <token postag_regexp="yes" postag="noun.*:f.*:fname.*"/>
+        <token regexp="yes">і|й|та</token>
+        <token postag_regexp="yes" postag="noun.*:m.*:fname.*"/>
+        <token postag_regexp="yes" postag="noun.*:lname.*"/>
+      </antipattern>
+      <pattern>
+        <token postag_regexp="yes" postag="noun.*:m.*:fname.*">
+          <exception postag_regexp="yes" postag="noun.*:m:v_(naz|kly).*:fname.*"/>
+          <exception postag_regexp="yes" postag="noun.*:f.*:fname.*"/>
+          <exception regexp="yes">Тому|Ніколи</exception>
+          <exception postag_regexp="yes" postag="noun.*:prop(?!:fname).*"/>
+          <exception scope="previous" inflected="yes" regexp="yes">король|отець|патріарх|святий</exception>
+        </token>
+        <marker>
+          <token postag_regexp="yes" postag="noun.*:m:v_naz.*:lname.*">
+            <exception postag_regexp="yes" postag="noun.*:m:v_[^n].*:lname.*"/>
+            <exception postag_regexp="yes" postag="noun.*:m:v_naz.*:fname.*"/>
+            <!--
                 <exception postag_regexp="yes" postag="noun.*:prop(?!:lname).*"/>
-                -->
-              </token>
-            </marker>
-          </pattern>
-          <message>Чоловіче прізвище відмінюється разом з іменем</message>
-          <!-- 
+            -->
+          </token>
+        </marker>
+      </pattern>
+      <message>Чоловіче прізвище відмінюється разом з іменем</message>
+      <!--
           <suggestion><match no="1" postag_regexp="yes" postag="(noun.*:m.*:)fname(.*)" postag_replace="$1lname.*">\2</match></suggestion>
-           -->
-          <url>http://pravopys.kiev.ua/pravopys.aspx?SectionID=1765</url>
-          <example correction="">Бульвар Тараса <marker>Шевченко</marker></example>
-          <example correction="">прийшов до Андрія <marker>Громико</marker> секретар.</example>
-          <example correction="">прийшов до Петра <marker>Порошенко</marker> секретар.</example>
-          <example>Прийшов Тарас Шевченко</example>
-          <example>Картина Жені Шевченко</example>
-          <example>Тому Путін цілком здатен...</example>
-          <example>Ніколи Ковтуненко не був паном</example>
-          <example>У Києві Шлемкевич працював секретарем</example>
-          <example>Ну, будь здоровий, Семене Гурко!</example>
-          <example>агент Сергія Шандор Варга</example>
-          <example>Син Павла Мартин теж став бурмистром</example>
-          <example>після смерті короля Данила Галич почав утрачати свою велич</example>
-          <example>...на Донеччину Московського Патріарха Кирила Янукович ходив за ним по п’ятах</example>
-          <example>спитав у отця Харитона Казанцев</example>
-          <example>у соборі Святого Петра Ющенко</example>
+      -->
+      <url>http://pravopys.kiev.ua/pravopys.aspx?SectionID=1765</url>
+      <example correction="">Бульвар Тараса <marker>Шевченко</marker></example>
+      <example correction="">прийшов до Андрія <marker>Громико</marker> секретар.</example>
+      <example correction="">прийшов до Петра <marker>Порошенко</marker> секретар.</example>
+      <example>Прийшов Тарас Шевченко</example>
+      <example>Картина Жені Шевченко</example>
+      <example>Тому Путін цілком здатен...</example>
+      <example>Ніколи Ковтуненко не був паном</example>
+      <example>У Києві Шлемкевич працював секретарем</example>
+      <example>Ну, будь здоровий, Семене Гурко!</example>
+      <example>агент Сергія Шандор Варга</example>
+      <example>Син Павла Мартин теж став бурмистром</example>
+      <example>після смерті короля Данила Галич почав утрачати свою велич</example>
+      <example>...на Донеччину Московського Патріарха Кирила Янукович ходив за ним по п’ятах</example>
+      <example>спитав у отця Харитона Казанцев</example>
+      <example>у соборі Святого Петра Ющенко</example>
 
-          <!-- Лишаємо для іншого правила -->
-          <example>Подружжю Наталі та Сергія Гедзь судилося вписати свої імена...</example>
-          <example>виготовлені Людмилою і Мирославом Куць</example>
-          <example>Людмили та Юрія Миськів</example>
+      <!-- Лишаємо для іншого правила -->
+      <example>Подружжю Наталі та Сергія Гедзь судилося вписати свої імена...</example>
+      <example>виготовлені Людмилою і Мирославом Куць</example>
+      <example>Людмили та Юрія Миськів</example>
 
-          <!-- Важко розрізнити на граматичному рівні
+      <!-- Важко розрізнити на граматичному рівні
           <example>Прибіг до Єремії Тишкевич</example>
           <example>охолодив Арсена Метелиця</example>
           <example>де    колись приймав Андрія Донець</example>
@@ -912,67 +913,67 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>У партії з Анандом Пономарьов розіграв</example>
           <example>як підвів Миколу Марчук</example>
           <example>під наглядом Петера Йоханссон став</example>
-          -->
-        </rule>
+      -->
+    </rule>
 
-    </category>
+  </category>
 
-    <category id="LOGICAL_ERRORS" name="Логічні помилки">
-          <rulegroup id="INVALID_DATE" name="Неправильна дата, наприклад '31 лютого 2014'">
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>31</token>
-                        <token regexp="yes">квітень|квітня|кві|червень|червня|вересень|вересня|вер|листопад|листопада|лис</token>
-                    </marker>
-                </pattern>
-                <message>Місяць \2 має лише 30 днів.</message>
-                <example correction="">Це трапилося <marker>31 листопада</marker> 2014 р.</example>
-                <example>Це трапилося <marker>30 листопада</marker> 2014 р.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token regexp="yes">3[01]</token>
-                        <token regexp="yes">лютий|лютого|лют</token>
-                    </marker>
-                </pattern>
-                <message>Лютий має 28 днів або 29 днів у переступному році.</message>
-                <example correction="">Це трапилося <marker>30 лютого</marker> 2014 р.</example>
-                <example>Це трапилося <marker>28 лютого</marker> 2014 р.</example>
-            </rule>
-        </rulegroup>
+  <category id="LOGICAL_ERRORS" name="Логічні помилки">
+    <rulegroup id="INVALID_DATE" name="Неправильна дата, наприклад '31 лютого 2014'">
+      <rule>
+        <pattern>
+          <marker>
+            <token>31</token>
+            <token regexp="yes">квітень|квітня|кві|червень|червня|вересень|вересня|вер|листопад|листопада|лис</token>
+          </marker>
+        </pattern>
+        <message>Місяць \2 має лише 30 днів.</message>
+        <example correction="">Це трапилося <marker>31 листопада</marker> 2014 р.</example>
+        <example>Це трапилося <marker>30 листопада</marker> 2014 р.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">3[01]</token>
+            <token regexp="yes">лютий|лютого|лют</token>
+          </marker>
+        </pattern>
+        <message>Лютий має 28 днів або 29 днів у переступному році.</message>
+        <example correction="">Це трапилося <marker>30 лютого</marker> 2014 р.</example>
+        <example>Це трапилося <marker>28 лютого</marker> 2014 р.</example>
+      </rule>
+    </rulegroup>
 
-        <rule id="YEAR_20001" name="Забагато нулів в номері року">
-            <pattern>
-                <token regexp="yes">&months;|рік</token>
-                <token regexp="yes">200\d\d</token>
-            </pattern>
-            <message>Можливо <suggestion><match no="1"/> <match no="2" regexp_match="200" regexp_replace="20"/></suggestion>?</message>
-            <short>Помилка друку?</short>
-            <example>Мою поїздку запланували на травень 2014 р.</example>
-            <example correction="травень 2014">Мою поїздку запланували на <marker>травень 20014</marker> р.</example>
-        </rule>
+    <rule id="YEAR_20001" name="Забагато нулів в номері року">
+      <pattern>
+        <token regexp="yes">&months;|рік</token>
+        <token regexp="yes">200\d\d</token>
+      </pattern>
+      <message>Можливо <suggestion><match no="1"/> <match no="2" regexp_match="200" regexp_replace="20"/></suggestion>?</message>
+      <short>Помилка друку?</short>
+      <example>Мою поїздку запланували на травень 2014 р.</example>
+      <example correction="травень 2014">Мою поїздку запланували на <marker>травень 20014</marker> р.</example>
+    </rule>
 
-        <rulegroup id="DATE_WEEKDAY1" name="День тижня не відповідає даті">   
-            <!-- "понеділок, 7 жовтня 2014" -->
-            <rule>
-                <pattern>
-                    <token regexp="yes">&weekdays;</token>
-                    <token>,</token>
-                    <token regexp="yes">\d\d?</token>
-                    <token regexp="yes">&months;|&abbrevMonths;</token>
-                    <token regexp="yes">\d\d\d\d</token>
-                </pattern>
-                <filter class="org.languagetool.rules.uk.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
-                <message>Днем тижня \3 \4 \5 є не \1, а {realDay}.</message>
-                <example correction="">Конференція відбудеться в <marker>понеділок, 7 жовтня 2014</marker> р.</example>
-                <example correction="">Конференція відбудеться в <marker>понеділок, 7 жов 2014</marker> р.</example>
-                <example>Конференція відбудеться у вівторок, 7 жовтня 2014 р.</example>
-                <example>Конференція відбудеться у вівторок, 7 жов 2014 р.</example>
-            </rule>
-        </rulegroup>
+    <rulegroup id="DATE_WEEKDAY1" name="День тижня не відповідає даті">
+      <!-- "понеділок, 7 жовтня 2014" -->
+      <rule>
+        <pattern>
+          <token regexp="yes">&weekdays;</token>
+          <token>,</token>
+          <token regexp="yes">\d\d?</token>
+          <token regexp="yes">&months;|&abbrevMonths;</token>
+          <token regexp="yes">\d\d\d\d</token>
+        </pattern>
+        <filter class="org.languagetool.rules.uk.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
+        <message>Днем тижня \3 \4 \5 є не \1, а {realDay}.</message>
+        <example correction="">Конференція відбудеться в <marker>понеділок, 7 жовтня 2014</marker> р.</example>
+        <example correction="">Конференція відбудеться в <marker>понеділок, 7 жов 2014</marker> р.</example>
+        <example>Конференція відбудеться у вівторок, 7 жовтня 2014 р.</example>
+        <example>Конференція відбудеться у вівторок, 7 жов 2014 р.</example>
+      </rule>
+    </rulegroup>
 
-    </category>
+  </category>
 
 </rules>
