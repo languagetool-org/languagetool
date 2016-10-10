@@ -6967,8 +6967,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Заросший пруд у лесной опушки.</example>
             <example correction="у лесной|лесную">Заросший пруд <marker>у лесную</marker> опушки.</example>
         </rule>
-        
-        
+        <rule default="on" id="PREP_C_and_Noun" name="Предлог «с» и существительное">
+            <pattern case_sensitive="yes">
+                <!--  PREP  с -> NN:.*:R or  NN:.*:T   -->
+                <token regexp="yes">с|со</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:R" postag_regexp="yes"></exception><exception postag="NN:.*:.*:T" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Предлог «\1» предполагает употребление существительного в родительном или творительном падеже.</message>
+            <short>Требуется родительный или творительный падеж.</short>
+            <example>Егерь пошёл в лес с рысью.</example>
+            <example correction="">Егерь пошёл в лес <marker>с рысь</marker>.</example>
+        </rule>
+        <rule default="on" id="PREP_C_and_ADJ" name="Предлог «с» и прилагательное">
+            <pattern case_sensitive="yes">
+                <!--  PREP  с -> ADJ:.*:R or  ADJ:.*:T   -->
+                <token regexp="yes">с|со</token>
+                <token postag="ADJ:.*:.*" postag_regexp="yes" ><exception postag="ADJ:.*:R" postag_regexp="yes"></exception><exception postag="ADJ:.*:T" postag_regexp="yes"></exception><exception postag="(ADJ|PT):.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Предлог «\1» предполагает употребление прилагательного в родительном или творительном падеже.</message>
+            <short>Требуется родительный или творительный падеж.</short>
+            <example>Егерь пошёл в лес с пушистой рысью.</example>
+            <example correction="">Егерь пошёл в лес <marker>с пушистая</marker> рысью.</example>
+        </rule>
+        <rule default="on" id="PREP_O_and_Noun" name="Предлог «о» и существительное">
+            <pattern case_sensitive="yes">
+                <!--  PREP  о -> NN:.*:V or  NN:.*:P   -->
+                <token>о</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Предлог «о» предполагает употребление существительного в винительном или предложном падеже.</message>
+            <short>Требуется винительный или предложный падеж.</short>
+            <example>Я прочитал газетную статью о ярмарке.</example>
+            <example correction="">Я прочитал газетную статью <marker>о ярмаркой</marker>.</example>
+        </rule>
+         <rule default="on" id="PREP_O_and_ADJ" name="Предлог «о» и прилагательное">
+            <pattern case_sensitive="yes">
+                <!--  PREP  о -> ADJ:.*:V or  ADJ:.*:P   -->
+                <token>о</token>
+                <token postag="ADJ:.*:.*" postag_regexp="yes" ><exception postag="ADJ:.*:V" postag_regexp="yes"></exception><exception postag="ADJ:.*:P" postag_regexp="yes"></exception><exception postag="(ADJ|PT):.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Предлог «о» предполагает употребление прилагательного в винительном или предложном падеже.</message>
+            <short>Требуется винительный или предложный падеж.</short>
+            <example>Я прочитал газетную статью о предстоящей ярмарке.</example>
+            <example correction="">Я прочитал газетную статью <marker>о предстоящая</marker> ярмаркой.</example>
+        </rule>
         <rule id="upravlauchij_NN" name="Словосочетание «управляющий», ... + существительное">
             <pattern case_sensitive="no">
                 <!--    Управляющий предприятием    NN:.*:.*:T       -->
