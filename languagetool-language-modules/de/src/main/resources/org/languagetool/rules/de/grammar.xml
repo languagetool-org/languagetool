@@ -11441,6 +11441,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://www.duden.de/rechtschreibung/willkommen</url>
             <example correction='willkommen'>Herzlich <marker>Willkommen</marker> auf meiner Homepage!</example>
         </rule>
+        <rule id="VON_RANG" name="von/im rang (Rang)">
+            <pattern>
+                <token regexp='yes'>im|von</token>
+                <marker>
+                    <token case_sensitive='yes'>rang</token>
+                </marker>
+            </pattern>
+            <message><suggestion>Rang</suggestion> scheint hier ein Nomen zu sein und muss daher großgeschrieben werden.</message>
+            <example>Er <marker>rang</marker> nach Luft.</example>
+            <example correction='Rang'>Er ist Chef der Staatskanzlei im <marker>rang</marker> eines Staatssekretärs.</example>
+            <example correction='Rang'>Philosophen von <marker>rang</marker> passieren solche Fehler fast nie.</example>
+        </rule>
         <rule id="SEIT_BEGINN" name="'seit beginn (seit Beginn)'">
             <pattern>
                 <token regexp='yes'>seit|von</token>
