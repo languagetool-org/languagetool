@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.179 2016-10-05 18:40:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.180 2016-10-10 16:40:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -62,8 +62,50 @@ $Id: grammar.xml,v 1.179 2016-10-05 18:40:00 marcoagpinto Exp $
      <suggestion>qualquer</suggestion>
      <example correction="qualquer">Tratamos de <marker>quaisquer</marker> assunto.</example>	 	 
     </rule> 	
-	
 
+
+
+    <!-- Concordance error plural - FOREM + ADJECTIVE PLURAL FEM-->
+    <rule id="FOREM-ADJECTIVE_SINGULAR_FEM" name="Erro de concordância do plural FOREM + ADJ PLURAL FEM">
+      <pattern>
+		<token>forem</token>
+		<marker>			
+			<token postag="AQ0FS0"><exception postag="VMIP3S0"></exception></token>
+		</marker>		 	
+     </pattern>	 	 
+	 <message>Erro de concordância do plural: <suggestion><match no="2" postag_regexp= "yes" postag="AQ0FS0" postag_replace="AQ0FP0"/></suggestion></message>	 
+	 <example correction="necessárias">Quando forem <marker>necessária</marker> novas medidas.</example>   
+    </rule> 	
+
+
+
+    <!-- Concordance error plural - FOREM + ADJECTIVE PLURAL MASC-->
+    <rule id="FOREM-ADJECTIVE_SINGULAR_MASC" name="Erro de concordância do plural FOREM + ADJ PLURAL MASC">
+      <pattern>
+		<token>forem</token>
+		<marker>			
+			<token postag="AQ0MS0"><exception postag="VMIP1S0"></exception></token>
+		</marker>		 	
+     </pattern>	 	 
+	 <message>Erro de concordância do plural: <suggestion><match no="2" postag_regexp= "yes" postag="AQ0MS0" postag_replace="AQ0MP0"/></suggestion></message>	 
+	 <example correction="necessários">Quando forem <marker>necessário</marker> mais meios.</example>   
+    </rule> 
+
+
+
+    <!-- Concordance error plural - FOREM + ADJECTIVE PLURAL MASC2-->
+    <rule id="FOREM-ADJECTIVE_SINGULAR_MASC2" name="Erro de concordância do plural FOREM + ADJ PLURAL MASC2">
+      <pattern>
+		<token>forem</token>
+		<marker>			
+			<token postag="AQ0CS0"></token>
+		</marker>		 	
+     </pattern>	 	 
+	 <message>Erro de concordância do plural: <suggestion><match no="2" postag_regexp= "yes" postag="AQ0CS0" postag_replace="AQ0CP0"/></suggestion></message>	 
+	 <example correction="urgentes">Todos os exames que forem <marker>urgente</marker> serão marcados.</example>   
+    </rule> 
+	
+	
 
     <!-- Concordance error plural - É + PLURAL -->
     <rule id="É_PLURAL" name="Erro de concordância do plural É+PLURAL">
