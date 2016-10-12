@@ -6983,11 +6983,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <!--  PREP  с -> NN:.*:R or  NN:.*:T   -->
                 <token regexp="yes">с|со</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:R" postag_regexp="yes"></exception><exception postag="NN:.*:.*:T" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception regexp="yes">[а-я]*у</exception><exception postag="NN:.*:.*:R" postag_regexp="yes"></exception><exception postag="NN:.*:.*:T" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Предлог «\1» предполагает употребление существительного в родительном или творительном падеже.</message>
             <short>Требуется родительный или творительный падеж.</short>
             <example>Егерь пошёл в лес с рысью.</example>
+            <example>В конце концов они встретились с глазу на глаз.</example>
             <example correction="">Егерь пошёл в лес <marker>с рысь</marker>.</example>
         </rule>
         <rule default="on" id="PREP_C_and_ADJ" name="Предлог «с» и прилагательное">
