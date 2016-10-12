@@ -7552,12 +7552,13 @@ though, and has since been slightly modified)-->
       <example correction="courant">Le <marker>courent</marker> électrique.</example>
     </rule>
     <rulegroup id="RENNE_RENNES" name="Renne et Rennes">
+      <url>https://fr.wikipedia.org/wiki/Rennes</url>
       <rule>
         <pattern>
           <token regexp="yes">à|depuis|vers<exception scope="previous" inflected="yes">traineau</exception></token>
           <marker><token case_sensitive="yes">Renne</token></marker>
         </pattern>
-        <message>Confusion probable entre la ville de <suggestion>Rennes</suggestion> en Bretagne et le mamifère « renne ».</message>
+        <message>Confusion probable entre la ville de <suggestion>Rennes</suggestion> en Bretagne et le mammifère « renne ».</message>
         <example correction="Rennes">J'habite à <marker>Renne</marker>.</example>
       </rule>
       <rule>
@@ -7566,8 +7567,29 @@ though, and has since been slightly modified)-->
           <token>de</token>
           <marker><token case_sensitive="yes">Renne</token></marker>
         </pattern>
-        <message>Confusion probable entre la ville de <suggestion>Rennes</suggestion> en Bretagne et le mamifère « renne ».</message>
+        <message>Confusion probable entre la ville de <suggestion>Rennes</suggestion> en Bretagne et le mammifère « renne ».</message>
         <example correction="Rennes">La gare de <marker>Renne</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="REINE_RENE_RENNE" name="Reine, rêne et renne">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2223</url>
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">capture|espèce|sous-espèce|migration|peau|traineau|troupeau</token>
+          <token>de</token>
+          <marker><token regexp="yes" inflected="yes">rêne|reine</token></marker>
+        </pattern>
+        <message>Confusion problable entre « \3 » et <suggestion><match no="3" regexp_match=".*n" regexp_replace="renn"/></suggestion> (mammifère).</message>
+        <example correction="rennes">Un troupeau de <marker>rênes</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">capturer|chasser|décimer|migration|peau|élever</token>
+          <token>des</token>
+          <marker><token regexp="yes">rênes|reines</token></marker>
+        </pattern>
+        <message>Confusion problable entre « \3 » et <suggestion>rennes</suggestion> (mammifère).</message>
+        <example correction="rennes">Ils chassent des <marker>rênes</marker>.</example>
       </rule>
     </rulegroup>
   </category>
