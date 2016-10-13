@@ -2,6 +2,9 @@
 
 ## 3.6 (release planned for 2016-12-28)
 
+#### French
+  * upgraded dictionaries to Dicollecte-5.7
+
 #### HTTP API
  * The old API has been deactivated, as documented at
    https://languagetool.org/http-api/migration.php - it

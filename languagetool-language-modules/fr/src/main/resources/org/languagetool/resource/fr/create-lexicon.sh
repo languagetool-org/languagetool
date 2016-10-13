@@ -14,7 +14,7 @@
 # Author: Dominique Pelle <dominique.pelle@gmail.com>
 #
 
-INPUT=lexique-dicollecte-fr-v5.6
+INPUT=lexique-dicollecte-fr-v5.7
 
 if [ ! -f $INPUT.txt ]; then
   wget http://www.dicollecte.org/download/fr/$INPUT.zip
@@ -37,7 +37,7 @@ java -jar morfologik-stemming-nodict-1.4.0.jar fsa_build \
 rm -f /tmp/SynthDictionaryBuilder*.txt_tags.txt
 rm -f /tmp/DictionaryBuilder*.dict
 
-java -cp ../../../../../../../../../languagetool-tools/target/languagetool-tools-3.4-SNAPSHOT-jar-with-dependencies.jar \
+java -cp ../../../../../../../../../languagetool-tools/target/languagetool-tools-3.6-SNAPSHOT-jar-with-dependencies.jar \
      org.languagetool.tools.SynthDictionaryBuilder \
      -i $INPUT.txt.LT.txt \
      -info french_synth.info \
