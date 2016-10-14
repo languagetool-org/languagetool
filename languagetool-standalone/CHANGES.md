@@ -4,6 +4,9 @@
 
 #### French
   * upgraded dictionaries to Dicollecte-5.7
+  
+#### Russian
+  * added/improved several rules
 
 #### HTTP API
  * The old API has been deactivated, as documented at
