@@ -9998,6 +9998,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&redundanz;</short>
             <example correction="überhaupt nichts|gar nichts">LanguageTool kostet <marker>überhaupt gar nichts</marker>.</example>
         </rule>
+        <rule id="BRAUCHEN_ZU" name="brauchen mit Infinitiv mit 'zu">
+            <antipattern>
+                <token regexp="yes">gebraucht|brauchen</token>
+                <token regexp="yes">w[uü]rden?|w[eo]rden|ist|sind|w[aä]r(en)</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="-1">brauchen</token>
+                <token regexp="yes">,|;|-|:|„|“</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="-1">brauchen</token>
+                <token>zu</token>
+                <token postag="VER:INF:.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="-1">brauchen</token>
+                <token regexp="yes">[mds]?eine[mnr]</token>
+                <token postag="VER:INF:.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="-1">brauchen</token>
+                <token postag="VER:INF:.*" postag_regexp="yes"/>
+                <token min="0">zu</token>
+                <token regexp="yes">können|lassen</token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes" skip="-1">brauchen</token>
+                <marker><token postag="VER:INF:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-z]+<exception regexp="yes">m?einen</exception><exception scope="previous">zu</exception></token></marker>
+            </pattern>
+            <message>Die Verwendung von 'brauchen + Infinitiv' (ohne 'zu') ist umgangssprachlich. Standardsprachlich sollte vor dem Infinitiv 'zu' stehen. Vorschlag: <suggestion>zu \2</suggestion></message>
+            <url>http://www.duden.de/rechtschreibung/brauchen</url>
+            <short>Umgangssprache</short>
+            <example correction="zu kommen">Du brauchst nicht <marker>kommen</marker>.</example>
+            <example correction="zu machen">Darüber brauchst du dir keine Sorgen <marker>machen</marker>.</example>
+            <example>Er kaufte die Schuhe, obwohl sie gebraucht waren.</example>
+            <example>Ich brauche bald <marker>einen</marker> neuen Fernseher.</example>
+            <example>Ich brauchte sechs Jahre um Finnisch <marker>sprechen</marker> zu können.</example>
+            <example>Wir brauchen dich, weil nur du uns helfen kannst.</example>
+            <example>Ich brauche etwas Zeit zum Nachdenken.</example>
+            <example>Ich brauche ein Hemd mit einem steifen Kragen.</example>
+        </rule>
         <rulegroup id="WEGEN_DIR" name="'wegen dir (deinetwegen)' etc.">
             <rule>
                 <regexp>\b(wegen) (mir)</regexp>
@@ -10907,12 +10948,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="GENDER_NEUTRALITY" name="Geschlechtergerechte Sprache" type="style">
         <rule id="MAENNER_VS_LEUTE" name="'Kaufleute' etc. statt 'Kaufmänner'">
             <antipattern>
-                <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel)männern?</token>
+                <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel|Vertrauens)männern?</token>
                 <token>und</token>
                 <token>-frauen</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel)männern?</token>
+                <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel|Vertrauens)männern?</token>
             </pattern>
             <message>Evtl. passt der geschlechtsneutrale Begriff <suggestion><match no="1" regexp_match="(Kauf|.*kauf|See|Feuerwehr|Gewährs|Edel)männer(n)?" regexp_replace="$1leute$2"/></suggestion> besser.</message>
             <example correction="Feuerwehrleute">Es waren viele <marker>Feuerwehrmänner</marker> im Einsatz.</example>
@@ -27655,6 +27696,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Geht-ja-überhaupt-gar-nicht-Einstellung">Du mit deiner <marker>„Geht ja überhaupt gar nicht“-Einstellung</marker>!</example>
             </rule>
         </rulegroup>
+        <rule id="KOMMA_VOR_UND_ZWAR" name="Komma vor 'und zwar'">
+            <pattern>
+                <marker><token><exception regexp="yes">,|;|-|–|\(|„|“</exception></token></marker>
+                <token>und</token>
+                <token>zwar</token>
+            </pattern>
+            <message>Wird eine nachgestellte Erläuterung mit 'und zwar' eingeleitet, so ist sie mit Komma abzutrennen: <suggestion>\1,</suggestion></message>
+            <url>http://www.duden.de/sprachwissen/rechtschreibregeln/komma#K105</url>
+            <example correction="gebrochen,">Sein Arm ist <marker>gebrochen</marker> und zwar mehrfach.</example>
+            <example correction="kommt,">Er <marker>kommt</marker> und zwar in einer Stunde.</example>
+            <example>Gib ihm Kaffee, und zwar schnell!</example>
+        </rule>
         <rule id="INDIREKTE_FRAGE" name="indirekte Frage">
             <antipattern>
                 <token>ob</token>
