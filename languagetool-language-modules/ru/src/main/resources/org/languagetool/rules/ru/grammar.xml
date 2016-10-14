@@ -294,7 +294,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">информативный</token>
                     <token inflected="yes" regexp="yes">служба|отдел</token>
                 </pattern>              
-                <message>Имелось в виду <suggestion><match no="1"  regexp_match="информативн(.*)"  regexp_replace="информационн$2" >информационный</match> <match no="2" /></suggestion>?</message>
+                <message>Имелось в виду <suggestion><match no="1"  regexp_match="информативн(.*)"  regexp_replace="информационн$1" /> <match no="2" /></suggestion>?</message>
                 <url>https://ru.wiktionary.org/wiki/%D0%B8%D0%BD%D1%84%D0%BE%D1%80%D0%BC%D0%B0%D1%86%D0%B8%D0%BE%D0%BD%D0%BD%D1%8B%D0%B9</url>
                 <short>Логическая ошибка.</short>
                 <example correction="информационный отдел">По всем вопросам обращайтесь в <marker>информативный отдел</marker>.</example>
@@ -387,8 +387,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Началась кампания по"><marker>Началась компания по</marker> сбору урожая.</example>
                 <example>Кампания по сбору урожая.</example>
             </rule>
-        </rulegroup>        
-        
+        </rulegroup>
+        <rulegroup id="economichesky_ekonomichniy" name="Логические ошибки «экономический/экономичный»">      
+            <rule> 
+                <pattern>
+                   <token inflected="yes">экономический</token>
+                   <token regexp="yes">автомобиль|дизайн-проект|двигатель</token>
+                </pattern>
+                <message>Имелось в виду: <suggestion><match no="1" postag="ADJ:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2" setpos="yes">экономичный</match> <match no="2" /></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="экономичного автомобиль|экономичный автомобиль"><marker>экономический автомобиль</marker></example>
+                <example>Этот экономичный автомобиль расходует только 5 литров топлива на 100 километров.</example>
+            </rule>        
+        </rulegroup>
         <rulegroup id="urovnjat_uravnjat" name="Логические ошибки «уровнять/уравнять»">
                 
             <rule> 
