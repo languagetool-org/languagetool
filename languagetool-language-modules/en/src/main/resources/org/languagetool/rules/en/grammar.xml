@@ -10817,6 +10817,34 @@ USA
     <!-- Miscellaneous -->
     <!-- ====================================================================== -->
     <category id="MISC" name="Miscellaneous">
+        <rule id="OVERNIGHT" name="overnight instead of 'over night'">
+            <antipattern>
+                <token inflected="yes" skip="-1" regexp="yes">prefer|choose</token>
+                <token>over</token>
+                <token>night</token>
+            </antipattern>
+            <pattern>
+                <token>over</token>
+                <token>night</token>
+            </pattern>
+            <message>Did you mean the adjective or adverb <suggestion>\1night</suggestion> (i.e., for or during the entire night)?</message>
+            <url>http://www.merriam-webster.com/dictionary/overnight</url>
+            <example correction="overnight">She stayed <marker>over night</marker>.</example>
+            <example correction="overnight">The stock has gone down <marker>over night</marker>.</example>
+            <example>Cover and refrigerate <marker>overnight</marker>.</example>
+            <example>I prefer day over night.</example>
+        </rule>
+        <rule id="DESPITE_OF" name="despite of (despite)">
+            <pattern>
+                 <token>despite<exception scope="previous">in</exception></token>
+                 <token>of</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1</suggestion> (or, alternatively, 'in spite of')?</message>
+            <url>http://www.elearnenglishlanguage.com/blog/english-mistakes/despite-vs-in-spite-of/</url>
+            <example correction="despite">He kept running <marker>despite of</marker> the pain in his chest.</example>
+            <example>She had difficulty communicating in French <marker>despite</marker> all her years of study.</example>
+            <example>She had difficulty communicating in French <marker>in spite of</marker> all her years of study.</example>
+        </rule>
         <rule id="CONTRACTED_FORM_NOT" name="shouldn't not (shouldn't)">
             <pattern>
                 <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
