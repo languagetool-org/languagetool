@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Daily API usage reports. To be run as a cronjob at the end of the day.
 # dnaber, 2015-11-14
 
