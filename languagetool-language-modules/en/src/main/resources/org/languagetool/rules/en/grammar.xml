@@ -11669,13 +11669,21 @@ USA
                 <example>I saw a wolf, a <marker>fox, and</marker> a rabbit.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>In</token>
+                    <token regexp="yes">theory|priciple|practice|essence</token>
+                    <token>,</token>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token regexp="yes">and|or</token>
+                </antipattern>
                 <pattern>
                       <token postag="SENT_START"/>
                       <token regexp="yes">While|Since|When|After|Although|With|In|Here|Despite|Meanwhile|Whenever|Where|But</token>
                       <token postag="NN.*" postag_regexp="yes"><exception regexp="yes">\d+</exception></token>
                       <token>,</token>
                       <marker>
-                          <token postag="NN.*" postag_regexp="yes"><exception scope="previous">and</exception></token>
+                          <token postag="NN.*" postag_regexp="yes"></token>
                           <token regexp="yes">and|or</token>
                       </marker>
                       <token postag="NN.*" postag_regexp="yes"></token>
