@@ -149,6 +149,19 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return lineExpander.expandLine(line);
   }
 
+  /*
+   * @since 3.6
+   */
+  @Override
+  public List<String> getSuggestions(String word) throws IOException {
+    List<String> suggestions = super.getSuggestions(word);
+    if(word.endsWith(".")) {
+      // To avoid losing the "." of "word" is at the end of a sentence.
+      suggestions.replaceAll(s -> s.endsWith(".") ? s : s.concat("."));
+    }
+    return suggestions;
+  }
+
   @Nullable
   private static MorfologikMultiSpeller getSpeller(Language language) {
     if (!language.getShortName().equals(Locale.GERMAN.getLanguage())) {

@@ -220,6 +220,7 @@ public class GermanSpellerRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentest-Versuch")).length);  // compound
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Der Arbeitnehmer")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die Verhaltensänderung")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Er bzw. sie.")).length); // abbreviations
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentest-Dftgedgs")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Dftgedgs-Waschmaschinentest")).length);
@@ -227,6 +228,7 @@ public class GermanSpellerRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Waschmaschinentestversuch orkt")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Arbeitsnehmer")).length);  // wrong interfix
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Verhaltenänderung")).length);  // missing interfix
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Er bw. sie.")).length); // abbreviations (bzw.)
     assertEquals(2, rule.match(langTool.getAnalyzedSentence("Der asdegfue orkt")).length);
   }
   
@@ -242,7 +244,10 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "Autuverkehr", "Autoverkehr");
     assertCorrection(rule, "Rechtschreibprüfun", "Rechtschreibprüfung");
     assertCorrection(rule, "Rechtschreib-Prüfun", "Rechtschreib-Prüfung");
-    
+    assertCorrection(rule, "bw.", "bzw.");
+    assertCorrection(rule, "kan", "kann", "an");
+    assertCorrection(rule, "kan.", "kann.", "an.");
+
     //TODO: requires morfologik-speller change (suggestions for known words):
     //assertCorrection(rule, "Arbeitamt", "Arbeitsamt");
 
