@@ -391,14 +391,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="economichesky_ekonomichniy" name="Логические ошибки «экономический/экономичный»">      
             <rule> 
                 <pattern>
-                   <token inflected="yes">экономический</token>
-                   <token regexp="yes">автомобиль|дизайн-проект|двигатель</token>
+                   <token inflected="yes" >экономический</token>
+                   <token regexp="yes" inflected="yes">автомобиль|дизайн-проект|двигатель</token>
                 </pattern>
                 <message>Имелось в виду: <suggestion><match no="1" postag="ADJ:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2" setpos="yes">экономичный</match> <match no="2" /></suggestion>?</message>
                 <short>Логическая ошибка.</short>
                 <example correction="экономичного автомобиль|экономичный автомобиль"><marker>экономический автомобиль</marker></example>
                 <example>Этот экономичный автомобиль расходует только 5 литров топлива на 100 километров.</example>
-            </rule>        
+            </rule>
+            <rule> 
+                <pattern>
+                   <token inflected="yes">экономичный</token>
+                   <token regexp="yes" inflected="yes">форум|саммит|сотрудничество|факультет</token>
+                </pattern>
+                <message>Имелось в виду: <suggestion><match no="1" postag="ADJ:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2" setpos="yes">экономический</match> <match no="2" /></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="экономическом саммите">На <marker>экономичном саммите</marker> обсуждались злободневные темы.</example>
+                <example>На экономическом саммите обсуждались злободневные темы.</example>
+            </rule>                
         </rulegroup>
         <rulegroup id="urovnjat_uravnjat" name="Логические ошибки «уровнять/уравнять»">
                 
