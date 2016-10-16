@@ -363,8 +363,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Уровень воды в озере понизился.</example>
             </rule>                    
         </rulegroup>
-        
-           
+        <rulegroup id="gerojsky_geroichesky" name="Логические ошибки «геройский/героический»">
+            <rule> 
+                <pattern>
+                   <token inflected="yes">геройский</token>
+                   <token inflected="yes" regexp="yes">рассказ|сказ|эпос|сказания|поступок</token>
+                </pattern>
+                <message>Имелось в виду: <suggestion><match no="1"  regexp_match="[Гг]еройск(.*)"  regexp_replace="героическ$1" /> <match no="2" /></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="Героический эпос"><marker>Геройский эпос</marker> народов мира.</example>
+                <example>Героический эпос народов мира.</example>
+            </rule> 
+        </rulegroup>   
         <rulegroup id="companija_campanija" name="Логические ошибки «компания/кампания»">
             <rule> 
                 <pattern>
