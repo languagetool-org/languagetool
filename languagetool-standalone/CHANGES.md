@@ -2,8 +2,15 @@
 
 ## 3.6 (release planned for 2016-12-28)
 
+#### English
+  * added and improved rules
+
 #### French
   * upgraded dictionaries to Dicollecte-5.7
+
+#### German
+  * added and improved rules
+  * bugfix regarding errors in the last word of a sentence (#273)
   
 #### Russian
   * added/improved several rules
