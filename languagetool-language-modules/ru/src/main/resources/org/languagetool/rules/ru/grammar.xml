@@ -374,7 +374,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Героический эпос"><marker>Геройский эпос</marker> народов мира.</example>
                 <example>Героический эпос народов мира.</example>
             </rule> 
-        </rulegroup>   
+        </rulegroup>
+        <rulegroup id="giloj_gilichnij" name="Логические ошибки «жилой/жилищный»">
+            <rule> 
+                <pattern>
+                   <token>жилищный</token>
+                   <token regexp="yes">дом|строение|помещение</token>
+                </pattern>
+                <message>Имелось в виду: <suggestion>жилой <match no="2" /></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="жилой дом"><marker>жилищный дом</marker></example>
+                <example>жилое помещение</example>
+            </rule>
+            <rule> 
+                <pattern>
+                   <token inflected="yes">жилой</token>
+                   <token inflected="yes" regexp="yes">кодекс|комиссия|отдел|кооперация|законодательство</token>
+                </pattern>
+                <message>Имелось в виду: <suggestion><match no="1"  postag="ADJ:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2" setpos="yes">жилищный</match> <match no="2" /></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="жилищное законодательство">Изменения были внесены в <marker>жилое законодательство</marker>.</example>
+                <example>жилищный кодекс</example>
+            </rule>  
+        </rulegroup>
+        <rulegroup id="dvigatel_dvizhetel" name="Устойчивые словосочетания со словами «двигатель/движитель»">
+            <rule> 
+                <pattern>
+                   <token inflected="yes">движитель</token>
+                   <token regexp="yes" inflected="yes">перестройка|прогресс|развитие</token>
+                </pattern>
+                <message>Имелось в виду: <suggestion><match no="1"  regexp_match="[Дд]вижит(.*)"  regexp_replace="двигат$1" /> <match no="2" /></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="двигатели перестройки">Кооперация и аренда — <marker>движители перестройки</marker>.</example>
+                <example>Кооперация и аренда — двигатели перестройки.</example>
+            </rule>
+        </rulegroup>      
         <rulegroup id="companija_campanija" name="Логические ошибки «компания/кампания»">
             <rule> 
                 <pattern>
