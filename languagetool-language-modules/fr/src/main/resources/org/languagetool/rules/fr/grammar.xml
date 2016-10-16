@@ -7551,6 +7551,26 @@ though, and has since been slightly modified)-->
       <message>Confusion probable entre le nom <suggestion>courant</suggestion> et le verbe conjugué « courent ».</message>
       <example correction="courant">Le <marker>courent</marker> électrique.</example>
     </rule>
+    <rulegroup id="VANNE_VANNES" name="Vanne et Vannes">
+      <url>https://fr.wikipedia.org/wiki/Vannes</url>
+      <rule>
+        <pattern>
+          <token regexp="yes">depuis|vers|56000</token>
+          <marker><token case_sensitive="yes">Vanne</token></marker>
+        </pattern>
+        <message>Confusion probable entre la ville de <suggestion>Vannes</suggestion> en Bretagne et le mote « vanne ».</message>
+        <example correction="Vannes">56000 <marker>Vanne</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">académie|aéroport|autobus|avenue|bagad|bassin|blason|bibliothèque|bonjour|bus|canton|campus|casino|centre(-ville)?|CHU|cité|coucou|commune|diocèse|église|être|festival|histoire|IUT|HLM|hotel|immbilierimpasse|industrie|INSA|maire|mairie|marathon|métro|métropole|nord(-est|-ouest)?|opéra|originaire|ouest|plan|préfecture|prison|quartier|salut|technopole|ville|gare|rempart|rocade|route|rue|sud(-est|-ouest)?|tourisme|tramway|université|urbain|venir</token>
+          <token>de</token>
+          <marker><token case_sensitive="yes">Vanne</token></marker>
+        </pattern>
+        <message>Confusion probable entre la ville de <suggestion>Vannes</suggestion> en Bretagne et le mot « vanne ».</message>
+        <example correction="Vannes">La gare de <marker>Vanne</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="RENNE_RENNES" name="Renne et Rennes">
       <url>https://fr.wikipedia.org/wiki/Rennes</url>
       <rule>
@@ -7563,7 +7583,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes" inflected="yes">académie|aéroport|autobus|avenue|bassin|blason|bibliothèque|bonjour|bus|canton|campus|centre(-ville)?|CHU|cité|coucou|commune|être|festival|histoire|HLM|impasse|industrie|INSA|maire|mairie|métro|métropole|nord(-est|-ouest)?|opéra|originaire|ouest|prison|quartier|salut|technopole|ville|gare|rempart|rocade|route|rue|sud(-est|-ouest)?|tourisme|tramway|université|urbain|venir</token>
+          <token regexp="yes" inflected="yes">académie|aéroport|autobus|avenue|bagad|bassin|blason|bibliothèque|bonjour|bus|canton|campus|casino|centre(-ville)?|CHU|cité|coucou|commune|diocèse|église|être|festival|histoire|IUT|HLM|hotel|immbilierimpasse|industrie|INSA|maire|mairie|marathon|métro|métropole|nord(-est|-ouest)?|opéra|originaire|ouest|plan|préfecture|prison|quartier|salut|technopole|ville|gare|rempart|rocade|route|rue|sud(-est|-ouest)?|tourisme|tramway|université|urbain|venir</token>
           <token>de</token>
           <marker><token case_sensitive="yes">Renne</token></marker>
         </pattern>
