@@ -44,7 +44,7 @@ public class RemoteLanguageTool {
   private final URL serverBaseUrl;
 
   /**
-   * @param serverBaseUrl for example {@code https://languagetool.org/api} or {@code http://localhost:8081} (not ending in slash)
+   * @param serverBaseUrl for example {@code https://languagetool.org/api} (not ending in slash)
    */
   public RemoteLanguageTool(URL serverBaseUrl) {
     if (serverBaseUrl.toString().endsWith("/")) {
