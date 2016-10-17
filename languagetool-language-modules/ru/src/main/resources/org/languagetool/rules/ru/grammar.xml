@@ -2027,7 +2027,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">[\p{Punct}]<exception>:</exception></token>
                 </pattern>
-                <message>Пропущена запятая перед предлогом «и»: <suggestion><match no="1"/> <match no="2" include_skipped="all"/>, <match no="3" include_skipped="all"/> <match no="4"/> <match no="5" include_skipped="none"/></suggestion></message>
+                <message>Пропущена запятая перед предлогом: <suggestion><match no="1"/> <match no="2" include_skipped="all"/>, <match no="3" include_skipped="all"/> <match no="4"/> <match no="5" include_skipped="none"/></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D0%BE%D1%87%D0%B8%D0%BD%D1%91%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5</url>
                 <short>Пропущена запятая в сложном предложении.</short>
                 <example>Пролетели года, и настало время.</example>
@@ -2060,7 +2060,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">[\p{Punct}]<exception>:</exception></token>
                 </pattern>
-                <message>Пропущена запятая перед предлогом «и»: <suggestion><match no="1"/> <match no="2" include_skipped="all"/>, <match no="3" include_skipped="all"/> <match no="4"/> <match no="5" include_skipped="none"/></suggestion></message>
+                <message>Пропущена запятая перед предлогом: <suggestion><match no="1"/> <match no="2" include_skipped="all"/>, <match no="3" include_skipped="all"/> <match no="4"/> <match no="5" include_skipped="none"/></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D0%BE%D1%87%D0%B8%D0%BD%D1%91%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5</url>
                 <short>Пропущена запятая в сложном предложении.</short>
                 <example>Года пролетели, и время настало.</example>
@@ -2339,6 +2339,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Пропущена запятая.</short>
                 <example>Она говорила мало, но толково.</example>
                 <example correction="мало, но">Она говорила <marker>мало но</marker> толково.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="i_and_i_and_i" name="Союзы «и» + «и» + «и»">
+            <rule>
+                <pattern>
+                    <token>и</token>
+                    <token regexp="yes" negate="yes" min="1" max="2">,</token>
+                    <token>и</token>
+                    <token regexp="yes" negate="yes" min="1" max="2">,</token>
+                    <token>и</token>
+                    <token regexp="yes" negate="yes" min="1" max="2">,</token>
+                </pattern>
+              <message>Пропущена запятая:<suggestion><match no="1" include_skipped="all"/> <match no="2" include_skipped="all" />, <match no="3" include_skipped="all"/> <match no="4" include_skipped="all"/>, <match no="5" include_skipped="all"/> <match no="6" include_skipped="all"/></suggestion>.</message>
+              <short>Пропущена запятая.</short>
+              <example>Было грустно и в воздухе, и на небе, и в вагоне.</example>
+              <example correction="и в воздухе, и на небе, и в вагоне">Было грустно <marker>и в воздухе и на небе и в вагоне</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup default="on" id="CHAS_PIK" name="Словосочетание «Час пик»">
