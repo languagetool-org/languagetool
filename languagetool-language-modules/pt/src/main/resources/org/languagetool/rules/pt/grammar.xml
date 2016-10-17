@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.182 2016-10-13 15:45:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.183 2016-10-17 14:40:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -317,6 +317,20 @@ $Id: grammar.xml,v 1.182 2016-10-13 15:45:00 marcoagpinto Exp $
      <suggestion>procuram-se</suggestion>
      <example correction="procuram-se">Aqui <marker>procura-se</marker> pessoas sérias.</example>	 	 
     </rule> 
+
+
+	
+    <!-- Concordance gender - ESSA > ESSE -->
+    <rule id="ESSA_ESSE" name="Erro de concordância ESSA-ESSE">
+      <pattern>
+        <marker>
+			<token>essa</token>			
+        </marker>				
+		<token postag="NCMS000"><exception postag="NCFS000"></exception></token>
+     </pattern>
+	 <message>Erro de género. Usar: <suggestion>esse</suggestion>.</message>
+     <example correction="esse">Atenção a <marker>essa</marker> condutor.</example>
+    </rule> 		
 
 	
 	
