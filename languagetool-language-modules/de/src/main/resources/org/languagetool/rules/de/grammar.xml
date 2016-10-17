@@ -10948,12 +10948,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="GENDER_NEUTRALITY" name="Geschlechtergerechte Sprache" type="style">
         <rule id="MAENNER_VS_LEUTE" name="'Kaufleute' etc. statt 'Kaufmänner'">
             <antipattern>
-                <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel|Vertrauens)männern?</token>
+                <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel|Vertrauens|Ombuds)männern?</token>
                 <token>und</token>
                 <token>-frauen</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel|Vertrauens)männern?</token>
+                <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel|Vertrauens|Ombuds)männern?</token>
             </pattern>
             <message>Evtl. passt der geschlechtsneutrale Begriff <suggestion><match no="1" regexp_match="männer(n)?" regexp_replace="leute$1"/></suggestion> besser.</message>
             <example correction="Feuerwehrleute">Es waren viele <marker>Feuerwehrmänner</marker> im Einsatz.</example>
@@ -27694,6 +27694,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Lassen Sie bitte die Anführungszeichen weg und verwenden Sie Bindestriche.</short>
                 <example><marker>Geht-ja-überhaupt-gar-nicht-Einstellung</marker></example>
                 <example correction="Geht-ja-überhaupt-gar-nicht-Einstellung">Du mit deiner <marker>„Geht ja überhaupt gar nicht“-Einstellung</marker>!</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KOMMA_VOR_INFINITIVGRUPPE" name="Komma vor Infinitivgruppen mit 'um, ohne, (an)statt, außer, als'">
+            <rule>
+                <antipattern>
+                    <token skip="-1">,</token>
+                    <token>als</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"><exception postag="VER:.*" postag_regexp="yes" scope="next"/></token>
+                    <token>als</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">[mds]ich|uns|ihn|euch|sondern|um</token>
+                    <token>als</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"><exception postag="ADJ:.*:KOM.*" postag_regexp="yes" scope="next"/></token>
+                    <token>als</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes" skip="-1">scheinen|pflegen|brauchen</token>
+                    <token>zu</token>
+                    <token postag="VER:INF:.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                     <marker><token><exception>,</exception><exception>und</exception><exception>oder</exception><exception>(</exception><exception>oder</exception><exception>beziehungsweise</exception></token></marker>
+                     <token skip="-1">als<exception scope="next" regexp="yes">,|;|—|-</exception></token>
+                     <token>zu</token>
+                     <token postag="VER:INF:.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Mit 'als' eingeleitete Infinitivgruppen werden mit Komma abgetrennt. Meinten Sie <suggestion><match no="1"/>,</suggestion>?</message>
+                <url>https://de.wikipedia.org/wiki/Kommaregeln#Erweiterter_Infinitiv</url>
+                <short>Möglicherweise fehlendes Komma</short>
+                <example correction="bleiben,">Ich würde lieber noch <marker>bleiben</marker> als jetzt schon zu gehen.</example>
+                <example correction="lehrreicher,">Nichts ist <marker>lehrreicher</marker> als zu unterrichten.</example>
+                <example correction="ehrenvoller,">Eine Träne zu trocknen ist <marker>ehrenvoller</marker> als Ströme von Blut zu vergießen.</example>
+                <example>Ich war zu müde, um an irgendetwas anderes als ans Schlafen zu denken.</example>
+                <example>Es ist Ihre Pflicht als Bürger zu wählen.</example>
+                <example>Die Jungs hatten nichts Besseres zu tun, als alle Papierkörbe umzuwerfen.</example>
+                <example>Ihr Plan scheint besser als meiner zu sein.</example>
+                <example>Die Malerei ist stärker als ich; sie zwingt mich zu machen, was sie will</example>
+                <example>In weniger als einer Woche werden wir wieder zu lernen anfangen.</example>
             </rule>
         </rulegroup>
         <rule id="KOMMA_VOR_UND_ZWAR" name="Komma vor 'und zwar'">
