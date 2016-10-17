@@ -100,6 +100,7 @@ DATE_APACHE=`LANG=C date +"%a %b %d"`
 YEAR=`date +"%Y"`
 # note: requires a root cronjob to copy the error.log file to ~/api/apache_error.log:
 echo "" >>$OUTFILE
-echo "no buffer (Apache)         : `grep \"$DATE_APACHE\" /home/languagetool/api/apache_error.log | grep $YEAR | grep -c \"No buffer space available\"`" >>$OUTFILE
+echo "Apache errors (max. 30):" >>$OUTFILE
+grep "$DATE_APACHE" /home/languagetool/api/apache_error.log | grep $YEAR | tail -n 30 >>$OUTFILE
 
 cat $OUTFILE | mail -a 'Content-Type: text/plain; charset=utf-8' -s "LanguageTool API Report" daniel.naber@languagetool.org
