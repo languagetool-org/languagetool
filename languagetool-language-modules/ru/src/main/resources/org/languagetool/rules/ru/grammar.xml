@@ -2002,7 +2002,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     	    <short>Пропущена запятая.</short>
     	    <example correction="сабель, то есть">К Тамбову подступали две с половиной тысячи <marker>сабель то есть</marker> всего три полка.</example>
     	</rule>
-        <rulegroup default="on" id="Prep_i" name="Пропущена запятая перед предлогом «и» в сложном предложении">
+        <rulegroup default="on" id="Prep_i" name="Пропущена запятая перед предлогом «и»/«как» в сложном предложении">
             <rule>
                  <!--           NN:.*   VB:.*    и      NN:.*   VB:.*       TODO: Need improve    -->     
                 <antipattern>
@@ -2011,7 +2011,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="VB:.*" postag_regexp="yes" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*:.*:Nom" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]</exception><exception scope="previous" regexp="yes">я|он|она|мы|вы|ты|</exception></token>           
                         <token postag="NN:.*:.*:Nom" postag_regexp="yes" skip="-1"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="next">,|-</exception></token>
-                        <token skip="-1">и<exception regexp="yes" scope="next">[,;-]</exception></token>
+                        <token regexp="yes" skip="-1">и|как<exception regexp="yes" scope="next">[,;-]</exception></token>
                         <token postag="VB:.*" postag_regexp="yes" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception></token>           
                         <token postag="NN:.*:.*:Nom" postag_regexp="yes"  skip="-1"  ><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="next">[,;-]</exception></token>
                     </marker>
@@ -2021,7 +2021,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="VB:.*" postag_regexp="yes" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*:.*:Nom" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]</exception><exception scope="previous" regexp="yes">я|он|она|мы|вы|ты|нам|вам</exception></token>           
                         <token postag="NN:.*:.*:Nom" postag_regexp="yes" skip="-1"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="next">,|-</exception></token>
-                        <token skip="-1">и<exception regexp="yes" scope="next">[,;-]</exception></token>
+                        <token regexp="yes" skip="-1">и|как<exception regexp="yes" scope="next">[,;-]</exception></token>
                         <token postag="VB:.*" postag_regexp="yes" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception></token>           
                         <token postag="NN:.*:.*:Nom" postag_regexp="yes"  skip="-1"  ><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="next">[,;-]</exception></token>
                     </marker>
@@ -2044,7 +2044,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                      <marker>
                         <token postag="NN:.*:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]</exception></token>           
                         <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception  regexp="yes" scope="next">,|-</exception></token>
-                        <token skip="-1">и<exception regexp="yes" scope="next">[,;-]</exception></token>
+                        <token regexp="yes" skip="-1">и|как<exception regexp="yes" scope="next">[,;-]</exception></token>
                         <token postag="NN:.*:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception></token>           
                         <token postag="VB:.*" postag_regexp="yes"  skip="-1" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="next">[,;-]</exception></token>
                     </marker>
@@ -2054,7 +2054,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="NN:.*:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]</exception></token>           
                         <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception  regexp="yes" scope="next">,|-</exception></token>
-                        <token skip="-1">и<exception regexp="yes" scope="next">[,;-]</exception></token>
+                        <token regexp="yes" skip="-1">и|как<exception regexp="yes" scope="next">[,;-]</exception></token>
                         <token postag="NN:.*:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception></token>           
                         <token postag="VB:.*" postag_regexp="yes"  skip="-1" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="next">[,;-]</exception></token>
                     </marker>
@@ -2066,7 +2066,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Года пролетели, и время настало.</example>
                 <example>Его тропы создавали русла рек и ручьёв, и, в конце концов, вода залила всю землю.</example>
                 <example correction="Года пролетели, и время настало"><marker>Года пролетели и время настало</marker>.</example>
-                <example correction="Мама мыла раму, и дочка готовила"><marker>Мама мыла раму и дочка готовила</marker> обед.</example>
+                <example correction="Парень понял, как мальчик сделал"><marker>Парень понял как мальчик сделал</marker> эту модель.</example>
+                <example correction="Мама мыла раму, и дочка готовила">
+                    <marker>Мама мыла раму и дочка готовила</marker> обед.</example>
             </rule>        
         </rulegroup>        
         
