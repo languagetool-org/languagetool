@@ -10711,6 +10711,25 @@ USA
                 <example>Provided that the dog guards my house; I do not mind it barking loudly.</example>
             </rule>
         </rulegroup>
+        <rule id="EXCEPTION_PREPOSITION_THE_RULE" name="wrong preposition: 'exception PREPOSITION the rule' (exception to the rule)">
+            <pattern>
+                <marker>
+                    <token inflected="yes">exception</token>
+                    <token><exception>to</exception></token>
+                </marker>
+                <token postag="DT"/>
+                <token postag="JJ" min="0" max="1"/>
+                <token regexp="yes">rules?</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1 to</suggestion>?</message>
+            <short>Wrong preposition: exception to</short>
+            <example correction="exception to">Graphite is an <marker>exception of</marker> the rule.</example>
+            <example correction="Exceptions to"><marker>Exceptions regarding</marker> these general rules are in Table 3.</example>
+            <example>Graphite is an <marker>exception to</marker> the rule.</example>
+            <example>Graphite and graphene are <marker>exceptions to</marker> these general rules.</example>
+            <example>... but we make an <marker>exception for</marker> the people who cannot...</example>
+            <example>We make <marker>exceptions under</marker> some circumstances.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
