@@ -567,7 +567,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="скрепя сердце"><marker>скрипя сердцем</marker></example>
             </rule>
           </rulegroup>
-
+          <rulegroup id="bivshij_biloj" name="Логические ошибки «бывший/былой»">
+            <rule>  <!--  TODO   add inflected  -->
+                <pattern>
+                    <token>былой</token>
+                    <token>муж</token>
+                </pattern>              
+                <message>Должно быть: <suggestion>бывший <match no="2"></match></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="бывший муж"><marker>былой муж</marker></example>
+            </rule>
+            <rule> 
+                <pattern>
+                    <token>былая</token>
+                    <token>жена</token>
+                </pattern>              
+                <message>Должно быть: <suggestion>бывшая <match no="2"></match></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="бывшая жена"><marker>былая жена</marker></example>
+            </rule>
+            <rule> 
+                <pattern>
+                    <token>бывшие</token>
+                    <token>заслуги</token>
+                </pattern>              
+                <message>Должно быть: <suggestion>былые <match no="2"></match></suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="былые заслуги"><marker>бывшие заслуги</marker></example>
+            </rule>
+          </rulegroup> 
           <rulegroup id="okazat_zabotu" name="Логические ошибки «оказать заботу»">
             <rule> <!--  TODO   add inflected  -->
                 <pattern>
