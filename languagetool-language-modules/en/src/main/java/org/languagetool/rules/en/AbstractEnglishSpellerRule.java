@@ -50,7 +50,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
         RuleMatch oldMatch = ruleMatches.get(0);
         RuleMatch newMatch = new RuleMatch(this, oldMatch.getFromPos(), oldMatch.getToPos(), 
                 "Possible spelling mistake. Did you mean <suggestion>" + forms.forms.get(0) +
-                "</suggestion>, the irregular " + forms.formName + " form of the " + forms.posName +
+                "</suggestion>, the " + forms.formName + " form of the " + forms.posName +
                 " '" + forms.baseform + "'?");
         List<String> allSuggestions = new ArrayList<>();
         allSuggestions.addAll(forms.forms);
