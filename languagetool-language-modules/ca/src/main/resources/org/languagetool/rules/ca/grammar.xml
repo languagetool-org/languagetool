@@ -83,7 +83,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY verbs_no_intrans_vocal "informar|afectar|assessorar|emprenyar|empipar|espantar|apassionar|atr[ae]ure|ajudar|acusar">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
     <!ENTITY verbs_balears_ES "adès|avès|exprès|ingrès|procès|profès|progrès|regrès|reingrès|revès|travès">
-    <!ENTITY verbs_balears "acid|ajud|angelic|aurific|autentic|avid|beatific|benefic|buid|calcul|crid|critic|diagnostic|domestic|escud|especific|flogistic|hibrid|honorific|indic|liquid|lubric|medic|mel·lific|ossific|oxid|pacific|pared|practic|pronostic|public|salud|sed|sindic|sofistic|solid|telefon|trafic|ultim|valid|viatic|vivific">
+    <!ENTITY verbs_balears "aprop|nomes|son|acid|ajud|angelic|aurific|autentic|avid|beatific|benefic|buid|calcul|crid|critic|diagnostic|domestic|escud|especific|fin|flogistic|hibrid|honorific|indic|liquid|lubric|medic|mel·lific|merit|oblid|ossific|oxid|pacific|pared|practic|pronostic|public|salud|sed|sindic|sofistic|solid|telefon|trafic|ultim|valid|viatic|vivific">
     <!ENTITY vocabulari_menjar "xocolata|xocolate|allioli|aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
     <!ENTITY pronom_feble "P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00">
 ]>
@@ -4319,7 +4319,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="FORMES_HEURE" name="Evita les formes 'haguem/hagueu fet' en comptes de 'hàgim/hàgiu fet'" type="misspelling">
             <pattern>
                 <marker>
-                    <token inflected="yes">heure<exception inflected="yes">haver</exception></token>
+                    <token inflected="yes">heure<exception inflected="yes">haver</exception><exception>hagues</exception></token>
                 </marker>
                 <token postag="V.P.*" postag_regexp="yes"/>
             </pattern>
@@ -4332,6 +4332,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Quan ho hàgiu portat</example>
             <example>Si ho haguéssiu portat</example>
             <example>Hi havien instaŀlat una antena.</example> <!-- Using deprecated char for ela geminada-->
+        </rule>
+        <rule id="HAGUES" name="hagues/hagués">
+            <pattern>
+                <token>hagues</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>hagués</suggestion>? "Hagues" és una forma valenciana del verb "haure".</message>
+            <suggestion>hages</suggestion>
+            <example correction="hagués|hages">M'estranyava que no <marker>hagues</marker> vingut encara.</example>
         </rule>
         <rulegroup id="HAVER_SENSE_HAC" name="Haver sense hac: *eu/feu fet">
             <rule>
@@ -24621,6 +24629,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://esadir.cat/entrades/fitxa/node/autoimmolar-se</url>
             <example correction="immolà">s'<marker>autoimmolà</marker></example>
         </rule>
+        <rule id="AUTOINFRINGIR" name="autoinfringir">
+            <pattern>
+                <token inflected="yes">autoinfringir</token>
+            </pattern>
+            <message>Verb mal construït.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">infligir</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/infringir</url>
+            <example correction="infligí">s'<marker>autoinfringí</marker></example>
+        </rule>
         <rule id="TOT_I_AMB_AIXO" name="tot i amb això">
             <pattern>
                 <token>tot<exception scope="previous">amb</exception></token>
@@ -42308,7 +42325,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.{6}[VBZ34567]" postag_regexp="yes"><exception postag="V.{6}[0CXY12]|N.*|AQ.*|SPS00|RG|.*_GN_.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|music|&verbs_balears;</exception></token>
+                    <token postag="V.{6}[VBZ34567]" postag_regexp="yes"><exception postag="V.{6}[0CXY12]|N.*|AQ.*|SPS00|RG|.*_GN_.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">vinga|aviam|music|hagues|&verbs_balears;</exception></token>
                 </pattern>
                 <message>Useu formes verbals generals.</message>
                 <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[CXY012]"/></suggestion>
@@ -42491,7 +42508,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.{6}[CVX356]" postag_regexp="yes"><exception postag="V.{6}[0BYZ1247]|N.*|AQ.*|SPS00|.*_GN_.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">vinga|aixo</exception></token>
+                    <token postag="V.{6}[CVX356]" postag_regexp="yes"><exception postag="V.{6}[0BYZ1247]|N.*|AQ.*|SPS00|.*_GN_.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">vinga|aixo|hagues</exception></token>
                 </pattern>
                 <message>Useu formes verbals balears.</message>
                 <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[0BYZ1247]"/></suggestion>
