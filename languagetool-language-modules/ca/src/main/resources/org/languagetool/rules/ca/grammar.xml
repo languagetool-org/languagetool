@@ -3414,7 +3414,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="ESTAR_CAUSAT" name="*estar/ser causat per">
             <pattern>
                 <token postag="V.[^M].*" postag_regexp="yes" inflected="yes">estar<exception inflected="yes">ser</exception></token>
-                <token postag="V.P.*" postag_regexp="yes" regexp="yes" inflected="yes">atribuir|causar|considerar|provocar|finançar|gestionar|originar|elegir|triar|escollir</token>
+                <token postag="V.P.*" postag_regexp="yes" regexp="yes" inflected="yes">deure|atribuir|causar|considerar|provocar|finançar|gestionar|originar|elegir|triar|escollir</token>
             </pattern>
             <message>Probablement cal usar el verb "ser".</message>
             <suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VS$1">ser</match> \2</suggestion>
@@ -3423,6 +3423,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="fossin provocades">encara que <marker>estiguessin provocades</marker> per elements estranys.</example>
             <example correction="És considerat"><marker>Està considerat</marker> com el millor.</example>
             <example correction="ser considerat">Va <marker>estar considerat</marker> com el millor.</example>
+            <example correction="és degut">Això <marker>està degut</marker> a altres causes.</example>
             <example>Els danys han estat causats pel terratrèmol.</example>
         </rule>
         <rulegroup id="VERBS_NO_INCOATIUS" name="verbs no incoatius: ajupir, admetre..." type="misspelling">
@@ -26523,10 +26524,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>possible</token>
             </pattern>
             <message>Expressió incorrecta.</message>
-            <suggestion>al més <match no="3"/> possible</suggestion>
             <suggestion>com més <match no="3"/> millor</suggestion>
             <suggestion>tan <match no="3"/> com es pugui</suggestion>
-            <example correction="al més aviat possible|com més aviat millor|tan aviat com es pugui">Cal que vinguis <marker>el més aviat possible</marker>.</example>
+            <suggestion>al més <match no="3"/> possible</suggestion>
+            <example correction="com més aviat millor|tan aviat com es pugui|al més aviat possible">Cal que vinguis <marker>el més aviat possible</marker>.</example>
             <example>Cal que vinguis al més aviat possible.</example>
         </rule>
         <rule id="VEGIS_VEGEU" name="vegi's/vegeu">
