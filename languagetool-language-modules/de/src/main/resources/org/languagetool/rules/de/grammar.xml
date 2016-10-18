@@ -27752,6 +27752,111 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Man tut dies, um ihn sowohl von Caesar als auch von seiner späteren Rolle als Augustus zu unterscheiden.</example>
                 <example>Bevor wir anfangen, dies als nutzlos zu bezeichnen, sollten wir es genauer betrachten.</example>
             </rule>
+            <rule>
+                 <antipattern>
+                    <token skip="-1">,<exception scope="next" postag="VER:[^IMP].*" postag_regexp="yes"/></token>
+                    <token regexp="yes">um|ohne|(an)?statt|außer</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" skip="-1"><exception postag="VER:.*" postag_regexp="yes" scope="next"/></token>
+                    <token regexp="yes">um|ohne|(an)?statt|außer</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">um</token>
+                    <token>zu</token>
+                    <token regexp="yes">sorgen|drehen|kümmern|kreisen</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">um</token>
+                    <token regexp="yes">Rat|Erlaubnis</token>
+                </antipattern>
+                <antipattern>
+                    <token>um</token>
+                    <token skip="-1"><exception scope="next">,</exception></token>
+                    <token regexp="yes">um|willen|ohne</token>
+                </antipattern>
+                <antipattern>
+                    <token>außer</token>
+                    <token regexp="yes">Stande?</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" regexp="yes" inflected="yes">sorgen|drehen|kümmern|bitten|besorgt|kreisen</token>
+                    <token>um</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">sein|haben</token>
+                    <token min="0">nicht</token>
+                    <token regexp="yes">ohne|außer</token>
+                </antipattern>
+                <antipattern>
+                    <token>um</token>
+                    <token regexp="yes" skip="-1">\d+</token>
+                    <token>zu</token>
+                    <token postag="VER:INF:.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token/>
+                    <token>um</token>
+                    <token min="0">halb</token>
+                    <token regexp="yes">eins|zwei|zehn|elf|zwölf|(drei|vier|fünf|sechs|sieben|acht|neun)(zehn)?|zwanzig|(ein|zwei|drei)undzwanzig</token>
+                </antipattern>
+                <antipattern>
+                    <token postag=".*REF.*" postag_regexp="yes"/>
+                    <token>um</token>
+                </antipattern>
+                <antipattern>
+                    <token>um</token>
+                    <token>und</token>
+                </antipattern>
+                <antipattern>
+                    <token>und</token>
+                    <token postag="PRO:PER:AKK:.*" postag_regexp="yes"/>
+                    <token>um</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">um</token>
+                    <token>herum</token>
+                    <token>zu</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="-1">um|ohne|anstatt|statt|außer<exception scope="next">zu</exception></token>
+                    <token regexp="yes">;|—|-|:|”|„|,|"</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes" skip="-1">scheinen|pflegen|brauchen</token>
+                    <token>zu</token>
+                    <token postag="VER:INF:.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker><token><exception regexp="yes">:|”|„|"|und|sondern|als|oder|\(|beziehungsweise|um|ohne|anstatt|statt|außer|,|;|—|-</exception></token></marker>
+                    <token regexp="yes" skip="-1">um|ohne|anstatt|statt|außer</token>
+                    <token>zu</token>
+                    <token postag="VER:INF:.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Mit 'um', 'ohne', 'statt', '(an)statt' oder 'außer' eingeleitete Infinitivgruppen sind mit Komma abzutrennen. Vorschlag: <suggestion>\1,</suggestion> (Achtung: In seltenen Fällen muss die vorgeschlagene Position des Kommas noch manuell korrigiert werden: „Er liebt es, Kaffe ohne Zucker zu trinken.”)</message>
+                <url>https://de.wikipedia.org/wiki/Kommaregeln#Erweiterter_Infinitiv</url>
+                <short>Möglicherweise fehlendes Komma</short>
+                <example correction="rannte,">Das Kind <marker>rannte</marker> ohne auf den Verkehr zu achten, über die Straße.</example>
+                <example correction="betrunken,">Er ist zu <marker>betrunken</marker> um noch zu fahren.</example>
+                <example correction="stolz,">Sie ist zu <marker>stolz</marker> um um Hilfe zu bitten.</example>
+                <example correction="half,">Er <marker>half</marker> ohne zu zögern.</example>
+                <example>Sie ist zu stolz, um um Hilfe zu bitten.</example>
+                <example>Es scheint sich um einen Fehler zu handeln.</example>
+                <example>Er braucht sich um diese Sache nicht zu kümmern.</example>
+                <example>Höre auf, dich um ihn zu sorgen.</example>
+                <example>Um das Objekt um 90 Grad nach rechts zu drehen, klicken Sie den Knopf.</example>
+                <example>Jeden Donnerstagabend versammeln sie sich um einen Tisch, um Tarot oder Poker zu spielen.</example>
+                <example>Jeden Tag gehe ich um halb acht aus dem Haus und fange um zweiundzwanzig Uhr zu arbeiten an.</example>
+                <example>Der Lehrer sah sich im Klassenzimmer um und begann zu reden.</example>
+                <example>Sie war außer Stande zu verstehen, was er sagte.</example>
+                <example>Tom rief Maria an, um sie um eine Verabredung zu bitten.</example>
+                <example>Tom versuchte, das Bücherregal ohne Marias Hilfe zu bewegen.</example>
+                <example>Wir leben nicht, um zu essen, sondern essen, um zu leben.</example>
+                <example>Dies tut man um des Spaßes willen.</example>
+                <example>Es ist nicht ohne Risiko, seinen Nachbarn die Zeitung zu klauen.</example>
+                <example>Jeder hat ohne Beschränkung auf Rasse oder Geschlecht das Rech zu wählen.</example>
+                <example>Ich ersehne das Rentenalter, um endlich ein Leben ohne Arbeitsaufgaben zu genießen.</example>
+            </rule>
         </rulegroup>
         <rule id="KOMMA_VOR_UND_ZWAR" name="Komma vor 'und zwar'">
             <pattern>
