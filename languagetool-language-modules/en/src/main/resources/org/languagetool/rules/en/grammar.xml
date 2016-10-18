@@ -10730,6 +10730,58 @@ USA
             <example>... but we make an <marker>exception for</marker> the people who cannot...</example>
             <example>We make <marker>exceptions under</marker> some circumstances.</example>
         </rule>
+        <rule id="REGARDING_TO" name="Regarding to (regard to/regarding)">
+            <pattern>
+                <token>regarding</token>
+                <token>to</token>
+            </pattern>
+            <message>The phrase '\1 \2' is not correct. Use <suggestion><match no="1"/></suggestion> or <suggestion>regard <match no="2"/></suggestion>.</message>
+            <url>http://www.collinsdictionary.com/dictionary/english/regarding</url>
+            <short>Grammatical problem</short>
+            <example correction="regarding|regard to">Your action with <marker>regarding to</marker> the decision of the committee is not satisfactory.</example>
+            <example correction="regarding|regard to">The action of your client <marker>regarding to</marker> the decision of the committee is not satisfactory.</example>
+            <example correction="Regarding|Regard to"><marker>Regarding to</marker> the risk behaviors, it is the crucial problem of education...</example>
+            <example>Your action with <marker>regard to</marker> the decision of the committee is not satisfactory.</example>
+            <example>Your action <marker>regarding</marker> the decision of the committee is not satisfactory.</example>
+        </rule>
+        <rule id="ARTICLE_ADJECTIVE_OF" name="ARTICLE ADJECTIVE of">
+            <antipattern><!-- Nominalized adjective: https://en.wikipedia.org/wiki/Nominalized_adjective -->
+                <token>the</token>
+                <token regexp="yes">blind|deaf|disabled|homeless|poor|rich|wealthy</token><!-- Only relatively common nominalizations. -->
+                <token>of</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">a|an|the</token>
+                <token postag="JJ" regexp="yes">[a-z]+<exception postag_regexp="yes" postag="NN.*|VBG"/><exception regexp="yes">[0-9]?(1st|2nd|3rd|[0-9]th)</exception><exception regexp="yes">innermost|outermost|northernmost|southernmost|easternmost|westernmost|next</exception></token><!-- The exception for VBG is necessary, because adjectives such as 'draining', 'cooling', and 'functioning' can be used as gerunds [https://en.wikipedia.org/wiki/Gerund]. The exception for ordinal numbers does not ignore incorrect abbreviations such as 21th. Innermost: some dictionaries say that it is an adjective that is used only before a noun. Other dictionaries say that it is a noun and an adjective. Northernmost: SOED says that this is can be a noun.  -->
+                <token>of</token>
+            </pattern>
+            <message>The phrase '\1 \2 \3' is not correct. Use a noun, not an adjective, between '\1' and '\3'.</message>
+            <short>Grammatical problem</short>
+            <example correction="">We are not responsible for <marker>the delusional of</marker> your client.</example>
+            <example correction="">We describe <marker>an unusual of</marker> benign prostatic hyperplasia that demonstrated florid sclerosing...</example>
+            <example correction="">Diamonds are <marker>the only of</marker> these mineral resources currently being developed.</example>
+            <example correction="">That same year, <marker>the mainline of</marker> the transcontinental railroad into Oakland was...</example>
+            <example correction="">...conventional light, medium, and heavy crude, plus <marker>an additional of</marker> pentanes plus used for blending with heavy crude ...</example>
+            <example correction="">Since 2002, <marker>the peninsular of</marker> Actium has been linked with Preveza on the north ...</example>
+            <example>We are not responsible for <marker>the delusions of</marker> your client.</example>
+            <example>Use <marker>the larger of</marker> the the two pieces.</example>
+            <example><marker>The earliest of</marker> these is Diodorus Siculus (1st century BC).</example>
+            <example>In a recent survey, <marker>a high of</marker> 37 percent of people say that the ...</example>
+            <example><marker>The blooming of</marker> 3,000 cherry trees marks the 94th anniversary of Japan's gift of ...</example>
+            <example><marker>The English of</marker> a person who learns English as an adult is usually different to the English spoken by a native speaker.</example>
+            <example>The test will be on <marker>the 5th of</marker> November next year.</example>
+            <example><marker>The innermost of</marker> the concentric circles is...</example>
+            <example><marker>The best-known of</marker> these works is that by Plato, who...</example>
+            <example>...by persons other than <marker>the next of</marker> kin.</example>
+            <example><marker>The next of</marker> these problems is discussed in Chapter 5.</example>
+            <example>... limited polar heat convergence and caused <marker>a cooling of</marker> sea surface temperatures by several degrees.</example>
+            <example>The Bronx is <marker>the northernmost of</marker> the five boroughs of New York City.</example>
+            <example>It spans three time zones, <marker>the easternmost of</marker> which is one hour ahead of Eastern Standard Time.</example>
+            <example><marker>The large-scale of</marker> these works is an indication of the...</example><!-- False negative. TODO -->
+            <example>We need a <marker>a sample of</marker> water for this test.</example>
+            <example>I'm thirtsy. I would like <marker>a large of</marker> water.</example><!-- False negative. TODO. But refer to previous example ('a sample of'). -->
+            <example type="triggers_error">'<marker>The Wretched of</marker> the Earth' is a 1961 book by Frantz Fanon.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
