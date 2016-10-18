@@ -127,7 +127,7 @@ class LanguageToolHttpHandler implements HttpHandler {
               throw new IllegalArgumentException("Missing 'text' parameter");
             }
           }
-          textCheckerV1.checkText(text, httpExchange, parameters, handleCount);
+          textCheckerV1.checkText(text, httpExchange, parameters);
         }
       } else {
         String errorMessage = "Error: Access from " + StringTools.escapeXML(origAddress) + " denied";

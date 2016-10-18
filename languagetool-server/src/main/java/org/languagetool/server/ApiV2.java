@@ -57,7 +57,7 @@ class ApiV2 {
       httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
       httpExchange.getResponseBody().write(response.getBytes(ENCODING));
     } else if (path.equals("check")) {
-      textChecker.checkText(parameters.get("text"), httpExchange, parameters, -1);
+      textChecker.checkText(parameters.get("text"), httpExchange, parameters);
     } else if (path.equals("log")) {
       // used so the client (especially the browser add-ons) can report internal issues:
       String message = parameters.get("message");

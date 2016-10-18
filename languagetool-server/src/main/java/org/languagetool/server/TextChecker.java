@@ -74,7 +74,7 @@ abstract class TextChecker {
     executorService.shutdownNow();
   }
   
-  void checkText(String text, HttpExchange httpExchange, Map<String, String> parameters, int handleCount) throws Exception {
+  void checkText(String text, HttpExchange httpExchange, Map<String, String> parameters) throws Exception {
     checkParams(parameters);
     long timeStart = System.currentTimeMillis();
     if (text.length() > config.maxTextLength) {
@@ -130,7 +130,7 @@ abstract class TextChecker {
       } catch (TimeoutException e) {
         boolean cancelled = future.cancel(true);
         throw new RuntimeException("Text checking took longer than allowed maximum of " + config.maxCheckTimeMillis +
-                " milliseconds (cancelled: " + cancelled + ", handleCount: " + handleCount +
+                " milliseconds (cancelled: " + cancelled +
                 ", language: " + lang.getShortNameWithCountryAndVariant() +
                 ", " + text.length() + " characters of text)", e);
       }
@@ -157,7 +157,7 @@ abstract class TextChecker {
     String agent = parameters.get("useragent") != null ? parameters.get("useragent") : "-";
     String clazz = this.getClass().getSimpleName();
     print("Check done: " + text.length() + " chars, " + languageMessage + ", " + referrer + ", "
-            + "handlers:" + handleCount + ", " + matches.size() + " matches, "
+            + matches.size() + " matches, "
             + (System.currentTimeMillis() - timeStart) + "ms, class: " + clazz + ", agent:" + agent
             + ", " + messageSent);
   }
