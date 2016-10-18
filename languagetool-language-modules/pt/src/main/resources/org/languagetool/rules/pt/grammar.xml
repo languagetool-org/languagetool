@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.184 2016-10-18 05:30:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.185 2016-10-18 06:38:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -455,7 +455,24 @@ $Id: grammar.xml,v 1.184 2016-10-18 05:30:00 marcoagpinto Exp $
       <example correction="captar">Vamos <marker>capturar</marker> imagens.</example>
     </rule>
 	
+
 	
+    <!-- COLETE/S À PROVA DE BALA colete/s à prova de balas -->
+    <rule id="COLETE-S_À_PROVA_DE_BALA" name="colete/s à prova de balas">
+      <pattern>
+		<marker>
+			<token regexp="yes">coletes?</token>
+			<token>à</token>
+			<token>prova</token>
+			<token>de</token>
+			<token>bala</token>
+		</marker>	
+      </pattern>
+	  <message>Querias dizer <suggestion>\1 \2 \3 \4 balas</suggestion>?</message>
+      <example correction="colete à prova de balas">Usa o <marker>colete à prova de bala</marker>.</example>
+    </rule>	
+	
+
 	
     <!-- CRIAM queriam -->
     <rule id="CRIAM" name="queriam">
