@@ -171,6 +171,9 @@ public class PatternRuleTest {
       if (PATTERN_MARKER_START.matcher(xml).matches() && PATTERN_MARKER_END.matcher(xml).matches()) {
         System.err.println("WARNING " + lang + ": useless <marker>: " + rule.getFullId());
       }*/
+
+      PatternTestTools.failIfWhitespaceInToken(rule.getPatternTokens(), rule, lang);
+              
       PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getPatternTokens(),
               rule.getId(), rule.getSubId(), lang);
 

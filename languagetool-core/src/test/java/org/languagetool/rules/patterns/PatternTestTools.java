@@ -28,6 +28,8 @@ import java.util.regex.Pattern;
 
 import org.languagetool.Language;
 
+import static org.junit.Assert.fail;
+
 /**
  * Common pattern test routines (usable for Disambiguation rules as well).
  *
@@ -50,6 +52,19 @@ public final class PatternTestTools {
   private PatternTestTools() {
   }
 
+  public static void failIfWhitespaceInToken(List<PatternToken> patternTokens, AbstractPatternRule rule, Language lang) {
+    if (patternTokens != null) {
+      for (PatternToken token : patternTokens) {
+        if (token.getString() != null && token.getString().matches(".*\\s.*")) {
+          fail("Whitespace found in token '" + token.getString() + "' of rule " + rule.getFullId() +
+               " (language " + lang.getShortNameWithCountryAndVariant() + "): " +
+               "Using whitespace in a token will not work, as text gets split at whitespace. " +
+               "Use a new <token> element instead.");
+        }
+      }
+    }
+  }
+  
   // TODO: probably this would be more useful for exceptions
   // instead of adding next methods to PatternRule
   // we can probably validate using XSD and specify regexes straight there
