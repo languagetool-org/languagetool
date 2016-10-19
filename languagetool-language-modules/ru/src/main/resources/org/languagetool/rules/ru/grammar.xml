@@ -2435,6 +2435,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example correction="либо мокрый снег, либо дождь со">Весь день идёт <marker>либо мокрый снег либо дождь со</marker> снегом.</example>
             </rule>
         </rulegroup>
+                <rulegroup id="ili_and_ili" name="Союзы «или» + «или»">
+            <rule>
+                <pattern>
+                    <token>или</token>
+                    <token regexp="yes" negate="yes" min="1" max="2">,</token>
+                    <token>или</token>
+                    <token regexp="yes" negate="yes">,</token>
+                </pattern>
+              <message>Пропущена запятая:<suggestion><match no="1" include_skipped="all"/> <match no="2" include_skipped="all" />, <match no="3" include_skipped="all"/> <match no="4" include_skipped="all"/></suggestion>.</message>
+              <short>Пропущена запятая.</short>
+              <example>Он готов был поверить, что приехал сюда не вовремя — или слишком поздно, или рано.</example>
+              <example correction="или слишком поздно, или рано">Он готов был поверить, что приехал сюда не вовремя — <marker>или слишком поздно или рано</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup default="on" id="CHAS_PIK" name="Словосочетание «Час пик»">
             <rule>
                 <pattern case_sensitive="yes">
@@ -7318,6 +7332,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="в течении реки">Там <marker>в течение реки</marker> много изгибов.</example>
             <example>Там в течении реки много изгибов.</example>
         </rule>
+        <rulegroup id="V_OTLICHIE" name="Словосочетание или производный предлог «в отличие»/«в отличии»">
+          <rule>  
+            <pattern>
+                <token>в</token>
+                <token>отличии</token>
+                <token>от</token>
+            </pattern>
+            <message>Предлог «в отличие» употребляется с предлогом «от»: <suggestion>\1 отличие \3</suggestion></message>
+            <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_99</url>
+            <short>Предлог «в отличие»</short>
+            <example correction="В отличие от"><marker>В отличии от</marker> аэрофотоснимков космические изображения позволяют охватить огромные участки земной поверхности.</example>
+          </rule>
+          <rule>  
+            <pattern>
+                <token>в</token>
+                <token>отличие</token>
+                <token negate="yes">от</token>
+            </pattern>
+            <message>Предлог с существительным «в отличии»: <suggestion>\1 отличии \3</suggestion></message>
+            <short>Предлог с существительным «в отличии»</short>
+            <example correction="В отличии этих"><marker>В отличие этих</marker> двух аппаратов можно не сомневаться.</example>
+          </rule>
+        </rulegroup>
         <rulegroup id="V_TECHENIЕ" name="Словосочетание «в течение времени»">
           <rule>  
             <pattern>
