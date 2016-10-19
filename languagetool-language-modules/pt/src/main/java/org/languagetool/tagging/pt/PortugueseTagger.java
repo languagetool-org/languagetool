@@ -36,7 +36,7 @@ public class PortugueseTagger extends BaseTagger {
     return "/pt/added.txt";
   }
   
-   @Override
+  @Override
   public String getManualRemovalsFileName() {
     return "/pt/removed.txt";
   }
