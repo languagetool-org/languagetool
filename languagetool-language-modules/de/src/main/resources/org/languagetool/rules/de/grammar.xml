@@ -11468,6 +11468,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Das <marker>letzte</marker> der drei Bücher</example>
         </rule>
         -->
+        <rule id="BESTES_GEBEN" name="'bestes (Bestes) geben/tun/kommen'">
+            <pattern>
+                <token postag="ART:DEF:.*|PRO:POS:NOM:.*|PRO:PER:GEN:.*" postag_regexp="yes"/>
+                <marker>
+                   <token case_sensitive="yes" regexp="yes">beste[sn]?</token>
+                </marker>
+                <token inflected="yes" regexp="yes">tun|geben|kommen</token>
+            </pattern>
+            <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> wird in diesem Zusammenhang großgeschrieben.</message>
+            <example correction="Bestes">Sie hat immer ihr <marker>bestes</marker> getan.</example>
+            <example correction="Bestes">Wir müssen immer unser <marker>bestes</marker> geben.</example>
+            <example correction="Beste">Das <marker>beste</marker> kommt zum Schluss.</example>
+        </rule>
         <rule id="RECHTENS" name="'Rechtens (rechtens)'">
             <pattern>
                 <token postag="SENT_START" negate_pos="yes"/>
