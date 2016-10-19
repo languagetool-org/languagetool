@@ -10793,6 +10793,17 @@ USA
             <example>I'm thirtsy. I would like <marker>a large of</marker> water.</example><!-- False negative. TODO. But refer to previous example ('a sample of'). -->
             <example type="triggers_error">'<marker>The Wretched of</marker> the Earth' is a 1961 book by Frantz Fanon.</example>
         </rule>
+        <rule id="LOSE_LIVES" name="lose their life (lives)">
+            <pattern>
+                <token inflected="yes">lose</token>
+                <token>their</token>
+                <marker>
+                    <token>life</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>lives</suggestion>?</message>
+            <example correction="lives">They lost their <marker>life</marker> in the line of duty.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
