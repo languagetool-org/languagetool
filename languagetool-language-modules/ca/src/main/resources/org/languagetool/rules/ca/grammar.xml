@@ -15197,7 +15197,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="CONFUSIONS_B_V" name="confusions b/v: proba/prova">
-            <rule id="PROBA" name="proba/prova">
+            <rule>
                 <pattern>
                     <token regexp="yes">proba|probes|probe</token>
                 </pattern>
@@ -15207,7 +15207,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="proves">És la primera volta que se'n troben <marker>probes</marker>.</example>
                 <example>Ell ho prova tot.</example>
             </rule>
-            <rule id="GRABEN" name="graben/graven">
+            <rule>
                 <pattern>
                     <token>graben</token>
                 </pattern>
@@ -15216,7 +15216,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="graven">Ells ho <marker>graben</marker> tot.</example>
                 <example>Ells ho graven tot.</example>
             </rule>
-            <rule id="AL_VELL_MIG" name="al *vell/bell mig">
+            <rule>
                 <pattern>
                     <token>a</token>
                     <token>l</token>
@@ -15227,7 +15227,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>al bell mig</suggestion>
                 <example correction="al bell mig"><marker>al vell mig</marker></example>
             </rule>
-            <rule id="DE_VELL_NOU" name="de *vell/bell nou/antuvi">
+            <rule>
                 <pattern>
                     <token>de</token>
                     <token>vell</token>
@@ -15237,19 +15237,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>de bell \3</suggestion>
                 <example correction="de bell antuvi"><marker>de vell antuvi</marker></example>
             </rule>
-            <rule id="BE_VE" name="be/ve (venir)">
+            <rule>
                 <pattern>
                     <token postag="NC.*|_GN_.*" postag_regexp="yes"/>
                     <token>que</token>
                     <marker>
-                        <token regexp="yes">be|bé</token>
-                    </marker>
+                        <token>be</token>
+                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>ve</suggestion> (del v. venir)?</message>
                 <example correction="ve">Vindrà la setmana que <marker>be</marker>.</example>
             </rule>
-        </rulegroup>
-        <rulegroup id="BABA_BAVA" name="baba/bava">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">&unitats_temps;</token>
+                    <token>que</token>
+                    <marker>
+                        <token>bé</token>
+                     </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>ve</suggestion> (del v. venir)?</message>
+                <example correction="ve">Vindrà la setmana que <marker>bé</marker>.</example>
+                <example>Molt bé, mira que bé.</example>
+            </rule>
+            <!-- baba/bava-->
             <rule>
                 <pattern>
                     <token>mala</token>
