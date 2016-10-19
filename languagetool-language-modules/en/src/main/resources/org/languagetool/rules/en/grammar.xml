@@ -10859,7 +10859,42 @@ USA
             <example>It's '<marker>buyer beware</marker>' at Vienna's overpriced hotels, but this little charmer is a bargain.</example>
             <example>Mac users now need to <marker>beware</marker> as well-the most recent of Apple's three major security patches this year ...</example>
         </rule>
-
+        <rulegroup id="THE_BEST_WAY" name="missing article before 'BE + ADJECTIVE + way'">
+            <rule>
+                <antipattern>
+                    <token min="0">not</token>
+                    <token regexp="yes">under|one|still|just</token>
+                    <token>way</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <token min="0">not</token>
+                    <marker>
+                        <token postag="JJS"/>
+                    </marker>
+                    <token>way</token>
+                </pattern>
+                <message>Please check whether an article is missing: <suggestion>the \3</suggestion>.</message>
+                <example correction="the best">This is <marker>best</marker> way of dealing with errors.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token min="0">not</token>
+                    <token regexp="yes">under|one|still|just</token>
+                    <token>way</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes" regexp="yes">be</token>
+                    <token min="0">not</token>
+                    <marker>
+                        <token postag="JJR?" postag_regexp="yes"/>
+                    </marker>
+                    <token>way</token>
+                </pattern>
+                <message>Please check whether an article is missing: <suggestion>a \3</suggestion>.</message>
+                <example correction="a faster">There must be <marker>faster</marker> way of going to California.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
