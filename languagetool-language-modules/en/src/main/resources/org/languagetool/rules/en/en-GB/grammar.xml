@@ -185,6 +185,18 @@ USA
             <example type="triggers_error">The Chrysler's boot contained a <marker>trunk</marker> and a ...</example>
             <example type="triggers_error">Some cars' boots can contain <marker>trunks</marker> of enormous size.</example>
         </rule>
+        <rule id="AIR_PLANE_AEROPLANE" name="air plane/aeroplane"><!-- 'airplane' is in replace.txt -->
+            <pattern>
+                <token>air</token>
+                <token postag_regexp="yes" postag="NN|NNS" regexp="yes">planes?</token>
+            </pattern>
+            <message>The term '\1 \2' is common for American English. For British English use <suggestion><match no="2" postag="(NN.*)" postag_replace="$1">aeroplane</match></suggestion>.</message>
+            <url>https://en.oxforddictionaries.com/definition/airplane</url>
+            <short>AmE/BrE: air plane/aeroplane</short>
+            <example type="incorrect" correction="aeroplane">This <marker>air plane</marker> is very quiet.</example>
+            <example type="incorrect" correction="aeroplanes">These <marker>air planes</marker> can fly for 12 hours when they are fully loaded with fuel.</example>
+            <example type="correct">This <marker>aeroplane</marker> is very quiet.</example>
+        </rule>
     </category>
 
 </rules>
