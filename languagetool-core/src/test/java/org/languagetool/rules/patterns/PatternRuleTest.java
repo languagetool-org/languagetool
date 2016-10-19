@@ -469,9 +469,17 @@ public class PatternRuleTest {
       for (Rule auxRule : rules) {
         isMatched = isMatched || match(auxRule, goodSentence, languageTool);
       }
-      assertFalse(lang + ": Did not expect error in:\n" +
-              "  " + goodSentence + "\n" +
-              "Matching Rule: " + rule.getFullId(), isMatched);
+      if (isMatched) {
+        AnalyzedSentence analyzedSentence = languageTool.getAnalyzedSentence(goodSentence);
+        StringBuilder sb = new StringBuilder("Analyzed token readings:");
+        for (AnalyzedTokenReadings atr : analyzedSentence.getTokens()) {
+          sb.append(" ").append(atr);
+        }
+        fail(lang + ": Did not expect error in:\n" +
+                "  " + goodSentence + "\n" +
+                "  " + sb + "\n" +
+                "Matching Rule: " + rule.getFullId());
+      }
       // avoid matches with all the *other* rules:
       /*
       List<RuleMatch> matches = allRulesLanguageTool.check(goodSentence);
