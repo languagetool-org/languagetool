@@ -10804,6 +10804,37 @@ USA
             <message>Did you mean <suggestion>lives</suggestion>?</message>
             <example correction="lives">They lost their <marker>life</marker> in the line of duty.</example>
         </rule>
+        <rulegroup id="MEAN_FOR_TO" name="mean something for (to) somebody">
+            <url>http://www.merriam-webster.com/dictionary/mean%20something%20to%20(someone)</url>
+            <rule>
+                <pattern>
+                    <token inflected="yes">mean</token>
+                    <token min="0" regexp="yes">so|really|a|the</token>
+                    <token regexp="yes">much|lot|little|everything|world|something</token>
+                    <marker>
+                        <token>for</token>
+                    </marker>
+                    <token postag="PRP|NNP" postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion>to</suggestion> ('to mean something to somebody')?</message>
+                <example correction="to">This trophy meant a lot <marker>for</marker> me.</example>
+                <example correction="to">She means so much <marker>for</marker> Tom.</example>
+                <example>Recommended changes included providing means for Congress to collect money from state treasuries.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PRP|NNP" postag_regexp="yes"/>
+                    <token inflected="yes">mean</token>
+                    <marker>
+                        <token>for</token>
+                    </marker>
+                    <token postag="PRP|NNP" postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion>to</suggestion> ('to mean something to somebody')?</message>
+                <example correction="to">Does she know what she means <marker>for</marker> me?</example>
+                <example>Recommended changes included providing means for Congress to collect money from state treasuries.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
