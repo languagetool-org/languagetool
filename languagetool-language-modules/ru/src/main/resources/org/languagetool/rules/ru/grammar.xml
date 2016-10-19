@@ -2435,7 +2435,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example correction="либо мокрый снег, либо дождь со">Весь день идёт <marker>либо мокрый снег либо дождь со</marker> снегом.</example>
             </rule>
         </rulegroup>
-                <rulegroup id="ili_and_ili" name="Союзы «или» + «или»">
+        <rulegroup id="ili_and_ili" name="Союзы «или» + «или»">
             <rule>
                 <pattern>
                     <token>или</token>
@@ -2448,6 +2448,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example>Он готов был поверить, что приехал сюда не вовремя — или слишком поздно, или рано.</example>
               <example correction="или слишком поздно, или рано">Он готов был поверить, что приехал сюда не вовремя — <marker>или слишком поздно или рано</marker>.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="to_and_to" name="Союзы «то» + «то»">
+            <rule>
+                <pattern>
+                        <token>то</token>
+                        <token regexp="yes" negate="yes" min="1" max="2">,<exception regexp="yes">а|не</exception></token>
+                        <token>то</token>
+                        <token regexp="yes" negate="yes">,</token>
+                </pattern>
+              <message>Пропущена запятая:<suggestion><match no="1" include_skipped="all"/> <match no="2" include_skipped="all" />, <match no="3" include_skipped="all"/> <match no="4" include_skipped="all"/></suggestion>.</message>
+              <short>Пропущена запятая.</short>
+              <example>Они лишь подсвечивали то стены, то сталагмит.</example>
+              <example>Дамочка не то босая, не то в каких-то прозрачных... туфлях.</example>
+              <example>Дамочка не то босая не то в каких-то прозрачных... туфлях.</example> <!--  incorrect example, but it must triggered with another rule -->
+              <example correction="то стены зала, то сталагмит">Они лишь подсвечивали <marker>то стены зала то сталагмит</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                        <token>не</token>
+                        <token>то</token>
+                        <token regexp="yes" negate="yes" >,</token>
+                        <token>не</token>
+                        <token>то</token>
+                        <token regexp="yes" negate="yes">,</token>
+                </pattern>
+              <message>Пропущена запятая:<suggestion><match no="1" /> <match no="2" include_skipped="all"/> <match no="3" include_skipped="all" />, <match no="4" /> <match no="5" include_skipped="all"/> <match no="6" include_skipped="all"/></suggestion>.</message>
+              <short>Пропущена запятая.</short>
+              <example>Они лишь подсвечивали то стены, то сталагмит.</example>
+              <example>Дамочка не то босая, не то в каких-то прозрачных... туфлях.</example>     
+              <example correction="не то босая, не то в">Дамочка <marker>не то босая не то в</marker> каких-то прозрачных... туфлях.</example>
+            </rule>        
         </rulegroup>
         <rulegroup default="on" id="CHAS_PIK" name="Словосочетание «Час пик»">
             <rule>
