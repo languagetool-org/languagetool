@@ -10835,6 +10835,31 @@ USA
                 <example>Recommended changes included providing means for Congress to collect money from state treasuries.</example>
             </rule>
         </rulegroup>
+        <rule id="BEWARE_PREPOSITION" name="beware PREPOSITION">
+            <antipattern>
+               <marker>
+               <token inflected="yes">beware</token><!-- Inflection is probably not necessary. In modern English, usually only imperative and infinitive is used.-->
+               <token>as</token>
+               <token>well</token>
+              </marker>
+            </antipattern>
+            <pattern>
+               <marker>
+               <token inflected="yes">beware</token>
+               <token postag="RP"><exception>of</exception></token>
+              </marker>
+            </pattern>
+            <message>Did you mean: <suggestion>beware of</suggestion>?</message>
+            <short>Wrong preposition: beware of</short>
+            <example correction="Beware of"><marker>Beware about</marker> malware.</example>
+            <example correction="Beware of"><marker>Beware with</marker> regard to malicious websites.</example>
+            <example><marker>Beware of</marker> malware.</example>
+            <example><marker>Beware</marker>! This dog is not friendly.</example>
+            <example>... but <marker>beware</marker> the ever-shrinking attention span of the general public.</example>
+            <example>It's '<marker>buyer beware</marker>' at Vienna's overpriced hotels, but this little charmer is a bargain.</example>
+            <example>Mac users now need to <marker>beware</marker> as well-the most recent of Apple's three major security patches this year ...</example>
+        </rule>
+
     </category>
 
     <!-- ====================================================================== -->
