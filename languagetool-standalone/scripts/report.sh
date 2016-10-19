@@ -55,6 +55,7 @@ echo "$DATE2;$TOTAL;$FF;$CHROME;$ANDROID;$CLIENT;$SUBLIME;$WEBEXT" >>/home/langu
 
 echo "" >>$OUTFILE
 echo "An error has occurred      : `grep -c 'An error has occurred' $TMPFILE`" >>$OUTFILE
+echo "too many parallel requests : `grep -c 'too many parallel requests' $TMPFILE`" >>$OUTFILE
 echo "too many requests          : `grep -c 'too many requests' $TMPFILE`" >>$OUTFILE
 echo "too many requests (Android): `grep -c 'too many requests.*androidspell' $TMPFILE`" >>$OUTFILE
 #echo "TextTooLongException : `grep -c 'TextTooLongException' $TMPFILE`" >>$OUTFILE
