@@ -101,19 +101,22 @@ public class CaseRule extends GermanRule {
         token("Klang")
     ),
     Arrays.asList(
+        regex("US-amerikanisch(e|er|es|en|em)?")
+    ),
+    Arrays.asList(
       // "... weshalb ihr das wissen wollt."
       pos("VER:INF:NON"),
       pos("VER:MOD:2:PLU:PRÄ")
     ),
     Arrays.asList(
       // "... wie ich das prüfen sollte."
-      posRegex("VER:INF:.*"),
+      posRegex("VER:INF.*"),
       posRegex("VER:MOD:.*")
     ),
     Arrays.asList(
         // "... wie ich das prüfen würde."
-        posRegex("VER:INF:.*"),
-        posRegex("VER:AUX:.:(SIN|PLU)")
+        posRegex("VER:INF.*"),
+        posRegex("VER:AUX:.:(SIN|PLU)(:KJ2)?")
     )
   );
 
@@ -170,6 +173,7 @@ public class CaseRule extends GermanRule {
   private static final Set<String> exceptions = new HashSet<>(Arrays.asList(
     "Mitwirkende",
     "Mitwirkender",
+    "Mitwirkenden",
     "Selbstständige",
     "Selbstständiger",
     "Genaueres",
@@ -221,7 +225,11 @@ public class CaseRule extends GermanRule {
     "Jenseits",
     "Abends",
     "Abgeordneter",
+    "Abgeordnete",
+    "Abgeordneten",
     "Angestellter",
+    "Angestellte",
+    "Angestellten",
     "Liberaler",
     "Abriss",
     "Ahne",
@@ -501,6 +509,7 @@ public class CaseRule extends GermanRule {
     substVerbenExceptions.add("bestätigten");
     substVerbenExceptions.add("bekommen");
     substVerbenExceptions.add("sauer");
+    substVerbenExceptions.add("bedeuten");
   }
 
   private final GermanTagger tagger;

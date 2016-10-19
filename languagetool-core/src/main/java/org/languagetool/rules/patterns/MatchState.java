@@ -356,8 +356,7 @@ public class MatchState {
         int l = 0;
         for (String lPosTag : posTags) {
           l++;
-          lPosTag = pPosRegexMatch.matcher(lPosTag).replaceAll(
-              posTagReplace);
+          lPosTag = pPosRegexMatch.matcher(lPosTag).replaceAll(posTagReplace);
           if (match.setsPos()) {
             lPosTag = synthesizer.getPosTagCorrection(lPosTag);
           }

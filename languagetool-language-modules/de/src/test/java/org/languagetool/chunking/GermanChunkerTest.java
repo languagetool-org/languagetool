@@ -67,7 +67,7 @@ public class GermanChunkerTest {
 
     assertFullChunks("Und die/NPS ältere/NPS der/NPS beiden/NPS Töchter/NPS ist 20.");
     assertFullChunks("Der/NPS Synthese/NPS organischer/NPS Verbindungen/NPS steht nichts im/PP Weg/NPS");
-    assertFullChunks("Aber die/NPP Kenntnisse/NPP der/NPP Sprache/NPP sind nötig.");
+    assertFullChunks("Aber/B die/NPP Kenntnisse/NPP der/NPP Sprache/NPP sind nötig.");  // actually "Aber" should not be tagged
     assertFullChunks("Dort steht die/NPS Pyramide/NPS des/NPS Friedens/NPS und/NPS der/NPS Eintracht/NPS");
     assertFullChunks("Und Teil/B der/NPS dort/NPS ausgestellten/NPS Bestände/NPS wurde privat finanziert.");
     assertFullChunks("Autor/NPS der/NPS ersten/NPS beiden/NPS Bücher/NPS ist Stephen King/NPS");

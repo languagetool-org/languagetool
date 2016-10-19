@@ -354,7 +354,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="BERUHEN_BERUFEN" name="beruhen/berufen">
             <pattern>
                 <marker>
-                    <token inflected='yes'>[be]ruhen</token><!-- not a regex, this is actually in the data -->
+                    <token inflected='yes'>beruhen</token>
                 </marker>
                 <token postag='PRO:PER:NOM:.*' postag_regexp='yes' min='0'/>
                 <token postag='PRO:REF:AKK:.*' postag_regexp='yes'/>
@@ -2786,7 +2786,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>Bein</token>
                     </marker>
-                    <token postag="(PA1|PA2):.*" postag_regexp="yes"/>
+                    <token postag="(PA1|PA2|ADJ):.*" postag_regexp="yes"/>
                     <token postag="SUB:.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Meinten Sie <suggestion>Beim</suggestion>?</message>
@@ -13525,7 +13525,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>berge</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">\[ver\]setzen</token>
+                    <token inflected="yes">versetzen</token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="1" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -13660,7 +13660,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes">jenseits</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">\[be\]fördern</token>
+                    <token inflected="yes">befördern</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Jenseits</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -15360,7 +15360,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token case_sensitive="yes">wert</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">\[ver\]kaufen</token>
+                    <token inflected="yes">verkaufen</token>
                 </pattern>
                 <message>&subanfang;<suggestion>Wert</suggestion>&subende;</message>
                 <url>https://de.wiktionary.org/wiki/Wert</url>
@@ -24934,7 +24934,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">w[ou]rden</token>
             </pattern>
             <message>Bitte prüfen Sie, ob hier das Partizip Perfekt verwendet werden muss.</message>
-            <suggestion><match no="2" postag="VER:PA2:.*" postag_regexp="yes"/></suggestion>
+            <suggestion><match no="2" postag="VER:PA2.*" postag_regexp="yes"/></suggestion>
             <url>http://www.canoo.net/services/OnlineGrammar/Wort/Verb/Finit-Infinit/Part2.html#Anchor-Das-49575</url>
             <example correction="geschlagen">Er ist <marker>schlagen</marker> worden.</example>
             <example correction="gefahndet">Es ist nach Einbrechern <marker>fahndet</marker> worden.</example>
@@ -25291,8 +25291,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                 </pattern>
                 <message>'Nachdem' drückt standardsprachlich Vorzeitigkeit aus und sollte daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
-                <suggestion><match no="2" postag="VER:PA2:.*" postag_regexp="yes"/> war</suggestion>
-                <suggestion><match no="2" postag="VER:PA2:.*" postag_regexp="yes"/> hatte</suggestion>
+                <suggestion><match no="2" postag="VER:PA2.*" postag_regexp="yes"/> war</suggestion>
+                <suggestion><match no="2" postag="VER:PA2.*" postag_regexp="yes"/> hatte</suggestion>
                 <short>'Nachdem' kann standardsprachlich nicht mit dem Präteritum verwendet werden. Verwenden Sie Perfekt bzw. Plusquamperfekt.</short>
                 <example correction="gekommen war|gekommen hatte">Nachdem der Brief <marker>kam</marker>, ging ich nach Hause.</example>
                 <example>Nachdem sich jedes Teilchen in einem <marker>Zustand</marker>, der nicht gut war, befunden hatte, ging es weiter.</example>
@@ -25306,8 +25306,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                 </pattern>
                 <message>'Nachdem' drückt standardsprachlich Vorzeitigkeit aus und sollte daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
-                <suggestion><match no="2" postag="VER:PA2:.*" postag_regexp="yes"/> waren</suggestion>
-                <suggestion><match no="2" postag="VER:PA2:.*" postag_regexp="yes"/> hatten</suggestion>
+                <suggestion><match no="2" postag="VER:PA2.*" postag_regexp="yes"/> waren</suggestion>
+                <suggestion><match no="2" postag="VER:PA2.*" postag_regexp="yes"/> hatten</suggestion>
                 <short>'Nachdem' kann standardsprachlich nicht mit dem Präteritum verwendet werden. Verwenden Sie Perfekt bzw. Plusquamperfekt.</short>
                 <example correction="gekommen waren|gekommen hatten">Nachdem die Briefe <marker>kamen</marker>, ging ich nach Hause.</example>
                 <example>Nachdem sich jedes Teilchen in einem <marker>Zustand</marker>, der nicht gut war, befunden hatte, ging es weiter.</example>
@@ -25322,8 +25322,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>'Nachdem' drückt standardsprachlich Vorzeitigkeit aus und sollte daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
-                <suggestion><match no="3" postag="VER:PA2:.*" postag_regexp="yes"/> war</suggestion>
-                <suggestion><match no="3" postag="VER:PA2:.*" postag_regexp="yes"/> hatte</suggestion>
+                <suggestion><match no="3" postag="VER:PA2.*" postag_regexp="yes"/> war</suggestion>
+                <suggestion><match no="3" postag="VER:PA2.*" postag_regexp="yes"/> hatte</suggestion>
                 <short>'Nachdem' kann standardsprachlich nicht mit dem Präteritum verwendet werden. Verwenden Sie Perfekt bzw. Plusquamperfekt.</short>
                 <example correction="gekommen war|gekommen hatte">Ich ging nach Hause, nachdem der Brief <marker>kam</marker>.</example>
             </rule>
@@ -25337,8 +25337,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>'Nachdem' drückt standardsprachlich Vorzeitigkeit aus und sollte daher nicht mit dem Präteritum verwendet werden. Verwenden Sie das Perfekt (Präsens im Hauptsatz) oder Plusquamperfekt (Präteritum im Hauptsatz) oder 'als' zum Ausdrücken von Gleichzeitigkeit.</message>
-                <suggestion><match no="3" postag="VER:PA2:.*" postag_regexp="yes"/> waren</suggestion>
-                <suggestion><match no="3" postag="VER:PA2:.*" postag_regexp="yes"/> hatten</suggestion>
+                <suggestion><match no="3" postag="VER:PA2.*" postag_regexp="yes"/> waren</suggestion>
+                <suggestion><match no="3" postag="VER:PA2.*" postag_regexp="yes"/> hatten</suggestion>
                 <short>'Nachdem' kann standardsprachlich nicht mit dem Präteritum verwendet werden. Verwenden Sie Perfekt bzw. Plusquamperfekt.</short>
                 <example correction="gekommen waren|gekommen hatten">Ich ging nach Hause, nachdem die Briefe <marker>kamen</marker>.</example>
             </rule>
@@ -26883,7 +26883,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <or>
-                        <token>AGB</token>
                         <token>DVD</token>
                         <token postag_regexp="yes" postag="SUB:.*"><exception>Halt</exception></token>
                     </or>
@@ -26983,7 +26982,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Die <marker>Lenz'</marker>sche Regel ist wichtig.</example>
                 <example>Der <marker>Girls’</marker> Day findet jährlich statt.</example>
                 <example type="triggers_error"><marker>Strauß’</marker> Politik</example>
-                <example correction="Zirkus">Der Direktor des <marker>Zirkus'</marker> Krone</example>
+                <example correction="Zirkus|Zirkusse|Zirkussen">Der Direktor des <marker>Zirkus'</marker> Krone</example>
                 <example correction="Hauses">Der Direktor des <marker>Haus'</marker> Krone</example>
             </rule>
         </rulegroup>
