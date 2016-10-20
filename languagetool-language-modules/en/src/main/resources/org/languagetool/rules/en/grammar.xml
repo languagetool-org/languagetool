@@ -10895,6 +10895,33 @@ USA
                 <example correction="a faster">There must be <marker>faster</marker> way of going to California.</example>
             </rule>
         </rulegroup>
+        <rule id="EVERY_EACH_SINGULAR" name="every/each + SINGULAR">
+            <pattern>
+                <token regexp="yes">each|every</token>
+                <marker>
+                    <token postag="NNS"><exception postag="NN|PRP\$|NN:UN" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>The noun should be probably in the singular form: <suggestion><match no="2" postag="NN(:UN)?" postag_regexp="yes"/></suggestion>?</message>
+            <short>Grammatical problem</short>
+            <example correction="employee">The manager wants to speak to every <marker>employees</marker> in his office.</example>
+            <example correction="time">Each <marker>times</marker> I visit France, I rent a car.</example>
+            <example>We saw each other’s faces.</example>
+        </rule>
+        <rule id="EACH_OTHERS" name="each others’ (other’s)">
+            <pattern>
+                <token>each</token>
+                <marker>
+                    <token>others</token>
+                    <token regexp="yes">['’]</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>other’s</suggestion>?</message>
+            <url>https://jakubmarian.com/each-others-vs-each-others-in-english/</url>
+            <short>Grammatical problem</short>
+            <example correction="other’s">They checked each <marker>others’</marker> work.</example>
+            <example>We saw each other’s faces.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
