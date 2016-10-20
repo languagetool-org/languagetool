@@ -172,7 +172,8 @@ public class PatternRuleTest {
         System.err.println("WARNING " + lang + ": useless <marker>: " + rule.getFullId());
       }*/
 
-      PatternTestTools.failIfWhitespaceInToken(rule.getPatternTokens(), rule, lang);
+      // too aggressive for now:
+      //PatternTestTools.failIfWhitespaceInToken(rule.getPatternTokens(), rule, lang);
               
       PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getPatternTokens(),
               rule.getId(), rule.getSubId(), lang);
