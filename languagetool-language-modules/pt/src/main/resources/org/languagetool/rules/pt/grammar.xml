@@ -5,7 +5,7 @@ title="Pretty print" ?>
 title="Easy editing stylesheet" ?>
 <!--
 Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for LanguageTool.
-Copyright (c) 2012-2016 Marco A.G.Pinto (www.marcoagpinto.com).
+Copyright (c) 2012-2016 Marco A.G.Pinto (www.marcoagpinto.com) and Tiago F. Santos.
 Thanks to Juan Martorell, Daniel Naber and Yakov Reztsov who mentored the project.
 
 This library is free software; you can redistribute it and/or
@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.186 2016-10-19 09:13:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.187 2016-10-20 07:36:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -2343,13 +2343,12 @@ $Id: grammar.xml,v 1.186 2016-10-19 09:13:00 marcoagpinto Exp $
 
 
 
-    <!-- À QUASE há quase -->
-    <rule id="À_QUASE" name="há quase">
+    <!-- À n SEGUNDOS/MINUTOS/HORAS/DIAS/SEMANAS/MESES/ANOS há n tempo-->
+    <rule id="À-HÁ_N_TEMPO" name="há n tempo">
       <pattern>
 		<marker>
-			<token>à</token>		
+			<token skip="-1">à</token>
 		</marker>			
-		<token skip="-1">quase</token>		
         <token regexp="yes">segundos?|minutos?|horas?|dias?|semanas?|mês|meses|anos?</token>
       </pattern>
 	  <message>Substituir «à» por <suggestion>há</suggestion>.</message>
