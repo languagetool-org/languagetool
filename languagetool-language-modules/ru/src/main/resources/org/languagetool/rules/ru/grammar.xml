@@ -2405,6 +2405,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example correction="и в воздухе, и на небе, и в вагоне">Было грустно <marker>и в воздухе и на небе и в вагоне</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="da_and_da" name="Союзы «да» + «да»">
+            <rule>  <!--  да=и   -->
+                <pattern>
+                    <token>да</token>
+                    <token skip="2" ></token>
+                    <token>да<exception scope="previous"  >,</exception></token>
+                    <token regexp="yes" negate="yes">,</token>
+                </pattern>
+              <message>Пропущена запятая:<suggestion><match no="1" include_skipped="all"/> <match no="2" include_skipped="all" />, <match no="3" include_skipped="all"/> <match no="4" include_skipped="all"/></suggestion>.</message>
+              <short>Пропущена запятая.</short>
+              <example>Всё кругом белое да пушистое, да искристое.</example>
+              <example correction="да пушистое, да искристое">Всё кругом белое <marker>да пушистое да искристое</marker>.</example>
+              <example correction="да очень пушистое, да искристое">Всё кругом белое <marker>да очень пушистое да искристое</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ni_and_ni_and_ni" name="«Ни» + «ни» + «ни»">
             <rule>
                 <pattern>
@@ -2454,7 +2469,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                         <token>то</token>
-                        <token skip="1"></token>
+                        <token skip="2"></token>
                         <token>то<exception scope="previous" regexp="yes">а|не|[,]</exception></token>
                         <token regexp="yes" negate="yes">,</token>
                 </pattern>
@@ -2464,6 +2479,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example>Дамочка не то босая, не то в каких-то прозрачных... туфлях.</example>
               <example>Дамочка не то босая не то в каких-то прозрачных... туфлях.</example> <!--  incorrect example, but it must triggered with another rule -->
               <example correction="то стены зала, то сталагмит">Они лишь подсвечивали <marker>то стены зала то сталагмит</marker>.</example>
+              <example correction="то стены пещерного зала, то наиболее">Лампы лишь подсвечивали <marker>то стены пещерного зала то наиболее</marker> красивый сталагмит.</example>
             </rule>
             <rule>
                 <pattern>
