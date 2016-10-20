@@ -5,7 +5,7 @@ title="Pretty print" ?>
 title="Easy editing stylesheet" ?>
 <!--
 Portuguese (Portugal - prereform + postreform) - Grammar and Typo Rules for LanguageTool.
-Copyright (c) 2012-2016 Marco A.G.Pinto (www.marcoagpinto.com) and Tiago F. Santos.
+Copyright (c) 2012-2016 Marco A.G.Pinto (www.marcoagpinto.com), Tiago F. Santos and Matheus Poletto.
 Thanks to Juan Martorell, Daniel Naber and Yakov Reztsov who mentored the project.
 
 This library is free software; you can redistribute it and/or
@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.187 2016-10-20 07:36:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.188 2016-10-20 16:20:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -3749,7 +3749,7 @@ $Id: grammar.xml,v 1.187 2016-10-20 07:36:00 marcoagpinto Exp $
         <token>antes</token>
 		<token>prefiro</token>
       </pattern>
-      <message>Substituir «antes prefiro» por <suggestion>prefiro</suggestion>.</message>
+      <message>Redundância. Usar apenas: <suggestion>prefiro</suggestion>.</message>
       <example correction="prefiro">Eu <marker>antes prefiro</marker> a outra solução.</example>
     </rule>
 
@@ -3762,7 +3762,7 @@ $Id: grammar.xml,v 1.187 2016-10-20 07:36:00 marcoagpinto Exp $
         <token>de</token>
 		<token>cerejeiras</token>
       </pattern>
-      <message>Substituir «cerejal de cerejeiras» por <suggestion>cerejal</suggestion>.</message>
+      <message>Redundância. Usar apenas: <suggestion>cerejal</suggestion>.</message>
       <example correction="cerejal">Que grande <marker>cerejal de cerejeiras</marker>.</example>
     </rule>
 
@@ -3775,7 +3775,7 @@ $Id: grammar.xml,v 1.187 2016-10-20 07:36:00 marcoagpinto Exp $
 			<token>para</token>
 			<token>fora</token>
 		</pattern>
-		<message>Substituir «\1 para fora»  por <suggestion>\1</suggestion>.</message>
+		<message>Redundância. Usar apenas: <suggestion>\1</suggestion>.</message>
  		<example correction="exportou">O país <marker>exportou para fora</marker> menos este ano.</example>
  	</rule>
 
@@ -3788,11 +3788,24 @@ $Id: grammar.xml,v 1.187 2016-10-20 07:36:00 marcoagpinto Exp $
         <token>de</token>
 		<token>sangue</token>
       </pattern>
-      <message>Substituir «hemorragia de sangue» por <suggestion>hemorragia</suggestion>.</message>
+      <message>Redundância. Usar apenas: <suggestion>hemorragia</suggestion>.</message>
       <example correction="hemorragia">Uma <marker>hemorragia de sangue</marker> pode ser fatal.</example>
     </rule>
 
 
+	
+    <!-- IDA PARA LÁ ida -->
+    <rule id="IDA_PARA_LÁ" name="ida">
+      <pattern>
+        <token>ida</token>
+        <token>para</token>
+		<token>lá</token>
+      </pattern>
+      <message>Redundância. Usar apenas: <suggestion>ida</suggestion>.</message>
+      <example correction="ida">A minha <marker>ida para lá</marker> correu bem.</example>
+    </rule>	
+	
+	
 	
     <!-- MAIS MELHOR melhor -->
     <rule id="MAIS_MELHOR" name="melhor">
@@ -3800,7 +3813,7 @@ $Id: grammar.xml,v 1.187 2016-10-20 07:36:00 marcoagpinto Exp $
         <token>mais</token>
         <token>melhor</token>
       </pattern>
-      <message>Substituir «mais melhor» por <suggestion>melhor</suggestion>.</message>
+      <message>Redundância. Usar apenas: <suggestion>melhor</suggestion>.</message>
       <example correction="melhor">Esta escola é <marker>mais melhor</marker>.</example>
     </rule>
 
@@ -3812,7 +3825,7 @@ $Id: grammar.xml,v 1.187 2016-10-20 07:36:00 marcoagpinto Exp $
         <token>mais</token>
         <token>pior</token>
       </pattern>
-      <message>Substituir «mais pior» por <suggestion>pior</suggestion>.</message>
+      <message>Redundância. Usar apenas: <suggestion>pior</suggestion>.</message>
       <example correction="pior">Esta escola é <marker>mais pior</marker>.</example>
     </rule>
 	
@@ -3825,7 +3838,7 @@ $Id: grammar.xml,v 1.187 2016-10-20 07:36:00 marcoagpinto Exp $
         <token>de</token>
         <token>ladrões</token>
       </pattern>
-      <message>Redundância. Usar apenas <suggestion>quadrilha</suggestion>.</message>
+      <message>Redundância. Usar apenas: <suggestion>quadrilha</suggestion>.</message>
       <example correction="quadrilha">É uma perigosa <marker>quadrilha de ladrões</marker>.</example>
     </rule>
 	
