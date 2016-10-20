@@ -9121,18 +9121,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La qüestió <marker>a què</marker> es referia ell.</example>
             </rule>
         </rulegroup>
-        <rule id="PER_QUE" name="per que">
-            <pattern>
-                <token>per</token>
-                <token>que</token>
-            </pattern>
-            <message>Cal escriure <suggestion>per què</suggestion> o <suggestion>perquè</suggestion>.</message>
+        <rulegroup id="PER_QUE" name="per que/perquè">
             <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
-            <example correction="per què|perquè">El motiu <marker>per que</marker> ho fan</example>
-            <example>El motiu <marker>perquè</marker> ho fan</example>
-            <example><marker>Per què</marker> ho fan?</example>
-        </rule>
-        <rulegroup id="PER_A_QUE_PERQUE" name="per a què/per què">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>per</token>
+                        <token skip="4" regexp="yes">què|que<exception scope="next" postag="V.[IN].*|CC|CS" postag_regexp="yes"/><exception scope="next" regexp="yes">que|quals?|què|qui</exception></token>
+                    </marker>
+                    <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*|_GN_.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si és conjunció final (seguida de subjuntiu), cal escriure <suggestion>perquè</suggestion>.</message>
+                <suggestion>perquè</suggestion>
+                <example correction="Perquè"><marker>Per què</marker> arribi a temps, cal preparar-la.</example>
+                <example correction="Perquè"><marker>Per què</marker> arribi a temps, què cal fer?</example>
+                <example>Per què no usem simplement HTML?</example>
+                <example>Per què un crustaci que tingués boca no sobreviuria?</example>
+                <example>Per què no deixar que continuï?</example>
+                <example>No sé perquè, però diguin el que diguin...</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>¿</token>
+                    <marker>
+                        <token>per</token>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Cal escriure <suggestion>per què</suggestion>.</message>
+                <example correction="Per què">¿<marker>Per que</marker> no has vingut?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>per</token>
+                        <token skip="-1">que</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Cal escriure <suggestion>per què</suggestion>.</message>
+                <example correction="Per què"><marker>Per que</marker> no has vingut?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>per</token>
+                    <token>que</token>
+                </pattern>
+                <message>Cal dir <suggestion>perquè</suggestion> (conj. final o causal) o <suggestion>per què</suggestion> (prep + interrogatiu o relatiu).</message>
+                <example correction="perquè|per què">Vull portar-ho <marker>per que</marker> ho vegis.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PER_A_QUE_PERQUE" name="per a què/perquè">
             <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
             <antipattern>
                 <token skip="-1">¿</token>
@@ -9169,7 +9208,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.S.*" postag_regexp="yes"><exception>volen</exception></token>
                 </pattern>
                 <message>Si és conjunció final (seguida de subjuntiu), cal escriure <suggestion>perquè</suggestion>.</message>
-                <short>Conjunció final</short>
                 <example correction="perquè">Ens ho van explicar <marker>per a què</marker> ho sabéssim.</example>
                 <example correction="perquè">Volia que ho sabéssim <marker>per a què</marker> servís d'ajuda.</example>
                 <example correction="Perquè"><marker>Per a què</marker> hi haja solució, cal saber totes les raons.</example>
@@ -9192,10 +9230,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>que</token>
                 </pattern>
                 <message>Cal dir <suggestion>perquè</suggestion> (conj. final o causal) o <suggestion>per a què</suggestion> (prep + interrogatiu o relatiu).</message>
-                <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
                 <example correction="perquè|per a què">Vull portar-ho <marker>per a que</marker> ho vegis.</example>
-                <example>Vull portar-ho <marker>perquè</marker> ho veigs.</example>
-                <example><marker>Per a què</marker> ho fan?</example>
             </rule>
         </rulegroup>
         <rulegroup id="DEGUT_A" name="*degut a" type="style">
@@ -14330,6 +14365,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>el transitar</example>
         </rule>
         <rulegroup id="PERQUE_PER_QUE" name="*perquè/per què">
+            <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
             <rule>
                 <pattern>
                     <token>no</token>
@@ -14340,10 +14376,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.N.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Cal dir <suggestion>per què</suggestion>.</message>
-                <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
-                <short>Possible confusió</short>
                 <example correction="per què">No teníeu <marker>perquè</marker> fer-ho.</example>
-                <example>No teniu per què fer-ho.</example>
             </rule>
             <rule>
                 <pattern>
@@ -14355,8 +14388,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>per què</suggestion> (= per quina raó)?</message>
-                <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
-                <short>Possible confusió</short>
                 <example correction="per què">No sé <marker>perquè</marker> passa.</example>
                 <example correction="per què">Vull saber <marker>perquè</marker> passa.</example>
                 <example correction="per què">Rajoy no entén <marker>perquè</marker> se'n sorprenen.</example>
@@ -14374,9 +14405,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="SENT_END">.</token>
                     </or>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>per què</suggestion>?</message>
-                <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
-                <short>Possible confusió</short>
+                <message>¿Volíeu dir <suggestion>per què</suggestion> (= per quina raó)?</message>
                 <example correction="per què">Jo els diré <marker>perquè</marker>.</example>
                 <example correction="per què">I això <marker>perquè</marker>?</example>
                 <example>No en sabíem el perquè.</example>
@@ -14400,18 +14429,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="PER_QUE_PERQUE" name="*per què/perquè">
-            <rule id="EL_PER_QUE" name="el per què">
+            <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
+            <rule>
                 <pattern>
                     <token>el</token>
                     <token>per</token>
                     <token>què</token>
                 </pattern>
                 <message>Cal escriure <suggestion>el perquè</suggestion> o bé <suggestion>per què</suggestion>.</message>
-                <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
                 <example correction="el perquè|per què"><marker>el per què</marker></example>
                 <example>el perquè</example>
             </rule>
-            <rule id="DEL_PER_QUE" name="del per què">
+            <rule>
                 <pattern>
                     <token regexp="yes">a|de</token>
                     <token spacebefore="no">l</token>
@@ -14419,26 +14448,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>què</token>
                 </pattern>
                 <message>Cal escriure <suggestion>\1l perquè</suggestion> o bé <suggestion>\1 per què</suggestion>.</message>
-                <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
                 <example correction="del perquè|de per què">No sabem res <marker>del per què</marker></example>
                 <example>Del perquè</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>per</token>
-                        <token skip="4">què<exception scope="next" postag="V.[IN].*|CC|CS" postag_regexp="yes"/><exception scope="next" regexp="yes">que|quals?|què|qui</exception></token>
-                    </marker>
-                    <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*|_GN_.*" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Probablement s'ha d'escriure junt.</message>
-                <suggestion>perquè</suggestion>
-                <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
-                <example correction="Perquè"><marker>Per què</marker> arribi a temps, cal preparar-la.</example>
-                <example>Per què no usem simplement HTML?</example>
-                <example>Per què un crustaci que tingués boca no sobreviuria?</example>
-                <example>Per què no deixar que continuï?</example>
-                <example>No sé perquè, però diguin el que diguin...</example>
             </rule>
         </rulegroup>
         <rule id="ALA_A_LA" name="*ala ciutat/a la ciutat">
