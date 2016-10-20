@@ -10227,6 +10227,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="TELEFONO_TELEFON" name="telefono/telèfon">
+            <pattern>
+                <marker>
+                    <token skip="3">Telefono<exception scope="next">a</exception><exception scope="previous" postag="P.*" postag_regexp="yes"/></token>
+                </marker>
+                <token regexp="yes">.*\d+.*|atenció|clients?|servei|urgènci(a|es)|contacte|ajuda|assistència|emergènci(a|es)</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>telèfon</suggestion>? "Telefono" és una forma vàlida del verb "telefonar".</message>
+            <suggestion>tel.</suggestion>
+            <example correction="Telèfon|Tel."><marker>Telefono</marker>: 555 555 555.</example>
+            <example correction="Telèfon|Tel."><marker>Telefono</marker> de contacte: 555 555 555.</example>
+            <example correction="Telèfon|Tel."><marker>Telefono</marker> d'atenció al client.</example>
+            <example>Telefono al 555 555 555?</example>
+            <example>Li telefono del servei d'atenció al client</example>
+        </rule>
         <rule id="OSCAR" name="Oscar/Òscar">
             <antipattern>
                 <marker>
