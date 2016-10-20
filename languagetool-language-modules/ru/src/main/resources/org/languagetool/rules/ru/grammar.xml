@@ -26,8 +26,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!--suppress CheckTagEmptyBody -->
 <!DOCTYPE rules [
-    <!ENTITY weekdays "понедельник|вторник|среда|четверг|пятница|суббота|воскресенье">
-    <!ENTITY months "январь|февраль|март|апрель|май|июнь|июль|август|сентябрь|октябрь|ноябрь|декабрь|января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря">
+<!ENTITY weekdays "понедельник|вторник|среда|четверг|пятница|суббота|воскресенье">
+<!ENTITY months "январь|февраль|март|апрель|май|июнь|июль|август|сентябрь|октябрь|ноябрь|декабрь|января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря">
 <!ENTITY abbrevMonths "янв|фев|мар|апр|ин|ил|авг|сен|окт|ноя|дек">
 <!ENTITY color "черн.*|чёрн.*|бел.*|красн.*|син.*|желт.*|жёлт.*|зелен.*|зелён.*"> <!-- цвет -->
 <!ENTITY nation "русск.*|прусск.*|австрийск.*|английск.*|немецк.*|французск.*|испанск.*|португальск.*|голландск.*|датск.*|китайск.*|японск.*|арабск.*|индийск.*|армянск.*|грузинск.*|польск.*|чешск.*|венгерск.*|греческ.*|лишн.*|византийск.*"> <!-- язык, человек,стиль -->
@@ -2425,14 +2425,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>либо</token>
-                    <token regexp="yes" negate="yes" min="1" max="2">,</token>
-                    <token>либо</token>
-                    <token regexp="yes" negate="yes" min="1" max="2">,</token>
+                    <token  skip="1" ></token>
+                    <token>либо<exception scope="previous"  >,</exception></token>
+                    <token regexp="yes" negate="yes" >,</token>
                 </pattern>
               <message>Пропущена запятая:<suggestion><match no="1" include_skipped="all"/> <match no="2" include_skipped="all" />, <match no="3" include_skipped="all"/> <match no="4" include_skipped="all"/></suggestion>.</message>
               <short>Пропущена запятая.</short>
               <example>Весь день идет либо снег, либо дождь со снегом.</example>
-              <example correction="либо мокрый снег, либо дождь со">Весь день идёт <marker>либо мокрый снег либо дождь со</marker> снегом.</example>
+              <example correction="либо мокрый снег, либо дождь">Весь день идёт <marker>либо мокрый снег либо дождь</marker> со снегом.</example>
+              <example correction="либо снег, либо дождь">Весь день идёт <marker>либо снег либо дождь</marker> со снегом.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ili_and_ili" name="Союзы «или» + «или»">
@@ -2453,8 +2454,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                         <token>то</token>
-                        <token regexp="yes" negate="yes" min="1" max="2">,<exception regexp="yes">а|не</exception></token>
-                        <token>то</token>
+                        <token skip="1"></token>
+                        <token>то<exception scope="previous" regexp="yes">а|не|[,]</exception></token>
                         <token regexp="yes" negate="yes">,</token>
                 </pattern>
               <message>Пропущена запятая:<suggestion><match no="1" include_skipped="all"/> <match no="2" include_skipped="all" />, <match no="3" include_skipped="all"/> <match no="4" include_skipped="all"/></suggestion>.</message>
@@ -5438,7 +5439,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>по</token>
 			<token  postag="ADJ:Masc:D" case_sensitive="yes">
-                            <exception regexp="yes">[А-Я].*|минимальному|максимальному|черному|чёрному|белому|красному|синему|желтому|жёлтому|русскому|прусскому|австрийскому|английскому|немецкому|французскому|испанскому|португальскому|голландскому|датскому|китайскому|японскому|арабскому|индийскому|армянскому|грузинскому|польскому|чешскому</exception>
+                            <exception regexp="yes">[А-Я].*|федеральному|местному|минимальному|максимальному|черному|чёрному|белому|красному|синему|желтому|жёлтому|русскому|прусскому|австрийскому|английскому|немецкому|французскому|испанскому|португальскому|голландскому|датскому|китайскому|японскому|арабскому|индийскому|армянскому|грузинскому|польскому|чешскому</exception>
                         </token>
                     </marker>
                     <token skip="-1">
@@ -5450,6 +5451,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Слово пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
                 <short>Пишется слитно.</short>
+                <example>Он взял курс прямо на юг по местному шоссе N 11.</example>
+                <example>Мне смутно помнилось, что ехать надо по федеральному шоссе №1.</example>
                 <example correction="по-зимнему">Я оделся <marker>по зимнему</marker> тепло.</example>
                 <example correction="по-хорошему">Давай <marker>по хорошему</marker> разберёмся.</example>
                 <example correction="по-прежнему">Я поступлю <marker>по прежнему</marker> отчаянно.</example>
@@ -6334,11 +6337,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token>с</token>
-                    <token regexp="yes" case_sensitive="yes" >[сзшжлрмщ][йцкнгшщзхфвпрлджчсмтб].*|ль[йцкнгшщзхфвпрлджчсмтб].*</token>
+                    <token regexp="yes" case_sensitive="yes" >[сзшжлрщ][йцкнгшщзхфвпрлджчсмтб].*|ль[йцкнгшщзхфвпрлджчсмтб].*</token>
                 </pattern>
                 <message>Неправильная форма предлога. Исправление: <suggestion>со \2</suggestion>.</message>
                 <short>Неправильная форма предлога.</short>
                 <example>Кошка спрыгнула со шкафа.</example>
+                <example>Сверхскоростная магистраль с многорядным движением.</example>
                 <example correction="со шкафа">Кошка спрыгнула <marker>с шкафа</marker>.</example>
             </rule>
             <rule>
