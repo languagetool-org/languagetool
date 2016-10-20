@@ -1645,6 +1645,10 @@ USA
             <example correction="cannot">You <marker>can not</marker> use the keyboard to select an item.</example>
         </rule>
         <rule id="CANT" name="cant (can't)">
+            <antipattern>
+                <token>cant</token>
+                <token chunk="B-VP"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>cant</token>
@@ -1654,7 +1658,14 @@ USA
             <message>Did you mean <suggestion>can't</suggestion> or <suggestion>cannot</suggestion>?</message>
             <short>Possible typo</short>
             <example correction="can't|cannot">I <marker>cant</marker> view pdf files in Explorer.</example>
+            <example correction="can't|cannot">You <marker>cant</marker> usually view these files in a web browser.</example>
             <example>... despite all the modern cant to the contrary.</example>
+            <example><marker>William Cant</marker> was born in Morpeth, Northumberland in 1753.</example>
+            <example>... and <marker>cant</marker> is the speciality of many politicians.</example>
+            <example type="triggers_error"><marker>Cant</marker>, who was born in Morpeth in 1753, is the ...</example>
+            <example type="triggers_error">Argot used in this sense is synonymous with <marker>cant</marker>.</example>
+            <example type="triggers_error">There is also a prison <marker>cant</marker>, known as soebela or sombela, which is based on...</example>
+            <example type="triggers_error">A <marker>cant</marker>, called Shelta, is spoken by Irish Travellers...</example>
         </rule>
         <rulegroup id="HELL" name="hell/shell (he'll, she'll)">
             <rule>
