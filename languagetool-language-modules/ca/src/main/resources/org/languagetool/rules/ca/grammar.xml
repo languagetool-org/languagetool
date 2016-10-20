@@ -9132,18 +9132,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>El motiu <marker>perquè</marker> ho fan</example>
             <example><marker>Per què</marker> ho fan?</example>
         </rule>
-        <rule id="PER_A_QUE" name="per a que">
-            <pattern>
-                <token>per</token>
-                <token>a</token>
-                <token>que</token>
-            </pattern>
-            <message>Cal dir <suggestion>perquè</suggestion> (conj. final o causal) o <suggestion>per a què</suggestion> (prep + interrogatiu o relatiu).</message>
-            <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
-            <example correction="perquè|per a què">Vull portar-ho <marker>per a que</marker> ho vegis.</example>
-            <example>Vull portar-ho <marker>perquè</marker> ho veigs.</example>
-            <example><marker>Per a què</marker> ho fan?</example>
-        </rule>
         <rulegroup id="PER_A_QUE_PERQUE" name="per a què/per què">
             <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
             <antipattern>
@@ -9176,7 +9164,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>per</token>
                         <token>a</token>
-                        <token skip="-1">què</token>
+                        <token skip="-1" regexp="yes">què|que</token>
                     </marker>
                     <token postag="V.S.*" postag_regexp="yes"><exception>volen</exception></token>
                 </pattern>
@@ -9196,6 +9184,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Cal saber per a què pretén que usin el model.</example>
                 <example>Pot variar segons per a què s'usi.</example>
                 <example>No s'entén per a què ho volen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>per</token>
+                    <token>a</token>
+                    <token>que</token>
+                </pattern>
+                <message>Cal dir <suggestion>perquè</suggestion> (conj. final o causal) o <suggestion>per a què</suggestion> (prep + interrogatiu o relatiu).</message>
+                <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
+                <example correction="perquè|per a què">Vull portar-ho <marker>per a que</marker> ho vegis.</example>
+                <example>Vull portar-ho <marker>perquè</marker> ho veigs.</example>
+                <example><marker>Per a què</marker> ho fan?</example>
             </rule>
         </rulegroup>
         <rulegroup id="DEGUT_A" name="*degut a" type="style">
