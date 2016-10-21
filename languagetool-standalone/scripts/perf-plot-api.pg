@@ -1,0 +1,22 @@
+#!/usr/bin/gnuplot
+
+reset
+set datafile separator ";"
+set terminal png
+set title "API Performance"
+set ylabel "seconds"
+set xlabel "date"
+
+set timefmt "%Y-%m-%d %H:%M:%S"
+set xdata time
+#set timefmt "%Y%m%d"
+set format x "%d"
+
+#set key reverse Left outside
+#set grid
+
+set style data boxes
+
+plot [:] [0:] "/home/languagetool/languagetool.org/languagetool-website/www/regression-tests/performance-api-recent.log" using 1:2 title "HTTP API access time"
+#plot  "/home/languagetool/languagetool.org/languagetool-website/www/regression-tests/performance-api.log" using 0:1
+#plot  "/tmp/performance-api-test.log" using 0:1
