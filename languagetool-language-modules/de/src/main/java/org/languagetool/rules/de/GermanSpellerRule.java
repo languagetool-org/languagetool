@@ -156,7 +156,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   public List<String> getSuggestions(String word) throws IOException {
     List<String> suggestions = super.getSuggestions(word);
     if(word.endsWith(".")) {
-      // To avoid losing the "." of "word" is at the end of a sentence.
+      // To avoid losing the "." of "word" if it is at the end of a sentence.
       suggestions.replaceAll(s -> s.endsWith(".") ? s : s.concat("."));
     }
     return suggestions;
