@@ -11,6 +11,10 @@
 #### German
   * added and improved rules
   * bugfix regarding errors in the last word of a sentence (#273)
+  * The internal part-of-speech dictionary has been updated with the help of
+    Julian von Heyl of http://korrekturen.de - many entries have been fixed and
+    added. Technically, the new data has its own Maven and git project now
+    (https://github.com/languagetool-org/german-pos-dict)
   
 #### Russian
   * added/improved several rules
