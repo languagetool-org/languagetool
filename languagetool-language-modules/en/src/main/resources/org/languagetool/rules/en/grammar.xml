@@ -2566,6 +2566,11 @@ USA
         </rulegroup>
         <rulegroup id="ANY_BODY" name="any body (anybody)">
             <rule>
+                <antipattern>
+                    <token>any</token>
+                    <token>one</token>
+                    <token chunk="I-NP-singular"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">any|some</token>
@@ -2576,8 +2581,11 @@ USA
                 <message>Did you mean <suggestion>\1\2</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="Anyone"><marker>Any one</marker> needs help here?</example>
-                <example>But the Communists never gave sufficient provocation at any one time for the United States to want to risk a limited or an all-out war over Laos.</example>
+                <example>But the Communists never gave sufficient provocation at <marker>any one</marker> time for the United States to want to risk a limited or an all-out war over Laos.</example>
                 <example correction="anyone">Can <marker>any one</marker> point me to the right direction?</example>
+                <example>Smith was the American architect who refused to be classified in <marker>any one</marker> architectural movement.</example>
+                <example>The propositions of field theory do not concern <marker>any one</marker> particular application;</example>
+                <example type="triggers_error">... 960 such combinations, and the chance of drawing <marker>any one</marker> hand at random is 1 / 2,598,960.</example>
             </rule>
             <rule>
                 <pattern>
@@ -2588,6 +2596,10 @@ USA
                 <short>Possible typo</short>
                 <example correction="Nobody"><marker>No body</marker> seems to care.</example>
                 <example correction="nothing">There's <marker>no thing</marker> wrong with this sentence.</example>
+                <example type="triggers_error">These individuals usually have <marker>no body</marker> weakness, because their brain injury is not near ...</example>
+                <example type="triggers_error">If the net force on <marker>some body</marker> is directed always toward some point, the center,...</example>
+                <example type="triggers_error">... by convention rather than formal code: there is <marker>no body</marker> equivalent to L’Académie française.</example>
+                <example type="triggers_error">... and discovers there is <marker>no body</marker> in the grave.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MAY_BE" name="may be (maybe)">
