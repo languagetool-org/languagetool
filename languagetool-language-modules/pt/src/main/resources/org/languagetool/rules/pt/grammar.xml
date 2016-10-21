@@ -121,9 +121,19 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
  
  
  
-    <!-- Concordance error person - I + Verb -->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
+     <!-- Concordance error person - I + Verb -->
+     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_1S" name="Erro de concordância do número do verbo">
+	<antipattern>
+	  <marker>
+	  <token/>
+	  <token regexp='yes' case_sensitive='yes'>e|ou</token>
+	  <token>eu</token>
+	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
+	  <token postag='VM[CIS][CFIMPS][23]S0|VM[CIS][CFIMPS][123]P0' postag_regexp='yes'>
+	  <exception postag='VM[CIS][CFIMPS]1S0' postag_regexp='yes'></exception></token>
+	  </marker>
+	 </antipattern>
 	 <pattern>
 	  <marker>
 	  <token>eu</token>
@@ -134,13 +144,23 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
-	 <example correction=''><marker>Eu passeiam</marker> na praia.</example>
+	 <example type="incorrect"><marker>Eu passeiam</marker> na praia.</example>
+	 <example type="correct">Eu passeio na praia.</example>
 	</rule>
-
 	
-    <!-- Concordance error person - You (Singular) + Verb -->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
+     <!-- Concordance error person - You (Singular) + Verb -->
+     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_2S" name="Erro de concordância do número do verbo">
+	<antipattern>
+	  <marker>
+	  <token/>
+	  <token regexp='yes' case_sensitive='yes'>e|ou</token>
+	  <token>tu</token>
+	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
+	  <token postag='VM[CIS][CFIMPS][13]S0|VM[CIS][CFIMPS][123]P0' postag_regexp='yes'>
+	  <exception postag='VM[CIS][CFIMPS]2S0' postag_regexp='yes'></exception></token>
+	  </marker>
+	 </antipattern>
 	 <pattern>
 	  <marker>
 	  <token>tu</token>
@@ -151,14 +171,23 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
-	 <example correction=''><marker>Tu passeiam</marker> na praia.</example>
-	</rule>	
-
+	 <example type="incorrect"><marker>Tu não passeia</marker> na praia.</example>
+	 <example type="correct"><marker>Tu não passeias</marker> na praia.</example>
+	</rule>
 	
-	
-    <!-- Concordance error person - He/She/It + Verb -->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
+     <!-- Concordance error person - He/She/It + Verb -->
+     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_3S" name="Erro de concordância do número do verbo">
+	  <antipattern>
+	  <marker>
+	  <token/>
+	  <token regexp='yes' case_sensitive='yes'>e|ou</token>
+	  <token regexp="yes">ele|ela|você</token>
+	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
+	  <token postag='VM[CIS][CFIMPS][12]S0|VM[CIS][CFIMPS][123]P0' postag_regexp='yes'>
+	  <exception postag='VM[CIS][CFIMPS]3S0' postag_regexp='yes'></exception></token>
+	  </marker>
+	 </antipattern>
 	 <pattern>
 	  <marker>
 	  <token regexp="yes">ele|ela|você</token>
@@ -169,13 +198,13 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
-	 <example correction=''><marker>Ela passeiam</marker> na praia.</example>
+	 <example type="incorrect"><marker>Ele não passeiam</marker> na praia.</example>
+	 <example type="correct"><marker>Ele não passeia</marker> na praia.</example>
+
 	</rule>
 	
-	
-	
-    <!-- Concordance error person - We + Verb -->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
+     <!-- Concordance error person - We + Verb -->
+     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_1P" name="Erro de concordância do número do verbo">
 	 <pattern>
 	  <marker>
@@ -187,13 +216,53 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
-	 <example correction=''><marker>Nós passeiam</marker> na praia.</example>
+ 	 <example type="incorrect"><marker>Nós não passeia</marker> na praia.</example>
+	 <example type="correct"><marker>Nós ainda não passeamos</marker> na praia.</example>
+	</rule>
+
+
+     <!-- Concordance error person - We + Verb -->
+     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
+	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_1P-2" name="Erro de concordância do número do verbo">
+	 <pattern>
+	  <marker>
+	  <token>eu</token>
+	  <token regexp='yes'>e|ou</token>
+	  <token min='0' max='1' postag='DA0[MF][SP]0' postag_regexp='yes'/>
+	  <token/>
+	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
+	  <token postag='VM[CIS][CFIMPS][23]P0|VM[CIS][CFIMPS][123]S0' postag_regexp='yes'>
+	  <exception postag='VM[CIS][CFIMPS]1P0' postag_regexp='yes'></exception></token>
+	  </marker>
+	 </pattern>
+	 <message>Erro de concordância verbal.</message>
+	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
+	 <example type="incorrect"><marker>Eu e Rita passeiam</marker> na praia.</example>
+	 <example type="correct"><marker>Eu e Rita passeiamos</marker> na praia.</example>
+	 <example correction=''><marker>Eu e Rita passeiam</marker> na praia.</example>
+	</rule>
+
+     <!-- Concordance error person - We + Verb -->
+     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
+	 <rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_1P-3" name="Erro de concordância do número do verbo">
+	 <pattern>
+	  <marker>
+	  <token regexp='yes'>tu|você|vós|vocês|ele|ela|eles|elas</token>
+	  <token regexp='yes'>e|ou</token>
+	  <token>eu</token>
+	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
+	  <token postag='VM[CIS][CFIMPS][23]P0|VM[CIS][CFIMPS][123]S0' postag_regexp='yes'>
+	  <exception postag='VM[CIS][CFIMPS]1P0' postag_regexp='yes'></exception></token>
+	  </marker>
+	 </pattern>
+	 <message>Erro de concordância verbal.3p</message>
+	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
+	 <example type="incorrect"><marker>Tu e eu passeio</marker> na praia.</example>
+	 <example type="correct">Tu e eu passeamos na praia.</example>
 	</rule>
 	
-	
-	
-    <!-- Concordance error person - You (Plural) + Verb -->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-15 -->
+     <!-- Concordance error person - You (Plural) + Verb -->
+     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-15 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_2P" name="Erro de concordância do número do verbo">
 	 <pattern>
 	  <marker>
@@ -205,17 +274,26 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
-	 <example correction=''><marker>Vós passeiam</marker> na praia.</example>
+	 <example type="incorrect"><marker>Vós passeiam</marker> na praia.</example>
+	 <example type="correct">Vós passeais na praia.</example>
 	</rule>
 
-	
-	
-    <!-- Concordance error person - They + Verb -->
-    <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
+     <!-- Concordance error person - They + Verb -->
+     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_3P" name="Erro de concordância do número do verbo">
+	 <antipattern>
+	  <marker>
+	  <token>eu</token>
+	  <token regexp='yes' case_sensitive='yes'>e|ou</token>
+	  <token regexp='yes'>eles|elas|vocês</token>
+	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
+	  <token postag='VM[CIS][CFIMPS][12]S0|VM[CIS][CFIMPS][123]P0' postag_regexp='yes'>
+	  <exception postag='VM[CIS][CFIMPS]3S0' postag_regexp='yes'></exception></token>
+	  </marker>
+	 </antipattern>
 	 <pattern>
 	  <marker>
-	  <token regexp="yes">eles|elas|vocês</token>
+	  <token regexp='yes'>eles|elas|vocês</token>
 	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
 	  <token postag='VM[CIS][CFIMPS][12]P0|VM[CIS][CFIMPS][123]S0' postag_regexp='yes'>
 	  <exception postag='VM[CIS][CFIMPS]3P0' postag_regexp='yes'></exception></token>
@@ -223,15 +301,32 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	 </pattern>
 	 <message>Erro de concordância verbal.</message>
 	 <url>http://www.infoescola.com/portugues/concordancia-verbal/</url>
-	 <example correction=''><marker>Eles passeia</marker> na praia.</example>
+	 <example type="incorrect">Eles e <marker>elas passeamos</marker> na praia.</example>
+	 <example type="correct">Eles e elas passeiam na praia.</example>
 	</rule>
 
-	
-	
-<!-- TIAGO F. SANTOS *END* -->
-<!-- ********************* -->
-<!-- ********************* -->
+     <!-- Concordance error person - They + Verb -->
+     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
+	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_3P-2" name="Erro de concordância do número do verbo">
+	 <pattern>
+	  <marker>
+	  <token postag_regexp='yes' postag='NC[MF][SP]000'></token>
+	  <token regexp='yes'>e|ou</token>
+	  <token postag_regexp='yes' postag='NC[MF][SP]000'></token>
+	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
+	  <token postag='VM[CIS][CFIMPS][12]P0|VM[CIS][CFIMPS][123]S0' postag_regexp='yes'>
+	  <exception postag='VM[CIS][CFIMPS]3P0' postag_regexp='yes'></exception></token>
+	  </marker>
+	 </pattern>
+	 <message>Erro de concordância verbal.</message>
+	 <url>http://books.scielo.org/id/67y3k/pdf/lobo-9788523212308-15.pdf</url>
+	 <example type="incorrect"><marker>Cãe e gato é</marker> animais.</example>
+	 <example type="correct">Cão e gato são animais.</example>
+	</rule>
 
+
+<!--          Tiago F. Santos Rules Ending          ****END**** -->
+<!-- ********************************************************** -->
 
 
     <!-- Concordance error plural - QUALQUER + PLURAL -->
