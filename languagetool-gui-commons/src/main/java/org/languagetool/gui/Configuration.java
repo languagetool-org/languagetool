@@ -98,8 +98,7 @@ public class Configuration {
     this(baseDir, CONFIG_FILE, lang);
   }
 
-  public Configuration(File baseDir, String filename, Language lang)
-      throws IOException {
+  public Configuration(File baseDir, String filename, Language lang) throws IOException {
     if (!baseDir.isDirectory()) {
       throw new IllegalArgumentException("Not a directory: " + baseDir);
     }
