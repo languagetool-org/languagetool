@@ -12457,24 +12457,39 @@ though, and has since been slightly modified)-->
       <example correction="">J’ai <marker>trop beaucoup</marker> de travail.</example>
       <example>J’ai trop de travail.</example>
     </rule>
-    <rule id="EST_CE_QUE" name="Est-ce que">
-      <pattern>
-        <token postag="SENT_START"/>
-        <marker>
-          <token>est</token>
-          <token>ce</token>
+    <rulegroup id="EST_CE_QUE" name="Est-ce que">
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <marker>
+            <token>est</token>
+            <token>ce</token>
+          </marker>
           <token regexp="yes">que?</token>
-        </marker>
-      </pattern>
-      <message>Voulez-vous dire <suggestion>\2-\3 \4</suggestion> ?</message>
-      <example correction="Est-ce que"><marker>Est ce que</marker> tu viens ?</example>
-      <example>Est-ce que tu viens ?</example>
-      <example correction="Est-ce qu"><marker>Est ce qu</marker>’ils viennent ?</example>
-      <example>Est-ce qu’ils viennent ?</example>
-      <example>C’est ce que je dis.</example>
-      <example>Il est ce que j’appelle un champion.</example>
-      <example>Discuter est ce qu’elle fait le mieux.</example>
-    </rule>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\2-\3</suggestion> ?</message>
+        <example correction="Est-ce"><marker>Est ce</marker> que tu viens ?</example>
+        <example>Est-ce que tu viens ?</example>
+        <example correction="Est-ce"><marker>Est ce</marker> qu’ils viennent ?</example>
+        <example>Est-ce qu’ils viennent ?</example>
+        <example>C’est ce que je dis.</example>
+        <example>Il est ce que j’appelle un champion.</example>
+        <example>Discuter est ce qu’elle fait le mieux.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>qu</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <marker>
+            <token>est</token>
+            <token>ce</token>
+          </marker>
+          <token regexp="yes">que?</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\3-\4</suggestion> ?</message>
+        <example correction="est-ce">Qu’<marker>est ce</marker> que tu dis ?</example>
+      </rule>
+    </rulegroup>
     <rule id="N_EST_CE_PAS" name="n’est-ce pas">
       <pattern>
         <token>n</token>
