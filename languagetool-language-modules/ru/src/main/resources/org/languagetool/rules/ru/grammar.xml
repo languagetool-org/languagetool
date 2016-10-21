@@ -2409,8 +2409,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>  <!--  да=и   -->
                 <pattern>
                     <token>да</token>
-                    <token skip="2" ></token>
-                    <token>да<exception scope="previous"  >,</exception></token>
+                    <token skip="2" ><exception scope="next" regexp="yes">[,и]</exception></token>
+                    <token>да<exception scope="previous" regexp="yes">[,и]</exception></token>
                     <token regexp="yes" negate="yes">,</token>
                 </pattern>
               <message>Пропущена запятая:<suggestion><match no="1" include_skipped="all"/> <match no="2" include_skipped="all" />, <match no="3" include_skipped="all"/> <match no="4" include_skipped="all"/></suggestion>.</message>
