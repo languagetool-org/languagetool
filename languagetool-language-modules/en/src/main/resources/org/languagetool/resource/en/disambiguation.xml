@@ -4146,4 +4146,34 @@
       </pattern>
       <disambig action="immunize"/>
     </rule>
+    <rule name="Ignore spelling of NNP (mid and end sentence)" id="IGNORE_SPELLING_OF_NNP"><!-- https://github.com/languagetool-org/languagetool/issues/568 -->
+      <pattern case_sensitive="yes">
+        <token regexp="yes">[A-Za-z]+</token>
+        <marker>
+          <token postag="NNP" regexp="yes">[A-Z][a-z]+</token><!-- Do not include letters with circumflex and other marks, because they are not standard English. Thus, the spelling rule will suggest Jerome for Jérôme. -->
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+<!-- For action="ignore_spelling", it is not possible to use example sentences that testrules validates.
+Find. The hoopes are defective.
+Find. Hoopes, loops, and other types of coil are used in this test.
+Find. According to the ISO standard, 'Hoopes, coils, and other types of loop' are not permitted.
+Find. These coils, Hoopes, and other types of loops are satisfactory.
+Find. Get these items: 
+	* Hoopes
+	* Loops
+	* Coils.
+Find. Get these items: 1) Hoopes 2) Loops 3) Coils.
+Ignore spelling. "Ah! I'm dying," said Pierrette, falling to her knees.
+Ignore spelling. "Ah, this is my idiot son Takashi."
+Ignore spelling. You are to appear in the Los Angeles Courthouse promptly at ...
+Ignore spelling. "Does he live with a princess?" asked Gerda.
+Ignore spelling. Is the average Dalek dangerous?
+False positive. Hoopes, Loops, and Coils wrote the definitive book on this topic, and became the first people to...
+False positive. Zelda told me to tell you to go away.
+False positive. Geez is a Semitic language that was spoken in Ethiopia.
+False positive. Many authors, for example, Hoopes, Jones, and Smith, show that the...
+False negative. Make sure that there are no Hoopes or Loops in the rope. [The real problem is incorrect capitalization.]
+-->
+    </rule>
 </rules>
