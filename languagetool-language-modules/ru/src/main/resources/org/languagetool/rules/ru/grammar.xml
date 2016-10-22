@@ -36,6 +36,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY dual "урока|брата|сына|cапога|курса|помощника|фактора|языка|парня|закона|сестры|жены|угла|дня|вопроса|звезды|телефона|любовника|зуба|переводчика|господина|типа|участка|фильма|яблока|вида|прогноза|вектора|села|представителя|вдоха|человека|корабля|спутника|пчелы|шара|билета|ответа|брака|канала|лицея|соседа|ресторана|скворечника|часа|вкуса|кабеля|вулкана|хребта|гиганта|варианта|пресса|обеда|рода|стула|взноса|слезы|приступа|отца|экзамена|стекла|игрока|писаки|военных|этапа|причины|коллеги|вагин|героя|друга|вождя|паек|телеканала|коридора|терминала|Венеры|маршрута|храма|юл|олушей|бедра|дубов|художника|полка|лозунга|законопроекта|органа|блока|заказника|банка|изолятора|департамента|говора|района|порта|символа|брокера|парка|стола|магазина"> <!-- два,двое,пара -->
 <!ENTITY prep_v "институте|кино|Крым|Крыму|мастерской|спортзале|театре|техникуме|университете|цехе|цирке|школе|экспедицию"> <!-- words that require 'в' instead of 'на' as a preposition -->
 <!ENTITY prep_na "балет|заводе|Кавказ|концерт|почте|фабрике|факультете"> <!-- words that require 'на' instead of 'в' as a preposition -->
+<!ENTITY start_vvodnoe "по-видимому|по-моему|по-твоему|впрочем|итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых|к|видишь|понимаешь|конечно|несомненно|вероятно|может|кажется|однако|одним|несмотря"> <!-- First words for exceptions in other rules!!! -->
 <!ENTITY missing_yo "жилье|белье|битье|щеткой|стерней|сырье|ружье|фоторужье|копье|чутье|офицерье|рытье|цевье|острие|вранье|дутье|нытье|звезды">
 ]>
 <!-- «» -->
@@ -2958,10 +2959,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="не кто иной, как">Был это <marker>не кто иной как</marker> наш мастер.</example>
             </rule>
         </rulegroup>
-        
-        
-        
-        
+  
         <rulegroup default="off" id="PREDLOGI_KROME" name="Дополнения, вводимые предлогами: «кроме», ...">
             <!--Дополнения, вводимые предлогами: кроме, помимо, вместо, сверх, за исключением
             -->
@@ -3134,6 +3132,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>чтобы</token>
                         <token>,</token>
                     </marker>
+                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны:<suggestion>\2 \3 \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3151,6 +3150,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>как</token>
                         <token>,</token>
                     </marker>
+                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны:<suggestion>\2 \3 \4 \5</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3167,6 +3167,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>как</token>
                         <token>,</token>
                     </marker>
+                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны:<suggestion>\2 \3 \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3184,6 +3185,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>как</token>
                         <token>,</token>
                     </marker>
+                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны:<suggestion>\2 \3 \4 \5</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3201,6 +3203,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>как</token>
                         <token>,</token>
                     </marker>
+                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны:<suggestion>\2 \3 \4 \5</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3217,6 +3220,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>как</token>
                         <token>,</token>
                     </marker>
+                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны:<suggestion>\2 \3 \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3233,6 +3237,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>что</token>
                         <token>,</token>
                     </marker>
+                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
                 </pattern>
                 <message>Выражение не является вводным. Запятые не нужны:<suggestion>\2 \3 \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3247,6 +3252,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">Причем|Причём</token>
                         <token>,</token>
                     </marker>
+                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
                 </pattern>
                 <message>Слово не является вводным. Запятые не нужны:<suggestion>\2</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3254,7 +3260,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Причём я вздремнул.</example>
                 <example correction="Причем"><marker>Причем,</marker>я вздремнул.</example>
             </rule>
-  <!--      <rule>
+            <rule>
                 <pattern> 
                     <token postag="SENT_START"></token>
                     <marker>
@@ -3263,7 +3269,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>менее</token>
                         <token>,</token>
                     </marker>
-                    <token negate="yes">несмотря</token>
+                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
                 </pattern>
                 <message>Слово не является вводным. Запятые не нужны:<suggestion>\2 \3 \4</suggestion>.</message>
                 <url>http://aprikablog.com/2013/10/tem-ne-menee/</url>
@@ -3271,7 +3277,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Тем не менее я вздремнул.</example>
                 <example>Тем не менее, несмотря на указанные сложности, ремонт оказался завершён.</example>
                 <example correction="Тем не менее"><marker>Тем не менее,</marker>я вздремнул.</example>
-            </rule>  -->
+            </rule>
         </rulegroup>
         <rulegroup default="off" id="COMPLEX_SOUZ_PUNCT" name="Зяпятые в сложных союзах">
             <rule>
