@@ -499,6 +499,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="болотный газ">Из воды выходил <marker>болотистый газ</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="budniy_budnichnij" name="Логические ошибки «будний/будничный»">         
+            <rule> 
+                <pattern>
+                   <token inflected="yes">будний</token>
+                   <token inflected="yes" regexp="yes">костюм|одежда</token>
+                </pattern>
+                <message>Имелось в виду:«будничный»?</message>
+                <short>«Будничный»?</short>
+                <example type="incorrect"><marker>будний костюм</marker></example>
+                <example type="incorrect"><marker>будняя одежда</marker></example>
+            </rule>
+            <rule> 
+                <pattern>
+                   <token inflected="yes">будничный</token>
+                   <token inflected="yes" >день</token>
+                </pattern>
+                <message>Имелось в виду:«будний»?</message>
+                <short>«Будний»?</short>
+                <example type="incorrect"><marker>будничный день</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="vlasti_priderjashie" name="Логические ошибки «власти предержащие»">
             <rule> 
                 <pattern>
