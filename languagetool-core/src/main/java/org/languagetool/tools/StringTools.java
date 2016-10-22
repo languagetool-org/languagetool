@@ -38,25 +38,25 @@ public final class StringTools {
   /**
    * Constants for printing XML rule matches.
    */
-  public enum XmlPrintMode {
+  public enum ApiPrintMode {
     /**
      * Normally output the rule matches by starting and
-     * ending the XML output on every call.
+     * ending the XML/JSON output on every call.
      */
-    NORMAL_XML,
+    NORMAL_API,
     /**
-     * Start XML output by printing the preamble and the
+     * Start XML/JSON output by printing the preamble and the
      * start of the root element.
      */
-    START_XML,
+    START_API,
     /**
-     * End XML output by closing the root element.
+     * End XML/JSON output by closing the root element.
      */
-    END_XML,
+    END_API,
     /**
      * Simply continue rule match output.
      */
-    CONTINUE_XML
+    CONTINUE_API
   }
 
   private static final Pattern XML_COMMENT_PATTERN = Pattern.compile("<!--.*?-->", Pattern.DOTALL);

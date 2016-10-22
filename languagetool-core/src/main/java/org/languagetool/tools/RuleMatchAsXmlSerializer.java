@@ -171,16 +171,16 @@ public class RuleMatchAsXmlSerializer {
    * @param unknownWords unknown words to be printed in a separated list
    * @since 3.0
    */
-  public String ruleMatchesToXml(List<RuleMatch> ruleMatches, String text, int contextSize, XmlPrintMode xmlMode, Language lang, List<String> unknownWords) {
+  public String ruleMatchesToXml(List<RuleMatch> ruleMatches, String text, int contextSize, ApiPrintMode xmlMode, Language lang, List<String> unknownWords) {
     String xmlSnippet = ruleMatchesToXmlSnippet(ruleMatches, text, contextSize);
     switch (xmlMode) {
-      case START_XML:
+      case START_API:
         return getXmlStart(lang, null) + xmlSnippet;
-      case CONTINUE_XML:
+      case CONTINUE_API:
         return xmlSnippet;
-      case END_XML:
+      case END_API:
         return xmlSnippet + getXmlUnknownWords(unknownWords) + getXmlEnd();
-      case NORMAL_XML:
+      case NORMAL_API:
         return getXmlStart(lang, null) + xmlSnippet + getXmlUnknownWords(unknownWords) + getXmlEnd();
     }
     throw new IllegalArgumentException("Unknown XML mode: " + xmlMode);

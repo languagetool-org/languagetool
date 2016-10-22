@@ -24,6 +24,7 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
+import org.languagetool.tools.RuleMatchesAsJsonSerializer;
 
 import java.util.*;
 
