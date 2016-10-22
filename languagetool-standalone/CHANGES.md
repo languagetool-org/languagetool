@@ -6,6 +6,9 @@
   * added and improved rules
   * the en-US and en-CA spelling dictionaries have been updated
     to the latest version from http://wordlist.aspell.net (2016.06.26)
+  * The Australian English (en-AU) spelling dictionary has been updated to the
+    latest version from http://extensions.libreoffice.org/extension-center/english-dictionaries
+    (2016-03-14 according to that page)
 
 #### French
   * upgraded dictionaries to Dicollecte-5.7
