@@ -2,6 +2,9 @@
 
 ## 3.6 (release planned for 2016-12-28)
 
+#### Catalan
+  * added and improved rules
+
 #### English
   * added and improved rules
   * The American and Canadian English (en-US, en-CA) spelling dictionaries have
@@ -11,6 +14,7 @@
     (2016-03-14 according to that page)
 
 #### French
+  * added and improved rules
   * upgraded dictionaries to Dicollecte-5.7
 
 #### German
@@ -20,7 +24,10 @@
     Julian von Heyl of http://korrekturen.de - many entries have been fixed and
     added. Technically, the new data has its own Maven and git project now
     (https://github.com/languagetool-org/german-pos-dict)
-  
+
+#### Portuguese
+  * added and improved many rules
+
 #### Russian
   * added/improved several rules
 
