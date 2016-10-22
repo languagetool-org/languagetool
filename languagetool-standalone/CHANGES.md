@@ -26,6 +26,11 @@
    https://languagetool.org/http-api/migration.php - it
    now returns a pseudo error pointing to the migration page
 
+#### Command-line
+  * Added a `--json` option as an alternative to `--api` (deprecated XML output)
+    See https://languagetool.org/http-api/swagger-ui/#/default
+    for a documentation of the new API.
+
 
 ## 3.5 (2016-09-30)
 
