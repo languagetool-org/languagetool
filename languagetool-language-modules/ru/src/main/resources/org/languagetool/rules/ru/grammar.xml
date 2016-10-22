@@ -2052,7 +2052,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     	</rule>
         <rulegroup default="on" id="Prep_i" name="Пропущена запятая перед предлогом «и»/«как» в сложном предложении">
             <rule>
-                 <!--           NN:.*   VB:.*    и      NN:.*   VB:.*       TODO: Need improve    -->     
+            <!--             VB:.*   NN:.*   и      VB:.*   NN:.*     -->
                 <antipattern>
                     <token postag="PNN:.*" postag_regexp="yes" skip="-1"></token>
                     <token postag="VB:.*" postag_regexp="yes" skip="-1"></token>
@@ -2083,9 +2083,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Нам пришлось уменьшить шаг сканирования и увеличить размер в настройках.</example>
                 <example>Мой отец и мой брат.</example>
                 <example correction="Пролетели года, и настало время"><marker>Пролетели года и настало время</marker>.</example>
-            </rule>        
+            </rule>
             <rule>
-                    <!--             VB:.*   NN:.*   и      VB:.*   NN:.*     -->
+            <!--             VB:.*   NN:.*   и       NN:.*  VB:.*     -->
+                <antipattern>
+                    <token postag="PNN:.*" postag_regexp="yes" skip="-1"></token>
+                    <token postag="VB:.*" postag_regexp="yes" skip="-1"></token>
+                    <marker>
+                        <token postag="VB:.*" postag_regexp="yes" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*:.*:Nom" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]</exception><exception scope="previous" regexp="yes">я|он|она|мы|вы|ты|</exception></token>           
+                        <token postag="NN:.*:.*:Nom" postag_regexp="yes" skip="-1"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="next">,|-</exception></token>
+                        <token regexp="yes" skip="-1">и|как<exception regexp="yes" scope="next">[,;-]</exception></token>
+                        <token postag="NN:.*:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception></token>           
+                        <token postag="VB:.*" postag_regexp="yes"  skip="-1" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="next">[,;-]</exception></token>
+                    </marker>
+                    <token regexp="yes">[\p{Punct}]<exception>:</exception></token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="VB:.*" postag_regexp="yes" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*:.*:Nom" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]</exception><exception scope="previous" regexp="yes">я|он|она|мы|вы|ты|нам|вам</exception></token>           
+                        <token postag="NN:.*:.*:Nom" postag_regexp="yes" skip="-1"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="next">,|-</exception></token>
+                        <token regexp="yes" skip="-1">и|как<exception regexp="yes" scope="next">[,;-]</exception></token>
+                        <token postag="NN:.*:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception></token>           
+                        <token postag="VB:.*" postag_regexp="yes"  skip="-1" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="next">[,;-]</exception></token>   
+                    </marker>
+                    <token regexp="yes">[\p{Punct}]<exception>:</exception></token>
+                </pattern>
+                <message>Пропущена запятая перед предлогом: <suggestion><match no="1"/> <match no="2" include_skipped="all"/>, <match no="3" include_skipped="all"/> <match no="4"/> <match no="5" include_skipped="none"/></suggestion></message>
+                <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D0%BE%D1%87%D0%B8%D0%BD%D1%91%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5</url>
+                <short>Пропущена запятая в сложном предложении.</short>
+                <example>Пролетели года, и время настало.</example>
+                <example>Могу ли я уточнить время и место нашей встречи?</example>
+                <example>Нам пришлось уменьшить шаг сканирования и увеличить размер в настройках.</example>
+                <example>Мой отец и брат мой.</example>
+                <example correction="Пролетели года, и время настало"><marker>Пролетели года и время настало</marker>.</example>
+            </rule>                
+            <rule>
+            <!--           NN:.*   VB:.*    и      NN:.*   VB:.*     -->    
                 <antipattern>
                     <token postag="VB:.*" postag_regexp="yes" skip="-1"></token>
                     <token postag="PNN:.*" postag_regexp="yes" skip="-1"></token>
@@ -2116,10 +2149,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Года пролетели, и время настало"><marker>Года пролетели и время настало</marker>.</example>
                 <example correction="Парень понял, как мальчик сделал"><marker>Парень понял как мальчик сделал</marker> эту модель.</example>
                 <example correction="Мама мыла раму, и дочка готовила">
-                    <marker>Мама мыла раму и дочка готовила</marker> обед.</example>
+                <marker>Мама мыла раму и дочка готовила</marker> обед.</example>
+            </rule>
+            <rule>
+            <!--           NN:.*   VB:.*  и    VB:.*   NN:.*  -->    
+                <antipattern>
+                    <token postag="VB:.*" postag_regexp="yes" skip="-1"></token>
+                    <token postag="PNN:.*" postag_regexp="yes" skip="-1"></token>
+                     <marker>
+                        <token postag="NN:.*:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]</exception></token>           
+                        <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception  regexp="yes" scope="next">,|-</exception></token>
+                        <token regexp="yes" skip="-1">и|как<exception regexp="yes" scope="next">[,;-]</exception></token>
+                        <token postag="VB:.*" postag_regexp="yes" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception></token>           
+                        <token postag="NN:.*:.*:Nom" postag_regexp="yes"  skip="-1"  ><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="next">[,;-]</exception></token>
+                    </marker>
+                    <token regexp="yes">[\p{Punct}]<exception>:</exception></token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="NN:.*:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]</exception></token>           
+                        <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception  regexp="yes" scope="next">,|-</exception></token>
+                        <token regexp="yes" skip="-1">и|как<exception regexp="yes" scope="next">[,;-]</exception></token>
+                        <token postag="VB:.*" postag_regexp="yes" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception></token>           
+                        <token postag="NN:.*:.*:Nom" postag_regexp="yes"  skip="-1"  ><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="next">[,;-]</exception></token>
+                    </marker>
+                    <token regexp="yes">[\p{Punct}]<exception>:</exception></token>
+                </pattern>
+                <message>Пропущена запятая перед предлогом: <suggestion><match no="1"/> <match no="2" include_skipped="all"/>, <match no="3" include_skipped="all"/> <match no="4"/> <match no="5" include_skipped="none"/></suggestion></message>
+                <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D0%BE%D1%87%D0%B8%D0%BD%D1%91%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5</url>
+                <short>Пропущена запятая в сложном предложении.</short>
+                <example>Года пролетели, и настало время.</example>
+                <example>Его тропы создавали русла рек и ручьёв, и, в конце концов, залила вода всю землю.</example>
+                <example correction="Года пролетели, и настало время"><marker>Года пролетели и настало время</marker>.</example>
+                <example correction="Парень понял, как сделал мальчик"><marker>Парень понял как сделал мальчик</marker> эту модель.</example>
+                <example correction="Мама мыла раму, и готовила дочка"><marker>Мама мыла раму и готовила дочка</marker> обед.</example>
             </rule>        
-        </rulegroup>        
-        
+        </rulegroup>             
         <rulegroup  id="Kogda_to1" name="Знаки препинания в сложном предложении «Когда ... , то ему ...»">
             <rule>  <!-- Когда человек хочет что-то получить, то ему надо чем-то пожертвовать. -->
                 <pattern>
