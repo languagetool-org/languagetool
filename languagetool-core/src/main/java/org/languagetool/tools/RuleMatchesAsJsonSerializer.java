@@ -35,7 +35,7 @@ import java.util.List;
 
 /**
  * Write rule matches and some meta information as JSON.
- * @since 3.4
+ * @since 3.4, public since 3.6
  */
 public class RuleMatchesAsJsonSerializer {
 
@@ -47,7 +47,7 @@ public class RuleMatchesAsJsonSerializer {
   
   public String ruleMatchesToJson(List<RuleMatch> matches, String text, int contextSize, Language lang, Language motherTongue) {
     ContextTools contextTools = new ContextTools();
-    contextTools.setEscapeHtml(false); 
+    contextTools.setEscapeHtml(false);
     contextTools.setContextSize(contextSize);
     contextTools.setErrorMarkerStart(START_MARKER);
     contextTools.setErrorMarkerEnd("");

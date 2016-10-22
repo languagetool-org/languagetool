@@ -60,8 +60,6 @@ public class CommandLineParser {
         options.setRecursive(true);
       } else if (args[i].equals("-b2") || args[i].equals("--bitext")) {
         options.setBitext(true);
-        
-        
       } else if (args[i].equals("-eo") || args[i].equals("--enabledonly")) {
         if (options.getDisabledRules().size() > 0) {
           throw new IllegalArgumentException("You cannot specify both disabled rules and enabledonly");
@@ -123,10 +121,10 @@ public class CommandLineParser {
           throw new IllegalArgumentException("JSON output format is not implemented for \"line by line\" analysis");
         }
         if (options.isBitext()) {
-          throw new IllegalArgumentException("JSON output format is not implemented for Bitext.");
+          throw new IllegalArgumentException("JSON output format is not implemented for Bitext");
         }
         if (options.isListUnknown()) {
-          throw new IllegalArgumentException("You cannot list unkown words in JSON output format.");
+          throw new IllegalArgumentException("You cannot list unknown words in JSON output format");
         }
       } else if (args[i].equals("--api")) {
         options.setXmlFormat();

@@ -32,6 +32,7 @@ public class CommandLineOptions {
   
   /**
    * Constants for rule matches output in command-line.
+   * @since 3.6
    */
   public enum OutputFormat {
     PLAINTEXT,
