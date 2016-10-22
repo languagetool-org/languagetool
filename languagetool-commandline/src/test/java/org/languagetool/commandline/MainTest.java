@@ -292,6 +292,22 @@ public class MainTest extends AbstractSecurityTestCase {
         "replacements=\"is\" context=\"....  This is a test of of language tool.  This is is a test of language tool. \"" +
         " contextoffset=\"48\" offset=\"60\" errorlength=\"5\" category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"duplication\"/>"));
   }
+  
+  @Test
+  public void testEnglishStdInJsonOutput() throws Exception {
+    System.setIn(new FileInputStream(enTestFile));
+    String[] args = {"-l", "en", "--json", "-"};
+
+    Main.main(args);
+    String output = new String(this.out.toByteArray());
+    assertTrue("Got: " + output, output.contains("\"matches\":[{\"message\":\"Use \\\"a\\\" instead of 'an' if the following word doesn't start with a vowel " + 
+      "sound, e.g. 'a sentence', 'a university'\",\"shortMessage\":\"Wrong article\",\"replacements\":[{\"value\":\"a\"}],\"offset\":8,\"length\":2,\"context\":" + 
+      "{\"text\":\"This is an test.  This is a test of of language tool.  ...\",\"offset\":8,\"length\":2},\"rule\":{\"id\":\"EN_A_VS_AN\",\"description\":\"Use of " + 
+      "'a' vs. 'an'\",\"issueType\":\"misspelling\",\"category\":{\"id\":\"MISC\",\"name\":\"Miscellaneous\"}}},{\"message\":\"Possible typo: you repeated a word\","));
+    assertTrue("Doesn't display Time", !output.contains("Time: "));
+    assertTrue("Json start check",output.startsWith("{\"software\":{\"name\":\"LanguageTool\",\"version\":"));
+    assertTrue("Json end check",output.endsWith("}]}"));
+  }
 
   //test line mode vs. para mode
   //first line mode

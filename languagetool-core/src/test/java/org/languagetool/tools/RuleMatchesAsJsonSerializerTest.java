@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.server;
+package org.languagetool.tools;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
@@ -25,6 +25,7 @@ import org.languagetool.Languages;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tools.RuleMatchesAsJsonSerializer;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -43,13 +44,13 @@ public class RuleMatchesAsJsonSerializerTest {
 
   @Test
   public void testJson() {
-    String json = serializer.ruleMatchesToJson(matches, "This is an text.", 5, Languages.getLanguageForShortName("en"), null);
+    String json = serializer.ruleMatchesToJson(matches, "This is an text.", 5, Languages.getLanguageForShortName("xx-XX"), null);
     // Software:
     assertTrue(json.contains("\"LanguageTool\""));
     assertTrue(json.contains(JLanguageTool.VERSION));
     // Language:
-    assertTrue(json.contains("\"English\""));
-    assertTrue(json.contains("\"en\""));
+    assertTrue(json.contains("\"Testlanguage\""));
+    assertTrue(json.contains("\"xx-XX\""));
     // Matches:
     assertTrue(json.contains("\"My Message, use \\\"foo\\\" instead\""));
     assertTrue(json.contains("\"My rule description\""));
@@ -62,13 +63,13 @@ public class RuleMatchesAsJsonSerializerTest {
   
   @Test
   public void testJsonWithUnixLinebreak() {
-    String json = serializer.ruleMatchesToJson(matches, "This\nis an text.", 5, Languages.getLanguageForShortName("en"), null);
+    String json = serializer.ruleMatchesToJson(matches, "This\nis an text.", 5, Languages.getLanguageForShortName("xx-XX"), null);
     assertTrue(json.contains("This is ..."));  // got filtered out by ContextTools
   }
   
   @Test
   public void testJsonWithWindowsLinebreak() {
-    String json = serializer.ruleMatchesToJson(matches, "This\ris an text.", 5, Languages.getLanguageForShortName("en"), null);
+    String json = serializer.ruleMatchesToJson(matches, "This\ris an text.", 5, Languages.getLanguageForShortName("xx-XX"), null);
     assertTrue(json.contains("This\\ris ..."));
   }
   

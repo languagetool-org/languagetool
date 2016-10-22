@@ -1,3 +1,5 @@
+[Source: http://extensions.openoffice.org/en/project/english-dictionaries-apache-openoffice]
+
 English (Australian) Dictionary for OpenOffice.org
 
 This dictionary was based on the Australian English Dictionary 
@@ -7,8 +9,9 @@ the en_GB Myspell dictionary which in turn was initially based on
 a subset of the original English wordlist created by Kevin Atkinson 
 for Pspell and Aspell (also initially licensed under the LGPL.) 
 
-Cameron Roy made some improvements and packaged the improved 
-dictionary for the Australian Dictionary Firefox extension. 
+Cameron Roy made some improvements, described in the changelog.txt  
+file, and packaged the improved  dictionary for the Australian 
+Dictionary Firefox extension. 
 
 David Wilson packaged Cameron Roy's Firefox dictionary into this 
 OpenOffice.org extension: dict-en-au.oxt. 
@@ -36,6 +39,7 @@ The Free Software Foundation, Inc.,
 I can be contacted via email: en-au-dictionary [at] justcameron [period] com
 
 This dictionary was based on the Australian English Dictionary available from http://lingucomponent.openoffice.org/spell_dic.html (Licensed under the LGPL.) In turn, that dictionary was based on the en_GB Myspell dictionary which in turn was initially based on a subset of the original English wordlist created by Kevin Atkinson for Pspell and Aspell (also initially licensed under the LGPL.) 
+For more info, see changelog.txt
 
 Credit to:
 Kevin Atkinson

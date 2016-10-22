@@ -1,16 +1,96 @@
+en_CA Hunspell Dictionary
+Version 2016.06.26
+Sun Jun 26 23:05:32 2016 -0400 [8b0808b]
+http://wordlist.sourceforge.net
+
+README file for English Hunspell dictionaries derived from SCOWL.
+
+These dictionaries are created using the speller/make-hunspell-dict
+script in SCOWL.
+
+The following dictionaries are available:
+
+  en_US (American)
+  en_CA (Canadian)
+  en_GB-ise (British with "ise" spelling)
+  en_GB-ize (British with "ize" spelling)
+
+  en_US-large
+  en_CA-large
+  en_GB-large (with both "ise" and "ize" spelling)
+
+The normal (non-large) dictionaries correspond to SCOWL size 60 and,
+to encourage consistent spelling, generally only include one spelling
+variant for a word.  The large dictionaries correspond to SCOWL size
+70 and may include multiple spelling for a word when both variants are
+considered almost equal.  The larger dictionaries however (1) have not
+been as carefully checked for errors as the normal dictionaries and
+thus may contain misspelled or invalid words; and (2) contain
+uncommon, yet valid, words that might cause problems as they are
+likely to be misspellings of more common words (for example, "ort" and
+"calender").
+
+To get an idea of the difference in size, here are 25 random words
+only found in the large dictionary for American English:
+
+  Bermejo Freyr's Guenevere Hatshepsut Nottinghamshire arrestment
+  crassitudes crural dogwatches errorless fetial flaxseeds godroon
+  incretion jalapeño's kelpie kishkes neuroglias pietisms pullulation
+  stemwinder stenoses syce thalassic zees
+
+The en_US and en_CA are the official dictionaries for Hunspell.  The
+en_GB and large dictionaries are made available on an experimental
+basis.  If you find them useful please send me a quick email at
+kevina@gnu.org.
+
+If none of these dictionaries suite you (for example, maybe you want
+the normal dictionary that also includes common variants) additional
+dictionaries can be generated at http://app.aspell.net/create or by
+modifying speller/make-hunspell-dict in SCOWL.  Please do let me know
+if you end up publishing a customized dictionary.
+
+If a word is not found in the dictionary or a word is there you think
+shouldn't be, you can lookup the word up at http://app.aspell.net/lookup
+to help determine why that is.
+
+General comments on these list can be sent directly to me at
+kevina@gnu.org or to the wordlist-devel mailing lists
+(https://lists.sourceforge.net/lists/listinfo/wordlist-devel).  If you
+have specific issues with any of these dictionaries please file a bug
+report at https://github.com/kevina/wordlist/issues.
+
+IMPORTANT CHANGES INTRODUCED IN 2015.04.24:
+
+The dictionaries are now in UTF-8 format instead of ISO-8859-1.  This
+was required to handle smart quotes correctly.
+
+IMPORTANT CHANGES INTRODUCED IN 2016.01.19:
+
+"SET UTF8" was changes to "SET UTF-8" in the affix file as some
+versions of Hunspell do not recognize "UTF8".
+
+ADDITIONAL NOTES:
+
+The NOSUGGEST flag was added to certain taboo words.  While I made an
+honest attempt to flag the strongest taboo words with the NOSUGGEST
+flag, I MAKE NO GUARANTEE THAT I FLAGGED EVERY POSSIBLE TABOO WORD.
+The list was originally derived from Németh László, however I removed
+some words which, while being considered taboo by some dictionaries,
+are not really considered swear words in today's society.
+
 COPYRIGHT, SOURCES, and CREDITS:
 
-The en_US and en_CA dictionaries come directly from SCOWL (up to level
-60) and is thus under the same copyright of SCOWL.  The affix file is
+The English dictionaries come directly from SCOWL 
+and is thus under the same copyright of SCOWL.  The affix file is
 a heavily modified version of the original english.aff file which was
 released as part of Geoff Kuenning's Ispell and as such is covered by
 his BSD license.  Part of SCOWL is also based on Ispell thus the
 Ispell copyright is included with the SCOWL copyright.
 
-The collective work is Copyright 2000-2007 by Kevin Atkinson as well
+The collective work is Copyright 2000-2015 by Kevin Atkinson as well
 as any of the copyrights mentioned below:
 
-  Copyright 2000-2007 by Kevin Atkinson
+  Copyright 2000-2015 by Kevin Atkinson
 
   Permission to use, copy, modify, distribute and sell these word
   lists, the associated scripts, the output created from the scripts,
@@ -121,7 +201,7 @@ The 40 level includes words from Alan's 3esl list found in version 4.0
 of his 12dicts package.  Like his other stuff the 3esl list is also in the
 public domain.
 
-The 50 level includes Brian's frequency class 1, words words appearing
+The 50 level includes Brian's frequency class 1, words appearing
 in at least 5 of 12 of the dictionaries as indicated in the 12Dicts
 package, and uppercase words in at least 4 of the previous 12
 dictionaries.  A decent number of proper names is also included: The
@@ -143,20 +223,18 @@ The 55 level includes words from Alan's 2of4brif list found in version
 4.0 of his 12dicts package.  Like his other stuff the 2of4brif is also
 in the public domain.
 
-The 60 level includes Brian's frequency class 0 and all words
-appearing in at least 2 of the 12 dictionaries as indicated by the
-12Dicts package.  A large number of names are also included: The 4,946
-female names and the 3,897 male names from the MWords package.
+The 60 level includes all words appearing in at least 2 of the 12
+dictionaries as indicated by the 12Dicts package.
 
-The 70 level includes the 74,550 common dictionary words and the
-21,986 names list from the MWords package The common dictionary words,
+The 70 level includes Brian's frequency class 0 and the 74,550 common
+dictionary words from the MWords package.  The common dictionary words,
 like those from the 12Dicts package, have had all likely inflections
 added.  The 70 level also included the 5desk list from version 4.0 of
-the 12Dics package which is the public domain
+the 12Dics package which is in the public domain.
 
 The 80 level includes the ENABLE word list, all the lists in the
 ENABLE supplement package (except for ABLE), the "UK Advanced Cryptics
-Dictionary" (UKACD), the list of signature words in from YAWL package,
+Dictionary" (UKACD), the list of signature words from the YAWL package,
 and the 10,196 places list from the MWords package.
 
 The ENABLE package, mainted by M\Cooper <thegrendel@theriver.com>,
@@ -192,17 +270,18 @@ following copyright:
   There are no other restrictions: I would like to see the list
   distributed as widely as possible.
 
-The 95 level includes the 354,984 single words and 256,772 compound
-words from the MWords package, ABLE.LST from the ENABLE Supplement,
-and some additional words found in my part-of-speech database that
-were not found anywhere else.
+The 95 level includes the 354,984 single words, 256,772 compound
+words, 4,946 female names and the 3,897 male names, and 21,986 names
+from the MWords package, ABLE.LST from the ENABLE Supplement, and some
+additional words found in my part-of-speech database that were not
+found anywhere else.
 
 Accent information was taken from UKACD.
 
 My VARCON package was used to create the American, British, and
 Canadian word list. 
 
-Since the original word lists used used in the VARCON package came
+Since the original word lists used in the VARCON package came
 from the Ispell distribution they are under the Ispell copyright:
 
   Copyright 1993, Geoff Kuenning, Granada Hills, CA
@@ -238,3 +317,6 @@ from the Ispell distribution they are under the Ispell copyright:
   LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
   ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
   POSSIBILITY OF SUCH DAMAGE.
+
+Build Date: Sun Jun 26 23:29:14 EDT 2016
+Wordlist Command: mk-list --accents=strip en_CA 60

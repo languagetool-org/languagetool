@@ -30,6 +30,7 @@ import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tools.ContextTools;
 import org.languagetool.tools.RuleMatchAsXmlSerializer;
+import org.languagetool.tools.RuleMatchesAsJsonSerializer;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
@@ -67,17 +68,17 @@ public final class CommandLineTools {
   }
 
   public static int checkText(String contents, JLanguageTool lt) throws IOException {
-    return checkText(contents, lt, false, -1, 0, 0, StringTools.XmlPrintMode.NORMAL_XML, false, Collections.<String>emptyList());
+    return checkText(contents, lt, false, false, -1, 0, 0, StringTools.ApiPrintMode.NORMAL_API, false, Collections.<String>emptyList());
   }
 
   public static int checkText(String contents, JLanguageTool lt,
-                              boolean apiFormat, int lineOffset) throws IOException {
-    return checkText(contents, lt, apiFormat, -1, lineOffset, 0, StringTools.XmlPrintMode.NORMAL_XML, false, Collections.<String>emptyList());
+                              boolean isXmlFormat, boolean isJsonFormat, int lineOffset) throws IOException {
+    return checkText(contents, lt, isXmlFormat, isJsonFormat, -1, lineOffset, 0, StringTools.ApiPrintMode.NORMAL_API, false, Collections.<String>emptyList());
   }
   
   public static int checkText(String contents, JLanguageTool lt,
-          boolean apiFormat, int lineOffset, boolean listUnknownWords) throws IOException {
-    return checkText(contents, lt, apiFormat, -1, lineOffset, 0, StringTools.XmlPrintMode.NORMAL_XML, listUnknownWords, Collections.<String>emptyList());
+          boolean isXmlFormat, boolean isJsonFormat, int lineOffset, boolean listUnknownWords) throws IOException {
+    return checkText(contents, lt, isXmlFormat, isJsonFormat, -1, lineOffset, 0, StringTools.ApiPrintMode.NORMAL_API, listUnknownWords, Collections.<String>emptyList());
 }
 
   /**
@@ -85,16 +86,17 @@ public final class CommandLineTools {
    *
    * @param contents a text to check (may be more than one sentence)
    * @param lt Initialized LanguageTool
-   * @param apiFormat whether to print the result in XML format
+   * @param isXmlFormat whether to print the result in XML format
+   * @param isJsonFormat whether to print the result in JSON format
    * @param contextSize error text context size: -1 for default
    * @param lineOffset line number offset to be added to line numbers in matches
    * @param prevMatches number of previously matched rules
-   * @param xmlMode mode of xml printout for simple xml output
+   * @param apiMode mode of xml/json printout for simple xml/json output
    * @return Number of rule matches to the input text.
    */
   public static int checkText(String contents, JLanguageTool lt,
-                              boolean apiFormat, int contextSize, int lineOffset,
-                              int prevMatches, StringTools.XmlPrintMode xmlMode,
+                              boolean isXmlFormat, boolean isJsonFormat, int contextSize, int lineOffset,
+                              int prevMatches, StringTools.ApiPrintMode apiMode,
                               boolean listUnknownWords, List<String> unknownWords) throws IOException {
     if (contextSize == -1) {
       contextSize = DEFAULT_CONTEXT_SIZE;
@@ -106,42 +108,47 @@ public final class CommandLineTools {
       r.setLine(r.getLine() + lineOffset);
       r.setEndLine(r.getEndLine() + lineOffset);
     }
-    if (apiFormat) {
-      if (listUnknownWords && xmlMode == StringTools.XmlPrintMode.NORMAL_XML) {
+    if (isXmlFormat) {
+      if (listUnknownWords && apiMode == StringTools.ApiPrintMode.NORMAL_API) {
         unknownWords = lt.getUnknownWords();
       }
       RuleMatchAsXmlSerializer serializer = new RuleMatchAsXmlSerializer();
       String xml = serializer.ruleMatchesToXml(ruleMatches, contents,
-              contextSize, xmlMode, lt.getLanguage(), unknownWords);
+              contextSize, apiMode, lt.getLanguage(), unknownWords);
       PrintStream out = new PrintStream(System.out, true, "UTF-8");
       out.print(xml);
+    } else if (isJsonFormat) {
+      RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer();
+      String json = serializer.ruleMatchesToJson(ruleMatches, contents, contextSize, lt.getLanguage(), null);      
+      PrintStream out = new PrintStream(System.out, true, "UTF-8");
+      out.print(json);
     } else {
       printMatches(ruleMatches, prevMatches, contents, contextSize);
     }
 
     //display stats if it's not in a buffered mode
-    if (xmlMode == StringTools.XmlPrintMode.NORMAL_XML) {
+    if (apiMode == StringTools.ApiPrintMode.NORMAL_API && !isJsonFormat) {
       SentenceTokenizer sentenceTokenizer = lt.getLanguage().getSentenceTokenizer();
       int sentenceCount = sentenceTokenizer.tokenize(contents).size();
-      displayTimeStats(startTime, sentenceCount, apiFormat);
+      displayTimeStats(startTime, sentenceCount, isXmlFormat);
     }
     return ruleMatches.size();
   }
 
   private static void displayTimeStats(long startTime,
-                                       long sentCount, boolean apiFormat) {
+                                       long sentCount, boolean isXmlFormat) {
     long endTime = System.currentTimeMillis();
     long time = endTime - startTime;
     float timeInSeconds = time / 1000.0f;
     float sentencesPerSecond = sentCount / timeInSeconds;
-    if (apiFormat) {
+    if (isXmlFormat) {
       System.out.println("<!--");
     }
     System.out.printf(Locale.ENGLISH,
             "Time: %dms for %d sentences (%.1f sentences/sec)", time,
             sentCount, sentencesPerSecond);
     System.out.println();
-    if (apiFormat) {
+    if (isXmlFormat) {
       System.out.println("-->");
     }
   }
@@ -206,7 +213,7 @@ public final class CommandLineTools {
   public static int checkBitext(BitextReader reader,
                                 JLanguageTool srcLt, JLanguageTool trgLt,
                                 List<BitextRule> bRules,
-                                boolean apiFormat) throws IOException {
+                                boolean isXmlFormat) throws IOException {
     long startTime = System.currentTimeMillis();
     int contextSize = DEFAULT_CONTEXT_SIZE;
     List<RuleMatch> ruleMatches = new ArrayList<>();
@@ -214,7 +221,7 @@ public final class CommandLineTools {
     int sentCount = 0;
     RuleMatchAsXmlSerializer serializer = new RuleMatchAsXmlSerializer();
     PrintStream out = new PrintStream(System.out, true, "UTF-8");
-    if (apiFormat) {
+    if (isXmlFormat) {
       out.print(serializer.getXmlStart(null, null));
     }
     for (StringPair srcAndTrg : reader) {
@@ -232,7 +239,7 @@ public final class CommandLineTools {
       }
       ruleMatches.addAll(fixedMatches);
       if (fixedMatches.size() > 0) {
-        if (apiFormat) {
+        if (isXmlFormat) {
           String xml = serializer.ruleMatchesToXmlSnippet(fixedMatches,
                   reader.getCurrentLine(), contextSize);
           out.print(xml);
@@ -243,8 +250,8 @@ public final class CommandLineTools {
       }
       sentCount++;
     }
-    displayTimeStats(startTime, sentCount, apiFormat);
-    if (apiFormat) {
+    displayTimeStats(startTime, sentCount, isXmlFormat);
+    if (isXmlFormat) {
       out.print(serializer.getXmlEnd());
     }
     return ruleMatches.size();

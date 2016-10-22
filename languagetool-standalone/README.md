@@ -255,7 +255,8 @@ Docio based on Freeling and Apertium dictionaries. Both are licensed under GPL.
 #### German
 
 The German data for part-of-speech tagging is taken from Morphy
-(http://www.wolfganglezius.de/doku.php?id=cl:morphy)
+(http://www.wolfganglezius.de/doku.php?id=cl:morphy) with extensions
+and corrections from Julian von Heyl (https://www.korrekturen.de/flexion/)
 under Creative Commons Attribution-Share Alike 4.0.
 
 #### Greek

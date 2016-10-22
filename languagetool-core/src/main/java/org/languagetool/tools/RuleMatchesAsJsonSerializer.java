@@ -16,18 +16,16 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.server;
+package org.languagetool.tools;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
-import org.languagetool.Experimental;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.AbstractPatternRule;
-import org.languagetool.tools.ContextTools;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -35,9 +33,9 @@ import java.util.List;
 
 /**
  * Write rule matches and some meta information as JSON.
- * @since 3.4
+ * @since 3.4, public since 3.6
  */
-class RuleMatchesAsJsonSerializer {
+public class RuleMatchesAsJsonSerializer {
 
   private static final int API_VERSION = 1;
   private static final String STATUS = "";

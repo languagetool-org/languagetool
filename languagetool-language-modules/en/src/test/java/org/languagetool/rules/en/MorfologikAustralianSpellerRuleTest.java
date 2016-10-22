@@ -50,6 +50,7 @@ public class MorfologikAustralianSpellerRuleTest extends AbstractEnglishSpellerR
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("This is an example: we get behaviour as a dictionary word.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Why don't we speak today.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("A café")).length);  // check encoding isn't broken
     //with doesn't
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("He doesn't know what to do.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);

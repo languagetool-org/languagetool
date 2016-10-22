@@ -4,6 +4,11 @@
 
 #### English
   * added and improved rules
+  * The American and Canadian English (en-US, en-CA) spelling dictionaries have
+    been updated to the latest version from http://wordlist.aspell.net (2016.06.26)
+  * The Australian English (en-AU) spelling dictionary has been updated to the
+    latest version from http://extensions.libreoffice.org/extension-center/english-dictionaries
+    (2016-03-14 according to that page)
 
 #### French
   * upgraded dictionaries to Dicollecte-5.7
@@ -11,6 +16,10 @@
 #### German
   * added and improved rules
   * bugfix regarding errors in the last word of a sentence (#273)
+  * The internal part-of-speech dictionary has been updated with the help of
+    Julian von Heyl of http://korrekturen.de - many entries have been fixed and
+    added. Technically, the new data has its own Maven and git project now
+    (https://github.com/languagetool-org/german-pos-dict)
   
 #### Russian
   * added/improved several rules
@@ -19,6 +28,11 @@
  * The old API has been deactivated, as documented at
    https://languagetool.org/http-api/migration.php - it
    now returns a pseudo error pointing to the migration page
+
+#### Command-line
+  * Added a `--json` option as an alternative to `--api` (deprecated XML output)
+    See https://languagetool.org/http-api/swagger-ui/#/default
+    for a documentation of the new API.
 
 
 ## 3.5 (2016-09-30)
