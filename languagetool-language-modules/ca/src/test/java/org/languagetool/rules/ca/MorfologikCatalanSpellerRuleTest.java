@@ -383,5 +383,31 @@ public class MorfologikCatalanSpellerRuleTest {
         //assertEquals("Xe", matches[0].getSuggestedReplacements().get(1));
         //assertEquals("Xa", matches[0].getSuggestedReplacements().get(2));
         
+        //Ela geminada 
+        matches = rule.match(langTool.getAnalyzedSentence("La sol•licitud"));
+        assertEquals("sol·licitud", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("La sol-licitud"));
+        assertEquals("sol·licitud", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("SOL.LICITUD"));
+        assertEquals("Sol·licitud", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("La sol⋅licitud"));
+        assertEquals("sol·licitud", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("La sol∙licitud"));
+        assertEquals("sol·licitud", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("un estat sindical-laborista"));
+        assertEquals(0, matches.length);
+        matches = rule.match(langTool.getAnalyzedSentence("en un estat sindical.La classe obrera"));
+        assertEquals(0, matches.length);
+        matches = rule.match(langTool.getAnalyzedSentence("al-Ladjdjun"));
+        assertEquals(3,matches[0].getFromPos());
+        assertEquals(11,matches[0].getToPos());
+        // "ela geminada" error + another spelling error
+        matches = rule.match(langTool.getAnalyzedSentence("La sol•licitut")); 
+        assertEquals("sol·licitud", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("Il•lustran")); 
+        assertEquals("Il·lustren", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("bél.lica")); 
+        assertEquals("bèl·lica", matches[0].getSuggestedReplacements().get(0));
+        
     }
 }

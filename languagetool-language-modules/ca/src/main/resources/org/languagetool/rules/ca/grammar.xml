@@ -23861,7 +23861,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="ELA_GEMINADA" name="Errors en la ela geminada" type="misspelling">
             <url>https://ca.wikipedia.org/wiki/L%C2%B7L</url>
-            <rule>
+            <rule default="off"> <!--  It is better dealt with by Morfologik spelling rule. Useful for Wikipedia proof-reading -->
                 <pattern case_sensitive="no">
                     <marker>
                         <token regexp="yes">.*[aeiouàéèíóòúïü]l[•∙.⋅\-]l[aeiouàéèíóòúïü].*</token>
@@ -23929,7 +23929,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>Error de codificació.</message>
-            <suggestion><match no="1" regexp_match="(.+)ŀl(.+)" regexp_replace="$1l·l$2"/></suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)(.+)ŀl(.+)" regexp_replace="$1l·l$2"/></suggestion>
             <url>https://ca.wikipedia.org/wiki/L%C2%B7L</url>
             <short>Error de codificació</short>
             <example correction="sol·licitud">La <marker>soŀlicitud</marker>.</example>
