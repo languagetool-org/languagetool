@@ -47,12 +47,13 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	  <marker>
 	   <or>
 	    <token postag='D[ADIP][0123]MS0|P[ID]0MS000|NCMS000|AQ0MS0' postag_regexp='yes'>
-		<exception postag='NCCS000|AQ0[CF]S0|VM[CSI][FIMPS][123][SP]0' postag_regexp='yes'></exception>
-		<exception regexp='yes'>e|não|a</exception></token>
-	    <token regexp='yes'>do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho</token>
+		<exception postag='NCCS000|AQ0[CF]S0|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
+		<exception regexp='yes'>e|ser</exception></token>
+	    <token regexp='yes'>ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho</token>
 	   </or>
 	    <token postag='NCF[SP]000|AQ0F[SP]0' postag_regexp='yes'>
-	     <exception postag='NCC[SP]000|AQ0[CM]S0|NCM[SP]000|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception></token>
+	     <exception postag='NCC[SP]000|AQ0[CM]S0|NCM[SP]000|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
+		<exception>uma</exception></token>
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|de</token>
 	 </pattern>
@@ -69,9 +70,8 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	  <marker>
 	  <or>
 	    <token postag='D[ADIP][0123]MP0|P[ID]0MP000|NCMP000|AQ0MP0' postag_regexp='yes'>
-		<exception postag='NCCP000|AQ0[CF]S0|VM[CSI][FIMPS][123][SP]0' postag_regexp='yes'>
-		</exception><exception regexp='yes'>e|não|a</exception></token>
-	    <token regexp='yes'>dos|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|mos|tos|lhos</token>
+		<exception postag='NCCP000|AQ0[CF]S0|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception></token>
+	    <token regexp='yes'>aos|dos|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|mos|tos|lhos</token>
 	   </or>
 	    <token postag='NCF[SP]000|AQ0F[SP]0' postag_regexp='yes'>
 		<exception postag='NCC[SP]000|AQ0[CM]S0|NCM[SP]000|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception></token>
@@ -91,12 +91,13 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	  <marker>
 	   <or>
 	     <token postag='D[ADIP][0123]FS0|P[ID]0FS000|NCFS000|AQ0FS0' postag_regexp='yes'>
-		<exception postag='NCCS000|AQ0[CM]S0|VM[CSI][FIMPS][123][SP]0' postag_regexp='yes'></exception>
-		<exception regexp='yes'>e|não|a</exception></token>
-	     <token regexp='yes'>da|duma|dela|das|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha</token>
+		<exception postag='NCCS000|AQ0[CM]S0|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
+		<exception regexp='yes'>e|ser</exception></token>
+	     <token regexp='yes'>à|da|duma|dela|das|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha</token>
 	   </or>
 	  <token postag='NCM[SP]000|AQ0M[SP]0' postag_regexp='yes'>
-	   <exception postag='NCC[SP]000|AQ0[CF][SP]0|NCF[SP]000|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception><exception regexp='yes'>um|uns</exception></token>
+	  	<exception postag='NCC[SP]000|AQ0[CF][SP]0|NCF[SP]000|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
+		<exception regexp='yes'>um|uns|e|ser</exception></token>
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|de</token>
 	 </pattern>
@@ -113,9 +114,9 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	  <marker>
 	   <or>
 	    <token postag='D[ADIP][0123]FP0|P[ID]0FP000|NCFP000|AQ0FP0' postag_regexp='yes'>
-		<exception postag='NCCP000|AQ0[CM]S0|VM[CSI][FIMPS][123][SP]0' postag_regexp='yes'></exception>
-		<exception regexp='yes'>e|não|a</exception></token>
-	   <token regexp='yes'>das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas</token>
+		<exception postag='NCCP000|AQ0[CM]S0|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
+		<exception regexp='yes'>e|ser</exception></token>
+	   <token regexp='yes'>às|das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas</token>
 	   </or>
 	    <token postag='NCM[SP]000|AQ0M[SP]0' postag_regexp='yes'>
 		<exception postag='NCC[SP]000|AQ0[CF][SP]0|NCF[SP]000|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
