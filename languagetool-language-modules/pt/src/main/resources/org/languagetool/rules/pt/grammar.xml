@@ -39,7 +39,96 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 <!--          Tiago F. Santos Rules Start           ****END**** -->
 <!-- ********************************************************** -->
 
-     <!-- Concordance error plural - OS > O -->
+ 	     <!-- General concordance gender errors - O > A/AS -->
+	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
+	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO" name="Erro de concordância do masculino">
+	 <pattern>
+	   <token negate='yes' regexp='yes'>e|de</token>
+	  <marker>
+	   <or>
+	    <token postag='D[ADIP][0123]MS0|P[ID]0MS000|NCMS000|AQ0MS0' postag_regexp='yes'>
+		<exception postag='NCCS000|AQ0[CF]S0|VM[CSI][FIMPS][123][SP]0' postag_regexp='yes'></exception>
+		<exception regexp='yes'>e|não|a</exception></token>
+	    <token regexp='yes'>do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho</token>
+	   </or>
+	    <token postag='NCF[SP]000|AQ0F[SP]0' postag_regexp='yes'>
+	     <exception postag='NCC[SP]000|AQ0[CM]S0|NCM[SP]000|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception></token>
+	  </marker>
+	   <token negate='yes' regexp='yes'>e|de</token>
+	 </pattern>
+	 <message>Erro de concordância do género.</message>
+	 <example type='incorrect'><marker>O mulher</marker> está no pasto.</example>
+	 <example type='correct'><marker>O homem</marker> está no pasto.</example>
+	</rule>
+
+	<!-- General concordance gender errors - OS > A/AS -->
+	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
+	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_2" name="Erro de concordância do masculino">
+	 <pattern>
+	   <token negate='yes' regexp='yes'>e|de</token>
+	  <marker>
+	  <or>
+	    <token postag='D[ADIP][0123]MP0|P[ID]0MP000|NCMP000|AQ0MP0' postag_regexp='yes'>
+		<exception postag='NCCP000|AQ0[CF]S0|VM[CSI][FIMPS][123][SP]0' postag_regexp='yes'>
+		</exception><exception regexp='yes'>e|não|a</exception></token>
+	    <token regexp='yes'>dos|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|mos|tos|lhos</token>
+	   </or>
+	    <token postag='NCF[SP]000|AQ0F[SP]0' postag_regexp='yes'>
+		<exception postag='NCC[SP]000|AQ0[CM]S0|NCM[SP]000|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception></token>
+	  </marker>
+	   <token negate='yes' regexp='yes'>e|de</token>
+	 </pattern>
+	 <message>Erro de concordância do género.</message>
+	 <example type='incorrect'><marker>Os mulher</marker> está no pasto.</example>
+	 <example type='correct'><marker>Os homens</marker> está no pasto.</example>
+	</rule>
+
+	<!-- General concordance gender errors - A > O/OS -->
+	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
+	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO" name="Erro de concordância do masculino">
+	 <pattern>
+	   <token negate='yes' regexp='yes'>e|de</token>
+	  <marker>
+	   <or>
+	     <token postag='D[ADIP][0123]FS0|P[ID]0FS000|NCFS000|AQ0FS0' postag_regexp='yes'>
+		<exception postag='NCCS000|AQ0[CM]S0|VM[CSI][FIMPS][123][SP]0' postag_regexp='yes'></exception>
+		<exception regexp='yes'>e|não|a</exception></token>
+	     <token regexp='yes'>da|duma|dela|das|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha</token>
+	   </or>
+	  <token postag='NCM[SP]000|AQ0M[SP]0' postag_regexp='yes'>
+	   <exception postag='NCC[SP]000|AQ0[CF][SP]0|NCF[SP]000|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception><exception regexp='yes'>um|uns</exception></token>
+	  </marker>
+	   <token negate='yes' regexp='yes'>e|de</token>
+	 </pattern>
+	 <message>Erro de concordância do género.</message>
+	 <example type='incorrect'><marker>Uma boi</marker> está no pasto.</example>
+	 <example type='correct'>Uma vaca está no pasto.</example>
+	</rule>
+
+     <!-- General concordance gender errors - AS > O/OS -->
+     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
+	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_2" name="Erro de concordância do masculino">
+	 <pattern>
+	   <token negate='yes' regexp='yes'>e|de</token>
+	  <marker>
+	   <or>
+	    <token postag='D[ADIP][0123]FP0|P[ID]0FP000|NCFP000|AQ0FP0' postag_regexp='yes'>
+		<exception postag='NCCP000|AQ0[CM]S0|VM[CSI][FIMPS][123][SP]0' postag_regexp='yes'></exception>
+		<exception regexp='yes'>e|não|a</exception></token>
+	   <token regexp='yes'>das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas</token>
+	   </or>
+	    <token postag='NCM[SP]000|AQ0M[SP]0' postag_regexp='yes'>
+		<exception postag='NCC[SP]000|AQ0[CF][SP]0|NCF[SP]000|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
+		<exception regexp='yes'>um|uns</exception></token>
+	  </marker>
+	   <token negate='yes' regexp='yes'>e|de</token>
+	 </pattern>
+	 <message>Erro de concordância do género.</message>
+	 <example type='incorrect'><marker>Umas bois</marker> estão no pasto.</example>
+	 <example type='correct'><marker>Umas vacas</marker> estão no pasto.</example>
+	</rule>
+
+     <!-- General number concordance errors - OS > O -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
 	    <rule id="ERRO_DE_CONCORDNCIA_DO_MASCULINO_PLURAL_OS_O" name="Erro de concordância do masculino plural">
 	 <pattern>
@@ -61,7 +150,7 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	 <example correction='O cão|Os cães|Os cãos'><marker>Os cão</marker> está no pasto.</example>
 	</rule>
 	
-    <!-- Concordance error plural - O > OS -->
+    <!-- General number concordance errors - O > OS -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_PLURAL_O_OS" name="Erro de concordância do plural O-OS">
 	 <pattern>
@@ -81,7 +170,7 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	 <example correction='Estes gatos|Este gato'><marker>Este gatos</marker> estão no pasto.</example>
 	</rule>
 
-	<!-- Concordance error plural - A > AS -->
+	<!-- General number concordance errors - A > AS -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
     <rule id="ERRO_DE_CONCORDNCIA_DO_FEMININO_PLURAL_A_AS" name="Erro de concordância do feminino plural">
 	 <pattern>
@@ -101,7 +190,7 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 
 	
 
-    <!-- Concordance error plural - AS > A -->
+    <!-- General number concordance errors - AS > A -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_FEMININO_PLURAL_AS_A" name="Erro de concordância do feminino singular">
 	 <pattern>
@@ -122,7 +211,7 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
  
  
  
-     <!-- Concordance error person - I + Verb -->
+     <!-- General verbal concordance errors - I + Verb -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_1S" name="Erro de concordância do número do verbo">
 	<antipattern>
@@ -149,7 +238,7 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	 <example type="correct">Eu passeio na praia.</example>
 	</rule>
 	
-     <!-- Concordance error person - You (Singular) + Verb -->
+     <!-- General verbal concordance errors - You (Singular) + Verb -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_2S" name="Erro de concordância do número do verbo">
 	<antipattern>
@@ -176,7 +265,7 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	 <example type="correct"><marker>Tu não passeias</marker> na praia.</example>
 	</rule>
 	
-     <!-- Concordance error person - He/She/It + Verb -->
+     <!-- General verbal concordance errors - He/She/It + Verb -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_3S" name="Erro de concordância do número do verbo">
 	  <antipattern>
@@ -204,7 +293,7 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 
 	</rule>
 	
-     <!-- Concordance error person - We + Verb -->
+     <!-- General verbal concordance errors - We + Verb -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_1P" name="Erro de concordância do número do verbo">
 	 <pattern>
@@ -222,7 +311,7 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	</rule>
 
 
-     <!-- Concordance error person - We + Verb -->
+     <!-- General verbal concordance errors - We + Verb -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_1P-2" name="Erro de concordância do número do verbo">
 	 <pattern>
@@ -243,7 +332,7 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	 <example correction=''><marker>Eu e Rita passeiam</marker> na praia.</example>
 	</rule>
 
-     <!-- Concordance error person - We + Verb -->
+     <!-- General verbal concordance errors - We + Verb -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
 	 <rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_1P-3" name="Erro de concordância do número do verbo">
 	 <pattern>
@@ -262,7 +351,7 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	 <example type="correct">Tu e eu passeamos na praia.</example>
 	</rule>
 	
-     <!-- Concordance error person - You (Plural) + Verb -->
+     <!-- General verbal concordance errors - You (Plural) + Verb -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-15 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_2P" name="Erro de concordância do número do verbo">
 	 <pattern>
@@ -279,7 +368,7 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	 <example type="correct">Vós passeais na praia.</example>
 	</rule>
 
-     <!-- Concordance error person - They + Verb -->
+     <!-- General verbal concordance errors - They + Verb -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_3P" name="Erro de concordância do número do verbo">
 	 <antipattern>
@@ -306,7 +395,7 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	 <example type="correct">Eles e elas passeiam na praia.</example>
 	</rule>
 
-     <!-- Concordance error person - They + Verb -->
+     <!-- General verbal concordance errors - They + Verb -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_NMERO_DO_VERBO_3P-2" name="Erro de concordância do número do verbo">
 	 <pattern>
