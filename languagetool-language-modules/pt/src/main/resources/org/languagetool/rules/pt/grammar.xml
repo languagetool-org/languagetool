@@ -46,12 +46,12 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	   <token negate='yes' regexp='yes'>e|de</token>
 	  <marker>
 	  <token postag='D[ADIP][0123]MP[0P]|NC[MC]P000|AQ0[MC]P0' postag_regexp='yes'>
-	  <exception postag='CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
-	  <exception regexp="yes">[IDMVX]|[IDMVX][IDMVX]|[IDMVX][IDMVX][IDMVX]</exception>
+		<exception postag='CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
+		<exception regexp="yes">[IDMVX]|[IDMVX][IDMVX]|[IDMVX][IDMVX][IDMVX]</exception>
 	  </token>
 	  <token postag='NC[MC]S000|AQ0[MC]S0' postag_regexp='yes'>
-	  <exception postag='P[ID][0123][CFM][SP]000|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
-	    <exception regexp="yes">há|são|ser|devido</exception></token>
+	  <exception postag='P[ID][0123][CFM][SP]000|CC|CS|RG|RN|SPS00|VMG0000' postag_regexp='yes'></exception>
+	    <exception regexp="yes">há|são|ser|haver|devido</exception></token>
 	  </marker>
 	   <token negate='yes' regexp='yes'>e</token>
 	 </pattern>
@@ -60,21 +60,19 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	  </message>
 	 <example correction='O cão|Os cães|Os cãos'><marker>Os cão</marker> está no pasto.</example>
 	</rule>
-
-
 	
     <!-- Concordance error plural - O > OS -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_PLURAL_O_OS" name="Erro de concordância do plural O-OS">
 	 <pattern>
-	   <token negate='yes' regexp='yes'>e|de</token>
+	   <token negate='yes' regexp='yes'>e|ou|de</token>
 	  <marker>
 	  <token postag='D[ADIP][0123]MS[0S]|NC[MC]S000|AQ0[MC]S0' postag_regexp='yes'>
-	    <exception postag='CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
-	    <exception regexp="yes">há|são|ser</exception></token>
+	    <exception postag='CC|CS|RG|RN|SPS00|VMG0000' postag_regexp='yes'></exception>
+	    <exception regexp="yes">há|são|ser|haver|serão</exception></token>
 	  <token postag='NC[MC]P000|AQ0[MC]P0' postag_regexp='yes'>
 	    <exception postag='P[ID][0123][CFM][SP]000|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
-	    <exception regexp="yes">[IDMVX]|[IDMVX][IDMVX]|[IDMVX][IDMVX][IDMVX]</exception></token>
+	    <exception regexp="yes">[IDMVX]|[IDMVX][IDMVX]|[IDMVX][IDMVX][IDMVX]|nós</exception></token>
 	  </marker>
 	 </pattern>
 	 <message>Erro de concordância do plural.
@@ -83,8 +81,6 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
 	 <example correction='Estes gatos|Este gato'><marker>Este gatos</marker> estão no pasto.</example>
 	</rule>
 
-	
-	
 	<!-- Concordance error plural - A > AS -->
     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
     <rule id="ERRO_DE_CONCORDNCIA_DO_FEMININO_PLURAL_A_AS" name="Erro de concordância do feminino plural">
