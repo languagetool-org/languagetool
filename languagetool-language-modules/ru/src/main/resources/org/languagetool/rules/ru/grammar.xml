@@ -3290,13 +3290,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>менее</token>
                         <token>,</token>
                     </marker>
-                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
+                    <and>
+                        <token negate="yes" regexp="yes">&start_vvodnoe;</token>
+                        <token negate_pos="yes" postag_regexp="yes" postag="PT:.*|DPT:.*"></token>
+                    </and>
                 </pattern>
                 <message>Слово не является вводным. Запятые не нужны:<suggestion>\2 \3 \4</suggestion>.</message>
                 <url>http://aprikablog.com/2013/10/tem-ne-menee/</url>
                 <short>Запятые не нужны.</short>
                 <example>Тем не менее я вздремнул.</example>
                 <example>Тем не менее, несмотря на указанные сложности, ремонт оказался завершён.</example>
+                <example>Тем не менее, приняв пакет, секретарь не проставил дату в журнале.</example>
                 <example correction="Тем не менее"><marker>Тем не менее,</marker>я вздремнул.</example>
             </rule>
         </rulegroup>
