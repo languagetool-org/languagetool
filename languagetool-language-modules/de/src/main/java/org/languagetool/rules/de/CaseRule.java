@@ -805,7 +805,7 @@ public class CaseRule extends GermanRule {
 
   private boolean isAdjectiveAsNoun(int i, AnalyzedTokenReadings[] tokens) {
     AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
-    boolean isUndefQuantifier = prevToken != null && (UNDEFINED_QUANTIFIERS.contains(prevToken.getToken().toLowerCase()));
+    boolean isUndefQuantifier = prevToken != null && UNDEFINED_QUANTIFIERS.contains(prevToken.getToken().toLowerCase());
     boolean isPrevDeterminer = prevToken != null && (prevToken.hasPartialPosTag("ART") || prevToken.hasPartialPosTag("PRP") || prevToken.hasPartialPosTag("ZAL"));
     if (!isPrevDeterminer && !isUndefQuantifier) {
       AnalyzedTokenReadings prevPrevToken = i > 1 && prevToken.hasPartialPosTag("ADJ") ? tokens[i-2] : null;
