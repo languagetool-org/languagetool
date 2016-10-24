@@ -22,7 +22,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -2525,7 +2525,8 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
     <!-- HÁ n SEGUNDOS/MINUTOS/HORAS/DIAS/SEMANAS/MESES/ANOS ATRÁS (remove "ATRÁS") -->
     <rule id="HÁ-ATRÁS" name="há n tempo atrás">
       <pattern>
-        <token skip="-1">há</token>
+        <token skip="-1">há
+		<exception scope="next" postag='VM[CIS][CFIMPS][0123][SP]0' postag_regexp='yes'></exception></token>
         <token regexp="yes">segundos?|minutos?|horas?|dias?|semanas?|mês|meses|anos?</token>
         <token>atrás</token>
       </pattern>
@@ -2538,19 +2539,17 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
     <!-- À n SEGUNDOS/MINUTOS/HORAS/DIAS/SEMANAS/MESES/ANOS há n tempo-->
     <rule id="À-HÁ_N_TEMPO" name="há n tempo">
       <pattern>
-		<marker>
-			<token>à</token>		
-		</marker>			
-		<or>
-			<token skip="-1" regexp="yes">quase|poucos?|alguns</token>		
-			<token min="0"></token>
-		</or>	
-        <token regexp="yes">segundos?|minutos?|horas?|dias?|semanas?|mês|meses|anos?</token>
+	<marker>
+	  <token>à</token>
+	</marker>
+	  <token min="0" regexp="yes">quase|poucos?|alguns</token>
+	  <token skip="4"><exception scope="next" postag='VM[CIS][CFIMPS][0123][SP]0' postag_regexp='yes'></exception></token>
+          <token regexp="yes">segundos?|minutos?|horas?|dias?|semanas?|mês|meses|anos?</token>
       </pattern>
 	  <message>Substituir «à» por <suggestion>há</suggestion>.</message>
 	  <example correction="há">Conheço a Ana <marker>à</marker> quase 30 anos.</example>
-    </rule>	
-	
+    </rule>
+
 
 
     <!-- HÁS VEZES às vezes -->
@@ -3325,8 +3324,23 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
       <example correction="baixos">Temos preços bastante <marker>económicos</marker> na loja.</example>
     </rule>
 
+	
 
+    <!-- PREMIO prémio -->
+    <rule id="PREMIO" name="prémio">
+      <pattern>
+		<token>o</token>
+		<token regexp="yes">meu|nosso|teu|seu|vosso</token>
+		<marker>
+			<token>premio</token>
+        </marker> 
+      </pattern>
+      <message>Substituir «premio» por <suggestion>prémio</suggestion>.</message>
+      <example correction="prémio">Vem receber o teu <marker>premio</marker>.</example>
+    </rule>	
+	
 
+	
     <!-- PRESTE A prestes a -->
     <rule id="PRESTE_A" name="prestes a">
       <pattern>
@@ -3440,8 +3454,22 @@ $Id: grammar.xml,v 1.190 2016-10-21 09:05:00 marcoagpinto Exp $
       <example correction="terá lugar">O evento <marker>tomará lugar</marker> em Lisboa.</example>
     </rule>
 
+	
+	
+    <!-- TOPOS DE GAMA topo de gama -->
+    <rule id="TOPOS_DE_GAMA" name="topo de gama">
+      <pattern>
+        <token>topos</token>
+        <token>de</token>
+        <token>gama</token>
+      </pattern>
+     <message>Substituir «topos de gama» por <suggestion>topo de gama</suggestion>.</message>
+     <suggestion>topo de gama</suggestion>
+     <example correction="topo de gama">Quero telemóveis <marker>topos de gama</marker>.</example>
+    </rule>	
 
 
+	
     <!-- UM BAIXO-ASSINADO um abaixo-assinado -->
     <rule id="UM_BAIXO-ASSINADO" name="um abaixo-assinado">
       <pattern>
