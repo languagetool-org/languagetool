@@ -39,7 +39,7 @@ $Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
 <!--          Tiago F. Santos Rules Start           ****END**** -->
 <!-- ********************************************************** -->
 
- 	     <!-- General concordance gender errors - O > A/AS -->
+ 	     <!-- General gender concordance errors - O > A/AS -->
 	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO" name="Erro de concordância do masculino">
 	 <pattern>
@@ -47,13 +47,14 @@ $Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
 	  <marker>
 	   <or>
 	    <token postag='D[ADIP][0123]MS0|P[ID]0MS000|NCMS000|AQ0MS0' postag_regexp='yes'>
-		<exception postag='NCCS000|AQ0[CF]S0|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
+		<exception postag='NC[CF]S000|AQ0[CF]S0|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>e|ser</exception></token>
 	    <token regexp='yes'>ao|do|dum|dele|deste|desse|daquele|disto|disso|daquilo|doutro|no|num|nele|nesse|neste|naquele|nisto|nisso|naquilo|noutro|pelo|algum|mo|to|lho</token>
 	   </or>
 	    <token postag='NCF[SP]000|AQ0F[SP]0' postag_regexp='yes'>
-	     <exception postag='NCC[SP]000|AQ0[CM]S0|NCM[SP]000|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
-		<exception>uma</exception></token>
+	     <exception postag='NC[CM][SP]000|AQ0[CM][SP]0|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
+		<exception regexp='yes'>uma|mas</exception>
+	    </token>
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|de</token>
 	 </pattern>
@@ -62,7 +63,7 @@ $Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
 	 <example type='correct'><marker>O homem</marker> está no pasto.</example>
 	</rule>
 
-	<!-- General concordance gender errors - OS > A/AS -->
+	<!-- General gender concordance errors - OS > A/AS -->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_2" name="Erro de concordância do masculino">
 	 <pattern>
@@ -70,11 +71,13 @@ $Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
 	  <marker>
 	  <or>
 	    <token postag='D[ADIP][0123]MP0|P[ID]0MP000|NCMP000|AQ0MP0' postag_regexp='yes'>
-		<exception postag='NCCP000|AQ0[CF]S0|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception></token>
+		<exception postag='NC[CF]P000|AQ0[CF]P0|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception></token>
 	    <token regexp='yes'>aos|dos|duns|deles|destes|desses|daqueles|doutros|nos|nuns|neles|nesses|nestes|naqueles|noutros|pelos|alguns|mos|tos|lhos</token>
 	   </or>
 	    <token postag='NCF[SP]000|AQ0F[SP]0' postag_regexp='yes'>
-		<exception postag='NCC[SP]000|AQ0[CM]S0|NCM[SP]000|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception></token>
+		<exception postag='NC[CM][SP]000|AQ0[CM][SP]0|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
+		<exception regexp='yes'>uma|mas</exception>
+		</token>
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|de</token>
 	 </pattern>
@@ -83,7 +86,7 @@ $Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
 	 <example type='correct'><marker>Os homens</marker> está no pasto.</example>
 	</rule>
 
-	<!-- General concordance gender errors - A > O/OS -->
+	<!-- General gender concordance errors - A > O/OS -->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO" name="Erro de concordância do masculino">
 	 <pattern>
@@ -91,12 +94,12 @@ $Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
 	  <marker>
 	   <or>
 	     <token postag='D[ADIP][0123]FS0|P[ID]0FS000|NCFS000|AQ0FS0' postag_regexp='yes'>
-		<exception postag='NCCS000|AQ0[CM]S0|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
+		<exception postag='NC[CM]S000|AQ0[CM]S0|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>e|ser</exception></token>
 	     <token regexp='yes'>à|da|duma|dela|das|desta|dessa|daquela|doutra|na|numa|nela|nessa|nesta|naquela|noutra|pela|alguma|ma|ta|lha</token>
 	   </or>
 	  <token postag='NCM[SP]000|AQ0M[SP]0' postag_regexp='yes'>
-	  	<exception postag='NCC[SP]000|AQ0[CF][SP]0|NCF[SP]000|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
+	  	<exception postag='NC[CF][SP]000|AQ0[CF][SP]0|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
 		<exception regexp='yes'>um|uns|e|ser</exception></token>
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|de</token>
@@ -106,7 +109,7 @@ $Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
 	 <example type='correct'>Uma vaca está no pasto.</example>
 	</rule>
 
-     <!-- General concordance gender errors - AS > O/OS -->
+     <!-- General gender concordance errors - AS > O/OS -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-21 -->
 	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_2" name="Erro de concordância do masculino">
 	 <pattern>
@@ -114,13 +117,13 @@ $Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
 	  <marker>
 	   <or>
 	    <token postag='D[ADIP][0123]FP0|P[ID]0FP000|NCFP000|AQ0FP0' postag_regexp='yes'>
-		<exception postag='NCCP000|AQ0[CM]S0|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
-		<exception regexp='yes'>e|ser</exception></token>
+		<exception postag='NC[CM]P000|AQ0[CM]P0|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
+		<exception regexp='yes'>e|mas</exception></token>
 	   <token regexp='yes'>às|das|dumas|delas|destas|dessas|daquelas|doutras|nas|numas|nelas|nessas|nestas|naquelas|noutras|pelas|algumas|mas|tas|lhas</token>
 	   </or>
 	    <token postag='NCM[SP]000|AQ0M[SP]0' postag_regexp='yes'>
-		<exception postag='NCC[SP]000|AQ0[CF][SP]0|NCF[SP]000|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
-		<exception regexp='yes'>um|uns</exception></token>
+		<exception postag='NC[CF][SP]000|AQ0[CF][SP]0|VM[CSI][FIMPS][123][SP]0|CC|CS|RG|RN|SPS00' postag_regexp='yes'></exception>
+		<exception regexp='yes'>um|uns|ser</exception></token>
 	  </marker>
 	   <token negate='yes' regexp='yes'>e|de</token>
 	 </pattern>
@@ -209,8 +212,6 @@ $Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
 	  </message>
 	  <example correction='A vaca|As vacas'><marker>As vaca</marker> são malhadas.</example>
 	</rule>
- 
- 
  
      <!-- General verbal concordance errors - I + Verb -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-16 -->
@@ -412,7 +413,7 @@ $Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
 	  <token min="0" max="2" postag='CS|RG|RN' postag_regexp='yes'/>
 	  <token postag='VM[CIS][CFIMPS][12]P0|VM[CIS][CFIMPS][123]S0' postag_regexp='yes'>
 		<exception postag='VM[CIS][CFIMPS]3P0' postag_regexp='yes'></exception>
-		<exception regexp='yes'>quentes|marinhas|silva|militares|para|como|recordes|pires|seguro|vida|vales|formas|sua|humanas|internas|ambiente|entre|individuais|sobre</exception>
+		<exception regexp='yes'>quentes|marinhas|silva|militares|para|como|recordes|pires|seguro|vida|vales|formas|sua|humanas|internas|ambiente|entre|individuais|sobre|pelo|penas</exception>
 	</token>
 	  </marker>
 	 </pattern>
