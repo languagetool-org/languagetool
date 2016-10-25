@@ -5393,11 +5393,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Правильная форма - &quot;их&quot;.</short>
                 <example>Там находится их дом.</example>
                 <example correction="их">Там находится <marker>ихний</marker> дом.</example>
-            </rule>
-            
+            </rule>   
         </rulegroup>
-        
-        
+        <rulegroup default="on" id="NN_N_pril_prich" name="Правописание «нн» или «н» в причастиях и прилагательных">
+            <rule>
+                <pattern>
+                    <marker>  
+                        <token postag="ADJ:.*" postag_regexp="yes" regexp="yes">.*[н]([а-мо-я]{1,3})<exception  negate_pos="yes" postag="ADJ:.*" postag_regexp="yes"></exception></token>
+                    </marker>
+                    <token  postag="PREP" ></token>
+                </pattern>
+                <message>Причастие пишется с «нн», есть зависимые слова: <suggestion><match no="1" regexp_match="(.*)[н]([а-мо-я]{1,3})" regexp_replace="$1нн$2"></match></suggestion></message>
+                <short>Пишется с «нн»</short>
+                <example>Сегодня на ужин жаренная на масле картошка.</example>
+                <example correction="жаренная">Сегодня на ужин <marker>жареная</marker> на масле картошка.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>  
+                        <token postag="PT:.*" postag_regexp="yes" regexp="yes">.*[а-мо-я][н][н]([а-мо-я]{1,3})<exception  negate_pos="yes" postag="PT:.*" postag_regexp="yes"></exception></token>
+                    </marker>
+                    <token negate_pos="yes"  postag="PREP" ></token>
+                </pattern>
+                <message>Прилагательное пишется с «н», зависимых слов нет: <suggestion><match no="1" regexp_match="(.*[а-мо-я])[н][н]([а-мо-я]{1,3})" regexp_replace="$1н$2"></match></suggestion></message>
+                <short>Пишется с «н»</short>
+                <example>Сегодня на ужин жареная картошка.</example>
+                <example correction="жареная">Сегодня на ужин <marker>жаренная</marker> картошка.</example>
+            </rule>
+        </rulegroup>
         <rulegroup default="on" id="Ne_pril_prich" name="«Не» с прилагательными/причастиями">
             <rule>
                 <pattern>
