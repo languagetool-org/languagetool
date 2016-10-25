@@ -132,6 +132,34 @@ $Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
 	 <example type='correct'><marker>Umas vacas</marker> estão no pasto.</example>
 	</rule>
 
+	<!-- Specific gender concordance errors - A > Masculine Noun -->
+	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
+	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_FEMININO_A" name="Erro de concordância do masculino">
+	 <pattern>
+	   <token>a</token>
+	   <token postag='NCM[SP]000|AQ0M[SP]0' postag_regexp='yes'>
+	  	<exception postag='NCM[SP]000|AQ0M[SP]0' postag_regexp='yes' negate_pos='yes'></exception>
+		<exception regexp='yes'>um|uns|ser|norte|sul|este|oeste|ocidente|oriente|nascente|poente|nordeste|sudeste|noroeste|sudoeste|números?</exception></token>
+	 </pattern>
+	 <message>Erro de concordância do género.A</message>
+	 <example type='incorrect'><marker>A boi</marker> está no pasto.</example>
+	 <example type='correct'>A vaca está no pasto.</example>
+	</rule>
+
+	<!-- Specific gender concordance errors - O > Feminine Noun -->
+	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-24 -->
+	<rule id="ERRO_DE_CONCORDNCIA_DO_GÉNERO_MASCULINO_O" name="Erro de concordância do masculino">
+	 <pattern>
+	   <token>o</token>
+	   <token postag='NCF[SP]000|AQ0F[SP]0' postag_regexp='yes'>
+	  	<exception postag='NCF[SP]000|AQ0F[SP]0' postag_regexp='yes' negate_pos='yes'></exception>
+		<exception regexp='yes'>uma|umas|e|ser</exception></token>
+	 </pattern>
+	 <message>Erro de concordância do género.</message>
+	 <example type='incorrect'><marker>O cadela</marker> está no pasto.</example>
+	 <example type='correct'>A cadela está no pasto.</example>
+	</rule>
+
      <!-- General number concordance errors - OS > O -->
      <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-19 -->
 	    <rule id="ERRO_DE_CONCORDNCIA_DO_MASCULINO_PLURAL_OS_O" name="Erro de concordância do masculino plural">
