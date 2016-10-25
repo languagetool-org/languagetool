@@ -10986,6 +10986,38 @@ USA
             <example>Credit: NPS. President Carter, Senator Kennedy, and Senator Tsongas <marker>signing into</marker> creation Lowell National Historical Park in June of 1978.</example>
             <example>Carefully put the <marker>sign into</marker> the hole and then pour concrete into the hole.</example>
         </rule>
+        <rule default="off" id="ARTICLE_UNNECESSARY" name="Articles: unnecessary indefinite article before an uncountable noun"><!-- Many nouns that have only the postag NN:U can also be NN, but they do not have the postag NN. Thus, they cannot be excluded using an exception. The rule gives too many false warnings. -->
+            <antipattern>
+                <token>a</token>
+                <token>little</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token regexp="yes">a|an</token>
+                    <and>
+                        <token postag="NN:U"/>
+                        <token chunk="E-NP-singular"/>
+                    </and>
+                </marker>
+                <token><exception>of</exception></token>
+            </pattern>
+            <message>The indefinite article might be unnecessary before the uncountable noun: <suggestion>\2</suggestion>.</message>
+            <short>Article unnecessary</short>
+            <example correction="oil">I need <marker>a oil</marker> for my car.</example>
+            <example correction="oil">My car needs <marker>an oil</marker>.</example>
+            <example>I need <marker>oil</marker> for my car.</example>
+            <example>I need <marker>the oil</marker> for my car.</example>
+            <example>I need <marker>an oil filter</marker> for my car.</example>
+            <example>Jane ate <marker>a cheese and potato pie</marker> for her lunch.</example>
+            <example>Most reviews tend to estimate <marker>a prevalence of</marker> of 12 per 1,000 for autism and...</example>
+            <example>Lincoln said, "The taste is in my mouth <marker>a little</marker>."</example>
+            <example>It took <marker>a little</marker> over three years for all states to ratify.</example>
+            <example type="triggers_error">Furthermore, the nitrogen atom may be replaced by <marker>a phosphorus</marker>, arsenic, or antimony atom, creating a...</example>
+            <example type="triggers_error">Use <marker>an oil</marker> that has a high smoke point.</example>
+            <example type="triggers_error">If a defendant appeals a conviction for <marker>a crime</marker> having multiple levels of offenses...</example>
+            <example type="triggers_error">Such <marker>an acceleration</marker> will cause lateral loads on the walls, resulting ...</example>
+            <example type="triggers_error">In recent years there has been <marker>a backlash</marker> against the external environmental effects of...</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
