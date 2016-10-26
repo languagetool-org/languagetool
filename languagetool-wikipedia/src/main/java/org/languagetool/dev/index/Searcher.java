@@ -261,11 +261,11 @@ public class Searcher {
       }
     }
     langTool.addRule(patternRule);
-    langTool.enableDefaultOffRule(patternRule.getId()); // rule might be off by default
+    langTool.enableRule(patternRule.getId()); // rule might be off by default
     return langTool;
   }
 
-  class PossiblyLimitedTopDocs {
+  static class PossiblyLimitedTopDocs {
     TopDocs topDocs;
     boolean resultIsTimeLimited;
 
