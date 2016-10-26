@@ -71,7 +71,8 @@ public class Portuguese extends Language {
   public Contributor[] getMaintainers() {
     return new Contributor[] {
             new Contributor("Marco A.G. Pinto", "http://www.marcoagpinto.com/"),
-            new Contributor("Matheus Poletto", "https://github.com/MatheusPoletto")
+            new Contributor("Matheus Poletto", "https://github.com/MatheusPoletto"),
+            new Contributor("Tiago F. Santos (3.6)", "tiagofsantos81@sapo.pt")
     };
   }
 
