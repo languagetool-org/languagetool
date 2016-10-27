@@ -52,6 +52,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </equivalence>
     </unification>
   <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
+      
+    <rule id="USO_HUSO" name="uso/huso horario">
+        <pattern>
+            <marker>
+                <token inflected="yes">uso</token>
+            </marker>
+            <token inflected="yes">horario</token>
+        </pattern>
+        <message>Error ortográfico.</message>
+        <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">huso</match></suggestion>
+        <example correction="huso">En el <marker>uso</marker> horario de las Canarias.</example>
+        <example correction="husos">En otros <marker>usos</marker> horarios.</example>
+    </rule> 
+      
     <!--AE_COMIDO Tiempos compuestos por «a» o «e» + participio-->
 
     <rulegroup id="AE_COMIDO" name="Tiempos compuestos 'a' o 'e' + participio">
