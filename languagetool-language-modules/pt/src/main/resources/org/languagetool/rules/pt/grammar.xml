@@ -4477,6 +4477,55 @@ $Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
         </rule>
   </category>
 
-<!-- Localization of rules from the English grammar.xml - END  -->
+		<!-- Localization of rules from the English grammar.xml - END  -->
+
+		<!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 
+
+    <category id="SEMANTICS" name="Semantica" type="inconsistency">
+    </category>
+		     Localization of rules from the English grammar.xml - END  -->
+
+		<!--          Style rules from English grammar.xml      - START-->
+		<!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+
+    <category id="STYLE" name="Estilo" type="style">
+        <rule id="PROFANITY" name="Profanidade">
+            <pattern>
+                <token inflected="yes" regexp="yes">merdas?|cabrão|cabrões|foder|putices?|putas?|putarias?|paneleiros?|conas?|pitos?|bucetas?|caralhos?|peidos?|beitas?</token>
+            </pattern>
+            <message>Esta palavra é de baixo calão. Considere alternativas.</message>
+            <url>https://en.wikipedia.org/wiki/Profanity</url>
+            <short>Baixo calão</short>
+            <example type="incorrect" correction=""><marker>Merda</marker>!</example>
+            <example type="correct">Porra!</example>
+        </rule>
+
+        <rule default="off" id="SENT_START_NUM" name="Número no inicio da frase">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes">\d+</token>
+            </pattern>
+            <message>Números no inicio de frases devem ser escritos por extenso.</message>
+            <short>Número no inicio da frase</short>
+            <example correction=""><marker>12</marker> meses no ano.</example>
+            <example>Doze meses no ano.</example>
+        </rule>
+
+        <rule id="E_NO_COMECO" name="Frase começa com 'E' ou 'Mas'">
+            <pattern>
+                <token postag='SENT_START'/>
+                <token regexp="yes">E|Mas</token>
+            </pattern>
+            <message>Estilisticamente '\2' só deve ser utilizado com efeito dramático, e muito raramente.</message>
+            <url>http://blog.oxforddictionaries.com/2012/01/can-i-start-a-sentence-with-a-conjunction/</url>
+            <short>Mau estilo</short>
+            <example correction=""><marker>E</marker> sim, isto mostra problemas de estilo ao começas a frase com 'e'.</example>
+            <example>Sim, mostra problemas de estilo começar a frase com 'e'.</example>
+            <example correction=""><marker>Mas</marker> não é bom costume começar a frase com 'mas'.</example>
+            <example>Não é um bom estilo de escrita começar uma frase com 'mas'.</example>
+        </rule>
+
+    </category>
+		<!--          Style rules from English grammar.xml      - END  -->
 
 </rules>
