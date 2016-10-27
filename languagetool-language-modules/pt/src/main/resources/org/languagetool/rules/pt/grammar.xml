@@ -3923,7 +3923,6 @@ $Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
 
 <category id="PUNCTUATION" name="Pontuação">
 
-
     <!-- OU SEJA ou seja, -->
     <rule id="OU_SEJA" name="ou seja">
       <pattern>
@@ -3936,8 +3935,6 @@ $Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
       <message>Usar vírgula: <suggestion>\1 \2,</suggestion></message>
       <example correction="ou seja,">Pensa primeiro, <marker>ou seja</marker> escolhe acertadamente.</example>
     </rule>
-
-
 
     <!-- COMMA BEFORE/AFTER WORDS #1 -->
     <rule id="COMMA_1" name="Vírgula antes #1">
@@ -4028,9 +4025,76 @@ $Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
       </pattern>
       <message>Usar vírgula: <suggestion>\1, \2</suggestion></message>
       <example correction="é, pois">Ela <marker>é pois</marker>, do Norte.</example>
-    </rule>	
-	
-	
+    </rule>
+
+ 	     <!-- Common punctuation errors - Verb + Conjunction  - 
+                           Covers punctuation 3rd group-->
+ 	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
+    <rule id="VERB_COMMA_CONJUNCTION" name="Verbo-Vírgula-Conjugação-Vírgula">
+	<pattern>
+	    <marker>
+        	<token postag='V.*' postag_regexp='yes'></token>
+        	<token regexp="yes">pois|porém|portanto|contudo</token>
+	        <token min='0'>,</token>
+	    </marker>
+		<token></token>
+	</pattern>
+	<message>Separe por vírgulas: <suggestion>\1, \2,</suggestion></message>
+	<url>http://www.lpeu.com.br/q/v73qc</url>
+	<example correction="digas, portanto,">Terminei a prova com antecedência, não me <marker>digas portanto</marker> que não posso sair.</example>
+     </rule>
+
+ 	     <!-- Common punctuation errors - Verb + Conjunction  - 
+                           Covers punctuation 3rd group-->
+ 	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
+    <rule id="VERB_COMMA_CONJUNCTION-2" name="Verbo-Vírgula-Conjugação-Vírgula">
+	<pattern>
+	    <marker>
+        	<token postag='V.*' postag_regexp='yes'></token>
+	        <token>,</token>
+        	<token regexp="yes">pois|porém|portanto|contudo</token>
+	    </marker>
+		<token negate='yes'>,</token>
+	</pattern>
+	<message>Separe por vírgulas: <suggestion>\1, \3,</suggestion></message>
+	<url>http://www.lpeu.com.br/q/v73qc</url>
+	<example correction="digas, portanto,">Terminei a prova com antecedência, não me <marker>digas, portanto</marker> que não posso sair.</example>
+     </rule>
+
+ 	     <!-- Common punctuation errors - Verb + Não Obstante  - -->
+ 	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
+    <rule id="VERB_COMMA_CONJUNCTION-3" name="Verbo-Vírgula-Não Obstante-Vírgula">
+	<pattern>
+	    <marker>
+        	<token postag='V.*' postag_regexp='yes'></token>
+        	<token>não</token>
+        	<token>obstante</token>
+	        <token min='0'>,</token>
+	    </marker>
+		<token></token>
+	</pattern>
+	<message>Separe por vírgulas: <suggestion>\1, \2 \3,</suggestion></message>
+	<url>http://www.lpeu.com.br/q/v73qc</url>
+	<example correction="digas, não obstante,">Terminei a prova com antecedência, não me <marker>digas não obstante</marker> que não posso sair.</example>
+     </rule>
+
+ 	     <!-- Common punctuation errors - Verb + Não Obstante - -->
+ 	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
+    <rule id="VERB_COMMA_CONJUNCTION-4" name="Verbo-Vírgula-Não Obstante-Vírgula">
+	<pattern>
+	    <marker>
+        	<token postag='V.*' postag_regexp='yes'></token>
+	        <token>,</token>
+        	<token>não</token>
+        	<token>obstante</token>
+	    </marker>
+		<token negate='yes'>,</token>
+	</pattern>
+	<message>Separe por vírgulas: <suggestion>\1, \3 \4,</suggestion></message>
+	<url>http://www.lpeu.com.br/q/v73qc</url>
+	<example correction="digas, não obstante,">Terminei a prova com antecedência, não me <marker>digas, não obstante</marker> que não posso sair.</example>
+     </rule>
+
 </category>
 
 
