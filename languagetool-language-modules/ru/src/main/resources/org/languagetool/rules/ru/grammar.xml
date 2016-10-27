@@ -5414,12 +5414,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>  
                         <token postag="PT:.*" postag_regexp="yes" regexp="yes">.*[а-мо-я][н][н]([а-мо-я]{1,3})<exception  negate_pos="yes" postag="PT:.*" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token negate_pos="yes"  postag="PREP" ><exception  postag="N(N|NN|NF):.*:.*:T" postag_regexp="yes"></exception></token>
+                    <token negate_pos="yes"  postag="PREP" ><exception  postag="N(N|NN|NF):.*:.*:(T|D)" postag_regexp="yes"></exception><exception regexp="yes">[А-ЯЁ]</exception></token>
                 </pattern>
                 <message>Прилагательное пишется с «н», зависимых слов нет: <suggestion><match no="1" regexp_match="(.*[а-мо-я])[н][н]([а-мо-я]{1,3})" regexp_replace="$1н$2"></match></suggestion></message>
                 <short>Пишется с «н»</short>
                 <example>Сегодня на ужин жареная картошка.</example>
                 <example>Сегодня у нас на ужин жаренная Иваном картошка.</example>
+                <example>Декларация содержит рекомендации по охране, адресованные странам и правительствам.</example>
+                <example>Метод лингвосоционического моделирования, предложенный Л. М. Комиссаровой, применяется при анализе.</example>
                 <example correction="жареная">Сегодня на ужин <marker>жаренная</marker> картошка.</example>
             </rule>
         </rulegroup>
