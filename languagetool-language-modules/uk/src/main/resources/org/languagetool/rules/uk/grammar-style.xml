@@ -23,158 +23,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
   <category name="Стиль" id="STYLE" type="style">
-    <rulegroup id="SAMYI_WITH_ADJ" name="Самий з прикметниками">
-      <!-- TODO: якщо робити це правило загальним фальшивих помилок більше ніж правильних позначень,
-          тож поки що обмежимося лише двома більш-менш стабільними випадками
-      -->
-      <rule>
-        <pattern>
-          <unify>
-            <feature id="gender"/>
-            <feature id="case"/>
-
-            <token inflected="yes">самий
-              <exception scope="previous" regexp="yes" inflected="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
-            </token>
-            <token postag_regexp="yes" postag="adj.*:(compr).*">
-              <exception postag_regexp="yes" postag="(verb).*"></exception>
-              <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
-            </token>
-          </unify>
-        </pattern>
-        <!-- TODO: when we can bind comparative forms togher again
-            <message>Замість «самий» + прикметник треба вживати найвищу ступінь з <suggestion><match no="2" postag_regexp="yes"
-            postag="(adj.*:)comp[br](.*?)(:&amp;adjp.*)?" postag_replace="$1super$2"/></suggestion></message>
-        -->
-        <message>Замість «самий» + прикметник треба вживати найвищий ступінь</message>
-        <example>Сама прийшла</example>
-        <example>Саме такий</example>
-        <example>Саме кращий</example>
-        <!-- TODO: when we can bind comparative forms togher again
-            <example correction="Найкращий"><marker>Самий кращий</marker>.</example>
-            <example correction="Найгірша"><marker>Сама гірша</marker>.</example>
-        -->
-        <example correction=""><marker>Самий кращий</marker>.</example>
-        <example correction=""><marker>Сама гірша</marker>.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>самий
-            <exception scope="previous" regexp="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
-          </token>
-          <token postag_regexp="yes" postag="adj.*:v_(naz|zna).*:comp.*">
-            <exception postag_regexp="yes" postag="(verb).*"></exception>
-            <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
-          </token>
-        </pattern>
-        <!-- TODO: when we can bind comparative forms togher again
-            <message>Замість «самий» + прикметник треба вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
-            postag="(adj.*):comp[br].*" postag_replace="$1:super.*"/></suggestion></message>
-        -->
-        <message>Замість «самий» + прикметник треба вживати найвищий ступінь</message>
-        <example>Самий цвіт</example>
-        <example>Саме такий</example>
-        <example>той самий страшний сон</example>
-        <example>лише самих економічних санкцій</example>
-        <!-- TODO: when we can bind comparative forms togher again
-            <example correction="Найгарніший|Найдобріший|Найкращий|Найліпший|Щонайгарніший|Щонайдобріший|Щонайкращий|Щонайліпший|Якнайгарніший|Якнайдобріший|Якнайкращий|Якнайліпший"><marker>Самий кращий</marker>.</example>
-            <example correction="найсильніший|щонайсильніший|якнайсильніший">Він — <marker>самий сильний</marker>.</example>
-            <example correction="найзадоволеніший|щонайзадоволеніший|якнайзадоволеніший">Він — <marker>самий задоволений</marker>.</example>
-        -->
-        <example correction=""><marker>Самий кращий</marker>.</example>
-        <example correction="">Він — <marker>самий сильний</marker>.</example>
-        <example correction="">Він — <marker>самий задоволений</marker>.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <unify>
-            <feature id="gender"/>
-            <feature id="case"/>
-
-            <marker>
-              <token inflected="yes">самий
-                <exception scope="previous" regexp="yes" inflected="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
-              </token>
-              <token postag_regexp="yes" postag="adj.*:(comp).*">
-                <exception postag_regexp="yes" postag="(verb).*"></exception>
-                <exception regexp="yes">(дуже|мала)</exception>
-              </token>
-            </marker>
-          </unify>
-          <token regexp="yes">[—–-]</token>
-        </pattern>
-        <message>Замість «самий» + прикметник треба вживати найвищий ступінь</message>
-        <!-- TODO: when we can bind comparative forms togher again
-            <message>Замість «самий» + прикметник треба вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
-            postag="(adj.*:)comp[br](.*?)(:&amp;adjp.*)?" postag_replace="$1super$2"/></suggestion></message>
-        -->
-        <example>Самий цвіт</example>
-        <example>Сама прийшла</example>
-        <example>Саме такий</example>
-        <example>Саме вони</example>
-        <example>представник саме романтичного націоналізму</example>
-        <!-- TODO: when we can bind comparative forms togher again
-            <example correction="Найгарніше|Найдобріше|Найкраще|Найліпше|Щонайгарніше|Щонайдобріше|Щонайкраще|Щонайліпше|Якнайгарніше|Якнайдобріше|Якнайкраще|Якнайліпше"><marker>Саме краще</marker> — ливарний цех.</example>
-        -->
-        <example correction=""><marker>Саме краще</marker> — ливарний цех.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <unify>
-            <feature id="gender"/>
-            <feature id="case"/>
-
-            <marker>
-              <token inflected="yes">самий
-                <exception scope="previous" regexp="yes" inflected="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
-              </token>
-              <token postag_regexp="yes" postag="adj.*:(comp).*">
-                <exception postag_regexp="yes" postag="(verb).*"></exception>
-                <exception regexp="yes">(дуже|мала)</exception>
-                <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
-              </token>
-            </marker>
-          </unify>
-          <token>,</token>
-          <token regexp="yes">що|який</token>
-        </pattern>
-        <message>Замість «самий» + прикметник треба вживати найвищий ступінь</message>
-        <!-- TODO: when we can bind comparative forms togher again
-            <message>Замість «самий» + прикметник треба вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
-            postag="(adj.*:)comp[br](.*?)(:&amp;adjp.*)?" postag_replace="$1super$2"/></suggestion></message>
-        -->
-        <example>Самий цвіт</example>
-        <example>Сама прийшла до нього</example>
-        <example>Саме такий</example>
-        <example>Саме вони</example>
-        <example>представник саме романтичного націоналізму</example>
-        <!-- TODO: when we can bind comparative forms togher again
-            <example correction="Найгарніше|Найдобріше|Найкраще|Найліпше|Щонайгарніше|Щонайдобріше|Щонайкраще|Щонайліпше|Якнайгарніше|Якнайдобріше|Якнайкраще|Якнайліпше"><marker>Саме краще</marker>, що в нас є.</example>
-        -->
-        <example correction=""><marker>Саме краще</marker>, що в нас є.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <unify>
-            <feature id="gender"/>
-            <feature id="case"/>
-            <token inflected="yes">самий
-              <exception scope="previous" regexp="yes" inflected="yes">(той|же?|чим)</exception>
-            </token>
-            <token inflected="yes" regexp="yes">перший|найперший
-              <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
-            </token>
-          </unify>
-        </pattern>
-        <message>Замість «самий перший» треба вживати найвищий ступінь: <suggestion>найперший</suggestion></message>
-        <example correction="Найперший"><marker>Самий перший</marker>.</example>
-        <example>самі першими втікали</example>
-        <example>найперший</example>
-        <example>Та сама Перша кінна армія</example>
-        <example>На самому Першому Національному пояснили</example>
-      </rule>
-    </rulegroup>
-
     <rulegroup id="BILSH_WITH_ADJ" name="Більш з прикметниками">
       <rule>
         <pattern>
@@ -1192,6 +1040,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+<!--
+    схоже, «відсутній» не має такого чіткого розділення
+
+    <rulegroup id="PRYSUTNIY_FOR_INANIM" name="Присутній для неістот">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">присутній</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim.*">
+            <exception postag_regexp="yes" postag="noun:anim.*"/>
+          </token>
+        </pattern>
+        <message>Пристутній можуть стосуватися лише людей</message>
+        <suggestion>є</suggestion>
+        <suggestion>наявний</suggestion>
+        <suggestion>маємо</suggestion>
+        <url>http://izvestiya.odessa.ua/ru/2010/06/10/uroki-ostrovskih-ukrayinskoyu-kazhut-tak</url>
+        <example correction="є|наявний|маємо">Тут <marker>присутній</marker> такий момент...</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes">відсутній</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj.*" min="0"/>
+          <token postag_regexp="yes" postag="noun:inanim.*">
+            <exception postag_regexp="yes" postag="noun:anim.*"/>
+          </token>
+        </pattern>
+        <message>Відстутній можуть стосуватися лише людей</message>
+        <suggestion>немає</suggestion>
+        <suggestion>бракує</suggestion>
+        <suggestion>не маємо</suggestion>
+        <suggestion>нам їх не стає</suggestion>
+        <url>http://izvestiya.odessa.ua/ru/2010/06/10/uroki-ostrovskih-ukrayinskoyu-kazhut-tak</url>
+        <example correction="немає|бракує|не маємо|нам їх не стає">Тут <marker>відсутній</marker> склад злочину...</example>
+      </rule>
+    </rulegroup>
+-->
 
     <!-- ідея цікава, але не має чіткого правила:
         http://r2u.org.ua/guides/synyavsky/synaksa_drugoriadni_pary
