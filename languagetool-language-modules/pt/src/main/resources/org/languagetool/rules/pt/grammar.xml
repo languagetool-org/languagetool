@@ -4189,4 +4189,230 @@ $Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
 
 </category>
 
+		<!--     Typography rules from English grammar.xml      - START-->
+		<!-- Localized by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+
+  <category id="TYPOGRAPHY" name="Typografia" type="typographical">
+  <rule id="TRADEMARK" name="(TM) em vez de ™">
+     <pattern case_sensitive='yes'>
+      <token regexp='yes'>\p{Lu}.*</token>
+      <marker>
+      <token>(</token>
+      <token>TM</token>
+      <token>)</token>
+      </marker>
+     </pattern>
+     <message>Pretende dizer: <suggestion>™</suggestion>?</message>
+     <short>Anotação não standard de ™</short>
+     <example correction='™'>O novo produto é de Escolha Executiva<marker>(TM)</marker> Plus.</example>
+    </rule>
+
+    <rule id="R_SYMBOL" name="(R) em vez de ®">
+		<antipattern case_sensitive="yes">
+		    <marker>
+		    <token>(</token>        
+        <token>R</token>
+        <token skip="-1">)</token>        
+        </marker>
+        <token regexp="yes">[\p{Lu}^R]<exception scope="previous" negate="yes">(</exception></token>
+        <token skip="-1">)</token>
+		</antipattern>
+		<antipattern case_sensitive="yes">
+		    <token>(</token>        
+        <token regexp="yes">[\p{Lu}^R]</token>
+        <token skip="-1">)</token>        
+        <marker>
+        <token>R<exception scope="previous" negate="yes">(</exception></token>
+        <token skip="-1">)</token>
+        </marker>
+		</antipattern>
+     <pattern case_sensitive='yes'>
+      <token regexp='yes'>\p{Lu}.*</token>
+      <marker>
+      <token>(</token>
+      <token>R</token>
+      <token>)</token>
+      </marker>
+     </pattern>
+     <message>Pretende dizer: <suggestion>®</suggestion>?</message>
+     <short>Anotação não padronizada de ®</short>
+     <example correction='®'>Windows <marker>(R)</marker></example>
+     <example>Estes são Richard Burr (D) e Kay Hagan (R).</example>
+    </rule>
+
+    <rule id="COPYRIGHT" name="(c) em vez de ©" type="typographical">
+    <antipattern>
+        <token>(</token>        
+        <token>a</token>
+        <token skip="-1">)</token>        
+        <token>b<exception scope="previous" negate="yes">(</exception></token>
+        <token skip="-1">)</token>
+        <marker>        
+        <token>c<exception scope="previous" negate="yes">(</exception></token>
+        <token>)</token>
+        </marker>
+		</antipattern>    
+      <pattern>
+      <marker>
+        <token>(</token>        
+        <token>c</token>
+        <token>)</token>
+        </marker>
+        <token regexp="yes">\d{4}|\p{Lu}\p{Ll}+</token>
+      </pattern>
+      <message>Esta anotação não é padronizada, utilize antes o símbolo: <suggestion>©</suggestion></message>
+      <short>Anotação não padronizada de ©</short>
+      <example correction="©">Copyright <marker>(C)</marker> Joanna Bator, 2012</example>
+      <example correction="©">Copyright <marker>(C)</marker> 2010 O Estado da Gramática</example>
+      <example>Isto é uma lista: (a) item, (b) 2 itens, (c) 2014 itens.</example>
+		</rule>
+
+<!--        <rulegroup type="locale-violation" id="CURRENCY" name="Posição dos símbolos de moeda: '100€ (€100)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+[$€£¥\u8371]</token>
+                </pattern>
+                <message>The currency mark is usually put at the beginning of the number: <suggestion><match no="1" regexp_match="(\d+)([$€£¥\u8371])" regexp_replace="$2$1"/></suggestion>.</message>
+                <short>Put currency at the beginning</short>
+                <example correction="$100">You owe me <marker>100$</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">[$€£¥\u8371]</token>
+                </pattern>
+                <message>The currency mark is usually put at the beginning of the number: <suggestion>\2\1</suggestion>.</message>
+                <short>Put currency at the beginning</short>
+                <example correction="$100">You owe me <marker>100 $</marker>.</example>
+            </rule>
+        </rulegroup> -->
+
+        <rule type="whitespace" id="CURRENCY_SPACE" name="Espaço em branco depois de símbolos monetários: '$ 100' ($100)">
+            <pattern>
+                <token regexp="yes">[$€£¥\u8371]</token>
+                <token regexp="yes" spacebefore="yes">\d+</token>
+            </pattern>
+            <message>Os símbolos monetários não são separados por um espaço: <suggestion>\1\2</suggestion>.</message>
+            <short>Remover espaço</short>
+            <example correction="$100">Deve-se <marker>$ 100</marker>.</example>
+        </rule>
+
+        <rule type="whitespace" id="CURRENCY_SPACE_2" name="Espaço em branco antes de símbolos monetários: '$ 100' ($100)">
+            <pattern>
+                <token regexp="yes">\d+</token>
+                <token regexp="yes" spacebefore="yes">[$€£¥\u8371]</token>
+            </pattern>
+            <message>Os símbolos monetários não são separados por um espaço: <suggestion>\1\2</suggestion>.</message>
+            <short>Remover espaço</short>
+            <example correction="100€">Deve-se <marker>100 €</marker>.</example>
+        </rule>
+
+<!--		PROBLEMAS COM TESTES - VERIFICAR
+        <rulegroup id="EN_QUOTES" name="Aspas inteligentes (“”)">
+            <rule>
+                <pattern>
+                    <token postag="``"/>
+                </pattern>
+                <message>Utilize aqui aspas inteligentes: <suggestion>“</suggestion>.</message>
+                <url>https://en.wikipedia.org/wiki/Smart_quote#Electronic_documents</url>
+                <short>Utilize aspas inteligentes</short>
+                <example correction="“">Isto é um (<marker>&quot;</marker>teste&quot;).</example>
+                <example correction="“"><marker>&quot;</marker>Teste&quot;!</example>
+                <example>“Teste”!</example>
+                <example correction="“">Isto é outro teste <marker>&quot;</marker>teste&quot;.</example>
+            </rule>
+            <rule> -->
+<!--                <antipattern> --><!-- não embelezar polegadas -->
+<!--                    <token postag_regexp="yes" postag="''|SENT_START" skip="-1"><exception scope="next" postag="``"/></token>
+                    <token regexp="yes">\d{1,2}(?:[-\.]\d{1,2})?</token>
+                    <marker><token postag="''"/></marker>
+                </antipattern>
+                <pattern>
+                    <token postag="''"/>
+                </pattern>
+                <message>Utilize uma aspas de fecho aqui: <suggestion>”</suggestion>.</message>
+                <url>https://en.wikipedia.org/wiki/Smart_quote#Electronic_documents</url>
+                <short>Utilize aspas inteligentes</short>
+                <example correction="”">Isto é um teste (&quot;teste<marker>&quot;</marker>)</example>
+                <example correction="”">Use as aspas &quot;aqui<marker>&quot;</marker> para dizer algo.</example>
+                <example correction="”">Isto é outro teste &quot;teste<marker>&quot;</marker>.</example>
+                <example correction="”">Achilles falou na canção &quot;57821<marker>&quot;</marker>, de Janelle Monáe ft.</example>
+                <example>“Teste”!</example>
+                <example>Os assentos da classe económica tem uma profundidade de 31-33&quot;</example>
+                <example correction="”">O jogador de futebol apelidado de &quot;O Animal<marker>&quot;</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>`</token>
+                    <token spacebefore="no">`</token>
+                </pattern>
+                <message>Utilize uma aspas inteligente de abertura aqui: <suggestion>“</suggestion>.</message>
+                <url>https://en.wikipedia.org/wiki/Smart_quote#Electronic_documents</url>
+                <short>Utilize aspas inteligentes</short>
+                <example correction="“"><marker>``</marker>Teste”.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>„</token>
+                </pattern>
+                <message>Abertura de aspas possivelmente errada: <suggestion>“</suggestion>.</message>
+                <url>https://en.wikipedia.org/wiki/„</url>
+                <example correction="“"><marker>„</marker>Teste”.</example>
+            </rule>
+        </rulegroup>  -->
+
+        <rule id="ELLIPSIS" name="Reticências inteligentes (…)">
+            <pattern>
+                <token>.</token>
+                <token>.</token>
+                <token>.</token>
+            </pattern>
+            <message>Utilize o caractér tipográfico de reticências em vez de: <suggestion>…</suggestion>.</message>
+            <example correction="…">Isto é importante <marker>. . .</marker> tanto quanto sei.</example>
+            <example>Isto é importante – tanto quanto sei.</example>
+            <example correction="…">Isto é importante<marker>...</marker> tanto quanto sei.</example>
+        </rule>
+
+<!-- Não se aplica
+        <rulegroup id="WRONG_APOSTROPHE" name="Apóstrofe de carácter errado">
+            <rule>
+                <pattern>
+                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
+                    <token regexp="yes">[´`]</token>
+                    <token>t</token>
+                </pattern>
+                <message>You used an accent character instead of an apostrophe. Please use either <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>.</message>
+                <short>Accent character misused as apostrophe</short>
+                <example correction="shouldn't|shouldn’t">You <marker>shouldn´t</marker> do it!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ain|aren|can|couldn|didn|doesn|don|hadn|hasn|haven|isn|mayn|mightn|mustn|needn|oughtn|shan|shouldn|wasn|weren|won|wouldn</token>
+                    <token regexp="yes">[;:"]</token>
+                    <token>t</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1'\3</suggestion> or <suggestion>\1’\3</suggestion>?</message>
+                <example correction="shouldn't|shouldn’t">You <marker>shouldn;t</marker> do it!</example>
+            </rule>
+        </rulegroup>   
+			-->
+
+        <rule id="APOSTROPHE_IN_DATES" name="Apóstrofe em datas">
+            <pattern>
+                <token spacebefore="yes" regexp='yes'>(:?[1-2]\d)?\d0<exception regexp='yes'>2[1-9]\d0</exception></token>
+                <token regexp="yes">['’]</token>
+                <token>s</token>
+            </pattern>
+            <message>Apostrofes não são necessários em décadas: <suggestion><match no="1"/><match no="3"/></suggestion>.</message>
+            <url>http://www.monash.edu/about/editorialstyle/editing/apostrophes</url>
+            <short>Apostrophe in a decade date</short>
+            <example correction='1970s'>O Diácono Remédios perguntou onde estavas nos <marker>1970's</marker>.</example>
+            <example correction='70s'>O Diácono Remédios perguntou onde estavas nos  <marker>70's</marker>.</example>
+            <example correction='1990s'>Onde estavas nos <marker>1990’s</marker>?</example>
+            <example>Discos de travões <marker>Alvis 12/70</marker>'s adaptados a jantes mais largas.</example>
+        </rule>
+  </category>
+
+<!-- Localization of rules from the English grammar.xml - END  -->
+
 </rules>
