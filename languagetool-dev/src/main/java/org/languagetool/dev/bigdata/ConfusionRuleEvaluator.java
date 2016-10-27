@@ -166,7 +166,8 @@ class ConfusionRuleEvaluator {
       results.put(factor, new EvalResult(summary, precision, recall));
       if (verbose) {
         System.out.println();
-        System.out.printf(ENGLISH, "Factor: %d - %d false positives, %d false negatives\n", factor, evalValues.falsePositives, evalValues.falseNegatives);
+        System.out.printf(ENGLISH, "Factor: %d - %d false positives, %d false negatives, %d true positives, %d true negatives\n",
+                          factor, evalValues.falsePositives, evalValues.falseNegatives, evalValues.truePositives, evalValues.trueNegatives);
         //System.out.printf(ENGLISH, "Precision:    %.3f (%d false positives)\n", precision, evalValues.falsePositives);
         //System.out.printf(ENGLISH, "Recall:       %.3f (%d false negatives)\n", recall, evalValues.falseNegatives);
         //double fMeasure = FMeasure.getWeightedFMeasure(precision, recall);
