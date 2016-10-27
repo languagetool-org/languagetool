@@ -171,7 +171,8 @@ public class UkrainianTaggerTest {
 
     TestTools.myAssert("а-а", "а-а/[а-а]intj", tokenizer, tagger);
     TestTools.myAssert("Га-га", "Га-га/[га-га]intj", tokenizer, tagger);
-    TestTools.myAssert("ось\u2011ось", "ось\u2011ось/[ось\u2011ось]adv", tokenizer, tagger);
+    TestTools.myAssert("ось\u2013ось", "ось\u2013ось/[ось\u2013ось]adv", tokenizer, tagger);
+    TestTools.myAssert("ось\u2011ось", "ось-ось/[ось-ось]adv", tokenizer, tagger);
 
     TestTools.myAssert("вгору-вниз", "вгору-вниз/[вгору-вниз]adv", tokenizer, tagger);
 

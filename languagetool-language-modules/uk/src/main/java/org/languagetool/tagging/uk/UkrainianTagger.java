@@ -41,6 +41,7 @@ public class UkrainianTagger extends BaseTagger {
   
   private static final Pattern DATE = Pattern.compile("[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}");
   private static final Pattern TIME = Pattern.compile("([01]?[0-9]|2[0-3])[.:][0-5][0-9]");
+  private static final Pattern ALT_DASHES_IN_WORD = Pattern.compile("[а-яіїєґ][\u2013][а-яіїєґ]");
   
   private final CompoundTagger compoundTagger = new CompoundTagger(this, wordTagger, conversionLocale);
 //  private BufferedWriter taggedDebugWriter;
@@ -89,12 +90,12 @@ public class UkrainianTagger extends BaseTagger {
     if( tokens.get(0).getPOSTag() == null ) {
       char otherHyphen = getOtherHyphen(word);
       if( otherHyphen != '\u0000'
-           && word.matches(".*[а-яіїєґ][\u2013\u2011][а-яіїєґ].*")) {
-        
+           && ALT_DASHES_IN_WORD.matcher(word).find() ) {
+
         String newWord = word.replace(otherHyphen, '-');
-        
+
         List<AnalyzedToken> newTokens = super.getAnalyzedTokens(newWord);
-        
+
         for (int i = 0; i < newTokens.size(); i++) {
           AnalyzedToken analyzedToken = newTokens.get(i);
           if( newWord.equals(analyzedToken.getToken()) ) {
@@ -110,7 +111,7 @@ public class UkrainianTagger extends BaseTagger {
         tokens = newTokens;
       }
     }
-    
+
 //    if( taggedDebugWriter != null && ! tkns.isEmpty() ) {
 //      debug_tagged_write(tkns, taggedDebugWriter);
 //    }
@@ -121,8 +122,9 @@ public class UkrainianTagger extends BaseTagger {
   private static char getOtherHyphen(String word) {
     if( word.indexOf('\u2013') != -1 )
       return '\u2013';
-    if( word.indexOf('\u2011') != -1 )
-      return '\u2011';
+// we normalize \u2011 to \u002D in tokenizer
+//    if( word.indexOf('\u2011') != -1 )
+//      return '\u2011';
     
     return '\u0000';
   }

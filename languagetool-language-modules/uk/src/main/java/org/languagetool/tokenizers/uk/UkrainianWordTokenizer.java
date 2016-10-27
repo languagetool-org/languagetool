@@ -261,6 +261,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
   private static String cleanup(String text) {
     text = text.replace('’', '\'').replace('ʼ', '\'').replace('‘', '\'');
+    text = text.replace('\u2011', '-'); // we handle \u2013 in tagger so we can base our rule on it
 
     return text;
   }
