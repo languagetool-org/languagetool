@@ -4382,7 +4382,6 @@ $Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
             <example correction="$100">Deve-se <marker>$ 100</marker>.</example>
         </rule>
 
-	  <!-- commented out because it breaks the test
         <rule type="whitespace" id="CURRENCY_SPACE_2" name="Espaço em branco antes de símbolos monetários: '100,00€' (100,00 €)">
             <pattern>
                 <token regexp="yes">\d+[€]</token>
@@ -4390,10 +4389,8 @@ $Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
             <message>Os símbolos monetários do euro (€) são separados por um espaço<suggestion><match no="1" regexp_match="(\d+)([€\u8371])" regexp_replace="$1 $2"/></suggestion>.</message>
 	    <url>https://pt.wikipedia.org/wiki/Euro#Conven.C3.A7.C3.B5es_de_escrita</url>
             <short>Dar um espaço</short>
-            <example type='incorrect'>Deve-se <marker>100€</marker>.</example>
-            <example type='correct'>Deve-se <marker>100 €</marker>.</example>
+            <example correction="100 €">Deve-se <marker>100€</marker>.</example>
         </rule>
-        -->
 
 <!--		FIXME PROBLEMAS COM TESTES - VERIFICAR
         <rulegroup id="EN_QUOTES" name="Aspas inteligentes (“”)">
