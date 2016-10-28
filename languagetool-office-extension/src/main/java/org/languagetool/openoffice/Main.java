@@ -197,7 +197,7 @@ public class Main extends WeakBase implements XJobExecutor,
       boolean langIsSupported = false;
       for (Language element : Languages.get()) {
         if (charLocale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)
-            && element.getShortNameWithCountryAndVariant().equalsIgnoreCase(charLocale.Variant)) {
+            && element.getShortCodeWithCountryAndVariant().equalsIgnoreCase(charLocale.Variant)) {
           langIsSupported = true;
           break;
         }
@@ -543,14 +543,14 @@ public class Main extends WeakBase implements XJobExecutor,
         if (lang.getCountries().length == 0) {
           // e.g. Esperanto
           if (lang.getVariant() != null) {
-            locales.add(new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, "", lang.getShortNameWithCountryAndVariant()));
+            locales.add(new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, "", lang.getShortCodeWithCountryAndVariant()));
           } else {
             locales.add(new Locale(lang.getShortCode(), "", ""));
           }
         } else {
           for (String country : lang.getCountries()) {
             if (lang.getVariant() != null) {
-              locales.add(new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, country, lang.getShortNameWithCountryAndVariant()));
+              locales.add(new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, country, lang.getShortCodeWithCountryAndVariant()));
             } else {
               locales.add(new Locale(lang.getShortCode(), country, ""));
             }
@@ -573,7 +573,7 @@ public class Main extends WeakBase implements XJobExecutor,
     try {
       for (Language element : Languages.get()) {
         if (locale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)
-            && element.getShortNameWithCountryAndVariant().equals(locale.Variant)) {
+            && element.getShortCodeWithCountryAndVariant().equals(locale.Variant)) {
           return true;
         }
         if (element.getShortCode().equals(locale.Language)) {

@@ -41,6 +41,8 @@
 #### Java API
   * `Language.getShortName()` has been deprecated, use `Language.getShortCode()`
     instead
+  * `Language.getShortNameWithCountryAndVariant()` has been deprecated, use
+    `Language.getShortCodeWithCountryAndVariant()` instead
   
 #### Command-line
   * Added a `--json` option as an alternative to `--api` (deprecated XML output)

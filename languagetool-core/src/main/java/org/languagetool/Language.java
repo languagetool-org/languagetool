@@ -196,9 +196,9 @@ public abstract class Language {
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     ruleFiles.add(dataBroker.getRulesDir()
             + "/" + getShortCode() + "/" + JLanguageTool.PATTERN_FILE);
-    if (getShortNameWithCountryAndVariant().length() > 2) {
+    if (getShortCodeWithCountryAndVariant().length() > 2) {
       String fileName = getShortCode() + "/"
-              + getShortNameWithCountryAndVariant()
+              + getShortCodeWithCountryAndVariant()
               + "/" + JLanguageTool.PATTERN_FILE;
       if (dataBroker.ruleFileExists(fileName)) {
         ruleFiles.add(dataBroker.getRulesDir() + "/" + fileName);
@@ -309,7 +309,7 @@ public abstract class Language {
    */
   public final String getTranslatedName(ResourceBundle messages) {
     try {
-      return messages.getString(getShortNameWithCountryAndVariant());
+      return messages.getString(getShortCodeWithCountryAndVariant());
     } catch (MissingResourceException e) {
       try {
         return messages.getString(getShortCode());
@@ -323,9 +323,9 @@ public abstract class Language {
    * Get the short name of the language with country and variant (if any), if it is
    * a single-country language. For generic language classes, get only a two- or
    * three-character code.
-   * @since 1.8
+   * @since 3.6
    */
-  public final String getShortNameWithCountryAndVariant() {
+  public final String getShortCodeWithCountryAndVariant() {
     String name = getShortCode();
     if (getCountries().length == 1 && !name.contains("-x-")) {   // e.g. "de-DE-x-simple-language"
       name += "-" + getCountries()[0];
@@ -334,6 +334,18 @@ public abstract class Language {
       }
     }
     return name;
+  }
+  
+  /**
+   * Get the short name of the language with country and variant (if any), if it is
+   * a single-country language. For generic language classes, get only a two- or
+   * three-character code.
+   * @since 1.8
+   * @deprecated use {@link #getShortCodeWithCountryAndVariant()} instead (deprecated since 3.6)
+   */
+  @Deprecated
+  public final String getShortNameWithCountryAndVariant() {
+    return getShortCodeWithCountryAndVariant();
   }
   
   /**
@@ -377,7 +389,7 @@ public abstract class Language {
    */
   public final boolean isVariant() {
     for (Language language : Languages.get()) {
-      boolean skip = language.getShortNameWithCountryAndVariant().equals(getShortNameWithCountryAndVariant());
+      boolean skip = language.getShortCodeWithCountryAndVariant().equals(getShortCodeWithCountryAndVariant());
       if (!skip && language.getClass().isAssignableFrom(getClass())) {
         return true;
       }
@@ -391,7 +403,7 @@ public abstract class Language {
    */
   public final boolean hasVariant() {
     for (Language language : Languages.get()) {
-      boolean skip = language.getShortNameWithCountryAndVariant().equals(getShortNameWithCountryAndVariant());
+      boolean skip = language.getShortCodeWithCountryAndVariant().equals(getShortCodeWithCountryAndVariant());
       if (!skip && getClass().isAssignableFrom(language.getClass())) {
         return true;
       }
@@ -418,7 +430,7 @@ public abstract class Language {
       boolean thisHasCountry = hasCountry();
       boolean otherHasCountry = otherLanguage.hasCountry();
       return !(thisHasCountry && otherHasCountry) ||
-              getShortNameWithCountryAndVariant().equals(otherLanguage.getShortNameWithCountryAndVariant());
+              getShortCodeWithCountryAndVariant().equals(otherLanguage.getShortCodeWithCountryAndVariant());
     } else {
       return false;
     }

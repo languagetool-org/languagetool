@@ -833,7 +833,7 @@ class LanguageToolSupport {
   }
 
   private void showDialog(Component parent, String title, String message, Rule rule) {
-    Tools.showRuleInfoDialog(parent, title, message, rule, messages, languageTool.getLanguage().getShortNameWithCountryAndVariant());
+    Tools.showRuleInfoDialog(parent, title, message, rule, messages, languageTool.getLanguage().getShortCodeWithCountryAndVariant());
   }
 
   private static class ReplaceMenuItem extends JMenuItem {

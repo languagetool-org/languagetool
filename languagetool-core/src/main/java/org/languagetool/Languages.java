@@ -146,7 +146,7 @@ public final class Languages {
     if (language == null) {
       List<String> codes = new ArrayList<>();
       for (Language realLanguage : LANGUAGES) {
-        codes.add(realLanguage.getShortNameWithCountryAndVariant());
+        codes.add(realLanguage.getShortCodeWithCountryAndVariant());
       }
       Collections.sort(codes);
       throw new IllegalArgumentException("'" + langCode + "' is not a language code known to LanguageTool." +
@@ -185,7 +185,7 @@ public final class Languages {
       }
     }
     for (Language aLanguage : LANGUAGES) {
-      if (aLanguage.getShortNameWithCountryAndVariant().equals("en-US")) {
+      if (aLanguage.getShortCodeWithCountryAndVariant().equals("en-US")) {
         return aLanguage;
       }
     }

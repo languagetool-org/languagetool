@@ -54,10 +54,10 @@ public class LanguagesTest {
 
   @Test
   public void testGetLanguageForShortName() {
-    assertEquals("en-US", Languages.getLanguageForShortName("en-us").getShortNameWithCountryAndVariant());
-    assertEquals("en-US", Languages.getLanguageForShortName("EN-US").getShortNameWithCountryAndVariant());
-    assertEquals("en-US", Languages.getLanguageForShortName("en-US").getShortNameWithCountryAndVariant());
-    assertEquals("de", Languages.getLanguageForShortName("de").getShortNameWithCountryAndVariant());
+    assertEquals("en-US", Languages.getLanguageForShortName("en-us").getShortCodeWithCountryAndVariant());
+    assertEquals("en-US", Languages.getLanguageForShortName("EN-US").getShortCodeWithCountryAndVariant());
+    assertEquals("en-US", Languages.getLanguageForShortName("en-US").getShortCodeWithCountryAndVariant());
+    assertEquals("de", Languages.getLanguageForShortName("de").getShortCodeWithCountryAndVariant());
     try {
       Languages.getLanguageForShortName("xy");
       fail();
@@ -106,8 +106,8 @@ public class LanguagesTest {
 
   @Test
   public void testGetLanguageForName() {
-    assertEquals("en-US", Languages.getLanguageForName("English (US)").getShortNameWithCountryAndVariant());
-    assertEquals("de", Languages.getLanguageForName("German").getShortNameWithCountryAndVariant());
+    assertEquals("en-US", Languages.getLanguageForName("English (US)").getShortCodeWithCountryAndVariant());
+    assertEquals("de", Languages.getLanguageForName("German").getShortCodeWithCountryAndVariant());
     assertEquals(null, Languages.getLanguageForName("Foobar"));
   }
 
@@ -158,16 +158,16 @@ public class LanguagesTest {
   public void testGetLanguageForLocale() {
     assertEquals("de", Languages.getLanguageForLocale(Locale.GERMAN).getShortCode());
     assertEquals("de", Languages.getLanguageForLocale(Locale.GERMANY).getShortCode());
-    assertEquals("de-DE", Languages.getLanguageForLocale(new Locale("de", "DE")).getShortNameWithCountryAndVariant());
-    assertEquals("de-AT", Languages.getLanguageForLocale(new Locale("de", "AT")).getShortNameWithCountryAndVariant());
-    assertEquals("en-US", Languages.getLanguageForLocale(new Locale("en", "US")).getShortNameWithCountryAndVariant());
-    assertEquals("en-GB", Languages.getLanguageForLocale(new Locale("en", "GB")).getShortNameWithCountryAndVariant());
+    assertEquals("de-DE", Languages.getLanguageForLocale(new Locale("de", "DE")).getShortCodeWithCountryAndVariant());
+    assertEquals("de-AT", Languages.getLanguageForLocale(new Locale("de", "AT")).getShortCodeWithCountryAndVariant());
+    assertEquals("en-US", Languages.getLanguageForLocale(new Locale("en", "US")).getShortCodeWithCountryAndVariant());
+    assertEquals("en-GB", Languages.getLanguageForLocale(new Locale("en", "GB")).getShortCodeWithCountryAndVariant());
     // fallback to the language's default variant if not specified:
-    assertEquals("en-US", Languages.getLanguageForLocale(new Locale("en")).getShortNameWithCountryAndVariant());
-    assertEquals("de-DE", Languages.getLanguageForLocale(new Locale("de")).getShortNameWithCountryAndVariant());
-    assertEquals("pl-PL", Languages.getLanguageForLocale(new Locale("pl")).getShortNameWithCountryAndVariant());
+    assertEquals("en-US", Languages.getLanguageForLocale(new Locale("en")).getShortCodeWithCountryAndVariant());
+    assertEquals("de-DE", Languages.getLanguageForLocale(new Locale("de")).getShortCodeWithCountryAndVariant());
+    assertEquals("pl-PL", Languages.getLanguageForLocale(new Locale("pl")).getShortCodeWithCountryAndVariant());
     // final fallback is everything else fails:
-    assertEquals("en-US", Languages.getLanguageForLocale(Locale.KOREAN).getShortNameWithCountryAndVariant());
-    assertEquals("en-US", Languages.getLanguageForLocale(new Locale("zz")).getShortNameWithCountryAndVariant());
+    assertEquals("en-US", Languages.getLanguageForLocale(Locale.KOREAN).getShortCodeWithCountryAndVariant());
+    assertEquals("en-US", Languages.getLanguageForLocale(new Locale("zz")).getShortCodeWithCountryAndVariant());
   }
 }

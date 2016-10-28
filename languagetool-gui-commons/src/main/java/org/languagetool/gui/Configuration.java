@@ -447,7 +447,7 @@ public class Configuration {
   private String getQualifier(Language lang) {
     String qualifier = "";
     if (lang != null) {
-      qualifier = "." + lang.getShortNameWithCountryAndVariant();
+      qualifier = "." + lang.getShortCodeWithCountryAndVariant();
     }
     return qualifier;
   }
@@ -455,7 +455,7 @@ public class Configuration {
   private void loadConfigForOtherLanguages(Language lang, Properties prop) {
     for (Language otherLang : Languages.get()) {
       if (!otherLang.equals(lang)) {
-        String languageSuffix = "." + otherLang.getShortNameWithCountryAndVariant();
+        String languageSuffix = "." + otherLang.getShortCodeWithCountryAndVariant();
         storeConfigKeyFromProp(prop, DISABLED_RULES_KEY + languageSuffix);
         storeConfigKeyFromProp(prop, ENABLED_RULES_KEY + languageSuffix);
         storeConfigKeyFromProp(prop, DISABLED_CATEGORIES_KEY + languageSuffix);
@@ -487,7 +487,7 @@ public class Configuration {
     addListToProperties(props, ENABLED_RULES_KEY + qualifier, enabledRuleIds);
     addListToProperties(props, DISABLED_CATEGORIES_KEY + qualifier, disabledCategoryNames);
     if (language != null && !language.isExternal()) {  // external languages won't be known at startup, so don't save them
-      props.setProperty(LANGUAGE_KEY, language.getShortNameWithCountryAndVariant());
+      props.setProperty(LANGUAGE_KEY, language.getShortCodeWithCountryAndVariant());
     }
     if (motherTongue != null) {
       props.setProperty(MOTHER_TONGUE_KEY, motherTongue.getShortCode());

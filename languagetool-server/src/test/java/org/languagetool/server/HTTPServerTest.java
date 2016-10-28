@@ -333,7 +333,7 @@ public class HTTPServerTest {
         System.err.println("Got expected error on long text (" + text.length() + " chars): " + e.getMessage());
         return "";
       } else {
-        System.err.println("Got error from server (" + lang.getShortNameWithCountryAndVariant() + ", " + text.length() + " chars): " + e.getMessage());
+        System.err.println("Got error from server (" + lang.getShortCodeWithCountryAndVariant() + ", " + text.length() + " chars): " + e.getMessage());
         return "";
       }
     }

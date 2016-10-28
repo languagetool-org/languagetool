@@ -414,7 +414,7 @@ public class ConfigurationDialog implements ActionListener {
                 }
                 Tools.showRuleInfoDialog(tree, messages.getString("guiAboutRuleTitle"),
                         rule.getDescription(), rule, messages,
-                        lang.getShortNameWithCountryAndVariant());
+                        lang.getShortCodeWithCountryAndVariant());
               }
             });
             popup.add(aboutRuleMenuItem);

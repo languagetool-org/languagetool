@@ -74,7 +74,7 @@ public class PatternRuleTest {
   protected void runGrammarRulesFromXmlTest(Language ignoredLanguage) throws IOException {
     int count = 0;
     for (Language lang : Languages.get()) {
-      if (ignoredLanguage.getShortNameWithCountryAndVariant().equals(lang.getShortNameWithCountryAndVariant())) {
+      if (ignoredLanguage.getShortCodeWithCountryAndVariant().equals(lang.getShortCodeWithCountryAndVariant())) {
         continue;
       }
       runGrammarRuleForLanguage(lang);
@@ -120,7 +120,7 @@ public class PatternRuleTest {
   }
 
   private List<String> getGrammarFileNames(Language lang) {
-    String shortNameWithVariant = lang.getShortNameWithCountryAndVariant();
+    String shortNameWithVariant = lang.getShortCodeWithCountryAndVariant();
     List<String> fileNames = new ArrayList<>();
     for (String ruleFile : lang.getRuleFileNames()) {
       String nameOnly = new File(ruleFile).getName();
@@ -236,7 +236,7 @@ public class PatternRuleTest {
     for (Rule rule : allRules) {
       assertIdUniqueness(ids, ruleClasses, lang, rule);
       if (rule.getId().equalsIgnoreCase("ID")) {
-        System.err.println("WARNING: " + lang.getShortNameWithCountryAndVariant() + " has a rule with id 'ID', this should probably be changed");
+        System.err.println("WARNING: " + lang.getShortCodeWithCountryAndVariant() + " has a rule with id 'ID', this should probably be changed");
       }
       Category category = rule.getCategory();
       if (category != null && category.getId() != null) {

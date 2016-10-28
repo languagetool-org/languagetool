@@ -54,13 +54,13 @@ public class RuleMatchAsXmlSerializer {
       String languageXml = "<language ";
       String warning = "";
       if (lang != null) {
-        languageXml += "shortname=\"" + lang.getShortNameWithCountryAndVariant() + "\" name=\"" + lang.getName() + "\"";
-        String longCode = lang.getShortNameWithCountryAndVariant();
+        languageXml += "shortname=\"" + lang.getShortCodeWithCountryAndVariant() + "\" name=\"" + lang.getName() + "\"";
+        String longCode = lang.getShortCodeWithCountryAndVariant();
         if ("en".equals(longCode) || "de".equals(longCode)) {
           xml.append("<!-- NOTE: The language code you selected ('").append(longCode).append("') doesn't support spell checking. Consider using a code with a variant like 'en-US'. -->\n");
         }
       }
-      if (motherTongue != null && (lang == null || !motherTongue.getShortCode().equals(lang.getShortNameWithCountryAndVariant()))) {
+      if (motherTongue != null && (lang == null || !motherTongue.getShortCode().equals(lang.getShortCodeWithCountryAndVariant()))) {
         languageXml += " mothertongueshortname=\"" + motherTongue.getShortCode() + "\" mothertonguename=\"" + motherTongue.getName() + "\"";
       }
       languageXml += "/>\n";

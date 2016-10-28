@@ -109,7 +109,7 @@ public class TranslationTest {
   private File getTranslationFileWithVariant(Language lang) {
     String langCode = lang.getShortCode();
     String name = "../languagetool-language-modules/" + langCode + "/src/main/resources/org/languagetool" 
-            + "/MessagesBundle_" + lang.getShortNameWithCountryAndVariant().replace('-', '_') + ".properties";
+            + "/MessagesBundle_" + lang.getShortCodeWithCountryAndVariant().replace('-', '_') + ".properties";
     return new File(name.replace("/", File.separator));
   }
 

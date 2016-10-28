@@ -57,7 +57,7 @@ public final class PatternTestTools {
       for (PatternToken token : patternTokens) {
         if (token.getString() != null && token.getString().matches(".*\\s.*")) {
           fail("Whitespace found in token '" + token.getString() + "' of rule " + rule.getFullId() +
-               " (language " + lang.getShortNameWithCountryAndVariant() + "): " +
+               " (language " + lang.getShortCodeWithCountryAndVariant() + "): " +
                "Using whitespace in a token will not work, as text gets split at whitespace. " +
                "Use a new <token> element instead.");
         }

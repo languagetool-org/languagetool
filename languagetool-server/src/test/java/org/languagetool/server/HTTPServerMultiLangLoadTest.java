@@ -95,7 +95,7 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
     long startTime = System.currentTimeMillis();
     counter.incrementAndGet();
     checkByPOST(language, textSubstring);
-    System.out.println(counter.get() + ". Sleep: " + sleepTime + "ms, Lang: " + language.getShortNameWithCountryAndVariant()
+    System.out.println(counter.get() + ". Sleep: " + sleepTime + "ms, Lang: " + language.getShortCodeWithCountryAndVariant()
             + ", Length: " + textSubstring.length() + ", Time: " + (System.currentTimeMillis()-startTime) + "ms");
   }
 

@@ -131,7 +131,7 @@ abstract class TextChecker {
         boolean cancelled = future.cancel(true);
         throw new RuntimeException("Text checking took longer than allowed maximum of " + config.maxCheckTimeMillis +
                 " milliseconds (cancelled: " + cancelled +
-                ", language: " + lang.getShortNameWithCountryAndVariant() +
+                ", language: " + lang.getShortCodeWithCountryAndVariant() +
                 ", " + text.length() + " characters of text)", e);
       }
     }
@@ -139,7 +139,7 @@ abstract class TextChecker {
     setHeaders(httpExchange);
     String xmlResponse = getResponse(text, lang, motherTongue, matches);
     String messageSent = "sent";
-    String languageMessage = lang.getShortNameWithCountryAndVariant();
+    String languageMessage = lang.getShortCodeWithCountryAndVariant();
     String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
     try {
       httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, xmlResponse.getBytes(ENCODING).length);
@@ -149,7 +149,7 @@ abstract class TextChecker {
       messageSent = "notSent: " + exception.getMessage();
     }
     if (motherTongue != null) {
-      languageMessage += " (mother tongue: " + motherTongue.getShortNameWithCountryAndVariant() + ")";
+      languageMessage += " (mother tongue: " + motherTongue.getShortCodeWithCountryAndVariant() + ")";
     }
     if (autoDetectLanguage) {
       languageMessage += "[auto]";
@@ -180,7 +180,7 @@ abstract class TextChecker {
       }
       print("Checking bilingual text, with source length " + sourceText.length() +
               " and target length " + text.length() + " (characters), source language " +
-              motherTongue + " and target language " + lang.getShortNameWithCountryAndVariant());
+              motherTongue + " and target language " + lang.getShortCodeWithCountryAndVariant());
       JLanguageTool sourceLt = getLanguageToolInstance(motherTongue, null, params);
       JLanguageTool targetLt = getLanguageToolInstance(lang, null, params);
       List<BitextRule> bRules = Tools.selectBitextRules(Tools.getBitextRules(motherTongue, lang),

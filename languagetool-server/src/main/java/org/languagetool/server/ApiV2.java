@@ -83,7 +83,7 @@ class ApiV2 {
         g.writeStartObject();
         g.writeStringField("name", lang.getName());
         g.writeStringField("code", lang.getShortCode());
-        g.writeStringField("longCode", lang.getShortNameWithCountryAndVariant());
+        g.writeStringField("longCode", lang.getShortCodeWithCountryAndVariant());
         g.writeEndObject();
       }
       g.writeEndArray();

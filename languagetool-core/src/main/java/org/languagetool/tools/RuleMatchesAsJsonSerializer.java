@@ -77,7 +77,7 @@ public class RuleMatchesAsJsonSerializer {
   private void writeLanguageSection(JsonGenerator g, Language lang) throws IOException {
     g.writeObjectFieldStart("language");
     g.writeStringField("name", lang.getName());
-    g.writeStringField("code", lang.getShortNameWithCountryAndVariant());
+    g.writeStringField("code", lang.getShortCodeWithCountryAndVariant());
     g.writeEndObject();
   }
 

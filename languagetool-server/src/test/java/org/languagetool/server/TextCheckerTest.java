@@ -32,16 +32,16 @@ public class TextCheckerTest {
 
   @Test
   public void testDetectLanguageOfString() {
-    assertThat(checker.detectLanguageOfString("", "en", Arrays.asList("en-GB")).getShortNameWithCountryAndVariant(), is("en-GB"));
-    assertThat(checker.detectLanguageOfString("X", "en", Arrays.asList("en-GB")).getShortNameWithCountryAndVariant(), is("en-GB"));
-    assertThat(checker.detectLanguageOfString("X", "en", Arrays.asList("en-ZA")).getShortNameWithCountryAndVariant(), is("en-ZA"));
-    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList("en-GB", "de-AT")).getShortNameWithCountryAndVariant(), is("en-GB"));
-    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList()).getShortNameWithCountryAndVariant(), is("en-US"));
-    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList("de-AT", "en-ZA")).getShortNameWithCountryAndVariant(), is("en-ZA"));
+    assertThat(checker.detectLanguageOfString("", "en", Arrays.asList("en-GB")).getShortCodeWithCountryAndVariant(), is("en-GB"));
+    assertThat(checker.detectLanguageOfString("X", "en", Arrays.asList("en-GB")).getShortCodeWithCountryAndVariant(), is("en-GB"));
+    assertThat(checker.detectLanguageOfString("X", "en", Arrays.asList("en-ZA")).getShortCodeWithCountryAndVariant(), is("en-ZA"));
+    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList("en-GB", "de-AT")).getShortCodeWithCountryAndVariant(), is("en-GB"));
+    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList()).getShortCodeWithCountryAndVariant(), is("en-US"));
+    assertThat(checker.detectLanguageOfString(english, "de", Arrays.asList("de-AT", "en-ZA")).getShortCodeWithCountryAndVariant(), is("en-ZA"));
     String german = "Das hier ist klar ein deutscher Text, sollte gut zu erkennen sein.";
-    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList("de-AT", "en-ZA")).getShortNameWithCountryAndVariant(), is("de-AT"));
-    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList("de-at", "en-ZA")).getShortNameWithCountryAndVariant(), is("de-AT"));
-    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList()).getShortNameWithCountryAndVariant(), is("de-DE"));
+    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList("de-AT", "en-ZA")).getShortCodeWithCountryAndVariant(), is("de-AT"));
+    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList("de-at", "en-ZA")).getShortCodeWithCountryAndVariant(), is("de-AT"));
+    assertThat(checker.detectLanguageOfString(german, "fr", Arrays.asList()).getShortCodeWithCountryAndVariant(), is("de-DE"));
   }
 
   @Test(expected = RuntimeException.class)
