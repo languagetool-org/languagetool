@@ -26,7 +26,7 @@ title="Easy editing stylesheet" ?>
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
 -->
 
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -1789,8 +1789,32 @@ $Id: grammar.xml,v 1.191 2016-10-24 16:45:00 marcoagpinto Exp $
       <example correction="saber">Eles chegaram a <marker>saberem</marker> os resultados?</example>
 	</rule>
 
+	
+	
+    <!-- CICLO VICIOSO círculo vicioso -->
+	<rule id="CICLO_VICIOSO" name="círculo vicioso">
+	  <pattern>
+		<token>ciclo</token>
+		<token>vicioso</token>		
+      </pattern>
+      <message>Substituir «ciclo vicioso» por <suggestion>círculo vicioso</suggestion>.</message>
+      <example correction="círculo vicioso">O <marker>ciclo vicioso</marker> da pobreza.</example>
+	</rule>	
 
+	
+	
+    <!-- CÍRCULO FECHADO ciclo fechado -->
+	<rule id="CÍRCULO_FECHADO" name="ciclo fechado">
+	  <pattern>
+		<token>círculo</token>
+		<token>fechado</token>		
+      </pattern>
+      <message>Substituir «círculo fechado» por <suggestion>ciclo fechado</suggestion>.</message>
+      <example correction="ciclo fechado">Uma produção de <marker>círculo fechado</marker>.</example>
+	</rule>	
+		
 
+		
     <!-- COM VOSSA com a vossa -->
     <rule id="COM_VOSSA" name="com a vossa">
       <pattern>
