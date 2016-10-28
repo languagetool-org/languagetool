@@ -7,7 +7,7 @@
 
 #### English
   * added and improved rules
-  * added about 52 confusion pairs like woman/women (works only with ngram data,
+  * added about 54 confusion pairs like woman/women (works only with ngram data,
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
   * The American and Canadian English (en-US, en-CA) spelling dictionaries have
     been updated to the latest version from http://wordlist.aspell.net (2016.06.26)
