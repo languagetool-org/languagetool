@@ -104,4 +104,8 @@ echo "" >>$OUTFILE
 echo "Apache errors (max. 30):" >>$OUTFILE
 grep "$DATE_APACHE" /home/languagetool/api/apache_error.log | grep $YEAR | tail -n 30 >>$OUTFILE
 
+echo "" >>$OUTFILE
+echo "Apache not found errors (filtered, max. 10):" >>$OUTFILE
+grep "$DATE_APACHE" /home/languagetool/api/apache_not_found.log | grep $YEAR | tail -n 10 >>$OUTFILE
+
 cat $OUTFILE | mail -a 'Content-Type: text/plain; charset=utf-8' -s "LanguageTool API Report" daniel.naber@languagetool.org
