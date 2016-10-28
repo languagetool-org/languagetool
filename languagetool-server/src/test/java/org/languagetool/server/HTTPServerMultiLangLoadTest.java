@@ -55,7 +55,7 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
     //languages.add(new German());
     languages.addAll(Languages.get());
     for (Language language : languages) {
-      File file = new File(dir, "tatoeba-" + language.getShortName() + ".txt");
+      File file = new File(dir, "tatoeba-" + language.getShortCode() + ".txt");
       if (!file.exists()) {
         System.err.println("No data found for " + language + ", language will not be tested");
       } else {

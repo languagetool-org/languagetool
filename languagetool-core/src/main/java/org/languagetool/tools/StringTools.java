@@ -195,7 +195,7 @@ public final class StringTools {
    */
   @Nullable
   public static String uppercaseFirstChar(String str, Language language) {
-    if (language != null && "nl".equals(language.getShortName()) && str != null && str.toLowerCase().startsWith("ij")) {
+    if (language != null && "nl".equals(language.getShortCode()) && str != null && str.toLowerCase().startsWith("ij")) {
       // hack to fix https://github.com/languagetool-org/languagetool/issues/148
       return "IJ" + str.substring(2);
     } else {
@@ -351,7 +351,7 @@ public final class StringTools {
     String space = " ";
     if (word.length() == 1) {
       char c = word.charAt(0);
-      if ("fr".equals(language.getShortName())) {
+      if ("fr".equals(language.getShortCode())) {
         if (c == '.' || c == ',') {
           space = "";
         }

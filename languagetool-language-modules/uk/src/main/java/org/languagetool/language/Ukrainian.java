@@ -76,7 +76,7 @@ public class Ukrainian extends Language {
 
   @Override
   public Locale getLocale() {
-    return new Locale(getShortName());
+    return new Locale(getShortCode());
   }
 
   @Override
@@ -86,6 +86,11 @@ public class Ukrainian extends Language {
 
   @Override
   public String getShortName() {
+    return "uk";
+  }
+
+  @Override
+  public String getShortCode() {
     return "uk";
   }
 
@@ -169,7 +174,7 @@ public class Ukrainian extends Language {
   public List<String> getRuleFileNames() {
     List<String> ruleFileNames = super.getRuleFileNames();
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-    String dirBase = dataBroker.getRulesDir() + "/" + getShortName() + "/";
+    String dirBase = dataBroker.getRulesDir() + "/" + getShortCode() + "/";
     for (String ruleFile : RULE_FILES) {
       ruleFileNames.add(dirBase + ruleFile);
     }

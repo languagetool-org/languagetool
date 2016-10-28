@@ -45,6 +45,11 @@ public class Tamil extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return "ta";
+  }
+
+  @Override
   public String[] getCountries() {
     return new String[]{"IN"};
   }

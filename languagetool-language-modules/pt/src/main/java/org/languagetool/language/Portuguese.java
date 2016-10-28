@@ -58,6 +58,11 @@ public class Portuguese extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return "pt";
+  }
+
+  @Override
   public String[] getCountries() {
     return new String[]{"AO", "MZ"};
   }

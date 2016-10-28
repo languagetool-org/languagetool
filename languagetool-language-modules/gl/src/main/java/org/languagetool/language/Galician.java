@@ -66,6 +66,11 @@ public class Galician extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return "gl";
+  }
+
+  @Override
   public String[] getCountries() {
     return new String[]{"ES"};
   }

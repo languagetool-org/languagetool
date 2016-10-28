@@ -44,6 +44,11 @@ public class Japanese extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return "ja";
+  }
+
+  @Override
   public String getName() {
     return "Japanese";
   }

@@ -64,6 +64,11 @@ public class Romanian extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return "ro";
+  }
+
+  @Override
   public String[] getCountries() {
     return new String[]{"RO"};
   }

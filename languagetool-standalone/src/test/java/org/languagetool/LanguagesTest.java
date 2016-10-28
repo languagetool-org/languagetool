@@ -156,8 +156,8 @@ public class LanguagesTest {
 
   @Test
   public void testGetLanguageForLocale() {
-    assertEquals("de", Languages.getLanguageForLocale(Locale.GERMAN).getShortName());
-    assertEquals("de", Languages.getLanguageForLocale(Locale.GERMANY).getShortName());
+    assertEquals("de", Languages.getLanguageForLocale(Locale.GERMAN).getShortCode());
+    assertEquals("de", Languages.getLanguageForLocale(Locale.GERMANY).getShortCode());
     assertEquals("de-DE", Languages.getLanguageForLocale(new Locale("de", "DE")).getShortNameWithCountryAndVariant());
     assertEquals("de-AT", Languages.getLanguageForLocale(new Locale("de", "AT")).getShortNameWithCountryAndVariant());
     assertEquals("en-US", Languages.getLanguageForLocale(new Locale("en", "US")).getShortNameWithCountryAndVariant());

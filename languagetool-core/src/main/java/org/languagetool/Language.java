@@ -71,8 +71,19 @@ public abstract class Language {
    * Get this language's character code, e.g. <code>en</code> for English.
    * The country parameter (e.g. "US"), if any, is not returned.
    * @return language code
+   * @deprecated use {@link #getShortCode()} instead, deprecated since 3.6 
    */
+  @Deprecated
   public abstract String getShortName();
+
+  /**
+   * Get this language's character code, e.g. <code>en</code> for English.
+   * For most languages this is a two-letter code according to ISO 639-1,
+   * but for those languages that don't have a two-letter code, a three-letter
+   * code according to ISO 639-2 is returned.
+   * The country parameter (e.g. "US"), if any, is not returned.
+   */
+  public abstract String getShortCode();
 
   /**
    * Get this language's name in English, e.g. <code>English</code> or
@@ -157,7 +168,7 @@ public abstract class Language {
    * Get this language's Java locale, not considering the country code.
    */
   public Locale getLocale() {
-    return new Locale(getShortName());
+    return new Locale(getShortCode());
   }
 
   /**
@@ -167,9 +178,9 @@ public abstract class Language {
   public Locale getLocaleWithCountryAndVariant() {
     if (getCountries().length > 0) {
       if (getVariant() != null) {
-        return new Locale(getShortName(), getCountries()[0], getVariant());
+        return new Locale(getShortCode(), getCountries()[0], getVariant());
       } else {
-        return new Locale(getShortName(), getCountries()[0]);
+        return new Locale(getShortCode(), getCountries()[0]);
       }
     } else {
       return getLocale();
@@ -184,9 +195,9 @@ public abstract class Language {
     List<String> ruleFiles = new ArrayList<>();
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     ruleFiles.add(dataBroker.getRulesDir()
-            + "/" + getShortName() + "/" + JLanguageTool.PATTERN_FILE);
+            + "/" + getShortCode() + "/" + JLanguageTool.PATTERN_FILE);
     if (getShortNameWithCountryAndVariant().length() > 2) {
-      String fileName = getShortName() + "/"
+      String fileName = getShortCode() + "/"
               + getShortNameWithCountryAndVariant()
               + "/" + JLanguageTool.PATTERN_FILE;
       if (dataBroker.ruleFileExists(fileName)) {
@@ -301,7 +312,7 @@ public abstract class Language {
       return messages.getString(getShortNameWithCountryAndVariant());
     } catch (MissingResourceException e) {
       try {
-        return messages.getString(getShortName());
+        return messages.getString(getShortCode());
       } catch (MissingResourceException e1) {
         return getName();
       }
@@ -315,7 +326,7 @@ public abstract class Language {
    * @since 1.8
    */
   public final String getShortNameWithCountryAndVariant() {
-    String name = getShortName();
+    String name = getShortCode();
     if (getCountries().length == 1 && !name.contains("-x-")) {   // e.g. "de-DE-x-simple-language"
       name += "-" + getCountries()[0];
       if (getVariant() != null) {   // e.g. "ca-ES-valencia"
@@ -403,7 +414,7 @@ public abstract class Language {
    * @since 1.8
    */
   public boolean equalsConsiderVariantsIfSpecified(Language otherLanguage) {
-    if (getShortName().equals(otherLanguage.getShortName())) {
+    if (getShortCode().equals(otherLanguage.getShortCode())) {
       boolean thisHasCountry = hasCountry();
       boolean otherHasCountry = otherLanguage.hasCountry();
       return !(thisHasCountry && otherHasCountry) ||

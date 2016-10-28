@@ -39,7 +39,7 @@ public class TranslationTest {
     enProps.load(new FileInputStream(englishFile));
     Set<Object> englishKeys = enProps.keySet();
     for (Language lang : Languages.get()) {
-      if (lang.getShortName().equals("en")) {
+      if (lang.getShortCode().equals("en")) {
         continue;
       }
       Properties langProps = new Properties();
@@ -100,14 +100,14 @@ public class TranslationTest {
   }
 
   private File getTranslationFile(Language lang) {
-    String langCode = lang.getShortName();
+    String langCode = lang.getShortCode();
     String name = "../languagetool-language-modules/" + langCode + "/src/main/resources/org/languagetool" 
             + "/MessagesBundle_" + langCode + ".properties";
     return new File(name.replace("/", File.separator));
   }
 
   private File getTranslationFileWithVariant(Language lang) {
-    String langCode = lang.getShortName();
+    String langCode = lang.getShortCode();
     String name = "../languagetool-language-modules/" + langCode + "/src/main/resources/org/languagetool" 
             + "/MessagesBundle_" + lang.getShortNameWithCountryAndVariant().replace('-', '_') + ".properties";
     return new File(name.replace("/", File.separator));

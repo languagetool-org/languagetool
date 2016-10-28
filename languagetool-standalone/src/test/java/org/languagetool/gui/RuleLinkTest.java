@@ -31,7 +31,7 @@ public class RuleLinkTest {
   @Test
   public void testBuildDeactivationLink() {
     Language language = new English();
-    RuleLink ruleLink = RuleLink.buildDeactivationLink(new WordRepeatRule(TestTools.getMessages(language.getShortName()), language));
+    RuleLink ruleLink = RuleLink.buildDeactivationLink(new WordRepeatRule(TestTools.getMessages(language.getShortCode()), language));
     assertEquals("WORD_REPEAT_RULE", ruleLink.getId());
     assertEquals("http://languagetool.org/deactivate/WORD_REPEAT_RULE", ruleLink.toString());
   }
@@ -39,7 +39,7 @@ public class RuleLinkTest {
   @Test
   public void testBuildReactivationLink() {
     Language language = new English();
-    RuleLink ruleLink = RuleLink.buildReactivationLink(new WordRepeatRule(TestTools.getMessages(language.getShortName()), language));
+    RuleLink ruleLink = RuleLink.buildReactivationLink(new WordRepeatRule(TestTools.getMessages(language.getShortCode()), language));
     assertEquals("WORD_REPEAT_RULE", ruleLink.getId());
     assertEquals("http://languagetool.org/reactivate/WORD_REPEAT_RULE", ruleLink.toString());
   }

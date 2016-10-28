@@ -58,7 +58,7 @@ final class ResourceBundleTools {
           // happens if 'xx' is requested but only a MessagesBundle_xx_YY.properties exists:
           Language defaultVariant = lang.getDefaultLanguageVariant();
           if (defaultVariant != null && defaultVariant.getCountries().length > 0) {
-            Locale locale = new Locale(defaultVariant.getShortName(), defaultVariant.getCountries()[0]);
+            Locale locale = new Locale(defaultVariant.getShortCode(), defaultVariant.getCountries()[0]);
             bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, locale);
           }
         }

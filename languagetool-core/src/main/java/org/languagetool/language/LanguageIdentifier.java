@@ -75,7 +75,7 @@ public class LanguageIdentifier {
   private static List<String> getLanguageCodes() {
     List<String> langCodes = new ArrayList<>();
     for (Language lang : Languages.get()) {
-      String langCode = lang.getShortName();
+      String langCode = lang.getShortCode();
       boolean ignore = lang.isVariant() || ignoreLangCodes.contains(langCode) || externalLangCodes.contains(langCode);
       if (ignore) {
         continue;

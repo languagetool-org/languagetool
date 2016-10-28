@@ -45,7 +45,7 @@ public class ConfusionSetLoaderTest {
         throw new RuntimeException("Could not load confusion pairs for " + language.getName(), e);
       }
       if (rules.size() > 0) {
-        String path = "/" + language.getShortName() + "/confusion_sets.txt";
+        String path = "/" + language.getShortCode() + "/confusion_sets.txt";
         try (InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path)) {
           ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
           Map<String, List<ConfusionSet>> set = confusionSetLoader.loadConfusionSet(confusionSetStream);

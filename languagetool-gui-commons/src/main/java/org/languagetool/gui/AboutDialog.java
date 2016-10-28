@@ -109,7 +109,7 @@ public class AboutDialog {
     for (Language lang : Languages.get()) {
       if (!lang.isVariant()) {
         if (lang.getMaintainers() != null) {
-          list.put(messages.getString(lang.getShortName()), lang);
+          list.put(messages.getString(lang.getShortCode()), lang);
         }
       }
     }

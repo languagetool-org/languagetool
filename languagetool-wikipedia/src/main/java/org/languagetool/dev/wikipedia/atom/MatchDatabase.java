@@ -58,12 +58,12 @@ class MatchDatabase {
     String updateSql = "UPDATE " + tableName + " SET check_date = ? WHERE language_code = ?";
     try (PreparedStatement updateSt = conn.prepareStatement(updateSql)) {
       updateSt.setTimestamp(1, new Timestamp(date.getTime()));
-      updateSt.setString(2, language.getShortName());
+      updateSt.setString(2, language.getShortCode());
       int affected = updateSt.executeUpdate();
       if (affected == 0) {
         String insertSql = "INSERT INTO " + tableName + " (language_code, check_date) VALUES (?, ?)";
         try (PreparedStatement insertSt = conn.prepareStatement(insertSql)) {
-          insertSt.setString(1, language.getShortName());
+          insertSt.setString(1, language.getShortCode());
           insertSt.setTimestamp(2, new Timestamp(date.getTime()));
           insertSt.execute();
         }
@@ -79,7 +79,7 @@ class MatchDatabase {
             "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     try (PreparedStatement prepSt = conn.prepareStatement(sql)) {
       prepSt.setString(1, StringUtils.abbreviate(ruleMatch.getTitle(), 255));
-      prepSt.setString(2, ruleMatch.getLanguage().getShortName());
+      prepSt.setString(2, ruleMatch.getLanguage().getShortCode());
       prepSt.setString(3, ruleMatch.getRule().getId());
       if (ruleMatch.getRule() instanceof AbstractPatternRule) {
         prepSt.setString(4, ((AbstractPatternRule)ruleMatch.getRule()).getSubId());
@@ -117,7 +117,7 @@ class MatchDatabase {
     try (PreparedStatement prepSt = conn.prepareStatement(sql)) {
       prepSt.setTimestamp(1, new Timestamp(ruleMatch.getEditDate().getTime()));
       prepSt.setLong(2, ruleMatch.getDiffId());
-      prepSt.setString(3, ruleMatch.getLanguage().getShortName());
+      prepSt.setString(3, ruleMatch.getLanguage().getShortCode());
       prepSt.setString(4, ruleMatch.getTitle());
       prepSt.setString(5, ruleMatch.getRule().getId());  // I'm not sure whether we should also consider the sub id...
       prepSt.setString(6, ruleMatch.getErrorContext());
@@ -169,7 +169,7 @@ class MatchDatabase {
     try {
       String sql = "SELECT check_date FROM feed_checks WHERE language_code = ?";
       try (PreparedStatement prepSt = conn.prepareStatement(sql)) {
-        prepSt.setString(1, language.getShortName());
+        prepSt.setString(1, language.getShortCode());
         ResultSet resultSet = prepSt.executeQuery();
         if (resultSet.next() && resultSet.getTimestamp("check_date") != null) {
           return new Date(resultSet.getTimestamp("check_date").getTime());

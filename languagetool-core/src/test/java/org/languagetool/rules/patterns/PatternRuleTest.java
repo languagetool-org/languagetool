@@ -126,12 +126,12 @@ public class PatternRuleTest {
       String nameOnly = new File(ruleFile).getName();
       String fileName;
       if (shortNameWithVariant.contains("-x-")) {
-        fileName = lang.getShortName() + "/" + nameOnly;
+        fileName = lang.getShortCode() + "/" + nameOnly;
       } else if (shortNameWithVariant.contains("-") && !shortNameWithVariant.equals("xx-XX")
               && !shortNameWithVariant.endsWith("-ANY") && Languages.get().size() > 1) {
-        fileName = lang.getShortName() + "/" + shortNameWithVariant + "/" + nameOnly;
+        fileName = lang.getShortCode() + "/" + shortNameWithVariant + "/" + nameOnly;
       } else {
-        fileName = lang.getShortName() + "/" + nameOnly;
+        fileName = lang.getShortCode() + "/" + nameOnly;
       }
       if (!fileNames.contains(fileName)) {
         fileNames.add(fileName);
@@ -392,7 +392,7 @@ public class PatternRuleTest {
       for (RuleMatch match : matchesAllRules) {
         if (!match.getRule().getId().equals(rule.getId()) && matches.length != 0
             && rangeIsOverlapping(matches[0].getFromPos(), matches[0].getToPos(), match.getFromPos(), match.getToPos()))
-          System.err.println("WARN: " + lang.getShortName() + ": '" + badSentence + "' in "
+          System.err.println("WARN: " + lang.getShortCode() + ": '" + badSentence + "' in "
                   + rule.getId() + " also matched " + match.getRule().getId());
       }*/
 
@@ -488,7 +488,7 @@ public class PatternRuleTest {
       /*
       List<RuleMatch> matches = allRulesLanguageTool.check(goodSentence);
       for (RuleMatch match : matches) {
-        System.err.println("WARN: " + lang.getShortName() + ": '" + goodSentence + "' did not match "
+        System.err.println("WARN: " + lang.getShortCode() + ": '" + goodSentence + "' did not match "
                 + rule.getId() + " but matched " + match.getRule().getId());
       }
       */

@@ -201,7 +201,7 @@ public class Main extends WeakBase implements XJobExecutor,
           langIsSupported = true;
           break;
         }
-        if (element.getShortName().equals(charLocale.Language)) {
+        if (element.getShortCode().equals(charLocale.Language)) {
           langIsSupported = true;
           break;
         }
@@ -383,7 +383,7 @@ public class Main extends WeakBase implements XJobExecutor,
       langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
       File ngramDirectory = config.getNgramDirectory();
       if (ngramDirectory != null) {
-        File ngramLangDir = new File(config.getNgramDirectory(), docLanguage.getShortName());
+        File ngramLangDir = new File(config.getNgramDirectory(), docLanguage.getShortCode());
         if (ngramLangDir.exists()) {  // user might have ngram data only for some languages and that's okay
           langTool.activateLanguageModelRules(ngramDirectory);
         }
@@ -545,14 +545,14 @@ public class Main extends WeakBase implements XJobExecutor,
           if (lang.getVariant() != null) {
             locales.add(new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, "", lang.getShortNameWithCountryAndVariant()));
           } else {
-            locales.add(new Locale(lang.getShortName(), "", ""));
+            locales.add(new Locale(lang.getShortCode(), "", ""));
           }
         } else {
           for (String country : lang.getCountries()) {
             if (lang.getVariant() != null) {
               locales.add(new Locale(LIBREOFFICE_SPECIAL_LANGUAGE_TAG, country, lang.getShortNameWithCountryAndVariant()));
             } else {
-              locales.add(new Locale(lang.getShortName(), country, ""));
+              locales.add(new Locale(lang.getShortCode(), country, ""));
             }
           }
         }
@@ -576,7 +576,7 @@ public class Main extends WeakBase implements XJobExecutor,
             && element.getShortNameWithCountryAndVariant().equals(locale.Variant)) {
           return true;
         }
-        if (element.getShortName().equals(locale.Language)) {
+        if (element.getShortCode().equals(locale.Language)) {
           return true;
         }
       }

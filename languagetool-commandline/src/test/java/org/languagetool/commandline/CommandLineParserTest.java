@@ -56,17 +56,17 @@ public class CommandLineParserTest {
     assertFalse(options.isVerbose());
 
     options = parser.parseOptions(new String[]{"--language", "xx", "filename.txt"});
-    assertEquals("xx", options.getLanguage().getShortName());
+    assertEquals("xx", options.getLanguage().getShortCode());
     assertEquals("filename.txt", options.getFilename());
     assertFalse(options.isVerbose());
 
     options = parser.parseOptions(new String[]{"-l", "xx", "filename.txt"});
-    assertEquals("xx", options.getLanguage().getShortName());
+    assertEquals("xx", options.getLanguage().getShortCode());
     assertEquals("filename.txt", options.getFilename());
     assertFalse(options.isVerbose());
 
     options = parser.parseOptions(new String[]{"-v", "-l", "xx", "filename.txt"});
-    assertEquals("xx", options.getLanguage().getShortName());
+    assertEquals("xx", options.getLanguage().getShortCode());
     assertEquals("filename.txt", options.getFilename());
     assertTrue(options.isVerbose());
 

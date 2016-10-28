@@ -249,7 +249,7 @@ class LanguageToolSupport {
       languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue());
       Tools.configureFromRules(languageTool, config);
       if (config.getNgramDirectory() != null) {
-        File ngramLangDir = new File(config.getNgramDirectory(), language.getShortName());
+        File ngramLangDir = new File(config.getNgramDirectory(), language.getShortCode());
         if (ngramLangDir.exists()) {
           try {
             languageTool.activateLanguageModelRules(config.getNgramDirectory());

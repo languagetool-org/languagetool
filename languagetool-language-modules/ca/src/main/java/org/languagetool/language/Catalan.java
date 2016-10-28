@@ -76,6 +76,11 @@ public class Catalan extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return "ca";
+  }
+
+  @Override
   public Language getDefaultLanguageVariant() {
     return DEFAULT_CATALAN;
   }

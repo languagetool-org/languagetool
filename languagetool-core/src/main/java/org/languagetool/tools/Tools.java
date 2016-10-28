@@ -126,7 +126,7 @@ public final class Tools {
     List<BitextRule> bRules = new ArrayList<>();
     //try to load the bitext pattern rules for the language...
     BitextPatternRuleLoader ruleLoader = new BitextPatternRuleLoader();          
-    String name = "/" + target.getShortName() + "/bitext.xml";
+    String name = "/" + target.getShortCode() + "/bitext.xml";
     if (JLanguageTool.getDataBroker().ruleFileExists(name)) {
       InputStream is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(name);
       if (is != null) {

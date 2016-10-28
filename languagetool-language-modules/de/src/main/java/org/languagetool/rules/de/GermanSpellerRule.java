@@ -164,7 +164,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Nullable
   private static MorfologikMultiSpeller getSpeller(Language language) {
-    if (!language.getShortName().equals(Locale.GERMAN.getLanguage())) {
+    if (!language.getShortCode().equals(Locale.GERMAN.getLanguage())) {
       throw new RuntimeException("Language is not a variant of German: " + language);
     }
     try {

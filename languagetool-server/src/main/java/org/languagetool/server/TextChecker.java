@@ -220,7 +220,7 @@ abstract class TextChecker {
           throw new IllegalArgumentException("Invalid format for 'preferredVariants', expected a dash as in 'en-GB': '" + preferredVariant + "'");
         }
         String preferredVariantLang = preferredVariant.split("-")[0];
-        if (preferredVariantLang.equals(lang.getShortName())) {
+        if (preferredVariantLang.equals(lang.getShortCode())) {
           lang = Languages.getLanguageForShortName(preferredVariant);
           if (lang == null) {
             throw new IllegalArgumentException("Invalid 'preferredVariants', no such language/variant found: '" + preferredVariant + "'");

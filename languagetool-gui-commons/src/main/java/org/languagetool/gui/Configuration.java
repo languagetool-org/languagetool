@@ -490,7 +490,7 @@ public class Configuration {
       props.setProperty(LANGUAGE_KEY, language.getShortNameWithCountryAndVariant());
     }
     if (motherTongue != null) {
-      props.setProperty(MOTHER_TONGUE_KEY, motherTongue.getShortName());
+      props.setProperty(MOTHER_TONGUE_KEY, motherTongue.getShortCode());
     }
     if (ngramDirectory != null) {
       props.setProperty(NGRAM_DIR_KEY, ngramDirectory.getAbsolutePath());

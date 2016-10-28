@@ -47,6 +47,11 @@ public class Asturian extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return "ast";
+  }
+
+  @Override
   public String[] getCountries() {
     return new String[]{"ES"};
   }

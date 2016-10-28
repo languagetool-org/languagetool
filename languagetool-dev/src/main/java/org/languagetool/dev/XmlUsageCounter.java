@@ -81,7 +81,7 @@ class XmlUsageCounter {
       List<String> ruleFileNames = language.getRuleFileNames();
       //comment in this to count disambiguation files instead:
       //List<String> ruleFileNames = Collections.singletonList(ResourceDataBroker.RESOURCE_DIR + "/" +
-      //        language.getShortName() + "/" + "disambiguation.xml");
+      //        language.getShortCode() + "/" + "disambiguation.xml");
       for (String ruleFileName : ruleFileNames) {
         if (countedFiles.contains(ruleFileName)) {
           continue;

@@ -50,8 +50,8 @@ public final class POSTagLanguageModel {
     boolean foundLanguage = false;
     final List<String> supportedLanguages = new ArrayList<>();
     for (final Language tmpLang : Languages.get()) {
-      supportedLanguages.add(tmpLang.getShortName());
-      if (lang.equals(tmpLang.getShortName())) {
+      supportedLanguages.add(tmpLang.getShortCode());
+      if (lang.equals(tmpLang.getShortCode())) {
         language = tmpLang;
         foundLanguage = true;
         break;

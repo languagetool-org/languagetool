@@ -132,9 +132,9 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
           formatter.applyPattern(messages.getString("false_friend_hint"));
           String tokensAsString = StringUtils.join(patternTokens, " ").replace('|', '/');
           Object[] messageArguments = {tokensAsString,
-                  messages.getString(textLanguage.getShortName()),
+                  messages.getString(textLanguage.getShortCode()),
                   formatTranslations(translations),
-                  messages.getString(motherTongue.getShortName())};
+                  messages.getString(motherTongue.getShortCode())};
           String description = formatter.format(messageArguments);
           PatternRule rule = new FalseFriendPatternRule(id, language, patternTokens,
                   messages.getString("false_friend_desc") + " "

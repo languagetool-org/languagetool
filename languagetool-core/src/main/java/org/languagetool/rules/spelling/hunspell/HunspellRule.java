@@ -164,12 +164,12 @@ public class HunspellRule extends SpellingCheckRule {
     super.init();
     String langCountry;
     if (language.getCountries().length > 0) {
-      langCountry = language.getShortName() + "_" + language.getCountries()[0];
+      langCountry = language.getShortCode() + "_" + language.getCountries()[0];
     } else {
-      langCountry = language.getShortName();
+      langCountry = language.getShortCode();
     }
     String shortDicPath = "/"
-        + language.getShortName()
+        + language.getShortCode()
         + "/hunspell/"
         + langCountry
         + ".dic";

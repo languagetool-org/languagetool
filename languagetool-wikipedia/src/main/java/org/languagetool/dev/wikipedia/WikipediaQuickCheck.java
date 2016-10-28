@@ -85,7 +85,7 @@ public class WikipediaQuickCheck {
   public String getMediaWikiContent(URL wikipediaUrl) throws IOException {
     Language lang = getLanguage(wikipediaUrl);
     String pageTitle = getPageTitle(wikipediaUrl);
-    String apiUrl = "https://" + lang.getShortName() + ".wikipedia.org/w/api.php?titles=" 
+    String apiUrl = "https://" + lang.getShortCode() + ".wikipedia.org/w/api.php?titles=" 
             + URLEncoder.encode(pageTitle, "utf-8") + "&action=query&prop=revisions&rvprop=content|timestamp&format=xml";
     return getContent(new URL(apiUrl));
   }
@@ -175,7 +175,7 @@ public class WikipediaQuickCheck {
     MultiThreadedJLanguageTool langTool = getLanguageTool(lang);
     try {
       List<RuleMatch> ruleMatches = langTool.check(plainText);
-      return new WikipediaQuickCheckResult(plainText, ruleMatches, lang.getShortName());
+      return new WikipediaQuickCheckResult(plainText, ruleMatches, lang.getShortCode());
     } finally {
       langTool.shutdown();
     }

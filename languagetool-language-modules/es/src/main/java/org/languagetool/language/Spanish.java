@@ -62,6 +62,11 @@ public class Spanish extends Language implements AutoCloseable{
   }
 
   @Override
+  public String getShortCode() {
+    return "es";
+  }
+
+  @Override
   public String[] getCountries() {
     return new String[]{
             "ES", "", "MX", "GT", "CR", "PA", "DO",
@@ -136,7 +141,7 @@ public class Spanish extends Language implements AutoCloseable{
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
     if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortName()));
+      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
     }
     return languageModel;
   }

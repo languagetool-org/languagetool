@@ -76,7 +76,7 @@ public final class LanguageBuilder {
       newLanguage = new Language() {
         @Override
         public Locale getLocale() {
-          return new Locale(getShortName());
+          return new Locale(getShortCode());
         }
 
         @Override
@@ -86,6 +86,11 @@ public final class LanguageBuilder {
 
         @Override
         public String getShortName() {
+          return getShortCode();
+        }
+
+        @Override
+        public String getShortCode() {
           if (parts[1].length() == 2) {
             return parts[1];
           }
@@ -168,7 +173,12 @@ public final class LanguageBuilder {
 
     @Override
     public String getShortName() {
-      return baseLanguage.getShortName();
+      return baseLanguage.getShortCode();
+    }
+
+    @Override
+    public String getShortCode() {
+      return baseLanguage.getShortCode();
     }
 
     @Override

@@ -51,7 +51,7 @@ public class BitextPatternRuleTest {
         continue;
       }
       BitextPatternRuleLoader ruleLoader = new BitextPatternRuleLoader();
-      String name = "/" + lang.getShortName() + "/bitext.xml";
+      String name = "/" + lang.getShortCode() + "/bitext.xml";
       InputStream is;
       try {
         is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(name);

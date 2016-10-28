@@ -244,22 +244,22 @@ public class HTTPServerTest {
   }
 
   private String bitextCheck(Language lang, Language motherTongue, String sourceText, String text) throws IOException {
-    String urlOptions = "/?language=" + lang.getShortName();
+    String urlOptions = "/?language=" + lang.getShortCode();
     urlOptions += "&srctext=" + URLEncoder.encode(sourceText, "UTF-8");
     urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     if (motherTongue != null) {
-      urlOptions += "&motherTongue=" + motherTongue.getShortName();
+      urlOptions += "&motherTongue=" + motherTongue.getShortCode();
     }
     URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);
   }
 
   private String bitextCheckDisabled(Language lang, Language motherTongue, String sourceText, String text, String[] disabled) throws IOException {
-    String urlOptions = "/?language=" + lang.getShortName();
+    String urlOptions = "/?language=" + lang.getShortCode();
     urlOptions += "&srctext=" + URLEncoder.encode(sourceText, "UTF-8");
     urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     if (motherTongue != null) {
-      urlOptions += "&motherTongue=" + motherTongue.getShortName();
+      urlOptions += "&motherTongue=" + motherTongue.getShortCode();
     }
     if (disabled.length > 0) {
       urlOptions += "&disabled=" + StringUtils.join(disabled, ",");
@@ -289,10 +289,10 @@ public class HTTPServerTest {
   }
 
   private String check(String urlPrefix, Language lang, Language motherTongue, String text, String parameters) throws IOException {
-    String urlOptions = urlPrefix + "?language=" + (lang == null ? "auto" : lang.getShortName());
+    String urlOptions = urlPrefix + "?language=" + (lang == null ? "auto" : lang.getShortCode());
     urlOptions += "&disabledRules=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     if (motherTongue != null) {
-      urlOptions += "&motherTongue=" + motherTongue.getShortName();
+      urlOptions += "&motherTongue=" + motherTongue.getShortCode();
     }
     urlOptions += parameters;
     URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
@@ -301,10 +301,10 @@ public class HTTPServerTest {
 
   private String checkWithOptionsV2(Language lang, Language motherTongue, String text,
                                   String[] enabledRules, String[] disabledRules, boolean useEnabledOnly) throws IOException {
-    String urlOptions = "/v2/check?language=" + lang.getShortName();
+    String urlOptions = "/v2/check?language=" + lang.getShortCode();
     urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     if (motherTongue != null) {
-      urlOptions += "&motherTongue=" + motherTongue.getShortName();
+      urlOptions += "&motherTongue=" + motherTongue.getShortCode();
     }
     if (disabledRules.length > 0) {
       urlOptions += "&disabledRules=" + StringUtils.join(disabledRules, ",");
@@ -323,7 +323,7 @@ public class HTTPServerTest {
    * Same as {@link #checkV1(Language, String)} but using HTTP POST method instead of GET
    */
   protected String checkByPOST(Language lang, String text) throws IOException {
-    String postData = "language=" + lang.getShortName() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like Polish, Romanian, etc
+    String postData = "language=" + lang.getShortCode() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like Polish, Romanian, etc
     URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort());
     try {
       return HTTPTools.checkAtUrlByPost(url, postData);

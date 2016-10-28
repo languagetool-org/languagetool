@@ -32,7 +32,7 @@ public class LanguageBuilderTest {
   public void testMakeAdditionalLanguage() throws Exception {
     Language language = LanguageBuilder.makeAdditionalLanguage(new File("rules-xy-Fakelanguage.xml"));
     assertEquals("Fakelanguage", language.getName());
-    assertEquals("xy", language.getShortName());
+    assertEquals("xy", language.getShortCode());
     assertEquals(0, language.getRelevantRules(JLanguageTool.getMessageBundle()).size());
     assertTrue(language.isExternal());
   }

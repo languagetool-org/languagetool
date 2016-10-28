@@ -64,6 +64,11 @@ public class Russian extends Language implements AutoCloseable {
   }
 
   @Override
+  public String getShortCode() {
+    return "ru";
+  }
+
+  @Override
   public String[] getCountries() {
     return new String[] {"RU"};
   }
@@ -128,7 +133,7 @@ public class Russian extends Language implements AutoCloseable {
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
     if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortName()));
+      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
     }
     return languageModel;
   }

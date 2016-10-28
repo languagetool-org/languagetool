@@ -327,7 +327,7 @@ public final class PatternTestTools {
     // Use a different regexp to check for probable regexp in Polish POS tags
     // since Polish uses dot '.' in POS tags. So a dot does not indicate that
     // it's a probable regexp for Polish POS tags.
-    Pattern regexPattern = (isPos && lang.getShortName().equals("pl"))
+    Pattern regexPattern = (isPos && lang.getShortCode().equals("pl"))
             ? PROBABLE_PATTERN_PL_POS // Polish POS tag.
             : PROBABLE_PATTERN;       // something else than Polish POS tag.
 

@@ -60,7 +60,7 @@ public class DisambiguationRuleTest {
       JLanguageTool languageTool = new JLanguageTool(lang);
       if (!(languageTool.getLanguage().getDisambiguator() instanceof DemoDisambiguator)) {
         long startTime = System.currentTimeMillis();
-        String name = JLanguageTool.getDataBroker().getResourceDir() + "/" + lang.getShortName()
+        String name = JLanguageTool.getDataBroker().getResourceDir() + "/" + lang.getShortCode()
             + "/disambiguation.xml";
         validateRuleFile(name);
         List<DisambiguationPatternRule> rules = ruleLoader

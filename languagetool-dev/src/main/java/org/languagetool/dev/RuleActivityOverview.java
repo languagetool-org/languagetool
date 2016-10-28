@@ -68,7 +68,7 @@ public final class RuleActivityOverview {
       past.add(Calendar.DAY_OF_MONTH, -pastDays);
       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
       String pastString = dateFormat.format(past.getTime());
-      String langCode = lang.getShortName();
+      String langCode = lang.getShortCode();
       List<File> xmlFiles = getAllXmlFiles(lang, langCode);
       int commits = 0;
       for (File file : xmlFiles) {

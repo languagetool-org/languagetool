@@ -47,7 +47,7 @@ public class WordListValidatorTest {
   public void testWordListValidity() throws IOException {
     Set<String> checked = new HashSet<>();
     for (Language lang : Languages.get()) {
-      if (lang.getShortName().equals("ru")) {
+      if (lang.getShortCode().equals("ru")) {
         // skipping, Cyrillic chars not part of the validation yet
         continue;
       }

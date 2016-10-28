@@ -256,7 +256,7 @@ class ConfusionRuleEvaluator {
     } else {
       lang = Languages.getLanguageForShortName(langCode);
     }
-    LanguageModel languageModel = new LuceneLanguageModel(new File(args[3], lang.getShortName()));
+    LanguageModel languageModel = new LuceneLanguageModel(new File(args[3], lang.getShortCode()));
     //LanguageModel languageModel = new BerkeleyRawLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));
     //LanguageModel languageModel = new BerkeleyLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));
     List<String> inputsFiles = new ArrayList<>();

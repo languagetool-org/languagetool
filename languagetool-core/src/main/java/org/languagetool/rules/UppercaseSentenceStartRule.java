@@ -151,7 +151,7 @@ public class UppercaseSentenceStartRule extends Rule {
   @Nullable
   private String dutchSpecialCase(String firstToken,
       String secondToken, AnalyzedTokenReadings[] tokens) {
-    if (!language.getShortName().equals("nl")) {
+    if (!language.getShortCode().equals("nl")) {
       return null;
     }
     if (tokens.length >= 3 && firstToken.equals("'")

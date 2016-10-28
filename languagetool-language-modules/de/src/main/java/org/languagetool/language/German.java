@@ -106,6 +106,11 @@ public class German extends Language implements AutoCloseable {
   }
 
   @Override
+  public String getShortCode() {
+    return "de";
+  }
+
+  @Override
   public String[] getCountries() {
     return new String[]{"LU", "LI", "BE"};
   }
@@ -214,7 +219,7 @@ public class German extends Language implements AutoCloseable {
   @Override
   public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
     if (languageModel == null) {
-      languageModel = new LuceneLanguageModel(new File(indexDir, getShortName()));
+      languageModel = new LuceneLanguageModel(new File(indexDir, getShortCode()));
       // for testing:
       //languageModel = new BerkeleyRawLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));
       //languageModel = new BerkeleyLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));

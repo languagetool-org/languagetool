@@ -335,7 +335,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     xmlBuffer.append("\n<languages>\n");
     for (Language lang : languages) {
       xmlBuffer.append(String.format("\t<language name=\"%s\" abbr=\"%s\" abbrWithVariant=\"%s\"/> \n", lang.getName(),
-              lang.getShortName(), lang.getShortNameWithCountryAndVariant()));
+              lang.getShortCode(), lang.getShortNameWithCountryAndVariant()));
     }
     xmlBuffer.append("</languages>\n");
     return xmlBuffer.toString();

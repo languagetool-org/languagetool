@@ -58,6 +58,11 @@ public class FakeLanguage extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return langCode;
+  }
+
+  @Override
   public String getName() {
     return "FakeLanguage";
   }

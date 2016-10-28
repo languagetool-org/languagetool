@@ -60,8 +60,8 @@ public class RuleMatchAsXmlSerializer {
           xml.append("<!-- NOTE: The language code you selected ('").append(longCode).append("') doesn't support spell checking. Consider using a code with a variant like 'en-US'. -->\n");
         }
       }
-      if (motherTongue != null && (lang == null || !motherTongue.getShortName().equals(lang.getShortNameWithCountryAndVariant()))) {
-        languageXml += " mothertongueshortname=\"" + motherTongue.getShortName() + "\" mothertonguename=\"" + motherTongue.getName() + "\"";
+      if (motherTongue != null && (lang == null || !motherTongue.getShortCode().equals(lang.getShortNameWithCountryAndVariant()))) {
+        languageXml += " mothertongueshortname=\"" + motherTongue.getShortCode() + "\" mothertonguename=\"" + motherTongue.getName() + "\"";
       }
       languageXml += "/>\n";
       xml.append(languageXml);

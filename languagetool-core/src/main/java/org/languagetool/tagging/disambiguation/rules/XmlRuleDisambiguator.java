@@ -45,7 +45,7 @@ public class XmlRuleDisambiguator implements Disambiguator {
 
   public XmlRuleDisambiguator(Language language) {
     Objects.requireNonNull(language);
-    String disambiguationFile = language.getShortName() + "/" + DISAMBIGUATION_FILE;
+    String disambiguationFile = language.getShortCode() + "/" + DISAMBIGUATION_FILE;
     try {
       disambiguationRules = loadPatternRules(disambiguationFile);
     } catch (Exception e) {

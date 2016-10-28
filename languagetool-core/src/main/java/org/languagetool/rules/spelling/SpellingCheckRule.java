@@ -213,7 +213,7 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 2.7
    */
   protected String getIgnoreFileName() {
-    return language.getShortName() + SPELLING_IGNORE_FILE;
+    return language.getShortCode() + SPELLING_IGNORE_FILE;
   }
 
   /**
@@ -222,7 +222,7 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 2.9, public since 3.5
    */
   public String getSpellingFileName() {
-    return language.getShortName() + SPELLING_FILE;
+    return language.getShortCode() + SPELLING_FILE;
   }
 
   /**
@@ -231,7 +231,7 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 2.8
    */
   protected String getProhibitFileName() {
-    return language.getShortName() + SPELLING_PROHIBIT_FILE;
+    return language.getShortCode() + SPELLING_PROHIBIT_FILE;
   }
 
   /**

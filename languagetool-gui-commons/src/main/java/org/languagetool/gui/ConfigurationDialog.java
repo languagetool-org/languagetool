@@ -520,7 +520,7 @@ public class ConfigurationDialog implements ActionListener {
         if (newDir != null) {
           try {
             if (config.getLanguage() != null) {  // may happen in office context
-              File checkDir = new File(newDir, config.getLanguage().getShortName());
+              File checkDir = new File(newDir, config.getLanguage().getShortCode());
               LuceneLanguageModel.validateDirectory(checkDir);
             }
             config.setNgramDirectory(newDir);

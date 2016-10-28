@@ -52,6 +52,11 @@ public class Lithuanian extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return "lt";
+  }
+
+  @Override
   public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
       sentenceTokenizer = new SRXSentenceTokenizer(this);

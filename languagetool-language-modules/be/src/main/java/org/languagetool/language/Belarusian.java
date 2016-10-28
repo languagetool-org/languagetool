@@ -52,6 +52,11 @@ public class Belarusian extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return "be";
+  }
+
+  @Override
   public String[] getCountries() {
     return new String[]{"BY"};
   }

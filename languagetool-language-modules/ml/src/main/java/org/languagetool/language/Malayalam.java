@@ -50,6 +50,11 @@ public class Malayalam extends Language {
   }
 
   @Override
+  public String getShortCode() {
+    return "ml";
+  }
+
+  @Override
   public Tokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
       wordTokenizer = new MalayalamWordTokenizer();

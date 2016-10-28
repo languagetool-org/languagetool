@@ -38,6 +38,10 @@
    https://languagetool.org/http-api/migration.php - it
    now returns a pseudo error pointing to the migration page
 
+#### Java API
+  * `Language.getShortName()` has been deprecated, use `Language.getShortCode()`
+    instead
+  
 #### Command-line
   * Added a `--json` option as an alternative to `--api` (deprecated XML output)
     See https://languagetool.org/http-api/swagger-ui/#/default

@@ -50,7 +50,7 @@ class LanguageDetectionEval {
     if (language.isVariant()) {
       return;
     }
-    String evalTextFile = "/org/languagetool/dev/eval/lang/" + language.getShortName() + ".txt";
+    String evalTextFile = "/org/languagetool/dev/eval/lang/" + language.getShortCode() + ".txt";
     InputStream stream = LanguageDetectionEval.class.getResourceAsStream(evalTextFile);
     System.out.println("=== " + language + " ===");
     if (stream == null) {
@@ -83,11 +83,11 @@ class LanguageDetectionEval {
       Language detectedLangObj = languageIdentifier.detectLanguage(text);
       String detectedLang = null;
       if (detectedLangObj != null) {
-        detectedLang = detectedLangObj.getShortName();
+        detectedLang = detectedLangObj.getShortCode();
       }
       if (detectedLang == null && i == tokens.length) {
         throw new DetectionException("Detection failed for '" + line + "', detected <null>");
-      } else if (detectedLang != null && !expectedLanguage.getShortName().equals(detectedLang)) {
+      } else if (detectedLang != null && !expectedLanguage.getShortCode().equals(detectedLang)) {
         if (i == tokens.length) {
           throw new DetectionException("Detection failed for '" + line + "', detected " + detectedLang);
         } else {
