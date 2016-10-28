@@ -489,6 +489,118 @@ $Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
 	 <example type="correct">Cão e gato são animais.</example>
 	</rule>
 
+		<!-- DEQUEISMO_QUEISMO rules from Spanish grammar.xml  - START-->
+       <!-- DEQUEISMO_QUEISMO Dequeísmo e queísmo: utilização incorrecta de DE + QUE -->
+    <rulegroup id="DEQUEISMO_QUEISMO" name="Queísmos e dequeismos" type="grammar">
+
+        <!--INF_PP_QUE Queísmo: convenceram-nos que -> convenceram-nos de que -->
+	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28     -->
+      <!-- FIXME hiphen is not recognized by tokenizer. TODO Verify tokenizer. -->
+<!--      <rule id="INF_PP_QUE" name="Infinitivo tipo convencer + pron.pers + que">
+        <pattern>
+          <token regexp="yes">(alegrar|saber|informar|duvidar|convencer|fartar|queixar|protestar)[-](me|te|lh[ea][s]?|se|nos|os)</token>
+          <token>que</token>
+        </pattern>
+        <message>Neste contexto, o verbo é seguido normalmente da preposição 'de': <suggestion>\1 de \2</suggestion></message>
+        <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/uso-de-de-que-de-novo-queismo-e-dequeismo/19156</url>
+        <short>Possível queísmo.</short>
+        <example correction="alegrar-se de que">Está bem <marker>alegrar-se que</marker> haja dinheiro para todos.</example>
+        <example>Não pareces <marker>alegrar-te de que</marker> tudo está resolvido.</example>
+      </rule> -->
+
+        <!-- ESTAR_SEGURO_QUE Queísmo: Estou seguro que -> Estou seguro de que -->
+	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
+      <rule id="ESTAR_SEGURO_QUE" name="Estar + seguro + que">
+        <pattern>
+          <token inflected="yes"><exception postag="VAIP3S0"/>estar</token>
+          <token inflected="yes" regexp="yes">seguro|certo|alegre|triste|entristecer|surpreender|convencer|preocupar|farto|cansar|aborrecer</token>
+          <token>que</token>
+        </pattern>
+        <message>Neste contexto, o verbo é seguido normalmente da preposição 'de':  <suggestion>\1 \2 de \3</suggestion></message>
+        <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/uso-de-de-que-de-novo-queismo-e-dequeismo/19156</url>
+        <short>Possível queísmo.</short>
+        <example correction="Estamos certos de que"><marker>Estamos certos que</marker> falta pouco para acabar.</example>
+        <example><marker>Está segura de que</marker> o que dizes é certo.</example>
+      </rule>
+
+        <!--       PP_V_QUE Queísmo: alegro-me que -> alegro-me de que         -->
+	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
+      <!-- FIXME hiphen is not recognized by tokenizer. TODO Verify tokenizer. -->
+<!--      <rule id="PP_V_QUE" name="PP + verbo tipo alegrar + que">
+        <pattern>
+          <token inflected="yes" regexp="yes">alegrar|surprender|entristecer|aborrecer|emocionar|preocupar<exception postag="VM..3.." postag_regexp="yes"/></token>
+          <token postag="PP[12]C[SP]000" postag_regexp="yes"/>
+          <token>que</token>
+        </pattern>
+        <message>Neste contexto, o verbo é seguido normalmente da preposição 'de':  <suggestion>\1 \2 de que</suggestion></message>
+        <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/uso-de-de-que-de-novo-queismo-e-dequeismo/19156</url>
+        <short>Possível queísmo.</short>
+        <example correction="Alegramos-nos de que"><marker>Alegramos-nos que</marker> haja comida para todos.</example>
+        <example>Foi quando <marker>informaste-os de que</marker> acabou-se a temporada.</example>
+      </rule> -->
+
+	<!--          VERBO_DE_QUE Queísmo: Penso de que -> Penso que         -->
+	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
+      <rule id="VERBO_DE_QUE" name="verbo tipo pensar + de que">
+        <pattern>
+          <token inflected="yes" regexp="yes">pensar|opinar|acreditar|comentar|expresar|dizer|deduzir|inferir|razoar|comunicar|confirmar|corroborar|desmentir|constar|resultar|aconselhar|ver|observar|gostar|antes<exception>razões</exception></token>
+          <token>de</token>
+          <token>que</token>
+        </pattern>
+        <message>Possível queísmo: <suggestion>\1 \3</suggestion>.</message>
+        <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/uso-de-de-que-de-novo-queismo-e-dequeismo/19156</url>
+	<short>Possível dequeísmo.</short>
+        <example correction="Penso que"><marker>Penso de que</marker> estamos a melhor muito.</example>
+        <example>Acreditamos <marker>que</marker> podemos melhorar mais.</example>
+      </rule>
+
+	<!--  ESTAR_CLARO_DE_QUE Queísmo: Está claro de que -> Está claro que  -->
+	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
+      <rule id="ESTAR_CLARO_DE_QUE" name="Verbo tipo estar + AQ + de que">
+        <pattern>
+          <token inflected="yes" regexp="yes">ser|estar|encontrar|ver|entender</token>
+          <token postag="RG|AQ.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">seguro|certo|livre|consciente|farto</exception></token>
+          <token>de</token>
+          <token>que</token>
+        </pattern>
+        <message>Possível dequeísmo: <suggestion>\1 \2 \4</suggestion>.</message>
+        <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/uso-de-de-que-de-novo-queismo-e-dequeismo/19156</url>
+	<short>Possível 'dequeísmo'.</short>
+        <example correction="É fácil que"><marker>É fácil de que</marker> voltemos a encontrar-mo-nos</example>
+      </rule>
+
+        <!--       V3_DE_QUE Dequeísmo: Me alegra de que -> Alegra-me que      -->
+	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
+      <!-- FIXME hiphen is not recognized by tokenizer. TODO Verify tokenizer. -->
+<!--      <rule id="V3_DE_QUE" name="Verbo en 3a + de que">
+        <pattern>
+          <token regexp="yes">alegra|entristece|importa|resvala|farta|emociona|altera|aburrece|falta|preocupa</token>
+          <token postag="PP[123]C[SP][0D]00" postag_regexp="yes"/>
+          <token>de</token>
+          <token>que</token>
+        </pattern>
+        <message>Possível dequeísmo: <suggestion>\1 \2 \4</suggestion>.</message>
+        <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/uso-de-de-que-de-novo-queismo-e-dequeismo/19156</url>
+	<short>Possível 'dequeísmo'.</short>
+        <example correction="Alegra-me que"><marker>Alegra-me de que</marker> voltemos a encontrar-nos</example>
+        <example><marker>Entristece-me que</marker> tenham mudado de marca.</example>
+      </rule>  -->
+
+	<!--   INSISTIR_DE_QUE Dequeísmo: Insisto de que -> Insisto en que     -->
+	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
+      <rule id="INSISTIR_DE_QUE" name="Verbo tipo insistir + de que">
+        <pattern>
+          <token inflected="yes">insistir</token>
+          <token>de</token>
+          <token>que</token>
+        </pattern>
+        <message>Possível dequeísmo: <suggestion>\1 em \3</suggestion>.</message>
+        <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
+        <example correction="insistas em que">Não <marker>insistas de que</marker> vamos ao cinema.</example>
+        <example><marker>Insistiram em que</marker> lhes faltava um documento.</example>
+      </rule>
+    </rulegroup>
+
 <!--          Tiago F. Santos Rules Ending          ****END**** -->
 <!-- ********************************************************** -->
 
@@ -1580,7 +1692,7 @@ $Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
     </rule>
 
 
-
+<!-- TODO Review coverage by VERBO_DE_QUE -->
     <!-- ANTES DE QUE antes que -->
     <rule id="ANTES_DE_QUE" name="antes que">
       <pattern>
@@ -2588,7 +2700,7 @@ $Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
 	</rule>	
 
 	
-	
+<!-- TODO Review coverage by VERBO_DE_QUE -->
     <!-- GOSTO DE QUE gosto que -->
     <rule id="GOSTO_DE_QUE" name="gosto que">
       <pattern>
@@ -3284,7 +3396,7 @@ $Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
     </rule>
 
     
-
+<!-- TODO Review coverage by VERBO_DE_QUE -->
     <!-- PENSO DE QUE penso que -->
     <rule id="PENSO_DE_QUE" name="penso que">
       <pattern>
@@ -3988,7 +4100,7 @@ $Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
     </rule>	
 	
 	
-	
+<!-- TODO Review coverage by VERB_COMMA_CONJUNCTION(-2) -->	
     <!-- COMMA BEFORE/AFTER WORDS #3a -->	
     <rule id="COMMA_3a" name="Vírgula antes #3a">
       <pattern> 
@@ -4004,7 +4116,7 @@ $Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
     </rule>  
 	
 	
-	
+<!-- TODO Review coverage by VERB_COMMA_CONJUNCTION(-2) -->	
     <!-- COMMA BEFORE/AFTER WORDS #3aa -->	
     <rule id="COMMA_3aa" name="Vírgula antes #3aa">
       <pattern> 
@@ -4019,7 +4131,7 @@ $Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
     </rule>
 	
 	
-	
+<!-- TODO Review coverage by VERB_COMMA_CONJUNCTION(-2) -->	
 	<!-- COMMA BEFORE/AFTER WORDS #3b -->
     <rule id="COMMA_3b" name="Vírgula antes #3b">
       <pattern> 
@@ -4036,7 +4148,7 @@ $Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
     </rule>    
 	
 	
-	
+<!-- TODO Review coverage by VERB_COMMA_CONJUNCTION(-2) -->	
 	<!-- COMMA BEFORE/AFTER WORDS #3c -->
 	<rule id="COMMA_3c" name="Vírgula antes #3c">
       <pattern> 
@@ -4051,8 +4163,7 @@ $Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
       <example correction="é, pois">Ela <marker>é pois</marker>, do Norte.</example>
     </rule>
 
- 	     <!-- Common punctuation errors - Verb + Conjunction  - 
-                           Covers punctuation 3rd group-->
+ 	     <!-- Common punctuation errors - Verb + Conjunction  -->
  	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
     <rule id="VERB_COMMA_CONJUNCTION" name="Verbo-Vírgula-Conjugação-Vírgula">
 	<pattern>
@@ -4068,8 +4179,7 @@ $Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
 	<example correction="digas, portanto,">Terminei a prova com antecedência, não me <marker>digas portanto</marker> que não posso sair.</example>
      </rule>
 
- 	     <!-- Common punctuation errors - Verb + Conjunction  - 
-                           Covers punctuation 3rd group-->
+ 	     <!-- Common punctuation errors - Verb + Conjunction  -->
  	     <!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-25 -->
     <rule id="VERB_COMMA_CONJUNCTION-2" name="Verbo-Vírgula-Conjugação-Vírgula">
 	<pattern>
@@ -4546,7 +4656,6 @@ $Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
             <example>Não é um bom estilo de escrita começar uma frase com 'mas'.</example>
         </rule>
 
-    </category>
 		<!--          Style rules from English grammar.xml      - END  -->
-
+  </category>
 </rules>
