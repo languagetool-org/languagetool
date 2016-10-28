@@ -279,7 +279,7 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer implements R
       if (backslashPos >= 0 && StringTools.isPositiveNumber(errorMessage.charAt(backslashPos + 1))) {
         int numLen = 1;
         while (backslashPos + numLen < errorMessage.length()
-            && StringTools.isPositiveNumber(errorMessage.charAt(backslashPos + numLen))) {
+            && Character.isDigit(errorMessage.charAt(backslashPos + numLen))) {
           numLen++;
         }
         int j = Integer.parseInt(errorMessage.substring(backslashPos + 1, backslashPos
