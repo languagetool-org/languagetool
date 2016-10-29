@@ -24,9 +24,6 @@ printf "Total text checks : %'d\n" $TOTAL >>$OUTFILE
 TOTALHOME=`grep "Check done:" $TMPFILE | grep -c languagetool.org`
 printf "Checks from lt.org: %'d\n" $TOTALHOME >>$OUTFILE
 
-FF=`grep -c "languagetoolfx"  $TMPFILE`
-printf "LanguageToolFx Req: %'d\n" $FF >>$OUTFILE
-
 CHROME=`grep -c "chrome-extension" $TMPFILE`
 printf "Chrome Requests   : %'d\n" $CHROME >>$OUTFILE
 
@@ -36,17 +33,14 @@ printf "WebExtension FF   : %'d\n" $WEBEXTFF >>$OUTFILE
 WEBEXTCHROME=`grep -c "webextension-chrome" $TMPFILE`
 printf "WebExtension Chr. : %'d\n" $WEBEXTCHROME >>$OUTFILE
 
-WEBEXTUNKNOWN=`grep -c "webextension-unknown" $TMPFILE`
-printf "WebExtension unkn.: %'d\n" $WEBEXTUNKNOWN >>$OUTFILE
-
-WEBEXT=`grep -c "webextension," $TMPFILE`
-printf "WebExtension Req  : %'d\n" $WEBEXT >>$OUTFILE
-
 ANDROID=`grep -c "androidspell" $TMPFILE`
 printf "Android Requests  : %'d\n" $ANDROID >>$OUTFILE
 
 CLIENT=`grep -c "java-http-client" $TMPFILE`
 printf "Java Client Req   : %'d\n" $CLIENT >>$OUTFILE
+
+GOOGLEAPP=`grep -c ":googleappscript" $TMPFILE`
+printf "Google-Apps-Script: %'d\n" $GOOGLEAPP >>$OUTFILE
 
 SUBLIME=`grep -c ":sublime" $TMPFILE`
 printf "Sublime Requests  : %'d\n" $SUBLIME >>$OUTFILE
