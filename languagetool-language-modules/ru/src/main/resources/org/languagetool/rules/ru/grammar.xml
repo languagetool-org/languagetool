@@ -7680,6 +7680,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Иван же не приехал.</example>
             <example>Ольга ж не приехала.</example>
         </rule>
+        <rule id="Many_PNN" name="Избыточность употребления местоимений">
+            <pattern>
+                <token skip="-1" postag_regexp="yes" postag="PNN:.*"></token>
+                <token skip="-1" postag_regexp="yes" postag="PNN:.*"></token>
+                <token skip="-1" postag_regexp="yes" postag="PNN:.*"></token>
+                <token skip="-1" postag_regexp="yes" postag="PNN:.*"></token>
+                <token skip="-1" postag_regexp="yes" postag="PNN:.*"></token>
+                <token postag_regexp="yes" postag="PNN:.*"></token>
+            </pattern>
+            <message>Перегруженность предложения местоимениями.</message>
+            <short>Перегруженность местоимениями</short>
+            <example type="incorrect"><marker>Он её не любил, она его не любила, они многое</marker> знали.</example>
+        </rule>
         <rulegroup id="po_povodu_togo" name="Канцелярский штамп: «по поводу того»" default="off">
             <rule> 
                 <pattern>
