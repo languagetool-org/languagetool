@@ -21,7 +21,7 @@
 
 #### German
   * added and improved rules
-  * added about 12 confusion pairs like ihm/im (works only with ngram data,
+  * added about 29 confusion pairs like ihm/im (works only with ngram data,
     see http://wiki.languagetool.org/finding-errors-using-n-gram-data) 
   * bugfix regarding errors in the last word of a sentence (#273)
   * The internal part-of-speech dictionary has been updated with the help of
