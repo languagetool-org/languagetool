@@ -9046,6 +9046,59 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Redundanz -->
     <!-- ====================================================================== -->
     <category id="REDUNDANCY" name="Redundanz">
+        <rulegroup id="DE_PHRASE_REPETITION" name="Wiederholung von Wortgruppen (z.B. 'auf der auf der Straße')">
+            <antipattern>
+                <token>von</token>
+                <token>Fall</token>
+                <token>zu</token>
+                <token>Fall</token>
+                <token>zu</token>
+            </antipattern>
+            <antipattern>
+                <token>von</token>
+                <token>Ort</token>
+                <token>zu</token>
+                <token>Ort</token>
+                <token>zu</token>
+            </antipattern>
+            <antipattern>
+                <token>von</token>
+                <token>Zeit</token>
+                <token>zu</token>
+                <token>Zeit</token>
+                <token>zu</token>
+            </antipattern>
+            <antipattern>
+                <token>Arm</token>
+                <token>in</token>
+                <token>Arm</token>
+                <token>in</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>und</exception>\p{L}+</token>
+                    <token regexp="yes"><exception>und</exception>\p{L}+</token>
+                    <token><match no="0"/></token>
+                    <token><match no="1"/></token>
+                </pattern>
+                <message>Hier werden zwei Wörter wiederholt. Meinten Sie <suggestion>\1 \2</suggestion>?</message>
+                <short>Wiederholung von zwei Wörtern</short>
+                <example correction="auf der">Wir standen <marker>auf der auf der</marker> Brücke.</example>
+            </rule>
+            <!--<rule>
+                <pattern>
+                    <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>und</exception>\p{L}+</token>
+                    <token regexp="yes"><exception>und</exception>\p{L}+</token>
+                    <token><exception regexp="yes">und|oder|,|-|–|—</exception></token>
+                    <token><match no="0"/></token>
+                    <token><match no="1"/></token>
+                </pattern>
+                <message>Hier werden zwei Wörter wiederholt.</message>
+                <short>Wiederholung von zwei Wörtern</short>
+                <example type="incorrect">Er hat sie <marker>im Stich dann im Stich</marker> gelassen.</example>
+                <example>Er hat sie <marker>dann im Stich</marker> gelassen.</example>
+            </rule>-->
+        </rulegroup>
         <rule id="DOPPELUNG_MODALVERB" name="Wiederholdung von Modalverben">
             <antipattern>
                 <token>können</token>
@@ -28331,7 +28384,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <!-- Sonstiges -->
     <!-- ====================================================================== -->
-    <category id="MISC" name="Sonstiges">
+    <!--<category id="MISC" name="Sonstiges">-->
         <!-- Funktioniert so nicht, wegen Appositionen ('Die Spezies Tulpe')
         <rule id="DEPPENLEERZEICHEN" name="Komposita ohne Bindestrich">
           <pattern mark_from="1" mark_to="-1">
@@ -28350,59 +28403,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <example>Die <marker>Frauenfrage</marker> ist strittig.</example>
         </rule>
         -->
-        <rulegroup id="DE_PHRASE_REPETITION" name="Wiederholung von Wortgruppen (z.B. 'auf der auf der Straße')">
-            <antipattern>
-                <token>von</token>
-                <token>Fall</token>
-                <token>zu</token>
-                <token>Fall</token>
-                <token>zu</token>
-            </antipattern>
-            <antipattern>
-                <token>von</token>
-                <token>Ort</token>
-                <token>zu</token>
-                <token>Ort</token>
-                <token>zu</token>
-            </antipattern>
-            <antipattern>
-                <token>von</token>
-                <token>Zeit</token>
-                <token>zu</token>
-                <token>Zeit</token>
-                <token>zu</token>
-            </antipattern>
-            <antipattern>
-                <token>Arm</token>
-                <token>in</token>
-                <token>Arm</token>
-                <token>in</token>
-            </antipattern>
-            <rule>
-                <pattern>
-                    <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>und</exception>\p{L}+</token>
-                    <token regexp="yes"><exception>und</exception>\p{L}+</token>
-                    <token><match no="0"/></token>
-                    <token><match no="1"/></token>
-                </pattern>
-                <message>Hier werden zwei Wörter wiederholt. Meinten Sie <suggestion>\1 \2</suggestion>?</message>
-                <short>Wiederholung von zwei Wörtern</short>
-                <example correction="auf der">Wir standen <marker>auf der auf der</marker> Brücke.</example>
-            </rule>
-            <!--<rule>
-                <pattern>
-                    <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>und</exception>\p{L}+</token>
-                    <token regexp="yes"><exception>und</exception>\p{L}+</token>
-                    <token><exception regexp="yes">und|oder|,|-|–|—</exception></token>
-                    <token><match no="0"/></token>
-                    <token><match no="1"/></token>
-                </pattern>
-                <message>Hier werden zwei Wörter wiederholt.</message>
-                <short>Wiederholung von zwei Wörtern</short>
-                <example type="incorrect">Er hat sie <marker>im Stich dann im Stich</marker> gelassen.</example>
-                <example>Er hat sie <marker>dann im Stich</marker> gelassen.</example>
-            </rule>-->
-        </rulegroup>
         <!-- TODO needs some testing
         <rulegroup id="SICH_SICH" name="Wiederholung eines Wortes (z.B. 'sich … sich', 'dann … dann', 'weder … weder' etc.)">
             <rule>
@@ -28460,7 +28460,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Wir waren <marker>stolz</marker> darauf.</example>
         </rule>
         -->
-    </category>
+    <!--</category>-->
 
     <!-- ====================================================================== -->
     <!-- Regeln, die nur für Wikipedia-Artikel nützlich sind -->

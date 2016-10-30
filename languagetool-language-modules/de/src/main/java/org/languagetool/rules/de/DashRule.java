@@ -32,7 +32,7 @@ import org.languagetool.rules.*;
 public class DashRule extends GermanRule {
 
   public DashRule(ResourceBundle messages) {
-    super.setCategory(Categories.MISC.getCategory(messages));
+    super.setCategory(Categories.COMPOUNDING.getCategory(messages));
     addExamplePair(Example.wrong("Bundestag beschließt <marker>Diäten- Erhöhung</marker>"),
                    Example.fixed("Bundestag beschließt <marker>Diäten-Erhöhung</marker>"));
   }

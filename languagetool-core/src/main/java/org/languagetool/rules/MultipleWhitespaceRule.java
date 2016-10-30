@@ -38,7 +38,7 @@ public class MultipleWhitespaceRule extends Rule {
 
   public MultipleWhitespaceRule(ResourceBundle messages, Language language) {
     super(messages);
-    super.setCategory(Categories.MISC.getCategory(messages));
+    super.setCategory(Categories.TYPOGRAPHY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Whitespace);
   }
 
