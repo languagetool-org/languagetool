@@ -4333,7 +4333,748 @@ $Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
       <message>Redundância. Usar: <suggestion>quadrilha</suggestion>.</message>
       <example correction="quadrilha">É uma perigosa <marker>quadrilha de ladrões</marker>.</example>
     </rule>
-	
+
+		<!--  Rule group made semi automatically with the Wikipedia list 
+			tokenizer spreadsheet provided by request -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rulegroup type='style' id="PLEONASMOS" name="Pleonasmos">
+	<short>Pleonasmo.</short>
+		<!-- CEGO DO OLHOS cego                                   -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_CEGO" name="cego">
+      <pattern>
+        <token inflected='yes'>cego</token>
+	<token>dos</token>
+	<token>olhos</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='cego'><marker>cego dos olhos</marker></example>
+    </rule>
+
+		<!-- BATER PALMAS COM AS MÃOS bater palmas                   -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_PALMAS" name="bater palmas">
+      <pattern>
+        <token inflected='yes'>bater</token>
+	<token>palmas</token>
+	<token>com</token>
+	<token>as</token>
+	<token>mãos</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1 \2</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='bater palmas'><marker>bater palmas com as mãos</marker></example>
+    </rule>
+
+		<!-- CLIMATOLOGIA climatologia                               -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_CLIMATOLOGIA" name="climatologia">
+      <pattern>
+        <token inflected='yes'>climatologia</token>
+	<token>geográfica</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='climatologia'><marker>climatologia geográfica</marker></example>
+    </rule>
+
+		<!-- DE CHAPÉU NA CABEÇA de chapéu                           -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_CHAPEU" name="de chapéu">
+      <pattern>
+        <token>de</token>
+	<token inflected='yes'>chapéu</token>
+	<token>na</token>
+	<token inflected='yes'>cabeça</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1 \2</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='de chapéu'><marker>de chapéu na cabeça</marker></example>
+    </rule>
+
+		<!-- MALUCO DA CABEÇA maluco                                 -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_MALUCO" name="maluco">
+      <pattern>
+        <token inflected='yes'>maluco</token>
+	<token>da</token>
+	<token>cabeça</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='maluco'><marker>maluco da cabeça</marker></example>
+    </rule>
+
+		<!-- SUBIR PARA CIMA subir                                   -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_SUBIR" name="subir para cima">
+      <pattern>
+        <token inflected='yes'>subir</token>
+	<token>para</token>
+	<token>cima</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='subir'><marker>subir para cima</marker></example>
+    </rule>
+
+		<!-- DESCER PARA BAIXO  descer                               -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_DESCER" name="descer para baixo">
+      <pattern>
+        <token inflected='yes'>descer</token>
+	<token>para</token>
+	<token>baixo</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='descer'><marker>descer para baixo</marker></example>
+    </rule>
+
+		<!-- ENTRAR PARA DENTRO  entrar                              -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_ENTRAR" name="entrar para dentro">
+      <pattern>
+        <token inflected='yes'>entrar</token>
+	<token>para</token>
+	<token>dentro</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='entrar'><marker>entrar para dentro</marker></example>
+    </rule>
+
+		<!-- SAIR PARA FORA  sair                                    -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_SAIR" name="sair para fora">
+      <pattern>
+        <token inflected='yes'>sair</token>
+	<token>para</token>
+	<token>fora</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='sair'><marker>sair para fora</marker></example>
+    </rule>
+
+		<!-- HEMORRAGIA DE SANGUE  hemorragia                        -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_HEMORRAGIA" name="hemorragia de sangue">
+      <pattern>
+        <token inflected='yes'>hemorragia</token>
+	<token>de</token>
+	<token>sangue</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='hemorragia'><marker>hemorragia de sangue</marker></example>
+    </rule>
+
+		<!-- UNANIMIDADE DE TODOS  unanimidade                       -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_UNANIMIDADE" name="unanimidade de todos">
+      <pattern>
+        <token inflected='yes'>unanimidade</token>
+	<token>de</token>
+	<token>todos</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='unanimidade'><marker>unanimidade de todos</marker></example>
+    </rule>
+
+		<!-- ACABAMENTO FINAL  acabamento                            -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_ACABAMENTO" name="acabamento final">
+      <pattern>
+        <token inflected='yes'>acabamento</token>
+	<token>final</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='acabamento'><marker>acabamento final</marker></example>
+    </rule>
+
+		<!-- AMANHECER O DIA  amanhecer                              -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_AMANHECER" name="amanhecer o dia">
+      <pattern>
+        <token inflected='yes'>amanhecer</token>
+	<token>o</token>
+	<token>dia</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='amanhecer'><marker>amanhecer o dia</marker></example>
+    </rule>
+
+		<!-- SURPRESA INESPERADA  surpresa                           -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_SURPRESA" name="surpresa inesperada">
+      <pattern>
+        <token inflected='yes'>surpresa</token>
+	<token>inesperada</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='surpresa'><marker>surpresa inesperada</marker></example>
+    </rule>
+
+		<!-- CONVIVER JUNTOS  conviver                               -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_CONVIVER" name="conviver juntos">
+      <pattern>
+        <token inflected='yes'>conviver</token>
+	<token>juntos</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='conviver'><marker>conviver juntos</marker></example>
+    </rule>
+
+		<!-- DECAPITAR A CABEÇA  decapitar                           -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_DECAPITAR" name="decapitar a cabeça">
+      <pattern>
+        <token inflected='yes'>decapitar</token>
+	<token>a</token>
+	<token>cabeça</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='decapitar'><marker>decapitar a cabeça</marker></example>
+    </rule>
+
+		<!-- ENCARAR DE FRENTE  encarar                              -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_ENCARAR" name="encarar de frente">
+      <pattern>
+        <token inflected='yes'>encarar</token>
+	<token>de</token>
+	<token>frente</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='encarar'><marker>encarar de frente</marker></example>
+    </rule>
+
+		<!-- GRITAR ALTO  gritar                                     -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_GRITAR" name="gritar alto">
+      <pattern>
+        <token inflected='yes'>gritar</token>
+	<token>alto</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='gritar'><marker>gritar alto</marker></example>
+    </rule>
+
+		<!-- SUSSURAR BAIXO  sussurar                                -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_SUSSURAR" name="sussurar baixo">
+      <pattern>
+        <token inflected='yes'>sussurar</token>
+	<token>baixo</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='sussurar'><marker>sussurar baixo</marker></example>
+    </rule>
+
+		<!-- CERTEZA ABSOLUTA  certeza                               -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_CERTEZA" name="certeza absoluta">
+      <pattern>
+        <token inflected='yes'>certeza</token>
+	<token>absoluta</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='certeza'><marker>certeza absoluta</marker></example>
+    </rule>
+
+		<!-- CHEIRAR COM O NARIZ  cheirar                            -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_CHEIRAR" name="cheirar com o nariz">
+      <pattern>
+        <token inflected='yes'>cheirar</token>
+	<token>com</token>
+	<token>o</token>
+	<token>nariz</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='cheirar'><marker>cheirar com o nariz</marker></example>
+    </rule>
+
+		<!-- ELO DE LIGAÇÃO  elo                                     -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_ELO" name="elo de ligação">
+      <pattern>
+        <token inflected='yes'>elo</token>
+	<token>de</token>
+	<token>ligação</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='elo'><marker>elo de ligação</marker></example>
+    </rule>
+
+		<!-- DUPLA DE DOIS  dupla                                    -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_DUPLA" name="dupla de dois">
+      <pattern>
+        <token inflected='yes'>dupla</token>
+	<token>de</token>
+	<token>dois</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='dupla'><marker>dupla de dois</marker></example>
+    </rule>
+
+		<!-- VERDADE VERDADEIRA  verdade                             -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_VERDADE" name="verdade verdadeira">
+      <pattern>
+        <token inflected='yes'>verdade</token>
+	<token>verdadeira</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='verdade'><marker>verdade verdadeira</marker></example>
+    </rule>
+
+		<!-- OLHAR COM OS OLHOS  olhar                               -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_OLHAR" name="olhar com os olhos">
+      <pattern>
+        <token inflected='yes'>olhar</token>
+	<token>com</token>
+	<token>os</token>
+	<token>olhos</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='olhar'><marker>olhar com os olhos</marker></example>
+    </rule>
+
+		<!-- LAMBER COM A LÍNGUA  lamber                             -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_LAMBER" name="lamber com a língua">
+      <pattern>
+        <token inflected='yes'>lamber</token>
+	<token>com</token>
+	<token>a</token>
+	<token>língua</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='lamber'><marker>lamber com a língua</marker></example>
+    </rule>
+
+		<!-- ISTO É UM FATO REAL  isto                               -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_ISTO" name="isto é um fato real">
+      <pattern>
+        <token>isto</token>
+	<token inflected='yes'>ser</token>
+	<token>um</token>
+	<token regexp='yes'>fatos?|factos?</token>
+	<token inflected='yes'>real</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1 \2 \3 \4</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='isto é um facto'><marker>isto é um facto real</marker></example>
+    </rule>
+
+		<!-- MULTIDÃO DE PESSOAS (GENTE)  multidão                   -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_MULTIDÃO" name="multidão de pessoas (gente)">
+      <pattern>
+        <token inflected='yes'>multidão</token>
+	<token>de</token>
+	<token regexp='yes'>pessoas|gente</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='multidão'><marker>multidão de pessoas</marker></example>
+    </rule>
+
+		<!-- MORDER COM OS DENTES  morder                            -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_MORDER" name="morder com os dentes">
+      <pattern>
+        <token inflected='yes'>morder</token>
+	<token>com</token>
+	<token>os</token>
+	<token>dentes</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='morder'><marker>morder com os dentes</marker></example>
+    </rule>
+
+		<!-- ESTREIA PELA PRIMEIRA VEZ  estreia                      -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_ESTREIA" name="estreia pela primeira vez">
+      <pattern>
+        <token inflected='yes'>estreia</token>
+	<token>pela</token>
+	<token>primeira</token>
+	<token>vez</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='estreia'><marker>estreia pela primeira vez</marker></example>
+    </rule>
+
+		<!-- PANORAMA GERAL  panorama                                -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_PANORAMA" name="panorama geral">
+      <pattern>
+        <token inflected='yes'>panorama</token>
+	<token>geral</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='panorama'><marker>panorama geral</marker></example>
+    </rule>
+
+		<!-- PREFIRO MAIS  prefiro                                   -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_PREFIRO" name="prefiro mais">
+      <pattern>
+        <token inflected='yes'>preferir</token>
+	<token>mais</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='prefiro'><marker>prefiro mais</marker></example>
+    </rule>
+
+		<!-- MAIS MELHOR  mais                                       -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_MAIS" name="mais melhor">
+      <pattern>
+        <token inflected='yes'>mais</token>
+	<token>melhor</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='mais'><marker>mais melhor</marker></example>
+    </rule>
+
+		<!-- GANHAR DE GRAÇA  ganhar                                 -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_GANHAR" name="ganhar de graça">
+      <pattern>
+        <token inflected='yes'>ganhar</token>
+	<token>de</token>
+	<token>graça</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='ganhar'><marker>ganhar de graça</marker></example>
+    </rule>
+
+		<!-- CRIAR NOVAS  criar                                      -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_CRIAR" name="criar novas">
+      <pattern>
+        <token inflected='yes'>criar</token>
+	<token>novas</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='criar'><marker>criar novas</marker></example>
+    </rule>
+
+		<!-- PRÓPRIA AUTOBIOGRAFIA  própria                          -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_PRÓPRIA" name="própria autobiografia">
+      <pattern>
+        <token regexp='yes'>próprias?</token>
+	<token regexp='yes'>autobiografias?</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\2</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='autobiografia'><marker>própria autobiografia</marker></example>
+    </rule>
+
+		<!-- PAÍSES DO MUNDO  países                                 -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_PAÍSES" name="países do mundo">
+      <pattern>
+        <token inflected='yes'>país</token>
+	<token>do</token>
+	<token>mundo</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='países'><marker>países do mundo</marker></example>
+    </rule>
+
+		<!-- VIÚVO DA FALECIDA  viúvo                                -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_VIÚVO" name="viúvo da falecida">
+      <pattern>
+        <token inflected='yes'>viúvo</token>
+	<token>da</token>
+	<token>falecida</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='viúva'><marker>viúva da falecida</marker></example>
+    </rule>
+
+		<!-- FACTO VERÍDICO  facto                                   -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_FACTO" name="facto verídico">
+      <pattern>
+        <token inflected='yes' regexp='yes'>fato|facto</token>
+	<token regexp='yes'>verídicos?</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='fato'><marker>fato verídico</marker></example>
+    </rule>
+
+		<!-- ALMIRANTE DA MARINHA  almirante                         -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_ALMIRANTE" name="almirante da marinha">
+      <pattern>
+        <token inflected='yes'>almirante</token>
+	<token>da</token>
+	<token>marinha</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='almirante'><marker>almirante da marinha</marker></example>
+    </rule>
+
+		<!-- DEMENTE MENTAL  demente                                 -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_DEMENTE" name="demente mental">
+      <pattern>
+        <token inflected='yes'>demente</token>
+	<token>mental</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='demente'><marker>demente mental</marker></example>
+    </rule>
+
+		<!-- SUBIR PARA SUICIDOU(-SE) A SI MESMO  suicidou(-se)      -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_SUICIDOU" name="suicidar(-se) a si mesmo">
+      <pattern>
+        <token inflected='yes' regexp='yes'>suicidar|suicidou-se</token>
+	<token>a</token>
+	<token>si</token>
+	<token>mesmo</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='suicidou-se'><marker>suicidou-se a si mesmo</marker></example>
+    </rule>
+
+		<!-- COMER COM A BOCA  comer                                 -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_COMER" name="comer com a boca">
+      <pattern>
+        <token inflected='yes'>comer</token>
+	<token>com</token>
+	<token>a</token>
+	<token>boca</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='comer'><marker>comer com a boca</marker></example>
+    </rule>
+
+		<!-- ANDAR OS PÉS  andar                                     -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_ANDAR" name="andar os pés">
+      <pattern>
+        <token inflected='yes'>andar</token>
+	<token>os</token>
+	<token>pés</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='andar'><marker>andar os pés</marker></example>
+    </rule>
+
+		<!-- ADIAR PARA DEPOIS  adiar                                -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_ADIAR" name="adiar para depois">
+      <pattern>
+        <token inflected='yes'>adiar</token>
+	<token>para</token>
+	<token>depois</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='adiar'><marker>adiar para depois</marker></example>
+    </rule>
+
+		<!-- 24 HORAS POR DIA  24                                    -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_24" name="24 horas por dia">
+      <pattern>
+        <token>24</token>
+	<token inflected='yes'>hora</token>
+	<token>por</token>
+	<token>dia</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1 \2</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='24 horas'><marker>24 horas por dia</marker></example>
+    </rule>
+
+		<!-- COMPARECER PESSOALMENTE  comparecer                     -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_COMPARECER" name="comparecer pessoalmente">
+      <pattern>
+        <token inflected='yes'>comparecer</token>
+	<token>pessoalmente</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='comparecer'><marker>comparecer pessoalmente</marker></example>
+    </rule>
+
+		<!-- CONCLUSÃO FINAL  conclusão                              -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_CONCLUSÃO" name="conclusão final">
+      <pattern>
+        <token inflected='yes'>conclusão</token>
+	<token>final</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='conclusão'><marker>conclusão final</marker></example>
+    </rule>
+
+		<!-- MAR SALGADO  mar                                        -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_MAR" name="mar salgado">
+      <pattern>
+        <token inflected='yes'>mar</token>
+	<token>salgado</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='mar'><marker>mar salgado</marker></example>
+    </rule>
+
+		<!-- SURDO DO OUVIDO  surdo                                  -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_SURDO" name="surdo do ouvido">
+      <pattern>
+        <token inflected='yes'>surdo</token>
+	<token>do</token>
+	<token>ouvido</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='surdo'><marker>surdo do ouvido</marker></example>
+    </rule>
+
+		<!-- ARDER EM CHAMAS  arder                                  -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_ARDER" name="arder em chamas">
+      <pattern>
+        <token inflected='yes'>arder</token>
+	<token>em</token>
+	<token>chamas</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='arder'><marker>arder em chamas</marker></example>
+    </rule>
+
+		<!-- ÁGUA MOLHADA  água                                      -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_ÁGUA" name="água molhada">
+      <pattern>
+        <token inflected='yes'>água</token>
+	<token>molhada</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='água'><marker>água molhada</marker></example>
+    </rule>
+
+		<!-- PÁSSAROS ALADOS  pássaros                               -->
+		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
+    <rule id="PL_PÁSSAROS" name="pássaros alados">
+      <pattern>
+        <token inflected='yes'>pássaro</token>
+	<token inflected='yes'>alado</token>
+	</pattern>
+	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
+	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pássaros'><marker>pássaros alados</marker></example>
+    </rule>
+     </rulegroup>
+
 </category>
 
 
