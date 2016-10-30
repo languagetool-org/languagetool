@@ -43,7 +43,7 @@ public class RuleMatchesAsJsonSerializer {
 
   private final JsonFactory factory = new JsonFactory();
   
-  public String ruleMatchesToJson(List<RuleMatch> matches, String text, int contextSize, Language lang, Language motherTongue) {
+  public String ruleMatchesToJson(List<RuleMatch> matches, String text, int contextSize, Language lang) {
     ContextTools contextTools = new ContextTools();
     contextTools.setEscapeHtml(false);
     contextTools.setContextSize(contextSize);

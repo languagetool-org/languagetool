@@ -50,7 +50,7 @@ class V2TextChecker extends TextChecker {
   @Override
   protected String getResponse(String text, Language lang, Language motherTongue, List<RuleMatch> matches) {
     RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer();
-    return serializer.ruleMatchesToJson(matches, text, CONTEXT_SIZE, lang, motherTongue);
+    return serializer.ruleMatchesToJson(matches, text, CONTEXT_SIZE, lang);
   }
 
   @NotNull
