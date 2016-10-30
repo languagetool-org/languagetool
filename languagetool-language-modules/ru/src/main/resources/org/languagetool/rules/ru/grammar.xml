@@ -2172,7 +2172,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Парень понял, как мальчик сделал"><marker>Парень понял как мальчик сделал</marker> эту модель.</example>
                 <example correction="Мама мыла раму, и дочка готовила"><marker>Мама мыла раму и дочка готовила</marker> обед.</example>
                 <example correction="Иван понял, как Алексей сделал"><marker>Иван понял как Алексей сделал</marker> эту модель.</example>
-                <example correction="Он понял, как Алексей сделал"><marker>Он понял как Алексей сделал</marker> эту модель.</example>               
+                <example correction="Он понял, как Алексей сделал"><marker>Он понял как Алексей сделал</marker> эту модель.</example>
+<!--            <example correction="Все пошли, и Дина пошла"><marker>Все пошли и Дина пошла</marker>.</example>  -->
             </rule>
             <!--           NN:.*   VB:.*  и    VB:.*   NN:.*  (много ложных срабатываний, если есть обобщающее слово)  -->    
   <!--      <rule>   
@@ -2890,6 +2891,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Несомненно, эта работа представляет огромную научную ценность.</example>
                 <example correction="Несомненно, эта"><marker>Несомненно эта</marker> работа представляет огромную научную ценность.</example>
             </rule>
+            <rule>
+                <!--  Может быть -->
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"></token>
+                    <token>Может</token>
+                    <token>быть</token>
+                    <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                </pattern>
+                <message>Пропущена запятая:<suggestion>\2 \3, \4</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/punctum?id=58_417&amp;layout=item</url>
+                <short>Пропущена запятая.</short>
+                <example>Может быть, я выйду на прогулку.</example>
+                <example correction="Может быть, я"><marker>Может быть я</marker> выйду на прогулку.</example>
+            </rule>  
+            <!--  "Прежде всего" не всегда будет вводным словосочетанием  http://new.gramota.ru/spravka/punctum?layout=item&id=58_627 -->
             <rule>
                 <!-- Вводные слова:   одним словом, вообще, иначе говоря, так сказать, ...-->
                 <pattern case_sensitive="yes">
