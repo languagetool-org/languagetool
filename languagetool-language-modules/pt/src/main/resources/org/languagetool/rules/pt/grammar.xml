@@ -5363,7 +5363,7 @@ $Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
     <category id="STYLE" name="Estilo" type="style">
         <rule id="PROFANITY" name="Profanidade">
             <pattern>
-                <token inflected="yes" regexp="yes">merdas?|cagalhão|cabrão|cabrões|foder|putices?|putas?|putarias?|paneleiros?|conas?|pitos?|bucetas?|caralhos?|peidos?|beitas?</token>
+                <token inflected="yes" regexp="yes">merdas?|cagalhão|cus?|cabrão|cabrões|foder|putices?|putas?|putarias?|paneleiros?|conas?|pitos?|bucetas?|caralhos?|peidos?|beitas?</token>
             </pattern>
             <message>Esta palavra é de baixo calão. Considere alternativas.</message>
             <url>https://pt.wikipedia.org/wiki/Palavra_de_baixo_cal%C3%A3o</url>
@@ -5396,7 +5396,75 @@ $Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
             <example correction=""><marker>Mas</marker> não é bom costume começar a frase com 'mas'.</example>
             <example>Não é um bom estilo de escrita começar uma frase com 'mas'.</example>
         </rule>
-
 		<!--          Style rules from English grammar.xml      - END  -->
+		<!--	      Style rules from Spanish grammar.xml    - START  -->
+
+		<!--      ELES_E_ELAS: O neutro em português é igual ao masculino    -->
+		<!--     Localized by Tiago F. Santos, Portuguese rule, 2016-10-28   -->
+    <rulegroup default="off" type='style' id="ELES_ELAS" name="Redundâncias não sexistas">
+      <!-- TODAS_E_TODOS : Primero elas e depois eles, sem partículas-->
+      <rule id="TODAS_E_TODOS" name="Redundância neutro - feminino + masculino">
+        <pattern>
+          <token postag="(P.|N).FP.+" postag_regexp="yes"/>
+          <token postag="CC"><exception>senão</exception></token>
+          <token><match no="0" postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"/></token>
+        </pattern>
+        <message>Possível redundância. Se não pretende remarcar a diferença de género, é suficiente utilizar <suggestion>\3</suggestion>.</message>
+        <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/controversias/calem-se/3296</url>
+        <short>Redundância. O neutro é suficiente.</short>
+        <example correction="amigos">Chegamos <marker>amigas e amigos</marker></example>
+        <example>Defenderemos os nossos companheiros.</example>
+      </rule>
+
+	<!--   TODOS_E_TODAS : Primeiro eles e depois elas, sem partículas     -->
+	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
+      <rule id="TODOS_E_TODAS" name="Redundância neutro - masculino + feminino">
+        <pattern>
+          <token postag="(P.|N).MP.+" postag_regexp="yes"/>
+          <token postag="CC"><exception>sino</exception></token>
+          <token><match no="0" postag="(P.|N)(.)[MC](.+)" postag_regexp="yes" postag_replace="$1$2F$3"/></token>
+        </pattern>
+        <message>Possível redundância. Se não pretende remarcar a diferença de género, é suficiente utilizar <suggestion>\1</suggestion>.</message>
+        <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/controversias/calem-se/3296</url>
+        <short>Redundância. O neutro é suficiente.</short>
+        <example correction="amigos">Chegados <marker>amigos e amigas</marker></example>
+        <example>Defenderemos os nossos companheiros.</example>
+      </rule>
+
+      <!--AS_RAPARIGAS_E_OS_RAPAZES : Primero elas e depois eles, com preposições e artigos-->
+	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
+	<!-- Cataloguing differences require [DS]>[DP] and exceptions postag="P.*" > "N.*" -->
+      <rule id="AS_RAPARIGAS_E_OS_RAPAZES" name="Redundância neutro - feminino + masculino com partículas">
+        <pattern>
+          <token postag="[DP].+" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+          <token postag="(P.|N).FP.+" postag_regexp="yes"/>
+          <token postag="CC"><exception>sino</exception></token>
+          <token postag="[DP].+" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+          <token><match no="1" postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"/></token>
+        </pattern>
+        <message>Possível redundância. Se não pretende remarcar a diferença de género, é suficiente utilizar <suggestion><match include_skipped="following" no="4"/> <match no="5"/></suggestion>.</message>
+        <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/controversias/calem-se/3296</url>
+        <short>Redundância. O neutro é suficiente.</short>
+        <example correction="os rapazes">Olha como se divertem <marker>as raparigas e os rapazes</marker></example>
+      </rule>
+
+      <!--OS_RAPAZES_E_AS_RAPARIGAS : Primero eles e depois elas, com preposições e artigos-->
+	<!--    Localized by Tiago F. Santos, Portuguese rule, 2016-10-28      -->
+	<!-- Cataloguing differences require [DS]>[DP] and exceptions postag="P.*" > "N.*" -->
+      <rule id="OS_RAPAZES_E_AS_RAPARIGAS" name="Redundância neutro - masculino + feminino com partículas">
+        <pattern>
+          <token postag="[DP].+" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+          <token postag="(P.|N).[MC]P.+" postag_regexp="yes"/>
+          <token postag="CC"><exception>sino</exception></token>
+          <token postag="[DP].+" postag_regexp="yes" skip="1"><exception postag="N.*" postag_regexp="yes"/></token>
+          <token><match no="1" postag="(P.|N)(.)[MC](.+)" postag_regexp="yes" postag_replace="$1$2F$3"/></token>
+        </pattern>
+        <message>Possível redundância. Se não pretende remarcar a diferença de género, é suficiente utilizar <suggestion><match include_skipped="following" no="1"/> <match no="2"/></suggestion>.</message>
+        <url>https://ciberduvidas.iscte-iul.pt/artigos/rubricas/controversias/calem-se/3296</url>
+        <short>Redundância. O neutro é suficiente.</short>
+        <example correction="os jogadores">Devemos de ajudar <marker>os jogadores e as jogadoras</marker></example>
+      </rule>
+     </rulegroup>
+		<!--	      Style rules from Spanish grammar.xml    - START  -->
   </category>
 </rules>
