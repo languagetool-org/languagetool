@@ -104,7 +104,7 @@ public class Indexer implements AutoCloseable {
     try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
       System.out.println("Indexing to directory '" + indexDir + "'...");
       try (FSDirectory directory = FSDirectory.open(new File(indexDir).toPath())) {
-        Language language = Languages.getLanguageForShortName(languageCode);
+        Language language = Languages.getLanguageForShortCode(languageCode);
         try (Indexer indexer = new Indexer(directory, language)) {
           indexer.indexText(reader);
         }

@@ -54,7 +54,7 @@ final class GermanUppercasePhraseFinder {
       System.out.println("Usage: " + GermanUppercasePhraseFinder.class.getSimpleName() + " <ngramIndexDir>");
       System.exit(1);
     }
-    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortName("de"));
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de"));
     FSDirectory fsDir = FSDirectory.open(new File(args[0]).toPath());
     IndexReader reader = DirectoryReader.open(fsDir);
     IndexSearcher searcher = new IndexSearcher(reader);

@@ -61,7 +61,7 @@ class AutomaticConfusionRuleEvaluator {
   }
 
   private void run(List<String> lines, File indexDir) throws IOException {
-    Language language = Languages.getLanguageForShortName(LANGUAGE);
+    Language language = Languages.getLanguageForShortCode(LANGUAGE);
     LanguageModel lm = new LuceneLanguageModel(indexDir);
     ConfusionRuleEvaluator evaluator = new ConfusionRuleEvaluator(language, lm, CASE_SENSITIVE);
     for (String line : lines) {

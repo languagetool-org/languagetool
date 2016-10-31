@@ -149,7 +149,7 @@ final class UselessExampleFinder {
 
   public static void main(String[] args) throws IOException {
     UselessExampleFinder prg = new UselessExampleFinder();
-    prg.run(Languages.getLanguageForShortName("de"));
+    prg.run(Languages.getLanguageForShortCode("de"));
   }
 
 }

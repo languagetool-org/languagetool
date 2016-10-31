@@ -136,13 +136,22 @@ public final class Languages {
 
   /**
    * Get the Language object for the given short language name.
-   *
    * @param langCode e.g. <code>en</code> or <code>es-US</code>
-   * @return a Language object
    * @throws IllegalArgumentException if the language is not supported or if the language code is invalid
+   * @deprecated use {@link #getLanguageForShortCode(String)} instead (deprecated since 3.6)
    */
   public static Language getLanguageForShortName(String langCode) {
-    Language language = getLanguageForShortNameOrNull(langCode);
+    return getLanguageForShortCode(langCode);
+  }
+
+  /**
+   * Get the Language object for the given language code.
+   * @param langCode e.g. <code>en</code> or <code>es-US</code>
+   * @throws IllegalArgumentException if the language is not supported or if the language code is invalid
+   * @since 3.6
+   */
+  public static Language getLanguageForShortCode(String langCode) {
+    Language language = getLanguageForShortCodeOrNull(langCode);
     if (language == null) {
       List<String> codes = new ArrayList<>();
       for (Language realLanguage : LANGUAGES) {
@@ -159,13 +168,12 @@ public final class Languages {
   /**
    * Return whether a language with the given language code is supported. Which languages
    * are supported depends on the classpath when the {@code Language} object is initialized.
-   *
    * @param langCode e.g. {@code en} or {@code en-US}
    * @return true if the language is supported
    * @throws IllegalArgumentException in some cases of an invalid language code format
    */
   public static boolean isLanguageSupported(String langCode) {
-    return getLanguageForShortNameOrNull(langCode) != null;
+    return getLanguageForShortCodeOrNull(langCode) != null;
   }
 
   /**
@@ -193,7 +201,7 @@ public final class Languages {
   }
 
   @Nullable
-  private static Language getLanguageForShortNameOrNull(String langCode) {
+  private static Language getLanguageForShortCodeOrNull(String langCode) {
     StringTools.assureSet(langCode, "langCode");
     Language result = null;
     if (langCode.contains("-x-")) {

@@ -95,7 +95,7 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
     String languageCode = args[2];
     int maxSentences = Integer.parseInt(args[3]);
 
-    Language language = Languages.getLanguageForShortName(languageCode);
+    Language language = Languages.getLanguageForShortCode(languageCode);
     if (maxSentences == 0) {
       System.out.println("Going to index contents from " + dumpFilesNames);
     } else {

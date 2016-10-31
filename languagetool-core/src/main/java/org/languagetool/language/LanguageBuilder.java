@@ -70,7 +70,7 @@ public final class LanguageBuilder {
 
     Language newLanguage;
     if (Languages.isLanguageSupported(parts[1])) {
-      Language baseLanguage = Languages.getLanguageForShortName(parts[1]).getClass().newInstance();
+      Language baseLanguage = Languages.getLanguageForShortCode(parts[1]).getClass().newInstance();
       newLanguage = new ExtendedLanguage(baseLanguage, parts[2].replace(".xml", ""), file);
     } else {
       newLanguage = new Language() {

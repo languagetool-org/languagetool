@@ -92,7 +92,7 @@ public class WikipediaQuickCheck {
 
   public Language getLanguage(URL url) {
     Matcher matcher = getUrlMatcher(url.toString());
-    return Languages.getLanguageForShortName(matcher.group(1));
+    return Languages.getLanguageForShortCode(matcher.group(1));
   }
 
   public String getPageTitle(URL url) {

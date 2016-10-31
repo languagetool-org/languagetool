@@ -55,7 +55,7 @@ final class AllConfusionRulesEvaluator {
     if ("en".equals(args[0])) {
       lang = new ConfusionRuleEvaluator.EnglishLight();
     } else {
-      lang = Languages.getLanguageForShortName(args[0]);
+      lang = Languages.getLanguageForShortCode(args[0]);
     }
     LanguageModel languageModel = new LuceneLanguageModel(new File(args[1]));
     List<String> inputsFiles = new ArrayList<>();

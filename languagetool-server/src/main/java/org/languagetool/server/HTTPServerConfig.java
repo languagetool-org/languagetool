@@ -136,7 +136,7 @@ public class HTTPServerConfig {
         }
         mode = getOptionalProperty(props, "mode", "LanguageTool").equalsIgnoreCase("AfterTheDeadline") ? Mode.AfterTheDeadline : Mode.LanguageTool;
         if (mode == Mode.AfterTheDeadline) {
-          atdLanguage = Languages.getLanguageForShortName(getProperty(props, "afterTheDeadlineLanguage", file));
+          atdLanguage = Languages.getLanguageForShortCode(getProperty(props, "afterTheDeadlineLanguage", file));
         }
         String rulesConfigFilePath = getOptionalProperty(props, "rulesFile", null);
         if (rulesConfigFilePath != null) {

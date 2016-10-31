@@ -107,7 +107,7 @@ class V1TextChecker extends TextChecker {
           throw new RuntimeException("In AfterTheDeadline mode but AfterTheDeadline language not set");
         }
       } else {
-        lang = Languages.getLanguageForShortName(parameters.get("language"));
+        lang = Languages.getLanguageForShortCode(parameters.get("language"));
       }
     }
     return lang;

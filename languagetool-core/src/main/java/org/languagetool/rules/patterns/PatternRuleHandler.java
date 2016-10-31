@@ -100,7 +100,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case "rules":
         String languageStr = attrs.getValue("lang");
-        language = Languages.getLanguageForShortName(languageStr);
+        language = Languages.getLanguageForShortCode(languageStr);
         break;
       case "regexp":
         inRegex = true;

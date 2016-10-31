@@ -86,7 +86,7 @@ abstract class TextChecker {
     List<String> preferredVariants = getPreferredVariants(parameters);
     Language lang = getLanguage(text, parameters, preferredVariants);
     String motherTongueParam = parameters.get("motherTongue");
-    Language motherTongue = motherTongueParam != null ? Languages.getLanguageForShortName(motherTongueParam) : null;
+    Language motherTongue = motherTongueParam != null ? Languages.getLanguageForShortCode(motherTongueParam) : null;
     boolean useEnabledOnly = "yes".equals(parameters.get("enabledOnly")) || "true".equals(parameters.get("enabledOnly"));
     List<String> enabledRules = getEnabledRuleIds(parameters);
 
@@ -212,7 +212,7 @@ abstract class TextChecker {
   Language detectLanguageOfString(String text, String fallbackLanguage, List<String> preferredVariants) {
     Language lang = identifier.detectLanguage(text);
     if (lang == null) {
-      lang = Languages.getLanguageForShortName(fallbackLanguage != null ? fallbackLanguage : "en");
+      lang = Languages.getLanguageForShortCode(fallbackLanguage != null ? fallbackLanguage : "en");
     }
     if (preferredVariants.size() > 0) {
       for (String preferredVariant : preferredVariants) {
@@ -221,7 +221,7 @@ abstract class TextChecker {
         }
         String preferredVariantLang = preferredVariant.split("-")[0];
         if (preferredVariantLang.equals(lang.getShortCode())) {
-          lang = Languages.getLanguageForShortName(preferredVariant);
+          lang = Languages.getLanguageForShortCode(preferredVariant);
           if (lang == null) {
             throw new IllegalArgumentException("Invalid 'preferredVariants', no such language/variant found: '" + preferredVariant + "'");
           }

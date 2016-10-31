@@ -68,7 +68,7 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
     switch (qName) {
       case RULES:
         String languageStr = attrs.getValue("targetLang");
-        language = Languages.getLanguageForShortName(languageStr);
+        language = Languages.getLanguageForShortCode(languageStr);
         break;
       case RULE:
         super.startElement(namespaceURI, lName, qName, attrs);
@@ -79,7 +79,7 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
         startPattern(attrs);
         break;
       case SOURCE:
-        srcLang = Languages.getLanguageForShortName(attrs.getValue("lang"));
+        srcLang = Languages.getLanguageForShortCode(attrs.getValue("lang"));
         break;
       default:
         super.startElement(namespaceURI, lName, qName, attrs);

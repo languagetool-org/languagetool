@@ -99,7 +99,7 @@ class DisambiguationRuleHandler extends XMLRuleHandler {
         }
         break;
       case "rules":
-        language = Languages.getLanguageForShortName(attrs.getValue("lang"));
+        language = Languages.getLanguageForShortCode(attrs.getValue("lang"));
         break;
       case PATTERN:
         inPattern = true;

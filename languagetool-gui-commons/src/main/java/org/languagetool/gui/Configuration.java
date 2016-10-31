@@ -376,11 +376,11 @@ public class Configuration {
 
       String languageStr = (String) props.get(LANGUAGE_KEY);
       if (languageStr != null) {
-        language = Languages.getLanguageForShortName(languageStr);
+        language = Languages.getLanguageForShortCode(languageStr);
       }
       String motherTongueStr = (String) props.get(MOTHER_TONGUE_KEY);
       if (motherTongueStr != null && !motherTongueStr.equals("xx")) {
-        motherTongue = Languages.getLanguageForShortName(motherTongueStr);
+        motherTongue = Languages.getLanguageForShortCode(motherTongueStr);
       }
       String ngramDir = (String) props.get(NGRAM_DIR_KEY);
       if (ngramDir != null) {

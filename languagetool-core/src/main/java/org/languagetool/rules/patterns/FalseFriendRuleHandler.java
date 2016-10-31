@@ -87,7 +87,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       inPattern = true;
       String languageStr = attrs.getValue("lang");
       if (Languages.isLanguageSupported(languageStr)) {
-        language = Languages.getLanguageForShortName(languageStr);
+        language = Languages.getLanguageForShortCode(languageStr);
       }
     } else if (qName.equals(TOKEN)) {
       setToken(attrs);
@@ -95,7 +95,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
       inTranslation = true;
       String languageStr = attrs.getValue("lang");
       if (Languages.isLanguageSupported(languageStr)) {
-        Language tmpLang = Languages.getLanguageForShortName(languageStr);
+        Language tmpLang = Languages.getLanguageForShortCode(languageStr);
         currentTranslationLanguage = tmpLang;
         if (tmpLang.equalsConsiderVariantsIfSpecified(motherTongue)) {
           translationLanguage = tmpLang;

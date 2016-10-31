@@ -66,7 +66,7 @@ final class PerformanceTest {
     String languageCode = args[0];
     File textFile = new File(args[1]);
     //JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortName(languageCode));
-    MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(Languages.getLanguageForShortName(languageCode));
+    MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(Languages.getLanguageForShortCode(languageCode));
     test.run(langTool, textFile);
     langTool.shutdown();
   }

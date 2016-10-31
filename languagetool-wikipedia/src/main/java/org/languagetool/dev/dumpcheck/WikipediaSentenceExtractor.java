@@ -64,6 +64,6 @@ class WikipediaSentenceExtractor {
       System.exit(1);
     }
     WikipediaSentenceExtractor extractor = new WikipediaSentenceExtractor();
-    extractor.extract(Languages.getLanguageForShortName(args[0]), args[1]);
+    extractor.extract(Languages.getLanguageForShortCode(args[0]), args[1]);
   }
 }

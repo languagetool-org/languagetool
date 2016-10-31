@@ -32,7 +32,7 @@ import static org.junit.Assert.assertThat;
 
 public class ChangeAnalysisTest {
   
-  private static final Language LANGUAGE = Languages.getLanguageForShortName("de");
+  private static final Language LANGUAGE = Languages.getLanguageForShortCode("de");
   
   @Test
   public void testAdd() {

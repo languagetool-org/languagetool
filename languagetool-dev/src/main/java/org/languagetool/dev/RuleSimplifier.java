@@ -195,7 +195,7 @@ final class RuleSimplifier {
 
   public static void main(String[] args) throws IOException {
     RuleSimplifier prg = new RuleSimplifier();
-    prg.run(Languages.getLanguageForShortName("de"));
+    prg.run(Languages.getLanguageForShortCode("de"));
   }
 
 }

@@ -62,7 +62,7 @@ final class ExampleSentencePrinter {
 
   public static void main(String[] args) throws IOException {
     ExampleSentencePrinter prg = new ExampleSentencePrinter();
-    prg.run(Languages.getLanguageForShortName("en"));
+    prg.run(Languages.getLanguageForShortCode("en"));
   }
 
 }

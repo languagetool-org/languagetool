@@ -273,7 +273,7 @@ class CommonCrawlToNgram2 implements AutoCloseable {
       System.out.println(" <simpleEvalFile> a plain text file with simple error markup");
       System.exit(1);
     }
-    Language language = Languages.getLanguageForShortName(args[0]);
+    Language language = Languages.getLanguageForShortCode(args[0]);
     File input = new File(args[1]);
     File outputDir = new File(args[2]);
     File evalFile = new File(args[3]);

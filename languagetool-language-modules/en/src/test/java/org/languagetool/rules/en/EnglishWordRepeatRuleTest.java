@@ -28,7 +28,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class EnglishWordRepeatRuleTest {
 
-  private final Language english = Languages.getLanguageForShortName("en");
+  private final Language english = Languages.getLanguageForShortCode("en");
   private final EnglishWordRepeatRule rule = new EnglishWordRepeatRule(TestTools.getEnglishMessages(), english);
   
   private JLanguageTool langTool;

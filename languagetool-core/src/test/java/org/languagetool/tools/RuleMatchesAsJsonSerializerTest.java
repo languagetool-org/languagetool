@@ -43,7 +43,7 @@ public class RuleMatchesAsJsonSerializerTest {
 
   @Test
   public void testJson() {
-    String json = serializer.ruleMatchesToJson(matches, "This is an text.", 5, Languages.getLanguageForShortName("xx-XX"));
+    String json = serializer.ruleMatchesToJson(matches, "This is an text.", 5, Languages.getLanguageForShortCode("xx-XX"));
     // Software:
     assertTrue(json.contains("\"LanguageTool\""));
     assertTrue(json.contains(JLanguageTool.VERSION));
@@ -62,13 +62,13 @@ public class RuleMatchesAsJsonSerializerTest {
   
   @Test
   public void testJsonWithUnixLinebreak() {
-    String json = serializer.ruleMatchesToJson(matches, "This\nis an text.", 5, Languages.getLanguageForShortName("xx-XX"));
+    String json = serializer.ruleMatchesToJson(matches, "This\nis an text.", 5, Languages.getLanguageForShortCode("xx-XX"));
     assertTrue(json.contains("This is ..."));  // got filtered out by ContextTools
   }
   
   @Test
   public void testJsonWithWindowsLinebreak() {
-    String json = serializer.ruleMatchesToJson(matches, "This\ris an text.", 5, Languages.getLanguageForShortName("xx-XX"));
+    String json = serializer.ruleMatchesToJson(matches, "This\ris an text.", 5, Languages.getLanguageForShortCode("xx-XX"));
     assertTrue(json.contains("This\\ris ..."));
   }
   

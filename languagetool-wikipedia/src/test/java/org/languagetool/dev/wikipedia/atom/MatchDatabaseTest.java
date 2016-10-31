@@ -36,7 +36,7 @@ public class MatchDatabaseTest {
   
   @Test
   public void test() throws SQLException, ClassNotFoundException {
-    Language language = Languages.getLanguageForShortName("de");
+    Language language = Languages.getLanguageForShortCode("de");
     MatchDatabase database = new MatchDatabase("jdbc:derby:atomFeedChecksDB;create=true", "user", "pass");
     database.dropTables();
     database.createTables();

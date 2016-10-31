@@ -111,7 +111,7 @@ public class LanguageIdentifier {
   public Language detectLanguage(String text) {
     String languageCode = detectLanguageCode(text);
     if (languageCode != null) {
-      return Languages.getLanguageForShortName(languageCode);
+      return Languages.getLanguageForShortCode(languageCode);
     } else {
       return null;
     }

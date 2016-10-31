@@ -183,15 +183,15 @@ public class Main extends WeakBase implements XJobExecutor,
       // whether the text is e.g. Khmer or Tamil (the only "complex text layout (CTL)" languages we support so far).
       // Thus we check the text itself:
       if (new KhmerDetector().isThisLanguage(xCursor.getText().getString())) {
-        return Languages.getLanguageForShortName("km");
+        return Languages.getLanguageForShortCode("km");
       }
       if (new TamilDetector().isThisLanguage(xCursor.getText().getString())) {
-        return Languages.getLanguageForShortName("ta");
+        return Languages.getLanguageForShortCode("ta");
       }
 
       Object obj = xCursorProps.getPropertyValue("CharLocale");
       if (obj == null) {
-        return Languages.getLanguageForShortName("en-US");
+        return Languages.getLanguageForShortCode("en-US");
       }
       charLocale = (Locale) obj;
       boolean langIsSupported = false;
@@ -221,12 +221,12 @@ public class Main extends WeakBase implements XJobExecutor,
   private Language getLanguage(Locale locale) {
     try {
       if (locale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)) {
-        return Languages.getLanguageForShortName(locale.Variant);
+        return Languages.getLanguageForShortCode(locale.Variant);
       } else {
-        return Languages.getLanguageForShortName(locale.Language + "-" + locale.Country);
+        return Languages.getLanguageForShortCode(locale.Language + "-" + locale.Country);
       }
     } catch (java.lang.IllegalArgumentException e) {
-      return Languages.getLanguageForShortName(locale.Language);
+      return Languages.getLanguageForShortCode(locale.Language);
     }
   }
 

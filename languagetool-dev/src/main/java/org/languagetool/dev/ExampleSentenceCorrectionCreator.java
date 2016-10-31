@@ -141,7 +141,7 @@ final class ExampleSentenceCorrectionCreator {
 
   public static void main(String[] args) throws IOException {
     ExampleSentenceCorrectionCreator prg = new ExampleSentenceCorrectionCreator();
-    prg.run(Languages.getLanguageForShortName("de"));
+    prg.run(Languages.getLanguageForShortCode("de"));
   }
 
 }

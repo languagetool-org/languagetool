@@ -45,6 +45,8 @@
     instead
   * `Language.getShortNameWithCountryAndVariant()` has been deprecated, use
     `Language.getShortCodeWithCountryAndVariant()` instead
+  * `Languages.getLanguageForShortName()` has been deprecated, use
+    `Languages.getLanguageForShortCode()` instead
   
 #### Command-line
   * Added a `--json` option as an alternative to `--api` (deprecated XML output)

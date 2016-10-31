@@ -223,7 +223,7 @@ public class CommandLineParser {
   }
 
   private Language getLanguage(String userSuppliedLangCode) {
-    return Languages.getLanguageForShortName(userSuppliedLangCode);
+    return Languages.getLanguageForShortCode(userSuppliedLangCode);
   }
 
 }

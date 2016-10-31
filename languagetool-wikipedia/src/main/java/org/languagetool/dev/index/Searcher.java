@@ -360,7 +360,7 @@ public class Searcher {
     long startTime = System.currentTimeMillis();
     String[] ruleIds = args[0].split(",");
     String languageCode = args[1];
-    Language language = Languages.getLanguageForShortName(languageCode);
+    Language language = Languages.getLanguageForShortCode(languageCode);
     File indexDir = new File(args[2]);
     boolean limitSearch = !(args.length > 3 && "--no_limit".equals(args[3]));
     Searcher searcher = new Searcher(new SimpleFSDirectory(indexDir.toPath()));

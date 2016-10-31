@@ -46,7 +46,7 @@ public final class WordTokenizer {
 
   private void run(final String lang) throws IOException {
     JLanguageTool langTool = new JLanguageTool(
-            Languages.getLanguageForShortName(lang));
+            Languages.getLanguageForShortCode(lang));
     BufferedReader in = null;
     BufferedWriter out = null;
     try {

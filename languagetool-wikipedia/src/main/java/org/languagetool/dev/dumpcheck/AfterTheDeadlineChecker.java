@@ -123,7 +123,7 @@ class AfterTheDeadlineChecker {
       System.out.println("   <file...>       Wikipedia and/or Tatoeba file(s)");
       System.exit(1);
     }
-    Language language = Languages.getLanguageForShortName(args[0]);
+    Language language = Languages.getLanguageForShortCode(args[0]);
     String urlPrefix = args[1];
     int maxSentenceCount = Integer.parseInt(args[2]);
     List<String> files = Arrays.asList(args).subList(3, args.length);
