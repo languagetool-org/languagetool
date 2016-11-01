@@ -39,8 +39,8 @@ printf "Android Requests  : %'d\n" $ANDROID >>$OUTFILE
 CLIENT=`grep -c "java-http-client" $TMPFILE`
 printf "Java Client Req   : %'d\n" $CLIENT >>$OUTFILE
 
-GOOGLEAPP=`grep -c ":googleappscript" $TMPFILE`
-printf "Google-Apps-Script: %'d\n" $GOOGLEAPP >>$OUTFILE
+GOOGLEAPP=`grep -c ":googledocs" $TMPFILE`
+printf "Google Docs       : %'d\n" $GOOGLEAPP >>$OUTFILE
 
 SUBLIME=`grep -c ":sublime" $TMPFILE`
 printf "Sublime Requests  : %'d\n" $SUBLIME >>$OUTFILE
