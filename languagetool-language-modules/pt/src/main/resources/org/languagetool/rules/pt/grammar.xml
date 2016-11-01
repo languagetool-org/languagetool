@@ -26,7 +26,7 @@ title="Easy editing stylesheet" ?>
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.193 2016-11-01 08:16:00 marcoagpinto Exp $
 -->
 
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -1786,18 +1786,6 @@ $Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
 
 
 
-    <!-- ATÉ AI até aí -->
-    <rule id="ATÉ_AI" name="até aí">
-      <pattern>
-        <token>até</token>
-        <token>ai</token>
-      </pattern>
-      <message>Substituir «até ai» por <suggestion>até aí</suggestion>.</message>
-      <example correction="até aí">E <marker>até ai</marker> tudo estava bem.</example>
-    </rule>
-
-
-
     <!-- ATÉ MANHÃ até amanhã -->
     <rule id="ATÉ_MANHÃ" name="até amanhã">
       <pattern>
@@ -2756,8 +2744,22 @@ $Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
 	  <example correction="há">Conheço a Ana <marker>à</marker> quase 30 anos.</example>
     </rule>
 
+	
+	
+    <!-- AI aí -->
+    <rule id="AI" name="aí">
+      <pattern>
+        <token postag_regexp="yes" postag="SPS00|VMN0000|VMIP1S0|VMIP2S0|VMIP3S0|VMIP1P0|VMIP2P0|VMIP3P0|VMIS1S0|VMIS2S0|VMIS3S0|VMIS1P0|VMIS2P0|VMIS3P0"></token>	
+		<marker>
+			<token>ai</token>
+        </marker>
+      </pattern>
+      <message>Substituir «ai» por <suggestion>aí</suggestion>.</message>
+      <example correction="aí">Vou por <marker>ai</marker> fora a cantar.</example>
+    </rule>
+	
 
-
+	
     <!-- HÁS VEZES às vezes -->
     <rule id="HÁS_VEZES" name="às vezes">
       <pattern>
@@ -3433,20 +3435,6 @@ $Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
 
 
 	
-    <!-- POR AI por aí -->
-    <rule id="POR_AI" name="por aí">
-      <pattern>
-        <token>por</token>
-		<marker>
-			<token>ai</token>
-        </marker>
-      </pattern>
-      <message>Substituir «ai» por <suggestion>aí</suggestion>.</message>
-      <example correction="aí">Vou por <marker>ai</marker> fora a cantar.</example>
-    </rule>
-
-
-	
     <!-- POR CAUSA QUE porque -->
     <rule id="POR_CAUSA_QUE" name="porque">
       <pattern>
@@ -3659,20 +3647,6 @@ $Id: grammar.xml,v 1.192 2016-10-28 16:45:00 marcoagpinto Exp $
       <message>Substituir «tomará lugar» por <suggestion>terá lugar</suggestion>.</message>
       <example correction="terá lugar">O evento <marker>tomará lugar</marker> em Lisboa.</example>
     </rule>
-
-	
-	
-    <!-- TOPOS DE GAMA topo de gama -->
-    <rule id="TOPOS_DE_GAMA" name="topo de gama">
-      <pattern>
-        <token>topos</token>
-        <token>de</token>
-        <token>gama</token>
-      </pattern>
-     <message>Substituir «topos de gama» por <suggestion>topo de gama</suggestion>.</message>
-     <suggestion>topo de gama</suggestion>
-     <example correction="topo de gama">Quero telemóveis <marker>topos de gama</marker>.</example>
-    </rule>	
 
 
 	
