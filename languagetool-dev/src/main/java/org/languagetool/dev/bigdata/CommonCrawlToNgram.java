@@ -256,7 +256,7 @@ class CommonCrawlToNgram implements AutoCloseable {
     }
   }
   
-  class LuceneLiveIndex {
+  static class LuceneLiveIndex {
 
     private final Directory directory;
     private final IndexWriter indexWriter;
