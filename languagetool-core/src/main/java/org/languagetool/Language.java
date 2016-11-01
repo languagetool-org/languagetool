@@ -82,6 +82,7 @@ public abstract class Language {
    * but for those languages that don't have a two-letter code, a three-letter
    * code according to ISO 639-2 is returned.
    * The country parameter (e.g. "US"), if any, is not returned.
+   * @since 3.6
    */
   public abstract String getShortCode();
 
