@@ -834,8 +834,12 @@ public class CaseRule extends GermanRule {
     }
 
     // ignore "die Ausgewählten" but not "die Ausgewählten Leute":
-    if (tokens[i].hasPartialPosTag("ADJ") && !hasNounReading(nextReadings)) {
-      return true;
+    for (AnalyzedToken reading : tokens[i].getReadings()) {
+      String posTag = reading.getPOSTag();
+      // ignore "die Ausgewählten" but not "die Ausgewählten Leute":
+      if ((posTag == null || posTag.contains("ADJ")) && !hasNounReading(nextReadings)) {
+        return true;
+      }
     }
 
     return false;
