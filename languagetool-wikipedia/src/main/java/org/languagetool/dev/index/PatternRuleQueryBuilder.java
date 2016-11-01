@@ -69,11 +69,11 @@ public class PatternRuleQueryBuilder {
    * @throws UnsupportedPatternRuleException if no query could be created for the rule
    */
   public Query buildRelaxedQuery(AbstractPatternRule rule) throws UnsupportedPatternRuleException {
-    BooleanQuery booleanQuery = new BooleanQuery();
+    BooleanQuery.Builder builder = new BooleanQuery.Builder();
     for (PatternToken patternToken : rule.getPatternTokens()) {
       try {
         BooleanClause clause = makeQuery(patternToken);
-        booleanQuery.add(clause);
+        builder.add(clause);
       } catch (UnsupportedPatternRuleException e) {
         //System.out.println("Ignoring because it's not supported: " + element + ": " + e);
         // cannot handle - okay to ignore, as we may return too broad matches
@@ -81,10 +81,11 @@ public class PatternRuleQueryBuilder {
         throw new RuntimeException("Could not create query for rule " + rule.getId(), e);
       }
     }
-    if (booleanQuery.clauses().size() == 0) {
+    BooleanQuery query = builder.build();
+    if (query.clauses().size() == 0) {
       throw new UnsupportedPatternRuleException("No items found in rule that can be used to build a search query: " + rule);
     }
-    return booleanQuery;
+    return query;
   }
 
   private BooleanClause makeQuery(PatternToken patternToken) throws UnsupportedPatternRuleException {

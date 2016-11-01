@@ -122,16 +122,16 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 
     PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language, searcher);
     Query query = patternRuleQueryBuilder.buildRelaxedQuery(rules.get(0));
-    assertEquals(1, searcher.search(query, null, 1000).totalHits);
+    assertEquals(1, searcher.search(query, 1000).totalHits);
 
     query = patternRuleQueryBuilder.buildRelaxedQuery(rules.get(1));
-    assertEquals(0, searcher.search(query, null, 1000).totalHits);
+    assertEquals(0, searcher.search(query, 1000).totalHits);
 
     query = patternRuleQueryBuilder.buildRelaxedQuery(rules.get(2));
-    assertEquals(1, searcher.search(query, null, 1000).totalHits);
+    assertEquals(1, searcher.search(query, 1000).totalHits);
 
     query = patternRuleQueryBuilder.buildRelaxedQuery(rules.get(3));
-    assertEquals(1, searcher.search(query, null, 1000).totalHits);
+    assertEquals(1, searcher.search(query, 1000).totalHits);
   }
 
   public void testUnsupportedPatternRule() throws Exception {
@@ -274,7 +274,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     PatternRuleQueryBuilder queryBuilder = new PatternRuleQueryBuilder(language, searcher);
     Query query = queryBuilder.buildRelaxedQuery(patternRule);
     //System.out.println("QUERY: " + query);
-    int matches = searcher.search(query, null, 1000).totalHits;
+    int matches = searcher.search(query, 1000).totalHits;
     assertEquals("Query failed: " + query, expectedMatches, matches);
   }
 
