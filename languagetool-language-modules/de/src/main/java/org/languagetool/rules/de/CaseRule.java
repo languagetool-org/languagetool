@@ -54,7 +54,10 @@ public class CaseRule extends GermanRule {
   // wenn hinter diesen Wörtern ein Verb steht, ist es wohl ein substantiviertes Verb,
   // muss also groß geschrieben werden:
   private static final Set<String> nounIndicators = new HashSet<>();
-  
+
+  private static final String UPPERCASE_MESSAGE = "Außer am Satzanfang werden nur Nomen und Eigennamen großgeschrieben";
+  private static final String LOWERCASE_MESSAGE = "Falls es sich um ein substantiviertes Verb handelt, wird es großgeschrieben.";
+
   // also see case_rule_exception.txt:
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
@@ -340,6 +343,7 @@ public class CaseRule extends GermanRule {
     "Übrigen",   // je nach Kontext groß (TODO), z.B. "im Übrigen" 
     "Unvorhergesehenes",   // je nach Kontext groß (TODO), z.B. "etwas Unvorhergesehenes" 
     "Verantwortlicher",
+    "Verlass",
     "Verwandter",
     "Vielfaches",
     "Vorsitzender",
@@ -471,6 +475,7 @@ public class CaseRule extends GermanRule {
     languages.add("Ungarisch");
     languages.add("Usbekisch");
     languages.add("Vietnamesisch");
+    languages.add("Walisisch");
     languages.add("Weißrussisch");
   }
   
@@ -694,12 +699,8 @@ public class CaseRule extends GermanRule {
       // e.g. essen -> Essen
       if (Character.isLowerCase(token.charAt(0)) && !substVerbenExceptions.contains(token) && tokenReadings.hasPartialPosTag("VER:INF")
               && !tokenReadings.isIgnoredBySpeller() && !tokenReadings.isImmunized()) {
-        String msg = "Falls es sich um ein substantiviertes Verb handelt, wird es großgeschrieben.";
-        RuleMatch ruleMatch = new RuleMatch(this, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg);
-        String word = tokenReadings.getToken();
-        String fixedWord = StringTools.uppercaseFirstChar(word);
-        ruleMatch.setSuggestedReplacement(fixedWord);
-        ruleMatches.add(ruleMatch);
+        String fixedWord = StringTools.uppercaseFirstChar(tokenReadings.getToken());
+        addRuleMatch(ruleMatches, LOWERCASE_MESSAGE, tokenReadings, fixedWord);
       }
     }
   }
@@ -723,13 +724,15 @@ public class CaseRule extends GermanRule {
         !isSpecialCase(i, tokens) &&
         !isAdjectiveAsNoun(i, tokens) &&
         !isExceptionPhrase(i, tokens)) {
-      String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen großgeschrieben";
-      RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(), tokens[i].getEndPos(), msg);
-      String word = tokens[i].getToken();
-      String fixedWord = Character.toLowerCase(word.charAt(0)) + word.substring(1);
-      ruleMatch.setSuggestedReplacement(fixedWord);
-      ruleMatches.add(ruleMatch);
+      String fixedWord = StringTools.lowercaseFirstChar(tokens[i].getToken());
+      addRuleMatch(ruleMatches, UPPERCASE_MESSAGE, tokens[i], fixedWord);
     }
+  }
+
+  private void addRuleMatch(List<RuleMatch> ruleMatches, String msg, AnalyzedTokenReadings tokenReadings, String fixedWord) {
+    RuleMatch ruleMatch = new RuleMatch(this, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg);
+    ruleMatch.setSuggestedReplacement(fixedWord);
+    ruleMatches.add(ruleMatch);
   }
 
   // e.g. "a) bla bla"
@@ -811,23 +814,27 @@ public class CaseRule extends GermanRule {
 
   private boolean isAdjectiveAsNoun(int i, AnalyzedTokenReadings[] tokens) {
     AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
+    AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
+
+    // ignore "Der Versuch, Neues zu lernen / Gutes zu tun / Spannendes auszuprobieren"
+    boolean isPossiblyFollowedByInfinitve = nextReadings != null && (nextReadings.getToken().equals("zu"));
+    boolean isFollowedByInfinitve = nextReadings != null && !isPossiblyFollowedByInfinitve && nextReadings.hasPartialPosTag("EIZ");
+
     boolean isUndefQuantifier = prevToken != null && UNDEFINED_QUANTIFIERS.contains(prevToken.getToken().toLowerCase());
     boolean isPrevDeterminer = prevToken != null && (prevToken.hasPartialPosTag("ART") || prevToken.hasPartialPosTag("PRP") || prevToken.hasPartialPosTag("ZAL"));
-    if (!isPrevDeterminer && !isUndefQuantifier) {
+    if (!isPrevDeterminer && !isUndefQuantifier && !(isPossiblyFollowedByInfinitve || isFollowedByInfinitve)) {
       AnalyzedTokenReadings prevPrevToken = i > 1 && prevToken.hasPartialPosTag("ADJ") ? tokens[i-2] : null;
       // Another check to avoid false alarms for "ein politischer Revolutionär"
       if (prevPrevToken == null || !(prevPrevToken.hasPartialPosTag("ART") || prevPrevToken.hasPartialPosTag("PRP") || prevToken.hasPartialPosTag("ZAL"))) {
         return false;
       }
     }
-    AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
-    for (AnalyzedToken reading : tokens[i].getReadings()) {
-      String posTag = reading.getPOSTag();
-      // ignore "die Ausgewählten" but not "die Ausgewählten Leute":
-      if ((posTag == null || posTag.contains("ADJ")) && !hasNounReading(nextReadings)) {
-        return true;
-      }
+
+    // ignore "die Ausgewählten" but not "die Ausgewählten Leute":
+    if (tokens[i].hasPartialPosTag("ADJ") && !hasNounReading(nextReadings)) {
+      return true;
     }
+
     return false;
   }
 
