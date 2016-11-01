@@ -61,7 +61,7 @@ public class FrequencyIndexCreatorTest {
         String ngram = prevPrevPart + " " + prevPart + " " + part;
         long startTime = System.currentTimeMillis(); 
         Query query = new TermQuery(new Term("ngram", ngram));
-        ScoreDoc[] hits = searcher.search(query, null, 10).scoreDocs;
+        ScoreDoc[] hits = searcher.search(query, 10).scoreDocs;
         //if (hits.length == 0) {
         //  System.out.println("No hit for: " + ngram);
         //}
