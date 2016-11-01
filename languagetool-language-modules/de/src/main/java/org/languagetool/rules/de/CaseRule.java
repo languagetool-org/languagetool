@@ -318,6 +318,7 @@ public class CaseRule extends GermanRule {
     "Nutze",   // zu Nutze
     "Obdachloser",
     "Oder",   // der Fluss
+    "Ohrfeige",
     "Patsche",
     "Pfiffe",
     "Pfiffen",
@@ -437,10 +438,12 @@ public class CaseRule extends GermanRule {
     languages.add("Jiddisch");
     languages.add("Jugoslawisch");
     languages.add("Kantonesisch");
+    languages.add("Katalanisch");
     languages.add("Koreanisch");
     languages.add("Kroatisch");
     languages.add("Lateinisch");
     languages.add("Lettisch");
+    languages.add("Litauisch");
     languages.add("Luxemburgisch");
     languages.add("Mittelhochdeutsch");
     languages.add("Mongolisch");
