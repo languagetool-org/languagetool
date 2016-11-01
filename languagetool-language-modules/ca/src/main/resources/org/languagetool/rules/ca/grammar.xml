@@ -22007,20 +22007,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- Per a fer la norma més robusta, caldria comptar des del verb cap enrere (hauria de ser una regla en Java) -->
             <rule>
                 <antipattern>
-                    <token regexp="yes">haguts|hagudes</token>
-                    <token>i</token>
-                    <token>per</token>
-                    <token>haver</token>
+                    <marker>
+                        <token regexp="yes">haguts|hagudes</token>
+                        <token>i</token>
+                        <token>per</token>
+                        <token>haver</token>
+                    </marker>
                 </antipattern>
                 <antipattern>
-                    <token>hi</token>
-                    <token postag="V.*|SPS00|&pronom_feble;" postag_regexp="yes" min="1" max="5"/>
-                    <token regexp="yes">haver|havent</token>
+                    <marker>
+                        <token>hi</token>
+                        <token postag="V.*|SPS00|&pronom_feble;" postag_regexp="yes" min="1" max="5"><exception regexp="yes">haver|havent</exception></token>
+                        <token regexp="yes">haver|havent</token>
+                    </marker>
                 </antipattern>
                 <antipattern>
-                    <token>les</token>
-                    <token inflected="yes">poder</token>
-                    <token regexp="yes">haver</token>
+                    <marker>
+                        <token>les</token>
+                        <token inflected="yes">poder</token>
+                        <token regexp="yes">haver</token>
+                    </marker>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -22043,6 +22049,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="haver-hi">després d'<marker>haver</marker> finalment sentència</example>
                 <example>després d'haver finalment abandonat la teoria</example>
                 <example>Totes les coses hagudes i per haver.</example>
+                <example>Hi va haver molta confusió.</example>
+                <example>N'hi va haver molts casos.</example>
             </rule>
             <rule>
                 <pattern>
