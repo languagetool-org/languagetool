@@ -3680,6 +3680,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Ranejava a la"><marker>Ranejava la</marker> indecència</example>
                 <example>Raneja a la ridiculesa.</example>
             </rule>
+            <rule id="TRUCAR_A" name="trucar/telefonar intransitius">
+                <pattern>
+                    <marker>
+                        <token inflected="yes" regexp="yes">trucar|telefonar</token>
+                    </marker>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </pattern>
+                <message>El verb '<match no="1" postag="V.*" postag_regexp="yes" postag_replace="V.N.*"/>' és intransitiu. Probablement falta la preposició 'a'.</message>
+                <suggestion>\1 a</suggestion>
+                <short>Verb intransitiu.</short>
+                <example correction="truca a">Puigdemont <marker>truca</marker> Rajoy.</example>
+                <example>Vaig trucar la moto</example>
+            </rule>
             <!-- <rule>
                 <pattern>
                 <token skip="1">què</token>
