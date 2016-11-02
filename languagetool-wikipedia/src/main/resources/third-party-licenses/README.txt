@@ -24,6 +24,7 @@ log4j.jar: Apache License 2.0, http://logging.apache.org/log4j/1.2/
 lucene-analyzers-common|core|queries|sandbox|test-framework.jar: Apache License 2.0, http://lucene.apache.org
 lucene-gosen-ipadic.jar: LGPL v2.1, http://code.google.com/p/lucene-gosen/
 morfologik-*.jar: Morfologik-license.txt, http://morfologik.blogspot.com, http://www.cs.put.poznan.pl/dweiss
+morfologik-ukrainian.jar: Creative Commons Attribution-ShareAlike 4.0 International, https://creativecommons.org/licenses/by-sa/4.0/legalcode
 opennlp-*: Apache License 2.0, http://opennlp.apache.org, http://opennlp.sourceforge.net/models-1.5
 ptk-common.jar: Apache License 2.0, http://sweble.org
 rats-runtime.jar: LGPL version 2.1, http://cs.nyu.edu/rgrimm/xtc/

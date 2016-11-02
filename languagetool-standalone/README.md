@@ -361,8 +361,9 @@ Ve. Elanjelian <tamiliam@gmail.com>. It is released under GPLv3 licence.
   The corpus data is released under GPLv3, as well.
 * The grammatical rules themselves are based on "thamizhnadaik kaiyEdu" (2004)
  and "thamizhil nAmum thavaRillAmal ezhuthalAm" (2007)
- 
+
 #### Ukrainian
 
-The Ukrainian data for part-of-speech tagging were created by Andriy Rysin
-It's based on spell-uk (http://sourceforge.net/projects/ispell-uk/) which is licensed under GPL/LGPL.
+The Ukrainian data for part-of-speech tagging was created by Andriy Rysin.
+It's based on https://github.com/brown-uk/dict_uk project and is licensed under
+Creative Commons Attribution-ShareAlike 4.0 International license.
