@@ -20,8 +20,6 @@ package org.languagetool.dev.index;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.sandbox.queries.regex.JavaUtilRegexCapabilities;
-import org.apache.lucene.sandbox.queries.regex.RegexQuery;
 import org.apache.lucene.search.*;
 import org.apache.lucene.search.spans.SpanMultiTermQueryWrapper;
 import org.apache.lucene.search.spans.SpanNearQuery;
@@ -140,7 +138,7 @@ public class PatternRuleQueryBuilder {
   }
 
   @Nullable
-  private BooleanClause getTermQueryOrNull(PatternToken patternToken, String termStr) {
+  private BooleanClause getTermQueryOrNull(PatternToken patternToken, String termStr) throws UnsupportedPatternRuleException {
     if (termStr == null || termStr.isEmpty()) {
       return null;
     }
@@ -195,7 +193,7 @@ public class PatternRuleQueryBuilder {
   }
 
   @Nullable
-  private BooleanClause getPosQueryOrNull(PatternToken patternToken, String pos) {
+  private BooleanClause getPosQueryOrNull(PatternToken patternToken, String pos) throws UnsupportedPatternRuleException {
     if (pos == null || pos.isEmpty()) {
       return null;
     }
@@ -230,29 +228,21 @@ public class PatternRuleQueryBuilder {
     }
   }
 
-  private Query getRegexQuery(Term term, String str, PatternToken patternToken) {
+  private Query getRegexQuery(Term term, String str, PatternToken patternToken) throws UnsupportedPatternRuleException {
     try {
       if (needsSimplification(str)) {
         Term newTerm = new Term(term.field(), simplifyRegex(term.text()));
         return new RegexpQuery(newTerm);
       }
       if (str.contains("?iu") || str.contains("?-i")) {
-        // Lucene's RegexpQuery doesn't seem to handle this correctly
-        return getFallbackRegexQuery(str, patternToken);
+        // Lucene's RegexpQuery doesn't seem to support this
+        throw new UnsupportedPatternRuleException("Regex constructs like '?iu' and '?-i' are not supported: " + patternToken);
       }
       return new RegexpQuery(term);
     } catch (IllegalArgumentException e) {
-      // fallback for special constructs like "\p{Punct}" not supported by Lucene RegExp:
-      return getFallbackRegexQuery(str, patternToken);
+      // constructs like "\p{Punct}" not supported by Lucene RegExp:
+      throw new UnsupportedPatternRuleException("Advanced regex like '\\p{Punct}' are not supported: " + patternToken);
     }
-  }
-
-  /** Return a query with the old (and slow, but more complete) way Lucene implements regular expressions. */
-  private RegexQuery getFallbackRegexQuery(String str, PatternToken patternToken) {
-    // No lowercase of str, so '\p{Punct}' doesn't become '\p{punct}':
-    RegexQuery query = new RegexQuery(new Term(patternToken.isCaseSensitive() ? FIELD_NAME : FIELD_NAME_LOWERCASE, str));
-    query.setRegexImplementation(new JavaUtilRegexCapabilities(JavaUtilRegexCapabilities.FLAG_CASE_INSENSITIVE));
-    return query;
   }
 
   private void checkUnsupportedElement(PatternToken patternPatternToken)
