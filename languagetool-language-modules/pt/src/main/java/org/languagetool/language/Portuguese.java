@@ -23,7 +23,7 @@ import org.languagetool.LanguageMaintainedState;
 import org.languagetool.rules.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.pt.PortugueseSynthesizer;
-import org.languagetool.rules.pt.PreReformPortugueseCompoundRule;
+import org.languagetool.rules.pt.PostReformPortugueseCompoundRule;
 import org.languagetool.rules.pt.PortugueseReplaceRule;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tagging.Tagger;
@@ -117,7 +117,7 @@ public class Portuguese extends Language {
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
             //Specific to Portuguese:
-            new PreReformPortugueseCompoundRule(messages),
+            new PostReformPortugueseCompoundRule(messages),
             new PortugueseReplaceRule(messages)
     );
   }
