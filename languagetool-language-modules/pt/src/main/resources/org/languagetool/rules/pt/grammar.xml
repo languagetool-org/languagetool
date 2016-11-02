@@ -2759,7 +2759,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
     </rule>
 	
 
-	
+
     <!-- HÁS VEZES às vezes -->
     <rule id="HÁS_VEZES" name="às vezes">
       <pattern>
@@ -3649,7 +3649,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
     </rule>
 
 
-	
+
     <!-- UM BAIXO-ASSINADO um abaixo-assinado -->
     <rule id="UM_BAIXO-ASSINADO" name="um abaixo-assinado">
       <pattern>
@@ -6346,7 +6346,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
     </rule>
 
 		<!--  Rule group made semi automatically with the Wikipedia list
-			tokenizer spreadsheet provided by request -->
+				tokenizer spreadsheet in the forum	     -->
 		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rulegroup type='style' id="PLEONASMOS" name="Pleonasmos">
 	<short>Pleonasmo.</short>
@@ -6413,8 +6413,8 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
     <rule id="PL_MALUCO" name="maluco">
       <pattern>
         <token inflected='yes'>maluco</token>
-	<token>da</token>
-	<token>cabeça</token>
+	<token regexp='yes'>das?</token>
+	<token regexp='yes'>cabeças?</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
@@ -6511,7 +6511,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
     <rule id="PL_ACABAMENTO" name="acabamento final">
       <pattern>
         <token inflected='yes'>acabamento</token>
-	<token>final</token>
+	<token regexp='yes'>final|finais</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
@@ -6538,7 +6538,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
     <rule id="PL_SURPRESA" name="surpresa inesperada">
       <pattern>
         <token inflected='yes'>surpresa</token>
-	<token>inesperada</token>
+	<token regexp='yes'>inesperadas?</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
@@ -6564,8 +6564,8 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
     <rule id="PL_DECAPITAR" name="decapitar a cabeça">
       <pattern>
         <token inflected='yes'>decapitar</token>
-	<token>a</token>
-	<token>cabeça</token>
+	<token regexp='yes'>as?</token>
+	<token regexp='yes'>cabeças?</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
@@ -6674,7 +6674,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
     <rule id="PL_VERDADE" name="verdade verdadeira">
       <pattern>
         <token inflected='yes'>verdade</token>
-	<token>verdadeira</token>
+	<token regexp='yes'>verdadeiras?</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
@@ -6761,7 +6761,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_ESTREIA" name="estreia pela primeira vez">
       <pattern>
-        <token inflected='yes'>estreia</token>
+        <token inflected='yes'>estrear</token>
 	<token>pela</token>
 	<token>primeira</token>
 	<token>vez</token>
@@ -6954,6 +6954,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
     <rule id="PL_ANDAR" name="andar os pés">
       <pattern>
         <token inflected='yes'>andar</token>
+	<token min='0'>com</token>
 	<token>os</token>
 	<token>pés</token>
 	</pattern>
@@ -6982,7 +6983,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
     <rule id="PL_24" name="24 horas por dia">
       <pattern>
         <token>24</token>
-	<token inflected='yes'>hora</token>
+	<token regexp='yes'>horas?</token>
 	<token>por</token>
 	<token>dia</token>
 	</pattern>
@@ -7035,7 +7036,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_SURDO" name="surdo do ouvido">
       <pattern>
-        <token inflected='yes'>surdo</token>
+        <token regexp='yes'>surdos?</token>
 	<token>do</token>
 	<token>ouvido</token>
 	</pattern>
@@ -7063,8 +7064,8 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 		<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-27 -->
     <rule id="PL_ÁGUA" name="água molhada">
       <pattern>
-        <token inflected='yes'>água</token>
-	<token>molhada</token>
+        <token regexp='yes'>águas?</token>
+	<token regexp='yes'>molhadas?</token>
 	</pattern>
 	<message>Redundância. Usar: <suggestion>\1</suggestion>.</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_pleonasmos</url>
