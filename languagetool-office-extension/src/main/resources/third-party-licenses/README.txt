@@ -7,6 +7,7 @@ annotations.jar: Apache License 2.0, http://search.maven.org/#search|ga|1|com.in
 berkeleylm.jar: Apache License 2.0, https://code.google.com/p/berkeleylm/
 cjftransform.jar: Apache License 2.0, http://code.google.com/p/cjftransform/
 commons-*: Apache License 2.0, http://commons.apache.org/lang/
+german-pos-dict.jar: Creative Commons Attribution-ShareAlike 4.0 International, https://creativecommons.org/licenses/by-sa/4.0/legalcode
 guava.jar: Apache License 2.0, https://code.google.com/p/guava-libraries/
 hamcrest-core.jar: BSD License, https://github.com/hamcrest
 hunspell-native-libs.jar: GPL/LGPL/MPL triple license, http://hunspell.sourceforge.net/

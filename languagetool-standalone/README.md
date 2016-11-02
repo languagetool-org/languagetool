@@ -254,6 +254,7 @@ Docio based on Freeling and Apertium dictionaries. Both are licensed under GPL.
  
 #### German
 
+See https://github.com/languagetool-org/german-pos-dict:
 The German data for part-of-speech tagging is taken from Morphy
 (http://www.wolfganglezius.de/doku.php?id=cl:morphy) with extensions
 and corrections from Julian von Heyl (https://www.korrekturen.de/flexion/)
