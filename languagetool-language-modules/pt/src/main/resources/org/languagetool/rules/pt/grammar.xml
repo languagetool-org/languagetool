@@ -4033,6 +4033,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 <category id="CONTRACTIONS" name="Contrações">
 
     <rulegroup type='grammar' id="CONTRACOES" name="Contrações">
+<!--	<short>Contração:</short>-->
 
 	<!--          Tiago F. Santos Rules Start         ****START**** -->
 	<!-- ********************************************************** -->
@@ -4159,8 +4160,12 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
  <rule id='CONTRACAO_AONDE' name='a onde'>
     <pattern>
+	   <marker>
 		<token>a</token>
 		<token>onde</token>
+	   </marker>
+		<token min='0' max='2' postag='(PP|N|A).*' postag_regexp='yes'></token>
+		<token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
     </pattern>
 	<message>Pretende dizer <suggestion>aonde</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4186,7 +4191,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DA' name='de a'>
     <pattern>
 		<token>de</token>
-		<token>a</token>
+		<token case_sensitive="yes">a</token>
     </pattern>
 	<message>Pretende dizer <suggestion>da</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4199,7 +4204,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DACOLÁ' name='de acolá'>
     <pattern>
 		<token>de</token>
-		<token>acolá</token>
+		<token case_sensitive="yes">acolá</token>
     </pattern>
 	<message>Pretende dizer <suggestion>dacolá</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4212,7 +4217,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DAÍ' name='de aí'>
     <pattern>
 		<token>de</token>
-		<token>aí</token>
+		<token case_sensitive="yes">aí</token>
     </pattern>
 	<message>Pretende dizer <suggestion>daí</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4225,7 +4230,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DALI' name='de ali'>
     <pattern>
 		<token>de</token>
-		<token>ali</token>
+		<token case_sensitive="yes">ali</token>
     </pattern>
 	<message>Pretende dizer <suggestion>dali</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4238,7 +4243,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DAQUELA' name='de aquela'>
     <pattern>
 		<token>de</token>
-		<token>aquela</token>
+		<token case_sensitive="yes">aquela</token>
     </pattern>
 	<message>Pretende dizer <suggestion>daquela</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4251,7 +4256,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DAQUELAS' name='de aquelas'>
     <pattern>
 		<token>de</token>
-		<token>aquelas</token>
+		<token case_sensitive="yes">aquelas</token>
     </pattern>
 	<message>Pretende dizer <suggestion>daquelas</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4264,7 +4269,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DAQUELE' name='de aquele'>
     <pattern>
 		<token>de</token>
-		<token>aquele</token>
+		<token case_sensitive="yes">aquele</token>
     </pattern>
 	<message>Pretende dizer <suggestion>daquele</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4277,7 +4282,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DAQUELES' name='de aqueles'>
     <pattern>
 		<token>de</token>
-		<token>aqueles</token>
+		<token case_sensitive="yes">aqueles</token>
     </pattern>
 	<message>Pretende dizer <suggestion>daqueles</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4290,7 +4295,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DAQUI' name='de aqui'>
     <pattern>
 		<token>de</token>
-		<token>aqui</token>
+		<token case_sensitive="yes">aqui</token>
     </pattern>
 	<message>Pretende dizer <suggestion>daqui</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4303,7 +4308,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DAQUILO' name='de aquilo'>
     <pattern>
 		<token>de</token>
-		<token>aquilo</token>
+		<token case_sensitive="yes">aquilo</token>
     </pattern>
 	<message>Pretende dizer <suggestion>daquilo</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4316,7 +4321,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DAS' name='de as'>
     <pattern>
 		<token>de</token>
-		<token>as</token>
+		<token case_sensitive="yes">as</token>
     </pattern>
 	<message>Pretende dizer <suggestion>das</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4327,9 +4332,15 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 	<!-- DE ELA dela				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
  <rule id='CONTRACAO_DELA' name='de ela'>
+    <antipattern>
+		<token>de</token>
+		<token case_sensitive="yes">ela</token>
+		<token min='0' max='2' regexp='yes'>me|te|se|nos|vos|lhes|não</token>
+		<token postag='V.N.*' postag_regexp='yes'></token>
+    </antipattern>
     <pattern>
 		<token>de</token>
-		<token>ela</token>
+		<token case_sensitive="yes">ela</token>
     </pattern>
 	<message>Pretende dizer <suggestion>dela</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4340,9 +4351,15 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 	<!-- DE ELAS delas				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
  <rule id='CONTRACAO_DELAS' name='de elas'>
+    <antipattern>
+		<token>de</token>
+		<token case_sensitive="yes">elas</token>
+		<token min='0' max='2' regexp='yes'>me|te|se|nos|vos|lhes|não</token>
+		<token postag='V.N.*' postag_regexp='yes'></token>
+    </antipattern>
     <pattern>
 		<token>de</token>
-		<token>elas</token>
+		<token case_sensitive="yes">elas</token>
     </pattern>
 	<message>Pretende dizer <suggestion>delas</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4353,9 +4370,15 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 	<!-- DE ELE dele				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
  <rule id='CONTRACAO_DELE' name='de ele'>
+    <antipattern>
+		<token>de</token>
+		<token case_sensitive="yes">ele</token>
+		<token min='0' max='2' regexp='yes'>me|te|se|nos|vos|lhes|não</token>
+		<token postag='V.N.*' postag_regexp='yes'></token>
+    </antipattern>
     <pattern>
 		<token>de</token>
-		<token>ele</token>
+		<token case_sensitive="yes">ele</token>
     </pattern>
 	<message>Pretende dizer <suggestion>dele</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4366,9 +4389,15 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 	<!-- DE ELES deles				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
  <rule id='CONTRACAO_DELES' name='de eles'>
+    <antipattern>
+		<token>de</token>
+		<token case_sensitive="yes">eles</token>
+		<token min='0' max='2' regexp='yes'>me|te|se|nos|vos|lhes|não</token>
+		<token postag='V.N.*' postag_regexp='yes'></token>
+    </antipattern>
     <pattern>
 		<token>de</token>
-		<token>eles</token>
+		<token case_sensitive="yes">eles</token>
     </pattern>
 	<message>Pretende dizer <suggestion>deles</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4381,7 +4410,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DENTRE' name='de entre'>
     <pattern>
 		<token>de</token>
-		<token>entre</token>
+		<token case_sensitive="yes">entre</token>
     </pattern>
 	<message>Pretende dizer <suggestion>dentre</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4394,7 +4423,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DESSA' name='de essa'>
     <pattern>
 		<token>de</token>
-		<token>essa</token>
+		<token case_sensitive="yes">essa</token>
     </pattern>
 	<message>Pretende dizer <suggestion>dessa</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4407,7 +4436,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DESSAS' name='de essas'>
     <pattern>
 		<token>de</token>
-		<token>essas</token>
+		<token case_sensitive="yes">essas</token>
     </pattern>
 	<message>Pretende dizer <suggestion>dessas</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4420,7 +4449,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DESSE' name='de esse'>
     <pattern>
 		<token>de</token>
-		<token>esse</token>
+		<token case_sensitive="yes">esse</token>
     </pattern>
 	<message>Pretende dizer <suggestion>desse</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4433,7 +4462,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DESSES' name='de esses'>
     <pattern>
 		<token>de</token>
-		<token>esses</token>
+		<token case_sensitive="yes">esses</token>
     </pattern>
 	<message>Pretende dizer <suggestion>desses</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4446,7 +4475,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DESTA' name='de esta'>
     <pattern>
 		<token>de</token>
-		<token>esta</token>
+		<token case_sensitive="yes">esta</token>
     </pattern>
 	<message>Pretende dizer <suggestion>desta</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4459,7 +4488,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DESTAS' name='de estas'>
     <pattern>
 		<token>de</token>
-		<token>estas</token>
+		<token case_sensitive="yes">estas</token>
     </pattern>
 	<message>Pretende dizer <suggestion>destas</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4472,7 +4501,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DESTE' name='de este'>
     <pattern>
 		<token>de</token>
-		<token>este</token>
+		<token case_sensitive="yes">este</token>
     </pattern>
 	<message>Pretende dizer <suggestion>deste</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4485,7 +4514,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DESTES' name='de estes'>
     <pattern>
 		<token>de</token>
-		<token>estes</token>
+		<token case_sensitive="yes">estes</token>
     </pattern>
 	<message>Pretende dizer <suggestion>destes</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4498,7 +4527,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DISSO' name='de isso'>
     <pattern>
 		<token>de</token>
-		<token>isso</token>
+		<token case_sensitive="yes">isso</token>
     </pattern>
 	<message>Pretende dizer <suggestion>disso</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4511,7 +4540,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DISTO' name='de isto'>
     <pattern>
 		<token>de</token>
-		<token>isto</token>
+		<token case_sensitive="yes">isto</token>
     </pattern>
 	<message>Pretende dizer <suggestion>disto</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4524,7 +4553,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DO' name='de o'>
     <pattern>
 		<token>de</token>
-		<token>o</token>
+		<token case_sensitive="yes">o</token>
     </pattern>
 	<message>Pretende dizer <suggestion>do</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4532,12 +4561,17 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 	<example correction='do'><marker>de o</marker>.</example>
  </rule>
 
+
 	<!-- DE ONDE donde				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
  <rule id='CONTRACAO_DONDE' name='de onde'>
     <pattern>
+	   <marker>
 		<token>de</token>
-		<token>onde</token>
+		<token case_sensitive="yes">onde</token>
+	   </marker>
+		<token min='0' max='2' postag='(PP|N|A).*' postag_regexp='yes'></token>
+		<token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
     </pattern>
 	<message>Pretende dizer <suggestion>donde</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4550,7 +4584,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_DOS' name='de os'>
     <pattern>
 		<token>de</token>
-		<token>os</token>
+		<token case_sensitive="yes">os</token>
     </pattern>
 	<message>Pretende dizer <suggestion>dos</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4563,7 +4597,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DOUTRA' name='de outra'>
     <pattern>
 		<token>de</token>
-		<token>outra</token>
+		<token case_sensitive="yes">outra</token>
     </pattern>
 	<message>Pode dizer <suggestion>doutra</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -4576,7 +4610,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DOUTRAS' name='de outras'>
     <pattern>
 		<token>de</token>
-		<token>outras</token>
+		<token case_sensitive="yes">outras</token>
     </pattern>
 	<message>Pode dizer <suggestion>doutras</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -4589,7 +4623,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DOUTREM' name='de outrem'>
     <pattern>
 		<token>de</token>
-		<token>outrem</token>
+		<token case_sensitive="yes">outrem</token>
     </pattern>
 	<message>Pode dizer <suggestion>doutrem</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -4602,7 +4636,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DOUTRO' name='de outro'>
     <pattern>
 		<token>de</token>
-		<token>outro</token>
+		<token case_sensitive="yes">outro</token>
     </pattern>
 	<message>Pode dizer <suggestion>doutro</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -4615,7 +4649,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DOUTROS' name='de outros'>
     <pattern>
 		<token>de</token>
-		<token>outros</token>
+		<token case_sensitive="yes">outros</token>
     </pattern>
 	<message>Pode dizer <suggestion>doutros</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -4630,7 +4664,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
     <pattern>
 	   <marker>
 		<token>de</token>
-		<token>um</token>
+		<token case_sensitive="yes">um</token>
 	   </marker>
 		<token max='2' postag='(N|A).*' postag_regexp='yes'></token>
 		<token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
@@ -4647,7 +4681,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
     <pattern>
 	   <marker>
 		<token>de</token>
-		<token>uma</token>
+		<token case_sensitive="yes">uma</token>
 	   </marker>
 		<token max='2' postag='(N|A).*' postag_regexp='yes'></token>
 		<token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
@@ -4664,7 +4698,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
     <pattern>
 	   <marker>
 		<token>de</token>
-		<token>umas</token>
+		<token case_sensitive="yes">umas</token>
 	   </marker>
 		<token max='2' postag='(N|A).*' postag_regexp='yes'></token>
 		<token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
@@ -4681,7 +4715,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
     <pattern>
 	   <marker>
 		<token>de</token>
-		<token>uns</token>
+		<token case_sensitive="yes">uns</token>
 	   </marker>
 		<token max='2' postag='(N|A).*' postag_regexp='yes'></token>
 		<token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
@@ -4697,7 +4731,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NA' name='em a'>
     <pattern>
 		<token>em</token>
-		<token>a</token>
+		<token case_sensitive="yes">a</token>
     </pattern>
 	<message>Pretende dizer <suggestion>na</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4710,7 +4744,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NAQUELA' name='em aquela'>
     <pattern>
 		<token>em</token>
-		<token>aquela</token>
+		<token case_sensitive="yes">aquela</token>
     </pattern>
 	<message>Pretende dizer <suggestion>naquela</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4723,7 +4757,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NAQUELAS' name='em aquelas'>
     <pattern>
 		<token>em</token>
-		<token>aquelas</token>
+		<token case_sensitive="yes">aquelas</token>
     </pattern>
 	<message>Pretende dizer <suggestion>naquelas</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4736,7 +4770,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NAQUELE' name='em aquele'>
     <pattern>
 		<token>em</token>
-		<token>aquele</token>
+		<token case_sensitive="yes">aquele</token>
     </pattern>
 	<message>Pretende dizer <suggestion>naquele</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4749,7 +4783,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NAQUELES' name='em aqueles'>
     <pattern>
 		<token>em</token>
-		<token>aqueles</token>
+		<token case_sensitive="yes">aqueles</token>
     </pattern>
 	<message>Pretende dizer <suggestion>naqueles</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4762,7 +4796,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NAQUILO' name='em aquilo'>
     <pattern>
 		<token>em</token>
-		<token>aquilo</token>
+		<token case_sensitive="yes">aquilo</token>
     </pattern>
 	<message>Pretende dizer <suggestion>naquilo</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4775,7 +4809,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NAS' name='em as'>
     <pattern>
 		<token>em</token>
-		<token>as</token>
+		<token case_sensitive="yes">as</token>
     </pattern>
 	<message>Pretende dizer <suggestion>nas</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4786,9 +4820,15 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 	<!-- EM ELA nela				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
  <rule id='CONTRACAO_NELA' name='em ela'>
+    <antipattern>
+		<token>em</token>
+		<token case_sensitive="yes">ela</token>
+		<token min='0' max='2' regexp='yes'>me|te|se|nos|vos|lhes|não</token>
+		<token postag='V.N.*' postag_regexp='yes'></token>
+    </antipattern>
     <pattern>
 		<token>em</token>
-		<token>ela</token>
+		<token case_sensitive="yes">ela</token>
     </pattern>
 	<message>Pretende dizer <suggestion>nela</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4799,9 +4839,15 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 	<!-- EM ELAS nelas				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
  <rule id='CONTRACAO_NELAS' name='em elas'>
+    <antipattern>
+		<token>em</token>
+		<token case_sensitive="yes">elas</token>
+		<token min='0' max='2' regexp='yes'>me|te|se|nos|vos|lhes|não</token>
+		<token postag='V.N.*' postag_regexp='yes'></token>
+    </antipattern>
     <pattern>
 		<token>em</token>
-		<token>elas</token>
+		<token case_sensitive="yes">elas</token>
     </pattern>
 	<message>Pretende dizer <suggestion>nelas</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4812,9 +4858,15 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 	<!-- EM ELE nele				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
  <rule id='CONTRACAO_NELE' name='em ele'>
+    <antipattern>
+		<token>em</token>
+		<token case_sensitive="yes">ele</token>
+		<token min='0' max='2' regexp='yes'>me|te|se|nos|vos|lhes|não</token>
+		<token postag='V.N.*' postag_regexp='yes'></token>
+    </antipattern>
     <pattern>
 		<token>em</token>
-		<token>ele</token>
+		<token case_sensitive="yes">ele</token>
     </pattern>
 	<message>Pretende dizer <suggestion>nele</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4825,9 +4877,15 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 	<!-- EM ELES neles				-->
 	<!-- Created by Tiago F. Santos, Portuguese rule, 2016-10-31 -->
  <rule id='CONTRACAO_NELES' name='em eles'>
+    <antipattern>
+		<token>em</token>
+		<token case_sensitive="yes">eles</token>
+		<token min='0' max='2' regexp='yes'>me|te|se|nos|vos|lhes|não</token>
+		<token postag='V.N.*' postag_regexp='yes'></token>
+    </antipattern>
     <pattern>
 		<token>em</token>
-		<token>eles</token>
+		<token case_sensitive="yes">eles</token>
     </pattern>
 	<message>Pretende dizer <suggestion>neles</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4840,7 +4898,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NESSA' name='em essa'>
     <pattern>
 		<token>em</token>
-		<token>essa</token>
+		<token case_sensitive="yes">essa</token>
     </pattern>
 	<message>Pretende dizer <suggestion>nessa</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4853,7 +4911,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NESSAS' name='em essas'>
     <pattern>
 		<token>em</token>
-		<token>essas</token>
+		<token case_sensitive="yes">essas</token>
     </pattern>
 	<message>Pretende dizer <suggestion>nessas</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4866,7 +4924,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NESSE' name='em esse'>
     <pattern>
 		<token>em</token>
-		<token>esse</token>
+		<token case_sensitive="yes">esse</token>
     </pattern>
 	<message>Pretende dizer <suggestion>nesse</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4879,7 +4937,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NESSES' name='em esses'>
     <pattern>
 		<token>em</token>
-		<token>esses</token>
+		<token case_sensitive="yes">esses</token>
     </pattern>
 	<message>Pretende dizer <suggestion>nesses</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4892,7 +4950,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NESTA' name='em esta'>
     <pattern>
 		<token>em</token>
-		<token>esta</token>
+		<token case_sensitive="yes">esta</token>
     </pattern>
 	<message>Pretende dizer <suggestion>nesta</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4905,7 +4963,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NESTAS' name='em estas'>
     <pattern>
 		<token>em</token>
-		<token>estas</token>
+		<token case_sensitive="yes">estas</token>
     </pattern>
 	<message>Pretende dizer <suggestion>nestas</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4918,7 +4976,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NESTE' name='em este'>
     <pattern>
 		<token>em</token>
-		<token>este</token>
+		<token case_sensitive="yes">este</token>
     </pattern>
 	<message>Pretende dizer <suggestion>neste</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4931,7 +4989,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NESTES' name='em estes'>
     <pattern>
 		<token>em</token>
-		<token>estes</token>
+		<token case_sensitive="yes">estes</token>
     </pattern>
 	<message>Pretende dizer <suggestion>nestes</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4944,7 +5002,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NISSO' name='em isso'>
     <pattern>
 		<token>em</token>
-		<token>isso</token>
+		<token case_sensitive="yes">isso</token>
     </pattern>
 	<message>Pretende dizer <suggestion>nisso</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4957,7 +5015,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NISTO' name='em isto'>
     <pattern>
 		<token>em</token>
-		<token>isto</token>
+		<token case_sensitive="yes">isto</token>
     </pattern>
 	<message>Pretende dizer <suggestion>nisto</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4970,7 +5028,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NO' name='em o'>
     <pattern>
 		<token>em</token>
-		<token>o</token>
+		<token case_sensitive="yes">o</token>
     </pattern>
 	<message>Pretende dizer <suggestion>no</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4983,7 +5041,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NOS' name='em os'>
     <pattern>
 		<token>em</token>
-		<token>os</token>
+		<token case_sensitive="yes">os</token>
     </pattern>
 	<message>Pretende dizer <suggestion>nos</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -4996,7 +5054,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NOUTRA' name='em outra'>
     <pattern>
 		<token>em</token>
-		<token>outra</token>
+		<token case_sensitive="yes">outra</token>
     </pattern>
 	<message>Pode dizer <suggestion>noutra</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5009,7 +5067,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NOUTRAS' name='em outras'>
     <pattern>
 		<token>em</token>
-		<token>outras</token>
+		<token case_sensitive="yes">outras</token>
     </pattern>
 	<message>Pode dizer <suggestion>noutras</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5022,7 +5080,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NOUTREM' name='em outrem'>
     <pattern>
 		<token>em</token>
-		<token>outrem</token>
+		<token case_sensitive="yes">outrem</token>
     </pattern>
 	<message>Pode dizer <suggestion>noutrem</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5035,7 +5093,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NOUTRO' name='em outro'>
     <pattern>
 		<token>em</token>
-		<token>outro</token>
+		<token case_sensitive="yes">outro</token>
     </pattern>
 	<message>Pode dizer <suggestion>noutro</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5048,7 +5106,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NOUTROS' name='em outros'>
     <pattern>
 		<token>em</token>
-		<token>outros</token>
+		<token case_sensitive="yes">outros</token>
     </pattern>
 	<message>Pode dizer <suggestion>noutros</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5062,7 +5120,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
     <pattern>
 	   <marker>
 		<token>em</token>
-		<token>um</token>
+		<token case_sensitive="yes">um</token>
 	   </marker>
 		<token max='2' postag='(N|A).*' postag_regexp='yes'></token>
 		<token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
@@ -5079,7 +5137,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
     <pattern>
 	   <marker>
 		<token>em</token>
-		<token>uma</token>
+		<token case_sensitive="yes">uma</token>
 	   </marker>
 		<token max='2' postag='(N|A).*' postag_regexp='yes'></token>
 		<token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
@@ -5096,7 +5154,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
     <pattern>
 	   <marker>
 		<token>em</token>
-		<token>umas</token>
+		<token case_sensitive="yes">umas</token>
 	   </marker>
 		<token max='2' postag='(N|A).*' postag_regexp='yes'></token>
 		<token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
@@ -5113,7 +5171,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
     <pattern>
 	   <marker>
 		<token>em</token>
-		<token>uns</token>
+		<token case_sensitive="yes">uns</token>
 	   </marker>
 		<token max='2' postag='(N|A).*' postag_regexp='yes'></token>
 		<token min='0' negate_pos='yes' postag='(V.*)' postag_regexp='yes'></token>
@@ -5129,7 +5187,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_LHA' name='lhe a'>
     <pattern>
 		<token>lhe</token>
-		<token>a</token>
+		<token case_sensitive="yes">a</token>
     </pattern>
 	<message>Pretende dizer <suggestion>lha</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5142,7 +5200,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_LHO' name='lhe o'>
     <pattern>
 		<token>lhe</token>
-		<token>o</token>
+		<token case_sensitive="yes">o</token>
     </pattern>
 	<message>Pretende dizer <suggestion>lho</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5155,7 +5213,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_LHAS' name='lhes a'>
     <pattern>
 		<token>lhes</token>
-		<token>a</token>
+		<token case_sensitive="yes">a</token>
     </pattern>
 	<message>Pretende dizer <suggestion>lhas</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5168,7 +5226,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_LHOS' name='lhes o'>
     <pattern>
 		<token>lhes</token>
-		<token>o</token>
+		<token case_sensitive="yes">o</token>
     </pattern>
 	<message>Pretende dizer <suggestion>lhos</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5181,7 +5239,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_MA' name='me a'>
     <pattern>
 		<token>me</token>
-		<token>a</token>
+		<token case_sensitive="yes">a</token>
     </pattern>
 	<message>Pretende dizer <suggestion>ma</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5194,7 +5252,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_MAS' name='me as'>
     <pattern>
 		<token>me</token>
-		<token>as</token>
+		<token case_sensitive="yes">as</token>
     </pattern>
 	<message>Pretende dizer <suggestion>mas</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5207,7 +5265,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_MO' name='me o'>
     <pattern>
 		<token>me</token>
-		<token>o</token>
+		<token case_sensitive="yes">o</token>
     </pattern>
 	<message>Pretende dizer <suggestion>mo</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5220,7 +5278,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_MOS' name='me os'>
     <pattern>
 		<token>me</token>
-		<token>os</token>
+		<token case_sensitive="yes">os</token>
     </pattern>
 	<message>Pretende dizer <suggestion>mos</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5233,7 +5291,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NO-LA' name='nos a'>
     <pattern>
 		<token>nos</token>
-		<token>a</token>
+		<token case_sensitive="yes">a</token>
     </pattern>
 	<message>Pretende dizer <suggestion>no-la</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5246,7 +5304,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NO-LAS' name='nos as'>
     <pattern>
 		<token>nos</token>
-		<token>as</token>
+		<token case_sensitive="yes">as</token>
     </pattern>
 	<message>Pretende dizer <suggestion>no-las</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5259,7 +5317,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NO-LO' name='nos o'>
     <pattern>
 		<token>nos</token>
-		<token>o</token>
+		<token case_sensitive="yes">o</token>
     </pattern>
 	<message>Pretende dizer <suggestion>no-lo</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5272,7 +5330,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_NO-LOS' name='nos os'>
     <pattern>
 		<token>nos</token>
-		<token>os</token>
+		<token case_sensitive="yes">os</token>
     </pattern>
 	<message>Pretende dizer <suggestion>no-los</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5285,7 +5343,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_PELA' name='por a'>
     <pattern>
 		<token regexp='yes'>por|per</token>
-		<token>a</token>
+		<token case_sensitive="yes">a</token>
     </pattern>
 	<message>Pretende dizer <suggestion>pela</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5298,7 +5356,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_PELAS' name='por as'>
     <pattern>
 		<token regexp='yes'>por|per</token>
-		<token>as</token>
+		<token case_sensitive="yes">as</token>
     </pattern>
 	<message>Pretende dizer <suggestion>pelas</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5311,7 +5369,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_PELO' name='por o'>
     <pattern>
 		<token regexp='yes'>por|per</token>
-		<token>o</token>
+		<token case_sensitive="yes">o</token>
     </pattern>
 	<message>Pretende dizer <suggestion>pelo</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5324,7 +5382,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_PELOS' name='por os'>
     <pattern>
 		<token regexp='yes'>por|per</token>
-		<token>os</token>
+		<token case_sensitive="yes">os</token>
     </pattern>
 	<message>Pretende dizer <suggestion>pelos</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5337,7 +5395,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_TA' name='te a'>
     <pattern>
 		<token>te</token>
-		<token>a</token>
+		<token case_sensitive="yes">a</token>
     </pattern>
 	<message>Pretende dizer <suggestion>ta</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5350,7 +5408,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_TAS' name='te as'>
     <pattern>
 		<token>te</token>
-		<token>as</token>
+		<token case_sensitive="yes">as</token>
     </pattern>
 	<message>Pretende dizer <suggestion>tas</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5363,7 +5421,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_TO' name='te o'>
     <pattern>
 		<token>te</token>
-		<token>o</token>
+		<token case_sensitive="yes">o</token>
     </pattern>
 	<message>Pretende dizer <suggestion>to</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5376,7 +5434,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_TOS' name='te os'>
     <pattern>
 		<token>te</token>
-		<token>os</token>
+		<token case_sensitive="yes">os</token>
     </pattern>
 	<message>Pretende dizer <suggestion>tos</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5389,7 +5447,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_VO-LA' name='vos a'>
     <pattern>
 		<token>vos</token>
-		<token>a</token>
+		<token case_sensitive="yes">a</token>
     </pattern>
 	<message>Pretende dizer <suggestion>vo-la</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5402,7 +5460,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_VO-LAS' name='vos as'>
     <pattern>
 		<token>vos</token>
-		<token>as</token>
+		<token case_sensitive="yes">as</token>
     </pattern>
 	<message>Pretende dizer <suggestion>vo-las</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5415,7 +5473,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_VO-LO' name='vos o'>
     <pattern>
 		<token>vos</token>
-		<token>o</token>
+		<token case_sensitive="yes">o</token>
     </pattern>
 	<message>Pretende dizer <suggestion>vo-lo</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5428,7 +5486,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule id='CONTRACAO_VO-LOS' name='vos os'>
     <pattern>
 		<token>vos</token>
-		<token>os</token>
+		<token case_sensitive="yes">os</token>
     </pattern>
 	<message>Pretende dizer <suggestion>vo-los</suggestion>?</message>
 	<url>https://pt.wikipedia.org/wiki/Lista_de_contra%C3%A7%C3%B5es_e_combina%C3%A7%C3%B5es_na_l%C3%ADngua_portuguesa</url>
@@ -5441,7 +5499,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_AQUELOUTRA' name='aquela outra'>
     <pattern>
 		<token>aquela</token>
-		<token>outra</token>
+		<token case_sensitive="yes">outra</token>
     </pattern>
 	<message>Pode dizer <suggestion>aqueloutra</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5454,7 +5512,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_ÀQUELOUTRA' name='àquela outra'>
     <pattern>
 		<token>àquela</token>
-		<token>outra</token>
+		<token case_sensitive="yes">outra</token>
     </pattern>
 	<message>Pode dizer <suggestion>àqueloutra</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5467,7 +5525,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_AQUELOUTRAS' name='aquelas outras'>
     <pattern>
 		<token>aquelas</token>
-		<token>outras</token>
+		<token case_sensitive="yes">outras</token>
     </pattern>
 	<message>Pode dizer <suggestion>aqueloutras</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5480,7 +5538,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_ÀQUELOUTRAS' name='àquelas outras'>
     <pattern>
 		<token>àquelas</token>
-		<token>outras</token>
+		<token case_sensitive="yes">outras</token>
     </pattern>
 	<message>Pode dizer <suggestion>àqueloutras</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5493,7 +5551,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_AQUELOUTRO' name='aquele outro'>
     <pattern>
 		<token>aquele</token>
-		<token>outro</token>
+		<token case_sensitive="yes">outro</token>
     </pattern>
 	<message>Pode dizer <suggestion>aqueloutro</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5506,7 +5564,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_ÀQUELOUTRO' name='àquele outro'>
     <pattern>
 		<token>àquele</token>
-		<token>outro</token>
+		<token case_sensitive="yes">outro</token>
     </pattern>
 	<message>Pode dizer <suggestion>àqueloutro</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5519,7 +5577,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_AQUELOUTROS' name='aqueles outros'>
     <pattern>
 		<token>aqueles</token>
-		<token>outros</token>
+		<token case_sensitive="yes">outros</token>
     </pattern>
 	<message>Pode dizer <suggestion>aqueloutros</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5532,7 +5590,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_ÀQUELOUTROS' name='àqueles outros'>
     <pattern>
 		<token>àqueles</token>
-		<token>outros</token>
+		<token case_sensitive="yes">outros</token>
     </pattern>
 	<message>Pode dizer <suggestion>àqueloutros</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5545,7 +5603,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DAQUELOUTRA' name='daquela outra'>
     <pattern>
 		<token>daquela</token>
-		<token>outra</token>
+		<token case_sensitive="yes">outra</token>
     </pattern>
 	<message>Pode dizer <suggestion>daqueloutra</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5558,7 +5616,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DAQUELOUTRAS' name='daquelas outras'>
     <pattern>
 		<token>daquelas</token>
-		<token>outras</token>
+		<token case_sensitive="yes">outras</token>
     </pattern>
 	<message>Pode dizer <suggestion>daqueloutras</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5571,7 +5629,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DAQUELOUTRO' name='daquele outro'>
     <pattern>
 		<token>daquele</token>
-		<token>outro</token>
+		<token case_sensitive="yes">outro</token>
     </pattern>
 	<message>Pode dizer <suggestion>daqueloutro</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5584,7 +5642,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DALGUM' name='de algum'>
     <pattern>
 		<token>de</token>
-		<token>algum</token>
+		<token case_sensitive="yes">algum</token>
     </pattern>
 	<message>Pode dizer <suggestion>dalgum</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5597,7 +5655,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DALGUMA' name='de alguma'>
     <pattern>
 		<token>de</token>
-		<token>alguma</token>
+		<token case_sensitive="yes">alguma</token>
     </pattern>
 	<message>Pode dizer <suggestion>dalguma</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5610,7 +5668,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DALGUMAS' name='de algumas'>
     <pattern>
 		<token>de</token>
-		<token>algumas</token>
+		<token case_sensitive="yes">algumas</token>
     </pattern>
 	<message>Pode dizer <suggestion>dalgumas</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5623,7 +5681,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DALGUNS' name='de alguns'>
     <pattern>
 		<token>de</token>
-		<token>alguns</token>
+		<token case_sensitive="yes">alguns</token>
     </pattern>
 	<message>Pode dizer <suggestion>dalguns</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5636,7 +5694,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DAQUELOUTROS' name='dequeles outros'>
     <pattern>
 		<token>dequeles</token>
-		<token>outros</token>
+		<token case_sensitive="yes">outros</token>
     </pattern>
 	<message>Pode dizer <suggestion>daqueloutros</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5649,7 +5707,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DESSOUTRA' name='dessa outra'>
     <pattern>
 		<token>dessa</token>
-		<token>outra</token>
+		<token case_sensitive="yes">outra</token>
     </pattern>
 	<message>Pode dizer <suggestion>dessoutra</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5662,7 +5720,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DESSOUTRAS' name='dessas outras'>
     <pattern>
 		<token>dessas</token>
-		<token>outras</token>
+		<token case_sensitive="yes">outras</token>
     </pattern>
 	<message>Pode dizer <suggestion>dessoutras</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5675,7 +5733,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DESSOUTRO' name='desse outro'>
     <pattern>
 		<token>desse</token>
-		<token>outro</token>
+		<token case_sensitive="yes">outro</token>
     </pattern>
 	<message>Pode dizer <suggestion>dessoutro</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5688,7 +5746,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DESSOUTROS' name='desses outros'>
     <pattern>
 		<token>desses</token>
-		<token>outros</token>
+		<token case_sensitive="yes">outros</token>
     </pattern>
 	<message>Pode dizer <suggestion>dessoutros</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5701,7 +5759,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DESTOUTRA' name='desta outra'>
     <pattern>
 		<token>desta</token>
-		<token>outra</token>
+		<token case_sensitive="yes">outra</token>
     </pattern>
 	<message>Pode dizer <suggestion>destoutra</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5714,7 +5772,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DESTOUTRAS' name='destas outras'>
     <pattern>
 		<token>destas</token>
-		<token>outras</token>
+		<token case_sensitive="yes">outras</token>
     </pattern>
 	<message>Pode dizer <suggestion>destoutras</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5727,7 +5785,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DESTOUTRO' name='deste outro'>
     <pattern>
 		<token>deste</token>
-		<token>outro</token>
+		<token case_sensitive="yes">outro</token>
     </pattern>
 	<message>Pode dizer <suggestion>destoutro</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5740,7 +5798,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_DESTOUTROS' name='destes outros'>
     <pattern>
 		<token>destes</token>
-		<token>outros</token>
+		<token case_sensitive="yes">outros</token>
     </pattern>
 	<message>Pode dizer <suggestion>destoutros</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5753,7 +5811,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NALGUM' name='em algum'>
     <pattern>
 		<token>em</token>
-		<token>algum</token>
+		<token case_sensitive="yes">algum</token>
     </pattern>
 	<message>Pode dizer <suggestion>nalgum</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5766,7 +5824,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NALGUMA' name='em alguma'>
     <pattern>
 		<token>em</token>
-		<token>alguma</token>
+		<token case_sensitive="yes">alguma</token>
     </pattern>
 	<message>Pode dizer <suggestion>nalguma</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5779,7 +5837,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NALGUMAS' name='em algumas'>
     <pattern>
 		<token>em</token>
-		<token>algumas</token>
+		<token case_sensitive="yes">algumas</token>
     </pattern>
 	<message>Pode dizer <suggestion>nalgumas</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5792,7 +5850,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NALGUNS' name='em alguns'>
     <pattern>
 		<token>em</token>
-		<token>alguns</token>
+		<token case_sensitive="yes">alguns</token>
     </pattern>
 	<message>Pode dizer <suggestion>nalguns</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5805,7 +5863,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_ESSOUTRA' name='essa outra'>
     <pattern>
 		<token>essa</token>
-		<token>outra</token>
+		<token case_sensitive="yes">outra</token>
     </pattern>
 	<message>Pode dizer <suggestion>essoutra</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5818,7 +5876,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_ESSOUTRAS' name='essas outras'>
     <pattern>
 		<token>essas</token>
-		<token>outras</token>
+		<token case_sensitive="yes">outras</token>
     </pattern>
 	<message>Pode dizer <suggestion>essoutras</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5831,7 +5889,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_ESSOUTRO' name='esse outro'>
     <pattern>
 		<token>esse</token>
-		<token>outro</token>
+		<token case_sensitive="yes">outro</token>
     </pattern>
 	<message>Pode dizer <suggestion>essoutro</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5844,7 +5902,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_ESSOUTROS' name='esses outros'>
     <pattern>
 		<token>esses</token>
-		<token>outros</token>
+		<token case_sensitive="yes">outros</token>
     </pattern>
 	<message>Pode dizer <suggestion>essoutros</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5857,7 +5915,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_ESTOUTRA' name='esta outra'>
     <pattern>
 		<token>esta</token>
-		<token>outra</token>
+		<token case_sensitive="yes">outra</token>
     </pattern>
 	<message>Pode dizer <suggestion>estoutra</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5870,7 +5928,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_ESTOUTRAS' name='estas outras'>
     <pattern>
 		<token>estas</token>
-		<token>outras</token>
+		<token case_sensitive="yes">outras</token>
     </pattern>
 	<message>Pode dizer <suggestion>estoutras</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5883,7 +5941,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_ESTOUTRO' name='este outro'>
     <pattern>
 		<token>este</token>
-		<token>outro</token>
+		<token case_sensitive="yes">outro</token>
     </pattern>
 	<message>Pode dizer <suggestion>estoutro</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5896,7 +5954,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_ESTOUTROS' name='estes outros'>
     <pattern>
 		<token>estes</token>
-		<token>outros</token>
+		<token case_sensitive="yes">outros</token>
     </pattern>
 	<message>Pode dizer <suggestion>estoutros</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5909,7 +5967,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NAQUELOUTRA' name='naquela outra'>
     <pattern>
 		<token>naquela</token>
-		<token>outra</token>
+		<token case_sensitive="yes">outra</token>
     </pattern>
 	<message>Pode dizer <suggestion>naqueloutra</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5922,7 +5980,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NAQUELOUTRAS' name='naquelas outras'>
     <pattern>
 		<token>naquelas</token>
-		<token>outras</token>
+		<token case_sensitive="yes">outras</token>
     </pattern>
 	<message>Pode dizer <suggestion>naqueloutras</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5935,7 +5993,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NAQUELOUTRO' name='naquele outro'>
     <pattern>
 		<token>naquele</token>
-		<token>outro</token>
+		<token case_sensitive="yes">outro</token>
     </pattern>
 	<message>Pode dizer <suggestion>naqueloutro</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5948,7 +6006,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NAQUELOUTROS' name='naqueles outros'>
     <pattern>
 		<token>naqueles</token>
-		<token>outros</token>
+		<token case_sensitive="yes">outros</token>
     </pattern>
 	<message>Pode dizer <suggestion>naqueloutros</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5961,7 +6019,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NESSOUTRA' name='nessa outra'>
     <pattern>
 		<token>nessa</token>
-		<token>outra</token>
+		<token case_sensitive="yes">outra</token>
     </pattern>
 	<message>Pode dizer <suggestion>nessoutra</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5974,7 +6032,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NESSOUTRAS' name='nessas outras'>
     <pattern>
 		<token>nessas</token>
-		<token>outras</token>
+		<token case_sensitive="yes">outras</token>
     </pattern>
 	<message>Pode dizer <suggestion>nessoutras</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -5987,7 +6045,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NESSOUTRO' name='nesse outro'>
     <pattern>
 		<token>nesse</token>
-		<token>outro</token>
+		<token case_sensitive="yes">outro</token>
     </pattern>
 	<message>Pode dizer <suggestion>nessoutro</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -6000,7 +6058,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NESSOUTROS' name='nesses outros'>
     <pattern>
 		<token>nesses</token>
-		<token>outros</token>
+		<token case_sensitive="yes">outros</token>
     </pattern>
 	<message>Pode dizer <suggestion>nessoutros</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -6013,7 +6071,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NESTOUTRA' name='nesta outra'>
     <pattern>
 		<token>nesta</token>
-		<token>outra</token>
+		<token case_sensitive="yes">outra</token>
     </pattern>
 	<message>Pode dizer <suggestion>nestoutra</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -6026,7 +6084,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NESTOUTRAS' name='nestas outras'>
     <pattern>
 		<token>nestas</token>
-		<token>outras</token>
+		<token case_sensitive="yes">outras</token>
     </pattern>
 	<message>Pode dizer <suggestion>nestoutras</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -6039,7 +6097,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NESTOUTRO' name='neste outro'>
     <pattern>
 		<token>neste</token>
-		<token>outro</token>
+		<token case_sensitive="yes">outro</token>
     </pattern>
 	<message>Pode dizer <suggestion>nestoutro</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
@@ -6052,7 +6110,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
  <rule default='off' id='CONTRACAO_NESTOUTROS' name='nestes outros'>
     <pattern>
 		<token>nestes</token>
-		<token>outros</token>
+		<token case_sensitive="yes">outros</token>
     </pattern>
 	<message>Pode dizer <suggestion>nestoutros</suggestion>.</message>
 	<url>https://pt.wikibooks.org/wiki/Portugu%C3%AAs/Classifica%C3%A7%C3%A3o_das_palavras/Preposi%C3%A7%C3%B5es/Contra%C3%A7%C3%B5es</url>
