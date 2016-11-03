@@ -155,6 +155,18 @@ Copyright (C) 2009-2012 Yakov Reztsov
         </pattern>
         <disambig><match no="2" postag="ADJ:.*:V" postag_regexp="yes"></match></disambig>
     </rule>
+    <rule name="ADJ_Com_V" id="ADJ_Com_V">
+        <pattern>
+          <token regexp="yes">в|на|под|сквозь|через</token>
+            <marker>
+                <and>
+                    <token postag="ADJ_Com:.*:Nom" postag_regexp="yes"></token>
+                    <token postag="ADJ_Com:.*:V" postag_regexp="yes"><exception postag="ADJ_Com:.*:P" postag_regexp="yes"></exception></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="ADJ_Com:.*:Nom"></disambig>
+    </rule>
     <rule name="ADJ_V2" id="ADJ_V2">
         <pattern>
             <!-- TODO милые should stay .*:Nom -->
