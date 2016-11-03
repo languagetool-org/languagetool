@@ -6734,7 +6734,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		            </marker>
 	            <!-- </unify> -->
             </antipattern>
-
+            <!-- 2 verbs in same forms, it may be unify -->
+            <antipattern>
+	                    <marker>
+			            <token postag="VB:Past:Masc" />
+			            <token postag="VB:Past:Masc" />
+		            </marker>
+            </antipattern>
+            <antipattern>
+	                    <marker>
+			            <token postag="VB:Past:Fem" />
+			            <token postag="VB:Past:Fem" />
+		            </marker>
+            </antipattern>
+            <antipattern>
+	                    <marker>
+			            <token postag="VB:Past:Neut" />
+			            <token postag="VB:Past:Neut" />
+		            </marker>
+            </antipattern>
+                        <antipattern>
+	                    <marker>
+			            <token postag="VB:Past:PL" />
+			            <token postag="VB:Past:PL" />
+		            </marker>
+            </antipattern>
 
             <pattern>
                 <!--     VB:.*  VB:.* (VB:INF)            -->
@@ -6754,6 +6778,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>И как попало расселись на траве.</example>
             <example>В этой области мы не знаем ничего, давайте создадим модель и поэкспериментируем.</example>
             <example>Думал собраться пойти купить выпить.</example>
+            <example>Он смеялся радовался.</example> <!-- Incorrect example, but this error must detected with another rule. -->
             <example correction="будет строиться">Здесь <marker>будет строится</marker> всё больше жилья.</example>
         </rule>       
         <rule default="on" id="Verb_and_PT" name="Глагол и причастие">
