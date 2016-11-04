@@ -2051,6 +2051,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     
     <category id="PUNCTUATION" name="Пунктуация">
+        <rulegroup default="on" id="Verb_comma_Verb" name="Глаголы как однородные члены предложения">
+            <!-- TODO: This rules can unify -->
+            <rule>    
+                <pattern>      
+                    <token postag="VB:Past:Masc"><exception negate_pos="yes" postag="VB:Past:Masc"/></token>
+                    <token postag="VB:Past:Masc"><exception negate_pos="yes" postag="VB:Past:Masc"/></token>
+                </pattern>      
+                <message>Глаголы – однородные члены предложения: <suggestion>\1, \2</suggestion> или <suggestion>\1 и \2</suggestion>.</message>
+                <url>https://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%BD%D0%BE%D1%80%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%87%D0%BB%D0%B5%D0%BD%D1%8B_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F</url>
+                <short>Однородные члены предложения</short>
+                <example>Он смеялся и радовался жизни.</example>
+                <example correction="смеялся, радовался|смеялся и радовался">Он <marker>смеялся радовался</marker> жизни.</example>
+            </rule>
+            <rule>    
+                <pattern>      
+                    <token postag="VB:Past:Fem"><exception negate_pos="yes" postag="VB:Past:Fem"/></token>
+                    <token postag="VB:Past:Fem"><exception negate_pos="yes" postag="VB:Past:Fem"/></token>
+                </pattern>      
+                <message>Глаголы – однородные члены предложения: <suggestion>\1, \2</suggestion> или <suggestion>\1 и \2</suggestion>.</message>
+                <url>https://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%BD%D0%BE%D1%80%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%87%D0%BB%D0%B5%D0%BD%D1%8B_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F</url>
+                <short>Однородные члены предложения</short>
+                <example>Она смеялась и радовалась жизни.</example>
+                <example correction="смеялась, радовалась|смеялась и радовалась">Он <marker>смеялась радовалась</marker> жизни.</example>
+            </rule>
+            <rule>    
+                <pattern>      
+                    <token postag="VB:Past:PL"><exception negate_pos="yes" postag="VB:Past:PL"/></token>
+                    <token postag="VB:Past:PL"><exception negate_pos="yes" postag="VB:Past:PL"/></token>
+                </pattern>      
+                <message>Глаголы – однородные члены предложения: <suggestion>\1, \2</suggestion> или <suggestion>\1 и \2</suggestion>.</message>
+                <url>https://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%BD%D0%BE%D1%80%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%87%D0%BB%D0%B5%D0%BD%D1%8B_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F</url>
+                <short>Однородные члены предложения</short>
+                <example>Они смеялись и радовались жизни.</example>
+                <example correction="смеялись, радовались|смеялись и радовались">Они <marker>смеялись радовались</marker> жизни.</example>
+            </rule>
+            <rule>    
+                <pattern>      
+                    <token postag="VB:Past:Neut"><exception negate_pos="yes" postag="VB:Past:Neut"/></token>
+                    <token postag="VB:Past:Neut"><exception negate_pos="yes" postag="VB:Past:Neut"/></token>
+                </pattern>      
+                <message>Глаголы – однородные члены предложения: <suggestion>\1, \2</suggestion> или <suggestion>\1 и \2</suggestion>.</message>
+                <url>https://ru.wikipedia.org/wiki/%D0%9E%D0%B4%D0%BD%D0%BE%D1%80%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%87%D0%BB%D0%B5%D0%BD%D1%8B_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F</url>
+                <short>Однородные члены предложения</short>
+                <example>Солнце взошло и освещало местность.</example>
+                <example correction="взошло, освещало|взошло и освещало">Солнце <marker>взошло освещало</marker> местность.</example>
+            </rule>                                                                                                                 
+        </rulegroup>                 
     	<rule default="on" id="takim_obrazom_chto" name="Запятая после «таким образом»">
     	    <pattern case_sensitive="no">
             	<token>таким</token>
@@ -6780,7 +6827,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Думал собраться пойти купить выпить.</example>
             <example>Он смеялся радовался.</example> <!-- Incorrect example, but this error must detected with another rule. -->
             <example correction="будет строиться">Здесь <marker>будет строится</marker> всё больше жилья.</example>
-        </rule>       
+        </rule>                                                                  
         <rule default="on" id="Verb_and_PT" name="Глагол и причастие">
             <pattern>
                 <token>получится</token>
