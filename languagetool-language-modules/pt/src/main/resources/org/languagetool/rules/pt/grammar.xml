@@ -6298,6 +6298,32 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 	<example correction="digas, não obstante,">Terminei a prova com antecedência, não me <marker>digas, não obstante</marker> que não posso sair.</example>
      </rule>
 
+	<!-- COMPOSTAS Colocações pronominais 			       -->
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-04 -->
+ <rulegroup id='HIFENIZADOR_VERBOS' name='Colocações pronominais'>
+  <rule>
+    <pattern>
+		<token postag='V.*' postag_regexp='yes'></token>
+		<token regexp='yes'>m[aeo]|t[aeo]|s[aeo]|lh[aeo]s?|n[ao]s|vos</token>
+		<token regexp='yes'>á|ão|ás|ei|eis|emos|ia|iam|íamos|ias|íeis</token>
+    </pattern>
+	<message>Palavra composta. Pretende dizer</message><suggestion>\1‑\2‑\3</suggestion>
+	<url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+	<!--		TODO Write better examples		-->
+	<example correction='dar‑nos‑á'><marker>dar nos á</marker>.</example>
+  </rule>
+  <rule>
+    <pattern>
+		<token postag='V.*' postag_regexp='yes'></token>
+		<token regexp='yes'>m[aeo]|t[aeo]|s[aeo]|lh[aeo]s?|n[ao]s|vos</token>
+    </pattern>
+	<message>Palavra composta. Pretende dizer</message><suggestion>\1‑\2</suggestion>
+	<url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
+	<!--		TODO Write better examples		-->
+	<example correction='dar‑nos'><marker>dar nos</marker>.</example>
+  </rule>
+ </rulegroup>
+
 </category>
 
 
