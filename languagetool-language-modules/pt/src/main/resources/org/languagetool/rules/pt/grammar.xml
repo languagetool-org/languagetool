@@ -6298,13 +6298,14 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 	<example correction="digas, não obstante,">Terminei a prova com antecedência, não me <marker>digas, não obstante</marker> que não posso sair.</example>
      </rule>
 
-	<!-- COMPOSTAS Colocações pronominais 			       -->
+
+	<!-- COMPOSTAS Colocações pronominais com três termos	       -->
 	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-04 -->
- <rulegroup id='HIFENIZADOR_VERBOS' name='Colocações pronominais'>
-  <rule>
+  <rule id='HIFENIZADOR_VERBOS_1' name='Colocações pronominais três termos'>
     <pattern>
-		<token postag='V.*' postag_regexp='yes'></token>
-		<token regexp='yes'>m[aeo]|t[aeo]|s[aeo]|lh[aeo]s?|n[ao]s|vos</token>
+		<token postag='V.*' postag_regexp='yes'>
+			<exception>como|para|casa</exception></token>
+		<token regexp='yes'>m[aeo]s?|t[aeo]s?|s[aeo]|lh[aeo]s?|n[ao]s|vos</token>
 		<token regexp='yes'>á|ão|ás|ei|eis|emos|ia|iam|íamos|ias|íeis</token>
     </pattern>
 	<message>Palavra composta. Pretende dizer</message><suggestion>\1‑\2‑\3</suggestion>
@@ -6312,17 +6313,23 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 	<!--		TODO Write better examples		-->
 	<example correction='dar‑nos‑á'><marker>dar nos á</marker>.</example>
   </rule>
-  <rule>
+
+
+	<!-- COMPOSTAS Colocações pronominais com dois termos	       -->
+	<!-- Created by  Tiago F. Santos , Portuguese rule, 2016-11-04 -->
+  <rule default='off' id='HIFENIZADOR_VERBOS_2' name='Colocações pronominais dois termos'>
+	<!-- 		Brazilian Portuguese has inverted colocations  -->
     <pattern>
 		<token postag='V.*' postag_regexp='yes'></token>
-		<token regexp='yes'>m[aeo]|t[aeo]|s[aeo]|lh[aeo]s?|n[ao]s|vos</token>
+		<token regexp='yes'>m[aeo]s?|t[aeo]s?|lh[aeo]s?|vos</token>
+	<!--NOTE DO NOT INCLUDE a,o,as,os,se,nos,nas. They produce too many
+			false positives (Determinants & Contractions)  -->
     </pattern>
 	<message>Palavra composta. Pretende dizer</message><suggestion>\1‑\2</suggestion>
 	<url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal</url>
 	<!--		TODO Write better examples		-->
-	<example correction='dar‑nos'><marker>dar nos</marker>.</example>
+	<example correction='dar‑me'><marker>dar me</marker>.</example>
   </rule>
- </rulegroup>
 
 </category>
 
