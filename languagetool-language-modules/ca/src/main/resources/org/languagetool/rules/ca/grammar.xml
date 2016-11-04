@@ -10319,6 +10319,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="PE_PER" name="*pe/per">
+            <pattern>
+                <marker>
+                    <token>pe</token>
+                </marker>
+                <token postag="D.*" postag_regexp="yes" spacebefore="yes"></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>per</suggestion>?</message>
+            <example correction="per">I no <marker>pe</marker> aquesta qüestió.</example>
+        </rule>
         <rule id="RESPOS_RESPOST" name="respòs/respost">
             <pattern>
                 <token>respòs<exception scope="previous" postag="D..MS." postag_regexp="yes"/></token>
@@ -22039,7 +22049,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>les</token>
                         <token inflected="yes">poder</token>
-                        <token regexp="yes">haver</token>
+                        <token>haver</token>
                     </marker>
                 </antipattern>
                 <antipattern>
