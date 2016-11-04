@@ -74,7 +74,7 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 <category id="MISC" name="Gramática Geral">
 
 
-<!--          Tiago F. Santos Rules Start           ****END**** -->
+<!--          Tiago F. Santos Rules Start         ****START**** -->
 <!-- ********************************************************** -->
 
  	     <!-- General gender concordance errors - O > A/AS -->
@@ -7195,6 +7195,62 @@ $Id: grammar.xml,v 1.194 2016-11-01 09:50:00 marcoagpinto Exp $
 
 <!-- TRÁS/TRAZ - POSSIBLE REPLACEMENT SUGGESTIONS *****END***** -->
 <!-- ********************************************************** -->	
+
+	<!--          Tiago F. Santos Rules Start         ****START**** -->
+	<!-- ********************************************************** -->
+	<!-- NO SILENCIO silencio				-->
+	<!-- Forum contribution by konfekt , Portuguese rule, 2016-11-04 -->
+ <rule id='PARONIMA_SILENCIO_1' name='no silencio'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>silencios?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 silêncio</suggestion>?</message>
+	<url>https://pt.wikipedia.org/wiki/Paron%C3%ADmia</url>
+	<!--		TODO Write better examples		-->
+	<example correction='no silêncio'><marker>no silencio</marker>.</example>
+ </rule>
+
+	<!-- NA SUBSTANCIA substancia				-->
+	<!-- Forum contribution by konfekt , Portuguese rule, 2016-11-04 -->
+ <rule id='PARONIMA_SUBSTANCIA_2' name='na substancia'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>substancias?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 substância</suggestion>?</message>
+	<url>https://pt.wikipedia.org/wiki/Paron%C3%ADmia</url>
+	<!--		TODO Write better examples		-->
+	<example correction='na substância'><marker>na substancia</marker>.</example>
+ </rule>
+
+	<!-- PELO DICIONARIO dicionario				-->
+	<!-- Forum contribution by konfekt , Portuguese rule, 2016-11-04 -->
+ <rule id='PARONIMA_DICIONARIO_3' name='pelo dicionario'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>dicionarios?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 dicionário</suggestion>?</message>
+	<url>https://pt.wikipedia.org/wiki/Paron%C3%ADmia</url>
+	<!--		TODO Write better examples		-->
+	<example correction='pelo dicionário'><marker>pelo dicionario</marker>.</example>
+ </rule>
+
+	<!-- UMA GRAMATICA gramatica				-->
+	<!-- Forum contribution by konfekt , Portuguese rule, 2016-11-04 -->
+ <rule id='PARONIMA_GRAMATICA_4' name='uma gramatica'>
+    <pattern>
+		<token regexp='yes'>(d|n|outr|pel)?[ao]s?|(alg|d|n)?(um(a|as)?|uns)</token>
+		<token regexp='yes'>gramaticas?</token>
+    </pattern>
+	<message>Será que quis dizer <suggestion>\1 gramática</suggestion>?</message>
+	<url>https://pt.wikipedia.org/wiki/Paron%C3%ADmia</url>
+	<!--		TODO Write better examples		-->
+	<example correction='uma gramática'><marker>uma gramatica</marker>.</example>
+ </rule>
+	<!--          Tiago F. Santos Rules Start         ****START**** -->
+	<!-- ********************************************************** -->
 
 </category>
 
