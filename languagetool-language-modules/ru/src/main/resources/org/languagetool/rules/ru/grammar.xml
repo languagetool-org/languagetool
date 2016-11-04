@@ -520,6 +520,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect"><marker>будничный день</marker></example>
             </rule>
         </rulegroup>
+        <rulegroup id="voinstvujuschij_voinstvennij" name="Логические ошибки «воинственный/воинствующий»">         
+            <rule> 
+                <pattern>
+                   <token inflected="yes">воинствующий</token>
+                   <token inflected="yes" regexp="yes">план|способ|настроение</token>
+                </pattern>
+                <message>Имелось в виду:«воинственный»?</message>
+                <short>«Воинственный»?</short>
+                <example type="incorrect"><marker>воинствующий план</marker></example>
+                <example type="incorrect"><marker>воинствующее настроение</marker></example>
+            </rule>
+            <rule> 
+                <pattern>
+                   <token inflected="yes">воинственный</token>
+                   <token inflected="yes" regexp="yes" >атеизм|атеист|философ|материализм|идеализм|национализм|гуманист</token>
+                </pattern>
+                <message>Имелось в виду:«воинствующий»?</message>
+                <short>«Воинствующий»?</short>
+                <example type="incorrect"><marker>воинственный идеализм</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="vlasti_priderjashie" name="Логические ошибки «власти предержащие»">
             <rule> 
                 <pattern>
@@ -2286,7 +2307,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <!-- TODO: Если ты позвонил – говори -->        
         </rulegroup>
-        <rule id="ESLI_TO" name="Сложный союз если... ,то">
+        <rule id="ESLI_TO" name="Сложный союз «если... ,то»">
             <antipattern>
                 <token>Если</token>
                 <token>то</token>
@@ -6944,7 +6965,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Требуется родительный падеж</short>
             <example correction="избежал встречи">Он <marker>избежал встречу</marker>.</example>
         </rule>
-        <rule id="Verb_and_wo_P" name="Глагол предполагает падеж">
+        <rule id="Verb_and_wo_P" name="Глагольное управление (падеж)">
 	        <antipattern>
 		        <marker>
 			        <token case_sensitive="yes" regexp="yes">[А-Я].*[А-Я].*</token>
