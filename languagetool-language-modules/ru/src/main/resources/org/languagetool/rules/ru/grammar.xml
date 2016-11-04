@@ -2287,12 +2287,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- TODO: Если ты позвонил – говори -->        
         </rulegroup>
         <rule id="ESLI_TO" name="Сложный союз если... ,то">
+            <antipattern>
+                <token>Если</token>
+                <token>то</token>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START"></token>
                 <token skip="-1">Если</token>
                 <marker>                     
-                    <token skip="1">то<exception scope="previous" >,</exception><exception scope="previous" regexp="yes">–|-</exception></token>
-                </marker>          
+                    <token skip="1">то<exception scope="previous" >,</exception><exception scope="next" >,</exception><exception scope="previous" regexp="yes">–|-|—</exception></token>
+                </marker>
+                <token />          
             </pattern>
             <message>Нужна запятая или тире: <suggestion>, \3</suggestion> или <suggestion> – \3</suggestion></message>
             <url>http://old-punctum.ru/punctum.php?sid=1191</url>
