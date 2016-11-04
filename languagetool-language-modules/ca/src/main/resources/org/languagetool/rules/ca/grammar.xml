@@ -9738,11 +9738,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="caps|capitals">Eren <marker>capçaleres</marker> de districte.</example>
         </rule>
         <rule id="BENVOLGUT_ESTIMAT" name="longitud *benvolguda/estimada">
+            <antipattern>
+                <marker>
+                    <token inflected="yes">benvolgut</token>
+                    <token regexp="yes">\p{Lu}.*</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token inflected="yes">benvolgut</token>
+                    <token regexp="yes" inflected="yes">senyora?|pare|mare|doctor|mestre|professor|amic</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <unify>
                     <feature id="nombre" />
                     <feature id="genere" />
-                    <token postag="NC.*|AQ.*" postag_regexp="yes"/>
+                    <token postag="NC.*|AQ.*" postag_regexp="yes"><exception regexp="yes">&parts_dia;</exception></token>
                     <marker>
                         <token inflected="yes">benvolgut</token>
                     </marker>
@@ -34325,14 +34337,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Agafà amb dificultat el son"><marker>Agafà amb dificultat la son</marker></example>
             <example>agafar el son</example>
         </rule>
-        <rule id="COMPOSAR" name="Revisa «composar/compondre»">
-            <pattern>
-                <token inflected="yes">composar</token>
-            </pattern>
-            <!-- el suggeriment no agafa tots els possibles postags  -->
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">compondre</match></suggestion> en comptes de "<match no="1"/>" (sentits restringits)?</message>
-            <example correction="compon">No <marker>composa</marker> mai.</example>
-        </rule>
+        <rulegroup id="COMPOSAR" name="Revisa «composar/compondre»">
+            <rule>
+                <pattern>
+                    <token postag="V.I.*" postag_regexp="yes" inflected="yes">composar</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1">compondre</match></suggestion> en comptes de "<match no="1"/>" (sentits restringits)?</message>
+                <example correction="compon">No <marker>composa</marker> mai.</example>
+                <example correction="componen">No <marker>composen</marker> mai.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">composar</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">compondre</match></suggestion> en comptes de "<match no="1"/>" (sentits restringits)?</message>
+                <example correction="compon">No <marker>composa</marker> mai.</example>
+                <example correction="componguin">No <marker>composin</marker> mai.</example>
+            </rule>
+        </rulegroup>
         <rule id="GLOSAR" name="Revisa «glosar/glossar»">
             <pattern>
                 <token inflected="yes">glosar</token>
@@ -36979,7 +37001,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="[ANV].*" postag_regexp="yes" inflected="yes" regexp="yes">.*(car)(gol|bass).*</token>
             </pattern>
             <message>Forma secundària.</message>
-            <suggestion><match no="1" regexp_match="(.*[Cc]ar)(.*)" regexp_replace="$1a$2"/></suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)(.*car)(.*)" regexp_replace="$1a$2"/></suggestion>
             <short>Forma secundària</short>
             <example correction="descaragolaven"><marker>descargolaven</marker></example>
             <example correction="carabassal"><marker>carbassal</marker></example>
