@@ -2053,6 +2053,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="PUNCTUATION" name="Пунктуация">
         <rulegroup default="on" id="Verb_comma_Verb" name="Глаголы как однородные члены предложения">
             <!-- TODO: This rules can unify -->
+            <!-- TODO Another example: "Он шёл по улице говорил по телефону" Correction: "Он шёл по улице и говорил по телефону" or "Он шёл по улице, говорил по телефону".  -->
             <rule>    
                 <pattern>      
                     <token postag="VB:Past:Masc"><exception negate_pos="yes" postag="VB:Past:Masc"/></token>
@@ -2283,24 +2284,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Нужна запятая или тире</short>
                 <example correction=", ему| – ему">Когда человек хочет что-то получить<marker> ему</marker> надо чем-то пожертвовать.</example>
             </rule>
-            <!-- Если ты позвонил, то говори -->
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"></token>
-                    <token skip="-1">Если</token>
-                    <token postag_regexp="yes" postag="VB:.*"></token>
-                      <marker>
-                        <token skip="1">то<exception scope="previous" >,</exception><exception scope="previous" regexp="yes">–|-</exception></token>
-                        <token postag_regexp="yes" postag="VB:.*"></token>
-                      </marker>          
-                </pattern>
-                <message>Нужна запятая или тире: <suggestion>, \4 \5</suggestion> или <suggestion> – \4 \5</suggestion> </message>
-                <short>Нужна запятая или тире</short>
-                <example correction=", то говори| – то говори">Если ты позвонил<marker> то говори</marker>.</example>
-            </rule>
             <!-- TODO: Если ты позвонил – говори -->        
         </rulegroup>
-               
+        <rule id="ESLI_TO" name="Сложный союз если... ,то">
+            <pattern>
+                <token postag="SENT_START"></token>
+                <token skip="-1">Если</token>
+                <marker>                     
+                    <token skip="1">то<exception scope="previous" >,</exception><exception scope="previous" regexp="yes">–|-</exception></token>
+                </marker>          
+            </pattern>
+            <message>Нужна запятая или тире: <suggestion>, \3</suggestion> или <suggestion> – \3</suggestion></message>
+            <url>http://old-punctum.ru/punctum.php?sid=1191</url>
+            <short>Нужна запятая или тире</short>
+            <example correction=", то| – то">Если ты позвонил<marker> то</marker> говори.</example>
+        </rule>                             
         <rule default="on" id="ABREV_DOT" name="Точка после сокращений">
             <pattern case_sensitive="yes">
                 <marker>
